@@ -1,7 +1,9 @@
 using System;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,10 +18,13 @@ internal static class MediaContentFilter
 {
 	private const string ModelHash = "e9350e576608afe4b57a089ffeb0ebafa1389cdcea4882dd61df28c45f1c24d2";
 	private const string ModelRoot = "https://huggingface.co/KanariKanaru/nsfw-image-detection-384-onnx/resolve/8edc47eedf74b30fd379673bc202fe3b754b1538/";
+	private const string OnnxRuntimeUrl = "https://api.nuget.org/v3-flatcontainer/microsoft.ml.onnxruntime.directml/1.24.4/microsoft.ml.onnxruntime.directml.1.24.4.nupkg";
+	private const string OnnxRuntimeHash = "e7eedec6a6f26dc39dc948276a75ef6d2bee3fff944d874ceed0bbd3b97bff40";
 	private static readonly HttpClient Http = VpnHttpClient.Create(TimeSpan.FromSeconds(60));
 	private static readonly SemaphoreSlim Gate = new(1, 1);
 	private static InferenceSession? _session;
 	private static DateTime _retryAfter;
+	private static bool _resolverRegistered;
 
 	internal static async Task<BitmapSource?> LoadCheckedIconAsync(string path)
 	{
@@ -129,8 +134,13 @@ internal static class MediaContentFilter
 
 	private static async Task InitializeAsync()
 	{
+		RegisterResolver();
 		string folder = Path.Combine(Paths.Cache, "MediaFilter");
 		Directory.CreateDirectory(folder);
+		string onnxDll = Path.Combine(folder, "onnxruntime.dll");
+		string rishadeDll = Path.Combine(Paths.LocalAppData, "RiShade", "onnxruntime.dll");
+		if (!File.Exists(onnxDll) && !File.Exists(rishadeDll) && Platform.IsWindows)
+			await DownloadOnnxRuntimeAsync(onnxDll).ConfigureAwait(false);
 		string path = Path.Combine(folder, "content.onnx");
 		if (!File.Exists(path) || new FileInfo(path).Length > 32 * 1024 * 1024 || !MatchesHash(await File.ReadAllBytesAsync(path).ConfigureAwait(false), ModelHash))
 			await DownloadAsync("model.onnx", path, ModelHash).ConfigureAwait(false);
@@ -138,6 +148,66 @@ internal static class MediaContentFilter
 		await EnsureNoticeAsync(folder, "MODEL_NOTICES.md", "265c7254d699ce034c215fb1c10d0e45a2b7fd5572b4f0786cff8af3bc1fc908").ConfigureAwait(false);
 		using SessionOptions options = new() { IntraOpNumThreads = 2, InterOpNumThreads = 1 };
 		_session = new InferenceSession(path, options);
+	}
+
+	private static void RegisterResolver()
+	{
+		if (_resolverRegistered)
+			return;
+		_resolverRegistered = true;
+		try
+		{
+			NativeLibrary.SetDllImportResolver(typeof(InferenceSession).Assembly, (name, assembly, path) =>
+			{
+				if (name.Equals("onnxruntime", StringComparison.OrdinalIgnoreCase))
+				{
+					string local = Path.Combine(Paths.Cache, "MediaFilter", "onnxruntime.dll");
+					if (File.Exists(local) && NativeLibrary.TryLoad(local, out IntPtr handle))
+						return handle;
+					string rishade = Path.Combine(Paths.LocalAppData, "RiShade", "onnxruntime.dll");
+					if (File.Exists(rishade) && NativeLibrary.TryLoad(rishade, out IntPtr rishadeHandle))
+						return rishadeHandle;
+				}
+				return IntPtr.Zero;
+			});
+		}
+		catch
+		{
+		}
+	}
+
+	private static async Task DownloadOnnxRuntimeAsync(string target)
+	{
+		string tempZip = target + ".zip.tmp";
+		try
+		{
+			using (HttpResponseMessage response = await Http.GetAsync(OnnxRuntimeUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
+			{
+				response.EnsureSuccessStatusCode();
+				await using FileStream fs = new(tempZip, FileMode.Create, FileAccess.Write, FileShare.None);
+				await response.Content.CopyToAsync(fs).ConfigureAwait(false);
+			}
+			using ZipArchive zip = ZipFile.OpenRead(tempZip);
+			ZipArchiveEntry? entry = zip.GetEntry("runtimes/win-x64/native/onnxruntime.dll");
+			if (entry != null)
+			{
+				string tempDll = target + ".tmp";
+				entry.ExtractToFile(tempDll, true);
+				byte[] bytes = await File.ReadAllBytesAsync(tempDll).ConfigureAwait(false);
+				if (MatchesHash(bytes, OnnxRuntimeHash))
+					File.Move(tempDll, target, true);
+				else if (File.Exists(tempDll))
+					File.Delete(tempDll);
+			}
+		}
+		catch
+		{
+		}
+		finally
+		{
+			if (File.Exists(tempZip))
+				File.Delete(tempZip);
+		}
 	}
 
 	private static async Task EnsureNoticeAsync(string folder, string name, string hash)

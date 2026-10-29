@@ -798,6 +798,8 @@ public static class PluginHost
 
 		private readonly List<(string Event, JsonObject? Matcher, JsValue Function)> _hooks = [];
 
+		private volatile IReadOnlyList<string> _hookDescriptions = Array.Empty<string>();
+
 		private readonly Dictionary<string, JsValue> _handlers = new(StringComparer.Ordinal);
 
 		private readonly PluginStore _store;
@@ -890,6 +892,7 @@ public static class PluginHost
 				});
 				_engine.Constraints.Reset();
 				Settle(_engine.Invoke(register, on, ToJs(manifest.Options)));
+				_hookDescriptions = _hooks.Select(hook => hook.Event + (hook.Matcher != null ? " " + hook.Matcher.ToJsonString() : "")).ToArray();
 			}
 		}
 
@@ -1393,11 +1396,7 @@ public static class PluginHost
 			})();
 			""";
 
-		public IReadOnlyList<string> DescribeHooks()
-		{
-			lock (_gate)
-				return _hooks.Select(hook => hook.Event + (hook.Matcher != null ? " " + hook.Matcher.ToJsonString() : "")).ToList();
-		}
+		public IReadOnlyList<string> DescribeHooks() => _hookDescriptions;
 
 		private JsonNode? EmitOwn(string eventName, JsonNode? input, string scope)
 		{
@@ -1595,6 +1594,7 @@ public static class PluginHost
 					timer.Dispose();
 				_timers.Clear();
 				_hooks.Clear();
+				_hookDescriptions = Array.Empty<string>();
 				_handlers.Clear();
 				Monitor.PulseAll(_gate);
 				_engine.Dispose();

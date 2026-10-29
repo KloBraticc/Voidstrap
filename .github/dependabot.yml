@@ -7,6 +7,8 @@ updates:
     ignore:
       - dependency-name: "Microsoft.ML.OnnxRuntime.Managed"
         versions: [">= 1.25.0"]
+      - dependency-name: "Microsoft.ML.OnnxRuntime"
+        versions: [">= 1.25.0"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

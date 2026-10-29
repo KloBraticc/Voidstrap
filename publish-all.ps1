@@ -1142,6 +1142,7 @@ function Invoke-WindowsLauncherBuild {
     $built = Join-Path $targetDir 'x86_64-pc-windows-msvc/release/Voidstrap.exe'
     if (-not (Test-Path -LiteralPath $built -PathType Leaf)) { throw 'cargo did not produce the launcher' }
     Copy-Item -LiteralPath $built -Destination $Job.Expected -Force
+    Get-ChildItem -LiteralPath $Job.Target.OutDir -Filter '*.lib' -File -ErrorAction SilentlyContinue | Remove-Item -Force
 }
 
 function Finish-PublishJob {
