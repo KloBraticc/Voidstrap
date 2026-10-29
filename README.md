@@ -304,7 +304,7 @@ If you've already cloned the repository, run `git submodule update --init --recu
 
 Desktop builds need the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0), version **10.0.300 or a newer stable 10.0 release**, as set in `global.json`. Check your version with `dotnet --version`. The runtime alone cannot build the app. The first build downloads NuGet packages and may take a while.
 
-The Windows release installer is built from the Rust [VoidstrapInstaller](https://github.com/KloBraticc/VoidstrapInstaller) submodule. It offers .NET 10 by default and an optional .NET 11 RC3 build on supported CPUs. The runtime picker appears once, including after upgrading an existing installation, and keeps existing settings and files. The installer prepares .NET 10 as a fallback before starting .NET 11; a crash switches back to .NET 10 for the current and future launches. Building both Windows payloads also requires SDK `11.0.100-rc.3.26522.148`, pinned in `build/Runtime11/global.json`. Start the installed executable with `-runtime` to change the selection. macOS and Linux stay on .NET 10 and open directly without setup dialogs.
+Windows uses the Rust [VoidstrapInstaller](https://github.com/KloBraticc/VoidstrapInstaller) submodule with .NET 10 or optional .NET 11 RC3 on supported CPUs. The picker appears once; upgrades keep your choice and data. .NET 11 failures fall back to .NET 10. Use `-runtime` to change your choice. Building .NET 11 requires SDK `11.0.100-rc.3.26522.148`, pinned in `build/Runtime11/global.json`. Linux and macOS stay on .NET 10 without the picker.
 
 Run commands from the repository root unless noted otherwise. Linux and macOS need [PowerShell 7](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell) for `publish-all.ps1`. Windows supports both Windows PowerShell and PowerShell 7.
 
@@ -329,9 +329,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only wind
 
 Output: `PublishedBuilds\Windows\Voidstrap.exe`, a small online installer with no companion files. The native installer prepares the selected Microsoft Desktop Runtime.
 
-Runtime payloads stay in separate server staging, whose location is printed during publishing. The installer tries release storage in `KloBraticc/VoidstrapInstaller`, then an independent Cloudflare Pages mirror, checking the same pinned SHA512 hashes before use. Signed publishing uploads and verifies both hosts automatically; for an unsigned build, run `build/PublishWindowsDownloads.ps1 -PayloadDirectory <staging path>` with GitHub CLI, Node.js and Cloudflare access available. Each payload release and mirror has an address derived from the payload hashes, so publishing a new build keeps older builds available. Users receive only `Voidstrap.exe`.
+Setup downloads verified app files from GitHub or its Cloudflare mirror. `Use .NET 10` selects the recommended runtime and continues setup. .NET 11 keeps a cached .NET 10 fallback.
 
-Selecting .NET 11 first caches .NET 10 for recovery. If both hosts fail, a verified cached .NET 10 build can still launch. The `Skip (offline)` button requires verified local app files and an installed compatible runtime; a fresh computer still needs internet for missing files. Installed builds launch from their cache without downloading again. Linux and macOS do not use this installer.
+Signed publishing uploads the server payloads automatically. For unsigned builds, run `build/PublishWindowsDownloads.ps1 -PayloadDirectory <staging path>` using the printed staging location.
 
 **Code signing with SignPath (optional)**
 
