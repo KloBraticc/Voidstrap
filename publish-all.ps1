@@ -1117,6 +1117,26 @@ function Start-DotNetProcess {
     }
 }
 
+function Resolve-DotNetRuntime11Path {
+    if ($env:DOTNET_ROOT_NET11 -and (Test-Path -LiteralPath (Join-Path $env:DOTNET_ROOT_NET11 'dotnet.exe') -PathType Leaf)) {
+        return (Join-Path $env:DOTNET_ROOT_NET11 'dotnet.exe')
+    }
+    $candidates = @(
+        (Join-Path $Root 'build/Runtime11/dotnet.exe'),
+        (Join-Path $env:USERPROFILE 'Documents/VoidstrapBackups/FreshInstall-20261029-083310/PortableDotnet/dotnet.exe'),
+        (Join-Path $env:USERPROFILE '.dotnet/dotnet.exe'),
+        (Join-Path $env:ProgramFiles 'dotnet/dotnet.exe')
+    )
+    foreach ($cand in $candidates) {
+        if (-not (Test-Path -LiteralPath $cand -PathType Leaf)) { continue }
+        $sdkList = & $cand --list-sdks 2>$null
+        if ($sdkList -match '11\.0\.') {
+            return $cand
+        }
+    }
+    return $script:DotNetPath
+}
+
 function Invoke-WindowsLauncherBuild {
     param([Parameter(Mandatory)] $Job)
 
@@ -1130,7 +1150,8 @@ function Invoke-WindowsLauncherBuild {
     Move-Item -LiteralPath $Job.Expected -Destination $payload -Force
 
     $runtime11Output = Join-Path $launcherRoot 'net11'
-    & (Join-Path $Root 'build/PublishWindowsPayload.ps1') -Runtime 11 -OutputDirectory $runtime11Output -DotNetPath $script:DotNetPath -Configuration $Configuration -Version (Get-VoidstrapVersion)
+    $dotnet11 = Resolve-DotNetRuntime11Path
+    & (Join-Path $Root 'build/PublishWindowsPayload.ps1') -Runtime 11 -OutputDirectory $runtime11Output -DotNetPath $dotnet11 -Configuration $Configuration -Version (Get-VoidstrapVersion)
 
     $env:VOIDSTRAP_LAUNCHER_PAYLOAD = $payload
     $env:VOIDSTRAP_LAUNCHER_PAYLOAD11 = Join-Path $runtime11Output 'Voidstrap.exe'
