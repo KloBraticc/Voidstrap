@@ -329,7 +329,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only wind
 
 Output: `PublishedBuilds\Windows\Voidstrap.exe`, a small online installer with no companion files. The native installer prepares the selected Microsoft Desktop Runtime.
 
-Setup downloads verified app files from GitHub or its Cloudflare mirror. `Use .NET 10` selects the recommended runtime and continues setup. .NET 11 keeps a cached .NET 10 fallback.
+Setup downloads verified app files from GitHub or its Cloudflare mirror. `Skip` selects the recommended runtime and continues setup. .NET 11 keeps a cached .NET 10 fallback.
 
 Signed publishing uploads the server payloads automatically. For unsigned builds, run `build/PublishWindowsDownloads.ps1 -PayloadDirectory <staging path>` using the printed staging location.
 
