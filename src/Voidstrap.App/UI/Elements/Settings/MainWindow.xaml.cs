@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Voidstrap.Utility;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -672,6 +672,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public MainWindow(bool showAlreadyRunningWarning)
     {
+        App.Logger.WriteLine("MainWindow", "Constructing the settings window");
         long constructorStarted = System.Diagnostics.Stopwatch.GetTimestamp();
         //IL_0017: Unknown result type (might be due to invalid IL or missing references)
         //IL_0021: Expected O, but got Unknown

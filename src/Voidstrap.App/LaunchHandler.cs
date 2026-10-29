@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -371,10 +371,17 @@ public static class LaunchHandler
 	{
 		WaitForElevationPredecessor();
 		if (OperatingSystem.IsWindows())
+		{
+			System.Diagnostics.Stopwatch jumpList = System.Diagnostics.Stopwatch.StartNew();
 			Voidstrap.UI.TaskbarJumpList.Apply();
+			jumpList.Stop();
+			if (jumpList.ElapsedMilliseconds > 250)
+				App.Logger.WriteLine("LaunchHandler::LaunchSettings", "The taskbar jump list took " + jumpList.ElapsedMilliseconds + " ms to apply");
+		}
 		using InterProcessLock interProcessLock = new InterProcessLock("Settings");
 		if (interProcessLock.IsAcquired)
 		{
+			App.Logger.WriteLine("LaunchHandler::LaunchSettings", "Creating the settings window");
 			Voidstrap.UI.Elements.Settings.MainWindow window = new(SavedAccounts.IsRobloxRunning());
 			window.RequestStartupView(App.LaunchSettings.MenuFlag.Data);
 			Application? application = Application.Current;
