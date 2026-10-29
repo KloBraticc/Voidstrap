@@ -1,13 +1,5 @@
 <Project>
 
-	<PropertyGroup Condition="'$(VoidstrapLinuxPackagingRoot)' != '' And $(MSBuildProjectName.EndsWith('_wpftmp'))">
-		<_VoidstrapMarkupProject>$([System.Text.RegularExpressions.Regex]::Replace('$(MSBuildProjectName)', '_[^_]+_wpftmp$', ''))</_VoidstrapMarkupProject>
-		<BaseOutputPath>$(VoidstrapLinuxPackagingRoot)bin/$(_VoidstrapMarkupProject)/</BaseOutputPath>
-		<BaseIntermediateOutputPath>$(VoidstrapLinuxPackagingRoot)obj/$(_VoidstrapMarkupProject)/</BaseIntermediateOutputPath>
-		<MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
-		<ProjectAssetsFile>$(BaseIntermediateOutputPath)project.assets.json</ProjectAssetsFile>
-	</PropertyGroup>
-
 	<Target Name="InvalidateStaleVersionMetadata" BeforeTargets="CoreGenerateAssemblyInfo" Condition="'$(GenerateAssemblyInfo)' == 'true' And Exists('$(GeneratedAssemblyInfoFile)')">
 		<PropertyGroup>
 			<_VoidstrapVersionMetadataStale>!$([System.IO.File]::ReadAllText('$(GeneratedAssemblyInfoFile)').Contains('AssemblyFileVersionAttribute(&quot;$(FileVersion)&quot;)'))</_VoidstrapVersionMetadataStale>

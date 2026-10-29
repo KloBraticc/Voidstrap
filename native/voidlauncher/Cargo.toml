@@ -1,0 +1,24 @@
+[package]
+name = "voidlauncher"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "MIT"
+
+[[bin]]
+name = "Voidstrap"
+path = "src/main.rs"
+
+[dependencies]
+windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_Globalization", "Win32_System_Environment", "Win32_System_LibraryLoader", "Win32_System_Registry", "Win32_UI_Shell", "Win32_UI_WindowsAndMessaging"] }
+miniz_oxide = { version = "0.8", default-features = false, features = ["with-alloc"] }
+
+[build-dependencies]
+miniz_oxide = { version = "0.8", default-features = false, features = ["with-alloc"] }
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

@@ -136,8 +136,6 @@ internal sealed partial class Installer
 			TrySafe("player registration", WindowsRegistry.RegisterPlayer);
 			TrySafe("studio protocol registration", () => WindowsRegistry.RegisterStudioProtocol(Paths.Application, "-studio \"%1\""));
 		}
-		bool unattendedSetup = !Voidstrap.Utility.Platform.IsWindows || Environment.GetEnvironmentVariable("VOIDSTRAP_NATIVE_SETUP") == "1";
-		bool existingSettings = File.Exists(App.Settings.FileLocation);
 		App.Settings.Load(alertFailure: false);
 		App.State.Load(alertFailure: false);
 		TrySafe("install location repair", () => InstallLocationResolver.Repair(Paths.Base));
@@ -147,8 +145,8 @@ internal sealed partial class Installer
 		if (FunctionShortcutTasks != null)
 			foreach (var task in FunctionShortcutTasks)
 				task.StoreAppearance();
-		if (PendingImport?.Settings.ContainsKey(nameof(EnableAnalytics)) != true && (!unattendedSetup || !existingSettings))
-			App.Settings.Prop.EnableAnalytics = unattendedSetup ? false : EnableAnalytics;
+		if (PendingImport?.Settings.ContainsKey(nameof(EnableAnalytics)) != true)
+			App.Settings.Prop.EnableAnalytics = EnableAnalytics;
 		App.Settings.SaveChecked();
 		if (App.IsStudioVisible)
 		{

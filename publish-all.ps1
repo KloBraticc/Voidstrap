@@ -1117,58 +1117,31 @@ function Start-DotNetProcess {
     }
 }
 
-function Resolve-DotNetRuntime11Path {
-    if ($env:DOTNET_ROOT_NET11 -and (Test-Path -LiteralPath (Join-Path $env:DOTNET_ROOT_NET11 'dotnet.exe') -PathType Leaf)) {
-        return (Join-Path $env:DOTNET_ROOT_NET11 'dotnet.exe')
-    }
-    $candidates = @(
-        (Join-Path $Root 'build/Runtime11/dotnet.exe'),
-        (Join-Path $env:USERPROFILE 'Documents/VoidstrapBackups/FreshInstall-20261029-083310/PortableDotnet/dotnet.exe'),
-        (Join-Path $env:USERPROFILE '.dotnet/dotnet.exe'),
-        (Join-Path $env:ProgramFiles 'dotnet/dotnet.exe')
-    )
-    foreach ($cand in $candidates) {
-        if (-not (Test-Path -LiteralPath $cand -PathType Leaf)) { continue }
-        $sdkList = & $cand --list-sdks 2>$null
-        if ($sdkList -match '11\.0\.') {
-            return $cand
-        }
-    }
-    return $script:DotNetPath
-}
-
 function Invoke-WindowsLauncherBuild {
     param([Parameter(Mandatory)] $Job)
 
     $cargo = Join-Path $env:USERPROFILE '.cargo/bin/cargo.exe'
     if (-not (Test-Path -LiteralPath $cargo -PathType Leaf)) { $cargo = 'cargo' }
-    $launcherRoot = Join-Path ([IO.Path]::GetTempPath()) ('VoidstrapBuild/' + [Guid]::NewGuid().ToString('N'))
+    $launcherRoot = Join-Path $ArtifactDir 'voidlauncher'
     $payloadDir = Join-Path $launcherRoot 'payload'
     $targetDir = Join-Path $launcherRoot 'target'
     [System.IO.Directory]::CreateDirectory($payloadDir) | Out-Null
     $payload = Join-Path $payloadDir 'Voidstrap.exe'
     Move-Item -LiteralPath $Job.Expected -Destination $payload -Force
 
-    $runtime11Output = Join-Path $launcherRoot 'net11'
-    $dotnet11 = Resolve-DotNetRuntime11Path
-    & (Join-Path $Root 'build/PublishWindowsPayload.ps1') -Runtime 11 -OutputDirectory $runtime11Output -DotNetPath $dotnet11 -Configuration $Configuration -Version (Get-VoidstrapVersion)
-
     $env:VOIDSTRAP_LAUNCHER_PAYLOAD = $payload
-    $env:VOIDSTRAP_LAUNCHER_PAYLOAD11 = Join-Path $runtime11Output 'Voidstrap.exe'
     $env:VOIDSTRAP_VERSION = Get-VoidstrapVersion
     try {
-        & $cargo build --release --locked --quiet --config (Join-Path $Root 'native/voidlauncher/.cargo/config.toml') --target x86_64-pc-windows-msvc --manifest-path (Join-Path $Root 'native/voidlauncher/Cargo.toml') --target-dir $targetDir
+        & $cargo build --release --locked --quiet --target x86_64-pc-windows-msvc --manifest-path (Join-Path $Root 'native/voidlauncher/Cargo.toml') --target-dir $targetDir
         if ($LASTEXITCODE -ne 0) { throw "cargo exited with code $LASTEXITCODE" }
     } finally {
         Remove-Item Env:VOIDSTRAP_LAUNCHER_PAYLOAD -ErrorAction SilentlyContinue
-        Remove-Item Env:VOIDSTRAP_LAUNCHER_PAYLOAD11 -ErrorAction SilentlyContinue
         Remove-Item Env:VOIDSTRAP_VERSION -ErrorAction SilentlyContinue
     }
 
     $built = Join-Path $targetDir 'x86_64-pc-windows-msvc/release/Voidstrap.exe'
     if (-not (Test-Path -LiteralPath $built -PathType Leaf)) { throw 'cargo did not produce the launcher' }
     Copy-Item -LiteralPath $built -Destination $Job.Expected -Force
-    Write-Host ('  Runtime payload staging: ' + (Join-Path (Split-Path -Parent $built) 'payloads')) -ForegroundColor DarkGray
     Get-ChildItem -LiteralPath $Job.Target.OutDir -Filter '*.lib' -File -ErrorAction SilentlyContinue | Remove-Item -Force
 }
 
@@ -1404,14 +1377,13 @@ function Invoke-SignPathWindows {
 
         $downloadedFiles = @(Get-ChildItem -LiteralPath $downloadDir -File -Force)
         $downloadedDirectories = @(Get-ChildItem -LiteralPath $downloadDir -Directory -Force)
-        $expectedFiles = @('Voidstrap.exe')
-        if ($downloadedDirectories.Count -ne 0 -or $downloadedFiles.Count -ne $expectedFiles.Count -or @(Compare-Object $expectedFiles @($downloadedFiles.Name)).Count -ne 0) {
-            throw 'The signing run did not return exactly one installer executable.'
+        if ($downloadedDirectories.Count -ne 0 -or $downloadedFiles.Count -ne 1 -or $downloadedFiles[0].Name -cne 'Voidstrap.exe') {
+            throw 'The signing run did not return exactly one Voidstrap.exe file.'
         }
 
-        $signedExe = Join-Path $downloadDir 'Voidstrap.exe'
+        $signedExe = $downloadedFiles[0].FullName
         $info = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($signedExe)
-        if ($info.ProductName -ne 'Voidstrap' -or $info.ProductVersion -ne $Version -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.exe' -or $info.FileVersion -ne $Version) {
+        if ($info.ProductName -ne 'Voidstrap' -or $info.ProductVersion -ne $Version -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.dll' -or $info.FileVersion -ne $Version) {
             throw "Unexpected signed Voidstrap metadata: ProductName='$($info.ProductName)', CompanyName='$($info.CompanyName)', OriginalFilename='$($info.OriginalFilename)', ProductVersion='$($info.ProductVersion)', FileVersion='$($info.FileVersion)'."
         }
         $signature = Get-AuthenticodeSignature -LiteralPath $signedExe
@@ -1422,13 +1394,6 @@ function Invoke-SignPathWindows {
         if ($signature.Status -ne 'Valid' -and -not ($pinnedTestCertificate -and $signature.Status -in @('UnknownError', 'NotTrusted'))) {
             throw "The signed executable signature is not accepted: $($signature.Status) $($signature.StatusMessage) signer $($signature.SignerCertificate.Thumbprint)"
         }
-
-        $payloadDirectory = Join-Path ([IO.Path]::GetTempPath()) ('VoidstrapReleases/' + [Guid]::NewGuid().ToString('N'))
-        New-Item -ItemType Directory -Path $payloadDirectory -Force | Out-Null
-        & $ghPath run download $runId --repo KloBraticc/Voidstrap --name "voidstrap-windows-payloads-$Version" --dir $payloadDirectory
-        if ($LASTEXITCODE -ne 0) { throw 'GitHub Actions could not download the runtime payloads.' }
-        & (Join-Path $Root 'build/PublishWindowsDownloads.ps1') -PayloadDirectory $payloadDirectory
-        Write-Host ('  Runtime payload staging: ' + $payloadDirectory) -ForegroundColor DarkGray
 
         $signedHash = (Get-FileHash -LiteralPath $signedExe -Algorithm SHA256).Hash
         Copy-Item -LiteralPath $signedExe -Destination $OutputPath -Force

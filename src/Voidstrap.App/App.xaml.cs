@@ -874,7 +874,7 @@ public partial class App : Application
 		if (cli)
 			Cli.AttachTerminal();
 		LaunchSettings = new LaunchSettings(cli ? [] : args);
-		if (OperatingSystem.IsWindows() && LaunchSettings.MenuFlag.Active && !LaunchSettings.UpgradeFlag.Active && Voidstrap.UI.TaskbarJumpList.TryForwardToOpenWindow(LaunchSettings.MenuFlag.Data))
+		if (OperatingSystem.IsWindows() && LaunchSettings.MenuFlag.Active && Voidstrap.UI.TaskbarJumpList.TryForwardToOpenWindow(LaunchSettings.MenuFlag.Data))
 		{
 			Shutdown(0);
 			return;
