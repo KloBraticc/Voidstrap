@@ -375,7 +375,7 @@ public static class LaunchHandler
 		using InterProcessLock interProcessLock = new InterProcessLock("Settings");
 		if (interProcessLock.IsAcquired)
 		{
-			Voidstrap.UI.Elements.Settings.MainWindow window = new(Voidstrap.Utility.ProcessScan.Count("Voidstrap") > 1);
+			Voidstrap.UI.Elements.Settings.MainWindow window = new(SavedAccounts.IsRobloxRunning());
 			window.RequestStartupView(App.LaunchSettings.MenuFlag.Data);
 			Application? application = Application.Current;
 			Window? previousMainWindow = null;
