@@ -201,12 +201,12 @@ internal static partial class PluginNative
     }
 
     [GeneratedRegex(
-        @"password|passwd|roblosecurity|cookie|two.?factor|2fa|credit.?card|seed.?phrase|sign.?in|log[ _-]?in|\beval\b|new\s+Function|\bFunction\s*\(|atob|fromCharCode|\\x[0-9a-f]{2}|\\u[0-9a-f]{4}",
+        @"password|passwd|roblosecurity|cookie|two.?factor|\b2fa\b|credit.?card|seed.?phrase|sign.?in|log[ _-]?in|\beval\b|new\s+Function|\bFunction\s*\(|\batob\b|fromCharCode|\\x[0-9a-f]{2}|\\u[0-9a-f]{4}",
         RegexOptions.IgnoreCase
     )]
     private static partial Regex RefusedSource();
 
-    [GeneratedRegex("password|passwd|roblosecurity|cookie|two.?factor|2fa|credit.?card|seed.?phrase|sign.?in|log[ _-]?in", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"password|passwd|roblosecurity|cookie|two.?factor|\b2fa\b|credit.?card|seed.?phrase|sign.?in|log[ _-]?in", RegexOptions.IgnoreCase)]
     private static partial Regex PhishingText();
 
     public static bool LooksLikePhishing(string text) => PhishingText().IsMatch(text);
