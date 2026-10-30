@@ -177,10 +177,7 @@
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Style="{StaticResource VsPaneHeader}" Text="{resources:Loc Ui_VsEditor_SolutionExplorer}" />
-        <Grid Grid.Row="1" Margin="4,0,4,4">
-          <avalonedit:TextEditor x:Name="ExplorerSearch" Height="22" Padding="4,2" Background="{DynamicResource CardStrokeColorDefaultBrush}" Foreground="{DynamicResource TextFillColorPrimaryBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" FontSize="12" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" TextChanged="ExplorerSearch_TextChanged" />
-          <TextBlock x:Name="ExplorerSearchHint" Margin="7,3" FontSize="12" IsHitTestVisible="False" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_VsEditor_SearchExplorer}" />
-        </Grid>
+        <ui:TextBox x:Name="ExplorerSearch" Grid.Row="1" Margin="4,0,4,4" FontSize="12" Icon="Search24" PlaceholderText="{resources:Loc Ui_VsEditor_SearchExplorer}" TextChanged="ExplorerSearch_TextChanged" />
         <TreeView x:Name="FileTree" Grid.Row="2" Background="Transparent" BorderThickness="0" FontSize="12.5" Foreground="{DynamicResource TextFillColorPrimaryBrush}" ItemContainerStyle="{StaticResource VsTreeItem}" />
         <ui:TextBox x:Name="NewFileBox" Grid.Row="3" Visibility="Collapsed" Margin="4" PlaceholderText="{resources:Loc Ui_VoidstrapMods_NewFilePlaceholder}" KeyDown="NewFileBox_KeyDown" />
       </Grid>

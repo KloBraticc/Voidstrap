@@ -117,8 +117,8 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
         {
             TreeViewItem node = MakeItem(SymbolRegular.PuzzlePiece24, Path.GetFileName(project), null, EditorFileIcons.Project);
             node.IsExpanded = query.Length > 0 || _onlyMod != null;
-            AddChildren(node, project, query);
-            if (query.Length == 0 || node.Items.Count > 0)
+            AddChildren(node, project, NameMatches(project, query) ? "" : query);
+            if (query.Length == 0 || node.Items.Count > 0 || NameMatches(project, query))
                 solution.Items.Add(node);
         }
     }
@@ -129,18 +129,21 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
         {
             TreeViewItem node = MakeItem(SymbolRegular.Folder24, Path.GetFileName(child), null, EditorFileIcons.Folder);
             node.IsExpanded = query.Length > 0;
-            AddChildren(node, child, query);
+            AddChildren(node, child, NameMatches(child, query) ? "" : query);
             if (node.Items.Count > 0)
                 parent.Items.Add(node);
         }
         foreach (string file in Directory.EnumerateFiles(folder).Where(IsEditable).OrderBy(f => f, StringComparer.OrdinalIgnoreCase))
         {
-            if (query.Length > 0 && !Path.GetFileName(file).Contains(query, StringComparison.OrdinalIgnoreCase) && !FileContains(file, query))
+            if (query.Length > 0 && !NameMatches(file, query) && !FileContains(file, query))
                 continue;
             (SymbolRegular icon, System.Windows.Media.Color color) = EditorFileIcons.For(file);
             parent.Items.Add(MakeItem(icon, Path.GetFileName(file), file, color));
         }
     }
+
+    private static bool NameMatches(string path, string query) =>
+        query.Length > 0 && Path.GetFileName(path).Contains(query, StringComparison.OrdinalIgnoreCase);
 
     private static bool FileContains(string file, string query)
     {
@@ -172,9 +175,8 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
             window.OpenFile(path);
     }
 
-    private void ExplorerSearch_TextChanged(object? sender, EventArgs e)
+    private void ExplorerSearch_TextChanged(object sender, TextChangedEventArgs e)
     {
-        ExplorerSearchHint.Visibility = ExplorerSearch.Text.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
         BuildTree(ExplorerSearch.Text.Trim());
     }
 
