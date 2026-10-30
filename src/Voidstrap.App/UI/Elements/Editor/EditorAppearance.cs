@@ -206,7 +206,6 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
         BuildWindow();
         AddColor(Strings.Ui_EditorSettings_Background, appearance.Background, "ControlFillColorDefaultBrush", value => appearance.Background = value);
         AddColor(Strings.Ui_EditorSettings_TextColor, appearance.Foreground, "TextFillColorPrimaryBrush", value => appearance.Foreground = value);
-        AddText(Strings.Ui_EditorSettings_Font, appearance.FontFamily, value => appearance.FontFamily = value);
         AddSlider(Strings.Ui_EditorSettings_FontSize, 8, 40, appearance.FontSize, value => appearance.FontSize = value);
         FinishWindow(appearance.BackgroundImageOpacity, value => appearance.BackgroundImageOpacity = value);
     }
