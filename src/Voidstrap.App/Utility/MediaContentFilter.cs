@@ -152,9 +152,8 @@ internal static class MediaContentFilter
 
 	private static void RegisterResolver()
 	{
-		if (_resolverRegistered)
+		if (Interlocked.Exchange(ref _resolverRegistered, true))
 			return;
-		_resolverRegistered = true;
 		try
 		{
 			NativeLibrary.SetDllImportResolver(typeof(InferenceSession).Assembly, (name, assembly, path) =>
