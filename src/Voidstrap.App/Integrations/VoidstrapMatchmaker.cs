@@ -66,6 +66,8 @@ public static class VoidstrapMatchmaker
 
     private static readonly TimeSpan GeoCacheTtl = TimeSpan.FromHours(6.0);
 
+    private static readonly TimeSpan GeoConsensusGrace = TimeSpan.FromMilliseconds(1500.0);
+
     private static readonly TimeSpan IpLookupFailCooldown = TimeSpan.FromMinutes(10.0);
 
     private static readonly TimeSpan ResolvedServerCacheTtl = TimeSpan.FromMinutes(2.0);
@@ -344,6 +346,8 @@ public static class VoidstrapMatchmaker
     private static async Task<UserGeo?> FirstUserGeoAsync(CancellationToken token)
     {
         using CancellationTokenSource race = CancellationTokenSource.CreateLinkedTokenSource(token);
+        List<UserGeo> answers = [];
+        Task? graceTask = null;
         List<Task<UserGeo?>> pending =
         [
             TryGeoProviderAsync("https://ipinfo.io/json", ParseIpInfo, race.Token),
@@ -358,10 +362,19 @@ public static class VoidstrapMatchmaker
                 pending.Remove(finished);
                 UserGeo? geo = finished.IsCompletedSuccessfully ? finished.Result : null;
                 if (geo != null && IsValidCoordinate(geo.Lat, geo.Lon))
-                    return geo;
+                {
+                    answers.Add(geo);
+                    if (graceTask == null)
+                    {
+                        graceTask = Task.Delay(GeoConsensusGrace, race.Token);
+                        pending.Add(GeoGraceAsync(graceTask));
+                    }
+                }
                 token.ThrowIfCancellationRequested();
+                if (graceTask is { IsCompleted: true } || answers.Count == 3)
+                    break;
             }
-            return null;
+            return ChooseConsensusGeo(answers);
         }
         finally
         {
@@ -369,6 +382,19 @@ public static class VoidstrapMatchmaker
             foreach (Task<UserGeo?> task in pending)
                 _ = task.ContinueWith(static t => _ = t.Exception, TaskScheduler.Default);
         }
+    }
+
+    private static async Task<UserGeo?> GeoGraceAsync(Task grace)
+    {
+        await grace.ConfigureAwait(false);
+        return null;
+    }
+
+    internal static UserGeo? ChooseConsensusGeo(IReadOnlyList<UserGeo> answers)
+    {
+        if (answers.Count <= 2)
+            return answers.FirstOrDefault();
+        return answers.OrderBy(geo => answers.Sum(other => HaversineKm(geo.Lat, geo.Lon, other.Lat, other.Lon))).First();
     }
 
     private static UserGeo? LoadSavedGeo()
@@ -894,6 +920,9 @@ public static class VoidstrapMatchmaker
             App.Logger.WriteLine(LOG_IDENT, "Every probed server was in a blocked datacenter, nothing to pick");
             return null;
         }
+        List<MatchmakerCandidate> verified = allowed.Where(c => c.LocationVerified).ToList();
+        if (verified.Count > 0)
+            allowed = verified;
 
         string? blockedClosestCity = null;
         double blockedClosestKm = 0.0;
@@ -907,10 +936,12 @@ public static class VoidstrapMatchmaker
             );
         }
 
+        bool preferredMatched = false;
         if (preferred.Length > 0)
         {
             List<MatchmakerCandidate> inPreferred = allowed.Where(c => MatchesPreferredDc(c.Datacenter, preferred)).ToList();
-            if (inPreferred.Count > 0)
+            preferredMatched = inPreferred.Count > 0;
+            if (preferredMatched)
             {
                 App.Logger.WriteLine(LOG_IDENT, $"Preferred datacenter matched {inPreferred.Count} servers");
                 allowed = inPreferred;
@@ -923,7 +954,7 @@ public static class VoidstrapMatchmaker
                 );
             }
         }
-        else
+        if (!preferredMatched)
         {
             double closestRtt = allowed.Min(c => (double)c.EstimatedPingMs);
             List<MatchmakerCandidate> close = allowed.Where(c => c.EstimatedPingMs <= closestRtt + ClosestDatacenterBandMs).ToList();
@@ -955,6 +986,7 @@ public static class VoidstrapMatchmaker
             Score = winner.Score,
             Fps = winner.Fps,
             PlayerTokens = winner.PlayerTokens,
+            LocationVerified = winner.LocationVerified,
             BlockedClosestCity = blockedClosestCity,
             BlockedClosestDistanceKm = blockedClosestKm,
         };
@@ -1055,6 +1087,7 @@ public static class VoidstrapMatchmaker
                 if (!resolved.HasValue)
                     continue;
 
+                bool locationVerified = RobloxDatacenterMap.Map(resolved.Value.Ip) != null;
                 RobloxDatacenter? dc;
                 try
                 {
@@ -1082,15 +1115,13 @@ public static class VoidstrapMatchmaker
                         Lon = dc.Lon,
                     };
                 }
-                ServerFetchStore.RecordSighting(resolved.Value.Ip, dc.City, dc.Region, dc.Country, dc.Lat, dc.Lon);
+                if (locationVerified)
+                    ServerFetchStore.RecordSighting(resolved.Value.Ip, dc.City, dc.Region, dc.Country, dc.Lat, dc.Lon);
+                else
+                    ServerFetchStore.RecordSighting(resolved.Value.Ip);
 
                 double km = HaversineKm(geo.Lat, geo.Lon, dc.Lat, dc.Lon);
-                double geographicPing = EstimateRttMs(km);
-                double learnedPing = ServerFetchStore.GetMedianPing(resolved.Value.Ip, out int learnedSamples);
-                double learnedWeight =
-                    learnedSamples <= 0 || learnedPing < 1.0 || learnedPing > 999.0 ? 0.0 : Math.Min(0.75, 0.2 + learnedSamples * 0.05);
-                double effectivePing =
-                    learnedWeight > 0.0 ? geographicPing * (1.0 - learnedWeight) + learnedPing * learnedWeight : geographicPing;
+                double effectivePing = EstimateRttMs(km);
                 MatchmakerCandidate candidate = new MatchmakerCandidate
                 {
                     JobId = sv.JobId,
@@ -1105,6 +1136,7 @@ public static class VoidstrapMatchmaker
                     Score = effectivePing + PopulationPenaltyMs(sv.Playing, sv.MaxPlayers, preferEmpty),
                     Fps = sv.FPS,
                     PlayerTokens = sv.PlayerTokens,
+                    LocationVerified = locationVerified,
                 };
                 results.Add(candidate);
                 Interlocked.Increment(ref resultCount);
@@ -1112,7 +1144,7 @@ public static class VoidstrapMatchmaker
                 if (!allowEarlyExit)
                     continue;
 
-                bool usable = !blocked.Contains(BlockKey(dc));
+                bool usable = locationVerified && !blocked.Contains(BlockKey(dc));
                 bool onTarget =
                     preferred.Length > 0 ? MatchesPreferredDc(dc, preferred) : EstimateRttMs(km) <= floorMs + ClosestDatacenterBandMs;
                 bool populated = preferEmpty || sv.Playing >= 4 || sv.MaxPlayers > 0 && sv.Playing >= Math.Ceiling(sv.MaxPlayers * 0.15);

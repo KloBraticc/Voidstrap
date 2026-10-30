@@ -657,8 +657,6 @@ public partial class ActivityWatcher : IDisposable
         ServerInfo? Match(ServerListResponse? page)
         {
             ServerInfo? found = page?.Data?.FirstOrDefault(s => string.Equals(s.Id, jobId, StringComparison.OrdinalIgnoreCase));
-            if (found is { Ping: > 0 } && machineValid)
-                ServerFetchStore.RecordPing(machineAddress, found.Ping);
             return found;
         }
         void Remember(string order, string? cursor)

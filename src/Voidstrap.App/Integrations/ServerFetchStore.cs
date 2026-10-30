@@ -56,8 +56,9 @@ public static class ServerFetchStore
                 PrunePrivateCidrs();
                 PruneStalePreSeeded();
                 RepairCountries();
+                ClearUnverifiedLocations();
                 RobloxDatacenterMap.AddCidrEntries(
-                    _data.Servers.Select(item => new SeedCidrEntry
+                    _data.Servers.Where(item => item.Value.Lat != 0.0 || item.Value.Lon != 0.0).Select(item => new SeedCidrEntry
                     {
                         Cidr = string.IsNullOrWhiteSpace(item.Value.Cidr) ? item.Key : item.Value.Cidr,
                         City = item.Value.City,
@@ -69,6 +70,28 @@ public static class ServerFetchStore
                 );
             }
         }
+    }
+
+    private static void ClearUnverifiedLocations()
+    {
+        if (_data.SchemaVersion >= 2)
+            return;
+        Dictionary<string, SeedCidrEntry> seeds = RobloxDatacenterMap
+            .AllSeedEntries()
+            .GroupBy(seed => seed.Cidr, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(group => group.Key, group => group.First(), StringComparer.OrdinalIgnoreCase);
+        foreach (KeyValuePair<string, LearnedServerEntry> server in _data.Servers)
+        {
+            seeds.TryGetValue(string.IsNullOrWhiteSpace(server.Value.Cidr) ? server.Key : server.Value.Cidr, out SeedCidrEntry? seed);
+            server.Value.City = seed?.City ?? "";
+            server.Value.Region = seed?.Region ?? "";
+            server.Value.Country = seed?.Country ?? "";
+            server.Value.Lat = seed?.Lat ?? 0.0;
+            server.Value.Lon = seed?.Lon ?? 0.0;
+            server.Value.PingSamplesMs = null;
+        }
+        _data.SchemaVersion = 2;
+        App.Logger.WriteLine("ServerFetchStore", "Cleared learned locations that came from unverified lookups");
     }
 
     private static void RepairCountries()
@@ -564,58 +587,6 @@ public static class ServerFetchStore
             SaveNow();
         else
             SaveThrottled();
-    }
-
-    public static void RecordPing(string? ip, int pingMs)
-    {
-        if (string.IsNullOrWhiteSpace(ip) || pingMs < 0)
-        {
-            return;
-        }
-        EnsureLoaded();
-        string? slash24Cidr = GetSlash24Cidr(ip);
-        if (slash24Cidr == null)
-        {
-            return;
-        }
-        lock (_lock)
-        {
-            if (!_data.Servers.TryGetValue(slash24Cidr, out LearnedServerEntry? value))
-            {
-                return;
-            }
-            value.PingSamplesMs ??= new List<int>();
-            value.PingSamplesMs.Add(pingMs);
-            if (value.PingSamplesMs.Count > 25)
-            {
-                value.PingSamplesMs.RemoveRange(0, value.PingSamplesMs.Count - 25);
-            }
-        }
-        SaveThrottled();
-    }
-
-    public static double GetMedianPing(string? ip, out int sampleCount)
-    {
-        sampleCount = 0;
-        if (string.IsNullOrWhiteSpace(ip))
-            return -1.0;
-        EnsureLoaded();
-        string? slash24Cidr = GetSlash24Cidr(ip);
-        if (slash24Cidr == null)
-            return -1.0;
-        lock (_lock)
-        {
-            if (
-                !_data.Servers.TryGetValue(slash24Cidr, out LearnedServerEntry? entry)
-                || entry.PingSamplesMs == null
-                || entry.PingSamplesMs.Count == 0
-            )
-                return -1.0;
-            int[] samples = entry.PingSamplesMs.OrderBy(value => value).ToArray();
-            sampleCount = samples.Length;
-            int middle = samples.Length / 2;
-            return samples.Length % 2 == 0 ? (samples[middle - 1] + samples[middle]) / 2.0 : samples[middle];
-        }
     }
 
     public static (int Datacenters, int Servers, int TotalSightings, int PingedDatacenters) GetStats()

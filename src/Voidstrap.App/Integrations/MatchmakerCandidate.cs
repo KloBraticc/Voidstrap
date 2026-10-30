@@ -4,6 +4,8 @@ public sealed class MatchmakerCandidate
 {
     public string JobId { get; init; } = "";
 
+    public bool LocationVerified { get; init; }
+
     public string MachineAddress { get; init; } = "";
 
     public int Port { get; init; }
