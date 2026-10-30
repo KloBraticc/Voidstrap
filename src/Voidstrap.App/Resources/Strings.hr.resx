@@ -4500,12 +4500,6 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>Pregledaj...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>Ograničenje CPU a za Voidstrap</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Ograničava afinitet procesora samog Voidstrapa. Ostavi na maksimumu osim ako druga aktivna aplikacija treba rezervirane jezgre.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>Uključi pretpregledne verzije</value>
   </data>

@@ -4495,12 +4495,6 @@ Co chcesz zrobić?</value>
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>Przeglądaj...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>Limit CPU dla Voidstrap</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Ogranicza koligację procesora samego Voidstrap. Zostaw maksimum, chyba że inna aktywna aplikacja potrzebuje zarezerwowanych rdzeni.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>Uwzględniaj wersje przedpremierowe</value>
   </data>

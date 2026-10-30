@@ -4493,12 +4493,6 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>Gözat...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>Voidstrap CPU sınırı</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Voidstrap'in kendi işlemci benzeşimini sınırlar. Başka etkin bir uygulama ayrılmış çekirdek gerektirmiyorsa en yüksekte bırakın.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>Ön sürümleri dahil et</value>
   </data>

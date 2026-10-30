@@ -4501,12 +4501,6 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>瀏覽...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>Voidstrap CPU 限制</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>限制 Voidstrap 本身的處理器親和性。除非其他使用中的應用程式需要保留核心，否則請維持最大值。</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>包含預覽版本</value>
   </data>

@@ -4539,12 +4539,6 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>مرور...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>محدودیت CPU برای Voidstrap</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>وابستگی پردازنده خود Voidstrap را محدود می‌کند. آن را روی حداکثر بگذارید مگر اینکه برنامه فعال دیگری به هسته‌های رزروشده نیاز داشته باشد.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>شامل نسخه‌های پیش‌انتشار</value>
   </data>

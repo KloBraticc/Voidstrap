@@ -4503,12 +4503,6 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>Обзор...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>Лимит ЦП для Voidstrap</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Ограничивает привязку к процессору самого Voidstrap. Оставьте максимум, если другому активному приложению не нужны зарезервированные ядра.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>Включать предварительные версии</value>
   </data>

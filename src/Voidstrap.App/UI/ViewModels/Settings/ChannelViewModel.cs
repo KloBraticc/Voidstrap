@@ -129,8 +129,6 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
     private ICommand? _applyInstallLocationCommand;
 
-    public ObservableCollection<int> CpuLimitOptions { get; set; }
-
     public ObservableCollection<DisplayMode> AvailableResolutionsInGame { get; } = new ObservableCollection<DisplayMode>();
 
     public bool UsePlaceId
@@ -406,21 +404,6 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
                 OnPropertyChanged(nameof(SelectedPriority));
                 App.Settings.Prop.PriorityLimit = normalized;
                 App.Settings.SaveDeferred();
-            }
-        }
-    }
-
-    public int SelectedCpuLimit
-    {
-        get { return App.Settings.Prop.CpuCoreLimit; }
-        set
-        {
-            if (App.Settings.Prop.CpuCoreLimit != value)
-            {
-                App.Settings.Prop.CpuCoreLimit = value;
-                OnPropertyChanged(nameof(SelectedCpuLimit));
-                App.Settings.SaveDeferred();
-                CpuCoreLimiter.SetCpuCoreLimit(value);
             }
         }
     }
@@ -1190,16 +1173,6 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
         _revertTimer.Tick += OnRevertTimerTick;
         LoadMonitors();
         RunSafeAsync(() => LoadNetworkStreamingStateAsync(_lifetimeCts.SafeToken()));
-        CpuLimitOptions = new ObservableCollection<int>();
-        int processorCount = Environment.ProcessorCount;
-        for (int i = 1; i <= processorCount; i++)
-        {
-            CpuLimitOptions.Add(i);
-        }
-        if (!CpuLimitOptions.Contains(App.Settings.Prop.CpuCoreLimit))
-        {
-            SelectedCpuLimit = processorCount;
-        }
         PriorityOptions = new ObservableCollection<string> { "High", "Above Normal", "Normal", "Below Normal", "Low" };
         _selectedPriority = NormalizePriority(App.Settings.Prop.PriorityLimit);
         if (!string.Equals(App.Settings.Prop.PriorityLimit, _selectedPriority, StringComparison.Ordinal))

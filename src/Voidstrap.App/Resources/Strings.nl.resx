@@ -4457,12 +4457,6 @@ Wat wil je doen?</value>
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>Bladeren...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>CPU limiet voor Voidstrap</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Beperkt de processoraffiniteit van Voidstrap zelf. Laat het op maximaal staan, tenzij een andere actieve app gereserveerde kernen nodig heeft.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>Voorlopige versies meenemen</value>
   </data>

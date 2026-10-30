@@ -4511,12 +4511,6 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>찾아보기...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>Voidstrap CPU 제한</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Voidstrap 자체의 프로세서 선호도를 제한합니다. 다른 활성 앱에 예약된 코어가 필요하지 않다면 최대로 두십시오.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>시험판 버전 포함</value>
   </data>

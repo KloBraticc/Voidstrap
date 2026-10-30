@@ -4501,12 +4501,6 @@ Roblox ще бъде изтеглен, когато го стартирате з
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>Преглед...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>Ограничение на процесора за Voidstrap</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Ограничава процесорния афинитет на самия Voidstrap. Оставете го на максимум, освен ако друго активно приложение не се нуждае от резервирани ядра.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>Включване на предварителни версии</value>
   </data>

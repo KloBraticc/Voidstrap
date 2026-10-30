@@ -4507,12 +4507,6 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>Duyệt...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>Giới hạn CPU của Voidstrap</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Giới hạn mối quan hệ bộ xử lý của chính Voidstrap. Hãy để ở mức tối đa trừ khi ứng dụng đang chạy khác cần các nhân dành riêng.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>Bao gồm bản phát hành trước</value>
   </data>

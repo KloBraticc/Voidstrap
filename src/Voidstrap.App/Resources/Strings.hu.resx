@@ -4497,12 +4497,6 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>Tallózás...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>Voidstrap CPU korlát</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Korlátozza a Voidstrap saját processzor-affinitását. Hagyd maximumon, hacsak egy másik aktív alkalmazásnak nincs szüksége fenntartott magokra.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>Előzetes verziók is</value>
   </data>

@@ -4492,12 +4492,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>Examinar...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>Límite de CPU de Voidstrap</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Limita la afinidad de procesador del propio Voidstrap. Déjalo al máximo salvo que otra aplicación activa necesite núcleos reservados.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>Incluir versiones preliminares</value>
   </data>

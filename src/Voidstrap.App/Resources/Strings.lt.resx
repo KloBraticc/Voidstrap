@@ -4535,12 +4535,6 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>Naršyti...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>Voidstrap procesoriaus riba</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Riboja paties Voidstrap procesoriaus susiejimą. Palikite maksimumą, nebent kitai aktyviai programai reikia rezervuotų branduolių.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>Įtraukti išankstines versijas</value>
   </data>

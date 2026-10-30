@@ -1191,10 +1191,6 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Channel_Browse => ResourceManager.GetString("Ui.Channel.Browse", resourceCulture);
 
-        public static string Ui_Channel_VoidstrapCPULimit => ResourceManager.GetString("Ui.Channel.VoidstrapCPULimit", resourceCulture);
-
-        public static string Ui_Channel_LimitsVoidstrapSOwnProcessorAffinity => ResourceManager.GetString("Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity", resourceCulture);
-
         public static string Ui_Channel_IncludePreReleaseVersions => ResourceManager.GetString("Ui.Channel.IncludePreReleaseVersions", resourceCulture);
 
         public static string Ui_Channel_UpdatesToTestBuildsAsSoon => ResourceManager.GetString("Ui.Channel.UpdatesToTestBuildsAsSoon", resourceCulture);

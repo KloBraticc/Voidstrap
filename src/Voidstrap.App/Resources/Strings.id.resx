@@ -4455,12 +4455,6 @@ Apa yang ingin Anda lakukan?</value>
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>Telusuri...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>Batas CPU Voidstrap</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Membatasi afinitas prosesor Voidstrap sendiri. Biarkan di maksimum kecuali aplikasi aktif lain membutuhkan inti yang dicadangkan.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>Sertakan versi pratinjau</value>
   </data>

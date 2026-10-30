@@ -4459,12 +4459,6 @@ Vad vill du göra?</value>
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>Bläddra...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>CPU gräns för Voidstrap</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Begränsar processortillhörigheten för Voidstrap självt. Lämna den på max om inte en annan aktiv app behöver reserverade kärnor.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>Inkludera förhandsversioner</value>
   </data>

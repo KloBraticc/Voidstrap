@@ -22,9 +22,6 @@
               </StackPanel>
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Ui_Channel_VoidstrapCPULimit}" Description="{resources:Loc Ui_Channel_LimitsVoidstrapSOwnProcessorAffinity}">
-            <ComboBox Grid.Column="1" Margin="8,0,8,0" Padding="10,5,10,5" Width="200" ItemsSource="{Binding CpuLimitOptions}" SelectedItem="{Binding SelectedCpuLimit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-          </controls:OptionControl>
           <controls:OptionControl Header="{resources:Loc Menu_Behaviour_AutoUpdate_Title}" Description="{resources:Loc Menu_Behaviour_AutoUpdate_Description}">
             <ui:ToggleSwitch IsChecked="{Binding UpdateCheckingEnabled, Mode=TwoWay}" />
           </controls:OptionControl>

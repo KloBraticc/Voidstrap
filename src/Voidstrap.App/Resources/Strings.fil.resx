@@ -4274,12 +4274,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>Mag browse...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>CPU limit ng Voidstrap</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Nililimitahan ang processor affinity ng Voidstrap mismo. Iwanan sa maximum maliban kung may ibang aktibong app na kailangan ng nakareserbang core.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>Isama ang mga pre release na bersyon</value>
   </data>

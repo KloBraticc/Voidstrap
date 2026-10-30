@@ -131,7 +131,6 @@ namespace Voidstrap.Models.Persistable
 
         public int CleanRobloxNumber = 0;
         public bool DisableCrash { get; set; } = false;
-        public int CpuCoreLimit { get; set; } = Environment.ProcessorCount;
         public string UseCustomIcon { get; set; } = "";
         public string CustomGameName { get; set; } = "";
         public string PriorityLimit { get; set; } = "Normal";

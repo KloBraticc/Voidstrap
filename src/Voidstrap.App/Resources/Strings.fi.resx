@@ -4493,12 +4493,6 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>Selaa...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>Voidstrapin suoritinraja</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Rajoittaa Voidstrapin oman suoritinaffiniteetin. Pidä se maksimissa, ellei jokin muu aktiivinen sovellus tarvitse varattuja ytimiä.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>Sisällytä esiversiot</value>
   </data>

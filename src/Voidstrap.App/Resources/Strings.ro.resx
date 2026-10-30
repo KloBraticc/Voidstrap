@@ -4481,12 +4481,6 @@ Ce vrei să faci?</value>
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>Răsfoiește...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>Limită CPU pentru Voidstrap</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Limitează afinitatea procesorului pentru Voidstrap. Las o la maxim dacă o altă aplicație activă nu are nevoie de nuclee rezervate.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>Include versiunile de previzualizare</value>
   </data>

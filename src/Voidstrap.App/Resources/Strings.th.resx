@@ -4493,12 +4493,6 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>เรียกดู...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>ขีดจำกัด CPU ของ Voidstrap</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>จำกัดความสัมพันธ์ของโปรเซสเซอร์ของ Voidstrap เอง ปล่อยไว้สูงสุดเว้นแต่แอปอื่นที่ทำงานอยู่ต้องการคอร์ที่สงวนไว้</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>รวมเวอร์ชันก่อนเผยแพร่</value>
   </data>

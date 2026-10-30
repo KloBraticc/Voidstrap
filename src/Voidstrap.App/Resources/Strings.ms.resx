@@ -4462,12 +4462,6 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>Semak imbas...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>Had CPU Voidstrap</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Mengehadkan afiniti pemproses Voidstrap sendiri. Biarkan pada maksimum melainkan aplikasi aktif lain memerlukan teras yang dikhaskan.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>Sertakan versi pralepas</value>
   </data>

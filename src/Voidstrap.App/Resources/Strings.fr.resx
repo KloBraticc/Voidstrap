@@ -4422,12 +4422,6 @@ Que souhaitez-vous faire ?</value>
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>Parcourir...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>Limite CPU de Voidstrap</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>Limite l'affinité processeur de Voidstrap lui-même. Laissez-la au maximum sauf si une autre application active a besoin de cœurs réservés.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>Inclure les préversions</value>
   </data>

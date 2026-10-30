@@ -4530,12 +4530,6 @@
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>استعراض...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>حد المعالج لـ Voidstrap</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>يحدّ من تقارب المعالج لـ Voidstrap نفسه. اتركه على الحد الأقصى ما لم يحتج تطبيق نشط آخر إلى أنوية محجوزة.</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>تضمين الإصدارات التجريبية</value>
   </data>

@@ -1710,7 +1710,6 @@ public partial class App : Application
             )
                 _ = CompressIdleInstallsAsync(_lifetimeCancellation.SafeToken());
         }
-        TryStartup("CPU core limiter", CpuCoreLimiter.ApplyConfiguredLimit);
         if (!Voidstrap.Utility.Platform.IsLinux)
             TryStartup("GPU inventory warmup", () => Task.Run(() => _ = Voidstrap.Utility.GpuInventory.HasNvidia));
     }

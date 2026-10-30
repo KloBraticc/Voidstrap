@@ -4522,12 +4522,6 @@ Voidstrap 的安装路径是：
   <data name="Ui.Channel.Browse" xml:space="preserve">
     <value>浏览...</value>
   </data>
-  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
-    <value>Voidstrap CPU 限制</value>
-  </data>
-  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
-    <value>限制 Voidstrap 自身的处理器关联。除非其他活动应用需要预留核心，否则请保持最大值。</value>
-  </data>
   <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
     <value>包含预发布版本</value>
   </data>
