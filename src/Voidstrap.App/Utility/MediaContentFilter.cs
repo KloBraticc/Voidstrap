@@ -154,8 +154,10 @@ internal static class MediaContentFilter
         return logits.Length == 2
             && float.IsFinite(logits[0])
             && float.IsFinite(logits[1])
-            && 1 / (1 + Math.Exp((double)logits[1] - logits[0])) < 0.25;
+            && 1 / (1 + Math.Exp((double)logits[1] - logits[0])) < RejectScore;
     }
+
+    private const double RejectScore = 0.60;
 
     private static bool CheckRaster(Raster raster)
     {
