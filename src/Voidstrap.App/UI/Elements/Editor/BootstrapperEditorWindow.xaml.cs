@@ -232,7 +232,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow
             new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(180, 96, 165, 250)),
             1
         );
-        UIXML.TextArea.Caret.CaretBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(116, 185, 255));
+        UIXML.TextArea.Caret.CaretBrush = (System.Windows.Media.Brush)FindResource("AccentFillColorDefaultBrush");
         _searchPanel = SearchPanel.Install(UIXML.TextArea);
         UpdateEditorStatus();
     }

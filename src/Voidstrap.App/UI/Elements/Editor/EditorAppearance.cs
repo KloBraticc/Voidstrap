@@ -54,11 +54,22 @@ internal static class EditorAppearance
         }
     }
 
+    private static bool FollowsTheme(string? value, params string[] oldDefaults) =>
+        string.IsNullOrWhiteSpace(value) || oldDefaults.Contains(value, StringComparer.OrdinalIgnoreCase);
+
+    private static bool BackgroundFollowsTheme => FollowsTheme(App.Settings.Prop.EditorBackground, "#1E1E1E", "#1E1F22");
+
     private static Color BackgroundColor =>
-        App.Settings.Prop.EditorBackground == "#1E1E1E" ? Color.FromRgb(0x1E, 0x1F, 0x22) : ParseColor(App.Settings.Prop.EditorBackground, Color.FromRgb(0x1E, 0x1F, 0x22));
+        BackgroundFollowsTheme ? Colors.Transparent : ParseColor(App.Settings.Prop.EditorBackground, Colors.Transparent);
 
     private static void ApplyTo(FrameworkElement panel)
     {
+        if (BackgroundFollowsTheme)
+        {
+            panel.Resources.Remove("ControlFillColorDefaultBrush");
+            panel.Resources.Remove("VsDocumentBrush");
+            return;
+        }
         SolidColorBrush brush = new(BackgroundColor);
         brush.Freeze();
         panel.Resources["ControlFillColorDefaultBrush"] = brush;
@@ -69,7 +80,10 @@ internal static class EditorAppearance
     {
         var settings = App.Settings.Prop;
         editor.Background = BuildBackground();
-        editor.Foreground = new SolidColorBrush(settings.EditorForeground == "#DCDCDC" ? Color.FromRgb(0xBC, 0xBE, 0xC4) : ParseColor(settings.EditorForeground, Color.FromRgb(0xBC, 0xBE, 0xC4)));
+        if (FollowsTheme(settings.EditorForeground, "#DCDCDC", "#BCBEC4"))
+            editor.SetResourceReference(Control.ForegroundProperty, "TextFillColorPrimaryBrush");
+        else
+            editor.Foreground = new SolidColorBrush(ParseColor(settings.EditorForeground, Colors.White));
         editor.FontFamily = new System.Windows.Media.FontFamily(string.IsNullOrWhiteSpace(settings.EditorFontFamily) ? "Cascadia Mono, Consolas" : settings.EditorFontFamily);
         editor.FontSize = Math.Clamp(settings.EditorFontSize, 8.0, 40.0);
         editor.WordWrap = settings.EditorWordWrap;
@@ -157,7 +171,6 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
         SizeToContent = SizeToContent.Height;
         ExtendsContentIntoTitleBar = true;
         WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        Background = new SolidColorBrush(Color.FromRgb(0x2D, 0x2D, 0x30));
         VisualStudioTheme.Apply(this);
         var settings = App.Settings.Prop;
         AddColor(Strings.Ui_EditorSettings_Background, settings.EditorBackground, value => settings.EditorBackground = value);
@@ -184,8 +197,8 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
     private void Reset_Click(object sender, RoutedEventArgs e)
     {
         var settings = App.Settings.Prop;
-        settings.EditorBackground = "#1E1F22";
-        settings.EditorForeground = "#BCBEC4";
+        settings.EditorBackground = "";
+        settings.EditorForeground = "";
         settings.EditorFontFamily = "JetBrains Mono, Cascadia Mono, Consolas";
         settings.EditorFontSize = 13;
         settings.EditorWordWrap = false;

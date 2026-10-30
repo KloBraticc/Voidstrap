@@ -10,7 +10,7 @@
                    Title="{resources:Loc Ui_Keystrokes_Editor_Title}" Width="1080" Height="720"
                    MinWidth="960" MinHeight="600" WindowStartupLocation="CenterScreen"
                    ExtendsContentIntoTitleBar="True"
-                   Background="#FF2B2D30">
+                   Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
   <FrameworkElement.Resources>
     <ResourceDictionary Source="/Voidstrap;component/UI/Elements/Editor/VisualStudioTheme.xaml" />
   </FrameworkElement.Resources>
@@ -26,8 +26,8 @@
     <ui:TitleBar x:Name="TitleBarControl" Icon="pack://application:,,,/Voidstrap.png"
                  Title="{resources:Loc Ui_Keystrokes_Editor_Title}" Grid.Row="0" Padding="8" />
 
-    <DockPanel Grid.Row="1" Background="#FF2B2D30">
-    <Border DockPanel.Dock="Right" Padding="4,2" Background="#FF2B2D30" BorderBrush="#FF393B40" BorderThickness="0">
+    <DockPanel Grid.Row="1" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+    <Border DockPanel.Dock="Right" Padding="4,2" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="0">
       <StackPanel Orientation="Horizontal">
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_EditorSettings_Title}" Click="EditorSettings_Click"><ui:SymbolIcon Symbol="Settings24" FontSize="15" /></Button>
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Common_Save}" Click="OnSaveClicked"><ui:SymbolIcon Symbol="Save24" FontSize="15" /></Button>
@@ -35,7 +35,7 @@
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_Mcp_Connect}" Click="OnConnectAiClicked"><ui:SymbolIcon Symbol="PlugConnected24" FontSize="15" /></Button>
       </StackPanel>
     </Border>
-    <Menu Background="#FF2B2D30" Foreground="#FFDFE1E5" FontSize="12.5">
+    <Menu Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" Foreground="{DynamicResource TextFillColorPrimaryBrush}" FontSize="12.5">
       <MenuItem Header="{resources:Loc Ui_VsEditor_File}">
         <MenuItem Header="{resources:Loc Common_Save}" Click="OnSaveClicked" />
         <MenuItem Header="{resources:Loc Ui_Keystrokes_Editor_Revert}" Click="OnRevertClicked" />
@@ -537,8 +537,8 @@
       </Border>
     </Grid>
 
-    <Border Grid.Row="4" Background="#FF2B2D30" BorderBrush="#FF393B40" BorderThickness="0,1,0,0" Padding="10,3">
-      <TextBlock FontSize="12" Foreground="#FFB4B8BF" Text="{resources:Loc Ui_VsEditor_Ready}" />
+    <Border Grid.Row="4" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0" Padding="10,3">
+      <TextBlock FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_VsEditor_Ready}" />
     </Border>
   </Grid>
 </base:WpfUiWindow>
