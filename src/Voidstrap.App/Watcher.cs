@@ -811,6 +811,8 @@ public partial class Watcher : IDisposable
 
     private const int CrashHandlerDelaySeconds = 60;
 
+    private const int CrashHandlerPollSeconds = 5;
+
     private async Task MonitorModCrashAsync(DateTime sessionStartedUtc, CancellationToken token)
     {
         const int CheckIntervalMs = 2000;
@@ -884,28 +886,32 @@ public partial class Watcher : IDisposable
         }
         try
         {
-            await Task.Delay(TimeSpan.FromSeconds(CrashHandlerDelaySeconds), token).ConfigureAwait(false);
-            if (ModCrashGuard.HasCrashReportSince(sessionStartedUtc))
-            {
-                return;
-            }
             using Process roblox = Process.GetProcessById(_watcherData.ProcessId);
-            if (roblox.HasExited)
+            int stableSeconds = 0;
+            while (stableSeconds < CrashHandlerDelaySeconds)
             {
-                return;
+                await Task.Delay(TimeSpan.FromSeconds(CrashHandlerPollSeconds), token).ConfigureAwait(false);
+                roblox.Refresh();
+                if (roblox.HasExited || ModCrashGuard.HasCrashReportSince(sessionStartedUtc))
+                {
+                    return;
+                }
+                bool settled = ActivityWatcher is { InGame: true, IsTeleporting: false } && roblox.Responding;
+                stableSeconds = settled ? stableSeconds + CrashHandlerPollSeconds : 0;
             }
+            DateTime robloxStartedUtc = roblox.StartTime.ToUniversalTime();
             foreach (Process handler in Process.GetProcessesByName("RobloxCrashHandler"))
             {
                 using (handler)
                 {
                     try
                     {
-                        if (!handler.HasExited && handler.StartTime.ToUniversalTime() >= sessionStartedUtc.AddSeconds(-2))
+                        if (!handler.HasExited && handler.StartTime.ToUniversalTime() >= robloxStartedUtc.AddSeconds(-2))
                         {
                             handler.Kill();
                             App.Logger.WriteLine(
                                 "Watcher::DisableCrashHandler",
-                                "Closed CrashHandler " + handler.Id + " after the startup safety delay"
+                                "Closed CrashHandler " + handler.Id + " after Roblox stayed stable in game"
                             );
                         }
                     }
