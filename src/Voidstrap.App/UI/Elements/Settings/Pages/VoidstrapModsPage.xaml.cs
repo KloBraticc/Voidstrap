@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using ICSharpCode.AvalonEdit.Indentation;
 using ICSharpCode.AvalonEdit.Search;
@@ -97,6 +98,7 @@ public partial class VoidstrapModsPage : UiPage
         _renderTimer?.Stop();
         _modRenderRunning = true;
         int generation = ++_renderGeneration;
+        HashSet<string> updating = [.. _updateSpins.Keys];
         try
         {
             List<ModRenderItem> items = await Task.Run(async () =>
@@ -108,7 +110,8 @@ public partial class VoidstrapModsPage : UiPage
                     ModLibrary.LibraryMod? libraryMod = _libraryIndex?.Mods.FirstOrDefault(m => m.Name == mod.Name);
                     PluginManifest.TryRead(mod.Directory, out PluginManifest? manifest, out _);
                     BitmapSource? icon = await DecodeModIconAsync(mod.Directory).ConfigureAwait(false);
-                    built.Add(new ModRenderItem(mod, libraryMod, manifest, icon));
+                    bool hasUpdate = libraryMod != null && ModLibrary.GetState(libraryMod) == ModLibrary.InstallState.UpdateAvailable;
+                    built.Add(new ModRenderItem(mod, libraryMod, manifest, icon, hasUpdate, updating.Contains(mod.Name)));
                 }
                 return built;
             });
@@ -162,7 +165,9 @@ public partial class VoidstrapModsPage : UiPage
         PluginHost.ModInfo Info,
         ModLibrary.LibraryMod? Library,
         PluginManifest? Manifest,
-        BitmapSource? Icon
+        BitmapSource? Icon,
+        bool HasUpdate,
+        bool Updating
     )
     {
         public string Signature =>
@@ -179,7 +184,9 @@ public partial class VoidstrapModsPage : UiPage
                 Manifest?.Version ?? "",
                 Icon != null,
                 Library != null && _libraryIcons.ContainsKey(Library.Id),
-                IconStamp(Info.Directory)
+                IconStamp(Info.Directory),
+                HasUpdate,
+                Updating
             );
     }
 
@@ -271,6 +278,9 @@ public partial class VoidstrapModsPage : UiPage
         side.Children.Add(version);
 
         StackPanel buttons = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
+
+        if ((item.HasUpdate || item.Updating) && libraryMod != null)
+            buttons.Children.Add(BuildUpdateButton(libraryMod, item.Updating));
 
         if (item.Manifest is { ConfigFields.Count: > 0 })
         {
@@ -1138,6 +1148,109 @@ public partial class VoidstrapModsPage : UiPage
                 MessageBoxImage.Error
             );
         }
+        RenderLibrary();
+    }
+
+    private readonly Dictionary<string, RotateTransform> _updateSpins = new(StringComparer.Ordinal);
+
+    private Wpf.Ui.Controls.Button BuildUpdateButton(ModLibrary.LibraryMod mod, bool updating)
+    {
+        SymbolIcon icon = new()
+        {
+            Symbol = SymbolRegular.ArrowSync24,
+            FontSize = 16,
+            VerticalAlignment = VerticalAlignment.Center,
+            RenderTransformOrigin = new Point(0.5, 0.5),
+        };
+        if (updating && _updateSpins.TryGetValue(mod.Name, out RotateTransform? spin))
+            icon.RenderTransform = spin;
+        StackPanel content = new() { Orientation = Orientation.Horizontal };
+        content.Children.Add(icon);
+        content.Children.Add(
+            new System.Windows.Controls.TextBlock
+            {
+                Text = Strings.Ui_VoidstrapMods_LibraryUpdate,
+                Margin = new Thickness(6, 0, 0, 0),
+                VerticalAlignment = VerticalAlignment.Center,
+            }
+        );
+        Wpf.Ui.Controls.Button button = new()
+        {
+            Content = content,
+            Appearance = ControlAppearance.Primary,
+            Margin = new Thickness(0, 0, 6, 0),
+            IsHitTestVisible = !updating,
+            Tag = mod,
+        };
+        button.Click += ModUpdate_Click;
+        return button;
+    }
+
+    private async void ModUpdate_Click(object sender, RoutedEventArgs e)
+    {
+        if (
+            sender is not Wpf.Ui.Controls.Button { Tag: ModLibrary.LibraryMod mod, Content: StackPanel content } button
+            || _libraryIndex is not { } index
+            || _updateSpins.ContainsKey(mod.Name)
+        )
+            return;
+        PluginHost.ModInfo? installed = PluginHost.ListMods().FirstOrDefault(info => info.Name == mod.Name);
+        PluginManifest? manifest = null;
+        if (installed != null)
+            PluginManifest.TryRead(installed.Directory, out manifest, out _);
+        bool asksForMore =
+            mod.Network.Any(host => manifest == null || !manifest.NetworkHosts.Contains(host, StringComparer.OrdinalIgnoreCase))
+            || (mod.UsesRobloxAccount && manifest?.HasPermission(PluginManifest.RobloxAccountPermission) != true);
+        if (asksForMore || !(mod.Verified || mod.Trusted))
+        {
+            string network =
+                mod.Network.Count == 0
+                    ? Strings.Ui_VoidstrapMods_LibraryNoNetwork
+                    : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", mod.Network));
+            if (
+                Frontend.ShowMessageBox(
+                    string.Format(Strings.Ui_VoidstrapMods_LibraryUnverifiedPrompt, mod.Name, mod.Version, mod.Login, network),
+                    MessageBoxImage.Warning,
+                    MessageBoxButton.YesNo,
+                    MessageBoxResult.No
+                ) != MessageBoxResult.Yes
+            )
+                return;
+        }
+        RotateTransform spin = new();
+        _updateSpins[mod.Name] = spin;
+        button.IsHitTestVisible = false;
+        if (content.Children[0] is SymbolIcon icon)
+            icon.RenderTransform = spin;
+        spin.BeginAnimation(
+            RotateTransform.AngleProperty,
+            new DoubleAnimation(0, 360, TimeSpan.FromSeconds(1)) { RepeatBehavior = RepeatBehavior.Forever }
+        );
+        try
+        {
+            await ModLibrary.InstallAsync(index, mod, CancellationToken.None);
+            await Task.Run(PluginHost.Reload);
+        }
+        catch (Exception ex)
+        {
+            Frontend.ShowMessageBox(
+                string.Format(Strings.Ui_VoidstrapMods_LibraryInstallFailed, mod.Name, ex.Message),
+                MessageBoxImage.Error
+            );
+        }
+        const int settle = 400;
+        double angle = spin.Angle;
+        spin.BeginAnimation(
+            RotateTransform.AngleProperty,
+            new DoubleAnimation(angle, angle + (360 - angle % 360), TimeSpan.FromMilliseconds(settle))
+            {
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+            }
+        );
+        await Task.Delay(settle);
+        spin.BeginAnimation(RotateTransform.AngleProperty, null);
+        _updateSpins.Remove(mod.Name);
+        RenderMods();
         RenderLibrary();
     }
 

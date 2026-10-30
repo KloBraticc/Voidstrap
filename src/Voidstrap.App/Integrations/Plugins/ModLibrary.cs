@@ -380,90 +380,35 @@ public static partial class ModLibrary
         }
     }
 
-    private static Timer? _autoUpdateTimer;
+    private static Timer? _takedownTimer;
 
-    private static int _autoUpdateRunning;
-
-    public static void StartAutoUpdater()
+    public static void StartTakedownWatcher()
     {
-        _autoUpdateTimer?.Dispose();
-        _autoUpdateTimer = new Timer(
-            static _ =>
-            {
-                if (App.Settings.Prop.AutoUpdateLibraryMods)
-                    _ = AutoUpdateInstalledModsAsync();
-            },
+        _takedownTimer?.Dispose();
+        _takedownTimer = new Timer(
+            static _ => _ = CheckTakedownsAsync(),
             null,
             TimeSpan.FromSeconds(10),
             TimeSpan.FromHours(4)
         );
     }
 
-    public static void StopAutoUpdater()
+    public static void StopTakedownWatcher()
     {
-        _autoUpdateTimer?.Dispose();
-        _autoUpdateTimer = null;
+        _takedownTimer?.Dispose();
+        _takedownTimer = null;
     }
 
-    public static async Task<IReadOnlyList<string>> AutoUpdateInstalledModsAsync(CancellationToken token = default)
+    private static async Task CheckTakedownsAsync()
     {
-        List<string> updated = [];
-        if (Interlocked.Exchange(ref _autoUpdateRunning, 1) != 0)
-            return updated;
         try
         {
-            Index index = await GetIndexAsync(true, token);
-            DisableTakenDown(index);
-            List<PluginManifest> installed = PluginManifest.Discover(Paths.Plugins, report: false);
-            foreach (PluginManifest manifest in installed)
-            {
-                string? libraryId = GetInstalledLibraryId(manifest.Name);
-                if (libraryId == null)
-                    continue;
-                LibraryMod? entry = index.Mods.FirstOrDefault(m =>
-                    m.Name == manifest.Name && string.Equals(m.Id, libraryId, StringComparison.Ordinal)
-                );
-                if (entry == null)
-                    continue;
-                if (GetState(entry) != InstallState.UpdateAvailable)
-                    continue;
-                if (
-                    entry.Network.Any(host => !manifest.NetworkHosts.Contains(host, StringComparer.OrdinalIgnoreCase))
-                    || entry.UsesRobloxAccount
-                    || manifest.HasPermission(PluginManifest.RobloxAccountPermission)
-                )
-                {
-                    App.Logger.WriteLine(
-                        LogIdent,
-                        "Left " + entry.Name + " for a manual update because " + entry.Version + " asks for new access or uses the Roblox account"
-                    );
-                    continue;
-                }
-                try
-                {
-                    await InstallAsync(index, entry, token);
-                    updated.Add(entry.Name + " " + entry.Version);
-                }
-                catch (Exception ex) when (ex is not OperationCanceledException)
-                {
-                    App.Logger.WriteLine(LogIdent, "Could not update " + entry.Name + ": " + ex.Message);
-                }
-            }
-            if (updated.Count > 0)
-            {
-                PluginHost.Reload();
-                App.Logger.WriteLine(LogIdent, "Auto-updated " + updated.Count + " mod(s): " + string.Join(", ", updated));
-            }
+            DisableTakenDown(await GetIndexAsync(true, CancellationToken.None));
         }
         catch (Exception ex)
         {
-            App.Logger.WriteLine(LogIdent, "Auto-update skipped: " + ex.Message);
+            App.Logger.WriteLine(LogIdent, "Takedown check skipped: " + ex.Message);
         }
-        finally
-        {
-            Interlocked.Exchange(ref _autoUpdateRunning, 0);
-        }
-        return updated;
     }
 
     private static void StampLibrary(string folder, LibraryMod mod)

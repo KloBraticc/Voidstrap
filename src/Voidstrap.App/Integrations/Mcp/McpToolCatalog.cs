@@ -411,7 +411,7 @@ public static class McpToolCatalog
                 {
                     ["action"] = P(
                         "string",
-                        "list (default), guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, preflight, library_search, library_install, auto_update, publish, ui_map, or ui_tree (the live element tree, read get_guide topic mod_ui to restyle or restructure the interface)."
+                        "list (default), guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, preflight, library_search, library_install, publish, ui_map, or ui_tree (the live element tree, read get_guide topic mod_ui to restyle or restructure the interface)."
                     ),
                     ["mod"] = P("string", "The mod's folder name: lowercase letters, digits and hyphens."),
                     ["path"] = P("string", "File path inside the mod, for example hooks/register.tsx or .voidstrap-mod/plugin.json."),

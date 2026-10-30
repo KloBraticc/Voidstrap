@@ -407,13 +407,6 @@ public static partial class McpTools
                 return new McpToolResult(
                     "Asked the user whether to turn on " + mod + ". It loads only if they say yes; call list to see the answer."
                 );
-            case "auto_update":
-                {
-                    IReadOnlyList<string> updated = ModLibrary.AutoUpdateInstalledModsAsync(CancellationToken.None).GetAwaiter().GetResult();
-                    return updated.Count > 0
-                        ? new McpToolResult("Auto-updated " + updated.Count + " mod(s): " + string.Join(", ", updated))
-                        : new McpToolResult("All installed library mods are up to date.");
-                }
             case "library_install":
                 {
                     ModLibrary.Index index = ModLibrary.GetIndexAsync(false, CancellationToken.None).GetAwaiter().GetResult();
@@ -504,7 +497,7 @@ public static partial class McpTools
                 }
             default:
                 return new McpToolResult(
-                    "Unknown action. Use list, guide, ui_tree, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, preflight, library_search, library_install, auto_update, or publish.",
+                    "Unknown action. Use list, guide, ui_tree, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, preflight, library_search, library_install, or publish.",
                     true
                 );
         }

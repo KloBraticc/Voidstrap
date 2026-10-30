@@ -264,7 +264,6 @@ internal static partial class PluginSettings
     {
         nameof(Voidstrap.Models.Persistable.AppSettings.PluginConsent),
         nameof(Voidstrap.Models.Persistable.AppSettings.ModRollback),
-        nameof(Voidstrap.Models.Persistable.AppSettings.AutoUpdateLibraryMods),
         nameof(Voidstrap.Models.Persistable.AppSettings.CheckForUpdates),
         nameof(Voidstrap.Models.Persistable.AppSettings.BackgroundUpdatesEnabled),
         nameof(Voidstrap.Models.Persistable.AppSettings.AllowPreReleaseUpdates),
