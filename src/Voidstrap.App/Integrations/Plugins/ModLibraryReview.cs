@@ -14,7 +14,7 @@ internal static partial class ModLibraryReview
 {
     private const string LogIdent = "ModLibraryReview";
 
-    internal const string LibraryIndexUrl = "https://raw.githubusercontent.com/KloBraticc/voidstrap-mods-library/main/index.json";
+    internal const string LibraryIndexUrl = "https://raw.githubusercontent.com/KloBraticc/voidstrap-mods-library/index/index.json";
 
     private const string NamePatternPattern = "^[a-z0-9][a-z0-9-]{0,63}$";
 
