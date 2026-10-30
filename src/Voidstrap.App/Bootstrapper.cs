@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Buffers;
 using System.Net.Sockets;
 using System.Reflection;
@@ -105,15 +106,25 @@ public partial class Bootstrapper
 
     private const int MaxSegmentCount = 64;
 
-    private const int MirrorSpread = 3;
+    private const int MirrorExploreInterval = 16;
 
     private const int NetworkReadBufferCap = 1024 * 1024;
 
-    private const int SlowSegmentGraceMs = 9000;
+    private const int SlowConnectionGraceMs = 2000;
 
-    private const int SlowSegmentWindowMs = 6000;
+    private const int SlowConnectionWindowMs = 2000;
 
-    private const long SlowSegmentMinimumBytes = 128L * 1024L;
+    private const double SlowConnectionFloorBytesPerSecond = 2.0 * 1024.0 * 1024.0;
+
+    private const double SlowConnectionRatio = 4.0;
+
+    private const int MaxSlowConnectionAborts = 6;
+
+    private static readonly ConcurrentDictionary<string, double> MirrorRates = new(StringComparer.OrdinalIgnoreCase);
+
+    private double _typicalConnectionRate;
+
+    private int _segmentPickCount;
 
     private static readonly HttpClient SkyboxHttpClient = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromMinutes(30L));
 
@@ -135,8 +146,6 @@ public partial class Bootstrapper
     private static readonly int ExtractionConcurrency = Math.Clamp(ModApplyConcurrency, 2, 8);
 
     private readonly SemaphoreSlim _networkRequestSlots;
-
-    private readonly int _networkRequestLimit;
 
     private string? _packageExtractionDirectory;
 
@@ -269,7 +278,6 @@ public partial class Bootstrapper
             App.Settings.SaveDeferred();
         int requestLimit = DownloadConfiguration.ResolveSegmentRequestLimit(App.Settings.Prop);
         _networkRequestSlots = new SemaphoreSlim(requestLimit, requestLimit);
-        _networkRequestLimit = requestLimit;
         _launchMode = launchMode;
         _deploymentChannel = App.Settings.Prop.Channel;
         _fastZipEvents.FileFailure = OnExtractionFailure;

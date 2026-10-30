@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Net.Http.Headers;
 using Voidstrap.RobloxInterfaces;
 
@@ -99,9 +100,14 @@ public partial class Bootstrapper
                     Version = HttpVersion.Version11,
                     VersionPolicy = HttpVersionPolicy.RequestVersionOrLower,
                 };
+                bool probeRanges = resumeOffset == 0 && package.PackedSize >= minMultipartSize;
                 if (resumeOffset > 0)
                 {
                     initialRequest.Headers.Range = new RangeHeaderValue(resumeOffset, null);
+                }
+                else if (probeRanges)
+                {
+                    initialRequest.Headers.Range = new RangeHeaderValue(0, 0);
                 }
                 using HttpResponseMessage response = await SendPackageRequestAsync(initialRequest, ct)
                     .ConfigureAwait(continueOnCapturedContext: false);
@@ -149,7 +155,30 @@ public partial class Bootstrapper
                     }
                     catch { }
                 }
-                if (!response.IsSuccessStatusCode)
+                if (probeRanges && response.StatusCode == HttpStatusCode.PartialContent)
+                {
+                    if (response.Content.Headers.ContentRange?.Length != package.PackedSize)
+                    {
+                        throw new IOException("Package server reported a size that does not match the manifest");
+                    }
+                    await response.Content.ReadAsByteArrayAsync(ct).ConfigureAwait(continueOnCapturedContext: false);
+                    bool common = packageUrl.Contains("/channel/", StringComparison.Ordinal);
+                    List<string> segmentUrls = [.. packageUrls.Where(url => url.Contains("/channel/", StringComparison.Ordinal) == common)];
+                    await DownloadMultipartAsync(
+                            segmentUrls,
+                            segmentUrls.IndexOf(packageUrl),
+                            tempFile,
+                            package.PackedSize,
+                            bufferSize,
+                            maxParallelSegments,
+                            updating,
+                            logIdent,
+                            progress,
+                            ct
+                        )
+                        .ConfigureAwait(continueOnCapturedContext: false);
+                }
+                else if (!response.IsSuccessStatusCode)
                 {
                     HttpStatusCode statusCode = response.StatusCode;
                     Deployment.ReportMirrorFailure(packageUrl, $"package HTTP {(int)statusCode}");
@@ -181,35 +210,10 @@ public partial class Bootstrapper
                         statusCode
                     );
                 }
-                long? contentLength = response.Content.Headers.ContentLength;
-                if (
-                    !contentLength.HasValue
-                    || contentLength.Value != package.PackedSize
-                    || contentLength.Value < minMultipartSize
-                    || !(response.Headers.AcceptRanges?.Contains("bytes") ?? false)
-                )
+                else
                 {
                     progress.Set(0);
                     await DownloadSingleThreadAsync(response, tempFile, bufferSize, logIdent, package.PackedSize, progress, false, ct)
-                        .ConfigureAwait(continueOnCapturedContext: false);
-                }
-                else
-                {
-                    response.Dispose();
-                    bool common = packageUrl.Contains("/channel/", StringComparison.Ordinal);
-                    List<string> segmentUrls = [.. packageUrls.Where(url => url.Contains("/channel/", StringComparison.Ordinal) == common)];
-                    await DownloadMultipartAsync(
-                            segmentUrls,
-                            segmentUrls.IndexOf(packageUrl),
-                            tempFile,
-                            contentLength.Value,
-                            bufferSize,
-                            maxParallelSegments,
-                            updating,
-                            logIdent,
-                            progress,
-                            ct
-                        )
                         .ConfigureAwait(continueOnCapturedContext: false);
                 }
                 string text2 = MD5Hash.FromFile(tempFile);
@@ -335,17 +339,24 @@ public partial class Bootstrapper
 
     private const int DownloadStallTimeoutMs = 12000;
 
-    private static async ValueTask<int> ReadWithStallTimeoutAsync(Stream net, Memory<byte> buffer, CancellationToken token)
+    private const int SegmentStallTimeoutMs = 5000;
+
+    private static async ValueTask<int> ReadWithStallTimeoutAsync(
+        Stream net,
+        Memory<byte> buffer,
+        CancellationToken token,
+        int timeoutMs = DownloadStallTimeoutMs
+    )
     {
         using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(token);
-        cts.CancelAfter(DownloadStallTimeoutMs);
+        cts.CancelAfter(timeoutMs);
         try
         {
             return await net.ReadAsync(buffer, cts.Token).ConfigureAwait(continueOnCapturedContext: false);
         }
         catch (OperationCanceledException) when (!token.IsCancellationRequested)
         {
-            throw new IOException($"Download stalled: no data received for {DownloadStallTimeoutMs / 1000} seconds.");
+            throw new IOException($"Download stalled: no data received for {timeoutMs / 1000} seconds.");
         }
     }
 
@@ -421,13 +432,65 @@ public partial class Bootstrapper
         }
     }
 
-    internal static bool IsSlowSegment(long moved, long movedOverall, int activeSegments)
+    internal static bool IsSlowConnection(double bytesPerSecond, double typicalBytesPerSecond)
     {
-        long fairShare = movedOverall / Math.Max(1, activeSegments);
-        return moved < SlowSegmentMinimumBytes && moved * 6L < fairShare;
+        return bytesPerSecond < SlowConnectionFloorBytesPerSecond && bytesPerSecond * SlowConnectionRatio < typicalBytesPerSecond;
     }
 
-    private sealed class SlowMirrorException() : IOException("Package segment is moving too slowly, switching mirror");
+    private void RecordConnectionRate(string url, double bytesPerSecond)
+    {
+        double typical = Volatile.Read(ref _typicalConnectionRate);
+        Volatile.Write(ref _typicalConnectionRate, typical <= 0 ? bytesPerSecond : typical * 0.8 + bytesPerSecond * 0.2);
+        MirrorRates.AddOrUpdate(MirrorKey(url), bytesPerSecond, (_, rate) => rate * 0.8 + bytesPerSecond * 0.2);
+    }
+
+    private static void PenalizeMirror(string url)
+    {
+        MirrorRates.AddOrUpdate(MirrorKey(url), 0, (_, rate) => rate * 0.5);
+    }
+
+    private static string MirrorKey(string url) => new Uri(url).Host;
+
+    private string PickSegmentUrl(List<string> urls, int preferredIndex, string? avoid)
+    {
+        if (!string.IsNullOrEmpty(Deployment.PreferredBaseUrl) && avoid == null)
+        {
+            return urls[preferredIndex];
+        }
+        List<string> choices = urls.Where(url => url != avoid).ToList();
+        if (choices.Count == 0)
+        {
+            return urls[preferredIndex];
+        }
+        int pick = Interlocked.Increment(ref _segmentPickCount);
+        string? unmeasured = choices.FirstOrDefault(url => !MirrorRates.ContainsKey(MirrorKey(url)));
+        if (unmeasured != null && pick % 2 == 0)
+        {
+            return unmeasured;
+        }
+        if (pick % MirrorExploreInterval == 0)
+        {
+            return choices[Random.Shared.Next(choices.Count)];
+        }
+        return choices.OrderByDescending(url => MirrorRates.GetValueOrDefault(MirrorKey(url))).First();
+    }
+
+    private sealed class SlowConnectionException() : IOException("Package connection is moving too slowly, replacing it");
+
+    private sealed class SegmentWork
+    {
+        public required int Index { get; init; }
+
+        public required long Position { get; set; }
+
+        public required long End { get; init; }
+
+        public int Failures { get; set; }
+
+        public int SlowAborts { get; set; }
+
+        public string? LastUrl { get; set; }
+    }
 
     private sealed class PackageProgressTracker(Bootstrapper owner)
     {
@@ -537,6 +600,7 @@ public partial class Bootstrapper
         }
         else
         {
+            progress.Set(0);
             state = new MultipartDownloadState
             {
                 Length = contentLength,
@@ -591,26 +655,38 @@ public partial class Bootstrapper
                     )
                     : Task.CompletedTask
             );
-            List<Task> tasks = [];
+            ConcurrentQueue<SegmentWork> queue = new();
             for (int i = 0; i < segs; i++)
             {
-                if (state.Done[i])
+                if (!state.Done[i])
                 {
-                    continue;
+                    long start = i * segSize;
+                    queue.Enqueue(
+                        new SegmentWork
+                        {
+                            Index = i,
+                            Position = start,
+                            End = (i == segs - 1) ? (contentLength - 1) : (start + segSize - 1),
+                        }
+                    );
                 }
-                int segIndex = i;
-                long start = segIndex * segSize;
-                long end = ((segIndex == segs - 1) ? (contentLength - 1) : (start + segSize - 1));
-                int segmentUrlIndex = (initialUrlIndex + segIndex % Math.Min(urls.Count, MirrorSpread)) % urls.Count;
+            }
+            int[] remaining = [queue.Count];
+            int workerCount = Math.Min(maxSegments, queue.Count);
+            using SemaphoreSlim workAvailable = new(queue.Count);
+            List<Task> tasks = [];
+            for (int i = 0; i < workerCount; i++)
+            {
                 tasks.Add(
-                    DownloadSegmentAsync(
+                    RunSegmentWorkerAsync(
                         urls,
-                        segmentUrlIndex,
+                        initialUrlIndex,
                         handle,
                         state,
-                        segIndex,
-                        start,
-                        end,
+                        queue,
+                        workAvailable,
+                        remaining,
+                        workerCount,
                         contentLength,
                         bufferSize,
                         metaFile,
@@ -620,6 +696,7 @@ public partial class Bootstrapper
                             Interlocked.Add(ref totalRead, bytes);
                             progress.Add(bytes);
                         },
+                        segCts,
                         segToken
                     )
                 );
@@ -664,133 +741,180 @@ public partial class Bootstrapper
         }
     }
 
-    private async Task DownloadSegmentAsync(
+    private async Task RunSegmentWorkerAsync(
         List<string> urls,
-        int initialUrlIndex,
+        int preferredUrlIndex,
         Microsoft.Win32.SafeHandles.SafeFileHandle handle,
         MultipartDownloadState state,
-        int segmentIndex,
-        long start,
-        long end,
+        ConcurrentQueue<SegmentWork> queue,
+        SemaphoreSlim workAvailable,
+        int[] remaining,
+        int workerCount,
         long contentLength,
         int bufferSize,
         string metaFile,
         object metaLock,
         Action<long> reportProgress,
+        CancellationTokenSource segCts,
         CancellationToken token
     )
     {
-        int attempts = Math.Clamp(urls.Count, 2, 4);
-        Exception? failure = null;
-        for (int attempt = 0; attempt < attempts; attempt++)
+        try
         {
-            token.ThrowIfCancellationRequested();
-            int urlIndex = (initialUrlIndex + attempt) % urls.Count;
-            await _networkRequestSlots.WaitAsync(token).ConfigureAwait(continueOnCapturedContext: false);
-            long credited = 0L;
-            try
+            while (true)
             {
-                using HttpRequestMessage request = new(HttpMethod.Get, urls[urlIndex])
+                await workAvailable.WaitAsync(token).ConfigureAwait(continueOnCapturedContext: false);
+                if (!queue.TryDequeue(out SegmentWork? work))
                 {
-                    Version = HttpVersion.Version11,
-                    VersionPolicy = HttpVersionPolicy.RequestVersionOrLower,
-                };
-                request.Headers.Range = new RangeHeaderValue(start, end);
-                using HttpResponseMessage response = await SendPackageRequestAsync(request, token)
+                    return;
+                }
+                bool finished = await DownloadSegmentOnceAsync(
+                        urls,
+                        preferredUrlIndex,
+                        handle,
+                        work,
+                        contentLength,
+                        bufferSize,
+                        reportProgress,
+                        token
+                    )
                     .ConfigureAwait(continueOnCapturedContext: false);
-                ContentRangeHeaderValue? range = response.Content.Headers.ContentRange;
-                if (
-                    response.StatusCode != HttpStatusCode.PartialContent
-                    || range?.From != start
-                    || range.To != end
-                    || range.Length != contentLength
-                )
+                if (!finished)
                 {
-                    throw new IOException("Package server returned an invalid range response");
-                }
-                long expectedLength = end - start + 1;
-                if (response.Content.Headers.ContentLength is long responseLength && responseLength != expectedLength)
-                {
-                    throw new IOException("Package segment length does not match the requested range");
-                }
-                await using Stream net = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(continueOnCapturedContext: false);
-                int readSize = Math.Min(bufferSize, NetworkReadBufferCap);
-                byte[] buffer = DownloadBufferPool.Rent(readSize);
-                long position = start;
-                bool mayAbandonSlowMirror = attempt + 1 < attempts;
-                Stopwatch clock = Stopwatch.StartNew();
-                long windowStartBytes = 0L;
-                long windowStartTotal = Interlocked.Read(in _totalDownloadedBytes);
-                long nextWindowMs = SlowSegmentGraceMs;
-                try
-                {
-                    while (position <= end)
-                    {
-                        int requested = (int)Math.Min(readSize, end - position + 1);
-                        int read = await ReadWithStallTimeoutAsync(net, buffer.AsMemory(0, requested), token)
-                            .ConfigureAwait(continueOnCapturedContext: false);
-                        if (read == 0)
-                        {
-                            throw new EndOfStreamException("Package segment ended before the requested range was complete");
-                        }
-                        await RandomAccess
-                            .WriteAsync(handle, buffer.AsMemory(0, read), position, token)
-                            .ConfigureAwait(continueOnCapturedContext: false);
-                        position += read;
-                        credited += read;
-                        reportProgress(read);
-                        if (!mayAbandonSlowMirror || clock.ElapsedMilliseconds < nextWindowMs)
-                        {
-                            continue;
-                        }
-                        long moved = position - start - windowStartBytes;
-                        long movedOverall = Interlocked.Read(in _totalDownloadedBytes) - windowStartTotal;
-                        if (IsSlowSegment(moved, movedOverall, _networkRequestLimit - _networkRequestSlots.CurrentCount))
-                        {
-                            throw new SlowMirrorException();
-                        }
-                        windowStartBytes = position - start;
-                        windowStartTotal = Interlocked.Read(in _totalDownloadedBytes);
-                        nextWindowMs += SlowSegmentWindowMs;
-                    }
-                }
-                finally
-                {
-                    DownloadBufferPool.Return(buffer);
+                    queue.Enqueue(work);
+                    workAvailable.Release();
+                    continue;
                 }
                 lock (metaLock)
                 {
-                    state.Done[segmentIndex] = true;
+                    state.Done[work.Index] = true;
                     WriteJsonAtomic(metaFile, state);
                 }
-                if (credited != expectedLength)
+                if (Interlocked.Decrement(ref remaining[0]) == 0)
                 {
-                    reportProgress(expectedLength - credited);
+                    workAvailable.Release(workerCount);
                 }
-                return;
             }
-            catch (OperationCanceledException) when (token.IsCancellationRequested)
+        }
+        catch
+        {
+            segCts.Cancel();
+            throw;
+        }
+    }
+
+    private async Task<bool> DownloadSegmentOnceAsync(
+        List<string> urls,
+        int preferredUrlIndex,
+        Microsoft.Win32.SafeHandles.SafeFileHandle handle,
+        SegmentWork work,
+        long contentLength,
+        int bufferSize,
+        Action<long> reportProgress,
+        CancellationToken token
+    )
+    {
+        string url = PickSegmentUrl(urls, preferredUrlIndex, work.LastUrl);
+        work.LastUrl = null;
+        await _networkRequestSlots.WaitAsync(token).ConfigureAwait(continueOnCapturedContext: false);
+        try
+        {
+            using HttpRequestMessage request = new(HttpMethod.Get, url)
             {
-                reportProgress(-credited);
-                throw;
+                Version = HttpVersion.Version11,
+                VersionPolicy = HttpVersionPolicy.RequestVersionOrLower,
+            };
+            request.Headers.Range = new RangeHeaderValue(work.Position, work.End);
+            using HttpResponseMessage response = await SendPackageRequestAsync(request, token)
+                .ConfigureAwait(continueOnCapturedContext: false);
+            ContentRangeHeaderValue? range = response.Content.Headers.ContentRange;
+            if (
+                response.StatusCode != HttpStatusCode.PartialContent
+                || range?.From != work.Position
+                || range.To != work.End
+                || range.Length != contentLength
+            )
+            {
+                throw new IOException("Package server returned an invalid range response");
             }
-            catch (Exception ex)
+            long expectedLength = work.End - work.Position + 1;
+            if (response.Content.Headers.ContentLength is long responseLength && responseLength != expectedLength)
             {
-                reportProgress(-credited);
-                failure = ex;
-                if (ex is not SlowMirrorException)
-                    Deployment.ReportMirrorFailure(urls[urlIndex], "segment failed: " + ex.Message);
+                throw new IOException("Package segment length does not match the requested range");
+            }
+            await using Stream net = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(continueOnCapturedContext: false);
+            int readSize = Math.Min(bufferSize, NetworkReadBufferCap);
+            byte[] buffer = DownloadBufferPool.Rent(readSize);
+            Stopwatch clock = Stopwatch.StartNew();
+            long windowBytes = 0L;
+            long windowStartMs = 0L;
+            long nextCheckMs = SlowConnectionGraceMs;
+            try
+            {
+                while (work.Position <= work.End)
+                {
+                    int requested = (int)Math.Min(readSize, work.End - work.Position + 1);
+                    int read = await ReadWithStallTimeoutAsync(net, buffer.AsMemory(0, requested), token, SegmentStallTimeoutMs)
+                        .ConfigureAwait(continueOnCapturedContext: false);
+                    if (read == 0)
+                    {
+                        throw new EndOfStreamException("Package segment ended before the requested range was complete");
+                    }
+                    await RandomAccess
+                        .WriteAsync(handle, buffer.AsMemory(0, read), work.Position, token)
+                        .ConfigureAwait(continueOnCapturedContext: false);
+                    work.Position += read;
+                    windowBytes += read;
+                    reportProgress(read);
+                    long elapsedMs = clock.ElapsedMilliseconds;
+                    if (elapsedMs < nextCheckMs || work.Position > work.End)
+                    {
+                        continue;
+                    }
+                    double rate = windowBytes * 1000.0 / Math.Max(1L, elapsedMs - windowStartMs);
+                    if (work.SlowAborts < MaxSlowConnectionAborts && IsSlowConnection(rate, Volatile.Read(ref _typicalConnectionRate)))
+                    {
+                        throw new SlowConnectionException();
+                    }
+                    windowBytes = 0L;
+                    windowStartMs = elapsedMs;
+                    nextCheckMs = elapsedMs + SlowConnectionWindowMs;
+                }
             }
             finally
             {
-                _networkRequestSlots.Release();
+                DownloadBufferPool.Return(buffer);
             }
-            if (attempt + 1 < attempts)
+            RecordConnectionRate(url, expectedLength * 1000.0 / Math.Max(1L, clock.ElapsedMilliseconds));
+            return true;
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (SlowConnectionException)
+        {
+            work.SlowAborts++;
+            work.LastUrl = url;
+            PenalizeMirror(url);
+            return false;
+        }
+        catch (Exception ex)
+        {
+            work.LastUrl = url;
+            PenalizeMirror(url);
+            Deployment.ReportMirrorFailure(url, "segment failed: " + ex.Message);
+            if (++work.Failures >= Math.Clamp(urls.Count, 2, 4))
             {
-                await Task.Delay(GetDownloadRetryDelay(attempt + 1), token).ConfigureAwait(continueOnCapturedContext: false);
+                throw new IOException("Package segment failed after mirror retries", ex);
             }
         }
-        throw new IOException("Package segment failed after mirror retries", failure);
+        finally
+        {
+            _networkRequestSlots.Release();
+        }
+        await Task.Delay(GetDownloadRetryDelay(work.Failures), token).ConfigureAwait(continueOnCapturedContext: false);
+        return false;
     }
 
     private static void WriteJsonAtomic<T>(string path, T value)
