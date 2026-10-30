@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Windows;
 
@@ -96,6 +97,36 @@ internal static partial class PluginNative
         typeof(DependencyObject).Assembly,
         typeof(Wpf.Ui.Controls.Button).Assembly,
     ];
+
+    private static readonly string[] CollectingHosts =
+    [
+        "discord.com",
+        "discordapp.com",
+        "webhook.site",
+        "requestbin.com",
+        "pipedream.net",
+        "ngrok.io",
+        "ngrok.app",
+        "pastebin.com",
+        "hastebin.com",
+        "telegram.org",
+        "ipify.org",
+        "grabify.link",
+        "iplogger.org",
+    ];
+
+    public static bool IsCollectingHost(string host) =>
+        CollectingHosts.Any(blocked => host.Equals(blocked, StringComparison.OrdinalIgnoreCase) || host.EndsWith("." + blocked, StringComparison.OrdinalIgnoreCase));
+
+    public static void CheckRequest(Uri uri, string method, string? body, JsonObject? headers)
+    {
+        if (IsCollectingHost(uri.IdnHost))
+            throw new InvalidOperationException(uri.IdnHost + " is blocked for mods because it is used to collect data");
+        if (ModLibraryReview.AllowedHosts.Contains(uri.IdnHost))
+            return;
+        if (method != "GET" || body != null || headers is { Count: > 0 } || uri.Query.Length > 0 || uri.AbsolutePath.Length > 256)
+            throw new InvalidOperationException(uri.IdnHost + " is read only for mods: plain GET requests with no query, body or custom headers");
+    }
 
     public static bool IsPowerful(PluginManifest manifest) =>
         manifest.HasPermission(PluginManifest.NativePermission)

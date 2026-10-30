@@ -42,7 +42,7 @@ internal static partial class ModLibraryReview
 
     private static readonly string[] CodeExtensions = [".ts", ".tsx", ".js", ".mjs", ".jsx"];
 
-    private static readonly HashSet<string> AllowedHosts = LoadAllowedHosts();
+    internal static readonly HashSet<string> AllowedHosts = LoadAllowedHosts();
 
     private static readonly HashSet<string> KnownTags = LoadTags();
 

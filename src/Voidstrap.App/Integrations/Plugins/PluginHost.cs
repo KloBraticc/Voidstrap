@@ -2177,6 +2177,7 @@ public static class PluginHost
                 throw new InvalidOperationException("unsupported request method " + method);
             string? body = request["body"]?.ToString();
             JsonObject? headers = request["headers"] as JsonObject;
+            PluginNative.CheckRequest(uri, method, body, headers);
             var (promise, resolve, reject) = _engine.Advanced.RegisterPromise();
             _pending++;
             _ = Task.Run(async () =>

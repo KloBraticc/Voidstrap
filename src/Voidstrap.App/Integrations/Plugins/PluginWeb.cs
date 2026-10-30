@@ -266,7 +266,7 @@ internal static partial class PluginWeb
             {
                 Directory.CreateDirectory(_dataFolder);
                 CoreWebView2EnvironmentOptions options = new(
-                    "--force_high_performance_gpu --enable-gpu-rasterization --disable-renderer-backgrounding --disable-background-timer-throttling --disable-features=CalculateNativeWinOcclusion,Translate,OptimizationHints,MediaRouter,AutofillServerCommunication,SpareRendererForSitePerProcess --disable-sync --disable-extensions --disable-background-networking --disable-component-update --disable-default-apps --no-first-run --no-default-browser-check --process-per-site --renderer-process-limit=2 --js-flags=--max-old-space-size=4096"
+                    "--force_high_performance_gpu --enable-gpu-rasterization --disable-renderer-backgrounding --disable-background-timer-throttling --disable-features=CalculateNativeWinOcclusion,Translate,OptimizationHints,MediaRouter,AutofillServerCommunication,SpareRendererForSitePerProcess --disable-sync --disable-extensions --disable-background-networking --disable-component-update --disable-default-apps --no-first-run --no-default-browser-check --process-per-site --renderer-process-limit=2 --js-flags=--max-old-space-size=4096 --host-resolver-rules=\"MAP * ~NOTFOUND, " + string.Join(", ", _hosts.Select(host => "EXCLUDE " + host)) + "\""
                 );
                 CoreWebView2Environment environment = await CoreWebView2Environment.CreateAsync(null, _dataFolder, options);
                 await _view.EnsureCoreWebView2Async(environment);
@@ -468,7 +468,8 @@ internal static partial class PluginWeb
         Uri.TryCreate(url, UriKind.Absolute, out Uri? uri)
         && uri.Scheme == Uri.UriSchemeHttps
         && hosts.Contains(uri.Host)
-        && !uri.Host.EndsWith("roblox.com", StringComparison.OrdinalIgnoreCase);
+        && !uri.Host.EndsWith("roblox.com", StringComparison.OrdinalIgnoreCase)
+        && !PluginNative.IsCollectingHost(uri.Host);
 
 #if !CROSSPLAT
     public static JsonObject Open(PluginManifest manifest, JsonObject request)

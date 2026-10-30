@@ -304,8 +304,8 @@ internal static partial class ModLibraryReview
                 string host = hostNode?.ToString() ?? "";
                 if (!HostRegex.IsMatch(host))
                     errors.Add("network host " + host + " is not a plain host name");
-                else if (!AllowedHosts.Contains(host))
-                    reviews.Add("asks for network access to " + host + ", which is not on allowed-hosts.json, expect a question about it");
+                else if (PluginNative.IsCollectingHost(host))
+                    errors.Add(host + " is blocked for mods because it is used to collect data");
             }
         }
         if (manifest["tags"] is System.Text.Json.Nodes.JsonArray tags)
