@@ -24,7 +24,8 @@ public sealed record StudioPluginListing(
 	decimal Price,
 	DateTime? Created,
 	DateTime? Updated,
-	string Category);
+	string Category
+);
 
 public sealed record StudioPluginSearchPage(IReadOnlyList<StudioPluginListing> Plugins, string? NextPageToken);
 
@@ -35,12 +36,13 @@ public enum StudioPluginFailure
 	NotSignedIn,
 	NotOwned,
 	Unavailable,
-	InvalidFile
+	InvalidFile,
 }
 
 public sealed class StudioPluginException : Exception
 {
-	public StudioPluginException(StudioPluginFailure failure, string message) : base(message)
+	public StudioPluginException(StudioPluginFailure failure, string message)
+		: base(message)
 	{
 		Failure = failure;
 	}
@@ -53,7 +55,8 @@ public static partial class StudioPluginCatalog
 	private const string LogIdent = "StudioPluginCatalog";
 	private const string SearchUrl = "https://apis.roblox.com/toolbox-service/v2/assets:search?searchCategoryType=Plugin&maxPageSize=30";
 	private const string DetailsUrl = "https://apis.roblox.com/toolbox-service/v1/items/details?assetIds=";
-	private const string ThumbnailUrl = "https://thumbnails.roblox.com/v1/assets?returnPolicy=PlaceHolder&size=150x150&format=Png&assetIds=";
+	private const string ThumbnailUrl =
+		"https://thumbnails.roblox.com/v1/assets?returnPolicy=PlaceHolder&size=150x150&format=Png&assetIds=";
 	private const string DownloadUrl = "https://assetdelivery.roblox.com/v1/asset/?id=";
 	public const string StorePageUrl = "https://create.roblox.com/store/asset/";
 	private const long MaxPluginBytes = 64L * 1024 * 1024;
@@ -69,13 +72,15 @@ public static partial class StudioPluginCatalog
 
 	private static HttpClient CreateDownloadClient()
 	{
-		HttpClient client = new(new SocketsHttpHandler
+		HttpClient client = new(
+			new SocketsHttpHandler
+			{
+				AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+				PooledConnectionLifetime = TimeSpan.FromMinutes(5),
+			}
+		)
 		{
-			AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-			PooledConnectionLifetime = TimeSpan.FromMinutes(5)
-		})
-		{
-			Timeout = TimeSpan.FromSeconds(60)
+			Timeout = TimeSpan.FromSeconds(60),
 		};
 		client.DefaultRequestHeaders.UserAgent.ParseAdd("Voidstrap");
 		return client;
@@ -89,7 +94,9 @@ public static partial class StudioPluginCatalog
 		if (!string.IsNullOrEmpty(pageToken))
 			url.Append("&pageToken=").Append(Uri.EscapeDataString(pageToken));
 
-		using JsonDocument document = JsonDocument.Parse(await Voidstrap.Utility.Http.GetString(url.ToString(), token).ConfigureAwait(false));
+		using JsonDocument document = JsonDocument.Parse(
+			await Voidstrap.Utility.Http.GetString(url.ToString(), token).ConfigureAwait(false)
+		);
 		JsonElement root = document.RootElement;
 		List<StudioPluginListing> plugins = [];
 		if (root.TryGetProperty("creatorStoreAssets", out JsonElement assets) && assets.ValueKind == JsonValueKind.Array)
@@ -100,13 +107,20 @@ public static partial class StudioPluginCatalog
 					continue;
 				item.TryGetProperty("creator", out JsonElement creator);
 				item.TryGetProperty("voting", out JsonElement voting);
-				JsonElement price = item.TryGetProperty("creatorStoreProduct", out JsonElement product) && product.TryGetProperty("purchasePrice", out JsonElement purchase) ? purchase : default;
+				JsonElement price =
+					item.TryGetProperty("creatorStoreProduct", out JsonElement product)
+					&& product.TryGetProperty("purchasePrice", out JsonElement purchase)
+						? purchase
+						: default;
 				StudioPluginListing? listing = ReadListing(asset, creator, voting, price, "verified", "createTime", "updateTime");
 				if (listing != null)
 					plugins.Add(listing);
 			}
 		}
-		string? next = root.TryGetProperty("nextPageToken", out JsonElement nextToken) && nextToken.ValueKind == JsonValueKind.String ? nextToken.GetString() : null;
+		string? next =
+			root.TryGetProperty("nextPageToken", out JsonElement nextToken) && nextToken.ValueKind == JsonValueKind.String
+				? nextToken.GetString()
+				: null;
 		return new StudioPluginSearchPage(plugins, string.IsNullOrEmpty(next) ? null : next);
 	}
 
@@ -115,7 +129,9 @@ public static partial class StudioPluginCatalog
 		Dictionary<long, StudioPluginListing> found = [];
 		foreach (long[] chunk in ids.Distinct().Chunk(DetailsBatch))
 		{
-			using JsonDocument document = JsonDocument.Parse(await Voidstrap.Utility.Http.GetString(DetailsUrl + string.Join(",", chunk), token).ConfigureAwait(false));
+			using JsonDocument document = JsonDocument.Parse(
+				await Voidstrap.Utility.Http.GetString(DetailsUrl + string.Join(",", chunk), token).ConfigureAwait(false)
+			);
 			if (!document.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
 				continue;
 			foreach (JsonElement item in data.EnumerateArray())
@@ -124,7 +140,11 @@ public static partial class StudioPluginCatalog
 					continue;
 				item.TryGetProperty("creator", out JsonElement creator);
 				item.TryGetProperty("voting", out JsonElement voting);
-				JsonElement price = item.TryGetProperty("fiatProduct", out JsonElement product) && product.TryGetProperty("purchasePrice", out JsonElement purchase) ? purchase : default;
+				JsonElement price =
+					item.TryGetProperty("fiatProduct", out JsonElement product)
+					&& product.TryGetProperty("purchasePrice", out JsonElement purchase)
+						? purchase
+						: default;
 				StudioPluginListing? listing = ReadListing(asset, creator, voting, price, "isVerifiedCreator", "createdUtc", "updatedUtc");
 				if (listing != null)
 					found[listing.Id] = listing;
@@ -138,21 +158,36 @@ public static partial class StudioPluginCatalog
 		Dictionary<long, string> icons = [];
 		foreach (long[] chunk in ids.Distinct().Chunk(ThumbnailBatch))
 		{
-			using JsonDocument document = JsonDocument.Parse(await Voidstrap.Utility.Http.GetString(ThumbnailUrl + string.Join(",", chunk), token).ConfigureAwait(false));
+			using JsonDocument document = JsonDocument.Parse(
+				await Voidstrap.Utility.Http.GetString(ThumbnailUrl + string.Join(",", chunk), token).ConfigureAwait(false)
+			);
 			if (!document.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
 				continue;
 			foreach (JsonElement item in data.EnumerateArray())
 			{
-				if (item.TryGetProperty("targetId", out JsonElement id) && id.TryGetInt64(out long assetId)
-					&& item.TryGetProperty("imageUrl", out JsonElement url) && url.GetString() is string imageUrl
-					&& Uri.TryCreate(imageUrl, UriKind.Absolute, out Uri? uri) && uri.Scheme == Uri.UriSchemeHttps)
+				if (
+					item.TryGetProperty("targetId", out JsonElement id)
+					&& id.TryGetInt64(out long assetId)
+					&& item.TryGetProperty("imageUrl", out JsonElement url)
+					&& url.GetString() is string imageUrl
+					&& Uri.TryCreate(imageUrl, UriKind.Absolute, out Uri? uri)
+					&& uri.Scheme == Uri.UriSchemeHttps
+				)
 					icons[assetId] = imageUrl;
 			}
 		}
 		return icons;
 	}
 
-	private static StudioPluginListing? ReadListing(JsonElement asset, JsonElement creator, JsonElement voting, JsonElement price, string verifiedProperty, string createdProperty, string updatedProperty)
+	private static StudioPluginListing? ReadListing(
+		JsonElement asset,
+		JsonElement creator,
+		JsonElement voting,
+		JsonElement price,
+		string verifiedProperty,
+		string createdProperty,
+		string updatedProperty
+	)
 	{
 		if (!asset.TryGetProperty("id", out JsonElement idElement) || !idElement.TryGetInt64(out long id) || id <= 0)
 			return null;
@@ -161,30 +196,56 @@ public static partial class StudioPluginCatalog
 			Text(asset, "name"),
 			Text(asset, "description"),
 			creator.ValueKind == JsonValueKind.Object ? Text(creator, "name") : "",
-			creator.ValueKind == JsonValueKind.Object && creator.TryGetProperty(verifiedProperty, out JsonElement verified) && verified.ValueKind == JsonValueKind.True,
+			creator.ValueKind == JsonValueKind.Object
+				&& creator.TryGetProperty(verifiedProperty, out JsonElement verified)
+				&& verified.ValueKind == JsonValueKind.True,
 			Number(voting, "upVotes"),
 			Number(voting, "downVotes"),
 			Amount(price),
 			Date(asset, createdProperty),
 			Date(asset, updatedProperty),
-			Text(asset, "categoryPath"));
+			Text(asset, "categoryPath")
+		);
 	}
 
 	private static string Text(JsonElement element, string property) =>
-		element.ValueKind == JsonValueKind.Object && element.TryGetProperty(property, out JsonElement value) && value.ValueKind == JsonValueKind.String ? value.GetString() ?? "" : "";
+		element.ValueKind == JsonValueKind.Object
+		&& element.TryGetProperty(property, out JsonElement value)
+		&& value.ValueKind == JsonValueKind.String
+			? value.GetString() ?? ""
+			: "";
 
 	private static int Number(JsonElement element, string property) =>
-		element.ValueKind == JsonValueKind.Object && element.TryGetProperty(property, out JsonElement value) && value.TryGetInt32(out int number) ? number : 0;
+		element.ValueKind == JsonValueKind.Object
+		&& element.TryGetProperty(property, out JsonElement value)
+		&& value.TryGetInt32(out int number)
+			? number
+			: 0;
 
 	private static DateTime? Date(JsonElement element, string property) =>
-		DateTime.TryParse(Text(element, property), CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out DateTime date) ? date : null;
+		DateTime.TryParse(
+			Text(element, property),
+			CultureInfo.InvariantCulture,
+			DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal,
+			out DateTime date
+		)
+			? date
+			: null;
 
 	private static decimal Amount(JsonElement price)
 	{
-		if (price.ValueKind != JsonValueKind.Object || !price.TryGetProperty("quantity", out JsonElement quantity)
-			|| !quantity.TryGetProperty("significand", out JsonElement significand) || !significand.TryGetInt64(out long value) || value <= 0)
+		if (
+			price.ValueKind != JsonValueKind.Object
+			|| !price.TryGetProperty("quantity", out JsonElement quantity)
+			|| !quantity.TryGetProperty("significand", out JsonElement significand)
+			|| !significand.TryGetInt64(out long value)
+			|| value <= 0
+		)
 			return 0;
-		int exponent = quantity.TryGetProperty("exponent", out JsonElement exponentElement) && exponentElement.TryGetInt32(out int parsed) ? parsed : 0;
+		int exponent =
+			quantity.TryGetProperty("exponent", out JsonElement exponentElement) && exponentElement.TryGetInt32(out int parsed)
+				? parsed
+				: 0;
 		decimal amount = value;
 		for (; exponent < 0; exponent++)
 			amount /= 10;
@@ -199,7 +260,8 @@ public static partial class StudioPluginCatalog
 		{
 			if (!Directory.Exists(PluginsDirectory))
 				return [];
-			return new DirectoryInfo(PluginsDirectory).EnumerateFiles()
+			return new DirectoryInfo(PluginsDirectory)
+				.EnumerateFiles()
 				.Where(file => PluginExtensions.Contains(file.Extension, StringComparer.OrdinalIgnoreCase))
 				.Select(file =>
 				{
@@ -207,7 +269,13 @@ public static partial class StudioPluginCatalog
 					Match match = AssetIdSuffix().Match(stem);
 					long? id = match.Success && long.TryParse(match.Groups[1].Value, out long parsed) ? parsed : null;
 					string name = match.Success ? stem[..match.Index].TrimEnd() : stem;
-					return new InstalledStudioPlugin(file.FullName, string.IsNullOrEmpty(name) ? stem : name, id, file.LastWriteTimeUtc, file.Length);
+					return new InstalledStudioPlugin(
+						file.FullName,
+						string.IsNullOrEmpty(name) ? stem : name,
+						id,
+						file.LastWriteTimeUtc,
+						file.Length
+					);
 				})
 				.OrderBy(plugin => plugin.Name, StringComparer.CurrentCultureIgnoreCase)
 				.ToList();
@@ -229,7 +297,9 @@ public static partial class StudioPluginCatalog
 		request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
 		request.Headers.TryAddWithoutValidation("Roblox-Browser-Asset-Request", "false");
 		request.Headers.TryAddWithoutValidation("Accept", "*/*");
-		using HttpResponseMessage response = await DownloadClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+		using HttpResponseMessage response = await DownloadClient
+			.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token)
+			.ConfigureAwait(false);
 		if (response.StatusCode == HttpStatusCode.Unauthorized)
 			throw new StudioPluginException(StudioPluginFailure.NotSignedIn, "Roblox did not accept the saved login");
 		if (response.StatusCode is HttpStatusCode.Conflict or HttpStatusCode.Forbidden)
@@ -243,9 +313,17 @@ public static partial class StudioPluginCatalog
 			throw new StudioPluginException(StudioPluginFailure.InvalidFile, "The download is not a Roblox model");
 
 		Directory.CreateDirectory(PluginsDirectory);
-		string target = System.IO.Path.Combine(PluginsDirectory, SafeName(plugin.Name) + " [" + plugin.Id.ToString(CultureInfo.InvariantCulture) + "]" + (binary ? ".rbxm" : ".rbxmx"));
+		string target = System.IO.Path.Combine(
+			PluginsDirectory,
+			SafeName(plugin.Name) + " [" + plugin.Id.ToString(CultureInfo.InvariantCulture) + "]" + (binary ? ".rbxm" : ".rbxmx")
+		);
 		await WriteAtomicallyAsync(target, data, token).ConfigureAwait(false);
-		foreach (InstalledStudioPlugin old in ListInstalled().Where(installed => installed.AssetId == plugin.Id && !string.Equals(installed.Path, target, StringComparison.OrdinalIgnoreCase)))
+		foreach (
+			InstalledStudioPlugin old in ListInstalled()
+				.Where(installed =>
+					installed.AssetId == plugin.Id && !string.Equals(installed.Path, target, StringComparison.OrdinalIgnoreCase)
+				)
+		)
 			TryDelete(old.Path);
 		App.Logger.WriteLine(LogIdent, $"Installed Studio plugin {plugin.Id} as {System.IO.Path.GetFileName(target)}");
 		return target;
@@ -275,7 +353,9 @@ public static partial class StudioPluginCatalog
 
 	public static void Remove(InstalledStudioPlugin plugin)
 	{
-		string folder = System.IO.Path.GetFullPath(PluginsDirectory).TrimEnd(System.IO.Path.DirectorySeparatorChar) + System.IO.Path.DirectorySeparatorChar;
+		string folder =
+			System.IO.Path.GetFullPath(PluginsDirectory).TrimEnd(System.IO.Path.DirectorySeparatorChar)
+			+ System.IO.Path.DirectorySeparatorChar;
 		if (!System.IO.Path.GetFullPath(plugin.Path).StartsWith(folder, StringComparison.OrdinalIgnoreCase))
 			throw new InvalidOperationException("The plugin is not inside the Studio plugins folder");
 		File.Delete(plugin.Path);
@@ -296,7 +376,9 @@ public static partial class StudioPluginCatalog
 	private static string SafeName(string name)
 	{
 		char[] invalid = System.IO.Path.GetInvalidFileNameChars();
-		string cleaned = new(name.Select(character => invalid.Contains(character) || character == '[' || character == ']' ? ' ' : character).ToArray());
+		string cleaned = new(
+			name.Select(character => invalid.Contains(character) || character == '[' || character == ']' ? ' ' : character).ToArray()
+		);
 		cleaned = Whitespace().Replace(cleaned, " ").Trim().TrimEnd('.');
 		if (cleaned.Length > MaxNameLength)
 			cleaned = cleaned[..MaxNameLength].TrimEnd();

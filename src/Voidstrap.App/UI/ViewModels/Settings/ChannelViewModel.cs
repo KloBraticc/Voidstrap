@@ -13,13 +13,13 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
+using Voidstrap.Extensions;
 using Voidstrap.Models;
-using Voidstrap.Utility;
 using Voidstrap.Models.APIs.Roblox;
 using Voidstrap.Models.Persistable;
 using Voidstrap.RobloxInterfaces;
 using Voidstrap.UI.Elements.Settings;
-using Voidstrap.Extensions;
+using Voidstrap.Utility;
 
 namespace Voidstrap.UI.ViewModels.Settings;
 
@@ -35,7 +35,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		new RenderBackendOption("Auto", "Automatic (recommended)"),
 		new RenderBackendOption("Vulkan", "Vulkan"),
 		new RenderBackendOption("OpenGL", "OpenGL"),
-		new RenderBackendOption("Software", "Software (slowest, most compatible)")
+		new RenderBackendOption("Software", "Software (slowest, most compatible)"),
 	];
 
 	public RenderBackendOption RenderBackendChoice
@@ -123,7 +123,6 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	private readonly string _robloxLocalStorage = Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "LocalStorage");
 
-
 	private string? _installLocationText;
 
 	private ICommand? _browseInstallLocationCommand;
@@ -136,10 +135,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public bool UsePlaceId
 	{
-		get
-		{
-			return App.Settings.Prop.UsePlaceId;
-		}
+		get { return App.Settings.Prop.UsePlaceId; }
 		set
 		{
 			if (App.Settings.Prop.UsePlaceId != value)
@@ -153,10 +149,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public string PlaceId
 	{
-		get
-		{
-			return App.Settings.Prop.PlaceId;
-		}
+		get { return App.Settings.Prop.PlaceId; }
 		set
 		{
 			if (App.Settings.Prop.PlaceId != value)
@@ -172,11 +165,14 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public ObservableCollection<MonitorTile> Monitors { get; } = new ObservableCollection<MonitorTile>();
 
-	public ICommand SelectMonitorCommand => _selectMonitorCommand ?? (_selectMonitorCommand = new RelayCommand<MonitorTile>(SelectMonitorFromUi));
+	public ICommand SelectMonitorCommand =>
+		_selectMonitorCommand ?? (_selectMonitorCommand = new RelayCommand<MonitorTile>(SelectMonitorFromUi));
 
-	public ICommand IdentifyMonitorsCommand => _identifyMonitorsCommand ?? (_identifyMonitorsCommand = new RelayCommand(DisplaySystem.IdentifyDisplays));
+	public ICommand IdentifyMonitorsCommand =>
+		_identifyMonitorsCommand ?? (_identifyMonitorsCommand = new RelayCommand(DisplaySystem.IdentifyDisplays));
 
-	public ICommand ClearInGameResolutionCommand => _clearInGameResolutionCommand ?? (_clearInGameResolutionCommand = new RelayCommand(ClearInGameResolution));
+	public ICommand ClearInGameResolutionCommand =>
+		_clearInGameResolutionCommand ?? (_clearInGameResolutionCommand = new RelayCommand(ClearInGameResolution));
 
 	public string SelectedMonitorSummary
 	{
@@ -202,10 +198,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public DisplayMode? SelectedResolution
 	{
-		get
-		{
-			return _selectedResolution;
-		}
+		get { return _selectedResolution; }
 		set
 		{
 			if (_selectedResolution != value)
@@ -229,7 +222,9 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 			{
 				return null;
 			}
-			return AvailableResolutionsInGame.FirstOrDefault((DisplayMode m) => m.Width == r.Width && m.Height == r.Height && m.RefreshRate == r.RefreshRate);
+			return AvailableResolutionsInGame.FirstOrDefault(
+				(DisplayMode m) => m.Width == r.Width && m.Height == r.Height && m.RefreshRate == r.RefreshRate
+			);
 		}
 		set
 		{
@@ -244,7 +239,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 					Width = value.Width,
 					Height = value.Height,
 					RefreshRate = value.RefreshRate,
-					Monitor = _selectedMonitor?.DeviceName
+					Monitor = _selectedMonitor?.DeviceName,
 				};
 			}
 			OnPropertyChanged(nameof(SelectedResolutionInGame));
@@ -252,20 +247,19 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		}
 	}
 
-	public string EfficiencyModeDescription => Voidstrap.Utility.Platform.IsLinux
-		? "Gives Roblox the smallest CPU share while another app is active. This helps battery life and background apps but lowers Roblox performance while it is unfocused."
-		: "Runs Roblox in Windows efficiency mode. This lowers its priority and power use, which helps battery life and background play but reduces performance in game";
+	public string EfficiencyModeDescription =>
+		Voidstrap.Utility.Platform.IsLinux
+			? "Gives Roblox the smallest CPU share while another app is active. This helps battery life and background apps but lowers Roblox performance while it is unfocused."
+			: "Runs Roblox in Windows efficiency mode. This lowers its priority and power use, which helps battery life and background play but reduces performance in game";
 
-	public string RobloxPriorityDescription => Voidstrap.Utility.Platform.IsLinux
-		? "Choose how much CPU share Roblox gets compared to your other apps. Background efficiency settings can lower it while unfocused. Realtime is intentionally unavailable."
-		: "Choose a safe Windows scheduling priority for Roblox. Background efficiency settings can lower it while unfocused. Realtime is intentionally unavailable.";
+	public string RobloxPriorityDescription =>
+		Voidstrap.Utility.Platform.IsLinux
+			? "Choose how much CPU share Roblox gets compared to your other apps. Background efficiency settings can lower it while unfocused. Realtime is intentionally unavailable."
+			: "Choose a safe Windows scheduling priority for Roblox. Background efficiency settings can lower it while unfocused. Realtime is intentionally unavailable.";
 
 	public bool RobloxEfficiencyMode
 	{
-		get
-		{
-			return App.Settings.Prop.RobloxEfficiencyMode;
-		}
+		get { return App.Settings.Prop.RobloxEfficiencyMode; }
 		set
 		{
 			if (App.Settings.Prop.RobloxEfficiencyMode != value)
@@ -320,7 +314,8 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public string MemoryMaximumText => RobloxMemoryLimit.Format(RobloxMemoryLimit.MaximumMb);
 
-	public string MemoryFreeText => "You have " + RobloxMemoryLimit.Format(RobloxMemoryLimit.SystemMemory().AvailableMb) + " free to allocate.";
+	public string MemoryFreeText =>
+		"You have " + RobloxMemoryLimit.Format(RobloxMemoryLimit.SystemMemory().AvailableMb) + " free to allocate.";
 
 	public void RefreshMemoryLimit()
 	{
@@ -401,10 +396,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public string SelectedPriority
 	{
-		get
-		{
-			return _selectedPriority;
-		}
+		get { return _selectedPriority; }
 		set
 		{
 			string normalized = NormalizePriority(value);
@@ -420,10 +412,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public int SelectedCpuLimit
 	{
-		get
-		{
-			return App.Settings.Prop.CpuCoreLimit;
-		}
+		get { return App.Settings.Prop.CpuCoreLimit; }
 		set
 		{
 			if (App.Settings.Prop.CpuCoreLimit != value)
@@ -438,14 +427,8 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public bool UpdateCheckingEnabled
 	{
-		get
-		{
-			return App.Settings.Prop.CheckForUpdates;
-		}
-		set
-		{
-			App.Settings.Prop.CheckForUpdates = value;
-		}
+		get { return App.Settings.Prop.CheckForUpdates; }
+		set { App.Settings.Prop.CheckForUpdates = value; }
 	}
 
 	public ObservableCollection<MirrorChoice> MirrorChoices { get; } = BuildMirrorChoices();
@@ -457,7 +440,9 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 			if (_selectedMirror == null)
 			{
 				string saved = App.Settings.Prop.PreferredMirror ?? string.Empty;
-				_selectedMirror = MirrorChoices.FirstOrDefault(choice => string.Equals(choice.Url, saved, StringComparison.OrdinalIgnoreCase)) ?? MirrorChoices[0];
+				_selectedMirror =
+					MirrorChoices.FirstOrDefault(choice => string.Equals(choice.Url, saved, StringComparison.OrdinalIgnoreCase))
+					?? MirrorChoices[0];
 				if (!string.Equals(_selectedMirror.Url, saved, StringComparison.Ordinal))
 				{
 					App.Settings.Prop.PreferredMirror = _selectedMirror.Url;
@@ -492,7 +477,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 	{
 		ObservableCollection<MirrorChoice> choices = new ObservableCollection<MirrorChoice>
 		{
-			new MirrorChoice("Auto (fastest responding server)", string.Empty)
+			new MirrorChoice("Auto (fastest responding server)", string.Empty),
 		};
 		foreach (string url in Deployment.Mirrors)
 		{
@@ -503,10 +488,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public bool AllowPreReleaseUpdates
 	{
-		get
-		{
-			return App.Settings?.Prop?.AllowPreReleaseUpdates == true;
-		}
+		get { return App.Settings?.Prop?.AllowPreReleaseUpdates == true; }
 		set
 		{
 			if (App.Settings?.Prop != null && App.Settings.Prop.AllowPreReleaseUpdates != value)
@@ -519,10 +501,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public bool IsChannelEnabled
 	{
-		get
-		{
-			return App.Settings.Prop.IsChannelEnabled;
-		}
+		get { return App.Settings.Prop.IsChannelEnabled; }
 		set
 		{
 			if (App.Settings.Prop.IsChannelEnabled != value)
@@ -537,10 +516,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public bool ShowLoadingError
 	{
-		get
-		{
-			return _showLoadingError;
-		}
+		get { return _showLoadingError; }
 		private set
 		{
 			if (_showLoadingError != value)
@@ -553,10 +529,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public bool ShowChannelWarning
 	{
-		get
-		{
-			return _showChannelWarning;
-		}
+		get { return _showChannelWarning; }
 		private set
 		{
 			if (_showChannelWarning != value)
@@ -569,10 +542,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public DeployInfo? ChannelDeployInfo
 	{
-		get
-		{
-			return _channelDeployInfo;
-		}
+		get { return _channelDeployInfo; }
 		private set
 		{
 			if (_channelDeployInfo != value)
@@ -585,10 +555,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public string ChannelInfoLoadingText
 	{
-		get
-		{
-			return _channelInfoLoadingText;
-		}
+		get { return _channelInfoLoadingText; }
 		private set
 		{
 			if (_channelInfoLoadingText != value)
@@ -601,10 +568,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public bool VoidNotify
 	{
-		get
-		{
-			return App.Settings.Prop.VoidNotify;
-		}
+		get { return App.Settings.Prop.VoidNotify; }
 		set
 		{
 			if (App.Settings.Prop.VoidNotify == value)
@@ -617,36 +581,21 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public string BufferSizeKbte
 	{
-		get
-		{
-			return App.Settings.Prop.BufferSizeKbte;
-		}
-		set
-		{
-			App.Settings.Prop.BufferSizeKbte = value;
-		}
+		get { return App.Settings.Prop.BufferSizeKbte; }
+		set { App.Settings.Prop.BufferSizeKbte = value; }
 	}
 
 	public string BufferSizeKbtes
 	{
-		get
-		{
-			return App.Settings.Prop.BufferSizeKbtes;
-		}
-		set
-		{
-			App.Settings.Prop.BufferSizeKbtes = value;
-		}
+		get { return App.Settings.Prop.BufferSizeKbtes; }
+		set { App.Settings.Prop.BufferSizeKbtes = value; }
 	}
 
 	public IReadOnlyList<int> DownloadBufferOptions => DownloadConfiguration.BufferChoices;
 
 	public int DownloadBufferKb
 	{
-		get
-		{
-			return App.Settings.Prop.DownloadBufferKb;
-		}
+		get { return App.Settings.Prop.DownloadBufferKb; }
 		set
 		{
 			int normalized = DownloadConfiguration.NormalizeBuffer(value);
@@ -663,10 +612,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public int MaxConcurrentDownloads
 	{
-		get
-		{
-			return App.Settings.Prop.MaxConcurrentDownloads;
-		}
+		get { return App.Settings.Prop.MaxConcurrentDownloads; }
 		set
 		{
 			int normalized = DownloadConfiguration.NormalizeConcurrent(value);
@@ -683,10 +629,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public int MaxDownloadSegments
 	{
-		get
-		{
-			return App.Settings.Prop.MaxDownloadSegments;
-		}
+		get { return App.Settings.Prop.MaxDownloadSegments; }
 		set
 		{
 			int normalized = DownloadConfiguration.NormalizeSegments(value);
@@ -699,14 +642,12 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		}
 	}
 
-	public string DownloadConfigurationSummary => $"{MaxConcurrentDownloads} package workers, {MaxDownloadSegments} parts per large package, {DownloadConfiguration.ResolveSegmentRequestLimit(App.Settings.Prop)} maximum ranged requests";
+	public string DownloadConfigurationSummary =>
+		$"{MaxConcurrentDownloads} package workers, {MaxDownloadSegments} parts per large package, {DownloadConfiguration.ResolveSegmentRequestLimit(App.Settings.Prop)} maximum ranged requests";
 
 	public bool StaticDirectory
 	{
-		get
-		{
-			return App.Settings.Prop.StaticDirectory;
-		}
+		get { return App.Settings.Prop.StaticDirectory; }
 		set
 		{
 			if (App.Settings.Prop.StaticDirectory == value)
@@ -723,34 +664,39 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 	}
 
 	private const string LaunchWithoutVoidstrapWarning =
-		"Roblox will open straight from your browser, without Voidstrap starting first. Launching from Voidstrap still updates Roblox and applies your mods, then Voidstrap closes as soon as Roblox starts.\n\n" +
-		"These stop working:\n" +
-		"•  Overlays, including the FPS counter, crosshair, classic topbar and homepage background\n" +
-		"•  RiShade shaders, anti aliasing, frame generation and fake fullscreen\n" +
-		"•  Discord Rich Presence\n" +
-		"•  Game history, server location and Smart Join\n" +
-		"•  Custom window title, game icon and borderless window\n" +
-		"•  Process priority and the other performance boosts\n" +
-		"•  Double movement, and Snap Tap while Voidstrap is closed\n" +
-		"•  Custom integrations that open or close apps with Roblox\n" +
-		"•  Multiple Roblox instances\n" +
-		"•  Roblox updates, so launch through Voidstrap now and then to update it\n" +
-		"•  Relaunching after a startup crash, and install compression\n" +
-		"•  The Voidstrap launch screen\n\n" +
-		"Your FastFlags and mods keep working as they were at your last launch through Voidstrap. New changes to them only apply after you launch through Voidstrap again.\n\n" +
-		"Turn this on?";
+		"Roblox will open straight from your browser, without Voidstrap starting first. Launching from Voidstrap still updates Roblox and applies your mods, then Voidstrap closes as soon as Roblox starts.\n\n"
+		+ "These stop working:\n"
+		+ "•  Overlays, including the FPS counter, crosshair, classic topbar and homepage background\n"
+		+ "•  RiShade shaders, anti aliasing, frame generation and fake fullscreen\n"
+		+ "•  Discord Rich Presence\n"
+		+ "•  Game history, server location and Smart Join\n"
+		+ "•  Custom window title, game icon and borderless window\n"
+		+ "•  Process priority and the other performance boosts\n"
+		+ "•  Double movement, and Snap Tap while Voidstrap is closed\n"
+		+ "•  Custom integrations that open or close apps with Roblox\n"
+		+ "•  Multiple Roblox instances\n"
+		+ "•  Roblox updates, so launch through Voidstrap now and then to update it\n"
+		+ "•  Relaunching after a startup crash, and install compression\n"
+		+ "•  The Voidstrap launch screen\n\n"
+		+ "Your FastFlags and mods keep working as they were at your last launch through Voidstrap. New changes to them only apply after you launch through Voidstrap again.\n\n"
+		+ "Turn this on?";
 
 	public bool LaunchWithoutVoidstrap
 	{
-		get
-		{
-			return App.Settings.Prop.LaunchWithoutVoidstrap;
-		}
+		get { return App.Settings.Prop.LaunchWithoutVoidstrap; }
 		set
 		{
 			if (App.Settings.Prop.LaunchWithoutVoidstrap == value)
 				return;
-			if (value && Frontend.ShowMessageBox(LaunchWithoutVoidstrapWarning, MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+			if (
+				value
+				&& Frontend.ShowMessageBox(
+					LaunchWithoutVoidstrapWarning,
+					MessageBoxImage.Warning,
+					MessageBoxButton.YesNo,
+					MessageBoxResult.No
+				) != MessageBoxResult.Yes
+			)
 			{
 				Application.Current?.Dispatcher.BeginInvoke(new Action(RaiseLaunchWithoutVoidstrap));
 				return;
@@ -772,18 +718,33 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		if (Voidstrap.Utility.Platform.IsMacOS)
 		{
 			Voidstrap.Platform.OperationResult result = Voidstrap.Platform.MacOS.MacOSProtocolRegistration.SetPlayerHandler(enabled);
-			App.Logger.WriteLine("ChannelViewModel::LaunchWithoutVoidstrap", result.Succeeded
-				? (enabled ? "Game links now open Roblox directly" : "Game links open through Voidstrap again")
-				: "The game link handler could not be changed: " + result.Failure?.Message);
-			if (enabled && !Directory.Exists("/Applications/Roblox.app") && !Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Applications", "Roblox.app")))
-				Frontend.ShowMessageBox("Roblox is not installed yet. Launch it once through Voidstrap, after that it opens without Voidstrap.", MessageBoxImage.Information);
+			App.Logger.WriteLine(
+				"ChannelViewModel::LaunchWithoutVoidstrap",
+				result.Succeeded
+					? (enabled ? "Game links now open Roblox directly" : "Game links open through Voidstrap again")
+					: "The game link handler could not be changed: " + result.Failure?.Message
+			);
+			if (
+				enabled
+				&& !Directory.Exists("/Applications/Roblox.app")
+				&& !Directory.Exists(
+					Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Applications", "Roblox.app")
+				)
+			)
+				Frontend.ShowMessageBox(
+					"Roblox is not installed yet. Launch it once through Voidstrap, after that it opens without Voidstrap.",
+					MessageBoxImage.Information
+				);
 			return;
 		}
 		if (enabled)
 			await Task.Run(() => RobloxInstallCompression.EnsureExtracted(new Voidstrap.AppData.RobloxPlayerData())).ConfigureAwait(true);
 		WindowsRegistry.RegisterPlayer();
 		if (enabled && WindowsRegistry.DirectPlayerExecutable() == null)
-			Frontend.ShowMessageBox("Roblox is not installed yet. Launch it once through Voidstrap, after that it opens without Voidstrap.", MessageBoxImage.Information);
+			Frontend.ShowMessageBox(
+				"Roblox is not installed yet. Launch it once through Voidstrap, after that it opens without Voidstrap.",
+				MessageBoxImage.Information
+			);
 	}
 
 	private static CancellationTokenSource? _compressionCancellation;
@@ -792,10 +753,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public bool CompressRobloxInstalls
 	{
-		get
-		{
-			return App.Settings.Prop.CompressRobloxInstalls;
-		}
+		get { return App.Settings.Prop.CompressRobloxInstalls; }
 		set
 		{
 			if (App.Settings.Prop.CompressRobloxInstalls == value)
@@ -813,7 +771,10 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 	{
 		if (compress)
 			RobloxInstallCompression.ReleaseInUseHold();
-		if (await RunInstallCompressionAsync(compress, true, CancellationToken.None).ConfigureAwait(true) || App.Settings.Prop.CompressRobloxInstalls != compress)
+		if (
+			await RunInstallCompressionAsync(compress, true, CancellationToken.None).ConfigureAwait(true)
+			|| App.Settings.Prop.CompressRobloxInstalls != compress
+		)
 			return;
 		App.Settings.Prop.CompressRobloxInstalls = !compress;
 		App.Settings.SaveDeferred();
@@ -847,7 +808,9 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		catch (OperationCanceledException)
 		{
 			cancelled = true;
-			outcome = compress ? "Compression was cancelled, Roblox stays uncompressed." : "Unpacking was cancelled, the rest unpacks when you launch Roblox.";
+			outcome = compress
+				? "Compression was cancelled, Roblox stays uncompressed."
+				: "Unpacking was cancelled, the rest unpacks when you launch Roblox.";
 		}
 		catch (Exception ex)
 		{
@@ -878,9 +841,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		{
 			cancellation?.Cancel();
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 	}
 
 	private static void ShowInstallCompressionOutcome(string message)
@@ -899,7 +860,11 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	private static string DescribeInstallCompression(bool compress)
 	{
-		List<string> compressed = RobloxInstallCompression.Installs().Where(RobloxInstallCompression.IsCompressed).Select(d => d.ProductName).ToList();
+		List<string> compressed = RobloxInstallCompression
+			.Installs()
+			.Where(RobloxInstallCompression.IsCompressed)
+			.Select(d => d.ProductName)
+			.ToList();
 		if (compressed.Count > 0)
 			return "Compressed: " + string.Join(", ", compressed) + ". Each one unpacks automatically when you launch it.";
 		return compress ? "Nothing to compress right now. Roblox gets compressed after it closes." : "Roblox is fully unpacked.";
@@ -907,10 +872,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public string ViewChannel
 	{
-		get
-		{
-			return _viewChannel ?? App.Settings?.Prop?.Channel ?? Deployment.DefaultChannel;
-		}
+		get { return _viewChannel ?? App.Settings?.Prop?.Channel ?? Deployment.DefaultChannel; }
 		set
 		{
 			string incoming = value ?? string.Empty;
@@ -937,14 +899,19 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		}
 	}
 
-	public bool ChannelApplyPending => !string.Equals(EffectiveChannel, App.Settings?.Prop?.Channel ?? Deployment.DefaultChannel, StringComparison.OrdinalIgnoreCase);
+	public bool ChannelApplyPending =>
+		!string.Equals(EffectiveChannel, App.Settings?.Prop?.Channel ?? Deployment.DefaultChannel, StringComparison.OrdinalIgnoreCase);
 
 	public ICommand ApplyChannelCommand => _applyChannelCommand ?? (_applyChannelCommand = new RelayCommand(ApplyChannel));
 
 	private void ApplyChannel()
 	{
 		string channel = EffectiveChannel;
-		bool changed = !string.Equals(channel, App.Settings?.Prop?.Channel ?? Deployment.DefaultChannel, StringComparison.OrdinalIgnoreCase);
+		bool changed = !string.Equals(
+			channel,
+			App.Settings?.Prop?.Channel ?? Deployment.DefaultChannel,
+			StringComparison.OrdinalIgnoreCase
+		);
 
 		_viewChannel = channel;
 		OnPropertyChanged(nameof(ViewChannel));
@@ -981,10 +948,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public bool NetworkStreamingEnabled
 	{
-		get
-		{
-			return _networkStreamingEnabled;
-		}
+		get { return _networkStreamingEnabled; }
 		set
 		{
 			if (!_disposed && _networkStreamingEnabled != value)
@@ -998,10 +962,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public string ChannelHash
 	{
-		get
-		{
-			return App.Settings.Prop.ChannelHash;
-		}
+		get { return App.Settings.Prop.ChannelHash; }
 		set
 		{
 			if (string.IsNullOrEmpty(value) || VersionHashPattern.IsMatch(value))
@@ -1013,10 +974,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public bool UpdateRoblox
 	{
-		get
-		{
-			return App.Settings.Prop.UpdateRoblox;
-		}
+		get { return App.Settings.Prop.UpdateRoblox; }
 		set
 		{
 			if (App.Settings.Prop.UpdateRoblox == value)
@@ -1030,19 +988,31 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 	public bool UpdateDeliveryNormal
 	{
 		get => UpdateDelivery is not ("Early" or "Late");
-		set { if (value) UpdateDelivery = "Normal"; }
+		set
+		{
+			if (value)
+				UpdateDelivery = "Normal";
+		}
 	}
 
 	public bool UpdateDeliveryEarly
 	{
 		get => UpdateDelivery == "Early";
-		set { if (value) UpdateDelivery = "Early"; }
+		set
+		{
+			if (value)
+				UpdateDelivery = "Early";
+		}
 	}
 
 	public bool UpdateDeliveryLate
 	{
 		get => UpdateDelivery == "Late";
-		set { if (value) UpdateDelivery = "Late"; }
+		set
+		{
+			if (value)
+				UpdateDelivery = "Late";
+		}
 	}
 
 	private string UpdateDelivery
@@ -1063,10 +1033,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public bool ForceRobloxReinstallation
 	{
-		get
-		{
-			return App.Settings.Prop.ForceRobloxReinstall;
-		}
+		get { return App.Settings.Prop.ForceRobloxReinstall; }
 		set
 		{
 			if (App.Settings.Prop.ForceRobloxReinstall == value)
@@ -1074,35 +1041,24 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 			App.Settings.Prop.ForceRobloxReinstall = value;
 			App.Settings.Save();
-			App.Logger.WriteLine("ChannelViewModel::ForceRobloxReinstallation", value
-				? "Roblox will be reinstalled on the next launch"
-				: "Reinstall on next launch cancelled");
+			App.Logger.WriteLine(
+				"ChannelViewModel::ForceRobloxReinstallation",
+				value ? "Roblox will be reinstalled on the next launch" : "Reinstall on next launch cancelled"
+			);
 			OnPropertyChanged(nameof(ForceRobloxReinstallation));
 		}
 	}
 
 	public bool HWAccelEnabled
 	{
-		get
-		{
-			return !_hardwareAccelerationDisabled;
-		}
-		set
-		{
-			SetHardwareAccelerationDisabled(!value);
-		}
+		get { return !_hardwareAccelerationDisabled; }
+		set { SetHardwareAccelerationDisabled(!value); }
 	}
 
 	public bool HWAccelDisabled
 	{
-		get
-		{
-			return _hardwareAccelerationDisabled;
-		}
-		set
-		{
-			SetHardwareAccelerationDisabled(value);
-		}
+		get { return _hardwareAccelerationDisabled; }
+		set { SetHardwareAccelerationDisabled(value); }
 	}
 
 	private void SetHardwareAccelerationDisabled(bool value)
@@ -1120,7 +1076,8 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 			value,
 			"Hardware acceleration changed",
 			value ? Resources.Strings.Menu_Channel_HWAccel_DisableRestart : Resources.Strings.Menu_Channel_HWAccel_EnableRestart,
-			value ? ApplyHardwareAccelerationDisabled : ApplyHardwareAccelerationEnabled);
+			value ? ApplyHardwareAccelerationDisabled : ApplyHardwareAccelerationEnabled
+		);
 	}
 
 	private static void ApplyHardwareAccelerationDisabled()
@@ -1137,10 +1094,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public bool VoidRPC
 	{
-		get
-		{
-			return App.Settings.Prop.VoidRPC;
-		}
+		get { return App.Settings.Prop.VoidRPC; }
 		set
 		{
 			if (App.Settings.Prop.VoidRPC == value)
@@ -1174,10 +1128,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	public string InstallLocationText
 	{
-		get
-		{
-			return _installLocationText ?? (_installLocationText = MaskUserName(Paths.Base));
-		}
+		get { return _installLocationText ?? (_installLocationText = MaskUserName(Paths.Base)); }
 		set
 		{
 			if (_installLocationText != value)
@@ -1206,13 +1157,15 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		}
 	}
 
-	public ICommand BrowseInstallLocationCommand => _browseInstallLocationCommand ?? (_browseInstallLocationCommand = new RelayCommand(BrowseInstallLocation));
+	public ICommand BrowseInstallLocationCommand =>
+		_browseInstallLocationCommand ?? (_browseInstallLocationCommand = new RelayCommand(BrowseInstallLocation));
 
-	public ICommand ApplyInstallLocationCommand => _applyInstallLocationCommand ?? (_applyInstallLocationCommand = new RelayCommand(ApplyInstallLocation));
+	public ICommand ApplyInstallLocationCommand =>
+		_applyInstallLocationCommand ?? (_applyInstallLocationCommand = new RelayCommand(ApplyInstallLocation));
 
-    private static readonly char[] trimChars = new char[4] { '}', ' ', '\n', '\r' };
+	private static readonly char[] trimChars = new char[4] { '}', ' ', '\n', '\r' };
 
-    public event PropertyChangedEventHandler? PropertyChanged;
+	public event PropertyChangedEventHandler? PropertyChanged;
 
 	protected void OnPropertyChanged(string propertyName)
 	{
@@ -1223,17 +1176,17 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 	{
 		bool savedHardwareAccelerationDisabled = App.Settings.Prop.WPFSoftwareRender;
 		RestartNotificationService.RegisterSetting(HardwareAccelerationRestartKey, savedHardwareAccelerationDisabled);
-		_hardwareAccelerationDisabled = RestartNotificationService.TryGetPendingValue(HardwareAccelerationRestartKey, out bool pendingHardwareAccelerationDisabled)
+		_hardwareAccelerationDisabled = RestartNotificationService.TryGetPendingValue(
+			HardwareAccelerationRestartKey,
+			out bool pendingHardwareAccelerationDisabled
+		)
 			? pendingHardwareAccelerationDisabled
 			: savedHardwareAccelerationDisabled;
 		if (DownloadConfiguration.Normalize(App.Settings.Prop))
 		{
 			App.Settings.SaveDeferred();
 		}
-		_revertTimer = new DispatcherTimer
-		{
-			Interval = TimeSpan.FromSeconds(15)
-		};
+		_revertTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(15) };
 		_revertTimer.Tick += OnRevertTimerTick;
 		LoadMonitors();
 		RunSafeAsync(() => LoadNetworkStreamingStateAsync(_lifetimeCts.SafeToken()));
@@ -1259,19 +1212,32 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	private static string NormalizePriority(string? priority)
 	{
-		if (priority?.Equals("High", StringComparison.OrdinalIgnoreCase) == true || priority?.Equals("Realtime", StringComparison.OrdinalIgnoreCase) == true || priority?.Equals("RealTime", StringComparison.OrdinalIgnoreCase) == true)
+		if (
+			priority?.Equals("High", StringComparison.OrdinalIgnoreCase) == true
+			|| priority?.Equals("Realtime", StringComparison.OrdinalIgnoreCase) == true
+			|| priority?.Equals("RealTime", StringComparison.OrdinalIgnoreCase) == true
+		)
 		{
 			return "High";
 		}
-		if (priority?.Equals("Above Normal", StringComparison.OrdinalIgnoreCase) == true || priority?.Equals("AboveNormal", StringComparison.OrdinalIgnoreCase) == true)
+		if (
+			priority?.Equals("Above Normal", StringComparison.OrdinalIgnoreCase) == true
+			|| priority?.Equals("AboveNormal", StringComparison.OrdinalIgnoreCase) == true
+		)
 		{
 			return "Above Normal";
 		}
-		if (priority?.Equals("Below Normal", StringComparison.OrdinalIgnoreCase) == true || priority?.Equals("BelowNormal", StringComparison.OrdinalIgnoreCase) == true)
+		if (
+			priority?.Equals("Below Normal", StringComparison.OrdinalIgnoreCase) == true
+			|| priority?.Equals("BelowNormal", StringComparison.OrdinalIgnoreCase) == true
+		)
 		{
 			return "Below Normal";
 		}
-		if (priority?.Equals("Low", StringComparison.OrdinalIgnoreCase) == true || priority?.Equals("Idle", StringComparison.OrdinalIgnoreCase) == true)
+		if (
+			priority?.Equals("Low", StringComparison.OrdinalIgnoreCase) == true
+			|| priority?.Equals("Idle", StringComparison.OrdinalIgnoreCase) == true
+		)
 		{
 			return "Low";
 		}
@@ -1286,7 +1252,10 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 
 	private static string DisplaySignature(List<DisplayInfo> displays)
 	{
-		return string.Join("|", displays.Select(d => d.DeviceName + ":" + d.X + "," + d.Y + "," + d.Width + "," + d.Height + "," + d.IsPrimary));
+		return string.Join(
+			"|",
+			displays.Select(d => d.DeviceName + ":" + d.X + "," + d.Y + "," + d.Width + "," + d.Height + "," + d.IsPrimary)
+		);
 	}
 
 	public void Suspend()
@@ -1332,23 +1301,28 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		int maxY = displays.Max((DisplayInfo d) => d.Y + d.Height);
 		double bbWidth = Math.Max(1, maxX - minX);
 		double bbHeight = Math.Max(1, maxY - minY);
-		double scale = Math.Min((MonitorCanvasWidth - MonitorCanvasMargin * 2.0) / bbWidth, (MonitorCanvasHeight - MonitorCanvasMargin * 2.0) / bbHeight);
+		double scale = Math.Min(
+			(MonitorCanvasWidth - MonitorCanvasMargin * 2.0) / bbWidth,
+			(MonitorCanvasHeight - MonitorCanvasMargin * 2.0) / bbHeight
+		);
 		double offsetX = (MonitorCanvasWidth - bbWidth * scale) / 2.0;
 		double offsetY = (MonitorCanvasHeight - bbHeight * scale) / 2.0;
 		Monitors.Clear();
 		foreach (DisplayInfo display in displays)
 		{
-			Monitors.Add(new MonitorTile
-			{
-				DeviceName = display.DeviceName,
-				FriendlyName = display.FriendlyName,
-				Number = display.Number,
-				IsPrimary = display.IsPrimary,
-				CanvasX = offsetX + (display.X - minX) * scale + MonitorBoxInset,
-				CanvasY = offsetY + (display.Y - minY) * scale + MonitorBoxInset,
-				BoxWidth = Math.Max(36.0, display.Width * scale - MonitorBoxInset * 2.0),
-				BoxHeight = Math.Max(24.0, display.Height * scale - MonitorBoxInset * 2.0)
-			});
+			Monitors.Add(
+				new MonitorTile
+				{
+					DeviceName = display.DeviceName,
+					FriendlyName = display.FriendlyName,
+					Number = display.Number,
+					IsPrimary = display.IsPrimary,
+					CanvasX = offsetX + (display.X - minX) * scale + MonitorBoxInset,
+					CanvasY = offsetY + (display.Y - minY) * scale + MonitorBoxInset,
+					BoxWidth = Math.Max(36.0, display.Width * scale - MonitorBoxInset * 2.0),
+					BoxHeight = Math.Max(24.0, display.Height * scale - MonitorBoxInset * 2.0),
+				}
+			);
 		}
 		MonitorTile? target = null;
 		if (preserveDevice != null)
@@ -1406,7 +1380,13 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 	{
 		DisplayMode? current = DisplaySystem.GetCurrentMode(_selectedMonitor?.DeviceName);
 		_suppressResolutionApply = true;
-		_selectedResolution = ((current == null) ? null : AvailableResolutions.FirstOrDefault((DisplayMode m) => m.Width == current.Width && m.Height == current.Height && m.RefreshRate == current.RefreshRate));
+		_selectedResolution = (
+			(current == null)
+				? null
+				: AvailableResolutions.FirstOrDefault(
+					(DisplayMode m) => m.Width == current.Width && m.Height == current.Height && m.RefreshRate == current.RefreshRate
+				)
+		);
 		OnPropertyChanged(nameof(SelectedResolution));
 		_suppressResolutionApply = false;
 	}
@@ -1432,7 +1412,11 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 			_revertMode = previous;
 			_autoReverted = false;
 			_revertTimer.Start();
-			MessageBoxResult result = Frontend.ShowMessageBox("Keep this resolution? It will revert automatically in 15 seconds if you do not confirm.", MessageBoxImage.Question, MessageBoxButton.YesNo);
+			MessageBoxResult result = Frontend.ShowMessageBox(
+				"Keep this resolution? It will revert automatically in 15 seconds if you do not confirm.",
+				MessageBoxImage.Question,
+				MessageBoxButton.YesNo
+			);
 			_revertTimer.Stop();
 			if (_autoReverted || result != MessageBoxResult.Yes)
 			{
@@ -1478,14 +1462,10 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 				{
 					File.Delete(path2);
 				}
-				catch (Exception)
-				{
-				}
+				catch (Exception) { }
 			}
 		}
-		catch (Exception)
-		{
-		}
+		catch (Exception) { }
 	}
 
 	private static void DeleteDirectorySafe(string? path)
@@ -1498,9 +1478,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		{
 			Directory.Delete(path, recursive: true);
 		}
-		catch (Exception)
-		{
-		}
+		catch (Exception) { }
 	}
 
 	private async Task LoadNetworkStreamingStateAsync(CancellationToken token)
@@ -1526,22 +1504,20 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 				try
 				{
 					token.ThrowIfCancellationRequested();
-					Match match = NetworkStreamingEnabledValuePattern.Match(await JsonFile.ReadTextAsync(path, MaximumLocalStorageBytes, token));
+					Match match = NetworkStreamingEnabledValuePattern.Match(
+						await JsonFile.ReadTextAsync(path, MaximumLocalStorageBytes, token)
+					);
 					if (match.Success && int.TryParse(match.Groups[1].Value, out var result))
 					{
 						foundValue = result == 1;
 						break;
 					}
 				}
-				catch (IOException)
-				{
-				}
+				catch (IOException) { }
 			}
 			SetNetworkStreamingState(foundValue == true);
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested) { }
 		catch (Exception)
 		{
 			SetNetworkStreamingState(false);
@@ -1586,17 +1562,11 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 					}
 					await Task.Run(() => JsonFile.WriteAtomicText(file, text, false), token);
 				}
-				catch (IOException)
-				{
-				}
+				catch (IOException) { }
 			}
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-		}
-		catch (Exception)
-		{
-		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+		catch (Exception) { }
 	}
 
 	private static string MaskUserName(string path)
@@ -1613,9 +1583,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 				}
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		return path;
 	}
 
@@ -1639,19 +1607,13 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 				return string.Concat(userProfile, path.AsSpan(text2.Length));
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		return path;
 	}
 
 	private void BrowseInstallLocation()
 	{
-		OpenFolderDialog openFolderDialog = new OpenFolderDialog
-		{
-			Title = "Choose a new Voidstrap install location",
-			Multiselect = false
-		};
+		OpenFolderDialog openFolderDialog = new OpenFolderDialog { Title = "Choose a new Voidstrap install location", Multiselect = false };
 		if (openFolderDialog.ShowDialog() == true && !string.IsNullOrWhiteSpace(openFolderDialog.FolderName))
 		{
 			InstallLocationText = MaskUserName(Path.Combine(openFolderDialog.FolderName, "Voidstrap"));
@@ -1667,7 +1629,16 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 			{
 				Frontend.ShowMessageBox("Voidstrap is already installed at that location.", MessageBoxImage.Asterisk);
 			}
-			else if (Frontend.ShowMessageBox("Voidstrap will be moved to:\n" + text + "\n\nIt will restart automatically when done. Close Roblox first if it is running.\n\nContinue?", MessageBoxImage.Question, MessageBoxButton.YesNo, MessageBoxResult.No) == MessageBoxResult.Yes)
+			else if (
+				Frontend.ShowMessageBox(
+					"Voidstrap will be moved to:\n"
+						+ text
+						+ "\n\nIt will restart automatically when done. Close Roblox first if it is running.\n\nContinue?",
+					MessageBoxImage.Question,
+					MessageBoxButton.YesNo,
+					MessageBoxResult.No
+				) == MessageBoxResult.Yes
+			)
 			{
 				Voidstrap.Installer.RelocateInstall(text);
 			}
@@ -1680,9 +1651,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		{
 			await LoadChannelDeployInfoAsync(channel);
 		}
-		catch (Exception)
-		{
-		}
+		catch (Exception) { }
 	}
 
 	private async Task LoadChannelDeployInfoAsync(string channel)
@@ -1706,25 +1675,21 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 			if (!token.IsCancellationRequested)
 			{
 				ShowChannelWarning = clientVersion.IsBehindDefaultChannel;
-				ChannelDeployInfo = new DeployInfo
-				{
-					Version = clientVersion.Version,
-					VersionGuid = clientVersion.VersionGuid
-				};
+				ChannelDeployInfo = new DeployInfo { Version = clientVersion.Version, VersionGuid = clientVersion.VersionGuid };
 				App.State.Prop.IgnoreOutdatedChannel = true;
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex2)
 		{
 			if (!token.IsCancellationRequested)
 			{
 				ShowLoadingError = true;
-				ChannelInfoLoadingText = ex2 is HttpRequestException requestError && Deployment.BadChannelCodes.Contains(requestError.StatusCode)
-					? "The channel is unavailable or private. Please change the channel or try again later.\nError: " + ex2.Message
-					: "Roblox deployment services could not be reached. Please check your connection and try again.\nError: " + ex2.Message;
+				ChannelInfoLoadingText =
+					ex2 is HttpRequestException requestError && Deployment.BadChannelCodes.Contains(requestError.StatusCode)
+						? "The channel is unavailable or private. Please change the channel or try again later.\nError: " + ex2.Message
+						: "Roblox deployment services could not be reached. Please check your connection and try again.\nError: "
+							+ ex2.Message;
 			}
 		}
 	}
@@ -1735,9 +1700,7 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		{
 			await asyncFunc().ConfigureAwait(continueOnCapturedContext: false);
 		}
-		catch (OperationCanceledException) when (_lifetimeCts.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (_lifetimeCts.IsCancellationRequested) { }
 		catch (Exception value)
 		{
 			Console.Error.WriteLine($"Error in background task: {value}");
@@ -1764,8 +1727,9 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		GC.SuppressFinalize(this);
 	}
 
-    [GeneratedRegex("version-(.*)")]
-    private static partial Regex VersionHashPattern { get; }
-    [GeneratedRegex("\"NetworkStreamingEnabled\"\\s*:\\s*\"?(\\d+)\"?")]
-    private static partial Regex NetworkStreamingEnabledValuePattern { get; }
+	[GeneratedRegex("version-(.*)")]
+	private static partial Regex VersionHashPattern { get; }
+
+	[GeneratedRegex("\"NetworkStreamingEnabled\"\\s*:\\s*\"?(\\d+)\"?")]
+	private static partial Regex NetworkStreamingEnabledValuePattern { get; }
 }

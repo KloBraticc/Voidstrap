@@ -50,8 +50,18 @@ internal static class ColorFont
 		{
 			throw new InvalidDataException("The font has no drawable glyphs");
 		}
-		List<List<(ushort Glyph, ushort Palette)>> layers = [.. glyphs.Select(glyph => new List<(ushort Glyph, ushort Palette)> { (glyph, 0) })];
-		if (bands.Count > 1 && glyphCount + (long)glyphs.Count * (bands.Count - 1) <= ushort.MaxValue && tables.ContainsKey("glyf") && tables.ContainsKey("loca") && tables.ContainsKey("hmtx") && tables.ContainsKey("hhea"))
+		List<List<(ushort Glyph, ushort Palette)>> layers =
+		[
+			.. glyphs.Select(glyph => new List<(ushort Glyph, ushort Palette)> { (glyph, 0) }),
+		];
+		if (
+			bands.Count > 1
+			&& glyphCount + (long)glyphs.Count * (bands.Count - 1) <= ushort.MaxValue
+			&& tables.ContainsKey("glyf")
+			&& tables.ContainsKey("loca")
+			&& tables.ContainsKey("hmtx")
+			&& tables.ContainsKey("hhea")
+		)
 		{
 			AddGradientBands(tables, glyphCount, glyphs, layers, bands.Count, dx, dy);
 		}
@@ -60,7 +70,15 @@ internal static class ColorFont
 		return WriteTables(version, tables);
 	}
 
-	private static void AddGradientBands(Dictionary<string, byte[]> tables, int glyphCount, List<ushort> glyphs, List<List<(ushort Glyph, ushort Palette)>> layers, int bandCount, double dx, double dy)
+	private static void AddGradientBands(
+		Dictionary<string, byte[]> tables,
+		int glyphCount,
+		List<ushort> glyphs,
+		List<List<(ushort Glyph, ushort Palette)>> layers,
+		int bandCount,
+		double dx,
+		double dy
+	)
 	{
 		byte[] head = tables["head"];
 		byte[] loca = tables["loca"];
@@ -69,7 +87,9 @@ internal static class ColorFont
 		uint[] offsets = new uint[glyphCount + 1];
 		for (int glyph = 0; glyph <= glyphCount; glyph++)
 		{
-			offsets[glyph] = longOffsets ? BinaryPrimitives.ReadUInt32BigEndian(loca.AsSpan(glyph * 4)) : BinaryPrimitives.ReadUInt16BigEndian(loca.AsSpan(glyph * 2)) * 2u;
+			offsets[glyph] = longOffsets
+				? BinaryPrimitives.ReadUInt32BigEndian(loca.AsSpan(glyph * 4))
+				: BinaryPrimitives.ReadUInt16BigEndian(loca.AsSpan(glyph * 2)) * 2u;
 		}
 		(ushort[] advances, short[] bearings) = ReadMetrics(tables, glyphCount);
 
@@ -99,7 +119,8 @@ internal static class ColorFont
 			for (int band = 1; band < bandCount; band++)
 			{
 				double threshold = (double)band / bandCount;
-				double Side(Pt point) => ((point.X - outline.XMin) / width * dx + (outline.YMax - point.Y) / height * dy - lowest) / range - threshold;
+				double Side(Pt point) =>
+					((point.X - outline.XMin) / width * dx + (outline.YMax - point.Y) / height * dy - lowest) / range - threshold;
 				List<List<Seg>> clipped = [.. outline.Contours.Select(contour => Clip(contour, Side)).OfType<List<Seg>>()];
 				byte[]? encoded = EncodeGlyph(clipped, out int points, out int contours, out short xMin);
 				if (encoded == null)
@@ -145,8 +166,14 @@ internal static class ColorFont
 		BinaryPrimitives.WriteUInt16BigEndian(maxp.AsSpan(4), (ushort)total);
 		if (maxp.Length >= 10 && BinaryPrimitives.ReadUInt32BigEndian(maxp) == 0x00010000)
 		{
-			BinaryPrimitives.WriteUInt16BigEndian(maxp.AsSpan(6), (ushort)Math.Max(BinaryPrimitives.ReadUInt16BigEndian(maxp.AsSpan(6)), maxPoints));
-			BinaryPrimitives.WriteUInt16BigEndian(maxp.AsSpan(8), (ushort)Math.Max(BinaryPrimitives.ReadUInt16BigEndian(maxp.AsSpan(8)), maxContours));
+			BinaryPrimitives.WriteUInt16BigEndian(
+				maxp.AsSpan(6),
+				(ushort)Math.Max(BinaryPrimitives.ReadUInt16BigEndian(maxp.AsSpan(6)), maxPoints)
+			);
+			BinaryPrimitives.WriteUInt16BigEndian(
+				maxp.AsSpan(8),
+				(ushort)Math.Max(BinaryPrimitives.ReadUInt16BigEndian(maxp.AsSpan(8)), maxContours)
+			);
 		}
 		tables["maxp"] = maxp;
 
@@ -217,7 +244,7 @@ internal static class ColorFont
 			XMin = BinaryPrimitives.ReadInt16BigEndian(data[2..]),
 			YMin = BinaryPrimitives.ReadInt16BigEndian(data[4..]),
 			XMax = BinaryPrimitives.ReadInt16BigEndian(data[6..]),
-			YMax = BinaryPrimitives.ReadInt16BigEndian(data[8..])
+			YMax = BinaryPrimitives.ReadInt16BigEndian(data[8..]),
 		};
 		int[] ends = new int[contourCount];
 		for (int i = 0; i < contourCount; i++)
@@ -228,7 +255,7 @@ internal static class ColorFont
 		int at = 10 + contourCount * 2;
 		at += 2 + BinaryPrimitives.ReadUInt16BigEndian(data[at..]);
 		byte[] flags = new byte[pointCount];
-		for (int i = 0; i < pointCount;)
+		for (int i = 0; i < pointCount; )
 		{
 			byte flag = data[at++];
 			flags[i++] = flag;
@@ -519,8 +546,12 @@ internal static class ColorFont
 			}
 			for (int glyph = 1; glyph < glyphCount && glyph <= ushort.MaxValue; glyph++)
 			{
-				uint start = longOffsets ? BinaryPrimitives.ReadUInt32BigEndian(loca.AsSpan(glyph * 4)) : BinaryPrimitives.ReadUInt16BigEndian(loca.AsSpan(glyph * 2)) * 2u;
-				uint end = longOffsets ? BinaryPrimitives.ReadUInt32BigEndian(loca.AsSpan(glyph * 4 + 4)) : BinaryPrimitives.ReadUInt16BigEndian(loca.AsSpan(glyph * 2 + 2)) * 2u;
+				uint start = longOffsets
+					? BinaryPrimitives.ReadUInt32BigEndian(loca.AsSpan(glyph * 4))
+					: BinaryPrimitives.ReadUInt16BigEndian(loca.AsSpan(glyph * 2)) * 2u;
+				uint end = longOffsets
+					? BinaryPrimitives.ReadUInt32BigEndian(loca.AsSpan(glyph * 4 + 4))
+					: BinaryPrimitives.ReadUInt16BigEndian(loca.AsSpan(glyph * 2 + 2)) * 2u;
 				if (end > start)
 				{
 					glyphs.Add((ushort)glyph);

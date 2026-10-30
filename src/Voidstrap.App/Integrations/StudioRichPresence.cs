@@ -1,4 +1,3 @@
-using Voidstrap.Utility;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DiscordRPC;
 using Voidstrap.Extensions;
+using Voidstrap.Utility;
 
 namespace Voidstrap.Integrations;
 
@@ -24,6 +24,7 @@ public sealed partial class StudioRichPresence : IDisposable
 	private const int MaxApiResponseBytes = 1024 * 1024;
 	private static readonly HttpClient Http = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(10));
 	private static readonly Dictionary<long, string> IconCache = [];
+
 	[GeneratedRegex(@"(?:line count|lines)\D{0,8}(\d{1,9})", RegexOptions.IgnoreCase)]
 	private static partial Regex ScriptLinePattern { get; }
 	private readonly CancellationTokenSource _lifetimeCancellation = new();
@@ -211,9 +212,7 @@ public sealed partial class StudioRichPresence : IDisposable
 		{
 			_client?.ClearPresence();
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static string SafeProcessName(Process process)
@@ -234,7 +233,10 @@ public sealed partial class StudioRichPresence : IDisposable
 		try
 		{
 			processes = Voidstrap.Utility.Platform.IsLinux
-				? Process.GetProcesses().Where(static candidate => Voidstrap.Platform.Linux.StudioProcessNames.IsStudio(SafeProcessName(candidate))).ToArray()
+				? Process
+					.GetProcesses()
+					.Where(static candidate => Voidstrap.Platform.Linux.StudioProcessNames.IsStudio(SafeProcessName(candidate)))
+					.ToArray()
 				: Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxStudioProcessName);
 		}
 		catch
@@ -253,9 +255,7 @@ public sealed partial class StudioRichPresence : IDisposable
 					continue;
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 			process.Dispose();
 		}
 		return selected;
@@ -305,11 +305,16 @@ public sealed partial class StudioRichPresence : IDisposable
 	{
 		try
 		{
-			IEnumerable<string> directories = Voidstrap.Utility.Platform.IsMacOS ? [Paths.RobloxLogs] : Voidstrap.Utility.VinegarPaths.LogDirectories;
+			IEnumerable<string> directories = Voidstrap.Utility.Platform.IsMacOS
+				? [Paths.RobloxLogs]
+				: Voidstrap.Utility.VinegarPaths.LogDirectories;
 			FileInfo? latest = directories
 				.Where(Directory.Exists)
 				.SelectMany(directory => new DirectoryInfo(directory).EnumerateFiles("*.log"))
-				.Where(file => file.Name.Contains("Studio", StringComparison.OrdinalIgnoreCase) && !file.Name.Contains("CrashHandler", StringComparison.OrdinalIgnoreCase))
+				.Where(file =>
+					file.Name.Contains("Studio", StringComparison.OrdinalIgnoreCase)
+					&& !file.Name.Contains("CrashHandler", StringComparison.OrdinalIgnoreCase)
+				)
 				.OrderByDescending(file => file.LastWriteTimeUtc)
 				.FirstOrDefault();
 			if (latest != null)
@@ -344,7 +349,10 @@ public sealed partial class StudioRichPresence : IDisposable
 
 		_placeId = _linuxLog.PlaceId;
 		_universeId = _linuxLog.UniverseId;
-		_place = meaningful.Count > 0 ? meaningful[^1] : _namedUniverse == _universeId && _universeId > 0 ? _place : "";
+		_place =
+			meaningful.Count > 0 ? meaningful[^1]
+			: _namedUniverse == _universeId && _universeId > 0 ? _place
+			: "";
 		_script = meaningful.Count > 1 ? meaningful[0] : "";
 		_mode = titleMode.Length > 0 ? titleMode : _linuxLog.Mode;
 	}
@@ -380,9 +388,7 @@ public sealed partial class StudioRichPresence : IDisposable
 			}
 			UpdatePresence();
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine(LogTag, "The place name could not be fetched: " + ex.Message);
@@ -405,14 +411,23 @@ public sealed partial class StudioRichPresence : IDisposable
 			_sessionStart = DateTime.UtcNow;
 		}
 		_sessionKey = key;
-		App.Logger.WriteLine(LogTag, _linuxLog.DocumentOpen && _placeId > 0
-			? "Studio is " + (_mode.Length > 0 ? _mode.ToLowerInvariant() : "editing") + " place " + _placeId + (_universeId > 0 ? " in universe " + _universeId : "")
-			: "Studio is on the start page");
+		App.Logger.WriteLine(
+			LogTag,
+			_linuxLog.DocumentOpen && _placeId > 0
+				? "Studio is "
+					+ (_mode.Length > 0 ? _mode.ToLowerInvariant() : "editing")
+					+ " place "
+					+ _placeId
+					+ (_universeId > 0 ? " in universe " + _universeId : "")
+				: "Studio is on the start page"
+		);
 	}
 
 	private void ApplyPluginState()
 	{
-		Voidstrap.Integrations.Studio.StudioState? state = Voidstrap.Integrations.Studio.StudioBridge.GetFreshState(TimeSpan.FromSeconds(12));
+		Voidstrap.Integrations.Studio.StudioState? state = Voidstrap.Integrations.Studio.StudioBridge.GetFreshState(
+			TimeSpan.FromSeconds(12)
+		);
 		if (state == null || !state.Sharing)
 		{
 			return;
@@ -446,7 +461,10 @@ public sealed partial class StudioRichPresence : IDisposable
 		{
 			return "Team Create";
 		}
-		if (title.Contains("Playtest", StringComparison.OrdinalIgnoreCase) || title.Contains("Play Test", StringComparison.OrdinalIgnoreCase))
+		if (
+			title.Contains("Playtest", StringComparison.OrdinalIgnoreCase)
+			|| title.Contains("Play Test", StringComparison.OrdinalIgnoreCase)
+		)
 		{
 			return "Playtesting";
 		}
@@ -468,17 +486,25 @@ public sealed partial class StudioRichPresence : IDisposable
 	{
 		try
 		{
-			string logDirectory = Voidstrap.Utility.Platform.IsMacOS ? Paths.RobloxLogs : Path.Combine(Paths.LocalAppData, "Roblox", "logs");
+			string logDirectory = Voidstrap.Utility.Platform.IsMacOS
+				? Paths.RobloxLogs
+				: Path.Combine(Paths.LocalAppData, "Roblox", "logs");
 			FileInfo? latest = new DirectoryInfo(logDirectory)
 				.EnumerateFiles("*.log")
-				.Where(file => file.Name.Contains("Studio", StringComparison.OrdinalIgnoreCase) && !file.Name.Contains("CrashHandler", StringComparison.OrdinalIgnoreCase))
+				.Where(file =>
+					file.Name.Contains("Studio", StringComparison.OrdinalIgnoreCase)
+					&& !file.Name.Contains("CrashHandler", StringComparison.OrdinalIgnoreCase)
+				)
 				.OrderByDescending(file => file.LastWriteTimeUtc)
 				.FirstOrDefault();
 			if (latest == null || _place.Length == 0)
 			{
 				return;
 			}
-			if (string.Equals(_lastLogPath, latest.FullName, StringComparison.OrdinalIgnoreCase) && _lastLogWriteUtc == latest.LastWriteTimeUtc)
+			if (
+				string.Equals(_lastLogPath, latest.FullName, StringComparison.OrdinalIgnoreCase)
+				&& _lastLogWriteUtc == latest.LastWriteTimeUtc
+			)
 			{
 				ApplyLogState(_lastLogState);
 				return;
@@ -487,15 +513,14 @@ public sealed partial class StudioRichPresence : IDisposable
 			LogState state = new(
 				FindLastInt64(PlaceIdPattern, tail),
 				FindLastInt64(UniverseIdPattern, tail),
-				(int)Math.Min(int.MaxValue, FindLastInt64(ScriptLinePattern, tail)));
+				(int)Math.Min(int.MaxValue, FindLastInt64(ScriptLinePattern, tail))
+			);
 			_lastLogPath = latest.FullName;
 			_lastLogWriteUtc = latest.LastWriteTimeUtc;
 			_lastLogState = state;
 			ApplyLogState(state);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private void ApplyLogState(LogState state)
@@ -542,7 +567,10 @@ public sealed partial class StudioRichPresence : IDisposable
 	{
 		long universeId = _universeId;
 		long placeId = _placeId;
-		long key = universeId > 0 ? universeId : placeId > 0 ? -placeId : 0;
+		long key =
+			universeId > 0 ? universeId
+			: placeId > 0 ? -placeId
+			: 0;
 		if (key == 0)
 		{
 			_iconUrl = "";
@@ -570,7 +598,10 @@ public sealed partial class StudioRichPresence : IDisposable
 			{
 				string universeJson = await GetJsonAsync($"https://apis.roblox.com/universes/v1/places/{placeId}/universe", token);
 				using System.Text.Json.JsonDocument universeDoc = System.Text.Json.JsonDocument.Parse(universeJson);
-				if (universeDoc.RootElement.TryGetProperty("universeId", out System.Text.Json.JsonElement universeValue) && universeValue.TryGetInt64(out long parsedUniverse))
+				if (
+					universeDoc.RootElement.TryGetProperty("universeId", out System.Text.Json.JsonElement universeValue)
+					&& universeValue.TryGetInt64(out long parsedUniverse)
+				)
 				{
 					universeId = parsedUniverse;
 				}
@@ -578,9 +609,17 @@ public sealed partial class StudioRichPresence : IDisposable
 			string url = "";
 			if (universeId > 0)
 			{
-				string json = await GetJsonAsync($"https://thumbnails.roblox.com/v1/games/icons?universeIds={universeId}&size=512x512&format=Png&isCircular=false", token);
+				string json = await GetJsonAsync(
+					$"https://thumbnails.roblox.com/v1/games/icons?universeIds={universeId}&size=512x512&format=Png&isCircular=false",
+					token
+				);
 				using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse(json);
-				if (document.RootElement.TryGetProperty("data", out System.Text.Json.JsonElement data) && data.ValueKind == System.Text.Json.JsonValueKind.Array && data.GetArrayLength() > 0 && data[0].TryGetProperty("imageUrl", out System.Text.Json.JsonElement image))
+				if (
+					document.RootElement.TryGetProperty("data", out System.Text.Json.JsonElement data)
+					&& data.ValueKind == System.Text.Json.JsonValueKind.Array
+					&& data.GetArrayLength() > 0
+					&& data[0].TryGetProperty("imageUrl", out System.Text.Json.JsonElement image)
+				)
 				{
 					url = image.GetString() ?? "";
 				}
@@ -599,9 +638,7 @@ public sealed partial class StudioRichPresence : IDisposable
 				UpdatePresence();
 			}
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine(LogTag, "Icon fetch failed: " + ex.Message);
@@ -614,7 +651,8 @@ public sealed partial class StudioRichPresence : IDisposable
 
 	private static async Task<string> GetJsonAsync(string url, CancellationToken token)
 	{
-		using HttpResponseMessage response = await Http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+		using HttpResponseMessage response = await Http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token)
+			.ConfigureAwait(false);
 		response.EnsureSuccessStatusCode();
 		return await Utility.Http.ReadStringBoundedAsync(response.Content, MaxApiResponseBytes, token).ConfigureAwait(false);
 	}
@@ -645,9 +683,13 @@ public sealed partial class StudioRichPresence : IDisposable
 		}
 		if (parts.Count == 0)
 		{
-			parts.Add(Voidstrap.Utility.RpcText.Mark(startPage
-				? "On the start page"
-				: _mode == "Playtesting" || _mode == "Testing" ? "Testing the experience" : "Building the experience"));
+			parts.Add(
+				Voidstrap.Utility.RpcText.Mark(
+					startPage ? "On the start page"
+					: _mode == "Playtesting" || _mode == "Testing" ? "Testing the experience"
+					: "Building the experience"
+				)
+			);
 		}
 		string state = string.Join(", ", parts);
 		string largeImage = showPlace && _iconUrl.Length > 0 ? _iconUrl : StudioIconUrl;
@@ -655,31 +697,59 @@ public sealed partial class StudioRichPresence : IDisposable
 		List<DiscordRPC.Button> buttons = [];
 		if (showPlace && _placeId > 0)
 		{
-			buttons.Add(new DiscordRPC.Button { Label = Voidstrap.Utility.RpcText.Mark("View game"), Url = $"https://www.roblox.com/games/{_placeId}" });
+			buttons.Add(
+				new DiscordRPC.Button
+				{
+					Label = Voidstrap.Utility.RpcText.Mark("View game"),
+					Url = $"https://www.roblox.com/games/{_placeId}",
+				}
+			);
 		}
-		buttons.Add(new DiscordRPC.Button { Label = Voidstrap.Utility.RpcText.Mark("Get") + " " + Voidstrap.Utility.Branding.Name, Url = App.ProjectDownloadLink });
-		string signature = string.Join("|", Voidstrap.Utility.RpcText.Render(details), Voidstrap.Utility.RpcText.Render(state), largeImage, largeText, _placeId);
+		buttons.Add(
+			new DiscordRPC.Button
+			{
+				Label = Voidstrap.Utility.RpcText.Mark("Get") + " " + Voidstrap.Utility.Branding.Name,
+				Url = App.ProjectDownloadLink,
+			}
+		);
+		string signature = string.Join(
+			"|",
+			Voidstrap.Utility.RpcText.Render(details),
+			Voidstrap.Utility.RpcText.Render(state),
+			largeImage,
+			largeText,
+			_placeId
+		);
 		if (signature == _lastSignature)
 		{
 			return;
 		}
 		try
 		{
-			if (_client.SetPresenceSafe(new DiscordRPC.RichPresence
-			{
-				Details = Trim(details, 128),
-				State = Trim(state, 128),
-				StatusDisplay = StatusDisplayType.Details,
-				Timestamps = new Timestamps { Start = _sessionStart },
-				Assets = new Assets
-				{
-					LargeImageKey = largeImage,
-					LargeImageText = Trim(largeText, 128),
-					SmallImageKey = StudioIconUrl,
-					SmallImageText = linux && _linuxLog.Version.Length > 0 ? "Roblox Studio " + _linuxLog.Version + (Voidstrap.Utility.Platform.IsMacOS ? " on macOS" : " on Linux") : "Roblox Studio"
-				},
-				Buttons = buttons.ToArray()
-			}))
+			if (
+				_client.SetPresenceSafe(
+					new DiscordRPC.RichPresence
+					{
+						Details = Trim(details, 128),
+						State = Trim(state, 128),
+						StatusDisplay = StatusDisplayType.Details,
+						Timestamps = new Timestamps { Start = _sessionStart },
+						Assets = new Assets
+						{
+							LargeImageKey = largeImage,
+							LargeImageText = Trim(largeText, 128),
+							SmallImageKey = StudioIconUrl,
+							SmallImageText =
+								linux && _linuxLog.Version.Length > 0
+									? "Roblox Studio "
+										+ _linuxLog.Version
+										+ (Voidstrap.Utility.Platform.IsMacOS ? " on macOS" : " on Linux")
+									: "Roblox Studio",
+						},
+						Buttons = buttons.ToArray(),
+					}
+				)
+			)
 			{
 				_lastSignature = signature;
 			}
@@ -696,8 +766,12 @@ public sealed partial class StudioRichPresence : IDisposable
 		{
 			"Playtesting" => Voidstrap.Utility.RpcText.Mark("Playtesting") + " " + place,
 			"Testing" => Voidstrap.Utility.RpcText.Mark("Testing") + " " + place,
-			"Team Create" => Voidstrap.Utility.RpcText.Mark("Editing") + " " + place + " " + Voidstrap.Utility.RpcText.Mark("in Team Create"),
-			_ => Voidstrap.Utility.RpcText.Mark("Editing") + " " + place
+			"Team Create" => Voidstrap.Utility.RpcText.Mark("Editing")
+				+ " "
+				+ place
+				+ " "
+				+ Voidstrap.Utility.RpcText.Mark("in Team Create"),
+			_ => Voidstrap.Utility.RpcText.Mark("Editing") + " " + place,
 		};
 	}
 
@@ -724,9 +798,7 @@ public sealed partial class StudioRichPresence : IDisposable
 		{
 			_client?.ClearPresence();
 		}
-		catch
-		{
-		}
+		catch { }
 		ReleaseClient();
 		_lifetimeCancellation.Dispose();
 		_pollTimer = null;
@@ -768,7 +840,11 @@ public sealed partial class StudioRichPresence : IDisposable
 		{
 			get
 			{
-				if (_dataModels.Any(static model => !model.Equals("Edit", StringComparison.Ordinal) && !model.Equals("Standalone", StringComparison.Ordinal)))
+				if (
+					_dataModels.Any(static model =>
+						!model.Equals("Edit", StringComparison.Ordinal) && !model.Equals("Standalone", StringComparison.Ordinal)
+					)
+				)
 				{
 					return "Playtesting";
 				}
@@ -839,7 +915,9 @@ public sealed partial class StudioRichPresence : IDisposable
 				UniverseId = 0;
 				return;
 			}
-			if (line.Contains("RobloxIDEDoc::doClose", StringComparison.Ordinal) || line.Contains("close IDE doc", StringComparison.Ordinal))
+			if (
+				line.Contains("RobloxIDEDoc::doClose", StringComparison.Ordinal) || line.Contains("close IDE doc", StringComparison.Ordinal)
+			)
 			{
 				DocumentOpen = false;
 				HasEvents = true;
@@ -880,8 +958,9 @@ public sealed partial class StudioRichPresence : IDisposable
 		}
 	}
 
-    [GeneratedRegex(@"\bplaceId\b[^0-9]{0,12}(\d{1,19})", RegexOptions.IgnoreCase, "en-US")]
-    private static partial Regex PlaceIdPattern { get; }
-    [GeneratedRegex(@"\buniverseId\b[^0-9]{0,12}(\d{1,19})", RegexOptions.IgnoreCase, "en-US")]
-    private static partial Regex UniverseIdPattern { get; }
+	[GeneratedRegex(@"\bplaceId\b[^0-9]{0,12}(\d{1,19})", RegexOptions.IgnoreCase, "en-US")]
+	private static partial Regex PlaceIdPattern { get; }
+
+	[GeneratedRegex(@"\buniverseId\b[^0-9]{0,12}(\d{1,19})", RegexOptions.IgnoreCase, "en-US")]
+	private static partial Regex UniverseIdPattern { get; }
 }

@@ -19,7 +19,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             {
                 Frontend.ShowMessageBox(
                     "The NVIDIA driver is not available on this system. " + NvidiaProfileInspector.UnavailableReason,
-                    MessageBoxImage.Exclamation);
+                    MessageBoxImage.Exclamation
+                );
                 return false;
             }
 
@@ -27,9 +28,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 ? await Task.Run(() => NvidiaProfileManager.ApplyToDriver(entries))
                 : await NvidiaProfileManager.ApplyElevatedAsync(entries);
 
-            Frontend.ShowMessageBox(
-                Describe(result),
-                result.Ok ? MessageBoxImage.Asterisk : MessageBoxImage.Exclamation);
+            Frontend.ShowMessageBox(Describe(result), result.Ok ? MessageBoxImage.Asterisk : MessageBoxImage.Exclamation);
             return result.Ok;
         }
 
@@ -37,21 +36,39 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         {
             Voidstrap.Utility.LinuxNvidiaSettings.Choices choices = Voidstrap.Utility.LinuxNvidiaSettings.Read();
             string layer = Voidstrap.Platform.Linux.LinuxEffectLayers.MangoHudLayerId;
-            if (Voidstrap.Utility.LinuxNvidiaSettings.OverlayConfiguration(choices.Overlay) is not null
-                && !await Task.Run(() => Voidstrap.Platform.Linux.LinuxEffectLayers.IsInstalled(layer)))
+            if (
+                Voidstrap.Utility.LinuxNvidiaSettings.OverlayConfiguration(choices.Overlay) is not null
+                && !await Task.Run(() => Voidstrap.Platform.Linux.LinuxEffectLayers.IsInstalled(layer))
+            )
             {
                 if (Voidstrap.Utility.Platform.RuntimeHost is not { } host)
                 {
-                    Frontend.ShowMessageBox("The benchmark overlay needs the MangoHud Vulkan layer, which could not be installed from here.", MessageBoxImage.Exclamation);
+                    Frontend.ShowMessageBox(
+                        "The benchmark overlay needs the MangoHud Vulkan layer, which could not be installed from here.",
+                        MessageBoxImage.Exclamation
+                    );
                     return false;
                 }
 
-                if (Frontend.ShowMessageBox("The benchmark overlay needs the MangoHud Vulkan layer. Install it now?", MessageBoxImage.Question, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (
+                    Frontend.ShowMessageBox(
+                        "The benchmark overlay needs the MangoHud Vulkan layer. Install it now?",
+                        MessageBoxImage.Question,
+                        MessageBoxButton.YesNo
+                    ) == MessageBoxResult.Yes
+                )
                 {
-                    Voidstrap.Platform.OperationResult installed = await Voidstrap.Platform.Linux.LinuxEffectLayers.InstallAsync(host.Processes, layer);
+                    Voidstrap.Platform.OperationResult installed = await Voidstrap.Platform.Linux.LinuxEffectLayers.InstallAsync(
+                        host.Processes,
+                        layer
+                    );
                     if (!installed.Succeeded)
                     {
-                        Frontend.ShowMessageBox("The MangoHud layer could not be installed.\n\n" + (installed.Failure?.Message ?? "The installation did not complete"), MessageBoxImage.Exclamation);
+                        Frontend.ShowMessageBox(
+                            "The MangoHud layer could not be installed.\n\n"
+                                + (installed.Failure?.Message ?? "The installation did not complete"),
+                            MessageBoxImage.Exclamation
+                        );
                         return false;
                     }
                 }

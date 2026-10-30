@@ -288,7 +288,7 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		{ "Telemetry.Tencent6", "DFFlagPolicyServiceReportDetailIsNotSubjectToChinaPolicies" },
 		{ "Telemetry.Tencent7", "DFIntPolicyServiceReportDetailIsNotSubjectToChinaPoliciesHundredthsPercentage" },
 		{ "Rendering.Nograss1", "FIntFRMMinGrassDistance" },
-		{ "Rendering.Nograss2", "FIntFRMMaxGrassDistance" }
+		{ "Rendering.Nograss2", "FIntFRMMaxGrassDistance" },
 	};
 
 	public override string ClassName => "FastFlagManager";
@@ -309,7 +309,10 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 			}
 			foreach (KeyValuePair<string, object> pair in base.Prop)
 			{
-				if (!base.OriginalProp.TryGetValue(pair.Key, out object? original) || (original?.ToString() ?? string.Empty) != (pair.Value?.ToString() ?? string.Empty))
+				if (
+					!base.OriginalProp.TryGetValue(pair.Key, out object? original)
+					|| (original?.ToString() ?? string.Empty) != (pair.Value?.ToString() ?? string.Empty)
+				)
 				{
 					return true;
 				}
@@ -318,541 +321,224 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		}
 	}
 
-	public static IReadOnlyDictionary<RenderingMode, string> RenderingModes { get; } = new Dictionary<RenderingMode, string>
-	{
+	public static IReadOnlyDictionary<RenderingMode, string> RenderingModes { get; } =
+		new Dictionary<RenderingMode, string>
 		{
-			RenderingMode.Default,
-			"None"
-		},
-		{
-			RenderingMode.D3D11,
-			"D3D11"
-		},
-		{
-			RenderingMode.Vulkan,
-			"Vulkan"
-		},
-		{
-			RenderingMode.OpenGL,
-			"OpenGL"
-		}
-	};
+			{ RenderingMode.Default, "None" },
+			{ RenderingMode.D3D11, "D3D11" },
+			{ RenderingMode.Vulkan, "Vulkan" },
+			{ RenderingMode.OpenGL, "OpenGL" },
+		};
 
-	public static IReadOnlyDictionary<LightingMode, string> LightingModes { get; } = new Dictionary<LightingMode, string>
-	{
+	public static IReadOnlyDictionary<LightingMode, string> LightingModes { get; } =
+		new Dictionary<LightingMode, string>
 		{
-			LightingMode.Default,
-			"None"
-		},
-		{
-			LightingMode.Voxel,
-			"Voxel"
-		},
-		{
-			LightingMode.ShadowMap,
-			"ShadowMap"
-		},
-		{
-			LightingMode.Future,
-			"Future"
-		},
-		{
-			LightingMode.Unified,
-			"Unified"
-		}
-	};
+			{ LightingMode.Default, "None" },
+			{ LightingMode.Voxel, "Voxel" },
+			{ LightingMode.ShadowMap, "ShadowMap" },
+			{ LightingMode.Future, "Future" },
+			{ LightingMode.Unified, "Unified" },
+		};
 
-	public static IReadOnlyDictionary<ProfileMode, string> ProfileModes { get; } = new Dictionary<ProfileMode, string>
-	{
+	public static IReadOnlyDictionary<ProfileMode, string> ProfileModes { get; } =
+		new Dictionary<ProfileMode, string>
 		{
-			ProfileMode.Default,
-			"None"
-		},
-		{
-			ProfileMode.Voidstrap,
-			"Voidstraps Official"
-		},
-		{
-			ProfileMode.Stoof,
-			"Stoofs"
-		}
-	};
+			{ ProfileMode.Default, "None" },
+			{ ProfileMode.Voidstrap, "Voidstraps Official" },
+			{ ProfileMode.Stoof, "Stoofs" },
+		};
 
-	public static IReadOnlyDictionary<MSAAMode, string?> MSAAModes { get; } = new Dictionary<MSAAMode, string?>
-	{
+	public static IReadOnlyDictionary<MSAAMode, string?> MSAAModes { get; } =
+		new Dictionary<MSAAMode, string?>
 		{
-			MSAAMode.Default,
-			null
-		},
-		{
-			MSAAMode.x1,
-			"1"
-		},
-		{
-			MSAAMode.x2,
-			"2"
-		},
-		{
-			MSAAMode.x4,
-			"4"
-		},
-		{
-			MSAAMode.x8,
-			"8"
-		}
-	};
+			{ MSAAMode.Default, null },
+			{ MSAAMode.x1, "1" },
+			{ MSAAMode.x2, "2" },
+			{ MSAAMode.x4, "4" },
+			{ MSAAMode.x8, "8" },
+		};
 
-	public static IReadOnlyDictionary<TextureSkipping, string?> TextureSkippingSkips { get; } = new Dictionary<TextureSkipping, string?>
-	{
+	public static IReadOnlyDictionary<TextureSkipping, string?> TextureSkippingSkips { get; } =
+		new Dictionary<TextureSkipping, string?>
 		{
-			TextureSkipping.Noskip,
-			null
-		},
-		{
-			TextureSkipping.Skip1x,
-			"1"
-		},
-		{
-			TextureSkipping.Skip2x,
-			"2"
-		},
-		{
-			TextureSkipping.Skip3x,
-			"3"
-		},
-		{
-			TextureSkipping.Skip4x,
-			"4"
-		},
-		{
-			TextureSkipping.Skip5x,
-			"5"
-		},
-		{
-			TextureSkipping.Skip6x,
-			"6"
-		},
-		{
-			TextureSkipping.Skip7x,
-			"7"
-		},
-		{
-			TextureSkipping.Skip8x,
-			"8"
-		}
-	};
+			{ TextureSkipping.Noskip, null },
+			{ TextureSkipping.Skip1x, "1" },
+			{ TextureSkipping.Skip2x, "2" },
+			{ TextureSkipping.Skip3x, "3" },
+			{ TextureSkipping.Skip4x, "4" },
+			{ TextureSkipping.Skip5x, "5" },
+			{ TextureSkipping.Skip6x, "6" },
+			{ TextureSkipping.Skip7x, "7" },
+			{ TextureSkipping.Skip8x, "8" },
+		};
 
-	public static IReadOnlyDictionary<DistanceRendering, string?> DistanceRenderings { get; } = new Dictionary<DistanceRendering, string?>
-	{
+	public static IReadOnlyDictionary<DistanceRendering, string?> DistanceRenderings { get; } =
+		new Dictionary<DistanceRendering, string?>
 		{
-			DistanceRendering.Default,
-			null
-		},
-		{
-			DistanceRendering.Chunks1x,
-			"1"
-		},
-		{
-			DistanceRendering.Chunks2x,
-			"2"
-		},
-		{
-			DistanceRendering.Chunks3x,
-			"3"
-		},
-		{
-			DistanceRendering.Chunks4x,
-			"4"
-		},
-		{
-			DistanceRendering.Chunks5x,
-			"5"
-		},
-		{
-			DistanceRendering.Chunks6x,
-			"6"
-		},
-		{
-			DistanceRendering.Chunks7x,
-			"7"
-		},
-		{
-			DistanceRendering.Chunks8x,
-			"8"
-		},
-		{
-			DistanceRendering.Chunks9x,
-			"9"
-		},
-		{
-			DistanceRendering.Chunks10x,
-			"10"
-		},
-		{
-			DistanceRendering.Chunks11x,
-			"11"
-		},
-		{
-			DistanceRendering.Chunks12x,
-			"12"
-		},
-		{
-			DistanceRendering.Chunks13x,
-			"13"
-		},
-		{
-			DistanceRendering.Chunks14x,
-			"14"
-		},
-		{
-			DistanceRendering.Chunks15x,
-			"15"
-		},
-		{
-			DistanceRendering.Chunks16x,
-			"16"
-		}
-	};
+			{ DistanceRendering.Default, null },
+			{ DistanceRendering.Chunks1x, "1" },
+			{ DistanceRendering.Chunks2x, "2" },
+			{ DistanceRendering.Chunks3x, "3" },
+			{ DistanceRendering.Chunks4x, "4" },
+			{ DistanceRendering.Chunks5x, "5" },
+			{ DistanceRendering.Chunks6x, "6" },
+			{ DistanceRendering.Chunks7x, "7" },
+			{ DistanceRendering.Chunks8x, "8" },
+			{ DistanceRendering.Chunks9x, "9" },
+			{ DistanceRendering.Chunks10x, "10" },
+			{ DistanceRendering.Chunks11x, "11" },
+			{ DistanceRendering.Chunks12x, "12" },
+			{ DistanceRendering.Chunks13x, "13" },
+			{ DistanceRendering.Chunks14x, "14" },
+			{ DistanceRendering.Chunks15x, "15" },
+			{ DistanceRendering.Chunks16x, "16" },
+		};
 
-	public static IReadOnlyDictionary<DynamicResolution, string?> DynamicResolutions { get; } = new Dictionary<DynamicResolution, string?>
-	{
+	public static IReadOnlyDictionary<DynamicResolution, string?> DynamicResolutions { get; } =
+		new Dictionary<DynamicResolution, string?>
 		{
-			DynamicResolution.Default,
-			null
-		},
-		{
-			DynamicResolution.Resolution1,
-			"30"
-		},
-		{
-			DynamicResolution.Resolution2,
-			"77"
-		},
-		{
-			DynamicResolution.Resolution3,
-			"230"
-		},
-		{
-			DynamicResolution.Resolution4,
-			"410"
-		},
-		{
-			DynamicResolution.Resolution5,
-			"922"
-		},
-		{
-			DynamicResolution.Resolution6,
-			"2074"
-		},
-		{
-			DynamicResolution.Resolution7,
-			"3686"
-		},
-		{
-			DynamicResolution.Resolution8,
-			"8294"
-		},
-		{
-			DynamicResolution.Resolution9,
-			"33178"
-		}
-	};
+			{ DynamicResolution.Default, null },
+			{ DynamicResolution.Resolution1, "30" },
+			{ DynamicResolution.Resolution2, "77" },
+			{ DynamicResolution.Resolution3, "230" },
+			{ DynamicResolution.Resolution4, "410" },
+			{ DynamicResolution.Resolution5, "922" },
+			{ DynamicResolution.Resolution6, "2074" },
+			{ DynamicResolution.Resolution7, "3686" },
+			{ DynamicResolution.Resolution8, "8294" },
+			{ DynamicResolution.Resolution9, "33178" },
+		};
 
-	public static IReadOnlyDictionary<TextureQuality, string?> TextureQualityLevels { get; } = new Dictionary<TextureQuality, string?>
-	{
+	public static IReadOnlyDictionary<TextureQuality, string?> TextureQualityLevels { get; } =
+		new Dictionary<TextureQuality, string?>
 		{
-			TextureQuality.Default,
-			null
-		},
-		{
-			TextureQuality.Lowest,
-			"0"
-		},
-		{
-			TextureQuality.Low,
-			"1"
-		},
-		{
-			TextureQuality.Medium,
-			"2"
-		},
-		{
-			TextureQuality.High,
-			"3"
-		}
-	};
+			{ TextureQuality.Default, null },
+			{ TextureQuality.Lowest, "0" },
+			{ TextureQuality.Low, "1" },
+			{ TextureQuality.Medium, "2" },
+			{ TextureQuality.High, "3" },
+		};
 
-	public static IReadOnlyDictionary<InGameMenuVersion, Dictionary<string, string?>> IGMenuVersions { get; } = new Dictionary<InGameMenuVersion, Dictionary<string, string?>>
-	{
+	public static IReadOnlyDictionary<InGameMenuVersion, Dictionary<string, string?>> IGMenuVersions { get; } =
+		new Dictionary<InGameMenuVersion, Dictionary<string, string?>>
 		{
-			InGameMenuVersion.Default,
-			new Dictionary<string, string?>
 			{
-				{ "V2Rollout", null },
-				{ "EnableV4", null },
-				{ "EnableV4Chrome", null },
-				{ "ABTest", null },
-				{ "ReportButtonCutOff", null }
-			}
-		},
-		{
-			InGameMenuVersion.V2,
-			new Dictionary<string, string?>
+				InGameMenuVersion.Default,
+				new Dictionary<string, string?>
+				{
+					{ "V2Rollout", null },
+					{ "EnableV4", null },
+					{ "EnableV4Chrome", null },
+					{ "ABTest", null },
+					{ "ReportButtonCutOff", null },
+				}
+			},
 			{
-				{ "V2Rollout", "100" },
-				{ "EnableV4", "False" },
-				{ "EnableV4Chrome", "False" },
-				{ "ABTest", "False" },
-				{ "ReportButtonCutOff", null }
-			}
-		},
-		{
-			InGameMenuVersion.V4,
-			new Dictionary<string, string?>
+				InGameMenuVersion.V2,
+				new Dictionary<string, string?>
+				{
+					{ "V2Rollout", "100" },
+					{ "EnableV4", "False" },
+					{ "EnableV4Chrome", "False" },
+					{ "ABTest", "False" },
+					{ "ReportButtonCutOff", null },
+				}
+			},
 			{
-				{ "V2Rollout", "0" },
-				{ "EnableV4", "True" },
-				{ "EnableV4Chrome", "False" },
-				{ "ABTest", "False" },
-				{ "ReportButtonCutOff", null }
-			}
-		},
-		{
-			InGameMenuVersion.V4Chrome,
-			new Dictionary<string, string?>
+				InGameMenuVersion.V4,
+				new Dictionary<string, string?>
+				{
+					{ "V2Rollout", "0" },
+					{ "EnableV4", "True" },
+					{ "EnableV4Chrome", "False" },
+					{ "ABTest", "False" },
+					{ "ReportButtonCutOff", null },
+				}
+			},
 			{
-				{ "V2Rollout", "0" },
-				{ "EnableV4", "True" },
-				{ "EnableV4Chrome", "True" },
-				{ "ABTest", "False" },
-				{ "ReportButtonCutOff", null }
-			}
-		}
-	};
+				InGameMenuVersion.V4Chrome,
+				new Dictionary<string, string?>
+				{
+					{ "V2Rollout", "0" },
+					{ "EnableV4", "True" },
+					{ "EnableV4Chrome", "True" },
+					{ "ABTest", "False" },
+					{ "ReportButtonCutOff", null },
+				}
+			},
+		};
 
-	public static IReadOnlyDictionary<RomarkStart, string?> RomarkStartMappings { get; } = new Dictionary<RomarkStart, string?>
-	{
+	public static IReadOnlyDictionary<RomarkStart, string?> RomarkStartMappings { get; } =
+		new Dictionary<RomarkStart, string?>
 		{
-			RomarkStart.Disabled,
-			null
-		},
-		{
-			RomarkStart.Bar1,
-			"1"
-		},
-		{
-			RomarkStart.Bar2,
-			"2"
-		},
-		{
-			RomarkStart.Bar3,
-			"3"
-		},
-		{
-			RomarkStart.Bar4,
-			"4"
-		},
-		{
-			RomarkStart.Bar5,
-			"5"
-		},
-		{
-			RomarkStart.Bar6,
-			"6"
-		},
-		{
-			RomarkStart.Bar7,
-			"7"
-		},
-		{
-			RomarkStart.Bar8,
-			"8"
-		},
-		{
-			RomarkStart.Bar9,
-			"9"
-		},
-		{
-			RomarkStart.Bar10,
-			"10"
-		}
-	};
+			{ RomarkStart.Disabled, null },
+			{ RomarkStart.Bar1, "1" },
+			{ RomarkStart.Bar2, "2" },
+			{ RomarkStart.Bar3, "3" },
+			{ RomarkStart.Bar4, "4" },
+			{ RomarkStart.Bar5, "5" },
+			{ RomarkStart.Bar6, "6" },
+			{ RomarkStart.Bar7, "7" },
+			{ RomarkStart.Bar8, "8" },
+			{ RomarkStart.Bar9, "9" },
+			{ RomarkStart.Bar10, "10" },
+		};
 
-	public static IReadOnlyDictionary<Presents, string?> PresentsStartMappings { get; } = new Dictionary<Presents, string?>
-	{
-		{
-			Presents.Default,
-			null
-		},
-		{
-			Presents.Stoofs,
-			"1"
-		}
-	};
+	public static IReadOnlyDictionary<Presents, string?> PresentsStartMappings { get; } =
+		new Dictionary<Presents, string?> { { Presents.Default, null }, { Presents.Stoofs, "1" } };
 
-	public static IReadOnlyDictionary<QualityLevel, string?> QualityLevels { get; } = new Dictionary<QualityLevel, string?>
-	{
+	public static IReadOnlyDictionary<QualityLevel, string?> QualityLevels { get; } =
+		new Dictionary<QualityLevel, string?>
 		{
-			QualityLevel.Disabled,
-			null
-		},
-		{
-			QualityLevel.Level1,
-			"1"
-		},
-		{
-			QualityLevel.Level2,
-			"2"
-		},
-		{
-			QualityLevel.Level3,
-			"3"
-		},
-		{
-			QualityLevel.Level4,
-			"4"
-		},
-		{
-			QualityLevel.Level5,
-			"5"
-		},
-		{
-			QualityLevel.Level6,
-			"6"
-		},
-		{
-			QualityLevel.Level7,
-			"7"
-		},
-		{
-			QualityLevel.Level8,
-			"8"
-		},
-		{
-			QualityLevel.Level9,
-			"9"
-		},
-		{
-			QualityLevel.Level10,
-			"10"
-		},
-		{
-			QualityLevel.Level11,
-			"11"
-		},
-		{
-			QualityLevel.Level12,
-			"12"
-		},
-		{
-			QualityLevel.Level13,
-			"13"
-		},
-		{
-			QualityLevel.Level14,
-			"14"
-		},
-		{
-			QualityLevel.Level15,
-			"15"
-		},
-		{
-			QualityLevel.Level16,
-			"16"
-		},
-		{
-			QualityLevel.Level17,
-			"17"
-		},
-		{
-			QualityLevel.Level18,
-			"18"
-		},
-		{
-			QualityLevel.Level19,
-			"19"
-		},
-		{
-			QualityLevel.Level20,
-			"20"
-		},
-		{
-			QualityLevel.Level21,
-			"21"
-		}
-	};
+			{ QualityLevel.Disabled, null },
+			{ QualityLevel.Level1, "1" },
+			{ QualityLevel.Level2, "2" },
+			{ QualityLevel.Level3, "3" },
+			{ QualityLevel.Level4, "4" },
+			{ QualityLevel.Level5, "5" },
+			{ QualityLevel.Level6, "6" },
+			{ QualityLevel.Level7, "7" },
+			{ QualityLevel.Level8, "8" },
+			{ QualityLevel.Level9, "9" },
+			{ QualityLevel.Level10, "10" },
+			{ QualityLevel.Level11, "11" },
+			{ QualityLevel.Level12, "12" },
+			{ QualityLevel.Level13, "13" },
+			{ QualityLevel.Level14, "14" },
+			{ QualityLevel.Level15, "15" },
+			{ QualityLevel.Level16, "16" },
+			{ QualityLevel.Level17, "17" },
+			{ QualityLevel.Level18, "18" },
+			{ QualityLevel.Level19, "19" },
+			{ QualityLevel.Level20, "20" },
+			{ QualityLevel.Level21, "21" },
+		};
 
-	public static IReadOnlyDictionary<RefreshRate, string?> RefreshRates { get; } = new Dictionary<RefreshRate, string?>
-	{
+	public static IReadOnlyDictionary<RefreshRate, string?> RefreshRates { get; } =
+		new Dictionary<RefreshRate, string?>
 		{
-			RefreshRate.Default,
-			null
-		},
-		{
-			RefreshRate.RefreshRate75,
-			"75"
-		},
-		{
-			RefreshRate.RefreshRate85,
-			"80"
-		},
-		{
-			RefreshRate.RefreshRate90,
-			"90"
-		},
-		{
-			RefreshRate.RefreshRate100,
-			"100"
-		},
-		{
-			RefreshRate.RefreshRate120,
-			"120"
-		},
-		{
-			RefreshRate.RefreshRate144,
-			"144"
-		},
-		{
-			RefreshRate.RefreshRate165,
-			"165"
-		},
-		{
-			RefreshRate.RefreshRate180,
-			"180"
-		},
-		{
-			RefreshRate.RefreshRate200,
-			"200"
-		},
-		{
-			RefreshRate.RefreshRate240,
-			"240"
-		},
-		{
-			RefreshRate.RefreshRate360,
-			"360"
-		}
-	};
+			{ RefreshRate.Default, null },
+			{ RefreshRate.RefreshRate75, "75" },
+			{ RefreshRate.RefreshRate85, "80" },
+			{ RefreshRate.RefreshRate90, "90" },
+			{ RefreshRate.RefreshRate100, "100" },
+			{ RefreshRate.RefreshRate120, "120" },
+			{ RefreshRate.RefreshRate144, "144" },
+			{ RefreshRate.RefreshRate165, "165" },
+			{ RefreshRate.RefreshRate180, "180" },
+			{ RefreshRate.RefreshRate200, "200" },
+			{ RefreshRate.RefreshRate240, "240" },
+			{ RefreshRate.RefreshRate360, "360" },
+		};
 
-	public static IReadOnlyDictionary<Shader, string?> Shaders { get; } = new Dictionary<Shader, string?>
-	{
+	public static IReadOnlyDictionary<Shader, string?> Shaders { get; } =
+		new Dictionary<Shader, string?>
 		{
-			Shader.Disabled,
-			null
-		},
-		{
-			Shader.x1,
-			"-140000000"
-		},
-		{
-			Shader.x2,
-			"-340000000"
-		},
-		{
-			Shader.x3,
-			"-640000000"
-		}
-	};
+			{ Shader.Disabled, null },
+			{ Shader.x1, "-140000000" },
+			{ Shader.x2, "-340000000" },
+			{ Shader.x3, "-640000000" },
+		};
 
 	public void SetValue(string key, object? value)
 	{
@@ -891,7 +577,11 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 
 	public void SetPreset(string prefix, object? value)
 	{
-		foreach (KeyValuePair<string, string> item in PresetFlags.Where<KeyValuePair<string, string>>((KeyValuePair<string, string> x) => x.Key.StartsWith(prefix, StringComparison.Ordinal)))
+		foreach (
+			KeyValuePair<string, string> item in PresetFlags.Where<KeyValuePair<string, string>>(
+				(KeyValuePair<string, string> x) => x.Key.StartsWith(prefix, StringComparison.Ordinal)
+			)
+		)
 		{
 			SetValue(item.Value, value);
 		}
@@ -899,7 +589,11 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 
 	public void SetPresetEnum(string prefix, string target, object? value)
 	{
-		foreach (KeyValuePair<string, string> item in PresetFlags.Where<KeyValuePair<string, string>>((KeyValuePair<string, string> x) => x.Key.StartsWith(prefix, StringComparison.Ordinal)))
+		foreach (
+			KeyValuePair<string, string> item in PresetFlags.Where<KeyValuePair<string, string>>(
+				(KeyValuePair<string, string> x) => x.Key.StartsWith(prefix, StringComparison.Ordinal)
+			)
+		)
 		{
 			if (item.Key.StartsWith(prefix + "." + target, StringComparison.Ordinal))
 			{
@@ -930,7 +624,8 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		return null;
 	}
 
-	public T GetPresetEnum<T>(IReadOnlyDictionary<T, string> mapping, string prefix, string value) where T : Enum
+	public T GetPresetEnum<T>(IReadOnlyDictionary<T, string> mapping, string prefix, string value)
+		where T : Enum
 	{
 		foreach (KeyValuePair<T, string> item in mapping)
 		{
@@ -955,7 +650,10 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 	public override void Load(bool alertFailure = false)
 	{
 		base.Load(alertFailure);
-		base.OriginalProp = base.Prop.ToDictionary<KeyValuePair<string, object>, string, object>((KeyValuePair<string, object> pair) => pair.Key, (KeyValuePair<string, object> pair) => pair.Value?.ToString() ?? string.Empty);
+		base.OriginalProp = base.Prop.ToDictionary<KeyValuePair<string, object>, string, object>(
+			(KeyValuePair<string, object> pair) => pair.Key,
+			(KeyValuePair<string, object> pair) => pair.Value?.ToString() ?? string.Empty
+		);
 	}
 
 	public void DeleteBackup(string Backup)

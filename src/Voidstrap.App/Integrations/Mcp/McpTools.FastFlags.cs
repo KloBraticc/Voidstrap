@@ -50,7 +50,7 @@ public static partial class McpTools
 			{
 				["value"] = kv.Value?.ToString() ?? string.Empty,
 				["isAllowlisted"] = isAllowed,
-				["allowlistCategory"] = category
+				["allowlistCategory"] = category,
 			};
 
 			if (trackerCache != null)
@@ -72,9 +72,17 @@ public static partial class McpTools
 		if (includeAllowlist)
 		{
 			var allowlistFlagsObj = new JsonObject();
-			foreach (KeyValuePair<string, string> kv in allowlist.OrderBy(p => p.Value, StringComparer.OrdinalIgnoreCase).ThenBy(p => p.Key, StringComparer.OrdinalIgnoreCase))
+			foreach (
+				KeyValuePair<string, string> kv in allowlist
+					.OrderBy(p => p.Value, StringComparer.OrdinalIgnoreCase)
+					.ThenBy(p => p.Key, StringComparer.OrdinalIgnoreCase)
+			)
 			{
-				if (!string.IsNullOrEmpty(filter) && !kv.Key.Contains(filter, StringComparison.OrdinalIgnoreCase) && !kv.Value.Contains(filter, StringComparison.OrdinalIgnoreCase))
+				if (
+					!string.IsNullOrEmpty(filter)
+					&& !kv.Key.Contains(filter, StringComparison.OrdinalIgnoreCase)
+					&& !kv.Value.Contains(filter, StringComparison.OrdinalIgnoreCase)
+				)
 					continue;
 				allowlistFlagsObj[kv.Key] = kv.Value;
 			}
@@ -91,21 +99,21 @@ public static partial class McpTools
 					{
 						["DFFlagTextureQualityOverrideEnabled"] = "True",
 						["DFIntTextureQualityOverride"] = "0",
-						["FIntDebugForceMSAASamples"] = "1"
+						["FIntDebugForceMSAASamples"] = "1",
 					},
 					["Balanced"] = new JsonObject
 					{
 						["DFFlagTextureQualityOverrideEnabled"] = "True",
 						["DFIntTextureQualityOverride"] = "2",
-						["FIntDebugForceMSAASamples"] = "2"
+						["FIntDebugForceMSAASamples"] = "2",
 					},
 					["Quality"] = new JsonObject
 					{
 						["DFFlagTextureQualityOverrideEnabled"] = "True",
 						["DFIntTextureQualityOverride"] = "3",
-						["FIntDebugForceMSAASamples"] = "4"
-					}
-				}
+						["FIntDebugForceMSAASamples"] = "4",
+					},
+				},
 			};
 
 			var sourcesObj = new JsonObject();
@@ -117,23 +125,29 @@ public static partial class McpTools
 				["trackerRepository"] = "https://github.com/MaximumADHD/Roblox-FFlag-Tracker",
 				["clientTrackerRepository"] = "https://github.com/MaximumADHD/Roblox-Client-Tracker",
 				["cachedFlagCount"] = trackerCache?.Count ?? 0,
-				["sources"] = sourcesObj
+				["sources"] = sourcesObj,
 			};
 		}
 
 		if (includePresets)
 		{
 			var presetsObj = new JsonObject();
-			foreach (KeyValuePair<string, string> preset in FastFlagManager.PresetFlags.OrderBy(k => k.Key, StringComparer.OrdinalIgnoreCase))
+			foreach (
+				KeyValuePair<string, string> preset in FastFlagManager.PresetFlags.OrderBy(k => k.Key, StringComparer.OrdinalIgnoreCase)
+			)
 			{
-				if (!string.IsNullOrEmpty(filter) && !preset.Key.Contains(filter, StringComparison.OrdinalIgnoreCase) && !preset.Value.Contains(filter, StringComparison.OrdinalIgnoreCase))
+				if (
+					!string.IsNullOrEmpty(filter)
+					&& !preset.Key.Contains(filter, StringComparison.OrdinalIgnoreCase)
+					&& !preset.Value.Contains(filter, StringComparison.OrdinalIgnoreCase)
+				)
 					continue;
 
 				presetsObj[preset.Key] = new JsonObject
 				{
 					["flag"] = preset.Value,
 					["isAllowlisted"] = allowlist.ContainsKey(preset.Value),
-					["currentValue"] = App.FastFlags.GetPreset(preset.Key)
+					["currentValue"] = App.FastFlags.GetPreset(preset.Key),
 				};
 			}
 			root["availablePresets"] = presetsObj;
@@ -149,8 +163,16 @@ public static partial class McpTools
 		string? recommendedProfile = McpArgs.String(args, "recommendedProfile")?.Trim();
 		bool replaceAll = McpArgs.Flag(args, "replaceAll", false);
 
-		if ((flags == null || flags.Count == 0) && (presets == null || presets.Count == 0) && string.IsNullOrWhiteSpace(recommendedProfile) && !replaceAll)
-			return new McpToolResult("Provide 'flags', 'presets', 'recommendedProfile' ('Performance', 'Balanced', 'Quality'), or set 'replaceAll' to true.", true);
+		if (
+			(flags == null || flags.Count == 0)
+			&& (presets == null || presets.Count == 0)
+			&& string.IsNullOrWhiteSpace(recommendedProfile)
+			&& !replaceAll
+		)
+			return new McpToolResult(
+				"Provide 'flags', 'presets', 'recommendedProfile' ('Performance', 'Balanced', 'Quality'), or set 'replaceAll' to true.",
+				true
+			);
 
 		int setCount = 0;
 		int removedCount = 0;
@@ -173,21 +195,21 @@ public static partial class McpTools
 				{
 					["DFFlagTextureQualityOverrideEnabled"] = "True",
 					["DFIntTextureQualityOverride"] = "0",
-					["FIntDebugForceMSAASamples"] = "1"
+					["FIntDebugForceMSAASamples"] = "1",
 				},
 				"balanced" => new Dictionary<string, string>
 				{
 					["DFFlagTextureQualityOverrideEnabled"] = "True",
 					["DFIntTextureQualityOverride"] = "2",
-					["FIntDebugForceMSAASamples"] = "2"
+					["FIntDebugForceMSAASamples"] = "2",
 				},
 				"quality" => new Dictionary<string, string>
 				{
 					["DFFlagTextureQualityOverrideEnabled"] = "True",
 					["DFIntTextureQualityOverride"] = "3",
-					["FIntDebugForceMSAASamples"] = "4"
+					["FIntDebugForceMSAASamples"] = "4",
 				},
-				_ => null
+				_ => null,
 			};
 
 			if (profileFlags == null)
@@ -195,7 +217,10 @@ public static partial class McpTools
 				App.FastFlags.Prop.Clear();
 				foreach (KeyValuePair<string, object> pair in snapshot)
 					App.FastFlags.Prop[pair.Key] = pair.Value;
-				return new McpToolResult($"Unknown recommendedProfile '{recommendedProfile}'. Use 'Performance', 'Balanced', or 'Quality'.", true);
+				return new McpToolResult(
+					$"Unknown recommendedProfile '{recommendedProfile}'. Use 'Performance', 'Balanced', or 'Quality'.",
+					true
+				);
 			}
 
 			foreach (KeyValuePair<string, string> kv in profileFlags)
@@ -221,9 +246,7 @@ public static partial class McpTools
 					continue;
 				}
 
-				string val = kv.Value is JsonValue jv && jv.TryGetValue<bool>(out bool b)
-					? (b ? "True" : "False")
-					: kv.Value.ToString();
+				string val = kv.Value is JsonValue jv && jv.TryGetValue<bool>(out bool b) ? (b ? "True" : "False") : kv.Value.ToString();
 
 				App.FastFlags.Prop[kv.Key] = val;
 				setCount++;
@@ -267,39 +290,74 @@ public static partial class McpTools
 				bool has = preview.TryGetValue(key, out object? newValue);
 				if (had && has && string.Equals(oldValue?.ToString(), newValue?.ToString(), StringComparison.Ordinal))
 					continue;
-				diff.AppendLine(had && has ? $"  {key}: {oldValue} would become {newValue}" : has ? $"  {key}: would be added as {newValue}" : $"  {key}: would be removed");
+				diff.AppendLine(
+					had && has ? $"  {key}: {oldValue} would become {newValue}"
+					: has ? $"  {key}: would be added as {newValue}"
+					: $"  {key}: would be removed"
+				);
 			}
-			return new McpToolResult("Dry run, nothing was changed." + Environment.NewLine + (diff.Length == 0 ? "  no differences" : diff.ToString().TrimEnd()));
+			return new McpToolResult(
+				"Dry run, nothing was changed." + Environment.NewLine + (diff.Length == 0 ? "  no differences" : diff.ToString().TrimEnd())
+			);
 		}
 
-		PushUndo($"set_fastflags ({setCount} set, {removedCount} removed)", () =>
-		{
-			App.FastFlags.Prop.Clear();
-			foreach (KeyValuePair<string, object> pair in snapshot)
-				App.FastFlags.Prop[pair.Key] = pair.Value;
-			App.FastFlags.Save();
-			FastFlagEditorPage.RefreshActivePage();
-		});
+		PushUndo(
+			$"set_fastflags ({setCount} set, {removedCount} removed)",
+			() =>
+			{
+				App.FastFlags.Prop.Clear();
+				foreach (KeyValuePair<string, object> pair in snapshot)
+					App.FastFlags.Prop[pair.Key] = pair.Value;
+				App.FastFlags.Save();
+				FastFlagEditorPage.RefreshActivePage();
+			}
+		);
 
 		App.FastFlags.Save();
 		FastFlagEditorPage.RefreshActivePage();
 
-		return new McpToolResult($"Saved FastFlags ({setCount} set [{allowlistedSetCount} on Roblox allowlist], {removedCount} removed, {App.FastFlags.Prop.Count} total active).");
+		return new McpToolResult(
+			$"Saved FastFlags ({setCount} set [{allowlistedSetCount} on Roblox allowlist], {removedCount} removed, {App.FastFlags.Prop.Count} total active)."
+		);
 	}
 
 	private sealed record TrackerSourceDef(string Name, string Url, bool NamesOnly);
+
 	private sealed record TrackerFlagEntry(string DefaultValue, string Source);
 
 	private static readonly TrackerSourceDef[] TrackerSources =
 	{
 		new("Roblox ClientSettings", "https://clientsettings.roblox.com/v2/settings/application/PCDesktopClient", false),
-		new("PCDesktopClient", "https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCDesktopClient.json", false),
-		new("PCClientBootstrapper", "https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCClientBootstrapper.json", false),
+		new(
+			"PCDesktopClient",
+			"https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCDesktopClient.json",
+			false
+		),
+		new(
+			"PCClientBootstrapper",
+			"https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCClientBootstrapper.json",
+			false
+		),
 		new("PCStudioApp", "https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCStudioApp.json", false),
-		new("FVariables.txt", "https://raw.githubusercontent.com/MaximumADHD/Roblox-Client-Tracker/refs/heads/roblox/FVariables.txt", true)
+		new("FVariables.txt", "https://raw.githubusercontent.com/MaximumADHD/Roblox-Client-Tracker/refs/heads/roblox/FVariables.txt", true),
 	};
 
-	private static readonly string[] KnownFlagPrefixes = { "FFlag", "DFFlag", "SFFlag", "FInt", "DFInt", "SFInt", "FString", "DFString", "SFString", "FLog", "DFLog", "SFLog", "FDouble" };
+	private static readonly string[] KnownFlagPrefixes =
+	{
+		"FFlag",
+		"DFFlag",
+		"SFFlag",
+		"FInt",
+		"DFInt",
+		"SFInt",
+		"FString",
+		"DFString",
+		"SFString",
+		"FLog",
+		"DFLog",
+		"SFLog",
+		"FDouble",
+	};
 
 	private static readonly HttpClient TrackerHttpClient = VpnHttpClient.Create(TimeSpan.FromSeconds(20));
 	private static readonly SemaphoreSlim TrackerFetchLock = new(1, 1);
@@ -308,8 +366,14 @@ public static partial class McpTools
 	private static volatile Dictionary<string, TrackerFlagEntry>? _trackerFlagsCache;
 	private static volatile Dictionary<string, int>? _trackerSourceCountsCache;
 
-	private static readonly Regex AllowlistCategoryRegex = new("<p><strong>(?<category>[^<]+)</strong>:</p>\\s*<ul>(?<items>.*?)</ul>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
-	private static readonly Regex AllowlistItemRegex = new("<li>(?<flag>[A-Za-z][A-Za-z0-9_]*)</li>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+	private static readonly Regex AllowlistCategoryRegex = new(
+		"<p><strong>(?<category>[^<]+)</strong>:</p>\\s*<ul>(?<items>.*?)</ul>",
+		RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled
+	);
+	private static readonly Regex AllowlistItemRegex = new(
+		"<li>(?<flag>[A-Za-z][A-Za-z0-9_]*)</li>",
+		RegexOptions.IgnoreCase | RegexOptions.Compiled
+	);
 
 	private static IReadOnlyDictionary<string, string> GetEffectiveAllowlist()
 	{
@@ -333,18 +397,24 @@ public static partial class McpTools
 			int limit = Math.Clamp(McpArgs.Int(args, "limit", 100, int.MinValue, int.MaxValue), 1, 500);
 
 			Dictionary<string, string> configuredSnapshot = await dispatcher.InvokeAsync(() =>
-				App.FastFlags.Prop.ToDictionary(kv => kv.Key, kv => kv.Value?.ToString() ?? string.Empty, StringComparer.Ordinal));
+				App.FastFlags.Prop.ToDictionary(kv => kv.Key, kv => kv.Value?.ToString() ?? string.Empty, StringComparer.Ordinal)
+			);
 
 			await EnsureTrackerAndAllowlistLoadedAsync(refreshOnline, token).ConfigureAwait(false);
 
 			IReadOnlyDictionary<string, string> allowlist = GetEffectiveAllowlist();
-			Dictionary<string, TrackerFlagEntry> trackerFlags = _trackerFlagsCache ?? new Dictionary<string, TrackerFlagEntry>(StringComparer.Ordinal);
+			Dictionary<string, TrackerFlagEntry> trackerFlags =
+				_trackerFlagsCache ?? new Dictionary<string, TrackerFlagEntry>(StringComparer.Ordinal);
 			Dictionary<string, int> sourceCounts = _trackerSourceCountsCache ?? new Dictionary<string, int>(StringComparer.Ordinal);
 
 			var root = new JsonObject();
 
 			var allowlistFlagsNode = new JsonObject();
-			foreach (KeyValuePair<string, string> kv in allowlist.OrderBy(p => p.Value, StringComparer.OrdinalIgnoreCase).ThenBy(p => p.Key, StringComparer.OrdinalIgnoreCase))
+			foreach (
+				KeyValuePair<string, string> kv in allowlist
+					.OrderBy(p => p.Value, StringComparer.OrdinalIgnoreCase)
+					.ThenBy(p => p.Key, StringComparer.OrdinalIgnoreCase)
+			)
 				allowlistFlagsNode[kv.Key] = kv.Value;
 
 			root["robloxAllowlist"] = new JsonObject
@@ -353,17 +423,13 @@ public static partial class McpTools
 				["jsonFeedUrl"] = RobloxFastFlagAllowlist.AnnouncementUrl + ".json",
 				["onlineLoaded"] = _onlineAllowlistCache != null,
 				["count"] = allowlist.Count,
-				["flags"] = allowlistFlagsNode
+				["flags"] = allowlistFlagsNode,
 			};
 
 			var sourcesNode = new JsonObject();
 			foreach (TrackerSourceDef def in TrackerSources)
 			{
-				sourcesNode[def.Name] = new JsonObject
-				{
-					["url"] = def.Url,
-					["flagCount"] = sourceCounts.GetValueOrDefault(def.Name, 0)
-				};
+				sourcesNode[def.Name] = new JsonObject { ["url"] = def.Url, ["flagCount"] = sourceCounts.GetValueOrDefault(def.Name, 0) };
 			}
 
 			root["maximumAdhdTracker"] = new JsonObject
@@ -371,7 +437,7 @@ public static partial class McpTools
 				["trackerRepository"] = "https://github.com/MaximumADHD/Roblox-FFlag-Tracker",
 				["clientTrackerRepository"] = "https://github.com/MaximumADHD/Roblox-Client-Tracker",
 				["totalUniqueFlags"] = trackerFlags.Count,
-				["sources"] = sourcesNode
+				["sources"] = sourcesNode,
 			};
 
 			if (validateConfigured)
@@ -401,7 +467,7 @@ public static partial class McpTools
 						["defaultValue"] = tEntry?.DefaultValue,
 						["isAllowlisted"] = isAllowed,
 						["allowlistCategory"] = allowCat,
-						["tags"] = tagsArr
+						["tags"] = tagsArr,
 					};
 				}
 
@@ -410,11 +476,12 @@ public static partial class McpTools
 					["totalConfigured"] = configuredSnapshot.Count,
 					["validInTrackerCount"] = validInTrackerCount,
 					["allowlistedCount"] = allowlistedConfigCount,
-					["flags"] = validationObj
+					["flags"] = validationObj,
 				};
 			}
 
-			bool hasSearchCriteria = !string.IsNullOrWhiteSpace(query)
+			bool hasSearchCriteria =
+				!string.IsNullOrWhiteSpace(query)
 				|| allowlistedOnly
 				|| !string.Equals(sourceFilter, "all", StringComparison.OrdinalIgnoreCase);
 
@@ -433,18 +500,25 @@ public static partial class McpTools
 					candidates = allowlist.Keys.Select(k =>
 						trackerFlags.TryGetValue(k, out TrackerFlagEntry? te)
 							? new KeyValuePair<string, TrackerFlagEntry>(k, te)
-							: new KeyValuePair<string, TrackerFlagEntry>(k, new TrackerFlagEntry(string.Empty, "Roblox Allowlist")));
+							: new KeyValuePair<string, TrackerFlagEntry>(k, new TrackerFlagEntry(string.Empty, "Roblox Allowlist"))
+					);
 				}
 				else
 				{
 					candidates = trackerFlags;
 				}
 
-				foreach (KeyValuePair<string, TrackerFlagEntry> kv in candidates.OrderBy(p => !allowlist.ContainsKey(p.Key)).ThenBy(p => p.Key, StringComparer.OrdinalIgnoreCase))
+				foreach (
+					KeyValuePair<string, TrackerFlagEntry> kv in candidates
+						.OrderBy(p => !allowlist.ContainsKey(p.Key))
+						.ThenBy(p => p.Key, StringComparer.OrdinalIgnoreCase)
+				)
 				{
-					if (!string.Equals(sourceFilter, "all", StringComparison.OrdinalIgnoreCase)
+					if (
+						!string.Equals(sourceFilter, "all", StringComparison.OrdinalIgnoreCase)
 						&& !string.Equals(sourceFilter, "allowlist", StringComparison.OrdinalIgnoreCase)
-						&& !kv.Value.Source.Contains(sourceFilter, StringComparison.OrdinalIgnoreCase))
+						&& !kv.Value.Source.Contains(sourceFilter, StringComparison.OrdinalIgnoreCase)
+					)
 						continue;
 
 					bool isAllowed = allowlist.TryGetValue(kv.Key, out string? allowCat);
@@ -456,8 +530,10 @@ public static partial class McpTools
 						bool matchedAll = true;
 						foreach (string term in terms)
 						{
-							if (!kv.Key.Contains(term, StringComparison.OrdinalIgnoreCase)
-								&& (allowCat == null || !allowCat.Contains(term, StringComparison.OrdinalIgnoreCase)))
+							if (
+								!kv.Key.Contains(term, StringComparison.OrdinalIgnoreCase)
+								&& (allowCat == null || !allowCat.Contains(term, StringComparison.OrdinalIgnoreCase))
+							)
 							{
 								matchedAll = false;
 								break;
@@ -472,15 +548,17 @@ public static partial class McpTools
 						continue;
 
 					configuredSnapshot.TryGetValue(kv.Key, out string? currentVal);
-					matchesArray.Add(new JsonObject
-					{
-						["name"] = kv.Key,
-						["defaultValue"] = kv.Value.DefaultValue,
-						["source"] = kv.Value.Source,
-						["isAllowlisted"] = isAllowed,
-						["allowlistCategory"] = allowCat,
-						["configuredValue"] = currentVal
-					});
+					matchesArray.Add(
+						new JsonObject
+						{
+							["name"] = kv.Key,
+							["defaultValue"] = kv.Value.DefaultValue,
+							["source"] = kv.Value.Source,
+							["isAllowlisted"] = isAllowed,
+							["allowlistCategory"] = allowCat,
+							["configuredValue"] = currentVal,
+						}
+					);
 				}
 
 				root["searchResults"] = new JsonObject
@@ -488,7 +566,7 @@ public static partial class McpTools
 					["query"] = query ?? string.Empty,
 					["totalMatches"] = totalMatches,
 					["returnedCount"] = matchesArray.Count,
-					["matches"] = matchesArray
+					["matches"] = matchesArray,
 				};
 			}
 
@@ -564,16 +642,23 @@ public static partial class McpTools
 		{
 			using var cts = CancellationTokenSource.CreateLinkedTokenSource(token);
 			cts.CancelAfter(TimeSpan.FromSeconds(12));
-			string payload = await Http.GetStringBoundedAsync(TrackerHttpClient, RobloxFastFlagAllowlist.AnnouncementUrl + ".json", token: cts.Token).ConfigureAwait(false);
+			string payload = await Http.GetStringBoundedAsync(
+					TrackerHttpClient,
+					RobloxFastFlagAllowlist.AnnouncementUrl + ".json",
+					token: cts.Token
+				)
+				.ConfigureAwait(false);
 			if (string.IsNullOrWhiteSpace(payload))
 				return null;
 
 			using JsonDocument doc = JsonDocument.Parse(payload);
-			if (!doc.RootElement.TryGetProperty("post_stream", out JsonElement stream)
+			if (
+				!doc.RootElement.TryGetProperty("post_stream", out JsonElement stream)
 				|| !stream.TryGetProperty("posts", out JsonElement posts)
 				|| posts.ValueKind != JsonValueKind.Array
 				|| posts.GetArrayLength() == 0
-				|| !posts[0].TryGetProperty("cooked", out JsonElement cookedEl))
+				|| !posts[0].TryGetProperty("cooked", out JsonElement cookedEl)
+			)
 				return null;
 
 			string cooked = cookedEl.GetString() ?? string.Empty;
@@ -602,7 +687,10 @@ public static partial class McpTools
 		}
 	}
 
-	private static async Task<(string Name, Dictionary<string, string> Flags)> FetchTrackerSourceAsync(TrackerSourceDef source, CancellationToken token)
+	private static async Task<(string Name, Dictionary<string, string> Flags)> FetchTrackerSourceAsync(
+		TrackerSourceDef source,
+		CancellationToken token
+	)
 	{
 		var flags = new Dictionary<string, string>(StringComparer.Ordinal);
 		try
@@ -638,7 +726,11 @@ public static partial class McpTools
 			{
 				using JsonDocument doc = JsonDocument.Parse(content);
 				JsonElement root = doc.RootElement;
-				if (root.ValueKind == JsonValueKind.Object && root.TryGetProperty("applicationSettings", out JsonElement nested) && nested.ValueKind == JsonValueKind.Object)
+				if (
+					root.ValueKind == JsonValueKind.Object
+					&& root.TryGetProperty("applicationSettings", out JsonElement nested)
+					&& nested.ValueKind == JsonValueKind.Object
+				)
 					root = nested;
 
 				if (root.ValueKind == JsonValueKind.Object)
@@ -650,16 +742,14 @@ public static partial class McpTools
 							JsonValueKind.True => "True",
 							JsonValueKind.False => "False",
 							JsonValueKind.String => prop.Value.GetString() ?? string.Empty,
-							_ => prop.Value.GetRawText()
+							_ => prop.Value.GetRawText(),
 						};
 						flags.TryAdd(prop.Name, val);
 					}
 				}
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 
 		return (source.Name, flags);
 	}

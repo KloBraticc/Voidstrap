@@ -2,7 +2,8 @@
 {
     internal static class FrameGenShaders
     {
-        public const string Source = @"
+        public const string Source =
+            @"
 struct VSOut { float4 pos : SV_Position; float2 uv : TEXCOORD0; };
 
 VSOut VSMain(uint id : SV_VertexID)

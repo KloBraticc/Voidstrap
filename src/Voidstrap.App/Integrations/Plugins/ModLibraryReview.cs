@@ -29,9 +29,14 @@ internal static partial class ModLibraryReview
 	private static readonly Regex ReviewerInjectionPattern = new(
 		"(ignore|disregard|forget|override)\\s+(all\\s+|any\\s+|the\\s+)?(previous|prior|above|earlier|system)\\s+(instructions|rules|prompts?)|you\\s+are\\s+(now\\s+)?(an?\\s+|the\\s+)?(ai|assistant|reviewer|language model)|system\\s+prompt|mark\\s+(this|it)\\s+(as\\s+)?safe|respond\\s+with\\s+.{0,20}safe|(say|respond|answer|output|return)\\s+.{0,30}verdict",
 		RegexOptions.IgnoreCase,
-		TimeSpan.FromSeconds(1));
+		TimeSpan.FromSeconds(1)
+	);
 
-	private static readonly Regex InvisibleCharacterPattern = new("[\\u200B-\\u200F\\u202A-\\u202E\\u2066-\\u2069\\uFEFF]", RegexOptions.None, TimeSpan.FromSeconds(1));
+	private static readonly Regex InvisibleCharacterPattern = new(
+		"[\\u200B-\\u200F\\u202A-\\u202E\\u2066-\\u2069\\uFEFF]",
+		RegexOptions.None,
+		TimeSpan.FromSeconds(1)
+	);
 
 	private static readonly string[] AllowedExtensions = [".ts", ".tsx", ".js", ".mjs", ".jsx", ".json", ".md", ".ico"];
 
@@ -85,7 +90,9 @@ internal static partial class ModLibraryReview
 				bool binary = !entry.TryGetProperty("binary", out JsonElement binaryValue) || binaryValue.ValueKind != JsonValueKind.False;
 				try
 				{
-					rules.Add(new ReviewRule(pattern, reason, level, binary, new Regex(pattern, RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1))));
+					rules.Add(
+						new ReviewRule(pattern, reason, level, binary, new Regex(pattern, RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1)))
+					);
 				}
 				catch (ArgumentException ex)
 				{
@@ -108,9 +115,7 @@ internal static partial class ModLibraryReview
 			if (document.RootElement.GetProperty("limits").TryGetProperty(name, out JsonElement value) && value.TryGetInt32(out int parsed))
 				return parsed;
 		}
-		catch (Exception)
-		{
-		}
+		catch (Exception) { }
 		return fallback;
 	}
 

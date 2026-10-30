@@ -7,9 +7,7 @@ namespace Voidstrap.Models.Manifest;
 
 public class PackageManifest : List<Package>
 {
-	public PackageManifest()
-	{
-	}
+	public PackageManifest() { }
 
 	public PackageManifest(string data)
 	{
@@ -45,7 +43,11 @@ public class PackageManifest : List<Package>
 			{
 				throw new InvalidDataException("Package manifest ended in the middle of a package entry");
 			}
-			if (!string.Equals(Path.GetFileName(text2), text2, StringComparison.Ordinal) || text3.Length != 32 || !text3.All(Uri.IsHexDigit))
+			if (
+				!string.Equals(Path.GetFileName(text2), text2, StringComparison.Ordinal)
+				|| text3.Length != 32
+				|| !text3.All(Uri.IsHexDigit)
+			)
 			{
 				throw new InvalidDataException("Package manifest contains an invalid package identity");
 			}
@@ -53,17 +55,24 @@ public class PackageManifest : List<Package>
 			{
 				throw new InvalidDataException("Package manifest contains an invalid package size");
 			}
-			if (this.Any(package => package.Name.Equals(text2, StringComparison.OrdinalIgnoreCase) || package.Signature.Equals(text3, StringComparison.OrdinalIgnoreCase)))
+			if (
+				this.Any(package =>
+					package.Name.Equals(text2, StringComparison.OrdinalIgnoreCase)
+					|| package.Signature.Equals(text3, StringComparison.OrdinalIgnoreCase)
+				)
+			)
 			{
 				throw new InvalidDataException("Package manifest contains a duplicate package");
 			}
-			Add(new Package
-			{
-				Name = text2,
-				Signature = text3,
-				PackedSize = packedSize,
-				Size = size
-			});
+			Add(
+				new Package
+				{
+					Name = text2,
+					Signature = text3,
+					PackedSize = packedSize,
+					Size = size,
+				}
+			);
 		}
 		if (Count == 0)
 		{

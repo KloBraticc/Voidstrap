@@ -26,7 +26,7 @@ public enum OverlayStudioLayer
     Dock = 2,
     Crosshair = 3,
     Panels = 4,
-    Keystrokes = 5
+    Keystrokes = 5,
 }
 
 internal sealed partial class SessionLiveOverlayCanvasWindow : Window
@@ -46,7 +46,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         "\uE734",
         "\uE774",
         "\uE759",
-        "\uE713"
+        "\uE713",
     ];
 
     private readonly ImageSource? _gameIcon;
@@ -112,7 +112,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         OverlayStudioLayer initialLayer,
         ImageSource? gameIcon,
         Action<OverlayStudioLayer> onLayerUpdated,
-        Action onResetAll)
+        Action onResetAll
+    )
     {
         _selectedLayer = initialLayer == OverlayStudioLayer.Panels ? OverlayStudioLayer.Readout : initialLayer;
         _gameIcon = gameIcon;
@@ -139,7 +140,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         {
             Stroke = new SolidColorBrush(Color.FromArgb(42, 255, 255, 255)),
             StrokeThickness = 1,
-            IsHitTestVisible = false
+            IsHitTestVisible = false,
         };
         root.Children.Add(outerBorder);
 
@@ -161,7 +162,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             out _readoutPanel,
             out _readoutLocationText,
             out _readoutSeparatorText,
-            out _readoutTimeText);
+            out _readoutTimeText
+        );
         _readoutWrapper = WrapExactElement(OverlayStudioLayer.Readout, _readoutBorder);
 
         _notificationHost = BuildExactNotificationElement(
@@ -172,7 +174,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             out _notificationHeader,
             out _notificationHeaderText,
             out _notificationTitle,
-            out _notificationText);
+            out _notificationText
+        );
         _notificationWrapper = WrapExactElement(OverlayStudioLayer.Notifications, _notificationHost);
 
         _dockRoot = BuildExactDockElement(
@@ -183,7 +186,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             out _dockGameImage,
             out _dockGameTitle,
             out _dockSessionClockRun,
-            out _dockServerClockRun);
+            out _dockServerClockRun
+        );
         _dockWrapper = WrapExactElement(OverlayStudioLayer.Dock, _dockRoot);
 
         _crosshairImage = BuildExactCrosshairElement(128);
@@ -243,13 +247,10 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         out StackPanel panel,
         out TextBlock locationText,
         out TextBlock separatorText,
-        out TextBlock timeText)
+        out TextBlock timeText
+    )
     {
-        panel = new StackPanel
-        {
-            Orientation = Orientation.Vertical,
-            Margin = new Thickness(0)
-        };
+        panel = new StackPanel { Orientation = Orientation.Vertical, Margin = new Thickness(0) };
 
         locationText = CreateExactReadoutTextBlock(new SolidColorBrush(Color.FromRgb(245, 245, 245)));
         locationText.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
@@ -278,24 +279,25 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Background = new SolidColorBrush(Color.FromRgb(32, 32, 32)),
             BorderBrush = new SolidColorBrush(Color.FromRgb(58, 58, 58)),
             BorderThickness = new Thickness(1),
-            Child = panel
+            Child = panel,
         };
         border.SetResourceReference(Border.BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
         border.SetResourceReference(Border.BorderBrushProperty, "SurfaceStrokeColorDefaultBrush");
         return border;
     }
 
-    private static TextBlock CreateExactReadoutTextBlock(Brush fallback) => new()
-    {
-        FontSize = 17,
-        FontWeight = FontWeights.SemiBold,
-        FontFamily = new System.Windows.Media.FontFamily("Segoe UI Variable Text"),
-        Foreground = fallback,
-        TextWrapping = TextWrapping.NoWrap,
-        TextTrimming = TextTrimming.None,
-        LineHeight = 23,
-        Margin = new Thickness(0, 1, 0, 1)
-    };
+    private static TextBlock CreateExactReadoutTextBlock(Brush fallback) =>
+        new()
+        {
+            FontSize = 17,
+            FontWeight = FontWeights.SemiBold,
+            FontFamily = new System.Windows.Media.FontFamily("Segoe UI Variable Text"),
+            Foreground = fallback,
+            TextWrapping = TextWrapping.NoWrap,
+            TextTrimming = TextTrimming.None,
+            LineHeight = 23,
+            Margin = new Thickness(0, 1, 0, 1),
+        };
 
     internal static void ApplyExactReadoutConfiguration(
         Border readoutBorder,
@@ -303,7 +305,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         TextBlock locationText,
         TextBlock separatorText,
         TextBlock timeText,
-        double stageScale)
+        double stageScale
+    )
     {
         AppSettings settings = App.Settings.Prop;
         OverlayLayoutSettings layout = settings.OverlayLayout ?? new OverlayLayoutSettings();
@@ -328,9 +331,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         readoutBorder.Opacity = layout.SafeReadoutOpacity;
 
         double totalScale = layout.SafeReadoutScale * stageScale;
-        readoutBorder.LayoutTransform = Math.Abs(totalScale - 1.0) > 0.005
-            ? new ScaleTransform(totalScale, totalScale)
-            : Transform.Identity;
+        readoutBorder.LayoutTransform =
+            Math.Abs(totalScale - 1.0) > 0.005 ? new ScaleTransform(totalScale, totalScale) : Transform.Identity;
     }
 
     internal static Border BuildExactNotificationElement(
@@ -341,7 +343,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         out StackPanel headerPanel,
         out TextBlock headerText,
         out TextBlock titleText,
-        out TextBlock bodyText)
+        out TextBlock bodyText
+    )
     {
         shadowGrid = new Grid { IsHitTestVisible = false };
 
@@ -358,9 +361,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             {
                 fallbackIcon = new BitmapImage(new Uri("pack://application:,,,/Voidstrap.png", UriKind.Absolute));
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         iconImage = new Image
@@ -371,7 +372,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             VerticalAlignment = VerticalAlignment.Center,
             Stretch = Stretch.Uniform,
             Source = fallbackIcon,
-            Visibility = fallbackIcon == null ? Visibility.Collapsed : Visibility.Visible
+            Visibility = fallbackIcon == null ? Visibility.Collapsed : Visibility.Visible,
         };
         RenderOptions.SetBitmapScalingMode(iconImage, BitmapScalingMode.HighQuality);
         contentGrid.Children.Add(iconImage);
@@ -383,7 +384,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         {
             Orientation = Orientation.Horizontal,
             Margin = new Thickness(0, 0, 14, 5),
-            Visibility = Visibility.Collapsed
+            Visibility = Visibility.Collapsed,
         };
         try
         {
@@ -392,14 +393,12 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
                 Source = new BitmapImage(new Uri("pack://application:,,,/Voidstrap.png", UriKind.Absolute)),
                 Width = 14,
                 Height = 14,
-                Margin = new Thickness(0, 0, 6, 0)
+                Margin = new Thickness(0, 0, 6, 0),
             };
             RenderOptions.SetBitmapScalingMode(brandIcon, BitmapScalingMode.HighQuality);
             headerPanel.Children.Add(brandIcon);
         }
-        catch
-        {
-        }
+        catch { }
 
         headerText = new TextBlock
         {
@@ -407,7 +406,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             FontSize = 11,
             FontWeight = FontWeights.SemiBold,
             VerticalAlignment = VerticalAlignment.Center,
-            Foreground = new SolidColorBrush(Color.FromRgb(170, 170, 170))
+            Foreground = new SolidColorBrush(Color.FromRgb(170, 170, 170)),
         };
         headerText.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
         headerPanel.Children.Add(headerText);
@@ -420,7 +419,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             FontWeight = FontWeights.SemiBold,
             Margin = new Thickness(0, 0, 14, 0),
             TextWrapping = TextWrapping.Wrap,
-            Foreground = Brushes.White
+            Foreground = Brushes.White,
         };
         titleText.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
         textStack.Children.Add(titleText);
@@ -433,7 +432,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             TextWrapping = TextWrapping.Wrap,
             TextTrimming = TextTrimming.CharacterEllipsis,
             MaxHeight = 64,
-            Foreground = new SolidColorBrush(Color.FromRgb(180, 180, 180))
+            Foreground = new SolidColorBrush(Color.FromRgb(180, 180, 180)),
         };
         bodyText.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
         textStack.Children.Add(bodyText);
@@ -444,7 +443,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         {
             Padding = new Thickness(14, 12, 16, 12),
             BorderBrush = new SolidColorBrush(Color.FromArgb(40, 255, 255, 255)),
-            Child = contentGrid
+            Child = contentGrid,
         };
         card.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
 
@@ -452,11 +451,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         layer.Children.Add(shadowGrid);
         layer.Children.Add(card);
 
-        return new Border
-        {
-            ClipToBounds = true,
-            Child = layer
-        };
+        return new Border { ClipToBounds = true, Child = layer };
     }
 
     internal static void ApplyExactNotificationConfiguration(
@@ -468,7 +463,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         TextBlock headerText,
         TextBlock titleText,
         TextBlock bodyText,
-        double stageScale)
+        double stageScale
+    )
     {
         NotificationAppearance appearance = NotificationStyle.Current;
         card.Width = appearance.SafeCardWidth;
@@ -485,9 +481,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         bodyText.MaxHeight = 64 * textScale;
         header.Visibility = appearance.ShowsHeader(false) ? Visibility.Visible : Visibility.Collapsed;
         host.Padding = NotificationStyle.ShadowMargins(appearance);
-        host.LayoutTransform = Math.Abs(stageScale - 1.0) > 0.005
-            ? new ScaleTransform(stageScale, stageScale)
-            : Transform.Identity;
+        host.LayoutTransform = Math.Abs(stageScale - 1.0) > 0.005 ? new ScaleTransform(stageScale, stageScale) : Transform.Identity;
     }
 
     internal static Grid BuildExactDockElement(
@@ -498,20 +492,61 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         out Image gameImage,
         out TextBlock gameTitle,
         out Run sessionClockRun,
-        out Run serverClockRun)
+        out Run serverClockRun
+    )
     {
         Grid root = new()
         {
             Height = 64,
             HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center
+            VerticalAlignment = VerticalAlignment.Center,
         };
 
-        root.Children.Add(new Border { Margin = new Thickness(-2, -1, -2, -3), CornerRadius = new CornerRadius(18), Background = new SolidColorBrush(Color.FromArgb(0x12, 0, 0, 0)), IsHitTestVisible = false });
-        root.Children.Add(new Border { Margin = new Thickness(-4, -2, -4, -6), CornerRadius = new CornerRadius(20), Background = new SolidColorBrush(Color.FromArgb(0x0F, 0, 0, 0)), IsHitTestVisible = false });
-        root.Children.Add(new Border { Margin = new Thickness(-6, -3, -6, -8), CornerRadius = new CornerRadius(22), Background = new SolidColorBrush(Color.FromArgb(0x0C, 0, 0, 0)), IsHitTestVisible = false });
-        root.Children.Add(new Border { Margin = new Thickness(-9, -5, -9, -11), CornerRadius = new CornerRadius(25), Background = new SolidColorBrush(Color.FromArgb(0x09, 0, 0, 0)), IsHitTestVisible = false });
-        root.Children.Add(new Border { Margin = new Thickness(-12, -7, -12, -14), CornerRadius = new CornerRadius(28), Background = new SolidColorBrush(Color.FromArgb(0x06, 0, 0, 0)), IsHitTestVisible = false });
+        root.Children.Add(
+            new Border
+            {
+                Margin = new Thickness(-2, -1, -2, -3),
+                CornerRadius = new CornerRadius(18),
+                Background = new SolidColorBrush(Color.FromArgb(0x12, 0, 0, 0)),
+                IsHitTestVisible = false,
+            }
+        );
+        root.Children.Add(
+            new Border
+            {
+                Margin = new Thickness(-4, -2, -4, -6),
+                CornerRadius = new CornerRadius(20),
+                Background = new SolidColorBrush(Color.FromArgb(0x0F, 0, 0, 0)),
+                IsHitTestVisible = false,
+            }
+        );
+        root.Children.Add(
+            new Border
+            {
+                Margin = new Thickness(-6, -3, -6, -8),
+                CornerRadius = new CornerRadius(22),
+                Background = new SolidColorBrush(Color.FromArgb(0x0C, 0, 0, 0)),
+                IsHitTestVisible = false,
+            }
+        );
+        root.Children.Add(
+            new Border
+            {
+                Margin = new Thickness(-9, -5, -9, -11),
+                CornerRadius = new CornerRadius(25),
+                Background = new SolidColorBrush(Color.FromArgb(0x09, 0, 0, 0)),
+                IsHitTestVisible = false,
+            }
+        );
+        root.Children.Add(
+            new Border
+            {
+                Margin = new Thickness(-12, -7, -12, -14),
+                CornerRadius = new CornerRadius(28),
+                Background = new SolidColorBrush(Color.FromArgb(0x06, 0, 0, 0)),
+                IsHitTestVisible = false,
+            }
+        );
 
         Border pill = new()
         {
@@ -520,21 +555,17 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Background = new SolidColorBrush(Color.FromRgb(32, 32, 32)),
             BorderBrush = new SolidColorBrush(Color.FromArgb(0x33, 255, 255, 255)),
             BorderThickness = new Thickness(1),
-            SnapsToDevicePixels = true
+            SnapsToDevicePixels = true,
         };
         pill.SetResourceReference(Border.BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
 
-        StackPanel row = new()
-        {
-            Orientation = Orientation.Horizontal,
-            VerticalAlignment = VerticalAlignment.Center
-        };
+        StackPanel row = new() { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
 
         Border profileCard = new()
         {
             Padding = new Thickness(8, 6, 8, 6),
             CornerRadius = new CornerRadius(10),
-            VerticalAlignment = VerticalAlignment.Center
+            VerticalAlignment = VerticalAlignment.Center,
         };
         StackPanel profileRow = new() { Orientation = Orientation.Horizontal };
         Grid avatarGrid = new()
@@ -542,7 +573,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Width = 40,
             Height = 40,
             Margin = new Thickness(0, 0, 12, 0),
-            VerticalAlignment = VerticalAlignment.Center
+            VerticalAlignment = VerticalAlignment.Center,
         };
         Ellipse avatarBg = new() { Fill = new SolidColorBrush(Color.FromRgb(45, 45, 45)) };
         avatarBg.SetResourceReference(Shape.FillProperty, "ControlFillColorSecondaryBrush");
@@ -555,7 +586,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             FontSize = 16,
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
-            Foreground = new SolidColorBrush(Color.FromRgb(170, 170, 170))
+            Foreground = new SolidColorBrush(Color.FromRgb(170, 170, 170)),
         };
         avatarFallback.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
         avatarGrid.Children.Add(avatarFallback);
@@ -565,24 +596,20 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Width = 40,
             Height = 40,
             Stretch = Stretch.UniformToFill,
-            Clip = new EllipseGeometry(new Point(20, 20), 20, 20)
+            Clip = new EllipseGeometry(new Point(20, 20), 20, 20),
         };
         RenderOptions.SetBitmapScalingMode(profileImage, BitmapScalingMode.HighQuality);
         avatarGrid.Children.Add(profileImage);
         profileRow.Children.Add(avatarGrid);
 
-        StackPanel profileTextStack = new()
-        {
-            VerticalAlignment = VerticalAlignment.Center,
-            MaxWidth = 150
-        };
+        StackPanel profileTextStack = new() { VerticalAlignment = VerticalAlignment.Center, MaxWidth = 150 };
         profileName = new TextBlock
         {
             Text = "Roblox",
             FontSize = 14,
             FontWeight = FontWeights.SemiBold,
             TextTrimming = TextTrimming.CharacterEllipsis,
-            Foreground = Brushes.White
+            Foreground = Brushes.White,
         };
         profileName.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
         profileHandle = new TextBlock
@@ -591,7 +618,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Margin = new Thickness(0, 1, 0, 0),
             FontSize = 12,
             TextTrimming = TextTrimming.CharacterEllipsis,
-            Foreground = new SolidColorBrush(Color.FromRgb(170, 170, 170))
+            Foreground = new SolidColorBrush(Color.FromRgb(170, 170, 170)),
         };
         profileHandle.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
         profileTextStack.Children.Add(profileName);
@@ -607,7 +634,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         {
             Padding = new Thickness(8, 6, 8, 6),
             CornerRadius = new CornerRadius(10),
-            VerticalAlignment = VerticalAlignment.Center
+            VerticalAlignment = VerticalAlignment.Center,
         };
         StackPanel gameRow = new() { Orientation = Orientation.Horizontal };
         Border gameIconHost = new()
@@ -617,7 +644,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             CornerRadius = new CornerRadius(8),
             Margin = new Thickness(0, 0, 12, 0),
             VerticalAlignment = VerticalAlignment.Center,
-            Background = new SolidColorBrush(Color.FromRgb(42, 42, 42))
+            Background = new SolidColorBrush(Color.FromRgb(42, 42, 42)),
         };
         gameIconHost.SetResourceReference(Border.BackgroundProperty, "SolidBackgroundFillColorSecondaryBrush");
         gameImage = new Image
@@ -626,40 +653,32 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Height = 40,
             Stretch = Stretch.UniformToFill,
             Source = fallbackGameIcon,
-            Clip = new RectangleGeometry(new Rect(0, 0, 40, 40), 8, 8)
+            Clip = new RectangleGeometry(new Rect(0, 0, 40, 40), 8, 8),
         };
         RenderOptions.SetBitmapScalingMode(gameImage, BitmapScalingMode.HighQuality);
         gameIconHost.Child = gameImage;
         gameRow.Children.Add(gameIconHost);
 
-        StackPanel gameTextStack = new()
-        {
-            VerticalAlignment = VerticalAlignment.Center,
-            MaxWidth = 250
-        };
+        StackPanel gameTextStack = new() { VerticalAlignment = VerticalAlignment.Center, MaxWidth = 250 };
         gameTitle = new TextBlock
         {
             Text = "Roblox",
             FontSize = 14,
             FontWeight = FontWeights.SemiBold,
             TextTrimming = TextTrimming.CharacterEllipsis,
-            Foreground = Brushes.White
+            Foreground = Brushes.White,
         };
         gameTitle.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
         gameTextStack.Children.Add(gameTitle);
 
-        StackPanel timerRow = new()
-        {
-            Margin = new Thickness(0, 1, 0, 0),
-            Orientation = Orientation.Horizontal
-        };
+        StackPanel timerRow = new() { Margin = new Thickness(0, 1, 0, 0), Orientation = Orientation.Horizontal };
         Ellipse pulseDot = new()
         {
             Width = 8,
             Height = 8,
             Margin = new Thickness(0, 0, 6, 0),
             VerticalAlignment = VerticalAlignment.Center,
-            Fill = new SolidColorBrush(Color.FromRgb(108, 203, 95))
+            Fill = new SolidColorBrush(Color.FromRgb(108, 203, 95)),
         };
         pulseDot.SetResourceReference(Shape.FillProperty, "SystemFillColorSuccessBrush");
         timerRow.Children.Add(pulseDot);
@@ -668,23 +687,19 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         {
             FontSize = 12,
             VerticalAlignment = VerticalAlignment.Center,
-            Foreground = new SolidColorBrush(Color.FromRgb(170, 170, 170))
+            Foreground = new SolidColorBrush(Color.FromRgb(170, 170, 170)),
         };
         sessionTimes.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
         sessionTimes.Inlines.Add(new Run(Strings.Ui_Session_Session));
         sessionClockRun = new Run("0:00")
         {
             FontWeight = FontWeights.SemiBold,
-            Foreground = new SolidColorBrush(Color.FromRgb(108, 203, 95))
+            Foreground = new SolidColorBrush(Color.FromRgb(108, 203, 95)),
         };
         sessionClockRun.SetResourceReference(TextElement.ForegroundProperty, "SystemFillColorSuccessBrush");
         sessionTimes.Inlines.Add(sessionClockRun);
         sessionTimes.Inlines.Add(new Run(Strings.Ui_Session_Server));
-        serverClockRun = new Run("--")
-        {
-            FontWeight = FontWeights.SemiBold,
-            Foreground = new SolidColorBrush(Color.FromRgb(108, 203, 95))
-        };
+        serverClockRun = new Run("--") { FontWeight = FontWeights.SemiBold, Foreground = new SolidColorBrush(Color.FromRgb(108, 203, 95)) };
         serverClockRun.SetResourceReference(TextElement.ForegroundProperty, "SystemFillColorSuccessBrush");
         sessionTimes.Inlines.Add(serverClockRun);
         timerRow.Children.Add(sessionTimes);
@@ -700,7 +715,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         {
             Orientation = Orientation.Horizontal,
             VerticalAlignment = VerticalAlignment.Center,
-            Margin = new Thickness(6, 0, 6, 0)
+            Margin = new Thickness(6, 0, 6, 0),
         };
         foreach (string glyph in DockActionGlyphs)
         {
@@ -710,7 +725,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
                 Height = 36,
                 Margin = new Thickness(2, 0, 2, 0),
                 CornerRadius = new CornerRadius(18),
-                Background = Brushes.Transparent
+                Background = Brushes.Transparent,
             };
             TextBlock glyphBlock = new()
             {
@@ -719,7 +734,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
                 FontSize = 16,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                Foreground = Brushes.White
+                Foreground = Brushes.White,
             };
             glyphBlock.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
             iconSlot.Child = glyphBlock;
@@ -729,11 +744,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
 
         row.Children.Add(CreateDockDivider());
 
-        StackPanel trailingPanel = new()
-        {
-            Orientation = Orientation.Horizontal,
-            VerticalAlignment = VerticalAlignment.Center
-        };
+        StackPanel trailingPanel = new() { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
         trailingPanel.Children.Add(CreateDockRoundButton("\uE71B", 16, new Thickness(0)));
         trailingPanel.Children.Add(CreateDockRoundButton("\uE711", 14, new Thickness(8, 0, 0, 0)));
         row.Children.Add(trailingPanel);
@@ -752,20 +763,21 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             FontSize = 9,
             Margin = new Thickness(12, 0, 2, 0),
             VerticalAlignment = VerticalAlignment.Center,
-            Foreground = new SolidColorBrush(Color.FromRgb(170, 170, 170))
+            Foreground = new SolidColorBrush(Color.FromRgb(170, 170, 170)),
         };
         chevron.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
         return chevron;
     }
 
-    private static Rectangle CreateDockDivider() => new()
-    {
-        Width = 1,
-        Height = 30,
-        Margin = new Thickness(10, 0, 10, 0),
-        VerticalAlignment = VerticalAlignment.Center,
-        Fill = new SolidColorBrush(Color.FromArgb(0x2E, 255, 255, 255))
-    };
+    private static Rectangle CreateDockDivider() =>
+        new()
+        {
+            Width = 1,
+            Height = 30,
+            Margin = new Thickness(10, 0, 10, 0),
+            VerticalAlignment = VerticalAlignment.Center,
+            Fill = new SolidColorBrush(Color.FromArgb(0x2E, 255, 255, 255)),
+        };
 
     private static Border CreateDockRoundButton(string glyph, double fontSize, Thickness margin)
     {
@@ -777,7 +789,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             CornerRadius = new CornerRadius(20),
             Background = new SolidColorBrush(Color.FromRgb(45, 45, 45)),
             BorderBrush = new SolidColorBrush(Color.FromArgb(30, 255, 255, 255)),
-            BorderThickness = new Thickness(1)
+            BorderThickness = new Thickness(1),
         };
         circle.SetResourceReference(Border.BackgroundProperty, "ControlFillColorDefaultBrush");
         circle.SetResourceReference(Border.BorderBrushProperty, "ControlStrokeColorDefaultBrush");
@@ -788,7 +800,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             FontSize = fontSize,
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
-            Foreground = Brushes.White
+            Foreground = Brushes.White,
         };
         text.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
         circle.Child = text;
@@ -805,7 +817,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         Run sessionClockRun,
         Run serverClockRun,
         ImageSource? fallbackGameIcon,
-        double stageScale)
+        double stageScale
+    )
     {
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings();
         if (SessionDock.ActiveInstance is SessionDock active)
@@ -825,9 +838,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         }
 
         double totalScale = layout.SafeDockScale * stageScale;
-        dockRoot.LayoutTransform = Math.Abs(totalScale - 1.0) > 0.005
-            ? new ScaleTransform(totalScale, totalScale)
-            : Transform.Identity;
+        dockRoot.LayoutTransform = Math.Abs(totalScale - 1.0) > 0.005 ? new ScaleTransform(totalScale, totalScale) : Transform.Identity;
     }
 
     internal static Image BuildExactCrosshairElement(double size)
@@ -837,7 +848,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Width = size,
             Height = size,
             Stretch = Stretch.Fill,
-            UseLayoutRounding = true
+            UseLayoutRounding = true,
         };
         RenderOptions.SetBitmapScalingMode(img, BitmapScalingMode.HighQuality);
         return img;
@@ -861,17 +872,30 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             settings.CrosshairSize,
             settings.CrosshairGap,
             settings.CrosshairLineThickness,
-            opacity);
+            opacity
+        );
     }
 
     internal static Border BuildExactKeystrokesElement()
     {
         StackPanel root = new() { Orientation = Orientation.Vertical, UseLayoutRounding = true };
 
-        StackPanel rowW = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 0, 0, 3), Tag = "rowW" };
+        StackPanel rowW = new()
+        {
+            Orientation = Orientation.Horizontal,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Margin = new Thickness(0, 0, 0, 3),
+            Tag = "rowW",
+        };
         rowW.Children.Add(CreateKeyTile("W", 46, 46));
 
-        StackPanel rowASD = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 0, 0, 3), Tag = "rowASD" };
+        StackPanel rowASD = new()
+        {
+            Orientation = Orientation.Horizontal,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Margin = new Thickness(0, 0, 0, 3),
+            Tag = "rowASD",
+        };
         var aTile = CreateKeyTile("A", 46, 46);
         aTile.Margin = new Thickness(0, 0, 3, 0);
         var sTile = CreateKeyTile("S", 46, 46);
@@ -881,14 +905,25 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         rowASD.Children.Add(sTile);
         rowASD.Children.Add(dTile);
 
-        StackPanel rowMouse = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 0, 0, 3), Tag = "rowMouse" };
+        StackPanel rowMouse = new()
+        {
+            Orientation = Orientation.Horizontal,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Margin = new Thickness(0, 0, 0, 3),
+            Tag = "rowMouse",
+        };
         var lmbTile = CreateKeyTile("LMB\n0 CPS", 71, 46);
         lmbTile.Margin = new Thickness(0, 0, 3, 0);
         var rmbTile = CreateKeyTile("RMB\n0 CPS", 71, 46);
         rowMouse.Children.Add(lmbTile);
         rowMouse.Children.Add(rmbTile);
 
-        StackPanel rowBottom = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Tag = "rowBottom" };
+        StackPanel rowBottom = new()
+        {
+            Orientation = Orientation.Horizontal,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Tag = "rowBottom",
+        };
         var shiftTile = CreateKeyTile("SHIFT", 51, 34);
         shiftTile.Margin = new Thickness(0, 0, 3, 0);
         var spaceTile = CreateKeyTile("—", 91, 34);
@@ -905,7 +940,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             CornerRadius = new CornerRadius(10),
             Padding = new Thickness(4),
             Background = Brushes.Transparent,
-            Child = root
+            Child = root,
         };
         return host;
     }
@@ -928,10 +963,11 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         {
             Width = width,
             Height = height,
-            CornerRadius = cap?.CornerRadius.HasValue == true ? new CornerRadius(cap.CornerRadius.Value) : new CornerRadius(theme.KeyCornerRadius),
+            CornerRadius =
+                cap?.CornerRadius.HasValue == true ? new CornerRadius(cap.CornerRadius.Value) : new CornerRadius(theme.KeyCornerRadius),
             BorderThickness = new Thickness(theme.KeyBorderThickness),
             Background = theme.GetKeyBrush(keyTag, false),
-            BorderBrush = theme.GetKeyBorderBrush()
+            BorderBrush = theme.GetKeyBorderBrush(),
         };
 
         System.Windows.Media.FontFamily fontFamily = new(theme.FontFamily);
@@ -941,7 +977,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             "Medium" => FontWeights.Medium,
             "Bold" => FontWeights.Bold,
             "ExtraBold" => FontWeights.ExtraBold,
-            _ => FontWeights.SemiBold
+            _ => FontWeights.SemiBold,
         };
 
         string label = cap != null && !string.IsNullOrEmpty(cap.Text) ? cap.Text : text;
@@ -955,7 +991,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
             TextAlignment = TextAlignment.Center,
-            Visibility = cap?.HideText == true ? Visibility.Collapsed : Visibility.Visible
+            Visibility = cap?.HideText == true ? Visibility.Collapsed : Visibility.Visible,
         };
         tile.Child = tb;
         return tile;
@@ -971,7 +1007,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         {
             "Compact" => 0.80,
             "Large" => 1.25,
-            _ => 1.00
+            _ => 1.00,
         };
         double scale = layout.SafeKeystrokesScale * factor * presetFactor;
         host.LayoutTransform = Math.Abs(scale - 1.0) > 0.005 ? new ScaleTransform(scale, scale) : Transform.Identity;
@@ -1024,7 +1060,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)),
             BorderBrush = Brushes.Transparent,
             BorderThickness = new Thickness(1.5),
-            Child = child
+            Child = child,
         };
 
         wrapper.MouseLeftButtonDown += OnHandleMouseDown;
@@ -1043,7 +1079,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
                 : new SolidColorBrush(Color.FromArgb(28, 255, 255, 255)),
             StrokeThickness = 1.0,
             StrokeDashArray = center ? new DoubleCollection { 5, 4 } : new DoubleCollection { 3, 5 },
-            IsHitTestVisible = false
+            IsHitTestVisible = false,
         };
     }
 
@@ -1056,7 +1092,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             CornerRadius = new CornerRadius(8),
             Background = new SolidColorBrush(Color.FromArgb(245, 32, 32, 32)),
             BorderBrush = new SolidColorBrush(Color.FromArgb(40, 255, 255, 255)),
-            BorderThickness = new Thickness(1)
+            BorderThickness = new Thickness(1),
         };
         bar.SetResourceReference(Border.BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
         bar.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
@@ -1070,7 +1106,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             FontSize = 13,
             Foreground = new SolidColorBrush(Color.FromRgb(200, 200, 200)),
             VerticalAlignment = VerticalAlignment.Center,
-            Margin = new Thickness(2, 0, 8, 0)
+            Margin = new Thickness(2, 0, 8, 0),
         };
         icon.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
         topRow.Children.Add(icon);
@@ -1083,7 +1119,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             VerticalAlignment = VerticalAlignment.Center,
             Background = new SolidColorBrush(Color.FromArgb(235, 43, 43, 43)),
             BorderBrush = new SolidColorBrush(Color.FromArgb(36, 255, 255, 255)),
-            BorderThickness = new Thickness(1)
+            BorderThickness = new Thickness(1),
         };
         coordPill.SetResourceReference(Border.BackgroundProperty, "ControlFillColorSecondaryBrush");
         coordPill.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
@@ -1093,7 +1129,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Text = "X: 100%  Y: 0%",
             FontSize = 11.5,
             FontWeight = FontWeights.SemiBold,
-            Foreground = new SolidColorBrush(Color.FromRgb(224, 224, 224))
+            Foreground = new SolidColorBrush(Color.FromRgb(224, 224, 224)),
         };
         coordBadge.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
         coordPill.Child = coordBadge;
@@ -1107,7 +1143,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Padding = new Thickness(10, 4, 10, 4),
             FontSize = 11.5,
             Cursor = Cursors.Hand,
-            Focusable = false
+            Focusable = false,
         };
         snapButton.Click += (_, _) =>
         {
@@ -1124,7 +1160,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Padding = new Thickness(10, 4, 10, 4),
             FontSize = 11.5,
             Cursor = Cursors.Hand,
-            Focusable = false
+            Focusable = false,
         };
         resetBtn.Click += (_, _) =>
         {
@@ -1141,7 +1177,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Padding = new Thickness(11, 4, 11, 4),
             FontSize = 11.5,
             Cursor = Cursors.Hand,
-            Focusable = false
+            Focusable = false,
         };
         doneBtn.Click += (_, _) => Close();
         topRow.Children.Add(doneBtn);
@@ -1187,8 +1223,16 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         double barW = _toolbar.DesiredSize.Width;
         double barH = _toolbar.DesiredSize.Height;
         Point pointer = e.GetPosition(_stage);
-        double nextLeft = Math.Clamp(_toolbarDragStartOrigin.X + (pointer.X - _toolbarDragStartPointer.X), 8, Math.Max(8, stageW - barW - 8));
-        double nextTop = Math.Clamp(_toolbarDragStartOrigin.Y + (pointer.Y - _toolbarDragStartPointer.Y), 8, Math.Max(8, stageH - barH - 8));
+        double nextLeft = Math.Clamp(
+            _toolbarDragStartOrigin.X + (pointer.X - _toolbarDragStartPointer.X),
+            8,
+            Math.Max(8, stageW - barW - 8)
+        );
+        double nextTop = Math.Clamp(
+            _toolbarDragStartOrigin.Y + (pointer.Y - _toolbarDragStartPointer.Y),
+            8,
+            Math.Max(8, stageH - barH - 8)
+        );
         Canvas.SetLeft(_toolbar, Math.Round(nextLeft));
         Canvas.SetTop(_toolbar, Math.Round(nextTop));
         e.Handled = true;
@@ -1243,14 +1287,17 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
     {
         if (_closed)
             return;
-        Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-        {
-            if (_closed)
-                return;
-            RobloxWindowRect current = RobloxWindowTracker.Current;
-            if (!current.Valid || !current.Foreground)
-                Close();
-        }));
+        Dispatcher.BeginInvoke(
+            DispatcherPriority.Background,
+            new Action(() =>
+            {
+                if (_closed)
+                    return;
+                RobloxWindowRect current = RobloxWindowTracker.Current;
+                if (!current.Valid || !current.Foreground)
+                    Close();
+            })
+        );
     }
 
     private void OnTrackerChanged(object? sender, RobloxWindowRect rect)
@@ -1345,13 +1392,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
         NotificationAppearance notif = NotificationStyle.Current;
 
-        ApplyExactReadoutConfiguration(
-            _readoutBorder,
-            _readoutPanel,
-            _readoutLocationText,
-            _readoutSeparatorText,
-            _readoutTimeText,
-            1.0);
+        ApplyExactReadoutConfiguration(_readoutBorder, _readoutPanel, _readoutLocationText, _readoutSeparatorText, _readoutTimeText, 1.0);
         MeasureBox(_readoutWrapper);
         double rGap = layout.SafeReadoutEdgeSpacing;
         double rMinX = rGap;
@@ -1370,7 +1411,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             _notificationHeaderText,
             _notificationTitle,
             _notificationText,
-            1.0);
+            1.0
+        );
         _notificationCard.InvalidateMeasure();
         _notificationHost.InvalidateMeasure();
         MeasureBox(_notificationWrapper);
@@ -1391,7 +1433,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             _dockSessionClockRun,
             _dockServerClockRun,
             _gameIcon,
-            1.0);
+            1.0
+        );
         MeasureBox(_dockWrapper);
         double dSide = 12;
         double dEdge = layout.SafeDockEdgeSpacing;
@@ -1435,7 +1478,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             GetElementBounds(_readoutWrapper, 12),
             GetElementBounds(_notificationWrapper, 12),
             GetElementBounds(_dockWrapper, 12),
-            GetElementBounds(_crosshairWrapper, 12)
+            GetElementBounds(_crosshairWrapper, 12),
         ];
 
         if (_toolbarUserMoved)
@@ -1470,7 +1513,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             (leftX, Math.Max(16, stageH * 0.12)),
             (rightX, Math.Max(16, stageH * 0.12)),
             (leftX, Math.Max(16, stageH * 0.78)),
-            (rightX, Math.Max(16, stageH * 0.78))
+            (rightX, Math.Max(16, stageH * 0.78)),
         ];
 
         (double BestX, double BestY) fallback = candidates[0];
@@ -1503,8 +1546,10 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
     {
         double left = Canvas.GetLeft(element);
         double top = Canvas.GetTop(element);
-        if (double.IsNaN(left)) left = 0;
-        if (double.IsNaN(top)) top = 0;
+        if (double.IsNaN(left))
+            left = 0;
+        if (double.IsNaN(top))
+            top = 0;
         double w = element.DesiredSize.Width;
         double h = element.DesiredSize.Height;
         return new Rect(left - inflate, top - inflate, Math.Max(0, w + inflate * 2), Math.Max(0, h + inflate * 2));
@@ -1627,8 +1672,10 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             int offsetY = (int)Math.Round(nextTop - centerTop);
             if (_magneticSnap)
             {
-                if (Math.Abs(offsetX) <= 6) offsetX = 0;
-                if (Math.Abs(offsetY) <= 6) offsetY = 0;
+                if (Math.Abs(offsetX) <= 6)
+                    offsetX = 0;
+                if (Math.Abs(offsetY) <= 6)
+                    offsetY = 0;
             }
             layout.CrosshairOffsetX = Math.Clamp(offsetX, -200, 200);
             layout.CrosshairOffsetY = Math.Clamp(offsetY, -200, 200);
@@ -1723,9 +1770,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
     private static void SetBoxSelected(Border wrapper, bool selected)
     {
         wrapper.BorderThickness = new Thickness(1.5);
-        wrapper.BorderBrush = selected
-            ? new SolidColorBrush(Color.FromArgb(150, 255, 255, 255))
-            : Brushes.Transparent;
+        wrapper.BorderBrush = selected ? new SolidColorBrush(Color.FromArgb(150, 255, 255, 255)) : Brushes.Transparent;
         Canvas.SetZIndex(wrapper, selected ? 20 : 10);
     }
 
@@ -1735,12 +1780,27 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         NotificationAppearance notif = NotificationStyle.Current;
         _coordBadge.Text = _selectedLayer switch
         {
-            OverlayStudioLayer.Readout => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerReadout}: X {Math.Round(layout.SafeReadoutHorizontal)}% · Y {Math.Round(layout.SafeReadoutVertical)}% · {Math.Round(layout.SafeReadoutEdgeSpacing)} px"),
-            OverlayStudioLayer.Notifications => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerNotifications}: X {Math.Round(notif.SafeHorizontal)}% · Y {Math.Round(notif.SafeVertical)}% · {Math.Round(notif.SafeEdgeSpacing)} px"),
-            OverlayStudioLayer.Dock => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerDock}: {(layout.DockTopEdge ? Strings.Ui_OverlayStudio_TopEdge : Strings.Ui_OverlayStudio_BottomEdge)} · X {Math.Round(layout.SafeDockHorizontal)}%"),
-            OverlayStudioLayer.Crosshair => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerCrosshair}: {layout.SafeCrosshairOffsetX:+#;-#;0}, {layout.SafeCrosshairOffsetY:+#;-#;0} px"),
-            OverlayStudioLayer.Keystrokes => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerKeystrokes}: X {Math.Round(layout.SafeKeystrokesHorizontal)}% · Y {Math.Round(layout.SafeKeystrokesVertical)}% · {Math.Round(layout.SafeKeystrokesEdgeSpacing)} px"),
-            _ => Strings.Ui_OverlayStudio_Title
+            OverlayStudioLayer.Readout => string.Create(
+                CultureInfo.InvariantCulture,
+                $"{Strings.Ui_OverlayStudio_LayerReadout}: X {Math.Round(layout.SafeReadoutHorizontal)}% · Y {Math.Round(layout.SafeReadoutVertical)}% · {Math.Round(layout.SafeReadoutEdgeSpacing)} px"
+            ),
+            OverlayStudioLayer.Notifications => string.Create(
+                CultureInfo.InvariantCulture,
+                $"{Strings.Ui_OverlayStudio_LayerNotifications}: X {Math.Round(notif.SafeHorizontal)}% · Y {Math.Round(notif.SafeVertical)}% · {Math.Round(notif.SafeEdgeSpacing)} px"
+            ),
+            OverlayStudioLayer.Dock => string.Create(
+                CultureInfo.InvariantCulture,
+                $"{Strings.Ui_OverlayStudio_LayerDock}: {(layout.DockTopEdge ? Strings.Ui_OverlayStudio_TopEdge : Strings.Ui_OverlayStudio_BottomEdge)} · X {Math.Round(layout.SafeDockHorizontal)}%"
+            ),
+            OverlayStudioLayer.Crosshair => string.Create(
+                CultureInfo.InvariantCulture,
+                $"{Strings.Ui_OverlayStudio_LayerCrosshair}: {layout.SafeCrosshairOffsetX:+#;-#;0}, {layout.SafeCrosshairOffsetY:+#;-#;0} px"
+            ),
+            OverlayStudioLayer.Keystrokes => string.Create(
+                CultureInfo.InvariantCulture,
+                $"{Strings.Ui_OverlayStudio_LayerKeystrokes}: X {Math.Round(layout.SafeKeystrokesHorizontal)}% · Y {Math.Round(layout.SafeKeystrokesVertical)}% · {Math.Round(layout.SafeKeystrokesEdgeSpacing)} px"
+            ),
+            _ => Strings.Ui_OverlayStudio_Title,
         };
     }
 

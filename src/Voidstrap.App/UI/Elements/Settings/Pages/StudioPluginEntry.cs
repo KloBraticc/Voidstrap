@@ -36,31 +36,46 @@ public sealed class StudioPluginEntry : NotifyPropertyChangedViewModel
 
 	public string Creator => _listing?.Creator ?? "";
 
-	public string CreatorLine => _listing == null ? "" : _listing.Verified ? _listing.Creator + " ✓" : _listing.Creator;
+	public string CreatorLine =>
+		_listing == null ? ""
+		: _listing.Verified ? _listing.Creator + " ✓"
+		: _listing.Creator;
 
-	public string Category => _listing == null ? System.IO.Path.GetExtension(_installed?.Path ?? "").TrimStart('.').ToUpperInvariant() : CategoryName(_listing.Category);
+	public string Category =>
+		_listing == null
+			? System.IO.Path.GetExtension(_installed?.Path ?? "").TrimStart('.').ToUpperInvariant()
+			: CategoryName(_listing.Category);
 
-	public string Rating => _listing == null || _listing.UpVotes + _listing.DownVotes == 0
-		? ""
-		: string.Format(Strings.Ui_Mods_StudioPlugins_Liked, Math.Round(100.0 * _listing.UpVotes / (_listing.UpVotes + _listing.DownVotes)));
+	public string Rating =>
+		_listing == null || _listing.UpVotes + _listing.DownVotes == 0
+			? ""
+			: string.Format(
+				Strings.Ui_Mods_StudioPlugins_Liked,
+				Math.Round(100.0 * _listing.UpVotes / (_listing.UpVotes + _listing.DownVotes))
+			);
 
 	public bool IsPaid => _listing is { Price: > 0 };
 
-	public string PriceText => _listing == null ? "" : IsPaid
-		? string.Format(Strings.Ui_Mods_StudioPlugins_Price, _listing.Price.ToString("C2", CultureInfo.GetCultureInfo("en-US")))
+	public string PriceText =>
+		_listing == null ? ""
+		: IsPaid ? string.Format(Strings.Ui_Mods_StudioPlugins_Price, _listing.Price.ToString("C2", CultureInfo.GetCultureInfo("en-US")))
 		: Strings.Ui_Mods_StudioPlugins_Free;
 
-	public string UpdatedText => (_listing?.Updated ?? _installed?.InstalledAt)?.ToLocalTime().ToString("d", CultureInfo.CurrentCulture) ?? "";
+	public string UpdatedText =>
+		(_listing?.Updated ?? _installed?.InstalledAt)?.ToLocalTime().ToString("d", CultureInfo.CurrentCulture) ?? "";
 
 	public bool UpdateAvailable => _installed != null && _listing?.Updated is DateTime updated && updated > _installed.InstalledAt;
 
-	public string StatusLabel => _busy
-		? Strings.Ui_Mods_StudioPlugins_Installing
-		: UpdateAvailable ? Strings.Ui_Mods_StudioPlugins_UpdateAvailable : _installed != null ? Strings.Ui_Pages_Installed : "";
+	public string StatusLabel =>
+		_busy ? Strings.Ui_Mods_StudioPlugins_Installing
+		: UpdateAvailable ? Strings.Ui_Mods_StudioPlugins_UpdateAvailable
+		: _installed != null ? Strings.Ui_Pages_Installed
+		: "";
 
-	public string PrimaryLabel => UpdateAvailable
-		? Strings.Ui_Mods_StudioPlugins_Update
-		: _installed != null ? Strings.Ui_Mods_StudioPlugins_Remove : Strings.Ui_Mods_StudioPlugins_Install;
+	public string PrimaryLabel =>
+		UpdateAvailable ? Strings.Ui_Mods_StudioPlugins_Update
+		: _installed != null ? Strings.Ui_Mods_StudioPlugins_Remove
+		: Strings.Ui_Mods_StudioPlugins_Install;
 
 	public bool CanAct => !_busy && (_installed != null || (_listing != null && !IsPaid));
 

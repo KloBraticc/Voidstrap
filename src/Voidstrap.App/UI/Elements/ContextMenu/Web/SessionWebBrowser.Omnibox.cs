@@ -38,7 +38,12 @@ public partial class SessionWebBrowser
         {
             _suggestTimer.Stop();
             string typed = TypedText().Trim();
-            if (!Settings.Suggestions || typed.Length == 0 || typed.StartsWith('!') || (_keyword == null && BrowserSearch.LooksLikeAddress(typed)))
+            if (
+                !Settings.Suggestions
+                || typed.Length == 0
+                || typed.StartsWith('!')
+                || (_keyword == null && BrowserSearch.LooksLikeAddress(typed))
+            )
                 return;
             _suggestCancel?.Cancel();
             CancellationTokenSource cancel = new();
@@ -81,7 +86,10 @@ public partial class SessionWebBrowser
     private void ShowAddress()
     {
         BrowserTab? tab = _active;
-        string url = tab == null || tab.IsNewTab ? string.Empty : tab.Core?.Source is { Length: > 0 } source && IsWebAddress(source) ? source : tab.Url;
+        string url =
+            tab == null || tab.IsNewTab ? string.Empty
+            : tab.Core?.Source is { Length: > 0 } source && IsWebAddress(source) ? source
+            : tab.Url;
         string shown = string.Empty;
         string glyph = "\uE721";
         if (url.Length > 0 && Uri.TryCreate(url, UriKind.Absolute, out Uri? uri))
@@ -99,7 +107,10 @@ public partial class SessionWebBrowser
         }
         ClearKeyword();
         AddressIcon.Text = glyph;
-        AddressIcon.ToolTip = glyph == "\uE72E" ? "Secure connection" : glyph == "\uE785" ? "Not secure, this page is not encrypted" : null;
+        AddressIcon.ToolTip =
+            glyph == "\uE72E" ? "Secure connection"
+            : glyph == "\uE785" ? "Not secure, this page is not encrypted"
+            : null;
         SetAddressText(shown);
     }
 
@@ -173,16 +184,19 @@ public partial class SessionWebBrowser
 
     private void AddressBox_LostFocus(object sender, KeyboardFocusChangedEventArgs e)
     {
-        Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-        {
-            if (AddressBox.IsKeyboardFocused || _closed)
-                return;
-            SuggestPopup.IsOpen = false;
-            _suggestCancel?.Cancel();
-            ShowAddress();
-            if (Settings.ZenMode)
-                _zenTimer?.Start();
-        }));
+        Dispatcher.BeginInvoke(
+            DispatcherPriority.Background,
+            new Action(() =>
+            {
+                if (AddressBox.IsKeyboardFocused || _closed)
+                    return;
+                SuggestPopup.IsOpen = false;
+                _suggestCancel?.Cancel();
+                ShowAddress();
+                if (Settings.ZenMode)
+                    _zenTimer?.Start();
+            })
+        );
     }
 
     private void AddressBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -192,7 +206,11 @@ public partial class SessionWebBrowser
             return;
         string text = AddressBox.Text;
         // "!yt " turns into a YouTube chip and the rest is what gets searched there
-        if (_keyword == null && BangPrefix.Match(text) is { Success: true } match && BrowserSearch.FindBang(match.Groups[1].Value) is { } bang)
+        if (
+            _keyword == null
+            && BangPrefix.Match(text) is { Success: true } match
+            && BrowserSearch.FindBang(match.Groups[1].Value) is { } bang
+        )
         {
             SetKeyword(bang);
             SetAddressText(text[match.Length..]);
@@ -213,8 +231,15 @@ public partial class SessionWebBrowser
     {
         if (typed.Length < 2 || typed.Contains(' ') || typed.Contains('/') || typed.StartsWith('!'))
             return;
-        string? completion = _state.History
-            .Select(entry => Uri.TryCreate(entry.Url, UriKind.Absolute, out Uri? uri) ? (Host: uri.Host.StartsWith("www.", StringComparison.OrdinalIgnoreCase) ? uri.Host[4..] : uri.Host, Score: entry.Score()) : (Host: string.Empty, Score: 0))
+        string? completion = _state
+            .History.Select(entry =>
+                Uri.TryCreate(entry.Url, UriKind.Absolute, out Uri? uri)
+                    ? (
+                        Host: uri.Host.StartsWith("www.", StringComparison.OrdinalIgnoreCase) ? uri.Host[4..] : uri.Host,
+                        Score: entry.Score()
+                    )
+                    : (Host: string.Empty, Score: 0)
+            )
             .Where(item => item.Host.Length > typed.Length && item.Host.StartsWith(typed, StringComparison.OrdinalIgnoreCase))
             .GroupBy(item => item.Host, StringComparer.OrdinalIgnoreCase)
             .OrderByDescending(group => group.Sum(item => item.Score))
@@ -235,8 +260,14 @@ public partial class SessionWebBrowser
         if (_keyword is { } bang)
         {
             string verb = bang.Kind == BangKind.Ask ? "Ask" : "Search";
-            list.Add(new Suggestion(bang.Kind == BangKind.Ask ? "\uE8BD" : "\uE721", typed.Length == 0 ? bang.Name : typed,
-                typed.Length == 0 ? "Open the site" : $"{verb} {bang.Name}", newTab => Go(BrowserSearch.BangUrl(bang, typed), newTab)));
+            list.Add(
+                new Suggestion(
+                    bang.Kind == BangKind.Ask ? "\uE8BD" : "\uE721",
+                    typed.Length == 0 ? bang.Name : typed,
+                    typed.Length == 0 ? "Open the site" : $"{verb} {bang.Name}",
+                    newTab => Go(BrowserSearch.BangUrl(bang, typed), newTab)
+                )
+            );
             foreach (string words in _webSuggestions.Take(6))
                 list.Add(new Suggestion("\uE721", words, $"{verb} {bang.Name}", newTab => Go(BrowserSearch.BangUrl(bang, words), newTab)));
         }
@@ -245,37 +276,85 @@ public partial class SessionWebBrowser
             string full = AddressBox.Text.Trim();
             (Bang? inline, string query) = BrowserSearch.SplitBang(typed);
             if (inline != null)
-                list.Add(new Suggestion("\uE721", query.Length == 0 ? inline.Name : query, $"Search {inline.Name}", newTab => Go(BrowserSearch.BangUrl(inline, query), newTab)));
+                list.Add(
+                    new Suggestion(
+                        "\uE721",
+                        query.Length == 0 ? inline.Name : query,
+                        $"Search {inline.Name}",
+                        newTab => Go(BrowserSearch.BangUrl(inline, query), newTab)
+                    )
+                );
             else if (BrowserSearch.LooksLikeAddress(full) || Uri.TryCreate(full, UriKind.Absolute, out _))
-                list.Add(new Suggestion("\uE774", full, "Open address", newTab => Go(BrowserSearch.Resolve(full, Settings.Engine), newTab)));
+                list.Add(
+                    new Suggestion("\uE774", full, "Open address", newTab => Go(BrowserSearch.Resolve(full, Settings.Engine), newTab))
+                );
             else
-                list.Add(new Suggestion("\uE721", typed, $"Search {engine.Name}", newTab => Go(BrowserSearch.SearchUrl(typed, Settings.Engine), newTab)));
+                list.Add(
+                    new Suggestion(
+                        "\uE721",
+                        typed,
+                        $"Search {engine.Name}",
+                        newTab => Go(BrowserSearch.SearchUrl(typed, Settings.Engine), newTab)
+                    )
+                );
 
             // A ! starts a bang: every one that matches, picking one makes the chip
             if (typed.StartsWith('!') && !typed.Contains(' '))
             {
                 foreach (Bang match in BrowserSearch.MatchBangs(typed).Take(6))
                 {
-                    list.Add(new Suggestion(match.Kind == BangKind.Ask ? "\uE8BD" : "\uE721", "!" + match.Trigger,
-                        $"{(match.Kind == BangKind.Ask ? "Ask" : "Search")} {match.Name}", _ => PickBang(match)) { KeepsOpen = true });
+                    list.Add(
+                        new Suggestion(
+                            match.Kind == BangKind.Ask ? "\uE8BD" : "\uE721",
+                            "!" + match.Trigger,
+                            $"{(match.Kind == BangKind.Ask ? "Ask" : "Search")} {match.Name}",
+                            _ => PickBang(match)
+                        )
+                        {
+                            KeepsOpen = true,
+                        }
+                    );
                 }
             }
             else
             {
                 HashSet<string> listed = new(StringComparer.OrdinalIgnoreCase);
-                foreach (BrowserTab tab in _tabs.Where(tab => !ReferenceEquals(tab, _active) && !tab.IsNewTab && Matches(tab.Title, tab.Url, typed)).Take(3))
+                foreach (
+                    BrowserTab tab in _tabs
+                        .Where(tab => !ReferenceEquals(tab, _active) && !tab.IsNewTab && Matches(tab.Title, tab.Url, typed))
+                        .Take(3)
+                )
                 {
                     listed.Add(tab.Url);
                     list.Add(new Suggestion("\uE8A7", tab.Title, "Switch to this tab", _ => SwitchTo(tab)));
                 }
-                foreach (HistoryEntry entry in _state.History.Where(entry => !listed.Contains(entry.Url) && Matches(entry.Title, entry.Url, typed))
-                    .OrderByDescending(entry => entry.Score()).Take(4))
+                foreach (
+                    HistoryEntry entry in _state
+                        .History.Where(entry => !listed.Contains(entry.Url) && Matches(entry.Title, entry.Url, typed))
+                        .OrderByDescending(entry => entry.Score())
+                        .Take(4)
+                )
                 {
-                    list.Add(new Suggestion("\uE81C", string.IsNullOrWhiteSpace(entry.Title) ? entry.Url : entry.Title, HostOf(entry.Url),
-                        newTab => Go(entry.Url, newTab)) { HistoryUrl = entry.Url });
+                    list.Add(
+                        new Suggestion(
+                            "\uE81C",
+                            string.IsNullOrWhiteSpace(entry.Title) ? entry.Url : entry.Title,
+                            HostOf(entry.Url),
+                            newTab => Go(entry.Url, newTab)
+                        )
+                        {
+                            HistoryUrl = entry.Url,
+                        }
+                    );
                 }
-                foreach (string words in _webSuggestions.Where(words => words.StartsWith(typed, StringComparison.OrdinalIgnoreCase) || typed.Length > 3).Take(Math.Max(0, 9 - list.Count)))
-                    list.Add(new Suggestion("\uE721", words, string.Empty, newTab => Go(BrowserSearch.SearchUrl(words, Settings.Engine), newTab)));
+                foreach (
+                    string words in _webSuggestions
+                        .Where(words => words.StartsWith(typed, StringComparison.OrdinalIgnoreCase) || typed.Length > 3)
+                        .Take(Math.Max(0, 9 - list.Count))
+                )
+                    list.Add(
+                        new Suggestion("\uE721", words, string.Empty, newTab => Go(BrowserSearch.SearchUrl(words, Settings.Engine), newTab))
+                    );
             }
         }
         _suggestions = list.Take(9).ToList();
@@ -287,8 +366,8 @@ public partial class SessionWebBrowser
         SuggestPopup.IsOpen = _suggestions.Count > 0 && AddressBox.IsKeyboardFocused && !_panelHidden;
     }
 
-    private static bool Matches(string title, string url, string typed)
-        => title.Contains(typed, StringComparison.OrdinalIgnoreCase) || url.Contains(typed, StringComparison.OrdinalIgnoreCase);
+    private static bool Matches(string title, string url, string typed) =>
+        title.Contains(typed, StringComparison.OrdinalIgnoreCase) || url.Contains(typed, StringComparison.OrdinalIgnoreCase);
 
     private void PickBang(Bang bang)
     {
@@ -329,7 +408,11 @@ public partial class SessionWebBrowser
                 _selected = (_selected + (key == Key.Down ? 1 : _suggestions.Count - 1)) % _suggestions.Count;
                 MarkSelected(_suggestions, _selected);
                 break;
-            case Key.Tab when !shift && _keyword == null && BrowserSearch.FindBang(TypedText().Trim()) is { } typedBang && TypedText().Trim().StartsWith('!'):
+            case Key.Tab
+                when !shift
+                    && _keyword == null
+                    && BrowserSearch.FindBang(TypedText().Trim()) is { } typedBang
+                    && TypedText().Trim().StartsWith('!'):
                 PickBang(typedBang);
                 break;
             case Key.Tab when SuggestPopup.IsOpen && _suggestions.Count > 0:
@@ -362,7 +445,8 @@ public partial class SessionWebBrowser
                 BuildSuggestions();
                 break;
             // Shift+Delete forgets the selected page from your history, like any browser
-            case Key.Delete when shift && SuggestPopup.IsOpen && _selected < _suggestions.Count && _suggestions[_selected].HistoryUrl is { } forget:
+            case Key.Delete
+                when shift && SuggestPopup.IsOpen && _selected < _suggestions.Count && _suggestions[_selected].HistoryUrl is { } forget:
                 _state.History.RemoveAll(entry => entry.Url == forget);
                 BuildSuggestions();
                 ScheduleSave();
@@ -408,11 +492,14 @@ public partial class SessionWebBrowser
         TabSearchBox.Text = string.Empty;
         BuildTabSearch();
         TabSearchPopup.IsOpen = true;
-        Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
-        {
-            TabSearchBox.Focus();
-            Keyboard.Focus(TabSearchBox);
-        }));
+        Dispatcher.BeginInvoke(
+            DispatcherPriority.Input,
+            new Action(() =>
+            {
+                TabSearchBox.Focus();
+                Keyboard.Focus(TabSearchBox);
+            })
+        );
     }
 
     private void BuildTabSearch()
@@ -422,11 +509,36 @@ public partial class SessionWebBrowser
         List<Suggestion> list = new();
         foreach (BrowserTab tab in _tabs.Where(tab => query.Length == 0 || Matches(tab.Title, tab.Url, query)))
         {
-            string detail = tab.Host + (tab.IsActive ? " · Open now" : tab.IsHibernated ? " · Asleep" : tab.IsAudible ? " · Playing" : string.Empty);
-            list.Add(new Suggestion(tab.IsNewTab ? "\uE710" : tab.IsPinned ? "\uE840" : "\uE774", tab.Title, detail, _ => SwitchTo(tab)));
+            string detail =
+                tab.Host
+                + (
+                    tab.IsActive ? " · Open now"
+                    : tab.IsHibernated ? " · Asleep"
+                    : tab.IsAudible ? " · Playing"
+                    : string.Empty
+                );
+            list.Add(
+                new Suggestion(
+                    tab.IsNewTab ? "\uE710"
+                        : tab.IsPinned ? "\uE840"
+                        : "\uE774",
+                    tab.Title,
+                    detail,
+                    _ => SwitchTo(tab)
+                )
+            );
         }
-        foreach (SavedTab saved in _state.Closed.Where(saved => query.Length == 0 || Matches(saved.Title, saved.Url, query)).Take(8).ToList())
-            list.Add(new Suggestion("\uE81C", string.IsNullOrWhiteSpace(saved.Title) ? HostOf(saved.Url) : saved.Title, "Recently closed", _ => ReopenTab(saved)));
+        foreach (
+            SavedTab saved in _state.Closed.Where(saved => query.Length == 0 || Matches(saved.Title, saved.Url, query)).Take(8).ToList()
+        )
+            list.Add(
+                new Suggestion(
+                    "\uE81C",
+                    string.IsNullOrWhiteSpace(saved.Title) ? HostOf(saved.Url) : saved.Title,
+                    "Recently closed",
+                    _ => ReopenTab(saved)
+                )
+            );
         _tabResults = list;
         _tabSelected = 0;
         MarkSelected(_tabResults, _tabSelected);
@@ -537,7 +649,10 @@ public partial class SessionWebBrowser
             return;
         int count = tab.Core.Find.MatchCount;
         int index = tab.Core.Find.ActiveMatchIndex;
-        FindCount.Text = FindBox.Text.Length == 0 ? string.Empty : count <= 0 ? "No matches" : $"{Math.Max(index, 1)} of {count}";
+        FindCount.Text =
+            FindBox.Text.Length == 0 ? string.Empty
+            : count <= 0 ? "No matches"
+            : $"{Math.Max(index, 1)} of {count}";
     }
 
     private void FindBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -565,15 +680,16 @@ public partial class SessionWebBrowser
         e.Handled = true;
     }
 
-    private void FindStep(bool forward) => Fenced(() =>
-    {
-        if (_active?.Core is not { } core)
-            return;
-        if (forward)
-            core.Find.FindNext();
-        else
-            core.Find.FindPrevious();
-    });
+    private void FindStep(bool forward) =>
+        Fenced(() =>
+        {
+            if (_active?.Core is not { } core)
+                return;
+            if (forward)
+                core.Find.FindNext();
+            else
+                core.Find.FindPrevious();
+        });
 
     private void FindNext_Click(object sender, RoutedEventArgs e) => FindStep(true);
 

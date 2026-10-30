@@ -3,10 +3,10 @@ using System.Diagnostics;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Voidstrap.Integrations.FrameGeneration;
 using Vortice.Direct3D;
 using Vortice.Direct3D11;
 using Vortice.Mathematics;
-using Voidstrap.Integrations.FrameGeneration;
 
 namespace Voidstrap.Integrations.MotionBlur
 {
@@ -54,7 +54,10 @@ namespace Voidstrap.Integrations.MotionBlur
             if (FrameGenPipeline.PrepareFailed)
             {
                 if (Interlocked.Exchange(ref _prepareFailureLogged, 1) == 0)
-                    App.Logger.WriteLine(LOG_IDENT, "Motion blur needs the motion estimation shaders, which failed to compile, so it stays off");
+                    App.Logger.WriteLine(
+                        LOG_IDENT,
+                        "Motion blur needs the motion estimation shaders, which failed to compile, so it stays off"
+                    );
                 return false;
             }
             if (Interlocked.Exchange(ref _prepareStarted, 1) == 0)
@@ -117,24 +120,28 @@ namespace Voidstrap.Integrations.MotionBlur
             _psPass = CompilePs("PSPass");
             _psBlur = CompilePs("PSBlur");
 
-            _sampler = _device!.CreateSamplerState(new SamplerDescription
-            {
-                Filter = Filter.MinMagMipLinear,
-                AddressU = TextureAddressMode.Clamp,
-                AddressV = TextureAddressMode.Clamp,
-                AddressW = TextureAddressMode.Clamp,
-                ComparisonFunc = ComparisonFunction.Never,
-                MinLOD = 0,
-                MaxLOD = float.MaxValue,
-            });
+            _sampler = _device!.CreateSamplerState(
+                new SamplerDescription
+                {
+                    Filter = Filter.MinMagMipLinear,
+                    AddressU = TextureAddressMode.Clamp,
+                    AddressV = TextureAddressMode.Clamp,
+                    AddressW = TextureAddressMode.Clamp,
+                    ComparisonFunc = ComparisonFunction.Never,
+                    MinLOD = 0,
+                    MaxLOD = float.MaxValue,
+                }
+            );
 
-            _cbuffer = _device!.CreateBuffer(new BufferDescription
-            {
-                ByteWidth = (uint)Marshal.SizeOf<MotionBlurParams>(),
-                BindFlags = BindFlags.ConstantBuffer,
-                Usage = ResourceUsage.Default,
-                CPUAccessFlags = CpuAccessFlags.None,
-            });
+            _cbuffer = _device!.CreateBuffer(
+                new BufferDescription
+                {
+                    ByteWidth = (uint)Marshal.SizeOf<MotionBlurParams>(),
+                    BindFlags = BindFlags.ConstantBuffer,
+                    Usage = ResourceUsage.Default,
+                    CPUAccessFlags = CpuAccessFlags.None,
+                }
+            );
         }
 
         private void ResetHistory()
@@ -145,7 +152,13 @@ namespace Voidstrap.Integrations.MotionBlur
             _flow?.ResetHistory();
         }
 
-        private void DrawPass(ID3D11PixelShader ps, ID3D11RenderTargetView target, ID3D11ShaderResourceView t0, ID3D11ShaderResourceView? t1 = null, ID3D11ShaderResourceView? t2 = null)
+        private void DrawPass(
+            ID3D11PixelShader ps,
+            ID3D11RenderTargetView target,
+            ID3D11ShaderResourceView t0,
+            ID3D11ShaderResourceView? t1 = null,
+            ID3D11ShaderResourceView? t2 = null
+        )
         {
             _context!.PSSetShaderResources(0, _nullSrvs);
             _context.OMSetRenderTargets(target);
@@ -222,11 +235,19 @@ namespace Voidstrap.Integrations.MotionBlur
             _set = current;
 
             BindState();
-            _context!.UpdateSubresource(new MotionBlurParams
-            {
-                Dims = new Vector4(_width, _height, 1f / _width, 1f / _height),
-                Mb = new Vector4(MotionBlurSettings.ShutterFor(strength) * rateScale, MotionBlurSettings.MaxBlurPixelsFor(strength) * resolutionScale, deadZone, 0f),
-            }, _cbuffer!);
+            _context!.UpdateSubresource(
+                new MotionBlurParams
+                {
+                    Dims = new Vector4(_width, _height, 1f / _width, 1f / _height),
+                    Mb = new Vector4(
+                        MotionBlurSettings.ShutterFor(strength) * rateScale,
+                        MotionBlurSettings.MaxBlurPixelsFor(strength) * resolutionScale,
+                        deadZone,
+                        0f
+                    ),
+                },
+                _cbuffer!
+            );
             DrawPass(_psBlur!, output, input, _flow.BackwardFlowSrv, _flow.PreviousBackwardFlowSrv);
         }
 

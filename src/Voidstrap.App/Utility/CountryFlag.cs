@@ -20,23 +20,59 @@ internal static class CountryFlag
 
     private static readonly Dictionary<string, string> _aliases = new(StringComparer.OrdinalIgnoreCase)
     {
-        { "USA", "US" }, { "U.S.", "US" }, { "U.S.A.", "US" }, { "America", "US" },
-        { "UK", "GB" }, { "Great Britain", "GB" }, { "England", "GB" }, { "Scotland", "GB" }, { "Wales", "GB" },
-        { "Northern Ireland", "GB" }, { "Britain", "GB" },
-        { "UAE", "AE" }, { "Holland", "NL" }, { "Korea", "KR" }, { "Czechia", "CZ" }, { "Czech Republic", "CZ" },
-        { "Russia", "RU" }, { "Russian Federation", "RU" }, { "Vietnam", "VN" }, { "Viet Nam", "VN" },
-        { "Turkey", "TR" }, { "Turkiye", "TR" }, { "Ivory Coast", "CI" }, { "Cape Verde", "CV" },
-        { "Macedonia", "MK" }, { "Swaziland", "SZ" }, { "Burma", "MM" }, { "East Timor", "TL" },
-        { "Congo Kinshasa", "CD" }, { "Congo Brazzaville", "CG" }, { "Palestine", "PS" },
-        { "Hong Kong SAR", "HK" }, { "Hong Kong", "HK" }, { "Macau", "MO" }, { "Bolivia", "BO" }, { "Laos", "LA" },
-        { "Syria", "SY" }, { "Iran", "IR" }, { "Tanzania", "TZ" }, { "Moldova", "MD" },
-        { "Brunei", "BN" }, { "Venezuela", "VE" }, { "South Korea", "KR" }, { "North Korea", "KP" },
-        { "Western Sahara", "EH" }, { "EH", "EH" }, { "ESH", "EH" },
+        { "USA", "US" },
+        { "U.S.", "US" },
+        { "U.S.A.", "US" },
+        { "America", "US" },
+        { "UK", "GB" },
+        { "Great Britain", "GB" },
+        { "England", "GB" },
+        { "Scotland", "GB" },
+        { "Wales", "GB" },
+        { "Northern Ireland", "GB" },
+        { "Britain", "GB" },
+        { "UAE", "AE" },
+        { "Holland", "NL" },
+        { "Korea", "KR" },
+        { "Czechia", "CZ" },
+        { "Czech Republic", "CZ" },
+        { "Russia", "RU" },
+        { "Russian Federation", "RU" },
+        { "Vietnam", "VN" },
+        { "Viet Nam", "VN" },
+        { "Turkey", "TR" },
+        { "Turkiye", "TR" },
+        { "Ivory Coast", "CI" },
+        { "Cape Verde", "CV" },
+        { "Macedonia", "MK" },
+        { "Swaziland", "SZ" },
+        { "Burma", "MM" },
+        { "East Timor", "TL" },
+        { "Congo Kinshasa", "CD" },
+        { "Congo Brazzaville", "CG" },
+        { "Palestine", "PS" },
+        { "Hong Kong SAR", "HK" },
+        { "Hong Kong", "HK" },
+        { "Macau", "MO" },
+        { "Bolivia", "BO" },
+        { "Laos", "LA" },
+        { "Syria", "SY" },
+        { "Iran", "IR" },
+        { "Tanzania", "TZ" },
+        { "Moldova", "MD" },
+        { "Brunei", "BN" },
+        { "Venezuela", "VE" },
+        { "South Korea", "KR" },
+        { "North Korea", "KP" },
+        { "Western Sahara", "EH" },
+        { "EH", "EH" },
+        { "ESH", "EH" },
     };
 
     private static readonly Lazy<Dictionary<string, string>> _nameToIso = new(BuildNameIndex);
 
-    private const string RegionCodes = "AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG ER ES ET FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM US UY UZ VA VC VE VG VI VN VU WF WS XK YE YT ZA ZM ZW";
+    private const string RegionCodes =
+        "AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG ER ES ET FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM US UY UZ VA VC VE VG VI VN VU WF WS XK YE YT ZA ZM ZW";
 
     private static Dictionary<string, string> BuildNameIndex()
     {
@@ -55,9 +91,7 @@ internal static class CountryFlag
                 map.TryAdd(region.ThreeLetterISORegionName, iso);
                 map.TryAdd(iso, iso);
             }
-            catch (ArgumentException)
-            {
-            }
+            catch (ArgumentException) { }
         }
         foreach (KeyValuePair<string, string> alias in _aliases)
             map[alias.Key] = alias.Value;
@@ -76,9 +110,7 @@ internal static class CountryFlag
         string upper = trimmed.ToUpperInvariant();
         try
         {
-            return new RegionInfo(upper).TwoLetterISORegionName.Equals(upper, StringComparison.OrdinalIgnoreCase)
-                ? upper
-                : string.Empty;
+            return new RegionInfo(upper).TwoLetterISORegionName.Equals(upper, StringComparison.OrdinalIgnoreCase) ? upper : string.Empty;
         }
         catch (ArgumentException)
         {
@@ -132,7 +164,11 @@ internal static class CountryFlag
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(path)!);
                     using HttpResponseMessage response = await _http
-                        .GetAsync("https://flagcdn.com/w40/" + iso.ToLowerInvariant() + ".png", HttpCompletionOption.ResponseHeadersRead, token)
+                        .GetAsync(
+                            "https://flagcdn.com/w40/" + iso.ToLowerInvariant() + ".png",
+                            HttpCompletionOption.ResponseHeadersRead,
+                            token
+                        )
                         .ConfigureAwait(false);
                     if (!response.IsSuccessStatusCode)
                     {
@@ -168,8 +204,8 @@ internal static class CountryFlag
         {
             if (!File.Exists(path) || new FileInfo(path).Length == 0)
                 return null;
-			if (Platform.UsesPortableUi)
-				return SafeImaging.FromFile(path, 64);
+            if (Platform.UsesPortableUi)
+                return SafeImaging.FromFile(path, 64);
             BitmapImage bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.CacheOption = BitmapCacheOption.OnLoad;
@@ -186,9 +222,7 @@ internal static class CountryFlag
             {
                 File.Delete(path);
             }
-            catch
-            {
-            }
+            catch { }
             return null;
         }
     }

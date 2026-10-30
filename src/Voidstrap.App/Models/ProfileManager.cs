@@ -35,11 +35,13 @@ namespace Voidstrap.Integrations
                 if (!byId.ContainsKey(fixedId))
                     order.Add(fixedId);
 
-                byId[fixedId] = new XElement("ProfileSetting",
+                byId[fixedId] = new XElement(
+                    "ProfileSetting",
                     new XElement("SettingNameInfo", string.IsNullOrWhiteSpace(entry.Name) ? "Setting " + fixedId : entry.Name),
                     new XElement("SettingID", fixedId),
                     new XElement("ValueType", NormalizeValueType(entry.ValueType)),
-                    new XElement("SettingValue", entry.Value ?? "0"));
+                    new XElement("SettingValue", entry.Value ?? "0")
+                );
             }
 
             XElement settings = new XElement("Settings");
@@ -48,13 +50,20 @@ namespace Voidstrap.Integrations
 
             XDocument doc = new XDocument(
                 new XDeclaration("1.0", "utf-16", null),
-                new XElement("ArrayOfProfile",
-                    new XElement("Profile",
+                new XElement(
+                    "ArrayOfProfile",
+                    new XElement(
+                        "Profile",
                         new XElement("ProfileName", "Voidstrap"),
-                        new XElement("Executeables",
+                        new XElement(
+                            "Executeables",
                             new XElement("string", "robloxplayerbeta.exe"),
-                            new XElement("string", "robloxstudiobeta.exe")),
-                        settings)));
+                            new XElement("string", "robloxstudiobeta.exe")
+                        ),
+                        settings
+                    )
+                )
+            );
 
             WriteUtf16Xml(path, doc);
         }
@@ -96,13 +105,15 @@ namespace Voidstrap.Integrations
                 if (!TryNormalizeSettingId(id, out string fixedId))
                     continue;
 
-                results.Add(new NvidiaEditorEntry
-                {
-                    Name = string.IsNullOrWhiteSpace(name) ? "Setting " + fixedId : name,
-                    SettingId = fixedId,
-                    Value = value ?? "0",
-                    ValueType = NormalizeValueType(type),
-                });
+                results.Add(
+                    new NvidiaEditorEntry
+                    {
+                        Name = string.IsNullOrWhiteSpace(name) ? "Setting " + fixedId : name,
+                        SettingId = fixedId,
+                        Value = value ?? "0",
+                        ValueType = NormalizeValueType(type),
+                    }
+                );
             }
 
             return results;
@@ -133,12 +144,15 @@ namespace Voidstrap.Integrations
 
         private static void WriteUtf16Xml(string path, XDocument doc)
         {
-            using XmlWriter writer = XmlWriter.Create(path, new XmlWriterSettings
-            {
-                Encoding = Utf16Bom,
-                Indent = true,
-                OmitXmlDeclaration = false,
-            });
+            using XmlWriter writer = XmlWriter.Create(
+                path,
+                new XmlWriterSettings
+                {
+                    Encoding = Utf16Bom,
+                    Indent = true,
+                    OmitXmlDeclaration = false,
+                }
+            );
             doc.Save(writer);
         }
 
@@ -179,9 +193,10 @@ namespace Voidstrap.Integrations
                 NvidiaApplyResult empty = new NvidiaApplyResult
                 {
                     Ok = skipped.Count == 0,
-                    Message = skipped.Count == 0
-                        ? "There were no settings to apply"
-                        : "None of the " + skipped.Count + " setting(s) could be applied",
+                    Message =
+                        skipped.Count == 0
+                            ? "There were no settings to apply"
+                            : "None of the " + skipped.Count + " setting(s) could be applied",
                 };
                 empty.Failures.AddRange(skipped);
                 return empty;
@@ -236,16 +251,17 @@ namespace Voidstrap.Integrations
             }
             catch (Exception ex)
             {
-                return new NvidiaApplyResult
-                {
-                    Ok = false,
-                    Message = "Could not stage the settings for the elevated apply: " + ex.Message,
-                };
+                return new NvidiaApplyResult { Ok = false, Message = "Could not stage the settings for the elevated apply: " + ex.Message };
             }
 
             try
             {
-                return await RunElevatedAsync(["-nvapply", payload], "Applied to the driver as administrator.", "The elevated apply reported a problem. Check the log for details.").ConfigureAwait(false);
+                return await RunElevatedAsync(
+                        ["-nvapply", payload],
+                        "Applied to the driver as administrator.",
+                        "The elevated apply reported a problem. Check the log for details."
+                    )
+                    .ConfigureAwait(false);
             }
             finally
             {
@@ -254,9 +270,7 @@ namespace Voidstrap.Integrations
                     if (File.Exists(payload))
                         File.Delete(payload);
                 }
-                catch
-                {
-                }
+                catch { }
             }
         }
 
@@ -272,7 +286,12 @@ namespace Voidstrap.Integrations
                     return new NvidiaApplyResult { Ok = false, Message = NvidiaProfileInspector.UnavailableReason };
                 NvidiaApplyResult result = await Task.Run(() => NvidiaProfileInspector.RestoreAppliedSettings()).ConfigureAwait(false);
                 if (!result.Ok && result.Message == NvidiaProfileInspector.NeedsElevationMessage)
-                    result = await RunElevatedAsync(["-nvreset", "uninstall"], "NVIDIA settings restored", "NVIDIA cleanup failed. Check the log for details.").ConfigureAwait(false);
+                    result = await RunElevatedAsync(
+                            ["-nvreset", "uninstall"],
+                            "NVIDIA settings restored",
+                            "NVIDIA cleanup failed. Check the log for details."
+                        )
+                        .ConfigureAwait(false);
                 App.Logger.WriteLine("NvidiaProfileManager::RestoreForUninstallAsync", result.Message);
                 return result;
             }
@@ -287,7 +306,11 @@ namespace Voidstrap.Integrations
         {
             return Voidstrap.Utility.ProcessElevation.IsAdministrator()
                 ? Task.Run(() => NvidiaProfileInspector.ResetAll())
-                : RunElevatedAsync(["-nvreset"], "Every NVIDIA setting for Roblox was reset to the driver default.", "The elevated reset reported a problem. Check the log for details.");
+                : RunElevatedAsync(
+                    ["-nvreset"],
+                    "Every NVIDIA setting for Roblox was reset to the driver default.",
+                    "The elevated reset reported a problem. Check the log for details."
+                );
         }
 
         private static async Task<NvidiaApplyResult> RunElevatedAsync(string[] arguments, string successMessage, string failureMessage)
@@ -306,11 +329,7 @@ namespace Voidstrap.Integrations
                 using Process? child = Process.Start(start);
                 if (child == null)
                 {
-                    return new NvidiaApplyResult
-                    {
-                        Ok = false,
-                        Message = "The elevated helper did not start.",
-                    };
+                    return new NvidiaApplyResult { Ok = false, Message = "The elevated helper did not start." };
                 }
 
                 await child.WaitForExitAsync().ConfigureAwait(continueOnCapturedContext: false);
@@ -320,20 +339,12 @@ namespace Voidstrap.Integrations
             }
             catch (Win32Exception)
             {
-                return new NvidiaApplyResult
-                {
-                    Ok = false,
-                    Message = "Administrator access was declined, so nothing was changed.",
-                };
+                return new NvidiaApplyResult { Ok = false, Message = "Administrator access was declined, so nothing was changed." };
             }
             catch (Exception ex)
             {
                 App.Logger.WriteLine("NvidiaProfileManager::RunElevatedAsync", "Elevated helper failed: " + ex.Message);
-                return new NvidiaApplyResult
-                {
-                    Ok = false,
-                    Message = "Could not run the elevated helper.",
-                };
+                return new NvidiaApplyResult { Ok = false, Message = "Could not run the elevated helper." };
             }
         }
 

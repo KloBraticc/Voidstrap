@@ -35,7 +35,13 @@ public interface IMusicPlayback : IDisposable
 
 public static class MusicPlayback
 {
-    public static IMusicPlayback Create() => OperatingSystem.IsWindows() ? new PlaybackService() : OperatingSystem.IsMacOS() ? new MacPlayback() : new GStreamerPlayback();
+    public static IMusicPlayback Create() =>
+        OperatingSystem.IsWindows() ? new PlaybackService()
+        : OperatingSystem.IsMacOS() ? new MacPlayback()
+        : new GStreamerPlayback();
 
-    public static TimeSpan ProbeDuration(string path) => OperatingSystem.IsWindows() ? PlaybackService.ProbeDuration(path) : OperatingSystem.IsMacOS() ? MacPlayback.ProbeDuration(path) : GStreamerPlayback.ProbeDuration(path);
+    public static TimeSpan ProbeDuration(string path) =>
+        OperatingSystem.IsWindows() ? PlaybackService.ProbeDuration(path)
+        : OperatingSystem.IsMacOS() ? MacPlayback.ProbeDuration(path)
+        : GStreamerPlayback.ProbeDuration(path);
 }

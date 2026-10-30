@@ -20,11 +20,14 @@ public static class RobloxAuthLauncher
 
 	private static HttpClient CreateAuthClient()
 	{
-		HttpClient client = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(15L), handler =>
-		{
-			handler.UseCookies = false;
-			handler.AllowAutoRedirect = false;
-		});
+		HttpClient client = Voidstrap.Utility.VpnHttpClient.Create(
+			TimeSpan.FromSeconds(15L),
+			handler =>
+			{
+				handler.UseCookies = false;
+				handler.AllowAutoRedirect = false;
+			}
+		);
 		client.DefaultRequestHeaders.UserAgent.ParseAdd("Roblox/WinInet");
 		return client;
 	}
@@ -34,7 +37,11 @@ public static class RobloxAuthLauncher
 		return RobloxCookie.Get();
 	}
 
-	public static async Task<string?> BuildRobloxPlayerUriAsync(long placeId, string? specificJobId = null, CancellationToken token = default)
+	public static async Task<string?> BuildRobloxPlayerUriAsync(
+		long placeId,
+		string? specificJobId = null,
+		CancellationToken token = default
+	)
 	{
 		string? text = TryGetRobloxSecurityCookie();
 		if (string.IsNullOrEmpty(text))
@@ -56,7 +63,11 @@ public static class RobloxAuthLauncher
 			return null;
 		}
 		long value = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-		string value2 = HttpUtility.UrlEncode((!string.IsNullOrEmpty(specificJobId)) ? $"https://assetgame.roblox.com/game/PlaceLauncher.ashx?request=RequestGameJob&browserTrackerId=0&placeId={placeId}&gameId={specificJobId}&isPlayTogetherGame=false" : $"https://assetgame.roblox.com/game/PlaceLauncher.ashx?request=RequestGame&placeId={placeId}&isPlayTogetherGame=false");
+		string value2 = HttpUtility.UrlEncode(
+			(!string.IsNullOrEmpty(specificJobId))
+				? $"https://assetgame.roblox.com/game/PlaceLauncher.ashx?request=RequestGameJob&browserTrackerId=0&placeId={placeId}&gameId={specificJobId}&isPlayTogetherGame=false"
+				: $"https://assetgame.roblox.com/game/PlaceLauncher.ashx?request=RequestGame&placeId={placeId}&isPlayTogetherGame=false"
+		);
 		string value3 = (DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() % int.MaxValue).ToString();
 		return $"roblox-player:1+launchmode:play+gameinfo:{ticket}+launchtime:{value}+placelauncherurl:{value2}+browsertrackerid:{value3}+robloxLocale:en_us+gameLocale:en_us+channel:";
 	}
@@ -67,9 +78,15 @@ public static class RobloxAuthLauncher
 		try
 		{
 			string requestUri = $"https://games.roblox.com/v1/games/{placeId}/servers/Public?limit=100&sortOrder=Desc";
-			using HttpResponseMessage response = await ServerClient.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(continueOnCapturedContext: false);
+			using HttpResponseMessage response = await ServerClient
+				.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead, token)
+				.ConfigureAwait(continueOnCapturedContext: false);
 			response.EnsureSuccessStatusCode();
-			using JsonDocument jsonDocument = JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(response.Content, MaxApiResponseBytes, token).ConfigureAwait(continueOnCapturedContext: false));
+			using JsonDocument jsonDocument = JsonDocument.Parse(
+				await Utility
+					.Http.ReadStringBoundedAsync(response.Content, MaxApiResponseBytes, token)
+					.ConfigureAwait(continueOnCapturedContext: false)
+			);
 			if (jsonDocument.RootElement.TryGetProperty("data", out var value) && value.ValueKind == JsonValueKind.Array)
 			{
 				foreach (JsonElement item in value.EnumerateArray())
@@ -105,8 +122,13 @@ public static class RobloxAuthLauncher
 				req.Headers.TryAddWithoutValidation("X-CSRF-TOKEN", value);
 			}
 			req.Content = new StringContent("", Encoding.UTF8, "application/json");
-			using HttpResponseMessage httpResponseMessage = await AuthClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(continueOnCapturedContext: false);
-			if (httpResponseMessage.StatusCode == HttpStatusCode.Forbidden && httpResponseMessage.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values))
+			using HttpResponseMessage httpResponseMessage = await AuthClient
+				.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, token)
+				.ConfigureAwait(continueOnCapturedContext: false);
+			if (
+				httpResponseMessage.StatusCode == HttpStatusCode.Forbidden
+				&& httpResponseMessage.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values)
+			)
 			{
 				value = values.FirstOrDefault();
 				if (string.IsNullOrEmpty(value))

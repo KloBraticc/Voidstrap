@@ -75,10 +75,9 @@ public partial class StudioPluginsView
 			}
 			await LoadReviewsAsync(assetId, token);
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-		}
-		catch (Exception ex) when (ex is HttpRequestException or IOException or JsonException or OperationCanceledException or ArgumentException)
+		catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+		catch (Exception ex)
+			when (ex is HttpRequestException or IOException or JsonException or OperationCanceledException or ArgumentException)
 		{
 			App.Logger.WriteException(LogIdent + "::Community", ex);
 			ReviewsStatus.Text = Strings.Ui_Mods_StudioPlugins_ReviewsUnavailable;
@@ -91,11 +90,18 @@ public partial class StudioPluginsView
 		ReviewsMoreButton.Visibility = Visibility.Collapsed;
 		try
 		{
-			(RobloxAuthedStatus status, StudioPluginReviewPage? page) = await StudioPluginCommunity.GetReviewsAsync(assetId, _reviewCursor, token);
+			(RobloxAuthedStatus status, StudioPluginReviewPage? page) = await StudioPluginCommunity.GetReviewsAsync(
+				assetId,
+				_reviewCursor,
+				token
+			);
 			token.ThrowIfCancellationRequested();
 			if (page == null)
 			{
-				ReviewsStatus.Text = status == RobloxAuthedStatus.NotSignedIn ? Strings.Ui_Mods_StudioPlugins_SignIn : Strings.Ui_Mods_StudioPlugins_ReviewsUnavailable;
+				ReviewsStatus.Text =
+					status == RobloxAuthedStatus.NotSignedIn
+						? Strings.Ui_Mods_StudioPlugins_SignIn
+						: Strings.Ui_Mods_StudioPlugins_ReviewsUnavailable;
 				return;
 			}
 			foreach (StudioPluginReview review in page.Reviews)
@@ -115,24 +121,71 @@ public partial class StudioPluginsView
 	{
 		StackPanel body = new();
 		StackPanel header = new() { Orientation = Orientation.Horizontal };
-		header.Children.Add(new SymbolIcon { Symbol = review.Recommended ? SymbolRegular.ThumbLike24 : SymbolRegular.ThumbDislike24, FontSize = 14, Margin = new Thickness(0, 0, 6, 0), VerticalAlignment = VerticalAlignment.Center });
-		header.Children.Add(new System.Windows.Controls.TextBlock { Text = review.Username, FontWeight = FontWeights.SemiBold, VerticalAlignment = VerticalAlignment.Center });
+		header.Children.Add(
+			new SymbolIcon
+			{
+				Symbol = review.Recommended ? SymbolRegular.ThumbLike24 : SymbolRegular.ThumbDislike24,
+				FontSize = 14,
+				Margin = new Thickness(0, 0, 6, 0),
+				VerticalAlignment = VerticalAlignment.Center,
+			}
+		);
+		header.Children.Add(
+			new System.Windows.Controls.TextBlock
+			{
+				Text = review.Username,
+				FontWeight = FontWeights.SemiBold,
+				VerticalAlignment = VerticalAlignment.Center,
+			}
+		);
 		if (review.Created is DateTime created)
 		{
-			System.Windows.Controls.TextBlock date = new() { Text = created.ToString("d", CultureInfo.CurrentCulture), Margin = new Thickness(10, 0, 0, 0), FontSize = 12, VerticalAlignment = VerticalAlignment.Center };
+			System.Windows.Controls.TextBlock date = new()
+			{
+				Text = created.ToString("d", CultureInfo.CurrentCulture),
+				Margin = new Thickness(10, 0, 0, 0),
+				FontSize = 12,
+				VerticalAlignment = VerticalAlignment.Center,
+			};
 			date.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "TextFillColorTertiaryBrush");
 			header.Children.Add(date);
 		}
 		body.Children.Add(header);
-		body.Children.Add(new System.Windows.Controls.TextBlock { Text = review.Text, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 6, 0, 0) });
+		body.Children.Add(
+			new System.Windows.Controls.TextBlock
+			{
+				Text = review.Text,
+				TextWrapping = TextWrapping.Wrap,
+				Margin = new Thickness(0, 6, 0, 0),
+			}
+		);
 
 		if (review.Reply is StudioPluginReply reply)
 		{
-			Border replyBorder = new() { Margin = new Thickness(16, 8, 0, 0), Padding = new Thickness(10), CornerRadius = new CornerRadius(6) };
+			Border replyBorder = new()
+			{
+				Margin = new Thickness(16, 8, 0, 0),
+				Padding = new Thickness(10),
+				CornerRadius = new CornerRadius(6),
+			};
 			replyBorder.SetResourceReference(Border.BackgroundProperty, "ControlFillColorDefaultBrush");
 			StackPanel replyBody = new();
-			replyBody.Children.Add(new System.Windows.Controls.TextBlock { Text = string.Format(Strings.Ui_Mods_StudioPlugins_CreatorReply, reply.Username), FontWeight = FontWeights.SemiBold, FontSize = 12 });
-			replyBody.Children.Add(new System.Windows.Controls.TextBlock { Text = reply.Text, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 4, 0, 0) });
+			replyBody.Children.Add(
+				new System.Windows.Controls.TextBlock
+				{
+					Text = string.Format(Strings.Ui_Mods_StudioPlugins_CreatorReply, reply.Username),
+					FontWeight = FontWeights.SemiBold,
+					FontSize = 12,
+				}
+			);
+			replyBody.Children.Add(
+				new System.Windows.Controls.TextBlock
+				{
+					Text = reply.Text,
+					TextWrapping = TextWrapping.Wrap,
+					Margin = new Thickness(0, 4, 0, 0),
+				}
+			);
 			replyBorder.Child = replyBody;
 			body.Children.Add(replyBorder);
 		}
@@ -140,13 +193,23 @@ public partial class StudioPluginsView
 		StackPanel actions = new() { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 8, 0, 0) };
 		if (_signedIn && review.Id.Length > 0)
 		{
-			Wpf.Ui.Controls.Button helpful = new() { Content = string.Format(Strings.Ui_Mods_StudioPlugins_Helpful, review.HelpfulCount), Appearance = ControlAppearance.Secondary, Tag = review, Padding = new Thickness(10, 4, 10, 4) };
+			Wpf.Ui.Controls.Button helpful = new()
+			{
+				Content = string.Format(Strings.Ui_Mods_StudioPlugins_Helpful, review.HelpfulCount),
+				Appearance = ControlAppearance.Secondary,
+				Tag = review,
+				Padding = new Thickness(10, 4, 10, 4),
+			};
 			helpful.Click += Helpful_Click;
 			actions.Children.Add(helpful);
 		}
 		else
 		{
-			System.Windows.Controls.TextBlock count = new() { Text = string.Format(Strings.Ui_Mods_StudioPlugins_Helpful, review.HelpfulCount), FontSize = 12 };
+			System.Windows.Controls.TextBlock count = new()
+			{
+				Text = string.Format(Strings.Ui_Mods_StudioPlugins_Helpful, review.HelpfulCount),
+				FontSize = 12,
+			};
 			count.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "TextFillColorTertiaryBrush");
 			actions.Children.Add(count);
 		}
@@ -157,8 +220,22 @@ public partial class StudioPluginsView
 			Grid replyRow = new() { Margin = new Thickness(0, 8, 0, 0) };
 			replyRow.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 			replyRow.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-			Wpf.Ui.Controls.TextBox box = new() { PlaceholderText = Strings.Ui_Mods_StudioPlugins_ReplyPlaceholder, MaxLength = StudioPluginCommunity.MaxTextLength, TextWrapping = TextWrapping.Wrap, AcceptsReturn = true, MinHeight = 32 };
-			Wpf.Ui.Controls.Button send = new() { Content = Strings.Ui_Mods_StudioPlugins_Reply, Appearance = ControlAppearance.Primary, Margin = new Thickness(8, 0, 0, 0), VerticalAlignment = VerticalAlignment.Top, Tag = (review, box) };
+			Wpf.Ui.Controls.TextBox box = new()
+			{
+				PlaceholderText = Strings.Ui_Mods_StudioPlugins_ReplyPlaceholder,
+				MaxLength = StudioPluginCommunity.MaxTextLength,
+				TextWrapping = TextWrapping.Wrap,
+				AcceptsReturn = true,
+				MinHeight = 32,
+			};
+			Wpf.Ui.Controls.Button send = new()
+			{
+				Content = Strings.Ui_Mods_StudioPlugins_Reply,
+				Appearance = ControlAppearance.Primary,
+				Margin = new Thickness(8, 0, 0, 0),
+				VerticalAlignment = VerticalAlignment.Top,
+				Tag = (review, box),
+			};
 			send.Click += Reply_Click;
 			Grid.SetColumn(send, 1);
 			replyRow.Children.Add(box);
@@ -166,7 +243,12 @@ public partial class StudioPluginsView
 			body.Children.Add(replyRow);
 		}
 
-		Border card = new() { Child = body, Margin = new Thickness(0, 0, 0, 8), Padding = new Thickness(12) };
+		Border card = new()
+		{
+			Child = body,
+			Margin = new Thickness(0, 0, 0, 8),
+			Padding = new Thickness(12),
+		};
 		card.SetResourceReference(StyleProperty, "RowCard");
 		return card;
 	}
@@ -191,16 +273,19 @@ public partial class StudioPluginsView
 			DetailStatus.Text = Strings.Ui_Mods_StudioPlugins_SignIn;
 			return;
 		}
-		await RunCommunityAction(VotePanel, async token =>
-		{
-			RobloxAuthedResult result = await StudioPluginCommunity.VoteAsync(assetId, up, token);
-			if (result.Succeeded)
+		await RunCommunityAction(
+			VotePanel,
+			async token =>
 			{
-				_vote = up;
-				UpdateVoteButtons();
+				RobloxAuthedResult result = await StudioPluginCommunity.VoteAsync(assetId, up, token);
+				if (result.Succeeded)
+				{
+					_vote = up;
+					UpdateVoteButtons();
+				}
+				DetailStatus.Text = result.Succeeded ? Strings.Ui_Mods_StudioPlugins_VoteSaved : Describe(result.Status);
 			}
-			DetailStatus.Text = result.Succeeded ? Strings.Ui_Mods_StudioPlugins_VoteSaved : Describe(result.Status);
-		});
+		);
 	}
 
 	private void UpdateVoteButtons()
@@ -215,34 +300,43 @@ public partial class StudioPluginsView
 		string text = StudioPluginCommunity.CleanText(ReviewBox.Text);
 		if (assetId <= 0 || text.Length == 0)
 			return;
-		_ = RunCommunityAction(ReviewComposer, async token =>
-		{
-			RobloxAuthedResult result = await StudioPluginCommunity.PostReviewAsync(assetId, text, token);
-			if (result.Succeeded)
+		_ = RunCommunityAction(
+			ReviewComposer,
+			async token =>
 			{
-				ReviewBox.Text = "";
-				ReviewsStatus.Text = Strings.Ui_Mods_StudioPlugins_ReviewPosted;
-				return;
+				RobloxAuthedResult result = await StudioPluginCommunity.PostReviewAsync(assetId, text, token);
+				if (result.Succeeded)
+				{
+					ReviewBox.Text = "";
+					ReviewsStatus.Text = Strings.Ui_Mods_StudioPlugins_ReviewPosted;
+					return;
+				}
+				ReviewsStatus.Text =
+					result.Status == RobloxAuthedStatus.NotAllowed
+						? Strings.Ui_Mods_StudioPlugins_ReviewNeedsOwnership
+						: Describe(result.Status);
 			}
-			ReviewsStatus.Text = result.Status == RobloxAuthedStatus.NotAllowed ? Strings.Ui_Mods_StudioPlugins_ReviewNeedsOwnership : Describe(result.Status);
-		});
+		);
 	}
 
 	private void Helpful_Click(object sender, RoutedEventArgs e)
 	{
 		if (sender is not Wpf.Ui.Controls.Button { Tag: StudioPluginReview review } button)
 			return;
-		_ = RunCommunityAction(button, async token =>
-		{
-			RobloxAuthedResult result = await StudioPluginCommunity.MarkHelpfulAsync(review.Id, token);
-			if (result.Succeeded)
+		_ = RunCommunityAction(
+			button,
+			async token =>
 			{
-				button.Content = string.Format(Strings.Ui_Mods_StudioPlugins_Helpful, review.HelpfulCount + 1);
-				button.Appearance = ControlAppearance.Primary;
-				button.Click -= Helpful_Click;
+				RobloxAuthedResult result = await StudioPluginCommunity.MarkHelpfulAsync(review.Id, token);
+				if (result.Succeeded)
+				{
+					button.Content = string.Format(Strings.Ui_Mods_StudioPlugins_Helpful, review.HelpfulCount + 1);
+					button.Appearance = ControlAppearance.Primary;
+					button.Click -= Helpful_Click;
+				}
+				ReviewsStatus.Text = result.Succeeded ? Strings.Ui_Mods_StudioPlugins_HelpfulSaved : Describe(result.Status);
 			}
-			ReviewsStatus.Text = result.Succeeded ? Strings.Ui_Mods_StudioPlugins_HelpfulSaved : Describe(result.Status);
-		});
+		);
 	}
 
 	private void Reply_Click(object sender, RoutedEventArgs e)
@@ -254,17 +348,20 @@ public partial class StudioPluginsView
 		string text = StudioPluginCommunity.CleanText(box.Text);
 		if (assetId <= 0 || text.Length == 0)
 			return;
-		_ = RunCommunityAction(button, async token =>
-		{
-			RobloxAuthedResult result = await StudioPluginCommunity.ReplyAsync(assetId, review.Id, text, token);
-			if (result.Succeeded)
+		_ = RunCommunityAction(
+			button,
+			async token =>
 			{
-				box.Text = "";
-				box.IsEnabled = false;
-				button.Click -= Reply_Click;
+				RobloxAuthedResult result = await StudioPluginCommunity.ReplyAsync(assetId, review.Id, text, token);
+				if (result.Succeeded)
+				{
+					box.Text = "";
+					box.IsEnabled = false;
+					button.Click -= Reply_Click;
+				}
+				ReviewsStatus.Text = result.Succeeded ? Strings.Ui_Mods_StudioPlugins_ReplyPosted : Describe(result.Status);
 			}
-			ReviewsStatus.Text = result.Succeeded ? Strings.Ui_Mods_StudioPlugins_ReplyPosted : Describe(result.Status);
-		});
+		);
 	}
 
 	private async Task RunCommunityAction(UIElement? busy, Func<CancellationToken, Task> action)
@@ -279,10 +376,9 @@ public partial class StudioPluginsView
 		{
 			await action(token);
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-		}
-		catch (Exception ex) when (ex is HttpRequestException or IOException or JsonException or OperationCanceledException or ArgumentException)
+		catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+		catch (Exception ex)
+			when (ex is HttpRequestException or IOException or JsonException or OperationCanceledException or ArgumentException)
 		{
 			App.Logger.WriteException(LogIdent + "::CommunityAction", ex);
 			ReviewsStatus.Text = Strings.Ui_Mods_StudioPlugins_ActionFailed;
@@ -294,12 +390,13 @@ public partial class StudioPluginsView
 		}
 	}
 
-	private static string Describe(RobloxAuthedStatus status) => status switch
-	{
-		RobloxAuthedStatus.NotSignedIn => Strings.Ui_Mods_StudioPlugins_SignIn,
-		RobloxAuthedStatus.RateLimited => Strings.Ui_Mods_StudioPlugins_RateLimited,
-		_ => Strings.Ui_Mods_StudioPlugins_ActionFailed
-	};
+	private static string Describe(RobloxAuthedStatus status) =>
+		status switch
+		{
+			RobloxAuthedStatus.NotSignedIn => Strings.Ui_Mods_StudioPlugins_SignIn,
+			RobloxAuthedStatus.RateLimited => Strings.Ui_Mods_StudioPlugins_RateLimited,
+			_ => Strings.Ui_Mods_StudioPlugins_ActionFailed,
+		};
 
 	private void Publish_Click(object sender, RoutedEventArgs e)
 	{

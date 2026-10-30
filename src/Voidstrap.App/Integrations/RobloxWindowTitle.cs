@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Voidstrap.Models.Entities;
 using Voidstrap.Extensions;
+using Voidstrap.Models.Entities;
 
 namespace Voidstrap.Integrations;
 
@@ -38,7 +38,10 @@ internal sealed class RobloxWindowTitle : IDisposable
 		_ = Task.Run(() => LoopAsync(token));
 	}
 
-	public static string BaseTitle => Voidstrap.Utility.Branding.Apply(string.IsNullOrWhiteSpace(App.Settings.Prop.RobloxTitle) ? DefaultTitle : App.Settings.Prop.RobloxTitle);
+	public static string BaseTitle =>
+		Voidstrap.Utility.Branding.Apply(
+			string.IsNullOrWhiteSpace(App.Settings.Prop.RobloxTitle) ? DefaultTitle : App.Settings.Prop.RobloxTitle
+		);
 
 	public static bool WantsUpdates => App.Settings.Prop.CycleTitleWithGameName || App.Settings.Prop.ShowServerInfoInTitle;
 
@@ -51,12 +54,8 @@ internal sealed class RobloxWindowTitle : IDisposable
 			if (_kick.CurrentCount == 0)
 				_kick.Release();
 		}
-		catch (SemaphoreFullException)
-		{
-		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (SemaphoreFullException) { }
+		catch (ObjectDisposedException) { }
 	}
 
 	private async Task LoopAsync(CancellationToken token)
@@ -75,12 +74,8 @@ internal sealed class RobloxWindowTitle : IDisposable
 				await _kick.WaitAsync(RefreshInterval, token).ConfigureAwait(false);
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (OperationCanceledException) { }
+		catch (ObjectDisposedException) { }
 		catch (Exception ex)
 		{
 			App.Logger?.WriteException(LOG_IDENT + "::Loop", ex);
@@ -110,13 +105,18 @@ internal sealed class RobloxWindowTitle : IDisposable
 			parts.Add(location);
 		try
 		{
-			ServerPlayerSnapshot snapshot = await _activityWatcher.GetServerPlayerSnapshotAsync().WaitAsync(PlayerCountWait, token).ConfigureAwait(false);
+			ServerPlayerSnapshot snapshot = await _activityWatcher
+				.GetServerPlayerSnapshotAsync()
+				.WaitAsync(PlayerCountWait, token)
+				.ConfigureAwait(false);
 			if (snapshot.Playing > 0)
-				parts.Add(snapshot.MaxPlayers > 0 ? $"{snapshot.Playing}/{snapshot.MaxPlayers} players" : snapshot.Playing == 1 ? "1 player" : snapshot.Playing + " players");
+				parts.Add(
+					snapshot.MaxPlayers > 0 ? $"{snapshot.Playing}/{snapshot.MaxPlayers} players"
+					: snapshot.Playing == 1 ? "1 player"
+					: snapshot.Playing + " players"
+				);
 		}
-		catch (TimeoutException)
-		{
-		}
+		catch (TimeoutException) { }
 		return parts.Count == 0 ? title : title + " (" + string.Join(" · ", parts) + ")";
 	}
 
@@ -204,9 +204,7 @@ internal sealed class RobloxWindowTitle : IDisposable
 		{
 			_cts.Cancel();
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 		_cts.Dispose();
 		GC.SuppressFinalize(this);
 	}

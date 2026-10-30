@@ -22,7 +22,8 @@ using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
-public partial class ChannelPage : UiPage{
+public partial class ChannelPage : UiPage
+{
 	private CancellationTokenSource? _versionCts = null!;
 	private bool _resetInProgress;
 	private Window? _ownerWindow;
@@ -89,9 +90,7 @@ public partial class ChannelPage : UiPage{
 			_versionCts?.Cancel();
 			_versionCts?.Dispose();
 		}
-		catch
-		{
-		}
+		catch { }
 		_versionCts = null;
 		if (base.DataContext is ChannelViewModel viewModel)
 		{
@@ -125,9 +124,7 @@ public partial class ChannelPage : UiPage{
 			{
 				break;
 			}
-			catch (Exception)
-			{
-			}
+			catch (Exception) { }
 			try
 			{
 				await Task.Delay(30000, token);
@@ -146,7 +143,8 @@ public partial class ChannelPage : UiPage{
 			if (Voidstrap.Utility.Platform.IsMacOS)
 			{
 				string? bundle = Voidstrap.Utility.MacRobloxBundle.Find();
-				string? macVersion = bundle == null ? null : await Task.Run(() => Voidstrap.Utility.MacRobloxBundle.ReadVersion(bundle), token);
+				string? macVersion =
+					bundle == null ? null : await Task.Run(() => Voidstrap.Utility.MacRobloxBundle.ReadVersion(bundle), token);
 				RobloxVersionAPP.Header = macVersion != null ? "Roblox " + macVersion : "Not Installed";
 				return;
 			}
@@ -156,7 +154,8 @@ public partial class ChannelPage : UiPage{
 				RobloxVersionAPP.Header = "Not Installed";
 				return;
 			}
-			string[] files = Directory.EnumerateFiles(path, "memProfStorage*.json", SearchOption.TopDirectoryOnly)
+			string[] files = Directory
+				.EnumerateFiles(path, "memProfStorage*.json", SearchOption.TopDirectoryOnly)
 				.Select(file => new FileInfo(file))
 				.Where(file => file.Length <= 1024 * 1024)
 				.OrderByDescending(file => file.LastWriteTimeUtc)
@@ -182,9 +181,7 @@ public partial class ChannelPage : UiPage{
 						break;
 					}
 				}
-				catch (IOException)
-				{
-				}
+				catch (IOException) { }
 			}
 			if (!string.IsNullOrWhiteSpace(version))
 			{
@@ -195,9 +192,7 @@ public partial class ChannelPage : UiPage{
 				RobloxVersionAPP.Header = "Not Installed";
 			}
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested) { }
 		catch (Exception ex2)
 		{
 			RobloxVersionAPP.Header = "Roblox Version Error: " + ex2.Message;
@@ -206,7 +201,14 @@ public partial class ChannelPage : UiPage{
 
 	private static async Task<string> ReadLocalTextBoundedAsync(string path, int maxBytes, CancellationToken token)
 	{
-		await using FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);
+		await using FileStream stream = new FileStream(
+			path,
+			FileMode.Open,
+			FileAccess.Read,
+			FileShare.ReadWrite | FileShare.Delete,
+			81920,
+			FileOptions.Asynchronous | FileOptions.SequentialScan
+		);
 		if (stream.Length < 0 || stream.Length > maxBytes)
 			throw new InvalidDataException("Roblox version file is too large");
 		byte[] bytes = new byte[checked((int)stream.Length)];
@@ -243,7 +245,14 @@ public partial class ChannelPage : UiPage{
 		{
 			return;
 		}
-		if (Frontend.ShowMessageBox("Erase all Voidstrap settings, FastFlags, modifications, accounts, themes, caches, and saved data, then return to onboarding? This cannot be undone.", MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+		if (
+			Frontend.ShowMessageBox(
+				"Erase all Voidstrap settings, FastFlags, modifications, accounts, themes, caches, and saved data, then return to onboarding? This cannot be undone.",
+				MessageBoxImage.Warning,
+				MessageBoxButton.YesNo,
+				MessageBoxResult.No
+			) != MessageBoxResult.Yes
+		)
 		{
 			return;
 		}
@@ -256,7 +265,7 @@ public partial class ChannelPage : UiPage{
 			ProcessStartInfo startInfo = new()
 			{
 				FileName = Voidstrap.Utility.Platform.IsWindows ? Paths.Application : Paths.LaunchExecutable,
-				UseShellExecute = Voidstrap.Utility.Platform.IsWindows
+				UseShellExecute = Voidstrap.Utility.Platform.IsWindows,
 			};
 			if (!Voidstrap.Utility.Platform.IsWindows)
 			{
@@ -267,7 +276,8 @@ public partial class ChannelPage : UiPage{
 			{
 				startInfo.Arguments = "-factoryreset " + Environment.ProcessId;
 			}
-			using Process process = Process.Start(startInfo) ?? throw new InvalidOperationException("Voidstrap could not start the factory reset");
+			using Process process =
+				Process.Start(startInfo) ?? throw new InvalidOperationException("Voidstrap could not start the factory reset");
 			Application.Current.Shutdown();
 		}
 		catch (Exception ex)
@@ -291,11 +301,7 @@ public partial class ChannelPage : UiPage{
 		try
 		{
 			Directory.CreateDirectory(Paths.Logs);
-			Process.Start(new ProcessStartInfo
-			{
-				FileName = Paths.Logs,
-				UseShellExecute = true
-			});
+			Process.Start(new ProcessStartInfo { FileName = Paths.Logs, UseShellExecute = true });
 		}
 		catch (Exception ex)
 		{
@@ -325,9 +331,7 @@ public partial class ChannelPage : UiPage{
 				App.Terminate();
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ChannelPage::UninstallButton_Click", ex);
@@ -339,11 +343,7 @@ public partial class ChannelPage : UiPage{
 		string fileName = App.ProjectDonateLink;
 		try
 		{
-			Process.Start(new ProcessStartInfo
-			{
-				FileName = fileName,
-				UseShellExecute = true
-			});
+			Process.Start(new ProcessStartInfo { FileName = fileName, UseShellExecute = true });
 		}
 		catch (Exception ex)
 		{
@@ -351,5 +351,6 @@ public partial class ChannelPage : UiPage{
 		}
 	}
 
-    [GeneratedRegex("\"AppVersion\"\\s*:\\s*\"([^\"]+)\"")]
-    private static partial Regex AppVersionPattern { get; }}
+	[GeneratedRegex("\"AppVersion\"\\s*:\\s*\"([^\"]+)\"")]
+	private static partial Regex AppVersionPattern { get; }
+}

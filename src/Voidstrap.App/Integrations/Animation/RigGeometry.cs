@@ -49,7 +49,7 @@ public static class RigGeometry
 		{
 			Geometry = BuildRoundedBox(part.Size, b),
 			Material = materialGroup,
-			BackMaterial = new DiffuseMaterial(new SolidColorBrush(part.Color))
+			BackMaterial = new DiffuseMaterial(new SolidColorBrush(part.Color)),
 		};
 		if (part.Name != "Head")
 		{
@@ -70,40 +70,18 @@ public static class RigGeometry
 				new Point3D((0.0 - num) / 2.0, (0.0 - num2) / 2.0, z),
 				new Point3D(num / 2.0, (0.0 - num2) / 2.0, z),
 				new Point3D(num / 2.0, num2 / 2.0, z),
-				new Point3D((0.0 - num) / 2.0, num2 / 2.0, z)
+				new Point3D((0.0 - num) / 2.0, num2 / 2.0, z),
 			],
-			TextureCoordinates =
-			[
-				new Point(0.0, 1.0),
-				new Point(1.0, 1.0),
-				new Point(1.0, 0.0),
-				new Point(0.0, 0.0)
-			],
-			Normals =
-			[
-				new Vector3D(0.0, 0.0, 1.0),
-				new Vector3D(0.0, 0.0, 1.0),
-				new Vector3D(0.0, 0.0, 1.0),
-				new Vector3D(0.0, 0.0, 1.0)
-			],
-			TriangleIndices = [0, 1, 2, 0, 2, 3]
+			TextureCoordinates = [new Point(0.0, 1.0), new Point(1.0, 1.0), new Point(1.0, 0.0), new Point(0.0, 0.0)],
+			Normals = [new Vector3D(0.0, 0.0, 1.0), new Vector3D(0.0, 0.0, 1.0), new Vector3D(0.0, 0.0, 1.0), new Vector3D(0.0, 0.0, 1.0)],
+			TriangleIndices = [0, 1, 2, 0, 2, 3],
 		};
 		GeometryModel3D value = new()
 		{
 			Geometry = geometry,
-			Material = new DiffuseMaterial(new ImageBrush(imageSource)
-			{
-				Stretch = Stretch.Fill
-			})
+			Material = new DiffuseMaterial(new ImageBrush(imageSource) { Stretch = Stretch.Fill }),
 		};
-		return new Model3DGroup
-		{
-			Children = 
-			{
-				(Model3D)geometryModel3D,
-				(Model3D)value
-			}
-		};
+		return new Model3DGroup { Children = { (Model3D)geometryModel3D, (Model3D)value } };
 	}
 
 	public static MeshGeometry3D BuildRoundedBox(Vector3D size, double b)
@@ -118,37 +96,180 @@ public static class RigGeometry
 		Point3DCollection positions = [];
 		Vector3DCollection normals = [];
 		Int32Collection indices = [];
-		Quad(new Point3D(num, 0.0 - num5, 0.0 - num6), new Point3D(num, 0.0 - num5, num6), new Point3D(num, num5, num6), new Point3D(num, num5, 0.0 - num6), new Vector3D(1.0, 0.0, 0.0));
-		Quad(new Point3D(0.0 - num, 0.0 - num5, 0.0 - num6), new Point3D(0.0 - num, num5, 0.0 - num6), new Point3D(0.0 - num, num5, num6), new Point3D(0.0 - num, 0.0 - num5, num6), new Vector3D(-1.0, 0.0, 0.0));
-		Quad(new Point3D(0.0 - num4, num2, 0.0 - num6), new Point3D(0.0 - num4, num2, num6), new Point3D(num4, num2, num6), new Point3D(num4, num2, 0.0 - num6), new Vector3D(0.0, 1.0, 0.0));
-		Quad(new Point3D(0.0 - num4, 0.0 - num2, 0.0 - num6), new Point3D(num4, 0.0 - num2, 0.0 - num6), new Point3D(num4, 0.0 - num2, num6), new Point3D(0.0 - num4, 0.0 - num2, num6), new Vector3D(0.0, -1.0, 0.0));
-		Quad(new Point3D(0.0 - num4, 0.0 - num5, num3), new Point3D(num4, 0.0 - num5, num3), new Point3D(num4, num5, num3), new Point3D(0.0 - num4, num5, num3), new Vector3D(0.0, 0.0, 1.0));
-		Quad(new Point3D(0.0 - num4, 0.0 - num5, 0.0 - num3), new Point3D(0.0 - num4, num5, 0.0 - num3), new Point3D(num4, num5, 0.0 - num3), new Point3D(num4, 0.0 - num5, 0.0 - num3), new Vector3D(0.0, 0.0, -1.0));
-		Quad(new Point3D(num, num5, 0.0 - num6), new Point3D(num, num5, num6), new Point3D(num4, num2, num6), new Point3D(num4, num2, 0.0 - num6), new Vector3D(1.0, 1.0, 0.0));
-		Quad(new Point3D(num, 0.0 - num5, num6), new Point3D(num, 0.0 - num5, 0.0 - num6), new Point3D(num4, 0.0 - num2, 0.0 - num6), new Point3D(num4, 0.0 - num2, num6), new Vector3D(1.0, -1.0, 0.0));
-		Quad(new Point3D(0.0 - num, num5, num6), new Point3D(0.0 - num, num5, 0.0 - num6), new Point3D(0.0 - num4, num2, 0.0 - num6), new Point3D(0.0 - num4, num2, num6), new Vector3D(-1.0, 1.0, 0.0));
-		Quad(new Point3D(0.0 - num, 0.0 - num5, 0.0 - num6), new Point3D(0.0 - num, 0.0 - num5, num6), new Point3D(0.0 - num4, 0.0 - num2, num6), new Point3D(0.0 - num4, 0.0 - num2, 0.0 - num6), new Vector3D(-1.0, -1.0, 0.0));
-		Quad(new Point3D(num, 0.0 - num5, num6), new Point3D(num, num5, num6), new Point3D(num4, num5, num3), new Point3D(num4, 0.0 - num5, num3), new Vector3D(1.0, 0.0, 1.0));
-		Quad(new Point3D(num, num5, 0.0 - num6), new Point3D(num, 0.0 - num5, 0.0 - num6), new Point3D(num4, 0.0 - num5, 0.0 - num3), new Point3D(num4, num5, 0.0 - num3), new Vector3D(1.0, 0.0, -1.0));
-		Quad(new Point3D(0.0 - num, num5, num6), new Point3D(0.0 - num, 0.0 - num5, num6), new Point3D(0.0 - num4, 0.0 - num5, num3), new Point3D(0.0 - num4, num5, num3), new Vector3D(-1.0, 0.0, 1.0));
-		Quad(new Point3D(0.0 - num, 0.0 - num5, 0.0 - num6), new Point3D(0.0 - num, num5, 0.0 - num6), new Point3D(0.0 - num4, num5, 0.0 - num3), new Point3D(0.0 - num4, 0.0 - num5, 0.0 - num3), new Vector3D(-1.0, 0.0, -1.0));
-		Quad(new Point3D(0.0 - num4, num2, num6), new Point3D(num4, num2, num6), new Point3D(num4, num5, num3), new Point3D(0.0 - num4, num5, num3), new Vector3D(0.0, 1.0, 1.0));
-		Quad(new Point3D(num4, num2, 0.0 - num6), new Point3D(0.0 - num4, num2, 0.0 - num6), new Point3D(0.0 - num4, num5, 0.0 - num3), new Point3D(num4, num5, 0.0 - num3), new Vector3D(0.0, 1.0, -1.0));
-		Quad(new Point3D(num4, 0.0 - num2, num6), new Point3D(0.0 - num4, 0.0 - num2, num6), new Point3D(0.0 - num4, 0.0 - num5, num3), new Point3D(num4, 0.0 - num5, num3), new Vector3D(0.0, -1.0, 1.0));
-		Quad(new Point3D(0.0 - num4, 0.0 - num2, 0.0 - num6), new Point3D(num4, 0.0 - num2, 0.0 - num6), new Point3D(num4, 0.0 - num5, 0.0 - num3), new Point3D(0.0 - num4, 0.0 - num5, 0.0 - num3), new Vector3D(0.0, -1.0, -1.0));
+		Quad(
+			new Point3D(num, 0.0 - num5, 0.0 - num6),
+			new Point3D(num, 0.0 - num5, num6),
+			new Point3D(num, num5, num6),
+			new Point3D(num, num5, 0.0 - num6),
+			new Vector3D(1.0, 0.0, 0.0)
+		);
+		Quad(
+			new Point3D(0.0 - num, 0.0 - num5, 0.0 - num6),
+			new Point3D(0.0 - num, num5, 0.0 - num6),
+			new Point3D(0.0 - num, num5, num6),
+			new Point3D(0.0 - num, 0.0 - num5, num6),
+			new Vector3D(-1.0, 0.0, 0.0)
+		);
+		Quad(
+			new Point3D(0.0 - num4, num2, 0.0 - num6),
+			new Point3D(0.0 - num4, num2, num6),
+			new Point3D(num4, num2, num6),
+			new Point3D(num4, num2, 0.0 - num6),
+			new Vector3D(0.0, 1.0, 0.0)
+		);
+		Quad(
+			new Point3D(0.0 - num4, 0.0 - num2, 0.0 - num6),
+			new Point3D(num4, 0.0 - num2, 0.0 - num6),
+			new Point3D(num4, 0.0 - num2, num6),
+			new Point3D(0.0 - num4, 0.0 - num2, num6),
+			new Vector3D(0.0, -1.0, 0.0)
+		);
+		Quad(
+			new Point3D(0.0 - num4, 0.0 - num5, num3),
+			new Point3D(num4, 0.0 - num5, num3),
+			new Point3D(num4, num5, num3),
+			new Point3D(0.0 - num4, num5, num3),
+			new Vector3D(0.0, 0.0, 1.0)
+		);
+		Quad(
+			new Point3D(0.0 - num4, 0.0 - num5, 0.0 - num3),
+			new Point3D(0.0 - num4, num5, 0.0 - num3),
+			new Point3D(num4, num5, 0.0 - num3),
+			new Point3D(num4, 0.0 - num5, 0.0 - num3),
+			new Vector3D(0.0, 0.0, -1.0)
+		);
+		Quad(
+			new Point3D(num, num5, 0.0 - num6),
+			new Point3D(num, num5, num6),
+			new Point3D(num4, num2, num6),
+			new Point3D(num4, num2, 0.0 - num6),
+			new Vector3D(1.0, 1.0, 0.0)
+		);
+		Quad(
+			new Point3D(num, 0.0 - num5, num6),
+			new Point3D(num, 0.0 - num5, 0.0 - num6),
+			new Point3D(num4, 0.0 - num2, 0.0 - num6),
+			new Point3D(num4, 0.0 - num2, num6),
+			new Vector3D(1.0, -1.0, 0.0)
+		);
+		Quad(
+			new Point3D(0.0 - num, num5, num6),
+			new Point3D(0.0 - num, num5, 0.0 - num6),
+			new Point3D(0.0 - num4, num2, 0.0 - num6),
+			new Point3D(0.0 - num4, num2, num6),
+			new Vector3D(-1.0, 1.0, 0.0)
+		);
+		Quad(
+			new Point3D(0.0 - num, 0.0 - num5, 0.0 - num6),
+			new Point3D(0.0 - num, 0.0 - num5, num6),
+			new Point3D(0.0 - num4, 0.0 - num2, num6),
+			new Point3D(0.0 - num4, 0.0 - num2, 0.0 - num6),
+			new Vector3D(-1.0, -1.0, 0.0)
+		);
+		Quad(
+			new Point3D(num, 0.0 - num5, num6),
+			new Point3D(num, num5, num6),
+			new Point3D(num4, num5, num3),
+			new Point3D(num4, 0.0 - num5, num3),
+			new Vector3D(1.0, 0.0, 1.0)
+		);
+		Quad(
+			new Point3D(num, num5, 0.0 - num6),
+			new Point3D(num, 0.0 - num5, 0.0 - num6),
+			new Point3D(num4, 0.0 - num5, 0.0 - num3),
+			new Point3D(num4, num5, 0.0 - num3),
+			new Vector3D(1.0, 0.0, -1.0)
+		);
+		Quad(
+			new Point3D(0.0 - num, num5, num6),
+			new Point3D(0.0 - num, 0.0 - num5, num6),
+			new Point3D(0.0 - num4, 0.0 - num5, num3),
+			new Point3D(0.0 - num4, num5, num3),
+			new Vector3D(-1.0, 0.0, 1.0)
+		);
+		Quad(
+			new Point3D(0.0 - num, 0.0 - num5, 0.0 - num6),
+			new Point3D(0.0 - num, num5, 0.0 - num6),
+			new Point3D(0.0 - num4, num5, 0.0 - num3),
+			new Point3D(0.0 - num4, 0.0 - num5, 0.0 - num3),
+			new Vector3D(-1.0, 0.0, -1.0)
+		);
+		Quad(
+			new Point3D(0.0 - num4, num2, num6),
+			new Point3D(num4, num2, num6),
+			new Point3D(num4, num5, num3),
+			new Point3D(0.0 - num4, num5, num3),
+			new Vector3D(0.0, 1.0, 1.0)
+		);
+		Quad(
+			new Point3D(num4, num2, 0.0 - num6),
+			new Point3D(0.0 - num4, num2, 0.0 - num6),
+			new Point3D(0.0 - num4, num5, 0.0 - num3),
+			new Point3D(num4, num5, 0.0 - num3),
+			new Vector3D(0.0, 1.0, -1.0)
+		);
+		Quad(
+			new Point3D(num4, 0.0 - num2, num6),
+			new Point3D(0.0 - num4, 0.0 - num2, num6),
+			new Point3D(0.0 - num4, 0.0 - num5, num3),
+			new Point3D(num4, 0.0 - num5, num3),
+			new Vector3D(0.0, -1.0, 1.0)
+		);
+		Quad(
+			new Point3D(0.0 - num4, 0.0 - num2, 0.0 - num6),
+			new Point3D(num4, 0.0 - num2, 0.0 - num6),
+			new Point3D(num4, 0.0 - num5, 0.0 - num3),
+			new Point3D(0.0 - num4, 0.0 - num5, 0.0 - num3),
+			new Vector3D(0.0, -1.0, -1.0)
+		);
 		Tri(new Point3D(num, num5, num6), new Point3D(num4, num2, num6), new Point3D(num4, num5, num3), new Vector3D(1.0, 1.0, 1.0));
-		Tri(new Point3D(num, num5, 0.0 - num6), new Point3D(num4, num5, 0.0 - num3), new Point3D(num4, num2, 0.0 - num6), new Vector3D(1.0, 1.0, -1.0));
-		Tri(new Point3D(num, 0.0 - num5, num6), new Point3D(num4, 0.0 - num5, num3), new Point3D(num4, 0.0 - num2, num6), new Vector3D(1.0, -1.0, 1.0));
-		Tri(new Point3D(num, 0.0 - num5, 0.0 - num6), new Point3D(num4, 0.0 - num2, 0.0 - num6), new Point3D(num4, 0.0 - num5, 0.0 - num3), new Vector3D(1.0, -1.0, -1.0));
-		Tri(new Point3D(0.0 - num, num5, num6), new Point3D(0.0 - num4, num5, num3), new Point3D(0.0 - num4, num2, num6), new Vector3D(-1.0, 1.0, 1.0));
-		Tri(new Point3D(0.0 - num, num5, 0.0 - num6), new Point3D(0.0 - num4, num2, 0.0 - num6), new Point3D(0.0 - num4, num5, 0.0 - num3), new Vector3D(-1.0, 1.0, -1.0));
-		Tri(new Point3D(0.0 - num, 0.0 - num5, num6), new Point3D(0.0 - num4, 0.0 - num2, num6), new Point3D(0.0 - num4, 0.0 - num5, num3), new Vector3D(-1.0, -1.0, 1.0));
-		Tri(new Point3D(0.0 - num, 0.0 - num5, 0.0 - num6), new Point3D(0.0 - num4, 0.0 - num5, 0.0 - num3), new Point3D(0.0 - num4, 0.0 - num2, 0.0 - num6), new Vector3D(-1.0, -1.0, -1.0));
+		Tri(
+			new Point3D(num, num5, 0.0 - num6),
+			new Point3D(num4, num5, 0.0 - num3),
+			new Point3D(num4, num2, 0.0 - num6),
+			new Vector3D(1.0, 1.0, -1.0)
+		);
+		Tri(
+			new Point3D(num, 0.0 - num5, num6),
+			new Point3D(num4, 0.0 - num5, num3),
+			new Point3D(num4, 0.0 - num2, num6),
+			new Vector3D(1.0, -1.0, 1.0)
+		);
+		Tri(
+			new Point3D(num, 0.0 - num5, 0.0 - num6),
+			new Point3D(num4, 0.0 - num2, 0.0 - num6),
+			new Point3D(num4, 0.0 - num5, 0.0 - num3),
+			new Vector3D(1.0, -1.0, -1.0)
+		);
+		Tri(
+			new Point3D(0.0 - num, num5, num6),
+			new Point3D(0.0 - num4, num5, num3),
+			new Point3D(0.0 - num4, num2, num6),
+			new Vector3D(-1.0, 1.0, 1.0)
+		);
+		Tri(
+			new Point3D(0.0 - num, num5, 0.0 - num6),
+			new Point3D(0.0 - num4, num2, 0.0 - num6),
+			new Point3D(0.0 - num4, num5, 0.0 - num3),
+			new Vector3D(-1.0, 1.0, -1.0)
+		);
+		Tri(
+			new Point3D(0.0 - num, 0.0 - num5, num6),
+			new Point3D(0.0 - num4, 0.0 - num2, num6),
+			new Point3D(0.0 - num4, 0.0 - num5, num3),
+			new Vector3D(-1.0, -1.0, 1.0)
+		);
+		Tri(
+			new Point3D(0.0 - num, 0.0 - num5, 0.0 - num6),
+			new Point3D(0.0 - num4, 0.0 - num5, 0.0 - num3),
+			new Point3D(0.0 - num4, 0.0 - num2, 0.0 - num6),
+			new Vector3D(-1.0, -1.0, -1.0)
+		);
 		return new MeshGeometry3D
 		{
 			Positions = positions,
 			Normals = normals,
-			TriangleIndices = indices
+			TriangleIndices = indices,
 		};
 		void Quad(Point3D p0, Point3D p1, Point3D p2, Point3D p3, Vector3D n)
 		{

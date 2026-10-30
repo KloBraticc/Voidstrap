@@ -35,18 +35,29 @@ public static class GitHubPublisher
 
 	public sealed record DeviceCode(string UserCode, string VerificationUri, string DeviceCodeValue, int Interval, DateTime ExpiresAt);
 
-	public sealed record Preflight(string Name, string Version, string? PublishedVersion, bool IsUpdate, IReadOnlyList<string> Files, IReadOnlyList<string> Network, IReadOnlyList<string> Problems, IReadOnlyList<string> Warnings);
+	public sealed record Preflight(
+		string Name,
+		string Version,
+		string? PublishedVersion,
+		bool IsUpdate,
+		IReadOnlyList<string> Files,
+		IReadOnlyList<string> Network,
+		IReadOnlyList<string> Problems,
+		IReadOnlyList<string> Warnings
+	);
 
 	private static HttpClient CreateClient()
 	{
-		HttpClient client = new(new SocketsHttpHandler
+		HttpClient client = new(
+			new SocketsHttpHandler
+			{
+				UseCookies = false,
+				AllowAutoRedirect = false,
+				ConnectTimeout = TimeSpan.FromSeconds(15),
+			}
+		)
 		{
-			UseCookies = false,
-			AllowAutoRedirect = false,
-			ConnectTimeout = TimeSpan.FromSeconds(15)
-		})
-		{
-			Timeout = TimeSpan.FromSeconds(60)
+			Timeout = TimeSpan.FromSeconds(60),
 		};
 		client.DefaultRequestHeaders.UserAgent.ParseAdd("Voidstrap");
 		return client;
@@ -111,7 +122,15 @@ public static class GitHubPublisher
 			}
 			else
 			{
-				using FileStream stream = new(TokenPath, new FileStreamOptions { Mode = FileMode.Create, Access = FileAccess.Write, UnixCreateMode = UnixFileMode.UserRead | UnixFileMode.UserWrite });
+				using FileStream stream = new(
+					TokenPath,
+					new FileStreamOptions
+					{
+						Mode = FileMode.Create,
+						Access = FileAccess.Write,
+						UnixCreateMode = UnixFileMode.UserRead | UnixFileMode.UserWrite,
+					}
+				);
 				stream.Write(plain);
 				File.SetUnixFileMode(TokenPath, UnixFileMode.UserRead | UnixFileMode.UserWrite);
 			}
@@ -143,7 +162,11 @@ public static class GitHubPublisher
 	{
 		if (!IsConfigured)
 			throw new InvalidOperationException("publishing is not set up in this build of Voidstrap");
-		JsonObject response = await PostFormAsync("https://github.com/login/device/code", new Dictionary<string, string> { ["client_id"] = ClientId, ["scope"] = "public_repo" }, token);
+		JsonObject response = await PostFormAsync(
+			"https://github.com/login/device/code",
+			new Dictionary<string, string> { ["client_id"] = ClientId, ["scope"] = "public_repo" },
+			token
+		);
 		string userCode = response["user_code"]?.GetValue<string>() ?? throw new InvalidDataException("GitHub did not return a code");
 		string deviceCode = response["device_code"]?.GetValue<string>() ?? throw new InvalidDataException("GitHub did not return a code");
 		string uri = response["verification_uri"]?.GetValue<string>() ?? "https://github.com/login/device";
@@ -160,19 +183,25 @@ public static class GitHubPublisher
 		while (DateTime.UtcNow < code.ExpiresAt)
 		{
 			await Task.Delay(TimeSpan.FromSeconds(interval), token);
-			JsonObject response = await PostFormAsync("https://github.com/login/oauth/access_token", new Dictionary<string, string>
-			{
-				["client_id"] = ClientId,
-				["device_code"] = code.DeviceCodeValue,
-				["grant_type"] = "urn:ietf:params:oauth:grant-type:device_code"
-			}, token);
+			JsonObject response = await PostFormAsync(
+				"https://github.com/login/oauth/access_token",
+				new Dictionary<string, string>
+				{
+					["client_id"] = ClientId,
+					["device_code"] = code.DeviceCodeValue,
+					["grant_type"] = "urn:ietf:params:oauth:grant-type:device_code",
+				},
+				token
+			);
 			string? access = response["access_token"]?.GetValue<string>();
 			if (!string.IsNullOrEmpty(access))
 			{
 				string scopes = response["scope"]?.GetValue<string>() ?? "";
 				if (!scopes.Split(',', StringSplitOptions.TrimEntries).Contains("public_repo"))
 					throw new InvalidOperationException("GitHub did not grant the public_repo permission");
-				JsonObject user = (await SendAsync(HttpMethod.Get, "https://api.github.com/user", null, access, token)) as JsonObject ?? throw new InvalidDataException("GitHub did not return the account");
+				JsonObject user =
+					(await SendAsync(HttpMethod.Get, "https://api.github.com/user", null, access, token)) as JsonObject
+					?? throw new InvalidDataException("GitHub did not return the account");
 				long id = user["id"]?.GetValue<long>() ?? 0;
 				string login = user["login"]?.GetValue<string>() ?? "";
 				if (id <= 0 || login.Length == 0)
@@ -232,9 +261,23 @@ public static class GitHubPublisher
 		Account? account = SignedIn;
 		if (published != null && account != null && published.OwnerId != account.Id)
 			problems.Add("the name " + name + " is already taken in the library by @" + published.Login + ", rename your mod");
-		if (published != null && Version.TryParse(published.Version, out Version? old) && Version.TryParse(manifest.Version, out Version? now) && now <= old)
+		if (
+			published != null
+			&& Version.TryParse(published.Version, out Version? old)
+			&& Version.TryParse(manifest.Version, out Version? now)
+			&& now <= old
+		)
 			problems.Add("raise the version above " + published.Version + " in plugin.json before publishing an update");
-		return new Preflight(name, manifest.Version, published?.Version, published != null, files.Select(f => f.Rel).ToList(), manifest.NetworkHosts, problems, warnings);
+		return new Preflight(
+			name,
+			manifest.Version,
+			published?.Version,
+			published != null,
+			files.Select(f => f.Rel).ToList(),
+			manifest.NetworkHosts,
+			problems,
+			warnings
+		);
 	}
 
 	private static List<(string Rel, string Full)> CollectFiles(string folder, List<string> problems)
@@ -244,7 +287,14 @@ public static class GitHubPublisher
 		foreach (string full in Directory.EnumerateFiles(root, "*", SearchOption.AllDirectories))
 		{
 			string rel = Path.GetRelativePath(root, full).Replace(Path.DirectorySeparatorChar, '/');
-			if (rel.StartsWith("node_modules/", StringComparison.Ordinal) || (rel.StartsWith(PluginManifest.ManifestFolder + "/", StringComparison.Ordinal) && rel != PluginManifest.ManifestFolder + "/plugin.json") || rel == "owner.json")
+			if (
+				rel.StartsWith("node_modules/", StringComparison.Ordinal)
+				|| (
+					rel.StartsWith(PluginManifest.ManifestFolder + "/", StringComparison.Ordinal)
+					&& rel != PluginManifest.ManifestFolder + "/plugin.json"
+				)
+				|| rel == "owner.json"
+			)
 				continue;
 			if ((File.GetAttributes(full) & FileAttributes.ReparsePoint) != 0)
 			{
@@ -260,10 +310,17 @@ public static class GitHubPublisher
 	{
 		using HttpResponseMessage response = await Client.GetAsync(RulesUrl, token);
 		response.EnsureSuccessStatusCode();
-		return JsonNode.Parse(await response.Content.ReadAsStringAsync(token)) as JsonObject ?? throw new InvalidDataException("the library rules could not be read");
+		return JsonNode.Parse(await response.Content.ReadAsStringAsync(token)) as JsonObject
+			?? throw new InvalidDataException("the library rules could not be read");
 	}
 
-	private static void ApplyRules(JsonObject rules, string modName, List<(string Rel, string Full)> files, List<string> problems, List<string> warnings)
+	private static void ApplyRules(
+		JsonObject rules,
+		string modName,
+		List<(string Rel, string Full)> files,
+		List<string> problems,
+		List<string> warnings
+	)
 	{
 		JsonObject limits = rules["limits"] as JsonObject ?? new JsonObject();
 		long maxModBytes = limits["maxModBytes"]?.GetValue<long>() ?? 1048576;
@@ -271,18 +328,26 @@ public static class GitHubPublisher
 		long maxFileBytes = limits["maxFileBytes"]?.GetValue<long>() ?? 262144;
 		int maxLine = limits["maxLineLength"]?.GetValue<int>() ?? 400;
 		int maxEncoded = limits["maxEncodedRun"]?.GetValue<int>() ?? 200;
-		HashSet<string> allowed = (rules["allowedExtensions"] as JsonArray ?? []).Select(n => n?.GetValue<string>() ?? "").ToHashSet(StringComparer.OrdinalIgnoreCase);
-		HashSet<string> code = (rules["codeExtensions"] as JsonArray ?? []).Select(n => n?.GetValue<string>() ?? "").ToHashSet(StringComparer.OrdinalIgnoreCase);
+		HashSet<string> allowed = (rules["allowedExtensions"] as JsonArray ?? [])
+			.Select(n => n?.GetValue<string>() ?? "")
+			.ToHashSet(StringComparer.OrdinalIgnoreCase);
+		HashSet<string> code = (rules["codeExtensions"] as JsonArray ?? [])
+			.Select(n => n?.GetValue<string>() ?? "")
+			.ToHashSet(StringComparer.OrdinalIgnoreCase);
 		List<(Regex Pattern, string Reason, bool Review)> blocked = [];
 		foreach (JsonNode? rule in rules["blocked"] as JsonArray ?? [])
 		{
 			try
 			{
-				blocked.Add((new Regex(rule?["pattern"]?.GetValue<string>() ?? "$^", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)), rule?["reason"]?.GetValue<string>() ?? "", rule?["level"]?.GetValue<string>() == "review"));
+				blocked.Add(
+					(
+						new Regex(rule?["pattern"]?.GetValue<string>() ?? "$^", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)),
+						rule?["reason"]?.GetValue<string>() ?? "",
+						rule?["level"]?.GetValue<string>() == "review"
+					)
+				);
 			}
-			catch (ArgumentException)
-			{
-			}
+			catch (ArgumentException) { }
 		}
 		string spacedModName = modName.Replace('-', ' ');
 		foreach ((Regex pattern, string reason, bool review) in blocked)
@@ -292,9 +357,7 @@ public static class GitHubPublisher
 				if (!review && pattern.IsMatch(spacedModName))
 					problems.Add("mod name: " + reason);
 			}
-			catch (RegexMatchTimeoutException)
-			{
-			}
+			catch (RegexMatchTimeoutException) { }
 		}
 		Regex encoded = new("[A-Za-z0-9+/=]{" + maxEncoded + ",}", RegexOptions.None, TimeSpan.FromMilliseconds(250));
 		if (files.Count > maxFiles)
@@ -310,9 +373,7 @@ public static class GitHubPublisher
 					if (!review && pattern.IsMatch(spacedRel))
 						problems.Add(rel + ": " + reason);
 				}
-				catch (RegexMatchTimeoutException)
-				{
-				}
+				catch (RegexMatchTimeoutException) { }
 			}
 			long size = new FileInfo(full).Length;
 			total += size;
@@ -394,19 +455,54 @@ public static class GitHubPublisher
 		else
 		{
 			progress?.Report("fork");
-			JsonObject fork = await SendAsync(HttpMethod.Post, "https://api.github.com/repos/" + upstream + "/forks", new JsonObject { ["default_branch_only"] = true }, access, token) as JsonObject ?? throw new InvalidDataException("GitHub did not create the fork");
+			JsonObject fork =
+				await SendAsync(
+					HttpMethod.Post,
+					"https://api.github.com/repos/" + upstream + "/forks",
+					new JsonObject { ["default_branch_only"] = true },
+					access,
+					token
+				) as JsonObject
+				?? throw new InvalidDataException("GitHub did not create the fork");
 			forkName = fork["full_name"]?.GetValue<string>() ?? throw new InvalidDataException("GitHub did not create the fork");
 			if (!forkName.StartsWith(account.Login + "/", StringComparison.OrdinalIgnoreCase))
 				throw new InvalidDataException("the fork was created in an unexpected place");
-			for (int i = 0; i < 30 && await SendAsync(HttpMethod.Get, "https://api.github.com/repos/" + forkName + "/git/ref/heads/main", null, access, token, allowNotFound: true) == null; i++)
+			for (
+				int i = 0;
+				i < 30
+					&& await SendAsync(
+						HttpMethod.Get,
+						"https://api.github.com/repos/" + forkName + "/git/ref/heads/main",
+						null,
+						access,
+						token,
+						allowNotFound: true
+					) == null;
+				i++
+			)
 				await Task.Delay(2000, token);
-			await SendAsync(HttpMethod.Post, "https://api.github.com/repos/" + forkName + "/merge-upstream", new JsonObject { ["branch"] = "main" }, access, token, allowConflict: true);
+			await SendAsync(
+				HttpMethod.Post,
+				"https://api.github.com/repos/" + forkName + "/merge-upstream",
+				new JsonObject { ["branch"] = "main" },
+				access,
+				token,
+				allowConflict: true
+			);
 		}
 
-		JsonObject mainRef = await SendAsync(HttpMethod.Get, "https://api.github.com/repos/" + upstream + "/git/ref/heads/main", null, access, token) as JsonObject ?? throw new InvalidDataException("the library has no main branch");
-		string baseCommit = mainRef["object"]?["sha"]?.GetValue<string>() ?? throw new InvalidDataException("the library has no main branch");
-		JsonObject baseCommitNode = await SendAsync(HttpMethod.Get, "https://api.github.com/repos/" + forkName + "/git/commits/" + baseCommit, null, access, token) as JsonObject ?? throw new InvalidDataException("the fork is not up to date");
-		string baseTree = baseCommitNode["tree"]?["sha"]?.GetValue<string>() ?? throw new InvalidDataException("the fork is not up to date");
+		JsonObject mainRef =
+			await SendAsync(HttpMethod.Get, "https://api.github.com/repos/" + upstream + "/git/ref/heads/main", null, access, token)
+				as JsonObject
+			?? throw new InvalidDataException("the library has no main branch");
+		string baseCommit =
+			mainRef["object"]?["sha"]?.GetValue<string>() ?? throw new InvalidDataException("the library has no main branch");
+		JsonObject baseCommitNode =
+			await SendAsync(HttpMethod.Get, "https://api.github.com/repos/" + forkName + "/git/commits/" + baseCommit, null, access, token)
+				as JsonObject
+			?? throw new InvalidDataException("the fork is not up to date");
+		string baseTree =
+			baseCommitNode["tree"]?["sha"]?.GetValue<string>() ?? throw new InvalidDataException("the fork is not up to date");
 
 		progress?.Report("upload");
 		string folder = Path.Combine(Paths.Plugins, name);
@@ -415,50 +511,113 @@ public static class GitHubPublisher
 		HashSet<string> written = new(StringComparer.Ordinal);
 		foreach (string rel in check.Files)
 		{
-			byte[] content = rel == PluginManifest.ManifestFolder + "/plugin.json"
-				? StampedManifest(Path.Combine(folder, PluginManifest.ManifestFolder, "plugin.json"), name, account)
-				: await File.ReadAllBytesAsync(Path.Combine(folder, rel.Replace('/', Path.DirectorySeparatorChar)), token);
+			byte[] content =
+				rel == PluginManifest.ManifestFolder + "/plugin.json"
+					? StampedManifest(Path.Combine(folder, PluginManifest.ManifestFolder, "plugin.json"), name, account)
+					: await File.ReadAllBytesAsync(Path.Combine(folder, rel.Replace('/', Path.DirectorySeparatorChar)), token);
 			tree.Add(await CreateBlobEntryAsync(forkName, prefix + rel, content, access, token));
 			written.Add(rel);
 		}
-		byte[] owner = Encoding.UTF8.GetBytes(new JsonObject { ["id"] = account.Id, ["login"] = account.Login }.ToJsonString(new JsonSerializerOptions { WriteIndented = true }) + "\n");
+		byte[] owner = Encoding.UTF8.GetBytes(
+			new JsonObject { ["id"] = account.Id, ["login"] = account.Login }.ToJsonString(
+				new JsonSerializerOptions { WriteIndented = true }
+			) + "\n"
+		);
 		tree.Add(await CreateBlobEntryAsync(forkName, prefix + "owner.json", owner, access, token));
 		written.Add("owner.json");
 		foreach (ModLibrary.LibraryFile old in published?.Files ?? [])
 		{
 			if (!written.Contains(old.Path))
-				tree.Add(new JsonObject { ["path"] = prefix + old.Path, ["mode"] = "100644", ["type"] = "blob", ["sha"] = null });
+				tree.Add(
+					new JsonObject
+					{
+						["path"] = prefix + old.Path,
+						["mode"] = "100644",
+						["type"] = "blob",
+						["sha"] = null,
+					}
+				);
 		}
-		JsonObject newTree = await SendAsync(HttpMethod.Post, "https://api.github.com/repos/" + forkName + "/git/trees", new JsonObject { ["base_tree"] = baseTree, ["tree"] = tree }, access, token) as JsonObject ?? throw new InvalidDataException("GitHub refused the files");
+		JsonObject newTree =
+			await SendAsync(
+				HttpMethod.Post,
+				"https://api.github.com/repos/" + forkName + "/git/trees",
+				new JsonObject { ["base_tree"] = baseTree, ["tree"] = tree },
+				access,
+				token
+			) as JsonObject
+			?? throw new InvalidDataException("GitHub refused the files");
 		string message = (published == null ? "feature: publish " : "update: ") + name + " " + check.Version;
-		JsonObject commit = await SendAsync(HttpMethod.Post, "https://api.github.com/repos/" + forkName + "/git/commits", new JsonObject
-		{
-			["message"] = message,
-			["tree"] = newTree["sha"]?.GetValue<string>(),
-			["parents"] = new JsonArray(baseCommit)
-		}, access, token) as JsonObject ?? throw new InvalidDataException("GitHub refused the commit");
+		JsonObject commit =
+			await SendAsync(
+				HttpMethod.Post,
+				"https://api.github.com/repos/" + forkName + "/git/commits",
+				new JsonObject
+				{
+					["message"] = message,
+					["tree"] = newTree["sha"]?.GetValue<string>(),
+					["parents"] = new JsonArray(baseCommit),
+				},
+				access,
+				token
+			) as JsonObject
+			?? throw new InvalidDataException("GitHub refused the commit");
 		string commitSha = commit["sha"]?.GetValue<string>() ?? throw new InvalidDataException("GitHub refused the commit");
 		string branch = "mod/" + name;
-		JsonNode? existingBranch = await SendAsync(HttpMethod.Get, "https://api.github.com/repos/" + forkName + "/git/ref/heads/" + branch, null, access, token, allowNotFound: true);
+		JsonNode? existingBranch = await SendAsync(
+			HttpMethod.Get,
+			"https://api.github.com/repos/" + forkName + "/git/ref/heads/" + branch,
+			null,
+			access,
+			token,
+			allowNotFound: true
+		);
 		if (existingBranch == null)
-			await SendAsync(HttpMethod.Post, "https://api.github.com/repos/" + forkName + "/git/refs", new JsonObject { ["ref"] = "refs/heads/" + branch, ["sha"] = commitSha }, access, token);
+			await SendAsync(
+				HttpMethod.Post,
+				"https://api.github.com/repos/" + forkName + "/git/refs",
+				new JsonObject { ["ref"] = "refs/heads/" + branch, ["sha"] = commitSha },
+				access,
+				token
+			);
 		else
-			await SendAsync(HttpMethod.Patch, "https://api.github.com/repos/" + forkName + "/git/refs/heads/" + branch, new JsonObject { ["sha"] = commitSha, ["force"] = true }, access, token);
+			await SendAsync(
+				HttpMethod.Patch,
+				"https://api.github.com/repos/" + forkName + "/git/refs/heads/" + branch,
+				new JsonObject { ["sha"] = commitSha, ["force"] = true },
+				access,
+				token
+			);
 
 		progress?.Report("pull");
 		string head = account.Login + ":" + branch;
-		JsonArray? open = await SendAsync(HttpMethod.Get, "https://api.github.com/repos/" + upstream + "/pulls?state=open&head=" + Uri.EscapeDataString(head), null, access, token) as JsonArray;
+		JsonArray? open =
+			await SendAsync(
+				HttpMethod.Get,
+				"https://api.github.com/repos/" + upstream + "/pulls?state=open&head=" + Uri.EscapeDataString(head),
+				null,
+				access,
+				token
+			) as JsonArray;
 		string? url = open?.FirstOrDefault()?["html_url"]?.GetValue<string>();
 		if (url == null)
 		{
-			JsonObject pr = await SendAsync(HttpMethod.Post, "https://api.github.com/repos/" + upstream + "/pulls", new JsonObject
-			{
-				["title"] = message,
-				["head"] = head,
-				["base"] = "main",
-				["maintainer_can_modify"] = false,
-				["body"] = BuildBody(check, notes, account)
-			}, access, token) as JsonObject ?? throw new InvalidDataException("GitHub refused the pull request");
+			JsonObject pr =
+				await SendAsync(
+					HttpMethod.Post,
+					"https://api.github.com/repos/" + upstream + "/pulls",
+					new JsonObject
+					{
+						["title"] = message,
+						["head"] = head,
+						["base"] = "main",
+						["maintainer_can_modify"] = false,
+						["body"] = BuildBody(check, notes, account),
+					},
+					access,
+					token
+				) as JsonObject
+				?? throw new InvalidDataException("GitHub refused the pull request");
 			url = pr["html_url"]?.GetValue<string>() ?? ModLibrary.RepositoryUrl + "/pulls";
 		}
 		if (!url.StartsWith("https://github.com/" + upstream + "/pull/", StringComparison.Ordinal))
@@ -470,7 +629,8 @@ public static class GitHubPublisher
 
 	private static byte[] StampedManifest(string path, string name, Account account)
 	{
-		JsonObject manifest = JsonNode.Parse(File.ReadAllText(path)) as JsonObject ?? throw new InvalidDataException("plugin.json is not a JSON object");
+		JsonObject manifest =
+			JsonNode.Parse(File.ReadAllText(path)) as JsonObject ?? throw new InvalidDataException("plugin.json is not a JSON object");
 		manifest["library"] = new JsonObject { ["id"] = account.Id + "/" + name, ["ownerId"] = account.Id };
 		return Encoding.UTF8.GetBytes(manifest.ToJsonString(new JsonSerializerOptions { WriteIndented = true }) + "\n");
 	}
@@ -493,12 +653,15 @@ public static class GitHubPublisher
 		StringBuilder body = new();
 		body.AppendLine("## Mod").AppendLine();
 		body.AppendLine("- Name: `" + check.Name + "`");
-		body.AppendLine("- Version: " + check.Version + (check.PublishedVersion != null ? " (was " + check.PublishedVersion + ")" : " (new)"));
+		body.AppendLine(
+			"- Version: " + check.Version + (check.PublishedVersion != null ? " (was " + check.PublishedVersion + ")" : " (new)")
+		);
 		body.AppendLine("- Owner: @" + account.Login + " (" + account.Id + ")").AppendLine();
 		body.AppendLine("## What changed").AppendLine();
 		body.AppendLine(string.IsNullOrWhiteSpace(notes) ? "No notes." : notes.Trim().Replace("\r", "")).AppendLine();
 		body.AppendLine("## Websites it contacts").AppendLine();
-		body.AppendLine(check.Network.Count == 0 ? "None" : string.Join(Environment.NewLine, check.Network.Select(h => "- `" + h + "`"))).AppendLine();
+		body.AppendLine(check.Network.Count == 0 ? "None" : string.Join(Environment.NewLine, check.Network.Select(h => "- `" + h + "`")))
+			.AppendLine();
 		if (check.Warnings.Count > 0)
 		{
 			body.AppendLine("## Flagged for review").AppendLine();
@@ -510,10 +673,30 @@ public static class GitHubPublisher
 		return body.ToString();
 	}
 
-	private static async Task<JsonObject> CreateBlobEntryAsync(string repo, string path, byte[] content, string access, CancellationToken token)
+	private static async Task<JsonObject> CreateBlobEntryAsync(
+		string repo,
+		string path,
+		byte[] content,
+		string access,
+		CancellationToken token
+	)
 	{
-		JsonObject blob = await SendAsync(HttpMethod.Post, "https://api.github.com/repos/" + repo + "/git/blobs", new JsonObject { ["content"] = Convert.ToBase64String(content), ["encoding"] = "base64" }, access, token) as JsonObject ?? throw new InvalidDataException("GitHub refused a file");
-		return new JsonObject { ["path"] = path, ["mode"] = "100644", ["type"] = "blob", ["sha"] = blob["sha"]?.GetValue<string>() };
+		JsonObject blob =
+			await SendAsync(
+				HttpMethod.Post,
+				"https://api.github.com/repos/" + repo + "/git/blobs",
+				new JsonObject { ["content"] = Convert.ToBase64String(content), ["encoding"] = "base64" },
+				access,
+				token
+			) as JsonObject
+			?? throw new InvalidDataException("GitHub refused a file");
+		return new JsonObject
+		{
+			["path"] = path,
+			["mode"] = "100644",
+			["type"] = "blob",
+			["sha"] = blob["sha"]?.GetValue<string>(),
+		};
 	}
 
 	private static void EnsureAllowed(Uri uri)
@@ -534,7 +717,15 @@ public static class GitHubPublisher
 		return JsonNode.Parse(text) as JsonObject ?? throw new InvalidDataException("GitHub returned an unexpected answer");
 	}
 
-	private static async Task<JsonNode?> SendAsync(HttpMethod method, string url, JsonNode? body, string access, CancellationToken token, bool allowNotFound = false, bool allowConflict = false)
+	private static async Task<JsonNode?> SendAsync(
+		HttpMethod method,
+		string url,
+		JsonNode? body,
+		string access,
+		CancellationToken token,
+		bool allowNotFound = false,
+		bool allowConflict = false
+	)
 	{
 		Uri uri = new(url);
 		EnsureAllowed(uri);
@@ -550,14 +741,24 @@ public static class GitHubPublisher
 			App.Logger.WriteLine(LogIdent, method.Method + " " + uri.AbsolutePath + " " + (int)response.StatusCode);
 			if (response.StatusCode == HttpStatusCode.NotFound && allowNotFound)
 				return null;
-			if ((response.StatusCode == HttpStatusCode.Conflict || response.StatusCode == HttpStatusCode.UnprocessableEntity) && allowConflict)
+			if (
+				(response.StatusCode == HttpStatusCode.Conflict || response.StatusCode == HttpStatusCode.UnprocessableEntity)
+				&& allowConflict
+			)
 				return null;
 			if (response.StatusCode == HttpStatusCode.Unauthorized)
 			{
 				SignOut();
 				throw new InvalidOperationException("GitHub no longer accepts this sign in, sign in again");
 			}
-			if ((response.StatusCode == HttpStatusCode.Forbidden || response.StatusCode == HttpStatusCode.TooManyRequests || (int)response.StatusCode >= 500) && attempt < 2)
+			if (
+				(
+					response.StatusCode == HttpStatusCode.Forbidden
+					|| response.StatusCode == HttpStatusCode.TooManyRequests
+					|| (int)response.StatusCode >= 500
+				)
+				&& attempt < 2
+			)
 			{
 				await Task.Delay(TimeSpan.FromSeconds(3 * (attempt + 1)), token);
 				continue;
@@ -570,9 +771,7 @@ public static class GitHubPublisher
 				{
 					reason = (JsonNode.Parse(text) as JsonObject)?["message"]?.GetValue<string>() ?? "";
 				}
-				catch (JsonException)
-				{
-				}
+				catch (JsonException) { }
 				throw new HttpRequestException("GitHub returned " + (int)response.StatusCode + (reason.Length > 0 ? ": " + reason : ""));
 			}
 			return text.Length == 0 ? null : JsonNode.Parse(text);

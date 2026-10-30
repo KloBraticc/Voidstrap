@@ -77,26 +77,36 @@ internal static class SupportBundle
 		}
 	}
 
-	private static async Task WriteZipAsync(string target, List<FileInfo> logs, CrashRecords crashes, Redactor redactor, CancellationToken token)
+	private static async Task WriteZipAsync(
+		string target,
+		List<FileInfo> logs,
+		CrashRecords crashes,
+		Redactor redactor,
+		CancellationToken token
+	)
 	{
 		string temporary = target + "." + Guid.NewGuid().ToString("N") + ".tmp";
 		try
 		{
-			await Task.Run(() =>
-			{
-				using FileStream stream = new(temporary, FileMode.CreateNew, FileAccess.Write);
-				using ZipArchive zip = new(stream, ZipArchiveMode.Create);
-				List<string> logTexts = new();
-				foreach (FileInfo log in logs)
-				{
-					token.ThrowIfCancellationRequested();
-					string text = redactor.Apply(ReadShared(log.FullName));
-					logTexts.Add(text);
-					Add(zip, "logs/" + log.Name, text);
-				}
-				Add(zip, CrashFileName, redactor.Apply(crashes.Text));
-				Add(zip, "README.txt", redactor.Apply(BuildSummary(logs, logTexts, crashes)));
-			}, token).ConfigureAwait(false);
+			await Task.Run(
+					() =>
+					{
+						using FileStream stream = new(temporary, FileMode.CreateNew, FileAccess.Write);
+						using ZipArchive zip = new(stream, ZipArchiveMode.Create);
+						List<string> logTexts = new();
+						foreach (FileInfo log in logs)
+						{
+							token.ThrowIfCancellationRequested();
+							string text = redactor.Apply(ReadShared(log.FullName));
+							logTexts.Add(text);
+							Add(zip, "logs/" + log.Name, text);
+						}
+						Add(zip, CrashFileName, redactor.Apply(crashes.Text));
+						Add(zip, "README.txt", redactor.Apply(BuildSummary(logs, logTexts, crashes)));
+					},
+					token
+				)
+				.ConfigureAwait(false);
 			File.Move(temporary, target, true);
 		}
 		finally
@@ -109,19 +119,20 @@ internal static class SupportBundle
 	private static List<FileInfo> CollectLogs()
 	{
 		List<FileInfo> logs = new();
-		foreach (string folder in new[] { Paths.Logs, Paths.TempLogs }.Where(static folder => !string.IsNullOrWhiteSpace(folder)).Distinct(StringComparer.OrdinalIgnoreCase))
+		foreach (
+			string folder in new[] { Paths.Logs, Paths.TempLogs }
+				.Where(static folder => !string.IsNullOrWhiteSpace(folder))
+				.Distinct(StringComparer.OrdinalIgnoreCase)
+		)
 		{
 			try
 			{
 				if (Directory.Exists(folder))
 					logs.AddRange(new DirectoryInfo(folder).EnumerateFiles("Voidstrap_*.log"));
 			}
-			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-			{
-			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 		}
-		return logs
-			.Where(static log => log.Length <= MaxLogBytes)
+		return logs.Where(static log => log.Length <= MaxLogBytes)
 			.OrderByDescending(static log => log.LastWriteTimeUtc)
 			.Take(MaxLogs)
 			.ToList();
@@ -178,7 +189,7 @@ internal static class SupportBundle
 			UseShellExecute = false,
 			RedirectStandardOutput = true,
 			RedirectStandardError = true,
-			CreateNoWindow = true
+			CreateNoWindow = true,
 		};
 		foreach (string argument in arguments)
 			start.ArgumentList.Add(argument);
@@ -193,9 +204,7 @@ internal static class SupportBundle
 			{
 				process.Kill();
 			}
-			catch (InvalidOperationException)
-			{
-			}
+			catch (InvalidOperationException) { }
 			return null;
 		}
 		return output.Result;
@@ -204,7 +213,19 @@ internal static class SupportBundle
 	private static CrashRecords ReadWindowsCrashRecords()
 	{
 		long window = (long)CrashLookback.TotalMilliseconds;
-		string? output = RunTool("wevtutil.exe", ["qe", "Application", "/rd:true", "/c:400", "/f:text", "/q:*[System[(Level=1 or Level=2) and TimeCreated[timediff(@SystemTime) <= " + window.ToString(CultureInfo.InvariantCulture) + "]]]"]);
+		string? output = RunTool(
+			"wevtutil.exe",
+			[
+				"qe",
+				"Application",
+				"/rd:true",
+				"/c:400",
+				"/f:text",
+				"/q:*[System[(Level=1 or Level=2) and TimeCreated[timediff(@SystemTime) <= "
+					+ window.ToString(CultureInfo.InvariantCulture)
+					+ "]]]",
+			]
+		);
 		if (output == null)
 			return new CrashRecords("Windows crash records could not be read.", 0);
 		List<string> relevant = output
@@ -228,7 +249,8 @@ internal static class SupportBundle
 			IEnumerable<FileInfo> reports;
 			try
 			{
-				reports = new DirectoryInfo(folder).EnumerateFiles()
+				reports = new DirectoryInfo(folder)
+					.EnumerateFiles()
 					.Where(static file => file.Extension is ".ips" or ".crash" or ".hang" or ".diag" or ".spin")
 					.Where(file => file.LastWriteTimeUtc >= since && MentionsVoidstrap(file.Name))
 					.OrderByDescending(static file => file.LastWriteTimeUtc)
@@ -256,18 +278,14 @@ internal static class SupportBundle
 		{
 			output = RunTool("coredumpctl", ["list", "--no-pager", "--no-legend"]);
 		}
-		catch (System.ComponentModel.Win32Exception)
-		{
-		}
+		catch (System.ComponentModel.Win32Exception) { }
 		if (output == null && Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed)
 		{
 			try
 			{
 				output = RunTool("flatpak-spawn", ["--host", "coredumpctl", "list", "--no-pager", "--no-legend"]);
 			}
-			catch (System.ComponentModel.Win32Exception)
-			{
-			}
+			catch (System.ComponentModel.Win32Exception) { }
 		}
 		if (output == null)
 			return new CrashRecords("Crash records are not available here, coredumpctl could not be run.", 0);
@@ -285,14 +303,29 @@ internal static class SupportBundle
 	{
 		string[] parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 		when = default;
-		return parts.Length >= 3 && DateTime.TryParse(parts[1] + " " + parts[2], CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out when);
+		return parts.Length >= 3
+			&& DateTime.TryParse(parts[1] + " " + parts[2], CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out when);
 	}
 
 	private static CrashRecords Describe(List<string> relevant, string label)
 	{
 		if (relevant.Count == 0)
-			return new CrashRecords("No Voidstrap or Roblox " + label.Replace("(s)", "s") + " in the last " + CrashLookback.Days + " days.", 0);
-		return new CrashRecords(relevant.Count + " " + label + " in the last " + CrashLookback.Days + " days:" + Environment.NewLine + Environment.NewLine + string.Join(Environment.NewLine + Environment.NewLine, relevant), relevant.Count);
+			return new CrashRecords(
+				"No Voidstrap or Roblox " + label.Replace("(s)", "s") + " in the last " + CrashLookback.Days + " days.",
+				0
+			);
+		return new CrashRecords(
+			relevant.Count
+				+ " "
+				+ label
+				+ " in the last "
+				+ CrashLookback.Days
+				+ " days:"
+				+ Environment.NewLine
+				+ Environment.NewLine
+				+ string.Join(Environment.NewLine + Environment.NewLine, relevant),
+			relevant.Count
+		);
 	}
 
 	private static string BuildSummary(List<FileInfo> logs, List<string> logTexts, CrashRecords crashes)
@@ -310,33 +343,83 @@ internal static class SupportBundle
 		text.AppendLine("WHAT WENT WRONG RECENTLY");
 		List<string> findings = new();
 		string all = string.Join("\n", logTexts);
-		foreach (Match match in Regex.Matches(all, @"The previous session \(process (\d+), started ([^,]+), log ([^)]+)\) ended without shutting down cleanly"))
+		foreach (
+			Match match in Regex.Matches(
+				all,
+				@"The previous session \(process (\d+), started ([^,]+), log ([^)]+)\) ended without shutting down cleanly"
+			)
+		)
 		{
 			bool crashRecorded = CrashMentionsProcess(crashes.Text, match.Groups[1].Value);
-			findings.Add("A Voidstrap session that started " + match.Groups[2].Value + (crashRecorded
-				? " crashed, and the system recorded the crash. Look at " + match.Groups[3].Value + " and " + CrashFileName + "."
-				: " ended suddenly without a crash report, so it was most likely closed by force, for example with End task. Look at " + match.Groups[3].Value + "."));
+			findings.Add(
+				"A Voidstrap session that started "
+					+ match.Groups[2].Value
+					+ (
+						crashRecorded
+							? " crashed, and the system recorded the crash. Look at "
+								+ match.Groups[3].Value
+								+ " and "
+								+ CrashFileName
+								+ "."
+							: " ended suddenly without a crash report, so it was most likely closed by force, for example with End task. Look at "
+								+ match.Groups[3].Value
+								+ "."
+					)
+			);
 		}
 		int freezes = Regex.Matches(all, @"\[UiFreeze\] The window was frozen for").Count;
 		int stuck = Regex.Matches(all, @"\[UiFreeze\] The window has not responded").Count;
 		if (freezes + stuck > 0)
-			findings.Add("The Voidstrap window froze " + (freezes + stuck) + " time(s)" + (stuck > 0 ? ", and " + stuck + " of those lasted over 5 seconds" : "") + ". Search the logs for UiFreeze.");
+			findings.Add(
+				"The Voidstrap window froze "
+					+ (freezes + stuck)
+					+ " time(s)"
+					+ (stuck > 0 ? ", and " + stuck + " of those lasted over 5 seconds" : "")
+					+ ". Search the logs for UiFreeze."
+			);
 		if (crashes.Count > 0)
-			findings.Add("The system recorded " + crashes.Count + " crash or error record(s) mentioning Voidstrap or Roblox in the last " + CrashLookback.Days + " days. See " + CrashFileName + ".");
+			findings.Add(
+				"The system recorded "
+					+ crashes.Count
+					+ " crash or error record(s) mentioning Voidstrap or Roblox in the last "
+					+ CrashLookback.Days
+					+ " days. See "
+					+ CrashFileName
+					+ "."
+			);
 		int crashLines = Regex.Matches(all, @"\[App::(DomainUnhandledException|GlobalExceptionHandler|UnobservedTaskException)\]").Count;
 		if (crashLines > 0)
-			findings.Add("Voidstrap logged " + crashLines + " unexpected error(s) it could not recover from cleanly. Search the logs for UnhandledException.");
-		int bindingErrors = Regex.Matches(all, @"\[(?:BindingErrors|ResourceErrors|AnimationErrors)\] ([^
-]*)").Select(static match => match.Groups[1].Value).Distinct(StringComparer.Ordinal).Count();
+			findings.Add(
+				"Voidstrap logged "
+					+ crashLines
+					+ " unexpected error(s) it could not recover from cleanly. Search the logs for UnhandledException."
+			);
+		int bindingErrors = Regex
+			.Matches(
+				all,
+				@"\[(?:BindingErrors|ResourceErrors|AnimationErrors)\] ([^
+]*)"
+			)
+			.Select(static match => match.Groups[1].Value)
+			.Distinct(StringComparer.Ordinal)
+			.Count();
 		if (bindingErrors > 0)
-			findings.Add(bindingErrors + " different interface warning(s) were logged, where part of a page may not show its data. Search the logs for BindingErrors.");
+			findings.Add(
+				bindingErrors
+					+ " different interface warning(s) were logged, where part of a page may not show its data. Search the logs for BindingErrors."
+			);
 		if (findings.Count == 0)
 			findings.Add("No obvious problems were found. The logs are still useful, so please send them anyway.");
 		foreach (string finding in findings)
 			text.AppendLine("* " + finding);
 		text.AppendLine();
 		text.AppendLine("FILES IN THIS ZIP");
-		text.AppendLine("* logs: the " + logs.Count + " most recent Voidstrap logs, newest first: " + string.Join(", ", logs.Select(static log => log.Name)));
+		text.AppendLine(
+			"* logs: the "
+				+ logs.Count
+				+ " most recent Voidstrap logs, newest first: "
+				+ string.Join(", ", logs.Select(static log => log.Name))
+		);
 		text.AppendLine("* " + CrashFileName + ": crashes and errors the system recorded for Voidstrap and Roblox");
 		text.AppendLine();
 		text.AppendLine("FOR DEVELOPERS");
@@ -380,9 +463,30 @@ internal static class SupportBundle
 				App.Logger.WriteLine(LOG_IDENT, "Saved account names could not be read for redaction: " + ex.Message);
 			}
 			redactor._rules.Add((new Regex(@"\.ROBLOSECURITY[^\s;""']*", RegexOptions.IgnoreCase), "[removed cookie]"));
-			redactor._rules.Add((new Regex(@"(""(?:crashReporterKey|sleepWakeUUID|bootSessionUUID|deviceIdentifierForVendor|incident|incident_id|machineID)""\s*:\s*"")[^""]*", RegexOptions.IgnoreCase), "$1[removed]"));
-			redactor._rules.Add((new Regex(@"^((?:Anonymous UUID|Sleep/Wake UUID|Incident Identifier|CrashReporter Key|Hardware UUID):\s*).+$", RegexOptions.IgnoreCase | RegexOptions.Multiline), "$1[removed]"));
-			redactor._rules.Add((new Regex(@"(gameinfo|launchtime|browsertrackerid|authticket|ticket)[:=][^\s+&""']+", RegexOptions.IgnoreCase), "$1:[removed]"));
+			redactor._rules.Add(
+				(
+					new Regex(
+						@"(""(?:crashReporterKey|sleepWakeUUID|bootSessionUUID|deviceIdentifierForVendor|incident|incident_id|machineID)""\s*:\s*"")[^""]*",
+						RegexOptions.IgnoreCase
+					),
+					"$1[removed]"
+				)
+			);
+			redactor._rules.Add(
+				(
+					new Regex(
+						@"^((?:Anonymous UUID|Sleep/Wake UUID|Incident Identifier|CrashReporter Key|Hardware UUID):\s*).+$",
+						RegexOptions.IgnoreCase | RegexOptions.Multiline
+					),
+					"$1[removed]"
+				)
+			);
+			redactor._rules.Add(
+				(
+					new Regex(@"(gameinfo|launchtime|browsertrackerid|authticket|ticket)[:=][^\s+&""']+", RegexOptions.IgnoreCase),
+					"$1:[removed]"
+				)
+			);
 			return redactor;
 		}
 
@@ -395,7 +499,9 @@ internal static class SupportBundle
 		{
 			if (string.IsNullOrWhiteSpace(value) || value.Length < 3)
 				return;
-			_rules.Add((new Regex(@"(?<![\p{L}\p{N}_])" + Regex.Escape(value) + @"(?![\p{L}\p{N}_])", RegexOptions.IgnoreCase), replacement));
+			_rules.Add(
+				(new Regex(@"(?<![\p{L}\p{N}_])" + Regex.Escape(value) + @"(?![\p{L}\p{N}_])", RegexOptions.IgnoreCase), replacement)
+			);
 		}
 
 		public string Apply(string text)

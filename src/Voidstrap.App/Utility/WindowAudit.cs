@@ -19,7 +19,7 @@ internal static class WindowAudit
 		"MenuContainer",
 		"FPSOverlayWindow",
 		"ImageAdjustWindow",
-		"ImageRecolorWindow"
+		"ImageRecolorWindow",
 	};
 
 	private static readonly List<string> FailedChecks = new();
@@ -45,10 +45,7 @@ internal static class WindowAudit
 			Emit($"partial type load: FAIL, {allTypes.Length} usable, {ex.LoaderExceptions.Length} load errors");
 		}
 
-		List<Type> windowTypes = allTypes
-			.Where(t => !t.IsAbstract && typeof(Window).IsAssignableFrom(t))
-			.OrderBy(t => t.Name)
-			.ToList();
+		List<Type> windowTypes = allTypes.Where(t => !t.IsAbstract && typeof(Window).IsAssignableFrom(t)).OrderBy(t => t.Name).ToList();
 
 		Emit($"window audit: {windowTypes.Count} window types discovered");
 		ShutdownMode previousShutdownMode = ShutdownMode.OnLastWindowClose;
@@ -74,11 +71,14 @@ internal static class WindowAudit
 					Title = "Voidstrap render keeper",
 					ShowInTaskbar = false,
 					ShowActivated = false,
-					WindowStyle = WindowStyle.None
+					WindowStyle = WindowStyle.None,
 				};
 				renderKeeper.Show();
 				Pump(60);
-				System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(renderKeeper, out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? keeperHost);
+				System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(
+					renderKeeper,
+					out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? keeperHost
+				);
 				System.Diagnostics.Stopwatch keeperWarmup = System.Diagnostics.Stopwatch.StartNew();
 				while (keeperWarmup.ElapsedMilliseconds < 8000 && UI.LinuxWindowReveal.IsPending(renderKeeper))
 					PumpPortableHost(keeperHost, 16);
@@ -215,9 +215,8 @@ internal static class WindowAudit
 				window.Show();
 				stage = "render";
 				Pump();
-				string placement = (double.IsNaN(window.Left) || double.IsNaN(window.Top))
-					? "pos=unset"
-					: $"pos={window.Left:F0},{window.Top:F0}";
+				string placement =
+					(double.IsNaN(window.Left) || double.IsNaN(window.Top)) ? "pos=unset" : $"pos={window.Left:F0},{window.Top:F0}";
 				if (type.Name == "MainWindow")
 				{
 					NavigationProbe(window);
@@ -276,26 +275,36 @@ internal static class WindowAudit
 
 	private static void CaptureMainWindowPages()
 	{
-		string folder = Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_CAPTURE_DIR") ?? System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Voidstrap", "captures");
+		string folder =
+			Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_CAPTURE_DIR")
+			?? System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Voidstrap", "captures");
 		System.IO.Directory.CreateDirectory(folder);
 		Voidstrap.UI.Elements.Settings.MainWindow window = new Voidstrap.UI.Elements.Settings.MainWindow(false)
 		{
 			WindowStartupLocation = WindowStartupLocation.Manual,
 			Left = 40,
 			Top = 40,
-			Width = double.TryParse(Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_CAPTURE_WIDTH"), out double captureWidth) ? captureWidth : 1100,
+			Width = double.TryParse(Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_CAPTURE_WIDTH"), out double captureWidth)
+				? captureWidth
+				: 1100,
 			Height = 720,
-			Topmost = true
+			Topmost = true,
 		};
 		window.Show();
 		window.Activate();
 		Pump(2500);
-		List<Wpf.Ui.Controls.NavigationItem> items = window.RootNavigation.Items.OfType<Wpf.Ui.Controls.NavigationItem>()
+		List<Wpf.Ui.Controls.NavigationItem> items = window
+			.RootNavigation.Items.OfType<Wpf.Ui.Controls.NavigationItem>()
 			.Concat(window.RootNavigation.Footer.OfType<Wpf.Ui.Controls.NavigationItem>())
 			.Where(item => item.PageType != null && item.Visibility == Visibility.Visible)
 			.ToList();
 		string? only = Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_CAPTURE_PAGES");
-		HashSet<string>? wanted = string.IsNullOrWhiteSpace(only) ? null : new HashSet<string>(only.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries), StringComparer.OrdinalIgnoreCase);
+		HashSet<string>? wanted = string.IsNullOrWhiteSpace(only)
+			? null
+			: new HashSet<string>(
+				only.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries),
+				StringComparer.OrdinalIgnoreCase
+			);
 		foreach (Wpf.Ui.Controls.NavigationItem item in items)
 		{
 			string name = item.PageType!.Name;
@@ -313,7 +322,9 @@ internal static class WindowAudit
 		}
 		if (Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_CAPTURE_PALETTE") == "1")
 		{
-			typeof(Voidstrap.UI.Elements.Settings.MainWindow).GetMethod("ToggleCommandPalette", BindingFlags.Instance | BindingFlags.NonPublic)?.Invoke(window, null);
+			typeof(Voidstrap.UI.Elements.Settings.MainWindow)
+				.GetMethod("ToggleCommandPalette", BindingFlags.Instance | BindingFlags.NonPublic)
+				?.Invoke(window, null);
 			Pump(1200);
 			string? query = Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_CAPTURE_QUERY");
 			if (!string.IsNullOrEmpty(query))
@@ -337,7 +348,11 @@ internal static class WindowAudit
 		RenderTargetBitmap target = new RenderTargetBitmap(w, h, 96 * scaleX, 96 * scaleY, PixelFormats.Pbgra32);
 		DrawingVisual backdrop = new DrawingVisual();
 		using (DrawingContext context = backdrop.RenderOpen())
-			context.DrawRectangle(new SolidColorBrush(Color.FromRgb(0x20, 0x20, 0x20)), null, new Rect(0, 0, window.ActualWidth, window.ActualHeight));
+			context.DrawRectangle(
+				new SolidColorBrush(Color.FromRgb(0x20, 0x20, 0x20)),
+				null,
+				new Rect(0, 0, window.ActualWidth, window.ActualHeight)
+			);
 		target.Render(backdrop);
 		target.Render(window);
 		PngBitmapEncoder encoder = new PngBitmapEncoder();
@@ -346,7 +361,6 @@ internal static class WindowAudit
 		encoder.Save(stream);
 		Emit("capture: " + path);
 	}
-
 
 	private static void AuditJoinNotificationIcon()
 	{
@@ -384,16 +398,19 @@ internal static class WindowAudit
 
 			window.ShowNotification("Game join icon audit\nDallas • 1 player", icon, 3);
 			System.Windows.Controls.Image? imageSurface = null;
-			bool prepared = PumpUntil(() =>
-			{
-				imageSurface = window.FindName("NotificationImage") as System.Windows.Controls.Image;
-				return window.IsVisible
-					&& imageSurface?.Visibility == Visibility.Visible
-					&& imageSurface.ActualWidth >= 39
-					&& imageSurface.ActualHeight >= 39
-					&& ReferenceEquals(imageSurface.Source, icon)
-					&& imageSurface.Stretch == Stretch.Uniform;
-			}, 3500);
+			bool prepared = PumpUntil(
+				() =>
+				{
+					imageSurface = window.FindName("NotificationImage") as System.Windows.Controls.Image;
+					return window.IsVisible
+						&& imageSurface?.Visibility == Visibility.Visible
+						&& imageSurface.ActualWidth >= 39
+						&& imageSurface.ActualHeight >= 39
+						&& ReferenceEquals(imageSurface.Source, icon)
+						&& imageSurface.Stretch == Stretch.Uniform;
+				},
+				3500
+			);
 
 			bool nativePixels = false;
 			bool nativeCaptureAvailable = false;
@@ -403,31 +420,43 @@ internal static class WindowAudit
 				byte[] capture = new byte[4 * 1024 * 1024];
 				int width = 0;
 				int height = 0;
-				PumpUntil(() =>
-				{
-					List<nint> candidates = new(Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnManagedWindowsByTitle(window.Title ?? string.Empty));
-					nint named = Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(window.Title ?? string.Empty);
-
-					if (named != 0 && !candidates.Contains(named))
-						candidates.Add(named);
-
-					nint interop = new System.Windows.Interop.WindowInteropHelper(window).Handle;
-
-					if (interop != 0 && !candidates.Contains(interop))
-						candidates.Add(interop);
-
-					foreach (nint probe in candidates)
+				PumpUntil(
+					() =>
 					{
-						if (!Voidstrap.Platform.Linux.LinuxWindowInterop.TryCaptureWindowBgra32(probe, capture, out int capturedWidth, out int capturedHeight))
-							continue;
+						List<nint> candidates = new(
+							Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnManagedWindowsByTitle(window.Title ?? string.Empty)
+						);
+						nint named = Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(window.Title ?? string.Empty);
 
-						width = capturedWidth;
-						height = capturedHeight;
-						return true;
-					}
+						if (named != 0 && !candidates.Contains(named))
+							candidates.Add(named);
 
-					return false;
-				}, 2500);
+						nint interop = new System.Windows.Interop.WindowInteropHelper(window).Handle;
+
+						if (interop != 0 && !candidates.Contains(interop))
+							candidates.Add(interop);
+
+						foreach (nint probe in candidates)
+						{
+							if (
+								!Voidstrap.Platform.Linux.LinuxWindowInterop.TryCaptureWindowBgra32(
+									probe,
+									capture,
+									out int capturedWidth,
+									out int capturedHeight
+								)
+							)
+								continue;
+
+							width = capturedWidth;
+							height = capturedHeight;
+							return true;
+						}
+
+						return false;
+					},
+					2500
+				);
 
 				if (width > 0 && height > 0)
 				{
@@ -474,24 +503,29 @@ internal static class WindowAudit
 				BitmapSource flag = BitmapSource.Create(4, 3, 96, 96, PixelFormats.Bgra32, null, new byte[4 * 3 * 4], 4 * 4);
 				flag.Freeze();
 				window.ShowNotification("Game join icon audit\nDallas • 1 player", decoded, 0.5, flag);
-				decodedPrepared = PumpUntil(() =>
-				{
-					imageSurface = window.FindName("NotificationImage") as System.Windows.Controls.Image;
-					return window.IsVisible
-						&& imageSurface?.Visibility == Visibility.Visible
-						&& imageSurface.ActualWidth >= 39
-						&& imageSurface.ActualHeight >= 39
-						&& ReferenceEquals(imageSurface.Source, decoded);
-				}, Voidstrap.Utility.Platform.IsLinux ? 3500 : QueuedNotificationWait());
+				decodedPrepared = PumpUntil(
+					() =>
+					{
+						imageSurface = window.FindName("NotificationImage") as System.Windows.Controls.Image;
+						return window.IsVisible
+							&& imageSurface?.Visibility == Visibility.Visible
+							&& imageSurface.ActualWidth >= 39
+							&& imageSurface.ActualHeight >= 39
+							&& ReferenceEquals(imageSurface.Source, decoded);
+					},
+					Voidstrap.Utility.Platform.IsLinux ? 3500 : QueuedNotificationWait()
+				);
 			}
 
 			bool passed = prepared && decodedPrepared && (!nativeCaptureAvailable || nativePixels);
 			string surfaceProof = nativeCaptureAvailable
 				? "native icon pixels verified"
 				: "native surface capture returned no drawn content, image state only";
-			Emit(passed
-				? $"join notification icon audit: PASS, prewarmed image, decoded thumbnail reuse, {surfaceProof}"
-				: $"join notification icon audit: FAIL, prepared {prepared}, decoded {decodedPrepared}, capture {nativeCaptureAvailable}, native pixels {nativePixels}");
+			Emit(
+				passed
+					? $"join notification icon audit: PASS, prewarmed image, decoded thumbnail reuse, {surfaceProof}"
+					: $"join notification icon audit: FAIL, prepared {prepared}, decoded {decodedPrepared}, capture {nativeCaptureAvailable}, native pixels {nativePixels}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -537,10 +571,7 @@ internal static class WindowAudit
 		Wpf.Ui.Controls.UiWindow? probe = null;
 		try
 		{
-			Wpf.Ui.Controls.TitleBar titleBar = new()
-			{
-				Title = "Window mode audit"
-			};
+			Wpf.Ui.Controls.TitleBar titleBar = new() { Title = "Window mode audit" };
 			System.Windows.Controls.Grid root = new();
 			root.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = GridLength.Auto });
 			root.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = new GridLength(1.0, GridUnitType.Star) });
@@ -555,7 +586,7 @@ internal static class WindowAudit
 				ResizeMode = ResizeMode.CanResize,
 				WindowStyle = WindowStyle.None,
 				ShowInTaskbar = true,
-				Content = root
+				Content = root,
 			};
 			Voidstrap.UI.RoundedWindowChrome.Prepare(probe);
 			Voidstrap.UI.LinuxWindowMode.Attach(probe);
@@ -566,21 +597,26 @@ internal static class WindowAudit
 			Voidstrap.UI.LinuxWindowMode.ToggleFullscreen(probe);
 			Pump(500);
 			bool fullscreen = Voidstrap.UI.LinuxWindowMode.IsFullscreen(probe);
-			bool chromeHidden = titleBar.Visibility == Visibility.Collapsed && probe.ResizeMode == ResizeMode.NoResize && probe.Clip == null;
-			bool persisted = Voidstrap.UI.LinuxWindowMode.TryGetRestorePlacement(probe, out bool persistedMaximized, out Rect persistedBounds)
+			bool chromeHidden =
+				titleBar.Visibility == Visibility.Collapsed && probe.ResizeMode == ResizeMode.NoResize && probe.Clip == null;
+			bool persisted =
+				Voidstrap.UI.LinuxWindowMode.TryGetRestorePlacement(probe, out bool persistedMaximized, out Rect persistedBounds)
 				&& !persistedMaximized
 				&& Math.Abs(persistedBounds.Width - original.Width) < 2.0
 				&& Math.Abs(persistedBounds.Height - original.Height) < 2.0;
 			Voidstrap.UI.LinuxWindowMode.ToggleFullscreen(probe);
 			Pump(500);
-			bool restored = !Voidstrap.UI.LinuxWindowMode.IsFullscreen(probe)
+			bool restored =
+				!Voidstrap.UI.LinuxWindowMode.IsFullscreen(probe)
 				&& titleBar.Visibility == Visibility.Visible
 				&& probe.ResizeMode == originalResizeMode
 				&& Math.Abs(probe.ActualWidth - original.Width) < 4.0
 				&& Math.Abs(probe.ActualHeight - original.Height) < 4.0;
-			Emit(fullscreen && chromeHidden && persisted && restored
-				? "Linux window mode audit: PASS, fullscreen/chrome/restore lifecycle is stable"
-				: $"Linux window mode audit: FAIL, fullscreen {fullscreen}, chrome {chromeHidden}, persistence {persisted}, restored {restored}");
+			Emit(
+				fullscreen && chromeHidden && persisted && restored
+					? "Linux window mode audit: PASS, fullscreen/chrome/restore lifecycle is stable"
+					: $"Linux window mode audit: FAIL, fullscreen {fullscreen}, chrome {chromeHidden}, persistence {persisted}, restored {restored}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -626,12 +662,15 @@ internal static class WindowAudit
 			null,
 			0,
 			0,
-			output);
+			output
+		);
 		int centerOutput = pixels / 2 * 4;
-		if (output[centerOutput] != 0x7F
+		if (
+			output[centerOutput] != 0x7F
 			|| output[centerOutput + 1] != 0x5A
 			|| output[centerOutput + 2] != 0x31
-			|| output[centerOutput + 3] != 0xFF)
+			|| output[centerOutput + 3] != 0xFF
+		)
 			throw new InvalidOperationException("The Linux Sober key did not compose to the exact requested color");
 		const int sampledScale = 2;
 		int sampledWidth = (width + sampledScale - 1) / sampledScale;
@@ -644,7 +683,8 @@ internal static class WindowAudit
 			height,
 			sampledScale,
 			sampledWeights,
-			sampledMask);
+			sampledMask
+		);
 		byte[] retainedBackground = new byte[output.Length];
 		Voidstrap.Integrations.Overlays.LinuxHomepageBackgroundMask.BuildBackground(
 			width,
@@ -655,7 +695,8 @@ internal static class WindowAudit
 			0,
 			retainedBackground,
 			new int[width],
-			new int[height]);
+			new int[height]
+		);
 		Array.Clear(output);
 		Voidstrap.Integrations.Overlays.LinuxHomepageBackgroundMask.ApplyBackgroundMask(
 			source,
@@ -664,22 +705,19 @@ internal static class WindowAudit
 			width,
 			height,
 			output,
-			sampledScale);
-		if (sampledMatches != sampledMask.Length
+			sampledScale
+		);
+		if (
+			sampledMatches != sampledMask.Length
 			|| output[centerOutput] != 0x7F
 			|| output[centerOutput + 1] != 0x5A
 			|| output[centerOutput + 2] != 0x31
-			|| output[centerOutput + 3] != 0xFF)
+			|| output[centerOutput + 3] != 0xFF
+		)
 			throw new InvalidOperationException("The high refresh homepage mask did not preserve exact replacement pixels");
 
 		WriteableBitmap uploadProbe = new(2, 2, 96d, 96d, PixelFormats.Pbgra32, null);
-		byte[] uploadSource =
-		[
-			1, 2, 3, 255,
-			4, 5, 6, 255,
-			7, 8, 9, 255,
-			10, 11, 12, 255
-		];
+		byte[] uploadSource = [1, 2, 3, 255, 4, 5, 6, 255, 7, 8, 9, 255, 10, 11, 12, 255];
 		Voidstrap.Integrations.Overlays.LinuxHomepageBackgroundOverlayRenderer.CopyFrame(uploadProbe, uploadSource, 2, 2);
 		byte[] uploadResult = new byte[uploadSource.Length];
 		uploadProbe.CopyPixels(uploadResult, 8, 0);
@@ -693,13 +731,7 @@ internal static class WindowAudit
 		byte[] mediaOutput = new byte[mediaSource.Length];
 		FillLinuxHomepageAuditSource(mediaSource, Voidstrap.Integrations.Overlays.LinuxHomepageBackgroundMask.SoberBlue);
 		Array.Fill(mediaMask, (byte)255);
-		byte[] media =
-		[
-			0, 0, 0, 255,
-			100, 100, 100, 255,
-			200, 200, 200, 255,
-			255, 255, 255, 255
-		];
+		byte[] media = [0, 0, 0, 255, 100, 100, 100, 255, 200, 200, 200, 255, 255, 255, 255, 255];
 		Voidstrap.Integrations.Overlays.LinuxHomepageBackgroundMask.Compose(
 			mediaSource,
 			mediaMask,
@@ -709,12 +741,15 @@ internal static class WindowAudit
 			media,
 			2,
 			2,
-			mediaOutput);
+			mediaOutput
+		);
 		int mediaCenter = (mediaAuditHeight / 2 * mediaAuditWidth + mediaAuditWidth / 2) * 4;
-		if (mediaOutput[mediaCenter] != 139
+		if (
+			mediaOutput[mediaCenter] != 139
 			|| mediaOutput[mediaCenter + 1] != 139
 			|| mediaOutput[mediaCenter + 2] != 139
-			|| mediaOutput[mediaCenter + 3] != 255)
+			|| mediaOutput[mediaCenter + 3] != 255
+		)
 			throw new InvalidOperationException("The Linux homepage media path did not use stable bilinear scaling");
 
 		for (int index = 0; index < pixels; index++)
@@ -753,13 +788,16 @@ internal static class WindowAudit
 			width,
 			height,
 			width / 2,
-			height / 2);
+			height / 2
+		);
 		if (cursorCleared == 0 || mask[cursorNeighbor] != 0 || mask[cursorFar] == 0)
 			throw new InvalidOperationException("The Linux software cursor was not isolated from the replacement layer");
 
-		if (!Voidstrap.Integrations.Overlays.LinuxHomepageBackgroundMask.IsLinuxSourceKey(18, 18, 21)
+		if (
+			!Voidstrap.Integrations.Overlays.LinuxHomepageBackgroundMask.IsLinuxSourceKey(18, 18, 21)
 			|| !Voidstrap.Integrations.Overlays.LinuxHomepageBackgroundMask.IsLinuxSourceKey(18, 18, 24)
-			|| Voidstrap.Integrations.Overlays.LinuxHomepageBackgroundMask.IsLinuxSourceKey(18, 18, 22))
+			|| Voidstrap.Integrations.Overlays.LinuxHomepageBackgroundMask.IsLinuxSourceKey(18, 18, 22)
+		)
 			throw new InvalidOperationException("The Linux background key policy does not contain exactly #121215 and #121218");
 		AuditLinuxHomepageColorRanges(source, weights, mask, output, width, height);
 		double refreshRate = Voidstrap.Platform.Linux.LinuxDisplayMetrics.RefreshRateForWindow(0);
@@ -782,8 +820,13 @@ internal static class WindowAudit
 			long deadline = Environment.TickCount64 + 3000;
 			while (Environment.TickCount64 < deadline)
 			{
-				if (portableMedia.TryReadFrame(0, (frame, frameWidth, frameHeight, version) =>
-					decoded = frameWidth == 2 && frameHeight == 2 && frame.Length == 16 && version > 0))
+				if (
+					portableMedia.TryReadFrame(
+						0,
+						(frame, frameWidth, frameHeight, version) =>
+							decoded = frameWidth == 2 && frameHeight == 2 && frame.Length == 16 && version > 0
+					)
+				)
 					break;
 				System.Threading.Thread.Sleep(10);
 			}
@@ -797,9 +840,7 @@ internal static class WindowAudit
 			{
 				System.IO.File.Delete(portableImagePath);
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 
 		Window identityProbe = new()
@@ -810,7 +851,7 @@ internal static class WindowAudit
 			ShowInTaskbar = false,
 			WindowStartupLocation = WindowStartupLocation.Manual,
 			Left = 40,
-			Top = 40
+			Top = 40,
 		};
 		try
 		{
@@ -846,7 +887,9 @@ internal static class WindowAudit
 			try
 			{
 				if (!Voidstrap.Integrations.Overlays.OverlayHub.LinuxGameplayLeaseOperational)
-					throw new InvalidOperationException("The Linux gameplay lease did not acknowledge without a portable multi-handle wait");
+					throw new InvalidOperationException(
+						"The Linux gameplay lease did not acknowledge without a portable multi-handle wait"
+					);
 				Window? previousMainWindow = Application.Current.MainWindow;
 				using (Voidstrap.Integrations.Overlays.LinuxHomepageBackgroundOverlay dormantOverlay = new())
 				{
@@ -859,44 +902,69 @@ internal static class WindowAudit
 				using (Voidstrap.Integrations.Overlays.LinuxHomepageBackgroundOverlay overlay = new(true))
 				{
 					nativeTitle = overlay.NativeTitle;
-					bool nativeReady = PumpUntil(() =>
-					{
-						nativeHandle = overlay.NativeHandle;
-						return !overlay.IsDisposed
-							&& overlay.IsSurfaceOpen
-							&& overlay.UsesApplicationDispatcher
-							&& overlay.HasExclusiveSurface
-							&& overlay.HasNativeSurface
-							&& nativeHandle != 0
-							&& Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(nativeHandle)
-							&& Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(nativeTitle) == nativeHandle
-							&& Voidstrap.Platform.Linux.LinuxWindowInterop.IsPreparedOverlayWindow(nativeHandle)
-							&& Voidstrap.Platform.Linux.LinuxWindowInterop.IsOverrideRedirectWindow(nativeHandle)
-							&& Voidstrap.Integrations.Overlays.OverlayDiagnostics.IsOverlayHandle(nativeHandle)
-							&& Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetInputShapeRectangleCount(nativeHandle, out int inputRectangles)
-							&& inputRectangles == 0
-							&& Application.Current.Windows.OfType<Voidstrap.Integrations.Overlays.LinuxHomepageOverlayWindow>().Count() == 1;
-					}, 6000);
+					bool nativeReady = PumpUntil(
+						() =>
+						{
+							nativeHandle = overlay.NativeHandle;
+							return !overlay.IsDisposed
+								&& overlay.IsSurfaceOpen
+								&& overlay.UsesApplicationDispatcher
+								&& overlay.HasExclusiveSurface
+								&& overlay.HasNativeSurface
+								&& nativeHandle != 0
+								&& Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(nativeHandle)
+								&& Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(nativeTitle) == nativeHandle
+								&& Voidstrap.Platform.Linux.LinuxWindowInterop.IsPreparedOverlayWindow(nativeHandle)
+								&& Voidstrap.Platform.Linux.LinuxWindowInterop.IsOverrideRedirectWindow(nativeHandle)
+								&& Voidstrap.Integrations.Overlays.OverlayDiagnostics.IsOverlayHandle(nativeHandle)
+								&& Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetInputShapeRectangleCount(
+									nativeHandle,
+									out int inputRectangles
+								)
+								&& inputRectangles == 0
+								&& Application.Current.Windows.OfType<Voidstrap.Integrations.Overlays.LinuxHomepageOverlayWindow>().Count()
+									== 1;
+						},
+						6000
+					);
 					if (!nativeReady)
-						throw new InvalidOperationException("The Linux homepage surface never acquired a live prepared click-through X11 window: " + overlay.NativeFailure);
-					if (!Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(nativeHandle, out int nativeLeft, out int nativeTop, out int nativeWidth, out int nativeHeight)
+						throw new InvalidOperationException(
+							"The Linux homepage surface never acquired a live prepared click-through X11 window: " + overlay.NativeFailure
+						);
+					if (
+						!Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(
+							nativeHandle,
+							out int nativeLeft,
+							out int nativeTop,
+							out int nativeWidth,
+							out int nativeHeight
+						)
 						|| nativeLeft != -32000
 						|| nativeTop != -32000
 						|| nativeWidth != 1
-						|| nativeHeight != 1)
+						|| nativeHeight != 1
+					)
 						throw new InvalidOperationException("The Linux homepage surface did not expose valid parked native geometry");
-					if (Application.Current.MainWindow is Voidstrap.Integrations.Overlays.LinuxHomepageOverlayWindow
-						|| (previousMainWindow is not null && !ReferenceEquals(Application.Current.MainWindow, previousMainWindow)))
-						throw new InvalidOperationException("The Linux homepage surface replaced the application's main window, was "
-							+ (previousMainWindow?.GetType().Name ?? "none")
-							+ " now " + (Application.Current.MainWindow?.GetType().Name ?? "none"));
+					if (
+						Application.Current.MainWindow is Voidstrap.Integrations.Overlays.LinuxHomepageOverlayWindow
+						|| (previousMainWindow is not null && !ReferenceEquals(Application.Current.MainWindow, previousMainWindow))
+					)
+						throw new InvalidOperationException(
+							"The Linux homepage surface replaced the application's main window, was "
+								+ (previousMainWindow?.GetType().Name ?? "none")
+								+ " now "
+								+ (Application.Current.MainWindow?.GetType().Name ?? "none")
+						);
 				}
-				bool nativeReleased = PumpUntil(() =>
-					!Application.Current.Windows.OfType<Voidstrap.Integrations.Overlays.LinuxHomepageOverlayWindow>().Any()
-					&& Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(nativeTitle) == 0
-					&& !Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(nativeHandle)
-					&& !Voidstrap.Platform.Linux.LinuxWindowInterop.IsPreparedOverlayWindow(nativeHandle)
-					&& !Voidstrap.Integrations.Overlays.OverlayDiagnostics.IsOverlayHandle(nativeHandle), 2000);
+				bool nativeReleased = PumpUntil(
+					() =>
+						!Application.Current.Windows.OfType<Voidstrap.Integrations.Overlays.LinuxHomepageOverlayWindow>().Any()
+						&& Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(nativeTitle) == 0
+						&& !Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(nativeHandle)
+						&& !Voidstrap.Platform.Linux.LinuxWindowInterop.IsPreparedOverlayWindow(nativeHandle)
+						&& !Voidstrap.Integrations.Overlays.OverlayDiagnostics.IsOverlayHandle(nativeHandle),
+					2000
+				);
 				if (!nativeReleased)
 					throw new InvalidOperationException("The Linux homepage surface left a managed or native X11 window after disposal");
 				lifecycleChecked = true;
@@ -907,19 +975,15 @@ internal static class WindowAudit
 			}
 		}
 
-		Emit("Linux homepage background audit: PASS, dual Sober keys, full saturation and contrast ranges, cursor isolation, "
-			+ refreshRate.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)
-			+ " Hz display timing, bilinear media, portable static decode, neighborhood isolation, strict Sober identity, X11 requirement, native click-through lifecycle "
-			+ (lifecycleChecked ? "verified" : "not available"));
+		Emit(
+			"Linux homepage background audit: PASS, dual Sober keys, full saturation and contrast ranges, cursor isolation, "
+				+ refreshRate.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)
+				+ " Hz display timing, bilinear media, portable static decode, neighborhood isolation, strict Sober identity, X11 requirement, native click-through lifecycle "
+				+ (lifecycleChecked ? "verified" : "not available")
+		);
 	}
 
-	private static void AuditLinuxHomepageColorRanges(
-		byte[] source,
-		byte[] weights,
-		byte[] mask,
-		byte[] output,
-		int width,
-		int height)
+	private static void AuditLinuxHomepageColorRanges(byte[] source, byte[] weights, byte[] mask, byte[] output, int width, int height)
 	{
 		double previousSaturation = App.Settings.Prop.Saturation;
 		double previousContrast = App.Settings.Prop.Contrast;
@@ -929,15 +993,7 @@ internal static class WindowAudit
 		{
 			App.Settings.Prop.ColorTemperature = 0d;
 			App.Settings.Prop.ColorBlindnessEnabled = false;
-			(double Saturation, double Contrast)[] ranges =
-			[
-				(0d, 0d),
-				(0d, 200d),
-				(100d, 0d),
-				(100d, 200d),
-				(200d, 0d),
-				(200d, 200d)
-			];
+			(double Saturation, double Contrast)[] ranges = [(0d, 0d), (0d, 200d), (100d, 0d), (100d, 200d), (200d, 0d), (200d, 200d)];
 			foreach ((double saturation, double contrast) in ranges)
 			{
 				App.Settings.Prop.Saturation = saturation;
@@ -959,7 +1015,8 @@ internal static class WindowAudit
 					0d,
 					string.Empty,
 					saturation,
-					contrast);
+					contrast
+				);
 				Voidstrap.Integrations.Overlays.LinuxHomepageBackgroundMask.Compose(
 					source,
 					mask,
@@ -969,21 +1026,26 @@ internal static class WindowAudit
 					null,
 					0,
 					0,
-					output);
+					output
+				);
 				Voidstrap.Integrations.Overlays.HomepageBackgroundColorTransform transform = settings.CreateColorTransform();
 				transform.Apply(0x31, 0x5A, 0x7F, out byte expectedRed, out byte expectedGreen, out byte expectedBlue);
 				int center = (height / 2 * width + width / 2) * 4;
-				if (output[center] != expectedBlue
+				if (
+					output[center] != expectedBlue
 					|| output[center + 1] != expectedGreen
 					|| output[center + 2] != expectedRed
-					|| output[center + 3] != 255)
-					throw new InvalidOperationException($"The homepage replacement color failed at saturation {saturation:0} and contrast {contrast:0}");
+					|| output[center + 3] != 255
+				)
+					throw new InvalidOperationException(
+						$"The homepage replacement color failed at saturation {saturation:0} and contrast {contrast:0}"
+					);
 
 				Voidstrap.Integrations.Overlays.LinuxHomepageVisualSettings gradientSettings = settings with
 				{
 					Mode = "Gradient",
 					GradientColor = "#C08020",
-					GradientAngle = 0d
+					GradientAngle = 0d,
 				};
 				Voidstrap.Integrations.Overlays.LinuxHomepageBackgroundMask.BuildBackground(
 					width,
@@ -994,34 +1056,47 @@ internal static class WindowAudit
 					0,
 					output,
 					new int[width],
-					new int[height]);
+					new int[height]
+				);
 				byte gradientRed = (byte)Math.Round((0x31 + 0xC0) / 2d);
 				byte gradientGreen = (byte)Math.Round((0x5A + 0x80) / 2d);
 				byte gradientBlue = (byte)Math.Round((0x7F + 0x20) / 2d);
 				transform.Apply(gradientRed, gradientGreen, gradientBlue, out expectedRed, out expectedGreen, out expectedBlue);
-				if (output[center] != expectedBlue
+				if (
+					output[center] != expectedBlue
 					|| output[center + 1] != expectedGreen
 					|| output[center + 2] != expectedRed
-					|| output[center + 3] != 255)
-					throw new InvalidOperationException($"The homepage gradient failed at saturation {saturation:0} and contrast {contrast:0}");
+					|| output[center + 3] != 255
+				)
+					throw new InvalidOperationException(
+						$"The homepage gradient failed at saturation {saturation:0} and contrast {contrast:0}"
+					);
 
 				byte[] media = [0x20, 0x80, 0xC0, 0xFF];
 				Voidstrap.Integrations.Overlays.LinuxHomepageBackgroundMask.BuildBackground(
 					width,
 					height,
-					settings with { Mode = "Media" },
+					settings with
+					{
+						Mode = "Media",
+					},
 					media,
 					1,
 					1,
 					output,
 					new int[width],
-					new int[height]);
+					new int[height]
+				);
 				transform.Apply(0xC0, 0x80, 0x20, out expectedRed, out expectedGreen, out expectedBlue);
-				if (output[center] != expectedBlue
+				if (
+					output[center] != expectedBlue
 					|| output[center + 1] != expectedGreen
 					|| output[center + 2] != expectedRed
-					|| output[center + 3] != 255)
-					throw new InvalidOperationException($"The homepage media color failed at saturation {saturation:0} and contrast {contrast:0}");
+					|| output[center + 3] != 255
+				)
+					throw new InvalidOperationException(
+						$"The homepage media color failed at saturation {saturation:0} and contrast {contrast:0}"
+					);
 			}
 		}
 		finally
@@ -1087,7 +1162,12 @@ internal static class WindowAudit
 				{
 					root = root.InnerException;
 				}
-				if (root is DllNotFoundException || root is EntryPointNotFoundException || root is PlatformNotSupportedException || root is TypeInitializationException)
+				if (
+					root is DllNotFoundException
+					|| root is EntryPointNotFoundException
+					|| root is PlatformNotSupportedException
+					|| root is TypeInitializationException
+				)
 				{
 					failed++;
 					Emit($"  VM FAIL {type.Name}: {root.GetType().Name} {root.Message.Split('\n')[0]}");
@@ -1110,7 +1190,12 @@ internal static class WindowAudit
 		Window? window = null;
 		try
 		{
-			System.Windows.Controls.ProgressBar bar = new() { IsIndeterminate = true, Width = 300, Height = 4 };
+			System.Windows.Controls.ProgressBar bar = new()
+			{
+				IsIndeterminate = true,
+				Width = 300,
+				Height = 4,
+			};
 			window = new Window
 			{
 				Title = "Voidstrap progress marquee audit",
@@ -1119,7 +1204,7 @@ internal static class WindowAudit
 				WindowStyle = WindowStyle.None,
 				ShowInTaskbar = false,
 				ShowActivated = false,
-				Content = bar
+				Content = bar,
 			};
 			window.Show();
 			Pump(600);
@@ -1127,9 +1212,11 @@ internal static class WindowAudit
 			Pump(400);
 			double second = GlowOffset(bar);
 			bool moving = !double.IsNaN(first) && !double.IsNaN(second) && Math.Abs(second - first) > 1.0;
-			Emit(moving
-				? $"progress marquee audit: PASS, glow moved from {first:0} to {second:0}"
-				: $"progress marquee audit: FAIL, glow stayed at {first:0} then {second:0}");
+			Emit(
+				moving
+					? $"progress marquee audit: PASS, glow moved from {first:0} to {second:0}"
+					: $"progress marquee audit: FAIL, glow stayed at {first:0} then {second:0}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -1168,9 +1255,11 @@ internal static class WindowAudit
 				if (rendered && entries > 0)
 					break;
 			}
-			Emit(rendered && entries > 0
-				? $"settings startup audit: PASS, rendered content and {entries} searchable options"
-				: $"settings startup audit: FAIL, rendered {rendered}, searchable options {entries}");
+			Emit(
+				rendered && entries > 0
+					? $"settings startup audit: PASS, rendered content and {entries} searchable options"
+					: $"settings startup audit: FAIL, rendered {rendered}, searchable options {entries}"
+			);
 		}
 		finally
 		{
@@ -1188,17 +1277,20 @@ internal static class WindowAudit
 		try
 		{
 			Voidstrap.UI.ViewModels.Settings.LibraryViewModel viewModel = new();
-			List<Voidstrap.UI.ViewModels.Settings.LibraryGameEntry> games = Enumerable.Range(1, 95)
+			List<Voidstrap.UI.ViewModels.Settings.LibraryGameEntry> games = Enumerable
+				.Range(1, 95)
 				.Select(index => new Voidstrap.UI.ViewModels.Settings.LibraryGameEntry
 				{
 					UniverseId = index,
 					PlaceId = index,
 					Name = "Audit game " + index,
-					LastPlayed = DateTime.UtcNow.AddMinutes(-index)
+					LastPlayed = DateTime.UtcNow.AddMinutes(-index),
 				})
 				.ToList();
-			MethodInfo publish = typeof(Voidstrap.UI.ViewModels.Settings.LibraryViewModel)
-				.GetMethod("PublishGamesCore", BindingFlags.Instance | BindingFlags.NonPublic)!;
+			MethodInfo publish = typeof(Voidstrap.UI.ViewModels.Settings.LibraryViewModel).GetMethod(
+				"PublishGamesCore",
+				BindingFlags.Instance | BindingFlags.NonPublic
+			)!;
 			int allChanges = 0;
 			int sidebarChanges = 0;
 			viewModel.AllGames.CollectionChanged += (_, _) => allChanges++;
@@ -1213,7 +1305,17 @@ internal static class WindowAudit
 			if (initialPassed && batchingPassed && pagingPassed && elapsed.ElapsedMilliseconds < 250)
 				Emit("library loading audit PASS in " + elapsed.ElapsedMilliseconds + " ms");
 			else
-				Emit("library loading audit FAIL initial " + viewModel.AllGames.Count + " all changes " + allChanges + " sidebar changes " + sidebarChanges + " time " + elapsed.ElapsedMilliseconds + " ms");
+				Emit(
+					"library loading audit FAIL initial "
+						+ viewModel.AllGames.Count
+						+ " all changes "
+						+ allChanges
+						+ " sidebar changes "
+						+ sidebarChanges
+						+ " time "
+						+ elapsed.ElapsedMilliseconds
+						+ " ms"
+				);
 		}
 		catch (Exception ex)
 		{
@@ -1223,8 +1325,19 @@ internal static class WindowAudit
 
 	private static void AuditOwnedDialogs()
 	{
-		Window owner = new() { Title = "Dialog ownership probe", Width = 320, Height = 200 };
-		Window dialog = new() { Title = "Owned dialog probe", Width = 240, Height = 160, ShowInTaskbar = false };
+		Window owner = new()
+		{
+			Title = "Dialog ownership probe",
+			Width = 320,
+			Height = 200,
+		};
+		Window dialog = new()
+		{
+			Title = "Owned dialog probe",
+			Width = 240,
+			Height = 160,
+			ShowInTaskbar = false,
+		};
 		Window nested = new() { Title = "Nested dialog probe" };
 		bool adopted = false;
 		bool nestedAdopted = false;
@@ -1232,17 +1345,22 @@ internal static class WindowAudit
 		{
 			owner.Show();
 			Pump(80);
-			dialog.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
-			{
-				adopted = ReferenceEquals(dialog.Owner, owner);
-				UI.LinuxDialogOwnership.Adopt(nested);
-				nestedAdopted = ReferenceEquals(nested.Owner, dialog);
-				dialog.Close();
-			}));
+			dialog.Dispatcher.BeginInvoke(
+				DispatcherPriority.Loaded,
+				new Action(() =>
+				{
+					adopted = ReferenceEquals(dialog.Owner, owner);
+					UI.LinuxDialogOwnership.Adopt(nested);
+					nestedAdopted = ReferenceEquals(nested.Owner, dialog);
+					dialog.Close();
+				})
+			);
 			UI.LinuxDialogOwnership.ShowOwnedDialog(dialog);
-			Emit(adopted && nestedAdopted
-				? "owned dialogs audit: PASS, modal and nested dialogs retain their owners"
-				: $"owned dialogs audit: FAIL, modal owner {adopted}, nested owner {nestedAdopted}");
+			Emit(
+				adopted && nestedAdopted
+					? "owned dialogs audit: PASS, modal and nested dialogs retain their owners"
+					: $"owned dialogs audit: FAIL, modal owner {adopted}, nested owner {nestedAdopted}"
+			);
 		}
 		finally
 		{
@@ -1266,7 +1384,14 @@ internal static class WindowAudit
 		{
 			UI.Elements.Settings.Pages.DownloadsPage page = new();
 			UI.ViewModels.Settings.DownloadsViewModel viewModel = (UI.ViewModels.Settings.DownloadsViewModel)page.DataContext;
-			window = new Window { Title = "Downloads binding probe", Width = 1100, Height = 700, Content = page, ShowInTaskbar = false };
+			window = new Window
+			{
+				Title = "Downloads binding probe",
+				Width = 1100,
+				Height = 700,
+				Content = page,
+				ShowInTaskbar = false,
+			};
 			window.Show();
 			Pump(150);
 			((FrameworkElement)page.FindName("DetailPanel")).Visibility = Visibility.Visible;
@@ -1276,15 +1401,19 @@ internal static class WindowAudit
 				viewModel.SelectedItem = item;
 				Pump(80);
 			}
-			viewModel.SelectedItem = new UI.ViewModels.Settings.DownloadsViewModel.ClientItem(viewModel,
-				new ClassicCatalogEntry { Code = "2008", Name = "Classic client" });
+			viewModel.SelectedItem = new UI.ViewModels.Settings.DownloadsViewModel.ClientItem(
+				viewModel,
+				new ClassicCatalogEntry { Code = "2008", Name = "Classic client" }
+			);
 			Pump(150);
 			viewModel.SelectedItem = null;
 			Pump(80);
 			listener.Flush();
-			Emit(errors.GetStringBuilder().Length == 0
-				? "downloads bindings audit: PASS, native, classic and empty selections have no binding errors"
-				: "downloads bindings audit: FAIL, " + errors.ToString());
+			Emit(
+				errors.GetStringBuilder().Length == 0
+					? "downloads bindings audit: PASS, native, classic and empty selections have no binding errors"
+					: "downloads bindings audit: FAIL, " + errors.ToString()
+			);
 		}
 		finally
 		{
@@ -1297,15 +1426,19 @@ internal static class WindowAudit
 
 	private static void AuditLogRegressions()
 	{
-		using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse("""
+		using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse(
+			"""
 			{"legacy":12,"modern":{"Size":42,"Sha256":"abc"},"invalid":{"Size":{},"Sha256":[]},"ignored":null,"last":27}
-			""");
+			"""
+		);
 		MethodInfo parse = typeof(ClassicClients).GetMethod("ParseInstalledIndex", BindingFlags.NonPublic | BindingFlags.Static)!;
 		System.Collections.IDictionary index = (System.Collections.IDictionary)parse.Invoke(null, [document.RootElement])!;
 		long Size(string key) => (long)index[key]!.GetType().GetProperty("Size")!.GetValue(index[key])!;
-		Emit(index.Count == 4 && Size("legacy") == 12 && Size("modern") == 42 && Size("invalid") == -1 && Size("last") == 27
-			? "classic index audit: PASS, mixed legacy and structured records survive malformed values"
-			: "classic index audit: FAIL, an index record was lost");
+		Emit(
+			index.Count == 4 && Size("legacy") == 12 && Size("modern") == 42 && Size("invalid") == -1 && Size("last") == 27
+				? "classic index audit: PASS, mixed legacy and structured records survive malformed values"
+				: "classic index audit: FAIL, an index record was lost"
+		);
 
 		string name = App.Settings.Prop.BrandName;
 		bool autoTranslate = App.Settings.Prop.AutoTranslate;
@@ -1316,11 +1449,15 @@ internal static class WindowAudit
 			System.Windows.Controls.TextBlock text = new();
 			text.Inlines.Add(new System.Windows.Documents.Run("Voidstrap "));
 			text.Inlines.Add(new System.Windows.Documents.Span(new System.Windows.Documents.Run("Voidstrap")));
-			typeof(UI.LiveLanguageRefresher).GetMethod("TranslateInlines", BindingFlags.NonPublic | BindingFlags.Static)!.Invoke(null, [text.Inlines, true, ""]);
+			typeof(UI.LiveLanguageRefresher)
+				.GetMethod("TranslateInlines", BindingFlags.NonPublic | BindingFlags.Static)!
+				.Invoke(null, [text.Inlines, true, ""]);
 			string actual = new System.Windows.Documents.TextRange(text.ContentStart, text.ContentEnd).Text;
-			Emit(actual == "Customstrap Customstrap"
-				? "inline translation audit: PASS, nested runs update without invalidating enumeration"
-				: "inline translation audit: FAIL, nested text was not preserved: " + actual);
+			Emit(
+				actual == "Customstrap Customstrap"
+					? "inline translation audit: PASS, nested runs update without invalidating enumeration"
+					: "inline translation audit: FAIL, nested text was not preserved: " + actual
+			);
 		}
 		finally
 		{
@@ -1328,12 +1465,17 @@ internal static class WindowAudit
 			App.Settings.Prop.AutoTranslate = autoTranslate;
 		}
 
-		System.Threading.Tasks.TaskCompletionSource<System.Windows.Controls.Image> ready = new(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
+		System.Threading.Tasks.TaskCompletionSource<System.Windows.Controls.Image> ready = new(
+			System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously
+		);
 		System.Threading.Thread thread = new(() =>
 		{
 			ready.SetResult(new System.Windows.Controls.Image());
 			Dispatcher.Run();
-		}) { IsBackground = true };
+		})
+		{
+			IsBackground = true,
+		};
 		if (Voidstrap.Utility.Platform.IsWindows)
 			thread.SetApartmentState(System.Threading.ApartmentState.STA);
 		thread.Start();
@@ -1343,10 +1485,15 @@ internal static class WindowAudit
 		try
 		{
 			UI.LiveLanguageRefresher.ApplyBrandImage(foreign, System.Windows.Controls.Image.SourceProperty);
-			DispatcherOperation check = foreign.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => foreign.GetValue(System.Windows.Controls.Image.SourceProperty)));
-			Emit(PumpUntil(() => check.Status == DispatcherOperationStatus.Completed, 3000)
-				? "image dispatcher audit: PASS, branding runs on the owning dispatcher"
-				: "image dispatcher audit: FAIL, branding did not complete");
+			DispatcherOperation check = foreign.Dispatcher.BeginInvoke(
+				DispatcherPriority.ApplicationIdle,
+				new Action(() => foreign.GetValue(System.Windows.Controls.Image.SourceProperty))
+			);
+			Emit(
+				PumpUntil(() => check.Status == DispatcherOperationStatus.Completed, 3000)
+					? "image dispatcher audit: PASS, branding runs on the owning dispatcher"
+					: "image dispatcher audit: FAIL, branding did not complete"
+			);
 		}
 		finally
 		{
@@ -1357,14 +1504,18 @@ internal static class WindowAudit
 		string data = "export const frames = [" + string.Join(',', Enumerable.Repeat("'data:image/png;base64,AAAA'", 12000)) + "];";
 		System.Diagnostics.Stopwatch elapsed = System.Diagnostics.Stopwatch.StartNew();
 		string output = Integrations.Plugins.ModTranspiler.Transpile(data, "frames.ts");
-		Emit(ReferenceEquals(data, output)
-			? $"sprite module audit: PASS, {data.Length} characters parsed in {elapsed.ElapsedMilliseconds} ms without script transpilation"
-			: "sprite module audit: FAIL, JavaScript data entered the script transpiler");
+		Emit(
+			ReferenceEquals(data, output)
+				? $"sprite module audit: PASS, {data.Length} characters parsed in {elapsed.ElapsedMilliseconds} ms without script transpilation"
+				: "sprite module audit: FAIL, JavaScript data entered the script transpiler"
+		);
 		string typed = Integrations.Plugins.ModTranspiler.Transpile("export const count: number = 2;", "typed.ts");
 		new Acornima.Parser().ParseModule(typed);
-		Emit(!typed.Contains(": number", StringComparison.Ordinal)
-			? "typed module audit: PASS, TypeScript still transpiles"
-			: "typed module audit: FAIL, a type annotation survived");
+		Emit(
+			!typed.Contains(": number", StringComparison.Ordinal)
+				? "typed module audit: PASS, TypeScript still transpiles"
+				: "typed module audit: FAIL, a type annotation survived"
+		);
 		bool rejected = false;
 		try
 		{
@@ -1376,29 +1527,42 @@ internal static class WindowAudit
 		}
 		string recovered = Integrations.Plugins.ModTranspiler.Transpile("export const ready: boolean = true;", "recovered.ts");
 		new Acornima.Parser().ParseModule(recovered);
-		Emit(rejected && !recovered.Contains(": boolean", StringComparison.Ordinal)
-			? "transpiler recovery audit: PASS, invalid code is rejected and the next valid module loads"
-			: "transpiler recovery audit: FAIL, a failed transform corrupted the next module");
+		Emit(
+			rejected && !recovered.Contains(": boolean", StringComparison.Ordinal)
+				? "transpiler recovery audit: PASS, invalid code is rejected and the next valid module loads"
+				: "transpiler recovery audit: FAIL, a failed transform corrupted the next module"
+		);
 
 		PngBitmapEncoder encoder = new();
-		encoder.Frames.Add(BitmapFrame.Create(BitmapSource.Create(1, 1, 96, 96, PixelFormats.Bgra32, null, new byte[] { 0, 0, 255, 255 }, 4)));
+		encoder.Frames.Add(
+			BitmapFrame.Create(BitmapSource.Create(1, 1, 96, 96, PixelFormats.Bgra32, null, new byte[] { 0, 0, 255, 255 }, 4))
+		);
 		using System.IO.MemoryStream png = new();
 		encoder.Save(png);
 		System.Text.Json.Nodes.JsonObject node = new()
 		{
 			["type"] = "Image",
-			["props"] = new System.Text.Json.Nodes.JsonObject { ["src"] = "data:image/png;base64," + Convert.ToBase64String(png.ToArray()), ["height"] = 32 },
-			["children"] = new System.Text.Json.Nodes.JsonArray()
+			["props"] = new System.Text.Json.Nodes.JsonObject
+			{
+				["src"] = "data:image/png;base64," + Convert.ToBase64String(png.ToArray()),
+				["height"] = 32,
+			},
+			["children"] = new System.Text.Json.Nodes.JsonArray(),
 		};
 		System.Windows.Controls.Image? initial = Integrations.Plugins.PluginUiRenderer.BuildTree(node) as System.Windows.Controls.Image;
 		PumpUntil(() => initial?.Source != null, 120000);
 		ImageSource? source = initial?.Source;
 		bool reused = source is { IsFrozen: true };
 		for (int i = 0; i < 256; i++)
-			reused &= ReferenceEquals(source, (Integrations.Plugins.PluginUiRenderer.BuildTree(node) as System.Windows.Controls.Image)?.Source);
-		Emit(reused
-			? "sprite image audit: PASS, 256 renders reused one frozen image"
-			: "sprite image audit: FAIL, repeated renders decoded new images");
+			reused &= ReferenceEquals(
+				source,
+				(Integrations.Plugins.PluginUiRenderer.BuildTree(node) as System.Windows.Controls.Image)?.Source
+			);
+		Emit(
+			reused
+				? "sprite image audit: PASS, 256 renders reused one frozen image"
+				: "sprite image audit: FAIL, repeated renders decoded new images"
+		);
 	}
 
 	private static void AuditModMedia()
@@ -1415,28 +1579,45 @@ internal static class WindowAudit
 		for (int i = 0; i < second.Pixels.Length; i += 4)
 			second.Pixels[i] = second.Pixels[i + 1] = second.Pixels[i + 2] = 129;
 		byte[] gif = Raster.EncodeAnimatedGif([first, second], 100);
-		Emit(Integrations.Plugins.PluginMedia.CountGifFrames(gif) == 2 && Integrations.Plugins.PluginMedia.CountGifFrames(gif[..^1]) == 0
-			? "mod GIF audit: PASS, every frame is counted and truncated media is rejected"
-			: "mod GIF audit: FAIL, invalid frame count");
-		Emit(!MediaContentFilter.MatchesHash(new byte[] { 1, 2, 3 }, new string('0', 64))
-			? "media checksum audit: PASS, modified checker data is rejected"
-			: "media checksum audit: FAIL, invalid data was accepted");
+		Emit(
+			Integrations.Plugins.PluginMedia.CountGifFrames(gif) == 2 && Integrations.Plugins.PluginMedia.CountGifFrames(gif[..^1]) == 0
+				? "mod GIF audit: PASS, every frame is counted and truncated media is rejected"
+				: "mod GIF audit: FAIL, invalid frame count"
+		);
+		Emit(
+			!MediaContentFilter.MatchesHash(new byte[] { 1, 2, 3 }, new string('0', 64))
+				? "media checksum audit: PASS, modified checker data is rejected"
+				: "media checksum audit: FAIL, invalid data was accepted"
+		);
 		System.Threading.Tasks.Task<bool> scan = System.Threading.Tasks.Task.Run(() => MediaContentFilter.IsAllowedAsync(first));
-		Emit(PumpUntil(() => scan.IsCompleted, 120000) && scan.GetAwaiter().GetResult()
-			? "local media model audit: PASS, the real checker accepts a safe control without uploading media"
-			: "local media model audit: FAIL, local checking is unavailable");
-		System.Text.Json.Nodes.JsonObject Node(string source, int cellWidth = 0, int cellHeight = 0, int index = -1) => new()
-		{
-			["type"] = "Sprite",
-			["props"] = new System.Text.Json.Nodes.JsonObject { ["src"] = source, ["frameWidth"] = cellWidth, ["frameHeight"] = cellHeight, ["frameIndex"] = index },
-			["children"] = new System.Text.Json.Nodes.JsonArray()
-		};
-		System.Windows.Controls.Image? animation = Integrations.Plugins.PluginUiRenderer.BuildTree(Node("data:image/gif;base64," + Convert.ToBase64String(gif))) as System.Windows.Controls.Image;
+		Emit(
+			PumpUntil(() => scan.IsCompleted, 120000) && scan.GetAwaiter().GetResult()
+				? "local media model audit: PASS, the real checker accepts a safe control without uploading media"
+				: "local media model audit: FAIL, local checking is unavailable"
+		);
+		System.Text.Json.Nodes.JsonObject Node(string source, int cellWidth = 0, int cellHeight = 0, int index = -1) =>
+			new()
+			{
+				["type"] = "Sprite",
+				["props"] = new System.Text.Json.Nodes.JsonObject
+				{
+					["src"] = source,
+					["frameWidth"] = cellWidth,
+					["frameHeight"] = cellHeight,
+					["frameIndex"] = index,
+				},
+				["children"] = new System.Text.Json.Nodes.JsonArray(),
+			};
+		System.Windows.Controls.Image? animation =
+			Integrations.Plugins.PluginUiRenderer.BuildTree(Node("data:image/gif;base64," + Convert.ToBase64String(gif)))
+			as System.Windows.Controls.Image;
 		bool initiallyHidden = animation?.Source == null;
 		bool displayed = PumpUntil(() => animation?.Source != null, 30000);
-		Emit(initiallyHidden && displayed
-			? "mod animation safety audit: PASS, GIF stays hidden until local checking finishes"
-			: "mod animation safety audit: FAIL, GIF did not follow the checking lifecycle");
+		Emit(
+			initiallyHidden && displayed
+				? "mod animation safety audit: PASS, GIF stays hidden until local checking finishes"
+				: "mod animation safety audit: FAIL, GIF did not follow the checking lifecycle"
+		);
 		byte[] png = first.EncodePng();
 		byte[] icon = new byte[22 + png.Length];
 		icon[2] = 1;
@@ -1448,29 +1629,51 @@ internal static class WindowAudit
 		System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(icon.AsSpan(18, 4), 22);
 		png.CopyTo(icon, 22);
 		System.Threading.Tasks.Task<BitmapSource?> iconScan = MediaContentFilter.LoadCheckedIconAsync(icon);
-		Emit(PumpUntil(() => iconScan.IsCompleted, 30000) && iconScan.GetAwaiter().GetResult() is { IsFrozen: true }
-			? "mod icon safety audit: PASS, icon frames are checked before preview"
-			: "mod icon safety audit: FAIL, checked icon was not available");
+		Emit(
+			PumpUntil(() => iconScan.IsCompleted, 30000) && iconScan.GetAwaiter().GetResult() is { IsFrozen: true }
+				? "mod icon safety audit: PASS, icon frames are checked before preview"
+				: "mod icon safety audit: FAIL, checked icon was not available"
+		);
 		string data = "data:image/png;base64," + Convert.ToBase64String(png);
-		System.Windows.Controls.Image? cell = Integrations.Plugins.PluginUiRenderer.BuildTree(Node(data, 8, 16, 1)) as System.Windows.Controls.Image;
-		Emit(PumpUntil(() => cell?.Source is BitmapSource { PixelWidth: 8, PixelHeight: 16 }, 30000)
-			? "sprite sheet audit: PASS, a checked cell is cropped in source pixels"
-			: "sprite sheet audit: FAIL, sprite cell did not display");
-		System.Windows.Controls.Image? cached = Integrations.Plugins.PluginUiRenderer.BuildTree(Node(data, 8, 16, 1)) as System.Windows.Controls.Image;
-		Emit(cell?.Source != null && ReferenceEquals(cell.Source, cached?.Source)
-			? "media cache audit: PASS, unchanged cells reuse approved frozen pixels"
-			: "media cache audit: FAIL, cached pixels were lost");
-		System.Windows.Controls.Image? invalid = Integrations.Plugins.PluginUiRenderer.BuildTree(Node("data:image/gif;base64,R0lGODlh")) as System.Windows.Controls.Image;
+		System.Windows.Controls.Image? cell =
+			Integrations.Plugins.PluginUiRenderer.BuildTree(Node(data, 8, 16, 1)) as System.Windows.Controls.Image;
+		Emit(
+			PumpUntil(() => cell?.Source is BitmapSource { PixelWidth: 8, PixelHeight: 16 }, 30000)
+				? "sprite sheet audit: PASS, a checked cell is cropped in source pixels"
+				: "sprite sheet audit: FAIL, sprite cell did not display"
+		);
+		System.Windows.Controls.Image? cached =
+			Integrations.Plugins.PluginUiRenderer.BuildTree(Node(data, 8, 16, 1)) as System.Windows.Controls.Image;
+		Emit(
+			cell?.Source != null && ReferenceEquals(cell.Source, cached?.Source)
+				? "media cache audit: PASS, unchanged cells reuse approved frozen pixels"
+				: "media cache audit: FAIL, cached pixels were lost"
+		);
+		System.Windows.Controls.Image? invalid =
+			Integrations.Plugins.PluginUiRenderer.BuildTree(Node("data:image/gif;base64,R0lGODlh")) as System.Windows.Controls.Image;
 		Pump(200);
-		Emit(invalid?.Source == null && Integrations.Plugins.PluginMedia.ResolveLocalPath(Paths.Plugins, "../outside.png") == null
-			? "media rejection audit: PASS, malformed data and paths outside the mod stay hidden"
-			: "media rejection audit: FAIL, invalid media was accepted");
-		System.Text.Json.Nodes.JsonObject listing = System.Text.Json.Nodes.JsonNode.Parse("""
-			{"name":"media-control","ownerId":1,"login":"owner","version":"1.0.0","id":"1/media-control","files":[]}
-			""")!.AsObject();
+		Emit(
+			invalid?.Source == null && Integrations.Plugins.PluginMedia.ResolveLocalPath(Paths.Plugins, "../outside.png") == null
+				? "media rejection audit: PASS, malformed data and paths outside the mod stay hidden"
+				: "media rejection audit: FAIL, invalid media was accepted"
+		);
+		System.Text.Json.Nodes.JsonObject listing = System
+			.Text.Json.Nodes.JsonNode.Parse(
+				"""
+				{"name":"media-control","ownerId":1,"login":"owner","version":"1.0.0","id":"1/media-control","files":[]}
+				"""
+			)!
+			.AsObject();
 		System.Text.Json.Nodes.JsonArray files = listing["files"]!.AsArray();
 		foreach (string path in new[] { ".voidstrap-mod/plugin.json", "hooks/hooks.json", "assets/control.gif" })
-			files.Add(new System.Text.Json.Nodes.JsonObject { ["path"] = path, ["size"] = path.EndsWith(".gif", StringComparison.Ordinal) ? 3L * 1024 * 1024 : 10L, ["sha256"] = new string('0', 64) });
+			files.Add(
+				new System.Text.Json.Nodes.JsonObject
+				{
+					["path"] = path,
+					["size"] = path.EndsWith(".gif", StringComparison.Ordinal) ? 3L * 1024 * 1024 : 10L,
+					["sha256"] = new string('0', 64),
+				}
+			);
 		MethodInfo parse = typeof(Integrations.Plugins.ModLibrary).GetMethod("ParseMod", BindingFlags.NonPublic | BindingFlags.Static)!;
 		parse.Invoke(null, [listing]);
 		files[2]!["path"] = "hooks/control.ts";
@@ -1483,9 +1686,11 @@ internal static class WindowAudit
 		{
 			textRejected = true;
 		}
-		Emit(textRejected
-			? "library media limits audit: PASS, larger media installs while text limits remain enforced"
-			: "library media limits audit: FAIL, oversized text was accepted");
+		Emit(
+			textRejected
+				? "library media limits audit: PASS, larger media installs while text limits remain enforced"
+				: "library media limits audit: FAIL, oversized text was accepted"
+		);
 	}
 
 	private static void AuditModReload()
@@ -1510,21 +1715,30 @@ internal static class WindowAudit
 			App.Settings.Prop.PluginConsent = new() { ["runtime-probe"] = true, ["steady-probe"] = true };
 			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(folder, ".voidstrap-mod"));
 			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(folder, "hooks"));
-			System.IO.File.WriteAllText(System.IO.Path.Combine(folder, ".voidstrap-mod", "plugin.json"), """{"name":"runtime-probe","version":"1.0.0","network":[]}""");
+			System.IO.File.WriteAllText(
+				System.IO.Path.Combine(folder, ".voidstrap-mod", "plugin.json"),
+				"""{"name":"runtime-probe","version":"1.0.0","network":[]}"""
+			);
 			string hooks = System.IO.Path.Combine(folder, "hooks", "hooks.json");
 			System.IO.File.WriteAllText(hooks, """{"modules":["./register.js"]}""");
-			System.IO.File.WriteAllText(module, """
+			System.IO.File.WriteAllText(
+				module,
+				"""
 				let renders = 0;
 				export const register = on => {
 				  on('session.start', ($, e, next) => { $.state.set('starts', ($.state.get('starts') || 0) + 1); return next(e); });
 				  on('ui.render', { component: 'Widget', requestId: 'probe' }, $ => h('Canvas', { hitTestVisible: false },
 				    h('Text', { text: String($.state.get('position') || 0), left: $.state.get('position') || 0, tooltip: String(++renders) })));
 				};
-				""");
+				"""
+			);
 			string steady = System.IO.Path.Combine(root, "steady-probe");
 			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(steady, ".voidstrap-mod"));
 			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(steady, "hooks"));
-			System.IO.File.WriteAllText(System.IO.Path.Combine(steady, ".voidstrap-mod", "plugin.json"), """{"name":"steady-probe","version":"1.0.0","network":[]}""");
+			System.IO.File.WriteAllText(
+				System.IO.Path.Combine(steady, ".voidstrap-mod", "plugin.json"),
+				"""{"name":"steady-probe","version":"1.0.0","network":[]}"""
+			);
 			System.IO.File.Copy(hooks, System.IO.Path.Combine(steady, "hooks", "hooks.json"));
 			System.IO.File.Copy(module, System.IO.Path.Combine(steady, "hooks", "register.js"));
 			Reload();
@@ -1532,38 +1746,67 @@ internal static class WindowAudit
 			string signature = Integrations.Plugins.PluginHost.GetReloadSignature(root);
 			System.IO.File.WriteAllText(System.IO.Path.Combine(folder, ".voidstrap-mod", "types", "generated.ts"), "export {};");
 			Reload();
-			bool unchanged = signature == Integrations.Plugins.PluginHost.GetReloadSignature(root)
+			bool unchanged =
+				signature == Integrations.Plugins.PluginHost.GetReloadSignature(root)
 				&& Integrations.Plugins.PluginHost.GetState("runtime-probe", "starts") == "1";
-			Emit(unchanged ? "mod reload audit: PASS, unchanged files and generated types do not restart mods" : "mod reload audit: FAIL, an unchanged mod restarted");
+			Emit(
+				unchanged
+					? "mod reload audit: PASS, unchanged files and generated types do not restart mods"
+					: "mod reload audit: FAIL, an unchanged mod restarted"
+			);
 			Type attached = typeof(Integrations.Plugins.PluginAnchors).GetNestedType("Attached", BindingFlags.NonPublic)!;
 			object widget = Activator.CreateInstance(attached, true)!;
 			System.Windows.Controls.ContentControl host = new();
 			attached.GetProperty("Plugin")!.SetValue(widget, "runtime-probe");
 			attached.GetProperty("Id")!.SetValue(widget, "probe");
 			attached.GetProperty("Host")!.SetValue(widget, host);
-			MethodInfo render = typeof(Integrations.Plugins.PluginAnchors).GetMethod("Render", BindingFlags.NonPublic | BindingFlags.Static)!;
-			Window surface = new() { Width = 300, Height = 200, Content = host, ShowInTaskbar = false, ShowActivated = false, Title = "Widget burst probe" };
+			MethodInfo render = typeof(Integrations.Plugins.PluginAnchors).GetMethod(
+				"Render",
+				BindingFlags.NonPublic | BindingFlags.Static
+			)!;
+			Window surface = new()
+			{
+				Width = 300,
+				Height = 200,
+				Content = host,
+				ShowInTaskbar = false,
+				ShowActivated = false,
+				Title = "Widget burst probe",
+			};
 			try
 			{
 				surface.Show();
 				for (int i = 0; i < 200; i++)
 				{
-					Integrations.Plugins.PluginHost.SetState("runtime-probe", "position", i.ToString(System.Globalization.CultureInfo.InvariantCulture));
+					Integrations.Plugins.PluginHost.SetState(
+						"runtime-probe",
+						"position",
+						i.ToString(System.Globalization.CultureInfo.InvariantCulture)
+					);
 					render.Invoke(null, [widget]);
 				}
 				System.Windows.Controls.TextBlock? label = null;
-				bool latest = PumpUntil(() =>
-				{
-					label = (host.Content as System.Windows.Controls.Canvas)?.Children.OfType<System.Windows.Controls.TextBlock>().FirstOrDefault();
-					return label?.Text == "199" && !(bool)attached.GetField("Rendering")!.GetValue(widget)!;
-				}, 3000);
-				Emit(latest && int.TryParse(label?.ToolTip?.ToString(), out int count) && count <= 2
-					? "widget burst audit: PASS, 200 updates produced at most two renders and the latest frame"
-					: "widget burst audit: FAIL, rendering queued obsolete frames or lost the final update");
+				bool latest = PumpUntil(
+					() =>
+					{
+						label = (host.Content as System.Windows.Controls.Canvas)
+							?.Children.OfType<System.Windows.Controls.TextBlock>()
+							.FirstOrDefault();
+						return label?.Text == "199" && !(bool)attached.GetField("Rendering")!.GetValue(widget)!;
+					},
+					3000
+				);
+				Emit(
+					latest && int.TryParse(label?.ToolTip?.ToString(), out int count) && count <= 2
+						? "widget burst audit: PASS, 200 updates produced at most two renders and the latest frame"
+						: "widget burst audit: FAIL, rendering queued obsolete frames or lost the final update"
+				);
 				System.Text.Json.Nodes.JsonNode? other = Integrations.Plugins.PluginHost.RenderWidget("steady-probe", "probe");
-				Emit(other?["children"]?[0]?["props"]?["text"]?.ToString() == "0"
-					? "widget ownership audit: PASS, identical widget ids remain isolated between mods"
-					: "widget ownership audit: FAIL, another mod rendered the widget");
+				Emit(
+					other?["children"]?[0]?["props"]?["text"]?.ToString() == "0"
+						? "widget ownership audit: PASS, identical widget ids remain isolated between mods"
+						: "widget ownership audit: FAIL, another mod rendered the widget"
+				);
 			}
 			finally
 			{
@@ -1571,26 +1814,44 @@ internal static class WindowAudit
 			}
 			System.IO.File.AppendAllText(module, "\n");
 			Reload();
-			Emit(Integrations.Plugins.PluginHost.GetState("runtime-probe", "starts") == "2" && Integrations.Plugins.PluginHost.GetState("steady-probe", "starts") == "1"
-				? "isolated mod reload audit: PASS, editing a mod does not restart another mod"
-				: "isolated mod reload audit: FAIL, an unrelated mod restarted");
+			Emit(
+				Integrations.Plugins.PluginHost.GetState("runtime-probe", "starts") == "2"
+				&& Integrations.Plugins.PluginHost.GetState("steady-probe", "starts") == "1"
+					? "isolated mod reload audit: PASS, editing a mod does not restart another mod"
+					: "isolated mod reload audit: FAIL, an unrelated mod restarted"
+			);
 			System.IO.File.WriteAllText(module, "export const register = (");
 			Reload();
-			bool kept = Integrations.Plugins.PluginHost.HasHook("session.start") && Integrations.Plugins.PluginHost.GetState("runtime-probe", "starts") == "2";
+			bool kept =
+				Integrations.Plugins.PluginHost.HasHook("session.start")
+				&& Integrations.Plugins.PluginHost.GetState("runtime-probe", "starts") == "2";
 			System.IO.File.WriteAllText(hooks, """{"modules":[]}""");
 			Reload();
 			kept &= Integrations.Plugins.PluginHost.ListMods().Any(mod => mod.Name == "runtime-probe" && mod.Loaded);
-			Emit(kept ? "invalid mod edit audit: PASS, the last working runtime survives invalid source and manifests" : "invalid mod edit audit: FAIL, an invalid edit removed the working runtime");
+			Emit(
+				kept
+					? "invalid mod edit audit: PASS, the last working runtime survives invalid source and manifests"
+					: "invalid mod edit audit: FAIL, an invalid edit removed the working runtime"
+			);
 			System.IO.File.AppendAllText(System.IO.Path.Combine(steady, "hooks", "register.js"), "\n");
 			Reload();
-			Emit(Integrations.Plugins.PluginHost.ListMods().Any(mod => mod.Name == "runtime-probe" && mod.Loaded) && Integrations.Plugins.PluginHost.GetState("steady-probe", "starts") == "2"
-				? "independent reload recovery audit: PASS, valid changes load while another mod keeps its last working runtime"
-				: "independent reload recovery audit: FAIL, an invalid mod blocked another update");
-			App.Settings.Prop.PluginConsent = new Dictionary<string, bool>(App.Settings.Prop.PluginConsent ?? [], StringComparer.Ordinal) { ["runtime-probe"] = false };
+			Emit(
+				Integrations.Plugins.PluginHost.ListMods().Any(mod => mod.Name == "runtime-probe" && mod.Loaded)
+				&& Integrations.Plugins.PluginHost.GetState("steady-probe", "starts") == "2"
+					? "independent reload recovery audit: PASS, valid changes load while another mod keeps its last working runtime"
+					: "independent reload recovery audit: FAIL, an invalid mod blocked another update"
+			);
+			App.Settings.Prop.PluginConsent = new Dictionary<string, bool>(App.Settings.Prop.PluginConsent ?? [], StringComparer.Ordinal)
+			{
+				["runtime-probe"] = false,
+			};
 			Reload();
-			Emit(Integrations.Plugins.PluginHost.ListMods().All(mod => mod.Name != "runtime-probe" || !mod.Loaded) && Integrations.Plugins.PluginHost.GetState("steady-probe", "starts") == "2"
-				? "mod consent audit: PASS, revocation stops a mod even when its files are invalid"
-				: "mod consent audit: FAIL, a revoked mod remained active");
+			Emit(
+				Integrations.Plugins.PluginHost.ListMods().All(mod => mod.Name != "runtime-probe" || !mod.Loaded)
+				&& Integrations.Plugins.PluginHost.GetState("steady-probe", "starts") == "2"
+					? "mod consent audit: PASS, revocation stops a mod even when its files are invalid"
+					: "mod consent audit: FAIL, a revoked mod remained active"
+			);
 		}
 		finally
 		{
@@ -1625,7 +1886,7 @@ internal static class WindowAudit
 				Height = 300,
 				WindowStartupLocation = WindowStartupLocation.CenterScreen,
 				ShowInTaskbar = false,
-				Title = "placement probe"
+				Title = "placement probe",
 			};
 			probe.Show();
 			Pump();
@@ -1674,7 +1935,9 @@ internal static class WindowAudit
 			{
 				if (System.Windows.Application.Current.Resources[key] is System.Windows.Media.FontFamily resolved)
 				{
-					Emit($"  FONT  resource '{key}' -> {resolved.Source} glyphs={(Voidstrap.Utility.IconFontLoader.HasGlyphs(resolved) ? "PRESENT" : "MISSING")}");
+					Emit(
+						$"  FONT  resource '{key}' -> {resolved.Source} glyphs={(Voidstrap.Utility.IconFontLoader.HasGlyphs(resolved) ? "PRESENT" : "MISSING")}"
+					);
 				}
 				else
 				{
@@ -1686,11 +1949,13 @@ internal static class WindowAudit
 				Emit($"  FONT FAIL resource {key}: {ex.Message.Split('\n')[0]}");
 			}
 		}
-		foreach (string spec in new[]
-		{
-			"pack://application:,,,/Wpf.Ui;component/Fonts/#FluentSystemIcons-Regular",
-			"pack://application:,,,/Wpf.Ui;component/Fonts/#FluentSystemIcons-Filled"
-		})
+		foreach (
+			string spec in new[]
+			{
+				"pack://application:,,,/Wpf.Ui;component/Fonts/#FluentSystemIcons-Regular",
+				"pack://application:,,,/Wpf.Ui;component/Fonts/#FluentSystemIcons-Filled",
+			}
+		)
 		{
 			try
 			{
@@ -1734,7 +1999,7 @@ internal static class WindowAudit
 			{
 				Width = 240,
 				Height = 120,
-				Background = System.Windows.Media.Brushes.Black
+				Background = System.Windows.Media.Brushes.Black,
 			};
 			probe = new Window
 			{
@@ -1742,7 +2007,7 @@ internal static class WindowAudit
 				Height = 160,
 				Content = target,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			probe.Show();
 			Pump(40);
@@ -1750,14 +2015,13 @@ internal static class WindowAudit
 			bool warm = false;
 			Wpf.Ui.Animations.RenderReady.Run(target, () => warm = true);
 			bool warmed = PumpUntil(() => warm, 4000);
-			Emit(warmed
-				? "  render loop warmed before the transition probe"
-				: "  render loop warm up timed out, the transition probe may be measured late");
+			Emit(
+				warmed
+					? "  render loop warmed before the transition probe"
+					: "  render loop warm up timed out, the transition probe may be measured late"
+			);
 
-			bool started = Wpf.Ui.Animations.Transitions.ApplyTransition(
-				target,
-				Wpf.Ui.Animations.TransitionType.FadeInWithSlideLeft,
-				400);
+			bool started = Wpf.Ui.Animations.Transitions.ApplyTransition(target, Wpf.Ui.Animations.TransitionType.FadeInWithSlideLeft, 400);
 			int frames = CountRenderFrames(100);
 			Emit($"  render frames during the transition sample: {frames}");
 			System.Windows.Media.TranslateTransform? transform = FindTranslateTransform(target.RenderTransform);
@@ -1771,20 +2035,24 @@ internal static class WindowAudit
 					i % 2 == 0
 						? Wpf.Ui.Animations.TransitionType.FadeInWithSlideRight
 						: Wpf.Ui.Animations.TransitionType.FadeInWithSlideLeft,
-					400);
+					400
+				);
 			}
 			Pump(500);
 
 			bool moved = Math.Abs(middleOffset) > 0.05 && Math.Abs(middleOffset) < 16;
 			bool faded = middleOpacity > 0.05 && middleOpacity < 0.99;
-			bool settled = Math.Abs(target.Opacity - 1) < 0.001
+			bool settled =
+				Math.Abs(target.Opacity - 1) < 0.001
 				&& transform != null
 				&& Math.Abs(transform.X) < 0.001
 				&& !target.HasAnimatedProperties
 				&& !transform.HasAnimatedProperties;
-			Emit(started && moved && faded && settled
-				? $"  transition PASS: opacity {middleOpacity:F2}, offset {middleOffset:F2}, rapid navigation settled"
-				: $"  transition FAIL: started {started}, opacity {middleOpacity:F2}, offset {middleOffset:F2}, settled {settled}");
+			Emit(
+				started && moved && faded && settled
+					? $"  transition PASS: opacity {middleOpacity:F2}, offset {middleOffset:F2}, rapid navigation settled"
+					: $"  transition FAIL: started {started}, opacity {middleOpacity:F2}, offset {middleOffset:F2}, settled {settled}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -1811,16 +2079,16 @@ internal static class WindowAudit
 				Header = "Activity",
 				Content = new System.Windows.Controls.ItemsControl
 				{
-					ItemsSource = Enumerable.Range(0, 40).Select(index => "Activity " + index)
-				}
+					ItemsSource = Enumerable.Range(0, 40).Select(index => "Activity " + index),
+				},
 			};
 			System.Windows.Controls.TabItem second = new()
 			{
 				Header = "Discord",
 				Content = new System.Windows.Controls.ItemsControl
 				{
-					ItemsSource = Enumerable.Range(0, 40).Select(index => "Discord " + index)
-				}
+					ItemsSource = Enumerable.Range(0, 40).Select(index => "Discord " + index),
+				},
 			};
 			System.Windows.Controls.TabItem disabled = new() { Header = "Disabled", IsEnabled = false };
 			System.Windows.Controls.TabControl tabs = new()
@@ -1828,7 +2096,7 @@ internal static class WindowAudit
 				Width = 420,
 				Height = 180,
 				Items = { first, second, disabled },
-				SelectedIndex = 0
+				SelectedIndex = 0,
 			};
 			probe = new Window
 			{
@@ -1836,7 +2104,7 @@ internal static class WindowAudit
 				Height = 240,
 				Content = tabs,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			probe.Show();
 			Pump(350);
@@ -1849,11 +2117,13 @@ internal static class WindowAudit
 			System.Windows.Controls.Border? firstBorder = FindNamedDescendant(first, "Border") as System.Windows.Controls.Border;
 			System.Windows.Controls.Border? secondBorder = FindNamedDescendant(second, "Border") as System.Windows.Controls.Border;
 			FrameworkElement? disabledRoot = FindNamedDescendant(disabled, "Root");
-			if (firstIndicator?.RenderTransform is not ScaleTransform
+			if (
+				firstIndicator?.RenderTransform is not ScaleTransform
 				|| secondIndicator?.RenderTransform is not ScaleTransform
 				|| firstBorder?.Background is not SolidColorBrush
 				|| secondBorder?.Background is not SolidColorBrush
-				|| FindNamedDescendant(first, "LinuxSelectionBackground") is not null)
+				|| FindNamedDescendant(first, "LinuxSelectionBackground") is not null
+			)
 			{
 				Emit("  tab pill: FAIL, the stock Wpf.Ui selection-pill template was not applied");
 				return;
@@ -1861,7 +2131,8 @@ internal static class WindowAudit
 
 			bool hostAvailable = System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(
 				probe,
-				out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host);
+				out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host
+			);
 			PumpPortableHost(host, 40);
 			long presentedBefore = host?.PresentedFrameCount ?? 0;
 			long skippedBefore = host?.SkippedFrameCount ?? 0;
@@ -1894,7 +2165,8 @@ internal static class WindowAudit
 				outgoingScale.Add((int)Math.Round(currentOutgoingScale * 1000d));
 				incomingOpacity.Add((int)Math.Round(currentIncomingOpacity * 1000d));
 				outgoingOpacity.Add((int)Math.Round(currentOutgoingOpacity * 1000d));
-				monotonic &= currentIncomingScale + 0.002d >= lastIncomingScale
+				monotonic &=
+					currentIncomingScale + 0.002d >= lastIncomingScale
 					&& currentOutgoingScale <= lastOutgoingScale + 0.002d
 					&& currentIncomingOpacity + 0.002d >= lastIncomingOpacity
 					&& currentOutgoingOpacity <= lastOutgoingOpacity + 0.002d;
@@ -1909,7 +2181,8 @@ internal static class WindowAudit
 			ScaleTransform? firstScale = firstIndicator.RenderTransform as ScaleTransform;
 			ScaleTransform? secondScale = secondIndicator.RenderTransform as ScaleTransform;
 
-			bool settled = Math.Abs(firstIndicator.Opacity) < 0.001d
+			bool settled =
+				Math.Abs(firstIndicator.Opacity) < 0.001d
 				&& firstScale is not null
 				&& Math.Abs(firstScale.ScaleX - 0.25d) < 0.001d
 				&& Math.Abs(firstBorder.Background.Opacity) < 0.001d
@@ -1928,14 +2201,16 @@ internal static class WindowAudit
 			double beforeFirstScale = (firstIndicator.RenderTransform as ScaleTransform)?.ScaleX ?? 0d;
 			double beforeSecondScale = (secondIndicator.RenderTransform as ScaleTransform)?.ScaleX ?? 0d;
 			tabs.SelectedIndex = 1;
-			bool reversalContinuous = Math.Abs(firstIndicator.Opacity - beforeFirstOpacity) < 0.01d
+			bool reversalContinuous =
+				Math.Abs(firstIndicator.Opacity - beforeFirstOpacity) < 0.01d
 				&& Math.Abs(secondIndicator.Opacity - beforeSecondOpacity) < 0.01d
 				&& Math.Abs(((firstIndicator.RenderTransform as ScaleTransform)?.ScaleX ?? 0d) - beforeFirstScale) < 0.01d
 				&& Math.Abs(((secondIndicator.RenderTransform as ScaleTransform)?.ScaleX ?? 0d) - beforeSecondScale) < 0.01d;
 			PumpPortableHost(host, 350);
 			ScaleTransform? returnedFirstScale = firstIndicator.RenderTransform as ScaleTransform;
 			ScaleTransform? returnedSecondScale = secondIndicator.RenderTransform as ScaleTransform;
-			bool reversalSettled = returnedFirstScale is not null
+			bool reversalSettled =
+				returnedFirstScale is not null
 				&& returnedSecondScale is not null
 				&& Math.Abs(firstIndicator.Opacity) < 0.001d
 				&& Math.Abs(returnedFirstScale.ScaleX - 0.25d) < 0.001d
@@ -1948,7 +2223,8 @@ internal static class WindowAudit
 			Pump(300);
 			ScaleTransform? hiddenFirstScale = firstIndicator.RenderTransform as ScaleTransform;
 			ScaleTransform? hiddenSecondScale = secondIndicator.RenderTransform as ScaleTransform;
-			bool hiddenSettled = hiddenFirstScale is not null
+			bool hiddenSettled =
+				hiddenFirstScale is not null
 				&& hiddenSecondScale is not null
 				&& Math.Abs(firstIndicator.Opacity - 1d) < 0.001d
 				&& Math.Abs(hiddenFirstScale.ScaleX - 1d) < 0.001d
@@ -1964,7 +2240,8 @@ internal static class WindowAudit
 			PumpPortableHost(host, 400);
 			FrameworkElement? dynamicIndicator = FindNamedDescendant(dynamicTab, "SelectionIndicator");
 			ScaleTransform? dynamicScale = dynamicIndicator?.RenderTransform as ScaleTransform;
-			bool dynamicSettled = dynamicIndicator is not null
+			bool dynamicSettled =
+				dynamicIndicator is not null
 				&& dynamicScale is not null
 				&& Math.Abs(dynamicIndicator.Opacity - 1d) < 0.001d
 				&& Math.Abs(dynamicScale.ScaleX - 1d) < 0.001d
@@ -1976,11 +2253,13 @@ internal static class WindowAudit
 			long minimizedFrameBaseline = host?.PresentedFrameCount ?? 0;
 			tabs.SelectedIndex = 1;
 			Pump(300);
-			bool minimizedSettled = Math.Abs(secondIndicator.Opacity - 1d) < 0.001d
+			bool minimizedSettled =
+				Math.Abs(secondIndicator.Opacity - 1d) < 0.001d
 				&& Math.Abs(((ScaleTransform)secondIndicator.RenderTransform).ScaleX - 1d) < 0.001d
 				&& (host?.PresentedFrameCount ?? minimizedFrameBaseline) - minimizedFrameBaseline <= 1;
 
-			bool passed = nativeClocks
+			bool passed =
+				nativeClocks
 				&& visibleFrames
 				&& monotonic
 				&& incomingScale.Count >= 5
@@ -1993,9 +2272,11 @@ internal static class WindowAudit
 				&& hiddenSettled
 				&& dynamicSettled
 				&& minimizedSettled;
-			Emit(passed
-				? $"  tab pill: PASS, stock Windows Storyboards produced {incomingScale.Count}/{outgoingScale.Count} scale values, {incomingOpacity.Count}/{outgoingOpacity.Count} opacity values, and {presentedFrames} visible frames"
-				: $"  tab pill: FAIL, host {hostAvailable}/{host?.HasPresentedFrame}, presented {presentedBefore}+{presentedFrames}, skipped {skippedBefore}+{skippedFrames}, clocks {nativeClocks}, monotonic {monotonic}, scale {incomingScale.Count}/{outgoingScale.Count} at {secondScale?.ScaleX:F3}/{firstScale?.ScaleX:F3}, opacity {incomingOpacity.Count}/{outgoingOpacity.Count} at {secondIndicator.Opacity:F3}/{firstIndicator.Opacity:F3}, background {secondBorder?.Background?.Opacity:F3}/{firstBorder?.Background?.Opacity:F3}, settled {settled}, reversal {reversalContinuous}/{reversalSettled}, hidden {hiddenSettled}, dynamic {dynamicSettled}, minimized {minimizedSettled}");
+			Emit(
+				passed
+					? $"  tab pill: PASS, stock Windows Storyboards produced {incomingScale.Count}/{outgoingScale.Count} scale values, {incomingOpacity.Count}/{outgoingOpacity.Count} opacity values, and {presentedFrames} visible frames"
+					: $"  tab pill: FAIL, host {hostAvailable}/{host?.HasPresentedFrame}, presented {presentedBefore}+{presentedFrames}, skipped {skippedBefore}+{skippedFrames}, clocks {nativeClocks}, monotonic {monotonic}, scale {incomingScale.Count}/{outgoingScale.Count} at {secondScale?.ScaleX:F3}/{firstScale?.ScaleX:F3}, opacity {incomingOpacity.Count}/{outgoingOpacity.Count} at {secondIndicator.Opacity:F3}/{firstIndicator.Opacity:F3}, background {secondBorder?.Background?.Opacity:F3}/{firstBorder?.Background?.Opacity:F3}, settled {settled}, reversal {reversalContinuous}/{reversalSettled}, hidden {hiddenSettled}, dynamic {dynamicSettled}, minimized {minimizedSettled}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -2013,31 +2294,37 @@ internal static class WindowAudit
 		if (!Voidstrap.Utility.Platform.IsLinux)
 			return;
 
-		MeasureReveal("CardExpander", () =>
-		{
-			System.Windows.Controls.StackPanel body = new();
-			for (int i = 0; i < 10; i++)
-				body.Children.Add(new System.Windows.Controls.TextBlock { Text = "row " + i, Height = 26 });
-			return new Wpf.Ui.Controls.CardExpander
+		MeasureReveal(
+			"CardExpander",
+			() =>
 			{
-				Header = "Session and activity",
-				Content = body,
-				VerticalAlignment = VerticalAlignment.Top
-			};
-		});
+				System.Windows.Controls.StackPanel body = new();
+				for (int i = 0; i < 10; i++)
+					body.Children.Add(new System.Windows.Controls.TextBlock { Text = "row " + i, Height = 26 });
+				return new Wpf.Ui.Controls.CardExpander
+				{
+					Header = "Session and activity",
+					Content = body,
+					VerticalAlignment = VerticalAlignment.Top,
+				};
+			}
+		);
 
-		MeasureReveal("Expander", () =>
-		{
-			System.Windows.Controls.StackPanel body = new();
-			for (int i = 0; i < 10; i++)
-				body.Children.Add(new System.Windows.Controls.TextBlock { Text = "row " + i, Height = 26 });
-			return new System.Windows.Controls.Expander
+		MeasureReveal(
+			"Expander",
+			() =>
 			{
-				Header = "Coders",
-				Content = body,
-				VerticalAlignment = VerticalAlignment.Top
-			};
-		});
+				System.Windows.Controls.StackPanel body = new();
+				for (int i = 0; i < 10; i++)
+					body.Children.Add(new System.Windows.Controls.TextBlock { Text = "row " + i, Height = 26 });
+				return new System.Windows.Controls.Expander
+				{
+					Header = "Coders",
+					Content = body,
+					VerticalAlignment = VerticalAlignment.Top,
+				};
+			}
+		);
 	}
 
 	private static void MeasureReveal(string label, Func<System.Windows.Controls.Expander> factory)
@@ -2054,7 +2341,7 @@ internal static class WindowAudit
 				Height = 460,
 				Content = content,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			probe.Show();
 			Pump(250);
@@ -2069,13 +2356,19 @@ internal static class WindowAudit
 
 			bool hostAvailable = System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(
 				probe,
-				out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host);
+				out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host
+			);
 			System.Diagnostics.Stopwatch warmup = System.Diagnostics.Stopwatch.StartNew();
-			while (warmup.ElapsedMilliseconds < 2500 && (host?.HasPresentedFrame != true || !body.IsLoaded || !body.IsVisible || UI.LinuxWindowReveal.IsPending(probe)))
+			while (
+				warmup.ElapsedMilliseconds < 2500
+				&& (host?.HasPresentedFrame != true || !body.IsLoaded || !body.IsVisible || UI.LinuxWindowReveal.IsPending(probe))
+			)
 				PumpPortableHost(host, 16);
 			if (host?.HasPresentedFrame != true || !body.IsLoaded || !body.IsVisible || UI.LinuxWindowReveal.IsPending(probe))
 			{
-				Emit($"  reveal {label}: FAIL, the collapsed control was not ready for input, loaded {body.IsLoaded}, visible {body.IsVisible}, presented {host?.HasPresentedFrame}");
+				Emit(
+					$"  reveal {label}: FAIL, the collapsed control was not ready for input, loaded {body.IsLoaded}, visible {body.IsVisible}, presented {host?.HasPresentedFrame}"
+				);
 				return;
 			}
 			PumpPortableHost(host, 40);
@@ -2141,7 +2434,8 @@ internal static class WindowAudit
 			double reversalOpacity = body.Opacity;
 			double reversalAngle = (chevron.RenderTransform as RotateTransform)?.Angle ?? 0d;
 			expander.IsExpanded = false;
-			bool reversalContinuous = Math.Abs(body.ActualHeight - reversalHeight) < 1d
+			bool reversalContinuous =
+				Math.Abs(body.ActualHeight - reversalHeight) < 1d
 				&& Math.Abs(body.Opacity - reversalOpacity) < 0.02d
 				&& Math.Abs(((chevron.RenderTransform as RotateTransform)?.Angle ?? 0d) - reversalAngle) < 2d;
 			PumpPortableHost(host, 70);
@@ -2149,7 +2443,8 @@ internal static class WindowAudit
 			reversalOpacity = body.Opacity;
 			reversalAngle = (chevron.RenderTransform as RotateTransform)?.Angle ?? 0d;
 			expander.IsExpanded = true;
-			reversalContinuous &= Math.Abs(body.ActualHeight - reversalHeight) < 1d
+			reversalContinuous &=
+				Math.Abs(body.ActualHeight - reversalHeight) < 1d
 				&& Math.Abs(body.Opacity - reversalOpacity) < 0.02d
 				&& Math.Abs(((chevron.RenderTransform as RotateTransform)?.Angle ?? 0d) - reversalAngle) < 2d;
 			PumpPortableHost(host, 400);
@@ -2172,11 +2467,9 @@ internal static class WindowAudit
 				expander.IsExpanded = index % 2 == 0;
 			expander.IsExpanded = false;
 			PumpPortableHost(host, 700);
-			bool cycleSettled = body.ActualHeight < 0.5d
-				&& body.Opacity < 0.001d
-				&& !body.HasAnimatedProperties
-				&& !body.IsHitTestVisible;
-			bool passed = openingHeights.Count >= 4
+			bool cycleSettled = body.ActualHeight < 0.5d && body.Opacity < 0.001d && !body.HasAnimatedProperties && !body.IsHitTestVisible;
+			bool passed =
+				openingHeights.Count >= 4
 				&& closingHeights.Count >= 4
 				&& openingAngles.Count >= 4
 				&& closingAngles.Count >= 4
@@ -2194,9 +2487,11 @@ internal static class WindowAudit
 				&& reversalContinuous
 				&& dynamicMeasured
 				&& cycleSettled;
-			Emit(passed
-				? $"  reveal {label}: PASS, Windows template produced {openingPresented}/{closingPresented} presented frames, {openingHeights.Count}/{closingHeights.Count} heights, and {openingAngles.Count}/{closingAngles.Count} chevron angles"
-				: $"  reveal {label}: FAIL, host {hostAvailable}, presented {openingPresented}/{closingPresented}, body {openingHeights.Count}/{closingHeights.Count}, opacity {openingOpacity.Count}/{closingOpacity.Count}, chevron {openingAngles.Count}/{closingAngles.Count}, clocks {openingClock}/{closingClock}, monotonic {openingMonotonic}/{closingMonotonic}, opened {opened:F1}, closed {closed:F1}, reversal {reversalContinuous}, dynamic {dynamicMeasured}, idle {idlePresented}, cycles {cycleSettled}");
+			Emit(
+				passed
+					? $"  reveal {label}: PASS, Windows template produced {openingPresented}/{closingPresented} presented frames, {openingHeights.Count}/{closingHeights.Count} heights, and {openingAngles.Count}/{closingAngles.Count} chevron angles"
+					: $"  reveal {label}: FAIL, host {hostAvailable}, presented {openingPresented}/{closingPresented}, body {openingHeights.Count}/{closingHeights.Count}, opacity {openingOpacity.Count}/{closingOpacity.Count}, chevron {openingAngles.Count}/{closingAngles.Count}, clocks {openingClock}/{closingClock}, monotonic {openingMonotonic}/{closingMonotonic}, opened {opened:F1}, closed {closed:F1}, reversal {reversalContinuous}, dynamic {dynamicMeasured}, idle {idlePresented}, cycles {cycleSettled}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -2226,18 +2521,20 @@ internal static class WindowAudit
 			editor = new Voidstrap.UI.Elements.Editor.BootstrapperEditorWindow(theme);
 			System.Diagnostics.Stopwatch modal = System.Diagnostics.Stopwatch.StartNew();
 			Window modalEditor = editor;
-			editor.Dispatcher.BeginInvoke(new Action(() =>
-			{
-				try
+			editor.Dispatcher.BeginInvoke(
+				new Action(() =>
 				{
-					modalEditor.ShowOwnedDialog();
-					Emit($"theme editor audit: ShowDialog returned after {modal.ElapsedMilliseconds}ms");
-				}
-				catch (Exception showEx)
-				{
-					Emit($"theme editor audit: ShowDialog threw {showEx.GetType().Name}");
-				}
-			}));
+					try
+					{
+						modalEditor.ShowOwnedDialog();
+						Emit($"theme editor audit: ShowDialog returned after {modal.ElapsedMilliseconds}ms");
+					}
+					catch (Exception showEx)
+					{
+						Emit($"theme editor audit: ShowDialog threw {showEx.GetType().Name}");
+					}
+				})
+			);
 			Pump(1200);
 
 			Pump(1500);
@@ -2276,7 +2573,12 @@ internal static class WindowAudit
 		}
 		finally
 		{
-			try { editor?.Close(); Pump(120); } catch (Exception) { }
+			try
+			{
+				editor?.Close();
+				Pump(120);
+			}
+			catch (Exception) { }
 		}
 	}
 
@@ -2302,7 +2604,8 @@ internal static class WindowAudit
 			byte[] cursor = Voidstrap.UI.ViewModels.Settings.ModsViewModel.EncodeCrosshairCursor(source, 32, 32);
 			byte[] pngSignature = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
 			bool pngValid = png.Length > 32 && png.AsSpan(0, 8).SequenceEqual(pngSignature);
-			bool cursorValid = cursor.Length > 54
+			bool cursorValid =
+				cursor.Length > 54
 				&& System.Buffers.Binary.BinaryPrimitives.ReadUInt16LittleEndian(cursor.AsSpan(0, 2)) == 0
 				&& System.Buffers.Binary.BinaryPrimitives.ReadUInt16LittleEndian(cursor.AsSpan(2, 2)) == 2
 				&& System.Buffers.Binary.BinaryPrimitives.ReadUInt16LittleEndian(cursor.AsSpan(4, 2)) == 1
@@ -2314,13 +2617,16 @@ internal static class WindowAudit
 				&& cursor.AsSpan(22, 8).SequenceEqual(pngSignature);
 			BitmapSource? decodedPng = SafeImaging.FromBytes(png);
 			BitmapSource? decodedCursor = SafeImaging.FromBytes(cursor);
-			bool decoded = decodedPng?.PixelWidth == dimension
+			bool decoded =
+				decodedPng?.PixelWidth == dimension
 				&& decodedPng.PixelHeight == dimension
 				&& decodedCursor?.PixelWidth == dimension
 				&& decodedCursor.PixelHeight == dimension;
-			Emit(pngValid && cursorValid && decoded
-				? $"crosshair export audit: PASS, PNG {png.Length} bytes and CUR {cursor.Length} bytes decoded at 64x64 with hotspot 32,32"
-				: $"crosshair export audit: FAIL, png {pngValid}, cursor {cursorValid}, decoded {decoded}");
+			Emit(
+				pngValid && cursorValid && decoded
+					? $"crosshair export audit: PASS, PNG {png.Length} bytes and CUR {cursor.Length} bytes decoded at 64x64 with hotspot 32,32"
+					: $"crosshair export audit: FAIL, png {pngValid}, cursor {cursorValid}, decoded {decoded}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -2344,7 +2650,7 @@ internal static class WindowAudit
 			{
 				Width = 160,
 				Height = 90,
-				Stretch = System.Windows.Media.Stretch.Fill
+				Stretch = System.Windows.Media.Stretch.Fill,
 			};
 
 			System.Windows.Controls.Grid content = new();
@@ -2355,7 +2661,7 @@ internal static class WindowAudit
 				Height = 200,
 				Content = content,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			probe.Show();
 			Pump(300);
@@ -2372,9 +2678,11 @@ internal static class WindowAudit
 				Pump(220);
 			}
 
-			Emit(seen.Count >= 2
-				? $"animated gif audit: PASS, {seen.Count} distinct frames were shown"
-				: $"animated gif audit: FAIL, only {seen.Count} frame(s) ever appeared, source {(image.Source == null ? "null" : "set")}");
+			Emit(
+				seen.Count >= 2
+					? $"animated gif audit: PASS, {seen.Count} distinct frames were shown"
+					: $"animated gif audit: FAIL, only {seen.Count} frame(s) ever appeared, source {(image.Source == null ? "null" : "set")}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -2382,7 +2690,12 @@ internal static class WindowAudit
 		}
 		finally
 		{
-			try { probe?.Close(); Pump(60); } catch (Exception) { }
+			try
+			{
+				probe?.Close();
+				Pump(60);
+			}
+			catch (Exception) { }
 		}
 	}
 
@@ -2415,16 +2728,18 @@ internal static class WindowAudit
 				distinct.Add(DescribeIcon(source));
 			}
 
-			Emit(failures.Count == 0 && distinct.Count >= 6
-				? $"bootstrapper icon audit: PASS, {decoded} icons decoded into {distinct.Count} distinct images"
-				: $"bootstrapper icon audit: FAIL, {failures.Count} icon(s) did not decode ({string.Join(", ", failures)}), {distinct.Count} distinct of {decoded}");
+			Emit(
+				failures.Count == 0 && distinct.Count >= 6
+					? $"bootstrapper icon audit: PASS, {decoded} icons decoded into {distinct.Count} distinct images"
+					: $"bootstrapper icon audit: FAIL, {failures.Count} icon(s) did not decode ({string.Join(", ", failures)}), {distinct.Count} distinct of {decoded}"
+			);
 
 			probe = new Window
 			{
 				Width = 240,
 				Height = 160,
 				Title = "Voidstrap icon identity probe",
-				ShowInTaskbar = true
+				ShowInTaskbar = true,
 			};
 			probe.Show();
 			Pump(400);
@@ -2433,24 +2748,33 @@ internal static class WindowAudit
 			Voidstrap.UI.LinuxApplicationIdentity.Refresh();
 			Pump(400);
 
-			string expected = IconEx.GetIconSource(Voidstrap.Enums.BootstrapperIcon.Icon2011) is System.Windows.Media.Imaging.BitmapSource wanted
+			string expected = IconEx.GetIconSource(Voidstrap.Enums.BootstrapperIcon.Icon2011)
+				is System.Windows.Media.Imaging.BitmapSource wanted
 				? DescribeIcon(wanted)
 				: "none";
 			string actual = probe.Icon is System.Windows.Media.Imaging.BitmapSource shown ? DescribeIcon(shown) : "none";
 
-			Emit(expected != "none" && expected == actual
-				? "taskbar icon audit: PASS, the window icon follows the selected bootstrapper icon"
-				: $"taskbar icon audit: FAIL, expected {expected} but the window carries {actual}");
+			Emit(
+				expected != "none" && expected == actual
+					? "taskbar icon audit: PASS, the window icon follows the selected bootstrapper icon"
+					: $"taskbar icon audit: FAIL, expected {expected} but the window carries {actual}"
+			);
 
 			Pump(2500);
 			string iconFile = Voidstrap.Utility.LinuxDesktopEntry.IconFilePath;
 			string onDisk = "missing";
-			if (System.IO.File.Exists(iconFile) && Voidstrap.Utility.SafeImaging.FromBytes(System.IO.File.ReadAllBytes(iconFile)) is System.Windows.Media.Imaging.BitmapSource written)
+			if (
+				System.IO.File.Exists(iconFile)
+				&& Voidstrap.Utility.SafeImaging.FromBytes(System.IO.File.ReadAllBytes(iconFile))
+					is System.Windows.Media.Imaging.BitmapSource written
+			)
 				onDisk = DescribeIcon(written);
 
-			Emit(expected != "none" && expected == onDisk
-				? "desktop icon audit: PASS, the shell icon file matches the selected bootstrapper icon"
-				: $"desktop icon audit: FAIL, expected {expected} but {iconFile} holds {onDisk}");
+			Emit(
+				expected != "none" && expected == onDisk
+					? "desktop icon audit: PASS, the shell icon file matches the selected bootstrapper icon"
+					: $"desktop icon audit: FAIL, expected {expected} but {iconFile} holds {onDisk}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -2459,8 +2783,17 @@ internal static class WindowAudit
 		finally
 		{
 			App.Settings.Prop.BootstrapperIcon = original;
-			try { Voidstrap.UI.LinuxApplicationIdentity.Refresh(); } catch (Exception) { }
-			try { probe?.Close(); Pump(60); } catch (Exception) { }
+			try
+			{
+				Voidstrap.UI.LinuxApplicationIdentity.Refresh();
+			}
+			catch (Exception) { }
+			try
+			{
+				probe?.Close();
+				Pump(60);
+			}
+			catch (Exception) { }
 		}
 	}
 
@@ -2525,23 +2858,28 @@ internal static class WindowAudit
 				gifTag = "<img src=\"anim.gif\" width=\"160\" style=\"display:block;margin-top:8px\">";
 			}
 
-			System.IO.File.WriteAllText(System.IO.Path.Combine(folder, "panel.html"),
+			System.IO.File.WriteAllText(
+				System.IO.Path.Combine(folder, "panel.html"),
 				"<html><body style=\"margin:0;background:#1b2a4a;color:#fff;font:16px sans-serif\">"
-				+ "<div style=\"padding:18px\"><b>HTML panel is live</b><div id=\"s\">waiting</div>"
-				+ "<div id=\"tick\" style=\"margin-top:8px\">tick 0</div>"
-				+ "<div id=\"box\" style=\"width:60px;height:24px;background:#e33;margin-top:8px\"></div>"
-				+ gifTag + "</div>"
-				+ "<script>window.voidstrap.onUpdate(function(v){document.getElementById('s').textContent='status: '+v.status+' pct: '+Math.round(v.percent);});"
-				+ "var n=0;setInterval(function(){n++;document.getElementById('tick').textContent='tick '+n;"
-				+ "document.getElementById('box').style.background=(n%2)?'#3e3':'#e33';"
-				+ "},400);</script>"
-				+ "</body></html>");
+					+ "<div style=\"padding:18px\"><b>HTML panel is live</b><div id=\"s\">waiting</div>"
+					+ "<div id=\"tick\" style=\"margin-top:8px\">tick 0</div>"
+					+ "<div id=\"box\" style=\"width:60px;height:24px;background:#e33;margin-top:8px\"></div>"
+					+ gifTag
+					+ "</div>"
+					+ "<script>window.voidstrap.onUpdate(function(v){document.getElementById('s').textContent='status: '+v.status+' pct: '+Math.round(v.percent);});"
+					+ "var n=0;setInterval(function(){n++;document.getElementById('tick').textContent='tick '+n;"
+					+ "document.getElementById('box').style.background=(n%2)?'#3e3':'#e33';"
+					+ "},400);</script>"
+					+ "</body></html>"
+			);
 
-			System.IO.File.WriteAllText(System.IO.Path.Combine(folder, "Theme.xml"),
+			System.IO.File.WriteAllText(
+				System.IO.Path.Combine(folder, "Theme.xml"),
 				"<BloxstrapCustomBootstrapper Version=\"1\" Height=\"320\" Width=\"520\">"
-				+ "<WebPanel Source=\"theme://panel.html\" Height=\"240\" Width=\"480\" "
-				+ "HorizontalAlignment=\"Center\" VerticalAlignment=\"Center\" />"
-				+ "</BloxstrapCustomBootstrapper>");
+					+ "<WebPanel Source=\"theme://panel.html\" Height=\"240\" Width=\"480\" "
+					+ "HorizontalAlignment=\"Center\" VerticalAlignment=\"Center\" />"
+					+ "</BloxstrapCustomBootstrapper>"
+			);
 
 			Voidstrap.UI.Elements.Bootstrapper.CustomDialog dialog = new(true);
 			dialog.ApplyCustomTheme(name);
@@ -2553,9 +2891,16 @@ internal static class WindowAudit
 			Pump(4000);
 
 			bool supported = Voidstrap.UI.LinuxWebPanel.IsSupported;
-			Emit($"html panel audit: engine {supported}, dialog shown at {dialog.ActualWidth:F0}x{dialog.ActualHeight:F0}, holding for capture");
+			Emit(
+				$"html panel audit: engine {supported}, dialog shown at {dialog.ActualWidth:F0}x{dialog.ActualHeight:F0}, holding for capture"
+			);
 			Pump(14000);
-			try { dialog.Close(); Pump(200); } catch (Exception) { }
+			try
+			{
+				dialog.Close();
+				Pump(200);
+			}
+			catch (Exception) { }
 		}
 		catch (Exception ex)
 		{
@@ -2563,7 +2908,11 @@ internal static class WindowAudit
 		}
 		finally
 		{
-			try { System.IO.Directory.Delete(folder, true); } catch (Exception) { }
+			try
+			{
+				System.IO.Directory.Delete(folder, true);
+			}
+			catch (Exception) { }
 		}
 	}
 
@@ -2582,7 +2931,8 @@ internal static class WindowAudit
 			System.IO.Directory.CreateDirectory(folder);
 			System.IO.File.WriteAllText(
 				System.IO.Path.Combine(folder, "Theme.xml"),
-				"<BloxstrapCustomBootstrapper Version=\"1\" Height=\"200\" Width=\"300\" />");
+				"<BloxstrapCustomBootstrapper Version=\"1\" Height=\"200\" Width=\"300\" />"
+			);
 
 			Voidstrap.UI.Elements.Settings.Pages.AppearancePage page = new();
 			Window host = new()
@@ -2591,7 +2941,7 @@ internal static class WindowAudit
 				Height = 700,
 				Content = page,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			host.Show();
 			Pump(1500);
@@ -2620,15 +2970,25 @@ internal static class WindowAudit
 			}
 			if (list == null)
 			{
-				Emit($"theme delete audit: FAIL, the theme list was not found, style {App.Settings.Prop.BootstrapperStyle}, tabs {tabs.Count}");
-				try { host.Close(); } catch (Exception) { }
+				Emit(
+					$"theme delete audit: FAIL, the theme list was not found, style {App.Settings.Prop.BootstrapperStyle}, tabs {tabs.Count}"
+				);
+				try
+				{
+					host.Close();
+				}
+				catch (Exception) { }
 				return;
 			}
 
 			if (!list.Items.Contains(name))
 			{
 				Emit($"theme delete audit: FAIL, the probe theme never appeared in the list of {list.Items.Count}");
-				try { host.Close(); } catch (Exception) { }
+				try
+				{
+					host.Close();
+				}
+				catch (Exception) { }
 				return;
 			}
 
@@ -2642,8 +3002,10 @@ internal static class WindowAudit
 			if (deleteButton != null)
 			{
 				System.Windows.Automation.Peers.ButtonAutomationPeer peer = new(deleteButton);
-				if (peer.GetPattern(System.Windows.Automation.Peers.PatternInterface.Invoke)
-					is System.Windows.Automation.Provider.IInvokeProvider invoke)
+				if (
+					peer.GetPattern(System.Windows.Automation.Peers.PatternInterface.Invoke)
+					is System.Windows.Automation.Provider.IInvokeProvider invoke
+				)
 				{
 					invoke.Invoke();
 				}
@@ -2658,10 +3020,17 @@ internal static class WindowAudit
 
 			bool gone = !System.IO.Directory.Exists(folder);
 			bool listRemoved = !list.Items.Contains(name);
-			try { host.Close(); Pump(80); } catch (Exception) { }
-			Emit(gone && enabled && canExecute
-				? $"theme delete audit: PASS, removed from disk in {waited}ms and dropped from the list {listRemoved}"
-				: $"theme delete audit: FAIL, enabled {enabled}, canExecute {canExecute}, gone {gone} after {waited}ms, listRemoved {listRemoved}");
+			try
+			{
+				host.Close();
+				Pump(80);
+			}
+			catch (Exception) { }
+			Emit(
+				gone && enabled && canExecute
+					? $"theme delete audit: PASS, removed from disk in {waited}ms and dropped from the list {listRemoved}"
+					: $"theme delete audit: FAIL, enabled {enabled}, canExecute {canExecute}, gone {gone} after {waited}ms, listRemoved {listRemoved}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -2669,13 +3038,27 @@ internal static class WindowAudit
 		}
 		finally
 		{
-			try { if (System.IO.Directory.Exists(folder)) System.IO.Directory.Delete(folder, true); } catch (Exception) { }
-			try { App.Settings.Prop.SelectedCustomTheme = original; } catch (Exception) { }
-			try { App.Settings.Prop.BootstrapperStyle = originalStyle; } catch (Exception) { }
+			try
+			{
+				if (System.IO.Directory.Exists(folder))
+					System.IO.Directory.Delete(folder, true);
+			}
+			catch (Exception) { }
+			try
+			{
+				App.Settings.Prop.SelectedCustomTheme = original;
+			}
+			catch (Exception) { }
+			try
+			{
+				App.Settings.Prop.BootstrapperStyle = originalStyle;
+			}
+			catch (Exception) { }
 		}
 	}
 
-	private static List<T> FindDescendants<T>(DependencyObject root, int depth = 0) where T : DependencyObject
+	private static List<T> FindDescendants<T>(DependencyObject root, int depth = 0)
+		where T : DependencyObject
 	{
 		List<T> found = new();
 		if (depth > 40)
@@ -2700,9 +3083,11 @@ internal static class WindowAudit
 		for (int i = 0; i < count; i++)
 		{
 			DependencyObject child = System.Windows.Media.VisualTreeHelper.GetChild(root, i);
-			if (child is System.Windows.Controls.Button button
+			if (
+				child is System.Windows.Controls.Button button
 				&& button.Content is string text
-				&& string.Equals(text, content, StringComparison.OrdinalIgnoreCase))
+				&& string.Equals(text, content, StringComparison.OrdinalIgnoreCase)
+			)
 			{
 				return button;
 			}
@@ -2728,16 +3113,79 @@ internal static class WindowAudit
 			System.IO.File.WriteAllText(
 				System.IO.Path.Combine(folder, "theme.xml"),
 				"<BloxstrapCustomBootstrapper Version=\"1\" Height=\"200\" Width=\"300\">"
-				+ "<Image Source=\"theme://Logo.png\" Height=\"40\" Width=\"40\" />"
-				+ "</BloxstrapCustomBootstrapper>");
+					+ "<Image Source=\"theme://Logo.png\" Height=\"40\" Width=\"40\" />"
+					+ "</BloxstrapCustomBootstrapper>"
+			);
 
 			byte[] pixel =
 			{
-				0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52,
-				0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x08, 0x06, 0x00, 0x00, 0x00, 0x1F, 0x15, 0xC4,
-				0x89, 0x00, 0x00, 0x00, 0x0A, 0x49, 0x44, 0x41, 0x54, 0x78, 0x9C, 0x63, 0x00, 0x01, 0x00, 0x00,
-				0x05, 0x00, 0x01, 0x0D, 0x0A, 0x2D, 0xB4, 0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE,
-				0x42, 0x60, 0x82
+				0x89,
+				0x50,
+				0x4E,
+				0x47,
+				0x0D,
+				0x0A,
+				0x1A,
+				0x0A,
+				0x00,
+				0x00,
+				0x00,
+				0x0D,
+				0x49,
+				0x48,
+				0x44,
+				0x52,
+				0x00,
+				0x00,
+				0x00,
+				0x01,
+				0x00,
+				0x00,
+				0x00,
+				0x01,
+				0x08,
+				0x06,
+				0x00,
+				0x00,
+				0x00,
+				0x1F,
+				0x15,
+				0xC4,
+				0x89,
+				0x00,
+				0x00,
+				0x00,
+				0x0A,
+				0x49,
+				0x44,
+				0x41,
+				0x54,
+				0x78,
+				0x9C,
+				0x63,
+				0x00,
+				0x01,
+				0x00,
+				0x00,
+				0x05,
+				0x00,
+				0x01,
+				0x0D,
+				0x0A,
+				0x2D,
+				0xB4,
+				0x00,
+				0x00,
+				0x00,
+				0x00,
+				0x49,
+				0x45,
+				0x4E,
+				0x44,
+				0xAE,
+				0x42,
+				0x60,
+				0x82,
 			};
 			System.IO.File.WriteAllBytes(System.IO.Path.Combine(folder, "logo.png"), pixel);
 
@@ -2753,16 +3201,22 @@ internal static class WindowAudit
 				Voidstrap.UI.Elements.Bootstrapper.CustomDialog dialog = new(true);
 				dialog.ApplyCustomTheme(name);
 				applied = true;
-				try { dialog.Close(); } catch (Exception) { }
+				try
+				{
+					dialog.Close();
+				}
+				catch (Exception) { }
 			}
 			catch (Exception ex)
 			{
 				detail = ex.GetType().Name + ": " + ex.Message.Split('\n')[0];
 			}
 
-			Emit(themeFound && assetFound && applied
-				? "theme case parity audit: PASS, a Windows cased theme resolved theme.xml and theme://Logo.png and applied"
-				: $"theme case parity audit: FAIL, theme {themeFound}, asset {assetFound}, applied {applied} {detail}");
+			Emit(
+				themeFound && assetFound && applied
+					? "theme case parity audit: PASS, a Windows cased theme resolved theme.xml and theme://Logo.png and applied"
+					: $"theme case parity audit: FAIL, theme {themeFound}, asset {assetFound}, applied {applied} {detail}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -2770,7 +3224,11 @@ internal static class WindowAudit
 		}
 		finally
 		{
-			try { System.IO.Directory.Delete(folder, true); } catch (Exception) { }
+			try
+			{
+				System.IO.Directory.Delete(folder, true);
+			}
+			catch (Exception) { }
 		}
 	}
 
@@ -2784,9 +3242,12 @@ internal static class WindowAudit
 		PrepareFixtures();
 		try
 		{
-			foreach (Type type in typeof(WindowAudit).Assembly.GetTypes()
-				.Where(t => !t.IsAbstract && typeof(Window).IsAssignableFrom(t) && !Skipped.Contains(t.Name))
-				.OrderBy(t => t.FullName, StringComparer.Ordinal))
+			foreach (
+				Type type in typeof(WindowAudit)
+					.Assembly.GetTypes()
+					.Where(t => !t.IsAbstract && typeof(Window).IsAssignableFrom(t) && !Skipped.Contains(t.Name))
+					.OrderBy(t => t.FullName, StringComparer.Ordinal)
+			)
 			{
 				ConstructorInfo? ctor = type.GetConstructor(Type.EmptyTypes);
 				object?[]? args = null;
@@ -2823,9 +3284,7 @@ internal static class WindowAudit
 						window?.Close();
 						Pump();
 					}
-					catch (Exception)
-					{
-					}
+					catch (Exception) { }
 				}
 			}
 		}
@@ -2834,9 +3293,11 @@ internal static class WindowAudit
 			RemoveFixtures();
 		}
 
-		Emit(overlaps == 0
-			? $"text overlap audit: PASS, no overlapping text in {windows} windows and their pages"
-			: $"text overlap audit: FAIL, {overlaps} overlapping text pairs across {windows} windows and their pages");
+		Emit(
+			overlaps == 0
+				? $"text overlap audit: PASS, no overlapping text in {windows} windows and their pages"
+				: $"text overlap audit: FAIL, {overlaps} overlapping text pairs across {windows} windows and their pages"
+		);
 	}
 
 	private static void AuditMessageBoxButtons()
@@ -2850,7 +3311,8 @@ internal static class WindowAudit
 			Voidstrap.UI.Elements.Dialogs.FluentMessageBox box = new(
 				"Windows Startup Recreation includes HTML files, which can run code when the theme is used. This theme has not been verified, so it could be malicious. Only install it if you trust the author.\n\nFiles: panel.html",
 				MessageBoxImage.Warning,
-				MessageBoxButton.YesNo);
+				MessageBoxButton.YesNo
+			);
 			probe = box;
 			box.Show();
 			Pump(600);
@@ -2876,17 +3338,16 @@ internal static class WindowAudit
 					oneLeft = origin.X;
 					oneRight = origin.X + one.ActualWidth;
 				}
-				catch (Exception)
-				{
-				}
+				catch (Exception) { }
 			}
 
 			double windowWidth = box.ActualWidth;
-			bool fits = oneBottom > 0d && oneBottom <= windowHeight + 0.5d
-				&& oneRight > 0d && oneRight <= windowWidth + 0.5d;
-			Emit(oneVisible && twoVisible && oneHeight > 1d && fits
-				? $"message box audit: PASS, buttons inside the {windowWidth:F0}x{windowHeight:F0} window, first button x {oneLeft:F0}..{oneRight:F0} y ends {oneBottom:F0}"
-				: $"message box audit: FAIL, window {windowWidth:F0}x{windowHeight:F0}, one visible {oneVisible} h {oneHeight:F0}, x {oneLeft:F0}..{oneRight:F0}, y ends {oneBottom:F0}, two visible {twoVisible}, text w {text?.ActualWidth ?? -1:F0}");
+			bool fits = oneBottom > 0d && oneBottom <= windowHeight + 0.5d && oneRight > 0d && oneRight <= windowWidth + 0.5d;
+			Emit(
+				oneVisible && twoVisible && oneHeight > 1d && fits
+					? $"message box audit: PASS, buttons inside the {windowWidth:F0}x{windowHeight:F0} window, first button x {oneLeft:F0}..{oneRight:F0} y ends {oneBottom:F0}"
+					: $"message box audit: FAIL, window {windowWidth:F0}x{windowHeight:F0}, one visible {oneVisible} h {oneHeight:F0}, x {oneLeft:F0}..{oneRight:F0}, y ends {oneBottom:F0}, two visible {twoVisible}, text w {text?.ActualWidth ?? -1:F0}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -2894,7 +3355,12 @@ internal static class WindowAudit
 		}
 		finally
 		{
-			try { probe?.Close(); Pump(80); } catch (Exception) { }
+			try
+			{
+				probe?.Close();
+				Pump(80);
+			}
+			catch (Exception) { }
 		}
 	}
 
@@ -2913,7 +3379,7 @@ internal static class WindowAudit
 				ShowInTaskbar = false,
 				WindowStyle = WindowStyle.None,
 				WindowState = System.Windows.WindowState.Maximized,
-				Content = new System.Windows.Controls.Grid()
+				Content = new System.Windows.Controls.Grid(),
 			};
 			probe.Show();
 			Pump(700);
@@ -2928,9 +3394,11 @@ internal static class WindowAudit
 			double target = workWidth > 0 ? workWidth : screenWidth;
 			bool filled = target > 0 && actualWidth >= target * 0.9d;
 
-			Emit(stateHeld && filled
-				? $"maximized window audit: PASS, {actualWidth:F0}x{actualHeight:F0} fills the {target:F0}x{workHeight:F0} work area"
-				: $"maximized window audit: FAIL, state {probe.WindowState}, actual {actualWidth:F0}x{actualHeight:F0}, work {workWidth:F0}x{workHeight:F0}, screen {screenWidth:F0}x{screenHeight:F0}");
+			Emit(
+				stateHeld && filled
+					? $"maximized window audit: PASS, {actualWidth:F0}x{actualHeight:F0} fills the {target:F0}x{workHeight:F0} work area"
+					: $"maximized window audit: FAIL, state {probe.WindowState}, actual {actualWidth:F0}x{actualHeight:F0}, work {workWidth:F0}x{workHeight:F0}, screen {screenWidth:F0}x{screenHeight:F0}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -2938,7 +3406,12 @@ internal static class WindowAudit
 		}
 		finally
 		{
-			try { probe?.Close(); Pump(80); } catch (Exception) { }
+			try
+			{
+				probe?.Close();
+				Pump(80);
+			}
+			catch (Exception) { }
 		}
 	}
 
@@ -2950,11 +3423,7 @@ internal static class WindowAudit
 		Window? probe = null;
 		try
 		{
-			ICSharpCode.AvalonEdit.TextEditor editor = new()
-			{
-				Text = "theme editor probe",
-				FontSize = 12d
-			};
+			ICSharpCode.AvalonEdit.TextEditor editor = new() { Text = "theme editor probe", FontSize = 12d };
 			System.Windows.Controls.Grid content = new();
 			content.Children.Add(editor);
 			probe = new Window
@@ -2963,7 +3432,7 @@ internal static class WindowAudit
 				Height = 260,
 				Content = content,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			probe.Show();
 			Pump(200);
@@ -2979,14 +3448,29 @@ internal static class WindowAudit
 			bool focused = editor.TextArea.IsKeyboardFocusWithin || editor.TextArea.IsFocused;
 			string[] required =
 			{
-				"ImmGetContext", "ImmReleaseContext", "ImmGetDefaultIMEWnd", "ImmSetCompositionWindow",
-				"ImmSetCompositionFont", "ImmGetCompositionFont", "ImmNotifyIME", "ImmAssociateContext",
-				"GetCaretBlinkTime", "CreateCaret", "DestroyCaret", "SetCaretPos", "GetFocus", "SetFocus", "GetWindow"
+				"ImmGetContext",
+				"ImmReleaseContext",
+				"ImmGetDefaultIMEWnd",
+				"ImmSetCompositionWindow",
+				"ImmSetCompositionFont",
+				"ImmGetCompositionFont",
+				"ImmNotifyIME",
+				"ImmAssociateContext",
+				"GetCaretBlinkTime",
+				"CreateCaret",
+				"DestroyCaret",
+				"SetCaretPos",
+				"GetFocus",
+				"SetFocus",
+				"GetWindow",
 			};
 			List<string> missing = new();
-			if (System.Runtime.InteropServices.NativeLibrary.TryLoad(
+			if (
+				System.Runtime.InteropServices.NativeLibrary.TryLoad(
 					System.IO.Path.Combine(AppContext.BaseDirectory, "libvoidstrapeditorcompat.so"),
-					out IntPtr stub))
+					out IntPtr stub
+				)
+			)
 			{
 				foreach (string export in required)
 				{
@@ -2999,9 +3483,11 @@ internal static class WindowAudit
 				missing.Add("the stub could not be loaded");
 			}
 
-			Emit(missing.Count == 0
-				? $"editor native audit: PASS, focus {focused}, length {editor.Text.Length}, all {required.Length} native entry points resolve"
-				: $"editor native audit: FAIL, missing {string.Join(", ", missing)}");
+			Emit(
+				missing.Count == 0
+					? $"editor native audit: PASS, focus {focused}, length {editor.Text.Length}, all {required.Length} native entry points resolve"
+					: $"editor native audit: FAIL, missing {string.Join(", ", missing)}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -3014,9 +3500,7 @@ internal static class WindowAudit
 				probe?.Close();
 				Pump(60);
 			}
-			catch (Exception)
-			{
-			}
+			catch (Exception) { }
 		}
 	}
 
@@ -3029,8 +3513,14 @@ internal static class WindowAudit
 		{
 			System.Reflection.Assembly forms = System.Reflection.Assembly.Load("System.Windows.Forms");
 			Type? cursor = forms.GetType("System.Windows.Forms.Cursor");
-			System.Reflection.MethodInfo? show = cursor?.GetMethod("Show", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
-			System.Reflection.MethodInfo? hide = cursor?.GetMethod("Hide", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+			System.Reflection.MethodInfo? show = cursor?.GetMethod(
+				"Show",
+				System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static
+			);
+			System.Reflection.MethodInfo? hide = cursor?.GetMethod(
+				"Hide",
+				System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static
+			);
 			if (show is null || hide is null)
 			{
 				Emit($"winforms compat audit: FAIL, cursor {cursor is not null}, show {show is not null}, hide {hide is not null}");
@@ -3043,9 +3533,10 @@ internal static class WindowAudit
 		}
 		catch (Exception ex)
 		{
-			Exception reported = ex is System.Reflection.TargetInvocationException invocation && invocation.InnerException is not null
-				? invocation.InnerException
-				: ex;
+			Exception reported =
+				ex is System.Reflection.TargetInvocationException invocation && invocation.InnerException is not null
+					? invocation.InnerException
+					: ex;
 			Emit($"winforms compat audit: FAIL, {reported.GetType().Name}: {reported.Message.Split('\n')[0]}");
 		}
 	}
@@ -3066,7 +3557,15 @@ internal static class WindowAudit
 			}
 
 			System.Windows.Media.Imaging.BitmapSource source = System.Windows.Media.Imaging.BitmapSource.Create(
-				2, 2, 96, 96, System.Windows.Media.PixelFormats.Bgr24, null, bgr24, 6);
+				2,
+				2,
+				96,
+				96,
+				System.Windows.Media.PixelFormats.Bgr24,
+				null,
+				bgr24,
+				6
+			);
 
 			byte[]? bgra = Voidstrap.UI.ViewModels.Settings.AppearanceViewModel.ReadBgraPixels(source);
 			if (bgra is null || bgra.Length != 16)
@@ -3086,9 +3585,11 @@ internal static class WindowAudit
 			double expectedOpacity = Math.Clamp(0.35 + expectedLuminance * 0.6, 0.35, 0.95);
 			bool matches = Math.Abs(opacity - expectedOpacity) < 0.0001d;
 
-			Emit(channels && matches
-				? $"gradient opacity audit: PASS, Bgr24 mapped to BGRA exactly and luminance {luminance:F4} produced opacity {opacity:F4}"
-				: $"gradient opacity audit: FAIL, channels {channels}, opacity {opacity:F4} expected {expectedOpacity:F4}");
+			Emit(
+				channels && matches
+					? $"gradient opacity audit: PASS, Bgr24 mapped to BGRA exactly and luminance {luminance:F4} produced opacity {opacity:F4}"
+					: $"gradient opacity audit: FAIL, channels {channels}, opacity {opacity:F4} expected {expectedOpacity:F4}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -3109,7 +3610,7 @@ internal static class WindowAudit
 				HeaderText = "Coders",
 				HeaderIcon = Wpf.Ui.Common.SymbolRegular.Code24,
 				InnerContent = new System.Windows.Controls.TextBlock { Text = "body" },
-				VerticalAlignment = VerticalAlignment.Top
+				VerticalAlignment = VerticalAlignment.Top,
 			};
 			Wpf.Ui.Controls.ExpanderMotion.SetUseLinuxAnimationClock(expander, false);
 			System.Windows.Controls.Grid content = new();
@@ -3120,7 +3621,7 @@ internal static class WindowAudit
 				Height = 300,
 				Content = content,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			probe.Show();
 			Pump(200);
@@ -3154,21 +3655,21 @@ internal static class WindowAudit
 			{
 				GeneralTransform transform = grid.TransformToAncestor(expander);
 				Rect box = transform.TransformBounds(new Rect(0, 0, grid.ActualWidth, grid.ActualHeight));
-				bounds = $"x {box.X:F1}..{box.Right:F1}, y {box.Y:F1}..{box.Bottom:F1} of {expander.ActualWidth:F1}x{expander.ActualHeight:F1}";
+				bounds =
+					$"x {box.X:F1}..{box.Right:F1}, y {box.Y:F1}..{box.Bottom:F1} of {expander.ActualWidth:F1}x{expander.ActualHeight:F1}";
 			}
 		}
-		catch (InvalidOperationException)
-		{
-		}
+		catch (InvalidOperationException) { }
 
 		string symbol = icon is Wpf.Ui.Controls.SymbolIcon glyph ? glyph.Symbol.ToString() : "n/a";
 		bool sized = grid is not null && grid.ActualWidth > 1 && grid.ActualHeight > 1;
 		bool shown = grid?.IsVisible == true && grid.Opacity > 0.5;
-		bool expected = symbol == "ChevronDown24"
-			&& Math.Abs(angle - (state == "expanded" ? 180.0 : 0.0)) < 1.0;
-		Emit((sized && shown && expected ? "  chevron PASS " : "  chevron FAIL ")
-			+ $"{state}: symbol {symbol}, angle {angle:F1}, grid {grid?.ActualWidth ?? -1:F1}x{grid?.ActualHeight ?? -1:F1}"
-			+ $", visible {grid?.IsVisible}, opacity {grid?.Opacity ?? -1:F2}, bounds {bounds}");
+		bool expected = symbol == "ChevronDown24" && Math.Abs(angle - (state == "expanded" ? 180.0 : 0.0)) < 1.0;
+		Emit(
+			(sized && shown && expected ? "  chevron PASS " : "  chevron FAIL ")
+				+ $"{state}: symbol {symbol}, angle {angle:F1}, grid {grid?.ActualWidth ?? -1:F1}x{grid?.ActualHeight ?? -1:F1}"
+				+ $", visible {grid?.IsVisible}, opacity {grid?.Opacity ?? -1:F2}, bounds {bounds}"
+		);
 	}
 
 	private static FrameworkElement? FindNamedDescendant(DependencyObject root, string name, int depth = 0)
@@ -3202,7 +3703,7 @@ internal static class WindowAudit
 			{
 				Width = 200,
 				Height = 32,
-				VerticalAlignment = VerticalAlignment.Top
+				VerticalAlignment = VerticalAlignment.Top,
 			};
 			combo.Items.Add("first");
 			combo.Items.Add("second");
@@ -3216,7 +3717,7 @@ internal static class WindowAudit
 				Height = 280,
 				Content = content,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			probe.Show();
 			Pump(120);
@@ -3232,9 +3733,11 @@ internal static class WindowAudit
 			bool hasRoom = room.Left >= 12 && room.Top >= 12 && room.Right >= 12 && room.Bottom >= 12;
 
 			bool passed = shadow is not null && !hasEffect && cacheCleared && hasRoom;
-			Emit(passed
-				? $"shadow audit: PASS, dropdown has no effect layer so the owner window keeps rendering, with {room.Left:F0},{room.Top:F0},{room.Right:F0},{room.Bottom:F0} of room and no bitmap cache"
-				: $"shadow audit: FAIL, shadow {shadow is not null}, effect {hasEffect}, cacheCleared {cacheCleared}, room {room}");
+			Emit(
+				passed
+					? $"shadow audit: PASS, dropdown has no effect layer so the owner window keeps rendering, with {room.Left:F0},{room.Top:F0},{room.Right:F0},{room.Bottom:F0} of room and no bitmap cache"
+					: $"shadow audit: FAIL, shadow {shadow is not null}, effect {hasEffect}, cacheCleared {cacheCleared}, room {room}"
+			);
 			combo.IsDropDownOpen = false;
 			Pump(120);
 		}
@@ -3262,17 +3765,19 @@ internal static class WindowAudit
 				Width = 240,
 				Height = 32,
 				MaxDropDownHeight = 220,
-				VerticalAlignment = VerticalAlignment.Top
+				VerticalAlignment = VerticalAlignment.Top,
 			};
 			for (int i = 0; i < 250; i++)
 				combo.Items.Add("virtualized item " + i);
-			combo.Items.Add(new System.Windows.Controls.Slider
-			{
-				Width = 180,
-				Minimum = 0,
-				Maximum = 100,
-				Value = 50
-			});
+			combo.Items.Add(
+				new System.Windows.Controls.Slider
+				{
+					Width = 180,
+					Minimum = 0,
+					Maximum = 100,
+					Value = 50,
+				}
+			);
 			combo.SelectedIndex = 0;
 
 			System.Windows.Controls.ComboBox editable = new()
@@ -3281,7 +3786,7 @@ internal static class WindowAudit
 				Height = 32,
 				Margin = new Thickness(0, 48, 0, 0),
 				IsEditable = true,
-				VerticalAlignment = VerticalAlignment.Top
+				VerticalAlignment = VerticalAlignment.Top,
 			};
 			editable.Items.Add("editable first");
 			editable.Items.Add("editable second");
@@ -3296,20 +3801,24 @@ internal static class WindowAudit
 				Height = 360,
 				Content = content,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			probe.Show();
 			Pump(140);
 
 			combo.ApplyTemplate();
 			editable.ApplyTemplate();
-			System.Windows.Controls.Primitives.Popup popup = combo.Template?.FindName("Popup", combo) as System.Windows.Controls.Primitives.Popup
+			System.Windows.Controls.Primitives.Popup popup =
+				combo.Template?.FindName("Popup", combo) as System.Windows.Controls.Primitives.Popup
 				?? throw new InvalidOperationException("standard ComboBox popup was not created");
-			System.Windows.Controls.Primitives.ToggleButton toggle = combo.Template?.FindName("ToggleButton", combo) as System.Windows.Controls.Primitives.ToggleButton
+			System.Windows.Controls.Primitives.ToggleButton toggle =
+				combo.Template?.FindName("ToggleButton", combo) as System.Windows.Controls.Primitives.ToggleButton
 				?? throw new InvalidOperationException("standard ComboBox toggle was not created");
-			System.Windows.Controls.Primitives.Popup editablePopup = editable.Template?.FindName("Popup", editable) as System.Windows.Controls.Primitives.Popup
+			System.Windows.Controls.Primitives.Popup editablePopup =
+				editable.Template?.FindName("Popup", editable) as System.Windows.Controls.Primitives.Popup
 				?? throw new InvalidOperationException("editable ComboBox popup was not created");
-			System.Windows.Controls.Primitives.ToggleButton editableToggle = editable.Template?.FindName("ToggleButton", editable) as System.Windows.Controls.Primitives.ToggleButton
+			System.Windows.Controls.Primitives.ToggleButton editableToggle =
+				editable.Template?.FindName("ToggleButton", editable) as System.Windows.Controls.Primitives.ToggleButton
 				?? throw new InvalidOperationException("editable ComboBox toggle was not created");
 
 			toggle.SetCurrentValue(System.Windows.Controls.Primitives.ToggleButton.IsCheckedProperty, true);
@@ -3324,15 +3833,16 @@ internal static class WindowAudit
 
 			System.Windows.Input.Mouse.Capture(null);
 			Pump(40);
-			bool captureInputDisabled = popup.Child is not FrameworkElement captureChild
-				|| !captureChild.IsHitTestVisible;
+			bool captureInputDisabled = popup.Child is not FrameworkElement captureChild || !captureChild.IsHitTestVisible;
 			Pump(610);
-			bool captureSettled = !combo.IsDropDownOpen
-				&& !Wpf.Ui.Controls.PopupReveal.GetEffectiveIsOpen(popup)
-				&& !popup.IsOpen;
+			bool captureSettled = !combo.IsDropDownOpen && !Wpf.Ui.Controls.PopupReveal.GetEffectiveIsOpen(popup) && !popup.IsOpen;
 			if (!captureSettled)
-				Emit("dropdown capture state: " + GetDropdownState(combo, popup)
-					+ ", capture=" + (System.Windows.Input.Mouse.Captured?.GetType().Name ?? "none"));
+				Emit(
+					"dropdown capture state: "
+						+ GetDropdownState(combo, popup)
+						+ ", capture="
+						+ (System.Windows.Input.Mouse.Captured?.GetType().Name ?? "none")
+				);
 
 			for (int i = 0; i < 100; i++)
 			{
@@ -3347,7 +3857,8 @@ internal static class WindowAudit
 			combo.SelectedIndex = 199;
 			toggle.SetCurrentValue(System.Windows.Controls.Primitives.ToggleButton.IsCheckedProperty, false);
 			Pump(650);
-			bool selectedOnce = combo.SelectedIndex == 199
+			bool selectedOnce =
+				combo.SelectedIndex == 199
 				&& !combo.IsDropDownOpen
 				&& !popup.IsOpen
 				&& !Wpf.Ui.Controls.PopupReveal.GetEffectiveIsOpen(popup);
@@ -3357,19 +3868,20 @@ internal static class WindowAudit
 			bool editablePresented = IsDropdownPresented(editable, editablePopup);
 			editableToggle.SetCurrentValue(System.Windows.Controls.Primitives.ToggleButton.IsCheckedProperty, false);
 			Pump(650);
-			bool editableClosed = !editable.IsDropDownOpen
-				&& !editablePopup.IsOpen
-				&& !Wpf.Ui.Controls.PopupReveal.GetEffectiveIsOpen(editablePopup);
+			bool editableClosed =
+				!editable.IsDropDownOpen && !editablePopup.IsOpen && !Wpf.Ui.Controls.PopupReveal.GetEffectiveIsOpen(editablePopup);
 
-			bool noResidue = !IsCaptureWithin(combo)
-				&& !IsCaptureWithin(editable)
-				&& !HasResidentPopupSurface(probe);
+			bool noResidue = !IsCaptureWithin(combo) && !IsCaptureWithin(editable) && !HasResidentPopupSurface(probe);
 			if (!noResidue)
-				Emit("dropdown residue state: capture="
-					+ (System.Windows.Input.Mouse.Captured?.GetType().Name ?? "none")
-					+ ", " + DescribePopupSurfaces(probe));
+				Emit(
+					"dropdown residue state: capture="
+						+ (System.Windows.Input.Mouse.Captured?.GetType().Name ?? "none")
+						+ ", "
+						+ DescribePopupSurfaces(probe)
+				);
 
-			bool passed = initial
+			bool passed =
+				initial
 				&& recovered
 				&& captureInputDisabled
 				&& captureSettled
@@ -3378,17 +3890,28 @@ internal static class WindowAudit
 				&& editablePresented
 				&& editableClosed
 				&& noResidue;
-			Emit(passed
-				? "dropdown lifecycle audit: PASS, standard, editable, virtualized, embedded slider, capture loss, forced surface loss, selection, and 100 rapid cycles settled correctly with no residue"
-				: "dropdown lifecycle audit: FAIL, initial=" + initial
-					+ ", recovered=" + recovered
-					+ ", captureInput=" + captureInputDisabled
-					+ ", capture=" + captureSettled
-					+ ", cycles=" + rapidCycles
-					+ ", selection=" + selectedOnce
-					+ ", editableOpen=" + editablePresented
-					+ ", editableClose=" + editableClosed
-					+ ", residue=" + noResidue);
+			Emit(
+				passed
+					? "dropdown lifecycle audit: PASS, standard, editable, virtualized, embedded slider, capture loss, forced surface loss, selection, and 100 rapid cycles settled correctly with no residue"
+					: "dropdown lifecycle audit: FAIL, initial="
+						+ initial
+						+ ", recovered="
+						+ recovered
+						+ ", captureInput="
+						+ captureInputDisabled
+						+ ", capture="
+						+ captureSettled
+						+ ", cycles="
+						+ rapidCycles
+						+ ", selection="
+						+ selectedOnce
+						+ ", editableOpen="
+						+ editablePresented
+						+ ", editableClose="
+						+ editableClosed
+						+ ", residue="
+						+ noResidue
+			);
 		}
 		catch (Exception ex)
 		{
@@ -3401,9 +3924,7 @@ internal static class WindowAudit
 		}
 	}
 
-	private static bool IsDropdownPresented(
-		System.Windows.Controls.ComboBox combo,
-		System.Windows.Controls.Primitives.Popup popup)
+	private static bool IsDropdownPresented(System.Windows.Controls.ComboBox combo, System.Windows.Controls.Primitives.Popup popup)
 	{
 		FrameworkElement? child = popup.Child as FrameworkElement;
 		return combo.IsDropDownOpen
@@ -3418,20 +3939,29 @@ internal static class WindowAudit
 			&& PresentationSource.FromVisual(child) is not null;
 	}
 
-	private static string GetDropdownState(
-		System.Windows.Controls.ComboBox combo,
-		System.Windows.Controls.Primitives.Popup popup)
+	private static string GetDropdownState(System.Windows.Controls.ComboBox combo, System.Windows.Controls.Primitives.Popup popup)
 	{
 		FrameworkElement? child = popup.Child as FrameworkElement;
-		return "logical=" + combo.IsDropDownOpen
-			+ ", staysOpen=" + popup.StaysOpen
-			+ ", target=" + Wpf.Ui.Controls.PopupReveal.GetCloseTarget(popup)
-			+ ", effective=" + Wpf.Ui.Controls.PopupReveal.GetEffectiveIsOpen(popup)
-			+ ", popup=" + popup.IsOpen
-			+ ", child=" + (child is not null)
-			+ ", hitTest=" + (child?.IsHitTestVisible ?? false)
-			+ ", size=" + (child?.ActualWidth ?? 0d).ToString("F1") + "x" + (child?.ActualHeight ?? 0d).ToString("F1")
-			+ ", source=" + (child is not null && PresentationSource.FromVisual(child) is not null);
+		return "logical="
+			+ combo.IsDropDownOpen
+			+ ", staysOpen="
+			+ popup.StaysOpen
+			+ ", target="
+			+ Wpf.Ui.Controls.PopupReveal.GetCloseTarget(popup)
+			+ ", effective="
+			+ Wpf.Ui.Controls.PopupReveal.GetEffectiveIsOpen(popup)
+			+ ", popup="
+			+ popup.IsOpen
+			+ ", child="
+			+ (child is not null)
+			+ ", hitTest="
+			+ (child?.IsHitTestVisible ?? false)
+			+ ", size="
+			+ (child?.ActualWidth ?? 0d).ToString("F1")
+			+ "x"
+			+ (child?.ActualHeight ?? 0d).ToString("F1")
+			+ ", source="
+			+ (child is not null && PresentationSource.FromVisual(child) is not null);
 	}
 
 	private static void AuditDropdownInteraction()
@@ -3449,7 +3979,7 @@ internal static class WindowAudit
 				MaxDropDownHeight = 220,
 				HorizontalAlignment = HorizontalAlignment.Left,
 				VerticalAlignment = VerticalAlignment.Top,
-				Margin = new Thickness(16)
+				Margin = new Thickness(16),
 			};
 			for (int i = 0; i < 24; i++)
 				combo.Items.Add("interaction item " + i);
@@ -3463,15 +3993,17 @@ internal static class WindowAudit
 				Height = 360,
 				Content = content,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			probe.Show();
 			Pump(160);
 
 			combo.ApplyTemplate();
-			System.Windows.Controls.Primitives.Popup popup = combo.Template?.FindName("Popup", combo) as System.Windows.Controls.Primitives.Popup
+			System.Windows.Controls.Primitives.Popup popup =
+				combo.Template?.FindName("Popup", combo) as System.Windows.Controls.Primitives.Popup
 				?? throw new InvalidOperationException("interaction ComboBox popup was not created");
-			System.Windows.Controls.Primitives.ToggleButton toggle = combo.Template?.FindName("ToggleButton", combo) as System.Windows.Controls.Primitives.ToggleButton
+			System.Windows.Controls.Primitives.ToggleButton toggle =
+				combo.Template?.FindName("ToggleButton", combo) as System.Windows.Controls.Primitives.ToggleButton
 				?? throw new InvalidOperationException("interaction ComboBox toggle was not created");
 
 			int selectionChanges = 0;
@@ -3497,9 +4029,14 @@ internal static class WindowAudit
 				Pump(700);
 				clickOpened = clickOpened && IsDropdownPresented(combo, popup);
 				if (!clickOpened)
-					Emit("dropdown click state: toggle checked " + (toggle.IsChecked == true)
-						+ ", " + DescribeToggleReachability(combo, toggle)
-						+ ", " + GetDropdownState(combo, popup));
+					Emit(
+						"dropdown click state: toggle checked "
+							+ (toggle.IsChecked == true)
+							+ ", "
+							+ DescribeToggleReachability(combo, toggle)
+							+ ", "
+							+ GetDropdownState(combo, popup)
+					);
 				combo.SetCurrentValue(System.Windows.Controls.ComboBox.IsDropDownOpenProperty, false);
 				Pump(650);
 
@@ -3516,44 +4053,55 @@ internal static class WindowAudit
 				selectionChanges = 0;
 				SendKey(combo, System.Windows.Input.Key.Enter);
 				Pump(700);
-				keyboardCommitted = combo.SelectedIndex == 1
-					&& selectionChanges == 1
-					&& IsDropdownSettled(combo, popup);
+				keyboardCommitted = combo.SelectedIndex == 1 && selectionChanges == 1 && IsDropdownSettled(combo, popup);
 				if (!keyboardCommitted)
-					Emit("dropdown keyboard commit state: index " + combo.SelectedIndex
-						+ ", changes " + selectionChanges
-						+ ", " + GetDropdownState(combo, popup));
+					Emit(
+						"dropdown keyboard commit state: index "
+							+ combo.SelectedIndex
+							+ ", changes "
+							+ selectionChanges
+							+ ", "
+							+ GetDropdownState(combo, popup)
+					);
 
 				OpenDropdown(toggle);
 				Pump(700);
 				selectionChanges = 0;
 				SendKey(combo, System.Windows.Input.Key.Escape);
 				Pump(700);
-				escapeClosed = combo.SelectedIndex == 1
-					&& selectionChanges == 0
-					&& IsDropdownSettled(combo, popup);
+				escapeClosed = combo.SelectedIndex == 1 && selectionChanges == 0 && IsDropdownSettled(combo, popup);
 				if (!escapeClosed)
-					Emit("dropdown escape state: index " + combo.SelectedIndex
-						+ ", changes " + selectionChanges
-						+ ", " + GetDropdownState(combo, popup));
+					Emit(
+						"dropdown escape state: index "
+							+ combo.SelectedIndex
+							+ ", changes "
+							+ selectionChanges
+							+ ", "
+							+ GetDropdownState(combo, popup)
+					);
 
 				OpenDropdown(toggle);
 				Pump(700);
 				mouseOpened = IsDropdownPresented(combo, popup);
-				System.Windows.Controls.ComboBoxItem? item = combo.ItemContainerGenerator.ContainerFromIndex(3) as System.Windows.Controls.ComboBoxItem;
+				System.Windows.Controls.ComboBoxItem? item =
+					combo.ItemContainerGenerator.ContainerFromIndex(3) as System.Windows.Controls.ComboBoxItem;
 				itemReachable = item is not null && IsPopupHitTarget(popup, item);
 				selectionChanges = 0;
 				if (item is not null)
 					SendMouseLeftButtonUp(item);
 				Pump(700);
-				mouseSelected = combo.SelectedIndex == 3
-					&& selectionChanges == 1
-					&& IsDropdownSettled(combo, popup);
+				mouseSelected = combo.SelectedIndex == 3 && selectionChanges == 1 && IsDropdownSettled(combo, popup);
 				if (!mouseSelected)
-					Emit("dropdown mouse selection state: index " + combo.SelectedIndex
-						+ ", changes " + selectionChanges
-						+ ", reachable " + itemReachable
-						+ ", " + GetDropdownState(combo, popup));
+					Emit(
+						"dropdown mouse selection state: index "
+							+ combo.SelectedIndex
+							+ ", changes "
+							+ selectionChanges
+							+ ", reachable "
+							+ itemReachable
+							+ ", "
+							+ GetDropdownState(combo, popup)
+					);
 
 				OpenDropdown(toggle);
 				Pump(700);
@@ -3575,14 +4123,17 @@ internal static class WindowAudit
 				Pump(700);
 				content.Children.Remove(combo);
 				Pump(800);
-				unloadSettled = !combo.IsDropDownOpen
-					&& !popup.IsOpen
-					&& !Wpf.Ui.Controls.PopupReveal.GetEffectiveIsOpen(popup);
+				unloadSettled = !combo.IsDropDownOpen && !popup.IsOpen && !Wpf.Ui.Controls.PopupReveal.GetEffectiveIsOpen(popup);
 				unloadReleased = !IsCaptureWithin(combo) && !HasResidentPopupSurface(probe);
 				if (!unloadSettled || !unloadReleased)
-					Emit("dropdown unload state: " + GetDropdownState(combo, popup)
-						+ ", capture=" + (System.Windows.Input.Mouse.Captured?.GetType().Name ?? "none")
-						+ ", " + DescribePopupSurfaces(probe));
+					Emit(
+						"dropdown unload state: "
+							+ GetDropdownState(combo, popup)
+							+ ", capture="
+							+ (System.Windows.Input.Mouse.Captured?.GetType().Name ?? "none")
+							+ ", "
+							+ DescribePopupSurfaces(probe)
+					);
 
 				restoredPresented = RehostAndPresent(combo);
 				minimizeConsistent = AuditDropdownMinimize();
@@ -3592,7 +4143,8 @@ internal static class WindowAudit
 				combo.SelectionChanged -= counter;
 			}
 
-			bool passed = clickOpened
+			bool passed =
+				clickOpened
 				&& keyboardOpened
 				&& keyboardNavigated
 				&& keyboardCommitted
@@ -3606,22 +4158,38 @@ internal static class WindowAudit
 				&& restoredPresented
 				&& unloadSettled
 				&& unloadReleased;
-			Emit(passed
-				? "dropdown interaction audit: PASS, mouse click opens, keyboard open, navigate, commit, escape, mouse reach and select, outside click, deactivation, unload, owner surface rehost, and minimize all settled correctly"
-				: "dropdown interaction audit: FAIL, click=" + clickOpened
-					+ ", keyOpen=" + keyboardOpened
-					+ ", keyNav=" + keyboardNavigated
-					+ ", keyCommit=" + keyboardCommitted
-					+ ", escape=" + escapeClosed
-					+ ", mouseOpen=" + mouseOpened
-					+ ", itemReach=" + itemReachable
-					+ ", mouseSelect=" + mouseSelected
-					+ ", outside=" + outsideClosed
-					+ ", deactivate=" + deactivatedClosed
-					+ ", unload=" + unloadSettled
-					+ ", rehost=" + restoredPresented
-					+ ", minimize=" + minimizeConsistent
-					+ ", released=" + unloadReleased);
+			Emit(
+				passed
+					? "dropdown interaction audit: PASS, mouse click opens, keyboard open, navigate, commit, escape, mouse reach and select, outside click, deactivation, unload, owner surface rehost, and minimize all settled correctly"
+					: "dropdown interaction audit: FAIL, click="
+						+ clickOpened
+						+ ", keyOpen="
+						+ keyboardOpened
+						+ ", keyNav="
+						+ keyboardNavigated
+						+ ", keyCommit="
+						+ keyboardCommitted
+						+ ", escape="
+						+ escapeClosed
+						+ ", mouseOpen="
+						+ mouseOpened
+						+ ", itemReach="
+						+ itemReachable
+						+ ", mouseSelect="
+						+ mouseSelected
+						+ ", outside="
+						+ outsideClosed
+						+ ", deactivate="
+						+ deactivatedClosed
+						+ ", unload="
+						+ unloadSettled
+						+ ", rehost="
+						+ restoredPresented
+						+ ", minimize="
+						+ minimizeConsistent
+						+ ", released="
+						+ unloadReleased
+			);
 		}
 		catch (Exception ex)
 		{
@@ -3647,7 +4215,7 @@ internal static class WindowAudit
 				Height = 320,
 				Content = content,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			host.Show();
 			Pump(220);
@@ -3701,7 +4269,7 @@ internal static class WindowAudit
 				Height = 320,
 				Content = content,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			probe.Show();
 			Pump(200);
@@ -3725,8 +4293,7 @@ internal static class WindowAudit
 			Pump(800);
 			bool settled = IsDropdownSettled(combo, popup) && !HasResidentPopupSurface(probe);
 			if (!settled)
-				Emit("dropdown minimize state: " + GetDropdownState(combo, popup)
-					+ ", " + DescribePopupSurfaces(probe));
+				Emit("dropdown minimize state: " + GetDropdownState(combo, popup) + ", " + DescribePopupSurfaces(probe));
 
 			return settled;
 		}
@@ -3757,7 +4324,10 @@ internal static class WindowAudit
 		int previousThickness = App.Settings.Prop.CrosshairLineThickness;
 		int previousGap = App.Settings.Prop.CrosshairGap;
 		double previousOpacity = App.Settings.Prop.CrosshairOpacity;
-		System.Reflection.FieldInfo? overlayInGameField = typeof(Voidstrap.Integrations.Overlays.OverlayHub).GetField("_inGame", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+		System.Reflection.FieldInfo? overlayInGameField = typeof(Voidstrap.Integrations.Overlays.OverlayHub).GetField(
+			"_inGame",
+			System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic
+		);
 		bool previousOverlayInGame = overlayInGameField?.GetValue(null) is true;
 		string crosshairImagePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Voidstrap", "crosshair-overlay-audit.png");
 		try
@@ -3799,8 +4369,11 @@ internal static class WindowAudit
 			App.Settings.Prop.CrosshairOpacity = 0.4d;
 			crosshair.RefreshSettings();
 			Pump(120);
-			System.Windows.Controls.Image? imageCrosshair = crosshairCanvas?.Children.OfType<System.Windows.Controls.Image>().SingleOrDefault();
-			bool imageGeometry = imageCrosshair?.Source != null
+			System.Windows.Controls.Image? imageCrosshair = crosshairCanvas
+				?.Children.OfType<System.Windows.Controls.Image>()
+				.SingleOrDefault();
+			bool imageGeometry =
+				imageCrosshair?.Source != null
 				&& Math.Abs(imageCrosshair.Width - 40 * Voidstrap.Integrations.Overlays.OverlayCrosshair.RuntimeScale) < 0.01d
 				&& Math.Abs(imageCrosshair.Height - imageCrosshair.Width) < 0.01d
 				&& Math.Abs(imageCrosshair.Opacity - 0.4d) < 0.001d;
@@ -3810,10 +4383,13 @@ internal static class WindowAudit
 			Raster secondFrame = Raster.Blank(2, 2);
 			secondFrame.Pixels[0] = 255;
 			secondFrame.Pixels[3] = 255;
-			App.Settings.Prop.CrosshairImagePath = "data:image/gif;base64," + Convert.ToBase64String(Raster.EncodeAnimatedGif([firstFrame, secondFrame], 100));
+			App.Settings.Prop.CrosshairImagePath =
+				"data:image/gif;base64," + Convert.ToBase64String(Raster.EncodeAnimatedGif([firstFrame, secondFrame], 100));
 			crosshair.RefreshSettings();
-			bool gifGeometry = PumpUntil(() =>
-				crosshairCanvas?.Children.OfType<System.Windows.Controls.Image>().SingleOrDefault()?.Source != null, 3000);
+			bool gifGeometry = PumpUntil(
+				() => crosshairCanvas?.Children.OfType<System.Windows.Controls.Image>().SingleOrDefault()?.Source != null,
+				3000
+			);
 			bool visualParity = crossGeometry && dotGeometry && circleGeometry && imageGeometry && gifGeometry;
 
 			nint handle = Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(crosshair.Title ?? string.Empty);
@@ -3823,23 +4399,30 @@ internal static class WindowAudit
 			for (int cycle = 0; cycle < 24; cycle++)
 				Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
 			Pump(240);
-			bool singletonLifecycle = Voidstrap.UI.Elements.Crosshair.CrosshairWindow.CountLiveInstances() == 1
-				&& ReferenceEquals(
-					Application.Current?.Resources["CrosshairWindow"],
-					crosshair)
-				&& ReferenceEquals(
-					Voidstrap.UI.Elements.Crosshair.CrosshairWindow.GetOrCreate(),
-					crosshair);
+			bool singletonLifecycle =
+				Voidstrap.UI.Elements.Crosshair.CrosshairWindow.CountLiveInstances() == 1
+				&& ReferenceEquals(Application.Current?.Resources["CrosshairWindow"], crosshair)
+				&& ReferenceEquals(Voidstrap.UI.Elements.Crosshair.CrosshairWindow.GetOrCreate(), crosshair);
 			object? anchor = typeof(Voidstrap.UI.Elements.Crosshair.CrosshairWindow)
 				.GetField("_anchor", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
 				?.GetValue(crosshair);
-			System.Reflection.MethodInfo? applyAnchor = anchor?.GetType().GetMethod("Apply", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+			System.Reflection.MethodInfo? applyAnchor = anchor
+				?.GetType()
+				.GetMethod("Apply", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
 			Voidstrap.Integrations.Overlays.RobloxWindowRect auditTarget = new((nint)0x1234, 100, 50, 1600, 900, true, true);
 			App.Settings.Prop.CrosshairImagePath = crosshairImagePath;
 			crosshair.RefreshSettings();
 			applyAnchor?.Invoke(anchor, new object[] { auditTarget });
-			bool imageAlphaMask = handleResolved
-				&& Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetBoundingShapeBounds(handle, out _, out _, out int imageMaskWidth, out int imageMaskHeight, out long imageMaskArea)
+			bool imageAlphaMask =
+				handleResolved
+				&& Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetBoundingShapeBounds(
+					handle,
+					out _,
+					out _,
+					out int imageMaskWidth,
+					out int imageMaskHeight,
+					out long imageMaskArea
+				)
 				&& imageMaskWidth == 30
 				&& imageMaskHeight == 30
 				&& imageMaskArea > 0
@@ -3852,8 +4435,16 @@ internal static class WindowAudit
 			App.Settings.Prop.CrosshairOpacity = 1d;
 			crosshair.RefreshSettings();
 			applyAnchor?.Invoke(anchor, new object[] { auditTarget });
-			bool tightCrossMask = handleResolved
-				&& Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetBoundingShapeBounds(handle, out int crossMaskLeft, out int crossMaskTop, out int crossMaskWidth, out int crossMaskHeight, out long crossMaskArea)
+			bool tightCrossMask =
+				handleResolved
+				&& Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetBoundingShapeBounds(
+					handle,
+					out int crossMaskLeft,
+					out int crossMaskTop,
+					out int crossMaskWidth,
+					out int crossMaskHeight,
+					out long crossMaskArea
+				)
 				&& crossMaskLeft >= 250
 				&& crossMaskTop >= 250
 				&& crossMaskLeft + crossMaskWidth <= 262
@@ -3867,15 +4458,14 @@ internal static class WindowAudit
 			int top = 0;
 			int width = 0;
 			int height = 0;
-			bool geometryRead = handleResolved
+			bool geometryRead =
+				handleResolved
 				&& Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(handle, out left, out top, out width, out height);
-			bool nativePixelGeometry = geometryRead
-				&& width == 512
-				&& height == 512
-				&& Math.Abs(left - 644) <= 2
-				&& Math.Abs(top - 244) <= 2;
+			bool nativePixelGeometry =
+				geometryRead && width == 512 && height == 512 && Math.Abs(left - 644) <= 2 && Math.Abs(top - 244) <= 2;
 
-			bool shaped = handleResolved
+			bool shaped =
+				handleResolved
 				&& Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetBoundingShapeRectangleCount(handle, out int shapeRects)
 				&& shapeRects > 0;
 
@@ -3886,8 +4476,15 @@ internal static class WindowAudit
 				overlayInGameField.SetValue(null, true);
 				applyAnchor.Invoke(anchor, new object[] { default(Voidstrap.Integrations.Overlays.RobloxWindowRect) });
 				Pump(600);
-				fallbackCentred = Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetScreenBounds(out int screenWidth, out int screenHeight)
-					&& Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(handle, out int fallbackLeft, out int fallbackTop, out int fallbackWidth, out int fallbackHeight)
+				fallbackCentred =
+					Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetScreenBounds(out int screenWidth, out int screenHeight)
+					&& Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(
+						handle,
+						out int fallbackLeft,
+						out int fallbackTop,
+						out int fallbackWidth,
+						out int fallbackHeight
+					)
 					&& fallbackWidth == 512
 					&& fallbackHeight == 512
 					&& Math.Abs(fallbackLeft - (screenWidth - fallbackWidth) / 2) <= 2
@@ -3899,7 +4496,8 @@ internal static class WindowAudit
 				overlayInGameField.SetValue(null, false);
 				applyAnchor.Invoke(anchor, new object[] { default(Voidstrap.Integrations.Overlays.RobloxWindowRect) });
 				Pump(160);
-				hiddenWhenUnavailable = Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetBoundingShapeRectangleCount(handle, out int hiddenShapeRects)
+				hiddenWhenUnavailable =
+					Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetBoundingShapeRectangleCount(handle, out int hiddenShapeRects)
 					&& hiddenShapeRects == 0
 					&& crosshair.Opacity == 0;
 				overlayInGameField.SetValue(null, true);
@@ -3912,36 +4510,83 @@ internal static class WindowAudit
 			if (handleResolved)
 			{
 				Voidstrap.Platform.Linux.LinuxWindowInterop.TryMoveResize(handle, 220, 160, 512, 512);
-				moveHonoured = Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(handle, out int movedLeft, out int movedTop, out _, out _)
+				moveHonoured =
+					Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(
+						handle,
+						out int movedLeft,
+						out int movedTop,
+						out _,
+						out _
+					)
 					&& Math.Abs(movedLeft - 220) <= 4
 					&& Math.Abs(movedTop - 160) <= 4;
 			}
 
-			bool clickThrough = handleResolved
+			bool clickThrough =
+				handleResolved
 				&& Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetInputShapeRectangleCount(handle, out int inputRects)
 				&& inputRects == 0;
 
-			bool passed = handleResolved && geometryRead && clickThrough && shaped && moveHonoured && nativePixelGeometry && fallbackCentred && hiddenWhenUnavailable && imageAlphaMask && tightCrossMask && singletonLifecycle && visualParity;
-			Emit(passed
-				? "Linux overlay audit: PASS, cross, dot, ring, custom image, and inline GIF geometry match the Windows scale; 24 lifecycle reconciliations retained one surface; the transparent surface uses native pixels, centres on the runtime or display fallback, hides when inactive, is click through, is alpha shaped, and honours moves"
-				: "Linux overlay audit: FAIL, handle=" + handleResolved
-					+ ", shaped=" + shaped
-					+ ", moveHonoured=" + moveHonoured
-					+ ", unmanaged=" + unmanaged
-					+ ", geometry=" + left + "," + top + " " + width + "x" + height
-					+ ", clickThrough=" + clickThrough
-					+ ", nativePixelGeometry=" + nativePixelGeometry
-					+ ", fallbackCentred=" + fallbackCentred
-					+ ", hiddenWhenUnavailable=" + hiddenWhenUnavailable
-					+ ", imageAlphaMask=" + imageAlphaMask
-					+ ", tightCrossMask=" + tightCrossMask
-					+ ", singletonLifecycle=" + singletonLifecycle
-					+ ", visualParity=" + visualParity
-					+ " (cross=" + crossGeometry
-					+ ", dot=" + dotGeometry
-					+ ", circle=" + circleGeometry
-					+ ", image=" + imageGeometry
-					+ ", gif=" + gifGeometry + ")");
+			bool passed =
+				handleResolved
+				&& geometryRead
+				&& clickThrough
+				&& shaped
+				&& moveHonoured
+				&& nativePixelGeometry
+				&& fallbackCentred
+				&& hiddenWhenUnavailable
+				&& imageAlphaMask
+				&& tightCrossMask
+				&& singletonLifecycle
+				&& visualParity;
+			Emit(
+				passed
+					? "Linux overlay audit: PASS, cross, dot, ring, custom image, and inline GIF geometry match the Windows scale; 24 lifecycle reconciliations retained one surface; the transparent surface uses native pixels, centres on the runtime or display fallback, hides when inactive, is click through, is alpha shaped, and honours moves"
+					: "Linux overlay audit: FAIL, handle="
+						+ handleResolved
+						+ ", shaped="
+						+ shaped
+						+ ", moveHonoured="
+						+ moveHonoured
+						+ ", unmanaged="
+						+ unmanaged
+						+ ", geometry="
+						+ left
+						+ ","
+						+ top
+						+ " "
+						+ width
+						+ "x"
+						+ height
+						+ ", clickThrough="
+						+ clickThrough
+						+ ", nativePixelGeometry="
+						+ nativePixelGeometry
+						+ ", fallbackCentred="
+						+ fallbackCentred
+						+ ", hiddenWhenUnavailable="
+						+ hiddenWhenUnavailable
+						+ ", imageAlphaMask="
+						+ imageAlphaMask
+						+ ", tightCrossMask="
+						+ tightCrossMask
+						+ ", singletonLifecycle="
+						+ singletonLifecycle
+						+ ", visualParity="
+						+ visualParity
+						+ " (cross="
+						+ crossGeometry
+						+ ", dot="
+						+ dotGeometry
+						+ ", circle="
+						+ circleGeometry
+						+ ", image="
+						+ imageGeometry
+						+ ", gif="
+						+ gifGeometry
+						+ ")"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -3953,9 +4598,7 @@ internal static class WindowAudit
 			{
 				crosshair?.Close();
 			}
-			catch (Exception)
-			{
-			}
+			catch (Exception) { }
 
 			App.Settings.Prop.Crosshair = previousCrosshair;
 			App.Settings.Prop.CrosshairShapeIndex = previousShape;
@@ -3971,9 +4614,7 @@ internal static class WindowAudit
 			{
 				System.IO.File.Delete(crosshairImagePath);
 			}
-			catch (Exception)
-			{
-			}
+			catch (Exception) { }
 			Pump(160);
 		}
 	}
@@ -3993,11 +4634,11 @@ internal static class WindowAudit
 				FontSize = 14d,
 				Margin = new Thickness(16d),
 				HorizontalAlignment = HorizontalAlignment.Left,
-				VerticalAlignment = VerticalAlignment.Top
+				VerticalAlignment = VerticalAlignment.Top,
 			};
 			System.Windows.Documents.Hyperlink link = new(new System.Windows.Documents.Run("open the Voidstrap repository"))
 			{
-				NavigateUri = new Uri("https://github.com/KloBraticc/Voidstrap", UriKind.Absolute)
+				NavigateUri = new Uri("https://github.com/KloBraticc/Voidstrap", UriKind.Absolute),
 			};
 			int clicks = 0;
 			RoutedEventHandler counter = (_, _) => clicks++;
@@ -4012,7 +4653,7 @@ internal static class WindowAudit
 				Height = 200,
 				Content = content,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			probe.Show();
 			Pump(220);
@@ -4026,7 +4667,8 @@ internal static class WindowAudit
 			bool inputReaches = located && IsBlockHitFrom(probe, text, centre);
 			bool reachable = located && Voidstrap.UI.LinuxInlineText.HoverAt(text, centre);
 			Pump(80);
-			bool underlinesOnHover = reachable
+			bool underlinesOnHover =
+				reachable
 				&& Voidstrap.UI.LinuxInlineText.IsUnderlineVisible(text)
 				&& ReferenceEquals(text.Cursor, System.Windows.Input.Cursors.Hand);
 			bool staysVisible = !HasUnderline(link);
@@ -4035,9 +4677,7 @@ internal static class WindowAudit
 			Pump(80);
 			bool clearsOnLeave = !Voidstrap.UI.LinuxInlineText.IsUnderlineVisible(text);
 
-			bool raisesClick = located
-				&& Voidstrap.UI.LinuxInlineText.ActivateAt(text, centre)
-				&& clicks == 1;
+			bool raisesClick = located && Voidstrap.UI.LinuxInlineText.ActivateAt(text, centre) && clicks == 1;
 			Pump(80);
 			link.Click -= counter;
 
@@ -4050,7 +4690,7 @@ internal static class WindowAudit
 				Height = 600,
 				Content = about,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			int liveInlineLinks = 0;
 			int routedInlineLinks = 0;
@@ -4064,13 +4704,18 @@ internal static class WindowAudit
 			}
 			finally
 			{
-				try { aboutHost.Close(); } catch (Exception) { }
+				try
+				{
+					aboutHost.Close();
+				}
+				catch (Exception) { }
 				Pump(80);
 			}
 
 			bool targetsValid = broken.Count == 0;
 			bool inlineRouted = liveInlineLinks == 0 || routedInlineLinks == liveInlineLinks;
-			bool passed = inlineRouted
+			bool passed =
+				inlineRouted
 				&& inputReaches
 				&& staysVisible
 				&& openerAvailable
@@ -4081,20 +4726,37 @@ internal static class WindowAudit
 				&& raisesClick
 				&& targetsValid
 				&& anchors > 0;
-			Emit(passed
-				? "hyperlink audit: PASS, " + anchors + " navigable link target(s) resolve and " + routedInlineLinks
-					+ " live inline link(s) route input, underline on hover, and raise Click"
-				: "hyperlink audit: FAIL, opener=" + openerAvailable
-					+ ", idleClean=" + noStuckUnderline
-					+ ", reachable=" + reachable
-					+ ", inputReaches=" + inputReaches
-					+ ", hoverUnderline=" + underlinesOnHover
-					+ ", textStaysVisible=" + staysVisible
-					+ ", leaveClears=" + clearsOnLeave
-					+ ", click=" + raisesClick
-					+ ", targets=" + anchors
-					+ ", inlineRouted=" + routedInlineLinks + "/" + liveInlineLinks
-					+ (broken.Count > 0 ? ", broken: " + string.Join("; ", broken.Take(4)) : string.Empty));
+			Emit(
+				passed
+					? "hyperlink audit: PASS, "
+						+ anchors
+						+ " navigable link target(s) resolve and "
+						+ routedInlineLinks
+						+ " live inline link(s) route input, underline on hover, and raise Click"
+					: "hyperlink audit: FAIL, opener="
+						+ openerAvailable
+						+ ", idleClean="
+						+ noStuckUnderline
+						+ ", reachable="
+						+ reachable
+						+ ", inputReaches="
+						+ inputReaches
+						+ ", hoverUnderline="
+						+ underlinesOnHover
+						+ ", textStaysVisible="
+						+ staysVisible
+						+ ", leaveClears="
+						+ clearsOnLeave
+						+ ", click="
+						+ raisesClick
+						+ ", targets="
+						+ anchors
+						+ ", inlineRouted="
+						+ routedInlineLinks
+						+ "/"
+						+ liveInlineLinks
+						+ (broken.Count > 0 ? ", broken: " + string.Join("; ", broken.Take(4)) : string.Empty)
+			);
 		}
 		catch (Exception ex)
 		{
@@ -4111,7 +4773,8 @@ internal static class WindowAudit
 		DependencyObject root,
 		ref int total,
 		ref int routed,
-		System.Collections.Generic.List<string> broken)
+		System.Collections.Generic.List<string> broken
+	)
 	{
 		if (root is System.Windows.Controls.TextBlock block && block.IsVisible && block.ActualWidth > 0d)
 		{
@@ -4137,10 +4800,16 @@ internal static class WindowAudit
 				}
 				else if (broken.Count < 6)
 				{
-					broken.Add("inline link in " + (string.IsNullOrWhiteSpace(block.Name) ? block.GetType().Name : block.Name)
-						+ " routes=" + hovers
-						+ " hitTestable=" + hitTestable
-						+ " background=" + (block.Background is null ? "none" : block.Background.GetType().Name));
+					broken.Add(
+						"inline link in "
+							+ (string.IsNullOrWhiteSpace(block.Name) ? block.GetType().Name : block.Name)
+							+ " routes="
+							+ hovers
+							+ " hitTestable="
+							+ hitTestable
+							+ " background="
+							+ (block.Background is null ? "none" : block.Background.GetType().Name)
+					);
 				}
 			}
 		}
@@ -4196,13 +4865,11 @@ internal static class WindowAudit
 				{
 					System.Windows.FrameworkContentElement content => content.Parent,
 					Visual visual => VisualTreeHelper.GetParent(visual),
-					_ => null
+					_ => null,
 				};
 			}
 		}
-		catch (InvalidOperationException)
-		{
-		}
+		catch (InvalidOperationException) { }
 
 		return false;
 	}
@@ -4238,7 +4905,8 @@ internal static class WindowAudit
 	private static bool TryGetInlineCentre(
 		System.Windows.Documents.Inline inline,
 		System.Windows.Controls.TextBlock owner,
-		out Point centre)
+		out Point centre
+	)
 	{
 		centre = default;
 		try
@@ -4264,8 +4932,7 @@ internal static class WindowAudit
 		if (root is Wpf.Ui.Controls.Anchor anchor)
 		{
 			found++;
-			if (string.IsNullOrWhiteSpace(anchor.NavigateUri)
-				|| !Uri.TryCreate(anchor.NavigateUri, UriKind.Absolute, out _))
+			if (string.IsNullOrWhiteSpace(anchor.NavigateUri) || !Uri.TryCreate(anchor.NavigateUri, UriKind.Absolute, out _))
 			{
 				broken.Add("Anchor \"" + DescribeButtonContent(anchor) + "\" has no usable target");
 			}
@@ -4277,8 +4944,7 @@ internal static class WindowAudit
 		else if (root is Wpf.Ui.Controls.Hyperlink uiLink)
 		{
 			found++;
-			if (string.IsNullOrWhiteSpace(uiLink.NavigateUri)
-				|| !Uri.TryCreate(uiLink.NavigateUri, UriKind.Absolute, out _))
+			if (string.IsNullOrWhiteSpace(uiLink.NavigateUri) || !Uri.TryCreate(uiLink.NavigateUri, UriKind.Absolute, out _))
 			{
 				broken.Add("Hyperlink \"" + DescribeButtonContent(uiLink) + "\" has no usable target");
 			}
@@ -4340,24 +5006,48 @@ internal static class WindowAudit
 					if (window.ActualWidth < 16d || window.ActualHeight < 16d)
 					{
 						failures++;
-						Emit("  STYLE FAIL " + style + ": the window measured "
-							+ window.ActualWidth.ToString("F0") + "x" + window.ActualHeight.ToString("F0"));
+						Emit(
+							"  STYLE FAIL "
+								+ style
+								+ ": the window measured "
+								+ window.ActualWidth.ToString("F0")
+								+ "x"
+								+ window.ActualHeight.ToString("F0")
+						);
 						continue;
 					}
 
 					if (clipped.Count > 0 || substitution.Length > 0)
 					{
 						failures++;
-						Emit("  STYLE FAIL " + style + " [" + window.GetType().Name + " "
-							+ window.ActualWidth.ToString("F0") + "x" + window.ActualHeight.ToString("F0") + "]"
-							+ (substitution.Length > 0 ? " " + substitution : string.Empty)
-							+ (clipped.Count > 0 ? " clipped: " + string.Join("; ", clipped.Take(4)) : string.Empty)
-							+ (clipped.Count > 4 ? " and " + (clipped.Count - 4) + " more" : string.Empty));
+						Emit(
+							"  STYLE FAIL "
+								+ style
+								+ " ["
+								+ window.GetType().Name
+								+ " "
+								+ window.ActualWidth.ToString("F0")
+								+ "x"
+								+ window.ActualHeight.ToString("F0")
+								+ "]"
+								+ (substitution.Length > 0 ? " " + substitution : string.Empty)
+								+ (clipped.Count > 0 ? " clipped: " + string.Join("; ", clipped.Take(4)) : string.Empty)
+								+ (clipped.Count > 4 ? " and " + (clipped.Count - 4) + " more" : string.Empty)
+						);
 						continue;
 					}
 
-					Emit("  STYLE OK   " + style + " [" + window.GetType().Name + " "
-						+ window.ActualWidth.ToString("F0") + "x" + window.ActualHeight.ToString("F0") + "]");
+					Emit(
+						"  STYLE OK   "
+							+ style
+							+ " ["
+							+ window.GetType().Name
+							+ " "
+							+ window.ActualWidth.ToString("F0")
+							+ "x"
+							+ window.ActualHeight.ToString("F0")
+							+ "]"
+					);
 				}
 				catch (Exception ex)
 				{
@@ -4373,17 +5063,17 @@ internal static class WindowAudit
 					{
 						window?.Close();
 					}
-					catch (Exception)
-					{
-					}
+					catch (Exception) { }
 
 					Pump(120);
 				}
 			}
 
-			Emit(failures == 0
-				? "bootstrapper style audit: PASS, every launcher style rendered natively on Linux with no clipped content"
-				: "bootstrapper style audit: FAIL, " + failures + " launcher style(s) need Linux work");
+			Emit(
+				failures == 0
+					? "bootstrapper style audit: PASS, every launcher style rendered natively on Linux with no clipped content"
+					: "bootstrapper style audit: FAIL, " + failures + " launcher style(s) need Linux work"
+			);
 		}
 		finally
 		{
@@ -4402,8 +5092,10 @@ internal static class WindowAudit
 			Voidstrap.Enums.BootstrapperStyle.ProgressDialog => "LinuxProgressDialog",
 			Voidstrap.Enums.BootstrapperStyle.ClassicFluentDialog => "ClassicFluentDialog",
 			Voidstrap.Enums.BootstrapperStyle.ByfronDialog => "ByfronDialog",
-			Voidstrap.Enums.BootstrapperStyle.CustomDialog => App.Settings.Prop.SelectedCustomTheme == null ? "FluentDialog" : "CustomDialog",
-			_ => "FluentDialog"
+			Voidstrap.Enums.BootstrapperStyle.CustomDialog => App.Settings.Prop.SelectedCustomTheme == null
+				? "FluentDialog"
+				: "CustomDialog",
+			_ => "FluentDialog",
 		};
 
 		return string.Equals(actual, expected, StringComparison.Ordinal)
@@ -4411,10 +5103,7 @@ internal static class WindowAudit
 			: "substituted by " + actual + " instead of " + expected + ",";
 	}
 
-	private static void CollectClippedElements(
-		Window window,
-		DependencyObject current,
-		System.Collections.Generic.List<string> clipped)
+	private static void CollectClippedElements(Window window, DependencyObject current, System.Collections.Generic.List<string> clipped)
 	{
 		if (clipped.Count >= 24)
 			return;
@@ -4451,24 +5140,25 @@ internal static class WindowAudit
 		if (neededWidth - root.ActualWidth <= ClipTolerance && neededHeight - root.ActualHeight <= ClipTolerance)
 			return null;
 
-		return "the content needs " + neededWidth.ToString("F0") + "x" + neededHeight.ToString("F0")
-			+ " but the window only gives it " + root.ActualWidth.ToString("F0") + "x" + root.ActualHeight.ToString("F0");
+		return "the content needs "
+			+ neededWidth.ToString("F0")
+			+ "x"
+			+ neededHeight.ToString("F0")
+			+ " but the window only gives it "
+			+ root.ActualWidth.ToString("F0")
+			+ "x"
+			+ root.ActualHeight.ToString("F0");
 	}
 
 	private const double MinimumTextContrast = 3d;
 
-	private static string? TryCancelDialog(
-		Window window,
-		Voidstrap.UI.IBootstrapperDialog dialog,
-		Voidstrap.Enums.BootstrapperStyle style)
+	private static string? TryCancelDialog(Window window, Voidstrap.UI.IBootstrapperDialog dialog, Voidstrap.Enums.BootstrapperStyle style)
 	{
 		System.Windows.Controls.Primitives.ButtonBase? cancel = FindCancelButton(window);
 		if (cancel is null && style == Voidstrap.Enums.BootstrapperStyle.CustomDialog)
 		{
 			dialog.CloseBootstrapper();
-			return PumpUntil(() => !window.IsVisible, 2500)
-				? null
-				: "the custom launcher did not close on request";
+			return PumpUntil(() => !window.IsVisible, 2500) ? null : "the custom launcher did not close on request";
 		}
 
 		if (cancel is null)
@@ -4489,9 +5179,7 @@ internal static class WindowAudit
 			cancel.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent, cancel));
 		}
 
-		return PumpUntil(() => !window.IsVisible, 2500)
-			? null
-			: "the Cancel button did not close the launcher";
+		return PumpUntil(() => !window.IsVisible, 2500) ? null : "the Cancel button did not close the launcher";
 	}
 
 	private static System.Windows.Controls.Primitives.ButtonBase? FindCancelButton(DependencyObject root)
@@ -4514,7 +5202,8 @@ internal static class WindowAudit
 	{
 		System.Windows.Data.Binding? binding = System.Windows.Data.BindingOperations.GetBinding(
 			button,
-			System.Windows.Controls.Primitives.ButtonBase.CommandProperty);
+			System.Windows.Controls.Primitives.ButtonBase.CommandProperty
+		);
 		if (binding is not null && string.Equals(binding.Path?.Path, "CancelInstallCommand", StringComparison.Ordinal))
 			return true;
 
@@ -4533,29 +5222,33 @@ internal static class WindowAudit
 		return button.Name ?? string.Empty;
 	}
 
-	private static void CollectUnreadableText(
-		Window window,
-		DependencyObject current,
-		System.Collections.Generic.List<string> issues)
+	private static void CollectUnreadableText(Window window, DependencyObject current, System.Collections.Generic.List<string> issues)
 	{
 		if (issues.Count >= 24)
 			return;
 
-		if (current is System.Windows.Controls.TextBlock text
+		if (
+			current is System.Windows.Controls.TextBlock text
 			&& text.IsVisible
 			&& !string.IsNullOrWhiteSpace(text.Text)
 			&& text.ActualWidth > 0d
 			&& text.ActualHeight > 0d
 			&& text.Foreground is SolidColorBrush foreground
 			&& foreground.Color.A > 32
-			&& TryResolveOpaqueBackground(text, out Color background))
+			&& TryResolveOpaqueBackground(text, out Color background)
+		)
 		{
 			double contrast = ContrastRatio(foreground.Color, background);
 			if (contrast < MinimumTextContrast)
 			{
 				string preview = text.Text.Length > 24 ? text.Text.Substring(0, 24) : text.Text;
-				issues.Add("TextBlock \"" + preview.Replace('\n', ' ') + "\" has a contrast of "
-					+ contrast.ToString("F1") + " against its background");
+				issues.Add(
+					"TextBlock \""
+						+ preview.Replace('\n', ' ')
+						+ "\" has a contrast of "
+						+ contrast.ToString("F1")
+						+ " against its background"
+				);
 			}
 		}
 
@@ -4575,7 +5268,7 @@ internal static class WindowAudit
 				System.Windows.Controls.Border border => border.Background,
 				System.Windows.Controls.Panel panel => panel.Background,
 				System.Windows.Controls.Control control => control.Background,
-				_ => null
+				_ => null,
 			};
 
 			if (brush is SolidColorBrush solid && solid.Color.A > 200)
@@ -4602,9 +5295,7 @@ internal static class WindowAudit
 
 	private static double RelativeLuminance(Color color)
 	{
-		return 0.2126d * LinearChannel(color.R)
-			+ 0.7152d * LinearChannel(color.G)
-			+ 0.0722d * LinearChannel(color.B);
+		return 0.2126d * LinearChannel(color.R) + 0.7152d * LinearChannel(color.G) + 0.0722d * LinearChannel(color.B);
 	}
 
 	private static double LinearChannel(byte value)
@@ -4627,21 +5318,37 @@ internal static class WindowAudit
 		double neededWidth = Math.Max(0d, element.DesiredSize.Width - margin.Left - margin.Right);
 		double neededHeight = Math.Max(0d, element.DesiredSize.Height - margin.Top - margin.Bottom);
 
-		if (element is System.Windows.Controls.TextBlock text
+		if (
+			element is System.Windows.Controls.TextBlock text
 			&& !string.IsNullOrWhiteSpace(text.Text)
 			&& text.TextTrimming == TextTrimming.None
-			&& (neededHeight - height > ClipTolerance || neededWidth - width > ClipTolerance))
+			&& (neededHeight - height > ClipTolerance || neededWidth - width > ClipTolerance)
+		)
 		{
-			return " is cut to " + width.ToString("F0") + "x" + height.ToString("F0")
-				+ " but needs " + neededWidth.ToString("F0") + "x" + neededHeight.ToString("F0");
+			return " is cut to "
+				+ width.ToString("F0")
+				+ "x"
+				+ height.ToString("F0")
+				+ " but needs "
+				+ neededWidth.ToString("F0")
+				+ "x"
+				+ neededHeight.ToString("F0");
 		}
 
-		if (element is System.Windows.Controls.ContentControl control
+		if (
+			element is System.Windows.Controls.ContentControl control
 			&& control.Content is string
-			&& (neededHeight - height > ClipTolerance || neededWidth - width > ClipTolerance))
+			&& (neededHeight - height > ClipTolerance || neededWidth - width > ClipTolerance)
+		)
 		{
-			return " is cut to " + width.ToString("F0") + "x" + height.ToString("F0")
-				+ " but needs " + neededWidth.ToString("F0") + "x" + neededHeight.ToString("F0");
+			return " is cut to "
+				+ width.ToString("F0")
+				+ "x"
+				+ height.ToString("F0")
+				+ " but needs "
+				+ neededWidth.ToString("F0")
+				+ "x"
+				+ neededHeight.ToString("F0");
 		}
 
 		if (!element.IsHitTestVisible)
@@ -4650,19 +5357,29 @@ internal static class WindowAudit
 		try
 		{
 			Point origin = element.TranslatePoint(new Point(0d, 0d), window);
-			if (origin.X < 0d - ClipTolerance
+			if (
+				origin.X < 0d - ClipTolerance
 				|| origin.Y < 0d - ClipTolerance
 				|| origin.X + width > window.ActualWidth + ClipTolerance
-				|| origin.Y + height > window.ActualHeight + ClipTolerance)
+				|| origin.Y + height > window.ActualHeight + ClipTolerance
+			)
 			{
-				return " sits at " + origin.X.ToString("F0") + "," + origin.Y.ToString("F0")
-					+ " sized " + width.ToString("F0") + "x" + height.ToString("F0")
-					+ " outside the " + window.ActualWidth.ToString("F0") + "x" + window.ActualHeight.ToString("F0") + " window";
+				return " sits at "
+					+ origin.X.ToString("F0")
+					+ ","
+					+ origin.Y.ToString("F0")
+					+ " sized "
+					+ width.ToString("F0")
+					+ "x"
+					+ height.ToString("F0")
+					+ " outside the "
+					+ window.ActualWidth.ToString("F0")
+					+ "x"
+					+ window.ActualHeight.ToString("F0")
+					+ " window";
 			}
 		}
-		catch (InvalidOperationException)
-		{
-		}
+		catch (InvalidOperationException) { }
 
 		return null;
 	}
@@ -4678,7 +5395,11 @@ internal static class WindowAudit
 			return name + " \"" + preview.Replace('\n', ' ') + "\"";
 		}
 
-		if (element is System.Windows.Controls.ContentControl content && content.Content is string label && !string.IsNullOrWhiteSpace(label))
+		if (
+			element is System.Windows.Controls.ContentControl content
+			&& content.Content is string label
+			&& !string.IsNullOrWhiteSpace(label)
+		)
 			return name + " \"" + label + "\"";
 
 		return name;
@@ -4693,23 +5414,20 @@ internal static class WindowAudit
 		Window? plain = null;
 		try
 		{
-			bool defaultsToVoidstrap = new Voidstrap.Models.Persistable.AppSettings().BootstrapperStyle
-				== Voidstrap.Enums.BootstrapperStyle.FluentDialog;
+			bool defaultsToVoidstrap =
+				new Voidstrap.Models.Persistable.AppSettings().BootstrapperStyle == Voidstrap.Enums.BootstrapperStyle.FluentDialog;
 
 			glass = new Voidstrap.UI.Elements.Bootstrapper.FluentDialog(aero: true)
 			{
 				ShowInTaskbar = false,
 				Left = 40d,
-				Top = 40d
+				Top = 40d,
 			};
 			glass.Show();
 			Pump(500);
 
 			FrameworkElement? material = FindGlassMaterial(glass);
-			bool materialPresent = material is not null
-				&& material.IsVisible
-				&& material.ActualWidth > 0d
-				&& material.ActualHeight > 0d;
+			bool materialPresent = material is not null && material.IsVisible && material.ActualWidth > 0d && material.ActualHeight > 0d;
 
 			int blurLayers = 0;
 			int tintLayers = 0;
@@ -4725,33 +5443,46 @@ internal static class WindowAudit
 			{
 				ShowInTaskbar = false,
 				Left = 40d,
-				Top = 400d
+				Top = 400d,
 			};
 			plain.Show();
 			Pump(500);
 			bool plainHasNoMaterial = FindGlassMaterial(plain) is null;
 
-			bool glassIsOpaque = !glass.AllowsTransparency
-				&& material is not null
-				&& HasOpaqueBase(material);
+			bool glassIsOpaque = !glass.AllowsTransparency && material is not null && HasOpaqueBase(material);
 
-			bool passed = defaultsToVoidstrap
+			bool passed =
+				defaultsToVoidstrap
 				&& materialPresent
 				&& materialBlurs
 				&& materialTints
 				&& materialGrains
 				&& glassIsOpaque
 				&& plainHasNoMaterial;
-			Emit(passed
-				? "Linux glass bootstrapper audit: PASS, the launcher style defaults to Voidstrap and the glass material renders "
-					+ blurLayers + " blurred layer(s), " + tintLayers + " tint layer(s), and " + grainLayers + " grain layer(s) only for the glass style"
-				: "Linux glass bootstrapper audit: FAIL, default=" + defaultsToVoidstrap
-					+ ", material=" + materialPresent
-					+ ", blur=" + blurLayers
-					+ ", tint=" + tintLayers
-					+ ", grain=" + grainLayers
-					+ ", plainClean=" + plainHasNoMaterial
-					+ ", opaque=" + glassIsOpaque);
+			Emit(
+				passed
+					? "Linux glass bootstrapper audit: PASS, the launcher style defaults to Voidstrap and the glass material renders "
+						+ blurLayers
+						+ " blurred layer(s), "
+						+ tintLayers
+						+ " tint layer(s), and "
+						+ grainLayers
+						+ " grain layer(s) only for the glass style"
+					: "Linux glass bootstrapper audit: FAIL, default="
+						+ defaultsToVoidstrap
+						+ ", material="
+						+ materialPresent
+						+ ", blur="
+						+ blurLayers
+						+ ", tint="
+						+ tintLayers
+						+ ", grain="
+						+ grainLayers
+						+ ", plainClean="
+						+ plainHasNoMaterial
+						+ ", opaque="
+						+ glassIsOpaque
+			);
 		}
 		catch (Exception ex)
 		{
@@ -4764,9 +5495,7 @@ internal static class WindowAudit
 				glass?.Close();
 				plain?.Close();
 			}
-			catch (Exception)
-			{
-			}
+			catch (Exception) { }
 
 			Pump(120);
 		}
@@ -4774,8 +5503,10 @@ internal static class WindowAudit
 
 	private static FrameworkElement? FindGlassMaterial(DependencyObject root)
 	{
-		if (root is FrameworkElement element
-			&& string.Equals(element.Name, Voidstrap.UI.LinuxGlassBackdrop.MaterialName, StringComparison.Ordinal))
+		if (
+			root is FrameworkElement element
+			&& string.Equals(element.Name, Voidstrap.UI.LinuxGlassBackdrop.MaterialName, StringComparison.Ordinal)
+		)
 		{
 			return element;
 		}
@@ -4793,9 +5524,7 @@ internal static class WindowAudit
 
 	private static bool HasOpaqueBase(DependencyObject root)
 	{
-		if (root is System.Windows.Shapes.Shape shape
-			&& shape.Fill is GradientBrush gradient
-			&& gradient.GradientStops.Count > 0)
+		if (root is System.Windows.Shapes.Shape shape && shape.Fill is GradientBrush gradient && gradient.GradientStops.Count > 0)
 		{
 			bool opaque = true;
 			foreach (GradientStop stop in gradient.GradientStops)
@@ -4856,7 +5585,7 @@ internal static class WindowAudit
 				Background = System.Windows.Media.Brushes.DimGray,
 				HorizontalAlignment = HorizontalAlignment.Left,
 				VerticalAlignment = VerticalAlignment.Top,
-				Margin = new Thickness(16)
+				Margin = new Thickness(16),
 			};
 
 			System.Windows.Controls.ComboBox first = CreateAuditCombo("surface first ", 16, 88);
@@ -4868,7 +5597,7 @@ internal static class WindowAudit
 				MaxDropDownHeight = 220,
 				HorizontalAlignment = HorizontalAlignment.Left,
 				VerticalAlignment = VerticalAlignment.Top,
-				Margin = new Thickness(16, 192, 0, 0)
+				Margin = new Thickness(16, 192, 0, 0),
 			};
 
 			Wpf.Ui.Controls.AutoSuggestBox suggest = new()
@@ -4878,7 +5607,7 @@ internal static class WindowAudit
 				HorizontalAlignment = HorizontalAlignment.Left,
 				VerticalAlignment = VerticalAlignment.Top,
 				Margin = new Thickness(16, 244, 0, 0),
-				ItemsSource = new[] { "alpha", "alpine", "beta", "gamma" }
+				ItemsSource = new[] { "alpha", "alpine", "beta", "gamma" },
 			};
 
 			Wpf.Ui.Controls.Flyout flyout = new()
@@ -4887,7 +5616,7 @@ internal static class WindowAudit
 				Background = System.Windows.Media.Brushes.DimGray,
 				Padding = new Thickness(8),
 				HorizontalAlignment = HorizontalAlignment.Left,
-				VerticalAlignment = VerticalAlignment.Top
+				VerticalAlignment = VerticalAlignment.Top,
 			};
 			System.Windows.Controls.Grid flyoutHost = new()
 			{
@@ -4895,7 +5624,7 @@ internal static class WindowAudit
 				Height = 40,
 				HorizontalAlignment = HorizontalAlignment.Left,
 				VerticalAlignment = VerticalAlignment.Top,
-				Margin = new Thickness(16, 296, 0, 0)
+				Margin = new Thickness(16, 296, 0, 0),
 			};
 			flyoutHost.Children.Add(flyout);
 
@@ -4912,16 +5641,12 @@ internal static class WindowAudit
 				Height = 420,
 				Content = content,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			probe.Show();
 			Pump(180);
 
-			System.Windows.Controls.ComboBox nested = new()
-			{
-				Width = 160,
-				Height = 32
-			};
+			System.Windows.Controls.ComboBox nested = new() { Width = 160, Height = 32 };
 			nested.Items.Add("nested one");
 			nested.Items.Add("nested two");
 			nested.SelectedIndex = 0;
@@ -4929,16 +5654,12 @@ internal static class WindowAudit
 			System.Windows.Controls.MenuItem submenuOwner = new() { Header = "submenu owner" };
 			submenuOwner.Items.Add(new System.Windows.Controls.MenuItem { Header = "child one" });
 			submenuOwner.Items.Add(new System.Windows.Controls.MenuItem { Header = "child two" });
-			System.Windows.Controls.MenuItem nestedOwner = new()
-			{
-				Header = nested,
-				StaysOpenOnClick = true
-			};
+			System.Windows.Controls.MenuItem nestedOwner = new() { Header = nested, StaysOpenOnClick = true };
 			System.Windows.Controls.ContextMenu menu = new()
 			{
 				PlacementTarget = host,
 				Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom,
-				StaysOpen = true
+				StaysOpen = true,
 			};
 			menu.Items.Add(new System.Windows.Controls.MenuItem { Header = "plain entry" });
 			menu.Items.Add(submenuOwner);
@@ -4947,7 +5668,8 @@ internal static class WindowAudit
 
 			menu.IsOpen = true;
 			Pump(700);
-			bool menuPresented = menu.IsOpen
+			bool menuPresented =
+				menu.IsOpen
 				&& PresentationSource.FromVisual(menu) is not null
 				&& menu.ActualWidth > 0d
 				&& menu.ActualHeight > 0d
@@ -4956,7 +5678,8 @@ internal static class WindowAudit
 
 			submenuOwner.SetCurrentValue(System.Windows.Controls.MenuItem.IsSubmenuOpenProperty, true);
 			Pump(700);
-			bool submenuPresented = submenuOwner.IsSubmenuOpen
+			bool submenuPresented =
+				submenuOwner.IsSubmenuOpen
 				&& submenuOwner.ItemContainerGenerator.ContainerFromIndex(0) is FrameworkElement submenuChild
 				&& PresentationSource.FromVisual(submenuChild) is not null
 				&& submenuChild.ActualWidth > 0d
@@ -4965,19 +5688,16 @@ internal static class WindowAudit
 			Pump(400);
 
 			nested.ApplyTemplate();
-			System.Windows.Controls.Primitives.Popup? nestedPopup = nested.Template?.FindName("Popup", nested) as System.Windows.Controls.Primitives.Popup;
+			System.Windows.Controls.Primitives.Popup? nestedPopup =
+				nested.Template?.FindName("Popup", nested) as System.Windows.Controls.Primitives.Popup;
 			nested.SetCurrentValue(System.Windows.Controls.ComboBox.IsDropDownOpenProperty, true);
 			Pump(800);
-			bool nestedPresented = nestedPopup is not null
-				&& menu.IsOpen
-				&& IsDropdownPresented(nested, nestedPopup);
+			bool nestedPresented = nestedPopup is not null && menu.IsOpen && IsDropdownPresented(nested, nestedPopup);
 			if (!nestedPresented && nestedPopup is not null)
 				Emit("nested popup state: menu " + menu.IsOpen + ", " + GetDropdownState(nested, nestedPopup));
 			nested.SetCurrentValue(System.Windows.Controls.ComboBox.IsDropDownOpenProperty, false);
 			Pump(700);
-			bool nestedClosed = nestedPopup is not null
-				&& IsDropdownSettled(nested, nestedPopup)
-				&& menu.IsOpen;
+			bool nestedClosed = nestedPopup is not null && IsDropdownSettled(nested, nestedPopup) && menu.IsOpen;
 
 			menu.SetCurrentValue(System.Windows.Controls.ContextMenu.IsOpenProperty, false);
 			Pump(600);
@@ -4988,44 +5708,55 @@ internal static class WindowAudit
 				Content = "audit tooltip",
 				PlacementTarget = host,
 				Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom,
-				StaysOpen = true
+				StaysOpen = true,
 			};
 			tip.SetCurrentValue(System.Windows.Controls.ToolTip.IsOpenProperty, true);
 			Pump(700);
-			bool tipPresented = tip.IsOpen
-				&& PresentationSource.FromVisual(tip) is not null
-				&& tip.ActualWidth > 0d
-				&& tip.ActualHeight > 0d;
+			bool tipPresented =
+				tip.IsOpen && PresentationSource.FromVisual(tip) is not null && tip.ActualWidth > 0d && tip.ActualHeight > 0d;
 			tip.SetCurrentValue(System.Windows.Controls.ToolTip.IsOpenProperty, false);
 			Pump(600);
 			bool tipClosed = !tip.IsOpen && PresentationSource.FromVisual(tip) is null;
 
 			flyout.ApplyTemplate();
-			System.Windows.Controls.Primitives.Popup? flyoutPopup = flyout.Template?.FindName("PART_Popup", flyout) as System.Windows.Controls.Primitives.Popup;
+			System.Windows.Controls.Primitives.Popup? flyoutPopup =
+				flyout.Template?.FindName("PART_Popup", flyout) as System.Windows.Controls.Primitives.Popup;
 			flyout.Show();
 			Pump(700);
-			bool flyoutPresented = flyoutPopup is { IsOpen: true }
+			bool flyoutPresented =
+				flyoutPopup is { IsOpen: true }
 				&& flyoutPopup.Child is FrameworkElement flyoutChild
 				&& PresentationSource.FromVisual(flyoutChild) is not null
 				&& flyoutChild.ActualWidth > 0d
 				&& IsPresentedHitTarget(flyoutChild, flyoutChild);
 			if (!flyoutPresented)
-				Emit("flyout state: popup=" + (flyoutPopup?.IsOpen ?? false)
-					+ ", child=" + (flyoutPopup?.Child?.GetType().Name ?? "none")
-					+ ", source=" + (flyoutPopup?.Child is FrameworkElement sourceProbe && PresentationSource.FromVisual(sourceProbe) is not null)
-					+ ", size=" + ((flyoutPopup?.Child as FrameworkElement)?.ActualWidth ?? 0d).ToString("F1")
-					+ "x" + ((flyoutPopup?.Child as FrameworkElement)?.ActualHeight ?? 0d).ToString("F1")
-					+ ", hitTestVisible=" + ((flyoutPopup?.Child as FrameworkElement)?.IsHitTestVisible ?? false)
-					+ ", hit=" + (flyoutPopup?.Child is FrameworkElement hitProbe && IsPresentedHitTarget(hitProbe, hitProbe)));
+				Emit(
+					"flyout state: popup="
+						+ (flyoutPopup?.IsOpen ?? false)
+						+ ", child="
+						+ (flyoutPopup?.Child?.GetType().Name ?? "none")
+						+ ", source="
+						+ (flyoutPopup?.Child is FrameworkElement sourceProbe && PresentationSource.FromVisual(sourceProbe) is not null)
+						+ ", size="
+						+ ((flyoutPopup?.Child as FrameworkElement)?.ActualWidth ?? 0d).ToString("F1")
+						+ "x"
+						+ ((flyoutPopup?.Child as FrameworkElement)?.ActualHeight ?? 0d).ToString("F1")
+						+ ", hitTestVisible="
+						+ ((flyoutPopup?.Child as FrameworkElement)?.IsHitTestVisible ?? false)
+						+ ", hit="
+						+ (flyoutPopup?.Child is FrameworkElement hitProbe && IsPresentedHitTarget(hitProbe, hitProbe))
+				);
 			flyout.Hide();
 			Pump(700);
 			bool flyoutClosed = flyoutPopup is { IsOpen: false };
 
 			suggest.ApplyTemplate();
-			System.Windows.Controls.Primitives.Popup? suggestPopup = suggest.Template?.FindName("PART_Popup", suggest) as System.Windows.Controls.Primitives.Popup;
+			System.Windows.Controls.Primitives.Popup? suggestPopup =
+				suggest.Template?.FindName("PART_Popup", suggest) as System.Windows.Controls.Primitives.Popup;
 			suggest.SetCurrentValue(Wpf.Ui.Controls.TextBox.TextProperty, "al");
 			Pump(800);
-			bool suggestPresented = suggestPopup is { IsOpen: true }
+			bool suggestPresented =
+				suggestPopup is { IsOpen: true }
 				&& suggest.IsSuggestionListOpen
 				&& suggestPopup.Child is FrameworkElement suggestChild
 				&& PresentationSource.FromVisual(suggestChild) is not null
@@ -5036,9 +5767,11 @@ internal static class WindowAudit
 
 			first.ApplyTemplate();
 			second.ApplyTemplate();
-			System.Windows.Controls.Primitives.Popup firstPopup = first.Template?.FindName("Popup", first) as System.Windows.Controls.Primitives.Popup
+			System.Windows.Controls.Primitives.Popup firstPopup =
+				first.Template?.FindName("Popup", first) as System.Windows.Controls.Primitives.Popup
 				?? throw new InvalidOperationException("the first simultaneous ComboBox popup was not created");
-			System.Windows.Controls.Primitives.Popup secondPopup = second.Template?.FindName("Popup", second) as System.Windows.Controls.Primitives.Popup
+			System.Windows.Controls.Primitives.Popup secondPopup =
+				second.Template?.FindName("Popup", second) as System.Windows.Controls.Primitives.Popup
 				?? throw new InvalidOperationException("the second simultaneous ComboBox popup was not created");
 			first.SetCurrentValue(System.Windows.Controls.ComboBox.IsDropDownOpenProperty, true);
 			Pump(700);
@@ -5051,18 +5784,26 @@ internal static class WindowAudit
 			probe.LayoutUpdated -= layoutProbe;
 			bool handoverSettled = IsDropdownPresented(second, secondPopup) && IsDropdownSettled(first, firstPopup);
 			if (!handoverSettled)
-				Emit("simultaneous dropdown state: first " + GetDropdownState(first, firstPopup)
-					+ " | second " + GetDropdownState(second, secondPopup));
+				Emit(
+					"simultaneous dropdown state: first "
+						+ GetDropdownState(first, firstPopup)
+						+ " | second "
+						+ GetDropdownState(second, secondPopup)
+				);
 			bool handoverStable = layoutPasses < MaxSimultaneousPopupLayoutPasses;
 			if (!handoverStable)
-				Emit("simultaneous dropdown layout: " + layoutPasses
-					+ " layout passes in 800ms, two portable popups are invalidating each other");
+				Emit(
+					"simultaneous dropdown layout: "
+						+ layoutPasses
+						+ " layout passes in 800ms, two portable popups are invalidating each other"
+				);
 			second.SetCurrentValue(System.Windows.Controls.ComboBox.IsDropDownOpenProperty, false);
 			Pump(700);
 			bool handoverClosed = IsDropdownSettled(second, secondPopup) && IsDropdownSettled(first, firstPopup);
 
 			empty.ApplyTemplate();
-			System.Windows.Controls.Primitives.Popup emptyPopup = empty.Template?.FindName("Popup", empty) as System.Windows.Controls.Primitives.Popup
+			System.Windows.Controls.Primitives.Popup emptyPopup =
+				empty.Template?.FindName("Popup", empty) as System.Windows.Controls.Primitives.Popup
 				?? throw new InvalidOperationException("the empty ComboBox popup was not created");
 			empty.SetCurrentValue(System.Windows.Controls.ComboBox.IsDropDownOpenProperty, true);
 			Pump(800);
@@ -5077,7 +5818,8 @@ internal static class WindowAudit
 			if (!noResidentSurfaces)
 				Emit("popup surface residue: " + DescribePopupSurfaces(probe));
 
-			bool passed = menuPresented
+			bool passed =
+				menuPresented
 				&& submenuPresented
 				&& nestedPresented
 				&& nestedClosed
@@ -5095,26 +5837,46 @@ internal static class WindowAudit
 				&& emptyConsistent
 				&& emptyClosed
 				&& noResidentSurfaces;
-			Emit(passed
-				? "popup surface audit: PASS, context menu, submenu, nested dropdown, tooltip, flyout, suggestion list, simultaneous dropdowns, and an empty source all presented and tore down cleanly"
-				: "popup surface audit: FAIL, menu=" + menuPresented
-					+ ", submenu=" + submenuPresented
-					+ ", nested=" + nestedPresented
-					+ ", nestedClose=" + nestedClosed
-					+ ", menuClose=" + menuClosed
-					+ ", tooltip=" + tipPresented
-					+ ", tooltipClose=" + tipClosed
-					+ ", flyout=" + flyoutPresented
-					+ ", flyoutClose=" + flyoutClosed
-					+ ", suggest=" + suggestPresented
-					+ ", suggestClose=" + suggestClosed
-					+ ", firstOpen=" + firstPresented
-					+ ", handover=" + handoverSettled
-					+ ", handoverStable=" + handoverStable
-					+ ", handoverClose=" + handoverClosed
-					+ ", empty=" + emptyConsistent
-					+ ", emptyClose=" + emptyClosed
-					+ ", residue=" + noResidentSurfaces);
+			Emit(
+				passed
+					? "popup surface audit: PASS, context menu, submenu, nested dropdown, tooltip, flyout, suggestion list, simultaneous dropdowns, and an empty source all presented and tore down cleanly"
+					: "popup surface audit: FAIL, menu="
+						+ menuPresented
+						+ ", submenu="
+						+ submenuPresented
+						+ ", nested="
+						+ nestedPresented
+						+ ", nestedClose="
+						+ nestedClosed
+						+ ", menuClose="
+						+ menuClosed
+						+ ", tooltip="
+						+ tipPresented
+						+ ", tooltipClose="
+						+ tipClosed
+						+ ", flyout="
+						+ flyoutPresented
+						+ ", flyoutClose="
+						+ flyoutClosed
+						+ ", suggest="
+						+ suggestPresented
+						+ ", suggestClose="
+						+ suggestClosed
+						+ ", firstOpen="
+						+ firstPresented
+						+ ", handover="
+						+ handoverSettled
+						+ ", handoverStable="
+						+ handoverStable
+						+ ", handoverClose="
+						+ handoverClosed
+						+ ", empty="
+						+ emptyConsistent
+						+ ", emptyClose="
+						+ emptyClosed
+						+ ", residue="
+						+ noResidentSurfaces
+			);
 		}
 		catch (Exception ex)
 		{
@@ -5148,13 +5910,14 @@ internal static class WindowAudit
 				Height = 320,
 				Content = content,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			probe.Show();
 			Pump(180);
 
 			combo.ApplyTemplate();
-			System.Windows.Controls.Primitives.Popup popup = combo.Template?.FindName("Popup", combo) as System.Windows.Controls.Primitives.Popup
+			System.Windows.Controls.Primitives.Popup popup =
+				combo.Template?.FindName("Popup", combo) as System.Windows.Controls.Primitives.Popup
 				?? throw new InvalidOperationException("fallback ComboBox popup was not created");
 
 			int presentedCycles = 0;
@@ -5181,19 +5944,30 @@ internal static class WindowAudit
 				ownerComposited = snapshot.NativeWindowCount == 0;
 
 			if (System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowingCapabilities(probe, out var capabilities))
-				backend = "backend " + capabilities.Backend
-					+ ", wayland session " + capabilities.IsWaylandDesktopSession
-					+ ", native popup support " + capabilities.SupportsNativePopupWindows
-					+ ", owner composited " + capabilities.UsesOwnerCompositedPopups;
+				backend =
+					"backend "
+					+ capabilities.Backend
+					+ ", wayland session "
+					+ capabilities.IsWaylandDesktopSession
+					+ ", native popup support "
+					+ capabilities.SupportsNativePopupWindows
+					+ ", owner composited "
+					+ capabilities.UsesOwnerCompositedPopups;
 #endif
 
 			bool passed = presentedCycles == 6 && settledCycles == 6 && ownerComposited;
-			Emit(passed
-				? "dropdown owner surface fallback audit: PASS, 6 forced owner composited cycles presented and settled, " + backend
-				: "dropdown owner surface fallback audit: FAIL, presented=" + presentedCycles
-					+ "/6, settled=" + settledCycles
-					+ "/6, ownerComposited=" + ownerComposited
-					+ ", " + backend);
+			Emit(
+				passed
+					? "dropdown owner surface fallback audit: PASS, 6 forced owner composited cycles presented and settled, " + backend
+					: "dropdown owner surface fallback audit: FAIL, presented="
+						+ presentedCycles
+						+ "/6, settled="
+						+ settledCycles
+						+ "/6, ownerComposited="
+						+ ownerComposited
+						+ ", "
+						+ backend
+			);
 		}
 		catch (Exception ex)
 		{
@@ -5225,13 +5999,14 @@ internal static class WindowAudit
 				Height = 320,
 				Content = content,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			owner.Show();
 			Pump(180);
 
 			combo.ApplyTemplate();
-			System.Windows.Controls.Primitives.Popup popup = combo.Template?.FindName("Popup", combo) as System.Windows.Controls.Primitives.Popup
+			System.Windows.Controls.Primitives.Popup popup =
+				combo.Template?.FindName("Popup", combo) as System.Windows.Controls.Primitives.Popup
 				?? throw new InvalidOperationException("multi-window ComboBox popup was not created");
 
 			secondary = new Window
@@ -5240,7 +6015,7 @@ internal static class WindowAudit
 				Height = 180,
 				Owner = owner,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			secondary.Show();
 			Pump(220);
@@ -5263,17 +6038,21 @@ internal static class WindowAudit
 			Pump(650);
 			bool settledAfterClose = IsDropdownSettled(combo, popup);
 
-			bool passed = whileSecondaryOpen
-				&& settledWithSecondary
-				&& afterSecondaryClosed
-				&& settledAfterClose;
-			Emit(passed
-				? "dropdown multi-window audit: PASS, the owner popup presented and settled while a second window was open and after it closed"
-				: "dropdown multi-window audit: FAIL, whileOpen=" + whileSecondaryOpen
-					+ ", settledWhileOpen=" + settledWithSecondary
-					+ ", afterClose=" + afterSecondaryClosed
-					+ ", settledAfterClose=" + settledAfterClose
-					+ ", " + GetDropdownState(combo, popup));
+			bool passed = whileSecondaryOpen && settledWithSecondary && afterSecondaryClosed && settledAfterClose;
+			Emit(
+				passed
+					? "dropdown multi-window audit: PASS, the owner popup presented and settled while a second window was open and after it closed"
+					: "dropdown multi-window audit: FAIL, whileOpen="
+						+ whileSecondaryOpen
+						+ ", settledWhileOpen="
+						+ settledWithSecondary
+						+ ", afterClose="
+						+ afterSecondaryClosed
+						+ ", settledAfterClose="
+						+ settledAfterClose
+						+ ", "
+						+ GetDropdownState(combo, popup)
+			);
 		}
 		catch (Exception ex)
 		{
@@ -5296,7 +6075,7 @@ internal static class WindowAudit
 			MaxDropDownHeight = 220,
 			HorizontalAlignment = HorizontalAlignment.Left,
 			VerticalAlignment = VerticalAlignment.Top,
-			Margin = new Thickness(left, top, 0, 0)
+			Margin = new Thickness(left, top, 0, 0),
 		};
 		for (int i = 0; i < 24; i++)
 			combo.Items.Add(prefix + i);
@@ -5304,25 +6083,23 @@ internal static class WindowAudit
 		return combo;
 	}
 
-	private static bool ClickToOpenDropdown(
-		System.Windows.Controls.ComboBox combo,
-		System.Windows.Controls.Primitives.ToggleButton toggle)
+	private static bool ClickToOpenDropdown(System.Windows.Controls.ComboBox combo, System.Windows.Controls.Primitives.ToggleButton toggle)
 	{
 		if (!IsToggleReachable(combo, toggle))
 			return false;
 
-		System.Windows.Input.MouseDevice mouse = System.Windows.Input.Mouse.PrimaryDevice
-			?? throw new InvalidOperationException("the audit could not resolve a mouse device");
+		System.Windows.Input.MouseDevice mouse =
+			System.Windows.Input.Mouse.PrimaryDevice ?? throw new InvalidOperationException("the audit could not resolve a mouse device");
 
 		System.Windows.Input.MouseButtonEventArgs preview = new(mouse, 0, System.Windows.Input.MouseButton.Left)
 		{
-			RoutedEvent = UIElement.PreviewMouseLeftButtonDownEvent
+			RoutedEvent = UIElement.PreviewMouseLeftButtonDownEvent,
 		};
 		toggle.RaiseEvent(preview);
 
 		System.Windows.Input.MouseButtonEventArgs down = new(mouse, 0, System.Windows.Input.MouseButton.Left)
 		{
-			RoutedEvent = UIElement.MouseLeftButtonDownEvent
+			RoutedEvent = UIElement.MouseLeftButtonDownEvent,
 		};
 		toggle.RaiseEvent(down);
 
@@ -5331,14 +6108,13 @@ internal static class WindowAudit
 
 	private static string DescribeToggleReachability(
 		System.Windows.Controls.ComboBox combo,
-		System.Windows.Controls.Primitives.ToggleButton toggle)
+		System.Windows.Controls.Primitives.ToggleButton toggle
+	)
 	{
 		string hitName = "none";
 		try
 		{
-			Point centre = toggle.TranslatePoint(
-				new Point(toggle.ActualWidth / 2d, toggle.ActualHeight / 2d),
-				combo);
+			Point centre = toggle.TranslatePoint(new Point(toggle.ActualWidth / 2d, toggle.ActualHeight / 2d), combo);
 			if (combo.InputHitTest(centre) is DependencyObject hit)
 			{
 				hitName = hit.GetType().Name;
@@ -5351,19 +6127,27 @@ internal static class WindowAudit
 			hitName = "untranslatable";
 		}
 
-		System.Windows.Controls.TextBox? editable = combo.Template?.FindName("PART_EditableTextBox", combo) as System.Windows.Controls.TextBox;
-		return "toggleSize=" + toggle.ActualWidth.ToString("F0") + "x" + toggle.ActualHeight.ToString("F0")
-			+ ", toggleVisible=" + toggle.IsVisible
-			+ ", toggleHitTestVisible=" + toggle.IsHitTestVisible
-			+ ", hitAtCentre=" + hitName
-			+ ", editableBox=" + (editable is null
-				? "absent"
-				: editable.Visibility + "/" + (editable.IsHitTestVisible ? "hit" : "nohit") + "/" + editable.ActualWidth.ToString("F0"));
+		System.Windows.Controls.TextBox? editable =
+			combo.Template?.FindName("PART_EditableTextBox", combo) as System.Windows.Controls.TextBox;
+		return "toggleSize="
+			+ toggle.ActualWidth.ToString("F0")
+			+ "x"
+			+ toggle.ActualHeight.ToString("F0")
+			+ ", toggleVisible="
+			+ toggle.IsVisible
+			+ ", toggleHitTestVisible="
+			+ toggle.IsHitTestVisible
+			+ ", hitAtCentre="
+			+ hitName
+			+ ", editableBox="
+			+ (
+				editable is null
+					? "absent"
+					: editable.Visibility + "/" + (editable.IsHitTestVisible ? "hit" : "nohit") + "/" + editable.ActualWidth.ToString("F0")
+			);
 	}
 
-	private static bool IsToggleReachable(
-		System.Windows.Controls.ComboBox combo,
-		System.Windows.Controls.Primitives.ToggleButton toggle)
+	private static bool IsToggleReachable(System.Windows.Controls.ComboBox combo, System.Windows.Controls.Primitives.ToggleButton toggle)
 	{
 		if (!toggle.IsVisible || !toggle.IsHitTestVisible || !toggle.IsEnabled)
 			return false;
@@ -5373,9 +6157,7 @@ internal static class WindowAudit
 
 		try
 		{
-			Point centre = toggle.TranslatePoint(
-				new Point(toggle.ActualWidth / 2d, toggle.ActualHeight / 2d),
-				combo);
+			Point centre = toggle.TranslatePoint(new Point(toggle.ActualWidth / 2d, toggle.ActualHeight / 2d), combo);
 			DependencyObject? hit = combo.InputHitTest(centre) as DependencyObject;
 			for (int depth = 0; hit is not null && depth < 24; depth++)
 			{
@@ -5385,9 +6167,7 @@ internal static class WindowAudit
 				hit = HitTestParent(hit);
 			}
 		}
-		catch (InvalidOperationException)
-		{
-		}
+		catch (InvalidOperationException) { }
 
 		return false;
 	}
@@ -5397,9 +6177,7 @@ internal static class WindowAudit
 		toggle.SetCurrentValue(System.Windows.Controls.Primitives.ToggleButton.IsCheckedProperty, true);
 	}
 
-	private static bool IsDropdownSettled(
-		System.Windows.Controls.ComboBox combo,
-		System.Windows.Controls.Primitives.Popup popup)
+	private static bool IsDropdownSettled(System.Windows.Controls.ComboBox combo, System.Windows.Controls.Primitives.Popup popup)
 	{
 		return !combo.IsDropDownOpen
 			&& !Wpf.Ui.Controls.PopupReveal.GetCloseTarget(popup)
@@ -5407,9 +6185,7 @@ internal static class WindowAudit
 			&& !popup.IsOpen;
 	}
 
-	private static bool IsDropdownConsistent(
-		System.Windows.Controls.ComboBox combo,
-		System.Windows.Controls.Primitives.Popup popup)
+	private static bool IsDropdownConsistent(System.Windows.Controls.ComboBox combo, System.Windows.Controls.Primitives.Popup popup)
 	{
 		return IsDropdownPresented(combo, popup) || IsDropdownSettled(combo, popup);
 	}
@@ -5422,9 +6198,7 @@ internal static class WindowAudit
 			if (ReferenceEquals(current, root))
 				return true;
 
-			current = current is FrameworkElement element
-				? element.Parent ?? element.TemplatedParent
-				: null;
+			current = current is FrameworkElement element ? element.Parent ?? element.TemplatedParent : null;
 		}
 
 		return false;
@@ -5448,18 +6222,20 @@ internal static class WindowAudit
 		if (!System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetPortablePopupSnapshot(owner, out var snapshot))
 			return "portable popup snapshot unavailable";
 
-		return "open=" + snapshot.OpenCount
-			+ ", visible=" + snapshot.VisibleCount
-			+ ", native=" + snapshot.NativeWindowCount
-			+ ", presentedNative=" + snapshot.PresentedNativeWindowCount;
+		return "open="
+			+ snapshot.OpenCount
+			+ ", visible="
+			+ snapshot.VisibleCount
+			+ ", native="
+			+ snapshot.NativeWindowCount
+			+ ", presentedNative="
+			+ snapshot.PresentedNativeWindowCount;
 #else
 		return "portable popup snapshot unavailable";
 #endif
 	}
 
-	private static bool IsPopupHitTarget(
-		System.Windows.Controls.Primitives.Popup popup,
-		FrameworkElement element)
+	private static bool IsPopupHitTarget(System.Windows.Controls.Primitives.Popup popup, FrameworkElement element)
 	{
 		return popup.Child is FrameworkElement child && IsPresentedHitTarget(child, element);
 	}
@@ -5496,55 +6272,52 @@ internal static class WindowAudit
 
 	private static DependencyObject? HitTestParent(DependencyObject element)
 	{
-		return element is Visual
-			? VisualTreeHelper.GetParent(element)
-			: LogicalTreeHelper.GetParent(element);
+		return element is Visual ? VisualTreeHelper.GetParent(element) : LogicalTreeHelper.GetParent(element);
 	}
 
 	private static void SendKey(UIElement target, System.Windows.Input.Key key)
 	{
-		PresentationSource source = PresentationSource.FromVisual(target)
+		PresentationSource source =
+			PresentationSource.FromVisual(target)
 			?? (Window.GetWindow(target) is Window window ? PresentationSource.FromVisual(window) : null)
 			?? throw new InvalidOperationException("the audit could not resolve a presentation source for keyboard input");
 
-		System.Windows.Input.KeyboardDevice keyboard = System.Windows.Input.Keyboard.PrimaryDevice
+		System.Windows.Input.KeyboardDevice keyboard =
+			System.Windows.Input.Keyboard.PrimaryDevice
 			?? throw new InvalidOperationException("the audit could not resolve a keyboard device");
 
 		System.Windows.Input.KeyEventArgs preview = new(keyboard, source, 0, key)
 		{
-			RoutedEvent = System.Windows.Input.Keyboard.PreviewKeyDownEvent
+			RoutedEvent = System.Windows.Input.Keyboard.PreviewKeyDownEvent,
 		};
 		target.RaiseEvent(preview);
 		if (preview.Handled)
 			return;
 
-		System.Windows.Input.KeyEventArgs down = new(keyboard, source, 0, key)
-		{
-			RoutedEvent = System.Windows.Input.Keyboard.KeyDownEvent
-		};
+		System.Windows.Input.KeyEventArgs down = new(keyboard, source, 0, key) { RoutedEvent = System.Windows.Input.Keyboard.KeyDownEvent };
 		target.RaiseEvent(down);
 	}
 
 	private static void SendMouseLeftButtonUp(UIElement target)
 	{
-		System.Windows.Input.MouseDevice mouse = System.Windows.Input.Mouse.PrimaryDevice
-			?? throw new InvalidOperationException("the audit could not resolve a mouse device");
+		System.Windows.Input.MouseDevice mouse =
+			System.Windows.Input.Mouse.PrimaryDevice ?? throw new InvalidOperationException("the audit could not resolve a mouse device");
 
 		System.Windows.Input.MouseButtonEventArgs args = new(mouse, 0, System.Windows.Input.MouseButton.Left)
 		{
-			RoutedEvent = UIElement.MouseLeftButtonUpEvent
+			RoutedEvent = UIElement.MouseLeftButtonUpEvent,
 		};
 		target.RaiseEvent(args);
 	}
 
 	private static void SendOutsideMouseDown(System.Windows.Controls.ComboBox combo)
 	{
-		System.Windows.Input.MouseDevice mouse = System.Windows.Input.Mouse.PrimaryDevice
-			?? throw new InvalidOperationException("the audit could not resolve a mouse device");
+		System.Windows.Input.MouseDevice mouse =
+			System.Windows.Input.Mouse.PrimaryDevice ?? throw new InvalidOperationException("the audit could not resolve a mouse device");
 
 		System.Windows.Input.MouseButtonEventArgs args = new(mouse, 0, System.Windows.Input.MouseButton.Left)
 		{
-			RoutedEvent = System.Windows.Input.Mouse.MouseDownEvent
+			RoutedEvent = System.Windows.Input.Mouse.MouseDownEvent,
 		};
 		combo.RaiseEvent(args);
 	}
@@ -5556,7 +6329,8 @@ internal static class WindowAudit
 			BindingFlags.Instance | BindingFlags.NonPublic,
 			null,
 			new[] { typeof(EventArgs) },
-			null);
+			null
+		);
 		if (method is null)
 			throw new InvalidOperationException("the audit could not resolve the window deactivation entry point");
 
@@ -5568,17 +6342,14 @@ internal static class WindowAudit
 		Window? probe = null;
 		try
 		{
-			System.Windows.Controls.Grid content = new System.Windows.Controls.Grid
-			{
-				Background = System.Windows.Media.Brushes.DimGray
-			};
+			System.Windows.Controls.Grid content = new System.Windows.Controls.Grid { Background = System.Windows.Media.Brushes.DimGray };
 			probe = new Window
 			{
 				Width = 300,
 				Height = 200,
 				Content = content,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			probe.Show();
 			Pump(80);
@@ -5593,16 +6364,19 @@ internal static class WindowAudit
 			Pump(600);
 			System.Windows.Documents.Adorner[]? after = layer?.GetAdorners(content);
 
-			bool passed = applied
+			bool passed =
+				applied
 				&& layer != null
 				&& during != null
 				&& during.Length > 0
 				&& covering > 0.05
 				&& covering < 0.995
 				&& (after == null || after.Length == 0);
-			Emit(passed
-				? $"theme crossfade audit: PASS, overlay faded through {covering:F2} and was removed"
-				: $"theme crossfade audit: FAIL, applied {applied}, layer {(layer != null)}, overlay {(during?.Length ?? 0)}, opacity {covering:F2}, remaining {(after?.Length ?? 0)}");
+			Emit(
+				passed
+					? $"theme crossfade audit: PASS, overlay faded through {covering:F2} and was removed"
+					: $"theme crossfade audit: FAIL, applied {applied}, layer {(layer != null)}, overlay {(during?.Length ?? 0)}, opacity {covering:F2}, remaining {(after?.Length ?? 0)}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -5623,7 +6397,12 @@ internal static class WindowAudit
 		Window? probe = null;
 		try
 		{
-			System.Windows.Controls.TextBox box = new() { Width = 300, Height = 30, AcceptsReturn = true };
+			System.Windows.Controls.TextBox box = new()
+			{
+				Width = 300,
+				Height = 30,
+				AcceptsReturn = true,
+			};
 			probe = new Window
 			{
 				Width = 320,
@@ -5633,11 +6412,13 @@ internal static class WindowAudit
 				Content = box,
 				ShowInTaskbar = false,
 				ShowActivated = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			probe.Show();
 			Pump(300);
-			Emit($"clipboard audit: bridge active={Voidstrap.UI.LinuxClipboardBridge.IsActive} tracks changes={Voidstrap.Platform.Linux.LinuxClipboard.TracksChanges}");
+			Emit(
+				$"clipboard audit: bridge active={Voidstrap.UI.LinuxClipboardBridge.IsActive} tracks changes={Voidstrap.Platform.Linux.LinuxClipboard.TracksChanges}"
+			);
 
 			string Paste()
 			{
@@ -5658,13 +6439,20 @@ internal static class WindowAudit
 			Emit("clipboard audit: copied from a text box");
 
 			string large = string.Empty;
-			bool refreshed = PumpUntil(() => (large = Paste()).Length == 200000 && large.StartsWith("LARGE", StringComparison.Ordinal), 20000);
-			Emit($"clipboard audit: {(refreshed ? "PASS" : "FAIL")}, paste followed a new copy in another app with an incremental transfer, got {large.Length} characters");
+			bool refreshed = PumpUntil(
+				() => (large = Paste()).Length == 200000 && large.StartsWith("LARGE", StringComparison.Ordinal),
+				20000
+			);
+			Emit(
+				$"clipboard audit: {(refreshed ? "PASS" : "FAIL")}, paste followed a new copy in another app with an incremental transfer, got {large.Length} characters"
+			);
 
 			Voidstrap.Utility.ClipboardService.SetText("button copy");
 			Pump(200);
 			string button = Paste();
-			Emit($"clipboard audit: {(button == "button copy" ? "PASS" : "FAIL")}, a copy button and text box paste agree, got \"{Shorten(button)}\"");
+			Emit(
+				$"clipboard audit: {(button == "button copy" ? "PASS" : "FAIL")}, a copy button and text box paste agree, got \"{Shorten(button)}\""
+			);
 			Pump(8000);
 		}
 		catch (Exception ex)
@@ -5687,7 +6475,14 @@ internal static class WindowAudit
 		{
 			List<AuditDatacenterRow> rows = new();
 			for (int index = 0; index < 60; index++)
-				rows.Add(new AuditDatacenterRow { Location = "Datacenter " + index, DistanceDisplay = index * 100 + " km away", PingDisplay = index + " ms" });
+				rows.Add(
+					new AuditDatacenterRow
+					{
+						Location = "Datacenter " + index,
+						DistanceDisplay = index * 100 + " km away",
+						PingDisplay = index + " ms",
+					}
+				);
 			const string markup = """
 				<Border xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" BorderThickness="1" CornerRadius="4" MaxHeight="420">
 				  <DataGrid AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Background="#00FFFFFF" BorderThickness="0" RowHeight="42">
@@ -5711,9 +6506,11 @@ internal static class WindowAudit
 			System.Windows.Controls.Border border = (System.Windows.Controls.Border)System.Windows.Markup.XamlReader.Parse(markup);
 			System.Windows.Controls.DataGrid grid = (System.Windows.Controls.DataGrid)border.Child;
 			Voidstrap.UI.Elements.Settings.Pages.BehaviourPage page = new();
-			if (page.FindName("DatacentersGrid") is not System.Windows.Controls.DataGrid pageGrid
+			if (
+				page.FindName("DatacentersGrid") is not System.Windows.Controls.DataGrid pageGrid
 				|| pageGrid.Columns.FirstOrDefault() is not System.Windows.Controls.DataGridTemplateColumn pageColumn
-				|| grid.Columns[0] is not System.Windows.Controls.DataGridTemplateColumn column)
+				|| grid.Columns[0] is not System.Windows.Controls.DataGridTemplateColumn column
+			)
 			{
 				Emit("datacenter toggle audit: FAIL, the Deployment page datacenter grid was not found");
 				return;
@@ -5729,25 +6526,33 @@ internal static class WindowAudit
 				Content = border,
 				ShowInTaskbar = false,
 				ShowActivated = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			probe.Show();
 			Pump(300);
 			grid.UpdateLayout();
 
 			AuditDatacenterRow target = rows[2];
-			Wpf.Ui.Controls.ToggleSwitch? toggle = FindDescendants<Wpf.Ui.Controls.ToggleSwitch>(grid).FirstOrDefault(item => ReferenceEquals(item.DataContext, target));
+			Wpf.Ui.Controls.ToggleSwitch? toggle = FindDescendants<Wpf.Ui.Controls.ToggleSwitch>(grid)
+				.FirstOrDefault(item => ReferenceEquals(item.DataContext, target));
 			if (toggle is null)
 			{
 				Emit("datacenter toggle audit: FAIL, the third row toggle was not realized");
 				return;
 			}
-			((System.Windows.Automation.Provider.IToggleProvider)new System.Windows.Automation.Peers.ToggleButtonAutomationPeer(toggle)).Toggle();
+			(
+				(System.Windows.Automation.Provider.IToggleProvider)new System.Windows.Automation.Peers.ToggleButtonAutomationPeer(toggle)
+			).Toggle();
 			Pump(300);
 			Emit($"datacenter toggle audit: after toggle row2 allowed={target.IsAllowed} writes={target.Writes} toggle={toggle.IsChecked}");
-			System.Windows.Data.BindingExpression? expression = System.Windows.Data.BindingOperations.GetBindingExpression(toggle, System.Windows.Controls.Primitives.ToggleButton.IsCheckedProperty);
+			System.Windows.Data.BindingExpression? expression = System.Windows.Data.BindingOperations.GetBindingExpression(
+				toggle,
+				System.Windows.Controls.Primitives.ToggleButton.IsCheckedProperty
+			);
 			System.Windows.Data.BindingGroup? group = expression?.BindingGroup;
-			Emit($"datacenter toggle audit: binding status={expression?.Status} dirty={expression?.IsDirty} error={expression?.HasError} trigger={expression?.ParentBinding.UpdateSourceTrigger} group={(group is null ? "none" : group.Name + " dirty=" + group.IsDirty + " items=" + group.Items.Count + " shares=" + group.SharesProposedValues)} groupOwner={group?.Owner?.GetType().Name}");
+			Emit(
+				$"datacenter toggle audit: binding status={expression?.Status} dirty={expression?.IsDirty} error={expression?.HasError} trigger={expression?.ParentBinding.UpdateSourceTrigger} group={(group is null ? "none" : group.Name + " dirty=" + group.IsDirty + " items=" + group.Items.Count + " shares=" + group.SharesProposedValues)} groupOwner={group?.Owner?.GetType().Name}"
+			);
 
 			System.Windows.Controls.ScrollViewer? viewer = FindDescendants<System.Windows.Controls.ScrollViewer>(grid).FirstOrDefault();
 			if (viewer is null)
@@ -5756,7 +6561,9 @@ internal static class WindowAudit
 				return;
 			}
 			bool scrollByItem = viewer.CanContentScroll;
-			Emit($"datacenter toggle audit: extent={viewer.ExtentHeight:F0} viewport={viewer.ViewportHeight:F0} canContentScroll={viewer.CanContentScroll} mode={System.Windows.Controls.VirtualizingPanel.GetVirtualizationMode(grid)} virtualizing={System.Windows.Controls.VirtualizingPanel.GetIsVirtualizing(grid)}");
+			Emit(
+				$"datacenter toggle audit: extent={viewer.ExtentHeight:F0} viewport={viewer.ViewportHeight:F0} canContentScroll={viewer.CanContentScroll} mode={System.Windows.Controls.VirtualizingPanel.GetVirtualizationMode(grid)} virtualizing={System.Windows.Controls.VirtualizingPanel.GetIsVirtualizing(grid)}"
+			);
 			for (int pass = 0; pass < 3; pass++)
 			{
 				for (double offset = 0; offset <= viewer.ScrollableHeight; offset += scrollByItem ? 3 : 126)
@@ -5791,7 +6598,9 @@ internal static class WindowAudit
 			}
 			int unexpected = rows.Count(row => !ReferenceEquals(row, target) && !row.IsAllowed);
 			bool passed = !target.IsAllowed && target.Writes == 1 && mismatched == 0 && unexpected == 0;
-			Emit($"datacenter toggle audit: {(passed ? "PASS" : "FAIL")}, row2 allowed={target.IsAllowed} writes={target.Writes}, other rows turned off={unexpected}, realized toggles={realized}, mismatched={mismatched}");
+			Emit(
+				$"datacenter toggle audit: {(passed ? "PASS" : "FAIL")}, row2 allowed={target.IsAllowed} writes={target.Writes}, other rows turned off={unexpected}, realized toggles={realized}, mismatched={mismatched}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -5853,8 +6662,8 @@ internal static class WindowAudit
 				{
 					Width = 340,
 					Height = 2400,
-					Background = System.Windows.Media.Brushes.Black
-				}
+					Background = System.Windows.Media.Brushes.Black,
+				},
 			};
 			probe = new Window
 			{
@@ -5862,7 +6671,7 @@ internal static class WindowAudit
 				Height = 280,
 				Content = viewer,
 				ShowInTaskbar = false,
-				WindowStyle = WindowStyle.None
+				WindowStyle = WindowStyle.None,
 			};
 			Wpf.Ui.Controls.SmoothScroll.Register();
 			Wpf.Ui.Controls.SmoothScroll.SetGlobalEnabled(false);
@@ -5874,9 +6683,9 @@ internal static class WindowAudit
 
 			MethodInfo? wheelHandler = typeof(Wpf.Ui.Controls.SmoothScroll).GetMethod(
 				"TryHandleLinuxWheel",
-				BindingFlags.Static | BindingFlags.NonPublic);
-			bool handled = wheelHandler != null
-				&& wheelHandler.Invoke(null, new object?[] { viewer.Content, -120 }) is true;
+				BindingFlags.Static | BindingFlags.NonPublic
+			);
+			bool handled = wheelHandler != null && wheelHandler.Invoke(null, new object?[] { viewer.Content, -120 }) is true;
 			Pump(40);
 			double firstOffset = ReadScrollOffset(viewer);
 			double settled = WaitForScrollRest(viewer, 2000);
@@ -5886,14 +6695,14 @@ internal static class WindowAudit
 			bool burstHandled = true;
 			for (int i = 0; i < 100; i++)
 			{
-				burstHandled &= wheelHandler != null
-					&& wheelHandler.Invoke(null, new object?[] { viewer.Content, -120 }) is true;
+				burstHandled &= wheelHandler != null && wheelHandler.Invoke(null, new object?[] { viewer.Content, -120 }) is true;
 			}
 			burst.Stop();
 			double burstSettled = WaitForScrollRest(viewer, 3000);
 			Pump(120);
 			double burstStable = ReadScrollOffset(viewer);
-			bool passed = handled
+			bool passed =
+				handled
 				&& firstOffset > 0
 				&& Math.Abs(settled - firstOffset) < 0.5
 				&& Math.Abs(stable - settled) < 0.5
@@ -5904,9 +6713,11 @@ internal static class WindowAudit
 				&& Math.Abs(burstSettled - viewer.ScrollableHeight) < 0.5
 				&& burstSettled <= viewer.ScrollableHeight
 				&& Math.Abs(burstStable - burstSettled) < 0.5;
-			Emit(passed
-				? $"scroll wheel audit: PASS, moved to {firstOffset:F1} and remained at {settled:F1} of {viewer.ScrollableHeight:F1}, 100 event burst {burst.ElapsedMilliseconds}ms rested at {burstSettled:F1}"
-				: $"scroll wheel audit: FAIL, handled {handled}, range {viewer.ScrollableHeight:F1}, first offset {firstOffset:F1}, settled {settled:F1}/{stable:F1}, burst {burst.ElapsedMilliseconds}ms/{burstSettled:F1}/{burstStable:F1}");
+			Emit(
+				passed
+					? $"scroll wheel audit: PASS, moved to {firstOffset:F1} and remained at {settled:F1} of {viewer.ScrollableHeight:F1}, 100 event burst {burst.ElapsedMilliseconds}ms rested at {burstSettled:F1}"
+					: $"scroll wheel audit: FAIL, handled {handled}, range {viewer.ScrollableHeight:F1}, first offset {firstOffset:F1}, settled {settled:F1}/{stable:F1}, burst {burst.ElapsedMilliseconds}ms/{burstSettled:F1}/{burstStable:F1}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -5983,23 +6794,26 @@ internal static class WindowAudit
 			bool synthesized = Voidstrap.Integrations.RobloxCookie.SynthesizeDatWithCookie(template, "new-cookie", output);
 			string? extracted = Voidstrap.Integrations.RobloxCookie.ExtractCookieFromDat(output);
 			string contents = System.IO.File.Exists(output) ? System.IO.File.ReadAllText(output) : string.Empty;
-			System.IO.UnixFileMode mode = !OperatingSystem.IsWindows() && System.IO.File.Exists(output)
-				? System.IO.File.GetUnixFileMode(output)
-				: 0;
-			System.IO.UnixFileMode exposed = System.IO.UnixFileMode.GroupRead |
-				System.IO.UnixFileMode.GroupWrite |
-				System.IO.UnixFileMode.GroupExecute |
-				System.IO.UnixFileMode.OtherRead |
-				System.IO.UnixFileMode.OtherWrite |
-				System.IO.UnixFileMode.OtherExecute;
-			bool passed = synthesized &&
-				string.Equals(extracted, "new-cookie", StringComparison.Ordinal) &&
-				contents.Contains("theme=dark", StringComparison.Ordinal) &&
-				contents.Contains("locale=en", StringComparison.Ordinal) &&
-				(mode & exposed) == 0;
-			Emit(passed
-				? "Linux account storage audit: PASS, Sober cookie preserved and backup mode is private"
-				: $"Linux account storage audit: FAIL, synthesized {synthesized}, extracted {extracted}, mode {mode}");
+			System.IO.UnixFileMode mode =
+				!OperatingSystem.IsWindows() && System.IO.File.Exists(output) ? System.IO.File.GetUnixFileMode(output) : 0;
+			System.IO.UnixFileMode exposed =
+				System.IO.UnixFileMode.GroupRead
+				| System.IO.UnixFileMode.GroupWrite
+				| System.IO.UnixFileMode.GroupExecute
+				| System.IO.UnixFileMode.OtherRead
+				| System.IO.UnixFileMode.OtherWrite
+				| System.IO.UnixFileMode.OtherExecute;
+			bool passed =
+				synthesized
+				&& string.Equals(extracted, "new-cookie", StringComparison.Ordinal)
+				&& contents.Contains("theme=dark", StringComparison.Ordinal)
+				&& contents.Contains("locale=en", StringComparison.Ordinal)
+				&& (mode & exposed) == 0;
+			Emit(
+				passed
+					? "Linux account storage audit: PASS, Sober cookie preserved and backup mode is private"
+					: $"Linux account storage audit: FAIL, synthesized {synthesized}, extracted {extracted}, mode {mode}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -6016,9 +6830,7 @@ internal static class WindowAudit
 				if (System.IO.Directory.Exists(directory))
 					System.IO.Directory.Delete(directory);
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
 
@@ -6031,9 +6843,10 @@ internal static class WindowAudit
 			using System.IO.Stream? stream = resource?.Stream;
 			System.Windows.Media.Imaging.BitmapSource? image = SafeImaging.FromStream(stream, 256);
 			bool valid = image?.PixelWidth > 0 && image.PixelHeight > 0 && image.IsFrozen;
-			string detail = image == null
-				? "null"
-				: image.PixelWidth + "x" + image.PixelHeight + ", frozen=" + image.IsFrozen + ", format=" + image.Format;
+			string detail =
+				image == null
+					? "null"
+					: image.PixelWidth + "x" + image.PixelHeight + ", frozen=" + image.IsFrozen + ", format=" + image.Format;
 			Emit(valid ? "image audit: PASS, " + detail : "image audit: FAIL, " + detail);
 
 			System.Windows.Resources.StreamResourceInfo? bytesResource = Application.GetResourceStream(uri);
@@ -6050,30 +6863,59 @@ internal static class WindowAudit
 			{
 				System.Windows.Media.Imaging.BitmapSource? pack = SafeImaging.FromUri(uri, 128);
 				System.Windows.Media.Imaging.BitmapSource? local = SafeImaging.FromFile(localPath, 128);
-				System.Windows.Media.Imaging.BitmapSource? inline = AppImage.LoadSync("data:image/png;base64," + Convert.ToBase64String(bytes), 128);
-				System.Windows.Media.Imaging.BitmapSource? icon = SafeImaging.FromUri(new Uri("pack://application:,,,/Resources/Checkmark.ico", UriKind.Absolute), 64);
-				IReadOnlyList<(System.Windows.Media.Imaging.BitmapSource Frame, int DelayMilliseconds)> animation = SafeImaging.DecodeAnimationPortable(localPath, 128);
+				System.Windows.Media.Imaging.BitmapSource? inline = AppImage.LoadSync(
+					"data:image/png;base64," + Convert.ToBase64String(bytes),
+					128
+				);
+				System.Windows.Media.Imaging.BitmapSource? icon = SafeImaging.FromUri(
+					new Uri("pack://application:,,,/Resources/Checkmark.ico", UriKind.Absolute),
+					64
+				);
+				IReadOnlyList<(System.Windows.Media.Imaging.BitmapSource Frame, int DelayMilliseconds)> animation =
+					SafeImaging.DecodeAnimationPortable(localPath, 128);
 				System.Windows.Media.Imaging.BitmapSource? remote = AppImage.LoadSync("https://github.com/rojo-rbx.png", 64);
-				bool coverage = pack?.PixelWidth > 0
+				bool coverage =
+					pack?.PixelWidth > 0
 					&& local?.PixelWidth > 0
 					&& inline?.PixelWidth > 0
 					&& icon?.PixelWidth > 0
 					&& animation.Count > 0
 					&& remote?.PixelWidth > 0;
-				Emit(coverage
-					? "image coverage audit: PASS, pack, local, inline, icon, animation, remote"
-					: "image coverage audit: FAIL, pack=" + (pack != null) + ", local=" + (local != null) + ", inline=" + (inline != null) + ", icon=" + (icon != null) + ", animation=" + animation.Count + ", remote=" + (remote != null));
+				Emit(
+					coverage
+						? "image coverage audit: PASS, pack, local, inline, icon, animation, remote"
+						: "image coverage audit: FAIL, pack="
+							+ (pack != null)
+							+ ", local="
+							+ (local != null)
+							+ ", inline="
+							+ (inline != null)
+							+ ", icon="
+							+ (icon != null)
+							+ ", animation="
+							+ animation.Count
+							+ ", remote="
+							+ (remote != null)
+				);
 
 				List<Voidstrap.Models.Entities.ActivityData> history = System.IO.File.Exists(Paths.ServerHistory)
-					? JsonFile.Deserialize<List<Voidstrap.Models.Entities.ActivityData>>(Paths.ServerHistory, JsonOptions.Tolerant, 8L * 1024 * 1024)
+					? JsonFile.Deserialize<List<Voidstrap.Models.Entities.ActivityData>>(
+						Paths.ServerHistory,
+						JsonOptions.Tolerant,
+						8L * 1024 * 1024
+					)
 					: new List<Voidstrap.Models.Entities.ActivityData>();
-				string? thumbnailUrl = history.Select(entry => entry.UniverseDetails?.Thumbnail?.ImageUrl).FirstOrDefault(value => !string.IsNullOrWhiteSpace(value));
-				System.Windows.Media.Imaging.BitmapSource? thumbnail = string.IsNullOrWhiteSpace(thumbnailUrl) ? null : AppImage.LoadSync(thumbnailUrl, 128);
-				Emit(string.IsNullOrWhiteSpace(thumbnailUrl)
-					? "user media audit: SKIP, no history thumbnail"
-					: thumbnail?.PixelWidth > 0
-						? "user media audit: PASS, history thumbnail"
-						: "user media audit: FAIL, thumbnail=" + (thumbnail != null));
+				string? thumbnailUrl = history
+					.Select(entry => entry.UniverseDetails?.Thumbnail?.ImageUrl)
+					.FirstOrDefault(value => !string.IsNullOrWhiteSpace(value));
+				System.Windows.Media.Imaging.BitmapSource? thumbnail = string.IsNullOrWhiteSpace(thumbnailUrl)
+					? null
+					: AppImage.LoadSync(thumbnailUrl, 128);
+				Emit(
+					string.IsNullOrWhiteSpace(thumbnailUrl) ? "user media audit: SKIP, no history thumbnail"
+					: thumbnail?.PixelWidth > 0 ? "user media audit: PASS, history thumbnail"
+					: "user media audit: FAIL, thumbnail=" + (thumbnail != null)
+				);
 
 				Raster portable = Raster.Decode(bytes);
 				System.IO.File.WriteAllBytes(webpPath, portable.EncodeWebp());
@@ -6086,9 +6928,18 @@ internal static class WindowAudit
 				bool surfaceCaptureSupported = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("WAYLAND_DISPLAY"));
 				bool surfacePixels = !surfaceCaptureSupported || webpPreview != null && RendersImagePixels(webpPreview);
 				bool inlineMediaValid = webpPreview?.PixelWidth > 0 && gifPreview?.PixelWidth > 0 && controlReady && surfacePixels;
-				Emit(inlineMediaValid
-					? "inline media audit: PASS, WebP, GIF, JPEG conversion, image control"
-					: "inline media audit: FAIL, webpPreview=" + (webpPreview != null) + ", gifPreview=" + (gifPreview != null) + ", control=" + controlReady + ", surface=" + surfacePixels);
+				Emit(
+					inlineMediaValid
+						? "inline media audit: PASS, WebP, GIF, JPEG conversion, image control"
+						: "inline media audit: FAIL, webpPreview="
+							+ (webpPreview != null)
+							+ ", gifPreview="
+							+ (gifPreview != null)
+							+ ", control="
+							+ controlReady
+							+ ", surface="
+							+ surfacePixels
+				);
 				if (!surfaceCaptureSupported)
 					Emit("surface pixel audit: SKIP, Wayland compositor capture is unavailable");
 			}
@@ -6112,7 +6963,7 @@ internal static class WindowAudit
 			Width = 128,
 			Height = 128,
 			Source = image,
-			Stretch = System.Windows.Media.Stretch.UniformToFill
+			Stretch = System.Windows.Media.Stretch.UniformToFill,
 		};
 		control.Measure(new Size(128, 128));
 		control.Arrange(new Rect(0, 0, 128, 128));
@@ -6126,11 +6977,7 @@ internal static class WindowAudit
 		Window? probe = null;
 		try
 		{
-			System.Windows.Controls.Image control = new()
-			{
-				Source = image,
-				Stretch = System.Windows.Media.Stretch.UniformToFill
-			};
+			System.Windows.Controls.Image control = new() { Source = image, Stretch = System.Windows.Media.Stretch.UniformToFill };
 			probe = new Window
 			{
 				Title = "Voidstrap image pixel audit",
@@ -6140,12 +6987,15 @@ internal static class WindowAudit
 				ResizeMode = ResizeMode.NoResize,
 				ShowInTaskbar = false,
 				ShowActivated = false,
-				Content = control
+				Content = control,
 			};
 			probe.Show();
 			nint window = new System.Windows.Interop.WindowInteropHelper(probe).Handle;
 #if CROSSPLAT
-			System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(probe, out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host);
+			System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(
+				probe,
+				out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host
+			);
 #endif
 			for (int attempt = 0; attempt < 15; attempt++)
 			{
@@ -6322,7 +7172,7 @@ internal static class WindowAudit
 			Height = 560,
 			ShowInTaskbar = false,
 			WindowStartupLocation = WindowStartupLocation.CenterScreen,
-			Title = "Text flow audit"
+			Title = "Text flow audit",
 		};
 		Voidstrap.UI.AppFont.Apply(probe);
 		System.Windows.Controls.Grid root = new System.Windows.Controls.Grid();
@@ -6332,50 +7182,52 @@ internal static class WindowAudit
 		{
 			Title = "Voidstrap Installer",
 			ShowMaximize = false,
-			ShowMinimize = false
+			ShowMinimize = false,
 		};
 		root.Children.Add(titleBar);
 		System.Windows.Controls.ScrollViewer viewer = new System.Windows.Controls.ScrollViewer
 		{
 			VerticalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Auto,
-			HorizontalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Disabled
+			HorizontalScrollBarVisibility = System.Windows.Controls.ScrollBarVisibility.Disabled,
 		};
 		System.Windows.Controls.StackPanel panel = new System.Windows.Controls.StackPanel
 		{
 			MaxWidth = 220,
 			HorizontalAlignment = HorizontalAlignment.Left,
-			Margin = new Thickness(16)
+			Margin = new Thickness(16),
 		};
 		System.Windows.Controls.TextBlock paragraphs = new System.Windows.Controls.TextBlock
 		{
-			Text = "The first paragraph contains enough words to require wrapping on Linux.\n\nThe second paragraph must remain separate after every reflow.",
-			TextWrapping = TextWrapping.Wrap
+			Text =
+				"The first paragraph contains enough words to require wrapping on Linux.\n\nThe second paragraph must remain separate after every reflow.",
+			TextWrapping = TextWrapping.Wrap,
 		};
 		System.Windows.Controls.TextBlock pageHeading = new System.Windows.Controls.TextBlock
 		{
 			Text = "Fast Flag Settings",
 			FontSize = 24,
 			TextWrapping = TextWrapping.NoWrap,
-			Margin = new Thickness(0, 0, 0, 8)
+			Margin = new Thickness(0, 0, 0, 8),
 		};
 		System.Windows.Controls.TextBlock longToken = new System.Windows.Controls.TextBlock
 		{
 			Text = "https://github.com/KloBraticc/Voidstrap/really-long-path-without-natural-breaking-points",
 			TextWrapping = TextWrapping.Wrap,
-			Margin = new Thickness(0, 8, 0, 0)
+			Margin = new Thickness(0, 8, 0, 0),
 		};
 		System.Windows.Controls.TextBlock multilingual = new System.Windows.Controls.TextBlock
 		{
-			Text = "界面文字需要自动换行并保留字符边界界面文字需要自动换行并保留字符边界 👩🏽‍💻 👨‍👩‍👧‍👦 שלום עולם שלום עולם שלום עולם שלום עולם",
+			Text =
+				"界面文字需要自动换行并保留字符边界界面文字需要自动换行并保留字符边界 👩🏽‍💻 👨‍👩‍👧‍👦 שלום עולם שלום עולם שלום עולם שלום עולם",
 			TextWrapping = TextWrapping.Wrap,
 			FlowDirection = FlowDirection.RightToLeft,
-			Margin = new Thickness(0, 8, 0, 0)
+			Margin = new Thickness(0, 8, 0, 0),
 		};
 		System.Windows.Controls.Button compactButton = new System.Windows.Controls.Button
 		{
 			Content = "Localized action button",
 			MinWidth = 120,
-			Margin = new Thickness(0, 12, 0, 0)
+			Margin = new Thickness(0, 12, 0, 0),
 		};
 		panel.Children.Add(pageHeading);
 		panel.Children.Add(paragraphs);
@@ -6392,24 +7244,42 @@ internal static class WindowAudit
 			Pump();
 			Pump();
 			RequireWrapped(paragraphs, "paragraph text");
-			if (!string.Equals(
-				Voidstrap.UI.LinuxTextGuard.GetSourceText(paragraphs),
-				"The first paragraph contains enough words to require wrapping on Linux.\n\nThe second paragraph must remain separate after every reflow.",
-				StringComparison.Ordinal))
+			if (
+				!string.Equals(
+					Voidstrap.UI.LinuxTextGuard.GetSourceText(paragraphs),
+					"The first paragraph contains enough words to require wrapping on Linux.\n\nThe second paragraph must remain separate after every reflow.",
+					StringComparison.Ordinal
+				)
+			)
 			{
 				throw new InvalidOperationException("Text flow changed the paragraph source");
 			}
 
 			RequireWrapped(longToken, "long token");
 			RequireWrapped(multilingual, "multilingual text");
-			if (!Voidstrap.UI.LinuxTextGuard.IsCompactText(pageHeading)
+			if (
+				!Voidstrap.UI.LinuxTextGuard.IsCompactText(pageHeading)
 				|| pageHeading.Text.Contains('\n')
-				|| pageHeading.Text.Contains('\r'))
+				|| pageHeading.Text.Contains('\r')
+			)
 			{
 				throw new InvalidOperationException("Page heading entered body text flow");
 			}
-			if (!string.Equals(Voidstrap.UI.LinuxTextGuard.GetSourceText(longToken), "https://github.com/KloBraticc/Voidstrap/really-long-path-without-natural-breaking-points", StringComparison.Ordinal)
-				|| !string.Equals(Voidstrap.UI.LinuxTextGuard.GetSourceText(multilingual), Voidstrap.UI.LinuxTextGuard.ToDrawableText(multilingual, "界面文字需要自动换行并保留字符边界界面文字需要自动换行并保留字符边界 👩🏽‍💻 👨‍👩‍👧‍👦 שלום עולם שלום עולם שלום עולם שלום עולם"), StringComparison.Ordinal))
+			if (
+				!string.Equals(
+					Voidstrap.UI.LinuxTextGuard.GetSourceText(longToken),
+					"https://github.com/KloBraticc/Voidstrap/really-long-path-without-natural-breaking-points",
+					StringComparison.Ordinal
+				)
+				|| !string.Equals(
+					Voidstrap.UI.LinuxTextGuard.GetSourceText(multilingual),
+					Voidstrap.UI.LinuxTextGuard.ToDrawableText(
+						multilingual,
+						"界面文字需要自动换行并保留字符边界界面文字需要自动换行并保留字符边界 👩🏽‍💻 👨‍👩‍👧‍👦 שלום עולם שלום עולם שלום עולם שלום עולם"
+					),
+					StringComparison.Ordinal
+				)
+			)
 			{
 				throw new InvalidOperationException("Text flow changed the long-token source text");
 			}
@@ -6433,10 +7303,13 @@ internal static class WindowAudit
 			Pump();
 			Pump();
 			RequireWrapped(paragraphs, "dynamic scaled text");
-			if (!string.Equals(
-				Voidstrap.UI.LinuxTextGuard.GetSourceText(paragraphs),
-				"A dynamically replaced source must wrap from its new complete value instead of the previous rendered lines.",
-				StringComparison.Ordinal))
+			if (
+				!string.Equals(
+					Voidstrap.UI.LinuxTextGuard.GetSourceText(paragraphs),
+					"A dynamically replaced source must wrap from its new complete value instead of the previous rendered lines.",
+					StringComparison.Ordinal
+				)
+			)
 			{
 				throw new InvalidOperationException("Text flow retained stale source text after a dynamic update");
 			}
@@ -6454,10 +7327,17 @@ internal static class WindowAudit
 	{
 		Pump();
 		window.UpdateLayout();
-		if (Voidstrap.Utility.Platform.IsLinux
-			&& !string.Equals(window.FontFamily.Source, Voidstrap.UI.AppFont.CurrentFontFamily.Source, StringComparison.OrdinalIgnoreCase))
+		if (
+			Voidstrap.Utility.Platform.IsLinux
+			&& !string.Equals(window.FontFamily.Source, Voidstrap.UI.AppFont.CurrentFontFamily.Source, StringComparison.OrdinalIgnoreCase)
+		)
 		{
-			throw new InvalidOperationException("Window did not inherit the WPF UI content font: actual=" + window.FontFamily.Source + ", expected=" + Voidstrap.UI.AppFont.CurrentFontFamily.Source);
+			throw new InvalidOperationException(
+				"Window did not inherit the WPF UI content font: actual="
+					+ window.FontFamily.Source
+					+ ", expected="
+					+ Voidstrap.UI.AppFont.CurrentFontFamily.Source
+			);
 		}
 		RequireCompactDescendants(window);
 		if (Voidstrap.Utility.Platform.IsLinux)
@@ -6465,10 +7345,10 @@ internal static class WindowAudit
 			AuditWindowsCaptionControls(window);
 			ReportTextOverlaps(window, window.GetType().Name);
 		}
-        if (Voidstrap.Utility.Platform.IsLinux && window is Voidstrap.UI.Elements.Installer.MainWindow installer)
-        {
-            AuditInstallerLayout(installer);
-        }
+		if (Voidstrap.Utility.Platform.IsLinux && window is Voidstrap.UI.Elements.Installer.MainWindow installer)
+		{
+			AuditInstallerLayout(installer);
+		}
 		if (window is Voidstrap.UI.Elements.About.MainWindow about)
 		{
 			AuditAboutHeaderText(about);
@@ -6523,13 +7403,15 @@ internal static class WindowAudit
 				throw new InvalidOperationException("Language selector action text contains a line break");
 			}
 
-			System.Windows.Controls.TextBlock? labelBlock = FindVisualDescendants<System.Windows.Controls.TextBlock>(button).FirstOrDefault();
+			System.Windows.Controls.TextBlock? labelBlock = FindVisualDescendants<System.Windows.Controls.TextBlock>(button)
+				.FirstOrDefault();
 			if (labelBlock == null || labelBlock.Text.Contains('\n') || labelBlock.Text.Contains('\r'))
 			{
 				throw new InvalidOperationException("Language selector action text was split across lines");
 			}
 
-			double required = Voidstrap.UI.LinuxInlineText.MeasureCached(labelBlock, labelBlock.Text) + button.Padding.Left + button.Padding.Right;
+			double required =
+				Voidstrap.UI.LinuxInlineText.MeasureCached(labelBlock, labelBlock.Text) + button.Padding.Left + button.Padding.Right;
 			if (button.ActualWidth + 1.0 < required)
 			{
 				throw new InvalidOperationException("Language selector action button is narrower than its label");
@@ -6544,10 +7426,15 @@ internal static class WindowAudit
 		{
 			throw new InvalidOperationException("Language selector description did not wrap onto multiple lines");
 		}
-		if (!string.Equals(
-			Voidstrap.UI.LinuxTextGuard.GetSourceText(description).Replace("\r\n", "\n", StringComparison.Ordinal).Replace('\r', '\n'),
-			Voidstrap.Resources.Strings.Dialog_LanguageSelector_Subtext.Replace("\r\n", "\n", StringComparison.Ordinal).Replace('\r', '\n'),
-			StringComparison.Ordinal))
+		if (
+			!string.Equals(
+				Voidstrap.UI.LinuxTextGuard.GetSourceText(description).Replace("\r\n", "\n", StringComparison.Ordinal).Replace('\r', '\n'),
+				Voidstrap
+					.Resources.Strings.Dialog_LanguageSelector_Subtext.Replace("\r\n", "\n", StringComparison.Ordinal)
+					.Replace('\r', '\n'),
+				StringComparison.Ordinal
+			)
+		)
 		{
 			throw new InvalidOperationException("Language selector description differs from its source text");
 		}
@@ -6570,19 +7457,36 @@ internal static class WindowAudit
 		}
 		Voidstrap.UI.RoundedWindowChrome.Refresh(window);
 		Pump(80);
-		bool bounding = Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetBoundingShapeRectangleCount(nativeWindow, out int boundingRectangles)
+		bool bounding =
+			Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetBoundingShapeRectangleCount(nativeWindow, out int boundingRectangles)
 			&& boundingRectangles > 1;
-		bool input = Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetInputShapeRectangleCount(nativeWindow, out int inputRectangles)
+		bool input =
+			Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetInputShapeRectangleCount(nativeWindow, out int inputRectangles)
 			&& inputRectangles > 0;
 		if (!bounding || !input)
-			throw new InvalidOperationException("Linux main window surface is not rounded and interactive: " + boundingRectangles + "/" + inputRectangles);
+			throw new InvalidOperationException(
+				"Linux main window surface is not rounded and interactive: " + boundingRectangles + "/" + inputRectangles
+			);
 
-		Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(nativeWindow, out int originalLeft, out int originalTop, out int originalWidth, out int originalHeight);
+		Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(
+			nativeWindow,
+			out int originalLeft,
+			out int originalTop,
+			out int originalWidth,
+			out int originalHeight
+		);
 		Voidstrap.UI.LinuxWindowMode.ToggleMaximize(window);
 		Pump(500);
 		Voidstrap.Platform.Linux.LinuxDisplayBounds workArea = Voidstrap.Platform.Linux.LinuxDisplayMetrics.Refresh().WorkArea;
 		bool nativeMaximized = Voidstrap.Platform.Linux.LinuxWindowInterop.IsMaximized(nativeWindow);
-		bool maximizedGeometry = Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(nativeWindow, out int maximizedLeft, out int maximizedTop, out int maximizedWidth, out int maximizedHeight)
+		bool maximizedGeometry =
+			Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(
+				nativeWindow,
+				out int maximizedLeft,
+				out int maximizedTop,
+				out int maximizedWidth,
+				out int maximizedHeight
+			)
 			&& Math.Abs(maximizedLeft - workArea.Left) <= 2
 			&& Math.Abs(maximizedTop - workArea.Top) <= 2
 			&& Math.Abs(maximizedWidth - workArea.Width) <= 2
@@ -6594,7 +7498,14 @@ internal static class WindowAudit
 		bool restoreGlyphVisible = maximizeButton?.Visibility == Visibility.Collapsed && restoreButton?.Visibility == Visibility.Visible;
 		Voidstrap.UI.LinuxWindowMode.ToggleMaximize(window);
 		Pump(500);
-		bool maximizeRestored = Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(nativeWindow, out int maximizeRestoredLeft, out int maximizeRestoredTop, out int maximizeRestoredWidth, out int maximizeRestoredHeight)
+		bool maximizeRestored =
+			Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(
+				nativeWindow,
+				out int maximizeRestoredLeft,
+				out int maximizeRestoredTop,
+				out int maximizeRestoredWidth,
+				out int maximizeRestoredHeight
+			)
 			&& Math.Abs(maximizeRestoredLeft - originalLeft) <= 2
 			&& Math.Abs(maximizeRestoredTop - originalTop) <= 2
 			&& Math.Abs(maximizeRestoredWidth - originalWidth) <= 2
@@ -6603,25 +7514,59 @@ internal static class WindowAudit
 		if ((!nativeMaximized && !maximizedGeometry) || !restoreGlyphVisible || !maximizeRestored || !maximizeGlyphVisible)
 		{
 			throw new InvalidOperationException(
-				"Linux maximize surface failed: native=" + nativeMaximized
-				+ ", maximized=" + maximizedLeft + "," + maximizedTop + " " + maximizedWidth + "x" + maximizedHeight
-				+ ", workArea=" + workArea.Left + "," + workArea.Top + " " + workArea.Width + "x" + workArea.Height
-				+ ", glyphs=" + restoreGlyphVisible + "/" + maximizeGlyphVisible
-				+ ", restored=" + maximizeRestored);
+				"Linux maximize surface failed: native="
+					+ nativeMaximized
+					+ ", maximized="
+					+ maximizedLeft
+					+ ","
+					+ maximizedTop
+					+ " "
+					+ maximizedWidth
+					+ "x"
+					+ maximizedHeight
+					+ ", workArea="
+					+ workArea.Left
+					+ ","
+					+ workArea.Top
+					+ " "
+					+ workArea.Width
+					+ "x"
+					+ workArea.Height
+					+ ", glyphs="
+					+ restoreGlyphVisible
+					+ "/"
+					+ maximizeGlyphVisible
+					+ ", restored="
+					+ maximizeRestored
+			);
 		}
 		Voidstrap.UI.LinuxWindowMode.ToggleFullscreen(window);
 		Pump(500);
 		Voidstrap.Platform.Linux.LinuxDisplayBounds displayBounds = Voidstrap.Platform.Linux.LinuxDisplayMetrics.Refresh().Bounds;
 		bool nativeFullscreen = Voidstrap.Platform.Linux.LinuxWindowInterop.IsFullscreen(nativeWindow);
-		bool geometryRead = Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(nativeWindow, out int fullscreenLeft, out int fullscreenTop, out int fullscreenWidth, out int fullscreenHeight);
-		bool fallbackFullscreen = geometryRead
+		bool geometryRead = Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(
+			nativeWindow,
+			out int fullscreenLeft,
+			out int fullscreenTop,
+			out int fullscreenWidth,
+			out int fullscreenHeight
+		);
+		bool fallbackFullscreen =
+			geometryRead
 			&& Math.Abs(fullscreenLeft - displayBounds.Left) <= 2
 			&& Math.Abs(fullscreenTop - displayBounds.Top) <= 2
 			&& Math.Abs(fullscreenWidth - displayBounds.Width) <= 2
 			&& Math.Abs(fullscreenHeight - displayBounds.Height) <= 2;
 		Voidstrap.UI.LinuxWindowMode.ToggleFullscreen(window);
 		Pump(500);
-		bool restoredGeometry = Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(nativeWindow, out int restoredLeft, out int restoredTop, out int restoredWidth, out int restoredHeight)
+		bool restoredGeometry =
+			Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(
+				nativeWindow,
+				out int restoredLeft,
+				out int restoredTop,
+				out int restoredWidth,
+				out int restoredHeight
+			)
 			&& Math.Abs(restoredLeft - originalLeft) <= 2
 			&& Math.Abs(restoredTop - originalTop) <= 2
 			&& Math.Abs(restoredWidth - originalWidth) <= 2
@@ -6629,10 +7574,27 @@ internal static class WindowAudit
 		if ((!nativeFullscreen && !fallbackFullscreen) || !restoredGeometry)
 		{
 			throw new InvalidOperationException(
-				"Linux fullscreen surface failed: native=" + nativeFullscreen
-				+ ", fullscreen=" + fullscreenLeft + "," + fullscreenTop + " " + fullscreenWidth + "x" + fullscreenHeight
-				+ ", display=" + displayBounds.Left + "," + displayBounds.Top + " " + displayBounds.Width + "x" + displayBounds.Height
-				+ ", restored=" + restoredGeometry);
+				"Linux fullscreen surface failed: native="
+					+ nativeFullscreen
+					+ ", fullscreen="
+					+ fullscreenLeft
+					+ ","
+					+ fullscreenTop
+					+ " "
+					+ fullscreenWidth
+					+ "x"
+					+ fullscreenHeight
+					+ ", display="
+					+ displayBounds.Left
+					+ ","
+					+ displayBounds.Top
+					+ " "
+					+ displayBounds.Width
+					+ "x"
+					+ displayBounds.Height
+					+ ", restored="
+					+ restoredGeometry
+			);
 		}
 		Emit("Linux main window surface audit: PASS, rounded input, maximize/fullscreen surfaces and geometry restore");
 	}
@@ -6651,17 +7613,24 @@ internal static class WindowAudit
 
 			Style? standardStyle = titleBar.TryFindResource("UiTitlebarButton") as Style;
 			Style? closeStyle = titleBar.TryFindResource("UiTitlebarCloseButton") as Style;
-			bool stylesMatch = standardStyle != null
+			bool stylesMatch =
+				standardStyle != null
 				&& closeStyle != null
 				&& ReferenceEquals(minimize.Style, standardStyle)
 				&& ReferenceEquals(maximize.Style, standardStyle)
 				&& ReferenceEquals(restore.Style, standardStyle)
 				&& ReferenceEquals(close.Style, closeStyle);
-			bool dimensionsMatch = minimize.Width == 44.0 && minimize.Height == 30.0
-				&& maximize.Width == 44.0 && maximize.Height == 30.0
-				&& restore.Width == 44.0 && restore.Height == 30.0
-				&& close.Width == 44.0 && close.Height == 30.0;
-			bool orderMatches = System.Windows.Controls.Grid.GetColumn(minimize) == 1
+			bool dimensionsMatch =
+				minimize.Width == 44.0
+				&& minimize.Height == 30.0
+				&& maximize.Width == 44.0
+				&& maximize.Height == 30.0
+				&& restore.Width == 44.0
+				&& restore.Height == 30.0
+				&& close.Width == 44.0
+				&& close.Height == 30.0;
+			bool orderMatches =
+				System.Windows.Controls.Grid.GetColumn(minimize) == 1
 				&& System.Windows.Controls.Grid.GetColumn(maximize) == 2
 				&& System.Windows.Controls.Grid.GetColumn(restore) == 3
 				&& System.Windows.Controls.Grid.GetColumn(close) == 4;
@@ -6682,7 +7651,9 @@ internal static class WindowAudit
 			AuditColorPicker(window);
 			window.Picker.SetSaturationValueFromPosition(new Point(40, 30));
 			Pump(int.TryParse(Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_HOLD_MS"), out int hold) ? hold : 500);
-			Emit($"colour picker window: PASS, shown at {window.ActualWidth:F0} by {window.ActualHeight:F0}, colour {window.SelectedColor}");
+			Emit(
+				$"colour picker window: PASS, shown at {window.ActualWidth:F0} by {window.ActualHeight:F0}, colour {window.SelectedColor}"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -6712,26 +7683,42 @@ internal static class WindowAudit
 			.FirstOrDefault(element => string.Equals(element.Name, "SpectrumGrid", StringComparison.Ordinal));
 		System.Windows.Shapes.Ellipse? spectrumHandle = FindVisualDescendants<System.Windows.Shapes.Ellipse>(picker)
 			.FirstOrDefault(element => string.Equals(element.Name, "SpectrumThumb", StringComparison.Ordinal));
-		if (hueTrack == null || alphaTrack == null || hueHandle == null || alphaHandle == null
-			|| spectrum == null || spectrumHandle == null
-			|| hueTrack.ActualWidth <= hueHandle.ActualWidth || alphaTrack.ActualWidth <= alphaHandle.ActualWidth
-			|| spectrum.ActualWidth <= spectrumHandle.ActualWidth || spectrum.ActualHeight <= spectrumHandle.ActualHeight)
+		if (
+			hueTrack == null
+			|| alphaTrack == null
+			|| hueHandle == null
+			|| alphaHandle == null
+			|| spectrum == null
+			|| spectrumHandle == null
+			|| hueTrack.ActualWidth <= hueHandle.ActualWidth
+			|| alphaTrack.ActualWidth <= alphaHandle.ActualWidth
+			|| spectrum.ActualWidth <= spectrumHandle.ActualWidth
+			|| spectrum.ActualHeight <= spectrumHandle.ActualHeight
+		)
 		{
 			throw new InvalidOperationException("Colour picker tracks were unavailable");
 		}
 
 		picker.SetHueFromPosition(0);
 		picker.SetSaturationValueFromPosition(new Point(spectrum.ActualWidth, 0));
-		if (picker.SelectedColor.R != 255 || picker.SelectedColor.G != 0 || picker.SelectedColor.B != 0
-			|| Math.Abs(System.Windows.Controls.Canvas.GetLeft(hueHandle)) > 0.01)
+		if (
+			picker.SelectedColor.R != 255
+			|| picker.SelectedColor.G != 0
+			|| picker.SelectedColor.B != 0
+			|| Math.Abs(System.Windows.Controls.Canvas.GetLeft(hueHandle)) > 0.01
+		)
 		{
 			throw new InvalidOperationException("Colour picker hue track did not reach its left endpoint");
 		}
 
 		picker.SetHueFromPosition(hueTrack.ActualWidth);
 		double hueRight = hueTrack.ActualWidth - hueHandle.ActualWidth;
-		if (picker.SelectedColor.R != 255 || picker.SelectedColor.G != 0 || picker.SelectedColor.B != 0
-			|| Math.Abs(System.Windows.Controls.Canvas.GetLeft(hueHandle) - hueRight) > 0.01)
+		if (
+			picker.SelectedColor.R != 255
+			|| picker.SelectedColor.G != 0
+			|| picker.SelectedColor.B != 0
+			|| Math.Abs(System.Windows.Controls.Canvas.GetLeft(hueHandle) - hueRight) > 0.01
+		)
 		{
 			throw new InvalidOperationException("Colour picker hue track did not reach its right endpoint");
 		}
@@ -6774,9 +7761,17 @@ internal static class WindowAudit
 		}
 
 		picker.SetSaturationValueFromPosition(new Point(spectrum.ActualWidth / 2.0, spectrum.ActualHeight / 4.0));
-		if (Math.Abs(picker.SelectedColor.R - 191) > 1 || Math.Abs(picker.SelectedColor.G - 96) > 1 || Math.Abs(picker.SelectedColor.B - 96) > 1
-			|| Math.Abs(System.Windows.Controls.Canvas.GetLeft(spectrumHandle) - (spectrum.ActualWidth / 2.0 - spectrumHandle.ActualWidth / 2.0)) > 0.01
-			|| Math.Abs(System.Windows.Controls.Canvas.GetTop(spectrumHandle) - (spectrum.ActualHeight / 4.0 - spectrumHandle.ActualHeight / 2.0)) > 0.01)
+		if (
+			Math.Abs(picker.SelectedColor.R - 191) > 1
+			|| Math.Abs(picker.SelectedColor.G - 96) > 1
+			|| Math.Abs(picker.SelectedColor.B - 96) > 1
+			|| Math.Abs(
+				System.Windows.Controls.Canvas.GetLeft(spectrumHandle) - (spectrum.ActualWidth / 2.0 - spectrumHandle.ActualWidth / 2.0)
+			) > 0.01
+			|| Math.Abs(
+				System.Windows.Controls.Canvas.GetTop(spectrumHandle) - (spectrum.ActualHeight / 4.0 - spectrumHandle.ActualHeight / 2.0)
+			) > 0.01
+		)
 		{
 			throw new InvalidOperationException("Colour picker square did not preserve pointer geometry and HSV output");
 		}
@@ -6790,8 +7785,17 @@ internal static class WindowAudit
 		DependencyObject? current = element;
 		for (int depth = 0; current is not null && depth < 40; depth++)
 		{
-			if (current is FrameworkElement framework && (framework.Visibility != Visibility.Visible || framework.ActualWidth <= 0.0 || depth < 3))
-				parts.Add(framework.GetType().Name + ":" + framework.Visibility + ":" + framework.ActualWidth.ToString("0", System.Globalization.CultureInfo.InvariantCulture));
+			if (
+				current is FrameworkElement framework
+				&& (framework.Visibility != Visibility.Visible || framework.ActualWidth <= 0.0 || depth < 3)
+			)
+				parts.Add(
+					framework.GetType().Name
+						+ ":"
+						+ framework.Visibility
+						+ ":"
+						+ framework.ActualWidth.ToString("0", System.Globalization.CultureInfo.InvariantCulture)
+				);
 			current = System.Windows.Media.VisualTreeHelper.GetParent(current) ?? (current as FrameworkElement)?.Parent;
 		}
 		return string.Join(" > ", parts);
@@ -6813,10 +7817,12 @@ internal static class WindowAudit
 			throw new InvalidOperationException("About header subtitle was unavailable");
 		}
 
-		if (!string.Equals(subtitle.Text, subtitleSource, StringComparison.Ordinal)
+		if (
+			!string.Equals(subtitle.Text, subtitleSource, StringComparison.Ordinal)
 			|| subtitle.Text.Contains('\n')
 			|| subtitle.Text.Contains('\r')
-			|| Voidstrap.UI.LinuxTextGuard.IsAutomaticallyWrapped(subtitle))
+			|| Voidstrap.UI.LinuxTextGuard.IsAutomaticallyWrapped(subtitle)
+		)
 		{
 			throw new InvalidOperationException("About header subtitle was split or altered");
 		}
@@ -6830,7 +7836,28 @@ internal static class WindowAudit
 		double requiredWidth = Voidstrap.UI.LinuxInlineText.MeasureCached(subtitle, subtitleSource);
 		if (subtitle.ActualWidth + 1.0 < requiredWidth)
 		{
-			throw new InvalidOperationException("About header subtitle is narrower than its complete sentence, " + subtitle.ActualWidth.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + " of " + requiredWidth.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + " px in " + subtitle.FontFamily.Source + ", desired " + subtitle.DesiredSize + ", width " + subtitle.Width + ", max " + subtitle.MaxWidth + ", measured " + subtitle.IsMeasureValid + ", arranged " + subtitle.IsArrangeValid + ", wrapping " + subtitle.TextWrapping + ", " + DescribeAncestors(subtitle));
+			throw new InvalidOperationException(
+				"About header subtitle is narrower than its complete sentence, "
+					+ subtitle.ActualWidth.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)
+					+ " of "
+					+ requiredWidth.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture)
+					+ " px in "
+					+ subtitle.FontFamily.Source
+					+ ", desired "
+					+ subtitle.DesiredSize
+					+ ", width "
+					+ subtitle.Width
+					+ ", max "
+					+ subtitle.MaxWidth
+					+ ", measured "
+					+ subtitle.IsMeasureValid
+					+ ", arranged "
+					+ subtitle.IsArrangeValid
+					+ ", wrapping "
+					+ subtitle.TextWrapping
+					+ ", "
+					+ DescribeAncestors(subtitle)
+			);
 		}
 
 		List<Voidstrap.UI.Elements.Controls.Expander> expanders = FindVisualDescendants<Voidstrap.UI.Elements.Controls.Expander>(window);
@@ -6852,7 +7879,8 @@ internal static class WindowAudit
 				"Hardware acceleration changed",
 				"Hardware acceleration will be disabled the next time Voidstrap starts.",
 				"Restart now",
-				Voidstrap.UI.RestartTarget.Application);
+				Voidstrap.UI.RestartTarget.Application
+			);
 			Pump();
 			window.UpdateLayout();
 
@@ -6864,9 +7892,11 @@ internal static class WindowAudit
 				throw new InvalidOperationException("Linux restart notification controls were unavailable for input");
 			}
 
-			if (card.Parent is not System.Windows.Controls.Panel parent
+			if (
+				card.Parent is not System.Windows.Controls.Panel parent
 				|| parent.Children.Count == 0
-				|| !ReferenceEquals(parent.Children[parent.Children.Count - 1], card))
+				|| !ReferenceEquals(parent.Children[parent.Children.Count - 1], card)
+			)
 			{
 				throw new InvalidOperationException("Linux restart notification was not last in the input tree");
 			}
@@ -6900,7 +7930,9 @@ internal static class WindowAudit
 
 		if (current == null)
 		{
-			throw new InvalidOperationException("Linux restart notification " + label + " hit target was blocked by " + (hit?.GetType().Name ?? "nothing"));
+			throw new InvalidOperationException(
+				"Linux restart notification " + label + " hit target was blocked by " + (hit?.GetType().Name ?? "nothing")
+			);
 		}
 	}
 
@@ -6910,13 +7942,15 @@ internal static class WindowAudit
 		Pump();
 		Pump();
 		window.UpdateLayout();
-		if (window.FindName("StepHeadingText") is not System.Windows.Controls.TextBlock heading
+		if (
+			window.FindName("StepHeadingText") is not System.Windows.Controls.TextBlock heading
 			|| !string.Equals(heading.Text, Voidstrap.Resources.Strings.Installer_Install_Title, StringComparison.Ordinal)
 			|| BoundsInWindow(heading, window).Top < -1.0
 			|| window.FindName("StepIcon") is not Wpf.Ui.Controls.SymbolIcon
 			|| window.FindName("RootFrame") is not FrameworkElement frame
 			|| frame.ActualWidth <= 0.0
-			|| frame.ActualHeight <= 0.0)
+			|| frame.ActualHeight <= 0.0
+		)
 		{
 			throw new InvalidOperationException("Linux installer layout is clipped or unavailable");
 		}
@@ -6939,7 +7973,29 @@ internal static class WindowAudit
 	{
 		if (RenderedLineCount(block) < 2)
 		{
-			throw new InvalidOperationException(label + " did not wrap onto multiple lines, actual=" + block.ActualWidth + "x" + block.ActualHeight + ", desired=" + block.DesiredSize.Width + "x" + block.DesiredSize.Height + ", max=" + block.MaxWidth + ", wrapping=" + block.TextWrapping + ", breaks=" + block.Text.Count(character => character == '\n') + ", font=" + block.FontFamily.Source + ", measured=" + Voidstrap.UI.LinuxInlineText.MeasureCached(block, Voidstrap.UI.LinuxTextGuard.GetSourceText(block)) + ", flow=" + Voidstrap.UI.LinuxTextGuard.GetFlowState(block));
+			throw new InvalidOperationException(
+				label
+					+ " did not wrap onto multiple lines, actual="
+					+ block.ActualWidth
+					+ "x"
+					+ block.ActualHeight
+					+ ", desired="
+					+ block.DesiredSize.Width
+					+ "x"
+					+ block.DesiredSize.Height
+					+ ", max="
+					+ block.MaxWidth
+					+ ", wrapping="
+					+ block.TextWrapping
+					+ ", breaks="
+					+ block.Text.Count(character => character == '\n')
+					+ ", font="
+					+ block.FontFamily.Source
+					+ ", measured="
+					+ Voidstrap.UI.LinuxInlineText.MeasureCached(block, Voidstrap.UI.LinuxTextGuard.GetSourceText(block))
+					+ ", flow="
+					+ Voidstrap.UI.LinuxTextGuard.GetFlowState(block)
+			);
 		}
 	}
 
@@ -6950,9 +8006,7 @@ internal static class WindowAudit
 			return 0;
 		}
 
-		double lineHeight = double.IsNaN(block.LineHeight) || block.LineHeight <= 0.0
-			? block.FontSize * 1.2
-			: block.LineHeight;
+		double lineHeight = double.IsNaN(block.LineHeight) || block.LineHeight <= 0.0 ? block.FontSize * 1.2 : block.LineHeight;
 		if (lineHeight <= 0.0)
 		{
 			return 1;
@@ -6966,9 +8020,11 @@ internal static class WindowAudit
 		List<(System.Windows.Controls.TextBlock Block, Rect Bounds)> texts = new();
 		foreach (System.Windows.Controls.TextBlock block in FindVisualDescendants<System.Windows.Controls.TextBlock>(window))
 		{
-			if (block.GetType() != typeof(System.Windows.Controls.TextBlock)
+			if (
+				block.GetType() != typeof(System.Windows.Controls.TextBlock)
 				|| !block.IsVisible
-				|| (block.Text ?? string.Empty).Count(char.IsLetterOrDigit) < 2)
+				|| (block.Text ?? string.Empty).Count(char.IsLetterOrDigit) < 2
+			)
 				continue;
 			if (VisibleTextBounds(block, window) is Rect bounds)
 				texts.Add((block, bounds));
@@ -6984,7 +8040,9 @@ internal static class WindowAudit
 					continue;
 				found++;
 				if (found <= 8)
-					Emit($"  TEXT OVERLAP {label}: \"{Shorten(texts[first].Block.Text)}\" and \"{Shorten(texts[second].Block.Text)}\" share {overlap.Width:F0}x{overlap.Height:F0} at {overlap.X:F0},{overlap.Y:F0}");
+					Emit(
+						$"  TEXT OVERLAP {label}: \"{Shorten(texts[first].Block.Text)}\" and \"{Shorten(texts[second].Block.Text)}\" share {overlap.Width:F0}x{overlap.Height:F0} at {overlap.X:F0},{overlap.Y:F0}"
+					);
 			}
 		}
 		return found;
@@ -7006,11 +8064,13 @@ internal static class WindowAudit
 			if (current is UIElement element)
 			{
 				opacity *= element.Opacity;
-				if (!ReferenceEquals(current, block)
+				if (
+					!ReferenceEquals(current, block)
 					&& current is FrameworkElement frame
 					&& (frame.ClipToBounds || frame is System.Windows.Controls.ScrollContentPresenter)
 					&& frame.ActualWidth > 0.0
-					&& frame.ActualHeight > 0.0)
+					&& frame.ActualHeight > 0.0
+				)
 					visible.Intersect(BoundsInWindow(frame, window));
 			}
 			current = VisualTreeHelper.GetParent(current);
@@ -7028,7 +8088,7 @@ internal static class WindowAudit
 		{
 			TextAlignment.Center => (block.ActualWidth - width) / 2.0,
 			TextAlignment.Right => block.ActualWidth - width,
-			_ => 0.0
+			_ => 0.0,
 		};
 		Rect ink = new(block.TranslatePoint(new Point(left, 0.0), window), new Size(width, height));
 		ink.Intersect(visible);
@@ -7041,7 +8101,8 @@ internal static class WindowAudit
 		return new Rect(origin, element.RenderSize);
 	}
 
-	private static List<T> FindVisualDescendants<T>(DependencyObject root) where T : DependencyObject
+	private static List<T> FindVisualDescendants<T>(DependencyObject root)
+		where T : DependencyObject
 	{
 		List<T> found = new List<T>();
 		Stack<DependencyObject> pending = new Stack<DependencyObject>();
@@ -7111,9 +8172,7 @@ internal static class WindowAudit
 				tabs.SelectedIndex = restore;
 				Pump();
 			}
-			catch (Exception)
-			{
-			}
+			catch (Exception) { }
 		}
 		return overlaps;
 	}
@@ -7125,12 +8184,9 @@ internal static class WindowAudit
 		object? navigation = null;
 		try
 		{
-			navigation = window.GetType().GetProperty("RootNavigation")?.GetValue(window)
-				?? window.FindName("RootNavigation");
+			navigation = window.GetType().GetProperty("RootNavigation")?.GetValue(window) ?? window.FindName("RootNavigation");
 		}
-		catch
-		{
-		}
+		catch { }
 		if (navigation is not Wpf.Ui.Controls.Interfaces.INavigation nav)
 		{
 			Emit("  navigation control not found");
@@ -7155,9 +8211,7 @@ internal static class WindowAudit
 					}
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 		Emit($"  nav targets: {tags.Count}");
 
@@ -7211,11 +8265,13 @@ internal static class WindowAudit
 					{
 						continue;
 					}
-					if (frame.Contains("Voidstrap", StringComparison.Ordinal)
+					if (
+						frame.Contains("Voidstrap", StringComparison.Ordinal)
 						|| frame.Contains("Baml", StringComparison.Ordinal)
 						|| frame.Contains("MediaElement", StringComparison.Ordinal)
 						|| frame.Contains("Wpf.Ui", StringComparison.Ordinal)
-						|| f < 6)
+						|| f < 6
+					)
 					{
 						Emit($"           {frame}");
 					}
@@ -7236,8 +8292,13 @@ internal static class WindowAudit
 				Emit($"  RENDER {label}: window too small ({w}x{h})");
 				return;
 			}
-			System.Windows.Media.Imaging.RenderTargetBitmap target =
-				new System.Windows.Media.Imaging.RenderTargetBitmap(w, h, 96, 96, System.Windows.Media.PixelFormats.Pbgra32);
+			System.Windows.Media.Imaging.RenderTargetBitmap target = new System.Windows.Media.Imaging.RenderTargetBitmap(
+				w,
+				h,
+				96,
+				96,
+				System.Windows.Media.PixelFormats.Pbgra32
+			);
 			target.Render(window);
 
 			int stride = w * 4;
@@ -7335,7 +8396,11 @@ internal static class WindowAudit
 				}
 				finally
 				{
-					try { dialog?.Close(); } catch { }
+					try
+					{
+						dialog?.Close();
+					}
+					catch { }
 					Pump();
 				}
 			}
@@ -7395,7 +8460,10 @@ internal static class WindowAudit
 	private static ConstructorInfo? PickConstructor(Type type, out object?[]? arguments)
 	{
 		arguments = null;
-		foreach (ConstructorInfo candidate in type.GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).OrderBy(c => c.GetParameters().Length))
+		foreach (
+			ConstructorInfo candidate in type.GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+				.OrderBy(c => c.GetParameters().Length)
+		)
 		{
 			ParameterInfo[] parameters = candidate.GetParameters();
 			object?[] values = new object?[parameters.Length];
@@ -7433,7 +8501,10 @@ internal static class WindowAudit
 		}
 		if (t == typeof(IReadOnlyList<ExternalEditorInfo>))
 		{
-			value = new[] { new ExternalEditorInfo { Name = "Text Editor", Path = "/usr/bin/xdg-open" } };
+			value = new[]
+			{
+				new ExternalEditorInfo { Name = "Text Editor", Path = "/usr/bin/xdg-open" },
+			};
 			return true;
 		}
 		if (t == typeof(Watcher))
@@ -7466,9 +8537,7 @@ internal static class WindowAudit
 					return true;
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 		if (t.IsClass || t.IsInterface)
 		{
@@ -7495,18 +8564,13 @@ internal static class WindowAudit
 					System.Threading.Thread.Sleep(Math.Min(4, remaining));
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static void PushBoundedFrame(Dispatcher dispatcher)
 	{
 		DispatcherFrame frame = new();
-		DispatcherTimer limit = new(DispatcherPriority.Normal, dispatcher)
-		{
-			Interval = TimeSpan.FromMilliseconds(50)
-		};
+		DispatcherTimer limit = new(DispatcherPriority.Normal, dispatcher) { Interval = TimeSpan.FromMilliseconds(50) };
 		limit.Tick += (_, _) => frame.Continue = false;
 		dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => frame.Continue = false));
 		limit.Start();
@@ -7520,7 +8584,7 @@ internal static class WindowAudit
 		bool rendered = false;
 		DispatcherTimer timeout = new(DispatcherPriority.Normal, Dispatcher.CurrentDispatcher)
 		{
-			Interval = TimeSpan.FromMilliseconds(timeoutMilliseconds)
+			Interval = TimeSpan.FromMilliseconds(timeoutMilliseconds),
 		};
 		EventHandler? rendering = null;
 		EventHandler? elapsed = null;
@@ -7551,9 +8615,7 @@ internal static class WindowAudit
 	}
 
 #if CROSSPLAT
-	private static void PumpPortableHost(
-		System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host,
-		int milliseconds)
+	private static void PumpPortableHost(System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host, int milliseconds)
 	{
 		System.Diagnostics.Stopwatch elapsed = System.Diagnostics.Stopwatch.StartNew();
 		do
@@ -7564,15 +8626,14 @@ internal static class WindowAudit
 				window.DoUpdate();
 				window.DoRender();
 			}
-		}
-		while (elapsed.ElapsedMilliseconds < milliseconds);
+		} while (elapsed.ElapsedMilliseconds < milliseconds);
 	}
 #endif
 
 	private static bool PumpUntil(Func<bool> predicate, int timeoutMilliseconds)
 	{
-		Application application = Application.Current
-			?? throw new InvalidOperationException("The Linux window audit needs an active WPF application");
+		Application application =
+			Application.Current ?? throw new InvalidOperationException("The Linux window audit needs an active WPF application");
 		Dispatcher dispatcher = application.Dispatcher;
 		if (!dispatcher.CheckAccess())
 			throw new InvalidOperationException("The Linux window audit must run on the application dispatcher");
@@ -7604,81 +8665,127 @@ internal static class WindowAudit
 		{
 			string image = System.IO.Path.Combine(scratch, "cursor.png");
 			SolidRaster(64, 64, 255, 64, 32).SavePng(image);
-			AuditModStep("mods cursor image", () =>
-			{
-				CursorManager.SetImage(CursorSlot.ShiftLock, image);
-				bool written = System.IO.File.Exists(CursorManager.PreviewPath(CursorSlot.ShiftLock));
-				CursorManager.ClearImage(CursorSlot.ShiftLock);
-				return written ? "shift lock image written and cleared" : null;
-			});
-			AuditModStep("mods cursor sets", () =>
-			{
-				string name = CursorManager.CreateSet("Audit set " + Guid.NewGuid().ToString("N")[..6]);
-				CursorManager.SetSetImage(name, CursorSlot.Arrow, image);
-				string zip = System.IO.Path.Combine(scratch, "set.zip");
-				CursorManager.ExportSet(name, zip);
-				string renamed = CursorManager.RenameSet(name, name + " renamed");
-				string imported = CursorManager.ImportSet(zip);
-				bool listed = CursorManager.ListSets().Contains(renamed) && CursorManager.ListSets().Contains(imported);
-				CursorManager.DeleteSet(renamed);
-				CursorManager.DeleteSet(imported);
-				return listed && System.IO.File.Exists(zip) ? "created, exported, renamed, imported and deleted" : null;
-			});
-			AuditModStep("mods sound presets", () =>
-			{
-				Voidstrap.Models.SettingTasks.ModPresetTask death = new("AuditOldDeathSound", @"content\sounds\oof.ogg", "Sounds.OldDeath.ogg");
-				string target = System.IO.Path.Combine(Paths.Mods, "content", "sounds", "oof.ogg");
-				bool existed = System.IO.File.Exists(target);
-				if (existed)
-					return "skipped, a death sound is already installed";
-				death.NewState = true;
-				death.Execute();
-				bool written = System.IO.File.Exists(target) && new System.IO.FileInfo(target).Length > 0;
-				death.NewState = false;
-				death.Execute();
-				return written && !System.IO.File.Exists(target) ? "old death sound applied and removed at content/sounds/oof.ogg" : null;
-			});
-			AuditModStep("mods skybox", () =>
-			{
-				if (SkyboxImageConverter.HasCustomPack())
-					return "skipped, a custom skybox is already installed";
-				Dictionary<string, string> faces = new(StringComparer.OrdinalIgnoreCase);
-				foreach (string face in new[] { "sky512_bk.tex", "sky512_dn.tex", "sky512_ft.tex", "sky512_lf.tex", "sky512_rt.tex", "sky512_up.tex" })
-					faces[face] = image;
-				SkyboxImageConverter.ImportAsync(faces, CancellationToken.None).GetAwaiter().GetResult();
-				bool installed = SkyboxImageConverter.HasCustomPack();
-				SkyboxImageConverter.Remove();
-				return installed && !SkyboxImageConverter.HasCustomPack() ? "six faces imported and removed" : null;
-			});
-			AuditModStep("mods font", () =>
-			{
-				string? bundle = Voidstrap.Utility.Platform.IsMacOS ? MacRobloxBundle.Find() : null;
-				string families = bundle == null ? "" : System.IO.Path.Combine(bundle, "Contents", "Resources", "content", "fonts", "families");
-				string font = "/System/Library/Fonts/Supplemental/Arial.ttf";
-				if (bundle == null || !System.IO.Directory.Exists(families) || !System.IO.File.Exists(font) || System.IO.File.Exists(Paths.CustomFont))
-					return "skipped, no macOS Roblox font families or system font";
-				System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(Paths.CustomFont)!);
-				System.IO.File.Copy(font, Paths.CustomFont);
-				CustomFontMod.Apply(families, "WindowAudit");
-				int generated = CustomFontMod.FindGeneratedFamilyNames(System.IO.Path.Combine(Paths.Mods, "content", "fonts", "families")).Count;
-				System.IO.File.Delete(Paths.CustomFont);
-				CustomFontMod.Apply(families, "WindowAudit");
-				return generated > 0 ? generated + " font families redirected and removed" : null;
-			});
-			AuditModStep("mods generator", () =>
-			{
-				ModGeneratorSettings settings = new() { ModName = "Audit theme" };
-				ModGeneratorPreview? preview = ModGenerator.RenderPreview(settings);
-				if (preview == null)
-					return null;
-				string summary = ModGenerator.GenerateAsync(settings, null, CancellationToken.None).GetAwaiter().GetResult();
-				string? id = ModGenerator.FindModId();
-				string folder = id == null ? "" : ManagedModStore.GetFolder(id);
-				int files = System.IO.Directory.Exists(folder) ? System.IO.Directory.EnumerateFiles(folder, "*", System.IO.SearchOption.AllDirectories).Count() : 0;
-				if (id != null)
-					ManagedModStore.Delete(id);
-				return files > 0 ? "preview " + preview.After.PixelWidth + "x" + preview.After.PixelHeight + ", " + files + " files, " + summary : null;
-			});
+			AuditModStep(
+				"mods cursor image",
+				() =>
+				{
+					CursorManager.SetImage(CursorSlot.ShiftLock, image);
+					bool written = System.IO.File.Exists(CursorManager.PreviewPath(CursorSlot.ShiftLock));
+					CursorManager.ClearImage(CursorSlot.ShiftLock);
+					return written ? "shift lock image written and cleared" : null;
+				}
+			);
+			AuditModStep(
+				"mods cursor sets",
+				() =>
+				{
+					string name = CursorManager.CreateSet("Audit set " + Guid.NewGuid().ToString("N")[..6]);
+					CursorManager.SetSetImage(name, CursorSlot.Arrow, image);
+					string zip = System.IO.Path.Combine(scratch, "set.zip");
+					CursorManager.ExportSet(name, zip);
+					string renamed = CursorManager.RenameSet(name, name + " renamed");
+					string imported = CursorManager.ImportSet(zip);
+					bool listed = CursorManager.ListSets().Contains(renamed) && CursorManager.ListSets().Contains(imported);
+					CursorManager.DeleteSet(renamed);
+					CursorManager.DeleteSet(imported);
+					return listed && System.IO.File.Exists(zip) ? "created, exported, renamed, imported and deleted" : null;
+				}
+			);
+			AuditModStep(
+				"mods sound presets",
+				() =>
+				{
+					Voidstrap.Models.SettingTasks.ModPresetTask death = new(
+						"AuditOldDeathSound",
+						@"content\sounds\oof.ogg",
+						"Sounds.OldDeath.ogg"
+					);
+					string target = System.IO.Path.Combine(Paths.Mods, "content", "sounds", "oof.ogg");
+					bool existed = System.IO.File.Exists(target);
+					if (existed)
+						return "skipped, a death sound is already installed";
+					death.NewState = true;
+					death.Execute();
+					bool written = System.IO.File.Exists(target) && new System.IO.FileInfo(target).Length > 0;
+					death.NewState = false;
+					death.Execute();
+					return written && !System.IO.File.Exists(target)
+						? "old death sound applied and removed at content/sounds/oof.ogg"
+						: null;
+				}
+			);
+			AuditModStep(
+				"mods skybox",
+				() =>
+				{
+					if (SkyboxImageConverter.HasCustomPack())
+						return "skipped, a custom skybox is already installed";
+					Dictionary<string, string> faces = new(StringComparer.OrdinalIgnoreCase);
+					foreach (
+						string face in new[]
+						{
+							"sky512_bk.tex",
+							"sky512_dn.tex",
+							"sky512_ft.tex",
+							"sky512_lf.tex",
+							"sky512_rt.tex",
+							"sky512_up.tex",
+						}
+					)
+						faces[face] = image;
+					SkyboxImageConverter.ImportAsync(faces, CancellationToken.None).GetAwaiter().GetResult();
+					bool installed = SkyboxImageConverter.HasCustomPack();
+					SkyboxImageConverter.Remove();
+					return installed && !SkyboxImageConverter.HasCustomPack() ? "six faces imported and removed" : null;
+				}
+			);
+			AuditModStep(
+				"mods font",
+				() =>
+				{
+					string? bundle = Voidstrap.Utility.Platform.IsMacOS ? MacRobloxBundle.Find() : null;
+					string families =
+						bundle == null ? "" : System.IO.Path.Combine(bundle, "Contents", "Resources", "content", "fonts", "families");
+					string font = "/System/Library/Fonts/Supplemental/Arial.ttf";
+					if (
+						bundle == null
+						|| !System.IO.Directory.Exists(families)
+						|| !System.IO.File.Exists(font)
+						|| System.IO.File.Exists(Paths.CustomFont)
+					)
+						return "skipped, no macOS Roblox font families or system font";
+					System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(Paths.CustomFont)!);
+					System.IO.File.Copy(font, Paths.CustomFont);
+					CustomFontMod.Apply(families, "WindowAudit");
+					int generated = CustomFontMod
+						.FindGeneratedFamilyNames(System.IO.Path.Combine(Paths.Mods, "content", "fonts", "families"))
+						.Count;
+					System.IO.File.Delete(Paths.CustomFont);
+					CustomFontMod.Apply(families, "WindowAudit");
+					return generated > 0 ? generated + " font families redirected and removed" : null;
+				}
+			);
+			AuditModStep(
+				"mods generator",
+				() =>
+				{
+					ModGeneratorSettings settings = new() { ModName = "Audit theme" };
+					ModGeneratorPreview? preview = ModGenerator.RenderPreview(settings);
+					if (preview == null)
+						return null;
+					string summary = ModGenerator.GenerateAsync(settings, null, CancellationToken.None).GetAwaiter().GetResult();
+					string? id = ModGenerator.FindModId();
+					string folder = id == null ? "" : ManagedModStore.GetFolder(id);
+					int files = System.IO.Directory.Exists(folder)
+						? System.IO.Directory.EnumerateFiles(folder, "*", System.IO.SearchOption.AllDirectories).Count()
+						: 0;
+					if (id != null)
+						ManagedModStore.Delete(id);
+					return files > 0
+						? "preview " + preview.After.PixelWidth + "x" + preview.After.PixelHeight + ", " + files + " files, " + summary
+						: null;
+				}
+			);
 		}
 		finally
 		{
@@ -7686,9 +8793,7 @@ internal static class WindowAudit
 			{
 				System.IO.Directory.Delete(scratch, true);
 			}
-			catch (System.IO.IOException)
-			{
-			}
+			catch (System.IO.IOException) { }
 		}
 	}
 
@@ -7700,48 +8805,62 @@ internal static class WindowAudit
 		SolidRaster(40, 20, 255, 255, 255).SavePng(source);
 		try
 		{
-			AuditModStep("image adjust tool", () =>
-			{
-				UI.Elements.ContextMenu.ImageAdjustWindow window = new(source, "content/textures/voidstrap-audit.png");
-				try
+			AuditModStep(
+				"image adjust tool",
+				() =>
 				{
-					window.Show();
-					Pump(30);
-					typeof(UI.Elements.ContextMenu.ImageAdjustWindow).GetMethod("Rotate_Click", BindingFlags.NonPublic | BindingFlags.Instance)!.Invoke(window, [null, null]);
-					Pump(30);
-					System.Windows.Media.Imaging.BitmapSource? preview = (window.FindName("PreviewImage") as System.Windows.Controls.Image)?.Source as System.Windows.Media.Imaging.BitmapSource;
-					return preview is { PixelWidth: 20, PixelHeight: 40 } ? "rotated preview 20x40" : null;
+					UI.Elements.ContextMenu.ImageAdjustWindow window = new(source, "content/textures/voidstrap-audit.png");
+					try
+					{
+						window.Show();
+						Pump(30);
+						typeof(UI.Elements.ContextMenu.ImageAdjustWindow)
+							.GetMethod("Rotate_Click", BindingFlags.NonPublic | BindingFlags.Instance)!
+							.Invoke(window, [null, null]);
+						Pump(30);
+						System.Windows.Media.Imaging.BitmapSource? preview =
+							(window.FindName("PreviewImage") as System.Windows.Controls.Image)?.Source
+							as System.Windows.Media.Imaging.BitmapSource;
+						return preview is { PixelWidth: 20, PixelHeight: 40 } ? "rotated preview 20x40" : null;
+					}
+					finally
+					{
+						window.Close();
+					}
 				}
-				finally
+			);
+			AuditModStep(
+				"image recolor tool",
+				() =>
 				{
-					window.Close();
+					UI.Elements.ContextMenu.ImageRecolorWindow window = new(source, "content/textures/voidstrap-audit.png");
+					try
+					{
+						window.Show();
+						Pump(30);
+						if (window.FindName("IntensitySlider") is System.Windows.Controls.Slider slider)
+							slider.Value = slider.Maximum;
+						if (window.FindName("HexInput") is System.Windows.Controls.TextBox hex)
+							hex.Text = "#00FF00";
+						typeof(UI.Elements.ContextMenu.ImageRecolorWindow)
+							.GetMethod("ApplyRecolor", BindingFlags.NonPublic | BindingFlags.Instance)!
+							.Invoke(window, null);
+						Pump(30);
+						System.Windows.Media.Imaging.BitmapSource? preview =
+							(window.FindName("PreviewImage") as System.Windows.Controls.Image)?.Source
+							as System.Windows.Media.Imaging.BitmapSource;
+						if (preview == null || preview.Format.BitsPerPixel != 32)
+							return null;
+						byte[] pixels = new byte[preview.PixelWidth * preview.PixelHeight * 4];
+						preview.CopyPixels(pixels, preview.PixelWidth * 4, 0);
+						return pixels[1] > 200 && pixels[0] < 60 && pixels[2] < 60 ? "recolored preview to green" : null;
+					}
+					finally
+					{
+						window.Close();
+					}
 				}
-			});
-			AuditModStep("image recolor tool", () =>
-			{
-				UI.Elements.ContextMenu.ImageRecolorWindow window = new(source, "content/textures/voidstrap-audit.png");
-				try
-				{
-					window.Show();
-					Pump(30);
-					if (window.FindName("IntensitySlider") is System.Windows.Controls.Slider slider)
-						slider.Value = slider.Maximum;
-					if (window.FindName("HexInput") is System.Windows.Controls.TextBox hex)
-						hex.Text = "#00FF00";
-					typeof(UI.Elements.ContextMenu.ImageRecolorWindow).GetMethod("ApplyRecolor", BindingFlags.NonPublic | BindingFlags.Instance)!.Invoke(window, null);
-					Pump(30);
-					System.Windows.Media.Imaging.BitmapSource? preview = (window.FindName("PreviewImage") as System.Windows.Controls.Image)?.Source as System.Windows.Media.Imaging.BitmapSource;
-					if (preview == null || preview.Format.BitsPerPixel != 32)
-						return null;
-					byte[] pixels = new byte[preview.PixelWidth * preview.PixelHeight * 4];
-					preview.CopyPixels(pixels, preview.PixelWidth * 4, 0);
-					return pixels[1] > 200 && pixels[0] < 60 && pixels[2] < 60 ? "recolored preview to green" : null;
-				}
-				finally
-				{
-					window.Close();
-				}
-			});
+			);
 		}
 		finally
 		{
@@ -7749,9 +8868,7 @@ internal static class WindowAudit
 			{
 				System.IO.Directory.Delete(scratch, true);
 			}
-			catch (System.IO.IOException)
-			{
-			}
+			catch (System.IO.IOException) { }
 		}
 	}
 
@@ -7761,7 +8878,15 @@ internal static class WindowAudit
 		try
 		{
 			UI.Elements.About.Pages.LicensesPage page = new();
-			host = new Window { Width = 900, Height = 700, Content = page, ShowInTaskbar = false, ShowActivated = false, Title = "Voidstrap licenses audit" };
+			host = new Window
+			{
+				Width = 900,
+				Height = 700,
+				Content = page,
+				ShowInTaskbar = false,
+				ShowActivated = false,
+				Title = "Voidstrap licenses audit",
+			};
 			host.Show();
 			System.Windows.Controls.ItemsControl? rows = page.FindName("NoticeRows") as System.Windows.Controls.ItemsControl;
 			bool loaded = PumpUntil(() => rows?.ItemsSource is System.Collections.ICollection { Count: > 0 }, 15000);
@@ -7772,14 +8897,21 @@ internal static class WindowAudit
 			}
 			List<UI.Elements.About.Pages.LicensesPage.Notice> list = notices.ToList();
 			UI.Elements.About.Pages.LicensesPage.Notice largest = list.OrderByDescending(notice => notice.Lines.Length).First();
-			System.Reflection.MethodInfo open = typeof(UI.Elements.About.Pages.LicensesPage).GetMethod("OnNoticeClick", BindingFlags.NonPublic | BindingFlags.Instance)!;
-			System.Reflection.MethodInfo back = typeof(UI.Elements.About.Pages.LicensesPage).GetMethod("OnBackClick", BindingFlags.NonPublic | BindingFlags.Instance)!;
+			System.Reflection.MethodInfo open = typeof(UI.Elements.About.Pages.LicensesPage).GetMethod(
+				"OnNoticeClick",
+				BindingFlags.NonPublic | BindingFlags.Instance
+			)!;
+			System.Reflection.MethodInfo back = typeof(UI.Elements.About.Pages.LicensesPage).GetMethod(
+				"OnBackClick",
+				BindingFlags.NonPublic | BindingFlags.Instance
+			)!;
 			System.Diagnostics.Stopwatch timer = System.Diagnostics.Stopwatch.StartNew();
 			open.Invoke(page, [new FrameworkElement { Tag = largest }, new RoutedEventArgs()]);
 			Pump(300);
 			long openMilliseconds = timer.ElapsedMilliseconds;
 			System.Windows.Controls.ListBox? lines = page.FindName("DetailLines") as System.Windows.Controls.ListBox;
-			bool shown = lines?.Items.Count == largest.Lines.Length && (page.FindName("DetailView") as UIElement)?.Visibility == Visibility.Visible;
+			bool shown =
+				lines?.Items.Count == largest.Lines.Length && (page.FindName("DetailView") as UIElement)?.Visibility == Visibility.Visible;
 			back.Invoke(page, [null, new RoutedEventArgs()]);
 			Pump(120);
 			bool returned = (page.FindName("ListView") as UIElement)?.Visibility == Visibility.Visible;
@@ -7789,13 +8921,17 @@ internal static class WindowAudit
 				Pump(60);
 				back.Invoke(page, [null, new RoutedEventArgs()]);
 			}
-			Emit(shown && returned
-				? $"licenses page audit: PASS, {list.Count} rows, opened {largest.Lines.Length} lines in {openMilliseconds} ms and went back"
-				: $"licenses page audit: FAIL, rows {list.Count}, shown {shown}, returned {returned}");
+			Emit(
+				shown && returned
+					? $"licenses page audit: PASS, {list.Count} rows, opened {largest.Lines.Length} lines in {openMilliseconds} ms and went back"
+					: $"licenses page audit: FAIL, rows {list.Count}, shown {shown}, returned {returned}"
+			);
 		}
 		catch (Exception ex)
 		{
-			Emit("licenses page audit: FAIL, " + ex.GetBaseException().GetType().Name + ": " + ex.GetBaseException().Message.Split('\n')[0]);
+			Emit(
+				"licenses page audit: FAIL, " + ex.GetBaseException().GetType().Name + ": " + ex.GetBaseException().Message.Split('\n')[0]
+			);
 		}
 		finally
 		{

@@ -5,19 +5,18 @@ using Voidstrap.Integrations.RiShade;
 
 namespace Voidstrap.Integrations.Overlays
 {
-    public static class OverlaySettings
-    {
-        public static bool GameEffectsEnabled =>
-            AntiAliasingSettings.MethodIndex > 0
-            || MotionBlurSettings.StrengthIndex > 0
-            || FrameGenSettings.ModeIndex > 0
-            || (Voidstrap.Utility.Platform.IsWindows && App.Settings.Prop.RiShadeEnabled);
+	public static class OverlaySettings
+	{
+		public static bool GameEffectsEnabled =>
+			AntiAliasingSettings.MethodIndex > 0
+			|| MotionBlurSettings.StrengthIndex > 0
+			|| FrameGenSettings.ModeIndex > 0
+			|| (Voidstrap.Utility.Platform.IsWindows && App.Settings.Prop.RiShadeEnabled);
 
-        public static bool RiShadeClientActive => Voidstrap.Utility.Platform.IsWindows
-			&& OverlayHub.RobloxProcessRunning
-			&& App.Settings.Prop.RiShadeEnabled;
+		public static bool RiShadeClientActive =>
+			Voidstrap.Utility.Platform.IsWindows && OverlayHub.RobloxProcessRunning && App.Settings.Prop.RiShadeEnabled;
 
-        public static bool HomepageBackgroundEnabled
+		public static bool HomepageBackgroundEnabled
 		{
 			get
 			{
@@ -30,11 +29,26 @@ namespace Voidstrap.Integrations.Overlays
 			}
 		}
 
-		public static readonly string[] HomepageVideoExtensions = [".mp4", ".m4v", ".webm", ".avi", ".mov", ".wmv", ".mpeg", ".mpg", ".mkv"];
+		public static readonly string[] HomepageVideoExtensions =
+		[
+			".mp4",
+			".m4v",
+			".webm",
+			".avi",
+			".mov",
+			".wmv",
+			".mpeg",
+			".mpg",
+			".mkv",
+		];
 
 		public static bool IsHomepageVideo(string? path)
 		{
-			return System.Linq.Enumerable.Contains(HomepageVideoExtensions, System.IO.Path.GetExtension(path ?? string.Empty), System.StringComparer.OrdinalIgnoreCase);
+			return System.Linq.Enumerable.Contains(
+				HomepageVideoExtensions,
+				System.IO.Path.GetExtension(path ?? string.Empty),
+				System.StringComparer.OrdinalIgnoreCase
+			);
 		}
 
 		public static string HomepageBackgroundMode
@@ -50,11 +64,12 @@ namespace Voidstrap.Integrations.Overlays
 			}
 		}
 
-        public static bool AnyEnabled => RiShadeClientActive
-			|| (OverlayHub.InGame ? GameEffectsEnabled : HomepageBackgroundEnabled);
+		public static bool AnyEnabled => RiShadeClientActive || (OverlayHub.InGame ? GameEffectsEnabled : HomepageBackgroundEnabled);
 
-		public static bool RequiresLinuxX11Session => Voidstrap.Utility.Platform.IsLinux
-			&& (App.Settings.Prop.FakeExclusiveFullscreen
+		public static bool RequiresLinuxX11Session =>
+			Voidstrap.Utility.Platform.IsLinux
+			&& (
+				App.Settings.Prop.FakeExclusiveFullscreen
 				|| App.Settings.Prop.FakeBorderlessFullscreen
 				|| App.Settings.Prop.SoberAutoFullscreen
 				|| App.Settings.Prop.SnapTapEnabled
@@ -63,15 +78,26 @@ namespace Voidstrap.Integrations.Overlays
 				|| App.Settings.Prop.ClipperEnabled
 				|| (App.Settings.Prop.VoidNotify && App.Settings.Prop.NotificationWindowShow && App.Settings.Prop.NotifyGameJoins)
 				|| HomepageBackgroundEnabled
-				|| App.Settings.Prop.SoberPreferXWayland);
+				|| App.Settings.Prop.SoberPreferXWayland
+			);
 
-		public static bool LinuxSessionIsWayland => Voidstrap.Utility.Platform.IsLinux
-			&& (!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("WAYLAND_DISPLAY"))
-				|| string.Equals(System.Environment.GetEnvironmentVariable("XDG_SESSION_TYPE"), "wayland", System.StringComparison.OrdinalIgnoreCase));
+		public static bool LinuxSessionIsWayland =>
+			Voidstrap.Utility.Platform.IsLinux
+			&& (
+				!string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("WAYLAND_DISPLAY"))
+				|| string.Equals(
+					System.Environment.GetEnvironmentVariable("XDG_SESSION_TYPE"),
+					"wayland",
+					System.StringComparison.OrdinalIgnoreCase
+				)
+			);
 
-		public static bool SoberHasX11Window => Voidstrap.Utility.Platform.IsLinux
-			&& (!LinuxSessionIsWayland
-				|| (RequiresLinuxX11Session && !string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("DISPLAY"))));
+		public static bool SoberHasX11Window =>
+			Voidstrap.Utility.Platform.IsLinux
+			&& (
+				!LinuxSessionIsWayland
+				|| (RequiresLinuxX11Session && !string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("DISPLAY")))
+			);
 
 		public static string DescribeLinuxSoberSession(bool forcedX11)
 		{
@@ -84,9 +110,9 @@ namespace Voidstrap.Integrations.Overlays
 			return "Starting Sober in its default display mode";
 		}
 
-		public static bool LinuxCustomCursorNeedsX11 => Voidstrap.Utility.Platform.IsLinux
+		public static bool LinuxCustomCursorNeedsX11 =>
+			Voidstrap.Utility.Platform.IsLinux
 			&& App.Settings.Prop.CursorType != Voidstrap.Enums.CursorType.Default
 			&& App.Settings.Prop.ModApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Player;
-    }
+	}
 }
-

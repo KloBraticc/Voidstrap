@@ -92,7 +92,11 @@ internal sealed partial class Installer
 			Paths.Initialize(InstallLocation);
 		}
 		Paths.EnsureDirectories();
-		if (Voidstrap.Utility.Platform.IsWindows && !IsImplicitInstall && !string.Equals(Paths.Process, Paths.Application, StringComparison.OrdinalIgnoreCase))
+		if (
+			Voidstrap.Utility.Platform.IsWindows
+			&& !IsImplicitInstall
+			&& !string.Equals(Paths.Process, Paths.Application, StringComparison.OrdinalIgnoreCase)
+		)
 		{
 			TrySafe("clear read only", () => Filesystem.AssertReadOnly(Paths.Application));
 			try
@@ -110,26 +114,31 @@ internal sealed partial class Installer
 		TrySafe("install record", () => Voidstrap.Utility.InstallRecord.Write(Paths.Base));
 		if (Voidstrap.Utility.Platform.SupportsRegistry)
 		{
-			TrySafe("uninstall registry entry", delegate
-			{
-				using RegistryKey registryKey = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Voidstrap");
-				registryKey.SetValueSafe("DisplayIcon", Paths.Application + ",0");
-				registryKey.SetValueSafe("DisplayName", "Voidstrap");
-				registryKey.SetValueSafe("DisplayVersion", App.Version);
-				if (registryKey.GetValue("InstallDate") == null)
+			TrySafe(
+				"uninstall registry entry",
+				delegate
 				{
-					registryKey.SetValueSafe("InstallDate", DateTime.Now.ToString("yyyyMMdd"));
+					using RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(
+						"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Voidstrap"
+					);
+					registryKey.SetValueSafe("DisplayIcon", Paths.Application + ",0");
+					registryKey.SetValueSafe("DisplayName", "Voidstrap");
+					registryKey.SetValueSafe("DisplayVersion", App.Version);
+					if (registryKey.GetValue("InstallDate") == null)
+					{
+						registryKey.SetValueSafe("InstallDate", DateTime.Now.ToString("yyyyMMdd"));
+					}
+					registryKey.SetValueSafe("InstallLocation", Paths.Base);
+					registryKey.SetValueSafe("NoRepair", 1);
+					registryKey.SetValueSafe("Publisher", "Voidstrap");
+					registryKey.SetValueSafe("ModifyPath", "\"" + Paths.Application + "\" -settings");
+					registryKey.SetValueSafe("QuietUninstallString", "\"" + Paths.Application + "\" -uninstall -quiet");
+					registryKey.SetValueSafe("UninstallString", "\"" + Paths.Application + "\" -uninstall");
+					registryKey.SetValueSafe("HelpLink", App.ProjectHelpLink);
+					registryKey.SetValueSafe("URLInfoAbout", Voidstrap.Utility.GitHubCache.PreferredRepository + "/issues/new");
+					registryKey.SetValueSafe("URLUpdateInfo", Voidstrap.Utility.GitHubCache.PreferredRepository + "/releases");
 				}
-				registryKey.SetValueSafe("InstallLocation", Paths.Base);
-				registryKey.SetValueSafe("NoRepair", 1);
-				registryKey.SetValueSafe("Publisher", "Voidstrap");
-				registryKey.SetValueSafe("ModifyPath", "\"" + Paths.Application + "\" -settings");
-				registryKey.SetValueSafe("QuietUninstallString", "\"" + Paths.Application + "\" -uninstall -quiet");
-				registryKey.SetValueSafe("UninstallString", "\"" + Paths.Application + "\" -uninstall");
-				registryKey.SetValueSafe("HelpLink", App.ProjectHelpLink);
-				registryKey.SetValueSafe("URLInfoAbout", Voidstrap.Utility.GitHubCache.PreferredRepository + "/issues/new");
-				registryKey.SetValueSafe("URLUpdateInfo", Voidstrap.Utility.GitHubCache.PreferredRepository + "/releases");
-			});
+			);
 			TrySafe("api registration", WindowsRegistry.RegisterApis);
 			TrySafe("player registration", WindowsRegistry.RegisterPlayer);
 			TrySafe("studio protocol registration", () => WindowsRegistry.RegisterStudioProtocol(Paths.Application, "-studio \"%1\""));
@@ -220,7 +229,10 @@ internal sealed partial class Installer
 		{
 			return false;
 		}
-		if (InstallLocation.StartsWith(Path.GetTempPath(), StringComparison.InvariantCultureIgnoreCase) || InstallLocation.Contains("\\Temp\\", StringComparison.InvariantCultureIgnoreCase))
+		if (
+			InstallLocation.StartsWith(Path.GetTempPath(), StringComparison.InvariantCultureIgnoreCase)
+			|| InstallLocation.Contains("\\Temp\\", StringComparison.InvariantCultureIgnoreCase)
+		)
 		{
 			return false;
 		}
@@ -228,8 +240,17 @@ internal sealed partial class Installer
 		{
 			return false;
 		}
-		if (string.Compare(Directory.GetParent(InstallLocation)?.FullName, Paths.UserProfile, StringComparison.OrdinalIgnoreCase) == 0
-			&& !(Voidstrap.Utility.Platform.IsLinux && string.Equals(Path.GetFileName(Path.TrimEndingDirectorySeparator(InstallLocation)), "voidstrap", StringComparison.OrdinalIgnoreCase)))
+		if (
+			string.Compare(Directory.GetParent(InstallLocation)?.FullName, Paths.UserProfile, StringComparison.OrdinalIgnoreCase) == 0
+			&& !(
+				Voidstrap.Utility.Platform.IsLinux
+				&& string.Equals(
+					Path.GetFileName(Path.TrimEndingDirectorySeparator(InstallLocation)),
+					"voidstrap",
+					StringComparison.OrdinalIgnoreCase
+				)
+			)
+		)
 		{
 			return false;
 		}
@@ -283,7 +304,11 @@ internal sealed partial class Installer
 		}
 		try
 		{
-			Voidstrap.Utility.Shortcut.Create(Paths.Application, flags, Path.Combine(Paths.Desktop, name + Voidstrap.Utility.Shortcut.Suffix));
+			Voidstrap.Utility.Shortcut.Create(
+				Paths.Application,
+				flags,
+				Path.Combine(Paths.Desktop, name + Voidstrap.Utility.Shortcut.Suffix)
+			);
 		}
 		catch (Exception ex)
 		{
@@ -304,17 +329,29 @@ internal sealed partial class Installer
 		}
 		else
 		{
-			if (!IsImplicitInstall && !InstallLocation.EndsWith("Voidstrap", StringComparison.InvariantCultureIgnoreCase) && Directory.Exists(InstallLocation) && Directory.EnumerateFileSystemEntries(InstallLocation).Any())
+			if (
+				!IsImplicitInstall
+				&& !InstallLocation.EndsWith("Voidstrap", StringComparison.InvariantCultureIgnoreCase)
+				&& Directory.Exists(InstallLocation)
+				&& Directory.EnumerateFileSystemEntries(InstallLocation).Any()
+			)
 			{
 				string text = Path.Combine(InstallLocation, "Voidstrap");
-				switch (Frontend.ShowMessageBox(string.Format(Strings.Menu_InstallLocation_NotEmpty, text), MessageBoxImage.Exclamation, MessageBoxButton.YesNoCancel, MessageBoxResult.Yes))
+				switch (
+					Frontend.ShowMessageBox(
+						string.Format(Strings.Menu_InstallLocation_NotEmpty, text),
+						MessageBoxImage.Exclamation,
+						MessageBoxButton.YesNoCancel,
+						MessageBoxResult.Yes
+					)
+				)
 				{
-				case MessageBoxResult.Yes:
-					InstallLocation = text;
-					break;
-				case MessageBoxResult.None:
-				case MessageBoxResult.Cancel:
-					return false;
+					case MessageBoxResult.Yes:
+						InstallLocation = text;
+						break;
+					case MessageBoxResult.None:
+					case MessageBoxResult.Cancel:
+						return false;
 				}
 			}
 			try
@@ -340,7 +377,21 @@ internal sealed partial class Installer
 
 	private static readonly string[] CloudEnvVars = ["OneDrive", "OneDriveConsumer", "OneDriveCommercial"];
 
-	private static readonly string[] CloudFolderNames = ["OneDrive", "Dropbox", "Google Drive", "GoogleDrive", "iCloudDrive", "Creative Cloud Files", "Box Sync", "MEGAsync", "pCloudDrive", "Nextcloud", "Syncthing", "Yandex.Disk"];
+	private static readonly string[] CloudFolderNames =
+	[
+		"OneDrive",
+		"Dropbox",
+		"Google Drive",
+		"GoogleDrive",
+		"iCloudDrive",
+		"Creative Cloud Files",
+		"Box Sync",
+		"MEGAsync",
+		"pCloudDrive",
+		"Nextcloud",
+		"Syncthing",
+		"Yandex.Disk",
+	];
 
 	public static bool IsCloudSyncedPath(string? path)
 	{
@@ -393,8 +444,10 @@ internal sealed partial class Installer
 
 		foreach (string folder in CloudFolderNames)
 		{
-			if (full.Contains("\\" + folder + "\\", StringComparison.InvariantCultureIgnoreCase)
-				|| full.Contains("\\" + folder + " - ", StringComparison.InvariantCultureIgnoreCase))
+			if (
+				full.Contains("\\" + folder + "\\", StringComparison.InvariantCultureIgnoreCase)
+				|| full.Contains("\\" + folder + " - ", StringComparison.InvariantCultureIgnoreCase)
+			)
 			{
 				return true;
 			}
@@ -428,9 +481,7 @@ internal sealed partial class Installer
 				probe = parent;
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 
 		return false;
 	}
@@ -482,7 +533,7 @@ internal sealed partial class Installer
 			{
 				RecurseSubdirectories = true,
 				IgnoreInaccessible = true,
-				AttributesToSkip = FileAttributes.ReparsePoint
+				AttributesToSkip = FileAttributes.ReparsePoint,
 			};
 			foreach (string file in Directory.EnumerateFiles(path, "*", options))
 			{
@@ -494,14 +545,10 @@ internal sealed partial class Installer
 						File.SetAttributes(file, attributes & ~FileAttributes.ReadOnly);
 					}
 				}
-				catch
-				{
-				}
+				catch { }
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	public static async Task<bool> DoUninstallAsync(bool keepData)
@@ -531,7 +578,15 @@ internal sealed partial class Installer
 			{
 				list.AddRange(Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxStudioProcessName));
 			}
-			if (list.Count > 0 && Frontend.ShowMessageBox(Strings.Bootstrapper_Uninstall_RobloxRunning, MessageBoxImage.Asterisk, MessageBoxButton.OKCancel, MessageBoxResult.OK) != MessageBoxResult.OK)
+			if (
+				list.Count > 0
+				&& Frontend.ShowMessageBox(
+					Strings.Bootstrapper_Uninstall_RobloxRunning,
+					MessageBoxImage.Asterisk,
+					MessageBoxButton.OKCancel,
+					MessageBoxResult.OK
+				) != MessageBoxResult.OK
+			)
 			{
 				App.Terminate(ErrorCode.ERROR_CANCELLED);
 				return false;
@@ -555,10 +610,18 @@ internal sealed partial class Installer
 				item.Dispose();
 			}
 		}
-		Voidstrap.Integrations.Nvidia.NvidiaApplyResult cleanup = await Voidstrap.Integrations.NvidiaProfileManager.RestoreForUninstallAsync();
+		Voidstrap.Integrations.Nvidia.NvidiaApplyResult cleanup =
+			await Voidstrap.Integrations.NvidiaProfileManager.RestoreForUninstallAsync();
 		if (!cleanup.Ok)
 		{
-			if (Frontend.ShowMessageBox(string.Format(Strings.Bootstrapper_Uninstall_NvidiaFailed, cleanup.Message), MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+			if (
+				Frontend.ShowMessageBox(
+					string.Format(Strings.Bootstrapper_Uninstall_NvidiaFailed, cleanup.Message),
+					MessageBoxImage.Warning,
+					MessageBoxButton.YesNo,
+					MessageBoxResult.No
+				) != MessageBoxResult.Yes
+			)
 				return false;
 			App.Logger.WriteLine("Installer::DoUninstall", "Continuing uninstall without NVIDIA cleanup");
 		}
@@ -582,7 +645,9 @@ internal sealed partial class Installer
 		if (Voidstrap.Utility.Platform.IsWindows)
 		{
 			WindowsRegistry.Unregister("voidstrap");
-			using RegistryKey? registryKey = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\roblox-player");
+			using RegistryKey? registryKey = Registry.CurrentUser.OpenSubKey(
+				"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\roblox-player"
+			);
 			object? obj = registryKey?.GetValue("InstallLocation");
 			if (registryKey == null || obj is not string)
 			{
@@ -593,7 +658,9 @@ internal sealed partial class Installer
 			{
 				WindowsRegistry.RegisterPlayer(Path.Combine((string)obj, "RobloxPlayerBeta.exe"), "%1");
 			}
-			using RegistryKey? registryKey2 = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\roblox-studio");
+			using RegistryKey? registryKey2 = Registry.CurrentUser.OpenSubKey(
+				"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\roblox-studio"
+			);
 			object? obj2 = registryKey2?.GetValue("InstallLocation");
 			if (registryKey2 == null || obj2 is not string)
 			{
@@ -609,10 +676,13 @@ internal sealed partial class Installer
 				WindowsRegistry.RegisterStudioProtocol(handler, "%1");
 				WindowsRegistry.RegisterStudioFileClass(handler, "-ide \"%1\"");
 			}
-			TrySafe("registry Software\\Voidstrap", delegate
-			{
-				Registry.CurrentUser.DeleteSubKeyTree("Software\\Voidstrap", throwOnMissingSubKey: false);
-			});
+			TrySafe(
+				"registry Software\\Voidstrap",
+				delegate
+				{
+					Registry.CurrentUser.DeleteSubKeyTree("Software\\Voidstrap", throwOnMissingSubKey: false);
+				}
+			);
 		}
 		List<Action> list2 =
 		[
@@ -620,9 +690,11 @@ internal sealed partial class Installer
 			{
 				if (!Voidstrap.Utility.Platform.IsWindows)
 					return;
-				foreach (string item2 in from x in Directory.GetFiles(Paths.Desktop)
+				foreach (
+					string item2 in from x in Directory.GetFiles(Paths.Desktop)
 					where x.EndsWith("lnk", StringComparison.Ordinal)
-					select x)
+					select x
+				)
 				{
 					if (ShellLink.Shortcut.ReadFromFile(item2).ExtraData.EnvironmentVariableDataBlock?.TargetUnicode == Paths.Application)
 					{
@@ -662,7 +734,7 @@ internal sealed partial class Installer
 				{
 					ForceDeleteDirectory(Paths.Roblox);
 				}
-			}
+			},
 		];
 		if (!keepData)
 		{
@@ -678,16 +750,18 @@ internal sealed partial class Installer
 				delegate
 				{
 					File.Delete(App.Settings.FileLocation);
-				}
+				},
 			]);
 		}
 		bool flag3 = !keepData && Directory.Exists(Paths.Base) && Directory.GetFiles(Paths.Base).Length <= 3;
 		if (flag3)
 		{
-			list2.Add(delegate
-			{
-				ForceDeleteDirectory(Paths.Base);
-			});
+			list2.Add(
+				delegate
+				{
+					ForceDeleteDirectory(Paths.Base);
+				}
+			);
 		}
 		foreach (string leftover in SafeSubdirectories(Paths.Base))
 		{
@@ -698,42 +772,57 @@ internal sealed partial class Installer
 				continue;
 			}
 
-			list2.Add(delegate
-			{
-				ForceDeleteDirectory(target);
-			});
+			list2.Add(
+				delegate
+				{
+					ForceDeleteDirectory(target);
+				}
+			);
 		}
 
-		list2.Add(delegate
-		{
-			ForceDeleteDirectory(Paths.Logs);
-		});
-
-		list2.Add(delegate
-		{
-			ForceDeleteDirectory(Path.Combine(Path.GetTempPath(), "Voidstrap"));
-		});
-
-		list2.Add(delegate
-		{
-			if (Voidstrap.Utility.Platform.IsWindows)
-				Registry.CurrentUser.DeleteSubKeyTree("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Voidstrap", throwOnMissingSubKey: false);
-		});
-		await Task.Run(() =>
-		{
-			foreach (Action item3 in list2)
+		list2.Add(
+			delegate
 			{
-				try
-				{
-					item3();
-				}
-				catch (Exception ex)
-				{
-					App.Logger.WriteLine("Installer::DoUninstall", $"Encountered exception when running cleanup sequence (#{list2.IndexOf(item3)})");
-					App.Logger.WriteException("Installer::DoUninstall", ex);
-				}
+				ForceDeleteDirectory(Paths.Logs);
 			}
-		}).ConfigureAwait(true);
+		);
+
+		list2.Add(
+			delegate
+			{
+				ForceDeleteDirectory(Path.Combine(Path.GetTempPath(), "Voidstrap"));
+			}
+		);
+
+		list2.Add(
+			delegate
+			{
+				if (Voidstrap.Utility.Platform.IsWindows)
+					Registry.CurrentUser.DeleteSubKeyTree(
+						"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Voidstrap",
+						throwOnMissingSubKey: false
+					);
+			}
+		);
+		await Task.Run(() =>
+			{
+				foreach (Action item3 in list2)
+				{
+					try
+					{
+						item3();
+					}
+					catch (Exception ex)
+					{
+						App.Logger.WriteLine(
+							"Installer::DoUninstall",
+							$"Encountered exception when running cleanup sequence (#{list2.IndexOf(item3)})"
+						);
+						App.Logger.WriteException("Installer::DoUninstall", ex);
+					}
+				}
+			})
+			.ConfigureAwait(true);
 		if (Directory.Exists(Paths.Base))
 		{
 			ScheduleDeferredCleanup(Paths.Base, Paths.Application, flag3);
@@ -752,7 +841,17 @@ internal sealed partial class Installer
 		{
 			string fullTarget = Path.GetFullPath(target).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 			string root = deleteDirectory ? fullTarget : Path.GetDirectoryName(fullTarget) ?? "";
-			if (!IsOwnedInstallRoot(root) || (!deleteDirectory && !string.Equals(fullTarget, Path.Combine(root, Path.GetFileName(Paths.Application)), StringComparison.OrdinalIgnoreCase)))
+			if (
+				!IsOwnedInstallRoot(root)
+				|| (
+					!deleteDirectory
+					&& !string.Equals(
+						fullTarget,
+						Path.Combine(root, Path.GetFileName(Paths.Application)),
+						StringComparison.OrdinalIgnoreCase
+					)
+				)
+			)
 				throw new InvalidOperationException("The deferred cleanup target is not an owned install path");
 
 			string markerName = ".Voidstrap.cleanup." + Guid.NewGuid().ToString("N");
@@ -764,7 +863,7 @@ internal sealed partial class Installer
 				ProcessStartTicks = current.StartTime.ToUniversalTime().Ticks,
 				Target = fullTarget,
 				DeleteDirectory = deleteDirectory,
-				MarkerName = markerName
+				MarkerName = markerName,
 			};
 			File.WriteAllText(markerPath, JsonSerializer.Serialize(payload), new UTF8Encoding(false));
 			CleanupOldHelpers();
@@ -773,11 +872,7 @@ internal sealed partial class Installer
 			string helperPath = Path.Combine(helperDirectory, Path.GetFileName(Paths.Application));
 			File.Copy(Environment.ProcessPath ?? Paths.Process, helperPath, false);
 			InstallRecord.MakeExecutable(helperPath);
-			var start = new ProcessStartInfo
-			{
-				FileName = helperPath,
-				UseShellExecute = false
-			};
+			var start = new ProcessStartInfo { FileName = helperPath, UseShellExecute = false };
 			start.ArgumentList.Add("-deferredcleanup");
 			start.ArgumentList.Add(markerPath);
 			using Process? helper = Process.Start(start);
@@ -819,12 +914,19 @@ internal sealed partial class Installer
 		{
 			fullTarget = Path.GetFullPath(payload.Target).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 			root = payload.DeleteDirectory ? fullTarget : Path.GetDirectoryName(fullTarget) ?? "";
-			if (!IsOwnedInstallRoot(root) || Path.GetFileName(payload.MarkerName) != payload.MarkerName || !payload.MarkerName.StartsWith(".Voidstrap.cleanup.", StringComparison.Ordinal))
+			if (
+				!IsOwnedInstallRoot(root)
+				|| Path.GetFileName(payload.MarkerName) != payload.MarkerName
+				|| !payload.MarkerName.StartsWith(".Voidstrap.cleanup.", StringComparison.Ordinal)
+			)
 				return;
 			if (!payload.DeleteDirectory)
 			{
 				string fileName = Path.GetFileName(fullTarget);
-				if (!string.Equals(fileName, "Voidstrap.exe", StringComparison.OrdinalIgnoreCase) && !string.Equals(fileName, "Voidstrap", StringComparison.OrdinalIgnoreCase))
+				if (
+					!string.Equals(fileName, "Voidstrap.exe", StringComparison.OrdinalIgnoreCase)
+					&& !string.Equals(fileName, "Voidstrap", StringComparison.OrdinalIgnoreCase)
+				)
 					return;
 			}
 			markerPath = Path.Combine(root, payload.MarkerName);
@@ -844,9 +946,7 @@ internal sealed partial class Installer
 			using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(45));
 			await process.WaitForExitAsync(timeout.Token).ConfigureAwait(false);
 		}
-		catch (ArgumentException)
-		{
-		}
+		catch (ArgumentException) { }
 		catch (OperationCanceledException)
 		{
 			return;
@@ -891,14 +991,21 @@ internal sealed partial class Installer
 		TryRemoveCleanupHelper();
 	}
 
-	private static string LauncherBinDirectory => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Voidstrap", "Bin");
+	private static string LauncherBinDirectory =>
+		Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Voidstrap", "Bin");
 
 	private static bool IsOwnedInstallRoot(string root)
 	{
 		if (string.IsNullOrWhiteSpace(root))
 			return false;
 		string fullRoot = Path.GetFullPath(root).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-		if (string.Equals(fullRoot, Path.GetPathRoot(fullRoot)?.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar), StringComparison.OrdinalIgnoreCase))
+		if (
+			string.Equals(
+				fullRoot,
+				Path.GetPathRoot(fullRoot)?.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar),
+				StringComparison.OrdinalIgnoreCase
+			)
+		)
 			return false;
 		return File.Exists(Path.Combine(fullRoot, "Voidstrap.exe")) || File.Exists(Path.Combine(fullRoot, "Voidstrap"));
 	}
@@ -921,9 +1028,7 @@ internal sealed partial class Installer
 				else
 					File.Delete(entry);
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
 
@@ -943,14 +1048,20 @@ internal sealed partial class Installer
 			{
 				removed += TryDeleteExtraction(directory, inUse);
 			}
-			else if (name.Equals("Voidstrap", StringComparison.OrdinalIgnoreCase) || name.StartsWith("Voidstrap (", StringComparison.OrdinalIgnoreCase))
+			else if (
+				name.Equals("Voidstrap", StringComparison.OrdinalIgnoreCase)
+				|| name.StartsWith("Voidstrap (", StringComparison.OrdinalIgnoreCase)
+			)
 			{
 				foreach (string version in Directory.EnumerateDirectories(directory))
 					removed += TryDeleteExtraction(version, inUse);
 			}
 		}
 		if (removed > 0)
-			App.Logger.WriteLine("Installer::CleanupStaleBundleExtractions", "Removed " + removed + " stale extraction folders from the temp directory");
+			App.Logger.WriteLine(
+				"Installer::CleanupStaleBundleExtractions",
+				"Removed " + removed + " stale extraction folders from the temp directory"
+			);
 	}
 
 	internal static void CleanupUpdateBackups()
@@ -967,7 +1078,10 @@ internal sealed partial class Installer
 			}
 			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
 			{
-				App.Logger.WriteLine("Installer::CleanupUpdateBackups", "Could not remove the old update backup " + Path.GetFileName(backup) + ": " + ex.Message);
+				App.Logger.WriteLine(
+					"Installer::CleanupUpdateBackups",
+					"Could not remove the old update backup " + Path.GetFileName(backup) + ": " + ex.Message
+				);
 			}
 		}
 	}
@@ -982,9 +1096,7 @@ internal sealed partial class Installer
 			{
 				found |= process.Id != self && process.ProcessName.StartsWith("Voidstrap", StringComparison.OrdinalIgnoreCase);
 			}
-			catch
-			{
-			}
+			catch { }
 			process.Dispose();
 		}
 		return found;
@@ -1033,9 +1145,7 @@ internal sealed partial class Installer
 		{
 			File.Delete(Paths.Process);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static string? ReleaseVersion(string? version)
@@ -1048,14 +1158,42 @@ internal sealed partial class Installer
 
 	public static async Task HandleUpgradeAsync()
 	{
-		if (!File.Exists(Paths.Application) || string.Equals(Paths.Process, Paths.Application, StringComparison.OrdinalIgnoreCase) || App.LaunchSettings.WindowAuditFlag.Active)
+		if (
+			!File.Exists(Paths.Application)
+			|| string.Equals(Paths.Process, Paths.Application, StringComparison.OrdinalIgnoreCase)
+			|| App.LaunchSettings.WindowAuditFlag.Active
+		)
 		{
 			return;
 		}
-		bool flag = App.LaunchSettings.UpgradeFlag.Active || Paths.Process.StartsWith(Path.Combine(Paths.Base, "Updates"), StringComparison.Ordinal) || Paths.Process.StartsWith(Path.Combine(Paths.LocalAppData, "Temp"), StringComparison.Ordinal) || Paths.Process.StartsWith(Paths.TempUpdates, StringComparison.Ordinal);
+		bool flag =
+			App.LaunchSettings.UpgradeFlag.Active
+			|| Paths.Process.StartsWith(Path.Combine(Paths.Base, "Updates"), StringComparison.Ordinal)
+			|| Paths.Process.StartsWith(Path.Combine(Paths.LocalAppData, "Temp"), StringComparison.Ordinal)
+			|| Paths.Process.StartsWith(Paths.TempUpdates, StringComparison.Ordinal);
 		string? productVersion = FileVersionInfo.GetVersionInfo(Paths.Application).ProductVersion;
 		string? productVersion2 = FileVersionInfo.GetVersionInfo(Paths.Process).ProductVersion;
-		if (MD5Hash.FromFile(Paths.Process) == MD5Hash.FromFile(Paths.Application) || (productVersion2 != null && productVersion != null && Utilities.CompareVersions(productVersion2, productVersion) == VersionComparison.LessThan && Frontend.ShowMessageBox(Strings.InstallChecker_VersionLessThanInstalled, MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes) || (!flag && Frontend.ShowMessageBox(Strings.InstallChecker_VersionDifferentThanInstalled, MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes))
+		if (
+			MD5Hash.FromFile(Paths.Process) == MD5Hash.FromFile(Paths.Application)
+			|| (
+				productVersion2 != null
+				&& productVersion != null
+				&& Utilities.CompareVersions(productVersion2, productVersion) == VersionComparison.LessThan
+				&& Frontend.ShowMessageBox(
+					Strings.InstallChecker_VersionLessThanInstalled,
+					MessageBoxImage.Question,
+					MessageBoxButton.YesNo
+				) != MessageBoxResult.Yes
+			)
+			|| (
+				!flag
+				&& Frontend.ShowMessageBox(
+					Strings.InstallChecker_VersionDifferentThanInstalled,
+					MessageBoxImage.Question,
+					MessageBoxButton.YesNo
+				) != MessageBoxResult.Yes
+			)
+		)
 		{
 			return;
 		}
@@ -1077,13 +1215,16 @@ internal sealed partial class Installer
 			{
 				switch (i)
 				{
-				case 1:
-					App.Logger.WriteLine("Installer::HandleUpgrade", "Waiting for write permissions to update version");
-					break;
-				case 10:
-					App.Logger.WriteLine("Installer::HandleUpgrade", "Failed to update! (Could not get write permissions after 10 tries/5 seconds)");
-					App.Logger.WriteException("Installer::HandleUpgrade", ex);
-					return;
+					case 1:
+						App.Logger.WriteLine("Installer::HandleUpgrade", "Waiting for write permissions to update version");
+						break;
+					case 10:
+						App.Logger.WriteLine(
+							"Installer::HandleUpgrade",
+							"Failed to update! (Could not get write permissions after 10 tries/5 seconds)"
+						);
+						App.Logger.WriteException("Installer::HandleUpgrade", ex);
+						return;
 				}
 				await Task.Delay(500);
 				continue;
@@ -1092,7 +1233,9 @@ internal sealed partial class Installer
 		}
 		if (Voidstrap.Utility.Platform.SupportsRegistry)
 		{
-			using RegistryKey registryKey = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Voidstrap");
+			using RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(
+				"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Voidstrap"
+			);
 			registryKey.SetValueSafe("DisplayVersion", App.Version);
 			registryKey.SetValueSafe("Publisher", "Voidstrap");
 			registryKey.SetValueSafe("HelpLink", App.ProjectHelpLink);
@@ -1118,7 +1261,11 @@ internal sealed partial class Installer
 		string? newVersion = ReleaseVersion(productVersion2);
 		if (newVersion != null && newVersion != ReleaseVersion(productVersion))
 		{
-			Voidstrap.Utility.AppNotifications.RecordInfo("upgrade:" + newVersion, "Voidstrap updated", "Voidstrap was updated to version " + newVersion + ".");
+			Voidstrap.Utility.AppNotifications.RecordInfo(
+				"upgrade:" + newVersion,
+				"Voidstrap updated",
+				"Voidstrap was updated to version " + newVersion + "."
+			);
 		}
 		if (productVersion2 != null && !flag)
 		{
@@ -1132,7 +1279,11 @@ internal sealed partial class Installer
 
 	public static async Task HandleLinuxUpgradeAsync()
 	{
-		if (!Voidstrap.Utility.Platform.IsLinux || App.LaunchSettings.IsHelperInvocation || Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed)
+		if (
+			!Voidstrap.Utility.Platform.IsLinux
+			|| App.LaunchSettings.IsHelperInvocation
+			|| Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed
+		)
 		{
 			return;
 		}
@@ -1147,16 +1298,37 @@ internal sealed partial class Installer
 			RecordLinuxInstalledCopy(installed);
 			return;
 		}
-		if (LinuxDesktopEntry.IsVolatileLocation(running)
+		if (
+			LinuxDesktopEntry.IsVolatileLocation(running)
 			|| Voidstrap.Platform.Linux.LinuxBundleInstaller.IsPackageManagedLocation(Path.GetDirectoryName(running) ?? "/")
-			|| Voidstrap.Platform.Linux.LinuxAppImageHost.HasValidHeader(running) != Voidstrap.Platform.Linux.LinuxAppImageHost.HasValidHeader(installed)
-			|| MD5Hash.FromFile(running) == MD5Hash.FromFile(installed))
+			|| Voidstrap.Platform.Linux.LinuxAppImageHost.HasValidHeader(running)
+				!= Voidstrap.Platform.Linux.LinuxAppImageHost.HasValidHeader(installed)
+			|| MD5Hash.FromFile(running) == MD5Hash.FromFile(installed)
+		)
 		{
 			return;
 		}
 		bool flag = App.LaunchSettings.UpgradeFlag.Active;
 		string? installedVersion = ReadLinuxInstalledVersion(installed);
-		if ((installedVersion != null && Utilities.CompareVersions(App.Version, installedVersion) == VersionComparison.LessThan && Frontend.ShowMessageBox(Strings.InstallChecker_VersionLessThanInstalled, MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes) || (!flag && Frontend.ShowMessageBox(Strings.InstallChecker_VersionDifferentThanInstalled, MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes))
+		if (
+			(
+				installedVersion != null
+				&& Utilities.CompareVersions(App.Version, installedVersion) == VersionComparison.LessThan
+				&& Frontend.ShowMessageBox(
+					Strings.InstallChecker_VersionLessThanInstalled,
+					MessageBoxImage.Question,
+					MessageBoxButton.YesNo
+				) != MessageBoxResult.Yes
+			)
+			|| (
+				!flag
+				&& Frontend.ShowMessageBox(
+					Strings.InstallChecker_VersionDifferentThanInstalled,
+					MessageBoxImage.Question,
+					MessageBoxButton.YesNo
+				) != MessageBoxResult.Yes
+			)
+		)
 		{
 			App.Logger.WriteLine("Installer::HandleLinuxUpgrade", "Kept the installed copy at " + installed);
 			return;
@@ -1172,13 +1344,16 @@ internal sealed partial class Installer
 			{
 				switch (i)
 				{
-				case 1:
-					App.Logger.WriteLine("Installer::HandleLinuxUpgrade", "Waiting for write permissions to update version");
-					break;
-				case 10:
-					App.Logger.WriteLine("Installer::HandleLinuxUpgrade", "Failed to update! (Could not get write permissions after 10 tries/5 seconds)");
-					App.Logger.WriteException("Installer::HandleLinuxUpgrade", ex);
-					return;
+					case 1:
+						App.Logger.WriteLine("Installer::HandleLinuxUpgrade", "Waiting for write permissions to update version");
+						break;
+					case 10:
+						App.Logger.WriteLine(
+							"Installer::HandleLinuxUpgrade",
+							"Failed to update! (Could not get write permissions after 10 tries/5 seconds)"
+						);
+						App.Logger.WriteException("Installer::HandleLinuxUpgrade", ex);
+						return;
 				}
 				await Task.Delay(500);
 				continue;
@@ -1194,7 +1369,11 @@ internal sealed partial class Installer
 		}
 		string? linuxVersion = ReleaseVersion(App.Version);
 		if (linuxVersion != null && linuxVersion != ReleaseVersion(installedVersion))
-			Voidstrap.Utility.AppNotifications.RecordInfo("upgrade:" + linuxVersion, "Voidstrap updated", "Voidstrap was updated to version " + linuxVersion + ".");
+			Voidstrap.Utility.AppNotifications.RecordInfo(
+				"upgrade:" + linuxVersion,
+				"Voidstrap updated",
+				"Voidstrap was updated to version " + linuxVersion + "."
+			);
 		if (!flag)
 		{
 			Frontend.ShowMessageBox(string.Format(Strings.InstallChecker_Updated, App.Version), MessageBoxImage.Asterisk);
@@ -1203,7 +1382,8 @@ internal sealed partial class Installer
 
 	private static void ReplaceLinuxInstalledCopy(string source, string destination)
 	{
-		string directory = Path.GetDirectoryName(destination) ?? throw new InvalidOperationException("The install directory is unavailable");
+		string directory =
+			Path.GetDirectoryName(destination) ?? throw new InvalidOperationException("The install directory is unavailable");
 		string stagedPath = Path.Combine(directory, "." + Path.GetFileName(destination) + ".update." + Guid.NewGuid().ToString("N"));
 		try
 		{
@@ -1226,7 +1406,10 @@ internal sealed partial class Installer
 		{
 			FileInfo info = new(path);
 			string json = JsonSerializer.Serialize(new LinuxInstalledCopy(path, App.Version, info.Length, info.LastWriteTimeUtc.Ticks));
-			if (File.Exists(LinuxInstalledCopyFile) && string.Equals(File.ReadAllText(LinuxInstalledCopyFile), json, StringComparison.Ordinal))
+			if (
+				File.Exists(LinuxInstalledCopyFile)
+				&& string.Equals(File.ReadAllText(LinuxInstalledCopyFile), json, StringComparison.Ordinal)
+			)
 			{
 				return;
 			}
@@ -1251,7 +1434,11 @@ internal sealed partial class Installer
 			}
 			LinuxInstalledCopy? record = JsonSerializer.Deserialize<LinuxInstalledCopy>(File.ReadAllText(LinuxInstalledCopyFile));
 			FileInfo info = new(path);
-			return record != null && string.Equals(record.Path, path, StringComparison.Ordinal) && record.Length == info.Length && record.LastWriteTicks == info.LastWriteTimeUtc.Ticks
+			return
+				record != null
+				&& string.Equals(record.Path, path, StringComparison.Ordinal)
+				&& record.Length == info.Length
+				&& record.LastWriteTicks == info.LastWriteTimeUtc.Ticks
 				? record.Version
 				: null;
 		}
@@ -1277,39 +1464,48 @@ internal sealed partial class Installer
 			}
 		}
 
-		TrySafe("legacy desktop shortcut", delegate
-		{
-			string legacyShortcut = Path.Combine(Paths.Desktop, "Play Roblox.lnk");
-			if (File.Exists(legacyShortcut))
+		TrySafe(
+			"legacy desktop shortcut",
+			delegate
 			{
-				File.Move(legacyShortcut, DesktopShortcut, overwrite: true);
+				string legacyShortcut = Path.Combine(Paths.Desktop, "Play Roblox.lnk");
+				if (File.Exists(legacyShortcut))
+				{
+					File.Move(legacyShortcut, DesktopShortcut, overwrite: true);
+				}
 			}
-		});
+		);
 
-		TrySafe("legacy start menu folder", delegate
-		{
-			string legacyFolder = Path.Combine(Paths.WindowsStartMenu, "Voidstrap");
-			if (!Directory.Exists(legacyFolder))
+		TrySafe(
+			"legacy start menu folder",
+			delegate
 			{
-				return;
+				string legacyFolder = Path.Combine(Paths.WindowsStartMenu, "Voidstrap");
+				if (!Directory.Exists(legacyFolder))
+				{
+					return;
+				}
+				try
+				{
+					Directory.Delete(legacyFolder, recursive: true);
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteException("Installer::MigrateLegacyInstall", ex);
+				}
+				Voidstrap.Utility.Shortcut.Create(Paths.Application, "", StartMenuShortcut);
 			}
-			try
-			{
-				Directory.Delete(legacyFolder, recursive: true);
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteException("Installer::MigrateLegacyInstall", ex);
-			}
-			Voidstrap.Utility.Shortcut.Create(Paths.Application, "", StartMenuShortcut);
-		});
+		);
 
 		if (Voidstrap.Utility.Platform.SupportsRegistry)
 		{
-			TrySafe("legacy registry cleanup", delegate
-			{
-				Registry.CurrentUser.DeleteSubKeyTree("Software\\Voidstrap", throwOnMissingSubKey: false);
-			});
+			TrySafe(
+				"legacy registry cleanup",
+				delegate
+				{
+					Registry.CurrentUser.DeleteSubKeyTree("Software\\Voidstrap", throwOnMissingSubKey: false);
+				}
+			);
 		}
 
 		TrySafe("player registration", WindowsRegistry.RegisterPlayer);
@@ -1319,7 +1515,8 @@ internal sealed partial class Installer
 
 	private static void ReplaceInstalledExecutable()
 	{
-		string directory = Path.GetDirectoryName(Paths.Application) ?? throw new InvalidOperationException("The install directory is unavailable");
+		string directory =
+			Path.GetDirectoryName(Paths.Application) ?? throw new InvalidOperationException("The install directory is unavailable");
 		string stagedPath = Path.Combine(directory, ".Voidstrap.update." + Guid.NewGuid().ToString("N"));
 		try
 		{
@@ -1333,7 +1530,10 @@ internal sealed partial class Installer
 				}
 				catch (Exception ex) when (Voidstrap.Utility.CloudFiles.IsCloudFailure(ex, Paths.Application))
 				{
-					App.Logger.WriteLine("Installer::ReplaceInstalledExecutable", "Replace failed on a cloud synced file, moving instead: " + ex.Message);
+					App.Logger.WriteLine(
+						"Installer::ReplaceInstalledExecutable",
+						"Replace failed on a cloud synced file, moving instead: " + ex.Message
+					);
 					File.Move(stagedPath, Paths.Application, overwrite: true);
 				}
 			}
@@ -1375,9 +1575,7 @@ internal sealed partial class Installer
 				Voidstrap.Utility.Shortcut.Create(Paths.Application, "", StartMenuShortcut, Paths.Application, overwrite: true);
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			if (File.Exists(DesktopShortcut))
@@ -1385,9 +1583,7 @@ internal sealed partial class Installer
 				Voidstrap.Utility.Shortcut.Create(Paths.Application, "", DesktopShortcut);
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			SHChangeNotify(0x08000000, 0u, IntPtr.Zero, IntPtr.Zero);
@@ -1405,11 +1601,7 @@ internal sealed partial class Installer
 			return false;
 		}
 		string text = Paths.Base;
-		string text2 = newLocation.TrimEnd(
-		[
-			Path.DirectorySeparatorChar,
-			Path.AltDirectorySeparatorChar
-		]);
+		string text2 = newLocation.TrimEnd([Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar]);
 		if (!text2.EndsWith("Voidstrap", StringComparison.InvariantCultureIgnoreCase))
 		{
 			text2 = Path.Combine(text2, "Voidstrap");
@@ -1419,14 +1611,24 @@ internal sealed partial class Installer
 			Frontend.ShowMessageBox("Voidstrap is already installed at that location.", MessageBoxImage.Asterisk);
 			return false;
 		}
-		if (text2.Length <= 3 || text2.StartsWith("\\\\", StringComparison.Ordinal) || text2.StartsWith(Path.GetTempPath(), StringComparison.OrdinalIgnoreCase) || text2.Contains("\\Temp\\", StringComparison.OrdinalIgnoreCase) || IsCloudSyncedPath(text2) || text2.Contains("Program Files"))
+		if (
+			text2.Length <= 3
+			|| text2.StartsWith("\\\\", StringComparison.Ordinal)
+			|| text2.StartsWith(Path.GetTempPath(), StringComparison.OrdinalIgnoreCase)
+			|| text2.Contains("\\Temp\\", StringComparison.OrdinalIgnoreCase)
+			|| IsCloudSyncedPath(text2)
+			|| text2.Contains("Program Files")
+		)
 		{
 			Frontend.ShowMessageBox(Strings.Menu_InstallLocation_CantInstall, MessageBoxImage.Hand);
 			return false;
 		}
 		string text3 = Path.GetFullPath(text).TrimEnd('\\') + "\\";
 		string text4 = Path.GetFullPath(text2).TrimEnd('\\') + "\\";
-		if (text4.StartsWith(text3, StringComparison.InvariantCultureIgnoreCase) || text3.StartsWith(text4, StringComparison.InvariantCultureIgnoreCase))
+		if (
+			text4.StartsWith(text3, StringComparison.InvariantCultureIgnoreCase)
+			|| text3.StartsWith(text4, StringComparison.InvariantCultureIgnoreCase)
+		)
 		{
 			Frontend.ShowMessageBox(Strings.Menu_InstallLocation_CantInstall, MessageBoxImage.Hand);
 			return false;
@@ -1506,12 +1708,14 @@ internal sealed partial class Installer
 		}
 		try
 		{
-			using Process? process = Process.Start(new ProcessStartInfo
-			{
-				FileName = Paths.Application,
-				Arguments = "-settings",
-				UseShellExecute = true
-			});
+			using Process? process = Process.Start(
+				new ProcessStartInfo
+				{
+					FileName = Paths.Application,
+					Arguments = "-settings",
+					UseShellExecute = true,
+				}
+			);
 			if (process == null)
 			{
 				throw new InvalidOperationException("The relocated application did not start");
@@ -1557,7 +1761,11 @@ internal sealed partial class Installer
 		{
 			string fullPath = Path.GetFullPath(path);
 			string parent = Directory.GetParent(fullPath)?.FullName ?? string.Empty;
-			if (Directory.Exists(fullPath) && string.Equals(parent, Path.GetFullPath(expectedParent), StringComparison.OrdinalIgnoreCase) && Path.GetFileName(fullPath).StartsWith(".Voidstrap.", StringComparison.Ordinal))
+			if (
+				Directory.Exists(fullPath)
+				&& string.Equals(parent, Path.GetFullPath(expectedParent), StringComparison.OrdinalIgnoreCase)
+				&& Path.GetFileName(fullPath).StartsWith(".Voidstrap.", StringComparison.Ordinal)
+			)
 			{
 				Directory.Delete(fullPath, recursive: true);
 			}

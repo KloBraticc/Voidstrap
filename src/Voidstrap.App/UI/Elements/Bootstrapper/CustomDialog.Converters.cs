@@ -9,7 +9,8 @@ namespace Voidstrap.UI.Elements.Bootstrapper
     public partial class CustomDialog
     {
         // https://stackoverflow.com/a/2961702
-        private static T? ConvertValue<T>(string input) where T : struct
+        private static T? ConvertValue<T>(string input)
+            where T : struct
         {
             try
             {
@@ -38,28 +39,45 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             }
             catch (Exception ex)
             {
-                throw new CustomThemeException(ex, "CustomTheme.Errors.ElementAttributeConversionError", xmlElement.Name, attributeName, ex.Message);
+                throw new CustomThemeException(
+                    ex,
+                    "CustomTheme.Errors.ElementAttributeConversionError",
+                    xmlElement.Name,
+                    attributeName,
+                    ex.Message
+                );
             }
         }
 
         private static ThicknessConverter ThicknessConverter { get; } = new ThicknessConverter();
-        private static object? GetThicknessFromXElement(XElement xmlElement, string attributeName) => GetTypeFromXElement(ThicknessConverter, xmlElement, attributeName);
+
+        private static object? GetThicknessFromXElement(XElement xmlElement, string attributeName) =>
+            GetTypeFromXElement(ThicknessConverter, xmlElement, attributeName);
 
         private static RectConverter RectConverter { get; } = new RectConverter();
-        private static object? GetRectFromXElement(XElement xmlElement, string attributeName) => GetTypeFromXElement(RectConverter, xmlElement, attributeName);
+
+        private static object? GetRectFromXElement(XElement xmlElement, string attributeName) =>
+            GetTypeFromXElement(RectConverter, xmlElement, attributeName);
 
         private static ColorConverter ColorConverter { get; } = new ColorConverter();
-        private static object? GetColorFromXElement(XElement xmlElement, string attributeName) => GetTypeFromXElement(ColorConverter, xmlElement, attributeName);
+
+        private static object? GetColorFromXElement(XElement xmlElement, string attributeName) =>
+            GetTypeFromXElement(ColorConverter, xmlElement, attributeName);
 
         private static PointConverter PointConverter { get; } = new PointConverter();
-        private static object? GetPointFromXElement(XElement xmlElement, string attributeName) => GetTypeFromXElement(PointConverter, xmlElement, attributeName);
+
+        private static object? GetPointFromXElement(XElement xmlElement, string attributeName) =>
+            GetTypeFromXElement(PointConverter, xmlElement, attributeName);
 
         private static CornerRadiusConverter CornerRadiusConverter { get; } = new CornerRadiusConverter();
-        private static object? GetCornerRadiusFromXElement(XElement xmlElement, string attributeName) => GetTypeFromXElement(CornerRadiusConverter, xmlElement, attributeName);
+
+        private static object? GetCornerRadiusFromXElement(XElement xmlElement, string attributeName) =>
+            GetTypeFromXElement(CornerRadiusConverter, xmlElement, attributeName);
 
         private static GridLengthConverter GridLengthConverter { get; } = new GridLengthConverter();
-        private static object? GetGridLengthFromXElement(XElement xmlElement, string attributeName) => GetTypeFromXElement(GridLengthConverter, xmlElement, attributeName);
 
+        private static object? GetGridLengthFromXElement(XElement xmlElement, string attributeName) =>
+            GetTypeFromXElement(GridLengthConverter, xmlElement, attributeName);
 
         private static BrushConverter BrushConverter { get; } = new BrushConverter();
 
@@ -83,7 +101,13 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             }
             catch (Exception ex)
             {
-                throw new CustomThemeException(ex, "CustomTheme.Errors.ElementAttributeConversionError", element.Name, attributeName, ex.Message);
+                throw new CustomThemeException(
+                    ex,
+                    "CustomTheme.Errors.ElementAttributeConversionError",
+                    element.Name,
+                    attributeName,
+                    ex.Message
+                );
             }
         }
     }

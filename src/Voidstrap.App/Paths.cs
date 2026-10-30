@@ -10,7 +10,9 @@ namespace Voidstrap;
 
 internal static class Paths
 {
-	private static readonly StringComparison PathComparison = OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+	private static readonly StringComparison PathComparison = OperatingSystem.IsWindows()
+		? StringComparison.OrdinalIgnoreCase
+		: StringComparison.Ordinal;
 
 	public static string Temp => Path.Combine(Path.GetTempPath(), "Voidstrap");
 
@@ -18,7 +20,10 @@ internal static class Paths
 
 	public static string LocalAppData => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
-	public static string Desktop => Voidstrap.Utility.Platform.IsLinux ? Voidstrap.Utility.LinuxDesktopEntry.DesktopFolder : Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+	public static string Desktop =>
+		Voidstrap.Utility.Platform.IsLinux
+			? Voidstrap.Utility.LinuxDesktopEntry.DesktopFolder
+			: Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 
 	public static string WindowsStartMenu => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs");
 
@@ -49,7 +54,8 @@ internal static class Paths
 		}
 	}
 
-	public static string LaunchExecutable => Voidstrap.Utility.Platform.IsLinux ? LinuxAppImageHost.ResolveApplicationPath(Process) : Process;
+	public static string LaunchExecutable =>
+		Voidstrap.Utility.Platform.IsLinux ? LinuxAppImageHost.ResolveApplicationPath(Process) : Process;
 
 	public static string TempUpdates => Path.Combine(Temp, "Updates");
 
@@ -77,18 +83,14 @@ internal static class Paths
 			MigrateLegacyUserData(preferred);
 			return preferred;
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			string fallback = Path.Combine(Temp, "UserData");
 			Directory.CreateDirectory(fallback);
 			return fallback;
 		}
-		catch
-		{
-		}
+		catch { }
 		return preferred;
 	}
 
@@ -110,9 +112,7 @@ internal static class Paths
 			if (CopyMissing(legacy, target))
 				WriteMigrationMarker(marker);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static bool CopyMissing(string source, string destination)
@@ -187,7 +187,8 @@ internal static class Paths
 
 	public static string Application { get; private set; } = "";
 
-	public static string RobloxBase { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Voidstrap");
+	public static string RobloxBase { get; set; } =
+		Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Voidstrap");
 
 	public static string Config { get; private set; } = "";
 
@@ -225,7 +226,10 @@ internal static class Paths
 
 	public static string RobloxLogs
 	{
-		get => Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary ? LinuxRosemary.GuestLogs : _robloxLogs;
+		get =>
+			Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary
+				? LinuxRosemary.GuestLogs
+				: _robloxLogs;
 		private set => _robloxLogs = value;
 	}
 
@@ -233,7 +237,10 @@ internal static class Paths
 
 	public static string RobloxCache
 	{
-		get => Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary ? Path.Combine(LinuxRosemary.GuestHome, "Library", "Caches") : _robloxCache;
+		get =>
+			Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary
+				? Path.Combine(LinuxRosemary.GuestHome, "Library", "Caches")
+				: _robloxCache;
 		private set => _robloxCache = value;
 	}
 
@@ -338,8 +345,8 @@ internal static class Paths
 
 	public static void InitializePortable(Voidstrap.Platform.PlatformStoragePaths storage, string applicationPath)
 	{
-        ArgumentNullException.ThrowIfNull(storage);
-        if (string.IsNullOrWhiteSpace(applicationPath))
+		ArgumentNullException.ThrowIfNull(storage);
+		if (string.IsNullOrWhiteSpace(applicationPath))
 		{
 			throw new ArgumentException("Application path cannot be null or empty.", nameof(applicationPath));
 		}
@@ -369,11 +376,11 @@ internal static class Paths
 		RobloxClients = Path.Combine(Data, "RobloxClients");
 		WebViewData = Path.Combine(Cache, "WebView");
 		string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-		RobloxLogs = Voidstrap.Utility.Platform.IsLinux
-			? Path.Combine(home, ".var", "app", "org.vinegarhq.Sober", "data", "sober", "appData", "logs")
-			: OperatingSystem.IsMacOS()
-				? Path.Combine(home, "Library", "Logs", "Roblox")
-				: Path.Combine(LocalAppData, "Roblox", "logs");
+		RobloxLogs =
+			Voidstrap.Utility.Platform.IsLinux
+				? Path.Combine(home, ".var", "app", "org.vinegarhq.Sober", "data", "sober", "appData", "logs")
+			: OperatingSystem.IsMacOS() ? Path.Combine(home, "Library", "Logs", "Roblox")
+			: Path.Combine(LocalAppData, "Roblox", "logs");
 		RobloxCache = Voidstrap.Utility.Platform.IsLinux
 			? Path.Combine(home, ".var", "app", "org.vinegarhq.Sober", "cache", "sober")
 			: Path.Combine(Path.GetTempPath(), "Roblox");
@@ -441,19 +448,24 @@ internal static class Paths
 		}
 		catch (Exception ex)
 		{
-			App.Logger?.WriteLine("Paths::ResolveLibraryRoot", "The documents folder is not usable, keeping the library beside the app data: " + ex.Message);
+			App.Logger?.WriteLine(
+				"Paths::ResolveLibraryRoot",
+				"The documents folder is not usable, keeping the library beside the app data: " + ex.Message
+			);
 			return fallback;
 		}
 	}
 
 	private static void MigrateLibrary()
 	{
-		foreach ((string source, string destination) in new[]
-		{
-			(Path.Combine(Data, "ServerHistory.json"), ServerHistory),
-			(Path.Combine(Data, "PlayTimeStore.json"), PlayTimeStore),
-			(Path.Combine(Cache, "LibrarySnapshot.json"), Path.Combine(Library, "LibrarySnapshot.json"))
-		})
+		foreach (
+			(string source, string destination) in new[]
+			{
+				(Path.Combine(Data, "ServerHistory.json"), ServerHistory),
+				(Path.Combine(Data, "PlayTimeStore.json"), PlayTimeStore),
+				(Path.Combine(Cache, "LibrarySnapshot.json"), Path.Combine(Library, "LibrarySnapshot.json")),
+			}
+		)
 		{
 			try
 			{
@@ -497,6 +509,7 @@ internal static class Paths
 		EnsureDirectoryExists(CustomKeystrokeThemes);
 		EnsureDirectoryExists(RiShade);
 	}
+
 	private const string DataFormatVersion = "1.1.0.6";
 
 	private static string VersionStampPath => Path.Combine(Config, ".version");
@@ -505,7 +518,9 @@ internal static class Paths
 
 	private static bool IsBelowDataFormat(string? candidate)
 	{
-		return Version.TryParse(candidate, out Version? parsed) && Version.TryParse(DataFormatVersion, out Version? required) && parsed < required;
+		return Version.TryParse(candidate, out Version? parsed)
+			&& Version.TryParse(DataFormatVersion, out Version? required)
+			&& parsed < required;
 	}
 
 	private static bool IsLegacyInstall()
@@ -572,9 +587,7 @@ internal static class Paths
 				}
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		return false;
 	}
 
@@ -588,7 +601,12 @@ internal static class Paths
 			{
 				return;
 			}
-			if (stored != null && Version.TryParse(stored, out Version? previous) && Version.TryParse(current, out Version? running) && previous > running)
+			if (
+				stored != null
+				&& Version.TryParse(stored, out Version? previous)
+				&& Version.TryParse(current, out Version? running)
+				&& previous > running
+			)
 			{
 				return;
 			}
@@ -613,7 +631,11 @@ internal static class Paths
 		}
 
 		string? rootDrive = Path.GetPathRoot(root)?.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-		if (root.Length <= 3 || string.Equals(root, rootDrive, PathComparison) || string.Equals(root, UserProfile.TrimEnd(Path.DirectorySeparatorChar), PathComparison))
+		if (
+			root.Length <= 3
+			|| string.Equals(root, rootDrive, PathComparison)
+			|| string.Equals(root, UserProfile.TrimEnd(Path.DirectorySeparatorChar), PathComparison)
+		)
 		{
 			App.Logger?.WriteLine("Paths::ResetLegacyInstall", "Refusing to reset an unsafe install location: " + root);
 			return;
@@ -631,18 +653,14 @@ internal static class Paths
 		{
 			keep = Path.GetFullPath(Application);
 		}
-		catch
-		{
-		}
+		catch { }
 
 		string running = "";
 		try
 		{
 			running = string.IsNullOrWhiteSpace(Process) ? "" : Path.GetFullPath(Process);
 		}
-		catch
-		{
-		}
+		catch { }
 
 		int removed = ClearDirectoryContents(root, keep, running);
 		App.Logger?.WriteLine("Paths::ResetLegacyInstall", $"Removed {removed} entries from {root}");
@@ -664,7 +682,10 @@ internal static class Paths
 				continue;
 			}
 
-			if ((keep.Length > 0 && string.Equals(full, keep, PathComparison)) || (running.Length > 0 && string.Equals(full, running, PathComparison)))
+			if (
+				(keep.Length > 0 && string.Equals(full, keep, PathComparison))
+				|| (running.Length > 0 && string.Equals(full, running, PathComparison))
+			)
 			{
 				continue;
 			}
@@ -682,7 +703,8 @@ internal static class Paths
 		string userData;
 		try
 		{
-			userData = Path.GetFullPath(Path.Combine(LocalAppData, "Voidstrap")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+			userData = Path.GetFullPath(Path.Combine(LocalAppData, "Voidstrap"))
+				.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 		}
 		catch
 		{
@@ -719,7 +741,8 @@ internal static class Paths
 			}
 
 			string documentsRoot = Path.GetFullPath(documents).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-			string legacy = Path.GetFullPath(Path.Combine(documentsRoot, "Voidstrap")).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+			string legacy = Path.GetFullPath(Path.Combine(documentsRoot, "Voidstrap"))
+				.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
 			if (!string.Equals(Path.GetDirectoryName(legacy), documentsRoot, PathComparison) || !Directory.Exists(legacy))
 			{
@@ -736,7 +759,9 @@ internal static class Paths
 			bool keptLibrary = false;
 			foreach (string entry in SafeEntries(legacy))
 			{
-				if (string.Equals(Path.GetFileName(Path.TrimEndingDirectorySeparator(entry)), "Library", StringComparison.OrdinalIgnoreCase))
+				if (
+					string.Equals(Path.GetFileName(Path.TrimEndingDirectorySeparator(entry)), "Library", StringComparison.OrdinalIgnoreCase)
+				)
 				{
 					keptLibrary = true;
 					continue;
@@ -836,7 +861,7 @@ internal static class Paths
 			Mods,
 			RobloxClients,
 			WebViewData,
-			Temp
+			Temp,
 		];
 
 		foreach (string directory in directories.Distinct(StringComparer.OrdinalIgnoreCase).OrderByDescending(path => path.Length))
@@ -853,7 +878,7 @@ internal static class Paths
 			"ServerHistory.json",
 			"PlayTimeStore.json",
 			"BackgroundSettings.json",
-			"ModManifest.txt"
+			"ModManifest.txt",
 		];
 
 		foreach (string fileName in files)
@@ -880,21 +905,23 @@ internal static class Paths
 
 		PlatformStoragePaths storage = host.Paths.Storage;
 		string logsRoot = Path.GetDirectoryName(Path.GetFullPath(storage.Logs)) ?? storage.Logs;
-		List<string> directories =
-		[
-			storage.Configuration,
-			storage.ApplicationSupport,
-			storage.Data,
-			storage.Cache,
-			logsRoot,
-			UserData
-		];
-		if (string.Equals(Path.GetFileName(Path.TrimEndingDirectorySeparator(DocumentsData)), "voidstrap", StringComparison.OrdinalIgnoreCase))
+		List<string> directories = [storage.Configuration, storage.ApplicationSupport, storage.Data, storage.Cache, logsRoot, UserData];
+		if (
+			string.Equals(
+				Path.GetFileName(Path.TrimEndingDirectorySeparator(DocumentsData)),
+				"voidstrap",
+				StringComparison.OrdinalIgnoreCase
+			)
+		)
 		{
 			directories.Add(DocumentsData);
 		}
 
-		foreach (string directory in directories.Distinct(PathComparison == StringComparison.OrdinalIgnoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal).OrderByDescending(path => path.Length))
+		foreach (
+			string directory in directories
+				.Distinct(PathComparison == StringComparison.OrdinalIgnoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal)
+				.OrderByDescending(path => path.Length)
+		)
 		{
 			DeleteLinuxOwnedDirectory(directory);
 		}
@@ -949,7 +976,12 @@ internal static class Paths
 		string? pathRoot = Path.GetPathRoot(fullPath)?.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 		string profileRoot = Path.GetFullPath(UserProfile).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 		string name = Path.GetFileName(fullPath);
-		if (string.IsNullOrWhiteSpace(fullPath) || string.Equals(fullPath, pathRoot, PathComparison) || string.Equals(fullPath, profileRoot, PathComparison) || !string.Equals(name, "voidstrap", StringComparison.OrdinalIgnoreCase))
+		if (
+			string.IsNullOrWhiteSpace(fullPath)
+			|| string.Equals(fullPath, pathRoot, PathComparison)
+			|| string.Equals(fullPath, profileRoot, PathComparison)
+			|| !string.Equals(name, "voidstrap", StringComparison.OrdinalIgnoreCase)
+		)
 		{
 			throw new InvalidOperationException("The Linux Voidstrap data location is unsafe to reset");
 		}
@@ -985,7 +1017,12 @@ internal static class Paths
 		string offloadPath = Path.GetFullPath(RobloxBase).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 		bool insideBase = fullPath.StartsWith(basePath + Path.DirectorySeparatorChar, PathComparison);
 		bool insideOffload = fullPath.StartsWith(offloadPath + Path.DirectorySeparatorChar, PathComparison);
-		if (!insideBase && !insideOffload && !string.Equals(fullPath, webViewPath, PathComparison) && !string.Equals(fullPath, tempPath, PathComparison))
+		if (
+			!insideBase
+			&& !insideOffload
+			&& !string.Equals(fullPath, webViewPath, PathComparison)
+			&& !string.Equals(fullPath, tempPath, PathComparison)
+		)
 		{
 			throw new InvalidOperationException("A Voidstrap data location is outside the expected folders");
 		}
@@ -1018,7 +1055,7 @@ internal static class Paths
 		{
 			RecurseSubdirectories = true,
 			IgnoreInaccessible = true,
-			AttributesToSkip = FileAttributes.ReparsePoint
+			AttributesToSkip = FileAttributes.ReparsePoint,
 		};
 		foreach (string file in Directory.EnumerateFiles(path, "*", options))
 		{
@@ -1030,9 +1067,7 @@ internal static class Paths
 					File.SetAttributes(file, attributes & ~FileAttributes.ReadOnly);
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
 

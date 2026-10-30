@@ -26,10 +26,20 @@ internal static class LogDiagnostics
 	{
 		List<string> lines =
 		[
-			"System: " + RuntimeInformation.OSDescription.Trim() + WindowsBuild() + ", " + RuntimeInformation.OSArchitecture + " OS, " + RuntimeInformation.ProcessArchitecture + " process",
+			"System: "
+				+ RuntimeInformation.OSDescription.Trim()
+				+ WindowsBuild()
+				+ ", "
+				+ RuntimeInformation.OSArchitecture
+				+ " OS, "
+				+ RuntimeInformation.ProcessArchitecture
+				+ " process",
 			".NET " + Environment.Version + ", " + Environment.ProcessorCount + " logical cores, " + TotalMemory(),
 			"Interface language " + CultureInfo.CurrentUICulture.Name,
-			"Started " + (Paths.StartedByLauncher ? "through the launcher" : "directly") + ", " + (IsElevated() ? "elevated" : "not elevated")
+			"Started "
+				+ (Paths.StartedByLauncher ? "through the launcher" : "directly")
+				+ ", "
+				+ (IsElevated() ? "elevated" : "not elevated"),
 		];
 		string platform = PlatformDetails();
 		if (platform.Length > 0)
@@ -43,10 +53,18 @@ internal static class LogDiagnostics
 		{
 			string session = Environment.GetEnvironmentVariable("XDG_SESSION_TYPE") ?? "unknown";
 			string desktop = Environment.GetEnvironmentVariable("XDG_CURRENT_DESKTOP") ?? "unknown";
-			string packaging = Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed ? "Flatpak"
+			string packaging =
+				Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed ? "Flatpak"
 				: !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("APPIMAGE")) ? "AppImage"
 				: "native package or folder";
-			return "Linux distribution " + LinuxDistribution() + ", " + Sanitize(session) + " session, desktop " + Sanitize(desktop) + ", running as " + packaging;
+			return "Linux distribution "
+				+ LinuxDistribution()
+				+ ", "
+				+ Sanitize(session)
+				+ " session, desktop "
+				+ Sanitize(desktop)
+				+ ", running as "
+				+ packaging;
 		}
 		if (OperatingSystem.IsMacOS())
 			return "macOS " + Environment.OSVersion.Version;
@@ -63,9 +81,7 @@ internal static class LogDiagnostics
 					return Sanitize(line["PRETTY_NAME=".Length..].Trim('"'));
 			}
 		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-		{
-		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 		return "unknown";
 	}
 
@@ -86,7 +102,10 @@ internal static class LogDiagnostics
 			ReportUncleanSessions(directory);
 			using Process current = Process.GetCurrentProcess();
 			string marker = Path.Combine(directory, Environment.ProcessId + MarkerExtension);
-			File.WriteAllText(marker, current.StartTime.ToUniversalTime().Ticks.ToString(CultureInfo.InvariantCulture) + "\n" + Path.GetFileName(logFile));
+			File.WriteAllText(
+				marker,
+				current.StartTime.ToUniversalTime().Ticks.ToString(CultureInfo.InvariantCulture) + "\n" + Path.GetFileName(logFile)
+			);
 			_markerPath = marker;
 		}
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException)
@@ -105,9 +124,7 @@ internal static class LogDiagnostics
 		{
 			File.Delete(marker);
 		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-		{
-		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 	}
 
 	private static void ReportUncleanSessions(string directory)
@@ -122,17 +139,26 @@ internal static class LogDiagnostics
 					continue;
 				}
 				string[] lines = File.ReadAllLines(marker);
-				long startTicks = lines.Length > 0 && long.TryParse(lines[0], NumberStyles.None, CultureInfo.InvariantCulture, out long ticks) ? ticks : 0;
+				long startTicks =
+					lines.Length > 0 && long.TryParse(lines[0], NumberStyles.None, CultureInfo.InvariantCulture, out long ticks)
+						? ticks
+						: 0;
 				string logName = lines.Length > 1 ? lines[1] : "an unknown log";
 				if (IsStillRunning(pid, startTicks))
 					continue;
 				DateTime started = startTicks > 0 ? new DateTime(startTicks, DateTimeKind.Utc) : File.GetCreationTimeUtc(marker);
-				Write("The previous session (process " + pid + ", started " + started.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture) + " UTC, log " + logName + ") ended without shutting down cleanly, it most likely crashed or was killed");
+				Write(
+					"The previous session (process "
+						+ pid
+						+ ", started "
+						+ started.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)
+						+ " UTC, log "
+						+ logName
+						+ ") ended without shutting down cleanly, it most likely crashed or was killed"
+				);
 				File.Delete(marker);
 			}
-			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-			{
-			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 		}
 	}
 

@@ -11,41 +11,88 @@ using Voidstrap.Models.Persistable;
 
 namespace Voidstrap.Utility;
 
-internal sealed record BootstrapperImportPlan(JsonObject Settings, Dictionary<string, object>? Flags, int Skipped, string SourceSettingsPath, string SourceFlagsPath);
+internal sealed record BootstrapperImportPlan(
+    JsonObject Settings,
+    Dictionary<string, object>? Flags,
+    int Skipped,
+    string SourceSettingsPath,
+    string SourceFlagsPath
+);
 
 internal static class BootstrapperSettingsImport
 {
     private static readonly HashSet<string> BooleanSettings = new(StringComparer.Ordinal)
     {
-        "CheckForUpdates", "ConfirmLaunches", "UseFastFlagManager", "WPFSoftwareRender",
-        "EnableAnalytics", "BackgroundUpdatesEnabled", "EnableActivityTracking",
-        "UseDiscordRichPresence", "HideRPCButtons", "ShowAccountOnRichPresence",
-        "ShowServerDetails", "UseDisableAppPatch", "FakeBorderlessFullscreen"
+        "CheckForUpdates",
+        "ConfirmLaunches",
+        "UseFastFlagManager",
+        "WPFSoftwareRender",
+        "EnableAnalytics",
+        "BackgroundUpdatesEnabled",
+        "EnableActivityTracking",
+        "UseDiscordRichPresence",
+        "HideRPCButtons",
+        "ShowAccountOnRichPresence",
+        "ShowServerDetails",
+        "UseDisableAppPatch",
+        "FakeBorderlessFullscreen",
     };
 
     private static readonly string[] BloxstrapStyles =
     [
-        "VistaDialog", "LegacyDialog2008", "LegacyDialog2011", "ProgressDialog",
-        "ClassicFluentDialog", "ByfronDialog", "FluentDialog", "FluentAeroDialog", "CustomDialog"
+        "VistaDialog",
+        "LegacyDialog2008",
+        "LegacyDialog2011",
+        "ProgressDialog",
+        "ClassicFluentDialog",
+        "ByfronDialog",
+        "FluentDialog",
+        "FluentAeroDialog",
+        "CustomDialog",
     ];
 
     private static readonly string[] FishstrapStyles =
     [
-        "VistaDialog", "LegacyDialog2008", "LegacyDialog2011", "ProgressDialog",
-        "ClassicFluentDialog", "TwentyFiveDialog", "TerminalDialog", "ByfronDialog",
-        "FluentDialog", "FluentAeroDialog", "CustomDialog"
+        "VistaDialog",
+        "LegacyDialog2008",
+        "LegacyDialog2011",
+        "ProgressDialog",
+        "ClassicFluentDialog",
+        "TwentyFiveDialog",
+        "TerminalDialog",
+        "ByfronDialog",
+        "FluentDialog",
+        "FluentAeroDialog",
+        "CustomDialog",
     ];
 
     private static readonly string[] BloxstrapIcons =
     [
-        "IconBloxstrap", "Icon2008", "Icon2011", "IconEarly2015", "IconLate2015",
-        "Icon2017", "Icon2019", "Icon2022", "IconCustom", "IconBloxstrapClassic"
+        "IconBloxstrap",
+        "Icon2008",
+        "Icon2011",
+        "IconEarly2015",
+        "IconLate2015",
+        "Icon2017",
+        "Icon2019",
+        "Icon2022",
+        "IconCustom",
+        "IconBloxstrapClassic",
     ];
 
     private static readonly string[] FishstrapIcons =
     [
-        "IconFishstrap", "IconBloxstrap", "Icon2008", "Icon2011", "IconEarly2015",
-        "IconLate2015", "Icon2017", "Icon2019", "Icon2022", "IconCustom", "IconBloxstrapClassic"
+        "IconFishstrap",
+        "IconBloxstrap",
+        "Icon2008",
+        "Icon2011",
+        "IconEarly2015",
+        "IconLate2015",
+        "Icon2017",
+        "Icon2019",
+        "Icon2022",
+        "IconCustom",
+        "IconBloxstrapClassic",
     ];
 
     public static async Task<string?> FindSettingsAsync(string source, CancellationToken token)
@@ -78,7 +125,8 @@ internal static class BootstrapperSettingsImport
     {
         if (Platform.IsWindows)
             return true;
-        bool windowsPath = location.Length >= 3 && char.IsAsciiLetter(location[0]) && location[1] == ':' && location[2] is '\\' or '/'
+        bool windowsPath =
+            location.Length >= 3 && char.IsAsciiLetter(location[0]) && location[1] == ':' && location[2] is '\\' or '/'
             || location.Contains('\\');
         return !windowsPath && Path.IsPathRooted(location) && File.Exists(location);
     }
@@ -104,7 +152,11 @@ internal static class BootstrapperSettingsImport
     {
         ValidateSource(source);
         string text = await ReadSourceTextAsync(settingsPath, 4 * 1024 * 1024, token).ConfigureAwait(false);
-        JsonObject original = JsonNode.Parse(text, documentOptions: new JsonDocumentOptions { AllowTrailingCommas = true, CommentHandling = JsonCommentHandling.Skip }) as JsonObject
+        JsonObject original =
+            JsonNode.Parse(
+                text,
+                documentOptions: new JsonDocumentOptions { AllowTrailingCommas = true, CommentHandling = JsonCommentHandling.Skip }
+            ) as JsonObject
             ?? throw new InvalidDataException("The source settings must be a JSON object");
         JsonObject settings = new();
         int skipped = 0;
@@ -126,7 +178,10 @@ internal static class BootstrapperSettingsImport
                 }
                 if (name == "Channel")
                 {
-                    if (content.Length is < 1 or > 64 || content.Any(c => !char.IsAsciiLetterOrDigit(c) && c is not '_' and not '.' and not '-'))
+                    if (
+                        content.Length is < 1 or > 64
+                        || content.Any(c => !char.IsAsciiLetterOrDigit(c) && c is not '_' and not '.' and not '-')
+                    )
                         throw new InvalidDataException("The source channel is invalid");
                     settings["IsChannelEnabled"] = !content.Equals("LIVE", StringComparison.OrdinalIgnoreCase);
                 }
@@ -138,9 +193,25 @@ internal static class BootstrapperSettingsImport
                 "Theme" => EnumName(value, ["Default", "Light", "Dark"]),
                 "BootstrapperStyle" => EnumName(value, source == "Fishstrap" ? FishstrapStyles : BloxstrapStyles),
                 "BootstrapperIcon" => EnumName(value, source == "Fishstrap" ? FishstrapIcons : BloxstrapIcons),
-                "RobloxIcon" when source == "Fishstrap" => EnumName(value, ["IconDefault", "Icon2008", "Icon2011", "IconEarly2015", "IconLate2015", "Icon2017", "Icon2019", "Icon2022", "IconCustom"]),
-                "CleanerOptions" when source == "Fishstrap" => EnumName(value, ["Never", "OneDay", "OneWeek", "TwoWeeks", "OneMonth", "TwoMonths"]),
-                _ => null
+                "RobloxIcon" when source == "Fishstrap" => EnumName(
+                    value,
+                    [
+                        "IconDefault",
+                        "Icon2008",
+                        "Icon2011",
+                        "IconEarly2015",
+                        "IconLate2015",
+                        "Icon2017",
+                        "Icon2019",
+                        "Icon2022",
+                        "IconCustom",
+                    ]
+                ),
+                "CleanerOptions" when source == "Fishstrap" => EnumName(
+                    value,
+                    ["Never", "OneDay", "OneWeek", "TwoWeeks", "OneMonth", "TwoMonths"]
+                ),
+                _ => null,
             };
             if (name == "Theme" && Enum.TryParse(choice, out Enums.Theme theme))
                 settings["Theme2"] = (int)theme;
@@ -152,7 +223,10 @@ internal static class BootstrapperSettingsImport
                     choice = "IconVoidstrap";
                 string pathName = name + "CustomLocation";
                 string? customPath = original[pathName]?.GetValue<string>();
-                if (Enum.TryParse(choice, out Enums.BootstrapperIcon icon) && (icon != Enums.BootstrapperIcon.IconCustom || File.Exists(customPath)))
+                if (
+                    Enum.TryParse(choice, out Enums.BootstrapperIcon icon)
+                    && (icon != Enums.BootstrapperIcon.IconCustom || File.Exists(customPath))
+                )
                 {
                     settings[name] = (int)icon;
                     if (icon == Enums.BootstrapperIcon.IconCustom)
@@ -165,10 +239,17 @@ internal static class BootstrapperSettingsImport
                 settings[name] = (int)cleaner;
             else if (name == "CleanerDirectories" && source == "Fishstrap")
             {
-                string[] directories = value?.Deserialize<string[]>() ?? throw new InvalidDataException("Cleaner directories must contain a list");
-                if (directories.Any(directory => directory is not "RobloxCache" and not "RobloxStudioCache" and not "RobloxLogs" and not "FishstrapLogs"))
+                string[] directories =
+                    value?.Deserialize<string[]>() ?? throw new InvalidDataException("Cleaner directories must contain a list");
+                if (
+                    directories.Any(directory =>
+                        directory is not "RobloxCache" and not "RobloxStudioCache" and not "RobloxLogs" and not "FishstrapLogs"
+                    )
+                )
                     throw new InvalidDataException("A source cleaner directory is unsupported");
-                settings[name] = JsonSerializer.SerializeToNode(directories.Select(directory => directory == "FishstrapLogs" ? "VoidstrapLogs" : directory).Distinct().ToArray());
+                settings[name] = JsonSerializer.SerializeToNode(
+                    directories.Select(directory => directory == "FishstrapLogs" ? "VoidstrapLogs" : directory).Distinct().ToArray()
+                );
             }
             else if (name == "CustomIntegrations")
             {
@@ -189,7 +270,11 @@ internal static class BootstrapperSettingsImport
                         if (integration.TryGetPropertyValue(field, out JsonNode? entry))
                             imported[field] = entry?.DeepClone();
                     var parsed = imported.Deserialize<Models.CustomIntegration>(JsonOptions.Tolerant)!;
-                    if (parsed.Name == null || parsed.LaunchArgs == null || integration["Delay"] is JsonNode delay && delay.GetValue<int>() < 0)
+                    if (
+                        parsed.Name == null
+                        || parsed.LaunchArgs == null
+                        || integration["Delay"] is JsonNode delay && delay.GetValue<int>() < 0
+                    )
                         throw new InvalidDataException("A source custom integration is invalid");
                     importedIntegrations.Add(JsonSerializer.SerializeToNode(parsed));
                 }
@@ -205,15 +290,18 @@ internal static class BootstrapperSettingsImport
         }
 
         Dictionary<string, object>? flags = null;
-        string flagPath = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(settingsPath))!, "Modifications", "ClientSettings", "ClientAppSettings.json");
+        string flagPath = Path.Combine(
+            Path.GetDirectoryName(Path.GetFullPath(settingsPath))!,
+            "Modifications",
+            "ClientSettings",
+            "ClientAppSettings.json"
+        );
         string? flagText = null;
         try
         {
             flagText = await ReadSourceTextAsync(flagPath, 8 * 1024 * 1024, token).ConfigureAwait(false);
         }
-        catch (Exception ex) when (ex is FileNotFoundException or DirectoryNotFoundException)
-        {
-        }
+        catch (Exception ex) when (ex is FileNotFoundException or DirectoryNotFoundException) { }
         if (flagText != null)
         {
             using JsonDocument document = JsonDocument.Parse(flagText);
@@ -231,7 +319,7 @@ internal static class BootstrapperSettingsImport
                     JsonValueKind.True => "True",
                     JsonValueKind.False => "False",
                     JsonValueKind.Number => flag.Value.GetRawText(),
-                    _ => throw new InvalidDataException("A source FastFlag value is invalid: " + flag.Name)
+                    _ => throw new InvalidDataException("A source FastFlag value is invalid: " + flag.Name),
                 };
                 if (!flags.TryAdd(flag.Name, content))
                     throw new InvalidDataException("A source FastFlag is duplicated: " + flag.Name);
@@ -246,7 +334,10 @@ internal static class BootstrapperSettingsImport
     {
         StringComparer comparer = Platform.IsWindows ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
         foreach (string destination in new[] { settings.FileLocation, flags.FileLocation })
-            if (comparer.Equals(Path.GetFullPath(destination), plan.SourceSettingsPath) || comparer.Equals(Path.GetFullPath(destination), plan.SourceFlagsPath))
+            if (
+                comparer.Equals(Path.GetFullPath(destination), plan.SourceSettingsPath)
+                || comparer.Equals(Path.GetFullPath(destination), plan.SourceFlagsPath)
+            )
                 throw new InvalidDataException("Select settings from another bootstrapper installation");
         AppSettings previous = settings.Prop;
         Dictionary<string, object> previousFlags = flags.Prop;
@@ -254,7 +345,10 @@ internal static class BootstrapperSettingsImport
         foreach ((string name, JsonNode? value) in plan.Settings)
             merged[name] = value?.DeepClone();
         AppSettings imported = merged.Deserialize<AppSettings>(JsonOptions.Tolerant)!;
-        Dictionary<string, object> importedFlags = previousFlags.ToDictionary(pair => pair.Key, pair => (object)(pair.Value?.ToString() ?? ""));
+        Dictionary<string, object> importedFlags = previousFlags.ToDictionary(
+            pair => pair.Key,
+            pair => (object)(pair.Value?.ToString() ?? "")
+        );
         if (plan.Flags != null)
             foreach ((string name, object value) in plan.Flags)
                 importedFlags[name] = value;
@@ -283,7 +377,11 @@ internal static class BootstrapperSettingsImport
                 }
                 catch (Exception rollbackFailure)
                 {
-                    throw new AggregateException("The import failed and the previous settings could not be restored", failure, rollbackFailure);
+                    throw new AggregateException(
+                        "The import failed and the previous settings could not be restored",
+                        failure,
+                        rollbackFailure
+                    );
                 }
             }
             throw;

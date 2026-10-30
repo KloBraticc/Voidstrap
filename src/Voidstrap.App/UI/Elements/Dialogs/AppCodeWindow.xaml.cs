@@ -55,11 +55,7 @@ public partial class AppCodeWindow : WpfUiWindow
 
 	private static TreeViewItem MakeNode(string name, bool isFolder, string path)
 	{
-		TreeViewItem node = new()
-		{
-			Header = isFolder ? "[DIR] " + name : name,
-			Tag = path
-		};
+		TreeViewItem node = new() { Header = isFolder ? "[DIR] " + name : name, Tag = path };
 		if (isFolder)
 		{
 			node.Items.Add(new TreeViewItem { Header = "..." });
@@ -112,7 +108,12 @@ public partial class AppCodeWindow : WpfUiWindow
 			EditedBadge.Visibility = edited ? Visibility.Visible : Visibility.Collapsed;
 			ResetButton.IsEnabled = edited;
 			SaveButton.IsEnabled = false;
-			EditorStatus.Text = string.Format(Strings.Ui_AppCode_FileOpened, path, content.Length, edited ? Strings.Ui_AppCode_FileEdited : Strings.Ui_AppCode_FileOriginal);
+			EditorStatus.Text = string.Format(
+				Strings.Ui_AppCode_FileOpened,
+				path,
+				content.Length,
+				edited ? Strings.Ui_AppCode_FileEdited : Strings.Ui_AppCode_FileOriginal
+			);
 			FooterStatus.Text = "";
 		}
 		catch (Exception ex)
@@ -152,7 +153,14 @@ public partial class AppCodeWindow : WpfUiWindow
 	{
 		if (_currentPath == null)
 			return;
-		if (Frontend.ShowMessageBox(string.Format(Strings.Ui_AppCode_ResetConfirm, _currentPath), MessageBoxImage.Question, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+		if (
+			Frontend.ShowMessageBox(
+				string.Format(Strings.Ui_AppCode_ResetConfirm, _currentPath),
+				MessageBoxImage.Question,
+				MessageBoxButton.YesNo,
+				MessageBoxResult.No
+			) != MessageBoxResult.Yes
+		)
 			return;
 		AppSourceStore.Reset(_currentPath);
 		OpenFile(_currentPath);
@@ -206,17 +214,21 @@ public partial class AppCodeWindow : WpfUiWindow
 
 	private void Export_Click(object sender, RoutedEventArgs e)
 	{
-		Microsoft.Win32.OpenFolderDialog dialog = new()
-		{
-			Title = Strings.Ui_AppCode_ExportPickerTitle
-		};
+		Microsoft.Win32.OpenFolderDialog dialog = new() { Title = Strings.Ui_AppCode_ExportPickerTitle };
 		if (dialog.ShowDialog(this) != true)
 			return;
 		try
 		{
 			int count = AppSourceStore.Export(dialog.FolderName);
 			FooterStatus.Text = string.Format(Strings.Ui_AppCode_Exported, count, dialog.FolderName);
-			if (Frontend.ShowMessageBox(string.Format(Strings.Ui_AppCode_OpenExportedFolder, count), MessageBoxImage.Information, MessageBoxButton.YesNo, MessageBoxResult.Yes) == MessageBoxResult.Yes)
+			if (
+				Frontend.ShowMessageBox(
+					string.Format(Strings.Ui_AppCode_OpenExportedFolder, count),
+					MessageBoxImage.Information,
+					MessageBoxButton.YesNo,
+					MessageBoxResult.Yes
+				) == MessageBoxResult.Yes
+			)
 			{
 				try
 				{

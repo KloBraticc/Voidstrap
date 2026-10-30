@@ -55,7 +55,10 @@ namespace Voidstrap.Utility
                 bool wraps = false;
                 try
                 {
-                    wraps = Platform.IsWindows && App.Settings?.Prop?.RiShadeEnabled == true && Voidstrap.Integrations.RiShade.RiShadeManager.DlssInstalled;
+                    wraps =
+                        Platform.IsWindows
+                        && App.Settings?.Prop?.RiShadeEnabled == true
+                        && Voidstrap.Integrations.RiShade.RiShadeManager.DlssInstalled;
                 }
                 catch (Exception ex)
                 {
@@ -79,7 +82,10 @@ namespace Voidstrap.Utility
             InstallWindowHandler();
             RenderMode mode = WindowsSoftwareOnly ? RenderMode.SoftwareOnly : RenderMode.Default;
             if (DlssWrapsGraphics && !SoftwareOnly)
-                App.Logger?.WriteLine("RenderAcceleration::ApplyProcess", "RiShade DLSS is on, Voidstrap windows render in software so ReShade only wraps the game compositor");
+                App.Logger?.WriteLine(
+                    "RenderAcceleration::ApplyProcess",
+                    "RiShade DLSS is on, Voidstrap windows render in software so ReShade only wraps the game compositor"
+                );
             lock (Sync)
             {
                 if (_appliedProcessMode == mode)
@@ -89,7 +95,10 @@ namespace Voidstrap.Utility
                 {
                     RenderOptions.ProcessRenderMode = mode;
                     _appliedProcessMode = mode;
-                    App.Logger?.WriteLine("RenderAcceleration::ApplyProcess", mode == RenderMode.SoftwareOnly ? "Software rendering enabled" : "Hardware rendering enabled");
+                    App.Logger?.WriteLine(
+                        "RenderAcceleration::ApplyProcess",
+                        mode == RenderMode.SoftwareOnly ? "Software rendering enabled" : "Hardware rendering enabled"
+                    );
                 }
                 catch (Exception ex)
                 {
@@ -108,11 +117,17 @@ namespace Voidstrap.Utility
 
             if (SoftwareOnly)
             {
-                App.Logger?.WriteLine("RenderAcceleration::Recover", "The renderer failed while already in software mode, nothing left to fall back to");
+                App.Logger?.WriteLine(
+                    "RenderAcceleration::Recover",
+                    "The renderer failed while already in software mode, nothing left to fall back to"
+                );
                 return false;
             }
 
-            App.Logger?.WriteLine("RenderAcceleration::Recover", "The GPU renderer stopped, most likely after a display driver reset, restarting with software rendering");
+            App.Logger?.WriteLine(
+                "RenderAcceleration::Recover",
+                "The GPU renderer stopped, most likely after a display driver reset, restarting with software rendering"
+            );
             StopSettleTimer();
             ClearSentinel();
 
@@ -125,7 +140,12 @@ namespace Voidstrap.Utility
             App.Logger?.WriteLine("RenderAcceleration::Recover", "The restart failed, Voidstrap closes so it can be opened again");
             try
             {
-                _ = MessageBoxW(0, "Your display driver reset while Voidstrap was drawing its window. Please open Voidstrap again.", "Voidstrap", MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
+                _ = MessageBoxW(
+                    0,
+                    "Your display driver reset while Voidstrap was drawing its window. Please open Voidstrap again.",
+                    "Voidstrap",
+                    MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST
+                );
                 if (!App.LaunchSettings.WatcherFlag.Active)
                     Application.Current?.Shutdown();
             }
@@ -142,7 +162,11 @@ namespace Voidstrap.Utility
 
         private const uint MB_TOPMOST = 0x40000;
 
-        [System.Runtime.InteropServices.LibraryImport("user32.dll", EntryPoint = "MessageBoxW", StringMarshalling = System.Runtime.InteropServices.StringMarshalling.Utf16)]
+        [System.Runtime.InteropServices.LibraryImport(
+            "user32.dll",
+            EntryPoint = "MessageBoxW",
+            StringMarshalling = System.Runtime.InteropServices.StringMarshalling.Utf16
+        )]
         private static partial int MessageBoxW(nint hWnd, string text, string caption, uint type);
 
         private static bool IsRenderFailure(Exception? ex)
@@ -152,7 +176,10 @@ namespace Voidstrap.Utility
                 if (ex.HResult == RenderThreadFailure)
                     return true;
 
-                if (ex.TargetSite is { Name: "NotifyPartitionIsZombie" } site && site.DeclaringType?.FullName == "System.Windows.Media.MediaContext")
+                if (
+                    ex.TargetSite is { Name: "NotifyPartitionIsZombie" } site
+                    && site.DeclaringType?.FullName == "System.Windows.Media.MediaContext"
+                )
                     return true;
             }
             return false;
@@ -198,7 +225,10 @@ namespace Voidstrap.Utility
                     return;
 
                 _sessionFallback = true;
-                App.Logger?.WriteLine("RenderAcceleration::TripSentinel", "The last hardware rendered session stopped before it rendered stably, using software rendering for this session only");
+                App.Logger?.WriteLine(
+                    "RenderAcceleration::TripSentinel",
+                    "The last hardware rendered session stopped before it rendered stably, using software rendering for this session only"
+                );
             }
             catch (Exception ex)
             {

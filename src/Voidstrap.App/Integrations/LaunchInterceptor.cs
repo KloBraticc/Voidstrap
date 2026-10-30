@@ -30,7 +30,10 @@ public static partial class LaunchInterceptor
 
 	private const string LOG_IDENT = "LaunchInterceptor";
 
-	public static async Task<string?> MaybeRewriteForClosestAsync(string? robloxLaunchArgs, CancellationToken token = default(CancellationToken))
+	public static async Task<string?> MaybeRewriteForClosestAsync(
+		string? robloxLaunchArgs,
+		CancellationToken token = default(CancellationToken)
+	)
 	{
 		App.Logger.WriteLine("LaunchInterceptor", "MaybeRewriteForClosestAsync entered.");
 		if (string.IsNullOrWhiteSpace(robloxLaunchArgs))
@@ -60,7 +63,10 @@ public static partial class LaunchInterceptor
 			}
 			if (ContainsSpecificGameInstance(robloxLaunchArgs))
 			{
-				App.Logger.WriteLine("LaunchInterceptor", "Launch already targets a specific server (gameInstanceId / gameId present); not rewriting.");
+				App.Logger.WriteLine(
+					"LaunchInterceptor",
+					"Launch already targets a specific server (gameInstanceId / gameId present); not rewriting."
+				);
 				return null;
 			}
 			if (string.IsNullOrEmpty(RobloxAuthLauncher.TryGetRobloxSecurityCookie()))
@@ -70,7 +76,9 @@ public static partial class LaunchInterceptor
 			}
 			App.Logger.WriteLine("LaunchInterceptor", "Cookie present, geo + matchmaker proceeding.");
 			string preferredKey = ServerMatchmaker.ResolvePreferredDatacenterKey(placeId);
-			MatchmakerCandidate? matchmakerCandidate = await VoidstrapMatchmaker.PickBestJobIdAsync(placeId, null, VoidstrapMatchmaker.ResolveEffectiveCandidateCount(), preferredKey, token).ConfigureAwait(continueOnCapturedContext: false);
+			MatchmakerCandidate? matchmakerCandidate = await VoidstrapMatchmaker
+				.PickBestJobIdAsync(placeId, null, VoidstrapMatchmaker.ResolveEffectiveCandidateCount(), preferredKey, token)
+				.ConfigureAwait(continueOnCapturedContext: false);
 			if (matchmakerCandidate == null || string.IsNullOrEmpty(matchmakerCandidate.JobId))
 			{
 				App.Logger.WriteLine("LaunchInterceptor", "Matchmaker returned no candidate; using original launch args.");
@@ -82,7 +90,10 @@ public static partial class LaunchInterceptor
 				App.Logger.WriteLine("LaunchInterceptor", "RewriteLauncherUrl returned null; using original.");
 				return null;
 			}
-			App.Logger.WriteLine("LaunchInterceptor", $"Rewrote launch for {matchmakerCandidate.Datacenter?.City ?? "?"}, {matchmakerCandidate.DistanceKm:F0}km away");
+			App.Logger.WriteLine(
+				"LaunchInterceptor",
+				$"Rewrote launch for {matchmakerCandidate.Datacenter?.City ?? "?"}, {matchmakerCandidate.DistanceKm:F0}km away"
+			);
 			VoidstrapMatchmaker.RememberLaunchPick(matchmakerCandidate);
 			return text;
 		}
@@ -118,7 +129,8 @@ public static partial class LaunchInterceptor
 		ArgumentOutOfRangeException.ThrowIfNegativeOrZero(placeId);
 		string uri = $"roblox://experiences/start?placeId={placeId}";
 		return !string.IsNullOrEmpty(accessCode) ? uri + "&accessCode=" + Uri.EscapeDataString(accessCode)
-			: !string.IsNullOrEmpty(jobId) ? uri + "&gameInstanceId=" + Uri.EscapeDataString(jobId) : uri;
+			: !string.IsNullOrEmpty(jobId) ? uri + "&gameInstanceId=" + Uri.EscapeDataString(jobId)
+			: uri;
 	}
 
 	public static bool ContainsSpecificGameInstance(string args)
@@ -153,10 +165,18 @@ public static partial class LaunchInterceptor
 			Match match = PlaceLauncherUrlPattern.Match(args);
 			if (match.Success)
 			{
-				string text = HttpUtility.UrlEncode(RewriteSinglePlaceLauncherUrl(HttpUtility.UrlDecode(match.Groups[1].Value), placeId, jobId));
+				string text = HttpUtility.UrlEncode(
+					RewriteSinglePlaceLauncherUrl(HttpUtility.UrlDecode(match.Groups[1].Value), placeId, jobId)
+				);
 				return string.Concat(args.AsSpan(0, match.Index), "placelauncherurl:", text, args.AsSpan(match.Index + match.Length));
 			}
-			if (args.StartsWith("roblox://", StringComparison.OrdinalIgnoreCase) || (!args.StartsWith("roblox-player:1+launchmode:play", StringComparison.OrdinalIgnoreCase) && args.Contains($"placeId={placeId}", StringComparison.OrdinalIgnoreCase)))
+			if (
+				args.StartsWith("roblox://", StringComparison.OrdinalIgnoreCase)
+				|| (
+					!args.StartsWith("roblox-player:1+launchmode:play", StringComparison.OrdinalIgnoreCase)
+					&& args.Contains($"placeId={placeId}", StringComparison.OrdinalIgnoreCase)
+				)
+			)
 			{
 				if (args.Contains("gameInstanceId=", StringComparison.OrdinalIgnoreCase))
 				{
@@ -185,11 +205,16 @@ public static partial class LaunchInterceptor
 		}
 		string text = url.Substring(0, num);
 		string text2 = url.Substring(num + 1);
-		List<(string Key, string Value)> pairs = text2.Split('&').Select(delegate(string p)
-		{
-			int num2 = p.IndexOf('=');
-			return (num2 >= 0) ? (Key: p.Substring(0, num2), Value: p.Substring(num2 + 1)) : (Key: p, Value: "");
-		}).ToList();
+		List<(string Key, string Value)> pairs = text2
+			.Split('&')
+			.Select(
+				delegate(string p)
+				{
+					int num2 = p.IndexOf('=');
+					return (num2 >= 0) ? (Key: p.Substring(0, num2), Value: p.Substring(num2 + 1)) : (Key: p, Value: "");
+				}
+			)
+			.ToList();
 		SetPair("request", "RequestGameJob");
 		SetPair("placeId", placeId.ToString());
 		SetPair("gameId", jobId);
@@ -209,8 +234,9 @@ public static partial class LaunchInterceptor
 		}
 	}
 
-    [GeneratedRegex("placeId%3D(\\d+)|placeId=(\\d+)|placeid%3d(\\d+)", RegexOptions.IgnoreCase, "en-US")]
-    private static partial Regex PlaceIdQueryPattern { get; }
-    [GeneratedRegex("(?:accessCode|privateServerLinkCode)(?:=|%3D)[^&+%\\s]+", RegexOptions.IgnoreCase, "en-US")]
-    private static partial Regex PrivateServerCodePattern { get; }
+	[GeneratedRegex("placeId%3D(\\d+)|placeId=(\\d+)|placeid%3d(\\d+)", RegexOptions.IgnoreCase, "en-US")]
+	private static partial Regex PlaceIdQueryPattern { get; }
+
+	[GeneratedRegex("(?:accessCode|privateServerLinkCode)(?:=|%3D)[^&+%\\s]+", RegexOptions.IgnoreCase, "en-US")]
+	private static partial Regex PrivateServerCodePattern { get; }
 }

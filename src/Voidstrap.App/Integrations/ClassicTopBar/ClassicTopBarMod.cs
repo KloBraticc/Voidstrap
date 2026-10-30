@@ -46,9 +46,25 @@ internal static partial class ClassicTopBarMod
 
 	private static readonly string[] RequiredAssets =
 	{
-		"Burger.png", "BurgerOpen.png", "Chat.png", "ChatOpen.png", "Backpack.png", "BackpackOpen.png",
-		"Resume.png", "Reset.png", "Settings.png", "Help.png", "Screenshot.png", "Report.png", "Record.png",
-		"Leave.png", "Cancel.png", "Confirm.png", "Back.png", "ButtonOff.png", "ButtonOn.png"
+		"Burger.png",
+		"BurgerOpen.png",
+		"Chat.png",
+		"ChatOpen.png",
+		"Backpack.png",
+		"BackpackOpen.png",
+		"Resume.png",
+		"Reset.png",
+		"Settings.png",
+		"Help.png",
+		"Screenshot.png",
+		"Report.png",
+		"Record.png",
+		"Leave.png",
+		"Cancel.png",
+		"Confirm.png",
+		"Back.png",
+		"ButtonOff.png",
+		"ButtonOn.png",
 	};
 
 	private static readonly string[] ImageExtensions = { ".png" };
@@ -59,14 +75,14 @@ internal static partial class ClassicTopBarMod
 	{
 		["PreferredTransparency"] = "225",
 		["ChatVisible"] = "false",
-		["PlayerListVisible"] = "false"
+		["PlayerListVisible"] = "false",
 	};
 
 	private static readonly Dictionary<string, string> RobloxDefaults = new(StringComparer.Ordinal)
 	{
 		["PreferredTransparency"] = "1",
 		["ChatVisible"] = "true",
-		["PlayerListVisible"] = "true"
+		["PlayerListVisible"] = "true",
 	};
 
 	private static readonly EnumerationOptions SearchOptions = new EnumerationOptions
@@ -74,7 +90,7 @@ internal static partial class ClassicTopBarMod
 		RecurseSubdirectories = true,
 		IgnoreInaccessible = true,
 		MatchCasing = MatchCasing.CaseInsensitive,
-		AttributesToSkip = FileAttributes.ReparsePoint
+		AttributesToSkip = FileAttributes.ReparsePoint,
 	};
 
 	private static readonly int ParallelLimit = Math.Max(2, Environment.ProcessorCount);
@@ -220,7 +236,9 @@ internal static partial class ClassicTopBarMod
 					else
 					{
 						progress?.Report("Downloading the PS4 button icons");
-						installedId = await GameBananaCatalog.InstallModAsync(Ps4ButtonsModId, Ps4ButtonsFileId, progress, token).ConfigureAwait(false);
+						installedId = await GameBananaCatalog
+							.InstallModAsync(Ps4ButtonsModId, Ps4ButtonsFileId, progress, token)
+							.ConfigureAwait(false);
 						state.Ps4ButtonsModId = installedId;
 					}
 				}
@@ -330,15 +348,15 @@ internal static partial class ClassicTopBarMod
 		TryDeleteDirectory(staging);
 		try
 		{
-			await GameBananaCatalog.FetchFileAsync(InterfaceModId, InterfaceFileId, staging, ImageExtensions, progress, token).ConfigureAwait(false);
+			await GameBananaCatalog
+				.FetchFileAsync(InterfaceModId, InterfaceFileId, staging, ImageExtensions, progress, token)
+				.ConfigureAwait(false);
 			Directory.CreateDirectory(AssetFolder);
 			int copied = 0;
 			foreach (string name in RequiredAssets)
 			{
 				token.ThrowIfCancellationRequested();
-				string? source = Directory
-					.EnumerateFiles(staging, name, SearchOptions)
-					.FirstOrDefault();
+				string? source = Directory.EnumerateFiles(staging, name, SearchOptions).FirstOrDefault();
 				if (source == null)
 				{
 					continue;
@@ -361,19 +379,45 @@ internal static partial class ClassicTopBarMod
 
 	private static readonly string[] CoreGuiTextureFolders =
 	{
-		"TopBar", "MenuBar", "InGameMenu", "Chat", "PlayerList", "Backpack", "Emotes",
-		"Settings", "Menu", "Capture", "ScreenshotHud", "VoiceChat", "PurchasePrompt",
-		"ErrorPrompt", "InspectMenu", "Moments", "common"
+		"TopBar",
+		"MenuBar",
+		"InGameMenu",
+		"Chat",
+		"PlayerList",
+		"Backpack",
+		"Emotes",
+		"Settings",
+		"Menu",
+		"Capture",
+		"ScreenshotHud",
+		"VoiceChat",
+		"PurchasePrompt",
+		"ErrorPrompt",
+		"InspectMenu",
+		"Moments",
+		"common",
 	};
 
 	private static readonly string[] IconFontFolder =
 	{
-		"ExtraContent", "LuaPackages", "Packages", "_Index", "BuilderIcons", "BuilderIcons", "Font"
+		"ExtraContent",
+		"LuaPackages",
+		"Packages",
+		"_Index",
+		"BuilderIcons",
+		"BuilderIcons",
+		"Font",
 	};
 
 	private static readonly string[] FoundationFolder =
 	{
-		"ExtraContent", "LuaPackages", "Packages", "_Index", "FoundationImages", "FoundationImages", "SpriteSheets"
+		"ExtraContent",
+		"LuaPackages",
+		"Packages",
+		"_Index",
+		"FoundationImages",
+		"FoundationImages",
+		"SpriteSheets",
 	};
 
 	public static async Task<string?> FindRobloxInstallAsync(CancellationToken token)
@@ -390,7 +434,9 @@ internal static partial class ClassicTopBarMod
 
 		try
 		{
-			(string ClientDirectory, string VersionGuid)? sober = await Bootstrapper.PrepareSoberClientTreeAsync(token).ConfigureAwait(false);
+			(string ClientDirectory, string VersionGuid)? sober = await Bootstrapper
+				.PrepareSoberClientTreeAsync(token)
+				.ConfigureAwait(false);
 			return sober?.ClientDirectory;
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
@@ -436,7 +482,9 @@ internal static partial class ClassicTopBarMod
 		if (!Directory.Exists(NoGuiFolder) || !Directory.EnumerateFiles(NoGuiFolder, "*.ttf", SearchOptions).Any())
 		{
 			TryDeleteDirectory(NoGuiFolder);
-			await GameBananaCatalog.FetchFileAsync(NoGuiModId, NoGuiFileId, NoGuiFolder, NoGuiExtensions, progress, token).ConfigureAwait(false);
+			await GameBananaCatalog
+				.FetchFileAsync(NoGuiModId, NoGuiFileId, NoGuiFolder, NoGuiExtensions, progress, token)
+				.ConfigureAwait(false);
 		}
 
 		string? blankFont = Directory
@@ -504,8 +552,10 @@ internal static partial class ClassicTopBarMod
 		{
 			token.ThrowIfCancellationRequested();
 			string extension = Path.GetExtension(file);
-			if (!string.Equals(extension, ".ttf", StringComparison.OrdinalIgnoreCase)
-				&& !string.Equals(extension, ".otf", StringComparison.OrdinalIgnoreCase))
+			if (
+				!string.Equals(extension, ".ttf", StringComparison.OrdinalIgnoreCase)
+				&& !string.Equals(extension, ".otf", StringComparison.OrdinalIgnoreCase)
+			)
 			{
 				continue;
 			}
@@ -568,29 +618,33 @@ internal static partial class ClassicTopBarMod
 	{
 		int written = 0;
 		ParallelOptions options = new ParallelOptions { MaxDegreeOfParallelism = ParallelLimit, CancellationToken = token };
-		Parallel.ForEach(work, options, item =>
-		{
-			token.ThrowIfCancellationRequested();
-			if (!TryReadPngSize(item.Source, out int width, out int height))
+		Parallel.ForEach(
+			work,
+			options,
+			item =>
 			{
-				return;
-			}
-			byte[]? bytes = BlankImage(width, height);
-			if (bytes == null)
-			{
-				return;
-			}
-			try
-			{
-				File.WriteAllBytes(Writable(item.Target), bytes);
 				token.ThrowIfCancellationRequested();
-				Interlocked.Increment(ref written);
+				if (!TryReadPngSize(item.Source, out int width, out int height))
+				{
+					return;
+				}
+				byte[]? bytes = BlankImage(width, height);
+				if (bytes == null)
+				{
+					return;
+				}
+				try
+				{
+					File.WriteAllBytes(Writable(item.Target), bytes);
+					token.ThrowIfCancellationRequested();
+					Interlocked.Increment(ref written);
+				}
+				catch (Exception ex) when (ex is not OperationCanceledException)
+				{
+					App.Logger?.WriteLine(LogIdent, "The image " + Path.GetFileName(item.Target) + " could not be written: " + ex.Message);
+				}
 			}
-			catch (Exception ex) when (ex is not OperationCanceledException)
-			{
-				App.Logger?.WriteLine(LogIdent, "The image " + Path.GetFileName(item.Target) + " could not be written: " + ex.Message);
-			}
-		});
+		);
 		return written;
 	}
 
@@ -689,10 +743,11 @@ internal static partial class ClassicTopBarMod
 			if (!state.RobloxSettings.ContainsKey(setting.Key))
 			{
 				string current = match.Groups[2].Value;
-				state.RobloxSettings[setting.Key] = string.Equals(current, setting.Value, StringComparison.OrdinalIgnoreCase)
+				state.RobloxSettings[setting.Key] =
+					string.Equals(current, setting.Value, StringComparison.OrdinalIgnoreCase)
 					&& RobloxDefaults.TryGetValue(setting.Key, out string? fallback)
-					? fallback
-					: current;
+						? fallback
+						: current;
 			}
 			patched = SettingPattern(setting.Key).Replace(patched, match.Groups[1].Value + setting.Value + match.Groups[3].Value, 1);
 		}
@@ -726,8 +781,10 @@ internal static partial class ClassicTopBarMod
 			{
 				target = saved;
 			}
-			else if (string.Equals(current, setting.Value, StringComparison.OrdinalIgnoreCase)
-				&& RobloxDefaults.TryGetValue(setting.Key, out string? fallback))
+			else if (
+				string.Equals(current, setting.Value, StringComparison.OrdinalIgnoreCase)
+				&& RobloxDefaults.TryGetValue(setting.Key, out string? fallback)
+			)
 			{
 				target = fallback;
 				App.Logger?.WriteLine(LogIdent, "No saved value for " + setting.Key + ", putting it back to the Roblox default");
@@ -803,7 +860,10 @@ internal static partial class ClassicTopBarMod
 		}
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
 		{
-			App.Logger?.WriteLine(LogIdent, "The Roblox interface settings could not be patched, the topbar mod is still applied: " + ex.Message);
+			App.Logger?.WriteLine(
+				LogIdent,
+				"The Roblox interface settings could not be patched, the topbar mod is still applied: " + ex.Message
+			);
 		}
 	}
 
@@ -821,7 +881,11 @@ internal static partial class ClassicTopBarMod
 
 	private static Regex SettingPattern(string name)
 	{
-		return new Regex("(<(?:bool|float|int|token) name=\"" + Regex.Escape(name) + "\">)([^<]*)(</(?:bool|float|int|token)>)", RegexOptions.CultureInvariant, TimeSpan.FromSeconds(2));
+		return new Regex(
+			"(<(?:bool|float|int|token) name=\"" + Regex.Escape(name) + "\">)([^<]*)(</(?:bool|float|int|token)>)",
+			RegexOptions.CultureInvariant,
+			TimeSpan.FromSeconds(2)
+		);
 	}
 
 	private static void CopyTree(string source, string destination, CancellationToken token)

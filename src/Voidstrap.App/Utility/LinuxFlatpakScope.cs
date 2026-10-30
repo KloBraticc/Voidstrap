@@ -35,7 +35,7 @@ internal static class LinuxFlatpakScope
 	{
 		["gnome-software"] = "gnome-org.gnome.Software",
 		["plasma-discover"] = "org.kde.discover",
-		["mintinstall"] = "mintinstall"
+		["mintinstall"] = "mintinstall",
 	};
 
 	private sealed record ScopeProcess(int Pid, int ParentPid, bool Proxy, string Name);
@@ -54,9 +54,7 @@ internal static class LinuxFlatpakScope
 				return;
 			await ReleaseForeignProcessesAsync(applicationId, instanceId, token).ConfigureAwait(false);
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine(LogIdent, "The Flatpak scope could not be checked: " + ex.Message);
@@ -80,16 +78,24 @@ internal static class LinuxFlatpakScope
 				int.TryParse(parts[1], NumberStyles.Integer, CultureInfo.InvariantCulture, out sandboxPid);
 				scopePath = parts[2];
 			}
-			else if (parts.Length == 5 && parts[0] == "proc"
+			else if (
+				parts.Length == 5
+				&& parts[0] == "proc"
 				&& int.TryParse(parts[1], NumberStyles.Integer, CultureInfo.InvariantCulture, out int pid)
-				&& int.TryParse(parts[2], NumberStyles.Integer, CultureInfo.InvariantCulture, out int parent))
+				&& int.TryParse(parts[2], NumberStyles.Integer, CultureInfo.InvariantCulture, out int parent)
+			)
 			{
 				processes[pid] = new ScopeProcess(pid, parent, parts[3] == "1", parts[4].Trim());
 			}
 		}
 
 		string scopeName = Path.GetFileName(scopePath);
-		if (sandboxPid <= 0 || !processes.ContainsKey(sandboxPid) || !scopeName.StartsWith("app-flatpak-" + applicationId + "-", StringComparison.Ordinal) || !scopeName.EndsWith(".scope", StringComparison.Ordinal))
+		if (
+			sandboxPid <= 0
+			|| !processes.ContainsKey(sandboxPid)
+			|| !scopeName.StartsWith("app-flatpak-" + applicationId + "-", StringComparison.Ordinal)
+			|| !scopeName.EndsWith(".scope", StringComparison.Ordinal)
+		)
 			return 0;
 
 		Dictionary<int, List<int>> foreign = [];
@@ -110,9 +116,19 @@ internal static class LinuxFlatpakScope
 			string unit = "app-" + LauncherUnitId(name) + "-" + root.ToString(CultureInfo.InvariantCulture) + ".scope";
 			List<string> arguments =
 			[
-				"--user", "call", "org.freedesktop.systemd1", "/org/freedesktop/systemd1", "org.freedesktop.systemd1.Manager",
-				"StartTransientUnit", "ssa(sv)a(sa(sv))", unit, "fail", "2",
-				"PIDs", "au", group.Count.ToString(CultureInfo.InvariantCulture)
+				"--user",
+				"call",
+				"org.freedesktop.systemd1",
+				"/org/freedesktop/systemd1",
+				"org.freedesktop.systemd1.Manager",
+				"StartTransientUnit",
+				"ssa(sv)a(sa(sv))",
+				unit,
+				"fail",
+				"2",
+				"PIDs",
+				"au",
+				group.Count.ToString(CultureInfo.InvariantCulture),
 			];
 			arguments.AddRange(group.Select(pid => pid.ToString(CultureInfo.InvariantCulture)));
 			arguments.AddRange(["Description", "s", name.Length > 0 ? name : unit, "0"]);
@@ -120,11 +136,18 @@ internal static class LinuxFlatpakScope
 			if (result is not null && result.ExitCode == 0)
 			{
 				moved += group.Count;
-				App.Logger.WriteLine(LogIdent, $"The app that opened Voidstrap (pid {root}) was placed in the Voidstrap scope by Flatpak, moved {group.Count} of its processes to {unit} so system monitors stop counting it as Voidstrap");
+				App.Logger.WriteLine(
+					LogIdent,
+					$"The app that opened Voidstrap (pid {root}) was placed in the Voidstrap scope by Flatpak, moved {group.Count} of its processes to {unit} so system monitors stop counting it as Voidstrap"
+				);
 			}
 			else
 			{
-				App.Logger.WriteLine(LogIdent, $"The app that opened Voidstrap (pid {root}) shares the Voidstrap scope and could not be moved out: " + (result?.StandardError.Trim() ?? "busctl is unavailable"));
+				App.Logger.WriteLine(
+					LogIdent,
+					$"The app that opened Voidstrap (pid {root}) shares the Voidstrap scope and could not be moved out: "
+						+ (result?.StandardError.Trim() ?? "busctl is unavailable")
+				);
 			}
 		}
 		return moved;
@@ -184,9 +207,7 @@ internal static class LinuxFlatpakScope
 				}
 			}
 		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-		{
-		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 		return null;
 	}
 

@@ -46,7 +46,26 @@ internal static partial class GoogleFontsService
 
 	private static readonly string[] StarterFamilies =
 	[
-		"Bebas Neue", "Dancing Script", "Fira Sans", "Inter", "JetBrains Mono", "Lato", "Merriweather", "Montserrat", "Noto Sans", "Nunito", "Open Sans", "Oswald", "Pacifico", "Playfair Display", "Poppins", "Raleway", "Roboto", "Rubik", "Source Sans 3", "Ubuntu"
+		"Bebas Neue",
+		"Dancing Script",
+		"Fira Sans",
+		"Inter",
+		"JetBrains Mono",
+		"Lato",
+		"Merriweather",
+		"Montserrat",
+		"Noto Sans",
+		"Nunito",
+		"Open Sans",
+		"Oswald",
+		"Pacifico",
+		"Playfair Display",
+		"Poppins",
+		"Raleway",
+		"Roboto",
+		"Rubik",
+		"Source Sans 3",
+		"Ubuntu",
 	];
 
 	private sealed class CatalogEnvelope
@@ -63,7 +82,11 @@ internal static partial class GoogleFontsService
 
 	public static async Task<IReadOnlyList<GoogleFontOption>> LoadCatalogAsync(bool force, CancellationToken token)
 	{
-		if (!force && TryLoadCache(out IReadOnlyList<GoogleFontOption> fresh) && DateTime.UtcNow - File.GetLastWriteTimeUtc(CatalogPath) < TimeSpan.FromHours(24))
+		if (
+			!force
+			&& TryLoadCache(out IReadOnlyList<GoogleFontOption> fresh)
+			&& DateTime.UtcNow - File.GetLastWriteTimeUtc(CatalogPath) < TimeSpan.FromHours(24)
+		)
 			return fresh;
 		try
 		{
@@ -120,7 +143,16 @@ internal static partial class GoogleFontsService
 			if (response.Content.Headers.ContentLength is long size && (size <= 0 || size > MaximumFontBytes))
 				throw new InvalidDataException("The font file size is invalid");
 			await using Stream source = await response.Content.ReadAsStreamAsync(token);
-			await using (FileStream output = new(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None, 65536, FileOptions.Asynchronous | FileOptions.SequentialScan))
+			await using (
+				FileStream output = new(
+					temporary,
+					FileMode.CreateNew,
+					FileAccess.Write,
+					FileShare.None,
+					65536,
+					FileOptions.Asynchronous | FileOptions.SequentialScan
+				)
+			)
 			{
 				byte[] buffer = new byte[65536];
 				long total = 0;
@@ -148,9 +180,7 @@ internal static partial class GoogleFontsService
 			{
 				File.Delete(temporary);
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
 
@@ -168,8 +198,24 @@ internal static partial class GoogleFontsService
 		try
 		{
 			using IncrementalHash hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
-			await using FileStream source = new(sourcePath, FileMode.Open, FileAccess.Read, FileShare.Read, 65536, FileOptions.Asynchronous | FileOptions.SequentialScan);
-			await using (FileStream output = new(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None, 65536, FileOptions.Asynchronous | FileOptions.SequentialScan))
+			await using FileStream source = new(
+				sourcePath,
+				FileMode.Open,
+				FileAccess.Read,
+				FileShare.Read,
+				65536,
+				FileOptions.Asynchronous | FileOptions.SequentialScan
+			);
+			await using (
+				FileStream output = new(
+					temporary,
+					FileMode.CreateNew,
+					FileAccess.Write,
+					FileShare.None,
+					65536,
+					FileOptions.Asynchronous | FileOptions.SequentialScan
+				)
+			)
 			{
 				byte[] buffer = new byte[65536];
 				long total = 0;
@@ -202,9 +248,7 @@ internal static partial class GoogleFontsService
 			{
 				File.Delete(temporary);
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
 
@@ -213,41 +257,47 @@ internal static partial class GoogleFontsService
 		await CacheMaintenanceGate.WaitAsync(token).ConfigureAwait(false);
 		try
 		{
-			await Task.Run(() =>
-			{
-				try
-				{
-					if (!Directory.Exists(FontCacheDirectory))
-						return;
-					FileInfo[] files = Directory.EnumerateFiles(FontCacheDirectory, "*", SearchOption.AllDirectories)
-						.Where(path => path.EndsWith(".ttf", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".otf", StringComparison.OrdinalIgnoreCase))
-						.Select(path => new FileInfo(path))
-						.Where(file => file.Exists)
-						.OrderBy(file => file.LastWriteTimeUtc)
-						.ToArray();
-					long total = files.Sum(file => file.Length);
-					foreach (FileInfo file in files)
+			await Task.Run(
+					() =>
 					{
-						if (total <= MaximumFontCacheBytes)
-							break;
-						if (file.FullName.Equals(protectedPath, StringComparison.OrdinalIgnoreCase))
-							continue;
 						try
 						{
-							long length = file.Length;
-							file.Delete();
-							total -= length;
+							if (!Directory.Exists(FontCacheDirectory))
+								return;
+							FileInfo[] files = Directory
+								.EnumerateFiles(FontCacheDirectory, "*", SearchOption.AllDirectories)
+								.Where(path =>
+									path.EndsWith(".ttf", StringComparison.OrdinalIgnoreCase)
+									|| path.EndsWith(".otf", StringComparison.OrdinalIgnoreCase)
+								)
+								.Select(path => new FileInfo(path))
+								.Where(file => file.Exists)
+								.OrderBy(file => file.LastWriteTimeUtc)
+								.ToArray();
+							long total = files.Sum(file => file.Length);
+							foreach (FileInfo file in files)
+							{
+								if (total <= MaximumFontCacheBytes)
+									break;
+								if (file.FullName.Equals(protectedPath, StringComparison.OrdinalIgnoreCase))
+									continue;
+								try
+								{
+									long length = file.Length;
+									file.Delete();
+									total -= length;
+								}
+								catch { }
+							}
 						}
-						catch
+						catch (Exception ex)
 						{
+							App.Logger.WriteLine("GoogleFontsService::MaintainCache", "Font cache maintenance failed: " + ex.Message);
 						}
-					}
-				}
-				catch (Exception ex)
-				{
-					App.Logger.WriteLine("GoogleFontsService::MaintainCache", "Font cache maintenance failed: " + ex.Message);
-				}
-			}, token).ConfigureAwait(false);
+					},
+					token
+				)
+				.ConfigureAwait(false);
 		}
 		finally
 		{
@@ -262,13 +312,23 @@ internal static partial class GoogleFontsService
 			throw new InvalidDataException("The font catalog is not valid JSON");
 		using JsonDocument document = JsonDocument.Parse(data.AsMemory(start));
 		List<GoogleFontOption> fonts = [];
-		if (!document.RootElement.TryGetProperty("familyMetadataList", out JsonElement families) || families.ValueKind != JsonValueKind.Array)
+		if (
+			!document.RootElement.TryGetProperty("familyMetadataList", out JsonElement families)
+			|| families.ValueKind != JsonValueKind.Array
+		)
 			return fonts;
 		foreach (JsonElement family in families.EnumerateArray())
 		{
-			if (family.ValueKind != JsonValueKind.Object || !family.TryGetProperty("family", out JsonElement name) || name.ValueKind != JsonValueKind.String)
+			if (
+				family.ValueKind != JsonValueKind.Object
+				|| !family.TryGetProperty("family", out JsonElement name)
+				|| name.ValueKind != JsonValueKind.String
+			)
 				continue;
-			string category = family.TryGetProperty("category", out JsonElement value) && value.ValueKind == JsonValueKind.String ? value.GetString() ?? "" : "";
+			string category =
+				family.TryGetProperty("category", out JsonElement value) && value.ValueKind == JsonValueKind.String
+					? value.GetString() ?? ""
+					: "";
 			fonts.Add(new GoogleFontOption { Family = name.GetString() ?? "", Category = category });
 		}
 		return fonts;
@@ -305,7 +365,10 @@ internal static partial class GoogleFontsService
 
 	private static async Task<string> ResolveFileUrlAsync(string family, CancellationToken token)
 	{
-		string url = "https://fonts.googleapis.com/css2?family=" + Uri.EscapeDataString(family).Replace("%20", "+", StringComparison.OrdinalIgnoreCase) + "&display=swap";
+		string url =
+			"https://fonts.googleapis.com/css2?family="
+			+ Uri.EscapeDataString(family).Replace("%20", "+", StringComparison.OrdinalIgnoreCase)
+			+ "&display=swap";
 		using HttpRequestMessage request = new(HttpMethod.Get, url);
 		request.Headers.UserAgent.ParseAdd("Mozilla/5.0");
 		using HttpResponseMessage response = await Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token);
@@ -325,7 +388,11 @@ internal static partial class GoogleFontsService
 	{
 		if (!Uri.TryCreate(value.Replace("http://", "https://", StringComparison.OrdinalIgnoreCase), UriKind.Absolute, out Uri? uri))
 			return null;
-		if (uri.Scheme != Uri.UriSchemeHttps || !uri.Host.Equals("fonts.gstatic.com", StringComparison.OrdinalIgnoreCase) || !uri.AbsolutePath.EndsWith(".ttf", StringComparison.OrdinalIgnoreCase))
+		if (
+			uri.Scheme != Uri.UriSchemeHttps
+			|| !uri.Host.Equals("fonts.gstatic.com", StringComparison.OrdinalIgnoreCase)
+			|| !uri.AbsolutePath.EndsWith(".ttf", StringComparison.OrdinalIgnoreCase)
+		)
 			return null;
 		return uri.AbsoluteUri;
 	}
@@ -391,7 +458,13 @@ internal static partial class GoogleFontsService
 			ReadOnlySpan<byte> names = nameData;
 			int nameCount = BinaryPrimitives.ReadUInt16BigEndian(names[2..4]);
 			int stringOffset = BinaryPrimitives.ReadUInt16BigEndian(names[4..6]);
-			if (nameCount <= 0 || nameCount > 4096 || 6L + nameCount * 12L > names.Length || stringOffset < 6 || stringOffset > names.Length)
+			if (
+				nameCount <= 0
+				|| nameCount > 4096
+				|| 6L + nameCount * 12L > names.Length
+				|| stringOffset < 6
+				|| stringOffset > names.Length
+			)
 				return false;
 
 			string? bestName = null;
@@ -415,12 +488,19 @@ internal static partial class GoogleFontsService
 				string value = platformId is 0 or 3
 					? Encoding.BigEndianUnicode.GetString(names.Slice(start, length))
 					: Encoding.Latin1.GetString(names.Slice(start, length));
-				value = string.Join(" ", value.Replace('\0', ' ').Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
+				value = string.Join(
+					" ",
+					value.Replace('\0', ' ').Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+				);
 				if (string.IsNullOrWhiteSpace(value) || value.Length > 256 || value.Contains('#') || value.Any(char.IsControl))
 					continue;
 
 				int score = nameId == 16 ? 100 : 50;
-				score += platformId == 3 ? 40 : platformId == 0 ? 30 : platformId == 1 ? 20 : 0;
+				score +=
+					platformId == 3 ? 40
+					: platformId == 0 ? 30
+					: platformId == 1 ? 20
+					: 0;
 				if (languageId == 1033)
 					score += 10;
 				if (encodingId is 1 or 10)

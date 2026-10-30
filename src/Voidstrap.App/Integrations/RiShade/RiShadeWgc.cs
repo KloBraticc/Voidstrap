@@ -21,7 +21,9 @@ namespace Voidstrap.Integrations.RiShade
         private static readonly Guid Texture2DIid = new("6F15AAF2-D208-4E89-9AB4-489535D34F9C");
         private static readonly Guid CaptureItemInteropIid = new("3628E81B-3CAC-4C60-B7F4-23CE0E0C3356");
         private static readonly Guid DxgiInterfaceAccessIid = new("A9B3D012-3DF2-4EE3-B8D1-8695F457D3C1");
-        private static readonly bool SupportsMinUpdateInterval = OperatingSystem.IsWindowsVersionAtLeast(10, 0, 26100) && ApiInformation.IsPropertyPresent("Windows.Graphics.Capture.GraphicsCaptureSession", "MinUpdateInterval");
+        private static readonly bool SupportsMinUpdateInterval =
+            OperatingSystem.IsWindowsVersionAtLeast(10, 0, 26100)
+            && ApiInformation.IsPropertyPresent("Windows.Graphics.Capture.GraphicsCaptureSession", "MinUpdateInterval");
 
         [LibraryImport("d3d11.dll")]
         private static partial int CreateDirect3D11DeviceFromDXGIDevice(IntPtr dxgiDevice, out IntPtr graphicsDevice);
@@ -35,7 +37,7 @@ namespace Voidstrap.Integrations.RiShade
         private int _height;
         private bool _closed;
         private double _targetFps;
-		private int _disposed;
+        private int _disposed;
 
         public int Width => _width;
         public int Height => _height;
@@ -85,7 +87,12 @@ namespace Voidstrap.Integrations.RiShade
             _item.Closed += Item_Closed;
             _width = Math.Max(16, _item.Size.Width);
             _height = Math.Max(16, _item.Size.Height);
-            _framePool = Direct3D11CaptureFramePool.CreateFreeThreaded(_winrtDevice, DirectXPixelFormat.B8G8R8A8UIntNormalized, 2, new SizeInt32 { Width = _width, Height = _height });
+            _framePool = Direct3D11CaptureFramePool.CreateFreeThreaded(
+                _winrtDevice,
+                DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                2,
+                new SizeInt32 { Width = _width, Height = _height }
+            );
             _framePool.FrameArrived += FramePool_FrameArrived;
             _session = _framePool.CreateCaptureSession(_item);
             SetTargetFps(targetFps);
@@ -93,18 +100,14 @@ namespace Voidstrap.Integrations.RiShade
             {
                 _session.IsCursorCaptureEnabled = false;
             }
-            catch
-            {
-            }
+            catch { }
             if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 20348))
             {
                 try
                 {
                     _session.IsBorderRequired = false;
                 }
-                catch
-                {
-                }
+                catch { }
             }
             _session.StartCapture();
             string cadence = _targetFps > 0 ? $", requested up to {_targetFps:0} FPS" : "";
@@ -124,23 +127,19 @@ namespace Voidstrap.Integrations.RiShade
                 _session.MinUpdateInterval = targetFps > 0 ? TimeSpan.FromSeconds(1.0 / targetFps) : TimeSpan.Zero;
                 _targetFps = targetFps;
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private void Item_Closed(GraphicsCaptureItem sender, object args)
         {
-			if (Volatile.Read(ref _disposed) != 0)
-				return;
+            if (Volatile.Read(ref _disposed) != 0)
+                return;
             _closed = true;
             try
             {
                 _frameEvent.Set();
             }
-            catch (ObjectDisposedException)
-            {
-            }
+            catch (ObjectDisposedException) { }
         }
 
         private long _lastUsedPresentTicks;
@@ -155,15 +154,13 @@ namespace Voidstrap.Integrations.RiShade
 
         private void FramePool_FrameArrived(Direct3D11CaptureFramePool sender, object args)
         {
-			if (Volatile.Read(ref _disposed) != 0)
-				return;
+            if (Volatile.Read(ref _disposed) != 0)
+                return;
             try
             {
                 _frameEvent.Set();
             }
-            catch (ObjectDisposedException)
-            {
-            }
+            catch (ObjectDisposedException) { }
         }
 
         public void WaitForFrame(int timeoutMs)
@@ -172,9 +169,7 @@ namespace Voidstrap.Integrations.RiShade
             {
                 _frameEvent.WaitOne(timeoutMs);
             }
-            catch (ObjectDisposedException)
-            {
-            }
+            catch (ObjectDisposedException) { }
         }
 
         public bool TryCopyLatestFrame(ID3D11DeviceContext context, ID3D11Texture2D destination, int destWidth, int destHeight)
@@ -182,7 +177,13 @@ namespace Voidstrap.Integrations.RiShade
             return TryCopyLatestFrame(context, destination, destWidth, destHeight, out _);
         }
 
-        public bool TryCopyLatestFrame(ID3D11DeviceContext context, ID3D11Texture2D destination, int destWidth, int destHeight, out double sourceTimeMs)
+        public bool TryCopyLatestFrame(
+            ID3D11DeviceContext context,
+            ID3D11Texture2D destination,
+            int destWidth,
+            int destHeight,
+            out double sourceTimeMs
+        )
         {
             sourceTimeMs = 0;
             if (_framePool == null || _closed || !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 19041))
@@ -221,7 +222,12 @@ namespace Voidstrap.Integrations.RiShade
                     _height = Math.Max(16, size.Height);
                     frame.Dispose();
                     frame = null;
-                    _framePool.Recreate(_winrtDevice, DirectXPixelFormat.B8G8R8A8UIntNormalized, 2, new SizeInt32 { Width = _width, Height = _height });
+                    _framePool.Recreate(
+                        _winrtDevice,
+                        DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                        2,
+                        new SizeInt32 { Width = _width, Height = _height }
+                    );
                     return false;
                 }
 
@@ -278,23 +284,45 @@ namespace Voidstrap.Integrations.RiShade
 
         public void Dispose()
         {
-			if (Interlocked.Exchange(ref _disposed, 1) != 0)
-				return;
-			_closed = true;
-			if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 19041))
-			{
-				try { if (_item != null) _item.Closed -= Item_Closed; } catch { }
-				try { if (_framePool != null) _framePool.FrameArrived -= FramePool_FrameArrived; } catch { }
-				try { _session?.Dispose(); } catch { }
-				try { _framePool?.Dispose(); } catch { }
-			}
-			try { _winrtDevice?.Dispose(); } catch { }
+            if (Interlocked.Exchange(ref _disposed, 1) != 0)
+                return;
+            _closed = true;
+            if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 19041))
+            {
+                try
+                {
+                    if (_item != null)
+                        _item.Closed -= Item_Closed;
+                }
+                catch { }
+                try
+                {
+                    if (_framePool != null)
+                        _framePool.FrameArrived -= FramePool_FrameArrived;
+                }
+                catch { }
+                try
+                {
+                    _session?.Dispose();
+                }
+                catch { }
+                try
+                {
+                    _framePool?.Dispose();
+                }
+                catch { }
+            }
+            try
+            {
+                _winrtDevice?.Dispose();
+            }
+            catch { }
             _session = null;
             _framePool = null;
             _item = null;
             _winrtDevice = null;
             _frameEvent.Dispose();
-			GC.SuppressFinalize(this);
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -13,7 +13,9 @@ namespace Voidstrap
         private const long DownloadBytes = 14794081L;
         private const string DownloadSha256 = "7F95B757A3BB664950A433FE656D07FC0599F05DD0F253ACFB53B569487F5FEA";
         private static readonly SemaphoreSlim InstallGate = new SemaphoreSlim(1, 1);
-        private static readonly StringComparison PathComparison = OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+        private static readonly StringComparison PathComparison = OperatingSystem.IsWindows()
+            ? StringComparison.OrdinalIgnoreCase
+            : StringComparison.Ordinal;
 
         public static async Task DownloadAndExtractAsync()
         {
@@ -28,13 +30,17 @@ namespace Voidstrap
                 string backupRoot = Path.Combine(workRoot, "backup");
                 Directory.CreateDirectory(workRoot);
                 EnsureSafeDirectory(modsPath, modsPath);
-                await Utility.ResilientDownload.DownloadAsync(App.HttpClient, [DownloadUrl], tempZip, DownloadBytes, expectedSha256: DownloadSha256).ConfigureAwait(false);
+                await Utility
+                    .ResilientDownload.DownloadAsync(App.HttpClient, [DownloadUrl], tempZip, DownloadBytes, expectedSha256: DownloadSha256)
+                    .ConfigureAwait(false);
                 Utility.SafeZipExtractor.ExtractToDirectory(tempZip, tempExtractPath, maxExpandedBytes: 67108864L, maxEntries: 1000);
                 string[] topFolders = Directory.GetDirectories(tempExtractPath);
                 if (topFolders.Length != 1 || Directory.EnumerateFiles(tempExtractPath).Any())
                     throw new InvalidDataException("The dark textures archive has an invalid layout");
                 string topFolder = topFolders[0];
-                string fullModsRoot = Path.GetFullPath(modsPath).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
+                string fullModsRoot =
+                    Path.GetFullPath(modsPath).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                    + Path.DirectorySeparatorChar;
                 foreach (string source in Directory.EnumerateFiles(topFolder, "*", SearchOption.AllDirectories))
                 {
                     string relative = Path.GetRelativePath(topFolder, source);
@@ -78,9 +84,7 @@ namespace Voidstrap
                         else
                             File.Move(item.Backup, item.Destination, true);
                     }
-                    catch
-                    {
-                    }
+                    catch { }
                 }
                 throw;
             }
@@ -91,9 +95,7 @@ namespace Voidstrap
                     if (Directory.Exists(workRoot))
                         Directory.Delete(workRoot, true);
                 }
-                catch
-                {
-                }
+                catch { }
                 InstallGate.Release();
             }
         }
@@ -102,7 +104,10 @@ namespace Voidstrap
         {
             string fullRoot = Path.GetFullPath(root).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
             string fullDirectory = Path.GetFullPath(directory).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            if (!string.Equals(fullRoot, fullDirectory, PathComparison) && !fullDirectory.StartsWith(fullRoot + Path.DirectorySeparatorChar, PathComparison))
+            if (
+                !string.Equals(fullRoot, fullDirectory, PathComparison)
+                && !fullDirectory.StartsWith(fullRoot + Path.DirectorySeparatorChar, PathComparison)
+            )
                 throw new InvalidDataException("The dark textures destination is invalid");
             Directory.CreateDirectory(fullRoot);
             EnsureNotReparsePoint(fullRoot);
@@ -110,7 +115,12 @@ namespace Voidstrap
             if (relative == ".")
                 return;
             string current = fullRoot;
-            foreach (string segment in relative.Split([Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar], StringSplitOptions.RemoveEmptyEntries))
+            foreach (
+                string segment in relative.Split(
+                    [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
+                    StringSplitOptions.RemoveEmptyEntries
+                )
+            )
             {
                 current = Path.Combine(current, segment);
                 Directory.CreateDirectory(current);

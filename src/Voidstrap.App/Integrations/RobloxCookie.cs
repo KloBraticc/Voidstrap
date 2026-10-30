@@ -21,17 +21,18 @@ public static partial class RobloxCookie
 	private const string LOG_IDENT = "RobloxCookie";
 	private const int MaxApiResponseBytes = 4 * 1024 * 1024;
 
-
-
 	private static string? _cached;
 
 	private static DateTime _cachedAt = DateTime.MinValue;
 
-	private static readonly HttpClient _authClient = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(12L), handler =>
-	{
-		handler.UseCookies = false;
-		handler.AllowAutoRedirect = false;
-	});
+	private static readonly HttpClient _authClient = Voidstrap.Utility.VpnHttpClient.Create(
+		TimeSpan.FromSeconds(12L),
+		handler =>
+		{
+			handler.UseCookies = false;
+			handler.AllowAutoRedirect = false;
+		}
+	);
 
 	private static DateTime _economyCooldownUntil = DateTime.MinValue;
 
@@ -43,8 +44,7 @@ public static partial class RobloxCookie
 	{
 		get
 		{
-			string home = Environment.GetEnvironmentVariable("HOME")
-				?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+			string home = Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
 			return Path.Combine(home, ".var", "app", "org.vinegarhq.Sober", "data", "sober", "cookies");
 		}
@@ -92,7 +92,11 @@ public static partial class RobloxCookie
 			return null;
 		try
 		{
-			return Voidstrap.Platform.MacOS.MacOSBinaryCookies.Find(Voidstrap.Platform.MacOS.MacOSBinaryCookies.RobloxPlayerStore, SecurityCookieName, "roblox.com");
+			return Voidstrap.Platform.MacOS.MacOSBinaryCookies.Find(
+				Voidstrap.Platform.MacOS.MacOSBinaryCookies.RobloxPlayerStore,
+				SecurityCookieName,
+				"roblox.com"
+			);
 		}
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
 		{
@@ -117,8 +121,12 @@ public static partial class RobloxCookie
 
 	public static bool IsRobloxUrl(Uri? uri)
 	{
-		return uri is not null && uri.Scheme == Uri.UriSchemeHttps
-			&& (uri.Host.Equals("roblox.com", StringComparison.OrdinalIgnoreCase) || uri.Host.EndsWith(".roblox.com", StringComparison.OrdinalIgnoreCase));
+		return uri is not null
+			&& uri.Scheme == Uri.UriSchemeHttps
+			&& (
+				uri.Host.Equals("roblox.com", StringComparison.OrdinalIgnoreCase)
+				|| uri.Host.EndsWith(".roblox.com", StringComparison.OrdinalIgnoreCase)
+			);
 	}
 
 	public static string? Get()
@@ -153,7 +161,11 @@ public static partial class RobloxCookie
 				continue;
 			int end = header.IndexOf(';');
 			string value = (end < 0 ? header[(SecurityCookieName.Length + 1)..] : header[(SecurityCookieName.Length + 1)..end]).Trim();
-			if (value.Length < 100 || string.Equals(value, sentCookie, StringComparison.Ordinal) || header.Contains("1970", StringComparison.Ordinal))
+			if (
+				value.Length < 100
+				|| string.Equals(value, sentCookie, StringComparison.Ordinal)
+				|| header.Contains("1970", StringComparison.Ordinal)
+			)
 				continue;
 			App.Logger?.WriteLine("RobloxCookie", "Roblox rotated a session cookie, the saved logins are being updated");
 			InvalidateCache();
@@ -179,13 +191,19 @@ public static partial class RobloxCookie
 			using HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, "https://users.roblox.com/v1/users/authenticated");
 			req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
 			req.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
-			using HttpResponseMessage res = await _authClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(continueOnCapturedContext: false);
+			using HttpResponseMessage res = await _authClient
+				.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct)
+				.ConfigureAwait(continueOnCapturedContext: false);
 			ObserveRotation(res, cookie);
 			if (!res.IsSuccessStatusCode)
 			{
 				return null;
 			}
-			using JsonDocument jsonDocument = JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, ct).ConfigureAwait(continueOnCapturedContext: false));
+			using JsonDocument jsonDocument = JsonDocument.Parse(
+				await Utility
+					.Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, ct)
+					.ConfigureAwait(continueOnCapturedContext: false)
+			);
 			JsonElement rootElement = jsonDocument.RootElement;
 			JsonElement value;
 			long value2;
@@ -202,14 +220,17 @@ public static partial class RobloxCookie
 			{
 				UserId = num,
 				Username = text2,
-				DisplayName = displayName
+				DisplayName = displayName,
 			};
 		}
 		catch (OperationCanceledException)
 		{
-			App.Logger?.WriteLine("RobloxCookie", ct.IsCancellationRequested
-				? "The Roblox account check was stopped before users.roblox.com answered"
-				: "users.roblox.com did not answer the account check in time");
+			App.Logger?.WriteLine(
+				"RobloxCookie",
+				ct.IsCancellationRequested
+					? "The Roblox account check was stopped before users.roblox.com answered"
+					: "users.roblox.com did not answer the account check in time"
+			);
 			return null;
 		}
 		catch (Exception ex)
@@ -231,13 +252,17 @@ public static partial class RobloxCookie
 			using HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, url);
 			req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
 			req.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
-			using HttpResponseMessage res = await _authClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(continueOnCapturedContext: false);
+			using HttpResponseMessage res = await _authClient
+				.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct)
+				.ConfigureAwait(continueOnCapturedContext: false);
 			if (!res.IsSuccessStatusCode)
 			{
 				App.Logger?.WriteLine("RobloxCookie", "Authenticated GET returned " + (int)res.StatusCode);
 				return null;
 			}
-			return await Utility.Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, ct).ConfigureAwait(continueOnCapturedContext: false);
+			return await Utility
+				.Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, ct)
+				.ConfigureAwait(continueOnCapturedContext: false);
 		}
 		catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException or IOException)
 		{
@@ -251,7 +276,11 @@ public static partial class RobloxCookie
 		return SendGetWithCookieAsync(url, Get(), ct);
 	}
 
-	public static async Task<RobloxApiResponse> SendGetWithCookieAsync(string url, string? cookie, CancellationToken ct = default(CancellationToken))
+	public static async Task<RobloxApiResponse> SendGetWithCookieAsync(
+		string url,
+		string? cookie,
+		CancellationToken ct = default(CancellationToken)
+	)
 	{
 		if (!IsRobloxUrl(Uri.TryCreate(url, UriKind.Absolute, out Uri? target) ? target : null))
 		{
@@ -266,7 +295,9 @@ public static partial class RobloxCookie
 			}
 			req.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
 			req.Headers.TryAddWithoutValidation("Accept", "application/json");
-			using HttpResponseMessage res = await _authClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(continueOnCapturedContext: false);
+			using HttpResponseMessage res = await _authClient
+				.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct)
+				.ConfigureAwait(continueOnCapturedContext: false);
 			ObserveRotation(res, cookie);
 			int status = (int)res.StatusCode;
 			TimeSpan? retryAfter = res.Headers.RetryAfter?.Delta;
@@ -274,8 +305,17 @@ public static partial class RobloxCookie
 			{
 				retryAfter = date - DateTimeOffset.UtcNow;
 			}
-			if (!retryAfter.HasValue && res.Headers.TryGetValues("x-ratelimit-reset", out IEnumerable<string>? reset)
-				&& double.TryParse(reset.FirstOrDefault(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double seconds) && seconds > 0)
+			if (
+				!retryAfter.HasValue
+				&& res.Headers.TryGetValues("x-ratelimit-reset", out IEnumerable<string>? reset)
+				&& double.TryParse(
+					reset.FirstOrDefault(),
+					System.Globalization.NumberStyles.Float,
+					System.Globalization.CultureInfo.InvariantCulture,
+					out double seconds
+				)
+				&& seconds > 0
+			)
 			{
 				retryAfter = TimeSpan.FromSeconds(Math.Min(seconds, 600));
 			}
@@ -287,7 +327,13 @@ public static partial class RobloxCookie
 				}
 				return new RobloxApiResponse(status, null, retryAfter);
 			}
-			return new RobloxApiResponse(status, await Utility.Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, ct).ConfigureAwait(continueOnCapturedContext: false), retryAfter);
+			return new RobloxApiResponse(
+				status,
+				await Utility
+					.Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, ct)
+					.ConfigureAwait(continueOnCapturedContext: false),
+				retryAfter
+			);
 		}
 		catch (OperationCanceledException) when (ct.IsCancellationRequested)
 		{
@@ -342,7 +388,13 @@ public static partial class RobloxCookie
 		{
 			try
 			{
-				return Voidstrap.Platform.MacOS.MacOSBinaryCookies.WriteWithCookie(templateDatPath, outputDatPath, SecurityCookieName, "roblox.com", cookie);
+				return Voidstrap.Platform.MacOS.MacOSBinaryCookies.WriteWithCookie(
+					templateDatPath,
+					outputDatPath,
+					SecurityCookieName,
+					"roblox.com",
+					cookie
+				);
 			}
 			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException)
 			{
@@ -350,7 +402,11 @@ public static partial class RobloxCookie
 				return false;
 			}
 		}
-		if (!string.IsNullOrEmpty(templateDatPath) && File.Exists(templateDatPath) && SynthesizeDatWithCookie(templateDatPath, cookie, outputDatPath))
+		if (
+			!string.IsNullOrEmpty(templateDatPath)
+			&& File.Exists(templateDatPath)
+			&& SynthesizeDatWithCookie(templateDatPath, cookie, outputDatPath)
+		)
 		{
 			return true;
 		}
@@ -365,7 +421,11 @@ public static partial class RobloxCookie
 			}
 			else
 			{
-				byte[] protectedBlob = ProtectedData.Protect(Encoding.UTF8.GetBytes(SecurityCookieName + "\t" + cookie + ";"), null, DataProtectionScope.CurrentUser);
+				byte[] protectedBlob = ProtectedData.Protect(
+					Encoding.UTF8.GetBytes(SecurityCookieName + "\t" + cookie + ";"),
+					null,
+					DataProtectionScope.CurrentUser
+				);
 				using MemoryStream memoryStream = new MemoryStream();
 				using (Utf8JsonWriter writer = new Utf8JsonWriter(memoryStream))
 				{
@@ -453,7 +513,10 @@ public static partial class RobloxCookie
 		}
 	}
 
-	public static async Task<Dictionary<string, AssetMeta>> ResolveAssetNamesAsync(IReadOnlyList<string> assetIds, CancellationToken ct = default(CancellationToken))
+	public static async Task<Dictionary<string, AssetMeta>> ResolveAssetNamesAsync(
+		IReadOnlyList<string> assetIds,
+		CancellationToken ct = default(CancellationToken)
+	)
 	{
 		Dictionary<string, AssetMeta> result = new Dictionary<string, AssetMeta>(StringComparer.Ordinal);
 		if (assetIds == null || assetIds.Count == 0)
@@ -466,16 +529,27 @@ public static partial class RobloxCookie
 			try
 			{
 				string text2 = string.Join(",", assetIds);
-				using HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, "https://develop.roblox.com/v1/assets?assetIds=" + text2);
+				using HttpRequestMessage req = new HttpRequestMessage(
+					HttpMethod.Get,
+					"https://develop.roblox.com/v1/assets?assetIds=" + text2
+				);
 				req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + text);
 				req.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
-				using HttpResponseMessage res = await _authClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(continueOnCapturedContext: false);
+				using HttpResponseMessage res = await _authClient
+					.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct)
+					.ConfigureAwait(continueOnCapturedContext: false);
 				if (res.IsSuccessStatusCode)
 				{
-					using JsonDocument doc = JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, ct).ConfigureAwait(continueOnCapturedContext: false));
+					using JsonDocument doc = JsonDocument.Parse(
+						await Utility
+							.Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, ct)
+							.ConfigureAwait(continueOnCapturedContext: false)
+					);
 					HashSet<long> hashSet = new HashSet<long>();
 					HashSet<long> groupIds = new HashSet<long>();
-					Dictionary<string, (bool isGroup, long targetId)> creatorOf = new Dictionary<string, (bool, long)>(StringComparer.Ordinal);
+					Dictionary<string, (bool isGroup, long targetId)> creatorOf = new Dictionary<string, (bool, long)>(
+						StringComparer.Ordinal
+					);
 					if (doc.RootElement.TryGetProperty("data", out var value) && value.ValueKind == JsonValueKind.Array)
 					{
 						foreach (JsonElement item3 in value.EnumerateArray())
@@ -485,7 +559,11 @@ public static partial class RobloxCookie
 								continue;
 							}
 							JsonElement value2;
-							string text3 = ((!item3.TryGetProperty("id", out value2)) ? "" : ((value2.ValueKind == JsonValueKind.Number) ? value2.GetRawText() : (value2.GetString() ?? "")));
+							string text3 = (
+								(!item3.TryGetProperty("id", out value2))
+									? ""
+									: ((value2.ValueKind == JsonValueKind.Number) ? value2.GetRawText() : (value2.GetString() ?? ""))
+							);
 							JsonElement value3;
 							string name = (item3.TryGetProperty("name", out value3) ? (value3.GetString() ?? "") : "");
 							JsonElement value4;
@@ -543,8 +621,10 @@ public static partial class RobloxCookie
 					}
 					if (result.Count > 0)
 					{
-						Dictionary<long, string> userNames = await ResolveUserNamesAsync(hashSet, ct).ConfigureAwait(continueOnCapturedContext: false);
-						Dictionary<long, string> dictionary = await ResolveGroupNamesAsync(groupIds, ct).ConfigureAwait(continueOnCapturedContext: false);
+						Dictionary<long, string> userNames = await ResolveUserNamesAsync(hashSet, ct)
+							.ConfigureAwait(continueOnCapturedContext: false);
+						Dictionary<long, string> dictionary = await ResolveGroupNamesAsync(groupIds, ct)
+							.ConfigureAwait(continueOnCapturedContext: false);
 						foreach (KeyValuePair<string, (bool, long)> item4 in creatorOf)
 						{
 							(bool, long) value10 = item4.Value;
@@ -552,13 +632,14 @@ public static partial class RobloxCookie
 							long item2 = value10.Item2;
 							string? value11;
 							string? value12;
-							string text5 = ((!item) ? (userNames.TryGetValue(item2, out value11) ? value11 : "") : (dictionary.TryGetValue(item2, out value12) ? value12 : ""));
+							string text5 = (
+								(!item)
+									? (userNames.TryGetValue(item2, out value11) ? value11 : "")
+									: (dictionary.TryGetValue(item2, out value12) ? value12 : "")
+							);
 							if (text5.Length > 0 && result.TryGetValue(item4.Key, out var value13))
 							{
-								result[item4.Key] = value13 with
-								{
-									CreatorName = text5
-								};
+								result[item4.Key] = value13 with { CreatorName = text5 };
 							}
 						}
 						return result;
@@ -595,9 +676,16 @@ public static partial class RobloxCookie
 				}
 				try
 				{
-					using (HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, "https://economy.roblox.com/v2/assets/" + id + "/details"))
+					using (
+						HttpRequestMessage req = new HttpRequestMessage(
+							HttpMethod.Get,
+							"https://economy.roblox.com/v2/assets/" + id + "/details"
+						)
+					)
 					{
-						using HttpResponseMessage res = await _authClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(continueOnCapturedContext: false);
+						using HttpResponseMessage res = await _authClient
+							.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct)
+							.ConfigureAwait(continueOnCapturedContext: false);
 						if (res.StatusCode == HttpStatusCode.TooManyRequests)
 						{
 							_economyCooldownUntil = DateTime.UtcNow.AddSeconds(120.0);
@@ -605,12 +693,20 @@ public static partial class RobloxCookie
 						}
 						if (res.IsSuccessStatusCode)
 						{
-							using JsonDocument jsonDocument = JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, ct).ConfigureAwait(continueOnCapturedContext: false));
+							using JsonDocument jsonDocument = JsonDocument.Parse(
+								await Utility
+									.Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, ct)
+									.ConfigureAwait(continueOnCapturedContext: false)
+							);
 							JsonElement rootElement = jsonDocument.RootElement;
 							JsonElement value14;
 							string text6 = (rootElement.TryGetProperty("Name", out value14) ? (value14.GetString() ?? "") : "");
 							string creatorName = "";
-							if (rootElement.TryGetProperty("Creator", out var value15) && value15.ValueKind == JsonValueKind.Object && value15.TryGetProperty("Name", out var value16))
+							if (
+								rootElement.TryGetProperty("Creator", out var value15)
+								&& value15.ValueKind == JsonValueKind.Object
+								&& value15.TryGetProperty("Name", out var value16)
+							)
 							{
 								creatorName = value16.GetString() ?? "";
 							}
@@ -653,13 +749,23 @@ public static partial class RobloxCookie
 				string content = "{\"userIds\":[" + string.Join(",", range) + "],\"excludeBannedUsers\":false}";
 				using HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, "https://users.roblox.com/v1/users");
 				req.Content = new StringContent(content, Encoding.UTF8, "application/json");
-				using (HttpResponseMessage res = await App.HttpClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(continueOnCapturedContext: false))
+				using (
+					HttpResponseMessage res = await App
+						.HttpClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct)
+						.ConfigureAwait(continueOnCapturedContext: false)
+				)
 				{
 					if (!res.IsSuccessStatusCode)
 					{
 						goto end_IL_0161;
 					}
-					using (JsonDocument jsonDocument = JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, ct).ConfigureAwait(continueOnCapturedContext: false)))
+					using (
+						JsonDocument jsonDocument = JsonDocument.Parse(
+							await Utility
+								.Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, ct)
+								.ConfigureAwait(continueOnCapturedContext: false)
+						)
+					)
 					{
 						if (!jsonDocument.RootElement.TryGetProperty("data", out var value) || value.ValueKind != JsonValueKind.Array)
 						{
@@ -667,7 +773,11 @@ public static partial class RobloxCookie
 						}
 						foreach (JsonElement item in value.EnumerateArray())
 						{
-							if (item.TryGetProperty("id", out var value2) && value2.TryGetInt64(out var value3) && item.TryGetProperty("name", out var value4))
+							if (
+								item.TryGetProperty("id", out var value2)
+								&& value2.TryGetInt64(out var value3)
+								&& item.TryGetProperty("name", out var value4)
+							)
 							{
 								string? text = value4.GetString();
 								if (text != null && text.Length > 0)
@@ -678,14 +788,14 @@ public static partial class RobloxCookie
 						}
 					}
 					goto end_IL_00bf;
-					end_IL_0161:;
+					end_IL_0161:
+					;
 				}
-				end_IL_00bf:;
+				end_IL_00bf:
+				;
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		return map;
 	}
 
@@ -703,14 +813,20 @@ public static partial class RobloxCookie
 			{
 				List<long> range = list.GetRange(i, Math.Min(50, list.Count - i));
 				string requestUri = "https://groups.roblox.com/v2/groups?groupIds=" + string.Join(",", range);
-				using JsonDocument jsonDocument = JsonDocument.Parse(await Utility.Http.GetString(requestUri, ct).ConfigureAwait(continueOnCapturedContext: false));
+				using JsonDocument jsonDocument = JsonDocument.Parse(
+					await Utility.Http.GetString(requestUri, ct).ConfigureAwait(continueOnCapturedContext: false)
+				);
 				if (!jsonDocument.RootElement.TryGetProperty("data", out var value) || value.ValueKind != JsonValueKind.Array)
 				{
 					continue;
 				}
 				foreach (JsonElement item in value.EnumerateArray())
 				{
-					if (item.TryGetProperty("id", out var value2) && value2.TryGetInt64(out var value3) && item.TryGetProperty("name", out var value4))
+					if (
+						item.TryGetProperty("id", out var value2)
+						&& value2.TryGetInt64(out var value3)
+						&& item.TryGetProperty("name", out var value4)
+					)
 					{
 						string? text = value4.GetString();
 						if (text != null && text.Length > 0)
@@ -721,9 +837,7 @@ public static partial class RobloxCookie
 				}
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		return map;
 	}
 
@@ -772,7 +886,11 @@ public static partial class RobloxCookie
 			string[] valueNames = registryKey.GetValueNames();
 			foreach (string text in valueNames)
 			{
-				if (text.Equals(".ROBLOSECURITY", StringComparison.OrdinalIgnoreCase) && registryKey.GetValue(text) is string text2 && !string.IsNullOrEmpty(text2))
+				if (
+					text.Equals(".ROBLOSECURITY", StringComparison.OrdinalIgnoreCase)
+					&& registryKey.GetValue(text) is string text2
+					&& !string.IsNullOrEmpty(text2)
+				)
 				{
 					string? text3 = Extract(text2);
 					if (!string.IsNullOrEmpty(text3))
@@ -808,8 +926,9 @@ public static partial class RobloxCookie
 		return null;
 	}
 
-    [GeneratedRegex("(_\\|WARNING:-DO-NOT-SHARE[^\\s;,\"']+)")]
-    private static partial Regex WarningRegex { get; }
-    [GeneratedRegex("\\.ROBLOSECURITY[\\s=]+([^\\s;,\"']+)", RegexOptions.IgnoreCase, "en-US")]
-    private static partial Regex NamedRegex { get; }
+	[GeneratedRegex("(_\\|WARNING:-DO-NOT-SHARE[^\\s;,\"']+)")]
+	private static partial Regex WarningRegex { get; }
+
+	[GeneratedRegex("\\.ROBLOSECURITY[\\s=]+([^\\s;,\"']+)", RegexOptions.IgnoreCase, "en-US")]
+	private static partial Regex NamedRegex { get; }
 }

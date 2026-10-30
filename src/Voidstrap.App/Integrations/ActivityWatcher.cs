@@ -9,12 +9,12 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Voidstrap.Enums;
+using Voidstrap.Extensions;
 using Voidstrap.Models.APIs;
 using Voidstrap.Models.Entities;
 using Voidstrap.Models.Persistable;
 using Voidstrap.Models.VoidstrapRPC;
 using Voidstrap.Utility;
-using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations;
 
@@ -75,19 +75,27 @@ public partial class ActivityWatcher : IDisposable
 		GameMessageEntry,
 		GamePlayerDiscoveryEntry,
 		GamePlayerJoinLeaveEntry,
-		GameMessageLogEntry
+		GameMessageLogEntry,
 	];
+
 	[GeneratedRegex(GameJoiningEntryPattern, RegexOptions.CultureInvariant)]
 	private static partial Regex LogPattern1 { get; }
+
 	[GeneratedRegex("referral_page:([^,]+)", RegexOptions.CultureInvariant)]
 	private static partial Regex LogPattern2 { get; }
+
 	[GeneratedRegex(GameJoiningUniversePattern, RegexOptions.CultureInvariant)]
 	private static partial Regex LogPattern3 { get; }
 
 	[GeneratedRegex(GameJoiningUserPattern, RegexOptions.CultureInvariant)]
 	private static partial Regex LogPattern3User { get; }
-	[GeneratedRegex("UDMUX Address = ([0-9\\.]+), Port = [0-9]+ \\| RCC Server Address = ([0-9\\.]+), Port = [0-9]+", RegexOptions.CultureInvariant)]
+
+	[GeneratedRegex(
+		"UDMUX Address = ([0-9\\.]+), Port = [0-9]+ \\| RCC Server Address = ([0-9\\.]+), Port = [0-9]+",
+		RegexOptions.CultureInvariant
+	)]
 	private static partial Regex LogPattern4 { get; }
+
 	[GeneratedRegex("JoinTypeId(?:\"|%22)?(?::|%3a)(\\d+)", RegexOptions.CultureInvariant)]
 	private static partial Regex LogPattern5 { get; }
 
@@ -98,8 +106,16 @@ public partial class ActivityWatcher : IDisposable
 	{
 		started = default;
 		Match match = ServerPrefixPattern.Match(entry);
-		if (!match.Success
-			|| !DateTime.TryParseExact(match.Groups[1].Value, "yyyyMMdd'T'HHmmss", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AssumeUniversal | System.Globalization.DateTimeStyles.AdjustToUniversal, out DateTime parsed))
+		if (
+			!match.Success
+			|| !DateTime.TryParseExact(
+				match.Groups[1].Value,
+				"yyyyMMdd'T'HHmmss",
+				System.Globalization.CultureInfo.InvariantCulture,
+				System.Globalization.DateTimeStyles.AssumeUniversal | System.Globalization.DateTimeStyles.AdjustToUniversal,
+				out DateTime parsed
+			)
+		)
 			return false;
 		DateTimeOffset value = new DateTimeOffset(DateTime.SpecifyKind(parsed, DateTimeKind.Utc));
 		DateTimeOffset now = DateTimeOffset.UtcNow;
@@ -108,10 +124,13 @@ public partial class ActivityWatcher : IDisposable
 		started = value > now ? now : value;
 		return true;
 	}
+
 	[GeneratedRegex(GameMessageEntryPattern, RegexOptions.CultureInvariant)]
 	private static partial Regex LogPattern6 { get; }
+
 	[GeneratedRegex("(added|removed): (.*) ([0-9]+)\\s*$", RegexOptions.CultureInvariant)]
 	private static partial Regex LogPattern7 { get; }
+
 	[GeneratedRegex("Success Text: (.*)", RegexOptions.CultureInvariant)]
 	private static partial Regex LogPattern8 { get; }
 
@@ -160,7 +179,10 @@ public partial class ActivityWatcher : IDisposable
 	private readonly SemaphoreSlim _logSignal = new SemaphoreSlim(0, 1);
 	private FileSystemWatcher? _logWatcher;
 
-	public static bool PlayerLoggingEnabled => App.FastFlags.GetPreset("Players.EventLog") == "7" || App.FastFlags.GetPreset("Players.LogLevel") == "trace" && App.FastFlags.GetPreset("Players.LogPattern") == "ExpChat/mountClientApp";
+	public static bool PlayerLoggingEnabled =>
+		App.FastFlags.GetPreset("Players.EventLog") == "7"
+		|| App.FastFlags.GetPreset("Players.LogLevel") == "trace"
+			&& App.FastFlags.GetPreset("Players.LogPattern") == "ExpChat/mountClientApp";
 
 	public ActivityData Data { get; private set; } = new ActivityData();
 
@@ -262,9 +284,7 @@ public partial class ActivityWatcher : IDisposable
 		{
 			File.WriteAllText(LaunchStatusFile, message);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	public async Task<int> GetMaxPlayers()
@@ -281,9 +301,7 @@ public partial class ActivityWatcher : IDisposable
 					Data.UniverseDetails = details;
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 		return (details?.Data?.MaxPlayers).GetValueOrDefault();
 	}
@@ -297,7 +315,12 @@ public partial class ActivityWatcher : IDisposable
 	public async Task<(int Current, int Max, int GameTotal, bool ServerFound)> GetServerPlayerStatsAsync()
 	{
 		ServerPlayerSnapshot snapshot = await GetServerPlayerSnapshotAsync().ConfigureAwait(continueOnCapturedContext: false);
-		return (Current: snapshot.Playing, Max: snapshot.MaxPlayers, GameTotal: snapshot.GameTotal, ServerFound: snapshot.State == ServerPlayerCountState.Live);
+		return (
+			Current: snapshot.Playing,
+			Max: snapshot.MaxPlayers,
+			GameTotal: snapshot.GameTotal,
+			ServerFound: snapshot.State == ServerPlayerCountState.Live
+		);
 	}
 
 	public async Task<int> GetGameTotalPlayingAsync()
@@ -317,15 +340,20 @@ public partial class ActivityWatcher : IDisposable
 		{
 			using CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(6L));
 			string requestUri = $"https://games.roblox.com/v1/games?universeIds={universeId}";
-			using JsonDocument jsonDocument = JsonDocument.Parse(await Voidstrap.Utility.Http.GetString(requestUri, cts.Token).ConfigureAwait(continueOnCapturedContext: false));
-			if (jsonDocument.RootElement.TryGetProperty("data", out var value) && value.GetArrayLength() > 0 && value[0].TryGetProperty("playing", out var value2) && value2.TryGetInt64(out var value3))
+			using JsonDocument jsonDocument = JsonDocument.Parse(
+				await Voidstrap.Utility.Http.GetString(requestUri, cts.Token).ConfigureAwait(continueOnCapturedContext: false)
+			);
+			if (
+				jsonDocument.RootElement.TryGetProperty("data", out var value)
+				&& value.GetArrayLength() > 0
+				&& value[0].TryGetProperty("playing", out var value2)
+				&& value2.TryGetInt64(out var value3)
+			)
 			{
 				total = (int)Math.Clamp(value3, 0L, int.MaxValue);
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		lock (_serverLookupLock)
 		{
 			if (total > 0 || _gameTotalUniverseId != universeId)
@@ -390,7 +418,7 @@ public partial class ActivityWatcher : IDisposable
 		SignedOut,
 		Reserved,
 		RateLimited,
-		Failed
+		Failed,
 	}
 
 	public static bool ServerListRateLimited
@@ -428,7 +456,10 @@ public partial class ActivityWatcher : IDisposable
 			_serverListBackoffUntilUtc = until;
 			_serverListStrikes++;
 		}
-		App.Logger.WriteLine("ActivityWatcher::ServerList", $"Roblox is rate limiting the server list, pausing lookups for {(int)Math.Ceiling(wait.TotalSeconds)} seconds");
+		App.Logger.WriteLine(
+			"ActivityWatcher::ServerList",
+			$"Roblox is rate limiting the server list, pausing lookups for {(int)Math.Ceiling(wait.TotalSeconds)} seconds"
+		);
 	}
 
 	private static void NoteServerListAnswered()
@@ -490,9 +521,16 @@ public partial class ActivityWatcher : IDisposable
 			Task<int> totalTask = GetGameTotalPlayingAsync();
 			(outcome, server) = data.ServerType switch
 			{
-				ServerType.Public => await FindPublicServerAsync(data.PlaceId, jobId, data.MachineAddress, data.MachineAddressValid, previous).ConfigureAwait(false),
+				ServerType.Public => await FindPublicServerAsync(
+						data.PlaceId,
+						jobId,
+						data.MachineAddress,
+						data.MachineAddressValid,
+						previous
+					)
+					.ConfigureAwait(false),
 				ServerType.Private => await FindPrivateServerAsync(data.PlaceId, jobId).ConfigureAwait(false),
-				_ => (ServerLookupOutcome.Reserved, null)
+				_ => (ServerLookupOutcome.Reserved, null),
 			};
 			max = await maxTask.ConfigureAwait(false);
 			gameTotal = await totalTask.ConfigureAwait(false);
@@ -532,7 +570,14 @@ public partial class ActivityWatcher : IDisposable
 				break;
 			case ServerLookupOutcome.NotListed:
 				next = now + ServerMissingLifetime;
-				snapshot = new ServerPlayerSnapshot(data.ServerType == ServerType.Private ? ServerPlayerCountState.PrivateNotListed : ServerPlayerCountState.NotListed, stalePlaying, max, gameTotal, staleUpdated, next);
+				snapshot = new ServerPlayerSnapshot(
+					data.ServerType == ServerType.Private ? ServerPlayerCountState.PrivateNotListed : ServerPlayerCountState.NotListed,
+					stalePlaying,
+					max,
+					gameTotal,
+					staleUpdated,
+					next
+				);
 				break;
 			case ServerLookupOutcome.SignedOut:
 				next = now + ServerMissingLifetime;
@@ -564,7 +609,13 @@ public partial class ActivityWatcher : IDisposable
 		return WithLogCount(snapshot);
 	}
 
-	private async Task<(ServerLookupOutcome Outcome, ServerInfo? Server)> FindPublicServerAsync(long placeId, string jobId, string machineAddress, bool machineValid, ServerPlayerSnapshot? previous)
+	private async Task<(ServerLookupOutcome Outcome, ServerInfo? Server)> FindPublicServerAsync(
+		long placeId,
+		string jobId,
+		string machineAddress,
+		bool machineValid,
+		ServerPlayerSnapshot? previous
+	)
 	{
 		if (ServerListRateLimited)
 			return (ServerLookupOutcome.RateLimited, null);
@@ -629,7 +680,8 @@ public partial class ActivityWatcher : IDisposable
 			if (Match(page) is { } server)
 				return (ServerLookupOutcome.Found, server);
 		}
-		string[] orders = previous is { Playing: > 0, MaxPlayers: > 0 } last && last.Playing * 2 < last.MaxPlayers ? ["Asc", "Desc"] : ["Desc", "Asc"];
+		string[] orders =
+			previous is { Playing: > 0, MaxPlayers: > 0 } last && last.Playing * 2 < last.MaxPlayers ? ["Asc", "Desc"] : ["Desc", "Asc"];
 		int budget = MaxPublicServerPages;
 		foreach (string order in orders)
 		{
@@ -681,7 +733,9 @@ public partial class ActivityWatcher : IDisposable
 		{
 			if (page > 0)
 				await Task.Delay(ServerPageSpacing, cts.Token).ConfigureAwait(false);
-			string url = $"https://games.roblox.com/v1/games/{placeId}/private-servers?limit=100&excludeFriendServers=false" + (string.IsNullOrEmpty(cursor) ? string.Empty : "&cursor=" + Uri.EscapeDataString(cursor));
+			string url =
+				$"https://games.roblox.com/v1/games/{placeId}/private-servers?limit=100&excludeFriendServers=false"
+				+ (string.IsNullOrEmpty(cursor) ? string.Empty : "&cursor=" + Uri.EscapeDataString(cursor));
 			RobloxApiResponse response = await RobloxCookie.SendGetAsync(url, cts.Token).ConfigureAwait(false);
 			if (response.StatusCode == 0)
 			{
@@ -727,7 +781,10 @@ public partial class ActivityWatcher : IDisposable
 	public void Start()
 	{
 		if (!PlayerLoggingEnabled)
-			App.Logger.WriteLine("ActivityWatcher", "Player join/leave tracking is off. Roblox will not write those lines to its log. Enable it under Integrations to turn on the required FastFlag preset.");
+			App.Logger.WriteLine(
+				"ActivityWatcher",
+				"Player join/leave tracking is off. Roblox will not write those lines to its log. Enable it under Integrations to turn on the required FastFlag preset."
+			);
 
 		_ = StartAsync();
 	}
@@ -738,9 +795,7 @@ public partial class ActivityWatcher : IDisposable
 		{
 			await RunAsync();
 		}
-		catch (OperationCanceledException) when (_playerLifetimeCts.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (_playerLifetimeCts.IsCancellationRequested) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ActivityWatcher::Start", ex);
@@ -776,8 +831,10 @@ public partial class ActivityWatcher : IDisposable
 	private static bool IsClientLogFile(FileInfo file)
 	{
 		return OperatingSystem.IsLinux() && !Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary
-			? file.Extension.Equals(".log", StringComparison.OrdinalIgnoreCase) || file.Name.Contains("Player", StringComparison.OrdinalIgnoreCase)
-			: file.Name.Contains("Player", StringComparison.OrdinalIgnoreCase) && !file.Name.Contains("CrashHandler", StringComparison.OrdinalIgnoreCase);
+			? file.Extension.Equals(".log", StringComparison.OrdinalIgnoreCase)
+				|| file.Name.Contains("Player", StringComparison.OrdinalIgnoreCase)
+			: file.Name.Contains("Player", StringComparison.OrdinalIgnoreCase)
+				&& !file.Name.Contains("CrashHandler", StringComparison.OrdinalIgnoreCase);
 	}
 
 	private async Task RunAsync()
@@ -805,10 +862,12 @@ public partial class ActivityWatcher : IDisposable
 						return;
 					continue;
 				}
-				FileInfo? fileInfo = (from x in logDirectories.SelectMany(static directory => new DirectoryInfo(directory).GetFiles())
+				FileInfo? fileInfo = (
+					from x in logDirectories.SelectMany(static directory => new DirectoryInfo(directory).GetFiles())
 					where IsClientLogFile(x) && x.CreationTime <= DateTime.Now
 					orderby x.CreationTime descending
-					select x).FirstOrDefault();
+					select x
+				).FirstOrDefault();
 				if (fileInfo == null)
 				{
 					if (!await WaitAsync(1500, token))
@@ -816,13 +875,18 @@ public partial class ActivityWatcher : IDisposable
 					continue;
 				}
 				logFileInfo = fileInfo;
-				bool fromThisLaunch = !OperatingSystem.IsMacOS() || logFileInfo.CreationTimeUtc >= (_macProcessStartedUtc?.AddSeconds(-1.0) ?? _createdUtc.AddSeconds(-8.0));
+				bool fromThisLaunch =
+					!OperatingSystem.IsMacOS()
+					|| logFileInfo.CreationTimeUtc >= (_macProcessStartedUtc?.AddSeconds(-1.0) ?? _createdUtc.AddSeconds(-8.0));
 				if (fromThisLaunch && (_macProcessStartedUtc.HasValue || logFileInfo.CreationTime.AddSeconds(15.0) > DateTime.Now))
 				{
 					LogLocation = logFileInfo.FullName;
 					break;
 				}
-				App.Logger.WriteLine("ActivityWatcher::Start", "Could not find recent enough log file, waiting... (newest is " + logFileInfo.Name + ")");
+				App.Logger.WriteLine(
+					"ActivityWatcher::Start",
+					"Could not find recent enough log file, waiting... (newest is " + logFileInfo.Name + ")"
+				);
 				if (!await WaitAsync(1500, token))
 					return;
 			}
@@ -961,7 +1025,11 @@ public partial class ActivityWatcher : IDisposable
 					App.Logger.WriteLine("ActivityWatcher::Start", "The Roblox log started over, reading it again from the top");
 					continue;
 				}
-				if (OperatingSystem.IsLinux() && NewerLinuxLog(File.GetLastWriteTimeUtc(LogLocation)) is FileInfo replacement && NativeLogTail.Open(replacement.FullName, LogMarkers) is NativeLogTail reopened)
+				if (
+					OperatingSystem.IsLinux()
+					&& NewerLinuxLog(File.GetLastWriteTimeUtc(LogLocation)) is FileInfo replacement
+					&& NativeLogTail.Open(replacement.FullName, LogMarkers) is NativeLogTail reopened
+				)
 				{
 					tail.Dispose();
 					tail = reopened;
@@ -1003,7 +1071,12 @@ public partial class ActivityWatcher : IDisposable
 			if (!reported)
 			{
 				reported = true;
-				App.Logger.WriteLine("ActivityWatcher::Start", Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary ? "Waiting for Roblox to write its log in the Rosemary prefix" : "Waiting for Sober to write its log");
+				App.Logger.WriteLine(
+					"ActivityWatcher::Start",
+					Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary
+						? "Waiting for Roblox to write its log in the Rosemary prefix"
+						: "Waiting for Sober to write its log"
+				);
 			}
 			if (!await WaitAsync(1500, token))
 			{
@@ -1022,9 +1095,7 @@ public partial class ActivityWatcher : IDisposable
 				return target;
 			}
 		}
-		catch (IOException)
-		{
-		}
+		catch (IOException) { }
 		return file;
 	}
 
@@ -1046,7 +1117,8 @@ public partial class ActivityWatcher : IDisposable
 				{
 					continue;
 				}
-				bool better = newest == null
+				bool better =
+					newest == null
 					|| soberDirectory && !fromSober
 					|| soberDirectory == fromSober && target.LastWriteTimeUtc > newest.LastWriteTimeUtc;
 				if (better)
@@ -1102,12 +1174,18 @@ public partial class ActivityWatcher : IDisposable
 		}
 		if (!InGame)
 		{
-			App.Logger.WriteLine("ActivityWatcher::Start", "Sober restarted before the join finished (" + Data.JobId + "), waiting for the next join");
+			App.Logger.WriteLine(
+				"ActivityWatcher::Start",
+				"Sober restarted before the join finished (" + Data.JobId + "), waiting for the next join"
+			);
 			ResetData();
 			FrameGeneration.FrameGenManager.OnGameLeave();
 			return;
 		}
-		App.Logger.WriteLine("ActivityWatcher::Start", "Sober restarted during the game, closing the previous session (" + Data.JobId + ")");
+		App.Logger.WriteLine(
+			"ActivityWatcher::Start",
+			"Sober restarted during the game, closing the previous session (" + Data.JobId + ")"
+		);
 		RestoreOriginalResolution();
 		Data.TimeLeft = DateTime.Now;
 		lock (History)
@@ -1166,7 +1244,7 @@ public partial class ActivityWatcher : IDisposable
 		{
 			_logWatcher = new FileSystemWatcher(logFileInfo.DirectoryName!, logFileInfo.Name)
 			{
-				NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size
+				NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size,
 			};
 			_logWatcher.Changed += OnLogChanged;
 			_logWatcher.Error += OnLogWatcherError;
@@ -1187,12 +1265,8 @@ public partial class ActivityWatcher : IDisposable
 		{
 			_logSignal.Release();
 		}
-		catch (SemaphoreFullException)
-		{
-		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (SemaphoreFullException) { }
+		catch (ObjectDisposedException) { }
 	}
 
 	private void OnLogChanged(object sender, FileSystemEventArgs e)
@@ -1203,12 +1277,8 @@ public partial class ActivityWatcher : IDisposable
 		{
 			_logSignal.Release();
 		}
-		catch (SemaphoreFullException)
-		{
-		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (SemaphoreFullException) { }
+		catch (ObjectDisposedException) { }
 	}
 
 	private static async Task<bool> WaitAsync(int milliseconds, CancellationToken token)
@@ -1232,7 +1302,10 @@ public partial class ActivityWatcher : IDisposable
 			return;
 		}
 		Data.ServerStartedUtc = serverStarted;
-		App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", $"Server {Data.JobId} process started at {serverStarted.UtcDateTime:yyyy'/'MM'/'dd HH:mm:ss} UTC, from the server log prefix");
+		App.Logger.WriteLine(
+			"ActivityWatcher::ReadLogEntry",
+			$"Server {Data.JobId} process started at {serverStarted.UtcDateTime:yyyy'/'MM'/'dd HH:mm:ss} UTC, from the server log prefix"
+		);
 	}
 
 	private void ReadLogEntry(string entry)
@@ -1320,7 +1393,13 @@ public partial class ActivityWatcher : IDisposable
 				if (match2.Groups.Count == 2)
 				{
 					string value = match2.Groups[1].Value;
-					if (Data.ServerType != ServerType.Reserved && (value.Contains("RequestPrivateGame", StringComparison.OrdinalIgnoreCase) || value.Contains("GameDetailPageJSHybridEvent", StringComparison.OrdinalIgnoreCase)))
+					if (
+						Data.ServerType != ServerType.Reserved
+						&& (
+							value.Contains("RequestPrivateGame", StringComparison.OrdinalIgnoreCase)
+							|| value.Contains("GameDetailPageJSHybridEvent", StringComparison.OrdinalIgnoreCase)
+						)
+					)
 					{
 						Data.ServerType = ServerType.Private;
 					}
@@ -1360,11 +1439,18 @@ public partial class ActivityWatcher : IDisposable
 						Data.MachineAddress = routable;
 					else if (!Data.MachineAddressValid)
 						Data.MachineAddress = string.Empty;
-					App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", $"Server uses UDMUX, public address {udmuxAddress}, RCC address {rccAddress}");
+					App.Logger.WriteLine(
+						"ActivityWatcher::ReadLogEntry",
+						$"Server uses UDMUX, public address {udmuxAddress}, RCC address {rccAddress}"
+					);
 					PublishLaunchStatus("Joining Server (" + (Data.MachineAddressValid ? Data.MachineAddress : udmuxAddress) + ")");
 				}
 			}
-			else if (entry.Contains(GameJoinedEntry) || entry.Contains(GameJoinSnapshotEntry) || (entry.Contains(GameLoadedEntry) && !entry.Contains("\"place_id\":\"0\"")))
+			else if (
+				entry.Contains(GameJoinedEntry)
+				|| entry.Contains(GameJoinSnapshotEntry)
+				|| (entry.Contains(GameLoadedEntry) && !entry.Contains("\"place_id\":\"0\""))
+			)
 			{
 				string message2 = "Confirmed game join (JobId = " + Data.JobId + ")";
 				App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", message2);
@@ -1393,13 +1479,22 @@ public partial class ActivityWatcher : IDisposable
 				{
 					ServerSessionJoinType serverSessionJoinType = (ServerSessionJoinType)result;
 					App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", $"Teleport JoinTypeId = {result} ({serverSessionJoinType})");
-					if ((serverSessionJoinType == ServerSessionJoinType.NewGamePrivateGame || serverSessionJoinType == ServerSessionJoinType.SpecificPrivateGame) ? true : false)
+					if (
+						(
+							serverSessionJoinType == ServerSessionJoinType.NewGamePrivateGame
+							|| serverSessionJoinType == ServerSessionJoinType.SpecificPrivateGame
+						)
+							? true
+							: false
+					)
 					{
 						_reservedTeleportMarker = true;
 					}
 				}
 			}
-			else if (entry.Contains(SdkGameMessageEntry, StringComparison.Ordinal) || entry.Contains(GameMessageEntry, StringComparison.Ordinal))
+			else if (
+				entry.Contains(SdkGameMessageEntry, StringComparison.Ordinal) || entry.Contains(GameMessageEntry, StringComparison.Ordinal)
+			)
 			{
 				Match match6 = LogPattern6.Match(entry);
 				if (!match6.Success || match6.Groups.Count != 2)
@@ -1478,7 +1573,7 @@ public partial class ActivityWatcher : IDisposable
 					ActivityData.UserMessage userMessage = new ActivityData.UserMessage
 					{
 						Message = match8.Groups[1].Value,
-						Time = DateTime.Now
+						Time = DateTime.Now,
 					};
 					AddBounded(Data.MessageLogs, _nextMessageLogId++, userMessage, MaxMessageLogEntries);
 					RaiseEvent(OnNewMessageRequest, userMessage, "OnNewMessageRequest");
@@ -1513,7 +1608,7 @@ public partial class ActivityWatcher : IDisposable
 			Type = added ? "Joined" : "Left",
 			Username = string.IsNullOrWhiteSpace(username) ? "User " + userId : username,
 			UserId = userId.ToString(),
-			Time = DateTime.Now
+			Time = DateTime.Now,
 		};
 		AddBounded(Data.PlayerLogs, _nextPlayerLogId++, userLog, MaxPlayerLogEntries);
 		RaiseEvent(OnNewPlayerRequest, userLog, "OnNewPlayerRequest");
@@ -1551,10 +1646,14 @@ public partial class ActivityWatcher : IDisposable
 				}
 				using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(_playerLifetimeCts.SafeToken());
 				timeout.CancelAfter(TimeSpan.FromSeconds(8));
-				using HttpResponseMessage response = await App.HttpClient.GetAsync("https://users.roblox.com/v1/users/" + userId, timeout.Token).ConfigureAwait(false);
+				using HttpResponseMessage response = await App
+					.HttpClient.GetAsync("https://users.roblox.com/v1/users/" + userId, timeout.Token)
+					.ConfigureAwait(false);
 				if (!response.IsSuccessStatusCode)
 					return;
-				using JsonDocument document = JsonDocument.Parse(await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, 1048576, timeout.Token).ConfigureAwait(false));
+				using JsonDocument document = JsonDocument.Parse(
+					await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, 1048576, timeout.Token).ConfigureAwait(false)
+				);
 				if (!document.RootElement.TryGetProperty("name", out JsonElement nameElement))
 					return;
 				string? name = nameElement.GetString();
@@ -1572,9 +1671,7 @@ public partial class ActivityWatcher : IDisposable
 				_playerNameSemaphore.Release();
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ActivityWatcher::ResolvePlayerName", ex);
@@ -1608,7 +1705,7 @@ public partial class ActivityWatcher : IDisposable
 			Width = mode.Width,
 			Height = mode.Height,
 			RefreshRate = mode.RefreshRate,
-			Monitor = monitor
+			Monitor = monitor,
 		};
 	}
 
@@ -1680,7 +1777,7 @@ public partial class ActivityWatcher : IDisposable
 		IsDisposed = true;
 		_playerLifetimeCts.Cancel();
 		StopLogWatcher();
-        RestoreOriginalResolution();
+		RestoreOriginalResolution();
 		OnGameJoin = null;
 		OnGameJoining = null;
 		OnGameLeave = null;
@@ -1700,8 +1797,12 @@ public partial class ActivityWatcher : IDisposable
 		GC.SuppressFinalize(this);
 	}
 
-    [GeneratedRegex("playerAdded:\\s*userId=(?<id>[0-9]+)", RegexOptions.CultureInvariant)]
-    private static partial Regex PlayerAddedRegex { get; }
-    [GeneratedRegex("(?:playerRemoving:\\s*userId=|Purging (?:social counterparties|age group|compatibility tokens) for player\\s+)(?<id>[0-9]+)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
-    private static partial Regex PlayerRemovedRegex { get; }
+	[GeneratedRegex("playerAdded:\\s*userId=(?<id>[0-9]+)", RegexOptions.CultureInvariant)]
+	private static partial Regex PlayerAddedRegex { get; }
+
+	[GeneratedRegex(
+		"(?:playerRemoving:\\s*userId=|Purging (?:social counterparties|age group|compatibility tokens) for player\\s+)(?<id>[0-9]+)",
+		RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
+	)]
+	private static partial Regex PlayerRemovedRegex { get; }
 }

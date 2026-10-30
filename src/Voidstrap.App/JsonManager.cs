@@ -14,7 +14,8 @@ using Voidstrap.Utility;
 
 namespace Voidstrap;
 
-public class JsonManager<T> where T : class, new()
+public class JsonManager<T>
+	where T : class, new()
 {
 	public T OriginalProp { get; set; } = new T();
 
@@ -53,8 +54,13 @@ public class JsonManager<T> where T : class, new()
 		}
 		bool recovered = false;
 		Exception? failure = null;
-		if ((Voidstrap.Utility.NativeStateLoader.TryLoad(FileLocation, JsonFile.DefaultMaximumBytes, out T? loaded)
-			|| JsonFile.TryLoad<T>(FileLocation, JsonOptions.Tolerant, out loaded, out recovered, out failure)) && loaded != null)
+		if (
+			(
+				Voidstrap.Utility.NativeStateLoader.TryLoad(FileLocation, JsonFile.DefaultMaximumBytes, out T? loaded)
+				|| JsonFile.TryLoad<T>(FileLocation, JsonOptions.Tolerant, out loaded, out recovered, out failure)
+			)
+			&& loaded != null
+		)
 		{
 			Prop = loaded;
 			Interlocked.Increment(ref _revision);
@@ -63,9 +69,16 @@ public class JsonManager<T> where T : class, new()
 			_baselineSource = SupportsMerge ? SafeReadBytes(FileLocation) : null;
 			App.Logger.WriteLine(identifier, recovered ? "Recovered from the last valid backup" : "Loaded successfully");
 			if (recovered)
-				Voidstrap.Utility.AppNotifications.RecordInfo("recovered:" + ClassName, ClassName + " was restored", ClassName + " contained invalid data and was restored from the last valid backup.");
+				Voidstrap.Utility.AppNotifications.RecordInfo(
+					"recovered:" + ClassName,
+					ClassName + " was restored",
+					ClassName + " contained invalid data and was restored from the last valid backup."
+				);
 			if (recovered && alertFailure)
-				Frontend.ShowMessageBox(ClassName + " contained invalid JSON and was recovered from the last valid backup.", MessageBoxImage.Exclamation);
+				Frontend.ShowMessageBox(
+					ClassName + " contained invalid JSON and was recovered from the last valid backup.",
+					MessageBoxImage.Exclamation
+				);
 			return;
 		}
 		if (failure != null)
@@ -73,19 +86,36 @@ public class JsonManager<T> where T : class, new()
 		if (failure != null && Voidstrap.Utility.CloudFiles.IsCloudFailure(failure, FileLocation))
 		{
 			App.Logger.WriteLine(identifier, "The file could not be read from the cloud provider, keeping the stored copy untouched");
-			Voidstrap.Utility.AppNotifications.RecordInfo("cloud:" + ClassName, ClassName + " is not available offline", ClassName + " could not be read because its folder is synced to the cloud. Voidstrap is running on defaults for now and will not overwrite the saved copy. Make the folder always available on this device, then restart.");
+			Voidstrap.Utility.AppNotifications.RecordInfo(
+				"cloud:" + ClassName,
+				ClassName + " is not available offline",
+				ClassName
+					+ " could not be read because its folder is synced to the cloud. Voidstrap is running on defaults for now and will not overwrite the saved copy. Make the folder always available on this device, then restart."
+			);
 			if (alertFailure)
 			{
-				Frontend.ShowMessageBox(ClassName + " could not be read because its folder is synced to the cloud and the file is not available offline. Voidstrap is running on defaults for now and will not overwrite your saved copy. Make the Voidstrap folder always available on this device, then restart.", MessageBoxImage.Exclamation);
+				Frontend.ShowMessageBox(
+					ClassName
+						+ " could not be read because its folder is synced to the cloud and the file is not available offline. Voidstrap is running on defaults for now and will not overwrite your saved copy. Make the Voidstrap folder always available on this device, then restart.",
+					MessageBoxImage.Exclamation
+				);
 			}
 			Prop = new T();
 			return;
 		}
 		App.Logger.WriteLine(identifier, "No valid JSON copy was available, defaults will be restored");
-		Voidstrap.Utility.AppNotifications.RecordInfo("reset:" + ClassName, ClassName + " was reset", ClassName + " contained invalid data and no valid backup was available, so safe defaults were restored.");
+		Voidstrap.Utility.AppNotifications.RecordInfo(
+			"reset:" + ClassName,
+			ClassName + " was reset",
+			ClassName + " contained invalid data and no valid backup was available, so safe defaults were restored."
+		);
 		if (alertFailure)
 		{
-			Frontend.ShowMessageBox(ClassName + " contained invalid JSON and no valid backup was available. Safe defaults were restored. The damaged file was preserved for recovery.", MessageBoxImage.Exclamation);
+			Frontend.ShowMessageBox(
+				ClassName
+					+ " contained invalid JSON and no valid backup was available. Safe defaults were restored. The damaged file was preserved for recovery.",
+				MessageBoxImage.Exclamation
+			);
 		}
 		Prop = new T();
 		Save();
@@ -158,7 +188,10 @@ public class JsonManager<T> where T : class, new()
 		{
 			App.Logger.WriteLine(LOG_IDENT_CLASS + "::Save", "Failed to save");
 			App.Logger.WriteException(LOG_IDENT_CLASS + "::Save", ex);
-			Frontend.ShowMessageBox(string.Format(Strings.Bootstrapper_JsonManagerSaveFailed, ClassName, ex.Message), MessageBoxImage.Exclamation);
+			Frontend.ShowMessageBox(
+				string.Format(Strings.Bootstrapper_JsonManagerSaveFailed, ClassName, ex.Message),
+				MessageBoxImage.Exclamation
+			);
 		}
 	}
 
@@ -198,10 +231,12 @@ public class JsonManager<T> where T : class, new()
 
 	private static readonly PropertyInfo[] MergeableProperties = typeof(T)
 		.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-		.Where(property => property.CanRead
+		.Where(property =>
+			property.CanRead
 			&& property.GetSetMethod() is not null
 			&& property.GetIndexParameters().Length == 0
-			&& property.GetCustomAttribute<JsonIgnoreAttribute>() is null)
+			&& property.GetCustomAttribute<JsonIgnoreAttribute>() is null
+		)
 		.ToArray();
 
 	private JsonObject? _baseline;
@@ -301,9 +336,7 @@ public class JsonManager<T> where T : class, new()
 				property.SetValue(Prop, property.GetValue(disk));
 				adopted.Add(name);
 			}
-			catch (Exception ex) when (ex is TargetInvocationException or ArgumentException or MethodAccessException)
-			{
-			}
+			catch (Exception ex) when (ex is TargetInvocationException or ArgumentException or MethodAccessException) { }
 		}
 
 		_baseline = diskSnapshot;
@@ -312,7 +345,10 @@ public class JsonManager<T> where T : class, new()
 		if (adopted.Count > 0)
 		{
 			Interlocked.Increment(ref _revision);
-			App.Logger.WriteLine(identifier, $"Kept {adopted.Count} change(s) another Voidstrap process saved: " + string.Join(", ", adopted.Take(12)));
+			App.Logger.WriteLine(
+				identifier,
+				$"Kept {adopted.Count} change(s) another Voidstrap process saved: " + string.Join(", ", adopted.Take(12))
+			);
 		}
 		return adopted.Count > 0;
 	}

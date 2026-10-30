@@ -1,8 +1,8 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Xml.Linq;
-using System.IO;
 using Voidstrap;
 
 namespace Voidstrap.UI.Elements.Bootstrapper
@@ -14,9 +14,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             public bool IsIcon = false;
             public Uri? Uri = null;
 
-            public GetImageSourceDataResult()
-            {
-            }
+            public GetImageSourceDataResult() { }
         }
 
         private static string GetXmlAttribute(XElement element, string attributeName, string? defaultValue = null)
@@ -34,7 +32,8 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return attribute.Value.ToString();
         }
 
-        private static T ParseXmlAttribute<T>(XElement element, string attributeName, T? defaultValue = null) where T : struct
+        private static T ParseXmlAttribute<T>(XElement element, string attributeName, T? defaultValue = null)
+            where T : struct
         {
             var attribute = element.Attribute(attributeName);
 
@@ -48,7 +47,12 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
             T? parsed = ConvertValue<T>(attribute.Value);
             if (parsed == null)
-                throw new CustomThemeException("CustomTheme.Errors.ElementAttributeInvalidType", element.Name, attributeName, typeof(T).Name);
+                throw new CustomThemeException(
+                    "CustomTheme.Errors.ElementAttributeInvalidType",
+                    element.Name,
+                    attributeName,
+                    typeof(T).Name
+                );
 
             return (T)parsed;
         }
@@ -56,7 +60,8 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         /// <summary>
         /// ParseXmlAttribute but the default value is always null
         /// </summary>
-        private static T? ParseXmlAttributeNullable<T>(XElement element, string attributeName) where T : struct
+        private static T? ParseXmlAttributeNullable<T>(XElement element, string attributeName)
+            where T : struct
         {
             var attribute = element.Attribute(attributeName);
 
@@ -65,7 +70,12 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
             T? parsed = ConvertValue<T>(attribute.Value);
             if (parsed == null)
-                throw new CustomThemeException("CustomTheme.Errors.ElementAttributeInvalidType", element.Name, attributeName, typeof(T).Name);
+                throw new CustomThemeException(
+                    "CustomTheme.Errors.ElementAttributeInvalidType",
+                    element.Name,
+                    attributeName,
+                    typeof(T).Name
+                );
 
             return (T)parsed;
         }
@@ -78,7 +88,13 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                 throw new CustomThemeException("CustomTheme.Errors.ElementAttributeMustBeSmallerThanMax", elementName, attributeName, max);
         }
 
-        private static void ValidateXmlElement(string elementName, string attributeName, double value, double? min = null, double? max = null)
+        private static void ValidateXmlElement(
+            string elementName,
+            string attributeName,
+            double value,
+            double? min = null,
+            double? max = null
+        )
         {
             if (min != null && value < min)
                 throw new CustomThemeException("CustomTheme.Errors.ElementAttributeMustBeLargerThanMin", elementName, attributeName, min);
@@ -87,7 +103,13 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         }
 
         // You can't do numeric only generics in .NET 6. The feature is exclusive to .NET 7+.
-        private static int ParseXmlAttributeClamped(XElement element, string attributeName, int? defaultValue = null, int? min = null, int? max = null)
+        private static int ParseXmlAttributeClamped(
+            XElement element,
+            string attributeName,
+            int? defaultValue = null,
+            int? min = null,
+            int? max = null
+        )
         {
             int value = ParseXmlAttribute<int>(element, attributeName, defaultValue);
             ValidateXmlElement(element.Name.ToString(), attributeName, value, min, max);
@@ -282,7 +304,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             {
                 Scheme = Uri.UriSchemeFile,
                 Host = string.Empty,
-                Path = Path.GetFullPath(path)
+                Path = Path.GetFullPath(path),
             }.Uri;
         }
 
@@ -335,7 +357,12 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                 throw new CustomThemeException("CustomTheme.Errors.ElementAttributeParseError", xmlElement.Name, name, "Uri");
 
             if (result.Scheme != Uri.UriSchemeFile)
-                throw new CustomThemeException("CustomTheme.Errors.ElementAttributeBlacklistedUriScheme", xmlElement.Name, name, result.Scheme);
+                throw new CustomThemeException(
+                    "CustomTheme.Errors.ElementAttributeBlacklistedUriScheme",
+                    xmlElement.Name,
+                    name,
+                    result.Scheme
+                );
 
             return new GetImageSourceDataResult { Uri = result };
         }
@@ -383,7 +410,13 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             uiElement.Effect = effect;
         }
 
-        private static void ApplyTransformation_UIElement(CustomDialog dialog, string name, DependencyProperty property, UIElement uiElement, XElement xmlElement)
+        private static void ApplyTransformation_UIElement(
+            CustomDialog dialog,
+            string name,
+            DependencyProperty property,
+            UIElement uiElement,
+            XElement xmlElement
+        )
         {
             var transformElement = xmlElement.Element($"{xmlElement.Name}.{name}");
 

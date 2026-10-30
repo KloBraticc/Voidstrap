@@ -27,7 +27,20 @@ public sealed class ManagedModItem : NotifyPropertyChangedViewModel
 
 	private bool _editable;
 
-	public ManagedModItem(string id, string name, bool enabled, DateTime createdUtc, int fileCount, long totalBytes, int conflictCount, string scanError, ModPackInfo? pack = null, bool editable = false, int overriddenCount = 0, bool appliedOnTop = false)
+	public ManagedModItem(
+		string id,
+		string name,
+		bool enabled,
+		DateTime createdUtc,
+		int fileCount,
+		long totalBytes,
+		int conflictCount,
+		string scanError,
+		ModPackInfo? pack = null,
+		bool editable = false,
+		int overriddenCount = 0,
+		bool appliedOnTop = false
+	)
 	{
 		_appliedOnTop = appliedOnTop;
 		_overriddenCount = overriddenCount;
@@ -146,7 +159,8 @@ public sealed class ManagedModItem : NotifyPropertyChangedViewModel
 		get
 		{
 			int wins = ConflictCount - OverriddenCount;
-			string won = wins <= 0 ? ""
+			string won =
+				wins <= 0 ? ""
 				: AppliedOnTop ? "Always applied on top, overrides " + CountPaths(wins) + " in other mods"
 				: "Overrides " + CountPaths(wins) + " in lower priority mods";
 			string lost = OverriddenCount > 0 ? CountPaths(OverriddenCount) + " overridden by higher priority mods" : "";

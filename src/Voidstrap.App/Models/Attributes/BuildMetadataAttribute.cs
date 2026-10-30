@@ -16,7 +16,11 @@ public class BuildMetadataAttribute : Attribute
 
 	public BuildMetadataAttribute(string timestamp, string machine, string commitHash, string commitRef)
 	{
-		Timestamp = (DateTime.TryParse(timestamp, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out DateTime parsed) ? parsed : DateTime.UnixEpoch).ToLocalTime();
+		Timestamp = (
+			DateTime.TryParse(timestamp, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out DateTime parsed)
+				? parsed
+				: DateTime.UnixEpoch
+		).ToLocalTime();
 		Machine = machine;
 		CommitHash = commitHash;
 		CommitRef = commitRef;

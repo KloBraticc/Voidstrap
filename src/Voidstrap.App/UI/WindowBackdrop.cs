@@ -274,9 +274,7 @@ public static partial class WindowBackdrop
                 _ = DwmFlush();
             }
         }
-        catch
-        {
-        }
+        catch { }
     }
 
     private static void OnWindowContentRendered(object? sender, EventArgs e)
@@ -299,9 +297,11 @@ public static partial class WindowBackdrop
         if (Voidstrap.Utility.Platform.IsLinux)
         {
             contextMenu.Background = CreateLinuxSurfaceBrush();
-            if (PresentationSource.FromVisual(contextMenu) is HwndSource linuxSource
+            if (
+                PresentationSource.FromVisual(contextMenu) is HwndSource linuxSource
                 && linuxSource.Handle != IntPtr.Zero
-                && linuxSource.CompositionTarget is { } target)
+                && linuxSource.CompositionTarget is { } target
+            )
             {
                 target.BackgroundColor = CreateSurfaceColor(BackdropType.None);
             }
@@ -327,9 +327,7 @@ public static partial class WindowBackdrop
             ResetNativeBackdrop(handle);
             int rounded = 2;
             _ = DwmSetWindowAttribute(handle, DwmwaWindowCornerPreference, ref rounded, sizeof(int));
-            Color color = App.Settings.Prop.Theme2.GetFinal() == Theme.Light
-                ? Color.FromRgb(249, 249, 249)
-                : Color.FromRgb(44, 44, 44);
+            Color color = App.Settings.Prop.Theme2.GetFinal() == Theme.Light ? Color.FromRgb(249, 249, 249) : Color.FromRgb(44, 44, 44);
             if (source.CompositionTarget is { } target)
                 target.BackgroundColor = color;
             SolidColorBrush brush = new(color);
@@ -374,15 +372,18 @@ public static partial class WindowBackdrop
         {
             return;
         }
-        WindowChrome.SetWindowChrome(window, new WindowChrome
-        {
-            CaptionHeight = chrome.CaptionHeight,
-            CornerRadius = chrome.CornerRadius,
-            GlassFrameThickness = wanted,
-            NonClientFrameEdges = chrome.NonClientFrameEdges,
-            ResizeBorderThickness = chrome.ResizeBorderThickness,
-            UseAeroCaptionButtons = chrome.UseAeroCaptionButtons
-        });
+        WindowChrome.SetWindowChrome(
+            window,
+            new WindowChrome
+            {
+                CaptionHeight = chrome.CaptionHeight,
+                CornerRadius = chrome.CornerRadius,
+                GlassFrameThickness = wanted,
+                NonClientFrameEdges = chrome.NonClientFrameEdges,
+                ResizeBorderThickness = chrome.ResizeBorderThickness,
+                UseAeroCaptionButtons = chrome.UseAeroCaptionButtons,
+            }
+        );
     }
 
     private static bool ApplyAeroBlur(IntPtr handle, Window? window)
@@ -399,9 +400,7 @@ public static partial class WindowBackdrop
 
         Color tint = CreateSurfaceColor(EffectiveBackdrop(window));
         int color = unchecked((int)((uint)tint.A << 24 | (uint)tint.B << 16 | (uint)tint.G << 8 | tint.R));
-        int state = OperatingSystem.IsWindowsVersionAtLeast(10, 0, 17134)
-            ? AccentEnableAcrylicBlurBehind
-            : AccentEnableBlurBehind;
+        int state = OperatingSystem.IsWindowsVersionAtLeast(10, 0, 17134) ? AccentEnableAcrylicBlurBehind : AccentEnableBlurBehind;
 
         if (SetAccentPolicy(handle, state, AccentFlagUseGradientColor, color))
         {
@@ -412,7 +411,8 @@ public static partial class WindowBackdrop
         SetAccentPolicy(handle, AccentDisabled);
         SetGlassFrame(window, true);
         int transient = 3;
-        bool fallback = DwmSetWindowAttribute(handle, DwmwaSystemBackdropType, ref transient, sizeof(int)) == 0
+        bool fallback =
+            DwmSetWindowAttribute(handle, DwmwaSystemBackdropType, ref transient, sizeof(int)) == 0
             && VerifySystemBackdrop(handle, transient);
         App.Logger.WriteLine("WindowBackdrop::ApplyAeroBlur", $"Accent glass unavailable, acrylic fallback: {fallback}");
         return fallback;
@@ -435,12 +435,11 @@ public static partial class WindowBackdrop
             Wpf.Ui.Appearance.BackgroundType.Mica => 2,
             Wpf.Ui.Appearance.BackgroundType.Acrylic => 3,
             Wpf.Ui.Appearance.BackgroundType.Tabbed => 4,
-            _ => 1
+            _ => 1,
         };
         if (DwmSetWindowAttribute(handle, DwmwaSystemBackdropType, ref value, sizeof(int)) != 0)
         {
-            if (backgroundType != Wpf.Ui.Appearance.BackgroundType.Mica
-                && backgroundType != Wpf.Ui.Appearance.BackgroundType.Auto)
+            if (backgroundType != Wpf.Ui.Appearance.BackgroundType.Mica && backgroundType != Wpf.Ui.Appearance.BackgroundType.Auto)
             {
                 return false;
             }
@@ -464,13 +463,14 @@ public static partial class WindowBackdrop
                 Wpf.Ui.Appearance.BackgroundType.Mica => 2,
                 Wpf.Ui.Appearance.BackgroundType.Acrylic => 3,
                 Wpf.Ui.Appearance.BackgroundType.Tabbed => 4,
-                _ => 1
+                _ => 1,
             };
             return VerifySystemBackdrop(handle, expected);
         }
-        if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000)
-            && (backgroundType == Wpf.Ui.Appearance.BackgroundType.Mica
-                || backgroundType == Wpf.Ui.Appearance.BackgroundType.Auto))
+        if (
+            OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000)
+            && (backgroundType == Wpf.Ui.Appearance.BackgroundType.Mica || backgroundType == Wpf.Ui.Appearance.BackgroundType.Auto)
+        )
         {
             int actual = 0;
             return DwmGetWindowAttribute(handle, DwmwaMicaEffect, ref actual, sizeof(int)) == 0 && actual == 1;
@@ -492,7 +492,12 @@ public static partial class WindowBackdrop
 
     private static bool SetAccentPolicy(IntPtr handle, int state, int flags, int color)
     {
-        AccentPolicy policy = new() { State = state, Flags = flags, Color = color };
+        AccentPolicy policy = new()
+        {
+            State = state,
+            Flags = flags,
+            Color = color,
+        };
         int size = Marshal.SizeOf<AccentPolicy>();
         IntPtr pointer = Marshal.AllocHGlobal(size);
         try
@@ -502,7 +507,7 @@ public static partial class WindowBackdrop
             {
                 Attribute = WcaAccentPolicy,
                 Data = pointer,
-                Size = size
+                Size = size,
             };
             return SetWindowCompositionAttribute(handle, ref data) != 0;
         }
@@ -591,8 +596,7 @@ public static partial class WindowBackdrop
             {
                 Color tint = CreateSurfaceColor(EffectiveBackdrop(window));
                 int color = unchecked((int)((uint)tint.A << 24 | (uint)tint.B << 16 | (uint)tint.G << 8 | tint.R));
-                int state = OperatingSystem.IsWindowsVersionAtLeast(10, 0, 17134)
-                    ? AccentEnableAcrylicBlurBehind : AccentEnableBlurBehind;
+                int state = OperatingSystem.IsWindowsVersionAtLeast(10, 0, 17134) ? AccentEnableAcrylicBlurBehind : AccentEnableBlurBehind;
                 SetAccentPolicy(handle, state, AccentFlagUseGradientColor, color);
             }
         }
@@ -662,7 +666,7 @@ public static partial class WindowBackdrop
             BackdropType.Acrylic => Wpf.Ui.Appearance.BackgroundType.Acrylic,
             BackdropType.Aero => Wpf.Ui.Appearance.BackgroundType.Aero,
             BackdropType.None => Wpf.Ui.Appearance.BackgroundType.None,
-            _ => Wpf.Ui.Appearance.BackgroundType.Auto
+            _ => Wpf.Ui.Appearance.BackgroundType.Auto,
         };
     }
 
@@ -880,7 +884,10 @@ public static partial class WindowBackdrop
     {
         try
         {
-            if (element.TryFindResource(Voidstrap.Utility.CustomTheme.WindowGradientKey) is not GradientBrush source || source.GradientStops.Count < 2)
+            if (
+                element.TryFindResource(Voidstrap.Utility.CustomTheme.WindowGradientKey) is not GradientBrush source
+                || source.GradientStops.Count < 2
+            )
                 return null;
             GradientBrush gradient = source.CloneCurrentValue();
             gradient.RelativeTransform = Transform.Identity;
@@ -919,8 +926,7 @@ public static partial class WindowBackdrop
         if (Voidstrap.Utility.Platform.IsMacOS && element is Window macWindow && !MacWindowBackdrop.IsActive(macWindow))
             return CreateOpaqueSurfaceBrush(element);
         BackdropType backdrop = EffectiveBackdrop(element as Window);
-        if (backdrop == BackdropType.Aero
-            && !IsThemedColor(ResolveColor(element, "WindowBackgroundColorPrimary", CreateSurfaceColor())))
+        if (backdrop == BackdropType.Aero && !IsThemedColor(ResolveColor(element, "WindowBackgroundColorPrimary", CreateSurfaceColor())))
         {
             return Brushes.Transparent;
         }
@@ -928,7 +934,14 @@ public static partial class WindowBackdrop
         Color primary = ResolveColor(element, "WindowBackgroundColorPrimary", fallback);
         Color secondary = ResolveColor(element, "WindowBackgroundColorSecondary", primary);
         Color third = ResolveColor(element, "WindowBackgroundColorThird", secondary);
-        (uint, uint, uint, byte, uint, BackdropType) surfaceKey = (Pack(primary), Pack(secondary), Pack(third), GetSurfaceOpacity(backdrop), Pack(ResolveAccentColor()), backdrop);
+        (uint, uint, uint, byte, uint, BackdropType) surfaceKey = (
+            Pack(primary),
+            Pack(secondary),
+            Pack(third),
+            GetSurfaceOpacity(backdrop),
+            Pack(ResolveAccentColor()),
+            backdrop
+        );
         lock (_surfaceGate)
         {
             if (_cachedSurfaceBrush != null && _cachedSurfaceKey.Equals(surfaceKey))
@@ -940,7 +953,10 @@ public static partial class WindowBackdrop
         Color surfaceSecondary = GetSurfaceColor(secondary, backdrop);
         Color surfaceThird = GetSurfaceColor(third, backdrop);
         Brush brush;
-        if ((!HardwareRendering && Voidstrap.Utility.Platform.IsWindows) || (NearlyEqual(surfacePrimary, surfaceSecondary) && NearlyEqual(surfacePrimary, surfaceThird)))
+        if (
+            (!HardwareRendering && Voidstrap.Utility.Platform.IsWindows)
+            || (NearlyEqual(surfacePrimary, surfaceSecondary) && NearlyEqual(surfacePrimary, surfaceThird))
+        )
         {
             SolidColorBrush solid = new(surfacePrimary);
             if (solid.CanFreeze)
@@ -951,11 +967,7 @@ public static partial class WindowBackdrop
         }
         else
         {
-            LinearGradientBrush gradient = new()
-            {
-                StartPoint = new Point(0, 0),
-                EndPoint = new Point(1, 1)
-            };
+            LinearGradientBrush gradient = new() { StartPoint = new Point(0, 0), EndPoint = new Point(1, 1) };
             gradient.GradientStops.Add(new GradientStop(surfacePrimary, 0));
             gradient.GradientStops.Add(new GradientStop(surfaceSecondary, 0.42));
             gradient.GradientStops.Add(new GradientStop(surfaceThird, 0.78));
@@ -998,11 +1010,7 @@ public static partial class WindowBackdrop
             }
             return solid;
         }
-        LinearGradientBrush gradient = new()
-        {
-            StartPoint = new Point(0, 0),
-            EndPoint = new Point(1, 1)
-        };
+        LinearGradientBrush gradient = new() { StartPoint = new Point(0, 0), EndPoint = new Point(1, 1) };
         gradient.GradientStops.Add(new GradientStop(primary, 0));
         gradient.GradientStops.Add(new GradientStop(secondary, 0.42));
         gradient.GradientStops.Add(new GradientStop(third, 0.78));
@@ -1032,7 +1040,8 @@ public static partial class WindowBackdrop
         return Color.FromRgb(
             (byte)Math.Round(first.R + ((second.R - first.R) * factor)),
             (byte)Math.Round(first.G + ((second.G - first.G) * factor)),
-            (byte)Math.Round(first.B + ((second.B - first.B) * factor)));
+            (byte)Math.Round(first.B + ((second.B - first.B) * factor))
+        );
     }
 
     private static Color ResolveColor(FrameworkElement element, string key, Color fallback)
@@ -1098,8 +1107,7 @@ public static partial class WindowBackdrop
 
     internal static Color CreateSurfaceColor(BackdropType backdrop)
     {
-        if (Voidstrap.Utility.Platform.IsLinux
-            && Application.Current?.TryFindResource("WindowBackgroundColorPrimary") is Color surface)
+        if (Voidstrap.Utility.Platform.IsLinux && Application.Current?.TryFindResource("WindowBackgroundColorPrimary") is Color surface)
         {
             return Color.FromRgb(surface.R, surface.G, surface.B);
         }
@@ -1136,7 +1144,7 @@ public static partial class WindowBackdrop
             BackdropType.Acrylic => 48,
             BackdropType.Aero => 92,
             BackdropType.None => byte.MaxValue,
-            _ => 68
+            _ => 68,
         };
         if (opacity >= byte.MaxValue)
         {
@@ -1146,5 +1154,4 @@ public static partial class WindowBackdrop
         double scaled = opacity * (0.55 + (gradientOpacity * 0.45));
         return (byte)Math.Clamp(Math.Round(scaled), 24.0, byte.MaxValue);
     }
-
 }

@@ -36,7 +36,7 @@ public static partial class ModFiles
 		new("theme-customizer", "theme-studio", "Customizes Voidstrap theme brushes, zoom and banners live"),
 		new("sidebar-manager", "sidebar-controller", "Renames, hides and changes icons on Voidstrap sidebar items"),
 		new("fastflags", "fastflag-profiles", "Quick FastFlag and Voidstrap settings controller"),
-		new("game-hooks", "session-tracker", "Tracks Roblox game joins and launches places")
+		new("game-hooks", "session-tracker", "Tracks Roblox game joins and launches places"),
 	];
 
 	public static bool IsValidName(string name) => ModNameRegex.IsMatch(name);
@@ -86,10 +86,13 @@ public static partial class ModFiles
 			["version"] = "0.1.0",
 			["description"] = template.Description,
 			["network"] = new JsonArray(),
-			["userConfig"] = new JsonObject()
+			["userConfig"] = new JsonObject(),
 		};
 		File.WriteAllText(Path.Combine(folder, PluginManifest.ManifestFolder, "plugin.json"), manifest.ToJsonString(indented));
-		File.WriteAllText(Path.Combine(folder, "hooks", "hooks.json"), new JsonObject { ["modules"] = new JsonArray(JsonValue.Create("./register.tsx")) }.ToJsonString(indented));
+		File.WriteAllText(
+			Path.Combine(folder, "hooks", "hooks.json"),
+			new JsonObject { ["modules"] = new JsonArray(JsonValue.Create("./register.tsx")) }.ToJsonString(indented)
+		);
 		(string register, string test) = BuildTemplateFiles(template.Key, name, template.Description);
 		File.WriteAllText(Path.Combine(folder, "hooks", "register.tsx"), register);
 		File.WriteAllText(Path.Combine(folder, "pane.test.tsx"), test);
@@ -183,7 +186,8 @@ public static partial class ModFiles
 				if (children.Length == 1 && Directory.GetFiles(staging).Length == 0)
 					modFolder = children[0];
 			}
-			PluginManifest manifest = PluginManifest.Read(modFolder) ?? throw new InvalidDataException("the file is not a Voidstrap mod, plugin.json is missing");
+			PluginManifest manifest =
+				PluginManifest.Read(modFolder) ?? throw new InvalidDataException("the file is not a Voidstrap mod, plugin.json is missing");
 			return new Package(manifest, modFolder, staging);
 		}
 		catch
@@ -230,12 +234,8 @@ public static partial class ModFiles
 			if (Directory.Exists(folder))
 				Directory.Delete(folder, true);
 		}
-		catch (IOException)
-		{
-		}
-		catch (UnauthorizedAccessException)
-		{
-		}
+		catch (IOException) { }
+		catch (UnauthorizedAccessException) { }
 	}
 
 	private static void CopyDirectory(string source, string destination)
@@ -249,7 +249,10 @@ public static partial class ModFiles
 
 	public static (string Register, string Test) BuildTemplateFiles(string template, string slug, string description)
 	{
-		string title = string.Join(' ', slug.Split('-', StringSplitOptions.RemoveEmptyEntries).Select(w => char.ToUpperInvariant(w[0]) + w[1..]));
+		string title = string.Join(
+			' ',
+			slug.Split('-', StringSplitOptions.RemoveEmptyEntries).Select(w => char.ToUpperInvariant(w[0]) + w[1..])
+		);
 		if (title.Length == 0)
 			title = "Custom Mod";
 		switch (template)

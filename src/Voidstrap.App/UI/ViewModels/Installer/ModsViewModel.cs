@@ -14,18 +14,23 @@ public class ModsViewModel : NotifyPropertyChangedViewModel
 
 	public ModPresetTask OldDeathSoundTask { get; } = new ModPresetTask("OldDeathSound", "content\\sounds\\oof.ogg", "Sounds.OldDeath.ogg");
 
-	public ModPresetTask OldAvatarBackgroundTask { get; } = new ModPresetTask("OldAvatarBackground", "ExtraContent\\places\\Mobile.rbxl", "OldAvatarBackground.rbxl");
+	public ModPresetTask OldAvatarBackgroundTask { get; } =
+		new ModPresetTask("OldAvatarBackground", "ExtraContent\\places\\Mobile.rbxl", "OldAvatarBackground.rbxl");
 
-	public ModPresetTask OldCharacterSoundsTask { get; } = new ModPresetTask("OldCharacterSounds", new Dictionary<string, string>
-	{
-		{ "content\\sounds\\action_footsteps_plastic.mp3", "Sounds.OldWalk.mp3" },
-		{ "content\\sounds\\action_jump.mp3", "Sounds.OldJump.mp3" },
-		{ "content\\sounds\\action_get_up.mp3", "Sounds.OldGetUp.mp3" },
-		{ "content\\sounds\\action_falling.mp3", "Sounds.Empty.mp3" },
-		{ "content\\sounds\\action_jump_land.mp3", "Sounds.Empty.mp3" },
-		{ "content\\sounds\\action_swim.mp3", "Sounds.Empty.mp3" },
-		{ "content\\sounds\\impact_water.mp3", "Sounds.Empty.mp3" }
-	});
+	public ModPresetTask OldCharacterSoundsTask { get; } =
+		new ModPresetTask(
+			"OldCharacterSounds",
+			new Dictionary<string, string>
+			{
+				{ "content\\sounds\\action_footsteps_plastic.mp3", "Sounds.OldWalk.mp3" },
+				{ "content\\sounds\\action_jump.mp3", "Sounds.OldJump.mp3" },
+				{ "content\\sounds\\action_get_up.mp3", "Sounds.OldGetUp.mp3" },
+				{ "content\\sounds\\action_falling.mp3", "Sounds.Empty.mp3" },
+				{ "content\\sounds\\action_jump_land.mp3", "Sounds.Empty.mp3" },
+				{ "content\\sounds\\action_swim.mp3", "Sounds.Empty.mp3" },
+				{ "content\\sounds\\impact_water.mp3", "Sounds.Empty.mp3" },
+			}
+		);
 
 	public CursorPresetTask CursorTypeTask { get; } = new CursorPresetTask();
 
@@ -54,13 +59,7 @@ public class ModsViewModel : NotifyPropertyChangedViewModel
 			App.Settings.Prop.CursorType = CursorTypeTask.OriginalState;
 		CursorStyles = CursorTypeTask.Selections.Where(static type => type != CursorType.Custom).ToArray();
 
-		_tasks =
-		[
-			CursorTypeTask,
-			OldAvatarBackgroundTask,
-			OldCharacterSoundsTask,
-			OldDeathSoundTask
-		];
+		_tasks = [CursorTypeTask, OldAvatarBackgroundTask, OldCharacterSoundsTask, OldDeathSoundTask];
 	}
 
 	public void Apply()

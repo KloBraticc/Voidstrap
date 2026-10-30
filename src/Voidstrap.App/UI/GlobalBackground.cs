@@ -48,22 +48,14 @@ public static class GlobalBackground
         public GlobalBackgroundHost(UIElement content)
         {
             ContentElement = content;
-            _image = new Image
-            {
-                Stretch = Stretch.UniformToFill,
-                IsHitTestVisible = false
-            };
-            _shade = new Border
-            {
-                Background = Brushes.Black,
-                IsHitTestVisible = false
-            };
+            _image = new Image { Stretch = Stretch.UniformToFill, IsHitTestVisible = false };
+            _shade = new Border { Background = Brushes.Black, IsHitTestVisible = false };
             if (Voidstrap.Utility.Platform.UsesPortableUi)
             {
                 _portableMedia = new Voidstrap.UI.Elements.Controls.HomepageMediaPreviewVideo
                 {
                     IsHitTestVisible = false,
-                    Visibility = Visibility.Collapsed
+                    Visibility = Visibility.Collapsed,
                 };
                 Children.Add(_portableMedia);
             }
@@ -81,7 +73,8 @@ public static class GlobalBackground
             Size desired = ContentElement.DesiredSize;
             Size layer = new Size(
                 double.IsInfinity(constraint.Width) ? desired.Width : constraint.Width,
-                double.IsInfinity(constraint.Height) ? desired.Height : constraint.Height);
+                double.IsInfinity(constraint.Height) ? desired.Height : constraint.Height
+            );
             foreach (UIElement child in InternalChildren)
             {
                 if (!ReferenceEquals(child, ContentElement))
@@ -115,7 +108,7 @@ public static class GlobalBackground
                 LoadedBehavior = MediaState.Manual,
                 UnloadedBehavior = MediaState.Manual,
                 Volume = 0.0,
-                Visibility = Visibility.Collapsed
+                Visibility = Visibility.Collapsed,
             };
             _media.MediaEnded += OnMediaEnded;
             Children.Insert(Children.IndexOf(_shade), _media);
@@ -194,9 +187,7 @@ public static class GlobalBackground
                 _media.Stop();
                 _media.Close();
             }
-            catch
-            {
-            }
+            catch { }
             _media.Source = null;
             _media.Visibility = Visibility.Collapsed;
         }
@@ -257,9 +248,11 @@ public static class GlobalBackground
             ClearCache();
         }
         Changed?.Invoke(next);
-        if (!string.Equals(previous.FilePath, next.FilePath, StringComparison.OrdinalIgnoreCase)
+        if (
+            !string.Equals(previous.FilePath, next.FilePath, StringComparison.OrdinalIgnoreCase)
             || previous.BlackOverlayOpacity != next.BlackOverlayOpacity
-            || previous.DisplayEverywhere != next.DisplayEverywhere)
+            || previous.DisplayEverywhere != next.DisplayEverywhere
+        )
         {
             Refresh();
         }
@@ -277,26 +270,29 @@ public static class GlobalBackground
         {
             return;
         }
-        app.Dispatcher.BeginInvoke((Action)delegate
-        {
-            try
-            {
-                Interlocked.Exchange(ref _refreshRequested, 0);
-                State state = Current;
-                foreach (Window window in app.Windows)
+        app.Dispatcher.BeginInvoke(
+            (Action)
+                delegate
                 {
-                    Apply(window, state);
+                    try
+                    {
+                        Interlocked.Exchange(ref _refreshRequested, 0);
+                        State state = Current;
+                        foreach (Window window in app.Windows)
+                        {
+                            Apply(window, state);
+                        }
+                    }
+                    finally
+                    {
+                        Interlocked.Exchange(ref _refreshQueued, 0);
+                        if (Volatile.Read(ref _refreshRequested) != 0)
+                        {
+                            Refresh();
+                        }
+                    }
                 }
-            }
-            finally
-            {
-                Interlocked.Exchange(ref _refreshQueued, 0);
-                if (Volatile.Read(ref _refreshRequested) != 0)
-                {
-                    Refresh();
-                }
-            }
-        });
+        );
     }
 
     public static void Reload()
@@ -321,10 +317,10 @@ public static class GlobalBackground
     {
         if (sender is Window window)
         {
-			if (IsProtectedLinuxOverlay(window))
-			{
-				return;
-			}
+            if (IsProtectedLinuxOverlay(window))
+            {
+                return;
+            }
             WindowBackdrop.Apply(window);
             Apply(window, Current);
         }
@@ -339,7 +335,12 @@ public static class GlobalBackground
     {
         try
         {
-			if (window == null || IsProtectedLinuxOverlay(window) || window is Voidstrap.UI.Elements.Settings.MainWindow || (window.GetType().Namespace ?? string.Empty).Contains("Bootstrapper", StringComparison.OrdinalIgnoreCase))
+            if (
+                window == null
+                || IsProtectedLinuxOverlay(window)
+                || window is Voidstrap.UI.Elements.Settings.MainWindow
+                || (window.GetType().Namespace ?? string.Empty).Contains("Bootstrapper", StringComparison.OrdinalIgnoreCase)
+            )
             {
                 return;
             }
@@ -366,15 +367,19 @@ public static class GlobalBackground
                 window.Closed += OnWindowClosed;
             }
             DateTime writeTimeUtc = File.GetLastWriteTimeUtc(state.FilePath);
-            if (host.AppliedWriteTimeUtc == writeTimeUtc && string.Equals(host.AppliedPath, state.FilePath, StringComparison.OrdinalIgnoreCase))
+            if (
+                host.AppliedWriteTimeUtc == writeTimeUtc
+                && string.Equals(host.AppliedPath, state.FilePath, StringComparison.OrdinalIgnoreCase)
+            )
             {
                 host.Apply(state, null, writeTimeUtc);
                 return;
             }
             string extension = (Path.GetExtension(state.FilePath) ?? string.Empty).ToLowerInvariant();
-            BitmapSource? bitmap = Voidstrap.Utility.Platform.UsesPortableUi || extension is ".mp4" or ".m4v" or ".webm" or ".avi" or ".mov"
-                ? null
-                : GetBackgroundImage(state.FilePath, Math.Max(800, (int)Math.Ceiling(window.ActualWidth)));
+            BitmapSource? bitmap =
+                Voidstrap.Utility.Platform.UsesPortableUi || extension is ".mp4" or ".m4v" or ".webm" or ".avi" or ".mov"
+                    ? null
+                    : GetBackgroundImage(state.FilePath, Math.Max(800, (int)Math.Ceiling(window.ActualWidth)));
             host.Apply(state, bitmap, writeTimeUtc);
         }
         catch (Exception ex)
@@ -383,12 +388,11 @@ public static class GlobalBackground
         }
     }
 
-	private static bool IsProtectedLinuxOverlay(Window window)
-	{
-		return Voidstrap.Integrations.Overlays.LinuxOverlaySurface.IsOverlayWindow(window)
-			|| Voidstrap.Utility.Platform.IsLinux
-			&& window is Voidstrap.Integrations.Overlays.LinuxHomepageOverlayWindow;
-	}
+    private static bool IsProtectedLinuxOverlay(Window window)
+    {
+        return Voidstrap.Integrations.Overlays.LinuxOverlaySurface.IsOverlayWindow(window)
+            || Voidstrap.Utility.Platform.IsLinux && window is Voidstrap.Integrations.Overlays.LinuxHomepageOverlayWindow;
+    }
 
     private static void Remove(Window window)
     {
@@ -430,7 +434,12 @@ public static class GlobalBackground
         decodeWidth = Math.Clamp(decodeWidth, 320, 2560);
         lock (CacheLock)
         {
-            if (_cachedImage != null && _cachedDecodeWidth == decodeWidth && _cachedWriteTimeUtc == writeTimeUtc && string.Equals(_cachedPath, path, StringComparison.OrdinalIgnoreCase))
+            if (
+                _cachedImage != null
+                && _cachedDecodeWidth == decodeWidth
+                && _cachedWriteTimeUtc == writeTimeUtc
+                && string.Equals(_cachedPath, path, StringComparison.OrdinalIgnoreCase)
+            )
             {
                 return _cachedImage;
             }
@@ -485,15 +494,18 @@ public static class GlobalBackground
                 return Voidstrap.Utility.JsonFile.Deserialize<Config>(FilePath, Voidstrap.Utility.JsonOptions.Tolerant).ToState();
             }
         }
-        catch
-        {
-        }
+        catch { }
         return Normalize(new State(null, 1.0, 0.0, false));
     }
 
     private static State Normalize(State state)
     {
         string? path = string.IsNullOrWhiteSpace(state.FilePath) ? null : Path.GetFullPath(state.FilePath);
-        return new State(path, Math.Clamp(state.GradientOpacity, 0.0, 1.0), Math.Clamp(state.BlackOverlayOpacity, 0.0, 1.0), state.DisplayEverywhere);
+        return new State(
+            path,
+            Math.Clamp(state.GradientOpacity, 0.0, 1.0),
+            Math.Clamp(state.BlackOverlayOpacity, 0.0, 1.0),
+            state.DisplayEverywhere
+        );
     }
 }

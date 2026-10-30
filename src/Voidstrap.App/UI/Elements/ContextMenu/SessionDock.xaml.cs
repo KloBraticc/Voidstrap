@@ -12,8 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using Voidstrap.Extensions;
 using Voidstrap.Enums;
+using Voidstrap.Extensions;
 using Voidstrap.Integrations;
 using Voidstrap.Integrations.Overlays;
 using Voidstrap.Models.Entities;
@@ -62,13 +62,25 @@ public partial class SessionDock : Window
     private double _dimmerTarget;
     private static readonly TimeSpan FriendsInterval = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan HeartbeatInterval = TimeSpan.FromMilliseconds(2400);
-    private static readonly AnimationTimeline RingGrow = Frozen(new DoubleAnimation(1, 2.6, TimeSpan.FromMilliseconds(900)) { EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut } });
-    private static readonly AnimationTimeline RingFade = Frozen(new DoubleAnimation(0.45, 0, TimeSpan.FromMilliseconds(900)) { EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut } });
+    private static readonly AnimationTimeline RingGrow = Frozen(
+        new DoubleAnimation(1, 2.6, TimeSpan.FromMilliseconds(900))
+        {
+            EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut },
+        }
+    );
+    private static readonly AnimationTimeline RingFade = Frozen(
+        new DoubleAnimation(0.45, 0, TimeSpan.FromMilliseconds(900))
+        {
+            EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut },
+        }
+    );
     private static readonly AnimationTimeline DotBeat = Frozen(CreateDotBeat());
     private DispatcherTimer? _heartbeat;
+
     // Far enough that the pill and its shadow start fully below the window's bottom edge
     private static readonly TimeSpan EntranceLength = TimeSpan.FromMilliseconds(300);
     private static readonly TimeSpan ExitLength = TimeSpan.FromMilliseconds(220);
+
     // Room around the pill for its shadow, the window is the pill plus this
     private const double ShadowRoomX = 40;
 
@@ -95,14 +107,27 @@ public partial class SessionDock : Window
     private DispatcherTimer? _prewarmTimer;
     public static SessionDock? ActiveInstance { get; private set; }
     private bool _screenDragDimOverride;
-    private static readonly string[] PrewarmActions = { "browser", "games", "chat", "layout", "adjustments", "details", "history", "music", "clips" };
+    private static readonly string[] PrewarmActions =
+    {
+        "browser",
+        "games",
+        "chat",
+        "layout",
+        "adjustments",
+        "details",
+        "history",
+        "music",
+        "clips",
+    };
     private bool _profileLoaded;
     private bool _profileLoading;
+
     private enum PopoutView
     {
         Server,
-        Profile
+        Profile,
     }
+
     private PopoutView _popoutView = PopoutView.Server;
     private RobloxProfileInfo? _profileInfo;
     private DateTime _profileInfoUtc = DateTime.MinValue;
@@ -120,7 +145,7 @@ public partial class SessionDock : Window
         ["music"] = "music",
         ["reviews"] = "reviews",
         ["web"] = "web",
-        ["clips"] = "clips"
+        ["clips"] = "clips",
     };
     internal bool IsAnimating => _slide.IsRunning || _linuxMotionActive;
 
@@ -246,7 +271,10 @@ public partial class SessionDock : Window
         QueueFitWidth();
         if (!changed)
             return;
-        if (previous != null && (previous.PlaceId != data.PlaceId || !string.Equals(previous.JobId, data.JobId, StringComparison.OrdinalIgnoreCase)))
+        if (
+            previous != null
+            && (previous.PlaceId != data.PlaceId || !string.Equals(previous.JobId, data.JobId, StringComparison.OrdinalIgnoreCase))
+        )
             CloseServerPanels();
         _serverStarted = data.ServerStartedUtc;
         _location = "Unavailable";
@@ -312,12 +340,13 @@ public partial class SessionDock : Window
 
     private void OnPanelDismissed(object? sender, EventArgs e) => CloseDock();
 
-    private static string PanelKeyFor(string action) => action switch
-    {
-        "details" => "server",
-        "adjustments" => "notifications",
-        _ => action
-    };
+    private static string PanelKeyFor(string action) =>
+        action switch
+        {
+            "details" => "server",
+            "adjustments" => "notifications",
+            _ => action,
+        };
 
     // A dock button whose panel is open is filled with the accent colour, like a selected tab
     private void UpdateActiveButtons()
@@ -329,14 +358,18 @@ public partial class SessionDock : Window
             if (child is not Wpf.Ui.Controls.Button { Tag: string action } button)
                 continue;
             bool open = _panels.TryGetValue(PanelKeyFor(action), out SessionPanelWindow? panel) && panel.IsRequested;
-            Wpf.Ui.Common.ControlAppearance appearance = open ? Wpf.Ui.Common.ControlAppearance.Primary : Wpf.Ui.Common.ControlAppearance.Transparent;
+            Wpf.Ui.Common.ControlAppearance appearance = open
+                ? Wpf.Ui.Common.ControlAppearance.Primary
+                : Wpf.Ui.Common.ControlAppearance.Transparent;
             if (button.Appearance != appearance)
                 button.Appearance = appearance;
             if (button.Content is TextBlock glyph)
             {
                 // Black on a light accent and white on a dark one, a near white accent left white icons unreadable
                 if (open)
-                    glyph.Foreground = Voidstrap.UI.Converters.ContrastForegroundConverter.For(TryFindResource("AccentFillColorDefaultBrush"));
+                    glyph.Foreground = Voidstrap.UI.Converters.ContrastForegroundConverter.For(
+                        TryFindResource("AccentFillColorDefaultBrush")
+                    );
                 else
                     glyph.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
             }
@@ -372,9 +405,18 @@ public partial class SessionDock : Window
                 QueueFitWidth();
             });
             Dictionary<long, string> urls = await RobloxChat.GetHeadshotUrlsAsync(new[] { self.Value }, _lifetimeToken);
-            if (_closed || !urls.TryGetValue(self.Value, out string? url) || !Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) || uri.Scheme != Uri.UriSchemeHttps)
+            if (
+                _closed
+                || !urls.TryGetValue(self.Value, out string? url)
+                || !Uri.TryCreate(url, UriKind.Absolute, out Uri? uri)
+                || uri.Scheme != Uri.UriSchemeHttps
+            )
                 return;
-            System.Windows.Media.Imaging.BitmapSource? avatar = await Voidstrap.Utility.SafeImaging.FromHttpAsync(uri.AbsoluteUri, 96, _lifetimeToken);
+            System.Windows.Media.Imaging.BitmapSource? avatar = await Voidstrap.Utility.SafeImaging.FromHttpAsync(
+                uri.AbsoluteUri,
+                96,
+                _lifetimeToken
+            );
             if (avatar != null)
                 await Dispatcher.InvokeAsync(() =>
                 {
@@ -385,9 +427,7 @@ public partial class SessionDock : Window
                     ProfileFallback.Visibility = Visibility.Collapsed;
                 });
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionDock", "Your profile could not be loaded: " + ex.Message);
@@ -411,9 +451,7 @@ public partial class SessionDock : Window
         {
             Close();
         }
-        catch (InvalidOperationException)
-        {
-        }
+        catch (InvalidOperationException) { }
     }
 
     // Closed by the player: slides back down into the bottom edge
@@ -452,7 +490,8 @@ public partial class SessionDock : Window
         bool returnFocus = RobloxWindowTracker.IsRobloxForeground();
         _focusLoss?.Stop();
         bool linuxSlide = animate && Voidstrap.Utility.Platform.IsLinux && IsVisible;
-        bool slide = animate && NativeSlide.Supported && !Voidstrap.Utility.Platform.IsLinux && IsVisible && RobloxWindowTracker.Current.Valid;
+        bool slide =
+            animate && NativeSlide.Supported && !Voidstrap.Utility.Platform.IsLinux && IsVisible && RobloxWindowTracker.Current.Valid;
         CancelEntrance();
         _clock.Stop();
         StopHeartbeat();
@@ -494,12 +533,16 @@ public partial class SessionDock : Window
         if (RobloxWindowTracker.Current.Valid && RobloxWindowTracker.IsRobloxForeground())
             return;
         if (Voidstrap.Utility.Platform.IsLinux && RobloxWindowTracker.Current.Hwnd == IntPtr.Zero)
-            App.Logger.WriteLine("SessionDock", string.Format(
-                "Closing because the game lost focus, active window 0x{0:x}, keyboard window 0x{1:x}, focus window 0x{2:x}, tracker valid {3}",
-                (long)Voidstrap.Platform.Linux.LinuxWindowInterop.GetActiveTopLevelWindow(),
-                (long)Voidstrap.Platform.Linux.LinuxWindowInterop.GetFocusedTopLevelWindow(),
-                (long)Voidstrap.Platform.Linux.LinuxWindowInterop.FocusAnchor,
-                RobloxWindowTracker.Current.Valid));
+            App.Logger.WriteLine(
+                "SessionDock",
+                string.Format(
+                    "Closing because the game lost focus, active window 0x{0:x}, keyboard window 0x{1:x}, focus window 0x{2:x}, tracker valid {3}",
+                    (long)Voidstrap.Platform.Linux.LinuxWindowInterop.GetActiveTopLevelWindow(),
+                    (long)Voidstrap.Platform.Linux.LinuxWindowInterop.GetFocusedTopLevelWindow(),
+                    (long)Voidstrap.Platform.Linux.LinuxWindowInterop.FocusAnchor,
+                    RobloxWindowTracker.Current.Valid
+                )
+            );
         SuspendDock();
     }
 
@@ -565,7 +608,12 @@ public partial class SessionDock : Window
         UpdateClipperVisibility();
         UpdateReadout();
         ShowDimmer();
-        _anchor ??= new RobloxOverlayAnchor(this, hideWhenUnfocused: false, placement: RobloxOverlayPlacement.BottomCenter, customPosition: ComputeDockPosition);
+        _anchor ??= new RobloxOverlayAnchor(
+            this,
+            hideWhenUnfocused: false,
+            placement: RobloxOverlayPlacement.BottomCenter,
+            customPosition: ComputeDockPosition
+        );
         Point? resumeFrom = _exiting ? _slide.CurrentPosition() : null;
         CancelEntrance();
         if (resumeFrom == null && !IsVisible && NativeSlide.Supported && RobloxWindowTracker.Current.Valid)
@@ -584,12 +632,24 @@ public partial class SessionDock : Window
         }
         FitWidth();
         _anchor.Refresh();
-        if (activatePanels && Voidstrap.Utility.Platform.IsLinux && RobloxWindowTracker.Current is { Valid: true, Hwnd: var game } && game == IntPtr.Zero)
+        if (
+            activatePanels
+            && Voidstrap.Utility.Platform.IsLinux
+            && RobloxWindowTracker.Current is { Valid: true, Hwnd: var game }
+            && game == IntPtr.Zero
+        )
         {
-            bool taken = Voidstrap.Platform.Linux.LinuxWindowInterop.TryTakeFocusFromNativeWindow((int)Math.Round(Left + Width / 2), (int)Math.Round(Top + Height / 2));
-            App.Logger.WriteLine("SessionDock", taken
-                ? "Asked the desktop to focus the dock over the game, focus window 0x" + ((long)Voidstrap.Platform.Linux.LinuxWindowInterop.FocusAnchor).ToString("x")
-                : "The dock could not take focus from the game");
+            bool taken = Voidstrap.Platform.Linux.LinuxWindowInterop.TryTakeFocusFromNativeWindow(
+                (int)Math.Round(Left + Width / 2),
+                (int)Math.Round(Top + Height / 2)
+            );
+            App.Logger.WriteLine(
+                "SessionDock",
+                taken
+                    ? "Asked the desktop to focus the dock over the game, focus window 0x"
+                        + ((long)Voidstrap.Platform.Linux.LinuxWindowInterop.FocusAnchor).ToString("x")
+                    : "The dock could not take focus from the game"
+            );
         }
         ApplyLinuxDockShape();
         RaiseAboveDimmer();
@@ -606,9 +666,7 @@ public partial class SessionDock : Window
         int minLeft = rect.Left + sideMargin;
         int maxLeft = Math.Max(minLeft, rect.Left + rect.Width - width - sideMargin);
         int left = minLeft + (int)Math.Round((maxLeft - minLeft) * (layout.SafeDockHorizontal / 100.0));
-        int top = layout.DockTopEdge
-            ? rect.Top + edgeMargin
-            : rect.Top + Math.Max(0, rect.Height - height - edgeMargin);
+        int top = layout.DockTopEdge ? rect.Top + edgeMargin : rect.Top + Math.Max(0, rect.Height - height - edgeMargin);
         return (left, top);
     }
 
@@ -627,15 +685,24 @@ public partial class SessionDock : Window
             FadeDimmer(active ? Math.Min(0.10, ResolveConfiguredDimmerOpacity()) : ResolveConfiguredDimmerOpacity());
     }
 
-    internal (string ProfileName, string ProfileHandle, ImageSource? ProfileAvatar, string GameTitle, ImageSource? GameIcon, string SessionTime, string ServerTime) GetLiveSnapshot()
-        => (
+    internal (
+        string ProfileName,
+        string ProfileHandle,
+        ImageSource? ProfileAvatar,
+        string GameTitle,
+        ImageSource? GameIcon,
+        string SessionTime,
+        string ServerTime
+    ) GetLiveSnapshot() =>
+        (
             string.IsNullOrWhiteSpace(ProfileName.Text) ? "Roblox" : ProfileName.Text,
             string.IsNullOrWhiteSpace(ProfileHandle.Text) ? Voidstrap.Resources.Strings.Ui_Session_SignedOut : ProfileHandle.Text,
             ProfileAvatar.ImageSource,
             string.IsNullOrWhiteSpace(GameTitle.Text) ? "Roblox" : GameTitle.Text,
             GamePicture.Source,
             string.IsNullOrWhiteSpace(SessionClock.Text) ? "0:00" : SessionClock.Text,
-            string.IsNullOrWhiteSpace(ServerClock.Text) ? "--" : ServerClock.Text);
+            string.IsNullOrWhiteSpace(ServerClock.Text) ? "--" : ServerClock.Text
+        );
 
     public void RefreshLayoutLive()
     {
@@ -705,7 +772,13 @@ public partial class SessionDock : Window
         }
         App.State.Prop.SessionPanels ??= new();
         if (!App.State.Prop.SessionPanels.TryGetValue(key, out SessionPanelLayout? saved) || saved == null)
-            saved = new SessionPanelLayout { X = 0.15, Y = 0.12, Width = 540, Height = 460 };
+            saved = new SessionPanelLayout
+            {
+                X = 0.15,
+                Y = 0.12,
+                Width = 540,
+                Height = 460,
+            };
         saved.Pinned = pinned;
         App.State.Prop.SessionPanels[key] = saved;
         App.State.SaveDeferred();
@@ -837,7 +910,10 @@ public partial class SessionDock : Window
             try
             {
                 _action(action);
-                App.Logger.WriteLine("SessionDock", $"Built the {action} panel ahead of time in {System.Diagnostics.Stopwatch.GetElapsedTime(started).TotalMilliseconds:0} ms");
+                App.Logger.WriteLine(
+                    "SessionDock",
+                    $"Built the {action} panel ahead of time in {System.Diagnostics.Stopwatch.GetElapsedTime(started).TotalMilliseconds:0} ms"
+                );
             }
             catch (Exception ex)
             {
@@ -853,7 +929,10 @@ public partial class SessionDock : Window
         if (!_prewarmLogged)
         {
             _prewarmLogged = true;
-            App.Logger.WriteLine("SessionDock", _opened ? "Every dock panel is ready" : "Every dock panel is ready before the dock was opened");
+            App.Logger.WriteLine(
+                "SessionDock",
+                _opened ? "Every dock panel is ready" : "Every dock panel is ready before the dock was opened"
+            );
         }
     }
 
@@ -865,8 +944,10 @@ public partial class SessionDock : Window
         Dictionary<string, SessionPanelLayout>? saved = App.State.Prop.SessionPanels;
         if (saved == null || saved.Count == 0)
             return;
-        string[] pinned = saved.Where(pair => pair.Value is { Pinned: true } && !_panels.ContainsKey(pair.Key))
-            .Select(pair => pair.Key).ToArray();
+        string[] pinned = saved
+            .Where(pair => pair.Value is { Pinned: true } && !_panels.ContainsKey(pair.Key))
+            .Select(pair => pair.Key)
+            .ToArray();
         if (pinned.Length == 0)
             return;
         _restoringPinned = true;
@@ -941,26 +1022,29 @@ public partial class SessionDock : Window
         _linuxMotionFinished = completed;
         _linuxMotionDeadline = new DispatcherTimer(DispatcherPriority.Background, Dispatcher)
         {
-            Interval = duration + TimeSpan.FromMilliseconds(1500)
+            Interval = duration + TimeSpan.FromMilliseconds(1500),
         };
         _linuxMotionDeadline.Tick += OnLinuxMotionDeadline;
         Voidstrap.Platform.Linux.LinuxWindowShadow.Track(PortableOverlay.Handle(this), 16, 1, true, unmanaged: true);
         PlaceLinuxDockFrame(from);
-        Wpf.Ui.Animations.RenderReady.Run(this, () =>
-        {
-            if (_closed || generation != _linuxMotionGeneration)
-                return;
-            _linuxMotionDeadline?.Start();
-            DoubleAnimation motion = new(from, to, duration)
+        Wpf.Ui.Animations.RenderReady.Run(
+            this,
+            () =>
             {
-                EasingFunction = new QuadraticEase { EasingMode = easingMode },
-                FillBehavior = FillBehavior.Stop
-            };
-            motion.Completed += (_, _) => FinishLinuxDockAnimation(generation);
-            CompositionTarget.Rendering += OnLinuxDockFrame;
-            Wpf.Ui.Animations.RenderReady.Hold(this, duration);
-            _linuxDockMotion.BeginAnimation(TranslateTransform.YProperty, motion, HandoffBehavior.SnapshotAndReplace);
-        });
+                if (_closed || generation != _linuxMotionGeneration)
+                    return;
+                _linuxMotionDeadline?.Start();
+                DoubleAnimation motion = new(from, to, duration)
+                {
+                    EasingFunction = new QuadraticEase { EasingMode = easingMode },
+                    FillBehavior = FillBehavior.Stop,
+                };
+                motion.Completed += (_, _) => FinishLinuxDockAnimation(generation);
+                CompositionTarget.Rendering += OnLinuxDockFrame;
+                Wpf.Ui.Animations.RenderReady.Hold(this, duration);
+                _linuxDockMotion.BeginAnimation(TranslateTransform.YProperty, motion, HandoffBehavior.SnapshotAndReplace);
+            }
+        );
     }
 
     private void OnLinuxDockFrame(object? sender, EventArgs e)
@@ -1031,7 +1115,14 @@ public partial class SessionDock : Window
             return false;
         bool topEdge = App.Settings.Prop.OverlayLayout?.DockTopEdge == true;
         Int32Rect clip = new(game.Left, game.Top, game.Width, game.Height);
-        _exiting = _slide.Start(from, new Point(from.X, topEdge ? game.Top - Height : game.Top + game.Height), clip, ExitLength, false, OnExitFinished);
+        _exiting = _slide.Start(
+            from,
+            new Point(from.X, topEdge ? game.Top - Height : game.Top + game.Height),
+            clip,
+            ExitLength,
+            false,
+            OnExitFinished
+        );
         return _exiting;
     }
 
@@ -1061,7 +1152,8 @@ public partial class SessionDock : Window
             double available = Math.Max(1, bounds.Width - shadowRoom);
             double fitScale = Math.Min(1, available / Math.Max(1, width - shadowRoom));
             double combinedScale = userScale * fitScale;
-            Pill.LayoutTransform = Math.Abs(combinedScale - 1.0) > 0.005 ? new ScaleTransform(combinedScale, combinedScale) : Transform.Identity;
+            Pill.LayoutTransform =
+                Math.Abs(combinedScale - 1.0) > 0.005 ? new ScaleTransform(combinedScale, combinedScale) : Transform.Identity;
             Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             width = Math.Min(bounds.Width, Math.Ceiling(Pill.DesiredSize.Width) + shadowRoom);
         }
@@ -1193,24 +1285,27 @@ public partial class SessionDock : Window
             int generation = _linuxDimmerGeneration;
             TimeSpan duration = TimeSpan.FromMilliseconds(DimmerFadeMs);
             _dimmerFade.Stop();
-            Wpf.Ui.Animations.RenderReady.Run(this, () =>
-            {
-                if (_closed || _dimmerFade == null || generation != _linuxDimmerGeneration)
-                    return;
-                _linuxDimmerFade.Y = target;
-                DoubleAnimation fade = new(_dimmerFrom, target, duration)
+            Wpf.Ui.Animations.RenderReady.Run(
+                this,
+                () =>
                 {
-                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut },
-                    FillBehavior = FillBehavior.Stop
-                };
-                fade.Completed += (_, _) => FinishLinuxDimmerFade(generation);
-                CompositionTarget.Rendering += OnLinuxDimmerFrame;
-                Wpf.Ui.Animations.RenderReady.Hold(this, duration);
-                _linuxDimmerFade.BeginAnimation(TranslateTransform.YProperty, fade);
-                _dimmerFade.Stop();
-                _dimmerFade.Interval = duration + TimeSpan.FromMilliseconds(1500);
-                _dimmerFade.Start();
-            });
+                    if (_closed || _dimmerFade == null || generation != _linuxDimmerGeneration)
+                        return;
+                    _linuxDimmerFade.Y = target;
+                    DoubleAnimation fade = new(_dimmerFrom, target, duration)
+                    {
+                        EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut },
+                        FillBehavior = FillBehavior.Stop,
+                    };
+                    fade.Completed += (_, _) => FinishLinuxDimmerFade(generation);
+                    CompositionTarget.Rendering += OnLinuxDimmerFrame;
+                    Wpf.Ui.Animations.RenderReady.Hold(this, duration);
+                    _linuxDimmerFade.BeginAnimation(TranslateTransform.YProperty, fade);
+                    _dimmerFade.Stop();
+                    _dimmerFade.Interval = duration + TimeSpan.FromMilliseconds(1500);
+                    _dimmerFade.Start();
+                }
+            );
             return;
         }
         _dimmerFadeStarted = Environment.TickCount64;
@@ -1241,8 +1336,7 @@ public partial class SessionDock : Window
         _dimmerFrameHooked = false;
     }
 
-    private void OnLinuxDimmerFrame(object? sender, EventArgs e)
-        => SetDimmerAlpha(_linuxDimmerFade.Y);
+    private void OnLinuxDimmerFrame(object? sender, EventArgs e) => SetDimmerAlpha(_linuxDimmerFade.Y);
 
     private void FinishLinuxDimmerFade(int generation)
     {
@@ -1342,9 +1436,7 @@ public partial class SessionDock : Window
             {
                 await Task.WhenAll(location, uptime, players).WaitAsync(timeout.Token);
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 App.Logger.WriteLine("SessionDock", "Some server details are unavailable: " + ex.Message);
@@ -1358,13 +1450,16 @@ public partial class SessionDock : Window
             if (players.IsCompletedSuccessfully)
             {
                 var count = players.Result;
-                _players = count.Current > 0 ? count.Max > 0 ? $"{count.Current}/{count.Max}" : count.Current.ToString(Locale.CurrentCulture) : "Unavailable";
+                _players =
+                    count.Current > 0
+                        ? count.Max > 0
+                            ? $"{count.Current}/{count.Max}"
+                            : count.Current.ToString(Locale.CurrentCulture)
+                        : "Unavailable";
             }
             UpdateReadout();
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionDock", "Server information could not be loaded: " + ex.Message);
@@ -1389,9 +1484,7 @@ public partial class SessionDock : Window
         {
             await LoadFriendsAsync(data);
         }
-        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionDock", "Friends in this server could not be refreshed: " + ex.Message);
@@ -1404,7 +1497,9 @@ public partial class SessionDock : Window
         if (data == null || _closed)
             return;
         _serverStarted ??= data.ServerStartedUtc;
-        string uptime = _serverStarted.HasValue ? ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - _serverStarted.Value) : "Unavailable";
+        string uptime = _serverStarted.HasValue
+            ? ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - _serverStarted.Value)
+            : "Unavailable";
         SetRun(SessionClock, data.TimeJoined == default ? "0:00" : FormatClock(DateTime.Now - data.TimeJoined));
         SetRun(ServerClock, _serverStarted.HasValue ? FormatClock(DateTimeOffset.UtcNow - _serverStarted.Value) : "--");
         if (!PopoutOpen)
@@ -1413,7 +1508,10 @@ public partial class SessionDock : Window
             _serverType = data.ServerType.ToConnectedString();
         SetText(BannerTitle, GameTitle.Text);
         SetText(BannerSubtitle, _serverType);
-        SetText(ServerReadout, "Location: " + _location + "\nUptime: " + uptime + "\nPlayers: " + (_players.Length == 0 ? "Unavailable" : _players));
+        SetText(
+            ServerReadout,
+            "Location: " + _location + "\nUptime: " + uptime + "\nPlayers: " + (_players.Length == 0 ? "Unavailable" : _players)
+        );
     }
 
     // Short clock style, 2:08 or 9:33:02
@@ -1421,9 +1519,7 @@ public partial class SessionDock : Window
     {
         if (span < TimeSpan.Zero)
             span = TimeSpan.Zero;
-        return span.TotalHours >= 1
-            ? $"{(int)span.TotalHours}:{span.Minutes:00}:{span.Seconds:00}"
-            : $"{span.Minutes}:{span.Seconds:00}";
+        return span.TotalHours >= 1 ? $"{(int)span.TotalHours}:{span.Minutes:00}:{span.Seconds:00}" : $"{span.Minutes}:{span.Seconds:00}";
     }
 
     private void SetRun(System.Windows.Documents.Run run, string text)
@@ -1489,10 +1585,34 @@ public partial class SessionDock : Window
     {
         DoubleAnimationUsingKeyFrames beat = new() { Duration = TimeSpan.FromMilliseconds(520) };
         beat.KeyFrames.Add(new EasingDoubleKeyFrame(1.0, KeyTime.FromTimeSpan(TimeSpan.Zero)));
-        beat.KeyFrames.Add(new EasingDoubleKeyFrame(1.28, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(110)), new QuadraticEase { EasingMode = EasingMode.EaseOut }));
-        beat.KeyFrames.Add(new EasingDoubleKeyFrame(1.0, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(230)), new QuadraticEase { EasingMode = EasingMode.EaseIn }));
-        beat.KeyFrames.Add(new EasingDoubleKeyFrame(1.14, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(330)), new QuadraticEase { EasingMode = EasingMode.EaseOut }));
-        beat.KeyFrames.Add(new EasingDoubleKeyFrame(1.0, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(520)), new QuadraticEase { EasingMode = EasingMode.EaseIn }));
+        beat.KeyFrames.Add(
+            new EasingDoubleKeyFrame(
+                1.28,
+                KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(110)),
+                new QuadraticEase { EasingMode = EasingMode.EaseOut }
+            )
+        );
+        beat.KeyFrames.Add(
+            new EasingDoubleKeyFrame(
+                1.0,
+                KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(230)),
+                new QuadraticEase { EasingMode = EasingMode.EaseIn }
+            )
+        );
+        beat.KeyFrames.Add(
+            new EasingDoubleKeyFrame(
+                1.14,
+                KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(330)),
+                new QuadraticEase { EasingMode = EasingMode.EaseOut }
+            )
+        );
+        beat.KeyFrames.Add(
+            new EasingDoubleKeyFrame(
+                1.0,
+                KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(520)),
+                new QuadraticEase { EasingMode = EasingMode.EaseIn }
+            )
+        );
         return beat;
     }
 
@@ -1610,7 +1730,7 @@ public partial class SessionDock : Window
                 Width = Pill.ActualWidth > 0 ? Pill.ActualWidth : 900,
                 Height = PopoutHeight,
                 Content = ServerPanel,
-                FontFamily = FontFamily
+                FontFamily = FontFamily,
             };
             PortableOverlay.Prepare(_popout);
             _popout.SetResourceReference(BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
@@ -1673,12 +1793,14 @@ public partial class SessionDock : Window
             {
                 if (_profileInfo == null)
                 {
-                    await Dispatcher.InvokeAsync(() => ProfileStatus.Text = status switch
-                    {
-                        RobloxChatStatus.NotSignedIn => "Sign in to Roblox to see your profile.",
-                        RobloxChatStatus.SignInExpired => "Your Roblox sign in expired, sign in again to see your profile.",
-                        _ => "Your profile could not be loaded right now."
-                    });
+                    await Dispatcher.InvokeAsync(() =>
+                        ProfileStatus.Text = status switch
+                        {
+                            RobloxChatStatus.NotSignedIn => "Sign in to Roblox to see your profile.",
+                            RobloxChatStatus.SignInExpired => "Your Roblox sign in expired, sign in again to see your profile.",
+                            _ => "Your profile could not be loaded right now.",
+                        }
+                    );
                 }
                 return;
             }
@@ -1691,9 +1813,7 @@ public partial class SessionDock : Window
                 ShowProfileDetails(info);
             });
         }
-        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionDock", "Your profile could not be loaded: " + ex.Message);
@@ -1718,14 +1838,24 @@ public partial class SessionDock : Window
         string joined = info.Created is DateTimeOffset created
             ? created.LocalDateTime.ToString("d MMM yyyy", culture) + " (" + AccountAge(created) + ")"
             : "Unavailable";
-        ProfileAccountText.Text = "User ID: " + info.UserId.ToString(CultureInfo.InvariantCulture)
-            + "\nJoined: " + joined
-            + "\nRobux: " + (info.Robux is long robux ? robux.ToString("N0", culture) : "Unavailable")
-            + "\nPremium: " + (info.Premium is bool premium ? (premium ? "Yes" : "No") : "Unavailable");
-        ProfileSocialText.Text = "Friends: " + Count(info.Friends)
-            + "\nFollowers: " + Count(info.Followers)
-            + "\nFollowing: " + Count(info.Following)
-            + "\nPlaying: " + (string.IsNullOrWhiteSpace(GameTitle.Text) ? "Roblox" : GameTitle.Text);
+        ProfileAccountText.Text =
+            "User ID: "
+            + info.UserId.ToString(CultureInfo.InvariantCulture)
+            + "\nJoined: "
+            + joined
+            + "\nRobux: "
+            + (info.Robux is long robux ? robux.ToString("N0", culture) : "Unavailable")
+            + "\nPremium: "
+            + (info.Premium is bool premium ? (premium ? "Yes" : "No") : "Unavailable");
+        ProfileSocialText.Text =
+            "Friends: "
+            + Count(info.Friends)
+            + "\nFollowers: "
+            + Count(info.Followers)
+            + "\nFollowing: "
+            + Count(info.Following)
+            + "\nPlaying: "
+            + (string.IsNullOrWhiteSpace(GameTitle.Text) ? "Roblox" : GameTitle.Text);
         string about = info.Description.Trim();
         ProfileAboutText.Text = about;
         ProfileAboutText.Visibility = about.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
@@ -1737,8 +1867,16 @@ public partial class SessionDock : Window
         try
         {
             string bannerUrl = info.AvatarUrl.Length > 0 ? info.AvatarUrl : info.HeadshotUrl;
-            Task<System.Windows.Media.Imaging.BitmapSource?> headshotTask = Voidstrap.Utility.SafeImaging.FromHttpAsync(info.HeadshotUrl, 144, _lifetimeToken);
-            Task<System.Windows.Media.Imaging.BitmapSource?> bannerTask = Voidstrap.Utility.SafeImaging.FromHttpAsync(bannerUrl, 300, _lifetimeToken);
+            Task<System.Windows.Media.Imaging.BitmapSource?> headshotTask = Voidstrap.Utility.SafeImaging.FromHttpAsync(
+                info.HeadshotUrl,
+                144,
+                _lifetimeToken
+            );
+            Task<System.Windows.Media.Imaging.BitmapSource?> bannerTask = Voidstrap.Utility.SafeImaging.FromHttpAsync(
+                bannerUrl,
+                300,
+                _lifetimeToken
+            );
             await Task.WhenAll(headshotTask, bannerTask);
             await Dispatcher.InvokeAsync(() =>
             {
@@ -1750,9 +1888,7 @@ public partial class SessionDock : Window
                     ProfileBannerBrush.ImageSource = bannerTask.Result;
             });
         }
-        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionDock", "Profile images could not be loaded: " + ex.Message);
@@ -1782,7 +1918,10 @@ public partial class SessionDock : Window
         return whole == 1 ? "1 day" : whole + " days";
     }
 
-    private string? ProfileLink => _profileInfo is { UserId: > 0 } info ? "https://www.roblox.com/users/" + info.UserId.ToString(CultureInfo.InvariantCulture) + "/profile" : null;
+    private string? ProfileLink =>
+        _profileInfo is { UserId: > 0 } info
+            ? "https://www.roblox.com/users/" + info.UserId.ToString(CultureInfo.InvariantCulture) + "/profile"
+            : null;
 
     private void OpenProfile_Click(object sender, RoutedEventArgs e)
     {
@@ -1798,8 +1937,7 @@ public partial class SessionDock : Window
         }
     }
 
-    private void CopyProfile_Click(object sender, RoutedEventArgs e)
-        => _ = PortableOverlay.RunAsync(this, () => CopyProfileAsync());
+    private void CopyProfile_Click(object sender, RoutedEventArgs e) => _ = PortableOverlay.RunAsync(this, () => CopyProfileAsync());
 
     private async Task CopyProfileAsync()
     {
@@ -1881,7 +2019,12 @@ public partial class SessionDock : Window
             }
             PortableOverlay.Place(_popout, portableLeft, portableTop, portableWidth, portableHeight);
             if (Voidstrap.Utility.Platform.IsLinux)
-                Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetRoundedCorners(PortableOverlay.Handle(_popout), (int)Math.Ceiling(portableWidth), (int)Math.Ceiling(portableHeight), 12);
+                Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetRoundedCorners(
+                    PortableOverlay.Handle(_popout),
+                    (int)Math.Ceiling(portableWidth),
+                    (int)Math.Ceiling(portableHeight),
+                    12
+                );
             return;
         }
         if (_popoutHandle == IntPtr.Zero)
@@ -1911,9 +2054,7 @@ public partial class SessionDock : Window
         {
             await Task.WhenAll(LoadBannerAsync(data), LoadFriendsAsync(data));
         }
-        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionDock", "The server popout could not be filled: " + ex.Message);
@@ -1930,23 +2071,37 @@ public partial class SessionDock : Window
         }
         if (universeId <= 0 || universeId == _bannerUniverse || _closed)
             return;
-        string url = "https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=" + universeId
+        string url =
+            "https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds="
+            + universeId
             + "&countPerUniverse=1&defaults=true&size=768x432&format=Png&isCircular=false";
         using System.Net.Http.HttpResponseMessage response = await App.HttpClient.GetAsync(url, _lifetimeToken);
         if (!response.IsSuccessStatusCode)
             return;
-        using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse(await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, 512 * 1024, _lifetimeToken));
+        using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse(
+            await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, 512 * 1024, _lifetimeToken)
+        );
         string? image = null;
-        if (document.RootElement.TryGetProperty("data", out System.Text.Json.JsonElement items) && items.ValueKind == System.Text.Json.JsonValueKind.Array)
+        if (
+            document.RootElement.TryGetProperty("data", out System.Text.Json.JsonElement items)
+            && items.ValueKind == System.Text.Json.JsonValueKind.Array
+        )
         {
             foreach (System.Text.Json.JsonElement item in items.EnumerateArray())
             {
-                if (!item.TryGetProperty("thumbnails", out System.Text.Json.JsonElement thumbnails) || thumbnails.ValueKind != System.Text.Json.JsonValueKind.Array)
+                if (
+                    !item.TryGetProperty("thumbnails", out System.Text.Json.JsonElement thumbnails)
+                    || thumbnails.ValueKind != System.Text.Json.JsonValueKind.Array
+                )
                     continue;
                 foreach (System.Text.Json.JsonElement thumbnail in thumbnails.EnumerateArray())
                 {
-                    if (thumbnail.TryGetProperty("imageUrl", out System.Text.Json.JsonElement value) && value.ValueKind == System.Text.Json.JsonValueKind.String
-                        && value.GetString() is { } candidate && candidate.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                    if (
+                        thumbnail.TryGetProperty("imageUrl", out System.Text.Json.JsonElement value)
+                        && value.ValueKind == System.Text.Json.JsonValueKind.String
+                        && value.GetString() is { } candidate
+                        && candidate.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
+                    )
                     {
                         image = candidate;
                         break;
@@ -1975,7 +2130,10 @@ public partial class SessionDock : Window
     {
         if (_friendsLoading || _closed)
             return;
-        if (string.Equals(_friendsJobId, data.JobId, StringComparison.OrdinalIgnoreCase) && DateTime.UtcNow - _friendsLoadedUtc < FriendsInterval)
+        if (
+            string.Equals(_friendsJobId, data.JobId, StringComparison.OrdinalIgnoreCase)
+            && DateTime.UtcNow - _friendsLoadedUtc < FriendsInterval
+        )
             return;
         _friendsLoading = true;
         try
@@ -1985,28 +2143,31 @@ public partial class SessionDock : Window
             FriendsInServerResult result = await RobloxPresence.GetFriendsInServerAsync(data.UserId, data.JobId, _lifetimeToken);
             if (_closed || !ReferenceEquals(_data, data))
                 return;
-            DockFriend[] loadedFriends = await Task.WhenAll(result.Friends.Select(async (friend, index) =>
-            {
-                System.Windows.Media.Imaging.BitmapSource? avatar = null;
-                if (index < 12)
-                {
-                    try
+            DockFriend[] loadedFriends = await Task.WhenAll(
+                result.Friends.Select(
+                    async (friend, index) =>
                     {
-                        avatar = await Voidstrap.Utility.SafeImaging.FromHttpAsync(friend.HeadshotUrl, 56, _lifetimeToken);
+                        System.Windows.Media.Imaging.BitmapSource? avatar = null;
+                        if (index < 12)
+                        {
+                            try
+                            {
+                                avatar = await Voidstrap.Utility.SafeImaging.FromHttpAsync(friend.HeadshotUrl, 56, _lifetimeToken);
+                            }
+                            catch (Exception) { }
+                        }
+                        return new DockFriend(friend, avatar);
                     }
-                    catch (Exception)
-                    {
-                    }
-                }
-                return new DockFriend(friend, avatar);
-            }));
+                )
+            );
             await Dispatcher.InvokeAsync(() =>
             {
                 if (_closed || !ReferenceEquals(_data, data))
                     return;
                 _friendsJobId = data.JobId ?? string.Empty;
                 _friendsLoadedUtc = DateTime.UtcNow;
-                FriendCountText.Text = result.FriendCount > 0 ? "Friends: " + result.FriendCount.ToString(Locale.CurrentCulture) : string.Empty;
+                FriendCountText.Text =
+                    result.FriendCount > 0 ? "Friends: " + result.FriendCount.ToString(Locale.CurrentCulture) : string.Empty;
                 List<DockFriend> friends = loadedFriends.ToList();
                 FriendsList.ItemsSource = friends;
                 FriendsHeader.Text = friends.Count > 0 ? $"Friends in this server ({friends.Count})" : "Friends in this server";
@@ -2015,7 +2176,7 @@ public partial class SessionDock : Window
                     FriendsInServerStatus.NotSignedIn => "Sign in to Roblox in Voidstrap to see friends in this server",
                     FriendsInServerStatus.SignInExpired => "Your Roblox sign in expired, sign in again to see friends",
                     FriendsInServerStatus.Unavailable => "Friends could not be checked right now",
-                    _ => friends.Count == 0 ? "None of your friends are in this server" : string.Empty
+                    _ => friends.Count == 0 ? "None of your friends are in this server" : string.Empty,
                 };
                 FriendsStatus.Visibility = FriendsStatus.Text.Length == 0 ? Visibility.Collapsed : Visibility.Visible;
             });
@@ -2041,7 +2202,12 @@ public partial class SessionDock : Window
             return;
         }
         // A highlighted button closes its open panel again, like toggling a tab
-        if (PanelActions.ContainsValue(action) && _panels.TryGetValue(PanelKeyFor(action), out SessionPanelWindow? open) && !open.IsClosed && open.IsVisible)
+        if (
+            PanelActions.ContainsValue(action)
+            && _panels.TryGetValue(PanelKeyFor(action), out SessionPanelWindow? open)
+            && !open.IsClosed
+            && open.IsVisible
+        )
         {
             if (action == "web")
                 open.HideForSession();
@@ -2129,9 +2295,7 @@ public partial class SessionDock : Window
             {
                 _popout.Close();
             }
-            catch (InvalidOperationException)
-            {
-            }
+            catch (InvalidOperationException) { }
             _popout = null;
         }
         _anchor?.Dispose();
@@ -2201,16 +2365,25 @@ public partial class SessionDock : Window
         if (_closed || !Voidstrap.Utility.Platform.IsLinux || !IsVisible || _linuxMotionActive)
             return;
         nint handle = PortableOverlay.Handle(this);
-        if (handle == 0 || !Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(handle, out _, out _, out int width, out int height))
+        if (
+            handle == 0
+            || !Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(handle, out _, out _, out int width, out int height)
+        )
             return;
         double scale = ActualWidth > 0 ? width / ActualWidth : 1;
         int radius = Math.Max(1, (int)Math.Round(16 * Math.Max(0.5, scale)));
         bool rounded = Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetRoundedCorners(handle, width, height, radius);
-        Voidstrap.Platform.Linux.LinuxWindowShadow.Track(handle, rounded ? radius : 0, scale, !rounded, message => App.Logger.WriteLine("LinuxWindowShadow", message), true);
+        Voidstrap.Platform.Linux.LinuxWindowShadow.Track(
+            handle,
+            rounded ? radius : 0,
+            scale,
+            !rounded,
+            message => App.Logger.WriteLine("LinuxWindowShadow", message),
+            true
+        );
         if (!rounded)
             App.Logger.WriteLine("SessionDock", "Linux could not round the dock window, its soft shadow is suppressed");
     }
-
 }
 
 public sealed class DockFriend

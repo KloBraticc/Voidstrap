@@ -32,49 +32,57 @@ namespace Voidstrap.Utility
             "LazyImageSource",
             typeof(string),
             typeof(DynamicRenderSystem),
-            new PropertyMetadata(null, OnLazyImageSourceChanged));
+            new PropertyMetadata(null, OnLazyImageSourceChanged)
+        );
 
         public static readonly DependencyProperty LinuxImageSourceProperty = DependencyProperty.RegisterAttached(
             "LinuxImageSource",
             typeof(string),
             typeof(DynamicRenderSystem),
-            new PropertyMetadata(null, OnLinuxImageSourceChanged));
+            new PropertyMetadata(null, OnLinuxImageSourceChanged)
+        );
 
         public static readonly DependencyProperty LinuxImageBrushSourceProperty = DependencyProperty.RegisterAttached(
             "LinuxImageBrushSource",
             typeof(string),
             typeof(DynamicRenderSystem),
-            new PropertyMetadata(null, OnLinuxImageBrushSourceChanged));
+            new PropertyMetadata(null, OnLinuxImageBrushSourceChanged)
+        );
 
         public static readonly DependencyProperty LinuxImageBytesProperty = DependencyProperty.RegisterAttached(
             "LinuxImageBytes",
             typeof(object),
             typeof(DynamicRenderSystem),
-            new PropertyMetadata(null, OnLinuxImageBytesChanged));
+            new PropertyMetadata(null, OnLinuxImageBytesChanged)
+        );
 
         public static readonly DependencyProperty BrushImageSourceProperty = DependencyProperty.RegisterAttached(
             "BrushImageSource",
             typeof(string),
             typeof(DynamicRenderSystem),
-            new PropertyMetadata(null, OnBrushImageSourceChanged));
+            new PropertyMetadata(null, OnBrushImageSourceChanged)
+        );
 
         public static readonly DependencyProperty BrushDecodeWidthProperty = DependencyProperty.RegisterAttached(
             "BrushDecodeWidth",
             typeof(int),
             typeof(DynamicRenderSystem),
-            new PropertyMetadata(512));
+            new PropertyMetadata(512)
+        );
 
         public static readonly DependencyProperty IsBrushLoadingProperty = DependencyProperty.RegisterAttached(
             "IsBrushLoading",
             typeof(bool),
             typeof(DynamicRenderSystem),
-            new PropertyMetadata(false));
+            new PropertyMetadata(false)
+        );
 
         public static void SetIsBrushLoading(DependencyObject element, bool value) => element.SetValue(IsBrushLoadingProperty, value);
 
         public static bool GetIsBrushLoading(DependencyObject element) => (bool)element.GetValue(IsBrushLoadingProperty);
 
-        public static void SetBrushImageSource(DependencyObject element, string? value) => element.SetValue(BrushImageSourceProperty, value);
+        public static void SetBrushImageSource(DependencyObject element, string? value) =>
+            element.SetValue(BrushImageSourceProperty, value);
 
         public static string? GetBrushImageSource(DependencyObject element) => element.GetValue(BrushImageSourceProperty) as string;
 
@@ -131,11 +139,14 @@ namespace Voidstrap.Utility
             "PortableBrushImage",
             typeof(ImageSource),
             typeof(DynamicRenderSystem),
-            new PropertyMetadata(null, OnPortableBrushImageChanged));
+            new PropertyMetadata(null, OnPortableBrushImageChanged)
+        );
 
-        public static void SetPortableBrushImage(DependencyObject element, ImageSource? value) => element.SetValue(PortableBrushImageProperty, value);
+        public static void SetPortableBrushImage(DependencyObject element, ImageSource? value) =>
+            element.SetValue(PortableBrushImageProperty, value);
 
-        public static ImageSource? GetPortableBrushImage(DependencyObject element) => element.GetValue(PortableBrushImageProperty) as ImageSource;
+        public static ImageSource? GetPortableBrushImage(DependencyObject element) =>
+            element.GetValue(PortableBrushImageProperty) as ImageSource;
 
         private static void OnPortableBrushImageChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
         {
@@ -146,11 +157,14 @@ namespace Voidstrap.Utility
                 PresentPortableBrushImage(host, brush, e.NewValue as ImageSource);
                 return;
             }
-            host.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
-            {
-                if (host.Background is ImageBrush ready)
-                    PresentPortableBrushImage(host, ready, GetPortableBrushImage(host));
-            }));
+            host.Dispatcher.BeginInvoke(
+                DispatcherPriority.Loaded,
+                new Action(() =>
+                {
+                    if (host.Background is ImageBrush ready)
+                        PresentPortableBrushImage(host, ready, GetPortableBrushImage(host));
+                })
+            );
         }
 
         private static readonly ConditionalWeakTable<ImageBrush, System.Windows.Controls.Border> BrushImageHosts = new();
@@ -172,8 +186,9 @@ namespace Voidstrap.Utility
             Image? view = host.Child switch
             {
                 Image existing when ReferenceEquals(existing.Tag, BrushImageMarker) => existing,
-                Grid grid when grid.Children.Count > 0 && grid.Children[0] is Image first && ReferenceEquals(first.Tag, BrushImageMarker) => first,
-                _ => null
+                Grid grid when grid.Children.Count > 0 && grid.Children[0] is Image first && ReferenceEquals(first.Tag, BrushImageMarker) =>
+                    first,
+                _ => null,
             };
             if (view == null && image == null)
                 return;
@@ -185,7 +200,7 @@ namespace Voidstrap.Utility
                     Stretch = brush.Stretch,
                     RenderTransform = brush.RelativeTransform,
                     RenderTransformOrigin = new Point(0.5, 0.5),
-                    IsHitTestVisible = false
+                    IsHitTestVisible = false,
                 };
                 RenderOptions.SetBitmapScalingMode(view, RenderOptions.GetBitmapScalingMode(host));
                 UIElement? placeholder = host.Child;
@@ -211,8 +226,18 @@ namespace Voidstrap.Utility
             }
             view.Stretch = brush.Stretch;
             view.RenderTransform = brush.RelativeTransform;
-            view.HorizontalAlignment = brush.AlignmentX switch { AlignmentX.Left => HorizontalAlignment.Left, AlignmentX.Right => HorizontalAlignment.Right, _ => HorizontalAlignment.Center };
-            view.VerticalAlignment = brush.AlignmentY switch { AlignmentY.Top => VerticalAlignment.Top, AlignmentY.Bottom => VerticalAlignment.Bottom, _ => VerticalAlignment.Center };
+            view.HorizontalAlignment = brush.AlignmentX switch
+            {
+                AlignmentX.Left => HorizontalAlignment.Left,
+                AlignmentX.Right => HorizontalAlignment.Right,
+                _ => HorizontalAlignment.Center,
+            };
+            view.VerticalAlignment = brush.AlignmentY switch
+            {
+                AlignmentY.Top => VerticalAlignment.Top,
+                AlignmentY.Bottom => VerticalAlignment.Bottom,
+                _ => VerticalAlignment.Center,
+            };
             view.Opacity = brush.Opacity;
             view.Source = image;
         }
@@ -249,13 +274,45 @@ namespace Voidstrap.Utility
                 {
                     context.BeginFigure(new Point(radius.TopLeft, 0.0), true, true);
                     context.LineTo(new Point(width - radius.TopRight, 0.0), true, false);
-                    context.ArcTo(new Point(width, radius.TopRight), new Size(radius.TopRight, radius.TopRight), 0.0, false, SweepDirection.Clockwise, true, false);
+                    context.ArcTo(
+                        new Point(width, radius.TopRight),
+                        new Size(radius.TopRight, radius.TopRight),
+                        0.0,
+                        false,
+                        SweepDirection.Clockwise,
+                        true,
+                        false
+                    );
                     context.LineTo(new Point(width, height - radius.BottomRight), true, false);
-                    context.ArcTo(new Point(width - radius.BottomRight, height), new Size(radius.BottomRight, radius.BottomRight), 0.0, false, SweepDirection.Clockwise, true, false);
+                    context.ArcTo(
+                        new Point(width - radius.BottomRight, height),
+                        new Size(radius.BottomRight, radius.BottomRight),
+                        0.0,
+                        false,
+                        SweepDirection.Clockwise,
+                        true,
+                        false
+                    );
                     context.LineTo(new Point(radius.BottomLeft, height), true, false);
-                    context.ArcTo(new Point(0.0, height - radius.BottomLeft), new Size(radius.BottomLeft, radius.BottomLeft), 0.0, false, SweepDirection.Clockwise, true, false);
+                    context.ArcTo(
+                        new Point(0.0, height - radius.BottomLeft),
+                        new Size(radius.BottomLeft, radius.BottomLeft),
+                        0.0,
+                        false,
+                        SweepDirection.Clockwise,
+                        true,
+                        false
+                    );
                     context.LineTo(new Point(0.0, radius.TopLeft), true, false);
-                    context.ArcTo(new Point(radius.TopLeft, 0.0), new Size(radius.TopLeft, radius.TopLeft), 0.0, false, SweepDirection.Clockwise, true, false);
+                    context.ArcTo(
+                        new Point(radius.TopLeft, 0.0),
+                        new Size(radius.TopLeft, radius.TopLeft),
+                        0.0,
+                        false,
+                        SweepDirection.Clockwise,
+                        true,
+                        false
+                    );
                 }
                 clip = path;
             }
@@ -279,17 +336,20 @@ namespace Voidstrap.Utility
                 BitmapSource? image = await GetOrDecodeAsync(uri, decodeWidth <= 0 ? 512 : decodeWidth).ConfigureAwait(false);
                 if (brush.Dispatcher.HasShutdownStarted || brush.Dispatcher.HasShutdownFinished)
                     return;
-                await brush.Dispatcher.InvokeAsync(() =>
-                {
-                    if (!string.Equals(GetBrushImageSource(brush), uri, StringComparison.Ordinal))
-                        return;
-                    if (image != null)
+                await brush.Dispatcher.InvokeAsync(
+                    () =>
                     {
-                        brush.ImageSource = image;
-                        PresentLinuxBrushImage(brush, image);
-                    }
-                    SetIsBrushLoading(brush, false);
-                }, DispatcherPriority.Background);
+                        if (!string.Equals(GetBrushImageSource(brush), uri, StringComparison.Ordinal))
+                            return;
+                        if (image != null)
+                        {
+                            brush.ImageSource = image;
+                            PresentLinuxBrushImage(brush, image);
+                        }
+                        SetIsBrushLoading(brush, false);
+                    },
+                    DispatcherPriority.Background
+                );
             }
             catch (Exception ex)
             {
@@ -304,15 +364,16 @@ namespace Voidstrap.Utility
             {
                 if (brush.Dispatcher.HasShutdownStarted || brush.Dispatcher.HasShutdownFinished)
                     return;
-                _ = brush.Dispatcher.InvokeAsync(() =>
-                {
-                    if (string.Equals(GetBrushImageSource(brush), uri, StringComparison.Ordinal))
-                        SetIsBrushLoading(brush, false);
-                }, DispatcherPriority.Background);
+                _ = brush.Dispatcher.InvokeAsync(
+                    () =>
+                    {
+                        if (string.Equals(GetBrushImageSource(brush), uri, StringComparison.Ordinal))
+                            SetIsBrushLoading(brush, false);
+                    },
+                    DispatcherPriority.Background
+                );
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         public static void SetLazyImageSource(DependencyObject element, string? value) => element.SetValue(LazyImageSourceProperty, value);
@@ -323,7 +384,8 @@ namespace Voidstrap.Utility
 
         public static string GetLinuxImageSource(DependencyObject element) => (string)element.GetValue(LinuxImageSourceProperty);
 
-        public static void SetLinuxImageBrushSource(DependencyObject element, string value) => element.SetValue(LinuxImageBrushSourceProperty, value);
+        public static void SetLinuxImageBrushSource(DependencyObject element, string value) =>
+            element.SetValue(LinuxImageBrushSourceProperty, value);
 
         public static string GetLinuxImageBrushSource(DependencyObject element) => (string)element.GetValue(LinuxImageBrushSourceProperty);
 
@@ -345,25 +407,46 @@ namespace Voidstrap.Utility
             _ = LoadLinuxImageSourceAsync(image, state, uri, DecodeWidthFor(image), generation, state.Cancellation.Token);
         }
 
-        private static async Task LoadLinuxImageSourceAsync(Image image, LinuxImageState state, string uri, int decodeWidth, int generation, CancellationToken token)
+        private static async Task LoadLinuxImageSourceAsync(
+            Image image,
+            LinuxImageState state,
+            string uri,
+            int decodeWidth,
+            int generation,
+            CancellationToken token
+        )
         {
             try
             {
                 BitmapSource? decoded = await AppImage.LoadAsync(uri, decodeWidth, token).ConfigureAwait(false);
-                if (decoded == null || token.IsCancellationRequested || image.Dispatcher.HasShutdownStarted || image.Dispatcher.HasShutdownFinished)
+                if (
+                    decoded == null
+                    || token.IsCancellationRequested
+                    || image.Dispatcher.HasShutdownStarted
+                    || image.Dispatcher.HasShutdownFinished
+                )
                     return;
-                await image.Dispatcher.InvokeAsync(() =>
-                {
-                    if (state.Generation == generation && !token.IsCancellationRequested && string.Equals(GetLinuxImageSource(image), uri, StringComparison.Ordinal))
-                        image.Source = decoded;
-                }, DispatcherPriority.Background, token);
+                await image.Dispatcher.InvokeAsync(
+                    () =>
+                    {
+                        if (
+                            state.Generation == generation
+                            && !token.IsCancellationRequested
+                            && string.Equals(GetLinuxImageSource(image), uri, StringComparison.Ordinal)
+                        )
+                            image.Source = decoded;
+                    },
+                    DispatcherPriority.Background,
+                    token
+                );
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
-                App.Logger?.WriteLine("DynamicRenderSystem::LinuxImageSource", "Image load failed for " + uri + ": " + ex.Message.Split('\n')[0]);
+                App.Logger?.WriteLine(
+                    "DynamicRenderSystem::LinuxImageSource",
+                    "Image load failed for " + uri + ": " + ex.Message.Split('\n')[0]
+                );
             }
         }
 
@@ -389,22 +472,40 @@ namespace Voidstrap.Utility
             _ = LoadLinuxImageBytesAsync(image, state, bytes, decodeWidth, generation, state.Cancellation.Token);
         }
 
-        private static async Task LoadLinuxImageBytesAsync(Image image, LinuxImageState state, byte[] bytes, int decodeWidth, int generation, CancellationToken token)
+        private static async Task LoadLinuxImageBytesAsync(
+            Image image,
+            LinuxImageState state,
+            byte[] bytes,
+            int decodeWidth,
+            int generation,
+            CancellationToken token
+        )
         {
             try
             {
                 BitmapSource? decoded = await AppImage.DecodeBytesAsync(bytes, decodeWidth, token).ConfigureAwait(false);
-                if (decoded == null || token.IsCancellationRequested || image.Dispatcher.HasShutdownStarted || image.Dispatcher.HasShutdownFinished)
+                if (
+                    decoded == null
+                    || token.IsCancellationRequested
+                    || image.Dispatcher.HasShutdownStarted
+                    || image.Dispatcher.HasShutdownFinished
+                )
                     return;
-                await image.Dispatcher.InvokeAsync(() =>
-                {
-                    if (state.Generation == generation && !token.IsCancellationRequested && ReferenceEquals(GetLinuxImageBytes(image), bytes))
-                        image.Source = decoded;
-                }, DispatcherPriority.Background, token);
+                await image.Dispatcher.InvokeAsync(
+                    () =>
+                    {
+                        if (
+                            state.Generation == generation
+                            && !token.IsCancellationRequested
+                            && ReferenceEquals(GetLinuxImageBytes(image), bytes)
+                        )
+                            image.Source = decoded;
+                    },
+                    DispatcherPriority.Background,
+                    token
+                );
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 App.Logger?.WriteLine("DynamicRenderSystem::LinuxImageBytes", "Forum image decode failed: " + ex.Message.Split('\n')[0]);
@@ -416,36 +517,39 @@ namespace Voidstrap.Utility
             BitmapSource? image = await GetOrDecodeAsync(uri, 512).ConfigureAwait(false);
             if (image == null || target.Dispatcher.HasShutdownStarted || target.Dispatcher.HasShutdownFinished)
                 return;
-            await target.Dispatcher.InvokeAsync(() =>
-            {
-                if (!string.Equals(GetLinuxImageBrushSource(target), uri, StringComparison.Ordinal))
-                    return;
-                ImageBrush? current = target switch
+            await target.Dispatcher.InvokeAsync(
+                () =>
                 {
-                    Border border => border.Background as ImageBrush,
-                    Panel panel => panel.Background as ImageBrush,
-                    Control control => control.Background as ImageBrush,
-                    System.Windows.Shapes.Shape shape => shape.Fill as ImageBrush,
-                    _ => null
-                };
-                ImageBrush brush = CopyImageBrush(current);
-                brush.ImageSource = image;
-                switch (target)
-                {
-                    case Border border:
-                        border.Background = brush;
-                        break;
-                    case Panel panel:
-                        panel.Background = brush;
-                        break;
-                    case Control control:
-                        control.Background = brush;
-                        break;
-                    case System.Windows.Shapes.Shape shape:
-                        shape.Fill = brush;
-                        break;
-                }
-            }, DispatcherPriority.Background);
+                    if (!string.Equals(GetLinuxImageBrushSource(target), uri, StringComparison.Ordinal))
+                        return;
+                    ImageBrush? current = target switch
+                    {
+                        Border border => border.Background as ImageBrush,
+                        Panel panel => panel.Background as ImageBrush,
+                        Control control => control.Background as ImageBrush,
+                        System.Windows.Shapes.Shape shape => shape.Fill as ImageBrush,
+                        _ => null,
+                    };
+                    ImageBrush brush = CopyImageBrush(current);
+                    brush.ImageSource = image;
+                    switch (target)
+                    {
+                        case Border border:
+                            border.Background = brush;
+                            break;
+                        case Panel panel:
+                            panel.Background = brush;
+                            break;
+                        case Control control:
+                            control.Background = brush;
+                            break;
+                        case System.Windows.Shapes.Shape shape:
+                            shape.Fill = brush;
+                            break;
+                    }
+                },
+                DispatcherPriority.Background
+            );
         }
 
         private static ImageBrush CopyImageBrush(ImageBrush? source)
@@ -462,7 +566,7 @@ namespace Voidstrap.Utility
                 Viewbox = source.Viewbox,
                 ViewboxUnits = source.ViewboxUnits,
                 Viewport = source.Viewport,
-                ViewportUnits = source.ViewportUnits
+                ViewportUnits = source.ViewportUnits,
             };
         }
 
@@ -474,7 +578,10 @@ namespace Voidstrap.Utility
         }
 
         private static readonly ConditionalWeakTable<Image, LinuxImageState> LinuxImageStates = new();
-        private static readonly DependencyPropertyDescriptor? ImageSourceDescriptor = DependencyPropertyDescriptor.FromProperty(Image.SourceProperty, typeof(Image));
+        private static readonly DependencyPropertyDescriptor? ImageSourceDescriptor = DependencyPropertyDescriptor.FromProperty(
+            Image.SourceProperty,
+            typeof(Image)
+        );
         private static bool _linuxImageGuardInstalled;
 
         public static void InstallLinuxImageGuard()
@@ -530,26 +637,42 @@ namespace Voidstrap.Utility
             _ = ReplaceUriBackedImageAsync(image, state, uri, generation, state.Cancellation.Token);
         }
 
-        private static async Task ReplaceUriBackedImageAsync(Image image, LinuxImageState state, Uri uri, int generation, CancellationToken token)
+        private static async Task ReplaceUriBackedImageAsync(
+            Image image,
+            LinuxImageState state,
+            Uri uri,
+            int generation,
+            CancellationToken token
+        )
         {
             try
             {
                 BitmapSource? decoded = await AppImage.LoadAsync(uri.OriginalString, DecodeWidthFor(image), token).ConfigureAwait(false);
-                if (decoded == null || token.IsCancellationRequested || image.Dispatcher.HasShutdownStarted || image.Dispatcher.HasShutdownFinished)
+                if (
+                    decoded == null
+                    || token.IsCancellationRequested
+                    || image.Dispatcher.HasShutdownStarted
+                    || image.Dispatcher.HasShutdownFinished
+                )
                     return;
-                await image.Dispatcher.InvokeAsync(() =>
-                {
-                    if (state.Generation != generation || token.IsCancellationRequested)
-                        return;
-                    image.Source = decoded;
-                }, DispatcherPriority.Background, token);
+                await image.Dispatcher.InvokeAsync(
+                    () =>
+                    {
+                        if (state.Generation != generation || token.IsCancellationRequested)
+                            return;
+                        image.Source = decoded;
+                    },
+                    DispatcherPriority.Background,
+                    token
+                );
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
-                App.Logger?.WriteLine("DynamicRenderSystem::LinuxImageGuard", "Image load failed for " + uri + ": " + ex.Message.Split('\n')[0]);
+                App.Logger?.WriteLine(
+                    "DynamicRenderSystem::LinuxImageGuard",
+                    "Image load failed for " + uri + ": " + ex.Message.Split('\n')[0]
+                );
             }
         }
 
@@ -596,17 +719,17 @@ namespace Voidstrap.Utility
             public WeakReference<Image> Img = null!;
             public string Uri = null!;
             public bool Loaded;
-			public bool Loading;
-			public long RetryAfter;
-			public int Attempts;
-			public int DecodeWidth;
+            public bool Loading;
+            public long RetryAfter;
+            public int Attempts;
+            public int DecodeWidth;
         }
 
         private sealed class Watcher
         {
             public readonly List<Entry> Items = new();
             public bool EvalQueued;
-			public long LastEvaluationTicks;
+            public long LastEvaluationTicks;
         }
 
         private static readonly Dictionary<ScrollViewer, Watcher> _watchers = new();
@@ -637,7 +760,15 @@ namespace Voidstrap.Utility
                 }
                 img.IsVisibleChanged -= OnLazyImageIsVisibleChanged;
                 img.IsVisibleChanged += OnLazyImageIsVisibleChanged;
-				w.Items.Add(new Entry { Img = new WeakReference<Image>(img), Uri = uri, Loaded = false, DecodeWidth = DecodeWidthFor(img) });
+                w.Items.Add(
+                    new Entry
+                    {
+                        Img = new WeakReference<Image>(img),
+                        Uri = uri,
+                        Loaded = false,
+                        DecodeWidth = DecodeWidthFor(img),
+                    }
+                );
                 QueueEval(sv, w);
             }
             catch
@@ -648,20 +779,24 @@ namespace Voidstrap.Utility
 
         private static void OnLazyImageIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (sender is Image { IsVisible: true } img && FindScrollViewer(img) is ScrollViewer sv && _watchers.TryGetValue(sv, out Watcher? w))
+            if (
+                sender is Image { IsVisible: true } img
+                && FindScrollViewer(img) is ScrollViewer sv
+                && _watchers.TryGetValue(sv, out Watcher? w)
+            )
                 QueueEval(sv, w);
         }
 
         private static void OnScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             if (sender is ScrollViewer sv && _watchers.TryGetValue(sv, out Watcher? w))
-			{
-				long now = Environment.TickCount64;
-				if (Platform.UsesPortableUi && now - w.LastEvaluationTicks < 80)
-					return;
-				w.LastEvaluationTicks = now;
+            {
+                long now = Environment.TickCount64;
+                if (Platform.UsesPortableUi && now - w.LastEvaluationTicks < 80)
+                    return;
+                w.LastEvaluationTicks = now;
                 QueueEval(sv, w);
-			}
+            }
         }
 
         private static void OnScrollViewerUnloaded(object sender, RoutedEventArgs e)
@@ -697,11 +832,15 @@ namespace Voidstrap.Utility
             if (w.EvalQueued)
                 return;
             w.EvalQueued = true;
-            sv.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)delegate
-            {
-                w.EvalQueued = false;
-                Evaluate(sv, w);
-            });
+            sv.Dispatcher.BeginInvoke(
+                DispatcherPriority.Loaded,
+                (Action)
+                    delegate
+                    {
+                        w.EvalQueued = false;
+                        Evaluate(sv, w);
+                    }
+            );
         }
 
         private static void Evaluate(ScrollViewer sv, Watcher w)
@@ -738,7 +877,9 @@ namespace Voidstrap.Utility
                     try
                     {
                         GeneralTransform t = img.TransformToVisual(sv);
-                        bounds = t.TransformBounds(new Rect(0, 0, img.ActualWidth > 0 ? img.ActualWidth : 1, img.ActualHeight > 0 ? img.ActualHeight : 1));
+                        bounds = t.TransformBounds(
+                            new Rect(0, 0, img.ActualWidth > 0 ? img.ActualWidth : 1, img.ActualHeight > 0 ? img.ActualHeight : 1)
+                        );
                     }
                     catch
                     {
@@ -749,16 +890,14 @@ namespace Voidstrap.Utility
 
                     if (!entry.Loaded && near.IntersectsWith(bounds))
                         StartEntryLoad(sv, w, entry, img);
-					else if (entry.Loaded && !far.IntersectsWith(bounds) && CachePeek(CacheKey(entry.Uri, entry.DecodeWidth)) != null)
+                    else if (entry.Loaded && !far.IntersectsWith(bounds) && CachePeek(CacheKey(entry.Uri, entry.DecodeWidth)) != null)
                     {
                         entry.Loaded = false;
                         img.Source = null;
                     }
                 }
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static ScrollViewer? FindScrollViewer(DependencyObject node)
@@ -773,9 +912,7 @@ namespace Voidstrap.Utility
                     current = VisualTreeHelper.GetParent(current);
                 }
             }
-            catch
-            {
-            }
+            catch { }
             return null;
         }
 
@@ -800,21 +937,27 @@ namespace Voidstrap.Utility
         {
             BitmapSource? bmp = await GetOrDecodeAsync(entry.Uri, entry.DecodeWidth).ConfigureAwait(false);
             EnqueueAssign(img, entry.Uri, bmp);
-            await img.Dispatcher.InvokeAsync(() =>
-            {
-                entry.Loading = false;
-                entry.Loaded = bmp != null;
-                entry.Attempts = bmp == null ? entry.Attempts + 1 : 0;
-                entry.RetryAfter = bmp == null ? Environment.TickCount64 + RetryDelayMs(entry.Attempts) : 0;
-            }, DispatcherPriority.Loaded);
+            await img.Dispatcher.InvokeAsync(
+                () =>
+                {
+                    entry.Loading = false;
+                    entry.Loaded = bmp != null;
+                    entry.Attempts = bmp == null ? entry.Attempts + 1 : 0;
+                    entry.RetryAfter = bmp == null ? Environment.TickCount64 + RetryDelayMs(entry.Attempts) : 0;
+                },
+                DispatcherPriority.Loaded
+            );
             if (bmp != null)
                 return;
             await Task.Delay(RetryDelayMs(entry.Attempts)).ConfigureAwait(false);
-            await img.Dispatcher.InvokeAsync(() =>
-            {
-                if (_watchers.TryGetValue(sv, out Watcher? current) && ReferenceEquals(current, watcher))
-                    QueueEval(sv, watcher);
-            }, DispatcherPriority.Loaded);
+            await img.Dispatcher.InvokeAsync(
+                () =>
+                {
+                    if (_watchers.TryGetValue(sv, out Watcher? current) && ReferenceEquals(current, watcher))
+                        QueueEval(sv, watcher);
+                },
+                DispatcherPriority.Loaded
+            );
         }
 
         private static int RetryDelayMs(int attempts)
@@ -842,10 +985,14 @@ namespace Voidstrap.Utility
                     queue = true;
             }
             if (queue)
-                dispatcher.BeginInvoke(Platform.UsesPortableUi ? DispatcherPriority.Background : DispatcherPriority.Render, (Action)delegate
-                {
-                    FlushAssigns(dispatcher);
-                });
+                dispatcher.BeginInvoke(
+                    Platform.UsesPortableUi ? DispatcherPriority.Background : DispatcherPriority.Render,
+                    (Action)
+                        delegate
+                        {
+                            FlushAssigns(dispatcher);
+                        }
+                );
         }
 
         private static void FlushAssigns(Dispatcher dispatcher)
@@ -888,16 +1035,18 @@ namespace Voidstrap.Utility
                         img.Source = null;
                     }
                 }
-                catch
-                {
-                }
+                catch { }
             }
             if (reschedule)
             {
-                dispatcher.BeginInvoke(DispatcherPriority.Background, (Action)delegate
-                {
-                    FlushAssigns(dispatcher);
-                });
+                dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                    (Action)
+                        delegate
+                        {
+                            FlushAssigns(dispatcher);
+                        }
+                );
             }
         }
 
@@ -930,16 +1079,18 @@ namespace Voidstrap.Utility
                 double dpi = src?.CompositionTarget?.TransformToDevice.M11 ?? 1.0;
                 w *= dpi;
             }
-            catch
-            {
-            }
+            catch { }
             if (double.IsNaN(w) || w <= 0)
                 return 256;
             int px = (int)Math.Ceiling(w);
-            if (px <= 64) return 64;
-            if (px <= 128) return 128;
-            if (px <= 256) return 256;
-            if (px <= 512) return 512;
+            if (px <= 64)
+                return 64;
+            if (px <= 128)
+                return 128;
+            if (px <= 256)
+                return 256;
+            if (px <= 512)
+                return 512;
             return MaxDecodeWidth;
         }
 
@@ -1039,7 +1190,14 @@ namespace Voidstrap.Utility
                     _cacheBytes -= existing.Value.SizeBytes;
                 }
                 long sizeBytes = EstimateBytes(img);
-                LinkedListNode<CacheItem> node = new LinkedListNode<CacheItem>(new CacheItem { Key = key, Image = img, SizeBytes = sizeBytes });
+                LinkedListNode<CacheItem> node = new LinkedListNode<CacheItem>(
+                    new CacheItem
+                    {
+                        Key = key,
+                        Image = img,
+                        SizeBytes = sizeBytes,
+                    }
+                );
                 _lru.AddFirst(node);
                 _cache[key] = node;
                 _cacheBytes += sizeBytes;
@@ -1135,7 +1293,12 @@ namespace Voidstrap.Utility
             try
             {
                 string? embedded = AppImage.EmbeddedAsset(uri);
-                bool remote = embedded == null && (uri.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || uri.StartsWith("https://", StringComparison.OrdinalIgnoreCase));
+                bool remote =
+                    embedded == null
+                    && (
+                        uri.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+                        || uri.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
+                    );
                 if (!remote)
                 {
                     BitmapSource? local = await DecodeLocalAsync(embedded ?? uri, decodeWidth).ConfigureAwait(false);
@@ -1192,18 +1355,24 @@ namespace Voidstrap.Utility
             await DecodeGate.WaitAsync().ConfigureAwait(false);
             try
             {
-                return await Task.Run(delegate
-                {
-                    try
-                    {
-                        return SafeImaging.FromBytes(bytes, decodeWidth);
-                    }
-                    catch (Exception decodeEx)
-                    {
-                        App.Logger?.WriteLine("DynamicRenderSystem::Decode", "Decode failed: " + decodeEx.GetType().Name + " " + decodeEx.Message.Split('\n')[0]);
-                        return null;
-                    }
-                }).ConfigureAwait(false);
+                return await Task.Run(
+                        delegate
+                        {
+                            try
+                            {
+                                return SafeImaging.FromBytes(bytes, decodeWidth);
+                            }
+                            catch (Exception decodeEx)
+                            {
+                                App.Logger?.WriteLine(
+                                    "DynamicRenderSystem::Decode",
+                                    "Decode failed: " + decodeEx.GetType().Name + " " + decodeEx.Message.Split('\n')[0]
+                                );
+                                return null;
+                            }
+                        }
+                    )
+                    .ConfigureAwait(false);
             }
             finally
             {
@@ -1216,40 +1385,46 @@ namespace Voidstrap.Utility
             await DecodeGate.WaitAsync().ConfigureAwait(false);
             try
             {
-                return await Task.Run(delegate
-                {
-                    try
-                    {
-                        if (!Uri.TryCreate(uri, UriKind.Absolute, out Uri? parsed))
-                            return (BitmapSource?)null;
-
-                        if (parsed.IsFile)
-                            return SafeImaging.FromFile(parsed.LocalPath, decodeWidth);
-
-                        if (Voidstrap.Utility.Platform.IsWindows)
+                return await Task.Run(
+                        delegate
                         {
-                            BitmapImage bmp = new BitmapImage();
-                            bmp.BeginInit();
-                            bmp.CacheOption = BitmapCacheOption.OnLoad;
-                            bmp.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
-                            bmp.DecodePixelWidth = decodeWidth;
-                            bmp.UriSource = parsed;
-                            bmp.EndInit();
-                            return SafeImaging.Detach(bmp);
-                        }
+                            try
+                            {
+                                if (!Uri.TryCreate(uri, UriKind.Absolute, out Uri? parsed))
+                                    return (BitmapSource?)null;
 
-                        System.Windows.Resources.StreamResourceInfo info = System.Windows.Application.GetResourceStream(parsed);
-                        if (info?.Stream == null)
-                            return (BitmapSource?)null;
-                        using Stream resourceStream = info.Stream;
-                        return SafeImaging.FromStream(resourceStream, decodeWidth);
-                    }
-                    catch (Exception decodeEx)
-                    {
-                        App.Logger?.WriteLine("DynamicRenderSystem::Decode", "Decode failed for " + uri + ": " + decodeEx.GetType().Name + " " + decodeEx.Message.Split('\n')[0]);
-                        return null;
-                    }
-                }).ConfigureAwait(false);
+                                if (parsed.IsFile)
+                                    return SafeImaging.FromFile(parsed.LocalPath, decodeWidth);
+
+                                if (Voidstrap.Utility.Platform.IsWindows)
+                                {
+                                    BitmapImage bmp = new BitmapImage();
+                                    bmp.BeginInit();
+                                    bmp.CacheOption = BitmapCacheOption.OnLoad;
+                                    bmp.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
+                                    bmp.DecodePixelWidth = decodeWidth;
+                                    bmp.UriSource = parsed;
+                                    bmp.EndInit();
+                                    return SafeImaging.Detach(bmp);
+                                }
+
+                                System.Windows.Resources.StreamResourceInfo info = System.Windows.Application.GetResourceStream(parsed);
+                                if (info?.Stream == null)
+                                    return (BitmapSource?)null;
+                                using Stream resourceStream = info.Stream;
+                                return SafeImaging.FromStream(resourceStream, decodeWidth);
+                            }
+                            catch (Exception decodeEx)
+                            {
+                                App.Logger?.WriteLine(
+                                    "DynamicRenderSystem::Decode",
+                                    "Decode failed for " + uri + ": " + decodeEx.GetType().Name + " " + decodeEx.Message.Split('\n')[0]
+                                );
+                                return null;
+                            }
+                        }
+                    )
+                    .ConfigureAwait(false);
             }
             finally
             {
@@ -1261,8 +1436,13 @@ namespace Voidstrap.Utility
         {
             using CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(20));
             using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, uri);
-            using HttpResponseMessage response = await App.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cts.Token).ConfigureAwait(false);
-            if (!response.IsSuccessStatusCode || response.Content.Headers.ContentLength is long contentLength && contentLength > MaxDownloadBytes)
+            using HttpResponseMessage response = await App
+                .HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cts.Token)
+                .ConfigureAwait(false);
+            if (
+                !response.IsSuccessStatusCode
+                || response.Content.Headers.ContentLength is long contentLength && contentLength > MaxDownloadBytes
+            )
                 return null;
             await using Stream stream = await response.Content.ReadAsStreamAsync(cts.Token).ConfigureAwait(false);
             int capacity = response.Content.Headers.ContentLength is long length && length > 0 ? (int)length : 81920;

@@ -27,7 +27,8 @@ public interface IMcpEditor
 
 	string? ReadFile(string relativePath) => null;
 
-	McpEditResult WriteFile(string relativePath, string text) => new(false, "This editor has a single document, edit it without a file argument.");
+	McpEditResult WriteFile(string relativePath, string text) =>
+		new(false, "This editor has a single document, edit it without a file argument.");
 
 	McpEditResult DeleteFile(string relativePath) => new(false, "This editor has a single document, files cannot be deleted.");
 
@@ -108,11 +109,17 @@ public static class McpEditorRegistry
 			for (int i = Editors.Count - 1; i >= 0; i--)
 			{
 				KeyValuePair<string, IMcpEditor> entry = Editors[i];
-				if (kindPart != null && !entry.Value.Kind.StartsWith(kindPart, StringComparison.OrdinalIgnoreCase) && !kindPart.StartsWith(entry.Value.Kind, StringComparison.OrdinalIgnoreCase))
+				if (
+					kindPart != null
+					&& !entry.Value.Kind.StartsWith(kindPart, StringComparison.OrdinalIgnoreCase)
+					&& !kindPart.StartsWith(entry.Value.Kind, StringComparison.OrdinalIgnoreCase)
+				)
 					continue;
 
-				if (string.Equals(entry.Value.Kind, namePart, StringComparison.OrdinalIgnoreCase)
-					|| string.Equals(entry.Value.DisplayName, namePart, StringComparison.OrdinalIgnoreCase))
+				if (
+					string.Equals(entry.Value.Kind, namePart, StringComparison.OrdinalIgnoreCase)
+					|| string.Equals(entry.Value.DisplayName, namePart, StringComparison.OrdinalIgnoreCase)
+				)
 				{
 					return entry;
 				}

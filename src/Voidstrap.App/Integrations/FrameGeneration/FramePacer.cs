@@ -114,12 +114,14 @@ namespace Voidstrap.Integrations.FrameGeneration
             try
             {
                 Layout layout = vfp_layout();
-                if (layout.AbiVersion != AbiVersion
+                if (
+                    layout.AbiVersion != AbiVersion
                     || layout.Cadence != sizeof(PacerCadence)
                     || layout.CadenceInput != sizeof(PacerCadenceInput)
                     || layout.CadenceResult != sizeof(PacerCadenceResult)
                     || layout.Aligner != sizeof(PacerAligner)
-                    || layout.Quality != sizeof(PacerQuality))
+                    || layout.Quality != sizeof(PacerQuality)
+                )
                 {
                     _failure = "the frame pacer library does not match this version of Voidstrap";
                     return false;
@@ -154,7 +156,14 @@ namespace Voidstrap.Integrations.FrameGeneration
                 vfp_quality_record_slot(state, missed ? 1 : 0, nowSec);
         }
 
-        public static uint ConsiderQuality(ref PacerQuality quality, int minimumQuality, bool captureBackpressure, int activeMode, int currentGenerated, double nowSec)
+        public static uint ConsiderQuality(
+            ref PacerQuality quality,
+            int minimumQuality,
+            bool captureBackpressure,
+            int activeMode,
+            int currentGenerated,
+            double nowSec
+        )
         {
             fixed (PacerQuality* state = &quality)
                 return vfp_quality_consider(state, minimumQuality, captureBackpressure ? 1 : 0, activeMode, currentGenerated, nowSec);
@@ -185,7 +194,14 @@ namespace Voidstrap.Integrations.FrameGeneration
         private static partial void vfp_quality_record_slot(PacerQuality* state, int missed, double nowSec);
 
         [LibraryImport(Library)]
-        private static partial uint vfp_quality_consider(PacerQuality* state, int minimumQuality, int captureBackpressure, int activeMode, int currentGenerated, double nowSec);
+        private static partial uint vfp_quality_consider(
+            PacerQuality* state,
+            int minimumQuality,
+            int captureBackpressure,
+            int activeMode,
+            int currentGenerated,
+            double nowSec
+        );
 
         [LibraryImport(Library)]
         private static partial int vfp_quality_source_health(PacerQuality* state, double baseFps, double nowSec);

@@ -17,7 +17,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages;
 
 public partial class IntegrationsPage
 {
-    private static readonly JsonSerializerOptions RpcHistoryJsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };     
+    private static readonly JsonSerializerOptions RpcHistoryJsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
     private const double PreviewIntervalMs = 500.0;
     private const long FallbackPlaceId = 189707L;
@@ -120,7 +120,9 @@ public partial class IntegrationsPage
             PreviewGame resolved = await ReadMostRecentGameAsync().ConfigureAwait(true);
             if (resolved.Activity.PlaceId > 0 && resolved.UniverseId != 0)
             {
-                string placeName = await DiscordRichPresence.GetPlaceNameAsync(resolved.Activity.PlaceId, CancellationToken.None).ConfigureAwait(true);
+                string placeName = await DiscordRichPresence
+                    .GetPlaceNameAsync(resolved.Activity.PlaceId, CancellationToken.None)
+                    .ConfigureAwait(true);
                 if (!string.IsNullOrWhiteSpace(placeName))
                     resolved.Name = placeName;
             }
@@ -197,7 +199,9 @@ public partial class IntegrationsPage
     {
         try
         {
-            string universeJson = await Voidstrap.Utility.Http.GetString("https://apis.roblox.com/universes/v1/places/" + FallbackPlaceId + "/universe").ConfigureAwait(false);
+            string universeJson = await Voidstrap
+                .Utility.Http.GetString("https://apis.roblox.com/universes/v1/places/" + FallbackPlaceId + "/universe")
+                .ConfigureAwait(false);
             using JsonDocument document = JsonDocument.Parse(universeJson);
             if (!document.RootElement.TryGetProperty("universeId", out JsonElement idElement))
                 return;
@@ -246,7 +250,12 @@ public partial class IntegrationsPage
                 if (UniverseDetails.TryGetUniverseForPlace(newest.PlaceId, out long resolvedUniverse))
                     newest.UniverseId = resolvedUniverse;
             }
-            return new PreviewGame { UniverseId = newest.UniverseId, UserId = newest.UserId, Activity = newest };
+            return new PreviewGame
+            {
+                UniverseId = newest.UniverseId,
+                UserId = newest.UserId,
+                Activity = newest,
+            };
         }
         catch (Exception ex)
         {
@@ -321,17 +330,24 @@ public partial class IntegrationsPage
         {
             Active = true,
             Details = Voidstrap.Utility.RpcText.Render(DiscordRichPresence.BuildDetailText(cleanName, betaTag)),
-            State = Voidstrap.Utility.RpcText.Render(DiscordRichPresence.BuildStateText(game.Creator, game.Verified,
-                App.Settings.Prop.FFlagRPCDisplayer ? ReadFlagCount() : 0)),
+            State = Voidstrap.Utility.RpcText.Render(
+                DiscordRichPresence.BuildStateText(game.Creator, game.Verified, App.Settings.Prop.FFlagRPCDisplayer ? ReadFlagCount() : 0)
+            ),
             Start = _rpcPreviewStart,
         };
 
-        string largeImage = !string.IsNullOrWhiteSpace(App.Settings.Prop.UseCustomIcon)
-            ? App.Settings.Prop.UseCustomIcon
-            : App.Settings.Prop.GameIconChecked ? game.IconUrl : string.Empty;
+        string largeImage =
+            !string.IsNullOrWhiteSpace(App.Settings.Prop.UseCustomIcon) ? App.Settings.Prop.UseCustomIcon
+            : App.Settings.Prop.GameIconChecked ? game.IconUrl
+            : string.Empty;
         snapshot.LargeImageKey = Voidstrap.Utility.DiscordPresenceGuard.Key(largeImage);
-        snapshot.LargeImageText = Voidstrap.Utility.RpcText.Render(DiscordRichPresence.BuildServerText(game.Activity.ServerType, string.Empty,
-            App.Settings.Prop.ServerLocationGame && game.Location.Length > 0 ? game.Location : null));
+        snapshot.LargeImageText = Voidstrap.Utility.RpcText.Render(
+            DiscordRichPresence.BuildServerText(
+                game.Activity.ServerType,
+                string.Empty,
+                App.Settings.Prop.ServerLocationGame && game.Location.Length > 0 ? game.Location : null
+            )
+        );
 
         if (App.Settings.Prop.ShowAccountOnRichPresence && !string.IsNullOrWhiteSpace(_rpcAvatarUrl))
         {
@@ -345,7 +361,9 @@ public partial class IntegrationsPage
         }
 
         foreach (DiscordRPC.Button button in DiscordRichPresence.BuildButtons(game.Activity))
-            snapshot.Buttons.Add(new PresenceButton { Label = Voidstrap.Utility.RpcText.Render(button.Label), Url = button.Url ?? string.Empty });
+            snapshot.Buttons.Add(
+                new PresenceButton { Label = Voidstrap.Utility.RpcText.Render(button.Label), Url = button.Url ?? string.Empty }
+            );
         return snapshot;
     }
 
@@ -388,9 +406,10 @@ public partial class IntegrationsPage
         int hours = totalSeconds / 3600;
         int minutes = totalSeconds % 3600 / 60;
         int seconds = totalSeconds % 60;
-        string clock = hours > 0
-            ? hours + ":" + minutes.ToString("00") + ":" + seconds.ToString("00")
-            : minutes.ToString("00") + ":" + seconds.ToString("00");
+        string clock =
+            hours > 0
+                ? hours + ":" + minutes.ToString("00") + ":" + seconds.ToString("00")
+                : minutes.ToString("00") + ":" + seconds.ToString("00");
         return clock + " elapsed";
     }
 
@@ -443,52 +462,68 @@ public partial class IntegrationsPage
         _ = LoadPreviewImageAsync(host, image, key, state, state.Generation, hideHostWhenEmpty, cancellation);
     }
 
-    private async Task LoadPreviewImageAsync(Border host, Image image, string key, PreviewImageLoad state, int generation, bool hideHostWhenEmpty, CancellationTokenSource cancellation)
+    private async Task LoadPreviewImageAsync(
+        Border host,
+        Image image,
+        string key,
+        PreviewImageLoad state,
+        int generation,
+        bool hideHostWhenEmpty,
+        CancellationTokenSource cancellation
+    )
     {
         ImageSource? source = null;
         try
         {
             source = await Voidstrap.Utility.AppImage.LoadAsync(key, 160, cancellation.Token).ConfigureAwait(false);
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("IntegrationsPage", "Preview image load failed: " + ex.Message);
         }
         try
         {
-            await Dispatcher.InvokeAsync(() =>
-            {
-                if (generation != state.Generation || !string.Equals(state.RequestedKey, key, StringComparison.Ordinal))
-                    return;
-                state.Loading = false;
-                state.Cancellation = null;
-                if (source == null)
+            await Dispatcher.InvokeAsync(
+                () =>
                 {
-                    state.LoadedKey = string.Empty;
-                    state.RetryAfter = Environment.TickCount64 + 3000;
-                    if (!state.FailureLogged)
+                    if (generation != state.Generation || !string.Equals(state.RequestedKey, key, StringComparison.Ordinal))
+                        return;
+                    state.Loading = false;
+                    state.Cancellation = null;
+                    if (source == null)
                     {
-                        state.FailureLogged = true;
-                        App.Logger.WriteLine("IntegrationsPage", "Preview image could not be loaded: " + key);
+                        state.LoadedKey = string.Empty;
+                        state.RetryAfter = Environment.TickCount64 + 3000;
+                        if (!state.FailureLogged)
+                        {
+                            state.FailureLogged = true;
+                            App.Logger.WriteLine("IntegrationsPage", "Preview image could not be loaded: " + key);
+                        }
+                        image.Source = null;
+                        image.Visibility = Visibility.Collapsed;
+                        if (hideHostWhenEmpty)
+                            host.Visibility = Visibility.Collapsed;
+                        return;
                     }
-                    image.Source = null;
-                    image.Visibility = Visibility.Collapsed;
+                    state.LoadedKey = key;
+                    state.RetryAfter = 0;
+                    state.FailureLogged = false;
+                    image.Source = source;
+                    image.Visibility = Visibility.Visible;
                     if (hideHostWhenEmpty)
-                        host.Visibility = Visibility.Collapsed;
-                    return;
-                }
-                state.LoadedKey = key;
-                state.RetryAfter = 0;
-                state.FailureLogged = false;
-                image.Source = source;
-                image.Visibility = Visibility.Visible;
-                if (hideHostWhenEmpty)
-                    host.Visibility = Visibility.Visible;
-                App.Logger.WriteLine("IntegrationsPage", (hideHostWhenEmpty ? "Small preview image" : "Large preview image") + " displayed at " + source.Width.ToString("F0") + "x" + source.Height.ToString("F0"));
-            }, DispatcherPriority.Render);
+                        host.Visibility = Visibility.Visible;
+                    App.Logger.WriteLine(
+                        "IntegrationsPage",
+                        (hideHostWhenEmpty ? "Small preview image" : "Large preview image")
+                            + " displayed at "
+                            + source.Width.ToString("F0")
+                            + "x"
+                            + source.Height.ToString("F0")
+                    );
+                },
+                DispatcherPriority.Render
+            );
         }
         catch (Exception ex)
         {
@@ -507,7 +542,12 @@ public partial class IntegrationsPage
         if (key.StartsWith("data:", StringComparison.OrdinalIgnoreCase) || File.Exists(key))
             return true;
         return Uri.TryCreate(key, UriKind.Absolute, out Uri? uri)
-            && (uri.Scheme == Uri.UriSchemeHttps || uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeFile || uri.Scheme == "pack");
+            && (
+                uri.Scheme == Uri.UriSchemeHttps
+                || uri.Scheme == Uri.UriSchemeHttp
+                || uri.Scheme == Uri.UriSchemeFile
+                || uri.Scheme == "pack"
+            );
     }
 
     private static void ResetPreviewImage(Border host, Image image, PreviewImageLoad state, bool hideHostWhenEmpty)
@@ -536,15 +576,16 @@ public partial class IntegrationsPage
         {
             cancellation.Cancel();
         }
-        catch (ObjectDisposedException)
-        {
-        }
+        catch (ObjectDisposedException) { }
     }
 
     private void BuildPreviewButtons(PresenceSnapshot snapshot)
     {
         string signature = string.Join("\n", snapshot.Buttons.Select(button => button.Label + "\t" + button.Url));
-        if (string.Equals(signature, _rpcButtonsSignature, StringComparison.Ordinal) && RpcPreviewButtons.Children.Count == Math.Min(snapshot.Buttons.Count, 2))
+        if (
+            string.Equals(signature, _rpcButtonsSignature, StringComparison.Ordinal)
+            && RpcPreviewButtons.Children.Count == Math.Min(snapshot.Buttons.Count, 2)
+        )
             return;
         _rpcButtonsSignature = signature;
         RpcPreviewButtons.Children.Clear();

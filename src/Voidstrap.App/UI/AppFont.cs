@@ -1,11 +1,11 @@
-﻿using FontFamily = System.Windows.Media.FontFamily;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Voidstrap.UI.Elements.Base;
+using FontFamily = System.Windows.Media.FontFamily;
 
 namespace Voidstrap.UI;
 
@@ -20,13 +20,19 @@ public static class AppFont
 		SystemFonts.MenuFontFamilyKey,
 		SystemFonts.CaptionFontFamilyKey,
 		SystemFonts.SmallCaptionFontFamilyKey,
-		SystemFonts.IconFontFamilyKey
+		SystemFonts.IconFontFamilyKey,
 	];
 
 	private static FontFamily? _current;
 
 	private static readonly FontFamily LinuxWpfUiFontFamily = Voidstrap.Utility.Platform.IsMacOS
-		? new(new Uri(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Fonts") + Path.DirectorySeparatorChar), "./#Inter 18pt, ./#Selawik, Helvetica Neue")
+		? new(
+			new Uri(
+				Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Fonts")
+					+ Path.DirectorySeparatorChar
+			),
+			"./#Inter 18pt, ./#Selawik, Helvetica Neue"
+		)
 		: new("Inter 18pt, Selawik, Segoe UI Variable, Segoe UI, Ubuntu, Cantarell, Noto Sans, DejaVu Sans, Liberation Sans");
 
 	public static bool HasCustomFont => _current != null;
@@ -85,22 +91,32 @@ public static class AppFont
 			return;
 		}
 		_registered = true;
-		EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, (RoutedEventHandler)delegate(object sender, RoutedEventArgs _)
-		{
-			if (sender is Window window)
-			{
-				Apply(window);
-			}
-		});
+		EventManager.RegisterClassHandler(
+			typeof(Window),
+			FrameworkElement.LoadedEvent,
+			(RoutedEventHandler)
+				delegate(object sender, RoutedEventArgs _)
+				{
+					if (sender is Window window)
+					{
+						Apply(window);
+					}
+				}
+		);
 		if (Voidstrap.Utility.Platform.UsesPortableUi)
 		{
-			EventManager.RegisterClassHandler(typeof(Page), FrameworkElement.LoadedEvent, (RoutedEventHandler)delegate(object sender, RoutedEventArgs _)
-			{
-				if (sender is Page page)
-				{
-					ApplyToPage(page);
-				}
-			});
+			EventManager.RegisterClassHandler(
+				typeof(Page),
+				FrameworkElement.LoadedEvent,
+				(RoutedEventHandler)
+					delegate(object sender, RoutedEventArgs _)
+					{
+						if (sender is Page page)
+						{
+							ApplyToPage(page);
+						}
+					}
+			);
 		}
 	}
 
@@ -147,11 +163,20 @@ public static class AppFont
 	{
 		try
 		{
-			System.Reflection.FieldInfo? fontsField = typeof(ProGPU.Text.FontApi).GetField("s_cachedSystemFonts", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-			System.Reflection.FieldInfo? lockField = typeof(ProGPU.Text.FontApi).GetField("s_cachedSystemFontsLock", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+			System.Reflection.FieldInfo? fontsField = typeof(ProGPU.Text.FontApi).GetField(
+				"s_cachedSystemFonts",
+				System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static
+			);
+			System.Reflection.FieldInfo? lockField = typeof(ProGPU.Text.FontApi).GetField(
+				"s_cachedSystemFontsLock",
+				System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static
+			);
 			if (fontsField is null || lockField?.GetValue(null) is not object gate)
 			{
-				App.Logger?.WriteLine("AppFont", "The renderer font catalog was not found, the custom font only applies where it is drawn by name");
+				App.Logger?.WriteLine(
+					"AppFont",
+					"The renderer font catalog was not found, the custom font only applies where it is drawn by name"
+				);
 				return;
 			}
 			ProGPU.Text.FontApi.GetSystemFonts();
@@ -174,9 +199,7 @@ public static class AppFont
 #else
 	private static FontFamily? LoadPortable(string path) => Fonts.GetFontFamilies(new Uri(path, UriKind.Absolute)).FirstOrDefault();
 
-	private static void SetRendererFonts(object? faces)
-	{
-	}
+	private static void SetRendererFonts(object? faces) { }
 #endif
 
 	private static void ApplyToPage(Page page)
@@ -212,9 +235,7 @@ public static class AppFont
 				((DependencyObject)window).ClearValue(Control.FontFamilyProperty);
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	public static void ApplyToAllWindows()

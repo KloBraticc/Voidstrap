@@ -57,25 +57,72 @@ public sealed class StudioPluginPublishDialog : WpfUiWindow
 		ExtendsContentIntoTitleBar = true;
 		SetResourceReference(BackgroundProperty, "ApplicationBackgroundBrush");
 
-		_choose = new Wpf.Ui.Controls.Button { Content = Strings.Ui_Mods_StudioPlugins_PublishChoose, Icon = Wpf.Ui.Common.SymbolRegular.Folder24 };
+		_choose = new Wpf.Ui.Controls.Button
+		{
+			Content = Strings.Ui_Mods_StudioPlugins_PublishChoose,
+			Icon = Wpf.Ui.Common.SymbolRegular.Folder24,
+		};
 		_choose.Click += Choose_Click;
 		_file = new System.Windows.Controls.TextBlock { Margin = new Thickness(0, 6, 0, 0), TextTrimming = TextTrimming.CharacterEllipsis };
 		_name = new Wpf.Ui.Controls.TextBox { MaxLength = StudioPluginPublisher.MaxNameLength, Margin = new Thickness(0, 4, 0, 0) };
-		_description = new Wpf.Ui.Controls.TextBox { MaxLength = StudioPluginCommunity.MaxTextLength, AcceptsReturn = true, TextWrapping = TextWrapping.Wrap, MinHeight = 70, Margin = new Thickness(0, 4, 0, 0) };
+		_description = new Wpf.Ui.Controls.TextBox
+		{
+			MaxLength = StudioPluginCommunity.MaxTextLength,
+			AcceptsReturn = true,
+			TextWrapping = TextWrapping.Wrap,
+			MinHeight = 70,
+			Margin = new Thickness(0, 4, 0, 0),
+		};
 		_update = new CheckBox { Content = Strings.Ui_Mods_StudioPlugins_PublishUpdate, Margin = new Thickness(0, 12, 0, 0) };
 		_update.Checked += Update_Changed;
 		_update.Unchecked += Update_Changed;
-		_assetId = new Wpf.Ui.Controls.TextBox { PlaceholderText = Strings.Ui_Mods_StudioPlugins_PublishAssetId, MaxLength = 20, Margin = new Thickness(0, 6, 0, 0), Visibility = Visibility.Collapsed };
+		_assetId = new Wpf.Ui.Controls.TextBox
+		{
+			PlaceholderText = Strings.Ui_Mods_StudioPlugins_PublishAssetId,
+			MaxLength = 20,
+			Margin = new Thickness(0, 6, 0, 0),
+			Visibility = Visibility.Collapsed,
+		};
 		_account = new System.Windows.Controls.TextBlock { Margin = new Thickness(0, 14, 0, 0), TextWrapping = TextWrapping.Wrap };
-		_status = new System.Windows.Controls.TextBlock { Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap, FontSize = 12 };
+		_status = new System.Windows.Controls.TextBlock
+		{
+			Margin = new Thickness(0, 8, 0, 0),
+			TextWrapping = TextWrapping.Wrap,
+			FontSize = 12,
+		};
 		_status.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "TextFillColorTertiaryBrush");
-		_progress = new ProgressBar { Minimum = 0, Maximum = 1, Height = 4, Margin = new Thickness(0, 8, 0, 0), Visibility = Visibility.Collapsed };
+		_progress = new ProgressBar
+		{
+			Minimum = 0,
+			Maximum = 1,
+			Height = 4,
+			Margin = new Thickness(0, 8, 0, 0),
+			Visibility = Visibility.Collapsed,
+		};
 
-		_publish = new Wpf.Ui.Controls.Button { Content = Strings.Ui_Mods_StudioPlugins_PublishConfirm, Appearance = Wpf.Ui.Common.ControlAppearance.Primary, MinWidth = 110, Margin = new Thickness(0, 0, 8, 0), IsDefault = true, IsEnabled = false };
+		_publish = new Wpf.Ui.Controls.Button
+		{
+			Content = Strings.Ui_Mods_StudioPlugins_PublishConfirm,
+			Appearance = Wpf.Ui.Common.ControlAppearance.Primary,
+			MinWidth = 110,
+			Margin = new Thickness(0, 0, 8, 0),
+			IsDefault = true,
+			IsEnabled = false,
+		};
 		_publish.Click += Publish_Click;
-		Wpf.Ui.Controls.Button close = new() { Content = Strings.Common_Close, MinWidth = 110, IsCancel = true };
+		Wpf.Ui.Controls.Button close = new()
+		{
+			Content = Strings.Common_Close,
+			MinWidth = 110,
+			IsCancel = true,
+		};
 
-		StackPanel buttons = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 18, 0, 0) };
+		StackPanel buttons = new()
+		{
+			Orientation = Orientation.Horizontal,
+			HorizontalAlignment = HorizontalAlignment.Right,
+			Margin = new Thickness(0, 18, 0, 0),
+		};
 		buttons.Children.Add(_publish);
 		buttons.Children.Add(close);
 
@@ -108,13 +155,16 @@ public sealed class StudioPluginPublishDialog : WpfUiWindow
 		{
 			RobloxAccount? account = await RobloxCookie.GetAccountAsync(_cancel.Token);
 			_signedIn = account != null && account.UserId > 0;
-			_account.Text = _signedIn ? string.Format(Strings.Ui_Mods_StudioPlugins_PublishAccount, account!.Username) : Strings.Ui_Mods_StudioPlugins_SignIn;
+			_account.Text = _signedIn
+				? string.Format(Strings.Ui_Mods_StudioPlugins_PublishAccount, account!.Username)
+				: Strings.Ui_Mods_StudioPlugins_SignIn;
 		}
 		catch (OperationCanceledException) when (_cancel.IsCancellationRequested)
 		{
 			return;
 		}
-		catch (Exception ex) when (ex is HttpRequestException or IOException or OperationCanceledException or System.Text.Json.JsonException)
+		catch (Exception ex)
+			when (ex is HttpRequestException or IOException or OperationCanceledException or System.Text.Json.JsonException)
 		{
 			App.Logger.WriteException(LogIdent + "::Account", ex);
 			_account.Text = Strings.Ui_Mods_StudioPlugins_SignIn;
@@ -132,7 +182,7 @@ public sealed class StudioPluginPublishDialog : WpfUiWindow
 		Microsoft.Win32.OpenFileDialog dialog = new()
 		{
 			Title = Strings.Ui_Mods_StudioPlugins_PublishChoose,
-			Filter = Strings.Ui_Mods_StudioPlugins_FileFilter
+			Filter = Strings.Ui_Mods_StudioPlugins_FileFilter,
 		};
 		if (dialog.ShowDialog(this) != true)
 			return;
@@ -159,7 +209,10 @@ public sealed class StudioPluginPublishDialog : WpfUiWindow
 			return;
 		}
 		long existing = 0;
-		if (_update.IsChecked == true && (!long.TryParse(_assetId.Text.Trim(), NumberStyles.None, CultureInfo.InvariantCulture, out existing) || existing <= 0))
+		if (
+			_update.IsChecked == true
+			&& (!long.TryParse(_assetId.Text.Trim(), NumberStyles.None, CultureInfo.InvariantCulture, out existing) || existing <= 0)
+		)
 		{
 			_status.Text = Strings.Ui_Mods_StudioPlugins_PublishAssetId;
 			return;
@@ -170,16 +223,31 @@ public sealed class StudioPluginPublishDialog : WpfUiWindow
 		Progress<double> progress = new(value => _progress.Value = value);
 		try
 		{
-			StudioPluginPublishResult result = await StudioPluginPublisher.PublishAsync(_path, _name.Text, _description.Text, existing, progress, _cancel.Token);
-			_status.Text = result.Error == StudioPluginPublishError.None
-				? string.Format(Strings.Ui_Mods_StudioPlugins_PublishDone, result.AssetId.ToString(CultureInfo.InvariantCulture))
-				: Describe(result.Error, result.Detail);
+			StudioPluginPublishResult result = await StudioPluginPublisher.PublishAsync(
+				_path,
+				_name.Text,
+				_description.Text,
+				existing,
+				progress,
+				_cancel.Token
+			);
+			_status.Text =
+				result.Error == StudioPluginPublishError.None
+					? string.Format(Strings.Ui_Mods_StudioPlugins_PublishDone, result.AssetId.ToString(CultureInfo.InvariantCulture))
+					: Describe(result.Error, result.Detail);
 		}
 		catch (OperationCanceledException) when (_cancel.IsCancellationRequested)
 		{
 			return;
 		}
-		catch (Exception ex) when (ex is HttpRequestException or IOException or UnauthorizedAccessException or OperationCanceledException or System.Text.Json.JsonException)
+		catch (Exception ex)
+			when (ex
+					is HttpRequestException
+						or IOException
+						or UnauthorizedAccessException
+						or OperationCanceledException
+						or System.Text.Json.JsonException
+			)
 		{
 			App.Logger.WriteException(LogIdent + "::Publish", ex);
 			_status.Text = string.Format(Strings.Ui_Mods_StudioPlugins_PublishFailed, ex.GetType().Name);
@@ -200,18 +268,22 @@ public sealed class StudioPluginPublishDialog : WpfUiWindow
 		_progress.Visibility = busy ? Visibility.Visible : Visibility.Collapsed;
 	}
 
-	private static string Describe(StudioPluginPublishError error, string detail) => error switch
-	{
-		StudioPluginPublishError.FileMissing => Strings.Ui_Mods_StudioPlugins_PublishFileMissing,
-		StudioPluginPublishError.FileType => Strings.Ui_Mods_StudioPlugins_PublishFileType,
-		StudioPluginPublishError.FileTooLarge => Strings.Ui_Mods_StudioPlugins_PublishFileTooLarge,
-		StudioPluginPublishError.FileNotRoblox => Strings.Ui_Mods_StudioPlugins_PublishFileNotRoblox,
-		StudioPluginPublishError.NameLength => Strings.Ui_Mods_StudioPlugins_PublishNameLength,
-		StudioPluginPublishError.NotSignedIn => Strings.Ui_Mods_StudioPlugins_SignIn,
-		StudioPluginPublishError.NotAllowed => Strings.Ui_Mods_StudioPlugins_PublishNotAllowed,
-		StudioPluginPublishError.RateLimited => Strings.Ui_Mods_StudioPlugins_RateLimited,
-		_ => string.Format(Strings.Ui_Mods_StudioPlugins_PublishFailed, detail.Length > 0 ? detail : Strings.Ui_Mods_StudioPlugins_ActionFailed)
-	};
+	private static string Describe(StudioPluginPublishError error, string detail) =>
+		error switch
+		{
+			StudioPluginPublishError.FileMissing => Strings.Ui_Mods_StudioPlugins_PublishFileMissing,
+			StudioPluginPublishError.FileType => Strings.Ui_Mods_StudioPlugins_PublishFileType,
+			StudioPluginPublishError.FileTooLarge => Strings.Ui_Mods_StudioPlugins_PublishFileTooLarge,
+			StudioPluginPublishError.FileNotRoblox => Strings.Ui_Mods_StudioPlugins_PublishFileNotRoblox,
+			StudioPluginPublishError.NameLength => Strings.Ui_Mods_StudioPlugins_PublishNameLength,
+			StudioPluginPublishError.NotSignedIn => Strings.Ui_Mods_StudioPlugins_SignIn,
+			StudioPluginPublishError.NotAllowed => Strings.Ui_Mods_StudioPlugins_PublishNotAllowed,
+			StudioPluginPublishError.RateLimited => Strings.Ui_Mods_StudioPlugins_RateLimited,
+			_ => string.Format(
+				Strings.Ui_Mods_StudioPlugins_PublishFailed,
+				detail.Length > 0 ? detail : Strings.Ui_Mods_StudioPlugins_ActionFailed
+			),
+		};
 
 	private void Dialog_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
 	{

@@ -95,18 +95,34 @@ public sealed class ServerCard
     {
         List<ServerCardLine> lines = new();
         if (server.Fps > 0)
-            lines.Add(new ServerCardLine("", string.Format(Strings.ContextMenu_ServerBrowser_ServerPerformance, Math.Round(Math.Clamp(server.Fps / 60, 0, 1) * 100))));
+            lines.Add(
+                new ServerCardLine(
+                    "",
+                    string.Format(Strings.ContextMenu_ServerBrowser_ServerPerformance, Math.Round(Math.Clamp(server.Fps / 60, 0, 1) * 100))
+                )
+            );
         if (VoidstrapMatchmaker.KnownServerStart(server.JobId) is DateTimeOffset started)
             lines.Add(new ServerCardLine("", "~" + Compact(DateTimeOffset.UtcNow - started)));
         string region = DescribeRegion(server.Datacenter);
-        lines.Add(new ServerCardLine("", (region.Length > 0 ? region : Strings.ContextMenu_ServerBrowser_UnknownLocation) + "  ·  ~" + server.EstimatedPingMs.ToString(CultureInfo.CurrentCulture) + " ms"));
+        lines.Add(
+            new ServerCardLine(
+                "",
+                (region.Length > 0 ? region : Strings.ContextMenu_ServerBrowser_UnknownLocation)
+                    + "  ·  ~"
+                    + server.EstimatedPingMs.ToString(CultureInfo.CurrentCulture)
+                    + " ms"
+            )
+        );
         if (blocked)
             lines.Add(new ServerCardLine("", Strings.ContextMenu_ServerBrowser_RegionBlocked));
         return new ServerCard
         {
             JobId = server.JobId,
             Server = server,
-            Title = server.MaxPlayers > 0 ? string.Format(Strings.ContextMenu_ServerBrowser_Capacity, server.Playing, server.MaxPlayers) : string.Format(Strings.ContextMenu_ServerBrowser_CapacityUnknown, server.Playing),
+            Title =
+                server.MaxPlayers > 0
+                    ? string.Format(Strings.ContextMenu_ServerBrowser_Capacity, server.Playing, server.MaxPlayers)
+                    : string.Format(Strings.ContextMenu_ServerBrowser_CapacityUnknown, server.Playing),
             Lines = lines,
             Avatars = Faces(server.Playing, server.PlayerTokens.Length),
             Tokens = server.PlayerTokens,
@@ -117,7 +133,7 @@ public sealed class ServerCard
             Playing = server.Playing,
             Ping = server.EstimatedPingMs,
             IsFull = server.MaxPlayers > 0 && server.Playing >= server.MaxPlayers,
-            IsBlocked = blocked
+            IsBlocked = blocked,
         };
     }
 
@@ -126,7 +142,14 @@ public sealed class ServerCard
         List<ServerCardLine> lines = new();
         if (server.OwnerName.Length > 0)
             lines.Add(new ServerCardLine("", string.Format(Strings.ContextMenu_ServerBrowser_OwnedBy, server.OwnerName)));
-        lines.Add(new ServerCardLine("", server.MaxPlayers > 0 ? string.Format(Strings.ContextMenu_ServerBrowser_Capacity, server.Playing, server.MaxPlayers) : string.Format(Strings.ContextMenu_ServerBrowser_CapacityUnknown, server.Playing)));
+        lines.Add(
+            new ServerCardLine(
+                "",
+                server.MaxPlayers > 0
+                    ? string.Format(Strings.ContextMenu_ServerBrowser_Capacity, server.Playing, server.MaxPlayers)
+                    : string.Format(Strings.ContextMenu_ServerBrowser_CapacityUnknown, server.Playing)
+            )
+        );
         return new ServerCard
         {
             JobId = server.JobId,
@@ -136,7 +159,7 @@ public sealed class ServerCard
             Tokens = server.PlayerTokens,
             Fill = server.MaxPlayers > 0 ? Math.Clamp((double)server.Playing / server.MaxPlayers, 0, 1) : 0,
             AccessCode = server.AccessCode,
-            Playing = server.Playing
+            Playing = server.Playing,
         };
     }
 
@@ -144,16 +167,20 @@ public sealed class ServerCard
     {
         List<ServerCardLine> lines = new()
         {
-            new ServerCardLine("", "Joined " + entry.TimeJoined.ToString("t", CultureInfo.CurrentCulture)
-                + (entry.TimeLeft is DateTime left ? ", left " + left.ToString("t", CultureInfo.CurrentCulture) : string.Empty)),
-            new ServerCardLine("", entry.JobId.Length > 13 ? entry.JobId[..13] + "…" : entry.JobId)
+            new ServerCardLine(
+                "",
+                "Joined "
+                    + entry.TimeJoined.ToString("t", CultureInfo.CurrentCulture)
+                    + (entry.TimeLeft is DateTime left ? ", left " + left.ToString("t", CultureInfo.CurrentCulture) : string.Empty)
+            ),
+            new ServerCardLine("", entry.JobId.Length > 13 ? entry.JobId[..13] + "…" : entry.JobId),
         };
         return new ServerCard
         {
             JobId = entry.JobId,
             Title = string.IsNullOrWhiteSpace(entry.GameName) ? "Server" : entry.GameName,
             Lines = lines,
-            JoinText = "Rejoin"
+            JoinText = "Rejoin",
         };
     }
 

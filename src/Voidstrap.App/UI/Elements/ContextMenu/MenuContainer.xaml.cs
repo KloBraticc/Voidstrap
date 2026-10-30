@@ -132,7 +132,9 @@ public partial class MenuContainer : WpfUiWindow
             if (writeTime == _flagsWriteTimeUtc)
                 return;
             _flagsWriteTimeUtc = writeTime;
-			int totalFlags = Voidstrap.Utility.JsonFile.Deserialize<Dictionary<string, JsonElement>>(path, JsonOptions.Tolerant, 16777216).Count;
+            int totalFlags = Voidstrap
+                .Utility.JsonFile.Deserialize<Dictionary<string, JsonElement>>(path, JsonOptions.Tolerant, 16777216)
+                .Count;
             FlagsTextBlock.Text = $"Flags: {totalFlags}";
         }
         catch
@@ -176,15 +178,9 @@ public partial class MenuContainer : WpfUiWindow
             base.ContextMenu.Opened += ContextMenu_Opened;
             base.ContextMenu.Closed += ContextMenu_Closed;
         }
-        _memoryTimer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromSeconds(10L)
-        };
+        _memoryTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(10L) };
         _memoryTimer.Tick += MemoryTimer_Tick;
-        _playTimer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromSeconds(1L)
-        };
+        _playTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1L) };
         _playTimer.Tick += PlayTimer_Tick;
         if (_activityWatcher != null)
         {
@@ -247,7 +243,12 @@ public partial class MenuContainer : WpfUiWindow
         if (_closed || _handle == IntPtr.Zero)
             return;
         OverlayShortcut shortcut = App.Settings.Prop.RiShadeOverlayShortcut ??= new OverlayShortcut { Modifiers = 0, Key = VirtualKeyHome };
-        bool enabled = Voidstrap.Utility.Platform.SupportsOverlays && App.Settings.Prop.RiShadeEnabled && _activityWatcher != null && !_riShadeHotkeySuspended && shortcut.Key != 0;
+        bool enabled =
+            Voidstrap.Utility.Platform.SupportsOverlays
+            && App.Settings.Prop.RiShadeEnabled
+            && _activityWatcher != null
+            && !_riShadeHotkeySuspended
+            && shortcut.Key != 0;
         bool unchanged = shortcut.Key == _riShadeRegisteredKey && shortcut.Modifiers == _riShadeRegisteredModifiers;
         if (enabled == _riShadeHotkeyRegistered && (!enabled || unchanged))
             return;
@@ -267,9 +268,13 @@ public partial class MenuContainer : WpfUiWindow
             return;
         }
         SetRiShadeRawInput(true);
-        App.Logger.WriteLine("MenuContainer", _riShadeRawInputActive
-            ? "Another program owns " + shortcut.Describe() + ", RiShade now reads the key directly from the keyboard instead"
-            : shortcut.Describe() + " could not be registered and keyboard input could not be read, open the RiShade panel from Voidstrap settings instead");
+        App.Logger.WriteLine(
+            "MenuContainer",
+            _riShadeRawInputActive
+                ? "Another program owns " + shortcut.Describe() + ", RiShade now reads the key directly from the keyboard instead"
+                : shortcut.Describe()
+                    + " could not be registered and keyboard input could not be read, open the RiShade panel from Voidstrap settings instead"
+        );
     }
 
     private void SetRiShadeRawInput(bool active)
@@ -278,12 +283,21 @@ public partial class MenuContainer : WpfUiWindow
             return;
         RawInputDevice[] devices =
         {
-            new RawInputDevice { UsagePage = 0x01, Usage = 0x06, Flags = active ? 0x100u : 0x1u, Target = active ? _handle : IntPtr.Zero }
+            new RawInputDevice
+            {
+                UsagePage = 0x01,
+                Usage = 0x06,
+                Flags = active ? 0x100u : 0x1u,
+                Target = active ? _handle : IntPtr.Zero,
+            },
         };
         if (RegisterRawInputDevices(devices, 1, (uint)Marshal.SizeOf<RawInputDevice>()))
             _riShadeRawInputActive = active;
         else if (active)
-            App.Logger.WriteLine("MenuContainer", "Keyboard input for the RiShade key could not be registered, error " + Marshal.GetLastPInvokeError());
+            App.Logger.WriteLine(
+                "MenuContainer",
+                "Keyboard input for the RiShade key could not be registered, error " + Marshal.GetLastPInvokeError()
+            );
         else
             _riShadeRawInputActive = false;
         _riShadeRawKeyDown = 0;
@@ -371,11 +385,13 @@ public partial class MenuContainer : WpfUiWindow
         MenuContainer? instance = _currentInstance;
         if (instance == null || instance._closed)
             return;
-        instance.Dispatcher.BeginInvoke(new Action(() =>
-        {
-            instance._riShadeHotkeySuspended = suspend;
-            instance.RefreshRiShadeHotkey();
-        }));
+        instance.Dispatcher.BeginInvoke(
+            new Action(() =>
+            {
+                instance._riShadeHotkeySuspended = suspend;
+                instance.RefreshRiShadeHotkey();
+            })
+        );
     }
 
     public static void SuspendSessionDockHotkey(bool suspend)
@@ -383,11 +399,13 @@ public partial class MenuContainer : WpfUiWindow
         MenuContainer? instance = _currentInstance;
         if (instance == null || instance._closed)
             return;
-        instance.Dispatcher.BeginInvoke(new Action(() =>
-        {
-            instance._sessionDockHotkeySuspended = suspend;
-            instance.RefreshSessionDockHotkey();
-        }));
+        instance.Dispatcher.BeginInvoke(
+            new Action(() =>
+            {
+                instance._sessionDockHotkeySuspended = suspend;
+                instance.RefreshSessionDockHotkey();
+            })
+        );
     }
 
     // Whether a shortcut can be registered, it fails when another app already owns it
@@ -396,8 +414,12 @@ public partial class MenuContainer : WpfUiWindow
         MenuContainer? instance = _currentInstance;
         if (instance == null || instance._closed || shortcut.Key == 0)
             return true;
-        if (shortcut.SameAs(instance._registeredShortcut) || shortcut.SameAs(instance._registeredClipperShortcut) || shortcut.SameAs(instance._registeredCrosshairShortcut)
-            || (shortcut.Key == instance._riShadeRegisteredKey && shortcut.Modifiers == instance._riShadeRegisteredModifiers))
+        if (
+            shortcut.SameAs(instance._registeredShortcut)
+            || shortcut.SameAs(instance._registeredClipperShortcut)
+            || shortcut.SameAs(instance._registeredCrosshairShortcut)
+            || (shortcut.Key == instance._riShadeRegisteredKey && shortcut.Modifiers == instance._riShadeRegisteredModifiers)
+        )
             return true;
         if (Voidstrap.UI.PortableOverlay.Active)
         {
@@ -411,7 +433,8 @@ public partial class MenuContainer : WpfUiWindow
         return true;
     }
 
-    public static string ShortcutText => App.Settings.Prop.SessionDockShortcut is { IsSet: true } shortcut ? shortcut.Describe() : string.Empty;
+    public static string ShortcutText =>
+        App.Settings.Prop.SessionDockShortcut is { IsSet: true } shortcut ? shortcut.Describe() : string.Empty;
 
     private void RefreshSessionDockHotkey()
     {
@@ -494,9 +517,7 @@ public partial class MenuContainer : WpfUiWindow
         {
             dock.Close();
         }
-        catch (InvalidOperationException)
-        {
-        }
+        catch (InvalidOperationException) { }
     }
 
     private void SessionDock_Closed(object? sender, EventArgs e)
@@ -529,7 +550,11 @@ public partial class MenuContainer : WpfUiWindow
     {
         if (_closed)
             return;
-        OverlayShortcut shortcut = App.Settings.Prop.CrosshairShortcut ??= new OverlayShortcut { Modifiers = OverlayShortcut.Alt, Key = 0x58 };
+        OverlayShortcut shortcut = App.Settings.Prop.CrosshairShortcut ??= new OverlayShortcut
+        {
+            Modifiers = OverlayShortcut.Alt,
+            Key = 0x58,
+        };
         bool enabled = App.Settings.Prop.CrosshairShortcutEnabled && shortcut.IsSet && !_crosshairHotkeySuspended;
         if (enabled && _crosshairHotkeyRegistered && shortcut.SameAs(_registeredCrosshairShortcut))
             return;
@@ -574,8 +599,14 @@ public partial class MenuContainer : WpfUiWindow
             App.Settings.Prop.Crosshair = !App.Settings.Prop.Crosshair;
             App.Settings.SaveDeferred();
             Voidstrap.Integrations.Overlays.OverlayHub.RefreshCrosshair();
-            App.Logger.WriteLine("MenuContainer", "Crosshair turned " + (App.Settings.Prop.Crosshair ? "on" : "off") + " from its shortcut");
-            System.Windows.Application.Current?.Windows.OfType<Voidstrap.UI.Elements.Settings.MainWindow>().FirstOrDefault()?.RefreshCurrentPage();
+            App.Logger.WriteLine(
+                "MenuContainer",
+                "Crosshair turned " + (App.Settings.Prop.Crosshair ? "on" : "off") + " from its shortcut"
+            );
+            System
+                .Windows.Application.Current?.Windows.OfType<Voidstrap.UI.Elements.Settings.MainWindow>()
+                .FirstOrDefault()
+                ?.RefreshCurrentPage();
         }
         catch (Exception ex)
         {
@@ -596,11 +627,13 @@ public partial class MenuContainer : WpfUiWindow
         MenuContainer? instance = _currentInstance;
         if (instance == null || instance._closed)
             return;
-        instance.Dispatcher.BeginInvoke(new Action(() =>
-        {
-            instance._clipperHotkeySuspended = suspend;
-            instance.RefreshClipperHotkey();
-        }));
+        instance.Dispatcher.BeginInvoke(
+            new Action(() =>
+            {
+                instance._clipperHotkeySuspended = suspend;
+                instance.RefreshClipperHotkey();
+            })
+        );
     }
 
     private void RefreshClipperHotkey()
@@ -608,8 +641,16 @@ public partial class MenuContainer : WpfUiWindow
         if (_closed)
             return;
         _sessionDock?.UpdateClipperVisibility();
-        OverlayShortcut shortcut = App.Settings.Prop.ClipperShortcut ??= new OverlayShortcut { Modifiers = OverlayShortcut.Alt, Key = 0x79 };
-        bool enabled = Voidstrap.Integrations.Clipper.ClipperService.Supported && (App.Settings.Prop.ClipperEnabled || App.Settings.Prop.ClipperRecordOnGameStart) && shortcut.IsSet && !_clipperHotkeySuspended;
+        OverlayShortcut shortcut = App.Settings.Prop.ClipperShortcut ??= new OverlayShortcut
+        {
+            Modifiers = OverlayShortcut.Alt,
+            Key = 0x79,
+        };
+        bool enabled =
+            Voidstrap.Integrations.Clipper.ClipperService.Supported
+            && (App.Settings.Prop.ClipperEnabled || App.Settings.Prop.ClipperRecordOnGameStart)
+            && shortcut.IsSet
+            && !_clipperHotkeySuspended;
         if (enabled && _clipperHotkeyRegistered && shortcut.SameAs(_registeredClipperShortcut))
             return;
         if (_clipperHotkeyRegistered)
@@ -654,8 +695,7 @@ public partial class MenuContainer : WpfUiWindow
         {
             try
             {
-                await Voidstrap.Integrations.Clipper.ClipperService.TriggerShortcutAsync(
-                    _activityWatcher?.Data?.GameName);
+                await Voidstrap.Integrations.Clipper.ClipperService.TriggerShortcutAsync(_activityWatcher?.Data?.GameName);
             }
             catch (Exception ex)
             {
@@ -674,31 +714,34 @@ public partial class MenuContainer : WpfUiWindow
             return;
         try
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                if (_closed)
-                    return;
-                try
+            Dispatcher.BeginInvoke(
+                DispatcherPriority.Background,
+                new Action(() =>
                 {
-                    GetNotificationWindow().ShowNotification(
-                        Strings.Ui_Clipper_ClipSaved,
-                        $"{clip.FileName}\n{clip.FormattedDuration} • {clip.FormattedSize}",
-                        CurrentGameIcon.Source as BitmapSource,
-                        4.5,
-                        null,
-                        Strings.Ui_Clipper_Title,
-                        default,
-                        Voidstrap.UI.NotificationKind.Server);
-                }
-                catch (Exception ex)
-                {
-                    App.Logger.WriteLine("MenuContainer::ClipSavedNotification", ex.Message);
-                }
-            }));
+                    if (_closed)
+                        return;
+                    try
+                    {
+                        GetNotificationWindow()
+                            .ShowNotification(
+                                Strings.Ui_Clipper_ClipSaved,
+                                $"{clip.FileName}\n{clip.FormattedDuration} • {clip.FormattedSize}",
+                                CurrentGameIcon.Source as BitmapSource,
+                                4.5,
+                                null,
+                                Strings.Ui_Clipper_Title,
+                                default,
+                                Voidstrap.UI.NotificationKind.Server
+                            );
+                    }
+                    catch (Exception ex)
+                    {
+                        App.Logger.WriteLine("MenuContainer::ClipSavedNotification", ex.Message);
+                    }
+                })
+            );
         }
-        catch (InvalidOperationException)
-        {
-        }
+        catch (InvalidOperationException) { }
     }
 
     private IntPtr WindowMessage(IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -765,8 +808,11 @@ public partial class MenuContainer : WpfUiWindow
             openDock.CloseDock();
             return;
         }
-        if (!App.Settings.Prop.SessionDockEnabled || _activityWatcher is not { InGame: true } activityWatcher
-            || !(RobloxWindowTracker.IsProcessForeground(_watcher.RobloxProcessId) || RobloxWindowTracker.IsRobloxForeground()))
+        if (
+            !App.Settings.Prop.SessionDockEnabled
+            || _activityWatcher is not { InGame: true } activityWatcher
+            || !(RobloxWindowTracker.IsProcessForeground(_watcher.RobloxProcessId) || RobloxWindowTracker.IsRobloxForeground())
+        )
             return;
         SessionDock dock = EnsureSessionDock(activityWatcher);
         dock.SetGame(activityWatcher.Data, activityWatcher.Data.GameName, CurrentGameIcon.Source as BitmapSource);
@@ -785,7 +831,12 @@ public partial class MenuContainer : WpfUiWindow
 
     private void PreloadSessionDock(ActivityData data, string name, BitmapSource? icon)
     {
-        if (_closed || !App.Settings.Prop.SessionDockEnabled || !_sessionDockHotkeyRegistered || _activityWatcher is not { InGame: true } activityWatcher)
+        if (
+            _closed
+            || !App.Settings.Prop.SessionDockEnabled
+            || !_sessionDockHotkeyRegistered
+            || _activityWatcher is not { InGame: true } activityWatcher
+        )
             return;
         try
         {
@@ -821,7 +872,11 @@ public partial class MenuContainer : WpfUiWindow
                 break;
             case "browser":
                 if (_activityWatcher is { } activityWatcher)
-                    _sessionDock?.ShowTool("browser", "Servers", () => new SessionServerBrowser(activityWatcher, _watcher.ServerMatchmaker));
+                    _sessionDock?.ShowTool(
+                        "browser",
+                        "Servers",
+                        () => new SessionServerBrowser(activityWatcher, _watcher.ServerMatchmaker)
+                    );
                 break;
             case "games":
                 if (_activityWatcher is { } gameActivityWatcher)
@@ -834,16 +889,22 @@ public partial class MenuContainer : WpfUiWindow
                 _sessionDock?.ShowTool("music", "Music", () => new MusicPlayer(_activityWatcher));
                 break;
             case "adjustments":
-                _sessionDock?.ShowTool("notifications", "Settings",
-                    () => new SessionNotificationSettings(CurrentGameIcon.Source, _activityWatcher?.Data?.GameName, SendTestNotification));
+                _sessionDock?.ShowTool(
+                    "notifications",
+                    "Settings",
+                    () => new SessionNotificationSettings(CurrentGameIcon.Source, _activityWatcher?.Data?.GameName, SendTestNotification)
+                );
                 break;
             case "clips":
                 if (App.Settings.Prop.ClipperEnabled)
                     _sessionDock?.ShowTool("clips", Strings.Ui_Clipper_Title, () => new SessionClipperPanel());
                 break;
             case "layout":
-                _sessionDock?.ShowTool("layout", Strings.Ui_OverlayStudio_Title,
-                    () => new SessionOverlayLayoutEditor(CurrentGameIcon.Source, SendTestNotification));
+                _sessionDock?.ShowTool(
+                    "layout",
+                    Strings.Ui_OverlayStudio_Title,
+                    () => new SessionOverlayLayoutEditor(CurrentGameIcon.Source, SendTestNotification)
+                );
                 break;
             case "reviews":
                 _sessionDock?.ShowTool("reviews", Strings.Ui_Session_CommunityRating, () => new SessionReviewPanel(_activityWatcher));
@@ -861,7 +922,12 @@ public partial class MenuContainer : WpfUiWindow
 
     private void PrewarmJoinNotification()
     {
-        if (_activityWatcher == null || !App.Settings.Prop.NotificationWindowShow || !App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins)
+        if (
+            _activityWatcher == null
+            || !App.Settings.Prop.NotificationWindowShow
+            || !App.Settings.Prop.VoidNotify
+            || !App.Settings.Prop.NotifyGameJoins
+        )
             return;
 
         try
@@ -922,9 +988,11 @@ public partial class MenuContainer : WpfUiWindow
         RichPresenceMenuItem.Visibility = richPresence != null ? Visibility.Visible : Visibility.Collapsed;
         if (richPresence != null)
             RichPresenceMenuItem.IsChecked = richPresence.IsUserVisible;
-        GameHistoryMenuItem.Visibility = _activityWatcher != null && !App.Settings.Prop.UseDisableAppPatch ? Visibility.Visible : Visibility.Collapsed;
+        GameHistoryMenuItem.Visibility =
+            _activityWatcher != null && !App.Settings.Prop.UseDisableAppPatch ? Visibility.Visible : Visibility.Collapsed;
         MusicMenuItem.Visibility = _activityWatcher != null ? Visibility.Visible : Visibility.Collapsed;
-        bool frameGen = PlatformFeatureVisibility.IsSupported(Voidstrap.Platform.FeatureId.FrameGeneration)
+        bool frameGen =
+            PlatformFeatureVisibility.IsSupported(Voidstrap.Platform.FeatureId.FrameGeneration)
             && (Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex > 0 || App.Settings.Prop.FrameGenResumeIndex > 0);
         FrameGenParentMenuItem.Visibility = frameGen ? Visibility.Visible : Visibility.Collapsed;
         if (frameGen)
@@ -1001,7 +1069,10 @@ public partial class MenuContainer : WpfUiWindow
 
     private bool IsCurrentSession(ActivityData data, CancellationToken token)
     {
-        return !_closed && !token.IsCancellationRequested && _activityWatcher?.InGame == true && ReferenceEquals(_activityWatcher.Data, data);
+        return !_closed
+            && !token.IsCancellationRequested
+            && _activityWatcher?.InGame == true
+            && ReferenceEquals(_activityWatcher.Data, data);
     }
 
     private static async Task<(string Name, BitmapSource? Icon)> LoadGamePresentationAsync(ActivityData data, CancellationToken token)
@@ -1016,13 +1087,11 @@ public partial class MenuContainer : WpfUiWindow
                 iconUrl = data.UniverseDetails?.Thumbnail.ImageUrl;
                 universeName = data.UniverseDetails?.Data.Name ?? universeName;
             }
-			catch (OperationCanceledException)
-			{
-				throw;
-			}
-            catch
+            catch (OperationCanceledException)
             {
+                throw;
             }
+            catch { }
         }
         token.ThrowIfCancellationRequested();
         BitmapSource? gameIcon = null;
@@ -1041,28 +1110,32 @@ public partial class MenuContainer : WpfUiWindow
         return (universeName, gameIcon);
     }
 
-    private async Task UpdateCurrentGameIconAsync(ActivityData data, Task<(string Name, BitmapSource? Icon)> presentationTask, CancellationToken token)
+    private async Task UpdateCurrentGameIconAsync(
+        ActivityData data,
+        Task<(string Name, BitmapSource? Icon)> presentationTask,
+        CancellationToken token
+    )
     {
         try
         {
             (string name, BitmapSource? icon) = await presentationTask;
             if (!IsCurrentSession(data, token))
                 return;
-            await Dispatcher.InvokeAsync(delegate
-            {
-                if (!IsCurrentSession(data, token))
-                    return;
-                UpdateCurrentGameInfo(name, icon);
-                _sessionDock?.SetGame(data, name, icon);
-                PreloadSessionDock(data, name, icon);
-            }, DispatcherPriority.Background, token);
+            await Dispatcher.InvokeAsync(
+                delegate
+                {
+                    if (!IsCurrentSession(data, token))
+                        return;
+                    UpdateCurrentGameInfo(name, icon);
+                    _sessionDock?.SetGame(data, name, icon);
+                    PreloadSessionDock(data, name, icon);
+                },
+                DispatcherPriority.Background,
+                token
+            );
         }
-        catch (OperationCanceledException)
-        {
-        }
-        catch (InvalidOperationException)
-        {
-        }
+        catch (OperationCanceledException) { }
+        catch (InvalidOperationException) { }
     }
 
     public void ShowServerInformationWindow()
@@ -1070,7 +1143,8 @@ public partial class MenuContainer : WpfUiWindow
         ShowChildWindow(ref _serverInformationWindow, () => new ServerInformation(_watcher));
     }
 
-    private void ShowChildWindow<T>(ref T? window, Func<T> factory) where T : Window
+    private void ShowChildWindow<T>(ref T? window, Func<T> factory)
+        where T : Window
     {
         if (_closed)
             return;
@@ -1104,7 +1178,11 @@ public partial class MenuContainer : WpfUiWindow
         }
         using CancellationTokenSource timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(token, _lifetime);
         timeoutCts.CancelAfter(TimeSpan.FromSeconds(15));
-        using HttpResponseMessage response = await App.HttpClient.GetAsync($"https://games.roblox.com/v1/games/{placeId}/servers/Public?limit=100", HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token);
+        using HttpResponseMessage response = await App.HttpClient.GetAsync(
+            $"https://games.roblox.com/v1/games/{placeId}/servers/Public?limit=100",
+            HttpCompletionOption.ResponseHeadersRead,
+            timeoutCts.Token
+        );
         if (response.StatusCode == HttpStatusCode.TooManyRequests)
         {
             _closestServerBackoffUntilUtc = DateTime.UtcNow + TimeSpan.FromMinutes(2);
@@ -1112,7 +1190,10 @@ public partial class MenuContainer : WpfUiWindow
             return null;
         }
         response.EnsureSuccessStatusCode();
-        ServerListResponse? servers = JsonSerializer.Deserialize<ServerListResponse>(await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, 4 * 1024 * 1024, timeoutCts.Token), JsonOptions.Tolerant);
+        ServerListResponse? servers = JsonSerializer.Deserialize<ServerListResponse>(
+            await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, 4 * 1024 * 1024, timeoutCts.Token),
+            JsonOptions.Tolerant
+        );
         return servers?.Data?.OrderBy(server => server.Ping).FirstOrDefault();
     }
 
@@ -1122,9 +1203,7 @@ public partial class MenuContainer : WpfUiWindow
         {
             await UpdateRobloxMemoryAsync();
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteException("MenuContainer::MemoryTimer_Tick", ex);
@@ -1133,8 +1212,11 @@ public partial class MenuContainer : WpfUiWindow
 
     private async Task UpdateRobloxMemoryAsync()
     {
-        if (_closed || DateTime.UtcNow - _lastMemoryRefreshUtc < TimeSpan.FromSeconds(10)
-            || Interlocked.Exchange(ref _memoryUpdateActive, 1) != 0)
+        if (
+            _closed
+            || DateTime.UtcNow - _lastMemoryRefreshUtc < TimeSpan.FromSeconds(10)
+            || Interlocked.Exchange(ref _memoryUpdateActive, 1) != 0
+        )
             return;
         try
         {
@@ -1152,9 +1234,7 @@ public partial class MenuContainer : WpfUiWindow
                     MemoryTextBlock.Text = text;
             }
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("MenuContainer::RefreshTrayInfo", "Roblox memory could not be read: " + ex.Message);
@@ -1176,9 +1256,7 @@ public partial class MenuContainer : WpfUiWindow
                 {
                     total += process.WorkingSet64;
                 }
-                catch
-                {
-                }
+                catch { }
             }
         }
         return total;
@@ -1215,13 +1293,15 @@ public partial class MenuContainer : WpfUiWindow
                 _lastClosestPlaceId = data.PlaceId;
             }
             if (_lastClosestServer == null || _lastClosestPlaceId != data.PlaceId)
-                Frontend.ShowMessageBox(DateTime.UtcNow < _closestServerBackoffUntilUtc ? "Rate limited and no cached server available." : "No servers available.");
+                Frontend.ShowMessageBox(
+                    DateTime.UtcNow < _closestServerBackoffUntilUtc
+                        ? "Rate limited and no cached server available."
+                        : "No servers available."
+                );
             else
                 JoinServer(_lastClosestServer.Id, data.PlaceId);
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteException("MenuContainer::JoinClosestServer", ex);
@@ -1244,7 +1324,7 @@ public partial class MenuContainer : WpfUiWindow
                 FileName = processPath,
                 UseShellExecute = false,
                 CreateNoWindow = true,
-                WorkingDirectory = Path.GetDirectoryName(processPath) ?? string.Empty
+                WorkingDirectory = Path.GetDirectoryName(processPath) ?? string.Empty,
             };
             startInfo.ArgumentList.Add("-player");
             startInfo.ArgumentList.Add($"roblox://experiences/start?placeId={placeId}&gameInstanceId={Uri.EscapeDataString(serverId)}");
@@ -1266,18 +1346,21 @@ public partial class MenuContainer : WpfUiWindow
             return;
         try
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(delegate
-            {
-                if (!_closed)
-                {
-                    LogTracerMenuItem.Visibility = Visibility.Visible;
-                    RequestTrayRefresh();
-                }
-            }));
+            Dispatcher.BeginInvoke(
+                DispatcherPriority.Background,
+                new Action(
+                    delegate
+                    {
+                        if (!_closed)
+                        {
+                            LogTracerMenuItem.Visibility = Visibility.Visible;
+                            RequestTrayRefresh();
+                        }
+                    }
+                )
+            );
         }
-        catch (InvalidOperationException)
-        {
-        }
+        catch (InvalidOperationException) { }
     }
 
     private static readonly TimeSpan NotificationEnrichTimeout = TimeSpan.FromSeconds(8);
@@ -1288,9 +1371,18 @@ public partial class MenuContainer : WpfUiWindow
         return parts.Length >= 3 ? parts[0] + ", " + parts[^1] : location;
     }
 
-    private async Task ShowJoinNotification(ActivityData data, Task<(string Name, BitmapSource? Icon)> presentationTask, CancellationToken token)
+    private async Task ShowJoinNotification(
+        ActivityData data,
+        Task<(string Name, BitmapSource? Icon)> presentationTask,
+        CancellationToken token
+    )
     {
-        if (!App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins || !App.Settings.Prop.NotificationWindowShow || _activityWatcher == null)
+        if (
+            !App.Settings.Prop.VoidNotify
+            || !App.Settings.Prop.NotifyGameJoins
+            || !App.Settings.Prop.NotificationWindowShow
+            || _activityWatcher == null
+        )
         {
             return;
         }
@@ -1322,13 +1414,18 @@ public partial class MenuContainer : WpfUiWindow
         {
             await delayTask;
         }
-		catch (OperationCanceledException)
-		{
-			return;
-		}
-        if (!App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins || !App.Settings.Prop.NotificationWindowShow || !IsCurrentSession(data, token))
+        catch (OperationCanceledException)
+        {
             return;
-		Task<(int Current, int Max, int GameTotal, bool ServerFound)> statsTask = _activityWatcher.GetServerPlayerStatsAsync();
+        }
+        if (
+            !App.Settings.Prop.VoidNotify
+            || !App.Settings.Prop.NotifyGameJoins
+            || !App.Settings.Prop.NotificationWindowShow
+            || !IsCurrentSession(data, token)
+        )
+            return;
+        Task<(int Current, int Max, int GameTotal, bool ServerFound)> statsTask = _activityWatcher.GetServerPlayerStatsAsync();
         string serverLocation = "Server location unavailable";
         try
         {
@@ -1340,37 +1437,11 @@ public partial class MenuContainer : WpfUiWindow
         {
             return;
         }
-		catch
-		{
-		}
-		(int, int, int, bool) tuple = (0, 0, 0, false);
-		try
-		{
-			tuple = await statsTask.WaitAsync(NotificationEnrichTimeout, token);
-		}
-		catch (OperationCanceledException)
-		{
-			return;
-		}
-		catch (TimeoutException)
-		{
-			App.Logger.WriteLine("MenuContainer::ShowJoinNotification", "The player count was not ready in time, showing the join notification without it");
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("MenuContainer::GetServerPlayerStats", ex);
-		}
-        if (!App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins || !App.Settings.Prop.NotificationWindowShow || !IsCurrentSession(data, token))
-            return;
-        string text2 = tuple.Item1 > 0 && tuple.Item2 > 0
-            ? $" • {tuple.Item1}/{tuple.Item2} players"
-            : tuple.Item1 == 1
-                ? " • 1 player"
-                : tuple.Item1 > 1 ? $" • {tuple.Item1} players" : string.Empty;
-        BitmapSource? flagImage = null;
+        catch { }
+        (int, int, int, bool) tuple = (0, 0, 0, false);
         try
         {
-            flagImage = await Voidstrap.Utility.CountryFlag.GetImageAsync(data.ServerCountryCode, token).WaitAsync(NotificationEnrichTimeout, token);
+            tuple = await statsTask.WaitAsync(NotificationEnrichTimeout, token);
         }
         catch (OperationCanceledException)
         {
@@ -1378,7 +1449,39 @@ public partial class MenuContainer : WpfUiWindow
         }
         catch (TimeoutException)
         {
+            App.Logger.WriteLine(
+                "MenuContainer::ShowJoinNotification",
+                "The player count was not ready in time, showing the join notification without it"
+            );
         }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MenuContainer::GetServerPlayerStats", ex);
+        }
+        if (
+            !App.Settings.Prop.VoidNotify
+            || !App.Settings.Prop.NotifyGameJoins
+            || !App.Settings.Prop.NotificationWindowShow
+            || !IsCurrentSession(data, token)
+        )
+            return;
+        string text2 =
+            tuple.Item1 > 0 && tuple.Item2 > 0 ? $" • {tuple.Item1}/{tuple.Item2} players"
+            : tuple.Item1 == 1 ? " • 1 player"
+            : tuple.Item1 > 1 ? $" • {tuple.Item1} players"
+            : string.Empty;
+        BitmapSource? flagImage = null;
+        try
+        {
+            flagImage = await Voidstrap
+                .Utility.CountryFlag.GetImageAsync(data.ServerCountryCode, token)
+                .WaitAsync(NotificationEnrichTimeout, token);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        catch (TimeoutException) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("MenuContainer::ShowJoinNotification", "Flag lookup failed: " + ex.Message);
@@ -1387,50 +1490,88 @@ public partial class MenuContainer : WpfUiWindow
             serverLocation = CompactServerLocation(serverLocation);
         string uptime = await uptimeTask;
         // Uptime is left out when Roblox does not reveal it, the player count then gets the line to itself
-        string lastLine = uptime.Length > 0
-            ? "Uptime: " + uptime + text2
-            : text2.StartsWith(" • ", StringComparison.Ordinal) ? text2[3..] : text2.Trim();
-        string details = "Location: " + (flagImage != null ? NotificationWindow.FlagPlaceholder.ToString() : string.Empty)
-            + serverLocation + (lastLine.Length > 0 ? "\n" + lastLine : string.Empty);
+        string lastLine =
+            uptime.Length > 0 ? "Uptime: " + uptime + text2
+            : text2.StartsWith(" • ", StringComparison.Ordinal) ? text2[3..]
+            : text2.Trim();
+        string details =
+            "Location: "
+            + (flagImage != null ? NotificationWindow.FlagPlaceholder.ToString() : string.Empty)
+            + serverLocation
+            + (lastLine.Length > 0 ? "\n" + lastLine : string.Empty);
         string status = data.ServerType.ToConnectedString();
         try
         {
-            await Dispatcher.InvokeAsync(delegate
-            {
-                if (!App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins || !App.Settings.Prop.NotificationWindowShow || !IsCurrentSession(data, token))
-                    return;
-                if (!App.Settings.Prop.ServerDetailsInOverlay)
+            await Dispatcher.InvokeAsync(
+                delegate
                 {
-                    // Chosen in the notification settings: a Windows notification instead of the in game one
-                    Frontend.ShowBalloonTip(universeName, status + "\n" + details.Replace(NotificationWindow.FlagPlaceholder.ToString(), string.Empty), System.Windows.Forms.ToolTipIcon.None, 8);
-                    return;
-                }
-                try
-                {
-                    NotificationWindow? notificationWindow = Application.Current.Resources["NotificationWindow"] as NotificationWindow;
-                    if (notificationWindow == null || !notificationWindow.IsUsable)
+                    if (
+                        !App.Settings.Prop.VoidNotify
+                        || !App.Settings.Prop.NotifyGameJoins
+                        || !App.Settings.Prop.NotificationWindowShow
+                        || !IsCurrentSession(data, token)
+                    )
+                        return;
+                    if (!App.Settings.Prop.ServerDetailsInOverlay)
                     {
-                        notificationWindow = new NotificationWindow();
-                        Application.Current.Resources["NotificationWindow"] = notificationWindow;
+                        // Chosen in the notification settings: a Windows notification instead of the in game one
+                        Frontend.ShowBalloonTip(
+                            universeName,
+                            status + "\n" + details.Replace(NotificationWindow.FlagPlaceholder.ToString(), string.Empty),
+                            System.Windows.Forms.ToolTipIcon.None,
+                            8
+                        );
+                        return;
                     }
-                    App.Logger.WriteLine(
-                        "MenuContainer::ShowJoinNotification",
-                        "Join notification icon: " + (notificationIcon != null ? notificationIcon.PixelWidth + "x" + notificationIcon.PixelHeight + " frozen " + notificationIcon.IsFrozen : "none, thumbnail url was " + (string.IsNullOrEmpty(data.UniverseDetails?.Thumbnail?.ImageUrl) ? "empty" : data.UniverseDetails.Thumbnail.ImageUrl)));
-                    notificationWindow.ShowNotification(universeName, details, notificationIcon, 8.0, flagImage, status, token, Voidstrap.UI.NotificationKind.Server);
-                    QueueSessionDockTip(notificationWindow);
-                }
-                catch (Exception ex)
-                {
-                    App.Logger.WriteException("MenuContainer::ShowJoinNotification", ex);
-                }
-            }, DispatcherPriority.Background, token);
+                    try
+                    {
+                        NotificationWindow? notificationWindow = Application.Current.Resources["NotificationWindow"] as NotificationWindow;
+                        if (notificationWindow == null || !notificationWindow.IsUsable)
+                        {
+                            notificationWindow = new NotificationWindow();
+                            Application.Current.Resources["NotificationWindow"] = notificationWindow;
+                        }
+                        App.Logger.WriteLine(
+                            "MenuContainer::ShowJoinNotification",
+                            "Join notification icon: "
+                                + (
+                                    notificationIcon != null
+                                        ? notificationIcon.PixelWidth
+                                            + "x"
+                                            + notificationIcon.PixelHeight
+                                            + " frozen "
+                                            + notificationIcon.IsFrozen
+                                        : "none, thumbnail url was "
+                                            + (
+                                                string.IsNullOrEmpty(data.UniverseDetails?.Thumbnail?.ImageUrl)
+                                                    ? "empty"
+                                                    : data.UniverseDetails.Thumbnail.ImageUrl
+                                            )
+                                )
+                        );
+                        notificationWindow.ShowNotification(
+                            universeName,
+                            details,
+                            notificationIcon,
+                            8.0,
+                            flagImage,
+                            status,
+                            token,
+                            Voidstrap.UI.NotificationKind.Server
+                        );
+                        QueueSessionDockTip(notificationWindow);
+                    }
+                    catch (Exception ex)
+                    {
+                        App.Logger.WriteException("MenuContainer::ShowJoinNotification", ex);
+                    }
+                },
+                DispatcherPriority.Background,
+                token
+            );
         }
-        catch (OperationCanceledException)
-        {
-        }
-        catch (InvalidOperationException)
-        {
-        }
+        catch (OperationCanceledException) { }
+        catch (InvalidOperationException) { }
     }
 
     // Reminds about the dock shortcut after the join notification, the very first time or every game if chosen
@@ -1450,8 +1591,16 @@ public partial class MenuContainer : WpfUiWindow
                 App.State.Prop.SessionDockTipShown = true;
                 App.State.SaveDeferred();
             }
-            notificationWindow.ShowNotification("Voidstrap overlay is ready", "Press " + shortcut + " to open it.", null, 7.0, null, string.Empty,
-                default, Voidstrap.UI.NotificationKind.Server);
+            notificationWindow.ShowNotification(
+                "Voidstrap overlay is ready",
+                "Press " + shortcut + " to open it.",
+                null,
+                7.0,
+                null,
+                string.Empty,
+                default,
+                Voidstrap.UI.NotificationKind.Server
+            );
         }
         catch (Exception ex)
         {
@@ -1478,8 +1627,17 @@ public partial class MenuContainer : WpfUiWindow
             return;
         try
         {
-            GetNotificationWindow().ShowNotification("Test notification", "This is how Voidstrap notifications look.",
-                CurrentGameIcon.Source as BitmapSource, 5.0, null, string.Empty, default, Voidstrap.UI.NotificationKind.Server);
+            GetNotificationWindow()
+                .ShowNotification(
+                    "Test notification",
+                    "This is how Voidstrap notifications look.",
+                    CurrentGameIcon.Source as BitmapSource,
+                    5.0,
+                    null,
+                    string.Empty,
+                    default,
+                    Voidstrap.UI.NotificationKind.Server
+                );
         }
         catch (Exception ex)
         {
@@ -1492,16 +1650,17 @@ public partial class MenuContainer : WpfUiWindow
         if (_sessionNotifier != null || _activityWatcher == null)
             return;
         ActivityWatcher watcher = _activityWatcher;
-        _sessionNotifier = new SessionNotifier(() => watcher.InGame ? watcher.Data : null, note =>
-        {
-            try
+        _sessionNotifier = new SessionNotifier(
+            () => watcher.InGame ? watcher.Data : null,
+            note =>
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => _ = ShowSessionNoteAsync(note)));
+                try
+                {
+                    Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => _ = ShowSessionNoteAsync(note)));
+                }
+                catch (InvalidOperationException) { }
             }
-            catch (InvalidOperationException)
-            {
-            }
-        });
+        );
         _sessionNotifier.Start();
     }
 
@@ -1587,8 +1746,8 @@ public partial class MenuContainer : WpfUiWindow
         }
     }
 
-    private static string FormatJoinUptime(DateTimeOffset started)
-        => Voidstrap.UI.ViewModels.ContextMenu.ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - started);
+    private static string FormatJoinUptime(DateTimeOffset started) =>
+        Voidstrap.UI.ViewModels.ContextMenu.ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - started);
 
     private Task UpdateSessionMenuAsync(ActivityData data, CancellationToken token)
     {
@@ -1602,29 +1761,27 @@ public partial class MenuContainer : WpfUiWindow
             JoinClosestServerMenuItem.Visibility = data.ServerType == ServerType.Public ? Visibility.Visible : Visibility.Collapsed;
             JoinClosestServerTextBlock.Text = "Join Closest Server";
             if (!IsCurrentSession(data, token))
-				return Task.CompletedTask;
-			bool trace = ActivityWatcher.PlayerLoggingEnabled;
-			OutputConsoleMenuItem.Visibility = trace ? Visibility.Visible : Visibility.Collapsed;
+                return Task.CompletedTask;
+            bool trace = ActivityWatcher.PlayerLoggingEnabled;
+            OutputConsoleMenuItem.Visibility = trace ? Visibility.Visible : Visibility.Collapsed;
             ColorsTrackerLog.Visibility = Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
             RequestTrayRefresh();
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteException("MenuContainer::UpdateSessionMenu", ex);
         }
-		return Task.CompletedTask;
+        return Task.CompletedTask;
     }
 
     private void ResetSessionMenu()
     {
         if (_activityWatcher?.InGame == true)
             return;
-		if (!Voidstrap.Utility.Platform.IsLinux)
-			_memoryTimer.Stop();
-		_playTimer.Stop();
+        if (!Voidstrap.Utility.Platform.IsLinux)
+            _memoryTimer.Stop();
+        _playTimer.Stop();
         InviteDeeplinkMenuItem.Visibility = Visibility.Collapsed;
         ServerDetailsMenuItem.Visibility = Visibility.Collapsed;
         GamePassDetailsMenuItem.Visibility = Visibility.Collapsed;
@@ -1635,8 +1792,8 @@ public partial class MenuContainer : WpfUiWindow
         _serverInformationWindow?.Close();
         UpdateCurrentGameInfo(string.Empty, null);
         UpdatePlayTime(TimeSpan.Zero);
-		if (!Voidstrap.Utility.Platform.IsLinux)
-			MemoryTextBlock.Text = "Roblox: 0 MB";
+        if (!Voidstrap.Utility.Platform.IsLinux)
+            MemoryTextBlock.Text = "Roblox: 0 MB";
         RequestTrayRefresh();
     }
 
@@ -1655,14 +1812,17 @@ public partial class MenuContainer : WpfUiWindow
         Task<(string Name, BitmapSource? Icon)> presentationTask = LoadGamePresentationAsync(data, token);
         try
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(delegate
-            {
-                _ = UpdateSessionMenuAsync(data, token);
-            }));
+            Dispatcher.BeginInvoke(
+                DispatcherPriority.Background,
+                new Action(
+                    delegate
+                    {
+                        _ = UpdateSessionMenuAsync(data, token);
+                    }
+                )
+            );
         }
-        catch (InvalidOperationException)
-        {
-        }
+        catch (InvalidOperationException) { }
         _ = UpdateCurrentGameIconAsync(data, presentationTask, token);
         _ = ShowJoinNotification(data, presentationTask, token);
         StartSessionNotifier();
@@ -1683,9 +1843,7 @@ public partial class MenuContainer : WpfUiWindow
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(ResetSessionMenu));
         }
-        catch (InvalidOperationException)
-        {
-        }
+        catch (InvalidOperationException) { }
     }
 
     private void PlayTimer_Tick(object? sender, EventArgs e)
@@ -1842,7 +2000,7 @@ public partial class MenuContainer : WpfUiWindow
                 Label = GetTrayLabel(menuItem),
                 Enabled = menuItem.IsEnabled,
                 IsCheckable = menuItem.IsCheckable,
-                IsChecked = menuItem.IsChecked
+                IsChecked = menuItem.IsChecked,
             };
 
             if (menuItem.Items.Count > 0)
@@ -1884,21 +2042,25 @@ public partial class MenuContainer : WpfUiWindow
 
     private void RaiseTrayClick(MenuItem menuItem)
     {
-        Dispatcher.BeginInvoke(new Action(delegate
-        {
-            if (_closed || !menuItem.IsEnabled || menuItem.Visibility != Visibility.Visible)
-                return;
-            try
-            {
-                if (menuItem.IsCheckable)
-                    menuItem.IsChecked = !menuItem.IsChecked;
-                menuItem.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("MenuContainer::RaiseTrayClick", "The tray menu action failed: " + ex.Message);
-            }
-        }));
+        Dispatcher.BeginInvoke(
+            new Action(
+                delegate
+                {
+                    if (_closed || !menuItem.IsEnabled || menuItem.Visibility != Visibility.Visible)
+                        return;
+                    try
+                    {
+                        if (menuItem.IsCheckable)
+                            menuItem.IsChecked = !menuItem.IsChecked;
+                        menuItem.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
+                    }
+                    catch (Exception ex)
+                    {
+                        App.Logger.WriteLine("MenuContainer::RaiseTrayClick", "The tray menu action failed: " + ex.Message);
+                    }
+                }
+            )
+        );
     }
 
     private static string GetTrayLabel(MenuItem menuItem)
@@ -1948,30 +2110,30 @@ public partial class MenuContainer : WpfUiWindow
             Voidstrap.UI.WindowBackdrop.ApplyContextMenu(base.ContextMenu);
     }
 
-	private void ContextMenu_Opened(object sender, RoutedEventArgs e)
-	{
-		SyncMenuState();
-		if (_activityWatcher?.InGame == true)
-		{
-			_memoryTimer.Start();
-			_playTimer.Start();
-			MemoryTimer_Tick(null, EventArgs.Empty);
-			PlayTimer_Tick(sender, EventArgs.Empty);
-		}
-		ApplyBackdrop();
-		bool enabled = _activityWatcher?.InGame == true && ActivityWatcher.PlayerLoggingEnabled;
-		OutputConsoleMenuItem.Visibility = enabled ? Visibility.Visible : Visibility.Collapsed;
-		if (!enabled)
-		{
-			_outputConsole?.Close();
-		}
+    private void ContextMenu_Opened(object sender, RoutedEventArgs e)
+    {
+        SyncMenuState();
+        if (_activityWatcher?.InGame == true)
+        {
+            _memoryTimer.Start();
+            _playTimer.Start();
+            MemoryTimer_Tick(null, EventArgs.Empty);
+            PlayTimer_Tick(sender, EventArgs.Empty);
+        }
+        ApplyBackdrop();
+        bool enabled = _activityWatcher?.InGame == true && ActivityWatcher.PlayerLoggingEnabled;
+        OutputConsoleMenuItem.Visibility = enabled ? Visibility.Visible : Visibility.Collapsed;
+        if (!enabled)
+        {
+            _outputConsole?.Close();
+        }
     }
 
-	private void ContextMenu_Closed(object sender, RoutedEventArgs e)
-	{
-		_memoryTimer.Stop();
-		_playTimer.Stop();
-	}
+    private void ContextMenu_Closed(object sender, RoutedEventArgs e)
+    {
+        _memoryTimer.Stop();
+        _playTimer.Stop();
+    }
 
     private void Window_Closed(object sender, EventArgs e)
     {
@@ -1996,9 +2158,7 @@ public partial class MenuContainer : WpfUiWindow
                 _activityWatcher.OnGameLeave -= ActivityWatcher_OnGameLeave;
             }
         }
-        catch
-        {
-        }
+        catch { }
         CloseSessionDock();
         StopSessionNotifier();
         Voidstrap.Integrations.Clipper.ClipperService.ClipSaved -= OnClipSavedByService;
@@ -2034,9 +2194,7 @@ public partial class MenuContainer : WpfUiWindow
             {
                 notificationWindow.Close();
             }
-            catch
-            {
-            }
+            catch { }
             Application.Current.Resources.Remove("NotificationWindow");
         }
         CurrentGameIcon.Source = null;
@@ -2060,8 +2218,10 @@ public partial class MenuContainer : WpfUiWindow
             _musicPlayerWindow,
             _gamePassWindow,
             _diagnosticsWindow,
-            _outputConsole
-        }.OfType<Window>().ToArray();
+            _outputConsole,
+        }
+            .OfType<Window>()
+            .ToArray();
         foreach (Window window in windows)
         {
             window.Closed -= ChildWindow_Closed;
@@ -2069,9 +2229,7 @@ public partial class MenuContainer : WpfUiWindow
             {
                 window.Close();
             }
-            catch
-            {
-            }
+            catch { }
         }
         _serverInformationWindow = null;
         _gameHistoryWindow = null;
@@ -2187,7 +2345,10 @@ public partial class MenuContainer : WpfUiWindow
 
     private void CloseRobloxMenuItem_Click(object sender, RoutedEventArgs e)
     {
-        if (Frontend.ShowMessageBox(Strings.ContextMenu_CloseRobloxMessage, MessageBoxImage.Exclamation, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+        if (
+            Frontend.ShowMessageBox(Strings.ContextMenu_CloseRobloxMessage, MessageBoxImage.Exclamation, MessageBoxButton.YesNo)
+            == MessageBoxResult.Yes
+        )
         {
             _watcher.KillRobloxProcess();
         }
@@ -2215,10 +2376,10 @@ public partial class MenuContainer : WpfUiWindow
         ShowChildWindow(ref _musicPlayerWindow, () => new MusicPlayer());
     }
 
-	private void OutputConsoleMenuItem_Click(object sender, RoutedEventArgs e)
-	{
-		if (_activityWatcher == null || !ActivityWatcher.PlayerLoggingEnabled)
-			return;
+    private void OutputConsoleMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        if (_activityWatcher == null || !ActivityWatcher.PlayerLoggingEnabled)
+            return;
         ShowChildWindow(ref _outputConsole, () => new OutputConsole(_activityWatcher));
     }
 }

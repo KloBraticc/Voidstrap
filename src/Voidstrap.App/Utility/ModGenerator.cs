@@ -17,7 +17,7 @@ public enum ModGeneratorFill
 {
 	Solid,
 	Gradient,
-	Image
+	Image,
 }
 
 public sealed class ModGeneratorSettings
@@ -136,7 +136,10 @@ public static class ModGenerator
 
 	private static string? _iconsGuid;
 
-	private static readonly System.Text.RegularExpressions.Regex ThemeNameCleaner = new System.Text.RegularExpressions.Regex("[^A-Za-z0-9 _.()-]", System.Text.RegularExpressions.RegexOptions.Compiled);
+	private static readonly System.Text.RegularExpressions.Regex ThemeNameCleaner = new System.Text.RegularExpressions.Regex(
+		"[^A-Za-z0-9 _.()-]",
+		System.Text.RegularExpressions.RegexOptions.Compiled
+	);
 
 	private static readonly SemaphoreSlim GenerateGate = new SemaphoreSlim(1, 1);
 
@@ -146,7 +149,7 @@ public static class ModGenerator
 		"content/textures/loading/robloxlogo.png",
 		"ExtraContent/textures/ui/LuaApp/ExternalSite/roblox.png",
 		"ExtraContent/textures/ui/LuaApp/ExternalSite/roblox@2x.png",
-		"ExtraContent/textures/ui/LuaApp/ExternalSite/roblox@3x.png"
+		"ExtraContent/textures/ui/LuaApp/ExternalSite/roblox@3x.png",
 	];
 
 	private static readonly string[] CuratedTextures =
@@ -201,37 +204,61 @@ public static class ModGenerator
 		"ExtraContent/textures/ui/LuaChatV2/common_search@3x.png",
 		"ExtraContent/textures/ui/LuaChatV2/actions_checkbox.png",
 		"ExtraContent/textures/ui/LuaChatV2/ic-add-friends.png",
-		"ExtraContent/textures/ui/LuaChatV2/ic-friend-empty-border.png"
+		"ExtraContent/textures/ui/LuaChatV2/ic-friend-empty-border.png",
 	];
 
-	private static readonly string[] TextureRoots =
-	[
-		"ExtraContent/textures/ui",
-		"content/textures/ui"
-	];
+	private static readonly string[] TextureRoots = ["ExtraContent/textures/ui", "content/textures/ui"];
 
 	private static readonly string[] StructuralPrefixes =
 	[
-		"chat_bubble/", "component_assets/", "squircles/", "gradient/", "LuaApp/buttons/", "LuaApp/dropdown/", "AE/Graphic/"
+		"chat_bubble/",
+		"component_assets/",
+		"squircles/",
+		"gradient/",
+		"LuaApp/buttons/",
+		"LuaApp/dropdown/",
+		"AE/Graphic/",
 	];
 
 	private static readonly string[] StructuralParts = ["/9-slice/", "/9Slice/"];
 
 	private static readonly string[] StructuralWords =
 	[
-		"slider", "shadow", "hover", "glow", "mask", "toggle", "selector", "highlight", "background", "outline", "rounded", "capsule", "knob", "divider"
+		"slider",
+		"shadow",
+		"hover",
+		"glow",
+		"mask",
+		"toggle",
+		"selector",
+		"highlight",
+		"background",
+		"outline",
+		"rounded",
+		"capsule",
+		"knob",
+		"divider",
 	];
 
 	private static readonly string[] ArtPrefixes =
 	[
-		"icons/graphic/", "icons/brands/", "icons/logo/", "reactions/", "icons/controls/voice/"
+		"icons/graphic/",
+		"icons/brands/",
+		"icons/logo/",
+		"reactions/",
+		"icons/controls/voice/",
 	];
 
 	private static readonly string[] ArtParts = ["goldrobux", "robuxcoin", "/social/"];
 
 	private static readonly string[] PreviewGroups =
 	[
-		"icons/menu/", "icons/navigation/", "icons/common/", "icons/actions/", "icons/status/", "icons/controls/"
+		"icons/menu/",
+		"icons/navigation/",
+		"icons/common/",
+		"icons/actions/",
+		"icons/status/",
+		"icons/controls/",
 	];
 
 	private static string Root => Path.Combine(Paths.Base, "ModGenerator");
@@ -305,7 +332,9 @@ public static class ModGenerator
 
 		public Color[] GradientLut = [];
 
-		public Dictionary<string, (byte[] Pixels, int Width, int Height)> Swaps = new Dictionary<string, (byte[], int, int)>(StringComparer.Ordinal);
+		public Dictionary<string, (byte[] Pixels, int Width, int Height)> Swaps = new Dictionary<string, (byte[], int, int)>(
+			StringComparer.Ordinal
+		);
 	}
 
 	private struct Region
@@ -402,7 +431,11 @@ public static class ModGenerator
 		}
 	}
 
-	public static async Task<string> GenerateAsync(ModGeneratorSettings settings, IProgress<ModGeneratorProgress>? progress, CancellationToken token)
+	public static async Task<string> GenerateAsync(
+		ModGeneratorSettings settings,
+		IProgress<ModGeneratorProgress>? progress,
+		CancellationToken token
+	)
 	{
 		await GenerateGate.WaitAsync(token).ConfigureAwait(false);
 		try
@@ -475,7 +508,7 @@ public static class ModGenerator
 				NamedIcons = source.Indexed ? source.Index.Values.Sum(list => list.Count) : 0,
 				IconFont = source.FontSource,
 				FontColor = painter.FontColor,
-				FontBrush = painter.FontBrush
+				FontBrush = painter.FontBrush,
 			};
 		}
 		catch (Exception ex)
@@ -496,7 +529,11 @@ public static class ModGenerator
 			_sourceCheckedAt = Environment.TickCount64;
 			RobloxPlayerData data = new RobloxPlayerData();
 			(string versionDirectory, string versionGuid) = ResolveInstall(data);
-			if (_source != null && string.Equals(_source.VersionDirectory, versionDirectory, StringComparison.OrdinalIgnoreCase) && string.Equals(_source.VersionGuid, versionGuid, StringComparison.OrdinalIgnoreCase))
+			if (
+				_source != null
+				&& string.Equals(_source.VersionDirectory, versionDirectory, StringComparison.OrdinalIgnoreCase)
+				&& string.Equals(_source.VersionGuid, versionGuid, StringComparison.OrdinalIgnoreCase)
+			)
 			{
 				return _source;
 			}
@@ -511,7 +548,7 @@ public static class ModGenerator
 				VersionDirectory = versionDirectory,
 				VersionGuid = versionGuid,
 				Manifest = manifest,
-				Index = new Dictionary<string, List<IconRect>>()
+				Index = new Dictionary<string, List<IconRect>>(),
 			};
 			try
 			{
@@ -571,7 +608,13 @@ public static class ModGenerator
 					{
 						break;
 					}
-					if (!icon.Name.StartsWith(group, StringComparison.Ordinal) || icon.Width < 24 || icon.Height < 24 || icon.Width > PreviewCell || icon.Height > PreviewCell)
+					if (
+						!icon.Name.StartsWith(group, StringComparison.Ordinal)
+						|| icon.Width < 24
+						|| icon.Height < 24
+						|| icon.Width > PreviewCell
+						|| icon.Height > PreviewCell
+					)
 					{
 						continue;
 					}
@@ -591,7 +634,9 @@ public static class ModGenerator
 		int height = (picks.Count + PreviewColumns - 1) / PreviewColumns * PreviewCell;
 		byte[] canvas = new byte[width * height * 4];
 		List<IconRect> placed = new List<IconRect>(picks.Count);
-		Dictionary<string, (byte[] Pixels, int Width, int Height)> sheets = new Dictionary<string, (byte[], int, int)>(StringComparer.OrdinalIgnoreCase);
+		Dictionary<string, (byte[] Pixels, int Width, int Height)> sheets = new Dictionary<string, (byte[], int, int)>(
+			StringComparer.OrdinalIgnoreCase
+		);
 		for (int i = 0; i < picks.Count; i++)
 		{
 			(string sheet, IconRect icon) = picks[i];
@@ -608,7 +653,13 @@ public static class ModGenerator
 			int y = i / PreviewColumns * PreviewCell + (PreviewCell - icon.Height) / 2;
 			for (int row = 0; row < icon.Height; row++)
 			{
-				Buffer.BlockCopy(loaded.Pixels, ((icon.Y + row) * loaded.Width + icon.X) * 4, canvas, ((y + row) * width + x) * 4, icon.Width * 4);
+				Buffer.BlockCopy(
+					loaded.Pixels,
+					((icon.Y + row) * loaded.Width + icon.X) * 4,
+					canvas,
+					((y + row) * width + x) * 4,
+					icon.Width * 4
+				);
 			}
 			placed.Add(icon with { X = x, Y = y });
 		}
@@ -622,7 +673,8 @@ public static class ModGenerator
 
 	public static IReadOnlyList<ModGeneratorIcon> ListIcons()
 	{
-		PreviewSource source = GetPreviewSource() ?? throw new InvalidOperationException("Roblox is not installed yet. Launch Roblox once, then try again.");
+		PreviewSource source =
+			GetPreviewSource() ?? throw new InvalidOperationException("Roblox is not installed yet. Launch Roblox once, then try again.");
 		lock (SourceGate)
 		{
 			if (_icons != null && string.Equals(_iconsGuid, source.VersionGuid, StringComparison.OrdinalIgnoreCase))
@@ -630,11 +682,16 @@ public static class ModGenerator
 				return _icons;
 			}
 		}
-		Dictionary<string, (string Sheet, IconRect Icon, int Rank)> best = new Dictionary<string, (string, IconRect, int)>(StringComparer.Ordinal);
+		Dictionary<string, (string Sheet, IconRect Icon, int Rank)> best = new Dictionary<string, (string, IconRect, int)>(
+			StringComparer.Ordinal
+		);
 		foreach ((string sheet, List<IconRect> icons) in source.Index)
 		{
 			int scale = ScaleOf(sheet);
-			int rank = scale == 2 ? 0 : scale == 3 ? 1 : 2;
+			int rank =
+				scale == 2 ? 0
+				: scale == 3 ? 1
+				: 2;
 			foreach (IconRect icon in icons)
 			{
 				if (!IsIconName(icon.Name) || IsStructural(icon.Name) || icon.Width <= 0 || icon.Height <= 0)
@@ -648,7 +705,12 @@ public static class ModGenerator
 			}
 		}
 		List<ModGeneratorIcon> result = new List<ModGeneratorIcon>(best.Count);
-		foreach (IGrouping<string, KeyValuePair<string, (string Sheet, IconRect Icon, int Rank)>> group in best.GroupBy(pair => pair.Value.Sheet, StringComparer.OrdinalIgnoreCase))
+		foreach (
+			IGrouping<string, KeyValuePair<string, (string Sheet, IconRect Icon, int Rank)>> group in best.GroupBy(
+				pair => pair.Value.Sheet,
+				StringComparer.OrdinalIgnoreCase
+			)
+		)
 		{
 			(byte[] Pixels, int Width, int Height) sheet;
 			try
@@ -694,7 +756,14 @@ public static class ModGenerator
 			{
 				return [];
 			}
-			return [.. Directory.EnumerateFiles(ThemesRoot, "*.json").Select(Path.GetFileNameWithoutExtension).OfType<string>().OrderBy(name => name, StringComparer.CurrentCultureIgnoreCase)];
+			return
+			[
+				.. Directory
+					.EnumerateFiles(ThemesRoot, "*.json")
+					.Select(Path.GetFileNameWithoutExtension)
+					.OfType<string>()
+					.OrderBy(name => name, StringComparer.CurrentCultureIgnoreCase),
+			];
 		}
 		catch (Exception ex)
 		{
@@ -765,7 +834,14 @@ public static class ModGenerator
 		return Path.Combine(ThemesRoot, name + ".json");
 	}
 
-	private static string GenerateCore(ModGeneratorSettings settings, string? existingId, IProgress<ModGeneratorProgress>? progress, CancellationToken token, string? versionDirectory = null, string? versionGuid = null)
+	private static string GenerateCore(
+		ModGeneratorSettings settings,
+		string? existingId,
+		IProgress<ModGeneratorProgress>? progress,
+		CancellationToken token,
+		string? versionDirectory = null,
+		string? versionGuid = null
+	)
 	{
 		RobloxPlayerData data = new RobloxPlayerData();
 		if (versionDirectory == null || versionGuid == null)
@@ -776,12 +852,16 @@ public static class ModGenerator
 		}
 		if (!Directory.Exists(Path.Combine(versionDirectory, "ExtraContent")))
 		{
-			throw new InvalidOperationException(RobloxInstallCompression.IsCompressed(data)
-				? "Roblox is compressed and could not be unpacked. Check that there is free disk space, then generate the mod again."
-				: "Roblox is not installed yet. Launch Roblox once, then generate the mod.");
+			throw new InvalidOperationException(
+				RobloxInstallCompression.IsCompressed(data)
+					? "Roblox is compressed and could not be unpacked. Check that there is free disk space, then generate the mod again."
+					: "Roblox is not installed yet. Launch Roblox once, then generate the mod."
+			);
 		}
 		progress?.Report(new ModGeneratorProgress(0.02, "Reading the icon index from this Roblox build"));
-		string modId = existingId ?? ManagedModStore.Create(string.IsNullOrWhiteSpace(settings.ModName) ? "Generated UI theme" : settings.ModName.Trim()).Id;
+		string modId =
+			existingId
+			?? ManagedModStore.Create(string.IsNullOrWhiteSpace(settings.ModName) ? "Generated UI theme" : settings.ModName.Trim()).Id;
 		string stateFolder = Path.Combine(Root, modId);
 		Directory.CreateDirectory(stateFolder);
 		StoreImage(settings.FillImage, Path.Combine(stateFolder, FillImageName));
@@ -815,52 +895,69 @@ public static class ModGenerator
 		}
 
 		Tally tally = new Tally();
-		List<(string Relative, bool Sheet)> targets = [.. sheets.Select(sheet => (sheet, true)), .. textures.Select(texture => (texture, false))];
+		List<(string Relative, bool Sheet)> targets =
+		[
+			.. sheets.Select(sheet => (sheet, true)),
+			.. textures.Select(texture => (texture, false)),
+		];
 		int done = 0;
-		Parallel.ForEach(targets, new ParallelOptions { MaxDegreeOfParallelism = Workers, CancellationToken = token }, target =>
-		{
-			try
+		Parallel.ForEach(
+			targets,
+			new ParallelOptions { MaxDegreeOfParallelism = Workers, CancellationToken = token },
+			target =>
 			{
-				string source = ResolveSource(versionDirectory, versionGuid, target.Relative, manifest);
-				(byte[] pixels, int width, int height) = Load(source);
-				int scale = ScaleOf(target.Relative);
-				int painted;
-				if (target.Sheet && index.TryGetValue(target.Relative, out List<IconRect>? icons) && IsIndexUsable(pixels, width, height, icons))
+				try
 				{
-					painted = PaintIndexed(pixels, width, height, icons, painter, scale, target.Relative);
-				}
-				else
-				{
-					painted = PaintComponents(pixels, width, height, painter, scale, curatedSet.Contains(target.Relative));
-				}
-				if (painted > 0)
-				{
-					string destination = Path.Combine(staging, target.Relative.Replace('/', Path.DirectorySeparatorChar));
-					Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
-					Save(destination, pixels, width, height);
-					if (target.Sheet)
+					string source = ResolveSource(versionDirectory, versionGuid, target.Relative, manifest);
+					(byte[] pixels, int width, int height) = Load(source);
+					int scale = ScaleOf(target.Relative);
+					int painted;
+					if (
+						target.Sheet
+						&& index.TryGetValue(target.Relative, out List<IconRect>? icons)
+						&& IsIndexUsable(pixels, width, height, icons)
+					)
 					{
-						Interlocked.Add(ref tally.Icons, painted);
-						Interlocked.Increment(ref tally.Sheets);
+						painted = PaintIndexed(pixels, width, height, icons, painter, scale, target.Relative);
 					}
 					else
 					{
-						Interlocked.Increment(ref tally.Textures);
+						painted = PaintComponents(pixels, width, height, painter, scale, curatedSet.Contains(target.Relative));
+					}
+					if (painted > 0)
+					{
+						string destination = Path.Combine(staging, target.Relative.Replace('/', Path.DirectorySeparatorChar));
+						Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
+						Save(destination, pixels, width, height);
+						if (target.Sheet)
+						{
+							Interlocked.Add(ref tally.Icons, painted);
+							Interlocked.Increment(ref tally.Sheets);
+						}
+						else
+						{
+							Interlocked.Increment(ref tally.Textures);
+						}
 					}
 				}
+				catch (OperationCanceledException)
+				{
+					throw;
+				}
+				catch (Exception ex)
+				{
+					Interlocked.Increment(ref tally.Skipped);
+					App.Logger?.WriteLine(LogIdent, "Skipped " + target.Relative + ": " + ex.Message);
+				}
+				int count = Interlocked.Increment(ref done);
+				progress?.Report(
+					new ModGeneratorProgress(
+						0.05 + 0.8 * count / targets.Count,
+						"Recolouring " + count + " of " + targets.Count + " images"
+					)
+				);
 			}
-			catch (OperationCanceledException)
-			{
-				throw;
-			}
-			catch (Exception ex)
-			{
-				Interlocked.Increment(ref tally.Skipped);
-				App.Logger?.WriteLine(LogIdent, "Skipped " + target.Relative + ": " + ex.Message);
-			}
-			int count = Interlocked.Increment(ref done);
-			progress?.Report(new ModGeneratorProgress(0.05 + 0.8 * count / targets.Count, "Recolouring " + count + " of " + targets.Count + " images"));
-		});
+		);
 		token.ThrowIfCancellationRequested();
 
 		if (settings.RecolorIconFont)
@@ -901,10 +998,18 @@ public static class ModGenerator
 		settings.GeneratedUtc = DateTime.UtcNow;
 		JsonFile.SerializeAtomic(Path.Combine(stateFolder, SettingsFileName), settings, JsonOptions.Indented);
 		PruneOriginals(versionGuid);
-		string summary = "Recoloured " + tally.Icons.ToString("N0", CultureInfo.CurrentCulture) + " icons in " + tally.Sheets + " sheets"
+		string summary =
+			"Recoloured "
+			+ tally.Icons.ToString("N0", CultureInfo.CurrentCulture)
+			+ " icons in "
+			+ tally.Sheets
+			+ " sheets"
 			+ (tally.Fonts > 0 ? ", " + tally.Fonts + (tally.Fonts == 1 ? " icon font" : " icon fonts") : "")
 			+ (tally.Textures > 0 ? ", " + tally.Textures.ToString("N0", CultureInfo.CurrentCulture) + " textures" : "");
-		App.Logger?.WriteLine(LogIdent, "Generated " + summary + " for Roblox " + versionGuid + (tally.Skipped > 0 ? ", skipped " + tally.Skipped : ""));
+		App.Logger?.WriteLine(
+			LogIdent,
+			"Generated " + summary + " for Roblox " + versionGuid + (tally.Skipped > 0 ? ", skipped " + tally.Skipped : "")
+		);
 		return summary + (tally.Skipped > 0 ? ", " + tally.Skipped + " skipped" : "");
 	}
 
@@ -957,7 +1062,11 @@ public static class ModGenerator
 			{
 				string name = Path.GetFileNameWithoutExtension(file);
 				string relative = Path.GetRelativePath(versionDirectory, file).Replace('\\', '/');
-				if (name.StartsWith("img_set_", StringComparison.OrdinalIgnoreCase) || relative.Contains("/ImageSet/", StringComparison.OrdinalIgnoreCase) || logos.Contains(relative))
+				if (
+					name.StartsWith("img_set_", StringComparison.OrdinalIgnoreCase)
+					|| relative.Contains("/ImageSet/", StringComparison.OrdinalIgnoreCase)
+					|| logos.Contains(relative)
+				)
 				{
 					continue;
 				}
@@ -977,8 +1086,11 @@ public static class ModGenerator
 		{
 			return [];
 		}
-		return Directory.EnumerateFiles(root, "BuilderIcons*.*", SearchOption.AllDirectories)
-			.Where(file => file.EndsWith(".ttf", StringComparison.OrdinalIgnoreCase) || file.EndsWith(".otf", StringComparison.OrdinalIgnoreCase))
+		return Directory
+			.EnumerateFiles(root, "BuilderIcons*.*", SearchOption.AllDirectories)
+			.Where(file =>
+				file.EndsWith(".ttf", StringComparison.OrdinalIgnoreCase) || file.EndsWith(".otf", StringComparison.OrdinalIgnoreCase)
+			)
 			.Select(file => Path.GetRelativePath(versionDirectory, file).Replace('\\', '/'))
 			.OrderBy(file => file.Contains("Regular", StringComparison.OrdinalIgnoreCase) ? 0 : 1)
 			.ThenBy(file => file, StringComparer.OrdinalIgnoreCase)
@@ -999,7 +1111,11 @@ public static class ModGenerator
 	{
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{
-			(string ClientDirectory, string VersionGuid)? sober = Task.Run(() => Bootstrapper.PrepareSoberClientTreeAsync(CancellationToken.None)).GetAwaiter().GetResult();
+			(string ClientDirectory, string VersionGuid)? sober = Task.Run(() =>
+					Bootstrapper.PrepareSoberClientTreeAsync(CancellationToken.None)
+				)
+				.GetAwaiter()
+				.GetResult();
 			if (sober is { } tree)
 				return (tree.ClientDirectory, tree.VersionGuid);
 		}
@@ -1007,7 +1123,10 @@ public static class ModGenerator
 		{
 			string? bundle = Voidstrap.Utility.MacRobloxBundle.Find();
 			if (bundle != null)
-				return (Path.Combine(bundle, "Contents", "Resources"), Voidstrap.Utility.MacRobloxBundle.ReadVersion(bundle) ?? string.Empty);
+				return (
+					Path.Combine(bundle, "Contents", "Resources"),
+					Voidstrap.Utility.MacRobloxBundle.ReadVersion(bundle) ?? string.Empty
+				);
 		}
 		RobloxInstallCompression.EnsureExtracted(data);
 		string folder = data.Directory;
@@ -1020,7 +1139,8 @@ public static class ModGenerator
 		{
 			string root = data.VersionsRoot;
 			string? newest = Directory.Exists(root)
-				? Directory.EnumerateDirectories(root)
+				? Directory
+					.EnumerateDirectories(root)
 					.Where(candidate => Directory.Exists(Path.Combine(candidate, "ExtraContent")))
 					.OrderByDescending(Directory.GetLastWriteTimeUtc)
 					.FirstOrDefault()
@@ -1113,7 +1233,8 @@ public static class ModGenerator
 			{
 				continue;
 			}
-			string fileName = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(name)))[..24] + ".png";
+			string fileName =
+				Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(name)))[..24] + ".png";
 			string destination = Path.Combine(folder, fileName);
 			try
 			{
@@ -1137,9 +1258,7 @@ public static class ModGenerator
 					{
 						File.Delete(file);
 					}
-					catch (IOException)
-					{
-					}
+					catch (IOException) { }
 				}
 			}
 		}
@@ -1160,9 +1279,7 @@ public static class ModGenerator
 				Directory.CreateDirectory(Path.GetDirectoryName(target)!);
 				Save(target, canvas, width, height);
 			}
-			catch (FileNotFoundException)
-			{
-			}
+			catch (FileNotFoundException) { }
 			catch (Exception ex)
 			{
 				App.Logger?.WriteLine(LogIdent, "The logo could not be written to " + relative + ": " + ex.Message);
@@ -1178,7 +1295,7 @@ public static class ModGenerator
 			KeepColored = settings.KeepColoredIcons,
 			KeepShading = settings.KeepShading,
 			RecolorShapes = settings.RecolorShapes,
-			Opacity = double.IsFinite(settings.IconOpacity) ? Math.Clamp(settings.IconOpacity, 0.1, 1.0) : 1.0
+			Opacity = double.IsFinite(settings.IconOpacity) ? Math.Clamp(settings.IconOpacity, 0.1, 1.0) : 1.0,
 		};
 		if (!TryParseColor(settings.SolidColor, out painter.Solid))
 		{
@@ -1213,11 +1330,19 @@ public static class ModGenerator
 		painter.FontBands = [painter.FontColor];
 		if (settings.Fill == ModGeneratorFill.Gradient && colors.Distinct().Count() > 1)
 		{
-			painter.FontBands = [.. Enumerable.Range(0, FontGradientBands).Select(band => Sample(painter.Stops, (band + 0.5) / FontGradientBands))];
+			painter.FontBands =
+			[
+				.. Enumerable.Range(0, FontGradientBands).Select(band => Sample(painter.Stops, (band + 0.5) / FontGradientBands)),
+			];
 			double lowest = Math.Min(0, painter.Dx) + Math.Min(0, painter.Dy);
 			double range = Math.Max(0, painter.Dx) + Math.Max(0, painter.Dy) - lowest;
 			System.Windows.Point start = new System.Windows.Point(lowest * painter.Dx, lowest * painter.Dy);
-			LinearGradientBrush brush = new LinearGradientBrush { GradientStops = new GradientStopCollection(painter.Stops.Select(stop => new GradientStop(stop.Color, stop.Offset))), StartPoint = start, EndPoint = new System.Windows.Point(start.X + range * painter.Dx, start.Y + range * painter.Dy) };
+			LinearGradientBrush brush = new LinearGradientBrush
+			{
+				GradientStops = new GradientStopCollection(painter.Stops.Select(stop => new GradientStop(stop.Color, stop.Offset))),
+				StartPoint = start,
+				EndPoint = new System.Windows.Point(start.X + range * painter.Dx, start.Y + range * painter.Dy),
+			};
 			brush.Freeze();
 			painter.FontBrush = brush;
 		}
@@ -1288,7 +1413,15 @@ public static class ModGenerator
 		int broken = 0;
 		foreach (IconRect icon in icons)
 		{
-			if (icon.X < 0 || icon.Y < 0 || icon.Width <= 0 || icon.Height <= 0 || icon.X + icon.Width > width || icon.Y + icon.Height > height || !HasPixels(pixels, width, icon))
+			if (
+				icon.X < 0
+				|| icon.Y < 0
+				|| icon.Width <= 0
+				|| icon.Height <= 0
+				|| icon.X + icon.Width > width
+				|| icon.Y + icon.Height > height
+				|| !HasPixels(pixels, width, icon)
+			)
 			{
 				broken++;
 			}
@@ -1385,7 +1518,13 @@ public static class ModGenerator
 
 	private static Region Measure(byte[] pixels, int width, IconRect icon)
 	{
-		Region region = new Region { MinX = int.MaxValue, MinY = int.MaxValue, MaxX = int.MinValue, MaxY = int.MinValue };
+		Region region = new Region
+		{
+			MinX = int.MaxValue,
+			MinY = int.MaxValue,
+			MaxX = int.MinValue,
+			MaxY = int.MinValue,
+		};
 		for (int y = icon.Y; y < icon.Y + icon.Height; y++)
 		{
 			for (int x = icon.X; x < icon.X + icon.Width; x++)
@@ -1403,12 +1542,19 @@ public static class ModGenerator
 		{
 			return;
 		}
-		if (x < region.MinX) region.MinX = x;
-		if (x > region.MaxX) region.MaxX = x;
-		if (y < region.MinY) region.MinY = y;
-		if (y > region.MaxY) region.MaxY = y;
+		if (x < region.MinX)
+			region.MinX = x;
+		if (x > region.MaxX)
+			region.MaxX = x;
+		if (y < region.MinY)
+			region.MinY = y;
+		if (y > region.MaxY)
+			region.MaxY = y;
 		double weight = alpha / 255.0;
-		if (Math.Max(pixels[offset + 2], Math.Max(pixels[offset + 1], pixels[offset])) >= 64 && Saturation(pixels[offset + 2], pixels[offset + 1], pixels[offset]) >= 0.4)
+		if (
+			Math.Max(pixels[offset + 2], Math.Max(pixels[offset + 1], pixels[offset])) >= 64
+			&& Saturation(pixels[offset + 2], pixels[offset + 1], pixels[offset]) >= 0.4
+		)
 		{
 			region.Colored += weight;
 		}
@@ -1444,7 +1590,13 @@ public static class ModGenerator
 			int top = 0;
 			stack[top++] = start;
 			labels[start] = label;
-			Region region = new Region { MinX = width, MinY = height, MaxX = 0, MaxY = 0 };
+			Region region = new Region
+			{
+				MinX = width,
+				MinY = height,
+				MaxX = 0,
+				MaxY = 0,
+			};
 			while (top > 0)
 			{
 				int index = stack[--top];
@@ -1500,11 +1652,16 @@ public static class ModGenerator
 			}
 			int shortSide = Math.Min(boxWidth, boxHeight);
 			double fill = region.Opaque / (double)(boxWidth * boxHeight);
-			bool corners = pixels[(region.MinY * width + region.MinX) * 4 + 3] >= 200
+			bool corners =
+				pixels[(region.MinY * width + region.MinX) * 4 + 3] >= 200
 				&& pixels[(region.MinY * width + region.MaxX) * 4 + 3] >= 200
 				&& pixels[(region.MaxY * width + region.MinX) * 4 + 3] >= 200
 				&& pixels[(region.MaxY * width + region.MaxX) * 4 + 3] >= 200;
-			if ((corners && shortSide >= 12 * scale) || (fill >= 0.7 && shortSide >= 40 * scale) || (fill >= 0.72 && shortSide >= 10 * scale))
+			if (
+				(corners && shortSide >= 12 * scale)
+				|| (fill >= 0.7 && shortSide >= 40 * scale)
+				|| (fill >= 0.72 && shortSide >= 10 * scale)
+			)
 			{
 				return true;
 			}
@@ -1530,7 +1687,18 @@ public static class ModGenerator
 		return spread > 18.0 || mean < 200.0;
 	}
 
-	private static void PaintRegion(byte[] pixels, int width, int[]? labels, int label, int minX, int minY, int maxX, int maxY, double maxLuma, Painter painter)
+	private static void PaintRegion(
+		byte[] pixels,
+		int width,
+		int[]? labels,
+		int label,
+		int minX,
+		int minY,
+		int maxX,
+		int maxY,
+		double maxLuma,
+		Painter painter
+	)
 	{
 		int boxWidth = maxX - minX + 1;
 		int boxHeight = maxY - minY + 1;
@@ -1555,9 +1723,13 @@ public static class ModGenerator
 				double v = (y - minY) / spanY;
 				Color color = painter.Fill switch
 				{
-					ModGeneratorFill.Gradient => painter.GradientLut[(int)(Math.Clamp(range <= 0 ? 0 : (u * painter.Dx + v * painter.Dy - lowest) / range, 0.0, 1.0) * (GradientSteps - 1))],
+					ModGeneratorFill.Gradient => painter.GradientLut[
+						(int)(
+							Math.Clamp(range <= 0 ? 0 : (u * painter.Dx + v * painter.Dy - lowest) / range, 0.0, 1.0) * (GradientSteps - 1)
+						)
+					],
 					ModGeneratorFill.Image => SampleImage(painter, u, v, boxWidth, boxHeight),
-					_ => painter.Solid
+					_ => painter.Solid,
 				};
 				pixels[offset] = (byte)Math.Round(color.B * factor);
 				pixels[offset + 1] = (byte)Math.Round(color.G * factor);
@@ -1610,7 +1782,8 @@ public static class ModGenerator
 				return Color.FromRgb(
 					(byte)Math.Round(start.R + (end.R - start.R) * local),
 					(byte)Math.Round(start.G + (end.G - start.G) * local),
-					(byte)Math.Round(start.B + (end.B - start.B) * local));
+					(byte)Math.Round(start.B + (end.B - start.B) * local)
+				);
 			}
 		}
 		return stops[^1].Color;
@@ -1621,7 +1794,8 @@ public static class ModGenerator
 		byte[] image = painter.Image!;
 		double boxRatio = (double)boxWidth / Math.Max(1, boxHeight);
 		double imageRatio = (double)painter.ImageWidth / Math.Max(1, painter.ImageHeight);
-		double scaleX = 1.0, scaleY = 1.0;
+		double scaleX = 1.0,
+			scaleY = 1.0;
 		if (imageRatio > boxRatio)
 		{
 			scaleX = boxRatio / imageRatio;
@@ -1640,8 +1814,10 @@ public static class ModGenerator
 		double fy = sy - y0;
 		double Channel(int channel)
 		{
-			double top = image[(y0 * painter.ImageWidth + x0) * 4 + channel] * (1 - fx) + image[(y0 * painter.ImageWidth + x1) * 4 + channel] * fx;
-			double bottom = image[(y1 * painter.ImageWidth + x0) * 4 + channel] * (1 - fx) + image[(y1 * painter.ImageWidth + x1) * 4 + channel] * fx;
+			double top =
+				image[(y0 * painter.ImageWidth + x0) * 4 + channel] * (1 - fx) + image[(y0 * painter.ImageWidth + x1) * 4 + channel] * fx;
+			double bottom =
+				image[(y1 * painter.ImageWidth + x0) * 4 + channel] * (1 - fx) + image[(y1 * painter.ImageWidth + x1) * 4 + channel] * fx;
 			return top * (1 - fy) + bottom * fy;
 		}
 		return Color.FromRgb((byte)Math.Round(Channel(2)), (byte)Math.Round(Channel(1)), (byte)Math.Round(Channel(0)));
@@ -1649,7 +1825,10 @@ public static class ModGenerator
 
 	private static Color AverageColor(byte[] pixels, int width, int height)
 	{
-		double red = 0, green = 0, blue = 0, weight = 0;
+		double red = 0,
+			green = 0,
+			blue = 0,
+			weight = 0;
 		for (int offset = 0; offset < width * height * 4; offset += 4)
 		{
 			double alpha = pixels[offset + 3] / 255.0;
@@ -1658,7 +1837,9 @@ public static class ModGenerator
 			red += pixels[offset + 2] * alpha;
 			weight += alpha;
 		}
-		return weight <= 0 ? Colors.White : Color.FromRgb((byte)Math.Round(red / weight), (byte)Math.Round(green / weight), (byte)Math.Round(blue / weight));
+		return weight <= 0
+			? Colors.White
+			: Color.FromRgb((byte)Math.Round(red / weight), (byte)Math.Round(green / weight), (byte)Math.Round(blue / weight));
 	}
 
 	private static double Luma(byte[] pixels, int offset)
@@ -1713,7 +1894,11 @@ public static class ModGenerator
 			return (image.Pixels, image.Width, image.Height);
 		}
 		using FileStream stream = File.OpenRead(path);
-		BitmapDecoder decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.PreservePixelFormat | BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad);
+		BitmapDecoder decoder = BitmapDecoder.Create(
+			stream,
+			BitmapCreateOptions.PreservePixelFormat | BitmapCreateOptions.IgnoreColorProfile,
+			BitmapCacheOption.OnLoad
+		);
 		BitmapSource frame = decoder.Frames[0];
 		if (frame.Format != PixelFormats.Bgra32)
 		{

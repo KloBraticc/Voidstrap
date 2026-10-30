@@ -45,7 +45,10 @@ public static partial class McpTools
 		}
 		catch (CustomThemeException ex)
 		{
-			return new McpToolResult($"The theme '{name}' does not build: {ex.EnglishMessage}{(ex.InnerException != null ? " (" + ex.InnerException.Message + ")" : "")}. Fix Theme.xml, see get_guide bootstrapper_theme.", true);
+			return new McpToolResult(
+				$"The theme '{name}' does not build: {ex.EnglishMessage}{(ex.InnerException != null ? " (" + ex.InnerException.Message + ")" : "")}. Fix Theme.xml, see get_guide bootstrapper_theme.",
+				true
+			);
 		}
 		catch (Exception ex)
 		{
@@ -55,14 +58,20 @@ public static partial class McpTools
 		var sb = new StringBuilder();
 		sb.AppendLine($"The theme '{name}' builds exactly like a real launch.");
 		if (App.Settings.Prop.BootstrapperStyle != BootstrapperStyle.CustomDialog)
-			sb.AppendLine($"Warning: the launcher style is {App.Settings.Prop.BootstrapperStyle}, so this theme is NOT used yet. Call again with activate true.");
+			sb.AppendLine(
+				$"Warning: the launcher style is {App.Settings.Prop.BootstrapperStyle}, so this theme is NOT used yet. Call again with activate true."
+			);
 		else if (!string.Equals(App.Settings.Prop.SelectedCustomTheme, name, StringComparison.OrdinalIgnoreCase))
-			sb.AppendLine($"Warning: the selected theme is '{App.Settings.Prop.SelectedCustomTheme}', not this one. Call again with activate true.");
+			sb.AppendLine(
+				$"Warning: the selected theme is '{App.Settings.Prop.SelectedCustomTheme}', not this one. Call again with activate true."
+			);
 		else
 			sb.AppendLine("It is the active launcher theme.");
 
 		string[] files = Directory.GetFiles(Path.Combine(Paths.CustomThemes, name), "*", SearchOption.AllDirectories);
-		sb.AppendLine("Files: " + string.Join(", ", files.Select(file => Path.GetRelativePath(Path.Combine(Paths.CustomThemes, name), file))));
+		sb.AppendLine(
+			"Files: " + string.Join(", ", files.Select(file => Path.GetRelativePath(Path.Combine(Paths.CustomThemes, name), file)))
+		);
 
 		if (!McpArgs.Flag(args, "show", false))
 		{

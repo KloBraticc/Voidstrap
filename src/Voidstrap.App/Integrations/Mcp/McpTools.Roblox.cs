@@ -33,7 +33,18 @@ public static partial class McpTools
 		string? placeId = McpArgs.String(args, "placeId")?.Trim();
 		string? jobId = McpArgs.String(args, "jobId")?.Trim();
 
-		if (!string.IsNullOrWhiteSpace(placeId) && (!long.TryParse(placeId, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out long parsedPlace) || parsedPlace <= 0))
+		if (
+			!string.IsNullOrWhiteSpace(placeId)
+			&& (
+				!long.TryParse(
+					placeId,
+					System.Globalization.NumberStyles.None,
+					System.Globalization.CultureInfo.InvariantCulture,
+					out long parsedPlace
+				)
+				|| parsedPlace <= 0
+			)
+		)
 			return new McpToolResult("placeId must be a positive number.", true);
 		if (!string.IsNullOrWhiteSpace(jobId) && !Guid.TryParse(jobId, out _))
 			return new McpToolResult("jobId must be a server id in GUID form.", true);
@@ -43,16 +54,16 @@ public static partial class McpTools
 		if (mode == "close")
 		{
 			int closed = 0;
-			foreach (Process p in Process.GetProcessesByName(App.RobloxPlayerAppName).Concat(Process.GetProcessesByName(App.RobloxStudioAppName)))
+			foreach (
+				Process p in Process.GetProcessesByName(App.RobloxPlayerAppName).Concat(Process.GetProcessesByName(App.RobloxStudioAppName))
+			)
 			{
 				try
 				{
 					p.Kill();
 					closed++;
 				}
-				catch
-				{
-				}
+				catch { }
 				finally
 				{
 					p.Dispose();
@@ -62,11 +73,7 @@ public static partial class McpTools
 		}
 
 		string exe = McpConnectInfo.ExecutablePath();
-		var startInfo = new ProcessStartInfo
-		{
-			FileName = exe,
-			UseShellExecute = false
-		};
+		var startInfo = new ProcessStartInfo { FileName = exe, UseShellExecute = false };
 
 		if (mode == "studio")
 		{
@@ -75,7 +82,10 @@ public static partial class McpTools
 			foreach (Process p in runningStudio)
 				p.Dispose();
 			if (alreadyRunningStudio)
-				return new McpToolResult("Roblox Studio is already running. Multi instance is blocked; close the existing Studio instance first.", true);
+				return new McpToolResult(
+					"Roblox Studio is already running. Multi instance is blocked; close the existing Studio instance first.",
+					true
+				);
 
 			startInfo.ArgumentList.Add("-studio");
 			using Process? proc = Process.Start(startInfo);
@@ -87,7 +97,10 @@ public static partial class McpTools
 		foreach (Process p in runningPlayer)
 			p.Dispose();
 		if (alreadyRunningPlayer)
-			return new McpToolResult("Roblox Player is already running. Multi instance is blocked; close the existing Roblox instance first or call launch_roblox with mode 'close'.", true);
+			return new McpToolResult(
+				"Roblox Player is already running. Multi instance is blocked; close the existing Roblox instance first or call launch_roblox with mode 'close'.",
+				true
+			);
 
 		startInfo.ArgumentList.Add("-player");
 		if (!string.IsNullOrWhiteSpace(placeId))
@@ -99,8 +112,10 @@ public static partial class McpTools
 		}
 
 		using Process? playerProc = Process.Start(startInfo);
-		return new McpToolResult(string.IsNullOrWhiteSpace(placeId)
-			? "Launched Roblox Player via Voidstrap."
-			: $"Launched Roblox Player into placeId {placeId}{(string.IsNullOrWhiteSpace(jobId) ? "" : $" (jobId {jobId})")} via Voidstrap.");
+		return new McpToolResult(
+			string.IsNullOrWhiteSpace(placeId)
+				? "Launched Roblox Player via Voidstrap."
+				: $"Launched Roblox Player into placeId {placeId}{(string.IsNullOrWhiteSpace(jobId) ? "" : $" (jobId {jobId})")} via Voidstrap."
+		);
 	}
 }

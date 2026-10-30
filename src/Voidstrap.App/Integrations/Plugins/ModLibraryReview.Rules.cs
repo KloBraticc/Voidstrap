@@ -4,7 +4,7 @@ namespace Voidstrap.Integrations.Plugins;
 
 internal static partial class ModLibraryReview
 {
-	private const string RulesJson = """
+    private const string RulesJson = """
 {
   "limits": {
     "maxModBytes": 1048576,
@@ -151,7 +151,7 @@ internal static partial class ModLibraryReview
 }
 """;
 
-	private const string AllowedHostsJson = """
+    private const string AllowedHostsJson = """
 {
   "hosts": [
     "games.roblox.com",
@@ -164,7 +164,7 @@ internal static partial class ModLibraryReview
 }
 """;
 
-	private const string TagsJson = """
+    private const string TagsJson = """
 {
   "tags": [
     "appearance",
@@ -190,19 +190,19 @@ internal static partial class ModLibraryReview
 }
 """;
 
-	private static int MaxModBytes => Limit("maxModBytes", 1048576);
+    private static int MaxModBytes => Limit("maxModBytes", 1048576);
 
-	private static int MaxFiles => Limit("maxFiles", 64);
+    private static int MaxFiles => Limit("maxFiles", 64);
 
-	private static int MaxFileBytes => Limit("maxFileBytes", 262144);
+    private static int MaxFileBytes => Limit("maxFileBytes", 262144);
 
-	private static int MaxIconBytes => Limit("maxIconBytes", 262144);
+    private static int MaxIconBytes => Limit("maxIconBytes", 262144);
 
-	private static int MaxPathDepth => Limit("maxPathDepth", 4);
+    private static int MaxPathDepth => Limit("maxPathDepth", 4);
 
-	private static int MaxLineLength => Limit("maxLineLength", 400);
+    private static int MaxLineLength => Limit("maxLineLength", 400);
 
-	private static int MaxDescription => Limit("maxDescription", 300);
+    private static int MaxDescription => Limit("maxDescription", 300);
 
-	private static int MaxEncodedRun => Limit("maxEncodedRun", 200);
+    private static int MaxEncodedRun => Limit("maxEncodedRun", 200);
 }

@@ -79,21 +79,13 @@ namespace Voidstrap.UI.Elements.Bootstrapper.Base
 
 namespace Voidstrap.UI.Elements.Bootstrapper
 {
-	public class VistaDialog : Voidstrap.UI.Elements.Bootstrapper.Base.WinFormsDialogBase
-	{
-	}
+	public class VistaDialog : Voidstrap.UI.Elements.Bootstrapper.Base.WinFormsDialogBase { }
 
-	public class LegacyDialog2008 : Voidstrap.UI.Elements.Bootstrapper.Base.WinFormsDialogBase
-	{
-	}
+	public class LegacyDialog2008 : Voidstrap.UI.Elements.Bootstrapper.Base.WinFormsDialogBase { }
 
-	public class LegacyDialog2011 : Voidstrap.UI.Elements.Bootstrapper.Base.WinFormsDialogBase
-	{
-	}
+	public class LegacyDialog2011 : Voidstrap.UI.Elements.Bootstrapper.Base.WinFormsDialogBase { }
 
-	public class ProgressDialog : Voidstrap.UI.Elements.Bootstrapper.Base.WinFormsDialogBase
-	{
-	}
+	public class ProgressDialog : Voidstrap.UI.Elements.Bootstrapper.Base.WinFormsDialogBase { }
 }
 
 namespace Voidstrap.Integrations.RiShade
@@ -108,24 +100,31 @@ namespace Voidstrap.Integrations.RiShade
 			return null;
 		}
 
-		public void SetTargetFps(double targetFps)
-		{
-		}
+		public void SetTargetFps(double targetFps) { }
 
-		public bool TryCopyLatestFrame(Vortice.Direct3D11.ID3D11DeviceContext context, Vortice.Direct3D11.ID3D11Texture2D? target, int width, int height)
+		public bool TryCopyLatestFrame(
+			Vortice.Direct3D11.ID3D11DeviceContext context,
+			Vortice.Direct3D11.ID3D11Texture2D? target,
+			int width,
+			int height
+		)
 		{
 			return false;
 		}
 
-		public bool TryCopyLatestFrame(Vortice.Direct3D11.ID3D11DeviceContext context, Vortice.Direct3D11.ID3D11Texture2D? target, int width, int height, out double elapsedMs)
+		public bool TryCopyLatestFrame(
+			Vortice.Direct3D11.ID3D11DeviceContext context,
+			Vortice.Direct3D11.ID3D11Texture2D? target,
+			int width,
+			int height,
+			out double elapsedMs
+		)
 		{
 			elapsedMs = 0;
 			return false;
 		}
 
-		public void WaitForFrame(int timeoutMs)
-		{
-		}
+		public void WaitForFrame(int timeoutMs) { }
 
 		public void Dispose()
 		{
@@ -168,9 +167,7 @@ namespace Microsoft.VisualBasic.Devices
 					return 0;
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 			return 0;
 		}
 	}
@@ -182,7 +179,7 @@ namespace System.Windows.Forms
 	{
 		Blocks,
 		Continuous,
-		Marquee
+		Marquee,
 	}
 
 	public enum ToolTipIcon
@@ -190,7 +187,7 @@ namespace System.Windows.Forms
 		None,
 		Info,
 		Warning,
-		Error
+		Error,
 	}
 
 	public enum DialogResult
@@ -202,7 +199,7 @@ namespace System.Windows.Forms
 		Retry,
 		Ignore,
 		Yes,
-		No
+		No,
 	}
 
 	public struct Padding
@@ -233,9 +230,7 @@ namespace System.Windows.Forms
 		public int Vertical => Top + Bottom;
 	}
 
-	public class TextBox : Control
-	{
-	}
+	public class TextBox : Control { }
 
 	public class Control : IDisposable
 	{
@@ -257,17 +252,11 @@ namespace System.Windows.Forms
 			return method.DynamicInvoke(args);
 		}
 
-		public void Show()
-		{
-		}
+		public void Show() { }
 
-		public void Hide()
-		{
-		}
+		public void Hide() { }
 
-		public void Invalidate()
-		{
-		}
+		public void Invalidate() { }
 
 		public void Dispose()
 		{
@@ -298,7 +287,7 @@ namespace System.Windows.Forms
 		None,
 		Left,
 		Right,
-		Middle
+		Middle,
 	}
 
 	public enum Keys
@@ -401,7 +390,7 @@ namespace System.Windows.Forms
 		OemQuotes = 222,
 		Shift = 65536,
 		Control = 131072,
-		Alt = 262144
+		Alt = 262144,
 	}
 
 	public class MouseEventArgs : EventArgs
@@ -433,13 +422,9 @@ namespace System.Windows.Forms
 
 	public class NotifyIcon : IDisposable
 	{
-		public NotifyIcon()
-		{
-		}
+		public NotifyIcon() { }
 
-		public NotifyIcon(System.ComponentModel.IContainer container)
-		{
-		}
+		public NotifyIcon(System.ComponentModel.IContainer container) { }
 
 		private readonly object _trayGate = new object();
 
@@ -544,21 +529,38 @@ namespace System.Windows.Forms
 		{
 			MouseClick?.Invoke(this, new MouseEventArgs { Button = MouseButtons.Right, Clicks = 1 });
 		}
+
 		public ContextMenuStrip? ContextMenuStrip { get; set; }
 		public string BalloonTipTitle { get; set; } = "";
 		public string BalloonTipText { get; set; } = "";
 		public ToolTipIcon BalloonTipIcon { get; set; }
 
-		public event EventHandler? DoubleClick { add { } remove { } }
-		public event EventHandler? Click { add { } remove { } }
+		public event EventHandler? DoubleClick
+		{
+			add { }
+			remove { }
+		}
+		public event EventHandler? Click
+		{
+			add { }
+			remove { }
+		}
 		public event EventHandler? BalloonTipClicked
 		{
 			add => _balloonTipClicked += value;
 			remove => _balloonTipClicked -= value;
 		}
-		public event EventHandler? BalloonTipClosed { add { } remove { } }
+		public event EventHandler? BalloonTipClosed
+		{
+			add { }
+			remove { }
+		}
 		public event MouseEventHandler? MouseClick;
-		public event MouseEventHandler? MouseDoubleClick { add { } remove { } }
+		public event MouseEventHandler? MouseDoubleClick
+		{
+			add { }
+			remove { }
+		}
 
 		public void ShowBalloonTip(int timeout)
 		{
@@ -591,7 +593,9 @@ namespace System.Windows.Forms
 			}
 			if (OperatingSystem.IsMacOS())
 			{
-				_ = Voidstrap.Utility.Platform.RuntimeHost?.Notifications.ShowAsync(new Voidstrap.Platform.NotificationRequest(title, message));
+				_ = Voidstrap.Utility.Platform.RuntimeHost?.Notifications.ShowAsync(
+					new Voidstrap.Platform.NotificationRequest(title, message)
+				);
 				return;
 			}
 			Voidstrap.UI.Tray.LinuxTray.Notify(title, message, clicked, timeout > 0 && timeout < 1000 ? timeout * 1000 : timeout);
@@ -683,19 +687,19 @@ namespace Microsoft.Web.WebView2.Core
 	{
 		Deny,
 		Allow,
-		DenyCors
+		DenyCors,
 	}
 
 	public enum CoreWebView2PermissionState
 	{
 		Default,
 		Allow,
-		Deny
+		Deny,
 	}
 
 	public enum CoreWebView2WebResourceContext
 	{
-		All
+		All,
 	}
 
 	public class CoreWebView2Settings
@@ -713,9 +717,7 @@ namespace Microsoft.Web.WebView2.Core
 		public bool IsSwipeNavigationEnabled { get; set; }
 	}
 
-	public class CoreWebView2WebResourceResponse
-	{
-	}
+	public class CoreWebView2WebResourceResponse { }
 
 	public class CoreWebView2WebResourceRequest
 	{
@@ -724,23 +726,28 @@ namespace Microsoft.Web.WebView2.Core
 
 	public class CoreWebView2EnvironmentOptions
 	{
-		public CoreWebView2EnvironmentOptions()
-		{
-		}
+		public CoreWebView2EnvironmentOptions() { }
 
-		public CoreWebView2EnvironmentOptions(string additionalBrowserArguments)
-		{
-		}
+		public CoreWebView2EnvironmentOptions(string additionalBrowserArguments) { }
 	}
 
 	public class CoreWebView2Environment
 	{
-		public static System.Threading.Tasks.Task<CoreWebView2Environment> CreateAsync(string? browserExecutableFolder = null, string? userDataFolder = null, CoreWebView2EnvironmentOptions? options = null)
+		public static System.Threading.Tasks.Task<CoreWebView2Environment> CreateAsync(
+			string? browserExecutableFolder = null,
+			string? userDataFolder = null,
+			CoreWebView2EnvironmentOptions? options = null
+		)
 		{
 			return System.Threading.Tasks.Task.FromResult(new CoreWebView2Environment());
 		}
 
-		public CoreWebView2WebResourceResponse CreateWebResourceResponse(System.IO.Stream? content, int statusCode, string reasonPhrase, string headers)
+		public CoreWebView2WebResourceResponse CreateWebResourceResponse(
+			System.IO.Stream? content,
+			int statusCode,
+			string reasonPhrase,
+			string headers
+		)
 		{
 			return new CoreWebView2WebResourceResponse();
 		}
@@ -799,22 +806,50 @@ namespace Microsoft.Web.WebView2.Core
 
 		public CoreWebView2Environment Environment { get; } = new CoreWebView2Environment();
 
-		public event EventHandler<CoreWebView2WebMessageReceivedEventArgs>? WebMessageReceived { add { } remove { } }
-		public event EventHandler<CoreWebView2NavigationCompletedEventArgs>? NavigationCompleted { add { } remove { } }
-		public event EventHandler<CoreWebView2NewWindowRequestedEventArgs>? NewWindowRequested { add { } remove { } }
-		public event EventHandler<CoreWebView2NavigationStartingEventArgs>? NavigationStarting { add { } remove { } }
-		public event EventHandler<CoreWebView2DownloadStartingEventArgs>? DownloadStarting { add { } remove { } }
-		public event EventHandler<CoreWebView2PermissionRequestedEventArgs>? PermissionRequested { add { } remove { } }
-		public event EventHandler<CoreWebView2ContextMenuRequestedEventArgs>? ContextMenuRequested { add { } remove { } }
-		public event EventHandler<CoreWebView2WebResourceRequestedEventArgs>? WebResourceRequested { add { } remove { } }
-
-		public void SetVirtualHostNameToFolderMapping(string hostName, string folderPath, CoreWebView2HostResourceAccessKind accessKind)
+		public event EventHandler<CoreWebView2WebMessageReceivedEventArgs>? WebMessageReceived
 		{
+			add { }
+			remove { }
+		}
+		public event EventHandler<CoreWebView2NavigationCompletedEventArgs>? NavigationCompleted
+		{
+			add { }
+			remove { }
+		}
+		public event EventHandler<CoreWebView2NewWindowRequestedEventArgs>? NewWindowRequested
+		{
+			add { }
+			remove { }
+		}
+		public event EventHandler<CoreWebView2NavigationStartingEventArgs>? NavigationStarting
+		{
+			add { }
+			remove { }
+		}
+		public event EventHandler<CoreWebView2DownloadStartingEventArgs>? DownloadStarting
+		{
+			add { }
+			remove { }
+		}
+		public event EventHandler<CoreWebView2PermissionRequestedEventArgs>? PermissionRequested
+		{
+			add { }
+			remove { }
+		}
+		public event EventHandler<CoreWebView2ContextMenuRequestedEventArgs>? ContextMenuRequested
+		{
+			add { }
+			remove { }
+		}
+		public event EventHandler<CoreWebView2WebResourceRequestedEventArgs>? WebResourceRequested
+		{
+			add { }
+			remove { }
 		}
 
-		public void AddWebResourceRequestedFilter(string uri, CoreWebView2WebResourceContext resourceContext)
-		{
-		}
+		public void SetVirtualHostNameToFolderMapping(string hostName, string folderPath, CoreWebView2HostResourceAccessKind accessKind) { }
+
+		public void AddWebResourceRequestedFilter(string uri, CoreWebView2WebResourceContext resourceContext) { }
 
 		public System.Threading.Tasks.Task<string> AddScriptToExecuteOnDocumentCreatedAsync(string javaScript)
 		{
@@ -826,9 +861,7 @@ namespace Microsoft.Web.WebView2.Core
 			return System.Threading.Tasks.Task.FromResult(string.Empty);
 		}
 
-		public void Navigate(string uri)
-		{
-		}
+		public void Navigate(string uri) { }
 	}
 }
 

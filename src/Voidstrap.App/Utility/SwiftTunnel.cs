@@ -21,14 +21,24 @@ internal static class SwiftTunnel
 
     public static async Task<(string Name, string Url, string Digest)> GetLatestInstallerAsync(HttpClient client, CancellationToken token)
     {
-        using JsonDocument release = JsonDocument.Parse(await Http.GetStringBoundedAsync(client, "https://api.github.com/repos/Swift-tunnel/swifttunnel-app/releases/latest", token: token));
+        using JsonDocument release = JsonDocument.Parse(
+            await Http.GetStringBoundedAsync(
+                client,
+                "https://api.github.com/repos/Swift-tunnel/swifttunnel-app/releases/latest",
+                token: token
+            )
+        );
         return SelectInstaller(release.RootElement, RuntimeInformation.OSArchitecture == Architecture.Arm64);
     }
 
     private static (string Name, string Url, string Digest) SelectInstaller(JsonElement release, bool arm)
     {
         (string Name, string Url, string Digest)? msi = null;
-        if (release.ValueKind == JsonValueKind.Object && release.TryGetProperty("assets", out JsonElement assets) && assets.ValueKind == JsonValueKind.Array)
+        if (
+            release.ValueKind == JsonValueKind.Object
+            && release.TryGetProperty("assets", out JsonElement assets)
+            && assets.ValueKind == JsonValueKind.Array
+        )
         {
             foreach (JsonElement asset in assets.EnumerateArray())
             {
@@ -37,14 +47,23 @@ internal static class SwiftTunnel
                 string name = ReadString(asset, "name");
                 string url = ReadString(asset, "browser_download_url");
                 string digest = ReadString(asset, "digest");
-                if (Path.GetFileName(name) != name || !Uri.TryCreate(url, UriKind.Absolute, out Uri? uri)
-                    || uri.Scheme != Uri.UriSchemeHttps || !uri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase)
+                if (
+                    Path.GetFileName(name) != name
+                    || !Uri.TryCreate(url, UriKind.Absolute, out Uri? uri)
+                    || uri.Scheme != Uri.UriSchemeHttps
+                    || !uri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase)
                     || !uri.AbsolutePath.StartsWith("/Swift-tunnel/swifttunnel-app/releases/download/", StringComparison.OrdinalIgnoreCase)
-                    || !digest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase) || digest.Length != 71 || !digest[7..].All(Uri.IsHexDigit))
+                    || !digest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase)
+                    || digest.Length != 71
+                    || !digest[7..].All(Uri.IsHexDigit)
+                )
                     continue;
                 if (IsSetupName(name, arm))
                     return (name, url, digest[7..]);
-                if (name.StartsWith("SwiftTunnel_", StringComparison.Ordinal) && name.EndsWith(arm ? "_arm64_en-US.msi" : "_x64_en-US.msi", StringComparison.Ordinal))
+                if (
+                    name.StartsWith("SwiftTunnel_", StringComparison.Ordinal)
+                    && name.EndsWith(arm ? "_arm64_en-US.msi" : "_x64_en-US.msi", StringComparison.Ordinal)
+                )
                     msi ??= (name, url, digest[7..]);
             }
         }
@@ -55,7 +74,11 @@ internal static class SwiftTunnel
     {
         const string prefix = "SwiftTunnel-Setup-";
         string suffix = arm ? "-arm64.exe" : ".exe";
-        if (!name.StartsWith(prefix, StringComparison.Ordinal) || !name.EndsWith(suffix, StringComparison.Ordinal) || name.Length <= prefix.Length + suffix.Length)
+        if (
+            !name.StartsWith(prefix, StringComparison.Ordinal)
+            || !name.EndsWith(suffix, StringComparison.Ordinal)
+            || name.Length <= prefix.Length + suffix.Length
+        )
             return false;
         string version = name[prefix.Length..^suffix.Length];
         return !version.EndsWith("-arm64", StringComparison.Ordinal) && version.All(c => char.IsAsciiDigit(c) || c == '.');
@@ -63,7 +86,10 @@ internal static class SwiftTunnel
 
     public static bool IsSetupExecutable(string path) => Path.GetExtension(path).Equals(".exe", StringComparison.OrdinalIgnoreCase);
 
-    private static string ReadString(JsonElement element, string property) => element.TryGetProperty(property, out JsonElement value) && value.ValueKind == JsonValueKind.String ? value.GetString() ?? string.Empty : string.Empty;
+    private static string ReadString(JsonElement element, string property) =>
+        element.TryGetProperty(property, out JsonElement value) && value.ValueKind == JsonValueKind.String
+            ? value.GetString() ?? string.Empty
+            : string.Empty;
 
     public static (string ProductCode, string Executable)? FindInstallation()
     {
@@ -81,9 +107,14 @@ internal static class SwiftTunnel
                 foreach (string name in uninstall.GetSubKeyNames())
                 {
                     using RegistryKey? entry = uninstall.OpenSubKey(name);
-                    if (entry == null || !string.Equals(entry.GetValue("DisplayName") as string, "SwiftTunnel", StringComparison.OrdinalIgnoreCase))
+                    if (
+                        entry == null
+                        || !string.Equals(entry.GetValue("DisplayName") as string, "SwiftTunnel", StringComparison.OrdinalIgnoreCase)
+                    )
                         continue;
-                    string product = Guid.TryParse(name, out Guid key) ? key.ToString("B") : ReadProductCode(entry.GetValue("UninstallString") as string);
+                    string product = Guid.TryParse(name, out Guid key)
+                        ? key.ToString("B")
+                        : ReadProductCode(entry.GetValue("UninstallString") as string);
                     return (product, LocateExecutable(entry));
                 }
             }
@@ -116,7 +147,7 @@ internal static class SwiftTunnel
             (entry.GetValue("InstallLocation") as string ?? string.Empty).Trim('"', ' '),
             displayIcon.Length > 0 ? Path.GetDirectoryName(displayIcon) ?? string.Empty : string.Empty,
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "SwiftTunnel"),
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", "SwiftTunnel")
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs", "SwiftTunnel"),
         ];
         foreach (string directory in directories)
         {
@@ -164,7 +195,13 @@ internal static class SwiftTunnel
                 throw new FileNotFoundException(Text(installation == null ? "NotInstalledError" : "Missing"));
             if (IsRunning())
                 return;
-            Process.Start(new ProcessStartInfo(installation.Value.Executable) { UseShellExecute = true, WorkingDirectory = Path.GetDirectoryName(installation.Value.Executable) ?? string.Empty });
+            Process.Start(
+                new ProcessStartInfo(installation.Value.Executable)
+                {
+                    UseShellExecute = true,
+                    WorkingDirectory = Path.GetDirectoryName(installation.Value.Executable) ?? string.Empty,
+                }
+            );
         }
         catch (Exception ex)
         {
@@ -177,11 +214,18 @@ internal static class SwiftTunnel
         if (!Guid.TryParse(installation.ProductCode, out Guid product))
             throw new InvalidOperationException(Text("UninstallUnavailable"));
         bool hasExecutable = File.Exists(installation.Executable);
-        string installDirectory = hasExecutable ? Path.GetDirectoryName(Path.GetFullPath(installation.Executable)) ?? string.Empty : string.Empty;
-        bool ownDirectory = installDirectory.Length > 0 && Path.GetFileName(Path.TrimEndingDirectorySeparator(installDirectory)).Equals("SwiftTunnel", StringComparison.OrdinalIgnoreCase);
+        string installDirectory = hasExecutable
+            ? Path.GetDirectoryName(Path.GetFullPath(installation.Executable)) ?? string.Empty
+            : string.Empty;
+        bool ownDirectory =
+            installDirectory.Length > 0
+            && Path.GetFileName(Path.TrimEndingDirectorySeparator(installDirectory))
+                .Equals("SwiftTunnel", StringComparison.OrdinalIgnoreCase);
         string[] directories =
         [
-            ownDirectory ? installDirectory : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "SwiftTunnel"),
+            ownDirectory
+                ? installDirectory
+                : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "SwiftTunnel"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "SwiftTunnel"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SwiftTunnel"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SwiftTunnel"),
@@ -189,51 +233,67 @@ internal static class SwiftTunnel
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "net.swifttunnel.desktop"),
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "net.swifttunnel.desktop"),
             Path.Combine(Paths.Cache, "SwiftTunnel"),
-            Path.Combine(Path.GetTempPath(), "SwiftTunnel")
+            Path.Combine(Path.GetTempPath(), "SwiftTunnel"),
         ];
         string removal = BuildRemovalScript(directories);
-        string payload = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(new
-        {
-            ProductCode = product.ToString("B"),
-            Executable = hasExecutable ? Path.GetFullPath(installation.Executable) : string.Empty,
-            Directory = installDirectory,
-            Installer = Path.Combine(Environment.SystemDirectory, "msiexec.exe")
-        })));
-        string script = "$payload = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('" + payload + "')) | ConvertFrom-Json\n" + """
-            $ErrorActionPreference = 'Stop'
-            try {
-                $prefix = $payload.Directory.TrimEnd('\') + '\'
-                $names = @('SwiftTunnel.exe', 'swifttunnel-desktop.exe')
-                Get-CimInstance Win32_Process | Where-Object {
-                    $_.Name -eq 'swifttunnel-lite.exe' -or ($_.ExecutablePath -and $names -contains $_.Name -and ($payload.Directory -eq '' -or $_.ExecutablePath.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)))
-                } | ForEach-Object {
-                    $running = Get-Process -Id $_.ProcessId -ErrorAction SilentlyContinue
-                    if ($running) {
-                        $running | Stop-Process -Force
-                        if (-not $running.WaitForExit(10000)) { throw 'SwiftTunnel process did not exit' }
+        string payload = Convert.ToBase64String(
+            Encoding.UTF8.GetBytes(
+                JsonSerializer.Serialize(
+                    new
+                    {
+                        ProductCode = product.ToString("B"),
+                        Executable = hasExecutable ? Path.GetFullPath(installation.Executable) : string.Empty,
+                        Directory = installDirectory,
+                        Installer = Path.Combine(Environment.SystemDirectory, "msiexec.exe"),
                     }
-                }
-                if ($payload.Executable -ne '') {
-                    $cleanup = Start-Process -FilePath $payload.Executable -ArgumentList '--cleanup' -PassThru -WindowStyle Hidden
-                    $cleanup.WaitForExit()
-                    if ($cleanup.ExitCode -ne 0) { exit 10 }
-                }
-                $uninstaller = Start-Process -FilePath $payload.Installer -ArgumentList @('/x', $payload.ProductCode, '/qb!', '/norestart') -PassThru -Wait
-                if ($uninstaller.ExitCode -eq 1602) { exit 1602 }
-                if ($uninstaller.ExitCode -notin @(0, 1605, 1641, 3010)) { exit 11 }
-            } catch { exit 12 }
-            """ + "\n" + removal;
+                )
+            )
+        );
+        string script =
+            "$payload = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('"
+            + payload
+            + "')) | ConvertFrom-Json\n"
+            + """
+                $ErrorActionPreference = 'Stop'
+                try {
+                    $prefix = $payload.Directory.TrimEnd('\') + '\'
+                    $names = @('SwiftTunnel.exe', 'swifttunnel-desktop.exe')
+                    Get-CimInstance Win32_Process | Where-Object {
+                        $_.Name -eq 'swifttunnel-lite.exe' -or ($_.ExecutablePath -and $names -contains $_.Name -and ($payload.Directory -eq '' -or $_.ExecutablePath.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)))
+                    } | ForEach-Object {
+                        $running = Get-Process -Id $_.ProcessId -ErrorAction SilentlyContinue
+                        if ($running) {
+                            $running | Stop-Process -Force
+                            if (-not $running.WaitForExit(10000)) { throw 'SwiftTunnel process did not exit' }
+                        }
+                    }
+                    if ($payload.Executable -ne '') {
+                        $cleanup = Start-Process -FilePath $payload.Executable -ArgumentList '--cleanup' -PassThru -WindowStyle Hidden
+                        $cleanup.WaitForExit()
+                        if ($cleanup.ExitCode -ne 0) { exit 10 }
+                    }
+                    $uninstaller = Start-Process -FilePath $payload.Installer -ArgumentList @('/x', $payload.ProductCode, '/qb!', '/norestart') -PassThru -Wait
+                    if ($uninstaller.ExitCode -eq 1602) { exit 1602 }
+                    if ($uninstaller.ExitCode -notin @(0, 1605, 1641, 3010)) { exit 11 }
+                } catch { exit 12 }
+                """
+            + "\n"
+            + removal;
         token.ThrowIfCancellationRequested();
         Process? started;
         try
         {
-            started = Process.Start(new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, @"WindowsPowerShell\v1.0\powershell.exe"))
-            {
-                Arguments = "-NoProfile -NonInteractive -ExecutionPolicy Bypass -EncodedCommand " + Convert.ToBase64String(Encoding.Unicode.GetBytes(script)),
-                UseShellExecute = true,
-                Verb = "runas",
-                WindowStyle = ProcessWindowStyle.Hidden
-            });
+            started = Process.Start(
+                new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, @"WindowsPowerShell\v1.0\powershell.exe"))
+                {
+                    Arguments =
+                        "-NoProfile -NonInteractive -ExecutionPolicy Bypass -EncodedCommand "
+                        + Convert.ToBase64String(Encoding.Unicode.GetBytes(script)),
+                    UseShellExecute = true,
+                    Verb = "runas",
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                }
+            );
         }
         catch (System.ComponentModel.Win32Exception ex) when (ex.NativeErrorCode == 1223)
         {
@@ -251,54 +311,63 @@ internal static class SwiftTunnel
 
     private static string BuildRemovalScript(string[] directories)
     {
-        string[] targets = directories.Select(directory =>
-        {
-            if (!Path.IsPathFullyQualified(directory))
-                throw new InvalidOperationException(Text("UnsafeDirectory"));
-            string path = Path.TrimEndingDirectorySeparator(Path.GetFullPath(directory));
-            string name = Path.GetFileName(path);
-            if (!name.Equals("SwiftTunnel", StringComparison.OrdinalIgnoreCase) && !name.Equals("net.swifttunnel.desktop", StringComparison.OrdinalIgnoreCase))
-                throw new InvalidOperationException(Text("UnsafeDirectory"));
-            return path;
-        }).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+        string[] targets = directories
+            .Select(directory =>
+            {
+                if (!Path.IsPathFullyQualified(directory))
+                    throw new InvalidOperationException(Text("UnsafeDirectory"));
+                string path = Path.TrimEndingDirectorySeparator(Path.GetFullPath(directory));
+                string name = Path.GetFileName(path);
+                if (
+                    !name.Equals("SwiftTunnel", StringComparison.OrdinalIgnoreCase)
+                    && !name.Equals("net.swifttunnel.desktop", StringComparison.OrdinalIgnoreCase)
+                )
+                    throw new InvalidOperationException(Text("UnsafeDirectory"));
+                return path;
+            })
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
         string data = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(targets)));
-        return "$targets = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('" + data + "')) | ConvertFrom-Json\n" + """
-            $ErrorActionPreference = 'Stop'
-            function Remove-AppDirectory([IO.DirectoryInfo] $directory) {
-                if (-not $directory.Exists) { return }
-                if (($directory.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+        return "$targets = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('"
+            + data
+            + "')) | ConvertFrom-Json\n"
+            + """
+                $ErrorActionPreference = 'Stop'
+                function Remove-AppDirectory([IO.DirectoryInfo] $directory) {
+                    if (-not $directory.Exists) { return }
+                    if (($directory.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+                        $directory.Delete()
+                        return
+                    }
+                    foreach ($item in $directory.GetFileSystemInfos()) {
+                        if ($item -is [IO.DirectoryInfo]) {
+                            Remove-AppDirectory $item
+                        } else {
+                            if (($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -eq 0) { $item.Attributes = [IO.FileAttributes]::Normal }
+                            $item.Delete()
+                        }
+                    }
                     $directory.Delete()
-                    return
                 }
-                foreach ($item in $directory.GetFileSystemInfos()) {
-                    if ($item -is [IO.DirectoryInfo]) {
-                        Remove-AppDirectory $item
-                    } else {
-                        if (($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -eq 0) { $item.Attributes = [IO.FileAttributes]::Normal }
-                        $item.Delete()
+                try {
+                    foreach ($target in $targets) {
+                        $resolved = [IO.Path]::GetFullPath($target).TrimEnd('\')
+                        if ($resolved -ne $target -or [IO.Path]::GetFileName($resolved) -notin @('SwiftTunnel', 'net.swifttunnel.desktop')) { throw 'Invalid removal directory' }
+                        $directory = [IO.DirectoryInfo]::new($resolved)
+                        $parent = $directory.Parent
+                        while ($parent) {
+                            if ($parent.Exists -and ($parent.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) { throw 'Linked parent directory' }
+                            $parent = $parent.Parent
+                        }
                     }
-                }
-                $directory.Delete()
-            }
-            try {
-                foreach ($target in $targets) {
-                    $resolved = [IO.Path]::GetFullPath($target).TrimEnd('\')
-                    if ($resolved -ne $target -or [IO.Path]::GetFileName($resolved) -notin @('SwiftTunnel', 'net.swifttunnel.desktop')) { throw 'Invalid removal directory' }
-                    $directory = [IO.DirectoryInfo]::new($resolved)
-                    $parent = $directory.Parent
-                    while ($parent) {
-                        if ($parent.Exists -and ($parent.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) { throw 'Linked parent directory' }
-                        $parent = $parent.Parent
+                    foreach ($target in $targets) {
+                        for ($attempt = 0; $attempt -lt 5; $attempt++) {
+                            try { Remove-AppDirectory ([IO.DirectoryInfo]::new($target)); break }
+                            catch { if ($attempt -eq 4) { throw }; Start-Sleep -Milliseconds 500 }
+                        }
                     }
-                }
-                foreach ($target in $targets) {
-                    for ($attempt = 0; $attempt -lt 5; $attempt++) {
-                        try { Remove-AppDirectory ([IO.DirectoryInfo]::new($target)); break }
-                        catch { if ($attempt -eq 4) { throw }; Start-Sleep -Milliseconds 500 }
-                    }
-                }
-                exit 0
-            } catch { exit 13 }
-            """;
+                    exit 0
+                } catch { exit 13 }
+                """;
     }
 }

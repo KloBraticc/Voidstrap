@@ -46,7 +46,10 @@ namespace Voidstrap.UI.ViewModels.Settings
             }
         }
 
-        public string SubText => Model.Expired ? Strings.Accounts_Expired : string.IsNullOrEmpty(Model.Note) ? Handle : Model.Note;
+        public string SubText =>
+            Model.Expired ? Strings.Accounts_Expired
+            : string.IsNullOrEmpty(Model.Note) ? Handle
+            : Model.Note;
 
         public string? AvatarUrl
         {
@@ -72,9 +75,13 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public string PinText => Model.Pinned ? Strings.Accounts_Unpin : Strings.Accounts_Pin;
 
-        public string LastUsedText => Model.LastUsedUtc == default ? Strings.Accounts_Never : Model.LastUsedUtc.ToLocalTime().ToString("g", CultureInfo.CurrentCulture);
+        public string LastUsedText =>
+            Model.LastUsedUtc == default
+                ? Strings.Accounts_Never
+                : Model.LastUsedUtc.ToLocalTime().ToString("g", CultureInfo.CurrentCulture);
 
-        public string AddedText => Model.AddedUtc == default ? Strings.Accounts_Never : Model.AddedUtc.ToLocalTime().ToString("d", CultureInfo.CurrentCulture);
+        public string AddedText =>
+            Model.AddedUtc == default ? Strings.Accounts_Never : Model.AddedUtc.ToLocalTime().ToString("d", CultureInfo.CurrentCulture);
 
         public void Refresh()
         {
@@ -122,7 +129,11 @@ namespace Voidstrap.UI.ViewModels.Settings
             RemoveCommand = new RelayCommand(() => _ = RemoveAsync());
             CopyIdCommand = new RelayCommand(() => Copy(_selected?.Model.UserId.ToString(CultureInfo.InvariantCulture)));
             CopyUsernameCommand = new RelayCommand(() => Copy(_selected?.Model.Username));
-            OpenProfileCommand = new RelayCommand(() => { if (_selected != null) Utilities.OpenWebLink("https://www.roblox.com/users/" + _selected.Model.UserId + "/profile"); });
+            OpenProfileCommand = new RelayCommand(() =>
+            {
+                if (_selected != null)
+                    Utilities.OpenWebLink("https://www.roblox.com/users/" + _selected.Model.UserId + "/profile");
+            });
             SignOutCommand = new RelayCommand(() => _ = SignOutAsync());
             CheckAllCommand = new RelayCommand(() => _ = CheckAllAsync());
             RefreshCommand = new RelayCommand(() => _ = LoadAsync());
@@ -148,7 +159,8 @@ namespace Voidstrap.UI.ViewModels.Settings
         public ICommand CheckAllCommand { get; }
         public ICommand RefreshCommand { get; }
 
-        public Visibility BrowserSignInVisibility => Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsMacOS ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility BrowserSignInVisibility =>
+            Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsMacOS ? Visibility.Visible : Visibility.Collapsed;
 
         public Visibility UnsupportedVisibility => SavedAccounts.SwitchingSupported ? Visibility.Collapsed : Visibility.Visible;
 
@@ -225,11 +237,31 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public Visibility ImportVisibility => _importVisible ? Visibility.Visible : Visibility.Collapsed;
 
-        public string Robux { get => _robux; private set => SetProperty(ref _robux, value); }
-        public string Premium { get => _premium; private set => SetProperty(ref _premium, value); }
-        public string Joined { get => _joined; private set => SetProperty(ref _joined, value); }
-        public string Friends { get => _friends; private set => SetProperty(ref _friends, value); }
-        public string Followers { get => _followers; private set => SetProperty(ref _followers, value); }
+        public string Robux
+        {
+            get => _robux;
+            private set => SetProperty(ref _robux, value);
+        }
+        public string Premium
+        {
+            get => _premium;
+            private set => SetProperty(ref _premium, value);
+        }
+        public string Joined
+        {
+            get => _joined;
+            private set => SetProperty(ref _joined, value);
+        }
+        public string Friends
+        {
+            get => _friends;
+            private set => SetProperty(ref _friends, value);
+        }
+        public string Followers
+        {
+            get => _followers;
+            private set => SetProperty(ref _followers, value);
+        }
 
         public async Task LoadAsync()
         {
@@ -244,16 +276,15 @@ namespace Voidstrap.UI.ViewModels.Settings
                 OnPropertyChanged(nameof(EmptyText));
                 CurrentAccountInfo? current = await SavedAccounts.RefreshCurrentAsync(token);
                 MarkCurrent(current?.UserId ?? 0);
-                SelectedAccount = Accounts.FirstOrDefault(a => a.Model.UserId == selectedId && selectedId != 0)
+                SelectedAccount =
+                    Accounts.FirstOrDefault(a => a.Model.UserId == selectedId && selectedId != 0)
                     ?? Accounts.FirstOrDefault(a => a.IsCurrent)
                     ?? Accounts.FirstOrDefault();
                 Dictionary<long, string> avatars = await SavedAccounts.GetAvatarsAsync(_all.Select(a => a.Model.UserId), token);
                 foreach (AccountRow row in _all)
                     row.AvatarUrl = avatars.TryGetValue(row.Model.UserId, out string? url) ? url : null;
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 App.Logger?.WriteLine(LogIdent, "The saved accounts could not be loaded: " + ex.Message);
@@ -276,16 +307,17 @@ namespace Voidstrap.UI.ViewModels.Settings
         private void ApplyFilter()
         {
             string query = _searchText.Trim();
-            IEnumerable<AccountRow> rows = _all
-                .OrderByDescending(a => a.Model.Pinned)
+            IEnumerable<AccountRow> rows = _all.OrderByDescending(a => a.Model.Pinned)
                 .ThenByDescending(a => a.Model.LastUsedUtc)
                 .ThenBy(a => a.Title, StringComparer.CurrentCultureIgnoreCase);
             if (query.Length > 0)
             {
-                rows = rows.Where(a => a.Model.Username.Contains(query, StringComparison.OrdinalIgnoreCase)
+                rows = rows.Where(a =>
+                    a.Model.Username.Contains(query, StringComparison.OrdinalIgnoreCase)
                     || a.Model.DisplayName.Contains(query, StringComparison.OrdinalIgnoreCase)
                     || a.Model.Note.Contains(query, StringComparison.OrdinalIgnoreCase)
-                    || a.Model.UserId.ToString(CultureInfo.InvariantCulture).Contains(query, StringComparison.Ordinal));
+                    || a.Model.UserId.ToString(CultureInfo.InvariantCulture).Contains(query, StringComparison.Ordinal)
+                );
             }
             AccountRow? keep = _selected;
             Accounts.Clear();
@@ -346,9 +378,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 }
                 Status = "";
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 App.Logger?.WriteLine(LogIdent, "Signing in through Roblox failed: " + ex.Message);
@@ -464,7 +494,14 @@ namespace Voidstrap.UI.ViewModels.Settings
         {
             if (!SavedAccounts.IsRobloxRunning())
                 return true;
-            if (Frontend.ShowMessageBox(Strings.Accounts_CloseRobloxPrompt, MessageBoxImage.Question, MessageBoxButton.YesNo, MessageBoxResult.Yes) != MessageBoxResult.Yes)
+            if (
+                Frontend.ShowMessageBox(
+                    Strings.Accounts_CloseRobloxPrompt,
+                    MessageBoxImage.Question,
+                    MessageBoxButton.YesNo,
+                    MessageBoxResult.Yes
+                ) != MessageBoxResult.Yes
+            )
                 return false;
             if (await SavedAccounts.CloseRobloxAsync())
                 return true;
@@ -487,7 +524,14 @@ namespace Voidstrap.UI.ViewModels.Settings
             AccountRow? row = _selected;
             if (row == null)
                 return;
-            if (Frontend.ShowMessageBox(string.Format(Strings.Accounts_RemoveConfirm, row.Model.Username), MessageBoxImage.Question, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+            if (
+                Frontend.ShowMessageBox(
+                    string.Format(Strings.Accounts_RemoveConfirm, row.Model.Username),
+                    MessageBoxImage.Question,
+                    MessageBoxButton.YesNo,
+                    MessageBoxResult.No
+                ) != MessageBoxResult.Yes
+            )
                 return;
             await SavedAccounts.RemoveAsync(row.Model);
             _all.Remove(row);
@@ -539,9 +583,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 }
                 Status = string.Format(Strings.Accounts_Status_Checked, valid, _all.Count);
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             finally
             {
                 IsBusy = false;
@@ -562,11 +604,27 @@ namespace Voidstrap.UI.ViewModels.Settings
             string? cookie = SavedAccounts.ReadCurrentCookie(row.Model);
             try
             {
-                Task<RobloxApiResponse> robux = RobloxCookie.SendGetWithCookieAsync("https://economy.roblox.com/v1/users/" + id + "/currency", cookie, token);
-                Task<RobloxApiResponse> premium = RobloxCookie.SendGetWithCookieAsync("https://premiumfeatures.roblox.com/v1/users/" + id + "/validate-membership", cookie, token);
+                Task<RobloxApiResponse> robux = RobloxCookie.SendGetWithCookieAsync(
+                    "https://economy.roblox.com/v1/users/" + id + "/currency",
+                    cookie,
+                    token
+                );
+                Task<RobloxApiResponse> premium = RobloxCookie.SendGetWithCookieAsync(
+                    "https://premiumfeatures.roblox.com/v1/users/" + id + "/validate-membership",
+                    cookie,
+                    token
+                );
                 Task<RobloxApiResponse> user = RobloxCookie.SendGetWithCookieAsync("https://users.roblox.com/v1/users/" + id, null, token);
-                Task<RobloxApiResponse> friends = RobloxCookie.SendGetWithCookieAsync("https://friends.roblox.com/v1/users/" + id + "/friends/count", null, token);
-                Task<RobloxApiResponse> followers = RobloxCookie.SendGetWithCookieAsync("https://friends.roblox.com/v1/users/" + id + "/followers/count", null, token);
+                Task<RobloxApiResponse> friends = RobloxCookie.SendGetWithCookieAsync(
+                    "https://friends.roblox.com/v1/users/" + id + "/friends/count",
+                    null,
+                    token
+                );
+                Task<RobloxApiResponse> followers = RobloxCookie.SendGetWithCookieAsync(
+                    "https://friends.roblox.com/v1/users/" + id + "/followers/count",
+                    null,
+                    token
+                );
                 await Task.WhenAll(robux, premium, user, friends, followers);
                 if (token.IsCancellationRequested)
                     return;
@@ -576,15 +634,13 @@ namespace Voidstrap.UI.ViewModels.Settings
                 {
                     "true" => Strings.Accounts_Premium_Active,
                     "false" => Strings.Accounts_Premium_None,
-                    _ => none
+                    _ => none,
                 };
                 Joined = ReadDate(user.Result.Body) ?? none;
                 Friends = ReadNumber(friends.Result.Body, "count") ?? none;
                 Followers = ReadNumber(followers.Result.Body, "count") ?? none;
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
         }
 
         private static string? ReadNumber(string? json, string property)

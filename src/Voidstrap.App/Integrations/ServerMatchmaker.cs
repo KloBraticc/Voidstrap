@@ -89,11 +89,17 @@ public sealed class ServerMatchmaker : IDisposable
 		{
 			Interlocked.Exchange(ref _currentCts, null)?.Cancel();
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 		ActivityData? data = _activityWatcher.Data;
-		if (_disposed || data == null || data.PlaceId == 0L || data.IsTeleport || data.ServerType == ServerType.Reserved || !IsEnabled() || IsExcluded(data.PlaceId))
+		if (
+			_disposed
+			|| data == null
+			|| data.PlaceId == 0L
+			|| data.IsTeleport
+			|| data.ServerType == ServerType.Reserved
+			|| !IsEnabled()
+			|| IsExcluded(data.PlaceId)
+		)
 			return;
 
 		if (IsManualPick(data.JobId))
@@ -102,7 +108,10 @@ public sealed class ServerMatchmaker : IDisposable
 		MatchmakerCandidate? launchPick = VoidstrapMatchmaker.FindLaunchPick(data.JobId);
 		if (launchPick != null)
 		{
-			App.Logger.WriteLine(LOG_IDENT, $"Joining the server the matchmaker picked in {launchPick.Datacenter?.City ?? "?"}, no second search needed");
+			App.Logger.WriteLine(
+				LOG_IDENT,
+				$"Joining the server the matchmaker picked in {launchPick.Datacenter?.City ?? "?"}, no second search needed"
+			);
 			return;
 		}
 
@@ -116,7 +125,12 @@ public sealed class ServerMatchmaker : IDisposable
 		App.Logger.WriteLine(LOG_IDENT, $"Joining place {data.PlaceId}, searching for a better server while Roblox loads");
 	}
 
-	private async Task<MatchmakerCandidate?> PrefetchAsync(long placeId, HashSet<string> tried, string preferredKey, CancellationTokenSource cts)
+	private async Task<MatchmakerCandidate?> PrefetchAsync(
+		long placeId,
+		HashSet<string> tried,
+		string preferredKey,
+		CancellationTokenSource cts
+	)
 	{
 		try
 		{
@@ -175,7 +189,10 @@ public sealed class ServerMatchmaker : IDisposable
 			}
 			if (!data.MachineAddressValid)
 			{
-				App.Logger.WriteLine(LOG_IDENT, $"No routable server address for job {data.JobId}, skipping (address was '{data.MachineAddress}')");
+				App.Logger.WriteLine(
+					LOG_IDENT,
+					$"No routable server address for job {data.JobId}, skipping (address was '{data.MachineAddress}')"
+				);
 				return;
 			}
 
@@ -223,7 +240,10 @@ public sealed class ServerMatchmaker : IDisposable
 			if (launchPick != null && _linuxRejoinTarget == null)
 			{
 				string city = launchPick.Datacenter?.City ?? "the picked datacenter";
-				App.Logger.WriteLine(LOG_IDENT, $"Joined the server the matchmaker picked before launch in {city} ({launchPick.EstimatedPingMs}ms), staying put");
+				App.Logger.WriteLine(
+					LOG_IDENT,
+					$"Joined the server the matchmaker picked before launch in {city} ({launchPick.EstimatedPingMs}ms), staying put"
+				);
 				ClearAttempt(data.PlaceId);
 				CancelLinuxPrefetch();
 				ShowAlert($"Connected to {city}, about {launchPick.EstimatedPingMs}ms", 6);
@@ -236,14 +256,10 @@ public sealed class ServerMatchmaker : IDisposable
 			{
 				previous?.Cancel();
 			}
-			catch
-			{
-			}
+			catch { }
 			await EvaluateAsync(data, ownedCts.Token).ConfigureAwait(false);
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine(LOG_IDENT, "Game join handling failed: " + ex.Message);
@@ -264,7 +280,9 @@ public sealed class ServerMatchmaker : IDisposable
 		try
 		{
 			using CancellationTokenSource timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(8.0));
-			RobloxDatacenter? dc = await VoidstrapMatchmaker.LookupUnknownIpAsync(data.MachineAddress, timeoutCts.Token).ConfigureAwait(false);
+			RobloxDatacenter? dc = await VoidstrapMatchmaker
+				.LookupUnknownIpAsync(data.MachineAddress, timeoutCts.Token)
+				.ConfigureAwait(false);
 			if (dc != null)
 			{
 				ServerFetchStore.RecordSighting(data.MachineAddress, dc.City, dc.Region, dc.Country, dc.Lat, dc.Lon);
@@ -280,7 +298,6 @@ public sealed class ServerMatchmaker : IDisposable
 		{
 			App.Logger.WriteLine(LOG_IDENT, "Learning store write failed: " + ex.Message);
 		}
-
 	}
 
 	public static bool IsExcluded(long placeId)
@@ -349,9 +366,7 @@ public sealed class ServerMatchmaker : IDisposable
 			if (map != null && map.TryGetValue(placeId, out string? key) && !string.IsNullOrWhiteSpace(key))
 				return key.Trim();
 		}
-		catch
-		{
-		}
+		catch { }
 		return (App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter ?? "").Trim();
 	}
 
@@ -360,7 +375,9 @@ public sealed class ServerMatchmaker : IDisposable
 		if (_linuxRejoinTarget != null && _linuxRejoinPlaceId != data.PlaceId)
 			ClearLinuxRejoin();
 
-		Task<MatchmakerCandidate?>? prefetch = string.Equals(_prefetchJobId, data.JobId, StringComparison.OrdinalIgnoreCase) ? _prefetch : null;
+		Task<MatchmakerCandidate?>? prefetch = string.Equals(_prefetchJobId, data.JobId, StringComparison.OrdinalIgnoreCase)
+			? _prefetch
+			: null;
 		using CancellationTokenSource window = CancellationTokenSource.CreateLinkedTokenSource(token);
 		window.CancelAfter(MoveWindow);
 		try
@@ -369,7 +386,10 @@ public sealed class ServerMatchmaker : IDisposable
 		}
 		catch (OperationCanceledException) when (window.IsCancellationRequested && !token.IsCancellationRequested)
 		{
-			App.Logger.WriteLine(LOG_IDENT, $"No better server was ready within {MoveWindow.TotalSeconds:0}s of joining, staying so you are not pulled out mid game");
+			App.Logger.WriteLine(
+				LOG_IDENT,
+				$"No better server was ready within {MoveWindow.TotalSeconds:0}s of joining, staying so you are not pulled out mid game"
+			);
 			ClearLinuxRejoin();
 			ClearAttempt(data.PlaceId);
 		}
@@ -379,7 +399,12 @@ public sealed class ServerMatchmaker : IDisposable
 		}
 	}
 
-	private async Task DecideAsync(ActivityData data, Task<MatchmakerCandidate?>? prefetch, CancellationToken decideBy, CancellationToken token)
+	private async Task DecideAsync(
+		ActivityData data,
+		Task<MatchmakerCandidate?>? prefetch,
+		CancellationToken decideBy,
+		CancellationToken token
+	)
 	{
 		if (_disposed || decideBy.IsCancellationRequested)
 			return;
@@ -392,7 +417,8 @@ public sealed class ServerMatchmaker : IDisposable
 			return;
 		}
 
-		RobloxDatacenter? currentDc = RobloxDatacenterMap.Map(data.MachineAddress)
+		RobloxDatacenter? currentDc =
+			RobloxDatacenterMap.Map(data.MachineAddress)
 			?? await VoidstrapMatchmaker.LookupUnknownIpAsync(data.MachineAddress, decideBy).ConfigureAwait(false);
 		if (currentDc == null)
 		{
@@ -406,7 +432,10 @@ public sealed class ServerMatchmaker : IDisposable
 		int currentPing = VoidstrapMatchmaker.EstimatePingMs(currentKm);
 		string currentKey = VoidstrapMatchmaker.DatacenterKey(currentDc);
 		bool currentIsBlocked = VoidstrapMatchmaker.GetBlockedDatacenters().Contains(VoidstrapMatchmaker.BlockKey(currentDc));
-		App.Logger.WriteLine(LOG_IDENT, $"Current datacenter {VoidstrapMatchmaker.BlockKey(currentDc)}, about {currentPing}ms{(currentIsBlocked ? ", blocked" : "")}");
+		App.Logger.WriteLine(
+			LOG_IDENT,
+			$"Current datacenter {VoidstrapMatchmaker.BlockKey(currentDc)}, about {currentPing}ms{(currentIsBlocked ? ", blocked" : "")}"
+		);
 
 		string preferredKey = ResolvePreferredDatacenterKey(data.PlaceId);
 		bool hasPreferred = preferredKey.Length > 0;
@@ -423,10 +452,9 @@ public sealed class ServerMatchmaker : IDisposable
 		}
 
 		bool linuxRejoin = Voidstrap.Utility.Platform.IsLinux && _linuxRejoinTarget != null;
-		string rejoinTarget = linuxRejoin
-			? _linuxRejoinTarget ?? ""
-			: (App.LaunchSettings.MatchmakerTargetFlag.Data ?? "").Trim();
-		bool landedOnRejoinTarget = rejoinTarget.Length == 0 || string.Equals(currentDc.City, rejoinTarget, StringComparison.OrdinalIgnoreCase);
+		string rejoinTarget = linuxRejoin ? _linuxRejoinTarget ?? "" : (App.LaunchSettings.MatchmakerTargetFlag.Data ?? "").Trim();
+		bool landedOnRejoinTarget =
+			rejoinTarget.Length == 0 || string.Equals(currentDc.City, rejoinTarget, StringComparison.OrdinalIgnoreCase);
 		if ((App.LaunchSettings.MatchmakerRejoinFlag.Active || linuxRejoin) && !currentIsBlocked && !wantsOtherDc && landedOnRejoinTarget)
 		{
 			App.Logger.WriteLine(LOG_IDENT, $"Landed via matchmaker rejoin in {currentDc.City} ({currentPing}ms), accepting this server");
@@ -499,12 +527,18 @@ public sealed class ServerMatchmaker : IDisposable
 			else if (wantsOtherDc)
 			{
 				string preferredCity = preferredKey.Split('|')[0];
-				App.Logger.WriteLine(LOG_IDENT, $"Preferred datacenter {preferredCity} has no servers right now, staying in {currentDc.City} instead of moving somewhere you did not pick");
+				App.Logger.WriteLine(
+					LOG_IDENT,
+					$"Preferred datacenter {preferredCity} has no servers right now, staying in {currentDc.City} instead of moving somewhere you did not pick"
+				);
 				ShowAlert($"{preferredCity} has no servers right now, staying in {currentDc.City}", 7);
 			}
 			else
 			{
-				App.Logger.WriteLine(LOG_IDENT, $"Current {currentDc.City} at {currentPing}ms vs best {best.DatacenterName} at {best.EstimatedPingMs}ms, not worth reconnecting for {(int)gainMs}ms");
+				App.Logger.WriteLine(
+					LOG_IDENT,
+					$"Current {currentDc.City} at {currentPing}ms vs best {best.DatacenterName} at {best.EstimatedPingMs}ms, not worth reconnecting for {(int)gainMs}ms"
+				);
 				ShowAlert($"You are already on a good server, about {currentPing}ms", 5);
 			}
 			return;
@@ -534,9 +568,10 @@ public sealed class ServerMatchmaker : IDisposable
 			if (App.Settings.Prop.MatchmakerAskBeforeMoving)
 			{
 				string targetCity = best.Datacenter?.City ?? "a better location";
-				string question = wantsOtherDc && bestIsPreferred
-					? $"Voidstrap found a server in your preferred location {targetCity}, about {best.EstimatedPingMs}ms.\n\nYou are in {currentDc.City} right now, about {currentPing}ms. Move to {targetCity}? You will leave your current server."
-					: $"Voidstrap found a better server in {targetCity}, about {best.EstimatedPingMs}ms.\n\nYou are in {currentDc.City} right now, about {currentPing}ms. Move to {targetCity}? You will leave your current server.";
+				string question =
+					wantsOtherDc && bestIsPreferred
+						? $"Voidstrap found a server in your preferred location {targetCity}, about {best.EstimatedPingMs}ms.\n\nYou are in {currentDc.City} right now, about {currentPing}ms. Move to {targetCity}? You will leave your current server."
+						: $"Voidstrap found a better server in {targetCity}, about {best.EstimatedPingMs}ms.\n\nYou are in {currentDc.City} right now, about {currentPing}ms. Move to {targetCity}? You will leave your current server.";
 				App.Logger.WriteLine(LOG_IDENT, $"Asking before moving from {currentDc.City} to {targetCity}");
 				if (!await AskToMoveAsync(question, token).ConfigureAwait(false))
 				{
@@ -559,13 +594,19 @@ public sealed class ServerMatchmaker : IDisposable
 
 			RecordTriedJobId(data.PlaceId, data.JobId);
 			RecordTriedJobId(data.PlaceId, best.JobId);
-			App.Logger.WriteLine(LOG_IDENT, $"Rerouting from {currentDc.City} ({currentPing}ms) to {best.DatacenterName} ({best.EstimatedPingMs}ms), {reason}");
+			App.Logger.WriteLine(
+				LOG_IDENT,
+				$"Rerouting from {currentDc.City} ({currentPing}ms) to {best.DatacenterName} ({best.EstimatedPingMs}ms), {reason}"
+			);
 
 			string blockedNote = string.IsNullOrEmpty(best.BlockedClosestCity)
 				? ""
 				: $"\n{best.BlockedClosestCity} is closer but you blocked it";
 			string attemptNote = attempt > 1 ? $" Attempt {attempt} of {maxRetries}" : "";
-			ShowAlert($"Moving you to {best.Datacenter?.City ?? "the best server"}, about {best.EstimatedPingMs}ms{attemptNote}{blockedNote}", 8);
+			ShowAlert(
+				$"Moving you to {best.Datacenter?.City ?? "the best server"}, about {best.EstimatedPingMs}ms{attemptNote}{blockedNote}",
+				8
+			);
 
 			_lastHopUtc = DateTime.UtcNow;
 			VoidstrapMatchmaker.RememberLaunchPick(best);
@@ -597,10 +638,14 @@ public sealed class ServerMatchmaker : IDisposable
 
 	private static bool ShowMovePrompt(string message, CancellationToken token)
 	{
-		Voidstrap.UI.Elements.Dialogs.FluentMessageBox box = new(message, System.Windows.MessageBoxImage.Question, System.Windows.MessageBoxButton.YesNo)
+		Voidstrap.UI.Elements.Dialogs.FluentMessageBox box = new(
+			message,
+			System.Windows.MessageBoxImage.Question,
+			System.Windows.MessageBoxButton.YesNo
+		)
 		{
 			Topmost = true,
-			ShowActivated = true
+			ShowActivated = true,
 		};
 		System.Windows.Threading.DispatcherTimer timer = new() { Interval = MovePromptTimeout };
 		void CloseBox(object? sender, EventArgs e)
@@ -610,7 +655,9 @@ public sealed class ServerMatchmaker : IDisposable
 				box.Close();
 		}
 		timer.Tick += CloseBox;
-		using CancellationTokenRegistration registration = token.Register(() => box.Dispatcher.BeginInvoke(() => CloseBox(null, EventArgs.Empty)));
+		using CancellationTokenRegistration registration = token.Register(() =>
+			box.Dispatcher.BeginInvoke(() => CloseBox(null, EventArgs.Empty))
+		);
 		timer.Start();
 		try
 		{
@@ -639,18 +686,20 @@ public sealed class ServerMatchmaker : IDisposable
 		{
 			Interlocked.Exchange(ref _currentCts, null)?.Cancel();
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 
 		RecordTriedJobId(placeId, currentJobId);
 		RecordTriedJobId(placeId, server.JobId);
 		Volatile.Write(ref _manualJobId, server.JobId);
 		_lastHopUtc = DateTime.UtcNow;
 		VoidstrapMatchmaker.RememberLaunchPick(server);
-		App.Logger.WriteLine(LOG_IDENT, $"Joining {server.DatacenterName} ({server.EstimatedPingMs}ms) picked in the server browser, JobId {server.JobId}");
+		App.Logger.WriteLine(
+			LOG_IDENT,
+			$"Joining {server.DatacenterName} ({server.EstimatedPingMs}ms) picked in the server browser, JobId {server.JobId}"
+		);
 		ShowAlert($"Moving you to {server.Datacenter?.City ?? "the selected server"}, about {server.EstimatedPingMs}ms", 8);
-		await TriggerRejoinAsync(placeId, 1, server.JobId, server.Datacenter?.City, token, token, requireEnabled: false).ConfigureAwait(false);
+		await TriggerRejoinAsync(placeId, 1, server.JobId, server.Datacenter?.City, token, token, requireEnabled: false)
+			.ConfigureAwait(false);
 		return true;
 	}
 
@@ -663,12 +712,11 @@ public sealed class ServerMatchmaker : IDisposable
 		{
 			Interlocked.Exchange(ref _currentCts, null)?.Cancel();
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 		_lastHopUtc = DateTime.UtcNow;
 		App.Logger.WriteLine(LOG_IDENT, $"Switching to place {placeId} picked in the game browser");
-		await TriggerRejoinAsync(placeId, 1, null, targetName, token, token, requireEnabled: false, accessCode: accessCode).ConfigureAwait(false);
+		await TriggerRejoinAsync(placeId, 1, null, targetName, token, token, requireEnabled: false, accessCode: accessCode)
+			.ConfigureAwait(false);
 		return true;
 	}
 
@@ -682,7 +730,16 @@ public sealed class ServerMatchmaker : IDisposable
 		return string.Equals(manual, jobId, StringComparison.OrdinalIgnoreCase);
 	}
 
-	private async Task TriggerRejoinAsync(long placeId, int attemptNumber, string? explicitJobId, string? targetName, CancellationToken decideBy, CancellationToken token, bool requireEnabled = true, string? accessCode = null)
+	private async Task TriggerRejoinAsync(
+		long placeId,
+		int attemptNumber,
+		string? explicitJobId,
+		string? targetName,
+		CancellationToken decideBy,
+		CancellationToken token,
+		bool requireEnabled = true,
+		string? accessCode = null
+	)
 	{
 		if (_disposed || token.IsCancellationRequested)
 			return;
@@ -739,7 +796,7 @@ public sealed class ServerMatchmaker : IDisposable
 				{
 					FileName = playerPath,
 					UseShellExecute = false,
-					WorkingDirectory = Path.GetDirectoryName(playerPath) ?? ""
+					WorkingDirectory = Path.GetDirectoryName(playerPath) ?? "",
 				};
 				startInfo.ArgumentList.Add(launchUri);
 				using Process? player = Process.Start(startInfo);
@@ -757,7 +814,10 @@ public sealed class ServerMatchmaker : IDisposable
 
 		if (!await WaitForNewRobloxAsync(existingPids, token).ConfigureAwait(false))
 		{
-			App.Logger.WriteLine(LOG_IDENT, $"The successor did not start Roblox within {HandoffPollCount * HandoffPollIntervalMs / 1000}s, keeping the current session");
+			App.Logger.WriteLine(
+				LOG_IDENT,
+				$"The successor did not start Roblox within {HandoffPollCount * HandoffPollIntervalMs / 1000}s, keeping the current session"
+			);
 			return;
 		}
 
@@ -784,7 +844,7 @@ public sealed class ServerMatchmaker : IDisposable
 				FileName = process,
 				UseShellExecute = false,
 				CreateNoWindow = true,
-				WorkingDirectory = Path.GetDirectoryName(process) ?? ""
+				WorkingDirectory = Path.GetDirectoryName(process) ?? "",
 			};
 			startInfo.ArgumentList.Add("-player");
 			startInfo.ArgumentList.Add(launchUri);
@@ -829,7 +889,10 @@ public sealed class ServerMatchmaker : IDisposable
 		Volatile.Write(ref _macHandoff, handoff);
 		try
 		{
-			App.Logger.WriteLine(LOG_IDENT, "Closing Roblox so the successor can join the selected server, macOS runs one Roblox at a time");
+			App.Logger.WriteLine(
+				LOG_IDENT,
+				"Closing Roblox so the successor can join the selected server, macOS runs one Roblox at a time"
+			);
 			_watcher.KillRobloxProcess();
 			for (int i = 0; i < 40 && Watcher.IsAnyRobloxRunning(); i++)
 				await Task.Delay(250).ConfigureAwait(false);
@@ -864,8 +927,8 @@ public sealed class ServerMatchmaker : IDisposable
 		Voidstrap.Platform.OperationResult<Voidstrap.Platform.LaunchSession> result;
 		try
 		{
-			result = await host.PlayerRuntime
-				.LaunchAsync(new Voidstrap.Platform.LaunchRequest(Voidstrap.Platform.RuntimeKind.Player, deeplink), token)
+			result = await host
+				.PlayerRuntime.LaunchAsync(new Voidstrap.Platform.LaunchRequest(Voidstrap.Platform.RuntimeKind.Player, deeplink), token)
 				.ConfigureAwait(false);
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
@@ -901,9 +964,7 @@ public sealed class ServerMatchmaker : IDisposable
 
 	private static void BeginLinuxRejoinLease()
 	{
-		Volatile.Write(
-			ref _linuxRejoinLeaseDeadlineUtcTicks,
-			DateTime.UtcNow.AddSeconds(LinuxRejoinLeaseSeconds).Ticks);
+		Volatile.Write(ref _linuxRejoinLeaseDeadlineUtcTicks, DateTime.UtcNow.AddSeconds(LinuxRejoinLeaseSeconds).Ticks);
 	}
 
 	private static void CompleteLinuxRejoinLease()
@@ -928,9 +989,7 @@ public sealed class ServerMatchmaker : IDisposable
 				}
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		return pids;
 	}
 
@@ -972,9 +1031,7 @@ public sealed class ServerMatchmaker : IDisposable
 					return false;
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 		return false;
 	}
@@ -984,12 +1041,14 @@ public sealed class ServerMatchmaker : IDisposable
 		try
 		{
 			Dictionary<long, MatchmakerAttempt>? attempts = App.State.Prop.MatchmakerAttempts;
-			if (attempts != null && attempts.TryGetValue(placeId, out MatchmakerAttempt? entry) && DateTime.UtcNow - entry.LastUtc <= AttemptResetWindow)
+			if (
+				attempts != null
+				&& attempts.TryGetValue(placeId, out MatchmakerAttempt? entry)
+				&& DateTime.UtcNow - entry.LastUtc <= AttemptResetWindow
+			)
 				return new HashSet<string>(entry.TriedJobIds ?? new List<string>(), StringComparer.OrdinalIgnoreCase);
 		}
-		catch
-		{
-		}
+		catch { }
 		return new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 	}
 
@@ -1012,9 +1071,7 @@ public sealed class ServerMatchmaker : IDisposable
 			}
 			App.State.Save();
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static int IncrementAndGetAttempt(long placeId)
@@ -1048,9 +1105,7 @@ public sealed class ServerMatchmaker : IDisposable
 			if (attempts != null && attempts.Remove(placeId))
 				App.State.Save();
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static void PruneOldAttempts(Dictionary<long, MatchmakerAttempt> history)
@@ -1073,7 +1128,9 @@ public sealed class ServerMatchmaker : IDisposable
 			Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
 			if (host == null)
 				return;
-			Voidstrap.Platform.OperationResult result = await host.Notifications.ShowAsync(new Voidstrap.Platform.NotificationRequest("Voidstrap Matchmaker", text)).ConfigureAwait(false);
+			Voidstrap.Platform.OperationResult result = await host
+				.Notifications.ShowAsync(new Voidstrap.Platform.NotificationRequest("Voidstrap Matchmaker", text))
+				.ConfigureAwait(false);
 			if (!result.Succeeded)
 				App.Logger.WriteLine(LOG_IDENT, "Notification failed: " + result.Failure?.Message);
 		}
@@ -1115,18 +1172,14 @@ public sealed class ServerMatchmaker : IDisposable
 			_activityWatcher.OnGameJoining -= OnGameJoining;
 			_activityWatcher.OnGameJoin -= OnGameJoin;
 		}
-		catch
-		{
-		}
+		catch { }
 		CancelPrefetch();
 		try
 		{
 			CancellationTokenSource? current = Interlocked.Exchange(ref _currentCts, null);
 			current?.Cancel();
 		}
-		catch
-		{
-		}
+		catch { }
 		GC.SuppressFinalize(this);
 	}
 }

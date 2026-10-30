@@ -17,12 +17,14 @@ public partial class InlineVideoPlayer : UserControl, IDisposable
 {
     private const string LogIdent = "InlineVideoPlayer";
 
-    private static readonly string BrowserArguments = string.Join(" ",
+    private static readonly string BrowserArguments = string.Join(
+        " ",
         "--autoplay-policy=no-user-gesture-required",
         "--process-per-site",
         "--disable-features=TranslateUI,msWebOOUI,msPdfOOUI,ElasticOverscroll,OverscrollHistoryNavigation,BackForwardCache",
         "--disable-pinch",
-        "--overscroll-history-navigation=0");
+        "--overscroll-history-navigation=0"
+    );
 
     private readonly CancellationTokenSource _lifetime = new CancellationTokenSource();
 
@@ -41,7 +43,8 @@ public partial class InlineVideoPlayer : UserControl, IDisposable
         nameof(VideoUrl),
         typeof(string),
         typeof(InlineVideoPlayer),
-        new PropertyMetadata(string.Empty));
+        new PropertyMetadata(string.Empty)
+    );
 
     public string VideoUrl
     {
@@ -85,15 +88,14 @@ public partial class InlineVideoPlayer : UserControl, IDisposable
         WebView2? view = null;
         try
         {
-            CoreWebView2EnvironmentOptions options = new CoreWebView2EnvironmentOptions(Voidstrap.Utility.RenderAcceleration.ApplyToBrowserArguments(BrowserArguments));
+            CoreWebView2EnvironmentOptions options = new CoreWebView2EnvironmentOptions(
+                Voidstrap.Utility.RenderAcceleration.ApplyToBrowserArguments(BrowserArguments)
+            );
             _environment = await CoreWebView2Environment.CreateAsync(null, GetUserDataFolder(), options).ConfigureAwait(true);
             if (_disposed || _lifetime.IsCancellationRequested)
                 return;
 
-            view = new WebView2
-            {
-                DefaultBackgroundColor = System.Drawing.Color.Transparent,
-            };
+            view = new WebView2 { DefaultBackgroundColor = System.Drawing.Color.Transparent };
             PlayerHost.Children.Add(view);
 
             await view.EnsureCoreWebView2Async(_environment).ConfigureAwait(true);
@@ -143,7 +145,8 @@ public partial class InlineVideoPlayer : UserControl, IDisposable
                 new MemoryStream(payload),
                 200,
                 "OK",
-                "Content-Type: text/html; charset=utf-8");
+                "Content-Type: text/html; charset=utf-8"
+            );
         }
         catch (Exception ex)
         {
@@ -204,10 +207,7 @@ public partial class InlineVideoPlayer : UserControl, IDisposable
             return;
         try
         {
-            Process.Start(new ProcessStartInfo(url)
-            {
-                UseShellExecute = true,
-            });
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
         }
         catch (Exception ex)
         {

@@ -27,9 +27,10 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public string Title => string.IsNullOrWhiteSpace(Server.Name) ? Strings.PrivateServers_Title : Server.Name;
 
-        public string Owner => Server.IsMine
-            ? Strings.PrivateServers_Yours
-            : string.IsNullOrWhiteSpace(Server.OwnerName) ? Strings.PrivateServers_Shared : string.Format(Strings.PrivateServers_OwnedBy, Server.OwnerName);
+        public string Owner =>
+            Server.IsMine ? Strings.PrivateServers_Yours
+            : string.IsNullOrWhiteSpace(Server.OwnerName) ? Strings.PrivateServers_Shared
+            : string.Format(Strings.PrivateServers_OwnedBy, Server.OwnerName);
 
         public string Detail
         {
@@ -40,7 +41,9 @@ namespace Voidstrap.UI.ViewModels.Settings
                 if (Server.IsMine && Server.Expires is DateTime expires)
                 {
                     string date = expires.ToLocalTime().ToString("d", CultureInfo.CurrentCulture);
-                    return Owner + "  •  " + string.Format(Server.WillRenew ? Strings.PrivateServers_Renews : Strings.PrivateServers_Ends, date);
+                    return Owner
+                        + "  •  "
+                        + string.Format(Server.WillRenew ? Strings.PrivateServers_Renews : Strings.PrivateServers_Ends, date);
                 }
                 return Owner;
             }
@@ -50,7 +53,10 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public double RowOpacity => Server.Active ? 1.0 : 0.6;
 
-        public Visibility ToggleVisibility => Server.IsMine && (Server.Active || Server.Expires is not DateTime expires || expires > DateTime.UtcNow) ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility ToggleVisibility =>
+            Server.IsMine && (Server.Active || Server.Expires is not DateTime expires || expires > DateTime.UtcNow)
+                ? Visibility.Visible
+                : Visibility.Collapsed;
 
         public string ToggleText => Server.Active ? Strings.PrivateServers_TurnOff : Strings.PrivateServers_TurnOn;
 
@@ -139,9 +145,11 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public ICommand ShowFriendsCommand { get; }
 
-        public Wpf.Ui.Common.ControlAppearance MineAppearance => _showFriends ? Wpf.Ui.Common.ControlAppearance.Secondary : Wpf.Ui.Common.ControlAppearance.Primary;
+        public Wpf.Ui.Common.ControlAppearance MineAppearance =>
+            _showFriends ? Wpf.Ui.Common.ControlAppearance.Secondary : Wpf.Ui.Common.ControlAppearance.Primary;
 
-        public Wpf.Ui.Common.ControlAppearance FriendsAppearance => _showFriends ? Wpf.Ui.Common.ControlAppearance.Primary : Wpf.Ui.Common.ControlAppearance.Secondary;
+        public Wpf.Ui.Common.ControlAppearance FriendsAppearance =>
+            _showFriends ? Wpf.Ui.Common.ControlAppearance.Primary : Wpf.Ui.Common.ControlAppearance.Secondary;
 
         private void SetShowFriends(bool friends)
         {
@@ -215,7 +223,9 @@ namespace Voidstrap.UI.ViewModels.Settings
             Status = Strings.PrivateServers_Loading;
             try
             {
-                (PrivateServersStatus result, List<AccountPrivateServer> servers) = await Task.Run(() => RobloxServers.GetAccountPrivateServersAsync(CancellationToken.None));
+                (PrivateServersStatus result, List<AccountPrivateServer> servers) = await Task.Run(() =>
+                    RobloxServers.GetAccountPrivateServersAsync(CancellationToken.None)
+                );
                 _mineGames = BuildGames(servers.Where(server => server.IsMine));
                 _friendGames = BuildGames(servers.Where(server => !server.IsMine));
                 ApplyFilter();
@@ -223,10 +233,13 @@ namespace Voidstrap.UI.ViewModels.Settings
                 {
                     PrivateServersStatus.NotSignedIn => Strings.PrivateServers_SignIn,
                     PrivateServersStatus.Unavailable => Strings.PrivateServers_Failed,
-                    _ => servers.Count == 0 ? Strings.PrivateServers_Empty : string.Empty
+                    _ => servers.Count == 0 ? Strings.PrivateServers_Empty : string.Empty,
                 };
                 _loaded = result == PrivateServersStatus.Ready;
-                App.Logger.WriteLine("PrivateServersViewModel::Load", $"Showing {servers.Count} private servers, {_mineGames.Count} games of your own and {_friendGames.Count} shared with you");
+                App.Logger.WriteLine(
+                    "PrivateServersViewModel::Load",
+                    $"Showing {servers.Count} private servers, {_mineGames.Count} games of your own and {_friendGames.Count} shared with you"
+                );
                 IsLoading = false;
                 await LoadIconsAsync();
             }
@@ -245,7 +258,11 @@ namespace Voidstrap.UI.ViewModels.Settings
         private async Task LoadIconsAsync()
         {
             List<PrivateServerGame> games = _mineGames.Concat(_friendGames).ToList();
-            List<long> missing = games.Where(game => game.UniverseId > 0 && string.IsNullOrEmpty(game.IconUrl)).Select(game => game.UniverseId).Distinct().ToList();
+            List<long> missing = games
+                .Where(game => game.UniverseId > 0 && string.IsNullOrEmpty(game.IconUrl))
+                .Select(game => game.UniverseId)
+                .Distinct()
+                .ToList();
             if (missing.Count == 0)
                 return;
             try
@@ -275,7 +292,9 @@ namespace Voidstrap.UI.ViewModels.Settings
                 if (group.Any(server => IsDeleted(server.GameName)))
                     continue;
                 UniverseDetails? details = group.Key > 0 ? UniverseDetails.LoadFromCache(group.Key) : null;
-                string name = details?.Data?.Name is { Length: > 0 } known ? known : group.Select(server => server.GameName).FirstOrDefault(value => value.Length > 0) ?? "";
+                string name = details?.Data?.Name is { Length: > 0 } known
+                    ? known
+                    : group.Select(server => server.GameName).FirstOrDefault(value => value.Length > 0) ?? "";
                 List<PrivateServerRow> rows = group
                     .OrderByDescending(server => server.Active)
                     .ThenBy(server => server.Name, StringComparer.CurrentCultureIgnoreCase)
@@ -283,14 +302,16 @@ namespace Voidstrap.UI.ViewModels.Settings
                     .ToList();
                 if (IsDeleted(name))
                     continue;
-                games.Add(new PrivateServerGame
-                {
-                    UniverseId = group.Key,
-                    Name = name,
-                    IconUrl = details?.Thumbnail?.ImageUrl,
-                    CountText = string.Format(Strings.PrivateServers_Count, rows.Count),
-                    Servers = rows
-                });
+                games.Add(
+                    new PrivateServerGame
+                    {
+                        UniverseId = group.Key,
+                        Name = name,
+                        IconUrl = details?.Thumbnail?.ImageUrl,
+                        CountText = string.Format(Strings.PrivateServers_Count, rows.Count),
+                        Servers = rows,
+                    }
+                );
             }
             return games
                 .OrderByDescending(game => game.Servers.Any(row => row.Server.Active))
@@ -307,9 +328,11 @@ namespace Voidstrap.UI.ViewModels.Settings
             Games.Clear();
             foreach (PrivateServerGame game in _showFriends ? _friendGames : _mineGames)
             {
-                if (query.Length == 0
+                if (
+                    query.Length == 0
                     || game.Name.Contains(query, StringComparison.CurrentCultureIgnoreCase)
-                    || game.Servers.Any(row => row.Title.Contains(query, StringComparison.CurrentCultureIgnoreCase)))
+                    || game.Servers.Any(row => row.Title.Contains(query, StringComparison.CurrentCultureIgnoreCase))
+                )
                 {
                     Games.Add(game);
                 }
@@ -325,7 +348,9 @@ namespace Voidstrap.UI.ViewModels.Settings
             Status = string.Format(Strings.ContextMenu_ServerBrowser_Joining, row.Title);
             try
             {
-                string? accessCode = await Task.Run(() => RobloxServers.GetAccessCodeAsync(row.Server.PlaceId, row.Server.Id, CancellationToken.None));
+                string? accessCode = await Task.Run(() =>
+                    RobloxServers.GetAccessCodeAsync(row.Server.PlaceId, row.Server.Id, CancellationToken.None)
+                );
                 if (string.IsNullOrEmpty(accessCode))
                 {
                     Status = Strings.PrivateServers_CannotJoin;

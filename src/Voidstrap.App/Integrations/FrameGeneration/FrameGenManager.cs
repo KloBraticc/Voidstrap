@@ -6,9 +6,9 @@ using Voidstrap.Integrations.Overlays;
 
 namespace Voidstrap.Integrations.FrameGeneration
 {
-    public static class FrameGenManager
-    {
-        private static bool _installed;
+	public static class FrameGenManager
+	{
+		private static bool _installed;
 		private static int _prepareStarted;
 		private static int _gameTransitionActive;
 		private static int _transitionGeneration;
@@ -16,13 +16,14 @@ namespace Voidstrap.Integrations.FrameGeneration
 		private static readonly object _transitionGate = new();
 		private static CancellationTokenSource? _transitionTimeout;
 
-        public static void Install()
-        {
-            if (_installed)
-                return;
-            _installed = true;
+		public static void Install()
+		{
+			if (_installed)
+				return;
+			_installed = true;
 			int normalizedMode = App.Settings.Prop.FrameGenModeIndex > 0 ? 1 : 0;
-			bool settingsChanged = App.Settings.Prop.FrameGenModeIndex != normalizedMode
+			bool settingsChanged =
+				App.Settings.Prop.FrameGenModeIndex != normalizedMode
 				|| App.Settings.Prop.FrameGenResumeIndex > 1
 				|| App.Settings.Prop.FrameGenUncap;
 			App.Settings.Prop.FrameGenModeIndex = normalizedMode;
@@ -30,51 +31,60 @@ namespace Voidstrap.Integrations.FrameGeneration
 			App.Settings.Prop.FrameGenUncap = false;
 			if (settingsChanged)
 				App.Settings.SaveDeferred();
-            int savedTarget = App.Settings.Prop.FrameGenTargetFps;
-            int target = NormalizeTargetCap(savedTarget);
-            if (target != savedTarget)
-            {
-                App.Settings.Prop.FrameGenTargetFps = target;
-                App.Settings.SaveDeferred();
-            }
-            RemoveFrameGenFastFlag(target);
-            if (FrameGenSettings.ModeIndex > 0)
+			int savedTarget = App.Settings.Prop.FrameGenTargetFps;
+			int target = NormalizeTargetCap(savedTarget);
+			if (target != savedTarget)
+			{
+				App.Settings.Prop.FrameGenTargetFps = target;
+				App.Settings.SaveDeferred();
+			}
+			RemoveFrameGenFastFlag(target);
+			if (FrameGenSettings.ModeIndex > 0)
 				PreparePipeline();
-            if (FrameGenSettings.ModeIndex > 0 && target > 0)
-                ApplyTargetCap(target);
-            App.Logger.WriteLine("FrameGen", "Installed, mode is " + FrameGenSettings.ModeNames[FrameGenSettings.ModeIndex]);
-            OverlayHub.Refresh();
-        }
+			if (FrameGenSettings.ModeIndex > 0 && target > 0)
+				ApplyTargetCap(target);
+			App.Logger.WriteLine("FrameGen", "Installed, mode is " + FrameGenSettings.ModeNames[FrameGenSettings.ModeIndex]);
+			OverlayHub.Refresh();
+		}
 
-        public static void SetTargetCap(int fps)
-        {
-            Install();
-            int target = NormalizeTargetCap(fps);
-            App.Settings.Prop.FrameGenTargetFps = target;
-            App.Settings.SaveDeferred();
-            ApplyTargetCap(target);
-        }
+		public static void SetTargetCap(int fps)
+		{
+			Install();
+			int target = NormalizeTargetCap(fps);
+			App.Settings.Prop.FrameGenTargetFps = target;
+			App.Settings.SaveDeferred();
+			ApplyTargetCap(target);
+		}
 
-        private static void ApplyTargetCap(int fps)
-        {
-            if (fps >= 5 && fps < 1000 && App.GlobalSettings.GetInt("FramerateCap", 0) != fps)
-            {
-                App.GlobalSettings.SetInt("FramerateCap", fps);
-                App.GlobalSettings.Save();
-            }
-            RobloxFpsCap.ReloadNow();
-        }
+		private static void ApplyTargetCap(int fps)
+		{
+			if (fps >= 5 && fps < 1000 && App.GlobalSettings.GetInt("FramerateCap", 0) != fps)
+			{
+				App.GlobalSettings.SetInt("FramerateCap", fps);
+				App.GlobalSettings.Save();
+			}
+			RobloxFpsCap.ReloadNow();
+		}
 
-        private static void RemoveFrameGenFastFlag(int target)
-        {
-            if (target <= 0 || App.FastFlags.GetPreset("Rendering.Framerate") != target.ToString(System.Globalization.CultureInfo.InvariantCulture))
-                return;
-            App.FastFlags.SetPreset("Rendering.Framerate", null);
-            App.FastFlags.SaveDeferred();
-            App.Logger.WriteLine("FrameGen", "Removed the DFIntTaskSchedulerTargetFps FastFlag that frame generation used to write, its FPS cap now lives only in GlobalBasicSettings");
-        }
+		private static void RemoveFrameGenFastFlag(int target)
+		{
+			if (
+				target <= 0
+				|| App.FastFlags.GetPreset("Rendering.Framerate") != target.ToString(System.Globalization.CultureInfo.InvariantCulture)
+			)
+				return;
+			App.FastFlags.SetPreset("Rendering.Framerate", null);
+			App.FastFlags.SaveDeferred();
+			App.Logger.WriteLine(
+				"FrameGen",
+				"Removed the DFIntTaskSchedulerTargetFps FastFlag that frame generation used to write, its FPS cap now lives only in GlobalBasicSettings"
+			);
+		}
 
-        private static int NormalizeTargetCap(int fps) => fps >= 5 && fps <= 15 ? 15 : fps > 15 && fps <= 10000 ? fps : 0;
+		private static int NormalizeTargetCap(int fps) =>
+			fps >= 5 && fps <= 15 ? 15
+			: fps > 15 && fps <= 10000 ? fps
+			: 0;
 
 		private static void PreparePipeline()
 		{
@@ -83,32 +93,33 @@ namespace Voidstrap.Integrations.FrameGeneration
 			System.Threading.Tasks.Task.Run(FrameGenPipeline.Prepare);
 		}
 
-        public static void SetMode(int modeIndex)
-        {
-            Install();
-            int nextMode = modeIndex > 0 ? 1 : 0;
-            if (FrameGenSettings.ModeIndex == 0 && nextMode > 0)
-            {
-                MessageBoxResult result = Frontend.ShowMessageBox(
-                    "Frame generation does not improve performance or actual FPS. It is intended only to make motion appear smoother on low end PCs. It will not help mid range or high end systems, so never enable it on those systems.\n\nEnable frame generation anyway?",
-                    MessageBoxImage.Warning,
-                    MessageBoxButton.YesNo,
-                    MessageBoxResult.No);
-                if (result != MessageBoxResult.Yes)
-                    return;
-            }
-            App.Settings.Prop.FrameGenModeIndex = nextMode;
-            if (FrameGenSettings.ModeIndex > 0)
+		public static void SetMode(int modeIndex)
+		{
+			Install();
+			int nextMode = modeIndex > 0 ? 1 : 0;
+			if (FrameGenSettings.ModeIndex == 0 && nextMode > 0)
+			{
+				MessageBoxResult result = Frontend.ShowMessageBox(
+					"Frame generation does not improve performance or actual FPS. It is intended only to make motion appear smoother on low end PCs. It will not help mid range or high end systems, so never enable it on those systems.\n\nEnable frame generation anyway?",
+					MessageBoxImage.Warning,
+					MessageBoxButton.YesNo,
+					MessageBoxResult.No
+				);
+				if (result != MessageBoxResult.Yes)
+					return;
+			}
+			App.Settings.Prop.FrameGenModeIndex = nextMode;
+			if (FrameGenSettings.ModeIndex > 0)
 				PreparePipeline();
-            if (FrameGenSettings.ModeIndex > 0 && App.Settings.Prop.FrameGenTargetFps > 0)
-                ApplyTargetCap(App.Settings.Prop.FrameGenTargetFps);
-            App.Settings.SaveDeferred();
-            App.Logger.WriteLine("FrameGen", "Mode set to " + FrameGenSettings.ModeNames[FrameGenSettings.ModeIndex]);
-            OverlayHub.Refresh();
-        }
+			if (FrameGenSettings.ModeIndex > 0 && App.Settings.Prop.FrameGenTargetFps > 0)
+				ApplyTargetCap(App.Settings.Prop.FrameGenTargetFps);
+			App.Settings.SaveDeferred();
+			App.Logger.WriteLine("FrameGen", "Mode set to " + FrameGenSettings.ModeNames[FrameGenSettings.ModeIndex]);
+			OverlayHub.Refresh();
+		}
 
-        public static void OnGameJoin()
-        {
+		public static void OnGameJoin()
+		{
 			OnGameJoinStarting();
 		}
 
@@ -143,7 +154,10 @@ namespace Voidstrap.Integrations.FrameGeneration
 					return;
 				_gameTransitionActive = 0;
 				CancelTransitionTimeout();
-				App.Logger.WriteLine("FrameGen", "No server join was confirmed within 60 seconds, resuming game effects while the homepage stays disabled until Roblox returns home");
+				App.Logger.WriteLine(
+					"FrameGen",
+					"No server join was confirmed within 60 seconds, resuming game effects while the homepage stays disabled until Roblox returns home"
+				);
 				OverlayHub.OnGameTransitionCompleted();
 			}
 		}
@@ -175,18 +189,18 @@ namespace Voidstrap.Integrations.FrameGeneration
 			}
 		}
 
-        public static void OnGameLeave()
-        {
+		public static void OnGameLeave()
+		{
 			lock (_transitionGate)
 			{
 				_gameTransitionActive = 0;
 				CancelTransitionTimeout();
 				OverlayHub.OnGameLeave();
 			}
-        }
+		}
 
-        public static void Shutdown()
-        {
+		public static void Shutdown()
+		{
 			lock (_transitionGate)
 			{
 				_gameTransitionActive = 0;
@@ -194,6 +208,6 @@ namespace Voidstrap.Integrations.FrameGeneration
 				_installed = false;
 				OverlayHub.Shutdown();
 			}
-        }
-    }
+		}
+	}
 }

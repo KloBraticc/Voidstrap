@@ -23,7 +23,7 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 		{ "Disabled", LinuxNvidiaSettings.OverlayOff },
 		{ "FPS counter", LinuxNvidiaSettings.OverlayFps },
 		{ "FPS and frame time graph", LinuxNvidiaSettings.OverlayGraph },
-		{ "Full performance overlay", LinuxNvidiaSettings.OverlayFull }
+		{ "Full performance overlay", LinuxNvidiaSettings.OverlayFull },
 	};
 
 	private static readonly Dictionary<string, int> WindowsBenchmarkOverlayMap = new()
@@ -34,7 +34,7 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 		{ "GRAPH_APP_PRESENT_FPS - FPS graph, measured on app present", 4 },
 		{ "DISPLAY_PAGING - Add red paging indicator bars to the GRAPH_PRESENT_FPS graph", 8 },
 		{ "DISPLAY_APP_THREAD_WAIT - Add app thread wait time indiator bars to the GRAPH_APP_PRESENT_FPS graph", 16 },
-		{ "Enabled - Enable everything", 511 }
+		{ "Enabled - Enable everything", 511 },
 	};
 
 	private static Dictionary<string, int> BenchmarkOverlayMap => IsLinux ? LinuxBenchmarkOverlayMap : WindowsBenchmarkOverlayMap;
@@ -167,25 +167,30 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 		}
 	}
 
-	public string ApplyDescription => IsLinux
-		? "Save the NVIDIA settings. They apply the next time Roblox starts."
-		: "Apply only the modified NVIDIA FastFlags to the driver.";
+	public string ApplyDescription =>
+		IsLinux
+			? "Save the NVIDIA settings. They apply the next time Roblox starts."
+			: "Apply only the modified NVIDIA FastFlags to the driver.";
 
-	public string FxaaDescription => IsLinux
-		? "Smooths jagged edges across the entire frame with minimal performance impact through the vkBasalt layer. Used when no other anti aliasing method is selected."
-		: "Smooths jagged edges (jaggies) across the entire frame with minimal performance impact. FXAA can make edges and fine details appear slightly blurry.";
+	public string FxaaDescription =>
+		IsLinux
+			? "Smooths jagged edges across the entire frame with minimal performance impact through the vkBasalt layer. Used when no other anti aliasing method is selected."
+			: "Smooths jagged edges (jaggies) across the entire frame with minimal performance impact. FXAA can make edges and fine details appear slightly blurry.";
 
-	public string BenchmarkOverlayDescription => IsLinux
-		? "Shows a performance overlay with FPS and frame time graphs through the MangoHud layer. Sober runs slightly slower while it is shown."
-		: "Displays NVIDIA driver-level performance overlays such as FPS graphs and present timing data.";
+	public string BenchmarkOverlayDescription =>
+		IsLinux
+			? "Shows a performance overlay with FPS and frame time graphs through the MangoHud layer. Sober runs slightly slower while it is shown."
+			: "Displays NVIDIA driver-level performance overlays such as FPS graphs and present timing data.";
 
-	public string FrameRateLimitDescription => IsLinux
-		? "Limits the maximum frames per second through Roblox's own frame cap each time Roblox starts. 0 leaves the cap unchanged."
-		: "Limits the maximum frames per second using the NVIDIA driver. This does not uncap Roblox FPS use the FPS Unlocker on the Integrations page instead.";
+	public string FrameRateLimitDescription =>
+		IsLinux
+			? "Limits the maximum frames per second through Roblox's own frame cap each time Roblox starts. 0 leaves the cap unchanged."
+			: "Limits the maximum frames per second using the NVIDIA driver. This does not uncap Roblox FPS use the FPS Unlocker on the Integrations page instead.";
 
-	public string CplLowLatencyDescription => IsLinux
-		? "Makes the NVIDIA driver queue only one frame. Works when Sober uses the OpenGL renderer."
-		: "Limits CPU-rendered frames queued by the NVIDIA Control Panel.";
+	public string CplLowLatencyDescription =>
+		IsLinux
+			? "Makes the NVIDIA driver queue only one frame. Works when Sober uses the OpenGL renderer."
+			: "Limits CPU-rendered frames queued by the NVIDIA Control Panel.";
 
 	public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -249,9 +254,24 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 		List<NvidiaEditorEntry> entries = LoadNormalized();
 		Set(entries, "Frame Rate Limiter", "277041154", FrameRateLimit.ToString(CultureInfo.InvariantCulture));
 		Set(entries, "Background Application Max Frame Rate", "277041157", BackgroundFrameRateLimit.ToString(CultureInfo.InvariantCulture));
-		Set(entries, "CPL Low Latency Mode", "390467", CplLowLatencyModes.IndexOf(SelectedCplLowLatencyMode).ToString(CultureInfo.InvariantCulture));
-		Set(entries, "Benchmark Overlay", "2945366", BenchmarkOverlayMap.TryGetValue(BenchMarkOverlayMode, out int overlay) ? overlay.ToString(CultureInfo.InvariantCulture) : "0");
-		Set(entries, "FRL Low Latency Mode", "277041152", FrlLowLatencyModes.IndexOf(SelectedFrlLowLatencyMode).ToString(CultureInfo.InvariantCulture));
+		Set(
+			entries,
+			"CPL Low Latency Mode",
+			"390467",
+			CplLowLatencyModes.IndexOf(SelectedCplLowLatencyMode).ToString(CultureInfo.InvariantCulture)
+		);
+		Set(
+			entries,
+			"Benchmark Overlay",
+			"2945366",
+			BenchmarkOverlayMap.TryGetValue(BenchMarkOverlayMode, out int overlay) ? overlay.ToString(CultureInfo.InvariantCulture) : "0"
+		);
+		Set(
+			entries,
+			"FRL Low Latency Mode",
+			"277041152",
+			FrlLowLatencyModes.IndexOf(SelectedFrlLowLatencyMode).ToString(CultureInfo.InvariantCulture)
+		);
 		Set(entries, "SILK Smoothness", "9990737", SilkToValue(SelectedSilkSmoothness));
 		Set(entries, "Resizable BAR", "549198379", EnableRbar ? "1" : "0");
 		Set(entries, "Enable DLSS-SR override", "283385345", EnableDlssSuperResolution ? "1" : "0");
@@ -294,13 +314,15 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 			existing.Value = newValue;
 			return;
 		}
-		entries.Add(new NvidiaEditorEntry
-		{
-			Name = name,
-			SettingId = id,
-			Value = newValue,
-			ValueType = "Dword"
-		});
+		entries.Add(
+			new NvidiaEditorEntry
+			{
+				Name = name,
+				SettingId = id,
+				Value = newValue,
+				ValueType = "Dword",
+			}
+		);
 	}
 
 	private static void NormalizeIds(List<NvidiaEditorEntry> entries)
@@ -308,8 +330,10 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 		foreach (NvidiaEditorEntry entry in entries)
 		{
 			string text = (entry.SettingId ?? string.Empty).Trim();
-			if (text.StartsWith("0x", StringComparison.OrdinalIgnoreCase)
-				&& uint.TryParse(text.AsSpan(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out uint parsed))
+			if (
+				text.StartsWith("0x", StringComparison.OrdinalIgnoreCase)
+				&& uint.TryParse(text.AsSpan(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out uint parsed)
+			)
 			{
 				entry.SettingId = parsed.ToString(CultureInfo.InvariantCulture);
 			}
@@ -381,9 +405,7 @@ public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 
 	private static List<NvidiaEditorEntry> RemoveDuplicateSettingIds(List<NvidiaEditorEntry> entries)
 	{
-		return [.. (from x in entries
-			group x by x.SettingId into g
-			select g.First())];
+		return [.. (from x in entries group x by x.SettingId into g select g.First())];
 	}
 
 	private void OnPropertyChanged([CallerMemberName] string? name = null)

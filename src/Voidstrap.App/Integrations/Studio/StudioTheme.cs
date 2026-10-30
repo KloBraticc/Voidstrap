@@ -34,12 +34,33 @@ public static partial class StudioTheme
 	private static string Build()
 	{
 		string text = AccentHex();
-		Color color = Composite(ResColor(["ApplicationBackgroundBrush", "ApplicationBackgroundColor"], Color.FromRgb(27, 29, 34)), Color.FromRgb(27, 29, 34));
-		Color color2 = Composite(ResColor(["CardBackgroundBrush", "CardBackgroundFillColorDefaultBrush", "CardBackgroundFillColorDefault"], Color.FromRgb(37, 39, 46)), color);
+		Color color = Composite(
+			ResColor(["ApplicationBackgroundBrush", "ApplicationBackgroundColor"], Color.FromRgb(27, 29, 34)),
+			Color.FromRgb(27, 29, 34)
+		);
+		Color color2 = Composite(
+			ResColor(
+				["CardBackgroundBrush", "CardBackgroundFillColorDefaultBrush", "CardBackgroundFillColorDefault"],
+				Color.FromRgb(37, 39, 46)
+			),
+			color
+		);
 		Color color3 = Composite(ResColor(["ControlFillColorDefaultBrush", "ControlFillColorDefault"], Color.FromRgb(46, 49, 56)), color2);
 		Color c = Composite(ResColor(["TextFillColorPrimaryBrush", "TextFillColorPrimary"], Color.FromRgb(233, 236, 242)), color3);
 		Color c2 = Composite(ResColor(["TextFillColorSecondaryBrush", "TextFillColorSecondary"], Color.FromRgb(150, 155, 165)), color3);
-		return "{\"accent\":\"" + text + "\",\"bg\":\"" + Hex(color) + "\",\"section\":\"" + Hex(color2) + "\",\"row\":\"" + Hex(color3) + "\",\"text\":\"" + Hex(c) + "\",\"sub\":\"" + Hex(c2) + "\"}";
+		return "{\"accent\":\""
+			+ text
+			+ "\",\"bg\":\""
+			+ Hex(color)
+			+ "\",\"section\":\""
+			+ Hex(color2)
+			+ "\",\"row\":\""
+			+ Hex(color3)
+			+ "\",\"text\":\""
+			+ Hex(c)
+			+ "\",\"sub\":\""
+			+ Hex(c2)
+			+ "\"}";
 	}
 
 	private static Color Composite(Color fg, Color back)
@@ -74,9 +95,7 @@ public static partial class StudioTheme
 				return $"#{value:X2}{value2:X2}{value3:X2}";
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		return "#0078D4";
 	}
 
@@ -90,24 +109,27 @@ public static partial class StudioTheme
 				return fallback;
 			}
 			Color? result = null;
-			((DispatcherObject)app).Dispatcher.Invoke((Action)delegate
-			{
-				string[] array = keys;
-				foreach (string resourceKey in array)
-				{
-					object obj2 = app.TryFindResource(resourceKey);
-					if (obj2 is Color value)
+			((DispatcherObject)app).Dispatcher.Invoke(
+				(Action)
+					delegate
 					{
-						result = value;
-						break;
+						string[] array = keys;
+						foreach (string resourceKey in array)
+						{
+							object obj2 = app.TryFindResource(resourceKey);
+							if (obj2 is Color value)
+							{
+								result = value;
+								break;
+							}
+							if (obj2 is SolidColorBrush solidColorBrush)
+							{
+								result = solidColorBrush.Color;
+								break;
+							}
+						}
 					}
-					if (obj2 is SolidColorBrush solidColorBrush)
-					{
-						result = solidColorBrush.Color;
-						break;
-					}
-				}
-			});
+			);
 			return result ?? fallback;
 		}
 		catch

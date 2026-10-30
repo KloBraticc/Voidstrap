@@ -1,6 +1,6 @@
 using System;
-using System.Collections.ObjectModel;
 using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -39,10 +39,7 @@ internal sealed class OutputConsoleViewModel : NotifyPropertyChangedViewModel, I
 			PlayerLogsCollection.Add(entry);
 		_activityWatcher.OnNewPlayerRequest += OnNewPlayer;
 		_activityWatcher.OnPlayerLogUpdated += OnPlayerUpdated;
-		_flushTimer = new DispatcherTimer(DispatcherPriority.Background)
-		{
-			Interval = TimeSpan.FromMilliseconds(500)
-		};
+		_flushTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(500) };
 		_flushTimer.Tick += FlushTimer_Tick;
 		_flushTimer.Start();
 	}
@@ -93,12 +90,8 @@ internal sealed class OutputConsoleViewModel : NotifyPropertyChangedViewModel, I
 	private void Clear()
 	{
 		PlayerLogsCollection.Clear();
-		while (_pendingEntries.TryDequeue(out _))
-		{
-		}
-		while (_pendingUpdates.TryDequeue(out _))
-		{
-		}
+		while (_pendingEntries.TryDequeue(out _)) { }
+		while (_pendingUpdates.TryDequeue(out _)) { }
 		OnPropertyChanged(nameof(HasEntries));
 		OnPropertyChanged(nameof(StatusText));
 	}
@@ -112,7 +105,14 @@ internal sealed class OutputConsoleViewModel : NotifyPropertyChangedViewModel, I
 		{
 			var text = new StringBuilder("Time,User ID,Username,Type\r\n");
 			foreach (ActivityData.UserLog entry in PlayerLogsCollection)
-				text.Append(Csv(entry.Time.ToString("O"))).Append(',').Append(Csv(entry.UserId)).Append(',').Append(Csv(entry.Username)).Append(',').Append(Csv(entry.Type)).Append("\r\n");
+				text.Append(Csv(entry.Time.ToString("O")))
+					.Append(',')
+					.Append(Csv(entry.UserId))
+					.Append(',')
+					.Append(Csv(entry.Username))
+					.Append(',')
+					.Append(Csv(entry.Type))
+					.Append("\r\n");
 			File.WriteAllText(dialog.FileName, text.ToString(), new UTF8Encoding(true));
 		}
 		catch (Exception ex)
@@ -128,6 +128,7 @@ internal sealed class OutputConsoleViewModel : NotifyPropertyChangedViewModel, I
 			value = "'" + value;
 		return '"' + value.Replace("\"", "\"\"") + '"';
 	}
+
 	private void RequestClose() => RequestCloseEvent?.Invoke(this, EventArgs.Empty);
 
 	public void Dispose()

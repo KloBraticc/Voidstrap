@@ -31,5 +31,8 @@ public sealed class MatchmakerCandidate
 
 	public double BlockedClosestDistanceKm { get; init; }
 
-	public string DatacenterName => Datacenter == null ? "unknown" : (string.IsNullOrEmpty(Datacenter.Country) ? Datacenter.City : Datacenter.City + ", " + Datacenter.Country);
+	public string DatacenterName =>
+		Datacenter == null
+			? "unknown"
+			: (string.IsNullOrEmpty(Datacenter.Country) ? Datacenter.City : Datacenter.City + ", " + Datacenter.Country);
 }

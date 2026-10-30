@@ -41,14 +41,16 @@ namespace Voidstrap.Integrations.RiShade
             "https://api.nuget.org/v3-flatcontainer/microsoft.ml.onnxruntime.directml/1.24.4/microsoft.ml.onnxruntime.directml.1.24.4.nupkg",
             "e7eedec6a6f26dc39dc948276a75ef6d2bee3fff944d874ceed0bbd3b97bff40",
             17328152,
-            "runtimes/win-x64/native/onnxruntime.dll");
+            "runtimes/win-x64/native/onnxruntime.dll"
+        );
 
         private static readonly Asset DirectMl = new(
             "DirectML.dll",
             "https://api.nuget.org/v3-flatcontainer/microsoft.ai.directml/1.15.4/microsoft.ai.directml.1.15.4.nupkg",
             "9c9e6d822561c6c41b90e6994b3e8857cf1d66dbfb1e0c4c799c7c89b4e92da1",
             18527776,
-            "bin/x64-win/DirectML.dll");
+            "bin/x64-win/DirectML.dll"
+        );
 
         private const string ModelFile = "ridepth-large.onnx";
         private const string FullPrecisionModelFile = "ridepth-large-fp32.onnx";
@@ -57,7 +59,8 @@ namespace Voidstrap.Integrations.RiShade
             ModelFile,
             "https://github.com/KloBraticc/RiDepth/releases/download/large-1/ridepth-large.onnx",
             "82879e2700211f112914dd67ac9ab40582586491d1f92b7ece0005b4c9cd2b66",
-            49783352);
+            49783352
+        );
 
         private const string ReleasesUrl = "https://api.github.com/repos/KloBraticc/RiDepth/releases?per_page=20";
         private const string ReleaseDownloadPrefix = "https://github.com/KloBraticc/RiDepth/releases/download/";
@@ -80,14 +83,16 @@ namespace Voidstrap.Integrations.RiShade
 
         private static HttpClient CreateClient()
         {
-            HttpClient client = new(new SocketsHttpHandler
+            HttpClient client = new(
+                new SocketsHttpHandler
+                {
+                    MaxConnectionsPerServer = MaxSegments * 3,
+                    PooledConnectionLifetime = TimeSpan.FromMinutes(5),
+                    AutomaticDecompression = System.Net.DecompressionMethods.None,
+                }
+            )
             {
-                MaxConnectionsPerServer = MaxSegments * 3,
-                PooledConnectionLifetime = TimeSpan.FromMinutes(5),
-                AutomaticDecompression = System.Net.DecompressionMethods.None
-            })
-            {
-                Timeout = Timeout.InfiniteTimeSpan
+                Timeout = Timeout.InfiniteTimeSpan,
             };
             client.DefaultRequestHeaders.UserAgent.ParseAdd("Voidstrap");
             return client;
@@ -102,15 +107,20 @@ namespace Voidstrap.Integrations.RiShade
             "depth-anything-v2-base.onnx",
             "depth-anything-v2-large.onnx",
             "depth-anything-v3-large\\model.onnx",
-            "depth-anything-v3-large\\model.onnx_data"
+            "depth-anything-v3-large\\model.onnx_data",
         ];
 
         public static bool Enabled => !string.Equals(App.Settings.Prop.RiShadeDepthModel, OffSetting, StringComparison.OrdinalIgnoreCase);
 
-        public static bool NeedsMigration => Enabled && !string.Equals(App.Settings.Prop.RiShadeDepthModel, OnSetting, StringComparison.Ordinal);
+        public static bool NeedsMigration =>
+            Enabled && !string.Equals(App.Settings.Prop.RiShadeDepthModel, OnSetting, StringComparison.Ordinal);
 
         public static bool NeedsUpdate =>
-            Voidstrap.Utility.Platform.IsWindows && Enabled && !LowEndHardware && Files is Asset[] files && files.Any(asset => !IsInstalled(RiShadeManager.RiShadeDir, asset));
+            Voidstrap.Utility.Platform.IsWindows
+            && Enabled
+            && !LowEndHardware
+            && Files is Asset[] files
+            && files.Any(asset => !IsInstalled(RiShadeManager.RiShadeDir, asset));
 
         public static int SizeMegabytes => ModelAsset is Asset model ? (int)Math.Round(model.Size / 1048576.0) : 0;
 
@@ -124,7 +134,10 @@ namespace Voidstrap.Integrations.RiShade
         {
             int value = weak ? 2 : 1;
             if (Interlocked.Exchange(ref _gpuClass, value) != value)
-                App.Logger.WriteLine(LogIdent, (weak ? "RiShade GPU is weak, using the lightweight path: " : "RiShade GPU is capable: ") + detail);
+                App.Logger.WriteLine(
+                    LogIdent,
+                    (weak ? "RiShade GPU is weak, using the lightweight path: " : "RiShade GPU is capable: ") + detail
+                );
         }
 
         private static Asset? ModelAsset => Volatile.Read(ref _latest) ?? BuiltinModel;
@@ -148,8 +161,16 @@ namespace Voidstrap.Integrations.RiShade
                         if (probed)
                         {
                             _hardware = hardware;
-                            string half = hardware.HalfPrecision switch { 1 => "supported", 0 => "unsupported", _ => "not checked yet" };
-                            App.Logger.WriteLine(LogIdent, $"Depth GPU vendor 0x{hardware.VendorId:X4}, {hardware.DedicatedMemory / 1048576} MB dedicated memory, {(hardware.Integrated != 0 ? "integrated" : "discrete")}, half precision {half}");
+                            string half = hardware.HalfPrecision switch
+                            {
+                                1 => "supported",
+                                0 => "unsupported",
+                                _ => "not checked yet",
+                            };
+                            App.Logger.WriteLine(
+                                LogIdent,
+                                $"Depth GPU vendor 0x{hardware.VendorId:X4}, {hardware.DedicatedMemory / 1048576} MB dedicated memory, {(hardware.Integrated != 0 ? "integrated" : "discrete")}, half precision {half}"
+                            );
                         }
                     }
                     catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException)
@@ -170,10 +191,22 @@ namespace Voidstrap.Integrations.RiShade
             timeout.CancelAfter(ReleaseCheckTimeout);
             try
             {
-                List<Voidstrap.Models.APIs.GitHub.GithubRelease>? releases = await Voidstrap.Utility.GitHubCache.GetJsonAsync<List<Voidstrap.Models.APIs.GitHub.GithubRelease>>(ReleasesUrl, ReleaseCheckInterval, timeout.Token).ConfigureAwait(false);
-                Asset? latest = releases?
-                    .Where(release => !release.Draft && !release.Prerelease && release.TagName?.StartsWith(TagPrefix, StringComparison.OrdinalIgnoreCase) == true)
-                    .OrderByDescending(release => DateTimeOffset.TryParse(release.PublishedAt, out DateTimeOffset published) ? published : DateTimeOffset.MinValue)
+                List<Voidstrap.Models.APIs.GitHub.GithubRelease>? releases = await Voidstrap
+                    .Utility.GitHubCache.GetJsonAsync<List<Voidstrap.Models.APIs.GitHub.GithubRelease>>(
+                        ReleasesUrl,
+                        ReleaseCheckInterval,
+                        timeout.Token
+                    )
+                    .ConfigureAwait(false);
+                Asset? latest = releases
+                    ?.Where(release =>
+                        !release.Draft
+                        && !release.Prerelease
+                        && release.TagName?.StartsWith(TagPrefix, StringComparison.OrdinalIgnoreCase) == true
+                    )
+                    .OrderByDescending(release =>
+                        DateTimeOffset.TryParse(release.PublishedAt, out DateTimeOffset published) ? published : DateTimeOffset.MinValue
+                    )
                     .Select(ToAsset)
                     .FirstOrDefault(asset => asset != null);
                 if (latest == null)
@@ -197,15 +230,19 @@ namespace Voidstrap.Integrations.RiShade
 
         private static Asset? ToAsset(Voidstrap.Models.APIs.GitHub.GithubRelease release, string fileName)
         {
-            Voidstrap.Models.APIs.GitHub.GithubReleaseAsset? file = release.Assets?.FirstOrDefault(asset => string.Equals(asset.Name, fileName, StringComparison.Ordinal));
+            Voidstrap.Models.APIs.GitHub.GithubReleaseAsset? file = release.Assets?.FirstOrDefault(asset =>
+                string.Equals(asset.Name, fileName, StringComparison.Ordinal)
+            );
             string digest = file?.Digest ?? "";
-            if (file == null
+            if (
+                file == null
                 || file.Size <= 0
                 || file.Size > MaxModelBytes
                 || file.BrowserDownloadUrl?.StartsWith(ReleaseDownloadPrefix, StringComparison.Ordinal) != true
                 || !digest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase)
                 || digest.Length != 71
-                || !digest[7..].All(Uri.IsHexDigit))
+                || !digest[7..].All(Uri.IsHexDigit)
+            )
                 return null;
             return new Asset(fileName, file.BrowserDownloadUrl, digest[7..], file.Size);
         }
@@ -227,7 +264,11 @@ namespace Voidstrap.Integrations.RiShade
             }
         }
 
-        public static async Task<(bool Success, string Message)> SetEnabledAsync(bool enabled, IProgress<double>? progress = null, CancellationToken token = default)
+        public static async Task<(bool Success, string Message)> SetEnabledAsync(
+            bool enabled,
+            IProgress<double>? progress = null,
+            CancellationToken token = default
+        )
         {
             if (!Voidstrap.Utility.Platform.IsWindows)
                 return (false, "AI depth is only available on Windows");
@@ -340,23 +381,29 @@ namespace Voidstrap.Integrations.RiShade
 
         private static void RemoveUnused(string directory, Asset[] keep)
         {
-            IEnumerable<string> unused = new[] { ModelFile, FullPrecisionModelFile }.Concat(RetiredFiles)
+            IEnumerable<string> unused = new[] { ModelFile, FullPrecisionModelFile }
+                .Concat(RetiredFiles)
                 .Where(name => !keep.Any(file => string.Equals(file.FileName, name, StringComparison.OrdinalIgnoreCase)));
             foreach (string name in unused)
             {
                 string path = Path.Combine(directory, name);
                 TryDelete(path);
                 string? folder = Path.GetDirectoryName(path);
-                if (folder != null && !string.Equals(Path.GetFullPath(folder).TrimEnd('\\'), Path.GetFullPath(directory).TrimEnd('\\'), StringComparison.OrdinalIgnoreCase))
+                if (
+                    folder != null
+                    && !string.Equals(
+                        Path.GetFullPath(folder).TrimEnd('\\'),
+                        Path.GetFullPath(directory).TrimEnd('\\'),
+                        StringComparison.OrdinalIgnoreCase
+                    )
+                )
                 {
                     try
                     {
                         if (Directory.Exists(folder) && !Directory.EnumerateFileSystemEntries(folder).Any())
                             Directory.Delete(folder);
                     }
-                    catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-                    {
-                    }
+                    catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
                 }
             }
         }
@@ -425,9 +472,23 @@ namespace Voidstrap.Integrations.RiShade
             }
         }
 
-        private static async Task DownloadRangeAsync(string url, long start, long length, string path, Action<long> advance, CancellationToken token)
+        private static async Task DownloadRangeAsync(
+            string url,
+            long start,
+            long length,
+            string path,
+            Action<long> advance,
+            CancellationToken token
+        )
         {
-            using SafeFileHandle handle = File.OpenHandle(path, FileMode.Create, FileAccess.ReadWrite, FileShare.None, FileOptions.Asynchronous, length);
+            using SafeFileHandle handle = File.OpenHandle(
+                path,
+                FileMode.Create,
+                FileAccess.ReadWrite,
+                FileShare.None,
+                FileOptions.Asynchronous,
+                length
+            );
             int segments = (int)Math.Clamp(length / SegmentFloor, 1, MaxSegments);
             long size = (length + segments - 1) / segments;
             List<Task> parts = new();
@@ -441,7 +502,15 @@ namespace Voidstrap.Integrations.RiShade
             await Task.WhenAll(parts);
         }
 
-        private static async Task DownloadSegmentAsync(string url, long origin, long offset, long count, SafeFileHandle handle, Action<long> advance, CancellationToken token)
+        private static async Task DownloadSegmentAsync(
+            string url,
+            long origin,
+            long offset,
+            long count,
+            SafeFileHandle handle,
+            Action<long> advance,
+            CancellationToken token
+        )
         {
             long written = 0;
             byte[] buffer = new byte[1 << 17];
@@ -449,7 +518,11 @@ namespace Voidstrap.Integrations.RiShade
             {
                 try
                 {
-                    await using Stream stream = await OpenAsync(url, new RangeHeaderValue(origin + offset + written, origin + offset + count - 1), token);
+                    await using Stream stream = await OpenAsync(
+                        url,
+                        new RangeHeaderValue(origin + offset + written, origin + offset + count - 1),
+                        token
+                    );
                     while (written < count)
                     {
                         int read = await stream.ReadAsync(buffer.AsMemory(0, (int)Math.Min(buffer.Length, count - written)), token);
@@ -461,9 +534,13 @@ namespace Voidstrap.Integrations.RiShade
                     }
                     return;
                 }
-                catch (Exception ex) when (attempt < Attempts && !token.IsCancellationRequested && ex is IOException or HttpRequestException)
+                catch (Exception ex)
+                    when (attempt < Attempts && !token.IsCancellationRequested && ex is IOException or HttpRequestException)
                 {
-                    App.Logger.WriteLine(LogIdent, $"A download part failed, resuming it (attempt {attempt + 1} of {Attempts}): {ex.Message}");
+                    App.Logger.WriteLine(
+                        LogIdent,
+                        $"A download part failed, resuming it (attempt {attempt + 1} of {Attempts}): {ex.Message}"
+                    );
                     await Task.Delay(TimeSpan.FromSeconds(attempt), token);
                 }
             }
@@ -496,7 +573,8 @@ namespace Voidstrap.Integrations.RiShade
                     await stream.ReadExactlyAsync(buffer, token);
                     return buffer;
                 }
-                catch (Exception ex) when (attempt < Attempts && !token.IsCancellationRequested && ex is IOException or HttpRequestException)
+                catch (Exception ex)
+                    when (attempt < Attempts && !token.IsCancellationRequested && ex is IOException or HttpRequestException)
                 {
                     await Task.Delay(TimeSpan.FromSeconds(attempt), token);
                 }
@@ -548,7 +626,11 @@ namespace Voidstrap.Integrations.RiShade
                     if (method != 8 && method != 0)
                         throw new InvalidDataException("The package entry uses an unsupported compression");
                     byte[] local = await ReadRangeAsync(asset.Url, localOffset, 30, token);
-                    long dataStart = localOffset + 30 + BinaryPrimitives.ReadUInt16LittleEndian(local.AsSpan(26)) + BinaryPrimitives.ReadUInt16LittleEndian(local.AsSpan(28));
+                    long dataStart =
+                        localOffset
+                        + 30
+                        + BinaryPrimitives.ReadUInt16LittleEndian(local.AsSpan(26))
+                        + BinaryPrimitives.ReadUInt16LittleEndian(local.AsSpan(28));
                     return (dataStart, compressed, method == 8);
                 }
                 position += 46 + nameLength + extraLength + commentLength;
@@ -571,12 +653,23 @@ namespace Voidstrap.Integrations.RiShade
             public override bool CanSeek => false;
             public override bool CanWrite => false;
             public override long Length => throw new NotSupportedException();
-            public override long Position { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
+            public override long Position
+            {
+                get => throw new NotSupportedException();
+                set => throw new NotSupportedException();
+            }
+
             public override void Flush() { }
+
             public override int Read(byte[] buffer, int offset, int count) => _inner.Read(buffer, offset, count);
-            public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default) => _inner.ReadAsync(buffer, cancellationToken);
+
+            public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default) =>
+                _inner.ReadAsync(buffer, cancellationToken);
+
             public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+
             public override void SetLength(long value) => throw new NotSupportedException();
+
             public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
 
             protected override void Dispose(bool disposing)

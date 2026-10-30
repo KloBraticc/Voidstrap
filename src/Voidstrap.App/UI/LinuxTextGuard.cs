@@ -19,7 +19,8 @@ public static class LinuxTextGuard
 		"PreserveCompactLayout",
 		typeof(bool),
 		typeof(LinuxTextGuard),
-		new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.Inherits));
+		new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.Inherits)
+	);
 
 	private const double Tolerance = 1.0;
 
@@ -35,13 +36,34 @@ public static class LinuxTextGuard
 	private const double WrapSafety = 4.0;
 	private const double MinimumLimit = 56.0;
 
-	private static readonly DependencyPropertyDescriptor? TextDescriptor = DependencyPropertyDescriptor.FromProperty(TextBlock.TextProperty, typeof(TextBlock));
-	private static readonly DependencyPropertyDescriptor? FontFamilyDescriptor = DependencyPropertyDescriptor.FromProperty(TextElement.FontFamilyProperty, typeof(TextBlock));
-	private static readonly DependencyPropertyDescriptor? FontSizeDescriptor = DependencyPropertyDescriptor.FromProperty(TextElement.FontSizeProperty, typeof(TextBlock));
-	private static readonly DependencyPropertyDescriptor? FontStyleDescriptor = DependencyPropertyDescriptor.FromProperty(TextElement.FontStyleProperty, typeof(TextBlock));
-	private static readonly DependencyPropertyDescriptor? FontWeightDescriptor = DependencyPropertyDescriptor.FromProperty(TextElement.FontWeightProperty, typeof(TextBlock));
-	private static readonly DependencyPropertyDescriptor? FontStretchDescriptor = DependencyPropertyDescriptor.FromProperty(TextElement.FontStretchProperty, typeof(TextBlock));
-	private static readonly DependencyPropertyDescriptor? FlowDirectionDescriptor = DependencyPropertyDescriptor.FromProperty(FrameworkElement.FlowDirectionProperty, typeof(TextBlock));
+	private static readonly DependencyPropertyDescriptor? TextDescriptor = DependencyPropertyDescriptor.FromProperty(
+		TextBlock.TextProperty,
+		typeof(TextBlock)
+	);
+	private static readonly DependencyPropertyDescriptor? FontFamilyDescriptor = DependencyPropertyDescriptor.FromProperty(
+		TextElement.FontFamilyProperty,
+		typeof(TextBlock)
+	);
+	private static readonly DependencyPropertyDescriptor? FontSizeDescriptor = DependencyPropertyDescriptor.FromProperty(
+		TextElement.FontSizeProperty,
+		typeof(TextBlock)
+	);
+	private static readonly DependencyPropertyDescriptor? FontStyleDescriptor = DependencyPropertyDescriptor.FromProperty(
+		TextElement.FontStyleProperty,
+		typeof(TextBlock)
+	);
+	private static readonly DependencyPropertyDescriptor? FontWeightDescriptor = DependencyPropertyDescriptor.FromProperty(
+		TextElement.FontWeightProperty,
+		typeof(TextBlock)
+	);
+	private static readonly DependencyPropertyDescriptor? FontStretchDescriptor = DependencyPropertyDescriptor.FromProperty(
+		TextElement.FontStretchProperty,
+		typeof(TextBlock)
+	);
+	private static readonly DependencyPropertyDescriptor? FlowDirectionDescriptor = DependencyPropertyDescriptor.FromProperty(
+		FrameworkElement.FlowDirectionProperty,
+		typeof(TextBlock)
+	);
 	private static readonly DependencyPropertyDescriptor?[] ObservedDescriptors =
 	[
 		TextDescriptor,
@@ -50,7 +72,7 @@ public static class LinuxTextGuard
 		FontStyleDescriptor,
 		FontWeightDescriptor,
 		FontStretchDescriptor,
-		FlowDirectionDescriptor
+		FlowDirectionDescriptor,
 	];
 
 	private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<TextBlock, FlowState> FlowStates = new();
@@ -142,11 +164,23 @@ public static class LinuxTextGuard
 		EventManager.RegisterClassHandler(typeof(TextBlock), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnTextLoaded));
 		EventManager.RegisterClassHandler(typeof(TextBlock), FrameworkElement.UnloadedEvent, new RoutedEventHandler(OnTextUnloaded));
 		EventManager.RegisterClassHandler(typeof(TextBlock), FrameworkElement.SizeChangedEvent, new SizeChangedEventHandler(OnTextResized));
-		EventManager.RegisterClassHandler(typeof(Wpf.Ui.Controls.UiPage), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnPageLoaded));
-		EventManager.RegisterClassHandler(typeof(Wpf.Ui.Controls.UiPage), FrameworkElement.SizeChangedEvent, new SizeChangedEventHandler(OnPageResized));
+		EventManager.RegisterClassHandler(
+			typeof(Wpf.Ui.Controls.UiPage),
+			FrameworkElement.LoadedEvent,
+			new RoutedEventHandler(OnPageLoaded)
+		);
+		EventManager.RegisterClassHandler(
+			typeof(Wpf.Ui.Controls.UiPage),
+			FrameworkElement.SizeChangedEvent,
+			new SizeChangedEventHandler(OnPageResized)
+		);
 		EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnWindowLoaded));
 		EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.SizeChangedEvent, new SizeChangedEventHandler(OnWindowResized));
-		EventManager.RegisterClassHandler(typeof(TabControl), Selector.SelectionChangedEvent, new SelectionChangedEventHandler(OnTabSelectionChanged));
+		EventManager.RegisterClassHandler(
+			typeof(TabControl),
+			Selector.SelectionChangedEvent,
+			new SelectionChangedEventHandler(OnTabSelectionChanged)
+		);
 	}
 
 	private static void OnTabSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -163,7 +197,11 @@ public static class LinuxTextGuard
 	{
 		if (e.WidthChanged && sender is Window window && window.IsLoaded)
 		{
-			QueueReflow(window, WindowStates.GetValue(window, static _ => new TraversalState()), () => QueueDescendants(window, window, true));
+			QueueReflow(
+				window,
+				WindowStates.GetValue(window, static _ => new TraversalState()),
+				() => QueueDescendants(window, window, true)
+			);
 		}
 	}
 
@@ -183,7 +221,7 @@ public static class LinuxTextGuard
 		{
 			DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.ContextIdle, root.Dispatcher)
 			{
-				Interval = TimeSpan.FromMilliseconds(120)
+				Interval = TimeSpan.FromMilliseconds(120),
 			};
 			timer.Tick += (_, _) =>
 			{
@@ -230,10 +268,12 @@ public static class LinuxTextGuard
 
 	private static void PrepareLineHeight(TextBlock block)
 	{
-		if (block.TextWrapping == TextWrapping.NoWrap
+		if (
+			block.TextWrapping == TextWrapping.NoWrap
 			|| (!double.IsNaN(block.LineHeight) && block.LineHeight > 0.0)
 			|| ReadText(block).Length == 0
-			|| IsCompactText(block))
+			|| IsCompactText(block)
+		)
 			return;
 
 		FlowState state = FlowStates.GetValue(block, static _ => new FlowState());
@@ -253,11 +293,14 @@ public static class LinuxTextGuard
 		TraversalState state = WindowStates.GetValue(window, static _ => new TraversalState());
 		if (Interlocked.Exchange(ref state.Pending, 1) != 0)
 			return;
-		window.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
-		{
-			Volatile.Write(ref state.Pending, 0);
-			QueueDescendants(window, window, true);
-		}));
+		window.Dispatcher.BeginInvoke(
+			DispatcherPriority.Loaded,
+			new Action(() =>
+			{
+				Volatile.Write(ref state.Pending, 0);
+				QueueDescendants(window, window, true);
+			})
+		);
 	}
 
 	private static void OnPageLoaded(object sender, RoutedEventArgs e)
@@ -270,13 +313,18 @@ public static class LinuxTextGuard
 		try
 		{
 			page.ApplyTemplate();
-			if (page.Template?.FindName("PART_ScrollViewer", page) is ScrollViewer viewer
-				&& viewer.HorizontalScrollBarVisibility != ScrollBarVisibility.Disabled)
+			if (
+				page.Template?.FindName("PART_ScrollViewer", page) is ScrollViewer viewer
+				&& viewer.HorizontalScrollBarVisibility != ScrollBarVisibility.Disabled
+			)
 			{
 				viewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
 				if (Interlocked.Exchange(ref _pageReported, 1) == 0)
 				{
-					App.Logger?.WriteLine("LinuxTextGuard", "Constrained page content to the viewport width so body text can flow vertically");
+					App.Logger?.WriteLine(
+						"LinuxTextGuard",
+						"Constrained page content to the viewport width so body text can flow vertically"
+					);
 				}
 			}
 
@@ -432,7 +480,13 @@ public static class LinuxTextGuard
 		}
 	}
 
-	private static string ToDrawableText(string text, System.Windows.Media.FontFamily family, FontStyle style, FontWeight weight, FontStretch stretch)
+	private static string ToDrawableText(
+		string text,
+		System.Windows.Media.FontFamily family,
+		FontStyle style,
+		FontWeight weight,
+		FontStretch stretch
+	)
 	{
 		if (LinuxTextFallback.Active || string.IsNullOrEmpty(text) || text.AsSpan().IndexOfAnyExceptInRange('\u0000', '\u024F') < 0)
 			return text;
@@ -447,7 +501,8 @@ public static class LinuxTextGuard
 		{
 			int length = char.IsHighSurrogate(text[index]) && index + 1 < text.Length && char.IsLowSurrogate(text[index + 1]) ? 2 : 1;
 			int codePoint = length == 2 ? char.ConvertToUtf32(text[index], text[index + 1]) : text[index];
-			bool drawable = !IsSymbolOrEmoji(codePoint) || (!char.IsSurrogate((char)codePoint) || codePoint > 0xFFFF) && map.ContainsKey(codePoint);
+			bool drawable =
+				!IsSymbolOrEmoji(codePoint) || (!char.IsSurrogate((char)codePoint) || codePoint > 0xFFFF) && map.ContainsKey(codePoint);
 			if (drawable)
 				builder?.Append(text, index, length);
 			else
@@ -465,11 +520,16 @@ public static class LinuxTextGuard
 
 	private static bool IsSymbolOrEmoji(int codePoint)
 	{
-		return codePoint is >= 0x2190 and <= 0x2BFF
-			or 0x200D
-			or >= 0xFE00 and <= 0xFE0F
-			or >= 0x1F000 and <= 0x1FAFF
-			or >= 0xE0020 and <= 0xE007F
+		return codePoint
+				is >= 0x2190
+					and <= 0x2BFF
+					or 0x200D
+					or >= 0xFE00
+					and <= 0xFE0F
+					or >= 0x1F000
+					and <= 0x1FAFF
+					or >= 0xE0020
+					and <= 0xE007F
 			|| char.IsSurrogate((char)codePoint) && codePoint <= 0xFFFF;
 	}
 
@@ -539,17 +599,20 @@ public static class LinuxTextGuard
 
 	private static void QueueWhenLoaded(TextBlock block, int attempts)
 	{
-		block.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-		{
-			if (block.IsLoaded)
+		block.Dispatcher.BeginInvoke(
+			DispatcherPriority.Background,
+			new Action(() =>
 			{
-				QueueCorrection(block);
-			}
-			else if (attempts > 1)
-			{
-				QueueWhenLoaded(block, attempts - 1);
-			}
-		}));
+				if (block.IsLoaded)
+				{
+					QueueCorrection(block);
+				}
+				else if (attempts > 1)
+				{
+					QueueWhenLoaded(block, attempts - 1);
+				}
+			})
+		);
 	}
 
 	private static void Unsubscribe(TextBlock block, FlowState state)
@@ -626,23 +689,26 @@ public static class LinuxTextGuard
 			return;
 		}
 
-		page.Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() =>
-		{
-			int generation = Volatile.Read(ref state.OwnerGeneration);
-			try
+		page.Dispatcher.BeginInvoke(
+			DispatcherPriority.ContextIdle,
+			new Action(() =>
 			{
-				CorrectOwnedDescendants(page, FindPageOwner(page) ?? owner);
-			}
-			finally
-			{
-				Volatile.Write(ref state.OwnerPending, 0);
-			}
+				int generation = Volatile.Read(ref state.OwnerGeneration);
+				try
+				{
+					CorrectOwnedDescendants(page, FindPageOwner(page) ?? owner);
+				}
+				finally
+				{
+					Volatile.Write(ref state.OwnerPending, 0);
+				}
 
-			if (generation != Volatile.Read(ref state.OwnerGeneration))
-			{
-				QueueOwnedPageCorrection(page, state, owner);
-			}
-		}));
+				if (generation != Volatile.Read(ref state.OwnerGeneration))
+				{
+					QueueOwnedPageCorrection(page, state, owner);
+				}
+			})
+		);
 	}
 
 	private static void CorrectOwnedDescendants(DependencyObject root, Window owner)
@@ -691,17 +757,20 @@ public static class LinuxTextGuard
 			return;
 		}
 
-		block.Dispatcher.BeginInvoke(priority, new Action(() =>
-		{
-			try
+		block.Dispatcher.BeginInvoke(
+			priority,
+			new Action(() =>
 			{
-				Correct(block, state);
-			}
-			finally
-			{
-				Volatile.Write(ref state.Pending, 0);
-			}
-		}));
+				try
+				{
+					Correct(block, state);
+				}
+				finally
+				{
+					Volatile.Write(ref state.Pending, 0);
+				}
+			})
+		);
 	}
 
 	private static void QueuePageCorrection(Wpf.Ui.Controls.UiPage page)
@@ -709,32 +778,38 @@ public static class LinuxTextGuard
 		TraversalState state = PageStates.GetValue(page, static _ => new TraversalState());
 		if (Volatile.Read(ref state.InitialPassCompleted) == 0 && Interlocked.Exchange(ref state.Pending, 1) == 0)
 		{
-			page.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
-			{
-				try
+			page.Dispatcher.BeginInvoke(
+				DispatcherPriority.Loaded,
+				new Action(() =>
 				{
-					QueueDescendants(page, FindPageOwner(page));
-				}
-				finally
-				{
-					Volatile.Write(ref state.InitialPassCompleted, 1);
-					Volatile.Write(ref state.Pending, 0);
-				}
-			}));
+					try
+					{
+						QueueDescendants(page, FindPageOwner(page));
+					}
+					finally
+					{
+						Volatile.Write(ref state.InitialPassCompleted, 1);
+						Volatile.Write(ref state.Pending, 0);
+					}
+				})
+			);
 		}
 		if (Interlocked.Exchange(ref state.AlignmentPending, 1) == 0)
 		{
-			page.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-			{
-				try
+			page.Dispatcher.BeginInvoke(
+				DispatcherPriority.Background,
+				new Action(() =>
 				{
-					CorrectScrollableAlignment(page);
-				}
-				finally
-				{
-					Volatile.Write(ref state.AlignmentPending, 0);
-				}
-			}));
+					try
+					{
+						CorrectScrollableAlignment(page);
+					}
+					finally
+					{
+						Volatile.Write(ref state.AlignmentPending, 0);
+					}
+				})
+			);
 		}
 	}
 
@@ -768,9 +843,7 @@ public static class LinuxTextGuard
 
 	private static Window? FindPageOwner(Wpf.Ui.Controls.UiPage page)
 	{
-		if (PageOwners.TryGetValue(page, out OwnerState? state)
-			&& state?.Owner != null
-			&& state.Owner.TryGetTarget(out Window? stored))
+		if (PageOwners.TryGetValue(page, out OwnerState? state) && state?.Owner != null && state.Owner.TryGetTarget(out Window? stored))
 		{
 			return stored;
 		}
@@ -867,7 +940,8 @@ public static class LinuxTextGuard
 		}
 	}
 
-	private static List<T> FindDescendants<T>(DependencyObject root) where T : DependencyObject
+	private static List<T> FindDescendants<T>(DependencyObject root)
+		where T : DependencyObject
 	{
 		List<T> found = new();
 		Stack<DependencyObject> pending = new();
@@ -926,7 +1000,8 @@ public static class LinuxTextGuard
 
 	private static bool CanCorrect(TextBlock block, FlowState state)
 	{
-		bool attachedWithGeometry = state.Owner != null
+		bool attachedWithGeometry =
+			state.Owner != null
 			&& state.Owner.TryGetTarget(out _)
 			&& VisualTreeHelper.GetParent(block) != null
 			&& (block.ActualWidth > 0.0 || block.DesiredSize.Width > 0.0);
@@ -957,7 +1032,11 @@ public static class LinuxTextGuard
 				return true;
 			}
 
-			if (current is FrameworkElement element && element.TemplatedParent is DependencyObject templatedParent && IsCompactOwner(templatedParent))
+			if (
+				current is FrameworkElement element
+				&& element.TemplatedParent is DependencyObject templatedParent
+				&& IsCompactOwner(templatedParent)
+			)
 			{
 				return true;
 			}
@@ -975,10 +1054,7 @@ public static class LinuxTextGuard
 
 	internal static bool IsAutomaticallyWrapped(TextBlock block)
 	{
-		return block is not null
-			&& FlowStates.TryGetValue(block, out FlowState? state)
-			&& state is not null
-			&& state.OwnsWrapping;
+		return block is not null && FlowStates.TryGetValue(block, out FlowState? state) && state is not null && state.OwnsWrapping;
 	}
 
 	private static bool HasSingleLineHeight(TextBlock block)
@@ -989,9 +1065,7 @@ public static class LinuxTextGuard
 			return false;
 		}
 
-		double lineHeight = double.IsNaN(block.LineHeight) || block.LineHeight <= 0.0
-			? block.FontSize * 1.45
-			: block.LineHeight;
+		double lineHeight = double.IsNaN(block.LineHeight) || block.LineHeight <= 0.0 ? block.FontSize * 1.45 : block.LineHeight;
 		return height <= lineHeight + Tolerance;
 	}
 
@@ -1000,20 +1074,21 @@ public static class LinuxTextGuard
 		if (element is Wpf.Ui.Controls.CardControl or Wpf.Ui.Controls.CardAction or TabControl)
 			return false;
 
-		return element is ButtonBase
-			or System.Windows.Controls.Primitives.Selector
-			or ComboBoxItem
-			or ListBoxItem
-			or ListViewItem
-			or System.Windows.Controls.TreeViewItem
-			or System.Windows.Controls.MenuItem
-			or TabItem
-			or TextBoxBase
-			or System.Windows.Controls.PasswordBox
-			or DataGridCell
-			or DataGridColumnHeader
-			or Wpf.Ui.Controls.NavigationItem
-			or TitleBar;
+		return element
+			is ButtonBase
+				or System.Windows.Controls.Primitives.Selector
+				or ComboBoxItem
+				or ListBoxItem
+				or ListViewItem
+				or System.Windows.Controls.TreeViewItem
+				or System.Windows.Controls.MenuItem
+				or TabItem
+				or TextBoxBase
+				or System.Windows.Controls.PasswordBox
+				or DataGridCell
+				or DataGridColumnHeader
+				or Wpf.Ui.Controls.NavigationItem
+				or TitleBar;
 	}
 
 	private static void RestoreOriginalFlow(TextBlock block, FlowState state)
@@ -1067,14 +1142,21 @@ public static class LinuxTextGuard
 
 	private static bool PinAlignment(TextBlock block, FlowState state)
 	{
-		if (state.OwnsAlignment || block.HorizontalAlignment != System.Windows.HorizontalAlignment.Stretch || block.TextAlignment == TextAlignment.Center)
+		if (
+			state.OwnsAlignment
+			|| block.HorizontalAlignment != System.Windows.HorizontalAlignment.Stretch
+			|| block.TextAlignment == TextAlignment.Center
+		)
 		{
 			return false;
 		}
 
 		state.OriginalHorizontalAlignment = block.HorizontalAlignment;
 		state.OwnsAlignment = true;
-		block.SetCurrentValue(FrameworkElement.HorizontalAlignmentProperty, block.TextAlignment == TextAlignment.Right ? System.Windows.HorizontalAlignment.Right : System.Windows.HorizontalAlignment.Left);
+		block.SetCurrentValue(
+			FrameworkElement.HorizontalAlignmentProperty,
+			block.TextAlignment == TextAlignment.Right ? System.Windows.HorizontalAlignment.Right : System.Windows.HorizontalAlignment.Left
+		);
 		return true;
 	}
 
@@ -1106,9 +1188,8 @@ public static class LinuxTextGuard
 			return true;
 		}
 
-		double lineHeight = HasFiniteWidth(block.LineHeight) && block.LineHeight > 0.0
-			? block.LineHeight
-			: block.FontSize * block.FontFamily.LineSpacing;
+		double lineHeight =
+			HasFiniteWidth(block.LineHeight) && block.LineHeight > 0.0 ? block.LineHeight : block.FontSize * block.FontFamily.LineSpacing;
 		int maxLines = Math.Max(1, (int)Math.Floor((block.MaxHeight - block.Padding.Top - block.Padding.Bottom + Tolerance) / lineHeight));
 		string[] lines = AddBreakOpportunities(block, state.Source, limit).Split('\n');
 		string rendered;
@@ -1218,8 +1299,8 @@ public static class LinuxTextGuard
 		{
 			rendered = AddBreakOpportunities(block, text, target);
 			int preliminaryLines = NormalizeNewlines(rendered).Split('\n').Length;
-			bool useCompactBodySize = state.OriginalFontSize >= 14.0
-				&& (preliminaryLines >= 3 || state.OwnsFontSize && preliminaryLines >= 2);
+			bool useCompactBodySize =
+				state.OriginalFontSize >= 14.0 && (preliminaryLines >= 3 || state.OwnsFontSize && preliminaryLines >= 2);
 			if (useCompactBodySize)
 			{
 				double fontSize = Math.Max(11.0, Math.Round(state.OriginalFontSize * 0.93 * 2.0) / 2.0);
@@ -1279,9 +1360,10 @@ public static class LinuxTextGuard
 
 		if (state.OwnsFontSize || double.IsNaN(state.OriginalLineHeight) || state.OriginalLineHeight <= 0.0)
 		{
-			double lineHeight = state.OwnsFontSize && HasFiniteWidth(state.OriginalLineHeight)
-				? Math.Max(block.FontSize * 1.3, state.OriginalLineHeight * block.FontSize / state.OriginalFontSize)
-				: Math.Ceiling(block.FontSize * 1.45 * 2.0) / 2.0;
+			double lineHeight =
+				state.OwnsFontSize && HasFiniteWidth(state.OriginalLineHeight)
+					? Math.Max(block.FontSize * 1.3, state.OriginalLineHeight * block.FontSize / state.OriginalFontSize)
+					: Math.Ceiling(block.FontSize * 1.45 * 2.0) / 2.0;
 			if (!state.OwnsLineHeight || Math.Abs(state.AppliedLineHeight - lineHeight) > Tolerance)
 			{
 				block.SetCurrentValue(TextBlock.LineHeightProperty, lineHeight);
@@ -1299,7 +1381,10 @@ public static class LinuxTextGuard
 
 		string layoutText = rich ? text : state.Rendered;
 		int renderedLines = EstimateLineCount(block, layoutText, target);
-		double minimumHeight = Math.Max(state.OriginalMinHeight, renderedLines * effectiveLineHeight + block.Padding.Top + block.Padding.Bottom);
+		double minimumHeight = Math.Max(
+			state.OriginalMinHeight,
+			renderedLines * effectiveLineHeight + block.Padding.Top + block.Padding.Bottom
+		);
 		if (renderedLines > 1 && (!state.OwnsMinHeight || Math.Abs(state.AppliedMinHeight - minimumHeight) > Tolerance))
 		{
 			block.SetCurrentValue(FrameworkElement.MinHeightProperty, minimumHeight);
@@ -1551,13 +1636,20 @@ public static class LinuxTextGuard
 		Window? owner = null;
 		state.Owner?.TryGetTarget(out owner);
 		FrameworkElement? frame = owner?.FindName("RootFrame") as FrameworkElement;
-		return "max=" + state.AppliedMaxWidth.ToString(CultureInfo.InvariantCulture)
-			+ ",min=" + state.AppliedMinHeight.ToString(CultureInfo.InvariantCulture)
-			+ ",line=" + state.AppliedLineHeight.ToString(CultureInfo.InvariantCulture)
-			+ ",owner=" + (owner == null ? "none" : owner.GetType().FullName)
-			+ ",frame=" + (frame?.ActualWidth.ToString(CultureInfo.InvariantCulture) ?? "none")
-			+ ",loaded=" + block.IsLoaded.ToString(CultureInfo.InvariantCulture)
-			+ ",limit=" + ResolveStableLimit(block, state).ToString(CultureInfo.InvariantCulture);
+		return "max="
+			+ state.AppliedMaxWidth.ToString(CultureInfo.InvariantCulture)
+			+ ",min="
+			+ state.AppliedMinHeight.ToString(CultureInfo.InvariantCulture)
+			+ ",line="
+			+ state.AppliedLineHeight.ToString(CultureInfo.InvariantCulture)
+			+ ",owner="
+			+ (owner == null ? "none" : owner.GetType().FullName)
+			+ ",frame="
+			+ (frame?.ActualWidth.ToString(CultureInfo.InvariantCulture) ?? "none")
+			+ ",loaded="
+			+ block.IsLoaded.ToString(CultureInfo.InvariantCulture)
+			+ ",limit="
+			+ ResolveStableLimit(block, state).ToString(CultureInfo.InvariantCulture);
 	}
 
 	private static string AddBreakOpportunities(TextBlock block, string text, double limit)

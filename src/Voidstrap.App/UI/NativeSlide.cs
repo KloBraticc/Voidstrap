@@ -39,9 +39,9 @@ internal sealed partial class NativeSlide
 	private bool _easeOut;
 	private Action? _finished;
 	private bool _subscribed;
-    private UIElement? _clippedContent;
-    private Geometry? _originalClip;
-    private RectangleGeometry? _portableClip;
+	private UIElement? _clippedContent;
+	private Geometry? _originalClip;
+	private RectangleGeometry? _portableClip;
 
 	public NativeSlide(Window window)
 	{
@@ -50,25 +50,29 @@ internal sealed partial class NativeSlide
 
 	public bool IsRunning => _subscribed;
 
-	public static bool Supported => (Voidstrap.Utility.Platform.IsWindows || PortableOverlay.Active) && SystemParameters.ClientAreaAnimation;
+	public static bool Supported =>
+		(Voidstrap.Utility.Platform.IsWindows || PortableOverlay.Active) && SystemParameters.ClientAreaAnimation;
 
 	// Where the window is right now, in screen pixels
 	public Point? CurrentPosition()
 	{
 		if (PortableOverlay.Active)
-        {
-            if (!_window.IsVisible)
-                return null;
-            nint native = PortableOverlay.Handle(_window);
-            if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(native, out int left, out int top, out _, out _))
-                return new Point(left, top);
-            if (Voidstrap.Utility.Platform.IsMacOS && native != 0)
-            {
-                var frame = Voidstrap.Platform.MacOS.MacOSWindow.GetFrame(native);
-                return new Point(frame.X, Voidstrap.Platform.MacOS.MacOSWindow.PrimaryScreenHeight() - frame.Y - frame.Height);
-            }
-            return new Point(_window.Left, _window.Top);
-        }
+		{
+			if (!_window.IsVisible)
+				return null;
+			nint native = PortableOverlay.Handle(_window);
+			if (
+				Voidstrap.Utility.Platform.IsLinux
+				&& Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(native, out int left, out int top, out _, out _)
+			)
+				return new Point(left, top);
+			if (Voidstrap.Utility.Platform.IsMacOS && native != 0)
+			{
+				var frame = Voidstrap.Platform.MacOS.MacOSWindow.GetFrame(native);
+				return new Point(frame.X, Voidstrap.Platform.MacOS.MacOSWindow.PrimaryScreenHeight() - frame.Y - frame.Height);
+			}
+			return new Point(_window.Left, _window.Top);
+		}
 		IntPtr handle = new WindowInteropHelper(_window).Handle;
 		if (handle == IntPtr.Zero || !GetWindowRect(handle, out NativeRect rect))
 			return null;
@@ -80,21 +84,21 @@ internal sealed partial class NativeSlide
 	{
 		Stop(false);
 		if (PortableOverlay.Active)
-        {
-            _handle = PortableOverlay.Handle(_window);
-            _width = (int)Math.Ceiling(_window.Width);
-            _height = (int)Math.Ceiling(_window.Height);
-        }
-        else
-        {
-            _handle = new WindowInteropHelper(_window).Handle;
-            if (_handle == IntPtr.Zero || !GetWindowRect(_handle, out NativeRect rect))
-                return false;
-            _width = rect.Right - rect.Left;
-            _height = rect.Bottom - rect.Top;
-        }
-        if (_handle == IntPtr.Zero)
-            return false;
+		{
+			_handle = PortableOverlay.Handle(_window);
+			_width = (int)Math.Ceiling(_window.Width);
+			_height = (int)Math.Ceiling(_window.Height);
+		}
+		else
+		{
+			_handle = new WindowInteropHelper(_window).Handle;
+			if (_handle == IntPtr.Zero || !GetWindowRect(_handle, out NativeRect rect))
+				return false;
+			_width = rect.Right - rect.Left;
+			_height = rect.Bottom - rect.Top;
+		}
+		if (_handle == IntPtr.Zero)
+			return false;
 		_from = from;
 		_to = to;
 		_clip = clip;
@@ -139,17 +143,17 @@ internal sealed partial class NativeSlide
 
 	public void RemoveClip()
 	{
-        if (PortableOverlay.Active)
-        {
-            if (Voidstrap.Utility.Platform.IsLinux)
-                Voidstrap.Platform.Linux.LinuxWindowInterop.TryClearShape(PortableOverlay.Handle(_window));
-            if (_clippedContent != null)
-                _clippedContent.Clip = _originalClip;
-            _clippedContent = null;
-            _originalClip = null;
-            _portableClip = null;
-            return;
-        }
+		if (PortableOverlay.Active)
+		{
+			if (Voidstrap.Utility.Platform.IsLinux)
+				Voidstrap.Platform.Linux.LinuxWindowInterop.TryClearShape(PortableOverlay.Handle(_window));
+			if (_clippedContent != null)
+				_clippedContent.Clip = _originalClip;
+			_clippedContent = null;
+			_originalClip = null;
+			_portableClip = null;
+			return;
+		}
 		IntPtr handle = _handle != IntPtr.Zero ? _handle : new WindowInteropHelper(_window).Handle;
 		if (handle != IntPtr.Zero)
 			_ = SetWindowRgn(handle, IntPtr.Zero, false);
@@ -157,7 +161,9 @@ internal sealed partial class NativeSlide
 
 	private void OnFrame(object? sender, EventArgs e)
 	{
-		TimeSpan frame = e is RenderingEventArgs rendering ? rendering.RenderingTime : TimeSpan.FromTicks(Stopwatch.GetTimestamp() * TimeSpan.TicksPerSecond / Stopwatch.Frequency);
+		TimeSpan frame = e is RenderingEventArgs rendering
+			? rendering.RenderingTime
+			: TimeSpan.FromTicks(Stopwatch.GetTimestamp() * TimeSpan.TicksPerSecond / Stopwatch.Frequency);
 		if (frame == _lastFrame)
 			return;
 		TimeSpan previous = _lastFrame;
@@ -173,11 +179,11 @@ internal sealed partial class NativeSlide
 		Place(new Point(_from.X + (_to.X - _from.X) * eased, _from.Y + (_to.Y - _from.Y) * eased));
 		if (progress < 1)
 			return;
-        if (PortableOverlay.Active)
-        {
-            _window.Left = _to.X;
-            _window.Top = _to.Y;
-        }
+		if (PortableOverlay.Active)
+		{
+			_window.Left = _to.X;
+			_window.Top = _to.Y;
+		}
 		Action? finished = _finished;
 		Stop(false);
 		try
@@ -202,30 +208,35 @@ internal sealed partial class NativeSlide
 		int x1 = Math.Clamp(_clip.X + _clip.Width - left, 0, _width);
 		int y1 = Math.Clamp(_clip.Y + _clip.Height - top, 0, _height);
 		if (PortableOverlay.Active)
-        {
-            if (Voidstrap.Utility.Platform.IsLinux)
-            {
-                Voidstrap.Platform.Linux.LinuxWindowInterop.TryMoveResize(_handle, left, top, _width, _height);
-                Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetBoundingRectangles(_handle, new[] { (x0, y0, Math.Max(0, x1 - x0), Math.Max(0, y1 - y0)) });
-            }
-            else
-            {
-                Voidstrap.Platform.MacOS.MacOSOverlayWindow.MoveTo(_handle, left, top, _width, _height);
-                UIElement content = _window;
-                if (_portableClip == null)
-                {
-                    _clippedContent = content;
-                    _originalClip = content.Clip;
-                    _portableClip = new RectangleGeometry();
-                    content.Clip = _originalClip == null ? _portableClip
-                        : new CombinedGeometry(GeometryCombineMode.Intersect, _originalClip, _portableClip);
-                }
-                _portableClip.Rect = new Rect(x0, y0, Math.Max(0, x1 - x0), Math.Max(0, y1 - y0));
-            }
-            PortableOverlay.ForgetBounds(_window);
-            Voidstrap.Integrations.Overlays.LinuxOverlaySurface.WakePresentation(_window);
-            return;
-        }
+		{
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				Voidstrap.Platform.Linux.LinuxWindowInterop.TryMoveResize(_handle, left, top, _width, _height);
+				Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetBoundingRectangles(
+					_handle,
+					new[] { (x0, y0, Math.Max(0, x1 - x0), Math.Max(0, y1 - y0)) }
+				);
+			}
+			else
+			{
+				Voidstrap.Platform.MacOS.MacOSOverlayWindow.MoveTo(_handle, left, top, _width, _height);
+				UIElement content = _window;
+				if (_portableClip == null)
+				{
+					_clippedContent = content;
+					_originalClip = content.Clip;
+					_portableClip = new RectangleGeometry();
+					content.Clip =
+						_originalClip == null
+							? _portableClip
+							: new CombinedGeometry(GeometryCombineMode.Intersect, _originalClip, _portableClip);
+				}
+				_portableClip.Rect = new Rect(x0, y0, Math.Max(0, x1 - x0), Math.Max(0, y1 - y0));
+			}
+			PortableOverlay.ForgetBounds(_window);
+			Voidstrap.Integrations.Overlays.LinuxOverlaySurface.WakePresentation(_window);
+			return;
+		}
 		Int32Rect visible = new(x0, y0, Math.Max(0, x1 - x0), Math.Max(0, y1 - y0));
 		bool moved = !_placed || left != _placedLeft || top != _placedTop;
 		bool reshaped = !_placed || !visible.Equals(_placedRegion);
@@ -243,7 +254,15 @@ internal sealed partial class NativeSlide
 			}
 		}
 		if (moved)
-			_ = SetWindowPos(_handle, IntPtr.Zero, left, top, 0, 0, SwpNoSize | SwpNoZOrder | SwpNoActivate | SwpNoOwnerZOrder | SwpNoSendChanging | SwpDeferErase);
+			_ = SetWindowPos(
+				_handle,
+				IntPtr.Zero,
+				left,
+				top,
+				0,
+				0,
+				SwpNoSize | SwpNoZOrder | SwpNoActivate | SwpNoOwnerZOrder | SwpNoSendChanging | SwpDeferErase
+			);
 		_placedLeft = left;
 		_placedTop = top;
 		_placedRegion = visible;

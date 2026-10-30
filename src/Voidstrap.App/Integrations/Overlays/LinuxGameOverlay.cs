@@ -65,6 +65,7 @@ internal static class LinuxGameOverlay
 			return Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetWindowOpacity(handle, 0);
 		return Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetWindowOpacity(handle, opacity);
 	}
+
 	private static byte[] _capture = Array.Empty<byte>();
 	private static int _ticks;
 	private static int _rendering;
@@ -92,7 +93,7 @@ internal static class LinuxGameOverlay
 				{
 					["VK_ADD_LAYER_PATH"] = layerDirectory,
 					["VK_INSTANCE_LAYERS"] = string.IsNullOrEmpty(layers) ? LayerName : LayerName + ":" + layers,
-					["VOIDSTRAP_OVERLAY_SHM"] = _path
+					["VOIDSTRAP_OVERLAY_SHM"] = _path,
 				};
 			}
 			catch (Exception ex)
@@ -121,12 +122,17 @@ internal static class LinuxGameOverlay
 		Application? application = Application.Current;
 		if (application == null || application.Dispatcher.HasShutdownStarted)
 			return;
-		application.Dispatcher.BeginInvoke(new Action(() =>
-		{
-			foreach (nint handle in Concealed)
-				Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetWindowOpacity(handle, Opacity.TryGetValue(handle, out double opacity) ? opacity : 1);
-			Concealed.Clear();
-		}));
+		application.Dispatcher.BeginInvoke(
+			new Action(() =>
+			{
+				foreach (nint handle in Concealed)
+					Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetWindowOpacity(
+						handle,
+						Opacity.TryGetValue(handle, out double opacity) ? opacity : 1
+					);
+				Concealed.Clear();
+			})
+		);
 	}
 
 	public static void Stop()
@@ -153,9 +159,7 @@ internal static class LinuxGameOverlay
 				{
 					File.Delete(_path);
 				}
-				catch (IOException)
-				{
-				}
+				catch (IOException) { }
 				_path = null;
 			}
 		}
@@ -198,12 +202,8 @@ internal static class LinuxGameOverlay
 			{
 				Directory.Delete(old, true);
 			}
-			catch (IOException)
-			{
-			}
-			catch (UnauthorizedAccessException)
-			{
-			}
+			catch (IOException) { }
+			catch (UnauthorizedAccessException) { }
 		}
 		return directory;
 	}
@@ -308,26 +308,28 @@ internal static class LinuxGameOverlay
 		Application? application = Application.Current;
 		if (application == null || application.Dispatcher.HasShutdownStarted)
 			return;
-		application.Dispatcher.BeginInvoke(new Action(() =>
-		{
-			List<nint> handles = new();
-			HashSet<nint> native = new();
-			foreach (Window window in application.Windows)
+		application.Dispatcher.BeginInvoke(
+			new Action(() =>
 			{
-				if (!window.IsVisible || window.ShowInTaskbar || !window.Topmost)
-					continue;
-				nint handle = Voidstrap.UI.LinuxWindowMode.ResolveExactNativeWindow(window);
-				if (handle == 0)
-					continue;
-				handles.Add(handle);
-				if (window.GetType().Name.StartsWith("Session", StringComparison.Ordinal) || window.Title == "Session dimmer")
-					native.Add(handle);
-				else if (Active && Concealed.Add(handle))
-					Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetWindowOpacity(handle, 0);
-			}
-			_native = native;
-			_windows = handles.ToArray();
-		}));
+				List<nint> handles = new();
+				HashSet<nint> native = new();
+				foreach (Window window in application.Windows)
+				{
+					if (!window.IsVisible || window.ShowInTaskbar || !window.Topmost)
+						continue;
+					nint handle = Voidstrap.UI.LinuxWindowMode.ResolveExactNativeWindow(window);
+					if (handle == 0)
+						continue;
+					handles.Add(handle);
+					if (window.GetType().Name.StartsWith("Session", StringComparison.Ordinal) || window.Title == "Session dimmer")
+						native.Add(handle);
+					else if (Active && Concealed.Add(handle))
+						Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetWindowOpacity(handle, 0);
+				}
+				_native = native;
+				_windows = handles.ToArray();
+			})
+		);
 	}
 
 	private static void Render()
@@ -344,8 +346,16 @@ internal static class LinuxGameOverlay
 		width = Math.Min(width, MaxEdge);
 		height = Math.Min(height, MaxEdge);
 
-		if (!Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPrimaryMonitorBounds(out int monitorLeft, out int monitorTop, out int monitorWidth, out int monitorHeight)
-			|| monitorWidth <= 0 || monitorHeight <= 0)
+		if (
+			!Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPrimaryMonitorBounds(
+				out int monitorLeft,
+				out int monitorTop,
+				out int monitorWidth,
+				out int monitorHeight
+			)
+			|| monitorWidth <= 0
+			|| monitorHeight <= 0
+		)
 		{
 			monitorLeft = 0;
 			monitorTop = 0;
@@ -374,12 +384,33 @@ internal static class LinuxGameOverlay
 		{
 			if (native.Contains(window))
 				continue;
-			if (!Voidstrap.Platform.Linux.LinuxWindowInterop.TryCaptureOverlayPremultiplied(window, ref _capture, out int left, out int top, out int captureWidth, out int captureHeight))
+			if (
+				!Voidstrap.Platform.Linux.LinuxWindowInterop.TryCaptureOverlayPremultiplied(
+					window,
+					ref _capture,
+					out int left,
+					out int top,
+					out int captureWidth,
+					out int captureHeight
+				)
+			)
 				continue;
 			int hash = 17;
 			for (int index = 3; index < captureWidth * captureHeight * 4; index += 61)
 				hash = hash * 31 + _capture[index] + _capture[index - 1] * 7;
-			signature.Append('|').Append(window).Append(',').Append(left).Append(',').Append(top).Append(',').Append(captureWidth).Append(',').Append(captureHeight).Append(',').Append(hash);
+			signature
+				.Append('|')
+				.Append(window)
+				.Append(',')
+				.Append(left)
+				.Append(',')
+				.Append(top)
+				.Append(',')
+				.Append(captureWidth)
+				.Append(',')
+				.Append(captureHeight)
+				.Append(',')
+				.Append(hash);
 			double windowOpacity = Opacity.TryGetValue(window, out double stored) ? stored : 1;
 			if (windowOpacity <= 0)
 				continue;

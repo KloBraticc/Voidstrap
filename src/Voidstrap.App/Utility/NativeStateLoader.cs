@@ -62,7 +62,10 @@ internal static partial class NativeStateLoader
 			}
 			catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException or BadImageFormatException)
 			{
-				App.Logger?.WriteLine("NativeStateLoader", $"Native voidstate library is unavailable ({ex.GetType().Name}), settings load in managed code");
+				App.Logger?.WriteLine(
+					"NativeStateLoader",
+					$"Native voidstate library is unavailable ({ex.GetType().Name}), settings load in managed code"
+				);
 				ok = false;
 			}
 			Interlocked.CompareExchange(ref _state, ok ? StateReady : StateMissing, StateUnknown);
@@ -70,7 +73,8 @@ internal static partial class NativeStateLoader
 		}
 	}
 
-	public static bool TryLoad<T>(string path, long maximumBytes, out T? value) where T : class
+	public static bool TryLoad<T>(string path, long maximumBytes, out T? value)
+		where T : class
 	{
 		value = null;
 		if (typeof(IDictionary).IsAssignableFrom(typeof(T)) || !IsAvailable)
@@ -88,7 +92,10 @@ internal static partial class NativeStateLoader
 		}
 		catch (Exception ex)
 		{
-			App.Logger?.WriteLine("NativeStateLoader", $"{Path.GetFileName(path)} needs the managed loader ({ex.GetType().Name}: {ex.Message})");
+			App.Logger?.WriteLine(
+				"NativeStateLoader",
+				$"{Path.GetFileName(path)} needs the managed loader ({ex.GetType().Name}: {ex.Message})"
+			);
 			value = null;
 			return false;
 		}
@@ -142,7 +149,8 @@ internal static partial class NativeStateLoader
 
 	private static TypePlan? GetPlan(Type type) => Plans.GetOrAdd(type, BuildPlan);
 
-	private static bool IsSerializerAttribute(Attribute attribute) => attribute.GetType().Namespace == typeof(JsonIgnoreAttribute).Namespace;
+	private static bool IsSerializerAttribute(Attribute attribute) =>
+		attribute.GetType().Namespace == typeof(JsonIgnoreAttribute).Namespace;
 
 	private static TypePlan? BuildPlan(Type type)
 	{
@@ -298,19 +306,19 @@ internal static partial class NativeStateLoader
 				case TagNumber:
 					return Data(Next(), Next()).ToArray();
 				case TagString:
-					{
-						string text = Encoding.UTF8.GetString(Data(Next(), Next()));
-						return JsonSerializer.SerializeToUtf8Bytes(text, JsonOptions.Compact);
-					}
+				{
+					string text = Encoding.UTF8.GetString(Data(Next(), Next()));
+					return JsonSerializer.SerializeToUtf8Bytes(text, JsonOptions.Compact);
+				}
 				case TagObject:
 				case TagArray:
-					{
-						Next();
-						ReadOnlySpan<byte> raw = Data(Next(), Next());
-						_index = start;
-						Skip();
-						return raw.ToArray();
-					}
+				{
+					Next();
+					ReadOnlySpan<byte> raw = Data(Next(), Next());
+					_index = start;
+					Skip();
+					return raw.ToArray();
+				}
 				default:
 					throw new InvalidDataException("Unknown native state token");
 			}
@@ -356,7 +364,7 @@ internal static partial class NativeStateLoader
 				{
 					TagTrue => true,
 					TagFalse => false,
-					_ => throw new NotSupportedException("Expected a boolean")
+					_ => throw new NotSupportedException("Expected a boolean"),
 				};
 			}
 			if (type.IsPrimitive || type == typeof(decimal))
@@ -434,9 +442,23 @@ internal static partial class NativeStateLoader
 				if (key == typeof(string))
 					keyValue = name;
 				else if (key == typeof(long))
-					keyValue = long.TryParse(name, System.Globalization.NumberStyles.AllowLeadingSign, System.Globalization.CultureInfo.InvariantCulture, out long l) ? l : throw new NotSupportedException("Dictionary key is not a number");
+					keyValue = long.TryParse(
+						name,
+						System.Globalization.NumberStyles.AllowLeadingSign,
+						System.Globalization.CultureInfo.InvariantCulture,
+						out long l
+					)
+						? l
+						: throw new NotSupportedException("Dictionary key is not a number");
 				else
-					keyValue = int.TryParse(name, System.Globalization.NumberStyles.AllowLeadingSign, System.Globalization.CultureInfo.InvariantCulture, out int n) ? n : throw new NotSupportedException("Dictionary key is not a number");
+					keyValue = int.TryParse(
+						name,
+						System.Globalization.NumberStyles.AllowLeadingSign,
+						System.Globalization.CultureInfo.InvariantCulture,
+						out int n
+					)
+						? n
+						: throw new NotSupportedException("Dictionary key is not a number");
 				if (dictionary.Contains(keyValue))
 					throw new NotSupportedException("Duplicate dictionary key");
 				dictionary.Add(keyValue, ReadValue(value));
@@ -471,19 +493,19 @@ internal static partial class NativeStateLoader
 			switch (tag)
 			{
 				case TagString:
-					{
-						string text = Encoding.UTF8.GetString(Data(Next(), Next()));
-						if (!string.IsNullOrEmpty(text) && Enum.TryParse(type, text, true, out object? parsed))
-							return parsed!;
-						return Activator.CreateInstance(type)!;
-					}
+				{
+					string text = Encoding.UTF8.GetString(Data(Next(), Next()));
+					if (!string.IsNullOrEmpty(text) && Enum.TryParse(type, text, true, out object? parsed))
+						return parsed!;
+					return Activator.CreateInstance(type)!;
+				}
 				case TagNumber:
-					{
-						ReadOnlySpan<byte> number = Data(Next(), Next());
-						if (Utf8Parser.TryParse(number, out long value, out int consumed) && consumed == number.Length)
-							return Enum.ToObject(type, value);
-						return Activator.CreateInstance(type)!;
-					}
+				{
+					ReadOnlySpan<byte> number = Data(Next(), Next());
+					if (Utf8Parser.TryParse(number, out long value, out int consumed) && consumed == number.Length)
+						return Enum.ToObject(type, value);
+					return Activator.CreateInstance(type)!;
+				}
 				default:
 					_index--;
 					Skip();
@@ -498,18 +520,52 @@ internal static partial class NativeStateLoader
 			object result;
 			switch (Type.GetTypeCode(type))
 			{
-				case TypeCode.Byte: ok = Utf8Parser.TryParse(number, out byte b, out consumed); result = b; break;
-				case TypeCode.SByte: ok = Utf8Parser.TryParse(number, out sbyte sb, out consumed); result = sb; break;
-				case TypeCode.Int16: ok = Utf8Parser.TryParse(number, out short s, out consumed); result = s; break;
-				case TypeCode.UInt16: ok = Utf8Parser.TryParse(number, out ushort us, out consumed); result = us; break;
-				case TypeCode.Int32: ok = Utf8Parser.TryParse(number, out int i, out consumed); result = i; break;
-				case TypeCode.UInt32: ok = Utf8Parser.TryParse(number, out uint ui, out consumed); result = ui; break;
-				case TypeCode.Int64: ok = Utf8Parser.TryParse(number, out long l, out consumed); result = l; break;
-				case TypeCode.UInt64: ok = Utf8Parser.TryParse(number, out ulong ul, out consumed); result = ul; break;
-				case TypeCode.Single: ok = Utf8Parser.TryParse(number, out float f, out consumed) && float.IsFinite(f); result = f; break;
-				case TypeCode.Double: ok = Utf8Parser.TryParse(number, out double d, out consumed) && double.IsFinite(d); result = d; break;
-				case TypeCode.Decimal: ok = Utf8Parser.TryParse(number, out decimal m, out consumed); result = m; break;
-				default: throw new NotSupportedException("Unsupported number type " + type.Name);
+				case TypeCode.Byte:
+					ok = Utf8Parser.TryParse(number, out byte b, out consumed);
+					result = b;
+					break;
+				case TypeCode.SByte:
+					ok = Utf8Parser.TryParse(number, out sbyte sb, out consumed);
+					result = sb;
+					break;
+				case TypeCode.Int16:
+					ok = Utf8Parser.TryParse(number, out short s, out consumed);
+					result = s;
+					break;
+				case TypeCode.UInt16:
+					ok = Utf8Parser.TryParse(number, out ushort us, out consumed);
+					result = us;
+					break;
+				case TypeCode.Int32:
+					ok = Utf8Parser.TryParse(number, out int i, out consumed);
+					result = i;
+					break;
+				case TypeCode.UInt32:
+					ok = Utf8Parser.TryParse(number, out uint ui, out consumed);
+					result = ui;
+					break;
+				case TypeCode.Int64:
+					ok = Utf8Parser.TryParse(number, out long l, out consumed);
+					result = l;
+					break;
+				case TypeCode.UInt64:
+					ok = Utf8Parser.TryParse(number, out ulong ul, out consumed);
+					result = ul;
+					break;
+				case TypeCode.Single:
+					ok = Utf8Parser.TryParse(number, out float f, out consumed) && float.IsFinite(f);
+					result = f;
+					break;
+				case TypeCode.Double:
+					ok = Utf8Parser.TryParse(number, out double d, out consumed) && double.IsFinite(d);
+					result = d;
+					break;
+				case TypeCode.Decimal:
+					ok = Utf8Parser.TryParse(number, out decimal m, out consumed);
+					result = m;
+					break;
+				default:
+					throw new NotSupportedException("Unsupported number type " + type.Name);
 			}
 			if (!ok || consumed != number.Length)
 				throw new NotSupportedException("Number does not fit " + type.Name);

@@ -58,7 +58,16 @@ public sealed class OpusWaveStream : WaveStream
 		stream.Position = 0;
 		for (int offset = 0; offset + 10 <= read; offset++)
 		{
-			if (head[offset] == 'O' && head[offset + 1] == 'p' && head[offset + 2] == 'u' && head[offset + 3] == 's' && head[offset + 4] == 'H' && head[offset + 5] == 'e' && head[offset + 6] == 'a' && head[offset + 7] == 'd')
+			if (
+				head[offset] == 'O'
+				&& head[offset + 1] == 'p'
+				&& head[offset + 2] == 'u'
+				&& head[offset + 3] == 's'
+				&& head[offset + 4] == 'H'
+				&& head[offset + 5] == 'e'
+				&& head[offset + 6] == 'a'
+				&& head[offset + 7] == 'd'
+			)
 			{
 				int channels = head[offset + 9];
 				if (channels is >= 1 and <= 8)
@@ -99,7 +108,9 @@ public sealed class OpusWaveStream : WaveStream
 	public override int Read(Span<byte> buffer)
 	{
 		int written = 0;
-		Span<float> output = System.Runtime.InteropServices.MemoryMarshal.Cast<byte, float>(buffer.Slice(0, buffer.Length / _format.BlockAlign * _format.BlockAlign));
+		Span<float> output = System.Runtime.InteropServices.MemoryMarshal.Cast<byte, float>(
+			buffer.Slice(0, buffer.Length / _format.BlockAlign * _format.BlockAlign)
+		);
 		while (written < output.Length)
 		{
 			if (_pendingOffset >= _pending.Length)

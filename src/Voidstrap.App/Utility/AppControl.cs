@@ -19,21 +19,18 @@ internal static class AppControl
 
 	private const long MaximumVideoBytes = 256L * 1024 * 1024;
 
-	private static readonly string[] ImageExtensions =
-	[
-		".png", ".jpg", ".jpeg", ".jfif", ".webp", ".bmp", ".gif", ".tif", ".tiff"
-	];
+	private static readonly string[] ImageExtensions = [".png", ".jpg", ".jpeg", ".jfif", ".webp", ".bmp", ".gif", ".tif", ".tiff"];
 
-	private static readonly string[] VideoExtensions =
-	[
-		".mp4", ".webm", ".mkv", ".mov", ".avi", ".wmv"
-	];
+	private static readonly string[] VideoExtensions = [".mp4", ".webm", ".mkv", ".mov", ".avi", ".wmv"];
 
 	private static readonly object Gate = new();
 
 	private static Dictionary<string, string> _textOverrides = new(StringComparer.Ordinal);
 
-	private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<DependencyObject, Dictionary<DependencyProperty, object?>> Originals = new();
+	private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<
+		DependencyObject,
+		Dictionary<DependencyProperty, object?>
+	> Originals = new();
 
 	private static int _installed;
 
@@ -52,11 +49,19 @@ internal static class AppControl
 		Application? app = System.Windows.Application.Current;
 		if (app == null)
 			return;
-		app.Dispatcher.BeginInvoke(new Action(() =>
-		{
-			System.Windows.EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnWindowLoaded), true);
-			ApplyToOpenWindows();
-		}), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+		app.Dispatcher.BeginInvoke(
+			new Action(() =>
+			{
+				System.Windows.EventManager.RegisterClassHandler(
+					typeof(Window),
+					FrameworkElement.LoadedEvent,
+					new RoutedEventHandler(OnWindowLoaded),
+					true
+				);
+				ApplyToOpenWindows();
+			}),
+			System.Windows.Threading.DispatcherPriority.ApplicationIdle
+		);
 	}
 
 	private static void OnWindowLoaded(object sender, RoutedEventArgs e)
@@ -76,7 +81,10 @@ internal static class AppControl
 		string normalKey = NormalizeTextKey(key);
 		if (normalKey.Length == 0)
 			throw new InvalidDataException("The override target must start with text: or name:");
-		if (normalKey.StartsWith("name:", StringComparison.Ordinal) && (normalKey.Length <= 5 || !System.Text.RegularExpressions.Regex.IsMatch(normalKey[5..], "^[A-Za-z_][A-Za-z0-9_]*$")))
+		if (
+			normalKey.StartsWith("name:", StringComparison.Ordinal)
+			&& (normalKey.Length <= 5 || !System.Text.RegularExpressions.Regex.IsMatch(normalKey[5..], "^[A-Za-z_][A-Za-z0-9_]*$"))
+		)
 			throw new InvalidDataException("A name target must be the XAML name of an element");
 		lock (Gate)
 		{
@@ -167,11 +175,7 @@ internal static class AppControl
 			JsonObject entries = new();
 			foreach (KeyValuePair<string, string> pair in _textOverrides)
 				entries[pair.Key] = pair.Value;
-			JsonObject root = new()
-			{
-				["version"] = 1,
-				["overrides"] = entries
-			};
+			JsonObject root = new() { ["version"] = 1, ["overrides"] = entries };
 			string temporary = TextOverridesPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
 			try
 			{
@@ -238,7 +242,9 @@ internal static class AppControl
 			if (node is FrameworkElement { Name.Length: > 0 })
 			{
 				snapshot ??= SnapshotOverrides();
-				if (snapshot.TryGetValue("name:" + ((FrameworkElement)node).Name, out string? namedValue) && ApplyOverride(node, namedValue))
+				if (
+					snapshot.TryGetValue("name:" + ((FrameworkElement)node).Name, out string? namedValue) && ApplyOverride(node, namedValue)
+				)
 					return;
 			}
 			if (node is TextBlock textBlock)
@@ -297,7 +303,10 @@ internal static class AppControl
 
 	private static object? GetOriginal(DependencyObject element, DependencyProperty property)
 	{
-		if (Originals.TryGetValue(element, out Dictionary<DependencyProperty, object?>? entries) && entries.TryGetValue(property, out object? original))
+		if (
+			Originals.TryGetValue(element, out Dictionary<DependencyProperty, object?>? entries)
+			&& entries.TryGetValue(property, out object? original)
+		)
 			return original;
 		return null;
 	}
@@ -322,7 +331,7 @@ internal static class AppControl
 			["backgroundFilePath"] = "",
 			["gradientOpacity"] = 1.0,
 			["blackOverlayOpacity"] = 0.0,
-			["displayEverywhere"] = false
+			["displayEverywhere"] = false,
 		};
 		try
 		{
@@ -388,7 +397,12 @@ internal static class AppControl
 		WriteBackgroundState(null, 1.0, 0.0, false);
 	}
 
-	private static void WriteBackgroundState(string? backgroundFilePath, double gradientOpacity, double blackOverlayOpacity, bool displayEverywhere)
+	private static void WriteBackgroundState(
+		string? backgroundFilePath,
+		double gradientOpacity,
+		double blackOverlayOpacity,
+		bool displayEverywhere
+	)
 	{
 		try
 		{
@@ -398,7 +412,7 @@ internal static class AppControl
 				["BackgroundFilePath"] = backgroundFilePath,
 				["GradientOpacity"] = gradientOpacity,
 				["BlackOverlayOpacity"] = blackOverlayOpacity,
-				["DisplayEverywhere"] = displayEverywhere
+				["DisplayEverywhere"] = displayEverywhere,
 			};
 			string temporary = Paths.BackgroundSettings + "." + Guid.NewGuid().ToString("N") + ".tmp";
 			try
@@ -420,17 +434,20 @@ internal static class AppControl
 		Application? app = System.Windows.Application.Current;
 		if (app == null)
 			return;
-		app.Dispatcher.BeginInvoke(new Action(() =>
-		{
-			try
+		app.Dispatcher.BeginInvoke(
+			new Action(() =>
 			{
-				Voidstrap.UI.GlobalBackground.Update(backgroundFilePath, gradientOpacity, blackOverlayOpacity, displayEverywhere);
-				Voidstrap.UI.GlobalBackground.Reload();
-			}
-			catch (Exception ex)
-			{
-				App.Logger?.WriteLine(LogIdent, "The background could not be applied: " + ex.Message);
-			}
-		}), System.Windows.Threading.DispatcherPriority.Background);
+				try
+				{
+					Voidstrap.UI.GlobalBackground.Update(backgroundFilePath, gradientOpacity, blackOverlayOpacity, displayEverywhere);
+					Voidstrap.UI.GlobalBackground.Reload();
+				}
+				catch (Exception ex)
+				{
+					App.Logger?.WriteLine(LogIdent, "The background could not be applied: " + ex.Message);
+				}
+			}),
+			System.Windows.Threading.DispatcherPriority.Background
+		);
 	}
 }

@@ -21,7 +21,10 @@ namespace Voidstrap.UI.Elements.Controls;
 [Localizability(LocalizationCategory.Text)]
 internal sealed class MarkdownTextBlock : TextBlock
 {
-	private static readonly MarkdownPipeline _markdownPipeline = new MarkdownPipelineBuilder().UseEmphasisExtras(EmphasisExtraOptions.Marked).UseSoftlineBreakAsHardlineBreak().Build();
+	private static readonly MarkdownPipeline _markdownPipeline = new MarkdownPipelineBuilder()
+		.UseEmphasisExtras(EmphasisExtraOptions.Marked)
+		.UseSoftlineBreakAsHardlineBreak()
+		.Build();
 
 	private static readonly SolidColorBrush HighlightBrush = CreateHighlightBrush();
 
@@ -48,19 +51,24 @@ internal sealed class MarkdownTextBlock : TextBlock
 		return brush;
 	}
 
-	public static readonly DependencyProperty MarkdownTextProperty = DependencyProperty.Register("MarkdownText", typeof(string), typeof(MarkdownTextBlock), (PropertyMetadata)(object)new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender, new PropertyChangedCallback(OnTextMarkdownChanged)));
+	public static readonly DependencyProperty MarkdownTextProperty = DependencyProperty.Register(
+		"MarkdownText",
+		typeof(string),
+		typeof(MarkdownTextBlock),
+		(PropertyMetadata)
+			(object)
+				new FrameworkPropertyMetadata(
+					string.Empty,
+					FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender,
+					new PropertyChangedCallback(OnTextMarkdownChanged)
+				)
+	);
 
 	[Localizability(LocalizationCategory.Text)]
 	public string MarkdownText
 	{
-		get
-		{
-			return (string)((DependencyObject)this).GetValue(MarkdownTextProperty);
-		}
-		set
-		{
-			((DependencyObject)this).SetValue(MarkdownTextProperty, (object)value);
-		}
+		get { return (string)((DependencyObject)this).GetValue(MarkdownTextProperty); }
+		set { ((DependencyObject)this).SetValue(MarkdownTextProperty, (object)value); }
 	}
 
 	private static System.Windows.Documents.Inline? GetWpfInlineFromMarkdownInline(Markdig.Syntax.Inlines.Inline? inline)
@@ -73,18 +81,15 @@ internal sealed class MarkdownTextBlock : TextBlock
 		{
 			switch (delimiterChar)
 			{
-			case '*':
-			case '_':
-				if (emphasisInline.DelimiterCount == 1)
-				{
-					return AddChildren(new Italic(), emphasisInline);
-				}
-				return AddChildren(new Bold(), emphasisInline);
-			case '=':
-				return AddChildren(new Span
-				{
-					Background = HighlightBrush
-				}, emphasisInline);
+				case '*':
+				case '_':
+					if (emphasisInline.DelimiterCount == 1)
+					{
+						return AddChildren(new Italic(), emphasisInline);
+					}
+					return AddChildren(new Bold(), emphasisInline);
+				case '=':
+					return AddChildren(new Span { Background = HighlightBrush }, emphasisInline);
 			}
 		}
 		else
@@ -96,11 +101,7 @@ internal sealed class MarkdownTextBlock : TextBlock
 				{
 					return AddChildren(new Span(), linkInline);
 				}
-				return AddChildren(new Hyperlink
-				{
-					Command = GlobalViewModel.OpenWebpageCommand,
-					CommandParameter = url
-				}, linkInline);
+				return AddChildren(new Hyperlink { Command = GlobalViewModel.OpenWebpageCommand, CommandParameter = url }, linkInline);
 			}
 			if (inline is LineBreakInline)
 			{
@@ -132,7 +133,10 @@ internal sealed class MarkdownTextBlock : TextBlock
 		}
 	}
 
-	private static void OnTextMarkdownChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+	private static void OnTextMarkdownChanged(
+		DependencyObject dependencyObject,
+		DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs
+	)
 	{
 		if (!(dependencyObject is MarkdownTextBlock markdownTextBlock) || !(dependencyPropertyChangedEventArgs.NewValue is string markdown))
 		{
@@ -164,7 +168,10 @@ internal sealed class MarkdownTextBlock : TextBlock
 			if (!double.IsInfinity(limit) && !double.IsNaN(limit) && limit > PortableMinimumWrapWidth)
 			{
 				markdownTextBlock._portableWrapWidth = limit;
-				markdownTextBlock.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, new Action(() => markdownTextBlock.WrapPortableText(limit)));
+				markdownTextBlock.Dispatcher.BeginInvoke(
+					System.Windows.Threading.DispatcherPriority.Loaded,
+					new Action(() => markdownTextBlock.WrapPortableText(limit))
+				);
 			}
 		}
 	}
@@ -202,14 +209,26 @@ internal sealed class MarkdownTextBlock : TextBlock
 
 	static MarkdownTextBlock()
 	{
-		MaxWidthProperty.OverrideMetadata(typeof(MarkdownTextBlock), new FrameworkPropertyMetadata(double.PositiveInfinity, FrameworkPropertyMetadataOptions.AffectsMeasure, OnPortableMaxWidthChanged));
+		MaxWidthProperty.OverrideMetadata(
+			typeof(MarkdownTextBlock),
+			new FrameworkPropertyMetadata(
+				double.PositiveInfinity,
+				FrameworkPropertyMetadataOptions.AffectsMeasure,
+				OnPortableMaxWidthChanged
+			)
+		);
 	}
 
 	private static void OnPortableMaxWidthChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
 	{
 		if (dependencyObject is not MarkdownTextBlock block || !block._portableRich || e.NewValue is not double limit)
 			return;
-		if (double.IsInfinity(limit) || double.IsNaN(limit) || limit <= PortableMinimumWrapWidth || Math.Abs(limit - block._portableWrapWidth) < 1.0)
+		if (
+			double.IsInfinity(limit)
+			|| double.IsNaN(limit)
+			|| limit <= PortableMinimumWrapWidth
+			|| Math.Abs(limit - block._portableWrapWidth) < 1.0
+		)
 			return;
 		block._portableWrapWidth = limit;
 		block.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, new Action(() => block.WrapPortableText(limit)));
@@ -253,18 +272,18 @@ internal sealed class MarkdownTextBlock : TextBlock
 		{
 			switch (inline)
 			{
-			case LineBreak:
-				x = 0.0;
-				break;
-			case Span span:
-				BreakPortableLines(span.Inlines, width, ref x, pixelsPerDip);
-				break;
-			case Run run:
-				BreakPortableRun(inlines, run, width, ref x, pixelsPerDip);
-				break;
-			default:
-				x += Math.Max(0.0, inline is InlineUIContainer { Child: FrameworkElement child } ? child.ActualWidth : 0.0);
-				break;
+				case LineBreak:
+					x = 0.0;
+					break;
+				case Span span:
+					BreakPortableLines(span.Inlines, width, ref x, pixelsPerDip);
+					break;
+				case Run run:
+					BreakPortableRun(inlines, run, width, ref x, pixelsPerDip);
+					break;
+				default:
+					x += Math.Max(0.0, inline is InlineUIContainer { Child: FrameworkElement child } ? child.ActualWidth : 0.0);
+					break;
 			}
 		}
 	}
@@ -286,7 +305,15 @@ internal sealed class MarkdownTextBlock : TextBlock
 			bool space = char.IsWhiteSpace(token[0]);
 			if (space && x <= 0.0)
 				continue;
-			double tokenWidth = new FormattedText(token, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, typeface, size, Brushes.Black, pixelsPerDip).WidthIncludingTrailingWhitespace;
+			double tokenWidth = new FormattedText(
+				token,
+				CultureInfo.CurrentUICulture,
+				FlowDirection.LeftToRight,
+				typeface,
+				size,
+				Brushes.Black,
+				pixelsPerDip
+			).WidthIncludingTrailingWhitespace;
 			if (!space && x > 0.0 && x + tokenWidth > width)
 			{
 				lines.Add(line.ToString().TrimEnd());

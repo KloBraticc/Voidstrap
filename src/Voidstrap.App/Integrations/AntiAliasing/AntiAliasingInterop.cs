@@ -87,7 +87,20 @@ namespace Voidstrap.Integrations.AntiAliasing
         public static partial bool UnregisterClassW(IntPtr lpClassName, IntPtr hInstance);
 
         [LibraryImport("user32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
-        public static partial IntPtr CreateWindowExW(int dwExStyle, IntPtr lpClassName, string lpWindowName, uint dwStyle, int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
+        public static partial IntPtr CreateWindowExW(
+            int dwExStyle,
+            IntPtr lpClassName,
+            string lpWindowName,
+            uint dwStyle,
+            int x,
+            int y,
+            int nWidth,
+            int nHeight,
+            IntPtr hWndParent,
+            IntPtr hMenu,
+            IntPtr hInstance,
+            IntPtr lpParam
+        );
 
         [LibraryImport("user32.dll")]
         public static partial IntPtr DefWindowProcW(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
@@ -238,6 +251,7 @@ namespace Voidstrap.Integrations.AntiAliasing
             public RECT rcMonitor;
             public RECT rcWork;
             public uint dwFlags;
+
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
             public string szDevice;
         }
@@ -261,6 +275,7 @@ namespace Voidstrap.Integrations.AntiAliasing
             public short dmYResolution;
             public short dmTTOption;
             public short dmCollate;
+
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
             public string dmFormName;
             public ushort dmLogPixels;

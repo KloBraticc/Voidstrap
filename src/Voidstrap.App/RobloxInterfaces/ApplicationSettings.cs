@@ -18,7 +18,12 @@ public class ApplicationSettings
 
 	private const int MaxResponseBytes = 4 * 1024 * 1024;
 	private const int MaxErrorBytes = 16 * 1024;
-	private static readonly string[] Sources = ["https://clientsettingscdn.roblox.com", "https://clientsettings.roblox.com", "https://setup.rbxcdn.com"];
+	private static readonly string[] Sources =
+	[
+		"https://clientsettingscdn.roblox.com",
+		"https://clientsettings.roblox.com",
+		"https://setup.rbxcdn.com",
+	];
 	private readonly string _applicationName;
 
 	private readonly string _channelName;
@@ -66,7 +71,11 @@ public class ApplicationSettings
 				path = path + "/bucket/" + _channelName;
 			}
 			SourceResult result = await FetchFromSourcesAsync(path, logIdent).ConfigureAwait(false);
-			if (result.Body == null && result.InvalidBucket && !string.Equals(_channelName, "production", StringComparison.OrdinalIgnoreCase))
+			if (
+				result.Body == null
+				&& result.InvalidBucket
+				&& !string.Equals(_channelName, "production", StringComparison.OrdinalIgnoreCase)
+			)
 			{
 				App.Logger.WriteLine(logIdent, "Invalid bucket '" + _channelName + "'. Falling back to default channel...");
 				path = "/v2/settings/application/" + _applicationName;
@@ -98,9 +107,7 @@ public class ApplicationSettings
 	private static async Task<SourceResult> FetchFromSourcesAsync(string path, string logIdent)
 	{
 		using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(15));
-		List<Task<SourceResult>> pending = Sources
-			.Select(source => FetchSourceAsync(source, path, logIdent, timeout.Token))
-			.ToList();
+		List<Task<SourceResult>> pending = Sources.Select(source => FetchSourceAsync(source, path, logIdent, timeout.Token)).ToList();
 		bool invalidBucket = false;
 		Exception? lastError = null;
 		while (pending.Count != 0)
@@ -121,22 +128,37 @@ public class ApplicationSettings
 		return new SourceResult(null, invalidBucket, lastError);
 	}
 
-	private static async Task<SourceResult> FetchSourceAsync(string source, string path, string logIdent, CancellationToken cancellationToken)
+	private static async Task<SourceResult> FetchSourceAsync(
+		string source,
+		string path,
+		string logIdent,
+		CancellationToken cancellationToken
+	)
 	{
 		string url = source + path;
 		try
 		{
 			App.Logger.WriteLine(logIdent, "Trying " + url);
 			using HttpRequestMessage request = new(HttpMethod.Get, url);
-			using HttpResponseMessage response = await App.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+			using HttpResponseMessage response = await App
+				.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+				.ConfigureAwait(false);
 			if (response.StatusCode is HttpStatusCode.BadRequest or HttpStatusCode.NotFound)
 			{
-				string errorBody = await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, MaxErrorBytes, cancellationToken).ConfigureAwait(false);
+				string errorBody = await Voidstrap
+					.Utility.Http.ReadStringBoundedAsync(response.Content, MaxErrorBytes, cancellationToken)
+					.ConfigureAwait(false);
 				bool invalidBucket = errorBody.Contains("bucket name is invalid", StringComparison.OrdinalIgnoreCase);
-				return new SourceResult(null, invalidBucket, new HttpRequestException("Configuration source returned " + (int)response.StatusCode));
+				return new SourceResult(
+					null,
+					invalidBucket,
+					new HttpRequestException("Configuration source returned " + (int)response.StatusCode)
+				);
 			}
 			response.EnsureSuccessStatusCode();
-			string body = await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, MaxResponseBytes, cancellationToken).ConfigureAwait(false);
+			string body = await Voidstrap
+				.Utility.Http.ReadStringBoundedAsync(response.Content, MaxResponseBytes, cancellationToken)
+				.ConfigureAwait(false);
 			return new SourceResult(body, false, null);
 		}
 		catch (OperationCanceledException ex)

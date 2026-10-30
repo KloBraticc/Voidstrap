@@ -113,7 +113,11 @@ public partial class StudioPluginsView : UserControl
 			}
 			else
 			{
-				foreach (InstalledStudioPlugin plugin in installed.Where(plugin => query.Length == 0 || plugin.Name.Contains(query, StringComparison.CurrentCultureIgnoreCase)))
+				foreach (
+					InstalledStudioPlugin plugin in installed.Where(plugin =>
+						query.Length == 0 || plugin.Name.Contains(query, StringComparison.CurrentCultureIgnoreCase)
+					)
+				)
 					added.Add(new StudioPluginEntry(null, plugin));
 			}
 			foreach (StudioPluginEntry entry in added)
@@ -124,7 +128,14 @@ public partial class StudioPluginsView : UserControl
 		{
 			return;
 		}
-		catch (Exception ex) when (ex is HttpRequestException or IOException or System.Text.Json.JsonException or OperationCanceledException or InvalidHTTPResponseException)
+		catch (Exception ex)
+			when (ex
+					is HttpRequestException
+						or IOException
+						or System.Text.Json.JsonException
+						or OperationCanceledException
+						or InvalidHTTPResponseException
+			)
 		{
 			App.Logger.WriteException(LogIdent + "::Reload", ex);
 			ShowStatus(Strings.Ui_Mods_StudioPlugins_StoreUnavailable);
@@ -136,7 +147,8 @@ public partial class StudioPluginsView : UserControl
 				LoadingRing.Visibility = Visibility.Collapsed;
 				LoadMoreButton.Visibility = StoreMode && _nextPageToken != null ? Visibility.Visible : Visibility.Collapsed;
 				EmptyTitle.Text = StoreMode ? Strings.Ui_Mods_StudioPlugins_EmptyTitle : Strings.Ui_Mods_StudioPlugins_EmptyInstalled;
-				EmptyState.Visibility = _entries.Count == 0 && BrowseStatus.Visibility != Visibility.Visible ? Visibility.Visible : Visibility.Collapsed;
+				EmptyState.Visibility =
+					_entries.Count == 0 && BrowseStatus.Visibility != Visibility.Visible ? Visibility.Visible : Visibility.Collapsed;
 			}
 			source.Dispose();
 		}
@@ -161,10 +173,15 @@ public partial class StudioPluginsView : UserControl
 				if (entry.AssetId is long id && icons.TryGetValue(id, out string? icon))
 					entry.Icon = icon;
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-		}
-		catch (Exception ex) when (ex is HttpRequestException or IOException or System.Text.Json.JsonException or OperationCanceledException or InvalidHTTPResponseException)
+		catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+		catch (Exception ex)
+			when (ex
+					is HttpRequestException
+						or IOException
+						or System.Text.Json.JsonException
+						or OperationCanceledException
+						or InvalidHTTPResponseException
+			)
 		{
 			App.Logger.WriteException(LogIdent + "::Enrich", ex);
 		}
@@ -202,7 +219,13 @@ public partial class StudioPluginsView : UserControl
 			return;
 		if (entry.Installed is InstalledStudioPlugin installed && !entry.UpdateAvailable)
 		{
-			if (Frontend.ShowMessageBox(string.Format(Strings.Ui_Mods_StudioPlugins_RemoveConfirm, entry.Name), MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+			if (
+				Frontend.ShowMessageBox(
+					string.Format(Strings.Ui_Mods_StudioPlugins_RemoveConfirm, entry.Name),
+					MessageBoxImage.Question,
+					MessageBoxButton.YesNo
+				) != MessageBoxResult.Yes
+			)
 				return;
 			try
 			{
@@ -228,20 +251,24 @@ public partial class StudioPluginsView : UserControl
 		try
 		{
 			string path = await StudioPluginCatalog.InstallAsync(listing, CancellationToken.None);
-			InstalledStudioPlugin? record = StudioPluginCatalog.ListInstalled().FirstOrDefault(plugin => string.Equals(plugin.Path, path, StringComparison.OrdinalIgnoreCase));
+			InstalledStudioPlugin? record = StudioPluginCatalog
+				.ListInstalled()
+				.FirstOrDefault(plugin => string.Equals(plugin.Path, path, StringComparison.OrdinalIgnoreCase));
 			entry.Apply(listing, record);
 			ShowStatus(Strings.Ui_Mods_StudioPlugins_InstalledRestart);
 		}
 		catch (StudioPluginException ex)
 		{
 			App.Logger.WriteLine(LogIdent, $"Installing plugin {listing.Id} failed: {ex.Message}");
-			ShowStatus(ex.Failure switch
-			{
-				StudioPluginFailure.NotSignedIn => Strings.Ui_Mods_StudioPlugins_NeedsLogin,
-				StudioPluginFailure.NotOwned => Strings.Ui_Mods_StudioPlugins_NeedsPurchase,
-				StudioPluginFailure.InvalidFile => Strings.Ui_Mods_StudioPlugins_InvalidFile,
-				_ => Strings.Ui_Mods_StudioPlugins_Unavailable
-			});
+			ShowStatus(
+				ex.Failure switch
+				{
+					StudioPluginFailure.NotSignedIn => Strings.Ui_Mods_StudioPlugins_NeedsLogin,
+					StudioPluginFailure.NotOwned => Strings.Ui_Mods_StudioPlugins_NeedsPurchase,
+					StudioPluginFailure.InvalidFile => Strings.Ui_Mods_StudioPlugins_InvalidFile,
+					_ => Strings.Ui_Mods_StudioPlugins_Unavailable,
+				}
+			);
 		}
 		catch (Exception ex) when (ex is HttpRequestException or IOException or UnauthorizedAccessException or TaskCanceledException)
 		{
@@ -261,7 +288,7 @@ public partial class StudioPluginsView : UserControl
 		{
 			Title = Strings.Ui_Mods_StudioPlugins_Import,
 			Filter = Strings.Ui_Mods_StudioPlugins_FileFilter,
-			Multiselect = true
+			Multiselect = true,
 		};
 		if (dialog.ShowDialog(Window.GetWindow(this)) != true)
 			return;

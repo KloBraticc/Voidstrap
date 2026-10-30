@@ -20,7 +20,8 @@ public sealed record StudioPluginReview(
 	bool Recommended,
 	int HelpfulCount,
 	DateTime? Created,
-	StudioPluginReply? Reply);
+	StudioPluginReply? Reply
+);
 
 public sealed record StudioPluginReviewPage(IReadOnlyList<StudioPluginReview> Reviews, string? NextCursor);
 
@@ -36,10 +37,15 @@ public static partial class StudioPluginCommunity
 	[GeneratedRegex("^[A-Za-z0-9+/=_-]{1,256}$")]
 	private static partial Regex CursorPattern();
 
-	public static async Task<(RobloxAuthedStatus Status, StudioPluginReviewPage? Page)> GetReviewsAsync(long assetId, string? cursor, CancellationToken token)
+	public static async Task<(RobloxAuthedStatus Status, StudioPluginReviewPage? Page)> GetReviewsAsync(
+		long assetId,
+		string? cursor,
+		CancellationToken token
+	)
 	{
 		RequireAsset(assetId);
-		string url = ReviewsBase + "/assets/" + assetId.ToString(CultureInfo.InvariantCulture) + "/comments?limit=10&sortByHelpfulCount=true";
+		string url =
+			ReviewsBase + "/assets/" + assetId.ToString(CultureInfo.InvariantCulture) + "/comments?limit=10&sortByHelpfulCount=true";
 		if (!string.IsNullOrEmpty(cursor))
 		{
 			if (!CursorPattern().IsMatch(cursor))
@@ -63,18 +69,22 @@ public static partial class StudioPluginCommunity
 						ReadString(replyElement, "replyingUsername"),
 						ReadBool(replyElement, "replyingUserHasVerifiedBadge"),
 						ReadString(replyElement, "text"),
-						ReadTime(replyElement, "createdUtc"));
+						ReadTime(replyElement, "createdUtc")
+					);
 				}
-				reviews.Add(new StudioPluginReview(
-					ReadString(item, "id"),
-					item.TryGetProperty("commentingUserId", out JsonElement user) && user.TryGetInt64(out long userId) ? userId : 0,
-					ReadString(item, "commentingUsername"),
-					ReadBool(item, "commentingUserHasVerifiedBadge"),
-					ReadString(item, "text"),
-					ReadBool(item, "isRecommended"),
-					item.TryGetProperty("helpfulCount", out JsonElement helpful) && helpful.TryGetInt32(out int count) ? count : 0,
-					ReadTime(item, "createdUtc"),
-					reply));
+				reviews.Add(
+					new StudioPluginReview(
+						ReadString(item, "id"),
+						item.TryGetProperty("commentingUserId", out JsonElement user) && user.TryGetInt64(out long userId) ? userId : 0,
+						ReadString(item, "commentingUsername"),
+						ReadBool(item, "commentingUserHasVerifiedBadge"),
+						ReadString(item, "text"),
+						ReadBool(item, "isRecommended"),
+						item.TryGetProperty("helpfulCount", out JsonElement helpful) && helpful.TryGetInt32(out int count) ? count : 0,
+						ReadTime(item, "createdUtc"),
+						reply
+					)
+				);
 			}
 		}
 		bool hasMore = root.TryGetProperty("hasMore", out JsonElement more) && more.ValueKind == JsonValueKind.True;
@@ -85,7 +95,9 @@ public static partial class StudioPluginCommunity
 	public static async Task<bool> IsCreatorAsync(long assetId, CancellationToken token)
 	{
 		RequireAsset(assetId);
-		RobloxAuthedResult result = await RobloxAuthedClient.GetAsync(ReviewsBase + "/assets/" + assetId.ToString(CultureInfo.InvariantCulture) + "/user/isCreator", token).ConfigureAwait(false);
+		RobloxAuthedResult result = await RobloxAuthedClient
+			.GetAsync(ReviewsBase + "/assets/" + assetId.ToString(CultureInfo.InvariantCulture) + "/user/isCreator", token)
+			.ConfigureAwait(false);
 		return result.Succeeded && result.Body.Trim().Equals("true", StringComparison.OrdinalIgnoreCase);
 	}
 
@@ -110,11 +122,19 @@ public static partial class StudioPluginCommunity
 	public static async Task<bool?> GetVoteAsync(long assetId, CancellationToken token)
 	{
 		RequireAsset(assetId);
-		RobloxAuthedResult result = await RobloxAuthedClient.GetAsync("https://apis.roblox.com/toolbox-service/v1/voting/vote?assetType=Plugin&assetId=" + assetId.ToString(CultureInfo.InvariantCulture), token).ConfigureAwait(false);
+		RobloxAuthedResult result = await RobloxAuthedClient
+			.GetAsync(
+				"https://apis.roblox.com/toolbox-service/v1/voting/vote?assetType=Plugin&assetId="
+					+ assetId.ToString(CultureInfo.InvariantCulture),
+				token
+			)
+			.ConfigureAwait(false);
 		if (!result.Succeeded)
 			return null;
 		using JsonDocument document = JsonDocument.Parse(result.Body);
-		return document.RootElement.TryGetProperty("userVote", out JsonElement vote) && vote.ValueKind is JsonValueKind.True or JsonValueKind.False
+		return
+			document.RootElement.TryGetProperty("userVote", out JsonElement vote)
+			&& vote.ValueKind is JsonValueKind.True or JsonValueKind.False
 			? vote.GetBoolean()
 			: null;
 	}
@@ -122,7 +142,13 @@ public static partial class StudioPluginCommunity
 	public static Task<RobloxAuthedResult> VoteAsync(long assetId, bool up, CancellationToken token)
 	{
 		RequireAsset(assetId);
-		return RobloxAuthedClient.PostAsync("https://apis.roblox.com/voting-api/vote/asset/" + assetId.ToString(CultureInfo.InvariantCulture) + "?vote=" + (up ? "true" : "false"), token);
+		return RobloxAuthedClient.PostAsync(
+			"https://apis.roblox.com/voting-api/vote/asset/"
+				+ assetId.ToString(CultureInfo.InvariantCulture)
+				+ "?vote="
+				+ (up ? "true" : "false"),
+			token
+		);
 	}
 
 	public static string CleanText(string? text)
@@ -146,7 +172,11 @@ public static partial class StudioPluginCommunity
 		if (cleaned.Length == 0)
 			throw new ArgumentException("The review text is empty", nameof(text));
 		Dictionary<string, string?> body = new() { ["text"] = cleaned, ["parentId"] = parentId };
-		return RobloxAuthedClient.PostJsonAsync(ReviewsBase + "/assets/" + assetId.ToString(CultureInfo.InvariantCulture) + "/comments", JsonSerializer.Serialize(body), token);
+		return RobloxAuthedClient.PostJsonAsync(
+			ReviewsBase + "/assets/" + assetId.ToString(CultureInfo.InvariantCulture) + "/comments",
+			JsonSerializer.Serialize(body),
+			token
+		);
 	}
 
 	private static void RequireAsset(long assetId)
@@ -163,7 +193,9 @@ public static partial class StudioPluginCommunity
 
 	private static string ReadString(JsonElement element, string name)
 	{
-		return element.TryGetProperty(name, out JsonElement value) && value.ValueKind == JsonValueKind.String ? value.GetString() ?? string.Empty : string.Empty;
+		return element.TryGetProperty(name, out JsonElement value) && value.ValueKind == JsonValueKind.String
+			? value.GetString() ?? string.Empty
+			: string.Empty;
 	}
 
 	private static bool ReadBool(JsonElement element, string name)

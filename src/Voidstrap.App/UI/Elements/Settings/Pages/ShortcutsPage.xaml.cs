@@ -20,12 +20,16 @@ using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
-public partial class ShortcutsPage : UiPage{
+public partial class ShortcutsPage : UiPage
+{
 	private readonly string instanceFilePath = Path.Combine(Paths.UserData, "instance_id.txt");
 
 	private static readonly HttpClient _httpClient = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(15));
 
-	private static readonly HttpClient _noRedirectClient = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(15), handler => handler.AllowAutoRedirect = false);
+	private static readonly HttpClient _noRedirectClient = Voidstrap.Utility.VpnHttpClient.Create(
+		TimeSpan.FromSeconds(15),
+		handler => handler.AllowAutoRedirect = false
+	);
 
 	public ShortcutsPage()
 	{
@@ -49,7 +53,13 @@ public partial class ShortcutsPage : UiPage{
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox(string.Format(System.Globalization.CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_Shortcuts_LoadFailed, ex.Message));
+			Frontend.ShowMessageBox(
+				string.Format(
+					System.Globalization.CultureInfo.CurrentCulture,
+					Voidstrap.Resources.Strings.Ui_Shortcuts_LoadFailed,
+					ex.Message
+				)
+			);
 		}
 	}
 
@@ -67,7 +77,7 @@ public partial class ShortcutsPage : UiPage{
 				FileName = Paths.LaunchExecutable,
 				UseShellExecute = false,
 				CreateNoWindow = true,
-				WorkingDirectory = Path.GetDirectoryName(Paths.LaunchExecutable) ?? string.Empty
+				WorkingDirectory = Path.GetDirectoryName(Paths.LaunchExecutable) ?? string.Empty,
 			};
 			startInfo.ArgumentList.Add("-player");
 			startInfo.ArgumentList.Add(launch.Value.LaunchUrl);
@@ -78,7 +88,13 @@ public partial class ShortcutsPage : UiPage{
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox(string.Format(System.Globalization.CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_Shortcuts_LaunchFailed, Describe(ex)));
+			Frontend.ShowMessageBox(
+				string.Format(
+					System.Globalization.CultureInfo.CurrentCulture,
+					Voidstrap.Resources.Strings.Ui_Shortcuts_LaunchFailed,
+					Describe(ex)
+				)
+			);
 		}
 		finally
 		{
@@ -91,29 +107,31 @@ public partial class ShortcutsPage : UiPage{
 		SetGameActionsEnabled(false);
 		try
 		{
-		ShortcutsViewModel shortcutsViewModel = (ShortcutsViewModel)base.DataContext;
-		(string LaunchUrl, string PlaceId)? launch = await BuildLaunchAsync();
-		if (launch is null)
-			return;
-		SaveGameSettings();
-		string displayName = SafeShortcutName(shortcutsViewModel.IsSubplaceMode ? shortcutsViewModel.SelectedSubplace?.DisplayName : shortcutsViewModel.ResolvedGameName);
-		string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-		string shortcutPath = Path.Combine(folderPath, displayName + Voidstrap.Utility.Shortcut.Suffix);
-		string executable = File.Exists(Paths.Application) ? Paths.Application : Paths.LaunchExecutable;
-		string iconPath = string.Empty;
-		try
-		{
-			iconPath = await DownloadAndForceIcoAsync(await FetchGameIconUrlAsync(launch.Value.PlaceId), displayName);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("Shortcuts::CreateShortcut", "Game icon lookup failed, using the Voidstrap icon instead");
-			App.Logger.WriteException("Shortcuts::CreateShortcut", ex);
-		}
-		if (string.IsNullOrEmpty(iconPath) || !File.Exists(iconPath))
-		{
-			iconPath = executable;
-		}
+			ShortcutsViewModel shortcutsViewModel = (ShortcutsViewModel)base.DataContext;
+			(string LaunchUrl, string PlaceId)? launch = await BuildLaunchAsync();
+			if (launch is null)
+				return;
+			SaveGameSettings();
+			string displayName = SafeShortcutName(
+				shortcutsViewModel.IsSubplaceMode ? shortcutsViewModel.SelectedSubplace?.DisplayName : shortcutsViewModel.ResolvedGameName
+			);
+			string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+			string shortcutPath = Path.Combine(folderPath, displayName + Voidstrap.Utility.Shortcut.Suffix);
+			string executable = File.Exists(Paths.Application) ? Paths.Application : Paths.LaunchExecutable;
+			string iconPath = string.Empty;
+			try
+			{
+				iconPath = await DownloadAndForceIcoAsync(await FetchGameIconUrlAsync(launch.Value.PlaceId), displayName);
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("Shortcuts::CreateShortcut", "Game icon lookup failed, using the Voidstrap icon instead");
+				App.Logger.WriteException("Shortcuts::CreateShortcut", ex);
+			}
+			if (string.IsNullOrEmpty(iconPath) || !File.Exists(iconPath))
+			{
+				iconPath = executable;
+			}
 			if (Voidstrap.Utility.Shortcut.Exists(shortcutPath))
 				Voidstrap.Utility.Shortcut.Delete(shortcutPath);
 			string arguments = "-player \"" + launch.Value.LaunchUrl.Replace("\"", "") + "\"";
@@ -123,12 +141,24 @@ public partial class ShortcutsPage : UiPage{
 				Frontend.ShowMessageBox(Voidstrap.Resources.Strings.Ui_Shortcuts_DesktopWriteFailed);
 				return;
 			}
-			Frontend.ShowMessageBox(string.Format(System.Globalization.CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_Shortcuts_ShortcutCreated, displayName));
+			Frontend.ShowMessageBox(
+				string.Format(
+					System.Globalization.CultureInfo.CurrentCulture,
+					Voidstrap.Resources.Strings.Ui_Shortcuts_ShortcutCreated,
+					displayName
+				)
+			);
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("Shortcuts::CreateShortcut", ex);
-			Frontend.ShowMessageBox(string.Format(System.Globalization.CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_Shortcuts_ShortcutFailed, Describe(ex)));
+			Frontend.ShowMessageBox(
+				string.Format(
+					System.Globalization.CultureInfo.CurrentCulture,
+					Voidstrap.Resources.Strings.Ui_Shortcuts_ShortcutFailed,
+					Describe(ex)
+				)
+			);
 		}
 		finally
 		{
@@ -142,7 +172,11 @@ public partial class ShortcutsPage : UiPage{
 		string gameId = viewModel.GameID?.Trim() ?? "";
 		if (viewModel.IsSubplaceMode)
 		{
-			if (viewModel.IsLoadingSubplaces || viewModel.SelectedSubplace == null || !viewModel.Subplaces.Contains(viewModel.SelectedSubplace))
+			if (
+				viewModel.IsLoadingSubplaces
+				|| viewModel.SelectedSubplace == null
+				|| !viewModel.Subplaces.Contains(viewModel.SelectedSubplace)
+			)
 			{
 				Frontend.ShowMessageBox(Voidstrap.Resources.Strings.Shortcuts_SubplaceRequired);
 				return null;
@@ -157,7 +191,13 @@ public partial class ShortcutsPage : UiPage{
 				Frontend.ShowMessageBox(Voidstrap.Resources.Strings.Ui_Shortcuts_InvalidPrivateServer);
 				return null;
 			}
-			return ("roblox://experiences/start?placeId=" + Uri.EscapeDataString(placeId) + "&privateServerLinkCode=" + Uri.EscapeDataString(code), placeId);
+			return (
+				"roblox://experiences/start?placeId="
+					+ Uri.EscapeDataString(placeId)
+					+ "&privateServerLinkCode="
+					+ Uri.EscapeDataString(code),
+				placeId
+			);
 		}
 		if (!long.TryParse(gameId, out long parsedGameId) || parsedGameId <= 0)
 		{
@@ -184,7 +224,33 @@ public partial class ShortcutsPage : UiPage{
 		name = name.Trim(' ', '.');
 		if (name.Length == 0)
 			name = "Roblox Game";
-		if (new[] { "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" }.Contains(name.Split('.')[0], StringComparer.OrdinalIgnoreCase))
+		if (
+			new[]
+			{
+				"CON",
+				"PRN",
+				"AUX",
+				"NUL",
+				"COM1",
+				"COM2",
+				"COM3",
+				"COM4",
+				"COM5",
+				"COM6",
+				"COM7",
+				"COM8",
+				"COM9",
+				"LPT1",
+				"LPT2",
+				"LPT3",
+				"LPT4",
+				"LPT5",
+				"LPT6",
+				"LPT7",
+				"LPT8",
+				"LPT9",
+			}.Contains(name.Split('.')[0], StringComparer.OrdinalIgnoreCase)
+		)
 			name += " Game";
 		return name.Length > 80 ? name[..80].TrimEnd(' ', '.') : name;
 	}
@@ -194,7 +260,10 @@ public partial class ShortcutsPage : UiPage{
 		ShortcutsViewModel viewModel = (ShortcutsViewModel)base.DataContext;
 		Directory.CreateDirectory(Paths.UserData);
 		SaveOptionalText(instanceFilePath, viewModel.GameInstanceId);
-		SaveOptionalText(Path.Combine(Paths.UserData, "PrivateServerCode.txt"), viewModel.IsPrivateServer ? viewModel.PrivateServerCode : null);
+		SaveOptionalText(
+			Path.Combine(Paths.UserData, "PrivateServerCode.txt"),
+			viewModel.IsPrivateServer ? viewModel.PrivateServerCode : null
+		);
 	}
 
 	private static void SaveOptionalText(string path, string? value)
@@ -222,9 +291,7 @@ public partial class ShortcutsPage : UiPage{
 			if (viewModel.IsSubplaceMode)
 				await viewModel.LoadSubplacesAsync();
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ShortcutsPage::Page_Loaded", ex);
@@ -238,9 +305,9 @@ public partial class ShortcutsPage : UiPage{
 
 	private static string Describe(Exception ex)
 	{
-		return ex is OperationCanceledException
-			? Voidstrap.Resources.Strings.Ui_Shortcuts_RequestTimedOut
-			: string.IsNullOrWhiteSpace(ex.Message) ? ex.GetType().Name : ex.Message;
+		return ex is OperationCanceledException ? Voidstrap.Resources.Strings.Ui_Shortcuts_RequestTimedOut
+			: string.IsNullOrWhiteSpace(ex.Message) ? ex.GetType().Name
+			: ex.Message;
 	}
 
 	private static async Task<(string PlaceId, string Code)> ResolvePrivateServerAsync(string? gameId, string? input)
@@ -251,7 +318,13 @@ public partial class ShortcutsPage : UiPage{
 			return ("", "");
 		if (!Uri.TryCreate(code, UriKind.Absolute, out Uri? shareUri))
 			return (placeId, code);
-		if (shareUri.Scheme != Uri.UriSchemeHttps || (!shareUri.Host.Equals("roblox.com", StringComparison.OrdinalIgnoreCase) && !shareUri.Host.Equals("www.roblox.com", StringComparison.OrdinalIgnoreCase)))
+		if (
+			shareUri.Scheme != Uri.UriSchemeHttps
+			|| (
+				!shareUri.Host.Equals("roblox.com", StringComparison.OrdinalIgnoreCase)
+				&& !shareUri.Host.Equals("www.roblox.com", StringComparison.OrdinalIgnoreCase)
+			)
+		)
 			return ("", "");
 		var query = HttpUtility.ParseQueryString(shareUri.Query);
 		code = query["code"] ?? query["privateServerLinkCode"] ?? "";
@@ -266,12 +339,22 @@ public partial class ShortcutsPage : UiPage{
 				placeId = initialMatch.Groups[1].Value;
 			for (int i = 0; i < 5 && string.IsNullOrEmpty(placeId); i++)
 			{
-				using HttpResponseMessage response = await _noRedirectClient.GetAsync(current, HttpCompletionOption.ResponseHeadersRead, redirectCts.Token);
+				using HttpResponseMessage response = await _noRedirectClient.GetAsync(
+					current,
+					HttpCompletionOption.ResponseHeadersRead,
+					redirectCts.Token
+				);
 				Uri? location = response.Headers.Location;
 				if (location == null)
 					break;
 				current = location.IsAbsoluteUri ? location : new Uri(current, location);
-				if (current.Scheme != Uri.UriSchemeHttps || (!current.Host.Equals("roblox.com", StringComparison.OrdinalIgnoreCase) && !current.Host.EndsWith(".roblox.com", StringComparison.OrdinalIgnoreCase)))
+				if (
+					current.Scheme != Uri.UriSchemeHttps
+					|| (
+						!current.Host.Equals("roblox.com", StringComparison.OrdinalIgnoreCase)
+						&& !current.Host.EndsWith(".roblox.com", StringComparison.OrdinalIgnoreCase)
+					)
+				)
 					return ("", "");
 				Match match = GamePathPattern.Match(current.AbsolutePath);
 				if (match.Success)
@@ -292,21 +375,35 @@ public partial class ShortcutsPage : UiPage{
 		{
 			return null;
 		}
-		string url = "https://thumbnails.roblox.com/v1/places/gameicons?placeIds=" + Uri.EscapeDataString(gameId.Trim()) + "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false";
+		string url =
+			"https://thumbnails.roblox.com/v1/places/gameicons?placeIds="
+			+ Uri.EscapeDataString(gameId.Trim())
+			+ "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false";
 		using CancellationTokenSource requestCts = new CancellationTokenSource(TimeSpan.FromSeconds(12));
 		for (int i = 0; i < 3; i++)
 		{
 			try
 			{
 				using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
-				using HttpResponseMessage response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, requestCts.Token).ConfigureAwait(continueOnCapturedContext: false);
+				using HttpResponseMessage response = await _httpClient
+					.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, requestCts.Token)
+					.ConfigureAwait(continueOnCapturedContext: false);
 				response.EnsureSuccessStatusCode();
-				string json = await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, 262144, requestCts.Token).ConfigureAwait(false);
+				string json = await Voidstrap
+					.Utility.Http.ReadStringBoundedAsync(response.Content, 262144, requestCts.Token)
+					.ConfigureAwait(false);
 				using JsonDocument doc = JsonDocument.Parse(json);
-				if (!doc.RootElement.TryGetProperty("data", out JsonElement property) || property.ValueKind != JsonValueKind.Array || property.GetArrayLength() == 0)
+				if (
+					!doc.RootElement.TryGetProperty("data", out JsonElement property)
+					|| property.ValueKind != JsonValueKind.Array
+					|| property.GetArrayLength() == 0
+				)
 					return null;
 				JsonElement first = property[0];
-				if ((first.TryGetProperty("state", out var value) ? value.GetString() : null) == "Completed" && first.TryGetProperty("imageUrl", out var value2))
+				if (
+					(first.TryGetProperty("state", out var value) ? value.GetString() : null) == "Completed"
+					&& first.TryGetProperty("imageUrl", out var value2)
+				)
 					return value2.GetString();
 			}
 			catch (Exception ex)
@@ -339,10 +436,17 @@ public partial class ShortcutsPage : UiPage{
 			Directory.CreateDirectory(text);
 			using CancellationTokenSource imageCts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
 			using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, imageUrl);
-			using HttpResponseMessage response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, imageCts.Token).ConfigureAwait(false);
+			using HttpResponseMessage response = await _httpClient
+				.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, imageCts.Token)
+				.ConfigureAwait(false);
 			response.EnsureSuccessStatusCode();
-			byte[] imageBytes = await Voidstrap.Utility.Http.ReadBytesBoundedAsync(response.Content, 4 * 1024 * 1024, imageCts.Token).ConfigureAwait(false);
-			if (!Voidstrap.Utility.Raster.TryIdentify(imageBytes, out int imageWidth, out int imageHeight) || (long)imageWidth * imageHeight > 16_777_216)
+			byte[] imageBytes = await Voidstrap
+				.Utility.Http.ReadBytesBoundedAsync(response.Content, 4 * 1024 * 1024, imageCts.Token)
+				.ConfigureAwait(false);
+			if (
+				!Voidstrap.Utility.Raster.TryIdentify(imageBytes, out int imageWidth, out int imageHeight)
+				|| (long)imageWidth * imageHeight > 16_777_216
+			)
 				throw new InvalidDataException("Game icon dimensions are invalid");
 			string iconId = Convert.ToHexString(SHA256.HashData(imageBytes))[..12];
 			string iconPath = Path.Combine(text, baseName + "_" + iconId + ".ico");
@@ -352,7 +456,10 @@ public partial class ShortcutsPage : UiPage{
 				File.WriteAllBytes(portablePath, Voidstrap.Utility.Raster.Decode(imageBytes).EncodePng());
 				return portablePath;
 			}
-			byte[] payload = Voidstrap.Utility.Raster.Decode(imageBytes).ResizeToPad(256, 256, Voidstrap.Utility.RasterFilter.Lanczos3).EncodePng();
+			byte[] payload = Voidstrap
+				.Utility.Raster.Decode(imageBytes)
+				.ResizeToPad(256, 256, Voidstrap.Utility.RasterFilter.Lanczos3)
+				.EncodePng();
 			using FileStream output = new FileStream(iconPath, FileMode.Create, FileAccess.Write, FileShare.None);
 			using BinaryWriter writer = new BinaryWriter(output);
 			writer.Write((ushort)0);
@@ -376,6 +483,6 @@ public partial class ShortcutsPage : UiPage{
 		}
 	}
 
-    [GeneratedRegex("/games/(\\d+)(?:/|$)", RegexOptions.IgnoreCase, "en-US")]
-    private static partial Regex GamePathPattern { get; }
+	[GeneratedRegex("/games/(\\d+)(?:/|$)", RegexOptions.IgnoreCase, "en-US")]
+	private static partial Regex GamePathPattern { get; }
 }

@@ -18,7 +18,8 @@ using Voidstrap.UI.ViewModels.Bootstrapper;
 
 namespace Voidstrap.UI.Elements.Bootstrapper;
 
-public partial class ByfronDialog : Window,IBootstrapperDialog{
+public partial class ByfronDialog : Window, IBootstrapperDialog
+{
 	private readonly ByfronDialogViewModel _viewModel;
 
 	private Window? _mainWindow;
@@ -29,10 +30,7 @@ public partial class ByfronDialog : Window,IBootstrapperDialog{
 
 	public string Message
 	{
-		get
-		{
-			return _viewModel.Message;
-		}
+		get { return _viewModel.Message; }
 		set
 		{
 			string text = value;
@@ -65,10 +63,7 @@ public partial class ByfronDialog : Window,IBootstrapperDialog{
 
 	public int ProgressMaximum
 	{
-		get
-		{
-			return _viewModel.ProgressMaximum;
-		}
+		get { return _viewModel.ProgressMaximum; }
 		set
 		{
 			_viewModel.ProgressMaximum = value;
@@ -78,10 +73,7 @@ public partial class ByfronDialog : Window,IBootstrapperDialog{
 
 	public int ProgressValue
 	{
-		get
-		{
-			return _viewModel.ProgressValue;
-		}
+		get { return _viewModel.ProgressValue; }
 		set
 		{
 			_viewModel.ProgressValue = value;
@@ -91,10 +83,7 @@ public partial class ByfronDialog : Window,IBootstrapperDialog{
 
 	public TaskbarItemProgressState TaskbarProgressState
 	{
-		get
-		{
-			return _viewModel.TaskbarProgressState;
-		}
+		get { return _viewModel.TaskbarProgressState; }
 		set
 		{
 			_viewModel.TaskbarProgressState = value;
@@ -104,10 +93,7 @@ public partial class ByfronDialog : Window,IBootstrapperDialog{
 
 	public double TaskbarProgressValue
 	{
-		get
-		{
-			return _viewModel.TaskbarProgressValue;
-		}
+		get { return _viewModel.TaskbarProgressValue; }
 		set
 		{
 			_viewModel.TaskbarProgressValue = value;
@@ -119,10 +105,7 @@ public partial class ByfronDialog : Window,IBootstrapperDialog{
 
 	public bool CancelEnabled
 	{
-		get
-		{
-			return _viewModel.CancelEnabled;
-		}
+		get { return _viewModel.CancelEnabled; }
 		set
 		{
 			_viewModel.CancelEnabled = value;
@@ -146,7 +129,9 @@ public partial class ByfronDialog : Window,IBootstrapperDialog{
 			_viewModel.Foreground = new SolidColorBrush(Color.FromRgb(57, 59, 61));
 			_viewModel.IconColor = new SolidColorBrush(Color.FromRgb(57, 59, 61));
 			_viewModel.ProgressBarBackground = new SolidColorBrush(Color.FromRgb(189, 190, 190));
-			_viewModel.ByfronLogoLocation = Voidstrap.Utility.SafeImaging.FromUri(new Uri("pack://application:,,,/Resources/BootstrapperStyles/ByfronDialog/ByfronLogoLight.jpg"));
+			_viewModel.ByfronLogoLocation = Voidstrap.Utility.SafeImaging.FromUri(
+				new Uri("pack://application:,,,/Resources/BootstrapperStyles/ByfronDialog/ByfronLogoLight.jpg")
+			);
 		}
 		Voidstrap.UI.RoundedWindowChrome.Prepare(this);
 		InitializeComponent();
@@ -174,7 +159,11 @@ public partial class ByfronDialog : Window,IBootstrapperDialog{
 	{
 		if (!_isClosing)
 		{
-			try { CancelCallback?.Invoke(); } catch { }
+			try
+			{
+				CancelCallback?.Invoke();
+			}
+			catch { }
 			Bootstrapper?.Cancel();
 		}
 	}

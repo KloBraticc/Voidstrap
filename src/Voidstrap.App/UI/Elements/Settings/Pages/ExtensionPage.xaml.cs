@@ -87,7 +87,8 @@ public partial class ExtensionPage : UiPage
 
 	private void ShowRiShadeKey(string? status)
 	{
-		Voidstrap.Models.Persistable.OverlayShortcut shortcut = App.Settings.Prop.RiShadeOverlayShortcut ??= new Voidstrap.Models.Persistable.OverlayShortcut { Modifiers = 0, Key = 0x24 };
+		Voidstrap.Models.Persistable.OverlayShortcut shortcut = App.Settings.Prop.RiShadeOverlayShortcut ??=
+			new Voidstrap.Models.Persistable.OverlayShortcut { Modifiers = 0, Key = 0x24 };
 		RiShadeKeyText.Text = shortcut.Describe();
 		RiShadeKeyBox.SetResourceReference(Border.BorderBrushProperty, "ControlStrokeColorDefaultBrush");
 		RiShadeKeyStatus.Text = status ?? string.Empty;
@@ -115,15 +116,24 @@ public partial class ExtensionPage : UiPage
 		{
 			System.Windows.Input.Key.System => e.SystemKey,
 			System.Windows.Input.Key.ImeProcessed => e.ImeProcessedKey,
-			_ => e.Key
+			_ => e.Key,
 		};
 		if (key == System.Windows.Input.Key.Escape)
 		{
 			StopRiShadeKeyRecording();
 			return;
 		}
-		if (key is System.Windows.Input.Key.LeftCtrl or System.Windows.Input.Key.RightCtrl or System.Windows.Input.Key.LeftAlt or System.Windows.Input.Key.RightAlt
-			or System.Windows.Input.Key.LeftShift or System.Windows.Input.Key.RightShift or System.Windows.Input.Key.LWin or System.Windows.Input.Key.RWin)
+		if (
+			key
+			is System.Windows.Input.Key.LeftCtrl
+				or System.Windows.Input.Key.RightCtrl
+				or System.Windows.Input.Key.LeftAlt
+				or System.Windows.Input.Key.RightAlt
+				or System.Windows.Input.Key.LeftShift
+				or System.Windows.Input.Key.RightShift
+				or System.Windows.Input.Key.LWin
+				or System.Windows.Input.Key.RWin
+		)
 			return;
 		System.Windows.Input.ModifierKeys held = System.Windows.Input.Keyboard.Modifiers;
 		uint modifiers = 0;
@@ -189,7 +199,16 @@ public partial class ExtensionPage : UiPage
 			ApplyAssetFilter();
 			return;
 		}
-		if (e.PropertyName is "rishadeenabler" or "apidumpenabler" or "communitycontentenabler" or "rojoenabler" or "studiopluginenabler" or nameof(ExtensionViewModel.SwiftTunnelInstalled) or nameof(ExtensionViewModel.SwiftTunnelBusy))
+		if (
+			e.PropertyName
+			is "rishadeenabler"
+				or "apidumpenabler"
+				or "communitycontentenabler"
+				or "rojoenabler"
+				or "studiopluginenabler"
+				or nameof(ExtensionViewModel.SwiftTunnelInstalled)
+				or nameof(ExtensionViewModel.SwiftTunnelBusy)
+		)
 		{
 			foreach (ExtensionEntry asset in _assets)
 				asset.RefreshEnabled();
@@ -205,10 +224,13 @@ public partial class ExtensionPage : UiPage
 
 	private void RiShadePanel_OpenChanged(bool open)
 	{
-		Dispatcher.BeginInvoke((Action)delegate
-		{
-			_vm.RiShadeOpenLabel = open ? "Close" : "Open";
-		});
+		Dispatcher.BeginInvoke(
+			(Action)
+				delegate
+				{
+					_vm.RiShadeOpenLabel = open ? "Close" : "Open";
+				}
+		);
 	}
 
 	private void ApplyAssetFilter()
@@ -217,8 +239,13 @@ public partial class ExtensionPage : UiPage
 		string type = _vm.SelectedExtensionType;
 		foreach (ExtensionEntry asset in _assets)
 		{
-			bool show = (type == ExtensionViewModel.TypeAll || asset.Type == type)
-				&& (query.Length == 0 || asset.SearchText.Contains(query, StringComparison.OrdinalIgnoreCase) || asset.Name.Contains(query, StringComparison.OrdinalIgnoreCase));
+			bool show =
+				(type == ExtensionViewModel.TypeAll || asset.Type == type)
+				&& (
+					query.Length == 0
+					|| asset.SearchText.Contains(query, StringComparison.OrdinalIgnoreCase)
+					|| asset.Name.Contains(query, StringComparison.OrdinalIgnoreCase)
+				);
 			asset.Visible = show;
 		}
 	}
@@ -268,14 +295,23 @@ public partial class ExtensionPage : UiPage
 		DetailTabs.SelectedIndex = 0;
 		OpenDetail();
 		Voidstrap.UI.BreadcrumbHeader.Set(this, asset.Name);
-		Voidstrap.Integrations.VoidstrapPresence.Set(new Voidstrap.Integrations.VoidstrapPresenceContext(
-			nameof(ExtensionPage),
-			Voidstrap.Utility.RpcText.Mark("Viewing") + " " + asset.Name,
-			!string.IsNullOrWhiteSpace(asset.Summary) ? Voidstrap.Utility.RpcText.Mark(asset.Summary) : string.IsNullOrWhiteSpace(asset.Author) ? Voidstrap.Utility.RpcText.Mark("A Voidstrap extension") : Voidstrap.Utility.RpcText.Mark("Made by") + " " + asset.Author,
-			Voidstrap.Integrations.VoidstrapPresence.WebIcon(asset.Icon, asset.Id == "swifttunnel" ? "https://github.com/Swift-tunnel.png" : Voidstrap.Utility.Branding.RpcLogoUrl),
-			asset.Name + (string.IsNullOrWhiteSpace(asset.Author) ? "" : " " + Voidstrap.Utility.RpcText.Mark("by") + " " + asset.Author),
-			Voidstrap.Utility.RpcText.Mark("View extension"),
-			asset.Source));
+		Voidstrap.Integrations.VoidstrapPresence.Set(
+			new Voidstrap.Integrations.VoidstrapPresenceContext(
+				nameof(ExtensionPage),
+				Voidstrap.Utility.RpcText.Mark("Viewing") + " " + asset.Name,
+				!string.IsNullOrWhiteSpace(asset.Summary) ? Voidstrap.Utility.RpcText.Mark(asset.Summary)
+					: string.IsNullOrWhiteSpace(asset.Author) ? Voidstrap.Utility.RpcText.Mark("A Voidstrap extension")
+					: Voidstrap.Utility.RpcText.Mark("Made by") + " " + asset.Author,
+				Voidstrap.Integrations.VoidstrapPresence.WebIcon(
+					asset.Icon,
+					asset.Id == "swifttunnel" ? "https://github.com/Swift-tunnel.png" : Voidstrap.Utility.Branding.RpcLogoUrl
+				),
+				asset.Name
+					+ (string.IsNullOrWhiteSpace(asset.Author) ? "" : " " + Voidstrap.Utility.RpcText.Mark("by") + " " + asset.Author),
+				Voidstrap.Utility.RpcText.Mark("View extension"),
+				asset.Source
+			)
+		);
 	}
 
 	private void RefreshDetailButtons(object item)
@@ -293,7 +329,7 @@ public partial class ExtensionPage : UiPage
 			{
 				"rishade" => _vm.RiShadeOpenLabel,
 				"community" => "Update now",
-				_ => "Open"
+				_ => "Open",
 			};
 			DetailStatus.Text = asset.StatusLabel;
 		}
@@ -315,7 +351,9 @@ public partial class ExtensionPage : UiPage
 				continue;
 			try
 			{
-				List<Voidstrap.Models.APIs.GitHub.GithubRelease>? releases = await GitHubCache.GetJsonAsync<List<Voidstrap.Models.APIs.GitHub.GithubRelease>>("https://api.github.com/repos/" + asset.GitHubRepo + "/releases?per_page=10", TimeSpan.FromMinutes(30));
+				List<Voidstrap.Models.APIs.GitHub.GithubRelease>? releases = await GitHubCache.GetJsonAsync<
+					List<Voidstrap.Models.APIs.GitHub.GithubRelease>
+				>("https://api.github.com/repos/" + asset.GitHubRepo + "/releases?per_page=10", TimeSpan.FromMinutes(30));
 				asset.ApplyReleases(releases);
 			}
 			catch (Exception ex)
@@ -340,7 +378,9 @@ public partial class ExtensionPage : UiPage
 		bool loaded = false;
 		try
 		{
-			List<Voidstrap.Models.APIs.GitHub.GithubRelease>? releases = await GitHubCache.GetJsonAsync<List<Voidstrap.Models.APIs.GitHub.GithubRelease>>("https://api.github.com/repos/" + asset.GitHubRepo + "/releases?per_page=10", TimeSpan.FromMinutes(30));
+			List<Voidstrap.Models.APIs.GitHub.GithubRelease>? releases = await GitHubCache.GetJsonAsync<
+				List<Voidstrap.Models.APIs.GitHub.GithubRelease>
+			>("https://api.github.com/repos/" + asset.GitHubRepo + "/releases?per_page=10", TimeSpan.FromMinutes(30));
 			if (releases != null)
 			{
 				loaded = true;
@@ -350,8 +390,16 @@ public partial class ExtensionPage : UiPage
 					if (release.Draft || string.IsNullOrEmpty(release.TagName))
 						continue;
 					string title = string.IsNullOrWhiteSpace(release.Name) ? release.TagName : release.Name;
-					string when = DateTime.TryParse(release.CreatedAt, null, System.Globalization.DateTimeStyles.AdjustToUniversal, out DateTime created) ? created.ToLocalTime().ToString("d MMMM yyyy") : "";
-					string meta = release.TagName + (when.Length > 0 ? ", published " + when : "") + (release.Prerelease ? ", pre release" : "");
+					string when = DateTime.TryParse(
+						release.CreatedAt,
+						null,
+						System.Globalization.DateTimeStyles.AdjustToUniversal,
+						out DateTime created
+					)
+						? created.ToLocalTime().ToString("d MMMM yyyy")
+						: "";
+					string meta =
+						release.TagName + (when.Length > 0 ? ", published " + when : "") + (release.Prerelease ? ", pre release" : "");
 					rows.Add(new ReleaseRow(title, meta, "https://github.com/" + asset.GitHubRepo + "/releases/tag/" + release.TagName));
 				}
 			}
@@ -363,7 +411,10 @@ public partial class ExtensionPage : UiPage
 		if (generation != Volatile.Read(ref _releaseGeneration) || !ReferenceEquals(_detailItem, asset))
 			return;
 		DetailReleases.ItemsSource = rows;
-		DetailVersionsNote.Text = rows.Count > 0 ? "Releases from " + asset.GitHubRepo + " on GitHub." : loaded ? "No releases have been published on GitHub yet." : "Releases could not be loaded from GitHub right now.";
+		DetailVersionsNote.Text =
+			rows.Count > 0 ? "Releases from " + asset.GitHubRepo + " on GitHub."
+			: loaded ? "No releases have been published on GitHub yet."
+			: "Releases could not be loaded from GitHub right now.";
 	}
 
 	private void OpenRelease_Click(object sender, RoutedEventArgs e)
@@ -377,11 +428,13 @@ public partial class ExtensionPage : UiPage
 		panel.Children.Clear();
 		foreach (string value in values)
 		{
-			panel.Children.Add(new Border
-			{
-				Style = (Style)FindResource("Chip"),
-				Child = new TextBlock { Style = (Style)FindResource("ChipText"), Text = value }
-			});
+			panel.Children.Add(
+				new Border
+				{
+					Style = (Style)FindResource("Chip"),
+					Child = new TextBlock { Style = (Style)FindResource("ChipText"), Text = value },
+				}
+			);
 		}
 	}
 
@@ -398,9 +451,8 @@ public partial class ExtensionPage : UiPage
 
 	private void UpdateInstallerBackButtonVisibility()
 	{
-		InstallerBackButton.Visibility = Window.GetWindow(this) is Voidstrap.UI.Elements.Installer.MainWindow
-			? Visibility.Visible
-			: Visibility.Collapsed;
+		InstallerBackButton.Visibility =
+			Window.GetWindow(this) is Voidstrap.UI.Elements.Installer.MainWindow ? Visibility.Visible : Visibility.Collapsed;
 	}
 
 	private void OpenDetail()
@@ -460,15 +512,14 @@ public partial class ExtensionPage : UiPage
 	private void RefreshRiShadePresets()
 	{
 		string? selectedPath = Voidstrap.Integrations.RiShade.RiShadePanel.PreferredPresetPath;
-		var presets = Voidstrap.Integrations.RiShade.RiShadePanel.AvailablePresets
-			.Select(path => new RiShadePresetEntry(path))
-			.ToList();
+		var presets = Voidstrap.Integrations.RiShade.RiShadePanel.AvailablePresets.Select(path => new RiShadePresetEntry(path)).ToList();
 		_refreshingRiShadePresets = true;
 		try
 		{
 			RiShadePresetPicker.ItemsSource = presets;
 			RiShadePresetPicker.SelectedItem = presets.FirstOrDefault(preset =>
-				string.Equals(preset.Path, selectedPath, StringComparison.OrdinalIgnoreCase));
+				string.Equals(preset.Path, selectedPath, StringComparison.OrdinalIgnoreCase)
+			);
 		}
 		finally
 		{
@@ -555,7 +606,9 @@ public partial class ExtensionPage : UiPage
 		if (!success)
 			ShowRiShadeDlssStatus(string.Format(Voidstrap.Resources.Strings.Ui_RiShade_Dlss_Failed, message));
 		else
-			ShowRiShadeDlssStatus(enable ? Voidstrap.Resources.Strings.Ui_RiShade_Dlss_Ready : Voidstrap.Resources.Strings.Ui_RiShade_Dlss_Removed);
+			ShowRiShadeDlssStatus(
+				enable ? Voidstrap.Resources.Strings.Ui_RiShade_Dlss_Ready : Voidstrap.Resources.Strings.Ui_RiShade_Dlss_Removed
+			);
 	}
 
 	private void RiShadePreset_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -564,7 +617,9 @@ public partial class ExtensionPage : UiPage
 			return;
 		bool live = Voidstrap.Integrations.RiShade.RiShadePanel.HasRuntime;
 		if (Voidstrap.Integrations.RiShade.RiShadePanel.SelectPreset(preset.Path))
-			ShowRiShadePresetStatus(live ? Voidstrap.Resources.Strings.Ui_RiShade_Preset_Applied : Voidstrap.Resources.Strings.Ui_RiShade_Preset_Saved);
+			ShowRiShadePresetStatus(
+				live ? Voidstrap.Resources.Strings.Ui_RiShade_Preset_Applied : Voidstrap.Resources.Strings.Ui_RiShade_Preset_Saved
+			);
 		else
 			ShowRiShadePresetStatus(Voidstrap.Resources.Strings.Ui_RiShade_Preset_Failed);
 	}

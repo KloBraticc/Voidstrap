@@ -1,11 +1,12 @@
-using System.Runtime.InteropServices;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using Voidstrap.Extensions;
 using Voidstrap.Integrations;
 using Voidstrap.Models;
 using Voidstrap.UI;
@@ -13,7 +14,6 @@ using Voidstrap.UI.Elements.Crosshair;
 using Voidstrap.UI.Elements.Overlay;
 using Voidstrap.UI.ViewModels.Settings;
 using Voidstrap.Utility;
-using Voidstrap.Extensions;
 
 namespace Voidstrap;
 
@@ -21,7 +21,10 @@ public partial class Watcher : IDisposable
 {
 	private const int MaximumSettingsBytes = 4 * 1024 * 1024;
 
-	private readonly InterProcessLock _lock = new InterProcessLock("Watcher", App.LaunchSettings.MatchmakerRejoinFlag.Active ? TimeSpan.FromSeconds(15) : TimeSpan.FromSeconds(5));
+	private readonly InterProcessLock _lock = new InterProcessLock(
+		"Watcher",
+		App.LaunchSettings.MatchmakerRejoinFlag.Active ? TimeSpan.FromSeconds(15) : TimeSpan.FromSeconds(5)
+	);
 
 	private readonly WatcherData? _watcherData;
 	private Process? _robloxClientProcess;
@@ -55,7 +58,6 @@ public partial class Watcher : IDisposable
 	private FileSystemWatcher? _settingsWatcher;
 
 	private Timer? _settingsReloadTimer;
-
 
 	private bool _activityTrackingEnabled;
 	private bool _overlayGameStateEnabled;
@@ -149,7 +151,10 @@ public partial class Watcher : IDisposable
 				ServerMatchmaker = new ServerMatchmaker(ActivityWatcher, this);
 			}
 		}
-		if ((enableActivityTracking || App.LaunchSettings.TestModeFlag.Active || inGameHotkeys) && Voidstrap.Utility.Platform.SupportsTrayIcon)
+		if (
+			(enableActivityTracking || App.LaunchSettings.TestModeFlag.Active || inGameHotkeys)
+			&& Voidstrap.Utility.Platform.SupportsTrayIcon
+		)
 			_notifyIcon = new NotifyIconWrapper(this);
 		if (ServerMatchmaker != null)
 			ServerMatchmaker.NotifyIconResolver = () => _notifyIcon;
@@ -162,7 +167,7 @@ public partial class Watcher : IDisposable
 			_settingsReloadTimer = new Timer(SettingsReloadTimerCallback, null, Timeout.Infinite, Timeout.Infinite);
 			_settingsWatcher = new FileSystemWatcher(Paths.Config, "AppSettings.json")
 			{
-				NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size | NotifyFilters.CreationTime | NotifyFilters.FileName
+				NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size | NotifyFilters.CreationTime | NotifyFilters.FileName,
 			};
 			_settingsWatcher.Changed += SettingsFileChanged;
 			_settingsWatcher.Created += SettingsFileChanged;
@@ -233,9 +238,7 @@ public partial class Watcher : IDisposable
 		{
 			_settingsReloadTimer?.Change(500, Timeout.Infinite);
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 	}
 
 	private void SettingsReloadTimerCallback(object? state)
@@ -338,7 +341,12 @@ public partial class Watcher : IDisposable
 
 	private void UpdateVirtualDisplay()
 	{
-		if (_disposed || !Voidstrap.Utility.Platform.IsMacOS || !App.Settings.Prop.MacVirtualDisplayEnabled || App.Settings.Prop.LaunchWithoutVoidstrap)
+		if (
+			_disposed
+			|| !Voidstrap.Utility.Platform.IsMacOS
+			|| !App.Settings.Prop.MacVirtualDisplayEnabled
+			|| App.Settings.Prop.LaunchWithoutVoidstrap
+		)
 		{
 			_virtualDisplay?.Dispose();
 			_virtualDisplay = null;
@@ -446,7 +454,7 @@ public partial class Watcher : IDisposable
 		if (_notifyIcon == null)
 		{
 			if (Voidstrap.Utility.Platform.SupportsTrayIcon)
-			_notifyIcon = new NotifyIconWrapper(this);
+				_notifyIcon = new NotifyIconWrapper(this);
 		}
 		else
 		{
@@ -484,8 +492,8 @@ public partial class Watcher : IDisposable
 		}
 	}
 
-	internal static bool NeedsInGameHotkeys => Voidstrap.Utility.Platform.IsWindows
-		&& (App.Settings.Prop.RiShadeEnabled || App.Settings.Prop.CrosshairShortcutEnabled);
+	internal static bool NeedsInGameHotkeys =>
+		Voidstrap.Utility.Platform.IsWindows && (App.Settings.Prop.RiShadeEnabled || App.Settings.Prop.CrosshairShortcutEnabled);
 
 	internal static bool OverlaysNeedGameState()
 	{
@@ -517,7 +525,8 @@ public partial class Watcher : IDisposable
 	{
 		if (Voidstrap.Utility.Platform.IsLinux && ActivityWatcher != null)
 			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(
-				ActivityWatcher.InGame || ActivityWatcher.IsTeleporting || ActivityWatcher.Data.PlaceId != 0);
+				ActivityWatcher.InGame || ActivityWatcher.IsTeleporting || ActivityWatcher.Data.PlaceId != 0
+			);
 	}
 
 	private void OnActivityAppClose(object? sender, EventArgs e)
@@ -532,9 +541,7 @@ public partial class Watcher : IDisposable
 			using Process process = Process.GetProcessById(_watcherData.ProcessId);
 			process.CloseMainWindow();
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private void OnRuntimeGameJoin(object? sender, EventArgs e)
@@ -561,7 +568,13 @@ public partial class Watcher : IDisposable
 		{
 			ActivityWatcher? watcher = ActivityWatcher;
 			Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
-			if (watcher == null || host == null || !App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins || !App.Settings.Prop.ShowServerDetails)
+			if (
+				watcher == null
+				|| host == null
+				|| !App.Settings.Prop.VoidNotify
+				|| !App.Settings.Prop.NotifyGameJoins
+				|| !App.Settings.Prop.ShowServerDetails
+			)
 				return;
 			string? location = await watcher.Data.QueryServerLocation();
 			if (string.IsNullOrEmpty(location))
@@ -569,11 +582,16 @@ public partial class Watcher : IDisposable
 			string caption = watcher.Data.ServerType switch
 			{
 				Voidstrap.Enums.ServerType.Private => Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Title_Private,
-				Voidstrap.Enums.ServerType.Reserved => Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Title_Reserved,
+				Voidstrap.Enums.ServerType.Reserved => Voidstrap
+					.Resources
+					.Strings
+					.ContextMenu_ServerInformation_Notification_Title_Reserved,
 				_ => Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Title_Public,
 			};
 			string message = string.Format(Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Text, location);
-			Voidstrap.Platform.OperationResult result = await host.Notifications.ShowAsync(new Voidstrap.Platform.NotificationRequest(caption, message));
+			Voidstrap.Platform.OperationResult result = await host.Notifications.ShowAsync(
+				new Voidstrap.Platform.NotificationRequest(caption, message)
+			);
 			App.Logger.WriteLine("Watcher::NotifyMacGameJoinAsync", "Game join notification: " + result.Succeeded);
 		}
 		catch (Exception ex)
@@ -589,7 +607,7 @@ public partial class Watcher : IDisposable
 		{
 			["placeId"] = data?.PlaceId ?? 0,
 			["universeId"] = data?.UniverseId ?? 0,
-			["jobId"] = data?.JobId ?? ""
+			["jobId"] = data?.JobId ?? "",
 		};
 	}
 
@@ -735,9 +753,7 @@ public partial class Watcher : IDisposable
 				{
 					process.Dispose();
 				}
-				catch
-				{
-				}
+				catch { }
 			}
 			return result;
 		}
@@ -808,7 +824,10 @@ public partial class Watcher : IDisposable
 				{
 					if (!await RobloxExitsSoonAsync().ConfigureAwait(false))
 					{
-						App.Logger.WriteLine("Watcher::MonitorModCrash", "Roblox wrote a crash report but kept running, so it was not treated as a crash");
+						App.Logger.WriteLine(
+							"Watcher::MonitorModCrash",
+							"Roblox wrote a crash report but kept running, so it was not treated as a crash"
+						);
 						sessionStartedUtc = DateTime.UtcNow.AddSeconds(3);
 						continue;
 					}
@@ -823,9 +842,7 @@ public partial class Watcher : IDisposable
 				}
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine("Watcher::MonitorModCrash", "The crash guard stopped: " + ex.Message);
@@ -886,19 +903,24 @@ public partial class Watcher : IDisposable
 						if (!handler.HasExited && handler.StartTime.ToUniversalTime() >= sessionStartedUtc.AddSeconds(-2))
 						{
 							handler.Kill();
-							App.Logger.WriteLine("Watcher::DisableCrashHandler", "Closed CrashHandler " + handler.Id + " after the startup safety delay");
+							App.Logger.WriteLine(
+								"Watcher::DisableCrashHandler",
+								"Closed CrashHandler " + handler.Id + " after the startup safety delay"
+							);
 						}
 					}
-					catch (Exception ex) when (ex is InvalidOperationException or System.ComponentModel.Win32Exception or NotSupportedException)
+					catch (Exception ex)
+						when (ex is InvalidOperationException or System.ComponentModel.Win32Exception or NotSupportedException)
 					{
-						App.Logger.WriteLine("Watcher::DisableCrashHandler", "CrashHandler " + handler.Id + " could not be closed: " + ex.Message);
+						App.Logger.WriteLine(
+							"Watcher::DisableCrashHandler",
+							"CrashHandler " + handler.Id + " could not be closed: " + ex.Message
+						);
 					}
 				}
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or System.ComponentModel.Win32Exception)
 		{
 			App.Logger.WriteLine("Watcher::DisableCrashHandler", "The crash handler check stopped: " + ex.Message);
@@ -909,7 +931,10 @@ public partial class Watcher : IDisposable
 	{
 		if (disabled.Count == 0)
 		{
-			Frontend.ShowMessageBox("Roblox crashed while starting. None of your recently added mods look responsible, so nothing was turned off. If it keeps happening, try turning off recent mods in My Mods.", MessageBoxImage.Warning);
+			Frontend.ShowMessageBox(
+				"Roblox crashed while starting. None of your recently added mods look responsible, so nothing was turned off. If it keeps happening, try turning off recent mods in My Mods.",
+				MessageBoxImage.Warning
+			);
 			return;
 		}
 		if (_watcherData != null)
@@ -918,10 +943,13 @@ public partial class Watcher : IDisposable
 		}
 		string list = string.Join("\n", disabled.Select(name => "  " + name));
 		MessageBoxResult answer = Frontend.ShowMessageBox(
-			"Roblox crashed while loading your mods, so Voidstrap turned these off:\n\n" + list + "\n\nYou can turn them back on in My Mods. Launch Roblox again now?",
+			"Roblox crashed while loading your mods, so Voidstrap turned these off:\n\n"
+				+ list
+				+ "\n\nYou can turn them back on in My Mods. Launch Roblox again now?",
 			MessageBoxImage.Warning,
 			MessageBoxButton.YesNo,
-			MessageBoxResult.Yes);
+			MessageBoxResult.Yes
+		);
 		if (answer == MessageBoxResult.Yes)
 		{
 			RelaunchRoblox();
@@ -932,11 +960,7 @@ public partial class Watcher : IDisposable
 	{
 		try
 		{
-			ProcessStartInfo startInfo = new ProcessStartInfo
-			{
-				FileName = Paths.LaunchExecutable,
-				UseShellExecute = false
-			};
+			ProcessStartInfo startInfo = new ProcessStartInfo { FileName = Paths.LaunchExecutable, UseShellExecute = false };
 			startInfo.ArgumentList.Add("-player");
 			string launchArgs = App.LaunchSettings.RobloxLaunchArgs ?? "";
 			if (launchArgs.StartsWith("roblox", StringComparison.OrdinalIgnoreCase))
@@ -1012,7 +1036,10 @@ public partial class Watcher : IDisposable
 		}
 		catch (System.ComponentModel.Win32Exception ex)
 		{
-			App.Logger.WriteLine("Watcher::WaitForProcessExitAsync", $"Roblox process {processId} does not allow a wait handle ({ex.Message}), watching it by polling instead");
+			App.Logger.WriteLine(
+				"Watcher::WaitForProcessExitAsync",
+				$"Roblox process {processId} does not allow a wait handle ({ex.Message}), watching it by polling instead"
+			);
 		}
 		while (!token.IsCancellationRequested)
 		{
@@ -1060,11 +1087,7 @@ public partial class Watcher : IDisposable
 		}
 		try
 		{
-			ProcessStartInfo startInfo = new ProcessStartInfo
-			{
-				FileName = Paths.LaunchExecutable,
-				UseShellExecute = false
-			};
+			ProcessStartInfo startInfo = new ProcessStartInfo { FileName = Paths.LaunchExecutable, UseShellExecute = false };
 			startInfo.ArgumentList.Add("-settings");
 			startInfo.ArgumentList.Add("-testmode");
 			using Process? settingsProcess = Process.Start(startInfo);
@@ -1081,7 +1104,8 @@ public partial class Watcher : IDisposable
 		}
 	}
 
-	public static bool FullscreenModeActive => Voidstrap.Utility.Platform.IsWindows && (App.Settings.Prop.FakeBorderlessFullscreen || App.Settings.Prop.FakeExclusiveFullscreen);
+	public static bool FullscreenModeActive =>
+		Voidstrap.Utility.Platform.IsWindows && (App.Settings.Prop.FakeBorderlessFullscreen || App.Settings.Prop.FakeExclusiveFullscreen);
 
 	private static bool IsWindowManipulationEnabled()
 	{
@@ -1091,7 +1115,12 @@ public partial class Watcher : IDisposable
 		}
 
 		var prop = App.Settings.Prop;
-		if (prop.CycleTitleWithGameName || prop.UseGameIconForRobloxWindow || prop.RobloxIcon != Voidstrap.Enums.BootstrapperIcon.IconVoidstrap || Voidstrap.Utility.RobloxWindowIcons.HasOverrides)
+		if (
+			prop.CycleTitleWithGameName
+			|| prop.UseGameIconForRobloxWindow
+			|| prop.RobloxIcon != Voidstrap.Enums.BootstrapperIcon.IconVoidstrap
+			|| Voidstrap.Utility.RobloxWindowIcons.HasOverrides
+		)
 		{
 			return true;
 		}
@@ -1142,7 +1171,7 @@ public partial class Watcher : IDisposable
 
 		try
 		{
-			WatcherEnumWindowsProc callback = delegate (IntPtr hwnd, IntPtr lparam)
+			WatcherEnumWindowsProc callback = delegate(IntPtr hwnd, IntPtr lparam)
 			{
 				if (!IsWindowVisible(hwnd) || IsIconic(hwnd))
 					return true;
@@ -1184,7 +1213,11 @@ public partial class Watcher : IDisposable
 	{
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{
-			if (ActivityWatcher != null && Voidstrap.Integrations.LinuxRobloxWindow.IsEnabled && Voidstrap.Integrations.Overlays.OverlaySettings.SoberHasX11Window)
+			if (
+				ActivityWatcher != null
+				&& Voidstrap.Integrations.LinuxRobloxWindow.IsEnabled
+				&& Voidstrap.Integrations.Overlays.OverlaySettings.SoberHasX11Window
+			)
 			{
 				lock (_lifecycleGate)
 				{
@@ -1200,53 +1233,51 @@ public partial class Watcher : IDisposable
 		}
 		int pid = _watcherData.ProcessId;
 		CancellationToken token = _lifetimeCancellation.SafeToken();
-		_windowManipulationTask = Task.Run(async delegate
-		{
-			try
+		_windowManipulationTask = Task.Run(
+			async delegate
 			{
-				using Process process = Process.GetProcessById(pid);
-				IntPtr handle = IntPtr.Zero;
-				for (int i = 0; i < 120 && !token.IsCancellationRequested && !process.HasExited; i++)
+				try
 				{
-					try
+					using Process process = Process.GetProcessById(pid);
+					IntPtr handle = IntPtr.Zero;
+					for (int i = 0; i < 120 && !token.IsCancellationRequested && !process.HasExited; i++)
 					{
-						process.Refresh();
-						handle = FindRobloxGameWindow(pid);
-						if (handle == IntPtr.Zero)
-							handle = process.MainWindowHandle;
-					}
-					catch
-					{
-					}
-					if (handle != IntPtr.Zero)
-					{
-						break;
-					}
-					await Task.Delay(500, token);
-				}
-				if (!token.IsCancellationRequested && !(handle == IntPtr.Zero))
-				{
-					WindowManipulation manipulation = new WindowManipulation((long)handle, pid, ActivityWatcher);
-					lock (_lifecycleGate)
-					{
-						if (_disposed || token.IsCancellationRequested)
+						try
 						{
-							manipulation.Dispose();
-							return;
+							process.Refresh();
+							handle = FindRobloxGameWindow(pid);
+							if (handle == IntPtr.Zero)
+								handle = process.MainWindowHandle;
 						}
-						_windowManipulation = manipulation;
-						manipulation.Start();
+						catch { }
+						if (handle != IntPtr.Zero)
+						{
+							break;
+						}
+						await Task.Delay(500, token);
+					}
+					if (!token.IsCancellationRequested && !(handle == IntPtr.Zero))
+					{
+						WindowManipulation manipulation = new WindowManipulation((long)handle, pid, ActivityWatcher);
+						lock (_lifecycleGate)
+						{
+							if (_disposed || token.IsCancellationRequested)
+							{
+								manipulation.Dispose();
+								return;
+							}
+							_windowManipulation = manipulation;
+							manipulation.Start();
+						}
 					}
 				}
+				catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+				catch (Exception ex)
+				{
+					App.Logger.WriteLine("Watcher::StartWindowManipulation", "Failed: " + ex.Message);
+				}
 			}
-			catch (OperationCanceledException) when (token.IsCancellationRequested)
-			{
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine("Watcher::StartWindowManipulation", "Failed: " + ex.Message);
-			}
-		});
+		);
 	}
 
 	public void Dispose()
@@ -1272,9 +1303,7 @@ public partial class Watcher : IDisposable
 			Current = null;
 		}
 		_lifetimeCancellation.Cancel();
-		lock (_lifecycleGate)
-		{
-		}
+		lock (_lifecycleGate) { }
 		App.Logger.WriteLine("Watcher::Dispose", "Disposing Watcher");
 		try
 		{
@@ -1293,9 +1322,7 @@ public partial class Watcher : IDisposable
 			}
 			_settingsReloadTimer = null;
 		}
-		catch
-		{
-		}
+		catch { }
 		WaitForBackgroundTask(_windowManipulationTask);
 		_windowManipulationTask = null;
 		try
@@ -1303,9 +1330,7 @@ public partial class Watcher : IDisposable
 			_runtimeOptimizer?.Dispose();
 			_runtimeOptimizer = null;
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			_tasxOptimizer?.Dispose();
@@ -1313,17 +1338,13 @@ public partial class Watcher : IDisposable
 			_macTasxOptimizer?.Dispose();
 			_macTasxOptimizer = null;
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			_linuxResourceOptimizer?.Dispose();
 			_linuxResourceOptimizer = null;
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			_windowManipulation?.Dispose();
@@ -1331,49 +1352,37 @@ public partial class Watcher : IDisposable
 			_linuxRobloxWindow?.Dispose();
 			_linuxRobloxWindow = null;
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			ServerMatchmaker?.Dispose();
 			ServerMatchmaker = null;
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			HistoryPersister?.Dispose();
 			HistoryPersister = null;
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			IntegrationWatcher?.Dispose();
 			IntegrationWatcher = null;
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			_notifyIcon?.Dispose();
 			_notifyIcon = null;
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			RichPresence?.Dispose();
 			RichPresence = null;
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			if (ActivityWatcher != null)
@@ -1385,17 +1394,13 @@ public partial class Watcher : IDisposable
 			ActivityWatcher?.Dispose();
 			ActivityWatcher = null;
 		}
-		catch
-		{
-		}
+		catch { }
 		RunOnApplicationDispatcher(CloseRuntimeSessionWindows);
 		try
 		{
 			_lock.Dispose();
 		}
-		catch
-		{
-		}
+		catch { }
 		_lifetimeCancellation.Dispose();
 		MemoryManager.SetGameplayActive(false);
 		GC.SuppressFinalize(this);
@@ -1411,11 +1416,7 @@ public partial class Watcher : IDisposable
 		{
 			task.ConfigureAwait(continueOnCapturedContext: false).GetAwaiter().GetResult();
 		}
-		catch (OperationCanceledException)
-		{
-		}
-		catch
-		{
-		}
+		catch (OperationCanceledException) { }
+		catch { }
 	}
 }

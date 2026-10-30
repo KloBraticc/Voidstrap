@@ -131,7 +131,8 @@ internal static class Branding
 		while ((index = text.IndexOf(word, index, StringComparison.Ordinal)) >= 0)
 		{
 			int end = index + word.Length;
-			bool wholeWord = (index == 0 || !char.IsLetterOrDigit(text[index - 1])) && (end == text.Length || !char.IsLetterOrDigit(text[end]));
+			bool wholeWord =
+				(index == 0 || !char.IsLetterOrDigit(text[index - 1])) && (end == text.Length || !char.IsLetterOrDigit(text[end]));
 			if (wholeWord && !IsInsideName(text, index, name, word) && !IsMachineToken(text, index, end))
 			{
 				builder ??= new StringBuilder(text.Length + name.Length);
@@ -148,7 +149,11 @@ internal static class Branding
 
 	private static bool IsInsideName(string text, int index, string name, string word)
 	{
-		for (int offset = name.IndexOf(word, StringComparison.Ordinal); offset >= 0; offset = name.IndexOf(word, offset + 1, StringComparison.Ordinal))
+		for (
+			int offset = name.IndexOf(word, StringComparison.Ordinal);
+			offset >= 0;
+			offset = name.IndexOf(word, offset + 1, StringComparison.Ordinal)
+		)
 		{
 			int start = index - offset;
 			if (start >= 0 && start + name.Length <= text.Length && string.CompareOrdinal(text, start, name, 0, name.Length) == 0)
@@ -225,7 +230,11 @@ internal static class Branding
 		byte[] data = File.ReadAllBytes(path);
 		if (data.Length == 0 || data.Length > 32 * 1024 * 1024)
 			throw new InvalidDataException("The image is empty or larger than 32 MB.");
-		Raster image = Decode(data, path) ?? throw new InvalidDataException("This image format could not be read. Use a PNG, JPG, BMP, GIF, WEBP, TIFF, TGA or ICO file.");
+		Raster image =
+			Decode(data, path)
+			?? throw new InvalidDataException(
+				"This image format could not be read. Use a PNG, JPG, BMP, GIF, WEBP, TIFF, TGA or ICO file."
+			);
 		if (image.Width < 8 || image.Height < 8)
 			throw new InvalidDataException("The image is too small, use one at least 16 by 16 pixels.");
 		Directory.CreateDirectory(Folder);
@@ -266,7 +275,8 @@ internal static class Branding
 		ApplyDockIcon();
 	}
 
-	public static string MacIconPath => HasCustomIcon ? IconPngPath : Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "Resources", "Voidstrap.png"));
+	public static string MacIconPath =>
+		HasCustomIcon ? IconPngPath : Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "Resources", "Voidstrap.png"));
 
 	public static void ApplyDockIcon()
 	{

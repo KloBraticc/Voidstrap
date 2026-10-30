@@ -130,7 +130,10 @@ public class LaunchSettings
 			{
 				bool studio = directLink.Scheme.StartsWith("roblox-studio", StringComparison.OrdinalIgnoreCase);
 				App.Logger.WriteLine("LaunchSettings", studio ? "Got Roblox Studio argument" : "Got Roblox player argument");
-				RobloxLaunchMode = directLink.Scheme.Equals("roblox-studio-auth", StringComparison.OrdinalIgnoreCase) ? LaunchMode.StudioAuth : studio ? LaunchMode.Studio : LaunchMode.Player;
+				RobloxLaunchMode =
+					directLink.Scheme.Equals("roblox-studio-auth", StringComparison.OrdinalIgnoreCase) ? LaunchMode.StudioAuth
+					: studio ? LaunchMode.Studio
+					: LaunchMode.Player;
 				RobloxLaunchArgs = directLink.AbsoluteUri;
 				num = 1;
 			}
@@ -176,7 +179,11 @@ public class LaunchSettings
 	private void ParsePlayer(string? data)
 	{
 		RobloxLaunchMode = LaunchMode.Player;
-		if (RobloxDeeplink.TryExtract(data, out Uri? deeplink) && deeplink != null && !deeplink.Scheme.StartsWith("roblox-studio", StringComparison.OrdinalIgnoreCase))
+		if (
+			RobloxDeeplink.TryExtract(data, out Uri? deeplink)
+			&& deeplink != null
+			&& !deeplink.Scheme.StartsWith("roblox-studio", StringComparison.OrdinalIgnoreCase)
+		)
 		{
 			App.Logger.WriteLine("LaunchSettings::ParsePlayer", "Got Roblox launch arguments");
 			RobloxLaunchArgs = deeplink.AbsoluteUri;
@@ -194,12 +201,20 @@ public class LaunchSettings
 		{
 			App.Logger.WriteLine("LaunchSettings::ParseStudio", "No Roblox launch arguments were provided");
 		}
-		else if (RobloxDeeplink.TryExtract(data, out Uri? deeplink) && deeplink != null && deeplink.Scheme.Equals("roblox-studio", StringComparison.OrdinalIgnoreCase))
+		else if (
+			RobloxDeeplink.TryExtract(data, out Uri? deeplink)
+			&& deeplink != null
+			&& deeplink.Scheme.Equals("roblox-studio", StringComparison.OrdinalIgnoreCase)
+		)
 		{
 			App.Logger.WriteLine("LaunchSettings::ParseStudio", "Got Roblox Studio launch arguments");
 			RobloxLaunchArgs = deeplink.AbsoluteUri;
 		}
-		else if (RobloxDeeplink.TryExtract(data, out deeplink) && deeplink != null && deeplink.Scheme.Equals("roblox-studio-auth", StringComparison.OrdinalIgnoreCase))
+		else if (
+			RobloxDeeplink.TryExtract(data, out deeplink)
+			&& deeplink != null
+			&& deeplink.Scheme.Equals("roblox-studio-auth", StringComparison.OrdinalIgnoreCase)
+		)
 		{
 			App.Logger.WriteLine("LaunchSettings::ParseStudio", "Got Roblox Studio Auth launch arguments");
 			RobloxLaunchMode = LaunchMode.StudioAuth;

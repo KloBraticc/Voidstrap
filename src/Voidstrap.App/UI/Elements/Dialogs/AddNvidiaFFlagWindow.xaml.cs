@@ -109,7 +109,11 @@ public partial class AddNvidiaFFlagWindow : WpfUiWindow
             int skipped = 0;
             HashSet<uint> addedIds = new HashSet<uint>(_existingSettingIds);
 
-            foreach (XElement node in document.Descendants().Where(element => element.Name.LocalName.Equals("ProfileSetting", StringComparison.OrdinalIgnoreCase)))
+            foreach (
+                XElement node in document
+                    .Descendants()
+                    .Where(element => element.Name.LocalName.Equals("ProfileSetting", StringComparison.OrdinalIgnoreCase))
+            )
             {
                 string rawId = ChildValue(node, "SettingID");
                 if (!TryParseSettingId(rawId, out uint id) || !addedIds.Add(id))
@@ -122,18 +126,23 @@ public partial class AddNvidiaFFlagWindow : WpfUiWindow
                 string type = NormalizeValueType(ChildValue(node, "ValueType"));
                 string value = ChildValue(node, "SettingValue");
 
-                ResultEntries.Add(CreateEntry(
-                    name.Length == 0 ? "Setting " + id.ToString(CultureInfo.InvariantCulture) : name,
-                    id,
-                    value.Length == 0 ? "0" : value,
-                    type));
+                ResultEntries.Add(
+                    CreateEntry(
+                        name.Length == 0 ? "Setting " + id.ToString(CultureInfo.InvariantCulture) : name,
+                        id,
+                        value.Length == 0 ? "0" : value,
+                        type
+                    )
+                );
             }
 
             if (ResultEntries.Count == 0)
             {
-                Frontend.ShowMessageBox(skipped > 0
-                    ? "Every setting in this profile is already in the editor or invalid."
-                    : "No valid NVIDIA settings were found.");
+                Frontend.ShowMessageBox(
+                    skipped > 0
+                        ? "Every setting in this profile is already in the editor or invalid."
+                        : "No valid NVIDIA settings were found."
+                );
                 return false;
             }
 
@@ -277,7 +286,10 @@ public partial class AddNvidiaFFlagWindow : WpfUiWindow
 
     private static string ChildValue(XElement node, string name)
     {
-        return node.Elements().FirstOrDefault(element => element.Name.LocalName.Equals(name, StringComparison.OrdinalIgnoreCase))?.Value.Trim() ?? string.Empty;
+        return node.Elements()
+                .FirstOrDefault(element => element.Name.LocalName.Equals(name, StringComparison.OrdinalIgnoreCase))
+                ?.Value.Trim()
+            ?? string.Empty;
     }
 
     private static string? TryDecodeNip(string input)
@@ -377,8 +389,10 @@ public partial class AddNvidiaFFlagWindow : WpfUiWindow
             return true;
         }
 
-        if (input.StartsWith("0x", StringComparison.OrdinalIgnoreCase)
-            && uint.TryParse(input.AsSpan(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out uint parsedHexValue))
+        if (
+            input.StartsWith("0x", StringComparison.OrdinalIgnoreCase)
+            && uint.TryParse(input.AsSpan(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out uint parsedHexValue)
+        )
         {
             value = parsedHexValue.ToString(CultureInfo.InvariantCulture);
             return true;

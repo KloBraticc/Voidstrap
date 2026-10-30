@@ -21,7 +21,14 @@ public sealed class CursorSlotViewModel : NotifyPropertyChangedViewModel
 
 	private ImageSource? _preview;
 
-	public CursorSlotViewModel(CursorSlot slot, string title, string hint, Func<string?> previewPath, ICommand chooseCommand, ICommand clearCommand)
+	public CursorSlotViewModel(
+		CursorSlot slot,
+		string title,
+		string hint,
+		Func<string?> previewPath,
+		ICommand chooseCommand,
+		ICommand clearCommand
+	)
 	{
 		Slot = slot;
 		Title = title;
@@ -79,7 +86,7 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 			Pointer,
 			CreateCustomSlot(CursorSlot.ArrowFar, "Out of reach", "Shown over things too far away to click."),
 			CreateCustomSlot(CursorSlot.Text, "Text", "Shown over text boxes."),
-			Drag
+			Drag,
 		};
 		ShiftLock = CreateCustomSlot(CursorSlot.ShiftLock, "Shift lock", "Shown while shift lock is on.");
 		SetSlots = new[]
@@ -88,7 +95,7 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 			CreateSetSlot(CursorSlot.Arrow, "Pointer", "The normal mouse cursor."),
 			CreateSetSlot(CursorSlot.ArrowFar, "Out of reach", "Shown over things too far away to click."),
 			CreateSetSlot(CursorSlot.Text, "Text", "Shown over text boxes."),
-			CreateSetSlot(CursorSlot.Drag, "Drag", "Shown while dragging in Roblox Studio.")
+			CreateSetSlot(CursorSlot.Drag, "Drag", "Shown while dragging in Roblox Studio."),
 		};
 		ChooseCustomCursorCommand = new RelayCommand(ChooseCustomCursor);
 		RemoveCustomCursorCommand = new RelayCommand(RemoveCustomCursor);
@@ -175,12 +182,26 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 
 	private CursorSlotViewModel CreateCustomSlot(CursorSlot slot, string title, string hint)
 	{
-		return new CursorSlotViewModel(slot, title, hint, () => CursorManager.PreviewPath(slot), new RelayCommand(() => ChooseImage(slot)), new RelayCommand(() => ClearImage(slot)));
+		return new CursorSlotViewModel(
+			slot,
+			title,
+			hint,
+			() => CursorManager.PreviewPath(slot),
+			new RelayCommand(() => ChooseImage(slot)),
+			new RelayCommand(() => ClearImage(slot))
+		);
 	}
 
 	private CursorSlotViewModel CreateSetSlot(CursorSlot slot, string title, string hint)
 	{
-		return new CursorSlotViewModel(slot, title, hint, () => CursorManager.SetPreviewPath(_selectedSet, slot), new RelayCommand(() => ChooseSetImage(slot)), new RelayCommand(() => ClearSetImage(slot)));
+		return new CursorSlotViewModel(
+			slot,
+			title,
+			hint,
+			() => CursorManager.SetPreviewPath(_selectedSet, slot),
+			new RelayCommand(() => ChooseSetImage(slot)),
+			new RelayCommand(() => ClearSetImage(slot))
+		);
 	}
 
 	private void ChooseImage(CursorSlot slot)
@@ -188,12 +209,15 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		string? path = PickImage(slot == CursorSlot.ShiftLock ? "Choose a shift lock icon" : "Choose a cursor image");
 		if (path == null)
 			return;
-		Run("Could not use that image", () =>
-		{
-			CursorManager.SetImage(slot, path);
-			if (slot != CursorSlot.ShiftLock && !IsCustom)
-				CursorManager.ApplyStyle(CursorType.Custom);
-		});
+		Run(
+			"Could not use that image",
+			() =>
+			{
+				CursorManager.SetImage(slot, path);
+				if (slot != CursorSlot.ShiftLock && !IsCustom)
+					CursorManager.ApplyStyle(CursorType.Custom);
+			}
+		);
 		NotifyStyle();
 		RefreshSlots();
 	}
@@ -209,24 +233,30 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		string? path = PickImage("Choose your custom cursor");
 		if (path == null)
 			return;
-		Run("Could not use that image", () =>
-		{
-			foreach (CursorSlot slot in CursorManager.OneImageSlots)
-				CursorManager.SetImage(slot, path);
-			if (!IsCustom)
-				CursorManager.ApplyStyle(CursorType.Custom);
-		});
+		Run(
+			"Could not use that image",
+			() =>
+			{
+				foreach (CursorSlot slot in CursorManager.OneImageSlots)
+					CursorManager.SetImage(slot, path);
+				if (!IsCustom)
+					CursorManager.ApplyStyle(CursorType.Custom);
+			}
+		);
 		NotifyStyle();
 		RefreshSlots();
 	}
 
 	private void RemoveCustomCursor()
 	{
-		Run("Could not remove the custom cursor", () =>
-		{
-			foreach (CursorSlot slot in CursorManager.OneImageSlots)
-				CursorManager.ClearImage(slot);
-		});
+		Run(
+			"Could not remove the custom cursor",
+			() =>
+			{
+				foreach (CursorSlot slot in CursorManager.OneImageSlots)
+					CursorManager.ClearImage(slot);
+			}
+		);
 		RefreshSlots();
 	}
 
@@ -235,7 +265,9 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		string? name = _selectedSet;
 		if (name == null)
 			return;
-		string? path = PickImage(slot == CursorSlot.ShiftLock ? "Choose a shift lock icon for this set" : "Choose a cursor image for this set");
+		string? path = PickImage(
+			slot == CursorSlot.ShiftLock ? "Choose a shift lock icon for this set" : "Choose a cursor image for this set"
+		);
 		if (path == null)
 			return;
 		Run("Could not add that image to the set", () => CursorManager.SetSetImage(name, slot, path));
@@ -277,7 +309,13 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		string? name = _selectedSet;
 		if (name == null)
 			return;
-		if (Frontend.ShowMessageBox("Replace the images in \"" + name + "\" with your current custom cursor and shift lock icon?", MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+		if (
+			Frontend.ShowMessageBox(
+				"Replace the images in \"" + name + "\" with your current custom cursor and shift lock icon?",
+				MessageBoxImage.Question,
+				MessageBoxButton.YesNo
+			) != MessageBoxResult.Yes
+		)
 			return;
 		Run("Could not copy your cursor into the set", () => CursorManager.CopyCurrentToSet(name));
 		RefreshSetSlots();
@@ -301,7 +339,13 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		string? name = _selectedSet;
 		if (name == null)
 			return;
-		if (Frontend.ShowMessageBox("Delete the cursor set \"" + name + "\"? This cannot be undone.", MessageBoxImage.Warning, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+		if (
+			Frontend.ShowMessageBox(
+				"Delete the cursor set \"" + name + "\"? This cannot be undone.",
+				MessageBoxImage.Warning,
+				MessageBoxButton.YesNo
+			) != MessageBoxResult.Yes
+		)
 			return;
 		Run("Could not delete the cursor set", () => CursorManager.DeleteSet(name));
 		ReloadSets(null);
@@ -312,7 +356,7 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog
 		{
 			Title = "Import a cursor set",
-			Filter = "Zip files (*.zip)|*.zip"
+			Filter = "Zip files (*.zip)|*.zip",
 		};
 		if (dialog.ShowDialog() != true)
 			return;
@@ -331,16 +375,19 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		{
 			Title = "Export cursor set",
 			FileName = name + ".zip",
-			Filter = "Zip files (*.zip)|*.zip"
+			Filter = "Zip files (*.zip)|*.zip",
 		};
 		if (dialog.ShowDialog() != true)
 			return;
 		bool exported = false;
-		Run("Could not export the cursor set", () =>
-		{
-			CursorManager.ExportSet(name, dialog.FileName);
-			exported = true;
-		});
+		Run(
+			"Could not export the cursor set",
+			() =>
+			{
+				CursorManager.ExportSet(name, dialog.FileName);
+				exported = true;
+			}
+		);
 		if (exported)
 			PlatformShell.TryRevealFile(dialog.FileName);
 	}
@@ -395,7 +442,8 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 		Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog
 		{
 			Title = title,
-			Filter = "Images|*.png;*.jpg;*.jpeg;*.jfif;*.bmp;*.dib;*.gif;*.webp;*.tif;*.tiff;*.tga;*.ico;*.cur;*.qoi;*.pbm;*.pgm;*.ppm;*.heic;*.heif;*.avif;*.jxr;*.wdp|All files|*.*"
+			Filter =
+				"Images|*.png;*.jpg;*.jpeg;*.jfif;*.bmp;*.dib;*.gif;*.webp;*.tif;*.tiff;*.tga;*.ico;*.cur;*.qoi;*.pbm;*.pgm;*.ppm;*.heic;*.heif;*.avif;*.jxr;*.wdp|All files|*.*",
 		};
 		return dialog.ShowDialog() == true ? dialog.FileName : null;
 	}
@@ -423,8 +471,9 @@ public sealed class CursorSettingsViewModel : NotifyPropertyChangedViewModel
 
 	private static int GetSortOrder(CursorType type)
 	{
-		EnumSortAttribute? attribute = typeof(CursorType).GetField(type.ToString())?
-			.GetCustomAttributes(typeof(EnumSortAttribute), false)
+		EnumSortAttribute? attribute = typeof(CursorType)
+			.GetField(type.ToString())
+			?.GetCustomAttributes(typeof(EnumSortAttribute), false)
 			.OfType<EnumSortAttribute>()
 			.FirstOrDefault();
 		return attribute?.Order ?? 0;

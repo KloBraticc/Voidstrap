@@ -49,9 +49,7 @@ public static class FfmpegProvisioner
                 }
             }
         }
-        catch
-        {
-        }
+        catch { }
 
         if (Voidstrap.Utility.Platform.IsWindows)
         {
@@ -71,9 +69,7 @@ public static class FfmpegProvisioner
                     }
                 }
             }
-            catch
-            {
-            }
+            catch { }
         }
         else
         {
@@ -91,7 +87,10 @@ public static class FfmpegProvisioner
         return null;
     }
 
-    public static async Task<string?> EnsureAvailableAsync(Action<string>? statusCallback = null, CancellationToken cancellationToken = default)
+    public static async Task<string?> EnsureAvailableAsync(
+        Action<string>? statusCallback = null,
+        CancellationToken cancellationToken = default
+    )
     {
         string? existing = TryFindExisting();
         if (!string.IsNullOrEmpty(existing))
@@ -114,7 +113,11 @@ public static class FfmpegProvisioner
             statusCallback?.Invoke("Downloading FFmpeg encoder...");
             App.Logger.WriteLine("FfmpegProvisioner", $"Downloading FFmpeg from {url}");
 
-            using (HttpResponseMessage response = await App.HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false))
+            using (
+                HttpResponseMessage response = await App
+                    .HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+                    .ConfigureAwait(false)
+            )
             {
                 response.EnsureSuccessStatusCode();
                 await using FileStream fs = new(tempArchive, FileMode.Create, FileAccess.Write, FileShare.None, 81920, true);
@@ -136,9 +139,7 @@ public static class FfmpegProvisioner
                 if (File.Exists(tempArchive))
                     File.Delete(tempArchive);
             }
-            catch
-            {
-            }
+            catch { }
 
             if (!Voidstrap.Utility.Platform.IsWindows && File.Exists(ManagedExecutablePath))
             {
@@ -146,13 +147,16 @@ public static class FfmpegProvisioner
                 {
                     File.SetUnixFileMode(
                         ManagedExecutablePath,
-                        UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute |
-                        UnixFileMode.GroupRead | UnixFileMode.GroupExecute |
-                        UnixFileMode.OtherRead | UnixFileMode.OtherExecute);
+                        UnixFileMode.UserRead
+                            | UnixFileMode.UserWrite
+                            | UnixFileMode.UserExecute
+                            | UnixFileMode.GroupRead
+                            | UnixFileMode.GroupExecute
+                            | UnixFileMode.OtherRead
+                            | UnixFileMode.OtherExecute
+                    );
                 }
-                catch
-                {
-                }
+                catch { }
             }
 
             if (File.Exists(ManagedExecutablePath))
@@ -199,7 +203,8 @@ public static class FfmpegProvisioner
     {
         using ZipArchive archive = ZipFile.OpenRead(archivePath);
         ZipArchiveEntry? entry = archive.Entries.FirstOrDefault(e =>
-            string.Equals(e.Name, ExecutableName, StringComparison.OrdinalIgnoreCase));
+            string.Equals(e.Name, ExecutableName, StringComparison.OrdinalIgnoreCase)
+        );
         if (entry == null)
             throw new FileNotFoundException("ffmpeg executable not found inside archive");
         string tempOut = destinationPath + ".part";
@@ -215,13 +220,15 @@ public static class FfmpegProvisioner
             if (Directory.Exists(extractDir))
                 Directory.Delete(extractDir, true);
             Directory.CreateDirectory(extractDir);
-            using Process? tar = Process.Start(new ProcessStartInfo
-            {
-                FileName = "tar",
-                ArgumentList = { "-xf", archivePath, "-C", extractDir },
-                UseShellExecute = false,
-                CreateNoWindow = true
-            });
+            using Process? tar = Process.Start(
+                new ProcessStartInfo
+                {
+                    FileName = "tar",
+                    ArgumentList = { "-xf", archivePath, "-C", extractDir },
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                }
+            );
             tar?.WaitForExit(60000);
             string? found = Directory.EnumerateFiles(extractDir, "ffmpeg", SearchOption.AllDirectories).FirstOrDefault();
             if (!string.IsNullOrEmpty(found))
@@ -234,9 +241,7 @@ public static class FfmpegProvisioner
                 if (Directory.Exists(extractDir))
                     Directory.Delete(extractDir, true);
             }
-            catch
-            {
-            }
+            catch { }
         }
     }
 }

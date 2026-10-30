@@ -58,7 +58,24 @@ public static partial class ModLibrary
 
 	public sealed record LibraryFile(string Path, long Size, string Sha256);
 
-	public sealed record LibraryMod(string Id, string Name, long OwnerId, string Login, string Version, string Description, IReadOnlyList<string> Tags, IReadOnlyList<string> Network, bool HasIcon, DateTime? Created, DateTime? Updated, bool Verified, bool Trusted, int Featured, IReadOnlyList<LibraryFile> Files, IReadOnlyList<string> Permissions)
+	public sealed record LibraryMod(
+		string Id,
+		string Name,
+		long OwnerId,
+		string Login,
+		string Version,
+		string Description,
+		IReadOnlyList<string> Tags,
+		IReadOnlyList<string> Network,
+		bool HasIcon,
+		DateTime? Created,
+		DateTime? Updated,
+		bool Verified,
+		bool Trusted,
+		int Featured,
+		IReadOnlyList<LibraryFile> Files,
+		IReadOnlyList<string> Permissions
+	)
 	{
 		public bool UsesRobloxAccount => Permissions.Contains(PluginManifest.RobloxAccountPermission, StringComparer.Ordinal);
 	}
@@ -70,20 +87,22 @@ public static partial class ModLibrary
 		NotInstalled,
 		Installed,
 		UpdateAvailable,
-		NameTaken
+		NameTaken,
 	}
 
 	private static HttpClient CreateClient()
 	{
-		HttpClient client = new(new SocketsHttpHandler
+		HttpClient client = new(
+			new SocketsHttpHandler
+			{
+				UseCookies = false,
+				AllowAutoRedirect = false,
+				ConnectTimeout = TimeSpan.FromSeconds(15),
+				AutomaticDecompression = System.Net.DecompressionMethods.All,
+			}
+		)
 		{
-			UseCookies = false,
-			AllowAutoRedirect = false,
-			ConnectTimeout = TimeSpan.FromSeconds(15),
-			AutomaticDecompression = System.Net.DecompressionMethods.All
-		})
-		{
-			Timeout = TimeSpan.FromSeconds(60)
+			Timeout = TimeSpan.FromSeconds(60),
 		};
 		client.DefaultRequestHeaders.UserAgent.ParseAdd("Voidstrap");
 		return client;
@@ -142,7 +161,11 @@ public static partial class ModLibrary
 			if (id.Length is > 0 and < 120)
 				blocked[id] = reason.Length > 300 ? reason[..300] : reason;
 		}
-		return new Index(commit, mods.Where(m => !blocked.ContainsKey(m.Id)).OrderBy(m => m.Name, StringComparer.Ordinal).ToList(), blocked);
+		return new Index(
+			commit,
+			mods.Where(m => !blocked.ContainsKey(m.Id)).OrderBy(m => m.Name, StringComparer.Ordinal).ToList(),
+			blocked
+		);
 	}
 
 	private static LibraryMod ParseMod(JsonObject node)
@@ -162,8 +185,16 @@ public static partial class ModLibrary
 			string path = fileNode?["path"]?.GetValue<string>() ?? "";
 			long size = fileNode?["size"]?.GetValue<long>() ?? -1;
 			string hash = fileNode?["sha256"]?.GetValue<string>() ?? "";
-			long limit = Path.GetExtension(path).ToLowerInvariant() is ".png" or ".jpg" or ".jpeg" or ".gif" or ".webp" or ".bmp" ? MaxMediaBytes : MaxFileBytes;
-			if (!PathPattern.IsMatch(path) || path.Split('/').Any(p => p is "." or "..") || size < 0 || size > limit || !HashPattern.IsMatch(hash))
+			long limit = Path.GetExtension(path).ToLowerInvariant() is ".png" or ".jpg" or ".jpeg" or ".gif" or ".webp" or ".bmp"
+				? MaxMediaBytes
+				: MaxFileBytes;
+			if (
+				!PathPattern.IsMatch(path)
+				|| path.Split('/').Any(p => p is "." or "..")
+				|| size < 0
+				|| size > limit
+				|| !HashPattern.IsMatch(hash)
+			)
 				throw new InvalidDataException("bad file entry in " + name);
 			total += size;
 			files.Add(new LibraryFile(path, size, hash));
@@ -172,18 +203,57 @@ public static partial class ModLibrary
 			throw new InvalidDataException(name + " is outside the size limits");
 		if (!files.Any(f => f.Path == PluginManifest.ManifestFolder + "/plugin.json") || !files.Any(f => f.Path == "hooks/hooks.json"))
 			throw new InvalidDataException(name + " is missing required files");
-		List<string> network = (node["network"] as JsonArray ?? []).Select(h => h?.GetValue<string>() ?? "").Where(h => Uri.CheckHostName(h) == UriHostNameType.Dns).ToList();
+		List<string> network = (node["network"] as JsonArray ?? [])
+			.Select(h => h?.GetValue<string>() ?? "")
+			.Where(h => Uri.CheckHostName(h) == UriHostNameType.Dns)
+			.ToList();
 		string description = node["description"]?.GetValue<string>() ?? "";
 		if (description.Length > 300)
 			description = description[..300];
-		List<string> tags = (node["tags"] as JsonArray ?? []).Select(t => t?.GetValue<string>() ?? "").Where(t => t.Length is > 0 and <= 32 && t.All(c => char.IsAsciiLetterLower(c) || char.IsAsciiDigit(c) || c == '-')).Distinct().Take(5).ToList();
+		List<string> tags = (node["tags"] as JsonArray ?? [])
+			.Select(t => t?.GetValue<string>() ?? "")
+			.Where(t => t.Length is > 0 and <= 32 && t.All(c => char.IsAsciiLetterLower(c) || char.IsAsciiDigit(c) || c == '-'))
+			.Distinct()
+			.Take(5)
+			.ToList();
 		int featured = Math.Clamp(node["featured"]?.GetValue<int>() ?? 0, 0, 100);
-		return new LibraryMod(ownerId + "/" + name, name, ownerId, login, version, description, tags, network, files.Any(f => f.Path == ModFiles.IconFile), ParseDate(node["created"]), ParseDate(node["updated"]), node["verified"]?.GetValue<bool>() == true, node["trusted"]?.GetValue<bool>() == true, featured, files, (node["permissions"] as JsonArray ?? []).Select(x => x?.GetValue<string>() ?? "").Where(x => x == PluginManifest.RobloxAccountPermission).Distinct().ToList());
+		return new LibraryMod(
+			ownerId + "/" + name,
+			name,
+			ownerId,
+			login,
+			version,
+			description,
+			tags,
+			network,
+			files.Any(f => f.Path == ModFiles.IconFile),
+			ParseDate(node["created"]),
+			ParseDate(node["updated"]),
+			node["verified"]?.GetValue<bool>() == true,
+			node["trusted"]?.GetValue<bool>() == true,
+			featured,
+			files,
+			(node["permissions"] as JsonArray ?? [])
+				.Select(x => x?.GetValue<string>() ?? "")
+				.Where(x => x == PluginManifest.RobloxAccountPermission)
+				.Distinct()
+				.ToList()
+		);
 	}
 
 	private static DateTime? ParseDate(JsonNode? node)
 	{
-		return node is JsonValue value && value.TryGetValue(out string? text) && DateTime.TryParse(text, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AdjustToUniversal | System.Globalization.DateTimeStyles.AssumeUniversal, out DateTime date) ? date : null;
+		return
+			node is JsonValue value
+			&& value.TryGetValue(out string? text)
+			&& DateTime.TryParse(
+				text,
+				System.Globalization.CultureInfo.InvariantCulture,
+				System.Globalization.DateTimeStyles.AdjustToUniversal | System.Globalization.DateTimeStyles.AssumeUniversal,
+				out DateTime date
+			)
+			? date
+			: null;
 	}
 
 	public static string? GetInstalledLibraryId(string name)
@@ -191,7 +261,9 @@ public static partial class ModLibrary
 		try
 		{
 			string manifestPath = Path.Combine(Paths.Plugins, name, PluginManifest.ManifestFolder, "plugin.json");
-			return File.Exists(manifestPath) ? ((JsonNode.Parse(File.ReadAllText(manifestPath)) as JsonObject)?["library"] as JsonObject)?["id"]?.GetValue<string>() : null;
+			return File.Exists(manifestPath)
+				? ((JsonNode.Parse(File.ReadAllText(manifestPath)) as JsonObject)?["library"] as JsonObject)?["id"]?.GetValue<string>()
+				: null;
 		}
 		catch (Exception ex) when (ex is IOException or JsonException or InvalidOperationException or UnauthorizedAccessException)
 		{
@@ -239,7 +311,8 @@ public static partial class ModLibrary
 			return InstallState.NotInstalled;
 		if (installed.OwnerId != mod.OwnerId)
 			return InstallState.NameTaken;
-		return Version.TryParse(installed.Version, out Version? local) && Version.TryParse(mod.Version, out Version? remote) && remote > local
+		return
+			Version.TryParse(installed.Version, out Version? local) && Version.TryParse(mod.Version, out Version? remote) && remote > local
 			? InstallState.UpdateAvailable
 			: InstallState.Installed;
 	}
@@ -282,7 +355,10 @@ public static partial class ModLibrary
 				throw new InvalidDataException("the mod manifest name does not match the library");
 			StampLibrary(staging, mod);
 			ModFiles.Install(new ModFiles.Package(manifest, staging, staging));
-			App.Logger.WriteLine(LogIdent, (state == InstallState.UpdateAvailable ? "Updated " : "Installed ") + mod.Id + " " + mod.Version);
+			App.Logger.WriteLine(
+				LogIdent,
+				(state == InstallState.UpdateAvailable ? "Updated " : "Installed ") + mod.Id + " " + mod.Version
+			);
 		}
 		finally
 		{
@@ -299,11 +375,16 @@ public static partial class ModLibrary
 		if (!PluginHost.IsSupported)
 			return;
 		_autoUpdateTimer?.Dispose();
-		_autoUpdateTimer = new Timer(static _ =>
-		{
-			if (App.Settings.Prop.AutoUpdateLibraryMods)
-				_ = AutoUpdateInstalledModsAsync();
-		}, null, TimeSpan.FromSeconds(10), TimeSpan.FromHours(4));
+		_autoUpdateTimer = new Timer(
+			static _ =>
+			{
+				if (App.Settings.Prop.AutoUpdateLibraryMods)
+					_ = AutoUpdateInstalledModsAsync();
+			},
+			null,
+			TimeSpan.FromSeconds(10),
+			TimeSpan.FromHours(4)
+		);
 	}
 
 	public static void StopAutoUpdater()
@@ -327,14 +408,22 @@ public static partial class ModLibrary
 				string? libraryId = GetInstalledLibraryId(manifest.Name);
 				if (libraryId == null)
 					continue;
-				LibraryMod? entry = index.Mods.FirstOrDefault(m => m.Name == manifest.Name && string.Equals(m.Id, libraryId, StringComparison.Ordinal));
+				LibraryMod? entry = index.Mods.FirstOrDefault(m =>
+					m.Name == manifest.Name && string.Equals(m.Id, libraryId, StringComparison.Ordinal)
+				);
 				if (entry == null)
 					continue;
 				if (GetState(entry) != InstallState.UpdateAvailable)
 					continue;
-				if (entry.Network.Any(host => !manifest.NetworkHosts.Contains(host, StringComparer.OrdinalIgnoreCase)) || (entry.UsesRobloxAccount && !manifest.HasPermission(PluginManifest.RobloxAccountPermission)))
+				if (
+					entry.Network.Any(host => !manifest.NetworkHosts.Contains(host, StringComparer.OrdinalIgnoreCase))
+					|| (entry.UsesRobloxAccount && !manifest.HasPermission(PluginManifest.RobloxAccountPermission))
+				)
 				{
-					App.Logger.WriteLine(LogIdent, "Left " + entry.Name + " for a manual update because " + entry.Version + " asks for new access");
+					App.Logger.WriteLine(
+						LogIdent,
+						"Left " + entry.Name + " for a manual update because " + entry.Version + " asks for new access"
+					);
 					continue;
 				}
 				try
@@ -368,15 +457,29 @@ public static partial class ModLibrary
 	{
 		string path = Path.Combine(folder, PluginManifest.ManifestFolder, "plugin.json");
 		JsonObject manifest = JsonNode.Parse(File.ReadAllText(path)) as JsonObject ?? throw new InvalidDataException("bad manifest");
-		manifest["library"] = new JsonObject { ["id"] = mod.Id, ["ownerId"] = mod.OwnerId, ["login"] = mod.Login };
+		manifest["library"] = new JsonObject
+		{
+			["id"] = mod.Id,
+			["ownerId"] = mod.OwnerId,
+			["login"] = mod.Login,
+		};
 		File.WriteAllText(path, manifest.ToJsonString(new JsonSerializerOptions { WriteIndented = true }));
 	}
 
 	private static async Task<byte[]> DownloadVerifiedAsync(Index index, LibraryMod mod, LibraryFile file, CancellationToken token)
 	{
-		string url = RawPrefix + index.Commit + "/mods/" + Uri.EscapeDataString(mod.Name) + "/" + string.Join('/', file.Path.Split('/').Select(Uri.EscapeDataString));
+		string url =
+			RawPrefix
+			+ index.Commit
+			+ "/mods/"
+			+ Uri.EscapeDataString(mod.Name)
+			+ "/"
+			+ string.Join('/', file.Path.Split('/').Select(Uri.EscapeDataString));
 		byte[] bytes = await DownloadAsync(url, file.Size, token);
-		if (bytes.LongLength != file.Size || !string.Equals(Convert.ToHexStringLower(SHA256.HashData(bytes)), file.Sha256, StringComparison.Ordinal))
+		if (
+			bytes.LongLength != file.Size
+			|| !string.Equals(Convert.ToHexStringLower(SHA256.HashData(bytes)), file.Sha256, StringComparison.Ordinal)
+		)
 			throw new InvalidDataException(file.Path + " of " + mod.Name + " does not match the library index, the download was refused");
 		return bytes;
 	}
@@ -409,14 +512,28 @@ public static class ModLibrarySearch
 		Featured,
 		Newest,
 		Updated,
-		Name
+		Name,
 	}
 
-	public sealed record Query(List<string> Words, List<string> Excluded, HashSet<string> Tags, string? Author, HashSet<string> Flags, Sort? Sort);
+	public sealed record Query(
+		List<string> Words,
+		List<string> Excluded,
+		HashSet<string> Tags,
+		string? Author,
+		HashSet<string> Flags,
+		Sort? Sort
+	);
 
 	public static Query Parse(string text)
 	{
-		Query query = new([], [], new HashSet<string>(StringComparer.OrdinalIgnoreCase), null, new HashSet<string>(StringComparer.OrdinalIgnoreCase), null);
+		Query query = new(
+			[],
+			[],
+			new HashSet<string>(StringComparer.OrdinalIgnoreCase),
+			null,
+			new HashSet<string>(StringComparer.OrdinalIgnoreCase),
+			null
+		);
 		foreach (string raw in Tokenize(text ?? ""))
 		{
 			string token = raw.Trim();
@@ -454,14 +571,15 @@ public static class ModLibrarySearch
 		return query;
 	}
 
-	private static Sort ParseSort(string value) => value.ToLowerInvariant() switch
-	{
-		"new" or "newest" or "created" => Sort.Newest,
-		"updated" or "recent" => Sort.Updated,
-		"name" or "az" => Sort.Name,
-		"featured" or "popular" or "top" => Sort.Featured,
-		_ => Sort.Relevance
-	};
+	private static Sort ParseSort(string value) =>
+		value.ToLowerInvariant() switch
+		{
+			"new" or "newest" or "created" => Sort.Newest,
+			"updated" or "recent" => Sort.Updated,
+			"name" or "az" => Sort.Name,
+			"featured" or "popular" or "top" => Sort.Featured,
+			_ => Sort.Relevance,
+		};
 
 	private static IEnumerable<string> Tokenize(string text)
 	{
@@ -527,8 +645,12 @@ public static class ModLibrarySearch
 			Sort.Newest => results.OrderByDescending(r => r.Mod.Created ?? DateTime.MinValue),
 			Sort.Updated => results.OrderByDescending(r => r.Mod.Updated ?? DateTime.MinValue),
 			Sort.Name => results.OrderBy(r => r.Mod.Name, StringComparer.OrdinalIgnoreCase),
-			Sort.Featured => results.OrderByDescending(r => r.Mod.Featured).ThenByDescending(r => r.Mod.Verified).ThenByDescending(r => r.Mod.Trusted).ThenByDescending(r => r.Mod.Updated ?? DateTime.MinValue),
-			_ => results.OrderByDescending(r => r.Score).ThenBy(r => r.Mod.Name, StringComparer.OrdinalIgnoreCase)
+			Sort.Featured => results
+				.OrderByDescending(r => r.Mod.Featured)
+				.ThenByDescending(r => r.Mod.Verified)
+				.ThenByDescending(r => r.Mod.Trusted)
+				.ThenByDescending(r => r.Mod.Updated ?? DateTime.MinValue),
+			_ => results.OrderByDescending(r => r.Score).ThenBy(r => r.Mod.Name, StringComparer.OrdinalIgnoreCase),
 		};
 		return ordered.Select(r => r.Mod).ToList();
 	}
@@ -548,7 +670,7 @@ public static class ModLibrarySearch
 				"offline" => mod.Network.Count == 0,
 				"online" or "network" => mod.Network.Count > 0,
 				"icon" => mod.HasIcon,
-				_ => true
+				_ => true,
 			};
 			if (!ok)
 				return false;

@@ -23,10 +23,12 @@ namespace Voidstrap.Integrations.Overlays
         private const uint SWP_NOOWNERZORDER = 0x0200;
         private static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
         private static readonly object _handleLock = new object();
-        private static readonly System.Collections.Generic.HashSet<IntPtr> _registeredHandles = new System.Collections.Generic.HashSet<IntPtr>();
-        private static readonly System.Collections.Generic.HashSet<IntPtr> _discoveredHandles = new System.Collections.Generic.HashSet<IntPtr>();
+        private static readonly System.Collections.Generic.HashSet<IntPtr> _registeredHandles =
+            new System.Collections.Generic.HashSet<IntPtr>();
+        private static readonly System.Collections.Generic.HashSet<IntPtr> _discoveredHandles =
+            new System.Collections.Generic.HashSet<IntPtr>();
         private static IntPtr[] _overlayHandles = Array.Empty<IntPtr>();
-		private static int _raisePending;
+        private static int _raisePending;
 
         public static void RegisterOverlayHandle(IntPtr handle)
         {
@@ -59,33 +61,33 @@ namespace Voidstrap.Integrations.Overlays
 
             if (!app.Dispatcher.CheckAccess())
             {
-				if (Interlocked.Exchange(ref _raisePending, 1) != 0)
-					return;
-				try
-				{
-					app.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(FlushRaiseOverlayWindows));
-				}
-				catch (InvalidOperationException)
-				{
-					Interlocked.Exchange(ref _raisePending, 0);
-				}
+                if (Interlocked.Exchange(ref _raisePending, 1) != 0)
+                    return;
+                try
+                {
+                    app.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(FlushRaiseOverlayWindows));
+                }
+                catch (InvalidOperationException)
+                {
+                    Interlocked.Exchange(ref _raisePending, 0);
+                }
                 return;
             }
 
-			RaiseOverlayWindowsCore(app);
-		}
+            RaiseOverlayWindowsCore(app);
+        }
 
-		private static void FlushRaiseOverlayWindows()
-		{
-			Interlocked.Exchange(ref _raisePending, 0);
-			var app = Application.Current;
-			if (app?.Dispatcher == null || app.Dispatcher.HasShutdownStarted || app.Dispatcher.HasShutdownFinished)
-				return;
-			RaiseOverlayWindowsCore(app);
-		}
+        private static void FlushRaiseOverlayWindows()
+        {
+            Interlocked.Exchange(ref _raisePending, 0);
+            var app = Application.Current;
+            if (app?.Dispatcher == null || app.Dispatcher.HasShutdownStarted || app.Dispatcher.HasShutdownFinished)
+                return;
+            RaiseOverlayWindowsCore(app);
+        }
 
-		private static void RaiseOverlayWindowsCore(Application app)
-		{
+        private static void RaiseOverlayWindowsCore(Application app)
+        {
             var handles = new System.Collections.Generic.List<IntPtr>();
             foreach (Window window in app.Windows)
             {
@@ -93,16 +95,16 @@ namespace Voidstrap.Integrations.Overlays
                     continue;
                 try
                 {
-                    IntPtr handle = Voidstrap.UI.PortableOverlay.Active ? Voidstrap.UI.PortableOverlay.Handle(window) : new WindowInteropHelper(window).Handle;
+                    IntPtr handle = Voidstrap.UI.PortableOverlay.Active
+                        ? Voidstrap.UI.PortableOverlay.Handle(window)
+                        : new WindowInteropHelper(window).Handle;
                     if (handle != IntPtr.Zero)
                     {
                         handles.Add(handle);
                         RaiseHandle(handle);
                     }
                 }
-                catch
-                {
-                }
+                catch { }
             }
             lock (_handleLock)
             {
@@ -123,44 +125,47 @@ namespace Voidstrap.Integrations.Overlays
             Volatile.Write(ref _overlayHandles, combined.ToArray());
         }
 
-		private static bool IsLiveHandle(IntPtr handle)
-		{
-			if (handle == IntPtr.Zero)
-				return false;
-			if (Voidstrap.Utility.Platform.IsMacOS)
-				return Voidstrap.Platform.MacOS.MacOSOverlayWindow.IsWindow(handle);
-			return Voidstrap.Utility.Platform.IsLinux
-				? Voidstrap.Platform.Linux.LinuxWindowInterop.IsPreparedOverlayWindow(handle)
-					|| Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(handle)
-				: IsWindow(handle);
-		}
+        private static bool IsLiveHandle(IntPtr handle)
+        {
+            if (handle == IntPtr.Zero)
+                return false;
+            if (Voidstrap.Utility.Platform.IsMacOS)
+                return Voidstrap.Platform.MacOS.MacOSOverlayWindow.IsWindow(handle);
+            return Voidstrap.Utility.Platform.IsLinux
+                ? Voidstrap.Platform.Linux.LinuxWindowInterop.IsPreparedOverlayWindow(handle)
+                    || Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(handle)
+                : IsWindow(handle);
+        }
 
-		private static void RaiseHandle(IntPtr handle)
-		{
-			if (Voidstrap.Utility.Platform.IsMacOS)
-			{
-				if (Voidstrap.Platform.MacOS.MacOSOverlayWindow.IsVisible(handle))
-					Voidstrap.Platform.MacOS.MacOSOverlayWindow.ShowWithoutActivating(handle);
-				return;
-			}
-			if (Voidstrap.Utility.Platform.IsLinux)
-			{
-				if (Voidstrap.Platform.Linux.LinuxWindowInterop.IsPreparedOverlayWindow(handle))
-					Voidstrap.Platform.Linux.LinuxWindowInterop.TryRaiseWindow(handle);
-				else
-					Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetAlwaysOnTop(handle);
-				return;
-			}
-			SetWindowPos(handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOOWNERZORDER);
-		}
+        private static void RaiseHandle(IntPtr handle)
+        {
+            if (Voidstrap.Utility.Platform.IsMacOS)
+            {
+                if (Voidstrap.Platform.MacOS.MacOSOverlayWindow.IsVisible(handle))
+                    Voidstrap.Platform.MacOS.MacOSOverlayWindow.ShowWithoutActivating(handle);
+                return;
+            }
+            if (Voidstrap.Utility.Platform.IsLinux)
+            {
+                if (Voidstrap.Platform.Linux.LinuxWindowInterop.IsPreparedOverlayWindow(handle))
+                    Voidstrap.Platform.Linux.LinuxWindowInterop.TryRaiseWindow(handle);
+                else
+                    Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetAlwaysOnTop(handle);
+                return;
+            }
+            SetWindowPos(handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOOWNERZORDER);
+        }
 
         public static bool IsOverlayHandle(IntPtr handle)
         {
             if (handle == IntPtr.Zero)
                 return false;
             foreach (IntPtr overlay in Volatile.Read(ref _overlayHandles))
-				if (overlay == handle || Voidstrap.Utility.Platform.IsLinux
-					&& Voidstrap.Platform.Linux.LinuxWindowInterop.IsSameOrDescendantWindow(handle, overlay))
+                if (
+                    overlay == handle
+                    || Voidstrap.Utility.Platform.IsLinux
+                        && Voidstrap.Platform.Linux.LinuxWindowInterop.IsSameOrDescendantWindow(handle, overlay)
+                )
                     return true;
             return false;
         }
@@ -169,10 +174,7 @@ namespace Voidstrap.Integrations.Overlays
         {
             string ns = window.GetType().Namespace ?? "";
             string name = window.GetType().Name;
-            return ns.Contains("Overlay")
-                || name.Contains("Overlay")
-                || name.Contains("Crosshair")
-                || name.Contains("Cursor");
+            return ns.Contains("Overlay") || name.Contains("Overlay") || name.Contains("Crosshair") || name.Contains("Cursor");
         }
 
         public static string BuildReport(ActivityWatcher? activity = null)
@@ -198,7 +200,11 @@ namespace Voidstrap.Integrations.Overlays
             sb.AppendLine();
             sb.AppendLine(Text("Runtime"));
             AppendValue(sb, "GameSession", activity == null ? Text("Unavailable") : OnOff(activity.InGame));
-            AppendValue(sb, "Place", activity?.Data.PlaceId.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? Text("Unavailable"));
+            AppendValue(
+                sb,
+                "Place",
+                activity?.Data.PlaceId.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? Text("Unavailable")
+            );
             AppendValue(sb, "Teleporting", activity == null ? Text("Unavailable") : OnOff(activity.IsTeleporting));
             AppendValue(sb, "GameSignal", OnOff(OverlayHub.InGame));
             AppendValue(sb, "Transition", OnOff(OverlayHub.GameTransition));
@@ -244,7 +250,9 @@ namespace Voidstrap.Integrations.Overlays
                         statsCount++;
                     if (window is Voidstrap.UI.Elements.Crosshair.CrosshairWindow)
                         crosshairCount++;
-                    IntPtr handle = Voidstrap.UI.PortableOverlay.Active ? Voidstrap.UI.PortableOverlay.Handle(window) : new WindowInteropHelper(window).Handle;
+                    IntPtr handle = Voidstrap.UI.PortableOverlay.Active
+                        ? Voidstrap.UI.PortableOverlay.Handle(window)
+                        : new WindowInteropHelper(window).Handle;
                     observed.Add(handle);
                     sb.AppendLine(window.GetType().Name + ": " + FormatHandle(handle));
                     AppendValue(sb, "Visible", OnOff(window.IsVisible));
@@ -271,7 +279,12 @@ namespace Voidstrap.Integrations.Overlays
                 sb.AppendLine(Text("NoWindows"));
             sb.AppendLine();
             sb.AppendLine(Text("Findings"));
-            if (!Voidstrap.UI.Elements.Overlay.OverlayWindow.SurfaceRequired && !prop.Crosshair && !OverlaySettings.GameEffectsEnabled && !OverlaySettings.HomepageBackgroundEnabled)
+            if (
+                !Voidstrap.UI.Elements.Overlay.OverlayWindow.SurfaceRequired
+                && !prop.Crosshair
+                && !OverlaySettings.GameEffectsEnabled
+                && !OverlaySettings.HomepageBackgroundEnabled
+            )
                 sb.AppendLine(Text("Disabled"));
             if (!roblox.Valid)
                 sb.AppendLine(Text("NoUsableWindow"));
@@ -289,11 +302,13 @@ namespace Voidstrap.Integrations.Overlays
             return sb.ToString();
         }
 
-        private static string Text(string key) => Voidstrap.Resources.Strings.ResourceManager.GetString("OverlayDiagnostics." + key, Voidstrap.Resources.Strings.Culture) ?? key;
+        private static string Text(string key) =>
+            Voidstrap.Resources.Strings.ResourceManager.GetString("OverlayDiagnostics." + key, Voidstrap.Resources.Strings.Culture) ?? key;
 
         private static void AppendValue(StringBuilder sb, string key, string value) => sb.AppendLine("  " + Text(key) + ": " + value);
 
-        private static string FormatHandle(IntPtr handle) => "0x" + handle.ToInt64().ToString("X", System.Globalization.CultureInfo.InvariantCulture);
+        private static string FormatHandle(IntPtr handle) =>
+            "0x" + handle.ToInt64().ToString("X", System.Globalization.CultureInfo.InvariantCulture);
 
         private static void AppendNativeWindow(StringBuilder sb, IntPtr handle, RobloxWindowRect roblox)
         {
@@ -324,10 +339,19 @@ namespace Voidstrap.Integrations.Overlays
             {
                 AppendValue(sb, "Bounds", $"{rect.Right - rect.Left} × {rect.Bottom - rect.Top}, {rect.Left}, {rect.Top}");
                 if (roblox.Valid)
-                    AppendValue(sb, "Intersects", OnOff(rect.Right > roblox.Left && rect.Bottom > roblox.Top
-                        && rect.Left < roblox.Left + roblox.Width && rect.Top < roblox.Top + roblox.Height));
+                    AppendValue(
+                        sb,
+                        "Intersects",
+                        OnOff(
+                            rect.Right > roblox.Left
+                                && rect.Bottom > roblox.Top
+                                && rect.Left < roblox.Left + roblox.Width
+                                && rect.Top < roblox.Top + roblox.Height
+                        )
+                    );
             }
         }
+
         private static RobloxWindowRect ResolveRobloxRect()
         {
             RobloxWindowRect tracked = RobloxWindowTracker.Current;
@@ -338,6 +362,7 @@ namespace Voidstrap.Integrations.Overlays
                 : IsLiveHandle(tracked.Hwnd) && NativeIsWindowVisible(tracked.Hwnd) && !NativeIsIconic(tracked.Hwnd);
             return live ? tracked : new RobloxWindowRect(tracked.Hwnd, 0, 0, 0, 0, false, false);
         }
+
         private static bool? IsBorderlessMonitorWindow(RobloxWindowRect roblox)
         {
             if (roblox.Hwnd == IntPtr.Zero)
@@ -347,7 +372,9 @@ namespace Voidstrap.Integrations.Overlays
                 if (!TryGetMonitorBounds(roblox.Hwnd, out int mLeft, out int mTop, out int mRight, out int mBottom))
                     return null;
 
-                bool coversMonitor = roblox.Left <= mLeft + 1 && roblox.Top <= mTop + 1
+                bool coversMonitor =
+                    roblox.Left <= mLeft + 1
+                    && roblox.Top <= mTop + 1
                     && roblox.Left + roblox.Width >= mRight - 1
                     && roblox.Top + roblox.Height >= mBottom - 1;
                 if (!coversMonitor)
@@ -362,7 +389,14 @@ namespace Voidstrap.Integrations.Overlays
             }
         }
 
-        private static string OnOff(bool? value) => Text(value.HasValue ? value.Value ? "Yes" : "No" : "Unavailable");
+        private static string OnOff(bool? value) =>
+            Text(
+                value.HasValue
+                    ? value.Value
+                        ? "Yes"
+                        : "No"
+                    : "Unavailable"
+            );
 
         private static bool TryGetMonitorBounds(IntPtr hwnd, out int left, out int top, out int right, out int bottom)
         {

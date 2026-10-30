@@ -64,7 +64,8 @@ internal static class DiscordIpc
 	{
 		return client is { IsInitialized: true, IsDisposed: false }
 			&& Pipes.TryGetValue(client, out DiscordActivityPipe? transport)
-			&& transport.Ready && transport.IsConnected;
+			&& transport.Ready
+			&& transport.IsConnected;
 	}
 
 	internal static void Close(DiscordRpcClient? client)
@@ -79,9 +80,7 @@ internal static class DiscordIpc
 		{
 			client.Dispose();
 		}
-		catch (Exception ex) when (ex is not OutOfMemoryException)
-		{
-		}
+		catch (Exception ex) when (ex is not OutOfMemoryException) { }
 		Pipes.Remove(client);
 	}
 
@@ -101,11 +100,7 @@ internal static class DiscordIpc
 			entry.Value.ClearAndSeal();
 	}
 
-	private static readonly string[] SandboxDirectories =
-	{
-		"app/com.discordapp.Discord",
-		"snap.discord"
-	};
+	private static readonly string[] SandboxDirectories = { "app/com.discordapp.Discord", "snap.discord" };
 
 	private static readonly string[] ClientNames =
 	{
@@ -120,18 +115,30 @@ internal static class DiscordIpc
 		"goofcord",
 		"dorion",
 		"abaddon",
-		"discord-screenaudio"
+		"discord-screenaudio",
 	};
 
-	private static readonly MethodInfo? AttemptConnectionMethod = typeof(ManagedNamedPipeClient).GetMethod("AttemptConnection", BindingFlags.NonPublic | BindingFlags.Instance, null, new[] { typeof(string) }, null);
+	private static readonly MethodInfo? AttemptConnectionMethod = typeof(ManagedNamedPipeClient).GetMethod(
+		"AttemptConnection",
+		BindingFlags.NonPublic | BindingFlags.Instance,
+		null,
+		new[] { typeof(string) },
+		null
+	);
 
-	private static readonly MethodInfo? BeginReadStreamMethod = typeof(ManagedNamedPipeClient).GetMethod("BeginReadStream", BindingFlags.NonPublic | BindingFlags.Instance, null, Type.EmptyTypes, null);
+	private static readonly MethodInfo? BeginReadStreamMethod = typeof(ManagedNamedPipeClient).GetMethod(
+		"BeginReadStream",
+		BindingFlags.NonPublic | BindingFlags.Instance,
+		null,
+		Type.EmptyTypes,
+		null
+	);
 
-	internal const string ClientWithoutRichPresenceMessage = "Discord is running, but Voidstrap could not reach its Rich Presence connection. If you use Vesktop, Equibop or another modified client, turn on its Rich Presence (arRPC) option, then try again.";
+	internal const string ClientWithoutRichPresenceMessage =
+		"Discord is running, but Voidstrap could not reach its Rich Presence connection. If you use Vesktop, Equibop or another modified client, turn on its Rich Presence (arRPC) option, then try again.";
 
-	internal static string MissingPipeMessage => !Voidstrap.Utility.Platform.IsWindows && IsDiscordClientRunning()
-		? ClientWithoutRichPresenceMessage
-		: "Discord is not running.";
+	internal static string MissingPipeMessage =>
+		!Voidstrap.Utility.Platform.IsWindows && IsDiscordClientRunning() ? ClientWithoutRichPresenceMessage : "Discord is not running.";
 
 	internal static bool TryFindPipe(out int pipe)
 	{
@@ -177,9 +184,7 @@ internal static class DiscordIpc
 				return true;
 			}
 		}
-		catch (Exception ex) when (ex is not OutOfMemoryException)
-		{
-		}
+		catch (Exception ex) when (ex is not OutOfMemoryException) { }
 		return false;
 	}
 
@@ -194,7 +199,7 @@ internal static class DiscordIpc
 			Environment.GetEnvironmentVariable("TMP"),
 			Environment.GetEnvironmentVariable("TEMP"),
 			Path.GetTempPath(),
-			"/tmp"
+			"/tmp",
 		};
 		foreach (string? root in roots)
 			AddRoot(directories, unique, root);
@@ -218,9 +223,7 @@ internal static class DiscordIpc
 				foreach (string application in Directory.EnumerateDirectories(container).Order(StringComparer.Ordinal))
 					AddDirectory(directories, unique, suffix.Length == 0 ? application : Path.Combine(application, suffix));
 			}
-			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-			{
-			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 		}
 
 		try
@@ -228,9 +231,7 @@ internal static class DiscordIpc
 			foreach (string snap in Directory.EnumerateDirectories(root, "snap.*").Order(StringComparer.Ordinal))
 				AddDirectory(directories, unique, snap);
 		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-		{
-		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 	}
 
 	private static bool IsListening(string path)
@@ -244,7 +245,15 @@ internal static class DiscordIpc
 			socket.ConnectAsync(new UnixDomainSocketEndPoint(path), timeout.Token).AsTask().GetAwaiter().GetResult();
 			return true;
 		}
-		catch (Exception ex) when (ex is SocketException or IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException or OperationCanceledException)
+		catch (Exception ex)
+			when (ex
+					is SocketException
+						or IOException
+						or UnauthorizedAccessException
+						or ArgumentException
+						or NotSupportedException
+						or OperationCanceledException
+			)
 		{
 			return false;
 		}
@@ -273,9 +282,7 @@ internal static class DiscordIpc
 					if (ClientNames.Any(candidate => name.Contains(candidate, StringComparison.Ordinal)))
 						running = true;
 				}
-				catch (Exception ex) when (ex is InvalidOperationException or System.ComponentModel.Win32Exception)
-				{
-				}
+				catch (Exception ex) when (ex is InvalidOperationException or System.ComponentModel.Win32Exception) { }
 				finally
 				{
 					client.Dispose();
@@ -296,7 +303,11 @@ internal static class DiscordIpc
 		foreach (string directory in processes)
 		{
 			string id = Path.GetFileName(directory);
-			if (id.Length == 0 || !char.IsAsciiDigit(id[0]) || id == Environment.ProcessId.ToString(System.Globalization.CultureInfo.InvariantCulture))
+			if (
+				id.Length == 0
+				|| !char.IsAsciiDigit(id[0])
+				|| id == Environment.ProcessId.ToString(System.Globalization.CultureInfo.InvariantCulture)
+			)
 				continue;
 			try
 			{
@@ -307,12 +318,13 @@ internal static class DiscordIpc
 					return true;
 
 				string group = File.ReadAllText(Path.Combine(directory, "cgroup")).ToLowerInvariant();
-				if (group.Contains("app-flatpak-", StringComparison.Ordinal) && ClientNames.Any(name => group.Contains(name, StringComparison.Ordinal)))
+				if (
+					group.Contains("app-flatpak-", StringComparison.Ordinal)
+					&& ClientNames.Any(name => group.Contains(name, StringComparison.Ordinal))
+				)
 					return true;
 			}
-			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-			{
-			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 		}
 
 		return false;
@@ -326,22 +338,20 @@ internal static class DiscordIpc
 			foreach (string path in Directory.EnumerateFileSystemEntries(directory, "discord-ipc-*", SearchOption.TopDirectoryOnly))
 			{
 				string name = Path.GetFileName(path);
-				if (name.Length == 13 &&
-					name.StartsWith("discord-ipc-", StringComparison.Ordinal) &&
-					int.TryParse(name.AsSpan(12), out int candidate) &&
-					candidate is >= 0 and <= 9)
+				if (
+					name.Length == 13
+					&& name.StartsWith("discord-ipc-", StringComparison.Ordinal)
+					&& int.TryParse(name.AsSpan(12), out int candidate)
+					&& candidate is >= 0 and <= 9
+				)
 				{
 					pipe = candidate;
 					return true;
 				}
 			}
 		}
-		catch (IOException)
-		{
-		}
-		catch (UnauthorizedAccessException)
-		{
-		}
+		catch (IOException) { }
+		catch (UnauthorizedAccessException) { }
 
 		return false;
 	}

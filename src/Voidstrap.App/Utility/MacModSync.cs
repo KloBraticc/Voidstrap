@@ -18,7 +18,9 @@ internal static class MacModSync
 
 	private static string BackupRoot(string resources) => Path.Combine(Paths.Data, "MacMods", Key(resources));
 
-	private static string Key(string resources) => Path.GetFileName(Path.GetDirectoryName(Path.GetDirectoryName(resources)) ?? "Roblox.app").Replace(".app", "", StringComparison.OrdinalIgnoreCase);
+	private static string Key(string resources) =>
+		Path.GetFileName(Path.GetDirectoryName(Path.GetDirectoryName(resources)) ?? "Roblox.app")
+			.Replace(".app", "", StringComparison.OrdinalIgnoreCase);
 
 	private sealed class Manifest
 	{
@@ -63,11 +65,13 @@ internal static class MacModSync
 
 	private static bool Accept(string relative, bool includeSky)
 	{
-		if (relative.Equals("README.txt", StringComparison.OrdinalIgnoreCase)
+		if (
+			relative.Equals("README.txt", StringComparison.OrdinalIgnoreCase)
 			|| relative.StartsWith("ClientSettings/", StringComparison.OrdinalIgnoreCase)
 			|| relative.Split('/').Any(part => part is "" or "." or "..")
 			|| SkippedExtensions.Contains(Path.GetExtension(relative), StringComparer.OrdinalIgnoreCase)
-			|| ModAutoFixer.IsIgnoredModFile(relative.Replace('/', Path.DirectorySeparatorChar)))
+			|| ModAutoFixer.IsIgnoredModFile(relative.Replace('/', Path.DirectorySeparatorChar))
+		)
 			return false;
 		return includeSky || !relative.StartsWith("PlatformContent/pc/textures/sky", StringComparison.OrdinalIgnoreCase);
 	}

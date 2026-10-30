@@ -9,12 +9,12 @@ using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
+using Voidstrap.Extensions;
 using Voidstrap.Integrations;
 using Voidstrap.Models;
 using Voidstrap.Resources;
 using Voidstrap.UI.Elements.ContextMenu;
 using Voidstrap.Utility;
-using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.ViewModels.Settings;
 
@@ -51,43 +51,43 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public ICommand MusicWindowCommand { get; }
 
-
-
 	public ICommand GrantSnapTapAccessCommand { get; }
 
 	public ICommand AddToSteamCommand { get; }
 
 	private bool _addingToSteam;
 
-	public Visibility SteamShortcutVisibility => Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxSteamIntegration.IsSteamInstalled
-		? Visibility.Visible
-		: Visibility.Collapsed;
+	public Visibility SteamShortcutVisibility =>
+		Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxSteamIntegration.IsSteamInstalled
+			? Visibility.Visible
+			: Visibility.Collapsed;
 
-	public string SteamShortcutDescription => Voidstrap.Platform.Linux.LinuxSteamOS.Current.IsGameMode
-		? "Switch to Desktop Mode to add Roblox and Voidstrap to your Steam library, Steam has to close for a moment while its library is updated."
-		: "Adds Roblox and Voidstrap to your Steam library with artwork, so they open from Game Mode on SteamOS and the Steam Deck.";
+	public string SteamShortcutDescription =>
+		Voidstrap.Platform.Linux.LinuxSteamOS.Current.IsGameMode
+			? "Switch to Desktop Mode to add Roblox and Voidstrap to your Steam library, Steam has to close for a moment while its library is updated."
+			: "Adds Roblox and Voidstrap to your Steam library with artwork, so they open from Game Mode on SteamOS and the Steam Deck.";
 
 	private Voidstrap.Platform.Linux.LinuxInputAccessState _snapTapAccess = Voidstrap.Platform.Linux.LinuxInputAccessState.Ready;
 
 	private bool _enableSnapTapAfterGrant;
 
-	public Visibility SnapTapAccessVisibility => Voidstrap.Utility.Platform.IsMacOS || (Voidstrap.Utility.Platform.IsLinux && _snapTapAccess != Voidstrap.Platform.Linux.LinuxInputAccessState.Ready)
-		? Visibility.Visible
-		: Visibility.Collapsed;
+	public Visibility SnapTapAccessVisibility =>
+		Voidstrap.Utility.Platform.IsMacOS
+		|| (Voidstrap.Utility.Platform.IsLinux && _snapTapAccess != Voidstrap.Platform.Linux.LinuxInputAccessState.Ready)
+			? Visibility.Visible
+			: Visibility.Collapsed;
 
-	public string SnapTapAccessDescription => Voidstrap.Utility.Platform.IsMacOS
-		? Voidstrap.Platform.MacOS.MacOSInputAccess.IsGranted
-			? "Accessibility access is ready. Snap Tap only changes paired keys while Roblox is focused."
-			: "Enable Voidstrap in System Settings, Privacy & Security, Accessibility. Return here and enable Snap Tap after granting access."
-		: Voidstrap.KeyRouting.LinuxSnapTap.DescribeAccess(_snapTapAccess)
-			+ ". Grant access once so Snap Tap can take over the keyboard while Sober is focused.";
+	public string SnapTapAccessDescription =>
+		Voidstrap.Utility.Platform.IsMacOS
+			? Voidstrap.Platform.MacOS.MacOSInputAccess.IsGranted
+				? "Accessibility access is ready. Snap Tap only changes paired keys while Roblox is focused."
+				: "Enable Voidstrap in System Settings, Privacy & Security, Accessibility. Return here and enable Snap Tap after granting access."
+			: Voidstrap.KeyRouting.LinuxSnapTap.DescribeAccess(_snapTapAccess)
+				+ ". Grant access once so Snap Tap can take over the keyboard while Sober is focused.";
 
 	public bool DuckRobloxAudio
 	{
-		get
-		{
-			return App.Settings.Prop.DuckRobloxAudioOnUnfocus;
-		}
+		get { return App.Settings.Prop.DuckRobloxAudioOnUnfocus; }
 		set
 		{
 			if (App.Settings.Prop.DuckRobloxAudioOnUnfocus == value)
@@ -111,7 +111,8 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 						Integrations.AudioDucker.Stop();
 						Integrations.AudioDucker.MarkResetOnNextLaunch();
 					}
-				});
+				}
+			);
 			if (!result.Success)
 			{
 				OnPropertyChanged(nameof(DuckRobloxAudio));
@@ -125,10 +126,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool HeadsetLoudness
 	{
-		get
-		{
-			return App.Settings.Prop.EnableHeadsetLoudness;
-		}
+		get { return App.Settings.Prop.EnableHeadsetLoudness; }
 		set
 		{
 			if (App.Settings.Prop.EnableHeadsetLoudness == value)
@@ -151,7 +149,8 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 					{
 						Integrations.HeadsetAudio.Stop();
 					}
-				});
+				}
+			);
 			if (!result.Success)
 			{
 				OnPropertyChanged(nameof(HeadsetLoudness));
@@ -189,26 +188,25 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 			SettingChangeNotifier.Try(
 				"IntegrationsViewModel::SelectedAudioOutput",
 				"The Roblox output device could not be changed.",
-				RobloxAudioRouting.ApplyFromSettings);
+				RobloxAudioRouting.ApplyFromSettings
+			);
 			OnPropertyChanged(nameof(SelectedAudioOutput));
 		}
 	}
 
-	public IReadOnlyList<string> EqualizerPresets => new[]
-	{
-		Strings.Ui_Sound_Equalizer_Off,
-		Strings.Ui_Sound_Equalizer_BassBoost,
-		Strings.Ui_Sound_Equalizer_Footsteps,
-		Strings.Ui_Sound_Equalizer_Voice,
-		Strings.Ui_Sound_Equalizer_Treble
-	};
+	public IReadOnlyList<string> EqualizerPresets =>
+		new[]
+		{
+			Strings.Ui_Sound_Equalizer_Off,
+			Strings.Ui_Sound_Equalizer_BassBoost,
+			Strings.Ui_Sound_Equalizer_Footsteps,
+			Strings.Ui_Sound_Equalizer_Voice,
+			Strings.Ui_Sound_Equalizer_Treble,
+		};
 
 	public int EqualizerPreset
 	{
-		get
-		{
-			return Math.Clamp(App.Settings.Prop.RobloxAudioEqualizer, 0, RobloxAudioRouting.EqualizerPresetCount - 1);
-		}
+		get { return Math.Clamp(App.Settings.Prop.RobloxAudioEqualizer, 0, RobloxAudioRouting.EqualizerPresetCount - 1); }
 		set
 		{
 			value = Math.Clamp(value, 0, RobloxAudioRouting.EqualizerPresetCount - 1);
@@ -221,7 +219,8 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 			SettingChangeNotifier.Try(
 				"IntegrationsViewModel::EqualizerPreset",
 				"The Roblox equalizer could not be changed.",
-				RobloxAudioRouting.ApplyFromSettings);
+				RobloxAudioRouting.ApplyFromSettings
+			);
 			OnPropertyChanged(nameof(EqualizerPreset));
 		}
 	}
@@ -236,9 +235,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 				ResetAudioOutputs(outputs);
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 	}
 
 	private void ResetAudioOutputs(IReadOnlyList<RobloxAudioOutput> outputs)
@@ -259,10 +256,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool SnapTapEnabled
 	{
-		get
-		{
-			return App.Settings.Prop.SnapTapEnabled;
-		}
+		get { return App.Settings.Prop.SnapTapEnabled; }
 		set
 		{
 			if (App.Settings.Prop.SnapTapEnabled == value)
@@ -280,7 +274,8 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 							+ Voidstrap.KeyRouting.LinuxSnapTap.DescribeAccess(_snapTapAccess)
 							+ ".\n\nGrant keyboard access now? Your password is asked once.",
 						MessageBoxImage.Question,
-						MessageBoxButton.YesNo);
+						MessageBoxButton.YesNo
+					);
 					if (answer == MessageBoxResult.Yes)
 					{
 						_enableSnapTapAfterGrant = true;
@@ -310,7 +305,8 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 					{
 						throw new InvalidOperationException("Snap Tap could not start");
 					}
-				});
+				}
+			);
 			if (!result.Success && value)
 			{
 				App.Settings.Prop.SnapTapEnabled = false;
@@ -321,19 +317,12 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 		}
 	}
 
-	public IReadOnlyList<string> SnapTapModes { get; } = new[]
-	{
-		"Last key wins (Snap Tap)",
-		"Neutral, both keys cancel",
-		"First listed key always wins"
-	};
+	public IReadOnlyList<string> SnapTapModes { get; } =
+		new[] { "Last key wins (Snap Tap)", "Neutral, both keys cancel", "First listed key always wins" };
 
 	public int SnapTapMode
 	{
-		get
-		{
-			return Math.Clamp(App.Settings.Prop.SnapTapMode, 0, SnapTapModes.Count - 1);
-		}
+		get { return Math.Clamp(App.Settings.Prop.SnapTapMode, 0, SnapTapModes.Count - 1); }
 		set
 		{
 			value = Math.Clamp(value, 0, SnapTapModes.Count - 1);
@@ -353,16 +342,12 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public string SnapTapKeys
 	{
-		get
-		{
-			return App.Settings.Prop.SnapTapKeys;
-		}
+		get { return App.Settings.Prop.SnapTapKeys; }
 		set
 		{
 			List<int[]> groups = Voidstrap.KeyRouting.OpposingKeyResolver.ParseGroups(value);
-			string normalized = groups.Count == 0
-				? App.Settings.Prop.SnapTapKeys
-				: Voidstrap.KeyRouting.OpposingKeyResolver.FormatGroups(groups);
+			string normalized =
+				groups.Count == 0 ? App.Settings.Prop.SnapTapKeys : Voidstrap.KeyRouting.OpposingKeyResolver.FormatGroups(groups);
 			if (groups.Count == 0)
 			{
 				Frontend.ShowMessageBox("Enter at least two keys per group, for example: A D, W S", MessageBoxImage.Warning);
@@ -382,10 +367,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool BlockTelemetry
 	{
-		get
-		{
-			return _blockTelemetry;
-		}
+		get { return _blockTelemetry; }
 		set
 		{
 			if (_blockTelemetry == value)
@@ -401,33 +383,37 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool RobloxSystemTray
 	{
-		get
-		{
-			return App.Settings.Prop.RobloxMinimizeToTray;
-		}
+		get { return App.Settings.Prop.RobloxMinimizeToTray; }
 		set
 		{
 			if (App.Settings.Prop.RobloxMinimizeToTray == value)
 			{
 				return;
 			}
-			ApplyAppStorage(nameof(RobloxSystemTray), "The Roblox system tray setting could not be saved.", value, App.Settings.Prop.RobloxLaunchAtStartup);
+			ApplyAppStorage(
+				nameof(RobloxSystemTray),
+				"The Roblox system tray setting could not be saved.",
+				value,
+				App.Settings.Prop.RobloxLaunchAtStartup
+			);
 		}
 	}
 
 	public bool LaunchStartup
 	{
-		get
-		{
-			return App.Settings.Prop.RobloxLaunchAtStartup;
-		}
+		get { return App.Settings.Prop.RobloxLaunchAtStartup; }
 		set
 		{
 			if (App.Settings.Prop.RobloxLaunchAtStartup == value)
 			{
 				return;
 			}
-			ApplyAppStorage(nameof(LaunchStartup), "The Roblox startup setting could not be saved.", App.Settings.Prop.RobloxMinimizeToTray, value);
+			ApplyAppStorage(
+				nameof(LaunchStartup),
+				"The Roblox startup setting could not be saved.",
+				App.Settings.Prop.RobloxMinimizeToTray,
+				value
+			);
 		}
 	}
 
@@ -442,7 +428,8 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 				{
 					throw new InvalidOperationException("The Roblox app storage file could not be written");
 				}
-			});
+			}
+		);
 		if (result.Success)
 		{
 			App.Settings.Prop.RobloxMinimizeToTray = minimizeToTray;
@@ -454,10 +441,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool ActivityTrackingEnabled
 	{
-		get
-		{
-			return App.Settings.Prop.EnableActivityTracking;
-		}
+		get { return App.Settings.Prop.EnableActivityTracking; }
 		set
 		{
 			if (App.Settings.Prop.EnableActivityTracking == value)
@@ -475,10 +459,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool ShowServerDetailsEnabled
 	{
-		get
-		{
-			return App.Settings.Prop.ShowServerDetails;
-		}
+		get { return App.Settings.Prop.ShowServerDetails; }
 		set
 		{
 			if (App.Settings.Prop.ShowServerDetails == value)
@@ -492,10 +473,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool LibraryShowRobloxFavorites
 	{
-		get
-		{
-			return App.Settings.Prop.LibraryShowRobloxFavorites;
-		}
+		get { return App.Settings.Prop.LibraryShowRobloxFavorites; }
 		set
 		{
 			if (App.Settings.Prop.LibraryShowRobloxFavorites == value)
@@ -509,10 +487,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool FavoriteUpdateAlerts
 	{
-		get
-		{
-			return App.Settings.Prop.FavoriteUpdateAlerts;
-		}
+		get { return App.Settings.Prop.FavoriteUpdateAlerts; }
 		set
 		{
 			if (App.Settings.Prop.FavoriteUpdateAlerts == value)
@@ -526,10 +501,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool joinGameNotify
 	{
-		get
-		{
-			return App.Settings.Prop.NotificationWindowShow;
-		}
+		get { return App.Settings.Prop.NotificationWindowShow; }
 		set
 		{
 			if (App.Settings.Prop.NotificationWindowShow == value)
@@ -555,10 +527,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool ExitOnDissy
 	{
-		get
-		{
-			return App.Settings.Prop.ExitOnDissy;
-		}
+		get { return App.Settings.Prop.ExitOnDissy; }
 		set
 		{
 			if (App.Settings.Prop.ExitOnDissy == value)
@@ -572,10 +541,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public string gamename
 	{
-		get
-		{
-			return App.Settings.Prop.CustomGameName;
-		}
+		get { return App.Settings.Prop.CustomGameName; }
 		set
 		{
 			if (App.Settings.Prop.CustomGameName == value)
@@ -589,10 +555,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool GameWIP
 	{
-		get
-		{
-			return App.Settings.Prop.GameWIP;
-		}
+		get { return App.Settings.Prop.GameWIP; }
 		set
 		{
 			if (App.Settings.Prop.GameWIP == value)
@@ -606,10 +569,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool FFlagAmountRPC
 	{
-		get
-		{
-			return App.Settings.Prop.FFlagRPCDisplayer;
-		}
+		get { return App.Settings.Prop.FFlagRPCDisplayer; }
 		set
 		{
 			if (App.Settings.Prop.FFlagRPCDisplayer == value)
@@ -623,10 +583,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool ServerUptimeBetterBLOXcuzitsbetterXD
 	{
-		get
-		{
-			return App.Settings.Prop.ServerUptimeBetterBLOXcuzitsbetterXD;
-		}
+		get { return App.Settings.Prop.ServerUptimeBetterBLOXcuzitsbetterXD; }
 		set
 		{
 			if (App.Settings.Prop.ServerUptimeBetterBLOXcuzitsbetterXD == value)
@@ -640,10 +597,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public string gameimage
 	{
-		get
-		{
-			return App.Settings.Prop.UseCustomIcon;
-		}
+		get { return App.Settings.Prop.UseCustomIcon; }
 		set
 		{
 			if (App.Settings.Prop.UseCustomIcon == value)
@@ -657,10 +611,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool DiscordActivityEnabled
 	{
-		get
-		{
-			return App.Settings.Prop.UseDiscordRichPresence;
-		}
+		get { return App.Settings.Prop.UseDiscordRichPresence; }
 		set
 		{
 			if (App.Settings.Prop.UseDiscordRichPresence == value)
@@ -703,18 +654,17 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 		}
 	}
 
-	public string UncapFpsDescription => Voidstrap.Utility.Platform.IsMacOS
-		? "Create a 240 Hz virtual display that lets Roblox go above your screen's refresh rate in game. Also set Roblox's in game Maximum Frame Rate to 240."
-		: "Remove the 240 FPS limit. Unavailable while Frame Generation is enabled.";
+	public string UncapFpsDescription =>
+		Voidstrap.Utility.Platform.IsMacOS
+			? "Create a 240 Hz virtual display that lets Roblox go above your screen's refresh rate in game. Also set Roblox's in game Maximum Frame Rate to 240."
+			: "Remove the 240 FPS limit. Unavailable while Frame Generation is enabled.";
 
-	public bool UncapFpsToggleEnabled => Voidstrap.Utility.Platform.IsMacOS || Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex == 0;
+	public bool UncapFpsToggleEnabled =>
+		Voidstrap.Utility.Platform.IsMacOS || Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex == 0;
 
 	public bool DiscordActivityJoinEnabled
 	{
-		get
-		{
-			return !App.Settings.Prop.HideRPCButtons;
-		}
+		get { return !App.Settings.Prop.HideRPCButtons; }
 		set
 		{
 			if (App.Settings.Prop.HideRPCButtons == !value)
@@ -728,10 +678,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool DiscordAccountOnProfile
 	{
-		get
-		{
-			return App.Settings.Prop.ShowAccountOnRichPresence;
-		}
+		get { return App.Settings.Prop.ShowAccountOnRichPresence; }
 		set
 		{
 			if (App.Settings.Prop.ShowAccountOnRichPresence == value)
@@ -745,10 +692,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool GameIconChecked
 	{
-		get
-		{
-			return App.Settings.Prop.GameIconChecked;
-		}
+		get { return App.Settings.Prop.GameIconChecked; }
 		set
 		{
 			if (App.Settings.Prop.GameIconChecked == value)
@@ -760,18 +704,20 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 		}
 	}
 
-	public IReadOnlyList<RpcIdleIconOption> RpcIdleIconOptions { get; } = DiscordRichPresence.IdleIconPresets.Select<KeyValuePair<string, (string, string)>, RpcIdleIconOption>((KeyValuePair<string, (string Name, string Url)> kvp) => new RpcIdleIconOption
-	{
-		Key = kvp.Key,
-		Name = kvp.Value.Name
-	}).ToList();
+	public IReadOnlyList<RpcIdleIconOption> RpcIdleIconOptions { get; } =
+		DiscordRichPresence
+			.IdleIconPresets.Select<KeyValuePair<string, (string, string)>, RpcIdleIconOption>(
+				(KeyValuePair<string, (string Name, string Url)> kvp) => new RpcIdleIconOption { Key = kvp.Key, Name = kvp.Value.Name }
+			)
+			.ToList();
 
 	public RpcIdleIconOption SelectedRpcIdleIcon
 	{
 		get
 		{
 			string key = App.Settings.Prop.RpcIdleIcon ?? "blue";
-			return RpcIdleIconOptions.FirstOrDefault((RpcIdleIconOption x) => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase)) ?? RpcIdleIconOptions[0];
+			return RpcIdleIconOptions.FirstOrDefault((RpcIdleIconOption x) => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase))
+				?? RpcIdleIconOptions[0];
 		}
 		set
 		{
@@ -786,10 +732,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool GameNameChecked
 	{
-		get
-		{
-			return App.Settings.Prop.GameNameChecked;
-		}
+		get { return App.Settings.Prop.GameNameChecked; }
 		set
 		{
 			if (App.Settings.Prop.GameNameChecked == value)
@@ -803,10 +746,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool GameCreatorChecked
 	{
-		get
-		{
-			return App.Settings.Prop.GameCreatorChecked;
-		}
+		get { return App.Settings.Prop.GameCreatorChecked; }
 		set
 		{
 			if (App.Settings.Prop.GameCreatorChecked == value)
@@ -820,10 +760,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool GameStatusChecked
 	{
-		get
-		{
-			return App.Settings.Prop.GameStatusChecked;
-		}
+		get { return App.Settings.Prop.GameStatusChecked; }
 		set
 		{
 			if (App.Settings.Prop.GameStatusChecked == value)
@@ -837,10 +774,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool ServerLocationGame
 	{
-		get
-		{
-			return App.Settings.Prop.ServerLocationGame;
-		}
+		get { return App.Settings.Prop.ServerLocationGame; }
 		set
 		{
 			if (App.Settings.Prop.ServerLocationGame == value)
@@ -854,10 +788,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool DisableAppPatchEnabled
 	{
-		get
-		{
-			return App.Settings.Prop.UseDisableAppPatch;
-		}
+		get { return App.Settings.Prop.UseDisableAppPatch; }
 		set
 		{
 			if (App.Settings.Prop.UseDisableAppPatch == value)
@@ -871,10 +802,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public ObservableCollection<CustomIntegration> CustomIntegrations
 	{
-		get
-		{
-			return App.Settings.Prop.CustomIntegrations;
-		}
+		get { return App.Settings.Prop.CustomIntegrations; }
 		set
 		{
 			if (ReferenceEquals(App.Settings.Prop.CustomIntegrations, value))
@@ -888,10 +816,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public CustomIntegration? SelectedCustomIntegration
 	{
-		get
-		{
-			return _selectedCustomIntegration;
-		}
+		get { return _selectedCustomIntegration; }
 		set
 		{
 			if (_selectedCustomIntegration != value)
@@ -907,7 +832,10 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	public bool IsCustomIntegrationSelected => SelectedCustomIntegration != null;
 
-	public string CustomIntegrationLocationPlaceholder => Voidstrap.Utility.Platform.IsLinux ? "/usr/bin/obs" : Voidstrap.Utility.Platform.IsMacOS ? "/Applications/OBS.app" : @"C:\Windows\System32\cmd.exe";
+	public string CustomIntegrationLocationPlaceholder =>
+		Voidstrap.Utility.Platform.IsLinux ? "/usr/bin/obs"
+		: Voidstrap.Utility.Platform.IsMacOS ? "/Applications/OBS.app"
+		: @"C:\Windows\System32\cmd.exe";
 
 	public IntegrationsViewModel(ActivityWatcher watcher, bool ownsWatcher = false)
 	{
@@ -948,7 +876,8 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 			SettingChangeNotifier.Try(
 				"IntegrationsViewModel::GrantSnapTapAccess",
 				"Accessibility settings could not be opened.",
-				Voidstrap.Platform.MacOS.MacOSInputAccess.Request);
+				Voidstrap.Platform.MacOS.MacOSInputAccess.Request
+			);
 			OnPropertyChanged(nameof(SnapTapAccessDescription));
 			return;
 		}
@@ -984,13 +913,20 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 			return;
 		if (Voidstrap.Platform.Linux.LinuxSteamOS.Current.IsGameMode)
 		{
-			Frontend.ShowMessageBox("Switch to Desktop Mode first. Steam has to close for a moment while Voidstrap updates its library, and Game Mode cannot run without Steam.", MessageBoxImage.Information);
+			Frontend.ShowMessageBox(
+				"Switch to Desktop Mode first. Steam has to close for a moment while Voidstrap updates its library, and Game Mode cannot run without Steam.",
+				MessageBoxImage.Information
+			);
 			return;
 		}
 		bool closeSteam = false;
 		if (Voidstrap.Platform.Linux.LinuxSteamLibrary.IsSteamRunning())
 		{
-			MessageBoxResult answer = Frontend.ShowMessageBox("Steam has to close for a moment while Voidstrap adds Roblox and Voidstrap to your library. Close Steam now and open it again afterwards?", MessageBoxImage.Question, MessageBoxButton.YesNo);
+			MessageBoxResult answer = Frontend.ShowMessageBox(
+				"Steam has to close for a moment while Voidstrap adds Roblox and Voidstrap to your library. Close Steam now and open it again afterwards?",
+				MessageBoxImage.Question,
+				MessageBoxButton.YesNo
+			);
 			if (answer != MessageBoxResult.Yes)
 				return;
 			closeSteam = true;
@@ -999,12 +935,12 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 		try
 		{
 			byte[]? icon = Voidstrap.Utility.LinuxDesktopEntry.ReadIconPng();
-			string message = await Task.Run(() => Voidstrap.Utility.LinuxSteamIntegration.AddToSteamAsync(icon, closeSteam, _lifetimeCts.SafeToken()));
+			string message = await Task.Run(() =>
+				Voidstrap.Utility.LinuxSteamIntegration.AddToSteamAsync(icon, closeSteam, _lifetimeCts.SafeToken())
+			);
 			Frontend.ShowMessageBox(message, MessageBoxImage.Information);
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		finally
 		{
 			_addingToSteam = false;
@@ -1013,10 +949,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
 	private void AddIntegration()
 	{
-		CustomIntegrations.Add(new CustomIntegration
-		{
-			Name = Strings.Menu_Integrations_Custom_NewIntegration
-		});
+		CustomIntegrations.Add(new CustomIntegration { Name = Strings.Menu_Integrations_Custom_NewIntegration });
 		SelectedCustomIntegrationIndex = CustomIntegrations.Count - 1;
 		OnPropertyChanged(nameof(SelectedCustomIntegrationIndex));
 		OnPropertyChanged(nameof(IsCustomIntegrationSelected));
@@ -1060,10 +993,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 	{
 		if (SelectedCustomIntegration != null)
 		{
-			OpenFileDialog openFileDialog = new OpenFileDialog
-			{
-				Filter = Strings.Menu_AllFiles + "|*.*"
-			};
+			OpenFileDialog openFileDialog = new OpenFileDialog { Filter = Strings.Menu_AllFiles + "|*.*" };
 			if (openFileDialog.ShowDialog() == true)
 			{
 				SelectedCustomIntegration.Name = openFileDialog.SafeFileName;
@@ -1096,15 +1026,18 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 				}
 				_blockTelemetry = !value;
 				OnPropertyChanged(nameof(BlockTelemetry));
-				string reason = !Voidstrap.Utility.Platform.IsWindows && !string.IsNullOrWhiteSpace(TelemetryBlocker.LastLinuxFailure)
-					? TelemetryBlocker.LastLinuxFailure + "."
-					: "Administrator approval is required to edit the hosts file.";
-				Frontend.ShowMessageBox((value ? "Voidstrap could not enable the telemetry blocker. " : "Voidstrap could not disable the telemetry blocker. ") + reason, MessageBoxImage.Warning);
+				string reason =
+					!Voidstrap.Utility.Platform.IsWindows && !string.IsNullOrWhiteSpace(TelemetryBlocker.LastLinuxFailure)
+						? TelemetryBlocker.LastLinuxFailure + "."
+						: "Administrator approval is required to edit the hosts file.";
+				Frontend.ShowMessageBox(
+					(value ? "Voidstrap could not enable the telemetry blocker. " : "Voidstrap could not disable the telemetry blocker. ")
+						+ reason,
+					MessageBoxImage.Warning
+				);
 			});
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("IntegrationsViewModel::ApplyTelemetrySetting", ex);

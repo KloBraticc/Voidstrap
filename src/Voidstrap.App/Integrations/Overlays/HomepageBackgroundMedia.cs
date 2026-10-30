@@ -89,7 +89,7 @@ namespace Voidstrap.Integrations.Overlays
 			{
 				IsBackground = true,
 				Name = "Homepage Background Media",
-				Priority = ThreadPriority.BelowNormal
+				Priority = ThreadPriority.BelowNormal,
 			};
 			if (OperatingSystem.IsWindows())
 				_thread.SetApartmentState(ApartmentState.STA);
@@ -156,9 +156,7 @@ namespace Voidstrap.Integrations.Overlays
 				if (!_disposed && _portableGifTimer != null)
 					_mediaCancellation.SafeToken().WaitHandle.WaitOne();
 			}
-			catch (OperationCanceledException) when (_disposed)
-			{
-			}
+			catch (OperationCanceledException) when (_disposed) { }
 			catch (Exception ex)
 			{
 				Volatile.Write(ref _failure, "The selected media could not be decoded: " + ex.Message);
@@ -223,9 +221,16 @@ namespace Voidstrap.Integrations.Overlays
 					{
 						OpenPortableImage();
 					}
-					catch (Exception ex) when ((ex is InvalidDataException or NotSupportedException) && Voidstrap.Utility.Platform.IsMacOS && !_disposed)
+					catch (Exception ex)
+						when ((ex is InvalidDataException or NotSupportedException) && Voidstrap.Utility.Platform.IsMacOS && !_disposed)
 					{
-						byte[] pixels = Voidstrap.Platform.MacOS.MacOSImageDecoder.Decode(_path, _staticMaxWidth, _staticMaxHeight, out int width, out int height);
+						byte[] pixels = Voidstrap.Platform.MacOS.MacOSImageDecoder.Decode(
+							_path,
+							_staticMaxWidth,
+							_staticMaxHeight,
+							out int width,
+							out int height
+						);
 						Publish(new Frame(pixels, width, height, 1000));
 					}
 				}
@@ -237,11 +242,18 @@ namespace Voidstrap.Integrations.Overlays
 				if (image != null)
 					Publish(ToFrame(image, 1000, _staticMaxWidth, _staticMaxHeight));
 				else
-					App.Logger.WriteLine("HomepageBackgroundMedia", "The background image could not be decoded, nothing will show: " + _path);
+					App.Logger.WriteLine(
+						"HomepageBackgroundMedia",
+						"The background image could not be decoded, nothing will show: " + _path
+					);
 				return;
 			}
 			using FileStream stream = new(_path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
-			BitmapDecoder decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.PreservePixelFormat | BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad);
+			BitmapDecoder decoder = BitmapDecoder.Create(
+				stream,
+				BitmapCreateOptions.PreservePixelFormat | BitmapCreateOptions.IgnoreColorProfile,
+				BitmapCacheOption.OnLoad
+			);
 			if (decoder.Frames.Count == 0)
 				return;
 			if (decoder.Frames.Count == 1)
@@ -249,17 +261,19 @@ namespace Voidstrap.Integrations.Overlays
 				Publish(ToFrame(decoder.Frames[0], 1000, _staticMaxWidth, _staticMaxHeight));
 				return;
 			}
-			List<Frame> frames = ComposeGifFrames(decoder, Math.Min(_animatedMaxWidth, MaxGifFrameWidth), Math.Min(_animatedMaxHeight, MaxGifFrameHeight), Publish);
+			List<Frame> frames = ComposeGifFrames(
+				decoder,
+				Math.Min(_animatedMaxWidth, MaxGifFrameWidth),
+				Math.Min(_animatedMaxHeight, MaxGifFrameHeight),
+				Publish
+			);
 			if (frames.Count == 0 || _disposed)
 				return;
 			_gifFrames = frames;
 			_animated = frames.Count > 1;
 			_gifIndex = 0;
 			_nextGifTick = Environment.TickCount64 + frames[0].DelayMilliseconds;
-			_timer = new DispatcherTimer(DispatcherPriority.Render)
-			{
-				Interval = _tickInterval
-			};
+			_timer = new DispatcherTimer(DispatcherPriority.Render) { Interval = _tickInterval };
 			_timer.Tick += OnGifTick;
 			_timer.Start();
 		}
@@ -302,10 +316,7 @@ namespace Voidstrap.Integrations.Overlays
 				OpenLinuxVideo();
 				return;
 			}
-			_player = new MediaPlayer
-			{
-				Volume = 0
-			};
+			_player = new MediaPlayer { Volume = 0 };
 			_player.MediaOpened += OnVideoOpened;
 			_player.MediaEnded += OnVideoEnded;
 			_player.MediaFailed += OnVideoFailed;
@@ -313,7 +324,7 @@ namespace Voidstrap.Integrations.Overlays
 			_player.Play();
 			_timer = new DispatcherTimer(DispatcherPriority.Render)
 			{
-				Interval = TimeSpan.FromMilliseconds(Math.Max(_tickInterval.TotalMilliseconds, 1000.0 / 60.0))
+				Interval = TimeSpan.FromMilliseconds(Math.Max(_tickInterval.TotalMilliseconds, 1000.0 / 60.0)),
 			};
 			_timer.Tick += OnVideoTick;
 			_timer.Start();
@@ -369,7 +380,12 @@ namespace Voidstrap.Integrations.Overlays
 				App.Logger.WriteLine("HomepageBackgroundMedia", Failure!);
 				return;
 			}
-			(int targetWidth, int targetHeight) = FitSize(sourceWidth, sourceHeight, Math.Min(_animatedMaxWidth, MaxGifFrameWidth), Math.Min(_animatedMaxHeight, MaxGifFrameHeight));
+			(int targetWidth, int targetHeight) = FitSize(
+				sourceWidth,
+				sourceHeight,
+				Math.Min(_animatedMaxWidth, MaxGifFrameWidth),
+				Math.Min(_animatedMaxHeight, MaxGifFrameHeight)
+			);
 			int frameLimit = Math.Max(1, (int)Math.Min(MaxGifFrames, sourceDecodeBudget / sourceFrameBytes));
 			long requestedBytes = checked((long)targetWidth * targetHeight * 4 * frameLimit);
 			if (requestedBytes > MaxPortableGifDecodedBytes)
@@ -382,7 +398,19 @@ namespace Voidstrap.Integrations.Overlays
 			int[] delays;
 			int width;
 			int height;
-			if (Voidstrap.Utility.NativeImaging.TryDecodeAnimationBgra(bytes, targetWidth, targetHeight, frameLimit, MaxPortableGifDecodedBytes, out width, out height, out frames, out delays))
+			if (
+				Voidstrap.Utility.NativeImaging.TryDecodeAnimationBgra(
+					bytes,
+					targetWidth,
+					targetHeight,
+					frameLimit,
+					MaxPortableGifDecodedBytes,
+					out width,
+					out height,
+					out frames,
+					out delays
+				)
+			)
 			{
 				for (int index = 0; index < delays.Length; index++)
 					delays[index] = delays[index] <= 10 ? 100 : Math.Clamp(delays[index], 20, 10000);
@@ -442,9 +470,7 @@ namespace Voidstrap.Integrations.Overlays
 				{
 					_portableGifTimer?.Change(delays[_gifIndex], System.Threading.Timeout.Infinite);
 				}
-				catch (ObjectDisposedException)
-				{
-				}
+				catch (ObjectDisposedException) { }
 			}
 		}
 
@@ -454,9 +480,10 @@ namespace Voidstrap.Integrations.Overlays
 			if (frames == null)
 				return;
 			int length = checked(_portableGifWidth * _portableGifHeight * 4);
-			byte[] pixels = _portableGifWritePixels != null && _portableGifWritePixels.Length == length
-				? _portableGifWritePixels
-				: GC.AllocateUninitializedArray<byte>(length);
+			byte[] pixels =
+				_portableGifWritePixels != null && _portableGifWritePixels.Length == length
+					? _portableGifWritePixels
+					: GC.AllocateUninitializedArray<byte>(length);
 			_portableGifWritePixels = null;
 			Buffer.BlockCopy(frames[index], 0, pixels, 0, length);
 			lock (_frameLock)
@@ -505,9 +532,10 @@ namespace Voidstrap.Integrations.Overlays
 						PublishVideo(pixels, width, height);
 						lock (_frameLock)
 						{
-							pixels = _videoWritePixels != null && _videoWritePixels.Length == frameSize
-								? _videoWritePixels
-								: new byte[frameSize];
+							pixels =
+								_videoWritePixels != null && _videoWritePixels.Length == frameSize
+									? _videoWritePixels
+									: new byte[frameSize];
 							_videoWritePixels = null;
 						}
 					}
@@ -528,9 +556,7 @@ namespace Voidstrap.Integrations.Overlays
 						if (process.WaitForExit(2000))
 							process.WaitForExit();
 					}
-					catch
-					{
-					}
+					catch { }
 					lock (_videoProcessLock)
 					{
 						if (ReferenceEquals(_linuxVideoProcess, process))
@@ -567,16 +593,16 @@ namespace Voidstrap.Integrations.Overlays
 				_ = errorTask.GetAwaiter().GetResult();
 				foreach (string line in output.Split('\n'))
 				{
-					if (!line.Contains("GstFakeSink:voidstrapprobe.GstPad:sink", StringComparison.Ordinal)
+					if (
+						!line.Contains("GstFakeSink:voidstrapprobe.GstPad:sink", StringComparison.Ordinal)
 						|| !TryReadCapsValue(line, "width=(int)", out width)
-						|| !TryReadCapsValue(line, "height=(int)", out height))
+						|| !TryReadCapsValue(line, "height=(int)", out height)
+					)
 						continue;
 					return width > 0 && height > 0 && width <= 960 && height <= 540;
 				}
 			}
-			catch (OperationCanceledException) when (_disposed)
-			{
-			}
+			catch (OperationCanceledException) when (_disposed) { }
 			catch (Exception ex) when (!_disposed)
 			{
 				App.Logger.WriteLine("HomepageBackgroundMedia", "GStreamer size detection failed: " + ex.Message);
@@ -588,9 +614,7 @@ namespace Voidstrap.Integrations.Overlays
 					if (!process.HasExited)
 						process.Kill(true);
 				}
-				catch
-				{
-				}
+				catch { }
 				ClearLinuxVideoProcess(process);
 			}
 			width = 0;
@@ -605,30 +629,32 @@ namespace Voidstrap.Integrations.Overlays
 				UseShellExecute = false,
 				CreateNoWindow = true,
 				RedirectStandardOutput = true,
-				RedirectStandardError = true
+				RedirectStandardError = true,
 			};
-			foreach (string argument in new[]
-			{
-				"-v",
-				"filesrc",
-				"location=" + _path,
-				"!",
-				"decodebin",
-				"!",
-				"videoconvert",
-				"!",
-				"videoscale",
-				"add-borders=false",
-				"!",
-				"videorate",
-				"!",
-				"video/x-raw,format=(string)BGRA,width=(int)[1,960],height=(int)[1,540],framerate=(fraction)30/1,pixel-aspect-ratio=(fraction)1/1",
-				"!",
-				"fakesink",
-				"name=voidstrapprobe",
-				"num-buffers=1",
-				"sync=false"
-			})
+			foreach (
+				string argument in new[]
+				{
+					"-v",
+					"filesrc",
+					"location=" + _path,
+					"!",
+					"decodebin",
+					"!",
+					"videoconvert",
+					"!",
+					"videoscale",
+					"add-borders=false",
+					"!",
+					"videorate",
+					"!",
+					"video/x-raw,format=(string)BGRA,width=(int)[1,960],height=(int)[1,540],framerate=(fraction)30/1,pixel-aspect-ratio=(fraction)1/1",
+					"!",
+					"fakesink",
+					"name=voidstrapprobe",
+					"num-buffers=1",
+					"sync=false",
+				}
+			)
 			{
 				startInfo.ArgumentList.Add(argument);
 			}
@@ -675,27 +701,29 @@ namespace Voidstrap.Integrations.Overlays
 				UseShellExecute = false,
 				CreateNoWindow = true,
 				RedirectStandardOutput = true,
-				RedirectStandardError = true
+				RedirectStandardError = true,
 			};
-			foreach (string argument in new[]
-			{
-				"-q",
-				"filesrc",
-				"location=" + _path,
-				"!",
-				"decodebin",
-				"!",
-				"videoconvert",
-				"!",
-				"videoscale",
-				"add-borders=" + (addBorders ? "true" : "false"),
-				"!",
-				"video/x-raw,format=BGRA,width=" + width + ",height=" + height,
-				"!",
-				"fdsink",
-				"fd=1",
-				"sync=true"
-			})
+			foreach (
+				string argument in new[]
+				{
+					"-q",
+					"filesrc",
+					"location=" + _path,
+					"!",
+					"decodebin",
+					"!",
+					"videoconvert",
+					"!",
+					"videoscale",
+					"add-borders=" + (addBorders ? "true" : "false"),
+					"!",
+					"video/x-raw,format=BGRA,width=" + width + ",height=" + height,
+					"!",
+					"fdsink",
+					"fd=1",
+					"sync=true",
+				}
+			)
 			{
 				startInfo.ArgumentList.Add(argument);
 			}
@@ -738,11 +766,7 @@ namespace Voidstrap.Integrations.Overlays
 			if (_disposed || _player == null || _player.NaturalVideoWidth < 1 || _player.NaturalVideoHeight < 1)
 				return;
 			(int width, int height) = FitSize(_player.NaturalVideoWidth, _player.NaturalVideoHeight, _animatedMaxWidth, _animatedMaxHeight);
-			_videoDrawing = new VideoDrawing
-			{
-				Player = _player,
-				Rect = new Rect(0, 0, width, height)
-			};
+			_videoDrawing = new VideoDrawing { Player = _player, Rect = new Rect(0, 0, width, height) };
 			_videoVisual = new DrawingVisual();
 			_videoTarget = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
 		}
@@ -785,7 +809,10 @@ namespace Voidstrap.Integrations.Overlays
 			(int width, int height) = FitSize(source.PixelWidth, source.PixelHeight, maxWidth, maxHeight);
 			BitmapSource scaled = source;
 			if (width != source.PixelWidth || height != source.PixelHeight)
-				scaled = new TransformedBitmap(source, new ScaleTransform((double)width / source.PixelWidth, (double)height / source.PixelHeight));
+				scaled = new TransformedBitmap(
+					source,
+					new ScaleTransform((double)width / source.PixelWidth, (double)height / source.PixelHeight)
+				);
 			FormatConvertedBitmap converted = new(scaled, PixelFormats.Bgra32, null, 0);
 			int stride = width * 4;
 			byte[] pixels = new byte[stride * height];
@@ -807,7 +834,10 @@ namespace Voidstrap.Integrations.Overlays
 			(int canvasWidth, int canvasHeight) = ReadLogicalScreen(decoder);
 			if (canvasWidth < 1 || canvasHeight < 1 || canvasWidth > MaxCanvasEdge || canvasHeight > MaxCanvasEdge)
 			{
-				App.Logger.WriteLine("HomepageBackgroundMedia", "The animation canvas is " + canvasWidth + "x" + canvasHeight + ", falling back to the first frame");
+				App.Logger.WriteLine(
+					"HomepageBackgroundMedia",
+					"The animation canvas is " + canvasWidth + "x" + canvasHeight + ", falling back to the first frame"
+				);
 				TryAddSingleFrame(decoder, frames, maxFrameWidth, maxFrameHeight);
 				return frames;
 			}
@@ -816,7 +846,10 @@ namespace Voidstrap.Integrations.Overlays
 			long canvasBytes = (long)stride * canvasHeight;
 			if (canvasBytes > MaxCanvasBytes)
 			{
-				App.Logger.WriteLine("HomepageBackgroundMedia", "The animation canvas needs " + canvasBytes + " bytes, falling back to the first frame");
+				App.Logger.WriteLine(
+					"HomepageBackgroundMedia",
+					"The animation canvas needs " + canvasBytes + " bytes, falling back to the first frame"
+				);
 				TryAddSingleFrame(decoder, frames, maxFrameWidth, maxFrameHeight);
 				return frames;
 			}
@@ -860,12 +893,24 @@ namespace Voidstrap.Integrations.Overlays
 
 					BlendOver(canvas, canvasWidth, canvasHeight, framePixels, frameWidth, frameHeight, left, top);
 
-					BitmapSource snapshot = BitmapSource.Create(canvasWidth, canvasHeight, 96, 96, PixelFormats.Bgra32, null, canvas, stride);
+					BitmapSource snapshot = BitmapSource.Create(
+						canvasWidth,
+						canvasHeight,
+						96,
+						96,
+						PixelFormats.Bgra32,
+						null,
+						canvas,
+						stride
+					);
 					Frame frame = ToFrame(snapshot, ReadGifDelay(source), maxFrameWidth, maxFrameHeight);
 					long frameBytes = frame.Pixels.LongLength;
 					if (decodedBytes > MaxGifDecodedBytes - frameBytes)
 					{
-						App.Logger.WriteLine("HomepageBackgroundMedia", "The animation was cut to " + frames.Count + " of " + count + " frames to stay within the memory budget");
+						App.Logger.WriteLine(
+							"HomepageBackgroundMedia",
+							"The animation was cut to " + frames.Count + " of " + count + " frames to stay within the memory budget"
+						);
 						break;
 					}
 					decodedBytes += frameBytes;
@@ -919,9 +964,7 @@ namespace Voidstrap.Integrations.Overlays
 						height = h;
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 			if (width > 0 && height > 0)
 				return (width, height);
 
@@ -948,13 +991,20 @@ namespace Voidstrap.Integrations.Overlays
 						return signed;
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 			return 0;
 		}
 
-		private static void BlendOver(byte[] canvas, int canvasWidth, int canvasHeight, byte[] source, int sourceWidth, int sourceHeight, int left, int top)
+		private static void BlendOver(
+			byte[] canvas,
+			int canvasWidth,
+			int canvasHeight,
+			byte[] source,
+			int sourceWidth,
+			int sourceHeight,
+			int left,
+			int top
+		)
 		{
 			for (int y = 0; y < sourceHeight; y++)
 			{
@@ -1035,9 +1085,7 @@ namespace Voidstrap.Integrations.Overlays
 						return centiseconds * 10;
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 			return 100;
 		}
 
@@ -1112,9 +1160,7 @@ namespace Voidstrap.Integrations.Overlays
 					if (_linuxVideoProcess is { HasExited: false } process)
 						process.Kill(true);
 				}
-				catch
-				{
-				}
+				catch { }
 			}
 		}
 
@@ -1143,9 +1189,7 @@ namespace Voidstrap.Integrations.Overlays
 				dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(StopDispatcher));
 			if (_thread.IsAlive && Thread.CurrentThread != _thread)
 			{
-				TimeSpan timeout = Voidstrap.Utility.Platform.UsesPortableUi
-					? TimeSpan.FromMilliseconds(100)
-					: TimeSpan.FromSeconds(2);
+				TimeSpan timeout = Voidstrap.Utility.Platform.UsesPortableUi ? TimeSpan.FromMilliseconds(100) : TimeSpan.FromSeconds(2);
 				_thread.Join(timeout);
 			}
 			if (!_thread.IsAlive)

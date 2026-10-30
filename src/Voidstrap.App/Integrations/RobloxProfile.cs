@@ -56,8 +56,16 @@ public static class RobloxProfile
 		Task<JsonDocument?> following = GetJsonAsync($"https://friends.roblox.com/v1/users/{id}/followings/count", null, token);
 		Task<JsonDocument?> robux = GetJsonAsync($"https://economy.roblox.com/v1/users/{id}/currency", cookie, token);
 		Task<JsonDocument?> premium = GetJsonAsync($"https://premiumfeatures.roblox.com/v1/users/{id}/validate-membership", cookie, token);
-		Task<JsonDocument?> avatar = GetJsonAsync($"https://thumbnails.roblox.com/v1/users/avatar?userIds={id}&size=420x420&format=Png&isCircular=false", null, token);
-		Task<JsonDocument?> headshot = GetJsonAsync($"https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds={id}&size=150x150&format=Png&isCircular=true", null, token);
+		Task<JsonDocument?> avatar = GetJsonAsync(
+			$"https://thumbnails.roblox.com/v1/users/avatar?userIds={id}&size=420x420&format=Png&isCircular=false",
+			null,
+			token
+		);
+		Task<JsonDocument?> headshot = GetJsonAsync(
+			$"https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds={id}&size=150x150&format=Png&isCircular=true",
+			null,
+			token
+		);
 		await Task.WhenAll(user, friends, followers, following, robux, premium, avatar, headshot).ConfigureAwait(false);
 		using JsonDocument? userDoc = user.Result;
 		using JsonDocument? friendsDoc = friends.Result;
@@ -69,27 +77,33 @@ public static class RobloxProfile
 		using JsonDocument? headshotDoc = headshot.Result;
 		RobloxChatUser? cached = RobloxChat.GetCachedUser(id);
 		JsonElement? root = userDoc?.RootElement;
-		return (RobloxChatStatus.Ready, new RobloxProfileInfo
-		{
-			UserId = id,
-			Name = ReadString(root, "name") is { Length: > 0 } name ? name : cached?.Name ?? string.Empty,
-			DisplayName = ReadString(root, "displayName") is { Length: > 0 } display ? display : cached?.DisplayName ?? string.Empty,
-			Description = ReadString(root, "description"),
-			Created = DateTimeOffset.TryParse(ReadString(root, "created"), out DateTimeOffset created) ? created : null,
-			Verified = root is { } r && r.TryGetProperty("hasVerifiedBadge", out JsonElement verified) && verified.ValueKind == JsonValueKind.True,
-			Friends = ReadNumber(friendsDoc?.RootElement, "count"),
-			Followers = ReadNumber(followersDoc?.RootElement, "count"),
-			Following = ReadNumber(followingDoc?.RootElement, "count"),
-			Robux = ReadNumber(robuxDoc?.RootElement, "robux"),
-			Premium = premiumDoc?.RootElement.ValueKind switch
+		return (
+			RobloxChatStatus.Ready,
+			new RobloxProfileInfo
 			{
-				JsonValueKind.True => true,
-				JsonValueKind.False => false,
-				_ => null
-			},
-			AvatarUrl = FirstImage(avatarDoc),
-			HeadshotUrl = FirstImage(headshotDoc)
-		});
+				UserId = id,
+				Name = ReadString(root, "name") is { Length: > 0 } name ? name : cached?.Name ?? string.Empty,
+				DisplayName = ReadString(root, "displayName") is { Length: > 0 } display ? display : cached?.DisplayName ?? string.Empty,
+				Description = ReadString(root, "description"),
+				Created = DateTimeOffset.TryParse(ReadString(root, "created"), out DateTimeOffset created) ? created : null,
+				Verified =
+					root is { } r
+					&& r.TryGetProperty("hasVerifiedBadge", out JsonElement verified)
+					&& verified.ValueKind == JsonValueKind.True,
+				Friends = ReadNumber(friendsDoc?.RootElement, "count"),
+				Followers = ReadNumber(followersDoc?.RootElement, "count"),
+				Following = ReadNumber(followingDoc?.RootElement, "count"),
+				Robux = ReadNumber(robuxDoc?.RootElement, "robux"),
+				Premium = premiumDoc?.RootElement.ValueKind switch
+				{
+					JsonValueKind.True => true,
+					JsonValueKind.False => false,
+					_ => null,
+				},
+				AvatarUrl = FirstImage(avatarDoc),
+				HeadshotUrl = FirstImage(headshotDoc),
+			}
+		);
 	}
 
 	private static string FirstImage(JsonDocument? document)
@@ -104,11 +118,20 @@ public static class RobloxProfile
 		return string.Empty;
 	}
 
-	private static string ReadString(JsonElement? element, string name)
-		=> element is { ValueKind: JsonValueKind.Object } e && e.TryGetProperty(name, out JsonElement value) && value.ValueKind == JsonValueKind.String ? value.GetString() ?? string.Empty : string.Empty;
+	private static string ReadString(JsonElement? element, string name) =>
+		element is { ValueKind: JsonValueKind.Object } e
+		&& e.TryGetProperty(name, out JsonElement value)
+		&& value.ValueKind == JsonValueKind.String
+			? value.GetString() ?? string.Empty
+			: string.Empty;
 
-	private static long? ReadNumber(JsonElement? element, string name)
-		=> element is { ValueKind: JsonValueKind.Object } e && e.TryGetProperty(name, out JsonElement value) && value.ValueKind == JsonValueKind.Number && value.TryGetInt64(out long number) ? number : null;
+	private static long? ReadNumber(JsonElement? element, string name) =>
+		element is { ValueKind: JsonValueKind.Object } e
+		&& e.TryGetProperty(name, out JsonElement value)
+		&& value.ValueKind == JsonValueKind.Number
+		&& value.TryGetInt64(out long number)
+			? number
+			: null;
 
 	// One failed part never fails the whole profile, it just shows as unavailable
 	private static async Task<JsonDocument?> GetJsonAsync(string url, string? cookie, CancellationToken token)
@@ -118,13 +141,17 @@ public static class RobloxProfile
 			using HttpRequestMessage request = new(HttpMethod.Get, url);
 			if (!string.IsNullOrEmpty(cookie))
 				request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
-			using HttpResponseMessage response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+			using HttpResponseMessage response = await Client
+				.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token)
+				.ConfigureAwait(false);
 			if (!response.IsSuccessStatusCode)
 			{
 				App.Logger.WriteLine(LOG_IDENT, $"{new Uri(url).Host} answered {(int)response.StatusCode} {response.StatusCode}");
 				return null;
 			}
-			return JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(response.Content, MaxApiResponseBytes, token).ConfigureAwait(false));
+			return JsonDocument.Parse(
+				await Utility.Http.ReadStringBoundedAsync(response.Content, MaxApiResponseBytes, token).ConfigureAwait(false)
+			);
 		}
 		catch (OperationCanceledException)
 		{
@@ -139,12 +166,15 @@ public static class RobloxProfile
 
 	private static HttpClient CreateClient()
 	{
-		HttpClient client = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(10L), handler =>
-		{
-			handler.UseCookies = false;
-			handler.AllowAutoRedirect = false;
-			handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-		});
+		HttpClient client = Voidstrap.Utility.VpnHttpClient.Create(
+			TimeSpan.FromSeconds(10L),
+			handler =>
+			{
+				handler.UseCookies = false;
+				handler.AllowAutoRedirect = false;
+				handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+			}
+		);
 		client.DefaultRequestHeaders.UserAgent.ParseAdd("Voidstrap/1.0");
 		return client;
 	}

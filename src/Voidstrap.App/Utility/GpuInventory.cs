@@ -130,7 +130,8 @@ public static class GpuInventory
         try
         {
             using System.Management.ManagementObjectSearcher searcher = new System.Management.ManagementObjectSearcher(
-                "SELECT Name, PNPDeviceID FROM Win32_VideoController");
+                "SELECT Name, PNPDeviceID FROM Win32_VideoController"
+            );
             foreach (System.Management.ManagementBaseObject item in searcher.Get())
             {
                 using (item)
@@ -153,7 +154,14 @@ public static class GpuInventory
         {
             foreach (Voidstrap.Platform.Linux.LinuxGpuCard card in Voidstrap.Platform.Linux.LinuxGpuCatalog.Cards)
             {
-                if (!uint.TryParse(card.VendorId, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out uint vendor))
+                if (
+                    !uint.TryParse(
+                        card.VendorId,
+                        System.Globalization.NumberStyles.HexNumber,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        out uint vendor
+                    )
+                )
                     continue;
                 string name = string.IsNullOrWhiteSpace(card.ProductName) ? card.Node : (card.VendorName + " " + card.ProductName).Trim();
                 Add(found, name, vendor, "sysfs");
@@ -168,13 +176,25 @@ public static class GpuInventory
     private static uint VendorFromPnpId(string pnpId, string name)
     {
         int marker = pnpId.IndexOf("VEN_", StringComparison.OrdinalIgnoreCase);
-        if (marker >= 0 && marker + 8 <= pnpId.Length
-            && uint.TryParse(pnpId.AsSpan(marker + 4, 4), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out uint vendor))
+        if (
+            marker >= 0
+            && marker + 8 <= pnpId.Length
+            && uint.TryParse(
+                pnpId.AsSpan(marker + 4, 4),
+                System.Globalization.NumberStyles.HexNumber,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out uint vendor
+            )
+        )
         {
             return vendor;
         }
-        if (name.Contains("NVIDIA", StringComparison.OrdinalIgnoreCase) || name.Contains("GeForce", StringComparison.OrdinalIgnoreCase)
-            || name.Contains("Quadro", StringComparison.OrdinalIgnoreCase) || name.Contains("RTX", StringComparison.OrdinalIgnoreCase))
+        if (
+            name.Contains("NVIDIA", StringComparison.OrdinalIgnoreCase)
+            || name.Contains("GeForce", StringComparison.OrdinalIgnoreCase)
+            || name.Contains("Quadro", StringComparison.OrdinalIgnoreCase)
+            || name.Contains("RTX", StringComparison.OrdinalIgnoreCase)
+        )
         {
             return VendorNvidia;
         }
@@ -190,9 +210,11 @@ public static class GpuInventory
         string clean = (name ?? string.Empty).Trim();
         if (clean.Length == 0)
             return;
-        if (vendorId == VendorMicrosoft
+        if (
+            vendorId == VendorMicrosoft
             || clean.Contains("Basic Render", StringComparison.OrdinalIgnoreCase)
-            || clean.Contains("Basic Display", StringComparison.OrdinalIgnoreCase))
+            || clean.Contains("Basic Display", StringComparison.OrdinalIgnoreCase)
+        )
         {
             return;
         }
@@ -208,13 +230,18 @@ public static class GpuInventory
     {
         try
         {
-            App.Logger?.WriteLine("GpuInventory", found.Count == 0
-                ? "No graphics adapters detected"
-                : "Detected " + found.Count + " adapter(s): " + string.Join(" | ", found.Select(adapter => adapter.ToString()))
-                    + " -> NVIDIA present: " + found.Any(adapter => adapter.IsNvidia));
+            App.Logger?.WriteLine(
+                "GpuInventory",
+                found.Count == 0
+                    ? "No graphics adapters detected"
+                    : "Detected "
+                        + found.Count
+                        + " adapter(s): "
+                        + string.Join(" | ", found.Select(adapter => adapter.ToString()))
+                        + " -> NVIDIA present: "
+                        + found.Any(adapter => adapter.IsNvidia)
+            );
         }
-        catch
-        {
-        }
+        catch { }
     }
 }

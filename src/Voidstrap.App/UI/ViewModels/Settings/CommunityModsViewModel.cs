@@ -69,10 +69,7 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 
 	public CommunityModsViewModel()
 	{
-		_searchDebounce = new DispatcherTimer(DispatcherPriority.Background)
-		{
-			Interval = TimeSpan.FromMilliseconds(SearchDebounceMs)
-		};
+		_searchDebounce = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(SearchDebounceMs) };
 		_searchDebounce.Tick += OnSearchDebounceTick;
 
 		RefreshCommand = new AsyncRelayCommand(RefreshAsync);
@@ -303,9 +300,11 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 
 	public Visibility GalleryVisibility => DetailImages.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
 
-	public Visibility CreatorVisibility => string.IsNullOrWhiteSpace(SelectedMod?.Submitter?.Name) ? Visibility.Collapsed : Visibility.Visible;
+	public Visibility CreatorVisibility =>
+		string.IsNullOrWhiteSpace(SelectedMod?.Submitter?.Name) ? Visibility.Collapsed : Visibility.Visible;
 
-	public Visibility GameBananaDetailVisibility => SelectedMod?.SourceName == GameBananaCatalog.SourceName ? Visibility.Visible : Visibility.Collapsed;
+	public Visibility GameBananaDetailVisibility =>
+		SelectedMod?.SourceName == GameBananaCatalog.SourceName ? Visibility.Visible : Visibility.Collapsed;
 
 	public static bool IsReplacementConfig(CommunityModFile? file)
 	{
@@ -331,8 +330,10 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 		{
 			return false;
 		}
-		return entry.Files.Any(candidate => IsReplacementConfig(candidate)
-			&& string.Equals(Path.GetFileNameWithoutExtension(candidate.FileName), baseName, StringComparison.OrdinalIgnoreCase));
+		return entry.Files.Any(candidate =>
+			IsReplacementConfig(candidate)
+			&& string.Equals(Path.GetFileNameWithoutExtension(candidate.FileName), baseName, StringComparison.OrdinalIgnoreCase)
+		);
 	}
 
 	public static (bool MyMods, bool Replacement) InstallButtonsFor(CommunityModEntry? mod, CommunityModFile? file)
@@ -354,21 +355,18 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 		return (myMods || !replacement, replacement);
 	}
 
-	public Visibility ManagedInstallVisibility => InstallButtonsFor(SelectedMod, SelectedFile).MyMods
-		? Visibility.Visible
-		: Visibility.Collapsed;
+	public Visibility ManagedInstallVisibility =>
+		InstallButtonsFor(SelectedMod, SelectedFile).MyMods ? Visibility.Visible : Visibility.Collapsed;
 
-	public Visibility ReplacementInstallVisibility => InstallButtonsFor(SelectedMod, SelectedFile).Replacement
-		? Visibility.Visible
-		: Visibility.Collapsed;
+	public Visibility ReplacementInstallVisibility =>
+		InstallButtonsFor(SelectedMod, SelectedFile).Replacement ? Visibility.Visible : Visibility.Collapsed;
 
 	public Visibility FleasionInstallVisibility => ReplacementInstallVisibility;
 
-	public string InstallTargetHint => IsReplacementPackage(SelectedMod, SelectedFile)
-		? "Replacement config for Fleasion"
-		: InstallButtonsFor(SelectedMod, SelectedFile) is (false, true)
-			? "This file is a replacement config, it applies through Fleasion"
-			: "Verified before install, the target is detected from the package";
+	public string InstallTargetHint =>
+		IsReplacementPackage(SelectedMod, SelectedFile) ? "Replacement config for Fleasion"
+		: InstallButtonsFor(SelectedMod, SelectedFile) is (false, true) ? "This file is a replacement config, it applies through Fleasion"
+		: "Verified before install, the target is detected from the package";
 
 	public async Task InitializeAsync()
 	{
@@ -398,7 +396,9 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 	{
 		try
 		{
-			IReadOnlyList<CommunityModCategory> categories = await GameBananaCatalog.GetCategoriesAsync(CancellationToken.None).ConfigureAwait(true);
+			IReadOnlyList<CommunityModCategory> categories = await GameBananaCatalog
+				.GetCategoriesAsync(CancellationToken.None)
+				.ConfigureAwait(true);
 			if (_disposed)
 			{
 				return;
@@ -448,8 +448,11 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 				CommunityModPage page = IsMarketplace
 					? await MarketplaceCatalog.BrowseAsync(_selectedSort, _searchText, cancellation.Token).ConfigureAwait(true)
 					: await TakePrefetchAsync(next, cancellation.Token).ConfigureAwait(true)
-						?? await GameBananaCatalog.BrowseAsync(next, _selectedSort, _selectedCategory, _searchText, cancellation.Token).ConfigureAwait(true);
-				current = !cancellation.Token.IsCancellationRequested && ReferenceEquals(Volatile.Read(ref _loadCancellation), cancellation);
+						?? await GameBananaCatalog
+							.BrowseAsync(next, _selectedSort, _selectedCategory, _searchText, cancellation.Token)
+							.ConfigureAwait(true);
+				current =
+					!cancellation.Token.IsCancellationRequested && ReferenceEquals(Volatile.Read(ref _loadCancellation), cancellation);
 				if (!current)
 				{
 					return;
@@ -470,9 +473,10 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 					break;
 				}
 			}
-			string hint = !IsMarketplace && _searchText.Trim().Length == 1
-				? "   Type at least " + GameBananaCatalog.MinSearchLength + " characters to search."
-				: "";
+			string hint =
+				!IsMarketplace && _searchText.Trim().Length == 1
+					? "   Type at least " + GameBananaCatalog.MinSearchLength + " characters to search."
+					: "";
 			StatusText = (Mods.Count == 0 ? "No Roblox mods matched." : Mods.Count + " Roblox mods shown") + hint;
 		}
 		catch (OperationCanceledException)
@@ -522,7 +526,13 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 		}
 		DropPrefetch();
 		CancellationTokenSource cancellation = new CancellationTokenSource();
-		Task<CommunityModPage> prefetch = GameBananaCatalog.BrowseAsync(_page + 1, _selectedSort, _selectedCategory, _searchText, cancellation.Token);
+		Task<CommunityModPage> prefetch = GameBananaCatalog.BrowseAsync(
+			_page + 1,
+			_selectedSort,
+			_selectedCategory,
+			_searchText,
+			cancellation.Token
+		);
 		_prefetchCancellation = cancellation;
 		_prefetchKey = key;
 		_prefetch = prefetch;
@@ -535,9 +545,7 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 		{
 			await prefetch.ConfigureAwait(false);
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine(LogIdent, "The next page could not be prepared: " + ex.Message);
@@ -610,7 +618,7 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 				Author = pack.Author,
 				IconUrl = pack.IconUrl,
 				ProfileUrl = pack.ProfileUrl,
-				SourceName = GameBananaCatalog.SourceName
+				SourceName = GameBananaCatalog.SourceName,
 			};
 		if (entry == null)
 		{
@@ -646,9 +654,8 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 				return;
 			}
 			DetailParagraphs.Clear();
-			IEnumerable<string> lines = detail.DetailLines.Count > 0
-				? detail.DetailLines
-				: GameBananaCatalog.ToParagraphs(detail.DescriptionHtml);
+			IEnumerable<string> lines =
+				detail.DetailLines.Count > 0 ? detail.DetailLines : GameBananaCatalog.ToParagraphs(detail.DescriptionHtml);
 			foreach (string paragraph in lines)
 			{
 				DetailParagraphs.Add(paragraph);
@@ -670,9 +677,7 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 			SelectedMod = detail;
 			OnPropertyChanged(nameof(GalleryVisibility));
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine(LogIdent, "The mod page could not be opened: " + ex.Message);
@@ -724,15 +729,25 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 		return Task.CompletedTask;
 	}
 
-	private static async Task RunInstallAsync(CommunityModEntry entry, CommunityModFile file, CommunityModInstallTarget target, CancellationTokenSource cancellation)
+	private static async Task RunInstallAsync(
+		CommunityModEntry entry,
+		CommunityModFile file,
+		CommunityModInstallTarget target,
+		CancellationTokenSource cancellation
+	)
 	{
 		Progress<string> progress = new Progress<string>(message => Report(message, -1.0, 0));
 		try
 		{
 			CancellationToken token = cancellation.Token;
-			string result = await Task.Run(() => MarketplaceCatalog.IsMarketplaceUrl(file.DownloadUrl)
-				? MarketplaceCatalog.InstallAsync(entry, file, progress, token)
-				: GameBananaCatalog.InstallAsync(entry, file, progress, token, target), token).ConfigureAwait(true);
+			string result = await Task.Run(
+					() =>
+						MarketplaceCatalog.IsMarketplaceUrl(file.DownloadUrl)
+							? MarketplaceCatalog.InstallAsync(entry, file, progress, token)
+							: GameBananaCatalog.InstallAsync(entry, file, progress, token, target),
+					token
+				)
+				.ConfigureAwait(true);
 			string message;
 			if (result.StartsWith(FleasionModInstaller.ResultPrefix, StringComparison.Ordinal))
 			{
@@ -749,8 +764,13 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 				: [.. ManagedModStore.DescribeConflicts(result)];
 			if (conflicts.Count > 0)
 			{
-				Voidstrap.Utility.AppNotifications.RecordInfo("mods:conflicts", entry.Name + " may overwrite other mods",
-					"It replaces files that these enabled mods also replace: " + string.Join(", ", conflicts) + ". Overlapping mods can make Roblox look or behave oddly, but this cannot crash Voidstrap.");
+				Voidstrap.Utility.AppNotifications.RecordInfo(
+					"mods:conflicts",
+					entry.Name + " may overwrite other mods",
+					"It replaces files that these enabled mods also replace: "
+						+ string.Join(", ", conflicts)
+						+ ". Overlapping mods can make Roblox look or behave oddly, but this cannot crash Voidstrap."
+				);
 			}
 			Report(message, 1.0, HoldMilliseconds);
 			InstallCompleted?.Invoke(null, EventArgs.Empty);
@@ -762,9 +782,13 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine(LogIdent, "Install failed for " + entry.Id + ": " + ex.Message);
-			Report(ex is System.Net.Http.HttpRequestException or TimeoutException or IOException
-				? "The download failed. Check your connection and try again."
-				: "Blocked: " + ex.Message, 1.0, HoldMilliseconds);
+			Report(
+				ex is System.Net.Http.HttpRequestException or TimeoutException or IOException
+					? "The download failed. Check your connection and try again."
+					: "Blocked: " + ex.Message,
+				1.0,
+				HoldMilliseconds
+			);
 		}
 		finally
 		{
@@ -890,9 +914,7 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 		{
 			source.Cancel();
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 	}
 
 	public void CancelTransientOperations()

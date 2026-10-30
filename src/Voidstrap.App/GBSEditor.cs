@@ -14,7 +14,9 @@ public class GBSEditor
 {
 	private static readonly string[] AllowedRootChildren = ["External", "Item", "Meta", "SharedStrings"];
 
-	public static readonly IReadOnlyDictionary<string, GBSProperty> KnownProperties = new Dictionary<string, GBSProperty>(StringComparer.Ordinal)
+	public static readonly IReadOnlyDictionary<string, GBSProperty> KnownProperties = new Dictionary<string, GBSProperty>(
+		StringComparer.Ordinal
+	)
 	{
 		["FramerateCap"] = new("int", 0.0, 10000.0),
 		["SavedQualityLevel"] = new("token", 0.0, 10.0),
@@ -38,7 +40,7 @@ public class GBSEditor
 		["OnScreenProfilerEnabled"] = new("bool", 0.0, 1.0),
 		["PlayerNamesEnabled"] = new("bool", 0.0, 1.0),
 		["BadgeVisible"] = new("bool", 0.0, 1.0),
-		["ChatVisible"] = new("bool", 0.0, 1.0)
+		["ChatVisible"] = new("bool", 0.0, 1.0),
 	};
 
 	private readonly object _sync = new();
@@ -49,16 +51,17 @@ public class GBSEditor
 
 	public XDocument? Document { get; set; }
 
-	public Dictionary<string, string> PresetPaths { get; } = new Dictionary<string, string>
-	{
-		{ "Rendering.FramerateCap", "FramerateCap" },
-		{ "Rendering.SavedQualityLevel", "SavedQualityLevel" },
-		{ "User.MouseSensitivity", "MouseSensitivity" },
-		{ "User.VREnabled", "VREnabled" },
-		{ "UI.Transparency", "PreferredTransparency" },
-		{ "UI.ReducedMotion", "ReducedMotion" },
-		{ "UI.FontSize", "PreferredTextSize" }
-	};
+	public Dictionary<string, string> PresetPaths { get; } =
+		new Dictionary<string, string>
+		{
+			{ "Rendering.FramerateCap", "FramerateCap" },
+			{ "Rendering.SavedQualityLevel", "SavedQualityLevel" },
+			{ "User.MouseSensitivity", "MouseSensitivity" },
+			{ "User.VREnabled", "VREnabled" },
+			{ "UI.Transparency", "PreferredTransparency" },
+			{ "UI.ReducedMotion", "ReducedMotion" },
+			{ "UI.FontSize", "PreferredTextSize" },
+		};
 
 	public bool Loaded { get; private set; }
 
@@ -78,8 +81,12 @@ public class GBSEditor
 
 	public bool RepairedOnLoad => _repairedOnLoad;
 
-	public virtual string FileLocation => OperatingSystem.IsLinux()
-		? Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary ? Path.Combine(Voidstrap.Platform.Linux.LinuxRosemary.GuestRobloxRoot, "GlobalBasicSettings_13.xml") : SoberFileLocation : Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "GlobalBasicSettings_13.xml");
+	public virtual string FileLocation =>
+		OperatingSystem.IsLinux()
+			? Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary
+				? Path.Combine(Voidstrap.Platform.Linux.LinuxRosemary.GuestRobloxRoot, "GlobalBasicSettings_13.xml")
+				: SoberFileLocation
+			: Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "GlobalBasicSettings_13.xml");
 
 	private static string SoberFileLocation
 	{
@@ -95,7 +102,11 @@ public class GBSEditor
 	public bool SetPreset(string prefix, object? value)
 	{
 		bool applied = true;
-		foreach (KeyValuePair<string, string> item in PresetPaths.Where((KeyValuePair<string, string> x) => x.Key.StartsWith(prefix, StringComparison.Ordinal)))
+		foreach (
+			KeyValuePair<string, string> item in PresetPaths.Where(
+				(KeyValuePair<string, string> x) => x.Key.StartsWith(prefix, StringComparison.Ordinal)
+			)
+		)
 		{
 			if (!SetProperty(item.Value, value))
 			{
@@ -119,10 +130,10 @@ public class GBSEditor
 		lock (_sync)
 		{
 			EnsureFresh();
-			return FindProperties(Document)?
-				.Elements()
-				.LastOrDefault((XElement element) => element.Attribute("name")?.Value == name)?
-				.Value;
+			return FindProperties(Document)
+				?.Elements()
+				.LastOrDefault((XElement element) => element.Attribute("name")?.Value == name)
+				?.Value;
 		}
 	}
 
@@ -168,7 +179,10 @@ public class GBSEditor
 			XElement? properties = EnsureProperties(Document);
 			if (properties is null)
 			{
-				App.Logger?.WriteLine("GBSEditor::SetProperty", "The settings document has no properties container, " + name + " was not changed");
+				App.Logger?.WriteLine(
+					"GBSEditor::SetProperty",
+					"The settings document has no properties container, " + name + " was not changed"
+				);
 				return false;
 			}
 
@@ -179,10 +193,7 @@ public class GBSEditor
 				return false;
 			}
 
-			List<XElement> existing = properties
-				.Elements()
-				.Where((XElement element) => element.Attribute("name")?.Value == name)
-				.ToList();
+			List<XElement> existing = properties.Elements().Where((XElement element) => element.Attribute("name")?.Value == name).ToList();
 
 			foreach (XElement duplicate in existing.Skip(1))
 			{
@@ -373,7 +384,10 @@ public class GBSEditor
 		}
 		else
 		{
-			App.Logger?.WriteLine("GBSEditor::Load", "The settings file is not a valid Roblox document, rebuilding it and keeping the recognised values");
+			App.Logger?.WriteLine(
+				"GBSEditor::Load",
+				"The settings file is not a valid Roblox document, rebuilding it and keeping the recognised values"
+			);
 			Document = Rebuild(loaded);
 			_repairedOnLoad = true;
 		}
@@ -504,7 +518,10 @@ public class GBSEditor
 				}
 				catch (Exception replaceException)
 				{
-					App.Logger?.WriteLine("GBSEditor::Save", "Atomic replace was unavailable, writing in place: " + replaceException.Message);
+					App.Logger?.WriteLine(
+						"GBSEditor::Save",
+						"Atomic replace was unavailable, writing in place: " + replaceException.Message
+					);
 					File.Copy(tempPath, location, true);
 				}
 			}
@@ -540,7 +557,12 @@ public class GBSEditor
 				return;
 			}
 
-			foreach (XElement element in properties.Elements().Where((XElement element) => KnownProperties.ContainsKey(element.Attribute("name")?.Value ?? string.Empty)).ToList())
+			foreach (
+				XElement element in properties
+					.Elements()
+					.Where((XElement element) => KnownProperties.ContainsKey(element.Attribute("name")?.Value ?? string.Empty))
+					.ToList()
+			)
 			{
 				element.Remove();
 			}
@@ -551,28 +573,33 @@ public class GBSEditor
 	public static XDocument CreateDocument()
 	{
 		XNamespace xsi = "http://www.w3.org/2001/XMLSchema-instance";
-		XElement root = new("roblox",
+		XElement root = new(
+			"roblox",
 			new XAttribute(XNamespace.Xmlns + "xmime", "http://www.w3.org/2005/05/xmlmime"),
 			new XAttribute(XNamespace.Xmlns + "xsi", xsi.NamespaceName),
 			new XAttribute(xsi + "noNamespaceSchemaLocation", "http://www.roblox.com/roblox.xsd"),
 			new XAttribute("version", "4"),
 			new XElement("External", "null"),
 			new XElement("External", "nil"),
-			CreateUserGameSettingsItem());
+			CreateUserGameSettingsItem()
+		);
 		return new XDocument(new XDeclaration("1.0", "UTF-8", null), root);
 	}
 
 	public static XElement CreateUserGameSettingsItem()
 	{
-		return new XElement("Item",
+		return new XElement(
+			"Item",
 			new XAttribute("class", "UserGameSettings"),
 			new XAttribute("referent", "RBX" + Guid.NewGuid().ToString("N").ToUpperInvariant()),
-			new XElement("Properties"));
+			new XElement("Properties")
+		);
 	}
 
 	public static XElement? FindProperties(XDocument? document)
 	{
-		return document?.Descendants("Item")
+		return document
+			?.Descendants("Item")
 			.FirstOrDefault((XElement item) => item.Attribute("class")?.Value == "UserGameSettings")
 			?.Element("Properties");
 	}
@@ -591,7 +618,8 @@ public class GBSEditor
 			return null;
 		}
 
-		XElement? item = document!.Descendants("Item")
+		XElement? item = document!
+			.Descendants("Item")
 			.FirstOrDefault((XElement candidate) => candidate.Attribute("class")?.Value == "UserGameSettings");
 		if (item is null)
 		{

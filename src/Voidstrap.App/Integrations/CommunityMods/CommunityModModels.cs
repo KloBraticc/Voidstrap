@@ -8,7 +8,7 @@ public enum CommunityModInstallTarget
 {
 	ManagedMods,
 	Fleasion,
-	AssetCache
+	AssetCache,
 }
 
 public sealed class CommunityModCategory
@@ -69,11 +69,10 @@ public sealed class CommunityModFile
 
 	public bool ListingHasCacheEntries { get; set; }
 
-	public string SizeDisplay => SizeBytes <= 0
-		? "Unknown size"
-		: SizeBytes >= 1048576
-			? (SizeBytes / 1048576d).ToString("0.#") + " MB"
-			: Math.Max(1, SizeBytes / 1024) + " KB";
+	public string SizeDisplay =>
+		SizeBytes <= 0 ? "Unknown size"
+		: SizeBytes >= 1048576 ? (SizeBytes / 1048576d).ToString("0.#") + " MB"
+		: Math.Max(1, SizeBytes / 1024) + " KB";
 }
 
 public sealed class CommunityModPerson
@@ -136,7 +135,11 @@ public sealed class CommunityModUpdate
 
 	public string DateDisplay => CreatedUtc == default ? "" : CreatedUtc.ToLocalTime().ToString("d MMM yyyy");
 
-	public string Detail => string.Join("   ", new[] { Version, DateDisplay, IsSignificant ? "Major update" : "" }.Where(value => !string.IsNullOrWhiteSpace(value)));
+	public string Detail =>
+		string.Join(
+			"   ",
+			new[] { Version, DateDisplay, IsSignificant ? "Major update" : "" }.Where(value => !string.IsNullOrWhiteSpace(value))
+		);
 }
 
 public sealed class CommunityModIssue
@@ -235,9 +238,17 @@ public sealed class CommunityModEntry
 
 	public string StatsDisplay => LikeCount.ToString("N0") + " likes   " + ViewCount.ToString("N0") + " views";
 
-	public string DetailStatsDisplay => SourceName == GameBananaCatalog.SourceName
-		? LikeCount.ToString("N0") + " likes   dislikes unavailable   " + CommentCount.ToString("N0") + " comments   " + DownloadCount.ToString("N0") + " downloads   " + ViewCount.ToString("N0") + " views"
-		: StatsDisplay;
+	public string DetailStatsDisplay =>
+		SourceName == GameBananaCatalog.SourceName
+			? LikeCount.ToString("N0")
+				+ " likes   dislikes unavailable   "
+				+ CommentCount.ToString("N0")
+				+ " comments   "
+				+ DownloadCount.ToString("N0")
+				+ " downloads   "
+				+ ViewCount.ToString("N0")
+				+ " views"
+			: StatsDisplay;
 
 	public string CategoryDisplay => string.IsNullOrEmpty(SuperCategory) ? Category : SuperCategory + "   " + Category;
 
@@ -256,7 +267,5 @@ public sealed class CommunityModPage
 
 	public int ReturnedCount { get; set; }
 
-	public bool HasMore => ReturnedCount > 0
-		&& ReturnedCount >= PageSize
-		&& (TotalCount <= 0 || PageNumber * PageSize < TotalCount);
+	public bool HasMore => ReturnedCount > 0 && ReturnedCount >= PageSize && (TotalCount <= 0 || PageNumber * PageSize < TotalCount);
 }

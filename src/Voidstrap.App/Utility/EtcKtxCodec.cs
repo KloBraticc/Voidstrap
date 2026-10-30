@@ -16,7 +16,14 @@ internal static class EtcKtxCodec
 
 	private static readonly int[,] Modifiers =
 	{
-		{ 2, 8 }, { 5, 17 }, { 9, 29 }, { 13, 42 }, { 18, 60 }, { 24, 80 }, { 33, 106 }, { 47, 183 }
+		{ 2, 8 },
+		{ 5, 17 },
+		{ 9, 29 },
+		{ 13, 42 },
+		{ 18, 60 },
+		{ 24, 80 },
+		{ 33, 106 },
+		{ 47, 183 },
 	};
 
 	internal static byte[] ToWaterDds(byte[] ktx)
@@ -54,8 +61,10 @@ internal static class EtcKtxCodec
 	{
 		if (ktx.Length < HeaderLength + 4 || !ktx.AsSpan(0, 12).SequenceEqual(Identifier))
 			throw new InvalidDataException("The texture is not a KTX file.");
-		if (BinaryPrimitives.ReadUInt32LittleEndian(ktx.AsSpan(12)) != 0x04030201
-			|| BinaryPrimitives.ReadUInt32LittleEndian(ktx.AsSpan(28)) != Etc1InternalFormat)
+		if (
+			BinaryPrimitives.ReadUInt32LittleEndian(ktx.AsSpan(12)) != 0x04030201
+			|| BinaryPrimitives.ReadUInt32LittleEndian(ktx.AsSpan(28)) != Etc1InternalFormat
+		)
 			throw new InvalidDataException("The KTX texture is not ETC1.");
 		width = (int)BinaryPrimitives.ReadUInt32LittleEndian(ktx.AsSpan(36));
 		height = (int)BinaryPrimitives.ReadUInt32LittleEndian(ktx.AsSpan(40));
@@ -233,14 +242,29 @@ internal static class EtcKtxCodec
 			{
 				int[] firstColor = [Expand5(first5[0]), Expand5(first5[1]), Expand5(first5[2])];
 				int[] secondColor = [Expand5(second5[0]), Expand5(second5[1]), Expand5(second5[2])];
-				long error = ChooseTables(pixels, flip, firstColor, secondColor, out int firstTable, out int secondTable, out uint indexBits);
+				long error = ChooseTables(
+					pixels,
+					flip,
+					firstColor,
+					secondColor,
+					out int firstTable,
+					out int secondTable,
+					out uint indexBits
+				);
 				if (error < bestError)
 				{
 					bestError = error;
-					uint high = (uint)(first5[0] << 27) | (uint)((second5[0] - first5[0]) & 7) << 24
-						| (uint)(first5[1] << 19) | (uint)((second5[1] - first5[1]) & 7) << 16
-						| (uint)(first5[2] << 11) | (uint)((second5[2] - first5[2]) & 7) << 8
-						| (uint)(firstTable << 5) | (uint)(secondTable << 2) | 2u | (uint)flip;
+					uint high =
+						(uint)(first5[0] << 27)
+						| (uint)((second5[0] - first5[0]) & 7) << 24
+						| (uint)(first5[1] << 19)
+						| (uint)((second5[1] - first5[1]) & 7) << 16
+						| (uint)(first5[2] << 11)
+						| (uint)((second5[2] - first5[2]) & 7) << 8
+						| (uint)(firstTable << 5)
+						| (uint)(secondTable << 2)
+						| 2u
+						| (uint)flip;
 					bestBits = (ulong)high << 32 | indexBits;
 				}
 			}
@@ -249,21 +273,43 @@ internal static class EtcKtxCodec
 			int[] second4 = [Quantize4(secondAverage[0]), Quantize4(secondAverage[1]), Quantize4(secondAverage[2])];
 			int[] firstIndividual = [first4[0] * 17, first4[1] * 17, first4[2] * 17];
 			int[] secondIndividual = [second4[0] * 17, second4[1] * 17, second4[2] * 17];
-			long individualError = ChooseTables(pixels, flip, firstIndividual, secondIndividual, out int firstIndividualTable, out int secondIndividualTable, out uint individualBits);
+			long individualError = ChooseTables(
+				pixels,
+				flip,
+				firstIndividual,
+				secondIndividual,
+				out int firstIndividualTable,
+				out int secondIndividualTable,
+				out uint individualBits
+			);
 			if (individualError < bestError)
 			{
 				bestError = individualError;
-				uint high = (uint)(first4[0] << 28) | (uint)(second4[0] << 24)
-					| (uint)(first4[1] << 20) | (uint)(second4[1] << 16)
-					| (uint)(first4[2] << 12) | (uint)(second4[2] << 8)
-					| (uint)(firstIndividualTable << 5) | (uint)(secondIndividualTable << 2) | (uint)flip;
+				uint high =
+					(uint)(first4[0] << 28)
+					| (uint)(second4[0] << 24)
+					| (uint)(first4[1] << 20)
+					| (uint)(second4[1] << 16)
+					| (uint)(first4[2] << 12)
+					| (uint)(second4[2] << 8)
+					| (uint)(firstIndividualTable << 5)
+					| (uint)(secondIndividualTable << 2)
+					| (uint)flip;
 				bestBits = (ulong)high << 32 | individualBits;
 			}
 		}
 		BinaryPrimitives.WriteUInt64BigEndian(output, bestBits);
 	}
 
-	private static long ChooseTables(int[] pixels, int flip, int[] firstColor, int[] secondColor, out int firstTable, out int secondTable, out uint indexBits)
+	private static long ChooseTables(
+		int[] pixels,
+		int flip,
+		int[] firstColor,
+		int[] secondColor,
+		out int firstTable,
+		out int secondTable,
+		out uint indexBits
+	)
 	{
 		indexBits = 0;
 		long total = 0;
@@ -295,7 +341,7 @@ internal static class EtcKtxCodec
 								0 => Modifiers[table, 0],
 								1 => Modifiers[table, 1],
 								2 => -Modifiers[table, 0],
-								_ => -Modifiers[table, 1]
+								_ => -Modifiers[table, 1],
 							};
 							long pixelError = 0;
 							for (int channel = 0; channel < 3; channel++)
@@ -418,7 +464,7 @@ internal static class EtcKtxCodec
 					0 => Modifiers[table, 0],
 					1 => Modifiers[table, 1],
 					2 => -Modifiers[table, 0],
-					_ => -Modifiers[table, 1]
+					_ => -Modifiers[table, 1],
 				};
 				Span<int> baseColor = subBlock == 0 ? first : second;
 				for (int channel = 0; channel < 3; channel++)

@@ -45,7 +45,8 @@ namespace Voidstrap.Utility
             ["https://github.com/rojo-rbx.png"] = "ext-rojo.png",
             ["https://images.rbxcdn.com/905bd722ee0a6ceda3caacde54c0b081.png"] = "studio.png",
             ["https://static.wikia.nocookie.net/roblox/images/3/3d/2005_Icon.png/revision/latest?cb=20231105222123"] = "client-2007.png",
-            ["https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633"] = "client-2010.png",
+            ["https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633"] =
+                "client-2010.png",
             ["https://static.wikia.nocookie.net/roblox/images/1/15/2011_Icon.png/revision/latest?cb=20250329002829"] = "client-2013.png",
         };
 
@@ -57,7 +58,10 @@ namespace Voidstrap.Utility
         public static bool IsRemote(string url)
         {
             return !string.IsNullOrEmpty(url)
-                && (url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || url.StartsWith("https://", StringComparison.OrdinalIgnoreCase));
+                && (
+                    url.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+                    || url.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
+                );
         }
 
         private static string WsrvUrl(string url, int size)
@@ -109,9 +113,7 @@ namespace Voidstrap.Utility
                     if (bmp != null)
                         return bmp;
                 }
-                catch
-                {
-                }
+                catch { }
             }
             return null;
         }
@@ -125,26 +127,31 @@ namespace Voidstrap.Utility
                     return null;
                 if (TryReadDataUri(candidate, out byte[]? inlineBytes))
                 {
-                    BitmapSource? inline = inlineBytes == null ? null : await DecodeAsync(inlineBytes, decodeWidth, ct).ConfigureAwait(false);
+                    BitmapSource? inline =
+                        inlineBytes == null ? null : await DecodeAsync(inlineBytes, decodeWidth, ct).ConfigureAwait(false);
                     if (inline != null)
                         return inline;
                     continue;
                 }
                 if (!IsRemote(candidate))
                 {
-                    BitmapSource? local = await DecodeAsync(() =>
-                    {
-                        try
-                        {
-                            return Uri.TryCreate(candidate, UriKind.Absolute, out Uri? parsed)
-                                ? SafeImaging.FromUri(parsed, decodeWidth)
-                                : SafeImaging.FromFile(candidate, decodeWidth);
-                        }
-                        catch
-                        {
-                            return null;
-                        }
-                    }, ct).ConfigureAwait(false);
+                    BitmapSource? local = await DecodeAsync(
+                            () =>
+                            {
+                                try
+                                {
+                                    return Uri.TryCreate(candidate, UriKind.Absolute, out Uri? parsed)
+                                        ? SafeImaging.FromUri(parsed, decodeWidth)
+                                        : SafeImaging.FromFile(candidate, decodeWidth);
+                                }
+                                catch
+                                {
+                                    return null;
+                                }
+                            },
+                            ct
+                        )
+                        .ConfigureAwait(false);
                     if (local != null)
                         return local;
                     continue;
@@ -159,64 +166,68 @@ namespace Voidstrap.Utility
             return null;
         }
 
-		public static async Task<byte[]?> LoadBytesAsync(string url, CancellationToken ct = default)
-		{
-			if (string.IsNullOrWhiteSpace(url))
-				return null;
-			foreach (string candidate in GetCandidates(url))
-			{
-				ct.ThrowIfCancellationRequested();
-				if (TryReadDataUri(candidate, out byte[]? inlineBytes))
-					return inlineBytes;
-				if (candidate.StartsWith(EmbeddedRoot, StringComparison.OrdinalIgnoreCase))
-				{
-					System.Windows.Resources.StreamResourceInfo? resource = System.Windows.Application.GetResourceStream(new Uri(candidate, UriKind.Absolute));
-					if (resource?.Stream == null)
-						continue;
-					await using Stream resourceStream = resource.Stream;
-					using MemoryStream resourceBytes = new();
-					await resourceStream.CopyToAsync(resourceBytes, ct).ConfigureAwait(false);
-					return resourceBytes.ToArray();
-				}
-				if (!IsRemote(candidate))
-				{
-					try
-					{
-						string path = Uri.TryCreate(candidate, UriKind.Absolute, out Uri? parsed) && parsed.IsFile
-							? parsed.LocalPath
-							: candidate;
-						FileInfo file = new(path);
-						if (!file.Exists || file.Length <= 0 || file.Length > MaxDownloadBytes)
-							continue;
-						return await File.ReadAllBytesAsync(path, ct).ConfigureAwait(false);
-					}
-					catch (Exception) when (!ct.IsCancellationRequested)
-					{
-						continue;
-					}
-				}
-				byte[]? downloaded = await DownloadBytesAsync(candidate, ct).ConfigureAwait(false);
-				if (downloaded is { Length: > 0 })
-					return downloaded;
-			}
-			return null;
-		}
+        public static async Task<byte[]?> LoadBytesAsync(string url, CancellationToken ct = default)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+                return null;
+            foreach (string candidate in GetCandidates(url))
+            {
+                ct.ThrowIfCancellationRequested();
+                if (TryReadDataUri(candidate, out byte[]? inlineBytes))
+                    return inlineBytes;
+                if (candidate.StartsWith(EmbeddedRoot, StringComparison.OrdinalIgnoreCase))
+                {
+                    System.Windows.Resources.StreamResourceInfo? resource = System.Windows.Application.GetResourceStream(
+                        new Uri(candidate, UriKind.Absolute)
+                    );
+                    if (resource?.Stream == null)
+                        continue;
+                    await using Stream resourceStream = resource.Stream;
+                    using MemoryStream resourceBytes = new();
+                    await resourceStream.CopyToAsync(resourceBytes, ct).ConfigureAwait(false);
+                    return resourceBytes.ToArray();
+                }
+                if (!IsRemote(candidate))
+                {
+                    try
+                    {
+                        string path =
+                            Uri.TryCreate(candidate, UriKind.Absolute, out Uri? parsed) && parsed.IsFile ? parsed.LocalPath : candidate;
+                        FileInfo file = new(path);
+                        if (!file.Exists || file.Length <= 0 || file.Length > MaxDownloadBytes)
+                            continue;
+                        return await File.ReadAllBytesAsync(path, ct).ConfigureAwait(false);
+                    }
+                    catch (Exception) when (!ct.IsCancellationRequested)
+                    {
+                        continue;
+                    }
+                }
+                byte[]? downloaded = await DownloadBytesAsync(candidate, ct).ConfigureAwait(false);
+                if (downloaded is { Length: > 0 })
+                    return downloaded;
+            }
+            return null;
+        }
 
         private static Task<BitmapSource?> DecodeAsync(byte[] bytes, int decodeWidth, CancellationToken ct)
         {
             if (!Platform.UsesPortableUi)
             {
-                return Task.Run(delegate
-                {
-                    try
+                return Task.Run(
+                    delegate
                     {
-                        return SafeImaging.FromBytes(bytes, decodeWidth);
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-                }, ct);
+                        try
+                        {
+                            return SafeImaging.FromBytes(bytes, decodeWidth);
+                        }
+                        catch
+                        {
+                            return null;
+                        }
+                    },
+                    ct
+                );
             }
 
             return DecodeAsync(() => SafeImaging.FromBytes(bytes, decodeWidth), ct);
@@ -232,17 +243,21 @@ namespace Voidstrap.Utility
             await LinuxDecodeGate.WaitAsync(ct).ConfigureAwait(false);
             try
             {
-                return await Task.Run(() =>
-                {
-                    try
-                    {
-                        return decode();
-                    }
-                    catch
-                    {
-                        return null;
-                    }
-                }, ct).ConfigureAwait(false);
+                return await Task.Run(
+                        () =>
+                        {
+                            try
+                            {
+                                return decode();
+                            }
+                            catch
+                            {
+                                return null;
+                            }
+                        },
+                        ct
+                    )
+                    .ConfigureAwait(false);
             }
             finally
             {
@@ -297,7 +312,12 @@ namespace Voidstrap.Utility
             }
             finally
             {
-                if (active.IsValueCreated && active.Value.IsCompleted && Downloads.TryGetValue(url, out Lazy<Task<byte[]?>>? current) && ReferenceEquals(current, active))
+                if (
+                    active.IsValueCreated
+                    && active.Value.IsCompleted
+                    && Downloads.TryGetValue(url, out Lazy<Task<byte[]?>>? current)
+                    && ReferenceEquals(current, active)
+                )
                     Downloads.TryRemove(url, out _);
             }
         }
@@ -314,7 +334,9 @@ namespace Voidstrap.Utility
                 }
                 using CancellationTokenSource cts = new(TimeSpan.FromSeconds(20));
                 using HttpRequestMessage request = new(HttpMethod.Get, url);
-                using HttpResponseMessage response = await App.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cts.Token).ConfigureAwait(false);
+                using HttpResponseMessage response = await App
+                    .HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cts.Token)
+                    .ConfigureAwait(false);
                 long declared = response.Content.Headers.ContentLength ?? 0;
                 if (!response.IsSuccessStatusCode || declared > MaxDownloadBytes)
                     return null;
@@ -360,7 +382,10 @@ namespace Voidstrap.Utility
 
         private static string DiskCachePath(string url)
         {
-            return Path.Combine(DiskCacheDirectory, Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes("2|" + url))) + ".img");
+            return Path.Combine(
+                DiskCacheDirectory,
+                Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes("2|" + url))) + ".img"
+            );
         }
 
         private static async Task<byte[]?> ReadDiskCacheAsync(string url, CancellationToken ct)
@@ -371,7 +396,12 @@ namespace Voidstrap.Utility
                     return null;
                 string path = DiskCachePath(url);
                 FileInfo info = new FileInfo(path);
-                if (!info.Exists || info.Length == 0 || info.Length > MaxDiskCachedBytes || DateTime.UtcNow - info.LastWriteTimeUtc > DiskCacheAge)
+                if (
+                    !info.Exists
+                    || info.Length == 0
+                    || info.Length > MaxDiskCachedBytes
+                    || DateTime.UtcNow - info.LastWriteTimeUtc > DiskCacheAge
+                )
                     return null;
                 return await File.ReadAllBytesAsync(path, ct).ConfigureAwait(false);
             }

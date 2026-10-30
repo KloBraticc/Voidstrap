@@ -82,6 +82,7 @@ namespace Voidstrap.Utility
             public short dmYResolution;
             public short dmTTOption;
             public short dmCollate;
+
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
             public string dmFormName;
             public ushort dmLogPixels;
@@ -104,13 +105,17 @@ namespace Voidstrap.Utility
         private partial struct DISPLAY_DEVICE
         {
             public uint cb;
+
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
             public string DeviceName;
+
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
             public string DeviceString;
             public uint StateFlags;
+
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
             public string DeviceID;
+
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
             public string DeviceKey;
         }
@@ -158,7 +163,13 @@ namespace Voidstrap.Utility
         }
 
         [LibraryImport("user32.dll", StringMarshalling = StringMarshalling.Utf16, EntryPoint = "ChangeDisplaySettingsExW")]
-        private static partial int ChangeDisplaySettingsExNative(string? lpszDeviceName, IntPtr lpDevMode, IntPtr hwnd, uint dwflags, IntPtr lParam);
+        private static partial int ChangeDisplaySettingsExNative(
+            string? lpszDeviceName,
+            IntPtr lpDevMode,
+            IntPtr hwnd,
+            uint dwflags,
+            IntPtr lParam
+        );
 
         private static int ChangeDisplaySettingsEx(string? lpszDeviceName, ref DEVMODE lpDevMode, IntPtr hwnd, uint dwflags, IntPtr lParam)
         {
@@ -183,18 +194,12 @@ namespace Voidstrap.Utility
 
         private static DEVMODE NewDevMode()
         {
-            return new DEVMODE
-            {
-                dmSize = (ushort)Marshal.SizeOf<DEVMODE>()
-            };
+            return new DEVMODE { dmSize = (ushort)Marshal.SizeOf<DEVMODE>() };
         }
 
         private static DISPLAY_DEVICE NewDisplayDevice()
         {
-            return new DISPLAY_DEVICE
-            {
-                cb = (uint)Marshal.SizeOf<DISPLAY_DEVICE>()
-            };
+            return new DISPLAY_DEVICE { cb = (uint)Marshal.SizeOf<DISPLAY_DEVICE>() };
         }
 
         private static string? Normalize(string? deviceName)
@@ -208,18 +213,20 @@ namespace Voidstrap.Utility
             if (!Platform.IsWindows)
             {
                 (double portableWidth, double portableHeight) = ScreenMetrics.GetPrimary();
-                list.Add(new DisplayInfo
-                {
-                    DeviceName = string.Empty,
-                    FriendlyName = "Primary Display",
-                    IsPrimary = true,
-                    X = 0,
-                    Y = 0,
-                    Width = (int)portableWidth,
-                    Height = (int)portableHeight,
-                    RefreshRate = 60,
-                    Number = 1
-                });
+                list.Add(
+                    new DisplayInfo
+                    {
+                        DeviceName = string.Empty,
+                        FriendlyName = "Primary Display",
+                        IsPrimary = true,
+                        X = 0,
+                        Y = 0,
+                        Width = (int)portableWidth,
+                        Height = (int)portableHeight,
+                        RefreshRate = 60,
+                        Number = 1,
+                    }
+                );
                 return list;
             }
             try
@@ -231,7 +238,10 @@ namespace Voidstrap.Utility
                     {
                         break;
                     }
-                    if ((adapter.StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) == 0 || (adapter.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER) != 0)
+                    if (
+                        (adapter.StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) == 0
+                        || (adapter.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER) != 0
+                    )
                     {
                         continue;
                     }
@@ -246,18 +256,20 @@ namespace Voidstrap.Utility
                     {
                         friendly = monitor.DeviceString;
                     }
-                    list.Add(new DisplayInfo
-                    {
-                        DeviceName = adapter.DeviceName,
-                        FriendlyName = friendly,
-                        IsPrimary = (adapter.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE) != 0,
-                        X = dm.dmPositionX,
-                        Y = dm.dmPositionY,
-                        Width = (int)dm.dmPelsWidth,
-                        Height = (int)dm.dmPelsHeight,
-                        RefreshRate = (int)dm.dmDisplayFrequency,
-                        Number = list.Count + 1
-                    });
+                    list.Add(
+                        new DisplayInfo
+                        {
+                            DeviceName = adapter.DeviceName,
+                            FriendlyName = friendly,
+                            IsPrimary = (adapter.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE) != 0,
+                            X = dm.dmPositionX,
+                            Y = dm.dmPositionY,
+                            Width = (int)dm.dmPelsWidth,
+                            Height = (int)dm.dmPelsHeight,
+                            RefreshRate = (int)dm.dmDisplayFrequency,
+                            Number = list.Count + 1,
+                        }
+                    );
                 }
             }
             catch (Exception ex)
@@ -267,18 +279,20 @@ namespace Voidstrap.Utility
             if (list.Count == 0)
             {
                 DisplayMode? current = GetCurrentMode(null);
-                list.Add(new DisplayInfo
-                {
-                    DeviceName = string.Empty,
-                    FriendlyName = "Primary Display",
-                    IsPrimary = true,
-                    X = 0,
-                    Y = 0,
-                    Width = current?.Width ?? 1920,
-                    Height = current?.Height ?? 1080,
-                    RefreshRate = current?.RefreshRate ?? 60,
-                    Number = 1
-                });
+                list.Add(
+                    new DisplayInfo
+                    {
+                        DeviceName = string.Empty,
+                        FriendlyName = "Primary Display",
+                        IsPrimary = true,
+                        X = 0,
+                        Y = 0,
+                        Width = current?.Width ?? 1920,
+                        Height = current?.Height ?? 1080,
+                        RefreshRate = current?.RefreshRate ?? 60,
+                        Number = 1,
+                    }
+                );
             }
             return list;
         }
@@ -309,15 +323,20 @@ namespace Voidstrap.Utility
                 uint hz = dm.dmDisplayFrequency;
                 if (!list.Any((DisplayMode m) => m.Width == w && m.Height == h && m.RefreshRate == hz))
                 {
-                    list.Add(new DisplayMode
-                    {
-                        Width = (int)w,
-                        Height = (int)h,
-                        RefreshRate = (int)hz
-                    });
+                    list.Add(
+                        new DisplayMode
+                        {
+                            Width = (int)w,
+                            Height = (int)h,
+                            RefreshRate = (int)hz,
+                        }
+                    );
                 }
             }
-            return list.OrderByDescending((DisplayMode m) => m.Width).ThenByDescending((DisplayMode m) => m.Height).ThenByDescending((DisplayMode m) => m.RefreshRate).ToList();
+            return list.OrderByDescending((DisplayMode m) => m.Width)
+                .ThenByDescending((DisplayMode m) => m.Height)
+                .ThenByDescending((DisplayMode m) => m.RefreshRate)
+                .ToList();
         }
 
         public static DisplayMode? GetCurrentMode(string? deviceName)
@@ -329,7 +348,7 @@ namespace Voidstrap.Utility
                 {
                     Width = (int)portableWidth,
                     Height = (int)portableHeight,
-                    RefreshRate = 60
+                    RefreshRate = 60,
                 };
             }
             string? device = Normalize(deviceName);
@@ -350,7 +369,7 @@ namespace Voidstrap.Utility
             {
                 Width = (int)dm.dmPelsWidth,
                 Height = (int)dm.dmPelsHeight,
-                RefreshRate = (int)dm.dmDisplayFrequency
+                RefreshRate = (int)dm.dmDisplayFrequency,
             };
         }
 
@@ -397,7 +416,7 @@ namespace Voidstrap.Utility
                 -3 => "The settings could not be written.",
                 -5 => "Invalid display settings were provided.",
                 -6 => "The system is in a dual view state that prevents the change.",
-                _ => $"Display change failed with code {code}."
+                _ => $"Display change failed with code {code}.",
             };
         }
 
@@ -420,8 +439,8 @@ namespace Voidstrap.Utility
                             FontWeight = FontWeights.Bold,
                             Foreground = Brushes.White,
                             HorizontalAlignment = HorizontalAlignment.Center,
-                            VerticalAlignment = VerticalAlignment.Center
-                        }
+                            VerticalAlignment = VerticalAlignment.Center,
+                        },
                     };
                     Window window = new Window
                     {
@@ -437,7 +456,7 @@ namespace Voidstrap.Utility
                         WindowStartupLocation = WindowStartupLocation.Manual,
                         Width = 130,
                         Height = 130,
-                        Content = content
+                        Content = content,
                     };
                     window.Show();
                     IntPtr hwnd = new WindowInteropHelper(window).Handle;
@@ -466,10 +485,7 @@ namespace Voidstrap.Utility
             public IdentifySession(List<Window> windows)
             {
                 _windows = windows;
-                _timer = new DispatcherTimer
-                {
-                    Interval = TimeSpan.FromMilliseconds(1800)
-                };
+                _timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(1800) };
                 _timer.Tick += OnTick;
                 _timer.Start();
             }
@@ -484,9 +500,7 @@ namespace Voidstrap.Utility
                     {
                         window.Close();
                     }
-                    catch
-                    {
-                    }
+                    catch { }
                 }
                 _windows.Clear();
             }

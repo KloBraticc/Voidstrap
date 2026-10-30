@@ -34,22 +34,46 @@ internal static partial class ModVariantStore
 
 	private const string InstalledFolderName = "Installed";
 
-	private static readonly ConcurrentDictionary<string, (long Length, DateTime Written, string Hash)> HashCache = new(StringComparer.OrdinalIgnoreCase);
+	private static readonly ConcurrentDictionary<string, (long Length, DateTime Written, string Hash)> HashCache = new(
+		StringComparer.OrdinalIgnoreCase
+	);
 
 	public const string OffLabel = "Off, use the Roblox default";
 
 	public static readonly HashSet<string> SlotExtensions = new(StringComparer.OrdinalIgnoreCase)
 	{
-		".png", ".jpg", ".jpeg", ".bmp", ".tga", ".dds", ".ktx", ".webp", ".tex",
-		".ogg", ".mp3", ".wav", ".flac", ".mesh", ".ttf", ".otf", ".gif"
+		".png",
+		".jpg",
+		".jpeg",
+		".bmp",
+		".tga",
+		".dds",
+		".ktx",
+		".webp",
+		".tex",
+		".ogg",
+		".mp3",
+		".wav",
+		".flac",
+		".mesh",
+		".ttf",
+		".otf",
+		".gif",
 	};
 
 	public static readonly HashSet<string> PreviewExtensions = new(StringComparer.OrdinalIgnoreCase)
 	{
-		".png", ".jpg", ".jpeg", ".bmp", ".gif"
+		".png",
+		".jpg",
+		".jpeg",
+		".bmp",
+		".gif",
 	};
 
-	[GeneratedRegex(@"^(?<base>.+?)(?:\s*\(\d+\)|\s+copy(?:\s*\d+)?|[\s_-]+(?:v?\d{1,2}|alt\d*|variant\d*|version\d*))$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+	[GeneratedRegex(
+		@"^(?<base>.+?)(?:\s*\(\d+\)|\s+copy(?:\s*\d+)?|[\s_-]+(?:v?\d{1,2}|alt\d*|variant\d*|version\d*))$",
+		RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
+	)]
 	private static partial Regex VariantSuffix();
 
 	public static string GetSourcesFolder(string recordId)
@@ -64,8 +88,12 @@ internal static partial class ModVariantStore
 		{
 			string sources = GetSourcesFolder(recordId);
 			return Directory.Exists(sources)
-				&& Directory.EnumerateFiles(sources, "*", SearchOption.AllDirectories)
-					.Any(file => !Path.GetRelativePath(sources, file).StartsWith(InstalledFolderName + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase));
+				&& Directory
+					.EnumerateFiles(sources, "*", SearchOption.AllDirectories)
+					.Any(file =>
+						!Path.GetRelativePath(sources, file)
+							.StartsWith(InstalledFolderName + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)
+					);
 		}
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException)
 		{
@@ -83,7 +111,8 @@ internal static partial class ModVariantStore
 			}
 			string folder = ManagedModStore.GetFolder(recordId);
 			return Directory.Exists(folder)
-				&& Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories)
+				&& Directory
+					.EnumerateFiles(folder, "*", SearchOption.AllDirectories)
 					.Any(file => SlotExtensions.Contains(Path.GetExtension(file)));
 		}
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException)
@@ -140,7 +169,11 @@ internal static partial class ModVariantStore
 				token.ThrowIfCancellationRequested();
 				ZipArchiveEntry entry = archive.Entries[index];
 				string relative = entry.FullName.Replace('/', Path.DirectorySeparatorChar);
-				if (string.IsNullOrEmpty(entry.Name) || !SlotExtensions.Contains(Path.GetExtension(relative)) || !CommunityModGuard.InspectRelativePath(relative).Allowed)
+				if (
+					string.IsNullOrEmpty(entry.Name)
+					|| !SlotExtensions.Contains(Path.GetExtension(relative))
+					|| !CommunityModGuard.InspectRelativePath(relative).Allowed
+				)
 				{
 					continue;
 				}
@@ -160,7 +193,12 @@ internal static partial class ModVariantStore
 		return ParallelZipWriter.Extract(archivePath, ParallelZipWriter.LastWins(plan), token);
 	}
 
-	public static async Task<int> DownloadSourcesAsync(string recordId, ModPackInfo? pack, IProgress<string>? progress, CancellationToken token)
+	public static async Task<int> DownloadSourcesAsync(
+		string recordId,
+		ModPackInfo? pack,
+		IProgress<string>? progress,
+		CancellationToken token
+	)
 	{
 		if (pack == null || pack.Id <= 0 || !string.Equals(pack.Source, GameBananaCatalog.SourceName, StringComparison.OrdinalIgnoreCase))
 		{
@@ -169,7 +207,9 @@ internal static partial class ModVariantStore
 		await ManagedModStore.SourcesGate.WaitAsync(token).ConfigureAwait(false);
 		try
 		{
-			return await GameBananaCatalog.FetchAllAssetsAsync(pack.Id, GetSourcesFolder(recordId), SlotExtensions, progress, token).ConfigureAwait(false);
+			return await GameBananaCatalog
+				.FetchAllAssetsAsync(pack.Id, GetSourcesFolder(recordId), SlotExtensions, progress, token)
+				.ConfigureAwait(false);
 		}
 		finally
 		{
@@ -255,9 +295,12 @@ internal static partial class ModVariantStore
 			if (File.Exists(installed))
 			{
 				string installedHash = HashFile(installed);
-				slot.Selected = slot.Options.FirstOrDefault(option => option.SourcePath != null
-					&& seen.TryGetValue(installedHash, out string? match)
-					&& string.Equals(match, option.SourcePath, StringComparison.OrdinalIgnoreCase)) ?? off;
+				slot.Selected =
+					slot.Options.FirstOrDefault(option =>
+						option.SourcePath != null
+						&& seen.TryGetValue(installedHash, out string? match)
+						&& string.Equals(match, option.SourcePath, StringComparison.OrdinalIgnoreCase)
+					) ?? off;
 			}
 			result.Add(slot);
 		}
@@ -313,7 +356,10 @@ internal static partial class ModVariantStore
 				App.Logger?.WriteLine(LogIdent, "The file " + slot.TargetRelative + " could not be changed: " + ex.Message);
 			}
 		}
-		App.Logger?.WriteLine(LogIdent, "Applied " + changed + " option changes to managed mod " + recordId[..Math.Min(8, recordId.Length)]);
+		App.Logger?.WriteLine(
+			LogIdent,
+			"Applied " + changed + " option changes to managed mod " + recordId[..Math.Min(8, recordId.Length)]
+		);
 		return changed;
 	}
 
@@ -324,7 +370,11 @@ internal static partial class ModVariantStore
 			return;
 		}
 		HashSet<string> known = new(StringComparer.Ordinal);
-		WarmHashes(Directory.EnumerateFiles(modFolder, "*", SearchOption.AllDirectories).Where(file => SlotExtensions.Contains(Path.GetExtension(file))));
+		WarmHashes(
+			Directory
+				.EnumerateFiles(modFolder, "*", SearchOption.AllDirectories)
+				.Where(file => SlotExtensions.Contains(Path.GetExtension(file)))
+		);
 		if (Directory.Exists(sources))
 		{
 			WarmHashes(Directory.EnumerateFiles(sources, "*", SearchOption.AllDirectories));
@@ -365,7 +415,8 @@ internal static partial class ModVariantStore
 
 	private static bool IsInstalledCopy(string sources, string file)
 	{
-		return Path.GetRelativePath(sources, file).StartsWith(InstalledFolderName + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
+		return Path.GetRelativePath(sources, file)
+			.StartsWith(InstalledFolderName + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
 	}
 
 	private static void WarmHashes(IEnumerable<string> files)
@@ -380,11 +431,22 @@ internal static partial class ModVariantStore
 			FileInfo info = new FileInfo(path);
 			long length = info.Length;
 			DateTime written = info.LastWriteTimeUtc;
-			if (HashCache.TryGetValue(path, out (long Length, DateTime Written, string Hash) cached) && cached.Length == length && cached.Written == written)
+			if (
+				HashCache.TryGetValue(path, out (long Length, DateTime Written, string Hash) cached)
+				&& cached.Length == length
+				&& cached.Written == written
+			)
 			{
 				return cached.Hash;
 			}
-			using FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 81920, FileOptions.SequentialScan);
+			using FileStream stream = new FileStream(
+				path,
+				FileMode.Open,
+				FileAccess.Read,
+				FileShare.Read,
+				81920,
+				FileOptions.SequentialScan
+			);
 			string hash = Convert.ToHexString(SHA256.HashData(stream));
 			HashCache[path] = (length, written, hash);
 			return hash;

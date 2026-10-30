@@ -1,11 +1,11 @@
-﻿using Voidstrap.RobloxInterfaces;
-using CommunityToolkit.Mvvm.Input;
-using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Input;
-using Voidstrap;
+﻿using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Text.Json;
+using System.Windows;
+using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
+using Voidstrap;
+using Voidstrap.RobloxInterfaces;
 
 namespace Voidstrap.UI.ViewModels.Dialogs
 {
@@ -14,7 +14,7 @@ namespace Voidstrap.UI.ViewModels.Dialogs
         private static readonly string[] ChannelsJsonUrls =
         {
             "https://raw.githubusercontent.com/SCR00M/gsagsssssssagdsgadgsgds/refs/heads/main/Channels.json",
-            "https://raw.githubusercontent.com/KloBraticc/Voidstrap-Roblox-Channels/main/Channels.json"
+            "https://raw.githubusercontent.com/KloBraticc/Voidstrap-Roblox-Channels/main/Channels.json",
         };
 
         private static readonly HttpClient _channelsClient = Voidstrap.Utility.VpnHttpClient.Create();
@@ -27,6 +27,7 @@ namespace Voidstrap.UI.ViewModels.Dialogs
 
         public ObservableCollection<DeployInfoDisplay> Channels { get; } = new();
         public ICommand RefreshCommand { get; }
+
         public ChannelListsViewModel()
         {
             RefreshCommand = new RelayCommand(async () => await ForceRefreshAsync());
@@ -57,12 +58,14 @@ namespace Voidstrap.UI.ViewModels.Dialogs
                 Channels.Clear();
                 foreach (var kvp in _channelInfoCache.OrderBy(k => k.Key))
                 {
-                    Channels.Add(new DeployInfoDisplay
-                    {
-                        ChannelName = kvp.Key,
-                        Version = kvp.Value.Version,
-                        VersionGuid = kvp.Value.VersionGuid
-                    });
+                    Channels.Add(
+                        new DeployInfoDisplay
+                        {
+                            ChannelName = kvp.Key,
+                            Version = kvp.Value.Version,
+                            VersionGuid = kvp.Value.VersionGuid,
+                        }
+                    );
                 }
             });
 
@@ -156,12 +159,14 @@ namespace Voidstrap.UI.ViewModels.Dialogs
                     Channels.Clear();
                     foreach (var kvp in _channelInfoCache.OrderBy(k => k.Key))
                     {
-                        Channels.Add(new DeployInfoDisplay
-                        {
-                            ChannelName = kvp.Key,
-                            Version = kvp.Value.Version,
-                            VersionGuid = kvp.Value.VersionGuid
-                        });
+                        Channels.Add(
+                            new DeployInfoDisplay
+                            {
+                                ChannelName = kvp.Key,
+                                Version = kvp.Value.Version,
+                                VersionGuid = kvp.Value.VersionGuid,
+                            }
+                        );
                     }
                 });
 
@@ -188,12 +193,12 @@ namespace Voidstrap.UI.ViewModels.Dialogs
                 if (!Directory.Exists(folder!))
                     Directory.CreateDirectory(folder!);
 
-				Dictionary<string, ClientVersion> snapshot;
+                Dictionary<string, ClientVersion> snapshot;
                 lock (_channelInfoCache)
                 {
-					snapshot = new Dictionary<string, ClientVersion>(_channelInfoCache);
+                    snapshot = new Dictionary<string, ClientVersion>(_channelInfoCache);
                 }
-				await Task.Run(() => Voidstrap.Utility.JsonFile.SerializeAtomic(CacheFilePath, snapshot)).ConfigureAwait(false);
+                await Task.Run(() => Voidstrap.Utility.JsonFile.SerializeAtomic(CacheFilePath, snapshot)).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -208,7 +213,14 @@ namespace Voidstrap.UI.ViewModels.Dialogs
                 if (!File.Exists(CacheFilePath))
                     return;
 
-				var cache = await Task.Run(() => Voidstrap.Utility.JsonFile.Deserialize<Dictionary<string, ClientVersion>>(CacheFilePath, Voidstrap.Utility.JsonOptions.Tolerant, 8388608)).ConfigureAwait(false);
+                var cache = await Task.Run(() =>
+                        Voidstrap.Utility.JsonFile.Deserialize<Dictionary<string, ClientVersion>>(
+                            CacheFilePath,
+                            Voidstrap.Utility.JsonOptions.Tolerant,
+                            8388608
+                        )
+                    )
+                    .ConfigureAwait(false);
                 if (cache != null)
                 {
                     lock (_channelInfoCache)
@@ -233,8 +245,8 @@ namespace Voidstrap.UI.ViewModels.Dialogs
                 if (!Directory.Exists(folder!))
                     Directory.CreateDirectory(folder!);
 
-				CacheMeta snapshot = new CacheMeta { LastUpdatedUtc = _lastCacheUpdate };
-				await Task.Run(() => Voidstrap.Utility.JsonFile.SerializeAtomic(CacheMetaFilePath, snapshot)).ConfigureAwait(false);
+                CacheMeta snapshot = new CacheMeta { LastUpdatedUtc = _lastCacheUpdate };
+                await Task.Run(() => Voidstrap.Utility.JsonFile.SerializeAtomic(CacheMetaFilePath, snapshot)).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -249,7 +261,14 @@ namespace Voidstrap.UI.ViewModels.Dialogs
                 if (!File.Exists(CacheMetaFilePath))
                     return;
 
-				var meta = await Task.Run(() => Voidstrap.Utility.JsonFile.Deserialize<CacheMeta>(CacheMetaFilePath, Voidstrap.Utility.JsonOptions.Tolerant, 1048576)).ConfigureAwait(false);
+                var meta = await Task.Run(() =>
+                        Voidstrap.Utility.JsonFile.Deserialize<CacheMeta>(
+                            CacheMetaFilePath,
+                            Voidstrap.Utility.JsonOptions.Tolerant,
+                            1048576
+                        )
+                    )
+                    .ConfigureAwait(false);
                 if (meta != null)
                 {
                     _lastCacheUpdate = meta.LastUpdatedUtc;

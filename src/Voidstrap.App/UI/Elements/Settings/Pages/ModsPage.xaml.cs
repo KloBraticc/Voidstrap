@@ -19,7 +19,8 @@ using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
-public partial class ModsPage : UiPage{
+public partial class ModsPage : UiPage
+{
 	private const long MaxPreviewFileBytes = 32L * 1024 * 1024;
 
 	private ModsViewModel ViewModel;
@@ -46,10 +47,7 @@ public partial class ModsPage : UiPage{
 			ManagedModsEmptyPreview.Effect = null;
 			ManagedModsEmptyPreview.CacheMode = null;
 		}
-		_fgWarningTimer = new System.Windows.Threading.DispatcherTimer
-		{
-			Interval = TimeSpan.FromSeconds(2.0),
-		};
+		_fgWarningTimer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromSeconds(2.0) };
 		base.Loaded += ModsPage_Loaded;
 		base.Unloaded += ModsPage_Unloaded;
 	}
@@ -173,7 +171,8 @@ public partial class ModsPage : UiPage{
 			UpdateBreadcrumb();
 	}
 
-	internal bool IsModPackSelected => !ViewModel.ModExplorerVisible && ReferenceEquals(ModsTabs.SelectedItem, ModPacksTab) && ViewModel.CommunityMods.SelectedMod != null;
+	internal bool IsModPackSelected =>
+		!ViewModel.ModExplorerVisible && ReferenceEquals(ModsTabs.SelectedItem, ModPacksTab) && ViewModel.CommunityMods.SelectedMod != null;
 
 	private void UpdateBreadcrumb()
 	{
@@ -216,7 +215,8 @@ public partial class ModsPage : UiPage{
 	{
 		Frontend.ShowMessageBox(
 			"I don't vouch for any mod packs here, and neither does my team. If any bad mod packs show up here, there isn't much we can do about it.\n\nMy team and I have tried our best to limit the amount of bad content here.",
-			MessageBoxImage.Information);
+			MessageBoxImage.Information
+		);
 	}
 
 	private void PublishPresence()
@@ -227,17 +227,22 @@ public partial class ModsPage : UiPage{
 			string byline = string.IsNullOrWhiteSpace(mod.Author)
 				? (string.IsNullOrWhiteSpace(mod.SourceName) ? "" : Voidstrap.Utility.RpcText.Mark("from") + " " + mod.SourceName)
 				: Voidstrap.Utility.RpcText.Mark("by") + " " + mod.Author;
-			string state = !string.IsNullOrWhiteSpace(mod.Summary)
-				? mod.Summary
-				: byline.Length > 0 ? Voidstrap.Utility.RpcText.Mark(string.IsNullOrWhiteSpace(mod.Author) ? "Mod pack" : "Made") + " " + byline : Voidstrap.Utility.RpcText.Mark("A community mod pack");
-			Voidstrap.Integrations.VoidstrapPresence.Set(new Voidstrap.Integrations.VoidstrapPresenceContext(
-				nameof(ModsPage),
-				Voidstrap.Utility.RpcText.Mark("Viewing") + " " + mod.Name,
-				state,
-				Voidstrap.Integrations.VoidstrapPresence.WebIcon(mod.IconUrl, Voidstrap.Utility.Branding.RpcLogoUrl),
-				mod.Name + (byline.Length > 0 ? " " + byline : ""),
-				Voidstrap.Utility.RpcText.Mark("View mod"),
-				mod.ProfileUrl));
+			string state =
+				!string.IsNullOrWhiteSpace(mod.Summary) ? mod.Summary
+				: byline.Length > 0
+					? Voidstrap.Utility.RpcText.Mark(string.IsNullOrWhiteSpace(mod.Author) ? "Mod pack" : "Made") + " " + byline
+				: Voidstrap.Utility.RpcText.Mark("A community mod pack");
+			Voidstrap.Integrations.VoidstrapPresence.Set(
+				new Voidstrap.Integrations.VoidstrapPresenceContext(
+					nameof(ModsPage),
+					Voidstrap.Utility.RpcText.Mark("Viewing") + " " + mod.Name,
+					state,
+					Voidstrap.Integrations.VoidstrapPresence.WebIcon(mod.IconUrl, Voidstrap.Utility.Branding.RpcLogoUrl),
+					mod.Name + (byline.Length > 0 ? " " + byline : ""),
+					Voidstrap.Utility.RpcText.Mark("View mod"),
+					mod.ProfileUrl
+				)
+			);
 			return;
 		}
 		string tab = ModsTabs.SelectedItem is TabItem { Header: StackPanel header }
@@ -249,12 +254,17 @@ public partial class ModsPage : UiPage{
 			"Mod Packs" => "Browsing community mod packs",
 			"My Mods" => "Managing installed mods",
 			"Overlays" => "Setting up game overlays",
-			_ => "Customizing cursors, sounds, overlays and skyboxes"
+			_ => "Customizing cursors, sounds, overlays and skyboxes",
 		};
-		Voidstrap.Integrations.VoidstrapPresence.Set(new Voidstrap.Integrations.VoidstrapPresenceContext(
-			nameof(ModsPage),
-			tab.Length > 0 ? Voidstrap.Utility.RpcText.Mark("Mods") + ": " + Voidstrap.Utility.RpcText.Mark(tab) : Voidstrap.Utility.RpcText.Mark("Mods"),
-			Voidstrap.Utility.RpcText.Mark(activity)));
+		Voidstrap.Integrations.VoidstrapPresence.Set(
+			new Voidstrap.Integrations.VoidstrapPresenceContext(
+				nameof(ModsPage),
+				tab.Length > 0
+					? Voidstrap.Utility.RpcText.Mark("Mods") + ": " + Voidstrap.Utility.RpcText.Mark(tab)
+					: Voidstrap.Utility.RpcText.Mark("Mods"),
+				Voidstrap.Utility.RpcText.Mark(activity)
+			)
+		);
 	}
 
 	private void OnModPackViewRequested(object? sender, EventArgs e)
@@ -295,13 +305,16 @@ public partial class ModsPage : UiPage{
 			CancellationTokenSource current = new CancellationTokenSource();
 			_previewCancellation = current;
 			byte[] data = await ReadPreviewBytesAsync(file.FullPath, current.Token);
-			if (current.IsCancellationRequested || !ReferenceEquals(_previewCancellation, current) || ModGrid.SelectedItem is not ModFile selected || selected.FullPath != file.FullPath)
+			if (
+				current.IsCancellationRequested
+				|| !ReferenceEquals(_previewCancellation, current)
+				|| ModGrid.SelectedItem is not ModFile selected
+				|| selected.FullPath != file.FullPath
+			)
 				return;
 			ModPreviewPanel.Preview(file.Name, data);
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch
 		{
 			ModPreviewPanel.ShowInfo("Couldn't load preview.");
@@ -310,7 +323,14 @@ public partial class ModsPage : UiPage{
 
 	private static async Task<byte[]> ReadPreviewBytesAsync(string path, CancellationToken token)
 	{
-		await using FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);
+		await using FileStream stream = new FileStream(
+			path,
+			FileMode.Open,
+			FileAccess.Read,
+			FileShare.Read,
+			81920,
+			FileOptions.Asynchronous | FileOptions.SequentialScan
+		);
 		if (stream.Length <= 0 || stream.Length > MaxPreviewFileBytes)
 			throw new InvalidDataException("The preview file size is invalid");
 		byte[] data = new byte[checked((int)stream.Length)];
@@ -379,7 +399,10 @@ public partial class ModsPage : UiPage{
 		if (_managedModDragItem is null || sender is not FrameworkElement handle)
 			return;
 		Point current = e.GetPosition(this);
-		if (Math.Abs(current.X - _managedModDragStart.X) < SystemParameters.MinimumHorizontalDragDistance && Math.Abs(current.Y - _managedModDragStart.Y) < SystemParameters.MinimumVerticalDragDistance)
+		if (
+			Math.Abs(current.X - _managedModDragStart.X) < SystemParameters.MinimumHorizontalDragDistance
+			&& Math.Abs(current.Y - _managedModDragStart.Y) < SystemParameters.MinimumVerticalDragDistance
+		)
 			return;
 		try
 		{
@@ -503,7 +526,11 @@ public partial class ModsPage : UiPage{
 	{
 		try
 		{
-			if (sender is not Border { DataContext: ManagedModItem target } card || !TryGetDraggedManagedMod(e, out ManagedModItem? source) || source.Id == target.Id)
+			if (
+				sender is not Border { DataContext: ManagedModItem target } card
+				|| !TryGetDraggedManagedMod(e, out ManagedModItem? source)
+				|| source.Id == target.Id
+			)
 			{
 				ResetManagedModDrag();
 				return;
@@ -513,9 +540,7 @@ public partial class ModsPage : UiPage{
 			e.Handled = true;
 			await ViewModel.ReorderManagedModAsync(source, target, insertAfter);
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsPage::ManagedModCard_Drop", ex);
@@ -525,7 +550,11 @@ public partial class ModsPage : UiPage{
 	private void UpdateManagedModDropVisual(object sender, DragEventArgs e)
 	{
 		AutoScrollManagedMods(e);
-		if (sender is not Border { DataContext: ManagedModItem target } card || !TryGetDraggedManagedMod(e, out ManagedModItem? source) || source.Id == target.Id)
+		if (
+			sender is not Border { DataContext: ManagedModItem target } card
+			|| !TryGetDraggedManagedMod(e, out ManagedModItem? source)
+			|| source.Id == target.Id
+		)
 		{
 			e.Effects = DragDropEffects.None;
 			return;
@@ -566,7 +595,8 @@ public partial class ModsPage : UiPage{
 		_managedModDropCard = null;
 	}
 
-	private static T? FindAncestor<T>(DependencyObject element) where T : DependencyObject
+	private static T? FindAncestor<T>(DependencyObject element)
+		where T : DependencyObject
 	{
 		DependencyObject? current = element;
 		while (current is not null)

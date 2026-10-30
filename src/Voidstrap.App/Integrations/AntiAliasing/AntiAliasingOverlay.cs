@@ -6,8 +6,8 @@ using System.Threading;
 using Voidstrap.Integrations.Overlays;
 using Vortice.Direct3D;
 using Vortice.Direct3D11;
-using Vortice.DXGI;
 using Vortice.DirectComposition;
+using Vortice.DXGI;
 using Vortice.Mathematics;
 using D3D11 = Vortice.Direct3D11.D3D11;
 using DCompApi = Vortice.DirectComposition.DComp;
@@ -98,15 +98,15 @@ namespace Voidstrap.Integrations.AntiAliasing
         private double _lastHwndResolve;
         private double _lastStatsLog;
         private long _framesAtLastLog;
-		private long _nextVisibilityCheckMs;
-		private long _nextFollowCheckMs;
-		private long _nextZOrderCheckMs;
-		private int _cleanedUp;
-		private CancellationToken _runToken;
+        private long _nextVisibilityCheckMs;
+        private long _nextFollowCheckMs;
+        private long _nextZOrderCheckMs;
+        private int _cleanedUp;
+        private CancellationToken _runToken;
 
         public void Run(CancellationToken token)
         {
-			_runToken = token;
+            _runToken = token;
             try
             {
                 ResolveRobloxHwnd();
@@ -156,17 +156,17 @@ namespace Voidstrap.Integrations.AntiAliasing
                     if (!UpdateVisibility(token))
                         continue;
 
-					long now = Environment.TickCount64;
-					if (now >= _nextFollowCheckMs)
-					{
-						_nextFollowCheckMs = now + 500;
-						FollowRoblox();
-					}
-					if (now >= _nextZOrderCheckMs)
-					{
-						_nextZOrderCheckMs = now + 1000;
-						AssertZOrder();
-					}
+                    long now = Environment.TickCount64;
+                    if (now >= _nextFollowCheckMs)
+                    {
+                        _nextFollowCheckMs = now + 500;
+                        FollowRoblox();
+                    }
+                    if (now >= _nextZOrderCheckMs)
+                    {
+                        _nextZOrderCheckMs = now + 1000;
+                        AssertZOrder();
+                    }
                     RenderFrame();
                     LogStatsIfDue();
                 }
@@ -197,12 +197,39 @@ namespace Voidstrap.Integrations.AntiAliasing
                 };
                 _classAtom = AntiAliasingInterop.RegisterClassExW(ref wc);
 
-                int exStyle = AntiAliasingInterop.WS_EX_NOACTIVATE | AntiAliasingInterop.WS_EX_TOOLWINDOW | AntiAliasingInterop.WS_EX_TRANSPARENT | AntiAliasingInterop.WS_EX_TOPMOST | AntiAliasingInterop.WS_EX_LAYERED | AntiAliasingInterop.WS_EX_NOREDIRECTIONBITMAP;
-                _hwnd = AntiAliasingInterop.CreateWindowExW(exStyle, new IntPtr(_classAtom), ClassName, AntiAliasingInterop.WS_POPUP, _rectLeft, _rectTop, _width, _height, IntPtr.Zero, IntPtr.Zero, _hInstance, IntPtr.Zero);
+                int exStyle =
+                    AntiAliasingInterop.WS_EX_NOACTIVATE
+                    | AntiAliasingInterop.WS_EX_TOOLWINDOW
+                    | AntiAliasingInterop.WS_EX_TRANSPARENT
+                    | AntiAliasingInterop.WS_EX_TOPMOST
+                    | AntiAliasingInterop.WS_EX_LAYERED
+                    | AntiAliasingInterop.WS_EX_NOREDIRECTIONBITMAP;
+                _hwnd = AntiAliasingInterop.CreateWindowExW(
+                    exStyle,
+                    new IntPtr(_classAtom),
+                    ClassName,
+                    AntiAliasingInterop.WS_POPUP,
+                    _rectLeft,
+                    _rectTop,
+                    _width,
+                    _height,
+                    IntPtr.Zero,
+                    IntPtr.Zero,
+                    _hInstance,
+                    IntPtr.Zero
+                );
 
                 AntiAliasingInterop.SetLayeredWindowAttributes(_hwnd, 0, 255, AntiAliasingInterop.LWA_ALPHA);
                 AntiAliasingInterop.SetWindowDisplayAffinity(_hwnd, AntiAliasingInterop.WDA_EXCLUDEFROMCAPTURE);
-                AntiAliasingInterop.SetWindowPos(_hwnd, AntiAliasingInterop.HWND_TOPMOST, _rectLeft, _rectTop, _width, _height, AntiAliasingInterop.SWP_NOACTIVATE | AntiAliasingInterop.SWP_SHOWWINDOW);
+                AntiAliasingInterop.SetWindowPos(
+                    _hwnd,
+                    AntiAliasingInterop.HWND_TOPMOST,
+                    _rectLeft,
+                    _rectTop,
+                    _width,
+                    _height,
+                    AntiAliasingInterop.SWP_NOACTIVATE | AntiAliasingInterop.SWP_SHOWWINDOW
+                );
                 OverlayDiagnostics.RaiseOverlayWindows();
                 AntiAliasingInterop.ShowWindow(_hwnd, AntiAliasingInterop.SW_SHOWNOACTIVATE);
                 App.Logger.WriteLine(LOG_IDENT, "Overlay window created, click through and capture excluded");
@@ -260,8 +287,20 @@ namespace Voidstrap.Integrations.AntiAliasing
             {
                 if (chosen != null)
                 {
-                    D3D11.D3D11CreateDevice(chosen, DriverType.Unknown, DeviceCreationFlags.BgraSupport, _featureLevels, out _device, out _context).CheckError();
-                    App.Logger.WriteLine(LOG_IDENT, $"D3D11 device created on {chosen.Description1.Description}, feature level {_device!.FeatureLevel}");
+                    D3D11
+                        .D3D11CreateDevice(
+                            chosen,
+                            DriverType.Unknown,
+                            DeviceCreationFlags.BgraSupport,
+                            _featureLevels,
+                            out _device,
+                            out _context
+                        )
+                        .CheckError();
+                    App.Logger.WriteLine(
+                        LOG_IDENT,
+                        $"D3D11 device created on {chosen.Description1.Description}, feature level {_device!.FeatureLevel}"
+                    );
                     return;
                 }
             }
@@ -280,7 +319,16 @@ namespace Voidstrap.Integrations.AntiAliasing
 
             try
             {
-                D3D11.D3D11CreateDevice((IDXGIAdapter?)null, DriverType.Hardware, DeviceCreationFlags.BgraSupport, _featureLevels, out _device, out _context).CheckError();
+                D3D11
+                    .D3D11CreateDevice(
+                        (IDXGIAdapter?)null,
+                        DriverType.Hardware,
+                        DeviceCreationFlags.BgraSupport,
+                        _featureLevels,
+                        out _device,
+                        out _context
+                    )
+                    .CheckError();
                 App.Logger.WriteLine(LOG_IDENT, $"D3D11 device created on the default adapter, feature level {_device!.FeatureLevel}");
             }
             catch (Exception ex)
@@ -290,7 +338,16 @@ namespace Voidstrap.Integrations.AntiAliasing
                 _device?.Dispose();
                 _context = null;
                 _device = null;
-                D3D11.D3D11CreateDevice((IDXGIAdapter?)null, DriverType.Warp, DeviceCreationFlags.BgraSupport, _featureLevels, out _device, out _context).CheckError();
+                D3D11
+                    .D3D11CreateDevice(
+                        (IDXGIAdapter?)null,
+                        DriverType.Warp,
+                        DeviceCreationFlags.BgraSupport,
+                        _featureLevels,
+                        out _device,
+                        out _context
+                    )
+                    .CheckError();
                 App.Logger.WriteLine(LOG_IDENT, $"WARP device created, feature level {_device!.FeatureLevel}");
             }
         }
@@ -350,7 +407,14 @@ namespace Voidstrap.Integrations.AntiAliasing
         private void CreatePipeline()
         {
             var sw = Stopwatch.StartNew();
-            Vortice.D3DCompiler.Compiler.Compile(AntiAliasingShaders.Source, "VSMain", "AntiAliasing", "vs_5_0", out var vsBlob, out var vsErr);
+            Vortice.D3DCompiler.Compiler.Compile(
+                AntiAliasingShaders.Source,
+                "VSMain",
+                "AntiAliasing",
+                "vs_5_0",
+                out var vsBlob,
+                out var vsErr
+            );
             using (vsErr)
             {
                 if (vsBlob == null)
@@ -376,24 +440,28 @@ namespace Voidstrap.Integrations.AntiAliasing
             sw.Stop();
             App.Logger.WriteLine(LOG_IDENT, $"Compiled shaders in {sw.ElapsedMilliseconds}ms");
 
-            _sampler = _device!.CreateSamplerState(new SamplerDescription
-            {
-                Filter = Filter.MinMagMipLinear,
-                AddressU = TextureAddressMode.Clamp,
-                AddressV = TextureAddressMode.Clamp,
-                AddressW = TextureAddressMode.Clamp,
-                ComparisonFunc = ComparisonFunction.Never,
-                MinLOD = 0,
-                MaxLOD = float.MaxValue,
-            });
+            _sampler = _device!.CreateSamplerState(
+                new SamplerDescription
+                {
+                    Filter = Filter.MinMagMipLinear,
+                    AddressU = TextureAddressMode.Clamp,
+                    AddressV = TextureAddressMode.Clamp,
+                    AddressW = TextureAddressMode.Clamp,
+                    ComparisonFunc = ComparisonFunction.Never,
+                    MinLOD = 0,
+                    MaxLOD = float.MaxValue,
+                }
+            );
 
-            _cbuffer = _device!.CreateBuffer(new BufferDescription
-            {
-                ByteWidth = (uint)Marshal.SizeOf<AntiAliasingParams>(),
-                BindFlags = BindFlags.ConstantBuffer,
-                Usage = ResourceUsage.Default,
-                CPUAccessFlags = CpuAccessFlags.None,
-            });
+            _cbuffer = _device!.CreateBuffer(
+                new BufferDescription
+                {
+                    ByteWidth = (uint)Marshal.SizeOf<AntiAliasingParams>(),
+                    BindFlags = BindFlags.ConstantBuffer,
+                    Usage = ResourceUsage.Default,
+                    CPUAccessFlags = CpuAccessFlags.None,
+                }
+            );
 
             CreateSizedResources();
         }
@@ -428,18 +496,20 @@ namespace Voidstrap.Integrations.AntiAliasing
 
         private ID3D11Texture2D CreateTexture(BindFlags bind)
         {
-            return _device!.CreateTexture2D(new Texture2DDescription
-            {
-                Width = (uint)_width,
-                Height = (uint)_height,
-                MipLevels = 1,
-                ArraySize = 1,
-                Format = Format.B8G8R8A8_UNorm,
-                SampleDescription = new SampleDescription(1, 0),
-                Usage = ResourceUsage.Default,
-                BindFlags = bind,
-                CPUAccessFlags = CpuAccessFlags.None,
-            });
+            return _device!.CreateTexture2D(
+                new Texture2DDescription
+                {
+                    Width = (uint)_width,
+                    Height = (uint)_height,
+                    MipLevels = 1,
+                    ArraySize = 1,
+                    Format = Format.B8G8R8A8_UNorm,
+                    SampleDescription = new SampleDescription(1, 0),
+                    Usage = ResourceUsage.Default,
+                    BindFlags = bind,
+                    CPUAccessFlags = CpuAccessFlags.None,
+                }
+            );
         }
 
         private bool CreateDuplicationForRect(int left, int top)
@@ -472,7 +542,10 @@ namespace Voidstrap.Integrations.AntiAliasing
                                 using var output1 = output.QueryInterface<IDXGIOutput1>();
                                 _duplication = output1.DuplicateOutput(_device!);
                                 _captureFailures = 0;
-                                App.Logger.WriteLine(LOG_IDENT, $"Screen capture active on monitor at {dc.Left},{dc.Top} to {dc.Right},{dc.Bottom}");
+                                App.Logger.WriteLine(
+                                    LOG_IDENT,
+                                    $"Screen capture active on monitor at {dc.Left},{dc.Top} to {dc.Right},{dc.Bottom}"
+                                );
                                 return true;
                             }
                         }
@@ -515,9 +588,7 @@ namespace Voidstrap.Integrations.AntiAliasing
                     proc.Dispose();
                 }
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private bool TryGetRobloxRect(out AntiAliasingInterop.RECT rect)
@@ -552,14 +623,17 @@ namespace Voidstrap.Integrations.AntiAliasing
 
         private bool UpdateVisibility(CancellationToken token)
         {
-			long tick = Environment.TickCount64;
-			if (tick < _nextVisibilityCheckMs)
-				return !_hiddenByFocus;
-			_nextVisibilityCheckMs = tick + 500;
+            long tick = Environment.TickCount64;
+            if (tick < _nextVisibilityCheckMs)
+                return !_hiddenByFocus;
+            _nextVisibilityCheckMs = tick + 500;
             if (_robloxHwnd == IntPtr.Zero)
                 ResolveRobloxHwnd();
             IntPtr fg = AntiAliasingInterop.GetForegroundWindow();
-			bool robloxActive = (_robloxHwnd != IntPtr.Zero && fg == _robloxHwnd) || (fg != IntPtr.Zero && fg == Voidstrap.Integrations.RiShade.RiShadePanel.CurrentHwnd) || OverlayDiagnostics.IsOverlayHandle(fg);
+            bool robloxActive =
+                (_robloxHwnd != IntPtr.Zero && fg == _robloxHwnd)
+                || (fg != IntPtr.Zero && fg == Voidstrap.Integrations.RiShade.RiShadePanel.CurrentHwnd)
+                || OverlayDiagnostics.IsOverlayHandle(fg);
             if (robloxActive)
             {
                 if (_hiddenByFocus)
@@ -584,7 +658,7 @@ namespace Voidstrap.Integrations.AntiAliasing
                 _robloxHwnd = IntPtr.Zero;
                 ResolveRobloxHwnd();
             }
-			token.WaitHandle.WaitOne(500);
+            token.WaitHandle.WaitOne(500);
             return false;
         }
 
@@ -610,7 +684,15 @@ namespace Voidstrap.Integrations.AntiAliasing
                 _pendingH = h;
                 _rectLeft = rect.Left;
                 _rectTop = rect.Top;
-                AntiAliasingInterop.SetWindowPos(_hwnd, AntiAliasingInterop.HWND_TOPMOST, _rectLeft, _rectTop, w, h, AntiAliasingInterop.SWP_NOACTIVATE);
+                AntiAliasingInterop.SetWindowPos(
+                    _hwnd,
+                    AntiAliasingInterop.HWND_TOPMOST,
+                    _rectLeft,
+                    _rectTop,
+                    w,
+                    h,
+                    AntiAliasingInterop.SWP_NOACTIVATE
+                );
                 return;
             }
 
@@ -649,7 +731,15 @@ namespace Voidstrap.Integrations.AntiAliasing
         {
             if (_hwnd == IntPtr.Zero || _hiddenByFocus)
                 return;
-            AntiAliasingInterop.SetWindowPos(_hwnd, AntiAliasingInterop.HWND_TOPMOST, _rectLeft, _rectTop, _width, _height, AntiAliasingInterop.SWP_NOACTIVATE);
+            AntiAliasingInterop.SetWindowPos(
+                _hwnd,
+                AntiAliasingInterop.HWND_TOPMOST,
+                _rectLeft,
+                _rectTop,
+                _width,
+                _height,
+                AntiAliasingInterop.SWP_NOACTIVATE
+            );
         }
 
         private bool HandleCaptureUnstable(string reason)
@@ -672,7 +762,7 @@ namespace Voidstrap.Integrations.AntiAliasing
                 _lastRecreateMs = now;
                 CreateDuplicationForRect(_rectLeft, _rectTop);
             }
-			_runToken.WaitHandle.WaitOne(100);
+            _runToken.WaitHandle.WaitOne(100);
             return false;
         }
 
@@ -727,7 +817,8 @@ namespace Voidstrap.Integrations.AntiAliasing
                             (float)srcLeft / desc.Width,
                             (float)srcTop / desc.Height,
                             (float)(right - srcLeft) / desc.Width,
-                            (float)(bottom - srcTop) / desc.Height),
+                            (float)(bottom - srcTop) / desc.Height
+                        ),
                     };
                     _context!.UpdateSubresource(crop, _cbuffer!);
                     DrawPass(_psCropSrgb!, _inputRtv!, desktopSrv);
@@ -746,13 +837,19 @@ namespace Voidstrap.Integrations.AntiAliasing
 
         private static readonly ID3D11ShaderResourceView[] _nullSrvs = new ID3D11ShaderResourceView[2];
 
-        private void DrawPass(ID3D11PixelShader ps, ID3D11RenderTargetView target, ID3D11ShaderResourceView? t0, ID3D11ShaderResourceView? t1 = null)
+        private void DrawPass(
+            ID3D11PixelShader ps,
+            ID3D11RenderTargetView target,
+            ID3D11ShaderResourceView? t0,
+            ID3D11ShaderResourceView? t1 = null
+        )
         {
             _context!.PSSetShaderResources(0, _nullSrvs);
             _context.OMSetRenderTargets(target);
             _context.PSSetShader(ps);
             _context.PSSetShaderResource(0, t0!);
-            if (t1 != null) _context.PSSetShaderResource(1, t1);
+            if (t1 != null)
+                _context.PSSetShaderResource(1, t1);
             _context.Draw(3, 0);
         }
 
@@ -903,31 +1000,31 @@ namespace Voidstrap.Integrations.AntiAliasing
                 _psTsaa?.Dispose();
                 _psTsaaSharpen?.Dispose();
                 _vs?.Dispose();
-				_inputRtv = null;
-				_inputSrv = null;
-				_inputTex = null;
-				_workRtvA = null;
-				_workSrvA = null;
-				_workTexA = null;
-				_workRtvB = null;
-				_workSrvB = null;
-				_workTexB = null;
-				_cbuffer = null;
-				_sampler = null;
-				_psPass = null;
-				_psCropSrgb = null;
-				_psFxaa = null;
-				_psFxaaUltra = null;
-				_psSmaaEdge = null;
-				_psSmaaWeights = null;
-				_psSmaaWeightsUltra = null;
-				_psSmaaBlend = null;
-				_psDlaaMask = null;
-				_psDlaa = null;
-				_psNfaa = null;
-				_psTsaa = null;
-				_psTsaaSharpen = null;
-				_vs = null;
+                _inputRtv = null;
+                _inputSrv = null;
+                _inputTex = null;
+                _workRtvA = null;
+                _workSrvA = null;
+                _workTexA = null;
+                _workRtvB = null;
+                _workSrvB = null;
+                _workTexB = null;
+                _cbuffer = null;
+                _sampler = null;
+                _psPass = null;
+                _psCropSrgb = null;
+                _psFxaa = null;
+                _psFxaaUltra = null;
+                _psSmaaEdge = null;
+                _psSmaaWeights = null;
+                _psSmaaWeightsUltra = null;
+                _psSmaaBlend = null;
+                _psDlaaMask = null;
+                _psDlaa = null;
+                _psNfaa = null;
+                _psTsaa = null;
+                _psTsaaSharpen = null;
+                _vs = null;
             }
             catch (Exception ex)
             {
@@ -951,17 +1048,17 @@ namespace Voidstrap.Integrations.AntiAliasing
 
         private void Cleanup()
         {
-			if (Interlocked.Exchange(ref _cleanedUp, 1) != 0)
-				return;
+            if (Interlocked.Exchange(ref _cleanedUp, 1) != 0)
+                return;
             try
             {
                 if (_timerRaised)
-				{
+                {
                     _ = AntiAliasingInterop.timeEndPeriod(1);
-					_timerRaised = false;
-				}
-				_context?.ClearState();
-				_context?.Flush();
+                    _timerRaised = false;
+                }
+                _context?.ClearState();
+                _context?.Flush();
                 _duplication?.Dispose();
                 _inputRtv?.Dispose();
                 _inputSrv?.Dispose();
@@ -1008,12 +1105,10 @@ namespace Voidstrap.Integrations.AntiAliasing
                 if (_classAtom != 0)
                     AntiAliasingInterop.UnregisterClassW(new IntPtr(_classAtom), _hInstance);
             }
-            catch
-            {
-            }
+            catch { }
             _hwnd = IntPtr.Zero;
             _classAtom = 0;
-			_wndProc = null;
+            _wndProc = null;
             App.Logger.WriteLine(LOG_IDENT, "Overlay session cleaned up");
         }
     }

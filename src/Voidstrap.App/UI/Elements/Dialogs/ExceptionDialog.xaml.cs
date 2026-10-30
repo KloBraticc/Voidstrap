@@ -18,13 +18,15 @@ using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Dialogs;
 
-public partial class ExceptionDialog : WpfUiWindow{
+public partial class ExceptionDialog : WpfUiWindow
+{
 	private static readonly int MaxGitHubUrlLength = 8192;
 
 	private static readonly int MaxLogLength = 7000;
 
 	private static readonly int MaxDetailsLength = 2000;
 	private readonly string _issueUrl;
+
 	public ExceptionDialog(Exception exception)
 	{
 		InitializeComponent();
@@ -40,13 +42,16 @@ public partial class ExceptionDialog : WpfUiWindow{
 		string details = exception.ToString();
 		if (!string.IsNullOrEmpty(Paths.UserProfile))
 		{
-			details = OperatingSystem.IsWindows() ? details.Replace(Paths.UserProfile, "%UserProfile%", StringComparison.OrdinalIgnoreCase) : details.Replace(Paths.UserProfile, "~", StringComparison.Ordinal);
+			details = OperatingSystem.IsWindows()
+				? details.Replace(Paths.UserProfile, "%UserProfile%", StringComparison.OrdinalIgnoreCase)
+				: details.Replace(Paths.UserProfile, "~", StringComparison.Ordinal);
 		}
 		if (details.Length > MaxDetailsLength)
 		{
 			details = details.Substring(0, MaxDetailsLength);
 		}
-		string baseIssueUrl = $"{text}/issues/new?template=bug_report.yml&title={text2}&version={HttpUtility.UrlEncode(App.Version)}&what-happened={HttpUtility.UrlEncode(details)}";
+		string baseIssueUrl =
+			$"{text}/issues/new?template=bug_report.yml&title={text2}&version={HttpUtility.UrlEncode(App.Version)}&what-happened={HttpUtility.UrlEncode(details)}";
 		string log = App.Logger.AsDocument;
 		_issueUrl = baseIssueUrl;
 		for (int take = Math.Min(log.Length, MaxLogLength); take > 0; take /= 2)
@@ -109,7 +114,8 @@ public partial class ExceptionDialog : WpfUiWindow{
 		{
 			details = new TextRange(ErrorRichTextBox.Document.ContentStart, ErrorRichTextBox.Document.ContentEnd).Text;
 		}
-		string payload = string.Format(Strings.Dialog_Exception_Version, App.Version) + Environment.NewLine + Environment.NewLine + details.Trim();
+		string payload =
+			string.Format(Strings.Dialog_Exception_Version, App.Version) + Environment.NewLine + Environment.NewLine + details.Trim();
 		try
 		{
 			Voidstrap.Utility.ClipboardService.SetDataObject(payload, copy: true);
@@ -127,10 +133,7 @@ public partial class ExceptionDialog : WpfUiWindow{
 		CopyDetailsButton.Content = "Copied";
 		if (_copyFeedbackTimer == null)
 		{
-			_copyFeedbackTimer = new System.Windows.Threading.DispatcherTimer
-			{
-				Interval = TimeSpan.FromMilliseconds(1600.0)
-			};
+			_copyFeedbackTimer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromMilliseconds(1600.0) };
 			_copyFeedbackTimer.Tick += OnCopyFeedbackTick;
 		}
 		_copyFeedbackTimer.Stop();
@@ -197,6 +200,9 @@ public partial class ExceptionDialog : WpfUiWindow{
 
 	private void FlashWindowOnLoad()
 	{
-		if (Voidstrap.Utility.Platform.IsWindows) { Windows.Win32.PInvoke.FlashWindow((HWND)new WindowInteropHelper(this).Handle, true); }
+		if (Voidstrap.Utility.Platform.IsWindows)
+		{
+			Windows.Win32.PInvoke.FlashWindow((HWND)new WindowInteropHelper(this).Handle, true);
+		}
 	}
 }

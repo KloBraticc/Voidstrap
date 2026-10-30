@@ -77,7 +77,15 @@ internal static partial class RobloxMemoryLimit
 			foreach (string line in System.IO.File.ReadLines("/proc/meminfo"))
 			{
 				string[] parts = line.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries);
-				if (parts.Length < 2 || !long.TryParse(parts[1], System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out long kilobytes))
+				if (
+					parts.Length < 2
+					|| !long.TryParse(
+						parts[1],
+						System.Globalization.NumberStyles.None,
+						System.Globalization.CultureInfo.InvariantCulture,
+						out long kilobytes
+					)
+				)
 					continue;
 				if (parts[0] == "MemTotal:")
 					totalMb = (int)(kilobytes / 1024);
@@ -117,7 +125,10 @@ internal static partial class RobloxMemoryLimit
 		{
 			int error = Marshal.GetLastPInvokeError();
 			if (error == AccessDenied && Hardened.TryAdd(process.Id, 0))
-				App.Logger.WriteLine("RobloxMemoryLimit", "Roblox process " + process.Id + " does not allow a quota handle, the memory limit stays off for this session");
+				App.Logger.WriteLine(
+					"RobloxMemoryLimit",
+					"Roblox process " + process.Id + " does not allow a quota handle, the memory limit stays off for this session"
+				);
 			else if (error != AccessDenied)
 				App.Logger.WriteLine("RobloxMemoryLimit", "The Roblox memory limit could not be changed, error " + error);
 			return false;
@@ -130,23 +141,44 @@ internal static partial class RobloxMemoryLimit
 			{
 				if ((flags & QuotaLimitsHardwsMaxEnable) == 0)
 					return true;
-				bool removed = SetProcessWorkingSetSizeEx(handle, minimum, maximum, QuotaLimitsHardwsMinDisable | QuotaLimitsHardwsMaxDisable);
+				bool removed = SetProcessWorkingSetSizeEx(
+					handle,
+					minimum,
+					maximum,
+					QuotaLimitsHardwsMinDisable | QuotaLimitsHardwsMaxDisable
+				);
 				if (removed)
 					App.Logger.WriteLine("RobloxMemoryLimit", "Removed the Roblox memory limit");
 				else
-					App.Logger.WriteLine("RobloxMemoryLimit", "The Roblox memory limit could not be removed, error " + Marshal.GetLastPInvokeError());
+					App.Logger.WriteLine(
+						"RobloxMemoryLimit",
+						"The Roblox memory limit could not be removed, error " + Marshal.GetLastPInvokeError()
+					);
 				return removed;
 			}
 			ulong limitBytes = (ulong)Clamp(mb) * 1048576UL;
 			if ((flags & QuotaLimitsHardwsMaxEnable) != 0 && maximum == (nuint)limitBytes)
 				return true;
 			ulong floor = Math.Min(Math.Max((ulong)minimum, MinimumWorkingSetBytes), limitBytes / 4);
-			if (!SetProcessWorkingSetSizeEx(handle, (nuint)floor, (nuint)limitBytes, QuotaLimitsHardwsMinDisable | QuotaLimitsHardwsMaxEnable))
+			if (
+				!SetProcessWorkingSetSizeEx(
+					handle,
+					(nuint)floor,
+					(nuint)limitBytes,
+					QuotaLimitsHardwsMinDisable | QuotaLimitsHardwsMaxEnable
+				)
+			)
 			{
-				App.Logger.WriteLine("RobloxMemoryLimit", "The Roblox memory limit could not be applied, error " + Marshal.GetLastPInvokeError());
+				App.Logger.WriteLine(
+					"RobloxMemoryLimit",
+					"The Roblox memory limit could not be applied, error " + Marshal.GetLastPInvokeError()
+				);
 				return false;
 			}
-			App.Logger.WriteLine("RobloxMemoryLimit", "Roblox can now use at most " + Format(Clamp(mb)) + " of RAM, anything above that is paged out instead of crashing the game");
+			App.Logger.WriteLine(
+				"RobloxMemoryLimit",
+				"Roblox can now use at most " + Format(Clamp(mb)) + " of RAM, anything above that is paged out instead of crashing the game"
+			);
 			return true;
 		}
 		catch (Exception ex)

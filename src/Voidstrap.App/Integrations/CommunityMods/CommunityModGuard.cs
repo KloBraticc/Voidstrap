@@ -36,12 +36,16 @@ public static class CommunityModGuard
 
 	public static readonly HashSet<string> InstallablePackageExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 	{
-		".zip", ".rar", ".7z", ".json"
+		".zip",
+		".rar",
+		".7z",
+		".json",
 	};
 
 	public static readonly HashSet<string> ConvertiblePackageExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 	{
-		".rar", ".7z"
+		".rar",
+		".7z",
 	};
 
 	private static readonly HashSet<string> BlockedRoots = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -49,60 +53,208 @@ public static class CommunityModGuard
 		"ssl",
 		"clientsettings",
 		"webview2",
-		"webview2runtimeinstaller"
+		"webview2runtimeinstaller",
 	};
 
 	private static readonly HashSet<string> AllowedAssetExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 	{
-		".png", ".jpg", ".jpeg", ".bmp", ".tga", ".dds", ".ktx", ".webp", ".tex",
-		".ogg", ".mp3", ".wav", ".flac",
-		".mesh", ".rbxm", ".rbxmx", ".rbxl", ".rbxlx",
-		".ttf", ".otf", ".woff", ".woff2", ".font", ".fontfamily",
-		".json", ".xml", ".txt", ".csv", ".md", ".dat", ".bin", ".ini", ".cfg",
-		".hlsl", ".glsl", ".fx", ".pack", ".idx", ".mp4", ".webm", ".gif"
+		".png",
+		".jpg",
+		".jpeg",
+		".bmp",
+		".tga",
+		".dds",
+		".ktx",
+		".webp",
+		".tex",
+		".ogg",
+		".mp3",
+		".wav",
+		".flac",
+		".mesh",
+		".rbxm",
+		".rbxmx",
+		".rbxl",
+		".rbxlx",
+		".ttf",
+		".otf",
+		".woff",
+		".woff2",
+		".font",
+		".fontfamily",
+		".json",
+		".xml",
+		".txt",
+		".csv",
+		".md",
+		".dat",
+		".bin",
+		".ini",
+		".cfg",
+		".hlsl",
+		".glsl",
+		".fx",
+		".pack",
+		".idx",
+		".mp4",
+		".webm",
+		".gif",
 	};
 
 	private static readonly HashSet<string> DangerousExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 	{
-		".exe", ".dll", ".sys", ".drv", ".com", ".scr", ".cpl", ".msi", ".msix", ".msp",
-		".bat", ".cmd", ".ps1", ".psm1", ".psd1", ".vbs", ".vbe", ".js", ".jse", ".wsf",
-		".wsh", ".hta", ".reg", ".lnk", ".url", ".scf", ".inf", ".jar", ".py", ".pyc",
-		".sh", ".apk", ".app", ".so", ".dylib", ".ocx", ".ax", ".efi", ".iso", ".img",
-		".vhd", ".vhdx", ".lua", ".luau", ".rbxs", ".dmp", ".pif", ".gadget", ".application"
+		".exe",
+		".dll",
+		".sys",
+		".drv",
+		".com",
+		".scr",
+		".cpl",
+		".msi",
+		".msix",
+		".msp",
+		".bat",
+		".cmd",
+		".ps1",
+		".psm1",
+		".psd1",
+		".vbs",
+		".vbe",
+		".js",
+		".jse",
+		".wsf",
+		".wsh",
+		".hta",
+		".reg",
+		".lnk",
+		".url",
+		".scf",
+		".inf",
+		".jar",
+		".py",
+		".pyc",
+		".sh",
+		".apk",
+		".app",
+		".so",
+		".dylib",
+		".ocx",
+		".ax",
+		".efi",
+		".iso",
+		".img",
+		".vhd",
+		".vhdx",
+		".lua",
+		".luau",
+		".rbxs",
+		".dmp",
+		".pif",
+		".gadget",
+		".application",
 	};
 
 	private static readonly string[] BlockedTerms =
 	{
-		"exploit", "executor", "script hub", "scripthub", "cheat", "cheats", "cheating", "aimbot",
-		"auto farm", "autofarm", "autofarming", "esp", "wallhack", "wall hack", "bypass anticheat",
-		"anti cheat bypass", "anticheat bypass", "injector", "dll inject", "synapse", "krnl", "fluxus",
-		"delta executor", "keyless", "no key system", "robux generator", "free robux", "account generator",
-		"token grabber", "cookie logger", "remote access trojan", "keylogger", "stealer",
-		"keygen", "serial key", "byfron bypass", "hyperion bypass", "silent aim",
-		"lag switch", "dupe glitch", "duplication glitch", "fly hack", "speed hack", "god mode script"
+		"exploit",
+		"executor",
+		"script hub",
+		"scripthub",
+		"cheat",
+		"cheats",
+		"cheating",
+		"aimbot",
+		"auto farm",
+		"autofarm",
+		"autofarming",
+		"esp",
+		"wallhack",
+		"wall hack",
+		"bypass anticheat",
+		"anti cheat bypass",
+		"anticheat bypass",
+		"injector",
+		"dll inject",
+		"synapse",
+		"krnl",
+		"fluxus",
+		"delta executor",
+		"keyless",
+		"no key system",
+		"robux generator",
+		"free robux",
+		"account generator",
+		"token grabber",
+		"cookie logger",
+		"remote access trojan",
+		"keylogger",
+		"stealer",
+		"keygen",
+		"serial key",
+		"byfron bypass",
+		"hyperion bypass",
+		"silent aim",
+		"lag switch",
+		"dupe glitch",
+		"duplication glitch",
+		"fly hack",
+		"speed hack",
+		"god mode script",
 	};
 
 	public static readonly HashSet<string> HiddenCategories = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 	{
 		"Maps",
 		"Effects",
-		"Castaways"
+		"Castaways",
 	};
 
 	private static readonly string[] ExternalToolTerms =
 	{
-		"python", "pip install", ".py", "py file", "py script",
-		"browser extension", "chrome extension", "firefox extension", "edge extension", "opera extension",
-		"browser addon", "browser add on", "chrome web store", "load unpacked", "unpacked extension",
-		"userscript", "user script", "tampermonkey", "greasemonkey", "violentmonkey",
-		".crx", ".xpi", "web extension", "webextension"
+		"python",
+		"pip install",
+		".py",
+		"py file",
+		"py script",
+		"browser extension",
+		"chrome extension",
+		"firefox extension",
+		"edge extension",
+		"opera extension",
+		"browser addon",
+		"browser add on",
+		"chrome web store",
+		"load unpacked",
+		"unpacked extension",
+		"userscript",
+		"user script",
+		"tampermonkey",
+		"greasemonkey",
+		"violentmonkey",
+		".crx",
+		".xpi",
+		"web extension",
+		"webextension",
 	};
 
 	private static readonly string[] FlagListTerms =
 	{
-		"fflag", "dfflag", "fint", "dfint", "fstring", "dfstring", "flog",
-		"fastflag", "fastflags", "fast flag", "fast flags",
-		"flag list", "flags list", "flag preset", "flags preset", "clientappsettings"
+		"fflag",
+		"dfflag",
+		"fint",
+		"dfint",
+		"fstring",
+		"dfstring",
+		"flog",
+		"fastflag",
+		"fastflags",
+		"fast flag",
+		"fast flags",
+		"flag list",
+		"flags list",
+		"flag preset",
+		"flags preset",
+		"clientappsettings",
 	};
 
 	private static readonly Regex BlockedTermPattern = BuildBlockedTermPattern();
@@ -113,9 +265,28 @@ public static class CommunityModGuard
 
 	private static readonly HashSet<string> ReservedNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 	{
-		"con", "prn", "aux", "nul",
-		"com1", "com2", "com3", "com4", "com5", "com6", "com7", "com8", "com9",
-		"lpt1", "lpt2", "lpt3", "lpt4", "lpt5", "lpt6", "lpt7", "lpt8", "lpt9"
+		"con",
+		"prn",
+		"aux",
+		"nul",
+		"com1",
+		"com2",
+		"com3",
+		"com4",
+		"com5",
+		"com6",
+		"com7",
+		"com8",
+		"com9",
+		"lpt1",
+		"lpt2",
+		"lpt3",
+		"lpt4",
+		"lpt5",
+		"lpt6",
+		"lpt7",
+		"lpt8",
+		"lpt9",
 	};
 
 	private static readonly char[] InvalidNameChars = Path.GetInvalidFileNameChars();
@@ -128,13 +299,21 @@ public static class CommunityModGuard
 	private static Regex BuildTermPattern(IReadOnlyList<string> terms)
 	{
 		string pattern = string.Join("|", terms.Select(term => string.Join("[ _-]+", term.Split(' ').Select(Regex.Escape))));
-		return new Regex("(?<![a-z0-9])(" + pattern + ")(?![a-z0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant, TimeSpan.FromSeconds(2));
+		return new Regex(
+			"(?<![a-z0-9])(" + pattern + ")(?![a-z0-9])",
+			RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant,
+			TimeSpan.FromSeconds(2)
+		);
 	}
 
 	private static Regex BuildBlockedTermPattern()
 	{
 		string pattern = string.Join("|", BlockedTerms.Select(term => term.Replace(" ", "[ _-]+")));
-		return new Regex("(?<![a-z0-9])(" + pattern + ")(?![a-z0-9])", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant, TimeSpan.FromSeconds(2));
+		return new Regex(
+			"(?<![a-z0-9])(" + pattern + ")(?![a-z0-9])",
+			RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant,
+			TimeSpan.FromSeconds(2)
+		);
 	}
 
 	public static bool IsGameBananaHost(string host)
@@ -166,8 +345,10 @@ public static class CommunityModGuard
 		{
 			return false;
 		}
-		if (string.Equals(uri.Host, "github.com", StringComparison.OrdinalIgnoreCase)
-			|| string.Equals(uri.Host, "raw.githubusercontent.com", StringComparison.OrdinalIgnoreCase))
+		if (
+			string.Equals(uri.Host, "github.com", StringComparison.OrdinalIgnoreCase)
+			|| string.Equals(uri.Host, "raw.githubusercontent.com", StringComparison.OrdinalIgnoreCase)
+		)
 		{
 			return string.Equals(url.TrimEnd('/'), MarketplaceCatalog.SourceUrl, StringComparison.Ordinal)
 				|| MarketplaceCatalog.IsMarketplaceUrl(url);
@@ -238,7 +419,9 @@ public static class CommunityModGuard
 		term = FindExternalToolTerm(haystack);
 		if (term != null)
 		{
-			return CommunityModVerdict.Block("The description describes a separate program or a browser extension, matched on " + term + ".");
+			return CommunityModVerdict.Block(
+				"The description describes a separate program or a browser extension, matched on " + term + "."
+			);
 		}
 		if (!entry.Files.Any(IsInstallableFile))
 		{
@@ -281,7 +464,13 @@ public static class CommunityModGuard
 		}
 		if (!InstallablePackageExtensions.Contains(extension))
 		{
-			return CommunityModVerdict.Block("Only zip, rar and 7z packages and " + (Voidstrap.Utility.Platform.IsLinux ? "replacement" : "Fleasion") + " JSON configs can be installed, this one is " + extension + ".");
+			return CommunityModVerdict.Block(
+				"Only zip, rar and 7z packages and "
+					+ (Voidstrap.Utility.Platform.IsLinux ? "replacement" : "Fleasion")
+					+ " JSON configs can be installed, this one is "
+					+ extension
+					+ "."
+			);
 		}
 		if (MarketplaceCatalog.IsMarketplaceUrl(file.DownloadUrl))
 		{
@@ -295,13 +484,17 @@ public static class CommunityModGuard
 		{
 			return CommunityModVerdict.Block("The replacement config is larger than the " + MaxConfigBytes / 1048576 + " MB limit.");
 		}
-		if (!string.Equals(file.AntivirusState, "done", StringComparison.OrdinalIgnoreCase)
-			|| !string.Equals(file.AntivirusResult, "clean", StringComparison.OrdinalIgnoreCase))
+		if (
+			!string.Equals(file.AntivirusState, "done", StringComparison.OrdinalIgnoreCase)
+			|| !string.Equals(file.AntivirusResult, "clean", StringComparison.OrdinalIgnoreCase)
+		)
 		{
 			return CommunityModVerdict.Block("The GameBanana virus scan did not report the file as clean.");
 		}
-		if (!string.Equals(file.AnalysisState, "done", StringComparison.OrdinalIgnoreCase)
-			|| !string.Equals(file.AnalysisResult, "ok", StringComparison.OrdinalIgnoreCase))
+		if (
+			!string.Equals(file.AnalysisState, "done", StringComparison.OrdinalIgnoreCase)
+			|| !string.Equals(file.AnalysisResult, "ok", StringComparison.OrdinalIgnoreCase)
+		)
 		{
 			return CommunityModVerdict.Block("The GameBanana content analysis did not pass.");
 		}
@@ -389,7 +582,8 @@ public static class CommunityModGuard
 
 	public static bool IsDangerousName(string relative)
 	{
-		return DangerousExtensions.Contains(Path.GetExtension(relative)) && !IsClientCopy(relative.Replace('/', Path.DirectorySeparatorChar));
+		return DangerousExtensions.Contains(Path.GetExtension(relative))
+			&& !IsClientCopy(relative.Replace('/', Path.DirectorySeparatorChar));
 	}
 
 	public static bool IsClientCopy(string relative)
@@ -549,7 +743,10 @@ public static class CommunityModGuard
 	private static bool IsFlagList(CommunityModEntry entry)
 	{
 		List<CommunityModFile> installable = entry.Files.Where(IsInstallableFile).ToList();
-		if (installable.Count == 0 || !installable.All(file => string.Equals(Path.GetExtension(file.FileName), ".json", StringComparison.OrdinalIgnoreCase)))
+		if (
+			installable.Count == 0
+			|| !installable.All(file => string.Equals(Path.GetExtension(file.FileName), ".json", StringComparison.OrdinalIgnoreCase))
+		)
 		{
 			return false;
 		}

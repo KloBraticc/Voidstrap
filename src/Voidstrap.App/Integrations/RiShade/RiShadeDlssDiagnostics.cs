@@ -62,7 +62,10 @@ namespace Voidstrap.Integrations.RiShade
                 if (DateTime.UtcNow - _startedUtc >= WatchLength || _evaluating)
                 {
                     if (!_evaluating && _framesSeen)
-                        App.Logger.WriteLine(LOG_IDENT, "DLSS received frames but its log never confirmed an evaluated frame, it may be running in passthrough");
+                        App.Logger.WriteLine(
+                            LOG_IDENT,
+                            "DLSS received frames but its log never confirmed an evaluated frame, it may be running in passthrough"
+                        );
                     StopTimer();
                 }
             }
@@ -100,9 +103,15 @@ namespace Voidstrap.Integrations.RiShade
                 Report("registered", "DLSS addon loaded into ReShade");
                 return;
             }
-            if (line.Contains("Loading add-on from", StringComparison.Ordinal) && line.Contains("renodx-dlss", StringComparison.OrdinalIgnoreCase))
+            if (
+                line.Contains("Loading add-on from", StringComparison.Ordinal)
+                && line.Contains("renodx-dlss", StringComparison.OrdinalIgnoreCase)
+            )
                 return;
-            if (line.Contains("Failed to load add-on", StringComparison.Ordinal) && line.Contains("renodx", StringComparison.OrdinalIgnoreCase))
+            if (
+                line.Contains("Failed to load add-on", StringComparison.Ordinal)
+                && line.Contains("renodx", StringComparison.OrdinalIgnoreCase)
+            )
             {
                 Report("loadfail", "ReShade could not load the DLSS addon: " + Message(line));
                 return;
@@ -120,12 +129,16 @@ namespace Voidstrap.Integrations.RiShade
                 _framesSeen = true;
                 Report("present", "DLSS is receiving frames from the compositor");
             }
-            else if (message.Contains("owned-evaluated=true", StringComparison.Ordinal) || message.Contains("common-active=true", StringComparison.Ordinal))
+            else if (
+                message.Contains("owned-evaluated=true", StringComparison.Ordinal)
+                || message.Contains("common-active=true", StringComparison.Ordinal)
+            )
             {
                 _evaluating = true;
                 Report("evaluating", "DLSS is evaluating frames, it is working");
             }
-            bool failedCall = message.Contains(" hr=0x", StringComparison.Ordinal) && !message.Contains(" hr=0x00000000", StringComparison.Ordinal);
+            bool failedCall =
+                message.Contains(" hr=0x", StringComparison.Ordinal) && !message.Contains(" hr=0x00000000", StringComparison.Ordinal);
             if (line.Contains("| ERROR", StringComparison.Ordinal) || line.Contains("| WARN", StringComparison.Ordinal) || failedCall)
                 ForwardIssue(line.Contains("| ERROR", StringComparison.Ordinal) || failedCall ? "error" : "warning", message);
         }
@@ -151,9 +164,12 @@ namespace Voidstrap.Integrations.RiShade
             if (_registered && !_framesSeen && !_frameVerdictLogged && elapsed >= FrameDeadline)
             {
                 _frameVerdictLogged = true;
-                App.Logger.WriteLine(LOG_IDENT, _deviceReady
-                    ? "DLSS attached to the device but never received a frame, the compositor may not be presenting"
-                    : "DLSS loaded but never attached to the compositor device, the device was created without ReShade's wrapper");
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    _deviceReady
+                        ? "DLSS attached to the device but never received a frame, the compositor may not be presenting"
+                        : "DLSS loaded but never attached to the compositor device, the device was created without ReShade's wrapper"
+                );
             }
         }
 
@@ -166,7 +182,10 @@ namespace Voidstrap.Integrations.RiShade
             {
                 foreach (string line in File.ReadLines(Path.Combine(directory, "ReShade.ini")))
                 {
-                    if (line.StartsWith("DisabledAddons=", StringComparison.OrdinalIgnoreCase) && line.Contains("RenoDX DLSS", StringComparison.OrdinalIgnoreCase))
+                    if (
+                        line.StartsWith("DisabledAddons=", StringComparison.OrdinalIgnoreCase)
+                        && line.Contains("RenoDX DLSS", StringComparison.OrdinalIgnoreCase)
+                    )
                         return "it is turned off in ReShade's addon list";
                 }
             }

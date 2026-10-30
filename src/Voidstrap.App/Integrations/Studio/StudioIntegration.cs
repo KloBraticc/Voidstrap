@@ -46,7 +46,10 @@ namespace Voidstrap.Integrations.Studio
                         _rpc = new StudioRichPresence();
                     }
                 }
-                App.Logger.WriteLine(LogTag, "Studio integration started, presence " + (presence ? "on" : "off") + ", plugin " + (plugin ? "on" : "off"));
+                App.Logger.WriteLine(
+                    LogTag,
+                    "Studio integration started, presence " + (presence ? "on" : "off") + ", plugin " + (plugin ? "on" : "off")
+                );
             }
             catch (Exception ex)
             {
@@ -83,7 +86,10 @@ namespace Voidstrap.Integrations.Studio
                     _rpc = new StudioRichPresence();
                 }
             }
-            App.Logger.WriteLine(LogTag, "Studio integration started for Vinegar, presence " + (presence ? "on" : "off") + ", plugin " + (plugin ? "on" : "off"));
+            App.Logger.WriteLine(
+                LogTag,
+                "Studio integration started for Vinegar, presence " + (presence ? "on" : "off") + ", plugin " + (plugin ? "on" : "off")
+            );
         }
 
         public static void Shutdown()
@@ -94,9 +100,7 @@ namespace Voidstrap.Integrations.Studio
                 {
                     _rpc?.Dispose();
                 }
-                catch
-                {
-                }
+                catch { }
                 _rpc = null;
                 StudioBridge.Shutdown();
             }

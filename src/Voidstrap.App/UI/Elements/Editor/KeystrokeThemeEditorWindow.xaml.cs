@@ -19,7 +19,9 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
     private readonly string _themeName;
     private readonly KeystrokeTheme _originalTheme;
     private readonly KeystrokeTheme _workingTheme;
-    private readonly Dictionary<string, (Border Key, Border Highlight, TextBlock Text, TextBlock? Cps)> _previewElements = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, (Border Key, Border Highlight, TextBlock Text, TextBlock? Cps)> _previewElements = new(
+        StringComparer.OrdinalIgnoreCase
+    );
     private ThemeCodeLanguage _currentLanguage = ThemeCodeLanguage.CSharp;
     private string _selectedKeycap = "W";
     private bool _isInitializing = true;
@@ -64,10 +66,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
 
     private void RefreshKeycapTargetItems(string? selectKey = null)
     {
-        var set = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-        {
-            "W", "A", "S", "D", "LMB", "RMB", "Shift", "Space"
-        };
+        var set = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "W", "A", "S", "D", "LMB", "RMB", "Shift", "Space" };
 
         if (_workingTheme.LayoutRows != null)
         {
@@ -138,33 +137,14 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
             "Bahnschrift",
             "Arial",
             "Trebuchet MS",
-            "Verdana"
+            "Verdana",
         };
 
-        ComboFontWeight.ItemsSource = new List<string>
-        {
-            "Normal",
-            "Medium",
-            "SemiBold",
-            "Bold",
-            "ExtraBold"
-        };
+        ComboFontWeight.ItemsSource = new List<string> { "Normal", "Medium", "SemiBold", "Bold", "ExtraBold" };
 
-        ComboImageStretch.ItemsSource = new List<string>
-        {
-            "UniformToFill",
-            "Uniform",
-            "Fill",
-            "None"
-        };
+        ComboImageStretch.ItemsSource = new List<string> { "UniformToFill", "Uniform", "Fill", "None" };
 
-        ComboLanguage.ItemsSource = new List<string>
-        {
-            "C# (.cs)",
-            "HTML / CSS (.html)",
-            "Rust (.rs)",
-            "JSON (.json)"
-        };
+        ComboLanguage.ItemsSource = new List<string> { "C# (.cs)", "HTML / CSS (.html)", "Rust (.rs)", "JSON (.json)" };
         ComboLanguage.SelectedIndex = 0;
 
         RefreshKeycapTargetItems();
@@ -182,7 +162,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
                 "Glass & Squash Scale",
                 "Accent Brushes",
                 "Full Gaming Layout & Trackpad",
-                "Mouse Movement Theme (Custom 1)"
+                "Mouse Movement Theme (Custom 1)",
             },
             ThemeCodeLanguage.HtmlCss => new List<string>
             {
@@ -192,7 +172,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
                 "Pressed State",
                 "Full Gaming Layout & Trackpad",
                 "Animated HUD & Shine",
-                "Mouse Movement Circle"
+                "Mouse Movement Circle",
             },
             ThemeCodeLanguage.Rust => new List<string>
             {
@@ -200,7 +180,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
                 "Keycap Match",
                 "Theme Overrides",
                 "Full Gaming Layout & Trackpad",
-                "Mouse Movement Theme"
+                "Mouse Movement Theme",
             },
             _ => new List<string>
             {
@@ -211,8 +191,8 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
                 "Glass & Squash Scale",
                 "Accent Palette",
                 "Full Gaming Layout & Trackpad",
-                "Mouse Movement Theme"
-            }
+                "Mouse Movement Theme",
+            },
         };
         ComboSnippets.SelectedIndex = 0;
     }
@@ -345,7 +325,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
             1 => ThemeCodeLanguage.HtmlCss,
             2 => ThemeCodeLanguage.Rust,
             3 => ThemeCodeLanguage.Json,
-            _ => ThemeCodeLanguage.CSharp
+            _ => ThemeCodeLanguage.CSharp,
         };
 
         CodeEditorBehavior.SetLanguage(CodeEditor, KeystrokeThemeCodeConverter.GetExtension(_currentLanguage));
@@ -391,15 +371,14 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
     private void PickColor(string title, string currentHex, Action<string> onColorPicked, Button triggerBtn, bool allowAccent = false)
     {
         Color initial = KeystrokeTheme.ParseColor(currentHex, Colors.White);
-        var dialog = new RinColorPickerDialog(initial, alphaEnabled: true, title: title, allowAccent: allowAccent)
-        {
-            Owner = this
-        };
+        var dialog = new RinColorPickerDialog(initial, alphaEnabled: true, title: title, allowAccent: allowAccent) { Owner = this };
 
         dialog.ShowOwnedDialog();
         if (dialog.DialogResult == true)
         {
-            string hex = dialog.UseAccent ? "Accent" : $"#{dialog.SelectedColor.A:X2}{dialog.SelectedColor.R:X2}{dialog.SelectedColor.G:X2}{dialog.SelectedColor.B:X2}";
+            string hex = dialog.UseAccent
+                ? "Accent"
+                : $"#{dialog.SelectedColor.A:X2}{dialog.SelectedColor.R:X2}{dialog.SelectedColor.G:X2}{dialog.SelectedColor.B:X2}";
             onColorPicked(hex);
             UpdateButtonColor(triggerBtn, hex);
             UpdateCodeView();
@@ -409,37 +388,73 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
 
     private void OnPickKeyBgClicked(object sender, RoutedEventArgs e)
     {
-        PickColor(Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_KeyBg, _workingTheme.KeyBackground, hex => _workingTheme.KeyBackground = hex, BtnKeyBg);
+        PickColor(
+            Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_KeyBg,
+            _workingTheme.KeyBackground,
+            hex => _workingTheme.KeyBackground = hex,
+            BtnKeyBg
+        );
     }
 
     private void OnPickKeyPressedBgClicked(object sender, RoutedEventArgs e)
     {
-        PickColor(Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_KeyPressedBg, _workingTheme.KeyPressedBackground, hex => _workingTheme.KeyPressedBackground = hex, BtnKeyPressedBg, allowAccent: true);
+        PickColor(
+            Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_KeyPressedBg,
+            _workingTheme.KeyPressedBackground,
+            hex => _workingTheme.KeyPressedBackground = hex,
+            BtnKeyPressedBg,
+            allowAccent: true
+        );
     }
 
     private void OnPickKeyTextClicked(object sender, RoutedEventArgs e)
     {
-        PickColor(Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_KeyText, _workingTheme.KeyTextColor, hex => _workingTheme.KeyTextColor = hex, BtnKeyText);
+        PickColor(
+            Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_KeyText,
+            _workingTheme.KeyTextColor,
+            hex => _workingTheme.KeyTextColor = hex,
+            BtnKeyText
+        );
     }
 
     private void OnPickKeyPressedTextClicked(object sender, RoutedEventArgs e)
     {
-        PickColor(Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_KeyPressedText, _workingTheme.KeyPressedTextColor, hex => _workingTheme.KeyPressedTextColor = hex, BtnKeyPressedText);
+        PickColor(
+            Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_KeyPressedText,
+            _workingTheme.KeyPressedTextColor,
+            hex => _workingTheme.KeyPressedTextColor = hex,
+            BtnKeyPressedText
+        );
     }
 
     private void OnPickCpsTextClicked(object sender, RoutedEventArgs e)
     {
-        PickColor(Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_CpsText, _workingTheme.CpsTextColor, hex => _workingTheme.CpsTextColor = hex, BtnCpsText);
+        PickColor(
+            Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_CpsText,
+            _workingTheme.CpsTextColor,
+            hex => _workingTheme.CpsTextColor = hex,
+            BtnCpsText
+        );
     }
 
     private void OnPickKeyPressedCpsTextClicked(object sender, RoutedEventArgs e)
     {
-        PickColor(Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_KeyPressedCpsText, _workingTheme.KeyPressedCpsTextColor, hex => _workingTheme.KeyPressedCpsTextColor = hex, BtnKeyPressedCpsText);
+        PickColor(
+            Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_KeyPressedCpsText,
+            _workingTheme.KeyPressedCpsTextColor,
+            hex => _workingTheme.KeyPressedCpsTextColor = hex,
+            BtnKeyPressedCpsText
+        );
     }
 
     private void OnPickBorderColorClicked(object sender, RoutedEventArgs e)
     {
-        PickColor(Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_BorderColor, _workingTheme.KeyBorderColor, hex => _workingTheme.KeyBorderColor = hex, BtnBorderColor);
+        PickColor(
+            Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_BorderColor,
+            _workingTheme.KeyBorderColor,
+            hex => _workingTheme.KeyBorderColor = hex,
+            BtnBorderColor
+        );
     }
 
     private void OnGeometryChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -510,7 +525,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         var ofd = new Microsoft.Win32.OpenFileDialog
         {
             Filter = "Image Files (*.png;*.jpg;*.jpeg;*.webp;*.bmp)|*.png;*.jpg;*.jpeg;*.webp;*.bmp|All Files (*.*)|*.*",
-            Title = Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_CustomImages ?? "Custom Images"
+            Title = Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_CustomImages ?? "Custom Images",
         };
 
         if (ofd.ShowDialog() == true)
@@ -697,7 +712,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
             {
                 ThemeCodeLanguage.HtmlCss => $"url('{imported}')",
                 ThemeCodeLanguage.Rust => $"Some(\"{imported}\")",
-                _ => $"\"{imported}\""
+                _ => $"\"{imported}\"",
             };
             CodeEditor.Document.Insert(CodeEditor.CaretOffset, snippet);
             UpdateFromCurrentCode();
@@ -830,7 +845,7 @@ public static class ThemeDefinition
     }
 }
 """,
-                _ => string.Empty
+                _ => string.Empty,
             },
             ThemeCodeLanguage.HtmlCss => idx switch
             {
@@ -988,7 +1003,7 @@ public static class ThemeDefinition
       --show-mouse-circle: true;
       --mouse-circle-size: 88px;
 """,
-                _ => string.Empty
+                _ => string.Empty,
             },
             ThemeCodeLanguage.Rust => idx switch
             {
@@ -1024,7 +1039,7 @@ public static class ThemeDefinition
     show_mouse_circle: true,
     mouse_circle_size: 88.0,
 """,
-                _ => string.Empty
+                _ => string.Empty,
             },
             _ => idx switch
             {
@@ -1086,8 +1101,8 @@ public static class ThemeDefinition
   "ShowMouseCircle": true,
   "MouseCircleSize": 88.0,
 """,
-                _ => string.Empty
-            }
+                _ => string.Empty,
+            },
         };
 
         if (!string.IsNullOrEmpty(snippet))
@@ -1102,7 +1117,10 @@ public static class ThemeDefinition
     {
         if (UpdateFromCurrentCode())
         {
-            Frontend.ShowMessageBox(Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_CodeValid ?? "Theme updated from code.", MessageBoxImage.Information);
+            Frontend.ShowMessageBox(
+                Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_CodeValid ?? "Theme updated from code.",
+                MessageBoxImage.Information
+            );
         }
         else
         {
@@ -1127,7 +1145,7 @@ public static class ThemeDefinition
             "Medium" => FontWeights.Medium,
             "Bold" => FontWeights.Bold,
             "ExtraBold" => FontWeights.ExtraBold,
-            _ => FontWeights.SemiBold
+            _ => FontWeights.SemiBold,
         };
 
         if (_workingTheme.ShowMouseCircle)
@@ -1171,7 +1189,7 @@ public static class ThemeDefinition
                 {
                     Orientation = Orientation.Horizontal,
                     HorizontalAlignment = HorizontalAlignment.Center,
-                    Margin = new Thickness(0, 0, 0, 3)
+                    Margin = new Thickness(0, 0, 0, 3),
                 };
 
                 for (int i = 0; i < visibleKeys.Count; i++)
@@ -1193,7 +1211,7 @@ public static class ThemeDefinition
                         Background = _workingTheme.GetKeyBrush(keyName, false),
                         Margin = new Thickness(0, 0, i < visibleKeys.Count - 1 ? 3 : 0, 0),
                         Cursor = Cursors.Hand,
-                        Tag = keyName
+                        Tag = keyName,
                     };
                     keyBorder.MouseDown += OnKeyMouseDown;
                     keyBorder.MouseUp += OnKeyMouseUp;
@@ -1203,7 +1221,7 @@ public static class ThemeDefinition
                     {
                         CornerRadius = new CornerRadius(Math.Max(0, cr - 1)),
                         Opacity = 0,
-                        Background = _workingTheme.GetKeyBrush(keyName, true)
+                        Background = _workingTheme.GetKeyBrush(keyName, true),
                     };
                     grid.Children.Add(highlight);
 
@@ -1217,7 +1235,7 @@ public static class ThemeDefinition
                         Foreground = textBrush,
                         HorizontalAlignment = HorizontalAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Center,
-                        Visibility = (cap?.HideText == true) ? Visibility.Collapsed : Visibility.Visible
+                        Visibility = (cap?.HideText == true) ? Visibility.Collapsed : Visibility.Visible,
                     };
                     grid.Children.Add(textBlock);
 
@@ -1250,7 +1268,7 @@ public static class ThemeDefinition
                 (PreviewKeyLmb, PreviewHighlightLmb, PreviewTextLmb, "LMB"),
                 (PreviewKeyRmb, PreviewHighlightRmb, PreviewTextRmb, "RMB"),
                 (PreviewKeyShift, PreviewHighlightShift, PreviewTextShift, "Shift"),
-                (PreviewKeySpace, PreviewHighlightSpace, PreviewTextSpace, "Space")
+                (PreviewKeySpace, PreviewHighlightSpace, PreviewTextSpace, "Space"),
             };
 
             foreach (var item in keyTuples)
@@ -1275,18 +1293,18 @@ public static class ThemeDefinition
                     "LMB" or "RMB" => 71,
                     "Shift" => 51,
                     "Space" => 91,
-                    _ => 46
+                    _ => 46,
                 };
                 double defaultHeight = item.Name switch
                 {
                     "Shift" or "Space" => 34,
-                    _ => 46
+                    _ => 46,
                 };
                 string defaultText = item.Name switch
                 {
                     "Shift" => "SHIFT",
                     "Space" => "—",
-                    _ => item.Name
+                    _ => item.Name,
                 };
 
                 item.Key.Width = (cap?.Width.HasValue == true && cap.Width.Value > 0) ? cap.Width.Value : defaultWidth;
@@ -1310,7 +1328,7 @@ public static class ThemeDefinition
                 {
                     "LMB" => PreviewCpsLmb,
                     "RMB" => PreviewCpsRmb,
-                    _ => null
+                    _ => null,
                 };
                 _previewElements[item.Name] = (item.Key, item.Highlight, item.Text, cps);
             }
@@ -1448,8 +1466,14 @@ public static class ThemeDefinition
         _workingTheme.KeyBackgroundImage = _originalTheme.KeyBackgroundImage;
         _workingTheme.KeyPressedBackgroundImage = _originalTheme.KeyPressedBackgroundImage;
         _workingTheme.OverlayBackgroundImage = _originalTheme.OverlayBackgroundImage;
-        _workingTheme.KeyImages = _originalTheme.KeyImages != null ? new Dictionary<string, string>(_originalTheme.KeyImages, StringComparer.OrdinalIgnoreCase) : new(StringComparer.OrdinalIgnoreCase);
-        _workingTheme.KeyPressedImages = _originalTheme.KeyPressedImages != null ? new Dictionary<string, string>(_originalTheme.KeyPressedImages, StringComparer.OrdinalIgnoreCase) : new(StringComparer.OrdinalIgnoreCase);
+        _workingTheme.KeyImages =
+            _originalTheme.KeyImages != null
+                ? new Dictionary<string, string>(_originalTheme.KeyImages, StringComparer.OrdinalIgnoreCase)
+                : new(StringComparer.OrdinalIgnoreCase);
+        _workingTheme.KeyPressedImages =
+            _originalTheme.KeyPressedImages != null
+                ? new Dictionary<string, string>(_originalTheme.KeyPressedImages, StringComparer.OrdinalIgnoreCase)
+                : new(StringComparer.OrdinalIgnoreCase);
         _workingTheme.KeyImageStretch = _originalTheme.KeyImageStretch;
         _workingTheme.KeyImageOpacity = _originalTheme.KeyImageOpacity;
 
@@ -1469,7 +1493,11 @@ public static class ThemeDefinition
         {
             if (!UpdateFromCurrentCode())
             {
-                var result = Frontend.ShowMessageBox(TextCodeStatus.Text + "\n\nSave anyway?", MessageBoxImage.Warning, MessageBoxButton.YesNo);
+                var result = Frontend.ShowMessageBox(
+                    TextCodeStatus.Text + "\n\nSave anyway?",
+                    MessageBoxImage.Warning,
+                    MessageBoxButton.YesNo
+                );
                 if (result != MessageBoxResult.Yes)
                     return;
             }

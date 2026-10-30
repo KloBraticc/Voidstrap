@@ -40,7 +40,11 @@ public static class DownloadConfiguration
 		int buffer = NormalizeBuffer(settings.DownloadBufferKb);
 		int concurrent = NormalizeConcurrent(settings.MaxConcurrentDownloads);
 		int segments = NormalizeSegments(settings.MaxDownloadSegments);
-		bool changed = settings.DownloadBufferKb != buffer || settings.MaxConcurrentDownloads != concurrent || settings.MaxDownloadSegments != segments || settings.DownloadPipelineVersion != 3;
+		bool changed =
+			settings.DownloadBufferKb != buffer
+			|| settings.MaxConcurrentDownloads != concurrent
+			|| settings.MaxDownloadSegments != segments
+			|| settings.DownloadPipelineVersion != 3;
 		settings.DownloadBufferKb = buffer;
 		settings.MaxConcurrentDownloads = concurrent;
 		settings.MaxDownloadSegments = segments;

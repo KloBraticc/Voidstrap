@@ -43,7 +43,9 @@ internal static class Connectivity
 			using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(token);
 			timeout.CancelAfter(ProbeTimeout);
 			using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Head, ProbeUrl);
-			using HttpResponseMessage response = await App.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, timeout.Token).ConfigureAwait(false);
+			using HttpResponseMessage response = await App
+				.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, timeout.Token)
+				.ConfigureAwait(false);
 			online = true;
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
@@ -64,7 +66,11 @@ internal static class Connectivity
 	{
 		for (int i = 0; i < 8 && ex != null; i++)
 		{
-			if (ex is HttpRequestException { StatusCode: null } || ex is System.Net.Sockets.SocketException || ex is System.Net.WebException)
+			if (
+				ex is HttpRequestException { StatusCode: null }
+				|| ex is System.Net.Sockets.SocketException
+				|| ex is System.Net.WebException
+			)
 			{
 				return true;
 			}
@@ -83,12 +89,16 @@ internal static class Connectivity
 		App.Logger.WriteLine("Connectivity::WarnOffline", feature + " could not be saved because Voidstrap is offline");
 		try
 		{
-			Frontend.ShowBalloonTip("Voidstrap is offline", feature + " could not be saved. Everything else keeps working, and it will sync again once you are back online.", ToolTipIcon.Warning, 8);
+			Frontend.ShowBalloonTip(
+				"Voidstrap is offline",
+				feature + " could not be saved. Everything else keeps working, and it will sync again once you are back online.",
+				ToolTipIcon.Warning,
+				8
+			);
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine("Connectivity::WarnOffline", ex.Message);
 		}
 	}
-
 }

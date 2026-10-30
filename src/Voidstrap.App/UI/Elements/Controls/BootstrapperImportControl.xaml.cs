@@ -28,9 +28,14 @@ public partial class BootstrapperImportControl : UserControl
 
 	private async void ApplyFrom_Click(object sender, RoutedEventArgs e)
 	{
-		if (_importCts != null || sender is not System.Windows.Controls.Button applyButton
-			|| applyButton.Parent is not StackPanel panel || panel.Children.OfType<ComboBox>().FirstOrDefault() is not ComboBox sourceSelector
-			|| sourceSelector.SelectedItem is not ComboBoxItem item || item.Tag is not string source)
+		if (
+			_importCts != null
+			|| sender is not System.Windows.Controls.Button applyButton
+			|| applyButton.Parent is not StackPanel panel
+			|| panel.Children.OfType<ComboBox>().FirstOrDefault() is not ComboBox sourceSelector
+			|| sourceSelector.SelectedItem is not ComboBoxItem item
+			|| item.Tag is not string source
+		)
 			return;
 
 		using CancellationTokenSource cts = new();
@@ -52,7 +57,7 @@ public partial class BootstrapperImportControl : UserControl
 					Filter = "Settings JSON (*.json)|*.json",
 					FileName = "Settings.json",
 					CheckFileExists = true,
-					Multiselect = false
+					Multiselect = false,
 				};
 				if (picker.ShowDialog(Window.GetWindow(this)) != true)
 					return;
@@ -77,15 +82,26 @@ public partial class BootstrapperImportControl : UserControl
 				if (cts.IsCancellationRequested)
 					return;
 				Imported?.Invoke(this, EventArgs.Empty);
-				Voidstrap.UI.RestartNotificationService.Require("bootstrapperImport", "Settings imported", "Restart Voidstrap to refresh settings and open pages. Roblox settings take effect on its next launch.", "Restart now", Voidstrap.UI.RestartTarget.Application);
+				Voidstrap.UI.RestartNotificationService.Require(
+					"bootstrapperImport",
+					"Settings imported",
+					"Restart Voidstrap to refresh settings and open pages. Roblox settings take effect on its next launch.",
+					"Restart now",
+					Voidstrap.UI.RestartTarget.Application
+				);
 			}
 			if (ownerDisabled)
 				owner!.IsEnabled = true;
-			Frontend.ShowMessageBox($"Selected {plan.Settings.Count} settings and {plan.Flags?.Count ?? 0} FastFlags from {source}.\n\nSkipped {plan.Skipped} settings without a compatible Voidstrap setting. " + (StageOnly ? "These settings will be applied when you install Voidstrap." : "Restart Voidstrap to refresh open pages."));
+			Frontend.ShowMessageBox(
+				$"Selected {plan.Settings.Count} settings and {plan.Flags?.Count ?? 0} FastFlags from {source}.\n\nSkipped {plan.Skipped} settings without a compatible Voidstrap setting. "
+					+ (
+						StageOnly
+							? "These settings will be applied when you install Voidstrap."
+							: "Restart Voidstrap to refresh open pages."
+					)
+			);
 		}
-		catch (OperationCanceledException) when (cts.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (cts.IsCancellationRequested) { }
 		catch (Exception ex)
 		{
 			if (ownerDisabled)
@@ -103,5 +119,4 @@ public partial class BootstrapperImportControl : UserControl
 			sourceSelector.IsEnabled = true;
 		}
 	}
-
 }

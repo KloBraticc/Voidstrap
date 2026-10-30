@@ -50,10 +50,7 @@ internal static class LinuxScreenMetrics
 		if (_watchdog is not null || Application.Current is null)
 			return;
 
-		_watchdog = new DispatcherTimer(DispatcherPriority.Background, Application.Current.Dispatcher)
-		{
-			Interval = WatchInterval
-		};
+		_watchdog = new DispatcherTimer(DispatcherPriority.Background, Application.Current.Dispatcher) { Interval = WatchInterval };
 		_watchdog.Tick += OnWatchdogTick;
 		_watchdog.Start();
 		Application.Current.Exit += OnApplicationExit;
@@ -79,14 +76,18 @@ internal static class LinuxScreenMetrics
 		if (!TryReadLayout(out int width, out int height, out int workLeft, out int workTop, out int workWidth, out int workHeight))
 		{
 			if (!_applied)
-				App.Logger?.WriteLine("LinuxScreenMetrics::Apply", "The display size could not be read, the built in defaults stay in place");
+				App.Logger?.WriteLine(
+					"LinuxScreenMetrics::Apply",
+					"The display size could not be read, the built in defaults stay in place"
+				);
 
 			return false;
 		}
 
 		lock (Sync)
 		{
-			bool unchanged = _applied
+			bool unchanged =
+				_applied
 				&& width == _width
 				&& height == _height
 				&& workLeft == _workLeft
@@ -112,30 +113,51 @@ internal static class LinuxScreenMetrics
 		Voidstrap.Platform.Linux.LinuxDisplayMetrics.Invalidate();
 		App.Logger?.WriteLine(
 			"LinuxScreenMetrics::Apply",
-			$"Reported a display of {width}x{height} with a work area of {workWidth}x{workHeight} at {workLeft},{workTop}");
+			$"Reported a display of {width}x{height} with a work area of {workWidth}x{workHeight} at {workLeft},{workTop}"
+		);
 		return true;
 	}
 
-	private static bool TryReadLayout(out int width, out int height, out int workLeft, out int workTop, out int workWidth, out int workHeight)
+	private static bool TryReadLayout(
+		out int width,
+		out int height,
+		out int workLeft,
+		out int workTop,
+		out int workWidth,
+		out int workHeight
+	)
 	{
 		workLeft = 0;
 		workTop = 0;
 		workWidth = 0;
 		workHeight = 0;
 
-		if (Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPrimaryScreen(out _, out _, out width, out height, out workLeft, out workTop, out workWidth, out workHeight)
+		if (
+			Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPrimaryScreen(
+				out _,
+				out _,
+				out width,
+				out height,
+				out workLeft,
+				out workTop,
+				out workWidth,
+				out workHeight
+			)
 			&& width > 0
 			&& height > 0
 			&& workWidth > 0
-			&& workHeight > 0)
+			&& workHeight > 0
+		)
 			return true;
 
 		if (!Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetScreenBounds(out width, out height) || width <= 0 || height <= 0)
 			return false;
 
-		if (!Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWorkArea(out workLeft, out workTop, out workWidth, out workHeight)
+		if (
+			!Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWorkArea(out workLeft, out workTop, out workWidth, out workHeight)
 			|| workWidth <= 0
-			|| workHeight <= 0)
+			|| workHeight <= 0
+		)
 		{
 			workLeft = 0;
 			workTop = 0;
@@ -156,9 +178,7 @@ internal static class LinuxScreenMetrics
 		{
 			Type type = typeof(SystemParameters);
 			Type? slotType = type.GetNestedType("CacheSlot", BindingFlags.NonPublic | BindingFlags.Public);
-			BitArray? cacheValid = type
-				.GetField("_cacheValid", BindingFlags.NonPublic | BindingFlags.Static)?
-				.GetValue(null) as BitArray;
+			BitArray? cacheValid = type.GetField("_cacheValid", BindingFlags.NonPublic | BindingFlags.Static)?.GetValue(null) as BitArray;
 
 			if (slotType == null || cacheValid == null)
 			{

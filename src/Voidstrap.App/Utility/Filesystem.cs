@@ -88,7 +88,10 @@ internal static class Filesystem
 			}
 			catch (Exception ex)
 			{
-				App.Logger.WriteLine("Filesystem::AssertReadOnlyDirectory", "Failed to change attributes for " + fileSystemInfo.FullName + ": " + ex.Message);
+				App.Logger.WriteLine(
+					"Filesystem::AssertReadOnlyDirectory",
+					"Failed to change attributes for " + fileSystemInfo.FullName + ": " + ex.Message
+				);
 			}
 		}
 		App.Logger.WriteLine("Filesystem::AssertReadOnlyDirectory", "Removed protected attributes from directory: " + directoryPath);
@@ -143,9 +146,18 @@ internal static class Filesystem
 		}
 		if (stubborn.Count > 0)
 		{
-			throw new IOException(stubborn.Count + " file(s) are still in use or protected, for example " + Path.GetFileName(stubborn[0]) + ". Close anything using the install (including Roblox and asset tools) and try again.");
+			throw new IOException(
+				stubborn.Count
+					+ " file(s) are still in use or protected, for example "
+					+ Path.GetFileName(stubborn[0])
+					+ ". Close anything using the install (including Roblox and asset tools) and try again."
+			);
 		}
-		foreach (string dir in Directory.EnumerateDirectories(directoryPath, "*", SearchOption.AllDirectories).OrderByDescending(static path => path.Length))
+		foreach (
+			string dir in Directory
+				.EnumerateDirectories(directoryPath, "*", SearchOption.AllDirectories)
+				.OrderByDescending(static path => path.Length)
+		)
 		{
 			try
 			{

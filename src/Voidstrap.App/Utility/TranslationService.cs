@@ -40,18 +40,21 @@ namespace Voidstrap.Utility
 
         public static void Initialize()
         {
-            if (_initialized) return;
+            if (_initialized)
+                return;
             _initialized = true;
 
             _ = Task.Run(EnsureCacheLoaded);
 
             try
             {
-                Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    _saveTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(4) };
-                    _saveTimer.Tick += OnSaveTimerTick;
-                }));
+                Application.Current?.Dispatcher.BeginInvoke(
+                    new Action(() =>
+                    {
+                        _saveTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(4) };
+                        _saveTimer.Tick += OnSaveTimerTick;
+                    })
+                );
             }
             catch { }
         }
@@ -82,12 +85,16 @@ namespace Voidstrap.Utility
 
         public static string Translate(string text, string targetLanguage)
         {
-            if (string.IsNullOrWhiteSpace(text)) return text;
+            if (string.IsNullOrWhiteSpace(text))
+                return text;
             targetLanguage = NormalizeLang(targetLanguage);
-            if (string.IsNullOrEmpty(targetLanguage) || targetLanguage == "en") return text;
-            if (LooksLikeUrl(text) || !ContainsTranslatableText(text)) return text;
+            if (string.IsNullOrEmpty(targetLanguage) || targetLanguage == "en")
+                return text;
+            if (LooksLikeUrl(text) || !ContainsTranslatableText(text))
+                return text;
 
-            if (!_initialized) Initialize();
+            if (!_initialized)
+                Initialize();
             EnsureCacheLoaded();
 
             var bucket = _cache.GetOrAdd(targetLanguage, _ => new ConcurrentDictionary<string, string>());
@@ -108,12 +115,16 @@ namespace Voidstrap.Utility
 
         public static async Task<string> TranslateAsync(string text, string targetLanguage)
         {
-            if (string.IsNullOrWhiteSpace(text)) return text;
+            if (string.IsNullOrWhiteSpace(text))
+                return text;
             targetLanguage = NormalizeLang(targetLanguage);
-            if (string.IsNullOrEmpty(targetLanguage) || targetLanguage == "en") return text;
-            if (LooksLikeUrl(text) || !ContainsTranslatableText(text)) return text;
+            if (string.IsNullOrEmpty(targetLanguage) || targetLanguage == "en")
+                return text;
+            if (LooksLikeUrl(text) || !ContainsTranslatableText(text))
+                return text;
 
-            if (!_initialized) Initialize();
+            if (!_initialized)
+                Initialize();
             EnsureCacheLoaded();
 
             var bucket = _cache.GetOrAdd(targetLanguage, _ => new ConcurrentDictionary<string, string>());
@@ -124,7 +135,10 @@ namespace Voidstrap.Utility
             }
 
             string key = Key(targetLanguage, text);
-            var tcs = _pendingTranslations.GetOrAdd(key, _ => new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously));
+            var tcs = _pendingTranslations.GetOrAdd(
+                key,
+                _ => new TaskCompletionSource<string>(TaskCreationOptions.RunContinuationsAsynchronously)
+            );
 
             if (bucket.TryGetValue(text, out cached))
             {
@@ -188,7 +202,14 @@ namespace Voidstrap.Utility
                 {
                     return false;
                 }
-                if (category is UnicodeCategory.UppercaseLetter or UnicodeCategory.LowercaseLetter or UnicodeCategory.TitlecaseLetter or UnicodeCategory.ModifierLetter or UnicodeCategory.OtherLetter)
+                if (
+                    category
+                    is UnicodeCategory.UppercaseLetter
+                        or UnicodeCategory.LowercaseLetter
+                        or UnicodeCategory.TitlecaseLetter
+                        or UnicodeCategory.ModifierLetter
+                        or UnicodeCategory.OtherLetter
+                )
                 {
                     containsLetter = true;
                 }
@@ -202,17 +223,26 @@ namespace Voidstrap.Utility
 
         private static string NormalizeLang(string lang)
         {
-            if (string.IsNullOrWhiteSpace(lang)) return "";
+            if (string.IsNullOrWhiteSpace(lang))
+                return "";
             switch (lang)
             {
-                case "nil": return "";
-                case "en-US": return "en";
-                case "es-ES": return "es";
-                case "pt-BR": return "pt";
-                case "sv-SE": return "sv";
-                case "fil": return "tl";
-                case "zh-CN": return "zh-CN";
-                case "zh-TW": return "zh-TW";
+                case "nil":
+                    return "";
+                case "en-US":
+                    return "en";
+                case "es-ES":
+                    return "es";
+                case "pt-BR":
+                    return "pt";
+                case "sv-SE":
+                    return "sv";
+                case "fil":
+                    return "tl";
+                case "zh-CN":
+                    return "zh-CN";
+                case "zh-TW":
+                    return "zh-TW";
             }
             int dash = lang.IndexOf('-');
             if (dash > 0 && !lang.StartsWith("zh", StringComparison.OrdinalIgnoreCase))
@@ -222,7 +252,8 @@ namespace Voidstrap.Utility
 
         private static void StartProcessor()
         {
-            if (Interlocked.CompareExchange(ref _processing, 1, 0) != 0) return;
+            if (Interlocked.CompareExchange(ref _processing, 1, 0) != 0)
+                return;
             _ = Task.Run(ProcessQueueAsync);
         }
 
@@ -242,15 +273,16 @@ namespace Voidstrap.Utility
                         taken++;
                     }
 
-                    if (taken == 0) break;
+                    if (taken == 0)
+                        break;
 
                     foreach (string lang in byLang.Keys)
                         EnsureCommunityLoaded(lang);
 
                     var jobs = new List<Task<bool>>();
                     foreach (var kv in byLang)
-                        foreach (var chunk in Chunk(kv.Value))
-                            jobs.Add(TranslateChunkAsync(chunk, kv.Key));
+                    foreach (var chunk in Chunk(kv.Value))
+                        jobs.Add(TranslateChunkAsync(chunk, kv.Key));
 
                     bool any = false;
                     foreach (bool changed in await Task.WhenAll(jobs).ConfigureAwait(false))
@@ -270,7 +302,8 @@ namespace Voidstrap.Utility
             finally
             {
                 Interlocked.Exchange(ref _processing, 0);
-                if (!_queue.IsEmpty) StartProcessor();
+                if (!_queue.IsEmpty)
+                    StartProcessor();
             }
         }
 
@@ -368,12 +401,16 @@ namespace Voidstrap.Utility
                 using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
 
-                string body = await Http.ReadStringBoundedAsync(response.Content, 4 * 1024 * 1024, CancellationToken.None).ConfigureAwait(false);
+                string body = await Http.ReadStringBoundedAsync(response.Content, 4 * 1024 * 1024, CancellationToken.None)
+                    .ConfigureAwait(false);
                 var parsed = ParseBatch(body, texts.Count);
                 if (parsed != null)
                     return parsed;
 
-                App.Logger.WriteLine("TranslationService::TranslateBatch", $"Unexpected batch shape for {texts.Count} entries, falling back");
+                App.Logger.WriteLine(
+                    "TranslationService::TranslateBatch",
+                    $"Unexpected batch shape for {texts.Count} entries, falling back"
+                );
             }
             catch (Exception ex)
             {
@@ -417,7 +454,11 @@ namespace Voidstrap.Utility
                 {
                     if (element.ValueKind == JsonValueKind.String)
                         results[index] = element.GetString();
-                    else if (element.ValueKind == JsonValueKind.Array && element.GetArrayLength() > 0 && element[0].ValueKind == JsonValueKind.String)
+                    else if (
+                        element.ValueKind == JsonValueKind.Array
+                        && element.GetArrayLength() > 0
+                        && element[0].ValueKind == JsonValueKind.String
+                    )
                         results[index] = element[0].GetString();
                     else
                         return null;
@@ -436,7 +477,8 @@ namespace Voidstrap.Utility
             await _net.WaitAsync().ConfigureAwait(false);
             try
             {
-                string url = $"https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl={Uri.EscapeDataString(targetLanguage)}&dt=t&q={Uri.EscapeDataString(text)}";
+                string url =
+                    $"https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl={Uri.EscapeDataString(targetLanguage)}&dt=t&q={Uri.EscapeDataString(text)}";
                 string response = await Http.GetStringBoundedAsync(_httpClient, url, maxBytes: 1024 * 1024).ConfigureAwait(false);
 
                 using var doc = JsonDocument.Parse(response);
@@ -462,10 +504,12 @@ namespace Voidstrap.Utility
 
         private static void EnsureCacheLoaded()
         {
-            if (_cacheLoaded) return;
+            if (_cacheLoaded)
+                return;
             lock (CacheGate)
             {
-                if (_cacheLoaded) return;
+                if (_cacheLoaded)
+                    return;
                 LoadCache();
                 _cacheLoaded = true;
             }
@@ -474,7 +518,8 @@ namespace Voidstrap.Utility
         private static void LoadCache()
         {
             string cachePath = CachePath;
-            if (!File.Exists(cachePath)) return;
+            if (!File.Exists(cachePath))
+                return;
             try
             {
                 var dict = JsonFile.Deserialize<Dictionary<string, Dictionary<string, string>>>(cachePath, JsonOptions.Tolerant);
@@ -485,7 +530,8 @@ namespace Voidstrap.Utility
                     {
                         rebuilt[outer.Key] = new ConcurrentDictionary<string, string>(outer.Value);
                         foreach (var pair in outer.Value)
-                            if (!string.IsNullOrEmpty(pair.Value)) RememberTranslation(outer.Key, pair.Key, pair.Value);
+                            if (!string.IsNullOrEmpty(pair.Value))
+                                RememberTranslation(outer.Key, pair.Key, pair.Value);
                     }
                     _cache = rebuilt;
                 }
@@ -498,8 +544,20 @@ namespace Voidstrap.Utility
 
         private static void QueueSave()
         {
-            try { Application.Current?.Dispatcher.BeginInvoke(new Action(() => { _saveTimer?.Stop(); _saveTimer?.Start(); })); }
-            catch { SaveCache(); }
+            try
+            {
+                Application.Current?.Dispatcher.BeginInvoke(
+                    new Action(() =>
+                    {
+                        _saveTimer?.Stop();
+                        _saveTimer?.Start();
+                    })
+                );
+            }
+            catch
+            {
+                SaveCache();
+            }
         }
 
         private static int _saving;
@@ -522,9 +580,7 @@ namespace Voidstrap.Utility
 
                     JsonFile.SerializeAtomic(cachePath, snapshot);
                 }
-                catch
-                {
-                }
+                catch { }
                 finally
                 {
                     Interlocked.Exchange(ref _saving, 0);
@@ -534,7 +590,8 @@ namespace Voidstrap.Utility
 
         private static void SaveCacheBlocking()
         {
-            if (!_cacheLoaded) return;
+            if (!_cacheLoaded)
+                return;
             try
             {
                 string cachePath = CachePath;
@@ -545,15 +602,15 @@ namespace Voidstrap.Utility
                 var snapshot = _cache.ToDictionary(k => k.Key, v => v.Value.ToDictionary(ik => ik.Key, iv => iv.Value));
                 JsonFile.SerializeAtomic(cachePath, snapshot);
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static void EnsureCommunityLoaded(string lang)
         {
-            if (string.IsNullOrEmpty(lang) || lang == "en") return;
-            if (!_communityLoaded.TryAdd(lang, 0)) return;
+            if (string.IsNullOrEmpty(lang) || lang == "en")
+                return;
+            if (!_communityLoaded.TryAdd(lang, 0))
+                return;
             LoadCommunityLanguage(lang);
         }
 
@@ -571,7 +628,8 @@ namespace Voidstrap.Utility
             try
             {
                 string path = RemoteData.TranslationsPath;
-                if (!Paths.Initialized || !File.Exists(path)) return;
+                if (!Paths.Initialized || !File.Exists(path))
+                    return;
                 EnsureCacheLoaded();
 
                 using FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
@@ -583,10 +641,12 @@ namespace Voidstrap.Utility
                 bool any = false;
                 foreach (JsonProperty entry in entries.EnumerateObject())
                 {
-                    if (entry.Value.ValueKind != JsonValueKind.String) continue;
+                    if (entry.Value.ValueKind != JsonValueKind.String)
+                        continue;
                     string src = entry.Name;
                     string tr = entry.Value.GetString() ?? "";
-                    if (string.IsNullOrEmpty(src) || string.IsNullOrEmpty(tr)) continue;
+                    if (string.IsNullOrEmpty(src) || string.IsNullOrEmpty(tr))
+                        continue;
                     if (bucket.TryAdd(src, tr))
                     {
                         RememberTranslation(lang, src, tr);
@@ -597,7 +657,10 @@ namespace Voidstrap.Utility
                 if (any)
                 {
                     QueueSave();
-                    try { Voidstrap.UI.LiveLanguageRefresher.TranslateOpenWindows(); }
+                    try
+                    {
+                        Voidstrap.UI.LiveLanguageRefresher.TranslateOpenWindows();
+                    }
                     catch { }
                 }
             }
@@ -717,7 +780,7 @@ namespace Voidstrap.Utility
             { "xh", "Xhosa" },
             { "yi", "Yiddish" },
             { "yo", "Yoruba" },
-            { "zu", "Zulu" }
+            { "zu", "Zulu" },
         };
     }
 }

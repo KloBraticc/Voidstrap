@@ -20,9 +20,7 @@ internal static class PlatformShell
         {
             Directory.CreateDirectory(folder);
         }
-        catch (Exception)
-        {
-        }
+        catch (Exception) { }
 
         return TryStart(folder);
     }
@@ -38,7 +36,9 @@ internal static class PlatformShell
         {
             if (Platform.IsWindows)
             {
-                using Process? process = Process.Start(new ProcessStartInfo(WindowsTool("explorer.exe"), "/select,\"" + file + "\"") { UseShellExecute = false });
+                using Process? process = Process.Start(
+                    new ProcessStartInfo(WindowsTool("explorer.exe"), "/select,\"" + file + "\"") { UseShellExecute = false }
+                );
                 return process is not null;
             }
 
@@ -100,22 +100,36 @@ internal static class PlatformShell
 
     private static readonly string[] TextExtensions =
     [
-        ".log", ".txt", ".json", ".xml", ".ini", ".cfg", ".conf", ".yml", ".yaml", ".md", ".csv", ".xshd"
+        ".log",
+        ".txt",
+        ".json",
+        ".xml",
+        ".ini",
+        ".cfg",
+        ".conf",
+        ".yml",
+        ".yaml",
+        ".md",
+        ".csv",
+        ".xshd",
     ];
 
     private static bool TryStartWindowsFallback(string target)
     {
-        bool isWeb = Uri.TryCreate(target, UriKind.Absolute, out Uri? uri) && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
-        (string file, string arguments)[] attempts = isWeb
-            ? [(WindowsTool("explorer.exe"), "\"" + uri!.AbsoluteUri + "\"")]
+        bool isWeb =
+            Uri.TryCreate(target, UriKind.Absolute, out Uri? uri) && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
+        (string file, string arguments)[] attempts =
+            isWeb ? [(WindowsTool("explorer.exe"), "\"" + uri!.AbsoluteUri + "\"")]
             : File.Exists(target) && TextExtensions.Contains(Path.GetExtension(target), StringComparer.OrdinalIgnoreCase)
                 ? [(WindowsTool("notepad.exe"), "\"" + target + "\"")]
-                : [(WindowsTool("explorer.exe"), "\"" + target + "\"")];
+            : [(WindowsTool("explorer.exe"), "\"" + target + "\"")];
         foreach ((string file, string arguments) in attempts)
         {
             try
             {
-                using Process? process = Process.Start(new ProcessStartInfo(file, arguments) { UseShellExecute = false, CreateNoWindow = true });
+                using Process? process = Process.Start(
+                    new ProcessStartInfo(file, arguments) { UseShellExecute = false, CreateNoWindow = true }
+                );
                 if (process is not null)
                 {
                     App.Logger?.WriteLine("PlatformShell::TryStart", "Opened " + target + " through " + file);
@@ -139,12 +153,16 @@ internal static class PlatformShell
 
         string[] arguments =
         {
-            "call", "--session",
-            "--dest", "org.freedesktop.FileManager1",
-            "--object-path", "/org/freedesktop/FileManager1",
-            "--method", "org.freedesktop.FileManager1.ShowItems",
+            "call",
+            "--session",
+            "--dest",
+            "org.freedesktop.FileManager1",
+            "--object-path",
+            "/org/freedesktop/FileManager1",
+            "--method",
+            "org.freedesktop.FileManager1.ShowItems",
             "['" + new Uri(Path.GetFullPath(file)).AbsoluteUri.Replace("'", "%27") + "']",
-            ""
+            "",
         };
         if (!LinuxFlatpakHost.TryCreateHostCommand(new SystemProcessService(), "gdbus", arguments, out var command))
             return false;
@@ -153,7 +171,7 @@ internal static class PlatformShell
             UseShellExecute = false,
             CreateNoWindow = true,
             RedirectStandardOutput = true,
-            RedirectStandardError = true
+            RedirectStandardError = true,
         };
         foreach (string argument in command.Arguments)
             startInfo.ArgumentList.Add(argument);
@@ -170,9 +188,7 @@ internal static class PlatformShell
             {
                 process.Kill();
             }
-            catch (Exception)
-            {
-            }
+            catch (Exception) { }
             return false;
         }
 
@@ -182,13 +198,15 @@ internal static class PlatformShell
     private static bool TryStartLinux(string target)
     {
         SystemProcessService processes = new();
-        foreach ((string command, string? verb) in new (string, string?)[]
-        {
-            ("xdg-open", null),
-            ("gio", "open"),
-            ("kde-open6", null),
-            ("kde-open5", null)
-        })
+        foreach (
+            (string command, string? verb) in new (string, string?)[]
+            {
+                ("xdg-open", null),
+                ("gio", "open"),
+                ("kde-open6", null),
+                ("kde-open5", null),
+            }
+        )
         {
             string? executable = processes.FindExecutable(command);
             if (string.IsNullOrWhiteSpace(executable))
@@ -196,11 +214,7 @@ internal static class PlatformShell
 
             try
             {
-                ProcessStartInfo startInfo = new(executable)
-                {
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
+                ProcessStartInfo startInfo = new(executable) { UseShellExecute = false, CreateNoWindow = true };
                 if (verb != null)
                     startInfo.ArgumentList.Add(verb);
                 startInfo.ArgumentList.Add(target);
@@ -208,9 +222,7 @@ internal static class PlatformShell
                 if (opened != null)
                     return true;
             }
-            catch (Exception)
-            {
-            }
+            catch (Exception) { }
         }
 
         return false;

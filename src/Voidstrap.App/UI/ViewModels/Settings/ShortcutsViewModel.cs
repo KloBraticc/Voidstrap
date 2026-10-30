@@ -18,9 +18,11 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 {
 	private static readonly HttpClient _httpClient = Voidstrap.Utility.VpnHttpClient.Create();
 
-	private static readonly ConcurrentDictionary<string, (string? Url, DateTime Expiry)> _gameIconCache = new ConcurrentDictionary<string, (string?, DateTime)>();
+	private static readonly ConcurrentDictionary<string, (string? Url, DateTime Expiry)> _gameIconCache =
+		new ConcurrentDictionary<string, (string?, DateTime)>();
 
-	private static readonly ConcurrentDictionary<string, Task<string?>> _ongoingRequests = new ConcurrentDictionary<string, Task<string?>>();
+	private static readonly ConcurrentDictionary<string, Task<string?>> _ongoingRequests =
+		new ConcurrentDictionary<string, Task<string?>>();
 
 	private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(30L);
 
@@ -72,7 +74,11 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 	public IReadOnlyList<RobloxSubplaces.Place> Subplaces
 	{
 		get => _subplaces;
-		private set { _subplaces = value; OnPropertyChanged(); }
+		private set
+		{
+			_subplaces = value;
+			OnPropertyChanged();
+		}
 	}
 
 	public RobloxSubplaces.Place? SelectedSubplace
@@ -92,13 +98,23 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 	public string SubplaceStatus
 	{
 		get => _subplaceStatus;
-		private set { _subplaceStatus = value; OnPropertyChanged(); }
+		private set
+		{
+			_subplaceStatus = value;
+			OnPropertyChanged();
+		}
 	}
 
 	public bool IsLoadingSubplaces
 	{
 		get => _isLoadingSubplaces;
-		private set { _isLoadingSubplaces = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanLoadSubplaces)); OnPropertyChanged(nameof(CanLaunchGame)); }
+		private set
+		{
+			_isLoadingSubplaces = value;
+			OnPropertyChanged();
+			OnPropertyChanged(nameof(CanLoadSubplaces));
+			OnPropertyChanged(nameof(CanLaunchGame));
+		}
 	}
 
 	public bool CanLoadSubplaces => !IsLoadingSubplaces;
@@ -175,30 +191,30 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 
 	private static string ShortcutSuffix => Voidstrap.Utility.Shortcut.Suffix;
 
-	private static string ApplicationsFolder => Voidstrap.Utility.Platform.IsLinux
-		? Voidstrap.Utility.LinuxDesktopEntry.ApplicationsFolder
+	private static string ApplicationsFolder =>
+		Voidstrap.Utility.Platform.IsLinux ? Voidstrap.Utility.LinuxDesktopEntry.ApplicationsFolder
 		: Voidstrap.Utility.Platform.IsMacOS
 			? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Applications")
-			: Paths.WindowsStartMenu;
+		: Paths.WindowsStartMenu;
 
 	public ShortcutTask DesktopIconTask { get; } = new ShortcutTask("Desktop", Paths.Desktop, "Voidstrap" + ShortcutSuffix);
 
 	public ShortcutTask StartMenuIconTask { get; } = new ShortcutTask("StartMenu", ApplicationsFolder, "Voidstrap" + ShortcutSuffix);
 
-	public ShortcutTask PlayerIconTask { get; } = new ShortcutTask("RobloxPlayer", Paths.Desktop, Strings.LaunchMenu_LaunchRoblox + ShortcutSuffix, "-player", true);
+	public ShortcutTask PlayerIconTask { get; } =
+		new ShortcutTask("RobloxPlayer", Paths.Desktop, Strings.LaunchMenu_LaunchRoblox + ShortcutSuffix, "-player", true);
 
-	public ShortcutTask StudioIconTask { get; } = new ShortcutTask("RobloxStudio", Paths.Desktop, Strings.LaunchMenu_LaunchRobloxStudio + ShortcutSuffix, "-studio", true);
+	public ShortcutTask StudioIconTask { get; } =
+		new ShortcutTask("RobloxStudio", Paths.Desktop, Strings.LaunchMenu_LaunchRobloxStudio + ShortcutSuffix, "-studio", true);
 
-	public ShortcutTask SettingsIconTask { get; } = new ShortcutTask("Settings", Paths.Desktop, Strings.Menu_Title + ShortcutSuffix, "-settings", true);
+	public ShortcutTask SettingsIconTask { get; } =
+		new ShortcutTask("Settings", Paths.Desktop, Strings.Menu_Title + ShortcutSuffix, "-settings", true);
 
 	public ExtractIconsTask ExtractIconsTask { get; } = new ExtractIconsTask();
 
 	public bool IsPrivateServer
 	{
-		get
-		{
-			return _isPrivateServer;
-		}
+		get { return _isPrivateServer; }
 		set
 		{
 			if (_isPrivateServer != value)
@@ -214,10 +230,7 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 
 	public string PrivateServerCode
 	{
-		get
-		{
-			return _privateServerCode;
-		}
+		get { return _privateServerCode; }
 		set
 		{
 			if (_privateServerCode != value)
@@ -230,10 +243,7 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 
 	public string? GameInstanceId
 	{
-		get
-		{
-			return _gameInstanceId;
-		}
+		get { return _gameInstanceId; }
 		set
 		{
 			if (_gameInstanceId != value)
@@ -246,10 +256,7 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 
 	public string GameID
 	{
-		get
-		{
-			return _gameID;
-		}
+		get { return _gameID; }
 		set
 		{
 			string normalized = NormalizeGameId(value);
@@ -273,10 +280,7 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 
 	public string? GameIconUrl
 	{
-		get
-		{
-			return _gameIconUrl;
-		}
+		get { return _gameIconUrl; }
 		set
 		{
 			_gameIconUrl = value;
@@ -287,10 +291,7 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 
 	public bool IsIconVisible
 	{
-		get
-		{
-			return _isIconVisible;
-		}
+		get { return _isIconVisible; }
 		set
 		{
 			_isIconVisible = value;
@@ -300,10 +301,7 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 
 	public string DisplayGameName
 	{
-		get
-		{
-			return _displayGameName;
-		}
+		get { return _displayGameName; }
 		set
 		{
 			_displayGameName = value;
@@ -318,8 +316,13 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 		string text = value?.Trim() ?? "";
 		if (text.Length == 0 || text.All(char.IsAsciiDigit))
 			return value ?? "";
-		if (Uri.TryCreate(text.Contains("://", StringComparison.Ordinal) ? text : "https://" + text, UriKind.Absolute, out Uri? uri)
-			&& (uri.Host.Equals("roblox.com", StringComparison.OrdinalIgnoreCase) || uri.Host.EndsWith(".roblox.com", StringComparison.OrdinalIgnoreCase)))
+		if (
+			Uri.TryCreate(text.Contains("://", StringComparison.Ordinal) ? text : "https://" + text, UriKind.Absolute, out Uri? uri)
+			&& (
+				uri.Host.Equals("roblox.com", StringComparison.OrdinalIgnoreCase)
+				|| uri.Host.EndsWith(".roblox.com", StringComparison.OrdinalIgnoreCase)
+			)
+		)
 		{
 			string[] segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
 			int index = Array.FindIndex(segments, segment => segment.Equals("games", StringComparison.OrdinalIgnoreCase));
@@ -377,9 +380,7 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 				PrivateServerCode = File.ReadAllText(path).Trim();
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private async Task LoadGameIconAsync(string gameId)
@@ -439,14 +440,14 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 			if (uniDoc.RootElement.TryGetProperty("universeId", out JsonElement universeId))
 			{
 				string requestUri2 = "https://games.roblox.com/v1/games?universeIds=" + universeId.GetRawText().Trim('"');
-				using JsonDocument gameDoc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, requestUri2));
+				using JsonDocument gameDoc = JsonDocument.Parse(
+					await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, requestUri2)
+				);
 				if (gameDoc.RootElement.TryGetProperty("data", out JsonElement data) && data.GetArrayLength() != 0)
 					name = data[0].GetProperty("name").GetString();
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		if (!IsCurrentGame(gameId))
 			return;
 		_hasResolvedGameName = !string.IsNullOrWhiteSpace(name);
@@ -473,7 +474,11 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 		{
 			return;
 		}
-		foreach (KeyValuePair<string, (string? Url, DateTime Expiry)> item in _gameIconCache.OrderBy(entry => entry.Value.Expiry).Take(removeCount))
+		foreach (
+			KeyValuePair<string, (string? Url, DateTime Expiry)> item in _gameIconCache
+				.OrderBy(entry => entry.Value.Expiry)
+				.Take(removeCount)
+		)
 		{
 			_gameIconCache.TryRemove(item.Key, out _);
 		}
@@ -481,8 +486,13 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 
 	private static async Task<string?> FetchGameIconAsync(string gameId)
 	{
-		string requestUri = "https://thumbnails.roblox.com/v1/places/gameicons?placeIds=" + gameId + "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false";
-		using JsonDocument jsonDocument = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, requestUri).ConfigureAwait(continueOnCapturedContext: false));
+		string requestUri =
+			"https://thumbnails.roblox.com/v1/places/gameicons?placeIds="
+			+ gameId
+			+ "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false";
+		using JsonDocument jsonDocument = JsonDocument.Parse(
+			await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, requestUri).ConfigureAwait(continueOnCapturedContext: false)
+		);
 		JsonElement property = jsonDocument.RootElement.GetProperty("data");
 		if (property.GetArrayLength() > 0 && property[0].TryGetProperty("imageUrl", out var value))
 		{

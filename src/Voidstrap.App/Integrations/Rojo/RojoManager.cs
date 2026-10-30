@@ -111,21 +111,31 @@ namespace Voidstrap.Integrations.Rojo
             {
                 throw;
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 App.Logger.WriteLine(LogTag, "Update check failed: " + ex.Message);
             }
         }
 
-        private static async Task InstallReleaseAsync(string tag, string zipUrl, string digest, long size, string label, Action<string, double, bool>? progress, CancellationToken ct)
+        private static async Task InstallReleaseAsync(
+            string tag,
+            string zipUrl,
+            string digest,
+            long size,
+            string label,
+            Action<string, double, bool>? progress,
+            CancellationToken ct
+        )
         {
             await InstallGate.WaitAsync(ct).ConfigureAwait(false);
             try
             {
-                if (IsInstalled && File.Exists(VersionFile) && string.Equals(File.ReadAllText(VersionFile).Trim(), tag, StringComparison.Ordinal))
+                if (
+                    IsInstalled
+                    && File.Exists(VersionFile)
+                    && string.Equals(File.ReadAllText(VersionFile).Trim(), tag, StringComparison.Ordinal)
+                )
                     return;
                 Directory.CreateDirectory(RojoDir);
                 string suffix = Guid.NewGuid().ToString("N");
@@ -155,14 +165,22 @@ namespace Voidstrap.Integrations.Rojo
 
         private static async Task<(string Tag, string Url, string Digest, long Size)> ResolveLatestAsync(CancellationToken ct)
         {
-            using HttpResponseMessage response = await Http.GetAsync("https://api.github.com/repos/rojo-rbx/rojo/releases/latest", HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(false);
+            using HttpResponseMessage response = await Http.GetAsync(
+                    "https://api.github.com/repos/rojo-rbx/rojo/releases/latest",
+                    HttpCompletionOption.ResponseHeadersRead,
+                    ct
+                )
+                .ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
-            string metadata = await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, MaxReleaseMetadataBytes, ct).ConfigureAwait(false);
+            string metadata = await Voidstrap
+                .Utility.Http.ReadStringBoundedAsync(response.Content, MaxReleaseMetadataBytes, ct)
+                .ConfigureAwait(false);
             using JsonDocument doc = JsonDocument.Parse(metadata);
 
-            string tag = doc.RootElement.TryGetProperty("tag_name", out JsonElement tagEl) && tagEl.ValueKind == JsonValueKind.String
-                ? (tagEl.GetString() ?? "")
-                : "";
+            string tag =
+                doc.RootElement.TryGetProperty("tag_name", out JsonElement tagEl) && tagEl.ValueKind == JsonValueKind.String
+                    ? (tagEl.GetString() ?? "")
+                    : "";
 
             (string Url, string Digest, long Size)? fallback = null;
             foreach (JsonElement asset in doc.RootElement.GetProperty("assets").EnumerateArray())
@@ -175,15 +193,28 @@ namespace Voidstrap.Integrations.Rojo
 
                 string? url = asset.GetProperty("browser_download_url").GetString();
                 string digest = asset.TryGetProperty("digest", out JsonElement digestElement) ? digestElement.GetString() ?? "" : "";
-                long size = asset.TryGetProperty("size", out JsonElement sizeElement) && sizeElement.TryGetInt64(out long parsedSize) ? parsedSize : 0;
+                long size =
+                    asset.TryGetProperty("size", out JsonElement sizeElement) && sizeElement.TryGetInt64(out long parsedSize)
+                        ? parsedSize
+                        : 0;
                 string state = asset.TryGetProperty("state", out JsonElement stateElement) ? stateElement.GetString() ?? "" : "";
-                if (string.IsNullOrEmpty(url) || !digest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase) || digest.Length != 71 ||
-                    size <= 0 || size > MaxReleaseBytes || !string.Equals(state, "uploaded", StringComparison.OrdinalIgnoreCase) ||
-                    !Uri.TryCreate(url, UriKind.Absolute, out Uri? assetUri) || assetUri.Scheme != Uri.UriSchemeHttps || !assetUri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase))
+                if (
+                    string.IsNullOrEmpty(url)
+                    || !digest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase)
+                    || digest.Length != 71
+                    || size <= 0
+                    || size > MaxReleaseBytes
+                    || !string.Equals(state, "uploaded", StringComparison.OrdinalIgnoreCase)
+                    || !Uri.TryCreate(url, UriKind.Absolute, out Uri? assetUri)
+                    || assetUri.Scheme != Uri.UriSchemeHttps
+                    || !assetUri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase)
+                )
                     continue;
 
-                if (name.Contains("x86_64", StringComparison.OrdinalIgnoreCase) ||
-                    name.Contains("win64", StringComparison.OrdinalIgnoreCase))
+                if (
+                    name.Contains("x86_64", StringComparison.OrdinalIgnoreCase)
+                    || name.Contains("win64", StringComparison.OrdinalIgnoreCase)
+                )
                     return (tag, url, digest, size);
 
                 fallback ??= (url, digest, size);
@@ -194,8 +225,7 @@ namespace Voidstrap.Integrations.Rojo
         private static void ExtractRojoExe(string zipPath, string destination)
         {
             using ZipArchive archive = ZipFile.OpenRead(zipPath);
-            ZipArchiveEntry? entry = archive.Entries.FirstOrDefault(
-                e => e.Name.Equals("rojo.exe", StringComparison.OrdinalIgnoreCase));
+            ZipArchiveEntry? entry = archive.Entries.FirstOrDefault(e => e.Name.Equals("rojo.exe", StringComparison.OrdinalIgnoreCase));
             if (entry == null)
                 throw new InvalidOperationException("rojo.exe missing from archive.");
             if (entry.Length <= 0 || entry.Length > MaxReleaseBytes)
@@ -203,14 +233,29 @@ namespace Voidstrap.Integrations.Rojo
             entry.ExtractToFile(destination, true);
         }
 
-        private static async Task DownloadAsync(string url, string outputPath, string digest, long size, string label, Action<string, double, bool>? progress, CancellationToken ct)
+        private static async Task DownloadAsync(
+            string url,
+            string outputPath,
+            string digest,
+            long size,
+            string label,
+            Action<string, double, bool>? progress,
+            CancellationToken ct
+        )
         {
-            await Voidstrap.Utility.ResilientDownload.DownloadAsync(Http, [url], outputPath, size, digest,
+            await Voidstrap.Utility.ResilientDownload.DownloadAsync(
+                Http,
+                [url],
+                outputPath,
+                size,
+                digest,
                 progress: (read, total) =>
                 {
                     double fraction = total is > 0 ? Math.Min((double)read / total.Value, 0.99) : -1.0;
                     progress?.Invoke(fraction >= 0 ? $"{label} {fraction * 100:0}%" : label, fraction, true);
-                }, token: ct);
+                },
+                token: ct
+            );
         }
 
         public static async Task UninstallAsync()
@@ -254,7 +299,7 @@ namespace Voidstrap.Integrations.Rojo
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
             };
 
             using var proc = new Process { StartInfo = psi };
@@ -295,10 +340,12 @@ namespace Voidstrap.Integrations.Rojo
                     if (!proc.HasExited)
                         proc.Kill(true);
                 }
-                catch
+                catch { }
+                try
                 {
+                    await proc.WaitForExitAsync(CancellationToken.None);
                 }
-                try { await proc.WaitForExitAsync(CancellationToken.None); } catch { }
+                catch { }
                 throw;
             }
             finally
@@ -323,7 +370,7 @@ namespace Voidstrap.Integrations.Rojo
                     Arguments = "serve",
                     WorkingDirectory = workingDir,
                     UseShellExecute = false,
-                    CreateNoWindow = true
+                    CreateNoWindow = true,
                 };
                 try
                 {
@@ -351,16 +398,12 @@ namespace Voidstrap.Integrations.Rojo
                     if (!_serveProcess.HasExited)
                         _serveProcess.Kill(true);
                 }
-                catch
-                {
-                }
+                catch { }
                 try
                 {
                     _serveProcess.Dispose();
                 }
-                catch
-                {
-                }
+                catch { }
                 _serveProcess = null;
                 App.Logger.WriteLine(LogTag, "rojo serve stopped");
             }
@@ -375,9 +418,7 @@ namespace Voidstrap.Integrations.Rojo
                 if (File.Exists(path))
                     File.Delete(path);
             }
-            catch
-            {
-            }
+            catch { }
         }
     }
 }

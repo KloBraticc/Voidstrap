@@ -6,9 +6,9 @@ using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 using System.Windows;
+using Voidstrap.Extensions;
 using Voidstrap.Resources;
 using Voidstrap.UI;
-using Voidstrap.Extensions;
 
 namespace Voidstrap;
 
@@ -20,12 +20,14 @@ public class Logger : IDisposable
 
 	private const int MaxLogFiles = 10;
 
-	private readonly Channel<string> _writeQueue = Channel.CreateBounded<string>(new BoundedChannelOptions(2048)
-	{
-		SingleReader = true,
-		SingleWriter = false,
-		FullMode = BoundedChannelFullMode.DropOldest
-	});
+	private readonly Channel<string> _writeQueue = Channel.CreateBounded<string>(
+		new BoundedChannelOptions(2048)
+		{
+			SingleReader = true,
+			SingleWriter = false,
+			FullMode = BoundedChannelFullMode.DropOldest,
+		}
+	);
 
 	private readonly CancellationTokenSource _writerCts = new CancellationTokenSource();
 
@@ -81,7 +83,7 @@ public class Logger : IDisposable
 			FileStream stream = new FileStream(text3, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, useAsync: true);
 			StreamWriter writer = new StreamWriter(stream, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false), 4096)
 			{
-				AutoFlush = !Voidstrap.Utility.Platform.IsWindows
+				AutoFlush = !Voidstrap.Utility.Platform.IsWindows,
 			};
 			lock (_historyLock)
 			{
@@ -187,7 +189,11 @@ public class Logger : IDisposable
 	{
 		string text = DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'", System.Globalization.CultureInfo.InvariantCulture);
 		string boundedBody = body.Length > MaxEntryCharacters ? body.Substring(0, MaxEntryCharacters) : body;
-		string text2 = string.IsNullOrEmpty(Paths.UserProfile) ? boundedBody : OperatingSystem.IsWindows() ? boundedBody.Replace(Paths.UserProfile, "%UserProfile%", StringComparison.InvariantCultureIgnoreCase) : boundedBody.Replace(Paths.UserProfile, "~", StringComparison.Ordinal);
+		string text2 =
+			string.IsNullOrEmpty(Paths.UserProfile) ? boundedBody
+			: OperatingSystem.IsWindows()
+				? boundedBody.Replace(Paths.UserProfile, "%UserProfile%", StringComparison.InvariantCultureIgnoreCase)
+			: boundedBody.Replace(Paths.UserProfile, "~", StringComparison.Ordinal);
 		string text3 = text + " " + text2;
 		bool flag;
 		lock (_historyLock)
@@ -215,8 +221,7 @@ public class Logger : IDisposable
 		}
 	}
 
-	private static readonly bool EchoToStandardError =
-		Environment.GetEnvironmentVariable("VOIDSTRAP_STDERR_LOG") == "1";
+	private static readonly bool EchoToStandardError = Environment.GetEnvironmentVariable("VOIDSTRAP_STDERR_LOG") == "1";
 
 	private static void Echo(string line)
 	{
@@ -228,9 +233,7 @@ public class Logger : IDisposable
 			Console.Error.WriteLine(line);
 			Console.Error.Flush();
 		}
-		catch (IOException)
-		{
-		}
+		catch (IOException) { }
 	}
 
 	public void WriteLine(string identifier, string message)
@@ -277,12 +280,8 @@ public class Logger : IDisposable
 				}
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (OperationCanceledException) { }
+		catch (ObjectDisposedException) { }
 		catch (IOException)
 		{
 			lock (_historyLock)
@@ -290,9 +289,7 @@ public class Logger : IDisposable
 				NoWriteMode = true;
 				Initialized = false;
 				_writer = null;
-				while (_writeQueue.Reader.TryRead(out _))
-				{
-				}
+				while (_writeQueue.Reader.TryRead(out _)) { }
 			}
 		}
 		finally
@@ -307,9 +304,7 @@ public class Logger : IDisposable
 		{
 			Voidstrap.Utility.AppNotifications.Flush();
 		}
-		catch
-		{
-		}
+		catch { }
 		StreamWriter? writer;
 		lock (_historyLock)
 		{
@@ -337,9 +332,7 @@ public class Logger : IDisposable
 			}
 			writer.Flush();
 		}
-		catch
-		{
-		}
+		catch { }
 		finally
 		{
 			if (entered)
@@ -348,9 +341,7 @@ public class Logger : IDisposable
 				{
 					_writerGate.Release();
 				}
-				catch
-				{
-				}
+				catch { }
 			}
 		}
 	}
@@ -386,9 +377,7 @@ public class Logger : IDisposable
 				}
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		if (writerStopped)
 		{
 			_writerCts.Dispose();
@@ -397,12 +386,17 @@ public class Logger : IDisposable
 		}
 		else if (writerTask != null)
 		{
-			_ = writerTask.ContinueWith(_ =>
-			{
-				writer?.Dispose();
-				_writerCts.Dispose();
-				_writerGate.Dispose();
-			}, CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+			_ = writerTask.ContinueWith(
+				_ =>
+				{
+					writer?.Dispose();
+					_writerCts.Dispose();
+					_writerGate.Dispose();
+				},
+				CancellationToken.None,
+				TaskContinuationOptions.ExecuteSynchronously,
+				TaskScheduler.Default
+			);
 		}
 		GC.SuppressFinalize(this);
 	}

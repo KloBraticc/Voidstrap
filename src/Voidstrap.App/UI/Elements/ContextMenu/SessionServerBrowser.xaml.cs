@@ -28,7 +28,7 @@ public partial class SessionServerBrowser : Window
     {
         Public,
         Private,
-        Recent
+        Recent,
     }
 
     private const string AllRegions = "All regions";
@@ -65,9 +65,7 @@ public partial class SessionServerBrowser : Window
     private bool _avatarsLoading;
 
     public SessionServerBrowser(ActivityWatcher activity, ServerMatchmaker? matchmaker = null)
-        : this(activity, matchmaker, activity.Data.PlaceId, activity.Data.GameName)
-    {
-    }
+        : this(activity, matchmaker, activity.Data.PlaceId, activity.Data.GameName) { }
 
     public SessionServerBrowser(ActivityWatcher activity, ServerMatchmaker? matchmaker, long placeId, string? gameName = null)
     {
@@ -75,7 +73,14 @@ public partial class SessionServerBrowser : Window
         _activity = activity;
         _matchmaker = matchmaker;
         _placeId = placeId > 0 ? placeId : activity.Data.PlaceId;
-        _gameData = _placeId == activity.Data.PlaceId ? activity.Data : new ActivityData { PlaceId = _placeId, UniverseDetails = new UniverseDetails { Data = new GameDetailResponse { Name = gameName ?? string.Empty } } };
+        _gameData =
+            _placeId == activity.Data.PlaceId
+                ? activity.Data
+                : new ActivityData
+                {
+                    PlaceId = _placeId,
+                    UniverseDetails = new UniverseDetails { Data = new GameDetailResponse { Name = gameName ?? string.Empty } },
+                };
         InitializeComponent();
         if (_placeId != activity.Data.PlaceId && !string.IsNullOrEmpty(gameName))
             Title = $"{gameName} - {Strings.Ui_Session_Servers}";
@@ -115,11 +120,15 @@ public partial class SessionServerBrowser : Window
         InstanceText.Text = data.JobId;
         InstanceText.ToolTip = data.JobId;
         LocationText.Text = "Looking up";
-        UptimeText.Text = data.ServerStartedUtc is DateTimeOffset started ? ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - started) : "Looking up";
+        UptimeText.Text = data.ServerStartedUtc is DateTimeOffset started
+            ? ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - started)
+            : "Looking up";
         try
         {
             Task<string?> location = data.QueryServerLocation(_lifetimeToken);
-            Task<ServerStartLookup>? start = data.ServerStartedUtc.HasValue ? null : VoidstrapMatchmaker.GetServerStartAsync(data.PlaceId, data.JobId, _lifetimeToken);
+            Task<ServerStartLookup>? start = data.ServerStartedUtc.HasValue
+                ? null
+                : VoidstrapMatchmaker.GetServerStartAsync(data.PlaceId, data.JobId, _lifetimeToken);
             string? place = await location;
             if (_closed)
                 return;
@@ -133,11 +142,11 @@ public partial class SessionServerBrowser : Window
                 if (lookup.Status == ServerStartStatus.Found)
                     data.ServerStartedUtc ??= lookup.StartedUtc;
             }
-            UptimeText.Text = data.ServerStartedUtc is DateTimeOffset known ? ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - known) : "Unavailable";
+            UptimeText.Text = data.ServerStartedUtc is DateTimeOffset known
+                ? ServerInformationViewModel.FormatUptime(DateTimeOffset.UtcNow - known)
+                : "Unavailable";
         }
-        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionServerBrowser", "The current server could not be described: " + ex.Message);
@@ -148,8 +157,8 @@ public partial class SessionServerBrowser : Window
         }
     }
 
-    private void CopyButton_Click(object sender, RoutedEventArgs e)
-        => _ = PortableOverlay.RunAsync(this, () => CopyButton_ClickAsync(sender, e));
+    private void CopyButton_Click(object sender, RoutedEventArgs e) =>
+        _ = PortableOverlay.RunAsync(this, () => CopyButton_ClickAsync(sender, e));
 
     private async Task CopyButton_ClickAsync(object sender, RoutedEventArgs e)
     {
@@ -169,8 +178,13 @@ public partial class SessionServerBrowser : Window
 
     private void ClosestButton_Click(object sender, RoutedEventArgs e)
     {
-        ServerCard? best = _all.FirstOrDefault(card => card.CanJoin && card.Server != null && string.Equals(card.JobId, _bestJobId, StringComparison.OrdinalIgnoreCase))
-            ?? _all.Where(card => card.CanJoin && card.Server != null && !card.IsBlocked).OrderBy(card => card.Server!.EstimatedPingMs).FirstOrDefault();
+        ServerCard? best =
+            _all.FirstOrDefault(card =>
+                card.CanJoin && card.Server != null && string.Equals(card.JobId, _bestJobId, StringComparison.OrdinalIgnoreCase)
+            )
+            ?? _all.Where(card => card.CanJoin && card.Server != null && !card.IsBlocked)
+                .OrderBy(card => card.Server!.EstimatedPingMs)
+                .FirstOrDefault();
         if (best != null)
         {
             _ = PortableOverlay.RunAsync(this, () => JoinAsync(best));
@@ -200,7 +214,10 @@ public partial class SessionServerBrowser : Window
     {
         if (!_started || _closed)
             return;
-        _tab = ReferenceEquals(sender, PrivateTab) ? BrowserTab.Private : ReferenceEquals(sender, RecentTab) ? BrowserTab.Recent : BrowserTab.Public;
+        _tab =
+            ReferenceEquals(sender, PrivateTab) ? BrowserTab.Private
+            : ReferenceEquals(sender, RecentTab) ? BrowserTab.Recent
+            : BrowserTab.Public;
         FilterBar.Visibility = _tab == BrowserTab.Public ? Visibility.Visible : Visibility.Collapsed;
         StatusText.Text = string.Empty;
         if (_tab == BrowserTab.Private && !_privateLoaded)
@@ -216,7 +233,10 @@ public partial class SessionServerBrowser : Window
         LoadingBar.Visibility = Visibility.Visible;
         try
         {
-            (PrivateServersStatus status, List<RobloxPrivateServer> servers) = await RobloxServers.GetPrivateServersAsync(_placeId, _lifetimeToken);
+            (PrivateServersStatus status, List<RobloxPrivateServer> servers) = await RobloxServers.GetPrivateServersAsync(
+                _placeId,
+                _lifetimeToken
+            );
             if (_closed)
                 return;
             _private = servers.Select(server => ServerCard.ForPrivate(server)).ToList();
@@ -227,13 +247,11 @@ public partial class SessionServerBrowser : Window
                 {
                     PrivateServersStatus.NotSignedIn => "Sign in to Roblox to see your private servers.",
                     PrivateServersStatus.Unavailable => "Private servers could not be loaded right now.",
-                    _ => _private.Count == 0 ? "You have no private servers for this game." : string.Empty
+                    _ => _private.Count == 0 ? "You have no private servers for this game." : string.Empty,
                 };
             }
         }
-        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
         catch (Exception ex)
         {
             _privateLoaded = false;
@@ -252,9 +270,11 @@ public partial class SessionServerBrowser : Window
         lock (_activity.History)
             history = _activity.History.ToList();
         _recent = history
-            .Where(entry => !string.IsNullOrEmpty(entry.JobId)
+            .Where(entry =>
+                !string.IsNullOrEmpty(entry.JobId)
                 && (entry.PlaceId == _placeId || (_gameData.UniverseId > 0 && entry.UniverseId == _gameData.UniverseId))
-                && !string.Equals(entry.JobId, _gameData.JobId, StringComparison.OrdinalIgnoreCase))
+                && !string.Equals(entry.JobId, _gameData.JobId, StringComparison.OrdinalIgnoreCase)
+            )
             .GroupBy(entry => entry.JobId, StringComparer.OrdinalIgnoreCase)
             .Select(group => ServerCard.ForRecent(group.First()))
             .ToList();
@@ -310,7 +330,8 @@ public partial class SessionServerBrowser : Window
                 ServerMatchmaker.ResolvePreferredDatacenterKey(placeId),
                 placeId == _gameData.PlaceId ? _gameData.JobId : null,
                 candidate => QueueResult(candidate, generation),
-                request.Token);
+                request.Token
+            );
             if (_closed || _rescanPending)
                 return;
             _incoming.Clear();
@@ -373,16 +394,27 @@ public partial class SessionServerBrowser : Window
                 return;
             long universeId = data.UniverseId > 0 ? data.UniverseId : data.UniverseDetails?.Data?.Id ?? 0;
             long rootPlaceId = data.UniverseDetails?.Data?.RootPlaceId ?? 0;
-            List<RobloxPlace> places = universeId > 0
-                ? await RobloxPlaces.GetUniversePlacesAsync(universeId, rootPlaceId, _lifetimeToken)
-                : new List<RobloxPlace>();
+            List<RobloxPlace> places =
+                universeId > 0
+                    ? await RobloxPlaces.GetUniversePlacesAsync(universeId, rootPlaceId, _lifetimeToken)
+                    : new List<RobloxPlace>();
             if (_closed)
                 return;
             if (!places.Any(place => place.Id == data.PlaceId))
-                places.Insert(0, new RobloxPlace { Id = data.PlaceId, Name = data.GameName, IsRoot = data.PlaceId == rootPlaceId });
+                places.Insert(
+                    0,
+                    new RobloxPlace
+                    {
+                        Id = data.PlaceId,
+                        Name = data.GameName,
+                        IsRoot = data.PlaceId == rootPlaceId,
+                    }
+                );
             if (places.Count > 1)
             {
-                List<PlaceOption> options = places.Select(place => new PlaceOption(place.Id, place.IsRoot ? place.Name + "  (start place)" : place.Name)).ToList();
+                List<PlaceOption> options = places
+                    .Select(place => new PlaceOption(place.Id, place.IsRoot ? place.Name + "  (start place)" : place.Name))
+                    .ToList();
                 PlaceBox.SelectionChanged -= PlaceBox_SelectionChanged;
                 PlaceBox.ItemsSource = options;
                 PlaceBox.SelectedItem = options.FirstOrDefault(option => option.Id == _placeId);
@@ -390,9 +422,7 @@ public partial class SessionServerBrowser : Window
                 PlaceBox.Visibility = Visibility.Visible;
             }
         }
-        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionServerBrowser", "The places of this game could not be loaded: " + ex.Message);
@@ -417,16 +447,17 @@ public partial class SessionServerBrowser : Window
             StatusText.Text = _all.Count == 0 ? Strings.ContextMenu_ServerBrowser_Failed : string.Empty;
     }
 
-    private static string DescribeScan(MatchmakerServerScan scan) => scan.Status switch
-    {
-        MatchmakerScanStatus.SignedOut => Strings.ContextMenu_ServerBrowser_SignedOut,
-        MatchmakerScanStatus.NoLocation => Strings.ContextMenu_ServerBrowser_NoLocation,
-        MatchmakerScanStatus.NoServers => Strings.ContextMenu_ServerBrowser_NoServers,
-        MatchmakerScanStatus.Unresolved => Strings.ContextMenu_ServerBrowser_Unresolved,
-        MatchmakerScanStatus.AllBlocked => Strings.ContextMenu_ServerBrowser_AllBlocked,
-        MatchmakerScanStatus.AllFar => Strings.ContextMenu_ServerBrowser_AllFar,
-        _ => string.Empty
-    };
+    private static string DescribeScan(MatchmakerServerScan scan) =>
+        scan.Status switch
+        {
+            MatchmakerScanStatus.SignedOut => Strings.ContextMenu_ServerBrowser_SignedOut,
+            MatchmakerScanStatus.NoLocation => Strings.ContextMenu_ServerBrowser_NoLocation,
+            MatchmakerScanStatus.NoServers => Strings.ContextMenu_ServerBrowser_NoServers,
+            MatchmakerScanStatus.Unresolved => Strings.ContextMenu_ServerBrowser_Unresolved,
+            MatchmakerScanStatus.AllBlocked => Strings.ContextMenu_ServerBrowser_AllBlocked,
+            MatchmakerScanStatus.AllFar => Strings.ContextMenu_ServerBrowser_AllFar,
+            _ => string.Empty,
+        };
 
     private void QueueResult(MatchmakerCandidate candidate, int generation)
     {
@@ -482,9 +513,17 @@ public partial class SessionServerBrowser : Window
     private void UpdateRegions()
     {
         string selected = RegionBox.SelectedItem as string ?? AllRegions;
-        List<string> regions = _all.Select(card => card.Region).Where(region => region.Length > 0).Distinct(StringComparer.OrdinalIgnoreCase)
-            .OrderBy(region => region, StringComparer.CurrentCultureIgnoreCase).ToList();
-        if (RegionBox.Items.Count == regions.Count + 1 && regions.Select((region, index) => string.Equals(RegionBox.Items[index + 1] as string, region, StringComparison.Ordinal)).All(same => same))
+        List<string> regions = _all.Select(card => card.Region)
+            .Where(region => region.Length > 0)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderBy(region => region, StringComparer.CurrentCultureIgnoreCase)
+            .ToList();
+        if (
+            RegionBox.Items.Count == regions.Count + 1
+            && regions
+                .Select((region, index) => string.Equals(RegionBox.Items[index + 1] as string, region, StringComparison.Ordinal))
+                .All(same => same)
+        )
             return;
         RegionBox.SelectionChanged -= Filter_Changed;
         RegionBox.Items.Clear();
@@ -517,7 +556,7 @@ public partial class SessionServerBrowser : Window
             {
                 1 => query.OrderBy(card => card.IsBlocked).ThenBy(card => card.Playing).ThenBy(card => card.Ping),
                 2 => query.OrderBy(card => card.IsBlocked).ThenBy(card => card.Ping),
-                _ => query.OrderBy(card => card.IsBlocked).ThenByDescending(card => card.Playing).ThenBy(card => card.Ping)
+                _ => query.OrderBy(card => card.IsBlocked).ThenByDescending(card => card.Playing).ThenBy(card => card.Ping),
             };
             cards = query.ToList();
             CountText.Text = cards.Count == 1 ? "1 server" : cards.Count.ToString(CultureInfo.CurrentCulture) + " servers";
@@ -603,9 +642,7 @@ public partial class SessionServerBrowser : Window
             if (retry.Count > 0)
                 _ = RetryAvatarsAsync(retry);
         }
-        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionServerBrowser", "Player pictures could not be loaded: " + ex.Message);
@@ -641,25 +678,25 @@ public partial class SessionServerBrowser : Window
         string[] missing = urls.Where(url => !_avatarImages.ContainsKey(url)).Distinct(StringComparer.Ordinal).ToArray();
         BitmapSource?[] images = new BitmapSource?[missing.Length];
         Exception?[] failures = new Exception?[missing.Length];
-        await Parallel.ForEachAsync(Enumerable.Range(0, missing.Length), new ParallelOptions
-        {
-            MaxDegreeOfParallelism = 4,
-            CancellationToken = _lifetimeToken
-        }, async (index, token) =>
-        {
-            try
+        await Parallel.ForEachAsync(
+            Enumerable.Range(0, missing.Length),
+            new ParallelOptions { MaxDegreeOfParallelism = 4, CancellationToken = _lifetimeToken },
+            async (index, token) =>
             {
-                images[index] = await Voidstrap.Utility.SafeImaging.FromHttpAsync(missing[index], 72, token);
+                try
+                {
+                    images[index] = await Voidstrap.Utility.SafeImaging.FromHttpAsync(missing[index], 72, token);
+                }
+                catch (OperationCanceledException) when (token.IsCancellationRequested)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    failures[index] = ex;
+                }
             }
-            catch (OperationCanceledException) when (token.IsCancellationRequested)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                failures[index] = ex;
-            }
-        });
+        );
         if (_closed)
             return;
         for (int index = 0; index < missing.Length; index++)
@@ -746,7 +783,7 @@ public partial class SessionServerBrowser : Window
             FileName = processPath,
             UseShellExecute = false,
             CreateNoWindow = true,
-            WorkingDirectory = Path.GetDirectoryName(processPath) ?? string.Empty
+            WorkingDirectory = Path.GetDirectoryName(processPath) ?? string.Empty,
         };
         startInfo.ArgumentList.Add("-player");
         startInfo.ArgumentList.Add(uri);

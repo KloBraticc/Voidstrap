@@ -27,6 +27,7 @@ public partial class NotificationWindow
     private bool _leaveLogged;
     private System.Windows.Threading.DispatcherTimer? _hoverTimer;
     private Voidstrap.UI.NativeSlide? _nativeSlide;
+
     // The game's area (or the screen's work area) the notification is placed in, in screen pixels
     private Int32Rect _area;
     private static long _focusReturnedTicks;
@@ -46,7 +47,10 @@ public partial class NotificationWindow
             DismissButton.MouseLeftButtonDown += OnDismissNotification;
             MouseMove += OnNotificationMouse;
             MouseLeave += OnNotificationMouse;
-            _hoverTimer = new System.Windows.Threading.DispatcherTimer(System.Windows.Threading.DispatcherPriority.Input) { Interval = TimeSpan.FromMilliseconds(Voidstrap.Utility.Platform.IsLinux ? 500 : 40) };
+            _hoverTimer = new System.Windows.Threading.DispatcherTimer(System.Windows.Threading.DispatcherPriority.Input)
+            {
+                Interval = TimeSpan.FromMilliseconds(Voidstrap.Utility.Platform.IsLinux ? 500 : 40),
+            };
             _hoverTimer.Tick += OnHoverTick;
             if (PortableOverlay.Active)
                 SizeChanged += OnNotificationSizeChanged;
@@ -137,17 +141,36 @@ public partial class NotificationWindow
                 previous = now;
             }
             if (PortableOverlay.Active)
-                App.Logger.WriteLine("NotificationWindow", _dismissRequested ? $"Notification dismissed after {clock.Elapsed.TotalSeconds:0.0}s" : $"Notification expired after {clock.Elapsed.TotalSeconds:0.0}s");
+                App.Logger.WriteLine(
+                    "NotificationWindow",
+                    _dismissRequested
+                        ? $"Notification dismissed after {clock.Elapsed.TotalSeconds:0.0}s"
+                        : $"Notification expired after {clock.Elapsed.TotalSeconds:0.0}s"
+                );
             // Fades out while easing back down below the edge
             _hoverTimer?.Stop();
             DismissButton.BeginAnimation(OpacityProperty, null);
             DismissButton.Opacity = 0;
             DismissButton.IsHitTestVisible = false;
             int outro = Voidstrap.UI.NotificationStyle.Length(appearance, false);
-            if (!(outro > 0 && appearance.Outro == NotificationMotion.Slide && Voidstrap.UI.NativeSlide.Supported && SlideWindow(appearance, false, outro)))
+            if (
+                !(
+                    outro > 0
+                    && appearance.Outro == NotificationMotion.Slide
+                    && Voidstrap.UI.NativeSlide.Supported
+                    && SlideWindow(appearance, false, outro)
+                )
+            )
             {
                 BeginCachedAnimation();
-                Voidstrap.UI.NotificationStyle.Play(NotificationRoot, RootTranslate, RootScale, appearance, new Size(Math.Max(1, ActualWidth), Math.Max(1, ActualHeight)), false);
+                Voidstrap.UI.NotificationStyle.Play(
+                    NotificationRoot,
+                    RootTranslate,
+                    RootScale,
+                    appearance,
+                    new Size(Math.Max(1, ActualWidth), Math.Max(1, ActualHeight)),
+                    false
+                );
             }
             if (outro > 0)
                 await Task.Delay(outro, token);
@@ -155,7 +178,10 @@ public partial class NotificationWindow
         catch (OperationCanceledException)
         {
             if (PortableOverlay.Active)
-                App.Logger.WriteLine("NotificationWindow", item.Token.IsCancellationRequested ? "Notification cancelled because its session ended" : "Notification cancelled");
+                App.Logger.WriteLine(
+                    "NotificationWindow",
+                    item.Token.IsCancellationRequested ? "Notification cancelled because its session ended" : "Notification cancelled"
+                );
         }
         finally
         {
@@ -205,7 +231,8 @@ public partial class NotificationWindow
         NotificationTitle.FontSize = 14 * text;
         NotificationText.FontSize = 12 * text;
         NotificationText.MaxHeight = 64 * text;
-        bool header = kind != Voidstrap.UI.NotificationKind.General && appearance.ShowsHeader(kind == Voidstrap.UI.NotificationKind.Friends);
+        bool header =
+            kind != Voidstrap.UI.NotificationKind.General && appearance.ShowsHeader(kind == Voidstrap.UI.NotificationKind.Friends);
         NotificationHeader.Visibility = header ? Visibility.Visible : Visibility.Collapsed;
         Width = appearance.SafeWidth + NotificationRoot.Margin.Left + NotificationRoot.Margin.Right;
         SizeToContent = SizeToContent.Height;
@@ -243,8 +270,11 @@ public partial class NotificationWindow
         // The window also holds the shadow, so only the card's own rectangle inside it counts as hovering
         DpiScale hoverDpi = PortableOverlay.Scale(this);
         Thickness shadow = NotificationRoot.Margin;
-        bool insideRect = cursor.X >= window.Left + shadow.Left * hoverDpi.DpiScaleX && cursor.X < window.Right - shadow.Right * hoverDpi.DpiScaleX
-            && cursor.Y >= window.Top + shadow.Top * hoverDpi.DpiScaleY && cursor.Y < window.Bottom - shadow.Bottom * hoverDpi.DpiScaleY;
+        bool insideRect =
+            cursor.X >= window.Left + shadow.Left * hoverDpi.DpiScaleX
+            && cursor.X < window.Right - shadow.Right * hoverDpi.DpiScaleX
+            && cursor.Y >= window.Top + shadow.Top * hoverDpi.DpiScaleY
+            && cursor.Y < window.Bottom - shadow.Bottom * hoverDpi.DpiScaleY;
         bool hovered = IsMouseOver || insideRect;
         if (!_hoverLogged)
         {
@@ -252,7 +282,10 @@ public partial class NotificationWindow
             CursorInfo info = new() { Size = System.Runtime.InteropServices.Marshal.SizeOf<CursorInfo>() };
             bool showing = GetCursorInfo(ref info) && (info.Flags & 1) != 0;
             IntPtr under = GetAncestor(WindowFromPoint(cursor), 2);
-            App.Logger.WriteLine("NotificationWindow", $"Hover tracking started, notification at {window.Left},{window.Top} to {window.Right},{window.Bottom}, cursor at {cursor.X},{cursor.Y}, cursor {(showing ? "visible" : "hidden by the game")}, window under cursor is {(under == handle ? "the notification" : "another window")}");
+            App.Logger.WriteLine(
+                "NotificationWindow",
+                $"Hover tracking started, notification at {window.Left},{window.Top} to {window.Right},{window.Bottom}, cursor at {cursor.X},{cursor.Y}, cursor {(showing ? "visible" : "hidden by the game")}, window under cursor is {(under == handle ? "the notification" : "another window")}"
+            );
         }
         if (hovered != _hovered)
         {
@@ -265,9 +298,12 @@ public partial class NotificationWindow
                     _hoverSeen = true;
                 else
                     _leaveLogged = true;
-                App.Logger.WriteLine("NotificationWindow", hovered
-                    ? $"Pointer entered the notification at {cursor.X},{cursor.Y}, showing the close button"
-                    : "Pointer left the notification, hiding the close button");
+                App.Logger.WriteLine(
+                    "NotificationWindow",
+                    hovered
+                        ? $"Pointer entered the notification at {cursor.X},{cursor.Y}, showing the close button"
+                        : "Pointer left the notification, hiding the close button"
+                );
             }
         }
         bool hot = hovered && (_appearance?.CloseButtonOnHover ?? true) && DismissContains(window, cursor);
@@ -293,7 +329,9 @@ public partial class NotificationWindow
             return false;
         try
         {
-            Rect bounds = DismissButton.TransformToAncestor(this).TransformBounds(new Rect(0, 0, DismissButton.ActualWidth, DismissButton.ActualHeight));
+            Rect bounds = DismissButton
+                .TransformToAncestor(this)
+                .TransformBounds(new Rect(0, 0, DismissButton.ActualWidth, DismissButton.ActualHeight));
             DpiScale dpi = PortableOverlay.Scale(this);
             // A few pixels of slack make the small icon easy to hit
             double slack = 4;
@@ -315,7 +353,10 @@ public partial class NotificationWindow
         bool down = false;
         bool hot = DismissButton.IsMouseOver;
         Point? pointer = null;
-        if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPointerPosition(out int x, out int y, out down))
+        if (
+            Voidstrap.Utility.Platform.IsLinux
+            && Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPointerPosition(out int x, out int y, out down)
+        )
             pointer = new Point(x - Left, y - Top);
         else if (Voidstrap.Utility.Platform.IsMacOS && Voidstrap.Platform.MacOS.MacOSOverlayWindow.IsWindow(_notificationHandle))
         {
@@ -327,14 +368,22 @@ public partial class NotificationWindow
         if (pointer is Point point)
         {
             Thickness shadow = NotificationRoot.Margin;
-            hover = point.X >= shadow.Left && point.Y >= shadow.Top
-                && point.X < ActualWidth - shadow.Right && point.Y < ActualHeight - shadow.Bottom;
-            Rect close = DismissButton.TransformToAncestor(this).TransformBounds(new Rect(0, 0, DismissButton.ActualWidth, DismissButton.ActualHeight));
+            hover =
+                point.X >= shadow.Left
+                && point.Y >= shadow.Top
+                && point.X < ActualWidth - shadow.Right
+                && point.Y < ActualHeight - shadow.Bottom;
+            Rect close = DismissButton
+                .TransformToAncestor(this)
+                .TransformBounds(new Rect(0, 0, DismissButton.ActualWidth, DismissButton.ActualHeight));
             hot = hover && close.Contains(point);
             if (!_hoverLogged)
             {
                 _hoverLogged = true;
-                App.Logger.WriteLine("NotificationWindow", $"Hover tracking started, pointer at {point.X:0},{point.Y:0} inside a {ActualWidth:0}x{ActualHeight:0} notification");
+                App.Logger.WriteLine(
+                    "NotificationWindow",
+                    $"Hover tracking started, pointer at {point.X:0},{point.Y:0} inside a {ActualWidth:0}x{ActualHeight:0} notification"
+                );
             }
         }
         else if (!_hoverLogged)
@@ -352,7 +401,12 @@ public partial class NotificationWindow
                     _hoverSeen = true;
                 else
                     _leaveLogged = true;
-                App.Logger.WriteLine("NotificationWindow", hover ? "Pointer entered the notification, showing the close button" : "Pointer left the notification, hiding the close button");
+                App.Logger.WriteLine(
+                    "NotificationWindow",
+                    hover
+                        ? "Pointer entered the notification, showing the close button"
+                        : "Pointer left the notification, hiding the close button"
+                );
             }
         }
         if (hot && down && !_buttonWasDown && (_appearance?.CloseButtonOnHover ?? true))
@@ -372,7 +426,12 @@ public partial class NotificationWindow
         {
             Interlocked.Exchange(ref _focusReturnedTicks, Environment.TickCount64);
             bool returned = Voidstrap.Platform.MacOS.MacOSOverlayWindow.ActivateProcess(roblox);
-            App.Logger.WriteLine("NotificationWindow", returned ? "Returned focus to Roblox after the notification took it" : "Could not return focus to Roblox after the notification took it");
+            App.Logger.WriteLine(
+                "NotificationWindow",
+                returned
+                    ? "Returned focus to Roblox after the notification took it"
+                    : "Could not return focus to Roblox after the notification took it"
+            );
         }
     }
 
@@ -380,7 +439,8 @@ public partial class NotificationWindow
     {
         if (!Voidstrap.Utility.Platform.IsMacOS)
             return false;
-        return Environment.TickCount64 - Interlocked.Read(ref _focusReturnedTicks) < 1000 || Voidstrap.Platform.MacOS.MacOSApplication.IsActive();
+        return Environment.TickCount64 - Interlocked.Read(ref _focusReturnedTicks) < 1000
+            || Voidstrap.Platform.MacOS.MacOSApplication.IsActive();
     }
 
     private void OnNotificationMouse(object sender, System.Windows.Input.MouseEventArgs e)
@@ -389,8 +449,10 @@ public partial class NotificationWindow
             OnHoverTick(null, EventArgs.Empty);
     }
 
-    private static bool IsLeftButtonDown() => Voidstrap.Utility.Platform.IsWindows ? (GetAsyncKeyState(0x01) & 0x8000) != 0
-        : Voidstrap.Utility.Platform.IsMacOS && Voidstrap.Platform.MacOS.MacOSWebView.IsLeftMouseDown();
+    private static bool IsLeftButtonDown() =>
+        Voidstrap.Utility.Platform.IsWindows
+            ? (GetAsyncKeyState(0x01) & 0x8000) != 0
+            : Voidstrap.Utility.Platform.IsMacOS && Voidstrap.Platform.MacOS.MacOSWebView.IsLeftMouseDown();
 
     private void SetDismissVisible(bool visible, bool animate)
     {
@@ -403,7 +465,7 @@ public partial class NotificationWindow
         }
         DoubleAnimation fade = new(visible ? 1 : 0, new Duration(TimeSpan.FromMilliseconds(140)))
         {
-            EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+            EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut },
         };
         Timeline.SetDesiredFrameRate(fade, AnimationFrameRate);
         DismissButton.BeginAnimation(OpacityProperty, fade);
@@ -473,7 +535,10 @@ public partial class NotificationWindow
         if (!bounds.Valid || (!bounds.Foreground && !IsReturningFocus()))
         {
             if (_presenting && !_dismissRequested && PortableOverlay.Active)
-                App.Logger.WriteLine("NotificationWindow", bounds.Valid ? "Notification hidden because Roblox lost focus" : "Notification hidden because the Roblox window is gone");
+                App.Logger.WriteLine(
+                    "NotificationWindow",
+                    bounds.Valid ? "Notification hidden because Roblox lost focus" : "Notification hidden because the Roblox window is gone"
+                );
             _dismissRequested = true;
             Hide();
             return;
@@ -501,7 +566,8 @@ public partial class NotificationWindow
         double width = Math.Ceiling(ActualWidth * dpi.DpiScaleX);
         double height = Math.Ceiling(ActualHeight * dpi.DpiScaleY);
         Vector direction = Voidstrap.UI.NotificationStyle.SlideDirection(appearance);
-        Point away = direction.Y > 0 ? new Point(home.X, _area.Y + _area.Height)
+        Point away =
+            direction.Y > 0 ? new Point(home.X, _area.Y + _area.Height)
             : direction.Y < 0 ? new Point(home.X, _area.Y - height)
             : direction.X > 0 ? new Point(_area.X + _area.Width, home.Y)
             : new Point(_area.X - width, home.Y);
@@ -557,15 +623,25 @@ public partial class NotificationWindow
             if (_placeLogs < 12 && (placeLeft != _lastPlaceLeft || placeTop != _lastPlaceTop))
             {
                 _placeLogs++;
-                App.Logger.WriteLine("NotificationWindow", $"Placed at {placeLeft:0},{placeTop:0} size {width}x{height} in area {areaLeft},{areaTop} {right - areaLeft}x{bottom - areaTop}");
+                App.Logger.WriteLine(
+                    "NotificationWindow",
+                    $"Placed at {placeLeft:0},{placeTop:0} size {width}x{height} in area {areaLeft},{areaTop} {right - areaLeft}x{bottom - areaTop}"
+                );
             }
             _lastPlaceLeft = placeLeft;
             _lastPlaceTop = placeTop;
             PortableOverlay.Place(this, placeLeft, placeTop, Math.Max(1, ActualWidth), Math.Max(1, ActualHeight));
             return;
         }
-        Interop.SetWindowPos(handle, IntPtr.Zero, left - shadowLeft, top - shadowTop, 0, 0,
-            Interop.SWP_NOSIZE | Interop.SWP_NOZORDER | Interop.SWP_NOACTIVATE);
+        Interop.SetWindowPos(
+            handle,
+            IntPtr.Zero,
+            left - shadowLeft,
+            top - shadowTop,
+            0,
+            0,
+            Interop.SWP_NOSIZE | Interop.SWP_NOZORDER | Interop.SWP_NOACTIVATE
+        );
     }
 
     private void ReleaseWindowsPresentation()

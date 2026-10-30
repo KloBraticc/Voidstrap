@@ -470,7 +470,7 @@ public static class McpGuides
 		["app_control"] = AppControl,
 		["app_code"] = AppCode,
 		["search"] = Search,
-		["library_pr"] = LibraryPr
+		["library_pr"] = LibraryPr,
 	};
 
 	public static IEnumerable<string> TopicNames => Topics.Keys;
@@ -482,7 +482,9 @@ public static class McpGuides
 		string clean = topic.Trim().Replace(' ', '_').Replace('-', '_');
 		if (Topics.TryGetValue(clean, out string? text))
 			return text;
-		string? match = Topics.Keys.FirstOrDefault(key => key.Contains(clean, StringComparison.OrdinalIgnoreCase) || clean.Contains(key.Split('_')[0], StringComparison.OrdinalIgnoreCase));
+		string? match = Topics.Keys.FirstOrDefault(key =>
+			key.Contains(clean, StringComparison.OrdinalIgnoreCase) || clean.Contains(key.Split('_')[0], StringComparison.OrdinalIgnoreCase)
+		);
 		return match == null ? null : Topics[match];
 	}
 }

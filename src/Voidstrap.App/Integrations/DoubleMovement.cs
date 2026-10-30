@@ -6,19 +6,25 @@ using System.Threading;
 using System.Windows.Forms;
 using Nefarius.ViGEm.Client;
 using Nefarius.ViGEm.Client.Targets;
-using Nefarius.ViGEm.Client.Targets.Xbox360;
 using Nefarius.ViGEm.Client.Targets.DualShock4;
+using Nefarius.ViGEm.Client.Targets.Xbox360;
+using Voidstrap.Extensions;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
-using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations
 {
     public partial class DoubleMovement : IDisposable
     {
-        private volatile bool _w, _a, _s, _d;
-        private long _tW, _tA, _tS, _tD;
+        private volatile bool _w,
+            _a,
+            _s,
+            _d;
+        private long _tW,
+            _tA,
+            _tS,
+            _tD;
 
         private double _fwdRad;
         private double _strRad;
@@ -39,7 +45,8 @@ namespace Voidstrap.Integrations
         private readonly AutoResetEvent _stateChanged = new(false);
         private bool _disposed;
 
-        private float _curX, _curY;
+        private float _curX,
+            _curY;
         private bool _focused;
         private bool _submitEverFailed;
 
@@ -48,13 +55,18 @@ namespace Voidstrap.Integrations
         public bool HookInstalled { get; private set; }
 
         private string[] _mouseBtnBind = new string[7];
-        private string _scrollUpBind = "", _scrollDownBind = "";
+        private string _scrollUpBind = "",
+            _scrollDownBind = "";
         private float _mouseSens = 3.0f;
 
         private UnhookWindowsHookExSafeHandle? _mouseHook;
         private HOOKPROC _mouseHookProc = null!;
-        private int _prevMouseX, _prevMouseY;
-        private float _targetRX, _targetRY, _curRX, _curRY;
+        private int _prevMouseX,
+            _prevMouseY;
+        private float _targetRX,
+            _targetRY,
+            _curRX,
+            _curRY;
         private int _scrollBi = -1;
         private long _scrollReleaseTime;
         private bool _sendRightStick;
@@ -63,13 +75,22 @@ namespace Voidstrap.Integrations
 
         private static readonly Dictionary<string, int> BtnIndex = new()
         {
-            { "A", 0 }, { "B", 1 }, { "X", 2 }, { "Y", 3 },
-            { "LeftShoulder", 4 }, { "RightShoulder", 5 },
-            { "LeftTrigger", 6 }, { "RightTrigger", 7 },
-            { "Back", 8 }, { "Start", 9 },
-            { "LeftThumb", 10 }, { "RightThumb", 11 },
-            { "DPadUp", 12 }, { "DPadDown", 13 },
-            { "DPadLeft", 14 }, { "DPadRight", 15 },
+            { "A", 0 },
+            { "B", 1 },
+            { "X", 2 },
+            { "Y", 3 },
+            { "LeftShoulder", 4 },
+            { "RightShoulder", 5 },
+            { "LeftTrigger", 6 },
+            { "RightTrigger", 7 },
+            { "Back", 8 },
+            { "Start", 9 },
+            { "LeftThumb", 10 },
+            { "RightThumb", 11 },
+            { "DPadUp", 12 },
+            { "DPadDown", 13 },
+            { "DPadLeft", 14 },
+            { "DPadRight", 15 },
             { "Guide", 16 },
         };
 
@@ -78,41 +99,64 @@ namespace Voidstrap.Integrations
         private Dictionary<Keys, string> _keyToButton = new();
         private bool[] _buttonStates = new bool[ButtonCount];
 
-        private static Xbox360Button ToX360Button(int idx) => idx switch
-        {
-            0 => Xbox360Button.A, 1 => Xbox360Button.B,
-            2 => Xbox360Button.X, 3 => Xbox360Button.Y,
-            4 => Xbox360Button.LeftShoulder, 5 => Xbox360Button.RightShoulder,
-            8 => Xbox360Button.Back, 9 => Xbox360Button.Start,
-            10 => Xbox360Button.LeftThumb, 11 => Xbox360Button.RightThumb,
-            12 => Xbox360Button.Up, 13 => Xbox360Button.Down,
-            14 => Xbox360Button.Left, 15 => Xbox360Button.Right,
-            16 => Xbox360Button.Guide,
-            _ => throw new ArgumentOutOfRangeException(nameof(idx)),
-        };
+        private static Xbox360Button ToX360Button(int idx) =>
+            idx switch
+            {
+                0 => Xbox360Button.A,
+                1 => Xbox360Button.B,
+                2 => Xbox360Button.X,
+                3 => Xbox360Button.Y,
+                4 => Xbox360Button.LeftShoulder,
+                5 => Xbox360Button.RightShoulder,
+                8 => Xbox360Button.Back,
+                9 => Xbox360Button.Start,
+                10 => Xbox360Button.LeftThumb,
+                11 => Xbox360Button.RightThumb,
+                12 => Xbox360Button.Up,
+                13 => Xbox360Button.Down,
+                14 => Xbox360Button.Left,
+                15 => Xbox360Button.Right,
+                16 => Xbox360Button.Guide,
+                _ => throw new ArgumentOutOfRangeException(nameof(idx)),
+            };
 
-        private static DualShock4Button ToDS4Button(int idx) => idx switch
-        {
-            0 => DualShock4Button.Cross, 1 => DualShock4Button.Circle,
-            2 => DualShock4Button.Square, 3 => DualShock4Button.Triangle,
-            4 => DualShock4Button.ShoulderLeft, 5 => DualShock4Button.ShoulderRight,
-            8 => DualShock4Button.Share, 9 => DualShock4Button.Options,
-            10 => DualShock4Button.ThumbLeft, 11 => DualShock4Button.ThumbRight,
-            16 => DualShock4Button.Triangle,
-            _ => throw new ArgumentOutOfRangeException(nameof(idx)),
-        };
+        private static DualShock4Button ToDS4Button(int idx) =>
+            idx switch
+            {
+                0 => DualShock4Button.Cross,
+                1 => DualShock4Button.Circle,
+                2 => DualShock4Button.Square,
+                3 => DualShock4Button.Triangle,
+                4 => DualShock4Button.ShoulderLeft,
+                5 => DualShock4Button.ShoulderRight,
+                8 => DualShock4Button.Share,
+                9 => DualShock4Button.Options,
+                10 => DualShock4Button.ThumbLeft,
+                11 => DualShock4Button.ThumbRight,
+                16 => DualShock4Button.Triangle,
+                _ => throw new ArgumentOutOfRangeException(nameof(idx)),
+            };
 
         private static DualShock4DPadDirection ComputeDpadDir(bool up, bool down, bool left, bool right)
         {
-            if (!up && !down && !left && !right) return DualShock4DPadDirection.None;
-            if (up && !down && !left && !right) return DualShock4DPadDirection.North;
-            if (up && !down && left && !right) return DualShock4DPadDirection.Northwest;
-            if (up && !down && !left && right) return DualShock4DPadDirection.Northeast;
-            if (!up && down && !left && !right) return DualShock4DPadDirection.South;
-            if (!up && down && left && !right) return DualShock4DPadDirection.Southwest;
-            if (!up && down && !left && right) return DualShock4DPadDirection.Southeast;
-            if (!up && !down && left && !right) return DualShock4DPadDirection.West;
-            if (!up && !down && !left && right) return DualShock4DPadDirection.East;
+            if (!up && !down && !left && !right)
+                return DualShock4DPadDirection.None;
+            if (up && !down && !left && !right)
+                return DualShock4DPadDirection.North;
+            if (up && !down && left && !right)
+                return DualShock4DPadDirection.Northwest;
+            if (up && !down && !left && right)
+                return DualShock4DPadDirection.Northeast;
+            if (!up && down && !left && !right)
+                return DualShock4DPadDirection.South;
+            if (!up && down && left && !right)
+                return DualShock4DPadDirection.Southwest;
+            if (!up && down && !left && right)
+                return DualShock4DPadDirection.Southeast;
+            if (!up && !down && left && !right)
+                return DualShock4DPadDirection.West;
+            if (!up && !down && !left && right)
+                return DualShock4DPadDirection.East;
             return DualShock4DPadDirection.None;
         }
 
@@ -120,12 +164,14 @@ namespace Voidstrap.Integrations
         {
             if (_ctrlType == 2)
             {
-                if (_ds4 == null) return;
+                if (_ds4 == null)
+                    return;
                 _ds4.SetSliderValue(DualShock4Slider.LeftTrigger, b[6] ? (byte)255 : (byte)0);
                 _ds4.SetSliderValue(DualShock4Slider.RightTrigger, b[7] ? (byte)255 : (byte)0);
                 for (int i = 0; i < ButtonCount; i++)
                 {
-                    if (i is 6 or 7 or >= 12 and <= 15) continue;
+                    if (i is 6 or 7 or >= 12 and <= 15)
+                        continue;
                     _ds4.SetButtonState(ToDS4Button(i), b[i]);
                 }
                 var dpad = ComputeDpadDir(b[12], b[13], b[14], b[15]);
@@ -133,12 +179,14 @@ namespace Voidstrap.Integrations
             }
             else
             {
-                if (_x360 == null) return;
+                if (_x360 == null)
+                    return;
                 _x360.SetSliderValue(Xbox360Slider.LeftTrigger, b[6] ? (byte)255 : (byte)0);
                 _x360.SetSliderValue(Xbox360Slider.RightTrigger, b[7] ? (byte)255 : (byte)0);
                 for (int i = 0; i < ButtonCount; i++)
                 {
-                    if (i is 6 or 7) continue;
+                    if (i is 6 or 7)
+                        continue;
                     _x360.SetButtonState(ToX360Button(i), b[i]);
                 }
             }
@@ -194,13 +242,12 @@ namespace Voidstrap.Integrations
             if (mm != null)
             {
                 var hm = PInvoke.GetModuleHandle(mm.ModuleName);
-                _hook = PInvoke.SetWindowsHookEx(
-                    WINDOWS_HOOK_ID.WH_KEYBOARD_LL, _hookProc, hm, 0);
+                _hook = PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_KEYBOARD_LL, _hookProc, hm, 0);
                 HookInstalled = _hook is { IsInvalid: false };
-                if (HookInstalled) App.Logger.WriteLine(Tag, "Hook=all-keys blocker active");
+                if (HookInstalled)
+                    App.Logger.WriteLine(Tag, "Hook=all-keys blocker active");
 
-                _mouseHook = PInvoke.SetWindowsHookEx(
-                    WINDOWS_HOOK_ID.WH_MOUSE_LL, _mouseHookProc, hm, 0);
+                _mouseHook = PInvoke.SetWindowsHookEx(WINDOWS_HOOK_ID.WH_MOUSE_LL, _mouseHookProc, hm, 0);
                 if (_mouseHook is { IsInvalid: false })
                     App.Logger.WriteLine(Tag, "MouseHook active (block+mouse->right stick)");
             }
@@ -209,7 +256,7 @@ namespace Voidstrap.Integrations
             {
                 Name = "DM-Smooth",
                 IsBackground = true,
-                Priority = ThreadPriority.Normal
+                Priority = ThreadPriority.Normal,
             };
             _updateThread.Start();
 
@@ -218,7 +265,10 @@ namespace Voidstrap.Integrations
 
         private static void ConnectTarget(Action connect)
         {
-            try { connect(); }
+            try
+            {
+                connect();
+            }
             catch (System.ComponentModel.Win32Exception ex) when (ex.NativeErrorCode == 997)
             {
                 App.Logger.WriteLine(Tag, "ViGEm connect IO pending, controller still finishes connecting.");
@@ -227,8 +277,14 @@ namespace Voidstrap.Integrations
 
         public static bool IsViGEmBusInstalled()
         {
-            try { return ViGEmInterop.IsInstalled(); }
-            catch { return false; }
+            try
+            {
+                return ViGEmInterop.IsInstalled();
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         [LibraryImport("user32.dll")]
@@ -248,8 +304,12 @@ namespace Voidstrap.Integrations
                 _keyToButton.Clear();
                 foreach (var kb in App.Settings.Prop.DoubleMovementKeybinds)
                 {
-                    if (!string.IsNullOrEmpty(kb.Key) && !string.IsNullOrEmpty(kb.Button)
-                        && Enum.TryParse<Keys>(kb.Key, out var key) && BtnIndex.ContainsKey(kb.Button))
+                    if (
+                        !string.IsNullOrEmpty(kb.Key)
+                        && !string.IsNullOrEmpty(kb.Button)
+                        && Enum.TryParse<Keys>(kb.Key, out var key)
+                        && BtnIndex.ContainsKey(kb.Button)
+                    )
                         _keyToButton[key] = kb.Button;
                 }
 
@@ -274,7 +334,8 @@ namespace Voidstrap.Integrations
         private bool IsRobloxFocused()
         {
             var hwnd = PInvoke.GetForegroundWindow();
-            if (hwnd == HWND.Null) return false;
+            if (hwnd == HWND.Null)
+                return false;
             PInvoke.GetWindowThreadProcessId(hwnd, out uint pid);
             return pid == _targetPid;
         }
@@ -284,8 +345,7 @@ namespace Voidstrap.Integrations
             if (code >= 0)
             {
                 uint msg = (uint)wParam;
-                if (msg == PInvoke.WM_KEYDOWN || msg == PInvoke.WM_SYSKEYDOWN ||
-                    msg == PInvoke.WM_KEYUP || msg == PInvoke.WM_SYSKEYUP)
+                if (msg == PInvoke.WM_KEYDOWN || msg == PInvoke.WM_SYSKEYDOWN || msg == PInvoke.WM_KEYUP || msg == PInvoke.WM_SYSKEYUP)
                 {
                     try
                     {
@@ -301,10 +361,26 @@ namespace Voidstrap.Integrations
                                 long now = Stopwatch.GetTimestamp();
                                 switch (key)
                                 {
-                                    case Keys.W: _w = down; if (down) _tW = now; break;
-                                    case Keys.A: _a = down; if (down) _tA = now; break;
-                                    case Keys.S: _s = down; if (down) _tS = now; break;
-                                    case Keys.D: _d = down; if (down) _tD = now; break;
+                                    case Keys.W:
+                                        _w = down;
+                                        if (down)
+                                            _tW = now;
+                                        break;
+                                    case Keys.A:
+                                        _a = down;
+                                        if (down)
+                                            _tA = now;
+                                        break;
+                                    case Keys.S:
+                                        _s = down;
+                                        if (down)
+                                            _tS = now;
+                                        break;
+                                    case Keys.D:
+                                        _d = down;
+                                        if (down)
+                                            _tD = now;
+                                        break;
                                 }
                                 _stateChanged.Set();
                                 return (LRESULT)1;
@@ -320,8 +396,7 @@ namespace Voidstrap.Integrations
 
                             int flags = (int)kbd.flags;
                             bool altDown = (flags & 0x20) != 0;
-                            bool winDown = (GetAsyncKeyState(0x5B) & 0x8000) != 0
-                                        || (GetAsyncKeyState(0x5C) & 0x8000) != 0;
+                            bool winDown = (GetAsyncKeyState(0x5B) & 0x8000) != 0 || (GetAsyncKeyState(0x5C) & 0x8000) != 0;
                             if (altDown || winDown)
                                 return PInvoke.CallNextHookEx(_hook, code, wParam, lParam);
 
@@ -411,12 +486,33 @@ namespace Voidstrap.Integrations
                     int btnIdx = -1;
                     bool down = false;
 
-                    if (msg == _WM_LBUTTONDOWN) { btnIdx = 0; down = true; }
-                    else if (msg == _WM_LBUTTONUP) { btnIdx = 0; }
-                    else if (msg == _WM_RBUTTONDOWN) { btnIdx = 1; down = true; }
-                    else if (msg == _WM_RBUTTONUP) { btnIdx = 1; }
-                    else if (msg == _WM_MBUTTONDOWN) { btnIdx = 2; down = true; }
-                    else if (msg == _WM_MBUTTONUP) { btnIdx = 2; }
+                    if (msg == _WM_LBUTTONDOWN)
+                    {
+                        btnIdx = 0;
+                        down = true;
+                    }
+                    else if (msg == _WM_LBUTTONUP)
+                    {
+                        btnIdx = 0;
+                    }
+                    else if (msg == _WM_RBUTTONDOWN)
+                    {
+                        btnIdx = 1;
+                        down = true;
+                    }
+                    else if (msg == _WM_RBUTTONUP)
+                    {
+                        btnIdx = 1;
+                    }
+                    else if (msg == _WM_MBUTTONDOWN)
+                    {
+                        btnIdx = 2;
+                        down = true;
+                    }
+                    else if (msg == _WM_MBUTTONUP)
+                    {
+                        btnIdx = 2;
+                    }
                     else if (msg == _WM_XBUTTONDOWN || msg == _WM_XBUTTONUP)
                     {
                         int xBtn = (int)((mouse.mouseData >> 16) & 0xFFFF);
@@ -459,9 +555,7 @@ namespace Voidstrap.Integrations
             {
                 SmoothLoopCore();
             }
-            catch (ObjectDisposedException)
-            {
-            }
+            catch (ObjectDisposedException) { }
             catch (Exception ex)
             {
                 App.Logger.WriteException("DoubleMovement::SmoothLoop", ex);
@@ -473,10 +567,29 @@ namespace Voidstrap.Integrations
             var token = _cts.SafeToken();
             while (!token.IsCancellationRequested)
             {
-                bool needsAnimation = _focused && (_w || _a || _s || _d || Math.Abs(_curX) > 1f || Math.Abs(_curY) > 1f || _sendRightStick || Math.Abs(_targetRX) > 1f || Math.Abs(_targetRY) > 1f || _scrollBi >= 0);
+                bool needsAnimation =
+                    _focused
+                    && (
+                        _w
+                        || _a
+                        || _s
+                        || _d
+                        || Math.Abs(_curX) > 1f
+                        || Math.Abs(_curY) > 1f
+                        || _sendRightStick
+                        || Math.Abs(_targetRX) > 1f
+                        || Math.Abs(_targetRY) > 1f
+                        || _scrollBi >= 0
+                    );
                 bool stateChanged;
-                try { stateChanged = _stateChanged.WaitOne(needsAnimation ? 4 : 500); }
-                catch { break; }
+                try
+                {
+                    stateChanged = _stateChanged.WaitOne(needsAnimation ? 4 : 500);
+                }
+                catch
+                {
+                    break;
+                }
                 if (token.IsCancellationRequested || _disposed || !ControllerPlugged)
                     continue;
 
@@ -485,17 +598,26 @@ namespace Voidstrap.Integrations
                 if (focusChanged)
                 {
                     _focused = focusedNow;
-                    App.Logger.WriteLine(Tag, focusedNow
-                        ? "Roblox focused, controller engaged"
-                        : "Roblox unfocused, controller disengaged");
+                    App.Logger.WriteLine(
+                        Tag,
+                        focusedNow ? "Roblox focused, controller engaged" : "Roblox unfocused, controller disengaged"
+                    );
                     if (!focusedNow)
                     {
-                        _w = false; _a = false; _s = false; _d = false;
+                        _w = false;
+                        _a = false;
+                        _s = false;
+                        _d = false;
                         Array.Clear(_buttonStates, 0, _buttonStates.Length);
                         Submit(0, 0, 0, 0);
-                        _curX = 0; _curY = 0;
-                        _curRX = 0; _curRY = 0; _targetRX = 0; _targetRY = 0;
-                        _sendRightStick = false; _scrollBi = -1;
+                        _curX = 0;
+                        _curY = 0;
+                        _curRX = 0;
+                        _curRY = 0;
+                        _targetRX = 0;
+                        _targetRY = 0;
+                        _sendRightStick = false;
+                        _scrollBi = -1;
                         continue;
                     }
                     else
@@ -512,18 +634,25 @@ namespace Voidstrap.Integrations
                 if (!stateChanged && !focusChanged && !needsAnimation)
                     continue;
 
-                bool rw = _w, ra = _a, rs = _s, rd = _d;
+                bool rw = _w,
+                    ra = _a,
+                    rs = _s,
+                    rd = _d;
                 ResolveSocd(ref rw, ref ra, ref rs, ref rd);
 
-                short tx, ty;
+                short tx,
+                    ty;
                 ComputeTarget(rw, ra, rs, rd, out tx, out ty);
 
-                float ftx = tx, fty = ty;
+                float ftx = tx,
+                    fty = ty;
                 _curX += (ftx - _curX) * 0.45f;
                 _curY += (fty - _curY) * 0.45f;
 
-                if (Math.Abs(ftx - _curX) < 1f) _curX = ftx;
-                if (Math.Abs(fty - _curY) < 1f) _curY = fty;
+                if (Math.Abs(ftx - _curX) < 1f)
+                    _curX = ftx;
+                if (Math.Abs(fty - _curY) < 1f)
+                    _curY = fty;
 
                 if (_sendRightStick || Math.Abs(_targetRX) > 1f || Math.Abs(_targetRY) > 1f)
                 {
@@ -531,8 +660,10 @@ namespace Voidstrap.Integrations
                     _curRY += (_targetRY - _curRY) * 0.25f;
                     _targetRX *= 0.92f;
                     _targetRY *= 0.92f;
-                    if (Math.Abs(_targetRX) < 1f) _targetRX = 0;
-                    if (Math.Abs(_targetRY) < 1f) _targetRY = 0;
+                    if (Math.Abs(_targetRX) < 1f)
+                        _targetRX = 0;
+                    if (Math.Abs(_targetRY) < 1f)
+                        _targetRY = 0;
                     _sendRightStick = Math.Abs(_targetRX) > 1f || Math.Abs(_targetRY) > 1f;
                 }
 
@@ -563,10 +694,26 @@ namespace Voidstrap.Integrations
 
         private void RecoverHeldKeys()
         {
-            if ((GetAsyncKeyState((int)Keys.W) & 0x8000) != 0) { _w = true; _tW = Stopwatch.GetTimestamp(); }
-            if ((GetAsyncKeyState((int)Keys.A) & 0x8000) != 0) { _a = true; _tA = Stopwatch.GetTimestamp(); }
-            if ((GetAsyncKeyState((int)Keys.S) & 0x8000) != 0) { _s = true; _tS = Stopwatch.GetTimestamp(); }
-            if ((GetAsyncKeyState((int)Keys.D) & 0x8000) != 0) { _d = true; _tD = Stopwatch.GetTimestamp(); }
+            if ((GetAsyncKeyState((int)Keys.W) & 0x8000) != 0)
+            {
+                _w = true;
+                _tW = Stopwatch.GetTimestamp();
+            }
+            if ((GetAsyncKeyState((int)Keys.A) & 0x8000) != 0)
+            {
+                _a = true;
+                _tA = Stopwatch.GetTimestamp();
+            }
+            if ((GetAsyncKeyState((int)Keys.S) & 0x8000) != 0)
+            {
+                _s = true;
+                _tS = Stopwatch.GetTimestamp();
+            }
+            if ((GetAsyncKeyState((int)Keys.D) & 0x8000) != 0)
+            {
+                _d = true;
+                _tD = Stopwatch.GetTimestamp();
+            }
 
             foreach (var kvp in _keyToButton)
             {
@@ -588,11 +735,14 @@ namespace Voidstrap.Integrations
                 switch (_socdMode)
                 {
                     case 0:
-                        if (_tW > _tS) rs = false;
-                        else rw = false;
+                        if (_tW > _tS)
+                            rs = false;
+                        else
+                            rw = false;
                         break;
                     case 1:
-                        rw = false; rs = false;
+                        rw = false;
+                        rs = false;
                         break;
                     case 2:
                         rs = false;
@@ -605,15 +755,20 @@ namespace Voidstrap.Integrations
                 switch (_socdMode)
                 {
                     case 0:
-                        if (_tA > _tD) rd = false;
-                        else ra = false;
+                        if (_tA > _tD)
+                            rd = false;
+                        else
+                            ra = false;
                         break;
                     case 1:
-                        ra = false; rd = false;
+                        ra = false;
+                        rd = false;
                         break;
                     case 2:
-                        if (_tA > _tD) rd = false;
-                        else ra = false;
+                        if (_tA > _tD)
+                            rd = false;
+                        else
+                            ra = false;
                         break;
                 }
             }
@@ -621,7 +776,8 @@ namespace Voidstrap.Integrations
 
         private void ComputeTarget(bool rw, bool ra, bool rs, bool rd, out short tx, out short ty)
         {
-            tx = 0; ty = 0;
+            tx = 0;
+            ty = 0;
             short m = (short)(32767 * _sens);
 
             double aFwd = _fwdRad;
@@ -629,20 +785,40 @@ namespace Voidstrap.Integrations
 
             if (rw && !rs)
             {
-                if (ra && !rd) { tx = (short)(-m * Math.Sin(aFwd)); ty = (short)( m * Math.Cos(aFwd)); }
-                else if (rd && !ra) { tx = (short)( m * Math.Sin(aFwd)); ty = (short)( m * Math.Cos(aFwd)); }
-                else ty = m;
+                if (ra && !rd)
+                {
+                    tx = (short)(-m * Math.Sin(aFwd));
+                    ty = (short)(m * Math.Cos(aFwd));
+                }
+                else if (rd && !ra)
+                {
+                    tx = (short)(m * Math.Sin(aFwd));
+                    ty = (short)(m * Math.Cos(aFwd));
+                }
+                else
+                    ty = m;
             }
             else if (rs && !rw)
             {
-                if (ra && !rd) { tx = (short)(-m * Math.Sin(aStr)); ty = (short)(-m * Math.Cos(aStr)); }
-                else if (rd && !ra) { tx = (short)( m * Math.Sin(aStr)); ty = (short)(-m * Math.Cos(aStr)); }
-                else ty = (short)-m;
+                if (ra && !rd)
+                {
+                    tx = (short)(-m * Math.Sin(aStr));
+                    ty = (short)(-m * Math.Cos(aStr));
+                }
+                else if (rd && !ra)
+                {
+                    tx = (short)(m * Math.Sin(aStr));
+                    ty = (short)(-m * Math.Cos(aStr));
+                }
+                else
+                    ty = (short)-m;
             }
             else
             {
-                if (ra && !rd) tx = (short)-m;
-                else if (rd && !ra) tx = m;
+                if (ra && !rd)
+                    tx = (short)-m;
+                else if (rd && !ra)
+                    tx = m;
             }
 
             if (_curve == "Exponential")
@@ -660,7 +836,8 @@ namespace Voidstrap.Integrations
             {
                 if (_ctrlType == 2)
                 {
-                    if (_ds4 == null) return false;
+                    if (_ds4 == null)
+                        return false;
                     _ds4.SetAxisValue(DualShock4Axis.LeftThumbX, (byte)((lx + 32768) >> 8));
                     _ds4.SetAxisValue(DualShock4Axis.LeftThumbY, (byte)(255 - ((ly + 32768) >> 8)));
                     _ds4.SetAxisValue(DualShock4Axis.RightThumbX, (byte)((rx + 32768) >> 8));
@@ -670,7 +847,8 @@ namespace Voidstrap.Integrations
                 }
                 else
                 {
-                    if (_x360 == null) return false;
+                    if (_x360 == null)
+                        return false;
                     _x360.SetAxisValue(Xbox360Axis.LeftThumbX, lx);
                     _x360.SetAxisValue(Xbox360Axis.LeftThumbY, ly);
                     _x360.SetAxisValue(Xbox360Axis.RightThumbX, rx);
@@ -688,7 +866,8 @@ namespace Voidstrap.Integrations
 
         public void Dispose()
         {
-            if (_disposed) return;
+            if (_disposed)
+                return;
             _disposed = true;
             App.Logger.WriteLine(Tag, "Dispose");
 
@@ -707,17 +886,32 @@ namespace Voidstrap.Integrations
             if (HookInstalled)
                 _hook?.Dispose();
 
-            try { _mouseHook?.Dispose(); }
+            try
+            {
+                _mouseHook?.Dispose();
+            }
             catch { }
 
             if (ControllerPlugged)
             {
-                try { _x360?.Disconnect(); } catch { }
-                try { _ds4?.Disconnect(); } catch { }
+                try
+                {
+                    _x360?.Disconnect();
+                }
+                catch { }
+                try
+                {
+                    _ds4?.Disconnect();
+                }
+                catch { }
                 App.Logger.WriteLine(Tag, "Controller removed");
             }
 
-            try { _client?.Dispose(); } catch { }
+            try
+            {
+                _client?.Dispose();
+            }
+            catch { }
 
             GC.SuppressFinalize(this);
         }

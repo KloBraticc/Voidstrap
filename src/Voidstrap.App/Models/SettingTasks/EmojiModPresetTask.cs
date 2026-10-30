@@ -59,7 +59,15 @@ public class EmojiModPresetTask : EnumBaseTask<EmojiType>
 				string temporary = _filePath + "." + Guid.NewGuid().ToString("N") + ".download";
 				try
 				{
-					await ResilientDownload.DownloadAsync(App.HttpClient, [NewState.GetUrl()], temporary, EmojiTypeEx.Sizes[NewState], "sha256:" + NewState.GetHash()).ConfigureAwait(false);
+					await ResilientDownload
+						.DownloadAsync(
+							App.HttpClient,
+							[NewState.GetUrl()],
+							temporary,
+							EmojiTypeEx.Sizes[NewState],
+							"sha256:" + NewState.GetHash()
+						)
+						.ConfigureAwait(false);
 					FileModManager.FolderGate.Wait();
 					try
 					{
@@ -84,7 +92,12 @@ public class EmojiModPresetTask : EnumBaseTask<EmojiType>
 			catch (Exception ex)
 			{
 				App.Logger.WriteException("EmojiModPresetTask::Execute", ex);
-				Frontend.ShowConnectivityDialog(string.Format(Strings.Dialog_Connectivity_UnableToConnect, "GitHub"), Strings.Menu_Mods_Presets_EmojiType_Error + "\n\n" + Strings.Dialog_Connectivity_TryAgainLater, MessageBoxImage.Exclamation, ex);
+				Frontend.ShowConnectivityDialog(
+					string.Format(Strings.Dialog_Connectivity_UnableToConnect, "GitHub"),
+					Strings.Menu_Mods_Presets_EmojiType_Error + "\n\n" + Strings.Dialog_Connectivity_TryAgainLater,
+					MessageBoxImage.Exclamation,
+					ex
+				);
 				return;
 			}
 		}

@@ -30,12 +30,18 @@ internal static partial class LinuxWindowMemory
 	private static readonly FieldInfo?[] TreeStateFields =
 	[
 		typeof(MouseDevice).GetField("_mouseOverTreeState", PrivateInstance),
-		typeof(MouseDevice).GetField("_mouseCaptureWithinTreeState", PrivateInstance)
+		typeof(MouseDevice).GetField("_mouseCaptureWithinTreeState", PrivateInstance),
 	];
 
-	private static readonly FieldInfo? ChangedVisualsField = typeof(Visual).GetField("VoidstrapChangedVisuals", BindingFlags.Public | BindingFlags.Static);
+	private static readonly FieldInfo? ChangedVisualsField = typeof(Visual).GetField(
+		"VoidstrapChangedVisuals",
+		BindingFlags.Public | BindingFlags.Static
+	);
 
-	private static readonly FieldInfo? ChangedOverflowField = typeof(Visual).GetField("VoidstrapChangedOverflow", BindingFlags.Public | BindingFlags.Static);
+	private static readonly FieldInfo? ChangedOverflowField = typeof(Visual).GetField(
+		"VoidstrapChangedOverflow",
+		BindingFlags.Public | BindingFlags.Static
+	);
 
 	private static int _compactPending;
 
@@ -62,16 +68,23 @@ internal static partial class LinuxWindowMemory
 
 		try
 		{
-			dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(delegate
-			{
-				Release(closed);
-				if (compact && (!Voidstrap.Utility.Platform.IsMacOS || !HasTaskbarWindowShown()) && Interlocked.Exchange(ref _compactPending, 1) == 0)
-					_ = CompactAsync(closed.GetType().Name);
-			}));
+			dispatcher.BeginInvoke(
+				DispatcherPriority.ApplicationIdle,
+				new Action(
+					delegate
+					{
+						Release(closed);
+						if (
+							compact
+							&& (!Voidstrap.Utility.Platform.IsMacOS || !HasTaskbarWindowShown())
+							&& Interlocked.Exchange(ref _compactPending, 1) == 0
+						)
+							_ = CompactAsync(closed.GetType().Name);
+					}
+				)
+			);
 		}
-		catch (InvalidOperationException)
-		{
-		}
+		catch (InvalidOperationException) { }
 	}
 
 	private static void Release(Window closed)
@@ -85,8 +98,10 @@ internal static partial class LinuxWindowMemory
 				ChangeMouseOverMethod?.Invoke(mouse, [null, Environment.TickCount]);
 			}
 
-			if (InputSourceField?.GetValue(mouse) is PresentationSource source
-				&& (source.IsDisposed || source.RootVisual is null || ReferenceEquals(source.RootVisual, closed)))
+			if (
+				InputSourceField?.GetValue(mouse) is PresentationSource source
+				&& (source.IsDisposed || source.RootVisual is null || ReferenceEquals(source.RootVisual, closed))
+			)
 			{
 				InputSourceField.SetValue(mouse, null);
 			}
@@ -132,7 +147,10 @@ internal static partial class LinuxWindowMemory
 			await Task.Delay(TimeSpan.FromSeconds(10)).ConfigureAwait(false);
 			CollectEverything();
 			TrimWorkingSet();
-			App.Logger.WriteLine(LogIdent, $"Closed {windowName}, managed memory {GC.GetTotalMemory(false) / 1048576} MB, resident memory {Environment.WorkingSet / 1048576} MB");
+			App.Logger.WriteLine(
+				LogIdent,
+				$"Closed {windowName}, managed memory {GC.GetTotalMemory(false) / 1048576} MB, resident memory {Environment.WorkingSet / 1048576} MB"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -149,24 +167,29 @@ internal static partial class LinuxWindowMemory
 		if (!Voidstrap.Utility.Platform.UsesPortableUi || Interlocked.Exchange(ref _compactPending, 1) != 0)
 			return;
 
-		_ = Task.Run(async delegate
-		{
-			try
+		_ = Task.Run(
+			async delegate
 			{
-				await Task.Delay(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
-				CollectEverything();
-				TrimWorkingSet();
-				App.Logger.WriteLine(LogIdent, $"Left the game, managed memory {GC.GetTotalMemory(false) / 1048576} MB, resident memory {Environment.WorkingSet / 1048576} MB");
+				try
+				{
+					await Task.Delay(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
+					CollectEverything();
+					TrimWorkingSet();
+					App.Logger.WriteLine(
+						LogIdent,
+						$"Left the game, managed memory {GC.GetTotalMemory(false) / 1048576} MB, resident memory {Environment.WorkingSet / 1048576} MB"
+					);
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteLine(LogIdent, "Memory could not be released after the game: " + ex.Message);
+				}
+				finally
+				{
+					Interlocked.Exchange(ref _compactPending, 0);
+				}
 			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine(LogIdent, "Memory could not be released after the game: " + ex.Message);
-			}
-			finally
-			{
-				Interlocked.Exchange(ref _compactPending, 0);
-			}
-		});
+		);
 	}
 
 	public static void KeepSessionTrimmed(Dispatcher dispatcher, Task sessionEnded)
@@ -174,33 +197,37 @@ internal static partial class LinuxWindowMemory
 		if (!Voidstrap.Utility.Platform.IsLinux || Interlocked.Exchange(ref _sessionTrimming, 1) != 0)
 			return;
 
-		_ = Task.Run(async delegate
-		{
-			try
+		_ = Task.Run(
+			async delegate
 			{
-				TimeSpan delay = FirstSessionTrim;
-				while (!sessionEnded.IsCompleted)
+				try
 				{
-					await Task.WhenAny(sessionEnded, Task.Delay(delay)).ConfigureAwait(false);
-					delay = SessionTrimInterval;
-					if (sessionEnded.IsCompleted || dispatcher.HasShutdownStarted)
-						break;
-					bool windowShown = await dispatcher.InvokeAsync(HasTaskbarWindowShown, DispatcherPriority.ApplicationIdle).Task.ConfigureAwait(false);
-					if (windowShown)
-						continue;
-					TrimNativeHeap();
-					TrimWorkingSet();
+					TimeSpan delay = FirstSessionTrim;
+					while (!sessionEnded.IsCompleted)
+					{
+						await Task.WhenAny(sessionEnded, Task.Delay(delay)).ConfigureAwait(false);
+						delay = SessionTrimInterval;
+						if (sessionEnded.IsCompleted || dispatcher.HasShutdownStarted)
+							break;
+						bool windowShown = await dispatcher
+							.InvokeAsync(HasTaskbarWindowShown, DispatcherPriority.ApplicationIdle)
+							.Task.ConfigureAwait(false);
+						if (windowShown)
+							continue;
+						TrimNativeHeap();
+						TrimWorkingSet();
+					}
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteLine(LogIdent, "Session memory trimming stopped: " + ex.Message);
+				}
+				finally
+				{
+					Interlocked.Exchange(ref _sessionTrimming, 0);
 				}
 			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine(LogIdent, "Session memory trimming stopped: " + ex.Message);
-			}
-			finally
-			{
-				Interlocked.Exchange(ref _sessionTrimming, 0);
-			}
-		});
+		);
 	}
 
 	private static bool HasTaskbarWindowShown()
@@ -255,16 +282,23 @@ internal static partial class LinuxWindowMemory
 		if (parts.Length < 6 || parts[1].Length < 4)
 			return false;
 		string path = parts[5].Trim();
-		if (!path.StartsWith('/') || path.StartsWith("/dev/", StringComparison.Ordinal) || path.StartsWith("/memfd:", StringComparison.Ordinal) || path.EndsWith("(deleted)", StringComparison.Ordinal))
+		if (
+			!path.StartsWith('/')
+			|| path.StartsWith("/dev/", StringComparison.Ordinal)
+			|| path.StartsWith("/memfd:", StringComparison.Ordinal)
+			|| path.EndsWith("(deleted)", StringComparison.Ordinal)
+		)
 			return false;
 		if (parts[1][1] == 'w' && parts[1][3] == 's')
 			return false;
 		int dash = parts[0].IndexOf('-');
 		if (dash <= 0)
 			return false;
-		if (!long.TryParse(parts[0].AsSpan(0, dash), System.Globalization.NumberStyles.HexNumber, null, out long low)
+		if (
+			!long.TryParse(parts[0].AsSpan(0, dash), System.Globalization.NumberStyles.HexNumber, null, out long low)
 			|| !long.TryParse(parts[0].AsSpan(dash + 1), System.Globalization.NumberStyles.HexNumber, null, out long high)
-			|| high <= low)
+			|| high <= low
+		)
 			return false;
 		start = (nint)low;
 		end = (nint)high;
@@ -289,9 +323,7 @@ internal static partial class LinuxWindowMemory
 			else
 				_ = MallocTrim(0);
 		}
-		catch (Exception ex) when (ex is EntryPointNotFoundException or DllNotFoundException)
-		{
-		}
+		catch (Exception ex) when (ex is EntryPointNotFoundException or DllNotFoundException) { }
 	}
 
 	[LibraryImport("libc", EntryPoint = "malloc_trim")]

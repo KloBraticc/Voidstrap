@@ -29,10 +29,16 @@ internal static class RobloxWindowIcons
 		List<RobloxWindowIconOverride>? list = App.Settings.Prop.RobloxWindowIconOverrides;
 		if (list == null || list.Count == 0)
 			return null;
-		RobloxWindowIconOverride? exact = placeId > 0 ? list.FirstOrDefault(entry => entry != null && entry.PlaceId == placeId && File.Exists(entry.IconPath)) : null;
+		RobloxWindowIconOverride? exact =
+			placeId > 0 ? list.FirstOrDefault(entry => entry != null && entry.PlaceId == placeId && File.Exists(entry.IconPath)) : null;
 		if (exact != null)
 			return exact.IconPath;
-		RobloxWindowIconOverride? whole = universeId > 0 ? list.FirstOrDefault(entry => entry != null && entry.AllPlaces && entry.UniverseId == universeId && File.Exists(entry.IconPath)) : null;
+		RobloxWindowIconOverride? whole =
+			universeId > 0
+				? list.FirstOrDefault(entry =>
+					entry != null && entry.AllPlaces && entry.UniverseId == universeId && File.Exists(entry.IconPath)
+				)
+				: null;
 		return whole?.IconPath;
 	}
 
@@ -61,7 +67,10 @@ internal static class RobloxWindowIcons
 		if (!info.Exists || info.Length <= 0 || info.Length > MaxIconBytes)
 			throw new InvalidDataException(Voidstrap.Resources.Strings.Menu_Shortcuts_InvalidIcon);
 		Directory.CreateDirectory(Folder);
-		string target = Path.Combine(Folder, placeId.ToString(CultureInfo.InvariantCulture) + "_" + Guid.NewGuid().ToString("N")[..8] + extension);
+		string target = Path.Combine(
+			Folder,
+			placeId.ToString(CultureInfo.InvariantCulture) + "_" + Guid.NewGuid().ToString("N")[..8] + extension
+		);
 		File.Copy(sourcePath, target, false);
 		return target;
 	}
@@ -77,8 +86,6 @@ internal static class RobloxWindowIcons
 			if (full.StartsWith(folder, StringComparison.OrdinalIgnoreCase) && File.Exists(full))
 				File.Delete(full);
 		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
-		{
-		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException) { }
 	}
 }

@@ -59,9 +59,7 @@ internal static class RequestErrorLog
 				{
 					subscription.Dispose();
 				}
-				catch
-				{
-				}
+				catch { }
 			}
 			Subscriptions.Clear();
 		}
@@ -91,9 +89,7 @@ internal static class RequestErrorLog
 				Record(request, exception.GetType().Name + ": " + Flatten(exception.GetBaseException().Message));
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static void Record(HttpRequestMessage request, string problem)
@@ -103,7 +99,15 @@ internal static class RequestErrorLog
 		if (count != 1 || Failures.Count > MaxDistinctFailures)
 			return;
 		double? seconds = Activity.Current?.Duration.TotalSeconds;
-		App.Logger.WriteLine(LOG_IDENT, key + (seconds is > 0 ? " after " + seconds.Value.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + " s" : ""));
+		App.Logger.WriteLine(
+			LOG_IDENT,
+			key
+				+ (
+					seconds is > 0
+						? " after " + seconds.Value.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + " s"
+						: ""
+				)
+		);
 	}
 
 	private static string Describe(Uri? uri)
@@ -135,12 +139,16 @@ internal static class RequestErrorLog
 		{
 			if (Failures.IsEmpty)
 				return;
-			string top = string.Join("; ", Failures.OrderByDescending(static pair => pair.Value).Take(10).Select(static pair => pair.Value + "x " + pair.Key));
-			App.Logger.WriteLine(LOG_IDENT, Failures.Values.Sum() + " failed request(s) to " + Failures.Count + " endpoint(s) this session, most frequent: " + top);
+			string top = string.Join(
+				"; ",
+				Failures.OrderByDescending(static pair => pair.Value).Take(10).Select(static pair => pair.Value + "x " + pair.Key)
+			);
+			App.Logger.WriteLine(
+				LOG_IDENT,
+				Failures.Values.Sum() + " failed request(s) to " + Failures.Count + " endpoint(s) this session, most frequent: " + top
+			);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private sealed class ListenerObserver : IObserver<DiagnosticListener>
@@ -149,18 +157,17 @@ internal static class RequestErrorLog
 		{
 			if (listener.Name != HttpListenerName)
 				return;
-			IDisposable subscription = listener.Subscribe(new EventObserver(), static (name, _, _) => name is StopEvent or ExceptionEvent || name == "System.Net.Http.HttpRequestOut");
+			IDisposable subscription = listener.Subscribe(
+				new EventObserver(),
+				static (name, _, _) => name is StopEvent or ExceptionEvent || name == "System.Net.Http.HttpRequestOut"
+			);
 			lock (Sync)
 				Subscriptions.Add(subscription);
 		}
 
-		public void OnError(Exception error)
-		{
-		}
+		public void OnError(Exception error) { }
 
-		public void OnCompleted()
-		{
-		}
+		public void OnCompleted() { }
 	}
 
 	private sealed class EventObserver : IObserver<KeyValuePair<string, object?>>
@@ -170,12 +177,8 @@ internal static class RequestErrorLog
 			OnEvent(value);
 		}
 
-		public void OnError(Exception error)
-		{
-		}
+		public void OnError(Exception error) { }
 
-		public void OnCompleted()
-		{
-		}
+		public void OnCompleted() { }
 	}
 }

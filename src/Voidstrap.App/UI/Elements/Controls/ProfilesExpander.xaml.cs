@@ -14,7 +14,7 @@ namespace Voidstrap.UI.Elements.Controls;
 public enum ProfileKind
 {
 	Settings,
-	Global
+	Global,
 }
 
 public partial class ProfilesExpander : UserControl
@@ -68,7 +68,8 @@ public partial class ProfilesExpander : UserControl
 			ProfileSelector.SelectedIndex = 0;
 		ProfileSelector.IsEnabled = names.Length > 0;
 		UpdateButtons();
-		ProfileStatus.Text = names.Length == 0 ? Strings.SettingsProfiles_Empty : string.Format(Strings.SettingsProfiles_Location, DirectoryPath);
+		ProfileStatus.Text =
+			names.Length == 0 ? Strings.SettingsProfiles_Empty : string.Format(Strings.SettingsProfiles_Location, DirectoryPath);
 	}
 
 	private void UpdateButtons()
@@ -119,7 +120,14 @@ public partial class ProfilesExpander : UserControl
 		{
 			string name = ProfileName.Text.Trim();
 			string path = SettingsProfiles.GetPath(DirectoryPath, name);
-			if (File.Exists(path) && Frontend.ShowMessageBox(string.Format(Strings.SettingsProfiles_Overwrite, name), MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+			if (
+				File.Exists(path)
+				&& Frontend.ShowMessageBox(
+					string.Format(Strings.SettingsProfiles_Overwrite, name),
+					MessageBoxImage.Question,
+					MessageBoxButton.YesNo
+				) != MessageBoxResult.Yes
+			)
 				return;
 			SetBusy(true, owner);
 			if (IsGlobal)
@@ -157,7 +165,10 @@ public partial class ProfilesExpander : UserControl
 		try
 		{
 			string confirm = IsGlobal ? Strings.GlobalProfiles_ApplyConfirm : Strings.SettingsProfiles_ApplyConfirm;
-			if (Frontend.ShowMessageBox(string.Format(confirm, name), MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+			if (
+				Frontend.ShowMessageBox(string.Format(confirm, name), MessageBoxImage.Question, MessageBoxButton.YesNo)
+				!= MessageBoxResult.Yes
+			)
 				return;
 			SetBusy(true, owner);
 			if (IsGlobal)
@@ -198,7 +209,13 @@ public partial class ProfilesExpander : UserControl
 		Applied?.Invoke(this, EventArgs.Empty);
 		if (!App.RestartApplication(["-settings", "-elevatedwait", Environment.ProcessId.ToString()], closeRuntime: false))
 		{
-			RestartNotificationService.Require("settingsProfile", Strings.SettingsProfiles_Title, Strings.SettingsProfiles_RestartFailed, Strings.SettingsProfiles_Restart, RestartTarget.Application);
+			RestartNotificationService.Require(
+				"settingsProfile",
+				Strings.SettingsProfiles_Title,
+				Strings.SettingsProfiles_RestartFailed,
+				Strings.SettingsProfiles_Restart,
+				RestartTarget.Application
+			);
 			ProfileStatus.Text = Strings.SettingsProfiles_RestartFailed;
 		}
 	}
@@ -209,7 +226,13 @@ public partial class ProfilesExpander : UserControl
 			return;
 		try
 		{
-			if (Frontend.ShowMessageBox(string.Format(Strings.SettingsProfiles_DeleteConfirm, name), MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+			if (
+				Frontend.ShowMessageBox(
+					string.Format(Strings.SettingsProfiles_DeleteConfirm, name),
+					MessageBoxImage.Question,
+					MessageBoxButton.YesNo
+				) != MessageBoxResult.Yes
+			)
 				return;
 			SettingsProfiles.Delete(DirectoryPath, name);
 			ProfileName.Text = string.Empty;

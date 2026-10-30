@@ -6,11 +6,7 @@ using System.Threading;
 
 namespace Voidstrap.Utility
 {
-    public sealed record VirtualMachineDetection(
-        bool IsVirtualMachine,
-        string Hypervisor,
-        bool HasHardwareGpu,
-        string GpuSummary);
+    public sealed record VirtualMachineDetection(bool IsVirtualMachine, string Hypervisor, bool HasHardwareGpu, string GpuSummary);
 
     public static class VirtualMachineProfile
     {
@@ -20,8 +16,7 @@ namespace Voidstrap.Utility
         private const uint VendorQemu = 0x1B36;
         private const uint VendorHyperV = 0x1414;
 
-        private static readonly Lazy<VirtualMachineDetection> DetectionValue =
-            new(Detect, LazyThreadSafetyMode.ExecutionAndPublication);
+        private static readonly Lazy<VirtualMachineDetection> DetectionValue = new(Detect, LazyThreadSafetyMode.ExecutionAndPublication);
 
         private static int _reported;
 
@@ -29,18 +24,19 @@ namespace Voidstrap.Utility
 
         public static bool ShouldForceSafeGraphics => Current.IsVirtualMachine && !Current.HasHardwareGpu;
 
-        public static IReadOnlyDictionary<string, object> SafeFastFlags { get; } = new Dictionary<string, object>
-        {
-            ["FFlagDebugGraphicsPreferOpenGL"] = true,
-            ["FFlagDebugGraphicsPreferVulkan"] = false,
-            ["DFIntDebugFRMQualityLevelOverride"] = 1,
-            ["FIntDebugForceMSAASamples"] = 0,
-            ["DFFlagDebugPauseVoxelizer"] = true,
-            ["FIntFRMMaxGrassDistance"] = 0,
-            ["FIntFRMMinGrassDistance"] = 0,
-            ["DFFlagTextureQualityOverrideEnabled"] = true,
-            ["DFIntTextureQualityOverride"] = 0
-        };
+        public static IReadOnlyDictionary<string, object> SafeFastFlags { get; } =
+            new Dictionary<string, object>
+            {
+                ["FFlagDebugGraphicsPreferOpenGL"] = true,
+                ["FFlagDebugGraphicsPreferVulkan"] = false,
+                ["DFIntDebugFRMQualityLevelOverride"] = 1,
+                ["FIntDebugForceMSAASamples"] = 0,
+                ["DFFlagDebugPauseVoxelizer"] = true,
+                ["FIntFRMMaxGrassDistance"] = 0,
+                ["FIntFRMMinGrassDistance"] = 0,
+                ["DFFlagTextureQualityOverrideEnabled"] = true,
+                ["DFIntTextureQualityOverride"] = 0,
+            };
 
         public static void ReportOnce()
         {
@@ -58,7 +54,13 @@ namespace Voidstrap.Utility
 
             App.Logger?.WriteLine(
                 "VirtualMachineProfile",
-                "Detected " + detection.Hypervisor + ", hardware GPU present: " + detection.HasHardwareGpu + ", adapters: " + detection.GpuSummary);
+                "Detected "
+                    + detection.Hypervisor
+                    + ", hardware GPU present: "
+                    + detection.HasHardwareGpu
+                    + ", adapters: "
+                    + detection.GpuSummary
+            );
 
             if (detection.HasHardwareGpu)
             {
@@ -67,7 +69,8 @@ namespace Voidstrap.Utility
 
             App.Logger?.WriteLine(
                 "VirtualMachineProfile",
-                "This virtual machine exposes no hardware GPU, so Roblox has no Vulkan device. Voidstrap is forcing the OpenGL renderer and the lowest cost graphics settings. Expect very low frame rates. Running Voidstrap on the host operating system, or on a machine with GPU passthrough, is the only way to get real performance.");
+                "This virtual machine exposes no hardware GPU, so Roblox has no Vulkan device. Voidstrap is forcing the OpenGL renderer and the lowest cost graphics settings. Expect very low frame rates. Running Voidstrap on the host operating system, or on a machine with GPU passthrough, is the only way to get real performance."
+            );
         }
 
         private static VirtualMachineDetection Detect()
@@ -81,11 +84,7 @@ namespace Voidstrap.Utility
                 hypervisor = "an unidentified hypervisor";
             }
 
-            return new VirtualMachineDetection(
-                isVirtual,
-                isVirtual ? hypervisor : "none",
-                hasHardwareGpu,
-                GpuInventory.Summary);
+            return new VirtualMachineDetection(isVirtual, isVirtual ? hypervisor : "none", hasHardwareGpu, GpuInventory.Summary);
         }
 
         private static string DetectHypervisor()
@@ -193,7 +192,8 @@ namespace Voidstrap.Utility
                     || adapter.VendorId == VendorBochs
                     || adapter.VendorId == VendorVirtio
                     || adapter.VendorId == VendorQemu
-                    || adapter.VendorId == VendorHyperV);
+                    || adapter.VendorId == VendorHyperV
+                );
             }
             catch (Exception ex)
             {

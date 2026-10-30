@@ -14,9 +14,23 @@ public static class ExtensionCatalog
 
 	public const string VoidstrapIcon = "pack://application:,,,/Voidstrap.png";
 
-	public static readonly string[] Categories = { ExtensionViewModel.TypeExtensions, ExtensionViewModel.TypeStudio, ExtensionViewModel.TypeClassic };
+	public static readonly string[] Categories =
+	{
+		ExtensionViewModel.TypeExtensions,
+		ExtensionViewModel.TypeStudio,
+		ExtensionViewModel.TypeClassic,
+	};
 
-	private static readonly string[] DisplayOrder = { "rishade", "swifttunnel", "studioreshade", "rojo", "studioplugin", "apidump", "community" };
+	private static readonly string[] DisplayOrder =
+	{
+		"rishade",
+		"swifttunnel",
+		"studioreshade",
+		"rojo",
+		"studioplugin",
+		"apidump",
+		"community",
+	};
 
 	public static readonly string[] Targets = { "Roblox Player", "Roblox Studio", "Classic clients" };
 
@@ -32,16 +46,18 @@ public static class ExtensionCatalog
 				Type = ExtensionViewModel.TypeExtensions,
 				WorksWith = ["Roblox Player"],
 				Tags = ["Shaders", "Visuals", "Screenshots"],
-				Summary = "Runs ReShade shaders and presets on Roblox without touching the game. Press Home in game to open the ReShade menu.",
-				Description = [
+				Summary =
+					"Runs ReShade shaders and presets on Roblox without touching the game. Press Home in game to open the ReShade menu.",
+				Description =
+				[
 					"RiShade runs the official ReShade runtime inside Voidstrap instead of inside Roblox. It captures the Roblox window, applies your ReShade effects to each frame and draws the result in an overlay on top of the game, so nothing is injected into the Roblox client.",
 					"Use any ReShade preset and shader pack. Press Home in game to open the ReShade menu, or pick a preset from this page.",
 					"Roblox does not share its depth buffer, so RiShade works out depth on your GPU. Pick an AI depth model (Depth Anything V2) for the sharpest depth, or keep the built in estimate, which needs no download.",
-					"Shaders cost frames, so it is best used for screenshots and videos rather than competitive play."
+					"Shaders cost frames, so it is best used for screenshots and videos rather than competitive play.",
 				],
 				Icon = RiShadeIcon,
 				CanOpen = true,
-				SearchText = "RiShade ReShade shaders presets visuals effects depth overlay Home"
+				SearchText = "RiShade ReShade shaders presets visuals effects depth overlay Home",
 			},
 			new ExtensionEntry("apidump", () => vm.apidumpenabler, value => vm.apidumpenabler = value)
 			{
@@ -52,15 +68,16 @@ public static class ExtensionCatalog
 				WorksWith = ["Roblox Player", "Roblox Studio"],
 				Tags = ["API", "Developer", "Diff"],
 				Summary = "Browse Roblox API classes and enums, and see what changed between Roblox versions.",
-				Description = [
+				Description =
+				[
 					"The Roblox API Dump Tool reads the API dump that ships with every Roblox version and shows every class, property, function, event and enum in a searchable tree.",
 					"Compare two versions to see exactly what Roblox added, removed or changed, which is handy when a script breaks after an update.",
-					"Voidstrap downloads a verified copy of the tool and keeps it next to the installed Roblox version."
+					"Voidstrap downloads a verified copy of the tool and keeps it next to the installed Roblox version.",
 				],
 				Icon = ApiDumpIcon,
 				Source = "https://github.com/MaximumADHD/Roblox-API-Dump-Tool",
 				CanOpen = true,
-				SearchText = "Roblox API Dump Tool MaximumADHD api dump diff classes members enums"
+				SearchText = "Roblox API Dump Tool MaximumADHD api dump diff classes members enums",
 			},
 			new ExtensionEntry("community", () => vm.communitycontentenabler, value => vm.communitycontentenabler = value)
 			{
@@ -71,13 +88,14 @@ public static class ExtensionCatalog
 				WorksWith = ["Classic clients"],
 				Tags = ["Catalog", "Decals", "Meshes", "Audio", "Maps"],
 				Summary = "Extra catalog items, decals, meshes, audio and maps for the classic Roblox clients.",
-				Description = [
+				Description =
+				[
 					"Classic Roblox clients cannot reach the modern catalog, so this pack ships extra items, decals, meshes, audio and maps made and collected by the community.",
-					"Enable it and Voidstrap downloads the pack into the classic client content folders. Use Update now whenever a new pack is published."
+					"Enable it and Voidstrap downloads the pack into the classic client content folders. Use Update now whenever a new pack is published.",
 				],
 				Icon = VoidstrapIcon,
 				CanOpen = false,
-				SearchText = "Community Content catalog items decals meshes audio maps classic Roblox"
+				SearchText = "Community Content catalog items decals meshes audio maps classic Roblox",
 			},
 			new ExtensionEntry("rojo", () => vm.rojoenabler, value => vm.rojoenabler = value)
 			{
@@ -88,15 +106,16 @@ public static class ExtensionCatalog
 				WorksWith = ["Roblox Studio"],
 				Tags = ["Sync", "Git", "Build"],
 				Summary = "Syncs code files from your computer into Roblox Studio live.",
-				Description = [
+				Description =
+				[
 					"Rojo lets you write Luau in your own editor and keeps Roblox Studio in sync as you save. Your project lives on disk, so you can use Git, code review and every other tool your editor has.",
-					"Voidstrap installs the Rojo command line for you and adds project tools: create a project, start or stop syncing, build a place file and install the Studio plugin, all from this page."
+					"Voidstrap installs the Rojo command line for you and adds project tools: create a project, start or stop syncing, build a place file and install the Studio plugin, all from this page.",
 				],
 				Icon = RojoIcon,
 				Source = "https://github.com/rojo-rbx/rojo",
 				CanOpen = false,
 				HasTools = true,
-				SearchText = "Rojo filesystem sync studio project git version control serve build init plugin"
+				SearchText = "Rojo filesystem sync studio project git version control serve build init plugin",
 			},
 			new ExtensionEntry("studioplugin", () => vm.studiopluginenabler, value => vm.studiopluginenabler = value)
 			{
@@ -107,50 +126,63 @@ public static class ExtensionCatalog
 				WorksWith = ["Roblox Studio"],
 				Tags = ["Discord", "Rich presence", "Studio"],
 				Summary = "A Voidstrap panel in Studio. Shows what you are building on Discord.",
-				Description = [
+				Description =
+				[
 					"Adds a Voidstrap panel inside Roblox Studio and reports what you are working on to Discord rich presence: the place name, the script you have open and whether you are testing or building.",
-					"Nothing is uploaded anywhere. The plugin only talks to the Voidstrap running on your PC."
+					"Nothing is uploaded anywhere. The plugin only talks to the Voidstrap running on your PC.",
 				],
 				Icon = VoidstrapIcon,
 				CanOpen = false,
-				SearchText = "Voidstrap Studio plugin panel Discord rich presence rpc place script"
-			}
+				SearchText = "Voidstrap Studio plugin panel Discord rich presence rpc place script",
+			},
 		};
 		if (Voidstrap.Utility.Platform.IsWindows)
-			entries.Add(new ExtensionEntry("studioreshade", () => vm.studioreshadeenabler, value => vm.studioreshadeenabler = value)
-			{
-				Name = "ReShade for Roblox Studio",
-				Author = "crosire",
-				AuthorIcon = ReShadeIcon,
-				Type = ExtensionViewModel.TypeStudio,
-				WorksWith = ["Roblox Studio"],
-				Tags = ["Shaders", "Visuals", "Studio"],
-				Summary = "Runs ReShade inside Roblox Studio with the same shaders and presets as RiShade. Press Home in Studio to open it.",
-				Description = [
-					"Voidstrap places the official ReShade runtime next to Roblox Studio every time you open Studio through Voidstrap, so shaders keep working after Studio updates.",
-					"Studio gives ReShade its real depth buffer, so depth effects like reflections and ambient occlusion are sharper than in the player.",
-					"Your shaders and presets are shared with RiShade. If Studio already has its own ReShade, Voidstrap leaves it alone, and turning this off removes only the copy Voidstrap added."
-				],
-				Icon = ReShadeIcon,
-				CanOpen = false,
-				SearchText = "ReShade Roblox Studio shaders Bloxshade visuals effects presets depth"
-			});
+			entries.Add(
+				new ExtensionEntry("studioreshade", () => vm.studioreshadeenabler, value => vm.studioreshadeenabler = value)
+				{
+					Name = "ReShade for Roblox Studio",
+					Author = "crosire",
+					AuthorIcon = ReShadeIcon,
+					Type = ExtensionViewModel.TypeStudio,
+					WorksWith = ["Roblox Studio"],
+					Tags = ["Shaders", "Visuals", "Studio"],
+					Summary =
+						"Runs ReShade inside Roblox Studio with the same shaders and presets as RiShade. Press Home in Studio to open it.",
+					Description =
+					[
+						"Voidstrap places the official ReShade runtime next to Roblox Studio every time you open Studio through Voidstrap, so shaders keep working after Studio updates.",
+						"Studio gives ReShade its real depth buffer, so depth effects like reflections and ambient occlusion are sharper than in the player.",
+						"Your shaders and presets are shared with RiShade. If Studio already has its own ReShade, Voidstrap leaves it alone, and turning this off removes only the copy Voidstrap added.",
+					],
+					Icon = ReShadeIcon,
+					CanOpen = false,
+					SearchText = "ReShade Roblox Studio shaders Bloxshade visuals effects presets depth",
+				}
+			);
 		if (Voidstrap.Utility.Platform.IsWindows)
-			entries.Insert(1, new ExtensionEntry("swifttunnel", () => vm.SwiftTunnelInstalled, value => vm.SwiftTunnelInstalled = value, () => vm.SwiftTunnelBusy)
-			{
-				Name = "SwiftTunnel",
-				Author = "SwiftTunnel",
-				AuthorIcon = Voidstrap.Utility.SwiftTunnel.Icon,
-				Icon = Voidstrap.Utility.SwiftTunnel.Icon,
-				Type = ExtensionViewModel.TypeExtensions,
-				WorksWith = ["Roblox Player"],
-				Tags = [Voidstrap.Utility.SwiftTunnel.Text("Network"), Voidstrap.Utility.SwiftTunnel.Text("Routing"), "Windows"],
-				Summary = Voidstrap.Utility.SwiftTunnel.Text("Summary"),
-				Description = [Voidstrap.Utility.SwiftTunnel.Text("Description"), Voidstrap.Utility.SwiftTunnel.Text("Setup")],
-                Source = "https://github.com/Swift-tunnel/swifttunnel-app",
-				CanOpen = true,
-				SearchText = "SwiftTunnel Swift Tunnel game network latency routing split tunneling Windows"
-			});
+			entries.Insert(
+				1,
+				new ExtensionEntry(
+					"swifttunnel",
+					() => vm.SwiftTunnelInstalled,
+					value => vm.SwiftTunnelInstalled = value,
+					() => vm.SwiftTunnelBusy
+				)
+				{
+					Name = "SwiftTunnel",
+					Author = "SwiftTunnel",
+					AuthorIcon = Voidstrap.Utility.SwiftTunnel.Icon,
+					Icon = Voidstrap.Utility.SwiftTunnel.Icon,
+					Type = ExtensionViewModel.TypeExtensions,
+					WorksWith = ["Roblox Player"],
+					Tags = [Voidstrap.Utility.SwiftTunnel.Text("Network"), Voidstrap.Utility.SwiftTunnel.Text("Routing"), "Windows"],
+					Summary = Voidstrap.Utility.SwiftTunnel.Text("Summary"),
+					Description = [Voidstrap.Utility.SwiftTunnel.Text("Description"), Voidstrap.Utility.SwiftTunnel.Text("Setup")],
+					Source = "https://github.com/Swift-tunnel/swifttunnel-app",
+					CanOpen = true,
+					SearchText = "SwiftTunnel Swift Tunnel game network latency routing split tunneling Windows",
+				}
+			);
 		return entries.OrderBy(entry => Array.IndexOf(DisplayOrder, entry.Id) is int index && index >= 0 ? index : int.MaxValue).ToList();
 	}
 }

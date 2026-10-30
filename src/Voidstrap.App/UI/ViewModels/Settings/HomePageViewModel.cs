@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using Voidstrap.Integrations;
 using Voidstrap.Models.APIs;
 using Voidstrap.Models.Entities;
@@ -23,9 +23,9 @@ namespace Voidstrap.UI.ViewModels.Pages
     {
         public string Key { get; init; } = "";
         public string Display { get; init; } = "";
+
         public override string ToString() => Display;
     }
-
 
     internal sealed class HistoryGameEntry : NotifyPropertyChangedViewModel
     {
@@ -38,7 +38,11 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         private readonly Action<HistoryGameEntry>? _favoriteChanged;
 
-        public HistoryGameEntry(ActivityData data, ObservableCollection<DatacenterOption> datacenterOptions, Action<HistoryGameEntry>? favoriteChanged = null)
+        public HistoryGameEntry(
+            ActivityData data,
+            ObservableCollection<DatacenterOption> datacenterOptions,
+            Action<HistoryGameEntry>? favoriteChanged = null
+        )
         {
             Data = data;
             _datacenterOptions = datacenterOptions;
@@ -74,8 +78,7 @@ namespace Voidstrap.UI.ViewModels.Pages
             }
             catch { }
 
-            return _datacenterOptions.FirstOrDefault(o =>
-                string.Equals(o.Key, savedKey, StringComparison.OrdinalIgnoreCase))
+            return _datacenterOptions.FirstOrDefault(o => string.Equals(o.Key, savedKey, StringComparison.OrdinalIgnoreCase))
                 ?? _datacenterOptions.FirstOrDefault();
         }
 
@@ -114,13 +117,21 @@ namespace Voidstrap.UI.ViewModels.Pages
         public string LikePercent
         {
             get => _likePercent;
-            set { _likePercent = value; OnPropertyChanged(nameof(LikePercent)); }
+            set
+            {
+                _likePercent = value;
+                OnPropertyChanged(nameof(LikePercent));
+            }
         }
 
         public string PlayerCount
         {
             get => _playerCount;
-            set { _playerCount = value; OnPropertyChanged(nameof(PlayerCount)); }
+            set
+            {
+                _playerCount = value;
+                OnPropertyChanged(nameof(PlayerCount));
+            }
         }
 
         public ObservableCollection<DatacenterOption> DatacenterOptions => _datacenterOptions;
@@ -139,19 +150,18 @@ namespace Voidstrap.UI.ViewModels.Pages
             OnPropertyChanged(nameof(SkipMatchmakerTooltip));
         }
 
-        public string DatacenterToolTip => ExcludedFromMatchmaker
-                ? "The matchmaker is skipped for this game"
-                : "Preferred server for rejoining this game";
+        public string DatacenterToolTip =>
+            ExcludedFromMatchmaker ? "The matchmaker is skipped for this game" : "Preferred server for rejoining this game";
 
         public string SkipMatchmakerLabel => ExcludedFromMatchmaker ? "Matchmaker skipped" : "Skip matchmaker";
 
-        public Wpf.Ui.Common.SymbolRegular SkipMatchmakerIcon => ExcludedFromMatchmaker
-            ? Wpf.Ui.Common.SymbolRegular.CheckmarkCircle24
-            : Wpf.Ui.Common.SymbolRegular.ArrowRouting24;
+        public Wpf.Ui.Common.SymbolRegular SkipMatchmakerIcon =>
+            ExcludedFromMatchmaker ? Wpf.Ui.Common.SymbolRegular.CheckmarkCircle24 : Wpf.Ui.Common.SymbolRegular.ArrowRouting24;
 
-        public string SkipMatchmakerTooltip => ExcludedFromMatchmaker
-            ? "Voidstrap joins this game normally. Click to let it pick servers again."
-            : "For games that put you in their own server when you pick a map or a village. Click so Voidstrap joins normally and never moves you.";
+        public string SkipMatchmakerTooltip =>
+            ExcludedFromMatchmaker
+                ? "Voidstrap joins this game normally. Click to let it pick servers again."
+                : "For games that put you in their own server when you pick a map or a village. Click so Voidstrap joins normally and never moves you.";
 
         public ICommand ToggleSkipMatchmakerCommand => new RelayCommand(ToggleSkipMatchmaker);
 
@@ -166,7 +176,8 @@ namespace Voidstrap.UI.ViewModels.Pages
             get => _selectedDatacenter;
             set
             {
-                if (value == null || _selectedDatacenter == value || RebuildingDatacenterOptions) return;
+                if (value == null || _selectedDatacenter == value || RebuildingDatacenterOptions)
+                    return;
                 _selectedDatacenter = value;
                 OnPropertyChanged(nameof(SelectedDatacenter));
 
@@ -309,12 +320,18 @@ namespace Voidstrap.UI.ViewModels.Pages
                 if (_filteredHistory is null)
                 {
                     _filteredHistory = CollectionViewSource.GetDefaultView(_gameHistory);
-                    _filteredHistory.SortDescriptions.Add(new SortDescription(nameof(HistoryGameEntry.IsFavorite), ListSortDirection.Descending));
-                    _filteredHistory.SortDescriptions.Add(new SortDescription(nameof(HistoryGameEntry.TimeJoined), ListSortDirection.Descending));
+                    _filteredHistory.SortDescriptions.Add(
+                        new SortDescription(nameof(HistoryGameEntry.IsFavorite), ListSortDirection.Descending)
+                    );
+                    _filteredHistory.SortDescriptions.Add(
+                        new SortDescription(nameof(HistoryGameEntry.TimeJoined), ListSortDirection.Descending)
+                    );
                     _filteredHistory.Filter = obj =>
                     {
-                        if (string.IsNullOrWhiteSpace(_searchText)) return true;
-                        if (obj is not HistoryGameEntry entry) return false;
+                        if (string.IsNullOrWhiteSpace(_searchText))
+                            return true;
+                        if (obj is not HistoryGameEntry entry)
+                            return false;
                         string q = _searchText.Trim();
                         return entry.Name.Contains(q, StringComparison.OrdinalIgnoreCase)
                             || entry.CreatorName.Contains(q, StringComparison.OrdinalIgnoreCase)
@@ -327,7 +344,11 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         private void OnFavoriteChanged(HistoryGameEntry entry)
         {
-            try { FilteredHistory.Refresh(); } catch { }
+            try
+            {
+                FilteredHistory.Refresh();
+            }
+            catch { }
         }
 
         public ObservableCollection<DatacenterOption> GlobalDatacenterOptions { get; } = new();
@@ -357,7 +378,13 @@ namespace Voidstrap.UI.ViewModels.Pages
             {
                 if (value == null || HistoryGameEntry.RebuildingDatacenterOptions)
                     return;
-                if (string.Equals(App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter ?? "", value.Key, StringComparison.OrdinalIgnoreCase))
+                if (
+                    string.Equals(
+                        App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter ?? "",
+                        value.Key,
+                        StringComparison.OrdinalIgnoreCase
+                    )
+                )
                     return;
                 App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter = value.Key;
                 App.Settings.SaveDeferred();
@@ -384,10 +411,15 @@ namespace Voidstrap.UI.ViewModels.Pages
             get => _searchText;
             set
             {
-                if (_searchText == value) return;
+                if (_searchText == value)
+                    return;
                 _searchText = value ?? "";
                 OnPropertyChanged(nameof(SearchText));
-                try { FilteredHistory.Refresh(); } catch { }
+                try
+                {
+                    FilteredHistory.Refresh();
+                }
+                catch { }
                 OnPropertyChanged(nameof(IsFilteredEmpty));
             }
         }
@@ -395,13 +427,21 @@ namespace Voidstrap.UI.ViewModels.Pages
         public GenericTriState LoadState
         {
             get => _loadState;
-            private set { _loadState = value; OnPropertyChanged(nameof(LoadState)); }
+            private set
+            {
+                _loadState = value;
+                OnPropertyChanged(nameof(LoadState));
+            }
         }
 
         public string Error
         {
             get => _error;
-            private set { _error = value; OnPropertyChanged(nameof(Error)); }
+            private set
+            {
+                _error = value;
+                OnPropertyChanged(nameof(Error));
+            }
         }
 
         public ObservableCollection<CatalogItemEntry> NewCatalogItems => _newCatalogItems;
@@ -410,21 +450,24 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         public bool HasLatestNews => _latestNews.Count > 0;
 
-        public NewsCardEntry RiShadeRelease => new()
-        {
-            Title = Voidstrap.Resources.Strings.Ui_Home_RiShadeRelease_Title,
-            Blurb = Voidstrap.Resources.Strings.Ui_Home_RiShadeRelease_Blurb,
-            Tag = Voidstrap.Resources.Strings.Ui_Home_RiShadeRelease_Tag,
-            IsRiShadeRelease = true,
-            ImageUrl = "pack://application:,,,/Resources/RiShadeV2Banner.jpg",
-            Created = new DateTime(2026, 10, 21, 12, 0, 0, DateTimeKind.Utc)
-        };
+        public NewsCardEntry RiShadeRelease =>
+            new()
+            {
+                Title = Voidstrap.Resources.Strings.Ui_Home_RiShadeRelease_Title,
+                Blurb = Voidstrap.Resources.Strings.Ui_Home_RiShadeRelease_Blurb,
+                Tag = Voidstrap.Resources.Strings.Ui_Home_RiShadeRelease_Tag,
+                IsRiShadeRelease = true,
+                ImageUrl = "pack://application:,,,/Resources/RiShadeV2Banner.jpg",
+                Created = new DateTime(2026, 10, 21, 12, 0, 0, DateTimeKind.Utc),
+            };
 
         public string NewsHeaderCount
         {
             get
             {
-                int recent = _latestNews.Count(entry => entry.Created != DateTime.MinValue && DateTime.UtcNow - entry.Created < TimeSpan.FromDays(7));
+                int recent = _latestNews.Count(entry =>
+                    entry.Created != DateTime.MinValue && DateTime.UtcNow - entry.Created < TimeSpan.FromDays(7)
+                );
                 return recent > 0 ? $"({recent} new)" : string.Empty;
             }
         }
@@ -438,7 +481,11 @@ namespace Voidstrap.UI.ViewModels.Pages
         public string CatalogError
         {
             get => _catalogError;
-            private set { _catalogError = value; OnPropertyChanged(nameof(CatalogError)); }
+            private set
+            {
+                _catalogError = value;
+                OnPropertyChanged(nameof(CatalogError));
+            }
         }
 
         public ICommand RefreshCommand { get; }
@@ -447,6 +494,7 @@ namespace Voidstrap.UI.ViewModels.Pages
         public ICommand CopyLinkCommand { get; }
         public ICommand OpenCatalogItemCommand { get; }
         public ICommand OpenNewsCardCommand { get; }
+
         public HomePageViewModel()
         {
             RefreshCommand = new AsyncRelayCommand(() => LoadAsync(force: true));
@@ -455,7 +503,11 @@ namespace Voidstrap.UI.ViewModels.Pages
             CopyLinkCommand = new RelayCommand<HistoryGameEntry>(CopyDeeplink);
             OpenCatalogItemCommand = new RelayCommand<CatalogItemEntry>(OpenCatalogItem);
             OpenNewsCardCommand = new RelayCommand<NewsCardEntry>(OpenNewsCard);
-            OpenStudioProjectCommand = new RelayCommand<StudioProject>(p => { if (p != null) StudioProjects.Open(p); });
+            OpenStudioProjectCommand = new RelayCommand<StudioProject>(p =>
+            {
+                if (p != null)
+                    StudioProjects.Open(p);
+            });
             ToggleStudioFavoriteCommand = new RelayCommand<StudioProject>(ToggleStudioFavorite);
             LaunchStudioCommand = new RelayCommand(StudioProjects.LaunchStudio);
             RefreshStudioCommand = new AsyncRelayCommand(LoadStudioAsync);
@@ -482,7 +534,13 @@ namespace Voidstrap.UI.ViewModels.Pages
         public int StudioColumns
         {
             get => _studioColumns;
-            set { if (_studioColumns == value) return; _studioColumns = value; OnPropertyChanged(nameof(StudioColumns)); }
+            set
+            {
+                if (_studioColumns == value)
+                    return;
+                _studioColumns = value;
+                OnPropertyChanged(nameof(StudioColumns));
+            }
         }
 
         public bool IsStudioTab
@@ -490,7 +548,8 @@ namespace Voidstrap.UI.ViewModels.Pages
             get => _isStudioTab;
             set
             {
-                if (_isStudioTab == value) return;
+                if (_isStudioTab == value)
+                    return;
                 _isStudioTab = value;
                 OnPropertyChanged(nameof(IsStudioTab));
                 OnPropertyChanged(nameof(RobloxTabVisibility));
@@ -506,13 +565,21 @@ namespace Voidstrap.UI.ViewModels.Pages
         public bool IsStudioLoading
         {
             get => _isStudioLoading;
-            private set { _isStudioLoading = value; OnPropertyChanged(nameof(IsStudioLoading)); }
+            private set
+            {
+                _isStudioLoading = value;
+                OnPropertyChanged(nameof(IsStudioLoading));
+            }
         }
 
         public string StudioStatus
         {
             get => _studioStatus;
-            private set { _studioStatus = value; OnPropertyChanged(nameof(StudioStatus)); }
+            private set
+            {
+                _studioStatus = value;
+                OnPropertyChanged(nameof(StudioStatus));
+            }
         }
 
         public Visibility StudioFavoritesVisibility => StudioFavorites.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
@@ -523,7 +590,8 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         private async Task LoadStudioAsync()
         {
-            if (IsStudioLoading) return;
+            if (IsStudioLoading)
+                return;
             _studioLoaded = true;
             IsStudioLoading = true;
             StudioStatus = "Loading your Studio experiences...";
@@ -541,9 +609,10 @@ namespace Voidstrap.UI.ViewModels.Pages
                 Fill(StudioTemplates, templatesTask.Result);
                 RebuildStudioFavorites();
 
-                StudioStatus = StudioRecent.Count == 0 && StudioOwned.Count == 0 && !RobloxCookie.Exists
-                    ? "Sign in to Roblox to see your experiences here."
-                    : string.Empty;
+                StudioStatus =
+                    StudioRecent.Count == 0 && StudioOwned.Count == 0 && !RobloxCookie.Exists
+                        ? "Sign in to Roblox to see your experiences here."
+                        : string.Empty;
             }
             catch (Exception ex)
             {
@@ -597,7 +666,11 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         private void RebuildGlobalDatacenterOptions(List<DatacenterOption> built)
         {
-            List<DatacenterOption> global = [new DatacenterOption { Key = "", Display = "Closest server (Auto)" }, .. built.Where(o => o.Key.Length > 0)];
+            List<DatacenterOption> global =
+            [
+                new DatacenterOption { Key = "", Display = "Closest server (Auto)" },
+                .. built.Where(o => o.Key.Length > 0),
+            ];
             string saved = (App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter ?? "").Trim();
             if (saved.Length > 0 && !global.Any(o => string.Equals(o.Key, saved, StringComparison.OrdinalIgnoreCase)))
                 global.Add(new DatacenterOption { Key = saved, Display = saved.Replace("|", ", ") });
@@ -624,30 +697,42 @@ namespace Voidstrap.UI.ViewModels.Pages
             {
                 var built = await Task.Run(() =>
                 {
-                    var list = new List<DatacenterOption> { new DatacenterOption { Key = "", Display = "Same as every game" } };
+                    var list = new List<DatacenterOption>
+                    {
+                        new DatacenterOption { Key = "", Display = "Same as every game" },
+                    };
 
                     var bestByKey = new Dictionary<string, LearnedServerEntry>(StringComparer.OrdinalIgnoreCase);
                     IEnumerable<LearnedServerEntry> learned = ServerFetchStore.AllEntries();
-                    IEnumerable<LearnedServerEntry> seeds = RobloxDatacenterMap.AllSeedEntries()
-                        .Select(seed => new LearnedServerEntry { Cidr = seed.Cidr, City = seed.City, Region = seed.Region, Country = seed.Country, Lat = seed.Lat, Lon = seed.Lon });
+                    IEnumerable<LearnedServerEntry> seeds = RobloxDatacenterMap
+                        .AllSeedEntries()
+                        .Select(seed => new LearnedServerEntry
+                        {
+                            Cidr = seed.Cidr,
+                            City = seed.City,
+                            Region = seed.Region,
+                            Country = seed.Country,
+                            Lat = seed.Lat,
+                            Lon = seed.Lon,
+                        });
                     foreach (var entry in learned.Concat(seeds))
                     {
-                        if (string.IsNullOrWhiteSpace(entry.City)) continue;
-                        if (entry.Lat == 0 && entry.Lon == 0) continue;
+                        if (string.IsNullOrWhiteSpace(entry.City))
+                            continue;
+                        if (entry.Lat == 0 && entry.Lon == 0)
+                            continue;
                         string key = VoidstrapMatchmaker.BlockKey(entry.City, entry.Country);
                         if (!bestByKey.TryGetValue(key, out var existing) || entry.SeenCount > existing.SeenCount)
                             bestByKey[key] = entry;
                     }
 
-                    foreach (var e in bestByKey.Values
-                        .OrderBy(x => x.Country, StringComparer.OrdinalIgnoreCase)
-                        .ThenBy(x => x.City, StringComparer.OrdinalIgnoreCase))
+                    foreach (
+                        var e in bestByKey
+                            .Values.OrderBy(x => x.Country, StringComparer.OrdinalIgnoreCase)
+                            .ThenBy(x => x.City, StringComparer.OrdinalIgnoreCase)
+                    )
                     {
-                        list.Add(new DatacenterOption
-                        {
-                            Key = $"{e.City}|{e.Country}",
-                            Display = $"{e.City}, {e.Country}"
-                        });
+                        list.Add(new DatacenterOption { Key = $"{e.City}|{e.Country}", Display = $"{e.City}, {e.Country}" });
                     }
                     return list;
                 });
@@ -709,9 +794,8 @@ namespace Voidstrap.UI.ViewModels.Pages
             ApplyCachedNews();
             PrefetchVisibleThumbnails();
 
-            bool fresh = !force
-                && _lastNetworkLoadUtc != DateTime.MinValue
-                && DateTime.UtcNow - _lastNetworkLoadUtc < NetworkLoadFreshWindow;
+            bool fresh =
+                !force && _lastNetworkLoadUtc != DateTime.MinValue && DateTime.UtcNow - _lastNetworkLoadUtc < NetworkLoadFreshWindow;
 
             Task datacenterTask = SafeAsync(LoadDatacenterOptionsAsync, "Datacenters");
 
@@ -755,11 +839,12 @@ namespace Voidstrap.UI.ViewModels.Pages
             try
             {
                 await work().ConfigureAwait(false);
-                App.Logger.WriteLine("HomePageViewModel::Load", stage + " stage finished in " + (Environment.TickCount64 - started) + " ms");
+                App.Logger.WriteLine(
+                    "HomePageViewModel::Load",
+                    stage + " stage finished in " + (Environment.TickCount64 - started) + " ms"
+                );
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 App.Logger.WriteLine("HomePageViewModel::Load", stage + " stage failed: " + ex.Message);
@@ -804,26 +889,32 @@ namespace Voidstrap.UI.ViewModels.Pages
             for (int start = FirstPaintHistoryCards; start < entries.Count; start += HistoryCardBatch)
             {
                 int batchStart = start;
-                bool current = await dispatcher.InvokeAsync(() =>
-                {
-                    if (generation != _historyGeneration)
-                        return false;
-                    foreach (var entry in entries.Skip(batchStart).Take(HistoryCardBatch))
-                        _gameHistory.Add(new HistoryGameEntry(entry, DatacenterOptions, OnFavoriteChanged));
-                    return true;
-                }, System.Windows.Threading.DispatcherPriority.Background);
+                bool current = await dispatcher.InvokeAsync(
+                    () =>
+                    {
+                        if (generation != _historyGeneration)
+                            return false;
+                        foreach (var entry in entries.Skip(batchStart).Take(HistoryCardBatch))
+                            _gameHistory.Add(new HistoryGameEntry(entry, DatacenterOptions, OnFavoriteChanged));
+                        return true;
+                    },
+                    System.Windows.Threading.DispatcherPriority.Background
+                );
                 if (!current)
                     return entries.ToList();
             }
             if (entries.Count > FirstPaintHistoryCards)
             {
-                bool current = await dispatcher.InvokeAsync(() =>
-                {
-                    if (generation != _historyGeneration)
-                        return false;
-                    NotifyCollectionsChanged();
-                    return true;
-                }, System.Windows.Threading.DispatcherPriority.Background);
+                bool current = await dispatcher.InvokeAsync(
+                    () =>
+                    {
+                        if (generation != _historyGeneration)
+                            return false;
+                        NotifyCollectionsChanged();
+                        return true;
+                    },
+                    System.Windows.Threading.DispatcherPriority.Background
+                );
                 if (!current)
                     return entries.ToList();
             }
@@ -874,9 +965,7 @@ namespace Voidstrap.UI.ViewModels.Pages
                 }
                 Voidstrap.Utility.DynamicRenderSystem.Prefetch(historyUrls, 256);
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private void NotifyCollectionsChanged()
@@ -884,7 +973,11 @@ namespace Voidstrap.UI.ViewModels.Pages
             OnPropertyChanged(nameof(GameHistory));
             OnPropertyChanged(nameof(IsEmpty));
             OnPropertyChanged(nameof(IsFilteredEmpty));
-            try { FilteredHistory.Refresh(); } catch { }
+            try
+            {
+                FilteredHistory.Refresh();
+            }
+            catch { }
         }
 
         private async Task FetchVotesAndPlayingAsync()
@@ -899,11 +992,7 @@ namespace Voidstrap.UI.ViewModels.Pages
                 return;
             }
 
-            var ids = snapshot
-                .Where(x => x.UniverseId != 0)
-                .Select(x => x.UniverseId)
-                .Distinct()
-                .ToList();
+            var ids = snapshot.Where(x => x.UniverseId != 0).Select(x => x.UniverseId).Distinct().ToList();
 
             if (ids.Count == 0)
                 return;
@@ -920,7 +1009,8 @@ namespace Voidstrap.UI.ViewModels.Pages
                 {
                     foreach (var el in data.EnumerateArray())
                     {
-                        if (!el.TryGetProperty("id", out var idEl)) continue;
+                        if (!el.TryGetProperty("id", out var idEl))
+                            continue;
                         long id = idEl.GetInt64();
                         long up = el.TryGetProperty("upVotes", out var upEl) ? upEl.GetInt64() : 0;
                         long down = el.TryGetProperty("downVotes", out var downEl) ? downEl.GetInt64() : 0;
@@ -936,7 +1026,8 @@ namespace Voidstrap.UI.ViewModels.Pages
 
             if (likeById.Count > 0)
             {
-                Dictionary<long, string> merged = _cachedLikes != null ? new Dictionary<long, string>(_cachedLikes) : new Dictionary<long, string>();
+                Dictionary<long, string> merged =
+                    _cachedLikes != null ? new Dictionary<long, string>(_cachedLikes) : new Dictionary<long, string>();
                 foreach (var pair in likeById)
                     merged[pair.Key] = pair.Value;
                 _cachedLikes = merged;
@@ -977,10 +1068,7 @@ namespace Voidstrap.UI.ViewModels.Pages
                     return new List<ActivityData>();
                 }
 
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
                 var data = JsonFile.Deserialize<List<ActivityData>>(_historyFilePath, options, 16777216);
                 var entries = (data ?? new List<ActivityData>())
@@ -1018,7 +1106,9 @@ namespace Voidstrap.UI.ViewModels.Pages
             {
                 if (_cachedNews == null)
                 {
-                    List<NewsCardEntry> saved = ToNewsCards(await RobloxNews.GetLatestSavedAsync(2, CancellationToken.None).ConfigureAwait(false));
+                    List<NewsCardEntry> saved = ToNewsCards(
+                        await RobloxNews.GetLatestSavedAsync(2, CancellationToken.None).ConfigureAwait(false)
+                    );
                     if (saved.Count > 0 && _cachedNews == null)
                     {
                         _cachedNews = saved;
@@ -1049,16 +1139,18 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         private static List<NewsCardEntry> ToNewsCards(List<RobloxNews.NewsPost> source)
         {
-            return source.Select(post => new NewsCardEntry
-            {
-                Id = post.Id,
-                Title = post.Title,
-                Summary = post.Summary,
-                Url = post.Url,
-                Tag = post.Tag,
-                ImageUrl = string.IsNullOrEmpty(post.ImageUrl) ? null : RobloxNews.Image(post.ImageUrl, 760),
-                Created = post.Created
-            }).ToList();
+            return source
+                .Select(post => new NewsCardEntry
+                {
+                    Id = post.Id,
+                    Title = post.Title,
+                    Summary = post.Summary,
+                    Url = post.Url,
+                    Tag = post.Tag,
+                    ImageUrl = string.IsNullOrEmpty(post.ImageUrl) ? null : RobloxNews.Image(post.ImageUrl, 760),
+                    Created = post.Created,
+                })
+                .ToList();
         }
 
         private void PublishNews(List<NewsCardEntry> items)
@@ -1111,15 +1203,23 @@ namespace Voidstrap.UI.ViewModels.Pages
             {
                 if (_cachedCatalog == null)
                 {
-                    List<CatalogItemEntry> saved = ToCatalogEntries(await RobloxCatalog.GetNewestSavedAsync(CancellationToken.None).ConfigureAwait(false));
+                    List<CatalogItemEntry> saved = ToCatalogEntries(
+                        await RobloxCatalog.GetNewestSavedAsync(CancellationToken.None).ConfigureAwait(false)
+                    );
                     if (saved.Count > 0 && _cachedCatalog == null)
                     {
                         _cachedCatalog = saved;
                         Application.Current.Dispatcher.Invoke(() => PublishCatalog(saved));
                     }
                 }
-                List<CatalogItemEntry> items = ToCatalogEntries(await RobloxCatalog.GetNewestAsync(CancellationToken.None).ConfigureAwait(false));
-                if (_cachedCatalog != null && _cachedCatalog.Count > 0 && _cachedCatalog.Select(item => item.Id).SequenceEqual(items.Select(item => item.Id)))
+                List<CatalogItemEntry> items = ToCatalogEntries(
+                    await RobloxCatalog.GetNewestAsync(CancellationToken.None).ConfigureAwait(false)
+                );
+                if (
+                    _cachedCatalog != null
+                    && _cachedCatalog.Count > 0
+                    && _cachedCatalog.Select(item => item.Id).SequenceEqual(items.Select(item => item.Id))
+                )
                     return;
                 _cachedCatalog = items;
                 Application.Current.Dispatcher.Invoke(() => PublishCatalog(items));
@@ -1147,16 +1247,18 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         private static List<CatalogItemEntry> ToCatalogEntries(List<RobloxCatalog.NewItem> source)
         {
-            return source.Select(item => new CatalogItemEntry
-            {
-                Id = item.Id,
-                Name = item.Name,
-                Creator = item.Creator,
-                TypeName = item.TypeName,
-                Limited = item.Limited,
-                Price = item.Price,
-                ImageUrl = string.IsNullOrEmpty(item.Image) ? null : Voidstrap.Utility.DiskImageCache.Resolve(item.Image, "Catalog")
-            }).ToList();
+            return source
+                .Select(item => new CatalogItemEntry
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Creator = item.Creator,
+                    TypeName = item.TypeName,
+                    Limited = item.Limited,
+                    Price = item.Price,
+                    ImageUrl = string.IsNullOrEmpty(item.Image) ? null : Voidstrap.Utility.DiskImageCache.Resolve(item.Image, "Catalog"),
+                })
+                .ToList();
         }
 
         private void NotifyCatalogChanged()
@@ -1200,7 +1302,8 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         private void LaunchGame(HistoryGameEntry? entry)
         {
-            if (entry is null || entry.PlaceId == 0) return;
+            if (entry is null || entry.PlaceId == 0)
+                return;
             try
             {
                 string uri = $"roblox://experiences/start?placeId={entry.PlaceId}";
@@ -1209,14 +1312,16 @@ namespace Voidstrap.UI.ViewModels.Pages
                 App.FastFlags.FlushDeferred();
 
                 string voidstrapPath = Paths.LaunchExecutable;
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = voidstrapPath,
-                    Arguments = $"-player \"{uri}\" -homematchmaker",
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                    WorkingDirectory = Path.GetDirectoryName(voidstrapPath) ?? ""
-                });
+                Process.Start(
+                    new ProcessStartInfo
+                    {
+                        FileName = voidstrapPath,
+                        Arguments = $"-player \"{uri}\" -homematchmaker",
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                        WorkingDirectory = Path.GetDirectoryName(voidstrapPath) ?? "",
+                    }
+                );
 
                 Application.Current.Shutdown();
             }
@@ -1228,7 +1333,8 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         private void CopyDeeplink(HistoryGameEntry? entry)
         {
-            if (entry is null) return;
+            if (entry is null)
+                return;
             try
             {
                 Voidstrap.Utility.ClipboardService.SetText($"https://www.roblox.com/games/{entry.PlaceId}");

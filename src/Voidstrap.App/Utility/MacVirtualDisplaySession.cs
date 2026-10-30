@@ -76,7 +76,7 @@ internal sealed partial class MacVirtualDisplaySession : IDisposable
 					RedirectStandardInput = true,
 					RedirectStandardOutput = true,
 					RedirectStandardError = true,
-					CreateNoWindow = true
+					CreateNoWindow = true,
 				};
 				info.ArgumentList.Add("--watch-stdin");
 				_process = Process.Start(info);
@@ -88,9 +88,7 @@ internal sealed partial class MacVirtualDisplaySession : IDisposable
 				}
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine(LogIdent, "The virtual display could not start: " + ex.Message);
@@ -128,7 +126,12 @@ internal sealed partial class MacVirtualDisplaySession : IDisposable
 	{
 		try
 		{
-			await Task.WhenAll(ReadOutputAsync(process.StandardOutput, token, true), ReadOutputAsync(process.StandardError, token, false), process.WaitForExitAsync(token)).ConfigureAwait(false);
+			await Task.WhenAll(
+					ReadOutputAsync(process.StandardOutput, token, true),
+					ReadOutputAsync(process.StandardError, token, false),
+					process.WaitForExitAsync(token)
+				)
+				.ConfigureAwait(false);
 			if (process.ExitCode != 0)
 				App.Logger.WriteLine(LogIdent, "The virtual display stopped with exit code " + process.ExitCode);
 		}

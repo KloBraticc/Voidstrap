@@ -42,7 +42,8 @@ public static partial class GameBananaCatalog
 
 	public const int MinSearchLength = 2;
 
-	private const string DetailProperties = "_idRow,_sText,_aFiles,_aGame,_nDownloadCount,_nLikeCount,_nPostCount,_sLicense,_aSubmitter,_aLicenseChecklist,_aPreviewMedia";
+	private const string DetailProperties =
+		"_idRow,_sText,_aFiles,_aGame,_nDownloadCount,_nLikeCount,_nPostCount,_sLicense,_aSubmitter,_aLicenseChecklist,_aPreviewMedia";
 
 	private static readonly HttpClient Client = CreateClient();
 
@@ -66,16 +67,18 @@ public static partial class GameBananaCatalog
 
 	private static HttpClient CreateClient()
 	{
-		HttpClient client = new HttpClient(new SocketsHttpHandler
-		{
-			AutomaticDecompression = System.Net.DecompressionMethods.All,
-			AllowAutoRedirect = true,
-			MaxAutomaticRedirections = 4,
-			ConnectTimeout = TimeSpan.FromSeconds(15)
-		})
+		HttpClient client = new HttpClient(
+			new SocketsHttpHandler
+			{
+				AutomaticDecompression = System.Net.DecompressionMethods.All,
+				AllowAutoRedirect = true,
+				MaxAutomaticRedirections = 4,
+				ConnectTimeout = TimeSpan.FromSeconds(15),
+			}
+		)
 		{
 			Timeout = TimeSpan.FromSeconds(45),
-			MaxResponseContentBufferSize = CommunityModGuard.MaxPackageBytes
+			MaxResponseContentBufferSize = CommunityModGuard.MaxPackageBytes,
 		};
 		client.DefaultRequestHeaders.UserAgent.ParseAdd("Voidstrap");
 		return client;
@@ -102,31 +105,55 @@ public static partial class GameBananaCatalog
 			{
 				continue;
 			}
-			categories.Add(new CommunityModCategory
-			{
-				Id = id,
-				Name = name,
-				ItemCount = ReadInt(element, "_nItemCount")
-			});
+			categories.Add(
+				new CommunityModCategory
+				{
+					Id = id,
+					Name = name,
+					ItemCount = ReadInt(element, "_nItemCount"),
+				}
+			);
 		}
 		return categories;
 	}
 
-	public static async Task<CommunityModPage> BrowseAsync(int page, string? sort, CommunityModCategory? category, string? search, CancellationToken token)
+	public static async Task<CommunityModPage> BrowseAsync(
+		int page,
+		string? sort,
+		CommunityModCategory? category,
+		string? search,
+		CancellationToken token
+	)
 	{
 		string url;
 		string query = (search ?? "").Trim();
 		if (query.Length >= MinSearchLength)
 		{
-			url = ApiRoot + "/Util/Search/Results?_sSearchString=" + Uri.EscapeDataString(query)
-				+ "&_idGameRow=" + CommunityModGuard.RobloxGameId
-				+ "&_sModelName=Mod&_nPage=" + page;
+			url =
+				ApiRoot
+				+ "/Util/Search/Results?_sSearchString="
+				+ Uri.EscapeDataString(query)
+				+ "&_idGameRow="
+				+ CommunityModGuard.RobloxGameId
+				+ "&_sModelName=Mod&_nPage="
+				+ page;
 		}
 		else if (category != null && category.Id > 0)
 		{
-			url = ApiRoot + "/Mod/Index?_nPage=" + page + "&_nPerpage=" + PageSize
-				+ "&" + Uri.EscapeDataString("_aFilters[Generic_Game]") + "=" + CommunityModGuard.RobloxGameId
-				+ "&" + Uri.EscapeDataString("_aFilters[Generic_Category]") + "=" + category.Id;
+			url =
+				ApiRoot
+				+ "/Mod/Index?_nPage="
+				+ page
+				+ "&_nPerpage="
+				+ PageSize
+				+ "&"
+				+ Uri.EscapeDataString("_aFilters[Generic_Game]")
+				+ "="
+				+ CommunityModGuard.RobloxGameId
+				+ "&"
+				+ Uri.EscapeDataString("_aFilters[Generic_Category]")
+				+ "="
+				+ category.Id;
 		}
 		else
 		{
@@ -134,23 +161,32 @@ public static partial class GameBananaCatalog
 			{
 				"Newest" => "Generic_Newest",
 				"Recently updated" => "Generic_LatestModified",
-				_ => ""
+				_ => "",
 			};
-			url = ApiRoot + "/Mod/Index?_nPage=" + page + "&_nPerpage=" + PageSize
-				+ "&" + Uri.EscapeDataString("_aFilters[Generic_Game]") + "=" + CommunityModGuard.RobloxGameId
+			url =
+				ApiRoot
+				+ "/Mod/Index?_nPage="
+				+ page
+				+ "&_nPerpage="
+				+ PageSize
+				+ "&"
+				+ Uri.EscapeDataString("_aFilters[Generic_Game]")
+				+ "="
+				+ CommunityModGuard.RobloxGameId
 				+ (string.IsNullOrEmpty(sortKey) ? "" : "&_sSort=" + sortKey);
 		}
 
 		using JsonDocument document = await GetJsonAsync(url, token).ConfigureAwait(false);
 		JsonElement root = document.RootElement;
-		int total = root.TryGetProperty("_aMetadata", out JsonElement metadata) && metadata.TryGetProperty("_nRecordCount", out JsonElement count)
-			? count.GetInt32()
-			: 0;
+		int total =
+			root.TryGetProperty("_aMetadata", out JsonElement metadata) && metadata.TryGetProperty("_nRecordCount", out JsonElement count)
+				? count.GetInt32()
+				: 0;
 		CommunityModPage result = new CommunityModPage
 		{
 			TotalCount = total,
 			PageNumber = page,
-			PageSize = query.Length >= MinSearchLength ? SearchPageSize : PageSize
+			PageSize = query.Length >= MinSearchLength ? SearchPageSize : PageSize,
 		};
 		if (!root.TryGetProperty("_aRecords", out JsonElement records) || records.ValueKind != JsonValueKind.Array)
 		{
@@ -201,7 +237,10 @@ public static partial class GameBananaCatalog
 		}
 		if (blocked > 0)
 		{
-			App.Logger?.WriteLine(LogIdent, "Hidden " + blocked + " of " + returned + " entries on page " + page + " because they did not pass the safety checks");
+			App.Logger?.WriteLine(
+				LogIdent,
+				"Hidden " + blocked + " of " + returned + " entries on page " + page + " because they did not pass the safety checks"
+			);
 		}
 		return result;
 	}
@@ -247,10 +286,12 @@ public static partial class GameBananaCatalog
 		{
 			foreach (CommunityModFile file in entry.Files)
 			{
-				if (file.ContentsProbed
+				if (
+					file.ContentsProbed
 					|| !CommunityModGuard.ConvertiblePackageExtensions.Contains(Path.GetExtension(file.FileName))
 						&& !string.Equals(Path.GetExtension(file.FileName), ".zip", StringComparison.OrdinalIgnoreCase)
-					|| !CommunityModGuard.IsInstallableFile(file))
+					|| !CommunityModGuard.IsInstallableFile(file)
+				)
 				{
 					continue;
 				}
@@ -265,47 +306,60 @@ public static partial class GameBananaCatalog
 		using SemaphoreSlim gate = new SemaphoreSlim(ProbeConcurrency);
 		int hidden = 0;
 		Task[] tasks = work.Select(async item =>
-		{
-			await gate.WaitAsync(token).ConfigureAwait(false);
-			try
 			{
-				string[]? listing = await GetArchiveListingAsync(item.File.Id, token).ConfigureAwait(false);
-				item.File.ContentsProbed = true;
-				if (listing == null || listing.Length == 0)
+				await gate.WaitAsync(token).ConfigureAwait(false);
+				try
 				{
-					return;
+					string[]? listing = await GetArchiveListingAsync(item.File.Id, token).ConfigureAwait(false);
+					item.File.ContentsProbed = true;
+					if (listing == null || listing.Length == 0)
+					{
+						return;
+					}
+					CommunityModGuard.ArchiveListingSummary summary = CommunityModGuard.SummarizeListing(listing);
+					item.File.ListingKnown = true;
+					item.File.ListingHasRobloxContent = summary.RobloxContent;
+					item.File.ListingHasConfig = summary.Config;
+					item.File.ListingHasAssets = summary.Assets;
+					item.File.ListingHasCacheEntries = summary.CacheEntries;
+					if (listing.Any(CommunityModGuard.IsDangerousName))
+					{
+						item.File.ContainsExecutable = true;
+						Interlocked.Increment(ref hidden);
+						return;
+					}
+					if (!CommunityModGuard.ArchiveListingIsRobloxMod(listing, item.Entry.RequiresFleasion))
+					{
+						item.File.LacksRobloxContent = true;
+						Interlocked.Increment(ref hidden);
+					}
 				}
-				CommunityModGuard.ArchiveListingSummary summary = CommunityModGuard.SummarizeListing(listing);
-				item.File.ListingKnown = true;
-				item.File.ListingHasRobloxContent = summary.RobloxContent;
-				item.File.ListingHasConfig = summary.Config;
-				item.File.ListingHasAssets = summary.Assets;
-				item.File.ListingHasCacheEntries = summary.CacheEntries;
-				if (listing.Any(CommunityModGuard.IsDangerousName))
+				finally
 				{
-					item.File.ContainsExecutable = true;
-					Interlocked.Increment(ref hidden);
-					return;
+					gate.Release();
 				}
-				if (!CommunityModGuard.ArchiveListingIsRobloxMod(listing, item.Entry.RequiresFleasion))
-				{
-					item.File.LacksRobloxContent = true;
-					Interlocked.Increment(ref hidden);
-				}
-			}
-			finally
-			{
-				gate.Release();
-			}
-		}).ToArray();
+			})
+			.ToArray();
 		await Task.WhenAll(tasks).ConfigureAwait(false);
 		if (hidden > 0)
 		{
-			App.Logger?.WriteLine(LogIdent, "Inspected " + work.Count + " archives and set aside " + hidden + " that are not Roblox mod files");
+			App.Logger?.WriteLine(
+				LogIdent,
+				"Inspected " + work.Count + " archives and set aside " + hidden + " that are not Roblox mod files"
+			);
 		}
 	}
 
-	private static readonly string[] ServerMessagePrefixes = ["Warning:", "Fatal error:", "Notice:", "Deprecated:", "Parse error:", "<", "{"];
+	private static readonly string[] ServerMessagePrefixes =
+	[
+		"Warning:",
+		"Fatal error:",
+		"Notice:",
+		"Deprecated:",
+		"Parse error:",
+		"<",
+		"{",
+	];
 
 	private static bool IsServerMessage(string line)
 	{
@@ -329,7 +383,9 @@ public static partial class GameBananaCatalog
 		}
 		try
 		{
-			using HttpResponseMessage response = await Client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+			using HttpResponseMessage response = await Client
+				.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token)
+				.ConfigureAwait(false);
 			if (!response.IsSuccessStatusCode)
 			{
 				return null;
@@ -381,7 +437,11 @@ public static partial class GameBananaCatalog
 			token.ThrowIfCancellationRequested();
 			CommunityModEntry[] chunk = entries.Skip(offset).Take(BatchSize).ToArray();
 			string ids = string.Join(",", chunk.Select(entry => entry.Id));
-			using JsonDocument document = await GetJsonAsync(ApiRoot + "/Mod/Multi?_csvRowIds=" + ids + "&_csvProperties=" + DetailProperties, token).ConfigureAwait(false);
+			using JsonDocument document = await GetJsonAsync(
+					ApiRoot + "/Mod/Multi?_csvRowIds=" + ids + "&_csvProperties=" + DetailProperties,
+					token
+				)
+				.ConfigureAwait(false);
 			if (document.RootElement.ValueKind != JsonValueKind.Array)
 			{
 				continue;
@@ -413,9 +473,11 @@ public static partial class GameBananaCatalog
 		}
 		foreach (JsonProperty warning in warnings.EnumerateObject())
 		{
-			if (warning.Name.Contains("exe", StringComparison.OrdinalIgnoreCase)
+			if (
+				warning.Name.Contains("exe", StringComparison.OrdinalIgnoreCase)
 				|| warning.Name.Contains("executable", StringComparison.OrdinalIgnoreCase)
-				|| warning.Name.Contains("script", StringComparison.OrdinalIgnoreCase))
+				|| warning.Name.Contains("script", StringComparison.OrdinalIgnoreCase)
+			)
 			{
 				return true;
 			}
@@ -429,12 +491,14 @@ public static partial class GameBananaCatalog
 		{
 			return false;
 		}
-		if (root.TryGetProperty("_aGame", out JsonElement game)
+		if (
+			root.TryGetProperty("_aGame", out JsonElement game)
 			&& game.ValueKind == JsonValueKind.Object
 			&& game.TryGetProperty("_idRow", out JsonElement gameId)
 			&& gameId.ValueKind == JsonValueKind.Number
 			&& gameId.TryGetInt32(out int parsedGameId)
-			&& parsedGameId != CommunityModGuard.RobloxGameId)
+			&& parsedGameId != CommunityModGuard.RobloxGameId
+		)
 		{
 			return false;
 		}
@@ -450,18 +514,21 @@ public static partial class GameBananaCatalog
 		listing.UpdateCount = ReadInt(root, "_nUpdatesCount");
 		listing.IssueCount = ReadInt(root, "_nAllTodosCount");
 		listing.LicenseText = PlainText(ReadString(root, "_sLicense"));
-		listing.Submitter = root.TryGetProperty("_aSubmitter", out JsonElement submitter) && submitter.ValueKind == JsonValueKind.Object
-			? ReadPerson(submitter)
-			: null;
+		listing.Submitter =
+			root.TryGetProperty("_aSubmitter", out JsonElement submitter) && submitter.ValueKind == JsonValueKind.Object
+				? ReadPerson(submitter)
+				: null;
 		listing.LicenseRules.Clear();
 		ReadLicenseRules(root, listing.LicenseRules);
 		listing.Images.Clear();
 		listing.Files.Clear();
 
-		if (root.TryGetProperty("_aPreviewMedia", out JsonElement media)
+		if (
+			root.TryGetProperty("_aPreviewMedia", out JsonElement media)
 			&& media.ValueKind == JsonValueKind.Object
 			&& media.TryGetProperty("_aImages", out JsonElement images)
-			&& images.ValueKind == JsonValueKind.Array)
+			&& images.ValueKind == JsonValueKind.Array
+		)
 		{
 			foreach (JsonElement image in images.EnumerateArray())
 			{
@@ -478,12 +545,14 @@ public static partial class GameBananaCatalog
 				{
 					continue;
 				}
-				listing.Images.Add(new CommunityModImage
-				{
-					Full = full,
-					Thumbnail = thumbnail,
-					Caption = ReadString(image, "_sCaption")
-				});
+				listing.Images.Add(
+					new CommunityModImage
+					{
+						Full = full,
+						Thumbnail = thumbnail,
+						Caption = ReadString(image, "_sCaption"),
+					}
+				);
 			}
 		}
 
@@ -495,20 +564,22 @@ public static partial class GameBananaCatalog
 				{
 					continue;
 				}
-				listing.Files.Add(new CommunityModFile
-				{
-					Id = ReadLong(file, "_idRow"),
-					FileName = ReadString(file, "_sFile"),
-					DownloadUrl = ReadString(file, "_sDownloadUrl"),
-					Md5 = ReadString(file, "_sMd5Checksum"),
-					SizeBytes = ReadLong(file, "_nFilesize"),
-					Description = ReadString(file, "_sDescription"),
-					AntivirusState = ReadString(file, "_sAvState"),
-					AntivirusResult = ReadString(file, "_sAvResult"),
-					AnalysisState = ReadString(file, "_sAnalysisState"),
-					AnalysisResult = ReadString(file, "_sAnalysisResult"),
-					ContainsExecutable = ReadExecutableWarning(file)
-				});
+				listing.Files.Add(
+					new CommunityModFile
+					{
+						Id = ReadLong(file, "_idRow"),
+						FileName = ReadString(file, "_sFile"),
+						DownloadUrl = ReadString(file, "_sDownloadUrl"),
+						Md5 = ReadString(file, "_sMd5Checksum"),
+						SizeBytes = ReadLong(file, "_nFilesize"),
+						Description = ReadString(file, "_sDescription"),
+						AntivirusState = ReadString(file, "_sAvState"),
+						AntivirusResult = ReadString(file, "_sAvResult"),
+						AnalysisState = ReadString(file, "_sAnalysisState"),
+						AnalysisResult = ReadString(file, "_sAnalysisResult"),
+						ContainsExecutable = ReadExecutableWarning(file),
+					}
+				);
 			}
 		}
 
@@ -518,7 +589,13 @@ public static partial class GameBananaCatalog
 		return true;
 	}
 
-	public static async Task<string> InstallAsync(CommunityModEntry entry, CommunityModFile file, IProgress<string>? progress, CancellationToken token, CommunityModInstallTarget target = CommunityModInstallTarget.ManagedMods)
+	public static async Task<string> InstallAsync(
+		CommunityModEntry entry,
+		CommunityModFile file,
+		IProgress<string>? progress,
+		CancellationToken token,
+		CommunityModInstallTarget target = CommunityModInstallTarget.ManagedMods
+	)
 	{
 		CommunityModVerdict fileVerdict = CommunityModGuard.InspectFile(file);
 		if (!fileVerdict.Allowed)
@@ -562,7 +639,8 @@ public static partial class GameBananaCatalog
 			}
 			bool hasConfig = await FleasionModInstaller.ContainsConfigAsync(archivePath, extension, token).ConfigureAwait(false);
 			bool hasCacheEntries = !hasContent && ContainsCacheEntries(archivePath, token);
-			bool hasAssets = !string.Equals(extension, ".json", StringComparison.OrdinalIgnoreCase)
+			bool hasAssets =
+				!string.Equals(extension, ".json", StringComparison.OrdinalIgnoreCase)
 				&& FleasionModInstaller.ArchiveHasAssets(archivePath, token);
 			target = ChooseTarget(entry, target, extension, hasContent, hasConfig, hasCacheEntries, hasAssets);
 
@@ -573,7 +651,9 @@ public static partial class GameBananaCatalog
 
 			if (target == CommunityModInstallTarget.Fleasion)
 			{
-				string? fleasionResult = await FleasionModInstaller.TryInstallAsync(entry, file, archivePath, token, extension).ConfigureAwait(false);
+				string? fleasionResult = await FleasionModInstaller
+					.TryInstallAsync(entry, file, archivePath, token, extension)
+					.ConfigureAwait(false);
 				if (fleasionResult == null)
 				{
 					throw new InvalidDataException("This package does not contain a Fleasion compatible replacement config.");
@@ -618,29 +698,45 @@ public static partial class GameBananaCatalog
 		}
 	}
 
-	private static async Task<string?> PairTwinsAsync(CommunityModEntry entry, CommunityModFile file, string packagePath, string extension, string staging, IProgress<string>? progress, CancellationToken token)
+	private static async Task<string?> PairTwinsAsync(
+		CommunityModEntry entry,
+		CommunityModFile file,
+		string packagePath,
+		string extension,
+		string staging,
+		IProgress<string>? progress,
+		CancellationToken token
+	)
 	{
 		string baseName = Path.GetFileNameWithoutExtension(file.FileName);
 		if (baseName.Length == 0)
 		{
 			return null;
 		}
-		List<CommunityModFile> twins = entry.Files
-			.Where(candidate => candidate.Id != file.Id
+		List<CommunityModFile> twins = entry
+			.Files.Where(candidate =>
+				candidate.Id != file.Id
 				&& string.Equals(Path.GetFileNameWithoutExtension(candidate.FileName), baseName, StringComparison.OrdinalIgnoreCase)
-				&& CommunityModGuard.IsInstallableFile(candidate))
+				&& CommunityModGuard.IsInstallableFile(candidate)
+			)
 			.ToList();
-		if (twins.Count == 0
+		if (
+			twins.Count == 0
 			&& string.Equals(extension, ".json", StringComparison.OrdinalIgnoreCase)
-			&& entry.Files.Count(candidate => CommunityModGuard.IsInstallableFile(candidate)
+			&& entry.Files.Count(candidate =>
+				CommunityModGuard.IsInstallableFile(candidate)
 				&& string.Equals(Path.GetExtension(candidate.FileName), ".json", StringComparison.OrdinalIgnoreCase)
-				&& !CommunityModGuard.IsFlagFileName(candidate.FileName)) == 1)
+				&& !CommunityModGuard.IsFlagFileName(candidate.FileName)
+			) == 1
+		)
 		{
-			twins = entry.Files
-				.Where(candidate => candidate.Id != file.Id
+			twins = entry
+				.Files.Where(candidate =>
+					candidate.Id != file.Id
 					&& CommunityModGuard.IsInstallableFile(candidate)
 					&& !string.Equals(Path.GetExtension(candidate.FileName), ".json", StringComparison.OrdinalIgnoreCase)
-					&& (!candidate.ListingKnown || candidate.ListingHasAssets && !candidate.ListingHasRobloxContent))
+					&& (!candidate.ListingKnown || candidate.ListingHasAssets && !candidate.ListingHasRobloxContent)
+				)
 				.ToList();
 		}
 		if (twins.Count == 0)
@@ -754,7 +850,18 @@ public static partial class GameBananaCatalog
 		}
 		try
 		{
-			await Task.Run(() => Voidstrap.Platform.Linux.LinuxArchive.ExtractFiles(archivePath, raw, CommunityModGuard.MaxArchiveEntries, CommunityModGuard.MaxExtractedBytes, token), token).ConfigureAwait(false);
+			await Task.Run(
+					() =>
+						Voidstrap.Platform.Linux.LinuxArchive.ExtractFiles(
+							archivePath,
+							raw,
+							CommunityModGuard.MaxArchiveEntries,
+							CommunityModGuard.MaxExtractedBytes,
+							token
+						),
+					token
+				)
+				.ConfigureAwait(false);
 		}
 		catch (InvalidDataException ex)
 		{
@@ -765,7 +872,9 @@ public static partial class GameBananaCatalog
 
 	private static async Task UnpackWithTarAsync(string archivePath, string extension, string raw, CancellationToken token)
 	{
-		string tool = Voidstrap.Utility.Platform.IsMacOS ? "/usr/bin/tar" : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "tar.exe");
+		string tool = Voidstrap.Utility.Platform.IsMacOS
+			? "/usr/bin/tar"
+			: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "tar.exe");
 		if (!File.Exists(tool))
 		{
 			throw new InvalidDataException("This system cannot open " + extension.TrimStart('.') + " packages.");
@@ -776,7 +885,7 @@ public static partial class GameBananaCatalog
 			UseShellExecute = false,
 			CreateNoWindow = true,
 			RedirectStandardOutput = true,
-			RedirectStandardError = true
+			RedirectStandardError = true,
 		};
 		startInfo.ArgumentList.Add("-xf");
 		startInfo.ArgumentList.Add(archivePath);
@@ -808,7 +917,11 @@ public static partial class GameBananaCatalog
 			foreach (string file in EnumerateInWindowsOrder(folder))
 			{
 				token.ThrowIfCancellationRequested();
-				archive.CreateEntryFromFile(file, Path.GetRelativePath(folder, file).Replace(Path.DirectorySeparatorChar, '/'), CompressionLevel.NoCompression);
+				archive.CreateEntryFromFile(
+					file,
+					Path.GetRelativePath(folder, file).Replace(Path.DirectorySeparatorChar, '/'),
+					CompressionLevel.NoCompression
+				);
 			}
 		}
 		catch
@@ -856,9 +969,7 @@ public static partial class GameBananaCatalog
 				process.Kill(true);
 			}
 		}
-		catch (Exception)
-		{
-		}
+		catch (Exception) { }
 	}
 
 	private static async Task AcquirePackageAsync(CommunityModFile file, string destination, CancellationToken token)
@@ -876,9 +987,7 @@ public static partial class GameBananaCatalog
 					{
 						File.SetLastWriteTimeUtc(cachePath, DateTime.UtcNow);
 					}
-					catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-					{
-					}
+					catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 					return;
 				}
 				TryDeleteFile(cachePath);
@@ -940,8 +1049,22 @@ public static partial class GameBananaCatalog
 
 	private static async Task CopyFileAsync(string source, string destination, CancellationToken token)
 	{
-		await using FileStream input = new(source, FileMode.Open, FileAccess.Read, FileShare.Read, 131072, FileOptions.Asynchronous | FileOptions.SequentialScan);
-		await using FileStream output = new(destination, FileMode.Create, FileAccess.Write, FileShare.None, 131072, FileOptions.Asynchronous | FileOptions.SequentialScan);
+		await using FileStream input = new(
+			source,
+			FileMode.Open,
+			FileAccess.Read,
+			FileShare.Read,
+			131072,
+			FileOptions.Asynchronous | FileOptions.SequentialScan
+		);
+		await using FileStream output = new(
+			destination,
+			FileMode.Create,
+			FileAccess.Write,
+			FileShare.None,
+			131072,
+			FileOptions.Asynchronous | FileOptions.SequentialScan
+		);
 		await input.CopyToAsync(output, 131072, token).ConfigureAwait(false);
 		await output.FlushAsync(token).ConfigureAwait(false);
 	}
@@ -979,9 +1102,7 @@ public static partial class GameBananaCatalog
 				File.Delete(path);
 			}
 		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-		{
-		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 	}
 
 	private static async Task DownloadAsync(CommunityModFile file, string destination, CancellationToken token)
@@ -1004,7 +1125,9 @@ public static partial class GameBananaCatalog
 	private static async Task DownloadOnceAsync(CommunityModFile file, string destination, bool allowSegments, CancellationToken token)
 	{
 		using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, file.DownloadUrl);
-		using HttpResponseMessage response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+		using HttpResponseMessage response = await Client
+			.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token)
+			.ConfigureAwait(false);
 		response.EnsureSuccessStatusCode();
 		if (!CommunityModGuard.IsTrustedUrl(response.RequestMessage?.RequestUri?.ToString()))
 		{
@@ -1017,7 +1140,14 @@ public static partial class GameBananaCatalog
 		}
 		Uri? finalUri = response.RequestMessage?.RequestUri;
 		int segments = DownloadConfiguration.NormalizeSegments(App.Settings.Prop.MaxDownloadSegments);
-		if (allowSegments && finalUri != null && length.HasValue && segments > 1 && length.Value >= MinSegmentedBytes && (response.Headers.AcceptRanges?.Contains("bytes") ?? false))
+		if (
+			allowSegments
+			&& finalUri != null
+			&& length.HasValue
+			&& segments > 1
+			&& length.Value >= MinSegmentedBytes
+			&& (response.Headers.AcceptRanges?.Contains("bytes") ?? false)
+		)
 		{
 			response.Dispose();
 			await DownloadSegmentedAsync(finalUri, destination, length.Value, segments, token).ConfigureAwait(false);
@@ -1025,7 +1155,14 @@ public static partial class GameBananaCatalog
 		}
 
 		await using Stream source = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
-		await using FileStream target = new FileStream(destination, FileMode.Create, FileAccess.Write, FileShare.None, 81920, FileOptions.Asynchronous);
+		await using FileStream target = new FileStream(
+			destination,
+			FileMode.Create,
+			FileAccess.Write,
+			FileShare.None,
+			81920,
+			FileOptions.Asynchronous
+		);
 		byte[] buffer = new byte[81920];
 		long written = 0;
 		while (true)
@@ -1048,20 +1185,37 @@ public static partial class GameBananaCatalog
 	{
 		int count = (int)Math.Min(maxSegments, length / MinSegmentBytes);
 		long size = length / count;
-		using SafeFileHandle handle = File.OpenHandle(destination, FileMode.Create, FileAccess.Write, FileShare.None, FileOptions.Asynchronous | FileOptions.RandomAccess);
+		using SafeFileHandle handle = File.OpenHandle(
+			destination,
+			FileMode.Create,
+			FileAccess.Write,
+			FileShare.None,
+			FileOptions.Asynchronous | FileOptions.RandomAccess
+		);
 		RandomAccess.SetLength(handle, length);
 		using CancellationTokenSource failed = CancellationTokenSource.CreateLinkedTokenSource(token);
 		Exception? failure = null;
-		Task[] tasks = Enumerable.Range(0, count).Select(index =>
-		{
-			long start = index * size;
-			long end = index == count - 1 ? length - 1 : start + size - 1;
-			return DownloadRangeAsync(uri, handle, start, end, length, exception =>
+		Task[] tasks = Enumerable
+			.Range(0, count)
+			.Select(index =>
 			{
-				Interlocked.CompareExchange(ref failure, exception, null);
-				failed.Cancel();
-			}, failed);
-		}).ToArray();
+				long start = index * size;
+				long end = index == count - 1 ? length - 1 : start + size - 1;
+				return DownloadRangeAsync(
+					uri,
+					handle,
+					start,
+					end,
+					length,
+					exception =>
+					{
+						Interlocked.CompareExchange(ref failure, exception, null);
+						failed.Cancel();
+					},
+					failed
+				);
+			})
+			.ToArray();
 		try
 		{
 			await Task.WhenAll(tasks).ConfigureAwait(false);
@@ -1073,7 +1227,15 @@ public static partial class GameBananaCatalog
 		}
 	}
 
-	private static async Task DownloadRangeAsync(Uri uri, SafeFileHandle handle, long start, long end, long length, Action<Exception> fail, CancellationTokenSource failed)
+	private static async Task DownloadRangeAsync(
+		Uri uri,
+		SafeFileHandle handle,
+		long start,
+		long end,
+		long length,
+		Action<Exception> fail,
+		CancellationTokenSource failed
+	)
 	{
 		CancellationToken token = failed.Token;
 		await SegmentGate.WaitAsync(token).ConfigureAwait(false);
@@ -1082,7 +1244,9 @@ public static partial class GameBananaCatalog
 		{
 			using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, uri);
 			request.Headers.Range = new RangeHeaderValue(start, end);
-			using HttpResponseMessage response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+			using HttpResponseMessage response = await Client
+				.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token)
+				.ConfigureAwait(false);
 			if (!CommunityModGuard.IsTrustedUrl(response.RequestMessage?.RequestUri?.ToString()))
 			{
 				throw new InvalidOperationException("The download was redirected off GameBanana and was cancelled.");
@@ -1096,7 +1260,9 @@ public static partial class GameBananaCatalog
 			long position = start;
 			while (position <= end)
 			{
-				int read = await source.ReadAsync(buffer.AsMemory(0, (int)Math.Min(buffer.Length, end - position + 1)), token).ConfigureAwait(false);
+				int read = await source
+					.ReadAsync(buffer.AsMemory(0, (int)Math.Min(buffer.Length, end - position + 1)), token)
+					.ConfigureAwait(false);
 				if (read == 0)
 				{
 					throw new IOException("The download ended before the file was complete.");
@@ -1117,7 +1283,15 @@ public static partial class GameBananaCatalog
 		}
 	}
 
-	private static CommunityModInstallTarget ChooseTarget(CommunityModEntry entry, CommunityModInstallTarget requested, string extension, bool hasContent, bool hasConfig, bool hasCacheEntries, bool hasAssets)
+	private static CommunityModInstallTarget ChooseTarget(
+		CommunityModEntry entry,
+		CommunityModInstallTarget requested,
+		string extension,
+		bool hasContent,
+		bool hasConfig,
+		bool hasCacheEntries,
+		bool hasAssets
+	)
 	{
 		if (requested == CommunityModInstallTarget.ManagedMods)
 		{
@@ -1127,12 +1301,18 @@ public static partial class GameBananaCatalog
 			}
 			if (hasConfig)
 			{
-				App.Logger?.WriteLine(LogIdent, "Mod " + entry.Id + " holds a replacement config, installing it for Fleasion instead of My Mods");
+				App.Logger?.WriteLine(
+					LogIdent,
+					"Mod " + entry.Id + " holds a replacement config, installing it for Fleasion instead of My Mods"
+				);
 				return CommunityModInstallTarget.Fleasion;
 			}
 			if (hasCacheEntries)
 			{
-				App.Logger?.WriteLine(LogIdent, "Mod " + entry.Id + " holds Roblox asset cache entries, installing it into the asset cache");
+				App.Logger?.WriteLine(
+					LogIdent,
+					"Mod " + entry.Id + " holds Roblox asset cache entries, installing it into the asset cache"
+				);
 				return CommunityModInstallTarget.AssetCache;
 			}
 			throw new InvalidOperationException(DescribeEmptyPackage(extension));
@@ -1153,7 +1333,10 @@ public static partial class GameBananaCatalog
 		}
 		if (hasAssets)
 		{
-			App.Logger?.WriteLine(LogIdent, "Mod " + entry.Id + " holds replacement assets without a config, placing them beside the configs");
+			App.Logger?.WriteLine(
+				LogIdent,
+				"Mod " + entry.Id + " holds replacement assets without a config, placing them beside the configs"
+			);
 			return requested;
 		}
 		throw new InvalidDataException(DescribeEmptyPackage(extension));
@@ -1167,18 +1350,22 @@ public static partial class GameBananaCatalog
 			foreach (ZipArchiveEntry entry in archive.Entries)
 			{
 				token.ThrowIfCancellationRequested();
-				if (string.IsNullOrEmpty(entry.Name)
+				if (
+					string.IsNullOrEmpty(entry.Name)
 					|| entry.FullName.Contains("RESTORE", StringComparison.OrdinalIgnoreCase)
 					|| RobloxAssetCache.ExtractHash(entry.Name) is null
 					|| entry.Length <= RobloxAssetCache.HeaderBytes
-					|| entry.Length > RobloxAssetCache.MaxEntryBytes)
+					|| entry.Length > RobloxAssetCache.MaxEntryBytes
+				)
 				{
 					continue;
 				}
 				byte[] header = new byte[RobloxAssetCache.HeaderBytes];
 				using Stream stream = entry.Open();
-				if (stream.ReadAtLeast(header, RobloxAssetCache.HeaderBytes, throwOnEndOfStream: false) == RobloxAssetCache.HeaderBytes
-					&& RobloxAssetCache.IsCacheEntry(header, entry.Length))
+				if (
+					stream.ReadAtLeast(header, RobloxAssetCache.HeaderBytes, throwOnEndOfStream: false) == RobloxAssetCache.HeaderBytes
+					&& RobloxAssetCache.IsCacheEntry(header, entry.Length)
+				)
 				{
 					return true;
 				}
@@ -1195,7 +1382,13 @@ public static partial class GameBananaCatalog
 		return false;
 	}
 
-	private static string InstallAssetCache(CommunityModEntry entry, string archivePath, string staging, IProgress<string>? progress, CancellationToken token)
+	private static string InstallAssetCache(
+		CommunityModEntry entry,
+		string archivePath,
+		string staging,
+		IProgress<string>? progress,
+		CancellationToken token
+	)
 	{
 		progress?.Report("Unpacking the cached assets");
 		string unpacked = Path.Combine(staging, "cache");
@@ -1261,18 +1454,21 @@ public static partial class GameBananaCatalog
 	{
 		try
 		{
-			ModPackInfo.Write(ManagedModStore.GetFolder(modId), new ModPackInfo
-			{
-				Source = entry.SourceName,
-				Id = entry.Id,
-				Slug = entry.Slug,
-				Name = entry.Name,
-				Author = entry.Author,
-				IconUrl = entry.IconUrl,
-				ProfileUrl = entry.ProfileUrl,
-				Category = entry.CategoryDisplay,
-				InstallKind = installKind
-			});
+			ModPackInfo.Write(
+				ManagedModStore.GetFolder(modId),
+				new ModPackInfo
+				{
+					Source = entry.SourceName,
+					Id = entry.Id,
+					Slug = entry.Slug,
+					Name = entry.Name,
+					Author = entry.Author,
+					IconUrl = entry.IconUrl,
+					ProfileUrl = entry.ProfileUrl,
+					Category = entry.CategoryDisplay,
+					InstallKind = installKind,
+				}
+			);
 		}
 		catch (Exception ex)
 		{
@@ -1320,13 +1516,14 @@ public static partial class GameBananaCatalog
 		{
 			Id = modId,
 			Name = ReadString(document.RootElement, "_sName"),
-			ProfileUrl = "https://gamebanana.com/mods/" + modId
+			ProfileUrl = "https://gamebanana.com/mods/" + modId,
 		};
 		if (!ApplyProfile(listing, document.RootElement))
 		{
 			throw new InvalidOperationException("The mod page no longer belongs to Roblox.");
 		}
-		CommunityModFile? file = listing.Files.FirstOrDefault(candidate => candidate.Id == fileId)
+		CommunityModFile? file =
+			listing.Files.FirstOrDefault(candidate => candidate.Id == fileId)
 			?? listing.Files.FirstOrDefault(CommunityModGuard.IsInstallableFile);
 		CommunityModVerdict verdict = CommunityModGuard.InspectFile(file);
 		if (file == null || !verdict.Allowed)
@@ -1336,14 +1533,20 @@ public static partial class GameBananaCatalog
 		return await InstallAsync(listing, file, progress, token, CommunityModInstallTarget.ManagedMods).ConfigureAwait(false);
 	}
 
-	internal static async Task<int> FetchAllAssetsAsync(long modId, string destination, IReadOnlyCollection<string> allowedExtensions, IProgress<string>? progress, CancellationToken token)
+	internal static async Task<int> FetchAllAssetsAsync(
+		long modId,
+		string destination,
+		IReadOnlyCollection<string> allowedExtensions,
+		IProgress<string>? progress,
+		CancellationToken token
+	)
 	{
 		using JsonDocument document = await GetProfileAsync(modId, token).ConfigureAwait(false);
 		CommunityModEntry listing = new CommunityModEntry
 		{
 			Id = modId,
 			Name = ReadString(document.RootElement, "_sName"),
-			ProfileUrl = "https://gamebanana.com/mods/" + modId
+			ProfileUrl = "https://gamebanana.com/mods/" + modId,
 		};
 		if (!ApplyProfile(listing, document.RootElement))
 		{
@@ -1355,11 +1558,16 @@ public static partial class GameBananaCatalog
 		foreach (CommunityModFile file in listing.Files.Where(CommunityModGuard.IsInstallableFile))
 		{
 			string extension = Path.GetExtension(file.FileName);
-			if (!string.Equals(extension, ".zip", StringComparison.OrdinalIgnoreCase) && !CommunityModGuard.ConvertiblePackageExtensions.Contains(extension))
+			if (
+				!string.Equals(extension, ".zip", StringComparison.OrdinalIgnoreCase)
+				&& !CommunityModGuard.ConvertiblePackageExtensions.Contains(extension)
+			)
 			{
 				continue;
 			}
-			string folderName = new string(Path.GetFileNameWithoutExtension(file.FileName).Where(character => !invalid.Contains(character)).ToArray()).Trim();
+			string folderName = new string(
+				Path.GetFileNameWithoutExtension(file.FileName).Where(character => !invalid.Contains(character)).ToArray()
+			).Trim();
 			if (folderName.Length == 0 || !usedFolders.Add(folderName))
 			{
 				folderName = (folderName.Length == 0 ? "" : folderName + " ") + file.Id.ToString(CultureInfo.InvariantCulture);
@@ -1370,36 +1578,52 @@ public static partial class GameBananaCatalog
 		int total = 0;
 		int finished = 0;
 		ParallelOptions options = new ParallelOptions { MaxDegreeOfParallelism = 6, CancellationToken = token };
-		await Parallel.ForEachAsync(work, options, async (item, itemToken) =>
-		{
-			try
-			{
-				int count = await FetchListedFileAsync(item.File, item.Folder, allowedExtensions, null, itemToken).ConfigureAwait(false);
-				Interlocked.Add(ref total, count);
-			}
-			catch (Exception ex) when (ex is InvalidOperationException or InvalidDataException or HttpRequestException or IOException)
-			{
-				App.Logger?.WriteLine(LogIdent, "The file " + item.File.FileName + " could not be added as options: " + ex.Message);
-			}
-			progress?.Report("Downloaded " + Interlocked.Increment(ref finished) + " of " + work.Count + " files");
-		}).ConfigureAwait(false);
+		await Parallel
+			.ForEachAsync(
+				work,
+				options,
+				async (item, itemToken) =>
+				{
+					try
+					{
+						int count = await FetchListedFileAsync(item.File, item.Folder, allowedExtensions, null, itemToken)
+							.ConfigureAwait(false);
+						Interlocked.Add(ref total, count);
+					}
+					catch (Exception ex)
+						when (ex is InvalidOperationException or InvalidDataException or HttpRequestException or IOException)
+					{
+						App.Logger?.WriteLine(LogIdent, "The file " + item.File.FileName + " could not be added as options: " + ex.Message);
+					}
+					progress?.Report("Downloaded " + Interlocked.Increment(ref finished) + " of " + work.Count + " files");
+				}
+			)
+			.ConfigureAwait(false);
 		return total;
 	}
 
-	internal static async Task<int> FetchFileAsync(long modId, long fileId, string destination, IReadOnlyCollection<string> allowedExtensions, IProgress<string>? progress, CancellationToken token)
+	internal static async Task<int> FetchFileAsync(
+		long modId,
+		long fileId,
+		string destination,
+		IReadOnlyCollection<string> allowedExtensions,
+		IProgress<string>? progress,
+		CancellationToken token
+	)
 	{
 		using JsonDocument document = await GetProfileAsync(modId, token).ConfigureAwait(false);
 		CommunityModEntry listing = new CommunityModEntry
 		{
 			Id = modId,
 			Name = ReadString(document.RootElement, "_sName"),
-			ProfileUrl = "https://gamebanana.com/mods/" + modId
+			ProfileUrl = "https://gamebanana.com/mods/" + modId,
 		};
 		if (!ApplyProfile(listing, document.RootElement))
 		{
 			throw new InvalidOperationException("The mod page no longer belongs to Roblox.");
 		}
-		CommunityModFile? file = listing.Files.FirstOrDefault(candidate => candidate.Id == fileId)
+		CommunityModFile? file =
+			listing.Files.FirstOrDefault(candidate => candidate.Id == fileId)
 			?? listing.Files.FirstOrDefault(CommunityModGuard.IsInstallableFile);
 		CommunityModVerdict verdict = CommunityModGuard.InspectFile(file);
 		if (file == null || !verdict.Allowed)
@@ -1410,7 +1634,13 @@ public static partial class GameBananaCatalog
 		return await FetchListedFileAsync(file, destination, allowedExtensions, progress, token).ConfigureAwait(false);
 	}
 
-	private static async Task<int> FetchListedFileAsync(CommunityModFile file, string destination, IReadOnlyCollection<string> allowedExtensions, IProgress<string>? progress, CancellationToken token)
+	private static async Task<int> FetchListedFileAsync(
+		CommunityModFile file,
+		string destination,
+		IReadOnlyCollection<string> allowedExtensions,
+		IProgress<string>? progress,
+		CancellationToken token
+	)
 	{
 		string staging = Path.Combine(Paths.TempUpdates, "CommunityMods", Guid.NewGuid().ToString("N"));
 		Directory.CreateDirectory(staging);
@@ -1436,7 +1666,12 @@ public static partial class GameBananaCatalog
 		}
 	}
 
-	internal static int ExtractFlat(string archivePath, string destination, IReadOnlyCollection<string> allowedExtensions, CancellationToken token = default)
+	internal static int ExtractFlat(
+		string archivePath,
+		string destination,
+		IReadOnlyCollection<string> allowedExtensions,
+		CancellationToken token = default
+	)
 	{
 		string root = Path.GetFullPath(destination);
 		Directory.CreateDirectory(root);
@@ -1453,7 +1688,11 @@ public static partial class GameBananaCatalog
 				token.ThrowIfCancellationRequested();
 				ZipArchiveEntry entry = archive.Entries[index];
 				string relative = entry.FullName.Replace('/', Path.DirectorySeparatorChar);
-				if (relative.EndsWith(Path.DirectorySeparatorChar) || string.IsNullOrWhiteSpace(entry.Name) || !allowedExtensions.Contains(Path.GetExtension(relative)))
+				if (
+					relative.EndsWith(Path.DirectorySeparatorChar)
+					|| string.IsNullOrWhiteSpace(entry.Name)
+					|| !allowedExtensions.Contains(Path.GetExtension(relative))
+				)
 				{
 					continue;
 				}
@@ -1465,7 +1704,9 @@ public static partial class GameBananaCatalog
 				extracted += entry.Length;
 				if (extracted > CommunityModGuard.MaxExtractedBytes)
 				{
-					throw new InvalidOperationException("The package expands to more than " + CommunityModGuard.MaxExtractedBytes / 1048576 + " MB.");
+					throw new InvalidOperationException(
+						"The package expands to more than " + CommunityModGuard.MaxExtractedBytes / 1048576 + " MB."
+					);
 				}
 				string target = Path.GetFullPath(Path.Combine(root, relative));
 				if (!target.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
@@ -1521,7 +1762,9 @@ public static partial class GameBananaCatalog
 				extracted += entry.Length;
 				if (extracted > CommunityModGuard.MaxExtractedBytes)
 				{
-					throw new InvalidOperationException("The package expands to more than " + CommunityModGuard.MaxExtractedBytes / 1048576 + " MB.");
+					throw new InvalidOperationException(
+						"The package expands to more than " + CommunityModGuard.MaxExtractedBytes / 1048576 + " MB."
+					);
 				}
 				string target = Path.GetFullPath(Path.Combine(root, placed));
 				if (!target.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
@@ -1534,14 +1777,23 @@ public static partial class GameBananaCatalog
 		int written = ParallelZipWriter.Extract(archivePath, ParallelZipWriter.LastWins(plan), token);
 		if (written == 0)
 		{
-			throw new InvalidOperationException("Nothing in the package could be matched to a Roblox client folder, so nothing was installed.");
+			throw new InvalidOperationException(
+				"Nothing in the package could be matched to a Roblox client folder, so nothing was installed."
+			);
 		}
 		return written;
 	}
 
 	private static async Task<string> ComputeMd5Async(string path, CancellationToken token)
 	{
-		await using FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);
+		await using FileStream stream = new FileStream(
+			path,
+			FileMode.Open,
+			FileAccess.Read,
+			FileShare.Read,
+			81920,
+			FileOptions.Asynchronous | FileOptions.SequentialScan
+		);
 		using MD5 md5 = MD5.Create();
 		byte[] hash = await md5.ComputeHashAsync(stream, token).ConfigureAwait(false);
 		return Convert.ToHexString(hash);
@@ -1570,7 +1822,9 @@ public static partial class GameBananaCatalog
 		{
 			throw new InvalidOperationException("Refused to contact an untrusted host.");
 		}
-		using HttpResponseMessage response = await Client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+		using HttpResponseMessage response = await Client
+			.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token)
+			.ConfigureAwait(false);
 		if (!response.IsSuccessStatusCode)
 		{
 			throw new HttpRequestException(await DescribeErrorAsync(response, token).ConfigureAwait(false), null, response.StatusCode);
@@ -1581,7 +1835,11 @@ public static partial class GameBananaCatalog
 
 	private static async Task<string> DescribeErrorAsync(HttpResponseMessage response, CancellationToken token)
 	{
-		string summary = "The community API returned " + (int)response.StatusCode + " for " + (response.RequestMessage?.RequestUri?.AbsolutePath ?? "the request");
+		string summary =
+			"The community API returned "
+			+ (int)response.StatusCode
+			+ " for "
+			+ (response.RequestMessage?.RequestUri?.AbsolutePath ?? "the request");
 		try
 		{
 			string body = await response.Content.ReadAsStringAsync(token).ConfigureAwait(false);
@@ -1609,9 +1867,11 @@ public static partial class GameBananaCatalog
 		}
 		foreach (JsonProperty property in element.EnumerateObject())
 		{
-			if (property.Value.ValueKind == JsonValueKind.String
+			if (
+				property.Value.ValueKind == JsonValueKind.String
 				&& property.NameEquals("_sErrorMessage")
-				&& !string.IsNullOrWhiteSpace(property.Value.GetString()))
+				&& !string.IsNullOrWhiteSpace(property.Value.GetString())
+			)
 			{
 				messages.Add(property.Value.GetString()!);
 			}
@@ -1628,7 +1888,9 @@ public static partial class GameBananaCatalog
 		{
 			throw new InvalidOperationException("Refused to contact an untrusted host.");
 		}
-		using HttpResponseMessage response = await Client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+		using HttpResponseMessage response = await Client
+			.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token)
+			.ConfigureAwait(false);
 		if (!response.IsSuccessStatusCode)
 		{
 			throw new HttpRequestException(await DescribeErrorAsync(response, token).ConfigureAwait(false), null, response.StatusCode);
@@ -1704,35 +1966,41 @@ public static partial class GameBananaCatalog
 		entry.Comments.Clear();
 		foreach (JsonElement record in await commentsTask.ConfigureAwait(false))
 		{
-			JsonElement author = record.ValueKind == JsonValueKind.Object && record.TryGetProperty("_aPoster", out JsonElement poster) ? poster : default;
-			entry.Comments.Add(new CommunityModComment
-			{
-				Id = ReadLong(record, "_idRow"),
-				Author = ReadPerson(author),
-				Paragraphs = ToParagraphs(ReadString(record, "_sText")),
-				CreatedUtc = ReadTimestamp(record, "_tsDateAdded", "_tsDateModified"),
-				Score = ReadInt(record, "_nStampScore"),
-				ReplyCount = ReadInt(record, "_nReplyCount")
-			});
+			JsonElement author =
+				record.ValueKind == JsonValueKind.Object && record.TryGetProperty("_aPoster", out JsonElement poster) ? poster : default;
+			entry.Comments.Add(
+				new CommunityModComment
+				{
+					Id = ReadLong(record, "_idRow"),
+					Author = ReadPerson(author),
+					Paragraphs = ToParagraphs(ReadString(record, "_sText")),
+					CreatedUtc = ReadTimestamp(record, "_tsDateAdded", "_tsDateModified"),
+					Score = ReadInt(record, "_nStampScore"),
+					ReplyCount = ReadInt(record, "_nReplyCount"),
+				}
+			);
 		}
 
 		entry.Updates.Clear();
 		foreach (JsonElement record in await updatesTask.ConfigureAwait(false))
 		{
-			string summary = record.TryGetProperty("_aPreviewMedia", out JsonElement preview)
+			string summary =
+				record.TryGetProperty("_aPreviewMedia", out JsonElement preview)
 				&& preview.TryGetProperty("_aMetadata", out JsonElement metadata)
 					? ReadString(metadata, "_sSnippet")
 					: "";
-			entry.Updates.Add(new CommunityModUpdate
-			{
-				Id = ReadLong(record, "_idRow"),
-				Name = ReadString(record, "_sName"),
-				Version = ReadString(record, "_sVersion"),
-				Summary = summary,
-				Paragraphs = ToParagraphs(ReadString(record, "_sText")),
-				CreatedUtc = ReadTimestamp(record, "_tsDateAdded", "_tsDateModified"),
-				IsSignificant = ReadBool(record, "_bIsSignificant")
-			});
+			entry.Updates.Add(
+				new CommunityModUpdate
+				{
+					Id = ReadLong(record, "_idRow"),
+					Name = ReadString(record, "_sName"),
+					Version = ReadString(record, "_sVersion"),
+					Summary = summary,
+					Paragraphs = ToParagraphs(ReadString(record, "_sText")),
+					CreatedUtc = ReadTimestamp(record, "_tsDateAdded", "_tsDateModified"),
+					IsSignificant = ReadBool(record, "_bIsSignificant"),
+				}
+			);
 		}
 
 		entry.Issues.Clear();
@@ -1748,14 +2016,16 @@ public static partial class GameBananaCatalog
 			{
 				body = ReadString(record, "_sDescription");
 			}
-			entry.Issues.Add(new CommunityModIssue
-			{
-				Id = ReadLong(record, "_idRow"),
-				Name = name,
-				Status = ReadString(record, "_sStatus"),
-				Paragraphs = ToParagraphs(body),
-				CreatedUtc = ReadTimestamp(record, "_tsDateAdded", "_tsDateModified")
-			});
+			entry.Issues.Add(
+				new CommunityModIssue
+				{
+					Id = ReadLong(record, "_idRow"),
+					Name = name,
+					Status = ReadString(record, "_sStatus"),
+					Paragraphs = ToParagraphs(body),
+					CreatedUtc = ReadTimestamp(record, "_tsDateAdded", "_tsDateModified"),
+				}
+			);
 		}
 
 		entry.CommentCount = Math.Max(entry.CommentCount, entry.Comments.Count);
@@ -1797,7 +2067,7 @@ public static partial class GameBananaCatalog
 			HonoraryTitle = ReadString(element, "_sHonoraryTitle"),
 			Points = ReadInt(element, "_nPoints"),
 			JoinedUtc = ReadTimestamp(element, "_tsJoinDate"),
-			Achievements = achievements
+			Achievements = achievements,
 		};
 	}
 
@@ -1842,11 +2112,13 @@ public static partial class GameBananaCatalog
 		{
 			return null;
 		}
-		if (record.TryGetProperty("_aGame", out JsonElement listingGame)
+		if (
+			record.TryGetProperty("_aGame", out JsonElement listingGame)
 			&& listingGame.ValueKind == JsonValueKind.Object
 			&& listingGame.TryGetProperty("_idRow", out JsonElement listingGameId)
 			&& listingGameId.ValueKind == JsonValueKind.Number
-			&& listingGameId.GetInt32() != CommunityModGuard.RobloxGameId)
+			&& listingGameId.GetInt32() != CommunityModGuard.RobloxGameId
+		)
 		{
 			return null;
 		}
@@ -1884,7 +2156,7 @@ public static partial class GameBananaCatalog
 			LikeCount = ReadInt(record, "_nLikeCount"),
 			ViewCount = ReadInt(record, "_nViewCount"),
 			UpdatedUtc = ReadTimestamp(record, "_tsDateUpdated", "_tsDateModified", "_tsDateAdded"),
-			Tags = tags
+			Tags = tags,
 		};
 	}
 
@@ -1972,8 +2244,7 @@ public static partial class GameBananaCatalog
 			.Replace("</div>", "\n", StringComparison.OrdinalIgnoreCase)
 			.Replace("</li>", "\n", StringComparison.OrdinalIgnoreCase);
 		string text = System.Net.WebUtility.HtmlDecode(HtmlTagPattern().Replace(normalized, ""));
-		return text
-			.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+		return text.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
 			.Where(line => line.Length > 0)
 			.ToList();
 	}
@@ -1989,22 +2260,24 @@ public static partial class GameBananaCatalog
 
 	private static int ReadInt(JsonElement element, string property)
 	{
-		return element.ValueKind == JsonValueKind.Object
+		return
+			element.ValueKind == JsonValueKind.Object
 			&& element.TryGetProperty(property, out JsonElement value)
 			&& value.ValueKind == JsonValueKind.Number
 			&& value.TryGetInt32(out int parsed)
-				? parsed
-				: 0;
+			? parsed
+			: 0;
 	}
 
 	private static long ReadLong(JsonElement element, string property)
 	{
-		return element.ValueKind == JsonValueKind.Object
+		return
+			element.ValueKind == JsonValueKind.Object
 			&& element.TryGetProperty(property, out JsonElement value)
 			&& value.ValueKind == JsonValueKind.Number
 			&& value.TryGetInt64(out long parsed)
-				? parsed
-				: 0L;
+			? parsed
+			: 0L;
 	}
 
 	private static bool ReadBool(JsonElement element, string property)

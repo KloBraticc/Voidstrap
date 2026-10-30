@@ -42,7 +42,14 @@ public static class InstallManifest
 	{
 		uint crc = 0xFFFFFFFFu;
 		byte[] buffer = new byte[1 << 17];
-		using FileStream stream = new(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, buffer.Length, FileOptions.SequentialScan);
+		using FileStream stream = new(
+			path,
+			FileMode.Open,
+			FileAccess.Read,
+			FileShare.ReadWrite | FileShare.Delete,
+			buffer.Length,
+			FileOptions.SequentialScan
+		);
 		int read;
 		while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
 		{
@@ -56,7 +63,11 @@ public static class InstallManifest
 	public static string Format(Entry entry)
 	{
 		return entry.Crc is uint crc
-			? entry.Path + "\t" + entry.Size.ToString(CultureInfo.InvariantCulture) + "\t" + crc.ToString("x8", CultureInfo.InvariantCulture)
+			? entry.Path
+				+ "\t"
+				+ entry.Size.ToString(CultureInfo.InvariantCulture)
+				+ "\t"
+				+ crc.ToString("x8", CultureInfo.InvariantCulture)
 			: entry.Path;
 	}
 
@@ -88,9 +99,11 @@ public static class InstallManifest
 			if (string.IsNullOrWhiteSpace(line))
 				continue;
 			string[] parts = line.Split('\t');
-			if (parts.Length >= 3
+			if (
+				parts.Length >= 3
 				&& long.TryParse(parts[1], NumberStyles.Integer, CultureInfo.InvariantCulture, out long size)
-				&& uint.TryParse(parts[2], NumberStyles.HexNumber, CultureInfo.InvariantCulture, out uint crc))
+				&& uint.TryParse(parts[2], NumberStyles.HexNumber, CultureInfo.InvariantCulture, out uint crc)
+			)
 				entries.Add(new Entry(parts[0], size, crc));
 			else
 				entries.Add(new Entry(parts[0], -1, null));
@@ -100,61 +113,78 @@ public static class InstallManifest
 
 	public static List<Entry> Capture(string root, CancellationToken token)
 	{
-		string fullRoot = System.IO.Path.GetFullPath(root).TrimEnd(System.IO.Path.DirectorySeparatorChar) + System.IO.Path.DirectorySeparatorChar;
+		string fullRoot =
+			System.IO.Path.GetFullPath(root).TrimEnd(System.IO.Path.DirectorySeparatorChar) + System.IO.Path.DirectorySeparatorChar;
 		ConcurrentBag<Entry> entries = [];
-		Parallel.ForEach(Directory.EnumerateFiles(fullRoot, "*", SearchOption.AllDirectories), new ParallelOptions { MaxDegreeOfParallelism = Workers, CancellationToken = token }, file =>
-		{
-			string relative = file[fullRoot.Length..];
-			if (string.Equals(relative, FileName, StringComparison.OrdinalIgnoreCase))
-				return;
-			entries.Add(new Entry(relative, new FileInfo(file).Length, ComputeCrc(file, token)));
-		});
+		Parallel.ForEach(
+			Directory.EnumerateFiles(fullRoot, "*", SearchOption.AllDirectories),
+			new ParallelOptions { MaxDegreeOfParallelism = Workers, CancellationToken = token },
+			file =>
+			{
+				string relative = file[fullRoot.Length..];
+				if (string.Equals(relative, FileName, StringComparison.OrdinalIgnoreCase))
+					return;
+				entries.Add(new Entry(relative, new FileInfo(file).Length, ComputeCrc(file, token)));
+			}
+		);
 		return [.. entries.OrderBy(entry => entry.Path, StringComparer.OrdinalIgnoreCase)];
 	}
 
-	public static Result Verify(string root, IReadOnlyList<Entry> entries, ISet<string> modified, Action<int, int>? progress, CancellationToken token)
+	public static Result Verify(
+		string root,
+		IReadOnlyList<Entry> entries,
+		ISet<string> modified,
+		Action<int, int>? progress,
+		CancellationToken token
+	)
 	{
-		string fullRoot = System.IO.Path.GetFullPath(root).TrimEnd(System.IO.Path.DirectorySeparatorChar) + System.IO.Path.DirectorySeparatorChar;
+		string fullRoot =
+			System.IO.Path.GetFullPath(root).TrimEnd(System.IO.Path.DirectorySeparatorChar) + System.IO.Path.DirectorySeparatorChar;
 		ConcurrentBag<string> missing = [];
 		ConcurrentBag<string> damaged = [];
 		int done = 0;
 		int skipped = 0;
-		Parallel.ForEach(entries, new ParallelOptions { MaxDegreeOfParallelism = Workers, CancellationToken = token }, entry =>
-		{
-			string full = System.IO.Path.GetFullPath(System.IO.Path.Combine(fullRoot, entry.Path));
-			if (!full.StartsWith(fullRoot, StringComparison.OrdinalIgnoreCase))
+		Parallel.ForEach(
+			entries,
+			new ParallelOptions { MaxDegreeOfParallelism = Workers, CancellationToken = token },
+			entry =>
 			{
-				Interlocked.Increment(ref skipped);
-			}
-			else if (!File.Exists(full))
-			{
-				missing.Add(entry.Path);
-			}
-			else if (modified.Contains(entry.Path))
-			{
-				Interlocked.Increment(ref skipped);
-			}
-			else if (entry.Crc is uint expected)
-			{
-				try
+				string full = System.IO.Path.GetFullPath(System.IO.Path.Combine(fullRoot, entry.Path));
+				if (!full.StartsWith(fullRoot, StringComparison.OrdinalIgnoreCase))
 				{
-					if (new FileInfo(full).Length != entry.Size || ComputeCrc(full, token) != expected)
+					Interlocked.Increment(ref skipped);
+				}
+				else if (!File.Exists(full))
+				{
+					missing.Add(entry.Path);
+				}
+				else if (modified.Contains(entry.Path))
+				{
+					Interlocked.Increment(ref skipped);
+				}
+				else if (entry.Crc is uint expected)
+				{
+					try
+					{
+						if (new FileInfo(full).Length != entry.Size || ComputeCrc(full, token) != expected)
+							damaged.Add(entry.Path);
+					}
+					catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+					{
 						damaged.Add(entry.Path);
+					}
 				}
-				catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-				{
-					damaged.Add(entry.Path);
-				}
+				int count = Interlocked.Increment(ref done);
+				if (count % 64 == 0 || count == entries.Count)
+					progress?.Invoke(count, entries.Count);
 			}
-			int count = Interlocked.Increment(ref done);
-			if (count % 64 == 0 || count == entries.Count)
-				progress?.Invoke(count, entries.Count);
-		});
+		);
 		return new Result(
 			entries.Count - skipped - missing.Count,
 			skipped,
 			[.. missing.OrderBy(path => path, StringComparer.OrdinalIgnoreCase)],
 			[.. damaged.OrderBy(path => path, StringComparer.OrdinalIgnoreCase)],
-			entries.Any(entry => entry.Crc != null));
+			entries.Any(entry => entry.Crc != null)
+		);
 	}
 }

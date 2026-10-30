@@ -72,11 +72,13 @@ internal sealed class MacWebPanel : FrameworkElement, IDisposable
 			return;
 		Rect rect = ResolveRect();
 		bool visible = IsVisible && _host.IsVisible;
-		if (visible == _lastVisible
+		if (
+			visible == _lastVisible
 			&& Math.Abs(rect.X - _lastRect.X) < 0.5d
 			&& Math.Abs(rect.Y - _lastRect.Y) < 0.5d
 			&& Math.Abs(rect.Width - _lastRect.Width) < 0.5d
-			&& Math.Abs(rect.Height - _lastRect.Height) < 0.5d)
+			&& Math.Abs(rect.Height - _lastRect.Height) < 0.5d
+		)
 			return;
 		_lastRect = rect;
 		_lastVisible = visible;
@@ -94,10 +96,14 @@ internal sealed class MacWebPanel : FrameworkElement, IDisposable
 		{
 			string accent = "window.__vsAccentColor = " + System.Text.Json.JsonSerializer.Serialize(AccentColor ?? "#0078d4") + ";";
 			string folder = ThemeFolder;
-			_view = new MacOSWebView(native, SourceFile, folder,
+			_view = new MacOSWebView(
+				native,
+				SourceFile,
+				folder,
 				[accent, LinuxWebPanel.WebPanelBridge, Voidstrap.UI.Elements.Bootstrapper.CustomDialog.WebPanelApi, ContextMenuBlock],
 				CornerRadius,
-				uri => IsAllowed(folder, uri));
+				uri => IsAllowed(folder, uri)
+			);
 			_view.MessageReceived += OnMessage;
 			_view.NavigationFinished += OnNavigationFinished;
 			App.Logger?.WriteLine("MacWebPanel::TryCreate", "Created the web panel for " + SourceFile);
@@ -155,7 +161,11 @@ internal sealed class MacWebPanel : FrameworkElement, IDisposable
 			return;
 		}
 		(double x, double y) = MacOSWindow.MouseLocation();
-		MacOSWindow.SetFrame(_dragWindow, new MacOSWindow.Rect(_dragFrame.X + x - _dragMouse.X, _dragFrame.Y + y - _dragMouse.Y, _dragFrame.Width, _dragFrame.Height), false);
+		MacOSWindow.SetFrame(
+			_dragWindow,
+			new MacOSWindow.Rect(_dragFrame.X + x - _dragMouse.X, _dragFrame.Y + y - _dragMouse.Y, _dragFrame.Width, _dragFrame.Height),
+			false
+		);
 	}
 
 	private void EndDrag()

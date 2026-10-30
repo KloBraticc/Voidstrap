@@ -51,10 +51,14 @@ public class UniverseDetails
 		{
 			return;
 		}
-		List<long> requestedIds = (from s in ids.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+		List<long> requestedIds = (
+			from s in ids.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
 			select (!long.TryParse(s, out var result)) ? 0 : result into v
 			where v > 0 && !_cache.ContainsKey(v) && !_notFound.ContainsKey(v)
-			select v).Distinct().ToList();
+			select v
+		)
+			.Distinct()
+			.ToList();
 		if (requestedIds.Count == 0)
 		{
 			return;
@@ -76,7 +80,10 @@ public class UniverseDetails
 		{
 			try
 			{
-				gameDetailResponse = await Http.GetJson<ApiArrayResponse<GameDetailResponse>>("https://games.roblox.com/v1/games?universeIds=" + queryIds, token);
+				gameDetailResponse = await Http.GetJson<ApiArrayResponse<GameDetailResponse>>(
+					"https://games.roblox.com/v1/games?universeIds=" + queryIds,
+					token
+				);
 				break;
 			}
 			catch (OperationCanceledException) when (token.IsCancellationRequested)
@@ -91,7 +98,9 @@ public class UniverseDetails
 			catch (Exception ex)
 			{
 				App.Logger.WriteException("UniverseDetails::FetchBulk(Games)", ex);
-				throw new InvalidHTTPResponseException("Roblox API for Game Details did not respond. This is normally a transient issue; try again in a moment.");
+				throw new InvalidHTTPResponseException(
+					"Roblox API for Game Details did not respond. This is normally a transient issue; try again in a moment."
+				);
 			}
 		}
 		if (gameDetailResponse?.Data == null || !gameDetailResponse.Data.Any())
@@ -112,17 +121,15 @@ public class UniverseDetails
 			detailsById.TryGetValue(id, out GameDetailResponse? gameDetailResponse2);
 			if (gameDetailResponse2 != null)
 			{
-				ThumbnailResponse thumbnail = (thumbnailsById.TryGetValue(id, out ThumbnailResponse? existingThumbnail) ? existingThumbnail : null) ?? new ThumbnailResponse
-				{
-					TargetId = id,
-					State = "Unavailable",
-					ImageUrl = null
-				};
-				Store(id, new UniverseDetails
-				{
-					Data = gameDetailResponse2,
-					Thumbnail = thumbnail
-				});
+				ThumbnailResponse thumbnail =
+					(thumbnailsById.TryGetValue(id, out ThumbnailResponse? existingThumbnail) ? existingThumbnail : null)
+					?? new ThumbnailResponse
+					{
+						TargetId = id,
+						State = "Unavailable",
+						ImageUrl = null,
+					};
+				Store(id, new UniverseDetails { Data = gameDetailResponse2, Thumbnail = thumbnail });
 				storedIds.Add(id);
 			}
 		}
@@ -144,7 +151,8 @@ public class UniverseDetails
 
 	private static bool HasImage(ThumbnailResponse? thumbnail)
 	{
-		return !string.IsNullOrEmpty(thumbnail?.ImageUrl) && string.Equals(thumbnail.State, "Completed", StringComparison.OrdinalIgnoreCase);
+		return !string.IsNullOrEmpty(thumbnail?.ImageUrl)
+			&& string.Equals(thumbnail.State, "Completed", StringComparison.OrdinalIgnoreCase);
 	}
 
 	private static async Task<Dictionary<long, ThumbnailResponse>> FetchThumbnailsAsync(List<long> ids, CancellationToken token)
@@ -159,7 +167,13 @@ public class UniverseDetails
 			}
 			try
 			{
-				ApiArrayResponse<ThumbnailResponse>? response = await Http.GetJson<ApiArrayResponse<ThumbnailResponse>>("https://thumbnails.roblox.com/v1/games/icons?universeIds=" + string.Join(',', pending) + "&returnPolicy=PlaceHolder&size=128x128&format=Png&isCircular=false", token).ConfigureAwait(false);
+				ApiArrayResponse<ThumbnailResponse>? response = await Http.GetJson<ApiArrayResponse<ThumbnailResponse>>(
+						"https://thumbnails.roblox.com/v1/games/icons?universeIds="
+							+ string.Join(',', pending)
+							+ "&returnPolicy=PlaceHolder&size=128x128&format=Png&isCircular=false",
+						token
+					)
+					.ConfigureAwait(false);
 				foreach (ThumbnailResponse entry in response?.Data ?? Enumerable.Empty<ThumbnailResponse>())
 				{
 					if (entry == null)
@@ -176,12 +190,17 @@ public class UniverseDetails
 			{
 				App.Logger.WriteLine("UniverseDetails::FetchThumbnails", "Attempt " + attempt + " failed: " + ex.Message);
 			}
-			pending = pending.Where(id => !result.TryGetValue(id, out ThumbnailResponse? thumbnail) || IsStillGenerating(thumbnail)).ToList();
+			pending = pending
+				.Where(id => !result.TryGetValue(id, out ThumbnailResponse? thumbnail) || IsStillGenerating(thumbnail))
+				.ToList();
 		}
 		return result;
 	}
 
-	public static async Task RefreshMissingThumbnailsAsync(IEnumerable<long> universeIds, CancellationToken token = default(CancellationToken))
+	public static async Task RefreshMissingThumbnailsAsync(
+		IEnumerable<long> universeIds,
+		CancellationToken token = default(CancellationToken)
+	)
 	{
 		List<long> missing = universeIds
 			.Where(id => id > 0 && _cache.TryGetValue(id, out UniverseDetails? details) && !HasImage(details.Thumbnail))
@@ -217,7 +236,10 @@ public class UniverseDetails
 		{
 			_placeToUniverse.Clear();
 		}
-		List<long> requested = (placeIds ?? Enumerable.Empty<long>()).Where((long p) => p > 0 && !_placeToUniverse.ContainsKey(p)).Distinct().ToList();
+		List<long> requested = (placeIds ?? Enumerable.Empty<long>())
+			.Where((long p) => p > 0 && !_placeToUniverse.ContainsKey(p))
+			.Distinct()
+			.ToList();
 		if (requested.Count == 0)
 		{
 			return;
@@ -241,12 +263,16 @@ public class UniverseDetails
 		{
 			return;
 		}
-		List<long> missing = list.Where((ActivityData x) => x.UniverseDetails == null && x.UniverseId != 0).Select((ActivityData x) => x.UniverseId).Distinct().ToList();
+		List<long> missing = list.Where((ActivityData x) => x.UniverseDetails == null && x.UniverseId != 0)
+			.Select((ActivityData x) => x.UniverseId)
+			.Distinct()
+			.ToList();
 		if (missing.Count > 0)
 		{
 			await FetchBulk(string.Join(',', missing), token).ConfigureAwait(false);
 		}
-		List<ActivityData> unresolved = list.Where((ActivityData x) => x.UniverseDetails == null && x.UniverseId == 0 && x.PlaceId != 0).ToList();
+		List<ActivityData> unresolved = list.Where((ActivityData x) => x.UniverseDetails == null && x.UniverseId == 0 && x.PlaceId != 0)
+			.ToList();
 		if (unresolved.Count > 0)
 		{
 			await ResolvePlacesToUniversesAsync(unresolved.Select((ActivityData x) => x.PlaceId), token).ConfigureAwait(false);
@@ -280,7 +306,10 @@ public class UniverseDetails
 		ApiArrayResponse<PlaceDetailResponse>? response = null;
 		try
 		{
-			response = await Http.GetJson<ApiArrayResponse<PlaceDetailResponse>>("https://games.roblox.com/v1/games/multiget-place-details?placeIds=" + query, token);
+			response = await Http.GetJson<ApiArrayResponse<PlaceDetailResponse>>(
+				"https://games.roblox.com/v1/games/multiget-place-details?placeIds=" + query,
+				token
+			);
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
 		{
@@ -288,7 +317,10 @@ public class UniverseDetails
 		}
 		catch (Exception ex)
 		{
-			App.Logger.WriteLine("UniverseDetails::ResolvePlaces", "Bulk place lookup unavailable, using individual universe lookups: " + ex.Message);
+			App.Logger.WriteLine(
+				"UniverseDetails::ResolvePlaces",
+				"Bulk place lookup unavailable, using individual universe lookups: " + ex.Message
+			);
 		}
 		foreach (PlaceDetailResponse detail in response?.Data ?? Enumerable.Empty<PlaceDetailResponse>())
 		{
@@ -301,28 +333,37 @@ public class UniverseDetails
 		if (unresolved.Count == 0)
 			return;
 		using SemaphoreSlim gate = new SemaphoreSlim(6, 6);
-		Task[] lookups = unresolved.Select(async placeId =>
-		{
-			await gate.WaitAsync(token).ConfigureAwait(false);
-			try
+		Task[] lookups = unresolved
+			.Select(async placeId =>
 			{
-				PlaceUniverseResponse? resolved = await Http.GetJson<PlaceUniverseResponse>("https://apis.roblox.com/universes/v1/places/" + placeId + "/universe", token).ConfigureAwait(false);
-				if (resolved?.UniverseId > 0)
-					_placeToUniverse[placeId] = resolved.UniverseId;
-			}
-			catch (OperationCanceledException) when (token.IsCancellationRequested)
-			{
-				throw;
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine("UniverseDetails::ResolvePlaces", "Universe lookup failed for place " + placeId + ": " + ex.Message);
-			}
-			finally
-			{
-				gate.Release();
-			}
-		}).ToArray();
+				await gate.WaitAsync(token).ConfigureAwait(false);
+				try
+				{
+					PlaceUniverseResponse? resolved = await Http.GetJson<PlaceUniverseResponse>(
+							"https://apis.roblox.com/universes/v1/places/" + placeId + "/universe",
+							token
+						)
+						.ConfigureAwait(false);
+					if (resolved?.UniverseId > 0)
+						_placeToUniverse[placeId] = resolved.UniverseId;
+				}
+				catch (OperationCanceledException) when (token.IsCancellationRequested)
+				{
+					throw;
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteLine(
+						"UniverseDetails::ResolvePlaces",
+						"Universe lookup failed for place " + placeId + ": " + ex.Message
+					);
+				}
+				finally
+				{
+					gate.Release();
+				}
+			})
+			.ToArray();
 		await Task.WhenAll(lookups).ConfigureAwait(false);
 	}
 

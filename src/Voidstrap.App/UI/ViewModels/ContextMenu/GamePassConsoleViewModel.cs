@@ -91,7 +91,10 @@ internal sealed class GamePassConsoleViewModel : NotifyPropertyChangedViewModel,
 		if (string.IsNullOrWhiteSpace(cookie))
 			return null;
 
-		using HttpRequestMessage request = new(HttpMethod.Get, $"https://apis.roblox.com/game-passes/v1/users/{userId}/game-passes?count=100");
+		using HttpRequestMessage request = new(
+			HttpMethod.Get,
+			$"https://apis.roblox.com/game-passes/v1/users/{userId}/game-passes?count=100"
+		);
 		request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
 		using HttpResponseMessage response = await _httpClient.SendAsync(request, token);
 		if (response.StatusCode is HttpStatusCode.Unauthorized or HttpStatusCode.Forbidden)
@@ -123,15 +126,19 @@ internal sealed class GamePassConsoleViewModel : NotifyPropertyChangedViewModel,
 				}
 			}
 
-			cursor = document.RootElement.TryGetProperty("nextPageCursor", out JsonElement next) && next.ValueKind == JsonValueKind.String ? next.GetString() : null;
-		}
-		while (!string.IsNullOrWhiteSpace(cursor));
+			cursor =
+				document.RootElement.TryGetProperty("nextPageCursor", out JsonElement next) && next.ValueKind == JsonValueKind.String
+					? next.GetString()
+					: null;
+		} while (!string.IsNullOrWhiteSpace(cursor));
 
 		string creatorName = await GetCreatorNameAsync(userId, token);
 		List<GamePassData> passes = new();
 		foreach ((long UniverseId, string _)[] batch in universes.Chunk(8))
 		{
-			List<GamePassData>[] results = await Task.WhenAll(batch.Select(item => FetchUniversePassesAsync(item.UniverseId, creatorName, userId, token)));
+			List<GamePassData>[] results = await Task.WhenAll(
+				batch.Select(item => FetchUniversePassesAsync(item.UniverseId, creatorName, userId, token))
+			);
 			foreach (List<GamePassData> result in results)
 				passes.AddRange(result);
 		}
@@ -139,9 +146,17 @@ internal sealed class GamePassConsoleViewModel : NotifyPropertyChangedViewModel,
 		return passes.GroupBy(pass => pass.GamePassId).Select(group => group.First()).ToList();
 	}
 
-	private static async Task<List<GamePassData>> FetchUniversePassesAsync(long universeId, string creatorName, long creatorId, CancellationToken token)
+	private static async Task<List<GamePassData>> FetchUniversePassesAsync(
+		long universeId,
+		string creatorName,
+		long creatorId,
+		CancellationToken token
+	)
 	{
-		using JsonDocument document = await GetJsonAsync($"https://apis.roblox.com/game-passes/v1/universes/{universeId}/game-passes?limit=100&sortOrder=1", token);
+		using JsonDocument document = await GetJsonAsync(
+			$"https://apis.roblox.com/game-passes/v1/universes/{universeId}/game-passes?limit=100&sortOrder=1",
+			token
+		);
 		List<GamePassData> passes = new();
 		if (!document.RootElement.TryGetProperty("gamePasses", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
 			return passes;
@@ -152,15 +167,25 @@ internal sealed class GamePassConsoleViewModel : NotifyPropertyChangedViewModel,
 			if (id == 0)
 				continue;
 
-			passes.Add(new GamePassData
-			{
-				GamePassId = id,
-				IconAssetId = item.TryGetProperty("displayIconImageAssetId", out JsonElement icon) && icon.TryGetInt64(out long iconValue) ? iconValue : 0,
-				Name = ReadString(item, "displayName", "name"),
-				Description = ReadString(item, "displayDescription"),
-				IsForSale = item.TryGetProperty("isForSale", out JsonElement sale) && sale.ValueKind == JsonValueKind.True,
-				Creator = new GamePassCreator { CreatorType = "User", CreatorId = creatorId, Name = creatorName }
-			});
+			passes.Add(
+				new GamePassData
+				{
+					GamePassId = id,
+					IconAssetId =
+						item.TryGetProperty("displayIconImageAssetId", out JsonElement icon) && icon.TryGetInt64(out long iconValue)
+							? iconValue
+							: 0,
+					Name = ReadString(item, "displayName", "name"),
+					Description = ReadString(item, "displayDescription"),
+					IsForSale = item.TryGetProperty("isForSale", out JsonElement sale) && sale.ValueKind == JsonValueKind.True,
+					Creator = new GamePassCreator
+					{
+						CreatorType = "User",
+						CreatorId = creatorId,
+						Name = creatorName,
+					},
+				}
+			);
 		}
 
 		return passes;
@@ -180,14 +205,20 @@ internal sealed class GamePassConsoleViewModel : NotifyPropertyChangedViewModel,
 		foreach (GamePassData[] batch in passes.Chunk(100))
 		{
 			string ids = string.Join(',', batch.Select(pass => pass.GamePassId));
-			using JsonDocument document = await GetJsonAsync($"https://thumbnails.roblox.com/v1/game-passes?gamePassIds={ids}&size=150x150&format=Png&isCircular=false", token);
+			using JsonDocument document = await GetJsonAsync(
+				$"https://thumbnails.roblox.com/v1/game-passes?gamePassIds={ids}&size=150x150&format=Png&isCircular=false",
+				token
+			);
 			if (!document.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
 				continue;
 
 			foreach (JsonElement item in data.EnumerateArray())
 			{
 				long id = item.TryGetProperty("targetId", out JsonElement target) && target.TryGetInt64(out long value) ? value : 0;
-				string imageUrl = item.TryGetProperty("imageUrl", out JsonElement image) && image.ValueKind == JsonValueKind.String ? image.GetString() ?? string.Empty : string.Empty;
+				string imageUrl =
+					item.TryGetProperty("imageUrl", out JsonElement image) && image.ValueKind == JsonValueKind.String
+						? image.GetString() ?? string.Empty
+						: string.Empty;
 				GamePassData? pass = batch.FirstOrDefault(candidate => candidate.GamePassId == id);
 				if (pass != null)
 					pass.IconUrl = imageUrl;
@@ -199,7 +230,10 @@ internal sealed class GamePassConsoleViewModel : NotifyPropertyChangedViewModel,
 	{
 		try
 		{
-			using JsonDocument document = await GetJsonAsync($"https://apis.roblox.com/game-passes/v1/game-passes/{pass.GamePassId}/product-info", token);
+			using JsonDocument document = await GetJsonAsync(
+				$"https://apis.roblox.com/game-passes/v1/game-passes/{pass.GamePassId}/product-info",
+				token
+			);
 			if (document.RootElement.TryGetProperty("PriceInRobux", out JsonElement price) && price.TryGetInt32(out int value))
 			{
 				pass.Price = value;

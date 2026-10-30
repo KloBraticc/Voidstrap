@@ -35,9 +35,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 await LoadGameAsync(_cts.Token);
                 _ = RunLiveVotesLoopAsync(_cts.Token);
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 App.Logger.WriteException("GamePage::GamePage_Loaded", ex);
@@ -88,14 +86,16 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 App.State.FlushDeferred();
                 App.FastFlags.FlushDeferred();
 
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = voidstrapPath,
-                    Arguments = $"-player \"{uri}\" -homematchmaker",
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                    WorkingDirectory = Path.GetDirectoryName(voidstrapPath) ?? ""
-                });
+                Process.Start(
+                    new ProcessStartInfo
+                    {
+                        FileName = voidstrapPath,
+                        Arguments = $"-player \"{uri}\" -homematchmaker",
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                        WorkingDirectory = Path.GetDirectoryName(voidstrapPath) ?? "",
+                    }
+                );
 
                 Application.Current.Shutdown();
             }
@@ -111,8 +111,10 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             {
                 if (_universeId == 0)
                 {
-					string uniJson = await Voidstrap.Utility.Http.GetString(
-						$"https://apis.roblox.com/universes/v1/places/{_placeId}/universe", token);
+                    string uniJson = await Voidstrap.Utility.Http.GetString(
+                        $"https://apis.roblox.com/universes/v1/places/{_placeId}/universe",
+                        token
+                    );
                     using var uniDoc = JsonDocument.Parse(uniJson);
                     if (uniDoc.RootElement.TryGetProperty("universeId", out var uidEl) && uidEl.ValueKind == JsonValueKind.Number)
                         _universeId = uidEl.GetInt64();
@@ -124,16 +126,17 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                     return;
                 }
 
-                await Task.WhenAll(
-                    LoadDetailsAsync(token),
-                    LoadVotesAsync(token),
-                    LoadBannerAsync(token));
+                await Task.WhenAll(LoadDetailsAsync(token), LoadVotesAsync(token), LoadBannerAsync(token));
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 App.Logger.WriteException($"{LOG_IDENT}::Load", ex);
-                try { GameTitleText.Text = $"Place {_placeId}"; } catch { }
+                try
+                {
+                    GameTitleText.Text = $"Place {_placeId}";
+                }
+                catch { }
             }
         }
 
@@ -141,13 +144,14 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         {
             try
             {
-				string json = await Voidstrap.Utility.Http.GetString(
-					$"https://games.roblox.com/v1/games?universeIds={_universeId}", token);
+                string json = await Voidstrap.Utility.Http.GetString($"https://games.roblox.com/v1/games?universeIds={_universeId}", token);
 
                 using var doc = JsonDocument.Parse(json);
-                if (!doc.RootElement.TryGetProperty("data", out var data)
+                if (
+                    !doc.RootElement.TryGetProperty("data", out var data)
                     || data.ValueKind != JsonValueKind.Array
-                    || data.GetArrayLength() == 0)
+                    || data.GetArrayLength() == 0
+                )
                     return;
 
                 var g = data[0];
@@ -157,8 +161,10 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 bool verified = false;
                 if (g.TryGetProperty("creator", out var creatorEl))
                 {
-                    if (creatorEl.TryGetProperty("name", out var cn)) creator = cn.GetString() ?? "";
-                    if (creatorEl.TryGetProperty("hasVerifiedBadge", out var vb)) verified = vb.GetBoolean();
+                    if (creatorEl.TryGetProperty("name", out var cn))
+                        creator = cn.GetString() ?? "";
+                    if (creatorEl.TryGetProperty("hasVerifiedBadge", out var vb))
+                        verified = vb.GetBoolean();
                 }
 
                 string description = g.TryGetProperty("description", out var descEl) ? descEl.GetString() ?? "" : "";
@@ -170,14 +176,20 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 DateTime created = g.TryGetProperty("created", out var cr) && cr.TryGetDateTime(out var crd) ? crd : DateTime.MinValue;
                 DateTime updated = g.TryGetProperty("updated", out var up) && up.TryGetDateTime(out var upd) ? upd : DateTime.MinValue;
 
-				token.ThrowIfCancellationRequested();
-				await Dispatcher.InvokeAsync(() =>
-				{
-					if (token.IsCancellationRequested)
-						return;
+                token.ThrowIfCancellationRequested();
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    if (token.IsCancellationRequested)
+                        return;
                     _gameName = name;
                     ReviewControl.SetGame(_universeId, _placeId, _gameName);
-                    Voidstrap.Integrations.VoidstrapPresence.SetGame(nameof(GamePage), string.IsNullOrEmpty(name) ? $"Place {_placeId}" : name, creator, _universeId, _placeId);
+                    Voidstrap.Integrations.VoidstrapPresence.SetGame(
+                        nameof(GamePage),
+                        string.IsNullOrEmpty(name) ? $"Place {_placeId}" : name,
+                        creator,
+                        _universeId,
+                        _placeId
+                    );
                     GameTitleText.Text = string.IsNullOrEmpty(name) ? $"Place {_placeId}" : name;
                     CreatorText.Text = string.IsNullOrEmpty(creator) ? "" : $"By {creator}{(verified ? " ☑️" : "")}";
                     DescriptionText.Text = description;
@@ -192,10 +204,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                     GenreStatText.Text = string.IsNullOrEmpty(genre) ? "--" : genre;
                 });
             }
-			catch (OperationCanceledException) when (token.IsCancellationRequested)
-			{
-			}
-			catch (Exception ex)
+            catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+            catch (Exception ex)
             {
                 App.Logger.WriteLine($"{LOG_IDENT}::Details", ex.Message);
             }
@@ -205,13 +215,17 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         {
             try
             {
-				string json = await Voidstrap.Utility.Http.GetString(
-					$"https://games.roblox.com/v1/games/votes?universeIds={_universeId}", token);
+                string json = await Voidstrap.Utility.Http.GetString(
+                    $"https://games.roblox.com/v1/games/votes?universeIds={_universeId}",
+                    token
+                );
 
                 using var doc = JsonDocument.Parse(json);
-                if (!doc.RootElement.TryGetProperty("data", out var data)
+                if (
+                    !doc.RootElement.TryGetProperty("data", out var data)
                     || data.ValueKind != JsonValueKind.Array
-                    || data.GetArrayLength() == 0)
+                    || data.GetArrayLength() == 0
+                )
                     return;
 
                 var v = data[0];
@@ -219,20 +233,18 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 long down = v.TryGetProperty("downVotes", out var downEl) ? downEl.GetInt64() : 0;
                 long total = up + down;
 
-				token.ThrowIfCancellationRequested();
-				await Dispatcher.InvokeAsync(() =>
-				{
-					if (token.IsCancellationRequested)
-						return;
+                token.ThrowIfCancellationRequested();
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    if (token.IsCancellationRequested)
+                        return;
                     LikesText.Text = FormatCount(up);
                     DislikesText.Text = FormatCount(down);
                     RatingBar.Value = total > 0 ? up * 100.0 / total : 0;
                 });
             }
-			catch (OperationCanceledException) when (token.IsCancellationRequested)
-			{
-			}
-			catch (Exception ex)
+            catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+            catch (Exception ex)
             {
                 App.Logger.WriteLine($"{LOG_IDENT}::Votes", ex.Message);
             }
@@ -242,19 +254,23 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         {
             try
             {
-				string json = await Voidstrap.Utility.Http.GetString(
-					$"https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds={_universeId}&countPerUniverse=1&defaults=true&size=768x432&format=Png&isCircular=false", token);
+                string json = await Voidstrap.Utility.Http.GetString(
+                    $"https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds={_universeId}&countPerUniverse=1&defaults=true&size=768x432&format=Png&isCircular=false",
+                    token
+                );
 
                 string? imageUrl = null;
                 using (var doc = JsonDocument.Parse(json))
                 {
-                    if (doc.RootElement.TryGetProperty("data", out var data)
+                    if (
+                        doc.RootElement.TryGetProperty("data", out var data)
                         && data.ValueKind == JsonValueKind.Array
                         && data.GetArrayLength() > 0
                         && data[0].TryGetProperty("thumbnails", out var thumbs)
                         && thumbs.ValueKind == JsonValueKind.Array
                         && thumbs.GetArrayLength() > 0
-                        && thumbs[0].TryGetProperty("imageUrl", out var urlEl))
+                        && thumbs[0].TryGetProperty("imageUrl", out var urlEl)
+                    )
                     {
                         imageUrl = urlEl.GetString();
                     }
@@ -263,20 +279,21 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 if (string.IsNullOrEmpty(imageUrl))
                     return;
 
-				var bmp = await Voidstrap.Utility.AppImage.LoadAsync(imageUrl, 960, token).ConfigureAwait(false);
-				if (bmp == null)
-					return;
-				token.ThrowIfCancellationRequested();
-				await Dispatcher.InvokeAsync(() =>
-				{
-					if (!token.IsCancellationRequested)
-						BannerImage.Background = new System.Windows.Media.ImageBrush(bmp) { Stretch = System.Windows.Media.Stretch.UniformToFill };
-				});
-			}
-			catch (OperationCanceledException) when (token.IsCancellationRequested)
-			{
-			}
-			catch (Exception ex)
+                var bmp = await Voidstrap.Utility.AppImage.LoadAsync(imageUrl, 960, token).ConfigureAwait(false);
+                if (bmp == null)
+                    return;
+                token.ThrowIfCancellationRequested();
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    if (!token.IsCancellationRequested)
+                        BannerImage.Background = new System.Windows.Media.ImageBrush(bmp)
+                        {
+                            Stretch = System.Windows.Media.Stretch.UniformToFill,
+                        };
+                });
+            }
+            catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+            catch (Exception ex)
             {
                 App.Logger.WriteLine($"{LOG_IDENT}::Banner", ex.Message);
             }

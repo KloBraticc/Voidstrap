@@ -40,16 +40,18 @@ public static class MarketplaceCatalog
 
 	private static HttpClient CreateClient()
 	{
-		HttpClient client = new HttpClient(new SocketsHttpHandler
-		{
-			AutomaticDecompression = System.Net.DecompressionMethods.All,
-			AllowAutoRedirect = true,
-			MaxAutomaticRedirections = 4,
-			ConnectTimeout = TimeSpan.FromSeconds(15)
-		})
+		HttpClient client = new HttpClient(
+			new SocketsHttpHandler
+			{
+				AutomaticDecompression = System.Net.DecompressionMethods.All,
+				AllowAutoRedirect = true,
+				MaxAutomaticRedirections = 4,
+				ConnectTimeout = TimeSpan.FromSeconds(15),
+			}
+		)
 		{
 			Timeout = TimeSpan.FromSeconds(120),
-			MaxResponseContentBufferSize = CommunityModGuard.MaxPackageBytes
+			MaxResponseContentBufferSize = CommunityModGuard.MaxPackageBytes,
 		};
 		client.DefaultRequestHeaders.UserAgent.ParseAdd("Voidstrap");
 		return client;
@@ -58,9 +60,11 @@ public static class MarketplaceCatalog
 	public static bool IsMarketplaceUrl(string? url)
 	{
 		return !string.IsNullOrEmpty(url)
-			&& (url.StartsWith(DownloadPrefix, StringComparison.Ordinal)
+			&& (
+				url.StartsWith(DownloadPrefix, StringComparison.Ordinal)
 				|| url.StartsWith(RawPrefix, StringComparison.Ordinal)
-				|| url.StartsWith(RawRefsPrefix, StringComparison.Ordinal));
+				|| url.StartsWith(RawRefsPrefix, StringComparison.Ordinal)
+			);
 	}
 
 	public static async Task<CommunityModPage> BrowseAsync(string? sort, string? search, CancellationToken token)
@@ -82,10 +86,12 @@ public static class MarketplaceCatalog
 					blocked++;
 					continue;
 				}
-				if (!string.IsNullOrWhiteSpace(search)
+				if (
+					!string.IsNullOrWhiteSpace(search)
 					&& entry.Name.IndexOf(search.Trim(), StringComparison.OrdinalIgnoreCase) < 0
 					&& entry.Summary.IndexOf(search.Trim(), StringComparison.OrdinalIgnoreCase) < 0
-					&& entry.Author.IndexOf(search.Trim(), StringComparison.OrdinalIgnoreCase) < 0)
+					&& entry.Author.IndexOf(search.Trim(), StringComparison.OrdinalIgnoreCase) < 0
+				)
 				{
 					continue;
 				}
@@ -112,7 +118,7 @@ public static class MarketplaceCatalog
 		{
 			TotalCount = found.Count,
 			PageNumber = 1,
-			PageSize = found.Count
+			PageSize = found.Count,
 		};
 		foreach (CommunityModEntry entry in found)
 		{
@@ -155,17 +161,24 @@ public static class MarketplaceCatalog
 		}
 		if (!string.IsNullOrEmpty(listing.IconUrl) && listing.Images.Count == 0)
 		{
-			listing.Images.Add(new CommunityModImage
-			{
-				Full = listing.IconUrl,
-				Thumbnail = listing.IconUrl,
-				Caption = listing.Name
-			});
+			listing.Images.Add(
+				new CommunityModImage
+				{
+					Full = listing.IconUrl,
+					Thumbnail = listing.IconUrl,
+					Caption = listing.Name,
+				}
+			);
 		}
 		return Task.FromResult<CommunityModEntry?>(listing);
 	}
 
-	public static async Task<string> InstallAsync(CommunityModEntry entry, CommunityModFile file, IProgress<string>? progress, CancellationToken token)
+	public static async Task<string> InstallAsync(
+		CommunityModEntry entry,
+		CommunityModFile file,
+		IProgress<string>? progress,
+		CancellationToken token
+	)
 	{
 		if (!IsMarketplaceUrl(file.DownloadUrl))
 		{
@@ -235,7 +248,9 @@ public static class MarketplaceCatalog
 		string actual = await ComputeGitBlobSha1Async(archivePath, token).ConfigureAwait(false);
 		if (!string.Equals(actual, expected, StringComparison.OrdinalIgnoreCase))
 		{
-			throw new InvalidOperationException("The download did not match the hash published by the marketplace repository, so it was discarded.");
+			throw new InvalidOperationException(
+				"The download did not match the hash published by the marketplace repository, so it was discarded."
+			);
 		}
 	}
 
@@ -264,10 +279,12 @@ public static class MarketplaceCatalog
 			{
 				foreach (JsonElement node in tree.EnumerateArray())
 				{
-					if (node.TryGetProperty("path", out JsonElement path)
+					if (
+						node.TryGetProperty("path", out JsonElement path)
 						&& node.TryGetProperty("sha", out JsonElement sha)
 						&& path.ValueKind == JsonValueKind.String
-						&& sha.ValueKind == JsonValueKind.String)
+						&& sha.ValueKind == JsonValueKind.String
+					)
 					{
 						hashes[path.GetString() ?? ""] = sha.GetString() ?? "";
 					}
@@ -293,7 +310,14 @@ public static class MarketplaceCatalog
 		byte[] header = Encoding.ASCII.GetBytes("blob " + info.Length + "\0");
 		using SHA1 sha1 = SHA1.Create();
 		sha1.TransformBlock(header, 0, header.Length, null, 0);
-		await using FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);
+		await using FileStream stream = new FileStream(
+			path,
+			FileMode.Open,
+			FileAccess.Read,
+			FileShare.Read,
+			81920,
+			FileOptions.Asynchronous | FileOptions.SequentialScan
+		);
 		byte[] buffer = new byte[81920];
 		while (true)
 		{
@@ -310,7 +334,9 @@ public static class MarketplaceCatalog
 
 	private static async Task DownloadAsync(string url, string destination, CancellationToken token)
 	{
-		using HttpResponseMessage response = await Client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+		using HttpResponseMessage response = await Client
+			.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token)
+			.ConfigureAwait(false);
 		response.EnsureSuccessStatusCode();
 		if (!IsMarketplaceUrl(response.RequestMessage?.RequestUri?.ToString()))
 		{
@@ -322,7 +348,14 @@ public static class MarketplaceCatalog
 			throw new InvalidOperationException("The download is larger than the allowed package size.");
 		}
 		await using Stream source = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
-		await using FileStream target = new FileStream(destination, FileMode.Create, FileAccess.Write, FileShare.None, 81920, FileOptions.Asynchronous);
+		await using FileStream target = new FileStream(
+			destination,
+			FileMode.Create,
+			FileAccess.Write,
+			FileShare.None,
+			81920,
+			FileOptions.Asynchronous
+		);
 		byte[] buffer = new byte[81920];
 		long written = 0;
 		while (true)
@@ -367,7 +400,7 @@ public static class MarketplaceCatalog
 			Category = "Roblox file mod",
 			SuperCategory = "Marketplace",
 			SourceName = SourceName,
-			SupportsInstall = true
+			SupportsInstall = true,
 		};
 		entry.DescriptionHtml = description;
 		entry.Summary = description.Replace('\n', ' ').Trim();
@@ -375,15 +408,17 @@ public static class MarketplaceCatalog
 		{
 			entry.Summary = entry.Summary[..240].TrimEnd() + "...";
 		}
-		entry.Files.Add(new CommunityModFile
-		{
-			FileName = id + ".zip",
-			DownloadUrl = download,
-			AntivirusState = "done",
-			AntivirusResult = "clean",
-			AnalysisState = "done",
-			AnalysisResult = "ok"
-		});
+		entry.Files.Add(
+			new CommunityModFile
+			{
+				FileName = id + ".zip",
+				DownloadUrl = download,
+				AntivirusState = "done",
+				AntivirusResult = "clean",
+				AnalysisState = "done",
+				AnalysisResult = "ok",
+			}
+		);
 		return entry;
 	}
 
@@ -410,10 +445,11 @@ public static class MarketplaceCatalog
 
 	private static string ReadString(JsonElement element, string property)
 	{
-		return element.ValueKind == JsonValueKind.Object
+		return
+			element.ValueKind == JsonValueKind.Object
 			&& element.TryGetProperty(property, out JsonElement value)
 			&& value.ValueKind == JsonValueKind.String
-				? value.GetString() ?? ""
-				: "";
+			? value.GetString() ?? ""
+			: "";
 	}
 }

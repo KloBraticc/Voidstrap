@@ -68,11 +68,29 @@ namespace Voidstrap.Integrations.FrameGeneration
         private int _flowLevel = 2;
         private int _allocatedFlowLevel = -1;
         private bool _historyValid;
-		private bool _disposed;
+        private bool _disposed;
 
         private static readonly ID3D11ShaderResourceView[] _nullSrvs = new ID3D11ShaderResourceView[8];
         private static readonly int ProcessorCount = Environment.ProcessorCount;
-        private static readonly string[] ShaderEntries = ["VSMain", "PSPass", "PSLumaColor", "PSLumaDown", "PSFlowCoarse", "PSFlowCoarseFast", "PSFlowRefine", "PSFlowRefineFast", "PSFlowRefineFine", "PSFlowSmooth", "PSFlowSmoothWide", "PSFlowGlobal", "PSWarp", "PSWarpFast", "PSWarpX", "PSWarpXFast"];
+        private static readonly string[] ShaderEntries =
+        [
+            "VSMain",
+            "PSPass",
+            "PSLumaColor",
+            "PSLumaDown",
+            "PSFlowCoarse",
+            "PSFlowCoarseFast",
+            "PSFlowRefine",
+            "PSFlowRefineFast",
+            "PSFlowRefineFine",
+            "PSFlowSmooth",
+            "PSFlowSmoothWide",
+            "PSFlowGlobal",
+            "PSWarp",
+            "PSWarpFast",
+            "PSWarpX",
+            "PSWarpXFast",
+        ];
         private static readonly Lazy<byte[][]> ShaderBytecode = new(CompileShaders);
         private static volatile bool _prepareFailed;
 
@@ -96,29 +114,41 @@ namespace Voidstrap.Integrations.FrameGeneration
         private static byte[][] CompileShaders()
         {
             byte[][] bytecode = new byte[ShaderEntries.Length][];
-            Parallel.For(0, ShaderEntries.Length, new ParallelOptions { MaxDegreeOfParallelism = Math.Clamp(ProcessorCount / 2, 1, 2) }, i =>
-            {
-                string entry = ShaderEntries[i];
-                Vortice.D3DCompiler.Compiler.Compile(FrameGenShaders.Source, entry, "FrameGen", i == 0 ? "vs_5_0" : "ps_5_0", out var blob, out var error);
-                using (error)
+            Parallel.For(
+                0,
+                ShaderEntries.Length,
+                new ParallelOptions { MaxDegreeOfParallelism = Math.Clamp(ProcessorCount / 2, 1, 2) },
+                i =>
                 {
-                    if (blob == null)
+                    string entry = ShaderEntries[i];
+                    Vortice.D3DCompiler.Compiler.Compile(
+                        FrameGenShaders.Source,
+                        entry,
+                        "FrameGen",
+                        i == 0 ? "vs_5_0" : "ps_5_0",
+                        out var blob,
+                        out var error
+                    );
+                    using (error)
                     {
-                        string message = error != null ? error.AsString() : "unknown";
-                        throw new InvalidOperationException("FrameGen shader compile failed for " + entry + ": " + message);
+                        if (blob == null)
+                        {
+                            string message = error != null ? error.AsString() : "unknown";
+                            throw new InvalidOperationException("FrameGen shader compile failed for " + entry + ": " + message);
+                        }
+                    }
+                    using (blob)
+                    {
+                        bytecode[i] = [.. blob.AsBytes()];
                     }
                 }
-                using (blob)
-                {
-                    bytecode[i] = [.. blob.AsBytes()];
-                }
-            });
+            );
             return bytecode;
         }
 
         public void Attach(ID3D11Device device, ID3D11DeviceContext context)
         {
-			_disposed = false;
+            _disposed = false;
             _device = device;
             _context = context;
             byte[][] bytecode = ShaderBytecode.Value;
@@ -139,24 +169,28 @@ namespace Voidstrap.Integrations.FrameGeneration
             _psWarpX = _device.CreatePixelShader(bytecode[14]);
             _psWarpXFast = _device.CreatePixelShader(bytecode[15]);
 
-            _sampler = _device.CreateSamplerState(new SamplerDescription
-            {
-                Filter = Filter.MinMagMipLinear,
-                AddressU = TextureAddressMode.Clamp,
-                AddressV = TextureAddressMode.Clamp,
-                AddressW = TextureAddressMode.Clamp,
-                ComparisonFunc = ComparisonFunction.Never,
-                MinLOD = 0,
-                MaxLOD = float.MaxValue,
-            });
+            _sampler = _device.CreateSamplerState(
+                new SamplerDescription
+                {
+                    Filter = Filter.MinMagMipLinear,
+                    AddressU = TextureAddressMode.Clamp,
+                    AddressV = TextureAddressMode.Clamp,
+                    AddressW = TextureAddressMode.Clamp,
+                    ComparisonFunc = ComparisonFunction.Never,
+                    MinLOD = 0,
+                    MaxLOD = float.MaxValue,
+                }
+            );
 
-            _cbuffer = _device.CreateBuffer(new BufferDescription
-            {
-                ByteWidth = (uint)Marshal.SizeOf<FrameGenPipelineParams>(),
-                BindFlags = BindFlags.ConstantBuffer,
-                Usage = ResourceUsage.Default,
-                CPUAccessFlags = CpuAccessFlags.None,
-            });
+            _cbuffer = _device.CreateBuffer(
+                new BufferDescription
+                {
+                    ByteWidth = (uint)Marshal.SizeOf<FrameGenPipelineParams>(),
+                    BindFlags = BindFlags.ConstantBuffer,
+                    Usage = ResourceUsage.Default,
+                    CPUAccessFlags = CpuAccessFlags.None,
+                }
+            );
         }
 
         public void SetQuality(int quality)
@@ -189,7 +223,10 @@ namespace Voidstrap.Integrations.FrameGeneration
                 _width = 0;
                 _height = 0;
                 _historyValid = false;
-                App.Logger.WriteLine("FrameGenPipeline", $"Could not allocate flow resources for {width}x{height}, frame generation stays idle: {ex.Message}");
+                App.Logger.WriteLine(
+                    "FrameGenPipeline",
+                    $"Could not allocate flow resources for {width}x{height}, frame generation stays idle: {ex.Message}"
+                );
                 return true;
             }
             _allocatedFlowLevel = _flowLevel;
@@ -236,18 +273,20 @@ namespace Voidstrap.Integrations.FrameGeneration
 
         private ID3D11Texture2D CreateTexture(int w, int h, Format format)
         {
-            return _device.CreateTexture2D(new Texture2DDescription
-            {
-                Width = (uint)w,
-                Height = (uint)h,
-                MipLevels = 1,
-                ArraySize = 1,
-                Format = format,
-                SampleDescription = new SampleDescription(1, 0),
-                Usage = ResourceUsage.Default,
-                BindFlags = BindFlags.ShaderResource | BindFlags.RenderTarget,
-                CPUAccessFlags = CpuAccessFlags.None,
-            });
+            return _device.CreateTexture2D(
+                new Texture2DDescription
+                {
+                    Width = (uint)w,
+                    Height = (uint)h,
+                    MipLevels = 1,
+                    ArraySize = 1,
+                    Format = format,
+                    SampleDescription = new SampleDescription(1, 0),
+                    Usage = ResourceUsage.Default,
+                    BindFlags = BindFlags.ShaderResource | BindFlags.RenderTarget,
+                    CPUAccessFlags = CpuAccessFlags.None,
+                }
+            );
         }
 
         private void SetState()
@@ -267,22 +306,33 @@ namespace Voidstrap.Integrations.FrameGeneration
         private void SetPass(int w, int h, float t, float aux)
         {
             _context.RSSetViewport(new Viewport(0, 0, w, h, 0, 1));
-            _context.UpdateSubresource(new FrameGenPipelineParams
-            {
-                Dims = new Vector4(w, h, 1f / Math.Max(w, 1), 1f / Math.Max(h, 1)),
-                SrcRect = new Vector4(0f, 0f, 1f, 1f),
-                Interp = new Vector4(t, aux, 0f, 0f),
-            }, _cbuffer!);
+            _context.UpdateSubresource(
+                new FrameGenPipelineParams
+                {
+                    Dims = new Vector4(w, h, 1f / Math.Max(w, 1), 1f / Math.Max(h, 1)),
+                    SrcRect = new Vector4(0f, 0f, 1f, 1f),
+                    Interp = new Vector4(t, aux, 0f, 0f),
+                },
+                _cbuffer!
+            );
         }
 
-        private void DrawPass(ID3D11PixelShader ps, ID3D11RenderTargetView target, ID3D11ShaderResourceView? t0, ID3D11ShaderResourceView? t1 = null, ID3D11ShaderResourceView? t2 = null)
+        private void DrawPass(
+            ID3D11PixelShader ps,
+            ID3D11RenderTargetView target,
+            ID3D11ShaderResourceView? t0,
+            ID3D11ShaderResourceView? t1 = null,
+            ID3D11ShaderResourceView? t2 = null
+        )
         {
             _context.PSSetShaderResources(0, _nullSrvs);
             _context.OMSetRenderTargets(target);
             _context.PSSetShader(ps);
             _context.PSSetShaderResource(0, t0!);
-            if (t1 != null) _context.PSSetShaderResource(1, t1);
-            if (t2 != null) _context.PSSetShaderResource(2, t2);
+            if (t1 != null)
+                _context.PSSetShaderResource(1, t1);
+            if (t2 != null)
+                _context.PSSetShaderResource(2, t2);
             _context.Draw(3, 0);
         }
 
@@ -343,10 +393,9 @@ namespace Voidstrap.Integrations.FrameGeneration
             int sNow = _smoothIdx[dir];
             bool lowRate = _coarseRange > 18f;
             var smoothPs = _quality >= 2 ? _psFlowSmoothWide! : _psFlowSmooth!;
-            float temporal = !_historyValid || _coarseRange >= 36f
-                ? 0f
-                : _quality == 0
-                ? 0.22f
+            float temporal =
+                !_historyValid || _coarseRange >= 36f ? 0f
+                : _quality == 0 ? 0.22f
                 : Math.Clamp(0.36f * 12f / Math.Max(12f, _coarseRange), 0.12f, 0.36f);
             int flowLevel = _flowLevel;
             SetPass(_levelW[flowLevel], _levelH[flowLevel], 0f, temporal);
@@ -354,7 +403,13 @@ namespace Voidstrap.Integrations.FrameGeneration
             if (lowRate && _quality >= 2 && flowLevel == 1)
             {
                 SetPass(_levelW[flowLevel], _levelH[flowLevel], 0f);
-                DrawPass(_psFlowRefineFine!, _flowRtv[flowLevel]!, _lumaSrv[aSet, flowLevel], _lumaSrv[bSet, flowLevel], _flowSmoothSrv[dir, sNow]);
+                DrawPass(
+                    _psFlowRefineFine!,
+                    _flowRtv[flowLevel]!,
+                    _lumaSrv[aSet, flowLevel],
+                    _lumaSrv[bSet, flowLevel],
+                    _flowSmoothSrv[dir, sNow]
+                );
                 SetPass(_levelW[flowLevel], _levelH[flowLevel], 0f, temporal);
                 DrawPass(smoothPs, _flowSmoothRtv[dir, sNow]!, _flowSrv[flowLevel], _lumaSrv[aSet, flowLevel], _flowSmoothSrv[dir, sPrev]);
             }
@@ -447,9 +502,9 @@ namespace Voidstrap.Integrations.FrameGeneration
 
         public void Dispose()
         {
-			if (_disposed)
-				return;
-			_disposed = true;
+            if (_disposed)
+                return;
+            _disposed = true;
             ReleaseSized();
             _cbuffer?.Dispose();
             _sampler?.Dispose();
@@ -469,24 +524,24 @@ namespace Voidstrap.Integrations.FrameGeneration
             _psWarpX?.Dispose();
             _psWarpXFast?.Dispose();
             _vs?.Dispose();
-			_cbuffer = null;
-			_sampler = null;
-			_psPass = null;
-			_psLumaColor = null;
-			_psLumaDown = null;
-			_psFlowCoarse = null;
-			_psFlowCoarseFast = null;
-			_psFlowRefine = null;
-			_psFlowRefineFast = null;
-			_psFlowRefineFine = null;
-			_psFlowSmooth = null;
-			_psFlowSmoothWide = null;
-			_psFlowGlobal = null;
-			_psWarp = null;
-			_psWarpFast = null;
-			_psWarpX = null;
-			_psWarpXFast = null;
-			_vs = null;
+            _cbuffer = null;
+            _sampler = null;
+            _psPass = null;
+            _psLumaColor = null;
+            _psLumaDown = null;
+            _psFlowCoarse = null;
+            _psFlowCoarseFast = null;
+            _psFlowRefine = null;
+            _psFlowRefineFast = null;
+            _psFlowRefineFine = null;
+            _psFlowSmooth = null;
+            _psFlowSmoothWide = null;
+            _psFlowGlobal = null;
+            _psWarp = null;
+            _psWarpFast = null;
+            _psWarpX = null;
+            _psWarpXFast = null;
+            _vs = null;
         }
     }
 }

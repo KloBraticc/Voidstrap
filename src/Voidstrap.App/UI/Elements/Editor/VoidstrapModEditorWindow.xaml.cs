@@ -18,7 +18,12 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
 {
 	private static readonly string[] EditableExtensions = [".tsx", ".ts", ".js", ".mjs", ".jsx", ".json", ".md"];
 
-	private static readonly string[] RequiredFiles = ["hooks/register.tsx", "hooks/hooks.json", PluginManifest.ManifestFolder + "/plugin.json"];
+	private static readonly string[] RequiredFiles =
+	[
+		"hooks/register.tsx",
+		"hooks/hooks.json",
+		PluginManifest.ManifestFolder + "/plugin.json",
+	];
 
 	private readonly string _mod;
 
@@ -70,7 +75,8 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
 			Close();
 			return;
 		}
-		string[] files = Directory.EnumerateFiles(_folder, "*", SearchOption.AllDirectories)
+		string[] files = Directory
+			.EnumerateFiles(_folder, "*", SearchOption.AllDirectories)
 			.Select(path => Path.GetRelativePath(_folder, path).Replace('\\', '/'))
 			.Where(path => !path.StartsWith(PluginManifest.ManifestFolder + "/types/", StringComparison.OrdinalIgnoreCase))
 			.Where(path => EditableExtensions.Contains(Path.GetExtension(path).ToLowerInvariant()))
@@ -82,7 +88,8 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
 		foreach (string file in files)
 			FileList.Items.Add(file);
 		_loading = false;
-		string? target = files.FirstOrDefault(file => string.Equals(file, select, StringComparison.OrdinalIgnoreCase)) ?? files.FirstOrDefault();
+		string? target =
+			files.FirstOrDefault(file => string.Equals(file, select, StringComparison.OrdinalIgnoreCase)) ?? files.FirstOrDefault();
 		if (target != null)
 			FileList.SelectedItem = target;
 	}

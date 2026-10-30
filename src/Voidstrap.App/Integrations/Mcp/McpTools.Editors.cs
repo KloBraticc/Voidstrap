@@ -45,7 +45,9 @@ public static partial class McpTools
 
 		sb.AppendLine();
 		List<string> bootstrapperThemes = GetInstalledBootstrapperThemes();
-		sb.AppendLine($"Installed Custom Bootstrapper Themes ({bootstrapperThemes.Count}): {(bootstrapperThemes.Count == 0 ? "none" : string.Join(", ", bootstrapperThemes))}");
+		sb.AppendLine(
+			$"Installed Custom Bootstrapper Themes ({bootstrapperThemes.Count}): {(bootstrapperThemes.Count == 0 ? "none" : string.Join(", ", bootstrapperThemes))}"
+		);
 		IReadOnlyList<string> keystrokeThemes = KeystrokeThemeManager.GetAllThemeNames();
 		sb.AppendLine($"Available Keystroke Themes ({keystrokeThemes.Count}): {string.Join(", ", keystrokeThemes)}");
 
@@ -89,7 +91,8 @@ public static partial class McpTools
 				App.Settings.Save();
 			}
 
-			BootstrapperEditorWindow? existing = Application.Current?.Windows.OfType<BootstrapperEditorWindow>()
+			BootstrapperEditorWindow? existing = Application
+				.Current?.Windows.OfType<BootstrapperEditorWindow>()
 				.FirstOrDefault(w => string.Equals(((IMcpEditor)w).DisplayName, name, StringComparison.OrdinalIgnoreCase));
 
 			if (existing != null)
@@ -128,7 +131,8 @@ public static partial class McpTools
 				KeystrokeThemeManager.NotifyThemeChanged();
 			}
 
-			KeystrokeThemeEditorWindow? existing = Application.Current?.Windows.OfType<KeystrokeThemeEditorWindow>()
+			KeystrokeThemeEditorWindow? existing = Application
+				.Current?.Windows.OfType<KeystrokeThemeEditorWindow>()
 				.FirstOrDefault(w => string.Equals(((IMcpEditor)w).DisplayName, name, StringComparison.OrdinalIgnoreCase));
 
 			if (existing != null)
@@ -175,7 +179,8 @@ public static partial class McpTools
 		}
 	}
 
-	private static string HistoryKey(string editorId, string? file) => editorId + "|" + (string.IsNullOrWhiteSpace(file) ? "" : file.Trim().Replace('\\', '/').ToLowerInvariant());
+	private static string HistoryKey(string editorId, string? file) =>
+		editorId + "|" + (string.IsNullOrWhiteSpace(file) ? "" : file.Trim().Replace('\\', '/').ToLowerInvariant());
 
 	private static void PushHistory(string editorId, string? file, string text)
 	{
@@ -210,13 +215,23 @@ public static partial class McpTools
 		}
 	}
 
-	private static bool IsRootFile(string? file) => string.IsNullOrWhiteSpace(file) || string.Equals(file.Trim().Replace('\\', '/'), "Theme.xml", StringComparison.OrdinalIgnoreCase);
+	private static bool IsRootFile(string? file) =>
+		string.IsNullOrWhiteSpace(file) || string.Equals(file.Trim().Replace('\\', '/'), "Theme.xml", StringComparison.OrdinalIgnoreCase);
 
-	private static string? ReadEditorText(IMcpEditor editor, string? file) => IsRootFile(file) ? editor.GetCode() : editor.ReadFile(file!.Trim());
+	private static string? ReadEditorText(IMcpEditor editor, string? file) =>
+		IsRootFile(file) ? editor.GetCode() : editor.ReadFile(file!.Trim());
 
-	private static McpEditResult WriteEditorText(IMcpEditor editor, string? file, string text) => IsRootFile(file) ? editor.SetCode(text) : editor.WriteFile(file!.Trim(), text);
+	private static McpEditResult WriteEditorText(IMcpEditor editor, string? file, string text) =>
+		IsRootFile(file) ? editor.SetCode(text) : editor.WriteFile(file!.Trim(), text);
 
-	private static McpToolResult ApplyEditorText(KeyValuePair<string, IMcpEditor> entry, string? file, string original, string updated, bool revertOnError, string action)
+	private static McpToolResult ApplyEditorText(
+		KeyValuePair<string, IMcpEditor> entry,
+		string? file,
+		string original,
+		string updated,
+		bool revertOnError,
+		string action
+	)
 	{
 		if (string.Equals(original, updated, StringComparison.Ordinal))
 			return new McpToolResult($"No change was needed in {DescribeTarget(entry, file)}.");
@@ -227,19 +242,27 @@ public static partial class McpTools
 			if (revertOnError)
 			{
 				McpEditResult restored = WriteEditorText(entry.Value, file, original);
-				return new McpToolResult($"{action} failed in {DescribeTarget(entry, file)}: {result.Message}{(restored.Success ? " The previous code was restored." : " Restoring the previous code also failed: " + restored.Message)}", true);
+				return new McpToolResult(
+					$"{action} failed in {DescribeTarget(entry, file)}: {result.Message}{(restored.Success ? " The previous code was restored." : " Restoring the previous code also failed: " + restored.Message)}",
+					true
+				);
 			}
 			PushHistory(entry.Key, file, original);
-			return new McpToolResult($"{action} failed in {DescribeTarget(entry, file)}: {result.Message} The change was kept so you can fix it, call undo_editor to go back.", true);
+			return new McpToolResult(
+				$"{action} failed in {DescribeTarget(entry, file)}: {result.Message} The change was kept so you can fix it, call undo_editor to go back.",
+				true
+			);
 		}
 
 		PushHistory(entry.Key, file, original);
 		return new McpToolResult($"{action} in {DescribeTarget(entry, file)}: {result.Message} ({CountLines(updated)} lines)");
 	}
 
-	private static string DescribeTarget(KeyValuePair<string, IMcpEditor> entry, string? file) => IsRootFile(file) ? entry.Key : entry.Key + " file " + file!.Trim();
+	private static string DescribeTarget(KeyValuePair<string, IMcpEditor> entry, string? file) =>
+		IsRootFile(file) ? entry.Key : entry.Key + " file " + file!.Trim();
 
-	private static int CountLines(string text) => string.IsNullOrEmpty(text) ? 0 : text.Count(c => c == '\n') + (text.EndsWith('\n') ? 0 : 1);
+	private static int CountLines(string text) =>
+		string.IsNullOrEmpty(text) ? 0 : text.Count(c => c == '\n') + (text.EndsWith('\n') ? 0 : 1);
 
 	private static string Newline(string text) => text.Contains("\r\n", StringComparison.Ordinal) ? "\r\n" : "\n";
 
@@ -346,7 +369,10 @@ public static partial class McpTools
 			return new McpToolResult($"'{file}' could not be read from {entry.Key}.", true);
 
 		if (!TryReplace(current, oldText, newText, McpArgs.Flag(args, "replaceAll", false), out string updated, out string problem))
-			return new McpToolResult($"{problem} in {DescribeTarget(entry, file)}. Call get_editor_code or find_in_editor to inspect it.", true);
+			return new McpToolResult(
+				$"{problem} in {DescribeTarget(entry, file)}. Call get_editor_code or find_in_editor to inspect it.",
+				true
+			);
 
 		return ApplyEditorText(entry, file, current, updated, McpArgs.Flag(args, "revertOnError", false), "Replaced the snippet");
 	}
@@ -462,7 +488,10 @@ public static partial class McpTools
 				{
 					long? startLine = McpArgs.Long(edit, "startLine");
 					if (startLine == null || startLine < 1 || startLine > lineCount)
-						return new McpToolResult($"Edit {i + 1}: 'startLine' must be between 1 and {lineCount}. Nothing was changed.", true);
+						return new McpToolResult(
+							$"Edit {i + 1}: 'startLine' must be between 1 and {lineCount}. Nothing was changed.",
+							true
+						);
 					int from = (int)startLine.Value;
 					int to = (int)Math.Clamp(McpArgs.Long(edit, "endLine") ?? from, from, lineCount);
 					lines.RemoveRange(from - 1, to - from + 1);
@@ -473,11 +502,21 @@ public static partial class McpTools
 					break;
 				}
 				default:
-					return new McpToolResult($"Edit {i + 1}: unknown op '{op}'. Use replace, insert, append, delete_lines, or replace_lines. Nothing was changed.", true);
+					return new McpToolResult(
+						$"Edit {i + 1}: unknown op '{op}'. Use replace, insert, append, delete_lines, or replace_lines. Nothing was changed.",
+						true
+					);
 			}
 		}
 
-		McpToolResult result = ApplyEditorText(entry, file, original, working, McpArgs.Flag(args, "revertOnError", true), $"Applied {applied.Count} edit(s) ({string.Join(", ", applied)})");
+		McpToolResult result = ApplyEditorText(
+			entry,
+			file,
+			original,
+			working,
+			McpArgs.Flag(args, "revertOnError", true),
+			$"Applied {applied.Count} edit(s) ({string.Join(", ", applied)})"
+		);
 		return result;
 	}
 
@@ -537,7 +576,7 @@ public static partial class McpTools
 					continue;
 				if (lastShown >= 0 && i > lastShown + 1)
 					sb.AppendLine("  ...");
-				sb.AppendLine($"{(i == hit ? ">" : " ")}{i + 1,5} | {lines[i]}");
+				sb.AppendLine($"{(i == hit ? ">" : " ")}{i + 1, 5} | {lines[i]}");
 				lastShown = i;
 			}
 		}
@@ -603,7 +642,10 @@ public static partial class McpTools
 		McpEditResult result = entry.Value.DeleteFile(file);
 		if (result.Success && previous != null)
 			PushHistory(entry.Key, file, previous);
-		return new McpToolResult($"{entry.Key}: {result.Message}{(result.Success && previous != null ? " Call undo_editor with this file to restore it." : "")}", !result.Success);
+		return new McpToolResult(
+			$"{entry.Key}: {result.Message}{(result.Success && previous != null ? " Call undo_editor with this file to restore it." : "")}",
+			!result.Success
+		);
 	}
 
 	private static McpToolResult SaveEditor(JsonObject args)

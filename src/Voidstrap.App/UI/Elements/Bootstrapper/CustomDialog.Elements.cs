@@ -3,15 +3,13 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Media.Effects;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Linq;
-
-using Wpf.Ui.Markup;
-
-using Voidstrap.UI.Elements.Controls;
 using Voidstrap;
+using Voidstrap.UI.Elements.Controls;
+using Wpf.Ui.Markup;
 
 namespace Voidstrap.UI.Elements.Bootstrapper
 {
@@ -123,8 +121,16 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             imageBrush.Stretch = ParseXmlAttribute<Stretch>(xmlElement, "Stretch", Stretch.Fill);
             imageBrush.TileMode = ParseXmlAttribute<TileMode>(xmlElement, "TileMode", TileMode.None);
 
-            imageBrush.ViewboxUnits = ParseXmlAttribute<BrushMappingMode>(xmlElement, "ViewboxUnits", BrushMappingMode.RelativeToBoundingBox);
-            imageBrush.ViewportUnits = ParseXmlAttribute<BrushMappingMode>(xmlElement, "ViewportUnits", BrushMappingMode.RelativeToBoundingBox);
+            imageBrush.ViewboxUnits = ParseXmlAttribute<BrushMappingMode>(
+                xmlElement,
+                "ViewboxUnits",
+                BrushMappingMode.RelativeToBoundingBox
+            );
+            imageBrush.ViewportUnits = ParseXmlAttribute<BrushMappingMode>(
+                xmlElement,
+                "ViewportUnits",
+                BrushMappingMode.RelativeToBoundingBox
+            );
 
             var viewbox = GetRectFromXElement(xmlElement, "Viewbox");
             if (viewbox is Rect)
@@ -186,7 +192,11 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             if (endPoint is Point)
                 brush.EndPoint = (Point)endPoint;
 
-            brush.ColorInterpolationMode = ParseXmlAttribute<ColorInterpolationMode>(xmlElement, "ColorInterpolationMode", ColorInterpolationMode.SRgbLinearInterpolation);
+            brush.ColorInterpolationMode = ParseXmlAttribute<ColorInterpolationMode>(
+                xmlElement,
+                "ColorInterpolationMode",
+                ColorInterpolationMode.SRgbLinearInterpolation
+            );
             brush.MappingMode = ParseXmlAttribute<BrushMappingMode>(xmlElement, "MappingMode", BrushMappingMode.RelativeToBoundingBox);
             brush.SpreadMethod = ParseXmlAttribute<GradientSpreadMethod>(xmlElement, "SpreadMethod", GradientSpreadMethod.Pad);
 
@@ -196,7 +206,13 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             return brush;
         }
 
-        private static void ApplyBrush_UIElement(CustomDialog dialog, FrameworkElement uiElement, string name, DependencyProperty dependencyProperty, XElement xmlElement)
+        private static void ApplyBrush_UIElement(
+            CustomDialog dialog,
+            FrameworkElement uiElement,
+            string name,
+            DependencyProperty dependencyProperty,
+            XElement xmlElement
+        )
         {
             // check if attribute exists
             object? brushAttr = GetBrushFromXElement(xmlElement, name);
@@ -303,7 +319,11 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             uiElement.Height = ParseXmlAttribute<double>(xmlElement, "Height", double.NaN);
             uiElement.Width = ParseXmlAttribute<double>(xmlElement, "Width", double.NaN);
 
-            uiElement.HorizontalAlignment = ParseXmlAttribute<HorizontalAlignment>(xmlElement, "HorizontalAlignment", HorizontalAlignment.Stretch);
+            uiElement.HorizontalAlignment = ParseXmlAttribute<HorizontalAlignment>(
+                xmlElement,
+                "HorizontalAlignment",
+                HorizontalAlignment.Stretch
+            );
             uiElement.VerticalAlignment = ParseXmlAttribute<VerticalAlignment>(xmlElement, "VerticalAlignment", VerticalAlignment.Stretch);
 
             uiElement.Opacity = ParseXmlAttribute<double>(xmlElement, "Opacity", 1);
@@ -377,7 +397,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                 Wpf.Ui.Appearance.BackgroundType.Acrylic => Voidstrap.Models.BackdropType.Acrylic,
                 Wpf.Ui.Appearance.BackgroundType.Tabbed => Voidstrap.Models.BackdropType.MicaAlt,
                 Wpf.Ui.Appearance.BackgroundType.Auto => Voidstrap.Models.BackdropType.Default,
-                _ => Voidstrap.Models.BackdropType.None
+                _ => Voidstrap.Models.BackdropType.None,
             };
         }
 
@@ -406,7 +426,10 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
             for (int i = dialog.Resources.MergedDictionaries.Count - 1; i >= 0; i--)
             {
-                if (dialog.Resources.MergedDictionaries[i] is ThemesDictionary || dialog.Resources.MergedDictionaries[i] is ControlsDictionary)
+                if (
+                    dialog.Resources.MergedDictionaries[i] is ThemesDictionary
+                    || dialog.Resources.MergedDictionaries[i] is ControlsDictionary
+                )
                     dialog.Resources.MergedDictionaries.RemoveAt(i);
             }
 
@@ -416,7 +439,11 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             CopySystemAccent(dialog);
             dialog.DefaultBorderThemeOverwrite = wpfUiTheme;
 
-            dialog.WindowCornerPreference = ParseXmlAttribute<Wpf.Ui.Appearance.WindowCornerPreference>(xmlElement, "WindowCornerPreference", Wpf.Ui.Appearance.WindowCornerPreference.Round);
+            dialog.WindowCornerPreference = ParseXmlAttribute<Wpf.Ui.Appearance.WindowCornerPreference>(
+                xmlElement,
+                "WindowCornerPreference",
+                Wpf.Ui.Appearance.WindowCornerPreference.Round
+            );
 
             bool glass = ParseXmlAttribute<bool>(xmlElement, "Glass", true);
 
@@ -453,13 +480,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             if (Application.Current == null)
                 return;
 
-            string[] keys =
-            {
-                "SystemAccentColor",
-                "SystemAccentColorPrimary",
-                "SystemAccentColorSecondary",
-                "SystemAccentColorTertiary"
-            };
+            string[] keys = { "SystemAccentColor", "SystemAccentColorPrimary", "SystemAccentColorSecondary", "SystemAccentColorTertiary" };
 
             foreach (string key in keys)
             {
@@ -605,7 +626,11 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             textBlock.FontStyle = GetFontStyleFromXElement(xmlElement);
 
             textBlock.LineHeight = ParseXmlAttribute<double>(xmlElement, "LineHeight", double.NaN);
-            textBlock.LineStackingStrategy = ParseXmlAttribute<LineStackingStrategy>(xmlElement, "LineStackingStrategy", LineStackingStrategy.MaxHeight);
+            textBlock.LineStackingStrategy = ParseXmlAttribute<LineStackingStrategy>(
+                xmlElement,
+                "LineStackingStrategy",
+                LineStackingStrategy.MaxHeight
+            );
 
             textBlock.TextAlignment = ParseXmlAttribute<TextAlignment>(xmlElement, "TextAlignment", TextAlignment.Center);
             textBlock.TextTrimming = ParseXmlAttribute<TextTrimming>(xmlElement, "TextTrimming", TextTrimming.None);
@@ -683,7 +708,13 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                     }
                     catch (Exception ex)
                     {
-                        throw new CustomThemeException(ex, "CustomTheme.Errors.ElementTypeCreationFailed", "Image", "BitmapImage", ex.Message);
+                        throw new CustomThemeException(
+                            ex,
+                            "CustomTheme.Errors.ElementTypeCreationFailed",
+                            "Image",
+                            "BitmapImage",
+                            ex.Message
+                        );
                     }
 
                     image.Source = bitmapImage;
@@ -772,7 +803,11 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                 else if (element.Name == "Grid.ColumnDefinitions")
                 {
                     if (columnsSet)
-                        throw new CustomThemeException("CustomTheme.Errors.ElementAttributeMultipleDefinitions", "Grid", "ColumnDefinitions");
+                        throw new CustomThemeException(
+                            "CustomTheme.Errors.ElementAttributeMultipleDefinitions",
+                            "Grid",
+                            "ColumnDefinitions"
+                        );
                     columnsSet = true;
 
                     HandleXmlElement_Grid_ColumnDefinitions(grid, dialog, element);
@@ -811,9 +846,14 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
         private const long MaxWebPanelPageBytes = 4L * 1024 * 1024;
 
-        private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<Microsoft.Web.WebView2.Wpf.WebView2, string> WebPanelHosts = new();
+        private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<
+            Microsoft.Web.WebView2.Wpf.WebView2,
+            string
+        > WebPanelHosts = new();
 
-        private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, string> WebPanelFolders = new(StringComparer.OrdinalIgnoreCase);
+        private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, string> WebPanelFolders = new(
+            StringComparer.OrdinalIgnoreCase
+        );
 
         private const string WebPanelBrowserArgs =
             "--disable-background-networking --disable-sync --disable-extensions "
@@ -832,7 +872,10 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                     _webPanelEnvironment = Microsoft.Web.WebView2.Core.CoreWebView2Environment.CreateAsync(
                         null,
                         Paths.WebViewData,
-                        new Microsoft.Web.WebView2.Core.CoreWebView2EnvironmentOptions(Voidstrap.Utility.RenderAcceleration.ApplyToBrowserArguments(WebPanelBrowserArgs)));
+                        new Microsoft.Web.WebView2.Core.CoreWebView2EnvironmentOptions(
+                            Voidstrap.Utility.RenderAcceleration.ApplyToBrowserArguments(WebPanelBrowserArgs)
+                        )
+                    );
                 }
 
                 return _webPanelEnvironment;
@@ -875,7 +918,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                     AccentColor = GetWindowsAccentColorHex(),
                     CornerRadius = host.CornerRadius.TopLeft,
                     Owner = dialog,
-                    AllowDrag = canDrag
+                    AllowDrag = canDrag,
                 };
 
                 if (canDrag)
@@ -901,7 +944,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                     ThemeFolder = System.IO.Path.GetDirectoryName(source)!,
                     AccentColor = GetWindowsAccentColorHex(),
                     Owner = dialog,
-                    AllowDrag = canDrag
+                    AllowDrag = canDrag,
                 };
 
                 if (canDrag)
@@ -1006,21 +1049,22 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                     return $"#{r:X2}{g:X2}{b:X2}";
                 }
             }
-            catch
-            {
-            }
+            catch { }
             try
             {
                 System.Windows.Media.Color c = Voidstrap.Utility.SystemAccent.GetGlassColor();
                 return $"#{c.R:X2}{c.G:X2}{c.B:X2}";
             }
-            catch
-            {
-            }
+            catch { }
             return "#0078d4";
         }
 
-        private static async void InitialiseWebPanel(CustomDialog dialog, Microsoft.Web.WebView2.Wpf.WebView2 view, string folder, string file)
+        private static async void InitialiseWebPanel(
+            CustomDialog dialog,
+            Microsoft.Web.WebView2.Wpf.WebView2 view,
+            string folder,
+            string file
+        )
         {
             CancellationToken token = dialog.WebPanelLifetimeToken;
             view.Tag = dialog;
@@ -1062,7 +1106,8 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                 core.SetVirtualHostNameToFolderMapping(
                     host,
                     folder,
-                    Microsoft.Web.WebView2.Core.CoreWebView2HostResourceAccessKind.DenyCors);
+                    Microsoft.Web.WebView2.Core.CoreWebView2HostResourceAccessKind.DenyCors
+                );
 
                 core.NewWindowRequested += WebPanel_NewWindowRequested;
                 core.NavigationStarting += WebPanel_NavigationStarting;
@@ -1072,7 +1117,9 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                 core.AddWebResourceRequestedFilter("*", Microsoft.Web.WebView2.Core.CoreWebView2WebResourceContext.All);
                 core.WebResourceRequested += WebPanel_WebResourceRequested;
 
-                await core.AddScriptToExecuteOnDocumentCreatedAsync("window.__vsAccentColor = " + System.Text.Json.JsonSerializer.Serialize(GetWindowsAccentColorHex()) + ";");
+                await core.AddScriptToExecuteOnDocumentCreatedAsync(
+                    "window.__vsAccentColor = " + System.Text.Json.JsonSerializer.Serialize(GetWindowsAccentColorHex()) + ";"
+                );
 
                 await core.AddScriptToExecuteOnDocumentCreatedAsync(WebPanelApi);
                 if (token.IsCancellationRequested || dialog.WebPanelLifetimeEnded)
@@ -1097,14 +1144,15 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
         private static bool IsWebPanelUri(string uri)
         {
-            if (!Uri.TryCreate(uri, UriKind.Absolute, out Uri? parsed)
+            if (
+                !Uri.TryCreate(uri, UriKind.Absolute, out Uri? parsed)
                 || parsed.Scheme != Uri.UriSchemeHttps
-                || !parsed.Host.EndsWith(WebPanelHostSuffix, StringComparison.OrdinalIgnoreCase))
+                || !parsed.Host.EndsWith(WebPanelHostSuffix, StringComparison.OrdinalIgnoreCase)
+            )
                 return false;
 
             string identifier = parsed.Host[..^WebPanelHostSuffix.Length];
-            return identifier.StartsWith("theme-", StringComparison.OrdinalIgnoreCase)
-                && Guid.TryParseExact(identifier[6..], "N", out _);
+            return identifier.StartsWith("theme-", StringComparison.OrdinalIgnoreCase) && Guid.TryParseExact(identifier[6..], "N", out _);
         }
 
         private static readonly string[] AllowedWebPanelHosts = { "cdn.jsdelivr.net" };
@@ -1116,12 +1164,18 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                 && AllowedWebPanelHosts.Contains(parsed.Host, StringComparer.OrdinalIgnoreCase);
         }
 
-        private static void WebPanel_NewWindowRequested(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2NewWindowRequestedEventArgs e)
+        private static void WebPanel_NewWindowRequested(
+            object? sender,
+            Microsoft.Web.WebView2.Core.CoreWebView2NewWindowRequestedEventArgs e
+        )
         {
             e.Handled = true;
         }
 
-        private static void WebPanel_NavigationStarting(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs e)
+        private static void WebPanel_NavigationStarting(
+            object? sender,
+            Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs e
+        )
         {
             if (!IsWebPanelUri(e.Uri))
                 e.Cancel = true;
@@ -1132,17 +1186,26 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             e.Cancel = true;
         }
 
-        private static void WebPanel_PermissionRequested(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2PermissionRequestedEventArgs e)
+        private static void WebPanel_PermissionRequested(
+            object? sender,
+            Microsoft.Web.WebView2.Core.CoreWebView2PermissionRequestedEventArgs e
+        )
         {
             e.State = Microsoft.Web.WebView2.Core.CoreWebView2PermissionState.Deny;
         }
 
-        private static void WebPanel_ContextMenuRequested(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2ContextMenuRequestedEventArgs e)
+        private static void WebPanel_ContextMenuRequested(
+            object? sender,
+            Microsoft.Web.WebView2.Core.CoreWebView2ContextMenuRequestedEventArgs e
+        )
         {
             e.Handled = true;
         }
 
-        private static void WebPanel_WebResourceRequested(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2WebResourceRequestedEventArgs e)
+        private static void WebPanel_WebResourceRequested(
+            object? sender,
+            Microsoft.Web.WebView2.Core.CoreWebView2WebResourceRequestedEventArgs e
+        )
         {
             if (IsWebPanelUri(e.Request.Uri))
             {
@@ -1158,32 +1221,49 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                 e.Response = core.Environment.CreateWebResourceResponse(null, 403, "Blocked", string.Empty);
         }
 
-        private static Microsoft.Web.WebView2.Core.CoreWebView2WebResourceResponse? TryServeThemePage(Microsoft.Web.WebView2.Core.CoreWebView2 core, string uri)
+        private static Microsoft.Web.WebView2.Core.CoreWebView2WebResourceResponse? TryServeThemePage(
+            Microsoft.Web.WebView2.Core.CoreWebView2 core,
+            string uri
+        )
         {
             try
             {
                 Uri parsed = new Uri(uri);
                 string relative = Uri.UnescapeDataString(parsed.AbsolutePath).TrimStart('/');
-                if (!relative.EndsWith(".html", StringComparison.OrdinalIgnoreCase) && !relative.EndsWith(".htm", StringComparison.OrdinalIgnoreCase) && !relative.EndsWith(".css", StringComparison.OrdinalIgnoreCase))
+                if (
+                    !relative.EndsWith(".html", StringComparison.OrdinalIgnoreCase)
+                    && !relative.EndsWith(".htm", StringComparison.OrdinalIgnoreCase)
+                    && !relative.EndsWith(".css", StringComparison.OrdinalIgnoreCase)
+                )
                     return null;
                 if (!WebPanelFolders.TryGetValue(parsed.Host, out string? folder))
                     return null;
 
                 string root = System.IO.Path.TrimEndingDirectorySeparator(folder) + System.IO.Path.DirectorySeparatorChar;
                 string full = System.IO.Path.GetFullPath(System.IO.Path.Combine(root, relative));
-                if (!full.StartsWith(root, StringComparison.OrdinalIgnoreCase) || !System.IO.File.Exists(full) || new System.IO.FileInfo(full).Length > MaxWebPanelPageBytes)
+                if (
+                    !full.StartsWith(root, StringComparison.OrdinalIgnoreCase)
+                    || !System.IO.File.Exists(full)
+                    || new System.IO.FileInfo(full).Length > MaxWebPanelPageBytes
+                )
                     return null;
 
                 string text = System.IO.File.ReadAllText(full);
                 if (!text.Contains("theme://", StringComparison.OrdinalIgnoreCase))
                     return null;
 
-                text = System.Text.RegularExpressions.Regex.Replace(text, "theme://", "/", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                text = System.Text.RegularExpressions.Regex.Replace(
+                    text,
+                    "theme://",
+                    "/",
+                    System.Text.RegularExpressions.RegexOptions.IgnoreCase
+                );
                 string type = relative.EndsWith(".css", StringComparison.OrdinalIgnoreCase) ? "text/css" : "text/html";
                 var stream = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(text));
                 return core.Environment.CreateWebResourceResponse(stream, 200, "OK", "Content-Type: " + type + "; charset=utf-8");
             }
-            catch (Exception ex) when (ex is System.IO.IOException or UnauthorizedAccessException or UriFormatException or ArgumentException)
+            catch (Exception ex)
+                when (ex is System.IO.IOException or UnauthorizedAccessException or UriFormatException or ArgumentException)
             {
                 App.Logger.WriteLine("CustomDialog::TryServeThemePage", ex.Message);
                 return null;

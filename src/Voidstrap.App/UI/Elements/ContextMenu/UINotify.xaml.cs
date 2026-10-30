@@ -6,33 +6,38 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Media.Animation;
-using System.Windows.Threading;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.Elements.Overlay
 {
-    public partial class NotificationWindow : Window
-    {
-        private const int MaxQueuedNotifications = 4;
-        private const int EdgeMargin = 10;
-        private const int RenderWarmUpFrames = 6;
-        private const int RenderWarmUpTimeoutMs = 2500;
-        private const int IntroSlideMs = 420;
-        private const int IntroFadeMs = 260;
-        private const int OutroMs = 320;
-        private const int AnimationFrameRate = 60;
-        private const int OutroTimeoutMs = 1200;
+	public partial class NotificationWindow : Window
+	{
+		private const int MaxQueuedNotifications = 4;
+		private const int EdgeMargin = 10;
+		private const int RenderWarmUpFrames = 6;
+		private const int RenderWarmUpTimeoutMs = 2500;
+		private const int IntroSlideMs = 420;
+		private const int IntroFadeMs = 260;
+		private const int OutroMs = 320;
+		private const int AnimationFrameRate = 60;
+		private const int OutroTimeoutMs = 1200;
 		private const int LinuxCornerRadius = 10;
 		private const int LinuxParkedPosition = -32000;
 		private const int LinuxPresentFrames = 2;
 		private const int LinuxPresentTimeoutMs = 250;
 		private const int LinuxWarmDelayMs = 3000;
 		private const int LinuxWarmMs = 1500;
-		private static readonly DependencyProperty LinuxFadeProperty = DependencyProperty.Register("LinuxFade", typeof(double), typeof(NotificationWindow), new PropertyMetadata(1.0));
+		private static readonly DependencyProperty LinuxFadeProperty = DependencyProperty.Register(
+			"LinuxFade",
+			typeof(double),
+			typeof(NotificationWindow),
+			new PropertyMetadata(1.0)
+		);
 		private readonly Queue<NotificationItem> _queue = new();
 		private readonly CancellationTokenSource _lifetimeCts = new();
 		private double _slideDistance = 360;
@@ -40,7 +45,7 @@ namespace Voidstrap.UI.Elements.Overlay
 		private readonly double _linuxHorizontalInset;
 		private readonly double _linuxVerticalInset;
 
-        private bool _isProcessing = false;
+		private bool _isProcessing = false;
 		private bool _closed;
 		private bool _renderReady;
 		private Task? _renderReadyTask;
@@ -55,13 +60,13 @@ namespace Voidstrap.UI.Elements.Overlay
 		private int _linuxPreviousOffset = int.MinValue;
 		private int _linuxOpacityStep = -1;
 
-        public bool IsUsable => !_closed;
+		public bool IsUsable => !_closed;
 
-        public NotificationWindow()
-        {
-            Title = "Voidstrap Notification";
-            InitializeComponent();
-            PortableOverlay.Prepare(this);
+		public NotificationWindow()
+		{
+			Title = "Voidstrap Notification";
+			InitializeComponent();
+			PortableOverlay.Prepare(this);
 			_linuxSurface = Voidstrap.Utility.Platform.IsLinux;
 			if (_linuxSurface)
 			{
@@ -74,17 +79,17 @@ namespace Voidstrap.UI.Elements.Overlay
 				NotificationRoot.Margin = new Thickness(0);
 				SizeChanged += Window_SizeChanged;
 			}
-            AccentStripe.SetResourceReference(System.Windows.Shapes.Shape.FillProperty, "SystemAccentColorBrush");
-            ProgressBar.SetResourceReference(System.Windows.Shapes.Shape.FillProperty, "SystemAccentColorBrush");
+			AccentStripe.SetResourceReference(System.Windows.Shapes.Shape.FillProperty, "SystemAccentColorBrush");
+			ProgressBar.SetResourceReference(System.Windows.Shapes.Shape.FillProperty, "SystemAccentColorBrush");
 
-            SourceInitialized += Window_SourceInitialized;
-            Closed += Window_Closed;
-        }
+			SourceInitialized += Window_SourceInitialized;
+			Closed += Window_Closed;
+		}
 
-        private void Window_SourceInitialized(object? sender, EventArgs e)
-        {
-            MakeClickThrough();
-        }
+		private void Window_SourceInitialized(object? sender, EventArgs e)
+		{
+			MakeClickThrough();
+		}
 
 		private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
@@ -96,11 +101,11 @@ namespace Voidstrap.UI.Elements.Overlay
 				SyncLinuxSurface(true);
 		}
 
-        #region Public API
-        public const char FlagPlaceholder = '￼';
+		#region Public API
+		public const char FlagPlaceholder = '￼';
 
-        public void ShowNotification(string message, BitmapSource? image = null, double durationSeconds = 5, BitmapSource? flag = null)
-        {
+		public void ShowNotification(string message, BitmapSource? image = null, double durationSeconds = 5, BitmapSource? flag = null)
+		{
 			if (_closed)
 				return;
 			if (!Dispatcher.CheckAccess())
@@ -108,40 +113,57 @@ namespace Voidstrap.UI.Elements.Overlay
 				Dispatcher.BeginInvoke(new Action(() => ShowNotification(message, image, durationSeconds, flag)));
 				return;
 			}
-            int separator = message.IndexOf('\n');
-            ShowNotification(separator < 0 ? "Voidstrap" : message[..separator],
-                separator < 0 ? message : message[(separator + 1)..], image, durationSeconds, flag);
-        }
+			int separator = message.IndexOf('\n');
+			ShowNotification(
+				separator < 0 ? "Voidstrap" : message[..separator],
+				separator < 0 ? message : message[(separator + 1)..],
+				image,
+				durationSeconds,
+				flag
+			);
+		}
 
-        public void ShowNotification(string title, string message, BitmapSource? image, double durationSeconds,
-            BitmapSource? flag, string status = "Voidstrap", CancellationToken token = default, Voidstrap.UI.NotificationKind kind = Voidstrap.UI.NotificationKind.General)
-        {
-            if (_closed || token.IsCancellationRequested)
-                return;
-            if (!Dispatcher.CheckAccess())
-            {
-                Dispatcher.BeginInvoke(new Action(() => ShowNotification(title, message, image, durationSeconds, flag, status, token, kind)));
-                return;
-            }
-            while (_queue.Count >= MaxQueuedNotifications)
-                _queue.Dequeue();
-            _queue.Enqueue(new NotificationItem
-            {
-                Title = title,
-                Text = message,
-                Image = image,
-                Flag = flag,
-                Duration = durationSeconds,
-                Status = status,
-                Token = token,
-                Kind = kind
-            });
-            if (!_isProcessing)
-                StartProcessQueue();
-        }
+		public void ShowNotification(
+			string title,
+			string message,
+			BitmapSource? image,
+			double durationSeconds,
+			BitmapSource? flag,
+			string status = "Voidstrap",
+			CancellationToken token = default,
+			Voidstrap.UI.NotificationKind kind = Voidstrap.UI.NotificationKind.General
+		)
+		{
+			if (_closed || token.IsCancellationRequested)
+				return;
+			if (!Dispatcher.CheckAccess())
+			{
+				Dispatcher.BeginInvoke(
+					new Action(() => ShowNotification(title, message, image, durationSeconds, flag, status, token, kind))
+				);
+				return;
+			}
+			while (_queue.Count >= MaxQueuedNotifications)
+				_queue.Dequeue();
+			_queue.Enqueue(
+				new NotificationItem
+				{
+					Title = title,
+					Text = message,
+					Image = image,
+					Flag = flag,
+					Duration = durationSeconds,
+					Status = status,
+					Token = token,
+					Kind = kind,
+				}
+			);
+			if (!_isProcessing)
+				StartProcessQueue();
+		}
 
-        #endregion
-        #region Notification Logic
+		#endregion
+		#region Notification Logic
 
 		private void StartProcessQueue()
 		{
@@ -175,30 +197,30 @@ namespace Voidstrap.UI.Elements.Overlay
 			}
 		}
 
-        private async Task ProcessQueue()
-        {
-            _isProcessing = true;
+		private async Task ProcessQueue()
+		{
+			_isProcessing = true;
 
-            try
-            {
-                while (_queue.Count > 0 && !_lifetimeCts.IsCancellationRequested)
-                {
-                    var item = _queue.Dequeue();
-                    if (item.Token.IsCancellationRequested)
-                        continue;
-                    NotificationTitle.Text = item.Title;
-                    NotificationStatus.Text = item.Status;
-                    // A notification with no status line, such as the overlay tip, is just a title and a line of text
-                    NotificationStatus.Visibility = string.IsNullOrEmpty(item.Status) ? Visibility.Collapsed : Visibility.Visible;
-                    if (Voidstrap.Utility.Platform.IsWindows || PortableOverlay.Active)
-                    {
-                        await PresentWindowsNotificationAsync(item);
-                        continue;
-                    }
-                    double duration = double.IsFinite(item.Duration) ? Math.Clamp(item.Duration, 0.5, 60) : 5;
-                    SetText(item.Text, item.Flag);
+			try
+			{
+				while (_queue.Count > 0 && !_lifetimeCts.IsCancellationRequested)
+				{
+					var item = _queue.Dequeue();
+					if (item.Token.IsCancellationRequested)
+						continue;
+					NotificationTitle.Text = item.Title;
+					NotificationStatus.Text = item.Status;
+					// A notification with no status line, such as the overlay tip, is just a title and a line of text
+					NotificationStatus.Visibility = string.IsNullOrEmpty(item.Status) ? Visibility.Collapsed : Visibility.Visible;
+					if (Voidstrap.Utility.Platform.IsWindows || PortableOverlay.Active)
+					{
+						await PresentWindowsNotificationAsync(item);
+						continue;
+					}
+					double duration = double.IsFinite(item.Duration) ? Math.Clamp(item.Duration, 0.5, 60) : 5;
+					SetText(item.Text, item.Flag);
 
-                    SetImage(item.Image);
+					SetImage(item.Image);
 
 					ProgressScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
 					ProgressScale.ScaleX = 0;
@@ -225,14 +247,14 @@ namespace Voidstrap.UI.Elements.Overlay
 						NotificationBorder.Opacity = 0;
 					}
 
-                    var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(IntroFadeMs))
-                    {
-                        EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
-                    };
-                    Timeline.SetDesiredFrameRate(fadeIn, AnimationFrameRate);
+					var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(IntroFadeMs))
+					{
+						EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut },
+					};
+					Timeline.SetDesiredFrameRate(fadeIn, AnimationFrameRate);
 					var slideIn = new DoubleAnimation(_slideDistance, 0, TimeSpan.FromMilliseconds(IntroSlideMs))
 					{
-						EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+						EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
 					};
 					Timeline.SetDesiredFrameRate(slideIn, AnimationFrameRate);
 					if (_linuxSurface && !_linuxAlpha)
@@ -256,23 +278,21 @@ namespace Voidstrap.UI.Elements.Overlay
 						await Task.Delay(TimeSpan.FromSeconds(duration), _lifetimeCts.SafeToken());
 					}
 
-                    await PlayOutroAsync();
+					await PlayOutroAsync();
 
-                    SetImage(null);
-                }
-            }
-            catch (OperationCanceledException)
-            {
-            }
-            catch (Exception ex)
-            {
-                _queue.Clear();
-                App.Logger.WriteLine("NotificationWindow::ProcessQueue", "Notification processing stopped: " + ex.Message);
-            }
-            finally
-            {
-                _isProcessing = false;
-                ReleaseWindowsPresentation();
+					SetImage(null);
+				}
+			}
+			catch (OperationCanceledException) { }
+			catch (Exception ex)
+			{
+				_queue.Clear();
+				App.Logger.WriteLine("NotificationWindow::ProcessQueue", "Notification processing stopped: " + ex.Message);
+			}
+			finally
+			{
+				_isProcessing = false;
+				ReleaseWindowsPresentation();
 				StopLinuxSync();
 				if (!_closed)
 				{
@@ -292,8 +312,8 @@ namespace Voidstrap.UI.Elements.Overlay
 					SetImage(null);
 					NotificationText.Inlines.Clear();
 				}
-            }
-        }
+			}
+		}
 
 		private void SetImage(BitmapSource? image)
 		{
@@ -315,8 +335,8 @@ namespace Voidstrap.UI.Elements.Overlay
 		// instead of being resampled with high quality filtering on every animation frame
 		private BitmapSource FitBitmap(BitmapSource source, double displayWidth)
 		{
-            if (PortableOverlay.Active)
-                return source;
+			if (PortableOverlay.Active)
+				return source;
 			try
 			{
 				double scale = VisualTreeHelper.GetDpi(this).DpiScaleX;
@@ -356,17 +376,21 @@ namespace Voidstrap.UI.Elements.Overlay
 			}
 			if (marker > 0)
 				NotificationText.Inlines.Add(new Run(message.Substring(0, marker)));
-			NotificationText.Inlines.Add(new InlineUIContainer(new Image
-			{
-				Source = FitBitmap(flag, 22),
-				Height = 11,
-				Stretch = Stretch.Uniform,
-				Margin = new Thickness(0, 0, 4, -1),
-				SnapsToDevicePixels = true
-			})
-			{
-				BaselineAlignment = BaselineAlignment.Center
-			});
+			NotificationText.Inlines.Add(
+				new InlineUIContainer(
+					new Image
+					{
+						Source = FitBitmap(flag, 22),
+						Height = 11,
+						Stretch = Stretch.Uniform,
+						Margin = new Thickness(0, 0, 4, -1),
+						SnapsToDevicePixels = true,
+					}
+				)
+				{
+					BaselineAlignment = BaselineAlignment.Center,
+				}
+			);
 			if (marker + 1 < message.Length)
 				NotificationText.Inlines.Add(new Run(message.Substring(marker + 1)));
 		}
@@ -383,8 +407,22 @@ namespace Voidstrap.UI.Elements.Overlay
 			double flagHeight = NotificationFlag.Height;
 			double flagWidth = flag.PixelHeight > 0 ? Math.Ceiling(flagHeight * flag.PixelWidth / flag.PixelHeight) : 16;
 			double pixelsPerDip = PortableOverlay.Scale(this).PixelsPerDip;
-			Typeface typeface = new(NotificationText.FontFamily, NotificationText.FontStyle, NotificationText.FontWeight, NotificationText.FontStretch);
-			FormattedText Measure(string value) => new(value, System.Globalization.CultureInfo.CurrentUICulture, NotificationText.FlowDirection, typeface, NotificationText.FontSize, Brushes.Black, pixelsPerDip);
+			Typeface typeface = new(
+				NotificationText.FontFamily,
+				NotificationText.FontStyle,
+				NotificationText.FontWeight,
+				NotificationText.FontStretch
+			);
+			FormattedText Measure(string value) =>
+				new(
+					value,
+					System.Globalization.CultureInfo.CurrentUICulture,
+					NotificationText.FlowDirection,
+					typeface,
+					NotificationText.FontSize,
+					Brushes.Black,
+					pixelsPerDip
+				);
 			double space = Math.Max(1, Measure("a a").WidthIncludingTrailingWhitespace - Measure("aa").WidthIncludingTrailingWhitespace);
 			int spaces = (int)Math.Ceiling((flagWidth + 4) / space);
 			string prefix = message.Substring(lineStart, marker - lineStart);
@@ -392,7 +430,12 @@ namespace Voidstrap.UI.Elements.Overlay
 			double lineHeight = NotificationText.FontSize * NotificationText.FontFamily.LineSpacing;
 			NotificationFlag.Source = flag;
 			NotificationFlag.Width = flagWidth;
-			NotificationFlag.Margin = new Thickness(Measure(prefix).WidthIncludingTrailingWhitespace, line * lineHeight + Math.Max(0, (lineHeight - flagHeight) / 2), 0, 0);
+			NotificationFlag.Margin = new Thickness(
+				Measure(prefix).WidthIncludingTrailingWhitespace,
+				line * lineHeight + Math.Max(0, (lineHeight - flagHeight) / 2),
+				0,
+				0
+			);
 			NotificationFlag.Visibility = Visibility.Visible;
 		}
 
@@ -402,12 +445,12 @@ namespace Voidstrap.UI.Elements.Overlay
 
 			DoubleAnimation slideOut = new(0, _slideDistance, TimeSpan.FromMilliseconds(OutroMs))
 			{
-				EasingFunction = new CubicEase { EasingMode = EasingMode.EaseIn }
+				EasingFunction = new CubicEase { EasingMode = EasingMode.EaseIn },
 			};
 
 			DoubleAnimation fadeOut = new(1, 0, TimeSpan.FromMilliseconds(OutroMs))
 			{
-				EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn }
+				EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn },
 			};
 
 			Timeline.SetDesiredFrameRate(slideOut, AnimationFrameRate);
@@ -450,12 +493,15 @@ namespace Voidstrap.UI.Elements.Overlay
 				}
 				catch (InvalidOperationException ex)
 				{
-					App.Logger.WriteLine("NotificationWindow::Prewarm", "The notification window could not be built ahead of time: " + ex.Message);
+					App.Logger.WriteLine(
+						"NotificationWindow::Prewarm",
+						"The notification window could not be built ahead of time: " + ex.Message
+					);
 				}
 				return;
 			}
-            if (PortableOverlay.Active)
-                return;
+			if (PortableOverlay.Active)
+				return;
 			if (_closed || _renderReady || !Voidstrap.Utility.Platform.IsLinux)
 				return;
 
@@ -519,11 +565,11 @@ namespace Voidstrap.UI.Elements.Overlay
 			TimeSpan length = TimeSpan.FromMilliseconds(LinuxWarmMs);
 			DoubleAnimation slide = new(_slideDistance, 0, TimeSpan.FromMilliseconds(IntroSlideMs))
 			{
-				EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+				EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
 			};
 			DoubleAnimation fade = new(0, 1, TimeSpan.FromMilliseconds(IntroFadeMs))
 			{
-				EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+				EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut },
 			};
 			Timeline.SetDesiredFrameRate(slide, AnimationFrameRate);
 			Timeline.SetDesiredFrameRate(fade, AnimationFrameRate);
@@ -619,14 +665,16 @@ namespace Voidstrap.UI.Elements.Overlay
 
 			_linuxAlphaResolved = true;
 			bool forcedOpaque = Environment.GetEnvironmentVariable("VOIDSTRAP_OVERLAY_ALPHA") == "0";
-			_linuxAlpha = !forcedOpaque
-				&& Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowDepth(handle, out int depth)
-				&& depth == 32;
+			_linuxAlpha =
+				!forcedOpaque && Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowDepth(handle, out int depth) && depth == 32;
 			if (_linuxAlpha)
 				Voidstrap.Platform.Linux.LinuxWindowInterop.TryClearShape(handle);
-			App.Logger.WriteLine("NotificationWindow::ResolveLinuxAlpha", _linuxAlpha
-				? "The notification surface has an alpha channel, it slides and fades exactly like Windows"
-				: "The notification surface has no alpha channel, the compositor fades it and its shape follows the slide");
+			App.Logger.WriteLine(
+				"NotificationWindow::ResolveLinuxAlpha",
+				_linuxAlpha
+					? "The notification surface has an alpha channel, it slides and fades exactly like Windows"
+					: "The notification surface has no alpha channel, the compositor fades it and its shape follows the slide"
+			);
 		}
 
 		private void StartLinuxSync()
@@ -670,7 +718,15 @@ namespace Voidstrap.UI.Elements.Overlay
 			if (force || shapeOffset != _linuxShapeOffset)
 			{
 				int radius = Math.Max(1, (int)Math.Round(LinuxCornerRadius * Math.Max(0.5, scale)));
-				Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetOffsetRoundedShape(handle, shapeOffset, width, height, radius, width, height);
+				Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetOffsetRoundedShape(
+					handle,
+					shapeOffset,
+					width,
+					height,
+					radius,
+					width,
+					height
+				);
 				_linuxShapeOffset = shapeOffset;
 			}
 
@@ -686,7 +742,15 @@ namespace Voidstrap.UI.Elements.Overlay
 		{
 			if (_linuxPixelWidth <= 0 || _linuxPixelHeight <= 0)
 			{
-				if (!Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(handle, out _, out _, out _linuxPixelWidth, out _linuxPixelHeight))
+				if (
+					!Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(
+						handle,
+						out _,
+						out _,
+						out _linuxPixelWidth,
+						out _linuxPixelHeight
+					)
+				)
 				{
 					_linuxPixelWidth = 0;
 					_linuxPixelHeight = 0;
@@ -739,10 +803,7 @@ namespace Voidstrap.UI.Elements.Overlay
 			public RenderWarmUp(int frames, int timeoutMilliseconds)
 			{
 				_frames = frames;
-				_deadline = new DispatcherTimer(DispatcherPriority.Send)
-				{
-					Interval = TimeSpan.FromMilliseconds(timeoutMilliseconds)
-				};
+				_deadline = new DispatcherTimer(DispatcherPriority.Send) { Interval = TimeSpan.FromMilliseconds(timeoutMilliseconds) };
 				_deadline.Tick += OnDeadline;
 				CompositionTarget.Rendering += OnRendering;
 				_deadline.Start();
@@ -789,11 +850,7 @@ namespace Voidstrap.UI.Elements.Overlay
 			if (!translucent)
 				return;
 
-			LinearGradientBrush opaque = new()
-			{
-				StartPoint = gradient.StartPoint,
-				EndPoint = gradient.EndPoint
-			};
+			LinearGradientBrush opaque = new() { StartPoint = gradient.StartPoint, EndPoint = gradient.EndPoint };
 
 			foreach (GradientStop stop in gradient.GradientStops)
 			{
@@ -805,8 +862,9 @@ namespace Voidstrap.UI.Elements.Overlay
 			NotificationBorder.Background = opaque;
 		}
 
-		private static readonly System.Windows.Media.FontFamily NotificationFont =
-			new("Inter 18pt, Selawik, Segoe UI Variable, Segoe UI, Ubuntu, Cantarell, Noto Sans, DejaVu Sans, Liberation Sans");
+		private static readonly System.Windows.Media.FontFamily NotificationFont = new(
+			"Inter 18pt, Selawik, Segoe UI Variable, Segoe UI, Ubuntu, Cantarell, Noto Sans, DejaVu Sans, Liberation Sans"
+		);
 
 		private void EnsureReadableForeground()
 		{
@@ -827,7 +885,13 @@ namespace Voidstrap.UI.Elements.Overlay
 				if (native != 0)
 				{
 					Voidstrap.Platform.MacOS.MacOSOverlayWindow.Configure(native, true);
-					Voidstrap.Platform.MacOS.MacOSOverlayWindow.MoveTo(native, Left, Top, ActualWidth > 0 ? ActualWidth : Width, ActualHeight > 0 ? ActualHeight : Height);
+					Voidstrap.Platform.MacOS.MacOSOverlayWindow.MoveTo(
+						native,
+						Left,
+						Top,
+						ActualWidth > 0 ? ActualWidth : Width,
+						ActualHeight > 0 ? ActualHeight : Height
+					);
 				}
 				return;
 			}
@@ -880,16 +944,16 @@ namespace Voidstrap.UI.Elements.Overlay
 			{
 				nint handle = new WindowInteropHelper(this).Handle;
 				if (handle == 0 || !Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(handle))
-					handle = string.IsNullOrWhiteSpace(Title)
-						? 0
-						: Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(Title);
+					handle = string.IsNullOrWhiteSpace(Title) ? 0 : Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(Title);
 
 				if (handle == 0)
 					return false;
 
-				if (!TryGetLinuxTargetWorkArea(out int areaLeft, out int areaTop, out int areaWidth, out int areaHeight)
+				if (
+					!TryGetLinuxTargetWorkArea(out int areaLeft, out int areaTop, out int areaWidth, out int areaHeight)
 					|| areaWidth <= 0
-					|| areaHeight <= 0)
+					|| areaHeight <= 0
+				)
 					return false;
 
 				int width = (int)Math.Round(ActualWidth > 0 ? ActualWidth : Width);
@@ -911,17 +975,37 @@ namespace Voidstrap.UI.Elements.Overlay
 		private static bool TryGetLinuxTargetWorkArea(out int left, out int top, out int width, out int height)
 		{
 			Voidstrap.Platform.Linux.LinuxWindowGeometry runtime = Voidstrap.Platform.Linux.LinuxWindowInterop.FindRuntimeWindow();
-			if (runtime.Valid
+			if (
+				runtime.Valid
 				&& runtime.Width > 0
 				&& runtime.Height > 0
-				&& Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetMonitorWorkAreaAt(runtime.Left + runtime.Width / 2, runtime.Top + runtime.Height / 2, out left, out top, out width, out height)
+				&& Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetMonitorWorkAreaAt(
+					runtime.Left + runtime.Width / 2,
+					runtime.Top + runtime.Height / 2,
+					out left,
+					out top,
+					out width,
+					out height
+				)
 				&& width > 0
-				&& height > 0)
+				&& height > 0
+			)
 				return true;
 
-			if (Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPrimaryScreen(out _, out _, out _, out _, out left, out top, out width, out height)
+			if (
+				Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPrimaryScreen(
+					out _,
+					out _,
+					out _,
+					out _,
+					out left,
+					out top,
+					out width,
+					out height
+				)
 				&& width > 0
-				&& height > 0)
+				&& height > 0
+			)
 				return true;
 
 			return Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWorkArea(out left, out top, out width, out height);
@@ -932,14 +1016,17 @@ namespace Voidstrap.UI.Elements.Overlay
 			if (_closed || Dispatcher.HasShutdownStarted)
 				return;
 
-			Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-			{
-				if (_closed || !IsVisible)
-					return;
+			Dispatcher.BeginInvoke(
+				DispatcherPriority.Background,
+				new Action(() =>
+				{
+					if (_closed || !IsVisible)
+						return;
 
-				if (!TryMoveTopRightByHandle())
-					FallbackPosition();
-			}));
+					if (!TryMoveTopRightByHandle())
+						FallbackPosition();
+				})
+			);
 		}
 
 		private void FallbackPosition()
@@ -958,9 +1045,7 @@ namespace Voidstrap.UI.Elements.Overlay
 			{
 				anchor = RobloxLightingOverlay.RobloxWindow.GetHandle();
 			}
-			catch
-			{
-			}
+			catch { }
 			if (anchor == IntPtr.Zero)
 				anchor = Interop.GetForegroundWindow();
 			if (anchor == IntPtr.Zero)
@@ -978,27 +1063,27 @@ namespace Voidstrap.UI.Elements.Overlay
 			return work.Right > work.Left && work.Bottom > work.Top;
 		}
 
-        #endregion
-        #region Click Through
+		#endregion
+		#region Click Through
 
-        private void MakeClickThrough()
-        {
-            if (!Voidstrap.Utility.Platform.IsWindows)
-            {
-                Title = "Voidstrap Notification";
-                PortableOverlay.Handle(this);
-                return;
-            }
+		private void MakeClickThrough()
+		{
+			if (!Voidstrap.Utility.Platform.IsWindows)
+			{
+				Title = "Voidstrap Notification";
+				PortableOverlay.Handle(this);
+				return;
+			}
 
-            var hwnd = new WindowInteropHelper(this).Handle;
+			var hwnd = new WindowInteropHelper(this).Handle;
 			nint exStyle = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
 			SetWindowLongPtr(hwnd, GWL_EXSTYLE, (exStyle & ~WS_EX_TRANSPARENT) | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);
-        }
+		}
 
-        private const int GWL_EXSTYLE = -20;
-        private const int WS_EX_TRANSPARENT = 0x20;
-        private const int WS_EX_TOOLWINDOW = 0x80;
-        private const int WS_EX_NOACTIVATE = 0x08000000;
+		private const int GWL_EXSTYLE = -20;
+		private const int WS_EX_TRANSPARENT = 0x20;
+		private const int WS_EX_TOOLWINDOW = 0x80;
+		private const int WS_EX_NOACTIVATE = 0x08000000;
 
 		[LibraryImport("user32.dll", EntryPoint = "GetWindowLongPtrW")]
 		private static partial nint GetWindowLongPtr(IntPtr hWnd, int nIndex);
@@ -1006,87 +1091,87 @@ namespace Voidstrap.UI.Elements.Overlay
 		[LibraryImport("user32.dll", EntryPoint = "SetWindowLongPtrW")]
 		private static partial nint SetWindowLongPtr(IntPtr hWnd, int nIndex, nint dwNewLong);
 
-        #endregion
+		#endregion
 
-        private void Window_Closed(object? sender, EventArgs e)
-        {
+		private void Window_Closed(object? sender, EventArgs e)
+		{
 			_closed = true;
 			StopLinuxSync();
-            SourceInitialized -= Window_SourceInitialized;
-            Closed -= Window_Closed;
+			SourceInitialized -= Window_SourceInitialized;
+			Closed -= Window_Closed;
 			SizeChanged -= Window_SizeChanged;
-            _lifetimeCts.Cancel();
-            _queue.Clear();
-            RootTranslate.BeginAnimation(TranslateTransform.XProperty, null);
-            NotificationBorder.BeginAnimation(OpacityProperty, null);
-            ProgressScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+			_lifetimeCts.Cancel();
+			_queue.Clear();
+			RootTranslate.BeginAnimation(TranslateTransform.XProperty, null);
+			NotificationBorder.BeginAnimation(OpacityProperty, null);
+			ProgressScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
 			BeginAnimation(LinuxFadeProperty, null);
-            ReleaseWindowsPresentation();
-            PortableOverlay.Release(this);
-            SetImage(null);
-            NotificationTitle.Text = string.Empty;
-            NotificationText.Inlines.Clear();
-            _lifetimeCts.Dispose();
-            GC.SuppressFinalize(this);
+			ReleaseWindowsPresentation();
+			PortableOverlay.Release(this);
+			SetImage(null);
+			NotificationTitle.Text = string.Empty;
+			NotificationText.Inlines.Clear();
+			_lifetimeCts.Dispose();
+			GC.SuppressFinalize(this);
 
-            if (ReferenceEquals(Application.Current?.Resources["NotificationWindow"], this))
-                Application.Current.Resources.Remove("NotificationWindow");
-        }
+			if (ReferenceEquals(Application.Current?.Resources["NotificationWindow"], this))
+				Application.Current.Resources.Remove("NotificationWindow");
+		}
 
-        private static partial class Interop
-        {
-            public const uint MONITOR_DEFAULTTONEAREST = 2;
-            public const uint SWP_NOSIZE = 0x0001;
-            public const uint SWP_NOZORDER = 0x0004;
-            public const uint SWP_NOACTIVATE = 0x0010;
+		private static partial class Interop
+		{
+			public const uint MONITOR_DEFAULTTONEAREST = 2;
+			public const uint SWP_NOSIZE = 0x0001;
+			public const uint SWP_NOZORDER = 0x0004;
+			public const uint SWP_NOACTIVATE = 0x0010;
 
-            [StructLayout(LayoutKind.Sequential)]
-            public partial struct RECT
-            {
-                public int Left;
-                public int Top;
-                public int Right;
-                public int Bottom;
-            }
+			[StructLayout(LayoutKind.Sequential)]
+			public partial struct RECT
+			{
+				public int Left;
+				public int Top;
+				public int Right;
+				public int Bottom;
+			}
 
-            [StructLayout(LayoutKind.Sequential)]
-            public partial struct MONITORINFO
-            {
-                public uint cbSize;
-                public RECT rcMonitor;
-                public RECT rcWork;
-                public uint dwFlags;
-            }
+			[StructLayout(LayoutKind.Sequential)]
+			public partial struct MONITORINFO
+			{
+				public uint cbSize;
+				public RECT rcMonitor;
+				public RECT rcWork;
+				public uint dwFlags;
+			}
 
-            [LibraryImport("user32.dll")]
-            public static partial IntPtr MonitorFromWindow(IntPtr hwnd, uint flags);
+			[LibraryImport("user32.dll")]
+			public static partial IntPtr MonitorFromWindow(IntPtr hwnd, uint flags);
 
-            [LibraryImport("user32.dll")]
-            [return: MarshalAs(UnmanagedType.Bool)]
-            public static partial bool GetMonitorInfoW(IntPtr hMonitor, ref MONITORINFO mi);
+			[LibraryImport("user32.dll")]
+			[return: MarshalAs(UnmanagedType.Bool)]
+			public static partial bool GetMonitorInfoW(IntPtr hMonitor, ref MONITORINFO mi);
 
-            [LibraryImport("user32.dll")]
-            [return: MarshalAs(UnmanagedType.Bool)]
-            public static partial bool GetWindowRect(IntPtr hWnd, out RECT rect);
+			[LibraryImport("user32.dll")]
+			[return: MarshalAs(UnmanagedType.Bool)]
+			public static partial bool GetWindowRect(IntPtr hWnd, out RECT rect);
 
-            [LibraryImport("user32.dll")]
-            public static partial IntPtr GetForegroundWindow();
+			[LibraryImport("user32.dll")]
+			public static partial IntPtr GetForegroundWindow();
 
-            [LibraryImport("user32.dll")]
-            [return: MarshalAs(UnmanagedType.Bool)]
-            public static partial bool SetWindowPos(IntPtr hWnd, IntPtr insertAfter, int x, int y, int cx, int cy, uint flags);
-        }
+			[LibraryImport("user32.dll")]
+			[return: MarshalAs(UnmanagedType.Bool)]
+			public static partial bool SetWindowPos(IntPtr hWnd, IntPtr insertAfter, int x, int y, int cx, int cy, uint flags);
+		}
 
-        private sealed partial class NotificationItem
-        {
-            public string Title { get; set; } = string.Empty;
-            public string Status { get; set; } = "Voidstrap";
-            public CancellationToken Token { get; set; }
-            public string Text { get; set; } = null!;
-            public BitmapSource? Image { get; set; }
-            public BitmapSource? Flag { get; set; }
-            public double Duration { get; set; } = 5;
-            public Voidstrap.UI.NotificationKind Kind { get; set; }
-        }
-    }
+		private sealed partial class NotificationItem
+		{
+			public string Title { get; set; } = string.Empty;
+			public string Status { get; set; } = "Voidstrap";
+			public CancellationToken Token { get; set; }
+			public string Text { get; set; } = null!;
+			public BitmapSource? Image { get; set; }
+			public BitmapSource? Flag { get; set; }
+			public double Duration { get; set; } = 5;
+			public Voidstrap.UI.NotificationKind Kind { get; set; }
+		}
+	}
 }

@@ -32,13 +32,19 @@ public partial class SessionWebBrowser
         ("Wikipedia", "https://en.wikipedia.org/"),
         ("Reddit", "https://www.reddit.com/"),
         ("Twitch", "https://www.twitch.tv/"),
-        ("GitHub", "https://github.com/")
+        ("GitHub", "https://github.com/"),
     };
 
     private static readonly Color[] TileColors =
     {
-        Color.FromRgb(0xD9, 0x4F, 0x4F), Color.FromRgb(0xE0, 0x8A, 0x2E), Color.FromRgb(0xC9, 0xA2, 0x27), Color.FromRgb(0x4C, 0xA8, 0x5A),
-        Color.FromRgb(0x2E, 0x9C, 0x9C), Color.FromRgb(0x3D, 0x7E, 0xD6), Color.FromRgb(0x6A, 0x5A, 0xD6), Color.FromRgb(0xB0, 0x4F, 0xC2)
+        Color.FromRgb(0xD9, 0x4F, 0x4F),
+        Color.FromRgb(0xE0, 0x8A, 0x2E),
+        Color.FromRgb(0xC9, 0xA2, 0x27),
+        Color.FromRgb(0x4C, 0xA8, 0x5A),
+        Color.FromRgb(0x2E, 0x9C, 0x9C),
+        Color.FromRgb(0x3D, 0x7E, 0xD6),
+        Color.FromRgb(0x6A, 0x5A, 0xD6),
+        Color.FromRgb(0xB0, 0x4F, 0xC2),
     };
 
     private DispatcherTimer? _zenTimer;
@@ -169,7 +175,10 @@ public partial class SessionWebBrowser
         Settings.ZenMode = !Settings.ZenMode;
         _zenRevealed = false;
         ApplyChromeVisibility();
-        ShowToast(Settings.ZenMode ? "\uE740" : "\uE73F", Settings.ZenMode ? "Zen mode: move to the top edge for the toolbar, F11 to leave" : "Zen mode off");
+        ShowToast(
+            Settings.ZenMode ? "\uE740" : "\uE73F",
+            Settings.ZenMode ? "Zen mode: move to the top edge for the toolbar, F11 to leave" : "Zen mode off"
+        );
         ScheduleSave();
     }
 
@@ -204,7 +213,15 @@ public partial class SessionWebBrowser
         if (!Settings.ZenMode || !_zenRevealed)
             return;
         // Stays while you are typing in it, choosing a suggestion or using one of its menus
-        if (Chrome.IsMouseOver || SideBar.IsMouseOver || AddressBox.IsKeyboardFocused || FindBox.IsKeyboardFocused || SuggestPopup.IsOpen || TabSearchPopup.IsOpen || _menuOpen)
+        if (
+            Chrome.IsMouseOver
+            || SideBar.IsMouseOver
+            || AddressBox.IsKeyboardFocused
+            || FindBox.IsKeyboardFocused
+            || SuggestPopup.IsOpen
+            || TabSearchPopup.IsOpen
+            || _menuOpen
+        )
         {
             _zenTimer?.Start();
             return;
@@ -235,12 +252,15 @@ public partial class SessionWebBrowser
 
     private void BringTabIntoView(BrowserTab tab)
     {
-        Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
-        {
-            ItemsControl host = Settings.Layout == BrowserLayout.Vertical ? TabList : TabStrip;
-            if (host.ItemContainerGenerator.ContainerFromItem(tab) is FrameworkElement chip)
-                chip.BringIntoView();
-        }));
+        Dispatcher.BeginInvoke(
+            DispatcherPriority.Loaded,
+            new Action(() =>
+            {
+                ItemsControl host = Settings.Layout == BrowserLayout.Vertical ? TabList : TabStrip;
+                if (host.ItemContainerGenerator.ContainerFromItem(tab) is FrameworkElement chip)
+                    chip.BringIntoView();
+            })
+        );
     }
 
     // A tab opens the moment it is pressed; dragging it moves it, middle click closes it
@@ -302,8 +322,12 @@ public partial class SessionWebBrowser
             Rect bounds = container.TransformToAncestor(_dragHost).TransformBounds(new Rect(container.RenderSize));
             // Past the middle of the neighbour, the dragged tab takes its place
             bool past = vertical
-                ? point.Y >= bounds.Top && point.Y <= bounds.Bottom && (i > from ? point.Y > bounds.Top + bounds.Height / 2 : point.Y < bounds.Bottom - bounds.Height / 2)
-                : point.X >= bounds.Left && point.X <= bounds.Right && (i > from ? point.X > bounds.Left + bounds.Width / 2 : point.X < bounds.Right - bounds.Width / 2);
+                ? point.Y >= bounds.Top
+                    && point.Y <= bounds.Bottom
+                    && (i > from ? point.Y > bounds.Top + bounds.Height / 2 : point.Y < bounds.Bottom - bounds.Height / 2)
+                : point.X >= bounds.Left
+                    && point.X <= bounds.Right
+                    && (i > from ? point.X > bounds.Left + bounds.Width / 2 : point.X < bounds.Right - bounds.Width / 2);
             if (past)
             {
                 _tabs.Move(from, i);
@@ -329,7 +353,13 @@ public partial class SessionWebBrowser
 
     private static bool IsInsideButton(DependencyObject? source)
     {
-        for (DependencyObject? node = source; node != null; node = node is Visual or System.Windows.Media.Media3D.Visual3D ? VisualTreeHelper.GetParent(node) : LogicalTreeHelper.GetParent(node))
+        for (
+            DependencyObject? node = source;
+            node != null;
+            node = node is Visual or System.Windows.Media.Media3D.Visual3D
+                    ? VisualTreeHelper.GetParent(node)
+                    : LogicalTreeHelper.GetParent(node)
+        )
         {
             if (node is ButtonBase)
                 return true;
@@ -362,31 +392,67 @@ public partial class SessionWebBrowser
         e.Handled = true;
         int index = _tabs.IndexOf(tab);
         ContextMenu menu = NewMenu(chip);
-        menu.Items.Add(Item("New tab to the right", "\uE710", null, () =>
-        {
-            if (_tabs.Count < MaxTabs)
-                SwitchTo(AddTab(BrowserTab.NewTabUrl, null, 0, false, _tabs.IndexOf(tab) + 1));
-        }, _tabs.Count < MaxTabs));
+        menu.Items.Add(
+            Item(
+                "New tab to the right",
+                "\uE710",
+                null,
+                () =>
+                {
+                    if (_tabs.Count < MaxTabs)
+                        SwitchTo(AddTab(BrowserTab.NewTabUrl, null, 0, false, _tabs.IndexOf(tab) + 1));
+                },
+                _tabs.Count < MaxTabs
+            )
+        );
         menu.Items.Add(new Separator());
         menu.Items.Add(Item("Reload", "\uE72C", "F5", () => Fenced(() => tab.Core?.Reload()), tab.Core != null));
         menu.Items.Add(Item("Duplicate", "\uE8C8", null, () => DuplicateTab(tab), !tab.IsNewTab && _tabs.Count < MaxTabs));
         menu.Items.Add(Item(tab.IsPinned ? "Unpin tab" : "Pin tab", tab.IsPinned ? "\uE77A" : "\uE718", null, () => TogglePin(tab)));
-        menu.Items.Add(Item(tab.IsMuted ? "Unmute tab" : "Mute tab", tab.IsMuted ? "\uE767" : "\uE74F", null, () => ToggleMute(tab), !tab.IsNewTab));
+        menu.Items.Add(
+            Item(tab.IsMuted ? "Unmute tab" : "Mute tab", tab.IsMuted ? "\uE767" : "\uE74F", null, () => ToggleMute(tab), !tab.IsNewTab)
+        );
         menu.Items.Add(Item("Copy link", "\uE71B", null, () => CopyLink(tab), !tab.IsNewTab));
         if (tab.IsSplit)
             menu.Items.Add(Item("Close split view", "\uE89F", "Ctrl+Shift+S", ExitSplit));
         else if (!ReferenceEquals(tab, _active))
             menu.Items.Add(Item("Open in split view", "\uE8A0", null, () => EnterSplit(tab)));
-        menu.Items.Add(Item("Put tab to sleep", "\uE708", null, () =>
-        {
-            Hibernate(tab);
-            ShowToast("\uE708", "Tab asleep, it wakes where you were when you open it");
-        }, !tab.IsShown && tab.View != null));
+        menu.Items.Add(
+            Item(
+                "Put tab to sleep",
+                "\uE708",
+                null,
+                () =>
+                {
+                    Hibernate(tab);
+                    ShowToast("\uE708", "Tab asleep, it wakes where you were when you open it");
+                },
+                !tab.IsShown && tab.View != null
+            )
+        );
         menu.Items.Add(new Separator());
         menu.Items.Add(Item("Close tab", "\uE711", "Ctrl+W", () => CloseTab(tab)));
-        menu.Items.Add(Item("Close other tabs", null, null, () => CloseTabs(_tabs.Where(each => !ReferenceEquals(each, tab) && !each.IsPinned)), _tabs.Count > 1));
-        menu.Items.Add(Item("Close tabs to the left", null, null, () => CloseTabs(_tabs.Take(_tabs.IndexOf(tab)).Where(each => !each.IsPinned)), index > 0));
-        menu.Items.Add(Item("Close tabs to the right", null, null, () => CloseTabs(_tabs.Skip(_tabs.IndexOf(tab) + 1)), index < _tabs.Count - 1));
+        menu.Items.Add(
+            Item(
+                "Close other tabs",
+                null,
+                null,
+                () => CloseTabs(_tabs.Where(each => !ReferenceEquals(each, tab) && !each.IsPinned)),
+                _tabs.Count > 1
+            )
+        );
+        menu.Items.Add(
+            Item(
+                "Close tabs to the left",
+                null,
+                null,
+                () => CloseTabs(_tabs.Take(_tabs.IndexOf(tab)).Where(each => !each.IsPinned)),
+                index > 0
+            )
+        );
+        menu.Items.Add(
+            Item("Close tabs to the right", null, null, () => CloseTabs(_tabs.Skip(_tabs.IndexOf(tab) + 1)), index < _tabs.Count - 1)
+        );
         menu.Items.Add(new Separator());
         menu.Items.Add(Item("Reopen closed tab", "\uE7A7", "Ctrl+Shift+T", ReopenClosedTab, _state.Closed.Count > 0));
         menu.IsOpen = true;
@@ -405,7 +471,9 @@ public partial class SessionWebBrowser
         ReloadButton.ToolTip = loading ? "Stop loading" : "Reload (F5)";
         ReloadButton.IsEnabled = core != null;
         CopyLinkButton.Visibility = tab is { IsNewTab: false } ? Visibility.Visible : Visibility.Collapsed;
-        SplitButton.Foreground = IsSplitShown ? TryFindResource("SystemAccentColorPrimaryBrush") as Brush : TryFindResource("TextFillColorPrimaryBrush") as Brush;
+        SplitButton.Foreground = IsSplitShown
+            ? TryFindResource("SystemAccentColorPrimaryBrush") as Brush
+            : TryFindResource("TextFillColorPrimaryBrush") as Brush;
         SplitButton.ToolTip = IsSplitShown ? "Close split view (Ctrl+Shift+S)" : "Split view (Ctrl+Shift+S)";
         if (!AddressBox.IsKeyboardFocused)
             ShowAddress();
@@ -425,10 +493,12 @@ public partial class SessionWebBrowser
         ShieldBadge.Visibility = blocking && count > 0 ? Visibility.Visible : Visibility.Collapsed;
         ShieldCount.Text = count > 99 ? "99+" : count.ToString();
         ShieldButton.IsEnabled = web || !Settings.BlockAds;
-        ShieldButton.ToolTip = !Settings.BlockAds ? "Ad and tracker blocking is off, click to turn it on"
+        ShieldButton.ToolTip =
+            !Settings.BlockAds ? "Ad and tracker blocking is off, click to turn it on"
             : allowed ? $"Ads are allowed on {site}, click to block them again"
             : count > 0 ? $"{count} ads and trackers blocked on this page\nClick to allow them on {site}"
-            : web ? $"Blocking ads and trackers\nClick to allow them on {site}" : "Blocking ads and trackers";
+            : web ? $"Blocking ads and trackers\nClick to allow them on {site}"
+            : "Blocking ads and trackers";
     }
 
     private void Shield_Click(object sender, RoutedEventArgs e)
@@ -443,7 +513,10 @@ public partial class SessionWebBrowser
             string site = tab.Host.StartsWith("www.", StringComparison.OrdinalIgnoreCase) ? tab.Host[4..] : tab.Host;
             if (IsAllowedSite(tab.Host))
             {
-                Settings.AllowedSites.RemoveAll(each => tab.Host.Equals(each, StringComparison.OrdinalIgnoreCase) || tab.Host.EndsWith("." + each, StringComparison.OrdinalIgnoreCase));
+                Settings.AllowedSites.RemoveAll(each =>
+                    tab.Host.Equals(each, StringComparison.OrdinalIgnoreCase)
+                    || tab.Host.EndsWith("." + each, StringComparison.OrdinalIgnoreCase)
+                );
                 ShowToast("\uEA18", $"Blocking ads on {site} again");
             }
             else
@@ -461,27 +534,30 @@ public partial class SessionWebBrowser
 
     private void Forward_Click(object sender, RoutedEventArgs e) => GoForward();
 
-    private void GoBack() => Fenced(() =>
-    {
-        if (_active?.Core?.CanGoBack == true)
-            _active.Core.GoBack();
-    });
+    private void GoBack() =>
+        Fenced(() =>
+        {
+            if (_active?.Core?.CanGoBack == true)
+                _active.Core.GoBack();
+        });
 
-    private void GoForward() => Fenced(() =>
-    {
-        if (_active?.Core?.CanGoForward == true)
-            _active.Core.GoForward();
-    });
+    private void GoForward() =>
+        Fenced(() =>
+        {
+            if (_active?.Core?.CanGoForward == true)
+                _active.Core.GoForward();
+        });
 
     private void Reload_Click(object sender, RoutedEventArgs e) => Reload();
 
-    private void Reload() => Fenced(() =>
-    {
-        if (_active?.IsLoading == true)
-            _active.Core?.Stop();
-        else
-            _active?.Core?.Reload();
-    });
+    private void Reload() =>
+        Fenced(() =>
+        {
+            if (_active?.IsLoading == true)
+                _active.Core?.Stop();
+            else
+                _active?.Core?.Reload();
+        });
 
     private void Split_Click(object sender, RoutedEventArgs e) => ToggleSplit();
 
@@ -583,7 +659,8 @@ public partial class SessionWebBrowser
         if (_active?.View is not { } view)
             return;
         double current = view.ZoomFactor;
-        double next = direction == 0 ? 1
+        double next =
+            direction == 0 ? 1
             : direction > 0 ? ZoomSteps.FirstOrDefault(step => step > current + 0.001, ZoomSteps[^1])
             : ZoomSteps.LastOrDefault(step => step < current - 0.001, ZoomSteps[0]);
         view.ZoomFactor = next;
@@ -597,7 +674,12 @@ public partial class SessionWebBrowser
 
     private ContextMenu NewMenu(UIElement target)
     {
-        ContextMenu menu = new() { PlacementTarget = target, Placement = PlacementMode.Bottom, MinWidth = 230 };
+        ContextMenu menu = new()
+        {
+            PlacementTarget = target,
+            Placement = PlacementMode.Bottom,
+            MinWidth = 230,
+        };
         menu.Opened += (_, _) => _menuOpen = true;
         menu.Closed += (_, _) =>
         {
@@ -610,16 +692,32 @@ public partial class SessionWebBrowser
 
     private static MenuItem Item(string header, string? glyph, string? gesture, Action action, bool enabled = true)
     {
-        MenuItem item = new() { Header = header, InputGestureText = gesture ?? string.Empty, IsEnabled = enabled };
+        MenuItem item = new()
+        {
+            Header = header,
+            InputGestureText = gesture ?? string.Empty,
+            IsEnabled = enabled,
+        };
         if (glyph != null)
-            item.Icon = new TextBlock { Text = glyph, FontFamily = new FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"), FontSize = 14 };
+            item.Icon = new TextBlock
+            {
+                Text = glyph,
+                FontFamily = new FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"),
+                FontSize = 14,
+            };
         item.Click += (_, _) => action();
         return item;
     }
 
     private MenuItem Toggle(string header, bool value, Action<bool> set, string? gesture = null)
     {
-        MenuItem item = new() { Header = header, IsCheckable = true, IsChecked = value, InputGestureText = gesture ?? string.Empty };
+        MenuItem item = new()
+        {
+            Header = header,
+            IsCheckable = true,
+            IsChecked = value,
+            InputGestureText = gesture ?? string.Empty,
+        };
         item.Click += (_, _) =>
         {
             set(item.IsChecked);
@@ -630,7 +728,12 @@ public partial class SessionWebBrowser
 
     private MenuItem Choice(string header, bool selected, Action choose)
     {
-        MenuItem item = new() { Header = header, IsCheckable = true, IsChecked = selected };
+        MenuItem item = new()
+        {
+            Header = header,
+            IsCheckable = true,
+            IsChecked = selected,
+        };
         item.Click += (_, _) =>
         {
             choose();
@@ -646,15 +749,20 @@ public partial class SessionWebBrowser
         ContextMenu menu = NewMenu(MenuButton);
         // Lines up with the right edge of the button, so it never hangs off the panel
         menu.Placement = PlacementMode.Custom;
-        menu.CustomPopupPlacementCallback = (popup, target, _) => new[]
-        {
-            new CustomPopupPlacement(new Point(target.Width - popup.Width, target.Height + 4), PopupPrimaryAxis.Horizontal)
-        };
+        menu.CustomPopupPlacementCallback = (popup, target, _) =>
+            new[] { new CustomPopupPlacement(new Point(target.Width - popup.Width, target.Height + 4), PopupPrimaryAxis.Horizontal) };
 
         menu.Items.Add(Item("New tab", "\uE710", "Ctrl+T", NewTab, _tabs.Count < MaxTabs));
-        MenuItem closed = new() { Header = "Recently closed", Icon = Glyph("\uE81C"), IsEnabled = _state.Closed.Count > 0 };
+        MenuItem closed = new()
+        {
+            Header = "Recently closed",
+            Icon = Glyph("\uE81C"),
+            IsEnabled = _state.Closed.Count > 0,
+        };
         foreach (SavedTab saved in _state.Closed.Take(10).ToList())
-            closed.Items.Add(Item(string.IsNullOrWhiteSpace(saved.Title) ? HostOf(saved.Url) : saved.Title, null, null, () => ReopenTab(saved)));
+            closed.Items.Add(
+                Item(string.IsNullOrWhiteSpace(saved.Title) ? HostOf(saved.Url) : saved.Title, null, null, () => ReopenTab(saved))
+            );
         if (_state.Closed.Count > 0)
         {
             closed.Items.Add(new Separator());
@@ -664,11 +772,28 @@ public partial class SessionWebBrowser
         menu.Items.Add(new Separator());
 
         // Zoom: minus, the level, plus, all in one row that stays open while you click
-        MenuItem zoom = new() { StaysOpenOnClick = true, IsEnabled = web, Icon = Glyph("\uE71E") };
+        MenuItem zoom = new()
+        {
+            StaysOpenOnClick = true,
+            IsEnabled = web,
+            Icon = Glyph("\uE71E"),
+        };
         StackPanel zoomRow = new() { Orientation = Orientation.Horizontal };
-        TextBlock level = new() { Width = 52, TextAlignment = TextAlignment.Center, VerticalAlignment = VerticalAlignment.Center,
-            Text = $"{Math.Round((tab?.View?.ZoomFactor ?? 1) * 100)}%" };
-        zoomRow.Children.Add(new TextBlock { Text = "Zoom", Width = 96, VerticalAlignment = VerticalAlignment.Center });
+        TextBlock level = new()
+        {
+            Width = 52,
+            TextAlignment = TextAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Text = $"{Math.Round((tab?.View?.ZoomFactor ?? 1) * 100)}%",
+        };
+        zoomRow.Children.Add(
+            new TextBlock
+            {
+                Text = "Zoom",
+                Width = 96,
+                VerticalAlignment = VerticalAlignment.Center,
+            }
+        );
         zoomRow.Children.Add(ZoomButton("\uE738", "Zoom out (Ctrl+-)", -1, level));
         zoomRow.Children.Add(level);
         zoomRow.Children.Add(ZoomButton("\uE710", "Zoom in (Ctrl+=)", 1, level));
@@ -682,63 +807,154 @@ public partial class SessionWebBrowser
         layout.Items.Add(Choice("Tabs on the side", Settings.Layout == BrowserLayout.Vertical, () => SetLayout(BrowserLayout.Vertical)));
         layout.Items.Add(new Separator());
         layout.Items.Add(Toggle("Zen mode", Settings.ZenMode, _ => ToggleZen(), "F11"));
-        layout.Items.Add(Toggle("Show only the site in the address bar", Settings.MinimalAddress, value =>
-        {
-            Settings.MinimalAddress = value;
-            ShowAddress();
-        }));
-        layout.Items.Add(Toggle("Loading line", Settings.ProgressBar, value =>
-        {
-            Settings.ProgressBar = value;
-            if (!value)
-                HideProgress();
-        }));
+        layout.Items.Add(
+            Toggle(
+                "Show only the site in the address bar",
+                Settings.MinimalAddress,
+                value =>
+                {
+                    Settings.MinimalAddress = value;
+                    ShowAddress();
+                }
+            )
+        );
+        layout.Items.Add(
+            Toggle(
+                "Loading line",
+                Settings.ProgressBar,
+                value =>
+                {
+                    Settings.ProgressBar = value;
+                    if (!value)
+                        HideProgress();
+                }
+            )
+        );
         menu.Items.Add(layout);
 
         MenuItem search = new() { Header = "Search engine", Icon = Glyph("\uE721") };
         foreach (SearchEngine engine in BrowserSearch.Engines)
-            search.Items.Add(Choice(engine.Name, Settings.Engine == engine.Key, () =>
-            {
-                Settings.Engine = engine.Key;
-                ShowToast("\uE721", $"Searching with {engine.Name}");
-            }));
+            search.Items.Add(
+                Choice(
+                    engine.Name,
+                    Settings.Engine == engine.Key,
+                    () =>
+                    {
+                        Settings.Engine = engine.Key;
+                        ShowToast("\uE721", $"Searching with {engine.Name}");
+                    }
+                )
+            );
         search.Items.Add(new Separator());
         search.Items.Add(Toggle("Suggestions while typing", Settings.Suggestions, value => Settings.Suggestions = value));
         menu.Items.Add(search);
 
         MenuItem privacy = new() { Header = "Privacy and speed", Icon = Glyph("\uEA18") };
-        privacy.Items.Add(Toggle("Block ads and trackers", Settings.BlockAds, value =>
-        {
-            Settings.BlockAds = value;
-            RefreshShield();
-        }));
-        privacy.Items.Add(Toggle("Memory saver, tabs unused for 10 minutes sleep", Settings.MemorySaver, value => Settings.MemorySaver = value));
-        privacy.Items.Add(Toggle("Open new tabs next to the current one", Settings.OpenNextToCurrent, value => Settings.OpenNextToCurrent = value));
+        privacy.Items.Add(
+            Toggle(
+                "Block ads and trackers",
+                Settings.BlockAds,
+                value =>
+                {
+                    Settings.BlockAds = value;
+                    RefreshShield();
+                }
+            )
+        );
+        privacy.Items.Add(
+            Toggle("Memory saver, tabs unused for 10 minutes sleep", Settings.MemorySaver, value => Settings.MemorySaver = value)
+        );
+        privacy.Items.Add(
+            Toggle("Open new tabs next to the current one", Settings.OpenNextToCurrent, value => Settings.OpenNextToCurrent = value)
+        );
         if (Settings.AllowedSites.Count > 0)
-            privacy.Items.Add(Item($"Block ads everywhere again ({Settings.AllowedSites.Count} allowed)", null, null, () =>
-            {
-                Settings.AllowedSites.Clear();
-                RefreshShield();
-                ScheduleSave();
-            }));
+            privacy.Items.Add(
+                Item(
+                    $"Block ads everywhere again ({Settings.AllowedSites.Count} allowed)",
+                    null,
+                    null,
+                    () =>
+                    {
+                        Settings.AllowedSites.Clear();
+                        RefreshShield();
+                        ScheduleSave();
+                    }
+                )
+            );
         privacy.Items.Add(new Separator());
-        privacy.Items.Add(Item("Clear history and cached files", "\uE74D", null, () => ClearData(CoreWebView2BrowsingDataKinds.BrowsingHistory
-            | CoreWebView2BrowsingDataKinds.DiskCache | CoreWebView2BrowsingDataKinds.DownloadHistory, true, "History and cached files cleared")));
-        privacy.Items.Add(Item("Clear cookies and site data", "\uE74D", null, () => ClearData(CoreWebView2BrowsingDataKinds.AllSite,
-            false, "Cookies cleared, you are signed out of sites")));
-        privacy.Items.Add(Item("Clear everything", "\uE74D", null, () => ClearData(CoreWebView2BrowsingDataKinds.AllProfile, true, "Browsing data cleared")));
+        privacy.Items.Add(
+            Item(
+                "Clear history and cached files",
+                "\uE74D",
+                null,
+                () =>
+                    ClearData(
+                        CoreWebView2BrowsingDataKinds.BrowsingHistory
+                            | CoreWebView2BrowsingDataKinds.DiskCache
+                            | CoreWebView2BrowsingDataKinds.DownloadHistory,
+                        true,
+                        "History and cached files cleared"
+                    )
+            )
+        );
+        privacy.Items.Add(
+            Item(
+                "Clear cookies and site data",
+                "\uE74D",
+                null,
+                () => ClearData(CoreWebView2BrowsingDataKinds.AllSite, false, "Cookies cleared, you are signed out of sites")
+            )
+        );
+        privacy.Items.Add(
+            Item(
+                "Clear everything",
+                "\uE74D",
+                null,
+                () => ClearData(CoreWebView2BrowsingDataKinds.AllProfile, true, "Browsing data cleared")
+            )
+        );
         menu.Items.Add(privacy);
         menu.Items.Add(new Separator());
 
         menu.Items.Add(Item(IsSplitShown ? "Close split view" : "Split view", "\uE8A0", "Ctrl+Shift+S", ToggleSplit));
         menu.Items.Add(Item("Search tabs", "\uE70D", "Ctrl+Shift+A", OpenTabSearch));
         menu.Items.Add(Item("Find on page", "\uE721", "Ctrl+F", OpenFind, web));
-        menu.Items.Add(Item("Copy link", "\uE71B", "Ctrl+Shift+C", () => { if (tab != null) CopyLink(tab); }, web));
-        menu.Items.Add(Item("Open in your browser", "\uE8A7", null, () => { if (tab != null) OpenOutside(tab); }, web));
+        menu.Items.Add(
+            Item(
+                "Copy link",
+                "\uE71B",
+                "Ctrl+Shift+C",
+                () =>
+                {
+                    if (tab != null)
+                        CopyLink(tab);
+                },
+                web
+            )
+        );
+        menu.Items.Add(
+            Item(
+                "Open in your browser",
+                "\uE8A7",
+                null,
+                () =>
+                {
+                    if (tab != null)
+                        OpenOutside(tab);
+                },
+                web
+            )
+        );
         menu.IsOpen = true;
     }
 
-    private static TextBlock Glyph(string glyph) => new() { Text = glyph, FontFamily = new FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"), FontSize = 14 };
+    private static TextBlock Glyph(string glyph) =>
+        new()
+        {
+            Text = glyph,
+            FontFamily = new FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"),
+            FontSize = 14,
+        };
 
     private Button ZoomButton(string glyph, string tip, int direction, TextBlock level)
     {
@@ -748,7 +964,12 @@ public partial class SessionWebBrowser
             Width = 28,
             Height = 28,
             ToolTip = tip,
-            Content = new TextBlock { Text = glyph, Style = (Style)FindResource("Glyph"), FontSize = 12 }
+            Content = new TextBlock
+            {
+                Text = glyph,
+                Style = (Style)FindResource("Glyph"),
+                FontSize = 12,
+            },
         };
         button.Click += (_, e) =>
         {
@@ -867,8 +1088,20 @@ public partial class SessionWebBrowser
         ProgressFill.Opacity = 1;
         DoubleAnimationUsingKeyFrames run = new() { FillBehavior = FillBehavior.HoldEnd };
         run.KeyFrames.Add(new LinearDoubleKeyFrame(0.04, KeyTime.FromTimeSpan(TimeSpan.Zero)));
-        run.KeyFrames.Add(new EasingDoubleKeyFrame(0.35, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(350)), new CubicEase { EasingMode = EasingMode.EaseOut }));
-        run.KeyFrames.Add(new EasingDoubleKeyFrame(0.9, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(9)), new QuadraticEase { EasingMode = EasingMode.EaseOut }));
+        run.KeyFrames.Add(
+            new EasingDoubleKeyFrame(
+                0.35,
+                KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(350)),
+                new CubicEase { EasingMode = EasingMode.EaseOut }
+            )
+        );
+        run.KeyFrames.Add(
+            new EasingDoubleKeyFrame(
+                0.9,
+                KeyTime.FromTimeSpan(TimeSpan.FromSeconds(9)),
+                new QuadraticEase { EasingMode = EasingMode.EaseOut }
+            )
+        );
         ProgressScale.BeginAnimation(ScaleTransform.ScaleXProperty, run);
     }
 
@@ -876,7 +1109,10 @@ public partial class SessionWebBrowser
     {
         if (!Settings.ProgressBar || ProgressFill.Opacity == 0)
             return;
-        DoubleAnimation finish = new(1, TimeSpan.FromMilliseconds(180)) { EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } };
+        DoubleAnimation finish = new(1, TimeSpan.FromMilliseconds(180))
+        {
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+        };
         ProgressScale.BeginAnimation(ScaleTransform.ScaleXProperty, finish);
         DoubleAnimation fade = new(0, TimeSpan.FromMilliseconds(320)) { BeginTime = TimeSpan.FromMilliseconds(180) };
         fade.Completed += (_, _) =>
@@ -937,7 +1173,11 @@ public partial class SessionWebBrowser
         if (NewTabPage.Visibility != Visibility.Visible)
             return;
         int hour = DateTime.Now.Hour;
-        NewTabGreeting.Text = hour < 5 ? "Up late" : hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+        NewTabGreeting.Text =
+            hour < 5 ? "Up late"
+            : hour < 12 ? "Good morning"
+            : hour < 18 ? "Good afternoon"
+            : "Good evening";
         NewTabClock.Text = DateTime.Now.ToString("t");
         NewTabSearchText.Text = $"Search {BrowserSearch.Engine(Settings.Engine).Name} or type an address";
         List<NewTabTile> tiles = _state.TopSites(8).Select(entry => Tile(entry.Url, entry.Title)).ToList();
@@ -964,8 +1204,14 @@ public partial class SessionWebBrowser
         foreach (char c in bare)
             hash = unchecked(hash * 31 + c);
         _icons.TryGetValue(host, out ImageSource? icon);
-        return new NewTabTile(url, host, name, bare.Length > 0 ? char.ToUpperInvariant(bare[0]).ToString() : "?",
-            new SolidColorBrush(TileColors[Math.Abs(hash % TileColors.Length)]), icon);
+        return new NewTabTile(
+            url,
+            host,
+            name,
+            bare.Length > 0 ? char.ToUpperInvariant(bare[0]).ToString() : "?",
+            new SolidColorBrush(TileColors[Math.Abs(hash % TileColors.Length)]),
+            icon
+        );
     }
 
     private void UpdateNewTabClock()
@@ -992,12 +1238,19 @@ public partial class SessionWebBrowser
         ContextMenu menu = NewMenu(element);
         menu.Items.Add(Item("Open", "\uE8A7", null, () => Navigate(tile.Url)));
         menu.Items.Add(Item("Open in new tab", "\uE710", null, () => OpenInNewTab(tile.Url), _tabs.Count < MaxTabs));
-        menu.Items.Add(Item("Remove", "\uE711", null, () =>
-        {
-            Settings.HiddenSites.Add(tile.Host);
-            RefreshNewTabPage();
-            ScheduleSave();
-        }));
+        menu.Items.Add(
+            Item(
+                "Remove",
+                "\uE711",
+                null,
+                () =>
+                {
+                    Settings.HiddenSites.Add(tile.Host);
+                    RefreshNewTabPage();
+                    ScheduleSave();
+                }
+            )
+        );
         menu.IsOpen = true;
     }
 

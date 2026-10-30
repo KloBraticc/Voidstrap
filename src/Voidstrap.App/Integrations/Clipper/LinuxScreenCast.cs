@@ -25,8 +25,7 @@ public static partial class LinuxScreenCast
     private const string LogIdent = "LinuxScreenCast";
 
     public static bool Required =>
-        Voidstrap.Utility.Platform.IsLinux
-        && !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WAYLAND_DISPLAY"));
+        Voidstrap.Utility.Platform.IsLinux && !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WAYLAND_DISPLAY"));
 
     private static string TokenPath => Path.Combine(Paths.Config, "ScreenCastToken");
 
@@ -35,9 +34,7 @@ public static partial class LinuxScreenCast
 #if !CROSSPLAT
     public static Task<LinuxScreenCastStream?> AcquireAsync(bool cursor) => Task.FromResult<LinuxScreenCastStream?>(null);
 
-    public static void Release()
-    {
-    }
+    public static void Release() { }
 #else
     private const string PortalService = "org.freedesktop.portal.Desktop";
     private static readonly ObjectPath PortalPath = new("/org/freedesktop/portal/desktop");
@@ -100,16 +97,12 @@ public static partial class LinuxScreenCast
             if (connection != null && session.HasValue)
                 connection.CreateProxy<IPortalSession>(PortalService, session.Value).CloseAsync().Wait(2000);
         }
-        catch
-        {
-        }
+        catch { }
         try
         {
             _remote?.Dispose();
         }
-        catch
-        {
-        }
+        catch { }
         _remote = null;
         connection?.Dispose();
     }
@@ -145,11 +138,15 @@ public static partial class LinuxScreenCast
         }
 
         string sessionToken = "voidstrap" + Guid.NewGuid().ToString("N");
-        IDictionary<string, object>? created = await RequestAsync(connection, sender, token => portal.CreateSessionAsync(new Dictionary<string, object>
-        {
-            ["handle_token"] = token,
-            ["session_handle_token"] = sessionToken
-        })).ConfigureAwait(false);
+        IDictionary<string, object>? created = await RequestAsync(
+                connection,
+                sender,
+                token =>
+                    portal.CreateSessionAsync(
+                        new Dictionary<string, object> { ["handle_token"] = token, ["session_handle_token"] = sessionToken }
+                    )
+            )
+            .ConfigureAwait(false);
         if (created == null || !created.TryGetValue("session_handle", out object? handleValue) || handleValue is not string handleText)
         {
             App.Logger.WriteLine(LogIdent, "The screen capture session could not be created");
@@ -158,11 +155,7 @@ public static partial class LinuxScreenCast
         ObjectPath session = new(handleText);
         _session = session;
 
-        Dictionary<string, object> select = new()
-        {
-            ["types"] = sourceTypes & 3u,
-            ["multiple"] = false
-        };
+        Dictionary<string, object> select = new() { ["types"] = sourceTypes & 3u, ["multiple"] = false };
         uint wantedCursor = cursor ? 2u : 1u;
         if ((cursorModes & wantedCursor) != 0)
             select["cursor_mode"] = wantedCursor;
@@ -174,21 +167,28 @@ public static partial class LinuxScreenCast
                 select["restore_token"] = restore;
         }
 
-        IDictionary<string, object>? selected = await RequestAsync(connection, sender, token =>
-        {
-            select["handle_token"] = token;
-            return portal.SelectSourcesAsync(session, select);
-        }).ConfigureAwait(false);
+        IDictionary<string, object>? selected = await RequestAsync(
+                connection,
+                sender,
+                token =>
+                {
+                    select["handle_token"] = token;
+                    return portal.SelectSourcesAsync(session, select);
+                }
+            )
+            .ConfigureAwait(false);
         if (selected == null)
         {
             App.Logger.WriteLine(LogIdent, "Screen capture source selection was declined");
             return null;
         }
 
-        IDictionary<string, object>? started = await RequestAsync(connection, sender, token => portal.StartAsync(session, string.Empty, new Dictionary<string, object>
-        {
-            ["handle_token"] = token
-        })).ConfigureAwait(false);
+        IDictionary<string, object>? started = await RequestAsync(
+                connection,
+                sender,
+                token => portal.StartAsync(session, string.Empty, new Dictionary<string, object> { ["handle_token"] = token })
+            )
+            .ConfigureAwait(false);
         if (started == null)
         {
             App.Logger.WriteLine(LogIdent, "Screen capture was not allowed");
@@ -215,7 +215,13 @@ public static partial class LinuxScreenCast
         }
 
         App.Logger.WriteLine(LogIdent, $"Screen capture ready on PipeWire node {node} at {width}x{height}");
-        return new LinuxScreenCastStream { Fd = fd, Node = node, Width = width, Height = height };
+        return new LinuxScreenCastStream
+        {
+            Fd = fd,
+            Node = node,
+            Width = width,
+            Height = height,
+        };
     }
 
     private static bool TryReadStream(IDictionary<string, object> results, out uint node, out uint width, out uint height)
@@ -230,10 +236,15 @@ public static partial class LinuxScreenCast
             if (entry is not ITuple { Length: 2 } stream || stream[0] is not uint id)
                 continue;
             node = id;
-            if (stream[1] is IDictionary<string, object> properties
+            if (
+                stream[1] is IDictionary<string, object> properties
                 && properties.TryGetValue("size", out object? size)
                 && size is ITuple { Length: 2 } pair
-                && pair[0] is int w && pair[1] is int h && w > 0 && h > 0)
+                && pair[0] is int w
+                && pair[1] is int h
+                && w > 0
+                && h > 0
+            )
             {
                 width = (uint)w;
                 height = (uint)h;
@@ -243,23 +254,31 @@ public static partial class LinuxScreenCast
         return false;
     }
 
-    private static async Task<IDictionary<string, object>?> RequestAsync(Connection connection, string sender, Func<string, Task<ObjectPath>> call)
+    private static async Task<IDictionary<string, object>?> RequestAsync(
+        Connection connection,
+        string sender,
+        Func<string, Task<ObjectPath>> call
+    )
     {
         string token = "voidstrap" + Guid.NewGuid().ToString("N");
         ObjectPath expected = new("/org/freedesktop/portal/desktop/request/" + sender + "/" + token);
-        TaskCompletionSource<(uint Response, IDictionary<string, object> Results)> completion = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        IDisposable watch = await connection.CreateProxy<Voidstrap.UI.IPortalRequest>(PortalService, expected).WatchResponseAsync(
-            value => completion.TrySetResult(value),
-            error => completion.TrySetException(error)).ConfigureAwait(false);
+        TaskCompletionSource<(uint Response, IDictionary<string, object> Results)> completion = new(
+            TaskCreationOptions.RunContinuationsAsynchronously
+        );
+        IDisposable watch = await connection
+            .CreateProxy<Voidstrap.UI.IPortalRequest>(PortalService, expected)
+            .WatchResponseAsync(value => completion.TrySetResult(value), error => completion.TrySetException(error))
+            .ConfigureAwait(false);
         try
         {
             ObjectPath handle = await call(token).ConfigureAwait(false);
             if (handle.ToString() != expected.ToString())
             {
                 watch.Dispose();
-                watch = await connection.CreateProxy<Voidstrap.UI.IPortalRequest>(PortalService, handle).WatchResponseAsync(
-                    value => completion.TrySetResult(value),
-                    error => completion.TrySetException(error)).ConfigureAwait(false);
+                watch = await connection
+                    .CreateProxy<Voidstrap.UI.IPortalRequest>(PortalService, handle)
+                    .WatchResponseAsync(value => completion.TrySetResult(value), error => completion.TrySetException(error))
+                    .ConfigureAwait(false);
             }
             Task finished = await Task.WhenAny(completion.Task, Task.Delay(TimeSpan.FromMinutes(3))).ConfigureAwait(false);
             if (finished != completion.Task)

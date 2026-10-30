@@ -55,7 +55,9 @@ public static partial class McpTools
 			sb.AppendLine($"  Active Page: {mainWin.CurrentPageName}");
 
 		IReadOnlyList<KeyValuePair<string, IMcpEditor>> openEditors = McpEditorRegistry.Snapshot();
-		sb.AppendLine($"  Open Editors ({openEditors.Count}): {(openEditors.Count == 0 ? "none" : string.Join(", ", openEditors.Select(e => $"{e.Key} ({e.Value.DisplayName})")))}");
+		sb.AppendLine(
+			$"  Open Editors ({openEditors.Count}): {(openEditors.Count == 0 ? "none" : string.Join(", ", openEditors.Select(e => $"{e.Key} ({e.Value.DisplayName})")))}"
+		);
 		sb.AppendLine();
 
 		Process[] playerProcs = Process.GetProcessesByName(App.RobloxPlayerAppName);
@@ -74,14 +76,24 @@ public static partial class McpTools
 		AppSettings s = App.Settings.Prop;
 		sb.AppendLine("Key Active Settings:");
 		sb.AppendLine($"  App Theme: {s.Theme2} | Backdrop: {s.WindowBackdrop} | Accent: {s.CustomAccentColor ?? "System"}");
-		sb.AppendLine($"  Bootstrapper Style: {s.BootstrapperStyle} | SelectedCustomTheme: {s.SelectedCustomTheme ?? "none"} | Title: {s.BootstrapperTitle} | Icon: {s.BootstrapperIcon}");
-		sb.AppendLine($"  Keystrokes Overlay: {s.KeystrokesOverlayEnabled} | Theme: {s.KeystrokesThemeName} | Scale: {s.KeystrokesScalePreset}");
-		sb.AppendLine($"  RiShade: {s.RiShadeEnabled} | DepthModel: {s.RiShadeDepthModel} | AntiAliasing: {s.AntiAliasingMethodIndex} | MotionBlur: {s.MotionBlurStrengthIndex}");
+		sb.AppendLine(
+			$"  Bootstrapper Style: {s.BootstrapperStyle} | SelectedCustomTheme: {s.SelectedCustomTheme ?? "none"} | Title: {s.BootstrapperTitle} | Icon: {s.BootstrapperIcon}"
+		);
+		sb.AppendLine(
+			$"  Keystrokes Overlay: {s.KeystrokesOverlayEnabled} | Theme: {s.KeystrokesThemeName} | Scale: {s.KeystrokesScalePreset}"
+		);
+		sb.AppendLine(
+			$"  RiShade: {s.RiShadeEnabled} | DepthModel: {s.RiShadeDepthModel} | AntiAliasing: {s.AntiAliasingMethodIndex} | MotionBlur: {s.MotionBlurStrengthIndex}"
+		);
 		sb.AppendLine($"  FrameGen Mode: {s.FrameGenModeIndex} | TargetFps: {s.FrameGenTargetFps} | FpsUnlocker: {s.FpsUnlockerEnabled}");
 		sb.AppendLine($"  SnapTap: {s.SnapTapEnabled} ({s.SnapTapKeys}) | DoubleMovement: {s.DoubleMovementEnabled}");
 		sb.AppendLine($"  Crosshair: {s.Crosshair} (Color: {s.CrosshairColorHex}, Size: {s.CrosshairSize}) | Clipper: {s.ClipperEnabled}");
-		sb.AppendLine($"  Matchmaker: {s.VoidstrapMatchmakerEnabled} | PreferredDatacenter: {s.VoidstrapMatchmakerPreferredDatacenter} | ConnectClosest: {s.ConnectCloset}");
-		sb.AppendLine($"  Discord RPC: {s.UseDiscordRichPresence} | ShowServerDetails: {s.ShowServerDetails} | ShowAccount: {s.ShowAccountOnRichPresence}");
+		sb.AppendLine(
+			$"  Matchmaker: {s.VoidstrapMatchmakerEnabled} | PreferredDatacenter: {s.VoidstrapMatchmakerPreferredDatacenter} | ConnectClosest: {s.ConnectCloset}"
+		);
+		sb.AppendLine(
+			$"  Discord RPC: {s.UseDiscordRichPresence} | ShowServerDetails: {s.ShowServerDetails} | ShowAccount: {s.ShowAccountOnRichPresence}"
+		);
 		int totalFlags = App.FastFlags.Prop.Count;
 		int allowlistedCount = App.FastFlags.Prop.Keys.Count(IsAllowlistedFlag);
 		sb.AppendLine($"  Channel: {s.Channel} | Configured FastFlags: {totalFlags} ({allowlistedCount} on Roblox allowlist)");
@@ -95,12 +107,16 @@ public static partial class McpTools
 
 		List<string> bootstrapperThemes = GetInstalledBootstrapperThemes();
 		IReadOnlyList<string> keystrokeThemes = KeystrokeThemeManager.GetAllThemeNames();
-		sb.AppendLine($"Installed Custom Bootstrapper Themes ({bootstrapperThemes.Count}): {(bootstrapperThemes.Count == 0 ? "none" : string.Join(", ", bootstrapperThemes))}");
+		sb.AppendLine(
+			$"Installed Custom Bootstrapper Themes ({bootstrapperThemes.Count}): {(bootstrapperThemes.Count == 0 ? "none" : string.Join(", ", bootstrapperThemes))}"
+		);
 		sb.AppendLine($"Available Keystroke Themes ({keystrokeThemes.Count}): {string.Join(", ", keystrokeThemes)}");
 		sb.AppendLine();
 
 		sb.AppendLine("Navigable UI Pages (use with navigate_ui):");
-		sb.AppendLine("  Home, Integrations, Deployment (or Bootstrapper), Appearance, FastFlags, FastFlagEditor, Mods, More, Global (or GBSEditor), Shortcuts, News, Extensions, Manager (or Downloads), Settings (or Channel), Accounts, Library, PrivateServers");
+		sb.AppendLine(
+			"  Home, Integrations, Deployment (or Bootstrapper), Appearance, FastFlags, FastFlagEditor, Mods, More, Global (or GBSEditor), Shortcuts, News, Extensions, Manager (or Downloads), Settings (or Channel), Accounts, Library, PrivateServers"
+		);
 
 		return new McpToolResult(sb.ToString().TrimEnd());
 	}
@@ -130,9 +146,14 @@ public static partial class McpTools
 
 		bool ok = mainWin.NavigateToPageByName(pageName, search, focusWindow);
 		if (!ok)
-			return new McpToolResult($"Could not navigate to '{pageName}'. Valid pages: Home, Integrations, Deployment (or Bootstrapper), Appearance, FastFlags, FastFlagEditor, Mods, More, Global (or GBSEditor), Shortcuts, News, Extensions, Manager (or Downloads), Settings (or Channel), Accounts, Library, PrivateServers.", true);
+			return new McpToolResult(
+				$"Could not navigate to '{pageName}'. Valid pages: Home, Integrations, Deployment (or Bootstrapper), Appearance, FastFlags, FastFlagEditor, Mods, More, Global (or GBSEditor), Shortcuts, News, Extensions, Manager (or Downloads), Settings (or Channel), Accounts, Library, PrivateServers.",
+				true
+			);
 
-		return new McpToolResult($"Navigated MainWindow to '{mainWin.CurrentPageName}'{(string.IsNullOrEmpty(search) ? "" : $" and searched '{search}'")}.");
+		return new McpToolResult(
+			$"Navigated MainWindow to '{mainWin.CurrentPageName}'{(string.IsNullOrEmpty(search) ? "" : $" and searched '{search}'")}."
+		);
 	}
 
 	private static McpToolResult GetLogsAndActivity(JsonObject args)
@@ -169,7 +190,12 @@ public static partial class McpTools
 					sb.AppendLine($"File: {latestLog.FullName} (Modified: {latestLog.LastWriteTime:u})");
 					try
 					{
-						using var fs = new FileStream(latestLog.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+						using var fs = new FileStream(
+							latestLog.FullName,
+							FileMode.Open,
+							FileAccess.Read,
+							FileShare.ReadWrite | FileShare.Delete
+						);
 						const long tailBytes = 4L * 1024 * 1024;
 						if (fs.Length > tailBytes)
 						{

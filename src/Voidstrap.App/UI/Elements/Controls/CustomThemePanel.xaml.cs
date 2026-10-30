@@ -21,7 +21,22 @@ public partial class CustomThemePanel : UserControl
 
     private const string UnsavedProfile = "Unsaved theme";
 
-    private static readonly string[] BuiltInThemes = ["Dark", "UltraGray", "Light", "Voidstrap", "Red", "Orange", "Yellow", "Green", "Cyan", "Blue", "Purple", "Pink", "Berry"];
+    private static readonly string[] BuiltInThemes =
+    [
+        "Dark",
+        "UltraGray",
+        "Light",
+        "Voidstrap",
+        "Red",
+        "Orange",
+        "Yellow",
+        "Green",
+        "Cyan",
+        "Blue",
+        "Purple",
+        "Pink",
+        "Berry",
+    ];
 
     private readonly ObservableCollection<ThemeColorItem> _items = new();
 
@@ -51,10 +66,7 @@ public partial class CustomThemePanel : UserControl
 
     public CustomThemePanel()
     {
-        _applyTimer = new DispatcherTimer(DispatcherPriority.Background)
-        {
-            Interval = TimeSpan.FromMilliseconds(200)
-        };
+        _applyTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(200) };
 
         InitializeComponent();
 
@@ -136,7 +148,9 @@ public partial class CustomThemePanel : UserControl
             App.Logger?.WriteLine(LOG_IDENT, "Could not read the custom theme: " + ex.Message);
             xaml = string.Empty;
         }
-        ThemeValidationResult result = string.IsNullOrEmpty(xaml) ? new ThemeValidationResult { Dictionary = null } : CustomTheme.Validate(xaml);
+        ThemeValidationResult result = string.IsNullOrEmpty(xaml)
+            ? new ThemeValidationResult { Dictionary = null }
+            : CustomTheme.Validate(xaml);
         if (string.IsNullOrEmpty(xaml) || !result.Ok)
             xaml = CustomTheme.BuildXaml(DefaultModel());
         ThemeValidationResult loaded = CustomTheme.Validate(xaml);
@@ -177,7 +191,7 @@ public partial class CustomThemePanel : UserControl
             Angle = Math.Round(AngleSlider.Value),
             Radius = RadiusSlider.Value / 100.0,
             CenterX = CenterXSlider.Value / 100.0,
-            CenterY = CenterYSlider.Value / 100.0
+            CenterY = CenterYSlider.Value / 100.0,
         };
         foreach (GradientStopItem stop in _stops)
             gradient.Stops.Add(new ThemeGradientStop { Color = stop.Color, Offset = stop.Position / 100.0 });
@@ -314,8 +328,12 @@ public partial class CustomThemePanel : UserControl
     {
         StatusText.Text = message;
         StatusIcon.Symbol = isError ? Wpf.Ui.Common.SymbolRegular.ErrorCircle24 : Wpf.Ui.Common.SymbolRegular.CheckmarkCircle24;
-        StatusBorder.Background = new SolidColorBrush(isError ? Color.FromArgb(0x33, 0xFF, 0x3B, 0x3B) : Color.FromArgb(0x22, 0xFF, 0xFF, 0xFF));
-        StatusBorder.BorderBrush = new SolidColorBrush(isError ? Color.FromArgb(0x80, 0xFF, 0x3B, 0x3B) : Color.FromArgb(0x33, 0xFF, 0xFF, 0xFF));
+        StatusBorder.Background = new SolidColorBrush(
+            isError ? Color.FromArgb(0x33, 0xFF, 0x3B, 0x3B) : Color.FromArgb(0x22, 0xFF, 0xFF, 0xFF)
+        );
+        StatusBorder.BorderBrush = new SolidColorBrush(
+            isError ? Color.FromArgb(0x80, 0xFF, 0x3B, 0x3B) : Color.FromArgb(0x33, 0xFF, 0xFF, 0xFF)
+        );
         StatusText.Foreground = new SolidColorBrush(isError ? Color.FromRgb(0xFF, 0xC9, 0xC9) : Color.FromRgb(0xDD, 0xDD, 0xDD));
         StatusBorder.Visibility = Visibility.Visible;
     }
@@ -463,7 +481,12 @@ public partial class CustomThemePanel : UserControl
                 right = ordered[index + 1].Color;
             }
         }
-        Color middle = Color.FromArgb((byte)((left.A + right.A) / 2), (byte)((left.R + right.R) / 2), (byte)((left.G + right.G) / 2), (byte)((left.B + right.B) / 2));
+        Color middle = Color.FromArgb(
+            (byte)((left.A + right.A) / 2),
+            (byte)((left.R + right.R) / 2),
+            (byte)((left.G + right.G) / 2),
+            (byte)((left.B + right.B) / 2)
+        );
         AddStopItem(middle, (gapStart + gapEnd) / 2.0);
         SortStops();
         UpdateGradientPanel();
@@ -571,7 +594,10 @@ public partial class CustomThemePanel : UserControl
 
     private void Reset_Click(object sender, RoutedEventArgs e)
     {
-        if (Frontend.ShowMessageBox("Reset the custom theme to the default colours?", MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+        if (
+            Frontend.ShowMessageBox("Reset the custom theme to the default colours?", MessageBoxImage.Question, MessageBoxButton.YesNo)
+            != MessageBoxResult.Yes
+        )
             return;
         LoadXaml(CustomTheme.BuildXaml(DefaultModel()), "Reset to the default colours");
         _dirty = true;
@@ -597,7 +623,12 @@ public partial class CustomThemePanel : UserControl
 
     private bool ConfirmDiscard()
     {
-        return !_dirty || Frontend.ShowMessageBox("Your current colours are not saved to a profile. Replace them anyway?", MessageBoxImage.Question, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+        return !_dirty
+            || Frontend.ShowMessageBox(
+                "Your current colours are not saved to a profile. Replace them anyway?",
+                MessageBoxImage.Question,
+                MessageBoxButton.YesNo
+            ) == MessageBoxResult.Yes;
     }
 
     private void ProfileBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -636,7 +667,10 @@ public partial class CustomThemePanel : UserControl
         string name = (dialog.Value ?? string.Empty).Trim();
         if (!CustomTheme.IsValidProfileName(name))
         {
-            ShowStatus("Profile names can use letters, numbers, spaces, brackets, dashes and underscores, up to 40 characters.", isError: true);
+            ShowStatus(
+                "Profile names can use letters, numbers, spaces, brackets, dashes and underscores, up to 40 characters.",
+                isError: true
+            );
             return null;
         }
         return name;
@@ -655,9 +689,15 @@ public partial class CustomThemePanel : UserControl
 
     private void SaveProfileAs(string name, string xaml)
     {
-        if (CustomTheme.ListProfiles().Contains(name, StringComparer.OrdinalIgnoreCase)
+        if (
+            CustomTheme.ListProfiles().Contains(name, StringComparer.OrdinalIgnoreCase)
             && !string.Equals(name, _activeProfile, StringComparison.OrdinalIgnoreCase)
-            && Frontend.ShowMessageBox("A profile called " + name + " already exists. Replace it?", MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+            && Frontend.ShowMessageBox(
+                "A profile called " + name + " already exists. Replace it?",
+                MessageBoxImage.Question,
+                MessageBoxButton.YesNo
+            ) != MessageBoxResult.Yes
+        )
             return;
         CustomTheme.SaveProfile(name, xaml);
         RefreshProfiles(name);
@@ -751,7 +791,13 @@ public partial class CustomThemePanel : UserControl
             ShowStatus("Pick a saved profile to delete it.", isError: false);
             return;
         }
-        if (Frontend.ShowMessageBox("Delete the " + _activeProfile + " profile? This cannot be undone.", MessageBoxImage.Warning, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+        if (
+            Frontend.ShowMessageBox(
+                "Delete the " + _activeProfile + " profile? This cannot be undone.",
+                MessageBoxImage.Warning,
+                MessageBoxButton.YesNo
+            ) != MessageBoxResult.Yes
+        )
             return;
         try
         {
@@ -773,7 +819,7 @@ public partial class CustomThemePanel : UserControl
         Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog
         {
             Filter = "Theme files|*.xaml",
-            Title = "Import a theme"
+            Title = "Import a theme",
         };
         if (dialog.ShowDialog(OwnerWindow) != true)
             return;
@@ -787,7 +833,10 @@ public partial class CustomThemePanel : UserControl
                 return;
             }
             string suggested = Path.GetFileNameWithoutExtension(dialog.FileName);
-            string? name = AskProfileName("Name the imported profile", CustomTheme.IsValidProfileName(suggested) ? suggested : "Imported theme");
+            string? name = AskProfileName(
+                "Name the imported profile",
+                CustomTheme.IsValidProfileName(suggested) ? suggested : "Imported theme"
+            );
             if (name == null)
                 return;
             SaveProfileAs(name, xaml);
@@ -808,7 +857,7 @@ public partial class CustomThemePanel : UserControl
         {
             Filter = "Theme files|*.xaml",
             FileName = (_activeProfile ?? "Voidstrap theme") + ".xaml",
-            Title = "Export the theme"
+            Title = "Export the theme",
         };
         if (dialog.ShowDialog(OwnerWindow) != true)
             return;
@@ -825,7 +874,11 @@ public partial class CustomThemePanel : UserControl
 
     private void More_Click(object sender, RoutedEventArgs e)
     {
-        System.Windows.Controls.ContextMenu menu = new System.Windows.Controls.ContextMenu { PlacementTarget = MoreButton, Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom };
+        System.Windows.Controls.ContextMenu menu = new System.Windows.Controls.ContextMenu
+        {
+            PlacementTarget = MoreButton,
+            Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom,
+        };
         menu.Items.Add(CreateMenuItem("Save as a new profile", ProfileSaveAs_Click));
         menu.Items.Add(CreateMenuItem("Rename profile", ProfileRename_Click, _activeProfile != null));
         menu.Items.Add(CreateMenuItem("Duplicate profile", ProfileDuplicate_Click));
@@ -882,7 +935,7 @@ public partial class CustomThemePanel : UserControl
                 ShowLineNumbers = true,
                 WordWrap = false,
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
-                VerticalScrollBarVisibility = ScrollBarVisibility.Auto
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
             };
             CodeEditorBehavior.SetLanguage(editor, ".xaml");
             editor.Text = _lastWritten;
@@ -985,7 +1038,7 @@ public partial class CustomThemePanel : UserControl
             Directory.CreateDirectory(directory);
             _watcher = new FileSystemWatcher(directory, Path.GetFileName(Paths.CustomThemeXaml))
             {
-                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size | NotifyFilters.FileName
+                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size | NotifyFilters.FileName,
             };
             _watcher.Changed += Watcher_Changed;
             _watcher.Renamed += Watcher_Changed;

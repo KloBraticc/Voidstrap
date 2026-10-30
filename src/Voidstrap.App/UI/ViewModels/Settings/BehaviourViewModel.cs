@@ -41,7 +41,11 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		public ExcludedGameItem(long placeId)
 		{
 			PlaceId = placeId;
-			_name = string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsPlaceFallback, placeId.ToString(CultureInfo.InvariantCulture));
+			_name = string.Format(
+				CultureInfo.CurrentUICulture,
+				Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsPlaceFallback,
+				placeId.ToString(CultureInfo.InvariantCulture)
+			);
 		}
 
 		public long PlaceId { get; }
@@ -147,16 +151,14 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 		public string BlockKey => Voidstrap.Integrations.VoidstrapMatchmaker.BlockKey(City, Country);
 
-		public string Location => string.IsNullOrWhiteSpace(Region) || string.Equals(Region, City, StringComparison.OrdinalIgnoreCase)
-			? City + ", " + Country
-			: City + ", " + Region + ", " + Country;
+		public string Location =>
+			string.IsNullOrWhiteSpace(Region) || string.Equals(Region, City, StringComparison.OrdinalIgnoreCase)
+				? City + ", " + Country
+				: City + ", " + Region + ", " + Country;
 
 		public double DistanceKm
 		{
-			get
-			{
-				return _distanceKm;
-			}
+			get { return _distanceKm; }
 			set
 			{
 				if (_distanceKm != value)
@@ -172,10 +174,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 		public string PingDisplay
 		{
-			get
-			{
-				return _pingDisplay;
-			}
+			get { return _pingDisplay; }
 			set
 			{
 				if (_pingDisplay != value)
@@ -188,10 +187,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 		public int PingMs
 		{
-			get
-			{
-				return _pingMs;
-			}
+			get { return _pingMs; }
 			set
 			{
 				if (_pingMs != value)
@@ -204,10 +200,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 		public bool IsAllowed
 		{
-			get
-			{
-				return !_isBlocked;
-			}
+			get { return !_isBlocked; }
 			set
 			{
 				if (_isBlocked == !value)
@@ -221,7 +214,17 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 		public bool IsBlocked => _isBlocked;
 
-		public DatacenterItem(string city, string region, string country, double lat, double lon, IReadOnlyList<string> serverIps, IReadOnlyList<string> cidrRanges, bool isBlocked, Action<DatacenterItem> onChange)
+		public DatacenterItem(
+			string city,
+			string region,
+			string country,
+			double lat,
+			double lon,
+			IReadOnlyList<string> serverIps,
+			IReadOnlyList<string> cidrRanges,
+			bool isBlocked,
+			Action<DatacenterItem> onChange
+		)
 		{
 			City = city;
 			Region = region;
@@ -273,10 +276,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public int GamejoinApiVersion
 	{
-		get
-		{
-			return App.Settings.Prop.VoidstrapMatchmakerGamejoinApiVersion;
-		}
+		get { return App.Settings.Prop.VoidstrapMatchmakerGamejoinApiVersion; }
 		set
 		{
 			if (App.Settings.Prop.VoidstrapMatchmakerGamejoinApiVersion != value)
@@ -311,10 +311,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool VoidstrapMatchmakerEnabled
 	{
-		get
-		{
-			return App.Settings.Prop.VoidstrapMatchmakerEnabled;
-		}
+		get { return App.Settings.Prop.VoidstrapMatchmakerEnabled; }
 		set
 		{
 			if (App.Settings.Prop.VoidstrapMatchmakerEnabled == value)
@@ -323,7 +320,14 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			}
 			if (value && !RobloxCookie.Exists)
 			{
-				if (Frontend.ShowMessageBox("Voidstrap can't find your Roblox login yet, so the matchmaker can't sync.\n\nClick Continue to launch Roblox and log in - it will sync automatically afterwards.\nClick Cancel to leave the matchmaker turned off.", MessageBoxImage.Exclamation, MessageBoxButton.OKCancel, MessageBoxResult.OK) == MessageBoxResult.OK)
+				if (
+					Frontend.ShowMessageBox(
+						"Voidstrap can't find your Roblox login yet, so the matchmaker can't sync.\n\nClick Continue to launch Roblox and log in - it will sync automatically afterwards.\nClick Cancel to leave the matchmaker turned off.",
+						MessageBoxImage.Exclamation,
+						MessageBoxButton.OKCancel,
+						MessageBoxResult.OK
+					) == MessageBoxResult.OK
+				)
 				{
 					App.Settings.Prop.VoidstrapMatchmakerEnabled = true;
 					OnPropertyChanged(nameof(VoidstrapMatchmakerEnabled));
@@ -354,7 +358,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 	{
 		new MatchmakerModeItem { Value = 0, Display = "Closest server" },
 		new MatchmakerModeItem { Value = 1, Display = "Closest server that is nearly empty" },
-		new MatchmakerModeItem { Value = 2, Display = "Always a specific datacenter" }
+		new MatchmakerModeItem { Value = 2, Display = "Always a specific datacenter" },
 	};
 
 	public ObservableCollection<MatchmakerModeItem> MatchmakerModes => _matchmakerModes;
@@ -388,9 +392,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			{
 				App.Settings.SaveDeferred();
 			}
-			catch
-			{
-			}
+			catch { }
 			OnPropertyChanged(nameof(MatchmakerMode));
 			OnPropertyChanged(nameof(ShowPreferredDatacenterPicker));
 			OnPropertyChanged(nameof(PreferredDatacenterKey));
@@ -422,13 +424,14 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public int VoidstrapMatchmakerMaxCandidates
 	{
-		get
-		{
-			return App.Settings.Prop.VoidstrapMatchmakerMaxCandidates;
-		}
+		get { return App.Settings.Prop.VoidstrapMatchmakerMaxCandidates; }
 		set
 		{
-			int num = Math.Clamp(value, Voidstrap.Integrations.VoidstrapMatchmaker.MinCandidateCount, Voidstrap.Integrations.VoidstrapMatchmaker.MaxCandidateCount);
+			int num = Math.Clamp(
+				value,
+				Voidstrap.Integrations.VoidstrapMatchmaker.MinCandidateCount,
+				Voidstrap.Integrations.VoidstrapMatchmaker.MaxCandidateCount
+			);
 			if (App.Settings.Prop.VoidstrapMatchmakerMaxCandidates != num)
 			{
 				App.Settings.Prop.VoidstrapMatchmakerMaxCandidates = num;
@@ -440,10 +443,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool VoidstrapMatchmakerAutoCandidates
 	{
-		get
-		{
-			return App.Settings.Prop.VoidstrapMatchmakerAutoCandidates;
-		}
+		get { return App.Settings.Prop.VoidstrapMatchmakerAutoCandidates; }
 		set
 		{
 			if (App.Settings.Prop.VoidstrapMatchmakerAutoCandidates != value)
@@ -467,7 +467,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-	public int EffectiveMatchmakerCandidates => VoidstrapMatchmakerAutoCandidates ? RecommendedMatchmakerCandidates : VoidstrapMatchmakerMaxCandidates;
+	public int EffectiveMatchmakerCandidates =>
+		VoidstrapMatchmakerAutoCandidates ? RecommendedMatchmakerCandidates : VoidstrapMatchmakerMaxCandidates;
 
 	public string SearchDepthDescription
 	{
@@ -522,10 +523,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public string DatacenterSearchText
 	{
-		get
-		{
-			return _datacenterSearchText;
-		}
+		get { return _datacenterSearchText; }
 		set
 		{
 			if (_datacenterSearchText == value)
@@ -538,18 +536,13 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			{
 				FilteredDatacenters.Refresh();
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
 
 	public string DatacenterPresetUrl
 	{
-		get
-		{
-			return App.Settings.Prop.VoidstrapMatchmakerPresetUrl ?? "";
-		}
+		get { return App.Settings.Prop.VoidstrapMatchmakerPresetUrl ?? ""; }
 		set
 		{
 			string text = value ?? "";
@@ -560,9 +553,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				{
 					App.Settings.SaveDeferred();
 				}
-				catch
-				{
-				}
+				catch { }
 				OnPropertyChanged(nameof(DatacenterPresetUrl));
 				if (!string.IsNullOrWhiteSpace(text))
 				{
@@ -574,10 +565,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public string PresetFetchStatus
 	{
-		get
-		{
-			return _presetFetchStatus;
-		}
+		get { return _presetFetchStatus; }
 		set
 		{
 			_presetFetchStatus = value ?? "";
@@ -590,10 +578,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool IsFetchingPreset
 	{
-		get
-		{
-			return _isFetchingPreset;
-		}
+		get { return _isFetchingPreset; }
 		set
 		{
 			_isFetchingPreset = value;
@@ -616,14 +601,12 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	private PreferredDatacenterOption? _selectedPreferredDatacenter;
 
-	public ObservableCollection<PreferredDatacenterOption> PreferredDatacenterOptions { get; } = new ObservableCollection<PreferredDatacenterOption>();
+	public ObservableCollection<PreferredDatacenterOption> PreferredDatacenterOptions { get; } =
+		new ObservableCollection<PreferredDatacenterOption>();
 
 	public PreferredDatacenterOption? SelectedPreferredDatacenter
 	{
-		get
-		{
-			return _selectedPreferredDatacenter;
-		}
+		get { return _selectedPreferredDatacenter; }
 		set
 		{
 			if (value == null && _specificDatacenterMode && PreferredDatacenterOptions.Count > 0)
@@ -637,9 +620,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				{
 					App.Settings.SaveDeferred();
 				}
-				catch
-				{
-				}
+				catch { }
 				OnPropertyChanged(nameof(SelectedPreferredDatacenter));
 				OnPropertyChanged(nameof(PreferredDatacenterKey));
 				RefreshMatchmakerSummary();
@@ -649,10 +630,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public string PreferredDatacenterKey
 	{
-		get
-		{
-			return App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter ?? "";
-		}
+		get { return App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter ?? ""; }
 		set
 		{
 			string key = value ?? "";
@@ -663,10 +641,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			{
 				App.Settings.SaveDeferred();
 			}
-			catch
-			{
-			}
-			_selectedPreferredDatacenter = PreferredDatacenterOptions.FirstOrDefault(o => string.Equals(o.Key, key, StringComparison.OrdinalIgnoreCase));
+			catch { }
+			_selectedPreferredDatacenter = PreferredDatacenterOptions.FirstOrDefault(o =>
+				string.Equals(o.Key, key, StringComparison.OrdinalIgnoreCase)
+			);
 			OnPropertyChanged(nameof(PreferredDatacenterKey));
 			OnPropertyChanged(nameof(SelectedPreferredDatacenter));
 			RefreshMatchmakerSummary();
@@ -730,10 +708,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public int ServerMatchmakerMaxRetries
 	{
-		get
-		{
-			return App.Settings.Prop.ServerMatchmakerMaxRetries;
-		}
+		get { return App.Settings.Prop.ServerMatchmakerMaxRetries; }
 		set
 		{
 			int num = Math.Max(1, Math.Min(20, value));
@@ -747,10 +722,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public string CpuModelName
 	{
-		get
-		{
-			return _cpuModelName;
-		}
+		get { return _cpuModelName; }
 		set
 		{
 			_cpuModelName = value;
@@ -760,10 +732,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public string CpuSummary
 	{
-		get
-		{
-			return _cpuSummary;
-		}
+		get { return _cpuSummary; }
 		set
 		{
 			_cpuSummary = value;
@@ -775,10 +744,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public string SelectedCpuPriority
 	{
-		get
-		{
-			return _selectedCpuPriority;
-		}
+		get { return _selectedCpuPriority; }
 		set
 		{
 			if (_selectedCpuPriority != value)
@@ -793,10 +759,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool disablecrashhandleryayyysocool
 	{
-		get
-		{
-			return App.Settings.Prop.DisableCrash;
-		}
+		get { return App.Settings.Prop.DisableCrash; }
 		set
 		{
 			if (App.Settings.Prop.DisableCrash != value)
@@ -809,10 +772,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool TasxOptimization
 	{
-		get
-		{
-			return App.Settings.Prop.TasxOptimization;
-		}
+		get { return App.Settings.Prop.TasxOptimization; }
 		set
 		{
 			if (App.Settings.Prop.TasxOptimization != value)
@@ -825,82 +785,43 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool ConfirmLaunches
 	{
-		get
-		{
-			return App.Settings.Prop.ConfirmLaunches;
-		}
-		set
-		{
-			App.Settings.Prop.ConfirmLaunches = value;
-		}
+		get { return App.Settings.Prop.ConfirmLaunches; }
+		set { App.Settings.Prop.ConfirmLaunches = value; }
 	}
 
 	public bool LaunchRobloxWebsite
 	{
-		get
-		{
-			return false;
-		}
-		set
-		{
-			OnPropertyChanged(nameof(LaunchRobloxWebsite));
-		}
+		get { return false; }
+		set { OnPropertyChanged(nameof(LaunchRobloxWebsite)); }
 	}
 
 	public bool IsBetterServersEnabled
 	{
-		get
-		{
-			return App.Settings.Prop.IsBetterServersEnabled;
-		}
-		set
-		{
-			App.Settings.Prop.IsBetterServersEnabled = value;
-		}
+		get { return App.Settings.Prop.IsBetterServersEnabled; }
+		set { App.Settings.Prop.IsBetterServersEnabled = value; }
 	}
 
 	public bool OverClockCPU
 	{
-		get
-		{
-			return App.Settings.Prop.OverClockCPU;
-		}
-		set
-		{
-			App.Settings.Prop.OverClockCPU = value;
-		}
+		get { return App.Settings.Prop.OverClockCPU; }
+		set { App.Settings.Prop.OverClockCPU = value; }
 	}
 
 	public bool IsGameEnabled
 	{
-		get
-		{
-			return App.Settings.Prop.IsGameEnabled;
-		}
-		set
-		{
-			App.Settings.Prop.IsGameEnabled = value;
-		}
+		get { return App.Settings.Prop.IsGameEnabled; }
+		set { App.Settings.Prop.IsGameEnabled = value; }
 	}
 
 	public bool OverClockGPU
 	{
-		get
-		{
-			return App.Settings.Prop.OverClockGPU;
-		}
-		set
-		{
-			App.Settings.Prop.OverClockGPU = value;
-		}
+		get { return App.Settings.Prop.OverClockGPU; }
+		set { App.Settings.Prop.OverClockGPU = value; }
 	}
 
 	public bool OptimizeRoblox
 	{
-		get
-		{
-			return App.Settings.Prop.OptimizeRoblox;
-		}
+		get { return App.Settings.Prop.OptimizeRoblox; }
 		set
 		{
 			if (App.Settings.Prop.OptimizeRoblox != value)
@@ -912,22 +833,21 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-	public string PrioritizeRobloxDescription => Voidstrap.Utility.Platform.IsLinux
-		? "Gives Roblox a larger CPU share while it is in the foreground. A custom Roblox Priority choice takes precedence."
-		: "Uses safe Above Normal scheduling while Roblox is in the foreground. A custom Roblox Priority choice takes precedence.";
+	public string PrioritizeRobloxDescription =>
+		Voidstrap.Utility.Platform.IsLinux
+			? "Gives Roblox a larger CPU share while it is in the foreground. A custom Roblox Priority choice takes precedence."
+			: "Uses safe Above Normal scheduling while Roblox is in the foreground. A custom Roblox Priority choice takes precedence.";
 
-	public string ReduceResourcesDescription => Voidstrap.Utility.Platform.IsLinux
-		? "Lowers Roblox's CPU share while another app is active, then restores it when you return."
-		: "Lowers Roblox's Windows scheduling priority while another app is active, then restores it when you return.";
+	public string ReduceResourcesDescription =>
+		Voidstrap.Utility.Platform.IsLinux
+			? "Lowers Roblox's CPU share while another app is active, then restores it when you return."
+			: "Lowers Roblox's Windows scheduling priority while another app is active, then restores it when you return.";
 
 	public Visibility CleanRobloxCacheVisibility => Visibility.Visible;
 
 	public bool ReduceMemoryOutOfFocus
 	{
-		get
-		{
-			return App.Settings.Prop.ReduceMemoryOutOfFocus;
-		}
+		get { return App.Settings.Prop.ReduceMemoryOutOfFocus; }
 		set
 		{
 			if (App.Settings.Prop.ReduceMemoryOutOfFocus != value)
@@ -941,10 +861,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool MultiAccount
 	{
-		get
-		{
-			return App.Settings.Prop.MultiAccount;
-		}
+		get { return App.Settings.Prop.MultiAccount; }
 		set
 		{
 			if (App.Settings.Prop.MultiAccount != value)
@@ -958,60 +875,33 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool BackgroundWindow
 	{
-		get
-		{
-			return App.Settings.Prop.BackgroundWindow;
-		}
-		set
-		{
-			App.Settings.Prop.BackgroundWindow = value;
-		}
+		get { return App.Settings.Prop.BackgroundWindow; }
+		set { App.Settings.Prop.BackgroundWindow = value; }
 	}
 
 	public bool RenameClientToEurotrucks2
 	{
-		get
-		{
-			return App.Settings.Prop.RenameClientToEuroTrucks2;
-		}
-		set
-		{
-			App.Settings.Prop.RenameClientToEuroTrucks2 = value;
-		}
+		get { return App.Settings.Prop.RenameClientToEuroTrucks2; }
+		set { App.Settings.Prop.RenameClientToEuroTrucks2 = value; }
 	}
 
 	public CleanerOptions SelectedCleanUpMode
 	{
-		get
-		{
-			return App.Settings.Prop.CleanerOptions;
-		}
-		set
-		{
-			App.Settings.Prop.CleanerOptions = value;
-		}
+		get { return App.Settings.Prop.CleanerOptions; }
+		set { App.Settings.Prop.CleanerOptions = value; }
 	}
 
 	public IEnumerable<CleanerOptions> CleanerOptions => CleanerOptionsEx.Selections;
 
 	public CleanerOptions CleanerOption
 	{
-		get
-		{
-			return App.Settings.Prop.CleanerOptions;
-		}
-		set
-		{
-			App.Settings.Prop.CleanerOptions = value;
-		}
+		get { return App.Settings.Prop.CleanerOptions; }
+		set { App.Settings.Prop.CleanerOptions = value; }
 	}
 
 	public bool CleanerLogs
 	{
-		get
-		{
-			return CleanerItems.Contains("RobloxLogs");
-		}
+		get { return CleanerItems.Contains("RobloxLogs"); }
 		set
 		{
 			if (value && !CleanerItems.Contains("RobloxLogs"))
@@ -1030,10 +920,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool CleanerCache
 	{
-		get
-		{
-			return CleanerItems.Contains("RobloxCache");
-		}
+		get { return CleanerItems.Contains("RobloxCache"); }
 		set
 		{
 			if (value && !CleanerItems.Contains("RobloxCache"))
@@ -1052,10 +939,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool CleanerVoidstrap
 	{
-		get
-		{
-			return CleanerItems.Contains("VoidstrapLogs");
-		}
+		get { return CleanerItems.Contains("VoidstrapLogs"); }
 		set
 		{
 			if (value && !CleanerItems.Contains("VoidstrapLogs"))
@@ -1139,9 +1023,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			previous?.Cancel();
 			previous?.Dispose();
 		}
-		catch
-		{
-		}
+		catch { }
 
 		string query = (_gameSearchText ?? "").Trim();
 		if (query.Length < 2)
@@ -1175,11 +1057,13 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			GameSearchStatus = found.Count == 0 ? "No games found." : "";
 
 			if (found.Count > 0)
-				await ApplyExcludedGameIconsAsync([.. found], string.Join(",", found.Select(g => g.PlaceId.ToString(CultureInfo.InvariantCulture)))).ConfigureAwait(true);
+				await ApplyExcludedGameIconsAsync(
+						[.. found],
+						string.Join(",", found.Select(g => g.PlaceId.ToString(CultureInfo.InvariantCulture)))
+					)
+					.ConfigureAwait(true);
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger?.WriteLine("BehaviourViewModel::RunGameSearch", "Game search failed: " + ex.Message);
@@ -1193,9 +1077,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			{
 				cts.Dispose();
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
 
@@ -1218,8 +1100,12 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 		using var request = new System.Net.Http.HttpRequestMessage(
 			System.Net.Http.HttpMethod.Get,
-			"https://apis.roblox.com/search-api/omni-search?searchQuery=" + Uri.EscapeDataString(query)
-				+ "&pageToken=&sessionId=" + GameSearchSessionId + "&pageType=all");
+			"https://apis.roblox.com/search-api/omni-search?searchQuery="
+				+ Uri.EscapeDataString(query)
+				+ "&pageToken=&sessionId="
+				+ GameSearchSessionId
+				+ "&pageType=all"
+		);
 
 		string? cookie = RobloxCookie.Get();
 		if (!string.IsNullOrEmpty(cookie))
@@ -1230,7 +1116,11 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			return [];
 
 		using JsonDocument json = JsonDocument.Parse(await response.Content.ReadAsStringAsync(token).ConfigureAwait(false));
-		if (json.RootElement.ValueKind != JsonValueKind.Object || !json.RootElement.TryGetProperty("searchResults", out JsonElement groups) || groups.ValueKind != JsonValueKind.Array)
+		if (
+			json.RootElement.ValueKind != JsonValueKind.Object
+			|| !json.RootElement.TryGetProperty("searchResults", out JsonElement groups)
+			|| groups.ValueKind != JsonValueKind.Array
+		)
 			return [];
 
 		var results = new List<ExcludedGameItem>();
@@ -1246,10 +1136,18 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				if (results.Count >= 12)
 					return results;
 
-				if (entry.TryGetProperty("isSponsored", out JsonElement sponsoredElement) && sponsoredElement.ValueKind == JsonValueKind.True)
+				if (
+					entry.TryGetProperty("isSponsored", out JsonElement sponsoredElement)
+					&& sponsoredElement.ValueKind == JsonValueKind.True
+				)
 					continue;
 
-				if (!entry.TryGetProperty("rootPlaceId", out JsonElement placeElement) || !placeElement.TryGetInt64(out long placeId) || placeId <= 0 || !seen.Add(placeId))
+				if (
+					!entry.TryGetProperty("rootPlaceId", out JsonElement placeElement)
+					|| !placeElement.TryGetInt64(out long placeId)
+					|| placeId <= 0
+					|| !seen.Add(placeId)
+				)
 					continue;
 
 				var item = new ExcludedGameItem(placeId);
@@ -1281,7 +1179,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 
 		long up = entry.TryGetProperty("totalUpVotes", out JsonElement upElement) && upElement.TryGetInt64(out long upVotes) ? upVotes : 0L;
-		long down = entry.TryGetProperty("totalDownVotes", out JsonElement downElement) && downElement.TryGetInt64(out long downVotes) ? downVotes : 0L;
+		long down =
+			entry.TryGetProperty("totalDownVotes", out JsonElement downElement) && downElement.TryGetInt64(out long downVotes)
+				? downVotes
+				: 0L;
 		if (up + down > 0L)
 			parts.Add(Math.Round(up * 100.0 / (up + down)).ToString("0", CultureInfo.InvariantCulture) + "% rating");
 
@@ -1306,11 +1207,14 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		RunSafeExcludedGamesAsync();
 	}
 
-	public string ExcludedGamesSummary => ExcludedGames.Count == 0
-		? "Voidstrap picks a server for every game."
-		: (ExcludedGames.Count == 1
-			? "1 game joins normally, Voidstrap never picks its server."
-			: $"{ExcludedGames.Count} games join normally, Voidstrap never picks their servers.");
+	public string ExcludedGamesSummary =>
+		ExcludedGames.Count == 0
+			? "Voidstrap picks a server for every game."
+			: (
+				ExcludedGames.Count == 1
+					? "1 game joins normally, Voidstrap never picks its server."
+					: $"{ExcludedGames.Count} games join normally, Voidstrap never picks their servers."
+			);
 
 	public bool HasExcludedGames => ExcludedGames.Count > 0;
 
@@ -1320,8 +1224,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public void RefreshExcludedGames()
 	{
-		if (ExcludedGames.Count == (App.Settings.Prop.MatchmakerExcludedPlaceIds ?? []).Distinct().Count(id => id > 0)
-			&& ExcludedGames.All(g => ServerMatchmaker.IsExcluded(g.PlaceId)))
+		if (
+			ExcludedGames.Count == (App.Settings.Prop.MatchmakerExcludedPlaceIds ?? []).Distinct().Count(id => id > 0)
+			&& ExcludedGames.All(g => ServerMatchmaker.IsExcluded(g.PlaceId))
+		)
 		{
 			return;
 		}
@@ -1385,14 +1291,20 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			}
 			catch (Exception ex)
 			{
-				App.Logger?.WriteLine("BehaviourViewModel::ResolveExcludedGameDetails", "Could not resolve excluded game details: " + ex.Message);
+				App.Logger?.WriteLine(
+					"BehaviourViewModel::ResolveExcludedGameDetails",
+					"Could not resolve excluded game details: " + ex.Message
+				);
 			}
 		}
 	}
 
 	private static async Task ApplyExcludedGameNamesAsync(ExcludedGameItem[] chunk, string ids)
 	{
-		using var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, "https://games.roblox.com/v1/games/multiget-place-details?placeIds=" + ids);
+		using var request = new System.Net.Http.HttpRequestMessage(
+			System.Net.Http.HttpMethod.Get,
+			"https://games.roblox.com/v1/games/multiget-place-details?placeIds=" + ids
+		);
 		string? cookie = RobloxCookie.Get();
 		if (!string.IsNullOrEmpty(cookie))
 			request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
@@ -1420,8 +1332,13 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	private static async Task ApplyExcludedGameIconsAsync(ExcludedGameItem[] chunk, string ids)
 	{
-		var response = await Voidstrap.Utility.Http.GetJson<Voidstrap.Models.APIs.Roblox.ApiArrayResponse<Voidstrap.Models.APIs.Roblox.ThumbnailResponse>>(
-			"https://thumbnails.roblox.com/v1/places/gameicons?placeIds=" + ids + "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false").ConfigureAwait(true);
+		var response = await Voidstrap
+			.Utility.Http.GetJson<Voidstrap.Models.APIs.Roblox.ApiArrayResponse<Voidstrap.Models.APIs.Roblox.ThumbnailResponse>>(
+				"https://thumbnails.roblox.com/v1/places/gameicons?placeIds="
+					+ ids
+					+ "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false"
+			)
+			.ConfigureAwait(true);
 
 		if (response?.Data == null)
 			return;
@@ -1454,11 +1371,20 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			Frontend.ShowMessageBox("Close Roblox before cleaning the cache.", MessageBoxImage.Hand);
 			return;
 		}
-		string soberRoot = Path.Combine(Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".var", "app", "org.vinegarhq.Sober");
+		string soberRoot = Path.Combine(
+			Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+			".var",
+			"app",
+			"org.vinegarhq.Sober"
+		);
 		string soberAppData = Path.Combine(soberRoot, "data", "sober", "appData");
 		string path = linux ? Path.Combine(soberRoot, "cache", "sober") : Path.Combine(Path.GetTempPath(), "Roblox");
-		string path2 = linux ? Path.Combine(soberAppData, "rbx-storage") : Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "rbx-storage");
-		string dbFile = linux ? Path.Combine(soberAppData, "rbx-storage.db") : Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "rbx-storage.db");
+		string path2 = linux
+			? Path.Combine(soberAppData, "rbx-storage")
+			: Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "rbx-storage");
+		string dbFile = linux
+			? Path.Combine(soberAppData, "rbx-storage.db")
+			: Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "rbx-storage.db");
 		List<string> dirs = new List<string>();
 		try
 		{
@@ -1481,29 +1407,31 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			Frontend.ShowMessageBox("There's nothing to clean.", MessageBoxImage.Asterisk);
 			return;
 		}
-		int num = await Task.Run(delegate
-		{
-			int num2 = 0;
-			if (hasDb && !TryDeleteFile(dbFile))
+		int num = await Task.Run(
+			delegate
 			{
-				num2++;
-			}
-			if (linux && hasDb && !File.Exists(dbFile))
-			{
-				foreach (string companion in new[] { dbFile + "-wal", dbFile + "-shm" })
+				int num2 = 0;
+				if (hasDb && !TryDeleteFile(dbFile))
 				{
-					if (File.Exists(companion) && !TryDeleteFile(companion))
+					num2++;
+				}
+				if (linux && hasDb && !File.Exists(dbFile))
+				{
+					foreach (string companion in new[] { dbFile + "-wal", dbFile + "-shm" })
 					{
-						num2++;
+						if (File.Exists(companion) && !TryDeleteFile(companion))
+						{
+							num2++;
+						}
 					}
 				}
+				foreach (string item in dirs)
+				{
+					num2 += DeleteDirectoryContents(item);
+				}
+				return num2;
 			}
-			foreach (string item in dirs)
-			{
-				num2 += DeleteDirectoryContents(item);
-			}
-			return num2;
-		});
+		);
 		if (num > 0)
 		{
 			App.Logger.WriteLine("BehaviourViewModel::CleanRobloxCache", $"Cleaned the cache; {num} item(s) were in use and skipped.");
@@ -1554,23 +1482,21 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 		try
 		{
-			foreach (string item2 in from p in Directory.EnumerateDirectories(dir, "*", SearchOption.AllDirectories)
+			foreach (
+				string item2 in from p in Directory.EnumerateDirectories(dir, "*", SearchOption.AllDirectories)
 				orderby p.Length descending
-				select p)
+				select p
+			)
 			{
 				try
 				{
 					Directory.Delete(item2, recursive: false);
 				}
-				catch
-				{
-				}
+				catch { }
 			}
 			Directory.Delete(dir, recursive: false);
 		}
-		catch
-		{
-		}
+		catch { }
 		return num;
 	}
 
@@ -1583,20 +1509,20 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (userGeoForPreferred.HasValue)
 			{
 				_userGeoForPreferred = userGeoForPreferred;
-				await Application.Current.Dispatcher.InvokeAsync(delegate
-				{
-					ApplyDistances();
-					RefreshPreferredDatacenterOptions();
-					EnsurePreferredDatacenter();
-					OnPropertyChanged(nameof(UserLatitude));
-					OnPropertyChanged(nameof(UserLongitude));
-					RefreshMatchmakerSummary();
-				});
+				await Application.Current.Dispatcher.InvokeAsync(
+					delegate
+					{
+						ApplyDistances();
+						RefreshPreferredDatacenterOptions();
+						EnsurePreferredDatacenter();
+						OnPropertyChanged(nameof(UserLatitude));
+						OnPropertyChanged(nameof(UserLongitude));
+						RefreshMatchmakerSummary();
+					}
+				);
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static async Task<(double lat, double lon)?> FetchUserGeoAsync()
@@ -1659,9 +1585,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			kick.Clear();
 			App.Settings.SaveDeferred();
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	public void LoadDatacenters()
@@ -1671,12 +1595,25 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			MigrateKickListIntoBlocklist();
 			HashSet<string> hashSet = VoidstrapMatchmaker.GetBlockedDatacenters();
 			Datacenters.Clear();
-			Dictionary<string, List<LearnedServerEntry>> dictionary = new Dictionary<string, List<LearnedServerEntry>>(StringComparer.OrdinalIgnoreCase);
+			Dictionary<string, List<LearnedServerEntry>> dictionary = new Dictionary<string, List<LearnedServerEntry>>(
+				StringComparer.OrdinalIgnoreCase
+			);
 			List<LearnedServerEntry> entries = ServerFetchStore.AllEntries();
 			HashSet<string> learnedCidrs = new HashSet<string>(entries.Select(e => e.Cidr), StringComparer.OrdinalIgnoreCase);
-			entries.AddRange(RobloxDatacenterMap.AllSeedEntries()
-				.Where(seed => !learnedCidrs.Contains(seed.Cidr))
-				.Select(seed => new LearnedServerEntry { Cidr = seed.Cidr, City = seed.City, Region = seed.Region, Country = seed.Country, Lat = seed.Lat, Lon = seed.Lon }));
+			entries.AddRange(
+				RobloxDatacenterMap
+					.AllSeedEntries()
+					.Where(seed => !learnedCidrs.Contains(seed.Cidr))
+					.Select(seed => new LearnedServerEntry
+					{
+						Cidr = seed.Cidr,
+						City = seed.City,
+						Region = seed.Region,
+						Country = seed.Country,
+						Lat = seed.Lat,
+						Lon = seed.Lon,
+					})
+			);
 			foreach (LearnedServerEntry item in entries)
 			{
 				if (!string.IsNullOrWhiteSpace(item.City) && (item.Lat != 0.0 || item.Lon != 0.0))
@@ -1689,21 +1626,47 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 					value.Add(item);
 				}
 			}
-			foreach (KeyValuePair<string, List<LearnedServerEntry>> item2 in dictionary.OrderBy<KeyValuePair<string, List<LearnedServerEntry>>, string>((KeyValuePair<string, List<LearnedServerEntry>> x) => x.Value[0].Country, StringComparer.OrdinalIgnoreCase).ThenBy<KeyValuePair<string, List<LearnedServerEntry>>, string>((KeyValuePair<string, List<LearnedServerEntry>> x) => x.Value[0].City, StringComparer.OrdinalIgnoreCase))
+			foreach (
+				KeyValuePair<string, List<LearnedServerEntry>> item2 in dictionary
+					.OrderBy<KeyValuePair<string, List<LearnedServerEntry>>, string>(
+						(KeyValuePair<string, List<LearnedServerEntry>> x) => x.Value[0].Country,
+						StringComparer.OrdinalIgnoreCase
+					)
+					.ThenBy<KeyValuePair<string, List<LearnedServerEntry>>, string>(
+						(KeyValuePair<string, List<LearnedServerEntry>> x) => x.Value[0].City,
+						StringComparer.OrdinalIgnoreCase
+					)
+			)
 			{
 				List<LearnedServerEntry> value2 = item2.Value;
 				LearnedServerEntry learnedServerEntry = value2.OrderByDescending((LearnedServerEntry x) => x.SeenCount).First();
-				List<string> serverIps = value2.SelectMany(delegate(LearnedServerEntry x)
-				{
-					IEnumerable<string>? iPs = x.IPs;
-					return iPs ?? Enumerable.Empty<string>();
-				}).Where(IsUsablePingIp).Distinct<string>(StringComparer.OrdinalIgnoreCase)
+				List<string> serverIps = value2
+					.SelectMany(
+						delegate(LearnedServerEntry x)
+						{
+							IEnumerable<string>? iPs = x.IPs;
+							return iPs ?? Enumerable.Empty<string>();
+						}
+					)
+					.Where(IsUsablePingIp)
+					.Distinct<string>(StringComparer.OrdinalIgnoreCase)
 					.ToList();
-				List<string> cidrRanges = (from x in value2
-					select x.Cidr into x
-					where !string.IsNullOrWhiteSpace(x)
-					select x).Distinct<string>(StringComparer.OrdinalIgnoreCase).ToList();
-				Datacenters.Add(new DatacenterItem(learnedServerEntry.City, learnedServerEntry.Region, learnedServerEntry.Country, learnedServerEntry.Lat, learnedServerEntry.Lon, serverIps, cidrRanges, hashSet.Contains(item2.Key), OnDatacenterToggled));
+				List<string> cidrRanges = (from x in value2 select x.Cidr into x where !string.IsNullOrWhiteSpace(x) select x)
+					.Distinct<string>(StringComparer.OrdinalIgnoreCase)
+					.ToList();
+				Datacenters.Add(
+					new DatacenterItem(
+						learnedServerEntry.City,
+						learnedServerEntry.Region,
+						learnedServerEntry.Country,
+						learnedServerEntry.Lat,
+						learnedServerEntry.Lon,
+						serverIps,
+						cidrRanges,
+						hashSet.Contains(item2.Key),
+						OnDatacenterToggled
+					)
+				);
 			}
 			ApplyDistances();
 			RefreshPreferredDatacenterOptions();
@@ -1723,7 +1686,12 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			return;
 		foreach (DatacenterItem item in Datacenters)
 		{
-			item.DistanceKm = Voidstrap.Integrations.VoidstrapMatchmaker.HaversineKm(_userGeoForPreferred.Value.lat, _userGeoForPreferred.Value.lon, item.Lat, item.Lon);
+			item.DistanceKm = Voidstrap.Integrations.VoidstrapMatchmaker.HaversineKm(
+				_userGeoForPreferred.Value.lat,
+				_userGeoForPreferred.Value.lon,
+				item.Lat,
+				item.Lon
+			);
 			if (item.PingMs < 0)
 			{
 				item.PingMs = Voidstrap.Integrations.VoidstrapMatchmaker.EstimatePingMs(item.DistanceKm);
@@ -1735,7 +1703,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	private void SortDatacentersByDistance()
 	{
-		List<DatacenterItem> sorted = Datacenters.OrderBy(d => d.DistanceKm < 0.0 ? double.MaxValue : d.DistanceKm).ThenBy(d => d.City, StringComparer.OrdinalIgnoreCase).ToList();
+		List<DatacenterItem> sorted = Datacenters
+			.OrderBy(d => d.DistanceKm < 0.0 ? double.MaxValue : d.DistanceKm)
+			.ThenBy(d => d.City, StringComparer.OrdinalIgnoreCase)
+			.ToList();
 		for (int i = 0; i < sorted.Count; i++)
 		{
 			int current = Datacenters.IndexOf(sorted[i]);
@@ -1770,7 +1741,9 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		IsFetchingPreset = true;
 		try
 		{
-			await Voidstrap.Utility.RemoteData.RefreshServerLocationsAsync(force, CancellationToken.None).ConfigureAwait(continueOnCapturedContext: true);
+			await Voidstrap
+				.Utility.RemoteData.RefreshServerLocationsAsync(force, CancellationToken.None)
+				.ConfigureAwait(continueOnCapturedContext: true);
 			LoadDatacenters();
 		}
 		catch (Exception ex)
@@ -1791,23 +1764,30 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			PreferredDatacenterOptions.Clear();
 			foreach (DatacenterItem item in Datacenters.Where(d => d.IsAllowed))
 			{
-				string ping = item.PingMs >= 0 ? $"{item.PingMs} ms" : (item.DistanceKm >= 0.0 ? $"{VoidstrapMatchmaker.EstimatePingMs(item.DistanceKm)} ms" : "");
+				string ping =
+					item.PingMs >= 0
+						? $"{item.PingMs} ms"
+						: (item.DistanceKm >= 0.0 ? $"{VoidstrapMatchmaker.EstimatePingMs(item.DistanceKm)} ms" : "");
 				string display = string.IsNullOrEmpty(ping) ? item.Location : $"{item.Location} ({ping})";
-				PreferredDatacenterOptions.Add(new PreferredDatacenterOption
-				{
-					Key = item.Key,
-					Display = display,
-					DistanceKm = item.DistanceKm
-				});
+				PreferredDatacenterOptions.Add(
+					new PreferredDatacenterOption
+					{
+						Key = item.Key,
+						Display = display,
+						DistanceKm = item.DistanceKm,
+					}
+				);
 			}
-			PreferredDatacenterOption? match = PreferredDatacenterOptions.FirstOrDefault(o => string.Equals(o.Key, savedKey, StringComparison.OrdinalIgnoreCase));
+			PreferredDatacenterOption? match = PreferredDatacenterOptions.FirstOrDefault(o =>
+				string.Equals(o.Key, savedKey, StringComparison.OrdinalIgnoreCase)
+			);
 			if (match == null && savedKey.Length > 0)
 			{
 				match = new PreferredDatacenterOption
 				{
 					Key = savedKey,
 					Display = savedKey.Replace("|", ", "),
-					DistanceKm = -1
+					DistanceKm = -1,
 				};
 				PreferredDatacenterOptions.Add(match);
 			}
@@ -1820,9 +1800,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				{
 					App.Settings.SaveDeferred();
 				}
-				catch
-				{
-				}
+				catch { }
 				OnPropertyChanged(nameof(PreferredDatacenterKey));
 			}
 			OnPropertyChanged(nameof(SelectedPreferredDatacenter));
@@ -1840,15 +1818,22 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		string saved = PreferredDatacenterKey;
 		if (Datacenters.Any(d => d.IsAllowed && string.Equals(d.Key, saved, StringComparison.OrdinalIgnoreCase)))
 		{
-			_selectedPreferredDatacenter = PreferredDatacenterOptions.FirstOrDefault(o => string.Equals(o.Key, saved, StringComparison.OrdinalIgnoreCase));
+			_selectedPreferredDatacenter = PreferredDatacenterOptions.FirstOrDefault(o =>
+				string.Equals(o.Key, saved, StringComparison.OrdinalIgnoreCase)
+			);
 			OnPropertyChanged(nameof(SelectedPreferredDatacenter));
 			return;
 		}
-		DatacenterItem? nearest = Datacenters.Where(d => d.IsAllowed).OrderBy(d => d.DistanceKm < 0.0 ? double.MaxValue : d.DistanceKm).FirstOrDefault();
+		DatacenterItem? nearest = Datacenters
+			.Where(d => d.IsAllowed)
+			.OrderBy(d => d.DistanceKm < 0.0 ? double.MaxValue : d.DistanceKm)
+			.FirstOrDefault();
 		if (nearest != null)
 		{
 			PreferredDatacenterKey = nearest.Key;
-			_selectedPreferredDatacenter = PreferredDatacenterOptions.FirstOrDefault(o => string.Equals(o.Key, nearest.Key, StringComparison.OrdinalIgnoreCase));
+			_selectedPreferredDatacenter = PreferredDatacenterOptions.FirstOrDefault(o =>
+				string.Equals(o.Key, nearest.Key, StringComparison.OrdinalIgnoreCase)
+			);
 			OnPropertyChanged(nameof(SelectedPreferredDatacenter));
 		}
 	}
@@ -1867,9 +1852,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		{
 			App.Settings.SaveDeferred();
 		}
-		catch
-		{
-		}
+		catch { }
 		RefreshMatchmakerAutoDetect();
 		RefreshPreferredDatacenterOptions();
 		EnsurePreferredDatacenter();
@@ -1891,15 +1874,15 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				if (ms < 0)
 					return;
 				string text = $"{ms} ms";
-				await Application.Current.Dispatcher.InvokeAsync(delegate
-				{
-					item.PingMs = ms;
-					item.PingDisplay = text;
-				});
+				await Application.Current.Dispatcher.InvokeAsync(
+					delegate
+					{
+						item.PingMs = ms;
+						item.PingDisplay = text;
+					}
+				);
 			}
-			catch
-			{
-			}
+			catch { }
 			finally
 			{
 				throttler.Release();
@@ -1910,9 +1893,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			await Task.WhenAll(tasks).ConfigureAwait(false);
 			await Application.Current.Dispatcher.InvokeAsync(RefreshPreferredDatacenterOptions);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static async Task<int> MeasureTcpPingAsync(string ip)
@@ -1974,9 +1955,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		{
 			App.Settings.SaveDeferred();
 		}
-		catch
-		{
-		}
+		catch { }
 		RefreshMatchmakerAutoDetect();
 		RefreshPreferredDatacenterOptions();
 		EnsurePreferredDatacenter();
@@ -2010,29 +1989,35 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		try
 		{
 			CpuOptions.Clear();
-			int processorCount = Voidstrap.Utility.Platform.IsLinux ? Voidstrap.Core.CpuTopology.OnlineCpus.Count : Environment.ProcessorCount;
+			int processorCount = Voidstrap.Utility.Platform.IsLinux
+				? Voidstrap.Core.CpuTopology.OnlineCpus.Count
+				: Environment.ProcessorCount;
 			int physicalCoreCount = GetPhysicalCoreCount();
 			string text = Voidstrap.Utility.CpuInfo.GetModelName() ?? "Unknown CPU";
 			if (Voidstrap.Utility.Platform.IsWindows)
 			{
 				try
 				{
-					using ManagementObjectSearcher managementObjectSearcher = new ManagementObjectSearcher("select Name from Win32_Processor");
-					using ManagementObjectCollection.ManagementObjectEnumerator managementObjectEnumerator = managementObjectSearcher.Get().GetEnumerator();
+					using ManagementObjectSearcher managementObjectSearcher = new ManagementObjectSearcher(
+						"select Name from Win32_Processor"
+					);
+					using ManagementObjectCollection.ManagementObjectEnumerator managementObjectEnumerator = managementObjectSearcher
+						.Get()
+						.GetEnumerator();
 					if (managementObjectEnumerator.MoveNext())
 					{
 						text = managementObjectEnumerator.Current["Name"]?.ToString()?.Trim() ?? "Unknown CPU";
 					}
 				}
-				catch
-				{
-				}
+				catch { }
 			}
 			CpuModelName = text;
-			CpuSummary = $"{text}, {physicalCoreCount} physical cores, {processorCount} logical processors. Automatic uses every available processor.";
+			CpuSummary =
+				$"{text}, {physicalCoreCount} physical cores, {processorCount} logical processors. Automatic uses every available processor.";
 			if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.Core.CpuTopology.IsolatedCpus.Count > 0)
 			{
-				CpuSummary = $"{text}, {physicalCoreCount} physical cores, {processorCount} logical processors. CPUs {string.Join(", ", Voidstrap.Core.CpuTopology.IsolatedCpus)} are isolated by the kernel. Automatic keeps Sober on the CPUs Voidstrap started with, a core count moves Sober onto the isolated CPUs first.";
+				CpuSummary =
+					$"{text}, {physicalCoreCount} physical cores, {processorCount} logical processors. CPUs {string.Join(", ", Voidstrap.Core.CpuTopology.IsolatedCpus)} are isolated by the kernel. Automatic keeps Sober on the CPUs Voidstrap started with, a core count moves Sober onto the isolated CPUs first.";
 			}
 			if (!Voidstrap.Utility.Platform.IsLinux && processorCount > IntPtr.Size * 8)
 			{
@@ -2046,7 +2031,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 					CpuOptions.Add($"{i} Core{((i > 1) ? "s" : "")}");
 				}
 			}
-			if (string.IsNullOrWhiteSpace(App.Settings.Prop.SelectedCpuPriority) || !CpuOptions.Contains(App.Settings.Prop.SelectedCpuPriority))
+			if (
+				string.IsNullOrWhiteSpace(App.Settings.Prop.SelectedCpuPriority)
+				|| !CpuOptions.Contains(App.Settings.Prop.SelectedCpuPriority)
+			)
 			{
 				App.Settings.Prop.SelectedCpuPriority = "Automatic";
 				App.Settings.SaveDeferred();
@@ -2076,7 +2064,9 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 		try
 		{
-			using ManagementObjectSearcher managementObjectSearcher = new ManagementObjectSearcher("select NumberOfCores from Win32_Processor");
+			using ManagementObjectSearcher managementObjectSearcher = new ManagementObjectSearcher(
+				"select NumberOfCores from Win32_Processor"
+			);
 			int num = 0;
 			foreach (ManagementBaseObject item in managementObjectSearcher.Get())
 			{
@@ -2102,12 +2092,13 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		public string Display { get; init; } = "";
 	}
 
-	public ObservableCollection<FullscreenModeItem> FullscreenModes => new()
-	{
-		new FullscreenModeItem { Value = 0, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenNormal },
-		new FullscreenModeItem { Value = 1, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenBorderless },
-		new FullscreenModeItem { Value = 2, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenExclusive }
-	};
+	public ObservableCollection<FullscreenModeItem> FullscreenModes =>
+		new()
+		{
+			new FullscreenModeItem { Value = 0, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenNormal },
+			new FullscreenModeItem { Value = 1, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenBorderless },
+			new FullscreenModeItem { Value = 2, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenExclusive },
+		};
 
 	public int RobloxFullscreenMode
 	{
@@ -2137,10 +2128,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool FakeBorderlessFullscreen
 	{
-		get
-		{
-			return App.Settings.Prop.FakeBorderlessFullscreen;
-		}
+		get { return App.Settings.Prop.FakeBorderlessFullscreen; }
 		set
 		{
 			if (App.Settings.Prop.FakeBorderlessFullscreen != value)
@@ -2153,10 +2141,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool FakeExclusiveFullscreen
 	{
-		get
-		{
-			return App.Settings.Prop.FakeExclusiveFullscreen;
-		}
+		get { return App.Settings.Prop.FakeExclusiveFullscreen; }
 		set
 		{
 			if (App.Settings.Prop.FakeExclusiveFullscreen == value)
@@ -2170,10 +2155,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool CycleTitleWithGameName
 	{
-		get
-		{
-			return App.Settings.Prop.CycleTitleWithGameName;
-		}
+		get { return App.Settings.Prop.CycleTitleWithGameName; }
 		set
 		{
 			if (App.Settings.Prop.CycleTitleWithGameName != value)
@@ -2186,10 +2168,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool UseGameIconForRobloxWindow
 	{
-		get
-		{
-			return App.Settings.Prop.UseGameIconForRobloxWindow;
-		}
+		get { return App.Settings.Prop.UseGameIconForRobloxWindow; }
 		set
 		{
 			if (App.Settings.Prop.UseGameIconForRobloxWindow != value)
@@ -2201,14 +2180,12 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-	public ObservableCollection<Voidstrap.Models.BootstrapperIconEntry> RobloxIcons { get; } = new ObservableCollection<Voidstrap.Models.BootstrapperIconEntry>();
+	public ObservableCollection<Voidstrap.Models.BootstrapperIconEntry> RobloxIcons { get; } =
+		new ObservableCollection<Voidstrap.Models.BootstrapperIconEntry>();
 
 	public BootstrapperIcon RobloxIcon
 	{
-		get
-		{
-			return App.Settings.Prop.RobloxIcon;
-		}
+		get { return App.Settings.Prop.RobloxIcon; }
 		set
 		{
 			if (value == BootstrapperIcon.IconCustom && !HasValidRobloxCustomIcon() && !PromptRobloxCustomIcon())
@@ -2234,11 +2211,13 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		RobloxIcons.Clear();
 		foreach (BootstrapperIcon selection in BootstrapperIconEx.Selections)
 		{
-			RobloxIcons.Add(new Voidstrap.Models.BootstrapperIconEntry
-			{
-				IconType = selection,
-				CustomLocation = selection == BootstrapperIcon.IconCustom ? App.Settings.Prop.RobloxIconCustomLocation : null
-			});
+			RobloxIcons.Add(
+				new Voidstrap.Models.BootstrapperIconEntry
+				{
+					IconType = selection,
+					CustomLocation = selection == BootstrapperIcon.IconCustom ? App.Settings.Prop.RobloxIconCustomLocation : null,
+				}
+			);
 		}
 		OnPropertyChanged(nameof(RobloxIcons));
 	}
@@ -2251,10 +2230,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	private bool PromptRobloxCustomIcon()
 	{
-		Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog
-		{
-			Filter = WindowIconFileFilter
-		};
+		Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog { Filter = WindowIconFileFilter };
 		if (dialog.ShowDialog() != true)
 		{
 			return false;
@@ -2409,7 +2385,11 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		{
 			Model = model;
 			_name = string.IsNullOrWhiteSpace(model.Name)
-				? string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsPlaceFallback, model.PlaceId.ToString(CultureInfo.InvariantCulture))
+				? string.Format(
+					CultureInfo.CurrentUICulture,
+					Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsPlaceFallback,
+					model.PlaceId.ToString(CultureInfo.InvariantCulture)
+				)
 				: model.Name;
 			_iconPath = model.IconPath ?? "";
 			ReloadCustomPreview();
@@ -2500,9 +2480,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 		public void ReloadCustomPreview()
 		{
-			_customIconPreview = string.IsNullOrWhiteSpace(_iconPath) || !File.Exists(_iconPath)
-				? null
-				: Voidstrap.Utility.SafeImaging.FromFile(_iconPath, 64);
+			_customIconPreview =
+				string.IsNullOrWhiteSpace(_iconPath) || !File.Exists(_iconPath)
+					? null
+					: Voidstrap.Utility.SafeImaging.FromFile(_iconPath, 64);
 			OnPropertyChanged(nameof(CustomIconPreview));
 			OnPropertyChanged(nameof(HasCustomIconPreview));
 		}
@@ -2550,17 +2531,26 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool HasWindowIconOverrides => WindowIconOverrides.Count > 0;
 
-	public string WindowIconOverridesSummary => WindowIconOverrides.Count == 0
-		? Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsSummaryNone
-		: (WindowIconOverrides.Count == 1
-			? Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsSummaryOne
-			: string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsSummaryMany, WindowIconOverrides.Count));
+	public string WindowIconOverridesSummary =>
+		WindowIconOverrides.Count == 0
+			? Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsSummaryNone
+			: (
+				WindowIconOverrides.Count == 1
+					? Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsSummaryOne
+					: string.Format(
+						CultureInfo.CurrentUICulture,
+						Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsSummaryMany,
+						WindowIconOverrides.Count
+					)
+			);
 
 	public ICommand AddWindowIconSearchResultCommand => new RelayCommand<WindowIconSearchItem>(AddWindowIconSearchResult);
 
-	public ICommand LoadWindowIconSubplacesCommand => new RelayCommand<WindowIconSearchItem>(item => _ = LoadWindowIconSubplacesAsync(item));
+	public ICommand LoadWindowIconSubplacesCommand =>
+		new RelayCommand<WindowIconSearchItem>(item => _ = LoadWindowIconSubplacesAsync(item));
 
-	public ICommand BrowseOverrideSubplacesCommand => new RelayCommand<WindowIconOverrideItem>(item => _ = BrowseOverrideSubplacesAsync(item));
+	public ICommand BrowseOverrideSubplacesCommand =>
+		new RelayCommand<WindowIconOverrideItem>(item => _ = BrowseOverrideSubplacesAsync(item));
 
 	public ICommand ChangeWindowIconOverrideCommand => new RelayCommand<WindowIconOverrideItem>(ChangeWindowIconOverride);
 
@@ -2577,9 +2567,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			previous?.Cancel();
 			previous?.Dispose();
 		}
-		catch
-		{
-		}
+		catch { }
 
 		string query = (_windowIconSearchText ?? "").Trim();
 		if (query.Length < 2)
@@ -2620,7 +2608,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				ClearWindowIconSearchResults();
 				WindowIconSearchResults.Add(direct);
 				OnPropertyChanged(nameof(HasWindowIconSearchResults));
-				await ApplyWindowIconSearchThumbnailsAsync([direct], typedPlaceId.ToString(CultureInfo.InvariantCulture)).ConfigureAwait(true);
+				await ApplyWindowIconSearchThumbnailsAsync([direct], typedPlaceId.ToString(CultureInfo.InvariantCulture))
+					.ConfigureAwait(true);
 				if (cts.Token.IsCancellationRequested)
 					return;
 
@@ -2642,7 +2631,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 					UniverseId = game.UniverseId,
 					Name = game.Name,
 					Players = game.Players,
-					Detail = game.Detail
+					Detail = game.Detail,
 				};
 				WindowIconSearchResults.Add(item);
 				items.Add(item);
@@ -2657,9 +2646,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				await ApplyWindowIconSearchThumbnailsAsync([.. items], ids).ConfigureAwait(true);
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger?.WriteLine("BehaviourViewModel::RunWindowIconSearch", "Window icon game search failed: " + ex.Message);
@@ -2673,9 +2660,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			{
 				cts.Dispose();
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
 
@@ -2684,7 +2669,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		string idText = item.PlaceId.ToString(CultureInfo.InvariantCulture);
 		try
 		{
-			using var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, "https://games.roblox.com/v1/games/multiget-place-details?placeIds=" + idText);
+			using var request = new System.Net.Http.HttpRequestMessage(
+				System.Net.Http.HttpMethod.Get,
+				"https://games.roblox.com/v1/games/multiget-place-details?placeIds=" + idText
+			);
 			string? cookie = RobloxCookie.Get();
 			if (!string.IsNullOrEmpty(cookie))
 				request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
@@ -2696,7 +2684,11 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				{
 					foreach (JsonElement entry in doc.RootElement.EnumerateArray())
 					{
-						if (entry.TryGetProperty("placeId", out JsonElement pidEl) && pidEl.TryGetInt64(out long pid) && pid == item.PlaceId)
+						if (
+							entry.TryGetProperty("placeId", out JsonElement pidEl)
+							&& pidEl.TryGetInt64(out long pid)
+							&& pid == item.PlaceId
+						)
 						{
 							if (entry.TryGetProperty("name", out JsonElement nameEl) && nameEl.ValueKind == JsonValueKind.String)
 								item.Name = nameEl.GetString() ?? "";
@@ -2713,36 +2705,49 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				}
 			}
 		}
-		catch (Exception ex) when (ex is not OperationCanceledException)
-		{
-		}
+		catch (Exception ex) when (ex is not OperationCanceledException) { }
 
 		if (item.UniverseId <= 0)
 		{
 			try
 			{
-				using System.Net.Http.HttpResponseMessage uniResp = await App.HttpClient.GetAsync("https://apis.roblox.com/universes/v1/places/" + idText + "/universe", token).ConfigureAwait(false);
+				using System.Net.Http.HttpResponseMessage uniResp = await App
+					.HttpClient.GetAsync("https://apis.roblox.com/universes/v1/places/" + idText + "/universe", token)
+					.ConfigureAwait(false);
 				if (uniResp.IsSuccessStatusCode)
 				{
 					using JsonDocument uniDoc = JsonDocument.Parse(await uniResp.Content.ReadAsStringAsync(token).ConfigureAwait(false));
-					if (uniDoc.RootElement.ValueKind == JsonValueKind.Object && uniDoc.RootElement.TryGetProperty("universeId", out JsonElement uidEl) && uidEl.TryGetInt64(out long uid) && uid > 0)
+					if (
+						uniDoc.RootElement.ValueKind == JsonValueKind.Object
+						&& uniDoc.RootElement.TryGetProperty("universeId", out JsonElement uidEl)
+						&& uidEl.TryGetInt64(out long uid)
+						&& uid > 0
+					)
 						item.UniverseId = uid;
 				}
 			}
-			catch (Exception ex) when (ex is not OperationCanceledException)
-			{
-			}
+			catch (Exception ex) when (ex is not OperationCanceledException) { }
 		}
 
 		if (item.UniverseId > 0 && item.Name.StartsWith("Place ", StringComparison.Ordinal))
 		{
 			try
 			{
-				using System.Net.Http.HttpResponseMessage gameResp = await App.HttpClient.GetAsync("https://games.roblox.com/v1/games?universeIds=" + item.UniverseId.ToString(CultureInfo.InvariantCulture), token).ConfigureAwait(false);
+				using System.Net.Http.HttpResponseMessage gameResp = await App
+					.HttpClient.GetAsync(
+						"https://games.roblox.com/v1/games?universeIds=" + item.UniverseId.ToString(CultureInfo.InvariantCulture),
+						token
+					)
+					.ConfigureAwait(false);
 				if (gameResp.IsSuccessStatusCode)
 				{
 					using JsonDocument gameDoc = JsonDocument.Parse(await gameResp.Content.ReadAsStringAsync(token).ConfigureAwait(false));
-					if (gameDoc.RootElement.ValueKind == JsonValueKind.Object && gameDoc.RootElement.TryGetProperty("data", out JsonElement dataArr) && dataArr.ValueKind == JsonValueKind.Array && dataArr.GetArrayLength() > 0)
+					if (
+						gameDoc.RootElement.ValueKind == JsonValueKind.Object
+						&& gameDoc.RootElement.TryGetProperty("data", out JsonElement dataArr)
+						&& dataArr.ValueKind == JsonValueKind.Array
+						&& dataArr.GetArrayLength() > 0
+					)
 					{
 						JsonElement g = dataArr[0];
 						if (g.TryGetProperty("name", out JsonElement nameEl) && nameEl.ValueKind == JsonValueKind.String)
@@ -2750,9 +2755,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 					}
 				}
 			}
-			catch (Exception ex) when (ex is not OperationCanceledException)
-			{
-			}
+			catch (Exception ex) when (ex is not OperationCanceledException) { }
 		}
 	}
 
@@ -2773,7 +2776,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		{
 			UniverseId = overrideItem.UniverseId,
 			Name = overrideItem.Name,
-			IconUrl = overrideItem.IconUrl
+			IconUrl = overrideItem.IconUrl,
 		};
 		WindowIconSearchResults.Add(rootItem);
 		OnPropertyChanged(nameof(HasWindowIconSearchResults));
@@ -2788,11 +2791,17 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		parent.IsLoadingSubplaces = true;
 		try
 		{
-			IReadOnlyList<Voidstrap.Utility.RobloxSubplaces.Place> places = await Voidstrap.Utility.RobloxSubplaces.GetAsync(App.HttpClient, parent.PlaceId, token, parent.UniverseId).ConfigureAwait(true);
+			IReadOnlyList<Voidstrap.Utility.RobloxSubplaces.Place> places = await Voidstrap
+				.Utility.RobloxSubplaces.GetAsync(App.HttpClient, parent.PlaceId, token, parent.UniverseId)
+				.ConfigureAwait(true);
 			parent.SubplacesLoaded = true;
 			if (places.Count == 0)
 			{
-				WindowIconSearchStatus = string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsNoSubplaces, parent.Name);
+				WindowIconSearchStatus = string.Format(
+					CultureInfo.CurrentUICulture,
+					Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsNoSubplaces,
+					parent.Name
+				);
 				return;
 			}
 
@@ -2808,9 +2817,19 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				var sub = new WindowIconSearchItem(place.Id, isSubplace: true, parentName: parent.Name)
 				{
 					UniverseId = parent.UniverseId,
-					Name = string.IsNullOrWhiteSpace(place.Name) ? string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsPlaceFallback, place.Id.ToString(CultureInfo.InvariantCulture)) : place.Name,
+					Name = string.IsNullOrWhiteSpace(place.Name)
+						? string.Format(
+							CultureInfo.CurrentUICulture,
+							Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsPlaceFallback,
+							place.Id.ToString(CultureInfo.InvariantCulture)
+						)
+						: place.Name,
 					IconUrl = place.IconUrl,
-					Detail = string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsSubplaceOf, parent.Name)
+					Detail = string.Format(
+						CultureInfo.CurrentUICulture,
+						Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsSubplaceOf,
+						parent.Name
+					),
 				};
 				insertIndex++;
 				WindowIconSearchResults.Insert(Math.Min(insertIndex, WindowIconSearchResults.Count), sub);
@@ -2818,7 +2837,12 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			}
 
 			OnPropertyChanged(nameof(HasWindowIconSearchResults));
-			WindowIconSearchStatus = string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsLoadedSubplaces, places.Count, parent.Name);
+			WindowIconSearchStatus = string.Format(
+				CultureInfo.CurrentUICulture,
+				Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsLoadedSubplaces,
+				places.Count,
+				parent.Name
+			);
 
 			WindowIconSearchItem[] missingIcons = added.Where(s => !s.HasIcon).ToArray();
 			if (missingIcons.Length > 0)
@@ -2830,9 +2854,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				}
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger?.WriteLine("BehaviourViewModel::AppendSubplacesToSearch", "Could not load subplaces: " + ex.Message);
@@ -2846,8 +2868,13 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	private static async Task ApplyWindowIconSearchThumbnailsAsync(WindowIconSearchItem[] chunk, string ids)
 	{
-		var response = await Voidstrap.Utility.Http.GetJson<Voidstrap.Models.APIs.Roblox.ApiArrayResponse<Voidstrap.Models.APIs.Roblox.ThumbnailResponse>>(
-			"https://thumbnails.roblox.com/v1/places/gameicons?placeIds=" + ids + "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false").ConfigureAwait(true);
+		var response = await Voidstrap
+			.Utility.Http.GetJson<Voidstrap.Models.APIs.Roblox.ApiArrayResponse<Voidstrap.Models.APIs.Roblox.ThumbnailResponse>>(
+				"https://thumbnails.roblox.com/v1/places/gameicons?placeIds="
+					+ ids
+					+ "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false"
+			)
+			.ConfigureAwait(true);
 
 		if (response?.Data == null)
 			return;
@@ -2867,10 +2894,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		if (item == null || item.PlaceId <= 0)
 			return;
 
-		Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog
-		{
-			Filter = WindowIconFileFilter
-		};
+		Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog { Filter = WindowIconFileFilter };
 		if (dialog.ShowDialog() != true)
 			return;
 
@@ -2881,7 +2905,14 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox(string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsImportFailed, ex.Message), MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(
+				string.Format(
+					CultureInfo.CurrentUICulture,
+					Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsImportFailed,
+					ex.Message
+				),
+				MessageBoxImage.Hand
+			);
 			return;
 		}
 
@@ -2909,13 +2940,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			UniverseId = item.UniverseId,
 			Name = item.Name,
 			IconPath = imported,
-			AllPlaces = !item.IsSubplace
+			AllPlaces = !item.IsSubplace,
 		};
 		list.Add(model);
-		var vmItem = new WindowIconOverrideItem(model)
-		{
-			IconUrl = item.IconUrl
-		};
+		var vmItem = new WindowIconOverrideItem(model) { IconUrl = item.IconUrl };
 		WindowIconOverrides.Add(vmItem);
 		App.Settings.SaveDeferred();
 		RaiseWindowIconOverridesChanged();
@@ -2927,10 +2955,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		if (item == null)
 			return;
 
-		Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog
-		{
-			Filter = WindowIconFileFilter
-		};
+		Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog { Filter = WindowIconFileFilter };
 		if (dialog.ShowDialog() != true)
 			return;
 
@@ -2941,7 +2966,14 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox(string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsImportFailed, ex.Message), MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(
+				string.Format(
+					CultureInfo.CurrentUICulture,
+					Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsImportFailed,
+					ex.Message
+				),
+				MessageBoxImage.Hand
+			);
 			return;
 		}
 
@@ -2980,7 +3012,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		OnPropertyChanged(nameof(RobloxIcon));
 		OnPropertyChanged(nameof(IsRobloxIconCustom));
 		List<Voidstrap.Models.RobloxWindowIconOverride> saved = App.Settings.Prop.RobloxWindowIconOverrides ??= [];
-		if (WindowIconOverrides.Count == saved.Count && WindowIconOverrides.All(vm => saved.Any(s => s != null && s.PlaceId == vm.PlaceId && s.IconPath == vm.IconPath)))
+		if (
+			WindowIconOverrides.Count == saved.Count
+			&& WindowIconOverrides.All(vm => saved.Any(s => s != null && s.PlaceId == vm.PlaceId && s.IconPath == vm.IconPath))
+		)
 			return;
 		LoadWindowIconOverrides();
 	}
@@ -3003,7 +3038,9 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	private async Task ResolveWindowIconOverrideDetailsAsync()
 	{
-		WindowIconOverrideItem[] pending = WindowIconOverrides.Where(o => !o.HasIcon || o.UniverseId <= 0 || o.Name.StartsWith("Place ", StringComparison.Ordinal)).ToArray();
+		WindowIconOverrideItem[] pending = WindowIconOverrides
+			.Where(o => !o.HasIcon || o.UniverseId <= 0 || o.Name.StartsWith("Place ", StringComparison.Ordinal))
+			.ToArray();
 		if (pending.Length == 0)
 			return;
 
@@ -3017,7 +3054,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			}
 			catch (Exception ex)
 			{
-				App.Logger?.WriteLine("BehaviourViewModel::ResolveWindowIconOverrideDetails", "Could not resolve override game details: " + ex.Message);
+				App.Logger?.WriteLine(
+					"BehaviourViewModel::ResolveWindowIconOverrideDetails",
+					"Could not resolve override game details: " + ex.Message
+				);
 			}
 		}
 		App.Settings.SaveDeferred();
@@ -3025,7 +3065,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	private static async Task ApplyWindowIconOverrideNamesAsync(WindowIconOverrideItem[] chunk, string ids)
 	{
-		using var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, "https://games.roblox.com/v1/games/multiget-place-details?placeIds=" + ids);
+		using var request = new System.Net.Http.HttpRequestMessage(
+			System.Net.Http.HttpMethod.Get,
+			"https://games.roblox.com/v1/games/multiget-place-details?placeIds=" + ids
+		);
 		string? cookie = RobloxCookie.Get();
 		if (!string.IsNullOrEmpty(cookie))
 			request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
@@ -3055,24 +3098,38 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		{
 			try
 			{
-				using System.Net.Http.HttpResponseMessage uniResp = await App.HttpClient.GetAsync("https://apis.roblox.com/universes/v1/places/" + unresolved.PlaceId.ToString(CultureInfo.InvariantCulture) + "/universe").ConfigureAwait(true);
+				using System.Net.Http.HttpResponseMessage uniResp = await App
+					.HttpClient.GetAsync(
+						"https://apis.roblox.com/universes/v1/places/"
+							+ unresolved.PlaceId.ToString(CultureInfo.InvariantCulture)
+							+ "/universe"
+					)
+					.ConfigureAwait(true);
 				if (uniResp.IsSuccessStatusCode)
 				{
 					using JsonDocument uniDoc = JsonDocument.Parse(await uniResp.Content.ReadAsStringAsync().ConfigureAwait(true));
-					if (uniDoc.RootElement.ValueKind == JsonValueKind.Object && uniDoc.RootElement.TryGetProperty("universeId", out JsonElement uidEl) && uidEl.TryGetInt64(out long uid) && uid > 0)
+					if (
+						uniDoc.RootElement.ValueKind == JsonValueKind.Object
+						&& uniDoc.RootElement.TryGetProperty("universeId", out JsonElement uidEl)
+						&& uidEl.TryGetInt64(out long uid)
+						&& uid > 0
+					)
 						unresolved.UniverseId = uid;
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
 
 	private static async Task ApplyWindowIconOverrideThumbnailsAsync(WindowIconOverrideItem[] chunk, string ids)
 	{
-		var response = await Voidstrap.Utility.Http.GetJson<Voidstrap.Models.APIs.Roblox.ApiArrayResponse<Voidstrap.Models.APIs.Roblox.ThumbnailResponse>>(
-			"https://thumbnails.roblox.com/v1/places/gameicons?placeIds=" + ids + "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false").ConfigureAwait(true);
+		var response = await Voidstrap
+			.Utility.Http.GetJson<Voidstrap.Models.APIs.Roblox.ApiArrayResponse<Voidstrap.Models.APIs.Roblox.ThumbnailResponse>>(
+				"https://thumbnails.roblox.com/v1/places/gameicons?placeIds="
+					+ ids
+					+ "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false"
+			)
+			.ConfigureAwait(true);
 
 		if (response?.Data == null)
 			return;
@@ -3087,7 +3144,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-	public bool LinuxTitleNeedsXWayland => Voidstrap.Utility.Platform.IsLinux
+	public bool LinuxTitleNeedsXWayland =>
+		Voidstrap.Utility.Platform.IsLinux
 		&& Voidstrap.Integrations.Overlays.OverlaySettings.LinuxSessionIsWayland
 		&& !App.Settings.Prop.SoberPreferXWayland;
 
@@ -3105,10 +3163,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool ShowServerInfoInTitle
 	{
-		get
-		{
-			return App.Settings.Prop.ShowServerInfoInTitle;
-		}
+		get { return App.Settings.Prop.ShowServerInfoInTitle; }
 		set
 		{
 			if (App.Settings.Prop.ShowServerInfoInTitle != value)
@@ -3132,17 +3187,14 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		new BackdropItem { Value = 2, Display = "Mica" },
 		new BackdropItem { Value = 4, Display = "Mica Alt" },
 		new BackdropItem { Value = 3, Display = "Acrylic" },
-		new BackdropItem { Value = 5, Display = "Aero (glass blur)" }
+		new BackdropItem { Value = 5, Display = "Aero (glass blur)" },
 	};
 
 	public ObservableCollection<BackdropItem> BackdropOptions => _backdropOptions;
 
 	public int RobloxBackdropType
 	{
-		get
-		{
-			return App.Settings.Prop.RobloxWindowBackdropType;
-		}
+		get { return App.Settings.Prop.RobloxWindowBackdropType; }
 		set
 		{
 			if (App.Settings.Prop.RobloxWindowBackdropType != value)
@@ -3158,10 +3210,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public string RobloxTitle
 	{
-		get
-		{
-			return App.Settings.Prop.RobloxTitle;
-		}
+		get { return App.Settings.Prop.RobloxTitle; }
 		set
 		{
 			string text = value ?? "";
@@ -3175,10 +3224,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool WebViewDevTools
 	{
-		get
-		{
-			return App.Settings.Prop.WebViewDevTools;
-		}
+		get { return App.Settings.Prop.WebViewDevTools; }
 		set
 		{
 			if (App.Settings.Prop.WebViewDevTools != value)
@@ -3191,10 +3237,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool WebCustomBackgroundEnabled
 	{
-		get
-		{
-			return App.Settings.Prop.WebCustomBackgroundEnabled;
-		}
+		get { return App.Settings.Prop.WebCustomBackgroundEnabled; }
 		set
 		{
 			if (App.Settings.Prop.WebCustomBackgroundEnabled != value)
@@ -3208,10 +3251,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool WebCustomBackgroundBlur
 	{
-		get
-		{
-			return App.Settings.Prop.WebCustomBackgroundBlur;
-		}
+		get { return App.Settings.Prop.WebCustomBackgroundBlur; }
 		set
 		{
 			if (App.Settings.Prop.WebCustomBackgroundBlur != value)
@@ -3225,10 +3265,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public int WebCustomBackgroundOpacity
 	{
-		get
-		{
-			return App.Settings.Prop.WebCustomBackgroundOpacity;
-		}
+		get { return App.Settings.Prop.WebCustomBackgroundOpacity; }
 		set
 		{
 			int num = Math.Max(0, Math.Min(100, value));
@@ -3255,7 +3292,11 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		get
 		{
 			Voidstrap.Models.CustomBackground? selected = _selectedWebBackground;
-			if (selected != null && !string.IsNullOrEmpty(selected.FilePath) && string.Equals(selected.FilePath, App.Settings.Prop.WebCustomBackgroundPath, StringComparison.OrdinalIgnoreCase))
+			if (
+				selected != null
+				&& !string.IsNullOrEmpty(selected.FilePath)
+				&& string.Equals(selected.FilePath, App.Settings.Prop.WebCustomBackgroundPath, StringComparison.OrdinalIgnoreCase)
+			)
 			{
 				return "Already Applied";
 			}
@@ -3271,10 +3312,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public Voidstrap.Models.CustomBackground? SelectedWebBackground
 	{
-		get
-		{
-			return _selectedWebBackground;
-		}
+		get { return _selectedWebBackground; }
 		set
 		{
 			_selectedWebBackground = value;
@@ -3286,10 +3324,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public System.Windows.Media.ImageSource? SelectedBackgroundPreview
 	{
-		get
-		{
-			return _selectedBackgroundPreview;
-		}
+		get { return _selectedBackgroundPreview; }
 		private set
 		{
 			_selectedBackgroundPreview = value;
@@ -3362,7 +3397,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog
 		{
 			Filter = "Images and GIFs|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp|All files|*.*",
-			Multiselect = true
+			Multiselect = true,
 		};
 		if (dialog.ShowDialog() != true)
 		{
@@ -3371,15 +3406,15 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		Voidstrap.Models.CustomBackground? last = null;
 		foreach (string file in dialog.FileNames)
 		{
-			if (App.Settings.Prop.WebCustomBackgrounds.Any((Voidstrap.Models.CustomBackground b) => string.Equals(b.FilePath, file, StringComparison.OrdinalIgnoreCase)))
+			if (
+				App.Settings.Prop.WebCustomBackgrounds.Any(
+					(Voidstrap.Models.CustomBackground b) => string.Equals(b.FilePath, file, StringComparison.OrdinalIgnoreCase)
+				)
+			)
 			{
 				continue;
 			}
-			last = new Voidstrap.Models.CustomBackground
-			{
-				Name = Path.GetFileNameWithoutExtension(file),
-				FilePath = file
-			};
+			last = new Voidstrap.Models.CustomBackground { Name = Path.GetFileNameWithoutExtension(file), FilePath = file };
 			App.Settings.Prop.WebCustomBackgrounds.Add(last);
 		}
 		if (last != null)
@@ -3398,7 +3433,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 		int index = App.Settings.Prop.WebCustomBackgrounds.IndexOf(selected);
 		App.Settings.Prop.WebCustomBackgrounds.Remove(selected);
-		if (!string.IsNullOrEmpty(selected.FilePath) && string.Equals(App.Settings.Prop.WebCustomBackgroundPath, selected.FilePath, StringComparison.OrdinalIgnoreCase))
+		if (
+			!string.IsNullOrEmpty(selected.FilePath)
+			&& string.Equals(App.Settings.Prop.WebCustomBackgroundPath, selected.FilePath, StringComparison.OrdinalIgnoreCase)
+		)
 		{
 			App.Settings.Prop.WebCustomBackgroundPath = null;
 			OnPropertyChanged(nameof(WebCustomBackgroundDisplay));
@@ -3429,5 +3467,4 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		OnPropertyChanged(nameof(WebCustomBackgroundEnabled));
 		OnPropertyChanged(nameof(ApplyButtonText));
 	}
-
 }

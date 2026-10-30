@@ -12,7 +12,14 @@ namespace Voidstrap.Models.Persistable
     public class AppSettings
     {
         // General Configuration
-        public BootstrapperStyle BootstrapperStyle { get; set; } = !OperatingSystem.IsWindows() ? BootstrapperStyle.FluentDialog : (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000) ? BootstrapperStyle.FluentAeroDialog : BootstrapperStyle.FluentDialog);
+        public BootstrapperStyle BootstrapperStyle { get; set; } =
+            !OperatingSystem.IsWindows()
+                ? BootstrapperStyle.FluentDialog
+                : (
+                    OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000)
+                        ? BootstrapperStyle.FluentAeroDialog
+                        : BootstrapperStyle.FluentDialog
+                );
         public BootstrapperScale BootstrapperScale { get; set; } = BootstrapperScale.Normal;
         public BootstrapperIcon BootstrapperIcon { get; set; } = BootstrapperIcon.IconVoidstrap;
         public BootstrapperIcon StudioBootstrapperIcon { get; set; }
@@ -40,7 +47,13 @@ namespace Voidstrap.Models.Persistable
         {
             get
             {
-                if (App.LaunchSettings == null || (App.LaunchSettings.RobloxLaunchMode != LaunchMode.Studio && App.LaunchSettings.RobloxLaunchMode != LaunchMode.StudioAuth))
+                if (
+                    App.LaunchSettings == null
+                    || (
+                        App.LaunchSettings.RobloxLaunchMode != LaunchMode.Studio
+                        && App.LaunchSettings.RobloxLaunchMode != LaunchMode.StudioAuth
+                    )
+                )
                     return BootstrapperIcon;
                 return StudioBootstrapperIcon;
             }
@@ -57,7 +70,8 @@ namespace Voidstrap.Models.Persistable
         public BackdropType WindowBackdrop { get; set; } = DefaultWindowBackdrop;
         public int WindowBackdropResetVersion { get; set; }
 
-        public static BackdropType DefaultWindowBackdrop => OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000) ? BackdropType.Aero : BackdropType.None;
+        public static BackdropType DefaultWindowBackdrop =>
+            OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000) ? BackdropType.Aero : BackdropType.None;
         public string? SelectedCustomTheme { get; set; } = null;
         public bool CheckForUpdates { get; set; } = true;
         public bool AssetWarpPreloadFlagsOwned { get; set; }
@@ -85,10 +99,10 @@ namespace Voidstrap.Models.Persistable
         public double ColorBlindnessSeverity { get; set; } = 100.0;
         public bool ColorBlindnessSimulate { get; set; } = false;
         public bool MultiAccount { get; set; }
-		public int MaxConcurrentDownloads { get; set; } = 20;
-		public int MaxDownloadSegments { get; set; } = 12;
-		public int DownloadBufferKb { get; set; } = 2048;
-		public int DownloadPipelineVersion { get; set; } = 3;
+        public int MaxConcurrentDownloads { get; set; } = 20;
+        public int MaxDownloadSegments { get; set; } = 12;
+        public int DownloadBufferKb { get; set; } = 2048;
+        public int DownloadPipelineVersion { get; set; } = 3;
         public bool ConfirmLaunches { get; set; } = true;
         public bool CompressRobloxInstalls { get; set; }
         public bool LaunchWithoutVoidstrap { get; set; }
@@ -211,7 +225,6 @@ namespace Voidstrap.Models.Persistable
         public bool RenameClientToEuroTrucks2 { get; set; } = false;
         public bool SnowWOWSOCOOLWpfSnowbtw { get; set; } = false;
 
-
         public string ClientPath { get; set; } = Path.Combine(Paths.Base, "Roblox", "Player");
 
         public string Locale { get; set; } = "nil";
@@ -267,7 +280,6 @@ namespace Voidstrap.Models.Persistable
         public bool HideRPCButtons { get; set; } = true;
         public bool ShowAccountOnRichPresence { get; set; } = true;
         public bool ShowServerDetails { get; set; } = true;
-
 
         public bool ClassicTopBarEnabled { get; set; } = false;
 
@@ -395,7 +407,6 @@ namespace Voidstrap.Models.Persistable
         public bool OverClockGPU { get; set; } = false;
         public bool GRADmentFR { get; set; } = false;
         public bool VoidRPC { get; set; } = true;
-
 
         public ResolutionSetting? InGameResolution { get; set; }
 

@@ -36,7 +36,13 @@ public static class AudioGain
 		return TryApplyGain(sourcePath, targetPath, gain, CancellationToken.None, out _);
 	}
 
-	public static bool TryApplyGain(string sourcePath, string targetPath, double gain, CancellationToken cancellationToken, out string error)
+	public static bool TryApplyGain(
+		string sourcePath,
+		string targetPath,
+		double gain,
+		CancellationToken cancellationToken,
+		out string error
+	)
 	{
 		error = string.Empty;
 		string? tempPath = null;
@@ -84,9 +90,7 @@ public static class AudioGain
 				{
 					File.Delete(tempPath);
 				}
-				catch
-				{
-				}
+				catch { }
 			}
 		}
 	}
@@ -224,13 +228,19 @@ public static class AudioGain
 				reader?.Dispose();
 				firstError ??= ex;
 				noAudioTrack |= ex.HResult == MfInvalidStreamNumber;
-				App.Logger?.WriteLine(LogIdent, "The " + name + " reader could not open " + Path.GetFileName(path) + ": " + ex.Message.Split('\n')[0]);
+				App.Logger?.WriteLine(
+					LogIdent,
+					"The " + name + " reader could not open " + Path.GetFileName(path) + ": " + ex.Message.Split('\n')[0]
+				);
 			}
 		}
 		if (head.Length == 0)
 			throw new InvalidDataException("The selected file is empty");
 		if (noAudioTrack)
-			throw new InvalidDataException("This file has no sound in it. It is probably a video saved without its audio track, pick a file that plays sound.", firstError);
+			throw new InvalidDataException(
+				"This file has no sound in it. It is probably a video saved without its audio track, pick a file that plays sound.",
+				firstError
+			);
 		throw new InvalidDataException(DescribeFailure(firstError), firstError);
 	}
 
@@ -241,8 +251,10 @@ public static class AudioGain
 		return error?.HResult switch
 		{
 			MfUnsupportedByteStream => "This file is not a sound file Voidstrap can read. Pick an MP3, OGG, WAV, M4A or FLAC file.",
-			MfInvalidMediaType or MfCodecNotFound => "Windows has no decoder for the sound in this file. Convert it to MP3 or OGG, then add it again.",
-			_ => "This file is not an audio format Windows can decode" + (error == null ? string.Empty : ", " + error.Message.Split('\n')[0])
+			MfInvalidMediaType or MfCodecNotFound =>
+				"Windows has no decoder for the sound in this file. Convert it to MP3 or OGG, then add it again.",
+			_ => "This file is not an audio format Windows can decode"
+				+ (error == null ? string.Empty : ", " + error.Message.Split('\n')[0]),
 		};
 	}
 
@@ -271,7 +283,11 @@ public static class AudioGain
 
 	private static WaveStream DecodeWithSystemTools(string path)
 	{
-		string work = Path.Combine(string.IsNullOrEmpty(Paths.Cache) ? Paths.Temp : Paths.Cache, "AudioDecode", Guid.NewGuid().ToString("N"));
+		string work = Path.Combine(
+			string.IsNullOrEmpty(Paths.Cache) ? Paths.Temp : Paths.Cache,
+			"AudioDecode",
+			Guid.NewGuid().ToString("N")
+		);
 		Directory.CreateDirectory(work);
 		try
 		{
@@ -284,7 +300,14 @@ public static class AudioGain
 					File.Delete(output);
 				if (!RunDecoder(name, start) || !File.Exists(output) || new FileInfo(output).Length <= 44)
 					continue;
-				FileStream stream = new(output, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete, 65536, FileOptions.SequentialScan);
+				FileStream stream = new(
+					output,
+					FileMode.Open,
+					FileAccess.Read,
+					FileShare.Read | FileShare.Delete,
+					65536,
+					FileOptions.SequentialScan
+				);
 				try
 				{
 					App.Logger?.WriteLine(LogIdent, "Decoded " + Path.GetFileName(path) + " with " + name);
@@ -303,9 +326,7 @@ public static class AudioGain
 			{
 				Directory.Delete(work, recursive: true);
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 		throw new InvalidDataException("No audio decoder on this system could read the file");
 	}
@@ -313,23 +334,70 @@ public static class AudioGain
 	private static IEnumerable<(string Name, Func<Process?> Start)> SystemDecoders(string input, string output, string work)
 	{
 		Voidstrap.Core.SystemProcessService processes = new();
-		string[] ffmpegArguments = ["-v", "error", "-nostdin", "-y", "-i", input, "-map", "0:a:0", "-vn", "-t", (MaxDurationSeconds + 1).ToString(System.Globalization.CultureInfo.InvariantCulture), "-f", "wav", "-acodec", "pcm_f32le", output];
+		string[] ffmpegArguments =
+		[
+			"-v",
+			"error",
+			"-nostdin",
+			"-y",
+			"-i",
+			input,
+			"-map",
+			"0:a:0",
+			"-vn",
+			"-t",
+			(MaxDurationSeconds + 1).ToString(System.Globalization.CultureInfo.InvariantCulture),
+			"-f",
+			"wav",
+			"-acodec",
+			"pcm_f32le",
+			output,
+		];
 		string? ffmpeg = processes.FindExecutable("ffmpeg");
 		if (ffmpeg != null)
 			yield return ("ffmpeg", () => StartTool(ffmpeg, ffmpegArguments));
-		yield return ("the Sober runtime ffmpeg", () => Voidstrap.Platform.Linux.LinuxFlatpakHost.Start(["run", "--command=ffmpeg", "--unshare=network", "--filesystem=" + work, "org.vinegarhq.Sober", .. ffmpegArguments]));
+		yield return (
+			"the Sober runtime ffmpeg",
+			() =>
+				Voidstrap.Platform.Linux.LinuxFlatpakHost.Start([
+					"run",
+					"--command=ffmpeg",
+					"--unshare=network",
+					"--filesystem=" + work,
+					"org.vinegarhq.Sober",
+					.. ffmpegArguments,
+				])
+		);
 		string? gstreamer = processes.FindExecutable("gst-launch-1.0");
 		if (gstreamer != null)
-			yield return ("GStreamer", () => StartTool(gstreamer, ["-q", "filesrc", "location=" + input, "!", "decodebin", "!", "audioconvert", "!", "audio/x-raw,format=F32LE", "!", "wavenc", "!", "filesink", "location=" + output]));
+			yield return (
+				"GStreamer",
+				() =>
+					StartTool(
+						gstreamer,
+						[
+							"-q",
+							"filesrc",
+							"location=" + input,
+							"!",
+							"decodebin",
+							"!",
+							"audioconvert",
+							"!",
+							"audio/x-raw,format=F32LE",
+							"!",
+							"wavenc",
+							"!",
+							"filesink",
+							"location=" + output,
+						]
+					)
+			);
 	}
 
 	private static Process? StartTool(string executable, IEnumerable<string> arguments)
 	{
-		ProcessStartInfo startInfo = new(executable)
-		{
-			UseShellExecute = false,
-			CreateNoWindow = true
-		};
+		ProcessStartInfo startInfo = new(executable) { UseShellExecute = false, CreateNoWindow = true };
 		foreach (string argument in arguments)
 			startInfo.ArgumentList.Add(argument);
 		return Process.Start(startInfo);
@@ -348,9 +416,7 @@ public static class AudioGain
 				{
 					process.Kill(entireProcessTree: true);
 				}
-				catch
-				{
-				}
+				catch { }
 				App.Logger?.WriteLine(LogIdent, name + " took too long to decode the audio");
 				return false;
 			}
@@ -366,7 +432,9 @@ public static class AudioGain
 	private static string SafeExtension(string path)
 	{
 		string extension = Path.GetExtension(path);
-		return extension.Length is > 1 and <= 8 && System.Linq.Enumerable.All(extension[1..], char.IsAsciiLetterOrDigit) ? extension.ToLowerInvariant() : ".audio";
+		return extension.Length is > 1 and <= 8 && System.Linq.Enumerable.All(extension[1..], char.IsAsciiLetterOrDigit)
+			? extension.ToLowerInvariant()
+			: ".audio";
 	}
 
 	private sealed class OwnedStreamWaveFileReader : WaveFileReader

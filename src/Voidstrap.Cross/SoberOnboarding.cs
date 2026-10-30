@@ -57,7 +57,7 @@ internal static class SoberOnboarding
     {
         Agree,
         Review,
-        Cancel
+        Cancel,
     }
 
     private sealed record AccessibleRef(string Service, ObjectPath Path)
@@ -159,9 +159,7 @@ internal static class SoberOnboarding
                     lastProgress = DateTime.UtcNow;
                 }
 
-                bool stuck = bytes > 0
-                    ? DateTime.UtcNow - lastProgress > DownloadStall
-                    : DateTime.UtcNow > deadline;
+                bool stuck = bytes > 0 ? DateTime.UtcNow - lastProgress > DownloadStall : DateTime.UtcNow > deadline;
                 if (stuck)
                 {
                     App.Logger.WriteLine(Tag, "Sober needs a manual step, showing its window again");
@@ -172,9 +170,7 @@ internal static class SoberOnboarding
                 await Task.Delay(hidden.Count == 0 ? 150 : 600, token).ConfigureAwait(false);
             }
         }
-        catch (OperationCanceledException) when (token.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine(Tag, "Could not get past the Sober setup automatically: " + ex.Message);
@@ -204,10 +200,15 @@ internal static class SoberOnboarding
 
         string link = page.TermsLink.StartsWith("https://", StringComparison.OrdinalIgnoreCase) ? page.TermsLink : FallbackTermsLink;
         string heading = string.IsNullOrWhiteSpace(page.TermsHeading) ? "Sober license and terms" : page.TermsHeading;
-        string message = "**Let Voidstrap finish setting up Sober?**\n\n"
-            + "[Read Sober's license and terms](" + link + ")";
+        string message = "**Let Voidstrap finish setting up Sober?**\n\n" + "[Read Sober's license and terms](" + link + ")";
 
-        MessageBoxResult result = Voidstrap.UI.Frontend.ShowMessageBox(message, MessageBoxImage.Information, "Agree and continue", "Set up in Sober", Strings.Common_Cancel);
+        MessageBoxResult result = Voidstrap.UI.Frontend.ShowMessageBox(
+            message,
+            MessageBoxImage.Information,
+            "Agree and continue",
+            "Set up in Sober",
+            Strings.Common_Cancel
+        );
         if (result == MessageBoxResult.Yes)
         {
             App.Settings.Prop.SoberTermsAccepted = accepted;
@@ -276,16 +277,15 @@ internal static class SoberOnboarding
             {
                 using Connection session = new(Voidstrap.Utility.LinuxSessionBus.RequireAddress());
                 await session.ConnectAsync().ConfigureAwait(false);
-                string address = await session.CreateProxy<IAccessibilityBus>("org.a11y.Bus", "/org/a11y/bus")
+                string address = await session
+                    .CreateProxy<IAccessibilityBus>("org.a11y.Bus", "/org/a11y/bus")
                     .GetAddressAsync()
                     .WaitAsync(TimeSpan.FromSeconds(5))
                     .ConfigureAwait(false);
                 if (!string.IsNullOrWhiteSpace(address))
                     addresses.Add(address);
             }
-            catch (Exception ex) when (ex is DBusException or TimeoutException or InvalidOperationException or ConnectException)
-            {
-            }
+            catch (Exception ex) when (ex is DBusException or TimeoutException or InvalidOperationException or ConnectException) { }
         }
 
         string? runtime = Environment.GetEnvironmentVariable("XDG_RUNTIME_DIR");
@@ -304,9 +304,7 @@ internal static class SoberOnboarding
                     }
                 }
             }
-            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-            {
-            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
         }
         return addresses;
     }
@@ -328,9 +326,7 @@ internal static class SoberOnboarding
                     return page;
             }
         }
-        catch (Exception ex) when (ex is DBusException or TimeoutException or DisconnectedException or ObjectDisposedException)
-        {
-        }
+        catch (Exception ex) when (ex is DBusException or TimeoutException or DisconnectedException or ObjectDisposedException) { }
         return null;
     }
 
@@ -342,13 +338,26 @@ internal static class SoberOnboarding
 
         foreach ((string service, ObjectPath path) in await ChildrenAsync(application, token).ConfigureAwait(false))
         {
-            if (string.Equals(await NameAsync(bus.CreateProxy<IAccessibleNode>(service, path), token).ConfigureAwait(false), "Sober", StringComparison.OrdinalIgnoreCase))
+            if (
+                string.Equals(
+                    await NameAsync(bus.CreateProxy<IAccessibleNode>(service, path), token).ConfigureAwait(false),
+                    "Sober",
+                    StringComparison.OrdinalIgnoreCase
+                )
+            )
                 return true;
         }
         return false;
     }
 
-    private static async Task CollectAsync(Connection bus, IAccessibleNode node, SoberPage page, int depth, Func<int> count, CancellationToken token)
+    private static async Task CollectAsync(
+        Connection bus,
+        IAccessibleNode node,
+        SoberPage page,
+        int depth,
+        Func<int> count,
+        CancellationToken token
+    )
     {
         if (depth > 40 || count() > MaxNodes)
             return;
@@ -363,22 +372,31 @@ internal static class SoberOnboarding
                 {
                     page.Installing = true;
                 }
-                else if (page.Continue is null
+                else if (
+                    page.Continue is null
                     && string.Equals(name, "Continue", StringComparison.OrdinalIgnoreCase)
-                    && await IsVisibleButtonAsync(child, token).ConfigureAwait(false))
+                    && await IsVisibleButtonAsync(child, token).ConfigureAwait(false)
+                )
                 {
                     page.Continue = new AccessibleRef(service, path);
                 }
-                else if (page.TermsText.Length == 0
-                    && (name.Contains("By continuing", StringComparison.OrdinalIgnoreCase) || name.Contains("EULA", StringComparison.OrdinalIgnoreCase)))
+                else if (
+                    page.TermsText.Length == 0
+                    && (
+                        name.Contains("By continuing", StringComparison.OrdinalIgnoreCase)
+                        || name.Contains("EULA", StringComparison.OrdinalIgnoreCase)
+                    )
+                )
                 {
                     page.TermsText = ViewHint.Replace(name, string.Empty).Trim();
                     page.TermsLink = await FindLinkAsync(bus, child, token).ConfigureAwait(false);
                 }
-                else if (page.TermsHeading.Length == 0
+                else if (
+                    page.TermsHeading.Length == 0
                     && name.Contains("Terms", StringComparison.OrdinalIgnoreCase)
                     && !name.Contains("By continuing", StringComparison.OrdinalIgnoreCase)
-                    && name.Length <= 80)
+                    && name.Length <= 80
+                )
                 {
                     page.TermsHeading = name.Trim();
                 }
@@ -392,7 +410,10 @@ internal static class SoberOnboarding
         try
         {
             string role = await node.GetRoleNameAsync().WaitAsync(TimeSpan.FromSeconds(3), token).ConfigureAwait(false);
-            if (!string.Equals(role, "button", StringComparison.OrdinalIgnoreCase) && !string.Equals(role, "push button", StringComparison.OrdinalIgnoreCase))
+            if (
+                !string.Equals(role, "button", StringComparison.OrdinalIgnoreCase)
+                && !string.Equals(role, "push button", StringComparison.OrdinalIgnoreCase)
+            )
                 return false;
             uint[] state = await node.GetStateAsync().WaitAsync(TimeSpan.FromSeconds(3), token).ConfigureAwait(false);
             return state.Length > 0 && (state[0] & SensitiveState) != 0 && (state[0] & ShowingState) != 0;
@@ -416,9 +437,7 @@ internal static class SoberOnboarding
                 if (!string.IsNullOrWhiteSpace(uri))
                     return uri.Trim();
             }
-            catch (Exception ex) when (ex is DBusException or TimeoutException)
-            {
-            }
+            catch (Exception ex) when (ex is DBusException or TimeoutException) { }
         }
         return string.Empty;
     }
@@ -429,7 +448,10 @@ internal static class SoberOnboarding
         {
             IAccessibleAction action = bus.CreateProxy<IAccessibleAction>(button.Service, button.Path);
             string actionName = await action.GetNameAsync(0).WaitAsync(TimeSpan.FromSeconds(3), token).ConfigureAwait(false);
-            if (!string.Equals(actionName, "click", StringComparison.OrdinalIgnoreCase) && !string.Equals(actionName, "press", StringComparison.OrdinalIgnoreCase))
+            if (
+                !string.Equals(actionName, "click", StringComparison.OrdinalIgnoreCase)
+                && !string.Equals(actionName, "press", StringComparison.OrdinalIgnoreCase)
+            )
                 return false;
             return await action.DoActionAsync(0).WaitAsync(TimeSpan.FromSeconds(5), token).ConfigureAwait(false);
         }
@@ -455,7 +477,9 @@ internal static class SoberOnboarding
     {
         try
         {
-            return (await node.GetAsync<string>("Name").WaitAsync(TimeSpan.FromSeconds(3), token).ConfigureAwait(false) ?? string.Empty).Trim();
+            return (
+                await node.GetAsync<string>("Name").WaitAsync(TimeSpan.FromSeconds(3), token).ConfigureAwait(false) ?? string.Empty
+            ).Trim();
         }
         catch (Exception ex) when (ex is DBusException or TimeoutException)
         {

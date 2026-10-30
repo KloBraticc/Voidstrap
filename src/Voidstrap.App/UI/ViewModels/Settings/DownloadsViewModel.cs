@@ -14,8 +14,8 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
 using Voidstrap.AppData;
 using Voidstrap.Enums;
-using Voidstrap.RobloxInterfaces;
 using Voidstrap.Resources;
+using Voidstrap.RobloxInterfaces;
 using Voidstrap.UI;
 using Voidstrap.Utility;
 using CoreBootstrapper = Voidstrap.Bootstrapper;
@@ -46,9 +46,10 @@ namespace Voidstrap.UI.ViewModels.Settings
             public LaunchMode LaunchMode => _launchMode;
             public string RuntimeKey => _processName;
             public bool IsRosemary => string.Equals(_processName, Voidstrap.Utility.LinuxRuntimeChoice.Rosemary, StringComparison.Ordinal);
-            private Voidstrap.Platform.Linux.RosemaryApplication RosemaryApplication => _launchMode == LaunchMode.Studio
-                ? Voidstrap.Platform.Linux.RosemaryApplication.Studio
-                : Voidstrap.Platform.Linux.RosemaryApplication.Player;
+            private Voidstrap.Platform.Linux.RosemaryApplication RosemaryApplication =>
+                _launchMode == LaunchMode.Studio
+                    ? Voidstrap.Platform.Linux.RosemaryApplication.Studio
+                    : Voidstrap.Platform.Linux.RosemaryApplication.Player;
             public bool ShowFleasionAddon { get; }
             public bool ShowStudioAddons => _launchMode == LaunchMode.Studio;
             public bool HasAddons => ShowFleasionAddon || ShowStudioAddons;
@@ -124,7 +125,17 @@ namespace Voidstrap.UI.ViewModels.Settings
 
             private CancellationTokenSource? _verifyCts;
 
-            internal DownloadItem(DownloadsViewModel parent, IAppData appData, string title, string subtitle, string iconSource, string binaryType, LaunchMode launchMode, string processName, bool showFleasionAddon)
+            internal DownloadItem(
+                DownloadsViewModel parent,
+                IAppData appData,
+                string title,
+                string subtitle,
+                string iconSource,
+                string binaryType,
+                LaunchMode launchMode,
+                string processName,
+                bool showFleasionAddon
+            )
             {
                 _parent = parent;
                 _appData = appData;
@@ -159,8 +170,8 @@ namespace Voidstrap.UI.ViewModels.Settings
                 foreach (string file in _appData.State.ModManifest ?? [])
                     modified.Add(file);
                 foreach (List<string> files in (_appData.State.ManagedModManifest ?? []).Values)
-                    foreach (string file in files)
-                        modified.Add(file);
+                foreach (string file in files)
+                    modified.Add(file);
                 IsBusy = true;
                 Progress = 0;
                 StatusText = "Verifying";
@@ -172,13 +183,17 @@ namespace Voidstrap.UI.ViewModels.Settings
                 bool canceled = false;
                 try
                 {
-                    result = await Task.Run(() =>
-                    {
-                        List<InstallManifest.Entry>? entries = InstallManifest.Read(root);
-                        return entries == null || entries.Count == 0
-                            ? null
-                            : InstallManifest.Verify(root, entries, modified, OnVerifyProgress, token);
-                    }, token).ConfigureAwait(true);
+                    result = await Task.Run(
+                            () =>
+                            {
+                                List<InstallManifest.Entry>? entries = InstallManifest.Read(root);
+                                return entries == null || entries.Count == 0
+                                    ? null
+                                    : InstallManifest.Verify(root, entries, modified, OnVerifyProgress, token);
+                            },
+                            token
+                        )
+                        .ConfigureAwait(true);
                 }
                 catch (OperationCanceledException)
                 {
@@ -227,15 +242,18 @@ namespace Voidstrap.UI.ViewModels.Settings
 
             private void OnVerifyProgress(int done, int total)
             {
-                Application.Current?.Dispatcher.BeginInvoke((Action)delegate
-                {
-                    Progress = total == 0 ? 100 : done * 100.0 / total;
-                    ProgressDetail = $"Checked {done:N0} of {total:N0} files";
-                    StatusText = $"Verifying {Progress:0}%";
-                    OnPropertyChanged(nameof(Progress));
-                    OnPropertyChanged(nameof(ProgressDetail));
-                    OnPropertyChanged(nameof(StatusText));
-                });
+                Application.Current?.Dispatcher.BeginInvoke(
+                    (Action)
+                        delegate
+                        {
+                            Progress = total == 0 ? 100 : done * 100.0 / total;
+                            ProgressDetail = $"Checked {done:N0} of {total:N0} files";
+                            StatusText = $"Verifying {Progress:0}%";
+                            OnPropertyChanged(nameof(Progress));
+                            OnPropertyChanged(nameof(ProgressDetail));
+                            OnPropertyChanged(nameof(StatusText));
+                        }
+                );
             }
 
             private void SetVerifyText(string text)
@@ -254,7 +272,9 @@ namespace Voidstrap.UI.ViewModels.Settings
                     Refresh();
                     return;
                 }
-                bool exeExists = !string.IsNullOrEmpty(_appData.State.VersionGuid) && (File.Exists(_appData.ExecutablePath) || Voidstrap.Utility.RobloxInstallCompression.IsCompressed(_appData));
+                bool exeExists =
+                    !string.IsNullOrEmpty(_appData.State.VersionGuid)
+                    && (File.Exists(_appData.ExecutablePath) || Voidstrap.Utility.RobloxInstallCompression.IsCompressed(_appData));
                 string location = exeExists ? _appData.Directory : _appData.VersionsRoot;
                 if (exeExists != IsInstalled || !string.Equals(location, LocationText, StringComparison.OrdinalIgnoreCase))
                     Refresh();
@@ -267,7 +287,9 @@ namespace Voidstrap.UI.ViewModels.Settings
                     RefreshLinuxRuntime();
                     return;
                 }
-                bool exeExists = !string.IsNullOrEmpty(_appData.State.VersionGuid) && (File.Exists(_appData.ExecutablePath) || Voidstrap.Utility.RobloxInstallCompression.IsCompressed(_appData));
+                bool exeExists =
+                    !string.IsNullOrEmpty(_appData.State.VersionGuid)
+                    && (File.Exists(_appData.ExecutablePath) || Voidstrap.Utility.RobloxInstallCompression.IsCompressed(_appData));
                 if (!exeExists)
                 {
                     string? detectedGuid = ScanForExistingInstall();
@@ -279,9 +301,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                             App.State.Save();
                             App.Logger?.WriteLine("DownloadsViewModel::Detect", $"Adopted an existing {Title} install ({detectedGuid})");
                         }
-                        catch
-                        {
-                        }
+                        catch { }
                         exeExists = File.Exists(_appData.ExecutablePath);
                     }
                 }
@@ -292,15 +312,20 @@ namespace Voidstrap.UI.ViewModels.Settings
                     VersionText = _appData.State.VersionGuid;
                     LocationText = _appData.Directory;
                     string sizeDir = _appData.Directory;
-                    _ = Task.Run(delegate
-                    {
-                        string size = ComputeSize(sizeDir);
-                        Application.Current?.Dispatcher.BeginInvoke((Action)delegate
+                    _ = Task.Run(
+                        delegate
                         {
-                            SizeText = size;
-                            OnPropertyChanged(nameof(SizeText));
-                        });
-                    });
+                            string size = ComputeSize(sizeDir);
+                            Application.Current?.Dispatcher.BeginInvoke(
+                                (Action)
+                                    delegate
+                                    {
+                                        SizeText = size;
+                                        OnPropertyChanged(nameof(SizeText));
+                                    }
+                            );
+                        }
+                    );
                 }
                 else
                 {
@@ -342,9 +367,15 @@ namespace Voidstrap.UI.ViewModels.Settings
                 if (!Voidstrap.Platform.Linux.LinuxRosemary.IsSupportedHost)
                     Subtitle = "Rosemary only runs on x86_64 Linux";
                 else if (!IsInstalled)
-                    Subtitle = player ? "Not installed yet, Voidstrap installs Rosemary and macOS Roblox when you launch" : "Not installed yet, Voidstrap installs Rosemary and macOS Roblox Studio when you launch Studio";
+                    Subtitle = player
+                        ? "Not installed yet, Voidstrap installs Rosemary and macOS Roblox when you launch"
+                        : "Not installed yet, Voidstrap installs Rosemary and macOS Roblox Studio when you launch Studio";
                 else
-                    Subtitle = (player ? "macOS Roblox " : "macOS Roblox Studio ") + (robloxVersion ?? "") + " through Rosemary " + Voidstrap.Platform.Linux.LinuxRosemary.InstalledRuntimeVersion;
+                    Subtitle =
+                        (player ? "macOS Roblox " : "macOS Roblox Studio ")
+                        + (robloxVersion ?? "")
+                        + " through Rosemary "
+                        + Voidstrap.Platform.Linux.LinuxRosemary.InstalledRuntimeVersion;
                 VersionText = robloxVersion ?? (IsInstalled ? "Installed" : "Not installed yet");
                 StatusText = IsInstalled ? "Installed" : "Not installed";
                 PrimaryButtonText = IsInstalled ? "Update" : "Install";
@@ -366,11 +397,16 @@ namespace Voidstrap.UI.ViewModels.Settings
                     : Voidstrap.Platform.Linux.LinuxVinegarStudioRuntimeProvider.IsInstalled();
                 string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
                 LocationText = Path.Combine(home, ".var", "app", player ? "org.vinegarhq.Sober" : "org.vinegarhq.Vinegar");
-                string? robloxVersion = player && IsInstalled ? Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.GetInstalledRobloxVersion() : null;
+                string? robloxVersion =
+                    player && IsInstalled ? Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.GetInstalledRobloxVersion() : null;
                 if (!IsInstalled)
-                    Subtitle = player ? "Not installed yet, Voidstrap installs Sober when you launch" : "Not installed yet, Voidstrap installs Vinegar when you launch Studio";
+                    Subtitle = player
+                        ? "Not installed yet, Voidstrap installs Sober when you launch"
+                        : "Not installed yet, Voidstrap installs Vinegar when you launch Studio";
                 else if (player)
-                    Subtitle = robloxVersion is null ? "Roblox is not downloaded yet, it downloads on your first launch" : "Roblox " + robloxVersion + " is ready to play";
+                    Subtitle = robloxVersion is null
+                        ? "Roblox is not downloaded yet, it downloads on your first launch"
+                        : "Roblox " + robloxVersion + " is ready to play";
                 else
                     Subtitle = "Runs Roblox Studio on Linux";
                 VersionText = robloxVersion ?? (IsInstalled ? "Installed" : "Not installed yet");
@@ -414,9 +450,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                         Refresh();
                     }
                 }
-                catch
-                {
-                }
+                catch { }
             }
 
             private async Task<bool> InstallOrUpdateAsync()
@@ -452,13 +486,16 @@ namespace Voidstrap.UI.ViewModels.Settings
                     {
                         InstallOnly = true,
                         ForceReinstall = IsInstalled && !UpdateAvailable,
-                        SkipUpdateHold = true
+                        SkipUpdateHold = true,
                     };
                     _activeBootstrapper = bootstrapper;
                     await Task.Run(() => bootstrapper.Run()).ConfigureAwait(true);
                     ok = bootstrapper.InstallationSucceeded;
                     if (!ok && !bootstrapper.IsCancelled)
-                        Frontend.ShowMessageBox($"{Title} did not finish installing. Check the latest log for the reason.", MessageBoxImage.Warning);
+                        Frontend.ShowMessageBox(
+                            $"{Title} did not finish installing. Check the latest log for the reason.",
+                            MessageBoxImage.Warning
+                        );
                 }
                 catch (Exception ex)
                 {
@@ -486,16 +523,20 @@ namespace Voidstrap.UI.ViewModels.Settings
             {
                 if (info == null || !string.Equals(info.BinaryType, _binaryType, StringComparison.OrdinalIgnoreCase))
                     return;
-                Application.Current?.Dispatcher.BeginInvoke((Action)delegate
-                {
-                    Progress = info.Percent;
-                    ProgressDetail = $"{FormatBytes(info.BytesDone)} of {FormatBytes(info.TotalBytes)}, {FormatSpeed(info.SpeedBytesPerSec)}, {info.PackagesDone}/{info.TotalPackages} packages";
-                    StatusText = $"Downloading {info.Percent:0}%";
-                    OnPropertyChanged(nameof(Progress));
-                    OnPropertyChanged(nameof(ProgressDetail));
-                    OnPropertyChanged(nameof(StatusText));
-                    _parent.PushSpeedSample(info.SpeedBytesPerSec, info.TotalBytes, info.BytesDone);
-                });
+                Application.Current?.Dispatcher.BeginInvoke(
+                    (Action)
+                        delegate
+                        {
+                            Progress = info.Percent;
+                            ProgressDetail =
+                                $"{FormatBytes(info.BytesDone)} of {FormatBytes(info.TotalBytes)}, {FormatSpeed(info.SpeedBytesPerSec)}, {info.PackagesDone}/{info.TotalPackages} packages";
+                            StatusText = $"Downloading {info.Percent:0}%";
+                            OnPropertyChanged(nameof(Progress));
+                            OnPropertyChanged(nameof(ProgressDetail));
+                            OnPropertyChanged(nameof(StatusText));
+                            _parent.PushSpeedSample(info.SpeedBytesPerSec, info.TotalBytes, info.BytesDone);
+                        }
+                );
             }
 
             private void Cancel()
@@ -505,9 +546,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                     _verifyCts?.Cancel();
                     _activeBootstrapper?.Cancel();
                 }
-                catch
-                {
-                }
+                catch { }
             }
 
             private async Task<bool> InstallRosemaryAsync()
@@ -532,15 +571,23 @@ namespace Voidstrap.UI.ViewModels.Settings
                 bool ok = false;
                 try
                 {
-                    Action<string> status = message => Application.Current?.Dispatcher.BeginInvoke((Action)delegate
-                    {
-                        StatusText = message;
-                        ProgressDetail = message;
-                        OnPropertyChanged(nameof(StatusText));
-                        OnPropertyChanged(nameof(ProgressDetail));
-                    });
-                    Voidstrap.Platform.Linux.LinuxRosemary.DownloadSegments = Voidstrap.Utility.DownloadConfiguration.NormalizeSegments(App.Settings.Prop.MaxDownloadSegments);
-                    Voidstrap.Platform.OperationResult<string> runtime = await Voidstrap.Platform.Linux.LinuxRosemary.EnsureRuntimeAsync(status);
+                    Action<string> status = message =>
+                        Application.Current?.Dispatcher.BeginInvoke(
+                            (Action)
+                                delegate
+                                {
+                                    StatusText = message;
+                                    ProgressDetail = message;
+                                    OnPropertyChanged(nameof(StatusText));
+                                    OnPropertyChanged(nameof(ProgressDetail));
+                                }
+                        );
+                    Voidstrap.Platform.Linux.LinuxRosemary.DownloadSegments = Voidstrap.Utility.DownloadConfiguration.NormalizeSegments(
+                        App.Settings.Prop.MaxDownloadSegments
+                    );
+                    Voidstrap.Platform.OperationResult<string> runtime = await Voidstrap.Platform.Linux.LinuxRosemary.EnsureRuntimeAsync(
+                        status
+                    );
                     if (!runtime.Succeeded)
                     {
                         Frontend.ShowMessageBox(runtime.Failure?.Message ?? "Rosemary could not be installed.", MessageBoxImage.Error);
@@ -549,8 +596,13 @@ namespace Voidstrap.UI.ViewModels.Settings
                     Voidstrap.Platform.Linux.RosemaryRobloxOptions options = new(
                         App.Settings.Prop.IsChannelEnabled ? App.Settings.Prop.Channel : null,
                         true,
-                        IsInstalled);
-                    Voidstrap.Platform.OperationResult<string> roblox = await Voidstrap.Platform.Linux.LinuxRosemary.EnsureRobloxAsync(RosemaryApplication, options, status);
+                        IsInstalled
+                    );
+                    Voidstrap.Platform.OperationResult<string> roblox = await Voidstrap.Platform.Linux.LinuxRosemary.EnsureRobloxAsync(
+                        RosemaryApplication,
+                        options,
+                        status
+                    );
                     if (!roblox.Succeeded)
                     {
                         Frontend.ShowMessageBox(roblox.Failure?.Message ?? "Roblox could not be installed.", MessageBoxImage.Error);
@@ -581,23 +633,35 @@ namespace Voidstrap.UI.ViewModels.Settings
                     return;
                 if (IsRosemary)
                 {
-                    if (Frontend.ShowMessageBox($"Remove {Title}? You can reinstall it any time.", MessageBoxImage.Question, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+                    if (
+                        Frontend.ShowMessageBox(
+                            $"Remove {Title}? You can reinstall it any time.",
+                            MessageBoxImage.Question,
+                            MessageBoxButton.YesNo,
+                            MessageBoxResult.No
+                        ) != MessageBoxResult.Yes
+                    )
                         return;
                     string bundle = Voidstrap.Platform.Linux.LinuxRosemary.ApplicationPath(RosemaryApplication);
-                    await Task.Run(delegate
-                    {
-                        try
+                    await Task.Run(
+                        delegate
                         {
-                            if (Directory.Exists(bundle))
-                                Directory.Delete(bundle, true);
-                            if (File.Exists(bundle + ".version"))
-                                File.Delete(bundle + ".version");
+                            try
+                            {
+                                if (Directory.Exists(bundle))
+                                    Directory.Delete(bundle, true);
+                                if (File.Exists(bundle + ".version"))
+                                    File.Delete(bundle + ".version");
+                            }
+                            catch (Exception ex)
+                            {
+                                App.Logger.WriteLine(
+                                    "DownloadsViewModel::UninstallRosemary",
+                                    "Could not remove " + bundle + ": " + ex.Message
+                                );
+                            }
                         }
-                        catch (Exception ex)
-                        {
-                            App.Logger.WriteLine("DownloadsViewModel::UninstallRosemary", "Could not remove " + bundle + ": " + ex.Message);
-                        }
-                    });
+                    );
                     Refresh();
                     return;
                 }
@@ -614,7 +678,10 @@ namespace Voidstrap.UI.ViewModels.Settings
                 string removalMessage = $"Remove {Title}? This deletes {SizeText} of installed files. You can reinstall it any time.";
                 if (IsVng)
                     removalMessage += "\n\n" + Strings.Vng_UninstallWarning;
-                if (Frontend.ShowMessageBox(removalMessage, MessageBoxImage.Question, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+                if (
+                    Frontend.ShowMessageBox(removalMessage, MessageBoxImage.Question, MessageBoxButton.YesNo, MessageBoxResult.No)
+                    != MessageBoxResult.Yes
+                )
                 {
                     _parent.EndOperation();
                     return;
@@ -647,7 +714,10 @@ namespace Voidstrap.UI.ViewModels.Settings
                 catch (Exception ex)
                 {
                     App.Logger?.WriteLine("DownloadsViewModel::Uninstall", $"{Title} removal failed: {ex.Message}");
-                    Frontend.ShowMessageBox($"Could not fully remove {Title}. {ex.Message}" + "\n\nIf it keeps failing, run Voidstrap as administrator.", MessageBoxImage.Error);
+                    Frontend.ShowMessageBox(
+                        $"Could not fully remove {Title}. {ex.Message}" + "\n\nIf it keeps failing, run Voidstrap as administrator.",
+                        MessageBoxImage.Error
+                    );
                 }
                 finally
                 {
@@ -705,14 +775,13 @@ namespace Voidstrap.UI.ViewModels.Settings
                 }
                 if (!_parent.TryBeginOperation())
                 {
-                    Frontend.ShowMessageBox("Wait for the current operation to finish before changing the install location.", MessageBoxImage.Warning);
+                    Frontend.ShowMessageBox(
+                        "Wait for the current operation to finish before changing the install location.",
+                        MessageBoxImage.Warning
+                    );
                     return;
                 }
-                var dialog = new OpenFolderDialog
-                {
-                    Title = $"Choose where to install {Title}",
-                    Multiselect = false
-                };
+                var dialog = new OpenFolderDialog { Title = $"Choose where to install {Title}", Multiselect = false };
                 if (dialog.ShowDialog() != true || string.IsNullOrWhiteSpace(dialog.FolderName))
                 {
                     _parent.EndOperation();
@@ -729,7 +798,14 @@ namespace Voidstrap.UI.ViewModels.Settings
                     _parent.EndOperation();
                     return;
                 }
-                if (Frontend.ShowMessageBox($"{Title} will be installed at:\n{target}\n\nOnly {Title} moves, Voidstrap and the other Roblox app stay where they are. Continue?", MessageBoxImage.Question, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+                if (
+                    Frontend.ShowMessageBox(
+                        $"{Title} will be installed at:\n{target}\n\nOnly {Title} moves, Voidstrap and the other Roblox app stay where they are. Continue?",
+                        MessageBoxImage.Question,
+                        MessageBoxButton.YesNo,
+                        MessageBoxResult.No
+                    ) != MessageBoxResult.Yes
+                )
                 {
                     _parent.EndOperation();
                     return;
@@ -741,7 +817,9 @@ namespace Voidstrap.UI.ViewModels.Settings
                 try
                 {
                     string exeName = _appData.ExecutableName;
-                    string? archive = Voidstrap.Utility.RobloxInstallCompression.IsCompressed(_appData) ? Voidstrap.Utility.RobloxInstallCompression.ArchivePathFor(_appData.Directory) : null;
+                    string? archive = Voidstrap.Utility.RobloxInstallCompression.IsCompressed(_appData)
+                        ? Voidstrap.Utility.RobloxInstallCompression.ArchivePathFor(_appData.Directory)
+                        : null;
                     await Task.Run(() => MoveBinaryInstalls(source, target, exeName, _binaryType, archive)).ConfigureAwait(true);
                     if (IsVng)
                         App.Settings.Prop.VngInstallLocation = target;
@@ -798,9 +876,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                             return Path.GetFileName(dir);
                     }
                 }
-                catch
-                {
-                }
+                catch { }
                 return null;
             }
 
@@ -830,12 +906,18 @@ namespace Voidstrap.UI.ViewModels.Settings
                     long total = 0;
                     foreach (var file in Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories))
                     {
-                        try { total += new FileInfo(file).Length; }
+                        try
+                        {
+                            total += new FileInfo(file).Length;
+                        }
                         catch { }
                     }
                     return FormatBytes(total);
                 }
-                catch { return ""; }
+                catch
+                {
+                    return "";
+                }
             }
         }
 
@@ -941,9 +1023,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                         IconImage = full;
                     }
                 }
-                catch
-                {
-                }
+                catch { }
             }
 
             internal void RefreshInstallState()
@@ -1012,23 +1092,26 @@ namespace Voidstrap.UI.ViewModels.Settings
                         OnPropertyChanged(nameof(StatusText));
                     }
                 }
-                catch
-                {
-                }
+                catch { }
             }
 
             private void ComputeSizeAsync()
             {
                 string dir = Path.Combine(ClassicClients.ClientsDir, Code);
-                _ = Task.Run(delegate
-                {
-                    string size = FormatBytes(ClassicClients.GetDirectorySize(dir));
-                    Application.Current?.Dispatcher.BeginInvoke((Action)delegate
+                _ = Task.Run(
+                    delegate
                     {
-                        SizeText = size;
-                        OnPropertyChanged(nameof(SizeText));
-                    });
-                });
+                        string size = FormatBytes(ClassicClients.GetDirectorySize(dir));
+                        Application.Current?.Dispatcher.BeginInvoke(
+                            (Action)
+                                delegate
+                                {
+                                    SizeText = size;
+                                    OnPropertyChanged(nameof(SizeText));
+                                }
+                        );
+                    }
+                );
             }
 
             private void RaiseAll()
@@ -1067,22 +1150,34 @@ namespace Voidstrap.UI.ViewModels.Settings
                 bool canceled = false;
                 try
                 {
-                    (result, problems) = await Task.Run(() =>
-                    {
-                        List<string> launchProblems = ClassicClients.CheckLaunchFiles(Code);
-                        string root = ClassicClients.ClientDirectory(Code);
-                        List<InstallManifest.Entry>? entries = InstallManifest.Read(root);
-                        InstallManifest.Result? checkedFiles = entries == null || entries.Count == 0
-                            ? null
-                            : InstallManifest.Verify(root, entries, new HashSet<string>(StringComparer.OrdinalIgnoreCase), OnVerifyProgress, token);
-                        return (checkedFiles, checkedFiles?.ProblemCount > 0 ? [] : launchProblems);
-                    }, token).ConfigureAwait(true);
+                    (result, problems) = await Task.Run(
+                            () =>
+                            {
+                                List<string> launchProblems = ClassicClients.CheckLaunchFiles(Code);
+                                string root = ClassicClients.ClientDirectory(Code);
+                                List<InstallManifest.Entry>? entries = InstallManifest.Read(root);
+                                InstallManifest.Result? checkedFiles =
+                                    entries == null || entries.Count == 0
+                                        ? null
+                                        : InstallManifest.Verify(
+                                            root,
+                                            entries,
+                                            new HashSet<string>(StringComparer.OrdinalIgnoreCase),
+                                            OnVerifyProgress,
+                                            token
+                                        );
+                                return (checkedFiles, checkedFiles?.ProblemCount > 0 ? [] : launchProblems);
+                            },
+                            token
+                        )
+                        .ConfigureAwait(true);
                 }
                 catch (OperationCanceledException)
                 {
                     canceled = true;
                 }
-                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException or InvalidDataException)
+                catch (Exception ex)
+                    when (ex is IOException or UnauthorizedAccessException or InvalidOperationException or InvalidDataException)
                 {
                     App.Logger?.WriteLine("DownloadsViewModel::ClassicVerify", $"{Code} verification failed: {ex.Message}");
                     problems.Add(ex.Message);
@@ -1133,27 +1228,36 @@ namespace Voidstrap.UI.ViewModels.Settings
 
             private void ReportProgress(double percent, string status)
             {
-                Application.Current?.Dispatcher.BeginInvoke((Action)delegate
-                {
-                    Progress = percent;
-                    StatusText = status;
-                    OnPropertyChanged(nameof(Progress));
-                    OnPropertyChanged(nameof(StatusText));
-                });
+                Application.Current?.Dispatcher.BeginInvoke(
+                    (Action)
+                        delegate
+                        {
+                            Progress = percent;
+                            StatusText = status;
+                            OnPropertyChanged(nameof(Progress));
+                            OnPropertyChanged(nameof(StatusText));
+                        }
+                );
             }
 
             private void SetStatus(string status)
             {
-                Application.Current?.Dispatcher.BeginInvoke((Action)delegate
-                {
-                    StatusText = status;
-                    OnPropertyChanged(nameof(StatusText));
-                });
+                Application.Current?.Dispatcher.BeginInvoke(
+                    (Action)
+                        delegate
+                        {
+                            StatusText = status;
+                            OnPropertyChanged(nameof(StatusText));
+                        }
+                );
             }
 
             private void Cancel()
             {
-                try { _cts?.Cancel(); }
+                try
+                {
+                    _cts?.Cancel();
+                }
                 catch { }
             }
 
@@ -1168,7 +1272,15 @@ namespace Voidstrap.UI.ViewModels.Settings
                     Frontend.ShowMessageBox("Wait for the current operation to finish.", MessageBoxImage.Warning);
                     return;
                 }
-                if (confirm && Frontend.ShowMessageBox("These are a WIP and may not work all entirely yet and may produce errors, I will still continue to work on these fixes.", MessageBoxImage.Warning, MessageBoxButton.OKCancel, MessageBoxResult.OK) != MessageBoxResult.OK)
+                if (
+                    confirm
+                    && Frontend.ShowMessageBox(
+                        "These are a WIP and may not work all entirely yet and may produce errors, I will still continue to work on these fixes.",
+                        MessageBoxImage.Warning,
+                        MessageBoxButton.OKCancel,
+                        MessageBoxResult.OK
+                    ) != MessageBoxResult.OK
+                )
                 {
                     _parent.EndOperation();
                     return;
@@ -1189,7 +1301,10 @@ namespace Voidstrap.UI.ViewModels.Settings
                 catch (Exception ex)
                 {
                     App.Logger?.WriteLine("DownloadsViewModel::ClassicInstall", $"{Code} install failed: {ex.Message}");
-                    Frontend.ShowMessageBox($"Could not install {Title}: {ex.Message}\n\nCheck the classic download URL in Settings, or set a local VoidstrapClient folder to install from.", MessageBoxImage.Error);
+                    Frontend.ShowMessageBox(
+                        $"Could not install {Title}: {ex.Message}\n\nCheck the classic download URL in Settings, or set a local VoidstrapClient folder to install from.",
+                        MessageBoxImage.Error
+                    );
                 }
                 finally
                 {
@@ -1211,7 +1326,14 @@ namespace Voidstrap.UI.ViewModels.Settings
                     Frontend.ShowMessageBox("Wait for the current operation to finish.", MessageBoxImage.Warning);
                     return;
                 }
-                if (Frontend.ShowMessageBox($"Remove {Title}? This deletes {SizeText} of installed files. You can reinstall it any time.", MessageBoxImage.Question, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+                if (
+                    Frontend.ShowMessageBox(
+                        $"Remove {Title}? This deletes {SizeText} of installed files. You can reinstall it any time.",
+                        MessageBoxImage.Question,
+                        MessageBoxButton.YesNo,
+                        MessageBoxResult.No
+                    ) != MessageBoxResult.Yes
+                )
                 {
                     _parent.EndOperation();
                     return;
@@ -1271,7 +1393,13 @@ namespace Voidstrap.UI.ViewModels.Settings
         private const double GraphWidth = 1000.0;
         private const double GraphHeight = 100.0;
 
-        internal static bool PresentVerifyResult(string title, InstallManifest.Result? result, IReadOnlyList<string> launchProblems, bool interactive, out string summary)
+        internal static bool PresentVerifyResult(
+            string title,
+            InstallManifest.Result? result,
+            IReadOnlyList<string> launchProblems,
+            bool interactive,
+            out string summary
+        )
         {
             int problemCount = (result?.ProblemCount ?? 0) + launchProblems.Count;
             if (problemCount > 0)
@@ -1282,27 +1410,47 @@ namespace Voidstrap.UI.ViewModels.Settings
                     lines.AddRange(result.Missing.Select(path => "Missing: " + path));
                     lines.AddRange(result.Damaged.Select(path => "Damaged: " + path));
                 }
-                summary = problemCount == 1 ? "1 problem found, repair recommended" : $"{problemCount:N0} problems found, repair recommended";
+                summary =
+                    problemCount == 1 ? "1 problem found, repair recommended" : $"{problemCount:N0} problems found, repair recommended";
                 App.Logger?.WriteLine("DownloadsViewModel::Verify", $"{title}: {summary}. " + string.Join("; ", lines.Take(40)));
-                string shown = string.Join("\n", lines.Take(8).Select(line => "  " + line)) + (lines.Count > 8 ? $"\n  and {lines.Count - 8:N0} more" : "");
+                string shown =
+                    string.Join("\n", lines.Take(8).Select(line => "  " + line))
+                    + (lines.Count > 8 ? $"\n  and {lines.Count - 8:N0} more" : "");
                 string heading = problemCount == 1 ? "1 problem" : $"{problemCount:N0} problems";
-                return Frontend.ShowMessageBox($"{title} has {heading}:\n\n{shown}\n\nRepair it now? Voidstrap reinstalls {title} and checks it again.", MessageBoxImage.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+                return Frontend.ShowMessageBox(
+                        $"{title} has {heading}:\n\n{shown}\n\nRepair it now? Voidstrap reinstalls {title} and checks it again.",
+                        MessageBoxImage.Warning,
+                        MessageBoxButton.YesNo
+                    ) == MessageBoxResult.Yes;
             }
             if (result == null)
             {
                 summary = "No install record to check against yet";
-                return interactive && Frontend.ShowMessageBox($"{title} was installed before Voidstrap recorded installs, so there is nothing to check its files against yet.\n\nRepair it now? Voidstrap reinstalls {title} and records every file so future checks are complete.", MessageBoxImage.Question, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+                return interactive
+                    && Frontend.ShowMessageBox(
+                        $"{title} was installed before Voidstrap recorded installs, so there is nothing to check its files against yet.\n\nRepair it now? Voidstrap reinstalls {title} and records every file so future checks are complete.",
+                        MessageBoxImage.Question,
+                        MessageBoxButton.YesNo
+                    ) == MessageBoxResult.Yes;
             }
             string skipped = result.Skipped > 0 ? $", {result.Skipped:N0} changed by your mods" : "";
             if (!result.HasChecksums)
             {
                 summary = $"All {result.Checked:N0} files are present{skipped}, repair once to enable full checks";
-                return interactive && Frontend.ShowMessageBox($"All {result.Checked:N0} files of {title} are present, but this install only recorded file names, so their contents could not be checked.\n\nRepair it now to record full checksums?", MessageBoxImage.Information, MessageBoxButton.YesNo) == MessageBoxResult.Yes;
+                return interactive
+                    && Frontend.ShowMessageBox(
+                        $"All {result.Checked:N0} files of {title} are present, but this install only recorded file names, so their contents could not be checked.\n\nRepair it now to record full checksums?",
+                        MessageBoxImage.Information,
+                        MessageBoxButton.YesNo
+                    ) == MessageBoxResult.Yes;
             }
             summary = $"Verified {result.Checked:N0} files, no problems found{skipped}";
             App.Logger?.WriteLine("DownloadsViewModel::Verify", $"{title}: {summary}");
             if (interactive)
-                Frontend.ShowMessageBox($"{title} is intact. Voidstrap checked {result.Checked:N0} files{skipped} and found no problems.", MessageBoxImage.Information);
+                Frontend.ShowMessageBox(
+                    $"{title} is intact. Voidstrap checked {result.Checked:N0} files{skipped} and found no problems.",
+                    MessageBoxImage.Information
+                );
             return false;
         }
 
@@ -1319,11 +1467,17 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public string ClassicDownloadBaseUrl
         {
-            get => string.IsNullOrWhiteSpace(App.Settings.Prop.ClassicDownloadBaseUrl) ? ClassicClients.DefaultBaseUrl : App.Settings.Prop.ClassicDownloadBaseUrl;
+            get =>
+                string.IsNullOrWhiteSpace(App.Settings.Prop.ClassicDownloadBaseUrl)
+                    ? ClassicClients.DefaultBaseUrl
+                    : App.Settings.Prop.ClassicDownloadBaseUrl;
             set
             {
                 string v = (value ?? "").Trim();
-                if (string.Equals(v, ClassicClients.DefaultBaseUrl, StringComparison.OrdinalIgnoreCase) || string.Equals(v, ClassicClients.LegacyDefaultBaseUrl, StringComparison.OrdinalIgnoreCase))
+                if (
+                    string.Equals(v, ClassicClients.DefaultBaseUrl, StringComparison.OrdinalIgnoreCase)
+                    || string.Equals(v, ClassicClients.LegacyDefaultBaseUrl, StringComparison.OrdinalIgnoreCase)
+                )
                     v = "";
                 if (App.Settings.Prop.ClassicDownloadBaseUrl == v)
                     return;
@@ -1360,20 +1514,104 @@ namespace Voidstrap.UI.ViewModels.Settings
         {
             if (Voidstrap.Utility.Platform.IsLinux)
             {
-                Items.Add(new DownloadItem(this, new RobloxPlayerData(), "Sober", "Plays Roblox on Linux", "pack://application:,,,/Resources/SoberIcon.png", "WindowsPlayer", LaunchMode.Player, "sober", false));
-                Items.Add(new DownloadItem(this, new RobloxStudioData(), "Vinegar", "Runs Roblox Studio on Linux", "pack://application:,,,/Resources/VinegarIcon.png", "WindowsStudio64", LaunchMode.Studio, "vinegar", false));
+                Items.Add(
+                    new DownloadItem(
+                        this,
+                        new RobloxPlayerData(),
+                        "Sober",
+                        "Plays Roblox on Linux",
+                        "pack://application:,,,/Resources/SoberIcon.png",
+                        "WindowsPlayer",
+                        LaunchMode.Player,
+                        "sober",
+                        false
+                    )
+                );
+                Items.Add(
+                    new DownloadItem(
+                        this,
+                        new RobloxStudioData(),
+                        "Vinegar",
+                        "Runs Roblox Studio on Linux",
+                        "pack://application:,,,/Resources/VinegarIcon.png",
+                        "WindowsStudio64",
+                        LaunchMode.Studio,
+                        "vinegar",
+                        false
+                    )
+                );
                 if (Voidstrap.Platform.Linux.LinuxRosemary.IsSupportedHost)
                 {
-                    Items.Add(new DownloadItem(this, new RobloxPlayerData(), Strings.Ui_Downloads_Rosemary_PlayerTitle, Strings.Ui_Downloads_Rosemary_PlayerSubtitle, "pack://application:,,,/Resources/RobloxPlayerIcon.png", "MacPlayer", LaunchMode.Player, Voidstrap.Utility.LinuxRuntimeChoice.Rosemary, false));
-                    Items.Add(new DownloadItem(this, new RobloxStudioData(), Strings.Ui_Downloads_Rosemary_StudioTitle, Strings.Ui_Downloads_Rosemary_StudioSubtitle, "pack://application:,,,/Resources/RobloxStudioIcon.png", "MacStudio", LaunchMode.Studio, Voidstrap.Utility.LinuxRuntimeChoice.Rosemary, false));
+                    Items.Add(
+                        new DownloadItem(
+                            this,
+                            new RobloxPlayerData(),
+                            Strings.Ui_Downloads_Rosemary_PlayerTitle,
+                            Strings.Ui_Downloads_Rosemary_PlayerSubtitle,
+                            "pack://application:,,,/Resources/RobloxPlayerIcon.png",
+                            "MacPlayer",
+                            LaunchMode.Player,
+                            Voidstrap.Utility.LinuxRuntimeChoice.Rosemary,
+                            false
+                        )
+                    );
+                    Items.Add(
+                        new DownloadItem(
+                            this,
+                            new RobloxStudioData(),
+                            Strings.Ui_Downloads_Rosemary_StudioTitle,
+                            Strings.Ui_Downloads_Rosemary_StudioSubtitle,
+                            "pack://application:,,,/Resources/RobloxStudioIcon.png",
+                            "MacStudio",
+                            LaunchMode.Studio,
+                            Voidstrap.Utility.LinuxRuntimeChoice.Rosemary,
+                            false
+                        )
+                    );
                 }
             }
             else
             {
-                Items.Add(new DownloadItem(this, new RobloxPlayerData(false), "Roblox Player", "The Roblox client for playing experiences", "pack://application:,,,/Resources/RobloxPlayerIcon.png", "WindowsPlayer", LaunchMode.Player, "RobloxPlayerBeta", true));
-                Items.Add(new DownloadItem(this, new RobloxStudioData(), "Roblox Studio", "Create and edit experiences", "pack://application:,,,/Resources/RobloxStudioIcon.png", "WindowsStudio64", LaunchMode.Studio, "RobloxStudioBeta", false));
+                Items.Add(
+                    new DownloadItem(
+                        this,
+                        new RobloxPlayerData(false),
+                        "Roblox Player",
+                        "The Roblox client for playing experiences",
+                        "pack://application:,,,/Resources/RobloxPlayerIcon.png",
+                        "WindowsPlayer",
+                        LaunchMode.Player,
+                        "RobloxPlayerBeta",
+                        true
+                    )
+                );
+                Items.Add(
+                    new DownloadItem(
+                        this,
+                        new RobloxStudioData(),
+                        "Roblox Studio",
+                        "Create and edit experiences",
+                        "pack://application:,,,/Resources/RobloxStudioIcon.png",
+                        "WindowsStudio64",
+                        LaunchMode.Studio,
+                        "RobloxStudioBeta",
+                        false
+                    )
+                );
                 if (Voidstrap.Utility.Platform.IsWindows)
-                    Items.Add(new DownloadItem(this, new RobloxPlayerData(true), Strings.Vng_Title, Strings.Vng_Description, "pack://application:,,,/Resources/RobloxVngIcon.png", "WindowsPlayer", LaunchMode.Player, "RobloxPlayerBeta", true));
+                    Items.Add(
+                        new DownloadItem(
+                            this,
+                            new RobloxPlayerData(true),
+                            Strings.Vng_Title,
+                            Strings.Vng_Description,
+                            "pack://application:,,,/Resources/RobloxVngIcon.png",
+                            "WindowsPlayer",
+                            LaunchMode.Player,
+                            "RobloxPlayerBeta",
+                            true
+                        )
+                    );
             }
             OpenRootCommand = new RelayCommand(OpenRoot);
             RefreshCommand = new RelayCommand(RefreshAll);
@@ -1478,7 +1716,12 @@ namespace Voidstrap.UI.ViewModels.Settings
         {
             if (ClientItems.Count == 0)
             {
-                foreach (var entry in ClassicClients.Catalog.OrderByDescending(e => e.Code, Comparer<string>.Create((a, b) => ClassicClients.CompareClientNames(a, b))))
+                foreach (
+                    var entry in ClassicClients.Catalog.OrderByDescending(
+                        e => e.Code,
+                        Comparer<string>.Create((a, b) => ClassicClients.CompareClientNames(a, b))
+                    )
+                )
                     ClientItems.Add(new ClientItem(this, entry));
             }
             else
@@ -1489,7 +1732,8 @@ namespace Voidstrap.UI.ViewModels.Settings
 
             int installed = ClientItems.Count(i => i.IsInstalled);
             if (!ClassicClients.EngineInstalled)
-                ClassicStatusText = "Install any version to set up the classic engine. Clients download from the classic download URL (set in Settings), or from a local VoidstrapClient folder if you set one.";
+                ClassicStatusText =
+                    "Install any version to set up the classic engine. Clients download from the classic download URL (set in Settings), or from a local VoidstrapClient folder if you set one.";
             else
                 ClassicStatusText = $"{installed} of {ClientItems.Count} installed at {ClassicClients.Root}";
             OnPropertyChanged(nameof(ClassicStatusText));
@@ -1511,7 +1755,10 @@ namespace Voidstrap.UI.ViewModels.Settings
                         ClientMaps.Add(map);
                 }
 
-                string selectedMap = maps.Count == 0 ? "" : !string.IsNullOrEmpty(savedMap) && maps.Contains(savedMap) ? savedMap : maps[0];
+                string selectedMap =
+                    maps.Count == 0 ? ""
+                    : !string.IsNullOrEmpty(savedMap) && maps.Contains(savedMap) ? savedMap
+                    : maps[0];
                 if (!string.Equals(App.Settings.Prop.ClassicSelectedMap, selectedMap, StringComparison.Ordinal))
                 {
                     App.Settings.Prop.ClassicSelectedMap = selectedMap;
@@ -1529,16 +1776,15 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         private void LocateClassicSource()
         {
-            var dialog = new OpenFolderDialog
-            {
-                Title = "Locate your VoidstrapClient folder",
-                Multiselect = false
-            };
+            var dialog = new OpenFolderDialog { Title = "Locate your VoidstrapClient folder", Multiselect = false };
             if (dialog.ShowDialog() != true || string.IsNullOrWhiteSpace(dialog.FolderName))
                 return;
             if (!ClassicClients.IsValidSource(dialog.FolderName))
             {
-                Frontend.ShowMessageBox("That folder does not look like an VoidstrapClient installation. It must contain VoidstrapClient.WebServer.exe and a data\\clients folder.", MessageBoxImage.Warning);
+                Frontend.ShowMessageBox(
+                    "That folder does not look like an VoidstrapClient installation. It must contain VoidstrapClient.WebServer.exe and a data\\clients folder.",
+                    MessageBoxImage.Warning
+                );
                 return;
             }
             App.Settings.Prop.ClassicSourceLocation = dialog.FolderName;

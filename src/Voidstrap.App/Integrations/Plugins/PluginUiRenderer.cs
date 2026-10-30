@@ -32,8 +32,8 @@ internal static class PluginUiRenderer
 	{
 		try
 		{
-		int rendered = 0;
-		return BuildNode(node, pluginDirectory, ref rendered);
+			int rendered = 0;
+			return BuildNode(node, pluginDirectory, ref rendered);
 		}
 		catch
 		{
@@ -63,55 +63,55 @@ internal static class PluginUiRenderer
 	{
 		try
 		{
-		if (node == null || ++rendered > MaxRenderedNodes)
-			return null;
-		if (node is JsonValue value)
-			return MakeText(value.ToString(), new JsonObject());
-		if (node is JsonArray list)
-		{
-			StackPanel stack = new();
-			foreach (JsonNode? child in list)
-				if (BuildNode(child, pluginDirectory, ref rendered) is UIElement item)
-					stack.Children.Add(item);
-			return stack;
-		}
-		if (node is not JsonObject element)
-			return null;
-		string type = element["type"]?.ToString() ?? "Box";
-		JsonObject props = element["props"] as JsonObject ?? new JsonObject();
-		JsonArray children = element["children"] as JsonArray ?? new JsonArray();
-		if (props["visible"] is JsonValue vis && vis.TryGetValue(out bool isVisible) && !isVisible)
-			return null;
-		UIElement? built = type switch
-		{
-			"Text" => MakeText(ReadLabel(props, children, "text"), props),
-			"Badge" => MakeBadge(ReadLabel(props, children, "text", "label"), props),
-			"Icon" => MakeIcon(props),
-			"ColorSwatch" => MakeColorSwatch(props),
-			"Button" => MakeButton(props, children),
-			"Toggle" => MakeToggle(props, children),
-			"CheckBox" => MakeCheckBox(props, children),
-			"TextInput" => MakeTextInput(props),
-			"NumberInput" or "Slider" => MakeSlider(props),
-			"Select" => MakeSelect(props, children),
-			"ProgressBar" => MakeProgressBar(props),
-			"InfoBar" => MakeInfoBar(props, children),
-			"Divider" => new Separator { Margin = new Thickness(0, 6, 0, 6) },
-			"Spacer" => MakeSpacer(props),
-			"Image" or "Sprite" => MakeImage(props, pluginDirectory),
-			"Card" => MakeCard(children, props, pluginDirectory, ref rendered),
-			"Expander" => MakeExpander(children, props, pluginDirectory, ref rendered),
-			"Tabs" => MakeTabs(children, props, pluginDirectory, ref rendered),
-			"Table" => MakeTable(props),
-			"Grid" => MakeGrid(children, props, pluginDirectory, ref rendered),
-			"Canvas" => MakeCanvas(children, props, pluginDirectory, ref rendered),
-			"Scroll" => MakeScroll(children, props, pluginDirectory, ref rendered),
-			"Wrap" => MakeWrap(children, props, pluginDirectory, ref rendered),
-			_ => BuildChildren(children, props, pluginDirectory, ref rendered)
-		};
-		if (built is FrameworkElement fe)
-			ApplyCommonProps(fe, props);
-		return built;
+			if (node == null || ++rendered > MaxRenderedNodes)
+				return null;
+			if (node is JsonValue value)
+				return MakeText(value.ToString(), new JsonObject());
+			if (node is JsonArray list)
+			{
+				StackPanel stack = new();
+				foreach (JsonNode? child in list)
+					if (BuildNode(child, pluginDirectory, ref rendered) is UIElement item)
+						stack.Children.Add(item);
+				return stack;
+			}
+			if (node is not JsonObject element)
+				return null;
+			string type = element["type"]?.ToString() ?? "Box";
+			JsonObject props = element["props"] as JsonObject ?? new JsonObject();
+			JsonArray children = element["children"] as JsonArray ?? new JsonArray();
+			if (props["visible"] is JsonValue vis && vis.TryGetValue(out bool isVisible) && !isVisible)
+				return null;
+			UIElement? built = type switch
+			{
+				"Text" => MakeText(ReadLabel(props, children, "text"), props),
+				"Badge" => MakeBadge(ReadLabel(props, children, "text", "label"), props),
+				"Icon" => MakeIcon(props),
+				"ColorSwatch" => MakeColorSwatch(props),
+				"Button" => MakeButton(props, children),
+				"Toggle" => MakeToggle(props, children),
+				"CheckBox" => MakeCheckBox(props, children),
+				"TextInput" => MakeTextInput(props),
+				"NumberInput" or "Slider" => MakeSlider(props),
+				"Select" => MakeSelect(props, children),
+				"ProgressBar" => MakeProgressBar(props),
+				"InfoBar" => MakeInfoBar(props, children),
+				"Divider" => new Separator { Margin = new Thickness(0, 6, 0, 6) },
+				"Spacer" => MakeSpacer(props),
+				"Image" or "Sprite" => MakeImage(props, pluginDirectory),
+				"Card" => MakeCard(children, props, pluginDirectory, ref rendered),
+				"Expander" => MakeExpander(children, props, pluginDirectory, ref rendered),
+				"Tabs" => MakeTabs(children, props, pluginDirectory, ref rendered),
+				"Table" => MakeTable(props),
+				"Grid" => MakeGrid(children, props, pluginDirectory, ref rendered),
+				"Canvas" => MakeCanvas(children, props, pluginDirectory, ref rendered),
+				"Scroll" => MakeScroll(children, props, pluginDirectory, ref rendered),
+				"Wrap" => MakeWrap(children, props, pluginDirectory, ref rendered),
+				_ => BuildChildren(children, props, pluginDirectory, ref rendered),
+			};
+			if (built is FrameworkElement fe)
+				ApplyCommonProps(fe, props);
+			return built;
 		}
 		catch
 		{
@@ -124,7 +124,8 @@ internal static class PluginUiRenderer
 		bool row = string.Equals(props["direction"]?.ToString(), "row", StringComparison.OrdinalIgnoreCase);
 		bool wrap = props["wrap"] is JsonValue w && w.TryGetValue(out bool shouldWrap) && shouldWrap;
 		double gap = ReadDouble(props, "gap", 0);
-		Panel panel = (row && wrap) ? new WrapPanel { Orientation = Orientation.Horizontal }
+		Panel panel =
+			(row && wrap) ? new WrapPanel { Orientation = Orientation.Horizontal }
 			: row ? new StackPanel { Orientation = Orientation.Horizontal }
 			: new StackPanel { Orientation = Orientation.Vertical };
 		int index = 0;
@@ -152,7 +153,7 @@ internal static class PluginUiRenderer
 		{
 			Orientation = string.Equals(props["direction"]?.ToString(), "column", StringComparison.OrdinalIgnoreCase)
 				? Orientation.Vertical
-				: Orientation.Horizontal
+				: Orientation.Horizontal,
 		};
 		if (ReadDouble(props, "itemWidth", double.NaN) is double iw && !double.IsNaN(iw) && iw > 0)
 			wrap.ItemWidth = iw;
@@ -169,10 +170,11 @@ internal static class PluginUiRenderer
 		ScrollViewer viewer = new()
 		{
 			VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-			HorizontalScrollBarVisibility = props["horizontal"] is JsonValue h && h.TryGetValue(out bool horiz) && horiz
-				? ScrollBarVisibility.Auto
-				: ScrollBarVisibility.Disabled,
-			Content = BuildChildren(children, props, pluginDirectory, ref rendered)
+			HorizontalScrollBarVisibility =
+				props["horizontal"] is JsonValue h && h.TryGetValue(out bool horiz) && horiz
+					? ScrollBarVisibility.Auto
+					: ScrollBarVisibility.Disabled,
+			Content = BuildChildren(children, props, pluginDirectory, ref rendered),
 		};
 		if (ReadDouble(props, "maxHeight", double.NaN) is double mh && !double.IsNaN(mh) && mh > 0)
 			viewer.MaxHeight = mh;
@@ -283,7 +285,9 @@ internal static class PluginUiRenderer
 			double weight = prefix.Length == 0 ? 1 : (double.TryParse(prefix, out double w) && w > 0 ? w : 1);
 			return new GridLength(weight, GridUnitType.Star);
 		}
-		return double.TryParse(text, out double px) && px >= 0 ? new GridLength(px, GridUnitType.Pixel) : new GridLength(1, GridUnitType.Star);
+		return double.TryParse(text, out double px) && px >= 0
+			? new GridLength(px, GridUnitType.Pixel)
+			: new GridLength(1, GridUnitType.Star);
 	}
 
 	private static Border MakeCard(JsonArray children, JsonObject props, string? pluginDirectory, ref int rendered)
@@ -307,7 +311,7 @@ internal static class PluginUiRenderer
 			Margin = new Thickness(0, 0, 0, 8),
 			CornerRadius = new CornerRadius(6),
 			BorderThickness = new Thickness(1),
-			Child = stack
+			Child = stack,
 		};
 		card.SetResourceReference(Border.BackgroundProperty, "SubtleFillColorSecondaryBrush");
 		card.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
@@ -323,7 +327,7 @@ internal static class PluginUiRenderer
 			Header = title.Length > 0 ? title : "Details",
 			IsExpanded = expanded,
 			Margin = new Thickness(0, 0, 0, 8),
-			Content = BuildChildren(children, props, pluginDirectory, ref rendered)
+			Content = BuildChildren(children, props, pluginDirectory, ref rendered),
 		};
 		return expander;
 	}
@@ -345,8 +349,8 @@ internal static class PluginUiRenderer
 				Content = new Border
 				{
 					Padding = new Thickness(4, 10, 4, 4),
-					Child = BuildChildren(tabChildren, tabProps, pluginDirectory, ref rendered)
-				}
+					Child = BuildChildren(tabChildren, tabProps, pluginDirectory, ref rendered),
+				},
 			};
 			tabs.Items.Add(item);
 		}
@@ -372,7 +376,10 @@ internal static class PluginUiRenderer
 				Border cell = new() { Padding = new Thickness(8, 6, 8, 6), BorderThickness = new Thickness(0, 0, 0, 1) };
 				cell.SetResourceReference(Border.BackgroundProperty, "ControlFillColorDefaultBrush");
 				cell.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
-				cell.Child = MakeText(c < columns.Count ? columns[c]?.ToString() ?? "" : "", new JsonObject { ["bold"] = true, ["size"] = 12 });
+				cell.Child = MakeText(
+					c < columns.Count ? columns[c]?.ToString() ?? "" : "",
+					new JsonObject { ["bold"] = true, ["size"] = 12 }
+				);
 				Grid.SetRow(cell, r);
 				Grid.SetColumn(cell, c);
 				grid.Children.Add(cell);
@@ -400,7 +407,7 @@ internal static class PluginUiRenderer
 			Margin = new Thickness(0, 0, 0, 8),
 			CornerRadius = new CornerRadius(6),
 			BorderThickness = new Thickness(1),
-			Child = grid
+			Child = grid,
 		};
 		outer.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
 		return outer;
@@ -411,8 +418,9 @@ internal static class PluginUiRenderer
 		System.Windows.Controls.TextBlock block = new()
 		{
 			Text = text,
-			TextWrapping = props["wrap"] is JsonValue wrapVal && wrapVal.TryGetValue(out bool wrap) && !wrap ? TextWrapping.NoWrap : TextWrapping.Wrap,
-			Margin = new Thickness(0, 0, 6, 6)
+			TextWrapping =
+				props["wrap"] is JsonValue wrapVal && wrapVal.TryGetValue(out bool wrap) && !wrap ? TextWrapping.NoWrap : TextWrapping.Wrap,
+			Margin = new Thickness(0, 0, 6, 6),
 		};
 		if (props["bold"] is JsonValue bold && bold.TryGetValue(out bool isBold) && isBold)
 			block.FontWeight = FontWeights.SemiBold;
@@ -438,7 +446,8 @@ internal static class PluginUiRenderer
 				System.Windows.Controls.TextBlock.ForegroundProperty,
 				props["dim"] is JsonValue dim && dim.TryGetValue(out bool isDim) && isDim
 					? "TextFillColorTertiaryBrush"
-					: "TextFillColorPrimaryBrush");
+					: "TextFillColorPrimaryBrush"
+			);
 		}
 		return block;
 	}
@@ -452,7 +461,7 @@ internal static class PluginUiRenderer
 			"success" => (Color.FromArgb(45, 46, 204, 113), Color.FromRgb(88, 214, 141)),
 			"warning" or "caution" => (Color.FromArgb(45, 243, 156, 18), Color.FromRgb(248, 196, 113)),
 			"danger" or "error" => (Color.FromArgb(45, 231, 76, 60), Color.FromRgb(241, 148, 138)),
-			_ => (Color.FromArgb(35, 160, 168, 180), Color.FromRgb(210, 214, 220))
+			_ => (Color.FromArgb(35, 160, 168, 180), Color.FromRgb(210, 214, 220)),
 		};
 		System.Windows.Controls.TextBlock label = new()
 		{
@@ -460,7 +469,7 @@ internal static class PluginUiRenderer
 			FontSize = 11,
 			FontWeight = FontWeights.SemiBold,
 			Foreground = new SolidColorBrush(fg),
-			VerticalAlignment = VerticalAlignment.Center
+			VerticalAlignment = VerticalAlignment.Center,
 		};
 		return new Border
 		{
@@ -470,7 +479,7 @@ internal static class PluginUiRenderer
 			Margin = new Thickness(0, 0, 6, 6),
 			HorizontalAlignment = HorizontalAlignment.Left,
 			VerticalAlignment = VerticalAlignment.Center,
-			Child = label
+			Child = label,
 		};
 	}
 
@@ -484,7 +493,7 @@ internal static class PluginUiRenderer
 			Symbol = symbol,
 			FontSize = Math.Clamp(ReadDouble(props, "size", 18), 10, 64),
 			Margin = new Thickness(0, 0, 6, 6),
-			VerticalAlignment = VerticalAlignment.Center
+			VerticalAlignment = VerticalAlignment.Center,
 		};
 		string? color = props["color"]?.ToString() ?? props["foreground"]?.ToString();
 		if (!string.IsNullOrWhiteSpace(color) && TryResolveBrush(color, out Brush? brush) && brush != null)
@@ -503,7 +512,7 @@ internal static class PluginUiRenderer
 			CornerRadius = new CornerRadius(5),
 			BorderThickness = new Thickness(1),
 			Margin = new Thickness(0, 0, 6, 6),
-			ToolTip = hex
+			ToolTip = hex,
 		};
 		box.SetResourceReference(Border.BorderBrushProperty, "ControlStrokeColorDefaultBrush");
 		if (TryResolveBrush(hex, out Brush? brush) && brush != null)
@@ -537,7 +546,7 @@ internal static class PluginUiRenderer
 		{
 			Content = ReadLabel(props, children, "label", "text"),
 			Margin = new Thickness(0, 0, 6, 6),
-			Tag = Handler(props, "onPress")
+			Tag = Handler(props, "onPress"),
 		};
 		string variant = (props["variant"]?.ToString() ?? props["appearance"]?.ToString() ?? "").ToLowerInvariant();
 		button.Appearance = variant switch
@@ -547,7 +556,7 @@ internal static class PluginUiRenderer
 			"success" => ControlAppearance.Success,
 			"caution" or "warning" => ControlAppearance.Caution,
 			"transparent" => ControlAppearance.Transparent,
-			_ => ControlAppearance.Secondary
+			_ => ControlAppearance.Secondary,
 		};
 		string iconName = props["icon"]?.ToString() ?? "";
 		if (iconName.Length > 0 && Enum.TryParse(iconName, ignoreCase: true, out SymbolRegular icon))
@@ -565,7 +574,7 @@ internal static class PluginUiRenderer
 			Content = ReadLabel(props, children, "label", "text"),
 			IsChecked = props["checked"] is JsonValue on && on.TryGetValue(out bool isOn) && isOn,
 			Margin = new Thickness(0, 0, 0, 6),
-			Tag = Handler(props, "onChange")
+			Tag = Handler(props, "onChange"),
 		};
 		if (props["disabled"] is JsonValue dis && dis.TryGetValue(out bool isDisabled) && isDisabled)
 			toggle.IsEnabled = false;
@@ -580,7 +589,7 @@ internal static class PluginUiRenderer
 			Content = ReadLabel(props, children, "label", "text"),
 			IsChecked = props["checked"] is JsonValue on && on.TryGetValue(out bool isOn) && isOn,
 			Margin = new Thickness(0, 0, 8, 6),
-			Tag = Handler(props, "onChange")
+			Tag = Handler(props, "onChange"),
 		};
 		if (props["disabled"] is JsonValue dis && dis.TryGetValue(out bool isDisabled) && isDisabled)
 			check.IsEnabled = false;
@@ -598,7 +607,7 @@ internal static class PluginUiRenderer
 			Text = initial,
 			PlaceholderText = props["placeholder"]?.ToString() ?? "",
 			Margin = new Thickness(0, 0, 0, 6),
-			Tag = onSubmit ?? onChange
+			Tag = onSubmit ?? onChange,
 		};
 		if (props["multiline"] is JsonValue ml && ml.TryGetValue(out bool isMultiline) && isMultiline)
 		{
@@ -637,7 +646,7 @@ internal static class PluginUiRenderer
 			TickFrequency = step > 0 ? step : 1,
 			IsSnapToTickEnabled = step > 0,
 			VerticalAlignment = VerticalAlignment.Center,
-			Tag = Handler(props, "onChange")
+			Tag = Handler(props, "onChange"),
 		};
 		System.Windows.Controls.TextBlock readout = new()
 		{
@@ -645,7 +654,7 @@ internal static class PluginUiRenderer
 			MinWidth = 38,
 			Margin = new Thickness(8, 0, 0, 0),
 			VerticalAlignment = VerticalAlignment.Center,
-			TextAlignment = TextAlignment.Right
+			TextAlignment = TextAlignment.Right,
 		};
 		readout.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
 		slider.ValueChanged += (_, e) =>
@@ -660,7 +669,12 @@ internal static class PluginUiRenderer
 		row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 		if (label.Length > 0)
 		{
-			System.Windows.Controls.TextBlock lbl = new() { Text = label, Margin = new Thickness(0, 0, 10, 0), VerticalAlignment = VerticalAlignment.Center };
+			System.Windows.Controls.TextBlock lbl = new()
+			{
+				Text = label,
+				Margin = new Thickness(0, 0, 10, 0),
+				VerticalAlignment = VerticalAlignment.Center,
+			};
 			Grid.SetColumn(lbl, 0);
 			row.Children.Add(lbl);
 		}
@@ -677,7 +691,7 @@ internal static class PluginUiRenderer
 		{
 			Margin = new Thickness(0, 0, 6, 6),
 			MinWidth = 140,
-			Tag = Handler(props, "onChange")
+			Tag = Handler(props, "onChange"),
 		};
 		string selected = props["selected"]?.ToString() ?? props["value"]?.ToString() ?? "";
 		int selectedIdx = -1;
@@ -724,7 +738,7 @@ internal static class PluginUiRenderer
 			Value = val,
 			Height = ReadDouble(props, "height", 8),
 			IsIndeterminate = props["indeterminate"] is JsonValue ind && ind.TryGetValue(out bool isInd) && isInd,
-			Margin = new Thickness(0, 0, 0, 6)
+			Margin = new Thickness(0, 0, 0, 6),
 		};
 	}
 
@@ -742,9 +756,9 @@ internal static class PluginUiRenderer
 				"success" => InfoBarSeverity.Success,
 				"warning" or "caution" => InfoBarSeverity.Warning,
 				"error" or "danger" => InfoBarSeverity.Error,
-				_ => InfoBarSeverity.Informational
+				_ => InfoBarSeverity.Informational,
 			},
-			Margin = new Thickness(0, 0, 0, 8)
+			Margin = new Thickness(0, 0, 0, 8),
 		};
 	}
 
@@ -754,17 +768,23 @@ internal static class PluginUiRenderer
 		{
 			Width = ReadDouble(props, "width", 0),
 			Height = ReadDouble(props, "height", 8),
-			Background = Brushes.Transparent
+			Background = Brushes.Transparent,
 		};
 	}
 
 	private static bool IsSafeRemoteImageHost(string host, string? pluginDirectory)
 	{
-		if (host.Equals("thumbnails.roblox.com", StringComparison.OrdinalIgnoreCase) ||
-			host.Equals("www.roblox.com", StringComparison.OrdinalIgnoreCase) ||
-			host.EndsWith(".rbxcdn.com", StringComparison.OrdinalIgnoreCase))
+		if (
+			host.Equals("thumbnails.roblox.com", StringComparison.OrdinalIgnoreCase)
+			|| host.Equals("www.roblox.com", StringComparison.OrdinalIgnoreCase)
+			|| host.EndsWith(".rbxcdn.com", StringComparison.OrdinalIgnoreCase)
+		)
 			return true;
-		if (!string.IsNullOrEmpty(pluginDirectory) && PluginManifest.TryRead(pluginDirectory, out PluginManifest? manifest, out _) && manifest != null)
+		if (
+			!string.IsNullOrEmpty(pluginDirectory)
+			&& PluginManifest.TryRead(pluginDirectory, out PluginManifest? manifest, out _)
+			&& manifest != null
+		)
 			return manifest.NetworkHosts.Contains(host, StringComparer.OrdinalIgnoreCase);
 		return false;
 	}
@@ -780,7 +800,7 @@ internal static class PluginUiRenderer
 			Height = height,
 			Stretch = Stretch.Uniform,
 			HorizontalAlignment = HorizontalAlignment.Left,
-			Margin = new Thickness(0, 0, 0, 6)
+			Margin = new Thickness(0, 0, 0, 6),
 		};
 		if (ReadDouble(props, "width", double.NaN) is double w && !double.IsNaN(w) && w > 0)
 			image.Width = Math.Clamp(w, 8, 1200);
@@ -790,7 +810,10 @@ internal static class PluginUiRenderer
 			if (!Uri.TryCreate(source, UriKind.Absolute, out Uri? remoteUri) || !IsSafeRemoteImageHost(remoteUri.IdnHost, pluginDirectory))
 				return null;
 		}
-		if (source.StartsWith("pack://application:,,,/Resources/", StringComparison.OrdinalIgnoreCase) && !source.Contains("..", StringComparison.Ordinal))
+		if (
+			source.StartsWith("pack://application:,,,/Resources/", StringComparison.OrdinalIgnoreCase)
+			&& !source.Contains("..", StringComparison.Ordinal)
+		)
 		{
 			try
 			{
@@ -803,7 +826,16 @@ internal static class PluginUiRenderer
 			}
 		}
 		bool animate = props["animate"] is not JsonValue animation || !animation.TryGetValue(out bool enabled) || enabled;
-		PluginMedia.Apply(image, source, pluginDirectory, ReadInt(props, "frameWidth", 0), ReadInt(props, "frameHeight", 0), ReadInt(props, "frameIndex", -1), ReadDouble(props, "fps", 0), animate);
+		PluginMedia.Apply(
+			image,
+			source,
+			pluginDirectory,
+			ReadInt(props, "frameWidth", 0),
+			ReadInt(props, "frameHeight", 0),
+			ReadInt(props, "frameIndex", -1),
+			ReadDouble(props, "fps", 0),
+			animate
+		);
 		return image;
 	}
 
@@ -818,7 +850,9 @@ internal static class PluginUiRenderer
 		if (image == null || !image.CanFreeze)
 			return image;
 		image.Freeze();
-		long bytes = checked((long)image.PixelWidth * image.PixelHeight * Math.Max(1, (image.Format.BitsPerPixel + 7) / 8) + source.Length * 2L);
+		long bytes = checked(
+			(long)image.PixelWidth * image.PixelHeight * Math.Max(1, (image.Format.BitsPerPixel + 7) / 8) + source.Length * 2L
+		);
 		if (bytes > MaxImageCacheBytes)
 			return image;
 		lock (ImageCache)
@@ -874,7 +908,7 @@ internal static class PluginUiRenderer
 				"center" => HorizontalAlignment.Center,
 				"right" => HorizontalAlignment.Right,
 				"stretch" => HorizontalAlignment.Stretch,
-				_ => element.HorizontalAlignment
+				_ => element.HorizontalAlignment,
 			};
 		}
 		string? vAlign = props["verticalAlignment"]?.ToString();
@@ -886,7 +920,7 @@ internal static class PluginUiRenderer
 				"center" => VerticalAlignment.Center,
 				"bottom" => VerticalAlignment.Bottom,
 				"stretch" => VerticalAlignment.Stretch,
-				_ => element.VerticalAlignment
+				_ => element.VerticalAlignment,
 			};
 		}
 		if (props["background"]?.ToString() is { Length: > 0 } bg && TryResolveBrush(bg, out Brush? bgBrush) && bgBrush != null)
@@ -945,9 +979,7 @@ internal static class PluginUiRenderer
 				return true;
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		return false;
 	}
 
@@ -972,7 +1004,13 @@ internal static class PluginUiRenderer
 			thickness = new Thickness(h, v, h, v);
 			return true;
 		}
-		if (parts.Length == 4 && double.TryParse(parts[0], out double l) && double.TryParse(parts[1], out double t) && double.TryParse(parts[2], out double r) && double.TryParse(parts[3], out double b))
+		if (
+			parts.Length == 4
+			&& double.TryParse(parts[0], out double l)
+			&& double.TryParse(parts[1], out double t)
+			&& double.TryParse(parts[2], out double r)
+			&& double.TryParse(parts[3], out double b)
+		)
 		{
 			thickness = new Thickness(l, t, r, b);
 			return true;

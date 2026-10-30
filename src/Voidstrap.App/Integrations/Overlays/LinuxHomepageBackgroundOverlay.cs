@@ -10,12 +10,13 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using Voidstrap.Extensions;
+using Voidstrap.Platform.Linux;
 #if CROSSPLAT
 using System.Windows.Media.ProGPU;
 #endif
-using System.Windows.Threading;
-using Voidstrap.Platform.Linux;
-using Voidstrap.Extensions;
+
 
 namespace Voidstrap.Integrations.Overlays;
 
@@ -31,7 +32,8 @@ internal readonly record struct LinuxHomepageVisualSettings(
 	bool ColorBlindnessEnabled = false,
 	int ColorBlindnessType = 1,
 	double ColorBlindnessSeverity = 100d,
-	bool ColorBlindnessSimulate = false)
+	bool ColorBlindnessSimulate = false
+)
 {
 	public static LinuxHomepageVisualSettings Read()
 	{
@@ -40,7 +42,8 @@ internal readonly record struct LinuxHomepageVisualSettings(
 			App.Settings.Prop.HomepageBackgroundOverlayColor ?? string.Empty,
 			App.Settings.Prop.HomepageBackgroundOverlayGradientColor ?? string.Empty,
 			App.Settings.Prop.HomepageBackgroundOverlayGradientAngle,
-			App.Settings.Prop.HomepageBackgroundOverlayMediaPath ?? string.Empty);
+			App.Settings.Prop.HomepageBackgroundOverlayMediaPath ?? string.Empty
+		);
 	}
 
 	public HomepageBackgroundColorTransform CreateColorTransform()
@@ -52,7 +55,8 @@ internal readonly record struct LinuxHomepageVisualSettings(
 			ColorBlindnessEnabled,
 			ColorBlindnessType,
 			ColorBlindnessSeverity,
-			ColorBlindnessSimulate);
+			ColorBlindnessSimulate
+		);
 	}
 }
 
@@ -62,10 +66,7 @@ internal static class LinuxHomepageBackgroundMask
 	internal const byte SoberBlue = 24;
 	private static readonly byte[] DistanceWeights = CreateDistanceWeights();
 	private static readonly byte[] RegionWeights = CreateRegionWeights();
-	private static readonly ParallelOptions Parallelism = new()
-	{
-		MaxDegreeOfParallelism = Math.Clamp(Environment.ProcessorCount, 1, 12)
-	};
+	private static readonly ParallelOptions Parallelism = new() { MaxDegreeOfParallelism = Math.Clamp(Environment.ProcessorCount, 1, 12) };
 
 	public static bool IsLinuxSourceKey(byte red, byte green, byte blue)
 	{
@@ -75,11 +76,7 @@ internal static class LinuxHomepageBackgroundMask
 	public static int Build(byte[] bgra, int width, int height, byte[] ownWeights, byte[] mask)
 	{
 		int pixels = checked(width * height);
-		if (width <= 0
-			|| height <= 0
-			|| bgra.Length < checked(pixels * 4)
-			|| ownWeights.Length < pixels
-			|| mask.Length < pixels)
+		if (width <= 0 || height <= 0 || bgra.Length < checked(pixels * 4) || ownWeights.Length < pixels || mask.Length < pixels)
 			throw new ArgumentException("The homepage mask buffers do not match the requested dimensions");
 
 		HomepageBackgroundSourceKeys sourceKeys = HomepageBackgroundSourceKeys.ReadConfigured();
@@ -92,8 +89,14 @@ internal static class LinuxHomepageBackgroundMask
 		int matched = 0;
 		if (height >= 256)
 		{
-			Parallel.For(0, height, Parallelism, () => 0, (y, _, local) =>
-				BuildMaskRow(width, height, y, ownWeights, mask, local), local => Interlocked.Add(ref matched, local));
+			Parallel.For(
+				0,
+				height,
+				Parallelism,
+				() => 0,
+				(y, _, local) => BuildMaskRow(width, height, y, ownWeights, mask, local),
+				local => Interlocked.Add(ref matched, local)
+			);
 		}
 		else
 		{
@@ -103,24 +106,20 @@ internal static class LinuxHomepageBackgroundMask
 		return matched;
 	}
 
-	public static int BuildSampled(
-		byte[] bgra,
-		int sourceWidth,
-		int sourceHeight,
-		int sampleScale,
-		byte[] ownWeights,
-		byte[] mask)
+	public static int BuildSampled(byte[] bgra, int sourceWidth, int sourceHeight, int sampleScale, byte[] ownWeights, byte[] mask)
 	{
 		if (sampleScale <= 1)
 			return Build(bgra, sourceWidth, sourceHeight, ownWeights, mask);
 		int width = (sourceWidth + sampleScale - 1) / sampleScale;
 		int height = (sourceHeight + sampleScale - 1) / sampleScale;
 		int pixels = checked(width * height);
-		if (sourceWidth <= 0
+		if (
+			sourceWidth <= 0
 			|| sourceHeight <= 0
 			|| bgra.Length < checked(sourceWidth * sourceHeight * 4)
 			|| ownWeights.Length < pixels
-			|| mask.Length < pixels)
+			|| mask.Length < pixels
+		)
 			throw new ArgumentException("The sampled homepage mask buffers do not match the requested dimensions");
 		HomepageBackgroundSourceKeys sourceKeys = HomepageBackgroundSourceKeys.ReadConfigured();
 		Action<int> buildOwnRow = y =>
@@ -143,8 +142,14 @@ internal static class LinuxHomepageBackgroundMask
 		int matched = 0;
 		if (height >= 128)
 		{
-			Parallel.For(0, height, Parallelism, () => 0, (y, _, local) =>
-				BuildMaskRow(width, height, y, ownWeights, mask, local), local => Interlocked.Add(ref matched, local));
+			Parallel.For(
+				0,
+				height,
+				Parallelism,
+				() => 0,
+				(y, _, local) => BuildMaskRow(width, height, y, ownWeights, mask, local),
+				local => Interlocked.Add(ref matched, local)
+			);
 		}
 		else
 		{
@@ -157,10 +162,7 @@ internal static class LinuxHomepageBackgroundMask
 	public static int ExcludePointer(byte[] ownWeights, byte[] mask, int width, int height, int pointerX, int pointerY)
 	{
 		int pixels = checked(width * height);
-		if (width <= 0
-			|| height <= 0
-			|| ownWeights.Length < pixels
-			|| mask.Length < pixels)
+		if (width <= 0 || height <= 0 || ownWeights.Length < pixels || mask.Length < pixels)
 			throw new ArgumentException("The homepage cursor buffers do not match the requested dimensions");
 		if (pointerX < 0 || pointerY < 0 || pointerX >= width || pointerY >= height)
 			return 0;
@@ -198,12 +200,7 @@ internal static class LinuxHomepageBackgroundMask
 		return cleared;
 	}
 
-	private static void BuildOwnWeightRow(
-		byte[] bgra,
-		int width,
-		int y,
-		byte[] ownWeights,
-		HomepageBackgroundSourceKeys sourceKeys)
+	private static void BuildOwnWeightRow(byte[] bgra, int width, int y, byte[] ownWeights, HomepageBackgroundSourceKeys sourceKeys)
 	{
 		int pixel = y * width;
 		int source = pixel * 4;
@@ -221,21 +218,16 @@ internal static class LinuxHomepageBackgroundMask
 	{
 		return Math.Min(
 			Math.Min(SourceDistance(red, green, blue, keys.Original), SourceDistance(red, green, blue, keys.Sober)),
-			Math.Min(SourceDistance(red, green, blue, keys.AdjustedOriginal), SourceDistance(red, green, blue, keys.AdjustedSober)));
+			Math.Min(SourceDistance(red, green, blue, keys.AdjustedOriginal), SourceDistance(red, green, blue, keys.AdjustedSober))
+		);
 	}
 
 	private static int SourceDistance(byte red, byte green, byte blue, HomepageBackgroundSourceKey key)
 	{
-		return Math.Max(
-			Math.Abs(red - key.Red),
-			Math.Max(Math.Abs(green - key.Green), Math.Abs(blue - key.Blue)));
+		return Math.Max(Math.Abs(red - key.Red), Math.Max(Math.Abs(green - key.Green), Math.Abs(blue - key.Blue)));
 	}
 
-	private static HomepageBackgroundSourceKey NearestSourceKey(
-		byte red,
-		byte green,
-		byte blue,
-		HomepageBackgroundSourceKeys keys)
+	private static HomepageBackgroundSourceKey NearestSourceKey(byte red, byte green, byte blue, HomepageBackgroundSourceKeys keys)
 	{
 		HomepageBackgroundSourceKey nearest = keys.Original;
 		int distance = SourceDistance(red, green, blue, nearest);
@@ -251,7 +243,8 @@ internal static class LinuxHomepageBackgroundMask
 		byte green,
 		byte blue,
 		ref HomepageBackgroundSourceKey nearest,
-		ref int distance)
+		ref int distance
+	)
 	{
 		int candidateDistance = SourceDistance(red, green, blue, candidate);
 		if (candidateDistance >= distance)
@@ -269,7 +262,8 @@ internal static class LinuxHomepageBackgroundMask
 		{
 			int left = Math.Max(0, x - 2);
 			int right = Math.Min(width - 1, x + 2);
-			int support = ownWeights[top + left]
+			int support =
+				ownWeights[top + left]
 				+ ownWeights[top + x]
 				+ ownWeights[top + right]
 				+ ownWeights[middle + left]
@@ -327,7 +321,8 @@ internal static class LinuxHomepageBackgroundMask
 		int mediaHeight,
 		byte[] output,
 		int[] mediaXMap,
-		int[] mediaYMap)
+		int[] mediaYMap
+	)
 	{
 		int bytes = checked(width * height * 4);
 		if (width <= 0 || height <= 0 || output.Length < bytes)
@@ -339,7 +334,8 @@ internal static class LinuxHomepageBackgroundMask
 		colorTransform.Apply(sourceFirst.R, sourceFirst.G, sourceFirst.B, out byte firstRed, out byte firstGreen, out byte firstBlue);
 		Color first = Color.FromRgb(firstRed, firstGreen, firstBlue);
 		bool useGradient = settings.Mode == "Gradient";
-		bool useMedia = settings.Mode == "Media"
+		bool useMedia =
+			settings.Mode == "Media"
 			&& media != null
 			&& mediaWidth > 0
 			&& mediaHeight > 0
@@ -361,13 +357,9 @@ internal static class LinuxHomepageBackgroundMask
 		if (useMedia)
 		{
 			for (int x = 0; x < width; x++)
-				mediaXMap[x] = CreateMediaMapCoordinate(
-					mediaStartX + (x + 0.5d) * mediaVisibleWidth / width - 0.5d,
-					mediaWidth);
+				mediaXMap[x] = CreateMediaMapCoordinate(mediaStartX + (x + 0.5d) * mediaVisibleWidth / width - 0.5d, mediaWidth);
 			for (int y = 0; y < height; y++)
-				mediaYMap[y] = CreateMediaMapCoordinate(
-					mediaStartY + (y + 0.5d) * mediaVisibleHeight / height - 0.5d,
-					mediaHeight);
+				mediaYMap[y] = CreateMediaMapCoordinate(mediaStartY + (y + 0.5d) * mediaVisibleHeight / height - 0.5d, mediaHeight);
 		}
 
 		Action<int> buildRow = y =>
@@ -377,9 +369,8 @@ internal static class LinuxHomepageBackgroundMask
 			int mediaTopRow = useMedia ? (verticalCoordinate >> 8) * mediaWidth : 0;
 			int mediaBottomRow = useMedia ? Math.Min((verticalCoordinate >> 8) + 1, mediaHeight - 1) * mediaWidth : 0;
 			int verticalAmount = verticalCoordinate & 255;
-			double gradientAmount = vectorLength > 0d
-				? (((0.5d / width) - startX) * vectorX + (((y + 0.5d) / height) - startY) * vectorY) / vectorLength
-				: 0d;
+			double gradientAmount =
+				vectorLength > 0d ? (((0.5d / width) - startX) * vectorX + (((y + 0.5d) / height) - startY) * vectorY) / vectorLength : 0d;
 			double gradientStep = vectorLength > 0d ? vectorX / width / vectorLength : 0d;
 			for (int x = 0; x < width; x++, offset += 4)
 			{
@@ -397,17 +388,44 @@ internal static class LinuxHomepageBackgroundMask
 					int bottomLeftOffset = (mediaBottomRow + mediaLeft) * 4;
 					int bottomRightOffset = (mediaBottomRow + mediaRight) * 4;
 					blue = Interpolate(
-						Interpolate(CompositeMediaChannel(media!, topLeftOffset, 0, sourceFirst.B), CompositeMediaChannel(media!, topRightOffset, 0, sourceFirst.B), horizontalAmount),
-						Interpolate(CompositeMediaChannel(media!, bottomLeftOffset, 0, sourceFirst.B), CompositeMediaChannel(media!, bottomRightOffset, 0, sourceFirst.B), horizontalAmount),
-						verticalAmount);
+						Interpolate(
+							CompositeMediaChannel(media!, topLeftOffset, 0, sourceFirst.B),
+							CompositeMediaChannel(media!, topRightOffset, 0, sourceFirst.B),
+							horizontalAmount
+						),
+						Interpolate(
+							CompositeMediaChannel(media!, bottomLeftOffset, 0, sourceFirst.B),
+							CompositeMediaChannel(media!, bottomRightOffset, 0, sourceFirst.B),
+							horizontalAmount
+						),
+						verticalAmount
+					);
 					green = Interpolate(
-						Interpolate(CompositeMediaChannel(media!, topLeftOffset, 1, sourceFirst.G), CompositeMediaChannel(media!, topRightOffset, 1, sourceFirst.G), horizontalAmount),
-						Interpolate(CompositeMediaChannel(media!, bottomLeftOffset, 1, sourceFirst.G), CompositeMediaChannel(media!, bottomRightOffset, 1, sourceFirst.G), horizontalAmount),
-						verticalAmount);
+						Interpolate(
+							CompositeMediaChannel(media!, topLeftOffset, 1, sourceFirst.G),
+							CompositeMediaChannel(media!, topRightOffset, 1, sourceFirst.G),
+							horizontalAmount
+						),
+						Interpolate(
+							CompositeMediaChannel(media!, bottomLeftOffset, 1, sourceFirst.G),
+							CompositeMediaChannel(media!, bottomRightOffset, 1, sourceFirst.G),
+							horizontalAmount
+						),
+						verticalAmount
+					);
 					red = Interpolate(
-						Interpolate(CompositeMediaChannel(media!, topLeftOffset, 2, sourceFirst.R), CompositeMediaChannel(media!, topRightOffset, 2, sourceFirst.R), horizontalAmount),
-						Interpolate(CompositeMediaChannel(media!, bottomLeftOffset, 2, sourceFirst.R), CompositeMediaChannel(media!, bottomRightOffset, 2, sourceFirst.R), horizontalAmount),
-						verticalAmount);
+						Interpolate(
+							CompositeMediaChannel(media!, topLeftOffset, 2, sourceFirst.R),
+							CompositeMediaChannel(media!, topRightOffset, 2, sourceFirst.R),
+							horizontalAmount
+						),
+						Interpolate(
+							CompositeMediaChannel(media!, bottomLeftOffset, 2, sourceFirst.R),
+							CompositeMediaChannel(media!, bottomRightOffset, 2, sourceFirst.R),
+							horizontalAmount
+						),
+						verticalAmount
+					);
 					colorTransform.Apply(red, green, blue, out red, out green, out blue);
 				}
 				else if (useGradient)
@@ -439,17 +457,15 @@ internal static class LinuxHomepageBackgroundMask
 		int width,
 		int height,
 		byte[] output,
-		int maskScale = 1)
+		int maskScale = 1
+	)
 	{
 		int pixels = checked(width * height);
 		int bytes = checked(pixels * 4);
 		int normalizedMaskScale = Math.Max(1, maskScale);
 		int maskWidth = (width + normalizedMaskScale - 1) / normalizedMaskScale;
 		int maskHeight = (height + normalizedMaskScale - 1) / normalizedMaskScale;
-		if (source.Length < bytes
-			|| mask.Length < checked(maskWidth * maskHeight)
-			|| background.Length < bytes
-			|| output.Length < bytes)
+		if (source.Length < bytes || mask.Length < checked(maskWidth * maskHeight) || background.Length < bytes || output.Length < bytes)
 			throw new ArgumentException("The homepage mask composition buffers do not match the requested dimensions");
 		HomepageBackgroundSourceKeys sourceKeys = HomepageBackgroundSourceKeys.ReadConfigured();
 		Action<int> applyRow = y =>
@@ -480,7 +496,8 @@ internal static class LinuxHomepageBackgroundMask
 						source[offset + 2],
 						source[offset + 1],
 						source[offset],
-						sourceKeys);
+						sourceKeys
+					);
 					int blue = Math.Clamp(source[offset] + background[offset] - sourceKey.Blue, 0, 255);
 					int green = Math.Clamp(source[offset + 1] + background[offset + 1] - sourceKey.Green, 0, 255);
 					int red = Math.Clamp(source[offset + 2] + background[offset + 2] - sourceKey.Red, 0, 255);
@@ -512,15 +529,12 @@ internal static class LinuxHomepageBackgroundMask
 		int mediaHeight,
 		byte[] output,
 		int[]? mediaXMap = null,
-		int[]? mediaYMap = null)
+		int[]? mediaYMap = null
+	)
 	{
 		int pixels = checked(width * height);
 		int bytes = checked(pixels * 4);
-		if (width <= 0
-			|| height <= 0
-			|| source.Length < bytes
-			|| mask.Length < pixels
-			|| output.Length < bytes)
+		if (width <= 0 || height <= 0 || source.Length < bytes || mask.Length < pixels || output.Length < bytes)
 			throw new ArgumentException("The homepage composition buffers do not match the requested dimensions");
 
 		Color sourceFirst = ParseColor(settings.Color, Color.FromRgb(18, 18, 21));
@@ -530,7 +544,8 @@ internal static class LinuxHomepageBackgroundMask
 		Color first = Color.FromRgb(firstRed, firstGreen, firstBlue);
 		HomepageBackgroundSourceKeys sourceKeys = HomepageBackgroundSourceKeys.ReadConfigured();
 		bool useGradient = settings.Mode == "Gradient";
-		bool useMedia = settings.Mode == "Media"
+		bool useMedia =
+			settings.Mode == "Media"
 			&& media != null
 			&& mediaWidth > 0
 			&& mediaHeight > 0
@@ -559,13 +574,9 @@ internal static class LinuxHomepageBackgroundMask
 			if (mediaYMap == null || mediaYMap.Length < height)
 				mediaYMap = new int[height];
 			for (int x = 0; x < width; x++)
-				mediaXMap[x] = CreateMediaMapCoordinate(
-					mediaStartX + (x + 0.5d) * mediaVisibleWidth / width - 0.5d,
-					mediaWidth);
+				mediaXMap[x] = CreateMediaMapCoordinate(mediaStartX + (x + 0.5d) * mediaVisibleWidth / width - 0.5d, mediaWidth);
 			for (int y = 0; y < height; y++)
-				mediaYMap[y] = CreateMediaMapCoordinate(
-					mediaStartY + (y + 0.5d) * mediaVisibleHeight / height - 0.5d,
-					mediaHeight);
+				mediaYMap[y] = CreateMediaMapCoordinate(mediaStartY + (y + 0.5d) * mediaVisibleHeight / height - 0.5d, mediaHeight);
 		}
 		int[]? horizontalMediaMap = mediaXMap;
 		int[]? verticalMediaMap = mediaYMap;
@@ -578,9 +589,8 @@ internal static class LinuxHomepageBackgroundMask
 			int mediaTopRow = useMedia ? (verticalCoordinate >> 8) * mediaWidth : 0;
 			int mediaBottomRow = useMedia ? Math.Min((verticalCoordinate >> 8) + 1, mediaHeight - 1) * mediaWidth : 0;
 			int verticalAmount = verticalCoordinate & 255;
-			double gradientAmount = vectorLength > 0d
-				? (((0.5d / width) - startX) * vectorX + (((y + 0.5d) / height) - startY) * vectorY) / vectorLength
-				: 0d;
+			double gradientAmount =
+				vectorLength > 0d ? (((0.5d / width) - startX) * vectorX + (((y + 0.5d) / height) - startY) * vectorY) / vectorLength : 0d;
 			double gradientStep = vectorLength > 0d ? vectorX / width / vectorLength : 0d;
 			for (int x = 0; x < width; x++, pixel++, offset += 4)
 			{
@@ -609,12 +619,36 @@ internal static class LinuxHomepageBackgroundMask
 					int topRightOffset = (mediaTopRow + mediaRight) * 4;
 					int bottomLeftOffset = (mediaBottomRow + mediaLeft) * 4;
 					int bottomRightOffset = (mediaBottomRow + mediaRight) * 4;
-					byte topBlue = Interpolate(CompositeMediaChannel(media!, topLeftOffset, 0, sourceFirst.B), CompositeMediaChannel(media!, topRightOffset, 0, sourceFirst.B), horizontalAmount);
-					byte topGreen = Interpolate(CompositeMediaChannel(media!, topLeftOffset, 1, sourceFirst.G), CompositeMediaChannel(media!, topRightOffset, 1, sourceFirst.G), horizontalAmount);
-					byte topRed = Interpolate(CompositeMediaChannel(media!, topLeftOffset, 2, sourceFirst.R), CompositeMediaChannel(media!, topRightOffset, 2, sourceFirst.R), horizontalAmount);
-					byte bottomBlue = Interpolate(CompositeMediaChannel(media!, bottomLeftOffset, 0, sourceFirst.B), CompositeMediaChannel(media!, bottomRightOffset, 0, sourceFirst.B), horizontalAmount);
-					byte bottomGreen = Interpolate(CompositeMediaChannel(media!, bottomLeftOffset, 1, sourceFirst.G), CompositeMediaChannel(media!, bottomRightOffset, 1, sourceFirst.G), horizontalAmount);
-					byte bottomRed = Interpolate(CompositeMediaChannel(media!, bottomLeftOffset, 2, sourceFirst.R), CompositeMediaChannel(media!, bottomRightOffset, 2, sourceFirst.R), horizontalAmount);
+					byte topBlue = Interpolate(
+						CompositeMediaChannel(media!, topLeftOffset, 0, sourceFirst.B),
+						CompositeMediaChannel(media!, topRightOffset, 0, sourceFirst.B),
+						horizontalAmount
+					);
+					byte topGreen = Interpolate(
+						CompositeMediaChannel(media!, topLeftOffset, 1, sourceFirst.G),
+						CompositeMediaChannel(media!, topRightOffset, 1, sourceFirst.G),
+						horizontalAmount
+					);
+					byte topRed = Interpolate(
+						CompositeMediaChannel(media!, topLeftOffset, 2, sourceFirst.R),
+						CompositeMediaChannel(media!, topRightOffset, 2, sourceFirst.R),
+						horizontalAmount
+					);
+					byte bottomBlue = Interpolate(
+						CompositeMediaChannel(media!, bottomLeftOffset, 0, sourceFirst.B),
+						CompositeMediaChannel(media!, bottomRightOffset, 0, sourceFirst.B),
+						horizontalAmount
+					);
+					byte bottomGreen = Interpolate(
+						CompositeMediaChannel(media!, bottomLeftOffset, 1, sourceFirst.G),
+						CompositeMediaChannel(media!, bottomRightOffset, 1, sourceFirst.G),
+						horizontalAmount
+					);
+					byte bottomRed = Interpolate(
+						CompositeMediaChannel(media!, bottomLeftOffset, 2, sourceFirst.R),
+						CompositeMediaChannel(media!, bottomRightOffset, 2, sourceFirst.R),
+						horizontalAmount
+					);
 					backgroundBlue = Interpolate(topBlue, bottomBlue, verticalAmount);
 					backgroundGreen = Interpolate(topGreen, bottomGreen, verticalAmount);
 					backgroundRed = Interpolate(topRed, bottomRed, verticalAmount);
@@ -624,7 +658,8 @@ internal static class LinuxHomepageBackgroundMask
 						backgroundBlue,
 						out backgroundRed,
 						out backgroundGreen,
-						out backgroundBlue);
+						out backgroundBlue
+					);
 				}
 				else if (useGradient)
 				{
@@ -638,14 +673,16 @@ internal static class LinuxHomepageBackgroundMask
 						backgroundBlue,
 						out backgroundRed,
 						out backgroundGreen,
-						out backgroundBlue);
+						out backgroundBlue
+					);
 				}
 
 				HomepageBackgroundSourceKey sourceKey = NearestSourceKey(
 					source[offset + 2],
 					source[offset + 1],
 					source[offset],
-					sourceKeys);
+					sourceKeys
+				);
 				int overlayBlue = Math.Clamp(source[offset] + backgroundBlue - sourceKey.Blue, 0, 255);
 				int overlayGreen = Math.Clamp(source[offset + 1] + backgroundGreen - sourceKey.Green, 0, 255);
 				int overlayRed = Math.Clamp(source[offset + 2] + backgroundRed - sourceKey.Red, 0, 255);
@@ -692,9 +729,11 @@ internal static class LinuxHomepageBackgroundMask
 
 	private static Color ParseColor(string value, Color fallback)
 	{
-		if (value.Length == 7
+		if (
+			value.Length == 7
 			&& value[0] == '#'
-			&& int.TryParse(value.AsSpan(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int rgb))
+			&& int.TryParse(value.AsSpan(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int rgb)
+		)
 		{
 			return Color.FromRgb((byte)(rgb >> 16), (byte)(rgb >> 8), (byte)rgb);
 		}
@@ -706,7 +745,8 @@ internal sealed class LinuxHomepageOverlayWindow : Window
 {
 	internal LinuxHomepageOverlayWindow(Border surface, int surfaceId)
 	{
-		Title = "Voidstrap Homepage Background Overlay "
+		Title =
+			"Voidstrap Homepage Background Overlay "
 			+ Environment.ProcessId.ToString(CultureInfo.InvariantCulture)
 			+ "-"
 			+ surfaceId.ToString(CultureInfo.InvariantCulture);
@@ -737,9 +777,8 @@ internal sealed class LinuxHomepageBackgroundOverlay : IDisposable
 	private bool _trackerSubscribed;
 	private int _disposed;
 
-	public static bool IsSupported => Voidstrap.Utility.Platform.IsLinux
-		&& LinuxOverlaySurface.IsSupported
-		&& LinuxWindowInterop.HasActiveX11Compositor;
+	public static bool IsSupported =>
+		Voidstrap.Utility.Platform.IsLinux && LinuxOverlaySurface.IsSupported && LinuxWindowInterop.HasActiveX11Compositor;
 
 	public bool IsDisposed => Volatile.Read(ref _disposed) != 0;
 	public bool IsSafeToRelease => IsDisposed && _renderer == null && _trackerLease == null;
@@ -751,9 +790,8 @@ internal sealed class LinuxHomepageBackgroundOverlay : IDisposable
 	internal string NativeTitle => _renderer?.NativeTitle ?? string.Empty;
 	internal string NativeFailure => _renderer?.NativeFailure ?? string.Empty;
 
-	public LinuxHomepageBackgroundOverlay() : this(false)
-	{
-	}
+	public LinuxHomepageBackgroundOverlay()
+		: this(false) { }
 
 	internal LinuxHomepageBackgroundOverlay(bool forceRenderer)
 	{
@@ -833,8 +871,8 @@ internal sealed class LinuxHomepageBackgroundOverlay : IDisposable
 	{
 		if (IsDisposed || _renderer is { IsDisposed: false })
 			return;
-		Application application = Application.Current
-			?? throw new InvalidOperationException("The Linux homepage overlay needs an active WPF application");
+		Application application =
+			Application.Current ?? throw new InvalidOperationException("The Linux homepage overlay needs an active WPF application");
 		Window? previousMainWindow = application.MainWindow;
 		Window? mainWindowGuard = null;
 		try
@@ -848,8 +886,7 @@ internal sealed class LinuxHomepageBackgroundOverlay : IDisposable
 		}
 		finally
 		{
-			if (ReferenceEquals(application.MainWindow, mainWindowGuard)
-				|| application.MainWindow is LinuxHomepageOverlayWindow)
+			if (ReferenceEquals(application.MainWindow, mainWindowGuard) || application.MainWindow is LinuxHomepageOverlayWindow)
 				application.MainWindow = previousMainWindow!;
 			mainWindowGuard?.Close();
 		}
@@ -978,7 +1015,7 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 		{
 			Stretch = Stretch.Fill,
 			IsHitTestVisible = false,
-			SnapsToDevicePixels = true
+			SnapsToDevicePixels = true,
 		};
 		_surface = new Border
 		{
@@ -986,7 +1023,7 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 			Opacity = 0d,
 			IsHitTestVisible = false,
 			SnapsToDevicePixels = true,
-			Child = _image
+			Child = _image,
 		};
 		_window = new LinuxHomepageOverlayWindow(_surface, Interlocked.Increment(ref _nextSurfaceId));
 		LinuxOverlaySurface.ReleaseMainWindowClaim(_window);
@@ -1000,11 +1037,14 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 			if (!_window.IsVisible)
 				throw new InvalidOperationException("The Linux homepage overlay surface closed during startup");
 			ScheduleNativeFinalization();
-			_renderTask = Task.Factory.StartNew(
-				() => RunAsync(_cancellation.SafeToken()),
-				CancellationToken.None,
-				TaskCreationOptions.LongRunning,
-				TaskScheduler.Default).Unwrap();
+			_renderTask = Task
+				.Factory.StartNew(
+					() => RunAsync(_cancellation.SafeToken()),
+					CancellationToken.None,
+					TaskCreationOptions.LongRunning,
+					TaskScheduler.Default
+				)
+				.Unwrap();
 			Interlocked.Exchange(ref _startupComplete, 1);
 		}
 		catch
@@ -1015,9 +1055,7 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 			{
 				_cancellation.Cancel();
 			}
-			catch (ObjectDisposedException)
-			{
-			}
+			catch (ObjectDisposedException) { }
 			StopNativeFinalization();
 			_window.SourceInitialized -= OnWindowSourceInitialized;
 			_window.Loaded -= OnWindowLoaded;
@@ -1044,10 +1082,7 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 
 	private void ScheduleNativeFinalization()
 	{
-		if (IsDisposed
-			|| Volatile.Read(ref _stopping) != 0
-			|| _nativeFinalized
-			|| Interlocked.Exchange(ref _nativeFinalizePending, 1) != 0)
+		if (IsDisposed || Volatile.Read(ref _stopping) != 0 || _nativeFinalized || Interlocked.Exchange(ref _nativeFinalizePending, 1) != 0)
 			return;
 		try
 		{
@@ -1068,10 +1103,7 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 			return;
 		if (_nativeFinalizeTimer != null)
 			return;
-		_nativeFinalizeTimer = new DispatcherTimer(DispatcherPriority.Loaded)
-		{
-			Interval = TimeSpan.FromMilliseconds(100)
-		};
+		_nativeFinalizeTimer = new DispatcherTimer(DispatcherPriority.Loaded) { Interval = TimeSpan.FromMilliseconds(100) };
 		_nativeFinalizeTimer.Tick += OnNativeFinalizeTick;
 		_nativeFinalizeTimer.Start();
 	}
@@ -1124,8 +1156,7 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 		}
 		List<nint> candidates = new();
 #if CROSSPLAT
-		if (ProGpuWpfDiagnostics.TryGetWindowHost(_window, out ProGpuWpfWindowHost? host)
-			&& host?.SilkWindow?.Native?.X11 is { } x11)
+		if (ProGpuWpfDiagnostics.TryGetWindowHost(_window, out ProGpuWpfWindowHost? host) && host?.SilkWindow?.Native?.X11 is { } x11)
 		{
 			nint portableHandle = (nint)x11.Window;
 			if (portableHandle != 0)
@@ -1139,7 +1170,8 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 			candidates.Add(ensuredHandle);
 		if (candidates.Count == 0)
 		{
-			_nativeFailure = "native surface discovery, WPF handle 0x" + ensuredHandle.ToInt64().ToString("x", CultureInfo.InvariantCulture);
+			_nativeFailure =
+				"native surface discovery, WPF handle 0x" + ensuredHandle.ToInt64().ToString("x", CultureInfo.InvariantCulture);
 			return false;
 		}
 
@@ -1177,7 +1209,10 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 		Interlocked.Exchange(ref _nativeFailureQueued, 0);
 		StopNativeFinalization();
 		if (Interlocked.Exchange(ref _nativeStartedLogged, 1) == 0)
-			App.Logger.WriteLine("LinuxHomepageBackground", "Started the Sober homepage renderer with Linux color keys #121215 and #121218");
+			App.Logger.WriteLine(
+				"LinuxHomepageBackground",
+				"Started the Sober homepage renderer with Linux color keys #121215 and #121218"
+			);
 		return true;
 	}
 
@@ -1192,29 +1227,41 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 			ReleaseNativeCandidate(handle);
 			return false;
 		}
-		if (!LinuxWindowInterop.TryPrepareOverlayWindow(handle)
+		if (
+			!LinuxWindowInterop.TryPrepareOverlayWindow(handle)
 			|| !LinuxWindowInterop.IsLiveWindow(handle)
 			|| !LinuxWindowInterop.IsPreparedOverlayWindow(handle)
-			|| !LinuxWindowInterop.IsOverrideRedirectWindow(handle))
+			|| !LinuxWindowInterop.IsOverrideRedirectWindow(handle)
+		)
 		{
 			failure = "override-redirect preparation";
 			ReleaseNativeCandidate(handle);
 			return false;
 		}
-		if (!LinuxWindowInterop.TryMoveResize(handle, ParkedPosition, ParkedPosition, 1, 1)
-			|| !LinuxWindowInterop.TryGetWindowGeometry(handle, out int parkedLeft, out int parkedTop, out int parkedWidth, out int parkedHeight)
+		if (
+			!LinuxWindowInterop.TryMoveResize(handle, ParkedPosition, ParkedPosition, 1, 1)
+			|| !LinuxWindowInterop.TryGetWindowGeometry(
+				handle,
+				out int parkedLeft,
+				out int parkedTop,
+				out int parkedWidth,
+				out int parkedHeight
+			)
 			|| parkedLeft != ParkedPosition
 			|| parkedTop != ParkedPosition
 			|| parkedWidth != 1
-			|| parkedHeight != 1)
+			|| parkedHeight != 1
+		)
 		{
 			failure = "post-prepare native parking";
 			ReleaseNativeCandidate(handle);
 			return false;
 		}
-		if (!LinuxWindowInterop.TrySetClickThrough(handle)
+		if (
+			!LinuxWindowInterop.TrySetClickThrough(handle)
 			|| !LinuxWindowInterop.TryGetInputShapeRectangleCount(handle, out int inputRectangles)
-			|| inputRectangles != 0)
+			|| inputRectangles != 0
+		)
 		{
 			failure = "empty native input shape";
 			ReleaseNativeCandidate(handle);
@@ -1333,7 +1380,8 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 					nextCompositorCheck = now + 2000;
 				}
 				bool hubActive = compositorAvailable && OverlayHub.HomepageBackgroundActive;
-				bool focusedGeometry = hubActive
+				bool focusedGeometry =
+					hubActive
 					&& TryResolveFocusedGeometry(sourceWindow, out surfaceLeft, out surfaceTop, out surfaceWidth, out surfaceHeight);
 				if (focusedGeometry)
 				{
@@ -1360,7 +1408,10 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 				if (!compositorAvailable)
 				{
 					if (Interlocked.Exchange(ref _compositorFailureLogged, 1) == 0)
-						App.Logger.WriteLine("LinuxHomepageBackground", "The X11 compositor is unavailable, so the homepage overlay is parked until it recovers");
+						App.Logger.WriteLine(
+							"LinuxHomepageBackground",
+							"The X11 compositor is unavailable, so the homepage overlay is parked until it recovers"
+						);
 				}
 				else
 				{
@@ -1453,7 +1504,10 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 						}
 						ParkOverlay();
 						if (Interlocked.Exchange(ref _inputFailureLogged, 1) == 0)
-							App.Logger.WriteLine("LinuxHomepageBackground", "Input passthrough is unavailable, so the homepage overlay will remain disabled");
+							App.Logger.WriteLine(
+								"LinuxHomepageBackground",
+								"Input passthrough is unavailable, so the homepage overlay will remain disabled"
+							);
 						await Task.Delay(250, token).ConfigureAwait(false);
 						continue;
 					}
@@ -1470,36 +1524,39 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 					ref hasMediaFrame,
 					ref mediaWidth,
 					ref mediaHeight,
-					targetRefreshHz);
+					targetRefreshHz
+				);
 				bool mediaUpdated = false;
 				if (media != null)
 				{
-					media.TryReadFrame(mediaVersion, (pixels, width, height, version) =>
-					{
-						int length = checked(width * height * 4);
-						if (mediaUpload.Length != length)
-							mediaUpload = new byte[length];
-						Buffer.BlockCopy(pixels, 0, mediaUpload, 0, length);
-						mediaWidth = width;
-						mediaHeight = height;
-						mediaVersion = version;
-						mediaUpdated = true;
-						hasMediaFrame = true;
-					});
+					media.TryReadFrame(
+						mediaVersion,
+						(pixels, width, height, version) =>
+						{
+							int length = checked(width * height * 4);
+							if (mediaUpload.Length != length)
+								mediaUpload = new byte[length];
+							Buffer.BlockCopy(pixels, 0, mediaUpload, 0, length);
+							mediaWidth = width;
+							mediaHeight = height;
+							mediaVersion = version;
+							mediaUpdated = true;
+							hasMediaFrame = true;
+						}
+					);
 				}
 
 				bool maskUpdated = false;
 				bool geometryChanged = false;
 				long pixels = (long)surfaceWidth * surfaceHeight;
-				geometryChanged = !_nativePositioned
+				geometryChanged =
+					!_nativePositioned
 					|| _nativeLeft != surfaceLeft
 					|| _nativeTop != surfaceTop
 					|| _nativeWidth != surfaceWidth
 					|| _nativeHeight != surfaceHeight;
 				int requestedMaskScale = targetRefreshHz >= 120d ? 2 : 1;
-				bool buffersChanged = surfaceWidth != bufferWidth
-					|| surfaceHeight != bufferHeight
-					|| requestedMaskScale != maskScale;
+				bool buffersChanged = surfaceWidth != bufferWidth || surfaceHeight != bufferHeight || requestedMaskScale != maskScale;
 				if (buffersChanged)
 				{
 					int count = checked((int)pixels);
@@ -1520,8 +1577,7 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 					hasCapturedSource = false;
 				}
 
-				bool damageReported = windowDamage != 0
-					&& LinuxWindowInterop.TryConsumeWindowDamage(windowDamage, damageEventType);
+				bool damageReported = windowDamage != 0 && LinuxWindowInterop.TryConsumeWindowDamage(windowDamage, damageEventType);
 				if (damageReported)
 					LinuxWindowInterop.RefreshWindowCapturePixmap(sourceWindow.Hwnd);
 				bool layerFrame = sourceWindow.Hwnd == 0 && LinuxGameOverlay.FramesAvailable;
@@ -1532,15 +1588,27 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 				{
 					Interlocked.Exchange(ref _captureFailureLogged, 0);
 				}
-				else if ((layerFrame
-						? TryReadLayerFrame(ref layerPixels, ref layerSequence, pendingCapture, bufferWidth, bufferHeight, ref captureTicks, out int capturedWidth, out int capturedHeight)
-						: TryCaptureFrame(sourceWindow.Hwnd, pendingCapture, ref captureTicks, out capturedWidth, out capturedHeight))
+				else if (
+					(
+						layerFrame
+							? TryReadLayerFrame(
+								ref layerPixels,
+								ref layerSequence,
+								pendingCapture,
+								bufferWidth,
+								bufferHeight,
+								ref captureTicks,
+								out int capturedWidth,
+								out int capturedHeight
+							)
+							: TryCaptureFrame(sourceWindow.Hwnd, pendingCapture, ref captureTicks, out capturedWidth, out capturedHeight)
+					)
 					&& capturedWidth == bufferWidth
-					&& capturedHeight == bufferHeight)
+					&& capturedHeight == bufferHeight
+				)
 				{
 					captureAttempts++;
-					bool sourceChanged = !hasCapturedSource
-						|| !pendingCapture.AsSpan().SequenceEqual(capture);
+					bool sourceChanged = !hasCapturedSource || !pendingCapture.AsSpan().SequenceEqual(capture);
 					if (sourceChanged)
 					{
 						sourceChanges++;
@@ -1556,7 +1624,8 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 							bufferHeight,
 							maskScale,
 							ownWeights,
-							mask);
+							mask
+						);
 						if (LinuxWindowInterop.TryGetPointerPosition(out int pointerX, out int pointerY))
 							LinuxHomepageBackgroundMask.ExcludePointer(
 								ownWeights,
@@ -1564,10 +1633,9 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 								maskWidth,
 								maskHeight,
 								(pointerX - surfaceLeft) / maskScale,
-								(pointerY - surfaceTop) / maskScale);
-						int minimumRegion = Math.Min(
-							ownWeights.Length,
-							Math.Clamp(ownWeights.Length / 512, 64, 4096));
+								(pointerY - surfaceTop) / maskScale
+							);
+						int minimumRegion = Math.Min(ownWeights.Length, Math.Clamp(ownWeights.Length / 512, 64, 4096));
 						hasFreshMask = matched >= minimumRegion;
 						if (!hasFreshMask)
 							Array.Clear(mask);
@@ -1582,7 +1650,10 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 					hasCapturedSource = false;
 					Array.Clear(mask);
 					if (Interlocked.Exchange(ref _captureFailureLogged, 1) == 0)
-						App.Logger.WriteLine("LinuxHomepageBackground", "Sober pixels could not be captured, the overlay will stay transparent until capture recovers");
+						App.Logger.WriteLine(
+							"LinuxHomepageBackground",
+							"Sober pixels could not be captured, the overlay will stay transparent until capture recovers"
+						);
 				}
 
 				if (!hasFreshMask && surfaceVisible)
@@ -1632,15 +1703,16 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 					if (backgroundChanged)
 					{
 						LinuxHomepageBackgroundMask.BuildBackground(
-						bufferWidth,
-						bufferHeight,
-						settings,
-						hasMediaFrame ? mediaUpload : null,
-						mediaWidth,
-						mediaHeight,
-						background,
-						mediaXMap,
-						mediaYMap);
+							bufferWidth,
+							bufferHeight,
+							settings,
+							hasMediaFrame ? mediaUpload : null,
+							mediaWidth,
+							mediaHeight,
+							background,
+							mediaXMap,
+							mediaYMap
+						);
 					}
 					LinuxHomepageBackgroundMask.ApplyBackgroundMask(
 						capture,
@@ -1649,7 +1721,8 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 						bufferWidth,
 						bufferHeight,
 						output,
-						maskScale);
+						maskScale
+					);
 					composeTicks += Stopwatch.GetTimestamp() - composeStarted;
 					composedFrames++;
 					token.ThrowIfCancellationRequested();
@@ -1660,7 +1733,10 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 					{
 						ParkOverlay();
 						if (Interlocked.Exchange(ref _inputFailureLogged, 1) == 0)
-							App.Logger.WriteLine("LinuxHomepageBackground", "Input passthrough is unavailable, so the homepage overlay will remain disabled");
+							App.Logger.WriteLine(
+								"LinuxHomepageBackground",
+								"Input passthrough is unavailable, so the homepage overlay will remain disabled"
+							);
 						await DelayForRefreshAsync(frameStarted, targetRefreshHz, token).ConfigureAwait(false);
 						continue;
 					}
@@ -1684,7 +1760,9 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 						"LinuxHomepageBackground",
 						string.Create(
 							CultureInfo.InvariantCulture,
-							$"Cadence target {targetRefreshHz:F2} Hz, actual {presentedFrames / elapsedSeconds:F2} Hz, captured {captureAttempts / elapsedSeconds:F2} Hz, changed {sourceChanges / elapsedSeconds:F2} Hz, composed {composedFrames / elapsedSeconds:F2} Hz, dropped {dropped - reportedDrops}, capture {captureMilliseconds / Math.Max(1, captureAttempts):F2} ms, mask {maskMilliseconds / Math.Max(1, sourceChanges):F2} ms, compose {composeMilliseconds / Math.Max(1, composedFrames):F2} ms, upload {uploadMilliseconds / Math.Max(1, presentedFrames):F2} ms/frame"));
+							$"Cadence target {targetRefreshHz:F2} Hz, actual {presentedFrames / elapsedSeconds:F2} Hz, captured {captureAttempts / elapsedSeconds:F2} Hz, changed {sourceChanges / elapsedSeconds:F2} Hz, composed {composedFrames / elapsedSeconds:F2} Hz, dropped {dropped - reportedDrops}, capture {captureMilliseconds / Math.Max(1, captureAttempts):F2} ms, mask {maskMilliseconds / Math.Max(1, sourceChanges):F2} ms, compose {composeMilliseconds / Math.Max(1, composedFrames):F2} ms, upload {uploadMilliseconds / Math.Max(1, presentedFrames):F2} ms/frame"
+						)
+					);
 					reportedPresents = presented;
 					reportedDrops = dropped;
 					reportedPresentationTicks = presentationTicks;
@@ -1728,9 +1806,7 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 				}
 			}
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested) { }
 		catch (Exception ex)
 		{
 			ParkOverlay();
@@ -1738,9 +1814,7 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 			{
 				await SetSurfaceVisibilityAsync(false, CancellationToken.None).ConfigureAwait(false);
 			}
-			catch (InvalidOperationException)
-			{
-			}
+			catch (InvalidOperationException) { }
 			App.Logger.WriteException("LinuxHomepageBackground::Run", ex);
 			if (!token.IsCancellationRequested && !IsDisposed)
 			{
@@ -1783,7 +1857,8 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 		int height,
 		ref long elapsedTicks,
 		out int capturedWidth,
-		out int capturedHeight)
+		out int capturedHeight
+	)
 	{
 		capturedWidth = 0;
 		capturedHeight = 0;
@@ -1820,12 +1895,7 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 		}
 	}
 
-	private static bool TryCaptureFrame(
-		nint window,
-		byte[] destination,
-		ref long elapsedTicks,
-		out int width,
-		out int height)
+	private static bool TryCaptureFrame(nint window, byte[] destination, ref long elapsedTicks, out int width, out int height)
 	{
 		long started = Stopwatch.GetTimestamp();
 		bool captured = LinuxWindowInterop.TryCaptureWindowBgrx32(window, destination, out width, out height);
@@ -1848,10 +1918,7 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 		RestartAfterRenderFailure();
 	}
 
-	private static void StopMedia(
-		ref HomepageBackgroundMedia? media,
-		ref string activeMediaPath,
-		ref long mediaVersion)
+	private static void StopMedia(ref HomepageBackgroundMedia? media, ref string activeMediaPath, ref long mediaVersion)
 	{
 		media?.Dispose();
 		media = null;
@@ -1869,7 +1936,8 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 		ref bool hasMediaFrame,
 		ref int mediaWidth,
 		ref int mediaHeight,
-		double refreshHz)
+		double refreshHz
+	)
 	{
 		string requested = settings.Mode == "Media" ? settings.MediaPath : string.Empty;
 		bool visualChanged = false;
@@ -1930,16 +1998,15 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 
 		nint focused = LinuxWindowInterop.GetFocusedWindow();
 		nint active = LinuxWindowInterop.GetActiveTopLevelWindow();
-		bool isFocused = LinuxWindowInterop.IsSameOrDescendantWindow(focused, current.Hwnd)
+		bool isFocused =
+			LinuxWindowInterop.IsSameOrDescendantWindow(focused, current.Hwnd)
 			|| LinuxWindowInterop.IsSameOrDescendantWindow(active, current.Hwnd)
 			|| OverlayDiagnostics.IsOverlayHandle(focused)
 			|| OverlayDiagnostics.IsOverlayHandle(active);
 		if (!isFocused)
 			return false;
 
-		return LinuxWindowInterop.TryGetWindowGeometry(current.Hwnd, out left, out top, out width, out height)
-			&& width > 0
-			&& height > 0;
+		return LinuxWindowInterop.TryGetWindowGeometry(current.Hwnd, out left, out top, out width, out height) && width > 0 && height > 0;
 	}
 
 	private bool MoveOverlay(int left, int top, int width, int height)
@@ -1951,12 +2018,14 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 			nint handle = Volatile.Read(ref _overlayHandle);
 			if (handle == 0)
 				return false;
-			if (_nativePositioned
+			if (
+				_nativePositioned
 				&& !_nativeParked
 				&& _nativeLeft == left
 				&& _nativeTop == top
 				&& _nativeWidth == width
-				&& _nativeHeight == height)
+				&& _nativeHeight == height
+			)
 				return true;
 			if (!LinuxWindowInterop.TryMoveResize(handle, left, top, width, height))
 			{
@@ -2003,17 +2072,11 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 		{
 			_cancellation.Cancel();
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 		return ParkOverlay();
 	}
 
-	private async Task<(bool InputReady, byte[] Reusable)> PresentAsync(
-		byte[] pixels,
-		int width,
-		int height,
-		CancellationToken token)
+	private async Task<(bool InputReady, byte[] Reusable)> PresentAsync(byte[] pixels, int width, int height, CancellationToken token)
 	{
 		Dispatcher dispatcher = _window.Dispatcher;
 		if (dispatcher.HasShutdownStarted || dispatcher.HasShutdownFinished)
@@ -2133,7 +2196,12 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 					else
 					{
 						for (int row = 0; row < height; row++)
-							Buffer.MemoryCopy(source + row * sourceStride, destination + row * bitmap.BackBufferStride, sourceStride, sourceStride);
+							Buffer.MemoryCopy(
+								source + row * sourceStride,
+								destination + row * bitmap.BackBufferStride,
+								sourceStride,
+								sourceStride
+							);
 					}
 				}
 			}
@@ -2151,11 +2219,15 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 		if (dispatcher.HasShutdownStarted || dispatcher.HasShutdownFinished)
 			return false;
 		bool ready = false;
-			DispatcherOperation operation = dispatcher.InvokeAsync(() =>
+		DispatcherOperation operation = dispatcher.InvokeAsync(
+			() =>
 			{
 				if (!IsDisposed)
 					ready = TryFinalizeNativeSurface();
-			}, DispatcherPriority.Send, token);
+			},
+			DispatcherPriority.Send,
+			token
+		);
 		await operation.Task.ConfigureAwait(false);
 		return ready;
 	}
@@ -2165,11 +2237,15 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 		Dispatcher dispatcher = _window.Dispatcher;
 		if (dispatcher.HasShutdownStarted || dispatcher.HasShutdownFinished)
 			return;
-		DispatcherOperation operation = dispatcher.InvokeAsync(() =>
-		{
-			if (!IsDisposed)
-				_surface.Opacity = visible ? 1d : 0d;
-		}, DispatcherPriority.Send, token);
+		DispatcherOperation operation = dispatcher.InvokeAsync(
+			() =>
+			{
+				if (!IsDisposed)
+					_surface.Opacity = visible ? 1d : 0d;
+			},
+			DispatcherPriority.Send,
+			token
+		);
 		await operation.Task.ConfigureAwait(false);
 	}
 

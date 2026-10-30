@@ -15,7 +15,11 @@ internal static partial class FleasionCleanup
 	private const string CertificateName = "CN=Fleasion Proxy CA";
 	private const string HostsMarker = "# Fleasion proxy entry";
 	private static readonly string[] TaskNames = ["Fleasion_Autostart", "Fleasion-HostsWatchdog"];
-	private static readonly string[] FirewallRules = ["Fleasion - Allow inbound (Private,Public)", "Fleasion - Allow outbound (Private,Public)"];
+	private static readonly string[] FirewallRules =
+	[
+		"Fleasion - Allow inbound (Private,Public)",
+		"Fleasion - Allow outbound (Private,Public)",
+	];
 	private const string RunKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
 	private const string RunValue = "Fleasion";
 	private const string StorePackageName = "ROBLOXCorporation.RobloxGDK";
@@ -37,11 +41,23 @@ internal static partial class FleasionCleanup
 
 	private static string ConfigDirectory(string localAppData) => Path.Combine(localAppData, "FleasionNT");
 
-	private static string StartMenuShortcut => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Start Menu", "Programs", "Fleasion.lnk");
+	private static string StartMenuShortcut =>
+		Path.Combine(
+			Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+			"Microsoft",
+			"Windows",
+			"Start Menu",
+			"Programs",
+			"Fleasion.lnk"
+		);
 
 	internal static void WarnAtStartup()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows || App.State.Prop.FleasionWarningDismissedFor == LastAffectedVersion.ToString(3) || Interlocked.Exchange(ref _warned, 1) != 0)
+		if (
+			!Voidstrap.Utility.Platform.IsWindows
+			|| App.State.Prop.FleasionWarningDismissedFor == LastAffectedVersion.ToString(3)
+			|| Interlocked.Exchange(ref _warned, 1) != 0
+		)
 			return;
 		_ = Task.Run(WarnIfAffected);
 	}
@@ -55,10 +71,21 @@ internal static partial class FleasionCleanup
 				return;
 			string version = installation.Version is null ? "an older version of Fleasion" : "Fleasion " + installation.Version.ToString(3);
 			App.Logger.WriteLine(LogIdent, "Found " + version + ", which no longer works with Roblox");
-			string message = "You have " + version + " installed. Fleasion is currently down, and version " + LastAffectedVersion.ToString(3) + " and older will break Roblox.\n\n"
+			string message =
+				"You have "
+				+ version
+				+ " installed. Fleasion is currently down, and version "
+				+ LastAffectedVersion.ToString(3)
+				+ " and older will break Roblox.\n\n"
 				+ "Please uninstall Fleasion completely, then wait for an official fixed release before installing it again.\n\n"
 				+ "Uninstall closes Fleasion and Roblox, then removes Fleasion, its settings and cache, its certificate, hosts file entries, firewall rules and startup tasks, and clears the Roblox asset cache it changed. Windows asks for administrator permission.";
-			MessageBoxResult result = Frontend.ShowMessageBox(message, MessageBoxImage.Warning, "Uninstall Fleasion", "Don't remind me", "Not now");
+			MessageBoxResult result = Frontend.ShowMessageBox(
+				message,
+				MessageBoxImage.Warning,
+				"Uninstall Fleasion",
+				"Don't remind me",
+				"Not now"
+			);
 			if (result == MessageBoxResult.Yes)
 			{
 				Frontend.ShowMessageBox(Uninstall(), MessageBoxImage.Information);
@@ -98,7 +125,8 @@ internal static partial class FleasionCleanup
 		return new Installation(version, executables);
 	}
 
-	private static Version ToVersion(Match match) => new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
+	private static Version ToVersion(Match match) =>
+		new(int.Parse(match.Groups[1].Value), int.Parse(match.Groups[2].Value), int.Parse(match.Groups[3].Value));
 
 	private static Version? ReadLoggedVersion(string localAppData)
 	{
@@ -137,9 +165,7 @@ internal static partial class FleasionCleanup
 					if (path is not null && File.Exists(path))
 						found.Add(path);
 				}
-				catch (Exception ex) when (ex is Win32Exception or InvalidOperationException or NotSupportedException)
-				{
-				}
+				catch (Exception ex) when (ex is Win32Exception or InvalidOperationException or NotSupportedException) { }
 			}
 		}
 		return [.. found];
@@ -155,7 +181,8 @@ internal static partial class FleasionCleanup
 			string path = command.StartsWith('"') ? command[1..Math.Max(1, command.IndexOf('"', 1))] : command.Split(' ', 2)[0];
 			return File.Exists(path) && IsFleasionExecutable(path) ? path : null;
 		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.Security.SecurityException or ArgumentException)
+		catch (Exception ex)
+			when (ex is IOException or UnauthorizedAccessException or System.Security.SecurityException or ArgumentException)
 		{
 			return null;
 		}
@@ -182,7 +209,10 @@ internal static partial class FleasionCleanup
 				process.Dispose();
 				continue;
 			}
-			if (name.Equals("Fleasion", StringComparison.OrdinalIgnoreCase) || name.StartsWith("Fleasion-", StringComparison.OrdinalIgnoreCase))
+			if (
+				name.Equals("Fleasion", StringComparison.OrdinalIgnoreCase)
+				|| name.StartsWith("Fleasion-", StringComparison.OrdinalIgnoreCase)
+			)
 				matches.Add(process);
 			else
 				process.Dispose();
@@ -254,7 +284,10 @@ internal static partial class FleasionCleanup
 		if (!Voidstrap.Utility.RobloxAssetCache.ClearStorage())
 			problems.Add("part of the Roblox asset cache (close Roblox and try again)");
 
-		App.Logger.WriteLine(LogIdent, problems.Count == 0 ? "Fleasion was removed completely" : "Fleasion was removed except: " + string.Join("; ", problems));
+		App.Logger.WriteLine(
+			LogIdent,
+			problems.Count == 0 ? "Fleasion was removed completely" : "Fleasion was removed except: " + string.Join("; ", problems)
+		);
 		return problems.Count == 0
 			? "Fleasion was removed completely, and its cache and the Roblox asset cache were reset."
 			: "Fleasion was removed, but Voidstrap could not remove:\n\n" + string.Join("\n", problems);
@@ -272,7 +305,7 @@ internal static partial class FleasionCleanup
 				FileName = processPath,
 				UseShellExecute = true,
 				Verb = "runas",
-				Arguments = "-fleasionuninstall \"" + localAppData + "\""
+				Arguments = "-fleasionuninstall \"" + localAppData + "\"",
 			};
 			using Process? process = Process.Start(info);
 			if (process is null)
@@ -322,9 +355,12 @@ internal static partial class FleasionCleanup
 
 		RemoveCertificates(StoreLocation.LocalMachine, problems);
 
-		string localAppData = !string.IsNullOrWhiteSpace(userLocalAppData) && Path.IsPathFullyQualified(userLocalAppData) && Directory.Exists(userLocalAppData)
-			? userLocalAppData
-			: Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+		string localAppData =
+			!string.IsNullOrWhiteSpace(userLocalAppData)
+			&& Path.IsPathFullyQualified(userLocalAppData)
+			&& Directory.Exists(userLocalAppData)
+				? userLocalAppData
+				: Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 		foreach (string bundle in FindRobloxCertificateBundles(localAppData))
 			StripFleasionCertificates(bundle, problems);
 
@@ -342,7 +378,7 @@ internal static partial class FleasionCleanup
 				UseShellExecute = false,
 				CreateNoWindow = true,
 				RedirectStandardOutput = true,
-				RedirectStandardError = true
+				RedirectStandardError = true,
 			};
 			foreach (string argument in arguments)
 				info.ArgumentList.Add(argument);
@@ -376,7 +412,9 @@ internal static partial class FleasionCleanup
 		}
 		catch (Exception ex) when (ex is System.Security.Cryptography.CryptographicException or UnauthorizedAccessException)
 		{
-			problems.Add("the Fleasion certificate in the " + (location == StoreLocation.LocalMachine ? "computer" : "user") + " certificate store");
+			problems.Add(
+				"the Fleasion certificate in the " + (location == StoreLocation.LocalMachine ? "computer" : "user") + " certificate store"
+			);
 		}
 	}
 
@@ -399,9 +437,7 @@ internal static partial class FleasionCleanup
 				}
 			}
 		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
-		{
-		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException) { }
 
 		string[] versionRoots =
 		[
@@ -411,7 +447,7 @@ internal static partial class FleasionCleanup
 			Path.Combine(localAppData, "Fishstrap", "Versions"),
 			Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Roblox", "Versions"),
 			Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Roblox", "Versions"),
-			Paths.Versions
+			Paths.Versions,
 		];
 		foreach (string root in versionRoots)
 		{
@@ -422,9 +458,7 @@ internal static partial class FleasionCleanup
 				foreach (string directory in Directory.EnumerateDirectories(root))
 					versionDirectories.Add(directory);
 			}
-			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-			{
-			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 		}
 
 		foreach (string directory in versionDirectories)
@@ -507,9 +541,17 @@ internal static partial class FleasionCleanup
 			{
 				UseShellExecute = false,
 				CreateNoWindow = true,
-				RedirectStandardOutput = true
+				RedirectStandardOutput = true,
 			};
-			foreach (string argument in new[] { "-NoProfile", "-NonInteractive", "-Command", "(Get-AppxPackage -Name '" + StorePackageName + "' | Select-Object -First 1).PackageFullName" })
+			foreach (
+				string argument in new[]
+				{
+					"-NoProfile",
+					"-NonInteractive",
+					"-Command",
+					"(Get-AppxPackage -Name '" + StorePackageName + "' | Select-Object -First 1).PackageFullName",
+				}
+			)
 				info.ArgumentList.Add(argument);
 			using Process? process = Process.Start(info);
 			if (process is null)

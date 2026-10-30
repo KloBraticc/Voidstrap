@@ -82,7 +82,13 @@ internal static class PluginAnchors
 				}
 				if (Items.Count(i => i.Plugin == plugin) >= MaxWidgetsPerMod)
 					return Result(false, "a mod can attach at most " + MaxWidgetsPerMod + " widgets");
-				item = new Attached { Plugin = plugin, Id = id, Anchor = anchor, Placement = placement };
+				item = new Attached
+				{
+					Plugin = plugin,
+					Id = id,
+					Anchor = anchor,
+					Placement = placement,
+				};
 				Items.Add(item);
 			}
 		}
@@ -133,17 +139,20 @@ internal static class PluginAnchors
 				return;
 			_applyQueued = true;
 		}
-		dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
-		{
-			List<Attached> all;
-			lock (Gate)
+		dispatcher.BeginInvoke(
+			DispatcherPriority.Render,
+			new Action(() =>
 			{
-				_applyQueued = false;
-				all = Items.ToList();
-			}
-			foreach (Attached item in all)
-				Place(item);
-		}));
+				List<Attached> all;
+				lock (Gate)
+				{
+					_applyQueued = false;
+					all = Items.ToList();
+				}
+				foreach (Attached item in all)
+					Place(item);
+			})
+		);
 	}
 
 	internal static void RemovePlugins(IReadOnlySet<string> plugins)
@@ -169,22 +178,26 @@ internal static class PluginAnchors
 			if (!Items.Any(i => i.Plugin == plugin) || !PendingRefresh.Add(plugin))
 				return;
 		}
-		dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
-		{
-			List<Attached> mine;
-			lock (Gate)
+		dispatcher.BeginInvoke(
+			DispatcherPriority.Render,
+			new Action(() =>
 			{
-				PendingRefresh.Remove(plugin);
-				mine = Items.Where(i => i.Plugin == plugin).ToList();
-			}
-			foreach (Attached item in mine)
-				Place(item);
-		}));
+				List<Attached> mine;
+				lock (Gate)
+				{
+					PendingRefresh.Remove(plugin);
+					mine = Items.Where(i => i.Plugin == plugin).ToList();
+				}
+				foreach (Attached item in mine)
+					Place(item);
+			})
+		);
 	}
 
 	private static JsonObject Result(bool placed, string reason) => new() { ["isPlaced"] = placed, ["reason"] = reason };
 
-	private static Voidstrap.UI.Elements.Settings.MainWindow? MainWindow() => Application.Current?.Windows.OfType<Voidstrap.UI.Elements.Settings.MainWindow>().FirstOrDefault();
+	private static Voidstrap.UI.Elements.Settings.MainWindow? MainWindow() =>
+		Application.Current?.Windows.OfType<Voidstrap.UI.Elements.Settings.MainWindow>().FirstOrDefault();
 
 	private static string Place(Attached item)
 	{
@@ -207,21 +220,23 @@ internal static class PluginAnchors
 		}
 		if (item.Host?.Parent is Panel)
 			Remove(item);
-		ContentControl host = item.Host ?? new ContentControl
-		{
-			Margin = new Thickness(4, 0, 4, 0),
-			VerticalAlignment = VerticalAlignment.Center,
-			Focusable = false,
-			IsHitTestVisible = false,
-			Tag = "mod:" + item.Plugin + ":" + item.Id
-		};
+		ContentControl host =
+			item.Host
+			?? new ContentControl
+			{
+				Margin = new Thickness(4, 0, 4, 0),
+				VerticalAlignment = VerticalAlignment.Center,
+				Focusable = false,
+				IsHitTestVisible = false,
+				Tag = "mod:" + item.Plugin + ":" + item.Id,
+			};
 		int index = panel.Children.IndexOf(child);
 		int at = item.Placement switch
 		{
 			"before" => index,
 			"start" => 0,
 			"end" => panel.Children.Count,
-			_ => index + 1
+			_ => index + 1,
 		};
 		if (ReferenceEquals(panel, target) && item.Placement is "before" or "after")
 			at = item.Placement == "before" ? 0 : panel.Children.Count;
@@ -285,7 +300,7 @@ internal static class PluginAnchors
 				"start" => 0,
 				"end" => grid.RowDefinitions.Count,
 				"before" => child != null && !item.DirectGridTarget ? Grid.GetRow(child) : 0,
-				_ => child != null && !item.DirectGridTarget ? Grid.GetRow(child) + Grid.GetRowSpan(child) : grid.RowDefinitions.Count
+				_ => child != null && !item.DirectGridTarget ? Grid.GetRow(child) + Grid.GetRowSpan(child) : grid.RowDefinitions.Count,
 			};
 			row = Math.Clamp(row, 0, grid.RowDefinitions.Count);
 			foreach (UIElement existing in grid.Children)
@@ -322,58 +337,69 @@ internal static class PluginAnchors
 		string plugin = item.Plugin;
 		string id = item.Id;
 		string dir = Path.Combine(Paths.Plugins, plugin);
-		_ = Task.Run(() => PluginHost.RenderWidget(plugin, id)).ContinueWith(t =>
-		{
-			System.Text.Json.Nodes.JsonNode? tree = null;
-			if (t.IsFaulted)
-				PluginHost.Problem(plugin, "the widget " + id + " could not be drawn: " + PluginHost.Describe(t.Exception!.GetBaseException()));
-			else
-				tree = t.Result;
-			Dispatcher? dispatcher = Application.Current?.Dispatcher;
-			if (dispatcher == null || dispatcher.HasShutdownStarted)
-				return;
-			dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+		_ = Task.Run(() => PluginHost.RenderWidget(plugin, id))
+			.ContinueWith(t =>
 			{
-				try
-				{
-					if (!ReferenceEquals(item.Host, host))
-						return;
-					item.Host.Content = tree == null ? null : PluginUiRenderer.BuildTree(tree, dir);
-					if (item.Host.Parent is Grid hostGrid)
-						ApplyGridPlacement(item, hostGrid);
-					if (item.Host.Content is UIElement elem && !elem.IsHitTestVisible)
-						item.Host.IsHitTestVisible = false;
-					else if (item.Host.Content == null)
-						item.Host.IsHitTestVisible = false;
-					else
-						item.Host.IsHitTestVisible = true;
-					if (item.Host.Parent is Canvas)
+				System.Text.Json.Nodes.JsonNode? tree = null;
+				if (t.IsFaulted)
+					PluginHost.Problem(
+						plugin,
+						"the widget " + id + " could not be drawn: " + PluginHost.Describe(t.Exception!.GetBaseException())
+					);
+				else
+					tree = t.Result;
+				Dispatcher? dispatcher = Application.Current?.Dispatcher;
+				if (dispatcher == null || dispatcher.HasShutdownStarted)
+					return;
+				dispatcher.BeginInvoke(
+					DispatcherPriority.Background,
+					new Action(() =>
 					{
-						if (item.Host.Content is FrameworkElement fe)
+						try
 						{
-							double l = Canvas.GetLeft(fe);
-							if (!double.IsNaN(l)) Canvas.SetLeft(item.Host, l);
-							double t2 = Canvas.GetTop(fe);
-							if (!double.IsNaN(t2)) Canvas.SetTop(item.Host, t2);
-							double r = Canvas.GetRight(fe);
-							if (!double.IsNaN(r)) Canvas.SetRight(item.Host, r);
-							double b = Canvas.GetBottom(fe);
-							if (!double.IsNaN(b)) Canvas.SetBottom(item.Host, b);
+							if (!ReferenceEquals(item.Host, host))
+								return;
+							item.Host.Content = tree == null ? null : PluginUiRenderer.BuildTree(tree, dir);
+							if (item.Host.Parent is Grid hostGrid)
+								ApplyGridPlacement(item, hostGrid);
+							if (item.Host.Content is UIElement elem && !elem.IsHitTestVisible)
+								item.Host.IsHitTestVisible = false;
+							else if (item.Host.Content == null)
+								item.Host.IsHitTestVisible = false;
+							else
+								item.Host.IsHitTestVisible = true;
+							if (item.Host.Parent is Canvas)
+							{
+								if (item.Host.Content is FrameworkElement fe)
+								{
+									double l = Canvas.GetLeft(fe);
+									if (!double.IsNaN(l))
+										Canvas.SetLeft(item.Host, l);
+									double t2 = Canvas.GetTop(fe);
+									if (!double.IsNaN(t2))
+										Canvas.SetTop(item.Host, t2);
+									double r = Canvas.GetRight(fe);
+									if (!double.IsNaN(r))
+										Canvas.SetRight(item.Host, r);
+									double b = Canvas.GetBottom(fe);
+									if (!double.IsNaN(b))
+										Canvas.SetBottom(item.Host, b);
+								}
+							}
 						}
-					}
-				}
-				catch (Exception ex)
-				{
-					PluginHost.Problem(plugin, "the widget " + id + " could not be drawn: " + PluginHost.Describe(ex));
-				}
-				finally
-				{
-					item.Rendering = false;
-					if (version != item.RenderVersion && item.Host != null)
-						Render(item);
-				}
-			}));
-		});
+						catch (Exception ex)
+						{
+							PluginHost.Problem(plugin, "the widget " + id + " could not be drawn: " + PluginHost.Describe(ex));
+						}
+						finally
+						{
+							item.Rendering = false;
+							if (version != item.RenderVersion && item.Host != null)
+								Render(item);
+						}
+					})
+				);
+			});
 	}
 
 	private static void Remove(Attached item)
@@ -425,7 +451,12 @@ internal static class PluginAnchors
 		for (int depth = 0; depth < 5; depth++)
 		{
 			DependencyObject? parent = VisualTreeHelper.GetParent(child) ?? LogicalTreeHelper.GetParent(child);
-			if (parent is StackPanel or WrapPanel or DockPanel or Grid or Canvas && parent is Panel panel && child is UIElement element && panel.Children.Contains(element))
+			if (
+				parent is StackPanel or WrapPanel or DockPanel or Grid or Canvas
+				&& parent is Panel panel
+				&& child is UIElement element
+				&& panel.Children.Contains(element)
+			)
 				return (panel, element);
 			if (parent == null || parent is Window)
 				break;
@@ -474,7 +505,12 @@ internal static class PluginAnchors
 		{
 			if (result.Count >= MaxMapEntries)
 				break;
-			if (string.IsNullOrEmpty(element.Name) || element.Name.StartsWith("PART_", StringComparison.Ordinal) || !element.IsVisible || element.ActualWidth <= 0)
+			if (
+				string.IsNullOrEmpty(element.Name)
+				|| element.Name.StartsWith("PART_", StringComparison.Ordinal)
+				|| !element.IsVisible
+				|| element.ActualWidth <= 0
+			)
 				continue;
 			Rect bounds;
 			try
@@ -490,21 +526,23 @@ internal static class PluginAnchors
 				TextBlock t => t.Text,
 				HeaderedItemsControl h => h.Header?.ToString() ?? "",
 				ContentControl c when c.Content is string s => s,
-				_ => element.ToolTip as string ?? System.Windows.Automation.AutomationProperties.GetName(element)
+				_ => element.ToolTip as string ?? System.Windows.Automation.AutomationProperties.GetName(element),
 			};
 			FrameworkElement? parent = VisualTreeHelper.GetParent(element) as FrameworkElement;
-			result.Add(new JsonObject
-			{
-				["name"] = element.Name,
-				["type"] = element.GetType().Name,
-				["text"] = text.Length > 80 ? text[..80] : text,
-				["parent"] = parent?.Name ?? parent?.GetType().Name ?? "",
-				["x"] = Math.Round(bounds.X),
-				["y"] = Math.Round(bounds.Y),
-				["width"] = Math.Round(bounds.Width),
-				["height"] = Math.Round(bounds.Height),
-				["attachable"] = AttachablePanel(element).Panel != null
-			});
+			result.Add(
+				new JsonObject
+				{
+					["name"] = element.Name,
+					["type"] = element.GetType().Name,
+					["text"] = text.Length > 80 ? text[..80] : text,
+					["parent"] = parent?.Name ?? parent?.GetType().Name ?? "",
+					["x"] = Math.Round(bounds.X),
+					["y"] = Math.Round(bounds.Y),
+					["width"] = Math.Round(bounds.Width),
+					["height"] = Math.Round(bounds.Height),
+					["attachable"] = AttachablePanel(element).Panel != null,
+				}
+			);
 		}
 		return result;
 	}

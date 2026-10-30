@@ -27,7 +27,7 @@ public static partial class RobloxAudioRouting
 		new(6f, 0f, 0f),
 		new(-3f, 5f, 2f),
 		new(-4f, 3f, 1f),
-		new(0f, 0f, 5f)
+		new(0f, 0f, 5f),
 	];
 
 	private const int NoAudioSession = unchecked((int)0x80070057);
@@ -114,9 +114,7 @@ public static partial class RobloxAudioRouting
 					return device;
 				device.Dispose();
 			}
-			catch (COMException)
-			{
-			}
+			catch (COMException) { }
 		}
 		return enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
 	}
@@ -180,7 +178,12 @@ public static partial class RobloxAudioRouting
 				{
 					App.Settings.Prop.RobloxAudioOutputPersisted = selected.Length > 0;
 					App.Settings.SaveDeferred();
-					App.Logger?.WriteLine(LOG_IDENT, selected.Length > 0 ? "Roblox audio sent to the chosen output device" : "Roblox audio follows the system default device again");
+					App.Logger?.WriteLine(
+						LOG_IDENT,
+						selected.Length > 0
+							? "Roblox audio sent to the chosen output device"
+							: "Roblox audio follows the system default device again"
+					);
 					return;
 				}
 				if (hr != NoAudioSession || !IsRunning(processId))
@@ -193,9 +196,7 @@ public static partial class RobloxAudioRouting
 			if (!token.IsCancellationRequested)
 				App.Logger?.WriteLine(LOG_IDENT, "Roblox never opened its audio, so its output device was left unchanged");
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 	}
 
 	private static bool IsRunning(uint processId)
@@ -245,16 +246,12 @@ public static partial class RobloxAudioRouting
 		{
 			source.Cancel();
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 		try
 		{
 			loop?.Wait(4000);
 		}
-		catch (AggregateException)
-		{
-		}
+		catch (AggregateException) { }
 		source.Dispose();
 		App.Logger?.WriteLine(LOG_IDENT, "Roblox audio routing stopped");
 	}
@@ -307,9 +304,7 @@ public static partial class RobloxAudioRouting
 				await Task.Delay(LinuxRefreshMs, token).ConfigureAwait(false);
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger?.WriteException("RobloxAudioRouting::LinuxLoop", ex);

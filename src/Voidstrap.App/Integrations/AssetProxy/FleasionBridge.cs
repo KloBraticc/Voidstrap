@@ -11,9 +11,14 @@ internal static class FleasionBridge
 	internal static readonly System.Threading.SemaphoreSlim ConfigGate = new(1, 1);
 
 	private static string StatePath => Path.Combine(Paths.AssetProxy, "FleasionRouting.json");
-	internal static string ConfigDirectory => Voidstrap.Utility.Platform.IsLinux
-		? Path.Combine(Environment.GetEnvironmentVariable("XDG_CONFIG_HOME") ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".config"), "Fleasion")
-		: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "FleasionNT");
+	internal static string ConfigDirectory =>
+		Voidstrap.Utility.Platform.IsLinux
+			? Path.Combine(
+				Environment.GetEnvironmentVariable("XDG_CONFIG_HOME")
+					?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".config"),
+				"Fleasion"
+			)
+			: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "FleasionNT");
 	internal static bool HasPendingRestore => File.Exists(StatePath);
 	internal static bool IsRequested
 	{
@@ -21,7 +26,11 @@ internal static class FleasionBridge
 		{
 			try
 			{
-				if (ReadObject(Path.Combine(ConfigDirectory, "settings.json"))["proxy_features_enabled"] is JsonValue enabled && enabled.TryGetValue<bool>(out bool value) && !value)
+				if (
+					ReadObject(Path.Combine(ConfigDirectory, "settings.json"))["proxy_features_enabled"] is JsonValue enabled
+					&& enabled.TryGetValue<bool>(out bool value)
+					&& !value
+				)
 					return false;
 			}
 			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or InvalidOperationException)
@@ -31,7 +40,10 @@ internal static class FleasionBridge
 			if (App.Settings.Prop.Fleasion)
 				return ResolveExecutable() != null;
 			Process[] processes = FindProcesses();
-			try { return processes.Length > 0 && ResolveExecutable() != null; }
+			try
+			{
+				return processes.Length > 0 && ResolveExecutable() != null;
+			}
 			finally
 			{
 				foreach (Process process in processes)
@@ -69,7 +81,10 @@ internal static class FleasionBridge
 		}
 		if (Voidstrap.Utility.Platform.IsLinux && Directory.Exists(Paths.Fleasion))
 		{
-			string? installed = Directory.EnumerateFiles(Paths.Fleasion, "Fleasion*-Linux*").OrderByDescending(File.GetLastWriteTimeUtc).FirstOrDefault();
+			string? installed = Directory
+				.EnumerateFiles(Paths.Fleasion, "Fleasion*-Linux*")
+				.OrderByDescending(File.GetLastWriteTimeUtc)
+				.FirstOrDefault();
 			if (installed != null)
 				return installed;
 		}
@@ -85,8 +100,7 @@ internal static class FleasionBridge
 						return executable;
 				}
 				catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException or NotSupportedException)
-				{
-				}
+				{ }
 			}
 		}
 		finally
@@ -96,13 +110,18 @@ internal static class FleasionBridge
 		}
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{
-			foreach (string directory in (Environment.GetEnvironmentVariable("PATH") ?? "").Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries))
-				foreach (string name in names)
-				{
-					string candidate = Path.Combine(directory, name);
-					if (File.Exists(candidate))
-						return candidate;
-				}
+			foreach (
+				string directory in (Environment.GetEnvironmentVariable("PATH") ?? "").Split(
+					Path.PathSeparator,
+					StringSplitOptions.RemoveEmptyEntries
+				)
+			)
+			foreach (string name in names)
+			{
+				string candidate = Path.Combine(directory, name);
+				if (File.Exists(candidate))
+					return candidate;
+			}
 		}
 		return null;
 	}
@@ -116,15 +135,14 @@ internal static class FleasionBridge
 			try
 			{
 				string name = process.ProcessName;
-				keep = name.Equals("Fleasion", StringComparison.OrdinalIgnoreCase)
+				keep =
+					name.Equals("Fleasion", StringComparison.OrdinalIgnoreCase)
 					|| name.StartsWith("Fleasion-", StringComparison.OrdinalIgnoreCase)
 					|| name.StartsWith("Fleasion.App", StringComparison.OrdinalIgnoreCase);
 				if (keep)
 					matches.Add(process);
 			}
-			catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException or NotSupportedException)
-			{
-			}
+			catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException or NotSupportedException) { }
 			finally
 			{
 				if (!keep)
@@ -140,7 +158,8 @@ internal static class FleasionBridge
 			return new JsonObject();
 		if (new FileInfo(path).Length > 8388608)
 			throw new InvalidDataException("The Fleasion settings file is too large");
-		return JsonNode.Parse(File.ReadAllText(path)) as JsonObject ?? throw new InvalidDataException("Fleasion settings must be a JSON object");
+		return JsonNode.Parse(File.ReadAllText(path)) as JsonObject
+			?? throw new InvalidDataException("Fleasion settings must be a JSON object");
 	}
 
 	private static void WriteObject(string path, JsonObject value)
@@ -180,7 +199,9 @@ internal static class FleasionBridge
 		else
 		{
 			using Socket socket = new(AddressFamily.Unix, SocketType.Stream, ProtocolType.Unspecified);
-			await socket.ConnectAsync(new UnixDomainSocketEndPoint(Path.Combine(Path.GetTempPath(), "FleasionSingleInstanceControl")), token).ConfigureAwait(false);
+			await socket
+				.ConnectAsync(new UnixDomainSocketEndPoint(Path.Combine(Path.GetTempPath(), "FleasionSingleInstanceControl")), token)
+				.ConfigureAwait(false);
 			using NetworkStream stream = new(socket, false);
 			await stream.WriteAsync(Encoding.UTF8.GetBytes(command + "\n"), token).ConfigureAwait(false);
 		}
@@ -227,7 +248,11 @@ internal static class FleasionBridge
 				{
 					try
 					{
-						if (!process.HasExited && process.StartTime.ToUniversalTime() >= started && string.Equals(process.MainModule?.FileName, executable, StringComparison.OrdinalIgnoreCase))
+						if (
+							!process.HasExited
+							&& process.StartTime.ToUniversalTime() >= started
+							&& string.Equals(process.MainModule?.FileName, executable, StringComparison.OrdinalIgnoreCase)
+						)
 						{
 							selected = process;
 							initial.Dispose();
@@ -235,9 +260,8 @@ internal static class FleasionBridge
 							return process;
 						}
 					}
-					catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException or NotSupportedException)
-					{
-					}
+					catch (Exception ex)
+						when (ex is System.ComponentModel.Win32Exception or InvalidOperationException or NotSupportedException) { }
 				}
 			}
 			finally

@@ -39,7 +39,14 @@ public static class SavedAccounts
 
 	private static readonly SemaphoreSlim AccountStoreGate = new SemaphoreSlim(1, 1);
 
-	private static readonly string[] RobloxProcessNames = { "RobloxPlayerBeta", "RobloxStudioBeta", "RobloxPlayer", "RobloxStudio", "Roblox" };
+	private static readonly string[] RobloxProcessNames =
+	{
+		"RobloxPlayerBeta",
+		"RobloxStudioBeta",
+		"RobloxPlayer",
+		"RobloxStudio",
+		"Roblox",
+	};
 
 	private static readonly string[] LinuxRobloxProcessNames = { "sober", "Sober", "org.vinegarhq.Sober" };
 
@@ -57,7 +64,8 @@ public static class SavedAccounts
 
 	private static string PreviousSessionPath => Path.Combine(Paths.AccountBackups, "_previous_session.dat");
 
-	internal static string LiveCookiePath => Platform.IsLinux ? RobloxCookie.SoberCookiePath
+	internal static string LiveCookiePath =>
+		Platform.IsLinux ? RobloxCookie.SoberCookiePath
 		: Platform.IsMacOS ? Voidstrap.Platform.MacOS.MacOSBinaryCookies.RobloxPlayerStore
 		: App.RobloxCookiesFilePath;
 
@@ -111,11 +119,18 @@ public static class SavedAccounts
 			foreach (SavedAccount account in ReadStoredAccounts())
 			{
 				string path = DatPath(account);
-				if (string.Equals(RobloxCookie.ExtractCookieFromDat(path), previous, StringComparison.Ordinal) && RobloxCookie.WriteLoginFile(rotated, path, path))
+				if (
+					string.Equals(RobloxCookie.ExtractCookieFromDat(path), previous, StringComparison.Ordinal)
+					&& RobloxCookie.WriteLoginFile(rotated, path, path)
+				)
 					updated++;
 			}
 			string live = LiveCookiePath;
-			if (!string.IsNullOrEmpty(live) && string.Equals(RobloxCookie.ExtractCookieFromDat(live), previous, StringComparison.Ordinal) && RobloxCookie.WriteLoginFile(rotated, live, live))
+			if (
+				!string.IsNullOrEmpty(live)
+				&& string.Equals(RobloxCookie.ExtractCookieFromDat(live), previous, StringComparison.Ordinal)
+				&& RobloxCookie.WriteLoginFile(rotated, live, live)
+			)
 				updated++;
 			RobloxCookie.InvalidateCache();
 			App.Logger?.WriteLine(LogIdent, "Saved a rotated Roblox session in " + updated + " login file(s)");
@@ -138,9 +153,14 @@ public static class SavedAccounts
 		try
 		{
 			EnsureFolder();
-			List<SavedAccount> stored = ReadStoredAccounts().Where(a => !string.IsNullOrEmpty(a.DatFile) && File.Exists(DatPath(a))).ToList();
+			List<SavedAccount> stored = ReadStoredAccounts()
+				.Where(a => !string.IsNullOrEmpty(a.DatFile) && File.Exists(DatPath(a)))
+				.ToList();
 			bool changed = await MigrateLooseBackupsAsync(stored, token).ConfigureAwait(false);
-			List<SavedAccount> deduped = stored.GroupBy(a => a.UserId == 0 ? -stored.IndexOf(a) - 1 : a.UserId).Select(g => g.OrderByDescending(a => a.LastUsedUtc).First()).ToList();
+			List<SavedAccount> deduped = stored
+				.GroupBy(a => a.UserId == 0 ? -stored.IndexOf(a) - 1 : a.UserId)
+				.Select(g => g.OrderByDescending(a => a.LastUsedUtc).First())
+				.ToList();
 			if (changed || deduped.Count != stored.Count)
 				Write(deduped);
 			return deduped;
@@ -213,7 +233,14 @@ public static class SavedAccounts
 			string template = File.Exists(LiveCookiePath) ? LiveCookiePath : stored.Select(DatPath).FirstOrDefault(File.Exists) ?? "";
 			if (!RobloxCookie.WriteLoginFile(cookie, template, Path.Combine(Paths.AccountBackups, datName)))
 				return null;
-			SavedAccount result = existing ?? new SavedAccount { UserId = account.UserId, AddedUtc = DateTime.UtcNow, DatFile = datName };
+			SavedAccount result =
+				existing
+				?? new SavedAccount
+				{
+					UserId = account.UserId,
+					AddedUtc = DateTime.UtcNow,
+					DatFile = datName,
+				};
 			result.Username = account.Username;
 			result.DisplayName = account.DisplayName;
 			result.Expired = false;
@@ -257,7 +284,8 @@ public static class SavedAccounts
 			EnsureFolder();
 			List<SavedAccount> stored = ReadStoredAccounts();
 			SavedAccount? existing = stored.FirstOrDefault(item => item.UserId == account.UserId);
-			string datName = existing != null && !string.IsNullOrWhiteSpace(existing.DatFile) ? existing.DatFile : NewDatName(account.UserId);
+			string datName =
+				existing != null && !string.IsNullOrWhiteSpace(existing.DatFile) ? existing.DatFile : NewDatName(account.UserId);
 			CopyLoginFile(live, Path.Combine(Paths.AccountBackups, datName));
 			if (existing != null)
 			{
@@ -270,15 +298,18 @@ public static class SavedAccounts
 			else
 			{
 				DateTime now = DateTime.UtcNow;
-				stored.Insert(0, new SavedAccount
-				{
-					UserId = account.UserId,
-					Username = account.Username,
-					DisplayName = account.DisplayName,
-					DatFile = datName,
-					AddedUtc = now,
-					LastUsedUtc = now
-				});
+				stored.Insert(
+					0,
+					new SavedAccount
+					{
+						UserId = account.UserId,
+						Username = account.Username,
+						DisplayName = account.DisplayName,
+						DatFile = datName,
+						AddedUtc = now,
+						LastUsedUtc = now,
+					}
+				);
 				added = true;
 				App.Logger?.WriteLine(LogIdent, "Added the signed in account to the saved accounts");
 			}
@@ -319,8 +350,13 @@ public static class SavedAccounts
 					backedUp = true;
 					string? liveCookie = RobloxCookie.ExtractCookieFromDat(live);
 					using CancellationTokenSource timeout = new CancellationTokenSource(TimeSpan.FromSeconds(6.0));
-					RobloxAccount? outgoingAccount = string.IsNullOrEmpty(liveCookie) ? null : await RobloxCookie.GetAccountAsync(liveCookie, timeout.Token).ConfigureAwait(false);
-					SavedAccount? outgoing = outgoingAccount == null ? null : ReadStoredAccounts().FirstOrDefault(a => a.UserId == outgoingAccount.UserId && a.DatFile != target.DatFile);
+					RobloxAccount? outgoingAccount = string.IsNullOrEmpty(liveCookie)
+						? null
+						: await RobloxCookie.GetAccountAsync(liveCookie, timeout.Token).ConfigureAwait(false);
+					SavedAccount? outgoing =
+						outgoingAccount == null
+							? null
+							: ReadStoredAccounts().FirstOrDefault(a => a.UserId == outgoingAccount.UserId && a.DatFile != target.DatFile);
 					if (outgoing != null)
 						await CopyWithRetryAsync(live, DatPath(outgoing)).ConfigureAwait(false);
 				}
@@ -389,9 +425,7 @@ public static class SavedAccounts
 				if (File.Exists(staged))
 					File.Delete(staged);
 			}
-			catch (IOException)
-			{
-			}
+			catch (IOException) { }
 		}
 	}
 
@@ -421,7 +455,9 @@ public static class SavedAccounts
 	public static async Task<CurrentAccountInfo?> RefreshCurrentAsync(CancellationToken token = default)
 	{
 		string? cookie = SwitchingSupported ? RobloxCookie.ExtractCookieFromDat(LiveCookiePath) : RobloxCookie.Get();
-		RobloxAccount? account = string.IsNullOrEmpty(cookie) ? null : await RobloxCookie.GetAccountAsync(cookie, token).ConfigureAwait(false);
+		RobloxAccount? account = string.IsNullOrEmpty(cookie)
+			? null
+			: await RobloxCookie.GetAccountAsync(cookie, token).ConfigureAwait(false);
 		if (account == null)
 		{
 			bool hadOne = _current != null;
@@ -460,7 +496,10 @@ public static class SavedAccounts
 			List<long> chunk = missing.GetRange(i, Math.Min(100, missing.Count - i));
 			try
 			{
-				string url = "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" + string.Join(",", chunk) + "&size=150x150&format=Png&isCircular=false";
+				string url =
+					"https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds="
+					+ string.Join(",", chunk)
+					+ "&size=150x150&format=Png&isCircular=false";
 				using JsonDocument doc = JsonDocument.Parse(await Http.GetString(url, token).ConfigureAwait(false));
 				if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
 					continue;
@@ -508,9 +547,7 @@ public static class SavedAccounts
 				if (processes.Any(IsAlive))
 					return true;
 			}
-			catch (Exception ex) when (ex is InvalidOperationException or System.ComponentModel.Win32Exception)
-			{
-			}
+			catch (Exception ex) when (ex is InvalidOperationException or System.ComponentModel.Win32Exception) { }
 			finally
 			{
 				foreach (Process process in processes)
@@ -535,7 +572,8 @@ public static class SavedAccounts
 					{
 						process.Kill(true);
 					}
-					catch (Exception ex) when (ex is InvalidOperationException or System.ComponentModel.Win32Exception or NotSupportedException)
+					catch (Exception ex)
+						when (ex is InvalidOperationException or System.ComponentModel.Win32Exception or NotSupportedException)
 					{
 						App.Logger?.WriteLine(LogIdent, "A Roblox process could not be closed: " + ex.Message);
 					}
@@ -639,15 +677,17 @@ public static class SavedAccounts
 			}
 			if (account != null && stored.Any(a => a.UserId == account.UserId))
 				continue;
-			stored.Add(new SavedAccount
-			{
-				UserId = account?.UserId ?? 0,
-				Username = account?.Username ?? Path.GetFileNameWithoutExtension(name),
-				DisplayName = account?.DisplayName ?? "",
-				DatFile = name,
-				Expired = account == null,
-				AddedUtc = File.GetCreationTimeUtc(file)
-			});
+			stored.Add(
+				new SavedAccount
+				{
+					UserId = account?.UserId ?? 0,
+					Username = account?.Username ?? Path.GetFileNameWithoutExtension(name),
+					DisplayName = account?.DisplayName ?? "",
+					DatFile = name,
+					Expired = account == null,
+					AddedUtc = File.GetCreationTimeUtc(file),
+				}
+			);
 			changed = true;
 		}
 		return changed;

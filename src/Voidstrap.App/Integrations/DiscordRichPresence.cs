@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 using DiscordRPC;
 using DiscordRPC.Message;
 using Voidstrap.Enums;
+using Voidstrap.Extensions;
 using Voidstrap.Models.Entities;
 using Voidstrap.Models.VoidstrapRPC;
 using Voidstrap.Utility;
-using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations;
 
@@ -46,11 +46,22 @@ public partial class DiscordRichPresence : IDisposable
 
 	private static readonly ConcurrentDictionary<long, (string Name, DateTime Expires)> PlaceNames = new();
 
-	public static readonly Dictionary<string, (string Name, string Url)> IdleIconPresets = new Dictionary<string, (string, string)>(StringComparer.OrdinalIgnoreCase)
+	public static readonly Dictionary<string, (string Name, string Url)> IdleIconPresets = new Dictionary<string, (string, string)>(
+		StringComparer.OrdinalIgnoreCase
+	)
 	{
-		["blue"] = ("Blue Logo", "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Roblox_%282025%29_%28App_Icon%29.svg/250px-Roblox_%282025%29_%28App_Icon%29.svg.png"),
-		["black"] = ("Black Logo", "https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/original/5X/c/4/c/2/c4c28132e4907f73ea0430d18d769c06276e39cc.png"),
-		["old"] = ("2009-2011 Logo", "https://static.wikia.nocookie.net/logopedia/images/b/b7/ROBLOX_2006-2009.svg/revision/latest/scale-to-width-down/1000?cb=20250403121056")
+		["blue"] = (
+			"Blue Logo",
+			"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Roblox_%282025%29_%28App_Icon%29.svg/250px-Roblox_%282025%29_%28App_Icon%29.svg.png"
+		),
+		["black"] = (
+			"Black Logo",
+			"https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/original/5X/c/4/c/2/c4c28132e4907f73ea0430d18d769c06276e39cc.png"
+		),
+		["old"] = (
+			"2009-2011 Logo",
+			"https://static.wikia.nocookie.net/logopedia/images/b/b7/ROBLOX_2006-2009.svg/revision/latest/scale-to-width-down/1000?cb=20250403121056"
+		),
 	};
 
 	private readonly object _clientGate = new object();
@@ -192,8 +203,7 @@ public partial class DiscordRichPresence : IDisposable
 
 	private bool IsCurrentActivity(ActivityData activity, int revision)
 	{
-		return !_disposed && revision == _activityRevision && _activityWatcher.InGame
-			&& ReferenceEquals(activity, _activityWatcher.Data);
+		return !_disposed && revision == _activityRevision && _activityWatcher.InGame && ReferenceEquals(activity, _activityWatcher.Data);
 	}
 
 	private void PublishLoadingPresence()
@@ -208,8 +218,14 @@ public partial class DiscordRichPresence : IDisposable
 				Details = "Roblox",
 				State = LoadingState,
 				StatusDisplay = StatusDisplayType.Details,
-				Assets = new Assets { LargeImageKey = GetIdleIconUrl(), LargeImageText = "Roblox", SmallImageKey = App.RpcLoadingImageUrl, SmallImageText = string.Empty },
-				Buttons = Array.Empty<Button>()
+				Assets = new Assets
+				{
+					LargeImageKey = GetIdleIconUrl(),
+					LargeImageText = "Roblox",
+					SmallImageKey = App.RpcLoadingImageUrl,
+					SmallImageText = string.Empty,
+				},
+				Buttons = Array.Empty<Button>(),
 			};
 			_originalSnapshot = null;
 			string signature = BuildPresenceSignature(_currentPresence);
@@ -271,7 +287,8 @@ public partial class DiscordRichPresence : IDisposable
 			foreach (Button button in presence.Buttons)
 				buttons += (button?.Label ?? string.Empty) + "\n" + (button?.Url ?? string.Empty) + "\n";
 		}
-		return string.Join("\n",
+		return string.Join(
+			"\n",
 			presence.Details ?? string.Empty,
 			presence.State ?? string.Empty,
 			presence.StatusDisplay.ToString(),
@@ -281,7 +298,8 @@ public partial class DiscordRichPresence : IDisposable
 			assets?.SmallImageText ?? string.Empty,
 			presence.Timestamps?.Start?.Ticks.ToString() ?? string.Empty,
 			presence.Timestamps?.End?.Ticks.ToString() ?? string.Empty,
-			buttons);
+			buttons
+		);
 	}
 
 	private void OnClientPresenceUpdate(object sender, PresenceMessage e)
@@ -396,9 +414,7 @@ public partial class DiscordRichPresence : IDisposable
 		{
 			File.WriteAllText(LaunchStatusFile, message);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	public void ProcessRPCMessage(Message message, bool implicitUpdate = true)
@@ -432,8 +448,11 @@ public partial class DiscordRichPresence : IDisposable
 			_currentPresence.Buttons = GetButtons();
 			return true;
 		}
-		if (message.Command != "SetRichPresence"
-			|| !TryDeserializePresence(message.Data, out Voidstrap.Models.VoidstrapRPC.RichPresence? presence) || presence == null)
+		if (
+			message.Command != "SetRichPresence"
+			|| !TryDeserializePresence(message.Data, out Voidstrap.Models.VoidstrapRPC.RichPresence? presence)
+			|| presence == null
+		)
 			return false;
 		_currentPresence.Details = UpdateField(_currentPresence.Details, presence.Details, _originalSnapshot.Details, 128);
 		_currentPresence.State = UpdateField(_currentPresence.State, presence.State, _originalSnapshot.State, 128);
@@ -590,9 +609,7 @@ public partial class DiscordRichPresence : IDisposable
 		{
 			_rpcClient?.ClearPresence();
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private void OnStudioWatch(object? state)
@@ -613,8 +630,12 @@ public partial class DiscordRichPresence : IDisposable
 		{
 			return;
 		}
-		if (_currentPresence?.State == LoadingState && !_activityWatcher.InGame
-			&& _activityWatcher.Data.PlaceId == 0 && !_activityWatcher.IsTeleporting)
+		if (
+			_currentPresence?.State == LoadingState
+			&& !_activityWatcher.InGame
+			&& _activityWatcher.Data.PlaceId == 0
+			&& !_activityWatcher.IsTeleporting
+		)
 			_ = Task.Run(SetCurrentGameAsync, _lifetimeToken);
 		EnsureConnected();
 		lock (_activityGate)
@@ -640,9 +661,7 @@ public partial class DiscordRichPresence : IDisposable
 					{
 						process.Dispose();
 					}
-					catch
-					{
-					}
+					catch { }
 				}
 			}
 			catch
@@ -657,7 +676,10 @@ public partial class DiscordRichPresence : IDisposable
 		_studioSuppressed = studioRunning;
 		try
 		{
-			App.Logger.WriteLine("DiscordRichPresence", studioRunning ? "Roblox Studio opened, stopping rich presence" : "Roblox Studio closed, resuming rich presence");
+			App.Logger.WriteLine(
+				"DiscordRichPresence",
+				studioRunning ? "Roblox Studio opened, stopping rich presence" : "Roblox Studio closed, resuming rich presence"
+			);
 			ApplyVisibility();
 		}
 		catch (Exception ex)
@@ -677,9 +699,7 @@ public partial class DiscordRichPresence : IDisposable
 				Voidstrap.Platform.Linux.LinuxVinegarProcessProbe probe = new(new Voidstrap.Core.SystemProcessService());
 				_linuxStudioRunning = await probe.IsRunningAsync(_lifetimeToken).ConfigureAwait(false);
 			}
-			catch (OperationCanceledException)
-			{
-			}
+			catch (OperationCanceledException) { }
 			catch (Exception ex)
 			{
 				App.Logger.WriteLine(LOG_IDENT, "Roblox Studio check failed: " + ex.Message);
@@ -719,9 +739,7 @@ public partial class DiscordRichPresence : IDisposable
 				{
 					await SetCurrentGame().ConfigureAwait(continueOnCapturedContext: false);
 				}
-				catch (OperationCanceledException)
-				{
-				}
+				catch (OperationCanceledException) { }
 				catch (Exception ex)
 				{
 					App.Logger.WriteLine("DiscordRichPresence", "SetCurrentGame failed: " + ex.Message);
@@ -734,9 +752,7 @@ public partial class DiscordRichPresence : IDisposable
 			{
 				_updateLock.Release();
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 		if (!_disposed && Volatile.Read(in _updatePending) == 1)
 		{
@@ -757,7 +773,11 @@ public partial class DiscordRichPresence : IDisposable
 				return 0;
 			}
 			FileInfo fileInfo = new FileInfo(text);
-			if (_cachedFlagCount >= 0 && fileInfo.Length == _cachedFlagsFileSize && DateTime.UtcNow - _cachedFlagsAtUtc < TimeSpan.FromSeconds(30L))
+			if (
+				_cachedFlagCount >= 0
+				&& fileInfo.Length == _cachedFlagsFileSize
+				&& DateTime.UtcNow - _cachedFlagsAtUtc < TimeSpan.FromSeconds(30L)
+			)
 			{
 				return _cachedFlagCount;
 			}
@@ -805,7 +825,9 @@ public partial class DiscordRichPresence : IDisposable
 		CancellationToken enrichmentToken = enrichmentTimeout.Token;
 		bool wantsPlaceIcon = App.Settings.Prop.GameIconChecked && string.IsNullOrWhiteSpace(App.Settings.Prop.UseCustomIcon);
 		Task<(string key, string text)> smallImageTask = GetSmallImageAsync(activity, enrichmentToken);
-		Task<string> placeIconTask = wantsPlaceIcon ? FetchPlaceIconAsync(activity.PlaceId, enrichmentToken) : Task.FromResult(string.Empty);
+		Task<string> placeIconTask = wantsPlaceIcon
+			? FetchPlaceIconAsync(activity.PlaceId, enrichmentToken)
+			: Task.FromResult(string.Empty);
 		Task<string> placeNameTask = GetPlaceNameAsync(activity.PlaceId, gameToken);
 		if (activity.UniverseDetails == null && activity.UniverseId > 0)
 		{
@@ -833,7 +855,8 @@ public partial class DiscordRichPresence : IDisposable
 		string placeName = await placeNameTask.ConfigureAwait(false);
 		string shownName = string.IsNullOrWhiteSpace(rootName) ? placeName : rootName;
 		long rootPlaceId = universe?.Data?.RootPlaceId ?? 0;
-		string subplaceName = !string.IsNullOrWhiteSpace(rootName)
+		string subplaceName =
+			!string.IsNullOrWhiteSpace(rootName)
 			&& !string.IsNullOrWhiteSpace(placeName)
 			&& (rootPlaceId <= 0 || rootPlaceId != activity.PlaceId)
 			&& !string.Equals(placeName.Trim(), rootName.Trim(), StringComparison.OrdinalIgnoreCase)
@@ -871,12 +894,16 @@ public partial class DiscordRichPresence : IDisposable
 			knownSmallText = sameActivity ? _enrichedSmallText : null;
 		}
 		string stateText = BuildStateText(creator, verified, totalFlags);
-		string largeImage = !string.IsNullOrWhiteSpace(App.Settings.Prop.UseCustomIcon) ? App.Settings.Prop.UseCustomIcon : App.Settings.Prop.GameIconChecked ? universe?.Thumbnail?.ImageUrl ?? string.Empty : string.Empty;
+		string largeImage =
+			!string.IsNullOrWhiteSpace(App.Settings.Prop.UseCustomIcon) ? App.Settings.Prop.UseCustomIcon
+			: App.Settings.Prop.GameIconChecked ? universe?.Thumbnail?.ImageUrl ?? string.Empty
+			: string.Empty;
 		largeImage = Voidstrap.Utility.DiscordPresenceGuard.Key(largeImage);
 		if (largeImage.Length == 0 && wantsPlaceIcon)
-			largeImage = placeIconTask.IsCompletedSuccessfully && !string.IsNullOrWhiteSpace(placeIconTask.Result)
-				? Voidstrap.Utility.DiscordPresenceGuard.Key(placeIconTask.Result)
-				: knownLargeImage;
+			largeImage =
+				placeIconTask.IsCompletedSuccessfully && !string.IsNullOrWhiteSpace(placeIconTask.Result)
+					? Voidstrap.Utility.DiscordPresenceGuard.Key(placeIconTask.Result)
+					: knownLargeImage;
 		string largeText = BuildServerText(activity.ServerType, reservedName, knownLocation);
 		bool showAccount = App.Settings.Prop.ShowAccountOnRichPresence && activity.UserId > 0;
 		string smallImage = App.RpcVoidstrapImageUrl;
@@ -897,7 +924,9 @@ public partial class DiscordRichPresence : IDisposable
 			{
 				Details = detailText,
 				State = stateText,
-				StatusDisplay = string.IsNullOrWhiteSpace(detailText) ? DiscordRPC.StatusDisplayType.Name : DiscordRPC.StatusDisplayType.Details,
+				StatusDisplay = string.IsNullOrWhiteSpace(detailText)
+					? DiscordRPC.StatusDisplayType.Name
+					: DiscordRPC.StatusDisplayType.Details,
 				Timestamps = new Timestamps { Start = started.ToUniversalTime() },
 				Buttons = GetButtons(),
 				Assets = new Assets
@@ -905,8 +934,8 @@ public partial class DiscordRichPresence : IDisposable
 					LargeImageKey = largeImage ?? string.Empty,
 					LargeImageText = largeText ?? string.Empty,
 					SmallImageKey = smallImage ?? string.Empty,
-					SmallImageText = smallText ?? string.Empty
-				}
+					SmallImageText = smallText ?? string.Empty,
+				},
 			};
 			_originalSnapshot = new OriginalSnapshot
 			{
@@ -915,7 +944,7 @@ public partial class DiscordRichPresence : IDisposable
 				LargeImageKey = largeImage ?? string.Empty,
 				LargeImageText = largeText ?? string.Empty,
 				SmallImageKey = smallImage ?? string.Empty,
-				SmallImageText = smallText ?? string.Empty
+				SmallImageText = smallText ?? string.Empty,
 			};
 			_gamePresenceActive = true;
 			ReplayGameMessages();
@@ -935,9 +964,8 @@ public partial class DiscordRichPresence : IDisposable
 		Task<string?> locationTask = App.Settings.Prop.ServerLocationGame
 			? (knownLocation != null ? Task.FromResult<string?>(knownLocation) : activity.QueryServerLocation(enrichmentToken))
 			: Task.FromResult<string?>(null);
-		Task<string> iconTask = string.IsNullOrWhiteSpace(largeImage) && wantsPlaceIcon
-			? placeIconTask
-			: Task.FromResult(largeImage ?? string.Empty);
+		Task<string> iconTask =
+			string.IsNullOrWhiteSpace(largeImage) && wantsPlaceIcon ? placeIconTask : Task.FromResult(largeImage ?? string.Empty);
 		try
 		{
 			await Task.WhenAll(smallImageTask, iconTask).ConfigureAwait(false);
@@ -988,7 +1016,11 @@ public partial class DiscordRichPresence : IDisposable
 			if (!IsCurrentActivity(activity, revision) || !ReferenceEquals(_currentPresence, gamePresence))
 				return false;
 			if (locationTask.IsCompletedSuccessfully && gamePresence.Assets.LargeImageText == original.LargeImageText)
-				gamePresence.Assets.LargeImageText = original.LargeImageText = BuildServerText(activity.ServerType, reservedName, locationTask.Result);
+				gamePresence.Assets.LargeImageText = original.LargeImageText = BuildServerText(
+					activity.ServerType,
+					reservedName,
+					locationTask.Result
+				);
 			if (iconTask.IsCompletedSuccessfully && gamePresence.Assets.LargeImageKey == original.LargeImageKey)
 				gamePresence.Assets.LargeImageKey = original.LargeImageKey = Voidstrap.Utility.DiscordPresenceGuard.Key(iconTask.Result);
 			if (smallImageTask.IsCompletedSuccessfully && gamePresence.Assets.SmallImageKey == original.SmallImageKey)
@@ -1071,8 +1103,12 @@ public partial class DiscordRichPresence : IDisposable
 		if (data.ValueKind != JsonValueKind.Array || data.GetArrayLength() == 0)
 			return string.Empty;
 		JsonElement place = data[0];
-		return place.ValueKind == JsonValueKind.Object && place.TryGetProperty("name", out JsonElement name)
-			&& name.ValueKind == JsonValueKind.String ? name.GetString() ?? string.Empty : string.Empty;
+		return
+			place.ValueKind == JsonValueKind.Object
+			&& place.TryGetProperty("name", out JsonElement name)
+			&& name.ValueKind == JsonValueKind.String
+			? name.GetString() ?? string.Empty
+			: string.Empty;
 	}
 
 	private static void StorePlaceName(long placeId, string name, DateTime expires)
@@ -1110,7 +1146,14 @@ public partial class DiscordRichPresence : IDisposable
 		{
 			foreach (JsonProperty property in element.EnumerateObject())
 			{
-				if ((property.Name.Equals("serverName", StringComparison.OrdinalIgnoreCase) || property.Name.Equals("reservedServerName", StringComparison.OrdinalIgnoreCase) || property.Name.Equals("privateServerName", StringComparison.OrdinalIgnoreCase)) && property.Value.ValueKind == JsonValueKind.String)
+				if (
+					(
+						property.Name.Equals("serverName", StringComparison.OrdinalIgnoreCase)
+						|| property.Name.Equals("reservedServerName", StringComparison.OrdinalIgnoreCase)
+						|| property.Name.Equals("privateServerName", StringComparison.OrdinalIgnoreCase)
+					)
+					&& property.Value.ValueKind == JsonValueKind.String
+				)
 					return property.Value.GetString() ?? string.Empty;
 				string nested = FindServerName(property.Value);
 				if (nested.Length > 0)
@@ -1157,7 +1200,7 @@ public partial class DiscordRichPresence : IDisposable
 				ServerType.Private => Voidstrap.Utility.RpcText.Mark("Private server"),
 				ServerType.Reserved when reservedName.Length > 0 => Voidstrap.Utility.RpcText.Mark("Reserved server") + ": " + reservedName,
 				ServerType.Reserved => Voidstrap.Utility.RpcText.Mark("Reserved server"),
-				_ => Voidstrap.Utility.RpcText.Mark("Public server")
+				_ => Voidstrap.Utility.RpcText.Mark("Public server"),
 			};
 			parts.Add(string.IsNullOrWhiteSpace(location) ? server : server + " " + Voidstrap.Utility.RpcText.Mark("in") + " " + location);
 		}
@@ -1183,7 +1226,9 @@ public partial class DiscordRichPresence : IDisposable
 				ActivityData data = _activityWatcher.Data;
 				long userId = data?.UserId ?? 0;
 				if (userId <= 0 && App.Settings.Prop.ShowAccountOnRichPresence)
-					userId = await Voidstrap.Utility.RobloxBadges.GetSignedInUserIdAsync(idleToken).ConfigureAwait(continueOnCapturedContext: false);
+					userId = await Voidstrap
+						.Utility.RobloxBadges.GetSignedInUserIdAsync(idleToken)
+						.ConfigureAwait(continueOnCapturedContext: false);
 				if (userId > 0)
 				{
 					if (_currentPresence == null && App.Settings.Prop.ShowAccountOnRichPresence && !UserDetails.IsCached(userId))
@@ -1193,9 +1238,7 @@ public partial class DiscordRichPresence : IDisposable
 					(smallImage, smallText) = await GetSmallImageAsync(userId, idleToken).ConfigureAwait(continueOnCapturedContext: false);
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 			PublishIdlePresence(smallImage, smallText);
 		}
 		catch (Exception ex)
@@ -1219,18 +1262,15 @@ public partial class DiscordRichPresence : IDisposable
 				{
 					Details = IdleDetailsText,
 					State = IdleStateText,
-					Timestamps = new Timestamps
-					{
-						Start = _sessionStart
-					},
+					Timestamps = new Timestamps { Start = _sessionStart },
 					Buttons = Array.Empty<Button>(),
 					Assets = new Assets
 					{
 						LargeImageKey = idleIconUrl ?? string.Empty,
 						LargeImageText = "Roblox",
 						SmallImageKey = smallImage ?? string.Empty,
-						SmallImageText = smallText ?? string.Empty
-					}
+						SmallImageText = smallText ?? string.Empty,
+					},
 				};
 			}
 			else
@@ -1242,10 +1282,7 @@ public partial class DiscordRichPresence : IDisposable
 				_currentPresence.Assets.SmallImageKey = smallImage;
 				_currentPresence.Assets.SmallImageText = smallText ?? string.Empty;
 				_currentPresence.Buttons = Array.Empty<Button>();
-				_currentPresence.Timestamps = new Timestamps
-				{
-					Start = _sessionStart
-				};
+				_currentPresence.Timestamps = new Timestamps { Start = _sessionStart };
 			}
 			_currentPresence.StatusDisplay = StatusDisplayType.Name;
 			_originalSnapshot = new OriginalSnapshot
@@ -1255,7 +1292,7 @@ public partial class DiscordRichPresence : IDisposable
 				LargeImageKey = idleIconUrl ?? string.Empty,
 				LargeImageText = "Roblox",
 				SmallImageKey = smallImage ?? string.Empty,
-				SmallImageText = smallText ?? string.Empty
+				SmallImageText = smallText ?? string.Empty,
 			};
 			string signature = BuildPresenceSignature(_currentPresence);
 			if (signature == _lastPresenceSignature)
@@ -1287,8 +1324,12 @@ public partial class DiscordRichPresence : IDisposable
 			using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeToken, token);
 			timeout.CancelAfter(TimeSpan.FromSeconds(10L));
 			ApiArrayResponse<ThumbnailResponse> response = await Http.GetJson<ApiArrayResponse<ThumbnailResponse>>(
-				"https://thumbnails.roblox.com/v1/places/gameicons?placeIds=" + placeId + "&returnPolicy=PlaceHolder&size=512x512&format=Png&isCircular=false",
-				timeout.Token).ConfigureAwait(continueOnCapturedContext: false);
+					"https://thumbnails.roblox.com/v1/places/gameicons?placeIds="
+						+ placeId
+						+ "&returnPolicy=PlaceHolder&size=512x512&format=Png&isCircular=false",
+					timeout.Token
+				)
+				.ConfigureAwait(continueOnCapturedContext: false);
 			ThumbnailResponse? first = response?.Data?.FirstOrDefault();
 			if (first != null && !string.IsNullOrWhiteSpace(first.ImageUrl))
 			{
@@ -1384,7 +1425,8 @@ public partial class DiscordRichPresence : IDisposable
 		return (CleanName: string.IsNullOrWhiteSpace(working) ? gameName : working, Tag: tag);
 	}
 
-	private Task<(string key, string text)> GetSmallImageAsync(ActivityData activity, CancellationToken token = default) => GetSmallImageAsync(activity.UserId, token);
+	private Task<(string key, string text)> GetSmallImageAsync(ActivityData activity, CancellationToken token = default) =>
+		GetSmallImageAsync(activity.UserId, token);
 
 	private async Task<(string key, string text)> GetSmallImageAsync(long userId, CancellationToken token = default)
 	{
@@ -1402,7 +1444,10 @@ public partial class DiscordRichPresence : IDisposable
 				return (key: App.RpcVoidstrapImageUrl, text: "Voidstrap");
 			}
 			string avatar = Voidstrap.Utility.DiscordPresenceGuard.Key(userDetails.Thumbnail?.ImageUrl);
-			return (key: avatar.Length > 0 ? avatar : App.RpcVoidstrapImageUrl, text: Voidstrap.Utility.DiscordPresenceGuard.Text(userDetails.Data.DisplayName + " (@" + userDetails.Data.Name + ")"));
+			return (
+				key: avatar.Length > 0 ? avatar : App.RpcVoidstrapImageUrl,
+				text: Voidstrap.Utility.DiscordPresenceGuard.Text(userDetails.Data.DisplayName + " (@" + userDetails.Data.Name + ")")
+			);
 		}
 		catch
 		{
@@ -1441,7 +1486,10 @@ public partial class DiscordRichPresence : IDisposable
 		if (!App.Settings.Prop.HideRPCButtons)
 		{
 			string? text = null;
-			if (data.ServerType == ServerType.Public || (data.ServerType == ServerType.Reserved && !string.IsNullOrEmpty(data.RPCLaunchData)))
+			if (
+				data.ServerType == ServerType.Public
+				|| (data.ServerType == ServerType.Reserved && !string.IsNullOrEmpty(data.RPCLaunchData))
+			)
 			{
 				try
 				{
@@ -1454,18 +1502,10 @@ public partial class DiscordRichPresence : IDisposable
 			}
 			if (!string.IsNullOrEmpty(text) && text.Length <= 512 && Uri.TryCreate(text, UriKind.Absolute, out _))
 			{
-				list.Add(new Button
-				{
-					Label = Voidstrap.Utility.RpcText.Mark("Join server"),
-					Url = text
-				});
+				list.Add(new Button { Label = Voidstrap.Utility.RpcText.Mark("Join server"), Url = text });
 			}
 		}
-		list.Add(new Button
-		{
-			Label = Voidstrap.Utility.RpcText.Mark("View game"),
-			Url = $"https://www.roblox.com/games/{data.PlaceId}"
-		});
+		list.Add(new Button { Label = Voidstrap.Utility.RpcText.Mark("View game"), Url = $"https://www.roblox.com/games/{data.PlaceId}" });
 		return list.ToArray();
 	}
 
@@ -1499,7 +1539,13 @@ public partial class DiscordRichPresence : IDisposable
 			{
 				continue;
 			}
-			snapshot.Buttons.Add(new Voidstrap.Models.PresenceButton { Label = Voidstrap.Utility.RpcText.Render(button.Label), Url = button.Url ?? string.Empty });
+			snapshot.Buttons.Add(
+				new Voidstrap.Models.PresenceButton
+				{
+					Label = Voidstrap.Utility.RpcText.Render(button.Label),
+					Url = button.Url ?? string.Empty,
+				}
+			);
 		}
 		return snapshot;
 	}
@@ -1558,30 +1604,30 @@ public partial class DiscordRichPresence : IDisposable
 		{
 			return;
 		}
-		Task.Run(async delegate
-		{
-			try
+		Task.Run(
+			async delegate
 			{
-				TimeSpan timeSpan = _updateCooldown - (DateTime.UtcNow - _lastPresenceUpdate);
-				if (timeSpan > TimeSpan.Zero)
+				try
 				{
-					await Task.Delay(timeSpan, _lifetimeToken).ConfigureAwait(continueOnCapturedContext: false);
+					TimeSpan timeSpan = _updateCooldown - (DateTime.UtcNow - _lastPresenceUpdate);
+					if (timeSpan > TimeSpan.Zero)
+					{
+						await Task.Delay(timeSpan, _lifetimeToken).ConfigureAwait(continueOnCapturedContext: false);
+					}
+					UpdatePresence(force: true);
 				}
-				UpdatePresence(force: true);
-			}
-			catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-			{
-			}
-			finally
-			{
-				Interlocked.Exchange(ref _flushScheduled, 0);
-				lock (_activityGate)
+				catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
+				finally
 				{
-					if (!_disposed && _visible && _pendingPresence != null && _rpcClient?.IsInitialized == true)
-						ScheduleFlush();
+					Interlocked.Exchange(ref _flushScheduled, 0);
+					lock (_activityGate)
+					{
+						if (!_disposed && _visible && _pendingPresence != null && _rpcClient?.IsInitialized == true)
+							ScheduleFlush();
+					}
 				}
 			}
-		});
+		);
 	}
 
 	public void Dispose()
@@ -1597,9 +1643,7 @@ public partial class DiscordRichPresence : IDisposable
 				_activityWatcher.OnGameLeave -= _onGameLeaveHandler;
 				_activityWatcher.OnRPCMessage -= _onRpcMessageHandler;
 			}
-			catch
-			{
-			}
+			catch { }
 			try
 			{
 				_refreshTimer?.Dispose();
@@ -1607,9 +1651,7 @@ public partial class DiscordRichPresence : IDisposable
 				_studioWatchTimer?.Dispose();
 				_studioWatchTimer = null;
 			}
-			catch
-			{
-			}
+			catch { }
 			DiscordRpcClient? client = _rpcClient;
 			if (client != null)
 			{
@@ -1632,8 +1674,9 @@ public partial class DiscordRichPresence : IDisposable
 		}
 	}
 
-    [GeneratedRegex("\\s*[-|:~/,]+\\s*$")]
-    private static partial Regex WipLeftoverSeparators { get; }
-    [GeneratedRegex("[\\[\\(\\{]\\s*[\\]\\)\\}]")]
-    private static partial Regex WipEmptyBrackets { get; }
+	[GeneratedRegex("\\s*[-|:~/,]+\\s*$")]
+	private static partial Regex WipLeftoverSeparators { get; }
+
+	[GeneratedRegex("[\\[\\(\\{]\\s*[\\]\\)\\}]")]
+	private static partial Regex WipEmptyBrackets { get; }
 }

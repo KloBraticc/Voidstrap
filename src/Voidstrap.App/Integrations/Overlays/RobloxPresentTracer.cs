@@ -14,6 +14,7 @@ namespace Voidstrap.Integrations.Overlays
         private static readonly Guid D3d9Provider = new Guid("783aca0a-790e-4d7f-8451-aa850511c6b9");
         private static readonly object LifetimeLock = new object();
         private static readonly object SampleLock = new object();
+
         private sealed class PresentStream
         {
             public readonly double[] Times = new double[128];
@@ -34,8 +35,8 @@ namespace Voidstrap.Integrations.Overlays
         private static Thread? _thread;
         private static EtwSession? _session;
         private static int _references;
-		private static IDisposable? _trackerLease;
-		private static int _retryPending;
+        private static IDisposable? _trackerLease;
+        private static int _retryPending;
         private static int _stopGeneration;
         private static int _targetPid;
         private static int _accepting;
@@ -88,12 +89,20 @@ namespace Voidstrap.Integrations.Overlays
             get
             {
                 return Volatile.Read(ref _accepting) != 0
-                    && ((Volatile.Read(ref _intervalMs) > 0.01
-                    && Environment.TickCount64 - Volatile.Read(ref _lastEventTick) <= StaleAfterMs)
-                    || (Volatile.Read(ref _captureIntervalMs) > 0.01
-                    && Environment.TickCount64 - Volatile.Read(ref _lastCaptureEventTick) <= StaleAfterMs)
-                    || (Volatile.Read(ref _frameGenerationIntervalMs) > 0.01
-                    && Environment.TickCount64 - Volatile.Read(ref _lastFrameGenerationTick) <= StaleAfterMs));
+                    && (
+                        (
+                            Volatile.Read(ref _intervalMs) > 0.01
+                            && Environment.TickCount64 - Volatile.Read(ref _lastEventTick) <= StaleAfterMs
+                        )
+                        || (
+                            Volatile.Read(ref _captureIntervalMs) > 0.01
+                            && Environment.TickCount64 - Volatile.Read(ref _lastCaptureEventTick) <= StaleAfterMs
+                        )
+                        || (
+                            Volatile.Read(ref _frameGenerationIntervalMs) > 0.01
+                            && Environment.TickCount64 - Volatile.Read(ref _lastFrameGenerationTick) <= StaleAfterMs
+                        )
+                    );
             }
         }
 
@@ -162,20 +171,20 @@ namespace Voidstrap.Integrations.Overlays
                 }
                 if (_thread != null)
                     return;
-				StartThreadLocked();
+                StartThreadLocked();
             }
         }
 
-		private static void StartThreadLocked()
-		{
-			_thread = new Thread(TraceLoop)
-			{
-				IsBackground = true,
-				Name = "RobloxPresentTrace",
-				Priority = ThreadPriority.BelowNormal,
-			};
-			_thread.Start();
-		}
+        private static void StartThreadLocked()
+        {
+            _thread = new Thread(TraceLoop)
+            {
+                IsBackground = true,
+                Name = "RobloxPresentTrace",
+                Priority = ThreadPriority.BelowNormal,
+            };
+            _thread.Start();
+        }
 
         public static void Stop()
         {
@@ -204,9 +213,7 @@ namespace Voidstrap.Integrations.Overlays
             {
                 session?.Stop();
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private const string TracePrefix = "VoidstrapRobloxPresent";
@@ -224,13 +231,16 @@ namespace Voidstrap.Integrations.Overlays
                         return;
                     _session = session;
                 }
-				Interlocked.Exchange(ref _enabledPid, 0);
-				UpdateTarget(RobloxWindowTracker.Current);
-				int startupPid = Volatile.Read(ref _targetPid);
-				App.Logger.WriteLine("RobloxPresentTracer", startupPid > 0
-					? "Present trace session started, target pid " + startupPid
-					: "Present trace session started with no Roblox window yet, waiting for the tracker");
-				EnableProviderForTarget(session, startupPid);
+                Interlocked.Exchange(ref _enabledPid, 0);
+                UpdateTarget(RobloxWindowTracker.Current);
+                int startupPid = Volatile.Read(ref _targetPid);
+                App.Logger.WriteLine(
+                    "RobloxPresentTracer",
+                    startupPid > 0
+                        ? "Present trace session started, target pid " + startupPid
+                        : "Present trace session started with no Roblox window yet, waiting for the tracker"
+                );
+                EnableProviderForTarget(session, startupPid);
                 session.Process();
             }
             catch (UnauthorizedAccessException ex)
@@ -244,7 +254,7 @@ namespace Voidstrap.Integrations.Overlays
             }
             finally
             {
-				bool retry;
+                bool retry;
                 bool restart;
                 lock (LifetimeLock)
                 {
@@ -261,33 +271,33 @@ namespace Voidstrap.Integrations.Overlays
                         Volatile.Write(ref _accepting, 0);
                         ResetSamples();
                     }
-					restart = _references > 0 && Volatile.Read(ref _stopGeneration) != stopGeneration;
+                    restart = _references > 0 && Volatile.Read(ref _stopGeneration) != stopGeneration;
                     retry = _references > 0 && !restart;
                     if (restart)
                         StartThreadLocked();
                 }
-				if (retry)
-					ScheduleRetry();
+                if (retry)
+                    ScheduleRetry();
             }
         }
 
-		private static void ScheduleRetry()
-		{
-			if (Interlocked.Exchange(ref _retryPending, 1) != 0)
-				return;
-			_ = RetryAsync();
-		}
+        private static void ScheduleRetry()
+        {
+            if (Interlocked.Exchange(ref _retryPending, 1) != 0)
+                return;
+            _ = RetryAsync();
+        }
 
-		private static async Task RetryAsync()
-		{
-			await Task.Delay(10000).ConfigureAwait(false);
-			lock (LifetimeLock)
-			{
-				Interlocked.Exchange(ref _retryPending, 0);
-				if (_references > 0 && _thread == null)
-					StartThreadLocked();
-			}
-		}
+        private static async Task RetryAsync()
+        {
+            await Task.Delay(10000).ConfigureAwait(false);
+            lock (LifetimeLock)
+            {
+                Interlocked.Exchange(ref _retryPending, 0);
+                if (_references > 0 && _thread == null)
+                    StartThreadLocked();
+            }
+        }
 
         [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
         private static unsafe void OnEventRecord(byte* record)
@@ -303,16 +313,13 @@ namespace Voidstrap.Integrations.Overlays
                 ulong streamKey = userData != null && userDataLength >= 8 ? *(ulong*)userData : 0;
                 OnPresent(provider, id, processId, timeStamp * 1000.0 / Stopwatch.Frequency, streamKey);
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static void OnPresent(Guid provider, int id, int processId, double timestamp, ulong streamKey)
         {
             int pid = Volatile.Read(ref _targetPid);
-            bool dxgiPresent = provider == DxgiProvider
-                && (id == PresentStartEventId || id == PresentMultiplaneOverlayStartEventId);
+            bool dxgiPresent = provider == DxgiProvider && (id == PresentStartEventId || id == PresentMultiplaneOverlayStartEventId);
             bool d3d9Present = provider == D3d9Provider && id == D3d9PresentStartEventId;
             if (pid == 0 || processId != pid || (!dxgiPresent && !d3d9Present) || Volatile.Read(ref _accepting) == 0)
                 return;
@@ -410,34 +417,34 @@ namespace Voidstrap.Integrations.Overlays
         private static void OnTrackerChanged(object? sender, RobloxWindowRect rect)
         {
             UpdateTarget(rect);
-			int currentPid = Volatile.Read(ref _targetPid);
-			if (currentPid == 0)
-				return;
-			EtwSession? session;
-			lock (LifetimeLock)
-				session = _session;
-			if (session != null)
-				EnableProviderForTarget(session, currentPid);
+            int currentPid = Volatile.Read(ref _targetPid);
+            if (currentPid == 0)
+                return;
+            EtwSession? session;
+            lock (LifetimeLock)
+                session = _session;
+            if (session != null)
+                EnableProviderForTarget(session, currentPid);
         }
 
-		private static void EnableProviderForTarget(EtwSession session, int processId)
-		{
-			if (processId <= 0)
-				return;
-			if (Interlocked.Exchange(ref _enabledPid, processId) == processId)
-				return;
-			try
-			{
-				session.EnableProvider(DxgiProvider, DxgiEventsKeyword, processId);
-				session.EnableProvider(D3d9Provider, DxgiEventsKeyword, processId);
-				App.Logger.WriteLine("RobloxPresentTracer", "Tracing Present events for Roblox pid " + processId);
-			}
-			catch (Exception ex)
-			{
-				Interlocked.Exchange(ref _enabledPid, 0);
-				App.Logger.WriteLine("RobloxPresentTracer", "Could not enable Present tracing for pid " + processId + ": " + ex.Message);
-			}
-		}
+        private static void EnableProviderForTarget(EtwSession session, int processId)
+        {
+            if (processId <= 0)
+                return;
+            if (Interlocked.Exchange(ref _enabledPid, processId) == processId)
+                return;
+            try
+            {
+                session.EnableProvider(DxgiProvider, DxgiEventsKeyword, processId);
+                session.EnableProvider(D3d9Provider, DxgiEventsKeyword, processId);
+                App.Logger.WriteLine("RobloxPresentTracer", "Tracing Present events for Roblox pid " + processId);
+            }
+            catch (Exception ex)
+            {
+                Interlocked.Exchange(ref _enabledPid, 0);
+                App.Logger.WriteLine("RobloxPresentTracer", "Could not enable Present tracing for pid " + processId + ": " + ex.Message);
+            }
+        }
 
         private static void UpdateTarget(RobloxWindowRect rect)
         {
@@ -564,14 +571,22 @@ namespace Voidstrap.Integrations.Overlays
                         if (offset == 0 || offset >= stride)
                             continue;
                         string? sessionName = Marshal.PtrToStringUni((IntPtr)(list[i] + offset));
-                        if (sessionName == null || sessionName == ownName || !sessionName.StartsWith(prefix, StringComparison.Ordinal)
-                            || !int.TryParse(sessionName.AsSpan(prefix.Length), out int ownerPid) || IsVoidstrapProcess(ownerPid))
+                        if (
+                            sessionName == null
+                            || sessionName == ownName
+                            || !sessionName.StartsWith(prefix, StringComparison.Ordinal)
+                            || !int.TryParse(sessionName.AsSpan(prefix.Length), out int ownerPid)
+                            || IsVoidstrapProcess(ownerPid)
+                        )
                             continue;
                         byte* properties = NewProperties();
                         try
                         {
                             if (ControlTrace(0, sessionName, properties, 1) == 0)
-                                App.Logger.WriteLine("RobloxPresentTracer", "Stopped a present trace session left behind by an earlier Voidstrap process");
+                                App.Logger.WriteLine(
+                                    "RobloxPresentTracer",
+                                    "Stopped a present trace session left behind by an earlier Voidstrap process"
+                                );
                         }
                         finally
                         {
@@ -579,9 +594,7 @@ namespace Voidstrap.Integrations.Overlays
                         }
                     }
                 }
-                catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException)
-                {
-                }
+                catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException) { }
                 finally
                 {
                     NativeMemory.Free(block);
@@ -703,7 +716,16 @@ namespace Voidstrap.Integrations.Overlays
             private static partial uint QueryAllTraces(byte** properties, uint count, out uint sessionCount);
 
             [LibraryImport("advapi32.dll", EntryPoint = "EnableTraceEx2")]
-            private static partial uint EnableTraceEx2(ulong handle, Guid* provider, uint controlCode, byte level, ulong matchAnyKeyword, ulong matchAllKeyword, uint timeout, byte* parameters);
+            private static partial uint EnableTraceEx2(
+                ulong handle,
+                Guid* provider,
+                uint controlCode,
+                byte level,
+                ulong matchAnyKeyword,
+                ulong matchAllKeyword,
+                uint timeout,
+                byte* parameters
+            );
 
             [LibraryImport("advapi32.dll", EntryPoint = "OpenTraceW", SetLastError = true)]
             private static partial ulong OpenTrace(byte* logFile);
@@ -716,4 +738,3 @@ namespace Voidstrap.Integrations.Overlays
         }
     }
 }
-

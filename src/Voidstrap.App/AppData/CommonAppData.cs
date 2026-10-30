@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Voidstrap.Models.Persistable;
 
@@ -7,31 +7,32 @@ namespace Voidstrap.AppData;
 
 public abstract class CommonAppData
 {
-	private IReadOnlyDictionary<string, string> _commonMap { get; } = new Dictionary<string, string>
-	{
-		{ "Libraries.zip", "" },
-		{ "redist.zip", "" },
-		{ "shaders.zip", "shaders\\" },
-		{ "ssl.zip", "ssl\\" },
-		{ "WebView2.zip", "" },
-		{ "WebView2RuntimeInstaller.zip", "WebView2RuntimeInstaller\\" },
-		{ "content-avatar.zip", "content\\avatar\\" },
-		{ "content-configs.zip", "content\\configs\\" },
-		{ "content-fonts.zip", "content\\fonts\\" },
-		{ "content-sky.zip", "content\\sky\\" },
-		{ "content-sounds.zip", "content\\sounds\\" },
-		{ "content-textures2.zip", "content\\textures\\" },
-		{ "content-models.zip", "content\\models\\" },
-		{ "content-textures3.zip", "PlatformContent\\pc\\textures\\" },
-		{ "content-terrain.zip", "PlatformContent\\pc\\terrain\\" },
-		{ "content-platform-fonts.zip", "PlatformContent\\pc\\fonts\\" },
-		{ "content-platform-dictionaries.zip", "PlatformContent\\pc\\shared_compression_dictionaries\\" },
-		{ "extracontent-luapackages.zip", "ExtraContent\\LuaPackages\\" },
-		{ "extracontent-translations.zip", "ExtraContent\\translations\\" },
-		{ "extracontent-models.zip", "ExtraContent\\models\\" },
-		{ "extracontent-textures.zip", "ExtraContent\\textures\\" },
-		{ "extracontent-places.zip", "ExtraContent\\places\\" }
-	};
+	private IReadOnlyDictionary<string, string> _commonMap { get; } =
+		new Dictionary<string, string>
+		{
+			{ "Libraries.zip", "" },
+			{ "redist.zip", "" },
+			{ "shaders.zip", "shaders\\" },
+			{ "ssl.zip", "ssl\\" },
+			{ "WebView2.zip", "" },
+			{ "WebView2RuntimeInstaller.zip", "WebView2RuntimeInstaller\\" },
+			{ "content-avatar.zip", "content\\avatar\\" },
+			{ "content-configs.zip", "content\\configs\\" },
+			{ "content-fonts.zip", "content\\fonts\\" },
+			{ "content-sky.zip", "content\\sky\\" },
+			{ "content-sounds.zip", "content\\sounds\\" },
+			{ "content-textures2.zip", "content\\textures\\" },
+			{ "content-models.zip", "content\\models\\" },
+			{ "content-textures3.zip", "PlatformContent\\pc\\textures\\" },
+			{ "content-terrain.zip", "PlatformContent\\pc\\terrain\\" },
+			{ "content-platform-fonts.zip", "PlatformContent\\pc\\fonts\\" },
+			{ "content-platform-dictionaries.zip", "PlatformContent\\pc\\shared_compression_dictionaries\\" },
+			{ "extracontent-luapackages.zip", "ExtraContent\\LuaPackages\\" },
+			{ "extracontent-translations.zip", "ExtraContent\\translations\\" },
+			{ "extracontent-models.zip", "ExtraContent\\models\\" },
+			{ "extracontent-textures.zip", "ExtraContent\\textures\\" },
+			{ "extracontent-places.zip", "ExtraContent\\places\\" },
+		};
 
 	public virtual string ExecutableName { get; } = null!;
 
@@ -89,12 +90,18 @@ public abstract class CommonAppData
 				return false;
 			}
 			System.IO.Directory.Move(source, destination);
-			App.Logger?.WriteLine("CommonAppData::TryMigrateInstallDirectory", "Moved " + BinaryType + " from " + Path.GetFileName(source) + " to " + Path.GetFileName(destination));
+			App.Logger?.WriteLine(
+				"CommonAppData::TryMigrateInstallDirectory",
+				"Moved " + BinaryType + " from " + Path.GetFileName(source) + " to " + Path.GetFileName(destination)
+			);
 			return true;
 		}
 		catch (Exception ex)
 		{
-			App.Logger?.WriteLine("CommonAppData::TryMigrateInstallDirectory", "Could not move the existing install, it will be downloaded again: " + ex.Message);
+			App.Logger?.WriteLine(
+				"CommonAppData::TryMigrateInstallDirectory",
+				"Could not move the existing install, it will be downloaded again: " + ex.Message
+			);
 			return false;
 		}
 	}

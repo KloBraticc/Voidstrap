@@ -65,9 +65,11 @@ public sealed class StudioProject : INotifyPropertyChanged
 
 	public string PrivacyLabel => IsPublic ? "Public" : "Private";
 
-	public Wpf.Ui.Common.SymbolRegular PrivacyIcon => IsPublic ? Wpf.Ui.Common.SymbolRegular.Globe24 : Wpf.Ui.Common.SymbolRegular.LockClosed24;
+	public Wpf.Ui.Common.SymbolRegular PrivacyIcon =>
+		IsPublic ? Wpf.Ui.Common.SymbolRegular.Globe24 : Wpf.Ui.Common.SymbolRegular.LockClosed24;
 
-	public string ModifiedLabel => Updated is DateTime d ? "Modified " + d.ToLocalTime().ToString("MM/dd/yyyy h:mm tt", CultureInfo.InvariantCulture) : "";
+	public string ModifiedLabel =>
+		Updated is DateTime d ? "Modified " + d.ToLocalTime().ToString("MM/dd/yyyy h:mm tt", CultureInfo.InvariantCulture) : "";
 
 	public string StudioUri => "roblox-studio:1+launchmode:edit+task:EditPlace+placeId:" + PlaceId + "+universeId:" + UniverseId;
 }
@@ -88,7 +90,9 @@ public static class StudioProjects
 
 	public static async Task<List<StudioProject>> GetOwnedAsync(CancellationToken ct)
 	{
-		string? json = await RobloxCookie.GetAuthenticatedStringAsync("https://develop.roblox.com/v1/user/universes?isArchived=false&limit=50&sortOrder=Desc", ct).ConfigureAwait(false);
+		string? json = await RobloxCookie
+			.GetAuthenticatedStringAsync("https://develop.roblox.com/v1/user/universes?isArchived=false&limit=50&sortOrder=Desc", ct)
+			.ConfigureAwait(false);
 		if (json == null)
 			return [];
 		List<StudioProject> list = ParseUniverses(json);
@@ -109,13 +113,15 @@ public static class StudioProjects
 				string? full = ToLocalPath(path, key.Prefix);
 				if (full == null || !File.Exists(full) || !seen.Add(full))
 					continue;
-				list.Add(new StudioProject
-				{
-					Name = Path.GetFileNameWithoutExtension(full),
-					CreatorName = Path.GetDirectoryName(full) ?? "",
-					Updated = File.GetLastWriteTimeUtc(full),
-					FilePath = full
-				});
+				list.Add(
+					new StudioProject
+					{
+						Name = Path.GetFileNameWithoutExtension(full),
+						CreatorName = Path.GetDirectoryName(full) ?? "",
+						Updated = File.GetLastWriteTimeUtc(full),
+						FilePath = full,
+					}
+				);
 			}
 		}
 		return list.OrderByDescending(p => p.Updated).ToList();
@@ -210,7 +216,8 @@ public static class StudioProjects
 
 	private static string UnescapeWine(string value)
 	{
-		return value.Replace("\\\\", "\u0001", StringComparison.Ordinal)
+		return value
+			.Replace("\\\\", "\u0001", StringComparison.Ordinal)
 			.Replace("\\\"", "\"", StringComparison.Ordinal)
 			.Replace("\u0001", "\\", StringComparison.Ordinal);
 	}
@@ -232,11 +239,17 @@ public static class StudioProjects
 		{
 			App.Logger.WriteLine(LOG_IDENT, "Opening a local file in Vinegar: " + project.Name);
 			if (!Voidstrap.Platform.Linux.LinuxVinegarStudioRuntimeProvider.TryOpenFile(localFile, out string error))
-				Frontend.ShowMessageBox("Studio could not open this file through Vinegar: " + error, System.Windows.MessageBoxImage.Warning);
+				Frontend.ShowMessageBox(
+					"Studio could not open this file through Vinegar: " + error,
+					System.Windows.MessageBoxImage.Warning
+				);
 			return;
 		}
 		string target = project.FilePath ?? project.StudioUri;
-		App.Logger.WriteLine(LOG_IDENT, "Opening in Studio: " + (project.IsLocalFile ? project.Name : project.PlaceId.ToString(CultureInfo.InvariantCulture)));
+		App.Logger.WriteLine(
+			LOG_IDENT,
+			"Opening in Studio: " + (project.IsLocalFile ? project.Name : project.PlaceId.ToString(CultureInfo.InvariantCulture))
+		);
 		Launch("-studio \"" + target + "\"");
 	}
 
@@ -247,14 +260,16 @@ public static class StudioProjects
 		try
 		{
 			string exe = Paths.LaunchExecutable;
-			Process.Start(new ProcessStartInfo
-			{
-				FileName = exe,
-				Arguments = arguments,
-				UseShellExecute = false,
-				CreateNoWindow = true,
-				WorkingDirectory = Path.GetDirectoryName(exe) ?? ""
-			});
+			Process.Start(
+				new ProcessStartInfo
+				{
+					FileName = exe,
+					Arguments = arguments,
+					UseShellExecute = false,
+					CreateNoWindow = true,
+					WorkingDirectory = Path.GetDirectoryName(exe) ?? "",
+				}
+			);
 		}
 		catch (Exception ex)
 		{
@@ -272,7 +287,9 @@ public static class StudioProjects
 		{
 			for (int i = 0; key.Values.TryGetValue("d" + i + "gameId", out string? raw); i++)
 			{
-				if (long.TryParse(raw, NumberStyles.Integer, CultureInfo.InvariantCulture, out long universeId) && !ids.Contains(universeId))
+				if (
+					long.TryParse(raw, NumberStyles.Integer, CultureInfo.InvariantCulture, out long universeId) && !ids.Contains(universeId)
+				)
 					ids.Add(universeId);
 			}
 		}
@@ -287,7 +304,8 @@ public static class StudioProjects
 			string url = "https://develop.roblox.com/v1/universes/multiget?" + string.Join("&", chunk.Select(id => "ids=" + id));
 			try
 			{
-				string json = await RobloxCookie.GetAuthenticatedStringAsync(url, ct).ConfigureAwait(false)
+				string json =
+					await RobloxCookie.GetAuthenticatedStringAsync(url, ct).ConfigureAwait(false)
 					?? await Utility.Http.GetString(url, ct).ConfigureAwait(false);
 				list.AddRange(ParseUniverses(json));
 			}
@@ -309,15 +327,20 @@ public static class StudioProjects
 			return list;
 		foreach (JsonElement u in data.EnumerateArray())
 		{
-			list.Add(new StudioProject
-			{
-				UniverseId = u.TryGetProperty("id", out JsonElement id) ? id.GetInt64() : 0,
-				PlaceId = u.TryGetProperty("rootPlaceId", out JsonElement place) && place.ValueKind == JsonValueKind.Number ? place.GetInt64() : 0,
-				Name = u.TryGetProperty("name", out JsonElement name) ? name.GetString() ?? "" : "",
-				CreatorName = u.TryGetProperty("creatorName", out JsonElement creator) ? creator.GetString() ?? "" : "",
-				Updated = u.TryGetProperty("updated", out JsonElement updated) && updated.TryGetDateTime(out DateTime dt) ? dt : null,
-				IsPublic = u.TryGetProperty("isActive", out JsonElement active) && active.ValueKind == JsonValueKind.True
-			});
+			list.Add(
+				new StudioProject
+				{
+					UniverseId = u.TryGetProperty("id", out JsonElement id) ? id.GetInt64() : 0,
+					PlaceId =
+						u.TryGetProperty("rootPlaceId", out JsonElement place) && place.ValueKind == JsonValueKind.Number
+							? place.GetInt64()
+							: 0,
+					Name = u.TryGetProperty("name", out JsonElement name) ? name.GetString() ?? "" : "",
+					CreatorName = u.TryGetProperty("creatorName", out JsonElement creator) ? creator.GetString() ?? "" : "",
+					Updated = u.TryGetProperty("updated", out JsonElement updated) && updated.TryGetDateTime(out DateTime dt) ? dt : null,
+					IsPublic = u.TryGetProperty("isActive", out JsonElement active) && active.ValueKind == JsonValueKind.True,
+				}
+			);
 		}
 		return list;
 	}
@@ -344,9 +367,7 @@ public static class StudioProjects
 				pending = await FetchIconsAsync(pending, ct).ConfigureAwait(false);
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 	}
 
 	private static async Task<List<StudioProject>> FetchIconsAsync(List<StudioProject> projects, CancellationToken ct)
@@ -354,7 +375,9 @@ public static class StudioProjects
 		List<StudioProject> pending = [];
 		foreach (StudioProject[] chunk in projects.Chunk(50))
 		{
-			string url = "https://thumbnails.roblox.com/v1/games/icons?size=256x256&format=Png&isCircular=false&returnPolicy=PlaceHolder&universeIds=" + string.Join(",", chunk.Select(p => p.UniverseId));
+			string url =
+				"https://thumbnails.roblox.com/v1/games/icons?size=256x256&format=Png&isCircular=false&returnPolicy=PlaceHolder&universeIds="
+				+ string.Join(",", chunk.Select(p => p.UniverseId));
 			try
 			{
 				using JsonDocument doc = JsonDocument.Parse(await Utility.Http.GetString(url, ct).ConfigureAwait(false));
@@ -364,7 +387,9 @@ public static class StudioProjects
 				{
 					long target = t.TryGetProperty("targetId", out JsonElement id) ? id.GetInt64() : 0;
 					string? image = t.TryGetProperty("imageUrl", out JsonElement img) ? img.GetString() : null;
-					bool stillGenerating = t.TryGetProperty("state", out JsonElement state) && string.Equals(state.GetString(), "Pending", StringComparison.OrdinalIgnoreCase);
+					bool stillGenerating =
+						t.TryGetProperty("state", out JsonElement state)
+						&& string.Equals(state.GetString(), "Pending", StringComparison.OrdinalIgnoreCase);
 					foreach (StudioProject p in chunk.Where(p => p.UniverseId == target))
 					{
 						if (!string.IsNullOrEmpty(image))

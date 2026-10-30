@@ -20,7 +20,11 @@ internal static class RasterFallback
 			if (Platform.IsWindows)
 			{
 				using MemoryStream stream = new MemoryStream(bytes, false);
-				BitmapDecoder decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.None);
+				BitmapDecoder decoder = BitmapDecoder.Create(
+					stream,
+					BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile,
+					BitmapCacheOption.None
+				);
 				if (decoder.Frames.Count == 0)
 					return false;
 				width = decoder.Frames[0].PixelWidth;
@@ -46,7 +50,11 @@ internal static class RasterFallback
 		if (Platform.IsWindows)
 		{
 			using MemoryStream stream = new MemoryStream(bytes, false);
-			BitmapDecoder decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.PreservePixelFormat | BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad);
+			BitmapDecoder decoder = BitmapDecoder.Create(
+				stream,
+				BitmapCreateOptions.PreservePixelFormat | BitmapCreateOptions.IgnoreColorProfile,
+				BitmapCacheOption.OnLoad
+			);
 			if (decoder.Frames.Count == 0)
 				throw new InvalidDataException("The image has no frames");
 			BitmapSource frame = decoder.Frames[0];
@@ -142,7 +150,10 @@ internal static class RasterFallback
 			int lines = horizontal ? height : width;
 			for (int line = 0; line < lines; line++)
 			{
-				float blue = 0, green = 0, red = 0, alpha = 0;
+				float blue = 0,
+					green = 0,
+					red = 0,
+					alpha = 0;
 				for (int sample = start; sample <= end; sample++)
 				{
 					float weight = (float)(weights[sample - start] / total);
@@ -167,12 +178,18 @@ internal static class RasterFallback
 	public static byte[] EncodePng(byte[] pixels, int width, int height, PngLevel level)
 	{
 		using MemoryStream raw = new MemoryStream();
-		using (ZLibStream zlib = new ZLibStream(raw, level switch
-		{
-			PngLevel.Fast => CompressionLevel.Fastest,
-			PngLevel.Best => CompressionLevel.SmallestSize,
-			_ => CompressionLevel.Optimal
-		}, leaveOpen: true))
+		using (
+			ZLibStream zlib = new ZLibStream(
+				raw,
+				level switch
+				{
+					PngLevel.Fast => CompressionLevel.Fastest,
+					PngLevel.Best => CompressionLevel.SmallestSize,
+					_ => CompressionLevel.Optimal,
+				},
+				leaveOpen: true
+			)
+		)
 		{
 			byte[] row = new byte[width * 4 + 1];
 			for (int y = 0; y < height; y++)

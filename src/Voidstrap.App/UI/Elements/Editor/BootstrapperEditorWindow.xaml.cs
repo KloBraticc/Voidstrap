@@ -9,6 +9,7 @@ using System.Text.Json;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Markup;
+using System.Windows.Threading;
 using System.Xml;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
@@ -17,19 +18,19 @@ using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ICSharpCode.AvalonEdit.Indentation;
 using ICSharpCode.AvalonEdit.Rendering;
 using ICSharpCode.AvalonEdit.Search;
-using System.Windows.Threading;
-using Voidstrap.Utility;
-using Voidstrap.UI.Elements.Controls;
 using Voidstrap.Extensions;
 using Voidstrap.Resources;
 using Voidstrap.UI.Elements.Base;
+using Voidstrap.UI.Elements.Controls;
 using Voidstrap.UI.ViewModels.Editor;
+using Voidstrap.Utility;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Editor;
 
-public partial class BootstrapperEditorWindow : WpfUiWindow{
+public partial class BootstrapperEditorWindow : WpfUiWindow
+{
 	private static class CustomBootstrapperSchema
 	{
 		private sealed class Schema
@@ -57,7 +58,8 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 		private static Schema? _schema;
 
-		public static SortedDictionary<string, SortedDictionary<string, string>> ElementInfo { get; set; } = new SortedDictionary<string, SortedDictionary<string, string>>();
+		public static SortedDictionary<string, SortedDictionary<string, string>> ElementInfo { get; set; } =
+			new SortedDictionary<string, SortedDictionary<string, string>>();
 
 		public static Dictionary<string, List<string>> PropertyElements { get; set; } = new Dictionary<string, List<string>>();
 
@@ -88,7 +90,10 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 				Types.Clear();
 				ElementInfo.Clear();
 				PropertyElements.Clear();
-				App.Logger?.WriteLine("BootstrapperEditorWindow::ParseSchema", "Could not load the editor schema, autocomplete is off: " + ex.Message);
+				App.Logger?.WriteLine(
+					"BootstrapperEditorWindow::ParseSchema",
+					"Could not load the editor schema, autocomplete is off: " + ex.Message
+				);
 			}
 		}
 
@@ -214,10 +219,18 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		UIXML.Options.EnableTextDragDrop = true;
 		UIXML.Options.CutCopyWholeLine = true;
 		UIXML.TextArea.IndentationStrategy = new DefaultIndentationStrategy();
-		UIXML.TextArea.TextView.CurrentLineBackground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(28, 96, 165, 250));
-		UIXML.TextArea.TextView.CurrentLineBorder = new System.Windows.Media.Pen(new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(72, 96, 165, 250)), 1);
+		UIXML.TextArea.TextView.CurrentLineBackground = new System.Windows.Media.SolidColorBrush(
+			System.Windows.Media.Color.FromArgb(28, 96, 165, 250)
+		);
+		UIXML.TextArea.TextView.CurrentLineBorder = new System.Windows.Media.Pen(
+			new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(72, 96, 165, 250)),
+			1
+		);
 		UIXML.TextArea.SelectionBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(110, 65, 135, 225));
-		UIXML.TextArea.SelectionBorder = new System.Windows.Media.Pen(new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(180, 96, 165, 250)), 1);
+		UIXML.TextArea.SelectionBorder = new System.Windows.Media.Pen(
+			new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(180, 96, 165, 250)),
+			1
+		);
 		UIXML.TextArea.Caret.CaretBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(116, 185, 255));
 		_searchPanel = SearchPanel.Install(UIXML.TextArea);
 		UpdateEditorStatus();
@@ -281,7 +294,6 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		ScalePreview();
 	}
 
-
 	private void ThemeSavedCallback(bool success, string message)
 	{
 		if (success)
@@ -313,14 +325,20 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 	{
 		if (_viewModel.CodeChanged)
 		{
-			switch (Frontend.ShowMessageBox(string.Format(Strings.CustomTheme_Editor_ConfirmSave, _viewModel.Name), MessageBoxImage.Asterisk, MessageBoxButton.YesNoCancel))
+			switch (
+				Frontend.ShowMessageBox(
+					string.Format(Strings.CustomTheme_Editor_ConfirmSave, _viewModel.Name),
+					MessageBoxImage.Asterisk,
+					MessageBoxButton.YesNoCancel
+				)
+			)
 			{
-			case MessageBoxResult.Cancel:
-				e.Cancel = true;
-				break;
-			case MessageBoxResult.Yes:
-				SaveActiveFile();
-				break;
+				case MessageBoxResult.Cancel:
+					e.Cancel = true;
+					break;
+				case MessageBoxResult.Yes:
+					SaveActiveFile();
+					break;
 			}
 		}
 
@@ -367,34 +385,34 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		{
 			switch (e.Text)
 			{
-			case "<":
-				OpenElementAutoComplete();
-				break;
-			case " ":
-				OpenAttributeAutoComplete();
-				break;
-			case ".":
-				OpenPropertyElementAutoComplete();
-				break;
-			case "/":
-				AddEndTag();
-				break;
-			case ">":
-				CloseCompletionWindow();
-				break;
-			case "!":
-				CloseCompletionWindow();
-				break;
-			case "\"":
-				TryAutoComplete(force: true);
-				break;
-			case "=":
-				TryAutoComplete(force: true);
-				break;
-			default:
-				if (e.Text.Length == 1 && IsWordChar(e.Text[0]))
-					TryAutoComplete(force: false);
-				break;
+				case "<":
+					OpenElementAutoComplete();
+					break;
+				case " ":
+					OpenAttributeAutoComplete();
+					break;
+				case ".":
+					OpenPropertyElementAutoComplete();
+					break;
+				case "/":
+					AddEndTag();
+					break;
+				case ">":
+					CloseCompletionWindow();
+					break;
+				case "!":
+					CloseCompletionWindow();
+					break;
+				case "\"":
+					TryAutoComplete(force: true);
+					break;
+				case "=":
+					TryAutoComplete(force: true);
+					break;
+				default:
+					if (e.Text.Length == 1 && IsWordChar(e.Text[0]))
+						TryAutoComplete(force: false);
+					break;
 			}
 		}
 		catch (Exception ex)
@@ -502,11 +520,11 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			char c = item[num];
 			switch (c)
 			{
-			case '\t':
-			case ' ':
-				return null;
-			case '<':
-				return text;
+				case '\t':
+				case ' ':
+					return null;
+				case '<':
+					return text;
 			}
 			text = c + text;
 			num--;
@@ -538,7 +556,12 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 	private void AddEndTag()
 	{
 		CloseCompletionWindow();
-		if (UIXML.CaretOffset >= 2 && UIXML.Text.Length > 2 && UIXML.CaretOffset - 2 < UIXML.Text.Length && UIXML.Text[UIXML.CaretOffset - 2] == '<')
+		if (
+			UIXML.CaretOffset >= 2
+			&& UIXML.Text.Length > 2
+			&& UIXML.CaretOffset - 2 < UIXML.Text.Length
+			&& UIXML.Text[UIXML.CaretOffset - 2] == '<'
+		)
 		{
 			string? elementAtCursor = GetElementAtCursor(UIXML.Text, UIXML.CaretOffset - 3);
 			if (elementAtCursor != null)
@@ -557,7 +580,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		None,
 		ElementName,
 		AttributeName,
-		AttributeValue
+		AttributeValue,
 	}
 
 	private static bool IsWordChar(char value)
@@ -685,7 +708,10 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 	private void OpenAttributesFor(string elementName, int wordStart)
 	{
-		if (string.IsNullOrEmpty(elementName) || !CustomBootstrapperSchema.ElementInfo.TryGetValue(elementName, out SortedDictionary<string, string>? value))
+		if (
+			string.IsNullOrEmpty(elementName)
+			|| !CustomBootstrapperSchema.ElementInfo.TryGetValue(elementName, out SortedDictionary<string, string>? value)
+		)
 			return;
 
 		var list = new List<ICompletionData>();
@@ -693,10 +719,16 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		foreach (KeyValuePair<string, string> attribute in value)
 		{
 			string type = attribute.Value;
-			list.Add(new AttributeCompletionData(attribute.Key, type, delegate
-			{
-				OpenTypeValueAutoComplete(type);
-			}));
+			list.Add(
+				new AttributeCompletionData(
+					attribute.Key,
+					type,
+					delegate
+					{
+						OpenTypeValueAutoComplete(type);
+					}
+				)
+			);
 		}
 
 		ShowCompletionWindow(list, wordStart);
@@ -758,13 +790,19 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			return;
 		}
 
-        List<ICompletionData> list = new List<ICompletionData>();
+		List<ICompletionData> list = new List<ICompletionData>();
 		foreach (KeyValuePair<string, string> attribute in sortedDictionary)
 		{
-			list.Add(new AttributeCompletionData(attribute.Key, attribute.Value, delegate
-			{
-				OpenTypeValueAutoComplete(attribute.Value);
-			}));
+			list.Add(
+				new AttributeCompletionData(
+					attribute.Key,
+					attribute.Value,
+					delegate
+					{
+						OpenTypeValueAutoComplete(attribute.Value);
+					}
+				)
+			);
 		}
 		ShowCompletionWindow(list);
 	}
@@ -802,7 +840,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			return;
 		}
 
-        List<ICompletionData> list2 = new List<ICompletionData>();
+		List<ICompletionData> list2 = new List<ICompletionData>();
 		foreach (string item in list)
 		{
 			list2.Add(new TypeValueCompletionData(item));
@@ -942,7 +980,10 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			box.BorderThickness = new Thickness(0);
 			box.Padding = new Thickness(2);
 			box.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Stretch;
-			System.Windows.Controls.ScrollViewer.SetHorizontalScrollBarVisibility(box, System.Windows.Controls.ScrollBarVisibility.Disabled);
+			System.Windows.Controls.ScrollViewer.SetHorizontalScrollBarVisibility(
+				box,
+				System.Windows.Controls.ScrollBarVisibility.Disabled
+			);
 
 			if (_completionItemStyle != null)
 				box.ItemContainerStyle = _completionItemStyle;
@@ -996,9 +1037,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 	{
 		try
 		{
-			var main = System.Windows.Application.Current?.Windows
-				.OfType<Voidstrap.UI.Elements.Settings.MainWindow>()
-				.FirstOrDefault();
+			var main = System.Windows.Application.Current?.Windows.OfType<Voidstrap.UI.Elements.Settings.MainWindow>().FirstOrDefault();
 
 			if (main == null)
 				return;
@@ -1091,7 +1130,11 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		}
 		catch (Exception ex)
 		{
-			try { dialog?.Close(); } catch { }
+			try
+			{
+				dialog?.Close();
+			}
+			catch { }
 			ShowPreviewProblem(ex);
 			return;
 		}
@@ -1130,7 +1173,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 				var tint = new System.Windows.Controls.Border
 				{
-					Background = new System.Windows.Media.SolidColorBrush(Voidstrap.UI.WindowBackdrop.CreateSurfaceColor(backdrop))
+					Background = new System.Windows.Media.SolidColorBrush(Voidstrap.UI.WindowBackdrop.CreateSurfaceColor(backdrop)),
 				};
 
 				layers.Children.Add(tint);
@@ -1145,7 +1188,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 				Background = glass ? System.Windows.Media.Brushes.Transparent : dialog.Background,
 				CornerRadius = CornerFor(dialog),
 				ClipToBounds = true,
-				Child = layers
+				Child = layers,
 			};
 
 			shell.LayoutTransform = new System.Windows.Media.ScaleTransform(1, 1);
@@ -1160,7 +1203,11 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		}
 		catch (Exception ex)
 		{
-			try { dialog.Close(); } catch { }
+			try
+			{
+				dialog.Close();
+			}
+			catch { }
 			ShowPreviewProblem(ex);
 		}
 	}
@@ -1214,7 +1261,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			Voidstrap.Models.BackdropType.MicaAlt => 110,
 			Voidstrap.Models.BackdropType.Acrylic => 42,
 			Voidstrap.Models.BackdropType.Aero => 42,
-			_ => 60
+			_ => 60,
 		};
 	}
 
@@ -1224,7 +1271,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		{
 			Radius = BlurFor(backdrop),
 			KernelType = System.Windows.Media.Effects.KernelType.Gaussian,
-			RenderingBias = System.Windows.Media.Effects.RenderingBias.Quality
+			RenderingBias = System.Windows.Media.Effects.RenderingBias.Quality,
 		};
 
 		System.Windows.Media.ImageSource? wallpaper = DesktopWallpaper();
@@ -1235,15 +1282,11 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			{
 				Source = wallpaper,
 				Stretch = System.Windows.Media.Stretch.UniformToFill,
-				Effect = blur
+				Effect = blur,
 			};
 		}
 
-		var fallback = new System.Windows.Media.LinearGradientBrush
-		{
-			StartPoint = new Point(0, 0),
-			EndPoint = new Point(1, 1)
-		};
+		var fallback = new System.Windows.Media.LinearGradientBrush { StartPoint = new Point(0, 0), EndPoint = new Point(1, 1) };
 
 		fallback.GradientStops.Add(new System.Windows.Media.GradientStop(System.Windows.Media.Color.FromRgb(0x2A, 0x3B, 0x55), 0));
 		fallback.GradientStops.Add(new System.Windows.Media.GradientStop(System.Windows.Media.Color.FromRgb(0x14, 0x18, 0x22), 1));
@@ -1257,7 +1300,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		{
 			Wpf.Ui.Appearance.WindowCornerPreference.DoNotRound => new CornerRadius(0),
 			Wpf.Ui.Appearance.WindowCornerPreference.RoundSmall => new CornerRadius(4),
-			_ => new CornerRadius(8)
+			_ => new CornerRadius(8),
 		};
 	}
 
@@ -1290,7 +1333,11 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		if (_previewDialog == null)
 			return;
 
-		try { _previewDialog.Close(); } catch { }
+		try
+		{
+			_previewDialog.Close();
+		}
+		catch { }
 
 		_previewDialog = null;
 	}
@@ -1429,7 +1476,22 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 	private static readonly string[] TextFileExtensions = { ".xml", ".html", ".htm", ".css", ".js", ".json", ".txt", ".md", ".svg" };
 
-	private static readonly string[] ImageFileExtensions = { ".png", ".apng", ".jpg", ".jpeg", ".jfif", ".jpe", ".jff", ".webp", ".gif", ".bmp", ".dib", ".ico", ".cur" };
+	private static readonly string[] ImageFileExtensions =
+	{
+		".png",
+		".apng",
+		".jpg",
+		".jpeg",
+		".jfif",
+		".jpe",
+		".jff",
+		".webp",
+		".gif",
+		".bmp",
+		".dib",
+		".ico",
+		".cur",
+	};
 
 	private static readonly string[] MediaFileExtensions = { ".mp4", ".webm", ".mov", ".mp3", ".wav", ".ogg", ".m4a", ".flac" };
 
@@ -1475,7 +1537,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			_themeWatcher = new FileSystemWatcher(_viewModel.Directory)
 			{
 				IncludeSubdirectories = true,
-				NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastWrite | NotifyFilters.Size
+				NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastWrite | NotifyFilters.Size,
 			};
 			_themeWatcher.Changed += OnThemeFileChanged;
 			_themeWatcher.Created += OnThemeFileChanged;
@@ -1510,7 +1572,10 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 	private void OnThemeWatchError(object sender, ErrorEventArgs e)
 	{
-		App.Logger?.WriteLine("BootstrapperEditorWindow::StartThemeWatch", "The theme folder watch hit an error: " + e.GetException().Message);
+		App.Logger?.WriteLine(
+			"BootstrapperEditorWindow::StartThemeWatch",
+			"The theme folder watch hit an error: " + e.GetException().Message
+		);
 	}
 
 	private void OnThemeFileChanged(object sender, FileSystemEventArgs e)
@@ -1572,31 +1637,34 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 				string full = Path.Combine(_viewModel.Directory, relative.Replace('/', Path.DirectorySeparatorChar));
 				long size = 0;
 
-				try { size = new FileInfo(full).Length; } catch { }
-
-			bool isText = HasExtension(relative, TextFileExtensions);
-			bool isImage = HasExtension(relative, ImageFileExtensions);
-			bool isMedia = HasExtension(relative, MediaFileExtensions);
-
-				_files.Add(new ThemeFile
+				try
 				{
-					RelativePath = relative,
-					FullPath = full,
-					Display = relative,
-					SizeText = HumanSize(size),
-					IsText = isText,
-					IsImage = isImage,
-					IsRoot = relative.Equals("Theme.xml", StringComparison.OrdinalIgnoreCase),
-				Icon = relative.Equals("Theme.xml", StringComparison.OrdinalIgnoreCase)
-					? SymbolRegular.Code24
-					: isImage
-						? SymbolRegular.Image24
-						: isMedia
-							? SymbolRegular.Video24
-							: isText
-								? SymbolRegular.DocumentText24
-								: SymbolRegular.Document24
-				});
+					size = new FileInfo(full).Length;
+				}
+				catch { }
+
+				bool isText = HasExtension(relative, TextFileExtensions);
+				bool isImage = HasExtension(relative, ImageFileExtensions);
+				bool isMedia = HasExtension(relative, MediaFileExtensions);
+
+				_files.Add(
+					new ThemeFile
+					{
+						RelativePath = relative,
+						FullPath = full,
+						Display = relative,
+						SizeText = HumanSize(size),
+						IsText = isText,
+						IsImage = isImage,
+						IsRoot = relative.Equals("Theme.xml", StringComparison.OrdinalIgnoreCase),
+						Icon =
+							relative.Equals("Theme.xml", StringComparison.OrdinalIgnoreCase) ? SymbolRegular.Code24
+							: isImage ? SymbolRegular.Image24
+							: isMedia ? SymbolRegular.Video24
+							: isText ? SymbolRegular.DocumentText24
+							: SymbolRegular.Document24,
+					}
+				);
 			}
 		}
 		catch (Exception ex)
@@ -1608,9 +1676,10 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			_suppressFileSelection = wasSuppressed;
 		}
 
-		ThemeFile? same = _activeFile == null
-			? null
-			: _files.FirstOrDefault(f => f.RelativePath.Equals(_activeFile.RelativePath, StringComparison.OrdinalIgnoreCase));
+		ThemeFile? same =
+			_activeFile == null
+				? null
+				: _files.FirstOrDefault(f => f.RelativePath.Equals(_activeFile.RelativePath, StringComparison.OrdinalIgnoreCase));
 
 		if (same != null)
 		{
@@ -1624,8 +1693,8 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 	private void SelectFile(string relativePath)
 	{
-		ThemeFile? match = _files.FirstOrDefault(f => f.RelativePath.Equals(relativePath, StringComparison.OrdinalIgnoreCase))
-			?? _files.FirstOrDefault();
+		ThemeFile? match =
+			_files.FirstOrDefault(f => f.RelativePath.Equals(relativePath, StringComparison.OrdinalIgnoreCase)) ?? _files.FirstOrDefault();
 
 		_suppressFileSelection = true;
 		FileList.SelectedItem = match;
@@ -1650,9 +1719,10 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 		try
 		{
-			FileList.SelectedItem = _activeFile != null
-				? _files.FirstOrDefault(f => f.RelativePath.Equals(_activeFile.RelativePath, StringComparison.OrdinalIgnoreCase))
-				: null;
+			FileList.SelectedItem =
+				_activeFile != null
+					? _files.FirstOrDefault(f => f.RelativePath.Equals(_activeFile.RelativePath, StringComparison.OrdinalIgnoreCase))
+					: null;
 		}
 		finally
 		{
@@ -1744,8 +1814,17 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 				if (portable == null)
 					throw new InvalidDataException("Unsupported image data");
 				MediaImage.Source = portable;
-				MediaInfo.Text = file.RelativePath + "\n" + portable.PixelWidth + " by " + portable.PixelHeight + ", " + file.SizeText
-					+ "\n\nUse theme://" + file.RelativePath + " to reference it.";
+				MediaInfo.Text =
+					file.RelativePath
+					+ "\n"
+					+ portable.PixelWidth
+					+ " by "
+					+ portable.PixelHeight
+					+ ", "
+					+ file.SizeText
+					+ "\n\nUse theme://"
+					+ file.RelativePath
+					+ " to reference it.";
 				return;
 			}
 			var image = new System.Windows.Media.Imaging.BitmapImage();
@@ -1757,15 +1836,23 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			image.Freeze();
 
 			MediaImage.Source = image;
-			MediaInfo.Text = file.RelativePath + "\n" + image.PixelWidth + " by " + image.PixelHeight + ", " + file.SizeText
-				+ "\n\nUse theme://" + file.RelativePath + " to reference it.";
+			MediaInfo.Text =
+				file.RelativePath
+				+ "\n"
+				+ image.PixelWidth
+				+ " by "
+				+ image.PixelHeight
+				+ ", "
+				+ file.SizeText
+				+ "\n\nUse theme://"
+				+ file.RelativePath
+				+ " to reference it.";
 		}
 		catch (Exception ex)
 		{
 			MediaImage.Source = null;
 			MediaInfo.Text = file.RelativePath + "\n\nThis image could not be shown: " + ex.Message;
 		}
-
 	}
 
 	private void ShowUnsupported(ThemeFile file)
@@ -1775,9 +1862,14 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		EditorDirtyLabel.Text = "";
 		MediaPanel.Visibility = Visibility.Visible;
 		MediaImage.Source = null;
-		MediaInfo.Text = file.RelativePath + "\n" + file.SizeText
+		MediaInfo.Text =
+			file.RelativePath
+			+ "\n"
+			+ file.SizeText
 			+ "\n\nThis file cannot be edited here. Use Replace to swap it for another file."
-			+ "\n\nUse theme://" + file.RelativePath + " to reference it.";
+			+ "\n\nUse theme://"
+			+ file.RelativePath
+			+ " to reference it.";
 	}
 
 	private bool SaveActiveFile(bool silent = false)
@@ -1928,7 +2020,8 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		{
 			Title = "Add files to this theme",
 			Multiselect = true,
-			Filter = "Theme files|*.png;*.jpg;*.jpeg;*.jfif;*.webp;*.gif;*.bmp;*.ico;*.ttf;*.otf;*.ttc;*.html;*.htm;*.css;*.js;*.mp4;*.webm;*.mov;*.mp3;*.wav;*.ogg;*.m4a;*.flac|All files|*.*"
+			Filter =
+				"Theme files|*.png;*.jpg;*.jpeg;*.jfif;*.webp;*.gif;*.bmp;*.ico;*.ttf;*.otf;*.ttc;*.html;*.htm;*.css;*.js;*.mp4;*.webm;*.mov;*.mp3;*.wav;*.ogg;*.m4a;*.flac|All files|*.*",
 		};
 
 		if (picker.ShowDialog(this) != true)
@@ -1945,8 +2038,10 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 				while (File.Exists(target))
 				{
-					target = Path.Combine(_viewModel.Directory,
-						Path.GetFileNameWithoutExtension(source) + " " + suffix + Path.GetExtension(source));
+					target = Path.Combine(
+						_viewModel.Directory,
+						Path.GetFileNameWithoutExtension(source) + " " + suffix + Path.GetExtension(source)
+					);
 					suffix++;
 				}
 
@@ -2021,7 +2116,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			Title = "Replace " + file.RelativePath,
 			Filter = file.IsImage
 				? "Images|*.png;*.jpg;*.jpeg;*.jfif;*.webp;*.gif;*.bmp;*.ico|All files|*.*"
-				: "Matching files|*" + extension + "|All files|*.*"
+				: "Matching files|*" + extension + "|All files|*.*",
 		};
 
 		if (picker.ShowDialog(this) != true)
@@ -2083,7 +2178,14 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			return;
 		}
 
-		if (Frontend.ShowMessageBox("Delete " + file.RelativePath + " from this theme?", MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+		if (
+			Frontend.ShowMessageBox(
+				"Delete " + file.RelativePath + " from this theme?",
+				MessageBoxImage.Warning,
+				MessageBoxButton.YesNo,
+				MessageBoxResult.No
+			) != MessageBoxResult.Yes
+		)
 			return;
 
 		try
@@ -2106,7 +2208,11 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		if (file == null)
 			return;
 
-		try { Voidstrap.Utility.ClipboardService.SetText("theme://" + file.RelativePath); } catch { }
+		try
+		{
+			Voidstrap.Utility.ClipboardService.SetText("theme://" + file.RelativePath);
+		}
+		catch { }
 
 		ThemeSavedCallback(true, "Copied theme://" + file.RelativePath);
 	}
@@ -2122,7 +2228,12 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			if (!Voidstrap.Utility.Platform.IsWindows)
 				Voidstrap.Utility.PlatformShell.TryRevealFile(file.FullPath);
 			else
-				using (Process? process = Process.Start(Voidstrap.Utility.PlatformShell.WindowsTool("explorer.exe"), "/select,\"" + file.FullPath + "\"")) { }
+				using (
+					Process? process = Process.Start(
+						Voidstrap.Utility.PlatformShell.WindowsTool("explorer.exe"),
+						"/select,\"" + file.FullPath + "\""
+					)
+				) { }
 		}
 		catch (Exception ex)
 		{
@@ -2212,7 +2323,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		_externalWatcher = new FileSystemWatcher(folder, Path.GetFileName(themePath))
 		{
 			NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size,
-			EnableRaisingEvents = true
+			EnableRaisingEvents = true,
 		};
 
 		_externalWatcher.Changed += OnExternalFileChanged;
@@ -2222,7 +2333,10 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 	private void OnExternalWatchError(object sender, ErrorEventArgs e)
 	{
-		App.Logger?.WriteLine("BootstrapperEditorWindow::StartExternalWatch", "The external file watch hit an error: " + e.GetException().Message);
+		App.Logger?.WriteLine(
+			"BootstrapperEditorWindow::StartExternalWatch",
+			"The external file watch hit an error: " + e.GetException().Message
+		);
 	}
 
 	private void StopExternalWatch()
@@ -2237,9 +2351,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 				_externalWatcher.Error -= OnExternalWatchError;
 				_externalWatcher.Dispose();
 			}
-			catch
-			{
-			}
+			catch { }
 
 			_externalWatcher = null;
 		}
@@ -2261,17 +2373,21 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 		try
 		{
-			Dispatcher.BeginInvoke(new Action(delegate
-			{
-				if (_externalReload == null)
-				{
-					_externalReload = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(250) };
-					_externalReload.Tick += OnExternalReloadTick;
-				}
+			Dispatcher.BeginInvoke(
+				new Action(
+					delegate
+					{
+						if (_externalReload == null)
+						{
+							_externalReload = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(250) };
+							_externalReload.Tick += OnExternalReloadTick;
+						}
 
-				_externalReload.Stop();
-				_externalReload.Start();
-			}));
+						_externalReload.Stop();
+						_externalReload.Start();
+					}
+				)
+			);
 		}
 		catch (Exception ex)
 		{
@@ -2322,6 +2438,6 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		}
 	}
 
-    [GeneratedRegex(@"line (\d+)", System.Text.RegularExpressions.RegexOptions.IgnoreCase, "en-US")]
-    private static partial Regex LineNumberPattern { get; }
+	[GeneratedRegex(@"line (\d+)", System.Text.RegularExpressions.RegexOptions.IgnoreCase, "en-US")]
+	private static partial Regex LineNumberPattern { get; }
 }

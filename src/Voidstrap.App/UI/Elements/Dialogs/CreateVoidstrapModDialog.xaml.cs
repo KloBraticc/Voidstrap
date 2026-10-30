@@ -28,39 +28,48 @@ public partial class CreateVoidstrapModDialog : WpfUiWindow
 		Closed += OnDialogClosed;
 	}
 
-	public static string TemplateTitle(string key) => key switch
-	{
-		"dashboard" => Strings.Ui_VoidstrapMods_TemplateDashboard,
-		"sidebar-page" => Strings.Ui_VoidstrapMods_TemplateSidebarPage,
-		"theme-customizer" => Strings.Ui_VoidstrapMods_TemplateThemeCustomizer,
-		"sidebar-manager" => Strings.Ui_VoidstrapMods_TemplateSidebarManager,
-		"fastflags" => Strings.Ui_VoidstrapMods_TemplateFastFlags,
-		"game-hooks" => Strings.Ui_VoidstrapMods_TemplateGameHooks,
-		_ => Strings.Ui_VoidstrapMods_TemplateBlank
-	};
+	public static string TemplateTitle(string key) =>
+		key switch
+		{
+			"dashboard" => Strings.Ui_VoidstrapMods_TemplateDashboard,
+			"sidebar-page" => Strings.Ui_VoidstrapMods_TemplateSidebarPage,
+			"theme-customizer" => Strings.Ui_VoidstrapMods_TemplateThemeCustomizer,
+			"sidebar-manager" => Strings.Ui_VoidstrapMods_TemplateSidebarManager,
+			"fastflags" => Strings.Ui_VoidstrapMods_TemplateFastFlags,
+			"game-hooks" => Strings.Ui_VoidstrapMods_TemplateGameHooks,
+			_ => Strings.Ui_VoidstrapMods_TemplateBlank,
+		};
 
-	public static string TemplateDescription(string key) => key switch
-	{
-		"dashboard" => Strings.Ui_VoidstrapMods_TemplateDashboardDescription,
-		"sidebar-page" => Strings.Ui_VoidstrapMods_TemplateSidebarPageDescription,
-		"theme-customizer" => Strings.Ui_VoidstrapMods_TemplateThemeCustomizerDescription,
-		"sidebar-manager" => Strings.Ui_VoidstrapMods_TemplateSidebarManagerDescription,
-		"fastflags" => Strings.Ui_VoidstrapMods_TemplateFastFlagsDescription,
-		"game-hooks" => Strings.Ui_VoidstrapMods_TemplateGameHooksDescription,
-		_ => Strings.Ui_VoidstrapMods_TemplateBlankDescription
-	};
+	public static string TemplateDescription(string key) =>
+		key switch
+		{
+			"dashboard" => Strings.Ui_VoidstrapMods_TemplateDashboardDescription,
+			"sidebar-page" => Strings.Ui_VoidstrapMods_TemplateSidebarPageDescription,
+			"theme-customizer" => Strings.Ui_VoidstrapMods_TemplateThemeCustomizerDescription,
+			"sidebar-manager" => Strings.Ui_VoidstrapMods_TemplateSidebarManagerDescription,
+			"fastflags" => Strings.Ui_VoidstrapMods_TemplateFastFlagsDescription,
+			"game-hooks" => Strings.Ui_VoidstrapMods_TemplateGameHooksDescription,
+			_ => Strings.Ui_VoidstrapMods_TemplateBlankDescription,
+		};
 
 	private static ListBoxItem BuildTemplateItem(ModFiles.Template template)
 	{
 		StackPanel panel = new() { Margin = new Thickness(2, 4, 2, 4) };
 		panel.Children.Add(new TextBlock { Text = TemplateTitle(template.Key), FontWeight = FontWeights.SemiBold });
-		TextBlock description = new() { Text = TemplateDescription(template.Key), FontSize = 12, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 2, 0, 0) };
+		TextBlock description = new()
+		{
+			Text = TemplateDescription(template.Key),
+			FontSize = 12,
+			TextWrapping = TextWrapping.Wrap,
+			Margin = new Thickness(0, 2, 0, 0),
+		};
 		description.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorTertiaryBrush");
 		panel.Children.Add(description);
 		return new ListBoxItem { Content = panel, Tag = template };
 	}
 
-	private ModFiles.Template SelectedTemplate => (TemplateList.SelectedItem as ListBoxItem)?.Tag as ModFiles.Template ?? ModFiles.Templates[0];
+	private ModFiles.Template SelectedTemplate =>
+		(TemplateList.SelectedItem as ListBoxItem)?.Tag as ModFiles.Template ?? ModFiles.Templates[0];
 
 	private void OnDialogLoaded(object sender, RoutedEventArgs e)
 	{

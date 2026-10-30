@@ -13,8 +13,20 @@ public static class RobloxAnimationParser
 
 	private static readonly string[] R15OnlyParts =
 	[
-		"LowerTorso", "UpperTorso", "LeftUpperArm", "LeftLowerArm", "LeftHand", "RightUpperArm", "RightLowerArm", "RightHand", "LeftUpperLeg", "LeftLowerLeg",
-		"LeftFoot", "RightUpperLeg", "RightLowerLeg", "RightFoot"
+		"LowerTorso",
+		"UpperTorso",
+		"LeftUpperArm",
+		"LeftLowerArm",
+		"LeftHand",
+		"RightUpperArm",
+		"RightLowerArm",
+		"RightHand",
+		"LeftUpperLeg",
+		"LeftLowerLeg",
+		"LeftFoot",
+		"RightUpperLeg",
+		"RightLowerLeg",
+		"RightFoot",
 	];
 
 	private static readonly string[] R6OnlyParts = ["Torso", "Left Arm", "Right Arm", "Left Leg", "Right Leg"];
@@ -89,23 +101,28 @@ public static class RobloxAnimationParser
 			pos += num5;
 			switch (text)
 			{
-			case "INST":
-				HandleInst(array, classNameByIndex, referentsByClass, classNameByReferent);
-				break;
-			case "PROP":
-				HandleProp(array, classNameByIndex, referentsByClass, timeByRef, nameByRef, cframeByRef);
-				break;
-			case "PRNT":
-				HandlePrnt(array, parentByRef);
-				break;
-			case "END\0":
-				return Build(classNameByReferent, timeByRef, nameByRef, cframeByRef, parentByRef);
+				case "INST":
+					HandleInst(array, classNameByIndex, referentsByClass, classNameByReferent);
+					break;
+				case "PROP":
+					HandleProp(array, classNameByIndex, referentsByClass, timeByRef, nameByRef, cframeByRef);
+					break;
+				case "PRNT":
+					HandlePrnt(array, parentByRef);
+					break;
+				case "END\0":
+					return Build(classNameByReferent, timeByRef, nameByRef, cframeByRef, parentByRef);
 			}
 		}
 		return Build(classNameByReferent, timeByRef, nameByRef, cframeByRef, parentByRef);
 	}
 
-	private static void HandleInst(byte[] p, Dictionary<int, string> classNameByIndex, Dictionary<int, int[]> referentsByClass, Dictionary<int, string> classNameByReferent)
+	private static void HandleInst(
+		byte[] p,
+		Dictionary<int, string> classNameByIndex,
+		Dictionary<int, int[]> referentsByClass,
+		Dictionary<int, string> classNameByReferent
+	)
 	{
 		int pos = 0;
 		int key = (int)ReadU32(p, ref pos);
@@ -129,7 +146,14 @@ public static class RobloxAnimationParser
 		}
 	}
 
-	private static void HandleProp(byte[] p, Dictionary<int, string> classNameByIndex, Dictionary<int, int[]> referentsByClass, Dictionary<int, double> timeByRef, Dictionary<int, string> nameByRef, Dictionary<int, RobloxCFrame> cframeByRef)
+	private static void HandleProp(
+		byte[] p,
+		Dictionary<int, string> classNameByIndex,
+		Dictionary<int, int[]> referentsByClass,
+		Dictionary<int, double> timeByRef,
+		Dictionary<int, string> nameByRef,
+		Dictionary<int, RobloxCFrame> cframeByRef
+	)
 	{
 		int pos = 0;
 		int key = (int)ReadU32(p, ref pos);
@@ -185,15 +209,18 @@ public static class RobloxAnimationParser
 		}
 	}
 
-	private static AnimationData? Build(Dictionary<int, string> classNameByReferent, Dictionary<int, double> timeByRef, Dictionary<int, string> nameByRef, Dictionary<int, RobloxCFrame> cframeByRef, Dictionary<int, int> parentByRef)
+	private static AnimationData? Build(
+		Dictionary<int, string> classNameByReferent,
+		Dictionary<int, double> timeByRef,
+		Dictionary<int, string> nameByRef,
+		Dictionary<int, RobloxCFrame> cframeByRef,
+		Dictionary<int, int> parentByRef
+	)
 	{
 		Dictionary<int, AnimKeyframe> dictionary = [];
 		foreach (KeyValuePair<int, double> item in timeByRef)
 		{
-			dictionary[item.Key] = new AnimKeyframe
-			{
-				Time = item.Value
-			};
+			dictionary[item.Key] = new AnimKeyframe { Time = item.Value };
 		}
 		HashSet<string> hashSet = new(StringComparer.Ordinal);
 		foreach (KeyValuePair<int, RobloxCFrame> item2 in cframeByRef)
@@ -209,19 +236,12 @@ public static class RobloxAnimationParser
 				}
 			}
 		}
-		List<AnimKeyframe> list = [.. from k in dictionary.Values
-			where k.Poses.Count > 0
-			orderby k.Time
-			select k];
+		List<AnimKeyframe> list = [.. from k in dictionary.Values where k.Poses.Count > 0 orderby k.Time select k];
 		if (list.Count == 0)
 		{
 			return null;
 		}
-		AnimationData obj = new()
-		{
-			IsR15 = DetectR15(hashSet),
-			Length = list[^1].Time
-		};
+		AnimationData obj = new() { IsR15 = DetectR15(hashSet), Length = list[^1].Time };
 		obj.Keyframes.AddRange(list);
 		return obj;
 		int FindKeyframe(int poseRef)
@@ -348,7 +368,20 @@ public static class RobloxAnimationParser
 		for (int k = 0; k < n; k++)
 		{
 			double[] array7 = array[k];
-			array6[k] = new RobloxCFrame(array3[k], array4[k], array5[k], array7[0], array7[1], array7[2], array7[3], array7[4], array7[5], array7[6], array7[7], array7[8]);
+			array6[k] = new RobloxCFrame(
+				array3[k],
+				array4[k],
+				array5[k],
+				array7[0],
+				array7[1],
+				array7[2],
+				array7[3],
+				array7[4],
+				array7[5],
+				array7[6],
+				array7[7],
+				array7[8]
+			);
 		}
 		return array6;
 	}

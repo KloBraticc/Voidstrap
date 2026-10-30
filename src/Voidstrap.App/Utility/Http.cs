@@ -23,7 +23,7 @@ internal static class Http
 	{
 		PropertyNameCaseInsensitive = true,
 		AllowTrailingCommas = true,
-		ReadCommentHandling = JsonCommentHandling.Skip
+		ReadCommentHandling = JsonCommentHandling.Skip,
 	};
 
 	public static Task<T> GetJson<T>(string url)
@@ -33,7 +33,10 @@ internal static class Http
 
 	public static async Task<T> GetJson<T>(string url, CancellationToken token)
 	{
-		T? val = JsonSerializer.Deserialize<T>(await GetString(url, token).ConfigureAwait(continueOnCapturedContext: false), DefaultJsonOptions);
+		T? val = JsonSerializer.Deserialize<T>(
+			await GetString(url, token).ConfigureAwait(continueOnCapturedContext: false),
+			DefaultJsonOptions
+		);
 		if (val != null)
 		{
 			return val;
@@ -44,20 +47,34 @@ internal static class Http
 	public static async Task<string> GetString(string url, CancellationToken token = default(CancellationToken))
 	{
 		ThrowIfRateLimited(url);
-		return await WithRetryAsync(async delegate(CancellationToken ct)
-		{
-			using CancellationTokenSource perCallCts = LinkedTimeout(ct);
-			using HttpResponseMessage response = await App.HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, perCallCts.Token).ConfigureAwait(continueOnCapturedContext: false);
-			ThrowIfShouldNotRetry(response);
-			response.EnsureSuccessStatusCode();
-			return await ReadStringBoundedAsync(response.Content, DefaultMaxResponseBytes, perCallCts.Token).ConfigureAwait(continueOnCapturedContext: false);
-		}, token).ConfigureAwait(continueOnCapturedContext: false);
+		return await WithRetryAsync(
+				async delegate(CancellationToken ct)
+				{
+					using CancellationTokenSource perCallCts = LinkedTimeout(ct);
+					using HttpResponseMessage response = await App
+						.HttpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, perCallCts.Token)
+						.ConfigureAwait(continueOnCapturedContext: false);
+					ThrowIfShouldNotRetry(response);
+					response.EnsureSuccessStatusCode();
+					return await ReadStringBoundedAsync(response.Content, DefaultMaxResponseBytes, perCallCts.Token)
+						.ConfigureAwait(continueOnCapturedContext: false);
+				},
+				token
+			)
+			.ConfigureAwait(continueOnCapturedContext: false);
 	}
 
-	public static async Task<string> GetStringBoundedAsync(HttpClient client, string url, int maxBytes = DefaultMaxResponseBytes, CancellationToken token = default)
+	public static async Task<string> GetStringBoundedAsync(
+		HttpClient client,
+		string url,
+		int maxBytes = DefaultMaxResponseBytes,
+		CancellationToken token = default
+	)
 	{
 		ThrowIfRateLimited(url);
-		using HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+		using HttpResponseMessage response = await client
+			.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token)
+			.ConfigureAwait(false);
 		ThrowIfShouldNotRetry(response, url);
 		response.EnsureSuccessStatusCode();
 		return await ReadStringBoundedAsync(response.Content, maxBytes, token).ConfigureAwait(false);
@@ -65,8 +82,8 @@ internal static class Http
 
 	public static async Task<byte[]> ReadBytesBoundedAsync(HttpContent content, int maxBytes, CancellationToken token)
 	{
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxBytes);
-        if (content.Headers.ContentLength is long contentLength && contentLength > maxBytes)
+		ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxBytes);
+		if (content.Headers.ContentLength is long contentLength && contentLength > maxBytes)
 		{
 			throw new InvalidDataException("HTTP response is too large");
 		}
@@ -104,15 +121,22 @@ internal static class Http
 
 	public static async Task DownloadToFileBoundedAsync(HttpContent content, string path, long maxBytes, CancellationToken token)
 	{
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxBytes);
-        if (content.Headers.ContentLength is long contentLength && contentLength > maxBytes)
+		ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxBytes);
+		if (content.Headers.ContentLength is long contentLength && contentLength > maxBytes)
 		{
 			throw new InvalidDataException("HTTP response is too large");
 		}
 		try
 		{
 			await using Stream input = await content.ReadAsStreamAsync(token).ConfigureAwait(false);
-			await using FileStream output = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);
+			await using FileStream output = new FileStream(
+				path,
+				FileMode.Create,
+				FileAccess.Write,
+				FileShare.None,
+				81920,
+				FileOptions.Asynchronous | FileOptions.SequentialScan
+			);
 			byte[] buffer = ArrayPool<byte>.Shared.Rent(81920);
 			long total = 0;
 			try
@@ -144,9 +168,7 @@ internal static class Http
 			{
 				File.Delete(path);
 			}
-			catch
-			{
-			}
+			catch { }
 			throw;
 		}
 	}
@@ -158,7 +180,9 @@ internal static class Http
 		return cancellationTokenSource;
 	}
 
-	private static readonly ConcurrentDictionary<string, long> RateLimitedUntil = new ConcurrentDictionary<string, long>(StringComparer.OrdinalIgnoreCase);
+	private static readonly ConcurrentDictionary<string, long> RateLimitedUntil = new ConcurrentDictionary<string, long>(
+		StringComparer.OrdinalIgnoreCase
+	);
 
 	private static readonly TimeSpan MinRateLimitCooldown = TimeSpan.FromSeconds(15L);
 
@@ -177,9 +201,11 @@ internal static class Http
 
 	private static void ThrowIfRateLimited(string url)
 	{
-		if (Uri.TryCreate(url, UriKind.Absolute, out Uri? uri)
+		if (
+			Uri.TryCreate(url, UriKind.Absolute, out Uri? uri)
 			&& RateLimitedUntil.TryGetValue(RateLimitKey(uri), out long until)
-			&& Environment.TickCount64 < until)
+			&& Environment.TickCount64 < until
+		)
 		{
 			throw new RateLimitedException();
 		}
@@ -222,9 +248,7 @@ internal static class Http
 	internal sealed class RateLimitedException : Exception
 	{
 		public RateLimitedException()
-			: base("The server returned HTTP 429.")
-		{
-		}
+			: base("The server returned HTTP 429.") { }
 	}
 
 	private static async Task<T> WithRetryAsync<T>(Func<CancellationToken, Task<T>> action, CancellationToken outer, int maxAttempts = 3)
@@ -279,15 +303,15 @@ internal static class Http
 		}
 		switch ((int)ex.StatusCode.Value)
 		{
-		case 408:
-		case 425:
-		case 500:
-		case 502:
-		case 503:
-		case 504:
-			return true;
-		default:
-			return false;
+			case 408:
+			case 425:
+			case 500:
+			case 502:
+			case 503:
+			case 504:
+				return true;
+			default:
+				return false;
 		}
 	}
 }

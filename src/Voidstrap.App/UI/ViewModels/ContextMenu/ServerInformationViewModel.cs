@@ -91,10 +91,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	public string GameName
 	{
-		get
-		{
-			return _gameName;
-		}
+		get { return _gameName; }
 		private set
 		{
 			if (_gameName != value)
@@ -107,10 +104,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	public ImageSource? GameIcon
 	{
-		get
-		{
-			return _gameIcon;
-		}
+		get { return _gameIcon; }
 		private set
 		{
 			_gameIcon = value;
@@ -120,10 +114,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	public string Username
 	{
-		get
-		{
-			return _username;
-		}
+		get { return _username; }
 		private set
 		{
 			if (_username != value)
@@ -136,10 +127,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	public string PlayerCount
 	{
-		get
-		{
-			return _playerCount;
-		}
+		get { return _playerCount; }
 		private set
 		{
 			if (_playerCount != value)
@@ -152,10 +140,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	public IReadOnlyList<ServerFriend> Friends
 	{
-		get
-		{
-			return _friends;
-		}
+		get { return _friends; }
 		private set
 		{
 			_friends = value ?? [];
@@ -168,22 +153,23 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		}
 	}
 
-	public IReadOnlyList<ServerFriend> VisibleFriends => _friends.Count > MaxVisibleFriends ? _friends.Take(MaxVisibleFriends).ToList() : _friends;
+	public IReadOnlyList<ServerFriend> VisibleFriends =>
+		_friends.Count > MaxVisibleFriends ? _friends.Take(MaxVisibleFriends).ToList() : _friends;
 
 	public Visibility FriendsListVisibility => _friends.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
 
 	public string MoreFriendsText => _friends.Count > MaxVisibleFriends ? "+" + (_friends.Count - MaxVisibleFriends) : string.Empty;
 
-	public string MoreFriendsToolTip => _friends.Count > MaxVisibleFriends ? string.Join(", ", _friends.Skip(MaxVisibleFriends).Select(friend => friend.ToolTipText)) : string.Empty;
+	public string MoreFriendsToolTip =>
+		_friends.Count > MaxVisibleFriends
+			? string.Join(", ", _friends.Skip(MaxVisibleFriends).Select(friend => friend.ToolTipText))
+			: string.Empty;
 
 	public Visibility MoreFriendsVisibility => _friends.Count > MaxVisibleFriends ? Visibility.Visible : Visibility.Collapsed;
 
 	public string FriendsHeader
 	{
-		get
-		{
-			return _friendsHeader;
-		}
+		get { return _friendsHeader; }
 		private set
 		{
 			if (_friendsHeader != value)
@@ -196,10 +182,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	public string FriendsStatus
 	{
-		get
-		{
-			return _friendsStatus;
-		}
+		get { return _friendsStatus; }
 		private set
 		{
 			if (_friendsStatus != value)
@@ -215,10 +198,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	public string PlayerCountHint
 	{
-		get
-		{
-			return _playerCountHint;
-		}
+		get { return _playerCountHint; }
 		private set
 		{
 			if (_playerCountHint != value)
@@ -234,10 +214,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	public Visibility FriendsVisibility
 	{
-		get
-		{
-			return _friendsVisibility;
-		}
+		get { return _friendsVisibility; }
 		private set
 		{
 			if (_friendsVisibility != value)
@@ -250,10 +227,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	public string ServerLocation
 	{
-		get
-		{
-			return _serverLocation;
-		}
+		get { return _serverLocation; }
 		private set
 		{
 			if (_serverLocation != value)
@@ -266,10 +240,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 
 	public string Uptime
 	{
-		get
-		{
-			return _uptime;
-		}
+		get { return _uptime; }
 		private set
 		{
 			if (_uptime != value)
@@ -294,10 +265,12 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		RefreshServerLocationCommand = new AsyncRelayCommand(QueryServerLocationAsync);
 		_onGameJoin = delegate
 		{
-			RunOnDispatcher(delegate
-			{
-				_ = RefreshAllAsync();
-			});
+			RunOnDispatcher(
+				delegate
+				{
+					_ = RefreshAllAsync();
+				}
+			);
 		};
 		_onGameLeave = delegate
 		{
@@ -307,10 +280,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		_activityWatcher.OnGameLeave += _onGameLeave;
 		if (_dispatcher != null)
 		{
-			_uptimeTimer = new DispatcherTimer(DispatcherPriority.Background, _dispatcher)
-			{
-				Interval = TimeSpan.FromSeconds(1.0)
-			};
+			_uptimeTimer = new DispatcherTimer(DispatcherPriority.Background, _dispatcher) { Interval = TimeSpan.FromSeconds(1.0) };
 			_uptimeTimer.Tick += OnUptimeTick;
 		}
 		_ = InitializeAsync();
@@ -330,15 +300,17 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 			return;
 		try
 		{
-			dispatcher.BeginInvoke(new Action(delegate
-			{
-				if (!_disposed)
-					action();
-			}));
+			dispatcher.BeginInvoke(
+				new Action(
+					delegate
+					{
+						if (!_disposed)
+							action();
+					}
+				)
+			);
 		}
-		catch (InvalidOperationException)
-		{
-		}
+		catch (InvalidOperationException) { }
 	}
 
 	private async Task InitializeAsync()
@@ -365,12 +337,8 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 				await RefreshServerUptimeAsync();
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
-		catch
-		{
-		}
+		catch (OperationCanceledException) { }
+		catch { }
 	}
 
 	private async Task RefreshAllAsync()
@@ -394,7 +362,13 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 			ServerLocation = Strings.Common_NotAvailable;
 		}
 		ResetUptime();
-		await Task.WhenAll(FetchUsernameAsync(), FetchGameInfoAsync(), RefreshPlayerCountAsync(), RefreshFriendsInServerAsync(), RefreshServerUptimeAsync());
+		await Task.WhenAll(
+			FetchUsernameAsync(),
+			FetchGameInfoAsync(),
+			RefreshPlayerCountAsync(),
+			RefreshFriendsInServerAsync(),
+			RefreshServerUptimeAsync()
+		);
 	}
 
 	private void ResetForNoGame()
@@ -452,9 +426,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 				return;
 			ApplyServerStart(jobId, lookup.StartedUtc);
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine("ServerInformationViewModel", "Server uptime could not be refreshed: " + ex.Message);
@@ -505,9 +477,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 			await RefreshFriendsInServerAsync();
 			await RefreshServerUptimeAsync();
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private void OnUptimeTick(object? sender, EventArgs e)
@@ -543,13 +513,23 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 				Username = UsernameFromLogs() ?? Strings.Common_NotAvailable;
 				return;
 			}
-			using JsonDocument jsonDocument = JsonDocument.Parse(await Voidstrap.Utility.Http.GetString($"https://users.roblox.com/v1/users/{num}"));
+			using JsonDocument jsonDocument = JsonDocument.Parse(
+				await Voidstrap.Utility.Http.GetString($"https://users.roblox.com/v1/users/{num}")
+			);
 			JsonElement rootElement = jsonDocument.RootElement;
 			JsonElement value;
 			string? text = (rootElement.TryGetProperty("name", out value) ? value.GetString() : null);
 			JsonElement value2;
 			string? text2 = (rootElement.TryGetProperty("displayName", out value2) ? value2.GetString() : null);
-			string text3 = ((string.IsNullOrWhiteSpace(text) || string.IsNullOrWhiteSpace(text2) || string.Equals(text, text2, StringComparison.Ordinal)) ? (text ?? text2 ?? string.Empty) : (text2 + " (@" + text + ")"));
+			string text3 = (
+				(
+					string.IsNullOrWhiteSpace(text)
+					|| string.IsNullOrWhiteSpace(text2)
+					|| string.Equals(text, text2, StringComparison.Ordinal)
+				)
+					? (text ?? text2 ?? string.Empty)
+					: (text2 + " (@" + text + ")")
+			);
 			Username = (string.IsNullOrWhiteSpace(text3) ? (UsernameFromLogs() ?? Strings.Common_NotAvailable) : text3);
 		}
 		catch
@@ -569,10 +549,9 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 				return null;
 			}
 			string targetId = data!.UserId.ToString();
-			return (from u in valueCollection
-				where u != null && (u.UserId?.Trim() ?? "") == targetId
-				orderby u.Time descending
-				select u).FirstOrDefault()?.Username;
+			return (from u in valueCollection where u != null && (u.UserId?.Trim() ?? "") == targetId orderby u.Time descending select u)
+				.FirstOrDefault()
+				?.Username;
 		}
 		catch
 		{
@@ -598,9 +577,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 					await UniverseDetails.FetchSingle(data.UniverseId);
 					details = (data.UniverseDetails = UniverseDetails.LoadFromCache(data.UniverseId));
 				}
-				catch
-				{
-				}
+				catch { }
 			}
 			GameName = details?.Data?.Name ?? $"Place {data.PlaceId}";
 			await SetGameIcon(details?.Thumbnail?.ImageUrl);
@@ -625,9 +602,7 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 				GameIcon = icon;
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private async Task RefreshPlayerCountAsync()
@@ -643,10 +618,16 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 				PlayerCountHint = string.Empty;
 				return;
 			}
-			string count = snapshot.Playing > 0
-				? (snapshot.MaxPlayers > 0 ? $"{snapshot.Playing}/{snapshot.MaxPlayers}" : snapshot.Playing.ToString())
-				: (snapshot.MaxPlayers > 0 ? string.Format(Strings.ServerInfo_PlayerCount_MaxOnly, snapshot.MaxPlayers) : Strings.ServerInfo_PlayerCount_Unknown);
-			PlayerCount = snapshot.GameTotal > 0 ? count + "  •  " + string.Format(Strings.ServerInfo_PlayerCount_InGame, snapshot.GameTotal) : count;
+			string count =
+				snapshot.Playing > 0
+					? (snapshot.MaxPlayers > 0 ? $"{snapshot.Playing}/{snapshot.MaxPlayers}" : snapshot.Playing.ToString())
+					: (
+						snapshot.MaxPlayers > 0
+							? string.Format(Strings.ServerInfo_PlayerCount_MaxOnly, snapshot.MaxPlayers)
+							: Strings.ServerInfo_PlayerCount_Unknown
+					);
+			PlayerCount =
+				snapshot.GameTotal > 0 ? count + "  •  " + string.Format(Strings.ServerInfo_PlayerCount_InGame, snapshot.GameTotal) : count;
 			PlayerCountHint = BuildPlayerCountHint(snapshot);
 		}
 		catch (Exception ex)
@@ -665,15 +646,23 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		string retry = FormatDuration((snapshot.RetryUtc ?? now) - now);
 		return snapshot.State switch
 		{
-			ServerPlayerCountState.Live => snapshot.UpdatedUtc is { } live && now - live >= TimeSpan.FromMinutes(1) ? string.Format(Strings.ServerInfo_Hint_Updated, age) : string.Empty,
+			ServerPlayerCountState.Live => snapshot.UpdatedUtc is { } live && now - live >= TimeSpan.FromMinutes(1)
+				? string.Format(Strings.ServerInfo_Hint_Updated, age)
+				: string.Empty,
 			ServerPlayerCountState.Full => Strings.ServerInfo_Hint_Full,
-			ServerPlayerCountState.RateLimited => stale ? string.Format(Strings.ServerInfo_Hint_RateLimitedStale, age, retry) : string.Format(Strings.ServerInfo_Hint_RateLimited, retry),
-			ServerPlayerCountState.NotListed => stale ? string.Format(Strings.ServerInfo_Hint_NotListedStale, age) : string.Format(Strings.ServerInfo_Hint_NotListed, retry),
+			ServerPlayerCountState.RateLimited => stale
+				? string.Format(Strings.ServerInfo_Hint_RateLimitedStale, age, retry)
+				: string.Format(Strings.ServerInfo_Hint_RateLimited, retry),
+			ServerPlayerCountState.NotListed => stale
+				? string.Format(Strings.ServerInfo_Hint_NotListedStale, age)
+				: string.Format(Strings.ServerInfo_Hint_NotListed, retry),
 			ServerPlayerCountState.PrivateNotListed => Strings.ServerInfo_Hint_PrivateNotListed,
 			ServerPlayerCountState.PrivateSignedOut => Strings.ServerInfo_Hint_PrivateSignedOut,
 			ServerPlayerCountState.Reserved => Strings.ServerInfo_Hint_Reserved,
-			ServerPlayerCountState.Unavailable => stale ? string.Format(Strings.ServerInfo_Hint_UnavailableStale, age, retry) : string.Format(Strings.ServerInfo_Hint_Unavailable, retry),
-			_ => string.Empty
+			ServerPlayerCountState.Unavailable => stale
+				? string.Format(Strings.ServerInfo_Hint_UnavailableStale, age, retry)
+				: string.Format(Strings.ServerInfo_Hint_Unavailable, retry),
+			_ => string.Empty,
 		};
 	}
 
@@ -722,39 +711,39 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 			}
 			switch (result.Status)
 			{
-			case FriendsInServerStatus.NotSignedIn:
-				Friends = [];
-				FriendsHeader = "Friends in this server";
-				FriendsStatus = "Sign in to your Roblox account in Voidstrap to see which friends are here.";
-				break;
-			case FriendsInServerStatus.SignInExpired:
-				Friends = [];
-				FriendsHeader = "Friends in this server";
-				FriendsStatus = "Your saved Roblox sign in has expired. Sign in again in Voidstrap to see which friends are here.";
-				break;
-			case FriendsInServerStatus.NoFriends:
-				Friends = [];
-				FriendsHeader = "Friends in this server";
-				FriendsStatus = "Your Roblox account has no friends to look for yet.";
-				break;
-			case FriendsInServerStatus.Unavailable:
-				if (_friends.Count == 0)
-				{
+				case FriendsInServerStatus.NotSignedIn:
+					Friends = [];
 					FriendsHeader = "Friends in this server";
-					FriendsStatus = "Roblox did not answer, checking again shortly.";
-				}
-				_lastFriendsFetch = DateTime.UtcNow - TimeSpan.FromSeconds(10.0);
-				break;
-			default:
-				Friends = result.Friends;
-				FriendsHeader = result.Friends.Count > 0 ? $"Friends in this server ({result.Friends.Count})" : "Friends in this server";
-				FriendsStatus = result.Friends.Count > 0 ? string.Empty : $"None of your {result.FriendCount:N0} friends are in this server.";
-				break;
+					FriendsStatus = "Sign in to your Roblox account in Voidstrap to see which friends are here.";
+					break;
+				case FriendsInServerStatus.SignInExpired:
+					Friends = [];
+					FriendsHeader = "Friends in this server";
+					FriendsStatus = "Your saved Roblox sign in has expired. Sign in again in Voidstrap to see which friends are here.";
+					break;
+				case FriendsInServerStatus.NoFriends:
+					Friends = [];
+					FriendsHeader = "Friends in this server";
+					FriendsStatus = "Your Roblox account has no friends to look for yet.";
+					break;
+				case FriendsInServerStatus.Unavailable:
+					if (_friends.Count == 0)
+					{
+						FriendsHeader = "Friends in this server";
+						FriendsStatus = "Roblox did not answer, checking again shortly.";
+					}
+					_lastFriendsFetch = DateTime.UtcNow - TimeSpan.FromSeconds(10.0);
+					break;
+				default:
+					Friends = result.Friends;
+					FriendsHeader =
+						result.Friends.Count > 0 ? $"Friends in this server ({result.Friends.Count})" : "Friends in this server";
+					FriendsStatus =
+						result.Friends.Count > 0 ? string.Empty : $"None of your {result.FriendCount:N0} friends are in this server.";
+					break;
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine("ServerInformationViewModel", "Friends in this server could not be refreshed: " + ex.Message);
@@ -796,7 +785,12 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		}
 		catch (Exception ex)
 		{
-			MessageBox.Show("Error copying instance ID: " + ex.Message, "Clipboard Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+			MessageBox.Show(
+				"Error copying instance ID: " + ex.Message,
+				"Clipboard Error",
+				MessageBoxButton.OK,
+				MessageBoxImage.Exclamation
+			);
 		}
 	}
 
@@ -816,24 +810,18 @@ public class ServerInformationViewModel : NotifyPropertyChangedViewModel, IDispo
 		{
 			_cts.Cancel();
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			_activityWatcher.OnGameJoin -= _onGameJoin;
 			_activityWatcher.OnGameLeave -= _onGameLeave;
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			_cts.Dispose();
 		}
-		catch
-		{
-		}
+		catch { }
 		GC.SuppressFinalize(this);
 	}
 }

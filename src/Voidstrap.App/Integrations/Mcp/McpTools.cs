@@ -51,7 +51,11 @@ public static partial class McpTools
 			{
 				if (UndoLog.Count == 0)
 					return new McpToolResult("There are no MCP changes to undo.");
-				return new McpToolResult("Changes that can be undone, newest last:" + Environment.NewLine + string.Join(Environment.NewLine, UndoLog.Select(item => $"  {item.At:HH:mm:ss} {item.Label}")));
+				return new McpToolResult(
+					"Changes that can be undone, newest last:"
+						+ Environment.NewLine
+						+ string.Join(Environment.NewLine, UndoLog.Select(item => $"  {item.At:HH:mm:ss} {item.Label}"))
+				);
 			}
 		}
 
@@ -107,7 +111,7 @@ public static partial class McpTools
 				"manage_app_theme" => ManageAppTheme(args),
 				"get_guide" => GetGuide(args),
 				"test_bootstrapper_theme" => TestBootstrapperTheme(args),
-				_ => new McpToolResult($"Unknown tool: {name}", true)
+				_ => new McpToolResult($"Unknown tool: {name}", true),
 			};
 			if (!result.IsError && !McpToolCatalog.IsReadOnly(name))
 				RefreshMainWindow();
@@ -215,7 +219,7 @@ public static partial class McpTools
 			float f => JsonValue.Create(f),
 			string s => JsonValue.Create(s),
 			Enum e => JsonValue.Create(e.ToString()),
-			_ => SafeSerializeToNode(val)
+			_ => SafeSerializeToNode(val),
 		};
 	}
 

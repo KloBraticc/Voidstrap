@@ -32,7 +32,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         }
 
         private static string fleasionDir => Paths.Fleasion;
-        private const string ApiDumpRawUrl = "https://raw.githubusercontent.com/MaximumADHD/Roblox-API-Dump-Tool/main/RobloxAPIDumpTool.exe";
+        private const string ApiDumpRawUrl =
+            "https://raw.githubusercontent.com/MaximumADHD/Roblox-API-Dump-Tool/main/RobloxAPIDumpTool.exe";
         private const long MaxDownloadBytes = 268435456L;
 
         private static string apiDumpDir => Paths.ApiDumpTool;
@@ -95,7 +96,10 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                     var installation = SwiftTunnel.FindInstallation();
                     if (installation == null)
                         return;
-                    if (Frontend.ShowMessageBox(SwiftTunnel.Text("ConfirmUninstall"), MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                    if (
+                        Frontend.ShowMessageBox(SwiftTunnel.Text("ConfirmUninstall"), MessageBoxImage.Question, MessageBoxButton.YesNo)
+                        != MessageBoxResult.Yes
+                    )
                         return;
                     while (true)
                     {
@@ -104,9 +108,16 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                             await SwiftTunnel.UninstallAsync(installation.Value, ct);
                             return;
                         }
-                        catch (InvalidOperationException ex) when (ex.Message == SwiftTunnel.Text("CleanupFailed") || ex.Message == SwiftTunnel.Text("UninstallIncomplete"))
+                        catch (InvalidOperationException ex)
+                            when (ex.Message == SwiftTunnel.Text("CleanupFailed") || ex.Message == SwiftTunnel.Text("UninstallIncomplete"))
                         {
-                            if (Frontend.ShowMessageBox(string.Format(SwiftTunnel.Text("RetryPrompt"), ex.Message), MessageBoxImage.Error, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                            if (
+                                Frontend.ShowMessageBox(
+                                    string.Format(SwiftTunnel.Text("RetryPrompt"), ex.Message),
+                                    MessageBoxImage.Error,
+                                    MessageBoxButton.YesNo
+                                ) != MessageBoxResult.Yes
+                            )
                                 return;
                         }
                     }
@@ -123,12 +134,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 if (installed && installerProcess.ExitCode != 1602)
                     SwiftTunnel.Open();
             }
-            catch (OperationCanceledException)
-            {
-            }
-            catch (System.ComponentModel.Win32Exception ex) when (ex.NativeErrorCode == 1223)
-            {
-            }
+            catch (OperationCanceledException) { }
+            catch (System.ComponentModel.Win32Exception ex) when (ex.NativeErrorCode == 1223) { }
             catch (Exception ex)
             {
                 Frontend.ShowMessageBox(string.Format(SwiftTunnel.Text("Error"), ex.Message), MessageBoxImage.Error);
@@ -144,6 +151,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 OnPropertyChanged(nameof(SwiftTunnelBusy));
             }
         }
+
         private int _communityRev;
         private int _apiDumpRev;
         private const int ToggleDebounceMs = 450;
@@ -165,9 +173,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             {
                 _activeCts?.Cancel();
             }
-            catch
-            {
-            }
+            catch { }
             Action[] actions;
             lock (CancelSync)
             {
@@ -179,9 +185,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 {
                     action();
                 }
-                catch
-                {
-                }
+                catch { }
             }
         }
 
@@ -224,10 +228,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 _ = DownloadRojoAsync();
         }
 
-        public ObservableCollection<string> ExtensionTypes { get; } = new ObservableCollection<string>
-        {
-            TypeAll, TypeClassic, TypeExtensions, TypeStudio
-        };
+        public ObservableCollection<string> ExtensionTypes { get; } =
+            new ObservableCollection<string> { TypeAll, TypeClassic, TypeExtensions, TypeStudio };
 
         public string SelectedExtensionType
         {
@@ -279,19 +281,42 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             return q.Length == 0 || haystack.Contains(q, StringComparison.OrdinalIgnoreCase);
         }
 
-        private bool FleasionVisible => ShowType(TypeExtensions) && MatchesSearch("Fleasion replace Roblox game assets textures audio meshes animations dump Roblox Extension");
+        private bool FleasionVisible =>
+            ShowType(TypeExtensions)
+            && MatchesSearch("Fleasion replace Roblox game assets textures audio meshes animations dump Roblox Extension");
 
-        private bool RiShadeVisible => ShowType(TypeExtensions) && MatchesSearch("RiShade shaders visuals effects bloom tonemap panel Home Roblox Extension not recommended taking images");
+        private bool RiShadeVisible =>
+            ShowType(TypeExtensions)
+            && MatchesSearch("RiShade shaders visuals effects bloom tonemap panel Home Roblox Extension not recommended taking images");
 
-        private bool CommunityVisible => ShowType(TypeClassic) && MatchesSearch("Community Content catalog items decals meshes audio maps classic Roblox clients");
+        private bool CommunityVisible =>
+            ShowType(TypeClassic) && MatchesSearch("Community Content catalog items decals meshes audio maps classic Roblox clients");
 
-        private bool ApiDumpVisible => ShowType(TypeExtensions) && MatchesSearch("Roblox API Dump Tool MaximumADHD api dump diff classes members enums Roblox");
+        private bool ApiDumpVisible =>
+            ShowType(TypeExtensions) && MatchesSearch("Roblox API Dump Tool MaximumADHD api dump diff classes members enums Roblox");
 
-        private bool RojoVisible => ShowType(TypeStudio) && MatchesSearch("Rojo filesystem sync studio project git version control serve build init plugin Roblox Studio Extensions");
+        private bool RojoVisible =>
+            ShowType(TypeStudio)
+            && MatchesSearch("Rojo filesystem sync studio project git version control serve build init plugin Roblox Studio Extensions");
 
-        private bool StudioPluginVisible => ShowType(TypeStudio) && MatchesSearch("Voidstrap Studio plugin panel Discord rich presence rpc place script mode selection Roblox Studio Extensions");
+        private bool StudioPluginVisible =>
+            ShowType(TypeStudio)
+            && MatchesSearch(
+                "Voidstrap Studio plugin panel Discord rich presence rpc place script mode selection Roblox Studio Extensions"
+            );
 
-        private bool AnyCardVisible => FleasionVisible || RiShadeVisible || CommunityVisible || ApiDumpVisible || RojoVisible || StudioPluginVisible || (Voidstrap.Utility.Platform.IsWindows && ShowType(TypeExtensions) && MatchesSearch("SwiftTunnel Swift Tunnel game network latency routing split tunneling Windows"));
+        private bool AnyCardVisible =>
+            FleasionVisible
+            || RiShadeVisible
+            || CommunityVisible
+            || ApiDumpVisible
+            || RojoVisible
+            || StudioPluginVisible
+            || (
+                Voidstrap.Utility.Platform.IsWindows
+                && ShowType(TypeExtensions)
+                && MatchesSearch("SwiftTunnel Swift Tunnel game network latency routing split tunneling Windows")
+            );
 
         public Visibility FleasionVisibility => FleasionVisible ? Visibility.Visible : Visibility.Collapsed;
 
@@ -431,7 +456,11 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             int rev = Interlocked.Increment(ref _rojoRev);
             if (!App.Settings.Prop.RojoEnabled)
                 StopAllDownloads();
-            try { await Task.Delay(ToggleDebounceMs); } catch { }
+            try
+            {
+                await Task.Delay(ToggleDebounceMs);
+            }
+            catch { }
             if (rev != Volatile.Read(ref _rojoRev))
                 return;
             if (App.Settings.Prop.RojoEnabled)
@@ -461,8 +490,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 await _gate.WaitAsync(ct);
                 try
                 {
-                    await Voidstrap.Integrations.Rojo.RojoManager.EnsureInstalledAsync(
-                        (t, f, s) => OnProgressChanged?.Invoke(t, f, s), ct);
+                    await Voidstrap.Integrations.Rojo.RojoManager.EnsureInstalledAsync((t, f, s) => OnProgressChanged?.Invoke(t, f, s), ct);
                     OnProgressChanged?.Invoke("Rojo ready", 1.0, true);
                     await Task.Delay(700, ct);
                 }
@@ -504,9 +532,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                     _gate.Release();
                 }
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 Frontend.ShowMessageBox("Could not uninstall Rojo: " + ex.Message, MessageBoxImage.Error);
@@ -565,9 +591,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 else
                     Frontend.ShowMessageBox("rojo init did not complete:\n" + output, MessageBoxImage.Warning);
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 Frontend.ShowMessageBox("rojo init failed: " + ex.Message, MessageBoxImage.Error);
@@ -611,9 +635,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 else
                     Frontend.ShowMessageBox("rojo build did not complete:\n" + output, MessageBoxImage.Warning);
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 Frontend.ShowMessageBox("rojo build failed: " + ex.Message, MessageBoxImage.Error);
@@ -639,13 +661,14 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 var (ok, output) = await Voidstrap.Integrations.Rojo.RojoManager.RunAsync("plugin install", RojoProjectPath, ct);
                 OnProgressChanged?.Invoke("", -1.0, false);
                 if (ok)
-                    Frontend.ShowMessageBox("The Rojo Studio plugin was installed. Open Studio, then click Connect on the Rojo toolbar.", MessageBoxImage.Information);
+                    Frontend.ShowMessageBox(
+                        "The Rojo Studio plugin was installed. Open Studio, then click Connect on the Rojo toolbar.",
+                        MessageBoxImage.Information
+                    );
                 else
                     Frontend.ShowMessageBox("Could not install the Rojo Studio plugin:\n" + output, MessageBoxImage.Warning);
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 Frontend.ShowMessageBox("Rojo plugin install failed: " + ex.Message, MessageBoxImage.Error);
@@ -684,7 +707,11 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             int rev = Interlocked.Increment(ref _apiDumpRev);
             if (!App.Settings.Prop.RobloxApiDumpTool)
                 StopAllDownloads();
-            try { await Task.Delay(ToggleDebounceMs); } catch { }
+            try
+            {
+                await Task.Delay(ToggleDebounceMs);
+            }
+            catch { }
             if (rev != Volatile.Read(ref _apiDumpRev))
                 return;
             if (App.Settings.Prop.RobloxApiDumpTool)
@@ -791,7 +818,10 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
                     if (!deleted && Directory.Exists(apiDumpDir))
                     {
-                        Frontend.ShowMessageBox("Could not remove the Roblox API Dump Tool folder automatically. Opening it for manual deletion.", MessageBoxImage.Warning);
+                        Frontend.ShowMessageBox(
+                            "Could not remove the Roblox API Dump Tool folder automatically. Opening it for manual deletion.",
+                            MessageBoxImage.Warning
+                        );
                         OpenFolder(apiDumpDir);
                     }
                 }
@@ -800,9 +830,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                     _gate.Release();
                 }
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 Frontend.ShowMessageBox("Could not uninstall the Roblox API Dump Tool: " + ex.Message, MessageBoxImage.Error);
@@ -835,7 +863,11 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             int rev = Interlocked.Increment(ref _fleasionRev);
             if (!App.Settings.Prop.Fleasion)
                 StopAllDownloads();
-            try { await Task.Delay(ToggleDebounceMs); } catch { }
+            try
+            {
+                await Task.Delay(ToggleDebounceMs);
+            }
+            catch { }
             if (rev != Volatile.Read(ref _fleasionRev))
                 return;
             if (App.Settings.Prop.Fleasion)
@@ -863,7 +895,11 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             int rev = Interlocked.Increment(ref _communityRev);
             if (!App.Settings.Prop.ClassicCommunityContent)
                 StopAllDownloads();
-            try { await Task.Delay(ToggleDebounceMs); } catch { }
+            try
+            {
+                await Task.Delay(ToggleDebounceMs);
+            }
+            catch { }
             if (rev != Volatile.Read(ref _communityRev))
                 return;
             if (App.Settings.Prop.ClassicCommunityContent)
@@ -878,9 +914,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             {
                 _activeCts?.Cancel();
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static (CancellationTokenSource Cts, CancellationToken Token) BeginOperation()
@@ -892,9 +926,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             {
                 old?.Cancel();
             }
-            catch
-            {
-            }
+            catch { }
             return (cts, cts.Token);
         }
 
@@ -905,9 +937,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             {
                 cts.Dispose();
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private void RevertFleasionToggle()
@@ -936,14 +966,27 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             });
         }
 
-        private async Task<bool> DownloadToFileAsync(IReadOnlyList<string> urls, string outputPath, string label, CancellationToken ct, string expectedDigest = "")
+        private async Task<bool> DownloadToFileAsync(
+            IReadOnlyList<string> urls,
+            string outputPath,
+            string label,
+            CancellationToken ct,
+            string expectedDigest = ""
+        )
         {
-            await Voidstrap.Utility.ResilientDownload.DownloadAsync(client, urls, outputPath, MaxDownloadBytes, expectedDigest,
+            await Voidstrap.Utility.ResilientDownload.DownloadAsync(
+                client,
+                urls,
+                outputPath,
+                MaxDownloadBytes,
+                expectedDigest,
                 (read, total) =>
                 {
                     double fraction = total is > 0 ? Math.Min((double)read / total.Value, 0.99) : -1.0;
                     OnProgressChanged?.Invoke(fraction >= 0 ? $"{label} {fraction * 100:0}%" : label, fraction, true);
-                }, ct);
+                },
+                ct
+            );
             return true;
         }
 
@@ -953,15 +996,30 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             string digest = "";
             try
             {
-                using JsonDocument doc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(client, "https://api.github.com/repos/fleasion/Fleasion/releases/latest", token: ct));
+                using JsonDocument doc = JsonDocument.Parse(
+                    await Voidstrap.Utility.Http.GetStringBoundedAsync(
+                        client,
+                        "https://api.github.com/repos/fleasion/Fleasion/releases/latest",
+                        token: ct
+                    )
+                );
                 foreach (JsonElement asset in doc.RootElement.GetProperty("assets").EnumerateArray())
                 {
                     string name = asset.GetProperty("name").GetString() ?? "";
-                    if (name.Equals("Fleasion.exe", StringComparison.OrdinalIgnoreCase) || name.EndsWith("-Windows.exe", StringComparison.OrdinalIgnoreCase))
+                    if (
+                        name.Equals("Fleasion.exe", StringComparison.OrdinalIgnoreCase)
+                        || name.EndsWith("-Windows.exe", StringComparison.OrdinalIgnoreCase)
+                    )
                     {
                         string? url = asset.GetProperty("browser_download_url").GetString();
-                        string assetDigest = asset.TryGetProperty("digest", out JsonElement digestElement) ? digestElement.GetString() ?? "" : "";
-                        if (!string.IsNullOrEmpty(url) && assetDigest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase) && assetDigest.Length == 71)
+                        string assetDigest = asset.TryGetProperty("digest", out JsonElement digestElement)
+                            ? digestElement.GetString() ?? ""
+                            : "";
+                        if (
+                            !string.IsNullOrEmpty(url)
+                            && assetDigest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase)
+                            && assetDigest.Length == 71
+                        )
                         {
                             urls.Add(url);
                             digest = assetDigest.Substring(7);
@@ -973,9 +1031,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             {
                 throw;
             }
-            catch
-            {
-            }
+            catch { }
             return (urls.Distinct().ToList(), digest);
         }
 
@@ -983,13 +1039,23 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         {
             try
             {
-                using JsonDocument doc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(client, "https://api.github.com/repos/MaximumADHD/Roblox-API-Dump-Tool/contents/RobloxAPIDumpTool.exe", token: ct));
+                using JsonDocument doc = JsonDocument.Parse(
+                    await Voidstrap.Utility.Http.GetStringBoundedAsync(
+                        client,
+                        "https://api.github.com/repos/MaximumADHD/Roblox-API-Dump-Tool/contents/RobloxAPIDumpTool.exe",
+                        token: ct
+                    )
+                );
                 string sha = doc.RootElement.TryGetProperty("sha", out JsonElement shaElement) ? shaElement.GetString() ?? "" : "";
                 string url = doc.RootElement.TryGetProperty("download_url", out JsonElement urlElement) ? urlElement.GetString() ?? "" : "";
-                if (sha.Length == 40 && sha.All(Uri.IsHexDigit)
-                    && Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) && uri.Scheme == Uri.UriSchemeHttps
+                if (
+                    sha.Length == 40
+                    && sha.All(Uri.IsHexDigit)
+                    && Uri.TryCreate(url, UriKind.Absolute, out Uri? uri)
+                    && uri.Scheme == Uri.UriSchemeHttps
                     && uri.Host.Equals("raw.githubusercontent.com", StringComparison.OrdinalIgnoreCase)
-                    && uri.AbsolutePath.StartsWith("/MaximumADHD/Roblox-API-Dump-Tool/", StringComparison.OrdinalIgnoreCase))
+                    && uri.AbsolutePath.StartsWith("/MaximumADHD/Roblox-API-Dump-Tool/", StringComparison.OrdinalIgnoreCase)
+                )
                     return ([url, ApiDumpRawUrl], sha);
             }
             catch (OperationCanceledException)
@@ -1011,7 +1077,9 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             if (blobSha.Length == 0)
                 return true;
             byte[] header = System.Text.Encoding.ASCII.GetBytes("blob " + data.Length + (char)0);
-            using System.Security.Cryptography.IncrementalHash sha1 = System.Security.Cryptography.IncrementalHash.CreateHash(System.Security.Cryptography.HashAlgorithmName.SHA1);
+            using System.Security.Cryptography.IncrementalHash sha1 = System.Security.Cryptography.IncrementalHash.CreateHash(
+                System.Security.Cryptography.HashAlgorithmName.SHA1
+            );
             sha1.AppendData(header);
             sha1.AppendData(data);
             return Convert.ToHexString(sha1.GetHashAndReset()).Equals(blobSha, StringComparison.OrdinalIgnoreCase);
@@ -1092,7 +1160,10 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 {
                     if (!ClassicClients.EngineInstalled)
                     {
-                        Frontend.ShowMessageBox("Install a Roblox client from the Downloads page first, then enable Community Content.", MessageBoxImage.Warning);
+                        Frontend.ShowMessageBox(
+                            "Install a Roblox client from the Downloads page first, then enable Community Content.",
+                            MessageBoxImage.Warning
+                        );
                         return;
                     }
 
@@ -1104,7 +1175,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                     var urls = new[]
                     {
                         "https://codeload.github.com/hereelabs/ORRH-UGC-Repository/zip/refs/heads/main",
-                        "https://github.com/hereelabs/ORRH-UGC-Repository/archive/refs/heads/main.zip"
+                        "https://github.com/hereelabs/ORRH-UGC-Repository/archive/refs/heads/main.zip",
                     };
                     bool ok = await DownloadToFileAsync(urls, tempZip, "Downloading community content", ct);
                     if (!ok)
@@ -1112,14 +1183,26 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
                     ct.ThrowIfCancellationRequested();
                     OnProgressChanged?.Invoke("Installing community content", -1.0, true);
-                    await Task.Run(() => Voidstrap.Utility.SafeZipExtractor.ExtractToDirectory(tempZip, tempDir, maxExpandedBytes: 2147483648L, token: ct), ct);
+                    await Task.Run(
+                        () =>
+                            Voidstrap.Utility.SafeZipExtractor.ExtractToDirectory(
+                                tempZip,
+                                tempDir,
+                                maxExpandedBytes: 2147483648L,
+                                token: ct
+                            ),
+                        ct
+                    );
                     string extracted = Directory.GetDirectories(tempDir).FirstOrDefault() ?? tempDir;
 
-                    await Task.Run(() =>
-                    {
-                        CopyMerge(Path.Combine(extracted, "data"), Path.Combine(ClassicClients.Root, "data"), ct);
-                        CopyMerge(Path.Combine(extracted, "maps"), Path.Combine(ClassicClients.Root, "maps"), ct);
-                    }, ct);
+                    await Task.Run(
+                        () =>
+                        {
+                            CopyMerge(Path.Combine(extracted, "data"), Path.Combine(ClassicClients.Root, "data"), ct);
+                            CopyMerge(Path.Combine(extracted, "maps"), Path.Combine(ClassicClients.Root, "maps"), ct);
+                        },
+                        ct
+                    );
 
                     OnProgressChanged?.Invoke("Community content updated", 1.0, true);
                     await Task.Delay(700, ct);
@@ -1179,7 +1262,10 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
                     if (!deleted && Directory.Exists(fleasionDir))
                     {
-                        Frontend.ShowMessageBox("Could not remove the Fleasion folder automatically. Opening it for manual deletion.", MessageBoxImage.Warning);
+                        Frontend.ShowMessageBox(
+                            "Could not remove the Fleasion folder automatically. Opening it for manual deletion.",
+                            MessageBoxImage.Warning
+                        );
                         OpenFolder(fleasionDir);
                     }
                 }
@@ -1188,9 +1274,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                     _gate.Release();
                 }
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 Frontend.ShowMessageBox("Could not uninstall Fleasion: " + ex.Message, MessageBoxImage.Error);
@@ -1216,9 +1300,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                     proc.Dispose();
                     throw;
                 }
-                catch
-                {
-                }
+                catch { }
                 finally
                 {
                     proc.Dispose();
@@ -1270,9 +1352,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 if (File.Exists(path))
                     File.Delete(path);
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static void SafeDeleteDir(string path)
@@ -1282,9 +1362,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 if (Directory.Exists(path))
                     Directory.Delete(path, true);
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static void OpenFolder(string path)
@@ -1293,9 +1371,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             {
                 Process.Start(new ProcessStartInfo { FileName = Path.GetFullPath(path), UseShellExecute = true });
             }
-            catch
-            {
-            }
+            catch { }
         }
     }
 }

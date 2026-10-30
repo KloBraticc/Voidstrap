@@ -22,22 +22,29 @@ public static partial class McpTools
 				var keys = new JsonArray();
 				foreach (ThemeKeyInfo info in CustomTheme.Schema)
 				{
-					keys.Add(new JsonObject
-					{
-						["key"] = info.Key,
-						["label"] = info.Label,
-						["group"] = info.Group,
-						["brush"] = info.IsBrush,
-						["default"] = info.Fallback,
-						["optional"] = info.Optional
-					});
+					keys.Add(
+						new JsonObject
+						{
+							["key"] = info.Key,
+							["label"] = info.Label,
+							["group"] = info.Group,
+							["brush"] = info.IsBrush,
+							["default"] = info.Fallback,
+							["optional"] = info.Optional,
+						}
+					);
 				}
-				return new McpToolResult(new JsonObject
-				{
-					["note"] = "Colors are #AARRGGBB or #RRGGBB. The window gradient takes 2 to 8 stops. XAML may only use ResourceDictionary, Color, SolidColorBrush, LinearGradientBrush, RadialGradientBrush and GradientStop.",
-					["builtInThemes"] = new JsonArray(Enum.GetNames<Theme>().Where(name => name != nameof(Theme.Custom)).Select(name => (JsonNode)name).ToArray()),
-					["keys"] = keys
-				}.ToJsonString(IndentedJson));
+				return new McpToolResult(
+					new JsonObject
+					{
+						["note"] =
+							"Colors are #AARRGGBB or #RRGGBB. The window gradient takes 2 to 8 stops. XAML may only use ResourceDictionary, Color, SolidColorBrush, LinearGradientBrush, RadialGradientBrush and GradientStop.",
+						["builtInThemes"] = new JsonArray(
+							Enum.GetNames<Theme>().Where(name => name != nameof(Theme.Custom)).Select(name => (JsonNode)name).ToArray()
+						),
+						["keys"] = keys,
+					}.ToJsonString(IndentedJson)
+				);
 			}
 			case "get":
 			{
@@ -46,12 +53,14 @@ public static partial class McpTools
 				var colors = new JsonObject();
 				foreach (KeyValuePair<string, Color> pair in CustomTheme.ReadModel(result.Dictionary).Colors)
 					colors[pair.Key] = CustomTheme.ToHex(pair.Value);
-				return new McpToolResult(new JsonObject
-				{
-					["activeTheme"] = App.Settings.Prop.Theme2.ToString(),
-					["colors"] = colors,
-					["xaml"] = xaml
-				}.ToJsonString(IndentedJson));
+				return new McpToolResult(
+					new JsonObject
+					{
+						["activeTheme"] = App.Settings.Prop.Theme2.ToString(),
+						["colors"] = colors,
+						["xaml"] = xaml,
+					}.ToJsonString(IndentedJson)
+				);
 			}
 			case "set_colors":
 			{
@@ -81,7 +90,7 @@ public static partial class McpTools
 						var built = new ThemeGradient
 						{
 							Radial = McpArgs.Flag(gradient, "radial", false),
-							Angle = McpArgs.Long(gradient, "angle") ?? 45
+							Angle = McpArgs.Long(gradient, "angle") ?? 45,
 						};
 						for (int i = 0; i < stops.Count && i < ThemeGradient.MaximumStops; i++)
 						{
@@ -91,7 +100,10 @@ public static partial class McpTools
 								errors.Add($"Gradient stop {i + 1} has no valid color");
 								continue;
 							}
-							double offset = stop?["offset"] is JsonValue value && value.TryGetValue(out double parsed) ? parsed : i / (double)(stops.Count - 1);
+							double offset =
+								stop?["offset"] is JsonValue value && value.TryGetValue(out double parsed)
+									? parsed
+									: i / (double)(stops.Count - 1);
 							built.Stops.Add(new ThemeGradientStop { Color = color, Offset = Math.Clamp(offset, 0, 1) });
 						}
 						if (built.Stops.Count >= 2)
@@ -120,11 +132,21 @@ public static partial class McpTools
 				App.Settings.Prop.Theme2 = theme;
 				App.Settings.Save();
 				ReapplyAppTheme();
-				PushUndo("switch the app theme", () => { App.Settings.Prop.Theme2 = before; App.Settings.Save(); ReapplyAppTheme(); });
+				PushUndo(
+					"switch the app theme",
+					() =>
+					{
+						App.Settings.Prop.Theme2 = before;
+						App.Settings.Save();
+						ReapplyAppTheme();
+					}
+				);
 				return new McpToolResult($"Switched Voidstrap to the {theme} theme.");
 			}
 			case "list_profiles":
-				return new McpToolResult("Saved theme profiles: " + (CustomTheme.ListProfiles() is { Count: > 0 } list ? string.Join(", ", list) : "none"));
+				return new McpToolResult(
+					"Saved theme profiles: " + (CustomTheme.ListProfiles() is { Count: > 0 } list ? string.Join(", ", list) : "none")
+				);
 			case "save_profile":
 			{
 				string name = McpArgs.Trimmed(args, "name");
@@ -151,13 +173,20 @@ public static partial class McpTools
 				return new McpToolResult($"Deleted the profile '{name}'.");
 			}
 			default:
-				return new McpToolResult("Unknown action. Use schema, get, set_colors, set_xaml, use_builtin, list_profiles, save_profile, load_profile, or delete_profile.", true);
+				return new McpToolResult(
+					"Unknown action. Use schema, get, set_colors, set_xaml, use_builtin, list_profiles, save_profile, load_profile, or delete_profile.",
+					true
+				);
 		}
 	}
 
 	private static string CurrentAppThemeXaml(string? baseTheme)
 	{
-		if (!string.IsNullOrWhiteSpace(baseTheme) && Enum.TryParse(baseTheme.Trim(), true, out Theme requested) && requested != Theme.Custom)
+		if (
+			!string.IsNullOrWhiteSpace(baseTheme)
+			&& Enum.TryParse(baseTheme.Trim(), true, out Theme requested)
+			&& requested != Theme.Custom
+		)
 			return CustomTheme.BuiltInXaml(requested.ToString()) ?? CustomTheme.BuildXaml(new ThemeModel());
 
 		if (App.Settings.Prop.Theme2 == Theme.Custom && File.Exists(Paths.CustomThemeXaml))
@@ -167,7 +196,9 @@ public static partial class McpTools
 				return text;
 		}
 
-		string current = App.Settings.Prop.Theme2 is Theme.Custom or Theme.Default ? nameof(Theme.Dark) : App.Settings.Prop.Theme2.ToString();
+		string current = App.Settings.Prop.Theme2 is Theme.Custom or Theme.Default
+			? nameof(Theme.Dark)
+			: App.Settings.Prop.Theme2.ToString();
 		return CustomTheme.BuiltInXaml(current) ?? CustomTheme.BuildXaml(new ThemeModel());
 	}
 
@@ -175,7 +206,12 @@ public static partial class McpTools
 	{
 		ThemeValidationResult result = CustomTheme.Validate(xaml);
 		if (!result.Ok)
-			return new McpToolResult((result.ErrorLine > 0 ? $"Line {result.ErrorLine}: " : "") + string.Join(" ", result.Errors.Take(3)) + " Nothing was changed.", true);
+			return new McpToolResult(
+				(result.ErrorLine > 0 ? $"Line {result.ErrorLine}: " : "")
+					+ string.Join(" ", result.Errors.Take(3))
+					+ " Nothing was changed.",
+				true
+			);
 
 		string? previous = File.Exists(Paths.CustomThemeXaml) ? SafeRead(Paths.CustomThemeXaml) : null;
 		Theme previousTheme = App.Settings.Prop.Theme2;
@@ -183,16 +219,19 @@ public static partial class McpTools
 		App.Settings.Prop.Theme2 = Theme.Custom;
 		App.Settings.Save();
 		ReapplyAppTheme();
-		PushUndo("app theme " + label, () =>
-		{
-			if (previous != null)
-				CustomTheme.WriteFile(Paths.CustomThemeXaml, previous);
-			else if (File.Exists(Paths.CustomThemeXaml))
-				File.Delete(Paths.CustomThemeXaml);
-			App.Settings.Prop.Theme2 = previousTheme;
-			App.Settings.Save();
-			ReapplyAppTheme();
-		});
+		PushUndo(
+			"app theme " + label,
+			() =>
+			{
+				if (previous != null)
+					CustomTheme.WriteFile(Paths.CustomThemeXaml, previous);
+				else if (File.Exists(Paths.CustomThemeXaml))
+					File.Delete(Paths.CustomThemeXaml);
+				App.Settings.Prop.Theme2 = previousTheme;
+				App.Settings.Save();
+				ReapplyAppTheme();
+			}
+		);
 		string warnings = result.Warnings.Count > 0 ? " Warnings: " + string.Join(" ", result.Warnings.Take(3)) : "";
 		return new McpToolResult("Applied the theme to every open Voidstrap window. undo_last_change reverts it." + warnings);
 	}

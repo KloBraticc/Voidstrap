@@ -13,7 +13,7 @@ public sealed record SearchEngine(string Key, string Name, string SearchUrl, str
 public enum BangKind
 {
     Search,
-    Ask
+    Ask,
 }
 
 public sealed record Bang(string Trigger, string Name, string Url, BangKind Kind = BangKind.Search);
@@ -26,13 +26,23 @@ public static class BrowserSearch
 
     public static readonly IReadOnlyList<SearchEngine> Engines = new[]
     {
-        new SearchEngine("google", "Google", "https://www.google.com/search?q={0}", "https://suggestqueries.google.com/complete/search?client=firefox&q={0}"),
+        new SearchEngine(
+            "google",
+            "Google",
+            "https://www.google.com/search?q={0}",
+            "https://suggestqueries.google.com/complete/search?client=firefox&q={0}"
+        ),
         new SearchEngine("duckduckgo", "DuckDuckGo", "https://duckduckgo.com/?q={0}", "https://duckduckgo.com/ac/?type=list&q={0}"),
         new SearchEngine("bing", "Bing", "https://www.bing.com/search?q={0}", "https://api.bing.com/osjson.aspx?query={0}"),
         new SearchEngine("brave", "Brave Search", "https://search.brave.com/search?q={0}", "https://search.brave.com/api/suggest?q={0}"),
-        new SearchEngine("startpage", "Startpage", "https://www.startpage.com/do/search?q={0}", "https://duckduckgo.com/ac/?type=list&q={0}"),
+        new SearchEngine(
+            "startpage",
+            "Startpage",
+            "https://www.startpage.com/do/search?q={0}",
+            "https://duckduckgo.com/ac/?type=list&q={0}"
+        ),
         new SearchEngine("ecosia", "Ecosia", "https://www.ecosia.org/search?q={0}", "https://duckduckgo.com/ac/?type=list&q={0}"),
-        new SearchEngine("kagi", "Kagi", "https://kagi.com/search?q={0}", "https://duckduckgo.com/ac/?type=list&q={0}")
+        new SearchEngine("kagi", "Kagi", "https://kagi.com/search?q={0}", "https://duckduckgo.com/ac/?type=list&q={0}"),
     };
 
     // Typed as "!yt cats" or "cats !yt"; the list is our own pick of what is useful next to a game
@@ -68,24 +78,30 @@ public static class BrowserSearch
         new Bang("fandom", "Fandom", "https://community.fandom.com/wiki/Special:Search?query={0}"),
         new Bang("chat", "ChatGPT", "https://chatgpt.com/?q={0}", BangKind.Ask),
         new Bang("claude", "Claude", "https://claude.ai/new?q={0}", BangKind.Ask),
-        new Bang("p", "Perplexity", "https://www.perplexity.ai/search?q={0}", BangKind.Ask)
+        new Bang("p", "Perplexity", "https://www.perplexity.ai/search?q={0}", BangKind.Ask),
     };
 
-    private static readonly Dictionary<string, Bang> BangsByTrigger = Bangs.ToDictionary(bang => bang.Trigger, StringComparer.OrdinalIgnoreCase);
+    private static readonly Dictionary<string, Bang> BangsByTrigger = Bangs.ToDictionary(
+        bang => bang.Trigger,
+        StringComparer.OrdinalIgnoreCase
+    );
 
     private static readonly HttpClient SuggestClient = CreateSuggestClient();
 
-    public static SearchEngine Engine(string? key)
-        => Engines.FirstOrDefault(engine => string.Equals(engine.Key, key, StringComparison.OrdinalIgnoreCase)) ?? Engines[0];
+    public static SearchEngine Engine(string? key) =>
+        Engines.FirstOrDefault(engine => string.Equals(engine.Key, key, StringComparison.OrdinalIgnoreCase)) ?? Engines[0];
 
-    public static Bang? FindBang(string? trigger)
-        => trigger != null && BangsByTrigger.TryGetValue(trigger.TrimStart('!'), out Bang? bang) ? bang : null;
+    public static Bang? FindBang(string? trigger) =>
+        trigger != null && BangsByTrigger.TryGetValue(trigger.TrimStart('!'), out Bang? bang) ? bang : null;
 
     public static IEnumerable<Bang> MatchBangs(string prefix)
     {
         string wanted = prefix.TrimStart('!');
-        return Bangs.Where(bang => bang.Trigger.StartsWith(wanted, StringComparison.OrdinalIgnoreCase)
-                || bang.Name.StartsWith(wanted, StringComparison.OrdinalIgnoreCase))
+        return Bangs
+            .Where(bang =>
+                bang.Trigger.StartsWith(wanted, StringComparison.OrdinalIgnoreCase)
+                || bang.Name.StartsWith(wanted, StringComparison.OrdinalIgnoreCase)
+            )
             .OrderBy(bang => bang.Trigger.Length);
     }
 
@@ -94,7 +110,9 @@ public static class BrowserSearch
     public static string BangUrl(Bang bang, string query)
     {
         if (query.Length == 0)
-            return Uri.TryCreate(bang.Url.Replace("{0}", string.Empty), UriKind.Absolute, out Uri? site) ? site.GetLeftPart(UriPartial.Authority) + "/" : bang.Url;
+            return Uri.TryCreate(bang.Url.Replace("{0}", string.Empty), UriKind.Absolute, out Uri? site)
+                ? site.GetLeftPart(UriPartial.Authority) + "/"
+                : bang.Url;
         return Format(bang.Url, query);
     }
 
@@ -122,7 +140,10 @@ public static class BrowserSearch
         (Bang? bang, string query) = SplitBang(text);
         if (bang != null)
             return BangUrl(bang, query);
-        if (Uri.TryCreate(text, UriKind.Absolute, out Uri? absolute) && (absolute.Scheme == Uri.UriSchemeHttps || absolute.Scheme == Uri.UriSchemeHttp))
+        if (
+            Uri.TryCreate(text, UriKind.Absolute, out Uri? absolute)
+            && (absolute.Scheme == Uri.UriSchemeHttps || absolute.Scheme == Uri.UriSchemeHttp)
+        )
             return absolute.AbsoluteUri;
         if (LooksLikeAddress(text))
             return "https://" + text;

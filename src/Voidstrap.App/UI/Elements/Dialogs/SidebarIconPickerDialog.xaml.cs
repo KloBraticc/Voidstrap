@@ -18,19 +18,21 @@ public partial class SidebarIconPickerDialog : WpfUiWindow
         None,
         Symbol,
         Image,
-        Default
+        Default,
     }
 
     public sealed record SymbolOption(string Name, SymbolRegular Icon);
 
     private static readonly Lazy<HashSet<int>?> FontCodepoints = new Lazy<HashSet<int>?>(LoadFontCodepoints);
 
-    private static readonly Lazy<List<SymbolOption>> RenderableSymbols = new Lazy<List<SymbolOption>>(() => Enum.GetNames<SymbolRegular>()
-        .Where(name => name != nameof(SymbolRegular.Empty))
-        .Select(name => new SymbolOption(name, Enum.Parse<SymbolRegular>(name)))
-        .Where(option => CanRender(option.Icon))
-        .OrderBy(option => option.Name, StringComparer.OrdinalIgnoreCase)
-        .ToList());
+    private static readonly Lazy<List<SymbolOption>> RenderableSymbols = new Lazy<List<SymbolOption>>(() =>
+        Enum.GetNames<SymbolRegular>()
+            .Where(name => name != nameof(SymbolRegular.Empty))
+            .Select(name => new SymbolOption(name, Enum.Parse<SymbolRegular>(name)))
+            .Where(option => CanRender(option.Icon))
+            .OrderBy(option => option.Name, StringComparer.OrdinalIgnoreCase)
+            .ToList()
+    );
 
     private static List<SymbolOption> AllSymbols => RenderableSymbols.Value;
 
@@ -46,9 +48,17 @@ public partial class SidebarIconPickerDialog : WpfUiWindow
 
     public const string IconFontResourceKey = "FluentSystemIcons";
 
-    public static System.Windows.Media.FontFamily FullIconFont { get; } = Voidstrap.Utility.Platform.UsesPortableUi
-        ? Voidstrap.Utility.IconFontLoader.Resolve("FluentSystemIcons-Regular") ?? new System.Windows.Media.FontFamily(new Uri("pack://application:,,,/Resources/Fonts/SymbolIcons/"), "./#FluentSystemIcons-Regular")
-        : new System.Windows.Media.FontFamily(new Uri("pack://application:,,,/Resources/Fonts/SymbolIcons/"), "./#FluentSystemIcons-Regular");
+    public static System.Windows.Media.FontFamily FullIconFont { get; } =
+        Voidstrap.Utility.Platform.UsesPortableUi
+            ? Voidstrap.Utility.IconFontLoader.Resolve("FluentSystemIcons-Regular")
+                ?? new System.Windows.Media.FontFamily(
+                    new Uri("pack://application:,,,/Resources/Fonts/SymbolIcons/"),
+                    "./#FluentSystemIcons-Regular"
+                )
+            : new System.Windows.Media.FontFamily(
+                new Uri("pack://application:,,,/Resources/Fonts/SymbolIcons/"),
+                "./#FluentSystemIcons-Regular"
+            );
 
     private static HashSet<int>? LoadFontCodepoints()
     {
@@ -88,8 +98,7 @@ public partial class SidebarIconPickerDialog : WpfUiWindow
 
     private bool FilterSymbol(object item)
     {
-        return item is SymbolOption option
-            && (_query.Length == 0 || option.Name.Contains(_query, StringComparison.OrdinalIgnoreCase));
+        return item is SymbolOption option && (_query.Length == 0 || option.Name.Contains(_query, StringComparison.OrdinalIgnoreCase));
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)

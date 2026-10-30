@@ -54,11 +54,13 @@ internal static class LinuxApplicationIdentity
 			if (application == null)
 				return;
 
-			application.Dispatcher.Invoke(delegate
-			{
-				foreach (Window window in application.Windows)
-					Apply(window, true);
-			});
+			application.Dispatcher.Invoke(
+				delegate
+				{
+					foreach (Window window in application.Windows)
+						Apply(window, true);
+				}
+			);
 		}
 		catch (Exception ex)
 		{
@@ -102,18 +104,27 @@ internal static class LinuxApplicationIdentity
 
 			if (applied == 0)
 			{
-				App.Logger?.WriteLine("LinuxApplicationIdentity::Apply", "Could not set the native application identity for " + window.Title);
+				App.Logger?.WriteLine(
+					"LinuxApplicationIdentity::Apply",
+					"Could not set the native application identity for " + window.Title
+				);
 				ScheduleRetry(window);
 				return false;
 			}
 
 			Forget(window);
-			App.Logger?.WriteLine("LinuxApplicationIdentity::Apply", "Applied the " + _cachedIcon + " icon and desktop identity to " + applied + " window(s) titled " + window.Title);
+			App.Logger?.WriteLine(
+				"LinuxApplicationIdentity::Apply",
+				"Applied the " + _cachedIcon + " icon and desktop identity to " + applied + " window(s) titled " + window.Title
+			);
 			return true;
 		}
 		catch (Exception ex)
 		{
-			App.Logger?.WriteLine("LinuxApplicationIdentity::Apply", "Could not set the application icon for " + window.Title + ": " + ex.Message);
+			App.Logger?.WriteLine(
+				"LinuxApplicationIdentity::Apply",
+				"Could not set the application icon for " + window.Title + ": " + ex.Message
+			);
 			return false;
 		}
 	}
@@ -183,7 +194,9 @@ internal static class LinuxApplicationIdentity
 
 	private static void EnsureCurrent()
 	{
-		BootstrapperIcon selected = Voidstrap.Utility.Branding.HasCustomIcon ? BootstrapperIcon.IconVoidstrap : App.Settings.Prop.ActiveBootstrapperIcon;
+		BootstrapperIcon selected = Voidstrap.Utility.Branding.HasCustomIcon
+			? BootstrapperIcon.IconVoidstrap
+			: App.Settings.Prop.ActiveBootstrapperIcon;
 		string custom = (App.Settings.Prop.BootstrapperIconCustomLocation ?? string.Empty) + "|" + Voidstrap.Utility.Branding.IconStamp;
 
 		lock (Sync)
@@ -215,9 +228,8 @@ internal static class LinuxApplicationIdentity
 			if (decoded == null)
 				continue;
 
-			BitmapSource source = decoded.Format == PixelFormats.Bgra32
-				? decoded
-				: new FormatConvertedBitmap(decoded, PixelFormats.Bgra32, null, 0);
+			BitmapSource source =
+				decoded.Format == PixelFormats.Bgra32 ? decoded : new FormatConvertedBitmap(decoded, PixelFormats.Bgra32, null, 0);
 
 			int width = source.PixelWidth;
 			int height = source.PixelHeight;

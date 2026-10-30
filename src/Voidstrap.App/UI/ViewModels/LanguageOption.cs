@@ -38,9 +38,13 @@ public sealed class LanguageOption : NotifyPropertyChangedViewModel
 		{
 			new LanguageOption(Locale.DefaultLocale),
 			new LanguageOption(AutoTranslateId),
-			new LanguageOption("en-US")
+			new LanguageOption("en-US"),
 		};
-		foreach (string id in Locale.SupportedLocales.Keys.Where(key => key != Locale.DefaultLocale && key != "en-US").OrderBy(key => Locale.SupportedLocales[key], System.StringComparer.CurrentCulture))
+		foreach (
+			string id in Locale
+				.SupportedLocales.Keys.Where(key => key != Locale.DefaultLocale && key != "en-US")
+				.OrderBy(key => Locale.SupportedLocales[key], System.StringComparer.CurrentCulture)
+		)
 		{
 			options.Add(new LanguageOption(id));
 		}
@@ -49,7 +53,9 @@ public sealed class LanguageOption : NotifyPropertyChangedViewModel
 
 	public static LanguageOption Find(ObservableCollection<LanguageOption> options, bool autoTranslate, string? locale)
 	{
-		string id = autoTranslate ? AutoTranslateId : (locale != null && Locale.SupportedLocales.ContainsKey(locale) ? locale : Locale.DefaultLocale);
+		string id = autoTranslate
+			? AutoTranslateId
+			: (locale != null && Locale.SupportedLocales.ContainsKey(locale) ? locale : Locale.DefaultLocale);
 		return options.First(option => option.Id == id);
 	}
 }

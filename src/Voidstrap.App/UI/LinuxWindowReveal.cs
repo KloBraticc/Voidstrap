@@ -15,8 +15,10 @@ internal static class LinuxWindowReveal
 
 	internal static bool IsPending(Window window) => PendingWindows.TryGetValue(window, out _);
 
-	private static readonly MethodInfo? InitializeHidden = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost)
-		.GetMethod("InitializeHidden", BindingFlags.Instance | BindingFlags.NonPublic);
+	private static readonly MethodInfo? InitializeHidden = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost).GetMethod(
+		"InitializeHidden",
+		BindingFlags.Instance | BindingFlags.NonPublic
+	);
 
 	private static readonly bool Disabled = Environment.GetEnvironmentVariable("VOIDSTRAP_WINDOW_REVEAL") == "0";
 
@@ -46,7 +48,10 @@ internal static class LinuxWindowReveal
 			if (!_overlayReported)
 			{
 				_overlayReported = true;
-				App.Logger.WriteLine("LinuxWindowReveal", "Overlay windows open unmanaged so they never take focus from the game, first one is " + window.Title);
+				App.Logger.WriteLine(
+					"LinuxWindowReveal",
+					"Overlay windows open unmanaged so they never take focus from the game, first one is " + window.Title
+				);
 			}
 		}
 		catch (Exception ex)
@@ -94,7 +99,15 @@ internal static class LinuxWindowReveal
 			}
 			return;
 		}
-		if (Disabled || _sessionDisabled || Voidstrap.Utility.LinuxStartup.SafeMode || InitializeHidden is null || window is not Window wpf || wpf.AllowsTransparency || wpf.WindowState == System.Windows.WindowState.Minimized)
+		if (
+			Disabled
+			|| _sessionDisabled
+			|| Voidstrap.Utility.LinuxStartup.SafeMode
+			|| InitializeHidden is null
+			|| window is not Window wpf
+			|| wpf.AllowsTransparency
+			|| wpf.WindowState == System.Windows.WindowState.Minimized
+		)
 		{
 			if (dialog)
 				PrepareDialog(host);
@@ -214,7 +227,10 @@ internal static class LinuxWindowReveal
 				DisableForSession("the window could not be made visible");
 				return;
 			}
-			App.Logger.WriteLine("LinuxWindowReveal", "Showed " + _window.GetType().Name + " after " + _elapsed.ElapsedMilliseconds + " ms on " + reason);
+			App.Logger.WriteLine(
+				"LinuxWindowReveal",
+				"Showed " + _window.GetType().Name + " after " + _elapsed.ElapsedMilliseconds + " ms on " + reason
+			);
 			LinuxUiPerformance.FirstPresented(_window, _elapsed.ElapsedMilliseconds);
 		}
 

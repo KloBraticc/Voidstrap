@@ -6,8 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Voidstrap.Models;
 using Voidstrap.Extensions;
+using Voidstrap.Models;
 
 namespace Voidstrap.Integrations;
 
@@ -26,7 +26,9 @@ public class IntegrationWatcher : IDisposable
 
 	private readonly ConcurrentDictionary<int, ActiveIntegration> _activeIntegrations = new ConcurrentDictionary<int, ActiveIntegration>();
 
-	private readonly ConcurrentDictionary<string, long> _launchedSessions = new ConcurrentDictionary<string, long>(StringComparer.OrdinalIgnoreCase);
+	private readonly ConcurrentDictionary<string, long> _launchedSessions = new ConcurrentDictionary<string, long>(
+		StringComparer.OrdinalIgnoreCase
+	);
 
 	private readonly CancellationTokenSource _lifetimeCancellation = new CancellationTokenSource();
 
@@ -53,7 +55,10 @@ public class IntegrationWatcher : IDisposable
 		long sessionGeneration = Volatile.Read(ref _sessionGeneration);
 		foreach (CustomIntegration customIntegration in App.Settings.Prop.CustomIntegrations)
 		{
-			if ((!customIntegration.SpecifyGame || customIntegration.GameID == placeId.ToString()) && ReserveForSession(customIntegration, sessionGeneration))
+			if (
+				(!customIntegration.SpecifyGame || customIntegration.GameID == placeId.ToString())
+				&& ReserveForSession(customIntegration, sessionGeneration)
+			)
 			{
 				_ = LaunchIntegrationAsync(customIntegration, placeId, jobId, sessionGeneration, _lifetimeCancellation.SafeToken());
 			}
@@ -71,7 +76,7 @@ public class IntegrationWatcher : IDisposable
 		{
 			if (item.Value.Integration.AutoCloseOnGame)
 			{
-                TerminateProcess(item.Key, item.Value);
+				TerminateProcess(item.Key, item.Value);
 				_activeIntegrations.TryRemove(item.Key, out _);
 			}
 		}
@@ -80,7 +85,14 @@ public class IntegrationWatcher : IDisposable
 
 	private bool ReserveForSession(CustomIntegration integration, long sessionGeneration)
 	{
-		string key = string.Join("\n", integration.Location ?? string.Empty, integration.LaunchArgs ?? string.Empty, integration.Name ?? string.Empty, integration.RunAsAdmin, integration.RunMinimized);
+		string key = string.Join(
+			"\n",
+			integration.Location ?? string.Empty,
+			integration.LaunchArgs ?? string.Empty,
+			integration.Name ?? string.Empty,
+			integration.RunAsAdmin,
+			integration.RunMinimized
+		);
 		while (true)
 		{
 			if (_launchedSessions.TryGetValue(key, out long existing))
@@ -102,7 +114,13 @@ public class IntegrationWatcher : IDisposable
 		}
 	}
 
-	private async Task LaunchIntegrationAsync(CustomIntegration integration, long placeId, string jobId, long sessionGeneration, CancellationToken token)
+	private async Task LaunchIntegrationAsync(
+		CustomIntegration integration,
+		long placeId,
+		string jobId,
+		long sessionGeneration,
+		CancellationToken token
+	)
 	{
 		try
 		{
@@ -124,7 +142,7 @@ public class IntegrationWatcher : IDisposable
 				FileName = integration.Location,
 				Arguments = (integration.LaunchArgs ?? "").Replace("\r\n", " "),
 				WorkingDirectory = Path.GetDirectoryName(integration.Location),
-				UseShellExecute = true
+				UseShellExecute = true,
 			};
 			if (integration.RunMinimized && Voidstrap.Utility.Platform.IsWindows)
 			{
@@ -146,9 +164,7 @@ public class IntegrationWatcher : IDisposable
 							process.Kill();
 						}
 					}
-					catch
-					{
-					}
+					catch { }
 					return;
 				}
 				DateTime startTimeUtc;
@@ -169,27 +185,36 @@ public class IntegrationWatcher : IDisposable
 				{
 					executablePath = integration.Location;
 				}
-				App.Logger.WriteLine("IntegrationWatcher::LaunchIntegration", $"Integration '{integration.Name}' launched for game ID '{integration.GameID}' (PID {process.Id}).");
+				App.Logger.WriteLine(
+					"IntegrationWatcher::LaunchIntegration",
+					$"Integration '{integration.Name}' launched for game ID '{integration.GameID}' (PID {process.Id})."
+				);
 				_activeIntegrations[process.Id] = new ActiveIntegration
 				{
 					Integration = integration,
 					StartTimeUtc = startTimeUtc,
-					ExecutablePath = executablePath
+					ExecutablePath = executablePath,
 				};
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
-			App.Logger.WriteLine("IntegrationWatcher::LaunchIntegration", "Failed to launch integration '" + integration.Name + "': " + ex.Message);
+			App.Logger.WriteLine(
+				"IntegrationWatcher::LaunchIntegration",
+				"Failed to launch integration '" + integration.Name + "': " + ex.Message
+			);
 		}
 	}
 
 	private bool IsCurrentSession(long placeId, string jobId, long sessionGeneration, CancellationToken token)
 	{
-		return !_disposed && !token.IsCancellationRequested && Volatile.Read(ref _sessionGeneration) == sessionGeneration && _activityWatcher.InGame && _activityWatcher.Data.PlaceId == placeId && string.Equals(_activityWatcher.Data.JobId, jobId, StringComparison.OrdinalIgnoreCase);
+		return !_disposed
+			&& !token.IsCancellationRequested
+			&& Volatile.Read(ref _sessionGeneration) == sessionGeneration
+			&& _activityWatcher.InGame
+			&& _activityWatcher.Data.PlaceId == placeId
+			&& string.Equals(_activityWatcher.Data.JobId, jobId, StringComparison.OrdinalIgnoreCase);
 	}
 
 	private void PruneExitedProcesses()
@@ -235,14 +260,19 @@ public class IntegrationWatcher : IDisposable
 			try
 			{
 				string currentPath = process.MainModule?.FileName ?? string.Empty;
-				if (!string.IsNullOrEmpty(currentPath) && !string.Equals(Path.GetFullPath(currentPath), Path.GetFullPath(expected.ExecutablePath), StringComparison.OrdinalIgnoreCase))
+				if (
+					!string.IsNullOrEmpty(currentPath)
+					&& !string.Equals(
+						Path.GetFullPath(currentPath),
+						Path.GetFullPath(expected.ExecutablePath),
+						StringComparison.OrdinalIgnoreCase
+					)
+				)
 				{
 					return false;
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 		return true;
 	}
@@ -262,7 +292,10 @@ public class IntegrationWatcher : IDisposable
 		}
 		catch (Exception)
 		{
-			App.Logger.WriteLine("IntegrationWatcher::TerminateProcess", $"Failed to terminate process (PID {pid}), likely already exited.");
+			App.Logger.WriteLine(
+				"IntegrationWatcher::TerminateProcess",
+				$"Failed to terminate process (PID {pid}), likely already exited."
+			);
 		}
 		finally
 		{
@@ -270,9 +303,7 @@ public class IntegrationWatcher : IDisposable
 			{
 				process?.Dispose();
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
 
@@ -290,14 +321,12 @@ public class IntegrationWatcher : IDisposable
 			_activityWatcher.OnGameJoin -= OnGameJoin;
 			_activityWatcher.OnGameLeave -= OnGameLeave;
 		}
-		catch
-		{
-		}
+		catch { }
 		foreach (KeyValuePair<int, ActiveIntegration> item in _activeIntegrations.ToArray())
 		{
 			if (item.Value.Integration.AutoClose || item.Value.Integration.AutoCloseOnGame)
 			{
-                TerminateProcess(item.Key, item.Value);
+				TerminateProcess(item.Key, item.Value);
 			}
 		}
 		_activeIntegrations.Clear();

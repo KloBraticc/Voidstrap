@@ -20,12 +20,14 @@ public static class FilteredNetworkHttp
 	[
 		"https://1.1.1.1/dns-query?type=A&name=",
 		"https://8.8.8.8/resolve?type=A&name=",
-		"https://1.0.0.1/dns-query?type=A&name="
+		"https://1.0.0.1/dns-query?type=A&name=",
 	];
 
 	private static readonly TimeSpan ResolveCacheAge = TimeSpan.FromMinutes(10);
 
-	private static readonly ConcurrentDictionary<string, (IPAddress[] Addresses, DateTime Expires)> ResolveCache = new(StringComparer.OrdinalIgnoreCase);
+	private static readonly ConcurrentDictionary<string, (IPAddress[] Addresses, DateTime Expires)> ResolveCache = new(
+		StringComparer.OrdinalIgnoreCase
+	);
 
 	private static readonly HttpClient ResolverClient = CreateResolverClient();
 
@@ -33,13 +35,9 @@ public static class FilteredNetworkHttp
 
 	private static HttpClient CreateResolverClient()
 	{
-		HttpClient client = new(new SocketsHttpHandler
+		HttpClient client = new(new SocketsHttpHandler { UseProxy = false, ConnectTimeout = TimeSpan.FromSeconds(5) })
 		{
-			UseProxy = false,
-			ConnectTimeout = TimeSpan.FromSeconds(5)
-		})
-		{
-			Timeout = TimeSpan.FromSeconds(8)
+			Timeout = TimeSpan.FromSeconds(8),
 		};
 		client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "application/dns-json");
 		return client;
@@ -52,13 +50,13 @@ public static class FilteredNetworkHttp
 			UseProxy = false,
 			ConnectTimeout = TimeSpan.FromSeconds(8),
 			PooledConnectionLifetime = TimeSpan.FromMinutes(5),
-			ConnectCallback = ConnectAsync
+			ConnectCallback = ConnectAsync,
 		};
 		HttpClient client = new(handler)
 		{
 			Timeout = TimeSpan.FromSeconds(20),
 			DefaultRequestVersion = HttpVersion.Version11,
-			DefaultVersionPolicy = HttpVersionPolicy.RequestVersionExact
+			DefaultVersionPolicy = HttpVersionPolicy.RequestVersionExact,
 		};
 		client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "VoidstrapUpdater/2.0");
 		client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "application/json");
@@ -102,17 +100,24 @@ public static class FilteredNetworkHttp
 		{
 			try
 			{
-				using HttpResponseMessage response = await ResolverClient.GetAsync(resolver + Uri.EscapeDataString(host), cancellationToken).ConfigureAwait(false);
+				using HttpResponseMessage response = await ResolverClient
+					.GetAsync(resolver + Uri.EscapeDataString(host), cancellationToken)
+					.ConfigureAwait(false);
 				response.EnsureSuccessStatusCode();
-				using JsonDocument document = JsonDocument.Parse(await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false));
+				using JsonDocument document = JsonDocument.Parse(
+					await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false)
+				);
 				List<IPAddress> found = [];
 				if (document.RootElement.TryGetProperty("Answer", out JsonElement answers) && answers.ValueKind == JsonValueKind.Array)
 				{
 					foreach (JsonElement answer in answers.EnumerateArray())
 					{
-						if (answer.TryGetProperty("type", out JsonElement type) && type.GetInt32() == 1
+						if (
+							answer.TryGetProperty("type", out JsonElement type)
+							&& type.GetInt32() == 1
 							&& answer.TryGetProperty("data", out JsonElement data)
-							&& IPAddress.TryParse(data.GetString(), out IPAddress? address))
+							&& IPAddress.TryParse(data.GetString(), out IPAddress? address)
+						)
 							found.Add(address);
 					}
 				}
@@ -149,14 +154,26 @@ public static class FilteredNetworkHttp
 		public override bool CanSeek => false;
 		public override bool CanWrite => _inner.CanWrite;
 		public override long Length => throw new NotSupportedException();
-		public override long Position { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
+		public override long Position
+		{
+			get => throw new NotSupportedException();
+			set => throw new NotSupportedException();
+		}
 
 		public override void Flush() => _inner.Flush();
+
 		public override Task FlushAsync(CancellationToken cancellationToken) => _inner.FlushAsync(cancellationToken);
+
 		public override int Read(byte[] buffer, int offset, int count) => _inner.Read(buffer, offset, count);
-		public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default) => _inner.ReadAsync(buffer, cancellationToken);
-		public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken) => _inner.ReadAsync(buffer, offset, count, cancellationToken);
+
+		public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default) =>
+			_inner.ReadAsync(buffer, cancellationToken);
+
+		public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken) =>
+			_inner.ReadAsync(buffer, offset, count, cancellationToken);
+
 		public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+
 		public override void SetLength(long value) => throw new NotSupportedException();
 
 		public override void Write(byte[] buffer, int offset, int count)
@@ -179,7 +196,9 @@ public static class FilteredNetworkHttp
 			_helloSent = true;
 			for (int offset = 0; offset < buffer.Length; offset += HelloChunkBytes)
 			{
-				await _inner.WriteAsync(buffer.Slice(offset, Math.Min(HelloChunkBytes, buffer.Length - offset)), cancellationToken).ConfigureAwait(false);
+				await _inner
+					.WriteAsync(buffer.Slice(offset, Math.Min(HelloChunkBytes, buffer.Length - offset)), cancellationToken)
+					.ConfigureAwait(false);
 				await _inner.FlushAsync(cancellationToken).ConfigureAwait(false);
 			}
 		}

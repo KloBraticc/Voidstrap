@@ -10,10 +10,20 @@ internal static class IconFontLoader
 {
 	private static readonly (string ResourceKey, string FileName, string FamilyName, string ResourcePath)[] Fonts = new[]
 	{
-		("FluentSystemIcons", "FluentSystemIcons-Regular.ttf", "FluentSystemIcons-Regular", "pack://application:,,,/Resources/Fonts/SymbolIcons/FluentSystemIcons-Regular.ttf"),
-		("FluentSystemIconsFilled", "FluentSystemIcons-Filled.ttf", "FluentSystemIcons-Filled", Platform.IsMacOS
-			? "pack://application:,,,/Resources/Fonts/SymbolIcons/FluentSystemIcons-Filled.ttf"
-			: "pack://application:,,,/Wpf.Ui;component/Fonts/FluentSystemIcons-Filled.ttf")
+		(
+			"FluentSystemIcons",
+			"FluentSystemIcons-Regular.ttf",
+			"FluentSystemIcons-Regular",
+			"pack://application:,,,/Resources/Fonts/SymbolIcons/FluentSystemIcons-Regular.ttf"
+		),
+		(
+			"FluentSystemIconsFilled",
+			"FluentSystemIcons-Filled.ttf",
+			"FluentSystemIcons-Filled",
+			Platform.IsMacOS
+				? "pack://application:,,,/Resources/Fonts/SymbolIcons/FluentSystemIcons-Filled.ttf"
+				: "pack://application:,,,/Wpf.Ui;component/Fonts/FluentSystemIcons-Filled.ttf"
+		),
 	};
 
 	public static void Install()
@@ -45,7 +55,10 @@ internal static class IconFontLoader
 					App.Logger?.WriteLine("IconFontLoader::Install", "Could not extract " + fileName);
 					continue;
 				}
-				System.Windows.Media.FontFamily family = new System.Windows.Media.FontFamily(new Uri(directory + Path.DirectorySeparatorChar), "./#" + familyName);
+				System.Windows.Media.FontFamily family = new System.Windows.Media.FontFamily(
+					new Uri(directory + Path.DirectorySeparatorChar),
+					"./#" + familyName
+				);
 				if (!HasGlyphs(family))
 				{
 					App.Logger?.WriteLine("IconFontLoader::Install", familyName + " loaded from disk but exposes no glyphs");
@@ -65,7 +78,10 @@ internal static class IconFontLoader
 	{
 		try
 		{
-			System.Windows.Media.FontFamily family = new System.Windows.Media.FontFamily(new Uri("pack://application:,,,/Resources/Fonts/SymbolIcons/"), "./#" + familyName);
+			System.Windows.Media.FontFamily family = new System.Windows.Media.FontFamily(
+				new Uri("pack://application:,,,/Resources/Fonts/SymbolIcons/"),
+				"./#" + familyName
+			);
 			if (!HasGlyphs(family))
 			{
 				App.Logger?.WriteLine("IconFontLoader::Install", familyName + " exposes no glyphs in the application resources");
@@ -116,9 +132,7 @@ internal static class IconFontLoader
 					File.Delete(temporary);
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
 
@@ -130,9 +144,7 @@ internal static class IconFontLoader
 			if (!Directory.Exists(directory))
 				return null;
 
-			return new System.Windows.Media.FontFamily(
-				new Uri(directory + Path.DirectorySeparatorChar),
-				"./#" + familyName);
+			return new System.Windows.Media.FontFamily(new Uri(directory + Path.DirectorySeparatorChar), "./#" + familyName);
 		}
 		catch (Exception)
 		{
@@ -152,9 +164,7 @@ internal static class IconFontLoader
 				}
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		return false;
 	}
 }

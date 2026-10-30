@@ -58,16 +58,17 @@ public static class FileModManager
 		"content/textures/particles/smoke_color.dds",
 		"content/textures/particles/smoke_main.dds",
 		"content/textures/particles/sparkles_color.dds",
-		"content/textures/particles/sparkles_main.dds"
+		"content/textures/particles/sparkles_main.dds",
 	];
 
 	private static readonly string[] TerrainFiles =
 	[
 		"PlatformContent/pc/terrain/materials.json",
-		"PlatformContent/pc/terrain/materials2022.json"
+		"PlatformContent/pc/terrain/materials2022.json",
 	];
 
-	private static readonly string[] WaterFiles = Enumerable.Range(1, DdsTextureCodec.WaterFrameCount)
+	private static readonly string[] WaterFiles = Enumerable
+		.Range(1, DdsTextureCodec.WaterFrameCount)
 		.Select(static index => "PlatformContent/pc/textures/water/normal_" + index.ToString("00", CultureInfo.InvariantCulture) + ".dds")
 		.ToArray();
 
@@ -84,7 +85,7 @@ public static class FileModManager
 	private static readonly string[] RetiredFiles =
 	[
 		"PlatformContent/pc/textures/brdfLUT.dds",
-		"PlatformContent/pc/textures/wangIndex.dds"
+		"PlatformContent/pc/textures/wangIndex.dds",
 	];
 
 	private static readonly string[] LegacyPlaceholderFiles =
@@ -100,7 +101,7 @@ public static class FileModManager
 		"content/textures/particles/forcefield_vortex_main.dds",
 		"content/textures/particles/smoke_main.dds",
 		"content/textures/particles/sparkles_main.dds",
-		"content/textures/particles/fire_sparks_main.dds"
+		"content/textures/particles/fire_sparks_main.dds",
 	];
 
 	private static string StateFolder => Path.Combine(Paths.Data, "FileMods");
@@ -155,7 +156,10 @@ public static class FileModManager
 				if (heights.Count == 0)
 					return null;
 			}
-			byte[][] frames = style == 0 ? originals!.ToArray() : DdsTextureCodec.BuildWaterFrames(style, strength, speed, frozenFrame, glitch, originals, heights);
+			byte[][] frames =
+				style == 0
+					? originals!.ToArray()
+					: DdsTextureCodec.BuildWaterFrames(style, strength, speed, frozenFrame, glitch, originals, heights);
 			Dictionary<byte[], byte[]> composed = new Dictionary<byte[], byte[]>(ReferenceEqualityComparer.Instance);
 			byte[][] previews = new byte[frames.Length][];
 			for (int index = 0; index < frames.Length; index++)
@@ -216,12 +220,19 @@ public static class FileModManager
 				return (directory, guid);
 			if (Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow())
 			{
-				App.Logger?.WriteLine("FileModManager::FindPlayerVersion", "Sober is running, its Roblox files are unpacked after it closes");
+				App.Logger?.WriteLine(
+					"FileModManager::FindPlayerVersion",
+					"Sober is running, its Roblox files are unpacked after it closes"
+				);
 				return (null, null);
 			}
 			try
 			{
-				(string ClientDirectory, string VersionGuid)? tree = Task.Run(() => Bootstrapper.PrepareSoberClientTreeAsync(CancellationToken.None)).GetAwaiter().GetResult();
+				(string ClientDirectory, string VersionGuid)? tree = Task.Run(() =>
+						Bootstrapper.PrepareSoberClientTreeAsync(CancellationToken.None)
+					)
+					.GetAwaiter()
+					.GetResult();
 				if (tree is { } unpacked)
 					return (unpacked.ClientDirectory, unpacked.VersionGuid);
 			}
@@ -240,7 +251,8 @@ public static class FileModManager
 			string root = Bootstrapper.SoberClientRoot;
 			if (!Directory.Exists(root))
 				return (null, null);
-			string? newest = Directory.GetFiles(root, "version-*.complete")
+			string? newest = Directory
+				.GetFiles(root, "version-*.complete")
 				.Select(static marker => marker[..^".complete".Length])
 				.Where(Directory.Exists)
 				.OrderByDescending(Directory.GetLastWriteTimeUtc)
@@ -259,7 +271,11 @@ public static class FileModManager
 
 	private static byte[]? PeekOriginal(string? versionDirectory, string? versionGuid, string rel)
 	{
-		if (string.IsNullOrEmpty(versionDirectory) || versionGuid is null || !Voidstrap.AppData.CommonAppData.IsVersionGuidValid(versionGuid))
+		if (
+			string.IsNullOrEmpty(versionDirectory)
+			|| versionGuid is null
+			|| !Voidstrap.AppData.CommonAppData.IsVersionGuidValid(versionGuid)
+		)
 			return null;
 		string cache = Path.Combine(OriginalsFolder, versionGuid, LocalPath(rel));
 		if (File.Exists(cache))
@@ -302,13 +318,13 @@ public static class FileModManager
 				{
 					1 => DdsTextureCodec.CreateDds("DXT5"u8, new byte[16]),
 					2 => DdsTextureCodec.CreateDds("DXT5"u8, [alpha, alpha, 0, 0, 0, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 0, 0]),
-					_ => null
+					_ => null,
 				};
 				byte[]? particlePng = settings.TextureParticleStyle switch
 				{
 					1 => CreatePng(0, 0),
 					2 => CreatePng(255, alpha),
-					_ => null
+					_ => null,
 				};
 				foreach (string rel in ParticleFiles)
 					Sync(owned, rel, rel.EndsWith(".png", StringComparison.OrdinalIgnoreCase) ? particlePng : particleDds);
@@ -320,11 +336,28 @@ public static class FileModManager
 						continue;
 					}
 					byte[]? original = GetOriginal(owned, versionDirectory, versionGuid, rel);
-					byte[]? patched = original == null ? null : TryPatchTerrain(original, rel, Math.Clamp(settings.TextureTerrainSize, 0.05, 1), Math.Clamp(settings.TextureTerrainRepeat, 1, 10));
+					byte[]? patched =
+						original == null
+							? null
+							: TryPatchTerrain(
+								original,
+								rel,
+								Math.Clamp(settings.TextureTerrainSize, 0.05, 1),
+								Math.Clamp(settings.TextureTerrainRepeat, 1, 10)
+							);
 					if (patched != null)
 						Sync(owned, rel, patched);
 				}
-				ApplyWater(owned, versionDirectory, versionGuid, settings.TextureWaterStyle, settings.TextureWaterStrength, settings.TextureWaterSpeed, settings.TextureWaterFrame, settings.TextureWaterGlitch);
+				ApplyWater(
+					owned,
+					versionDirectory,
+					versionGuid,
+					settings.TextureWaterStyle,
+					settings.TextureWaterStrength,
+					settings.TextureWaterSpeed,
+					settings.TextureWaterFrame,
+					settings.TextureWaterGlitch
+				);
 				if (versionGuid is not null && Voidstrap.AppData.CommonAppData.IsVersionGuidValid(versionGuid))
 					PruneOriginals(versionGuid);
 				SaveOwned(owned);
@@ -340,7 +373,9 @@ public static class FileModManager
 	{
 		try
 		{
-			return Directory.Exists(WaterFramesFolder) ? Math.Min(Directory.GetFiles(WaterFramesFolder, "frame_*.png").Length, DdsTextureCodec.WaterFrameCount) : 0;
+			return Directory.Exists(WaterFramesFolder)
+				? Math.Min(Directory.GetFiles(WaterFramesFolder, "frame_*.png").Length, DdsTextureCodec.WaterFrameCount)
+				: 0;
 		}
 		catch (Exception ex)
 		{
@@ -366,7 +401,19 @@ public static class FileModManager
 				throw new InvalidDataException("Use images that are 4096 pixels or smaller on each side.");
 			int remaining = DdsTextureCodec.WaterFrameCount - frames.Count;
 			List<Raster> decoded = new List<Raster>();
-			if (NativeImaging.TryDecodeAnimationBgra(bytes, 1024, 1024, remaining, 256L * 1024 * 1024, out int width, out int height, out byte[][] pixels, out _))
+			if (
+				NativeImaging.TryDecodeAnimationBgra(
+					bytes,
+					1024,
+					1024,
+					remaining,
+					256L * 1024 * 1024,
+					out int width,
+					out int height,
+					out byte[][] pixels,
+					out _
+				)
+			)
 			{
 				foreach (byte[] frame in pixels)
 					decoded.Add(new Raster(width, height, frame));
@@ -392,7 +439,10 @@ public static class FileModManager
 			Directory.CreateDirectory(WaterFramesFolder);
 			for (int index = 0; index < frames.Count; index++)
 			{
-				File.WriteAllBytes(Path.Combine(WaterFramesFolder, "frame_" + index.ToString("00", CultureInfo.InvariantCulture) + ".png"), FromHeights(frames[index], DdsTextureCodec.WaterSize).EncodePng());
+				File.WriteAllBytes(
+					Path.Combine(WaterFramesFolder, "frame_" + index.ToString("00", CultureInfo.InvariantCulture) + ".png"),
+					FromHeights(frames[index], DdsTextureCodec.WaterSize).EncodePng()
+				);
 			}
 		}
 		return frames.Count;
@@ -412,7 +462,16 @@ public static class FileModManager
 			Filesystem.DeleteWritableFile(file);
 	}
 
-	private static void ApplyWater(Dictionary<string, string> owned, string? versionDirectory, string? versionGuid, int style, int strength, int speed, int frozenFrame, int glitch)
+	private static void ApplyWater(
+		Dictionary<string, string> owned,
+		string? versionDirectory,
+		string? versionGuid,
+		int style,
+		int strength,
+		int speed,
+		int frozenFrame,
+		int glitch
+	)
 	{
 		style = Math.Clamp(style, 0, 5);
 		string[] targets = WaterTargets;
@@ -466,7 +525,12 @@ public static class FileModManager
 		List<byte[]> frames = new List<byte[]>();
 		if (!Directory.Exists(WaterFramesFolder))
 			return frames;
-		foreach (string file in Directory.GetFiles(WaterFramesFolder, "frame_*.png").OrderBy(static name => name, StringComparer.OrdinalIgnoreCase).Take(DdsTextureCodec.WaterFrameCount))
+		foreach (
+			string file in Directory
+				.GetFiles(WaterFramesFolder, "frame_*.png")
+				.OrderBy(static name => name, StringComparer.OrdinalIgnoreCase)
+				.Take(DdsTextureCodec.WaterFrameCount)
+		)
 		{
 			Raster image = Raster.Load(file);
 			if (image.Width != DdsTextureCodec.WaterSize || image.Height != DdsTextureCodec.WaterSize)
@@ -518,7 +582,11 @@ public static class FileModManager
 
 	private static byte[]? GetOriginal(Dictionary<string, string> owned, string? versionDirectory, string? versionGuid, string rel)
 	{
-		if (string.IsNullOrEmpty(versionDirectory) || versionGuid is null || !Voidstrap.AppData.CommonAppData.IsVersionGuidValid(versionGuid))
+		if (
+			string.IsNullOrEmpty(versionDirectory)
+			|| versionGuid is null
+			|| !Voidstrap.AppData.CommonAppData.IsVersionGuidValid(versionGuid)
+		)
 			return null;
 		try
 		{
@@ -540,7 +608,10 @@ public static class FileModManager
 				{
 					if (owned.Remove(rel))
 						Filesystem.DeleteWritableFile(modsFile);
-					App.Logger?.WriteLine("FileModManager::GetOriginal", "Skipped " + rel + " because the installed copy already has a mod applied.");
+					App.Logger?.WriteLine(
+						"FileModManager::GetOriginal",
+						"Skipped " + rel + " because the installed copy already has a mod applied."
+					);
 					return null;
 				}
 				Directory.CreateDirectory(Path.GetDirectoryName(cache)!);
@@ -562,7 +633,10 @@ public static class FileModManager
 		try
 		{
 			bool exists = File.Exists(path);
-			bool ours = exists && owned.TryGetValue(rel, out string? hash) && string.Equals(hash, Hash(File.ReadAllBytes(path)), StringComparison.Ordinal);
+			bool ours =
+				exists
+				&& owned.TryGetValue(rel, out string? hash)
+				&& string.Equals(hash, Hash(File.ReadAllBytes(path)), StringComparison.Ordinal);
 			if (exists && !ours)
 			{
 				if (owned.Remove(rel) || content != null)
@@ -653,7 +727,8 @@ public static class FileModManager
 		{
 			if (!Directory.Exists(OriginalsFolder))
 				return;
-			IEnumerable<DirectoryInfo> stale = new DirectoryInfo(OriginalsFolder).EnumerateDirectories()
+			IEnumerable<DirectoryInfo> stale = new DirectoryInfo(OriginalsFolder)
+				.EnumerateDirectories()
 				.Where(folder => !string.Equals(folder.Name, currentGuid, StringComparison.OrdinalIgnoreCase))
 				.OrderByDescending(static folder => folder.LastWriteTimeUtc)
 				.Skip(KeptOriginalVersions - 1);
@@ -695,7 +770,11 @@ public static class FileModManager
 						continue;
 					if (texture["tiling"] is not JsonValue tilingValue || !tilingValue.TryGetValue(out double tiling))
 						return false;
-					if (texture["detiling_legacy"] is not JsonValue legacyValue || !legacyValue.TryGetValue(out double legacy) || legacy != tiling)
+					if (
+						texture["detiling_legacy"] is not JsonValue legacyValue
+						|| !legacyValue.TryGetValue(out double legacy)
+						|| legacy != tiling
+					)
 						return false;
 					if (shared is null)
 						shared = tiling;
@@ -774,7 +853,9 @@ public static class FileModManager
 		for (int index = 0; index < heights.Length; index++)
 		{
 			int offset = index * 4;
-			heights[index] = (byte)(image.Pixels[offset + 2] * 0.2126f + image.Pixels[offset + 1] * 0.7152f + image.Pixels[offset] * 0.0722f + 0.5f);
+			heights[index] = (byte)(
+				image.Pixels[offset + 2] * 0.2126f + image.Pixels[offset + 1] * 0.7152f + image.Pixels[offset] * 0.0722f + 0.5f
+			);
 		}
 		return heights;
 	}

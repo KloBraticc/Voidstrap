@@ -1,6 +1,6 @@
 using System;
-using System.ComponentModel;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -56,10 +56,7 @@ public class ActivityData : INotifyPropertyChanged
 
 	public long UniverseId
 	{
-		get
-		{
-			return _universeId;
-		}
+		get { return _universeId; }
 		set
 		{
 			if (_universeId != value)
@@ -85,7 +82,8 @@ public class ActivityData : INotifyPropertyChanged
 	public bool? ServerOnline { get; private set; }
 
 	[JsonIgnore]
-	public string ServerStatus { get; private set; } = Strings.ResourceManager.GetString("ContextMenu.GameHistory.StatusUnknown", Locale.CurrentCulture) ?? string.Empty;
+	public string ServerStatus { get; private set; } =
+		Strings.ResourceManager.GetString("ContextMenu.GameHistory.StatusUnknown", Locale.CurrentCulture) ?? string.Empty;
 
 	[JsonIgnore]
 	public string ServerStatusCheckedAt { get; private set; } = string.Empty;
@@ -93,8 +91,23 @@ public class ActivityData : INotifyPropertyChanged
 	public void SetServerStatus(bool? online)
 	{
 		ServerOnline = online;
-		ServerStatus = Strings.ResourceManager.GetString("ContextMenu.GameHistory." + (online.HasValue ? online.Value ? "Online" : "Offline" : "StatusUnknown"), Locale.CurrentCulture) ?? string.Empty;
-		ServerStatusCheckedAt = string.Format(Locale.CurrentCulture, Strings.ResourceManager.GetString("ContextMenu.GameHistory.CheckedAt", Locale.CurrentCulture) ?? "{0}", DateTime.Now.ToString("T", Locale.CurrentCulture));
+		ServerStatus =
+			Strings.ResourceManager.GetString(
+				"ContextMenu.GameHistory."
+					+ (
+						online.HasValue
+							? online.Value
+								? "Online"
+								: "Offline"
+							: "StatusUnknown"
+					),
+				Locale.CurrentCulture
+			) ?? string.Empty;
+		ServerStatusCheckedAt = string.Format(
+			Locale.CurrentCulture,
+			Strings.ResourceManager.GetString("ContextMenu.GameHistory.CheckedAt", Locale.CurrentCulture) ?? "{0}",
+			DateTime.Now.ToString("T", Locale.CurrentCulture)
+		);
 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ServerStatus)));
 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ServerStatusCheckedAt)));
 	}
@@ -114,10 +127,7 @@ public class ActivityData : INotifyPropertyChanged
 	[JsonIgnore]
 	public bool MachineAddressValid
 	{
-		get
-		{
-			return !string.IsNullOrWhiteSpace(MachineAddress) && !VoidstrapMatchmaker.IsPrivateIp(MachineAddress);
-		}
+		get { return !string.IsNullOrWhiteSpace(MachineAddress) && !VoidstrapMatchmaker.IsPrivateIp(MachineAddress); }
 	}
 
 	public bool IsTeleport { get; set; }
@@ -176,13 +186,20 @@ public class ActivityData : INotifyPropertyChanged
 	public void ComputeDisplayTimes()
 	{
 		DisplayTimeJoined = TimeJoined != default ? TimeJoined.ToString("g", Locale.CurrentCulture) : string.Empty;
-		DisplayTimeLeft = TimeLeft?.ToString("g", Locale.CurrentCulture) ?? Voidstrap.Resources.Strings.ResourceManager.GetString("ContextMenu.GameHistory.EndUnknown", Locale.CurrentCulture) ?? string.Empty;
+		DisplayTimeLeft =
+			TimeLeft?.ToString("g", Locale.CurrentCulture)
+			?? Voidstrap.Resources.Strings.ResourceManager.GetString("ContextMenu.GameHistory.EndUnknown", Locale.CurrentCulture)
+			?? string.Empty;
 	}
 
 	public string GetInviteDeeplink(bool launchData = true)
 	{
 		string text = $"https://www.roblox.com/games/start?placeId={PlaceId}";
-		text = ((ServerType != ServerType.Private) ? (text + "&gameInstanceId=" + Uri.EscapeDataString(JobId ?? string.Empty)) : (text + "&accessCode=" + Uri.EscapeDataString(AccessCode ?? string.Empty)));
+		text = (
+			(ServerType != ServerType.Private)
+				? (text + "&gameInstanceId=" + Uri.EscapeDataString(JobId ?? string.Empty))
+				: (text + "&accessCode=" + Uri.EscapeDataString(AccessCode ?? string.Empty))
+		);
 		if (launchData && !string.IsNullOrEmpty(RPCLaunchData))
 		{
 			text = text + "&launchData=" + HttpUtility.UrlEncode(RPCLaunchData);
@@ -218,7 +235,9 @@ public class ActivityData : INotifyPropertyChanged
 			timeout.CancelAfter(TimeSpan.FromSeconds(10));
 			if (string.IsNullOrWhiteSpace(address) || VoidstrapMatchmaker.IsPrivateIp(address))
 			{
-				(string Ip, int Port)? resolved = await VoidstrapMatchmaker.ResolveJobServerAsync(PlaceId, JobId, timeout.Token).ConfigureAwait(false);
+				(string Ip, int Port)? resolved = await VoidstrapMatchmaker
+					.ResolveJobServerAsync(PlaceId, JobId, timeout.Token)
+					.ConfigureAwait(false);
 				if (resolved.HasValue && !VoidstrapMatchmaker.IsPrivateIp(resolved.Value.Ip))
 				{
 					address = resolved.Value.Ip;
@@ -239,11 +258,13 @@ public class ActivityData : INotifyPropertyChanged
 			}
 			string iso = VoidstrapMatchmaker.CountryToIso2(dc.Country);
 			string country = VoidstrapMatchmaker.CountryToDisplayName(dc.Country);
-			string location = string.IsNullOrEmpty(dc.City)
-				? country
-				: string.IsNullOrEmpty(dc.Region) || string.Equals(dc.City, dc.Region, StringComparison.OrdinalIgnoreCase) || string.Equals(dc.City, country, StringComparison.OrdinalIgnoreCase)
+			string location =
+				string.IsNullOrEmpty(dc.City) ? country
+				: string.IsNullOrEmpty(dc.Region)
+				|| string.Equals(dc.City, dc.Region, StringComparison.OrdinalIgnoreCase)
+				|| string.Equals(dc.City, country, StringComparison.OrdinalIgnoreCase)
 					? dc.City + ", " + country
-					: dc.City + ", " + dc.Region + ", " + country;
+				: dc.City + ", " + dc.Region + ", " + country;
 			ServerCountryCode = iso;
 			GlobalCache.SetServerLocation(address, iso + LocationCacheSeparator + location);
 			ServerFetchStore.RecordSighting(address, dc.City, dc.Region, dc.Country, dc.Lat, dc.Lon);
@@ -296,7 +317,7 @@ public class ActivityData : INotifyPropertyChanged
 				FileName = voidstrapPath,
 				UseShellExecute = false,
 				CreateNoWindow = true,
-				WorkingDirectory = System.IO.Path.GetDirectoryName(voidstrapPath) ?? ""
+				WorkingDirectory = System.IO.Path.GetDirectoryName(voidstrapPath) ?? "",
 			};
 			startInfo.ArgumentList.Add("-player");
 			startInfo.ArgumentList.Add(GetNativeJoinUri(launchData: false));

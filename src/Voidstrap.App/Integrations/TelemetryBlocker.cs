@@ -29,7 +29,7 @@ public static class TelemetryBlocker
 		"abtesting.roblox.com",
 		"upload.crashes.roblox.com",
 		"upload.crashes.rbxinfra.com",
-		"roblox.qq.com"
+		"roblox.qq.com",
 	};
 
 	public static readonly string[] WebViewBlockedHosts = new string[]
@@ -39,14 +39,13 @@ public static class TelemetryBlocker
 		"analytics.google.com",
 		"stats.g.doubleclick.net",
 		"bat.bing.com",
-		"analytics.tiktok.com"
+		"analytics.tiktok.com",
 	};
 
-	private static string HostsPath => Voidstrap.Utility.Platform.IsLinux
-		? Voidstrap.Platform.Linux.LinuxHostsBlock.HostsPath
-		: OperatingSystem.IsMacOS()
-			? Voidstrap.Platform.MacOS.MacOSHostsBlock.HostsPath
-			: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "drivers", "etc", "hosts");
+	private static string HostsPath =>
+		Voidstrap.Utility.Platform.IsLinux ? Voidstrap.Platform.Linux.LinuxHostsBlock.HostsPath
+		: OperatingSystem.IsMacOS() ? Voidstrap.Platform.MacOS.MacOSHostsBlock.HostsPath
+		: Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "drivers", "etc", "hosts");
 
 	public static void SyncSettingFromState()
 	{
@@ -104,7 +103,10 @@ public static class TelemetryBlocker
 			return;
 		}
 
-		App.Logger?.WriteLine(LOG_IDENT, "The hosts block still contains " + stale.Length + " domain(s) that Voidstrap no longer blocks: " + string.Join(", ", stale));
+		App.Logger?.WriteLine(
+			LOG_IDENT,
+			"The hosts block still contains " + stale.Length + " domain(s) that Voidstrap no longer blocks: " + string.Join(", ", stale)
+		);
 		if (!ProcessElevation.IsAdministrator())
 		{
 			App.Logger?.WriteLine(LOG_IDENT, "Requesting administrator approval to refresh the existing hosts block");
@@ -256,7 +258,10 @@ public static class TelemetryBlocker
 				lines.Add(":: " + domain + " " + Marker);
 			}
 		}
-		App.Logger?.WriteLine(LOG_IDENT, "Asking for administrator approval to " + (enable ? "add" : "remove") + " the telemetry block in /etc/hosts");
+		App.Logger?.WriteLine(
+			LOG_IDENT,
+			"Asking for administrator approval to " + (enable ? "add" : "remove") + " the telemetry block in /etc/hosts"
+		);
 		Voidstrap.Platform.OperationResult result = OperatingSystem.IsMacOS()
 			? await Voidstrap.Platform.MacOS.MacOSHostsBlock.WriteAsync(Marker, lines, cancellationToken).ConfigureAwait(false)
 			: await Voidstrap.Platform.Linux.LinuxHostsBlock.WriteAsync(Marker, lines, cancellationToken).ConfigureAwait(false);
@@ -266,7 +271,10 @@ public static class TelemetryBlocker
 			App.Logger?.WriteLine(LOG_IDENT, LastLinuxFailure);
 			return false;
 		}
-		App.Logger?.WriteLine(LOG_IDENT, enable ? $"Blocked {Domains.Length} telemetry domains at the DNS level" : "Removed telemetry block entries");
+		App.Logger?.WriteLine(
+			LOG_IDENT,
+			enable ? $"Blocked {Domains.Length} telemetry domains at the DNS level" : "Removed telemetry block entries"
+		);
 		if (enable)
 		{
 			Verify();
@@ -336,13 +344,15 @@ public static class TelemetryBlocker
 		}
 		try
 		{
-			using Process? process = Process.Start(new ProcessStartInfo
-			{
-				FileName = processPath,
-				Arguments = "-telemetryblock " + (enable ? "on" : "off"),
-				UseShellExecute = true,
-				Verb = "runas"
-			});
+			using Process? process = Process.Start(
+				new ProcessStartInfo
+				{
+					FileName = processPath,
+					Arguments = "-telemetryblock " + (enable ? "on" : "off"),
+					UseShellExecute = true,
+					Verb = "runas",
+				}
+			);
 			if (process == null)
 			{
 				return false;
@@ -377,8 +387,22 @@ public static class TelemetryBlocker
 		try
 		{
 			IPAddress[] addrs = Dns.GetHostAddresses(Domains[0]);
-			bool blackholed = addrs.Length == 0 || addrs.All((IPAddress a) => IPAddress.IsLoopback(a) || a.Equals(IPAddress.Any) || a.Equals(IPAddress.IPv6Any) || a.Equals(IPAddress.IPv6None));
-			App.Logger?.WriteLine(LOG_IDENT, "Verification: " + Domains[0] + (blackholed ? " now resolves to a blackhole address" : " still resolves upstream, cached DNS may take a moment to clear"));
+			bool blackholed =
+				addrs.Length == 0
+				|| addrs.All(
+					(IPAddress a) =>
+						IPAddress.IsLoopback(a) || a.Equals(IPAddress.Any) || a.Equals(IPAddress.IPv6Any) || a.Equals(IPAddress.IPv6None)
+				);
+			App.Logger?.WriteLine(
+				LOG_IDENT,
+				"Verification: "
+					+ Domains[0]
+					+ (
+						blackholed
+							? " now resolves to a blackhole address"
+							: " still resolves upstream, cached DNS may take a moment to clear"
+					)
+			);
 		}
 		catch
 		{
@@ -390,16 +414,16 @@ public static class TelemetryBlocker
 	{
 		try
 		{
-			using Process? process = Process.Start(new ProcessStartInfo(Voidstrap.Utility.PlatformShell.WindowsTool("ipconfig.exe"), "/flushdns")
-			{
-				CreateNoWindow = true,
-				UseShellExecute = false,
-				WindowStyle = ProcessWindowStyle.Hidden
-			});
+			using Process? process = Process.Start(
+				new ProcessStartInfo(Voidstrap.Utility.PlatformShell.WindowsTool("ipconfig.exe"), "/flushdns")
+				{
+					CreateNoWindow = true,
+					UseShellExecute = false,
+					WindowStyle = ProcessWindowStyle.Hidden,
+				}
+			);
 			process?.WaitForExit(3000);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 }

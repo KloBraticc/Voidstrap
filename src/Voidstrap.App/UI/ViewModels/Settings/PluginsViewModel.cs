@@ -20,7 +20,7 @@ namespace Voidstrap.UI.ViewModels.Settings;
 
 public class PluginsViewModel : INotifyPropertyChanged
 {
-	private static readonly JsonSerializerOptions IndentedJsonOptions = new JsonSerializerOptions { WriteIndented = true }; 	
+	private static readonly JsonSerializerOptions IndentedJsonOptions = new JsonSerializerOptions { WriteIndented = true };
 
 	private const int MaxArchiveBytes = 8 * 1024 * 1024;
 	private const int MaxEntryBytes = 4 * 1024 * 1024;
@@ -28,13 +28,13 @@ public class PluginsViewModel : INotifyPropertyChanged
 	private readonly object _saveGate = new object();
 	private CancellationTokenSource? _autoSaveCancellation;
 	private CancellationTokenSource? _previewCancellation;
+
 	private sealed class PlayAreaSession
 	{
 		public List<PluginModel> Plugins { get; set; } = null!;
 
 		public string SelectedPlugin { get; set; } = null!;
 	}
-
 
 	private PluginModel? _selectedPlugin;
 
@@ -48,9 +48,17 @@ public class PluginsViewModel : INotifyPropertyChanged
 
 	private string _newPluginName = string.Empty;
 
-	private readonly string AutoSavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Voidstrap", "autosave_plugin.zip");
+	private readonly string AutoSavePath = Path.Combine(
+		Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+		"Voidstrap",
+		"autosave_plugin.zip"
+	);
 
-	private readonly string PluginSessionPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Voidstrap", "plugin_session.json");
+	private readonly string PluginSessionPath = Path.Combine(
+		Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+		"Voidstrap",
+		"plugin_session.json"
+	);
 
 	public ObservableCollection<PluginModel> LoadedPlugins { get; } = new ObservableCollection<PluginModel>();
 
@@ -58,10 +66,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 
 	public PluginModel? SelectedPlugin
 	{
-		get
-		{
-			return _selectedPlugin;
-		}
+		get { return _selectedPlugin; }
 		set
 		{
 			if (SetProperty(ref _selectedPlugin, value, nameof(SelectedPlugin)))
@@ -74,10 +79,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 
 	public PluginModel? SelectedPublicPlugin
 	{
-		get
-		{
-			return _selectedPublicPlugin;
-		}
+		get { return _selectedPublicPlugin; }
 		set
 		{
 			if (SetProperty(ref _selectedPublicPlugin, value, nameof(SelectedPublicPlugin)))
@@ -89,10 +91,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 
 	public string PluginXamlCode
 	{
-		get
-		{
-			return _pluginXamlCode;
-		}
+		get { return _pluginXamlCode; }
 		set
 		{
 			if (SetProperty(ref _pluginXamlCode, value, nameof(PluginXamlCode)))
@@ -105,10 +104,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 
 	public string PluginCsCode
 	{
-		get
-		{
-			return _pluginCsCode;
-		}
+		get { return _pluginCsCode; }
 		set
 		{
 			if (SetProperty(ref _pluginCsCode, value, nameof(PluginCsCode)))
@@ -121,22 +117,13 @@ public class PluginsViewModel : INotifyPropertyChanged
 
 	public FrameworkElement? PluginPreview
 	{
-		get
-		{
-			return _pluginPreview;
-		}
-		set
-		{
-			SetProperty(ref _pluginPreview, value, nameof(PluginPreview));
-		}
+		get { return _pluginPreview; }
+		set { SetProperty(ref _pluginPreview, value, nameof(PluginPreview)); }
 	}
 
 	public string NewPluginName
 	{
-		get
-		{
-			return _newPluginName;
-		}
+		get { return _newPluginName; }
 		set
 		{
 			if (SetProperty(ref _newPluginName, value, nameof(NewPluginName)))
@@ -209,7 +196,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 				DtdProcessing = DtdProcessing.Prohibit,
 				XmlResolver = null,
 				MaxCharactersInDocument = MaxEntryBytes,
-				MaxCharactersFromEntities = 0
+				MaxCharactersFromEntities = 0,
 			};
 			using StringReader source = new StringReader(PluginXamlCode);
 			using XmlReader reader = XmlReader.Create(source, settings);
@@ -219,17 +206,11 @@ public class PluginsViewModel : INotifyPropertyChanged
 				object content = window.Content;
 				window.Content = null;
 				window.Close();
-				PluginPreview = new UserControl
-				{
-					Content = content
-				};
+				PluginPreview = new UserControl { Content = content };
 			}
 			else if (obj is FrameworkElement content)
 			{
-				PluginPreview = new UserControl
-				{
-					Content = content
-				};
+				PluginPreview = new UserControl { Content = content };
 			}
 			else
 			{
@@ -257,9 +238,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 			await Task.Delay(500, owner.Token);
 			UpdateLivePreview();
 		}
-		catch (OperationCanceledException) when (owner.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (owner.IsCancellationRequested) { }
 		finally
 		{
 			Interlocked.CompareExchange(ref _previewCancellation, null, owner);
@@ -287,11 +266,25 @@ public class PluginsViewModel : INotifyPropertyChanged
 		try
 		{
 			Directory.CreateDirectory(Path.GetDirectoryName(PluginSessionPath)!);
-			string contents = JsonSerializer.Serialize(new
-			{
-				Plugins = LoadedPlugins.Select((PluginModel p) => new { p.Name, p.Author, p.Description, p.PluginXaml }).ToList(),
-				SelectedPlugin = SelectedPlugin?.Name
-			}, IndentedJsonOptions);
+			string contents = JsonSerializer.Serialize(
+				new
+				{
+					Plugins = LoadedPlugins
+						.Select(
+							(PluginModel p) =>
+								new
+								{
+									p.Name,
+									p.Author,
+									p.Description,
+									p.PluginXaml,
+								}
+						)
+						.ToList(),
+					SelectedPlugin = SelectedPlugin?.Name,
+				},
+				IndentedJsonOptions
+			);
 			if (contents.Length > MaxArchiveBytes)
 				throw new InvalidDataException("The plugin session is too large");
 			string temporary = PluginSessionPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
@@ -332,13 +325,15 @@ public class PluginsViewModel : INotifyPropertyChanged
 			LoadedPlugins.Clear();
 			foreach (PluginModel plugin in session.Plugins.Take(MaxPluginCount))
 			{
-				LoadedPlugins.Add(new PluginModel
-				{
-					Name = plugin.Name,
-					Author = plugin.Author,
-					Description = plugin.Description,
-					PluginXaml = plugin.PluginXaml
-				});
+				LoadedPlugins.Add(
+					new PluginModel
+					{
+						Name = plugin.Name,
+						Author = plugin.Author,
+						Description = plugin.Description,
+						PluginXaml = plugin.PluginXaml,
+					}
+				);
 			}
 			if (!string.IsNullOrEmpty(session.SelectedPlugin))
 			{
@@ -374,7 +369,11 @@ public class PluginsViewModel : INotifyPropertyChanged
 			stringBuilder.AppendLine();
 			StringBuilder stringBuilder2 = stringBuilder;
 			StringBuilder stringBuilder3 = stringBuilder2;
-			StringBuilder.AppendInterpolatedStringHandler handler = new StringBuilder.AppendInterpolatedStringHandler(22, 1, stringBuilder2);
+			StringBuilder.AppendInterpolatedStringHandler handler = new StringBuilder.AppendInterpolatedStringHandler(
+				22,
+				1,
+				stringBuilder2
+			);
 			handler.AppendLiteral("public class ");
 			handler.AppendFormatted(value);
 			handler.AppendLiteral(" : Window");
@@ -431,7 +430,9 @@ public class PluginsViewModel : INotifyPropertyChanged
 			stringBuilder.AppendLine("            MessageBox.Show($\"{b.Content} clicked!\", \"Plugin\", MessageBoxButton.OK);");
 			stringBuilder.AppendLine("    }");
 			stringBuilder.AppendLine();
-			stringBuilder.AppendLine("    private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject");
+			stringBuilder.AppendLine(
+				"    private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject"
+			);
 			stringBuilder.AppendLine("    {");
 			stringBuilder.AppendLine("        if (parent == null) yield break;");
 			stringBuilder.AppendLine("        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)");
@@ -594,9 +595,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 			await Task.Delay(600, owner.Token).ConfigureAwait(false);
 			AutoSavePlugin();
 		}
-		catch (OperationCanceledException) when (owner.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (owner.IsCancellationRequested) { }
 		finally
 		{
 			Interlocked.CompareExchange(ref _autoSaveCancellation, null, owner);
@@ -619,7 +618,8 @@ public class PluginsViewModel : INotifyPropertyChanged
 	private void NewPlugin()
 	{
 		NewPluginName = $"NewPlugin_{DateTime.Now:MMddHHmm}";
-		PluginXamlCode = "\n<Window xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"\n        xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"\n        Title=\"New Plugin\" Width=\"300\" Height=\"200\">\n    <StackPanel VerticalAlignment=\"Center\" HorizontalAlignment=\"Center\">\n        <TextBlock Text=\"Hello, World!\" FontSize=\"16\" HorizontalAlignment=\"Center\"/>\n        <Button Content=\"Click Me!\" Margin=\"5\"/>\n    </StackPanel>\n</Window>";
+		PluginXamlCode =
+			"\n<Window xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"\n        xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"\n        Title=\"New Plugin\" Width=\"300\" Height=\"200\">\n    <StackPanel VerticalAlignment=\"Center\" HorizontalAlignment=\"Center\">\n        <TextBlock Text=\"Hello, World!\" FontSize=\"16\" HorizontalAlignment=\"Center\"/>\n        <Button Content=\"Click Me!\" Margin=\"5\"/>\n    </StackPanel>\n</Window>";
 		ConvertXamlToCSharp();
 		CancelQueuedPreview();
 		UpdateLivePreview();
@@ -637,12 +637,14 @@ public class PluginsViewModel : INotifyPropertyChanged
 				Frontend.ShowMessageBox("The plugin limit has been reached.");
 				return;
 			}
-			LoadedPlugins.Add(new PluginModel
-			{
-				Name = SelectedPublicPlugin.Name,
-				Author = SelectedPublicPlugin.Author,
-				Description = SelectedPublicPlugin.Description
-			});
+			LoadedPlugins.Add(
+				new PluginModel
+				{
+					Name = SelectedPublicPlugin.Name,
+					Author = SelectedPublicPlugin.Author,
+					Description = SelectedPublicPlugin.Description,
+				}
+			);
 			AddPluginCommand.NotifyCanExecuteChanged();
 			SavePlayArea();
 		}
@@ -675,10 +677,7 @@ public class PluginsViewModel : INotifyPropertyChanged
 			Frontend.ShowMessageBox("The plugin limit has been reached.");
 			return;
 		}
-		PluginModel pluginModel = new PluginModel
-		{
-			Name = NewPluginName
-		};
+		PluginModel pluginModel = new PluginModel { Name = NewPluginName };
 		LoadedPlugins.Add(pluginModel);
 		AddPluginCommand.NotifyCanExecuteChanged();
 		SelectedPlugin = pluginModel;

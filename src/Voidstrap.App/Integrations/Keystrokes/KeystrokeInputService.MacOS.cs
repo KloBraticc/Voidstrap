@@ -31,7 +31,14 @@ public static partial class KeystrokeInputService
     private static volatile bool _macStopping;
 
     [LibraryImport(ApplicationServices, EntryPoint = "CGEventTapCreate")]
-    private static unsafe partial nint CGEventTapCreate(uint tap, uint place, uint options, ulong eventsOfInterest, delegate* unmanaged<nint, uint, nint, nint, nint> callback, nint userInfo);
+    private static unsafe partial nint CGEventTapCreate(
+        uint tap,
+        uint place,
+        uint options,
+        ulong eventsOfInterest,
+        delegate* unmanaged<nint, uint, nint, nint, nint> callback,
+        nint userInfo
+    );
 
     [LibraryImport(ApplicationServices, EntryPoint = "CGEventTapEnable")]
     private static partial void CGEventTapEnable(nint tap, [MarshalAs(UnmanagedType.U1)] bool enable);
@@ -74,11 +81,7 @@ public static partial class KeystrokeInputService
     private static void StartMacMonitoring()
     {
         _macStopping = false;
-        _macThread = new Thread(MacInputLoop)
-        {
-            Name = "KeystrokeMacInput",
-            IsBackground = true
-        };
+        _macThread = new Thread(MacInputLoop) { Name = "KeystrokeMacInput", IsBackground = true };
         _macThread.Start();
     }
 
@@ -91,9 +94,7 @@ public static partial class KeystrokeInputService
             if (loop != IntPtr.Zero)
                 CFRunLoopStop(loop);
         }
-        catch
-        {
-        }
+        catch { }
         _macThread = null;
         lock (MacHeldModifiers)
             MacHeldModifiers.Clear();
@@ -107,9 +108,16 @@ public static partial class KeystrokeInputService
             if (!CGPreflightListenEventAccess())
                 CGRequestListenEventAccess();
 
-            ulong mask = (1UL << (int)MacLeftDown) | (1UL << (int)MacLeftUp) | (1UL << (int)MacRightDown) | (1UL << (int)MacRightUp)
-                | (1UL << (int)MacKeyDown) | (1UL << (int)MacKeyUp) | (1UL << (int)MacFlagsChanged)
-                | (1UL << (int)MacOtherDown) | (1UL << (int)MacOtherUp);
+            ulong mask =
+                (1UL << (int)MacLeftDown)
+                | (1UL << (int)MacLeftUp)
+                | (1UL << (int)MacRightDown)
+                | (1UL << (int)MacRightUp)
+                | (1UL << (int)MacKeyDown)
+                | (1UL << (int)MacKeyUp)
+                | (1UL << (int)MacFlagsChanged)
+                | (1UL << (int)MacOtherDown)
+                | (1UL << (int)MacOtherUp);
 
             while (!_macStopping)
             {
@@ -155,9 +163,7 @@ public static partial class KeystrokeInputService
                 if (source != IntPtr.Zero)
                     CFRelease(source);
             }
-            catch
-            {
-            }
+            catch { }
         }
     }
 
@@ -221,9 +227,7 @@ public static partial class KeystrokeInputService
                     break;
             }
         }
-        catch
-        {
-        }
+        catch { }
         return ev;
     }
 
@@ -236,7 +240,7 @@ public static partial class KeystrokeInputService
             58 or 61 => 0x80000,
             55 or 54 => 0x100000,
             57 => 0x10000,
-            _ => 0
+            _ => 0,
         };
     }
 
@@ -322,7 +326,7 @@ public static partial class KeystrokeInputService
             124 => "Right",
             125 => "Down",
             126 => "Up",
-            _ => null
+            _ => null,
         };
     }
 
@@ -336,7 +340,7 @@ public static partial class KeystrokeInputService
             2 => KeystrokeTarget.D,
             49 => KeystrokeTarget.Space,
             56 or 60 => KeystrokeTarget.Shift,
-            _ => null
+            _ => null,
         };
     }
 }

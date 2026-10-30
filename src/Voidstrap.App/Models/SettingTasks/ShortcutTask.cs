@@ -43,9 +43,11 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 	private string _originalName;
 	private BootstrapperIcon _originalIcon;
 	private string _originalCustomIconPath;
-	private static readonly Lazy<ShortcutIconEntry[]> Presets = new(() => BootstrapperIconEx.Selections
-		.Select(icon => new ShortcutIconEntry(icon, icon == BootstrapperIcon.IconCustom ? null
-			: LoadPreset(icon, 32))).ToArray());
+	private static readonly Lazy<ShortcutIconEntry[]> Presets = new(() =>
+		BootstrapperIconEx
+			.Selections.Select(icon => new ShortcutIconEntry(icon, icon == BootstrapperIcon.IconCustom ? null : LoadPreset(icon, 32)))
+			.ToArray()
+	);
 
 	public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -65,8 +67,15 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 	{
 		if (!IsValidName(ResolvedName))
 			throw new IOException(Strings.Menu_Shortcuts_InvalidName);
-		if (createShortcut && SelectedIcon == BootstrapperIcon.IconCustom
-			&& (!File.Exists(_customIconPath) || new FileInfo(_customIconPath).Length > 8 * 1024 * 1024 || SafeImaging.FromFile(_customIconPath, 256) == null))
+		if (
+			createShortcut
+			&& SelectedIcon == BootstrapperIcon.IconCustom
+			&& (
+				!File.Exists(_customIconPath)
+				|| new FileInfo(_customIconPath).Length > 8 * 1024 * 1024
+				|| SafeImaging.FromFile(_customIconPath, 256) == null
+			)
+		)
 			throw new IOException(Strings.Menu_Shortcuts_InvalidIcon);
 	}
 
@@ -77,7 +86,9 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 		App.Settings.Prop.ShortcutAppearances ??= new();
 		App.Settings.Prop.ShortcutAppearances[_key] = new ShortcutAppearance
 		{
-			Name = ResolvedName, Icon = SelectedIcon, CustomIconPath = _customIconPath
+			Name = ResolvedName,
+			Icon = SelectedIcon,
+			CustomIconPath = _customIconPath,
 		};
 	}
 
@@ -119,12 +130,19 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 
 	private string ResolvedName => string.IsNullOrWhiteSpace(_shortcutName) ? _defaultName : _shortcutName.Trim();
 
-	private bool AppearanceChanged => _shortcutName != _originalName
-		|| _selectedIcon != _originalIcon || _customIconPath != _originalCustomIconPath;
+	private bool AppearanceChanged =>
+		_shortcutName != _originalName || _selectedIcon != _originalIcon || _customIconPath != _originalCustomIconPath;
 
 	public override bool Changed => base.Changed || (_customizable && AppearanceChanged);
 
-	public ShortcutTask(string name, string lnkFolder, string lnkName, string exeFlags = "", bool customizable = false, bool stageOnly = false)
+	public ShortcutTask(
+		string name,
+		string lnkFolder,
+		string lnkName,
+		string exeFlags = "",
+		bool customizable = false,
+		bool stageOnly = false
+	)
 		: base("Shortcut", name)
 	{
 		_stageOnly = stageOnly;
@@ -161,7 +179,7 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 		{
 			Title = Strings.Menu_Shortcuts_ChooseIcon,
 			Filter = Strings.Menu_Shortcuts_IconFilter,
-			CheckFileExists = true
+			CheckFileExists = true,
 		};
 		if (dialog.ShowDialog() != true)
 			return;
@@ -180,13 +198,21 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 
 	internal static bool IsValidName(string? name)
 	{
-		if (string.IsNullOrWhiteSpace(name) || name.Length > 100 || name.EndsWith('.')
-			|| name.Any(c => char.IsControl(c) || "<>:\"/\\|?*".Contains(c)))
+		if (
+			string.IsNullOrWhiteSpace(name)
+			|| name.Length > 100
+			|| name.EndsWith('.')
+			|| name.Any(c => char.IsControl(c) || "<>:\"/\\|?*".Contains(c))
+		)
 			return false;
 		string stem = name.Split('.')[0].ToUpperInvariant();
 		return stem is not ("CON" or "PRN" or "AUX" or "NUL")
-			&& !(stem.Length == 4 && (stem.StartsWith("COM", StringComparison.Ordinal) || stem.StartsWith("LPT", StringComparison.Ordinal))
-				&& stem[3] >= '1' && stem[3] <= '9');
+			&& !(
+				stem.Length == 4
+				&& (stem.StartsWith("COM", StringComparison.Ordinal) || stem.StartsWith("LPT", StringComparison.Ordinal))
+				&& stem[3] >= '1'
+				&& stem[3] <= '9'
+			);
 	}
 
 	private static BitmapSource? LoadPreset(BootstrapperIcon icon, int size)
@@ -196,9 +222,14 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 
 	private string PrepareIcon()
 	{
-		BitmapSource? source = SelectedIcon == BootstrapperIcon.IconCustom
-			? (File.Exists(_customIconPath) && new FileInfo(_customIconPath).Length <= 8 * 1024 * 1024 ? SafeImaging.FromFile(_customIconPath, 256) : null)
-			: LoadPreset(SelectedIcon, 256);
+		BitmapSource? source =
+			SelectedIcon == BootstrapperIcon.IconCustom
+				? (
+					File.Exists(_customIconPath) && new FileInfo(_customIconPath).Length <= 8 * 1024 * 1024
+						? SafeImaging.FromFile(_customIconPath, 256)
+						: null
+				)
+				: LoadPreset(SelectedIcon, 256);
 		if (source == null)
 			throw new IOException(Strings.Menu_Shortcuts_InvalidIcon);
 		var pixelsSource = source.Format == PixelFormats.Bgra32 ? source : new FormatConvertedBitmap(source, PixelFormats.Bgra32, null, 0);
@@ -208,7 +239,13 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 		byte[] png = new Raster(pixelsSource.PixelWidth, pixelsSource.PixelHeight, pixels).ResizeToPad(256, 256).EncodePng();
 		string folder = Path.Combine(Paths.Config, "ShortcutIcons");
 		Directory.CreateDirectory(folder);
-		string path = Path.Combine(folder, _key + "_" + Convert.ToHexString(SHA256.HashData(png)).Substring(0, 16) + (Voidstrap.Utility.Platform.IsWindows ? ".ico" : ".png"));
+		string path = Path.Combine(
+			folder,
+			_key
+				+ "_"
+				+ Convert.ToHexString(SHA256.HashData(png)).Substring(0, 16)
+				+ (Voidstrap.Utility.Platform.IsWindows ? ".ico" : ".png")
+		);
 		if (!File.Exists(path))
 		{
 			string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
@@ -256,15 +293,20 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 			string requestedName = resolvedName;
 			int suffix = 1;
 			target = Path.Combine(_folder, resolvedName + Path.GetExtension(_shortcutPath));
-			while ((NewState || AppearanceChanged) && (File.Exists(target) || Directory.Exists(target))
-				&& !(OriginalState && string.Equals(target, _shortcutPath, pathComparison)))
+			while (
+				(NewState || AppearanceChanged)
+				&& (File.Exists(target) || Directory.Exists(target))
+				&& !(OriginalState && string.Equals(target, _shortcutPath, pathComparison))
+			)
 			{
 				string number = " (" + (++suffix).ToString(System.Globalization.CultureInfo.InvariantCulture) + ")";
 				resolvedName = requestedName.Substring(0, Math.Min(requestedName.Length, 100 - number.Length)) + number;
 				target = Path.Combine(_folder, resolvedName + Path.GetExtension(_shortcutPath));
 			}
-			icon = NewState || _selectedIcon != _originalIcon || _customIconPath != _originalCustomIconPath ? PrepareIcon()
-				: App.Settings.Prop.ShortcutAppearances.GetValueOrDefault(_key)?.IconFilePath ?? Paths.Application;
+			icon =
+				NewState || _selectedIcon != _originalIcon || _customIconPath != _originalCustomIconPath
+					? PrepareIcon()
+					: App.Settings.Prop.ShortcutAppearances.GetValueOrDefault(_key)?.IconFilePath ?? Paths.Application;
 		}
 		if (NewState)
 		{
@@ -293,7 +335,10 @@ public class ShortcutTask : BoolBaseTask, INotifyPropertyChanged
 				_customIconPath = icon;
 			App.Settings.Prop.ShortcutAppearances[_key] = new ShortcutAppearance
 			{
-				Name = resolvedName, Icon = SelectedIcon, CustomIconPath = _customIconPath, IconFilePath = icon
+				Name = resolvedName,
+				Icon = SelectedIcon,
+				CustomIconPath = _customIconPath,
+				IconFilePath = icon,
 			};
 			App.Settings.SaveDeferred();
 			_shortcutName = resolvedName;

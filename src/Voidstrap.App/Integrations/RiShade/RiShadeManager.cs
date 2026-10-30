@@ -26,7 +26,8 @@ namespace Voidstrap.Integrations.RiShade
         private static readonly SemaphoreSlim SetupGate = new(1, 1);
         private static readonly object RuntimeLock = new();
         private static readonly Lazy<bool> DepthBridgeLibraryPresent = new(() =>
-            NativeLibrary.TryLoad("rishade_depth_bridge", typeof(RiShadeManager).Assembly, null, out _));
+            NativeLibrary.TryLoad("rishade_depth_bridge", typeof(RiShadeManager).Assembly, null, out _)
+        );
         private static bool _installed;
         private static IntPtr _runtime;
         private static volatile bool _hasLoadablePreset;
@@ -44,9 +45,7 @@ namespace Voidstrap.Integrations.RiShade
 
         private static string RuntimeMarkerPath => Path.Combine(Paths.RiShade, ".rishade-runtime");
 
-        public static bool IsRuntimePopulated =>
-            File.Exists(DxgiDllPath) &&
-            File.Exists(Path.Combine(RiShadeDir, "ReShade.ini"));
+        public static bool IsRuntimePopulated => File.Exists(DxgiDllPath) && File.Exists(Path.Combine(RiShadeDir, "ReShade.ini"));
 
         private static bool IsRuntimeCurrent
         {
@@ -54,8 +53,9 @@ namespace Voidstrap.Integrations.RiShade
             {
                 try
                 {
-                    return IsRuntimePopulated && File.Exists(RuntimeMarkerPath) &&
-                        File.ReadAllText(RuntimeMarkerPath).Trim().Equals(ReShadeSetupSha256, StringComparison.OrdinalIgnoreCase);
+                    return IsRuntimePopulated
+                        && File.Exists(RuntimeMarkerPath)
+                        && File.ReadAllText(RuntimeMarkerPath).Trim().Equals(ReShadeSetupSha256, StringComparison.OrdinalIgnoreCase);
                 }
                 catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
                 {
@@ -131,9 +131,7 @@ namespace Voidstrap.Integrations.RiShade
                             return ResolvePresetPath(trimmed["PresetPath=".Length..].Trim());
                     }
                 }
-                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-                {
-                }
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
                 return null;
             }
         }
@@ -143,7 +141,11 @@ namespace Voidstrap.Integrations.RiShade
             string temporary = ConfigPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
             try
             {
-                File.WriteAllText(temporary, string.Join(Environment.NewLine, lines) + Environment.NewLine, new System.Text.UTF8Encoding(false));
+                File.WriteAllText(
+                    temporary,
+                    string.Join(Environment.NewLine, lines) + Environment.NewLine,
+                    new System.Text.UTF8Encoding(false)
+                );
                 File.Move(temporary, ConfigPath, true);
             }
             finally
@@ -163,7 +165,11 @@ namespace Voidstrap.Integrations.RiShade
                 return;
             try
             {
-                if (File.Exists(ConfigPath) && File.ReadAllLines(ConfigPath).Any(line => line.TrimStart().StartsWith("PerformanceMode=", StringComparison.OrdinalIgnoreCase)))
+                if (
+                    File.Exists(ConfigPath)
+                    && File.ReadAllLines(ConfigPath)
+                        .Any(line => line.TrimStart().StartsWith("PerformanceMode=", StringComparison.OrdinalIgnoreCase))
+                )
                 {
                     App.Settings.Prop.RiShadePerformancePromptShown = true;
                     App.Settings.SaveDeferred();
@@ -186,7 +192,13 @@ namespace Voidstrap.Integrations.RiShade
         {
             try
             {
-                if (Voidstrap.UI.Frontend.ShowMessageBox(Voidstrap.Resources.Strings.Ui_RiShade_PerformancePrompt, System.Windows.MessageBoxImage.Question, System.Windows.MessageBoxButton.YesNo) == System.Windows.MessageBoxResult.Yes)
+                if (
+                    Voidstrap.UI.Frontend.ShowMessageBox(
+                        Voidstrap.Resources.Strings.Ui_RiShade_PerformancePrompt,
+                        System.Windows.MessageBoxImage.Question,
+                        System.Windows.MessageBoxButton.YesNo
+                    ) == System.Windows.MessageBoxResult.Yes
+                )
                 {
                     Interlocked.Exchange(ref _performanceModeRequested, 1);
                     App.Logger.WriteLine(LogIdent, "The user turned on ReShade performance mode");
@@ -216,7 +228,11 @@ namespace Voidstrap.Integrations.RiShade
                 int end = lines.FindIndex(general + 1, line => line.TrimStart().StartsWith('['));
                 if (end < 0)
                     end = lines.Count;
-                int existing = lines.FindIndex(general + 1, end - general - 1, line => line.TrimStart().StartsWith("PerformanceMode=", StringComparison.OrdinalIgnoreCase));
+                int existing = lines.FindIndex(
+                    general + 1,
+                    end - general - 1,
+                    line => line.TrimStart().StartsWith("PerformanceMode=", StringComparison.OrdinalIgnoreCase)
+                );
                 if (existing >= 0)
                     lines[existing] = "PerformanceMode=1";
                 else
@@ -262,9 +278,13 @@ namespace Voidstrap.Integrations.RiShade
         {
             App.Settings.Prop.RiShadeOverlayShortcut = shortcut;
             App.Settings.SaveDeferred();
-            string binding = shortcut.Key + ","
-                + ((shortcut.Modifiers & Voidstrap.Models.Persistable.OverlayShortcut.Control) != 0 ? "1" : "0") + ","
-                + ((shortcut.Modifiers & Voidstrap.Models.Persistable.OverlayShortcut.Shift) != 0 ? "1" : "0") + ","
+            string binding =
+                shortcut.Key
+                + ","
+                + ((shortcut.Modifiers & Voidstrap.Models.Persistable.OverlayShortcut.Control) != 0 ? "1" : "0")
+                + ","
+                + ((shortcut.Modifiers & Voidstrap.Models.Persistable.OverlayShortcut.Shift) != 0 ? "1" : "0")
+                + ","
                 + ((shortcut.Modifiers & Voidstrap.Models.Persistable.OverlayShortcut.Alt) != 0 ? "1" : "0");
             try
             {
@@ -282,7 +302,11 @@ namespace Voidstrap.Integrations.RiShade
                         end = lines.Count;
                     foreach (string key in new[] { "KeyMenu", "KeyOverlay" })
                     {
-                        int existing = lines.FindIndex(input + 1, end - input - 1, line => line.TrimStart().StartsWith(key + "=", StringComparison.OrdinalIgnoreCase));
+                        int existing = lines.FindIndex(
+                            input + 1,
+                            end - input - 1,
+                            line => line.TrimStart().StartsWith(key + "=", StringComparison.OrdinalIgnoreCase)
+                        );
                         if (existing >= 0)
                             lines[existing] = key + "=" + binding;
                         else
@@ -319,8 +343,13 @@ namespace Voidstrap.Integrations.RiShade
                     if ((File.GetAttributes(folder) & FileAttributes.ReparsePoint) == 0)
                         AddPresetsInFolder(folder, presets);
                 }
-                presets.Sort((left, right) => StringComparer.OrdinalIgnoreCase.Compare(
-                    Path.GetFileNameWithoutExtension(left), Path.GetFileNameWithoutExtension(right)));
+                presets.Sort(
+                    (left, right) =>
+                        StringComparer.OrdinalIgnoreCase.Compare(
+                            Path.GetFileNameWithoutExtension(left),
+                            Path.GetFileNameWithoutExtension(right)
+                        )
+                );
             }
             catch (Exception ex)
             {
@@ -361,8 +390,7 @@ namespace Voidstrap.Integrations.RiShade
         {
             foreach (string path in Directory.EnumerateFiles(folder, "*.ini", SearchOption.TopDirectoryOnly))
             {
-                if ((File.GetAttributes(path) & FileAttributes.ReparsePoint) == 0 &&
-                    RiShadeInterop.PresetFileIsLoadable(path))
+                if ((File.GetAttributes(path) & FileAttributes.ReparsePoint) == 0 && RiShadeInterop.PresetFileIsLoadable(path))
                     presets.Add(Path.GetFullPath(path));
             }
         }
@@ -382,9 +410,7 @@ namespace Voidstrap.Integrations.RiShade
                 {
                     writeTime = File.GetLastWriteTimeUtc(path);
                 }
-                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-                {
-                }
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
             }
             if (string.Equals(path, _presetStatePath, StringComparison.OrdinalIgnoreCase) && writeTime == _presetStateWriteTime)
                 return;
@@ -430,9 +456,12 @@ namespace Voidstrap.Integrations.RiShade
             bool needsDepth = loadable && PresetUsesDepth(path!);
             if (loadable != _hasLoadablePreset || needsDepth != _presetNeedsDepth)
             {
-                App.Logger.WriteLine(LogIdent, loadable
-                    ? $"Active preset {Path.GetFileName(path)} is loaded, depth estimation {(needsDepth ? "on" : "off")}"
-                    : "No loadable preset is active, the captured game image is shown unmodified");
+                App.Logger.WriteLine(
+                    LogIdent,
+                    loadable
+                        ? $"Active preset {Path.GetFileName(path)} is loaded, depth estimation {(needsDepth ? "on" : "off")}"
+                        : "No loadable preset is active, the captured game image is shown unmodified"
+                );
             }
             _hasLoadablePreset = loadable;
             _presetNeedsDepth = needsDepth;
@@ -474,11 +503,18 @@ namespace Voidstrap.Integrations.RiShade
 
         private static readonly System.Text.RegularExpressions.Regex DepthUsage = new(
             @"\b\w*depth\w*\s*\(|:\s*DEPTH\b|\bDepth::|ReShade::DepthBuffer|tex2D\w*\s*\(\s*\w*depth",
-            System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+            System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.CultureInvariant
+        );
 
-        private static readonly System.Text.RegularExpressions.Regex LineComment = new(@"//[^\r\n]*", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+        private static readonly System.Text.RegularExpressions.Regex LineComment = new(
+            @"//[^\r\n]*",
+            System.Text.RegularExpressions.RegexOptions.CultureInvariant
+        );
 
-        private static readonly System.Text.RegularExpressions.Regex IncludeLine = new(@"#\s*include\s*""([^""]+)""", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+        private static readonly System.Text.RegularExpressions.Regex IncludeLine = new(
+            @"#\s*include\s*""([^""]+)""",
+            System.Text.RegularExpressions.RegexOptions.CultureInvariant
+        );
 
         private static bool EffectReadsDepth(string effectPath)
         {
@@ -529,9 +565,10 @@ namespace Voidstrap.Integrations.RiShade
             bool applied;
             lock (RuntimeLock)
                 applied = _runtime != IntPtr.Zero && RiShadeInterop.RuntimeOpenOverlay(_runtime, open);
-            App.Logger.WriteLine(LogIdent, applied
-                ? (open ? "ReShade overlay opened" : "ReShade overlay closed")
-                : "ReShade did not accept the overlay request");
+            App.Logger.WriteLine(
+                LogIdent,
+                applied ? (open ? "ReShade overlay opened" : "ReShade overlay closed") : "ReShade did not accept the overlay request"
+            );
             RiShadePanel.NotifyOpenChanged(IsOverlayOpen);
         }
 
@@ -554,7 +591,8 @@ namespace Voidstrap.Integrations.RiShade
                     "RiShade runs official ReShade as an overlay on top of Roblox. It never injects anything into the Roblox client.\n\nEnable RiShade?",
                     MessageBoxImage.Information,
                     MessageBoxButton.YesNo,
-                    MessageBoxResult.Yes);
+                    MessageBoxResult.Yes
+                );
                 if (result != MessageBoxResult.Yes)
                     return;
             }
@@ -582,7 +620,10 @@ namespace Voidstrap.Integrations.RiShade
             if (!Voidstrap.Utility.Platform.IsWindows || !DepthBridgeAvailable || RiShadeDepthModels.Enabled)
                 return;
 
-            string message = string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_RiDepthPrompt, RiShadeDepthModels.SizeMegabytes);
+            string message = string.Format(
+                Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_RiDepthPrompt,
+                RiShadeDepthModels.SizeMegabytes
+            );
             if (Frontend.ShowMessageBox(message, MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
                 return;
 
@@ -590,7 +631,10 @@ namespace Voidstrap.Integrations.RiShade
             {
                 (bool success, string status) = await RiShadeDepthModels.SetEnabledAsync(true);
                 if (!success)
-                    Frontend.ShowMessageBox(string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Failed, status), MessageBoxImage.Warning);
+                    Frontend.ShowMessageBox(
+                        string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Failed, status),
+                        MessageBoxImage.Warning
+                    );
             });
         }
 
@@ -612,7 +656,10 @@ namespace Voidstrap.Integrations.RiShade
                     }
                     catch (Exception) when (IsRuntimePopulated)
                     {
-                        App.Logger.WriteLine(LogIdent, "The ReShade runtime update could not be applied yet, the installed runtime stays in use until the next launch");
+                        App.Logger.WriteLine(
+                            LogIdent,
+                            "The ReShade runtime update could not be applied yet, the installed runtime stays in use until the next launch"
+                        );
                     }
                 }
                 await InstallEffectAssetsAsync();
@@ -654,7 +701,11 @@ namespace Voidstrap.Integrations.RiShade
                 Directory.CreateDirectory(RiShadeDir);
                 return await Task.Run(() =>
                 {
-                    string status = CallWithStatus(enabled ? RiShadeInterop.InstallDlss : RiShadeInterop.RemoveDlss, "RiShade did not return a DLSS status", out bool success);
+                    string status = CallWithStatus(
+                        enabled ? RiShadeInterop.InstallDlss : RiShadeInterop.RemoveDlss,
+                        "RiShade did not return a DLSS status",
+                        out bool success
+                    );
                     App.Logger.WriteLine(LogIdent, status);
                     if (success)
                         RiShadeInterop.PrepareConfig(RiShadeDir);
@@ -696,18 +747,30 @@ namespace Voidstrap.Integrations.RiShade
             {
                 App.Logger.WriteLine(LogIdent, "Downloading the pinned ReShade add-on runtime");
                 string setupExe = Path.Combine(stagingDir, "ReShade-Setup.exe");
-                using (HttpResponseMessage response = await App.HttpClient.GetAsync(ReShadeSetupUrl, HttpCompletionOption.ResponseHeadersRead))
+                using (
+                    HttpResponseMessage response = await App.HttpClient.GetAsync(ReShadeSetupUrl, HttpCompletionOption.ResponseHeadersRead)
+                )
                 {
                     response.EnsureSuccessStatusCode();
                     Uri? finalUri = response.RequestMessage?.RequestUri;
-                    if (finalUri is null || finalUri.Scheme != Uri.UriSchemeHttps ||
-                        !finalUri.Host.Equals("reshade.me", StringComparison.OrdinalIgnoreCase))
+                    if (
+                        finalUri is null
+                        || finalUri.Scheme != Uri.UriSchemeHttps
+                        || !finalUri.Host.Equals("reshade.me", StringComparison.OrdinalIgnoreCase)
+                    )
                         throw new InvalidDataException("The ReShade setup download did not come from the official HTTPS host");
                     if (response.Content.Headers.ContentLength is long length && (length <= 0 || length > MaxSetupBytes))
                         throw new InvalidDataException("The ReShade setup download has an invalid size");
 
                     await using Stream source = await response.Content.ReadAsStreamAsync();
-                    await using var destination = new FileStream(setupExe, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, true);
+                    await using var destination = new FileStream(
+                        setupExe,
+                        FileMode.CreateNew,
+                        FileAccess.Write,
+                        FileShare.None,
+                        81920,
+                        true
+                    );
                     byte[] buffer = new byte[81920];
                     long downloaded = 0;
                     int read;
@@ -727,7 +790,8 @@ namespace Voidstrap.Integrations.RiShade
                         throw new InvalidDataException("The ReShade setup download failed its pinned SHA 256 check");
                 }
 
-                string appExe = Environment.ProcessPath ?? throw new InvalidOperationException("Voidstrap's executable path is unavailable");
+                string appExe =
+                    Environment.ProcessPath ?? throw new InvalidOperationException("Voidstrap's executable path is unavailable");
                 string targetExe = Path.Combine(stagingDir, "RiShadeSetupTarget.exe");
                 File.Copy(appExe, targetExe);
 
@@ -757,9 +821,7 @@ namespace Voidstrap.Integrations.RiShade
                         {
                             proc.Kill(true);
                         }
-                        catch (Exception ex) when (ex is InvalidOperationException or System.ComponentModel.Win32Exception)
-                        {
-                        }
+                        catch (Exception ex) when (ex is InvalidOperationException or System.ComponentModel.Win32Exception) { }
                         throw new TimeoutException("ReShade setup did not finish in time");
                     }
                     if (proc.ExitCode != 0)
@@ -804,7 +866,11 @@ namespace Voidstrap.Integrations.RiShade
         {
             await Task.Run(() =>
             {
-                string status = CallWithStatus(RiShadeInterop.InstallEffectsAndPresets, "RiShade asset setup did not return a status", out bool complete);
+                string status = CallWithStatus(
+                    RiShadeInterop.InstallEffectsAndPresets,
+                    "RiShade asset setup did not return a status",
+                    out bool complete
+                );
                 App.Logger.WriteLine(LogIdent, status);
                 if (!complete)
                     throw new InvalidOperationException(status);
@@ -873,7 +939,8 @@ namespace Voidstrap.Integrations.RiShade
                 {
                     bool entry = line.Contains(" | ", StringComparison.Ordinal);
                     if (entry)
-                        inProblem = line.Contains("| ERROR |", StringComparison.Ordinal) || line.Contains("| WARN  |", StringComparison.Ordinal);
+                        inProblem =
+                            line.Contains("| ERROR |", StringComparison.Ordinal) || line.Contains("| WARN  |", StringComparison.Ordinal);
                     if (!inProblem || string.IsNullOrWhiteSpace(line))
                         continue;
                     App.Logger.WriteLine("ReShade", line.Trim());
@@ -894,14 +961,7 @@ namespace Voidstrap.Integrations.RiShade
 
         private static void CleanLog()
         {
-            string[] targets =
-            {
-                "ReShade.log",
-                "ReShade.previous.log",
-                "RiShade.log",
-                "RiShade.old.log",
-                "RiShade.previous.log"
-            };
+            string[] targets = { "ReShade.log", "ReShade.previous.log", "RiShade.log", "RiShade.old.log", "RiShade.previous.log" };
 
             foreach (string folder in new[] { RiShadeDir, Paths.Base })
             {
@@ -916,9 +976,7 @@ namespace Voidstrap.Integrations.RiShade
                         if (File.Exists(path))
                             File.Delete(path);
                     }
-                    catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-                    {
-                    }
+                    catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
                 }
             }
         }

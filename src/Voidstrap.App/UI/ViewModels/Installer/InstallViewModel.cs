@@ -29,10 +29,7 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 
 	public string InstallLocation
 	{
-		get
-		{
-			return installer.InstallLocation;
-		}
+		get { return installer.InstallLocation; }
 		set
 		{
 			if (!string.IsNullOrEmpty(ErrorMessage))
@@ -60,13 +57,15 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 
 	public string ErrorMessage => installer.InstallLocationError;
 
-	public string InstallLocationTitle => Voidstrap.Utility.Platform.IsMacOS
-		? Voidstrap.Resources.Strings.Installer_MacOS_DataLocation_Title
-		: Voidstrap.Resources.Strings.Installer_Install_Location_Title;
+	public string InstallLocationTitle =>
+		Voidstrap.Utility.Platform.IsMacOS
+			? Voidstrap.Resources.Strings.Installer_MacOS_DataLocation_Title
+			: Voidstrap.Resources.Strings.Installer_Install_Location_Title;
 
-	public string InstallLocationDescription => Voidstrap.Utility.Platform.IsMacOS
-		? Voidstrap.Resources.Strings.Installer_MacOS_DataLocation_Text
-		: Voidstrap.Resources.Strings.Installer_Install_Location_Text;
+	public string InstallLocationDescription =>
+		Voidstrap.Utility.Platform.IsMacOS
+			? Voidstrap.Resources.Strings.Installer_MacOS_DataLocation_Text
+			: Voidstrap.Resources.Strings.Installer_Install_Location_Text;
 
 	public string SoberInstallStatus
 	{
@@ -115,74 +114,38 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 
 	public bool CreateDesktopShortcuts
 	{
-		get
-		{
-			return installer.CreateDesktopShortcuts;
-		}
-		set
-		{
-			installer.CreateDesktopShortcuts = value;
-		}
+		get { return installer.CreateDesktopShortcuts; }
+		set { installer.CreateDesktopShortcuts = value; }
 	}
 
 	public bool CreateStartMenuShortcuts
 	{
-		get
-		{
-			return installer.CreateStartMenuShortcuts;
-		}
-		set
-		{
-			installer.CreateStartMenuShortcuts = value;
-		}
+		get { return installer.CreateStartMenuShortcuts; }
+		set { installer.CreateStartMenuShortcuts = value; }
 	}
 
 	public bool ExtractRobloxIcons
 	{
-		get
-		{
-			return installer.ExtractRobloxIcons;
-		}
-		set
-		{
-			installer.ExtractRobloxIcons = value;
-		}
+		get { return installer.ExtractRobloxIcons; }
+		set { installer.ExtractRobloxIcons = value; }
 	}
 
 	public bool CreatePlayerShortcut
 	{
-		get
-		{
-			return installer.CreatePlayerShortcut;
-		}
-		set
-		{
-			installer.CreatePlayerShortcut = value;
-		}
+		get { return installer.CreatePlayerShortcut; }
+		set { installer.CreatePlayerShortcut = value; }
 	}
 
 	public bool CreateStudioShortcut
 	{
-		get
-		{
-			return installer.CreateStudioShortcut;
-		}
-		set
-		{
-			installer.CreateStudioShortcut = value;
-		}
+		get { return installer.CreateStudioShortcut; }
+		set { installer.CreateStudioShortcut = value; }
 	}
 
 	public bool CreateSettingsShortcut
 	{
-		get
-		{
-			return installer.CreateSettingsShortcut;
-		}
-		set
-		{
-			installer.CreateSettingsShortcut = value;
-		}
+		get { return installer.CreateSettingsShortcut; }
+		set { installer.CreateSettingsShortcut = value; }
 	}
 
 	public ICommand BrowseInstallLocationCommand => new RelayCommand(BrowseInstallLocation);
@@ -195,8 +158,22 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 	{
 		_originalInstallLocation = installer.InstallLocation;
 		string suffix = Voidstrap.Utility.Shortcut.Suffix;
-		PlayerIconTask = new("RobloxPlayer", Paths.Desktop, Voidstrap.Resources.Strings.LaunchMenu_LaunchRoblox + suffix, "-player", true, true);
-		StudioIconTask = new("RobloxStudio", Paths.Desktop, Voidstrap.Resources.Strings.LaunchMenu_LaunchRobloxStudio + suffix, "-studio", true, true);
+		PlayerIconTask = new(
+			"RobloxPlayer",
+			Paths.Desktop,
+			Voidstrap.Resources.Strings.LaunchMenu_LaunchRoblox + suffix,
+			"-player",
+			true,
+			true
+		);
+		StudioIconTask = new(
+			"RobloxStudio",
+			Paths.Desktop,
+			Voidstrap.Resources.Strings.LaunchMenu_LaunchRobloxStudio + suffix,
+			"-studio",
+			true,
+			true
+		);
 		SettingsIconTask = new("Settings", Paths.Desktop, Voidstrap.Resources.Strings.Menu_Title + suffix, "-settings", true, true);
 		installer.FunctionShortcutTasks = [PlayerIconTask, StudioIconTask, SettingsIconTask];
 	}
@@ -219,14 +196,20 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("InstallViewModel::DoInstall", ex);
-			Frontend.ShowMessageBox("Voidstrap could not finish installing to this location.\n\n" + ex.Message + "\n\nPick a different folder and try again.", MessageBoxImage.Hand);
+			Frontend.ShowMessageBox(
+				"Voidstrap could not finish installing to this location.\n\n" + ex.Message + "\n\nPick a different folder and try again.",
+				MessageBoxImage.Hand
+			);
 			SetCanContinueEvent?.Invoke(this, e: true);
 			return false;
 		}
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{
 			Voidstrap.Utility.LinuxRuntimeChoice.SelectDefaults(UseRosemary);
-			App.Logger.WriteLine("InstallViewModel::DoInstall", UseRosemary ? "Roblox runs through Rosemary" : "Roblox runs through Sober and Vinegar");
+			App.Logger.WriteLine(
+				"InstallViewModel::DoInstall",
+				UseRosemary ? "Roblox runs through Rosemary" : "Roblox runs through Sober and Vinegar"
+			);
 		}
 		if (Voidstrap.Utility.Platform.IsLinux && UseRosemary)
 		{
@@ -239,16 +222,35 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 			};
 			try
 			{
-				Voidstrap.Platform.Linux.LinuxRosemary.DownloadSegments = Voidstrap.Utility.DownloadConfiguration.NormalizeSegments(App.Settings.Prop.MaxDownloadSegments);
-				System.Threading.Tasks.Task<Voidstrap.Platform.OperationResult<string>> runtimeTask = Voidstrap.Platform.Linux.LinuxRosemary.EnsureRuntimeAsync(status, cancellation.Token);
-				System.Threading.Tasks.Task<Voidstrap.Platform.OperationResult<string>> robloxTask = Voidstrap.Platform.Linux.LinuxRosemary.EnsureRobloxAsync(Voidstrap.Platform.Linux.RosemaryApplication.Player, new Voidstrap.Platform.Linux.RosemaryRobloxOptions(), status, cancellation.Token);
+				Voidstrap.Platform.Linux.LinuxRosemary.DownloadSegments = Voidstrap.Utility.DownloadConfiguration.NormalizeSegments(
+					App.Settings.Prop.MaxDownloadSegments
+				);
+				System.Threading.Tasks.Task<Voidstrap.Platform.OperationResult<string>> runtimeTask =
+					Voidstrap.Platform.Linux.LinuxRosemary.EnsureRuntimeAsync(status, cancellation.Token);
+				System.Threading.Tasks.Task<Voidstrap.Platform.OperationResult<string>> robloxTask =
+					Voidstrap.Platform.Linux.LinuxRosemary.EnsureRobloxAsync(
+						Voidstrap.Platform.Linux.RosemaryApplication.Player,
+						new Voidstrap.Platform.Linux.RosemaryRobloxOptions(),
+						status,
+						cancellation.Token
+					);
 				await System.Threading.Tasks.Task.WhenAll(runtimeTask, robloxTask);
 				Voidstrap.Platform.OperationResult<string> runtime = runtimeTask.Result;
 				if (!robloxTask.Result.Succeeded)
-					App.Logger.WriteLine("InstallViewModel::DoInstall", robloxTask.Result.Failure?.Message ?? "macOS Roblox could not be downloaded yet, it downloads on the first launch");
-				App.Logger.WriteLine("InstallViewModel::DoInstall", runtime.Succeeded ? "Rosemary installed" : (runtime.Failure?.Message ?? "Rosemary could not be installed"));
+					App.Logger.WriteLine(
+						"InstallViewModel::DoInstall",
+						robloxTask.Result.Failure?.Message ?? "macOS Roblox could not be downloaded yet, it downloads on the first launch"
+					);
+				App.Logger.WriteLine(
+					"InstallViewModel::DoInstall",
+					runtime.Succeeded ? "Rosemary installed" : (runtime.Failure?.Message ?? "Rosemary could not be installed")
+				);
 				if (!runtime.Succeeded)
-					Frontend.ShowMessageBox(runtime.Failure?.Message ?? "Rosemary could not be installed", MessageBoxImage.Error, MessageBoxButton.OK);
+					Frontend.ShowMessageBox(
+						runtime.Failure?.Message ?? "Rosemary could not be installed",
+						MessageBoxImage.Error,
+						MessageBoxButton.OK
+					);
 			}
 			catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
 			{
@@ -272,11 +274,19 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 			_soberCancellation = cancellation;
 			try
 			{
-				Voidstrap.Platform.OperationResult result = await new Voidstrap.Platform.Linux.LinuxSoberInstaller(new Voidstrap.Core.SystemProcessService())
-					.InstallAsync(cancellation.Token, report);
-				App.Logger.WriteLine("InstallViewModel::DoInstall", result.Succeeded ? "Sober installed" : (result.Failure?.Message ?? "Sober could not be installed"));
+				Voidstrap.Platform.OperationResult result = await new Voidstrap.Platform.Linux.LinuxSoberInstaller(
+					new Voidstrap.Core.SystemProcessService()
+				).InstallAsync(cancellation.Token, report);
+				App.Logger.WriteLine(
+					"InstallViewModel::DoInstall",
+					result.Succeeded ? "Sober installed" : (result.Failure?.Message ?? "Sober could not be installed")
+				);
 				if (!result.Succeeded)
-					Frontend.ShowMessageBox(result.Failure?.Message ?? "Sober could not be installed", MessageBoxImage.Error, MessageBoxButton.OK);
+					Frontend.ShowMessageBox(
+						result.Failure?.Message ?? "Sober could not be installed",
+						MessageBoxImage.Error,
+						MessageBoxButton.OK
+					);
 			}
 			catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
 			{
@@ -302,9 +312,7 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 		{
 			_soberCancellation?.Cancel();
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 	}
 
 	private void BrowseInstallLocation()
@@ -314,7 +322,7 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 			Microsoft.Win32.OpenFolderDialog dialog = new()
 			{
 				Title = "Choose the Voidstrap installation folder",
-				InitialDirectory = InstallLocation
+				InitialDirectory = InstallLocation,
 			};
 			if (dialog.ShowDialog() == true)
 			{
@@ -351,7 +359,7 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 			ProcessStartInfo startInfo = new ProcessStartInfo
 			{
 				FileName = Voidstrap.Utility.PlatformShell.WindowsTool("explorer.exe"),
-				UseShellExecute = true
+				UseShellExecute = true,
 			};
 			startInfo.ArgumentList.Add(Paths.Base);
 			Process.Start(startInfo);

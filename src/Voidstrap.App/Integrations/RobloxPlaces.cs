@@ -36,12 +36,15 @@ public static class RobloxPlaces
 
 	private static HttpClient CreateClient()
 	{
-		HttpClient client = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(10), handler =>
-		{
-			handler.UseCookies = false;
-			handler.AllowAutoRedirect = false;
-			handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-		});
+		HttpClient client = Voidstrap.Utility.VpnHttpClient.Create(
+			TimeSpan.FromSeconds(10),
+			handler =>
+			{
+				handler.UseCookies = false;
+				handler.AllowAutoRedirect = false;
+				handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+			}
+		);
 		client.DefaultRequestHeaders.UserAgent.ParseAdd("Voidstrap/1.0");
 		return client;
 	}
@@ -65,17 +68,34 @@ public static class RobloxPlaces
 			if (!string.IsNullOrEmpty(cursor))
 				url += "&cursor=" + Uri.EscapeDataString(cursor);
 			using JsonDocument? document = await GetAsync(url, token).ConfigureAwait(false);
-			if (document == null || !document.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
+			if (
+				document == null
+				|| !document.RootElement.TryGetProperty("data", out JsonElement data)
+				|| data.ValueKind != JsonValueKind.Array
+			)
 				break;
 			foreach (JsonElement item in data.EnumerateArray())
 			{
 				long id = item.TryGetProperty("id", out JsonElement idElement) && idElement.TryGetInt64(out long value) ? value : 0;
 				if (id <= 0 || !seen.Add(id))
 					continue;
-				string name = item.TryGetProperty("name", out JsonElement nameElement) && nameElement.ValueKind == JsonValueKind.String ? nameElement.GetString() ?? "" : "";
-				places.Add(new RobloxPlace { Id = id, Name = name.Length > 0 ? name : "Place " + id.ToString(CultureInfo.InvariantCulture), IsRoot = id == rootPlaceId });
+				string name =
+					item.TryGetProperty("name", out JsonElement nameElement) && nameElement.ValueKind == JsonValueKind.String
+						? nameElement.GetString() ?? ""
+						: "";
+				places.Add(
+					new RobloxPlace
+					{
+						Id = id,
+						Name = name.Length > 0 ? name : "Place " + id.ToString(CultureInfo.InvariantCulture),
+						IsRoot = id == rootPlaceId,
+					}
+				);
 			}
-			cursor = document.RootElement.TryGetProperty("nextPageCursor", out JsonElement next) && next.ValueKind == JsonValueKind.String ? next.GetString() : null;
+			cursor =
+				document.RootElement.TryGetProperty("nextPageCursor", out JsonElement next) && next.ValueKind == JsonValueKind.String
+					? next.GetString()
+					: null;
 			if (string.IsNullOrEmpty(cursor))
 				break;
 		}
@@ -87,7 +107,12 @@ public static class RobloxPlaces
 			PlaceCache[universeId] = (places, DateTime.UtcNow);
 			if (PlaceCache.Count > MaxCachedEntries)
 			{
-				foreach (long expired in PlaceCache.Where(entry => DateTime.UtcNow - entry.Value.FetchedUtc >= PlaceLifetime).Select(entry => entry.Key).ToList())
+				foreach (
+					long expired in PlaceCache
+						.Where(entry => DateTime.UtcNow - entry.Value.FetchedUtc >= PlaceLifetime)
+						.Select(entry => entry.Key)
+						.ToList()
+				)
 					PlaceCache.Remove(expired);
 			}
 		}
@@ -102,13 +127,17 @@ public static class RobloxPlaces
 			string? cookie = RobloxCookie.Get();
 			if (!string.IsNullOrEmpty(cookie))
 				request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
-			using HttpResponseMessage response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+			using HttpResponseMessage response = await Client
+				.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token)
+				.ConfigureAwait(false);
 			if (!response.IsSuccessStatusCode)
 			{
 				App.Logger.WriteLine(LOG_IDENT, $"{new Uri(url).Host} answered {(int)response.StatusCode} {response.StatusCode}");
 				return null;
 			}
-			return JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(response.Content, MaxResponseBytes, token).ConfigureAwait(false));
+			return JsonDocument.Parse(
+				await Utility.Http.ReadStringBoundedAsync(response.Content, MaxResponseBytes, token).ConfigureAwait(false)
+			);
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
 		{

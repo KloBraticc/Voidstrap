@@ -40,10 +40,7 @@ public static class VpnHttpClient
 		HttpMessageHandler handler = new VpnResilientHandler(configure);
 		if (log)
 			handler = new HttpClientLoggingHandler(handler);
-		return new HttpClient(handler)
-		{
-			Timeout = timeout ?? TimeSpan.FromSeconds(30)
-		};
+		return new HttpClient(handler) { Timeout = timeout ?? TimeSpan.FromSeconds(30) };
 	}
 
 	private static void OnNetworkAddressChanged(object? sender, EventArgs e)
@@ -85,7 +82,11 @@ public static class VpnHttpClient
 					response.Dispose();
 					RefreshTransport(transport);
 				}
-				catch (Exception ex) when (retryable && attempt < (IsUnreachable(ex) ? RetryDelaysMs.Length : MaxResponseRetries) && IsTransient(ex, cancellationToken))
+				catch (Exception ex)
+					when (retryable
+						&& attempt < (IsUnreachable(ex) ? RetryDelaysMs.Length : MaxResponseRetries)
+						&& IsTransient(ex, cancellationToken)
+					)
 				{
 					RefreshTransport(transport);
 				}
@@ -104,8 +105,17 @@ public static class VpnHttpClient
 
 		private static bool IsUnreachable(Exception exception)
 		{
-			return exception is HttpRequestException { HttpRequestError: HttpRequestError.NameResolutionError or HttpRequestError.ConnectionError }
-				|| exception.InnerException is SocketException { SocketErrorCode: SocketError.HostNotFound or SocketError.TryAgain or SocketError.NetworkUnreachable or SocketError.HostUnreachable or SocketError.NetworkDown };
+			return exception
+					is HttpRequestException { HttpRequestError: HttpRequestError.NameResolutionError or HttpRequestError.ConnectionError }
+				|| exception.InnerException
+					is SocketException
+					{
+						SocketErrorCode: SocketError.HostNotFound
+							or SocketError.TryAgain
+							or SocketError.NetworkUnreachable
+							or SocketError.HostUnreachable
+							or SocketError.NetworkDown
+					};
 		}
 
 		private Transport GetTransport()
@@ -161,7 +171,7 @@ public static class VpnHttpClient
 				KeepAlivePingTimeout = TimeSpan.FromSeconds(10),
 				KeepAlivePingPolicy = HttpKeepAlivePingPolicy.Always,
 				EnableMultipleHttp2Connections = true,
-				MaxConnectionsPerServer = 512
+				MaxConnectionsPerServer = 512,
 			};
 			_configure?.Invoke(handler);
 			return new Transport(version, new HttpMessageInvoker(handler, true));
@@ -169,7 +179,11 @@ public static class VpnHttpClient
 
 		private static bool IsTransient(HttpStatusCode status)
 		{
-			return status is HttpStatusCode.RequestTimeout or HttpStatusCode.BadGateway or HttpStatusCode.ServiceUnavailable or HttpStatusCode.GatewayTimeout;
+			return status
+				is HttpStatusCode.RequestTimeout
+					or HttpStatusCode.BadGateway
+					or HttpStatusCode.ServiceUnavailable
+					or HttpStatusCode.GatewayTimeout;
 		}
 
 		private static bool IsTransient(Exception exception, CancellationToken token)
@@ -203,6 +217,7 @@ public static class VpnHttpClient
 	{
 		public int Version { get; } = version;
 		public HttpMessageInvoker Invoker { get; } = invoker;
+
 		public void Dispose() => Invoker.Dispose();
 	}
 
@@ -229,11 +244,7 @@ public static class VpnHttpClient
 
 		public HttpRequestMessage Create()
 		{
-			HttpRequestMessage request = new(_method, _uri)
-			{
-				Version = _version,
-				VersionPolicy = _versionPolicy
-			};
+			HttpRequestMessage request = new(_method, _uri) { Version = _version, VersionPolicy = _versionPolicy };
 			foreach (KeyValuePair<string, string[]> header in _headers)
 				request.Headers.TryAddWithoutValidation(header.Key, header.Value);
 			foreach (KeyValuePair<string, object?> option in _options)

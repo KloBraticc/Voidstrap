@@ -6,8 +6,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Net;
+using System.Net.Http;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -24,7 +24,8 @@ using Wpf.Ui.Mvvm.Contracts;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
-public partial class FastFlagsPage : UiPage{
+public partial class FastFlagsPage : UiPage
+{
 	[GeneratedRegex("^[\\+\\-]?[0-9]*$")]
 	private static partial Regex SignedIntegerInputPattern { get; }
 
@@ -36,10 +37,7 @@ public partial class FastFlagsPage : UiPage{
 
 		public string Name
 		{
-			get
-			{
-				return _name;
-			}
+			get { return _name; }
 			set
 			{
 				_name = value;
@@ -49,10 +47,7 @@ public partial class FastFlagsPage : UiPage{
 
 		public string Value
 		{
-			get
-			{
-				return _value;
-			}
+			get { return _value; }
 			set
 			{
 				_value = value;
@@ -129,7 +124,9 @@ public partial class FastFlagsPage : UiPage{
 	{
 		for (int attempt = 0; ; attempt++)
 		{
-			string payload = await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, AllowlistJsonUrl).ConfigureAwait(continueOnCapturedContext: false);
+			string payload = await Voidstrap
+				.Utility.Http.GetStringBoundedAsync(_httpClient, AllowlistJsonUrl)
+				.ConfigureAwait(continueOnCapturedContext: false);
 			Dictionary<string, string>? parsed = ParseAllowlistPayload(payload);
 			if (parsed is not null)
 			{
@@ -152,7 +149,8 @@ public partial class FastFlagsPage : UiPage{
 		try
 		{
 			using JsonDocument document = JsonDocument.Parse(payload);
-			if (document.RootElement.ValueKind != JsonValueKind.Object
+			if (
+				document.RootElement.ValueKind != JsonValueKind.Object
 				|| !document.RootElement.TryGetProperty("post_stream", out JsonElement stream)
 				|| stream.ValueKind != JsonValueKind.Object
 				|| !stream.TryGetProperty("posts", out JsonElement posts)
@@ -160,7 +158,8 @@ public partial class FastFlagsPage : UiPage{
 				|| posts.GetArrayLength() == 0
 				|| posts[0].ValueKind != JsonValueKind.Object
 				|| !posts[0].TryGetProperty("cooked", out JsonElement cooked)
-				|| cooked.ValueKind != JsonValueKind.String)
+				|| cooked.ValueKind != JsonValueKind.String
+			)
 				return null;
 
 			Dictionary<string, string> parsed = ParseOfficialAllowlist(cooked.GetString() ?? string.Empty);
@@ -330,7 +329,9 @@ public partial class FastFlagsPage : UiPage{
 	{
 		StopNvidiaWarning();
 		TabItem? target = _previousTab is { IsEnabled: true, Visibility: Visibility.Visible } ? _previousTab : null;
-		target ??= FlagTabs.Items.OfType<TabItem>().FirstOrDefault(tab => !ReferenceEquals(tab, NvidiaTab) && tab.IsEnabled && tab.Visibility == Visibility.Visible);
+		target ??= FlagTabs
+			.Items.OfType<TabItem>()
+			.FirstOrDefault(tab => !ReferenceEquals(tab, NvidiaTab) && tab.IsEnabled && tab.Visibility == Visibility.Visible);
 		if (target is not null)
 			FlagTabs.SelectedItem = target;
 	}
@@ -339,10 +340,7 @@ public partial class FastFlagsPage : UiPage{
 	{
 		StopWaterPreview();
 		_viewModel.RefreshWaterPreview();
-		_waterPreviewTimer = new DispatcherTimer(DispatcherPriority.Background)
-		{
-			Interval = TimeSpan.FromMilliseconds(80)
-		};
+		_waterPreviewTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(80) };
 		_waterPreviewTimer.Tick += WaterPreviewTimer_Tick;
 		_waterPreviewTimer.Start();
 	}
@@ -406,18 +404,17 @@ public partial class FastFlagsPage : UiPage{
 			{
 				_allowlistTask = null;
 			}
-			App.Logger.WriteLine("FastFlagsPage::LoadFFlagsAsync", "Using the built in allowlist, the online one could not be loaded: " + ex.GetType().Name + ": " + ex.Message);
+			App.Logger.WriteLine(
+				"FastFlagsPage::LoadFFlagsAsync",
+				"Using the built in allowlist, the online one could not be loaded: " + ex.GetType().Name + ": " + ex.Message
+			);
 			dict = RobloxFastFlagAllowlist.Flags.ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.Ordinal);
 		}
 
 		FFlags.Clear();
 		foreach (KeyValuePair<string, string> item in dict.OrderBy(pair => pair.Value).ThenBy(pair => pair.Key))
 		{
-			FFlags.Add(new FFlagItem
-			{
-				Name = item.Key,
-				Value = item.Value,
-			});
+			FFlags.Add(new FFlagItem { Name = item.Key, Value = item.Value });
 		}
 		DataGrid.ItemsSource = FFlags;
 	}
@@ -435,13 +432,17 @@ public partial class FastFlagsPage : UiPage{
 			{
 				return;
 			}
-			node = ((node is System.Windows.Media.Visual || node is System.Windows.Media.Media3D.Visual3D) ? System.Windows.Media.VisualTreeHelper.GetParent(node) : LogicalTreeHelper.GetParent(node));
+			node = (
+				(node is System.Windows.Media.Visual || node is System.Windows.Media.Media3D.Visual3D)
+					? System.Windows.Media.VisualTreeHelper.GetParent(node)
+					: LogicalTreeHelper.GetParent(node)
+			);
 		}
 		e.Handled = true;
 		System.Windows.Input.MouseWheelEventArgs args = new System.Windows.Input.MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
 		{
 			RoutedEvent = UIElement.MouseWheelEvent,
-			Source = sender
+			Source = sender,
 		};
 		if (sender is UIElement element)
 		{
@@ -551,13 +552,21 @@ public partial class FastFlagsPage : UiPage{
 			App.FastFlags.SetValue(flag.Key, flag.Value);
 		}
 		App.FastFlags.Save();
-		Frontend.ShowMessageBox(profile + " profile applied. " + flags.Count + " Roblox allowlisted flags were updated.\nYour other flags were left unchanged.", MessageBoxImage.Asterisk);
+		Frontend.ShowMessageBox(
+			profile + " profile applied. " + flags.Count + " Roblox allowlisted flags were updated.\nYour other flags were left unchanged.",
+			MessageBoxImage.Asterisk
+		);
 	}
 
-    [GeneratedRegex("<p><strong>(?<category>[^<]+)</strong>:</p>\\s*<ul>(?<items>.*?)</ul>", RegexOptions.IgnoreCase | RegexOptions.Singleline, "en-US")]
-    private static partial Regex CategorySectionPattern { get; }
-    [GeneratedRegex("<li>(?<flag>[A-Za-z][A-Za-z0-9_]*)</li>", RegexOptions.IgnoreCase, "en-US")]
-    private static partial Regex FlagListItemPattern { get; }
+	[GeneratedRegex(
+		"<p><strong>(?<category>[^<]+)</strong>:</p>\\s*<ul>(?<items>.*?)</ul>",
+		RegexOptions.IgnoreCase | RegexOptions.Singleline,
+		"en-US"
+	)]
+	private static partial Regex CategorySectionPattern { get; }
+
+	[GeneratedRegex("<li>(?<flag>[A-Za-z][A-Za-z0-9_]*)</li>", RegexOptions.IgnoreCase, "en-US")]
+	private static partial Regex FlagListItemPattern { get; }
 
 	private void OpenAdvancedFlags_Click(object sender, System.Windows.RoutedEventArgs e)
 	{

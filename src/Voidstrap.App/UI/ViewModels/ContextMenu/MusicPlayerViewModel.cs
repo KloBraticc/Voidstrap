@@ -1,5 +1,3 @@
-using Voidstrap.Utility;
-using RichPresence = DiscordRPC.RichPresence;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +22,8 @@ using CommunityToolkit.Mvvm.Input;
 using DiscordRPC;
 using DiscordRPC.Message;
 using Microsoft.Win32;
+using Voidstrap.Utility;
+using RichPresence = DiscordRPC.RichPresence;
 
 namespace Voidstrap.UI.ViewModels.ContextMenu;
 
@@ -49,7 +49,7 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
         ["Jazz"] = new double[] { 3, 2, 1, 2, -1, -1, 0, 1, 2, 3 },
         ["Electronic"] = new double[] { 5, 4, 1, 0, -2, 1, 0, 1, 4, 5 },
         ["Classical"] = new double[] { 4, 3, 2, 1, -1, -1, 0, 2, 3, 4 },
-        ["Loudness"] = new double[] { 6, 4, 0, -2, -3, -1, 2, 4, 6, 6 }
+        ["Loudness"] = new double[] { 6, 4, 0, -2, -3, -1, 2, 4, 6, 6 },
     };
 
     private const string CustomPresetName = "Custom";
@@ -160,9 +160,23 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
         PreviousCommand = new RelayCommand(Previous);
         StopCommand = new RelayCommand(Stop);
         RemoveTrackCommand = new RelayCommand<TrackItem>(RemoveTrack);
-        ToggleLoopCommand = new RelayCommand(() => { IsLooping = !IsLooping; Status = IsLooping ? "Loop on" : "Loop off"; UpdateRpcPresence(true); ScheduleSave(); });
-        ToggleShuffleCommand = new RelayCommand(() => { IsShuffling = !IsShuffling; UpdateRpcPresence(true); ScheduleSave(); });
-        ToggleMuteCommand = new RelayCommand(() => { IsMuted = !IsMuted; });
+        ToggleLoopCommand = new RelayCommand(() =>
+        {
+            IsLooping = !IsLooping;
+            Status = IsLooping ? "Loop on" : "Loop off";
+            UpdateRpcPresence(true);
+            ScheduleSave();
+        });
+        ToggleShuffleCommand = new RelayCommand(() =>
+        {
+            IsShuffling = !IsShuffling;
+            UpdateRpcPresence(true);
+            ScheduleSave();
+        });
+        ToggleMuteCommand = new RelayCommand(() =>
+        {
+            IsMuted = !IsMuted;
+        });
         ClearLibraryCommand = new RelayCommand(ClearLibrary);
         ResetEqualizerCommand = new RelayCommand(() => SelectedEqPreset = "Flat");
 
@@ -181,7 +195,13 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
 
     public IEnumerable<string> EqPresets => Presets.Keys;
 
-    public TrackItem NowPlaying { get; private set; } = new TrackItem { Title = "-", FileType = "", FilePath = "" };
+    public TrackItem NowPlaying { get; private set; } =
+        new TrackItem
+        {
+            Title = "-",
+            FileType = "",
+            FilePath = "",
+        };
 
     public RelayCommand<TrackItem> RemoveTrackCommand { get; }
     public RelayCommand OpenFilesCommand { get; }
@@ -525,9 +545,11 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
         if (_searchTerm.Length == 0)
             return true;
         return item is TrackItem track
-            && ((track.Title?.Contains(_searchTerm, StringComparison.CurrentCultureIgnoreCase) ?? false)
+            && (
+                (track.Title?.Contains(_searchTerm, StringComparison.CurrentCultureIgnoreCase) ?? false)
                 || (track.Artist?.Contains(_searchTerm, StringComparison.CurrentCultureIgnoreCase) ?? false)
-                || (track.FileType?.Contains(_searchTerm, StringComparison.CurrentCultureIgnoreCase) ?? false));
+                || (track.FileType?.Contains(_searchTerm, StringComparison.CurrentCultureIgnoreCase) ?? false)
+            );
     }
 
     private void Tracks_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -562,8 +584,9 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
         var dialog = new OpenFileDialog
         {
             Title = "Import audio or video files (audio only playback)",
-            Filter = "Audio and video files (*.mp3;*.wav;*.wma;*.aac;*.m4a;*.flac;*.mp4;*.mkv;*.mov;*.avi)|*.mp3;*.wav;*.wma;*.aac;*.m4a;*.flac;*.mp4;*.mkv;*.mov;*.avi|All files (*.*)|*.*",
-            Multiselect = true
+            Filter =
+                "Audio and video files (*.mp3;*.wav;*.wma;*.aac;*.m4a;*.flac;*.mp4;*.mkv;*.mov;*.avi)|*.mp3;*.wav;*.wma;*.aac;*.m4a;*.flac;*.mp4;*.mkv;*.mov;*.avi|All files (*.*)|*.*",
+            Multiselect = true,
         };
         if (dialog.ShowDialog() != true)
             return;
@@ -581,7 +604,7 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                 FilePath = path,
                 Title = Path.GetFileNameWithoutExtension(path),
                 FileType = videoTypes.Contains(ext) ? "VIDEO (AUDIO ONLY)" : ext,
-                Icon = GetFileIcon(path)
+                Icon = GetFileIcon(path),
             };
             Tracks.Add(item);
             ProbeDurationAsync(item);
@@ -599,12 +622,19 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
     {
         if (track == null)
             return;
-        bool wasCurrent = !string.IsNullOrEmpty(NowPlaying.FilePath) && string.Equals(NowPlaying.FilePath, track.FilePath, StringComparison.OrdinalIgnoreCase);
+        bool wasCurrent =
+            !string.IsNullOrEmpty(NowPlaying.FilePath)
+            && string.Equals(NowPlaying.FilePath, track.FilePath, StringComparison.OrdinalIgnoreCase);
         Tracks.Remove(track);
         if (wasCurrent)
         {
             Stop();
-            NowPlaying = new TrackItem { Title = "-", FileType = "", FilePath = "" };
+            NowPlaying = new TrackItem
+            {
+                Title = "-",
+                FileType = "",
+                FilePath = "",
+            };
             UpdateNowPlayingBindings();
         }
         Status = "Removed: " + track.Title;
@@ -620,7 +650,12 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
             foreach (TrackItem item in Tracks.ToList())
                 item.PropertyChanged -= Track_PropertyChanged;
             Tracks.Clear();
-            NowPlaying = new TrackItem { Title = "-", FileType = "", FilePath = "" };
+            NowPlaying = new TrackItem
+            {
+                Title = "-",
+                FileType = "",
+                FilePath = "",
+            };
             UpdateNowPlayingBindings();
             UpdateFilteredLibrary();
             Status = "Library cleared";
@@ -819,7 +854,12 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
     private void UpdateNowPlayingBindings()
     {
         if (NowPlaying == null || string.IsNullOrEmpty(NowPlaying.FilePath))
-            NowPlaying = new TrackItem { Title = "-", FileType = "", FilePath = "" };
+            NowPlaying = new TrackItem
+            {
+                Title = "-",
+                FileType = "",
+                FilePath = "",
+            };
         OnPropertyChanged(nameof(NowPlaying));
         OnPropertyChanged(nameof(NowPlayingDurationSeconds));
         OnPropertyChanged(nameof(DurationString));
@@ -838,9 +878,7 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                 if (duration > TimeSpan.Zero)
                     Application.Current?.Dispatcher.BeginInvoke(() => item.Duration = duration);
             }
-            catch (Exception)
-            {
-            }
+            catch (Exception) { }
             finally
             {
                 ProbeGate.Release();
@@ -854,7 +892,11 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
         {
             if (!isAutoReconnect && _rpcClient != null)
             {
-                try { _rpcClient.ClearPresence(); } catch { }
+                try
+                {
+                    _rpcClient.ClearPresence();
+                }
+                catch { }
                 DisconnectRpcClient();
                 _rpcWanted = false;
                 ScheduleSave();
@@ -906,7 +948,9 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
             Status = "RPC connected as " + msg.User.Username;
             OnPropertyChanged(nameof(RpcButtonLabel));
             if (_showRpcConnectedMessage)
-                Frontend.ShowMessageBox("Discord RPC connected as " + msg.User.Username + ".\nThis makes Roblox RPC not display on your Profile!");
+                Frontend.ShowMessageBox(
+                    "Discord RPC connected as " + msg.User.Username + ".\nThis makes Roblox RPC not display on your Profile!"
+                );
             UpdateRpcPresence(true);
         });
     }
@@ -959,18 +1003,26 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                 Assets = new Assets
                 {
                     LargeImageKey = Voidstrap.Utility.Branding.RpcLogoUrl,
-                    LargeImageText = Voidstrap.Utility.Branding.Name + " " + Voidstrap.Utility.RpcText.Mark("Music Player")
-                }
+                    LargeImageText = Voidstrap.Utility.Branding.Name + " " + Voidstrap.Utility.RpcText.Mark("Music Player"),
+                },
             };
         }
         else
         {
             double pos = Math.Max(0.0, PositionSeconds);
             double dur = Math.Max(1.0, track.Duration.TotalSeconds);
-            string artist = string.IsNullOrWhiteSpace(track.Artist) ? string.Empty : Voidstrap.Utility.RpcText.Mark("by") + " " + track.Artist;
+            string artist = string.IsNullOrWhiteSpace(track.Artist)
+                ? string.Empty
+                : Voidstrap.Utility.RpcText.Mark("by") + " " + track.Artist;
             string state = _isPlaying
                 ? (artist.Length > 0 ? artist : Voidstrap.Utility.RpcText.Mark("Playing"))
-                : Voidstrap.Utility.RpcText.Mark("Paused at") + " " + FormatTime(pos) + " " + Voidstrap.Utility.RpcText.Mark("of") + " " + FormatTime(dur);
+                : Voidstrap.Utility.RpcText.Mark("Paused at")
+                    + " "
+                    + FormatTime(pos)
+                    + " "
+                    + Voidstrap.Utility.RpcText.Mark("of")
+                    + " "
+                    + FormatTime(dur);
             if (IsLooping)
                 state += " \u00b7 " + Voidstrap.Utility.RpcText.Mark("On repeat");
             presence = new RichPresence
@@ -982,8 +1034,8 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                     LargeImageKey = Voidstrap.Utility.Branding.RpcLogoUrl,
                     LargeImageText = Voidstrap.Utility.Branding.Name + " " + Voidstrap.Utility.RpcText.Mark("Music Player"),
                     SmallImageKey = _isPlaying ? "play_icon" : "pause_icon",
-                    SmallImageText = Voidstrap.Utility.RpcText.Mark(_isPlaying ? "Playing" : "Paused")
-                }
+                    SmallImageText = Voidstrap.Utility.RpcText.Mark(_isPlaying ? "Playing" : "Paused"),
+                },
             };
             if (_isPlaying && dur > 1.0)
             {
@@ -991,7 +1043,7 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                 presence.Timestamps = new Timestamps
                 {
                     Start = now - TimeSpan.FromSeconds(pos),
-                    End = now + TimeSpan.FromSeconds(Math.Max(0.0, dur - pos))
+                    End = now + TimeSpan.FromSeconds(Math.Max(0.0, dur - pos)),
                 };
             }
         }
@@ -1021,17 +1073,22 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
 
     private void QueueWrite(string path, object data)
     {
-        _writeChain = _writeChain.ContinueWith(_ =>
-        {
-            try
+        _writeChain = _writeChain.ContinueWith(
+            _ =>
             {
-                Voidstrap.Utility.JsonFile.SerializeAtomic(path, data, Voidstrap.Utility.JsonOptions.Indented);
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("MusicPlayer", "Could not save " + Path.GetFileName(path) + ": " + ex.Message);
-            }
-        }, CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.Default);
+                try
+                {
+                    Voidstrap.Utility.JsonFile.SerializeAtomic(path, data, Voidstrap.Utility.JsonOptions.Indented);
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteLine("MusicPlayer", "Could not save " + Path.GetFileName(path) + ": " + ex.Message);
+                }
+            },
+            CancellationToken.None,
+            TaskContinuationOptions.None,
+            TaskScheduler.Default
+        );
     }
 
     private void SaveLibrary()
@@ -1041,14 +1098,16 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
         {
             var data = new
             {
-                Tracks = Tracks.Select(t => new
-                {
-                    t.Title,
-                    t.Artist,
-                    t.FilePath,
-                    t.FileType,
-                    Duration = Math.Max(0.0, t.Duration.TotalSeconds)
-                }).ToList(),
+                Tracks = Tracks
+                    .Select(t => new
+                    {
+                        t.Title,
+                        t.Artist,
+                        t.FilePath,
+                        t.FileType,
+                        Duration = Math.Max(0.0, t.Duration.TotalSeconds),
+                    })
+                    .ToList(),
                 NowPlaying = NowPlaying?.FilePath ?? "",
                 Volume = _volume,
                 Position = Math.Max(0.0, _positionSeconds),
@@ -1056,7 +1115,7 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                 Looping = IsLooping,
                 Shuffling = IsShuffling,
                 WasPlaying = _isPlaying,
-                RpcConnected = _rpcWanted
+                RpcConnected = _rpcWanted,
             };
             QueueWrite(_savePath, data);
         }
@@ -1068,7 +1127,16 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
 
     private sealed record SavedTrack(string Title, string Artist, string FilePath, string FileType, double Duration);
 
-    private sealed record SavedLibrary(List<SavedTrack> Tracks, double Volume, bool Looping, bool? Shuffling, bool RpcWanted, double Position, bool WasPlaying, string Restore);
+    private sealed record SavedLibrary(
+        List<SavedTrack> Tracks,
+        double Volume,
+        bool Looping,
+        bool? Shuffling,
+        bool RpcWanted,
+        double Position,
+        bool WasPlaying,
+        string Restore
+    );
 
     private SavedLibrary? ReadLibrary()
     {
@@ -1076,7 +1144,11 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
             return null;
         JsonElement root = Voidstrap.Utility.JsonFile.Deserialize<JsonElement>(_savePath, Voidstrap.Utility.JsonOptions.Tolerant, 16777216);
         List<SavedTrack> tracks = new();
-        if (root.ValueKind == JsonValueKind.Object && root.TryGetProperty(nameof(Tracks), out JsonElement list) && list.ValueKind == JsonValueKind.Array)
+        if (
+            root.ValueKind == JsonValueKind.Object
+            && root.TryGetProperty(nameof(Tracks), out JsonElement list)
+            && list.ValueKind == JsonValueKind.Array
+        )
         {
             foreach (JsonElement element in list.EnumerateArray())
             {
@@ -1085,12 +1157,15 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                     continue;
                 string title = ReadString(element, "Title");
                 string type = ReadString(element, "FileType");
-                tracks.Add(new SavedTrack(
-                    title.Length > 0 ? title : Path.GetFileNameWithoutExtension(path),
-                    ReadString(element, "Artist"),
-                    path,
-                    type.Length > 0 ? type : "FILE",
-                    Math.Max(0.0, ReadNumber(element, "Duration", 0.0))));
+                tracks.Add(
+                    new SavedTrack(
+                        title.Length > 0 ? title : Path.GetFileNameWithoutExtension(path),
+                        ReadString(element, "Artist"),
+                        path,
+                        type.Length > 0 ? type : "FILE",
+                        Math.Max(0.0, ReadNumber(element, "Duration", 0.0))
+                    )
+                );
             }
         }
         string nowPlaying = ReadString(root, nameof(NowPlaying));
@@ -1102,7 +1177,8 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
             ReadBool(root, "RpcConnected") ?? false,
             Math.Max(0.0, ReadNumber(root, "Position", 0.0)),
             ReadBool(root, "WasPlaying") ?? false,
-            nowPlaying.Length > 0 ? nowPlaying : ReadString(root, "Selected"));
+            nowPlaying.Length > 0 ? nowPlaying : ReadString(root, "Selected")
+        );
     }
 
     private async Task LoadLibraryAsync()
@@ -1136,15 +1212,17 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                 {
                     if (!known.Add(track.FilePath))
                         continue;
-                    Tracks.Add(new TrackItem
-                    {
-                        Title = track.Title,
-                        Artist = track.Artist,
-                        FilePath = track.FilePath,
-                        FileType = track.FileType,
-                        Icon = GetFileIcon(track.FilePath),
-                        Duration = TimeSpan.FromSeconds(track.Duration)
-                    });
+                    Tracks.Add(
+                        new TrackItem
+                        {
+                            Title = track.Title,
+                            Artist = track.Artist,
+                            FilePath = track.FilePath,
+                            FileType = track.FileType,
+                            Icon = GetFileIcon(track.FilePath),
+                            Duration = TimeSpan.FromSeconds(track.Duration),
+                        }
+                    );
                 }
             }
             foreach (TrackItem track in Tracks)
@@ -1160,9 +1238,10 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                 _isShuffling = shuffling;
             _rpcWanted = saved.RpcWanted;
 
-            TrackItem? found = saved.Restore.Length == 0
-                ? null
-                : Tracks.FirstOrDefault(t => string.Equals(t.FilePath, saved.Restore, StringComparison.OrdinalIgnoreCase));
+            TrackItem? found =
+                saved.Restore.Length == 0
+                    ? null
+                    : Tracks.FirstOrDefault(t => string.Equals(t.FilePath, saved.Restore, StringComparison.OrdinalIgnoreCase));
             if (found != null)
             {
                 _suppressAutoPlay = true;
@@ -1211,7 +1290,8 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
 
     private static string ReadString(JsonElement element, string name)
     {
-        return element.ValueKind == JsonValueKind.Object
+        return
+            element.ValueKind == JsonValueKind.Object
             && element.TryGetProperty(name, out JsonElement value)
             && value.ValueKind == JsonValueKind.String
             ? value.GetString() ?? string.Empty
@@ -1220,7 +1300,8 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
 
     private static double ReadNumber(JsonElement element, string name, double fallback)
     {
-        return element.ValueKind == JsonValueKind.Object
+        return
+            element.ValueKind == JsonValueKind.Object
             && element.TryGetProperty(name, out JsonElement value)
             && value.ValueKind == JsonValueKind.Number
             && value.TryGetDouble(out double number)
@@ -1231,7 +1312,8 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
 
     private static bool? ReadBool(JsonElement element, string name)
     {
-        return element.ValueKind == JsonValueKind.Object
+        return
+            element.ValueKind == JsonValueKind.Object
             && element.TryGetProperty(name, out JsonElement value)
             && value.ValueKind is JsonValueKind.True or JsonValueKind.False
             ? value.GetBoolean()
@@ -1245,7 +1327,7 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
         {
             Enabled = _eqEnabled,
             Preset = _selectedEqPreset,
-            Bands = EqBands.Select(b => b.Gain).ToArray()
+            Bands = EqBands.Select(b => b.Gain).ToArray(),
         };
         QueueWrite(_eqPath, data);
     }
@@ -1256,13 +1338,21 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
         {
             if (!File.Exists(_eqPath))
                 return;
-            JsonElement root = Voidstrap.Utility.JsonFile.Deserialize<JsonElement>(_eqPath, Voidstrap.Utility.JsonOptions.Tolerant, 4194304);
+            JsonElement root = Voidstrap.Utility.JsonFile.Deserialize<JsonElement>(
+                _eqPath,
+                Voidstrap.Utility.JsonOptions.Tolerant,
+                4194304
+            );
             _eqEnabled = ReadBool(root, "Enabled") ?? false;
             _playback.EqualizerEnabled = _eqEnabled;
             string preset = ReadString(root, "Preset");
             if (preset.Length > 0)
                 _selectedEqPreset = preset;
-            if (root.ValueKind == JsonValueKind.Object && root.TryGetProperty("Bands", out JsonElement bands) && bands.ValueKind == JsonValueKind.Array)
+            if (
+                root.ValueKind == JsonValueKind.Object
+                && root.TryGetProperty("Bands", out JsonElement bands)
+                && bands.ValueKind == JsonValueKind.Array
+            )
             {
                 int i = 0;
                 _applyingPreset = true;
@@ -1270,7 +1360,8 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                 {
                     if (i >= EqBands.Count)
                         break;
-                    double gain = g.ValueKind == JsonValueKind.Number && g.TryGetDouble(out double value) && double.IsFinite(value) ? value : 0.0;
+                    double gain =
+                        g.ValueKind == JsonValueKind.Number && g.TryGetDouble(out double value) && double.IsFinite(value) ? value : 0.0;
                     EqBands[i].SetGainSilent(gain);
                     _playback.SetBandGain(i, (float)gain);
                     i++;
@@ -1313,13 +1404,22 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
             nint hbitmap = bitmap.GetHbitmap();
             try
             {
-                var source = Imaging.CreateBitmapSourceFromHBitmap(hbitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                var source = Imaging.CreateBitmapSourceFromHBitmap(
+                    hbitmap,
+                    IntPtr.Zero,
+                    Int32Rect.Empty,
+                    BitmapSizeOptions.FromEmptyOptions()
+                );
                 source.Freeze();
                 return source;
             }
             finally
             {
-                try { NativeMethods.DeleteObject(hbitmap); } catch { }
+                try
+                {
+                    NativeMethods.DeleteObject(hbitmap);
+                }
+                catch { }
             }
         }
         catch
@@ -1340,7 +1440,8 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    private void OnPropertyChanged([CallerMemberName] string? name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    private void OnPropertyChanged([CallerMemberName] string? name = null) =>
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
     public void Dispose()
     {
@@ -1355,9 +1456,7 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
         {
             _writeChain.Wait(TimeSpan.FromSeconds(3));
         }
-        catch (AggregateException)
-        {
-        }
+        catch (AggregateException) { }
         _timer.Stop();
         _timer.Tick -= Timer_Tick;
         _playback.PlaybackEnded -= Playback_Ended;
@@ -1366,13 +1465,15 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
         {
             _playback.Dispose();
         }
-        catch
-        {
-        }
+        catch { }
         Tracks.CollectionChanged -= Tracks_CollectionChanged;
         foreach (TrackItem track in Tracks)
         {
-            try { track.PropertyChanged -= Track_PropertyChanged; } catch { }
+            try
+            {
+                track.PropertyChanged -= Track_PropertyChanged;
+            }
+            catch { }
         }
         if (_rpcConnected && _rpcClient != null)
         {
@@ -1380,9 +1481,7 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
             {
                 _rpcClient.ClearPresence();
             }
-            catch
-            {
-            }
+            catch { }
         }
         DisconnectRpcClient();
         GC.SuppressFinalize(this);

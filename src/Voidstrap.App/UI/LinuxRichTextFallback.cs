@@ -8,7 +8,11 @@ namespace Voidstrap.UI;
 internal static class LinuxRichTextFallback
 {
 	private static readonly DependencyProperty FallbackProperty = DependencyProperty.RegisterAttached(
-		"Fallback", typeof(TextBox), typeof(LinuxRichTextFallback), new PropertyMetadata(null));
+		"Fallback",
+		typeof(TextBox),
+		typeof(LinuxRichTextFallback),
+		new PropertyMetadata(null)
+	);
 
 	public static void Apply(RichTextBox rich)
 	{
@@ -31,7 +35,10 @@ internal static class LinuxRichTextFallback
 				IsReadOnlyCaretVisible = rich.IsReadOnlyCaretVisible,
 				AcceptsReturn = true,
 				TextWrapping = TextWrapping.Wrap,
-				VerticalScrollBarVisibility = rich.VerticalScrollBarVisibility == ScrollBarVisibility.Disabled ? ScrollBarVisibility.Auto : rich.VerticalScrollBarVisibility,
+				VerticalScrollBarVisibility =
+					rich.VerticalScrollBarVisibility == ScrollBarVisibility.Disabled
+						? ScrollBarVisibility.Auto
+						: rich.VerticalScrollBarVisibility,
 				HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
 				Padding = rich.Padding,
 				Margin = rich.Margin,
@@ -42,7 +49,7 @@ internal static class LinuxRichTextFallback
 				Background = rich.Background,
 				BorderThickness = rich.BorderThickness,
 				HorizontalAlignment = rich.HorizontalAlignment,
-				VerticalAlignment = rich.VerticalAlignment
+				VerticalAlignment = rich.VerticalAlignment,
 			};
 			if (!double.IsNaN(rich.Height))
 				box.Height = rich.Height;

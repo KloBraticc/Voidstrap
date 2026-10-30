@@ -14,13 +14,9 @@ namespace Voidstrap.UI
     public static class LinuxFileDialog
     {
 #if !CROSSPLAT
-        public static void Install()
-        {
-        }
+        public static void Install() { }
 
-        public static void Uninstall()
-        {
-        }
+        public static void Uninstall() { }
 #else
         private static readonly string[] CandidateTools = { "zenity", "qarma", "yad", "kdialog" };
 
@@ -44,10 +40,20 @@ namespace Voidstrap.UI
             _installed = true;
             PortableWpfServiceRegistry.FileDialogServiceRegistered += OnFileDialogServiceRegistered;
 
-            if (PortableWpfServiceRegistry.TryGetFileDialogService(PortableWpfServiceKey.PresentationFramework, out IPortableFileDialogServiceRegistrar framework))
+            if (
+                PortableWpfServiceRegistry.TryGetFileDialogService(
+                    PortableWpfServiceKey.PresentationFramework,
+                    out IPortableFileDialogServiceRegistrar framework
+                )
+            )
                 Attach(framework);
 
-            if (PortableWpfServiceRegistry.TryGetFileDialogService(PortableWpfServiceKey.WinForms, out IPortableFileDialogServiceRegistrar winForms))
+            if (
+                PortableWpfServiceRegistry.TryGetFileDialogService(
+                    PortableWpfServiceKey.WinForms,
+                    out IPortableFileDialogServiceRegistrar winForms
+                )
+            )
                 Attach(winForms);
 
             if (_tool is not null)
@@ -67,9 +73,7 @@ namespace Voidstrap.UI
                 {
                     registration.Dispose();
                 }
-                catch (Exception)
-                {
-                }
+                catch (Exception) { }
             }
 
             Registrations.Clear();
@@ -121,7 +125,10 @@ namespace Voidstrap.UI
                 if (portalReached)
                     return chosen;
 
-                Frontend.ShowMessageBox("Voidstrap needs a file picker to choose files on Linux. Install zenity or kdialog with your package manager, then try again.", System.Windows.MessageBoxImage.Information);
+                Frontend.ShowMessageBox(
+                    "Voidstrap needs a file picker to choose files on Linux. Install zenity or kdialog with your package manager, then try again.",
+                    System.Windows.MessageBoxImage.Information
+                );
                 return null;
             }
 
@@ -133,7 +140,7 @@ namespace Voidstrap.UI
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     UseShellExecute = false,
-                    CreateNoWindow = true
+                    CreateNoWindow = true,
                 };
 
                 bool kdialog = string.Equals(Path.GetFileName(_tool), "kdialog", StringComparison.Ordinal);
@@ -151,9 +158,7 @@ namespace Voidstrap.UI
                     {
                         picker.Kill(true);
                     }
-                    catch (Exception)
-                    {
-                    }
+                    catch (Exception) { }
 
                     return null;
                 }
@@ -165,9 +170,7 @@ namespace Voidstrap.UI
                 if (selected.Length == 0)
                     return null;
 
-                return request.AllowMultipleSelection
-                    ? new PortableFileDialogResult(selected)
-                    : new PortableFileDialogResult(selected[0]);
+                return request.AllowMultipleSelection ? new PortableFileDialogResult(selected) : new PortableFileDialogResult(selected[0]);
             }
             catch (Exception ex)
             {
@@ -197,9 +200,7 @@ namespace Voidstrap.UI
                 if (paths is null || paths.Length == 0)
                     return null;
 
-                return request.AllowMultipleSelection
-                    ? new PortableFileDialogResult(paths)
-                    : new PortableFileDialogResult(paths[0]);
+                return request.AllowMultipleSelection ? new PortableFileDialogResult(paths) : new PortableFileDialogResult(paths[0]);
             }
             catch (Exception ex)
             {
@@ -216,12 +217,14 @@ namespace Voidstrap.UI
             string token = "voidstrap" + Guid.NewGuid().ToString("N");
             string sender = info.LocalName.TrimStart(':').Replace('.', '_');
             ObjectPath expected = new("/org/freedesktop/portal/desktop/request/" + sender + "/" + token);
-            TaskCompletionSource<(uint Response, IDictionary<string, object> Results)> completion = new(TaskCreationOptions.RunContinuationsAsynchronously);
+            TaskCompletionSource<(uint Response, IDictionary<string, object> Results)> completion = new(
+                TaskCreationOptions.RunContinuationsAsynchronously
+            );
 
             IPortalRequest pending = connection.CreateProxy<IPortalRequest>(PortalService, expected);
-            IDisposable watch = await pending.WatchResponseAsync(
-                value => completion.TrySetResult(value),
-                error => completion.TrySetException(error)).ConfigureAwait(false);
+            IDisposable watch = await pending
+                .WatchResponseAsync(value => completion.TrySetResult(value), error => completion.TrySetException(error))
+                .ConfigureAwait(false);
 
             try
             {
@@ -244,9 +247,10 @@ namespace Voidstrap.UI
                 if (handle.ToString() != expected.ToString())
                 {
                     watch.Dispose();
-                    watch = await connection.CreateProxy<IPortalRequest>(PortalService, handle).WatchResponseAsync(
-                        value => completion.TrySetResult(value),
-                        error => completion.TrySetException(error)).ConfigureAwait(false);
+                    watch = await connection
+                        .CreateProxy<IPortalRequest>(PortalService, handle)
+                        .WatchResponseAsync(value => completion.TrySetResult(value), error => completion.TrySetException(error))
+                        .ConfigureAwait(false);
                 }
 
                 (uint response, IDictionary<string, object> results) = await completion.Task.ConfigureAwait(false);
@@ -270,11 +274,7 @@ namespace Voidstrap.UI
 
         private static Dictionary<string, object> BuildPortalOptions(PortableFileDialogRequest request, string token)
         {
-            Dictionary<string, object> options = new()
-            {
-                ["handle_token"] = token,
-                ["modal"] = true
-            };
+            Dictionary<string, object> options = new() { ["handle_token"] = token, ["modal"] = true };
 
             bool save = string.Equals(request.Kind, "SaveFile", StringComparison.Ordinal);
             if (string.Equals(request.Kind, "OpenFolder", StringComparison.Ordinal))
@@ -415,7 +415,10 @@ namespace Voidstrap.UI
             for (int i = 0; i + 1 < parts.Length; i += 2)
             {
                 string label = parts[i].Trim();
-                string patterns = string.Join(' ', parts[i + 1].Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
+                string patterns = string.Join(
+                    ' ',
+                    parts[i + 1].Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                );
                 if (label.Length > 0 && patterns.Length > 0)
                     entries.Add(patterns + "|" + label.Replace('|', ' '));
             }
@@ -482,7 +485,10 @@ namespace Voidstrap.UI
     [DBusInterface("org.freedesktop.portal.Request")]
     public interface IPortalRequest : IDBusObject
     {
-        Task<IDisposable> WatchResponseAsync(Action<(uint Response, IDictionary<string, object> Results)> handler, Action<Exception>? onError = null);
+        Task<IDisposable> WatchResponseAsync(
+            Action<(uint Response, IDictionary<string, object> Results)> handler,
+            Action<Exception>? onError = null
+        );
     }
 #endif
 }

@@ -52,7 +52,15 @@ internal static class DdsTextureCodec
 		return CreateDds("DXT1"u8, [low, high, low, high, 0, 0, 0, 0]);
 	}
 
-	internal static byte[][] BuildWaterFrames(int style, int strengthPercent, int speed, int frozenFrame, int glitchPercent, IReadOnlyList<byte[]>? originals, IReadOnlyList<byte[]>? heightFrames)
+	internal static byte[][] BuildWaterFrames(
+		int style,
+		int strengthPercent,
+		int speed,
+		int frozenFrame,
+		int glitchPercent,
+		IReadOnlyList<byte[]>? originals,
+		IReadOnlyList<byte[]>? heightFrames
+	)
 	{
 		float strength = Math.Clamp(strengthPercent, 0, 300) / 100f;
 		int step = Math.Clamp(speed, 1, 4);
@@ -125,11 +133,13 @@ internal static class DdsTextureCodec
 
 	internal static void DecodeWaterFrame(byte[] dds, float[] x, float[] y)
 	{
-		if (dds.Length < WaterFileLength
+		if (
+			dds.Length < WaterFileLength
 			|| !dds.AsSpan(0, 4).SequenceEqual("DDS "u8)
 			|| !dds.AsSpan(84, 4).SequenceEqual("DXT5"u8)
 			|| BinaryPrimitives.ReadUInt32LittleEndian(dds.AsSpan(12)) != WaterSize
-			|| BinaryPrimitives.ReadUInt32LittleEndian(dds.AsSpan(16)) != WaterSize)
+			|| BinaryPrimitives.ReadUInt32LittleEndian(dds.AsSpan(16)) != WaterSize
+		)
 			throw new InvalidDataException("The water texture has an unexpected layout.");
 		Span<byte> alphas = stackalloc byte[8];
 		Span<byte> greens = stackalloc byte[4];
@@ -143,7 +153,11 @@ internal static class DdsTextureCodec
 				ulong alphaBits = 0;
 				for (int part = 0; part < 6; part++)
 					alphaBits |= (ulong)dds[offset + 2 + part] << (8 * part);
-				GreenPalette(BinaryPrimitives.ReadUInt16LittleEndian(dds.AsSpan(offset + 8)), BinaryPrimitives.ReadUInt16LittleEndian(dds.AsSpan(offset + 10)), greens);
+				GreenPalette(
+					BinaryPrimitives.ReadUInt16LittleEndian(dds.AsSpan(offset + 8)),
+					BinaryPrimitives.ReadUInt16LittleEndian(dds.AsSpan(offset + 10)),
+					greens
+				);
 				uint colorBits = BinaryPrimitives.ReadUInt32LittleEndian(dds.AsSpan(offset + 12));
 				for (int texel = 0; texel < 16; texel++)
 				{

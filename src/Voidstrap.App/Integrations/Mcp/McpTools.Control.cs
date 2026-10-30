@@ -20,7 +20,26 @@ public static partial class McpTools
 {
 	private const long MaxReadFileBytes = 1024 * 1024;
 
-	private static readonly string[] ReadableExtensions = [".json", ".txt", ".log", ".xml", ".ini", ".cfg", ".md", ".html", ".htm", ".css", ".js", ".lua", ".toml", ".yaml", ".yml", ".fx", ".fxh"];
+	private static readonly string[] ReadableExtensions =
+	[
+		".json",
+		".txt",
+		".log",
+		".xml",
+		".ini",
+		".cfg",
+		".md",
+		".html",
+		".htm",
+		".css",
+		".js",
+		".lua",
+		".toml",
+		".yaml",
+		".yml",
+		".fx",
+		".fxh",
+	];
 
 	private static McpToolResult ManageMods(JsonObject args)
 	{
@@ -32,25 +51,31 @@ public static partial class McpTools
 			var list = new JsonArray();
 			foreach (ManagedModLibraryEntry entry in ManagedModStore.ScanLibrary())
 			{
-				list.Add(new JsonObject
-				{
-					["id"] = entry.Record.Id,
-					["name"] = entry.Record.Name,
-					["enabled"] = entry.Record.Enabled,
-					["files"] = entry.FileCount,
-					["bytes"] = entry.TotalBytes,
-					["problem"] = string.IsNullOrEmpty(entry.Failure) ? null : entry.Failure
-				});
+				list.Add(
+					new JsonObject
+					{
+						["id"] = entry.Record.Id,
+						["name"] = entry.Record.Name,
+						["enabled"] = entry.Record.Enabled,
+						["files"] = entry.FileCount,
+						["bytes"] = entry.TotalBytes,
+						["problem"] = string.IsNullOrEmpty(entry.Failure) ? null : entry.Failure,
+					}
+				);
 			}
-			return new McpToolResult(new JsonObject
-			{
-				["enabledCount"] = ManagedModStore.GetEnabledModCount(),
-				["note"] = "Mods apply the next time Roblox launches through Voidstrap. Earlier entries win when two mods change the same file.",
-				["mods"] = list
-			}.ToJsonString(IndentedJson));
+			return new McpToolResult(
+				new JsonObject
+				{
+					["enabledCount"] = ManagedModStore.GetEnabledModCount(),
+					["note"] =
+						"Mods apply the next time Roblox launches through Voidstrap. Earlier entries win when two mods change the same file.",
+					["mods"] = list,
+				}.ToJsonString(IndentedJson)
+			);
 		}
 
-		ManagedModRecord? record = ManagedModStore.Load().FirstOrDefault(item => string.Equals(item.Id, id, StringComparison.OrdinalIgnoreCase))
+		ManagedModRecord? record =
+			ManagedModStore.Load().FirstOrDefault(item => string.Equals(item.Id, id, StringComparison.OrdinalIgnoreCase))
 			?? ManagedModStore.Load().FirstOrDefault(item => string.Equals(item.Name, id, StringComparison.OrdinalIgnoreCase));
 		if (record == null)
 			return new McpToolResult($"No managed mod has the id or name '{id}'. Call manage_mods with action 'list'.", true);
@@ -65,7 +90,9 @@ public static partial class McpTools
 				ManagedModStore.SetEnabled(record.Id, enabled);
 				PushUndo($"{action} mod {record.Name}", () => ManagedModStore.SetEnabled(record.Id, before));
 				RefreshMainWindow();
-				return new McpToolResult($"{(enabled ? "Enabled" : "Disabled")} the mod '{record.Name}'. It applies on the next Roblox launch.");
+				return new McpToolResult(
+					$"{(enabled ? "Enabled" : "Disabled")} the mod '{record.Name}'. It applies on the next Roblox launch."
+				);
 			}
 			case "rename":
 			{
@@ -89,7 +116,10 @@ public static partial class McpTools
 			}
 			case "delete":
 				if (!McpArgs.Flag(args, "confirm", false))
-					return new McpToolResult($"Deleting '{record.Name}' removes its files for good. Call again with confirm set to true to delete it.", true);
+					return new McpToolResult(
+						$"Deleting '{record.Name}' removes its files for good. Call again with confirm set to true to delete it.",
+						true
+					);
 				ManagedModStore.Delete(record.Id);
 				RefreshMainWindow();
 				return new McpToolResult($"Deleted the mod '{record.Name}'.");
@@ -109,17 +139,21 @@ public static partial class McpTools
 			case "status":
 			{
 				IReadOnlyList<string> presets = RiShadeManager.GetAvailablePresets();
-				return new McpToolResult(new JsonObject
-				{
-					["enabled"] = App.Settings.Prop.RiShadeEnabled,
-					["runtimeInstalled"] = RiShadeManager.IsRuntimePopulated,
-					["currentPreset"] = RiShadeManager.PreferredPresetPath,
-					["presetLoadable"] = RiShadeManager.HasLoadablePreset,
-					["presetUsesDepth"] = RiShadeManager.PresetNeedsDepth,
-					["depthModel"] = App.Settings.Prop.RiShadeDepthModel,
-					["weakGpuPath"] = RiShadeDepthModels.LowEndHardware,
-					["presets"] = new JsonArray(presets.Select(path => (JsonNode)Path.GetRelativePath(RiShadeManager.RiShadeDir, path)).ToArray())
-				}.ToJsonString(IndentedJson));
+				return new McpToolResult(
+					new JsonObject
+					{
+						["enabled"] = App.Settings.Prop.RiShadeEnabled,
+						["runtimeInstalled"] = RiShadeManager.IsRuntimePopulated,
+						["currentPreset"] = RiShadeManager.PreferredPresetPath,
+						["presetLoadable"] = RiShadeManager.HasLoadablePreset,
+						["presetUsesDepth"] = RiShadeManager.PresetNeedsDepth,
+						["depthModel"] = App.Settings.Prop.RiShadeDepthModel,
+						["weakGpuPath"] = RiShadeDepthModels.LowEndHardware,
+						["presets"] = new JsonArray(
+							presets.Select(path => (JsonNode)Path.GetRelativePath(RiShadeManager.RiShadeDir, path)).ToArray()
+						),
+					}.ToJsonString(IndentedJson)
+				);
 			}
 			case "enable":
 			case "disable":
@@ -137,7 +171,14 @@ public static partial class McpTools
 				if (preset.Length == 0)
 					return new McpToolResult("Provide the 'preset' path relative to the RiShade folder, from action status.", true);
 				string? full = Path.IsPathRooted(preset) ? preset : McpArgs.ContainedPath(RiShadeManager.RiShadeDir, preset);
-				string? match = full == null ? null : RiShadeManager.GetAvailablePresets().FirstOrDefault(path => string.Equals(Path.GetFullPath(path), Path.GetFullPath(full), StringComparison.OrdinalIgnoreCase));
+				string? match =
+					full == null
+						? null
+						: RiShadeManager
+							.GetAvailablePresets()
+							.FirstOrDefault(path =>
+								string.Equals(Path.GetFullPath(path), Path.GetFullPath(full), StringComparison.OrdinalIgnoreCase)
+							);
 				if (match == null)
 					return new McpToolResult("That preset was not found. Call manage_rishade with action status to list presets.", true);
 				string? before = RiShadeManager.PreferredPresetPath;
@@ -163,13 +204,15 @@ public static partial class McpTools
 				{
 					string? modId = ModGenerator.FindModId();
 					ModGeneratorSettings? current = modId == null ? null : ModGenerator.LoadSettings(modId);
-					return new McpToolResult(new JsonObject
-					{
-						["generated"] = current != null,
-						["settings"] = current == null ? null : JsonSerializer.SerializeToNode(current),
-						["savedThemes"] = new JsonArray(ModGenerator.ListThemes().Select(name => (JsonNode)name).ToArray()),
-						["busy"] = ModGenerator.IsGenerating
-					}.ToJsonString(IndentedJson));
+					return new McpToolResult(
+						new JsonObject
+						{
+							["generated"] = current != null,
+							["settings"] = current == null ? null : JsonSerializer.SerializeToNode(current),
+							["savedThemes"] = new JsonArray(ModGenerator.ListThemes().Select(name => (JsonNode)name).ToArray()),
+							["busy"] = ModGenerator.IsGenerating,
+						}.ToJsonString(IndentedJson)
+					);
 				}
 				case "generate":
 				{
@@ -188,7 +231,8 @@ public static partial class McpTools
 					}
 					string? theme = McpArgs.String(args, "theme");
 					if (!string.IsNullOrWhiteSpace(theme))
-						settings = ModGenerator.LoadTheme(theme.Trim()) ?? throw new InvalidOperationException("That saved theme was not found.");
+						settings =
+							ModGenerator.LoadTheme(theme.Trim()) ?? throw new InvalidOperationException("That saved theme was not found.");
 					using CancellationTokenSource limit = CancellationTokenSource.CreateLinkedTokenSource(token);
 					limit.CancelAfter(TimeSpan.FromMinutes(5));
 					string summary = await ModGenerator.GenerateAsync(settings, null, limit.Token).ConfigureAwait(false);
@@ -202,7 +246,9 @@ public static partial class McpTools
 					ModGeneratorSettings? current = modId == null ? null : ModGenerator.LoadSettings(modId);
 					if (current == null)
 						return new McpToolResult("Generate a mod first, then save its settings as a theme.", true);
-					return new McpToolResult("Saved the theme as " + ModGenerator.SaveTheme(name.Length == 0 ? current.ModName : name, current) + ".");
+					return new McpToolResult(
+						"Saved the theme as " + ModGenerator.SaveTheme(name.Length == 0 ? current.ModName : name, current) + "."
+					);
 				}
 				default:
 					return new McpToolResult("Unknown action. Use status, generate, or save_theme.", true);
@@ -225,23 +271,27 @@ public static partial class McpTools
 		var list = new JsonArray();
 		foreach (SavedAccount account in accounts)
 		{
-			list.Add(new JsonObject
-			{
-				["userId"] = account.UserId,
-				["username"] = account.Username,
-				["displayName"] = account.DisplayName,
-				["current"] = current?.UserId == account.UserId,
-				["sessionExpired"] = account.Expired,
-				["pinned"] = account.Pinned,
-				["lastUsed"] = account.LastUsedUtc == default ? null : account.LastUsedUtc.ToString("u", CultureInfo.InvariantCulture)
-			});
+			list.Add(
+				new JsonObject
+				{
+					["userId"] = account.UserId,
+					["username"] = account.Username,
+					["displayName"] = account.DisplayName,
+					["current"] = current?.UserId == account.UserId,
+					["sessionExpired"] = account.Expired,
+					["pinned"] = account.Pinned,
+					["lastUsed"] = account.LastUsedUtc == default ? null : account.LastUsedUtc.ToString("u", CultureInfo.InvariantCulture),
+				}
+			);
 		}
-		return new McpToolResult(new JsonObject
-		{
-			["switchingSupported"] = SavedAccounts.SwitchingSupported,
-			["note"] = "Account switching is done by the user in the Accounts page, MCP can only read this list.",
-			["accounts"] = list
-		}.ToJsonString(IndentedJson));
+		return new McpToolResult(
+			new JsonObject
+			{
+				["switchingSupported"] = SavedAccounts.SwitchingSupported,
+				["note"] = "Account switching is done by the user in the Accounts page, MCP can only read this list.",
+				["accounts"] = list,
+			}.ToJsonString(IndentedJson)
+		);
 	}
 
 	public static McpToolResult ReadVoidstrapFileSafe(JsonObject args)
@@ -281,7 +331,11 @@ public static partial class McpTools
 			stream.Seek(-MaxReadFileBytes, SeekOrigin.End);
 		using StreamReader reader = new StreamReader(stream, Encoding.UTF8);
 		string text = reader.ReadToEnd();
-		return new McpToolResult($"{Path.GetRelativePath(root, full)} ({stream.Length:N0} bytes{(clipped ? ", showing the last 1 MB" : "")})" + Environment.NewLine + text);
+		return new McpToolResult(
+			$"{Path.GetRelativePath(root, full)} ({stream.Length:N0} bytes{(clipped ? ", showing the last 1 MB" : "")})"
+				+ Environment.NewLine
+				+ text
+		);
 	}
 
 	private static bool IsPrivatePath(string full)
@@ -295,7 +349,9 @@ public static partial class McpTools
 	private static McpToolResult ListVoidstrapFolder(string root, string folder)
 	{
 		var sb = new StringBuilder();
-		sb.AppendLine($"Folder: {(string.Equals(root, folder, StringComparison.OrdinalIgnoreCase) ? "." : Path.GetRelativePath(root, folder))}");
+		sb.AppendLine(
+			$"Folder: {(string.Equals(root, folder, StringComparison.OrdinalIgnoreCase) ? "." : Path.GetRelativePath(root, folder))}"
+		);
 		foreach (string dir in Directory.EnumerateDirectories(folder).OrderBy(d => d, StringComparer.OrdinalIgnoreCase).Take(200))
 			if (!IsPrivatePath(dir))
 				sb.AppendLine("  [dir]  " + Path.GetRelativePath(root, dir));

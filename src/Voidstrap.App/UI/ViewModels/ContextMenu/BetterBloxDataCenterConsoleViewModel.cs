@@ -26,22 +26,26 @@ public class BetterBloxDataCenterConsoleViewModel : NotifyPropertyChangedViewMod
 	{
 		try
 		{
-			using JsonDocument jsonDocument = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, "https://api.betterroblox.com/servers/datacenters"));
+			using JsonDocument jsonDocument = JsonDocument.Parse(
+				await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, "https://api.betterroblox.com/servers/datacenters")
+			);
 			JsonElement rootElement = jsonDocument.RootElement;
 			DatacenterCollection.Clear();
 			foreach (JsonProperty item in rootElement.EnumerateObject())
 			{
 				JsonElement value = item.Value;
 				JsonElement property = value.GetProperty("location");
-				DatacenterCollection.Add(new DataCenterModel
-				{
-					Id = value.GetProperty("id").GetInt32(),
-					Datacenter = (property.GetProperty("datacenter").GetString() ?? "Unknown"),
-					City = (property.GetProperty("city").GetString() ?? "Unknown"),
-					Region = (property.GetProperty("region").GetString() ?? "Unknown"),
-					Country = (property.GetProperty("country").GetString() ?? "Unknown"),
-					Organization = (value.GetProperty("organization").GetString() ?? "Unknown")
-				});
+				DatacenterCollection.Add(
+					new DataCenterModel
+					{
+						Id = value.GetProperty("id").GetInt32(),
+						Datacenter = (property.GetProperty("datacenter").GetString() ?? "Unknown"),
+						City = (property.GetProperty("city").GetString() ?? "Unknown"),
+						Region = (property.GetProperty("region").GetString() ?? "Unknown"),
+						Country = (property.GetProperty("country").GetString() ?? "Unknown"),
+						Organization = (value.GetProperty("organization").GetString() ?? "Unknown"),
+					}
+				);
 			}
 			LoadState = GenericTriState.Successful;
 			OnPropertyChanged(nameof(DatacenterCollection));

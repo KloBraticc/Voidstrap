@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Voidstrap.Extensions;
 using Voidstrap.Models.Entities;
 using Voidstrap.Utility;
-using Voidstrap.Extensions;
 
 namespace Voidstrap.Integrations;
 
@@ -60,14 +60,20 @@ public static class PlayTimeStore
 				return new StoreData();
 			}
 			StoreData data = JsonFile.Deserialize<StoreData>(_filePath, JsonOptions.Tolerant, MaxStoreBytes);
-			data.Universes = (data.Universes ?? new Dictionary<long, UniverseTime>()).Where((KeyValuePair<long, UniverseTime> item) => item.Key > 0 && item.Value != null).OrderByDescending((KeyValuePair<long, UniverseTime> item) => item.Value.LastPlayed ?? DateTime.MinValue).Take(MaxUniverseEntries).ToDictionary((KeyValuePair<long, UniverseTime> item) => item.Key, (KeyValuePair<long, UniverseTime> item) => item.Value);
+			data.Universes = (data.Universes ?? new Dictionary<long, UniverseTime>())
+				.Where((KeyValuePair<long, UniverseTime> item) => item.Key > 0 && item.Value != null)
+				.OrderByDescending((KeyValuePair<long, UniverseTime> item) => item.Value.LastPlayed ?? DateTime.MinValue)
+				.Take(MaxUniverseEntries)
+				.ToDictionary((KeyValuePair<long, UniverseTime> item) => item.Key, (KeyValuePair<long, UniverseTime> item) => item.Value);
 			data.SessionSeen ??= new Dictionary<string, DateTime>();
 			data.Sessions = (data.Sessions ?? new Dictionary<string, double>())
 				.Where(item => !string.IsNullOrWhiteSpace(item.Key))
 				.OrderByDescending(item => data.SessionSeen.TryGetValue(item.Key, out DateTime seen) ? seen : DateTime.MinValue)
 				.Take(MaxSessionEntries)
 				.ToDictionary(item => item.Key, item => item.Value);
-			data.SessionSeen = data.SessionSeen.Where(item => data.Sessions.ContainsKey(item.Key)).ToDictionary(item => item.Key, item => item.Value);
+			data.SessionSeen = data
+				.SessionSeen.Where(item => data.Sessions.ContainsKey(item.Key))
+				.ToDictionary(item => item.Key, item => item.Value);
 			return data;
 		}
 		catch (Exception ex)
@@ -93,7 +99,11 @@ public static class PlayTimeStore
 						{
 							changed = true;
 						}
-						foreach (string matchingKey in data.Sessions.Keys.Where(candidate => candidate.StartsWith(key + "_", StringComparison.Ordinal)).ToArray())
+						foreach (
+							string matchingKey in data
+								.Sessions.Keys.Where(candidate => candidate.StartsWith(key + "_", StringComparison.Ordinal))
+								.ToArray()
+						)
 						{
 							data.Sessions.Remove(matchingKey);
 							data.SessionSeen.Remove(matchingKey);
@@ -135,11 +145,7 @@ public static class PlayTimeStore
 					}
 					if (!data.Universes.TryGetValue(kv.Key, out UniverseTime? entry))
 					{
-						data.Universes[kv.Key] = new UniverseTime
-						{
-							Minutes = kv.Value.Minutes,
-							LastPlayed = kv.Value.LastPlayed
-						};
+						data.Universes[kv.Key] = new UniverseTime { Minutes = kv.Value.Minutes, LastPlayed = kv.Value.LastPlayed };
 						changed = true;
 						continue;
 					}
@@ -218,8 +224,8 @@ public static class PlayTimeStore
 						changed = true;
 					}
 				}
-				string[] stale = data.Sessions.Keys
-					.OrderByDescending(key => data.SessionSeen.TryGetValue(key, out DateTime seen) ? seen : DateTime.MinValue)
+				string[] stale = data
+					.Sessions.Keys.OrderByDescending(key => data.SessionSeen.TryGetValue(key, out DateTime seen) ? seen : DateTime.MinValue)
 					.Skip(MaxSessionEntries)
 					.ToArray();
 				foreach (string key in stale)
@@ -282,7 +288,11 @@ public sealed class HistoryPersister : IDisposable
 		if (activity == null)
 			return false;
 		DateTime latest = (activity.TimeLeft ?? activity.TimeJoined).ToLocalTime();
-		return activity.PlaceId > 0 && activity.TimeJoined != default && latest >= DateTime.Now.Subtract(DesktopHistoryRetention) && activity.TimeJoined.ToLocalTime() <= DateTime.Now.AddMinutes(5) && latest <= DateTime.Now.AddMinutes(5);
+		return activity.PlaceId > 0
+			&& activity.TimeJoined != default
+			&& latest >= DateTime.Now.Subtract(DesktopHistoryRetention)
+			&& activity.TimeJoined.ToLocalTime() <= DateTime.Now.AddMinutes(5)
+			&& latest <= DateTime.Now.AddMinutes(5);
 	}
 
 	private void OnActivityChanged(object? sender, EventArgs e)
@@ -310,9 +320,7 @@ public sealed class HistoryPersister : IDisposable
 				_ = Task.Run(() => PlayTimeStore.Accumulate(sessions, liveKey), _lifetimeToken);
 			}
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("HistoryPersister::OnLiveTick", ex);
@@ -333,9 +341,7 @@ public sealed class HistoryPersister : IDisposable
 			token.ThrowIfCancellationRequested();
 			await Task.Run(() => SaveHistoryCoreAsync(token), token).ConfigureAwait(false);
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("HistoryPersister", ex);
@@ -356,24 +362,24 @@ public sealed class HistoryPersister : IDisposable
 		{
 			current = _activityWatcher.History.Where((ActivityData x) => x != null && x.PlaceId != 0).ToList();
 		}
-			string? liveKey = null;
-			ActivityData live = _activityWatcher.Data;
-			if (_activityWatcher.InGame && live != null && live.PlaceId != 0 && live.TimeJoined != default)
+		string? liveKey = null;
+		ActivityData live = _activityWatcher.Data;
+		if (_activityWatcher.InGame && live != null && live.PlaceId != 0 && live.TimeJoined != default)
+		{
+			liveKey = PlayTimeStore.GetSessionKey(live);
+			if (!current.Contains(live))
 			{
-				liveKey = PlayTimeStore.GetSessionKey(live);
-				if (!current.Contains(live))
-				{
-					current.Add(live);
-				}
+				current.Add(live);
 			}
-			List<ActivityData> value = Merge(await LoadExistingAsync(token).ConfigureAwait(continueOnCapturedContext: false), current);
-			Directory.CreateDirectory(Paths.Library);
-			token.ThrowIfCancellationRequested();
-			JsonFile.SerializeAtomic(_historyFilePath, value, JsonOptions.Indented);
-			if (current.Count != 0)
-			{
-				await Task.Run(() => PlayTimeStore.Accumulate(value, liveKey), token).ConfigureAwait(continueOnCapturedContext: false);
-			}
+		}
+		List<ActivityData> value = Merge(await LoadExistingAsync(token).ConfigureAwait(continueOnCapturedContext: false), current);
+		Directory.CreateDirectory(Paths.Library);
+		token.ThrowIfCancellationRequested();
+		JsonFile.SerializeAtomic(_historyFilePath, value, JsonOptions.Indented);
+		if (current.Count != 0)
+		{
+			await Task.Run(() => PlayTimeStore.Accumulate(value, liveKey), token).ConfigureAwait(continueOnCapturedContext: false);
+		}
 	}
 
 	private Task<List<ActivityData>> LoadExistingAsync(CancellationToken token)
@@ -394,7 +400,9 @@ public sealed class HistoryPersister : IDisposable
 			{
 				TrimLogs(entry);
 			}
-			return Task.FromResult(entries.Where(IsWithinDesktopRetention).OrderByDescending((ActivityData x) => x.TimeJoined).Take(MaxHistoryEntries).ToList());
+			return Task.FromResult(
+				entries.Where(IsWithinDesktopRetention).OrderByDescending((ActivityData x) => x.TimeJoined).Take(MaxHistoryEntries).ToList()
+			);
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
 		{
@@ -440,7 +448,11 @@ public sealed class HistoryPersister : IDisposable
 		{
 			return;
 		}
-		KeyValuePair<int, T>[] retained = values.OrderByDescending((KeyValuePair<int, T> x) => x.Key).Take(limit).OrderBy((KeyValuePair<int, T> x) => x.Key).ToArray();
+		KeyValuePair<int, T>[] retained = values
+			.OrderByDescending((KeyValuePair<int, T> x) => x.Key)
+			.Take(limit)
+			.OrderBy((KeyValuePair<int, T> x) => x.Key)
+			.ToArray();
 		values.Clear();
 		foreach (KeyValuePair<int, T> item in retained)
 		{
@@ -459,17 +471,13 @@ public sealed class HistoryPersister : IDisposable
 		{
 			_liveTimer.Dispose();
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			_activityWatcher.OnGameLeave -= OnActivityChanged;
 			_activityWatcher.OnGameJoin -= OnActivityChanged;
 		}
-		catch
-		{
-		}
+		catch { }
 		_lifetimeCancellation.Cancel();
 		bool acquired = false;
 		try
@@ -508,8 +516,6 @@ public sealed class HistoryPersister : IDisposable
 			await _saveLock.WaitAsync().ConfigureAwait(false);
 			_saveLock.Dispose();
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 }

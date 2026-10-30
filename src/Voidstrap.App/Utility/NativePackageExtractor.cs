@@ -24,7 +24,15 @@ internal static partial class NativePackageExtractor
 	private static partial uint Version();
 
 	[LibraryImport(Library, EntryPoint = "vp_extract")]
-	private static unsafe partial int ExtractNative(char* zipPtr, nuint zipLen, char* destPtr, nuint destLen, char* filterPtr, nuint filterLen, int* cancelFlag);
+	private static unsafe partial int ExtractNative(
+		char* zipPtr,
+		nuint zipLen,
+		char* destPtr,
+		nuint destLen,
+		char* filterPtr,
+		nuint filterLen,
+		int* cancelFlag
+	);
 
 	[LibraryImport(Library, EntryPoint = "vp_last_error")]
 	private static unsafe partial nuint LastErrorNative(char* buffer, nuint capacity);
@@ -65,7 +73,15 @@ internal static partial class NativePackageExtractor
 			fixed (char* dest = destination)
 			fixed (char* filterChars = filter)
 			{
-				result = ExtractNative(zip, (nuint)zipPath.Length, dest, (nuint)destination.Length, filter == null ? null : filterChars, (nuint)(filter?.Length ?? 0), cancelFlag);
+				result = ExtractNative(
+					zip,
+					(nuint)zipPath.Length,
+					dest,
+					(nuint)destination.Length,
+					filter == null ? null : filterChars,
+					(nuint)(filter?.Length ?? 0),
+					cancelFlag
+				);
 			}
 			if (result == ResultOk)
 				return;

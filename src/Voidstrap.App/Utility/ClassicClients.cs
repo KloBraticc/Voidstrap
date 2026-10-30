@@ -22,7 +22,7 @@ namespace Voidstrap.Utility
     {
         Play,
         Studio,
-        Host
+        Host,
     }
 
     public class ClassicCatalogEntry
@@ -114,33 +114,152 @@ namespace Voidstrap.Utility
         {
             PropertyNameCaseInsensitive = true,
             ReadCommentHandling = JsonCommentHandling.Skip,
-            AllowTrailingCommas = true
+            AllowTrailingCommas = true,
         };
 
         public static readonly IReadOnlyList<ClassicCatalogEntry> Catalog = new List<ClassicCatalogEntry>
         {
-            new ClassicCatalogEntry { Code = "2007E", Name = "March 2007", Description = "The earliest available Roblox client. A very primitive version of Roblox, lacking most of the features that can be seen in the present client." },
-            new ClassicCatalogEntry { Code = "2007E-FakeFeb", Name = "Fake February 2007", Description = "A recreation of the February 2007 Roblox client using the March 2007 client as a base. Restores Color3 teams, the Eras Bold ITC font, and other removed functionality." },
-            new ClassicCatalogEntry { Code = "2007M", Name = "August 2007", Description = "Wearable hats have been introduced and the chat bar color has changed from white to gray." },
-            new ClassicCatalogEntry { Code = "2007L", Name = "December 2007", Description = "Introduces a new graphical look using the OGRE rendering engine. Introduces bevels, seen in many old clients." },
-            new ClassicCatalogEntry { Code = "2008E", Name = "April 2008", Description = "Adds in sparkles and the new explosion effect, powered by OGRE's particle system." },
-            new ClassicCatalogEntry { Code = "2008M", Name = "August 2008", Description = "Roblox brings you Shirts and Pants. They also brought you walk speed and team chat." },
-            new ClassicCatalogEntry { Code = "2008L", Name = "December 2008", Description = "Client sided movement makes moving around feel much better. Heads and faces have been added." },
-            new ClassicCatalogEntry { Code = "2009E", Name = "March 2009", Description = "Replaces the circle, Lego inspired studs with new square studs, in a short lived variant without the branding." },
-            new ClassicCatalogEntry { Code = "2009M", Name = "July 2009", Description = "Contains the familiar square studs used for the next couple of years. Adds 31 new brick colors and a new default sky." },
-            new ClassicCatalogEntry { Code = "2009L", Name = "October 2009", Description = "GUIs were introduced in a barebones state. Badges have been added, allowing players to collect badges on their profile." },
-            new ClassicCatalogEntry { Code = "2010E", Name = "February 2010", Description = "The Arial font replaced the original Comic Sans font. A new Lua health bar replaced the previous one." },
-            new ClassicCatalogEntry { Code = "2010M", Name = "July 2010", Description = "Packages have been added. That is all." },
-            new ClassicCatalogEntry { Code = "2010L", Name = "December 2010", Description = "A user interface overhaul powered by Lua. Data persistence has been introduced, allowing games to save and load player data." },
-            new ClassicCatalogEntry { Code = "2011E", Name = "April 2011", Description = "Added the ability to record videos, an experimental Lua player list, and the menu with an early form of shift lock." },
-            new ClassicCatalogEntry { Code = "2011M", Name = "July 2011", Description = "Introduces the new player list and backpack, powered by Lua. Also overhauls the previous menu." },
-            new ClassicCatalogEntry { Code = "2011L", Name = "October 2011", Description = "Introduces voxel terrain, allowing developers to place and manipulate millions of terrain voxels." },
-            new ClassicCatalogEntry { Code = "2012E", Name = "March 2012", Description = "Removed the clicking noise that would have played when zooming your camera." },
-            new ClassicCatalogEntry { Code = "2012M", Name = "August 2012", Description = "Water has been added to the available terrain materials." },
-            new ClassicCatalogEntry { Code = "2012L", Name = "October 2012", Description = "They moved the shift lock button. For this version only." },
-            new ClassicCatalogEntry { Code = "2013E", Name = "March 2013", Description = "Introduces an overhaul to the player list, backpack and chat." },
-            new ClassicCatalogEntry { Code = "2013M", Name = "August 2013", Description = "Introduces dynamic lighting. Bevels are removed on all parts but the player characters. Jump delay is removed." },
-            new ClassicCatalogEntry { Code = "2013L", Name = "December 2013", Description = "Materials are replaced with more high quality counterparts. A new sky and animation system are introduced." },
+            new ClassicCatalogEntry
+            {
+                Code = "2007E",
+                Name = "March 2007",
+                Description =
+                    "The earliest available Roblox client. A very primitive version of Roblox, lacking most of the features that can be seen in the present client.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2007E-FakeFeb",
+                Name = "Fake February 2007",
+                Description =
+                    "A recreation of the February 2007 Roblox client using the March 2007 client as a base. Restores Color3 teams, the Eras Bold ITC font, and other removed functionality.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2007M",
+                Name = "August 2007",
+                Description = "Wearable hats have been introduced and the chat bar color has changed from white to gray.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2007L",
+                Name = "December 2007",
+                Description =
+                    "Introduces a new graphical look using the OGRE rendering engine. Introduces bevels, seen in many old clients.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2008E",
+                Name = "April 2008",
+                Description = "Adds in sparkles and the new explosion effect, powered by OGRE's particle system.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2008M",
+                Name = "August 2008",
+                Description = "Roblox brings you Shirts and Pants. They also brought you walk speed and team chat.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2008L",
+                Name = "December 2008",
+                Description = "Client sided movement makes moving around feel much better. Heads and faces have been added.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2009E",
+                Name = "March 2009",
+                Description =
+                    "Replaces the circle, Lego inspired studs with new square studs, in a short lived variant without the branding.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2009M",
+                Name = "July 2009",
+                Description =
+                    "Contains the familiar square studs used for the next couple of years. Adds 31 new brick colors and a new default sky.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2009L",
+                Name = "October 2009",
+                Description =
+                    "GUIs were introduced in a barebones state. Badges have been added, allowing players to collect badges on their profile.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2010E",
+                Name = "February 2010",
+                Description = "The Arial font replaced the original Comic Sans font. A new Lua health bar replaced the previous one.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2010M",
+                Name = "July 2010",
+                Description = "Packages have been added. That is all.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2010L",
+                Name = "December 2010",
+                Description =
+                    "A user interface overhaul powered by Lua. Data persistence has been introduced, allowing games to save and load player data.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2011E",
+                Name = "April 2011",
+                Description =
+                    "Added the ability to record videos, an experimental Lua player list, and the menu with an early form of shift lock.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2011M",
+                Name = "July 2011",
+                Description = "Introduces the new player list and backpack, powered by Lua. Also overhauls the previous menu.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2011L",
+                Name = "October 2011",
+                Description = "Introduces voxel terrain, allowing developers to place and manipulate millions of terrain voxels.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2012E",
+                Name = "March 2012",
+                Description = "Removed the clicking noise that would have played when zooming your camera.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2012M",
+                Name = "August 2012",
+                Description = "Water has been added to the available terrain materials.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2012L",
+                Name = "October 2012",
+                Description = "They moved the shift lock button. For this version only.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2013E",
+                Name = "March 2013",
+                Description = "Introduces an overhaul to the player list, backpack and chat.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2013M",
+                Name = "August 2013",
+                Description =
+                    "Introduces dynamic lighting. Bevels are removed on all parts but the player characters. Jump delay is removed.",
+            },
+            new ClassicCatalogEntry
+            {
+                Code = "2013L",
+                Name = "December 2013",
+                Description = "Materials are replaced with more high quality counterparts. A new sky and animation system are introduced.",
+            },
         };
 
         private static ClassicManifest? _manifestCache;
@@ -148,13 +267,15 @@ namespace Voidstrap.Utility
         private static readonly SemaphoreSlim ManifestLock = new SemaphoreSlim(1, 1);
         private static readonly SemaphoreSlim MutationLock = new SemaphoreSlim(1, 1);
         private static readonly SemaphoreSlim ReleaseLock = new SemaphoreSlim(1, 1);
-        private static readonly Dictionary<string, (ReleaseAssetIntegrity Asset, long Ticks)> ReleaseCache = new(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, (ReleaseAssetIntegrity Asset, long Ticks)> ReleaseCache = new(
+            StringComparer.OrdinalIgnoreCase
+        );
         private const long MaxArchiveBytes = 2147483648L;
         private const int MaxReleaseMetadataBytes = 4194304;
 
-		private const int MaxLaunchArgumentCharacters = 32768;
+        private const int MaxLaunchArgumentCharacters = 32768;
 
-		private const int MaxLaunchArgumentCount = 256;
+        private const int MaxLaunchArgumentCount = 256;
 
         public static async Task<ClassicManifest?> FetchManifestAsync(CancellationToken ct, bool force = false)
         {
@@ -169,7 +290,9 @@ namespace Voidstrap.Utility
                 {
                     try
                     {
-                        string json = await Voidstrap.Utility.Http.GetStringBoundedAsync(Http, url, MaxReleaseMetadataBytes, ct).ConfigureAwait(false);
+                        string json = await Voidstrap
+                            .Utility.Http.GetStringBoundedAsync(Http, url, MaxReleaseMetadataBytes, ct)
+                            .ConfigureAwait(false);
                         using JsonDocument doc = JsonDocument.Parse(json);
                         JsonElement root = doc.RootElement;
                         var manifest = new ClassicManifest();
@@ -188,13 +311,15 @@ namespace Voidstrap.Utility
                                     continue;
                                 long size = (c.TryGetProperty("size", out JsonElement sz) && sz.TryGetInt64(out long szv)) ? szv : 0L;
                                 manifest.ClientSizes[code] = size;
-                                manifest.Clients.Add(new ClassicCatalogEntry
-                                {
-                                    Code = code,
-                                    Name = (c.TryGetProperty("name", out JsonElement n) ? n.GetString() : null) ?? code,
-                                    Description = (c.TryGetProperty("description", out JsonElement d) ? d.GetString() : null) ?? "",
-                                    HasStudio = c.TryGetProperty("hasStudio", out JsonElement h) && h.ValueKind == JsonValueKind.True
-                                });
+                                manifest.Clients.Add(
+                                    new ClassicCatalogEntry
+                                    {
+                                        Code = code,
+                                        Name = (c.TryGetProperty("name", out JsonElement n) ? n.GetString() : null) ?? code,
+                                        Description = (c.TryGetProperty("description", out JsonElement d) ? d.GetString() : null) ?? "",
+                                        HasStudio = c.TryGetProperty("hasStudio", out JsonElement h) && h.ValueKind == JsonValueKind.True,
+                                    }
+                                );
                             }
                         }
                         if (manifest.Clients.Count > 0)
@@ -208,19 +333,19 @@ namespace Voidstrap.Utility
                     {
                         throw;
                     }
-                    catch
-                    {
-                    }
+                    catch { }
                 }
                 _manifestCache = new ClassicManifest
                 {
-                    Clients = Catalog.Select(entry => new ClassicCatalogEntry
-                    {
-                        Code = entry.Code,
-                        Name = entry.Name,
-                        Description = entry.Description,
-                        HasStudio = entry.HasStudio
-                    }).ToList()
+                    Clients = Catalog
+                        .Select(entry => new ClassicCatalogEntry
+                        {
+                            Code = entry.Code,
+                            Name = entry.Name,
+                            Description = entry.Description,
+                            HasStudio = entry.HasStudio,
+                        })
+                        .ToList(),
                 };
                 _manifestCacheTicks = DateTime.UtcNow.Ticks;
                 App.Logger?.WriteLine("ClassicClients::FetchManifest", "Remote manifest unavailable, using built in catalog");
@@ -256,8 +381,8 @@ namespace Voidstrap.Utility
                 string url = App.Settings.Prop.ClassicDownloadBaseUrl;
                 if (string.IsNullOrWhiteSpace(url) || string.Equals(url, LegacyDefaultBaseUrl, StringComparison.OrdinalIgnoreCase))
                     url = DefaultBaseUrl;
-				if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? source) || source.Scheme != Uri.UriSchemeHttps)
-					url = DefaultBaseUrl;
+                if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? source) || source.Scheme != Uri.UriSchemeHttps)
+                    url = DefaultBaseUrl;
                 return url.EndsWith('/') ? url : url + "/";
             }
         }
@@ -268,15 +393,19 @@ namespace Voidstrap.Utility
             await ReleaseLock.WaitAsync(ct).ConfigureAwait(false);
             try
             {
-                if (ReleaseCache.TryGetValue(cacheKey, out var cached) && DateTime.UtcNow.Ticks - cached.Ticks < TimeSpan.FromMinutes(5).Ticks)
+                if (
+                    ReleaseCache.TryGetValue(cacheKey, out var cached)
+                    && DateTime.UtcNow.Ticks - cached.Ticks < TimeSpan.FromMinutes(5).Ticks
+                )
                     return cached.Asset;
 
                 if (!TryGetGitHubRelease(BaseUrl, out string owner, out string repo, out string? tag))
                     throw new InvalidOperationException("Classic archives must come from a GitHub release with verified digests");
 
-                string endpoint = tag == null
-                    ? $"https://api.github.com/repos/{Uri.EscapeDataString(owner)}/{Uri.EscapeDataString(repo)}/releases/latest"
-                    : $"https://api.github.com/repos/{Uri.EscapeDataString(owner)}/{Uri.EscapeDataString(repo)}/releases/tags/{Uri.EscapeDataString(tag)}";
+                string endpoint =
+                    tag == null
+                        ? $"https://api.github.com/repos/{Uri.EscapeDataString(owner)}/{Uri.EscapeDataString(repo)}/releases/latest"
+                        : $"https://api.github.com/repos/{Uri.EscapeDataString(owner)}/{Uri.EscapeDataString(repo)}/releases/tags/{Uri.EscapeDataString(tag)}";
                 using var request = new HttpRequestMessage(HttpMethod.Get, endpoint);
                 using var response = await Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
@@ -293,11 +422,22 @@ namespace Voidstrap.Utility
                 string assetName = relativePath.Split('/').Last();
                 foreach (JsonElement assetElement in assets.EnumerateArray())
                 {
-                    if (!assetElement.TryGetProperty("name", out JsonElement nameElement) || !string.Equals(nameElement.GetString(), assetName, StringComparison.Ordinal))
+                    if (
+                        !assetElement.TryGetProperty("name", out JsonElement nameElement)
+                        || !string.Equals(nameElement.GetString(), assetName, StringComparison.Ordinal)
+                    )
                         continue;
-                    if (!assetElement.TryGetProperty("state", out JsonElement stateElement) || !string.Equals(stateElement.GetString(), "uploaded", StringComparison.Ordinal))
+                    if (
+                        !assetElement.TryGetProperty("state", out JsonElement stateElement)
+                        || !string.Equals(stateElement.GetString(), "uploaded", StringComparison.Ordinal)
+                    )
                         throw new InvalidDataException("The classic release asset is not ready");
-                    if (!assetElement.TryGetProperty("size", out JsonElement sizeElement) || !sizeElement.TryGetInt64(out long size) || size <= 0 || size > MaxArchiveBytes)
+                    if (
+                        !assetElement.TryGetProperty("size", out JsonElement sizeElement)
+                        || !sizeElement.TryGetInt64(out long size)
+                        || size <= 0
+                        || size > MaxArchiveBytes
+                    )
                         throw new InvalidDataException("The classic release asset size is invalid");
                     if (!assetElement.TryGetProperty("digest", out JsonElement digestElement))
                         throw new InvalidDataException("The classic release asset has no digest");
@@ -307,17 +447,19 @@ namespace Voidstrap.Utility
                     string sha256 = digest.Substring(7);
                     if (sha256.Length != 64 || !sha256.All(Uri.IsHexDigit))
                         throw new InvalidDataException("The classic release asset digest is invalid");
-                    if (!assetElement.TryGetProperty("browser_download_url", out JsonElement urlElement) ||
-                        !Uri.TryCreate(urlElement.GetString(), UriKind.Absolute, out Uri? downloadUri) ||
-                        downloadUri.Scheme != Uri.UriSchemeHttps ||
-                        !string.Equals(downloadUri.Host, "github.com", StringComparison.OrdinalIgnoreCase))
+                    if (
+                        !assetElement.TryGetProperty("browser_download_url", out JsonElement urlElement)
+                        || !Uri.TryCreate(urlElement.GetString(), UriKind.Absolute, out Uri? downloadUri)
+                        || downloadUri.Scheme != Uri.UriSchemeHttps
+                        || !string.Equals(downloadUri.Host, "github.com", StringComparison.OrdinalIgnoreCase)
+                    )
                         throw new InvalidDataException("The classic release asset URL is invalid");
 
                     var resolved = new ReleaseAssetIntegrity
                     {
                         Url = downloadUri.AbsoluteUri,
                         Size = size,
-                        Sha256 = sha256.ToUpperInvariant()
+                        Sha256 = sha256.ToUpperInvariant(),
                     };
                     ReleaseCache[cacheKey] = (resolved, DateTime.UtcNow.Ticks);
                     return resolved;
@@ -336,9 +478,11 @@ namespace Voidstrap.Utility
             owner = "";
             repo = "";
             tag = null;
-            if (!Uri.TryCreate(baseUrl, UriKind.Absolute, out Uri? uri) ||
-                uri.Scheme != Uri.UriSchemeHttps ||
-                !string.Equals(uri.Host, "github.com", StringComparison.OrdinalIgnoreCase))
+            if (
+                !Uri.TryCreate(baseUrl, UriKind.Absolute, out Uri? uri)
+                || uri.Scheme != Uri.UriSchemeHttps
+                || !string.Equals(uri.Host, "github.com", StringComparison.OrdinalIgnoreCase)
+            )
                 return false;
             string[] segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
             if (segments.Length < 3 || !string.Equals(segments[2], "releases", StringComparison.OrdinalIgnoreCase))
@@ -364,7 +508,13 @@ namespace Voidstrap.Utility
             using var output = new MemoryStream(capacity);
             byte[] buffer = new byte[81920];
             int read;
-            while ((read = await input.ReadAsync(buffer.AsMemory(0, Math.Min(buffer.Length, maxBytes + 1 - (int)output.Length)), ct).ConfigureAwait(false)) > 0)
+            while (
+                (
+                    read = await input
+                        .ReadAsync(buffer.AsMemory(0, Math.Min(buffer.Length, maxBytes + 1 - (int)output.Length)), ct)
+                        .ConfigureAwait(false)
+                ) > 0
+            )
             {
                 await output.WriteAsync(buffer.AsMemory(0, read), ct).ConfigureAwait(false);
                 if (output.Length > maxBytes)
@@ -388,9 +538,11 @@ namespace Voidstrap.Utility
 
         public static string WebServerPath => Path.Combine(Root, WebServerExe);
 
-        public static string UserAppData => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "VoidstrapClientData");
+        public static string UserAppData =>
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "VoidstrapClientData");
 
-        public static string WebServerUserAppData => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "VoidstrapClient");
+        public static string WebServerUserAppData =>
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "VoidstrapClient");
 
         public static string UserSettingsPath => Path.Combine(UserAppData, "UserSettings.json");
 
@@ -405,9 +557,9 @@ namespace Voidstrap.Utility
 
         public static bool IsSupportedClientCode(string? code)
         {
-			if (string.IsNullOrWhiteSpace(code) || code.Length > 64 || !ClassicVersionCodePattern.IsMatch(code))
-				return false;
-			return int.TryParse(code.AsSpan(0, 4), out int year) && year is >= 2006 and < 2014;
+            if (string.IsNullOrWhiteSpace(code) || code.Length > 64 || !ClassicVersionCodePattern.IsMatch(code))
+                return false;
+            return int.TryParse(code.AsSpan(0, 4), out int year) && year is >= 2006 and < 2014;
         }
 
         public static List<string> ListInstalledClients()
@@ -425,17 +577,15 @@ namespace Voidstrap.Utility
                     }
                 }
             }
-            catch
-            {
-            }
+            catch { }
             list.Sort(CompareClientNames);
             return list;
         }
 
         public static bool IsClientInstalled(string client)
         {
-			if (!IsSupportedClientCode(client))
-				return false;
+            if (!IsSupportedClientCode(client))
+                return false;
             return File.Exists(ResolvePathWithin(ClientsDir, client, ConfigFileName));
         }
 
@@ -479,10 +629,16 @@ namespace Voidstrap.Utility
                 throw new InvalidOperationException("The ORC client configuration is incomplete.");
             string executable = ResolvePathWithin(ClientsDir, client, directoryName, executableName);
             if (!File.Exists(executable))
-                throw new FileNotFoundException("The ORC client executable is missing. Repair the selected client and try again.", executable);
+                throw new FileNotFoundException(
+                    "The ORC client executable is missing. Repair the selected client and try again.",
+                    executable
+                );
             string helper = ResolvePathWithin(ClientsDir, client, directoryName, OriginalHelperName);
             if (!File.Exists(helper))
-                throw new FileNotFoundException("The ORC compatibility helper is missing. Repair the selected client and try again.", helper);
+                throw new FileNotFoundException(
+                    "The ORC compatibility helper is missing. Repair the selected client and try again.",
+                    helper
+                );
 
             if (launchType == ClientLaunchType.Host)
             {
@@ -501,7 +657,10 @@ namespace Voidstrap.Utility
             {
                 string mapPath = ResolvePathWithin(MapsDir, map);
                 if (!File.Exists(mapPath))
-                    throw new FileNotFoundException("The selected ORC map is missing. Choose another map or repair the map package.", mapPath);
+                    throw new FileNotFoundException(
+                        "The selected ORC map is missing. Choose another map or repair the map package.",
+                        mapPath
+                    );
             }
         }
 
@@ -550,12 +709,12 @@ namespace Voidstrap.Utility
         {
             try
             {
-				if (!IsSupportedClientCode(client))
-					return null;
+                if (!IsSupportedClientCode(client))
+                    return null;
                 string path = ResolvePathWithin(ClientsDir, client, ConfigFileName);
                 if (!File.Exists(path))
                     return null;
-				return JsonFile.Deserialize<ClassicClientConfig>(path, ConfigJsonOptions, 4194304);
+                return JsonFile.Deserialize<ClassicClientConfig>(path, ConfigJsonOptions, 4194304);
             }
             catch (Exception ex)
             {
@@ -573,13 +732,14 @@ namespace Voidstrap.Utility
                     return 0;
                 foreach (string file in Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories))
                 {
-                    try { total += new FileInfo(file).Length; }
+                    try
+                    {
+                        total += new FileInfo(file).Length;
+                    }
                     catch { }
                 }
             }
-            catch
-            {
-            }
+            catch { }
             return total;
         }
 
@@ -635,8 +795,15 @@ namespace Voidstrap.Utility
                 const string LOG_IDENT = "ClassicClients::AutoUpdateAll";
                 Action<double, string> quiet = delegate { };
 
-                try { await FetchManifestAsync(ct, force: true).ConfigureAwait(false); }
-                catch (Exception ex) { App.Logger?.WriteLine(LOG_IDENT, "Manifest refresh failed, skipping this pass: " + ex.Message); return; }
+                try
+                {
+                    await FetchManifestAsync(ct, force: true).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    App.Logger?.WriteLine(LOG_IDENT, "Manifest refresh failed, skipping this pass: " + ex.Message);
+                    return;
+                }
 
                 int updated = 0;
 
@@ -650,8 +817,14 @@ namespace Voidstrap.Utility
                         updated++;
                     }
                 }
-                catch (OperationCanceledException) { throw; }
-                catch (Exception ex) { App.Logger?.WriteLine(LOG_IDENT, "Engine update failed: " + ex.Message); }
+                catch (OperationCanceledException)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    App.Logger?.WriteLine(LOG_IDENT, "Engine update failed: " + ex.Message);
+                }
 
                 try
                 {
@@ -663,8 +836,14 @@ namespace Voidstrap.Utility
                         updated++;
                     }
                 }
-                catch (OperationCanceledException) { throw; }
-                catch (Exception ex) { App.Logger?.WriteLine(LOG_IDENT, "Maps update failed: " + ex.Message); }
+                catch (OperationCanceledException)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    App.Logger?.WriteLine(LOG_IDENT, "Maps update failed: " + ex.Message);
+                }
 
                 foreach (string installed in ListInstalledClients())
                 {
@@ -677,22 +856,31 @@ namespace Voidstrap.Utility
                         await InstallClientCoreAsync(installed, quiet, ct).ConfigureAwait(false);
                         updated++;
                     }
-                    catch (OperationCanceledException) { throw; }
-                    catch (Exception ex) { App.Logger?.WriteLine(LOG_IDENT, "Update for " + installed + " failed: " + ex.Message); }
+                    catch (OperationCanceledException)
+                    {
+                        throw;
+                    }
+                    catch (Exception ex)
+                    {
+                        App.Logger?.WriteLine(LOG_IDENT, "Update for " + installed + " failed: " + ex.Message);
+                    }
                 }
 
                 App.Logger?.WriteLine(LOG_IDENT, updated == 0 ? "Everything is already up to date" : "Updated " + updated + " item(s)");
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             finally
             {
                 MutationLock.Release();
             }
         }
 
-        public static async Task UpdateEverythingAsync(string client, Action<string> status, Action<double, string> progress, CancellationToken ct)
+        public static async Task UpdateEverythingAsync(
+            string client,
+            Action<string> status,
+            Action<double, string> progress,
+            CancellationToken ct
+        )
         {
             await MutationLock.WaitAsync(ct).ConfigureAwait(false);
             try
@@ -705,7 +893,12 @@ namespace Voidstrap.Utility
             }
         }
 
-        private static async Task UpdateEverythingCoreAsync(string client, Action<string> status, Action<double, string> progress, CancellationToken ct)
+        private static async Task UpdateEverythingCoreAsync(
+            string client,
+            Action<string> status,
+            Action<double, string> progress,
+            CancellationToken ct
+        )
         {
             if (!EngineInstalled || EngineNeedsRepair())
             {
@@ -719,7 +912,11 @@ namespace Voidstrap.Utility
                 return;
             }
             status?.Invoke("Checking for updates");
-            try { await FetchManifestAsync(ct, force: true).ConfigureAwait(false); } catch { }
+            try
+            {
+                await FetchManifestAsync(ct, force: true).ConfigureAwait(false);
+            }
+            catch { }
             if (await IsAssetUpdateAvailableAsync("engine.zip", EngineKey, ct).ConfigureAwait(false))
             {
                 status?.Invoke("Updating engine");
@@ -800,11 +997,19 @@ namespace Voidstrap.Utility
                         string moveTarget = Path.Combine(sub, OriginalHelperName);
                         if (File.Exists(moveTarget))
                         {
-                            try { File.Delete(renamed); } catch { }
+                            try
+                            {
+                                File.Delete(renamed);
+                            }
+                            catch { }
                         }
                         else
                         {
-                            try { File.Move(renamed, moveTarget); } catch { }
+                            try
+                            {
+                                File.Move(renamed, moveTarget);
+                            }
+                            catch { }
                         }
                     }
                     string helper = Path.Combine(sub, OriginalHelperName);
@@ -812,9 +1017,7 @@ namespace Voidstrap.Utility
                         FixHelperFolderString(helper);
                 }
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static void FixHelperFolderString(string helperPath)
@@ -830,9 +1033,7 @@ namespace Voidstrap.Utility
                 Array.Copy(fixedBytes, 0, data, index, fixedBytes.Length);
                 File.WriteAllBytes(helperPath, data);
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static void RestoreHelperImport(string exePath)
@@ -858,9 +1059,7 @@ namespace Voidstrap.Utility
                 data[index + newName.Length] = 0;
                 File.WriteAllBytes(exePath, data);
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static int IndexOfBytes(byte[] haystack, byte[] needle, int start)
@@ -891,15 +1090,30 @@ namespace Voidstrap.Utility
             var raw = GitHubRawUrlPattern.Match(baseUrl);
             var rel = GitHubReleaseUrlPattern.Match(baseUrl);
 
-            string? owner = null, repo = null, branch = "main", tag = null;
-            if (raw.Success) { owner = raw.Groups[1].Value; repo = raw.Groups[2].Value; branch = raw.Groups[3].Value; }
-            else if (rel.Success) { owner = rel.Groups[1].Value; repo = rel.Groups[2].Value; tag = rel.Groups[3].Success ? rel.Groups[3].Value : null; }
+            string? owner = null,
+                repo = null,
+                branch = "main",
+                tag = null;
+            if (raw.Success)
+            {
+                owner = raw.Groups[1].Value;
+                repo = raw.Groups[2].Value;
+                branch = raw.Groups[3].Value;
+            }
+            else if (rel.Success)
+            {
+                owner = rel.Groups[1].Value;
+                repo = rel.Groups[2].Value;
+                tag = rel.Groups[3].Success ? rel.Groups[3].Value : null;
+            }
 
             var urls = new List<string>();
             if (owner != null)
             {
                 if (!string.IsNullOrEmpty(tag))
-                    urls.Add($"https://github.com/{owner}/{repo}/releases/download/{Uri.EscapeDataString(tag)}/{Uri.EscapeDataString(flat)}");
+                    urls.Add(
+                        $"https://github.com/{owner}/{repo}/releases/download/{Uri.EscapeDataString(tag)}/{Uri.EscapeDataString(flat)}"
+                    );
                 urls.Add($"https://github.com/{owner}/{repo}/releases/latest/download/{Uri.EscapeDataString(flat)}");
                 urls.Add($"https://github.com/{owner}/{repo}/raw/{branch}/{EscPath(relativePath)}");
                 urls.Add($"https://cdn.jsdelivr.net/gh/{owner}/{repo}@{branch}/{EscPath(relativePath)}");
@@ -918,12 +1132,16 @@ namespace Voidstrap.Utility
             string stagedRoot = CreateSiblingPath(Root, "staging");
             try
             {
-                await Task.Run(() =>
-                {
-                    if (Directory.Exists(Root))
-                        CopyTree(Root, stagedRoot, null, null, ct);
-                    CopyTree(localSource, stagedRoot, Path.Combine(localSource, "data", "clients"), progress, ct);
-                }, ct).ConfigureAwait(false);
+                await Task.Run(
+                        () =>
+                        {
+                            if (Directory.Exists(Root))
+                                CopyTree(Root, stagedRoot, null, null, ct);
+                            CopyTree(localSource, stagedRoot, Path.Combine(localSource, "data", "clients"), progress, ct);
+                        },
+                        ct
+                    )
+                    .ConfigureAwait(false);
                 ValidateEngine(stagedRoot);
                 CommitDirectory(stagedRoot, Root);
                 progress?.Invoke(100, "Done");
@@ -934,7 +1152,12 @@ namespace Voidstrap.Utility
             }
         }
 
-        private static async Task StageLocalClientAsync(string client, string localClient, Action<double, string>? progress, CancellationToken ct)
+        private static async Task StageLocalClientAsync(
+            string client,
+            string localClient,
+            Action<double, string>? progress,
+            CancellationToken ct
+        )
         {
             string target = ResolvePathWithin(ClientsDir, client);
             string stagedClient = CreateSiblingPath(target, "staging");
@@ -953,7 +1176,11 @@ namespace Voidstrap.Utility
             }
         }
 
-        private static async Task<ReleaseAssetIntegrity> DownloadAndExtractAsync(string relativePath, Action<double, string> progress, CancellationToken ct)
+        private static async Task<ReleaseAssetIntegrity> DownloadAndExtractAsync(
+            string relativePath,
+            Action<double, string> progress,
+            CancellationToken ct
+        )
         {
             ReleaseAssetIntegrity asset = await ResolveReleaseAssetAsync(relativePath, ct).ConfigureAwait(false);
             string tempZip = Path.Combine(Path.GetTempPath(), "voidstrap_client_" + Guid.NewGuid().ToString("N") + ".zip");
@@ -964,7 +1191,18 @@ namespace Voidstrap.Utility
                 progress?.Invoke(96, "Extracting");
                 if (string.Equals(relativePath, "engine.zip", StringComparison.OrdinalIgnoreCase) && Directory.Exists(Root))
                     await Task.Run(() => CopyTree(Root, stagedRoot, null, null, ct), ct).ConfigureAwait(false);
-                await Task.Run(() => SafeZipExtractor.ExtractToDirectory(tempZip, stagedRoot, overwrite: true, maxExpandedBytes: 4294967296L, token: ct), ct).ConfigureAwait(false);
+                await Task.Run(
+                        () =>
+                            SafeZipExtractor.ExtractToDirectory(
+                                tempZip,
+                                stagedRoot,
+                                overwrite: true,
+                                maxExpandedBytes: 4294967296L,
+                                token: ct
+                            ),
+                        ct
+                    )
+                    .ConfigureAwait(false);
 
                 if (string.Equals(relativePath, "engine.zip", StringComparison.OrdinalIgnoreCase))
                 {
@@ -977,7 +1215,10 @@ namespace Voidstrap.Utility
                     ValidateMaps(stagedMaps);
                     CommitDirectory(stagedMaps, MapsDir);
                 }
-                else if (relativePath.StartsWith("clients/", StringComparison.OrdinalIgnoreCase) && relativePath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+                else if (
+                    relativePath.StartsWith("clients/", StringComparison.OrdinalIgnoreCase)
+                    && relativePath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase)
+                )
                 {
                     string client = Path.GetFileNameWithoutExtension(relativePath.Split('/').Last());
                     if (!IsSupportedClientCode(client))
@@ -998,13 +1239,28 @@ namespace Voidstrap.Utility
             }
             finally
             {
-                try { if (File.Exists(tempZip)) File.Delete(tempZip); } catch { }
-                try { if (File.Exists(tempZip + ".part")) File.Delete(tempZip + ".part"); } catch { }
+                try
+                {
+                    if (File.Exists(tempZip))
+                        File.Delete(tempZip);
+                }
+                catch { }
+                try
+                {
+                    if (File.Exists(tempZip + ".part"))
+                        File.Delete(tempZip + ".part");
+                }
+                catch { }
                 DeleteDirectoryIfExists(stagedRoot);
             }
         }
 
-        private static async Task DownloadOneAsync(ReleaseAssetIntegrity asset, string tempZip, Action<double, string> progress, CancellationToken ct)
+        private static async Task DownloadOneAsync(
+            ReleaseAssetIntegrity asset,
+            string tempZip,
+            Action<double, string> progress,
+            CancellationToken ct
+        )
         {
             if (!string.IsNullOrEmpty(asset.Sha256) && PackageCache.TryUseClassic(asset.Sha256, asset.Size, tempZip))
             {
@@ -1012,8 +1268,18 @@ namespace Voidstrap.Utility
                 return;
             }
             progress?.Invoke(0, "Connecting");
-            await ResilientDownload.DownloadAsync(Http, [asset.Url], tempZip, Math.Min(asset.Size, MaxArchiveBytes), asset.Sha256,
-                (read, _) => progress?.Invoke(read / (double)asset.Size * 95.0, $"Downloading {FormatBytes(read)} of {FormatBytes(asset.Size)}"), ct).ConfigureAwait(false);
+            await ResilientDownload
+                .DownloadAsync(
+                    Http,
+                    [asset.Url],
+                    tempZip,
+                    Math.Min(asset.Size, MaxArchiveBytes),
+                    asset.Sha256,
+                    (read, _) =>
+                        progress?.Invoke(read / (double)asset.Size * 95.0, $"Downloading {FormatBytes(read)} of {FormatBytes(asset.Size)}"),
+                    ct
+                )
+                .ConfigureAwait(false);
             if (new FileInfo(tempZip).Length != asset.Size)
                 throw new InvalidDataException("The classic archive size does not match its release metadata");
             if (!string.IsNullOrEmpty(asset.Sha256))
@@ -1088,11 +1354,20 @@ namespace Voidstrap.Utility
             }
         }
 
-        private static void CopyTree(string source, string target, string? excludeDir, Action<double, string>? progress, CancellationToken ct)
+        private static void CopyTree(
+            string source,
+            string target,
+            string? excludeDir,
+            Action<double, string>? progress,
+            CancellationToken ct
+        )
         {
             Directory.CreateDirectory(target);
-            var files = Directory.EnumerateFiles(source, "*", SearchOption.AllDirectories)
-                .Where(f => excludeDir == null || !f.StartsWith(excludeDir + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+            var files = Directory
+                .EnumerateFiles(source, "*", SearchOption.AllDirectories)
+                .Where(f =>
+                    excludeDir == null || !f.StartsWith(excludeDir + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)
+                )
                 .ToList();
             int done = 0;
             foreach (string file in files)
@@ -1140,9 +1415,7 @@ namespace Voidstrap.Utility
                     return ParseInstalledIndex(document.RootElement);
                 }
             }
-            catch
-            {
-            }
+            catch { }
             return new Dictionary<string, InstalledAssetRecord>(StringComparer.OrdinalIgnoreCase);
         }
 
@@ -1160,8 +1433,17 @@ namespace Voidstrap.Utility
                 }
                 if (property.Value.ValueKind != JsonValueKind.Object)
                     continue;
-                long size = property.Value.TryGetProperty("Size", out JsonElement sizeElement) && sizeElement.ValueKind == JsonValueKind.Number && sizeElement.TryGetInt64(out long parsedSize) ? parsedSize : -1L;
-                string sha256 = property.Value.TryGetProperty("Sha256", out JsonElement digestElement) && digestElement.ValueKind == JsonValueKind.String ? digestElement.GetString() ?? "" : "";
+                long size =
+                    property.Value.TryGetProperty("Size", out JsonElement sizeElement)
+                    && sizeElement.ValueKind == JsonValueKind.Number
+                    && sizeElement.TryGetInt64(out long parsedSize)
+                        ? parsedSize
+                        : -1L;
+                string sha256 =
+                    property.Value.TryGetProperty("Sha256", out JsonElement digestElement)
+                    && digestElement.ValueKind == JsonValueKind.String
+                        ? digestElement.GetString() ?? ""
+                        : "";
                 result[property.Name] = new InstalledAssetRecord { Size = size, Sha256 = sha256 };
             }
             return result;
@@ -1172,11 +1454,9 @@ namespace Voidstrap.Utility
             try
             {
                 Directory.CreateDirectory(Root);
-				JsonFile.SerializeAtomic(InstalledIndexPath, index);
+                JsonFile.SerializeAtomic(InstalledIndexPath, index);
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static InstalledAssetRecord? GetInstalledRecord(string client)
@@ -1201,9 +1481,7 @@ namespace Voidstrap.Utility
             {
                 throw;
             }
-            catch
-            {
-            }
+            catch { }
             foreach (string url in BuildCandidateUrls(relativePath))
             {
                 try
@@ -1217,9 +1495,7 @@ namespace Voidstrap.Utility
                 {
                     throw;
                 }
-                catch
-                {
-                }
+                catch { }
             }
             return -1L;
         }
@@ -1244,14 +1520,15 @@ namespace Voidstrap.Utility
                 {
                     foreach (string file in Directory.EnumerateFiles(MapsDir, "*", SearchOption.AllDirectories))
                     {
-                        if (file.EndsWith(".rbxl", StringComparison.OrdinalIgnoreCase) || file.EndsWith(".rbxl.gz", StringComparison.OrdinalIgnoreCase))
+                        if (
+                            file.EndsWith(".rbxl", StringComparison.OrdinalIgnoreCase)
+                            || file.EndsWith(".rbxl.gz", StringComparison.OrdinalIgnoreCase)
+                        )
                             list.Add(Path.GetRelativePath(MapsDir, file));
                     }
                 }
             }
-            catch
-            {
-            }
+            catch { }
             list.Sort(StringComparer.OrdinalIgnoreCase);
             return list;
         }
@@ -1270,9 +1547,7 @@ namespace Voidstrap.Utility
                     _robloxUserId = account.UserId;
                 }
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         public static void WriteUserSettings(string client, string map)
@@ -1283,15 +1558,17 @@ namespace Voidstrap.Utility
             string playerName = "";
             try
             {
-                if (File.Exists(UserSettingsPath) && JsonNode.Parse(JsonFile.ReadText(UserSettingsPath, 4194304)) is JsonObject existing && existing["Player"] is JsonObject existingPlayer)
+                if (
+                    File.Exists(UserSettingsPath)
+                    && JsonNode.Parse(JsonFile.ReadText(UserSettingsPath, 4194304)) is JsonObject existing
+                    && existing["Player"] is JsonObject existingPlayer
+                )
                 {
                     playerId = existingPlayer["Id"]?.GetValue<int>() ?? 0;
                     playerName = existingPlayer["Name"]?.GetValue<string>() ?? "";
                 }
             }
-            catch
-            {
-            }
+            catch { }
             if (playerId <= 0)
                 playerId = Random.Shared.Next(1, 10000000);
             if (!string.IsNullOrWhiteSpace(_robloxUsername))
@@ -1331,7 +1608,7 @@ namespace Voidstrap.Utility
                 ["ServerNo3D"] = true,
                 ["OptimisedClientStartup"] = true,
                 ["RemoveUploadDialogs"] = true,
-                ["DisabledAssetPacks"] = new JsonArray()
+                ["DisabledAssetPacks"] = new JsonArray(),
             };
 
             var root = new JsonObject
@@ -1341,7 +1618,7 @@ namespace Voidstrap.Utility
                 {
                     ["Id"] = playerId,
                     ["Name"] = playerName,
-                    ["Membership"] = 0
+                    ["Membership"] = 0,
                 },
                 ["Character"] = new JsonObject
                 {
@@ -1352,10 +1629,10 @@ namespace Voidstrap.Utility
                     ["RightLeg"] = 119,
                     ["LeftLeg"] = 119,
                     ["Equipped"] = new JsonObject(),
-                    ["FigureCharacterType"] = 1
+                    ["FigureCharacterType"] = 1,
                 },
                 ["Inventory"] = new JsonArray(),
-                ["OutfitPreferences"] = new JsonObject()
+                ["OutfitPreferences"] = new JsonObject(),
             };
 
             string json = root.ToJsonString();
@@ -1368,7 +1645,7 @@ namespace Voidstrap.Utility
             try
             {
                 Directory.CreateDirectory(folder);
-				JsonFile.WriteAtomicText(Path.Combine(folder, "UserSettings.json"), json, false);
+                JsonFile.WriteAtomicText(Path.Combine(folder, "UserSettings.json"), json, false);
             }
             catch (Exception ex)
             {
@@ -1386,12 +1663,12 @@ namespace Voidstrap.Utility
 
         private static string ResolveHost(string domain)
         {
-			if (string.IsNullOrWhiteSpace(domain))
-				return "www.roblox.com";
-			string normalized = domain.Trim().TrimEnd('.');
-			if (normalized.Length > 253 || Uri.CheckHostName(normalized) != UriHostNameType.Dns)
-				throw new InvalidDataException("The ORC client domain is invalid");
-			return normalized.StartsWith("www.", StringComparison.OrdinalIgnoreCase) ? normalized : "www." + normalized;
+            if (string.IsNullOrWhiteSpace(domain))
+                return "www.roblox.com";
+            string normalized = domain.Trim().TrimEnd('.');
+            if (normalized.Length > 253 || Uri.CheckHostName(normalized) != UriHostNameType.Dns)
+                throw new InvalidDataException("The ORC client domain is invalid");
+            return normalized.StartsWith("www.", StringComparison.OrdinalIgnoreCase) ? normalized : "www." + normalized;
         }
 
         public static string CreateJoinUrl(string ip, ushort port, string domain = "")
@@ -1400,20 +1677,29 @@ namespace Voidstrap.Utility
             int userId = 1;
             try
             {
-				if (File.Exists(UserSettingsPath) && JsonNode.Parse(JsonFile.ReadText(UserSettingsPath, 4194304), documentOptions: new JsonDocumentOptions
-				{
-					AllowTrailingCommas = true,
-					CommentHandling = JsonCommentHandling.Skip
-				}) is JsonObject root && root["Player"] is JsonObject player)
+                if (
+                    File.Exists(UserSettingsPath)
+                    && JsonNode.Parse(
+                        JsonFile.ReadText(UserSettingsPath, 4194304),
+                        documentOptions: new JsonDocumentOptions { AllowTrailingCommas = true, CommentHandling = JsonCommentHandling.Skip }
+                    )
+                        is JsonObject root
+                    && root["Player"] is JsonObject player
+                )
                 {
                     userName = player["Name"]?.GetValue<string>() ?? userName;
                     userId = player["Id"]?.GetValue<int>() ?? userId;
                 }
             }
-            catch
-            {
-            }
-            string query = BuildQueryString(("UserName", userName), ("serverIP", ip), ("serverPort", port), ("UserID", userId), ("chatStyle", "ClassicAndBubble"), ("testMode", false));
+            catch { }
+            string query = BuildQueryString(
+                ("UserName", userName),
+                ("serverIP", ip),
+                ("serverPort", port),
+                ("UserID", userId),
+                ("chatStyle", "ClassicAndBubble"),
+                ("testMode", false)
+            );
             return "http://" + ResolveHost(domain) + "/game/join.ashx?" + query;
         }
 
@@ -1429,7 +1715,7 @@ namespace Voidstrap.Utility
                 "App" => "Player",
                 "MFC" or "Qt" => "Studio",
                 "MFCnQt" => "MFCStudio",
-                _ => "Player"
+                _ => "Player",
             };
         }
 
@@ -1438,7 +1724,7 @@ namespace Voidstrap.Utility
             return config.Studio.Type switch
             {
                 "MFCnQt" => config.Studio.MFCExecutableName,
-                _ => config.Studio.ExecutableName
+                _ => config.Studio.ExecutableName,
             };
         }
 
@@ -1447,7 +1733,13 @@ namespace Voidstrap.Utility
             return config.Studio.Type != "None" && !string.IsNullOrEmpty(config.Studio.Type);
         }
 
-        public static Process? Launch(string client, ClientLaunchType launchType, ushort port = DefaultPort, string ip = "localhost", Action<string>? status = null)
+        public static Process? Launch(
+            string client,
+            ClientLaunchType launchType,
+            ushort port = DefaultPort,
+            string ip = "localhost",
+            Action<string>? status = null
+        )
         {
             ClassicClientConfig? config = GetInstalledConfig(client);
             if (config == null)
@@ -1515,72 +1807,76 @@ namespace Voidstrap.Utility
                 throw new FileNotFoundException("Could not find the client executable: " + executablePath);
 
             string domainValue = string.IsNullOrWhiteSpace(config.Domain) ? "roblox.com" : config.Domain.Trim();
-			if (argumentsFormat == null || argumentsFormat.Length > MaxLaunchArgumentCharacters || argumentsFormat.Any(c => c is '\r' or '\n' or '\0'))
-				throw new InvalidDataException("The ORC launch arguments are invalid");
+            if (
+                argumentsFormat == null
+                || argumentsFormat.Length > MaxLaunchArgumentCharacters
+                || argumentsFormat.Any(c => c is '\r' or '\n' or '\0')
+            )
+                throw new InvalidDataException("The ORC launch arguments are invalid");
             string arguments = argumentsFormat.Replace("{domain}", domainValue).Replace("{0}", url);
             if (!string.IsNullOrEmpty(extraArgument))
                 arguments = (arguments + " " + extraArgument).Trim();
-			if (arguments.Length > MaxLaunchArgumentCharacters)
-				throw new InvalidDataException("The ORC launch arguments are too long");
+            if (arguments.Length > MaxLaunchArgumentCharacters)
+                throw new InvalidDataException("The ORC launch arguments are too long");
 
             if (launchType == ClientLaunchType.Host)
                 VerifyHostScript(config.Domain);
 
             var process = new Process();
-			process.StartInfo.UseShellExecute = false;
+            process.StartInfo.UseShellExecute = false;
             process.StartInfo.FileName = executablePath;
             process.StartInfo.WorkingDirectory = executableDir;
-			SplitLaunchArguments(arguments);
-			process.StartInfo.Arguments = arguments;
+            SplitLaunchArguments(arguments);
+            process.StartInfo.Arguments = arguments;
             App.Logger?.WriteLine("ClassicClients::Launch", $"Launching {client} {launchType}: {executablePath} {arguments}");
             process.Start();
             return process;
         }
 
-		private static List<string> SplitLaunchArguments(string commandLine)
-		{
-			List<string> arguments = [];
-			int position = 0;
-			while (position < commandLine.Length)
-			{
-				while (position < commandLine.Length && char.IsWhiteSpace(commandLine[position]))
-					position++;
-				if (position >= commandLine.Length)
-					break;
-				StringBuilder argument = new();
-				bool quoted = false;
-				while (position < commandLine.Length)
-				{
-					int slashCount = 0;
-					while (position < commandLine.Length && commandLine[position] == '\\')
-					{
-						slashCount++;
-						position++;
-					}
-					if (position < commandLine.Length && commandLine[position] == '"')
-					{
-						argument.Append('\\', slashCount / 2);
-						if ((slashCount & 1) == 0)
-							quoted = !quoted;
-						else
-							argument.Append('"');
-						position++;
-						continue;
-					}
-					argument.Append('\\', slashCount);
-					if (position >= commandLine.Length || (!quoted && char.IsWhiteSpace(commandLine[position])))
-						break;
-					argument.Append(commandLine[position]);
-					position++;
-				}
-				if (quoted)
-					throw new InvalidDataException("The ORC launch arguments contain an unmatched quote");
-				arguments.Add(argument.ToString());
-				if (arguments.Count > MaxLaunchArgumentCount)
-					throw new InvalidDataException("The ORC launch arguments contain too many values");
-			}
-			return arguments;
-		}
+        private static List<string> SplitLaunchArguments(string commandLine)
+        {
+            List<string> arguments = [];
+            int position = 0;
+            while (position < commandLine.Length)
+            {
+                while (position < commandLine.Length && char.IsWhiteSpace(commandLine[position]))
+                    position++;
+                if (position >= commandLine.Length)
+                    break;
+                StringBuilder argument = new();
+                bool quoted = false;
+                while (position < commandLine.Length)
+                {
+                    int slashCount = 0;
+                    while (position < commandLine.Length && commandLine[position] == '\\')
+                    {
+                        slashCount++;
+                        position++;
+                    }
+                    if (position < commandLine.Length && commandLine[position] == '"')
+                    {
+                        argument.Append('\\', slashCount / 2);
+                        if ((slashCount & 1) == 0)
+                            quoted = !quoted;
+                        else
+                            argument.Append('"');
+                        position++;
+                        continue;
+                    }
+                    argument.Append('\\', slashCount);
+                    if (position >= commandLine.Length || (!quoted && char.IsWhiteSpace(commandLine[position])))
+                        break;
+                    argument.Append(commandLine[position]);
+                    position++;
+                }
+                if (quoted)
+                    throw new InvalidDataException("The ORC launch arguments contain an unmatched quote");
+                arguments.Add(argument.ToString());
+                if (arguments.Count > MaxLaunchArgumentCount)
+                    throw new InvalidDataException("The ORC launch arguments contain too many values");
+            }
+            return arguments;
+        }
 
         public static bool IsUdpPortAvailable(int port)
         {
@@ -1596,17 +1892,35 @@ namespace Voidstrap.Utility
 
         public static void ShutdownAll()
         {
-            try { ClassicIntegrations.Stop(killProcesses: true); }
-            catch (Exception ex) { App.Logger?.WriteLine("ClassicClients::ShutdownAll", "Integration stop failed: " + ex.Message); }
+            try
+            {
+                ClassicIntegrations.Stop(killProcesses: true);
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine("ClassicClients::ShutdownAll", "Integration stop failed: " + ex.Message);
+            }
 
             KillWebServer();
             KillClientProcesses();
 
-            try { Voidstrap.Integrations.ClassicHostRedirect.RemoveIfStale(); }
-            catch (Exception ex) { App.Logger?.WriteLine("ClassicClients::ShutdownAll", "Host redirect cleanup failed: " + ex.Message); }
+            try
+            {
+                Voidstrap.Integrations.ClassicHostRedirect.RemoveIfStale();
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine("ClassicClients::ShutdownAll", "Host redirect cleanup failed: " + ex.Message);
+            }
 
-            try { Voidstrap.Integrations.Studio.StudioPluginInstaller.RestoreAfterClassicClient(); }
-            catch (Exception ex) { App.Logger?.WriteLine("ClassicClients::ShutdownAll", "Studio plugin restore failed: " + ex.Message); }
+            try
+            {
+                Voidstrap.Integrations.Studio.StudioPluginInstaller.RestoreAfterClassicClient();
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine("ClassicClients::ShutdownAll", "Studio plugin restore failed: " + ex.Message);
+            }
         }
 
         private static string _webServerClient = "";
@@ -1628,25 +1942,29 @@ namespace Voidstrap.Utility
             {
                 ownAlive = _webServerProcess != null && !_webServerProcess.HasExited;
             }
-            catch
-            {
-            }
+            catch { }
 
             if (ownAlive)
             {
                 bool sameClient = string.Equals(_webServerClient, client, StringComparison.OrdinalIgnoreCase);
                 if (sameClient && IsWebServerAnswering())
                     return null;
-                App.Logger?.WriteLine("ClassicClients::EnsureWebServerRunning", sameClient
-                    ? "The local service is not answering, restarting it for " + client
-                    : "The local service is not serving " + client + ", restarting it");
+                App.Logger?.WriteLine(
+                    "ClassicClients::EnsureWebServerRunning",
+                    sameClient
+                        ? "The local service is not answering, restarting it for " + client
+                        : "The local service is not serving " + client + ", restarting it"
+                );
                 _webServerClient = "";
                 StopOwnWebServer();
                 Thread.Sleep(300);
             }
             else if (!AnyClassicClientRunning() && AnyWebServerProcess())
             {
-                App.Logger?.WriteLine("ClassicClients::EnsureWebServerRunning", "A local service from an earlier session is still running, replacing it");
+                App.Logger?.WriteLine(
+                    "ClassicClients::EnsureWebServerRunning",
+                    "A local service from an earlier session is still running, replacing it"
+                );
                 _webServerClient = "";
                 KillWebServer();
                 Thread.Sleep(300);
@@ -1720,17 +2038,29 @@ namespace Voidstrap.Utility
                 }
                 _webServerProcess?.Dispose();
                 _webServerProcess = server;
-                App.Logger?.WriteLine("ClassicClients::EnsureWebServerRunning", "Started the ORC local service on " + Voidstrap.Integrations.ClassicHostRedirect.ServerPrefix);
+                App.Logger?.WriteLine(
+                    "ClassicClients::EnsureWebServerRunning",
+                    "Started the ORC local service on " + Voidstrap.Integrations.ClassicHostRedirect.ServerPrefix
+                );
                 for (int i = 0; i < 40; i++)
                 {
                     if (server.HasExited)
                     {
-                        App.Logger?.WriteLine("ClassicClients::EnsureWebServerRunning", "The ORC local service exited during startup with code " + server.ExitCode);
+                        App.Logger?.WriteLine(
+                            "ClassicClients::EnsureWebServerRunning",
+                            "The ORC local service exited during startup with code " + server.ExitCode
+                        );
                         hostFailure = IsHostExitCode(server.ExitCode);
                         string hostReason = DescribeHostExitCode(server.ExitCode);
                         if (hostReason.Length > 0)
-                            return "The ORC local service closed during startup with code " + server.ExitCode.ToString(CultureInfo.InvariantCulture) + ". " + hostReason;
-                        return "The ORC local service closed during startup with code " + server.ExitCode.ToString(CultureInfo.InvariantCulture) + ". " + DescribeServiceFailure("exit code " + server.ExitCode.ToString(CultureInfo.InvariantCulture));
+                            return "The ORC local service closed during startup with code "
+                                + server.ExitCode.ToString(CultureInfo.InvariantCulture)
+                                + ". "
+                                + hostReason;
+                        return "The ORC local service closed during startup with code "
+                            + server.ExitCode.ToString(CultureInfo.InvariantCulture)
+                            + ". "
+                            + DescribeServiceFailure("exit code " + server.ExitCode.ToString(CultureInfo.InvariantCulture));
                     }
                     if (IsWebServerAnswering())
                     {
@@ -1749,16 +2079,21 @@ namespace Voidstrap.Utility
             }
         }
 
-        private static readonly HttpClient ProbeClient = new HttpClient(new HttpClientHandler { AllowAutoRedirect = false, UseProxy = false })
+        private static readonly HttpClient ProbeClient = new HttpClient(
+            new HttpClientHandler { AllowAutoRedirect = false, UseProxy = false }
+        )
         {
-            Timeout = TimeSpan.FromSeconds(5)
+            Timeout = TimeSpan.FromSeconds(5),
         };
 
         private static bool ProbeHostScript(string domain, out string detail)
         {
             try
             {
-                using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "http://127.0.0.1/game/host.ashx?serverPort=" + DefaultPort.ToString(CultureInfo.InvariantCulture));
+                using HttpRequestMessage request = new HttpRequestMessage(
+                    HttpMethod.Get,
+                    "http://127.0.0.1/game/host.ashx?serverPort=" + DefaultPort.ToString(CultureInfo.InvariantCulture)
+                );
                 request.Headers.Host = ResolveHost(domain);
                 using HttpResponseMessage response = ProbeClient.Send(request, HttpCompletionOption.ResponseContentRead);
                 string body = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
@@ -1778,7 +2113,9 @@ namespace Voidstrap.Utility
                 }
                 if (firstLine.Length > 60)
                     firstLine = string.Concat(firstLine.AsSpan(0, 60), "...");
-                detail = "HTTP " + ((int)response.StatusCode).ToString(CultureInfo.InvariantCulture)
+                detail =
+                    "HTTP "
+                    + ((int)response.StatusCode).ToString(CultureInfo.InvariantCulture)
                     + (firstLine.Length > 0 ? ", first line: " + firstLine : ", empty response");
                 return false;
             }
@@ -1803,7 +2140,9 @@ namespace Voidstrap.Utility
                 Thread.Sleep(500);
             }
             App.Logger?.WriteLine(LOG_IDENT, "Host script check failed: " + detail);
-            throw new InvalidOperationException("The local ORC server did not return the startup script. " + DescribeServiceFailure(detail));
+            throw new InvalidOperationException(
+                "The local ORC server did not return the startup script. " + DescribeServiceFailure(detail)
+            );
         }
 
         private static bool IsHostExitCode(int exitCode)
@@ -1820,7 +2159,10 @@ namespace Voidstrap.Utility
                 string configPath = Path.Combine(Root, Path.GetFileNameWithoutExtension(WebServerExe) + ".runtimeconfig.json");
                 if (!File.Exists(configPath))
                     return frameworks;
-                using JsonDocument doc = JsonDocument.Parse(File.ReadAllText(configPath), new JsonDocumentOptions { CommentHandling = JsonCommentHandling.Skip, AllowTrailingCommas = true });
+                using JsonDocument doc = JsonDocument.Parse(
+                    File.ReadAllText(configPath),
+                    new JsonDocumentOptions { CommentHandling = JsonCommentHandling.Skip, AllowTrailingCommas = true }
+                );
                 if (!doc.RootElement.TryGetProperty("runtimeOptions", out JsonElement options))
                     return frameworks;
                 void Add(JsonElement fx)
@@ -1840,9 +2182,7 @@ namespace Voidstrap.Utility
                     Add(single);
                 }
             }
-            catch
-            {
-            }
+            catch { }
             return frameworks;
         }
 
@@ -1880,10 +2220,12 @@ namespace Voidstrap.Utility
                     bool found = false;
                     foreach (string dir in Directory.GetDirectories(sharedDir))
                     {
-                        if (Version.TryParse(Path.GetFileName(dir), out Version? installed)
+                        if (
+                            Version.TryParse(Path.GetFileName(dir), out Version? installed)
                             && installed!.Major == framework.Value.Major
                             && installed >= framework.Value
-                            && File.Exists(Path.Combine(dir, ".version")))
+                            && File.Exists(Path.Combine(dir, ".version"))
+                        )
                         {
                             found = true;
                             break;
@@ -1902,7 +2244,12 @@ namespace Voidstrap.Utility
 
         private static string SystemDotnetRoot(string arch)
         {
-            return Path.Combine(Environment.GetFolderPath(arch == "x86" ? Environment.SpecialFolder.ProgramFilesX86 : Environment.SpecialFolder.ProgramFiles), "dotnet");
+            return Path.Combine(
+                Environment.GetFolderPath(
+                    arch == "x86" ? Environment.SpecialFolder.ProgramFilesX86 : Environment.SpecialFolder.ProgramFiles
+                ),
+                "dotnet"
+            );
         }
 
         private static string? EnsureWebServerRuntime(bool force, Action<string>? status)
@@ -1917,18 +2264,27 @@ namespace Voidstrap.Utility
                 return null;
 
             int major = frameworks.Max(f => f.Value.Major);
-            App.Logger?.WriteLine("ClassicClients::EnsureWebServerRuntime", "The " + arch + " .NET " + major + " runtime is not installed, installing it now");
+            App.Logger?.WriteLine(
+                "ClassicClients::EnsureWebServerRuntime",
+                "The " + arch + " .NET " + major + " runtime is not installed, installing it now"
+            );
 
             if (TryInstallSystemRuntime(arch, major, status) && RuntimeSatisfied(systemRoot, frameworks))
             {
-                App.Logger?.WriteLine("ClassicClients::EnsureWebServerRuntime", "The .NET " + major + " runtime is now installed for every ORC component");
+                App.Logger?.WriteLine(
+                    "ClassicClients::EnsureWebServerRuntime",
+                    "The .NET " + major + " runtime is now installed for every ORC component"
+                );
                 return null;
             }
 
             string privateRoot = Path.Combine(Root, "runtime", arch);
             if (RuntimeSatisfied(privateRoot, frameworks))
                 return privateRoot;
-            App.Logger?.WriteLine("ClassicClients::EnsureWebServerRuntime", "Falling back to a private runtime copy for the ORC local service");
+            App.Logger?.WriteLine(
+                "ClassicClients::EnsureWebServerRuntime",
+                "Falling back to a private runtime copy for the ORC local service"
+            );
             InstallPrivateRuntime(privateRoot, arch, major, status);
             App.Logger?.WriteLine("ClassicClients::EnsureWebServerRuntime", "Installed the private .NET runtime at " + privateRoot);
             return privateRoot;
@@ -1936,7 +2292,10 @@ namespace Voidstrap.Utility
 
         private static (string Url, string? Hash) FindRuntimeDownload(int major, string rid, string extension)
         {
-            string metadataUrl = "https://builds.dotnet.microsoft.com/dotnet/release-metadata/" + major.ToString(CultureInfo.InvariantCulture) + ".0/releases.json";
+            string metadataUrl =
+                "https://builds.dotnet.microsoft.com/dotnet/release-metadata/"
+                + major.ToString(CultureInfo.InvariantCulture)
+                + ".0/releases.json";
             string metadataJson;
             using (HttpResponseMessage metadataResponse = Http.GetAsync(metadataUrl).GetAwaiter().GetResult())
             {
@@ -1946,7 +2305,11 @@ namespace Voidstrap.Utility
             using JsonDocument doc = JsonDocument.Parse(metadataJson);
             foreach (JsonElement release in doc.RootElement.GetProperty("releases").EnumerateArray())
             {
-                if (!release.TryGetProperty("aspnetcore-runtime", out JsonElement runtime) || !runtime.TryGetProperty("files", out JsonElement files) || files.ValueKind != JsonValueKind.Array)
+                if (
+                    !release.TryGetProperty("aspnetcore-runtime", out JsonElement runtime)
+                    || !runtime.TryGetProperty("files", out JsonElement files)
+                    || files.ValueKind != JsonValueKind.Array
+                )
                     continue;
                 foreach (JsonElement file in files.EnumerateArray())
                 {
@@ -1956,7 +2319,9 @@ namespace Voidstrap.Utility
                         return (url, file.TryGetProperty("hash", out JsonElement h) ? h.GetString() : null);
                 }
             }
-            throw new InvalidOperationException("No ASP.NET Core " + major.ToString(CultureInfo.InvariantCulture) + " runtime download was found for " + rid);
+            throw new InvalidOperationException(
+                "No ASP.NET Core " + major.ToString(CultureInfo.InvariantCulture) + " runtime download was found for " + rid
+            );
         }
 
         private static void DownloadVerified(string url, string? hash, string destination, Action<string>? status)
@@ -2018,7 +2383,10 @@ namespace Voidstrap.Utility
                     return false;
                 process.WaitForExit();
                 int exitCode = process.ExitCode;
-                App.Logger?.WriteLine("ClassicClients::EnsureWebServerRuntime", "The .NET runtime installer finished with code " + exitCode.ToString(CultureInfo.InvariantCulture));
+                App.Logger?.WriteLine(
+                    "ClassicClients::EnsureWebServerRuntime",
+                    "The .NET runtime installer finished with code " + exitCode.ToString(CultureInfo.InvariantCulture)
+                );
                 return exitCode == 0 || exitCode == 3010 || exitCode == 1638;
             }
             catch (Exception ex)
@@ -2028,7 +2396,11 @@ namespace Voidstrap.Utility
             }
             finally
             {
-                try { File.Delete(installerPath); } catch { }
+                try
+                {
+                    File.Delete(installerPath);
+                }
+                catch { }
             }
         }
 
@@ -2048,7 +2420,11 @@ namespace Voidstrap.Utility
             }
             finally
             {
-                try { File.Delete(zipPath); } catch { }
+                try
+                {
+                    File.Delete(zipPath);
+                }
+                catch { }
                 DeleteDirectoryIfExists(staging);
             }
         }
@@ -2060,8 +2436,13 @@ namespace Voidstrap.Utility
             string required = string.Join(", ", ReadWebServerFrameworks().Select(f => f.Key + " " + f.Value));
             uint code = unchecked((uint)exitCode);
             if (code == 0x80008096)
-                return "The .NET runtime the service needs is not installed" + (required.Length > 0 ? " (it needs " + required + " or a newer major version)" : "") + ". Install the matching ASP.NET Core runtime from dotnet.microsoft.com and try again.";
-            return "The .NET runtime host could not start the service (host error 0x" + code.ToString("X8", CultureInfo.InvariantCulture) + (required.Length > 0 ? ", it needs " + required : "") + "). Reinstall the .NET runtime and repair the ORC engine, then try again.";
+                return "The .NET runtime the service needs is not installed"
+                    + (required.Length > 0 ? " (it needs " + required + " or a newer major version)" : "")
+                    + ". Install the matching ASP.NET Core runtime from dotnet.microsoft.com and try again.";
+            return "The .NET runtime host could not start the service (host error 0x"
+                + code.ToString("X8", CultureInfo.InvariantCulture)
+                + (required.Length > 0 ? ", it needs " + required : "")
+                + "). Reinstall the .NET runtime and repair the ORC engine, then try again.";
         }
 
         private static string DescribeServiceFailure(string detail)
@@ -2072,9 +2453,19 @@ namespace Voidstrap.Utility
             bool running = false;
             foreach (Process existing in Process.GetProcessesByName("VoidstrapClient.WebServer"))
             {
-                try { running |= !existing.HasExited; }
+                try
+                {
+                    running |= !existing.HasExited;
+                }
                 catch { }
-                finally { try { existing.Dispose(); } catch { } }
+                finally
+                {
+                    try
+                    {
+                        existing.Dispose();
+                    }
+                    catch { }
+                }
             }
 
             bool portTaken = false;
@@ -2082,14 +2473,14 @@ namespace Voidstrap.Utility
             {
                 portTaken = IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners().Any(e => e.Port == 80);
             }
-            catch
-            {
-            }
+            catch { }
 
             if (portTaken && !running)
                 return "Port 80 is already in use by another program, so the local service could not start. Close whatever is using port 80 and try again.";
             if (!Voidstrap.Integrations.ClassicHostRedirect.IsUrlAclReserved())
-                return "Windows has not reserved " + Voidstrap.Integrations.ClassicHostRedirect.ServerPrefix + " for the local service. Relaunch and accept the elevation prompt.";
+                return "Windows has not reserved "
+                    + Voidstrap.Integrations.ClassicHostRedirect.ServerPrefix
+                    + " for the local service. Relaunch and accept the elevation prompt.";
             if (!running)
                 return "The ORC local service is not running. Restart Voidstrap and try again.";
             return "The service answered with " + detail + ". Repair the selected client and try again.";
@@ -2124,9 +2515,7 @@ namespace Voidstrap.Utility
                     server.WaitForExit(2000);
                 }
             }
-            catch
-            {
-            }
+            catch { }
             finally
             {
                 server.Dispose();
@@ -2138,9 +2527,16 @@ namespace Voidstrap.Utility
             StopOwnWebServer();
             foreach (Process server in Process.GetProcessesByName("VoidstrapClient.WebServer"))
             {
-                try { server.Kill(); server.WaitForExit(2000); }
+                try
+                {
+                    server.Kill();
+                    server.WaitForExit(2000);
+                }
                 catch { }
-                finally { server.Dispose(); }
+                finally
+                {
+                    server.Dispose();
+                }
             }
         }
 
@@ -2157,8 +2553,14 @@ namespace Voidstrap.Utility
         private static bool ScanClientProcesses(bool kill)
         {
             string root;
-            try { root = Path.GetFullPath(ClientsDir); }
-            catch { return false; }
+            try
+            {
+                root = Path.GetFullPath(ClientsDir);
+            }
+            catch
+            {
+                return false;
+            }
             if (string.IsNullOrEmpty(root))
                 return false;
 
@@ -2181,7 +2583,14 @@ namespace Voidstrap.Utility
                     }
                 }
                 catch { }
-                finally { try { process.Dispose(); } catch { } }
+                finally
+                {
+                    try
+                    {
+                        process.Dispose();
+                    }
+                    catch { }
+                }
             }
             return found;
         }
@@ -2213,9 +2622,7 @@ namespace Voidstrap.Utility
             {
                 throw;
             }
-            catch
-            {
-            }
+            catch { }
             WriteUserSettings(client, map);
 
             ClassicClientConfig? playConfig = GetInstalledConfig(client);
@@ -2224,7 +2631,9 @@ namespace Voidstrap.Utility
             ValidateLaunchFiles(client, playConfig, ClientLaunchType.Play, map);
             ValidateLaunchFiles(client, playConfig, ClientLaunchType.Host);
             if (!IsUdpPortAvailable(DefaultPort))
-                throw new InvalidOperationException("ORC local port 53640 is already in use. Close the existing local server, then try again.");
+                throw new InvalidOperationException(
+                    "ORC local port 53640 is already in use. Close the existing local server, then try again."
+                );
 
             status?.Invoke("Starting the local server");
             Process? host = Launch(client, ClientLaunchType.Host, DefaultPort, "localhost", status);
@@ -2253,9 +2662,7 @@ namespace Voidstrap.Utility
                     if (!host.HasExited)
                         host.Kill();
                 }
-                catch
-                {
-                }
+                catch { }
                 host.Dispose();
                 throw;
             }
@@ -2287,7 +2694,7 @@ namespace Voidstrap.Utility
                 'E' => 0,
                 'M' => 1,
                 'L' => 2,
-                _ => -1
+                _ => -1,
             };
             if (era < 0)
                 return (0, 0, false);
@@ -2307,6 +2714,7 @@ namespace Voidstrap.Utility
 
         [GeneratedRegex(@"^\d{4}[A-Za-z0-9](?:-[A-Za-z0-9]+)?$", RegexOptions.CultureInvariant)]
         private static partial Regex ClassicVersionCodePattern { get; }
+
         [GeneratedRegex(@"github\.com/([^/]+)/([^/]+)/raw/([^/]+)/", RegexOptions.IgnoreCase, "en-US")]
         private static partial Regex GitHubRawUrlPattern { get; }
     }

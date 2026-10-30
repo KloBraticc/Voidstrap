@@ -12,9 +12,7 @@ using ZstdSharp;
 
 namespace Voidstrap.Utility;
 
-internal sealed class InsufficientSpaceException(string message) : IOException(message)
-{
-}
+internal sealed class InsufficientSpaceException(string message) : IOException(message) { }
 
 internal static class RobloxInstallCompression
 {
@@ -132,7 +130,13 @@ internal static class RobloxInstallCompression
 		}
 	}
 
-	public static async Task<bool> EnsureExtractedAsync(IAppData data, Action<string>? status, bool lockHeld, CancellationToken token, Action<string, double>? progress = null)
+	public static async Task<bool> EnsureExtractedAsync(
+		IAppData data,
+		Action<string>? status,
+		bool lockHeld,
+		CancellationToken token,
+		Action<string, double>? progress = null
+	)
 	{
 		if (!Supported || InstallDirectory(data) is not string directory)
 			return false;
@@ -147,7 +151,9 @@ internal static class RobloxInstallCompression
 		long required = (long)(archiveBytes * RequiredFreeSpaceFactor);
 		long free = Filesystem.GetFreeDiskSpace(directory);
 		if (free > 0 && free < required)
-			throw new InsufficientSpaceException($"Not enough free disk space to unpack {data.ProductName}: {required / 1048576} MB needed, {free / 1048576} MB free");
+			throw new InsufficientSpaceException(
+				$"Not enough free disk space to unpack {data.ProductName}: {required / 1048576} MB needed, {free / 1048576} MB free"
+			);
 		status?.Invoke("Unpacking " + data.ProductName);
 		Action<double> report = Throttle(progress, "Unpacking " + data.ProductName, 0.0, 1.0);
 		report(0.0);
@@ -188,7 +194,10 @@ internal static class RobloxInstallCompression
 		}
 		if (Environment.TickCount64 < Interlocked.Read(ref _inUseUntil))
 		{
-			App.Logger.WriteLine(LOG_IDENT, data.ProductName + " was unpacked for a feature in this window, compression waits until the next Roblox session ends");
+			App.Logger.WriteLine(
+				LOG_IDENT,
+				data.ProductName + " was unpacked for a feature in this window, compression waits until the next Roblox session ends"
+			);
 			return false;
 		}
 		await CompressGate.WaitAsync(token).ConfigureAwait(false);
@@ -207,7 +216,8 @@ internal static class RobloxInstallCompression
 			Dictionary<string, byte[]> hashes = await hashing.ConfigureAwait(false);
 			if (hashes.Count != fileCount)
 				throw new InvalidDataException($"The install changed while it was read, {hashes.Count} files now, {fileCount} before");
-			await Task.Run(() => VerifyArchive(directory, temporary, hashes, token, Throttle(progress, title, 0.8, 0.2)), token).ConfigureAwait(false);
+			await Task.Run(() => VerifyArchive(directory, temporary, hashes, token, Throttle(progress, title, 0.8, 0.2)), token)
+				.ConfigureAwait(false);
 			using (IDisposable? heldLock = await AcquireLockAsync(TimeSpan.FromSeconds(5), token).ConfigureAwait(false))
 			{
 				if (heldLock == null || IsRunning(data) || Fingerprint(directory, out _, out _) != fingerprint)
@@ -230,7 +240,10 @@ internal static class RobloxInstallCompression
 			}
 			await DeleteDirectoryQuietlyAsync(directory + DeletingSuffix).ConfigureAwait(false);
 			long packedBytes = new FileInfo(archive).Length;
-			App.Logger.WriteLine(LOG_IDENT, $"Compressed {data.ProductName}: {rawBytes / 1048576} MB to {packedBytes / 1048576} MB ({(double)rawBytes / Math.Max(1, packedBytes):0.00}x) in {clock.Elapsed.TotalSeconds:0.0}s");
+			App.Logger.WriteLine(
+				LOG_IDENT,
+				$"Compressed {data.ProductName}: {rawBytes / 1048576} MB to {packedBytes / 1048576} MB ({(double)rawBytes / Math.Max(1, packedBytes):0.00}x) in {clock.Elapsed.TotalSeconds:0.0}s"
+			);
 			return true;
 		}
 		catch (OperationCanceledException)
@@ -339,7 +352,13 @@ internal static class RobloxInstallCompression
 		return hashes;
 	}
 
-	private static void VerifyArchive(string directory, string archive, Dictionary<string, byte[]> expected, CancellationToken token, Action<double> progress)
+	private static void VerifyArchive(
+		string directory,
+		string archive,
+		Dictionary<string, byte[]> expected,
+		CancellationToken token,
+		Action<double> progress
+	)
 	{
 		int files = 0;
 		using FileStream input = new(archive, FileMode.Open, FileAccess.Read, FileShare.Read, 1 << 20, FileOptions.SequentialScan);
@@ -397,9 +416,15 @@ internal static class RobloxInstallCompression
 		long bytes = 0;
 		int count = 0;
 		using IncrementalHash hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
-		foreach (FileInfo file in new DirectoryInfo(directory).EnumerateFiles("*", SearchOption.AllDirectories).OrderBy(f => f.FullName, StringComparer.Ordinal))
+		foreach (
+			FileInfo file in new DirectoryInfo(directory)
+				.EnumerateFiles("*", SearchOption.AllDirectories)
+				.OrderBy(f => f.FullName, StringComparer.Ordinal)
+		)
 		{
-			hash.AppendData(System.Text.Encoding.UTF8.GetBytes(file.FullName + "|" + file.Length + "|" + file.LastWriteTimeUtc.Ticks + "\n"));
+			hash.AppendData(
+				System.Text.Encoding.UTF8.GetBytes(file.FullName + "|" + file.Length + "|" + file.LastWriteTimeUtc.Ticks + "\n")
+			);
 			bytes += file.Length;
 			count++;
 		}
@@ -412,7 +437,11 @@ internal static class RobloxInstallCompression
 	{
 		if (InstallDirectory(data) is not string directory)
 			return;
-		if (!Directory.Exists(directory + ExtractingSuffix) && !Directory.Exists(directory + DeletingSuffix) && !File.Exists(directory + TemporaryArchiveExtension))
+		if (
+			!Directory.Exists(directory + ExtractingSuffix)
+			&& !Directory.Exists(directory + DeletingSuffix)
+			&& !File.Exists(directory + TemporaryArchiveExtension)
+		)
 			return;
 		if (IsLockBusy())
 			return;
@@ -488,8 +517,6 @@ internal static class RobloxInstallCompression
 			if (File.Exists(path))
 				File.Delete(path);
 		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-		{
-		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 	}
 }

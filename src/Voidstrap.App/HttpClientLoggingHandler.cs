@@ -6,9 +6,7 @@ namespace Voidstrap;
 internal sealed class HttpClientLoggingHandler : MessageProcessingHandler
 {
 	public HttpClientLoggingHandler(HttpMessageHandler innerHandler)
-		: base(innerHandler)
-	{
-	}
+		: base(innerHandler) { }
 
 	protected override HttpRequestMessage ProcessRequest(HttpRequestMessage request, CancellationToken cancellationToken)
 	{
@@ -18,7 +16,10 @@ internal sealed class HttpClientLoggingHandler : MessageProcessingHandler
 	protected override HttpResponseMessage ProcessResponse(HttpResponseMessage response, CancellationToken cancellationToken)
 	{
 		if (!response.IsSuccessStatusCode)
-			App.Logger.WriteLine("HttpClientLoggingHandler::ProcessResponse", $"{(int)response.StatusCode} {response.ReasonPhrase} {SafeUri(response.RequestMessage?.RequestUri)}");
+			App.Logger.WriteLine(
+				"HttpClientLoggingHandler::ProcessResponse",
+				$"{(int)response.StatusCode} {response.ReasonPhrase} {SafeUri(response.RequestMessage?.RequestUri)}"
+			);
 		return response;
 	}
 

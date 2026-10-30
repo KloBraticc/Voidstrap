@@ -10,11 +10,14 @@ internal static class VinegarConfigurationMapper
 		ArgumentNullException.ThrowIfNull(settings);
 		bool modsAllowed = settings.ModApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Studio;
 		return new LinuxStudioPreparationOptions(
-			settings.VinegarApplyFastFlags && settings.UseFastFlagManager && settings.FastFlagApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Studio,
+			settings.VinegarApplyFastFlags
+				&& settings.UseFastFlagManager
+				&& settings.FastFlagApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Studio,
 			ApplyVirtualMachineProfile(CreateNativeOptions(settings)),
 			modsAllowed,
 			modsAllowed ? CollectManagedModSources() : null,
-			ModAutoFixer.IsIgnoredModFile);
+			ModAutoFixer.IsIgnoredModFile
+		);
 	}
 
 	private static List<LinuxModSource> CollectManagedModSources()
@@ -33,7 +36,10 @@ internal static class VinegarConfigurationMapper
 		}
 		catch (Exception ex)
 		{
-			App.Logger.WriteLine("VinegarConfigurationMapper::CollectManagedModSources", "Managed mods could not be indexed: " + ex.Message);
+			App.Logger.WriteLine(
+				"VinegarConfigurationMapper::CollectManagedModSources",
+				"Managed mods could not be indexed: " + ex.Message
+			);
 		}
 
 		return sources;
@@ -47,10 +53,7 @@ internal static class VinegarConfigurationMapper
 		}
 
 		VinegarNativeConfigurationOptions current = options ?? new VinegarNativeConfigurationOptions();
-		return current with
-		{
-			Renderer = Voidstrap.Platform.Linux.VinegarRenderer.D3D11
-		};
+		return current with { Renderer = Voidstrap.Platform.Linux.VinegarRenderer.D3D11 };
 	}
 
 	public static VinegarNativeConfigurationOptions? CreateNativeOptions(AppSettings settings)
@@ -70,7 +73,8 @@ internal static class VinegarConfigurationMapper
 			Launcher: settings.VinegarLauncher,
 			ForcedVersion: settings.VinegarForcedVersion,
 			Channel: settings.VinegarChannel,
-			WineRoot: settings.VinegarWineRoot);
+			WineRoot: settings.VinegarWineRoot
+		);
 	}
 
 	public static bool HasNativeOverrides(AppSettings settings)

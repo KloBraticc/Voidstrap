@@ -17,8 +17,10 @@ namespace Voidstrap.Utility;
 internal static class MediaContentFilter
 {
 	private const string ModelHash = "e9350e576608afe4b57a089ffeb0ebafa1389cdcea4882dd61df28c45f1c24d2";
-	private const string ModelRoot = "https://huggingface.co/KanariKanaru/nsfw-image-detection-384-onnx/resolve/8edc47eedf74b30fd379673bc202fe3b754b1538/";
-	private const string OnnxRuntimeUrl = "https://api.nuget.org/v3-flatcontainer/microsoft.ml.onnxruntime.directml/1.24.4/microsoft.ml.onnxruntime.directml.1.24.4.nupkg";
+	private const string ModelRoot =
+		"https://huggingface.co/KanariKanaru/nsfw-image-detection-384-onnx/resolve/8edc47eedf74b30fd379673bc202fe3b754b1538/";
+	private const string OnnxRuntimeUrl =
+		"https://api.nuget.org/v3-flatcontainer/microsoft.ml.onnxruntime.directml/1.24.4/microsoft.ml.onnxruntime.directml.1.24.4.nupkg";
 	private const string OnnxRuntimeHash = "e7eedec6a6f26dc39dc948276a75ef6d2bee3fff944d874ceed0bbd3b97bff40";
 	private static readonly HttpClient Http = VpnHttpClient.Create(TimeSpan.FromSeconds(60));
 	private static readonly SemaphoreSlim Gate = new(1, 1);
@@ -41,34 +43,36 @@ internal static class MediaContentFilter
 		}
 	}
 
-	internal static Task<BitmapSource?> LoadCheckedIconAsync(byte[] bytes) => Task.Run(async () =>
-	{
-		try
+	internal static Task<BitmapSource?> LoadCheckedIconAsync(byte[] bytes) =>
+		Task.Run(async () =>
 		{
-			if (bytes.Length > 256 * 1024)
-				return null;
-			using MemoryStream stream = new(bytes, false);
-			BitmapDecoder decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.IgnoreImageCache, BitmapCacheOption.OnLoad);
-			BitmapFrame[] frames = decoder.Frames.ToArray();
-			if (frames.Length == 0 || frames.Length > 16 || frames.Any(frame => frame.PixelWidth > 256 || frame.PixelHeight > 256))
-				return null;
-			foreach (BitmapFrame frame in frames)
-				frame.Freeze();
-			foreach (BitmapFrame frame in frames)
-				if (!await IsAllowedAsync(frame).ConfigureAwait(false))
+			try
+			{
+				if (bytes.Length > 256 * 1024)
 					return null;
-			return (BitmapSource?)frames.OrderByDescending(frame => frame.PixelWidth).First();
-		}
-		catch (Exception ex)
-		{
-			App.Logger?.WriteLine("MediaContentFilter", "The mod icon was hidden: " + ex.GetType().Name);
-			return null;
-		}
-	});
+				using MemoryStream stream = new(bytes, false);
+				BitmapDecoder decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.IgnoreImageCache, BitmapCacheOption.OnLoad);
+				BitmapFrame[] frames = decoder.Frames.ToArray();
+				if (frames.Length == 0 || frames.Length > 16 || frames.Any(frame => frame.PixelWidth > 256 || frame.PixelHeight > 256))
+					return null;
+				foreach (BitmapFrame frame in frames)
+					frame.Freeze();
+				foreach (BitmapFrame frame in frames)
+					if (!await IsAllowedAsync(frame).ConfigureAwait(false))
+						return null;
+				return (BitmapSource?)frames.OrderByDescending(frame => frame.PixelWidth).First();
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine("MediaContentFilter", "The mod icon was hidden: " + ex.GetType().Name);
+				return null;
+			}
+		});
 
 	internal static Task<bool> IsAllowedAsync(BitmapSource source)
 	{
-		BitmapSource converted = source.Format == PixelFormats.Bgra32 ? source : new FormatConvertedBitmap(source, PixelFormats.Bgra32, null, 0);
+		BitmapSource converted =
+			source.Format == PixelFormats.Bgra32 ? source : new FormatConvertedBitmap(source, PixelFormats.Bgra32, null, 0);
 		byte[] pixels = new byte[checked(converted.PixelWidth * converted.PixelHeight * 4)];
 		converted.CopyPixels(pixels, converted.PixelWidth * 4, 0);
 		return IsAllowedAsync(new Raster(converted.PixelWidth, converted.PixelHeight, pixels));
@@ -89,9 +93,9 @@ internal static class MediaContentFilter
 				return false;
 			if (raster.Width > 384 || raster.Height > 384)
 				for (int y = 0; y < raster.Height; y += 384)
-					for (int x = 0; x < raster.Width; x += 384)
-						if (!CheckRaster(raster.Crop(x, y, Math.Min(384, raster.Width - x), Math.Min(384, raster.Height - y))))
-							return false;
+				for (int x = 0; x < raster.Width; x += 384)
+					if (!CheckRaster(raster.Crop(x, y, Math.Min(384, raster.Width - x), Math.Min(384, raster.Height - y))))
+						return false;
 			return true;
 		}
 		catch (Exception ex)
@@ -110,17 +114,21 @@ internal static class MediaContentFilter
 	{
 		DenseTensor<float> input = new([1, 3, 384, 384]);
 		for (int y = 0; y < 384; y++)
-			for (int x = 0; x < 384; x++)
-			{
-				int offset = (y * 384 + x) * 4;
-				float alpha = raster.Pixels[offset + 3] / 255f;
-				for (int channel = 0; channel < 3; channel++)
-					input[0, channel, y, x] = (raster.Pixels[offset + 2 - channel] * alpha + background * (1 - alpha)) / 127.5f - 1;
-			}
-		using IDisposableReadOnlyCollection<DisposableNamedOnnxValue> output = _session!.Run([NamedOnnxValue.CreateFromTensor("input", input)]);
+		for (int x = 0; x < 384; x++)
+		{
+			int offset = (y * 384 + x) * 4;
+			float alpha = raster.Pixels[offset + 3] / 255f;
+			for (int channel = 0; channel < 3; channel++)
+				input[0, channel, y, x] = (raster.Pixels[offset + 2 - channel] * alpha + background * (1 - alpha)) / 127.5f - 1;
+		}
+		using IDisposableReadOnlyCollection<DisposableNamedOnnxValue> output = _session!.Run([
+			NamedOnnxValue.CreateFromTensor("input", input),
+		]);
 		float[] logits = output.Single(value => value.Name == "logits").AsEnumerable<float>().ToArray();
-		return logits.Length == 2 && float.IsFinite(logits[0]) && float.IsFinite(logits[1]) &&
-			1 / (1 + Math.Exp((double)logits[1] - logits[0])) < 0.25;
+		return logits.Length == 2
+			&& float.IsFinite(logits[0])
+			&& float.IsFinite(logits[1])
+			&& 1 / (1 + Math.Exp((double)logits[1] - logits[0])) < 0.25;
 	}
 
 	private static bool CheckRaster(Raster raster)
@@ -142,10 +150,16 @@ internal static class MediaContentFilter
 		if (!File.Exists(onnxDll) && !File.Exists(rishadeDll) && Platform.IsWindows)
 			await DownloadOnnxRuntimeAsync(onnxDll).ConfigureAwait(false);
 		string path = Path.Combine(folder, "content.onnx");
-		if (!File.Exists(path) || new FileInfo(path).Length > 32 * 1024 * 1024 || !MatchesHash(await File.ReadAllBytesAsync(path).ConfigureAwait(false), ModelHash))
+		if (
+			!File.Exists(path)
+			|| new FileInfo(path).Length > 32 * 1024 * 1024
+			|| !MatchesHash(await File.ReadAllBytesAsync(path).ConfigureAwait(false), ModelHash)
+		)
 			await DownloadAsync("model.onnx", path, ModelHash).ConfigureAwait(false);
-		await EnsureNoticeAsync(folder, "LICENSE-APACHE-2.0.txt", "b4123048cb9e96f48ec9ab9e0ec5fe34b6c5a2eb648e88550cc7a630763134c3").ConfigureAwait(false);
-		await EnsureNoticeAsync(folder, "MODEL_NOTICES.md", "265c7254d699ce034c215fb1c10d0e45a2b7fd5572b4f0786cff8af3bc1fc908").ConfigureAwait(false);
+		await EnsureNoticeAsync(folder, "LICENSE-APACHE-2.0.txt", "b4123048cb9e96f48ec9ab9e0ec5fe34b6c5a2eb648e88550cc7a630763134c3")
+			.ConfigureAwait(false);
+		await EnsureNoticeAsync(folder, "MODEL_NOTICES.md", "265c7254d699ce034c215fb1c10d0e45a2b7fd5572b4f0786cff8af3bc1fc908")
+			.ConfigureAwait(false);
 		using SessionOptions options = new() { IntraOpNumThreads = 2, InterOpNumThreads = 1 };
 		_session = new InferenceSession(path, options);
 	}
@@ -156,23 +170,24 @@ internal static class MediaContentFilter
 			return;
 		try
 		{
-			NativeLibrary.SetDllImportResolver(typeof(InferenceSession).Assembly, (name, assembly, path) =>
-			{
-				if (name.Equals("onnxruntime", StringComparison.OrdinalIgnoreCase))
+			NativeLibrary.SetDllImportResolver(
+				typeof(InferenceSession).Assembly,
+				(name, assembly, path) =>
 				{
-					string local = Path.Combine(Paths.Cache, "MediaFilter", "onnxruntime.dll");
-					if (File.Exists(local) && NativeLibrary.TryLoad(local, out IntPtr handle))
-						return handle;
-					string rishade = Path.Combine(Paths.LocalAppData, "RiShade", "onnxruntime.dll");
-					if (File.Exists(rishade) && NativeLibrary.TryLoad(rishade, out IntPtr rishadeHandle))
-						return rishadeHandle;
+					if (name.Equals("onnxruntime", StringComparison.OrdinalIgnoreCase))
+					{
+						string local = Path.Combine(Paths.Cache, "MediaFilter", "onnxruntime.dll");
+						if (File.Exists(local) && NativeLibrary.TryLoad(local, out IntPtr handle))
+							return handle;
+						string rishade = Path.Combine(Paths.LocalAppData, "RiShade", "onnxruntime.dll");
+						if (File.Exists(rishade) && NativeLibrary.TryLoad(rishade, out IntPtr rishadeHandle))
+							return rishadeHandle;
+					}
+					return IntPtr.Zero;
 				}
-				return IntPtr.Zero;
-			});
+			);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static async Task DownloadOnnxRuntimeAsync(string target)
@@ -180,7 +195,10 @@ internal static class MediaContentFilter
 		string tempZip = target + ".zip.tmp";
 		try
 		{
-			using (HttpResponseMessage response = await Http.GetAsync(OnnxRuntimeUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
+			using (
+				HttpResponseMessage response = await Http.GetAsync(OnnxRuntimeUrl, HttpCompletionOption.ResponseHeadersRead)
+					.ConfigureAwait(false)
+			)
 			{
 				response.EnsureSuccessStatusCode();
 				await using FileStream fs = new(tempZip, FileMode.Create, FileAccess.Write, FileShare.None);
@@ -199,9 +217,7 @@ internal static class MediaContentFilter
 					File.Delete(tempDll);
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		finally
 		{
 			if (File.Exists(tempZip))
@@ -212,15 +228,21 @@ internal static class MediaContentFilter
 	private static async Task EnsureNoticeAsync(string folder, string name, string hash)
 	{
 		string path = Path.Combine(folder, name);
-		if (!File.Exists(path) || new FileInfo(path).Length > 1024 * 1024 || !MatchesHash(await File.ReadAllBytesAsync(path).ConfigureAwait(false), hash))
+		if (
+			!File.Exists(path)
+			|| new FileInfo(path).Length > 1024 * 1024
+			|| !MatchesHash(await File.ReadAllBytesAsync(path).ConfigureAwait(false), hash)
+		)
 			await DownloadAsync(name, path, hash).ConfigureAwait(false);
 	}
 
-	internal static bool MatchesHash(byte[] bytes, string expected) => Convert.ToHexString(SHA256.HashData(bytes)).Equals(expected, StringComparison.OrdinalIgnoreCase);
+	internal static bool MatchesHash(byte[] bytes, string expected) =>
+		Convert.ToHexString(SHA256.HashData(bytes)).Equals(expected, StringComparison.OrdinalIgnoreCase);
 
 	private static async Task DownloadAsync(string name, string path, string hash)
 	{
-		using HttpResponseMessage response = await Http.GetAsync(ModelRoot + name, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+		using HttpResponseMessage response = await Http.GetAsync(ModelRoot + name, HttpCompletionOption.ResponseHeadersRead)
+			.ConfigureAwait(false);
 		response.EnsureSuccessStatusCode();
 		using Stream stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
 		using MemoryStream bytes = new();

@@ -13,11 +13,18 @@ public static class SafeZipExtractor
 {
 	private static readonly int WorkerLimit = Math.Clamp(Environment.ProcessorCount, 2, 8);
 
-	public static void ExtractToDirectory(string archivePath, string destinationPath, bool overwrite = true, long maxExpandedBytes = 2147483648L, int maxEntries = 100000, CancellationToken token = default)
+	public static void ExtractToDirectory(
+		string archivePath,
+		string destinationPath,
+		bool overwrite = true,
+		long maxExpandedBytes = 2147483648L,
+		int maxEntries = 100000,
+		CancellationToken token = default
+	)
 	{
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxExpandedBytes);
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxEntries);
-        string root = Path.GetFullPath(destinationPath);
+		ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxExpandedBytes);
+		ArgumentOutOfRangeException.ThrowIfNegativeOrZero(maxEntries);
+		string root = Path.GetFullPath(destinationPath);
 		string prefix = root.EndsWith(Path.DirectorySeparatorChar) ? root : root + Path.DirectorySeparatorChar;
 		StringComparison comparison = OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
 		StringComparer comparer = OperatingSystem.IsWindows() ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
@@ -66,23 +73,37 @@ public static class SafeZipExtractor
 		int workers = Math.Clamp(files.Count / 16, 1, WorkerLimit);
 		try
 		{
-			Parallel.For(0, workers, new ParallelOptions { MaxDegreeOfParallelism = workers, CancellationToken = token }, (worker, state) =>
-			{
-				using ZipArchive archive = ZipFile.OpenRead(archivePath);
-				byte[] buffer = ArrayPool<byte>.Shared.Rent(81920);
-				try
+			Parallel.For(
+				0,
+				workers,
+				new ParallelOptions { MaxDegreeOfParallelism = workers, CancellationToken = token },
+				(worker, state) =>
 				{
-					for (int i = worker; i < files.Count && !state.ShouldExitCurrentIteration; i += workers)
+					using ZipArchive archive = ZipFile.OpenRead(archivePath);
+					byte[] buffer = ArrayPool<byte>.Shared.Rent(81920);
+					try
 					{
-						(int index, string target, long length) = files[i];
-						ExtractEntry(archive.Entries[index], target, length, overwrite, buffer, ref actualExpanded, maxExpandedBytes, token);
+						for (int i = worker; i < files.Count && !state.ShouldExitCurrentIteration; i += workers)
+						{
+							(int index, string target, long length) = files[i];
+							ExtractEntry(
+								archive.Entries[index],
+								target,
+								length,
+								overwrite,
+								buffer,
+								ref actualExpanded,
+								maxExpandedBytes,
+								token
+							);
+						}
+					}
+					finally
+					{
+						ArrayPool<byte>.Shared.Return(buffer);
 					}
 				}
-				finally
-				{
-					ArrayPool<byte>.Shared.Return(buffer);
-				}
-			});
+			);
 		}
 		catch (AggregateException ex) when (ex.InnerExceptions.Count > 0)
 		{
@@ -90,7 +111,16 @@ public static class SafeZipExtractor
 		}
 	}
 
-	private static void ExtractEntry(ZipArchiveEntry entry, string target, long length, bool overwrite, byte[] buffer, ref long actualExpanded, long maxExpandedBytes, CancellationToken token)
+	private static void ExtractEntry(
+		ZipArchiveEntry entry,
+		string target,
+		long length,
+		bool overwrite,
+		byte[] buffer,
+		ref long actualExpanded,
+		long maxExpandedBytes,
+		CancellationToken token
+	)
 	{
 		token.ThrowIfCancellationRequested();
 		if (File.Exists(target) && (File.GetAttributes(target) & FileAttributes.ReparsePoint) != 0)
@@ -100,7 +130,16 @@ public static class SafeZipExtractor
 		{
 			long entryBytes = 0;
 			using Stream input = entry.Open();
-			using (FileStream output = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None, buffer.Length, FileOptions.SequentialScan))
+			using (
+				FileStream output = new FileStream(
+					temporary,
+					FileMode.CreateNew,
+					FileAccess.Write,
+					FileShare.None,
+					buffer.Length,
+					FileOptions.SequentialScan
+				)
+			)
 			{
 				while (true)
 				{
@@ -129,14 +168,22 @@ public static class SafeZipExtractor
 	{
 		string fullRoot = NormalizeDirectory(root);
 		string fullDirectory = NormalizeDirectory(directory);
-		if (!string.Equals(fullDirectory, fullRoot, comparison) && !fullDirectory.StartsWith(fullRoot + Path.DirectorySeparatorChar, comparison))
+		if (
+			!string.Equals(fullDirectory, fullRoot, comparison)
+			&& !fullDirectory.StartsWith(fullRoot + Path.DirectorySeparatorChar, comparison)
+		)
 			throw new InvalidDataException("The archive contains an invalid directory");
 		Directory.CreateDirectory(fullRoot);
 		if ((File.GetAttributes(fullRoot) & FileAttributes.ReparsePoint) != 0)
 			throw new InvalidDataException("The extraction root is a symbolic link");
 		string relative = Path.GetRelativePath(fullRoot, fullDirectory);
 		string current = fullRoot;
-		foreach (string part in relative.Split([Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar], StringSplitOptions.RemoveEmptyEntries))
+		foreach (
+			string part in relative.Split(
+				[Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
+				StringSplitOptions.RemoveEmptyEntries
+			)
+		)
 		{
 			current = Path.Combine(current, part);
 			Directory.CreateDirectory(current);

@@ -38,10 +38,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool DisableTelemetry
 	{
-		get
-		{
-			return App.FastFlags?.GetPreset("Telemetry.TelemetryV2Url") == "0.0.0.0";
-		}
+		get { return App.FastFlags?.GetPreset("Telemetry.TelemetryV2Url") == "0.0.0.0"; }
 		set
 		{
 			if (App.FastFlags != null)
@@ -72,10 +69,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool GoogleToggle
 	{
-		get
-		{
-			return string.Equals(App.FastFlags.GetPreset("VoiceChat.VoiceChat1"), "False", StringComparison.OrdinalIgnoreCase);
-		}
+		get { return string.Equals(App.FastFlags.GetPreset("VoiceChat.VoiceChat1"), "False", StringComparison.OrdinalIgnoreCase); }
 		set
 		{
 			if (value)
@@ -95,10 +89,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool LightCulling
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.GpuCulling") == "True";
-		}
+		get { return App.FastFlags.GetPreset("Rendering.GpuCulling") == "True"; }
 		set
 		{
 			App.FastFlags.SetPreset("Rendering.GpuCulling", value ? "True" : null);
@@ -108,34 +99,19 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool RainbowTheme
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("UI.RainbowText") == "True";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("UI.RainbowText", value ? "True" : null);
-		}
+		get { return App.FastFlags.GetPreset("UI.RainbowText") == "True"; }
+		set { App.FastFlags.SetPreset("UI.RainbowText", value ? "True" : null); }
 	}
 
 	public bool RobloxStudioCoreUI
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("UI.OLDUIRobloxStudio") == "True";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("UI.OLDUIRobloxStudio", value ? "True" : null);
-		}
+		get { return App.FastFlags.GetPreset("UI.OLDUIRobloxStudio") == "True"; }
+		set { App.FastFlags.SetPreset("UI.OLDUIRobloxStudio", value ? "True" : null); }
 	}
 
 	public bool FRMQualityOverrideEnabled
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.FRMQualityOverride") != null;
-		}
+		get { return App.FastFlags.GetPreset("Rendering.FRMQualityOverride") != null; }
 		set
 		{
 			if (value == FRMQualityOverrideEnabled)
@@ -208,10 +184,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool MeshQualityEnabled
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Geometry.MeshLOD.L0") != null;
-		}
+		get { return App.FastFlags.GetPreset("Geometry.MeshLOD.L0") != null; }
 		set
 		{
 			if (value == MeshQualityEnabled)
@@ -242,10 +215,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool MemoryProbing
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Memory.Probe") == "True";
-		}
+		get { return App.FastFlags.GetPreset("Memory.Probe") == "True"; }
 		set
 		{
 			App.FastFlags.SetPreset("Memory.Probe", value ? "True" : null);
@@ -274,58 +244,31 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool MoreSensetivityNumbers
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("UI.SensetivityNumbers") == "False";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("UI.SensetivityNumbers", value ? "False" : null);
-		}
+		get { return App.FastFlags.GetPreset("UI.SensetivityNumbers") == "False"; }
+		set { App.FastFlags.SetPreset("UI.SensetivityNumbers", value ? "False" : null); }
 	}
 
 	public bool NoGuiBlur
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("UI.NoGuiBlur") == "0";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("UI.NoGuiBlur", value ? "0" : null);
-		}
+		get { return App.FastFlags.GetPreset("UI.NoGuiBlur") == "0"; }
+		set { App.FastFlags.SetPreset("UI.NoGuiBlur", value ? "0" : null); }
 	}
 
 	public bool Layered
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Layered.Clothing") == "-1";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Layered.Clothing", value ? "-1" : null);
-		}
+		get { return App.FastFlags.GetPreset("Layered.Clothing") == "-1"; }
+		set { App.FastFlags.SetPreset("Layered.Clothing", value ? "-1" : null); }
 	}
 
 	public bool UnlimitedCameraZoom
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.Camerazoom") == "2147483647";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Rendering.Camerazoom", value ? "2147483647" : null);
-		}
+		get { return App.FastFlags.GetPreset("Rendering.Camerazoom") == "2147483647"; }
+		set { App.FastFlags.SetPreset("Rendering.Camerazoom", value ? "2147483647" : null); }
 	}
 
 	public bool Preload
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Preload.Preload2") == "True";
-		}
+		get { return App.FastFlags.GetPreset("Preload.Preload2") == "True"; }
 		set
 		{
 			App.FastFlags.SetPreset("Preload.Preload2", value ? "True" : null);
@@ -340,10 +283,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool OptimizeCFrameUpdates
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("OptimizeCFrameUpdates") == "True";
-		}
+		get { return App.FastFlags.GetPreset("OptimizeCFrameUpdates") == "True"; }
 		set
 		{
 			App.FastFlags.SetPreset("OptimizeCFrameUpdates", value ? "True" : null);
@@ -353,10 +293,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool TextSizeChanger
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("UI.TextSize1") == "True";
-		}
+		get { return App.FastFlags.GetPreset("UI.TextSize1") == "True"; }
 		set
 		{
 			App.FastFlags.SetPreset("UI.TextSize1", value ? "True" : null);
@@ -366,10 +303,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool TextureRemover
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.RemoveTexture1") == "True";
-		}
+		get { return App.FastFlags.GetPreset("Rendering.RemoveTexture1") == "True"; }
 		set
 		{
 			App.FastFlags.SetPreset("Rendering.RemoveTexture1", value ? "True" : null);
@@ -379,22 +313,13 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool Threading
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Hyper.Threading1") == "True";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Hyper.Threading1", value ? "True" : null);
-		}
+		get { return App.FastFlags.GetPreset("Hyper.Threading1") == "True"; }
+		set { App.FastFlags.SetPreset("Hyper.Threading1", value ? "True" : null); }
 	}
 
 	public bool LessLagSpikes
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Network.DefaultBps") == "796850000";
-		}
+		get { return App.FastFlags.GetPreset("Network.DefaultBps") == "796850000"; }
 		set
 		{
 			App.FastFlags.SetPreset("Network.DefaultBps", value ? "796850000" : null);
@@ -404,10 +329,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool DisableAds
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("UI.DisableAds1") == "False";
-		}
+		get { return App.FastFlags.GetPreset("UI.DisableAds1") == "False"; }
 		set
 		{
 			App.FastFlags.SetPreset("UI.DisableAds1", value ? "False" : null);
@@ -421,10 +343,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool RobloxCore
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Network.RCore1") == "20000";
-		}
+		get { return App.FastFlags.GetPreset("Network.RCore1") == "20000"; }
 		set
 		{
 			App.FastFlags.SetPreset("Network.RCore1", value ? "20000" : null);
@@ -438,10 +357,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool NoPayloadLimit
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Network.Payload1") == "2147483647";
-		}
+		get { return App.FastFlags.GetPreset("Network.Payload1") == "2147483647"; }
 		set
 		{
 			App.FastFlags.SetPreset("Network.Payload1", value ? "2147483647" : null);
@@ -460,22 +376,13 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool ShadersEnabled
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.Shaders2") == "21";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Rendering.Shaders2", value ? "21" : "0");
-		}
+		get { return App.FastFlags.GetPreset("Rendering.Shaders2") == "21"; }
+		set { App.FastFlags.SetPreset("Rendering.Shaders2", value ? "21" : "0"); }
 	}
 
 	public bool EnableLargeReplicator
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Network.EnableLargeReplicator") == "True";
-		}
+		get { return App.FastFlags.GetPreset("Network.EnableLargeReplicator") == "True"; }
 		set
 		{
 			App.FastFlags.SetPreset("Network.EnableLargeReplicator", value ? "True" : null);
@@ -490,86 +397,44 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool PingBreakdown
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Debug.PingBreakdown") == "True";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Debug.PingBreakdown", value ? "True" : null);
-		}
+		get { return App.FastFlags.GetPreset("Debug.PingBreakdown") == "True"; }
+		set { App.FastFlags.SetPreset("Debug.PingBreakdown", value ? "True" : null); }
 	}
 
 	public bool EnableDarkMode
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("DarkMode.BlueMode") == "False";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("DarkMode.BlueMode", value ? "False" : null);
-		}
+		get { return App.FastFlags.GetPreset("DarkMode.BlueMode") == "False"; }
+		set { App.FastFlags.SetPreset("DarkMode.BlueMode", value ? "False" : null); }
 	}
 
 	public bool ChatBubble
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("UI.Chatbubble") == "False";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("UI.Chatbubble", value ? "False" : null);
-		}
+		get { return App.FastFlags.GetPreset("UI.Chatbubble") == "False"; }
+		set { App.FastFlags.SetPreset("UI.Chatbubble", value ? "False" : null); }
 	}
 
 	public bool NoMoreMiddle
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("UI.RemoveMiddle") == "False";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("UI.RemoveMiddle", value ? "False" : null);
-		}
+		get { return App.FastFlags.GetPreset("UI.RemoveMiddle") == "False"; }
+		set { App.FastFlags.SetPreset("UI.RemoveMiddle", value ? "False" : null); }
 	}
 
 	public bool DisplayFps
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.DisplayFps") == "True";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Rendering.DisplayFps", value ? "True" : null);
-		}
+		get { return App.FastFlags.GetPreset("Rendering.DisplayFps") == "True"; }
+		set { App.FastFlags.SetPreset("Rendering.DisplayFps", value ? "True" : null); }
 	}
 
 	public bool GrayAvatar
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.GrayAvatar") == "0";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Rendering.GrayAvatar", value ? "0" : null);
-		}
+		get { return App.FastFlags.GetPreset("Rendering.GrayAvatar") == "0"; }
+		set { App.FastFlags.SetPreset("Rendering.GrayAvatar", value ? "0" : null); }
 	}
 
 	public bool UseFastFlagManager
 	{
-		get
-		{
-			return App.Settings.Prop.UseFastFlagManager;
-		}
-		set
-		{
-			App.Settings.Prop.UseFastFlagManager = value;
-		}
+		get { return App.Settings.Prop.UseFastFlagManager; }
+		set { App.Settings.Prop.UseFastFlagManager = value; }
 	}
 
 	public IEnumerable<Voidstrap.Enums.ModApplyTarget> FastFlagApplyTargets { get; } = Enum.GetValues<Voidstrap.Enums.ModApplyTarget>();
@@ -601,7 +466,10 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 			App.FastFlags.SetPreset("Rendering.Framerate", (value == 0) ? null : ((object)value));
 			if (value > 240)
 			{
-				Frontend.ShowMessageBox("Going above 240 FPS is not recommended, as this may cause latency issues.", MessageBoxImage.Exclamation);
+				Frontend.ShowMessageBox(
+					"Going above 240 FPS is not recommended, as this may cause latency issues.",
+					MessageBoxImage.Exclamation
+				);
 				App.FastFlags.SetPreset("Rendering.LimitFramerate", "False");
 			}
 			else
@@ -641,10 +509,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 			}
 			return result;
 		}
-		set
-		{
-			App.FastFlags.SetPreset("VoiceChat.VoiceChat4", (value > 0) ? value.ToString() : null);
-		}
+		set { App.FastFlags.SetPreset("VoiceChat.VoiceChat4", (value > 0) ? value.ToString() : null); }
 	}
 
 	public int HideGUI
@@ -657,10 +522,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 			}
 			return result;
 		}
-		set
-		{
-			App.FastFlags.SetPreset("UI.Hide", (value > 0) ? value.ToString() : null);
-		}
+		set { App.FastFlags.SetPreset("UI.Hide", (value > 0) ? value.ToString() : null); }
 	}
 
 	public int MtuSize
@@ -682,34 +544,19 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool BGRA
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.BGRA") == "True";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Rendering.BGRA", value ? "True" : null);
-		}
+		get { return App.FastFlags.GetPreset("Rendering.BGRA") == "True"; }
+		set { App.FastFlags.SetPreset("Rendering.BGRA", value ? "True" : null); }
 	}
 
 	public bool NewFpsSystem
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.NewFpsSystem") == "True";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Rendering.NewFpsSystem", value ? "True" : null);
-		}
+		get { return App.FastFlags.GetPreset("Rendering.NewFpsSystem") == "True"; }
+		set { App.FastFlags.SetPreset("Rendering.NewFpsSystem", value ? "True" : null); }
 	}
 
 	public bool DisableWebview2Telemetry
 	{
-		get
-		{
-			return App.FastFlags?.GetPreset("Telemetry.Webview1") == "www.youtube-nocookie.com";
-		}
+		get { return App.FastFlags?.GetPreset("Telemetry.Webview1") == "www.youtube-nocookie.com"; }
 		set
 		{
 			App.FastFlags.SetPreset("Telemetry.Webview1", value ? "www.youtube-nocookie.com" : null);
@@ -724,10 +571,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool WorserParticles
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.WorserParticles1") == "False";
-		}
+		get { return App.FastFlags.GetPreset("Rendering.WorserParticles1") == "False"; }
 		set
 		{
 			App.FastFlags.SetPreset("Rendering.WorserParticles1", value ? "False" : null);
@@ -739,10 +583,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool LowPolyMeshes
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.LowPolyMeshes1") == "0";
-		}
+		get { return App.FastFlags.GetPreset("Rendering.LowPolyMeshes1") == "0"; }
 		set
 		{
 			App.FastFlags.SetPreset("Rendering.LowPolyMeshes1", value ? "0" : null);
@@ -754,10 +595,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool CacheSizeImprovement
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Cache.Increase1") == "True";
-		}
+		get { return App.FastFlags.GetPreset("Cache.Increase1") == "True"; }
 		set
 		{
 			App.FastFlags.SetPreset("Cache.Increase1", value ? "True" : null);
@@ -786,20 +624,23 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return App.FastFlags.GetPreset("Rendering.AndroidVfs") == "{\"and\":[ {\"=\":[\"app_bitness()\",32]}, {\"not\":[ {\"is_any_of\":[\"manufacturer()\",\"samsung\",\"amazon\",\"lge\",\"lg\",\"lg electronics\",\"vivo\"]} ]} ]}";
+			return App.FastFlags.GetPreset("Rendering.AndroidVfs")
+				== "{\"and\":[ {\"=\":[\"app_bitness()\",32]}, {\"not\":[ {\"is_any_of\":[\"manufacturer()\",\"samsung\",\"amazon\",\"lge\",\"lg\",\"lg electronics\",\"vivo\"]} ]} ]}";
 		}
 		set
 		{
-			App.FastFlags.SetPreset("Rendering.AndroidVfs", value ? "{\"and\":[ {\"=\":[\"app_bitness()\",32]}, {\"not\":[ {\"is_any_of\":[\"manufacturer()\",\"samsung\",\"amazon\",\"lge\",\"lg\",\"lg electronics\",\"vivo\"]} ]} ]}" : null);
+			App.FastFlags.SetPreset(
+				"Rendering.AndroidVfs",
+				value
+					? "{\"and\":[ {\"=\":[\"app_bitness()\",32]}, {\"not\":[ {\"is_any_of\":[\"manufacturer()\",\"samsung\",\"amazon\",\"lge\",\"lg\",\"lg electronics\",\"vivo\"]} ]} ]}"
+					: null
+			);
 		}
 	}
 
 	public bool FasterLoading
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Network.MaxAssetPreload") == "2147483647";
-		}
+		get { return App.FastFlags.GetPreset("Network.MaxAssetPreload") == "2147483647"; }
 		set
 		{
 			App.FastFlags.SetPreset("Network.MaxAssetPreload", value ? "2147483647" : null);
@@ -810,62 +651,32 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool EnableCustomDisconnectError
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("UI.CustomDisconnectError1") == "True";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("UI.CustomDisconnectError1", value ? "True" : null);
-		}
+		get { return App.FastFlags.GetPreset("UI.CustomDisconnectError1") == "True"; }
+		set { App.FastFlags.SetPreset("UI.CustomDisconnectError1", value ? "True" : null); }
 	}
 
 	public string? CustomDisconnectError
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("UI.CustomDisconnectError2");
-		}
-		set
-		{
-			App.FastFlags.SetPreset("UI.CustomDisconnectError2", value);
-		}
+		get { return App.FastFlags.GetPreset("UI.CustomDisconnectError2"); }
+		set { App.FastFlags.SetPreset("UI.CustomDisconnectError2", value); }
 	}
 
 	public string? FakeVerify
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Fake.Verify");
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Fake.Verify", value);
-		}
+		get { return App.FastFlags.GetPreset("Fake.Verify"); }
+		set { App.FastFlags.SetPreset("Fake.Verify", value); }
 	}
 
 	public string? NewCamera
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Camera.Controls");
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Camera.Controls", value);
-		}
+		get { return App.FastFlags.GetPreset("Camera.Controls"); }
+		set { App.FastFlags.SetPreset("Camera.Controls", value); }
 	}
 
 	public string? ChatUI
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Camera.Chat");
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Camera.Chat", value);
-		}
+		get { return App.FastFlags.GetPreset("Camera.Chat"); }
+		set { App.FastFlags.SetPreset("Camera.Chat", value); }
 	}
 
 	public IReadOnlyDictionary<MSAAMode, string?> MSAALevels => FastFlagManager.MSAAModes;
@@ -874,7 +685,11 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return MSAALevels.FirstOrDefault<KeyValuePair<MSAAMode, string?>>((KeyValuePair<MSAAMode, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.MSAA1")).Key;
+			return MSAALevels
+				.FirstOrDefault<KeyValuePair<MSAAMode, string?>>(
+					(KeyValuePair<MSAAMode, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.MSAA1")
+				)
+				.Key;
 		}
 		set
 		{
@@ -889,7 +704,11 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return TextureQualities.FirstOrDefault<KeyValuePair<TextureQuality, string?>>((KeyValuePair<TextureQuality, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.TextureQuality.Level")).Key;
+			return TextureQualities
+				.FirstOrDefault<KeyValuePair<TextureQuality, string?>>(
+					(KeyValuePair<TextureQuality, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.TextureQuality.Level")
+				)
+				.Key;
 		}
 		set
 		{
@@ -908,10 +727,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public RenderingMode SelectedRenderingMode
 	{
-		get
-		{
-			return App.FastFlags.GetPresetEnum(RenderingModes, "Rendering.Mode", "True");
-		}
+		get { return App.FastFlags.GetPresetEnum(RenderingModes, "Rendering.Mode", "True"); }
 		set
 		{
 			App.FastFlags.SetPresetEnum("Rendering.Mode", value.ToString(), "True");
@@ -921,26 +737,14 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool FixDisplayScaling
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.DisableScaling") == "True";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Rendering.DisableScaling", value ? "True" : null);
-		}
+		get { return App.FastFlags.GetPreset("Rendering.DisableScaling") == "True"; }
+		set { App.FastFlags.SetPreset("Rendering.DisableScaling", value ? "True" : null); }
 	}
 
 	public bool MoreLighting
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.BrighterVisual") == "True";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Rendering.BrighterVisual", value ? "True" : null);
-		}
+		get { return App.FastFlags.GetPreset("Rendering.BrighterVisual") == "True"; }
+		set { App.FastFlags.SetPreset("Rendering.BrighterVisual", value ? "True" : null); }
 	}
 
 	public int MinGrassDistance
@@ -979,14 +783,8 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public string? FlagState
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Debug.FlagState");
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Debug.FlagState", value);
-		}
+		get { return App.FastFlags.GetPreset("Debug.FlagState"); }
+		set { App.FastFlags.SetPreset("Debug.FlagState", value); }
 	}
 
 	public IReadOnlyDictionary<InGameMenuVersion, Dictionary<string, string?>> IGMenuVersions => FastFlagManager.IGMenuVersions;
@@ -1000,7 +798,11 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 				bool flag = true;
 				foreach (KeyValuePair<string, string?> flag2 in iGMenuVersion.Value)
 				{
-					foreach (KeyValuePair<string, string> item in FastFlagManager.PresetFlags.Where<KeyValuePair<string, string>>((KeyValuePair<string, string> x) => x.Key.StartsWith("UI.Menu.Style." + flag2.Key, StringComparison.Ordinal)))
+					foreach (
+						KeyValuePair<string, string> item in FastFlagManager.PresetFlags.Where<KeyValuePair<string, string>>(
+							(KeyValuePair<string, string> x) => x.Key.StartsWith("UI.Menu.Style." + flag2.Key, StringComparison.Ordinal)
+						)
+					)
 					{
 						if (App.FastFlags.GetValue(item.Value) != flag2.Value)
 						{
@@ -1028,14 +830,8 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public LightingMode SelectedLightingMode
 	{
-		get
-		{
-			return App.FastFlags.GetPresetEnum(LightingModes, "Rendering.Lighting", "True");
-		}
-		set
-		{
-			App.FastFlags.SetPresetEnum("Rendering.Lighting", LightingModes[value], "True");
-		}
+		get { return App.FastFlags.GetPresetEnum(LightingModes, "Rendering.Lighting", "True"); }
+		set { App.FastFlags.SetPresetEnum("Rendering.Lighting", LightingModes[value], "True"); }
 	}
 
 	public bool FullscreenTitlebarDisabled
@@ -1048,10 +844,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 			}
 			return false;
 		}
-		set
-		{
-			App.FastFlags.SetPreset("UI.FullscreenTitlebarDelay", value ? "3600000" : null);
-		}
+		set { App.FastFlags.SetPreset("UI.FullscreenTitlebarDelay", value ? "3600000" : null); }
 	}
 
 	public IReadOnlyDictionary<TextureSkipping, string?> TextureSkippings => FastFlagManager.TextureSkippingSkips;
@@ -1060,7 +853,11 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return TextureSkippings.FirstOrDefault<KeyValuePair<TextureSkipping, string?>>((KeyValuePair<TextureSkipping, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.TextureSkipping.Skips")).Key;
+			return TextureSkippings
+				.FirstOrDefault<KeyValuePair<TextureSkipping, string?>>(
+					(KeyValuePair<TextureSkipping, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.TextureSkipping.Skips")
+				)
+				.Key;
 		}
 		set
 		{
@@ -1081,7 +878,11 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return DistanceRenderings.FirstOrDefault<KeyValuePair<DistanceRendering, string?>>((KeyValuePair<DistanceRendering, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.Distance.Chunks")).Key;
+			return DistanceRenderings
+				.FirstOrDefault<KeyValuePair<DistanceRendering, string?>>(
+					(KeyValuePair<DistanceRendering, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.Distance.Chunks")
+				)
+				.Key;
 		}
 		set
 		{
@@ -1096,15 +897,16 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-	public IReadOnlyDictionary<int, string?> GrassMovementOptions { get; } = new Dictionary<int, string?>
-	{
-		{ 0, "No Movement" },
-		{ 1, "Minimal Movement" },
-		{ 2, "Medium Movement" },
-		{ 3, "High Movement" },
-		{ 4, "Ultra Movement" },
-		{ 5, "Default Movement" }
-	};
+	public IReadOnlyDictionary<int, string?> GrassMovementOptions { get; } =
+		new Dictionary<int, string?>
+		{
+			{ 0, "No Movement" },
+			{ 1, "Minimal Movement" },
+			{ 2, "Medium Movement" },
+			{ 3, "High Movement" },
+			{ 4, "Ultra Movement" },
+			{ 5, "Default Movement" },
+		};
 
 	public int SelectedGrassMovementFactor
 	{
@@ -1136,7 +938,11 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return DynamicResolutions.FirstOrDefault<KeyValuePair<DynamicResolution, string?>>((KeyValuePair<DynamicResolution, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.Dynamic.Resolution")).Key;
+			return DynamicResolutions
+				.FirstOrDefault<KeyValuePair<DynamicResolution, string?>>(
+					(KeyValuePair<DynamicResolution, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.Dynamic.Resolution")
+				)
+				.Key;
 		}
 		set
 		{
@@ -1157,7 +963,11 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return FastFlagManager.RomarkStartMappings.FirstOrDefault<KeyValuePair<RomarkStart, string?>>((KeyValuePair<RomarkStart, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.Start.Graphic")).Key;
+			return FastFlagManager
+				.RomarkStartMappings.FirstOrDefault<KeyValuePair<RomarkStart, string?>>(
+					(KeyValuePair<RomarkStart, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.Start.Graphic")
+				)
+				.Key;
 		}
 		set
 		{
@@ -1178,12 +988,13 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return PresentsLevels.FirstOrDefault<KeyValuePair<Presents, string?>>((KeyValuePair<Presents, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.MSAA")).Key;
+			return PresentsLevels
+				.FirstOrDefault<KeyValuePair<Presents, string?>>(
+					(KeyValuePair<Presents, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.MSAA")
+				)
+				.Key;
 		}
-		set
-		{
-			App.FastFlags.SetPreset("Rendering.MSAA", PresentsLevels[value]);
-		}
+		set { App.FastFlags.SetPreset("Rendering.MSAA", PresentsLevels[value]); }
 	}
 
 	public IReadOnlyDictionary<QualityLevel, string?> QualityLevels => FastFlagManager.QualityLevels;
@@ -1192,7 +1003,11 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return FastFlagManager.QualityLevels.FirstOrDefault<KeyValuePair<QualityLevel, string?>>((KeyValuePair<QualityLevel, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.FrmQuality")).Key;
+			return FastFlagManager
+				.QualityLevels.FirstOrDefault<KeyValuePair<QualityLevel, string?>>(
+					(KeyValuePair<QualityLevel, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.FrmQuality")
+				)
+				.Key;
 		}
 		set
 		{
@@ -1209,46 +1024,25 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool DisablePostFX
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.DisablePostFX") == "True";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Rendering.DisablePostFX", value ? "True" : null);
-		}
+		get { return App.FastFlags.GetPreset("Rendering.DisablePostFX") == "True"; }
+		set { App.FastFlags.SetPreset("Rendering.DisablePostFX", value ? "True" : null); }
 	}
 
 	public bool TaskSchedulerAvoidingSleep
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.AvoidSleep") == "True";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Rendering.AvoidSleep", value ? "True" : null);
-		}
+		get { return App.FastFlags.GetPreset("Rendering.AvoidSleep") == "True"; }
+		set { App.FastFlags.SetPreset("Rendering.AvoidSleep", value ? "True" : null); }
 	}
 
 	public bool AdsToggle
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("UI.Disable.Ads") == "True";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("UI.Disable.Ads", value ? "True" : null);
-		}
+		get { return App.FastFlags.GetPreset("UI.Disable.Ads") == "True"; }
+		set { App.FastFlags.SetPreset("UI.Disable.Ads", value ? "True" : null); }
 	}
 
 	public bool DisablePlayerShadows
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.ShadowIntensity") == "0";
-		}
+		get { return App.FastFlags.GetPreset("Rendering.ShadowIntensity") == "0"; }
 		set
 		{
 			App.FastFlags.SetPreset("Rendering.ShadowIntensity", value ? "0" : null);
@@ -1259,10 +1053,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool RenderOcclusion
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.Occlusion1") == "True";
-		}
+		get { return App.FastFlags.GetPreset("Rendering.Occlusion1") == "True"; }
 		set
 		{
 			App.FastFlags.SetPreset("Rendering.Occlusion1", value ? "True" : null);
@@ -1273,14 +1064,8 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool EnableGraySky
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Graphic.GraySky") == "True";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Graphic.GraySky", value ? "True" : null);
-		}
+		get { return App.FastFlags.GetPreset("Graphic.GraySky") == "True"; }
+		set { App.FastFlags.SetPreset("Graphic.GraySky", value ? "True" : null); }
 	}
 
 	public int? FontSize
@@ -1290,46 +1075,25 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 			int result;
 			return (!int.TryParse(App.FastFlags.GetPreset("UI.FontSize"), out result)) ? 1 : result;
 		}
-		set
-		{
-			App.FastFlags.SetPreset("UI.FontSize", (value == 1) ? ((int?)null) : value);
-		}
+		set { App.FastFlags.SetPreset("UI.FontSize", (value == 1) ? ((int?)null) : value); }
 	}
 
 	public bool RedFont
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("UI.RedFont") == "rbxasset://fonts/families/BuilderSans.json";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("UI.RedFont", value ? "rbxasset://fonts/families/BuilderSans.json" : null);
-		}
+		get { return App.FastFlags.GetPreset("UI.RedFont") == "rbxasset://fonts/families/BuilderSans.json"; }
+		set { App.FastFlags.SetPreset("UI.RedFont", value ? "rbxasset://fonts/families/BuilderSans.json" : null); }
 	}
 
 	public bool DisableLayeredClothing
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("UI.DisableLayeredClothing") == "-1";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("UI.DisableLayeredClothing", value ? "-1" : null);
-		}
+		get { return App.FastFlags.GetPreset("UI.DisableLayeredClothing") == "-1"; }
+		set { App.FastFlags.SetPreset("UI.DisableLayeredClothing", value ? "-1" : null); }
 	}
 
 	public bool DisableTerrainTextures
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.TerrainTextureQuality") == "0";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Rendering.TerrainTextureQuality", value ? "0" : null);
-		}
+		get { return App.FastFlags.GetPreset("Rendering.TerrainTextureQuality") == "0"; }
+		set { App.FastFlags.SetPreset("Rendering.TerrainTextureQuality", value ? "0" : null); }
 	}
 
 	public bool Prerender
@@ -1351,22 +1115,13 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public string ForceBuggyVulkan
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.ForceVulkan") ?? "Automatic";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Rendering.ForceVulkan", (value == "Automatic") ? null : value);
-		}
+		get { return App.FastFlags.GetPreset("Rendering.ForceVulkan") ?? "Automatic"; }
+		set { App.FastFlags.SetPreset("Rendering.ForceVulkan", (value == "Automatic") ? null : value); }
 	}
 
 	public bool PartyToggle
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("VoiceChat.VoiceChat4") == "False";
-		}
+		get { return App.FastFlags.GetPreset("VoiceChat.VoiceChat4") == "False"; }
 		set
 		{
 			string value2 = (value ? "False" : "True");
@@ -1394,82 +1149,43 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool VRToggle
 	{
-		get
-		{
-			return GetFlagAsBool("Menu.VRToggles");
-		}
-		set
-		{
-			SetFlagFromBool("Menu.VRToggles", value);
-		}
+		get { return GetFlagAsBool("Menu.VRToggles"); }
+		set { SetFlagFromBool("Menu.VRToggles", value); }
 	}
 
 	public bool SoothsayerCheck
 	{
-		get
-		{
-			return GetFlagAsBool("Menu.Feedback");
-		}
-		set
-		{
-			SetFlagFromBool("Menu.Feedback", value);
-		}
+		get { return GetFlagAsBool("Menu.Feedback"); }
+		set { SetFlagFromBool("Menu.Feedback", value); }
 	}
 
 	public bool LanguageSelector
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Menu.LanguageSelector") != "0";
-		}
-		set
-		{
-			SetFlagFromBool("Menu.LanguageSelector", value, "0");
-		}
+		get { return App.FastFlags.GetPreset("Menu.LanguageSelector") != "0"; }
+		set { SetFlagFromBool("Menu.LanguageSelector", value, "0"); }
 	}
 
 	public bool Haptics
 	{
-		get
-		{
-			return GetFlagAsBool("Menu.Haptics");
-		}
-		set
-		{
-			SetFlagFromBool("Menu.Haptics", value);
-		}
+		get { return GetFlagAsBool("Menu.Haptics"); }
+		set { SetFlagFromBool("Menu.Haptics", value); }
 	}
 
 	public bool ChatTranslation
 	{
-		get
-		{
-			return GetFlagAsBool("Menu.ChatTranslation");
-		}
-		set
-		{
-			SetFlagFromBool("Menu.ChatTranslation", value);
-		}
+		get { return GetFlagAsBool("Menu.ChatTranslation"); }
+		set { SetFlagFromBool("Menu.ChatTranslation", value); }
 	}
 
 	public bool FrameRateCap
 	{
-		get
-		{
-			return GetFlagAsBool("Menu.Framerate");
-		}
-		set
-		{
-			SetFlagFromBool("Menu.Framerate", value);
-		}
+		get { return GetFlagAsBool("Menu.Framerate"); }
+		set { SetFlagFromBool("Menu.Framerate", value); }
 	}
 
 	public bool DisableVoiceChatTelemetry
 	{
-		get
-		{
-			return App.FastFlags?.GetPreset("Telemetry.Voicechat1") == "False";
-		}
+		get { return App.FastFlags?.GetPreset("Telemetry.Voicechat1") == "False"; }
 		set
 		{
 			App.FastFlags.SetPreset("Telemetry.Voicechat1", value ? "False" : null);
@@ -1497,10 +1213,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool OldChromeUI
 	{
-		get
-		{
-			return App.FastFlags?.GetPreset("UI.OldChromeUI1") == "False";
-		}
+		get { return App.FastFlags?.GetPreset("UI.OldChromeUI1") == "False"; }
 		set
 		{
 			App.FastFlags.SetPreset("UI.OldChromeUI1", value ? "False" : null);
@@ -1518,10 +1231,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool BlockTencent
 	{
-		get
-		{
-			return App.FastFlags?.GetPreset("Telemetry.Tencent1") == "/tencent/";
-		}
+		get { return App.FastFlags?.GetPreset("Telemetry.Tencent1") == "/tencent/"; }
 		set
 		{
 			App.FastFlags.SetPreset("Telemetry.Tencent1", value ? "/tencent/" : null);
@@ -1536,10 +1246,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool WhiteSky
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Graphic.WhiteSky") == "True";
-		}
+		get { return App.FastFlags.GetPreset("Graphic.WhiteSky") == "True"; }
 		set
 		{
 			App.FastFlags.SetPreset("Graphic.WhiteSky", value ? "True" : null);
@@ -1550,34 +1257,19 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool ShowChunks
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Debug.Chunks") == "True";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Debug.Chunks", value ? "True" : null);
-		}
+		get { return App.FastFlags.GetPreset("Debug.Chunks") == "True"; }
+		set { App.FastFlags.SetPreset("Debug.Chunks", value ? "True" : null); }
 	}
 
 	public bool Pseudolocalization
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("UI.Pseudolocalization") == "True";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("UI.Pseudolocalization", value ? "True" : null);
-		}
+		get { return App.FastFlags.GetPreset("UI.Pseudolocalization") == "True"; }
+		set { App.FastFlags.SetPreset("UI.Pseudolocalization", value ? "True" : null); }
 	}
 
 	public bool ResetConfiguration
 	{
-		get
-		{
-			return _preResetFlags != null;
-		}
+		get { return _preResetFlags != null; }
 		set
 		{
 			if (value)
@@ -1613,10 +1305,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool BetterPacketSending
 	{
-		get
-		{
-			return App.FastFlags?.GetPreset("Network.BetterPacketSending1") == "0";
-		}
+		get { return App.FastFlags?.GetPreset("Network.BetterPacketSending1") == "0"; }
 		set
 		{
 			App.FastFlags.SetPreset("Network.BetterPacketSending1", value ? "0" : null);
@@ -1641,30 +1330,18 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 			}
 			return result;
 		}
-		set
-		{
-			App.FastFlags.SetPreset("Recommended.Buffer", (value == 0) ? null : ((object)value));
-		}
+		set { App.FastFlags.SetPreset("Recommended.Buffer", (value == 0) ? null : ((object)value)); }
 	}
 
 	public bool MinimalRendering
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.MinimalRendering") == "True";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("Rendering.MinimalRendering", value ? "True" : null);
-		}
+		get { return App.FastFlags.GetPreset("Rendering.MinimalRendering") == "True"; }
+		set { App.FastFlags.SetPreset("Rendering.MinimalRendering", value ? "True" : null); }
 	}
 
 	public bool DisableSky
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("Rendering.NoFrmBloom") == "False";
-		}
+		get { return App.FastFlags.GetPreset("Rendering.NoFrmBloom") == "False"; }
 		set
 		{
 			App.FastFlags.SetPreset("Rendering.NoFrmBloom", value ? "False" : null);
@@ -1678,7 +1355,11 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return RefreshRates.FirstOrDefault<KeyValuePair<RefreshRate, string?>>((KeyValuePair<RefreshRate, string?> x) => x.Value == App.FastFlags.GetPreset("System.TargetRefreshRate1")).Key;
+			return RefreshRates
+				.FirstOrDefault<KeyValuePair<RefreshRate, string?>>(
+					(KeyValuePair<RefreshRate, string?> x) => x.Value == App.FastFlags.GetPreset("System.TargetRefreshRate1")
+				)
+				.Key;
 		}
 		set
 		{
@@ -1705,7 +1386,11 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			return Shaders.FirstOrDefault<KeyValuePair<Shader, string?>>((KeyValuePair<Shader, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.Shaders")).Key;
+			return Shaders
+				.FirstOrDefault<KeyValuePair<Shader, string?>>(
+					(KeyValuePair<Shader, string?> x) => x.Value == App.FastFlags.GetPreset("Rendering.Shaders")
+				)
+				.Key;
 		}
 		set
 		{
@@ -1724,14 +1409,8 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public string BypassVulkan
 	{
-		get
-		{
-			return App.FastFlags.GetPreset("System.BypassVulkan") ?? "Automatic";
-		}
-		set
-		{
-			App.FastFlags.SetPreset("System.BypassVulkan", (value == "Automatic") ? null : value);
-		}
+		get { return App.FastFlags.GetPreset("System.BypassVulkan") ?? "Automatic"; }
+		set { App.FastFlags.SetPreset("System.BypassVulkan", (value == "Automatic") ? null : value); }
 	}
 
 	public IReadOnlyDictionary<string, string?>? CpuThreads => GetCpuThreads();
@@ -1741,7 +1420,8 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		get
 		{
 			string currentValue = App.FastFlags.GetPreset("System.CpuCore1") ?? "Automatic";
-			return CpuThreads?.FirstOrDefault((KeyValuePair<string, string?> kvp) => kvp.Key == currentValue) ?? default(KeyValuePair<string, string?>);
+			return CpuThreads?.FirstOrDefault((KeyValuePair<string, string?> kvp) => kvp.Key == currentValue)
+				?? default(KeyValuePair<string, string?>);
 		}
 		set
 		{
@@ -1786,7 +1466,8 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		get
 		{
 			string currentValue = App.FastFlags.GetPreset("System.CpuCoreMinThreadCount") ?? "Automatic";
-			return CpuThreads?.FirstOrDefault((KeyValuePair<string, string?> kvp) => kvp.Key == currentValue) ?? default(KeyValuePair<string, string?>);
+			return CpuThreads?.FirstOrDefault((KeyValuePair<string, string?> kvp) => kvp.Key == currentValue)
+				?? default(KeyValuePair<string, string?>);
 		}
 		set
 		{
@@ -1807,26 +1488,14 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public IEnumerable? ProfileModes
 	{
-		get
-		{
-			return profileModes;
-		}
-		set
-		{
-			SetProperty(ref profileModes, value, nameof(ProfileModes));
-		}
+		get { return profileModes; }
+		set { SetProperty(ref profileModes, value, nameof(ProfileModes)); }
 	}
 
 	public string SelectedProfileMods
 	{
-		get
-		{
-			return selectedProfileMods;
-		}
-		set
-		{
-			SetProperty(ref selectedProfileMods, value, nameof(SelectedProfileMods));
-		}
+		get { return selectedProfileMods; }
+		set { SetProperty(ref selectedProfileMods, value, nameof(SelectedProfileMods)); }
 	}
 
 	public bool IsWindows => Voidstrap.Utility.Platform.IsWindows;
@@ -1835,55 +1504,131 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public bool HasNvidiaGpu => Voidstrap.Utility.GpuInventory.HasNvidia;
 
-	public string NvidiaTabUnavailableReason => Voidstrap.Utility.GpuInventory.HasNvidia
-		? string.Empty
-		: "These options need an NVIDIA graphics card. Detected: " + Voidstrap.Utility.GpuInventory.Summary + ".";
+	public string NvidiaTabUnavailableReason =>
+		Voidstrap.Utility.GpuInventory.HasNvidia
+			? string.Empty
+			: "These options need an NVIDIA graphics card. Detected: " + Voidstrap.Utility.GpuInventory.Summary + ".";
 
 	public int TextureParticleStyle
 	{
 		get => App.Settings.Prop.TextureParticleStyle;
-		set { int v = Math.Min(value, 2); if (value < 0 || App.Settings.Prop.TextureParticleStyle == v) return; App.Settings.Prop.TextureParticleStyle = v; ApplyTextureMods(); OnPropertyChanged(nameof(TextureParticleStyle)); OnPropertyChanged(nameof(TextureParticleSquares)); }
+		set
+		{
+			int v = Math.Min(value, 2);
+			if (value < 0 || App.Settings.Prop.TextureParticleStyle == v)
+				return;
+			App.Settings.Prop.TextureParticleStyle = v;
+			ApplyTextureMods();
+			OnPropertyChanged(nameof(TextureParticleStyle));
+			OnPropertyChanged(nameof(TextureParticleSquares));
+		}
 	}
 	public bool TextureParticleSquares => App.Settings.Prop.TextureParticleStyle == 2;
 	public double TextureParticleOpacity
 	{
 		get => App.Settings.Prop.TextureParticleOpacity;
-		set { int v = (int)Math.Clamp(Math.Round(value), 10, 100); if (App.Settings.Prop.TextureParticleOpacity == v) return; App.Settings.Prop.TextureParticleOpacity = v; ApplyTextureMods(); OnPropertyChanged(nameof(TextureParticleOpacity)); OnPropertyChanged(nameof(TextureParticleOpacityDisplay)); }
+		set
+		{
+			int v = (int)Math.Clamp(Math.Round(value), 10, 100);
+			if (App.Settings.Prop.TextureParticleOpacity == v)
+				return;
+			App.Settings.Prop.TextureParticleOpacity = v;
+			ApplyTextureMods();
+			OnPropertyChanged(nameof(TextureParticleOpacity));
+			OnPropertyChanged(nameof(TextureParticleOpacityDisplay));
+		}
 	}
 	public string TextureParticleOpacityDisplay => App.Settings.Prop.TextureParticleOpacity + "%";
 	public int TextureStudStyle
 	{
 		get => App.Settings.Prop.TextureStudStyle;
-		set { int v = Math.Min(value, 1); if (value < 0 || App.Settings.Prop.TextureStudStyle == v) return; App.Settings.Prop.TextureStudStyle = v; ApplyTextureMods(); OnPropertyChanged(nameof(TextureStudStyle)); OnPropertyChanged(nameof(TextureStudFlat)); }
+		set
+		{
+			int v = Math.Min(value, 1);
+			if (value < 0 || App.Settings.Prop.TextureStudStyle == v)
+				return;
+			App.Settings.Prop.TextureStudStyle = v;
+			ApplyTextureMods();
+			OnPropertyChanged(nameof(TextureStudStyle));
+			OnPropertyChanged(nameof(TextureStudFlat));
+		}
 	}
 	public bool TextureStudFlat => App.Settings.Prop.TextureStudStyle == 1;
 	public double TextureStudShade
 	{
 		get => App.Settings.Prop.TextureStudShade;
-		set { int v = (int)Math.Clamp(Math.Round(value), 0, 100); if (App.Settings.Prop.TextureStudShade == v) return; App.Settings.Prop.TextureStudShade = v; ApplyTextureMods(); OnPropertyChanged(nameof(TextureStudShade)); OnPropertyChanged(nameof(TextureStudShadeDisplay)); }
+		set
+		{
+			int v = (int)Math.Clamp(Math.Round(value), 0, 100);
+			if (App.Settings.Prop.TextureStudShade == v)
+				return;
+			App.Settings.Prop.TextureStudShade = v;
+			ApplyTextureMods();
+			OnPropertyChanged(nameof(TextureStudShade));
+			OnPropertyChanged(nameof(TextureStudShadeDisplay));
+		}
 	}
 	public string TextureStudShadeDisplay => App.Settings.Prop.TextureStudShade + "%";
 	public bool TextureTerrainEnabled
 	{
 		get => App.Settings.Prop.TextureTerrainEnabled;
-		set { if (App.Settings.Prop.TextureTerrainEnabled == value) return; App.Settings.Prop.TextureTerrainEnabled = value; ApplyTextureMods(); OnPropertyChanged(nameof(TextureTerrainEnabled)); }
+		set
+		{
+			if (App.Settings.Prop.TextureTerrainEnabled == value)
+				return;
+			App.Settings.Prop.TextureTerrainEnabled = value;
+			ApplyTextureMods();
+			OnPropertyChanged(nameof(TextureTerrainEnabled));
+		}
 	}
 	public double TextureTerrainSize
 	{
 		get => App.Settings.Prop.TextureTerrainSize;
-		set { double v = Math.Clamp(value, 0.05, 1); if (Math.Abs(App.Settings.Prop.TextureTerrainSize - v) < 0.001) return; App.Settings.Prop.TextureTerrainSize = v; ApplyTextureMods(); OnPropertyChanged(nameof(TextureTerrainSize)); OnPropertyChanged(nameof(TextureTerrainSizeDisplay)); }
+		set
+		{
+			double v = Math.Clamp(value, 0.05, 1);
+			if (Math.Abs(App.Settings.Prop.TextureTerrainSize - v) < 0.001)
+				return;
+			App.Settings.Prop.TextureTerrainSize = v;
+			ApplyTextureMods();
+			OnPropertyChanged(nameof(TextureTerrainSize));
+			OnPropertyChanged(nameof(TextureTerrainSizeDisplay));
+		}
 	}
 	public string TextureTerrainSizeDisplay => App.Settings.Prop.TextureTerrainSize.ToString("0.00") + "x";
 	public double TextureTerrainRepeat
 	{
 		get => App.Settings.Prop.TextureTerrainRepeat;
-		set { double v = Math.Clamp(value, 1, 10); if (Math.Abs(App.Settings.Prop.TextureTerrainRepeat - v) < 0.01) return; App.Settings.Prop.TextureTerrainRepeat = v; ApplyTextureMods(); OnPropertyChanged(nameof(TextureTerrainRepeat)); OnPropertyChanged(nameof(TextureTerrainRepeatDisplay)); }
+		set
+		{
+			double v = Math.Clamp(value, 1, 10);
+			if (Math.Abs(App.Settings.Prop.TextureTerrainRepeat - v) < 0.01)
+				return;
+			App.Settings.Prop.TextureTerrainRepeat = v;
+			ApplyTextureMods();
+			OnPropertyChanged(nameof(TextureTerrainRepeat));
+			OnPropertyChanged(nameof(TextureTerrainRepeatDisplay));
+		}
 	}
 	public string TextureTerrainRepeatDisplay => App.Settings.Prop.TextureTerrainRepeat.ToString("0.#");
 	public int TextureWaterStyle
 	{
 		get => App.Settings.Prop.TextureWaterStyle;
-		set { int v = Math.Min(value, 5); if (value < 0 || App.Settings.Prop.TextureWaterStyle == v) return; App.Settings.Prop.TextureWaterStyle = v; ApplyTextureMods(); RefreshWaterPreview(); OnPropertyChanged(nameof(TextureWaterStyle)); OnPropertyChanged(nameof(TextureWaterCustom)); OnPropertyChanged(nameof(TextureWaterShowStrength)); OnPropertyChanged(nameof(TextureWaterShowSpeed)); OnPropertyChanged(nameof(TextureWaterShowFrame)); OnPropertyChanged(nameof(TextureWaterShowGlitch)); }
+		set
+		{
+			int v = Math.Min(value, 5);
+			if (value < 0 || App.Settings.Prop.TextureWaterStyle == v)
+				return;
+			App.Settings.Prop.TextureWaterStyle = v;
+			ApplyTextureMods();
+			RefreshWaterPreview();
+			OnPropertyChanged(nameof(TextureWaterStyle));
+			OnPropertyChanged(nameof(TextureWaterCustom));
+			OnPropertyChanged(nameof(TextureWaterShowStrength));
+			OnPropertyChanged(nameof(TextureWaterShowSpeed));
+			OnPropertyChanged(nameof(TextureWaterShowFrame));
+			OnPropertyChanged(nameof(TextureWaterShowGlitch));
+		}
 	}
 	public bool TextureWaterCustom => App.Settings.Prop.TextureWaterStyle == 5;
 	public bool TextureWaterShowStrength => App.Settings.Prop.TextureWaterStyle is 1 or 3 or 4 or 5;
@@ -1893,33 +1638,75 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	public double TextureWaterStrength
 	{
 		get => App.Settings.Prop.TextureWaterStrength;
-		set { int v = (int)Math.Clamp(Math.Round(value), 0, 300); if (App.Settings.Prop.TextureWaterStrength == v) return; App.Settings.Prop.TextureWaterStrength = v; ApplyTextureMods(); RefreshWaterPreview(); OnPropertyChanged(nameof(TextureWaterStrength)); OnPropertyChanged(nameof(TextureWaterStrengthDisplay)); }
+		set
+		{
+			int v = (int)Math.Clamp(Math.Round(value), 0, 300);
+			if (App.Settings.Prop.TextureWaterStrength == v)
+				return;
+			App.Settings.Prop.TextureWaterStrength = v;
+			ApplyTextureMods();
+			RefreshWaterPreview();
+			OnPropertyChanged(nameof(TextureWaterStrength));
+			OnPropertyChanged(nameof(TextureWaterStrengthDisplay));
+		}
 	}
 	public string TextureWaterStrengthDisplay => App.Settings.Prop.TextureWaterStrength + "%";
 	public double TextureWaterSpeed
 	{
 		get => App.Settings.Prop.TextureWaterSpeed;
-		set { int v = (int)Math.Clamp(Math.Round(value), 1, 4); if (App.Settings.Prop.TextureWaterSpeed == v) return; App.Settings.Prop.TextureWaterSpeed = v; ApplyTextureMods(); RefreshWaterPreview(); OnPropertyChanged(nameof(TextureWaterSpeed)); OnPropertyChanged(nameof(TextureWaterSpeedDisplay)); }
+		set
+		{
+			int v = (int)Math.Clamp(Math.Round(value), 1, 4);
+			if (App.Settings.Prop.TextureWaterSpeed == v)
+				return;
+			App.Settings.Prop.TextureWaterSpeed = v;
+			ApplyTextureMods();
+			RefreshWaterPreview();
+			OnPropertyChanged(nameof(TextureWaterSpeed));
+			OnPropertyChanged(nameof(TextureWaterSpeedDisplay));
+		}
 	}
 	public string TextureWaterSpeedDisplay => App.Settings.Prop.TextureWaterSpeed + "x";
 	public double TextureWaterFrame
 	{
 		get => App.Settings.Prop.TextureWaterFrame;
-		set { int v = (int)Math.Clamp(Math.Round(value), 1, 25); if (App.Settings.Prop.TextureWaterFrame == v) return; App.Settings.Prop.TextureWaterFrame = v; ApplyTextureMods(); RefreshWaterPreview(); OnPropertyChanged(nameof(TextureWaterFrame)); OnPropertyChanged(nameof(TextureWaterFrameDisplay)); }
+		set
+		{
+			int v = (int)Math.Clamp(Math.Round(value), 1, 25);
+			if (App.Settings.Prop.TextureWaterFrame == v)
+				return;
+			App.Settings.Prop.TextureWaterFrame = v;
+			ApplyTextureMods();
+			RefreshWaterPreview();
+			OnPropertyChanged(nameof(TextureWaterFrame));
+			OnPropertyChanged(nameof(TextureWaterFrameDisplay));
+		}
 	}
 	public string TextureWaterFrameDisplay => App.Settings.Prop.TextureWaterFrame.ToString();
 	public double TextureWaterGlitch
 	{
 		get => App.Settings.Prop.TextureWaterGlitch;
-		set { int v = (int)Math.Clamp(Math.Round(value), 5, 100); if (App.Settings.Prop.TextureWaterGlitch == v) return; App.Settings.Prop.TextureWaterGlitch = v; ApplyTextureMods(); RefreshWaterPreview(); OnPropertyChanged(nameof(TextureWaterGlitch)); OnPropertyChanged(nameof(TextureWaterGlitchDisplay)); }
+		set
+		{
+			int v = (int)Math.Clamp(Math.Round(value), 5, 100);
+			if (App.Settings.Prop.TextureWaterGlitch == v)
+				return;
+			App.Settings.Prop.TextureWaterGlitch = v;
+			ApplyTextureMods();
+			RefreshWaterPreview();
+			OnPropertyChanged(nameof(TextureWaterGlitch));
+			OnPropertyChanged(nameof(TextureWaterGlitchDisplay));
+		}
 	}
 	public string TextureWaterGlitchDisplay => App.Settings.Prop.TextureWaterGlitch + "%";
 	private System.Windows.Media.Imaging.BitmapSource[]? _waterPreviewFrames;
 	private int _waterPreviewIndex;
 	private int _waterPreviewRequest;
 	private string _waterPreviewStatus = "Building preview";
-	public System.Windows.Media.ImageSource? TextureWaterPreview => _waterPreviewFrames is { Length: > 0 } frames ? frames[_waterPreviewIndex % frames.Length] : null;
+	public System.Windows.Media.ImageSource? TextureWaterPreview =>
+		_waterPreviewFrames is { Length: > 0 } frames ? frames[_waterPreviewIndex % frames.Length] : null;
 	public string TextureWaterPreviewStatus => _waterPreviewStatus;
+
 	public void AdvanceWaterPreview()
 	{
 		if (_waterPreviewFrames is not { Length: > 0 } frames)
@@ -1929,6 +1716,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		OnPropertyChanged(nameof(TextureWaterPreview));
 		OnPropertyChanged(nameof(TextureWaterPreviewStatus));
 	}
+
 	public async void RefreshWaterPreview()
 	{
 		int request = System.Threading.Interlocked.Increment(ref _waterPreviewRequest);
@@ -1943,23 +1731,45 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 			await System.Threading.Tasks.Task.Delay(250);
 			if (request != _waterPreviewRequest)
 				return;
-			byte[][]? pixels = await System.Threading.Tasks.Task.Run(() => FileModManager.BuildWaterPreview(style, strength, speed, frame, glitch));
+			byte[][]? pixels = await System.Threading.Tasks.Task.Run(() =>
+				FileModManager.BuildWaterPreview(style, strength, speed, frame, glitch)
+			);
 			if (request != _waterPreviewRequest)
 				return;
 			if (pixels is null)
 			{
 				_waterPreviewFrames = null;
-				_waterPreviewStatus = style == 5 ? "Choose images to see a preview" : Voidstrap.Utility.Platform.IsLinux ? (Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow() ? "Close Roblox to load the water preview, Sober's files are read while it is closed" : "The Sober water textures could not be read. Make sure Sober has downloaded Roblox, then try again") : "The Roblox water textures could not be read. Start Roblox once and try again";
+				_waterPreviewStatus =
+					style == 5 ? "Choose images to see a preview"
+					: Voidstrap.Utility.Platform.IsLinux
+						? (
+							Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow()
+								? "Close Roblox to load the water preview, Sober's files are read while it is closed"
+								: "The Sober water textures could not be read. Make sure Sober has downloaded Roblox, then try again"
+						)
+					: "The Roblox water textures could not be read. Start Roblox once and try again";
 			}
 			else
 			{
-				Dictionary<byte[], System.Windows.Media.Imaging.BitmapSource> made = new Dictionary<byte[], System.Windows.Media.Imaging.BitmapSource>(ReferenceEqualityComparer.Instance);
+				Dictionary<byte[], System.Windows.Media.Imaging.BitmapSource> made = new Dictionary<
+					byte[],
+					System.Windows.Media.Imaging.BitmapSource
+				>(ReferenceEqualityComparer.Instance);
 				System.Windows.Media.Imaging.BitmapSource[] frames = new System.Windows.Media.Imaging.BitmapSource[pixels.Length];
 				for (int index = 0; index < pixels.Length; index++)
 				{
 					if (!made.TryGetValue(pixels[index], out System.Windows.Media.Imaging.BitmapSource? bitmap))
 					{
-						bitmap = System.Windows.Media.Imaging.BitmapSource.Create(256, 256, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null, pixels[index], 256 * 4);
+						bitmap = System.Windows.Media.Imaging.BitmapSource.Create(
+							256,
+							256,
+							96,
+							96,
+							System.Windows.Media.PixelFormats.Bgra32,
+							null,
+							pixels[index],
+							256 * 4
+						);
 						bitmap.Freeze();
 						made[pixels[index]] = bitmap;
 					}
@@ -1979,6 +1789,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		OnPropertyChanged(nameof(TextureWaterPreview));
 		OnPropertyChanged(nameof(TextureWaterPreviewStatus));
 	}
+
 	private int _waterFrameCount = -1;
 
 	private int WaterFrameCount
@@ -2003,16 +1814,19 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 	private CommunityToolkit.Mvvm.Input.RelayCommand? _chooseWaterFramesCommand;
-	public System.Windows.Input.ICommand ChooseWaterFramesCommand => _chooseWaterFramesCommand ??= new CommunityToolkit.Mvvm.Input.RelayCommand(ChooseWaterFrames);
+	public System.Windows.Input.ICommand ChooseWaterFramesCommand =>
+		_chooseWaterFramesCommand ??= new CommunityToolkit.Mvvm.Input.RelayCommand(ChooseWaterFrames);
 	private CommunityToolkit.Mvvm.Input.RelayCommand? _clearWaterFramesCommand;
-	public System.Windows.Input.ICommand ClearWaterFramesCommand => _clearWaterFramesCommand ??= new CommunityToolkit.Mvvm.Input.RelayCommand(ClearWaterFrames);
+	public System.Windows.Input.ICommand ClearWaterFramesCommand =>
+		_clearWaterFramesCommand ??= new CommunityToolkit.Mvvm.Input.RelayCommand(ClearWaterFrames);
+
 	private async void ChooseWaterFrames()
 	{
 		Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog
 		{
 			Title = "Choose water animation images",
 			Filter = "Images|*.png;*.jpg;*.jpeg;*.jfif;*.bmp;*.gif;*.webp;*.tif;*.tiff;*.tga;*.qoi|All files|*.*",
-			Multiselect = true
+			Multiselect = true,
 		};
 		if (dialog.ShowDialog() != true)
 			return;
@@ -2022,9 +1836,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		{
 			await System.Threading.Tasks.Task.Run(() => FileModManager.ImportWaterFrames(names));
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("FastFlagsViewModel::ChooseWaterFrames", ex);
@@ -2036,6 +1848,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		ApplyTextureMods();
 		RefreshWaterPreview();
 	}
+
 	private void ClearWaterFrames()
 	{
 		try
@@ -2052,6 +1865,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		ApplyTextureMods();
 		RefreshWaterPreview();
 	}
+
 	private static void ApplyTextureMods()
 	{
 		App.Settings.SaveDeferred();

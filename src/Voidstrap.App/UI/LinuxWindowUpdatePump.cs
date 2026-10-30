@@ -24,8 +24,10 @@ internal static class LinuxWindowUpdatePump
 #if CROSSPLAT
 	private static readonly ConditionalWeakTable<Window, Pump> Pumps = new();
 
-	private static readonly EventInfo? UpdateTickEvent = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost)
-		.GetEvent("UpdateTick", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+	private static readonly EventInfo? UpdateTickEvent = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost).GetEvent(
+		"UpdateTick",
+		BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+	);
 
 	private static readonly MethodInfo? AddUpdateTick = UpdateTickEvent?.GetAddMethod(true);
 
@@ -37,18 +39,24 @@ internal static class LinuxWindowUpdatePump
 
 	private static readonly TimeSpan PassiveInterval = TimeSpan.FromMilliseconds(250);
 
-	private static readonly EventInfo? RenderWakeupEvent = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost)
-		.GetEvent("RenderWakeupRequested", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+	private static readonly EventInfo? RenderWakeupEvent = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost).GetEvent(
+		"RenderWakeupRequested",
+		BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+	);
 
 	private static readonly MethodInfo? AddRenderWakeup = RenderWakeupEvent?.GetAddMethod(true);
 
 	private static readonly MethodInfo? RemoveRenderWakeup = RenderWakeupEvent?.GetRemoveMethod(true);
 
-	private static readonly FieldInfo? NativeLoopRunningField = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost)
-		.GetField("_isNativeLoopRunning", BindingFlags.Instance | BindingFlags.NonPublic);
+	private static readonly FieldInfo? NativeLoopRunningField = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost).GetField(
+		"_isNativeLoopRunning",
+		BindingFlags.Instance | BindingFlags.NonPublic
+	);
 
-	private static readonly MethodInfo? DisposeDeferredNativeWindow = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost)
-		.GetMethod("DisposeDeferredNativeWindowIfNeeded", BindingFlags.Instance | BindingFlags.NonPublic);
+	private static readonly MethodInfo? DisposeDeferredNativeWindow = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost).GetMethod(
+		"DisposeDeferredNativeWindowIfNeeded",
+		BindingFlags.Instance | BindingFlags.NonPublic
+	);
 
 	private static bool RunsNativeLoop(System.Windows.Media.ProGPU.ProGpuWpfWindowHost host)
 	{
@@ -110,7 +118,10 @@ internal static class LinuxWindowUpdatePump
 
 			try
 			{
-				if (_host is null && (!System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(_window, out _host) || _host is null))
+				if (
+					_host is null
+					&& (!System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(_window, out _host) || _host is null)
+				)
 					return;
 
 				SubscribeRenderWakeup();
@@ -146,12 +157,17 @@ internal static class LinuxWindowUpdatePump
 
 				foreach (Window other in application.Windows)
 				{
-					if (ReferenceEquals(other, _window)
-						|| !System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(other, out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? owner)
+					if (
+						ReferenceEquals(other, _window)
+						|| !System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(
+							other,
+							out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? owner
+						)
 						|| owner is null
 						|| ReferenceEquals(owner, _host)
 						|| _owners.Contains(owner)
-						|| !RunsNativeLoop(owner))
+						|| !RunsNativeLoop(owner)
+					)
 						continue;
 
 					AddUpdateTick.Invoke(owner, [_ownerTick]);
@@ -164,17 +180,32 @@ internal static class LinuxWindowUpdatePump
 			}
 		}
 
-		private TimeSpan CurrentInterval => _renderWakeup != null && PortableOverlay.IsPassive(_window) ? PassiveInterval : FallbackInterval;
+		private TimeSpan CurrentInterval =>
+			_renderWakeup != null && PortableOverlay.IsPassive(_window) ? PassiveInterval : FallbackInterval;
 
 		private void SubscribeRenderWakeup()
 		{
-			if (_renderWakeup != null || _host is null || AddRenderWakeup is null || RenderWakeupEvent?.EventHandlerType is not { } handlerType)
+			if (
+				_renderWakeup != null
+				|| _host is null
+				|| AddRenderWakeup is null
+				|| RenderWakeupEvent?.EventHandlerType is not { } handlerType
+			)
 				return;
 			try
 			{
 				MethodInfo invoke = handlerType.GetMethod("Invoke")!;
-				System.Linq.Expressions.ParameterExpression[] parameters = [.. Array.ConvertAll(invoke.GetParameters(), parameter => System.Linq.Expressions.Expression.Parameter(parameter.ParameterType, parameter.Name))];
-				System.Linq.Expressions.MethodCallExpression call = System.Linq.Expressions.Expression.Call(System.Linq.Expressions.Expression.Constant(this), typeof(Pump).GetMethod(nameof(OnRenderWakeup), BindingFlags.Instance | BindingFlags.NonPublic)!);
+				System.Linq.Expressions.ParameterExpression[] parameters =
+				[
+					.. Array.ConvertAll(
+						invoke.GetParameters(),
+						parameter => System.Linq.Expressions.Expression.Parameter(parameter.ParameterType, parameter.Name)
+					),
+				];
+				System.Linq.Expressions.MethodCallExpression call = System.Linq.Expressions.Expression.Call(
+					System.Linq.Expressions.Expression.Constant(this),
+					typeof(Pump).GetMethod(nameof(OnRenderWakeup), BindingFlags.Instance | BindingFlags.NonPublic)!
+				);
 				Delegate handler = System.Linq.Expressions.Expression.Lambda(handlerType, call, parameters).Compile();
 				AddRenderWakeup.Invoke(_host, [handler]);
 				_renderWakeup = handler;
@@ -183,7 +214,10 @@ internal static class LinuxWindowUpdatePump
 			catch (Exception ex)
 			{
 				_renderWakeup = null;
-				App.Logger?.WriteLine("LinuxWindowUpdatePump", _window.GetType().Name + " keeps the steady pump because render wakeups are unavailable, " + ex.Message);
+				App.Logger?.WriteLine(
+					"LinuxWindowUpdatePump",
+					_window.GetType().Name + " keeps the steady pump because render wakeups are unavailable, " + ex.Message
+				);
 			}
 		}
 
@@ -195,9 +229,7 @@ internal static class LinuxWindowUpdatePump
 			{
 				RemoveRenderWakeup?.Invoke(_wakeupHost, [_renderWakeup]);
 			}
-			catch (Exception)
-			{
-			}
+			catch (Exception) { }
 			_renderWakeup = null;
 			_wakeupHost = null;
 		}
@@ -236,7 +268,10 @@ internal static class LinuxWindowUpdatePump
 			_fallback = new DispatcherTimer(DispatcherPriority.Input, _window.Dispatcher) { Interval = CurrentInterval };
 			_fallback.Tick += OnFallbackTick;
 			_fallback.Start();
-			App.Logger?.WriteLine("LinuxWindowUpdatePump", _window.GetType().Name + " uses a fallback pump while no native owner loop is running");
+			App.Logger?.WriteLine(
+				"LinuxWindowUpdatePump",
+				_window.GetType().Name + " uses a fallback pump while no native owner loop is running"
+			);
 		}
 
 		private void OnFallbackTick(object? sender, EventArgs e)
@@ -253,7 +288,10 @@ internal static class LinuxWindowUpdatePump
 			if (!_wakeupsLogged && _wakeups >= 20 && interval == PassiveInterval)
 			{
 				_wakeupsLogged = true;
-				App.Logger?.WriteLine("LinuxWindowUpdatePump", _window.GetType().Name + " is passive and redraws on render requests, " + _wakeups + " so far");
+				App.Logger?.WriteLine(
+					"LinuxWindowUpdatePump",
+					_window.GetType().Name + " is passive and redraws on render requests, " + _wakeups + " so far"
+				);
 			}
 
 			if (HasRecentOwnerTick())
@@ -262,9 +300,8 @@ internal static class LinuxWindowUpdatePump
 			QueueUpdate();
 		}
 
-		private bool HasRecentOwnerTick() => _lastOwnerTick != 0
-			&& Stopwatch.GetElapsedTime(_lastOwnerTick) < ActiveInterval
-			&& _owners.Exists(RunsNativeLoop);
+		private bool HasRecentOwnerTick() =>
+			_lastOwnerTick != 0 && Stopwatch.GetElapsedTime(_lastOwnerTick) < ActiveInterval && _owners.Exists(RunsNativeLoop);
 
 		private void OnOwnerUpdateTick(object? sender, EventArgs e)
 		{
@@ -274,8 +311,14 @@ internal static class LinuxWindowUpdatePump
 
 		private void QueueUpdate()
 		{
-			if (_stopped || _host is null || !_window.IsVisible || RunsNativeLoop(_host)
-				|| _window.Dispatcher.HasShutdownStarted || _window.Dispatcher.HasShutdownFinished)
+			if (
+				_stopped
+				|| _host is null
+				|| !_window.IsVisible
+				|| RunsNativeLoop(_host)
+				|| _window.Dispatcher.HasShutdownStarted
+				|| _window.Dispatcher.HasShutdownFinished
+			)
 				return;
 			Pending.Add(this);
 			ScheduleUpdates();
@@ -371,9 +414,7 @@ internal static class LinuxWindowUpdatePump
 				{
 					RemoveUpdateTick?.Invoke(owner, [_ownerTick]);
 				}
-				catch (Exception)
-				{
-				}
+				catch (Exception) { }
 			}
 
 			_owners.Clear();

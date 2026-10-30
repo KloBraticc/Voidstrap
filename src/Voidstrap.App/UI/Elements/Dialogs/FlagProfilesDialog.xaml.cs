@@ -91,13 +91,15 @@ public partial class FlagProfilesDialog : WpfUiWindow
                             flags[item.Key] = value;
                     }
                     string fileName = Path.GetFileName(file);
-                    profiles.Add(new FlagProfile
-                    {
-                        Id = "local:" + fileName,
-                        Name = Path.GetFileNameWithoutExtension(fileName),
-                        Flags = flags,
-                        LocalFileName = fileName
-                    });
+                    profiles.Add(
+                        new FlagProfile
+                        {
+                            Id = "local:" + fileName,
+                            Name = Path.GetFileNameWithoutExtension(fileName),
+                            Flags = flags,
+                            LocalFileName = fileName,
+                        }
+                    );
                 }
                 catch (Exception ex)
                 {
@@ -154,7 +156,10 @@ public partial class FlagProfilesDialog : WpfUiWindow
     {
         if (LoadBackup.SelectedItem is not FlagProfile selected)
             return;
-        if (Frontend.ShowMessageBox("Delete the profile '" + selected.Name + "'?", MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+        if (
+            Frontend.ShowMessageBox("Delete the profile '" + selected.Name + "'?", MessageBoxImage.Question, MessageBoxButton.YesNo)
+            != MessageBoxResult.Yes
+        )
             return;
         try
         {
@@ -220,7 +225,10 @@ public partial class FlagProfilesDialog : WpfUiWindow
             RenameButton.IsEnabled = LoadBackup.SelectedItem is FlagProfile && !string.IsNullOrEmpty(NormalizeName(RenameProfileName.Text));
         EmptyProfiles.Visibility = _profiles.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         DeleteButton.IsEnabled = LoadBackup.SelectedItem is FlagProfile;
-        OKButton.IsEnabled = Tabs.SelectedIndex == 1 ? LoadBackup.SelectedItem is FlagProfile : (Voidstrap.Utility.Platform.IsLinux || _currentFlags.Count > 0) && !string.IsNullOrEmpty(NormalizeName(SaveBackup.Text));
+        OKButton.IsEnabled =
+            Tabs.SelectedIndex == 1
+                ? LoadBackup.SelectedItem is FlagProfile
+                : (Voidstrap.Utility.Platform.IsLinux || _currentFlags.Count > 0) && !string.IsNullOrEmpty(NormalizeName(SaveBackup.Text));
     }
 
     private static string NormalizeName(string value)
@@ -254,6 +262,7 @@ public partial class FlagProfilesDialog : WpfUiWindow
 
     [GeneratedRegex("[\\x00-\\x1f\\x7f]")]
     private static partial Regex ControlCharacterPattern { get; }
+
     [GeneratedRegex("\\s+")]
     private static partial Regex WhitespacePattern { get; }
 }

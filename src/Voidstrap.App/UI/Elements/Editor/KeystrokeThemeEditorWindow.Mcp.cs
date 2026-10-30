@@ -15,9 +15,11 @@ public partial class KeystrokeThemeEditorWindow : IMcpEditor
 
 	string IMcpEditor.Language => KeystrokeThemeCodeConverter.GetExtension(_currentLanguage);
 
-	string IMcpEditor.Guidance => McpGuides.KeystrokeTheme + " " +
-		"Keystrokes overlay theme. The code must keep the same shape the editor generates for its current language, " +
-		"colors are hex strings like #RRGGBB or the word Accent. The preview on the right updates after every change.";
+	string IMcpEditor.Guidance =>
+		McpGuides.KeystrokeTheme
+		+ " "
+		+ "Keystrokes overlay theme. The code must keep the same shape the editor generates for its current language, "
+		+ "colors are hex strings like #RRGGBB or the word Accent. The preview on the right updates after every change.";
 
 	private void RegisterMcpEditor()
 	{
@@ -84,7 +86,7 @@ public partial class KeystrokeThemeEditorWindow : IMcpEditor
 			"html" or "htmlcss" or "css" or "web" => 1,
 			"rust" or "rs" => 2,
 			"json" => 3,
-			_ => -1
+			_ => -1,
 		};
 
 		if (index < 0)
@@ -97,6 +99,9 @@ public partial class KeystrokeThemeEditorWindow : IMcpEditor
 		if (EditorTabs.SelectedIndex != 1)
 			EditorTabs.SelectedIndex = 1;
 
-		return new McpEditResult(true, "Switched the code view to " + KeystrokeThemeCodeConverter.GetExtension(_currentLanguage) + ". Call get_editor_code to read it.");
+		return new McpEditResult(
+			true,
+			"Switched the code view to " + KeystrokeThemeCodeConverter.GetExtension(_currentLanguage) + ". Call get_editor_code to read it."
+		);
 	}
 }

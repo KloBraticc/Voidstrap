@@ -27,7 +27,16 @@ internal sealed class SearchCatalogOption
 
 	public bool HiddenByDefault { get; }
 
-	public SearchCatalogOption(string id, Type pageType, string titleToken, string descriptionToken, IReadOnlyList<string> aliases, string targetName, IReadOnlyList<string> containers, bool hiddenByDefault)
+	public SearchCatalogOption(
+		string id,
+		Type pageType,
+		string titleToken,
+		string descriptionToken,
+		IReadOnlyList<string> aliases,
+		string targetName,
+		IReadOnlyList<string> containers,
+		bool hiddenByDefault
+	)
 	{
 		HiddenByDefault = hiddenByDefault;
 		Id = id;
@@ -76,24 +85,36 @@ internal static partial class SearchCatalog
 		SearchCatalogOption[] loaded = Array.Empty<SearchCatalogOption>();
 		try
 		{
-			OperationResult<IReadOnlyCollection<SettingsCatalogEntry>> result = await SettingsCatalogImporter.LoadAsync().ConfigureAwait(false);
+			OperationResult<IReadOnlyCollection<SettingsCatalogEntry>> result = await SettingsCatalogImporter
+				.LoadAsync()
+				.ConfigureAwait(false);
 			if (result.Succeeded && result.Value is not null)
 			{
-				loaded = result.Value
-					.Select(static entry => new
-					{
-						Entry = entry,
-						PageType = ResolvePageType(entry.SourcePage)
-					})
-					.Where(static item => item.PageType is not null
+				loaded = result
+					.Value.Select(static entry => new { Entry = entry, PageType = ResolvePageType(entry.SourcePage) })
+					.Where(static item =>
+						item.PageType is not null
 						&& IsPageAvailableOnThisPlatform(item.Entry.SourcePage)
-						&& IsVisibleOnThisPlatform(item.Entry.VisibilityExpression))
-					.Select(static item => new SearchCatalogOption(item.Entry.Id, item.PageType!, item.Entry.Title, item.Entry.Description, item.Entry.Aliases.ToArray(), item.Entry.TargetName, item.Entry.Containers.ToArray(), item.Entry.VisibilityExpression.StartsWith("Collapsed", StringComparison.Ordinal)))
+						&& IsVisibleOnThisPlatform(item.Entry.VisibilityExpression)
+					)
+					.Select(static item => new SearchCatalogOption(
+						item.Entry.Id,
+						item.PageType!,
+						item.Entry.Title,
+						item.Entry.Description,
+						item.Entry.Aliases.ToArray(),
+						item.Entry.TargetName,
+						item.Entry.Containers.ToArray(),
+						item.Entry.VisibilityExpression.StartsWith("Collapsed", StringComparison.Ordinal)
+					))
 					.ToArray();
 			}
 			else
 			{
-				App.Logger.WriteLine("SearchCatalog", "Settings catalog load failed: " + result.Failure?.Code + ", " + result.Failure?.Message);
+				App.Logger.WriteLine(
+					"SearchCatalog",
+					"Settings catalog load failed: " + result.Failure?.Code + ", " + result.Failure?.Message
+				);
 			}
 		}
 		catch (Exception ex)
@@ -116,7 +137,7 @@ internal static partial class SearchCatalog
 		"ShortcutsPage",
 		"NvidiaFastFlagsPage",
 		"NvidaEditor",
-		"DownloadsPage"
+		"DownloadsPage",
 	};
 
 	private static bool IsPageAvailableOnThisPlatform(string sourcePage)
@@ -133,8 +154,10 @@ internal static partial class SearchCatalog
 		if (!match.Success)
 			return true;
 
-		System.Reflection.PropertyInfo? member = typeof(Voidstrap.UI.PlatformFeatureVisibility)
-			.GetProperty(match.Groups["member"].Value, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+		System.Reflection.PropertyInfo? member = typeof(Voidstrap.UI.PlatformFeatureVisibility).GetProperty(
+			match.Groups["member"].Value,
+			System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static
+		);
 		return member?.GetValue(null) is not System.Windows.Visibility visibility || visibility == System.Windows.Visibility.Visible;
 	}
 
@@ -150,7 +173,9 @@ internal static partial class SearchCatalog
 		if (match.Success)
 		{
 			string name = match.Groups[1].Value;
-			return typeof(Strings).GetProperty(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)?.GetValue(null) as string
+			return typeof(Strings)
+					.GetProperty(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
+					?.GetValue(null) as string
 				?? Strings.ResourceManager.GetString(name)
 				?? Strings.ResourceManager.GetString(name.Replace('_', '.'))
 				?? name;
@@ -168,10 +193,12 @@ internal static partial class SearchCatalog
 		return typeof(SearchCatalog).Assembly.GetType("Voidstrap.UI.Elements.Settings.Pages." + sourcePage);
 	}
 
-    [GeneratedRegex(@"PlatformFeatureVisibility\.(?<member>[A-Za-z0-9_]+)")]
-    private static partial Regex PlatformVisibilityMemberPattern { get; }
-    [GeneratedRegex(@"\{\s*resources:Loc\s+(?:Key\s*=\s*)?([A-Za-z0-9_]+)\s*\}")]
-    private static partial Regex LocResourcePattern { get; }
-    [GeneratedRegex("Strings\\.([A-Za-z0-9_]+)")]
-    private static partial Regex StringsResourcePattern { get; }
+	[GeneratedRegex(@"PlatformFeatureVisibility\.(?<member>[A-Za-z0-9_]+)")]
+	private static partial Regex PlatformVisibilityMemberPattern { get; }
+
+	[GeneratedRegex(@"\{\s*resources:Loc\s+(?:Key\s*=\s*)?([A-Za-z0-9_]+)\s*\}")]
+	private static partial Regex LocResourcePattern { get; }
+
+	[GeneratedRegex("Strings\\.([A-Za-z0-9_]+)")]
+	private static partial Regex StringsResourcePattern { get; }
 }

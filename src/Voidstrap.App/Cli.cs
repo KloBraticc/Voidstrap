@@ -9,8 +9,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Win32.SafeHandles;
 using Voidstrap.AppData;
-using AppSettings = Voidstrap.Models.Persistable.AppSettings;
 using Voidstrap.Models.Persistable;
+using AppSettings = Voidstrap.Models.Persistable.AppSettings;
 
 namespace Voidstrap;
 
@@ -54,8 +54,7 @@ internal static partial class Cli
 
 	private static readonly JsonSerializerOptions Indented = new() { WriteIndented = true };
 
-	public static bool IsCliInvocation(string[] args) =>
-		args.Length > 0 && args[0].Equals(Verb, StringComparison.OrdinalIgnoreCase);
+	public static bool IsCliInvocation(string[] args) => args.Length > 0 && args[0].Equals(Verb, StringComparison.OrdinalIgnoreCase);
 
 	internal static bool IsStdInputRedirected()
 	{
@@ -366,10 +365,14 @@ internal static partial class Cli
 				Console.WriteLine("Removed " + args[1]);
 				return 0;
 			case "import" when args.Length == 2:
-				Dictionary<string, JsonElement> imported = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(File.ReadAllText(args[1]))
+				Dictionary<string, JsonElement> imported =
+					JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(File.ReadAllText(args[1]))
 					?? throw new InvalidDataException("The file does not hold a JSON object");
 				foreach (KeyValuePair<string, JsonElement> flag in imported)
-					App.FastFlags.SetValue(flag.Key, flag.Value.ValueKind == JsonValueKind.String ? flag.Value.GetString() : flag.Value.GetRawText());
+					App.FastFlags.SetValue(
+						flag.Key,
+						flag.Value.ValueKind == JsonValueKind.String ? flag.Value.GetString() : flag.Value.GetRawText()
+					);
 				App.FastFlags.Save();
 				Console.WriteLine($"Imported {imported.Count} FastFlags");
 				return 0;
@@ -422,7 +425,8 @@ internal static partial class Cli
 	}
 
 	private static IEnumerable<PropertyInfo> EditableSettings() =>
-		typeof(AppSettings).GetProperties(BindingFlags.Public | BindingFlags.Instance)
+		typeof(AppSettings)
+			.GetProperties(BindingFlags.Public | BindingFlags.Instance)
 			.Where(p => p.CanRead && p.CanWrite && p.GetIndexParameters().Length == 0 && IsSimple(p.PropertyType))
 			.OrderBy(p => p.Name, StringComparer.OrdinalIgnoreCase);
 
@@ -467,14 +471,21 @@ internal static partial class Cli
 		string cLabel = Voidstrap.Integrations.Mcp.McpConnectInfo.CliClientLabel;
 		string oLabel = Voidstrap.Integrations.Mcp.McpConnectInfo.OpenCodeClientLabel;
 
-		return Usage + Environment.NewLine +
-			$"  mcp                         Auto connect MCP to {dLabel}, {cLabel}, and {oLabel}" + Environment.NewLine +
-			$"  mcp +{dLabel.ToLowerInvariant(),-22} Auto connect MCP to {dLabel}" + Environment.NewLine +
-			$"  mcp +{cLabel.ToLowerInvariant(),-22} Auto connect MCP to {cLabel}" + Environment.NewLine +
-			$"  mcp +{oLabel.ToLowerInvariant(),-22} Auto connect MCP to {oLabel}" + Environment.NewLine +
-			"  mcp status                  Show MCP connection status" + Environment.NewLine +
-			"  mod validate <folder>       Check that a Voidstrap mod loads and list its hooks" + Environment.NewLine +
-			"  mod test <folder>           Run the *.test files of a Voidstrap mod";
+		return Usage
+			+ Environment.NewLine
+			+ $"  mcp                         Auto connect MCP to {dLabel}, {cLabel}, and {oLabel}"
+			+ Environment.NewLine
+			+ $"  mcp +{dLabel.ToLowerInvariant(), -22} Auto connect MCP to {dLabel}"
+			+ Environment.NewLine
+			+ $"  mcp +{cLabel.ToLowerInvariant(), -22} Auto connect MCP to {cLabel}"
+			+ Environment.NewLine
+			+ $"  mcp +{oLabel.ToLowerInvariant(), -22} Auto connect MCP to {oLabel}"
+			+ Environment.NewLine
+			+ "  mcp status                  Show MCP connection status"
+			+ Environment.NewLine
+			+ "  mod validate <folder>       Check that a Voidstrap mod loads and list its hooks"
+			+ Environment.NewLine
+			+ "  mod test <folder>           Run the *.test files of a Voidstrap mod";
 	}
 
 	public static bool TryRunMcpShortcut(string[] fullCommandLineArgs, out int exitCode)
@@ -490,7 +501,11 @@ internal static partial class Cli
 		{
 			mcpArgs = userArgs[1..];
 		}
-		else if (userArgs.Length >= 2 && userArgs[0].Equals(Verb, StringComparison.OrdinalIgnoreCase) && Voidstrap.Integrations.Mcp.McpStdioServer.IsMcpToken(userArgs[1]))
+		else if (
+			userArgs.Length >= 2
+			&& userArgs[0].Equals(Verb, StringComparison.OrdinalIgnoreCase)
+			&& Voidstrap.Integrations.Mcp.McpStdioServer.IsMcpToken(userArgs[1])
+		)
 		{
 			mcpArgs = userArgs[2..];
 		}
@@ -498,7 +513,11 @@ internal static partial class Cli
 		{
 			mcpArgs = userArgs;
 		}
-		else if (userArgs.Length >= 2 && userArgs[0].Equals(Verb, StringComparison.OrdinalIgnoreCase) && userArgs.Skip(1).All(IsAiClientShortcutArg))
+		else if (
+			userArgs.Length >= 2
+			&& userArgs[0].Equals(Verb, StringComparison.OrdinalIgnoreCase)
+			&& userArgs.Skip(1).All(IsAiClientShortcutArg)
+		)
 		{
 			mcpArgs = userArgs[1..];
 		}
@@ -538,13 +557,22 @@ internal static partial class Cli
 		string cLabel = Voidstrap.Integrations.Mcp.McpConnectInfo.CliClientLabel;
 		string oLabel = Voidstrap.Integrations.Mcp.McpConnectInfo.OpenCodeClientLabel;
 
-		if (args.Any(a => a.Equals("help", StringComparison.OrdinalIgnoreCase) || a.Equals("-h", StringComparison.OrdinalIgnoreCase) || a.Equals("--help", StringComparison.OrdinalIgnoreCase) || a.Equals("/?", StringComparison.OrdinalIgnoreCase)))
+		if (
+			args.Any(a =>
+				a.Equals("help", StringComparison.OrdinalIgnoreCase)
+				|| a.Equals("-h", StringComparison.OrdinalIgnoreCase)
+				|| a.Equals("--help", StringComparison.OrdinalIgnoreCase)
+				|| a.Equals("/?", StringComparison.OrdinalIgnoreCase)
+			)
+		)
 		{
-			Console.WriteLine($"Usage: Voidstrap mcp [+{dLabel.ToLowerInvariant()}] [+{cLabel.ToLowerInvariant()}] [+{oLabel.ToLowerInvariant()}] [status]");
+			Console.WriteLine(
+				$"Usage: Voidstrap mcp [+{dLabel.ToLowerInvariant()}] [+{cLabel.ToLowerInvariant()}] [+{oLabel.ToLowerInvariant()}] [status]"
+			);
 			Console.WriteLine($"  Voidstrap mcp             Auto connect MCP to {dLabel}, {cLabel}, and {oLabel}");
-			Console.WriteLine($"  Voidstrap mcp +{dLabel.ToLowerInvariant(),-10} Auto connect MCP to {dLabel}");
-			Console.WriteLine($"  Voidstrap mcp +{cLabel.ToLowerInvariant(),-10} Auto connect MCP to {cLabel}");
-			Console.WriteLine($"  Voidstrap mcp +{oLabel.ToLowerInvariant(),-10} Auto connect MCP to {oLabel}");
+			Console.WriteLine($"  Voidstrap mcp +{dLabel.ToLowerInvariant(), -10} Auto connect MCP to {dLabel}");
+			Console.WriteLine($"  Voidstrap mcp +{cLabel.ToLowerInvariant(), -10} Auto connect MCP to {cLabel}");
+			Console.WriteLine($"  Voidstrap mcp +{oLabel.ToLowerInvariant(), -10} Auto connect MCP to {oLabel}");
 			Console.WriteLine("  Voidstrap mcp status      Show MCP connection status");
 			return 0;
 		}
@@ -552,10 +580,21 @@ internal static partial class Cli
 		if (args.Length == 1 && args[0].TrimStart('+', '-', '/').ToLowerInvariant() is "status" or "list")
 		{
 			Voidstrap.Integrations.Mcp.McpConnectInfo.RefreshConnectedClients();
-			Console.WriteLine("Voidstrap MCP Command: " + Voidstrap.Integrations.Mcp.McpConnectInfo.ExecutablePath() + " " + Voidstrap.Integrations.Mcp.McpStdioServer.CommandArg);
-			Console.WriteLine(dLabel + ": " + (Voidstrap.Integrations.Mcp.McpConnectInfo.IsDesktopClientConnected() ? "connected" : "not connected"));
-			Console.WriteLine(cLabel + ": " + (Voidstrap.Integrations.Mcp.McpConnectInfo.IsCliClientConnected() ? "connected" : "not connected"));
-			Console.WriteLine(oLabel + ": " + (Voidstrap.Integrations.Mcp.McpConnectInfo.IsOpenCodeClientConnected() ? "connected" : "not connected"));
+			Console.WriteLine(
+				"Voidstrap MCP Command: "
+					+ Voidstrap.Integrations.Mcp.McpConnectInfo.ExecutablePath()
+					+ " "
+					+ Voidstrap.Integrations.Mcp.McpStdioServer.CommandArg
+			);
+			Console.WriteLine(
+				dLabel + ": " + (Voidstrap.Integrations.Mcp.McpConnectInfo.IsDesktopClientConnected() ? "connected" : "not connected")
+			);
+			Console.WriteLine(
+				cLabel + ": " + (Voidstrap.Integrations.Mcp.McpConnectInfo.IsCliClientConnected() ? "connected" : "not connected")
+			);
+			Console.WriteLine(
+				oLabel + ": " + (Voidstrap.Integrations.Mcp.McpConnectInfo.IsOpenCodeClientConnected() ? "connected" : "not connected")
+			);
 			return 0;
 		}
 
@@ -586,7 +625,10 @@ internal static partial class Cli
 				{
 					connectOpenCode = true;
 				}
-				else if (string.Equals(token, "all", StringComparison.OrdinalIgnoreCase) || string.Equals(token, "connect", StringComparison.OrdinalIgnoreCase))
+				else if (
+					string.Equals(token, "all", StringComparison.OrdinalIgnoreCase)
+					|| string.Equals(token, "connect", StringComparison.OrdinalIgnoreCase)
+				)
 				{
 					connectDesktop = true;
 					connectCli = true;
@@ -595,7 +637,9 @@ internal static partial class Cli
 				else
 				{
 					Console.Error.WriteLine("Unknown MCP target: " + raw);
-					Console.Error.WriteLine($"Usage: Voidstrap mcp [+{dLabel.ToLowerInvariant()}] [+{cLabel.ToLowerInvariant()}] [+{oLabel.ToLowerInvariant()}] [status]");
+					Console.Error.WriteLine(
+						$"Usage: Voidstrap mcp [+{dLabel.ToLowerInvariant()}] [+{cLabel.ToLowerInvariant()}] [+{oLabel.ToLowerInvariant()}] [status]"
+					);
 					return 2;
 				}
 			}
@@ -651,7 +695,8 @@ internal static partial class Cli
 		uint nBufferSize,
 		nint lpBytesRead,
 		out uint lpTotalBytesAvail,
-		nint lpBytesLeftThisMessage);
+		nint lpBytesLeftThisMessage
+	);
 
 	[LibraryImport("kernel32.dll", EntryPoint = "CreateFileW", StringMarshalling = StringMarshalling.Utf16, SetLastError = true)]
 	private static partial nint CreateFileW(
@@ -661,5 +706,6 @@ internal static partial class Cli
 		nint lpSecurityAttributes,
 		uint dwCreationDisposition,
 		uint dwFlagsAndAttributes,
-		nint hTemplateFile);
+		nint hTemplateFile
+	);
 }

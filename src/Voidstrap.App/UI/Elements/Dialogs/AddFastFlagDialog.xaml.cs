@@ -19,7 +19,8 @@ using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Dialogs;
 
-public partial class AddFastFlagDialog : WpfUiWindow{
+public partial class AddFastFlagDialog : WpfUiWindow
+{
 	private const long MaximumImportBytes = 4_000_000;
 
 	private const int MaximumImportedFlags = 20_000;
@@ -39,7 +40,7 @@ public partial class AddFastFlagDialog : WpfUiWindow{
 	{
 		OpenFileDialog openFileDialog = new OpenFileDialog
 		{
-			Filter = Strings.FileTypes_JSONFiles + " (*.json;*.txt;*.md)|*.json;*.txt;*.md"
+			Filter = Strings.FileTypes_JSONFiles + " (*.json;*.txt;*.md)|*.json;*.txt;*.md",
 		};
 		if (openFileDialog.ShowDialog() == true)
 		{
@@ -69,7 +70,14 @@ public partial class AddFastFlagDialog : WpfUiWindow{
 
 	private static async Task<string> ReadImportTextAsync(string path)
 	{
-		await using FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);
+		await using FileStream stream = new FileStream(
+			path,
+			FileMode.Open,
+			FileAccess.Read,
+			FileShare.Read,
+			81920,
+			FileOptions.Asynchronous | FileOptions.SequentialScan
+		);
 		if (stream.Length <= 0 || stream.Length > MaximumImportBytes)
 			throw new InvalidDataException("The flag file size is invalid");
 		byte[] data = new byte[checked((int)stream.Length)];
@@ -106,45 +114,47 @@ public partial class AddFastFlagDialog : WpfUiWindow{
 			if (properties.Count > MaximumImportedFlags)
 				return;
 			Dictionary<string, string> source = properties.ToDictionary((JProperty p) => p.Name, (JProperty p) => p.Value.ToString());
-			ImportedFlags = source.Select(delegate(KeyValuePair<string, string> kvp)
-			{
-				string item = "Unknown";
-				if (kvp.Key.StartsWith("FFlag", StringComparison.Ordinal))
-				{
-					item = "FFlag";
-				}
-				else if (kvp.Key.StartsWith("DFFlag", StringComparison.Ordinal))
-				{
-					item = "DFFlag";
-				}
-				else if (kvp.Key.StartsWith("FInt", StringComparison.Ordinal))
-				{
-					item = "FInt";
-				}
-				else if (kvp.Key.StartsWith("DFInt", StringComparison.Ordinal))
-				{
-					item = "DFInt";
-				}
-				else if (kvp.Key.StartsWith("FString", StringComparison.Ordinal))
-				{
-					item = "FString";
-				}
-				else if (kvp.Key.StartsWith("FDouble", StringComparison.Ordinal))
-				{
-					item = "FDouble";
-				}
-				return new FastFlagItem
-				{
-					Name = kvp.Key,
-					Value = kvp.Value,
-					VisibleTags = new List<string> { item }
-				};
-			}).ToList();
+			ImportedFlags = source
+				.Select(
+					delegate(KeyValuePair<string, string> kvp)
+					{
+						string item = "Unknown";
+						if (kvp.Key.StartsWith("FFlag", StringComparison.Ordinal))
+						{
+							item = "FFlag";
+						}
+						else if (kvp.Key.StartsWith("DFFlag", StringComparison.Ordinal))
+						{
+							item = "DFFlag";
+						}
+						else if (kvp.Key.StartsWith("FInt", StringComparison.Ordinal))
+						{
+							item = "FInt";
+						}
+						else if (kvp.Key.StartsWith("DFInt", StringComparison.Ordinal))
+						{
+							item = "DFInt";
+						}
+						else if (kvp.Key.StartsWith("FString", StringComparison.Ordinal))
+						{
+							item = "FString";
+						}
+						else if (kvp.Key.StartsWith("FDouble", StringComparison.Ordinal))
+						{
+							item = "FDouble";
+						}
+						return new FastFlagItem
+						{
+							Name = kvp.Key,
+							Value = kvp.Value,
+							VisibleTags = new List<string> { item },
+						};
+					}
+				)
+				.ToList();
 			UpdateBase64Tab();
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private void UpdateBase64Tab()

@@ -13,7 +13,8 @@ using Wpf.Ui.Extensions;
 namespace Voidstrap.UI.Elements.Controls;
 
 [ContentProperty("InnerContent")]
-public partial class OptionControl : UserControl{
+public partial class OptionControl : UserControl
+{
 	private const double DescriptionChromeWidth = 62d;
 
 	private const double MinimumDescriptionWidth = 80d;
@@ -28,72 +29,97 @@ public partial class OptionControl : UserControl{
 
 	private bool _descriptionWidthQueued;
 
-	public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(OptionControl), (PropertyMetadata)(object)new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.AffectsMeasure, (PropertyChangedCallback)delegate(DependencyObject d, DependencyPropertyChangedEventArgs e)
-	{
-		((OptionControl)(object)d).ApplyHeader(e.NewValue as string);
-	}));
+	public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
+		"Header",
+		typeof(string),
+		typeof(OptionControl),
+		(PropertyMetadata)
+			(object)
+				new FrameworkPropertyMetadata(
+					string.Empty,
+					FrameworkPropertyMetadataOptions.AffectsMeasure,
+					(PropertyChangedCallback)
+						delegate(DependencyObject d, DependencyPropertyChangedEventArgs e)
+						{
+							((OptionControl)(object)d).ApplyHeader(e.NewValue as string);
+						}
+				)
+	);
 
-	public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register("Description", typeof(string), typeof(OptionControl), (PropertyMetadata)(object)new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.AffectsMeasure, (PropertyChangedCallback)delegate(DependencyObject d, DependencyPropertyChangedEventArgs e)
-	{
-		((OptionControl)(object)d).ApplyDescription(e.NewValue as string);
-	}));
+	public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register(
+		"Description",
+		typeof(string),
+		typeof(OptionControl),
+		(PropertyMetadata)
+			(object)
+				new FrameworkPropertyMetadata(
+					string.Empty,
+					FrameworkPropertyMetadataOptions.AffectsMeasure,
+					(PropertyChangedCallback)
+						delegate(DependencyObject d, DependencyPropertyChangedEventArgs e)
+						{
+							((OptionControl)(object)d).ApplyDescription(e.NewValue as string);
+						}
+				)
+	);
 
-	public static readonly DependencyProperty HelpLinkProperty = DependencyProperty.Register("HelpLink", typeof(string), typeof(OptionControl), (PropertyMetadata)(object)new FrameworkPropertyMetadata((object)string.Empty, (PropertyChangedCallback)delegate(DependencyObject d, DependencyPropertyChangedEventArgs e)
-	{
-		((OptionControl)(object)d).ApplyHelpLink(e.NewValue as string);
-	}));
+	public static readonly DependencyProperty HelpLinkProperty = DependencyProperty.Register(
+		"HelpLink",
+		typeof(string),
+		typeof(OptionControl),
+		(PropertyMetadata)
+			(object)
+				new FrameworkPropertyMetadata(
+					(object)string.Empty,
+					(PropertyChangedCallback)
+						delegate(DependencyObject d, DependencyPropertyChangedEventArgs e)
+						{
+							((OptionControl)(object)d).ApplyHelpLink(e.NewValue as string);
+						}
+				)
+	);
 
-	public static readonly DependencyProperty InnerContentProperty = DependencyProperty.Register("InnerContent", typeof(object), typeof(OptionControl), (PropertyMetadata)(object)new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange | FrameworkPropertyMetadataOptions.AffectsRender, (PropertyChangedCallback)delegate(DependencyObject d, DependencyPropertyChangedEventArgs e)
-	{
-		((OptionControl)(object)d).ApplyInnerContent(e.NewValue);
-	}));
+	public static readonly DependencyProperty InnerContentProperty = DependencyProperty.Register(
+		"InnerContent",
+		typeof(object),
+		typeof(OptionControl),
+		(PropertyMetadata)
+			(object)
+				new FrameworkPropertyMetadata(
+					null,
+					FrameworkPropertyMetadataOptions.AffectsMeasure
+						| FrameworkPropertyMetadataOptions.AffectsArrange
+						| FrameworkPropertyMetadataOptions.AffectsRender,
+					(PropertyChangedCallback)
+						delegate(DependencyObject d, DependencyPropertyChangedEventArgs e)
+						{
+							((OptionControl)(object)d).ApplyInnerContent(e.NewValue);
+						}
+				)
+	);
 
 	public string Header
 	{
-		get
-		{
-			return (string)((DependencyObject)this).GetValue(HeaderProperty);
-		}
-		set
-		{
-			((DependencyObject)this).SetValue(HeaderProperty, (object)value);
-		}
+		get { return (string)((DependencyObject)this).GetValue(HeaderProperty); }
+		set { ((DependencyObject)this).SetValue(HeaderProperty, (object)value); }
 	}
 
 	public string Description
 	{
-		get
-		{
-			return (string)((DependencyObject)this).GetValue(DescriptionProperty);
-		}
-		set
-		{
-			((DependencyObject)this).SetValue(DescriptionProperty, (object)value);
-		}
+		get { return (string)((DependencyObject)this).GetValue(DescriptionProperty); }
+		set { ((DependencyObject)this).SetValue(DescriptionProperty, (object)value); }
 	}
 
 	public string HelpLink
 	{
-		get
-		{
-			return (string)((DependencyObject)this).GetValue(HelpLinkProperty);
-		}
-		set
-		{
-			((DependencyObject)this).SetValue(HelpLinkProperty, (object)value);
-		}
+		get { return (string)((DependencyObject)this).GetValue(HelpLinkProperty); }
+		set { ((DependencyObject)this).SetValue(HelpLinkProperty, (object)value); }
 	}
 
 	public object InnerContent
 	{
-		get
-		{
-			return ((DependencyObject)this).GetValue(InnerContentProperty);
-		}
-		set
-		{
-			((DependencyObject)this).SetValue(InnerContentProperty, value);
-		}
+		get { return ((DependencyObject)this).GetValue(InnerContentProperty); }
+		set { ((DependencyObject)this).SetValue(InnerContentProperty, value); }
 	}
 
 	public OptionControl()
@@ -140,11 +166,15 @@ public partial class OptionControl : UserControl{
 		}
 
 		_descriptionWidthQueued = true;
-		Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, (Action)delegate
-		{
-			_descriptionWidthQueued = false;
-			UpdateDescriptionWidth();
-		});
+		Dispatcher.BeginInvoke(
+			System.Windows.Threading.DispatcherPriority.Loaded,
+			(Action)
+				delegate
+				{
+					_descriptionWidthQueued = false;
+					UpdateDescriptionWidth();
+				}
+		);
 	}
 
 	private void UpdateDescriptionWidth()
@@ -283,7 +313,7 @@ public partial class OptionControl : UserControl{
 		{
 			null => false,
 			string text => !string.IsNullOrWhiteSpace(text),
-			_ => true
+			_ => true,
 		};
 
 		if (hasContent)
@@ -291,9 +321,11 @@ public partial class OptionControl : UserControl{
 			return;
 		}
 
-		if (string.IsNullOrWhiteSpace(AutomationProperties.GetName(toggleSwitch)) &&
-			AutomationProperties.GetLabeledBy(toggleSwitch) is null &&
-			HeaderTextBlock is not null)
+		if (
+			string.IsNullOrWhiteSpace(AutomationProperties.GetName(toggleSwitch))
+			&& AutomationProperties.GetLabeledBy(toggleSwitch) is null
+			&& HeaderTextBlock is not null
+		)
 		{
 			AutomationProperties.SetLabeledBy(toggleSwitch, HeaderTextBlock);
 		}

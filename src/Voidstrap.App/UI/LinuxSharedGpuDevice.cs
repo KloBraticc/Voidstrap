@@ -27,20 +27,25 @@ public static class LinuxSharedGpuDevice
 		"<AdapterBackendType>k__BackingField",
 		"<AdapterName>k__BackingField",
 		"RenderLock",
-		"_deviceResourceDomain"
+		"_deviceResourceDomain",
 	];
 
-	private static readonly PropertyInfo? SharedContextProperty = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowOptions)
-		.GetProperty("SharedRenderDeviceContext", InstanceMembers);
+	private static readonly PropertyInfo? SharedContextProperty = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowOptions).GetProperty(
+		"SharedRenderDeviceContext",
+		InstanceMembers
+	);
 
-	private static readonly PropertyInfo? CompositorOptionsProperty = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowOptions)
-		.GetProperty("CompositorOptions", InstanceMembers);
+	private static readonly PropertyInfo? CompositorOptionsProperty =
+		typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowOptions).GetProperty("CompositorOptions", InstanceMembers);
 
 	private static readonly string[] SoftwareAdapters = ["llvmpipe", "lavapipe", "softpipe", "swiftshader"];
 
 	private static bool? _softwareRenderer;
 
-	private static readonly FieldInfo? LifetimeField = typeof(ProGPU.Backend.WgpuContext).GetField("_sharedDeviceLifetime", InstanceMembers);
+	private static readonly FieldInfo? LifetimeField = typeof(ProGPU.Backend.WgpuContext).GetField(
+		"_sharedDeviceLifetime",
+		InstanceMembers
+	);
 
 	private static ProGPU.Backend.WgpuContext? _keeper;
 
@@ -48,11 +53,20 @@ public static class LinuxSharedGpuDevice
 
 	private static bool _shareDevice;
 
-	private static readonly PropertyInfo? ImageAdapterProperty = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost).GetProperty("WpfImageSourceAdapter", InstanceMembers);
+	private static readonly PropertyInfo? ImageAdapterProperty = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost).GetProperty(
+		"WpfImageSourceAdapter",
+		InstanceMembers
+	);
 
-	private static readonly Type? BitmapAdapterType = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost).Assembly.GetType("System.Windows.Media.ProGPU.Composition.Mil.WpfBitmapSourceImageAdapter", false);
+	private static readonly Type? BitmapAdapterType = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost).Assembly.GetType(
+		"System.Windows.Media.ProGPU.Composition.Mil.WpfBitmapSourceImageAdapter",
+		false
+	);
 
-	private static readonly PropertyInfo? ReplayRegistrationProperty = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost).GetProperty("RenderDataSinkProviderRegistrationFactory", InstanceMembers);
+	private static readonly PropertyInfo? ReplayRegistrationProperty = typeof(System.Windows.Media.ProGPU.ProGpuWpfWindowHost).GetProperty(
+		"RenderDataSinkProviderRegistrationFactory",
+		InstanceMembers
+	);
 
 	private static bool _imageAdapterFailed;
 
@@ -67,14 +81,20 @@ public static class LinuxSharedGpuDevice
 		if (!OperatingSystem.IsLinux() && !OperatingSystem.IsMacOS())
 			return;
 
-		_shareDevice = Environment.GetEnvironmentVariable("VOIDSTRAP_SHARED_GPU_DEVICE") != "0" && SharedContextProperty is not null && !Voidstrap.Utility.LinuxStartup.SafeMode;
+		_shareDevice =
+			Environment.GetEnvironmentVariable("VOIDSTRAP_SHARED_GPU_DEVICE") != "0"
+			&& SharedContextProperty is not null
+			&& !Voidstrap.Utility.LinuxStartup.SafeMode;
 		if (!_shareDevice)
 			App.Logger.WriteLine("LinuxSharedGpuDevice", "Every window gets its own GPU device");
 
 		bool registered = System.Windows.Media.ProGPU.WpfPortableWindowActivation.TryRegisterPresentationFrameworkActivation(CreateHost);
-		App.Logger.WriteLine("LinuxSharedGpuDevice", registered
-			? (_shareDevice ? "New windows reuse one GPU device" : "New windows use the Voidstrap host setup")
-			: "The window activation service was unavailable, windows use the default host setup");
+		App.Logger.WriteLine(
+			"LinuxSharedGpuDevice",
+			registered
+				? (_shareDevice ? "New windows reuse one GPU device" : "New windows use the Voidstrap host setup")
+				: "The window activation service was unavailable, windows use the default host setup"
+		);
 #endif
 	}
 
@@ -97,7 +117,11 @@ public static class LinuxSharedGpuDevice
 		{
 			App.Logger.WriteLine("LinuxSharedGpuDevice", "The tuned window host failed, falling back to the default host: " + ex.Message);
 			_shareDevice = false;
-			return WithOwnImageContext(new System.Windows.Media.ProGPU.ProGpuWpfWindowHost(ApplySurfaceOptions(System.Windows.Media.ProGPU.WpfPortableWindowActivation.CreateHostOptions(window), window)));
+			return WithOwnImageContext(
+				new System.Windows.Media.ProGPU.ProGpuWpfWindowHost(
+					ApplySurfaceOptions(System.Windows.Media.ProGPU.WpfPortableWindowActivation.CreateHostOptions(window), window)
+				)
+			);
 		}
 	}
 
@@ -109,10 +133,17 @@ public static class LinuxSharedGpuDevice
 		LinuxWindowMemory.ReleaseAfterClose(window, window.ShowInTaskbar);
 	}
 
-	private static System.Windows.Media.ProGPU.ProGpuWpfWindowOptions ApplySurfaceOptions(System.Windows.Media.ProGPU.ProGpuWpfWindowOptions options, object window)
+	private static System.Windows.Media.ProGPU.ProGpuWpfWindowOptions ApplySurfaceOptions(
+		System.Windows.Media.ProGPU.ProGpuWpfWindowOptions options,
+		object window
+	)
 	{
-		if (OperatingSystem.IsLinux() && Voidstrap.Platform.Linux.LinuxSteamOS.Current.IsGameMode
-			&& window is System.Windows.Window wpf && !RoundedWindowChrome.IsOverlaySurface(wpf))
+		if (
+			OperatingSystem.IsLinux()
+			&& Voidstrap.Platform.Linux.LinuxSteamOS.Current.IsGameMode
+			&& window is System.Windows.Window wpf
+			&& !RoundedWindowChrome.IsOverlaySurface(wpf)
+		)
 			options.TransparentFramebuffer = false;
 		if (Voidstrap.Utility.LinuxStartup.OpaqueWindows && options.TransparentFramebuffer)
 		{
@@ -120,7 +151,12 @@ public static class LinuxSharedGpuDevice
 			if (!_opaqueReported)
 			{
 				_opaqueReported = true;
-				App.Logger.WriteLine("LinuxSharedGpuDevice", "Windows use opaque surfaces on the " + Voidstrap.Utility.LinuxStartup.ActiveStage + " renderer stage, overlays lose transparency on this graphics setup");
+				App.Logger.WriteLine(
+					"LinuxSharedGpuDevice",
+					"Windows use opaque surfaces on the "
+						+ Voidstrap.Utility.LinuxStartup.ActiveStage
+						+ " renderer stage, overlays lose transparency on this graphics setup"
+				);
 			}
 		}
 		return options;
@@ -128,7 +164,10 @@ public static class LinuxSharedGpuDevice
 
 	private static System.Windows.Media.ProGPU.ProGpuWpfWindowHost CreateTunedHost(object window)
 	{
-		System.Windows.Media.ProGPU.ProGpuWpfWindowOptions options = ApplySurfaceOptions(System.Windows.Media.ProGPU.WpfPortableWindowActivation.CreateHostOptions(window), window);
+		System.Windows.Media.ProGPU.ProGpuWpfWindowOptions options = ApplySurfaceOptions(
+			System.Windows.Media.ProGPU.WpfPortableWindowActivation.CreateHostOptions(window),
+			window
+		);
 		if (OperatingSystem.IsLinux())
 			ApplyCompositorOptions(options);
 		if (_shareDevice)
@@ -163,7 +202,9 @@ public static class LinuxSharedGpuDevice
 			if (ReplayRegistrationProperty?.GetValue(host) is Delegate registration)
 			{
 				Type[] types = ReplayRegistrationProperty.PropertyType.GetGenericArguments();
-				MethodInfo wrap = typeof(LinuxSharedGpuDevice).GetMethod(nameof(WrapReplay), BindingFlags.NonPublic | BindingFlags.Static)!.MakeGenericMethod(types[0], types[1]);
+				MethodInfo wrap = typeof(LinuxSharedGpuDevice)
+					.GetMethod(nameof(WrapReplay), BindingFlags.NonPublic | BindingFlags.Static)!
+					.MakeGenericMethod(types[0], types[1]);
 				ReplayRegistrationProperty.SetValue(host, wrap.Invoke(null, [registration, host]));
 			}
 		}
@@ -175,7 +216,10 @@ public static class LinuxSharedGpuDevice
 		return host;
 	}
 
-	private static Func<TFrame, TAdapter, IDisposable?> WrapReplay<TFrame, TAdapter>(Func<TFrame, TAdapter, IDisposable?> registration, System.Windows.Media.ProGPU.ProGpuWpfWindowHost host)
+	private static Func<TFrame, TAdapter, IDisposable?> WrapReplay<TFrame, TAdapter>(
+		Func<TFrame, TAdapter, IDisposable?> registration,
+		System.Windows.Media.ProGPU.ProGpuWpfWindowHost host
+	)
 	{
 		return (frame, adapter) =>
 		{
@@ -227,8 +271,16 @@ public static class LinuxSharedGpuDevice
 				return targetMethod.Invoke(_inner, args);
 			using (ProGPU.Backend.WgpuContext.PushCurrent(context))
 			{
-				ImageSource? frozen = OperatingSystem.IsMacOS() && targetMethod.Name == "AdaptImageSource" && args is [ImageSource { IsFrozen: true } source] ? source : null;
-				if (frozen is not null && _frozenImages.TryGetValue(frozen, out FrozenImage? cached) && ReferenceEquals(cached.Context, context) && !context.IsDeviceLost)
+				ImageSource? frozen =
+					OperatingSystem.IsMacOS() && targetMethod.Name == "AdaptImageSource" && args is [ImageSource { IsFrozen: true } source]
+						? source
+						: null;
+				if (
+					frozen is not null
+					&& _frozenImages.TryGetValue(frozen, out FrozenImage? cached)
+					&& ReferenceEquals(cached.Context, context)
+					&& !context.IsDeviceLost
+				)
 					return cached.Image;
 				object? image = targetMethod.Invoke(_inner, args);
 				if (frozen is not null && image is not null)
@@ -248,7 +300,8 @@ public static class LinuxSharedGpuDevice
 
 		try
 		{
-			ProGPU.Scene.CompositorOptions current = CompositorOptionsProperty.GetValue(options) as ProGPU.Scene.CompositorOptions ?? ProGPU.Scene.CompositorOptions.Default;
+			ProGPU.Scene.CompositorOptions current =
+				CompositorOptionsProperty.GetValue(options) as ProGPU.Scene.CompositorOptions ?? ProGPU.Scene.CompositorOptions.Default;
 			ProGPU.Scene.CompositorOptions tuned = current with { PathAtlasSize = Math.Max(current.PathAtlasSize, MaxSurfaceSize) };
 			if (IsSoftwareRenderer())
 				tuned = tuned with { PrimarySampleCount = 1 };
@@ -271,9 +324,18 @@ public static class LinuxSharedGpuDevice
 			{
 				_softwareRenderer = software;
 				if (software)
-					App.Logger.WriteLine("LinuxSharedGpuDevice", "Rendering on the CPU through " + adapter + ", windows skip multisampling to stay responsive");
+					App.Logger.WriteLine(
+						"LinuxSharedGpuDevice",
+						"Rendering on the CPU through " + adapter + ", windows skip multisampling to stay responsive"
+					);
 				else
-					App.Logger.WriteLine("LinuxSharedGpuDevice", "Rendering on the GPU through " + (adapter.Length > 0 ? adapter : "an unnamed adapter") + " with " + context.AdapterBackendType);
+					App.Logger.WriteLine(
+						"LinuxSharedGpuDevice",
+						"Rendering on the GPU through "
+							+ (adapter.Length > 0 ? adapter : "an unnamed adapter")
+							+ " with "
+							+ context.AdapterBackendType
+					);
 			}
 			return software;
 		}

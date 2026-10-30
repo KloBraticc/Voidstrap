@@ -6,32 +6,32 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Voidstrap.Integrations.Overlays;
 
 namespace Voidstrap.UI.Elements.Crosshair
 {
-    public partial class CrosshairWindow : Window
-    {
-        private const double CanvasSize = 128;
-        private const double CanvasCenter = CanvasSize / 2;
+	public partial class CrosshairWindow : Window
+	{
+		private const double CanvasSize = 128;
+		private const double CanvasCenter = CanvasSize / 2;
 		private const string ResourceKey = "CrosshairWindow";
 		private static readonly object InstanceGate = new();
 		private static CrosshairWindow? _activeInstance;
 		private static int _reconcilePending;
 
-        private readonly RobloxOverlayAnchor _anchor;
+		private readonly RobloxOverlayAnchor _anchor;
 
-        private Image? _imageCrosshair;
+		private Image? _imageCrosshair;
 		private Image? _shapeCrosshair;
 		private (int Shape, string? Fill, string? Outline, int Size, int Gap, int Thickness, double Opacity, double Dpi)? _shapeKey;
-        private string? _imagePath;
+		private string? _imagePath;
 		private IReadOnlyList<BitmapSource> _imageShapeSources = Array.Empty<BitmapSource>();
 		private int _imageLoadGeneration;
 		private CancellationTokenSource? _imageLoadCancellation;
-        private bool _disposed;
+		private bool _disposed;
 
 		internal static CrosshairWindow GetOrCreate()
 		{
@@ -108,9 +108,7 @@ namespace Voidstrap.UI.Elements.Crosshair
 				{
 					window.Close();
 				}
-				catch (InvalidOperationException)
-				{
-				}
+				catch (InvalidOperationException) { }
 			}
 		}
 
@@ -152,14 +150,12 @@ namespace Voidstrap.UI.Elements.Crosshair
 				{
 					window.Close();
 				}
-				catch (InvalidOperationException)
-				{
-				}
+				catch (InvalidOperationException) { }
 			}
 		}
 
 		private CrosshairWindow()
-        {
+		{
 			lock (InstanceGate)
 			{
 				if (_activeInstance is { _disposed: false })
@@ -169,28 +165,28 @@ namespace Voidstrap.UI.Elements.Crosshair
 
 			try
 			{
-            InitializeComponent();
-            Voidstrap.Integrations.Overlays.LinuxOverlaySurface.ReleaseMainWindowClaim(this);
+				InitializeComponent();
+				Voidstrap.Integrations.Overlays.LinuxOverlaySurface.ReleaseMainWindowClaim(this);
 
-            Title = "Voidstrap Crosshair";
-            WindowStyle = WindowStyle.None;
-            AllowsTransparency = true;
-            Background = Brushes.Transparent;
-            Topmost = true;
-            ShowInTaskbar = false;
-			ShowActivated = false;
-            Width = CanvasSize;
-            Height = CanvasSize;
-			if (Voidstrap.Utility.Platform.IsLinux)
-				Opacity = 0;
+				Title = "Voidstrap Crosshair";
+				WindowStyle = WindowStyle.None;
+				AllowsTransparency = true;
+				Background = Brushes.Transparent;
+				Topmost = true;
+				ShowInTaskbar = false;
+				ShowActivated = false;
+				Width = CanvasSize;
+				Height = CanvasSize;
+				if (Voidstrap.Utility.Platform.IsLinux)
+					Opacity = 0;
 
-            Loaded += OnCrosshairLoaded;
-            Closed += OnCrosshairClosed;
+				Loaded += OnCrosshairLoaded;
+				Closed += OnCrosshairClosed;
 
-            _anchor = new RobloxOverlayAnchor(this, placement: RobloxOverlayPlacement.Center, customPosition: ComputeCrosshairPosition);
+				_anchor = new RobloxOverlayAnchor(this, placement: RobloxOverlayPlacement.Center, customPosition: ComputeCrosshairPosition);
 
-            RefreshCrosshair();
-            Show();
+				RefreshCrosshair();
+				Show();
 			}
 			catch
 			{
@@ -201,25 +197,31 @@ namespace Voidstrap.UI.Elements.Crosshair
 				}
 				throw;
 			}
-        }
+		}
 
-        private static (int Left, int Top) ComputeCrosshairPosition(RobloxWindowRect rect, double scaleX, double scaleY, int width, int height)
-        {
-            var layout = App.Settings.Prop.OverlayLayout ?? new Voidstrap.Models.Persistable.OverlayLayoutSettings();
-            int offsetX = (int)Math.Round(layout.SafeCrosshairOffsetX * scaleX);
-            int offsetY = (int)Math.Round(layout.SafeCrosshairOffsetY * scaleY);
-            int left = rect.Left + (rect.Width - width) / 2 + offsetX;
-            int top = rect.Top + (rect.Height - height) / 2 + offsetY;
-            left = Math.Clamp(left, rect.Left, Math.Max(rect.Left, rect.Left + rect.Width - width));
-            top = Math.Clamp(top, rect.Top, Math.Max(rect.Top, rect.Top + rect.Height - height));
-            return (left, top);
-        }
+		private static (int Left, int Top) ComputeCrosshairPosition(
+			RobloxWindowRect rect,
+			double scaleX,
+			double scaleY,
+			int width,
+			int height
+		)
+		{
+			var layout = App.Settings.Prop.OverlayLayout ?? new Voidstrap.Models.Persistable.OverlayLayoutSettings();
+			int offsetX = (int)Math.Round(layout.SafeCrosshairOffsetX * scaleX);
+			int offsetY = (int)Math.Round(layout.SafeCrosshairOffsetY * scaleY);
+			int left = rect.Left + (rect.Width - width) / 2 + offsetX;
+			int top = rect.Top + (rect.Height - height) / 2 + offsetY;
+			left = Math.Clamp(left, rect.Left, Math.Max(rect.Left, rect.Left + rect.Width - width));
+			top = Math.Clamp(top, rect.Top, Math.Max(rect.Top, rect.Top + rect.Height - height));
+			return (left, top);
+		}
 
-        private void OnCrosshairLoaded(object? sender, RoutedEventArgs e)
-        {
-            MakeWindowClickThrough();
+		private void OnCrosshairLoaded(object? sender, RoutedEventArgs e)
+		{
+			MakeWindowClickThrough();
 			RefreshCrosshair();
-        }
+		}
 
 		protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
 		{
@@ -245,76 +247,80 @@ namespace Voidstrap.UI.Elements.Crosshair
 				Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetInvisible(handle);
 		}
 
-        internal bool ApplyLinuxShape()
-        {
-            if (!Voidstrap.Utility.Platform.IsLinux || _disposed)
-                return false;
+		internal bool ApplyLinuxShape()
+		{
+			if (!Voidstrap.Utility.Platform.IsLinux || _disposed)
+				return false;
 
-            try
-            {
-                nint handle = ResolveLinuxHandle();
-                if (handle == 0)
-                    return false;
+			try
+			{
+				nint handle = ResolveLinuxHandle();
+				if (handle == 0)
+					return false;
 
-                if (!Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(handle, out _, out _, out int deviceWidth, out int deviceHeight)
-                    || deviceWidth <= 0
-                    || deviceHeight <= 0)
-                    return false;
+				if (
+					!Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(
+						handle,
+						out _,
+						out _,
+						out int deviceWidth,
+						out int deviceHeight
+					)
+					|| deviceWidth <= 0
+					|| deviceHeight <= 0
+				)
+					return false;
 
-                double scaleX = deviceWidth / CanvasSize;
-                double scaleY = deviceHeight / CanvasSize;
-                System.Collections.Generic.List<(int X, int Y, int Width, int Height)> rectangles = BuildShapeRectangles(scaleX, scaleY);
-                if (rectangles.Count == 0)
-                {
+				double scaleX = deviceWidth / CanvasSize;
+				double scaleY = deviceHeight / CanvasSize;
+				System.Collections.Generic.List<(int X, int Y, int Width, int Height)> rectangles = BuildShapeRectangles(scaleX, scaleY);
+				if (rectangles.Count == 0)
+				{
 					Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetInvisible(handle);
 					return false;
 				}
 
 				return Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetBoundingRectangles(handle, rectangles);
-            }
-            catch (Exception ex)
-            {
-                App.Logger?.WriteLine("CrosshairWindow::ApplyLinuxShape", "The crosshair shape could not be applied: " + ex.Message);
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine("CrosshairWindow::ApplyLinuxShape", "The crosshair shape could not be applied: " + ex.Message);
 				return false;
-            }
-        }
+			}
+		}
 
-        private nint ResolveLinuxHandle()
-        {
-            try
-            {
-                nint handle = new WindowInteropHelper(this).Handle;
-                if (handle != 0 && Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(handle))
-                    return handle;
-            }
-            catch (Exception)
-            {
-            }
+		private nint ResolveLinuxHandle()
+		{
+			try
+			{
+				nint handle = new WindowInteropHelper(this).Handle;
+				if (handle != 0 && Voidstrap.Platform.Linux.LinuxWindowInterop.IsLiveWindow(handle))
+					return handle;
+			}
+			catch (Exception) { }
 
-            return string.IsNullOrWhiteSpace(Title)
-                ? 0
-                : Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(Title);
-        }
+			return string.IsNullOrWhiteSpace(Title) ? 0 : Voidstrap.Platform.Linux.LinuxWindowInterop.FindOwnWindowByTitle(Title);
+		}
 
-        private System.Collections.Generic.List<(int X, int Y, int Width, int Height)> BuildShapeRectangles(double scaleX, double scaleY)
-        {
-            System.Collections.Generic.List<(int X, int Y, int Width, int Height)> rectangles = new();
-            foreach (UIElement child in CrosshairCanvas.Children)
-            {
-                if (child is not Image image)
-                    continue;
+		private System.Collections.Generic.List<(int X, int Y, int Width, int Height)> BuildShapeRectangles(double scaleX, double scaleY)
+		{
+			System.Collections.Generic.List<(int X, int Y, int Width, int Height)> rectangles = new();
+			foreach (UIElement child in CrosshairCanvas.Children)
+			{
+				if (child is not Image image)
+					continue;
 
-                double left = Canvas.GetLeft(image);
-                double top = Canvas.GetTop(image);
-                double width = image.Width;
-                double height = image.Height;
-                if (double.IsNaN(left) || double.IsNaN(top) || double.IsNaN(width) || double.IsNaN(height) || width <= 0 || height <= 0)
-                    continue;
+				double left = Canvas.GetLeft(image);
+				double top = Canvas.GetTop(image);
+				double width = image.Width;
+				double height = image.Height;
+				if (double.IsNaN(left) || double.IsNaN(top) || double.IsNaN(width) || double.IsNaN(height) || width <= 0 || height <= 0)
+					continue;
 
 				TryAddImageAlphaShape(image, left, top, width, height, scaleX, scaleY, rectangles);
-            }
-            return rectangles;
-        }
+			}
+			return rectangles;
+		}
 
 		private void TryAddImageAlphaShape(
 			Image image,
@@ -324,11 +330,13 @@ namespace Voidstrap.UI.Elements.Crosshair
 			double height,
 			double scaleX,
 			double scaleY,
-			System.Collections.Generic.List<(int X, int Y, int Width, int Height)> rectangles)
+			System.Collections.Generic.List<(int X, int Y, int Width, int Height)> rectangles
+		)
 		{
-			IReadOnlyList<BitmapSource> sources = _imageShapeSources.Count > 0
-				? _imageShapeSources
-				: image.Source is BitmapSource source ? new[] { source } : Array.Empty<BitmapSource>();
+			IReadOnlyList<BitmapSource> sources =
+				_imageShapeSources.Count > 0 ? _imageShapeSources
+				: image.Source is BitmapSource source ? new[] { source }
+				: Array.Empty<BitmapSource>();
 			if (sources.Count == 0)
 				return;
 
@@ -349,9 +357,10 @@ namespace Voidstrap.UI.Elements.Crosshair
 
 			foreach (BitmapSource candidate in sources)
 			{
-				BitmapSource bitmap = candidate.Format == PixelFormats.Bgra32 || candidate.Format == PixelFormats.Pbgra32
-					? candidate
-					: new FormatConvertedBitmap(candidate, PixelFormats.Bgra32, null, 0);
+				BitmapSource bitmap =
+					candidate.Format == PixelFormats.Bgra32 || candidate.Format == PixelFormats.Pbgra32
+						? candidate
+						: new FormatConvertedBitmap(candidate, PixelFormats.Bgra32, null, 0);
 				int stride = checked(bitmap.PixelWidth * 4);
 				byte[] pixels = new byte[checked(stride * bitmap.PixelHeight)];
 				bitmap.CopyPixels(pixels, stride, 0);
@@ -383,59 +392,59 @@ namespace Voidstrap.UI.Elements.Crosshair
 			}
 		}
 
-        private void OnCrosshairClosed(object? sender, EventArgs e)
-        {
-            _disposed = true;
+		private void OnCrosshairClosed(object? sender, EventArgs e)
+		{
+			_disposed = true;
 			lock (InstanceGate)
 			{
 				if (ReferenceEquals(_activeInstance, this))
 					_activeInstance = null;
 			}
-            _anchor.Dispose();
-            Loaded -= OnCrosshairLoaded;
-            Closed -= OnCrosshairClosed;
-            ReleaseImageCrosshair();
+			_anchor.Dispose();
+			Loaded -= OnCrosshairLoaded;
+			Closed -= OnCrosshairClosed;
+			ReleaseImageCrosshair();
 			ReleaseShapeCrosshair();
-            CrosshairCanvas.Children.Clear();
+			CrosshairCanvas.Children.Clear();
 			if (Application.Current?.Resources[ResourceKey] is CrosshairWindow crosshair && ReferenceEquals(crosshair, this))
 				Application.Current.Resources.Remove(ResourceKey);
-        }
+		}
 
-        private void MakeWindowClickThrough()
-        {
-            if (!Voidstrap.Utility.Platform.IsWindows)
-            {
-                Voidstrap.Integrations.Overlays.LinuxOverlaySurface.MakeClickThrough(this);
-                return;
-            }
+		private void MakeWindowClickThrough()
+		{
+			if (!Voidstrap.Utility.Platform.IsWindows)
+			{
+				Voidstrap.Integrations.Overlays.LinuxOverlaySurface.MakeClickThrough(this);
+				return;
+			}
 
-            var hwnd = new WindowInteropHelper(this).Handle;
-            int exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
-            _ = SetWindowLong(hwnd, GWL_EXSTYLE, exStyle | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);
-        }
+			var hwnd = new WindowInteropHelper(this).Handle;
+			int exStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+			_ = SetWindowLong(hwnd, GWL_EXSTYLE, exStyle | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);
+		}
 
 		internal void RefreshSettings() => RefreshCrosshair();
 
-        private void RefreshCrosshair()
-        {
-            if (_disposed)
-                return;
-            try
-            {
-                UpdateCrosshair();
+		private void RefreshCrosshair()
+		{
+			if (_disposed)
+				return;
+			try
+			{
+				UpdateCrosshair();
 				_anchor.Refresh();
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteException("CrosshairWindow::Update", ex);
-                ReleaseImageCrosshair();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteException("CrosshairWindow::Update", ex);
+				ReleaseImageCrosshair();
 				ReleaseShapeCrosshair();
-                CrosshairCanvas.Children.Clear();
-            }
-        }
+				CrosshairCanvas.Children.Clear();
+			}
+		}
 
-        private void UpdateCrosshair()
-        {
+		private void UpdateCrosshair()
+		{
 			var settings = App.Settings.Prop;
 			int selectedShape = Math.Clamp(settings.CrosshairShapeIndex, 0, 3);
 			double opacity = Math.Clamp(settings.CrosshairOpacity, 0.0, 1.0);
@@ -443,7 +452,15 @@ namespace Voidstrap.UI.Elements.Crosshair
 			if (selectedShape != 3)
 			{
 				ReleaseImageCrosshair();
-				ShowShape(selectedShape, settings.CrosshairColorHex, settings.CrosshairOutlineColorHex, settings.CrosshairSize, settings.CrosshairGap, settings.CrosshairLineThickness, opacity);
+				ShowShape(
+					selectedShape,
+					settings.CrosshairColorHex,
+					settings.CrosshairOutlineColorHex,
+					settings.CrosshairSize,
+					settings.CrosshairGap,
+					settings.CrosshairLineThickness,
+					opacity
+				);
 				return;
 			}
 
@@ -481,7 +498,7 @@ namespace Voidstrap.UI.Elements.Crosshair
 			Canvas.SetLeft(_imageCrosshair, CanvasCenter - size / 2);
 			Canvas.SetTop(_imageCrosshair, CanvasCenter - size / 2);
 			ShowOnly(_imageCrosshair);
-        }
+		}
 
 		private void ShowShape(int shape, string? fill, string? outline, int size, int gap, int thickness, double opacity)
 		{
@@ -489,14 +506,31 @@ namespace Voidstrap.UI.Elements.Crosshair
 			var key = (shape, fill, outline, size, gap, thickness, opacity, dpi);
 			if (_shapeCrosshair == null)
 			{
-				_shapeCrosshair = new Image { Stretch = Stretch.Fill, IsHitTestVisible = false, Width = CanvasSize, Height = CanvasSize, UseLayoutRounding = true };
+				_shapeCrosshair = new Image
+				{
+					Stretch = Stretch.Fill,
+					IsHitTestVisible = false,
+					Width = CanvasSize,
+					Height = CanvasSize,
+					UseLayoutRounding = true,
+				};
 				Canvas.SetLeft(_shapeCrosshair, 0);
 				Canvas.SetTop(_shapeCrosshair, 0);
 			}
 			if (_shapeKey != key)
 			{
 				int dimension = (int)Math.Round(CanvasSize * dpi);
-				_shapeCrosshair.Source = Voidstrap.UI.CrosshairRenderer.Render(dimension, OverlayCrosshair.RuntimeScale * dpi, shape, fill, outline, size, gap, thickness, opacity);
+				_shapeCrosshair.Source = Voidstrap.UI.CrosshairRenderer.Render(
+					dimension,
+					OverlayCrosshair.RuntimeScale * dpi,
+					shape,
+					fill,
+					outline,
+					size,
+					gap,
+					thickness,
+					opacity
+				);
 				_shapeKey = key;
 			}
 			ShowOnly(_shapeCrosshair);
@@ -520,17 +554,17 @@ namespace Voidstrap.UI.Elements.Crosshair
 			_shapeKey = null;
 		}
 
-        private void ReleaseImageCrosshair()
-        {
+		private void ReleaseImageCrosshair()
+		{
 			CancelImageLoad();
-            if (_imageCrosshair == null)
-                return;
+			if (_imageCrosshair == null)
+				return;
 			CrosshairCanvas.Children.Remove(_imageCrosshair);
 			Voidstrap.UI.GifImageBehavior.SetFrames(_imageCrosshair, Array.Empty<(BitmapSource, int)>());
 			_imageShapeSources = Array.Empty<BitmapSource>();
-            _imageCrosshair = null;
-            _imagePath = null;
-        }
+			_imageCrosshair = null;
+			_imagePath = null;
+		}
 
 		private async void BeginGifLoad(Image image, string path)
 		{
@@ -541,16 +575,20 @@ namespace Voidstrap.UI.Elements.Crosshair
 				if (bytes == null || _disposed || generation != _imageLoadGeneration)
 					return;
 				IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> frames = await Task.Run(
-					() => DecodeGifFrames(bytes, token),
-					token).ConfigureAwait(false);
+						() => DecodeGifFrames(bytes, token),
+						token
+					)
+					.ConfigureAwait(false);
 				if (frames.Count == 0 || _disposed || generation != _imageLoadGeneration)
 					return;
 				await Dispatcher.InvokeAsync(() =>
 				{
-					if (_disposed
+					if (
+						_disposed
 						|| generation != _imageLoadGeneration
 						|| !ReferenceEquals(image, _imageCrosshair)
-						|| !string.Equals(path, _imagePath, StringComparison.OrdinalIgnoreCase))
+						|| !string.Equals(path, _imagePath, StringComparison.OrdinalIgnoreCase)
+					)
 						return;
 					List<BitmapSource> shapeSources = new(frames.Count);
 					foreach ((BitmapSource frame, _) in frames)
@@ -560,9 +598,7 @@ namespace Voidstrap.UI.Elements.Crosshair
 					_anchor.Refresh();
 				});
 			}
-			catch (OperationCanceledException) when (token.IsCancellationRequested)
-			{
-			}
+			catch (OperationCanceledException) when (token.IsCancellationRequested) { }
 			catch (Exception ex)
 			{
 				if (!_disposed && generation == _imageLoadGeneration)
@@ -580,19 +616,19 @@ namespace Voidstrap.UI.Elements.Crosshair
 					return;
 				await Dispatcher.InvokeAsync(() =>
 				{
-					if (_disposed
+					if (
+						_disposed
 						|| generation != _imageLoadGeneration
 						|| !ReferenceEquals(image, _imageCrosshair)
-						|| !string.Equals(path, _imagePath, StringComparison.OrdinalIgnoreCase))
+						|| !string.Equals(path, _imagePath, StringComparison.OrdinalIgnoreCase)
+					)
 						return;
 					image.Source = source;
 					_imageShapeSources = new[] { source };
 					_anchor.Refresh();
 				});
 			}
-			catch (OperationCanceledException) when (token.IsCancellationRequested)
-			{
-			}
+			catch (OperationCanceledException) when (token.IsCancellationRequested) { }
 			catch (Exception ex)
 			{
 				if (!_disposed && generation == _imageLoadGeneration)
@@ -620,7 +656,11 @@ namespace Voidstrap.UI.Elements.Crosshair
 
 		private static IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> DecodeGifFrames(byte[] bytes, CancellationToken token)
 		{
-			IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> frames = Voidstrap.Utility.SafeImaging.DecodeAnimationPortable(bytes, 256, token);
+			IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> frames = Voidstrap.Utility.SafeImaging.DecodeAnimationPortable(
+				bytes,
+				256,
+				token
+			);
 			if (frames.Count > 0 || !Voidstrap.Utility.Platform.IsWindows)
 				return frames;
 
@@ -636,7 +676,12 @@ namespace Voidstrap.UI.Elements.Crosshair
 				if (frame.PixelWidth != first.PixelWidth || frame.PixelHeight != first.PixelHeight || decoded.Count >= 120)
 					break;
 				int delay = 100;
-				if (frame.Metadata is BitmapMetadata metadata && metadata.ContainsQuery("/grctlext/Delay") && metadata.GetQuery("/grctlext/Delay") is ushort centiseconds && centiseconds > 1)
+				if (
+					frame.Metadata is BitmapMetadata metadata
+					&& metadata.ContainsQuery("/grctlext/Delay")
+					&& metadata.GetQuery("/grctlext/Delay") is ushort centiseconds
+					&& centiseconds > 1
+				)
 					delay = centiseconds * 10;
 				BitmapSource converted = new FormatConvertedBitmap(frame, PixelFormats.Bgra32, null, 0);
 				converted.Freeze();
@@ -656,12 +701,15 @@ namespace Voidstrap.UI.Elements.Crosshair
 			return path.EndsWith(".gif", StringComparison.OrdinalIgnoreCase);
 		}
 
-        private const int GWL_EXSTYLE = -20;
-        private const int WS_EX_TRANSPARENT = 0x20;
-        private const int WS_EX_TOOLWINDOW = 0x80;
-        private const int WS_EX_NOACTIVATE = 0x08000000;
+		private const int GWL_EXSTYLE = -20;
+		private const int WS_EX_TRANSPARENT = 0x20;
+		private const int WS_EX_TOOLWINDOW = 0x80;
+		private const int WS_EX_NOACTIVATE = 0x08000000;
 
-        [LibraryImport("user32.dll", EntryPoint = "GetWindowLongA")] private static partial int GetWindowLong(IntPtr hwnd, int index);
-        [LibraryImport("user32.dll", EntryPoint = "SetWindowLongA")] private static partial int SetWindowLong(IntPtr hwnd, int index, int newStyle);
-    }
+		[LibraryImport("user32.dll", EntryPoint = "GetWindowLongA")]
+		private static partial int GetWindowLong(IntPtr hwnd, int index);
+
+		[LibraryImport("user32.dll", EntryPoint = "SetWindowLongA")]
+		private static partial int SetWindowLong(IntPtr hwnd, int index, int newStyle);
+	}
 }

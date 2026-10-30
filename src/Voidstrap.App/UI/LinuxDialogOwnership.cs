@@ -91,5 +91,12 @@ internal static class LinuxDialogOwnership
 		&& !RoundedWindowChrome.IsOverlaySurface(window);
 
 	private static bool IsStandalone(Window window) =>
-		window is OverlayWindow or CrosshairWindow or LinuxHomepageOverlayWindow or NotificationWindow or SessionDock or Voidstrap.UI.Elements.ContextMenu.MenuContainer or Voidstrap.Integrations.Clipper.ClipperIndicatorOverlayWindow;
+		window
+			is OverlayWindow
+				or CrosshairWindow
+				or LinuxHomepageOverlayWindow
+				or NotificationWindow
+				or SessionDock
+				or Voidstrap.UI.Elements.ContextMenu.MenuContainer
+				or Voidstrap.Integrations.Clipper.ClipperIndicatorOverlayWindow;
 }

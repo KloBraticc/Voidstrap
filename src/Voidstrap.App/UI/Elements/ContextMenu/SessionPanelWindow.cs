@@ -50,6 +50,7 @@ public sealed partial class SessionPanelWindow : Window
     private int _roundedWidth;
     private int _roundedHeight;
     private const string PinGlyph = "\uE718";
+
     // The solid pin, clearly different from the outline one even when the accent colour is close to white
     private const string PinnedGlyph = "\uE842";
 
@@ -113,18 +114,43 @@ public sealed partial class SessionPanelWindow : Window
         _drag.DragCompleted += OnGeometryFinished;
         header.Children.Add(_drag);
         // Laid out like the Voidstrap title bar: small title on the left, caption buttons flush in the corner
-        StackPanel caption = new() { Orientation = Orientation.Horizontal, Margin = new Thickness(14, 0, 100, 0), VerticalAlignment = VerticalAlignment.Center, IsHitTestVisible = false };
+        StackPanel caption = new()
+        {
+            Orientation = Orientation.Horizontal,
+            Margin = new Thickness(14, 0, 100, 0),
+            VerticalAlignment = VerticalAlignment.Center,
+            IsHitTestVisible = false,
+        };
         if (TitleGlyph(key) is { } glyph)
         {
-            TextBlock icon = new() { Text = glyph, FontFamily = TitleIconFont, FontSize = 13, Margin = new Thickness(0, 0, 9, 0), VerticalAlignment = VerticalAlignment.Center };
+            TextBlock icon = new()
+            {
+                Text = glyph,
+                FontFamily = TitleIconFont,
+                FontSize = 13,
+                Margin = new Thickness(0, 0, 9, 0),
+                VerticalAlignment = VerticalAlignment.Center,
+            };
             icon.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
             caption.Children.Add(icon);
         }
-        TextBlock captionText = new() { Text = title, FontSize = 12, FontWeight = FontWeights.Normal, VerticalAlignment = VerticalAlignment.Center, TextTrimming = TextTrimming.CharacterEllipsis };
+        TextBlock captionText = new()
+        {
+            Text = title,
+            FontSize = 12,
+            FontWeight = FontWeights.Normal,
+            VerticalAlignment = VerticalAlignment.Center,
+            TextTrimming = TextTrimming.CharacterEllipsis,
+        };
         captionText.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
         caption.Children.Add(captionText);
         header.Children.Add(caption);
-        StackPanel actions = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Top };
+        StackPanel actions = new()
+        {
+            Orientation = Orientation.Horizontal,
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Top,
+        };
         _pin = new CaptionButton(PinGlyph, 13, false, "Pin panel");
         _close = new CaptionButton("\uE8BB", 10, true, "Close panel");
         _pin.Click += OnPin;
@@ -138,8 +164,16 @@ public sealed partial class SessionPanelWindow : Window
             // The view starts under the title bar, its scrolled content is pushed down by the bar's height
             Grid.SetRowSpan(host, 2);
             if (underTitle.Content is FrameworkElement scrolled)
-                scrolled.Margin = new Thickness(scrolled.Margin.Left, scrolled.Margin.Top + CaptionHeight, scrolled.Margin.Right, scrolled.Margin.Bottom);
-            header.Children.Insert(0, Voidstrap.Utility.Platform.UsesPortableUi ? CreateTintedBackdrop() : CreateFrostedBackdrop(host, header));
+                scrolled.Margin = new Thickness(
+                    scrolled.Margin.Left,
+                    scrolled.Margin.Top + CaptionHeight,
+                    scrolled.Margin.Right,
+                    scrolled.Margin.Bottom
+                );
+            header.Children.Insert(
+                0,
+                Voidstrap.Utility.Platform.UsesPortableUi ? CreateTintedBackdrop() : CreateFrostedBackdrop(host, header)
+            );
         }
         else
         {
@@ -152,31 +186,68 @@ public sealed partial class SessionPanelWindow : Window
         gripVisual.SetValue(Border.BackgroundProperty, Brushes.Transparent);
         ControlTemplate resizeTemplate = new(typeof(Thumb)) { VisualTree = gripVisual };
 
-        _resize = new Thumb { Width = 20, Height = 20, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Bottom, Cursor = Cursors.SizeNWSE, Template = resizeTemplate };
+        _resize = new Thumb
+        {
+            Width = 20,
+            Height = 20,
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            Cursor = Cursors.SizeNWSE,
+            Template = resizeTemplate,
+        };
         _resize.DragDelta += OnResize;
         _resize.DragCompleted += OnGeometryFinished;
         Grid.SetRow(_resize, 1);
         Panel.SetZIndex(_resize, 101);
 
-        _resizeRight = new Thumb { Width = 8, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Stretch, Cursor = Cursors.SizeWE, Template = resizeTemplate };
+        _resizeRight = new Thumb
+        {
+            Width = 8,
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Cursor = Cursors.SizeWE,
+            Template = resizeTemplate,
+        };
         _resizeRight.DragDelta += OnResizeRight;
         _resizeRight.DragCompleted += OnGeometryFinished;
         Grid.SetRowSpan(_resizeRight, 2);
         Panel.SetZIndex(_resizeRight, 99);
 
-        _resizeBottom = new Thumb { Height = 8, HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Bottom, Cursor = Cursors.SizeNS, Template = resizeTemplate };
+        _resizeBottom = new Thumb
+        {
+            Height = 8,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            Cursor = Cursors.SizeNS,
+            Template = resizeTemplate,
+        };
         _resizeBottom.DragDelta += OnResizeBottom;
         _resizeBottom.DragCompleted += OnGeometryFinished;
         Grid.SetRow(_resizeBottom, 1);
         Panel.SetZIndex(_resizeBottom, 99);
 
-        _resizeLeft = new Thumb { Width = 8, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Stretch, Cursor = Cursors.SizeWE, Template = resizeTemplate };
+        _resizeLeft = new Thumb
+        {
+            Width = 8,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Cursor = Cursors.SizeWE,
+            Template = resizeTemplate,
+        };
         _resizeLeft.DragDelta += OnResizeLeft;
         _resizeLeft.DragCompleted += OnGeometryFinished;
         Grid.SetRowSpan(_resizeLeft, 2);
         Panel.SetZIndex(_resizeLeft, 99);
 
-        _resizeBottomLeft = new Thumb { Width = 20, Height = 20, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Bottom, Cursor = Cursors.SizeNESW, Template = resizeTemplate };
+        _resizeBottomLeft = new Thumb
+        {
+            Width = 20,
+            Height = 20,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            Cursor = Cursors.SizeNESW,
+            Template = resizeTemplate,
+        };
         _resizeBottomLeft.DragDelta += OnResizeBottomLeft;
         _resizeBottomLeft.DragCompleted += OnGeometryFinished;
         Grid.SetRow(_resizeBottomLeft, 1);
@@ -187,7 +258,12 @@ public sealed partial class SessionPanelWindow : Window
         root.Children.Add(_resizeLeft);
         root.Children.Add(_resizeBottomLeft);
         root.Children.Add(_resize);
-        Border frame = new() { CornerRadius = new CornerRadius(AllowsTransparency ? 8 : 0), BorderThickness = new Thickness(1), Child = root };
+        Border frame = new()
+        {
+            CornerRadius = new CornerRadius(AllowsTransparency ? 8 : 0),
+            BorderThickness = new Thickness(1),
+            Child = root,
+        };
         frame.SetResourceReference(Border.BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
         frame.SetResourceReference(Border.BorderBrushProperty, "SurfaceStrokeColorDefaultBrush");
         Content = frame;
@@ -207,36 +283,38 @@ public sealed partial class SessionPanelWindow : Window
     }
 
     private const double CaptionHeight = 30;
+
     // The dock's strip along the bottom of the game (its gap from the edge, the pill and a little room above it).
     // Panels stop above it, so they can never be moved or sized over the dock.
     private const double DockReserve = 104;
 
-    private static int UsableHeight(RobloxWindowRect bounds, DpiScale dpi)
-        => Math.Max(1, bounds.Height - (int)Math.Round(DockReserve * dpi.DpiScaleY));
+    private static int UsableHeight(RobloxWindowRect bounds, DpiScale dpi) =>
+        Math.Max(1, bounds.Height - (int)Math.Round(DockReserve * dpi.DpiScaleY));
 
-    private static int UsableTopOffset(RobloxWindowRect bounds, DpiScale dpi)
-        => App.Settings.Prop.OverlayLayout?.DockTopEdge == true
+    private static int UsableTopOffset(RobloxWindowRect bounds, DpiScale dpi) =>
+        App.Settings.Prop.OverlayLayout?.DockTopEdge == true
             ? Math.Min(Math.Max(0, bounds.Height - 1), (int)Math.Round(DockReserve * dpi.DpiScaleY))
             : 0;
 
     private const double FrostBlur = 18;
     private static readonly System.Windows.Media.FontFamily TitleIconFont = new("Segoe Fluent Icons, Segoe MDL2 Assets");
 
-    private static string? TitleGlyph(string key) => key switch
-    {
-        "chat" => "\uE8BD",
-        "browser" => "\uE753",
-        "games" => "\uE7FC",
-        "history" => "\uE81C",
-        "music" => "\uE8D6",
-        "notifications" => "\uE713",
-        "layout" => "\uE759",
-        "clips" => "\uE714",
-        "server" => "\uE946",
-        "reviews" => "\uE734",
-        "web" => "\uE774",
-        _ => null
-    };
+    private static string? TitleGlyph(string key) =>
+        key switch
+        {
+            "chat" => "\uE8BD",
+            "browser" => "\uE753",
+            "games" => "\uE7FC",
+            "history" => "\uE81C",
+            "music" => "\uE8D6",
+            "notifications" => "\uE713",
+            "layout" => "\uE759",
+            "clips" => "\uE714",
+            "server" => "\uE946",
+            "reviews" => "\uE734",
+            "web" => "\uE774",
+            _ => null,
+        };
 
     // The frosted title bar: a blurred live copy of whatever is scrolled underneath, under a translucent tint.
     // The copy is drawn a little larger than the bar so the blur does not darken its edges.
@@ -248,18 +326,28 @@ public sealed partial class SessionPanelWindow : Window
             ViewportUnits = BrushMappingMode.Absolute,
             Stretch = Stretch.None,
             AlignmentX = AlignmentX.Left,
-            AlignmentY = AlignmentY.Top
+            AlignmentY = AlignmentY.Top,
         };
         Rectangle blurred = new()
         {
             Fill = copy,
             Margin = new Thickness(-FrostBlur),
-            Effect = new BlurEffect { Radius = FrostBlur, KernelType = KernelType.Gaussian, RenderingBias = RenderingBias.Performance },
-            IsHitTestVisible = false
+            Effect = new BlurEffect
+            {
+                Radius = FrostBlur,
+                KernelType = KernelType.Gaussian,
+                RenderingBias = RenderingBias.Performance,
+            },
+            IsHitTestVisible = false,
         };
         Rectangle tint = new() { Opacity = 0.62, IsHitTestVisible = false };
         tint.SetResourceReference(Shape.FillProperty, "SolidBackgroundFillColorBaseBrush");
-        Border line = new() { BorderThickness = new Thickness(0, 0, 0, 1), IsHitTestVisible = false, Opacity = 0.6 };
+        Border line = new()
+        {
+            BorderThickness = new Thickness(0, 0, 0, 1),
+            IsHitTestVisible = false,
+            Opacity = 0.6,
+        };
         line.SetResourceReference(Border.BorderBrushProperty, "SurfaceStrokeColorDefaultBrush");
         void Track()
         {
@@ -281,7 +369,12 @@ public sealed partial class SessionPanelWindow : Window
     {
         Rectangle tint = new() { Opacity = 0.92, IsHitTestVisible = false };
         tint.SetResourceReference(Shape.FillProperty, "SolidBackgroundFillColorBaseBrush");
-        Border line = new() { BorderThickness = new Thickness(0, 0, 0, 1), IsHitTestVisible = false, Opacity = 0.6 };
+        Border line = new()
+        {
+            BorderThickness = new Thickness(0, 0, 0, 1),
+            IsHitTestVisible = false,
+            Opacity = 0.6,
+        };
         line.SetResourceReference(Border.BorderBrushProperty, "SurfaceStrokeColorDefaultBrush");
         Grid layers = new() { IsHitTestVisible = false };
         layers.Children.Add(tint);
@@ -385,7 +478,11 @@ public sealed partial class SessionPanelWindow : Window
             // clicked through while pinned over the game, but that made Windows copy every frame back from the
             // graphics card, which is what made scrolling and everything in the panels lag. Panels now hide
             // whenever the dock does, so they never need to be clicked through.
-            SetWindowLongPtrW(_handle, GwlExStyle, (GetWindowLongPtrW(_handle, GwlExStyle) | WsExToolWindow) & ~(WsExLayered | WsExTransparent));
+            SetWindowLongPtrW(
+                _handle,
+                GwlExStyle,
+                (GetWindowLongPtrW(_handle, GwlExStyle) | WsExToolWindow) & ~(WsExLayered | WsExTransparent)
+            );
             int round = 2;
             _ = DwmSetWindowAttribute(_handle, 33, ref round, sizeof(int));
         }
@@ -415,9 +512,7 @@ public sealed partial class SessionPanelWindow : Window
         {
             Hide();
         }
-        catch (InvalidOperationException)
-        {
-        }
+        catch (InvalidOperationException) { }
     }
 
     private void SetHostedViewVisible(bool visible)
@@ -460,7 +555,10 @@ public sealed partial class SessionPanelWindow : Window
         if (!Voidstrap.Utility.Platform.IsLinux || !IsVisible)
             return;
         _handle = PortableOverlay.Handle(this);
-        if (_handle == IntPtr.Zero || !Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(_handle, out _, out _, out int width, out int height))
+        if (
+            _handle == IntPtr.Zero
+            || !Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetWindowGeometry(_handle, out _, out _, out int width, out int height)
+        )
             return;
         if (width == _roundedWidth && height == _roundedHeight)
             return;
@@ -798,10 +896,14 @@ public sealed partial class SessionPanelWindow : Window
             UpdatePinVisual();
             return;
         }
-        if (double.IsFinite(saved.X)) _x = Math.Clamp(saved.X, 0, 1);
-        if (double.IsFinite(saved.Y)) _y = Math.Clamp(saved.Y, 0, 1);
-        if (double.IsFinite(saved.Width) && saved.Width >= MinWidth) Width = Math.Min(saved.Width, MaxWidth);
-        if (double.IsFinite(saved.Height) && saved.Height >= MinHeight) Height = Math.Min(saved.Height, MaxHeight);
+        if (double.IsFinite(saved.X))
+            _x = Math.Clamp(saved.X, 0, 1);
+        if (double.IsFinite(saved.Y))
+            _y = Math.Clamp(saved.Y, 0, 1);
+        if (double.IsFinite(saved.Width) && saved.Width >= MinWidth)
+            Width = Math.Min(saved.Width, MaxWidth);
+        if (double.IsFinite(saved.Height) && saved.Height >= MinHeight)
+            Height = Math.Min(saved.Height, MaxHeight);
         IsPinned = saved.Pinned;
         UpdatePinVisual();
     }
@@ -811,7 +913,14 @@ public sealed partial class SessionPanelWindow : Window
         try
         {
             App.State.Prop.SessionPanels ??= new();
-            App.State.Prop.SessionPanels[_key] = new SessionPanelLayout { X = _x, Y = _y, Width = Width, Height = Height, Pinned = IsPinned };
+            App.State.Prop.SessionPanels[_key] = new SessionPanelLayout
+            {
+                X = _x,
+                Y = _y,
+                Width = Width,
+                Height = Height,
+                Pinned = IsPinned,
+            };
             App.State.SaveDeferred();
         }
         catch (Exception ex)
@@ -863,21 +972,23 @@ public sealed partial class SessionPanelWindow : Window
         {
             _view.Close();
         }
-        catch (InvalidOperationException)
-        {
-        }
+        catch (InvalidOperationException) { }
     }
 
     [LibraryImport("user32.dll", EntryPoint = "GetWindowLongPtrW")]
     private static partial nint GetWindowLongPtrW(IntPtr hwnd, int index);
+
     [LibraryImport("user32.dll", EntryPoint = "SetWindowLongPtrW")]
     private static partial nint SetWindowLongPtrW(IntPtr hwnd, int index, nint value);
+
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool SetWindowPos(IntPtr hwnd, IntPtr after, int x, int y, int width, int height, uint flags);
+
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool SetForegroundWindow(IntPtr hwnd);
+
     [LibraryImport("dwmapi.dll")]
     private static partial int DwmSetWindowAttribute(IntPtr hwnd, int attribute, ref int value, int size);
 
@@ -907,14 +1018,23 @@ public sealed partial class SessionPanelWindow : Window
             SnapsToDevicePixels = true;
             _hover = new Border { Opacity = 0 };
             // A tinted chip that stays behind a toggled button, the pin while the panel is pinned
-            _toggled = new Border { Opacity = 0, Margin = new Thickness(6, 3, 6, 3), CornerRadius = new CornerRadius(5) };
+            _toggled = new Border
+            {
+                Opacity = 0,
+                Margin = new Thickness(6, 3, 6, 3),
+                CornerRadius = new CornerRadius(5),
+            };
             _toggled.SetResourceReference(BackgroundProperty, "SystemAccentColorPrimaryBrush");
             _hover.SetResourceReference(BackgroundProperty, close ? "RinCaptionCloseBrush" : "SubtleFillColorSecondaryBrush");
             // Windows' own icon font, the pin is missing from the bundled one and fell back to the colour emoji
             _icon = new TextBlock
             {
-                Text = glyph, FontFamily = IconFont, FontSize = size, HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center, IsHitTestVisible = false
+                Text = glyph,
+                FontFamily = IconFont,
+                FontSize = size,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                IsHitTestVisible = false,
             };
             _icon.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
             Grid layout = new();
@@ -926,7 +1046,11 @@ public sealed partial class SessionPanelWindow : Window
             MouseLeave += (_, _) => Refresh();
             MouseLeftButtonDown += OnDown;
             MouseLeftButtonUp += OnUp;
-            LostMouseCapture += (_, _) => { _pressed = false; Refresh(); };
+            LostMouseCapture += (_, _) =>
+            {
+                _pressed = false;
+                Refresh();
+            };
         }
 
         private static readonly System.Windows.Media.FontFamily IconFont = new("Segoe Fluent Icons, Segoe MDL2 Assets");
@@ -939,7 +1063,10 @@ public sealed partial class SessionPanelWindow : Window
             // obvious whatever the accent colour is
             _accent = accent;
             _toggled.Opacity = accent ? 0.28 : 0;
-            _icon.SetResourceReference(TextBlock.ForegroundProperty, accent ? "SystemAccentColorPrimaryBrush" : "TextFillColorPrimaryBrush");
+            _icon.SetResourceReference(
+                TextBlock.ForegroundProperty,
+                accent ? "SystemAccentColorPrimaryBrush" : "TextFillColorPrimaryBrush"
+            );
             _icon.FontWeight = accent ? FontWeights.Bold : FontWeights.Normal;
         }
 
@@ -966,10 +1093,19 @@ public sealed partial class SessionPanelWindow : Window
         private void Refresh()
         {
             bool hovered = IsMouseOver;
-            double target = _pressed && hovered ? 0.8 : hovered ? 1.0 : 0.0;
-            _hover.BeginAnimation(OpacityProperty, new DoubleAnimation(target, Fade) { EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut } });
+            double target =
+                _pressed && hovered ? 0.8
+                : hovered ? 1.0
+                : 0.0;
+            _hover.BeginAnimation(
+                OpacityProperty,
+                new DoubleAnimation(target, Fade) { EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut } }
+            );
             if (_close)
-                _icon.SetResourceReference(TextBlock.ForegroundProperty, hovered ? "RinCaptionCloseTextBrush" : "TextFillColorPrimaryBrush");
+                _icon.SetResourceReference(
+                    TextBlock.ForegroundProperty,
+                    hovered ? "RinCaptionCloseTextBrush" : "TextFillColorPrimaryBrush"
+                );
             else if (_accent)
                 _icon.SetResourceReference(TextBlock.ForegroundProperty, "SystemAccentColorPrimaryBrush");
             _icon.Opacity = _pressed && !_close ? 0.6063 : 1.0;

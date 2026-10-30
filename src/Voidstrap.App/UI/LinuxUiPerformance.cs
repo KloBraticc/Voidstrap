@@ -24,7 +24,9 @@ internal static class LinuxUiPerformance
 	private static long _lastDispatchTick;
 	private static int _reportedStalls;
 
-	internal static bool ReducedMotion => Voidstrap.Utility.RenderAcceleration.RendersInSoftware || OperatingSystem.IsLinux() && (_reducedMotion || LinuxStartup.ActiveStage == "software");
+	internal static bool ReducedMotion =>
+		Voidstrap.Utility.RenderAcceleration.RendersInSoftware
+		|| OperatingSystem.IsLinux() && (_reducedMotion || LinuxStartup.ActiveStage == "software");
 
 	internal static event EventHandler? ReducedMotionChanged;
 
@@ -106,7 +108,16 @@ internal static class LinuxUiPerformance
 			long[] sorted = new long[count];
 			Array.Copy(InputTimes, sorted, count);
 			Array.Sort(sorted);
-			App.Logger.WriteLine(Category, "Input to presented frame p95 " + sorted[(int)Math.Ceiling(count * 0.95) - 1] + " ms, " + slowCount + " of the last " + recentCount + " samples exceeded 33 ms");
+			App.Logger.WriteLine(
+				Category,
+				"Input to presented frame p95 "
+					+ sorted[(int)Math.Ceiling(count * 0.95) - 1]
+					+ " ms, "
+					+ slowCount
+					+ " of the last "
+					+ recentCount
+					+ " samples exceeded 33 ms"
+			);
 		}
 	}
 
@@ -196,7 +207,12 @@ internal static class LinuxUiPerformance
 				return;
 			_inputStarted = Stopwatch.GetTimestamp();
 #if CROSSPLAT
-			if (System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(_window, out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host))
+			if (
+				System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(
+					_window,
+					out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host
+				)
+			)
 				_presentedBefore = host?.PresentedFrameCount ?? 0;
 #endif
 			_renderPending = true;
@@ -208,7 +224,12 @@ internal static class LinuxUiPerformance
 			long elapsed = (long)Stopwatch.GetElapsedTime(_inputStarted).TotalMilliseconds;
 			bool presented = true;
 #if CROSSPLAT
-			if (System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(_window, out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host))
+			if (
+				System.Windows.Media.ProGPU.ProGpuWpfDiagnostics.TryGetWindowHost(
+					_window,
+					out System.Windows.Media.ProGPU.ProGpuWpfWindowHost? host
+				)
+			)
 				presented = host != null && host.PresentedFrameCount > _presentedBefore;
 #endif
 			if (!presented && elapsed < 200)

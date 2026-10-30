@@ -9,17 +9,17 @@ using MapFlags = Vortice.Direct3D11.MapFlags;
 
 namespace Voidstrap.Integrations.Overlays
 {
-    internal sealed class OverlayHud
-    {
-        public const int TexWidth = 300;
-        public const int TexHeight = 96;
+	internal sealed class OverlayHud
+	{
+		public const int TexWidth = 300;
+		public const int TexHeight = 96;
 
-        private const int LabelCols = 16;
+		private const int LabelCols = 16;
 
-        private ID3D11Device _device = null!;
-        private ID3D11Texture2D? _tex;
-        private ID3D11ShaderResourceView? _srv;
-        private string _last = "";
+		private ID3D11Device _device = null!;
+		private ID3D11Texture2D? _tex;
+		private ID3D11ShaderResourceView? _srv;
+		private string _last = "";
 		private Bitmap? _bitmap;
 		private Graphics? _graphics;
 		private Font? _font;
@@ -30,25 +30,27 @@ namespace Voidstrap.Integrations.Overlays
 		private StringFormat? _textFormat;
 		private float _characterWidth;
 
-        public ID3D11ShaderResourceView? Srv => _srv;
+		public ID3D11ShaderResourceView? Srv => _srv;
 
-        public void Init(ID3D11Device device)
-        {
+		public void Init(ID3D11Device device)
+		{
 			Dispose();
-            _device = device;
-            _tex = _device.CreateTexture2D(new Texture2DDescription
-            {
-                Width = TexWidth,
-                Height = TexHeight,
-                MipLevels = 1,
-                ArraySize = 1,
-                Format = Format.B8G8R8A8_UNorm,
-                SampleDescription = new SampleDescription(1, 0),
-                Usage = ResourceUsage.Dynamic,
-                BindFlags = BindFlags.ShaderResource,
-                CPUAccessFlags = CpuAccessFlags.Write,
-            });
-            _srv = _device.CreateShaderResourceView(_tex);
+			_device = device;
+			_tex = _device.CreateTexture2D(
+				new Texture2DDescription
+				{
+					Width = TexWidth,
+					Height = TexHeight,
+					MipLevels = 1,
+					ArraySize = 1,
+					Format = Format.B8G8R8A8_UNorm,
+					SampleDescription = new SampleDescription(1, 0),
+					Usage = ResourceUsage.Dynamic,
+					BindFlags = BindFlags.ShaderResource,
+					CPUAccessFlags = CpuAccessFlags.Write,
+				}
+			);
+			_srv = _device.CreateShaderResourceView(_tex);
 			_bitmap = new Bitmap(TexWidth, TexHeight, PixelFormat.Format32bppArgb);
 			_graphics = Graphics.FromImage(_bitmap);
 			_graphics.SmoothingMode = SmoothingMode.AntiAlias;
@@ -61,17 +63,27 @@ namespace Voidstrap.Integrations.Overlays
 			_textFormat = new StringFormat(StringFormat.GenericTypographic);
 			_characterWidth = _graphics.MeasureString("00000000", _font, PointF.Empty, _textFormat).Width / 8f;
 			_last = "";
-        }
+		}
 
-        public void Update(ID3D11DeviceContext context, string[] labels, string[] values)
-        {
-            if (_tex == null || _bitmap == null || _graphics == null || _font == null || _backgroundBrush == null || _labelBrush == null || _dotBrush == null || _valueBrush == null || _textFormat == null)
-                return;
-            int rows = Math.Min(labels.Length, values.Length);
-            string signature = string.Join("", labels, 0, rows) + "" + string.Join("", values, 0, rows);
-            if (signature == _last)
-                return;
-            _last = signature;
+		public void Update(ID3D11DeviceContext context, string[] labels, string[] values)
+		{
+			if (
+				_tex == null
+				|| _bitmap == null
+				|| _graphics == null
+				|| _font == null
+				|| _backgroundBrush == null
+				|| _labelBrush == null
+				|| _dotBrush == null
+				|| _valueBrush == null
+				|| _textFormat == null
+			)
+				return;
+			int rows = Math.Min(labels.Length, values.Length);
+			string signature = string.Join("", labels, 0, rows) + "" + string.Join("", values, 0, rows);
+			if (signature == _last)
+				return;
+			_last = signature;
 
 			_graphics.Clear(Color.Transparent);
 			_graphics.FillRectangle(_backgroundBrush, 0, 0, TexWidth, TexHeight);
@@ -92,8 +104,8 @@ namespace Voidstrap.Integrations.Overlays
 			}
 
 			var locked = _bitmap.LockBits(new Rectangle(0, 0, TexWidth, TexHeight), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-            try
-            {
+			try
+			{
 				var mapped = context.Map(_tex, 0, MapMode.WriteDiscard, MapFlags.None);
 				try
 				{
@@ -110,17 +122,17 @@ namespace Voidstrap.Integrations.Overlays
 				{
 					context.Unmap(_tex, 0);
 				}
-            }
-            finally
-            {
+			}
+			finally
+			{
 				_bitmap.UnlockBits(locked);
-            }
-        }
+			}
+		}
 
-        public void Dispose()
-        {
-            _srv?.Dispose();
-            _tex?.Dispose();
+		public void Dispose()
+		{
+			_srv?.Dispose();
+			_tex?.Dispose();
 			_graphics?.Dispose();
 			_bitmap?.Dispose();
 			_font?.Dispose();
@@ -129,8 +141,8 @@ namespace Voidstrap.Integrations.Overlays
 			_dotBrush?.Dispose();
 			_valueBrush?.Dispose();
 			_textFormat?.Dispose();
-            _srv = null;
-            _tex = null;
+			_srv = null;
+			_tex = null;
 			_graphics = null;
 			_bitmap = null;
 			_font = null;
@@ -140,6 +152,6 @@ namespace Voidstrap.Integrations.Overlays
 			_valueBrush = null;
 			_textFormat = null;
 			_last = "";
-        }
-    }
+		}
+	}
 }

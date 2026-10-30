@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Voidstrap.Core;
+using Voidstrap.Extensions;
 using Voidstrap.Models.Persistable;
 using Voidstrap.Platform.Linux;
-using Voidstrap.Extensions;
 
 namespace Voidstrap.Utility;
 
@@ -75,9 +75,7 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 				await Task.Delay(PollIntervalMs, token).ConfigureAwait(false);
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine(LogIdent, "The Linux resource optimizer stopped: " + ex.Message);
@@ -105,13 +103,15 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 		AppSettings settings = App.Settings.Prop;
 		bool focused = IsFocused();
 		int weight = ResolveWeight(settings, focused);
-		string memoryHigh = settings.RobloxMemoryLimitEnabled && !focused
-			? RobloxMemoryLimit.Clamp(settings.RobloxMemoryLimitMb) + "M"
-			: NoMemoryLimit;
+		string memoryHigh =
+			settings.RobloxMemoryLimitEnabled && !focused ? RobloxMemoryLimit.Clamp(settings.RobloxMemoryLimitMb) + "M" : NoMemoryLimit;
 		if (settings.RobloxMemoryLimitEnabled && focused && !_foregroundLimitExplained)
 		{
 			_foregroundLimitExplained = true;
-			App.Logger.WriteLine(LogIdent, "The Roblox memory limit only applies while Sober is in the background, a Linux memory cap makes the kernel stall the game when it gets close");
+			App.Logger.WriteLine(
+				LogIdent,
+				"The Roblox memory limit only applies while Sober is in the background, a Linux memory cap makes the kernel stall the game when it gets close"
+			);
 		}
 		List<string> assignments = new List<string>();
 		if (_appliedWeight != weight)
@@ -128,11 +128,17 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 			{
 				if (_appliedWeight != weight)
 				{
-					App.Logger.WriteLine(LogIdent, "Sober CPU share set to " + weight + (focused ? " while Roblox is focused" : " while Roblox is unfocused"));
+					App.Logger.WriteLine(
+						LogIdent,
+						"Sober CPU share set to " + weight + (focused ? " while Roblox is focused" : " while Roblox is unfocused")
+					);
 				}
 				if (_appliedMemoryHigh != memoryHigh)
 				{
-					App.Logger.WriteLine(LogIdent, memoryHigh == NoMemoryLimit ? "Sober memory limit removed" : "Sober memory limit set to " + memoryHigh + "B");
+					App.Logger.WriteLine(
+						LogIdent,
+						memoryHigh == NoMemoryLimit ? "Sober memory limit removed" : "Sober memory limit set to " + memoryHigh + "B"
+					);
 				}
 				_appliedWeight = weight;
 				_appliedMemoryHigh = memoryHigh;
@@ -164,7 +170,16 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 			if (_appliedCpus != applied)
 			{
 				_appliedCpus = applied;
-				App.Logger.WriteLine(LogIdent, "Roblox CPU limit set to " + cpus.Count + " logical processors, CPUs " + applied + ", across " + threads + " Sober threads");
+				App.Logger.WriteLine(
+					LogIdent,
+					"Roblox CPU limit set to "
+						+ cpus.Count
+						+ " logical processors, CPUs "
+						+ applied
+						+ ", across "
+						+ threads
+						+ " Sober threads"
+				);
 			}
 			return;
 		}
@@ -258,7 +273,7 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 			ProcessPriorityClass.AboveNormal => 200,
 			ProcessPriorityClass.High => 400,
 			ProcessPriorityClass.RealTime => 400,
-			_ => DefaultWeight
+			_ => DefaultWeight,
 		};
 	}
 
@@ -274,9 +289,7 @@ internal sealed class LinuxRobloxResourceOptimizer : IDisposable
 		{
 			_loopTask?.Wait(3000);
 		}
-		catch (AggregateException)
-		{
-		}
+		catch (AggregateException) { }
 		_cancellation.Dispose();
 		GC.SuppressFinalize(this);
 	}

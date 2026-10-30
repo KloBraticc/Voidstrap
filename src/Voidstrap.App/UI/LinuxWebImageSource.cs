@@ -85,15 +85,31 @@ internal static class LinuxWebImageSource
 		EventManager.RegisterClassHandler(typeof(Border), FrameworkElement.UnloadedEvent, new RoutedEventHandler(OnBorderUnloaded));
 		try
 		{
-			object? context = typeof(XamlReader).GetProperty("BamlSharedSchemaContext", BindingFlags.NonPublic | BindingFlags.Static)?.GetValue(null);
-			MethodInfo? lookup = context?.GetType().GetMethod("GetKnownXamlType", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance, null, new[] { typeof(Type) }, null);
+			object? context = typeof(XamlReader)
+				.GetProperty("BamlSharedSchemaContext", BindingFlags.NonPublic | BindingFlags.Static)
+				?.GetValue(null);
+			MethodInfo? lookup = context
+				?.GetType()
+				.GetMethod(
+					"GetKnownXamlType",
+					BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance,
+					null,
+					new[] { typeof(Type) },
+					null
+				);
 			object? knownType = lookup?.Invoke(context, new object[] { typeof(ImageSource) });
-			object? converter = knownType?.GetType().GetProperty("TypeConverter", BindingFlags.Public | BindingFlags.Instance)?.GetValue(knownType);
+			object? converter = knownType
+				?.GetType()
+				.GetProperty("TypeConverter", BindingFlags.Public | BindingFlags.Instance)
+				?.GetValue(knownType);
 			FieldInfo? instance = converter?.GetType().GetField("_instance", BindingFlags.NonPublic | BindingFlags.Instance);
 			FieldInfo? instanceSet = converter?.GetType().GetField("_instanceIsSet", BindingFlags.NonPublic | BindingFlags.Instance);
 			if (instance == null || instanceSet == null)
 			{
-				App.Logger.WriteLine(LogIdent, "The image source converter could not be located, web images keep loading on the interface thread");
+				App.Logger.WriteLine(
+					LogIdent,
+					"The image source converter could not be located, web images keep loading on the interface thread"
+				);
 				return;
 			}
 
@@ -114,12 +130,14 @@ internal static class LinuxWebImageSource
 		{
 			Uri direct => direct,
 			string text when text.Length > 0 && Uri.TryCreate(text.Trim(), UriKind.Absolute, out Uri? parsed) => parsed,
-			_ => null
+			_ => null,
 		};
 		if (candidate == null || !candidate.IsAbsoluteUri)
 			return false;
-		if (!string.Equals(candidate.Scheme, Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase)
-			&& !string.Equals(candidate.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
+		if (
+			!string.Equals(candidate.Scheme, Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase)
+			&& !string.Equals(candidate.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase)
+		)
 			return false;
 		uri = candidate;
 		return true;
@@ -138,17 +156,23 @@ internal static class LinuxWebImageSource
 			return image;
 		}
 
-		load.ContinueWith(task =>
-		{
-			BitmapSource? bitmap = task.IsCompletedSuccessfully ? task.Result : null;
-			if (bitmap == null || dispatcher.HasShutdownStarted)
-				return;
-			dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+		load.ContinueWith(
+			task =>
 			{
-				if (Present(image, content, bitmap))
-					QueueLayoutRefresh(dispatcher);
-			}));
-		}, TaskScheduler.Default);
+				BitmapSource? bitmap = task.IsCompletedSuccessfully ? task.Result : null;
+				if (bitmap == null || dispatcher.HasShutdownStarted)
+					return;
+				dispatcher.BeginInvoke(
+					DispatcherPriority.Background,
+					new Action(() =>
+					{
+						if (Present(image, content, bitmap))
+							QueueLayoutRefresh(dispatcher);
+					})
+				);
+			},
+			TaskScheduler.Default
+		);
 		return image;
 	}
 
@@ -216,12 +240,14 @@ internal static class LinuxWebImageSource
 
 	private static void UpdatePresentedBrush(DependencyObject element, DependencyProperty property)
 	{
-		if (element.GetValue(property) is not ImageBrush brush
+		if (
+			element.GetValue(property) is not ImageBrush brush
 			|| brush.ImageSource is not DrawingImage drawing
 			|| !_presented.Contains(drawing)
 			|| drawing.Drawing is not DrawingGroup group
 			|| group.Children.Count != 1
-			|| group.Children[0] is not ImageDrawing { ImageSource: BitmapSource bitmap })
+			|| group.Children[0] is not ImageDrawing { ImageSource: BitmapSource bitmap }
+		)
 			return;
 		if (brush.IsFrozen)
 		{

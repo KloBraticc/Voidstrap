@@ -14,6 +14,7 @@ using Markdig;
 using Markdig.Extensions.EmphasisExtras;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
+using Voidstrap.Extensions;
 using Voidstrap.Models.APIs.GitHub;
 using Voidstrap.UI.ViewModels;
 using DocumentInline = System.Windows.Documents.Inline;
@@ -21,7 +22,6 @@ using DocumentList = System.Windows.Documents.List;
 using MarkdownBlock = Markdig.Syntax.Block;
 using MarkdownInline = Markdig.Syntax.Inlines.Inline;
 using WpfControls = System.Windows.Controls;
-using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.Elements.Dialogs;
 
@@ -35,8 +35,9 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 		.UseSoftlineBreakAsHardlineBreak()
 		.Build();
 
-
-	private static readonly System.Windows.Media.FontFamily CodeFont = new System.Windows.Media.FontFamily("Cascadia Mono, Consolas, Courier New");
+	private static readonly System.Windows.Media.FontFamily CodeFont = new System.Windows.Media.FontFamily(
+		"Cascadia Mono, Consolas, Courier New"
+	);
 
 	private static readonly bool UseNativeBlocks = !Voidstrap.Utility.Platform.IsWindows;
 
@@ -75,9 +76,7 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 			}
 			ShowRelease(release, isCurrent);
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ReleaseNotesDialog::Load", ex);
@@ -93,14 +92,26 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 		Version? current = Normalize(Utilities.GetVersionFromString(App.Version));
 		if (current != null)
 		{
-			List<GithubRelease>? releases = await Voidstrap.Utility.GitHubCache.GetJsonWithFallbackAsync<List<GithubRelease>>(App.ProjectReleaseListApi, App.ProjectFallbackReleaseListApi, TimeSpan.FromMinutes(15), token);
+			List<GithubRelease>? releases = await Voidstrap.Utility.GitHubCache.GetJsonWithFallbackAsync<List<GithubRelease>>(
+				App.ProjectReleaseListApi,
+				App.ProjectFallbackReleaseListApi,
+				TimeSpan.FromMinutes(15),
+				token
+			);
 			GithubRelease? match = releases?.FirstOrDefault(release => IsReleaseFor(release, current));
-			Version? oldestListed = releases?.Select(release => Normalize(Utilities.GetVersionFromString(release?.TagName))).Where(version => version != null).Min();
+			Version? oldestListed = releases
+				?.Select(release => Normalize(Utilities.GetVersionFromString(release?.TagName)))
+				.Where(version => version != null)
+				.Min();
 			if (match == null && (oldestListed == null || current < oldestListed))
 			{
 				foreach (string tag in new[] { "v" + current, current.ToString() })
 				{
-					GithubRelease? tagged = await Voidstrap.Utility.GitHubCache.GetJsonAsync<GithubRelease>("https://api.github.com/repos" + App.ProjectRepository + "releases/tags/" + tag, TimeSpan.FromMinutes(15), token);
+					GithubRelease? tagged = await Voidstrap.Utility.GitHubCache.GetJsonAsync<GithubRelease>(
+						"https://api.github.com/repos" + App.ProjectRepository + "releases/tags/" + tag,
+						TimeSpan.FromMinutes(15),
+						token
+					);
 					if (IsReleaseFor(tagged, current))
 					{
 						match = tagged;
@@ -123,7 +134,9 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 
 	private static Version? Normalize(Version? version)
 	{
-		return version == null ? null : new Version(version.Major, version.Minor, Math.Max(version.Build, 0), Math.Max(version.Revision, 0));
+		return version == null
+			? null
+			: new Version(version.Major, version.Minor, Math.Max(version.Build, 0), Math.Max(version.Revision, 0));
 	}
 
 	private void ShowRelease(GithubRelease release, bool isCurrent)
@@ -135,7 +148,14 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 		{
 			details.Add(tag);
 		}
-		if (DateTimeOffset.TryParse(release.PublishedAt ?? release.CreatedAt, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out DateTimeOffset published))
+		if (
+			DateTimeOffset.TryParse(
+				release.PublishedAt ?? release.CreatedAt,
+				CultureInfo.InvariantCulture,
+				DateTimeStyles.AssumeUniversal,
+				out DateTimeOffset published
+			)
+		)
 		{
 			details.Add("Released " + published.ToLocalTime().ToString("MMMM d, yyyy", CultureInfo.CurrentCulture));
 		}
@@ -147,7 +167,8 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 		ReleaseDetailsText.Text = string.Join("  •  ", details);
 		if (!isCurrent)
 		{
-			FallbackNoticeText.Text = "Voidstrap " + App.Version + " has no published release notes, so the notes for the latest release are shown instead.";
+			FallbackNoticeText.Text =
+				"Voidstrap " + App.Version + " has no published release notes, so the notes for the latest release are shown instead.";
 			FallbackNotice.Visibility = Visibility.Visible;
 		}
 		if (UseNativeBlocks)
@@ -180,7 +201,7 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 			TextAlignment = TextAlignment.Left,
 			FontFamily = FontFamily,
 			FontSize = 14,
-			LineHeight = 22
+			LineHeight = 22,
 		};
 		document.SetResourceReference(TextElement.ForegroundProperty, "TextFillColorPrimaryBrush");
 		string text = string.IsNullOrWhiteSpace(markdown) ? "This release does not include any notes." : markdown;
@@ -199,10 +220,16 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 			{
 				Paragraph paragraph = new Paragraph
 				{
-					FontSize = heading.Level switch { 1 => 22.0, 2 => 19.0, 3 => 16.5, _ => 15.0 },
+					FontSize = heading.Level switch
+					{
+						1 => 22.0,
+						2 => 19.0,
+						3 => 16.5,
+						_ => 15.0,
+					},
 					FontWeight = FontWeights.SemiBold,
 					LineHeight = double.NaN,
-					Margin = new Thickness(0, target.Count == 0 ? 0 : 16, 0, 6)
+					Margin = new Thickness(0, target.Count == 0 ? 0 : 16, 0, 6),
 				};
 				AddInlines(paragraph.Inlines, heading.Inline);
 				target.Add(paragraph);
@@ -219,9 +246,12 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 			{
 				DocumentList list = new DocumentList
 				{
-					MarkerStyle = listBlock.IsOrdered ? TextMarkerStyle.Decimal : depth % 2 == 0 ? TextMarkerStyle.Disc : TextMarkerStyle.Circle,
+					MarkerStyle =
+						listBlock.IsOrdered ? TextMarkerStyle.Decimal
+						: depth % 2 == 0 ? TextMarkerStyle.Disc
+						: TextMarkerStyle.Circle,
 					Margin = new Thickness(0, compact ? 2 : 0, 0, compact ? 2 : 10),
-					Padding = new Thickness(24, 0, 0, 0)
+					Padding = new Thickness(24, 0, 0, 0),
 				};
 				if (listBlock.IsOrdered && int.TryParse(listBlock.OrderedStart, out int start) && start > 0)
 				{
@@ -248,7 +278,7 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 				{
 					BorderThickness = new Thickness(3, 0, 0, 0),
 					Padding = new Thickness(12, 2, 0, 2),
-					Margin = new Thickness(0, 0, 0, compact ? 2 : 10)
+					Margin = new Thickness(0, 0, 0, compact ? 2 : 10),
 				};
 				section.SetResourceReference(System.Windows.Documents.Block.BorderBrushProperty, "ControlStrokeColorDefaultBrush");
 				section.SetResourceReference(TextElement.ForegroundProperty, "TextFillColorSecondaryBrush");
@@ -267,7 +297,7 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 					FontSize = 13,
 					LineHeight = 19,
 					Padding = new Thickness(12, 9, 12, 9),
-					Margin = new Thickness(0, 0, 0, compact ? 4 : 10)
+					Margin = new Thickness(0, 0, 0, compact ? 4 : 10),
 				};
 				paragraph.SetResourceReference(TextElement.BackgroundProperty, "ControlFillColorSecondaryBrush");
 				target.Add(paragraph);
@@ -289,7 +319,7 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 					BorderThickness = new Thickness(0, 0, 0, 1),
 					Margin = new Thickness(0, 6, 0, 14),
 					FontSize = 1,
-					LineHeight = 1
+					LineHeight = 1,
 				};
 				divider.SetResourceReference(System.Windows.Documents.Block.BorderBrushProperty, "ControlStrokeColorDefaultBrush");
 				target.Add(divider);
@@ -346,7 +376,9 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 			case HtmlEntityInline entity:
 				return new Run(entity.Transcoded.ToString());
 			case AutolinkInline autolink:
-				return insideLink ? new Run(autolink.Url) : CreateLink(new Run(autolink.Url), autolink.IsEmail ? "mailto:" + autolink.Url : autolink.Url);
+				return insideLink
+					? new Run(autolink.Url)
+					: CreateLink(new Run(autolink.Url), autolink.IsEmail ? "mailto:" + autolink.Url : autolink.Url);
 			case LinkInline link:
 			{
 				Span content = new Span();
@@ -393,7 +425,10 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 		{
 			target = "https://github.com" + target;
 		}
-		if (!Uri.TryCreate(target, UriKind.Absolute, out Uri? uri) || (uri.Scheme != Uri.UriSchemeHttps && uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeMailto))
+		if (
+			!Uri.TryCreate(target, UriKind.Absolute, out Uri? uri)
+			|| (uri.Scheme != Uri.UriSchemeHttps && uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeMailto)
+		)
 		{
 			return content;
 		}
@@ -401,7 +436,7 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 		{
 			Command = GlobalViewModel.OpenWebpageCommand,
 			CommandParameter = uri.AbsoluteUri,
-			ToolTip = uri.AbsoluteUri
+			ToolTip = uri.AbsoluteUri,
 		};
 	}
 
@@ -452,7 +487,8 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 			Voidstrap.UI.LinuxTextGuard.CorrectOwner(NotesPanel, owner);
 		foreach (Voidstrap.UI.Elements.Controls.MarkdownTextBlock rich in _richBlocks)
 		{
-			double width = System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(rich).Width - rich.Margin.Left - rich.Margin.Right;
+			double width =
+				System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(rich).Width - rich.Margin.Left - rich.Margin.Right;
 			if (width > 40 && Math.Abs(rich.MaxWidth - width) >= 1)
 				rich.MaxWidth = width;
 		}
@@ -460,7 +496,8 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 
 	private string _nativeSource = string.Empty;
 
-	private readonly List<Voidstrap.UI.Elements.Controls.MarkdownTextBlock> _richBlocks = new List<Voidstrap.UI.Elements.Controls.MarkdownTextBlock>();
+	private readonly List<Voidstrap.UI.Elements.Controls.MarkdownTextBlock> _richBlocks =
+		new List<Voidstrap.UI.Elements.Controls.MarkdownTextBlock>();
 
 	private void AddNativeBlock(WpfControls.UIElementCollection target, MarkdownBlock block, int depth, bool compact, string brushKey)
 	{
@@ -469,8 +506,23 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 			case HeadingBlock heading:
 			{
 				List<(string Text, string Url)> links = new List<(string, string)>();
-				double size = heading.Level switch { 1 => 22.0, 2 => 19.0, 3 => 16.5, _ => 15.0 };
-				target.Add(CreateText(Flatten(heading.Inline, links), size, FontWeights.SemiBold, new Thickness(0, target.Count == 0 ? 0 : 16, 0, 6), brushKey, double.NaN));
+				double size = heading.Level switch
+				{
+					1 => 22.0,
+					2 => 19.0,
+					3 => 16.5,
+					_ => 15.0,
+				};
+				target.Add(
+					CreateText(
+						Flatten(heading.Inline, links),
+						size,
+						FontWeights.SemiBold,
+						new Thickness(0, target.Count == 0 ? 0 : 16, 0, 6),
+						brushKey,
+						double.NaN
+					)
+				);
 				AddLinkButtons(target, links, compact);
 				break;
 			}
@@ -483,11 +535,17 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 			}
 			case ListBlock listBlock:
 			{
-				WpfControls.StackPanel list = new WpfControls.StackPanel { Margin = new Thickness(0, compact ? 2 : 0, 0, compact ? 2 : 10) };
+				WpfControls.StackPanel list = new WpfControls.StackPanel
+				{
+					Margin = new Thickness(0, compact ? 2 : 0, 0, compact ? 2 : 10),
+				};
 				int number = listBlock.IsOrdered && int.TryParse(listBlock.OrderedStart, out int start) && start > 0 ? start : 1;
 				foreach (MarkdownBlock item in listBlock)
 				{
-					string marker = listBlock.IsOrdered ? number++ + "." : depth % 2 == 0 ? "•" : "◦";
+					string marker =
+						listBlock.IsOrdered ? number++ + "."
+						: depth % 2 == 0 ? "•"
+						: "◦";
 					WpfControls.Grid row = new WpfControls.Grid { Margin = new Thickness(0, 0, 0, 2) };
 					row.ColumnDefinitions.Add(new WpfControls.ColumnDefinition { Width = new GridLength(24) });
 					row.ColumnDefinitions.Add(new WpfControls.ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
@@ -513,7 +571,7 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 				{
 					BorderThickness = new Thickness(3, 0, 0, 0),
 					Padding = new Thickness(12, 2, 0, 2),
-					Margin = new Thickness(0, 0, 0, compact ? 2 : 10)
+					Margin = new Thickness(0, 0, 0, compact ? 2 : 10),
 				};
 				border.SetResourceReference(WpfControls.Border.BorderBrushProperty, "ControlStrokeColorDefaultBrush");
 				WpfControls.StackPanel content = new WpfControls.StackPanel();
@@ -531,10 +589,17 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 				{
 					CornerRadius = new CornerRadius(4),
 					Padding = new Thickness(12, 9, 12, 9),
-					Margin = new Thickness(0, 0, 0, compact ? 4 : 10)
+					Margin = new Thickness(0, 0, 0, compact ? 4 : 10),
 				};
 				border.SetResourceReference(WpfControls.Border.BackgroundProperty, "ControlFillColorSecondaryBrush");
-				WpfControls.TextBlock text = CreateText(code.Lines.ToString().TrimEnd(), 13, FontWeights.Normal, new Thickness(0), brushKey, 19);
+				WpfControls.TextBlock text = CreateText(
+					code.Lines.ToString().TrimEnd(),
+					13,
+					FontWeights.Normal,
+					new Thickness(0),
+					brushKey,
+					19
+				);
 				text.FontFamily = CodeFont;
 				border.Child = text;
 				target.Add(border);
@@ -577,14 +642,20 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 	private WpfControls.TextBlock CreateRichText(LeafBlock leaf, List<(string Text, string Url)> links, Thickness margin, string brushKey)
 	{
 		WpfControls.TextBlock plain = CreateText(Flatten(leaf.Inline, links), 14, FontWeights.Normal, margin, brushKey, 22);
-		if (leaf.Inline == null || !HasEmphasis(leaf.Inline) || leaf.Span.Start < 0 || leaf.Span.End >= _nativeSource.Length || leaf.Span.Length <= 0)
+		if (
+			leaf.Inline == null
+			|| !HasEmphasis(leaf.Inline)
+			|| leaf.Span.Start < 0
+			|| leaf.Span.End >= _nativeSource.Length
+			|| leaf.Span.Length <= 0
+		)
 			return plain;
 		Voidstrap.UI.Elements.Controls.MarkdownTextBlock rich = new Voidstrap.UI.Elements.Controls.MarkdownTextBlock
 		{
 			FontSize = 14,
 			Margin = margin,
 			TextWrapping = TextWrapping.Wrap,
-			LineHeight = 22
+			LineHeight = 22,
 		};
 		rich.SetResourceReference(WpfControls.TextBlock.ForegroundProperty, brushKey);
 		rich.MarkdownText = _nativeSource.Substring(leaf.Span.Start, leaf.Span.Length).Trim();
@@ -602,7 +673,14 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 		return false;
 	}
 
-	private static WpfControls.TextBlock CreateText(string text, double size, FontWeight weight, Thickness margin, string brushKey, double lineHeight)
+	private static WpfControls.TextBlock CreateText(
+		string text,
+		double size,
+		FontWeight weight,
+		Thickness margin,
+		string brushKey,
+		double lineHeight
+	)
 	{
 		WpfControls.TextBlock block = new WpfControls.TextBlock
 		{
@@ -611,7 +689,7 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 			FontWeight = weight,
 			Margin = margin,
 			TextWrapping = TextWrapping.Wrap,
-			LineHeight = lineHeight
+			LineHeight = lineHeight,
 		};
 		block.SetResourceReference(WpfControls.TextBlock.ForegroundProperty, brushKey);
 		return block;
@@ -678,7 +756,11 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 		{
 			target = "https://github.com" + target;
 		}
-		if (!Utilities.IsWebLink(target) || links.Count >= MaxLinksPerBlock || links.Exists(link => string.Equals(link.Url, target, StringComparison.OrdinalIgnoreCase)))
+		if (
+			!Utilities.IsWebLink(target)
+			|| links.Count >= MaxLinksPerBlock
+			|| links.Exists(link => string.Equals(link.Url, target, StringComparison.OrdinalIgnoreCase))
+		)
 		{
 			return;
 		}
@@ -703,7 +785,7 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 				Margin = new Thickness(0, 4, 6, 0),
 				FontSize = 12,
 				BorderThickness = new Thickness(1),
-				Cursor = System.Windows.Input.Cursors.Hand
+				Cursor = System.Windows.Input.Cursors.Hand,
 			};
 			button.SetResourceReference(WpfControls.Control.ForegroundProperty, "AccentFillColorPrimaryBrush");
 			button.SetResourceReference(WpfControls.Control.BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
@@ -726,7 +808,11 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 			return url;
 		}
 		string[] segments = uri.AbsolutePath.Trim('/').Split('/');
-		if (uri.Host.EndsWith("github.com", StringComparison.OrdinalIgnoreCase) && segments.Length >= 4 && (segments[2] == "pull" || segments[2] == "issues"))
+		if (
+			uri.Host.EndsWith("github.com", StringComparison.OrdinalIgnoreCase)
+			&& segments.Length >= 4
+			&& (segments[2] == "pull" || segments[2] == "issues")
+		)
 		{
 			return "#" + segments[3];
 		}
@@ -778,6 +864,6 @@ public partial class ReleaseNotesDialog : WpfControls.UserControl
 		_lifetime.Dispose();
 	}
 
-    [GeneratedRegex("<[^>]+>")]
-    private static partial Regex HtmlTags { get; }
+	[GeneratedRegex("<[^>]+>")]
+	private static partial Regex HtmlTags { get; }
 }

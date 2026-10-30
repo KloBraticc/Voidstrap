@@ -1,11 +1,10 @@
-using Point = System.Windows.Point;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -26,18 +25,19 @@ using Microsoft.Win32;
 using Voidstrap.AppData;
 using Voidstrap.Enums;
 using Voidstrap.Integrations;
+using Voidstrap.Integrations.AssetProxy;
+using Voidstrap.Integrations.Keystrokes;
 using Voidstrap.Models.SettingTasks;
 using Voidstrap.Resources;
-using Voidstrap.Integrations.AssetProxy;
 using Voidstrap.UI.Elements.ContextMenu;
-using Voidstrap.UI.Elements.Settings.Pages;
-using Voidstrap.Utility;
-using Voidstrap.Integrations.Keystrokes;
 using Voidstrap.UI.Elements.Dialogs;
 using Voidstrap.UI.Elements.Editor;
+using Voidstrap.UI.Elements.Settings.Pages;
+using Voidstrap.Utility;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
+using Point = System.Windows.Point;
 
 namespace Voidstrap.UI.ViewModels.Settings;
 
@@ -60,7 +60,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 		Cross,
 		Dot,
 		Circle,
-		Image
+		Image,
 	}
 
 	private static readonly string RepoRoot = "https://api.github.com/repos/KloBraticc/SkyboxPackV2/contents";
@@ -161,7 +161,18 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	private string _explorerSearchText = "";
 
-	private static readonly string[] HiddenExplorerItems = new string[9] { "AppSettings.xml", "RobloxPlayerBeta.exe", "RobloxPlayerBeta.dll", "WebView2Loader.dll", "RobloxCrashHandler.exe", "COPYRIGHT.txt", "WebView2RuntimeInstaller", "ssl", "Logs" };
+	private static readonly string[] HiddenExplorerItems = new string[9]
+	{
+		"AppSettings.xml",
+		"RobloxPlayerBeta.exe",
+		"RobloxPlayerBeta.dll",
+		"WebView2Loader.dll",
+		"RobloxCrashHandler.exe",
+		"COPYRIGHT.txt",
+		"WebView2RuntimeInstaller",
+		"ssl",
+		"Logs",
+	};
 
 	private string _cacheFilter = "All";
 
@@ -237,10 +248,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	public double Saturation
 	{
-		get
-		{
-			return App.Settings.Prop.Saturation;
-		}
+		get { return App.Settings.Prop.Saturation; }
 		set
 		{
 			double num = Math.Clamp(value, 0.0, 200.0);
@@ -268,10 +276,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	public double Contrast
 	{
-		get
-		{
-			return App.Settings.Prop.Contrast;
-		}
+		get { return App.Settings.Prop.Contrast; }
 		set
 		{
 			double num = Math.Clamp(value, 0.0, 200.0);
@@ -299,10 +304,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	public double ColorTemperature
 	{
-		get
-		{
-			return App.Settings.Prop.ColorTemperature;
-		}
+		get { return App.Settings.Prop.ColorTemperature; }
 		set
 		{
 			double num = Math.Clamp(value, -100.0, 100.0);
@@ -337,10 +339,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	public bool ClassicTopBarEnabled
 	{
-		get
-		{
-			return App.Settings.Prop.ClassicTopBarEnabled;
-		}
+		get { return App.Settings.Prop.ClassicTopBarEnabled; }
 		set
 		{
 			if (App.Settings.Prop.ClassicTopBarEnabled == value || _classicTopBarBusy)
@@ -359,10 +358,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	public bool ClassicTopBarHideAllCoreGui
 	{
-		get
-		{
-			return App.Settings.Prop.ClassicTopBarHideAllCoreGui;
-		}
+		get { return App.Settings.Prop.ClassicTopBarHideAllCoreGui; }
 		set
 		{
 			if (App.Settings.Prop.ClassicTopBarHideAllCoreGui == value || !ClassicTopBarCoreGuiEditable)
@@ -378,10 +374,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	public bool Ps4ButtonsEnabled
 	{
-		get
-		{
-			return App.Settings.Prop.Ps4ButtonsEnabled;
-		}
+		get { return App.Settings.Prop.Ps4ButtonsEnabled; }
 		set
 		{
 			if (App.Settings.Prop.Ps4ButtonsEnabled == value || _classicTopBarBusy)
@@ -403,7 +396,8 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 			enabled,
 			"The PS4 buttons are installed. Relaunch Roblox to see them.",
 			"The PS4 buttons were removed.",
-			RollbackPs4Buttons);
+			RollbackPs4Buttons
+		);
 	}
 
 	private void RollbackPs4Buttons(bool enabled)
@@ -428,15 +422,17 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	public bool ClassicTopBarCoreGuiEditable => !_classicTopBarBusy && !App.Settings.Prop.ClassicTopBarEnabled;
 
-	public Visibility ShiftLockVisibility => !Voidstrap.Utility.Platform.IsLinux || Voidstrap.Utility.LinuxRuntimeChoice.PageUsesRosemary
-		? Visibility.Visible
-		: Visibility.Collapsed;
+	public Visibility ShiftLockVisibility =>
+		!Voidstrap.Utility.Platform.IsLinux || Voidstrap.Utility.LinuxRuntimeChoice.PageUsesRosemary
+			? Visibility.Visible
+			: Visibility.Collapsed;
 
 	public void RefreshShiftLockVisibility() => OnPropertyChanged(nameof(ShiftLockVisibility));
 
-	public Visibility ClassicTopBarVisibility => Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsLinux && App.Settings.Prop.ClassicTopBarEnabled
-		? Visibility.Visible
-		: Visibility.Collapsed;
+	public Visibility ClassicTopBarVisibility =>
+		Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsLinux && App.Settings.Prop.ClassicTopBarEnabled
+			? Visibility.Visible
+			: Visibility.Collapsed;
 
 	private Task ApplyClassicTopBarAsync(bool enabled)
 	{
@@ -446,7 +442,8 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 			enabled,
 			"The classic topbar is ready. Relaunch Roblox to see it.",
 			"The classic topbar was turned off and Roblox was put back to normal.",
-			RollbackClassicTopBar);
+			RollbackClassicTopBar
+		);
 	}
 
 	private Task ApplyHideCoreGuiAsync(bool enabled)
@@ -457,7 +454,8 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 			enabled,
 			"Every CoreGui icon is hidden. Relaunch Roblox to see it.",
 			"The Roblox interface art was put back.",
-			RollbackHideCoreGui);
+			RollbackHideCoreGui
+		);
 	}
 
 	private void RollbackClassicTopBar(bool enabled)
@@ -483,7 +481,8 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 		bool enabled,
 		string enabledMessage,
 		string disabledMessage,
-		Action<bool> rollback)
+		Action<bool> rollback
+	)
 	{
 		ClassicTopBarBusy = true;
 		_classicTopBarFinished = false;
@@ -494,9 +493,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 			previous?.Cancel();
 			previous?.Dispose();
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 		Voidstrap.UI.Elements.Settings.Pages.ExtensionViewModel.RegisterCancelAction(CancelClassicTopBar);
 		Progress<string> progress = new Progress<string>(OnClassicTopBarProgress);
 		CancellationToken token = cancellation.Token;
@@ -549,9 +546,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 		{
 			Volatile.Read(ref _classicTopBarCancellation)?.Cancel();
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 	}
 
 	private static void ReportClassicTopBar(string message, double fraction, bool final)
@@ -579,10 +574,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	public bool ColorBlindnessEnabled
 	{
-		get
-		{
-			return App.Settings.Prop.ColorBlindnessEnabled;
-		}
+		get { return App.Settings.Prop.ColorBlindnessEnabled; }
 		set
 		{
 			if (App.Settings.Prop.ColorBlindnessEnabled != value)
@@ -595,10 +587,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	public int ColorBlindnessType
 	{
-		get
-		{
-			return App.Settings.Prop.ColorBlindnessType;
-		}
+		get { return App.Settings.Prop.ColorBlindnessType; }
 		set
 		{
 			int clamped = Math.Clamp(value, 0, 2);
@@ -612,10 +601,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	public double ColorBlindnessSeverity
 	{
-		get
-		{
-			return App.Settings.Prop.ColorBlindnessSeverity;
-		}
+		get { return App.Settings.Prop.ColorBlindnessSeverity; }
 		set
 		{
 			double clamped = Math.Clamp(value, 0.0, 100.0);
@@ -633,20 +619,21 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 		get
 		{
 			double val = ColorBlindnessSeverity;
-			if (val <= 0.0) return "Disabled";
-			if (val <= 25.0) return "Mild";
-			if (val <= 50.0) return "Moderate";
-			if (val <= 75.0) return "Strong";
+			if (val <= 0.0)
+				return "Disabled";
+			if (val <= 25.0)
+				return "Mild";
+			if (val <= 50.0)
+				return "Moderate";
+			if (val <= 75.0)
+				return "Strong";
 			return "Full";
 		}
 	}
 
 	public bool ColorBlindnessSimulate
 	{
-		get
-		{
-			return App.Settings.Prop.ColorBlindnessSimulate;
-		}
+		get { return App.Settings.Prop.ColorBlindnessSimulate; }
 		set
 		{
 			if (App.Settings.Prop.ColorBlindnessSimulate != value)
@@ -657,7 +644,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-public ICommand PickCursorColorCommand { get; }
+	public ICommand PickCursorColorCommand { get; }
 
 	public ICommand PickOutlineColorCommand { get; }
 
@@ -699,10 +686,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public SkyboxPack? SelectedSkyboxPack
 	{
-		get
-		{
-			return _selectedSkyboxPack;
-		}
+		get { return _selectedSkyboxPack; }
 		set
 		{
 			if (_selectedSkyboxPack != value)
@@ -934,9 +918,10 @@ public ICommand PickCursorColorCommand { get; }
 		if (string.Equals(path, _activePreviewFontPath, StringComparison.OrdinalIgnoreCase))
 			return _activePreviewFontFamily;
 		_activePreviewFontPath = path;
-		_activePreviewFontFamily = !string.IsNullOrEmpty(path) && File.Exists(path) && TryCreatePreviewFontFamily(path, out System.Windows.Media.FontFamily family)
-			? family
-			: new System.Windows.Media.FontFamily("Segoe UI");
+		_activePreviewFontFamily =
+			!string.IsNullOrEmpty(path) && File.Exists(path) && TryCreatePreviewFontFamily(path, out System.Windows.Media.FontFamily family)
+				? family
+				: new System.Windows.Media.FontFamily("Segoe UI");
 		return _activePreviewFontFamily;
 	}
 
@@ -954,7 +939,10 @@ public ICommand PickCursorColorCommand { get; }
 			if (string.IsNullOrWhiteSpace(familyName) || string.IsNullOrWhiteSpace(directory))
 				return false;
 
-			family = new System.Windows.Media.FontFamily(new Uri(directory + Path.DirectorySeparatorChar, UriKind.Absolute), "./#" + familyName);
+			family = new System.Windows.Media.FontFamily(
+				new Uri(directory + Path.DirectorySeparatorChar, UriKind.Absolute),
+				"./#" + familyName
+			);
 			return true;
 		}
 		catch (Exception ex)
@@ -983,7 +971,11 @@ public ICommand PickCursorColorCommand { get; }
 		_ = LoadSelectedFontPreviewAsync(selected, cancellation, token);
 	}
 
-	private async Task LoadSelectedFontPreviewAsync(GoogleFontOption selected, CancellationTokenSource cancellation, CancellationToken token)
+	private async Task LoadSelectedFontPreviewAsync(
+		GoogleFontOption selected,
+		CancellationTokenSource cancellation,
+		CancellationToken token
+	)
 	{
 		try
 		{
@@ -1019,14 +1011,12 @@ public ICommand PickCursorColorCommand { get; }
 
 	public ICommand ManageCustomFontCommand => new RelayCommand(ManageCustomFont);
 
-	public IReadOnlyList<string> CustomFontScaleOptions { get; } = new string[13] { "0%", "25%", "50%", "75%", "90%", "100%", "125%", "150%", "200%", "250%", "300%", "400%", "500%" };
+	public IReadOnlyList<string> CustomFontScaleOptions { get; } =
+		new string[13] { "0%", "25%", "50%", "75%", "90%", "100%", "125%", "150%", "200%", "250%", "300%", "400%", "500%" };
 
 	public string CustomFontScale
 	{
-		get
-		{
-			return PercentToText(App.Settings.Prop.CustomFontScale);
-		}
+		get { return PercentToText(App.Settings.Prop.CustomFontScale); }
 		set
 		{
 			double scale = TextToPercent(value, 0.0, 5.0);
@@ -1043,14 +1033,12 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	public IReadOnlyList<string> CustomDeathSoundVolumeOptions { get; } = new string[12] { "25%", "50%", "75%", "90%", "100%", "125%", "150%", "200%", "250%", "300%", "400%", "500%" };
+	public IReadOnlyList<string> CustomDeathSoundVolumeOptions { get; } =
+		new string[12] { "25%", "50%", "75%", "90%", "100%", "125%", "150%", "200%", "250%", "300%", "400%", "500%" };
 
 	public string CustomDeathSoundVolume
 	{
-		get
-		{
-			return PercentToText(App.Settings.Prop.CustomDeathSoundVolume);
-		}
+		get { return PercentToText(App.Settings.Prop.CustomDeathSoundVolume); }
 		set
 		{
 			double volume = TextToPercent(value, 0.25, 5.0);
@@ -1067,7 +1055,8 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	public Visibility CustomDeathSoundVolumeVisibility => File.Exists(Paths.CustomDeathSoundSource) ? Visibility.Visible : Visibility.Collapsed;
+	public Visibility CustomDeathSoundVolumeVisibility =>
+		File.Exists(Paths.CustomDeathSoundSource) ? Visibility.Visible : Visibility.Collapsed;
 
 	private static string PercentToText(double value)
 	{
@@ -1093,18 +1082,23 @@ public ICommand PickCursorColorCommand { get; }
 
 	public ModPresetTask OldDeathSoundTask { get; } = new ModPresetTask("OldDeathSound", "content\\sounds\\oof.ogg", "Sounds.OldDeath.ogg");
 
-	public ModPresetTask OldAvatarBackgroundTask { get; } = new ModPresetTask("OldAvatarBackground", "ExtraContent\\places\\Mobile.rbxl", "OldAvatarBackground.rbxl");
+	public ModPresetTask OldAvatarBackgroundTask { get; } =
+		new ModPresetTask("OldAvatarBackground", "ExtraContent\\places\\Mobile.rbxl", "OldAvatarBackground.rbxl");
 
-	public ModPresetTask OldCharacterSoundsTask { get; } = new ModPresetTask("OldCharacterSounds", new Dictionary<string, string>
-	{
-		{ "content\\sounds\\action_footsteps_plastic.mp3", "Sounds.OldWalk.mp3" },
-		{ "content\\sounds\\action_jump.mp3", "Sounds.OldJump.mp3" },
-		{ "content\\sounds\\action_get_up.mp3", "Sounds.OldGetUp.mp3" },
-		{ "content\\sounds\\action_falling.mp3", "Sounds.Empty.mp3" },
-		{ "content\\sounds\\action_jump_land.mp3", "Sounds.Empty.mp3" },
-		{ "content\\sounds\\action_swim.mp3", "Sounds.Empty.mp3" },
-		{ "content\\sounds\\impact_water.mp3", "Sounds.Empty.mp3" }
-	});
+	public ModPresetTask OldCharacterSoundsTask { get; } =
+		new ModPresetTask(
+			"OldCharacterSounds",
+			new Dictionary<string, string>
+			{
+				{ "content\\sounds\\action_footsteps_plastic.mp3", "Sounds.OldWalk.mp3" },
+				{ "content\\sounds\\action_jump.mp3", "Sounds.OldJump.mp3" },
+				{ "content\\sounds\\action_get_up.mp3", "Sounds.OldGetUp.mp3" },
+				{ "content\\sounds\\action_falling.mp3", "Sounds.Empty.mp3" },
+				{ "content\\sounds\\action_jump_land.mp3", "Sounds.Empty.mp3" },
+				{ "content\\sounds\\action_swim.mp3", "Sounds.Empty.mp3" },
+				{ "content\\sounds\\impact_water.mp3", "Sounds.Empty.mp3" },
+			}
+		);
 
 	public EmojiModPresetTask EmojiFontTask { get; } = new EmojiModPresetTask();
 
@@ -1112,10 +1106,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public bool SkyboxEnabled
 	{
-		get
-		{
-			return App.Settings.Prop.SkyBoxDataSending;
-		}
+		get { return App.Settings.Prop.SkyBoxDataSending; }
 		set
 		{
 			if (App.Settings.Prop.SkyBoxDataSending == value)
@@ -1143,7 +1134,8 @@ public ICommand PickCursorColorCommand { get; }
 					SettingChangeNotifier.Try(
 						"ModsViewModel::HomepageBackgroundOverlayEnabled",
 						"Screen Recording settings could not be opened.",
-						Voidstrap.Platform.MacOS.MacOSWindowCapture.OpenSettings);
+						Voidstrap.Platform.MacOS.MacOSWindowCapture.OpenSettings
+					);
 				}
 				Frontend.ShowMessageBox(Strings.Ui_Mods_HomepageScreenRecording, MessageBoxImage.Information);
 				return;
@@ -1172,11 +1164,13 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	public string SessionDockDescription => App.Settings.Prop.SessionDockShortcut is { IsSet: true } shortcut
-		? "Show the in game dock when you press " + shortcut.Describe() + "."
-		: "No shortcut is set, so the in game dock cannot be opened. Reset the shortcut to open it again.";
+	public string SessionDockDescription =>
+		App.Settings.Prop.SessionDockShortcut is { IsSet: true } shortcut
+			? "Show the in game dock when you press " + shortcut.Describe() + "."
+			: "No shortcut is set, so the in game dock cannot be opened. Reset the shortcut to open it again.";
 
-	public bool CanResetSessionDockShortcut => App.Settings.Prop.SessionDockShortcut?.SameAs(new Voidstrap.Models.Persistable.OverlayShortcut()) != true;
+	public bool CanResetSessionDockShortcut =>
+		App.Settings.Prop.SessionDockShortcut?.SameAs(new Voidstrap.Models.Persistable.OverlayShortcut()) != true;
 
 	public ICommand ResetSessionDockShortcutCommand => new RelayCommand(ResetSessionDockShortcut);
 
@@ -1190,47 +1184,25 @@ public ICommand PickCursorColorCommand { get; }
 	}
 
 	private static (string Key, string Label)[] GetClipperModes() =>
-	[
-		("record", Strings.Ui_Clipper_ModeRecord),
-		("clip", Strings.Ui_Clipper_ModeClip)
-	];
+		[("record", Strings.Ui_Clipper_ModeRecord), ("clip", Strings.Ui_Clipper_ModeClip)];
 
 	private static (int Seconds, string Label)[] GetClipperBuffers() =>
-	[
-		(15, Strings.Ui_Clipper_Sec15),
-		(30, Strings.Ui_Clipper_Sec30),
-		(60, Strings.Ui_Clipper_Sec60),
-		(120, Strings.Ui_Clipper_Sec120)
-	];
+		[(15, Strings.Ui_Clipper_Sec15), (30, Strings.Ui_Clipper_Sec30), (60, Strings.Ui_Clipper_Sec60), (120, Strings.Ui_Clipper_Sec120)];
 
 	private static (int Key, string Label)[] GetClipperQualities() =>
-	[
-		(0, Strings.Ui_Clipper_QualityLow),
-		(1, Strings.Ui_Clipper_QualityMedium),
-		(2, Strings.Ui_Clipper_QualityHigh),
-		(3, Strings.Ui_Clipper_QualityUltra)
-	];
+		[
+			(0, Strings.Ui_Clipper_QualityLow),
+			(1, Strings.Ui_Clipper_QualityMedium),
+			(2, Strings.Ui_Clipper_QualityHigh),
+			(3, Strings.Ui_Clipper_QualityUltra),
+		];
 
 	private static (int Height, string Label)[] GetClipperResolutions() =>
-	[
-		(0, Strings.Ui_Clipper_ResNative),
-		(720, "720p"),
-		(1080, "1080p"),
-		(1440, "1440p")
-	];
+		[(0, Strings.Ui_Clipper_ResNative), (720, "720p"), (1080, "1080p"), (1440, "1440p")];
 
-	private static readonly (int Fps, string Label)[] ClipperFpsPresets =
-	[
-		(30, "30 FPS"),
-		(60, "60 FPS"),
-		(120, "120 FPS")
-	];
+	private static readonly (int Fps, string Label)[] ClipperFpsPresets = [(30, "30 FPS"), (60, "60 FPS"), (120, "120 FPS")];
 
-	private static readonly (string Key, string Label)[] ClipperCodecs =
-	[
-		("h264", "H.264 (GPU)"),
-		("hevc", "HEVC (GPU)")
-	];
+	private static readonly (string Key, string Label)[] ClipperCodecs = [("h264", "H.264 (GPU)"), ("hevc", "HEVC (GPU)")];
 
 	private static Voidstrap.Models.Persistable.OverlayShortcut DefaultClipperShortcut() =>
 		new() { Modifiers = Voidstrap.Models.Persistable.OverlayShortcut.Alt, Key = 0x79 };
@@ -1284,8 +1256,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public IReadOnlyList<string> ClipperModeOptions => GetClipperModes().Select(x => x.Label).ToList();
 
-	public bool ClipperIsClipMode =>
-		string.Equals(App.Settings.Prop.ClipperMode, "clip", StringComparison.OrdinalIgnoreCase);
+	public bool ClipperIsClipMode => string.Equals(App.Settings.Prop.ClipperMode, "clip", StringComparison.OrdinalIgnoreCase);
 
 	public string SelectedClipperMode
 	{
@@ -1548,7 +1519,8 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	public ICommand OpenClipsFolderCommand => new RelayCommand(() => Utilities.ShellExecute(Voidstrap.Integrations.Clipper.ClipperService.GetClipsDirectory()));
+	public ICommand OpenClipsFolderCommand =>
+		new RelayCommand(() => Utilities.ShellExecute(Voidstrap.Integrations.Clipper.ClipperService.GetClipsDirectory()));
 
 	public bool KeystrokesOverlayEnabled
 	{
@@ -1698,7 +1670,7 @@ public ICommand PickCursorColorCommand { get; }
 		Microsoft.Win32.OpenFileDialog dialog = new()
 		{
 			Title = Strings.Ui_Keystrokes_KeyboardCustomWav,
-			Filter = "Wave audio (*.wav)|*.wav|All files (*.*)|*.*"
+			Filter = "Wave audio (*.wav)|*.wav|All files (*.*)|*.*",
 		};
 		if (dialog.ShowDialog() == true && File.Exists(dialog.FileName))
 		{
@@ -1743,8 +1715,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	public bool KeystrokesMouseIsCustom =>
-		string.Equals(SelectedKeystrokesMouseSoundPack, "Custom", StringComparison.OrdinalIgnoreCase);
+	public bool KeystrokesMouseIsCustom => string.Equals(SelectedKeystrokesMouseSoundPack, "Custom", StringComparison.OrdinalIgnoreCase);
 
 	public bool KeystrokesMouseSound
 	{
@@ -1795,7 +1766,7 @@ public ICommand PickCursorColorCommand { get; }
 		Microsoft.Win32.OpenFileDialog dialog = new()
 		{
 			Title = Strings.Ui_Keystrokes_MouseCustomWav,
-			Filter = "Wave audio (*.wav)|*.wav|All files (*.*)|*.*"
+			Filter = "Wave audio (*.wav)|*.wav|All files (*.*)|*.*",
 		};
 		if (dialog.ShowDialog() == true && File.Exists(dialog.FileName))
 		{
@@ -1814,8 +1785,7 @@ public ICommand PickCursorColorCommand { get; }
 		OnPropertyChanged(nameof(KeystrokesMouseCustomWavName));
 	}
 
-	public bool KeystrokesLinuxInputNoticeVisible =>
-		Voidstrap.Utility.Platform.IsLinux && !KeystrokeInputService.HasInputAccess;
+	public bool KeystrokesLinuxInputNoticeVisible => Voidstrap.Utility.Platform.IsLinux && !KeystrokeInputService.HasInputAccess;
 
 	private bool _isPopulatingKeystrokeThemes;
 	public ObservableCollection<string> CustomKeystrokeThemes { get; } = new();
@@ -1973,7 +1943,10 @@ public ICommand PickCursorColorCommand { get; }
 				App.Settings.SaveDeferred();
 			}
 
-			if (CustomKeystrokeThemes.Count > 0 && (SelectedCustomKeystrokeThemeIndex < 0 || SelectedCustomKeystrokeThemeIndex >= CustomKeystrokeThemes.Count))
+			if (
+				CustomKeystrokeThemes.Count > 0
+				&& (SelectedCustomKeystrokeThemeIndex < 0 || SelectedCustomKeystrokeThemeIndex >= CustomKeystrokeThemes.Count)
+			)
 				SelectedCustomKeystrokeThemeIndex = 0;
 		}
 		finally
@@ -2045,7 +2018,13 @@ public ICommand PickCursorColorCommand { get; }
 		if (string.IsNullOrWhiteSpace(theme))
 			return;
 
-		if (Frontend.ShowMessageBox(string.Format(Voidstrap.Resources.Strings.Ui_Keystrokes_DeleteConfirm, theme), MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+		if (
+			Frontend.ShowMessageBox(
+				string.Format(Voidstrap.Resources.Strings.Ui_Keystrokes_DeleteConfirm, theme),
+				MessageBoxImage.Question,
+				MessageBoxButton.YesNo
+			) != MessageBoxResult.Yes
+		)
 			return;
 
 		KeystrokeThemeManager.DeleteCustomTheme(theme);
@@ -2121,7 +2100,7 @@ public ICommand PickCursorColorCommand { get; }
 
 			var dialog = new Voidstrap.UI.Elements.Dialogs.ThemeChangesDialog(theme, files)
 			{
-				Owner = System.Windows.Application.Current.MainWindow
+				Owner = System.Windows.Application.Current.MainWindow,
 			};
 			dialog.ShowOwnedDialog();
 		}
@@ -2140,7 +2119,7 @@ public ICommand PickCursorColorCommand { get; }
 		var sfd = new Microsoft.Win32.SaveFileDialog
 		{
 			FileName = $"{theme}.zip",
-			Filter = "Zip archive (*.zip)|*.zip|JSON theme (*.json)|*.json"
+			Filter = "Zip archive (*.zip)|*.zip|JSON theme (*.json)|*.json",
 		};
 
 		if (sfd.ShowDialog() == true)
@@ -2267,13 +2246,15 @@ public ICommand PickCursorColorCommand { get; }
 			{
 				cancel.Cancel();
 			}
-			catch
-			{
-			}
+			catch { }
 			cancel.Dispose();
 		}
 
-		bool hadPreview = _homepagePreviewStill != null || _homepagePreviewAnimated != null || _homepagePreviewVideoUri != null || _homepagePreviewMessage.Length > 0;
+		bool hadPreview =
+			_homepagePreviewStill != null
+			|| _homepagePreviewAnimated != null
+			|| _homepagePreviewVideoUri != null
+			|| _homepagePreviewMessage.Length > 0;
 		_homepagePreviewRequested = false;
 		_homepagePreviewStill = null;
 		_homepagePreviewAnimated = null;
@@ -2317,7 +2298,9 @@ public ICommand PickCursorColorCommand { get; }
 			catch (Exception ex)
 			{
 				App.Logger.WriteLine("ModsViewModel::HomepageMediaPreview", "The video preview could not be opened: " + ex.Message);
-				_homepagePreviewMessage = Voidstrap.Utility.Platform.IsLinux ? "This video could not be previewed." : "Video previews are not supported on Linux yet.";
+				_homepagePreviewMessage = Voidstrap.Utility.Platform.IsLinux
+					? "This video could not be previewed."
+					: "Video previews are not supported on Linux yet.";
 			}
 			Dispatcher.CurrentDispatcher.BeginInvoke(new Action(NotifyHomepagePreviewChanged), DispatcherPriority.Background);
 			return;
@@ -2328,76 +2311,85 @@ public ICommand PickCursorColorCommand { get; }
 		Dispatcher dispatcher = Dispatcher.CurrentDispatcher;
 		CancellationToken token = cancel.Token;
 
-		Task.Run(() =>
-		{
-			System.Windows.Media.ImageSource? still = null;
-			string message = "";
-			long length = 0;
-			try
+		Task.Run(
+			() =>
 			{
-				length = new FileInfo(path).Length;
-				if (length > MaxHomepagePreviewBytes)
-					message = "This file is too large to preview.";
-				else
+				System.Windows.Media.ImageSource? still = null;
+				string message = "";
+				long length = 0;
+				try
 				{
-					still = BuildStillPreview(path);
-					if (still == null)
-						message = DescribeUnpreviewableFile(path);
+					length = new FileInfo(path).Length;
+					if (length > MaxHomepagePreviewBytes)
+						message = "This file is too large to preview.";
+					else
+					{
+						still = BuildStillPreview(path);
+						if (still == null)
+							message = DescribeUnpreviewableFile(path);
+					}
 				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine("ModsViewModel::HomepageMediaPreview", "The preview could not be built: " + ex.Message);
-				message = DescribeUnpreviewableFile(path);
-			}
+				catch (Exception ex)
+				{
+					App.Logger.WriteLine("ModsViewModel::HomepageMediaPreview", "The preview could not be built: " + ex.Message);
+					message = DescribeUnpreviewableFile(path);
+				}
 
-			if (token.IsCancellationRequested)
-				return;
-
-			dispatcher.BeginInvoke(new Action(() =>
-			{
 				if (token.IsCancellationRequested)
 					return;
-				_homepagePreviewStill = still;
-				_homepagePreviewMessage = message;
-				NotifyHomepagePreviewChanged();
-			}), DispatcherPriority.Background);
 
-			if (still == null || extension != ".gif" || length > MaxAnimatedPreviewBytes || token.IsCancellationRequested)
-				return;
+				dispatcher.BeginInvoke(
+					new Action(() =>
+					{
+						if (token.IsCancellationRequested)
+							return;
+						_homepagePreviewStill = still;
+						_homepagePreviewMessage = message;
+						NotifyHomepagePreviewChanged();
+					}),
+					DispatcherPriority.Background
+				);
 
-			System.Windows.Media.ImageSource? animated = null;
-			try
-			{
-				if (!Voidstrap.Utility.Platform.IsWindows)
+				if (still == null || extension != ".gif" || length > MaxAnimatedPreviewBytes || token.IsCancellationRequested)
 					return;
 
-				BitmapImage bitmap = new();
-				bitmap.BeginInit();
-				bitmap.UriSource = new Uri(path, UriKind.Absolute);
-				bitmap.CacheOption = BitmapCacheOption.OnLoad;
-				bitmap.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
-				bitmap.EndInit();
-				bitmap.Freeze();
-				animated = bitmap;
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine("ModsViewModel::HomepageMediaPreview", "The animated preview could not be built: " + ex.Message);
-				return;
-			}
+				System.Windows.Media.ImageSource? animated = null;
+				try
+				{
+					if (!Voidstrap.Utility.Platform.IsWindows)
+						return;
 
-			if (token.IsCancellationRequested)
-				return;
+					BitmapImage bitmap = new();
+					bitmap.BeginInit();
+					bitmap.UriSource = new Uri(path, UriKind.Absolute);
+					bitmap.CacheOption = BitmapCacheOption.OnLoad;
+					bitmap.CreateOptions = BitmapCreateOptions.IgnoreColorProfile;
+					bitmap.EndInit();
+					bitmap.Freeze();
+					animated = bitmap;
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteLine("ModsViewModel::HomepageMediaPreview", "The animated preview could not be built: " + ex.Message);
+					return;
+				}
 
-			dispatcher.BeginInvoke(new Action(() =>
-			{
 				if (token.IsCancellationRequested)
 					return;
-				_homepagePreviewAnimated = animated;
-				NotifyHomepagePreviewChanged();
-			}), DispatcherPriority.ApplicationIdle);
-		}, token);
+
+				dispatcher.BeginInvoke(
+					new Action(() =>
+					{
+						if (token.IsCancellationRequested)
+							return;
+						_homepagePreviewAnimated = animated;
+						NotifyHomepagePreviewChanged();
+					}),
+					DispatcherPriority.ApplicationIdle
+				);
+			},
+			token
+		);
 	}
 
 	private static System.Windows.Media.ImageSource? BuildStillPreview(string path)
@@ -2424,9 +2416,10 @@ public ICommand PickCursorColorCommand { get; }
 		try
 		{
 			FileInfo info = new(path);
-			string size = info.Length >= 1024L * 1024
-				? (info.Length / 1024.0 / 1024.0).ToString("0.0", CultureInfo.InvariantCulture) + " MB"
-				: Math.Max(1L, info.Length / 1024L).ToString(CultureInfo.InvariantCulture) + " KB";
+			string size =
+				info.Length >= 1024L * 1024
+					? (info.Length / 1024.0 / 1024.0).ToString("0.0", CultureInfo.InvariantCulture) + " MB"
+					: Math.Max(1L, info.Length / 1024L).ToString(CultureInfo.InvariantCulture) + " KB";
 			string dimensions = Voidstrap.Utility.SafeImaging.TryReadDimensions(path, out int width, out int height)
 				? width.ToString(CultureInfo.InvariantCulture) + " by " + height.ToString(CultureInfo.InvariantCulture) + ", "
 				: string.Empty;
@@ -2442,19 +2435,20 @@ public ICommand PickCursorColorCommand { get; }
 
 	public string SelectedHomepageBackgroundMode
 	{
-		get => Voidstrap.Integrations.Overlays.OverlaySettings.HomepageBackgroundMode switch
-		{
-			"Gradient" => "Gradient",
-			"Media" => "Image or video",
-			_ => "Solid color"
-		};
+		get =>
+			Voidstrap.Integrations.Overlays.OverlaySettings.HomepageBackgroundMode switch
+			{
+				"Gradient" => "Gradient",
+				"Media" => "Image or video",
+				_ => "Solid color",
+			};
 		set
 		{
 			string mode = value switch
 			{
 				"Gradient" => "Gradient",
 				"Image or video" => "Media",
-				_ => "Solid"
+				_ => "Solid",
 			};
 			if (App.Settings.Prop.HomepageBackgroundOverlayMode == mode)
 				return;
@@ -2521,10 +2515,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public bool RiShadeEnabled
 	{
-		get
-		{
-			return App.Settings.Prop.RiShadeEnabled;
-		}
+		get { return App.Settings.Prop.RiShadeEnabled; }
 		set
 		{
 			Voidstrap.Integrations.RiShade.RiShadeManager.SetEnabled(value);
@@ -2532,16 +2523,21 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	public string[] AntiAliasingMethodNames => Voidstrap.Utility.Platform.IsLinux
-		? Voidstrap.Integrations.AntiAliasing.AntiAliasingSettings.MethodNames[..Voidstrap.Utility.LinuxEffectMapper.SupportedAntiAliasingMethods]
-		: Voidstrap.Integrations.AntiAliasing.AntiAliasingSettings.MethodNames;
+	public string[] AntiAliasingMethodNames =>
+		Voidstrap.Utility.Platform.IsLinux
+			? Voidstrap.Integrations.AntiAliasing.AntiAliasingSettings.MethodNames[
+				..Voidstrap.Utility.LinuxEffectMapper.SupportedAntiAliasingMethods
+			]
+			: Voidstrap.Integrations.AntiAliasing.AntiAliasingSettings.MethodNames;
 
 	public int AntiAliasingMethodIndex
 	{
 		get
 		{
 			int index = Voidstrap.Integrations.AntiAliasing.AntiAliasingSettings.MethodIndex;
-			return Voidstrap.Utility.Platform.IsLinux && index >= Voidstrap.Utility.LinuxEffectMapper.SupportedAntiAliasingMethods ? 0 : index;
+			return Voidstrap.Utility.Platform.IsLinux && index >= Voidstrap.Utility.LinuxEffectMapper.SupportedAntiAliasingMethods
+				? 0
+				: index;
 		}
 		set
 		{
@@ -2557,10 +2553,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public int MotionBlurStrengthIndex
 	{
-		get
-		{
-			return Voidstrap.Integrations.MotionBlur.MotionBlurSettings.StrengthIndex;
-		}
+		get { return Voidstrap.Integrations.MotionBlur.MotionBlurSettings.StrengthIndex; }
 		set
 		{
 			if (value < 0)
@@ -2571,7 +2564,9 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	public bool MotionBlurCustomOpen => Voidstrap.Integrations.MotionBlur.MotionBlurSettings.StrengthIndex == Voidstrap.Integrations.MotionBlur.MotionBlurSettings.CustomIndex;
+	public bool MotionBlurCustomOpen =>
+		Voidstrap.Integrations.MotionBlur.MotionBlurSettings.StrengthIndex
+		== Voidstrap.Integrations.MotionBlur.MotionBlurSettings.CustomIndex;
 
 	public int MotionBlurCustomMin => Voidstrap.Integrations.MotionBlur.MotionBlurSettings.MinCustomAmount;
 
@@ -2579,10 +2574,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public double MotionBlurCustomAmount
 	{
-		get
-		{
-			return Voidstrap.Integrations.MotionBlur.MotionBlurSettings.CustomAmount;
-		}
+		get { return Voidstrap.Integrations.MotionBlur.MotionBlurSettings.CustomAmount; }
 		set
 		{
 			int amount = (int)Math.Round(value);
@@ -2595,10 +2587,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public bool FrameGenEnabled
 	{
-		get
-		{
-			return Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex > 0;
-		}
+		get { return Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex > 0; }
 		set
 		{
 			Voidstrap.Integrations.FrameGeneration.FrameGenManager.SetMode(value ? 1 : 0);
@@ -2609,10 +2598,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public bool FrameGenOverlayShow
 	{
-		get
-		{
-			return App.Settings.Prop.FrameGenOverlayShow;
-		}
+		get { return App.Settings.Prop.FrameGenOverlayShow; }
 		set
 		{
 			App.Settings.Prop.FrameGenOverlayShow = value;
@@ -2623,10 +2609,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public bool FrameGenUncap
 	{
-		get
-		{
-			return App.Settings.Prop.FrameGenUncap;
-		}
+		get { return App.Settings.Prop.FrameGenUncap; }
 		set
 		{
 			App.Settings.Prop.FrameGenUncap = value;
@@ -2641,10 +2624,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public bool FrameGenCapWarningOpen
 	{
-		get
-		{
-			return _frameGenCapWarningOpen;
-		}
+		get { return _frameGenCapWarningOpen; }
 		private set
 		{
 			if (_frameGenCapWarningOpen == value)
@@ -2658,10 +2638,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public string FrameGenCapWarningMessage
 	{
-		get
-		{
-			return _frameGenCapWarningMessage;
-		}
+		get { return _frameGenCapWarningMessage; }
 		private set
 		{
 			if (_frameGenCapWarningMessage == value)
@@ -2681,14 +2658,18 @@ public ICommand PickCursorColorCommand { get; }
 		int suggest = Voidstrap.Integrations.Overlays.RobloxFpsCap.PickBestCap(hz, measured);
 		bool capTooHigh = Voidstrap.Integrations.Overlays.RobloxFpsCap.IsUnlimited || cap > hz;
 		bool capTooHighForGen = !capTooHigh && cap >= FrameGenBestBelowFps;
-		bool capTooLow = !capTooHigh && !capTooHighForGen && cap > 0 && cap < hz / 2 && measured >= 20 && measured >= cap - 3 && suggest > cap;
+		bool capTooLow =
+			!capTooHigh && !capTooHighForGen && cap > 0 && cap < hz / 2 && measured >= 20 && measured >= cap - 3 && suggest > cap;
 		bool open = fgOn && (capTooHigh || capTooHighForGen || capTooLow);
 		if (capTooHigh)
-			FrameGenCapWarningMessage = $"Your Roblox FPS cap is {Voidstrap.Integrations.Overlays.RobloxFpsCap.Describe()}, at or above your {hz}Hz display. Cap Roblox at {suggest} instead.";
+			FrameGenCapWarningMessage =
+				$"Your Roblox FPS cap is {Voidstrap.Integrations.Overlays.RobloxFpsCap.Describe()}, at or above your {hz}Hz display. Cap Roblox at {suggest} instead.";
 		else if (capTooHighForGen)
-			FrameGenCapWarningMessage = $"Frame generation works best below {FrameGenBestBelowFps} fps. Your Roblox FPS cap is {cap}, which leaves little room to insert frames. Cap Roblox at {suggest} instead.";
+			FrameGenCapWarningMessage =
+				$"Frame generation works best below {FrameGenBestBelowFps} fps. Your Roblox FPS cap is {cap}, which leaves little room to insert frames. Cap Roblox at {suggest} instead.";
 		else if (capTooLow)
-			FrameGenCapWarningMessage = $"Your Roblox FPS cap is {cap} and your game is reaching it, so real motion can feel slow. Try {suggest} instead.";
+			FrameGenCapWarningMessage =
+				$"Your Roblox FPS cap is {cap} and your game is reaching it, so real motion can feel slow. Try {suggest} instead.";
 		FrameGenCapWarningOpen = open;
 	}
 
@@ -2702,33 +2683,33 @@ public ICommand PickCursorColorCommand { get; }
 		int cap = Voidstrap.Integrations.Overlays.RobloxFpsCap.PickBestCap(hz, measured);
 		Voidstrap.Integrations.FrameGeneration.FrameGenManager.SetTargetCap(cap);
 		RefreshFrameGenWarning();
-		App.Logger.WriteLine("FrameGen", $"Fix FrameCap set the Roblox FPS cap to {cap} for a {hz}Hz display, measured base {measured:0} fps, previous cap {previousCap}");
-		Frontend.ShowMessageBox($"Roblox FPS cap set to {cap}. Frame generation fills you back up toward {hz}.", MessageBoxImage.Information);
+		App.Logger.WriteLine(
+			"FrameGen",
+			$"Fix FrameCap set the Roblox FPS cap to {cap} for a {hz}Hz display, measured base {measured:0} fps, previous cap {previousCap}"
+		);
+		Frontend.ShowMessageBox(
+			$"Roblox FPS cap set to {cap}. Frame generation fills you back up toward {hz}.",
+			MessageBoxImage.Information
+		);
 	}
 
 	public bool ServerDetailsDisplay
 	{
-		get
-		{
-			return App.Settings.Prop.ShowServerDetailsUI;
-		}
+		get { return App.Settings.Prop.ShowServerDetailsUI; }
 		set
 		{
-            if (App.Settings.Prop.ShowServerDetailsUI == value)
-                return;
-            App.Settings.Prop.ShowServerDetailsUI = value;
-            OnPropertyChanged();
-            App.Settings.SaveDeferred();
-            Voidstrap.Watcher.Current?.RefreshOverlayLive();
+			if (App.Settings.Prop.ShowServerDetailsUI == value)
+				return;
+			App.Settings.Prop.ShowServerDetailsUI = value;
+			OnPropertyChanged();
+			App.Settings.SaveDeferred();
+			Voidstrap.Watcher.Current?.RefreshOverlayLive();
 		}
 	}
 
 	public bool CrosshairShortcutEnabled
 	{
-		get
-		{
-			return App.Settings.Prop.CrosshairShortcutEnabled;
-		}
+		get { return App.Settings.Prop.CrosshairShortcutEnabled; }
 		set
 		{
 			if (App.Settings.Prop.CrosshairShortcutEnabled == value)
@@ -2742,10 +2723,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public bool Crosshair
 	{
-		get
-		{
-			return App.Settings.Prop.Crosshair;
-		}
+		get { return App.Settings.Prop.Crosshair; }
 		set
 		{
 			if (App.Settings.Prop.Crosshair == value)
@@ -2757,14 +2735,12 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	public System.Collections.Generic.IReadOnlyList<Voidstrap.Utility.ClockDisplay.ZoneOption> ClockTimeZones => Voidstrap.Utility.ClockDisplay.Options;
+	public System.Collections.Generic.IReadOnlyList<Voidstrap.Utility.ClockDisplay.ZoneOption> ClockTimeZones =>
+		Voidstrap.Utility.ClockDisplay.Options;
 
 	public string ClockTimeZoneId
 	{
-		get
-		{
-			return App.Settings.Prop.ClockTimeZoneId ?? "";
-		}
+		get { return App.Settings.Prop.ClockTimeZoneId ?? ""; }
 		set
 		{
 			App.Settings.Prop.ClockTimeZoneId = value ?? "";
@@ -2774,38 +2750,31 @@ public ICommand PickCursorColorCommand { get; }
 
 	public bool Clock24Hour
 	{
-		get
-		{
-			return App.Settings.Prop.Clock24Hour;
-		}
-		set
-		{
-			App.Settings.Prop.Clock24Hour = value;
-		}
+		get { return App.Settings.Prop.Clock24Hour; }
+		set { App.Settings.Prop.Clock24Hour = value; }
 	}
 
 	public bool CurrentTimeDisplay
 	{
-		get
-		{
-			return App.Settings.Prop.CurrentTimeDisplay;
-		}
+		get { return App.Settings.Prop.CurrentTimeDisplay; }
 		set
 		{
 			if (App.Settings.Prop.CurrentTimeDisplay == value)
 				return;
 			App.Settings.Prop.CurrentTimeDisplay = value;
-            OnPropertyChanged(nameof(CurrentTimeDisplay));
-            App.Settings.SaveDeferred();
-            Voidstrap.Watcher.Current?.RefreshOverlayLive();
+			OnPropertyChanged(nameof(CurrentTimeDisplay));
+			App.Settings.SaveDeferred();
+			Voidstrap.Watcher.Current?.RefreshOverlayLive();
 		}
 	}
 
 	public FontModPresetTask TextFontTask { get; } = new FontModPresetTask();
 
-	public Visibility ChooseCustomDeathSoundVisibility => GetVisibility(Path.Combine(Paths.Mods, "content", "sounds"), DeathSoundFiles, checkExist: false);
+	public Visibility ChooseCustomDeathSoundVisibility =>
+		GetVisibility(Path.Combine(Paths.Mods, "content", "sounds"), DeathSoundFiles, checkExist: false);
 
-	public Visibility DeleteCustomDeathSoundVisibility => GetVisibility(Path.Combine(Paths.Mods, "content", "sounds"), DeathSoundFiles, checkExist: true);
+	public Visibility DeleteCustomDeathSoundVisibility =>
+		GetVisibility(Path.Combine(Paths.Mods, "content", "sounds"), DeathSoundFiles, checkExist: true);
 
 	public ObservableCollection<GradientStopViewModel> GradientStops { get; set; } = new ObservableCollection<GradientStopViewModel>();
 
@@ -2813,20 +2782,12 @@ public ICommand PickCursorColorCommand { get; }
 
 	public RelayCommand DownloadPngCommand { get; }
 
-	public CrosshairShape[] CrosshairShapes { get; } = new CrosshairShape[4]
-	{
-		CrosshairShape.Cross,
-		CrosshairShape.Dot,
-		CrosshairShape.Circle,
-		CrosshairShape.Image
-	};
+	public CrosshairShape[] CrosshairShapes { get; } =
+		new CrosshairShape[4] { CrosshairShape.Cross, CrosshairShape.Dot, CrosshairShape.Circle, CrosshairShape.Image };
 
 	public CrosshairShape SelectedShape
 	{
-		get
-		{
-			return _selectedShape;
-		}
+		get { return _selectedShape; }
 		set
 		{
 			if (SetProperty(ref _selectedShape, value, nameof(SelectedShape)))
@@ -2839,10 +2800,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public bool UseImageCrosshair
 	{
-		get
-		{
-			return _useImageCrosshair;
-		}
+		get { return _useImageCrosshair; }
 		set
 		{
 			if (SetProperty(ref _useImageCrosshair, value, nameof(UseImageCrosshair)))
@@ -2854,10 +2812,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public string ImageUrl
 	{
-		get
-		{
-			return _imageUrl;
-		}
+		get { return _imageUrl; }
 		set
 		{
 			if (SetProperty(ref _imageUrl, value, nameof(ImageUrl)))
@@ -2869,10 +2824,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public string CursorColorHex
 	{
-		get
-		{
-			return _cursorColorHex;
-		}
+		get { return _cursorColorHex; }
 		set
 		{
 			SetProperty(ref _cursorColorHex, value, nameof(CursorColorHex));
@@ -2882,10 +2834,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public string CursorOutlineColorHex
 	{
-		get
-		{
-			return _cursorOutlineColorHex;
-		}
+		get { return _cursorOutlineColorHex; }
 		set
 		{
 			SetProperty(ref _cursorOutlineColorHex, value, nameof(CursorOutlineColorHex));
@@ -2895,10 +2844,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public int CursorSize
 	{
-		get
-		{
-			return _cursorSize;
-		}
+		get { return _cursorSize; }
 		set
 		{
 			SetProperty(ref _cursorSize, value, nameof(CursorSize));
@@ -2908,10 +2854,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public int CrosshairThickness
 	{
-		get
-		{
-			return _crosshairThickness;
-		}
+		get { return _crosshairThickness; }
 		set
 		{
 			SetProperty(ref _crosshairThickness, value, nameof(CrosshairThickness));
@@ -2921,10 +2864,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public int Gap
 	{
-		get
-		{
-			return _gap;
-		}
+		get { return _gap; }
 		set
 		{
 			SetProperty(ref _gap, value, nameof(Gap));
@@ -2934,10 +2874,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public double CursorOpacity
 	{
-		get
-		{
-			return _cursorOpacity;
-		}
+		get { return _cursorOpacity; }
 		set
 		{
 			SetProperty(ref _cursorOpacity, value, nameof(CursorOpacity));
@@ -2947,34 +2884,19 @@ public ICommand PickCursorColorCommand { get; }
 
 	public string CursorCode
 	{
-		get
-		{
-			return _cursorCode;
-		}
-		set
-		{
-			SetProperty(ref _cursorCode, value, nameof(CursorCode));
-		}
+		get { return _cursorCode; }
+		set { SetProperty(ref _cursorCode, value, nameof(CursorCode)); }
 	}
 
 	public ImageSource? CursorPreview
 	{
-		get
-		{
-			return _cursorPreview;
-		}
-		set
-		{
-			SetProperty(ref _cursorPreview, value, nameof(CursorPreview));
-		}
+		get { return _cursorPreview; }
+		set { SetProperty(ref _cursorPreview, value, nameof(CursorPreview)); }
 	}
 
 	public bool ModExplorerVisible
 	{
-		get
-		{
-			return _modExplorerVisible;
-		}
+		get { return _modExplorerVisible; }
 		set
 		{
 			_modExplorerVisible = value;
@@ -2999,10 +2921,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public ModFile? SelectedModFile
 	{
-		get
-		{
-			return _selectedModFile;
-		}
+		get { return _selectedModFile; }
 		set
 		{
 			if (ReferenceEquals(_selectedModFile, value))
@@ -3070,19 +2989,22 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	public ICommand ToggleModExplorerCommand => new RelayCommand(async delegate
-	{
-		ModExplorerVisible = !ModExplorerVisible;
-		if (ModExplorerVisible)
-		{
-			if (Voidstrap.Utility.Platform.IsLinux)
-				await Task.Run(() => global::Voidstrap.Bootstrapper.PrepareSoberClientTreeAsync(CancellationToken.None));
-			else if (Voidstrap.Utility.Platform.IsWindows)
-				await Task.Run(() => Voidstrap.Utility.RobloxInstallCompression.EnsureExtracted(new RobloxPlayerData()));
-			CurrentExplorerPath = ResolveRobloxPlayerDir(forceRefresh: true);
-			RefreshModFiles();
-		}
-	});
+	public ICommand ToggleModExplorerCommand =>
+		new RelayCommand(
+			async delegate
+			{
+				ModExplorerVisible = !ModExplorerVisible;
+				if (ModExplorerVisible)
+				{
+					if (Voidstrap.Utility.Platform.IsLinux)
+						await Task.Run(() => global::Voidstrap.Bootstrapper.PrepareSoberClientTreeAsync(CancellationToken.None));
+					else if (Voidstrap.Utility.Platform.IsWindows)
+						await Task.Run(() => Voidstrap.Utility.RobloxInstallCompression.EnsureExtracted(new RobloxPlayerData()));
+					CurrentExplorerPath = ResolveRobloxPlayerDir(forceRefresh: true);
+					RefreshModFiles();
+				}
+			}
+		);
 
 	public ICommand RefreshModFilesCommand => new RelayCommand(RefreshModFiles);
 
@@ -3100,22 +3022,22 @@ public ICommand PickCursorColorCommand { get; }
 
 	public ICommand ExportFileCommand => new RelayCommand(ExportFile);
 
-	public ICommand GoBackCommand => new RelayCommand(delegate
-	{
-		string text = ResolveRobloxPlayerDir().TrimEnd(trimChars);
-		string text2 = CurrentExplorerPath.TrimEnd(trimChars);
-		if (text2.Equals(text, StringComparison.OrdinalIgnoreCase))
-			return;
-		CurrentExplorerPath = Path.GetDirectoryName(text2) ?? text;
-		RefreshModFiles();
-	});
+	public ICommand GoBackCommand =>
+		new RelayCommand(
+			delegate
+			{
+				string text = ResolveRobloxPlayerDir().TrimEnd(trimChars);
+				string text2 = CurrentExplorerPath.TrimEnd(trimChars);
+				if (text2.Equals(text, StringComparison.OrdinalIgnoreCase))
+					return;
+				CurrentExplorerPath = Path.GetDirectoryName(text2) ?? text;
+				RefreshModFiles();
+			}
+		);
 
 	public string ExplorerSearchText
 	{
-		get
-		{
-			return _explorerSearchText;
-		}
+		get { return _explorerSearchText; }
 		set
 		{
 			if (_explorerSearchText == value)
@@ -3132,10 +3054,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public string CacheFilter
 	{
-		get
-		{
-			return _cacheFilter;
-		}
+		get { return _cacheFilter; }
 		set
 		{
 			_cacheFilter = value ?? "All";
@@ -3146,10 +3065,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public string CaptureSearch
 	{
-		get
-		{
-			return _captureSearch;
-		}
+		get { return _captureSearch; }
 		set
 		{
 			_captureSearch = value ?? "";
@@ -3160,10 +3076,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public bool ShowAssetNames
 	{
-		get
-		{
-			return _showAssetNames;
-		}
+		get { return _showAssetNames; }
 		set
 		{
 			_showAssetNames = value;
@@ -3182,10 +3095,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public string CaptureStatsText
 	{
-		get
-		{
-			return _captureStatsText;
-		}
+		get { return _captureStatsText; }
 		set
 		{
 			_captureStatsText = value;
@@ -3193,40 +3103,55 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	public ICommand RefreshCapturesCommand => new RelayCommand(delegate
-	{
-		_attemptedNames.Clear();
-		_nameCooldownUntil = DateTime.MinValue;
-		AssetCaptureStore.ResetResolveState();
-		ScanCache();
-		RebuildCaptures();
-	});
+	public ICommand RefreshCapturesCommand =>
+		new RelayCommand(
+			delegate
+			{
+				_attemptedNames.Clear();
+				_nameCooldownUntil = DateTime.MinValue;
+				AssetCaptureStore.ResetResolveState();
+				ScanCache();
+				RebuildCaptures();
+			}
+		);
 
-	public ICommand ClearCapturesCommand => new RelayCommand(delegate
-	{
-		AssetCaptureStore.Clear();
-		CapturedAssets.Clear();
-		UpdateCaptureStats();
-	});
+	public ICommand ClearCapturesCommand =>
+		new RelayCommand(
+			delegate
+			{
+				AssetCaptureStore.Clear();
+				CapturedAssets.Clear();
+				UpdateCaptureStats();
+			}
+		);
 
-	public ICommand DeleteAllCommand => new RelayCommand(delegate
-	{
-		_attemptedNames.Clear();
-		_nameCooldownUntil = DateTime.MinValue;
-		AssetCaptureStore.FullReset();
-		CapturedAssets.Clear();
-		UpdateCaptureStats();
-	});
+	public ICommand DeleteAllCommand =>
+		new RelayCommand(
+			delegate
+			{
+				_attemptedNames.Clear();
+				_nameCooldownUntil = DateTime.MinValue;
+				AssetCaptureStore.FullReset();
+				CapturedAssets.Clear();
+				UpdateCaptureStats();
+			}
+		);
 
-	public ICommand OpenCacheFolderCommand => new RelayCommand(delegate
-	{
-		OpenFolder(AssetCaptureStore.CacheDir);
-	});
+	public ICommand OpenCacheFolderCommand =>
+		new RelayCommand(
+			delegate
+			{
+				OpenFolder(AssetCaptureStore.CacheDir);
+			}
+		);
 
-	public ICommand OpenExportFolderCommand => new RelayCommand(delegate
-	{
-		OpenFolder(ExportDir);
-	});
+	public ICommand OpenExportFolderCommand =>
+		new RelayCommand(
+			delegate
+			{
+				OpenFolder(ExportDir);
+			}
+		);
 
 	public ICommand CopyCapturedIdCommand => new RelayCommand<CapturedAsset>(CopyCapturedId);
 
@@ -3257,7 +3182,7 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog
 			{
-				Filter = Strings.Menu_FontFiles + "|*.ttf;*.otf"
+				Filter = Strings.Menu_FontFiles + "|*.ttf;*.otf",
 			};
 			if (openFileDialog.ShowDialog() != true)
 				return;
@@ -3290,9 +3215,7 @@ public ICommand PickCursorColorCommand { get; }
 			FontManagerStatus = "Local font selected. Save settings to apply it.";
 			NotifyCustomFontChanged();
 		}
-		catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (cancellation.IsCancellationRequested) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsViewModel::ChooseCustomFont", ex);
@@ -3335,9 +3258,7 @@ public ICommand PickCursorColorCommand { get; }
 			FontManagerStatus = selected.Family + " selected. Save settings to apply it.";
 			NotifyCustomFontChanged();
 		}
-		catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (cancellation.IsCancellationRequested) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsViewModel::ApplyGoogleFont", ex);
@@ -3370,15 +3291,20 @@ public ICommand PickCursorColorCommand { get; }
 			GoogleFontOption? savedFont = string.IsNullOrWhiteSpace(saved)
 				? null
 				: AvailableGoogleFonts.FirstOrDefault(font => font.Family.Equals(saved, StringComparison.OrdinalIgnoreCase));
-			SelectedGoogleFont = savedFont ?? (HasCustomFont
-				? null
-				: AvailableGoogleFonts.FirstOrDefault(font => font.Family.Equals("Roboto", StringComparison.OrdinalIgnoreCase)) ?? AvailableGoogleFonts.FirstOrDefault());
+			SelectedGoogleFont =
+				savedFont
+				?? (
+					HasCustomFont
+						? null
+						: AvailableGoogleFonts.FirstOrDefault(font => font.Family.Equals("Roboto", StringComparison.OrdinalIgnoreCase))
+							?? AvailableGoogleFonts.FirstOrDefault()
+				);
 			bool starter = AvailableGoogleFonts.Count > 0 && AvailableGoogleFonts.All(font => font.Category == "starter");
-			FontManagerStatus = starter ? "Starter fonts ready. Refresh to load the full catalog." : AvailableGoogleFonts.Count.ToString("N0") + " fonts ready. Type a name to search.";
+			FontManagerStatus = starter
+				? "Starter fonts ready. Refresh to load the full catalog."
+				: AvailableGoogleFonts.Count.ToString("N0") + " fonts ready. Type a name to search.";
 		}
-		catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (cancellation.IsCancellationRequested) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsViewModel::LoadGoogleFonts", ex);
@@ -3410,7 +3336,10 @@ public ICommand PickCursorColorCommand { get; }
 	{
 		try
 		{
-			string? json = await GitHubCache.GetStringAsync("https://api.github.com/repos/KloBraticc/ModsHub-Reworked-/contents", TimeSpan.FromHours(1L));
+			string? json = await GitHubCache.GetStringAsync(
+				"https://api.github.com/repos/KloBraticc/ModsHub-Reworked-/contents",
+				TimeSpan.FromHours(1L)
+			);
 			if (json == null)
 			{
 				return;
@@ -3420,13 +3349,12 @@ public ICommand PickCursorColorCommand { get; }
 			{
 				return;
 			}
-			Task<ModInfo>[] tasks = list
-				.Where(item => item.Type == "dir")
+			Task<ModInfo>[] tasks = list.Where(item => item.Type == "dir")
 				.Select(async item => new ModInfo
 				{
 					Name = item.Name,
 					FolderPath = item.Path,
-					ImageUrl = await GetPreviewImageUrl(item.Path, _http).ConfigureAwait(false)
+					ImageUrl = await GetPreviewImageUrl(item.Path, _http).ConfigureAwait(false),
 				})
 				.ToArray();
 			AvailableMods = new ObservableCollection<ModInfo>(await Task.WhenAll(tasks).ConfigureAwait(true));
@@ -3447,7 +3375,8 @@ public ICommand PickCursorColorCommand { get; }
 			{
 				string rawUrl = "https://raw.githubusercontent.com/KloBraticc/ModsHub-Reworked-/main/" + folder + "/Preview." + text;
 				using var request = new HttpRequestMessage(HttpMethod.Head, rawUrl);
-				using HttpResponseMessage response = await http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+				using HttpResponseMessage response = await http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+					.ConfigureAwait(false);
 				if (response.IsSuccessStatusCode)
 					return rawUrl;
 			}
@@ -3471,11 +3400,17 @@ public ICommand PickCursorColorCommand { get; }
 		List<string> names = [];
 		try
 		{
-			using HttpResponseMessage response = await _http.GetAsync(RepoRoot, HttpCompletionOption.ResponseHeadersRead, cancellation.Token);
+			using HttpResponseMessage response = await _http.GetAsync(
+				RepoRoot,
+				HttpCompletionOption.ResponseHeadersRead,
+				cancellation.Token
+			);
 			response.EnsureSuccessStatusCode();
 			if (response.Content.Headers.ContentLength is long contentLength && (contentLength <= 0 || contentLength > 2097152))
 				throw new InvalidDataException("The skybox catalog size is invalid");
-			byte[] data = await Voidstrap.Utility.Http.ReadBytesBoundedAsync(response.Content, 2097152, cancellation.Token).ConfigureAwait(false);
+			byte[] data = await Voidstrap
+				.Utility.Http.ReadBytesBoundedAsync(response.Content, 2097152, cancellation.Token)
+				.ConfigureAwait(false);
 			if (data.Length == 0 || data.Length > 2097152)
 				throw new InvalidDataException("The skybox catalog size is invalid");
 			JsonElement[] entries = JsonSerializer.Deserialize<JsonElement[]>(data, JsonOptions.Tolerant) ?? [];
@@ -3500,7 +3435,12 @@ public ICommand PickCursorColorCommand { get; }
 			try
 			{
 				if (Directory.Exists(Paths.SkyboxPack))
-					names = Directory.EnumerateDirectories(Paths.SkyboxPack).Select(Path.GetFileName).Where(IsSafeSkyboxName).Select(name => name!).ToList();
+					names = Directory
+						.EnumerateDirectories(Paths.SkyboxPack)
+						.Select(Path.GetFileName)
+						.Where(IsSafeSkyboxName)
+						.Select(name => name!)
+						.ToList();
 			}
 			catch (Exception localEx)
 			{
@@ -3511,7 +3451,10 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			if (ReferenceEquals(_skyboxManagerCts, cancellation))
 			{
-				if (SkyboxImageConverter.HasCustomPack() && !names.Contains(SkyboxImageConverter.CustomPackName, StringComparer.OrdinalIgnoreCase))
+				if (
+					SkyboxImageConverter.HasCustomPack()
+					&& !names.Contains(SkyboxImageConverter.CustomPackName, StringComparer.OrdinalIgnoreCase)
+				)
 				{
 					int customIndex = names.FindIndex(name => name.Equals("Default", StringComparison.OrdinalIgnoreCase));
 					names.Insert(customIndex >= 0 ? customIndex + 1 : 0, SkyboxImageConverter.CustomPackName);
@@ -3537,8 +3480,12 @@ public ICommand PickCursorColorCommand { get; }
 		AvailableSkyboxPacks.Clear();
 		foreach (string name in names)
 			AvailableSkyboxPacks.Add(new SkyboxPack { Name = name });
-		SelectedSkyboxPack = AvailableSkyboxPacks.FirstOrDefault(pack => pack.Name.Equals(App.Settings.Prop.SkyboxName, StringComparison.OrdinalIgnoreCase)) ?? AvailableSkyboxPacks.FirstOrDefault();
-		SkyboxManagerStatus = online ? AvailableSkyboxPacks.Count.ToString("N0") + " skyboxes ready. The selected pack downloads when Roblox starts." : "Saved choices are ready. Refresh to check for every skybox.";
+		SelectedSkyboxPack =
+			AvailableSkyboxPacks.FirstOrDefault(pack => pack.Name.Equals(App.Settings.Prop.SkyboxName, StringComparison.OrdinalIgnoreCase))
+			?? AvailableSkyboxPacks.FirstOrDefault();
+		SkyboxManagerStatus = online
+			? AvailableSkyboxPacks.Count.ToString("N0") + " skyboxes ready. The selected pack downloads when Roblox starts."
+			: "Saved choices are ready. Refresh to check for every skybox.";
 		SkyboxManagerBusy = false;
 		OnPropertyChanged(nameof(SkyboxManagerReady));
 	}
@@ -3556,7 +3503,11 @@ public ICommand PickCursorColorCommand { get; }
 
 	private static bool IsSafeSkyboxName(string? name)
 	{
-		return !string.IsNullOrWhiteSpace(name) && name.Length <= 128 && name != "." && name != ".." && name.IndexOfAny([Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar]) < 0;
+		return !string.IsNullOrWhiteSpace(name)
+			&& name.Length <= 128
+			&& name != "."
+			&& name != ".."
+			&& name.IndexOfAny([Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar]) < 0;
 	}
 
 	private void ChooseSkyboxFace(string? face)
@@ -3594,7 +3545,8 @@ public ICommand PickCursorColorCommand { get; }
 				Title = title,
 				CheckFileExists = true,
 				Multiselect = false,
-				Filter = "Image files|*.png;*.jpg;*.jpeg;*.webp;*.gif;*.bmp;*.tif;*.tiff;*.tga;*.pbm;*.pgm;*.ppm;*.qoi;*.ico;*.heic;*.heif;*.avif;*.jfif;*.dds;*.tex|All files|*.*"
+				Filter =
+					"Image files|*.png;*.jpg;*.jpeg;*.webp;*.gif;*.bmp;*.tif;*.tiff;*.tga;*.pbm;*.pgm;*.ppm;*.qoi;*.ico;*.heic;*.heif;*.avif;*.jfif;*.dds;*.tex|All files|*.*",
 			};
 			return dialog.ShowDialog() == true ? dialog.FileName : null;
 		}
@@ -3643,7 +3595,7 @@ public ICommand PickCursorColorCommand { get; }
 			["sky512_ft.tex"] = _customSkyboxFront,
 			["sky512_lf.tex"] = _customSkyboxLeft,
 			["sky512_rt.tex"] = _customSkyboxRight,
-			["sky512_up.tex"] = _customSkyboxUp
+			["sky512_up.tex"] = _customSkyboxUp,
 		};
 	}
 
@@ -3664,11 +3616,15 @@ public ICommand PickCursorColorCommand { get; }
 			await SkyboxImageConverter.ImportAsync(GetCustomSkyboxSources(), cancellation.Token);
 			if (!ReferenceEquals(_skyboxImportCts, cancellation))
 				return;
-			SkyboxPack? customPack = AvailableSkyboxPacks.FirstOrDefault(pack => pack.Name.Equals(SkyboxImageConverter.CustomPackName, StringComparison.OrdinalIgnoreCase));
+			SkyboxPack? customPack = AvailableSkyboxPacks.FirstOrDefault(pack =>
+				pack.Name.Equals(SkyboxImageConverter.CustomPackName, StringComparison.OrdinalIgnoreCase)
+			);
 			if (customPack == null)
 			{
 				customPack = new SkyboxPack { Name = SkyboxImageConverter.CustomPackName };
-				int defaultIndex = AvailableSkyboxPacks.ToList().FindIndex(pack => pack.Name.Equals("Default", StringComparison.OrdinalIgnoreCase));
+				int defaultIndex = AvailableSkyboxPacks
+					.ToList()
+					.FindIndex(pack => pack.Name.Equals("Default", StringComparison.OrdinalIgnoreCase));
 				AvailableSkyboxPacks.Insert(defaultIndex >= 0 ? defaultIndex + 1 : 0, customPack);
 			}
 			SelectedSkyboxPack = customPack;
@@ -3678,9 +3634,7 @@ public ICommand PickCursorColorCommand { get; }
 			OnPropertyChanged(nameof(HasCustomSkybox));
 			OnPropertyChanged(nameof(SkyboxManagerReady));
 		}
-		catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (cancellation.IsCancellationRequested) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ModsViewModel::ApplyCustomSkybox", ex);
@@ -3701,16 +3655,27 @@ public ICommand PickCursorColorCommand { get; }
 	{
 		if (CustomSkyboxBusy || !HasCustomSkybox)
 			return;
-		if (Frontend.ShowMessageBox("Remove your saved custom skybox?", MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+		if (
+			Frontend.ShowMessageBox(
+				"Remove your saved custom skybox?",
+				MessageBoxImage.Warning,
+				MessageBoxButton.YesNo,
+				MessageBoxResult.No
+			) != MessageBoxResult.Yes
+		)
 			return;
 		try
 		{
 			SkyboxImageConverter.Remove();
-			SkyboxPack? customPack = AvailableSkyboxPacks.FirstOrDefault(pack => pack.Name.Equals(SkyboxImageConverter.CustomPackName, StringComparison.OrdinalIgnoreCase));
+			SkyboxPack? customPack = AvailableSkyboxPacks.FirstOrDefault(pack =>
+				pack.Name.Equals(SkyboxImageConverter.CustomPackName, StringComparison.OrdinalIgnoreCase)
+			);
 			if (customPack != null)
 				AvailableSkyboxPacks.Remove(customPack);
 			if (App.Settings.Prop.SkyboxName.Equals(SkyboxImageConverter.CustomPackName, StringComparison.OrdinalIgnoreCase))
-				SelectedSkyboxPack = AvailableSkyboxPacks.FirstOrDefault(pack => pack.Name.Equals("Default", StringComparison.OrdinalIgnoreCase)) ?? AvailableSkyboxPacks.FirstOrDefault();
+				SelectedSkyboxPack =
+					AvailableSkyboxPacks.FirstOrDefault(pack => pack.Name.Equals("Default", StringComparison.OrdinalIgnoreCase))
+					?? AvailableSkyboxPacks.FirstOrDefault();
 			App.Settings.SaveDeferred();
 			OnPropertyChanged(nameof(HasCustomSkybox));
 			OnPropertyChanged(nameof(SkyboxManagerReady));
@@ -3792,8 +3757,9 @@ public ICommand PickCursorColorCommand { get; }
 	{
 		Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog
 		{
-			Filter = "Audio files|*.ogg;*.oga;*.wav;*.wave;*.mp3;*.mp2;*.mpa;*.flac;*.aac;*.m4a;*.mp4;*.wma;*.aif;*.aiff;*.aifc;*.opus;*.webm;*.3gp;*.3g2;*.ac3;*.amr|All files|*.*",
-			Title = "Select a Custom Death Sound"
+			Filter =
+				"Audio files|*.ogg;*.oga;*.wav;*.wave;*.mp3;*.mp2;*.mpa;*.flac;*.aac;*.m4a;*.mp4;*.wma;*.aif;*.aiff;*.aifc;*.opus;*.webm;*.3gp;*.3g2;*.ac3;*.amr|All files|*.*",
+			Title = "Select a Custom Death Sound",
 		};
 
 		if (openFileDialog.ShowDialog() != true)
@@ -3808,7 +3774,11 @@ public ICommand PickCursorColorCommand { get; }
 			string convertedSource = Paths.CustomDeathSoundSource + "." + Guid.NewGuid().ToString("N") + ".importing";
 			try
 			{
-				string conversionError = await Task.Run(() => AudioGain.TryApplyGain(openFileDialog.FileName, convertedSource, 1.0, cancellation.Token, out string error) ? string.Empty : error);
+				string conversionError = await Task.Run(() =>
+					AudioGain.TryApplyGain(openFileDialog.FileName, convertedSource, 1.0, cancellation.Token, out string error)
+						? string.Empty
+						: error
+				);
 				cancellation.Token.ThrowIfCancellationRequested();
 				if (generation != Interlocked.Read(ref _deathSoundConversionGeneration))
 					return;
@@ -3823,9 +3793,7 @@ public ICommand PickCursorColorCommand { get; }
 				{
 					File.Delete(convertedSource);
 				}
-				catch
-				{
-				}
+				catch { }
 				CompleteDeathSoundConversion(generation, cancellation);
 			}
 		}
@@ -3860,24 +3828,29 @@ public ICommand PickCursorColorCommand { get; }
 	public void RemoveCustomDeathSound()
 	{
 		CancelDeathSoundConversion();
-        RemoveCustomFile(DeathSoundFiles, Path.Combine(Paths.Mods, "content", "sounds"), "No custom death sound found to remove.", delegate
-		{
-			try
+		RemoveCustomFile(
+			DeathSoundFiles,
+			Path.Combine(Paths.Mods, "content", "sounds"),
+			"No custom death sound found to remove.",
+			delegate
 			{
-				if (File.Exists(Paths.CustomDeathSoundSource))
+				try
 				{
-					File.Delete(Paths.CustomDeathSoundSource);
+					if (File.Exists(Paths.CustomDeathSoundSource))
+					{
+						File.Delete(Paths.CustomDeathSoundSource);
+					}
 				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine("ModsViewModel::RemoveCustomDeathSound", "Could not remove the stored sound: " + ex.Message);
-			}
+				catch (Exception ex)
+				{
+					App.Logger.WriteLine("ModsViewModel::RemoveCustomDeathSound", "Could not remove the stored sound: " + ex.Message);
+				}
 
-			OnPropertyChanged(nameof(ChooseCustomDeathSoundVisibility));
-			OnPropertyChanged(nameof(DeleteCustomDeathSoundVisibility));
-			OnPropertyChanged(nameof(CustomDeathSoundVolumeVisibility));
-		});
+				OnPropertyChanged(nameof(ChooseCustomDeathSoundVisibility));
+				OnPropertyChanged(nameof(DeleteCustomDeathSoundVisibility));
+				OnPropertyChanged(nameof(CustomDeathSoundVolumeVisibility));
+			}
+		);
 	}
 
 	private void ApplyDeathSoundVolume()
@@ -3897,9 +3870,18 @@ public ICommand PickCursorColorCommand { get; }
 		try
 		{
 			double volume = App.Settings.Prop.CustomDeathSoundVolume;
-			error = await Task.Run(() => Math.Abs(volume - 1.0) < 0.005
-				? CopyDeathSoundAtFullVolume()
-				: AudioGain.TryApplyGain(Paths.CustomDeathSoundSource, Paths.CustomDeathSound, volume, cancellation.Token, out string conversionError) ? string.Empty : conversionError);
+			error = await Task.Run(() =>
+				Math.Abs(volume - 1.0) < 0.005 ? CopyDeathSoundAtFullVolume()
+				: AudioGain.TryApplyGain(
+					Paths.CustomDeathSoundSource,
+					Paths.CustomDeathSound,
+					volume,
+					cancellation.Token,
+					out string conversionError
+				)
+					? string.Empty
+				: conversionError
+			);
 			if (cancellation.IsCancellationRequested || generation != Interlocked.Read(ref _deathSoundConversionGeneration))
 				return;
 		}
@@ -3964,14 +3946,18 @@ public ICommand PickCursorColorCommand { get; }
 			App.Logger?.WriteLine("ModsViewModel", "Could not load the crosshair settings: " + ex.Message);
 		}
 		PopulateKeystrokeThemes();
-		PickCursorColorCommand = new RelayCommand(delegate
-		{
-			PickColor(main: true);
-		});
-		PickOutlineColorCommand = new RelayCommand(delegate
-		{
-			PickColor(main: false);
-		});
+		PickCursorColorCommand = new RelayCommand(
+			delegate
+			{
+				PickColor(main: true);
+			}
+		);
+		PickOutlineColorCommand = new RelayCommand(
+			delegate
+			{
+				PickColor(main: false);
+			}
+		);
 		PickHomepageBackgroundColorCommand = new RelayCommand(PickHomepageBackgroundColor);
 		PickHomepageBackgroundGradientColorCommand = new RelayCommand(PickHomepageBackgroundGradientColor);
 		ChooseHomepageBackgroundMediaCommand = new RelayCommand(ChooseHomepageBackgroundMedia);
@@ -4000,7 +3986,10 @@ public ICommand PickCursorColorCommand { get; }
 		ApplyGoogleFontCommand = new AsyncRelayCommand(ApplyGoogleFontAsync);
 		ChooseLocalFontCommand = new AsyncRelayCommand(ChooseLocalFontAsync);
 		RemoveCustomFontCommand = new RelayCommand(RemoveCustomFont);
-		((DispatcherObject)System.Windows.Application.Current).Dispatcher.BeginInvoke((DispatcherPriority)6, (Delegate)new Action(UpdatePreview));
+		((DispatcherObject)System.Windows.Application.Current).Dispatcher.BeginInvoke(
+			(DispatcherPriority)6,
+			(Delegate)new Action(UpdatePreview)
+		);
 	}
 
 	private void PickHomepageBackgroundColor()
@@ -4024,7 +4013,8 @@ public ICommand PickCursorColorCommand { get; }
 		System.Windows.Media.Color initial;
 		try
 		{
-			initial = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(HomepageBackgroundOverlayGradientColor);
+			initial = (System.Windows.Media.Color)
+				System.Windows.Media.ColorConverter.ConvertFromString(HomepageBackgroundOverlayGradientColor);
 		}
 		catch
 		{
@@ -4050,22 +4040,27 @@ public ICommand PickCursorColorCommand { get; }
 			Microsoft.Win32.OpenFileDialog dialog = new()
 			{
 				Title = "Choose homepage background",
-				Filter = "All supported media|*.png;*.apng;*.jpg;*.jpeg;*.jpe;*.jfif;*.bmp;*.dib;*.gif;*.webp;*.tif;*.tiff;*.ico;*.wdp;*.jxr;*.hdp;*.tga;*.qoi;*.pbm;*.pgm;*.ppm;*.pnm;*.heic;*.heif;*.avif;*.mp4;*.m4v;*.webm;*.avi;*.mov;*.wmv;*.mpeg;*.mpg;*.mkv|All image files|*.*|Videos|*.mp4;*.m4v;*.webm;*.avi;*.mov;*.wmv;*.mpeg;*.mpg;*.mkv|All files|*.*"
+				Filter =
+					"All supported media|*.png;*.apng;*.jpg;*.jpeg;*.jpe;*.jfif;*.bmp;*.dib;*.gif;*.webp;*.tif;*.tiff;*.ico;*.wdp;*.jxr;*.hdp;*.tga;*.qoi;*.pbm;*.pgm;*.ppm;*.pnm;*.heic;*.heif;*.avif;*.mp4;*.m4v;*.webm;*.avi;*.mov;*.wmv;*.mpeg;*.mpg;*.mkv|All image files|*.*|Videos|*.mp4;*.m4v;*.webm;*.avi;*.mov;*.wmv;*.mpeg;*.mpg;*.mkv|All files|*.*",
 			};
 			if (Voidstrap.Utility.Platform.IsMacOS)
 			{
-				const string images = "*.png;*.jpg;*.jpeg;*.jpe;*.jfif;*.bmp;*.gif;*.webp;*.tif;*.tiff;*.ico;*.tga;*.qoi;*.pbm;*.pgm;*.ppm;*.pnm;*.heic;*.heif;*.avif";
+				const string images =
+					"*.png;*.jpg;*.jpeg;*.jpe;*.jfif;*.bmp;*.gif;*.webp;*.tif;*.tiff;*.ico;*.tga;*.qoi;*.pbm;*.pgm;*.ppm;*.pnm;*.heic;*.heif;*.avif";
 				const string videos = "*.mp4;*.m4v;*.mov";
-				dialog.Filter = $"{Strings.ResourceManager.GetString("HomepageMedia.Picker.ImagesAndVideos")}|{images};{videos}|{Strings.ResourceManager.GetString("HomepageMedia.Picker.Images")}|{images}|{Strings.ResourceManager.GetString("HomepageMedia.Picker.Videos")}|{videos}|{Strings.Menu_AllFiles}|*.*";
+				dialog.Filter =
+					$"{Strings.ResourceManager.GetString("HomepageMedia.Picker.ImagesAndVideos")}|{images};{videos}|{Strings.ResourceManager.GetString("HomepageMedia.Picker.Images")}|{images}|{Strings.ResourceManager.GetString("HomepageMedia.Picker.Videos")}|{videos}|{Strings.Menu_AllFiles}|*.*";
 			}
 			if (dialog.ShowDialog() != true)
 				return;
 			string path = Path.GetFullPath(dialog.FileName);
 			if (!File.Exists(path))
 				return;
-			if (Voidstrap.Utility.Platform.IsLinux
+			if (
+				Voidstrap.Utility.Platform.IsLinux
 				&& !Voidstrap.Integrations.Overlays.OverlaySettings.IsHomepageVideo(path)
-				&& !LinuxHomepageShader.IsHighResolutionImage(path))
+				&& !LinuxHomepageShader.IsHighResolutionImage(path)
+			)
 			{
 				Frontend.ShowMessageBox("Linux homepage background images must be at least 540 × 405 pixels.", MessageBoxImage.Hand);
 				return;
@@ -4185,7 +4180,11 @@ public ICommand PickCursorColorCommand { get; }
 					App.Logger.WriteLine("ModsViewModel::LoadManagedMods", "Could not compare the standard mod folder: " + ex.Message);
 				}
 				Dictionary<string, ManagedModLibraryEntry> owners = new(StringComparer.OrdinalIgnoreCase);
-				foreach (ManagedModLibraryEntry entry in library.Where(entry => entry.Record.Enabled).OrderByDescending(entry => entry.AppliedOnTop))
+				foreach (
+					ManagedModLibraryEntry entry in library
+						.Where(entry => entry.Record.Enabled)
+						.OrderByDescending(entry => entry.AppliedOnTop)
+				)
 				{
 					foreach (string relative in entry.RelativePaths)
 					{
@@ -4195,24 +4194,41 @@ public ICommand PickCursorColorCommand { get; }
 						owners.TryAdd(relative, entry);
 					}
 				}
-				return library.Select(entry =>
-				{
-					int conflicts = 0;
-					int overridden = 0;
-					if (entry.Record.Enabled)
+				return library
+					.Select(entry =>
 					{
-						foreach (string path in entry.RelativePaths)
+						int conflicts = 0;
+						int overridden = 0;
+						if (entry.Record.Enabled)
 						{
-							if (IsConflictExempt(path) || pathCounts.GetValueOrDefault(path) <= 1)
-								continue;
-							conflicts++;
-							if (!ReferenceEquals(owners[path], entry))
-								overridden++;
+							foreach (string path in entry.RelativePaths)
+							{
+								if (IsConflictExempt(path) || pathCounts.GetValueOrDefault(path) <= 1)
+									continue;
+								conflicts++;
+								if (!ReferenceEquals(owners[path], entry))
+									overridden++;
+							}
 						}
-					}
-					bool editable = ExternalModConfigs.IsExternal(entry.Record.Id) || Voidstrap.Integrations.CommunityMods.ModVariantStore.HasSlots(entry.Record.Id);
-					return new ManagedModItem(entry.Record.Id, entry.Record.Name, entry.Record.Enabled, entry.Record.CreatedUtc, entry.FileCount, entry.TotalBytes, conflicts, entry.Failure, entry.Pack, editable, overridden, entry.AppliedOnTop);
-				}).ToArray();
+						bool editable =
+							ExternalModConfigs.IsExternal(entry.Record.Id)
+							|| Voidstrap.Integrations.CommunityMods.ModVariantStore.HasSlots(entry.Record.Id);
+						return new ManagedModItem(
+							entry.Record.Id,
+							entry.Record.Name,
+							entry.Record.Enabled,
+							entry.Record.CreatedUtc,
+							entry.FileCount,
+							entry.TotalBytes,
+							conflicts,
+							entry.Failure,
+							entry.Pack,
+							editable,
+							overridden,
+							entry.AppliedOnTop
+						);
+					})
+					.ToArray();
 			});
 			MergeManagedMods(items);
 			ApplyManagedModFilter();
@@ -4263,9 +4279,14 @@ public ICommand PickCursorColorCommand { get; }
 	private void ApplyManagedModFilter()
 	{
 		string query = ManagedModSearchText.Trim();
-		List<ManagedModItem> filtered = (string.IsNullOrEmpty(query)
-			? _allManagedMods
-			: _allManagedMods.Where(item => item.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || item.Id.Contains(query, StringComparison.OrdinalIgnoreCase))).ToList();
+		List<ManagedModItem> filtered = (
+			string.IsNullOrEmpty(query)
+				? _allManagedMods
+				: _allManagedMods.Where(item =>
+					item.Name.Contains(query, StringComparison.OrdinalIgnoreCase)
+					|| item.Id.Contains(query, StringComparison.OrdinalIgnoreCase)
+				)
+		).ToList();
 		bool sameOrder = filtered.Count == ManagedMods.Count;
 		for (int index = 0; sameOrder && index < filtered.Count; index++)
 			sameOrder = ReferenceEquals(ManagedMods[index], filtered[index]);
@@ -4277,7 +4298,9 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		bool searchHasNoResults = ManagedMods.Count == 0 && _allManagedMods.Count > 0 && !string.IsNullOrEmpty(query);
 		ManagedModsEmptyTitle = searchHasNoResults ? "No Mods match your search" : "No Mods found";
-		ManagedModsEmptyDescription = searchHasNoResults ? "Try a different name or identifier." : "Roblox is better with mods. Add your first mod to create its indexed folder, then place its files inside.";
+		ManagedModsEmptyDescription = searchHasNoResults
+			? "Try a different name or identifier."
+			: "Roblox is better with mods. Add your first mod to create its indexed folder, then place its files inside.";
 	}
 
 	private async Task AddManagedModAsync()
@@ -4313,7 +4336,7 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			Voidstrap.UI.Elements.Dialogs.ModEditorWindow window = new(item.Id, item.Name, item.Pack)
 			{
-				Owner = System.Windows.Application.Current?.MainWindow
+				Owner = System.Windows.Application.Current?.MainWindow,
 			};
 			window.ShowDialog();
 			if (window.Changed)
@@ -4350,7 +4373,15 @@ public ICommand PickCursorColorCommand { get; }
 
 	private async Task RemoveManagedModAsync(ManagedModItem? item)
 	{
-		if (item is null || Frontend.ShowMessageBox("Remove " + item.Name + " and all files in its managed folder?", MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+		if (
+			item is null
+			|| Frontend.ShowMessageBox(
+				"Remove " + item.Name + " and all files in its managed folder?",
+				MessageBoxImage.Warning,
+				MessageBoxButton.YesNo,
+				MessageBoxResult.No
+			) != MessageBoxResult.Yes
+		)
 			return;
 		await _managedModsMutationGate.WaitAsync();
 		try
@@ -4423,7 +4454,8 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			Frontend.ShowMessageBox(
 				string.Format(Voidstrap.Resources.Strings.Ui_AppCode_ConflictWarning, string.Join("\n", conflicts)),
-				MessageBoxImage.Warning);
+				MessageBoxImage.Warning
+			);
 		}
 	}
 
@@ -4580,7 +4612,7 @@ public ICommand PickCursorColorCommand { get; }
 				Filter = "Cursor File (*.cur)|*.cur",
 				DefaultExt = ".cur",
 				AddExtension = true,
-				FileName = "crosshair.cur"
+				FileName = "crosshair.cur",
 			};
 			if (dialog.ShowDialog() != true)
 				return;
@@ -4605,7 +4637,7 @@ public ICommand PickCursorColorCommand { get; }
 				Filter = "PNG Image (*.png)|*.png",
 				DefaultExt = ".png",
 				AddExtension = true,
-				FileName = "crosshair.png"
+				FileName = "crosshair.png",
 			};
 			if (dialog.ShowDialog() != true)
 				return;
@@ -4724,7 +4756,8 @@ public ICommand PickCursorColorCommand { get; }
 			CursorCode = $"VXH:IMAGE|{ImageUrl}|{CursorSize}|{CursorOpacity}";
 			return;
 		}
-		CursorCode = $"VXH:{SelectedShape}|{CursorColorHex}|{CursorOutlineColorHex}|{CursorSize}|{CrosshairThickness}|{Gap}|{CursorOpacity}";
+		CursorCode =
+			$"VXH:{SelectedShape}|{CursorColorHex}|{CursorOutlineColorHex}|{CursorSize}|{CrosshairThickness}|{Gap}|{CursorOpacity}";
 	}
 
 	private void ApplyCode()
@@ -4756,9 +4789,7 @@ public ICommand PickCursorColorCommand { get; }
 			Gap = ((array.Length > 5 && int.TryParse(array[5], out var result6)) ? result6 : 4);
 			CursorOpacity = ((array.Length > 6 && double.TryParse(array[6], out var result7)) ? result7 : 1.0);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private bool _loadingCrosshair;
@@ -4775,32 +4806,45 @@ public ICommand PickCursorColorCommand { get; }
 	{
 		if (System.Windows.Application.Current == null)
 			return;
-		((DispatcherObject)System.Windows.Application.Current).Dispatcher.Invoke((Action)delegate
-		{
-			try
-			{
-				if (SelectedShape == CrosshairShape.Image && !string.IsNullOrWhiteSpace(ImageUrl))
+		((DispatcherObject)System.Windows.Application.Current).Dispatcher.Invoke(
+			(Action)
+				delegate
 				{
-					ImageSource? imageSource = LoadImageFromUrl(ImageUrl);
-					if (imageSource != null)
+					try
 					{
-						CursorPreview = imageSource;
-						return;
+						if (SelectedShape == CrosshairShape.Image && !string.IsNullOrWhiteSpace(ImageUrl))
+						{
+							ImageSource? imageSource = LoadImageFromUrl(ImageUrl);
+							if (imageSource != null)
+							{
+								CursorPreview = imageSource;
+								return;
+							}
+						}
+						CursorPreview = CreateCrosshairBitmap(128, 0.75);
+					}
+					catch (Exception ex)
+					{
+						CursorPreview = null;
+						App.Logger.WriteException("ModsViewModel::UpdatePreview", ex);
 					}
 				}
-				CursorPreview = CreateCrosshairBitmap(128, 0.75);
-			}
-			catch (Exception ex)
-			{
-				CursorPreview = null;
-				App.Logger.WriteException("ModsViewModel::UpdatePreview", ex);
-			}
-		});
+		);
 	}
 
 	private BitmapSource CreateCrosshairBitmap(int dimension, double scale)
 	{
-		return Voidstrap.UI.CrosshairRenderer.Render(dimension, scale, (int)SelectedShape, CursorColorHex, CursorOutlineColorHex, CursorSize, Gap, CrosshairThickness, CursorOpacity);
+		return Voidstrap.UI.CrosshairRenderer.Render(
+			dimension,
+			scale,
+			(int)SelectedShape,
+			CursorColorHex,
+			CursorOutlineColorHex,
+			CursorSize,
+			Gap,
+			CrosshairThickness,
+			CursorOpacity
+		);
 	}
 
 	private void MirrorCrosshairToSettings()
@@ -4827,17 +4871,20 @@ public ICommand PickCursorColorCommand { get; }
 	private void SaveIni()
 	{
 		MirrorCrosshairToSettings();
-		IniFile.Write(_file, new Dictionary<string, string>
-		{
-			["Shape"] = SelectedShape.ToString(),
-			["Color"] = CursorColorHex,
-			["Outline"] = CursorOutlineColorHex,
-			["Size"] = CursorSize.ToString(),
-			["Thickness"] = CrosshairThickness.ToString(),
-			["Gap"] = Gap.ToString(),
-			["Opacity"] = CursorOpacity.ToString(),
-			["ImageUrl"] = ImageUrl ?? ""
-		});
+		IniFile.Write(
+			_file,
+			new Dictionary<string, string>
+			{
+				["Shape"] = SelectedShape.ToString(),
+				["Color"] = CursorColorHex,
+				["Outline"] = CursorOutlineColorHex,
+				["Size"] = CursorSize.ToString(),
+				["Thickness"] = CrosshairThickness.ToString(),
+				["Gap"] = Gap.ToString(),
+				["Opacity"] = CursorOpacity.ToString(),
+				["ImageUrl"] = ImageUrl ?? "",
+			}
+		);
 		Voidstrap.Integrations.Overlays.OverlayHub.RefreshCrosshair();
 	}
 
@@ -4908,10 +4955,7 @@ public ICommand PickCursorColorCommand { get; }
 
 	public string ExplorerStatusMessage
 	{
-		get
-		{
-			return _explorerStatusMessage;
-		}
+		get { return _explorerStatusMessage; }
 		private set
 		{
 			if (_explorerStatusMessage == value)
@@ -4957,20 +5001,19 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			try
 			{
-				string[] directories = Directory.GetDirectories(versionsRoot)
-					.OrderByDescending(Directory.GetLastWriteTimeUtc)
-					.ToArray();
+				string[] directories = Directory.GetDirectories(versionsRoot).OrderByDescending(Directory.GetLastWriteTimeUtc).ToArray();
 				foreach (string text2 in directories)
 				{
-					if (Voidstrap.AppData.CommonAppData.IsVersionGuidValid(Path.GetFileName(text2)) && File.Exists(Path.Combine(text2, "RobloxPlayerBeta.exe")))
+					if (
+						Voidstrap.AppData.CommonAppData.IsVersionGuidValid(Path.GetFileName(text2))
+						&& File.Exists(Path.Combine(text2, "RobloxPlayerBeta.exe"))
+					)
 					{
 						return text2;
 					}
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 		return versionsRoot;
 	}
@@ -4982,7 +5025,8 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			if (Directory.Exists(root))
 			{
-				string? newest = Directory.GetDirectories(root)
+				string? newest = Directory
+					.GetDirectories(root)
 					.Where(directory => File.Exists(directory + ".complete"))
 					.OrderByDescending(Directory.GetLastWriteTimeUtc)
 					.FirstOrDefault();
@@ -5001,7 +5045,10 @@ public ICommand PickCursorColorCommand { get; }
 	{
 		if (SelectedModFile != null)
 		{
-			Frontend.ShowMessageBox($"Name: {SelectedModFile.Name}\nType: {SelectedModFile.Type}\nSize: {(SelectedModFile.IsFolder ? "N/A" : SelectedModFile.SizeText)}\nModified: {SelectedModFile.ModifiedTime}\nStatus: {SelectedModFile.Status}\nFull Path: {SelectedModFile.FullPath}", MessageBoxImage.Asterisk);
+			Frontend.ShowMessageBox(
+				$"Name: {SelectedModFile.Name}\nType: {SelectedModFile.Type}\nSize: {(SelectedModFile.IsFolder ? "N/A" : SelectedModFile.SizeText)}\nModified: {SelectedModFile.ModifiedTime}\nStatus: {SelectedModFile.Status}\nFull Path: {SelectedModFile.FullPath}",
+				MessageBoxImage.Asterisk
+			);
 		}
 	}
 
@@ -5014,7 +5061,7 @@ public ICommand PickCursorColorCommand { get; }
 		Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog
 		{
 			Title = "Select replacement for " + SelectedModFile.Name,
-			Filter = "Compatible files|*.png;*.jpg;*.jpeg;*.bmp;*.ogg;*.mp3;*.wav;*.mesh;*.rbxm;*.rbxmx;*.json|All files|*.*"
+			Filter = "Compatible files|*.png;*.jpg;*.jpeg;*.bmp;*.ogg;*.mp3;*.wav;*.mesh;*.rbxm;*.rbxmx;*.json|All files|*.*",
 		};
 		if (openFileDialog.ShowDialog() != true)
 		{
@@ -5040,19 +5087,19 @@ public ICommand PickCursorColorCommand { get; }
 				ImageFormat imageFormat;
 				switch (text2)
 				{
-				case ".png":
-					imageFormat = ImageFormat.Png;
-					break;
-				case ".jpg":
-				case ".jpeg":
-					imageFormat = ImageFormat.Jpeg;
-					break;
-				case ".bmp":
-					imageFormat = ImageFormat.Bmp;
-					break;
-				default:
-					imageFormat = ImageFormat.Png;
-					break;
+					case ".png":
+						imageFormat = ImageFormat.Png;
+						break;
+					case ".jpg":
+					case ".jpeg":
+						imageFormat = ImageFormat.Jpeg;
+						break;
+					case ".bmp":
+						imageFormat = ImageFormat.Bmp;
+						break;
+					default:
+						imageFormat = ImageFormat.Png;
+						break;
 				}
 				ImageFormat format = imageFormat;
 				image.Save(text, format);
@@ -5077,7 +5124,7 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			".jpg" or ".jpeg" => image.EncodeJpeg(75),
 			".bmp" => image.EncodeBmp(),
-			_ => image.EncodePng()
+			_ => image.EncodePng(),
 		};
 		File.WriteAllBytes(destination, encoded);
 	}
@@ -5092,7 +5139,7 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			Title = "Export " + SelectedModFile.Name,
 			FileName = SelectedModFile.Name,
-			Filter = "Original Type|*." + SelectedModFile.Type.ToLower() + "|All files|*.*"
+			Filter = "Original Type|*." + SelectedModFile.Type.ToLower() + "|All files|*.*",
 		};
 		if (saveFileDialog.ShowDialog() != true)
 		{
@@ -5138,9 +5185,7 @@ public ICommand PickCursorColorCommand { get; }
 			_explorerCts?.Cancel();
 			_explorerCts?.Dispose();
 		}
-		catch
-		{
-		}
+		catch { }
 		_explorerCts = new CancellationTokenSource();
 		SelectedModFile = null;
 		_ = RefreshModFilesAsync(_explorerCts.Token);
@@ -5177,11 +5222,7 @@ public ICommand PickCursorColorCommand { get; }
 		try
 		{
 			built = await Task.Run(() => BuildModFileList(path, root, filter, token), token).ConfigureAwait(true);
-			status = built.Count != 0
-				? ""
-				: (filter.Length != 0
-					? "Nothing here matches your search."
-					: "This folder is empty.");
+			status = built.Count != 0 ? "" : (filter.Length != 0 ? "Nothing here matches your search." : "This folder is empty.");
 		}
 		catch (OperationCanceledException)
 		{
@@ -5223,7 +5264,7 @@ public ICommand PickCursorColorCommand { get; }
 			if (filter.Length != 0 && !name.Contains(filter, StringComparison.OrdinalIgnoreCase))
 				continue;
 			ModFile entry = CreateModFile(directory, isFolder: true);
-            UpdateModStatus(entry, robloxRoot);
+			UpdateModStatus(entry, robloxRoot);
 			built.Add(entry);
 		}
 
@@ -5238,7 +5279,7 @@ public ICommand PickCursorColorCommand { get; }
 			if (filter.Length != 0 && !name.Contains(filter, StringComparison.OrdinalIgnoreCase))
 				continue;
 			ModFile entry = CreateModFile(file, isFolder: false);
-            UpdateModStatus(entry, robloxRoot);
+			UpdateModStatus(entry, robloxRoot);
 			built.Add(entry);
 		}
 
@@ -5273,9 +5314,7 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			relativePath = Path.GetRelativePath(robloxPlayerDir, path);
 		}
-		catch
-		{
-		}
+		catch { }
 		return new ModFile
 		{
 			Name = (isFolder ? fileSystemInfo.Name : Path.GetFileName(path)),
@@ -5284,7 +5323,7 @@ public ICommand PickCursorColorCommand { get; }
 			IsFolder = isFolder,
 			Type = (isFolder ? "Folder" : Path.GetExtension(path).ToUpper().TrimStart('.')),
 			SizeText = (isFolder ? "" : Utilities.FormatBytes(((FileInfo)fileSystemInfo).Length)),
-			ModifiedTime = fileSystemInfo.LastWriteTime.ToString("yyyy-MM-dd HH:mm")
+			ModifiedTime = fileSystemInfo.LastWriteTime.ToString("yyyy-MM-dd HH:mm"),
 		};
 	}
 
@@ -5303,7 +5342,15 @@ public ICommand PickCursorColorCommand { get; }
 
 	private void DeleteModFile()
 	{
-		if (SelectedModFile == null || !IsSafeExplorerPath(SelectedModFile.FullPath) || Frontend.ShowMessageBox("Are you sure you want to delete " + SelectedModFile.Name + "?", MessageBoxImage.Exclamation, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+		if (
+			SelectedModFile == null
+			|| !IsSafeExplorerPath(SelectedModFile.FullPath)
+			|| Frontend.ShowMessageBox(
+				"Are you sure you want to delete " + SelectedModFile.Name + "?",
+				MessageBoxImage.Exclamation,
+				MessageBoxButton.YesNo
+			) != MessageBoxResult.Yes
+		)
 		{
 			return;
 		}
@@ -5335,13 +5382,21 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			string root = Path.GetFullPath(ResolveRobloxPlayerDir()).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 			string candidate = Path.GetFullPath(path).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-			if (!string.Equals(candidate, root, StringComparison.OrdinalIgnoreCase) && !candidate.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
+			if (
+				!string.Equals(candidate, root, StringComparison.OrdinalIgnoreCase)
+				&& !candidate.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)
+			)
 			{
 				return false;
 			}
 			string relative = Path.GetRelativePath(root, candidate);
 			string current = root;
-			foreach (string part in relative.Split([Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar], StringSplitOptions.RemoveEmptyEntries))
+			foreach (
+				string part in relative.Split(
+					[Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
+					StringSplitOptions.RemoveEmptyEntries
+				)
+			)
 			{
 				current = Path.Combine(current, part);
 				if ((File.GetAttributes(current) & FileAttributes.ReparsePoint) != 0)
@@ -5370,39 +5425,37 @@ public ICommand PickCursorColorCommand { get; }
 	private static int _scanBusy;
 
 	private string _lastCaptureSig = "";
-    private static readonly string[] DeathSoundFiles = ["oof.ogg"];
-    private static readonly char[] trimChars = new char[2] { '\\', '/' };
+	private static readonly string[] DeathSoundFiles = ["oof.ogg"];
+	private static readonly char[] trimChars = new char[2] { '\\', '/' };
 
-    private void RunScanAndRebuild(bool initial)
+	private void RunScanAndRebuild(bool initial)
 	{
 		if (System.Threading.Interlocked.CompareExchange(ref _scanBusy, 1, 0) != 0)
 		{
 			return;
 		}
-		Task.Run(delegate
-		{
-			try
+		Task.Run(
+			delegate
 			{
-				if (initial)
+				try
 				{
-					try
+					if (initial)
 					{
-						AssetCaptureStore.EnsureLoadedFromDisk();
+						try
+						{
+							AssetCaptureStore.EnsureLoadedFromDisk();
+						}
+						catch { }
 					}
-					catch
-					{
-					}
+					ScanCache();
 				}
-				ScanCache();
+				catch { }
+				finally
+				{
+					System.Threading.Interlocked.Exchange(ref _scanBusy, 0);
+				}
 			}
-			catch
-			{
-			}
-			finally
-			{
-				System.Threading.Interlocked.Exchange(ref _scanBusy, 0);
-			}
-		});
+		);
 	}
 
 	private static void ScanCache()
@@ -5411,57 +5464,47 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			AssetCaptureStore.ScanRobloxCache(20000);
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			AssetCaptureStore.ScanRobloxLog(20000);
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			_ = AssetCaptureStore.ScanAvatarAssetsAsync();
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			_ = AssetCaptureStore.ResolveHashesAsync(150);
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			_ = AssetCaptureStore.PrefetchUnsizedAsync(6);
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
-			Task.Run(delegate
-			{
-				AssetCaptureStore.ScanModelReferences(4);
-			});
+			Task.Run(
+				delegate
+				{
+					AssetCaptureStore.ScanModelReferences(4);
+				}
+			);
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
-			Task.Run(delegate
-			{
-				AssetCaptureStore.ScanRecentLogs(2);
-			});
+			Task.Run(
+				delegate
+				{
+					AssetCaptureStore.ScanRecentLogs(2);
+				}
+			);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private bool PassesFilter(CapturedAsset a)
@@ -5504,12 +5547,16 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			AssetCaptureStore.ApplyLinks();
 		}
-		catch
-		{
-		}
-		List<CapturedAsset> list = AssetCaptureStore.Snapshot().Where(PassesFilter).Take(5000)
-			.ToList();
-		string sig = list.Count + "|" + ((list.Count > 0) ? ((list[0].Hash ?? "") + (list[list.Count - 1].Hash ?? "")) : "") + "|" + CacheFilter + "|" + _captureSearch;
+		catch { }
+		List<CapturedAsset> list = AssetCaptureStore.Snapshot().Where(PassesFilter).Take(5000).ToList();
+		string sig =
+			list.Count
+			+ "|"
+			+ ((list.Count > 0) ? ((list[0].Hash ?? "") + (list[list.Count - 1].Hash ?? "")) : "")
+			+ "|"
+			+ CacheFilter
+			+ "|"
+			+ _captureSearch;
 		if (sig == _lastCaptureSig)
 		{
 			return;
@@ -5530,7 +5577,9 @@ public ICommand PickCursorColorCommand { get; }
 	private void UpdateCaptureStats()
 	{
 		long num = CapturedAssets.Sum((CapturedAsset a) => a.Size);
-		string value = ((num >= 1048576) ? $"{(double)num / 1048576.0:0.0} MB" : ((num >= 1024) ? $"{(double)num / 1024.0:0} KB" : $"{num} B"));
+		string value = (
+			(num >= 1048576) ? $"{(double)num / 1048576.0:0.0} MB" : ((num >= 1024) ? $"{(double)num / 1024.0:0} KB" : $"{num} B")
+		);
 		CaptureStatsText = $"Total: {CapturedAssets.Count} assets      Size: {value}";
 	}
 
@@ -5545,9 +5594,7 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			Voidstrap.Utility.ClipboardService.SetText(text);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private void ExportScraped(CapturedAsset? asset)
@@ -5571,10 +5618,7 @@ public ICommand PickCursorColorCommand { get; }
 				if (bitmapSource != null)
 				{
 					string path = Path.Combine(ExportDir, text + ".png");
-					PngBitmapEncoder pngBitmapEncoder = new PngBitmapEncoder
-					{
-						Frames = { BitmapFrame.Create(bitmapSource) }
-					};
+					PngBitmapEncoder pngBitmapEncoder = new PngBitmapEncoder { Frames = { BitmapFrame.Create(bitmapSource) } };
 					using (FileStream stream = File.Create(path))
 					{
 						pngBitmapEncoder.Save(stream);
@@ -5593,43 +5637,39 @@ public ICommand PickCursorColorCommand { get; }
 						return;
 					}
 				}
-				catch
-				{
-				}
+				catch { }
 			}
 			string text2 = text + asset.Extension;
 			File.WriteAllBytes(Path.Combine(ExportDir, text2), array);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static string MapAssetCategory(string? devType)
 	{
 		switch (devType?.ToLowerInvariant())
 		{
-		case "pants":
-		case "shirt":
-		case "decal":
-		case "image":
-		case "face":
-		case "tshirt":
-			return "Image";
-		case "audio":
-			return "Audio";
-		case "mesh":
-		case "meshpart":
-		case "solidmodel":
-			return "Mesh";
-		case "animation":
-			return "Animation";
-		case "model":
-		case "lua":
-		case "package":
-			return "Model";
-		default:
-			return "Other";
+			case "pants":
+			case "shirt":
+			case "decal":
+			case "image":
+			case "face":
+			case "tshirt":
+				return "Image";
+			case "audio":
+				return "Audio";
+			case "mesh":
+			case "meshpart":
+			case "solidmodel":
+				return "Mesh";
+			case "animation":
+				return "Animation";
+			case "model":
+			case "lua":
+			case "package":
+				return "Model";
+			default:
+				return "Other";
 		}
 	}
 
@@ -5642,9 +5682,18 @@ public ICommand PickCursorColorCommand { get; }
 		_resolving = true;
 		try
 		{
-			List<string> list = (from a in CapturedAssets
-				where long.TryParse(a.AssetId, out var result) && result > 0 && string.IsNullOrEmpty(a.ResolvedName) && !_attemptedNames.Contains(a.AssetId)
-				select a.AssetId).Distinct<string>(StringComparer.Ordinal).Take(50).ToList();
+			List<string> list = (
+				from a in CapturedAssets
+				where
+					long.TryParse(a.AssetId, out var result)
+					&& result > 0
+					&& string.IsNullOrEmpty(a.ResolvedName)
+					&& !_attemptedNames.Contains(a.AssetId)
+				select a.AssetId
+			)
+				.Distinct<string>(StringComparer.Ordinal)
+				.Take(50)
+				.ToList();
 			if (list.Count == 0)
 			{
 				return;
@@ -5653,7 +5702,9 @@ public ICommand PickCursorColorCommand { get; }
 			{
 				_attemptedNames.Add(item);
 			}
-			Dictionary<string, RobloxCookie.AssetMeta> dictionary = await RobloxCookie.ResolveAssetNamesAsync(list).ConfigureAwait(continueOnCapturedContext: true);
+			Dictionary<string, RobloxCookie.AssetMeta> dictionary = await RobloxCookie
+				.ResolveAssetNamesAsync(list)
+				.ConfigureAwait(continueOnCapturedContext: true);
 			if (dictionary.Count == 0)
 			{
 				_nameCooldownUntil = DateTime.UtcNow.AddSeconds(20.0);
@@ -5671,7 +5722,10 @@ public ICommand PickCursorColorCommand { get; }
 					{
 						capturedAsset.Creator = value.CreatorName;
 					}
-					if (!string.IsNullOrEmpty(value.Type) && (capturedAsset.Type == "Asset" || capturedAsset.Type == "Other" || capturedAsset.Category == "Pending"))
+					if (
+						!string.IsNullOrEmpty(value.Type)
+						&& (capturedAsset.Type == "Asset" || capturedAsset.Type == "Other" || capturedAsset.Category == "Pending")
+					)
 					{
 						capturedAsset.Type = value.Type;
 						capturedAsset.Category = MapAssetCategory(value.Type);
@@ -5685,6 +5739,6 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-    [GeneratedRegex("^#[0-9A-Fa-f]{6}$")]
-    private static partial Regex HexColorPattern { get; }
+	[GeneratedRegex("^#[0-9A-Fa-f]{6}$")]
+	private static partial Regex HexColorPattern { get; }
 }

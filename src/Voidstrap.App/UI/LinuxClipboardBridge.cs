@@ -15,7 +15,7 @@ public static class LinuxClipboardBridge
 	private static readonly ProGPU.Wpf.Interop.PortableWpfServiceKey[] ServiceKeys =
 	[
 		ProGPU.Wpf.Interop.PortableWpfServiceKey.PresentationCore,
-		ProGPU.Wpf.Interop.PortableWpfServiceKey.WinForms
+		ProGPU.Wpf.Interop.PortableWpfServiceKey.WinForms,
 	];
 
 	private static readonly object Sync = new();
@@ -42,7 +42,11 @@ public static class LinuxClipboardBridge
 			return;
 		}
 
-		if (OperatingSystem.IsMacOS() ? !Voidstrap.Platform.MacOS.MacOSClipboard.IsAvailable : !Voidstrap.Platform.Linux.LinuxClipboard.IsAvailable)
+		if (
+			OperatingSystem.IsMacOS()
+				? !Voidstrap.Platform.MacOS.MacOSClipboard.IsAvailable
+				: !Voidstrap.Platform.Linux.LinuxClipboard.IsAvailable
+		)
 		{
 			App.Logger.WriteLine(LogIdent, "No system clipboard is available, text boxes keep the renderer clipboard");
 			return;
@@ -56,11 +60,24 @@ public static class LinuxClipboardBridge
 		ProGPU.Wpf.Interop.PortableWpfServiceRegistry.ClipboardServiceRegistered += OnClipboardServiceRegistered;
 		if (OperatingSystem.IsLinux())
 			Voidstrap.Platform.Linux.LinuxClipboard.Changed += OnClipboardChanged;
-		EventManager.RegisterClassHandler(typeof(UIElement), CommandManager.PreviewExecutedEvent, new ExecutedRoutedEventHandler(OnPreviewExecuted), true);
-		EventManager.RegisterClassHandler(typeof(UIElement), CommandManager.PreviewCanExecuteEvent, new CanExecuteRoutedEventHandler(OnPreviewCanExecute), true);
-		App.Logger.WriteLine(LogIdent, OperatingSystem.IsLinux() && Voidstrap.Platform.Linux.LinuxClipboard.TracksChanges
-			? "Copy and paste now use the system clipboard and follow changes from other apps"
-			: "Copy and paste now use the system clipboard, other apps are read again on every paste");
+		EventManager.RegisterClassHandler(
+			typeof(UIElement),
+			CommandManager.PreviewExecutedEvent,
+			new ExecutedRoutedEventHandler(OnPreviewExecuted),
+			true
+		);
+		EventManager.RegisterClassHandler(
+			typeof(UIElement),
+			CommandManager.PreviewCanExecuteEvent,
+			new CanExecuteRoutedEventHandler(OnPreviewCanExecute),
+			true
+		);
+		App.Logger.WriteLine(
+			LogIdent,
+			OperatingSystem.IsLinux() && Voidstrap.Platform.Linux.LinuxClipboard.TracksChanges
+				? "Copy and paste now use the system clipboard and follow changes from other apps"
+				: "Copy and paste now use the system clipboard, other apps are read again on every paste"
+		);
 #endif
 	}
 
@@ -103,14 +120,19 @@ public static class LinuxClipboardBridge
 		}
 	}
 
-	private static void Register(ProGPU.Wpf.Interop.PortableWpfServiceKey key, ProGPU.Wpf.Interop.IPortableClipboardServiceRegistrar? registrar = null)
+	private static void Register(
+		ProGPU.Wpf.Interop.PortableWpfServiceKey key,
+		ProGPU.Wpf.Interop.IPortableClipboardServiceRegistrar? registrar = null
+	)
 	{
 		lock (Sync)
 		{
 			try
 			{
-				if (registrar is null
-					&& (!ProGPU.Wpf.Interop.PortableWpfServiceRegistry.TryGetClipboardService(key, out registrar) || registrar is null))
+				if (
+					registrar is null
+					&& (!ProGPU.Wpf.Interop.PortableWpfServiceRegistry.TryGetClipboardService(key, out registrar) || registrar is null)
+				)
 					return;
 
 				if (Registrations.Remove(key, out IDisposable? previous))
@@ -153,13 +175,21 @@ public static class LinuxClipboardBridge
 
 	private static string? ReadText()
 	{
-		string? text = OperatingSystem.IsMacOS() ? Voidstrap.Platform.MacOS.MacOSClipboard.GetText() : Voidstrap.Platform.Linux.LinuxClipboard.GetText();
+		string? text = OperatingSystem.IsMacOS()
+			? Voidstrap.Platform.MacOS.MacOSClipboard.GetText()
+			: Voidstrap.Platform.Linux.LinuxClipboard.GetText();
 		return string.IsNullOrEmpty(text) ? null : text;
 	}
 
 	private static void WriteText(string? text)
 	{
-		if (!(OperatingSystem.IsMacOS() ? Voidstrap.Platform.MacOS.MacOSClipboard.SetText(text ?? string.Empty) : Voidstrap.Platform.Linux.LinuxClipboard.SetText(text ?? string.Empty)))
+		if (
+			!(
+				OperatingSystem.IsMacOS()
+					? Voidstrap.Platform.MacOS.MacOSClipboard.SetText(text ?? string.Empty)
+					: Voidstrap.Platform.Linux.LinuxClipboard.SetText(text ?? string.Empty)
+			)
+		)
 			App.Logger.WriteLine(LogIdent, "The system clipboard could not be updated");
 	}
 #endif

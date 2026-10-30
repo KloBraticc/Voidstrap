@@ -38,11 +38,7 @@ public static class Utilities
 		string failure;
 		try
 		{
-			Process.Start(new ProcessStartInfo
-			{
-				FileName = website,
-				UseShellExecute = true
-			});
+			Process.Start(new ProcessStartInfo { FileName = website, UseShellExecute = true });
 			return;
 		}
 		catch (Exception ex)
@@ -54,7 +50,10 @@ public static class Utilities
 			return;
 		}
 		App.Logger?.WriteLine("Utilities::ShellExecute", "Windows could not open " + website + ": " + failure);
-		Frontend.ShowMessageBox("Windows has no app set up to open this link. Copy it into your browser instead:" + Environment.NewLine + website, System.Windows.MessageBoxImage.Warning);
+		Frontend.ShowMessageBox(
+			"Windows has no app set up to open this link. Copy it into your browser instead:" + Environment.NewLine + website,
+			System.Windows.MessageBoxImage.Warning
+		);
 	}
 
 	public static bool OpenTextFile(string path)
@@ -66,12 +65,14 @@ public static class Utilities
 			using Process? opened = Process.Start(new ProcessStartInfo { FileName = path, UseShellExecute = true });
 			return true;
 		}
-		catch (Win32Exception)
-		{
-		}
+		catch (Win32Exception) { }
 		try
 		{
-			ProcessStartInfo notepad = new() { FileName = Path.Combine(Environment.SystemDirectory, "notepad.exe"), UseShellExecute = false };
+			ProcessStartInfo notepad = new()
+			{
+				FileName = Path.Combine(Environment.SystemDirectory, "notepad.exe"),
+				UseShellExecute = false,
+			};
 			notepad.ArgumentList.Add(path);
 			using Process? opened = Process.Start(notepad);
 			return true;
@@ -204,9 +205,7 @@ public static class Utilities
 			{
 				process?.Dispose();
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
 

@@ -170,13 +170,8 @@ namespace Voidstrap.UI
                 GetCursorPos(out _lastMousePos);
                 _haveMousePos = true;
             }
-            catch
-            {
-            }
-            _watchdog = new DispatcherTimer(DispatcherPriority.Background)
-            {
-                Interval = TimeSpan.FromMilliseconds(500)
-            };
+            catch { }
+            _watchdog = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(500) };
             _watchdog.Tick += OnWatchdog;
             InputManager.Current.PreProcessInput += OnPreProcessInput;
             Application app = Application.Current;
@@ -279,7 +274,10 @@ namespace Voidstrap.UI
             }
             if (_rendering)
                 return;
-            bool stickActive = Math.Abs(state.Gamepad.sThumbLX) > StickDeadzone || Math.Abs(state.Gamepad.sThumbLY) > StickDeadzone || Math.Abs(state.Gamepad.sThumbRY) > StickDeadzone;
+            bool stickActive =
+                Math.Abs(state.Gamepad.sThumbLX) > StickDeadzone
+                || Math.Abs(state.Gamepad.sThumbLY) > StickDeadzone
+                || Math.Abs(state.Gamepad.sThumbRY) > StickDeadzone;
             if (stickActive || state.Gamepad.wButtons != 0)
             {
                 _rendering = true;
@@ -426,9 +424,7 @@ namespace Voidstrap.UI
                     DetachCrosshair();
                 }
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static void SyncSystemCursor()
@@ -446,16 +442,16 @@ namespace Voidstrap.UI
                 GetCursorPos(out _lastMousePos);
                 _haveMousePos = true;
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static bool PhysicalMouseButtonDown()
         {
             try
             {
-                return (GetAsyncKeyState(0x01) & 0x8000) != 0 || (GetAsyncKeyState(0x02) & 0x8000) != 0 || (GetAsyncKeyState(0x04) & 0x8000) != 0;
+                return (GetAsyncKeyState(0x01) & 0x8000) != 0
+                    || (GetAsyncKeyState(0x02) & 0x8000) != 0
+                    || (GetAsyncKeyState(0x04) & 0x8000) != 0;
             }
             catch
             {
@@ -475,9 +471,7 @@ namespace Voidstrap.UI
                         return w;
                 }
             }
-            catch
-            {
-            }
+            catch { }
             return null;
         }
 
@@ -514,9 +508,7 @@ namespace Voidstrap.UI
             {
                 Mouse.OverrideCursor = Cursors.None;
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static void DetachCrosshair()
@@ -528,24 +520,21 @@ namespace Voidstrap.UI
                 {
                     _adornerLayer?.Remove(_crosshair);
                 }
-                catch
-                {
-                }
+                catch { }
             }
             try
             {
                 Mouse.OverrideCursor = null;
             }
-            catch
-            {
-            }
+            catch { }
             _crosshair = null;
             _adornerLayer = null;
             _adornedRoot = null;
             _activeWindow = null;
         }
 
-        private static T? FindDescendant<T>(DependencyObject root) where T : DependencyObject
+        private static T? FindDescendant<T>(DependencyObject root)
+            where T : DependencyObject
         {
             if (root == null)
                 return null;
@@ -666,9 +655,7 @@ namespace Voidstrap.UI
                 _ignoreMouseUntil = Environment.TickCount64 + 400;
                 mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, UIntPtr.Zero);
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static void ActivateAtCursorFallback()
@@ -686,7 +673,8 @@ namespace Voidstrap.UI
                         hit = r.VisualHit;
                         return HitTestResultBehavior.Stop;
                     },
-                    new PointHitTestParameters(_cursor));
+                    new PointHitTestParameters(_cursor)
+                );
 
                 UIElement? target = FindActivatable(hit);
                 if (target != null)
@@ -695,9 +683,7 @@ namespace Voidstrap.UI
                     Activate(target);
                 }
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static UIElement? FindActivatable(DependencyObject? node)
@@ -706,14 +692,30 @@ namespace Voidstrap.UI
             {
                 if (node is UIElement ue)
                 {
-                    if (node is ButtonBase || node is ToggleButton || node is Selector
-                        || node is ListBoxItem || node is TabItem || node is MenuItem
-                        || node is RepeatButton || node is CheckBox || node is RadioButton || node is ComboBox)
+                    if (
+                        node is ButtonBase
+                        || node is ToggleButton
+                        || node is Selector
+                        || node is ListBoxItem
+                        || node is TabItem
+                        || node is MenuItem
+                        || node is RepeatButton
+                        || node is CheckBox
+                        || node is RadioButton
+                        || node is ComboBox
+                    )
                     {
                         return ue;
                     }
                     AutomationPeer peer = UIElementAutomationPeer.CreatePeerForElement(ue);
-                    if (peer != null && (peer.GetPattern(PatternInterface.Invoke) != null || peer.GetPattern(PatternInterface.Toggle) != null || peer.GetPattern(PatternInterface.SelectionItem) != null))
+                    if (
+                        peer != null
+                        && (
+                            peer.GetPattern(PatternInterface.Invoke) != null
+                            || peer.GetPattern(PatternInterface.Toggle) != null
+                            || peer.GetPattern(PatternInterface.SelectionItem) != null
+                        )
+                    )
                     {
                         return ue;
                     }
@@ -758,9 +760,7 @@ namespace Voidstrap.UI
                 }
                 SendKey(Key.Space);
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static void MoveFocus(FocusNavigationDirection direction)
@@ -779,9 +779,7 @@ namespace Voidstrap.UI
                 }
                 (Keyboard.FocusedElement as FrameworkElement)?.BringIntoView();
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static void HandleScroll(short ry, double dt)
@@ -804,12 +802,14 @@ namespace Voidstrap.UI
                 {
                     if (node is ScrollViewer sv && sv.IsVisible && sv.ScrollableHeight > 0.0)
                         return sv;
-                    node = ((node is Visual || node is System.Windows.Media.Media3D.Visual3D) ? VisualTreeHelper.GetParent(node) : LogicalTreeHelper.GetParent(node));
+                    node = (
+                        (node is Visual || node is System.Windows.Media.Media3D.Visual3D)
+                            ? VisualTreeHelper.GetParent(node)
+                            : LogicalTreeHelper.GetParent(node)
+                    );
                 }
             }
-            catch
-            {
-            }
+            catch { }
             return null;
         }
 
@@ -826,9 +826,7 @@ namespace Voidstrap.UI
                 target.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, source, 0, key) { RoutedEvent = Keyboard.KeyDownEvent });
                 target.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, source, 0, key) { RoutedEvent = Keyboard.KeyUpEvent });
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static void CycleTabs(int delta)
@@ -845,9 +843,7 @@ namespace Voidstrap.UI
                     index = 0;
                 selector.SelectedIndex = index;
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static Selector? FindVisibleSelector(DependencyObject? root)

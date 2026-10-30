@@ -6,9 +6,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Xml.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using DiscordRPC.IO;
 using DiscordRPC.Logging;
 
@@ -21,7 +21,8 @@ internal sealed record VoidstrapPresenceContext(
 	string ImageUrl = "",
 	string ImageText = "",
 	string ButtonLabel = "",
-	string ButtonUrl = "");
+	string ButtonUrl = ""
+);
 
 internal static class VoidstrapPresence
 {
@@ -67,14 +68,17 @@ internal static class VoidstrapPresence
 			return;
 		}
 		string byline = string.IsNullOrWhiteSpace(creator) ? "" : Voidstrap.Utility.RpcText.Mark("By") + " " + creator.Trim();
-		Set(new VoidstrapPresenceContext(
-			owner,
-			Voidstrap.Utility.RpcText.Mark("Viewing") + " " + name.Trim(),
-			byline.Length > 0 ? byline : Voidstrap.Utility.RpcText.Mark("Looking at a Roblox game"),
-			iconUrl ?? "",
-			name.Trim() + (string.IsNullOrWhiteSpace(creator) ? "" : " " + Voidstrap.Utility.RpcText.Mark("by") + " " + creator.Trim()),
-			placeId > 0 ? Voidstrap.Utility.RpcText.Mark("View game") : "",
-			placeId > 0 ? "https://www.roblox.com/games/" + placeId : ""));
+		Set(
+			new VoidstrapPresenceContext(
+				owner,
+				Voidstrap.Utility.RpcText.Mark("Viewing") + " " + name.Trim(),
+				byline.Length > 0 ? byline : Voidstrap.Utility.RpcText.Mark("Looking at a Roblox game"),
+				iconUrl ?? "",
+				name.Trim() + (string.IsNullOrWhiteSpace(creator) ? "" : " " + Voidstrap.Utility.RpcText.Mark("by") + " " + creator.Trim()),
+				placeId > 0 ? Voidstrap.Utility.RpcText.Mark("View game") : "",
+				placeId > 0 ? "https://www.roblox.com/games/" + placeId : ""
+			)
+		);
 	}
 
 	public static void SetGame(string owner, string name, string? creator, long universeId, long placeId)
@@ -85,7 +89,13 @@ internal static class VoidstrapPresence
 		_ = ResolveGameIconAsync(owner, name, creator, universeId, placeId);
 	}
 
-	private static async System.Threading.Tasks.Task ResolveGameIconAsync(string owner, string name, string? creator, long universeId, long placeId)
+	private static async System.Threading.Tasks.Task ResolveGameIconAsync(
+		string owner,
+		string name,
+		string? creator,
+		long universeId,
+		long placeId
+	)
 	{
 		try
 		{
@@ -100,7 +110,15 @@ internal static class VoidstrapPresence
 				return;
 			lock (Sync)
 			{
-				if (_context == null || !string.Equals(_context.Owner, owner, StringComparison.Ordinal) || !string.Equals(_context.Details, Voidstrap.Utility.RpcText.Mark("Viewing") + " " + name.Trim(), StringComparison.Ordinal))
+				if (
+					_context == null
+					|| !string.Equals(_context.Owner, owner, StringComparison.Ordinal)
+					|| !string.Equals(
+						_context.Details,
+						Voidstrap.Utility.RpcText.Mark("Viewing") + " " + name.Trim(),
+						StringComparison.Ordinal
+					)
+				)
 					return;
 			}
 			SetGame(owner, name, creator, icon, placeId);
@@ -148,9 +166,7 @@ internal static class VoidstrapPresence
 
 	public static bool IsWebUrl(string? value)
 	{
-		return Uri.TryCreate(value, UriKind.Absolute, out Uri? uri)
-			&& uri.Scheme == Uri.UriSchemeHttps
-			&& (value?.Length ?? 0) <= 512;
+		return Uri.TryCreate(value, UriKind.Absolute, out Uri? uri) && uri.Scheme == Uri.UriSchemeHttps && (value?.Length ?? 0) <= 512;
 	}
 
 	public static string PlatformName { get; } = ResolvePlatformName();
@@ -166,7 +182,10 @@ internal static class VoidstrapPresence
 			try
 			{
 				XElement? dictionary = XDocument.Load("/System/Library/CoreServices/SystemVersion.plist").Root?.Element("dict");
-				string? version = dictionary?.Elements("key").FirstOrDefault(static key => key.Value == "ProductVersion")?.NextNode is XElement value ? value.Value : null;
+				string? version = dictionary?.Elements("key").FirstOrDefault(static key => key.Value == "ProductVersion")?.NextNode
+					is XElement value
+					? value.Value
+					: null;
 				if (Version.TryParse(version, out Version? parsed))
 				{
 					string name = parsed.Major switch
@@ -178,7 +197,7 @@ internal static class VoidstrapPresence
 						15 => "Sequoia",
 						26 => "Tahoe",
 						27 => "Golden Gate",
-						_ => ""
+						_ => "",
 					};
 					return name.Length > 0 ? name : "Mac";
 				}
@@ -218,9 +237,7 @@ internal static class VoidstrapPresence
 					}
 				}
 			}
-			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-			{
-			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 		}
 		return "Linux";
 	}
@@ -228,7 +245,10 @@ internal static class VoidstrapPresence
 
 internal sealed class DiscordActivityPipe : INamedPipeClient
 {
-	private readonly INamedPipeClient _inner = NativeDiscordPipe.IsAvailable ? new NativeDiscordPipe() : OperatingSystem.IsMacOS() ? new MacDiscordPipe() : new ManagedNamedPipeClient();
+	private readonly INamedPipeClient _inner =
+		NativeDiscordPipe.IsAvailable ? new NativeDiscordPipe()
+		: OperatingSystem.IsMacOS() ? new MacDiscordPipe()
+		: new ManagedNamedPipeClient();
 
 	private readonly object _gate = new();
 
@@ -308,16 +328,14 @@ internal sealed class DiscordActivityPipe : INamedPipeClient
 			{
 				["cmd"] = "SET_ACTIVITY",
 				["args"] = new JsonObject { ["pid"] = _activityPid },
-				["nonce"] = Guid.NewGuid().ToString("N")
+				["nonce"] = Guid.NewGuid().ToString("N"),
 			};
 			try
 			{
 				if (_inner.WriteFrame(new PipeFrame { Opcode = Opcode.Frame, Message = payload.ToJsonString() }))
 					_hasActivity = false;
 			}
-			catch (Exception ex) when (ex is IOException or ObjectDisposedException or InvalidOperationException)
-			{
-			}
+			catch (Exception ex) when (ex is IOException or ObjectDisposedException or InvalidOperationException) { }
 		}
 	}
 
@@ -337,9 +355,11 @@ internal sealed class DiscordActivityPipe : INamedPipeClient
 	{
 		try
 		{
-			if (JsonNode.Parse(frame.Message) is JsonObject payload
+			if (
+				JsonNode.Parse(frame.Message) is JsonObject payload
 				&& payload["cmd"]?.GetValue<string>() == "SET_ACTIVITY"
-				&& payload["args"] is JsonObject arguments)
+				&& payload["args"] is JsonObject arguments
+			)
 			{
 				if (arguments["pid"] is JsonValue pid && pid.TryGetValue(out long value))
 					_activityPid = value;
@@ -352,9 +372,7 @@ internal sealed class DiscordActivityPipe : INamedPipeClient
 				}
 			}
 		}
-		catch (Exception ex) when (ex is JsonException or InvalidOperationException or FormatException)
-		{
-		}
+		catch (Exception ex) when (ex is JsonException or InvalidOperationException or FormatException) { }
 		return frame;
 	}
 }

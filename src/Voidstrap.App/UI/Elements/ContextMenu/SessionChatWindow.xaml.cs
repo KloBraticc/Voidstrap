@@ -58,8 +58,7 @@ public partial class SessionChatWindow : Window
         Closed += OnClosed;
     }
 
-    private void OnLoaded(object sender, RoutedEventArgs e)
-        => _ = PortableOverlay.RunAsync(this, () => OnLoadedAsync(sender, e));
+    private void OnLoaded(object sender, RoutedEventArgs e) => _ = PortableOverlay.RunAsync(this, () => OnLoadedAsync(sender, e));
 
     private async Task OnLoadedAsync(object sender, RoutedEventArgs e)
     {
@@ -114,8 +113,8 @@ public partial class SessionChatWindow : Window
                 return;
             }
             string? activeId = _active?.Id;
-            _conversations = result.Value
-                .OrderByDescending(c => c.UpdatedUtc)
+            _conversations = result
+                .Value.OrderByDescending(c => c.UpdatedUtc)
                 .Select(c => new ChatListItem(c.Id, TitleOf(c), PreviewOf(c), c.Id == activeId ? 0 : c.Unread, OtherParticipant(c), c))
                 .ToList();
             await LoadAvatarsAsync(_conversations.Select(c => c.UserId));
@@ -137,9 +136,7 @@ public partial class SessionChatWindow : Window
                 ChatStatus.Text = "No chats yet, pick a friend in the Friends tab to start one";
             }
         }
-        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionChatWindow", "Chats could not be loaded: " + ex.Message);
@@ -177,9 +174,7 @@ public partial class SessionChatWindow : Window
             if (!_closed && _showFriends)
                 RenderList(true);
         }
-        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionChatWindow", "Friends could not be loaded: " + ex.Message);
@@ -196,8 +191,10 @@ public partial class SessionChatWindow : Window
         string filter = FilterBox.Text.Trim();
         IEnumerable<ChatListItem> source = _showFriends ? _friends : _conversations;
         if (filter.Length > 0)
-            source = source.Where(item => item.Title.Contains(filter, StringComparison.CurrentCultureIgnoreCase)
-                || item.Preview.Contains(filter, StringComparison.CurrentCultureIgnoreCase));
+            source = source.Where(item =>
+                item.Title.Contains(filter, StringComparison.CurrentCultureIgnoreCase)
+                || item.Preview.Contains(filter, StringComparison.CurrentCultureIgnoreCase)
+            );
         List<ChatListItem> items = source.ToList();
         string signature = (_showFriends ? "f|" : "c|") + filter + "|" + string.Join("|", items.Select(item => item.Signature));
         if (!force && signature == _listSignature && ConversationList.ItemsSource != null)
@@ -212,7 +209,12 @@ public partial class SessionChatWindow : Window
             ConversationList.SelectedItem = items.FirstOrDefault(item => item.ConversationId == _active.Id);
         ConversationList.SelectionChanged += ConversationList_SelectionChanged;
         FindScrollViewer(ConversationList)?.ScrollToVerticalOffset(offset);
-        ShowListStatus(items.Count > 0 ? string.Empty : _showFriends ? "No friends found" : filter.Length > 0 ? "No chats match" : "No chats yet, start one from Friends");
+        ShowListStatus(
+            items.Count > 0 ? string.Empty
+            : _showFriends ? "No friends found"
+            : filter.Length > 0 ? "No chats match"
+            : "No chats yet, start one from Friends"
+        );
     }
 
     private void SelectSilently(ChatListItem item)
@@ -222,8 +224,8 @@ public partial class SessionChatWindow : Window
         ConversationList.SelectionChanged += ConversationList_SelectionChanged;
     }
 
-    private void ConversationList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        => _ = PortableOverlay.RunAsync(this, () => ConversationList_SelectionChangedAsync(sender, e));
+    private void ConversationList_SelectionChanged(object sender, SelectionChangedEventArgs e) =>
+        _ = PortableOverlay.RunAsync(this, () => ConversationList_SelectionChangedAsync(sender, e));
 
     private async Task ConversationList_SelectionChangedAsync(object sender, SelectionChangedEventArgs e)
     {
@@ -243,18 +245,19 @@ public partial class SessionChatWindow : Window
                 return;
             if (opened.Status != RobloxChatStatus.Ready || opened.Value == null)
             {
-                ChatStatus.Text = opened.Status == RobloxChatStatus.Unavailable
-                    ? "Roblox did not allow a chat with " + item.Title + ", check that you are friends and that chat is on in your Roblox privacy settings"
-                    : Describe(opened.Status);
+                ChatStatus.Text =
+                    opened.Status == RobloxChatStatus.Unavailable
+                        ? "Roblox did not allow a chat with "
+                            + item.Title
+                            + ", check that you are friends and that chat is on in your Roblox privacy settings"
+                        : Describe(opened.Status);
                 return;
             }
             SetMode(false);
             await OpenConversationAsync(opened.Value);
             _ = LoadConversationsAsync();
         }
-        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionChatWindow", "The chat could not be opened: " + ex.Message);
@@ -283,7 +286,10 @@ public partial class SessionChatWindow : Window
                 return;
             if (result.Status != RobloxChatStatus.Ready || result.Value == null)
             {
-                ChatStatus.Text = result.Status == RobloxChatStatus.Unavailable ? "Messages could not be loaded, trying again shortly" : Describe(result.Status);
+                ChatStatus.Text =
+                    result.Status == RobloxChatStatus.Unavailable
+                        ? "Messages could not be loaded, trying again shortly"
+                        : Describe(result.Status);
                 return;
             }
             _olderCursor = result.Cursor;
@@ -291,9 +297,7 @@ public partial class SessionChatWindow : Window
             ChatStatus.Text = _messages.Count == 0 ? "No messages yet, say hi" : string.Empty;
             InputBox.Focus();
         }
-        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionChatWindow", "Messages could not be loaded: " + ex.Message);
@@ -369,7 +373,10 @@ public partial class SessionChatWindow : Window
             RobloxChatResult<List<RobloxChatMessage>> result = await RobloxChat.GetMessagesAsync(active.Id, _olderCursor, _lifetimeToken);
             if (_closed || generation != _messageGeneration || result.Status != RobloxChatStatus.Ready || result.Value == null)
                 return;
-            List<RobloxChatMessage> older = result.Value.Where(m => m.Id.Length == 0 || !_messageIds.Contains(m.Id)).OrderBy(m => m.CreatedUtc).ToList();
+            List<RobloxChatMessage> older = result
+                .Value.Where(m => m.Id.Length == 0 || !_messageIds.Contains(m.Id))
+                .OrderBy(m => m.CreatedUtc)
+                .ToList();
             // A cursor that brings nothing new means the start of the conversation was reached
             _olderCursor = older.Count == 0 || result.Cursor == _olderCursor ? null : result.Cursor;
             ScrollViewer? viewer = FindScrollViewer(MessageList);
@@ -387,9 +394,7 @@ public partial class SessionChatWindow : Window
                 viewer.ScrollToVerticalOffset(Math.Max(0, viewer.ExtentHeight - fromEnd));
             }
         }
-        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionChatWindow", "Older messages could not be loaded: " + ex.Message);
@@ -400,8 +405,8 @@ public partial class SessionChatWindow : Window
         }
     }
 
-    private void MessageList_ScrollChanged(object sender, ScrollChangedEventArgs e)
-        => _ = PortableOverlay.RunAsync(this, () => MessageList_ScrollChangedAsync(sender, e));
+    private void MessageList_ScrollChanged(object sender, ScrollChangedEventArgs e) =>
+        _ = PortableOverlay.RunAsync(this, () => MessageList_ScrollChangedAsync(sender, e));
 
     private async Task MessageList_ScrollChangedAsync(object sender, ScrollChangedEventArgs e)
     {
@@ -444,8 +449,7 @@ public partial class SessionChatWindow : Window
         return null;
     }
 
-    private void OnPoll(object? sender, EventArgs e)
-        => _ = PortableOverlay.RunAsync(this, () => OnPollAsync(sender, e));
+    private void OnPoll(object? sender, EventArgs e) => _ = PortableOverlay.RunAsync(this, () => OnPollAsync(sender, e));
 
     private async Task OnPollAsync(object? sender, EventArgs e)
     {
@@ -479,9 +483,7 @@ public partial class SessionChatWindow : Window
                 await LoadConversationsAsync();
             }
         }
-        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionChatWindow", "Chat refresh failed: " + ex.Message);
@@ -520,7 +522,8 @@ public partial class SessionChatWindow : Window
                 RemoveEcho(echo);
                 if (InputBox.Text.Length == 0)
                     InputBox.Text = text;
-                ChatStatus.Text = result.Status == RobloxChatStatus.Unavailable ? "Roblox did not accept that message" : Describe(result.Status);
+                ChatStatus.Text =
+                    result.Status == RobloxChatStatus.Unavailable ? "Roblox did not accept that message" : Describe(result.Status);
                 return;
             }
             if (result.Value is { } sent && _active?.Id == active.Id)
@@ -542,9 +545,7 @@ public partial class SessionChatWindow : Window
                 }
             }
         }
-        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionChatWindow", "The message could not be sent: " + ex.Message);
@@ -573,8 +574,8 @@ public partial class SessionChatWindow : Window
         _messages.Remove(echo);
     }
 
-    private void SendButton_Click(object sender, RoutedEventArgs e)
-        => _ = PortableOverlay.RunAsync(this, () => SendButton_ClickAsync(sender, e));
+    private void SendButton_Click(object sender, RoutedEventArgs e) =>
+        _ = PortableOverlay.RunAsync(this, () => SendButton_ClickAsync(sender, e));
 
     private async Task SendButton_ClickAsync(object sender, RoutedEventArgs e)
     {
@@ -588,8 +589,8 @@ public partial class SessionChatWindow : Window
         }
     }
 
-    private void InputBox_PreviewKeyDown(object sender, KeyEventArgs e)
-        => _ = PortableOverlay.RunAsync(this, () => InputBox_PreviewKeyDownAsync(sender, e));
+    private void InputBox_PreviewKeyDown(object sender, KeyEventArgs e) =>
+        _ = PortableOverlay.RunAsync(this, () => InputBox_PreviewKeyDownAsync(sender, e));
 
     private async Task InputBox_PreviewKeyDownAsync(object sender, KeyEventArgs e)
     {
@@ -620,15 +621,13 @@ public partial class SessionChatWindow : Window
         {
             await RobloxChat.SendTypingAsync(conversationId, _lifetimeToken);
         }
-        catch (Exception)
-        {
-        }
+        catch (Exception) { }
     }
 
     private void ChatsTab_Click(object sender, RoutedEventArgs e) => SetMode(false);
 
-    private void FriendsTab_Click(object sender, RoutedEventArgs e)
-        => _ = PortableOverlay.RunAsync(this, () => FriendsTab_ClickAsync(sender, e));
+    private void FriendsTab_Click(object sender, RoutedEventArgs e) =>
+        _ = PortableOverlay.RunAsync(this, () => FriendsTab_ClickAsync(sender, e));
 
     private async Task FriendsTab_ClickAsync(object sender, RoutedEventArgs e)
     {
@@ -679,9 +678,7 @@ public partial class SessionChatWindow : Window
                 foreach (KeyValuePair<long, string> pair in urls)
                     _avatarUrls[pair.Key] = pair.Value;
             }
-            catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-            {
-            }
+            catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
             catch (Exception ex)
             {
                 App.Logger.WriteLine("SessionChatWindow", "Avatar URLs could not be loaded: " + ex.Message);
@@ -703,26 +700,26 @@ public partial class SessionChatWindow : Window
         {
             (long UserId, BitmapSource? Image)[] results = new (long, BitmapSource?)[pending.Count];
             Exception?[] failures = new Exception?[pending.Count];
-            await Parallel.ForEachAsync(Enumerable.Range(0, pending.Count), new ParallelOptions
-            {
-                MaxDegreeOfParallelism = 4,
-                CancellationToken = _lifetimeToken
-            }, async (index, token) =>
-            {
-                KeyValuePair<long, string> pair = pending[index];
-                try
+            await Parallel.ForEachAsync(
+                Enumerable.Range(0, pending.Count),
+                new ParallelOptions { MaxDegreeOfParallelism = 4, CancellationToken = _lifetimeToken },
+                async (index, token) =>
                 {
-                    results[index] = (pair.Key, await Voidstrap.Utility.SafeImaging.FromHttpAsync(pair.Value, 72, token));
+                    KeyValuePair<long, string> pair = pending[index];
+                    try
+                    {
+                        results[index] = (pair.Key, await Voidstrap.Utility.SafeImaging.FromHttpAsync(pair.Value, 72, token));
+                    }
+                    catch (OperationCanceledException) when (token.IsCancellationRequested)
+                    {
+                        throw;
+                    }
+                    catch (Exception ex)
+                    {
+                        failures[index] = ex;
+                    }
                 }
-                catch (OperationCanceledException) when (token.IsCancellationRequested)
-                {
-                    throw;
-                }
-                catch (Exception ex)
-                {
-                    failures[index] = ex;
-                }
-            });
+            );
             if (_closed)
                 return;
             if (failures.FirstOrDefault(error => error != null) is Exception failure)
@@ -743,9 +740,7 @@ public partial class SessionChatWindow : Window
             if (_active != null)
                 HeaderAvatar.Source = AvatarFor(OtherParticipant(_active));
         }
-        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionChatWindow", "Avatar images could not be loaded: " + ex.Message);
@@ -766,8 +761,7 @@ public partial class SessionChatWindow : Window
         return null;
     }
 
-    private long OtherParticipant(RobloxConversation conversation)
-        => conversation.ParticipantIds.FirstOrDefault(id => id != _selfId);
+    private long OtherParticipant(RobloxConversation conversation) => conversation.ParticipantIds.FirstOrDefault(id => id != _selfId);
 
     private string TitleOf(RobloxConversation conversation)
     {
@@ -785,16 +779,17 @@ public partial class SessionChatWindow : Window
         return prefix + last.Content.ReplaceLineEndings(" ");
     }
 
-    private static string SenderName(long userId)
-        => RobloxChat.GetCachedUser(userId)?.Label ?? (userId > 0 ? userId.ToString(CultureInfo.InvariantCulture) : "Roblox");
+    private static string SenderName(long userId) =>
+        RobloxChat.GetCachedUser(userId)?.Label ?? (userId > 0 ? userId.ToString(CultureInfo.InvariantCulture) : "Roblox");
 
-    private static string Describe(RobloxChatStatus status) => status switch
-    {
-        RobloxChatStatus.NotSignedIn => "Sign in to Roblox in Voidstrap to use chat",
-        RobloxChatStatus.SignInExpired => "Your Roblox sign in expired, sign in again in Voidstrap",
-        RobloxChatStatus.RateLimited => "Roblox is rate limiting chat, try again in a moment",
-        _ => "Roblox chat is unavailable right now"
-    };
+    private static string Describe(RobloxChatStatus status) =>
+        status switch
+        {
+            RobloxChatStatus.NotSignedIn => "Sign in to Roblox in Voidstrap to use chat",
+            RobloxChatStatus.SignInExpired => "Your Roblox sign in expired, sign in again in Voidstrap",
+            RobloxChatStatus.RateLimited => "Roblox is rate limiting chat, try again in a moment",
+            _ => "Roblox chat is unavailable right now",
+        };
 
     private void OnClosed(object? sender, EventArgs e)
     {
@@ -825,7 +820,8 @@ public sealed class ChatListItem
     public ImageSource? Avatar { get; set; }
     public bool HasUnread => Unread > 0;
     public string UnreadText => Unread > 99 ? "99+" : Unread.ToString(CultureInfo.CurrentCulture);
-    public string Signature => (ConversationId ?? UserId.ToString(CultureInfo.InvariantCulture)) + ":" + Title + ":" + Preview + ":" + Unread;
+    public string Signature =>
+        (ConversationId ?? UserId.ToString(CultureInfo.InvariantCulture)) + ":" + Title + ":" + Preview + ":" + Unread;
 
     public ChatListItem(string? conversationId, string title, string preview, int unread, long userId, RobloxConversation? conversation)
     {
@@ -850,10 +846,15 @@ public sealed class ChatMessageItem
     public HorizontalAlignment Alignment => IsMine ? HorizontalAlignment.Right : HorizontalAlignment.Left;
 
     public ChatMessageItem(RobloxChatMessage message, bool mine, string sender)
-        : this(message.Id.Length > 0 ? message.Id : "anon-" + Guid.NewGuid().ToString("N"), message.Moderated && message.Content.Length == 0 ? "Message hidden by Roblox" : message.Content,
-            mine, message.Moderated, message.CreatedUtc, sender, false)
-    {
-    }
+        : this(
+            message.Id.Length > 0 ? message.Id : "anon-" + Guid.NewGuid().ToString("N"),
+            message.Moderated && message.Content.Length == 0 ? "Message hidden by Roblox" : message.Content,
+            mine,
+            message.Moderated,
+            message.CreatedUtc,
+            sender,
+            false
+        ) { }
 
     private ChatMessageItem(string id, string text, bool mine, bool moderated, DateTimeOffset created, string sender, bool echo)
     {
@@ -864,9 +865,12 @@ public sealed class ChatMessageItem
         CreatedUtc = created;
         IsEcho = echo;
         string time = created.ToLocalTime().ToString("t", CultureInfo.CurrentCulture);
-        Header = echo ? "Sending" : mine ? time : sender + "  " + time;
+        Header =
+            echo ? "Sending"
+            : mine ? time
+            : sender + "  " + time;
     }
 
-    public static ChatMessageItem Echo(string text, long selfId)
-        => new("echo-" + Guid.NewGuid().ToString("N"), text, true, false, DateTimeOffset.UtcNow, string.Empty, true);
+    public static ChatMessageItem Echo(string text, long selfId) =>
+        new("echo-" + Guid.NewGuid().ToString("N"), text, true, false, DateTimeOffset.UtcNow, string.Empty, true);
 }

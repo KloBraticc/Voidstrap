@@ -147,7 +147,11 @@ public partial class BootstrapperEditorWindow : IMcpEditor
 		if (full == null || !File.Exists(full))
 			return null;
 
-		if (_activeFile != null && string.Equals(_activeFile.FullPath, full, StringComparison.OrdinalIgnoreCase) && UIXML.Visibility == System.Windows.Visibility.Visible)
+		if (
+			_activeFile != null
+			&& string.Equals(_activeFile.FullPath, full, StringComparison.OrdinalIgnoreCase)
+			&& UIXML.Visibility == System.Windows.Visibility.Visible
+		)
 			return UIXML.Text;
 
 		FileInfo info = new FileInfo(full);

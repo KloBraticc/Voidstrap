@@ -31,22 +31,22 @@ public static class LaunchHandler
 	{
 		switch (action)
 		{
-		case NextAction.LaunchSettings:
-			App.Logger.WriteLine("LaunchHandler::ProcessNextAction", "Opening settings");
-			LaunchSettings();
-			break;
-		case NextAction.LaunchRoblox:
-			App.Logger.WriteLine("LaunchHandler::ProcessNextAction", "Opening Roblox");
-			LaunchRoblox(LaunchMode.Player);
-			break;
-		case NextAction.LaunchRobloxStudio:
-			App.Logger.WriteLine("LaunchHandler::ProcessNextAction", "Opening Roblox Studio");
-			LaunchRoblox(LaunchMode.Studio);
-			break;
-		default:
-			App.Logger.WriteLine("LaunchHandler::ProcessNextAction", "Closing");
-			App.Terminate(isUnfinishedInstall ? ErrorCode.ERROR_INSTALL_USEREXIT : ErrorCode.ERROR_SUCCESS);
-			break;
+			case NextAction.LaunchSettings:
+				App.Logger.WriteLine("LaunchHandler::ProcessNextAction", "Opening settings");
+				LaunchSettings();
+				break;
+			case NextAction.LaunchRoblox:
+				App.Logger.WriteLine("LaunchHandler::ProcessNextAction", "Opening Roblox");
+				LaunchRoblox(LaunchMode.Player);
+				break;
+			case NextAction.LaunchRobloxStudio:
+				App.Logger.WriteLine("LaunchHandler::ProcessNextAction", "Opening Roblox Studio");
+				LaunchRoblox(LaunchMode.Studio);
+				break;
+			default:
+				App.Logger.WriteLine("LaunchHandler::ProcessNextAction", "Closing");
+				App.Terminate(isUnfinishedInstall ? ErrorCode.ERROR_INSTALL_USEREXIT : ErrorCode.ERROR_SUCCESS);
+				break;
 		}
 	}
 
@@ -152,9 +152,10 @@ public static class LaunchHandler
 			bool reset = false;
 			try
 			{
-				Voidstrap.Integrations.Nvidia.NvidiaApplyResult result = App.LaunchSettings.NvResetFlag.Data == "uninstall"
-					? Voidstrap.Integrations.Nvidia.NvidiaProfileInspector.RestoreAppliedSettings()
-					: Voidstrap.Integrations.Nvidia.NvidiaProfileInspector.ResetAll();
+				Voidstrap.Integrations.Nvidia.NvidiaApplyResult result =
+					App.LaunchSettings.NvResetFlag.Data == "uninstall"
+						? Voidstrap.Integrations.Nvidia.NvidiaProfileInspector.RestoreAppliedSettings()
+						: Voidstrap.Integrations.Nvidia.NvidiaProfileInspector.ResetAll();
 				reset = result.Ok;
 				App.Logger.WriteLine("LaunchHandler::ProcessLaunchArgs", result.Message);
 				foreach (string failure in result.Failures)
@@ -185,7 +186,9 @@ public static class LaunchHandler
 		}
 		if (App.LaunchSettings.FleasionUninstallFlag.Active)
 		{
-			int code = Voidstrap.Utility.Platform.IsWindows ? Voidstrap.Integrations.FleasionCleanup.RunElevatedCleanup(App.LaunchSettings.FleasionUninstallFlag.Data) : 1;
+			int code = Voidstrap.Utility.Platform.IsWindows
+				? Voidstrap.Integrations.FleasionCleanup.RunElevatedCleanup(App.LaunchSettings.FleasionUninstallFlag.Data)
+				: 1;
 			Environment.ExitCode = code;
 			App.Terminate(code == 0 ? ErrorCode.ERROR_SUCCESS : ErrorCode.ERROR_INSTALL_FAILURE);
 			return;
@@ -297,7 +300,10 @@ public static class LaunchHandler
 			{
 				if (new LanguageSelectorDialog().ShowTopLevelDialog() != true)
 				{
-					App.Logger.WriteLine("LaunchHandler::LaunchInstaller", "The language picker was closed without a choice, setup continues in the current language");
+					App.Logger.WriteLine(
+						"LaunchHandler::LaunchInstaller",
+						"The language picker was closed without a choice, setup continues in the current language"
+					);
 				}
 				Voidstrap.UI.Elements.Installer.MainWindow mainWindow = new Voidstrap.UI.Elements.Installer.MainWindow();
 				mainWindow.ShowTopLevelDialog();
@@ -358,9 +364,7 @@ public static class LaunchHandler
 			Frontend.ShowMessageBox(Strings.Bootstrapper_SuccessfullyUninstalled, MessageBoxImage.Asterisk);
 			App.Terminate();
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("LaunchHandler::LaunchUninstaller", ex);
@@ -376,7 +380,10 @@ public static class LaunchHandler
 			Voidstrap.UI.TaskbarJumpList.Apply();
 			jumpList.Stop();
 			if (jumpList.ElapsedMilliseconds > 250)
-				App.Logger.WriteLine("LaunchHandler::LaunchSettings", "The taskbar jump list took " + jumpList.ElapsedMilliseconds + " ms to apply");
+				App.Logger.WriteLine(
+					"LaunchHandler::LaunchSettings",
+					"The taskbar jump list took " + jumpList.ElapsedMilliseconds + " ms to apply"
+				);
 		}
 		using InterProcessLock interProcessLock = new InterProcessLock("Settings");
 		if (interProcessLock.IsAcquired)
@@ -407,7 +414,10 @@ public static class LaunchHandler
 		if (OperatingSystem.IsLinux())
 		{
 			bool raised = Voidstrap.Platform.Linux.LinuxWindowInterop.TryRaiseVoidstrapWindow(Strings.Menu_Title);
-			App.Logger.WriteLine("LaunchHandler::LaunchSettings", raised ? "Brought the open Voidstrap window to the front" : "The open Voidstrap window could not be found on this desktop");
+			App.Logger.WriteLine(
+				"LaunchHandler::LaunchSettings",
+				raised ? "Brought the open Voidstrap window to the front" : "The open Voidstrap window could not be found on this desktop"
+			);
 			App.Terminate();
 			return;
 		}
@@ -428,7 +438,10 @@ public static class LaunchHandler
 				foreach (Process other in others)
 					other.Dispose();
 			}
-			App.Logger.WriteLine("LaunchHandler::LaunchSettings", raised ? "Brought the open Voidstrap window to the front" : "The open Voidstrap window could not be brought to the front");
+			App.Logger.WriteLine(
+				"LaunchHandler::LaunchSettings",
+				raised ? "Brought the open Voidstrap window to the front" : "The open Voidstrap window could not be brought to the front"
+			);
 			App.Terminate();
 			return;
 		}
@@ -440,7 +453,10 @@ public static class LaunchHandler
 			{
 				Windows.Win32.PInvoke.SetForegroundWindow(new HWND(process.MainWindowHandle));
 				if (Voidstrap.UI.TaskbarJumpList.PostOpenView(process.MainWindowHandle, App.LaunchSettings.MenuFlag.Data))
-					App.Logger.WriteLine("LaunchHandler::LaunchSettings", "Asked the open window to show " + App.LaunchSettings.MenuFlag.Data);
+					App.Logger.WriteLine(
+						"LaunchHandler::LaunchSettings",
+						"Asked the open window to show " + App.LaunchSettings.MenuFlag.Data
+					);
 			}
 		}
 		finally
@@ -452,9 +468,7 @@ public static class LaunchHandler
 				{
 					process2.Dispose();
 				}
-				catch
-				{
-				}
+				catch { }
 			}
 		}
 		App.Terminate();
@@ -502,11 +516,17 @@ public static class LaunchHandler
 		}
 		App.Settings.FlushDeferred();
 		App.FastFlags.FlushDeferred();
-		if (Voidstrap.Integrations.Plugins.PluginHost.Invoke("roblox.launch", new System.Text.Json.Nodes.JsonObject
-		{
-			["mode"] = launchMode == LaunchMode.Player ? "player" : "studio",
-			["args"] = App.LaunchSettings.RobloxLaunchArgs
-		}) is System.Text.Json.Nodes.JsonObject launch)
+		if (
+			Voidstrap.Integrations.Plugins.PluginHost.Invoke(
+				"roblox.launch",
+				new System.Text.Json.Nodes.JsonObject
+				{
+					["mode"] = launchMode == LaunchMode.Player ? "player" : "studio",
+					["args"] = App.LaunchSettings.RobloxLaunchArgs,
+				}
+			)
+			is System.Text.Json.Nodes.JsonObject launch
+		)
 		{
 			if (launch["cancel"] is System.Text.Json.Nodes.JsonValue cancel && cancel.TryGetValue(out bool cancelled) && cancelled)
 			{
@@ -539,7 +559,10 @@ public static class LaunchHandler
 					elevateArgs.Add(launchMode == LaunchMode.Player ? "-player" : "-studio");
 					elevateArgs.Add(App.LaunchSettings.RobloxLaunchArgs);
 				}
-				App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Leftover AssetWarp routing needs administrator access to remove. Requesting elevation to resume launch.");
+				App.Logger.WriteLine(
+					"LaunchHandler::LaunchRoblox",
+					"Leftover AssetWarp routing needs administrator access to remove. Requesting elevation to resume launch."
+				);
 				bool elevated = ProcessElevation.TryRestartElevated(elevateArgs);
 				if (elevated)
 				{
@@ -559,7 +582,10 @@ public static class LaunchHandler
 			}
 			if (AssetWarpLegacyCleanup.HasHostsEntries())
 			{
-				App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Leftover AssetWarp routing is still in the hosts file, Roblox assets will fail to load until it is removed");
+				App.Logger.WriteLine(
+					"LaunchHandler::LaunchRoblox",
+					"Leftover AssetWarp routing is still in the hosts file, Roblox assets will fail to load until it is removed"
+				);
 				if (!App.LaunchSettings.QuietFlag.Active)
 				{
 					Frontend.ShowMessageBox(Strings.Bootstrapper_AssetWarpRoutingLeftover, MessageBoxImage.Exclamation);
@@ -578,22 +604,23 @@ public static class LaunchHandler
 					{
 						App.State.Save();
 					}
-					catch
-					{
-					}
-					App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Fresh user-initiated launch detected cleared stale matchmaker attempt counters");
+					catch { }
+					App.Logger.WriteLine(
+						"LaunchHandler::LaunchRoblox",
+						"Fresh user-initiated launch detected cleared stale matchmaker attempt counters"
+					);
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 		if (Voidstrap.Utility.Platform.SupportsWindowsClient && !File.Exists(Path.Combine(Paths.System, "mfplat.dll")))
 		{
 			Frontend.ShowMessageBox(Strings.Bootstrapper_WMFNotFound, MessageBoxImage.Hand);
 			if (!App.LaunchSettings.QuietFlag.Active)
 			{
-				Utilities.ShellExecute("https://support.microsoft.com/en-us/topic/media-feature-pack-list-for-windows-n-editions-c1c6fffa-d052-8338-7a79-a4bb980a700a");
+				Utilities.ShellExecute(
+					"https://support.microsoft.com/en-us/topic/media-feature-pack-list-for-windows-n-editions-c1c6fffa-d052-8338-7a79-a4bb980a700a"
+				);
 			}
 			App.Terminate(ErrorCode.ERROR_FILE_NOT_FOUND);
 			return;
@@ -623,7 +650,14 @@ public static class LaunchHandler
 				flag = false;
 			}
 		}
-		if (App.Settings.Prop.ConfirmLaunches && flag && !App.LaunchSettings.MatchmakerRejoinFlag.Active && (!App.Settings.Prop.IsGameEnabled || string.IsNullOrWhiteSpace(App.Settings.Prop.LaunchGameID)) && Frontend.ShowMessageBox(Strings.Bootstrapper_ConfirmLaunch, MessageBoxImage.Exclamation, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+		if (
+			App.Settings.Prop.ConfirmLaunches
+			&& flag
+			&& !App.LaunchSettings.MatchmakerRejoinFlag.Active
+			&& (!App.Settings.Prop.IsGameEnabled || string.IsNullOrWhiteSpace(App.Settings.Prop.LaunchGameID))
+			&& Frontend.ShowMessageBox(Strings.Bootstrapper_ConfirmLaunch, MessageBoxImage.Exclamation, MessageBoxButton.YesNo)
+				!= MessageBoxResult.Yes
+		)
 		{
 			App.Terminate();
 			return;
@@ -647,25 +681,28 @@ public static class LaunchHandler
 		{
 			_ = RobloxFullscreen.WaitAndTriggerFullscreenAsync(App.Bootstrapper.CancellationToken);
 		}
-		Task.Run((Func<Task?>)App.Bootstrapper.Run).ContinueWith(delegate(Task t)
-		{
-			App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Bootstrapper task has finished");
-			try
-			{
-				if (t.IsFaulted)
+		Task.Run((Func<Task?>)App.Bootstrapper.Run)
+			.ContinueWith(
+				delegate(Task t)
 				{
-					App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "An exception occurred when running the bootstrapper");
-					if (t.Exception != null)
+					App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Bootstrapper task has finished");
+					try
 					{
-						App.FinalizeExceptionHandling(t.Exception);
+						if (t.IsFaulted)
+						{
+							App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "An exception occurred when running the bootstrapper");
+							if (t.Exception != null)
+							{
+								App.FinalizeExceptionHandling(t.Exception);
+							}
+						}
+					}
+					finally
+					{
+						App.SoftTerminate();
 					}
 				}
-			}
-			finally
-			{
-				App.SoftTerminate();
-			}
-		});
+			);
 		bootstrapperDialog?.ShowBootstrapper();
 		App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Exiting");
 	}
@@ -720,7 +757,7 @@ public static class LaunchHandler
 				ShowActivated = false,
 				WindowStyle = WindowStyle.None,
 				ResizeMode = ResizeMode.NoResize,
-				WindowState = System.Windows.WindowState.Minimized
+				WindowState = System.Windows.WindowState.Minimized,
 			};
 			if (OperatingSystem.IsLinux())
 			{
@@ -743,10 +780,14 @@ public static class LaunchHandler
 			Voidstrap.UI.LinuxWindowMemory.KeepSessionTrimmed(application.Dispatcher, PortableSessionEnded.Task);
 
 		PortableSessionEnded.Task.ContinueWith(
-			delegate { ReleaseLaunchKeepAlive(); },
+			delegate
+			{
+				ReleaseLaunchKeepAlive();
+			},
 			CancellationToken.None,
 			TaskContinuationOptions.ExecuteSynchronously,
-			TaskScheduler.Default);
+			TaskScheduler.Default
+		);
 	}
 
 	private static void CloseSettingsWindows(Application application)
@@ -757,7 +798,10 @@ public static class LaunchHandler
 			{
 				if (open is Voidstrap.UI.Elements.Settings.MainWindow settings)
 				{
-					App.Logger.WriteLine("LaunchHandler::CloseSettingsWindows", "Closing the Voidstrap window so the session runs from the tray");
+					App.Logger.WriteLine(
+						"LaunchHandler::CloseSettingsWindows",
+						"Closing the Voidstrap window so the session runs from the tray"
+					);
 					settings.Close();
 					Voidstrap.UI.LinuxWindowMemory.ReleaseAfterClose(settings, compact: true);
 				}
@@ -829,7 +873,11 @@ public static class LaunchHandler
 
 	private const int SoberExitConfirmations = 5;
 
-	private static async Task<int> WaitForMacProcessAsync(string processName, DateTime launchRequestedUtc, CancellationToken cancellationToken)
+	private static async Task<int> WaitForMacProcessAsync(
+		string processName,
+		DateTime launchRequestedUtc,
+		CancellationToken cancellationToken
+	)
 	{
 		for (int attempt = 0; attempt < 120; attempt++)
 		{
@@ -848,9 +896,7 @@ public static class LaunchHandler
 							newestStart = started;
 						}
 					}
-					catch (Exception)
-					{
-					}
+					catch (Exception) { }
 				}
 			}
 			if (newest > 0)
@@ -860,14 +906,18 @@ public static class LaunchHandler
 			}
 			await Task.Delay(500, cancellationToken);
 		}
-		App.Logger.WriteLine("LaunchHandler::WaitForMacProcessAsync", processName + " did not appear in the process list, activity tracking is skipped for this launch");
+		App.Logger.WriteLine(
+			"LaunchHandler::WaitForMacProcessAsync",
+			processName + " did not appear in the process list, activity tracking is skipped for this launch"
+		);
 		return 0;
 	}
 
 	private static async Task<bool> WaitForSoberExitAsync(CancellationToken cancellationToken)
 	{
-		Voidstrap.Platform.Linux.LinuxSoberProcessProbe probe =
-			new Voidstrap.Platform.Linux.LinuxSoberProcessProbe(new Voidstrap.Core.SystemProcessService());
+		Voidstrap.Platform.Linux.LinuxSoberProcessProbe probe = new Voidstrap.Platform.Linux.LinuxSoberProcessProbe(
+			new Voidstrap.Core.SystemProcessService()
+		);
 
 		bool started = false;
 
@@ -889,7 +939,10 @@ public static class LaunchHandler
 
 		if (!started)
 		{
-			App.Logger.WriteLine("LaunchHandler::WaitForSoberExitAsync", "Roblox never appeared in the process list, falling back to the launch process lifetime");
+			App.Logger.WriteLine(
+				"LaunchHandler::WaitForSoberExitAsync",
+				"Roblox never appeared in the process list, falling back to the launch process lifetime"
+			);
 			return false;
 		}
 
@@ -909,7 +962,10 @@ public static class LaunchHandler
 				if (!waitingForRejoin)
 				{
 					waitingForRejoin = true;
-					App.Logger.WriteLine("LaunchHandler::WaitForSoberExitAsync", "Sober is restarting for a matchmaker rejoin, keeping Voidstrap resident");
+					App.Logger.WriteLine(
+						"LaunchHandler::WaitForSoberExitAsync",
+						"Sober is restarting for a matchmaker rejoin, keeping Voidstrap resident"
+					);
 				}
 			}
 			else
@@ -923,7 +979,12 @@ public static class LaunchHandler
 
 				App.Logger.WriteLine(
 					"LaunchHandler::WaitForSoberExitAsync",
-					"Sober was not found on process check " + missed + " of " + SoberExitConfirmations + ", waiting before deciding it closed");
+					"Sober was not found on process check "
+						+ missed
+						+ " of "
+						+ SoberExitConfirmations
+						+ ", waiting before deciding it closed"
+				);
 			}
 
 			if (await Voidstrap.Utility.LinuxSessionHandoff.WaitForHandoffAsync(TimeSpan.FromSeconds(2), cancellationToken))
@@ -941,55 +1002,64 @@ public static class LaunchHandler
 		try
 		{
 			Voidstrap.Integrations.Studio.StudioIntegration.Start(studioSession: true);
-			_ = Task.Run(async delegate
-			{
-				try
-				{
-					await WaitForStudioExitAsync(processId, _residentCancellation.Token);
-				}
-				catch (OperationCanceledException)
-				{
-				}
-				catch (Exception ex)
-				{
-					App.Logger.WriteLine("LaunchHandler::StartStudioResident", "Waiting for Roblox Studio failed: " + ex.Message);
-				}
-
-				App.Logger.WriteLine("LaunchHandler::StartStudioResident", "Roblox Studio has exited, shutting down");
-				try
-				{
-					Voidstrap.Integrations.Studio.StudioIntegration.Shutdown();
-				}
-				catch (Exception ex)
-				{
-					App.Logger.WriteLine("LaunchHandler::StartStudioResident", "The Studio integration could not be stopped: " + ex.Message);
-				}
-
-				if (App.Settings.Prop.CleanerOptions != CleanerOptions.Never)
+			_ = Task.Run(
+				async delegate
 				{
 					try
 					{
-						Cleaner.DoCleaning();
+						await WaitForStudioExitAsync(processId, _residentCancellation.Token);
+					}
+					catch (OperationCanceledException) { }
+					catch (Exception ex)
+					{
+						App.Logger.WriteLine("LaunchHandler::StartStudioResident", "Waiting for Roblox Studio failed: " + ex.Message);
+					}
+
+					App.Logger.WriteLine("LaunchHandler::StartStudioResident", "Roblox Studio has exited, shutting down");
+					try
+					{
+						Voidstrap.Integrations.Studio.StudioIntegration.Shutdown();
 					}
 					catch (Exception ex)
 					{
-						App.Logger.WriteLine("LaunchHandler::StartStudioResident", "The cleaner could not finish: " + ex.Message);
+						App.Logger.WriteLine(
+							"LaunchHandler::StartStudioResident",
+							"The Studio integration could not be stopped: " + ex.Message
+						);
 					}
-				}
 
-				Volatile.Write(ref _residentActive, 0);
-				Watcher.ReopenSettingsForTestModeOnce();
-				PortableSessionEnded.TrySetResult(true);
-				App.Terminate();
-			});
+					if (App.Settings.Prop.CleanerOptions != CleanerOptions.Never)
+					{
+						try
+						{
+							Cleaner.DoCleaning();
+						}
+						catch (Exception ex)
+						{
+							App.Logger.WriteLine("LaunchHandler::StartStudioResident", "The cleaner could not finish: " + ex.Message);
+						}
+					}
+
+					Volatile.Write(ref _residentActive, 0);
+					Watcher.ReopenSettingsForTestModeOnce();
+					PortableSessionEnded.TrySetResult(true);
+					App.Terminate();
+				}
+			);
 
 			Volatile.Write(ref _residentActive, 1);
-			App.Logger.WriteLine("LaunchHandler::StartStudioResident", "Voidstrap is staying resident so the Roblox Studio presence keeps running");
+			App.Logger.WriteLine(
+				"LaunchHandler::StartStudioResident",
+				"Voidstrap is staying resident so the Roblox Studio presence keeps running"
+			);
 			return true;
 		}
 		catch (Exception ex)
 		{
-			App.Logger.WriteLine("LaunchHandler::StartStudioResident", "Voidstrap could not stay resident for Roblox Studio: " + ex.Message);
+			App.Logger.WriteLine(
+				"LaunchHandler::StartStudioResident",
+				"Voidstrap could not stay resident for Roblox Studio: " + ex.Message
+			);
 			return false;
 		}
 	}
@@ -1004,9 +1074,13 @@ public static class LaunchHandler
 		int missed = 0;
 		while (!cancellationToken.IsCancellationRequested)
 		{
-			bool running = IsProcessAlive(processId) || (Voidstrap.Utility.Platform.IsMacOS
-				? IsAnyProcessRunning(Voidstrap.Utility.Platform.RobloxStudioProcessName)
-				: await probe.IsRunningAsync(cancellationToken));
+			bool running =
+				IsProcessAlive(processId)
+				|| (
+					Voidstrap.Utility.Platform.IsMacOS
+						? IsAnyProcessRunning(Voidstrap.Utility.Platform.RobloxStudioProcessName)
+						: await probe.IsRunningAsync(cancellationToken)
+				);
 			if (running)
 			{
 				missed = 0;
@@ -1026,11 +1100,7 @@ public static class LaunchHandler
 
 		try
 		{
-			Voidstrap.Models.WatcherData watcherData = new()
-			{
-				ProcessId = processId,
-				AutoclosePids = []
-			};
+			Voidstrap.Models.WatcherData watcherData = new() { ProcessId = processId, AutoclosePids = [] };
 
 			Watcher resident = new(watcherData);
 			Voidstrap.Integrations.LinuxAutoFullscreen? autoFullscreen = null;
@@ -1039,78 +1109,89 @@ public static class LaunchHandler
 			{
 				System.Windows.Application? application = System.Windows.Application.Current;
 
-				application?.Dispatcher.Invoke(delegate
-				{
-					autoFullscreen = new Voidstrap.Integrations.LinuxAutoFullscreen();
-					autoFullscreen.Start();
-				});
+				application?.Dispatcher.Invoke(
+					delegate
+					{
+						autoFullscreen = new Voidstrap.Integrations.LinuxAutoFullscreen();
+						autoFullscreen.Start();
+					}
+				);
 			}
 
-			_ = Task.Run(async delegate
-			{
-				try
-				{
-					Task residentTask = resident.Run();
-					bool soberExitObserved = Voidstrap.Utility.Platform.IsLinux && !_rosemarySession && await WaitForSoberExitAsync(_residentCancellation.Token);
-					if (!soberExitObserved)
-						await residentTask;
-					if (Voidstrap.Utility.Platform.IsMacOS)
-						await Task.WhenAny(Voidstrap.Integrations.ServerMatchmaker.MacHandoffTask, Task.Delay(20000));
-				}
-				catch (OperationCanceledException)
-				{
-				}
-				catch (Exception ex)
-				{
-					App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "The resident watcher stopped unexpectedly: " + ex.Message);
-				}
-
-				App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "Roblox has exited, shutting down");
-				Voidstrap.Integrations.Overlays.LinuxGameOverlay.Stop();
-				if (Voidstrap.Utility.Platform.IsMacOS && !Voidstrap.Integrations.ServerMatchmaker.MacHandoffStarted)
-					Voidstrap.Utility.MacRobloxIcon.Restore();
-				try
-				{
-					autoFullscreen?.Dispose();
-				}
-				catch (Exception ex)
-				{
-					App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "Auto fullscreen could not be released: " + ex.Message);
-				}
-
-				try
-				{
-					resident.Dispose();
-				}
-				catch (Exception ex)
-				{
-					App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "The watcher could not be disposed: " + ex.Message);
-				}
-
-				if (App.Settings.Prop.CleanerOptions != CleanerOptions.Never)
+			_ = Task.Run(
+				async delegate
 				{
 					try
 					{
-						Cleaner.DoCleaning();
+						Task residentTask = resident.Run();
+						bool soberExitObserved =
+							Voidstrap.Utility.Platform.IsLinux
+							&& !_rosemarySession
+							&& await WaitForSoberExitAsync(_residentCancellation.Token);
+						if (!soberExitObserved)
+							await residentTask;
+						if (Voidstrap.Utility.Platform.IsMacOS)
+							await Task.WhenAny(Voidstrap.Integrations.ServerMatchmaker.MacHandoffTask, Task.Delay(20000));
+					}
+					catch (OperationCanceledException) { }
+					catch (Exception ex)
+					{
+						App.Logger.WriteLine(
+							"LaunchHandler::StartResidentWatcher",
+							"The resident watcher stopped unexpectedly: " + ex.Message
+						);
+					}
+
+					App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "Roblox has exited, shutting down");
+					Voidstrap.Integrations.Overlays.LinuxGameOverlay.Stop();
+					if (Voidstrap.Utility.Platform.IsMacOS && !Voidstrap.Integrations.ServerMatchmaker.MacHandoffStarted)
+						Voidstrap.Utility.MacRobloxIcon.Restore();
+					try
+					{
+						autoFullscreen?.Dispose();
 					}
 					catch (Exception ex)
 					{
-						App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "The cleaner could not finish: " + ex.Message);
+						App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "Auto fullscreen could not be released: " + ex.Message);
 					}
-				}
 
-				if (Voidstrap.Utility.Platform.IsLinux)
-					Voidstrap.Utility.LinuxSessionHandoff.ClearResident();
-				Volatile.Write(ref _residentActive, 0);
-				Watcher.ReopenSettingsForTestModeOnce();
-				PortableSessionEnded.TrySetResult(true);
-				App.Terminate();
-			});
+					try
+					{
+						resident.Dispose();
+					}
+					catch (Exception ex)
+					{
+						App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "The watcher could not be disposed: " + ex.Message);
+					}
+
+					if (App.Settings.Prop.CleanerOptions != CleanerOptions.Never)
+					{
+						try
+						{
+							Cleaner.DoCleaning();
+						}
+						catch (Exception ex)
+						{
+							App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "The cleaner could not finish: " + ex.Message);
+						}
+					}
+
+					if (Voidstrap.Utility.Platform.IsLinux)
+						Voidstrap.Utility.LinuxSessionHandoff.ClearResident();
+					Volatile.Write(ref _residentActive, 0);
+					Watcher.ReopenSettingsForTestModeOnce();
+					PortableSessionEnded.TrySetResult(true);
+					App.Terminate();
+				}
+			);
 
 			if (Voidstrap.Utility.Platform.IsLinux && isSoberPlayer)
 				Voidstrap.Utility.LinuxSessionHandoff.RegisterResident();
 			Volatile.Write(ref _residentActive, 1);
-			App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "Voidstrap is staying resident so overlays and integrations keep running");
+			App.Logger.WriteLine(
+				"LaunchHandler::StartResidentWatcher",
+				"Voidstrap is staying resident so overlays and integrations keep running"
+			);
 			return true;
 		}
 		catch (Exception ex)
@@ -1122,7 +1203,12 @@ public static class LaunchHandler
 
 	private static bool _rosemarySession;
 
-	private static async Task<bool> LaunchRosemaryAsync(Bootstrapper bootstrapper, Voidstrap.Platform.RuntimeKind runtimeKind, string launchTarget, CancellationToken cancellation)
+	private static async Task<bool> LaunchRosemaryAsync(
+		Bootstrapper bootstrapper,
+		Voidstrap.Platform.RuntimeKind runtimeKind,
+		string launchTarget,
+		CancellationToken cancellation
+	)
 	{
 		bool player = runtimeKind == Voidstrap.Platform.RuntimeKind.Player;
 		Voidstrap.Platform.Linux.RosemaryApplication application = player
@@ -1130,14 +1216,25 @@ public static class LaunchHandler
 			: Voidstrap.Platform.Linux.RosemaryApplication.Studio;
 
 		SetPortableLaunchStatus("Checking for Rosemary updates");
-		Voidstrap.Platform.Linux.LinuxRosemary.DownloadSegments = DownloadConfiguration.NormalizeSegments(App.Settings.Prop.MaxDownloadSegments);
+		Voidstrap.Platform.Linux.LinuxRosemary.DownloadSegments = DownloadConfiguration.NormalizeSegments(
+			App.Settings.Prop.MaxDownloadSegments
+		);
 		Voidstrap.Platform.Linux.RosemaryRobloxOptions options = new(
 			App.Settings.Prop.IsChannelEnabled ? App.Settings.Prop.Channel : null,
 			App.Settings.Prop.UpdateRoblox,
-			App.Settings.Prop.ForceRobloxReinstall);
+			App.Settings.Prop.ForceRobloxReinstall
+		);
 		System.Diagnostics.Stopwatch prepareClock = System.Diagnostics.Stopwatch.StartNew();
-		Task<Voidstrap.Platform.OperationResult<string>> runtimeTask = Voidstrap.Platform.Linux.LinuxRosemary.EnsureRuntimeAsync(SetPortableLaunchStatus, cancellation);
-		Task<Voidstrap.Platform.OperationResult<string>> robloxTask = Voidstrap.Platform.Linux.LinuxRosemary.EnsureRobloxAsync(application, options, SetPortableLaunchStatus, cancellation);
+		Task<Voidstrap.Platform.OperationResult<string>> runtimeTask = Voidstrap.Platform.Linux.LinuxRosemary.EnsureRuntimeAsync(
+			SetPortableLaunchStatus,
+			cancellation
+		);
+		Task<Voidstrap.Platform.OperationResult<string>> robloxTask = Voidstrap.Platform.Linux.LinuxRosemary.EnsureRobloxAsync(
+			application,
+			options,
+			SetPortableLaunchStatus,
+			cancellation
+		);
 		await Task.WhenAll(runtimeTask, robloxTask);
 		cancellation.ThrowIfCancellationRequested();
 		Voidstrap.Platform.OperationResult<string> runtime = runtimeTask.Result;
@@ -1147,20 +1244,29 @@ public static class LaunchHandler
 			ShowPortableLaunchFailure(runtime.Failure?.Message ?? "Rosemary could not be installed.");
 			return false;
 		}
-		App.Logger.WriteLine("LaunchHandler::LaunchRosemary", "Using Rosemary " + Voidstrap.Platform.Linux.LinuxRosemary.InstalledRuntimeVersion + " from " + runtime.Value);
+		App.Logger.WriteLine(
+			"LaunchHandler::LaunchRosemary",
+			"Using Rosemary " + Voidstrap.Platform.Linux.LinuxRosemary.InstalledRuntimeVersion + " from " + runtime.Value
+		);
 		if (!roblox.Succeeded || roblox.Value is null)
 		{
 			ShowPortableLaunchFailure(roblox.Failure?.Message ?? "Roblox could not be installed.");
 			return false;
 		}
-		App.Logger.WriteLine("LaunchHandler::LaunchRosemary", "Rosemary and Roblox were ready in " + prepareClock.ElapsedMilliseconds + " ms");
+		App.Logger.WriteLine(
+			"LaunchHandler::LaunchRosemary",
+			"Rosemary and Roblox were ready in " + prepareClock.ElapsedMilliseconds + " ms"
+		);
 		if (App.Settings.Prop.ForceRobloxReinstall)
 		{
 			App.Settings.Prop.ForceRobloxReinstall = false;
 			App.Settings.Save();
 		}
 		string robloxVersion = Voidstrap.Platform.Linux.LinuxRosemary.InstalledRobloxVersion(application) ?? "";
-		App.Logger.WriteLine("LaunchHandler::LaunchRosemary", "Using macOS " + (player ? "Roblox " : "Roblox Studio ") + robloxVersion + " from " + roblox.Value);
+		App.Logger.WriteLine(
+			"LaunchHandler::LaunchRosemary",
+			"Using macOS " + (player ? "Roblox " : "Roblox Studio ") + robloxVersion + " from " + roblox.Value
+		);
 
 		SetPortableLaunchStatus(Strings.Bootstrapper_Status_Configuring);
 		try
@@ -1184,7 +1290,8 @@ public static class LaunchHandler
 			App.FastFlags.Save();
 			Voidstrap.Platform.MacOS.MacOSRobloxInstaller.WriteClientSettings(
 				roblox.Value,
-				bootstrapper.FastFlagsAllowedForThisLaunch() ? App.FastFlags.FileLocation : null);
+				bootstrapper.FastFlagsAllowedForThisLaunch() ? App.FastFlags.FileLocation : null
+			);
 		}
 		catch (Exception ex)
 		{
@@ -1234,7 +1341,12 @@ public static class LaunchHandler
 			foreach ((string name, string value) in overlay)
 				environment[name] = value;
 		}
-		ProcessStartInfo startInfo = Voidstrap.Platform.Linux.LinuxRosemary.CreateLaunch(runtime.Value, application, launchTarget, environment);
+		ProcessStartInfo startInfo = Voidstrap.Platform.Linux.LinuxRosemary.CreateLaunch(
+			runtime.Value,
+			application,
+			launchTarget,
+			environment
+		);
 		Process? process;
 		try
 		{
@@ -1290,9 +1402,8 @@ public static class LaunchHandler
 				return;
 			}
 
-			Voidstrap.Platform.RuntimeKind runtimeKind = launchMode == LaunchMode.Player
-				? Voidstrap.Platform.RuntimeKind.Player
-				: Voidstrap.Platform.RuntimeKind.Studio;
+			Voidstrap.Platform.RuntimeKind runtimeKind =
+				launchMode == LaunchMode.Player ? Voidstrap.Platform.RuntimeKind.Player : Voidstrap.Platform.RuntimeKind.Studio;
 			bool rosemary = OperatingSystem.IsLinux() && Voidstrap.Utility.LinuxRuntimeChoice.UsesRosemary(launchMode);
 			if (OperatingSystem.IsLinux() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player && !rosemary)
 			{
@@ -1306,9 +1417,8 @@ public static class LaunchHandler
 			string launchTarget = App.LaunchSettings.RobloxLaunchArgs;
 			if (string.IsNullOrWhiteSpace(launchTarget))
 			{
-				launchTarget = runtimeKind == Voidstrap.Platform.RuntimeKind.Player
-					? "roblox://experiences/start"
-					: "roblox-studio://launch";
+				launchTarget =
+					runtimeKind == Voidstrap.Platform.RuntimeKind.Player ? "roblox://experiences/start" : "roblox-studio://launch";
 			}
 			Bootstrapper? linuxBootstrapper = null;
 			if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
@@ -1322,7 +1432,8 @@ public static class LaunchHandler
 				launchTarget,
 				launchMode,
 				cancellation,
-				OperatingSystem.IsLinux() ? ShowPortableMatchmakerSearch : null);
+				OperatingSystem.IsLinux() ? ShowPortableMatchmakerSearch : null
+			);
 			cancellation.ThrowIfCancellationRequested();
 			if (!string.Equals(rewrittenTarget, launchTarget, StringComparison.Ordinal))
 			{
@@ -1330,7 +1441,10 @@ public static class LaunchHandler
 				App.LaunchSettings.RobloxLaunchArgs = rewrittenTarget;
 			}
 			if (OperatingSystem.IsLinux() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player && !rosemary)
-				App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", Voidstrap.Platform.Linux.SoberLaunchLink.Describe(App.LaunchSettings.RobloxLaunchArgs.Length > 0 ? launchTarget : null));
+				App.Logger.WriteLine(
+					"LaunchHandler::LaunchPortableRuntime",
+					Voidstrap.Platform.Linux.SoberLaunchLink.Describe(App.LaunchSettings.RobloxLaunchArgs.Length > 0 ? launchTarget : null)
+				);
 
 			if (rosemary && linuxBootstrapper is not null)
 			{
@@ -1354,10 +1468,17 @@ public static class LaunchHandler
 					SetPortableLaunchStatus("Closing the current Roblox session");
 					await Voidstrap.Utility.LinuxSessionHandoff.RequestHandoffAsync(cancellation);
 					cancellation.ThrowIfCancellationRequested();
-					Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.ForceX11Session = Voidstrap.Integrations.Overlays.OverlaySettings.RequiresLinuxX11Session
+					Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.ForceX11Session =
+						Voidstrap.Integrations.Overlays.OverlaySettings.RequiresLinuxX11Session
 						&& !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY"));
-					App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", Voidstrap.Integrations.Overlays.OverlaySettings.DescribeLinuxSoberSession(Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.ForceX11Session));
-					Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.LauncherCommand = await Voidstrap.Utility.SoberLauncherCommand.ResolveAsync(App.Settings.Prop.SoberLauncher, cancellation);
+					App.Logger.WriteLine(
+						"LaunchHandler::LaunchPortableRuntime",
+						Voidstrap.Integrations.Overlays.OverlaySettings.DescribeLinuxSoberSession(
+							Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.ForceX11Session
+						)
+					);
+					Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.LauncherCommand =
+						await Voidstrap.Utility.SoberLauncherCommand.ResolveAsync(App.Settings.Prop.SoberLauncher, cancellation);
 					await PrepareLinuxEffectLayersAsync();
 					Voidstrap.Utility.LinuxNvidiaSettings.Choices nvidiaChoices = await PrepareLinuxNvidiaSettingsAsync();
 					cancellation.ThrowIfCancellationRequested();
@@ -1380,7 +1501,10 @@ public static class LaunchHandler
 					}
 					catch (Exception ex)
 					{
-						App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", "Linux modifications could not be prepared: " + ex.Message);
+						App.Logger.WriteLine(
+							"LaunchHandler::LaunchPortableRuntime",
+							"Linux modifications could not be prepared: " + ex.Message
+						);
 					}
 				}
 				else
@@ -1396,22 +1520,36 @@ public static class LaunchHandler
 					}
 					catch (Exception ex)
 					{
-						App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", "Studio modifications could not be prepared: " + ex.Message);
+						App.Logger.WriteLine(
+							"LaunchHandler::LaunchPortableRuntime",
+							"Studio modifications could not be prepared: " + ex.Message
+						);
 					}
 				}
 
-				Voidstrap.Platform.IRobloxRuntimeProvider provider = runtimeKind == Voidstrap.Platform.RuntimeKind.Player
-					? host.PlayerRuntime
-					: host.StudioRuntime;
+				Voidstrap.Platform.IRobloxRuntimeProvider provider =
+					runtimeKind == Voidstrap.Platform.RuntimeKind.Player ? host.PlayerRuntime : host.StudioRuntime;
 				SetPortableLaunchStatus(Strings.Bootstrapper_Status_Connecting);
 				Voidstrap.Platform.RuntimeInstallation installation = await provider.FindInstallationAsync();
 				if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
 				{
-					installation = await Bootstrapper.EnsureSoberInstalledAsync(provider, installation, host, SetPortableLaunchStatus, cancellation);
+					installation = await Bootstrapper.EnsureSoberInstalledAsync(
+						provider,
+						installation,
+						host,
+						SetPortableLaunchStatus,
+						cancellation
+					);
 				}
 				else
 				{
-					installation = await Bootstrapper.EnsureVinegarInstalledAsync(provider, installation, host, SetPortableLaunchStatus, cancellation);
+					installation = await Bootstrapper.EnsureVinegarInstalledAsync(
+						provider,
+						installation,
+						host,
+						SetPortableLaunchStatus,
+						cancellation
+					);
 				}
 				cancellation.ThrowIfCancellationRequested();
 				if (!installation.Capability.IsAvailable)
@@ -1420,39 +1558,55 @@ public static class LaunchHandler
 					return;
 				}
 
-				if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player
-					&& !await Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.IsRobloxPackageInstalledAsync(cancellation))
+				if (
+					runtimeKind == Voidstrap.Platform.RuntimeKind.Player
+					&& !await Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.IsRobloxPackageInstalledAsync(cancellation)
+				)
 				{
 					SetPortableLaunchStatus("Downloading Sober");
 					App.Logger.WriteLine(
 						"LaunchHandler::FirstRun",
-						"Roblox is not downloaded yet, fetching it before applying settings and mods");
+						"Roblox is not downloaded yet, fetching it before applying settings and mods"
+					);
 
-					bool downloaded = await Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider
-						.TryDownloadRobloxPackageAsync(cancellation, SetPortableLaunchStatus, ClosePortableLaunchDialog);
+					bool downloaded = await Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.TryDownloadRobloxPackageAsync(
+						cancellation,
+						SetPortableLaunchStatus,
+						ClosePortableLaunchDialog
+					);
 
 					App.Logger.WriteLine(
 						"LaunchHandler::FirstRun",
 						downloaded
 							? "Roblox downloaded, settings and mods will apply on this launch"
-							: "Roblox did not finish downloading in Sober");
+							: "Roblox did not finish downloading in Sober"
+					);
 					cancellation.ThrowIfCancellationRequested();
 					if (!downloaded)
 					{
-						ShowPortableLaunchFailure("Sober has not finished downloading Roblox yet. Finish the setup in the Sober window, then launch again.");
+						ShowPortableLaunchFailure(
+							"Sober has not finished downloading Roblox yet. Finish the setup in the Sober window, then launch again."
+						);
 						return;
 					}
 				}
 
-				if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player
-					&& await Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.NeedsSandboxRefreshAsync(cancellation))
+				if (
+					runtimeKind == Voidstrap.Platform.RuntimeKind.Player
+					&& await Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.NeedsSandboxRefreshAsync(cancellation)
+				)
 				{
 					if (App.LaunchSettings.SoberRefreshFlag.Active)
 					{
-						ShowPortableLaunchFailure("Sober's folder is unavailable in this Flatpak session. Check Sober filesystem permissions and restart Voidstrap.");
+						ShowPortableLaunchFailure(
+							"Sober's folder is unavailable in this Flatpak session. Check Sober filesystem permissions and restart Voidstrap."
+						);
 						return;
 					}
-					App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", "Refreshing Flatpak filesystem access after Sober installation");
+					App.Logger.WriteLine(
+						"LaunchHandler::LaunchPortableRuntime",
+						"Refreshing Flatpak filesystem access after Sober installation"
+					);
 					ClosePortableLaunchDialog();
 					soberLaunchLease?.Dispose();
 					soberLaunchLease = null;
@@ -1469,18 +1623,22 @@ public static class LaunchHandler
 					App.GlobalSettings.Load();
 					if (!App.GlobalSettings.Save())
 					{
-						ShowPortableLaunchFailure("Roblox's settings file could not be created. Check write access to Sober's data folder.");
+						ShowPortableLaunchFailure(
+							"Roblox's settings file could not be created. Check write access to Sober's data folder."
+						);
 						return;
 					}
 				}
 
 				cancellation.ThrowIfCancellationRequested();
 				SetPortableLaunchStatus(Strings.Bootstrapper_Status_Configuring);
-				Voidstrap.Platform.Linux.LinuxRuntimeConfiguration configuration = Voidstrap.Platform.Linux.LinuxRuntimeConfiguration.CreateDefault(Paths.Mods, host.Processes);
+				Voidstrap.Platform.Linux.LinuxRuntimeConfiguration configuration =
+					Voidstrap.Platform.Linux.LinuxRuntimeConfiguration.CreateDefault(Paths.Mods, host.Processes);
 				Voidstrap.Platform.OperationResult prepared = await configuration.PrepareAsync(
 					installation,
 					Voidstrap.Utility.SoberConfigurationMapper.CreatePlayerOptions(App.Settings.Prop),
-					Voidstrap.Utility.VinegarConfigurationMapper.CreateStudioOptions(App.Settings.Prop));
+					Voidstrap.Utility.VinegarConfigurationMapper.CreateStudioOptions(App.Settings.Prop)
+				);
 				if (!prepared.Succeeded)
 				{
 					ShowPortableLaunchFailure(prepared.Failure?.Message ?? "Linux runtime preparation failed.");
@@ -1491,23 +1649,29 @@ public static class LaunchHandler
 				{
 					App.Logger.WriteLine(
 						"LaunchHandler::LaunchPortableRuntime",
-						configuration.AddedAssets.Count + " mod files were added to the Sober Roblox package: "
-							+ string.Join(", ", configuration.AddedAssets.Take(20)));
+						configuration.AddedAssets.Count
+							+ " mod files were added to the Sober Roblox package: "
+							+ string.Join(", ", configuration.AddedAssets.Take(20))
+					);
 				}
 
 				if (configuration.SkippedAssets.Count > 0)
 				{
 					App.Logger.WriteLine(
 						"LaunchHandler::LaunchPortableRuntime",
-						configuration.SkippedAssets.Count + " mod files have no matching asset in the installed Sober Roblox package and were not applied: "
-							+ string.Join(", ", configuration.SkippedAssets.Take(20)));
+						configuration.SkippedAssets.Count
+							+ " mod files have no matching asset in the installed Sober Roblox package and were not applied: "
+							+ string.Join(", ", configuration.SkippedAssets.Take(20))
+					);
 				}
 				if (configuration.ConflictingAssets.Count > 0)
 				{
 					App.Logger.WriteLine(
 						"LaunchHandler::LaunchPortableRuntime",
-						configuration.ConflictingAssets.Count + " mod files were skipped because an overlay path already exists: "
-							+ string.Join(", ", configuration.ConflictingAssets.Take(20)));
+						configuration.ConflictingAssets.Count
+							+ " mod files were skipped because an overlay path already exists: "
+							+ string.Join(", ", configuration.ConflictingAssets.Take(20))
+					);
 				}
 			}
 
@@ -1516,9 +1680,8 @@ public static class LaunchHandler
 
 			if (OperatingSystem.IsMacOS() && linuxBootstrapper is not null)
 			{
-				Voidstrap.Platform.IRobloxRuntimeProvider provider = runtimeKind == Voidstrap.Platform.RuntimeKind.Player
-					? host.PlayerRuntime
-					: host.StudioRuntime;
+				Voidstrap.Platform.IRobloxRuntimeProvider provider =
+					runtimeKind == Voidstrap.Platform.RuntimeKind.Player ? host.PlayerRuntime : host.StudioRuntime;
 				Voidstrap.Platform.RuntimeInstallation installation = await provider.FindInstallationAsync(cancellation);
 				Voidstrap.Platform.MacOS.MacOSRobloxInstaller installer = new(host.Processes);
 				Voidstrap.Platform.MacOS.MacInstallOptions installOptions = new(
@@ -1529,8 +1692,15 @@ public static class LaunchHandler
 					App.Settings.Prop.ForceRobloxReinstall,
 					App.Settings.Prop.UpdateRoblox,
 					string.Equals(App.Settings.Prop.RobloxUpdateDelivery, "Early", StringComparison.OrdinalIgnoreCase),
-					latest => HoldMacUpdate(runtimeKind, latest));
-				Voidstrap.Platform.OperationResult<string> ensured = await installer.EnsureLatestAsync(runtimeKind, installation.Location, SetPortableLaunchStatus, installOptions, cancellation);
+					latest => HoldMacUpdate(runtimeKind, latest)
+				);
+				Voidstrap.Platform.OperationResult<string> ensured = await installer.EnsureLatestAsync(
+					runtimeKind,
+					installation.Location,
+					SetPortableLaunchStatus,
+					installOptions,
+					cancellation
+				);
 				cancellation.ThrowIfCancellationRequested();
 				if (!ensured.Succeeded || ensured.Value is null)
 				{
@@ -1555,13 +1725,17 @@ public static class LaunchHandler
 						{
 							App.GlobalSettings.Load();
 							if (!App.GlobalSettings.Save())
-								App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", "Roblox's global settings file could not be created");
+								App.Logger.WriteLine(
+									"LaunchHandler::LaunchPortableRuntime",
+									"Roblox's global settings file could not be created"
+								);
 						}
 					}
 					App.FastFlags.Save();
 					Voidstrap.Platform.MacOS.MacOSRobloxInstaller.WriteClientSettings(
 						ensured.Value,
-						linuxBootstrapper.FastFlagsAllowedForThisLaunch() ? App.FastFlags.FileLocation : null);
+						linuxBootstrapper.FastFlagsAllowedForThisLaunch() ? App.FastFlags.FileLocation : null
+					);
 				}
 				catch (Exception ex)
 				{
@@ -1599,7 +1773,11 @@ public static class LaunchHandler
 			}
 			DateTime launchRequestedUtc = DateTime.UtcNow;
 			Voidstrap.Core.RuntimeLaunchCoordinator coordinator = new(host.PlayerRuntime, host.StudioRuntime);
-			Voidstrap.Platform.OperationResult<Voidstrap.Platform.LaunchSession> result = await coordinator.LaunchAsync(runtimeKind, launchTarget, cancellation);
+			Voidstrap.Platform.OperationResult<Voidstrap.Platform.LaunchSession> result = await coordinator.LaunchAsync(
+				runtimeKind,
+				launchTarget,
+				cancellation
+			);
 			if (!result.Succeeded || result.Value == null)
 			{
 				ShowPortableLaunchFailure(result.Failure?.Message ?? "The Roblox runtime did not accept the launch request.");
@@ -1608,15 +1786,29 @@ public static class LaunchHandler
 
 			App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", result.Value.Provider + " accepted the Roblox launch request");
 			ClosePortableLaunchDialog();
-			if (OperatingSystem.IsLinux() && StartResidentWatcher(result.Value.ProcessId, runtimeKind == Voidstrap.Platform.RuntimeKind.Player))
+			if (
+				OperatingSystem.IsLinux()
+				&& StartResidentWatcher(result.Value.ProcessId, runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
+			)
 			{
 				stayResident = true;
 				Voidstrap.UI.LinuxTaskbarPresence.HideWhileSessionRuns();
 			}
-			else if (OperatingSystem.IsMacOS() && !(runtimeKind == Voidstrap.Platform.RuntimeKind.Player && App.Settings.Prop.LaunchWithoutVoidstrap && !App.LaunchSettings.TestModeFlag.Active))
+			else if (
+				OperatingSystem.IsMacOS()
+				&& !(
+					runtimeKind == Voidstrap.Platform.RuntimeKind.Player
+					&& App.Settings.Prop.LaunchWithoutVoidstrap
+					&& !App.LaunchSettings.TestModeFlag.Active
+				)
+			)
 			{
 				bool player = runtimeKind == Voidstrap.Platform.RuntimeKind.Player;
-				int runtimeId = await WaitForMacProcessAsync(player ? Voidstrap.Utility.Platform.RobloxPlayerProcessName : Voidstrap.Utility.Platform.RobloxStudioProcessName, launchRequestedUtc, cancellation);
+				int runtimeId = await WaitForMacProcessAsync(
+					player ? Voidstrap.Utility.Platform.RobloxPlayerProcessName : Voidstrap.Utility.Platform.RobloxStudioProcessName,
+					launchRequestedUtc,
+					cancellation
+				);
 				if (runtimeId > 0 && (player ? StartResidentWatcher(runtimeId, true) : StartStudioResident(runtimeId)))
 					stayResident = true;
 			}
@@ -1648,7 +1840,10 @@ public static class LaunchHandler
 
 	private static async Task PrestartMacVirtualDisplayAsync(CancellationToken cancellation)
 	{
-		if (!App.Settings.Prop.MacVirtualDisplayEnabled || (App.Settings.Prop.LaunchWithoutVoidstrap && !App.LaunchSettings.TestModeFlag.Active))
+		if (
+			!App.Settings.Prop.MacVirtualDisplayEnabled
+			|| (App.Settings.Prop.LaunchWithoutVoidstrap && !App.LaunchSettings.TestModeFlag.Active)
+		)
 			return;
 		SetPortableLaunchStatus("Starting the virtual display");
 		Voidstrap.Utility.MacVirtualDisplaySession session = new();
@@ -1656,7 +1851,13 @@ public static class LaunchHandler
 		session.Start();
 		Stopwatch waited = Stopwatch.StartNew();
 		bool ready = await session.WaitUntilReadyAsync(TimeSpan.FromSeconds(12), cancellation);
-		App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", (ready ? "The virtual display was ready" : "The virtual display did not start") + " after " + waited.ElapsedMilliseconds + " ms, launching Roblox");
+		App.Logger.WriteLine(
+			"LaunchHandler::LaunchPortableRuntime",
+			(ready ? "The virtual display was ready" : "The virtual display did not start")
+				+ " after "
+				+ waited.ElapsedMilliseconds
+				+ " ms, launching Roblox"
+		);
 	}
 
 	private static IBootstrapperDialog? _portableDialog;
@@ -1665,8 +1866,11 @@ public static class LaunchHandler
 	private sealed class PortableDownloadStatus : Animatable, IDisposable
 	{
 		private static readonly DependencyProperty MessageProperty = DependencyProperty.Register(
-			"Message", typeof(string), typeof(PortableDownloadStatus),
-			new PropertyMetadata(string.Empty, OnMessageChanged));
+			"Message",
+			typeof(string),
+			typeof(PortableDownloadStatus),
+			new PropertyMetadata(string.Empty, OnMessageChanged)
+		);
 
 		private IBootstrapperDialog? _dialog;
 
@@ -1676,18 +1880,20 @@ public static class LaunchHandler
 			StringAnimationUsingKeyFrames animation = new()
 			{
 				Duration = TimeSpan.FromMilliseconds(1500),
-				RepeatBehavior = RepeatBehavior.Forever
+				RepeatBehavior = RepeatBehavior.Forever,
 			};
 			animation.KeyFrames.Add(new DiscreteStringKeyFrame("Downloading Sober.", KeyTime.FromTimeSpan(TimeSpan.Zero)));
-			animation.KeyFrames.Add(new DiscreteStringKeyFrame("Downloading Sober..", KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(500))));
-			animation.KeyFrames.Add(new DiscreteStringKeyFrame("Downloading Sober...", KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(1000))));
+			animation.KeyFrames.Add(
+				new DiscreteStringKeyFrame("Downloading Sober..", KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(500)))
+			);
+			animation.KeyFrames.Add(
+				new DiscreteStringKeyFrame("Downloading Sober...", KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(1000)))
+			);
 			dialog.Message = "Downloading Sober.";
 			BeginAnimation(MessageProperty, animation);
 		}
 
-		private PortableDownloadStatus()
-		{
-		}
+		private PortableDownloadStatus() { }
 
 		protected override Freezable CreateInstanceCore() => new PortableDownloadStatus();
 
@@ -1703,7 +1909,8 @@ public static class LaunchHandler
 			BeginAnimation(MessageProperty, null);
 		}
 	}
-    private static readonly char[] anyOf = new[] { '/', '?', '#', '&' };
+
+	private static readonly char[] anyOf = new[] { '/', '?', '#', '&' };
 
 	private static void OnPortableLaunchCancelRequested()
 	{
@@ -1734,7 +1941,7 @@ public static class LaunchHandler
 		return null;
 	}
 
-    private static void ShowPortableLaunchDialog(Bootstrapper bootstrapper)
+	private static void ShowPortableLaunchDialog(Bootstrapper bootstrapper)
 	{
 		if (App.LaunchSettings.QuietFlag.Active)
 		{
@@ -1809,7 +2016,10 @@ public static class LaunchHandler
 			Voidstrap.Platform.OperationResult written = Voidstrap.Platform.Linux.LinuxEffectLayers.WriteConfiguration(options);
 			if (!written.Succeeded)
 			{
-				App.Logger.WriteLine("LaunchHandler::PrepareLinuxEffectLayers", written.Failure?.Message ?? "The effect configuration could not be written");
+				App.Logger.WriteLine(
+					"LaunchHandler::PrepareLinuxEffectLayers",
+					written.Failure?.Message ?? "The effect configuration could not be written"
+				);
 				Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.EffectLayerArguments = [];
 				return;
 			}
@@ -1818,12 +2028,14 @@ public static class LaunchHandler
 			Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.EffectLayerArguments = arguments;
 			Voidstrap.Integrations.Overlays.OverlayHub.SetLinuxHomepageNativeShaderActive(
 				!string.IsNullOrWhiteSpace(options.HomepageShader)
-				&& arguments.Any(argument => argument.Contains("ENABLE_VKBASALT=1", StringComparison.Ordinal)));
+					&& arguments.Any(argument => argument.Contains("ENABLE_VKBASALT=1", StringComparison.Ordinal))
+			);
 			App.Logger.WriteLine(
 				"LaunchHandler::PrepareLinuxEffectLayers",
 				arguments.Count == 0
 					? "Effects are enabled but the Vulkan layers are not installed, launching without them"
-					: "Applying " + arguments.Count + " Vulkan layer arguments for the enabled effects");
+					: "Applying " + arguments.Count + " Vulkan layer arguments for the enabled effects"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -1841,10 +2053,18 @@ public static class LaunchHandler
 			Voidstrap.Utility.LinuxNvidiaSettings.Choices choices = Voidstrap.Utility.LinuxNvidiaSettings.Read();
 			bool wantsOverlay = Voidstrap.Utility.LinuxNvidiaSettings.OverlayConfiguration(choices.Overlay) is not null;
 			string overlayLayer = Voidstrap.Platform.Linux.LinuxEffectLayers.MangoHudLayerId;
-			if (wantsOverlay && !Voidstrap.Platform.Linux.LinuxEffectLayers.IsInstalled(overlayLayer)
-				&& Voidstrap.Utility.Platform.RuntimeHost is { } host && !App.LaunchSettings.QuietFlag.Active)
+			if (
+				wantsOverlay
+				&& !Voidstrap.Platform.Linux.LinuxEffectLayers.IsInstalled(overlayLayer)
+				&& Voidstrap.Utility.Platform.RuntimeHost is { } host
+				&& !App.LaunchSettings.QuietFlag.Active
+			)
 			{
-				await PromptInstallEffectLayerAsync(host, overlayLayer, "The NVIDIA benchmark overlay needs the MangoHud Vulkan layer. Install it now?");
+				await PromptInstallEffectLayerAsync(
+					host,
+					overlayLayer,
+					"The NVIDIA benchmark overlay needs the MangoHud Vulkan layer. Install it now?"
+				);
 			}
 
 			bool overlayInstalled = wantsOverlay && Voidstrap.Platform.Linux.LinuxEffectLayers.IsInstalled(overlayLayer);
@@ -1854,7 +2074,8 @@ public static class LaunchHandler
 			{
 				App.Logger.WriteLine(
 					"LaunchHandler::PrepareLinuxNvidiaSettings",
-					"Applying the NVIDIA settings: " + arguments.Count + " launch arguments, frame rate limit " + choices.FrameRateLimit);
+					"Applying the NVIDIA settings: " + arguments.Count + " launch arguments, frame rate limit " + choices.FrameRateLimit
+				);
 			}
 			return choices;
 		}
@@ -1873,25 +2094,34 @@ public static class LaunchHandler
 			return;
 		}
 
-		bool wantsShaders = !string.IsNullOrWhiteSpace(options.AntiAliasing)
+		bool wantsShaders =
+			!string.IsNullOrWhiteSpace(options.AntiAliasing)
 			|| options.Sharpening
 			|| !string.IsNullOrWhiteSpace(options.GradingShader)
 			|| !string.IsNullOrWhiteSpace(options.HomepageShader);
 
-		if (wantsShaders && !Voidstrap.Platform.Linux.LinuxEffectLayers.IsInstalled(Voidstrap.Platform.Linux.LinuxEffectLayers.ShaderLayerId))
+		if (
+			wantsShaders
+			&& !Voidstrap.Platform.Linux.LinuxEffectLayers.IsInstalled(Voidstrap.Platform.Linux.LinuxEffectLayers.ShaderLayerId)
+		)
 		{
 			await PromptInstallEffectLayerAsync(
 				host,
 				Voidstrap.Platform.Linux.LinuxEffectLayers.ShaderLayerId,
-				"Shader effects and anti aliasing need the vkBasalt Vulkan layer. Install it now?");
+				"Shader effects and anti aliasing need the vkBasalt Vulkan layer. Install it now?"
+			);
 		}
 
-		if (options.FrameGenMultiplier > 1 && !Voidstrap.Platform.Linux.LinuxEffectLayers.IsInstalled(Voidstrap.Platform.Linux.LinuxEffectLayers.FrameGenLayerId))
+		if (
+			options.FrameGenMultiplier > 1
+			&& !Voidstrap.Platform.Linux.LinuxEffectLayers.IsInstalled(Voidstrap.Platform.Linux.LinuxEffectLayers.FrameGenLayerId)
+		)
 		{
 			await PromptInstallEffectLayerAsync(
 				host,
 				Voidstrap.Platform.Linux.LinuxEffectLayers.FrameGenLayerId,
-				"Frame generation needs the LSFG Vulkan layer. Install it now?");
+				"Frame generation needs the LSFG Vulkan layer. Install it now?"
+			);
 		}
 	}
 
@@ -1905,13 +2135,28 @@ public static class LaunchHandler
 		}
 
 		SetPortableLaunchStatus("Installing the effect layer, this can take a while");
-		Voidstrap.Platform.OperationResult result = await Voidstrap.Platform.Linux.LinuxEffectLayers
-			.InstallAsync(host.Processes, layerId, CancellationToken.None);
+		Voidstrap.Platform.OperationResult result = await Voidstrap.Platform.Linux.LinuxEffectLayers.InstallAsync(
+			host.Processes,
+			layerId,
+			CancellationToken.None
+		);
 		App.Logger.WriteLine(
 			"LaunchHandler::EffectLayers",
-			result.Succeeded ? layerId + " installed" : (result.Failure?.Message ?? "The effect layer could not be installed"));
+			result.Succeeded ? layerId + " installed" : (result.Failure?.Message ?? "The effect layer could not be installed")
+		);
 		if (!result.Succeeded)
-			Frontend.ShowMessageBox("The " + (layerId == Voidstrap.Platform.Linux.LinuxEffectLayers.ShaderLayerId ? "vkBasalt" : layerId == Voidstrap.Platform.Linux.LinuxEffectLayers.MangoHudLayerId ? "MangoHud" : "LSFG") + " effect layer could not be prepared.\n\n" + (result.Failure?.Message ?? "The installation did not complete") + "\n\nRoblox will start without those effects.", MessageBoxImage.Warning);
+			Frontend.ShowMessageBox(
+				"The "
+					+ (
+						layerId == Voidstrap.Platform.Linux.LinuxEffectLayers.ShaderLayerId ? "vkBasalt"
+						: layerId == Voidstrap.Platform.Linux.LinuxEffectLayers.MangoHudLayerId ? "MangoHud"
+						: "LSFG"
+					)
+					+ " effect layer could not be prepared.\n\n"
+					+ (result.Failure?.Message ?? "The installation did not complete")
+					+ "\n\nRoblox will start without those effects.",
+				MessageBoxImage.Warning
+			);
 	}
 
 	private static string FormatLaunchStatus(string message)
@@ -1952,8 +2197,11 @@ public static class LaunchHandler
 			_portableDownloadStatus = null;
 			dialog.Message = FormatLaunchStatus(message);
 			int open = message.LastIndexOf('(');
-			if (open >= 0 && message.EndsWith("%)", StringComparison.Ordinal)
-				&& int.TryParse(message.AsSpan(open + 1, message.Length - open - 3), out int percent))
+			if (
+				open >= 0
+				&& message.EndsWith("%)", StringComparison.Ordinal)
+				&& int.TryParse(message.AsSpan(open + 1, message.Length - open - 3), out int percent)
+			)
 			{
 				dialog.ProgressStyle = System.Windows.Forms.ProgressBarStyle.Continuous;
 				dialog.ProgressMaximum = 100;
@@ -2002,7 +2250,8 @@ public static class LaunchHandler
 	{
 		if (!string.Equals(App.Settings.Prop.RobloxUpdateDelivery, "Late", StringComparison.OrdinalIgnoreCase))
 			return false;
-		Voidstrap.Models.Persistable.AppState state = kind == Voidstrap.Platform.RuntimeKind.Player ? App.State.Prop.Player : App.State.Prop.Studio;
+		Voidstrap.Models.Persistable.AppState state =
+			kind == Voidstrap.Platform.RuntimeKind.Player ? App.State.Prop.Player : App.State.Prop.Studio;
 		if (state.HeldVersionGuid != latest)
 		{
 			state.HeldVersionGuid = latest;
@@ -2016,7 +2265,10 @@ public static class LaunchHandler
 			App.Logger.WriteLine("LaunchHandler::UpdateDelivery", "Late delivery hold is over, installing " + latest);
 			return false;
 		}
-		App.Logger.WriteLine("LaunchHandler::UpdateDelivery", $"Late delivery is holding {latest} for about {Math.Ceiling(remaining.TotalHours)} more hours");
+		App.Logger.WriteLine(
+			"LaunchHandler::UpdateDelivery",
+			$"Late delivery is holding {latest} for about {Math.Ceiling(remaining.TotalHours)} more hours"
+		);
 		return true;
 	}
 
@@ -2063,7 +2315,10 @@ public static class LaunchHandler
 			using InterProcessLock cleanupLock = new("LaunchCleanup", TimeSpan.FromSeconds(2));
 			if (!cleanupLock.IsAcquired)
 			{
-				App.Logger.WriteLine("LaunchHandler::CloseOtherInstances", "Another Voidstrap launch is already closing its peers, skipping");
+				App.Logger.WriteLine(
+					"LaunchHandler::CloseOtherInstances",
+					"Another Voidstrap launch is already closing its peers, skipping"
+				);
 				return;
 			}
 			int processId = Environment.ProcessId;
@@ -2083,9 +2338,7 @@ public static class LaunchHandler
 						{
 							process.Kill();
 						}
-						catch
-						{
-						}
+						catch { }
 					}
 				}
 				catch (Exception ex)
@@ -2098,9 +2351,7 @@ public static class LaunchHandler
 					{
 						process.Dispose();
 					}
-					catch
-					{
-					}
+					catch { }
 				}
 			}
 		}
@@ -2128,31 +2379,34 @@ public static class LaunchHandler
 			App.FinalizeExceptionHandling(ex);
 			return;
 		}
-		_ = Task.Run((Func<Task?>)watcher.Run).ContinueWith(delegate(Task t)
-		{
-			App.Logger.WriteLine("LaunchHandler::LaunchWatcher", "Watcher task has finished");
-			try
-			{
-				watcher.Dispose();
-			}
-			catch (Exception disposeEx)
-			{
-				App.Logger.WriteException("LaunchHandler::LaunchWatcher", disposeEx);
-			}
-			if (t.IsFaulted)
-			{
-				App.Logger.WriteLine("LaunchHandler::LaunchWatcher", "An exception occurred when running the watcher");
-				if (t.Exception != null)
+		_ = Task.Run((Func<Task?>)watcher.Run)
+			.ContinueWith(
+				delegate(Task t)
 				{
-					App.FinalizeExceptionHandling(t.Exception);
+					App.Logger.WriteLine("LaunchHandler::LaunchWatcher", "Watcher task has finished");
+					try
+					{
+						watcher.Dispose();
+					}
+					catch (Exception disposeEx)
+					{
+						App.Logger.WriteException("LaunchHandler::LaunchWatcher", disposeEx);
+					}
+					if (t.IsFaulted)
+					{
+						App.Logger.WriteLine("LaunchHandler::LaunchWatcher", "An exception occurred when running the watcher");
+						if (t.Exception != null)
+						{
+							App.FinalizeExceptionHandling(t.Exception);
+						}
+					}
+					if (App.Settings.Prop.CleanerOptions != CleanerOptions.Never)
+					{
+						Cleaner.DoCleaning();
+					}
+					Watcher.ForceShutdownAfterRobloxExit("LaunchHandler::LaunchWatcher");
 				}
-			}
-			if (App.Settings.Prop.CleanerOptions != CleanerOptions.Never)
-			{
-				Cleaner.DoCleaning();
-			}
-			Watcher.ForceShutdownAfterRobloxExit("LaunchHandler::LaunchWatcher");
-		});
+			);
 	}
 
 	public static void LaunchBloxshadeConfig()

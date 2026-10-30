@@ -30,8 +30,8 @@ internal static class LinuxDesktopEntry
 
 	private static string IconDirectory => Path.Combine(IconRootDirectory, "256x256", "apps");
 
-	private static string LauncherPath => Path.Combine(
-		Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".local", "bin", LauncherFileName);
+	private static string LauncherPath =>
+		Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".local", "bin", LauncherFileName);
 
 	internal static string? InstalledTarget()
 	{
@@ -79,9 +79,12 @@ internal static class LinuxDesktopEntry
 				return;
 			string entryPath = Path.Combine(ApplicationsDirectory, EntryFileName);
 			string iconPath = Path.Combine(IconDirectory, IconName + ".png");
-			if (File.Exists(entryPath) && File.Exists(iconPath)
+			if (
+				File.Exists(entryPath)
+				&& File.Exists(iconPath)
 				&& string.Equals(File.ReadAllText(entryPath), BuildDesktopEntry(launchPath), StringComparison.Ordinal)
-				&& IconIsCurrent(iconPath))
+				&& IconIsCurrent(iconPath)
+			)
 			{
 				RepairManagedShortcuts(launchPath);
 				RemoveSupersededEntries();
@@ -89,9 +92,7 @@ internal static class LinuxDesktopEntry
 				return;
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		Install(executablePath, false, false);
 	}
 
@@ -145,7 +146,7 @@ internal static class LinuxDesktopEntry
 		"voidstrap-roblox.desktop",
 		"voidstrap-roblox-player.desktop",
 		"voidstrap-roblox-studio.desktop",
-		"voidstrap-roblox-studio-auth.desktop"
+		"voidstrap-roblox-studio-auth.desktop",
 	];
 
 	private static void RemoveSupersededEntries()
@@ -159,8 +160,10 @@ internal static class LinuxDesktopEntry
 					continue;
 
 				string contents = File.ReadAllText(path);
-				if (contents.IndexOf("Voidstrap", StringComparison.OrdinalIgnoreCase) < 0
-					|| contents.IndexOf("Exec=", StringComparison.Ordinal) < 0)
+				if (
+					contents.IndexOf("Voidstrap", StringComparison.OrdinalIgnoreCase) < 0
+					|| contents.IndexOf("Exec=", StringComparison.Ordinal) < 0
+				)
 					continue;
 
 				File.Delete(path);
@@ -179,23 +182,29 @@ internal static class LinuxDesktopEntry
 			if (!string.IsNullOrEmpty(desktop) && File.Exists(path))
 			{
 				string contents = File.ReadAllText(path);
-				if (contents.Contains("Voidstrap", StringComparison.OrdinalIgnoreCase)
-                    && contents.Contains("Exec="))
+				if (contents.Contains("Voidstrap", StringComparison.OrdinalIgnoreCase) && contents.Contains("Exec="))
 				{
 					File.Delete(path);
-					App.Logger?.WriteLine("LinuxDesktopEntry::RemoveSupersededEntries", "Removed the superseded desktop shortcut voidstrap.desktop");
+					App.Logger?.WriteLine(
+						"LinuxDesktopEntry::RemoveSupersededEntries",
+						"Removed the superseded desktop shortcut voidstrap.desktop"
+					);
 				}
 			}
 		}
 		catch (Exception ex)
 		{
-			App.Logger?.WriteLine("LinuxDesktopEntry::RemoveSupersededEntries", "Could not remove the legacy desktop shortcut: " + ex.Message);
+			App.Logger?.WriteLine(
+				"LinuxDesktopEntry::RemoveSupersededEntries",
+				"Could not remove the legacy desktop shortcut: " + ex.Message
+			);
 		}
 	}
 
 	private static string BuildDesktopEntry(string executablePath)
 	{
-		string entry = string.Join('\n',
+		string entry = string.Join(
+			'\n',
 			"[Desktop Entry]",
 			"Type=Application",
 			"Name=Voidstrap",
@@ -223,7 +232,8 @@ internal static class LinuxDesktopEntry
 			"[Desktop Action Settings]",
 			"Name=Voidstrap Settings",
 			"Exec=" + BuildExecValue(executablePath, "-settings"),
-			"");
+			""
+		);
 		if (LinuxFlatpakHost.IsSandboxed || !CanRemainUnquoted(executablePath))
 			return entry;
 		string execLine = "Exec=" + EscapeExecArgument(executablePath) + " %u\n";
@@ -290,13 +300,19 @@ internal static class LinuxDesktopEntry
 			if (App.Settings?.Prop == null)
 				return null;
 
-			System.Windows.Media.Imaging.BitmapSource? source = Voidstrap.Extensions.IconEx.LoadPortableIcon(Voidstrap.Utility.Branding.HasCustomIcon ? Voidstrap.Enums.BootstrapperIcon.IconVoidstrap : App.Settings.Prop.ActiveBootstrapperIcon, 256);
+			System.Windows.Media.Imaging.BitmapSource? source = Voidstrap.Extensions.IconEx.LoadPortableIcon(
+				Voidstrap.Utility.Branding.HasCustomIcon
+					? Voidstrap.Enums.BootstrapperIcon.IconVoidstrap
+					: App.Settings.Prop.ActiveBootstrapperIcon,
+				256
+			);
 			if (source == null)
 				return null;
 
-			System.Windows.Media.Imaging.BitmapSource bgra = source.Format == System.Windows.Media.PixelFormats.Bgra32
-				? source
-				: new System.Windows.Media.Imaging.FormatConvertedBitmap(source, System.Windows.Media.PixelFormats.Bgra32, null, 0);
+			System.Windows.Media.Imaging.BitmapSource bgra =
+				source.Format == System.Windows.Media.PixelFormats.Bgra32
+					? source
+					: new System.Windows.Media.Imaging.FormatConvertedBitmap(source, System.Windows.Media.PixelFormats.Bgra32, null, 0);
 
 			int width = bgra.PixelWidth;
 			int height = bgra.PixelHeight;
@@ -343,7 +359,12 @@ internal static class LinuxDesktopEntry
 	{
 		List<string> roots = [Path.Combine(DataHome, "icons")];
 		string? dataDirectories = Environment.GetEnvironmentVariable("XDG_DATA_DIRS");
-		foreach (string directory in (string.IsNullOrWhiteSpace(dataDirectories) ? "/usr/local/share:/usr/share" : dataDirectories).Split(':', StringSplitOptions.RemoveEmptyEntries))
+		foreach (
+			string directory in (string.IsNullOrWhiteSpace(dataDirectories) ? "/usr/local/share:/usr/share" : dataDirectories).Split(
+				':',
+				StringSplitOptions.RemoveEmptyEntries
+			)
+		)
 			roots.Add(Path.Combine(directory, "icons"));
 
 		foreach (string root in roots)
@@ -356,13 +377,14 @@ internal static class LinuxDesktopEntry
 				foreach (string size in Directory.EnumerateDirectories(theme))
 				{
 					string applications = Path.Combine(size, "apps");
-					if (File.Exists(Path.Combine(applications, IconName + ".png")) || File.Exists(Path.Combine(applications, IconName + ".svg")))
+					if (
+						File.Exists(Path.Combine(applications, IconName + ".png"))
+						|| File.Exists(Path.Combine(applications, IconName + ".svg"))
+					)
 						return IconName;
 				}
 			}
-			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-			{
-			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 		}
 
 		return string.Empty;
@@ -383,25 +405,30 @@ internal static class LinuxDesktopEntry
 		if (encoded == null)
 			return;
 
-		Task.Run(delegate
-		{
-			try
+		Task.Run(
+			delegate
 			{
-				Directory.CreateDirectory(IconDirectory);
-				string iconPath = Path.Combine(IconDirectory, IconName + ".png");
-				string temporary = iconPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
-				File.WriteAllBytes(temporary, encoded);
-				File.Move(temporary, iconPath, true);
-				if (!OperatingSystem.IsWindows())
-					File.SetUnixFileMode(iconPath, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead);
-				RunQuiet("gtk-update-icon-cache", "-f", "-t", IconRootDirectory);
-				App.Logger?.WriteLine("LinuxDesktopEntry::RefreshIcon", "Wrote the selected icon to " + iconPath);
+				try
+				{
+					Directory.CreateDirectory(IconDirectory);
+					string iconPath = Path.Combine(IconDirectory, IconName + ".png");
+					string temporary = iconPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
+					File.WriteAllBytes(temporary, encoded);
+					File.Move(temporary, iconPath, true);
+					if (!OperatingSystem.IsWindows())
+						File.SetUnixFileMode(
+							iconPath,
+							UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead
+						);
+					RunQuiet("gtk-update-icon-cache", "-f", "-t", IconRootDirectory);
+					App.Logger?.WriteLine("LinuxDesktopEntry::RefreshIcon", "Wrote the selected icon to " + iconPath);
+				}
+				catch (Exception ex)
+				{
+					App.Logger?.WriteLine("LinuxDesktopEntry::RefreshIcon", "Could not refresh the desktop icon: " + ex.Message);
+				}
 			}
-			catch (Exception ex)
-			{
-				App.Logger?.WriteLine("LinuxDesktopEntry::RefreshIcon", "Could not refresh the desktop icon: " + ex.Message);
-			}
-		});
+		);
 	}
 
 	public static string ApplicationsFolder => ApplicationsDirectory;
@@ -431,7 +458,10 @@ internal static class LinuxDesktopEntry
 			MakeExecutable(filePath);
 			RunQuiet("gio", "set", HostVisiblePath(filePath), "metadata::trusted", "true");
 
-			if (!string.IsNullOrEmpty(folder) && string.Equals(Path.GetFullPath(folder), Path.GetFullPath(ApplicationsDirectory), StringComparison.Ordinal))
+			if (
+				!string.IsNullOrEmpty(folder)
+				&& string.Equals(Path.GetFullPath(folder), Path.GetFullPath(ApplicationsDirectory), StringComparison.Ordinal)
+			)
 				RunQuiet("update-desktop-database", HostVisiblePath(ApplicationsDirectory));
 
 			return File.Exists(filePath);
@@ -447,18 +477,26 @@ internal static class LinuxDesktopEntry
 	{
 		if (!LinuxAppImageHost.TryGetStorePackageRoot(Path.GetFullPath(launchPath), out _))
 			return false;
-		App.Logger?.WriteLine("LinuxDesktopEntry::RemoveIfStorePath", "Running from a store path that is not installed in a profile, the package desktop entry is used instead");
+		App.Logger?.WriteLine(
+			"LinuxDesktopEntry::RemoveIfStorePath",
+			"Running from a store path that is not installed in a profile, the package desktop entry is used instead"
+		);
 		string entryPath = Path.Combine(ApplicationsDirectory, EntryFileName);
 		try
 		{
 			if (File.Exists(entryPath))
 			{
 				string contents = File.ReadAllText(entryPath);
-				if (contents.Contains("/nix/store/", StringComparison.Ordinal) || contents.Contains("/gnu/store/", StringComparison.Ordinal))
+				if (
+					contents.Contains("/nix/store/", StringComparison.Ordinal) || contents.Contains("/gnu/store/", StringComparison.Ordinal)
+				)
 				{
 					File.Delete(entryPath);
 					Refresh();
-					App.Logger?.WriteLine("LinuxDesktopEntry::RemoveIfStorePath", "Removed the user desktop entry that pointed into the store");
+					App.Logger?.WriteLine(
+						"LinuxDesktopEntry::RemoveIfStorePath",
+						"Removed the user desktop entry that pointed into the store"
+					);
 				}
 			}
 		}
@@ -489,7 +527,10 @@ internal static class LinuxDesktopEntry
 				if (current != null && File.Exists(current) && !IsVolatileLocation(current))
 				{
 					if (!string.Equals(Path.GetFullPath(current), target, StringComparison.Ordinal))
-						App.Logger?.WriteLine("LinuxDesktopEntry::EnsureLauncher", "The launcher keeps pointing at the installed copy " + current);
+						App.Logger?.WriteLine(
+							"LinuxDesktopEntry::EnsureLauncher",
+							"The launcher keeps pointing at the installed copy " + current
+						);
 					return LauncherPath;
 				}
 			}
@@ -540,11 +581,10 @@ internal static class LinuxDesktopEntry
 			if (targetInfo.Exists)
 				resolvedTarget = Path.GetFullPath(targetInfo.ResolveLinkTarget(true)?.FullName ?? targetInfo.FullName);
 		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-		{
-		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 
-		bool hasTargetPackage = LinuxAppImageHost.TryGetStorePackageRoot(resolvedTarget, out string targetPackage)
+		bool hasTargetPackage =
+			LinuxAppImageHost.TryGetStorePackageRoot(resolvedTarget, out string targetPackage)
 			|| LinuxAppImageHost.TryGetStorePackageRoot(target, out targetPackage);
 
 		foreach (string candidate in PackagedLauncherCandidates())
@@ -555,24 +595,24 @@ internal static class LinuxDesktopEntry
 				if (!link.Exists)
 					continue;
 				string resolved = Path.GetFullPath(link.ResolveLinkTarget(true)?.FullName ?? link.FullName);
-				if (string.Equals(resolved, target, StringComparison.Ordinal)
-					|| string.Equals(resolved, resolvedTarget, StringComparison.Ordinal))
+				if (
+					string.Equals(resolved, target, StringComparison.Ordinal)
+					|| string.Equals(resolved, resolvedTarget, StringComparison.Ordinal)
+				)
 				{
 					return candidate;
 				}
-				if (hasTargetPackage
+				if (
+					hasTargetPackage
 					&& LinuxAppImageHost.TryGetStorePackageRoot(resolved, out string candidatePackage)
-					&& string.Equals(candidatePackage, targetPackage, StringComparison.Ordinal))
+					&& string.Equals(candidatePackage, targetPackage, StringComparison.Ordinal)
+				)
 				{
 					return candidate;
 				}
 			}
-			catch (IOException)
-			{
-			}
-			catch (UnauthorizedAccessException)
-			{
-			}
+			catch (IOException) { }
+			catch (UnauthorizedAccessException) { }
 		}
 
 		if (LinuxAppImageHost.TryGetStoreWrapperPath(target, out string wrapperPath))
@@ -623,9 +663,12 @@ internal static class LinuxDesktopEntry
 
 	private static void RepairConfiguredShortcut(string desktop, string key, string defaultName, string executablePath, string arguments)
 	{
-		if (App.Settings.Prop.ShortcutAppearances != null
+		if (
+			App.Settings.Prop.ShortcutAppearances != null
 			&& App.Settings.Prop.ShortcutAppearances.TryGetValue(key, out var appearance)
-			&& appearance != null && Models.SettingTasks.ShortcutTask.IsValidName(appearance.Name))
+			&& appearance != null
+			&& Models.SettingTasks.ShortcutTask.IsValidName(appearance.Name)
+		)
 		{
 			string path = Path.Combine(desktop, appearance.Name + ".desktop");
 			if (File.Exists(path))
@@ -643,7 +686,8 @@ internal static class LinuxDesktopEntry
 
 	private static string BuildShortcutEntry(string name, string executablePath, string arguments, string? iconPath)
 	{
-		return string.Join('\n',
+		return string.Join(
+			'\n',
 			"[Desktop Entry]",
 			"Type=Application",
 			"Name=" + DesktopPathValue(string.IsNullOrWhiteSpace(name) ? "Voidstrap" : name),
@@ -656,7 +700,8 @@ internal static class LinuxDesktopEntry
 			"StartupWMClass=voidstrap",
 			"X-GNOME-WMClass=voidstrap",
 			"X-Voidstrap-Managed=true",
-			"");
+			""
+		);
 	}
 
 	private static string LocateScriptPath => LauncherPath + "-launch";
@@ -695,7 +740,16 @@ internal static class LinuxDesktopEntry
 			string contents = LocateScript.Replace("\r\n", "\n", StringComparison.Ordinal);
 			if (!File.Exists(LocateScriptPath) || !string.Equals(File.ReadAllText(LocateScriptPath), contents, StringComparison.Ordinal))
 				WriteAtomic(LocateScriptPath, contents);
-			File.SetUnixFileMode(LocateScriptPath, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute | UnixFileMode.GroupRead | UnixFileMode.GroupExecute | UnixFileMode.OtherRead | UnixFileMode.OtherExecute);
+			File.SetUnixFileMode(
+				LocateScriptPath,
+				UnixFileMode.UserRead
+					| UnixFileMode.UserWrite
+					| UnixFileMode.UserExecute
+					| UnixFileMode.GroupRead
+					| UnixFileMode.GroupExecute
+					| UnixFileMode.OtherRead
+					| UnixFileMode.OtherExecute
+			);
 			return LocateScriptPath;
 		}
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
@@ -707,9 +761,11 @@ internal static class LinuxDesktopEntry
 
 	private static string BuildExecValue(string executablePath, string arguments)
 	{
-		System.Text.StringBuilder builder = new(LinuxFlatpakHost.IsSandboxed
-			? "/usr/bin/flatpak run --command=voidstrap " + EscapeExecArgument(LinuxFlatpakHost.CurrentApplicationId)
-			: EscapeExecArgument(ResolveEntryCommand(executablePath)));
+		System.Text.StringBuilder builder = new(
+			LinuxFlatpakHost.IsSandboxed
+				? "/usr/bin/flatpak run --command=voidstrap " + EscapeExecArgument(LinuxFlatpakHost.CurrentApplicationId)
+				: EscapeExecArgument(ResolveEntryCommand(executablePath))
+		);
 		foreach (string token in SplitArguments(arguments))
 			builder.Append(' ').Append(EscapeExecArgument(token));
 		return builder.ToString();
@@ -755,12 +811,13 @@ internal static class LinuxDesktopEntry
 		try
 		{
 			string extension = Path.GetExtension(iconPath);
-			if (File.Exists(iconPath) && Array.Exists(IconFileExtensions, value => string.Equals(value, extension, StringComparison.OrdinalIgnoreCase)))
+			if (
+				File.Exists(iconPath)
+				&& Array.Exists(IconFileExtensions, value => string.Equals(value, extension, StringComparison.OrdinalIgnoreCase))
+			)
 				return DesktopPathValue(Path.GetFullPath(iconPath));
 		}
-		catch (Exception)
-		{
-		}
+		catch (Exception) { }
 
 		return IconName;
 	}
@@ -809,9 +866,7 @@ internal static class LinuxDesktopEntry
 		{
 			target = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
 		}
-		catch
-		{
-		}
+		catch { }
 		if (string.IsNullOrEmpty(target))
 		{
 			target = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Desktop");
@@ -887,7 +942,10 @@ internal static class LinuxDesktopEntry
 				File.WriteAllBytes(temporary, selected);
 				File.Move(temporary, iconPath, true);
 				if (!OperatingSystem.IsWindows())
-					File.SetUnixFileMode(iconPath, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead);
+					File.SetUnixFileMode(
+						iconPath,
+						UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead
+					);
 				return;
 			}
 
@@ -901,7 +959,10 @@ internal static class LinuxDesktopEntry
 				source.CopyTo(target);
 			File.Move(temporary, iconPath, true);
 			if (!OperatingSystem.IsWindows())
-				File.SetUnixFileMode(iconPath, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead);
+				File.SetUnixFileMode(
+					iconPath,
+					UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead
+				);
 		}
 		catch (Exception ex)
 		{
@@ -919,12 +980,16 @@ internal static class LinuxDesktopEntry
 		try
 		{
 			if (!OperatingSystem.IsWindows())
-				File.SetUnixFileMode(path, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute
-					| UnixFileMode.GroupRead | UnixFileMode.OtherRead);
+				File.SetUnixFileMode(
+					path,
+					UnixFileMode.UserRead
+						| UnixFileMode.UserWrite
+						| UnixFileMode.UserExecute
+						| UnixFileMode.GroupRead
+						| UnixFileMode.OtherRead
+				);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static void Refresh()
@@ -935,9 +1000,7 @@ internal static class LinuxDesktopEntry
 		{
 			Directory.CreateDirectory(ResolveXdgDirectory("XDG_CONFIG_HOME", ".config"));
 		}
-		catch
-		{
-		}
+		catch { }
 		foreach (string scheme in SchemeHandlers)
 			RunQuiet("xdg-mime", "default", EntryFileName, scheme);
 	}
@@ -948,7 +1011,7 @@ internal static class LinuxDesktopEntry
 		"x-scheme-handler/voidstrap",
 		"x-scheme-handler/roblox-player",
 		"x-scheme-handler/roblox-studio",
-		"x-scheme-handler/roblox-studio-auth"
+		"x-scheme-handler/roblox-studio-auth",
 	];
 
 	public static void RegisterSandboxSchemeHandlers()
@@ -958,23 +1021,34 @@ internal static class LinuxDesktopEntry
 
 		foreach (string scheme in SchemeHandlers)
 			RunQuiet("xdg-mime", "default", EntryFileName, scheme);
-		App.Logger?.WriteLine("LinuxDesktopEntry::RegisterSandboxSchemeHandlers", "Asked the desktop to open Roblox links with the Voidstrap Flatpak");
+		App.Logger?.WriteLine(
+			"LinuxDesktopEntry::RegisterSandboxSchemeHandlers",
+			"Asked the desktop to open Roblox links with the Voidstrap Flatpak"
+		);
 	}
 
 	private static string HostVisiblePath(string path)
 	{
-		if (LinuxFlatpakHost.IsSandboxed && string.Equals(Path.GetFullPath(path), Path.GetFullPath(ApplicationsDirectory), StringComparison.Ordinal))
+		if (
+			LinuxFlatpakHost.IsSandboxed
+			&& string.Equals(Path.GetFullPath(path), Path.GetFullPath(ApplicationsDirectory), StringComparison.Ordinal)
+		)
 			return Path.Combine(HostDataHome, "applications");
-		if (LinuxFlatpakHost.IsSandboxed && string.Equals(Path.GetDirectoryName(Path.GetFullPath(path)), Path.GetFullPath(ApplicationsDirectory), StringComparison.Ordinal))
+		if (
+			LinuxFlatpakHost.IsSandboxed
+			&& string.Equals(
+				Path.GetDirectoryName(Path.GetFullPath(path)),
+				Path.GetFullPath(ApplicationsDirectory),
+				StringComparison.Ordinal
+			)
+		)
 			return Path.Combine(HostDataHome, "applications", Path.GetFileName(path));
 		return path;
 	}
 
 	private static string DesktopPathValue(string value)
 	{
-		return value
-			.Replace("\r", string.Empty, StringComparison.Ordinal)
-			.Replace("\n", string.Empty, StringComparison.Ordinal);
+		return value.Replace("\r", string.Empty, StringComparison.Ordinal).Replace("\n", string.Empty, StringComparison.Ordinal);
 	}
 
 	private static string EscapeExecArgument(string value)
@@ -1013,7 +1087,7 @@ internal static class LinuxDesktopEntry
 				UseShellExecute = false,
 				CreateNoWindow = true,
 				RedirectStandardOutput = true,
-				RedirectStandardError = true
+				RedirectStandardError = true,
 			};
 			foreach (string argument in command.Arguments)
 				startInfo.ArgumentList.Add(argument);
@@ -1023,16 +1097,14 @@ internal static class LinuxDesktopEntry
 			Task[] drains =
 			[
 				process.StandardOutput.BaseStream.CopyToAsync(Stream.Null),
-				process.StandardError.BaseStream.CopyToAsync(Stream.Null)
+				process.StandardError.BaseStream.CopyToAsync(Stream.Null),
 			];
 			foreach (Task drain in drains)
 				_ = drain.ContinueWith(static task => _ = task.Exception, TaskContinuationOptions.OnlyOnFaulted);
 			if (!process.WaitForExit(5000))
 				process.Kill(true);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static string ResolveXdgDirectory(string variable, params string[] fallback)

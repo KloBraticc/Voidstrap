@@ -28,7 +28,8 @@ public partial class SessionWebBrowser : Window
     // Background work a game overlay never needs: syncing, component updates, translate and Office viewers,
     // a spare renderer kept warm, the back forward page cache, and more than a few renderer processes.
     // Pages are drawn on the graphics card with thin overlay scrollbars, and WebRTC never reveals your local address.
-    private static readonly string BrowserArguments = string.Join(" ",
+    private static readonly string BrowserArguments = string.Join(
+        " ",
         "--no-first-run",
         "--no-default-browser-check",
         "--disable-sync",
@@ -43,14 +44,29 @@ public partial class SessionWebBrowser : Window
         "--enable-features=FluentOverlayScrollbar,MiddleClickAutoscroll",
         "--disable-features=TranslateUI,msWebOOUI,msPdfOOUI,msSmartScreenProtection,SpareRendererForSitePerProcess,BackForwardCache,msEdgeCollections,msShoppingExp,msEdgeSidebarV2",
         "--disable-pinch",
-        "--overscroll-history-navigation=0");
+        "--overscroll-history-navigation=0"
+    );
 
-    private static readonly string[] HiddenMenuItems = { "share", "webCapture", "readAloud", "addToCollections", "sendTabToSelf", "translate", "visualSearch", "copilot" };
+    private static readonly string[] HiddenMenuItems =
+    {
+        "share",
+        "webCapture",
+        "readAloud",
+        "addToCollections",
+        "sendTabToSelf",
+        "translate",
+        "visualSearch",
+        "copilot",
+    };
 
     private static Task<CoreWebView2Environment>? _sharedEnvironment;
 
-    public static readonly DependencyProperty TabWidthProperty =
-        DependencyProperty.RegisterAttached(nameof(TabWidth), typeof(double), typeof(SessionWebBrowser), new FrameworkPropertyMetadata(200.0, FrameworkPropertyMetadataOptions.Inherits));
+    public static readonly DependencyProperty TabWidthProperty = DependencyProperty.RegisterAttached(
+        nameof(TabWidth),
+        typeof(double),
+        typeof(SessionWebBrowser),
+        new FrameworkPropertyMetadata(200.0, FrameworkPropertyMetadataOptions.Inherits)
+    );
 
     public static double GetTabWidth(DependencyObject element) => (double)element.GetValue(TabWidthProperty);
 
@@ -99,7 +115,8 @@ public partial class SessionWebBrowser : Window
 
     private BrowserSettings Settings => _state.Settings;
 
-    private bool IsSplitShown => _splitLeft != null && _splitRight != null && (ReferenceEquals(_active, _splitLeft) || ReferenceEquals(_active, _splitRight));
+    private bool IsSplitShown =>
+        _splitLeft != null && _splitRight != null && (ReferenceEquals(_active, _splitLeft) || ReferenceEquals(_active, _splitRight));
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
@@ -118,18 +135,20 @@ public partial class SessionWebBrowser : Window
         if (saved.Count == 0)
             saved.Add(new SavedTab { Url = BrowserTab.NewTabUrl });
         int active = Math.Clamp(_state.Active, 0, saved.Count - 1);
-        List<BrowserTab> created = saved.Select(tab =>
-        {
-            BrowserTab restored = AddTab(tab.Url, tab.Title, tab.Scroll, false);
-            restored.IsPinned = tab.Pinned;
-            restored.IsMuted = tab.Muted;
-            if (!restored.IsNewTab)
+        List<BrowserTab> created = saved
+            .Select(tab =>
             {
-                restored.IsHibernated = true;
-                restored.Icon = WebIcon(restored.Url);
-            }
-            return restored;
-        }).ToList();
+                BrowserTab restored = AddTab(tab.Url, tab.Title, tab.Scroll, false);
+                restored.IsPinned = tab.Pinned;
+                restored.IsMuted = tab.Muted;
+                if (!restored.IsNewTab)
+                {
+                    restored.IsHibernated = true;
+                    restored.Icon = WebIcon(restored.Url);
+                }
+                return restored;
+            })
+            .ToList();
         SwitchTo(created[active]);
     }
 
@@ -180,7 +199,7 @@ public partial class SessionWebBrowser : Window
             return existing;
         CoreWebView2EnvironmentOptions options = new(Voidstrap.Utility.RenderAcceleration.ApplyToBrowserArguments(BrowserArguments))
         {
-            AreBrowserExtensionsEnabled = false
+            AreBrowserExtensionsEnabled = false,
         };
         Task<CoreWebView2Environment> created = CoreWebView2Environment.CreateAsync(null, GetUserDataFolder(), options);
         _sharedEnvironment = created;
@@ -203,7 +222,10 @@ public partial class SessionWebBrowser : Window
 
     private BrowserTab AddTab(string url, string? title = null, double scroll = 0, bool loadNow = true, int index = -1)
     {
-        string name = !string.IsNullOrWhiteSpace(title) ? title : url == BrowserTab.NewTabUrl ? "New tab" : HostOf(url);
+        string name =
+            !string.IsNullOrWhiteSpace(title) ? title
+            : url == BrowserTab.NewTabUrl ? "New tab"
+            : HostOf(url);
         BrowserTab tab = new(url, name, scroll);
         int pinned = _tabs.Count(each => each.IsPinned);
         if (index < 0 || index > _tabs.Count)
@@ -227,7 +249,7 @@ public partial class SessionWebBrowser : Window
         WebView2 view = new()
         {
             // The page area is dark from the very first frame instead of flashing white
-            DefaultBackgroundColor = System.Drawing.Color.FromArgb(255, 32, 32, 32)
+            DefaultBackgroundColor = System.Drawing.Color.FromArgb(255, 32, 32, 32),
         };
         Border frame = new() { Child = view, Visibility = Visibility.Collapsed };
         tab.View = view;
@@ -329,7 +351,8 @@ public partial class SessionWebBrowser : Window
             Grid.SetColumn(frame, ReferenceEquals(tab, right) ? 2 : 0);
             // In split view the side you are using has a thin accent outline
             frame.BorderThickness = new Thickness(split ? 1 : 0);
-            frame.BorderBrush = split && ReferenceEquals(tab, _active) ? TryFindResource("SystemAccentColorPrimaryBrush") as Brush : Brushes.Transparent;
+            frame.BorderBrush =
+                split && ReferenceEquals(tab, _active) ? TryFindResource("SystemAccentColorPrimaryBrush") as Brush : Brushes.Transparent;
         }
         if (split)
         {
@@ -348,7 +371,10 @@ public partial class SessionWebBrowser : Window
             RightPane.Width = new GridLength(0);
             SplitGrip.Visibility = Visibility.Collapsed;
         }
-        BrowserTab? newTab = left is { IsNewTab: true } ? left : right is { IsNewTab: true } ? right : null;
+        BrowserTab? newTab =
+            left is { IsNewTab: true } ? left
+            : right is { IsNewTab: true } ? right
+            : null;
         if (newTab != null)
         {
             Grid.SetColumn(NewTabPage, ReferenceEquals(newTab, right) ? 2 : 0);
@@ -395,7 +421,8 @@ public partial class SessionWebBrowser : Window
         {
             _active = null;
             // Closing a tab a page opened goes back to that page, like following a link and coming back
-            BrowserTab next = tab.Opener is { Closed: false } opener && _tabs.Contains(opener) ? opener : _tabs[Math.Min(index, _tabs.Count - 1)];
+            BrowserTab next =
+                tab.Opener is { Closed: false } opener && _tabs.Contains(opener) ? opener : _tabs[Math.Min(index, _tabs.Count - 1)];
             SwitchTo(next);
         }
         else
@@ -519,7 +546,11 @@ public partial class SessionWebBrowser : Window
         if (_closed || !Settings.MemorySaver)
             return;
         DateTime now = DateTime.UtcNow;
-        foreach (BrowserTab tab in _tabs.Where(tab => !tab.IsShown && tab.View != null && !tab.IsAudible && now - tab.LastShown > SleepAfter).ToList())
+        foreach (
+            BrowserTab tab in _tabs
+                .Where(tab => !tab.IsShown && tab.View != null && !tab.IsAudible && now - tab.LastShown > SleepAfter)
+                .ToList()
+        )
             Hibernate(tab);
     }
 
@@ -608,75 +639,87 @@ public partial class SessionWebBrowser : Window
         {
             App.Logger?.WriteLine(LogIdent, "Browser settings could not be applied: " + ex.Message);
         }
-        core.NavigationStarting += (_, e) => Fenced(() =>
-        {
-            // Web pages only: links that would start other apps from inside the game are not followed
-            if (!IsWebAddress(e.Uri) && !e.Uri.StartsWith("about:", StringComparison.OrdinalIgnoreCase) && !e.Uri.StartsWith("data:", StringComparison.OrdinalIgnoreCase))
+        core.NavigationStarting += (_, e) =>
+            Fenced(() =>
             {
-                e.Cancel = true;
-                return;
-            }
-            tab.IsLoading = true;
-            tab.Blocked = 0;
-            if (ReferenceEquals(tab, _active))
+                // Web pages only: links that would start other apps from inside the game are not followed
+                if (
+                    !IsWebAddress(e.Uri)
+                    && !e.Uri.StartsWith("about:", StringComparison.OrdinalIgnoreCase)
+                    && !e.Uri.StartsWith("data:", StringComparison.OrdinalIgnoreCase)
+                )
+                {
+                    e.Cancel = true;
+                    return;
+                }
+                tab.IsLoading = true;
+                tab.Blocked = 0;
+                if (ReferenceEquals(tab, _active))
+                {
+                    StartProgress();
+                    RefreshToolbar();
+                }
+            });
+        core.NavigationCompleted += (_, e) =>
+            Fenced(() =>
             {
-                StartProgress();
-                RefreshToolbar();
-            }
-        });
-        core.NavigationCompleted += (_, e) => Fenced(() =>
-        {
-            tab.IsLoading = false;
-            if (e.IsSuccess)
-                _state.Visit(core.Source, core.DocumentTitle);
-            if (tab.PendingScroll > 0)
-                _ = RestoreScrollAsync(tab);
-            if (ReferenceEquals(tab, _active))
+                tab.IsLoading = false;
+                if (e.IsSuccess)
+                    _state.Visit(core.Source, core.DocumentTitle);
+                if (tab.PendingScroll > 0)
+                    _ = RestoreScrollAsync(tab);
+                if (ReferenceEquals(tab, _active))
+                {
+                    FinishProgress();
+                    RefreshToolbar();
+                }
+                ScheduleSave();
+            });
+        core.SourceChanged += (_, _) =>
+            Fenced(() =>
             {
-                FinishProgress();
-                RefreshToolbar();
-            }
-            ScheduleSave();
-        });
-        core.SourceChanged += (_, _) => Fenced(() =>
-        {
-            string source = core.Source ?? string.Empty;
-            string oldHost = tab.Host;
-            if (IsWebAddress(source))
-                tab.Url = source;
-            if (!string.Equals(oldHost, tab.Host, StringComparison.OrdinalIgnoreCase))
-                ApplyZoom(tab);
-            if (ReferenceEquals(tab, _active))
-                RefreshToolbar();
-        });
-        core.DocumentTitleChanged += (_, _) => Fenced(() =>
-        {
-            string title = core.DocumentTitle;
-            tab.Title = string.IsNullOrWhiteSpace(title) ? HostOf(tab.Url) : title;
-            _state.Retitle(core.Source, title);
-        });
+                string source = core.Source ?? string.Empty;
+                string oldHost = tab.Host;
+                if (IsWebAddress(source))
+                    tab.Url = source;
+                if (!string.Equals(oldHost, tab.Host, StringComparison.OrdinalIgnoreCase))
+                    ApplyZoom(tab);
+                if (ReferenceEquals(tab, _active))
+                    RefreshToolbar();
+            });
+        core.DocumentTitleChanged += (_, _) =>
+            Fenced(() =>
+            {
+                string title = core.DocumentTitle;
+                tab.Title = string.IsNullOrWhiteSpace(title) ? HostOf(tab.Url) : title;
+                _state.Retitle(core.Source, title);
+            });
         core.FaviconChanged += (_, _) => LoadFavicon(tab, core);
-        core.HistoryChanged += (_, _) => Fenced(() =>
-        {
-            if (ReferenceEquals(tab, _active))
-                RefreshToolbar();
-        });
-        core.NewWindowRequested += (_, e) => Fenced(() =>
-        {
-            CoreWebView2Deferral deferral = e.GetDeferral();
-            e.Handled = true;
-            _ = AdoptNewWindowAsync(tab, e, deferral);
-        });
-        core.StatusBarTextChanged += (_, _) => Fenced(() =>
-        {
-            if (tab.IsShown)
-                ShowStatus(core.StatusBarText);
-        });
-        core.IsDocumentPlayingAudioChanged += (_, _) => Fenced(() =>
-        {
-            tab.IsAudible = core.IsDocumentPlayingAudio;
-            ApplyProcessPriority();
-        });
+        core.HistoryChanged += (_, _) =>
+            Fenced(() =>
+            {
+                if (ReferenceEquals(tab, _active))
+                    RefreshToolbar();
+            });
+        core.NewWindowRequested += (_, e) =>
+            Fenced(() =>
+            {
+                CoreWebView2Deferral deferral = e.GetDeferral();
+                e.Handled = true;
+                _ = AdoptNewWindowAsync(tab, e, deferral);
+            });
+        core.StatusBarTextChanged += (_, _) =>
+            Fenced(() =>
+            {
+                if (tab.IsShown)
+                    ShowStatus(core.StatusBarText);
+            });
+        core.IsDocumentPlayingAudioChanged += (_, _) =>
+            Fenced(() =>
+            {
+                tab.IsAudible = core.IsDocumentPlayingAudio;
+                ApplyProcessPriority();
+            });
         core.IsMutedChanged += (_, _) => Fenced(() => tab.IsMuted = core.IsMuted);
         core.ContainsFullScreenElementChanged += (_, _) => Fenced(() => SetPageFullscreen(tab.IsShown && core.ContainsFullScreenElement));
         core.ContextMenuRequested += (_, e) => Fenced(() => CustomizeContextMenu(tab, e));
@@ -724,30 +767,38 @@ public partial class SessionWebBrowser : Window
         try
         {
             foreach (string pattern in BrowserBlocklist.Patterns)
-                core.AddWebResourceRequestedFilter(pattern, CoreWebView2WebResourceContext.All, CoreWebView2WebResourceRequestSourceKinds.All);
+                core.AddWebResourceRequestedFilter(
+                    pattern,
+                    CoreWebView2WebResourceContext.All,
+                    CoreWebView2WebResourceRequestSourceKinds.All
+                );
         }
         catch (Exception ex)
         {
             App.Logger?.WriteLine(LogIdent, "Ad blocking could not be set up: " + ex.Message);
             return;
         }
-        core.WebResourceRequested += (_, e) => Fenced(() =>
-        {
-            // Pages you open yourself are never blocked, only what they load
-            if (!Settings.BlockAds || e.ResourceContext == CoreWebView2WebResourceContext.Document)
-                return;
-            string site = tab.Host;
-            if (IsAllowedSite(site) || BrowserBlocklist.IsBlockedHost(site))
-                return;
-            e.Response = environment.CreateWebResourceResponse(null, 403, "Blocked", "Content-Type: text/plain");
-            tab.Blocked++;
-            if (ReferenceEquals(tab, _active))
-                RefreshShield();
-        });
+        core.WebResourceRequested += (_, e) =>
+            Fenced(() =>
+            {
+                // Pages you open yourself are never blocked, only what they load
+                if (!Settings.BlockAds || e.ResourceContext == CoreWebView2WebResourceContext.Document)
+                    return;
+                string site = tab.Host;
+                if (IsAllowedSite(site) || BrowserBlocklist.IsBlockedHost(site))
+                    return;
+                e.Response = environment.CreateWebResourceResponse(null, 403, "Blocked", "Content-Type: text/plain");
+                tab.Blocked++;
+                if (ReferenceEquals(tab, _active))
+                    RefreshShield();
+            });
     }
 
-    private bool IsAllowedSite(string host)
-        => host.Length > 0 && Settings.AllowedSites.Any(site => host.Equals(site, StringComparison.OrdinalIgnoreCase) || host.EndsWith("." + site, StringComparison.OrdinalIgnoreCase));
+    private bool IsAllowedSite(string host) =>
+        host.Length > 0
+        && Settings.AllowedSites.Any(site =>
+            host.Equals(site, StringComparison.OrdinalIgnoreCase) || host.EndsWith("." + site, StringComparison.OrdinalIgnoreCase)
+        );
 
     // The page's own menu, without the extras nobody needs over a game, and with tabs and split view added for links
     private void CustomizeContextMenu(BrowserTab tab, CoreWebView2ContextMenuRequestedEventArgs e)
@@ -765,9 +816,17 @@ public partial class SessionWebBrowser : Window
         if (target.HasLinkUri && IsWebAddress(target.LinkUri))
         {
             string link = target.LinkUri;
-            CoreWebView2ContextMenuItem newTab = environment.CreateContextMenuItem("Open link in new tab", null, CoreWebView2ContextMenuItemKind.Command);
+            CoreWebView2ContextMenuItem newTab = environment.CreateContextMenuItem(
+                "Open link in new tab",
+                null,
+                CoreWebView2ContextMenuItemKind.Command
+            );
             newTab.CustomItemSelected += (_, _) => Dispatcher.BeginInvoke(new Action(() => OpenInNewTab(link, tab)));
-            CoreWebView2ContextMenuItem split = environment.CreateContextMenuItem("Open link in split view", null, CoreWebView2ContextMenuItemKind.Command);
+            CoreWebView2ContextMenuItem split = environment.CreateContextMenuItem(
+                "Open link in split view",
+                null,
+                CoreWebView2ContextMenuItemKind.Command
+            );
             split.CustomItemSelected += (_, _) => Dispatcher.BeginInvoke(new Action(() => OpenInSplit(link, tab)));
             items.Insert(0, newTab);
             items.Insert(1, split);
@@ -775,7 +834,11 @@ public partial class SessionWebBrowser : Window
         }
         else if (target.Kind == CoreWebView2ContextMenuTargetKind.Page && !target.HasSelection && !target.IsEditable)
         {
-            CoreWebView2ContextMenuItem copy = environment.CreateContextMenuItem("Copy page link", null, CoreWebView2ContextMenuItemKind.Command);
+            CoreWebView2ContextMenuItem copy = environment.CreateContextMenuItem(
+                "Copy page link",
+                null,
+                CoreWebView2ContextMenuItemKind.Command
+            );
             copy.CustomItemSelected += (_, _) => Dispatcher.BeginInvoke(new Action(() => CopyLink(tab)));
             items.Add(environment.CreateContextMenuItem(string.Empty, null, CoreWebView2ContextMenuItemKind.Separator));
             items.Add(copy);
@@ -829,9 +892,7 @@ public partial class SessionWebBrowser : Window
             if (double.TryParse(result, NumberStyles.Float, CultureInfo.InvariantCulture, out double scroll))
                 tab.Scroll = scroll;
         }
-        catch (Exception)
-        {
-        }
+        catch (Exception) { }
     }
 
     // Pages often grow as they load, so the scroll is put back once and again a moment later
@@ -848,9 +909,7 @@ public partial class SessionWebBrowser : Window
             if (!tab.Closed && tab.Core is { } later && !later.IsSuspended)
                 await later.ExecuteScriptAsync(script);
         }
-        catch (Exception)
-        {
-        }
+        catch (Exception) { }
     }
 
     private void ScheduleSave()
@@ -1020,8 +1079,10 @@ public partial class SessionWebBrowser : Window
         CoreWebView2? core = _tabs.Select(tab => tab.Core).FirstOrDefault(found => found != null);
         if (core == null)
             return;
-        ProcessPriorityClass priority = !_panelHidden ? ProcessPriorityClass.Normal
-            : _tabs.Any(tab => tab.IsAudible && !tab.IsMuted) ? ProcessPriorityClass.BelowNormal : ProcessPriorityClass.Idle;
+        ProcessPriorityClass priority =
+            !_panelHidden ? ProcessPriorityClass.Normal
+            : _tabs.Any(tab => tab.IsAudible && !tab.IsMuted) ? ProcessPriorityClass.BelowNormal
+            : ProcessPriorityClass.Idle;
         List<int> ids = new();
         try
         {
@@ -1062,9 +1123,15 @@ public partial class SessionWebBrowser : Window
                     return;
                 Color color = accent.Color;
                 string fill = $"rgb({color.R}, {color.G}, {color.B})";
-                string text = Voidstrap.UI.Converters.ContrastForegroundConverter.For(accent) is SolidColorBrush { Color.R: > 128 } ? "#ffffff" : "#000000";
-                string css = $"::selection{{background:{fill} !important;color:{text} !important}}*{{accent-color:{fill}}}input,textarea,[contenteditable]{{caret-color:{fill}}}";
-                _accentScript = "(() => { const css = " + JsonSerializer.Serialize(css) + ";"
+                string text = Voidstrap.UI.Converters.ContrastForegroundConverter.For(accent) is SolidColorBrush { Color.R: > 128 }
+                    ? "#ffffff"
+                    : "#000000";
+                string css =
+                    $"::selection{{background:{fill} !important;color:{text} !important}}*{{accent-color:{fill}}}input,textarea,[contenteditable]{{caret-color:{fill}}}";
+                _accentScript =
+                    "(() => { const css = "
+                    + JsonSerializer.Serialize(css)
+                    + ";"
                     + " const add = () => { if (document.getElementById('voidstrap-accent')) return; const s = document.createElement('style'); s.id = 'voidstrap-accent'; s.textContent = css; (document.head || document.documentElement).appendChild(s); };"
                     + " if (document.documentElement) add(); else document.addEventListener('DOMContentLoaded', add, { once: true }); })();";
             }
@@ -1101,10 +1168,11 @@ public partial class SessionWebBrowser : Window
         }
     }
 
-    private static bool IsWebAddress(string? url)
-        => Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) && (uri.Scheme == Uri.UriSchemeHttps || uri.Scheme == Uri.UriSchemeHttp);
+    private static bool IsWebAddress(string? url) =>
+        Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) && (uri.Scheme == Uri.UriSchemeHttps || uri.Scheme == Uri.UriSchemeHttp);
 
-    private static string HostOf(string url) => Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) && uri.Host.Length > 0 ? uri.Host : "New tab";
+    private static string HostOf(string url) =>
+        Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) && uri.Host.Length > 0 ? uri.Host : "New tab";
 
     // A site's icon for tabs that have not loaded yet, fetched in the background by the image itself
     private ImageSource? WebIcon(string url)
@@ -1146,9 +1214,7 @@ public partial class SessionWebBrowser : Window
             {
                 _environment.ProcessInfosChanged -= OnProcessInfosChanged;
             }
-            catch (Exception)
-            {
-            }
+            catch (Exception) { }
         }
         _environment = null;
     }

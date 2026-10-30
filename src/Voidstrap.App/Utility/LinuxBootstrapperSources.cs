@@ -34,30 +34,19 @@ internal static class LinuxBootstrapperSources
 		"~/.var/app/com.valvesoftware.Steam/data/Steam/steamapps/compatdata/*/pfx",
 		"~/.PlayOnLinux/wineprefix/*",
 		"~/.local/share/grapejuice/prefixes/*",
-		"~/.local/share/lutris/prefixes/*"
+		"~/.local/share/lutris/prefixes/*",
 	];
 
-	private static readonly string[] PrefixProfiles =
-	[
-		"drive_c/users/*/AppData/Local",
-		"drive_c/users/*/Local Settings/Application Data"
-	];
+	private static readonly string[] PrefixProfiles = ["drive_c/users/*/AppData/Local", "drive_c/users/*/Local Settings/Application Data"];
 
-	private static readonly string[] DriveRoots =
-	[
-		"/run/media/$USER/*",
-		"/media/$USER/*",
-		"/media/*",
-		"/mnt/*",
-		"/mnt/*/*"
-	];
+	private static readonly string[] DriveRoots = ["/run/media/$USER/*", "/media/$USER/*", "/media/*", "/mnt/*", "/mnt/*/*"];
 
 	public static async Task<string?> FindSettingsAsync(string source, CancellationToken token)
 	{
 		List<string> patterns = [];
 		foreach (string prefix in PrefixRoots)
-			foreach (string profile in PrefixProfiles)
-				patterns.Add(prefix + "/" + profile + "/" + source + "/Settings.json");
+		foreach (string profile in PrefixProfiles)
+			patterns.Add(prefix + "/" + profile + "/" + source + "/Settings.json");
 		foreach (string drive in DriveRoots)
 			patterns.Add(drive + "/Users/*/AppData/Local/" + source + "/Settings.json");
 		patterns.Add("$XDG_DATA_HOME/" + source + "/Settings.json");
@@ -66,7 +55,9 @@ internal static class LinuxBootstrapperSources
 		StringBuilder script = new("for f in");
 		foreach (string pattern in patterns)
 			script.Append(' ').Append(ToShellWord(pattern));
-		script.Append("; do if [ -f \"$f\" ] && [ -r \"$f\" ]; then printf '%s\\t%s\\n' \"$(stat -c %Y -- \"$f\" 2>/dev/null || echo 0)\" \"$f\"; fi; done");
+		script.Append(
+			"; do if [ -f \"$f\" ] && [ -r \"$f\" ]; then printf '%s\\t%s\\n' \"$(stat -c %Y -- \"$f\" 2>/dev/null || echo 0)\" \"$f\"; fi; done"
+		);
 
 		ProcessExecution? result = await RunHostAsync("sh", ["-c", script.ToString()], token).ConfigureAwait(false);
 		if (result is null || result.ExitCode != 0)
@@ -93,7 +84,10 @@ internal static class LinuxBootstrapperSources
 		if (newest is not null)
 			App.Logger.WriteLine("BootstrapperImport::FindSettings", "Found " + source + " settings at " + newest);
 		else
-			App.Logger.WriteLine("BootstrapperImport::FindSettings", "No " + source + " settings were found in Wine, Proton, Bottles, Lutris or mounted Windows drives");
+			App.Logger.WriteLine(
+				"BootstrapperImport::FindSettings",
+				"No " + source + " settings were found in Wine, Proton, Bottles, Lutris or mounted Windows drives"
+			);
 		return newest;
 	}
 
@@ -105,7 +99,8 @@ internal static class LinuxBootstrapperSources
 	public static async Task<string?> ReadHostTextAsync(string path, long maximumBytes, CancellationToken token)
 	{
 		long limit = Math.Min(maximumBytes, HostReadLimit);
-		ProcessExecution? result = await RunHostAsync("head", ["-c", (limit + 1).ToString(CultureInfo.InvariantCulture), "--", path], token).ConfigureAwait(false);
+		ProcessExecution? result = await RunHostAsync("head", ["-c", (limit + 1).ToString(CultureInfo.InvariantCulture), "--", path], token)
+			.ConfigureAwait(false);
 		if (result is null || result.ExitCode != 0)
 			return null;
 		if (result.StandardOutput.Length > limit)
@@ -127,7 +122,10 @@ internal static class LinuxBootstrapperSources
 		{
 			using Connection connection = new(LinuxSessionBus.RequireAddress());
 			await connection.ConnectAsync().ConfigureAwait(false);
-			IDocumentsPortal documents = connection.CreateProxy<IDocumentsPortal>("org.freedesktop.portal.Documents", new ObjectPath("/org/freedesktop/portal/documents"));
+			IDocumentsPortal documents = connection.CreateProxy<IDocumentsPortal>(
+				"org.freedesktop.portal.Documents",
+				new ObjectPath("/org/freedesktop/portal/documents")
+			);
 			IDictionary<string, byte[]> hostPaths = await documents.GetHostPathsAsync([documentId]).ConfigureAwait(false);
 			if (hostPaths.TryGetValue(documentId, out byte[]? bytes) && bytes is { Length: > 0 })
 			{
@@ -141,7 +139,10 @@ internal static class LinuxBootstrapperSources
 		}
 		catch (Exception ex)
 		{
-			App.Logger.WriteLine("BootstrapperImport::ResolvePickedPath", "The picked file stays sandboxed, FastFlags next to it cannot be read: " + ex.GetBaseException().Message);
+			App.Logger.WriteLine(
+				"BootstrapperImport::ResolvePickedPath",
+				"The picked file stays sandboxed, FastFlags next to it cannot be read: " + ex.GetBaseException().Message
+			);
 		}
 #endif
 		return path;
@@ -177,14 +178,21 @@ internal static class LinuxBootstrapperSources
 
 	private static string ToShellWord(string pattern)
 	{
-		return string.Join("/", pattern.Split('/').Select(segment => segment switch
-		{
-			"" => "",
-			"~" => "\"$HOME\"",
-			"*" => "*",
-			_ when segment.StartsWith('$') => "\"${" + segment[1..] + ":-/nonexistent}\"",
-			_ => "'" + segment.Replace("'", "'\\''") + "'"
-		}));
+		return string.Join(
+			"/",
+			pattern
+				.Split('/')
+				.Select(segment =>
+					segment switch
+					{
+						"" => "",
+						"~" => "\"$HOME\"",
+						"*" => "*",
+						_ when segment.StartsWith('$') => "\"${" + segment[1..] + ":-/nonexistent}\"",
+						_ => "'" + segment.Replace("'", "'\\''") + "'",
+					}
+				)
+		);
 	}
 }
 

@@ -34,11 +34,22 @@ public static partial class RobloxCompressor
     private static readonly HashSet<string> _imageExtensions = [".png"];
     private static readonly HashSet<string> _textExtensions = [".lua"];
     private static readonly HashSet<string> _audioExtensions = [".ogg"];
-    private static readonly HashSet<string> _skipDirectories = ["PlatformContent", "shaders", "ssl", "Plugins", "ClientSettings", "content\\textures\\Cursors"];
+    private static readonly HashSet<string> _skipDirectories =
+    [
+        "PlatformContent",
+        "shaders",
+        "ssl",
+        "Plugins",
+        "ClientSettings",
+        "content\\textures\\Cursors",
+    ];
 
-    public static void Run(string versionDir, int level,
+    public static void Run(
+        string versionDir,
+        int level,
         IEnumerable<Package> packages,
-        IReadOnlyDictionary<string, string> packageDirectoryMap)
+        IReadOnlyDictionary<string, string> packageDirectoryMap
+    )
     {
         App.Logger.WriteLine("RobloxCompressor::Run", $"Starting compression at level {level}");
 
@@ -57,7 +68,8 @@ public static partial class RobloxCompressor
                 continue;
 
             var fileInfo = new FileInfo(filePath);
-            if (fileInfo.Length == 0) continue;
+            if (fileInfo.Length == 0)
+                continue;
 
             long originalSize = fileInfo.Length;
             string ext = Path.GetExtension(filePath).ToLowerInvariant();
@@ -70,22 +82,26 @@ public static partial class RobloxCompressor
             else if (_audioExtensions.Contains(ext))
                 success = CompressOgg(filePath, level);
 
-            if (!success) continue;
+            if (!success)
+                continue;
 
             long compressedSize = new FileInfo(filePath).Length;
-            if (compressedSize >= originalSize) continue;
+            if (compressedSize >= originalSize)
+                continue;
 
             string sourcePackage = ResolveSourcePackage(relativePath, packageDirectoryMap);
 
             manifest.Entries.RemoveAll(e => e.Path == relativePath);
-            manifest.Entries.Add(new CompressedEntry
-            {
-                Path = relativePath,
-                OriginalSize = originalSize,
-                CompressedSize = compressedSize,
-                CompressionLevel = level,
-                SourcePackage = sourcePackage
-            });
+            manifest.Entries.Add(
+                new CompressedEntry
+                {
+                    Path = relativePath,
+                    OriginalSize = originalSize,
+                    CompressedSize = compressedSize,
+                    CompressionLevel = level,
+                    SourcePackage = sourcePackage,
+                }
+            );
         }
 
         SaveManifest(versionDir, manifest);
@@ -96,7 +112,8 @@ public static partial class RobloxCompressor
     public static void CompressRbxStorage(int level)
     {
         const string LOG_IDENT = "RobloxCompressor::CompressRbxStorage";
-        if (level <= 40) return;
+        if (level <= 40)
+            return;
 
         string cacheDir = System.IO.Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "rbx-storage");
 
@@ -112,20 +129,29 @@ public static partial class RobloxCompressor
         foreach (string file in Directory.EnumerateFiles(cacheDir, "*", SearchOption.AllDirectories))
         {
             string name = Path.GetFileName(file);
-            if (name.Length != 32 || name.Any(c => !Uri.IsHexDigit(c))) continue;
+            if (name.Length != 32 || name.Any(c => !Uri.IsHexDigit(c)))
+                continue;
 
             try
             {
                 using var fs = new FileStream(file, FileMode.Open, FileAccess.Read);
                 byte[] header = new byte[4];
-                if (fs.Read(header, 0, 4) < 4) continue;
-                bool isOgg = header[0] == 0x4F && header[1] == 0x67 &&
-                             header[2] == 0x67 && header[3] == 0x53;
-                if (!isOgg) continue;
+                if (fs.Read(header, 0, 4) < 4)
+                    continue;
+                bool isOgg = header[0] == 0x4F && header[1] == 0x67 && header[2] == 0x67 && header[3] == 0x53;
+                if (!isOgg)
+                    continue;
             }
-            catch { continue; }
+            catch
+            {
+                continue;
+            }
 
-            try { File.SetAttributes(file, FileAttributes.Normal); } catch { }
+            try
+            {
+                File.SetAttributes(file, FileAttributes.Normal);
+            }
+            catch { }
 
             if (CompressOgg(file, level))
             {
@@ -146,7 +172,8 @@ public static partial class RobloxCompressor
         const string LOG_IDENT = "RobloxCompressor::RepairCorruptedAsync";
         string versionsDir = Paths.Versions;
         App.Logger.WriteLine(LOG_IDENT, $"Scanning {versionsDir} (exists={Directory.Exists(versionsDir)})");
-        if (!Directory.Exists(versionsDir)) return;
+        if (!Directory.Exists(versionsDir))
+            return;
 
         var mergedMap = new Dictionary<string, string>();
         foreach (var kv in new RobloxPlayerData().PackageDirectoryMap)
@@ -166,12 +193,14 @@ public static partial class RobloxCompressor
 
             var manifest = LoadManifest(dir);
             var allCorrupted = CollectCorruptedFiles(dir, manifest, mergedMap);
-            App.Logger.WriteLine(LOG_IDENT, $"  Dir {versionGuid}: manifest entries={manifest.Entries.Count}, corrupt={allCorrupted.Count}");
-            if (allCorrupted.Count == 0) continue;
+            App.Logger.WriteLine(
+                LOG_IDENT,
+                $"  Dir {versionGuid}: manifest entries={manifest.Entries.Count}, corrupt={allCorrupted.Count}"
+            );
+            if (allCorrupted.Count == 0)
+                continue;
 
-            var manifestCorrupted = allCorrupted
-                .Where(e => manifest.Entries.Any(m => m.Path == e.Path))
-                .ToList();
+            var manifestCorrupted = allCorrupted.Where(e => manifest.Entries.Any(m => m.Path == e.Path)).ToList();
 
             try
             {
@@ -187,7 +216,9 @@ public static partial class RobloxCompressor
                             App.Logger.WriteLine(LOG_IDENT, $"  CDN returned {(int)resp.StatusCode} {resp.StatusCode}, trying next mirror");
                             continue;
                         }
-                        manifestText = await Voidstrap.Utility.Http.ReadStringBoundedAsync(resp.Content, 8388608, CancellationToken.None).ConfigureAwait(false);
+                        manifestText = await Voidstrap
+                            .Utility.Http.ReadStringBoundedAsync(resp.Content, 8388608, CancellationToken.None)
+                            .ConfigureAwait(false);
                         break;
                     }
                     catch (System.Net.Http.HttpRequestException ex)
@@ -233,8 +264,11 @@ public static partial class RobloxCompressor
         return false;
     }
 
-    private static List<CompressedEntry> CollectCorruptedFiles(string versionDir, ManifestData manifest,
-        IReadOnlyDictionary<string, string> packageDirectoryMap)
+    private static List<CompressedEntry> CollectCorruptedFiles(
+        string versionDir,
+        ManifestData manifest,
+        IReadOnlyDictionary<string, string> packageDirectoryMap
+    )
     {
         const string LOG_IDENT = "RobloxCompressor::CollectCorruptedFiles";
         var result = new List<CompressedEntry>();
@@ -243,13 +277,17 @@ public static partial class RobloxCompressor
         foreach (var entry in manifest.Entries)
         {
             string fullPath = System.IO.Path.Combine(versionDir, entry.Path);
-            if (!File.Exists(fullPath)) continue;
+            if (!File.Exists(fullPath))
+                continue;
             long actualSize = new FileInfo(fullPath).Length;
             bool sizeMismatch = actualSize != entry.CompressedSize;
             bool corrupt = IsCorrupted(fullPath, actualSize);
             if (sizeMismatch || corrupt)
             {
-                App.Logger.WriteLine(LOG_IDENT, $"  Manifest entry corrupt: {entry.Path} (expected={entry.CompressedSize}, actual={actualSize}, sizeMismatch={sizeMismatch}, heuristic={corrupt})");
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    $"  Manifest entry corrupt: {entry.Path} (expected={entry.CompressedSize}, actual={actualSize}, sizeMismatch={sizeMismatch}, heuristic={corrupt})"
+                );
                 result.Add(entry);
                 manifestCorrupt++;
             }
@@ -263,17 +301,17 @@ public static partial class RobloxCompressor
         foreach (string filePath in GetEligibleFiles(versionDir))
         {
             string relativePath = Path.GetRelativePath(versionDir, filePath);
-            if (manifestPaths.Contains(relativePath)) continue;
+            if (manifestPaths.Contains(relativePath))
+                continue;
 
             long fileSize = new FileInfo(filePath).Length;
-            if (!IsCorrupted(filePath, fileSize)) continue;
+            if (!IsCorrupted(filePath, fileSize))
+                continue;
 
             App.Logger.WriteLine(LOG_IDENT, $"  Unmanaged file corrupt: {relativePath} (size={fileSize})");
-            result.Add(new CompressedEntry
-            {
-                Path = relativePath,
-                SourcePackage = ResolveSourcePackage(relativePath, packageDirectoryMap)
-            });
+            result.Add(
+                new CompressedEntry { Path = relativePath, SourcePackage = ResolveSourcePackage(relativePath, packageDirectoryMap) }
+            );
             unmanagedCorrupt++;
         }
 
@@ -281,14 +319,19 @@ public static partial class RobloxCompressor
         return result;
     }
 
-    private static void RestoreCorruptedFiles(string versionDir, ManifestData manifest,
-        List<Package> packages, IReadOnlyDictionary<string, string> packageDirectoryMap)
+    private static void RestoreCorruptedFiles(
+        string versionDir,
+        ManifestData manifest,
+        List<Package> packages,
+        IReadOnlyDictionary<string, string> packageDirectoryMap
+    )
     {
         const string LOG_IDENT = "RobloxCompressor::RestoreCorruptedFiles";
         var allCorrupted = CollectCorruptedFiles(versionDir, manifest, packageDirectoryMap);
         var manifestCorrupted = allCorrupted.Where(e => manifest.Entries.Any(m => m.Path == e.Path)).ToList();
 
-        if (allCorrupted.Count == 0) return;
+        if (allCorrupted.Count == 0)
+            return;
 
         App.Logger.WriteLine(LOG_IDENT, $"Restoring {allCorrupted.Count} files from packages ({manifestCorrupted.Count} from manifest)");
         RestoreFilesFromPackages(versionDir, allCorrupted, packages, packageDirectoryMap);
@@ -298,30 +341,43 @@ public static partial class RobloxCompressor
             manifest.Entries.Remove(entry);
     }
 
-    private static void RestoreFromPackages(string versionDir, ManifestData manifest, int level,
-        List<Package> packages, IReadOnlyDictionary<string, string> packageDirectoryMap)
+    private static void RestoreFromPackages(
+        string versionDir,
+        ManifestData manifest,
+        int level,
+        List<Package> packages,
+        IReadOnlyDictionary<string, string> packageDirectoryMap
+    )
     {
         var toRestore = manifest.Entries.Where(e => e.CompressionLevel > level).ToList();
-        if (toRestore.Count == 0) return;
+        if (toRestore.Count == 0)
+            return;
 
         RestoreFilesFromPackages(versionDir, toRestore, packages, packageDirectoryMap);
 
         manifest.Entries.RemoveAll(e => e.CompressionLevel > level);
     }
 
-    private static void RestoreFilesFromPackages(string versionDir, List<CompressedEntry> entries,
-        List<Package> packages, IReadOnlyDictionary<string, string> packageDirectoryMap)
+    private static void RestoreFilesFromPackages(
+        string versionDir,
+        List<CompressedEntry> entries,
+        List<Package> packages,
+        IReadOnlyDictionary<string, string> packageDirectoryMap
+    )
     {
         var restoreMap = new Dictionary<string, List<string>>();
         foreach (var entry in entries)
         {
             string fullPath = System.IO.Path.Combine(versionDir, entry.Path);
-            if (!File.Exists(fullPath)) continue;
+            if (!File.Exists(fullPath))
+                continue;
 
-            if (string.IsNullOrEmpty(entry.SourcePackage)) continue;
+            if (string.IsNullOrEmpty(entry.SourcePackage))
+                continue;
 
             string? pkgDir = packageDirectoryMap.GetValueOrDefault(entry.SourcePackage);
-            if (string.IsNullOrEmpty(pkgDir)) continue;
+            if (string.IsNullOrEmpty(pkgDir))
+                continue;
 
             if (!restoreMap.ContainsKey(entry.SourcePackage))
                 restoreMap[entry.SourcePackage] = [];
@@ -333,15 +389,18 @@ public static partial class RobloxCompressor
         foreach (var (pkgName, files) in restoreMap)
         {
             var pkg = packages.Find(x => x.Name == pkgName);
-            if (pkg == null) continue;
+            if (pkg == null)
+                continue;
 
             string? pkgDir = packageDirectoryMap.GetValueOrDefault(pkgName);
-            if (string.IsNullOrEmpty(pkgDir)) continue;
+            if (string.IsNullOrEmpty(pkgDir))
+                continue;
 
             new FastZip().ExtractZip(
                 pkg.DownloadPath,
                 System.IO.Path.Combine(versionDir, pkgDir),
-                string.Join(";", files.Select(f => "^" + Regex.Escape(f) + "$")));
+                string.Join(";", files.Select(f => "^" + Regex.Escape(f) + "$"))
+            );
         }
     }
 
@@ -372,14 +431,16 @@ public static partial class RobloxCompressor
                 var decoder = new System.Windows.Media.Imaging.PngBitmapDecoder(
                     input,
                     System.Windows.Media.Imaging.BitmapCreateOptions.PreservePixelFormat,
-                    System.Windows.Media.Imaging.BitmapCacheOption.OnLoad);
-                if (decoder.Frames.Count == 0) return false;
+                    System.Windows.Media.Imaging.BitmapCacheOption.OnLoad
+                );
+                if (decoder.Frames.Count == 0)
+                    return false;
                 frame = decoder.Frames[0];
             }
 
             var encoder = new System.Windows.Media.Imaging.PngBitmapEncoder
             {
-                Interlace = System.Windows.Media.Imaging.PngInterlaceOption.Off
+                Interlace = System.Windows.Media.Imaging.PngInterlaceOption.Off,
             };
             encoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(frame));
 
@@ -419,7 +480,8 @@ public static partial class RobloxCompressor
             return;
         }
         byte[] data = File.ReadAllBytes(filePath);
-        if (data.Length < 8) return;
+        if (data.Length < 8)
+            return;
 
         using var output = new MemoryStream();
         output.Write(data, 0, 8);
@@ -428,7 +490,8 @@ public static partial class RobloxCompressor
         while (i + 8 <= data.Length)
         {
             int length = (data[i] << 24) | (data[i + 1] << 16) | (data[i + 2] << 8) | data[i + 3];
-            if (length < 0 || i + 12 + length > data.Length) break;
+            if (length < 0 || i + 12 + length > data.Length)
+                break;
 
             string type = System.Text.Encoding.ASCII.GetString(data, i + 4, 4);
             if (type is "IHDR" or "PLTE" or "tRNS" or "IDAT" or "IEND")
@@ -458,7 +521,8 @@ public static partial class RobloxCompressor
             while (colors.Count > maxColors)
             {
                 int closestDist = int.MaxValue;
-                int closestA = 0, closestB = 0;
+                int closestA = 0,
+                    closestB = 0;
 
                 for (int i = 0; i < colors.Count; i++)
                 {
@@ -492,11 +556,7 @@ public static partial class RobloxCompressor
 
         private static Color AverageColors(Color a, Color b)
         {
-            return Color.FromArgb(
-                (a.A + b.A) / 2,
-                (a.R + b.R) / 2,
-                (a.G + b.G) / 2,
-                (a.B + b.B) / 2);
+            return Color.FromArgb((a.A + b.A) / 2, (a.R + b.R) / 2, (a.G + b.G) / 2, (a.B + b.B) / 2);
         }
     }
 
@@ -510,10 +570,11 @@ public static partial class RobloxCompressor
             {
                 ".lua" => MinifyLua(text, level),
                 ".txt" or ".csv" => level > 40 ? text.Trim() : text,
-                _ => text
+                _ => text,
             };
 
-            if (minified.Length >= text.Length) return false;
+            if (minified.Length >= text.Length)
+                return false;
 
             File.WriteAllText(filePath, minified);
             return true;
@@ -552,7 +613,8 @@ public static partial class RobloxCompressor
         string tempPath = filePath + ".tmp";
         try
         {
-            if (level <= 40) return false;
+            if (level <= 40)
+                return false;
 
             using var vorbisReader = new VorbisReader(filePath);
             int channels = vorbisReader.Channels;
@@ -574,7 +636,7 @@ public static partial class RobloxCompressor
                 <= 55 => 0.3f,
                 <= 70 => 0.2f,
                 <= 85 => 0.08f,
-                _ => 0.01f
+                _ => 0.01f,
             };
 
             var info = VorbisInfo.InitVariableBitRate(channels, sampleRate, quality);
@@ -637,7 +699,12 @@ public static partial class RobloxCompressor
         }
         catch
         {
-            try { if (File.Exists(tempPath)) File.Delete(tempPath); } catch { }
+            try
+            {
+                if (File.Exists(tempPath))
+                    File.Delete(tempPath);
+            }
+            catch { }
             return false;
         }
     }
@@ -654,7 +721,8 @@ public static partial class RobloxCompressor
     private static ManifestData LoadManifest(string versionDir)
     {
         string path = System.IO.Path.Combine(versionDir, ManifestFileName);
-        if (!File.Exists(path)) return new ManifestData();
+        if (!File.Exists(path))
+            return new ManifestData();
         try
         {
             return Voidstrap.Utility.JsonFile.Deserialize<ManifestData>(path, Voidstrap.Utility.JsonOptions.Tolerant, 16777216);
@@ -668,19 +736,19 @@ public static partial class RobloxCompressor
     private static void SaveManifest(string versionDir, ManifestData manifest)
     {
         string path = System.IO.Path.Combine(versionDir, ManifestFileName);
-		Voidstrap.Utility.JsonFile.SerializeAtomic(path, manifest);
+        Voidstrap.Utility.JsonFile.SerializeAtomic(path, manifest);
     }
 
     private static List<string> GetEligibleFiles(string versionDir)
     {
         var files = new List<string>();
-        if (!Directory.Exists(versionDir)) return files;
+        if (!Directory.Exists(versionDir))
+            return files;
 
-            foreach (string file in Directory.EnumerateFiles(versionDir, "*.*", SearchOption.AllDirectories))
+        foreach (string file in Directory.EnumerateFiles(versionDir, "*.*", SearchOption.AllDirectories))
         {
             string ext = Path.GetExtension(file).ToLowerInvariant();
-            if (!_imageExtensions.Contains(ext) && !_textExtensions.Contains(ext) &&
-                !_audioExtensions.Contains(ext))
+            if (!_imageExtensions.Contains(ext) && !_textExtensions.Contains(ext) && !_audioExtensions.Contains(ext))
                 continue;
 
             string relative = Path.GetRelativePath(versionDir, file);
@@ -688,9 +756,13 @@ public static partial class RobloxCompressor
             foreach (var skipDir in _skipDirectories)
             {
                 if (relative.StartsWith(skipDir, StringComparison.OrdinalIgnoreCase))
-                { skip = true; break; }
+                {
+                    skip = true;
+                    break;
+                }
             }
-            if (skip) continue;
+            if (skip)
+                continue;
 
             files.Add(file);
         }
@@ -698,16 +770,15 @@ public static partial class RobloxCompressor
         return files;
     }
 
-    private static string ResolveSourcePackage(string relativePath,
-        IReadOnlyDictionary<string, string> packageDirectoryMap)
+    private static string ResolveSourcePackage(string relativePath, IReadOnlyDictionary<string, string> packageDirectoryMap)
     {
         foreach (var (pkgName, pkgDir) in packageDirectoryMap)
         {
-            if (string.IsNullOrEmpty(pkgDir)) continue;
+            if (string.IsNullOrEmpty(pkgDir))
+                continue;
             if (relativePath.StartsWith(pkgDir, StringComparison.OrdinalIgnoreCase))
                 return pkgName;
         }
         return "";
     }
-
 }

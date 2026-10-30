@@ -51,7 +51,16 @@ public interface IStatusNotifierWatcher : IDBusObject
 [DBusInterface("org.freedesktop.Notifications")]
 public interface IFreedesktopNotifications : IDBusObject
 {
-    Task<uint> NotifyAsync(string AppName, uint ReplacesId, string AppIcon, string Summary, string Body, string[] Actions, IDictionary<string, object> Hints, int ExpireTimeout);
+    Task<uint> NotifyAsync(
+        string AppName,
+        uint ReplacesId,
+        string AppIcon,
+        string Summary,
+        string Body,
+        string[] Actions,
+        IDictionary<string, object> Hints,
+        int ExpireTimeout
+    );
 
     Task<IDisposable> WatchActionInvokedAsync(Action<(uint id, string actionKey)> handler, Action<Exception>? onError = null);
 
@@ -98,7 +107,12 @@ public sealed class StatusNotifierItemObject : IStatusNotifierItem
     {
         lock (_gate)
         {
-            _properties.ToolTip = (_properties.ToolTip.Item1, _properties.ToolTip.Item2, _properties.ToolTip.Item3, description ?? string.Empty);
+            _properties.ToolTip = (
+                _properties.ToolTip.Item1,
+                _properties.ToolTip.Item2,
+                _properties.ToolTip.Item3,
+                description ?? string.Empty
+            );
         }
         Raise(_newToolTipHandlers);
     }
@@ -236,25 +250,27 @@ public sealed class StatusNotifierItemObject : IStatusNotifierItem
     {
         lock (_gate)
         {
-            return Task.FromResult(prop switch
-            {
-                "Category" => (object)_properties.Category,
-                "Id" => _properties.Id,
-                "Title" => _properties.Title,
-                "Status" => _properties.Status,
-                "IconName" => _properties.IconName,
-                "IconPixmap" => _properties.IconPixmap,
-                "IconThemePath" => _properties.IconThemePath,
-                "AttentionIconName" => _properties.AttentionIconName,
-                "AttentionIconPixmap" => _properties.AttentionIconPixmap,
-                "OverlayIconName" => _properties.OverlayIconName,
-                "OverlayIconPixmap" => _properties.OverlayIconPixmap,
-                "ToolTip" => _properties.ToolTip,
-                "ItemIsMenu" => _properties.ItemIsMenu,
-                "WindowId" => _properties.WindowId,
-                "Menu" => _properties.Menu,
-                _ => ""
-            });
+            return Task.FromResult(
+                prop switch
+                {
+                    "Category" => (object)_properties.Category,
+                    "Id" => _properties.Id,
+                    "Title" => _properties.Title,
+                    "Status" => _properties.Status,
+                    "IconName" => _properties.IconName,
+                    "IconPixmap" => _properties.IconPixmap,
+                    "IconThemePath" => _properties.IconThemePath,
+                    "AttentionIconName" => _properties.AttentionIconName,
+                    "AttentionIconPixmap" => _properties.AttentionIconPixmap,
+                    "OverlayIconName" => _properties.OverlayIconName,
+                    "OverlayIconPixmap" => _properties.OverlayIconPixmap,
+                    "ToolTip" => _properties.ToolTip,
+                    "ItemIsMenu" => _properties.ItemIsMenu,
+                    "WindowId" => _properties.WindowId,
+                    "Menu" => _properties.Menu,
+                    _ => "",
+                }
+            );
         }
     }
 
@@ -262,24 +278,26 @@ public sealed class StatusNotifierItemObject : IStatusNotifierItem
     {
         lock (_gate)
         {
-            return Task.FromResult(new StatusNotifierItemProperties
-            {
-                Category = _properties.Category,
-                Id = _properties.Id,
-                Title = _properties.Title,
-                Status = _properties.Status,
-                IconName = _properties.IconName,
-                IconPixmap = _properties.IconPixmap,
-                IconThemePath = _properties.IconThemePath,
-                AttentionIconName = _properties.AttentionIconName,
-                AttentionIconPixmap = _properties.AttentionIconPixmap,
-                OverlayIconName = _properties.OverlayIconName,
-                OverlayIconPixmap = _properties.OverlayIconPixmap,
-                ToolTip = _properties.ToolTip,
-                ItemIsMenu = _properties.ItemIsMenu,
-                WindowId = _properties.WindowId,
-                Menu = _properties.Menu
-            });
+            return Task.FromResult(
+                new StatusNotifierItemProperties
+                {
+                    Category = _properties.Category,
+                    Id = _properties.Id,
+                    Title = _properties.Title,
+                    Status = _properties.Status,
+                    IconName = _properties.IconName,
+                    IconPixmap = _properties.IconPixmap,
+                    IconThemePath = _properties.IconThemePath,
+                    AttentionIconName = _properties.AttentionIconName,
+                    AttentionIconPixmap = _properties.AttentionIconPixmap,
+                    OverlayIconName = _properties.OverlayIconName,
+                    OverlayIconPixmap = _properties.OverlayIconPixmap,
+                    ToolTip = _properties.ToolTip,
+                    ItemIsMenu = _properties.ItemIsMenu,
+                    WindowId = _properties.WindowId,
+                    Menu = _properties.Menu,
+                }
+            );
         }
     }
 
@@ -427,7 +445,10 @@ public static class LinuxTray
             _notificationIcon = ResolveNotificationIcon(icon);
             Task<bool> start = StartAsync(title, icon, generation);
             if (await Task.WhenAny(start, Task.Delay(TrayOperationTimeout)).ConfigureAwait(false) != start)
-                Voidstrap.App.Logger?.WriteLine("LinuxTray::TryStart", "The desktop has not answered yet, the tray icon appears as soon as it does");
+                Voidstrap.App.Logger?.WriteLine(
+                    "LinuxTray::TryStart",
+                    "The desktop has not answered yet, the tray icon appears as soon as it does"
+                );
             if (await start.ConfigureAwait(false))
                 RaiseStarted();
         }
@@ -571,7 +592,10 @@ public static class LinuxTray
             }
             catch (Exception ex) when (ex is DBusException or InvalidOperationException && !string.IsNullOrEmpty(info.LocalName))
             {
-                Voidstrap.App.Logger?.WriteLine("LinuxTray::Start", "The tray name " + busName + " is not available here, the icon registers under " + info.LocalName + " instead");
+                Voidstrap.App.Logger?.WriteLine(
+                    "LinuxTray::Start",
+                    "The tray name " + busName + " is not available here, the icon registers under " + info.LocalName + " instead"
+                );
                 busName = info.LocalName;
             }
 
@@ -580,7 +604,10 @@ public static class LinuxTray
                 if (generation != _generation)
                 {
                     connection.Dispose();
-                    Voidstrap.App.Logger?.WriteLine("LinuxTray::Start", "The tray was closed while it was starting, the late icon was discarded");
+                    Voidstrap.App.Logger?.WriteLine(
+                        "LinuxTray::Start",
+                        "The tray was closed while it was starting, the late icon was discarded"
+                    );
                     return false;
                 }
 
@@ -600,7 +627,9 @@ public static class LinuxTray
             }
             try
             {
-                IDisposable subscription = await connection.ResolveServiceOwnerAsync(WatcherService, OnWatcherOwnerChanged).ConfigureAwait(false);
+                IDisposable subscription = await connection
+                    .ResolveServiceOwnerAsync(WatcherService, OnWatcherOwnerChanged)
+                    .ConfigureAwait(false);
                 bool keep;
                 lock (Gate)
                 {
@@ -616,9 +645,12 @@ public static class LinuxTray
                 Voidstrap.App.Logger?.WriteLine("LinuxTray::Start", "Tray host changes cannot be followed: " + ex.Message);
             }
 
-            Voidstrap.App.Logger?.WriteLine("LinuxTray::Start", registered
-                ? "Registered the tray icon as " + busName
-                : "No tray host is running yet, the tray icon appears as soon as one starts");
+            Voidstrap.App.Logger?.WriteLine(
+                "LinuxTray::Start",
+                registered
+                    ? "Registered the tray icon as " + busName
+                    : "No tray host is running yet, the tray icon appears as soon as one starts"
+            );
             return true;
         }
         catch
@@ -634,7 +666,8 @@ public static class LinuxTray
         {
             IStatusNotifierWatcher watcher = connection.CreateProxy<IStatusNotifierWatcher>(
                 WatcherService,
-                new ObjectPath("/StatusNotifierWatcher"));
+                new ObjectPath("/StatusNotifierWatcher")
+            );
             await watcher.RegisterStatusNotifierItemAsync(busName).ConfigureAwait(false);
             return true;
         }
@@ -654,7 +687,10 @@ public static class LinuxTray
             if (string.IsNullOrEmpty(change.NewOwner))
             {
                 if (_registered)
-                    Voidstrap.App.Logger?.WriteLine("LinuxTray::HostChanged", "The tray host stopped, the icon returns when it starts again");
+                    Voidstrap.App.Logger?.WriteLine(
+                        "LinuxTray::HostChanged",
+                        "The tray host stopped, the icon returns when it starts again"
+                    );
                 _registered = false;
                 return;
             }
@@ -729,26 +765,27 @@ public static class LinuxTray
         {
             IFreedesktopNotifications notifications = connection.CreateProxy<IFreedesktopNotifications>(
                 NotificationsService,
-                new ObjectPath("/org/freedesktop/Notifications"));
+                new ObjectPath("/org/freedesktop/Notifications")
+            );
 
             bool clickable = clicked != null && !temporary;
             if (clickable)
                 await EnsureNotificationSignalsAsync(connection, notifications).ConfigureAwait(false);
 
-            Dictionary<string, object> hints = new()
-            {
-                ["desktop-entry"] = Voidstrap.Utility.LinuxDesktopEntry.DesktopEntryId
-            };
+            Dictionary<string, object> hints = new() { ["desktop-entry"] = Voidstrap.Utility.LinuxDesktopEntry.DesktopEntryId };
 
-            uint id = await notifications.NotifyAsync(
-                "Voidstrap",
-                replaces,
-                _notificationIcon,
-                title,
-                body,
-                clickable ? ["default", "Open"] : [],
-                hints,
-                Math.Clamp(timeoutMilliseconds, 3000, 30000)).ConfigureAwait(false);
+            uint id = await notifications
+                .NotifyAsync(
+                    "Voidstrap",
+                    replaces,
+                    _notificationIcon,
+                    title,
+                    body,
+                    clickable ? ["default", "Open"] : [],
+                    hints,
+                    Math.Clamp(timeoutMilliseconds, 3000, 30000)
+                )
+                .ConfigureAwait(false);
 
             if (temporary)
                 return;

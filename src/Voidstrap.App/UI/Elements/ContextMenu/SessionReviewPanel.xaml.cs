@@ -37,7 +37,9 @@ public partial class SessionReviewPanel : Window
     private long _mutationSequence;
     private long _submitGeneration;
     private readonly System.Collections.Generic.Dictionary<string, long> _mutationVersions = new(StringComparer.Ordinal);
-    private readonly System.Collections.Generic.Dictionary<string, (string? Vote, int Up, int Down)> _reviewVoteBaselines = new(StringComparer.Ordinal);
+    private readonly System.Collections.Generic.Dictionary<string, (string? Vote, int Up, int Down)> _reviewVoteBaselines = new(
+        StringComparer.Ordinal
+    );
     private RoReviewService.ReviewEntry? _pendingSubmitEntry;
     private string _pendingSubmitContent = string.Empty;
 
@@ -203,7 +205,8 @@ public partial class SessionReviewPanel : Window
                 existing.AuthorName = updated.AuthorName;
                 if (!string.IsNullOrEmpty(updated.AvatarUrl))
                     existing.AvatarUrl = updated.AvatarUrl;
-                existing.CanDelete = (myId > 0 && existing.AuthorId == myId)
+                existing.CanDelete =
+                    (myId > 0 && existing.AuthorId == myId)
                     || (!string.IsNullOrEmpty(myName) && string.Equals(existing.AuthorName, myName, StringComparison.OrdinalIgnoreCase));
                 existing.RefreshRating();
             }
@@ -214,7 +217,8 @@ public partial class SessionReviewPanel : Window
             RoReviewService.ReviewEntry item = data.Reviews[i];
             if (_reviews.Any(r => r.Id == item.Id))
                 continue;
-            item.CanDelete = (myId > 0 && item.AuthorId == myId)
+            item.CanDelete =
+                (myId > 0 && item.AuthorId == myId)
                 || (!string.IsNullOrEmpty(myName) && string.Equals(item.AuthorName, myName, StringComparison.OrdinalIgnoreCase));
             _reviews.Insert(Math.Min(i, _reviews.Count), item);
         }
@@ -304,9 +308,12 @@ public partial class SessionReviewPanel : Window
                     review.AuthorId = myId;
                     review.AuthorName = string.IsNullOrWhiteSpace(myName) ? Strings.Ui_Session_You : myName;
                 }
-                review.CanDelete = !review.Id.StartsWith("temp_", StringComparison.Ordinal)
-                    && ((myId > 0 && review.AuthorId == myId)
-                        || (!string.IsNullOrEmpty(myName) && string.Equals(review.AuthorName, myName, StringComparison.OrdinalIgnoreCase)));
+                review.CanDelete =
+                    !review.Id.StartsWith("temp_", StringComparison.Ordinal)
+                    && (
+                        (myId > 0 && review.AuthorId == myId)
+                        || (!string.IsNullOrEmpty(myName) && string.Equals(review.AuthorName, myName, StringComparison.OrdinalIgnoreCase))
+                    );
             }
             UpdateRatingDisplay();
             if (_panelVisible && _placeId > 0)
@@ -346,9 +353,7 @@ public partial class SessionReviewPanel : Window
                     ApplyReviewData(result);
             });
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionReviewPanel", "Load failed: " + ex.Message);
@@ -396,9 +401,12 @@ public partial class SessionReviewPanel : Window
     {
         UpCountText.Text = _upCount.ToString(Locale.CurrentCulture);
         DownCountText.Text = _downCount.ToString(Locale.CurrentCulture);
-        ReviewCountText.Text = _reviewCount > 0
-            ? _reviewCount.ToString(Locale.CurrentCulture) + " " + (_reviewCount == 1 ? Strings.Ui_Session_Review : Strings.Ui_Session_Reviews)
-            : string.Empty;
+        ReviewCountText.Text =
+            _reviewCount > 0
+                ? _reviewCount.ToString(Locale.CurrentCulture)
+                    + " "
+                    + (_reviewCount == 1 ? Strings.Ui_Session_Review : Strings.Ui_Session_Reviews)
+                : string.Empty;
         ApplyVoteHighlight();
     }
 
@@ -413,8 +421,14 @@ public partial class SessionReviewPanel : Window
         VoteUpIcon.SetResourceReference(TextBlock.ForegroundProperty, isUp ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush");
         UpCountText.SetResourceReference(TextBlock.ForegroundProperty, isUp ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush");
 
-        VoteDownIcon.SetResourceReference(TextBlock.ForegroundProperty, isDown ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush");
-        DownCountText.SetResourceReference(TextBlock.ForegroundProperty, isDown ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush");
+        VoteDownIcon.SetResourceReference(
+            TextBlock.ForegroundProperty,
+            isDown ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush"
+        );
+        DownCountText.SetResourceReference(
+            TextBlock.ForegroundProperty,
+            isDown ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush"
+        );
     }
 
     private void OnVoteUp(object sender, RoutedEventArgs e)
@@ -480,10 +494,30 @@ public partial class SessionReviewPanel : Window
         }
 
         UpdateRatingDisplay();
-        _ = RunProfileVoteAsync(vote, mutationContext, version, sessionGeneration, baselineVote, baselineUp, baselineDown, placeId, placeGeneration);
+        _ = RunProfileVoteAsync(
+            vote,
+            mutationContext,
+            version,
+            sessionGeneration,
+            baselineVote,
+            baselineUp,
+            baselineDown,
+            placeId,
+            placeGeneration
+        );
     }
 
-    private async Task RunProfileVoteAsync(string vote, RoReviewService.MutationContext mutationContext, long version, long sessionGeneration, string? baselineVote, int baselineUp, int baselineDown, long placeId, long placeGeneration)
+    private async Task RunProfileVoteAsync(
+        string vote,
+        RoReviewService.MutationContext mutationContext,
+        long version,
+        long sessionGeneration,
+        string? baselineVote,
+        int baselineUp,
+        int baselineDown,
+        long placeId,
+        long placeGeneration
+    )
     {
         try
         {
@@ -508,7 +542,15 @@ public partial class SessionReviewPanel : Window
         }
     }
 
-    private void RollbackVote(string? prevVote, int prevUp, int prevDown, long version, long sessionGeneration, long placeId, long placeGeneration)
+    private void RollbackVote(
+        string? prevVote,
+        int prevUp,
+        int prevDown,
+        long version,
+        long sessionGeneration,
+        long placeId,
+        long placeGeneration
+    )
     {
         _ = Dispatcher.BeginInvoke(() =>
         {
@@ -590,7 +632,14 @@ public partial class SessionReviewPanel : Window
         _ = RunDeleteAsync(entry, index, mutationContext, version, placeId, placeGeneration);
     }
 
-    private async Task RunDeleteAsync(RoReviewService.ReviewEntry entry, int index, RoReviewService.MutationContext mutationContext, long version, long placeId, long placeGeneration)
+    private async Task RunDeleteAsync(
+        RoReviewService.ReviewEntry entry,
+        int index,
+        RoReviewService.MutationContext mutationContext,
+        long version,
+        long placeId,
+        long placeGeneration
+    )
     {
         try
         {
@@ -625,7 +674,8 @@ public partial class SessionReviewPanel : Window
             _reviewVoteBaselines.Remove(entry.Id);
             long myId = RoReviewService.SessionUserId;
             string? myName = RoReviewService.SessionUsername;
-            entry.CanDelete = (myId > 0 && entry.AuthorId == myId)
+            entry.CanDelete =
+                (myId > 0 && entry.AuthorId == myId)
                 || (!string.IsNullOrEmpty(myName) && string.Equals(entry.AuthorName, myName, StringComparison.OrdinalIgnoreCase));
             if (!_reviews.Any(review => string.Equals(review.Id, entry.Id, StringComparison.Ordinal)))
             {
@@ -704,7 +754,16 @@ public partial class SessionReviewPanel : Window
         _ = RunReviewVoteAsync(entry, vote, baseline, mutationContext, mutationVersion, sessionGeneration, placeId, placeGeneration);
     }
 
-    private async Task RunReviewVoteAsync(RoReviewService.ReviewEntry entry, string vote, (string? Vote, int Up, int Down) baseline, RoReviewService.MutationContext mutationContext, long version, long sessionGeneration, long placeId, long placeGeneration)
+    private async Task RunReviewVoteAsync(
+        RoReviewService.ReviewEntry entry,
+        string vote,
+        (string? Vote, int Up, int Down) baseline,
+        RoReviewService.MutationContext mutationContext,
+        long version,
+        long sessionGeneration,
+        long placeId,
+        long placeGeneration
+    )
     {
         try
         {
@@ -729,7 +788,16 @@ public partial class SessionReviewPanel : Window
         }
     }
 
-    private void RollbackReviewVote(RoReviewService.ReviewEntry entry, string? prevVote, int prevUp, int prevDown, long version, long sessionGeneration, long placeId, long placeGeneration)
+    private void RollbackReviewVote(
+        RoReviewService.ReviewEntry entry,
+        string? prevVote,
+        int prevUp,
+        int prevDown,
+        long version,
+        long sessionGeneration,
+        long placeId,
+        long placeGeneration
+    )
     {
         _ = Dispatcher.BeginInvoke(() =>
         {
@@ -785,7 +853,7 @@ public partial class SessionReviewPanel : Window
             AvatarUrl = avatar,
             Content = content,
             CreatedAt = Strings.Ui_Session_JustNow,
-            CanDelete = false
+            CanDelete = false,
         };
         entry.RefreshRating();
 
@@ -801,7 +869,14 @@ public partial class SessionReviewPanel : Window
         _ = RunSubmitAsync(entry, content, mutationContext, submitGeneration, placeId, placeGeneration);
     }
 
-    private async Task RunSubmitAsync(RoReviewService.ReviewEntry entry, string content, RoReviewService.MutationContext mutationContext, long submitGeneration, long placeId, long placeGeneration)
+    private async Task RunSubmitAsync(
+        RoReviewService.ReviewEntry entry,
+        string content,
+        RoReviewService.MutationContext mutationContext,
+        long submitGeneration,
+        long placeId,
+        long placeGeneration
+    )
     {
         bool submitted = false;
         try
@@ -842,9 +917,7 @@ public partial class SessionReviewPanel : Window
                 });
             }
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionReviewPanel", "Submit background failed: " + ex.Message);

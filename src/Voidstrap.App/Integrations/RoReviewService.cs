@@ -19,17 +19,23 @@ public static class RoReviewService
     private const string ApiBase = "https://hermivore.cat";
     private const int MaxResponseBytes = 512 * 1024;
 
-    private static readonly HttpClient Client = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(12), handler =>
-    {
-        handler.UseCookies = false;
-        handler.AllowAutoRedirect = false;
-    });
+    private static readonly HttpClient Client = Voidstrap.Utility.VpnHttpClient.Create(
+        TimeSpan.FromSeconds(12),
+        handler =>
+        {
+            handler.UseCookies = false;
+            handler.AllowAutoRedirect = false;
+        }
+    );
 
-    private static readonly HttpClient RobloxClient = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(12), handler =>
-    {
-        handler.UseCookies = false;
-        handler.AllowAutoRedirect = false;
-    });
+    private static readonly HttpClient RobloxClient = Voidstrap.Utility.VpnHttpClient.Create(
+        TimeSpan.FromSeconds(12),
+        handler =>
+        {
+            handler.UseCookies = false;
+            handler.AllowAutoRedirect = false;
+        }
+    );
 
     private static readonly ConcurrentDictionary<long, string> _avatarCache = new();
     private static readonly ConcurrentDictionary<long, long> _fetchRequestGeneration = new();
@@ -128,17 +134,109 @@ public static class RoReviewService
         private string _ratingText = string.Empty;
         private bool _canDelete;
 
-        public string Id { get => _id; set { _id = value; OnPropertyChanged(nameof(Id)); } }
-        public long AuthorId { get => _authorId; set { _authorId = value; OnPropertyChanged(nameof(AuthorId)); } }
-        public string AuthorName { get => _authorName; set { _authorName = value; OnPropertyChanged(nameof(AuthorName)); } }
-        public string AvatarUrl { get => _avatarUrl; set { _avatarUrl = value; OnPropertyChanged(nameof(AvatarUrl)); } }
-        public string Content { get => _content; set { _content = value; OnPropertyChanged(nameof(Content)); } }
-        public string CreatedAt { get => _createdAt; set { _createdAt = value; OnPropertyChanged(nameof(CreatedAt)); } }
-        public int UpCount { get => _upCount; set { _upCount = value; OnPropertyChanged(nameof(UpCount)); } }
-        public int DownCount { get => _downCount; set { _downCount = value; OnPropertyChanged(nameof(DownCount)); } }
-        public string? UserVote { get => _userVote; set { _userVote = value; OnPropertyChanged(nameof(UserVote)); OnPropertyChanged(nameof(IsUpVoted)); OnPropertyChanged(nameof(IsDownVoted)); OnPropertyChanged(nameof(UpAppearance)); OnPropertyChanged(nameof(DownAppearance)); } }
-        public string RatingText { get => _ratingText; set { _ratingText = value; OnPropertyChanged(nameof(RatingText)); } }
-        public bool CanDelete { get => _canDelete; set { _canDelete = value; OnPropertyChanged(nameof(CanDelete)); } }
+        public string Id
+        {
+            get => _id;
+            set
+            {
+                _id = value;
+                OnPropertyChanged(nameof(Id));
+            }
+        }
+        public long AuthorId
+        {
+            get => _authorId;
+            set
+            {
+                _authorId = value;
+                OnPropertyChanged(nameof(AuthorId));
+            }
+        }
+        public string AuthorName
+        {
+            get => _authorName;
+            set
+            {
+                _authorName = value;
+                OnPropertyChanged(nameof(AuthorName));
+            }
+        }
+        public string AvatarUrl
+        {
+            get => _avatarUrl;
+            set
+            {
+                _avatarUrl = value;
+                OnPropertyChanged(nameof(AvatarUrl));
+            }
+        }
+        public string Content
+        {
+            get => _content;
+            set
+            {
+                _content = value;
+                OnPropertyChanged(nameof(Content));
+            }
+        }
+        public string CreatedAt
+        {
+            get => _createdAt;
+            set
+            {
+                _createdAt = value;
+                OnPropertyChanged(nameof(CreatedAt));
+            }
+        }
+        public int UpCount
+        {
+            get => _upCount;
+            set
+            {
+                _upCount = value;
+                OnPropertyChanged(nameof(UpCount));
+            }
+        }
+        public int DownCount
+        {
+            get => _downCount;
+            set
+            {
+                _downCount = value;
+                OnPropertyChanged(nameof(DownCount));
+            }
+        }
+        public string? UserVote
+        {
+            get => _userVote;
+            set
+            {
+                _userVote = value;
+                OnPropertyChanged(nameof(UserVote));
+                OnPropertyChanged(nameof(IsUpVoted));
+                OnPropertyChanged(nameof(IsDownVoted));
+                OnPropertyChanged(nameof(UpAppearance));
+                OnPropertyChanged(nameof(DownAppearance));
+            }
+        }
+        public string RatingText
+        {
+            get => _ratingText;
+            set
+            {
+                _ratingText = value;
+                OnPropertyChanged(nameof(RatingText));
+            }
+        }
+        public bool CanDelete
+        {
+            get => _canDelete;
+            set
+            {
+                _canDelete = value;
+                OnPropertyChanged(nameof(CanDelete));
+            }
+        }
         public long UnixTime { get; set; }
 
         public bool IsUpVoted => string.Equals(UserVote, "up", StringComparison.OrdinalIgnoreCase);
@@ -238,13 +336,16 @@ public static class RoReviewService
         {
             if (_identityGeneration != context._identityGeneration)
                 return false;
-            if (context._userId > 0
-                && (string.IsNullOrEmpty(_sessionToken) || _sessionUserId != context._userId))
+            if (context._userId > 0 && (string.IsNullOrEmpty(_sessionToken) || _sessionUserId != context._userId))
                 return false;
-            if (session != null
-                && (_sessionGeneration != session.Generation
+            if (
+                session != null
+                && (
+                    _sessionGeneration != session.Generation
                     || _sessionUserId != session.UserId
-                    || !string.Equals(_sessionToken, session.Token, StringComparison.Ordinal)))
+                    || !string.Equals(_sessionToken, session.Token, StringComparison.Ordinal)
+                )
+            )
                 return false;
             return true;
         }
@@ -254,10 +355,12 @@ public static class RoReviewService
     {
         byte[]? leftFingerprint = left._cookieFingerprint;
         byte[]? rightFingerprint = right._cookieFingerprint;
-        if (left._identityGeneration != right._identityGeneration
+        if (
+            left._identityGeneration != right._identityGeneration
             || leftFingerprint == null
             || rightFingerprint == null
-            || (left._userId > 0 && right._userId > 0 && left._userId != right._userId))
+            || (left._userId > 0 && right._userId > 0 && left._userId != right._userId)
+        )
             return false;
         return CryptographicOperations.FixedTimeEquals(leftFingerprint, rightFingerprint);
     }
@@ -285,8 +388,7 @@ public static class RoReviewService
 
         lock (_authLockObj)
         {
-            if (_sessionGeneration != snapshot.Generation
-                || !string.Equals(_sessionToken, snapshot.Token, StringComparison.Ordinal))
+            if (_sessionGeneration != snapshot.Generation || !string.Equals(_sessionToken, snapshot.Token, StringComparison.Ordinal))
                 return null;
             if (!force && DateTimeOffset.UtcNow - _sessionValidatedAt < TimeSpan.FromSeconds(15))
                 return snapshot;
@@ -310,8 +412,7 @@ public static class RoReviewService
 
         lock (_authLockObj)
         {
-            if (_sessionGeneration != snapshot.Generation
-                || !string.Equals(_sessionToken, snapshot.Token, StringComparison.Ordinal))
+            if (_sessionGeneration != snapshot.Generation || !string.Equals(_sessionToken, snapshot.Token, StringComparison.Ordinal))
                 return null;
             _sessionValidatedAt = DateTimeOffset.UtcNow;
             return snapshot;
@@ -323,8 +424,7 @@ public static class RoReviewService
         CancellationTokenSource? cancellation = null;
         lock (_authLockObj)
         {
-            if (_sessionGeneration != session.Generation
-                || !string.Equals(_sessionToken, session.Token, StringComparison.Ordinal))
+            if (_sessionGeneration != session.Generation || !string.Equals(_sessionToken, session.Token, StringComparison.Ordinal))
                 return false;
 
             _sessionGeneration++;
@@ -355,9 +455,7 @@ public static class RoReviewService
         {
             cancellation?.Cancel();
         }
-        catch (ObjectDisposedException)
-        {
-        }
+        catch (ObjectDisposedException) { }
     }
 
     public static void InvalidateSession()
@@ -410,7 +508,14 @@ public static class RoReviewService
     {
         if (string.IsNullOrWhiteSpace(value))
             return string.Empty;
-        if (DateTimeOffset.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out DateTimeOffset timestamp))
+        if (
+            DateTimeOffset.TryParse(
+                value,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+                out DateTimeOffset timestamp
+            )
+        )
             return FormatTimestamp(timestamp.ToUnixTimeSeconds());
         return value;
     }
@@ -436,10 +541,15 @@ public static class RoReviewService
             return;
         try
         {
-            string url = "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" + string.Join(",", idsToFetch) + "&size=150x150&format=Png&isCircular=true";
+            string url =
+                "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds="
+                + string.Join(",", idsToFetch)
+                + "&size=150x150&format=Png&isCircular=true";
             using HttpRequestMessage req = new(HttpMethod.Get, url);
             req.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
-            using HttpResponseMessage res = await RobloxClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(false);
+            using HttpResponseMessage res = await RobloxClient
+                .SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct)
+                .ConfigureAwait(false);
             if (!res.IsSuccessStatusCode)
                 return;
             string json = await Voidstrap.Utility.Http.ReadStringBoundedAsync(res.Content, MaxResponseBytes, ct).ConfigureAwait(false);
@@ -465,9 +575,7 @@ public static class RoReviewService
                 }
             }
         }
-        catch
-        {
-        }
+        catch { }
     }
 
     public static async Task<ReviewData?> FetchReviewsAsync(long placeId, CancellationToken ct)
@@ -488,32 +596,52 @@ public static class RoReviewService
             if (session != null)
                 req.Headers.TryAddWithoutValidation("Authorization", "Bearer " + session.Token);
 
-            using HttpResponseMessage res = await Client.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, timeout.Token).ConfigureAwait(false);
+            using HttpResponseMessage res = await Client
+                .SendAsync(req, HttpCompletionOption.ResponseHeadersRead, timeout.Token)
+                .ConfigureAwait(false);
             string json;
-            if (!res.IsSuccessStatusCode && session != null
-                && (res.StatusCode == HttpStatusCode.Unauthorized || res.StatusCode == HttpStatusCode.Forbidden))
+            if (
+                !res.IsSuccessStatusCode
+                && session != null
+                && (res.StatusCode == HttpStatusCode.Unauthorized || res.StatusCode == HttpStatusCode.Forbidden)
+            )
             {
                 ClearSessionIfCurrent(session);
                 session = null;
                 sessionGeneration = CurrentSessionGeneration;
                 using HttpRequestMessage publicReq = new(HttpMethod.Get, url);
                 publicReq.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
-                using HttpResponseMessage publicRes = await Client.SendAsync(publicReq, HttpCompletionOption.ResponseHeadersRead, timeout.Token).ConfigureAwait(false);
+                using HttpResponseMessage publicRes = await Client
+                    .SendAsync(publicReq, HttpCompletionOption.ResponseHeadersRead, timeout.Token)
+                    .ConfigureAwait(false);
                 if (!publicRes.IsSuccessStatusCode)
                 {
-                    App.Logger.WriteLine("RoReviewService", "Review fetch returned " + (int)publicRes.StatusCode + " for place " + placeId.ToString(CultureInfo.InvariantCulture));
+                    App.Logger.WriteLine(
+                        "RoReviewService",
+                        "Review fetch returned "
+                            + (int)publicRes.StatusCode
+                            + " for place "
+                            + placeId.ToString(CultureInfo.InvariantCulture)
+                    );
                     return null;
                 }
-                json = await Voidstrap.Utility.Http.ReadStringBoundedAsync(publicRes.Content, MaxResponseBytes, timeout.Token).ConfigureAwait(false);
+                json = await Voidstrap
+                    .Utility.Http.ReadStringBoundedAsync(publicRes.Content, MaxResponseBytes, timeout.Token)
+                    .ConfigureAwait(false);
             }
             else if (!res.IsSuccessStatusCode)
             {
-                App.Logger.WriteLine("RoReviewService", "Review fetch returned " + (int)res.StatusCode + " for place " + placeId.ToString(CultureInfo.InvariantCulture));
+                App.Logger.WriteLine(
+                    "RoReviewService",
+                    "Review fetch returned " + (int)res.StatusCode + " for place " + placeId.ToString(CultureInfo.InvariantCulture)
+                );
                 return null;
             }
             else
             {
-                json = await Voidstrap.Utility.Http.ReadStringBoundedAsync(res.Content, MaxResponseBytes, timeout.Token).ConfigureAwait(false);
+                json = await Voidstrap
+                    .Utility.Http.ReadStringBoundedAsync(res.Content, MaxResponseBytes, timeout.Token)
+                    .ConfigureAwait(false);
             }
 
             using JsonDocument doc = JsonDocument.Parse(json);
@@ -599,16 +727,21 @@ public static class RoReviewService
                             else if (rid.ValueKind == JsonValueKind.String)
                                 long.TryParse(rid.GetString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out authorId);
                         }
-                        if (string.IsNullOrEmpty(authorName) && author.TryGetProperty("roblox_username", out JsonElement un) && un.ValueKind == JsonValueKind.String)
+                        if (
+                            string.IsNullOrEmpty(authorName)
+                            && author.TryGetProperty("roblox_username", out JsonElement un)
+                            && un.ValueKind == JsonValueKind.String
+                        )
                             authorName = un.GetString() ?? string.Empty;
                     }
 
                     if (string.IsNullOrEmpty(authorName) && authorId > 0)
                         authorName = authorId.ToString(CultureInfo.InvariantCulture);
 
-                    string content = r.TryGetProperty("content", out JsonElement cEl) && cEl.ValueKind == JsonValueKind.String
-                        ? cEl.GetString() ?? string.Empty
-                        : string.Empty;
+                    string content =
+                        r.TryGetProperty("content", out JsonElement cEl) && cEl.ValueKind == JsonValueKind.String
+                            ? cEl.GetString() ?? string.Empty
+                            : string.Empty;
                     if (content.Length > 0)
                         content = WebUtility.HtmlDecode(content).Trim();
 
@@ -617,14 +750,21 @@ public static class RoReviewService
                     {
                         if (timeEl.ValueKind == JsonValueKind.Number && timeEl.TryGetInt64(out long parsedNum))
                             unixSec = parsedNum;
-                        else if (timeEl.ValueKind == JsonValueKind.String && long.TryParse(timeEl.GetString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out long parsedStr))
+                        else if (
+                            timeEl.ValueKind == JsonValueKind.String
+                            && long.TryParse(timeEl.GetString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out long parsedStr)
+                        )
                             unixSec = parsedStr;
                     }
                     if (unixSec > 1_000_000_000_000)
                         unixSec /= 1000;
 
                     string createdAt = FormatTimestamp(unixSec);
-                    if (string.IsNullOrEmpty(createdAt) && r.TryGetProperty("created_at", out JsonElement caEl) && caEl.ValueKind == JsonValueKind.String)
+                    if (
+                        string.IsNullOrEmpty(createdAt)
+                        && r.TryGetProperty("created_at", out JsonElement caEl)
+                        && caEl.ValueKind == JsonValueKind.String
+                    )
                         createdAt = FormatTimestamp(caEl.GetString());
 
                     int reviewUp = 0;
@@ -638,7 +778,11 @@ public static class RoReviewService
                     }
 
                     string? reviewUserVote = null;
-                    if (sessionUserId > 0 && r.TryGetProperty("rating", out JsonElement ratingObj) && ratingObj.ValueKind == JsonValueKind.Object)
+                    if (
+                        sessionUserId > 0
+                        && r.TryGetProperty("rating", out JsonElement ratingObj)
+                        && ratingObj.ValueKind == JsonValueKind.Object
+                    )
                     {
                         if (ratingObj.TryGetProperty("up", out JsonElement rUp) && rUp.ValueKind == JsonValueKind.Array)
                         {
@@ -651,7 +795,11 @@ public static class RoReviewService
                                 }
                             }
                         }
-                        if (reviewUserVote == null && ratingObj.TryGetProperty("down", out JsonElement rDown) && rDown.ValueKind == JsonValueKind.Array)
+                        if (
+                            reviewUserVote == null
+                            && ratingObj.TryGetProperty("down", out JsonElement rDown)
+                            && rDown.ValueKind == JsonValueKind.Array
+                        )
                         {
                             foreach (JsonElement v in rDown.EnumerateArray())
                             {
@@ -664,8 +812,12 @@ public static class RoReviewService
                         }
                     }
 
-                    bool canDelete = (sessionUserId > 0 && authorId == sessionUserId)
-                        || (!string.IsNullOrEmpty(sessionUsername) && string.Equals(authorName, sessionUsername, StringComparison.OrdinalIgnoreCase));
+                    bool canDelete =
+                        (sessionUserId > 0 && authorId == sessionUserId)
+                        || (
+                            !string.IsNullOrEmpty(sessionUsername)
+                            && string.Equals(authorName, sessionUsername, StringComparison.OrdinalIgnoreCase)
+                        );
 
                     if (content.Length > 0)
                     {
@@ -680,7 +832,7 @@ public static class RoReviewService
                             UpCount = reviewUp,
                             DownCount = reviewDown,
                             UserVote = reviewUserVote,
-                            CanDelete = canDelete
+                            CanDelete = canDelete,
                         };
                         entry.RefreshRating();
                         reviews.Add(entry);
@@ -691,22 +843,31 @@ public static class RoReviewService
             reviews.Sort((a, b) => b.UnixTime.CompareTo(a.UnixTime));
             await PopulateAvatarsAsync(reviews, timeout.Token).ConfigureAwait(false);
 
-            if (!IsSessionGenerationCurrent(sessionGeneration)
+            if (
+                !IsSessionGenerationCurrent(sessionGeneration)
                 || (session != null && !IsCurrentSession(session))
                 || !_fetchRequestGeneration.TryGetValue(placeId, out long currentFetchGeneration)
-                || currentFetchGeneration != fetchGeneration)
+                || currentFetchGeneration != fetchGeneration
+            )
                 return null;
 
             ReviewData data = new()
             {
                 UpCount = upCount,
                 DownCount = downCount,
-                ReviewCount = reviews.Count > 0 ? reviews.Count : (root.TryGetProperty("reviews", out JsonElement ra) && ra.ValueKind == JsonValueKind.Array ? ra.GetArrayLength() : 0),
+                ReviewCount =
+                    reviews.Count > 0
+                        ? reviews.Count
+                        : (
+                            root.TryGetProperty("reviews", out JsonElement ra) && ra.ValueKind == JsonValueKind.Array
+                                ? ra.GetArrayLength()
+                                : 0
+                        ),
                 UserVote = userVote,
                 SessionUserId = sessionUserId,
                 SessionUsername = sessionUsername,
                 SessionGeneration = sessionGeneration,
-                Reviews = reviews
+                Reviews = reviews,
             };
             ReviewsUpdated?.Invoke(placeId, data);
             return data;
@@ -733,9 +894,20 @@ public static class RoReviewService
 
     public static Task<bool> RateReviewAsync(long placeId, string reviewId, string vote, MutationContext context, CancellationToken ct)
     {
-        if (placeId <= 0 || string.IsNullOrWhiteSpace(reviewId) || reviewId.StartsWith("temp_", StringComparison.Ordinal) || !IsValidVote(vote))
+        if (
+            placeId <= 0
+            || string.IsNullOrWhiteSpace(reviewId)
+            || reviewId.StartsWith("temp_", StringComparison.Ordinal)
+            || !IsValidVote(vote)
+        )
             return Task.FromResult(false);
-        string url = ApiBase + "/api/roblox/reviews/" + placeId.ToString(CultureInfo.InvariantCulture) + "/" + Uri.EscapeDataString(reviewId) + "/rate?game=true";
+        string url =
+            ApiBase
+            + "/api/roblox/reviews/"
+            + placeId.ToString(CultureInfo.InvariantCulture)
+            + "/"
+            + Uri.EscapeDataString(reviewId)
+            + "/rate?game=true";
         string body = JsonSerializer.Serialize(new Dictionary<string, string> { ["vote"] = (vote ?? string.Empty).ToLowerInvariant() });
         return SendMutationAsync(HttpMethod.Post, url, body, "RateReview", context, ct);
     }
@@ -744,7 +916,13 @@ public static class RoReviewService
     {
         if (placeId <= 0 || string.IsNullOrWhiteSpace(reviewId) || reviewId.StartsWith("temp_", StringComparison.Ordinal))
             return Task.FromResult(false);
-        string url = ApiBase + "/api/roblox/reviews/" + placeId.ToString(CultureInfo.InvariantCulture) + "/" + Uri.EscapeDataString(reviewId) + "?game=true";
+        string url =
+            ApiBase
+            + "/api/roblox/reviews/"
+            + placeId.ToString(CultureInfo.InvariantCulture)
+            + "/"
+            + Uri.EscapeDataString(reviewId)
+            + "?game=true";
         return SendMutationAsync(HttpMethod.Delete, url, null, "DeleteReview", context, ct);
     }
 
@@ -759,10 +937,16 @@ public static class RoReviewService
     }
 
     private static bool IsValidVote(string vote) =>
-        string.Equals(vote, "up", StringComparison.OrdinalIgnoreCase)
-        || string.Equals(vote, "down", StringComparison.OrdinalIgnoreCase);
+        string.Equals(vote, "up", StringComparison.OrdinalIgnoreCase) || string.Equals(vote, "down", StringComparison.OrdinalIgnoreCase);
 
-    private static async Task<bool> SendMutationAsync(HttpMethod method, string url, string? body, string operation, MutationContext context, CancellationToken ct)
+    private static async Task<bool> SendMutationAsync(
+        HttpMethod method,
+        string url,
+        string? body,
+        string operation,
+        MutationContext context,
+        CancellationToken ct
+    )
     {
         try
         {
@@ -873,8 +1057,10 @@ public static class RoReviewService
                 {
                     lock (_authLockObj)
                     {
-                        if (_sessionGeneration != session.Generation
-                            || !string.Equals(_sessionToken, session.Token, StringComparison.Ordinal))
+                        if (
+                            _sessionGeneration != session.Generation
+                            || !string.Equals(_sessionToken, session.Token, StringComparison.Ordinal)
+                        )
                             return false;
                         _sessionValidatedAt = DateTimeOffset.UtcNow;
                     }
@@ -928,8 +1114,13 @@ public static class RoReviewService
             }
 
             RobloxAccount? account = await RobloxCookie.GetAccountAsync(cookie, ct).ConfigureAwait(false);
-            if (account == null || account.UserId <= 0 || !IsSessionGenerationCurrent(generation) || !IsMutationContextCurrent(context)
-                || (context._userId > 0 && account.UserId != context._userId))
+            if (
+                account == null
+                || account.UserId <= 0
+                || !IsSessionGenerationCurrent(generation)
+                || !IsMutationContextCurrent(context)
+                || (context._userId > 0 && account.UserId != context._userId)
+            )
             {
                 App.Logger.WriteLine("RoReviewService", "Could not resolve Roblox account");
                 return false;
@@ -937,21 +1128,26 @@ public static class RoReviewService
 
             using HttpRequestMessage challengeReq = new(HttpMethod.Post, ApiBase + "/api/roblox/verify/challenge");
             challengeReq.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
-            using HttpResponseMessage challengeRes = await Client.SendAsync(challengeReq, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(false);
+            using HttpResponseMessage challengeRes = await Client
+                .SendAsync(challengeReq, HttpCompletionOption.ResponseHeadersRead, ct)
+                .ConfigureAwait(false);
             if (!challengeRes.IsSuccessStatusCode || !IsSessionGenerationCurrent(generation) || !IsMutationContextCurrent(context))
             {
                 App.Logger.WriteLine("RoReviewService", "Verify challenge returned " + (int)challengeRes.StatusCode);
                 return false;
             }
 
-            string challengeJson = await Voidstrap.Utility.Http.ReadStringBoundedAsync(challengeRes.Content, MaxResponseBytes, ct).ConfigureAwait(false);
+            string challengeJson = await Voidstrap
+                .Utility.Http.ReadStringBoundedAsync(challengeRes.Content, MaxResponseBytes, ct)
+                .ConfigureAwait(false);
             using JsonDocument challengeDoc = JsonDocument.Parse(challengeJson);
             JsonElement cRoot = challengeDoc.RootElement;
             if (cRoot.TryGetProperty("error", out JsonElement errEl) && errEl.ValueKind == JsonValueKind.True)
             {
-                string reason = cRoot.TryGetProperty("reason", out JsonElement rEl) && rEl.ValueKind == JsonValueKind.String
-                    ? rEl.GetString() ?? "unknown"
-                    : "unknown";
+                string reason =
+                    cRoot.TryGetProperty("reason", out JsonElement rEl) && rEl.ValueKind == JsonValueKind.String
+                        ? rEl.GetString() ?? "unknown"
+                        : "unknown";
                 App.Logger.WriteLine("RoReviewService", "Challenge error: " + reason);
                 return false;
             }
@@ -964,9 +1160,10 @@ public static class RoReviewService
                 else if (bidEl.ValueKind == JsonValueKind.String)
                     long.TryParse(bidEl.GetString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out botId);
             }
-            string sessionId = cRoot.TryGetProperty("session_id", out JsonElement sidEl) && sidEl.ValueKind == JsonValueKind.String
-                ? sidEl.GetString() ?? string.Empty
-                : string.Empty;
+            string sessionId =
+                cRoot.TryGetProperty("session_id", out JsonElement sidEl) && sidEl.ValueKind == JsonValueKind.String
+                    ? sidEl.GetString() ?? string.Empty
+                    : string.Empty;
             if (botId <= 0 || sessionId.Length == 0 || !IsSessionGenerationCurrent(generation) || !IsMutationContextCurrent(context))
             {
                 App.Logger.WriteLine("RoReviewService", "Challenge did not return bot id or session id");
@@ -988,25 +1185,34 @@ public static class RoReviewService
                 if (!IsSessionGenerationCurrent(generation) || !IsMutationContextCurrent(context))
                     return false;
 
-                using HttpRequestMessage statusReq = new(HttpMethod.Get, ApiBase + "/api/roblox/verify/status/" + Uri.EscapeDataString(sessionId));
+                using HttpRequestMessage statusReq = new(
+                    HttpMethod.Get,
+                    ApiBase + "/api/roblox/verify/status/" + Uri.EscapeDataString(sessionId)
+                );
                 statusReq.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
-                using HttpResponseMessage statusRes = await Client.SendAsync(statusReq, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(false);
+                using HttpResponseMessage statusRes = await Client
+                    .SendAsync(statusReq, HttpCompletionOption.ResponseHeadersRead, ct)
+                    .ConfigureAwait(false);
                 if (!IsSessionGenerationCurrent(generation) || !IsMutationContextCurrent(context))
                     return false;
                 if (!statusRes.IsSuccessStatusCode)
                     continue;
 
-                string statusJson = await Voidstrap.Utility.Http.ReadStringBoundedAsync(statusRes.Content, MaxResponseBytes, ct).ConfigureAwait(false);
+                string statusJson = await Voidstrap
+                    .Utility.Http.ReadStringBoundedAsync(statusRes.Content, MaxResponseBytes, ct)
+                    .ConfigureAwait(false);
                 using JsonDocument statusDoc = JsonDocument.Parse(statusJson);
                 JsonElement sRoot = statusDoc.RootElement;
-                string status = sRoot.TryGetProperty("status", out JsonElement stEl) && stEl.ValueKind == JsonValueKind.String
-                    ? stEl.GetString() ?? string.Empty
-                    : string.Empty;
+                string status =
+                    sRoot.TryGetProperty("status", out JsonElement stEl) && stEl.ValueKind == JsonValueKind.String
+                        ? stEl.GetString() ?? string.Empty
+                        : string.Empty;
                 if (string.Equals(status, "ok", StringComparison.OrdinalIgnoreCase))
                 {
-                    string? token = sRoot.TryGetProperty("session_token", out JsonElement tEl) && tEl.ValueKind == JsonValueKind.String
-                        ? tEl.GetString()
-                        : null;
+                    string? token =
+                        sRoot.TryGetProperty("session_token", out JsonElement tEl) && tEl.ValueKind == JsonValueKind.String
+                            ? tEl.GetString()
+                            : null;
                     long userId = 0;
                     if (sRoot.TryGetProperty("user_id", out JsonElement uidEl))
                     {
@@ -1015,21 +1221,28 @@ public static class RoReviewService
                         else if (uidEl.ValueKind == JsonValueKind.String)
                             long.TryParse(uidEl.GetString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out userId);
                     }
-                    if (userId <= 0 || userId != account.UserId || string.IsNullOrWhiteSpace(token)
+                    if (
+                        userId <= 0
+                        || userId != account.UserId
+                        || string.IsNullOrWhiteSpace(token)
                         || (context._userId > 0 && userId != context._userId)
-                        || !IsMutationContextCurrent(context))
+                        || !IsMutationContextCurrent(context)
+                    )
                         return false;
 
-                    string? username = sRoot.TryGetProperty("username", out JsonElement unEl) && unEl.ValueKind == JsonValueKind.String
-                        ? unEl.GetString()
-                        : null;
+                    string? username =
+                        sRoot.TryGetProperty("username", out JsonElement unEl) && unEl.ValueKind == JsonValueKind.String
+                            ? unEl.GetString()
+                            : null;
                     long authenticatedUserId = userId;
                     string authenticatedUsername = string.IsNullOrWhiteSpace(username) ? account.Username : username;
                     lock (_authLockObj)
                     {
-                        if (_sessionGeneration != generation
+                        if (
+                            _sessionGeneration != generation
                             || _identityGeneration != context._identityGeneration
-                            || ct.IsCancellationRequested)
+                            || ct.IsCancellationRequested
+                        )
                             return false;
                         _sessionToken = token;
                         _sessionUserId = authenticatedUserId;
@@ -1044,28 +1257,35 @@ public static class RoReviewService
                     {
                         try
                         {
-                            string uUrl = "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" + authenticatedUserId.ToString(CultureInfo.InvariantCulture) + "&size=150x150&format=Png&isCircular=true";
+                            string uUrl =
+                                "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds="
+                                + authenticatedUserId.ToString(CultureInfo.InvariantCulture)
+                                + "&size=150x150&format=Png&isCircular=true";
                             using HttpRequestMessage uReq = new(HttpMethod.Get, uUrl);
                             uReq.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
-                            using HttpResponseMessage uRes = await RobloxClient.SendAsync(uReq, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+                            using HttpResponseMessage uRes = await RobloxClient
+                                .SendAsync(uReq, HttpCompletionOption.ResponseHeadersRead)
+                                .ConfigureAwait(false);
                             if (!uRes.IsSuccessStatusCode)
                                 return;
-                            string uJson = await Voidstrap.Utility.Http.ReadStringBoundedAsync(uRes.Content, MaxResponseBytes, CancellationToken.None).ConfigureAwait(false);
+                            string uJson = await Voidstrap
+                                .Utility.Http.ReadStringBoundedAsync(uRes.Content, MaxResponseBytes, CancellationToken.None)
+                                .ConfigureAwait(false);
                             using JsonDocument uDoc = JsonDocument.Parse(uJson);
-                            if (uDoc.RootElement.TryGetProperty("data", out JsonElement dArr)
+                            if (
+                                uDoc.RootElement.TryGetProperty("data", out JsonElement dArr)
                                 && dArr.ValueKind == JsonValueKind.Array
                                 && dArr.GetArrayLength() > 0
                                 && dArr[0].TryGetProperty("imageUrl", out JsonElement img)
-                                && img.ValueKind == JsonValueKind.String)
+                                && img.ValueKind == JsonValueKind.String
+                            )
                             {
                                 string avatar = img.GetString() ?? string.Empty;
                                 if (avatar.Length > 0)
                                     _avatarCache[authenticatedUserId] = avatar;
                             }
                         }
-                        catch
-                        {
-                        }
+                        catch { }
                     });
 
                     return true;
@@ -1107,7 +1327,10 @@ public static class RoReviewService
             if (!string.Equals(RobloxCookie.Get(), cookie, StringComparison.Ordinal) || !IsSessionGenerationCurrent(generation))
                 return false;
 
-            using HttpRequestMessage req = new(HttpMethod.Post, "https://friends.roblox.com/v1/users/" + botId.ToString(CultureInfo.InvariantCulture) + "/request-friendship");
+            using HttpRequestMessage req = new(
+                HttpMethod.Post,
+                "https://friends.roblox.com/v1/users/" + botId.ToString(CultureInfo.InvariantCulture) + "/request-friendship"
+            );
             req.Content = new StringContent("{}", Encoding.UTF8, "application/json");
             req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
             req.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
@@ -1116,13 +1339,17 @@ public static class RoReviewService
             if (csrf.Length > 0)
                 req.Headers.TryAddWithoutValidation("X-CSRF-TOKEN", csrf);
 
-            using HttpResponseMessage res = await RobloxClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(false);
+            using HttpResponseMessage res = await RobloxClient
+                .SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct)
+                .ConfigureAwait(false);
             if (!IsSessionGenerationCurrent(generation))
                 return false;
-            if (res.StatusCode == HttpStatusCode.Forbidden
+            if (
+                res.StatusCode == HttpStatusCode.Forbidden
                 && res.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values)
                 && values.FirstOrDefault() is { Length: > 0 } fresh
-                && !string.Equals(fresh, csrf, StringComparison.Ordinal))
+                && !string.Equals(fresh, csrf, StringComparison.Ordinal)
+            )
             {
                 lock (_authLockObj)
                 {
@@ -1136,7 +1363,9 @@ public static class RoReviewService
                 return true;
             if (res.StatusCode == HttpStatusCode.BadRequest)
             {
-                string errBody = await Voidstrap.Utility.Http.ReadStringBoundedAsync(res.Content, MaxResponseBytes, ct).ConfigureAwait(false);
+                string errBody = await Voidstrap
+                    .Utility.Http.ReadStringBoundedAsync(res.Content, MaxResponseBytes, ct)
+                    .ConfigureAwait(false);
                 if (errBody.Contains("already", StringComparison.OrdinalIgnoreCase))
                     return true;
             }

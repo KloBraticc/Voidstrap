@@ -34,7 +34,7 @@ public static class ServerFetchStore
 	private static readonly JsonSerializerOptions StoreJsonOptions = new(Voidstrap.Utility.JsonOptions.Tolerant)
 	{
 		WriteIndented = true,
-		DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+		DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
 	};
 
 	public static string FolderPath => Paths.ServerFetch;
@@ -56,15 +56,17 @@ public static class ServerFetchStore
 				PrunePrivateCidrs();
 				PruneStalePreSeeded();
 				RepairCountries();
-				RobloxDatacenterMap.AddCidrEntries(_data.Servers.Select(item => new SeedCidrEntry
-				{
-					Cidr = string.IsNullOrWhiteSpace(item.Value.Cidr) ? item.Key : item.Value.Cidr,
-					City = item.Value.City,
-					Region = item.Value.Region,
-					Country = item.Value.Country,
-					Lat = item.Value.Lat,
-					Lon = item.Value.Lon
-				}));
+				RobloxDatacenterMap.AddCidrEntries(
+					_data.Servers.Select(item => new SeedCidrEntry
+					{
+						Cidr = string.IsNullOrWhiteSpace(item.Value.Cidr) ? item.Key : item.Value.Cidr,
+						City = item.Value.City,
+						Region = item.Value.Region,
+						Country = item.Value.Country,
+						Lat = item.Value.Lat,
+						Lon = item.Value.Lon,
+					})
+				);
 			}
 		}
 	}
@@ -105,7 +107,10 @@ public static class ServerFetchStore
 			{
 				_data.Servers.Remove(item);
 			}
-			App.Logger.WriteLine("ServerFetchStore", $"Moved {list.Count} reference only datacenters out of the learned store, they stay available to the matchmaker");
+			App.Logger.WriteLine(
+				"ServerFetchStore",
+				$"Moved {list.Count} reference only datacenters out of the learned store, they stay available to the matchmaker"
+			);
 			SaveNow();
 		}
 		catch (Exception ex)
@@ -153,7 +158,17 @@ public static class ServerFetchStore
 				_data = new ServerFetchData();
 				return;
 			}
-			if (!Voidstrap.Utility.JsonFile.TryLoad<ServerFetchData>(FilePath, StoreJsonOptions, out ServerFetchData? serverFetchData, out bool recovered, out Exception? failure, MaxStoreBytes) || serverFetchData == null)
+			if (
+				!Voidstrap.Utility.JsonFile.TryLoad<ServerFetchData>(
+					FilePath,
+					StoreJsonOptions,
+					out ServerFetchData? serverFetchData,
+					out bool recovered,
+					out Exception? failure,
+					MaxStoreBytes
+				)
+				|| serverFetchData == null
+			)
 				throw failure ?? new InvalidDataException("Server fetch store is invalid");
 			_data = NormalizeData(serverFetchData);
 			if (recovered)
@@ -211,9 +226,7 @@ public static class ServerFetchStore
 			{
 				serverFetchData = JsonSerializer.Deserialize<ServerFetchData>(json);
 			}
-			catch
-			{
-			}
+			catch { }
 			if (serverFetchData == null || serverFetchData.Servers == null || serverFetchData.Servers.Count == 0)
 			{
 				Dictionary<string, LearnedServerEntry>? dictionary = null;
@@ -221,14 +234,12 @@ public static class ServerFetchStore
 				{
 					dictionary = JsonSerializer.Deserialize<Dictionary<string, LearnedServerEntry>>(json);
 				}
-				catch
-				{
-				}
+				catch { }
 				if (dictionary != null && dictionary.Count > 0)
 				{
 					serverFetchData = new ServerFetchData
 					{
-						Servers = new Dictionary<string, LearnedServerEntry>(dictionary, StringComparer.OrdinalIgnoreCase)
+						Servers = new Dictionary<string, LearnedServerEntry>(dictionary, StringComparer.OrdinalIgnoreCase),
 					};
 				}
 			}
@@ -251,20 +262,32 @@ public static class ServerFetchStore
 					}
 					string text2 = server.Value.City ?? "";
 					string text3 = server.Value.Region ?? "";
-					string text4 = RobloxDatacenterMap.ResolveCountry(text2, VoidstrapMatchmaker.NormalizeCountryCode(server.Value.Country ?? ""));
+					string text4 = RobloxDatacenterMap.ResolveCountry(
+						text2,
+						VoidstrapMatchmaker.NormalizeCountryCode(server.Value.Country ?? "")
+					);
 					double lat = server.Value.Lat;
 					double lon = server.Value.Lon;
-					bool hasLocation = double.IsFinite(lat) && double.IsFinite(lon) && lat is >= -90.0 and <= 90.0 && lon is >= -180.0 and <= 180.0 && (lat != 0.0 || lon != 0.0);
-					List<string>? list2 = ((server.Value.IPs != null && server.Value.IPs.Count > 0) ? new List<string>(server.Value.IPs) : null);
-					list.Add(new SeedCidrEntry
-					{
-						Cidr = text,
-						City = text2,
-						Region = text3,
-						Country = text4,
-						Lat = lat,
-						Lon = lon
-					});
+					bool hasLocation =
+						double.IsFinite(lat)
+						&& double.IsFinite(lon)
+						&& lat is >= -90.0 and <= 90.0
+						&& lon is >= -180.0 and <= 180.0
+						&& (lat != 0.0 || lon != 0.0);
+					List<string>? list2 = (
+						(server.Value.IPs != null && server.Value.IPs.Count > 0) ? new List<string>(server.Value.IPs) : null
+					);
+					list.Add(
+						new SeedCidrEntry
+						{
+							Cidr = text,
+							City = text2,
+							Region = text3,
+							Country = text4,
+							Lat = lat,
+							Lon = lon,
+						}
+					);
 					if (!_data.Servers.TryGetValue(text, out LearnedServerEntry? value))
 					{
 						reference++;
@@ -367,7 +390,10 @@ public static class ServerFetchStore
 			{
 				SaveNow();
 			}
-			App.Logger.WriteLine("ServerFetchStore", $"Server locations imported: {reference} reference datacenters, {updated} learned entries updated");
+			App.Logger.WriteLine(
+				"ServerFetchStore",
+				$"Server locations imported: {reference} reference datacenters, {updated} learned entries updated"
+			);
 			return reference + updated;
 		}
 		catch (Exception ex2)
@@ -389,7 +415,11 @@ public static class ServerFetchStore
 			LearnedServerEntry entry = item.Value;
 			if (entry.IPs != null)
 			{
-				entry.IPs = entry.IPs.Where((string ip) => !string.IsNullOrWhiteSpace(ip)).Distinct(StringComparer.OrdinalIgnoreCase).TakeLast(MaxIpsPerEntry).ToList();
+				entry.IPs = entry
+					.IPs.Where((string ip) => !string.IsNullOrWhiteSpace(ip))
+					.Distinct(StringComparer.OrdinalIgnoreCase)
+					.TakeLast(MaxIpsPerEntry)
+					.ToList();
 			}
 			if (entry.PingSamplesMs != null)
 			{
@@ -430,7 +460,14 @@ public static class ServerFetchStore
 		}
 	}
 
-	public static void RecordSighting(string? ip, string? city = null, string? region = null, string? country = null, double? lat = null, double? lon = null)
+	public static void RecordSighting(
+		string? ip,
+		string? city = null,
+		string? region = null,
+		string? country = null,
+		double? lat = null,
+		double? lon = null
+	)
 	{
 		if (string.IsNullOrWhiteSpace(ip) || VoidstrapMatchmaker.IsPrivateIp(ip))
 		{
@@ -457,10 +494,13 @@ public static class ServerFetchStore
 					Country = RobloxDatacenterMap.ResolveCountry(city, country),
 					Lat = lat.GetValueOrDefault(),
 					Lon = lon.GetValueOrDefault(),
-					FirstSeenUtc = DateTime.UtcNow
+					FirstSeenUtc = DateTime.UtcNow,
 				};
 				_data.Servers[slash24Cidr] = value;
-				App.Logger.WriteLine("ServerFetchStore", $"New CIDR learned: {slash24Cidr} (initial label: {city ?? "?"}, {country ?? "?"})");
+				App.Logger.WriteLine(
+					"ServerFetchStore",
+					$"New CIDR learned: {slash24Cidr} (initial label: {city ?? "?"}, {country ?? "?"})"
+				);
 			}
 			else
 			{
@@ -494,7 +534,7 @@ public static class ServerFetchStore
 					Region = value.Region,
 					Country = value.Country,
 					Lat = value.Lat,
-					Lon = value.Lon
+					Lon = value.Lon,
 				};
 			}
 			value.SeenCount++;
@@ -565,7 +605,11 @@ public static class ServerFetchStore
 			return -1.0;
 		lock (_lock)
 		{
-			if (!_data.Servers.TryGetValue(slash24Cidr, out LearnedServerEntry? entry) || entry.PingSamplesMs == null || entry.PingSamplesMs.Count == 0)
+			if (
+				!_data.Servers.TryGetValue(slash24Cidr, out LearnedServerEntry? entry)
+				|| entry.PingSamplesMs == null
+				|| entry.PingSamplesMs.Count == 0
+			)
 				return -1.0;
 			int[] samples = entry.PingSamplesMs.OrderBy(value => value).ToArray();
 			sampleCount = samples.Length;
@@ -582,11 +626,13 @@ public static class ServerFetchStore
 			int count = _data.Servers.Count;
 			int item = _data.Servers.Values.Sum((LearnedServerEntry e) => e.IPs?.Count ?? 0);
 			int item2 = _data.Servers.Values.Sum((LearnedServerEntry e) => e.SeenCount);
-			int item3 = _data.Servers.Values.Count(delegate(LearnedServerEntry e)
-			{
-				List<int>? pingSamplesMs = e.PingSamplesMs;
-				return pingSamplesMs != null && pingSamplesMs.Count > 0;
-			});
+			int item3 = _data.Servers.Values.Count(
+				delegate(LearnedServerEntry e)
+				{
+					List<int>? pingSamplesMs = e.PingSamplesMs;
+					return pingSamplesMs != null && pingSamplesMs.Count > 0;
+				}
+			);
 			return (Datacenters: count, Servers: item, TotalSightings: item2, PingedDatacenters: item3);
 		}
 	}

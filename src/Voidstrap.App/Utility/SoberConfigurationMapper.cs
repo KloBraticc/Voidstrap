@@ -10,12 +10,14 @@ internal static class SoberConfigurationMapper
 		ArgumentNullException.ThrowIfNull(settings);
 		bool modsAllowed = settings.ModApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Player;
 		return new LinuxPlayerPreparationOptions(
-			settings.UseFastFlagManager && settings.FastFlagApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Player,
+			settings.UseFastFlagManager
+				&& settings.FastFlagApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Player,
 			ApplyVirtualMachineProfile(CreateNativeOptions(settings)),
 			modsAllowed,
 			modsAllowed ? CollectManagedModSources() : null,
 			ModAutoFixer.IsIgnoredModFile,
-			CursorManager.GetPresetAssetHashes());
+			CursorManager.GetPresetAssetHashes()
+		);
 	}
 
 	private static List<LinuxModSource> CollectManagedModSources()
@@ -33,7 +35,10 @@ internal static class SoberConfigurationMapper
 			}
 
 			foreach ((string id, string message) in scan.Failures)
-				App.Logger.WriteLine("SoberConfigurationMapper::CollectManagedModSources", "Managed mod " + id[..Math.Min(8, id.Length)] + " could not be indexed: " + message);
+				App.Logger.WriteLine(
+					"SoberConfigurationMapper::CollectManagedModSources",
+					"Managed mod " + id[..Math.Min(8, id.Length)] + " could not be indexed: " + message
+				);
 		}
 		catch (Exception ex)
 		{
@@ -51,11 +56,7 @@ internal static class SoberConfigurationMapper
 		}
 
 		SoberNativeConfigurationOptions current = options ?? new SoberNativeConfigurationOptions();
-		return current with
-		{
-			UseOpenGl = true,
-			GraphicsOptimizationMode = SoberGraphicsOptimizationMode.Performance
-		};
+		return current with { UseOpenGl = true, GraphicsOptimizationMode = SoberGraphicsOptimizationMode.Performance };
 	}
 
 	public static SoberNativeConfigurationOptions? CreateNativeOptions(AppSettings settings)
@@ -79,7 +80,8 @@ internal static class SoberConfigurationMapper
 			TouchMode: settings.SoberTouchMode,
 			UseConsoleExperience: settings.SoberUseConsoleExperience,
 			UseLibsecret: settings.SoberUseLibsecret,
-			UseOpenGl: RequiresNativeHomepageShader(settings) ? false : settings.SoberUseOpenGl);
+			UseOpenGl: RequiresNativeHomepageShader(settings) ? false : settings.SoberUseOpenGl
+		);
 	}
 
 	public static bool HasNativeOverrides(AppSettings settings)

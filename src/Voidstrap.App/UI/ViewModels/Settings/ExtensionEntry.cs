@@ -48,7 +48,10 @@ public sealed class ExtensionEntry : NotifyPropertyChangedViewModel
 
 	public string Version
 	{
-		get => _version.Length > 0 ? _version : GitHubRepo.Length > 0 ? "Checking version" : "No version for this content";
+		get =>
+			_version.Length > 0 ? _version
+			: GitHubRepo.Length > 0 ? "Checking version"
+			: "No version for this content";
 		private set
 		{
 			if (_version == value)
@@ -108,9 +111,20 @@ public sealed class ExtensionEntry : NotifyPropertyChangedViewModel
 
 	public bool CanChange => _isBusy?.Invoke() != true;
 
-	public string EnableLabel => Id == "swifttunnel" ? Voidstrap.Utility.SwiftTunnel.Text(!CanChange ? "Working" : IsEnabled ? "Uninstall" : "Install") : IsEnabled ? "Disable" : "Enable";
+	public string EnableLabel =>
+		Id == "swifttunnel"
+			? Voidstrap.Utility.SwiftTunnel.Text(
+				!CanChange ? "Working"
+				: IsEnabled ? "Uninstall"
+				: "Install"
+			)
+		: IsEnabled ? "Disable"
+		: "Enable";
 
-	public string StatusLabel => Id == "swifttunnel" ? Voidstrap.Utility.SwiftTunnel.Text(IsEnabled ? "Installed" : "NotInstalled") : IsEnabled ? "Enabled" : "Not enabled";
+	public string StatusLabel =>
+		Id == "swifttunnel" ? Voidstrap.Utility.SwiftTunnel.Text(IsEnabled ? "Installed" : "NotInstalled")
+		: IsEnabled ? "Enabled"
+		: "Not enabled";
 
 	public string OpenLabel
 	{
@@ -142,7 +156,10 @@ public sealed class ExtensionEntry : NotifyPropertyChangedViewModel
 	{
 		get
 		{
-			if (!Uri.TryCreate(Source, UriKind.Absolute, out Uri? uri) || !string.Equals(uri.Host, "github.com", StringComparison.OrdinalIgnoreCase))
+			if (
+				!Uri.TryCreate(Source, UriKind.Absolute, out Uri? uri)
+				|| !string.Equals(uri.Host, "github.com", StringComparison.OrdinalIgnoreCase)
+			)
 				return "";
 			string[] parts = uri.AbsolutePath.Trim('/').Split('/');
 			return parts.Length >= 2 && parts[0].Length > 0 && parts[1].Length > 0 ? parts[0] + "/" + parts[1] : "";

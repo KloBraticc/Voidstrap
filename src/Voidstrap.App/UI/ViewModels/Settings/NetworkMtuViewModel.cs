@@ -64,13 +64,15 @@ public sealed class NetworkMtuViewModel : NotifyPropertyChangedViewModel
         }
     }
 
-    public string CurrentSummary => SelectedAdapter is { } adapter
-        ? string.Format(CultureInfo.CurrentCulture, Strings.Mtu_Current, adapter.Mtu, adapter.Minimum)
-        : Strings.Mtu_NoAdapters;
+    public string CurrentSummary =>
+        SelectedAdapter is { } adapter
+            ? string.Format(CultureInfo.CurrentCulture, Strings.Mtu_Current, adapter.Mtu, adapter.Minimum)
+            : Strings.Mtu_NoAdapters;
 
-    public string ValidationMessage => SelectedAdapter is { } adapter && !TryValidateMtu(CustomMtu, adapter.IsIPv6, out _)
-        ? string.Format(CultureInfo.CurrentCulture, Strings.Mtu_Invalid, adapter.Minimum, uint.MaxValue)
-        : string.Empty;
+    public string ValidationMessage =>
+        SelectedAdapter is { } adapter && !TryValidateMtu(CustomMtu, adapter.IsIPv6, out _)
+            ? string.Format(CultureInfo.CurrentCulture, Strings.Mtu_Invalid, adapter.Minimum, uint.MaxValue)
+            : string.Empty;
 
     public string Status
     {
@@ -79,8 +81,7 @@ public sealed class NetworkMtuViewModel : NotifyPropertyChangedViewModel
     }
 
     public static bool TryValidateMtu(string value, bool isIPv6, out uint mtu) =>
-        uint.TryParse(value, NumberStyles.None, CultureInfo.InvariantCulture, out mtu)
-        && mtu >= (isIPv6 ? 1280u : 576u);
+        uint.TryParse(value, NumberStyles.None, CultureInfo.InvariantCulture, out mtu) && mtu >= (isIPv6 ? 1280u : 576u);
 
     public static List<Adapter> ReadAdapters()
     {
@@ -108,11 +109,15 @@ public sealed class NetworkMtuViewModel : NotifyPropertyChangedViewModel
                         adapters.Add(new(id, ipv6.Index, true, network.Name, (uint)ipv6.Mtu, preferred));
                 }
             }
-            catch (NetworkInformationException)
-            {
-            }
+            catch (NetworkInformationException) { }
         }
-        return [.. adapters.OrderByDescending(adapter => adapter.Preferred).ThenBy(adapter => adapter.IsIPv6).ThenBy(adapter => adapter.Name, StringComparer.CurrentCultureIgnoreCase)];
+        return
+        [
+            .. adapters
+                .OrderByDescending(adapter => adapter.Preferred)
+                .ThenBy(adapter => adapter.IsIPv6)
+                .ThenBy(adapter => adapter.Name, StringComparer.CurrentCultureIgnoreCase),
+        ];
     }
 
     public static ProcessStartInfo CreateStartInfo(Adapter adapter, uint mtu)
@@ -126,21 +131,35 @@ public sealed class NetworkMtuViewModel : NotifyPropertyChangedViewModel
             FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "netsh.exe"),
             UseShellExecute = true,
             Verb = "runas",
-            WindowStyle = ProcessWindowStyle.Hidden
+            WindowStyle = ProcessWindowStyle.Hidden,
         };
-        foreach (string argument in new[]
-        {
-            "interface", adapter.IsIPv6 ? "ipv6" : "ipv4", "set", "subinterface",
-            "interface=" + adapter.Index.ToString(CultureInfo.InvariantCulture),
-            "mtu=" + mtu.ToString(CultureInfo.InvariantCulture), "store=persistent"
-        })
+        foreach (
+            string argument in new[]
+            {
+                "interface",
+                adapter.IsIPv6 ? "ipv6" : "ipv4",
+                "set",
+                "subinterface",
+                "interface=" + adapter.Index.ToString(CultureInfo.InvariantCulture),
+                "mtu=" + mtu.ToString(CultureInfo.InvariantCulture),
+                "store=persistent",
+            }
+        )
             startInfo.ArgumentList.Add(argument);
         return startInfo;
     }
 
     private bool CanRefresh() => Voidstrap.Utility.Platform.IsWindows && IsIdle;
-    private bool CanApply() => CanRefresh() && SelectedAdapter is { } adapter && TryValidateMtu(CustomMtu, adapter.IsIPv6, out uint mtu) && mtu != adapter.Mtu;
-    private bool CanRestore() => CanRefresh() && SelectedAdapter is { } adapter && App.Settings.Prop.OriginalNetworkMtuValues.TryGetValue(adapter.Key, out uint original) && original >= adapter.Minimum && original != adapter.Mtu;
+
+    private bool CanApply() =>
+        CanRefresh() && SelectedAdapter is { } adapter && TryValidateMtu(CustomMtu, adapter.IsIPv6, out uint mtu) && mtu != adapter.Mtu;
+
+    private bool CanRestore() =>
+        CanRefresh()
+        && SelectedAdapter is { } adapter
+        && App.Settings.Prop.OriginalNetworkMtuValues.TryGetValue(adapter.Key, out uint original)
+        && original >= adapter.Minimum
+        && original != adapter.Mtu;
 
     private void NotifyCommands()
     {
@@ -193,6 +212,7 @@ public sealed class NetworkMtuViewModel : NotifyPropertyChangedViewModel
     }
 
     private Task ApplyAsync() => ChangeAsync(false);
+
     private Task RestoreAsync() => ChangeAsync(true);
 
     private async Task ChangeAsync(bool restore)
@@ -226,9 +246,11 @@ public sealed class NetworkMtuViewModel : NotifyPropertyChangedViewModel
             }
             App.Settings.Save();
             AppSettings saved = JsonFile.Deserialize<AppSettings>(App.Settings.FileLocation, JsonOptions.Tolerant);
-            if (saved.OriginalNetworkMtuValues == null
+            if (
+                saved.OriginalNetworkMtuValues == null
                 || !saved.OriginalNetworkMtuValues.TryGetValue(current.Key, out uint original)
-                || original != App.Settings.Prop.OriginalNetworkMtuValues[current.Key])
+                || original != App.Settings.Prop.OriginalNetworkMtuValues[current.Key]
+            )
                 throw new InvalidDataException(Strings.Mtu_Error);
             Status = Strings.Mtu_Applying;
             using Process process = await Task.Run(() => Process.Start(startInfo)) ?? throw new InvalidOperationException();
@@ -250,9 +272,10 @@ public sealed class NetworkMtuViewModel : NotifyPropertyChangedViewModel
                 return;
             }
             Adapter? applied = Adapters.FirstOrDefault(adapter => adapter.Key == current.Key);
-            Status = applied?.Mtu == requested
-                ? string.Format(CultureInfo.CurrentCulture, restore ? Strings.Mtu_Restored : Strings.Mtu_Applied, requested)
-                : Strings.Mtu_VerificationFailed;
+            Status =
+                applied?.Mtu == requested
+                    ? string.Format(CultureInfo.CurrentCulture, restore ? Strings.Mtu_Restored : Strings.Mtu_Applied, requested)
+                    : Strings.Mtu_VerificationFailed;
         }
         catch (Win32Exception exception) when (exception.NativeErrorCode == 1223)
         {

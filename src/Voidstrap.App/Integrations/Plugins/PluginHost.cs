@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Jint;
@@ -50,14 +50,35 @@ public static class PluginHost
 
 	public static event Action? ModsChanged;
 
-	public sealed record ModInfo(string Name, string Version, string Description, string Directory, string Consent, bool Loaded, IReadOnlyList<string> Hooks, IReadOnlyList<string> Problems);
+	public sealed record ModInfo(
+		string Name,
+		string Version,
+		string Description,
+		string Directory,
+		string Consent,
+		bool Loaded,
+		IReadOnlyList<string> Hooks,
+		IReadOnlyList<string> Problems
+	);
 
 	public const string InvalidState = "invalid";
 
 	private static readonly HashSet<string> KnownEvents = new(StringComparer.Ordinal)
 	{
-		"session.start", "session.end", "roblox.launch", "game.join", "game.leave", "page.navigate", "settings.changed", "ui.render",
-		"cursor.move", "cursor.down", "cursor.up", "cursor.enter", "cursor.leave", "cursor.scroll"
+		"session.start",
+		"session.end",
+		"roblox.launch",
+		"game.join",
+		"game.leave",
+		"page.navigate",
+		"settings.changed",
+		"ui.render",
+		"cursor.move",
+		"cursor.down",
+		"cursor.up",
+		"cursor.enter",
+		"cursor.leave",
+		"cursor.scroll",
 	};
 
 	private static readonly HashSet<string> PendingRestarts = new(StringComparer.Ordinal);
@@ -102,7 +123,18 @@ public static class PluginHost
 			foreach (PluginManifest manifest in manifests)
 			{
 				LoadedPlugin? loaded = snapshot.FirstOrDefault(plugin => plugin.Name == manifest.Name);
-				result.Add(new ModInfo(manifest.Name, manifest.Version, manifest.Description, manifest.Directory, "", loaded != null, [], Problems.TryGetValue(manifest.Name, out List<string>? list) ? list.ToList() : []));
+				result.Add(
+					new ModInfo(
+						manifest.Name,
+						manifest.Version,
+						manifest.Description,
+						manifest.Directory,
+						"",
+						loaded != null,
+						[],
+						Problems.TryGetValue(manifest.Name, out List<string>? list) ? list.ToList() : []
+					)
+				);
 			}
 		}
 		for (int i = 0; i < manifests.Count; i++)
@@ -128,7 +160,9 @@ public static class PluginHost
 		PluginConsent.SetEnabledState(name, enabled);
 		if (enabled && System.Windows.Application.Current?.Dispatcher.CheckAccess() == true)
 		{
-			PluginManifest? manifest = PluginManifest.Discover(Paths.Plugins, report: false).FirstOrDefault(m => string.Equals(m.Name, name, StringComparison.Ordinal));
+			PluginManifest? manifest = PluginManifest
+				.Discover(Paths.Plugins, report: false)
+				.FirstOrDefault(m => string.Equals(m.Name, name, StringComparison.Ordinal));
 			if (manifest != null && manifest.HasPermission(PluginManifest.RobloxAccountPermission))
 				_ = PluginConsent.IsAllowedAsync(manifest);
 		}
@@ -249,7 +283,7 @@ public static class PluginHost
 			_watcher = new FileSystemWatcher(Paths.Plugins)
 			{
 				IncludeSubdirectories = true,
-				NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastWrite
+				NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastWrite,
 			};
 			_watcher.Changed += OnPluginsChanged;
 			_watcher.Created += OnPluginsChanged;
@@ -313,7 +347,9 @@ public static class PluginHost
 		if (Directory.Exists(root))
 		{
 			EnumerationOptions options = new() { RecurseSubdirectories = true, AttributesToSkip = FileAttributes.ReparsePoint };
-			foreach (string path in Directory.EnumerateFiles(root, "*", options).Where(path => !IsGenerated(path)).Order(StringComparer.Ordinal))
+			foreach (
+				string path in Directory.EnumerateFiles(root, "*", options).Where(path => !IsGenerated(path)).Order(StringComparer.Ordinal)
+			)
 			{
 				hash.AppendData(Encoding.UTF8.GetBytes(Path.GetRelativePath(root, path) + "\0"));
 				using FileStream stream = new(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
@@ -358,7 +394,7 @@ public static class PluginHost
 						FileSystemWatcher replacement = new(Paths.Plugins)
 						{
 							IncludeSubdirectories = true,
-							NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastWrite
+							NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastWrite,
 						};
 						replacement.Changed += OnPluginsChanged;
 						replacement.Created += OnPluginsChanged;
@@ -445,7 +481,9 @@ public static class PluginHost
 					}
 					try
 					{
-						LoadedPlugin? unchanged = old.FirstOrDefault(plugin => plugin.Name == manifest.Name && plugin.SourceSignature == GetReloadSignature(manifest.Directory, manifest.Name));
+						LoadedPlugin? unchanged = old.FirstOrDefault(plugin =>
+							plugin.Name == manifest.Name && plugin.SourceSignature == GetReloadSignature(manifest.Directory, manifest.Name)
+						);
 						if (unchanged != null && !restarts.Contains(manifest.Name))
 						{
 							fresh.Add(unchanged);
@@ -465,12 +503,18 @@ public static class PluginHost
 				}
 				_reloadSignature = signature;
 				foreach (LoadedPlugin plugin in old)
-					if (!manifests.Any(manifest => manifest.Name == plugin.Name) && Directory.Exists(plugin.Manifest.Directory) && PluginConsent.GetState(plugin.Manifest) == "on")
+					if (
+						!manifests.Any(manifest => manifest.Name == plugin.Name)
+						&& Directory.Exists(plugin.Manifest.Directory)
+						&& PluginConsent.GetState(plugin.Manifest) == "on"
+					)
 						fresh.Add(plugin);
 				List<LoadedPlugin> replaced = old.Where(plugin => !fresh.Contains(plugin)).ToList();
 				List<LoadedPlugin> added = fresh.Where(plugin => !old.Contains(plugin)).ToList();
 				HashSet<string> changed = replaced.Concat(added).Select(plugin => plugin.Name).ToHashSet(StringComparer.Ordinal);
-				HashSet<string> unchangedNames = old.Where(plugin => fresh.Contains(plugin)).Select(plugin => plugin.Name).ToHashSet(StringComparer.Ordinal);
+				HashSet<string> unchangedNames = old.Where(plugin => fresh.Contains(plugin))
+					.Select(plugin => plugin.Name)
+					.ToHashSet(StringComparer.Ordinal);
 				lock (Gate)
 				{
 					Loaded.Clear();
@@ -488,7 +532,10 @@ public static class PluginHost
 				PluginAnchors.RemovePlugins(changed);
 				PluginWindow.RemovePlugins(changed);
 				JsonObject started = new() { ["source"] = old.Count > 0 ? "reload" : "startup" };
-				List<HookEntry> hooks = added.SelectMany(plugin => plugin.HooksFor("session.start")).Where(hook => Matches(hook.Matcher, started)).ToList();
+				List<HookEntry> hooks = added
+					.SelectMany(plugin => plugin.HooksFor("session.start"))
+					.Where(hook => Matches(hook.Matcher, started))
+					.ToList();
 				Run(hooks, 0, "session.start", started, static e => e, null);
 				PluginSidebar.ApplyToWindows();
 				PluginAnchors.ApplyAll();
@@ -530,7 +577,10 @@ public static class PluginHost
 			snapshot = Loaded.ToList();
 		if (eventName == "ui.render")
 			snapshot = snapshot.Where(plugin => input?["plugin"]?.ToString() == plugin.Name).ToList();
-		List<HookEntry> hooks = snapshot.SelectMany(plugin => plugin.HooksFor(eventName)).Where(hook => Matches(hook.Matcher, input)).ToList();
+		List<HookEntry> hooks = snapshot
+			.SelectMany(plugin => plugin.HooksFor(eventName))
+			.Where(hook => Matches(hook.Matcher, input))
+			.ToList();
 		bottom ??= static e => e;
 		if (hooks.Count == 0)
 			return bottom(input);
@@ -554,7 +604,14 @@ public static class PluginHost
 		return true;
 	}
 
-	private static JsonNode? Run(List<HookEntry> hooks, int index, string eventName, JsonNode? input, Func<JsonNode?, JsonNode?> bottom, string? scope)
+	private static JsonNode? Run(
+		List<HookEntry> hooks,
+		int index,
+		string eventName,
+		JsonNode? input,
+		Func<JsonNode?, JsonNode?> bottom,
+		string? scope
+	)
 	{
 		if (index >= hooks.Count)
 			return bottom(input);
@@ -564,14 +621,20 @@ public static class PluginHost
 		try
 		{
 			bool settlePromises = eventName == "roblox.launch" || scope == "test";
-			return hook.Plugin.Call(hook.Function, input, next =>
-			{
-				if (nextCalled)
-					throw new InvalidOperationException("a hook may call next only once");
-				nextCalled = true;
-				nextResult = Run(hooks, index + 1, eventName, next ?? input?.DeepClone(), bottom, scope);
-				return nextResult;
-			}, scope, settlePromises);
+			return hook.Plugin.Call(
+				hook.Function,
+				input,
+				next =>
+				{
+					if (nextCalled)
+						throw new InvalidOperationException("a hook may call next only once");
+					nextCalled = true;
+					nextResult = Run(hooks, index + 1, eventName, next ?? input?.DeepClone(), bottom, scope);
+					return nextResult;
+				},
+				scope,
+				settlePromises
+			);
 		}
 		catch (Exception ex)
 		{
@@ -597,13 +660,24 @@ public static class PluginHost
 			["component"] = component,
 			["requestId"] = id,
 			["plugin"] = plugin,
-			["surface"] = "desktop"
+			["surface"] = "desktop",
 		};
 		LoadedPlugin? owner;
 		lock (Gate)
 			owner = Loaded.FirstOrDefault(candidate => candidate.Name == plugin);
 		if (owner != null && !owner.HooksFor("ui.render").Any(hook => Matches(hook.Matcher, input)))
-			Problem(plugin, "nothing draws the " + component + " " + id + ", add on('ui.render', { component: '" + component + "', requestId: '" + id + "' }, ...)");
+			Problem(
+				plugin,
+				"nothing draws the "
+					+ component
+					+ " "
+					+ id
+					+ ", add on('ui.render', { component: '"
+					+ component
+					+ "', requestId: '"
+					+ id
+					+ "' }, ...)"
+			);
 		_renderDepth++;
 		try
 		{
@@ -898,7 +972,17 @@ public static class PluginHost
 
 		private static readonly TimeSpan AwaitLimit = TimeSpan.FromSeconds(10);
 
-		private static readonly HttpClient NetClient = new(new SocketsHttpHandler { UseCookies = false, AllowAutoRedirect = false, ConnectTimeout = TimeSpan.FromSeconds(8) }) { Timeout = TimeSpan.FromSeconds(10) };
+		private static readonly HttpClient NetClient = new(
+			new SocketsHttpHandler
+			{
+				UseCookies = false,
+				AllowAutoRedirect = false,
+				ConnectTimeout = TimeSpan.FromSeconds(8),
+			}
+		)
+		{
+			Timeout = TimeSpan.FromSeconds(10),
+		};
 
 		private readonly Dictionary<int, Timer> _timers = [];
 
@@ -974,25 +1058,34 @@ public static class PluginHost
 				JsValue register = module.Get("register");
 				if (register is not Function)
 					throw new InvalidOperationException("the module does not export a register function");
-				ClrFunction on = new(_engine, "on", (_, arguments) =>
-				{
-					string eventName = arguments.Length > 0 ? arguments[0].ToString() : "";
-					JsValue hook = arguments.Length > 2 ? arguments[2] : arguments.Length > 1 ? arguments[1] : JsValue.Undefined;
-					JsonObject? matcher = arguments.Length > 2 ? ToNode(arguments[1], null) as JsonObject : null;
-					if (eventName.Length == 0 || hook is not Function)
-						throw new InvalidOperationException("on needs an event name and a hook function");
-					if (!KnownEvents.Contains(eventName))
+				ClrFunction on = new(
+					_engine,
+					"on",
+					(_, arguments) =>
 					{
-						_warnings.Add("the event " + eventName + " does not exist, this hook never runs");
-						if (!_sandbox)
-							Problem(Name, _warnings[^1]);
+						string eventName = arguments.Length > 0 ? arguments[0].ToString() : "";
+						JsValue hook =
+							arguments.Length > 2 ? arguments[2]
+							: arguments.Length > 1 ? arguments[1]
+							: JsValue.Undefined;
+						JsonObject? matcher = arguments.Length > 2 ? ToNode(arguments[1], null) as JsonObject : null;
+						if (eventName.Length == 0 || hook is not Function)
+							throw new InvalidOperationException("on needs an event name and a hook function");
+						if (!KnownEvents.Contains(eventName))
+						{
+							_warnings.Add("the event " + eventName + " does not exist, this hook never runs");
+							if (!_sandbox)
+								Problem(Name, _warnings[^1]);
+						}
+						_hooks.Add((eventName, matcher, hook));
+						return JsValue.Undefined;
 					}
-					_hooks.Add((eventName, matcher, hook));
-					return JsValue.Undefined;
-				});
+				);
 				_engine.Constraints.Reset();
 				Settle(_engine.Invoke(register, on, ToJs(_sandbox ? manifest.Options : PluginOptions.Effective(manifest))));
-				_hookDescriptions = _hooks.Select(hook => hook.Event + (hook.Matcher != null ? " " + hook.Matcher.ToJsonString() : "")).ToArray();
+				_hookDescriptions = _hooks
+					.Select(hook => hook.Event + (hook.Matcher != null ? " " + hook.Matcher.ToJsonString() : ""))
+					.ToArray();
 			}
 		}
 
@@ -1005,335 +1098,672 @@ public static class PluginHost
 			host.Set("platform", Voidstrap.Utility.Platform.IsWindows ? "windows" : "linux");
 			host.Set("modName", Name);
 			host.Set("modVersion", Manifest.Version);
-			host.Set("modOptions", Host("modOptions", _ => (_sandbox ? Manifest.Options : PluginOptions.Effective(Manifest)).ToJsonString()));
-			host.Set("setWatch", Host("setWatch", a =>
-			{
-				_watch = a.Length > 0 ? a[0] : JsValue.Undefined;
-				return JsValue.Undefined;
-			}));
-			host.Set("problem", Host("problem", a =>
-			{
-				Problem(Name, "a promise was rejected: " + Arg(a, 0));
-				return JsValue.Undefined;
-			}));
-			host.Set("log", Host("log", a =>
-			{
-				App.Logger.WriteLine(LogIdent, Name + ": " + Arg(a, 0));
-				return JsValue.Undefined;
-			}));
-			host.Set("toast", Host("toast", a =>
-			{
-				if (!_sandbox)
-					Voidstrap.Utility.AppNotifications.RecordInfo("mod." + Name, Arg(a, 0), Arg(a, 1));
-				return JsValue.Undefined;
-			}));
-			host.Set("uiOpen", Host("uiOpen", a =>
-			{
-				JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
-				if (_sandbox)
-					return new JsonObject { ["isPlaced"] = true }.ToJsonString();
-				return OpenPane(Name, request["id"]?.ToString() ?? "", request["title"]?.ToString() ?? "").ToJsonString();
-			}));
-			host.Set("uiClose", Host("uiClose", a =>
-			{
-				if (!_sandbox)
-					ClosePane(Name, Arg(a, 0));
-				return JsValue.Undefined;
-			}));
-			host.Set("uiOpenBanner", Host("uiOpenBanner", a =>
-			{
-				JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
-				string pos = string.Equals(request["position"]?.ToString(), "bottom", StringComparison.OrdinalIgnoreCase) ? "bottom" : "top";
-				if (_sandbox)
-					return new JsonObject { ["isPlaced"] = true, ["position"] = pos }.ToJsonString();
-				return OpenBanner(Name, request["id"]?.ToString() ?? "banner", pos).ToJsonString();
-			}));
-			host.Set("uiAttach", Host("uiAttach", a =>
-			{
-				JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
-				if (_sandbox)
-					return new JsonObject { ["isPlaced"] = true, ["reason"] = "" }.ToJsonString();
-				return PluginAnchors.Attach(Name, request).ToJsonString();
-			}));
-			host.Set("uiDetach", Host("uiDetach", a =>
-			{
-				if (!_sandbox)
-					PluginAnchors.Detach(Name, Arg(a, 0));
-				return JsValue.Undefined;
-			}));
-			host.Set("uiAnchors", Host("uiAnchors", _ => _sandbox ? "[]" : PluginNavigation.InvokeUiBounded(() => PluginAnchors.Map().ToJsonString(), "[]", 1500)));
-			host.Set("uiCloseBanner", Host("uiCloseBanner", a =>
-			{
-				if (!_sandbox)
-					CloseBanner(Name, Arg(a, 0));
-				return JsValue.Undefined;
-			}));
-			host.Set("uiOpenDialog", Host("uiOpenDialog", a =>
-			{
-				JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
-				if (!_sandbox)
-					PluginDialogManager.OpenDialog(Name, request);
-				return JsValue.Undefined;
-			}));
-			host.Set("uiCloseDialog", Host("uiCloseDialog", a =>
-			{
-				if (!_sandbox)
-					PluginDialogManager.CloseDialog(Name, Arg(a, 0));
-				return JsValue.Undefined;
-			}));
-			host.Set("uiMessage", Host("uiMessage", a =>
-			{
-				if (!_sandbox)
-					PluginDialogManager.ShowMessage(Name, Arg(a, 0), Arg(a, 1));
-				return JsValue.Undefined;
-			}));
+			host.Set(
+				"modOptions",
+				Host("modOptions", _ => (_sandbox ? Manifest.Options : PluginOptions.Effective(Manifest)).ToJsonString())
+			);
+			host.Set(
+				"setWatch",
+				Host(
+					"setWatch",
+					a =>
+					{
+						_watch = a.Length > 0 ? a[0] : JsValue.Undefined;
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"problem",
+				Host(
+					"problem",
+					a =>
+					{
+						Problem(Name, "a promise was rejected: " + Arg(a, 0));
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"log",
+				Host(
+					"log",
+					a =>
+					{
+						App.Logger.WriteLine(LogIdent, Name + ": " + Arg(a, 0));
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"toast",
+				Host(
+					"toast",
+					a =>
+					{
+						if (!_sandbox)
+							Voidstrap.Utility.AppNotifications.RecordInfo("mod." + Name, Arg(a, 0), Arg(a, 1));
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"uiOpen",
+				Host(
+					"uiOpen",
+					a =>
+					{
+						JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+						if (_sandbox)
+							return new JsonObject { ["isPlaced"] = true }.ToJsonString();
+						return OpenPane(Name, request["id"]?.ToString() ?? "", request["title"]?.ToString() ?? "").ToJsonString();
+					}
+				)
+			);
+			host.Set(
+				"uiClose",
+				Host(
+					"uiClose",
+					a =>
+					{
+						if (!_sandbox)
+							ClosePane(Name, Arg(a, 0));
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"uiOpenBanner",
+				Host(
+					"uiOpenBanner",
+					a =>
+					{
+						JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+						string pos = string.Equals(request["position"]?.ToString(), "bottom", StringComparison.OrdinalIgnoreCase)
+							? "bottom"
+							: "top";
+						if (_sandbox)
+							return new JsonObject { ["isPlaced"] = true, ["position"] = pos }.ToJsonString();
+						return OpenBanner(Name, request["id"]?.ToString() ?? "banner", pos).ToJsonString();
+					}
+				)
+			);
+			host.Set(
+				"uiAttach",
+				Host(
+					"uiAttach",
+					a =>
+					{
+						JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+						if (_sandbox)
+							return new JsonObject { ["isPlaced"] = true, ["reason"] = "" }.ToJsonString();
+						return PluginAnchors.Attach(Name, request).ToJsonString();
+					}
+				)
+			);
+			host.Set(
+				"uiDetach",
+				Host(
+					"uiDetach",
+					a =>
+					{
+						if (!_sandbox)
+							PluginAnchors.Detach(Name, Arg(a, 0));
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"uiAnchors",
+				Host(
+					"uiAnchors",
+					_ => _sandbox ? "[]" : PluginNavigation.InvokeUiBounded(() => PluginAnchors.Map().ToJsonString(), "[]", 1500)
+				)
+			);
+			host.Set(
+				"uiCloseBanner",
+				Host(
+					"uiCloseBanner",
+					a =>
+					{
+						if (!_sandbox)
+							CloseBanner(Name, Arg(a, 0));
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"uiOpenDialog",
+				Host(
+					"uiOpenDialog",
+					a =>
+					{
+						JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+						if (!_sandbox)
+							PluginDialogManager.OpenDialog(Name, request);
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"uiCloseDialog",
+				Host(
+					"uiCloseDialog",
+					a =>
+					{
+						if (!_sandbox)
+							PluginDialogManager.CloseDialog(Name, Arg(a, 0));
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"uiMessage",
+				Host(
+					"uiMessage",
+					a =>
+					{
+						if (!_sandbox)
+							PluginDialogManager.ShowMessage(Name, Arg(a, 0), Arg(a, 1));
+						return JsValue.Undefined;
+					}
+				)
+			);
 			host.Set("uiConfirm", Host("uiConfirm", a => _sandbox ? true : PluginDialogManager.ShowConfirm(Name, Arg(a, 0), Arg(a, 1))));
-			host.Set("uiStatus", Host("uiStatus", a =>
-			{
-				if (!_sandbox)
-					SetStatus(Name, Arg(a, 0));
-				return JsValue.Undefined;
-			}));
-			host.Set("uiRefresh", Host("uiRefresh", _ =>
-			{
-				if (!_sandbox)
-					Invalidate(Name);
-				return JsValue.Undefined;
-			}));
+			host.Set(
+				"uiStatus",
+				Host(
+					"uiStatus",
+					a =>
+					{
+						if (!_sandbox)
+							SetStatus(Name, Arg(a, 0));
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"uiRefresh",
+				Host(
+					"uiRefresh",
+					_ =>
+					{
+						if (!_sandbox)
+							Invalidate(Name);
+						return JsValue.Undefined;
+					}
+				)
+			);
 			host.Set("settingList", Host("settingList", _ => PluginSettings.List()));
 			host.Set("settingGet", Host("settingGet", a => PluginSettings.Get(Arg(a, 0)) is string json ? json : JsValue.Undefined));
-			host.Set("settingSet", Host("settingSet", a =>
-			{
-				if (!_sandbox)
-					PluginSettings.Set(Name, Arg(a, 0), Arg(a, 1));
-				return JsValue.Undefined;
-			}));
+			host.Set(
+				"settingSet",
+				Host(
+					"settingSet",
+					a =>
+					{
+						if (!_sandbox)
+							PluginSettings.Set(Name, Arg(a, 0), Arg(a, 1));
+						return JsValue.Undefined;
+					}
+				)
+			);
 			host.Set("flagGetAll", Host("flagGetAll", _ => PluginFastFlags.GetAll()));
 			host.Set("flagGet", Host("flagGet", a => PluginFastFlags.Get(Arg(a, 0)) is string json ? json : JsValue.Undefined));
-			host.Set("flagSet", Host("flagSet", a =>
-			{
-				if (!_sandbox)
-					PluginFastFlags.Set(Name, Arg(a, 0), Arg(a, 1));
-				return JsValue.Undefined;
-			}));
-			host.Set("flagRemove", Host("flagRemove", a =>
-			{
-				if (!_sandbox)
-					PluginFastFlags.Remove(Name, Arg(a, 0));
-				return JsValue.Undefined;
-			}));
-			host.Set("flagClear", Host("flagClear", _ =>
-			{
-				if (!_sandbox)
-					PluginFastFlags.Clear(Name);
-				return JsValue.Undefined;
-			}));
-			host.Set("storeGet", Host("storeGet", a =>
-			{
-				if (_sandbox)
-					return _sandboxStore.TryGetValue(Arg(a, 0), out JsonNode? val) && val != null ? val.ToJsonString() : JsValue.Undefined;
-				return _store.Get(Arg(a, 0)) is string json ? json : JsValue.Undefined;
-			}));
-			host.Set("storeSet", Host("storeSet", a =>
-			{
-				if (_sandbox)
-					_sandboxStore[Arg(a, 0)] = JsonNode.Parse(Arg(a, 1));
-				else
-					_store.Set(Arg(a, 0), Arg(a, 1));
-				return JsValue.Undefined;
-			}));
-			host.Set("storeRemove", Host("storeRemove", a =>
-			{
-				if (_sandbox)
-					_sandboxStore.Remove(Arg(a, 0));
-				else
-					_store.Remove(Arg(a, 0));
-				return JsValue.Undefined;
-			}));
-			host.Set("storeKeys", Host("storeKeys", _ => new JsonArray((_sandbox ? _sandboxStore.Keys.ToList() : _store.Keys()).Select(key => (JsonNode?)key).ToArray()).ToJsonString()));
-			host.Set("clockStart", Host("clockStart", a =>
-			{
-				if (a.Length < 2 || a[1] is not Function callback)
-					throw new InvalidOperationException("the clock needs a delay and a function");
-				bool repeat = a.Length > 2 && a[2].IsBoolean() && a[2].AsBoolean();
-				return _sandbox ? 1 : StartTimer(a[0].IsNumber() ? a[0].AsNumber() : 0, callback, repeat);
-			}));
-			host.Set("clockCancel", Host("clockCancel", a =>
-			{
-				if (!_sandbox && a.Length > 0 && a[0].IsNumber())
-					CancelTimer((int)a[0].AsNumber());
-				return JsValue.Undefined;
-			}));
+			host.Set(
+				"flagSet",
+				Host(
+					"flagSet",
+					a =>
+					{
+						if (!_sandbox)
+							PluginFastFlags.Set(Name, Arg(a, 0), Arg(a, 1));
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"flagRemove",
+				Host(
+					"flagRemove",
+					a =>
+					{
+						if (!_sandbox)
+							PluginFastFlags.Remove(Name, Arg(a, 0));
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"flagClear",
+				Host(
+					"flagClear",
+					_ =>
+					{
+						if (!_sandbox)
+							PluginFastFlags.Clear(Name);
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"storeGet",
+				Host(
+					"storeGet",
+					a =>
+					{
+						if (_sandbox)
+							return _sandboxStore.TryGetValue(Arg(a, 0), out JsonNode? val) && val != null
+								? val.ToJsonString()
+								: JsValue.Undefined;
+						return _store.Get(Arg(a, 0)) is string json ? json : JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"storeSet",
+				Host(
+					"storeSet",
+					a =>
+					{
+						if (_sandbox)
+							_sandboxStore[Arg(a, 0)] = JsonNode.Parse(Arg(a, 1));
+						else
+							_store.Set(Arg(a, 0), Arg(a, 1));
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"storeRemove",
+				Host(
+					"storeRemove",
+					a =>
+					{
+						if (_sandbox)
+							_sandboxStore.Remove(Arg(a, 0));
+						else
+							_store.Remove(Arg(a, 0));
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"storeKeys",
+				Host(
+					"storeKeys",
+					_ =>
+						new JsonArray(
+							(_sandbox ? _sandboxStore.Keys.ToList() : _store.Keys()).Select(key => (JsonNode?)key).ToArray()
+						).ToJsonString()
+				)
+			);
+			host.Set(
+				"clockStart",
+				Host(
+					"clockStart",
+					a =>
+					{
+						if (a.Length < 2 || a[1] is not Function callback)
+							throw new InvalidOperationException("the clock needs a delay and a function");
+						bool repeat = a.Length > 2 && a[2].IsBoolean() && a[2].AsBoolean();
+						return _sandbox ? 1 : StartTimer(a[0].IsNumber() ? a[0].AsNumber() : 0, callback, repeat);
+					}
+				)
+			);
+			host.Set(
+				"clockCancel",
+				Host(
+					"clockCancel",
+					a =>
+					{
+						if (!_sandbox && a.Length > 0 && a[0].IsNumber())
+							CancelTimer((int)a[0].AsNumber());
+						return JsValue.Undefined;
+					}
+				)
+			);
 			host.Set("netFetch", Host("netFetch", a => Fetch(JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject())));
 			host.Set("sidebarGet", Host("sidebarGet", _ => PluginSidebar.Get().ToJsonString()));
-			host.Set("sidebarSet", Host("sidebarSet", a =>
-			{
-				if (!_sandbox)
-					PluginSidebar.Set(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject());
-				return JsValue.Undefined;
-			}));
-			host.Set("sidebarReset", Host("sidebarReset", _ =>
-			{
-				if (!_sandbox)
-					PluginSidebar.Reset(Name);
-				return JsValue.Undefined;
-			}));
-			host.Set("sidebarAddPage", Host("sidebarAddPage", a =>
-			{
-				JsonObject spec = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
-				if (_sandbox)
-				{
-					string id = (spec["id"]?.ToString() ?? "main").Trim();
-					string title = spec["title"]?.ToString() ?? id;
-					string section = spec["section"]?.ToString() ?? "Core";
-					string icon = spec["icon"]?.ToString() ?? "Apps24";
-					return new JsonObject { ["key"] = PluginSidebar.MakePageKey(Name, id), ["id"] = id, ["title"] = title, ["section"] = section, ["icon"] = icon }.ToJsonString();
-				}
-				return PluginSidebar.AddPage(Name, spec).ToJsonString();
-			}));
-			host.Set("sidebarRemovePage", Host("sidebarRemovePage", a =>
-			{
-				if (!_sandbox)
-					PluginSidebar.RemovePage(Name, Arg(a, 0));
-				return JsValue.Undefined;
-			}));
-			host.Set("modpagesAdd", Host("modpagesAdd", a =>
-			{
-				JsonObject spec = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
-				if (_sandbox)
-				{
-					string id = (spec["id"]?.ToString() ?? "main").Trim();
-					string title = spec["title"]?.ToString() ?? id;
-					string icon = spec["icon"]?.ToString() ?? "PuzzlePiece24";
-					return new JsonObject { ["key"] = "ModMenu_Test_" + id, ["id"] = id, ["title"] = title, ["icon"] = icon }.ToJsonString();
-				}
-				return PluginModPages.AddPage(Name, spec).ToJsonString();
-			}));
-			host.Set("modpagesRemove", Host("modpagesRemove", a =>
-			{
-				if (!_sandbox)
-					PluginModPages.RemovePage(Name, Arg(a, 0));
-				return JsValue.Undefined;
-			}));
+			host.Set(
+				"sidebarSet",
+				Host(
+					"sidebarSet",
+					a =>
+					{
+						if (!_sandbox)
+							PluginSidebar.Set(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject());
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"sidebarReset",
+				Host(
+					"sidebarReset",
+					_ =>
+					{
+						if (!_sandbox)
+							PluginSidebar.Reset(Name);
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"sidebarAddPage",
+				Host(
+					"sidebarAddPage",
+					a =>
+					{
+						JsonObject spec = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+						if (_sandbox)
+						{
+							string id = (spec["id"]?.ToString() ?? "main").Trim();
+							string title = spec["title"]?.ToString() ?? id;
+							string section = spec["section"]?.ToString() ?? "Core";
+							string icon = spec["icon"]?.ToString() ?? "Apps24";
+							return new JsonObject
+							{
+								["key"] = PluginSidebar.MakePageKey(Name, id),
+								["id"] = id,
+								["title"] = title,
+								["section"] = section,
+								["icon"] = icon,
+							}.ToJsonString();
+						}
+						return PluginSidebar.AddPage(Name, spec).ToJsonString();
+					}
+				)
+			);
+			host.Set(
+				"sidebarRemovePage",
+				Host(
+					"sidebarRemovePage",
+					a =>
+					{
+						if (!_sandbox)
+							PluginSidebar.RemovePage(Name, Arg(a, 0));
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"modpagesAdd",
+				Host(
+					"modpagesAdd",
+					a =>
+					{
+						JsonObject spec = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+						if (_sandbox)
+						{
+							string id = (spec["id"]?.ToString() ?? "main").Trim();
+							string title = spec["title"]?.ToString() ?? id;
+							string icon = spec["icon"]?.ToString() ?? "PuzzlePiece24";
+							return new JsonObject
+							{
+								["key"] = "ModMenu_Test_" + id,
+								["id"] = id,
+								["title"] = title,
+								["icon"] = icon,
+							}.ToJsonString();
+						}
+						return PluginModPages.AddPage(Name, spec).ToJsonString();
+					}
+				)
+			);
+			host.Set(
+				"modpagesRemove",
+				Host(
+					"modpagesRemove",
+					a =>
+					{
+						if (!_sandbox)
+							PluginModPages.RemovePage(Name, Arg(a, 0));
+						return JsValue.Undefined;
+					}
+				)
+			);
 			host.Set("modpagesList", Host("modpagesList", _ => _sandbox ? "[]" : PluginModPages.ListJson()));
 			host.Set("navCurrent", Host("navCurrent", _ => PluginNavigation.Current()));
 			host.Set("navPages", Host("navPages", _ => PluginNavigation.Pages()));
-			host.Set("navOpen", Host("navOpen", a =>
-			{
-				if (!_sandbox)
-					PluginNavigation.Open(Name, Arg(a, 0));
-				return JsValue.Undefined;
-			}));
+			host.Set(
+				"navOpen",
+				Host(
+					"navOpen",
+					a =>
+					{
+						if (!_sandbox)
+							PluginNavigation.Open(Name, Arg(a, 0));
+						return JsValue.Undefined;
+					}
+				)
+			);
 			host.Set("themeGet", Host("themeGet", _ => PluginTheme.Get()));
-			host.Set("themeSet", Host("themeSet", a =>
-			{
-				if (!_sandbox)
-					PluginTheme.Set(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject());
-				return JsValue.Undefined;
-			}));
+			host.Set(
+				"themeSet",
+				Host(
+					"themeSet",
+					a =>
+					{
+						if (!_sandbox)
+							PluginTheme.Set(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject());
+						return JsValue.Undefined;
+					}
+				)
+			);
 			host.Set("themeGetBrush", Host("themeGetBrush", a => PluginTheme.GetBrush(Arg(a, 0)) is string hex ? hex : JsValue.Undefined));
-			host.Set("themeSetBrush", Host("themeSetBrush", a =>
-			{
-				if (!_sandbox)
-					PluginTheme.SetBrush(Name, Arg(a, 0), Arg(a, 1));
-				return JsValue.Undefined;
-			}));
-			host.Set("themeResetBrushes", Host("themeResetBrushes", _ =>
-			{
-				if (!_sandbox)
-					PluginTheme.ResetBrushes(Name);
-				return JsValue.Undefined;
-			}));
+			host.Set(
+				"themeSetBrush",
+				Host(
+					"themeSetBrush",
+					a =>
+					{
+						if (!_sandbox)
+							PluginTheme.SetBrush(Name, Arg(a, 0), Arg(a, 1));
+						return JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"themeResetBrushes",
+				Host(
+					"themeResetBrushes",
+					_ =>
+					{
+						if (!_sandbox)
+							PluginTheme.ResetBrushes(Name);
+						return JsValue.Undefined;
+					}
+				)
+			);
 			host.Set("themeListBrushes", Host("themeListBrushes", _ => PluginTheme.ListBrushes()));
-			host.Set("appTextList", Host("appTextList", _ =>
-			{
-				JsonObject list = new();
-				foreach (KeyValuePair<string, string> pair in Voidstrap.Utility.AppControl.ListText())
-					list[pair.Key] = pair.Value;
-				return list.ToJsonString();
-			}));
-			host.Set("appTextSet", Host("appTextSet", a =>
-			{
-				if (!_sandbox)
-					return Voidstrap.Utility.AppControl.SetText(Arg(a, 0), Arg(a, 1));
-				return Arg(a, 0);
-			}));
-			host.Set("appTextClear", Host("appTextClear", a =>
-			{
-				if (!_sandbox)
-					return Voidstrap.Utility.AppControl.ClearText(Arg(a, 0));
-				return false;
-			}));
+			host.Set(
+				"appTextList",
+				Host(
+					"appTextList",
+					_ =>
+					{
+						JsonObject list = new();
+						foreach (KeyValuePair<string, string> pair in Voidstrap.Utility.AppControl.ListText())
+							list[pair.Key] = pair.Value;
+						return list.ToJsonString();
+					}
+				)
+			);
+			host.Set(
+				"appTextSet",
+				Host(
+					"appTextSet",
+					a =>
+					{
+						if (!_sandbox)
+							return Voidstrap.Utility.AppControl.SetText(Arg(a, 0), Arg(a, 1));
+						return Arg(a, 0);
+					}
+				)
+			);
+			host.Set(
+				"appTextClear",
+				Host(
+					"appTextClear",
+					a =>
+					{
+						if (!_sandbox)
+							return Voidstrap.Utility.AppControl.ClearText(Arg(a, 0));
+						return false;
+					}
+				)
+			);
 			host.Set("appBackgroundGet", Host("appBackgroundGet", _ => Voidstrap.Utility.AppControl.GetBackground().ToJsonString()));
-			host.Set("appBackgroundSet", Host("appBackgroundSet", a =>
-			{
-				if (_sandbox)
-					return "";
-				JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
-				string stored = Voidstrap.Utility.AppControl.SetBackground(
-					request["file"]?.ToString() ?? "",
-					request["gradientOpacity"] is JsonValue grad && grad.TryGetValue(out double gradValue) ? gradValue : null,
-					request["blackOverlayOpacity"] is JsonValue black && black.TryGetValue(out double blackValue) ? blackValue : null,
-					request["displayEverywhere"] is JsonValue disp && disp.TryGetValue(out bool dispValue) ? dispValue : null);
-				return stored;
-			}));
-			host.Set("appBackgroundClear", Host("appBackgroundClear", _ =>
-			{
-				if (!_sandbox)
-					Voidstrap.Utility.AppControl.ClearBackground();
-				return JsValue.Undefined;
-			}));
+			host.Set(
+				"appBackgroundSet",
+				Host(
+					"appBackgroundSet",
+					a =>
+					{
+						if (_sandbox)
+							return "";
+						JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+						string stored = Voidstrap.Utility.AppControl.SetBackground(
+							request["file"]?.ToString() ?? "",
+							request["gradientOpacity"] is JsonValue grad && grad.TryGetValue(out double gradValue) ? gradValue : null,
+							request["blackOverlayOpacity"] is JsonValue black && black.TryGetValue(out double blackValue)
+								? blackValue
+								: null,
+							request["displayEverywhere"] is JsonValue disp && disp.TryGetValue(out bool dispValue) ? dispValue : null
+						);
+						return stored;
+					}
+				)
+			);
+			host.Set(
+				"appBackgroundClear",
+				Host(
+					"appBackgroundClear",
+					_ =>
+					{
+						if (!_sandbox)
+							Voidstrap.Utility.AppControl.ClearBackground();
+						return JsValue.Undefined;
+					}
+				)
+			);
 			host.Set("windowGet", Host("windowGet", _ => PluginWindow.Get()));
-			host.Set("windowSet", Host("windowSet", a =>
-			{
-				if (!_sandbox)
-					PluginWindow.Set(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject());
-				return JsValue.Undefined;
-			}));
+			host.Set(
+				"windowSet",
+				Host(
+					"windowSet",
+					a =>
+					{
+						if (!_sandbox)
+							PluginWindow.Set(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject());
+						return JsValue.Undefined;
+					}
+				)
+			);
 			host.Set("robloxStatus", Host("robloxStatus", _ => PluginRoblox.Status()));
-			host.Set("robloxRequest", Host("robloxRequest", a =>
-			{
-				if (_sandbox)
-					return RunAsync(() => Task.FromResult(new JsonObject { ["status"] = 200, ["ok"] = true, ["text"] = "{}" }));
-				PluginRobloxAccount.EnsureAllowed(Name);
-				(Uri uri, string method, string? body) = PluginRobloxAccount.Validate(JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject());
-				return RunAsync(() => PluginRobloxAccount.SendAsync(uri, method, body, CancellationToken.None));
-			}));
-			host.Set("robloxAccount", Host("robloxAccount", _ =>
-			{
-				if (_sandbox)
-					return RunAsync(() => Task.FromResult(new JsonObject { ["signedIn"] = true, ["userId"] = 1, ["username"] = "TestUser", ["displayName"] = "Test User" }));
-				PluginRobloxAccount.EnsureAllowed(Name);
-				return RunAsync(() => PluginRobloxAccount.AccountAsync(CancellationToken.None));
-			}));
-			host.Set("robloxLaunch", Host("robloxLaunch", a =>
-			{
-				if (!_sandbox)
-					PluginRoblox.Launch(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject());
-				return JsValue.Undefined;
-			}));
+			host.Set(
+				"robloxRequest",
+				Host(
+					"robloxRequest",
+					a =>
+					{
+						if (_sandbox)
+							return RunAsync(() =>
+								Task.FromResult(
+									new JsonObject
+									{
+										["status"] = 200,
+										["ok"] = true,
+										["text"] = "{}",
+									}
+								)
+							);
+						PluginRobloxAccount.EnsureAllowed(Name);
+						(Uri uri, string method, string? body) = PluginRobloxAccount.Validate(
+							JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject()
+						);
+						return RunAsync(() => PluginRobloxAccount.SendAsync(uri, method, body, CancellationToken.None));
+					}
+				)
+			);
+			host.Set(
+				"robloxAccount",
+				Host(
+					"robloxAccount",
+					_ =>
+					{
+						if (_sandbox)
+							return RunAsync(() =>
+								Task.FromResult(
+									new JsonObject
+									{
+										["signedIn"] = true,
+										["userId"] = 1,
+										["username"] = "TestUser",
+										["displayName"] = "Test User",
+									}
+								)
+							);
+						PluginRobloxAccount.EnsureAllowed(Name);
+						return RunAsync(() => PluginRobloxAccount.AccountAsync(CancellationToken.None));
+					}
+				)
+			);
+			host.Set(
+				"robloxLaunch",
+				Host(
+					"robloxLaunch",
+					a =>
+					{
+						if (!_sandbox)
+							PluginRoblox.Launch(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject());
+						return JsValue.Undefined;
+					}
+				)
+			);
 			host.Set("clipboardGet", Host("clipboardGet", _ => PluginClipboard.Get()));
-			host.Set("clipboardSet", Host("clipboardSet", a =>
-			{
-				if (!_sandbox)
-					PluginClipboard.Set(Arg(a, 0));
-				return JsValue.Undefined;
-			}));
+			host.Set(
+				"clipboardSet",
+				Host(
+					"clipboardSet",
+					a =>
+					{
+						if (!_sandbox)
+							PluginClipboard.Set(Arg(a, 0));
+						return JsValue.Undefined;
+					}
+				)
+			);
 			host.Set("cursorGet", Host("cursorGet", _ => PluginCursor.Get().ToJsonString()));
-			host.Set("stateGet", Host("stateGet", a =>
-			{
-				if (_sandbox)
-					return _sandboxState.TryGetValue(Arg(a, 0), out JsonNode? val) && val != null ? val.ToJsonString() : JsValue.Undefined;
-				return GetState(Name, Arg(a, 0)) is string json ? json : JsValue.Undefined;
-			}));
-			host.Set("stateSet", Host("stateSet", a =>
-			{
-				if (_sandbox)
-					_sandboxState[Arg(a, 0)] = JsonNode.Parse(Arg(a, 1));
-				else
-					SetState(Name, Arg(a, 0), Arg(a, 1));
-				return JsValue.Undefined;
-			}));
+			host.Set(
+				"stateGet",
+				Host(
+					"stateGet",
+					a =>
+					{
+						if (_sandbox)
+							return _sandboxState.TryGetValue(Arg(a, 0), out JsonNode? val) && val != null
+								? val.ToJsonString()
+								: JsValue.Undefined;
+						return GetState(Name, Arg(a, 0)) is string json ? json : JsValue.Undefined;
+					}
+				)
+			);
+			host.Set(
+				"stateSet",
+				Host(
+					"stateSet",
+					a =>
+					{
+						if (_sandbox)
+							_sandboxState[Arg(a, 0)] = JsonNode.Parse(Arg(a, 1));
+						else
+							SetState(Name, Arg(a, 0), Arg(a, 1));
+						return JsValue.Undefined;
+					}
+				)
+			);
 			return host;
 		}
 
@@ -1387,7 +1817,11 @@ public static class PluginHost
 		private JsValue Fetch(JsonObject request)
 		{
 			string url = request["url"]?.ToString() ?? "";
-			if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) || uri.Scheme != Uri.UriSchemeHttps || !_networkHosts.Contains(uri.IdnHost))
+			if (
+				!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri)
+				|| uri.Scheme != Uri.UriSchemeHttps
+				|| !_networkHosts.Contains(uri.IdnHost)
+			)
 				throw new InvalidOperationException("the mod may only reach https hosts listed under network in its plugin.json");
 			string method = (request["method"]?.ToString() ?? "GET").ToUpperInvariant();
 			if (method is not ("GET" or "POST" or "PUT" or "PATCH" or "DELETE"))
@@ -1405,14 +1839,30 @@ public static class PluginHost
 					using CancellationTokenSource deadline = new(AwaitLimit);
 					using HttpRequestMessage message = new(new HttpMethod(method), uri);
 					if (body != null)
-						message.Content = new StringContent(body, System.Text.Encoding.UTF8, request["contentType"]?.ToString() ?? "application/json");
+						message.Content = new StringContent(
+							body,
+							System.Text.Encoding.UTF8,
+							request["contentType"]?.ToString() ?? "application/json"
+						);
 					if (headers != null)
 						foreach (KeyValuePair<string, JsonNode?> header in headers)
-							if (!header.Key.Equals("cookie", StringComparison.OrdinalIgnoreCase) && !header.Key.Equals("authorization", StringComparison.OrdinalIgnoreCase))
+							if (
+								!header.Key.Equals("cookie", StringComparison.OrdinalIgnoreCase)
+								&& !header.Key.Equals("authorization", StringComparison.OrdinalIgnoreCase)
+							)
 								message.Headers.TryAddWithoutValidation(header.Key, header.Value?.ToString());
-					using HttpResponseMessage response = await NetClient.SendAsync(message, HttpCompletionOption.ResponseHeadersRead, deadline.Token).ConfigureAwait(false);
-					string text = await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, MaxResponseBytes, deadline.Token).ConfigureAwait(false);
-					result = new JsonObject { ["status"] = (int)response.StatusCode, ["ok"] = response.IsSuccessStatusCode, ["text"] = text };
+					using HttpResponseMessage response = await NetClient
+						.SendAsync(message, HttpCompletionOption.ResponseHeadersRead, deadline.Token)
+						.ConfigureAwait(false);
+					string text = await Voidstrap
+						.Utility.Http.ReadStringBoundedAsync(response.Content, MaxResponseBytes, deadline.Token)
+						.ConfigureAwait(false);
+					result = new JsonObject
+					{
+						["status"] = (int)response.StatusCode,
+						["ok"] = response.IsSuccessStatusCode,
+						["text"] = text,
+					};
 				}
 				catch (Exception ex)
 				{
@@ -1593,29 +2043,57 @@ public static class PluginHost
 			lock (_gate)
 			{
 				JsObject host = new(_engine);
-				host.Set("emit", Host("emit", a => EmitOwn(Arg(a, 0), JsonNode.Parse(Arg(a, 1)), "test")?.ToJsonString() is string json ? json : JsValue.Undefined));
-				host.Set("render", Host("render", a =>
-				{
-					string id = Arg(a, 0);
-					string preferred = a.Length > 1 ? Arg(a, 1) : "Pane";
-					string[] candidates = preferred == "Pane" ? ["Pane", "Page", "Banner", "Dialog"] : [preferred];
-					foreach (string comp in candidates)
-					{
-						string scopePrefix = comp.ToLowerInvariant() + "." + id;
-						JsonNode? tree = EmitOwn("ui.render", new JsonObject { ["component"] = comp, ["requestId"] = id, ["plugin"] = Name, ["surface"] = "desktop" }, scopePrefix);
-						if (tree is JsonObject rendered && rendered["type"] != null)
-							return rendered.ToJsonString();
-					}
-					return JsValue.Undefined;
-				}));
-				host.Set("press", Host("press", a =>
-				{
-					if (!_handlers.TryGetValue(Arg(a, 0), out JsValue? handler))
-						throw new InvalidOperationException("the handler is no longer drawn");
-					_engine.Constraints.Reset();
-					Settle(_engine.Invoke(handler, JsValue.Undefined, new object[] { ToJs(JsonNode.Parse(Arg(a, 1))) }));
-					return JsValue.Undefined;
-				}));
+				host.Set(
+					"emit",
+					Host(
+						"emit",
+						a => EmitOwn(Arg(a, 0), JsonNode.Parse(Arg(a, 1)), "test")?.ToJsonString() is string json ? json : JsValue.Undefined
+					)
+				);
+				host.Set(
+					"render",
+					Host(
+						"render",
+						a =>
+						{
+							string id = Arg(a, 0);
+							string preferred = a.Length > 1 ? Arg(a, 1) : "Pane";
+							string[] candidates = preferred == "Pane" ? ["Pane", "Page", "Banner", "Dialog"] : [preferred];
+							foreach (string comp in candidates)
+							{
+								string scopePrefix = comp.ToLowerInvariant() + "." + id;
+								JsonNode? tree = EmitOwn(
+									"ui.render",
+									new JsonObject
+									{
+										["component"] = comp,
+										["requestId"] = id,
+										["plugin"] = Name,
+										["surface"] = "desktop",
+									},
+									scopePrefix
+								);
+								if (tree is JsonObject rendered && rendered["type"] != null)
+									return rendered.ToJsonString();
+							}
+							return JsValue.Undefined;
+						}
+					)
+				);
+				host.Set(
+					"press",
+					Host(
+						"press",
+						a =>
+						{
+							if (!_handlers.TryGetValue(Arg(a, 0), out JsValue? handler))
+								throw new InvalidOperationException("the handler is no longer drawn");
+							_engine.Constraints.Reset();
+							Settle(_engine.Invoke(handler, JsValue.Undefined, new object[] { ToJs(JsonNode.Parse(Arg(a, 1))) }));
+							return JsValue.Undefined;
+						}
+					)
+				);
 				_engine.SetValue("__voidstrapTest", host);
 				_engine.Execute(TestPrelude);
 				_engine.Modules.Import("./" + modulePath.Replace('\\', '/'));
@@ -1625,7 +2103,8 @@ public static class PluginHost
 			}
 		}
 
-		private static string Arg(JsValue[] arguments, int index) => arguments.Length > index && !arguments[index].IsUndefined() && !arguments[index].IsNull() ? arguments[index].ToString() : "";
+		private static string Arg(JsValue[] arguments, int index) =>
+			arguments.Length > index && !arguments[index].IsUndefined() && !arguments[index].IsNull() ? arguments[index].ToString() : "";
 
 		public bool HasHook(string eventName)
 		{
@@ -1643,7 +2122,10 @@ public static class PluginHost
 		public IEnumerable<HookEntry> HooksFor(string eventName)
 		{
 			lock (_gate)
-				return _hooks.Where(hook => hook.Event == eventName).Select(hook => new HookEntry(this, hook.Event, hook.Matcher, hook.Function)).ToList();
+				return _hooks
+					.Where(hook => hook.Event == eventName)
+					.Select(hook => new HookEntry(this, hook.Event, hook.Matcher, hook.Function))
+					.ToList();
 		}
 
 		public JsonNode? Call(JsValue function, JsonNode? input, Func<JsonNode?, JsonNode?> next, string? scope, bool settlePromises = true)
@@ -1658,15 +2140,23 @@ public static class PluginHost
 					foreach (string key in _handlers.Keys.Where(key => key.StartsWith(prefix, StringComparison.Ordinal)).ToList())
 						_handlers.Remove(key);
 				}
-				ClrFunction nextFunction = new(_engine, "next", (_, a) =>
-				{
-					JsonNode? rewritten = a.Length > 0 && !a[0].IsUndefined() ? ToNode(a[0], scope) : null;
-					JsonNode? result = next(rewritten);
-					_engine.Constraints.Reset();
-					return ToJs(result);
-				});
+				ClrFunction nextFunction = new(
+					_engine,
+					"next",
+					(_, a) =>
+					{
+						JsonNode? rewritten = a.Length > 0 && !a[0].IsUndefined() ? ToNode(a[0], scope) : null;
+						JsonNode? result = next(rewritten);
+						_engine.Constraints.Reset();
+						return ToJs(result);
+					}
+				);
 				_engine.Constraints.Reset();
-				JsValue raw = _engine.Invoke(function, JsValue.Undefined, new object[] { _engine.GetValue("$"), ToJs(input), nextFunction });
+				JsValue raw = _engine.Invoke(
+					function,
+					JsValue.Undefined,
+					new object[] { _engine.GetValue("$"), ToJs(input), nextFunction }
+				);
 				if (!settlePromises)
 				{
 					Watch(raw);

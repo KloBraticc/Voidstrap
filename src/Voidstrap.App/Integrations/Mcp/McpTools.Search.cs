@@ -31,7 +31,7 @@ public static partial class McpTools
 				"at" => SearchAt(args),
 				"files" => SearchFiles(args),
 				"mods" => SearchMods(args),
-				_ => new McpToolResult("Unknown mode '" + mode + "'. Use code, logs, errors, settings, ui, at, files or mods.", true)
+				_ => new McpToolResult("Unknown mode '" + mode + "'. Use code, logs, errors, settings, ui, at, files or mods.", true),
 			};
 		}
 		catch (Exception ex)
@@ -59,7 +59,8 @@ public static partial class McpTools
 	{
 		if (string.IsNullOrWhiteSpace(glob))
 			return true;
-		string pattern = Regex.Escape(glob.Trim().Replace('\\', '/'))
+		string pattern = Regex
+			.Escape(glob.Trim().Replace('\\', '/'))
 			.Replace(@"\*\*/", "(?:.*/)?")
 			.Replace(@"\*\*", ".*")
 			.Replace(@"\*", "[^/]*")
@@ -83,7 +84,16 @@ public static partial class McpTools
 		string? glob = McpArgs.String(args, "glob")?.Trim();
 		Regex regex = BuildSearchRegex(query, useRegex, caseSensitive, wholeWord);
 		Regex? declarationRegex = definitions
-			? BuildSearchRegex("(class|record|struct|interface|enum)\\s+\\w*" + Regex.Escape(query) + "\\w*\\b|(public|private|internal|protected|static).*\\b" + Regex.Escape(query) + "\\s*\\(", false, caseSensitive, true)
+			? BuildSearchRegex(
+				"(class|record|struct|interface|enum)\\s+\\w*"
+					+ Regex.Escape(query)
+					+ "\\w*\\b|(public|private|internal|protected|static).*\\b"
+					+ Regex.Escape(query)
+					+ "\\s*\\(",
+				false,
+				caseSensitive,
+				true
+			)
 			: null;
 
 		StringBuilder output = new();
@@ -109,7 +119,16 @@ public static partial class McpTools
 				Match match = regex.Match(line);
 				if (!match.Success)
 					continue;
-				fileHits.Add("  line " + (index + 1) + " at column " + (match.Index + 1) + " (" + match.Length + " chars): " + (line.Length > 240 ? line[..240] : line).TrimStart());
+				fileHits.Add(
+					"  line "
+						+ (index + 1)
+						+ " at column "
+						+ (match.Index + 1)
+						+ " ("
+						+ match.Length
+						+ " chars): "
+						+ (line.Length > 240 ? line[..240] : line).TrimStart()
+				);
 				for (int after = 1; after <= context && index + after < lines.Length; after++)
 					fileHits.Add("        + " + lines[index + after].TrimEnd('\r').TrimStart());
 				hits++;
@@ -124,9 +143,18 @@ public static partial class McpTools
 			}
 		}
 		if (hits == 0)
-			return new McpToolResult("No matches for " + query + " in " + scanned + " source files. Try regex true, drop wholeWord, or widen glob.");
+			return new McpToolResult(
+				"No matches for " + query + " in " + scanned + " source files. Try regex true, drop wholeWord, or widen glob."
+			);
 		output.AppendLine("");
-		output.AppendLine(hits + " line(s) across " + scanned + " files" + (hits >= max ? ", stopped at the " + max + " result limit, raise max or narrow with glob" : "") + ". Read a file with manage_app_code action read.");
+		output.AppendLine(
+			hits
+				+ " line(s) across "
+				+ scanned
+				+ " files"
+				+ (hits >= max ? ", stopped at the " + max + " result limit, raise max or narrow with glob" : "")
+				+ ". Read a file with manage_app_code action read."
+		);
 		return new McpToolResult(output.ToString().TrimEnd());
 	}
 
@@ -177,7 +205,10 @@ public static partial class McpTools
 		}
 		if (source is "all" or "roblox" && hits < max && !string.IsNullOrWhiteSpace(Paths.RobloxLogs) && Directory.Exists(Paths.RobloxLogs))
 		{
-			FileInfo? latest = new DirectoryInfo(Paths.RobloxLogs).GetFiles("*.log").OrderByDescending(file => file.LastWriteTimeUtc).FirstOrDefault();
+			FileInfo? latest = new DirectoryInfo(Paths.RobloxLogs)
+				.GetFiles("*.log")
+				.OrderByDescending(file => file.LastWriteTimeUtc)
+				.FirstOrDefault();
 			if (latest != null)
 			{
 				try
@@ -200,7 +231,12 @@ public static partial class McpTools
 				}
 			}
 		}
-		if (source is "all" or "history" && hits < max && !string.IsNullOrWhiteSpace(Paths.ServerHistory) && File.Exists(Paths.ServerHistory))
+		if (
+			source is "all" or "history"
+			&& hits < max
+			&& !string.IsNullOrWhiteSpace(Paths.ServerHistory)
+			&& File.Exists(Paths.ServerHistory)
+		)
 		{
 			foreach (string line in File.ReadAllLines(Paths.ServerHistory))
 			{
@@ -212,21 +248,42 @@ public static partial class McpTools
 		}
 
 		return hits == 0
-			? new McpToolResult("No log lines match " + query + (errorsOnly ? " among error and warning lines" : "") + ". Widen the query or drop errorsOnly.")
-			: new McpToolResult(hits + " matching log line(s)" + (hits >= max ? ", stopped at the " + max + " limit" : "") + ":\n" + output.ToString().TrimEnd());
+			? new McpToolResult(
+				"No log lines match "
+					+ query
+					+ (errorsOnly ? " among error and warning lines" : "")
+					+ ". Widen the query or drop errorsOnly."
+			)
+			: new McpToolResult(
+				hits
+					+ " matching log line(s)"
+					+ (hits >= max ? ", stopped at the " + max + " limit" : "")
+					+ ":\n"
+					+ output.ToString().TrimEnd()
+			);
 	}
 
 	private static McpToolResult SearchErrors(JsonObject args)
 	{
 		string? query = McpArgs.String(args, "query")?.Trim();
-		Regex? filter = query != null && query.Length >= 2 ? BuildSearchRegex(query, McpArgs.Flag(args, "regex", false), false, false) : null;
+		Regex? filter =
+			query != null && query.Length >= 2 ? BuildSearchRegex(query, McpArgs.Flag(args, "regex", false), false, false) : null;
 		StringBuilder output = new();
 		int found = 0;
 
 		output.AppendLine("Recorded in app notifications (the hidden errors the UI keeps):");
 		foreach (AppNotification notification in AppNotifications.Items)
 		{
-			string text = "[" + notification.Kind + "] " + notification.Title + ": " + notification.Text + (notification.Count > 1 ? " (seen " + notification.Count + " times)" : "") + " source " + notification.Source;
+			string text =
+				"["
+				+ notification.Kind
+				+ "] "
+				+ notification.Title
+				+ ": "
+				+ notification.Text
+				+ (notification.Count > 1 ? " (seen " + notification.Count + " times)" : "")
+				+ " source "
+				+ notification.Source;
 			if (filter != null && !filter.Match(text).Success)
 				continue;
 			output.AppendLine("  " + (text.Length > 300 ? text[..300] : text));
@@ -268,7 +325,15 @@ public static partial class McpTools
 		int logErrors = 0;
 		foreach (string line in App.Logger.History)
 		{
-			if (!(line.Contains("error", StringComparison.OrdinalIgnoreCase) || line.Contains("exception", StringComparison.OrdinalIgnoreCase) || line.Contains("fail", StringComparison.OrdinalIgnoreCase) || line.Contains("crash", StringComparison.OrdinalIgnoreCase) || line.Contains("warn", StringComparison.OrdinalIgnoreCase)))
+			if (
+				!(
+					line.Contains("error", StringComparison.OrdinalIgnoreCase)
+					|| line.Contains("exception", StringComparison.OrdinalIgnoreCase)
+					|| line.Contains("fail", StringComparison.OrdinalIgnoreCase)
+					|| line.Contains("crash", StringComparison.OrdinalIgnoreCase)
+					|| line.Contains("warn", StringComparison.OrdinalIgnoreCase)
+				)
+			)
 				continue;
 			if (filter != null && !filter.Match(line).Success)
 				continue;
@@ -294,7 +359,11 @@ public static partial class McpTools
 		StringBuilder output = new();
 		int hits = 0;
 
-		foreach (System.Reflection.PropertyInfo property in typeof(Voidstrap.Models.Persistable.AppSettings).GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance))
+		foreach (
+			System.Reflection.PropertyInfo property in typeof(Voidstrap.Models.Persistable.AppSettings).GetProperties(
+				System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance
+			)
+		)
 		{
 			if (hits >= max)
 				break;
@@ -337,8 +406,12 @@ public static partial class McpTools
 		}
 
 		return hits == 0
-			? new McpToolResult("No setting, FastFlag or Roblox global matches " + query + ". Use get_settings or list_fastflags to see everything.")
-			: new McpToolResult(hits + " match(es)" + (hits >= max ? ", stopped at the " + max + " limit" : "") + ":\n" + output.ToString().TrimEnd());
+			? new McpToolResult(
+				"No setting, FastFlag or Roblox global matches " + query + ". Use get_settings or list_fastflags to see everything."
+			)
+			: new McpToolResult(
+				hits + " match(es)" + (hits >= max ? ", stopped at the " + max + " limit" : "") + ":\n" + output.ToString().TrimEnd()
+			);
 	}
 
 	private static string ElementText(FrameworkElement element)
@@ -348,7 +421,7 @@ public static partial class McpTools
 			TextBlock textBlock => textBlock.Text,
 			HeaderedItemsControl headered => headered.Header?.ToString(),
 			ContentControl content when content.Content is string contentText => contentText,
-			_ => element.ToolTip as string ?? System.Windows.Automation.AutomationProperties.GetName(element)
+			_ => element.ToolTip as string ?? System.Windows.Automation.AutomationProperties.GetName(element),
 		};
 		return text ?? "";
 	}
@@ -408,22 +481,55 @@ public static partial class McpTools
 					continue;
 				Rect bounds = ElementBounds(element, window);
 				FrameworkElement? parent = VisualTreeHelper.GetParent(element) as FrameworkElement;
-				output.AppendLine(window.Title + " > " + (parent?.Name ?? parent?.GetType().Name ?? "") + " > " + (name.Length > 0 ? name : "(unnamed)") + " [" + type + "] text '" + (text.Length > 80 ? text[..80] : text) + "' rect x" + Math.Round(bounds.X) + " y" + Math.Round(bounds.Y) + " w" + Math.Round(bounds.Width) + " h" + Math.Round(bounds.Height));
+				output.AppendLine(
+					window.Title
+						+ " > "
+						+ (parent?.Name ?? parent?.GetType().Name ?? "")
+						+ " > "
+						+ (name.Length > 0 ? name : "(unnamed)")
+						+ " ["
+						+ type
+						+ "] text '"
+						+ (text.Length > 80 ? text[..80] : text)
+						+ "' rect x"
+						+ Math.Round(bounds.X)
+						+ " y"
+						+ Math.Round(bounds.Y)
+						+ " w"
+						+ Math.Round(bounds.Width)
+						+ " h"
+						+ Math.Round(bounds.Height)
+				);
 				hits++;
 			}
 		}
 		return hits == 0
 			? new McpToolResult("No visible element matches " + query + " in any open window. Coordinates use mode at with x and y.")
-			: new McpToolResult(hits + " element(s)" + (hits >= max ? ", stopped at the " + max + " limit" : "") + ", rects are pixels from each window's top left:\n" + output.ToString().TrimEnd());
+			: new McpToolResult(
+				hits
+					+ " element(s)"
+					+ (hits >= max ? ", stopped at the " + max + " limit" : "")
+					+ ", rects are pixels from each window's top left:\n"
+					+ output.ToString().TrimEnd()
+			);
 	}
 
 	private static McpToolResult SearchAt(JsonObject args)
 	{
-		if (!(args["x"] is JsonValue xNode && xNode.TryGetValue(out double x)) || !(args["y"] is JsonValue yNode && yNode.TryGetValue(out double y)))
+		if (
+			!(args["x"] is JsonValue xNode && xNode.TryGetValue(out double x))
+			|| !(args["y"] is JsonValue yNode && yNode.TryGetValue(out double y))
+		)
 			return new McpToolResult("Give x and y, pixels from the window's top left. Use mode ui first to see the rects.", true);
 		string? windowTitle = McpArgs.String(args, "window");
-		Window? window = Application.Current.Windows.OfType<Window>().ToArray()
-			.FirstOrDefault(candidate => candidate.IsVisible && (windowTitle == null || (candidate.Title ?? "").Contains(windowTitle, StringComparison.OrdinalIgnoreCase)))
+		Window? window =
+			Application
+				.Current.Windows.OfType<Window>()
+				.ToArray()
+				.FirstOrDefault(candidate =>
+					candidate.IsVisible
+					&& (windowTitle == null || (candidate.Title ?? "").Contains(windowTitle, StringComparison.OrdinalIgnoreCase))
+				)
 			?? Application.Current.Windows.OfType<Window>().FirstOrDefault(candidate => candidate.IsVisible);
 		if (window == null)
 			return new McpToolResult("No visible Voidstrap window is open.", true);
@@ -439,7 +545,15 @@ public static partial class McpTools
 			under.Add((element, bounds));
 		}
 		if (under.Count == 0)
-			return new McpToolResult("Nothing sits at x" + x + " y" + y + " in '" + window.Title + "'. The point is outside every visible element, use mode ui to compare rects.");
+			return new McpToolResult(
+				"Nothing sits at x"
+					+ x
+					+ " y"
+					+ y
+					+ " in '"
+					+ window.Title
+					+ "'. The point is outside every visible element, use mode ui to compare rects."
+			);
 		under.Sort((left, right) => (left.Bounds.Width * left.Bounds.Height).CompareTo(right.Bounds.Width * right.Bounds.Height));
 		StringBuilder output = new();
 		output.AppendLine("From the deepest element to the window at x" + x + " y" + y + " in '" + window.Title + "':");
@@ -447,7 +561,23 @@ public static partial class McpTools
 		{
 			string name = element.Name ?? "";
 			string text = ElementText(element) ?? "";
-			output.AppendLine("  " + (name.Length > 0 ? name : "(unnamed)") + " [" + element.GetType().Name + "] text '" + (text.Length > 60 ? text[..60] : text) + "' rect x" + Math.Round(bounds.X) + " y" + Math.Round(bounds.Y) + " w" + Math.Round(bounds.Width) + " h" + Math.Round(bounds.Height) + (name.Length > 0 ? " anchorable by name" : ""));
+			output.AppendLine(
+				"  "
+					+ (name.Length > 0 ? name : "(unnamed)")
+					+ " ["
+					+ element.GetType().Name
+					+ "] text '"
+					+ (text.Length > 60 ? text[..60] : text)
+					+ "' rect x"
+					+ Math.Round(bounds.X)
+					+ " y"
+					+ Math.Round(bounds.Y)
+					+ " w"
+					+ Math.Round(bounds.Width)
+					+ " h"
+					+ Math.Round(bounds.Height)
+					+ (name.Length > 0 ? " anchorable by name" : "")
+			);
 		}
 		return new McpToolResult(output.ToString().TrimEnd());
 	}
@@ -496,18 +626,20 @@ public static partial class McpTools
 							break;
 						if (!regex.Match(lines[index]).Success)
 							continue;
-						output.AppendLine(relative + ":" + (index + 1) + ": " + (lines[index].Length > 240 ? lines[index][..240] : lines[index]).Trim());
+						output.AppendLine(
+							relative + ":" + (index + 1) + ": " + (lines[index].Length > 240 ? lines[index][..240] : lines[index]).Trim()
+						);
 						hits++;
 					}
 				}
-				catch (Exception)
-				{
-				}
+				catch (Exception) { }
 			}
 		}
 		return hits == 0
 			? new McpToolResult("No file name or content matches " + query + " in the Voidstrap data, mods or plugin folders.")
-			: new McpToolResult(hits + " match(es)" + (hits >= max ? ", stopped at the " + max + " limit" : "") + ":\n" + output.ToString().TrimEnd());
+			: new McpToolResult(
+				hits + " match(es)" + (hits >= max ? ", stopped at the " + max + " limit" : "") + ":\n" + output.ToString().TrimEnd()
+			);
 	}
 
 	private static McpToolResult SearchMods(JsonObject args)
@@ -521,7 +653,15 @@ public static partial class McpTools
 
 		foreach (ManagedModLibraryEntry entry in ManagedModStore.ScanLibrary())
 		{
-			string summary = entry.Record.Name + " " + (entry.Record.Enabled ? "enabled" : "off") + " " + entry.FileCount + " files " + (entry.Pack != null ? "pack " + entry.Pack.Id : "") + (entry.Failure.Length > 0 ? " FAILURE " + entry.Failure : "");
+			string summary =
+				entry.Record.Name
+				+ " "
+				+ (entry.Record.Enabled ? "enabled" : "off")
+				+ " "
+				+ entry.FileCount
+				+ " files "
+				+ (entry.Pack != null ? "pack " + entry.Pack.Id : "")
+				+ (entry.Failure.Length > 0 ? " FAILURE " + entry.Failure : "");
 			if (regex.Match(summary).Success || entry.RelativePaths.Any(path => regex.Match(path).Success))
 			{
 				output.AppendLine("managed mod " + summary);
@@ -537,7 +677,11 @@ public static partial class McpTools
 		foreach (Voidstrap.Integrations.Plugins.PluginHost.ModInfo mod in Voidstrap.Integrations.Plugins.PluginHost.ListMods())
 		{
 			string summary = mod.Name + " " + mod.Version + " " + (mod.Loaded ? "loaded" : "not loaded") + " " + mod.Description;
-			if (regex.Match(summary).Success || mod.Hooks.Any(hook => regex.Match(hook).Success) || mod.Problems.Any(problem => regex.Match(problem).Success))
+			if (
+				regex.Match(summary).Success
+				|| mod.Hooks.Any(hook => regex.Match(hook).Success)
+				|| mod.Problems.Any(problem => regex.Match(problem).Success)
+			)
 			{
 				output.AppendLine("voidstrap mod " + summary);
 				hits++;

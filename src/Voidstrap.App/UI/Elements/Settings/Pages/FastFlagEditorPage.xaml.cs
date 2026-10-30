@@ -75,7 +75,7 @@ public partial class FastFlagEditorPage : UiPage
 		Deleted,
 		Imported,
 		Cleared,
-		Restored
+		Restored,
 	}
 
 	public class FlagHistoryEntry
@@ -104,7 +104,7 @@ public partial class FastFlagEditorPage : UiPage
 				FlagHistoryAction.Imported => $"{time}  Imported {FlagName}",
 				FlagHistoryAction.Cleared => $"{time}  Deleted all flags ({FlagName})",
 				FlagHistoryAction.Restored => $"{time}  Reverted '{FlagName}'",
-				_ => $"{time}  '{FlagName}'"
+				_ => $"{time}  '{FlagName}'",
 			};
 		}
 	}
@@ -117,17 +117,17 @@ public partial class FastFlagEditorPage : UiPage
 
 	private readonly ObservableCollection<FlagHistoryEntry> _flagHistory = new ObservableCollection<FlagHistoryEntry>();
 
-	private static readonly HashSet<string> _presetFlagValues = new HashSet<string>(FastFlagManager.PresetFlags.Values, StringComparer.Ordinal);
+	private static readonly HashSet<string> _presetFlagValues = new HashSet<string>(
+		FastFlagManager.PresetFlags.Values,
+		StringComparer.Ordinal
+	);
 
-	private static readonly JsonSerializerOptions _indentedJson = new JsonSerializerOptions
-	{
-		WriteIndented = true
-	};
+	private static readonly JsonSerializerOptions _indentedJson = new JsonSerializerOptions { WriteIndented = true };
 
 	private static readonly JsonSerializerOptions _lenientJson = new JsonSerializerOptions
 	{
 		ReadCommentHandling = JsonCommentHandling.Skip,
-		AllowTrailingCommas = true
+		AllowTrailingCommas = true,
 	};
 
 	private static readonly ImageSource _presetCheck = LoadIcon("pack://application:,,,/Resources/Checkmark.ico");
@@ -140,10 +140,22 @@ public partial class FastFlagEditorPage : UiPage
 		"https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCStudioApp.json",
 		"https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCDesktopClient.json",
 		"https://raw.githubusercontent.com/MaximumADHD/Roblox-Client-Tracker/refs/heads/roblox/FVariables.txt",
-		"https://clientsettings.roblox.com/v2/settings/application/PCDesktopClient"
+		"https://clientsettings.roblox.com/v2/settings/application/PCDesktopClient",
 	};
 
-	private static readonly string[] _flagPrefixes = new string[] { "FFlag", "DFFlag", "SFFlag", "FInt", "DFInt", "FString", "DFString", "FLog", "DFLog", "FDouble" };
+	private static readonly string[] _flagPrefixes = new string[]
+	{
+		"FFlag",
+		"DFFlag",
+		"SFFlag",
+		"FInt",
+		"DFInt",
+		"FString",
+		"DFString",
+		"FLog",
+		"DFLog",
+		"FDouble",
+	};
 
 	private static volatile HashSet<string>? _knownFlags;
 
@@ -186,10 +198,7 @@ public partial class FastFlagEditorPage : UiPage
 	{
 		InitializeComponent();
 		TogglePresetsButton.IsChecked = true;
-		_searchDebounce = new DispatcherTimer(DispatcherPriority.Background)
-		{
-			Interval = TimeSpan.FromMilliseconds(SearchDebounceMs)
-		};
+		_searchDebounce = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(SearchDebounceMs) };
 		HistoryListBox.ItemsSource = _flagHistory;
 		UpdateHistoryCount();
 	}
@@ -241,9 +250,7 @@ public partial class FastFlagEditorPage : UiPage
 			{
 				DataGrid.CancelEdit(DataGridEditingUnit.Row);
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
 
@@ -258,7 +265,8 @@ public partial class FastFlagEditorPage : UiPage
 
 	private static async Task LoadKnownFlagsCoreAsync()
 	{
-		List<string>[] results = await Task.WhenAll(_flagSourceUrls.Select(FetchFlagNamesAsync)).ConfigureAwait(continueOnCapturedContext: false);
+		List<string>[] results = await Task.WhenAll(_flagSourceUrls.Select(FetchFlagNamesAsync))
+			.ConfigureAwait(continueOnCapturedContext: false);
 		HashSet<string> set = new HashSet<string>(StringComparer.Ordinal);
 		foreach (List<string> names in results)
 		{
@@ -284,7 +292,11 @@ public partial class FastFlagEditorPage : UiPage
 			{
 				using JsonDocument doc = JsonDocument.Parse(content);
 				JsonElement root = doc.RootElement;
-				if (root.ValueKind == JsonValueKind.Object && root.TryGetProperty("applicationSettings", out JsonElement nested) && nested.ValueKind == JsonValueKind.Object)
+				if (
+					root.ValueKind == JsonValueKind.Object
+					&& root.TryGetProperty("applicationSettings", out JsonElement nested)
+					&& nested.ValueKind == JsonValueKind.Object
+				)
 				{
 					root = nested;
 				}
@@ -407,7 +419,7 @@ public partial class FastFlagEditorPage : UiPage
 		{
 			Name = name,
 			Value = value,
-			Preset = isPreset ? _presetCheck : _presetCross
+			Preset = isPreset ? _presetCheck : _presetCross,
 		};
 	}
 
@@ -533,7 +545,11 @@ public partial class FastFlagEditorPage : UiPage
 
 	private static Dictionary<string, string> SnapshotProp()
 	{
-		return App.FastFlags.Prop.ToDictionary((KeyValuePair<string, object> x) => x.Key, (KeyValuePair<string, object> x) => x.Value?.ToString() ?? string.Empty, StringComparer.Ordinal);
+		return App.FastFlags.Prop.ToDictionary(
+			(KeyValuePair<string, object> x) => x.Key,
+			(KeyValuePair<string, object> x) => x.Value?.ToString() ?? string.Empty,
+			StringComparer.Ordinal
+		);
 	}
 
 	private Dictionary<string, string> CaptureProfileSnapshot()
@@ -549,7 +565,13 @@ public partial class FastFlagEditorPage : UiPage
 		return snapshot;
 	}
 
-	private void RecordHistory(FlagHistoryAction action, string flagName, string? oldValue, string? newValue, Dictionary<string, string>? snapshot = null)
+	private void RecordHistory(
+		FlagHistoryAction action,
+		string flagName,
+		string? oldValue,
+		string? newValue,
+		Dictionary<string, string>? snapshot = null
+	)
 	{
 		if (snapshot != null)
 		{
@@ -568,15 +590,18 @@ public partial class FastFlagEditorPage : UiPage
 				}
 			}
 		}
-		_flagHistory.Insert(0, new FlagHistoryEntry
-		{
-			Action = action,
-			FlagName = flagName,
-			OldValue = oldValue,
-			NewValue = newValue,
-			Timestamp = DateTime.Now,
-			Snapshot = snapshot
-		});
+		_flagHistory.Insert(
+			0,
+			new FlagHistoryEntry
+			{
+				Action = action,
+				FlagName = flagName,
+				OldValue = oldValue,
+				NewValue = newValue,
+				Timestamp = DateTime.Now,
+				Snapshot = snapshot,
+			}
+		);
 		while (_flagHistory.Count > MaxHistoryEntries)
 		{
 			_flagHistory.RemoveAt(_flagHistory.Count - 1);
@@ -615,34 +640,34 @@ public partial class FastFlagEditorPage : UiPage
 		{
 			switch (entry.Action)
 			{
-			case FlagHistoryAction.Added:
-				App.FastFlags.SetValue(entry.FlagName, null);
-				break;
-			case FlagHistoryAction.Edited:
-				App.FastFlags.SetValue(entry.FlagName, entry.OldValue ?? string.Empty);
-				break;
-			case FlagHistoryAction.Renamed:
-				if (!string.IsNullOrEmpty(entry.NewValue))
-				{
-					App.FastFlags.SetValue(entry.NewValue, null);
-				}
-				App.FastFlags.SetValue(entry.FlagName, entry.OldValue ?? string.Empty);
-				break;
-			case FlagHistoryAction.Deleted:
-				App.FastFlags.SetValue(entry.FlagName, entry.OldValue ?? string.Empty);
-				break;
-			case FlagHistoryAction.Imported:
-			case FlagHistoryAction.Cleared:
-				if (entry.Snapshot == null)
-				{
-                        ShowInfoMessage("This entry cannot be reverted.");
+				case FlagHistoryAction.Added:
+					App.FastFlags.SetValue(entry.FlagName, null);
+					break;
+				case FlagHistoryAction.Edited:
+					App.FastFlags.SetValue(entry.FlagName, entry.OldValue ?? string.Empty);
+					break;
+				case FlagHistoryAction.Renamed:
+					if (!string.IsNullOrEmpty(entry.NewValue))
+					{
+						App.FastFlags.SetValue(entry.NewValue, null);
+					}
+					App.FastFlags.SetValue(entry.FlagName, entry.OldValue ?? string.Empty);
+					break;
+				case FlagHistoryAction.Deleted:
+					App.FastFlags.SetValue(entry.FlagName, entry.OldValue ?? string.Empty);
+					break;
+				case FlagHistoryAction.Imported:
+				case FlagHistoryAction.Cleared:
+					if (entry.Snapshot == null)
+					{
+						ShowInfoMessage("This entry cannot be reverted.");
+						return;
+					}
+					RestoreSnapshot(entry.Snapshot);
+					break;
+				default:
+					ShowInfoMessage("This entry cannot be reverted.");
 					return;
-				}
-				RestoreSnapshot(entry.Snapshot);
-				break;
-			default:
-                    ShowInfoMessage("This entry cannot be reverted.");
-				return;
 			}
 		}
 		catch (Exception ex)
@@ -716,31 +741,31 @@ public partial class FastFlagEditorPage : UiPage
 			}
 			switch (dialog.Tabs.SelectedIndex)
 			{
-			case 0:
-				AddSingle(dialog.FlagNameTextBox.Text.Trim(), dialog.FlagValueTextBox.Text);
-				return;
-			case 1:
-				if (ImportJSON(dialog.JsonTextBox.Text))
-				{
+				case 0:
+					AddSingle(dialog.FlagNameTextBox.Text.Trim(), dialog.FlagValueTextBox.Text);
 					return;
-				}
-				break;
-			case 2:
-			{
-				string? json = AddFastFlagDialog.TryDecodeBase64(dialog.Base64TextBox.Text);
-				if (json == null)
+				case 1:
+					if (ImportJSON(dialog.JsonTextBox.Text))
+					{
+						return;
+					}
+					break;
+				case 2:
 				{
-					Frontend.ShowMessageBox("Invalid Base64 string!", MessageBoxImage.Hand);
+					string? json = AddFastFlagDialog.TryDecodeBase64(dialog.Base64TextBox.Text);
+					if (json == null)
+					{
+						Frontend.ShowMessageBox("Invalid Base64 string!", MessageBoxImage.Hand);
+						break;
+					}
+					if (ImportJSON(json))
+					{
+						return;
+					}
 					break;
 				}
-				if (ImportJSON(json))
-				{
+				default:
 					return;
-				}
-				break;
-			}
-			default:
-				return;
 			}
 		}
 	}
@@ -831,7 +856,11 @@ public partial class FastFlagEditorPage : UiPage
 		bool overwrite = false;
 		if (conflicts.Count > 0)
 		{
-			string text = string.Format(Strings.Menu_FastFlagEditor_ConflictingImport, conflicts.Count, string.Join(", ", conflicts.Take(25)));
+			string text = string.Format(
+				Strings.Menu_FastFlagEditor_ConflictingImport,
+				conflicts.Count,
+				string.Join(", ", conflicts.Take(25))
+			);
 			if (conflicts.Count > 25)
 			{
 				text += "...";
@@ -869,10 +898,7 @@ public partial class FastFlagEditorPage : UiPage
 
 	private void ShowProfilesDialog()
 	{
-		FlagProfilesDialog dialog = new FlagProfilesDialog(CaptureProfileSnapshot())
-		{
-			Owner = Window.GetWindow(this)
-		};
+		FlagProfilesDialog dialog = new FlagProfilesDialog(CaptureProfileSnapshot()) { Owner = Window.GetWindow(this) };
 		if (dialog.ShowOwnedDialog() != true || dialog.Result != MessageBoxResult.OK || dialog.AppliedFlags == null)
 		{
 			return;
@@ -887,7 +913,13 @@ public partial class FastFlagEditorPage : UiPage
 			}
 			foreach (KeyValuePair<string, string> flag in dialog.AppliedFlags)
 				App.FastFlags.SetValue(flag.Key, flag.Value);
-			RecordHistory(FlagHistoryAction.Imported, dialog.AppliedFlags.Count + " flags from profile '" + dialog.AppliedProfileName + "'", null, null, snapshot);
+			RecordHistory(
+				FlagHistoryAction.Imported,
+				dialog.AppliedFlags.Count + " flags from profile '" + dialog.AppliedProfileName + "'",
+				null,
+				null,
+				snapshot
+			);
 			if (Voidstrap.Utility.Platform.IsLinux)
 				App.FastFlags.Save();
 		}
@@ -910,7 +942,11 @@ public partial class FastFlagEditorPage : UiPage
 
 	private void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
 	{
-		if (e.EditAction != DataGridEditAction.Commit || e.Row.DataContext is not FastFlag fastFlag || e.EditingElement is not System.Windows.Controls.TextBox textBox)
+		if (
+			e.EditAction != DataGridEditAction.Commit
+			|| e.Row.DataContext is not FastFlag fastFlag
+			|| e.EditingElement is not System.Windows.Controls.TextBox textBox
+		)
 		{
 			return;
 		}
@@ -1022,9 +1058,11 @@ public partial class FastFlagEditorPage : UiPage
 
 	private void DataGrid_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
 	{
-		if (e.OriginalSource is not DependencyObject source
+		if (
+			e.OriginalSource is not DependencyObject source
 			|| ItemsControl.ContainerFromElement(DataGrid, source) is not DataGridRow row
-			|| row.Item is not FastFlag flag)
+			|| row.Item is not FastFlag flag
+		)
 			return;
 
 		e.Handled = true;
@@ -1037,10 +1075,17 @@ public partial class FastFlagEditorPage : UiPage
 
 	private void DataGrid_ContextMenuOpening(object sender, ContextMenuEventArgs e)
 	{
-		if (DataGrid.SelectedItems.Count == 0
-			|| (e.CursorLeft >= 0 && (e.OriginalSource is not DependencyObject source
-				|| ItemsControl.ContainerFromElement(DataGrid, source) is not DataGridRow))
-			|| !CommitFlagEdit())
+		if (
+			DataGrid.SelectedItems.Count == 0
+			|| (
+				e.CursorLeft >= 0
+				&& (
+					e.OriginalSource is not DependencyObject source
+					|| ItemsControl.ContainerFromElement(DataGrid, source) is not DataGridRow
+				)
+			)
+			|| !CommitFlagEdit()
+		)
 		{
 			e.Handled = true;
 			return;
@@ -1064,23 +1109,27 @@ public partial class FastFlagEditorPage : UiPage
 	{
 		if (DataGrid.SelectedItems.Count != 1 || DataGrid.SelectedItem is not FastFlag flag)
 			return;
-		Dispatcher.BeginInvoke(new Action(() =>
-		{
-			if (!IsLoaded || !_allFlags.Contains(flag) || _view?.Contains(flag) != true || !CommitFlagEdit())
-				return;
-			DataGrid.SelectedItem = flag;
-			DataGrid.ScrollIntoView(flag, column);
-			DataGrid.CurrentCell = new DataGridCellInfo(flag, column);
-			DataGrid.Focus();
-			DataGrid.BeginEdit();
-		}), DispatcherPriority.Input);
+		Dispatcher.BeginInvoke(
+			new Action(() =>
+			{
+				if (!IsLoaded || !_allFlags.Contains(flag) || _view?.Contains(flag) != true || !CommitFlagEdit())
+					return;
+				DataGrid.SelectedItem = flag;
+				DataGrid.ScrollIntoView(flag, column);
+				DataGrid.CurrentCell = new DataGridCellInfo(flag, column);
+				DataGrid.Focus();
+				DataGrid.BeginEdit();
+			}),
+			DispatcherPriority.Input
+		);
 	}
 
 	private void CopySelectedFlagsMenuItem_Click(object sender, RoutedEventArgs e)
 	{
 		if (!CommitFlagEdit())
 			return;
-		Dictionary<string, string> selected = DataGrid.SelectedItems.OfType<FastFlag>()
+		Dictionary<string, string> selected = DataGrid
+			.SelectedItems.OfType<FastFlag>()
 			.Where(flag => App.FastFlags.Prop.ContainsKey(flag.Name))
 			.ToDictionary(flag => flag.Name, flag => App.FastFlags.GetValue(flag.Name) ?? flag.Value);
 		if (selected.Count > 0)
@@ -1091,10 +1140,13 @@ public partial class FastFlagEditorPage : UiPage
 	{
 		if (App.FastFlags.Prop.Count == 0 && _allFlags.Count == 0)
 		{
-            ShowInfoMessage("There are no flags to delete.");
+			ShowInfoMessage("There are no flags to delete.");
 			return;
 		}
-		if (Frontend.ShowMessageBox("Are you sure you want to delete all flags?", MessageBoxImage.Exclamation, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+		if (
+			Frontend.ShowMessageBox("Are you sure you want to delete all flags?", MessageBoxImage.Exclamation, MessageBoxButton.YesNo)
+			!= MessageBoxResult.Yes
+		)
 		{
 			return;
 		}
@@ -1142,13 +1194,13 @@ public partial class FastFlagEditorPage : UiPage
 		Dictionary<string, object> prop = App.FastFlags.Prop;
 		if (prop.Count == 0)
 		{
-            ShowInfoMessage("There are no flags to copy.");
+			ShowInfoMessage("There are no flags to copy.");
 			return;
 		}
 
 		Voidstrap.UI.Elements.Dialogs.CopyFlagsDialog dialog = new Voidstrap.UI.Elements.Dialogs.CopyFlagsDialog(prop.Count)
 		{
-			Owner = Window.GetWindow(this)
+			Owner = Window.GetWindow(this),
 		};
 		if (dialog.ShowOwnedDialog() != true)
 			return;
@@ -1157,19 +1209,22 @@ public partial class FastFlagEditorPage : UiPage
 		{
 			case Voidstrap.UI.Elements.Dialogs.CopyFlagsFormat.Base64:
 			{
-				Dictionary<string, string> payload = prop.ToDictionary((KeyValuePair<string, object> x) => x.Key, (KeyValuePair<string, object> x) => x.Value?.ToString() ?? string.Empty);
+				Dictionary<string, string> payload = prop.ToDictionary(
+					(KeyValuePair<string, object> x) => x.Key,
+					(KeyValuePair<string, object> x) => x.Value?.ToString() ?? string.Empty
+				);
 				string json = JsonSerializer.Serialize(payload, _indentedJson);
 				TrySetClipboard(Convert.ToBase64String(Encoding.UTF8.GetBytes(json)));
-                    ShowInfoMessage($"Copied {payload.Count} flags to the clipboard as Base64.");
+				ShowInfoMessage($"Copied {payload.Count} flags to the clipboard as Base64.");
 				break;
 			}
 			case Voidstrap.UI.Elements.Dialogs.CopyFlagsFormat.GroupedJson:
 				TrySetClipboard(BuildGroupedJson());
-                ShowInfoMessage($"Copied {prop.Count} flags to the clipboard as grouped JSON.");
+				ShowInfoMessage($"Copied {prop.Count} flags to the clipboard as grouped JSON.");
 				break;
 			default:
 				TrySetClipboard(JsonSerializer.Serialize(prop, _indentedJson));
-                ShowInfoMessage($"Copied {prop.Count} flags to the clipboard as JSON.");
+				ShowInfoMessage($"Copied {prop.Count} flags to the clipboard as JSON.");
 				break;
 		}
 	}
@@ -1177,11 +1232,14 @@ public partial class FastFlagEditorPage : UiPage
 	private static string BuildGroupedJson()
 	{
 		Dictionary<string, object> prop = App.FastFlags.Prop;
-		IOrderedEnumerable<IGrouping<string, KeyValuePair<string, object>>> groups = from g in prop.GroupBy(delegate(KeyValuePair<string, object> kvp)
-			{
-				Match match = GroupPrefixPattern.Match(kvp.Key);
-				return (!match.Success) ? "Other" : match.Value;
-			})
+		IOrderedEnumerable<IGrouping<string, KeyValuePair<string, object>>> groups =
+			from g in prop.GroupBy(
+				delegate(KeyValuePair<string, object> kvp)
+				{
+					Match match = GroupPrefixPattern.Match(kvp.Key);
+					return (!match.Success) ? "Other" : match.Value;
+				}
+			)
 			orderby g.Key
 			select g;
 		StringBuilder sb = new StringBuilder();
@@ -1195,10 +1253,15 @@ public partial class FastFlagEditorPage : UiPage
 			{
 				sb.AppendLine();
 			}
-			foreach (KeyValuePair<string, object> kvp in group.OrderByDescending((KeyValuePair<string, object> x) => x.Key.Length + (x.Value?.ToString()?.Length).GetValueOrDefault()))
+			foreach (
+				KeyValuePair<string, object> kvp in group.OrderByDescending(
+					(KeyValuePair<string, object> x) => x.Key.Length + (x.Value?.ToString()?.Length).GetValueOrDefault()
+				)
+			)
 			{
 				written++;
-				string line = "    " + JsonSerializer.Serialize(kvp.Key) + ": " + JsonSerializer.Serialize(kvp.Value?.ToString() ?? string.Empty);
+				string line =
+					"    " + JsonSerializer.Serialize(kvp.Key) + ": " + JsonSerializer.Serialize(kvp.Value?.ToString() ?? string.Empty);
 				if (written != total)
 				{
 					line += ",";
@@ -1215,10 +1278,10 @@ public partial class FastFlagEditorPage : UiPage
 	{
 		if (App.FastFlags.Prop.Count == 0)
 		{
-            ShowInfoMessage("There are no flags to export.");
+			ShowInfoMessage("There are no flags to export.");
 			return;
 		}
-        SaveJSONToFile(BuildGroupedJson());
+		SaveJSONToFile(BuildGroupedJson());
 	}
 
 	private static void SaveJSONToFile(string json)
@@ -1227,7 +1290,7 @@ public partial class FastFlagEditorPage : UiPage
 		{
 			Filter = "JSON files (*.json)|*.json|Text files (*.txt)|*.txt",
 			Title = "Save JSON or TXT File",
-			FileName = "VoidstrapExport.json"
+			FileName = "VoidstrapExport.json",
 		};
 		if (saveFileDialog.ShowDialog() != true)
 		{
@@ -1324,21 +1387,18 @@ public partial class FastFlagEditorPage : UiPage
 		}
 		_suggestionVisible = show;
 
-		CubicEase easingFunction = new CubicEase
-		{
-			EasingMode = EasingMode.EaseInOut
-		};
+		CubicEase easingFunction = new CubicEase { EasingMode = EasingMode.EaseInOut };
 		DoubleAnimation fade = new DoubleAnimation
 		{
 			To = targetOpacity,
 			Duration = TimeSpan.FromMilliseconds(250L),
-			EasingFunction = easingFunction
+			EasingFunction = easingFunction,
 		};
 		DoubleAnimation slide = new DoubleAnimation
 		{
 			To = show ? 0 : 10,
 			Duration = TimeSpan.FromMilliseconds(250L),
-			EasingFunction = easingFunction
+			EasingFunction = easingFunction,
 		};
 		fade.Completed += delegate
 		{
@@ -1355,6 +1415,6 @@ public partial class FastFlagEditorPage : UiPage
 		SuggestionTranslateTransform.BeginAnimation(TranslateTransform.XProperty, slide);
 	}
 
-    [GeneratedRegex("^[A-Z]+[a-z]*", RegexOptions.CultureInvariant)]
-    private static partial Regex GroupPrefixPattern { get; }
+	[GeneratedRegex("^[A-Z]+[a-z]*", RegexOptions.CultureInvariant)]
+	private static partial Regex GroupPrefixPattern { get; }
 }

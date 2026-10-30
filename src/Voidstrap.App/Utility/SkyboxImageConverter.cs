@@ -11,7 +11,15 @@ public static class SkyboxImageConverter
 {
 	public const string CustomPackName = "Voidstrap Custom";
 
-	private static readonly string[] FaceFileNames = ["sky512_bk.tex", "sky512_dn.tex", "sky512_ft.tex", "sky512_lf.tex", "sky512_rt.tex", "sky512_up.tex"];
+	private static readonly string[] FaceFileNames =
+	[
+		"sky512_bk.tex",
+		"sky512_dn.tex",
+		"sky512_ft.tex",
+		"sky512_lf.tex",
+		"sky512_rt.tex",
+		"sky512_up.tex",
+	];
 
 	private const long MaximumInputBytes = 67108864L;
 
@@ -47,11 +55,18 @@ public static class SkyboxImageConverter
 			return false;
 		using FileStream stream = new(path, FileMode.Open, FileAccess.Read, FileShare.Read, 81920, FileOptions.SequentialScan);
 		if (TryReadDdsDimensions(stream, out int ddsWidth, out int ddsHeight))
-			return ddsWidth > 0 && ddsHeight > 0 && ddsWidth <= MaximumDimension && ddsHeight <= MaximumDimension && (long)ddsWidth * ddsHeight <= MaximumPixels;
+			return ddsWidth > 0
+				&& ddsHeight > 0
+				&& ddsWidth <= MaximumDimension
+				&& ddsHeight <= MaximumDimension
+				&& (long)ddsWidth * ddsHeight <= MaximumPixels;
 		stream.Position = 0;
 		byte[] bytes = GC.AllocateUninitializedArray<byte>(checked((int)stream.Length));
 		stream.ReadExactly(bytes);
-		return Raster.TryIdentify(bytes, out int width, out int height) && width <= MaximumDimension && height <= MaximumDimension && (long)width * height <= MaximumPixels;
+		return Raster.TryIdentify(bytes, out int width, out int height)
+			&& width <= MaximumDimension
+			&& height <= MaximumDimension
+			&& (long)width * height <= MaximumPixels;
 	}
 
 	public static Task ImportAsync(IReadOnlyDictionary<string, string> sourceFiles, CancellationToken token)
@@ -69,7 +84,10 @@ public static class SkyboxImageConverter
 
 	private static void Import(IReadOnlyDictionary<string, string> sourceFiles, CancellationToken token)
 	{
-		if (sourceFiles.Count != FaceFileNames.Length || FaceFileNames.Any(name => !sourceFiles.TryGetValue(name, out string? source) || string.IsNullOrWhiteSpace(source)))
+		if (
+			sourceFiles.Count != FaceFileNames.Length
+			|| FaceFileNames.Any(name => !sourceFiles.TryGetValue(name, out string? source) || string.IsNullOrWhiteSpace(source))
+		)
 			throw new InvalidDataException("Choose an image for every skybox face");
 
 		string operationId = Guid.NewGuid().ToString("N");
@@ -122,7 +140,13 @@ public static class SkyboxImageConverter
 		{
 			if (file.Length > 16777216L)
 				throw new InvalidDataException("The selected DDS image is too large");
-			if (ddsWidth < 1 || ddsHeight < 1 || ddsWidth > MaximumDimension || ddsHeight > MaximumDimension || (long)ddsWidth * ddsHeight > MaximumPixels)
+			if (
+				ddsWidth < 1
+				|| ddsHeight < 1
+				|| ddsWidth > MaximumDimension
+				|| ddsHeight > MaximumDimension
+				|| (long)ddsWidth * ddsHeight > MaximumPixels
+			)
 				throw new InvalidDataException("The selected DDS image dimensions are not supported");
 			stream.Position = 0;
 			byte[] copy = GC.AllocateUninitializedArray<byte>(checked((int)stream.Length));
@@ -155,12 +179,21 @@ public static class SkyboxImageConverter
 			try
 			{
 				stream.Position = 0;
-				System.Windows.Media.Imaging.BitmapDecoder decoder = System.Windows.Media.Imaging.BitmapDecoder.Create(stream, System.Windows.Media.Imaging.BitmapCreateOptions.PreservePixelFormat, System.Windows.Media.Imaging.BitmapCacheOption.OnLoad);
+				System.Windows.Media.Imaging.BitmapDecoder decoder = System.Windows.Media.Imaging.BitmapDecoder.Create(
+					stream,
+					System.Windows.Media.Imaging.BitmapCreateOptions.PreservePixelFormat,
+					System.Windows.Media.Imaging.BitmapCacheOption.OnLoad
+				);
 				if (decoder.Frames.Count == 0)
 					throw new InvalidDataException("The selected image has no usable frames");
 				System.Windows.Media.Imaging.BitmapSource source = decoder.Frames[0];
 				ValidateDimensions(source.PixelWidth, source.PixelHeight);
-				System.Windows.Media.Imaging.FormatConvertedBitmap converted = new(source, System.Windows.Media.PixelFormats.Bgra32, null, 0);
+				System.Windows.Media.Imaging.FormatConvertedBitmap converted = new(
+					source,
+					System.Windows.Media.PixelFormats.Bgra32,
+					null,
+					0
+				);
 				int stride = checked(converted.PixelWidth * 4);
 				byte[] pixels = GC.AllocateUninitializedArray<byte>(checked(stride * converted.PixelHeight));
 				converted.CopyPixels(pixels, stride, 0);
@@ -190,7 +223,15 @@ public static class SkyboxImageConverter
 		Span<byte> header = stackalloc byte[128];
 		int read = stream.Read(header);
 		stream.Position = 0;
-		if (read < header.Length || header[0] != (byte)'D' || header[1] != (byte)'D' || header[2] != (byte)'S' || header[3] != (byte)' ' || BitConverter.ToInt32(header[4..8]) != 124 || BitConverter.ToInt32(header[76..80]) != 32)
+		if (
+			read < header.Length
+			|| header[0] != (byte)'D'
+			|| header[1] != (byte)'D'
+			|| header[2] != (byte)'S'
+			|| header[3] != (byte)' '
+			|| BitConverter.ToInt32(header[4..8]) != 124
+			|| BitConverter.ToInt32(header[76..80]) != 32
+		)
 			return false;
 		height = BitConverter.ToInt32(header[12..16]);
 		width = BitConverter.ToInt32(header[16..20]);
@@ -214,8 +255,6 @@ public static class SkyboxImageConverter
 			NormalizeAttributes(directory);
 			Directory.Delete(directory, true);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 }

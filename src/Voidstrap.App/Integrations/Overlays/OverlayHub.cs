@@ -3,11 +3,11 @@ using System.Threading;
 
 namespace Voidstrap.Integrations.Overlays
 {
-    public static class OverlayHub
-    {
-        private static Thread? _thread;
-        private static CancellationTokenSource? _cts;
-        private static readonly object _lock = new object();
+	public static class OverlayHub
+	{
+		private static Thread? _thread;
+		private static CancellationTokenSource? _cts;
+		private static readonly object _lock = new object();
 		private static volatile bool _shutdown;
 		private static volatile bool _gameTransition;
 		private static volatile bool _inGame;
@@ -26,11 +26,16 @@ namespace Voidstrap.Integrations.Overlays
 		internal static bool CompositorLive => _compositorLive;
 		private static IntPtr _compositorWindow;
 		internal static IntPtr CompositorWindow => Volatile.Read(ref _compositorWindow);
+
 		internal static void SetCompositorWindow(IntPtr handle) => Volatile.Write(ref _compositorWindow, handle);
+
 		private static long _compositorHeartbeat;
 		private static int _compositorStallHidden;
+
 		internal static void CompositorHeartbeat() => Volatile.Write(ref _compositorHeartbeat, Environment.TickCount64);
+
 		internal static bool TakeCompositorStallHidden() => Interlocked.Exchange(ref _compositorStallHidden, 0) != 0;
+
 		internal static bool WorkerRunning
 		{
 			get
@@ -57,7 +62,7 @@ namespace Voidstrap.Integrations.Overlays
 		private static readonly NamedWaitHandleOptions _linuxGameplayLeaseOptions = new NamedWaitHandleOptions
 		{
 			CurrentUserOnly = true,
-			CurrentSessionOnly = false
+			CurrentSessionOnly = false,
 		};
 		private static Thread? _linuxGameplayLeaseThread;
 		private static AutoResetEvent? _linuxGameplayLeaseSignal;
@@ -72,9 +77,10 @@ namespace Voidstrap.Integrations.Overlays
 		private static int _linuxGameplayProbeFailureLogged;
 
 		internal static bool LinuxHomepageRunning => _linuxHomepage is { IsDisposed: false };
-		internal static bool LinuxGameplayLeaseOperational => !Voidstrap.Utility.Platform.IsLinux
+		internal static bool LinuxGameplayLeaseOperational =>
+			!Voidstrap.Utility.Platform.IsLinux
 			|| _linuxGameplayLeaseOperational
-			&& Volatile.Read(ref _linuxGameplayLeaseAcknowledgedGeneration) == Volatile.Read(ref _linuxGameplayLeaseCommandGeneration);
+				&& Volatile.Read(ref _linuxGameplayLeaseAcknowledgedGeneration) == Volatile.Read(ref _linuxGameplayLeaseCommandGeneration);
 
 		public static bool CompositorCrosshairActive => _compositorLive && OverlayCrosshair.CanComposite();
 
@@ -96,18 +102,20 @@ namespace Voidstrap.Integrations.Overlays
 					Interlocked.Exchange(ref _crosshairRefreshPending, 0);
 					return;
 				}
-				app.Dispatcher.BeginInvoke(new Action(() =>
-				{
-					Interlocked.Exchange(ref _crosshairRefreshPending, 0);
-					try
+				app.Dispatcher.BeginInvoke(
+					new Action(() =>
 					{
-						Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
-					}
-					catch (Exception ex)
-					{
-						App.Logger.WriteException("OverlayHub::RefreshCrosshair", ex);
-					}
-				}));
+						Interlocked.Exchange(ref _crosshairRefreshPending, 0);
+						try
+						{
+							Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
+						}
+						catch (Exception ex)
+						{
+							App.Logger.WriteException("OverlayHub::RefreshCrosshair", ex);
+						}
+					})
+				);
 			}
 			catch (Exception ex)
 			{
@@ -116,7 +124,8 @@ namespace Voidstrap.Integrations.Overlays
 			}
 		}
 
-		public static bool HomepageBackgroundActive => !_inGame
+		public static bool HomepageBackgroundActive =>
+			!_inGame
 			&& !_gameTransition
 			&& OverlaySettings.HomepageBackgroundEnabled
 			&& (!Voidstrap.Utility.Platform.IsLinux || !_linuxHomepageNativeShaderActive && IsLinuxHomepageLifecycleActive());
@@ -126,20 +135,23 @@ namespace Voidstrap.Integrations.Overlays
 			if (!Voidstrap.Utility.Platform.IsLinux || _linuxHomepageNativeShaderActive == active)
 				return;
 			_linuxHomepageNativeShaderActive = active;
-			App.Logger.WriteLine("Overlays", active
-				? "The Sober-native homepage shader is active, disabling delayed window capture"
-				: "The Sober-native homepage shader is inactive, enabling the compatible window renderer");
+			App.Logger.WriteLine(
+				"Overlays",
+				active
+					? "The Sober-native homepage shader is active, disabling delayed window capture"
+					: "The Sober-native homepage shader is inactive, enabling the compatible window renderer"
+			);
 			Refresh();
 		}
 
-        public static bool Refresh()
-        {
+		public static bool Refresh()
+		{
 			RefreshCrosshair();
-            if (OverlaySettings.AnyEnabled && (!_gameTransition || OverlaySettings.RiShadeClientActive))
+			if (OverlaySettings.AnyEnabled && (!_gameTransition || OverlaySettings.RiShadeClientActive))
 				return Start();
-            Stop();
+			Stop();
 			return true;
-        }
+		}
 
 		internal static void SetRobloxProcessRunning(bool running)
 		{
@@ -151,17 +163,20 @@ namespace Voidstrap.Integrations.Overlays
 				_inGame = false;
 				_gameTransition = false;
 			}
-			App.Logger.WriteLine("Overlays", running
-				? "Roblox client process started, enabling the process-scoped RiShade compositor"
-				: "Roblox client process exited, stopping the process-scoped RiShade compositor");
+			App.Logger.WriteLine(
+				"Overlays",
+				running
+					? "Roblox client process started, enabling the process-scoped RiShade compositor"
+					: "Roblox client process exited, stopping the process-scoped RiShade compositor"
+			);
 			Refresh();
 		}
 
-        public static void Restart()
-        {
-            Stop();
-            Refresh();
-        }
+		public static void Restart()
+		{
+			Stop();
+			Refresh();
+		}
 
 		public static void OnGameJoin()
 		{
@@ -279,8 +294,10 @@ namespace Voidstrap.Integrations.Overlays
 				if (!EnsureLinuxGameplayLeaseThread())
 					return false;
 				int currentGeneration = Volatile.Read(ref _linuxGameplayLeaseCommandGeneration);
-				if (_linuxGameplayLeaseRequested == active
-					&& Volatile.Read(ref _linuxGameplayLeaseAcknowledgedGeneration) == currentGeneration)
+				if (
+					_linuxGameplayLeaseRequested == active
+					&& Volatile.Read(ref _linuxGameplayLeaseAcknowledgedGeneration) == currentGeneration
+				)
 					return _linuxGameplayLeaseOperational;
 
 				_linuxGameplayLeaseRequested = active;
@@ -322,7 +339,7 @@ namespace Voidstrap.Integrations.Overlays
 			Thread thread = new Thread(() => RunLinuxGameplayLease(signal, acknowledged))
 			{
 				IsBackground = true,
-				Name = "Linux Gameplay Lease"
+				Name = "Linux Gameplay Lease",
 			};
 			_linuxGameplayLeaseThread = thread;
 			try
@@ -374,8 +391,7 @@ namespace Voidstrap.Integrations.Overlays
 
 					if (_linuxGameplayLeaseStopping)
 						break;
-					if (generation == Volatile.Read(ref _linuxGameplayLeaseCommandGeneration)
-						&& requested == _linuxGameplayLeaseRequested)
+					if (generation == Volatile.Read(ref _linuxGameplayLeaseCommandGeneration) && requested == _linuxGameplayLeaseRequested)
 					{
 						Volatile.Write(ref _linuxGameplayLeaseAcknowledgedGeneration, generation);
 						acknowledged.Set();
@@ -397,15 +413,11 @@ namespace Voidstrap.Integrations.Overlays
 					{
 						lease.ReleaseMutex();
 					}
-					catch (ApplicationException)
-					{
-					}
+					catch (ApplicationException) { }
 				}
 				lease?.Dispose();
 				_linuxGameplayLeaseOperational = false;
-				Volatile.Write(
-					ref _linuxGameplayLeaseAcknowledgedGeneration,
-					Volatile.Read(ref _linuxGameplayLeaseCommandGeneration));
+				Volatile.Write(ref _linuxGameplayLeaseAcknowledgedGeneration, Volatile.Read(ref _linuxGameplayLeaseCommandGeneration));
 				acknowledged.Set();
 			}
 		}
@@ -413,7 +425,8 @@ namespace Voidstrap.Integrations.Overlays
 		private static bool WaitForLinuxGameplayLeaseAcknowledgement(
 			ManualResetEventSlim acknowledged,
 			int generation,
-			int timeoutMilliseconds)
+			int timeoutMilliseconds
+		)
 		{
 			long deadline = Environment.TickCount64 + timeoutMilliseconds;
 			while (true)
@@ -465,7 +478,7 @@ namespace Voidstrap.Integrations.Overlays
 		}
 
 		private static bool Start()
-        {
+		{
 			if (_shutdown || _gameTransition || !_hostProcess)
 				return false;
 			if (Voidstrap.Utility.Platform.IsLinux)
@@ -474,17 +487,17 @@ namespace Voidstrap.Integrations.Overlays
 				return StartMacHomepage();
 			if (!Voidstrap.Utility.Platform.IsWindows)
 				return false;
-            lock (_lock)
-            {
-                if (_thread != null)
-                    return true;
-                var cts = new CancellationTokenSource();
+			lock (_lock)
+			{
+				if (_thread != null)
+					return true;
+				var cts = new CancellationTokenSource();
 				Thread thread = new Thread(() => Supervise(cts))
-                {
-                    IsBackground = true,
-                    Name = "Overlays",
+				{
+					IsBackground = true,
+					Name = "Overlays",
 					Priority = ThreadPriority.BelowNormal,
-                };
+				};
 				_cts = cts;
 				_thread = thread;
 				try
@@ -500,8 +513,8 @@ namespace Voidstrap.Integrations.Overlays
 					App.Logger.WriteException("OverlayHub::Start", ex);
 					return false;
 				}
-            }
-        }
+			}
+		}
 
 		private static MacHomepageBackgroundOverlay? _macHomepage;
 
@@ -514,38 +527,43 @@ namespace Voidstrap.Integrations.Overlays
 			System.Windows.Application? app = System.Windows.Application.Current;
 			if (app == null || app.Dispatcher.HasShutdownStarted)
 				return false;
-			app.Dispatcher.BeginInvoke(new Action(() =>
-			{
-				if (_macHomepage != null || _macHomepageStarting || _shutdown || !HomepageBackgroundActive)
-					return;
-				if (!Voidstrap.Platform.MacOS.MacOSWindowCapture.HasPermission)
+			app.Dispatcher.BeginInvoke(
+				new Action(() =>
 				{
-					if (!_macHomepagePermissionLogged)
+					if (_macHomepage != null || _macHomepageStarting || _shutdown || !HomepageBackgroundActive)
+						return;
+					if (!Voidstrap.Platform.MacOS.MacOSWindowCapture.HasPermission)
 					{
-						_macHomepagePermissionLogged = true;
-						App.Logger.WriteLine("OverlayHub::StartMacHomepage", "Screen Recording access is not granted, the homepage background stays off");
+						if (!_macHomepagePermissionLogged)
+						{
+							_macHomepagePermissionLogged = true;
+							App.Logger.WriteLine(
+								"OverlayHub::StartMacHomepage",
+								"Screen Recording access is not granted, the homepage background stays off"
+							);
+						}
+						return;
 					}
-					return;
-				}
-				_macHomepageStarting = true;
-				try
-				{
-					MacHomepageBackgroundOverlay overlay = new();
-					if (_shutdown || !HomepageBackgroundActive)
-						overlay.Dispose();
-					else
-						_macHomepage = overlay;
-				}
-				catch (Exception ex)
-				{
-					_macHomepage = null;
-					App.Logger.WriteException("OverlayHub::StartMacHomepage", ex);
-				}
-				finally
-				{
-					_macHomepageStarting = false;
-				}
-			}));
+					_macHomepageStarting = true;
+					try
+					{
+						MacHomepageBackgroundOverlay overlay = new();
+						if (_shutdown || !HomepageBackgroundActive)
+							overlay.Dispose();
+						else
+							_macHomepage = overlay;
+					}
+					catch (Exception ex)
+					{
+						_macHomepage = null;
+						App.Logger.WriteException("OverlayHub::StartMacHomepage", ex);
+					}
+					finally
+					{
+						_macHomepageStarting = false;
+					}
+				})
+			);
 			return true;
 		}
 
@@ -554,12 +572,14 @@ namespace Voidstrap.Integrations.Overlays
 			System.Windows.Application? app = System.Windows.Application.Current;
 			if (app == null || app.Dispatcher.HasShutdownStarted)
 				return;
-			app.Dispatcher.BeginInvoke(new Action(() =>
-			{
-				MacHomepageBackgroundOverlay? overlay = _macHomepage;
-				_macHomepage = null;
-				overlay?.Dispose();
-			}));
+			app.Dispatcher.BeginInvoke(
+				new Action(() =>
+				{
+					MacHomepageBackgroundOverlay? overlay = _macHomepage;
+					_macHomepage = null;
+					overlay?.Dispose();
+				})
+			);
 		}
 
 		private static bool StartLinuxHomepage()
@@ -598,7 +618,8 @@ namespace Voidstrap.Integrations.Overlays
 			{
 				application.Dispatcher.BeginInvoke(
 					System.Windows.Threading.DispatcherPriority.Normal,
-					new Action(() => StartLinuxHomepageOnDispatcher(generation)));
+					new Action(() => StartLinuxHomepageOnDispatcher(generation))
+				);
 				return true;
 			}
 			catch (InvalidOperationException)
@@ -609,9 +630,7 @@ namespace Voidstrap.Integrations.Overlays
 
 		private static void StartLinuxHomepageOnDispatcher(int generation)
 		{
-			if (generation != Volatile.Read(ref _linuxHomepageGeneration)
-				|| _shutdown
-				|| !HomepageBackgroundActive)
+			if (generation != Volatile.Read(ref _linuxHomepageGeneration) || _shutdown || !HomepageBackgroundActive)
 				return;
 			if (LinuxHomepageRunning)
 			{
@@ -686,9 +705,7 @@ namespace Voidstrap.Integrations.Overlays
 					{
 						_linuxHomepageMutex.ReleaseMutex();
 					}
-					catch (ApplicationException)
-					{
-					}
+					catch (ApplicationException) { }
 				}
 				_linuxHomepageMutexHeld = false;
 				_linuxHomepageMutex?.Dispose();
@@ -762,11 +779,10 @@ namespace Voidstrap.Integrations.Overlays
 			{
 				application.Dispatcher.BeginInvoke(
 					System.Windows.Threading.DispatcherPriority.Send,
-					new Action(() => StopLinuxHomepageOnDispatcher(generation)));
+					new Action(() => StopLinuxHomepageOnDispatcher(generation))
+				);
 			}
-			catch (InvalidOperationException)
-			{
-			}
+			catch (InvalidOperationException) { }
 		}
 
 		private static void StopLinuxHomepageOnDispatcher(int generation)
@@ -797,11 +813,10 @@ namespace Voidstrap.Integrations.Overlays
 			{
 				application.Dispatcher.BeginInvoke(
 					System.Windows.Threading.DispatcherPriority.Background,
-					new Action(() => CompleteLinuxHomepageStop(overlay)));
+					new Action(() => CompleteLinuxHomepageStop(overlay))
+				);
 			}
-			catch (InvalidOperationException)
-			{
-			}
+			catch (InvalidOperationException) { }
 		}
 
 		private static void CompleteLinuxHomepageStop(LinuxHomepageBackgroundOverlay overlay)
@@ -814,8 +829,8 @@ namespace Voidstrap.Integrations.Overlays
 				StartLinuxHomepage();
 		}
 
-        private static void Stop()
-        {
+		private static void Stop()
+		{
 			if (Voidstrap.Utility.Platform.IsLinux)
 			{
 				StopLinuxHomepage();
@@ -826,151 +841,149 @@ namespace Voidstrap.Integrations.Overlays
 				StopMacHomepage();
 				return;
 			}
-            CancellationTokenSource? cts;
-            lock (_lock)
-            {
-                cts = _cts;
-            }
+			CancellationTokenSource? cts;
+			lock (_lock)
+			{
+				cts = _cts;
+			}
 			if (cts == null)
-                return;
-            try
-            {
-                cts.Cancel();
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteException("OverlayHub::Stop", ex);
-            }
-        }
+				return;
+			try
+			{
+				cts.Cancel();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteException("OverlayHub::Stop", ex);
+			}
+		}
 
-        private static void Supervise(CancellationTokenSource owner)
-        {
-            CancellationToken token = owner.Token;
-            Mutex? mutex = null;
-            bool held = false;
-            try
-            {
-                mutex = new Mutex(false, "VoidstrapOverlayCompositorActive");
-                bool loggedWaitOwner = false;
-                bool loggedWaitRoblox = false;
-                int fastFailures = 0;
-                while (!token.IsCancellationRequested)
-                {
-                    if (!OverlaySettings.AnyEnabled)
-                        break;
-                    if (!held)
-                    {
-                        try
-                        {
-                            held = mutex.WaitOne(0);
-                        }
-                        catch (AbandonedMutexException)
-                        {
-                            held = true;
-                        }
-                        if (!held)
-                        {
-                            if (!loggedWaitOwner)
-                            {
-                                loggedWaitOwner = true;
-                                App.Logger.WriteLine("Overlays", "Another Voidstrap process is running the compositor, standing by");
-                            }
-                            if (token.WaitHandle.WaitOne(2000))
-                                break;
-                            continue;
-                        }
-                        App.Logger.WriteLine("Overlays", "This process now owns the compositor");
-                    }
+		private static void Supervise(CancellationTokenSource owner)
+		{
+			CancellationToken token = owner.Token;
+			Mutex? mutex = null;
+			bool held = false;
+			try
+			{
+				mutex = new Mutex(false, "VoidstrapOverlayCompositorActive");
+				bool loggedWaitOwner = false;
+				bool loggedWaitRoblox = false;
+				int fastFailures = 0;
+				while (!token.IsCancellationRequested)
+				{
+					if (!OverlaySettings.AnyEnabled)
+						break;
+					if (!held)
+					{
+						try
+						{
+							held = mutex.WaitOne(0);
+						}
+						catch (AbandonedMutexException)
+						{
+							held = true;
+						}
+						if (!held)
+						{
+							if (!loggedWaitOwner)
+							{
+								loggedWaitOwner = true;
+								App.Logger.WriteLine("Overlays", "Another Voidstrap process is running the compositor, standing by");
+							}
+							if (token.WaitHandle.WaitOne(2000))
+								break;
+							continue;
+						}
+						App.Logger.WriteLine("Overlays", "This process now owns the compositor");
+					}
 
-                    if (!RobloxLightingOverlay.RobloxWindow.TryGet(out _))
-                    {
-                        if (!loggedWaitRoblox)
-                        {
-                            loggedWaitRoblox = true;
-                            App.Logger.WriteLine("Overlays", "Waiting for the Roblox window");
-                        }
-                        if (token.WaitHandle.WaitOne(1000))
-                            break;
-                        continue;
-                    }
-                    loggedWaitRoblox = false;
+					if (!RobloxLightingOverlay.RobloxWindow.TryGet(out _))
+					{
+						if (!loggedWaitRoblox)
+						{
+							loggedWaitRoblox = true;
+							App.Logger.WriteLine("Overlays", "Waiting for the Roblox window");
+						}
+						if (token.WaitHandle.WaitOne(1000))
+							break;
+						continue;
+					}
+					loggedWaitRoblox = false;
 
-                    IntPtr sessionHwnd = RobloxLightingOverlay.RobloxWindow.GetHandle();
-                    long sessionStartedMs = Environment.TickCount64;
-                    using (var runCts = CancellationTokenSource.CreateLinkedTokenSource(token))
-                    {
-                        var runToken = runCts.Token;
-                        var watcher = new Thread(() => WatchRoblox(runCts))
-                        {
-                            IsBackground = true,
-                            Name = "OverlaysWatch",
+					IntPtr sessionHwnd = RobloxLightingOverlay.RobloxWindow.GetHandle();
+					long sessionStartedMs = Environment.TickCount64;
+					using (var runCts = CancellationTokenSource.CreateLinkedTokenSource(token))
+					{
+						var runToken = runCts.Token;
+						var watcher = new Thread(() => WatchRoblox(runCts))
+						{
+							IsBackground = true,
+							Name = "OverlaysWatch",
 							Priority = ThreadPriority.BelowNormal,
-                        };
-                        watcher.Start();
-                        try
-                        {
-                            var compositor = new OverlayCompositor();
-                            compositor.Run(runToken);
-                        }
-                        finally
-                        {
-                            runCts.Cancel();
-                            watcher.Join(1500);
-                        }
-                    }
+						};
+						watcher.Start();
+						try
+						{
+							var compositor = new OverlayCompositor();
+							compositor.Run(runToken);
+						}
+						finally
+						{
+							runCts.Cancel();
+							watcher.Join(1500);
+						}
+					}
 
-                    if (!OverlaySettings.AnyEnabled)
-                        break;
-                    IntPtr currentHwnd = RobloxLightingOverlay.RobloxWindow.GetHandle();
-                    if (Environment.TickCount64 - sessionStartedMs < 3000 && sessionHwnd != IntPtr.Zero && currentHwnd == sessionHwnd)
-                        fastFailures++;
-                    else
-                        fastFailures = 0;
-                    if (fastFailures == 3)
-                        App.Logger.WriteLine("Overlays", "Compositor keeps ending quickly, retrying every 10 seconds");
-                    if (!token.IsCancellationRequested)
-                        App.Logger.WriteLine("Overlays", "Compositor session ended, waiting for Roblox again");
-                    if (token.WaitHandle.WaitOne(fastFailures >= 3 ? 10000 : 1000))
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteException("OverlayHub::Supervise", ex);
-            }
-            finally
-            {
-                if (held && mutex != null)
-                {
-                    try
-                    {
-                        mutex.ReleaseMutex();
-                    }
-                    catch
-                    {
-                    }
-                }
-                mutex?.Dispose();
-                CompleteThread(owner);
-            }
-        }
+					if (!OverlaySettings.AnyEnabled)
+						break;
+					IntPtr currentHwnd = RobloxLightingOverlay.RobloxWindow.GetHandle();
+					if (Environment.TickCount64 - sessionStartedMs < 3000 && sessionHwnd != IntPtr.Zero && currentHwnd == sessionHwnd)
+						fastFailures++;
+					else
+						fastFailures = 0;
+					if (fastFailures == 3)
+						App.Logger.WriteLine("Overlays", "Compositor keeps ending quickly, retrying every 10 seconds");
+					if (!token.IsCancellationRequested)
+						App.Logger.WriteLine("Overlays", "Compositor session ended, waiting for Roblox again");
+					if (token.WaitHandle.WaitOne(fastFailures >= 3 ? 10000 : 1000))
+						break;
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteException("OverlayHub::Supervise", ex);
+			}
+			finally
+			{
+				if (held && mutex != null)
+				{
+					try
+					{
+						mutex.ReleaseMutex();
+					}
+					catch { }
+				}
+				mutex?.Dispose();
+				CompleteThread(owner);
+			}
+		}
 
-        private static void CompleteThread(CancellationTokenSource owner)
-        {
-            bool dispose = false;
+		private static void CompleteThread(CancellationTokenSource owner)
+		{
+			bool dispose = false;
 			bool restart = false;
-            lock (_lock)
-            {
-                if (ReferenceEquals(_thread, Thread.CurrentThread) && ReferenceEquals(_cts, owner))
-                {
-                    _thread = null;
-                    _cts = null;
-                    dispose = true;
+			lock (_lock)
+			{
+				if (ReferenceEquals(_thread, Thread.CurrentThread) && ReferenceEquals(_cts, owner))
+				{
+					_thread = null;
+					_cts = null;
+					dispose = true;
 					restart = !_shutdown && !_gameTransition && OverlaySettings.AnyEnabled;
-                }
-            }
-            if (dispose)
-                owner.Dispose();
+				}
+			}
+			if (dispose)
+				owner.Dispose();
 			if (restart)
 				ThreadPool.QueueUserWorkItem(_ => SafeStart());
 			else
@@ -984,40 +997,49 @@ namespace Voidstrap.Integrations.Overlays
 					App.Logger.WriteException("OverlayHub::Supervise", ex);
 				}
 			}
-        }
+		}
 
-        private static void HideStalledCompositor()
-        {
-            IntPtr hwnd = CompositorWindow;
-            long beat = Volatile.Read(ref _compositorHeartbeat);
-            if (hwnd == IntPtr.Zero || beat == 0 || Environment.TickCount64 - beat < 4000 || Volatile.Read(ref _compositorStallHidden) != 0)
-                return;
-            Volatile.Write(ref _compositorStallHidden, 1);
-            AntiAliasing.AntiAliasingInterop.SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0,
-                AntiAliasing.AntiAliasingInterop.SWP_HIDEWINDOW | AntiAliasing.AntiAliasingInterop.SWP_ASYNCWINDOWPOS | AntiAliasing.AntiAliasingInterop.SWP_NOMOVE
-                | AntiAliasing.AntiAliasingInterop.SWP_NOSIZE | AntiAliasing.AntiAliasingInterop.SWP_NOZORDER | AntiAliasing.AntiAliasingInterop.SWP_NOACTIVATE);
-            App.Logger.WriteLine("Overlays", "Compositor stopped responding, hiding its window so Roblox stays visible");
-        }
+		private static void HideStalledCompositor()
+		{
+			IntPtr hwnd = CompositorWindow;
+			long beat = Volatile.Read(ref _compositorHeartbeat);
+			if (hwnd == IntPtr.Zero || beat == 0 || Environment.TickCount64 - beat < 4000 || Volatile.Read(ref _compositorStallHidden) != 0)
+				return;
+			Volatile.Write(ref _compositorStallHidden, 1);
+			AntiAliasing.AntiAliasingInterop.SetWindowPos(
+				hwnd,
+				IntPtr.Zero,
+				0,
+				0,
+				0,
+				0,
+				AntiAliasing.AntiAliasingInterop.SWP_HIDEWINDOW
+					| AntiAliasing.AntiAliasingInterop.SWP_ASYNCWINDOWPOS
+					| AntiAliasing.AntiAliasingInterop.SWP_NOMOVE
+					| AntiAliasing.AntiAliasingInterop.SWP_NOSIZE
+					| AntiAliasing.AntiAliasingInterop.SWP_NOZORDER
+					| AntiAliasing.AntiAliasingInterop.SWP_NOACTIVATE
+			);
+			App.Logger.WriteLine("Overlays", "Compositor stopped responding, hiding its window so Roblox stays visible");
+		}
 
-        private static void WatchRoblox(CancellationTokenSource runCts)
-        {
-            try
-            {
-                while (!runCts.IsCancellationRequested)
-                {
-                    if (!RobloxLightingOverlay.RobloxWindow.TryGet(out _))
-                    {
-                        runCts.Cancel();
-                        break;
-                    }
-                    HideStalledCompositor();
-                    if (runCts.Token.WaitHandle.WaitOne(750))
-                        break;
-                }
-            }
-            catch
-            {
-            }
-        }
-    }
+		private static void WatchRoblox(CancellationTokenSource runCts)
+		{
+			try
+			{
+				while (!runCts.IsCancellationRequested)
+				{
+					if (!RobloxLightingOverlay.RobloxWindow.TryGet(out _))
+					{
+						runCts.Cancel();
+						break;
+					}
+					HideStalledCompositor();
+					if (runCts.Token.WaitHandle.WaitOne(750))
+						break;
+				}
+			}
+			catch { }
+		}
+	}
 }

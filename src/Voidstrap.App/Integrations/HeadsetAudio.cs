@@ -80,7 +80,7 @@ public static partial class HeadsetAudio
 			{
 				IsBackground = true,
 				Name = "VoidstrapHeadsetAudio",
-				Priority = ThreadPriority.AboveNormal
+				Priority = ThreadPriority.AboveNormal,
 			};
 			_cts = cts;
 			_thread = thread;
@@ -122,23 +122,17 @@ public static partial class HeadsetAudio
 		{
 			cts?.Cancel();
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 		try
 		{
 			thread?.Join(2000);
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			cts?.Dispose();
 		}
-		catch
-		{
-		}
+		catch { }
 		RestoreBaseVolume();
 		App.Logger?.WriteLine(LOG_IDENT, "Headset audio stopped");
 	}
@@ -341,7 +335,6 @@ public static partial class HeadsetAudio
 				historyIndex = (historyIndex + 1) % history.Length;
 				history[historyIndex] = Math.Clamp(baseVolume * appliedGain, 0.01f, 1f);
 			}
-
 		}
 		catch (Exception ex)
 		{
@@ -357,9 +350,7 @@ public static partial class HeadsetAudio
 				if (started)
 					client?.Stop();
 			}
-			catch
-			{
-			}
+			catch { }
 			((object?)capture as ComObject)?.FinalRelease();
 			((object?)client as ComObject)?.FinalRelease();
 			pump?.Dispose();
@@ -436,9 +427,7 @@ public static partial class HeadsetAudio
 		{
 			session.SimpleAudioVolume.Volume = Math.Clamp(volume, 0.01f, 1f);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static AudioSessionControl? FindSession(MMDevice device, uint pid)
@@ -453,14 +442,10 @@ public static partial class HeadsetAudio
 					if (sessions[i].GetProcessID == pid)
 						return sessions[i];
 				}
-				catch
-				{
-				}
+				catch { }
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		return null;
 	}
 
@@ -485,9 +470,7 @@ public static partial class HeadsetAudio
 			if (session != null)
 				TrySetVolume(session, target.Value);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static void ClearBaseVolume()
@@ -509,9 +492,7 @@ public static partial class HeadsetAudio
 					if (result == 0)
 						result = (uint)process.Id;
 				}
-				catch
-				{
-				}
+				catch { }
 				finally
 				{
 					process.Dispose();
@@ -531,7 +512,8 @@ public static partial class HeadsetAudio
 
 		private static readonly StrategyBasedComWrappers Wrappers = new StrategyBasedComWrappers();
 
-		public static T? Wrap<T>(IntPtr pointer) where T : class
+		public static T? Wrap<T>(IntPtr pointer)
+			where T : class
 		{
 			if (pointer == IntPtr.Zero)
 				return null;
@@ -639,9 +621,7 @@ public static partial class HeadsetAudio
 
 		[GeneratedComInterface]
 		[Guid("94EA2B94-E9CC-49E0-C0FF-EE64CA8F5B90")]
-		public partial interface IAgileObject
-		{
-		}
+		public partial interface IAgileObject { }
 
 		[GeneratedComClass]
 		internal sealed partial class CompletionHandler : IActivateAudioInterfaceCompletionHandler, IAgileObject
@@ -697,7 +677,13 @@ public static partial class HeadsetAudio
 		}
 
 		[LibraryImport("Mmdevapi.dll", StringMarshalling = StringMarshalling.Utf16)]
-		private static partial int ActivateAudioInterfaceAsync(string devicePath, in Guid riid, IntPtr activationParams, IActivateAudioInterfaceCompletionHandler handler, out IActivateAudioInterfaceAsyncOperation operation);
+		private static partial int ActivateAudioInterfaceAsync(
+			string devicePath,
+			in Guid riid,
+			IntPtr activationParams,
+			IActivateAudioInterfaceCompletionHandler handler,
+			out IActivateAudioInterfaceAsyncOperation operation
+		);
 
 		private static bool WaitForActivation(CompletionHandler handler, CancellationToken token)
 		{
@@ -722,7 +708,7 @@ public static partial class HeadsetAudio
 				{
 					ActivationType = 1,
 					TargetProcessId = processId,
-					ProcessLoopbackMode = 0
+					ProcessLoopbackMode = 0,
 				};
 				paramsPtr = Marshal.AllocHGlobal(Marshal.SizeOf<ActivationParams>());
 				Marshal.StructureToPtr(activation, paramsPtr, false);
@@ -734,7 +720,9 @@ public static partial class HeadsetAudio
 				Marshal.WriteIntPtr(variantPtr, 16, paramsPtr);
 
 				var handler = new CompletionHandler();
-				Marshal.ThrowExceptionForHR(ActivateAudioInterfaceAsync(VirtualLoopbackDevice, in IID_AudioClient, variantPtr, handler, out _));
+				Marshal.ThrowExceptionForHR(
+					ActivateAudioInterfaceAsync(VirtualLoopbackDevice, in IID_AudioClient, variantPtr, handler, out _)
+				);
 				if (!WaitForActivation(handler, token))
 				{
 					handler.Abandon();
@@ -792,9 +780,7 @@ public static partial class HeadsetAudio
 					}
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 			if (mixRate > 0 && mixChannels > 0)
 			{
 				yield return WaveFormat.CreateIeeeFloatWaveFormat(mixRate, mixChannels);

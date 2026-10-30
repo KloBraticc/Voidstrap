@@ -6,10 +6,10 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using Voidstrap.Integrations.Keystrokes;
 using Voidstrap.Models.Persistable;
 using Voidstrap.Resources;
 using Voidstrap.UI.Elements.ContextMenu;
-using Voidstrap.Integrations.Keystrokes;
 
 namespace Voidstrap.UI.Elements.Overlay;
 
@@ -72,7 +72,7 @@ public partial class SessionOverlayLayoutEditor : Window
         ("music", () => Strings.Ui_Session_Music, "\uE8D6"),
         ("reviews", () => Strings.Ui_Session_CommunityRating, "\uE734"),
         ("notifications", () => Strings.Ui_Nav_Settings, "\uE713"),
-        ("layout", () => Strings.Ui_OverlayStudio_Title, "\uE759")
+        ("layout", () => Strings.Ui_OverlayStudio_Title, "\uE759"),
     ];
 
     public SessionOverlayLayoutEditor(ImageSource? gameIcon = null, Action? sendTestNotification = null)
@@ -87,7 +87,8 @@ public partial class SessionOverlayLayoutEditor : Window
             out _stageReadoutPanel,
             out _stageReadoutLocationText,
             out _stageReadoutSeparatorText,
-            out _stageReadoutTimeText);
+            out _stageReadoutTimeText
+        );
         _stageReadoutWrapper = WrapStageElement(OverlayStudioLayer.Readout, _stageReadoutBorder);
 
         _stageNotificationHost = SessionLiveOverlayCanvasWindow.BuildExactNotificationElement(
@@ -98,7 +99,8 @@ public partial class SessionOverlayLayoutEditor : Window
             out _stageNotificationHeader,
             out _stageNotificationHeaderText,
             out _stageNotificationTitle,
-            out _stageNotificationText);
+            out _stageNotificationText
+        );
         _stageNotificationWrapper = WrapStageElement(OverlayStudioLayer.Notifications, _stageNotificationHost);
 
         _stageDockRoot = SessionLiveOverlayCanvasWindow.BuildExactDockElement(
@@ -109,7 +111,8 @@ public partial class SessionOverlayLayoutEditor : Window
             out _stageDockGameImage,
             out _stageDockGameTitle,
             out _stageDockSessionClockRun,
-            out _stageDockServerClockRun);
+            out _stageDockServerClockRun
+        );
         _stageDockWrapper = WrapStageElement(OverlayStudioLayer.Dock, _stageDockRoot);
 
         _stageCrosshairImage = SessionLiveOverlayCanvasWindow.BuildExactCrosshairElement(48);
@@ -142,7 +145,7 @@ public partial class SessionOverlayLayoutEditor : Window
             Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)),
             BorderBrush = Brushes.Transparent,
             BorderThickness = new Thickness(1.2),
-            Child = child
+            Child = child,
         };
         wrapper.MouseLeftButtonDown += StageItem_MouseDown;
         wrapper.MouseMove += StageItem_MouseMove;
@@ -160,14 +163,17 @@ public partial class SessionOverlayLayoutEditor : Window
     {
         if (_closed)
             return;
-        Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Loaded, new Action(() =>
-        {
-            if (!_closed)
+        Dispatcher.BeginInvoke(
+            System.Windows.Threading.DispatcherPriority.Loaded,
+            new Action(() =>
             {
-                LayoutStagePreview();
-                RebuildPanelsList();
-            }
-        }));
+                if (!_closed)
+                {
+                    LayoutStagePreview();
+                    RebuildPanelsList();
+                }
+            })
+        );
     }
 
     private void OnEditorClosed(object? sender, EventArgs e)
@@ -192,9 +198,7 @@ public partial class SessionOverlayLayoutEditor : Window
         {
             window.Close();
         }
-        catch
-        {
-        }
+        catch { }
     }
 
     private void ScreenDragButton_Click(object sender, RoutedEventArgs e)
@@ -224,7 +228,8 @@ public partial class SessionOverlayLayoutEditor : Window
                 if (_closed)
                     return;
                 ResetAllCore();
-            });
+            }
+        );
         _screenDragWindow.Closed += (_, _) =>
         {
             _screenDragWindow = null;
@@ -424,7 +429,8 @@ public partial class SessionOverlayLayoutEditor : Window
             _stageReadoutLocationText,
             _stageReadoutSeparatorText,
             _stageReadoutTimeText,
-            stageScale);
+            stageScale
+        );
         _stageReadoutWrapper.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         double rGap = Math.Max(4, layout.SafeReadoutEdgeSpacing * stageScale);
         double rMinX = rGap;
@@ -443,7 +449,8 @@ public partial class SessionOverlayLayoutEditor : Window
             _stageNotificationHeaderText,
             _stageNotificationTitle,
             _stageNotificationText,
-            stageScale);
+            stageScale
+        );
         _stageNotificationWrapper.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         double nGap = Math.Max(2, notif.SafeEdgeSpacing * stageScale);
         double nMinX = nGap;
@@ -463,7 +470,8 @@ public partial class SessionOverlayLayoutEditor : Window
             _stageDockSessionClockRun,
             _stageDockServerClockRun,
             _gameIcon,
-            stageScale);
+            stageScale
+        );
         _stageDockWrapper.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         double dGap = Math.Max(4, layout.SafeDockEdgeSpacing * stageScale);
         double dMinX = 6;
@@ -474,7 +482,8 @@ public partial class SessionOverlayLayoutEditor : Window
         SessionLiveOverlayCanvasWindow.ApplyExactCrosshairConfiguration(
             this,
             _stageCrosshairImage,
-            Math.Max(28, Math.Round(128 * stageScale)));
+            Math.Max(28, Math.Round(128 * stageScale))
+        );
         _stageCrosshairWrapper.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         double cScale = stageW / 1280.0;
         double cLeft = (stageW - _stageCrosshairWrapper.DesiredSize.Width) * 0.5 + layout.SafeCrosshairOffsetX * cScale;
@@ -507,12 +516,27 @@ public partial class SessionOverlayLayoutEditor : Window
         NotificationAppearance notif = NotificationStyle.Current;
         StageCoordBadge.Text = _selectedLayer switch
         {
-            OverlayStudioLayer.Readout => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerReadout}: X {Math.Round(layout.SafeReadoutHorizontal)}% · Y {Math.Round(layout.SafeReadoutVertical)}%"),
-            OverlayStudioLayer.Notifications => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerNotifications}: X {Math.Round(notif.SafeHorizontal)}% · Y {Math.Round(notif.SafeVertical)}%"),
-            OverlayStudioLayer.Dock => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerDock}: {(layout.DockTopEdge ? Strings.Ui_OverlayStudio_TopEdge : Strings.Ui_OverlayStudio_BottomEdge)} · X {Math.Round(layout.SafeDockHorizontal)}%"),
-            OverlayStudioLayer.Crosshair => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerCrosshair}: {layout.SafeCrosshairOffsetX:+#;-#;0}, {layout.SafeCrosshairOffsetY:+#;-#;0} px"),
-            OverlayStudioLayer.Keystrokes => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerKeystrokes}: X {Math.Round(layout.SafeKeystrokesHorizontal)}% · Y {Math.Round(layout.SafeKeystrokesVertical)}%"),
-            _ => Strings.Ui_OverlayStudio_LayerPanels
+            OverlayStudioLayer.Readout => string.Create(
+                CultureInfo.InvariantCulture,
+                $"{Strings.Ui_OverlayStudio_LayerReadout}: X {Math.Round(layout.SafeReadoutHorizontal)}% · Y {Math.Round(layout.SafeReadoutVertical)}%"
+            ),
+            OverlayStudioLayer.Notifications => string.Create(
+                CultureInfo.InvariantCulture,
+                $"{Strings.Ui_OverlayStudio_LayerNotifications}: X {Math.Round(notif.SafeHorizontal)}% · Y {Math.Round(notif.SafeVertical)}%"
+            ),
+            OverlayStudioLayer.Dock => string.Create(
+                CultureInfo.InvariantCulture,
+                $"{Strings.Ui_OverlayStudio_LayerDock}: {(layout.DockTopEdge ? Strings.Ui_OverlayStudio_TopEdge : Strings.Ui_OverlayStudio_BottomEdge)} · X {Math.Round(layout.SafeDockHorizontal)}%"
+            ),
+            OverlayStudioLayer.Crosshair => string.Create(
+                CultureInfo.InvariantCulture,
+                $"{Strings.Ui_OverlayStudio_LayerCrosshair}: {layout.SafeCrosshairOffsetX:+#;-#;0}, {layout.SafeCrosshairOffsetY:+#;-#;0} px"
+            ),
+            OverlayStudioLayer.Keystrokes => string.Create(
+                CultureInfo.InvariantCulture,
+                $"{Strings.Ui_OverlayStudio_LayerKeystrokes}: X {Math.Round(layout.SafeKeystrokesHorizontal)}% · Y {Math.Round(layout.SafeKeystrokesVertical)}%"
+            ),
+            _ => Strings.Ui_OverlayStudio_LayerPanels,
         };
     }
 
@@ -597,8 +621,10 @@ public partial class SessionOverlayLayoutEditor : Window
             double centerTop = (stageH - elemH) * 0.5;
             int offsetX = (int)Math.Round((nextLeft - centerLeft) / cScale);
             int offsetY = (int)Math.Round((nextTop - centerTop) / cScale);
-            if (Math.Abs(offsetX) <= 6) offsetX = 0;
-            if (Math.Abs(offsetY) <= 6) offsetY = 0;
+            if (Math.Abs(offsetX) <= 6)
+                offsetX = 0;
+            if (Math.Abs(offsetY) <= 6)
+                offsetY = 0;
             layout.CrosshairOffsetX = Math.Clamp(offsetX, -200, 200);
             layout.CrosshairOffsetY = Math.Clamp(offsetY, -200, 200);
             Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
@@ -646,9 +672,11 @@ public partial class SessionOverlayLayoutEditor : Window
         if (sender is not FrameworkElement { Tag: string raw })
             return;
         string[] parts = raw.Split(',');
-        if (parts.Length != 2
+        if (
+            parts.Length != 2
             || !double.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out double anchorX)
-            || !double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out double anchorY))
+            || !double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out double anchorY)
+        )
             return;
 
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
@@ -675,8 +703,14 @@ public partial class SessionOverlayLayoutEditor : Window
         }
         else if (_selectedLayer == OverlayStudioLayer.Crosshair)
         {
-            layout.CrosshairOffsetX = anchorX < 50 ? -60 : anchorX > 50 ? 60 : 0;
-            layout.CrosshairOffsetY = anchorY < 50 ? -60 : anchorY > 50 ? 60 : 0;
+            layout.CrosshairOffsetX =
+                anchorX < 50 ? -60
+                : anchorX > 50 ? 60
+                : 0;
+            layout.CrosshairOffsetY =
+                anchorY < 50 ? -60
+                : anchorY > 50 ? 60
+                : 0;
             Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
         }
         else if (_selectedLayer == OverlayStudioLayer.Keystrokes)
@@ -730,7 +764,11 @@ public partial class SessionOverlayLayoutEditor : Window
     {
         if (SessionDock.ActiveInstance is SessionDock dock)
         {
-            dock.ShowTool("notifications", Strings.Ui_Nav_Settings, () => new SessionNotificationSettings(_gameIcon, null, _sendTestNotification));
+            dock.ShowTool(
+                "notifications",
+                Strings.Ui_Nav_Settings,
+                () => new SessionNotificationSettings(_gameIcon, null, _sendTestNotification)
+            );
         }
         else
         {
@@ -788,7 +826,10 @@ public partial class SessionOverlayLayoutEditor : Window
     {
         if (!_ready || _loading)
             return;
-        App.Settings.Prop.CrosshairShapeIndex = CrosshairShapeDot.IsChecked == true ? 1 : CrosshairShapeCircle.IsChecked == true ? 2 : 0;
+        App.Settings.Prop.CrosshairShapeIndex =
+            CrosshairShapeDot.IsChecked == true ? 1
+            : CrosshairShapeCircle.IsChecked == true ? 2
+            : 0;
         SyncCrosshairIni();
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
         App.Settings.SaveDeferred();
@@ -803,9 +844,7 @@ public partial class SessionOverlayLayoutEditor : Window
         {
             initial = (Color)ColorConverter.ConvertFromString(App.Settings.Prop.CrosshairColorHex);
         }
-        catch
-        {
-        }
+        catch { }
         var dlg = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog(initial, title: Strings.Ui_Mods_Colors);
         Window? owner = sender is DependencyObject dep ? Window.GetWindow(dep) : null;
         if (owner is { IsVisible: true } && new System.Windows.Interop.WindowInteropHelper(owner).Handle != IntPtr.Zero)
@@ -837,9 +876,7 @@ public partial class SessionOverlayLayoutEditor : Window
         {
             initial = (Color)ColorConverter.ConvertFromString(App.Settings.Prop.CrosshairOutlineColorHex);
         }
-        catch
-        {
-        }
+        catch { }
         var dlg = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog(initial, title: Strings.Ui_Mods_Colors);
         Window? owner = sender is DependencyObject dep ? Window.GetWindow(dep) : null;
         if (owner is { IsVisible: true } && new System.Windows.Interop.WindowInteropHelper(owner).Handle != IntPtr.Zero)
@@ -944,9 +981,7 @@ public partial class SessionOverlayLayoutEditor : Window
             Color c = (Color)ColorConverter.ConvertFromString(hex);
             swatch.Background = new SolidColorBrush(c);
         }
-        catch
-        {
-        }
+        catch { }
     }
 
     private static void SyncCrosshairIni()
@@ -957,21 +992,28 @@ public partial class SessionOverlayLayoutEditor : Window
             string dir = Paths.UserData;
             Paths.TryEnsureDirectory(dir);
             string file = System.IO.Path.Combine(dir, "crosshair.ini");
-            IniFile.Write(file, new Dictionary<string, string>
-            {
-                ["Shape"] = (Math.Clamp(prop.CrosshairShapeIndex, 0, 3)) switch { 1 => "Dot", 2 => "Circle", 3 => "Image", _ => "Cross" },
-                ["Color"] = prop.CrosshairColorHex ?? "#00FF00",
-                ["Outline"] = prop.CrosshairOutlineColorHex ?? "#000000",
-                ["Size"] = prop.CrosshairSize.ToString(CultureInfo.InvariantCulture),
-                ["Thickness"] = prop.CrosshairLineThickness.ToString(CultureInfo.InvariantCulture),
-                ["Gap"] = prop.CrosshairGap.ToString(CultureInfo.InvariantCulture),
-                ["Opacity"] = prop.CrosshairOpacity.ToString(CultureInfo.InvariantCulture),
-                ["ImageUrl"] = prop.CrosshairImagePath ?? ""
-            });
+            IniFile.Write(
+                file,
+                new Dictionary<string, string>
+                {
+                    ["Shape"] = (Math.Clamp(prop.CrosshairShapeIndex, 0, 3)) switch
+                    {
+                        1 => "Dot",
+                        2 => "Circle",
+                        3 => "Image",
+                        _ => "Cross",
+                    },
+                    ["Color"] = prop.CrosshairColorHex ?? "#00FF00",
+                    ["Outline"] = prop.CrosshairOutlineColorHex ?? "#000000",
+                    ["Size"] = prop.CrosshairSize.ToString(CultureInfo.InvariantCulture),
+                    ["Thickness"] = prop.CrosshairLineThickness.ToString(CultureInfo.InvariantCulture),
+                    ["Gap"] = prop.CrosshairGap.ToString(CultureInfo.InvariantCulture),
+                    ["Opacity"] = prop.CrosshairOpacity.ToString(CultureInfo.InvariantCulture),
+                    ["ImageUrl"] = prop.CrosshairImagePath ?? "",
+                }
+            );
         }
-        catch
-        {
-        }
+        catch { }
     }
 
     private void CrosshairSlider_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -1224,35 +1266,32 @@ public partial class SessionOverlayLayoutEditor : Window
             int pctY = (int)Math.Round(Math.Clamp(entry?.Y ?? 0.12, 0, 1) * 100);
             bool pinned = entry?.Pinned == true;
 
-            Border row = new()
-            {
-                Style = (Style)FindResource(last ? "LastRow" : "Row")
-            };
+            Border row = new() { Style = (Style)FindResource(last ? "LastRow" : "Row") };
 
             Grid grid = new();
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
             StackPanel left = new() { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
-            left.Children.Add(new TextBlock
-            {
-                Text = glyph,
-                Style = (Style)FindResource("Glyph"),
-                Margin = new Thickness(0, 0, 10, 0),
-                Foreground = (Brush)FindResource("TextFillColorSecondaryBrush")
-            });
+            left.Children.Add(
+                new TextBlock
+                {
+                    Text = glyph,
+                    Style = (Style)FindResource("Glyph"),
+                    Margin = new Thickness(0, 0, 10, 0),
+                    Foreground = (Brush)FindResource("TextFillColorSecondaryBrush"),
+                }
+            );
 
             StackPanel titles = new() { VerticalAlignment = VerticalAlignment.Center };
-            titles.Children.Add(new TextBlock
-            {
-                Text = labelFn(),
-                Style = (Style)FindResource("Label")
-            });
-            titles.Children.Add(new TextBlock
-            {
-                Text = string.Create(CultureInfo.InvariantCulture, $"X: {pctX}% · Y: {pctY}%"),
-                Style = (Style)FindResource("Hint")
-            });
+            titles.Children.Add(new TextBlock { Text = labelFn(), Style = (Style)FindResource("Label") });
+            titles.Children.Add(
+                new TextBlock
+                {
+                    Text = string.Create(CultureInfo.InvariantCulture, $"X: {pctX}% · Y: {pctY}%"),
+                    Style = (Style)FindResource("Hint"),
+                }
+            );
             left.Children.Add(titles);
             grid.Children.Add(left);
 
@@ -1265,7 +1304,7 @@ public partial class SessionOverlayLayoutEditor : Window
                 Appearance = Wpf.Ui.Common.ControlAppearance.Secondary,
                 Padding = new Thickness(10, 5, 10, 5),
                 Margin = new Thickness(0, 0, 6, 0),
-                Focusable = false
+                Focusable = false,
             };
             string capturedKey = key;
             bool nextPinned = !pinned;
@@ -1281,7 +1320,7 @@ public partial class SessionOverlayLayoutEditor : Window
                 Content = Strings.Ui_OverlayStudio_CenterPanel,
                 Appearance = Wpf.Ui.Common.ControlAppearance.Secondary,
                 Padding = new Thickness(10, 5, 10, 5),
-                Focusable = false
+                Focusable = false,
             };
             centerBtn.Click += (_, _) =>
             {

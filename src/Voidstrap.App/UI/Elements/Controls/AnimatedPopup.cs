@@ -37,7 +37,10 @@ public class AnimatedPopup : Popup
 
 	static AnimatedPopup()
 	{
-		IsOpenProperty.OverrideMetadata(typeof(AnimatedPopup), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, null, CoerceIsOpen));
+		IsOpenProperty.OverrideMetadata(
+			typeof(AnimatedPopup),
+			new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, null, CoerceIsOpen)
+		);
 	}
 
 	protected override void OnOpened(EventArgs e)
@@ -170,7 +173,13 @@ public class AnimatedPopup : Popup
 
 	private void DismissWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
 	{
-		if (!IsOpen || _closing || e.OriginalSource is not DependencyObject source || IsWithin(source, Child) || IsWithin(source, PlacementTarget))
+		if (
+			!IsOpen
+			|| _closing
+			|| e.OriginalSource is not DependencyObject source
+			|| IsWithin(source, Child)
+			|| IsWithin(source, PlacementTarget)
+		)
 		{
 			return;
 		}
@@ -183,7 +192,11 @@ public class AnimatedPopup : Popup
 		{
 			return false;
 		}
-		for (DependencyObject? current = source; current != null; current = LogicalTreeHelper.GetParent(current) ?? (current is Visual ? VisualTreeHelper.GetParent(current) : null))
+		for (
+			DependencyObject? current = source;
+			current != null;
+			current = LogicalTreeHelper.GetParent(current) ?? (current is Visual ? VisualTreeHelper.GetParent(current) : null)
+		)
 		{
 			if (ReferenceEquals(current, root))
 			{

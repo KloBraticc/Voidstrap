@@ -19,6 +19,7 @@ public partial class SessionNotificationSettings : Window
     private const string ShortcutHintText = "The key combination that opens the overlay.";
     private readonly Action? _sendTest;
     private NotificationAppearance _appearance = new();
+
     // Sliders raise ValueChanged while the XAML is still being loaded, before the other controls exist
     private bool _ready;
     private bool _loading;
@@ -78,11 +79,14 @@ public partial class SessionNotificationSettings : Window
         if (_playedOnOpen || _closed)
             return;
         _playedOnOpen = true;
-        Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
-        {
-            PlaceMock();
-            _ = PortableOverlay.RunAsync(this, PlayAsync);
-        }));
+        Dispatcher.BeginInvoke(
+            DispatcherPriority.Loaded,
+            new Action(() =>
+            {
+                PlaceMock();
+                _ = PortableOverlay.RunAsync(this, PlayAsync);
+            })
+        );
     }
 
     private void LoadControls()
@@ -95,7 +99,10 @@ public partial class SessionNotificationSettings : Window
         HorizontalSlider.Value = _appearance.SafeHorizontal;
         VerticalSlider.Value = _appearance.SafeVertical;
         CornerSlider.Value = _appearance.SafeCornerRadius;
-        SpacingSlider.Value = double.IsFinite(_appearance.EdgeSpacing) && _appearance.EdgeSpacing > 0 ? Math.Clamp(_appearance.EdgeSpacing, 4, 48) : NotificationAppearance.FloatingGap;
+        SpacingSlider.Value =
+            double.IsFinite(_appearance.EdgeSpacing) && _appearance.EdgeSpacing > 0
+                ? Math.Clamp(_appearance.EdgeSpacing, 4, 48)
+                : NotificationAppearance.FloatingGap;
         WidthSlider.Value = _appearance.SafeCardWidth;
         IntroSpeed.Value = _appearance.SafeIntroMilliseconds;
         OutroSpeed.Value = _appearance.SafeOutroMilliseconds;
@@ -132,7 +139,8 @@ public partial class SessionNotificationSettings : Window
         foreach (object child in PositionGrid.Children)
         {
             if (child is RadioButton { Tag: string tag } spot && TryParseSpot(tag, out double horizontal, out double vertical))
-                spot.IsChecked = Math.Abs(horizontal - _appearance.SafeHorizontal) < 0.5 && Math.Abs(vertical - _appearance.SafeVertical) < 0.5;
+                spot.IsChecked =
+                    Math.Abs(horizontal - _appearance.SafeHorizontal) < 0.5 && Math.Abs(vertical - _appearance.SafeVertical) < 0.5;
         }
         _loading = loading;
     }
@@ -148,7 +156,12 @@ public partial class SessionNotificationSettings : Window
 
     private void Position_Checked(object sender, RoutedEventArgs e)
     {
-        if (!_ready || _loading || sender is not FrameworkElement { Tag: string tag } || !TryParseSpot(tag, out double horizontal, out double vertical))
+        if (
+            !_ready
+            || _loading
+            || sender is not FrameworkElement { Tag: string tag }
+            || !TryParseSpot(tag, out double horizontal, out double vertical)
+        )
             return;
         _appearance.Horizontal = horizontal;
         _appearance.Vertical = vertical;
@@ -236,8 +249,13 @@ public partial class SessionNotificationSettings : Window
         Commit();
         if (ReferenceEquals(sender, HorizontalSlider) || ReferenceEquals(sender, VerticalSlider))
             UpdateSpots();
-        if (ReferenceEquals(sender, HorizontalSlider) || ReferenceEquals(sender, VerticalSlider) || ReferenceEquals(sender, SpacingSlider)
-            || ReferenceEquals(sender, IntroSpeed) || ReferenceEquals(sender, OutroSpeed))
+        if (
+            ReferenceEquals(sender, HorizontalSlider)
+            || ReferenceEquals(sender, VerticalSlider)
+            || ReferenceEquals(sender, SpacingSlider)
+            || ReferenceEquals(sender, IntroSpeed)
+            || ReferenceEquals(sender, OutroSpeed)
+        )
         {
             _replay.Stop();
             _replay.Start();
@@ -363,7 +381,14 @@ public partial class SessionNotificationSettings : Window
         double cardWidth = size.Width - (pad.Left + pad.Right) * PreviewScale;
         double cardHeight = size.Height - (pad.Top + pad.Bottom) * PreviewScale;
         // Placed by the card like the real window, then pushed out by the shadow room around it
-        Point spot = NotificationStyle.Place(_appearance, stageWidth, stageHeight, cardWidth, cardHeight, _appearance.SafeEdgeSpacing * PreviewScale);
+        Point spot = NotificationStyle.Place(
+            _appearance,
+            stageWidth,
+            stageHeight,
+            cardWidth,
+            cardHeight,
+            _appearance.SafeEdgeSpacing * PreviewScale
+        );
         Canvas.SetLeft(MockHost, Math.Round(spot.X - pad.Left * PreviewScale));
         Canvas.SetTop(MockHost, Math.Round(spot.Y - pad.Top * PreviewScale));
     }
@@ -465,7 +490,13 @@ public partial class SessionNotificationSettings : Window
         OverlayShortcut shortcut = App.Settings.Prop.SessionDockShortcut ??= new OverlayShortcut();
         ShortcutText.Text = shortcut.IsSet ? shortcut.Describe() : "None";
         ShortcutClear.IsEnabled = shortcut.IsSet;
-        ShortcutHint.Text = hint ?? (shortcut.IsSet ? ShortcutHintText : "No shortcut, so the overlay cannot be opened. Set one here, or use Reset shortcut on the Mods page in Voidstrap settings.");
+        ShortcutHint.Text =
+            hint
+            ?? (
+                shortcut.IsSet
+                    ? ShortcutHintText
+                    : "No shortcut, so the overlay cannot be opened. Set one here, or use Reset shortcut on the Mods page in Voidstrap settings."
+            );
         ShortcutBox.SetResourceReference(Border.BorderBrushProperty, "ControlStrokeColorDefaultBrush");
     }
 
@@ -492,7 +523,7 @@ public partial class SessionNotificationSettings : Window
         {
             Key.System => e.SystemKey,
             Key.ImeProcessed => e.ImeProcessedKey,
-            _ => e.Key
+            _ => e.Key,
         };
         if (key == Key.Escape)
         {
@@ -541,7 +572,10 @@ public partial class SessionNotificationSettings : Window
         if (held.HasFlag(ModifierKeys.Shift))
             text += "Shift + ";
         if (held.HasFlag(ModifierKeys.Windows))
-            text += Voidstrap.Utility.Platform.IsMacOS ? "Command + " : Voidstrap.Utility.Platform.IsLinux ? "Super + " : "Win + ";
+            text +=
+                Voidstrap.Utility.Platform.IsMacOS ? "Command + "
+                : Voidstrap.Utility.Platform.IsLinux ? "Super + "
+                : "Win + ";
         return text;
     }
 

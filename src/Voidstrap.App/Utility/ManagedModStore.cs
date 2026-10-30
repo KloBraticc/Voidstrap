@@ -67,11 +67,7 @@ internal static class ManagedModStore
 	private static readonly object Sync = new();
 
 	internal static readonly SemaphoreSlim SourcesGate = new(1, 1);
-	private static readonly JsonSerializerOptions JsonOptions = new()
-	{
-		WriteIndented = true,
-		PropertyNameCaseInsensitive = true
-	};
+	private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true, PropertyNameCaseInsensitive = true };
 
 	public static event Action? Changed;
 
@@ -101,7 +97,7 @@ internal static class ManagedModStore
 				Id = Guid.NewGuid().ToString("N"),
 				Name = NormalizeName(name),
 				Enabled = true,
-				CreatedUtc = DateTime.UtcNow
+				CreatedUtc = DateTime.UtcNow,
 			};
 			Directory.CreateDirectory(GetFolderCore(record.Id));
 			records.Insert(0, record);
@@ -217,18 +213,14 @@ internal static class ManagedModStore
 				{
 					DeleteDirectory(folder);
 				}
-				catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-				{
-				}
+				catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 			}
 			if (!Directory.EnumerateFileSystemEntries(trash).Any())
 			{
 				Directory.Delete(trash, false);
 			}
 		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-		{
-		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 	}
 
 	private static void DeleteDirectory(string path)
@@ -252,7 +244,7 @@ internal static class ManagedModStore
 		{
 			RecurseSubdirectories = true,
 			IgnoreInaccessible = true,
-			AttributesToSkip = FileAttributes.ReparsePoint
+			AttributesToSkip = FileAttributes.ReparsePoint,
 		};
 		foreach (string file in Directory.EnumerateFiles(path, "*", options))
 		{
@@ -270,9 +262,7 @@ internal static class ManagedModStore
 				File.SetAttributes(file, attributes & ~FileAttributes.ReadOnly);
 			}
 		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-		{
-		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
 	}
 
 	public static string GetFolder(string id)
@@ -320,7 +310,13 @@ internal static class ManagedModStore
 		HashSet<string> onTop = Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.FeatureModIds();
 		lock (Sync)
 		{
-			return [.. LoadCore().Where(record => record.Enabled).OrderByDescending(record => onTop.Contains(record.Id)).Select(record => GetFolderCore(record.Id))];
+			return
+			[
+				.. LoadCore()
+					.Where(record => record.Enabled)
+					.OrderByDescending(record => onTop.Contains(record.Id))
+					.Select(record => GetFolderCore(record.Id)),
+			];
 		}
 	}
 
@@ -331,7 +327,9 @@ internal static class ManagedModStore
 		{
 			ManagedModScanResult result = new();
 			HashSet<string> claimed = new(StringComparer.OrdinalIgnoreCase);
-			foreach (ManagedModRecord record in LoadCore().Where(record => record.Enabled).OrderByDescending(record => onTop.Contains(record.Id)))
+			foreach (
+				ManagedModRecord record in LoadCore().Where(record => record.Enabled).OrderByDescending(record => onTop.Contains(record.Id))
+			)
 			{
 				string folder = GetFolderCore(record.Id);
 				List<ManagedModFile> packageFiles = [];
@@ -368,7 +366,9 @@ internal static class ManagedModStore
 		try
 		{
 			IReadOnlyList<ManagedModLibraryEntry> library = ScanLibrary();
-			ManagedModLibraryEntry? target = library.FirstOrDefault(entry => string.Equals(entry.Record.Id, id, StringComparison.OrdinalIgnoreCase));
+			ManagedModLibraryEntry? target = library.FirstOrDefault(entry =>
+				string.Equals(entry.Record.Id, id, StringComparison.OrdinalIgnoreCase)
+			);
 			if (target == null)
 				return lines;
 			foreach (ManagedModLibraryEntry other in library)
@@ -377,7 +377,14 @@ internal static class ManagedModStore
 					continue;
 				int shared = target.RelativePaths.Count(other.RelativePaths.Contains);
 				if (shared > 0)
-					lines.Add(other.Record.Name + " replaces " + shared + " of the same file" + (shared == 1 ? "" : "s") + (other.AppliedOnTop ? " and is applied on top of it" : ""));
+					lines.Add(
+						other.Record.Name
+							+ " replaces "
+							+ shared
+							+ " of the same file"
+							+ (shared == 1 ? "" : "s")
+							+ (other.AppliedOnTop ? " and is applied on top of it" : "")
+					);
 			}
 		}
 		catch (Exception ex)
@@ -413,13 +420,15 @@ internal static class ManagedModStore
 			{
 				if (indexed.Add(folderName))
 				{
-					records.Add(new ManagedModRecord
-					{
-						Id = folderName.ToLowerInvariant(),
-						Name = "Mod " + folderName[..8],
-						Enabled = true,
-						CreatedUtc = Directory.GetCreationTimeUtc(folder)
-					});
+					records.Add(
+						new ManagedModRecord
+						{
+							Id = folderName.ToLowerInvariant(),
+							Name = "Mod " + folderName[..8],
+							Enabled = true,
+							CreatedUtc = Directory.GetCreationTimeUtc(folder),
+						}
+					);
 					changed = true;
 				}
 				continue;
@@ -427,13 +436,15 @@ internal static class ManagedModStore
 			string id = Guid.NewGuid().ToString("N");
 			string destination = GetFolderCore(id);
 			Directory.Move(folder, destination);
-			records.Add(new ManagedModRecord
-			{
-				Id = id,
-				Name = NormalizeName(folderName, "Mod " + id[..8]),
-				Enabled = true,
-				CreatedUtc = DateTime.UtcNow
-			});
+			records.Add(
+				new ManagedModRecord
+				{
+					Id = id,
+					Name = NormalizeName(folderName, "Mod " + id[..8]),
+					Enabled = true,
+					CreatedUtc = DateTime.UtcNow,
+				}
+			);
 			indexed.Add(id);
 			changed = true;
 		}
@@ -499,9 +510,7 @@ internal static class ManagedModStore
 				{
 					handler();
 				}
-				catch
-				{
-				}
+				catch { }
 			});
 		}
 	}
@@ -572,7 +581,7 @@ internal static class ManagedModStore
 			Id = record.Id,
 			Name = record.Name,
 			Enabled = record.Enabled,
-			CreatedUtc = record.CreatedUtc
+			CreatedUtc = record.CreatedUtc,
 		};
 	}
 }

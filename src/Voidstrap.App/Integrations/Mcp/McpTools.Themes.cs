@@ -54,12 +54,16 @@ public static partial class McpTools
 					["selectedCustomBootstrapperTheme"] = App.Settings.Prop.SelectedCustomTheme,
 					["customBootstrapperThemes"] = new JsonArray(GetInstalledBootstrapperThemes().Select(t => (JsonNode)t).ToArray()),
 					["selectedKeystrokeTheme"] = App.Settings.Prop.KeystrokesThemeName,
-					["builtInKeystrokeThemes"] = new JsonArray(KeystrokeThemeManager.GetBuiltInThemes().Select(t => (JsonNode)t.Name).ToArray()),
-					["customKeystrokeThemes"] = new JsonArray(KeystrokeThemeManager.GetCustomThemes().Select(t => (JsonNode)t.Name).ToArray()),
+					["builtInKeystrokeThemes"] = new JsonArray(
+						KeystrokeThemeManager.GetBuiltInThemes().Select(t => (JsonNode)t.Name).ToArray()
+					),
+					["customKeystrokeThemes"] = new JsonArray(
+						KeystrokeThemeManager.GetCustomThemes().Select(t => (JsonNode)t.Name).ToArray()
+					),
 					["cursorType"] = App.Settings.Prop.CursorType.ToString(),
 					["customFontInstalled"] = File.Exists(Paths.CustomFont),
 					["customDeathSoundInstalled"] = File.Exists(Paths.CustomDeathSound),
-					["modFiles"] = new JsonArray(GetModFiles().Select(f => (JsonNode)f).ToArray())
+					["modFiles"] = new JsonArray(GetModFiles().Select(f => (JsonNode)f).ToArray()),
 				};
 				return new McpToolResult(info.ToJsonString(IndentedJson));
 			}
@@ -81,7 +85,9 @@ public static partial class McpTools
 					App.Settings.Save();
 				}
 
-				return new McpToolResult($"Created custom Bootstrapper theme '{name}' at {Path.Combine(Paths.CustomThemes, name, "Theme.xml")}{(activate ? " and set it as active" : "")}.");
+				return new McpToolResult(
+					$"Created custom Bootstrapper theme '{name}' at {Path.Combine(Paths.CustomThemes, name, "Theme.xml")}{(activate ? " and set it as active" : "")}."
+				);
 			}
 
 			case "delete_bootstrapper_theme":
@@ -270,7 +276,10 @@ public static partial class McpTools
 			}
 
 			default:
-				return new McpToolResult($"Unknown action '{action}'. Valid actions: list, create_bootstrapper_theme, delete_bootstrapper_theme, activate_bootstrapper_theme, create_keystroke_theme, delete_keystroke_theme, activate_keystroke_theme, set_custom_font, clear_custom_font, set_custom_death_sound, clear_custom_death_sound, write_mod_file, delete_mod_file.", true);
+				return new McpToolResult(
+					$"Unknown action '{action}'. Valid actions: list, create_bootstrapper_theme, delete_bootstrapper_theme, activate_bootstrapper_theme, create_keystroke_theme, delete_keystroke_theme, activate_keystroke_theme, set_custom_font, clear_custom_font, set_custom_death_sound, clear_custom_death_sound, write_mod_file, delete_mod_file.",
+					true
+				);
 		}
 	}
 }

@@ -16,7 +16,7 @@ public enum CursorSlot
 	ArrowFar,
 	Text,
 	Drag,
-	ShiftLock
+	ShiftLock,
 }
 
 internal static class CursorManager
@@ -33,7 +33,9 @@ internal static class CursorManager
 
 	internal static readonly CursorSlot[] OneImageSlots = { CursorSlot.Arrow, CursorSlot.ArrowFar, CursorSlot.Text };
 
-	private static readonly Lazy<Dictionary<string, List<byte[]>>> PresetHashes = new Lazy<Dictionary<string, List<byte[]>>>(BuildPresetHashes);
+	private static readonly Lazy<Dictionary<string, List<byte[]>>> PresetHashes = new Lazy<Dictionary<string, List<byte[]>>>(
+		BuildPresetHashes
+	);
 
 	internal static string SetsFolder => Paths.CustomCursors;
 
@@ -43,9 +45,9 @@ internal static class CursorManager
 
 	private static CursorType CurrentStyle => App.Settings.Prop.CursorType;
 
-    internal static readonly char[] anyOf = new[] { '/', '\\' };
+	internal static readonly char[] anyOf = new[] { '/', '\\' };
 
-    internal static string PreviewPath(CursorSlot slot)
+	internal static string PreviewPath(CursorSlot slot)
 	{
 		return slot == CursorSlot.ShiftLock ? ModsPath(slot) : WorkingPath(slot);
 	}
@@ -112,7 +114,8 @@ internal static class CursorManager
 		return PresetHashes.Value.ToDictionary(
 			pair => pair.Key.Replace('\\', '/'),
 			pair => (IReadOnlyList<string>)pair.Value.Select(hash => Convert.ToHexString(hash)).ToArray(),
-			StringComparer.Ordinal);
+			StringComparer.Ordinal
+		);
 	}
 
 	internal static void ApplyStyle(CursorType style)
@@ -167,7 +170,8 @@ internal static class CursorManager
 		try
 		{
 			Directory.CreateDirectory(SetsFolder);
-			return Directory.GetDirectories(SetsFolder)
+			return Directory
+				.GetDirectories(SetsFolder)
 				.Select(Path.GetFileName)
 				.Where(static name => !string.IsNullOrWhiteSpace(name))
 				.Select(static name => name!)
@@ -264,7 +268,7 @@ internal static class CursorManager
 			ZipEntry entry = new ZipEntry(Path.GetRelativePath(folder, file).Replace('\\', '/'))
 			{
 				DateTime = File.GetLastWriteTime(file),
-				Size = new FileInfo(file).Length
+				Size = new FileInfo(file).Length,
 			};
 			zip.PutNextEntry(entry);
 			using (FileStream input = File.OpenRead(file))
@@ -287,7 +291,13 @@ internal static class CursorManager
 			foreach (CursorSlot slot in Enum.GetValues<CursorSlot>())
 			{
 				string fileName = Path.GetFileName(RelativePath(slot));
-				string? source = Directory.EnumerateFiles(temporary, fileName, new EnumerationOptions { RecurseSubdirectories = true, MatchCasing = MatchCasing.CaseInsensitive }).FirstOrDefault();
+				string? source = Directory
+					.EnumerateFiles(
+						temporary,
+						fileName,
+						new EnumerationOptions { RecurseSubdirectories = true, MatchCasing = MatchCasing.CaseInsensitive }
+					)
+					.FirstOrDefault();
 				if (source == null)
 					continue;
 				WriteFile(Path.Combine(folder, RelativePath(slot)), EncodePng(source));
@@ -316,7 +326,7 @@ internal static class CursorManager
 			CursorSlot.ArrowFar => Path.Combine("Cursors", "KeyboardMouse", "ArrowFarCursor.png"),
 			CursorSlot.Text => Path.Combine("Cursors", "KeyboardMouse", "IBeamCursor.png"),
 			CursorSlot.Drag => Path.Combine("Cursors", "KeyboardMouse", "ArrowCursorDecalDrag.png"),
-			_ => "MouseLockedCursor.png"
+			_ => "MouseLockedCursor.png",
 		};
 	}
 
@@ -378,9 +388,7 @@ internal static class CursorManager
 		{
 			return EncodeWithRaster(bytes);
 		}
-		catch (NotSupportedException) when (OperatingSystem.IsWindows())
-		{
-		}
+		catch (NotSupportedException) when (OperatingSystem.IsWindows()) { }
 		catch (NotSupportedException)
 		{
 			throw new InvalidDataException("That image format is not supported.");
@@ -410,8 +418,14 @@ internal static class CursorManager
 	private static byte[] EncodeWithWindows(byte[] bytes)
 	{
 		using MemoryStream input = new MemoryStream(bytes, false);
-		BitmapDecoder decoder = BitmapDecoder.Create(input, BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.None);
-		BitmapFrame frame = decoder.Frames.OrderByDescending(static candidate => (long)candidate.PixelWidth * candidate.PixelHeight).First();
+		BitmapDecoder decoder = BitmapDecoder.Create(
+			input,
+			BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile,
+			BitmapCacheOption.None
+		);
+		BitmapFrame frame = decoder
+			.Frames.OrderByDescending(static candidate => (long)candidate.PixelWidth * candidate.PixelHeight)
+			.First();
 		CheckDimensions(frame.PixelWidth, frame.PixelHeight);
 		PngBitmapEncoder encoder = new PngBitmapEncoder();
 		encoder.Frames.Add(BitmapFrame.Create(frame));
@@ -483,7 +497,10 @@ internal static class CursorManager
 			throw new ArgumentException("Enter a name for the cursor set.");
 		if (name.Length > MaximumSetNameLength)
 			throw new ArgumentException("Use a name with 64 characters or fewer.");
-		if (name.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0 || PathValidator.IsFileNameValid(name) != PathValidator.ValidationResult.Ok)
+		if (
+			name.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0
+			|| PathValidator.IsFileNameValid(name) != PathValidator.ValidationResult.Ok
+		)
 			throw new ArgumentException("That name cannot be used for a folder. Try a different name.");
 		return name;
 	}
@@ -491,7 +508,10 @@ internal static class CursorManager
 	private static string SanitizeName(string raw)
 	{
 		char[] invalid = Path.GetInvalidFileNameChars();
-		string cleaned = new string(raw.Select(character => Array.IndexOf(invalid, character) >= 0 ? ' ' : character).ToArray()).Trim().TrimEnd('.').Trim();
+		string cleaned = new string(raw.Select(character => Array.IndexOf(invalid, character) >= 0 ? ' ' : character).ToArray())
+			.Trim()
+			.TrimEnd('.')
+			.Trim();
 		if (cleaned.Length > MaximumSetNameLength)
 			cleaned = cleaned[..MaximumSetNameLength].Trim();
 		if (cleaned.Length == 0 || PathValidator.IsFileNameValid(cleaned) != PathValidator.ValidationResult.Ok)

@@ -116,11 +116,16 @@ public static class AppNotifications
 			if (allowed)
 				Stage(key, KindError, "Something went wrong in " + Area(source), Describe(root), source, false);
 			else
-				Stage(OverflowKey, KindError, "More errors were logged", "Voidstrap logged more errors than this inbox shows. Open the log for the full details.", source, false);
+				Stage(
+					OverflowKey,
+					KindError,
+					"More errors were logged",
+					"Voidstrap logged more errors than this inbox shows. Open the log for the full details.",
+					source,
+					false
+				);
 		}
-		catch
-		{
-		}
+		catch { }
 		finally
 		{
 			_busy = false;
@@ -137,9 +142,7 @@ public static class AppNotifications
 			Exception root = Unwrap(ex);
 			Stage(BuildKey(root), KindCrash, "Voidstrap crashed", Describe(root), source, true);
 		}
-		catch
-		{
-		}
+		catch { }
 		finally
 		{
 			_busy = false;
@@ -155,9 +158,7 @@ public static class AppNotifications
 		{
 			Stage("info:" + key, KindInfo, title, text, "", false);
 		}
-		catch
-		{
-		}
+		catch { }
 		finally
 		{
 			_busy = false;
@@ -297,7 +298,7 @@ public static class AppNotifications
 					Source = source,
 					LogPath = logPath,
 					FirstSeen = now,
-					LastSeen = now
+					LastSeen = now,
 				};
 			}
 			if (!flushNow)
@@ -316,9 +317,7 @@ public static class AppNotifications
 		{
 			Flush();
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static bool Merge(List<AppNotification> items, List<AppNotification> batch)
@@ -399,7 +398,11 @@ public static class AppNotifications
 			if (!File.Exists(FilePath))
 				return [];
 			List<AppNotification>? items = JsonFile.Deserialize<List<AppNotification>>(FilePath, JsonOptions.Tolerant, MaxFileBytes);
-			return items?.Where(item => item != null && !string.IsNullOrEmpty(item.Id) && !string.IsNullOrEmpty(item.Key)).Take(MaxEntries).ToList() ?? [];
+			return items
+					?.Where(item => item != null && !string.IsNullOrEmpty(item.Id) && !string.IsNullOrEmpty(item.Key))
+					.Take(MaxEntries)
+					.ToList()
+				?? [];
 		}
 		catch (Exception ex)
 		{

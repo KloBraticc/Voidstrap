@@ -2,8 +2,8 @@ using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Windows;
 using System.Linq;
+using System.Windows;
 using System.Windows.Markup;
 using Voidstrap.Integrations;
 using Voidstrap.UI.Elements.Base;
@@ -12,7 +12,8 @@ using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.ContextMenu;
 
-public partial class ServerHistory : WpfUiWindow{
+public partial class ServerHistory : WpfUiWindow
+{
 	private readonly ServerHistoryViewModel _viewModel;
 
 	private readonly UIElement? _root;
@@ -28,7 +29,11 @@ public partial class ServerHistory : WpfUiWindow{
 		if (_root != null)
 			_root.IsVisibleChanged += Root_IsVisibleChanged;
 		base.Closed += ServerHistory_Closed;
-		Window? owner = Application.Current.Windows.Cast<Window>().Where(window => window != this && window.IsVisible && window.ShowInTaskbar).OrderByDescending(window => window.IsActive).FirstOrDefault();
+		Window? owner = Application
+			.Current.Windows.Cast<Window>()
+			.Where(window => window != this && window.IsVisible && window.ShowInTaskbar)
+			.OrderByDescending(window => window.IsActive)
+			.FirstOrDefault();
 		if (owner != null)
 		{
 			Owner = owner;

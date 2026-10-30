@@ -12,34 +12,36 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using CommunityToolkit.Mvvm.Input;
 using Voidstrap.Enums;
+using Voidstrap.Extensions;
 using Voidstrap.Integrations;
 using Voidstrap.Models.Entities;
 using Voidstrap.Utility;
-using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.ViewModels.ContextMenu;
 
 public enum ServerHistorySortBy
 {
-    Latest,
-    Oldest,
-    MostPlayed,
-    NameAZ,
-    NameZA
+	Latest,
+	Oldest,
+	MostPlayed,
+	NameAZ,
+	NameZA,
 }
 
 public class SortByOption
 {
-    public string Display { get; init; } = null!;
-    public ServerHistorySortBy Value { get; init; }
-    public override string ToString() => Display;
+	public string Display { get; init; } = null!;
+	public ServerHistorySortBy Value { get; init; }
+
+	public override string ToString() => Display;
 }
 
 public class ServerTypeFilterOption
 {
-    public string Display { get; init; } = null!;
-    public ServerType? Value { get; init; }
-    public override string ToString() => Display;
+	public string Display { get; init; } = null!;
+	public ServerType? Value { get; init; }
+
+	public override string ToString() => Display;
 }
 
 internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, IDisposable
@@ -77,22 +79,24 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
 
 	public ICommand LaunchDeeplinkCommand { get; }
 
-	public ObservableCollection<SortByOption> SortOptions { get; } = new ObservableCollection<SortByOption>
-	{
-		new SortByOption { Display = HistoryText("Latest"), Value = ServerHistorySortBy.Latest },
-		new SortByOption { Display = HistoryText("Oldest"), Value = ServerHistorySortBy.Oldest },
-		new SortByOption { Display = HistoryText("MostPlayed"), Value = ServerHistorySortBy.MostPlayed },
-		new SortByOption { Display = HistoryText("NameAscending"), Value = ServerHistorySortBy.NameAZ },
-		new SortByOption { Display = HistoryText("NameDescending"), Value = ServerHistorySortBy.NameZA }
-	};
+	public ObservableCollection<SortByOption> SortOptions { get; } =
+		new ObservableCollection<SortByOption>
+		{
+			new SortByOption { Display = HistoryText("Latest"), Value = ServerHistorySortBy.Latest },
+			new SortByOption { Display = HistoryText("Oldest"), Value = ServerHistorySortBy.Oldest },
+			new SortByOption { Display = HistoryText("MostPlayed"), Value = ServerHistorySortBy.MostPlayed },
+			new SortByOption { Display = HistoryText("NameAscending"), Value = ServerHistorySortBy.NameAZ },
+			new SortByOption { Display = HistoryText("NameDescending"), Value = ServerHistorySortBy.NameZA },
+		};
 
-	public ObservableCollection<ServerTypeFilterOption> ServerTypeFilters { get; } = new ObservableCollection<ServerTypeFilterOption>
-	{
-		new ServerTypeFilterOption { Display = HistoryText("AllServers"), Value = null },
-		new ServerTypeFilterOption { Display = HistoryText("Public"), Value = ServerType.Public },
-		new ServerTypeFilterOption { Display = HistoryText("Private"), Value = ServerType.Private },
-		new ServerTypeFilterOption { Display = HistoryText("Reserved"), Value = ServerType.Reserved }
-	};
+	public ObservableCollection<ServerTypeFilterOption> ServerTypeFilters { get; } =
+		new ObservableCollection<ServerTypeFilterOption>
+		{
+			new ServerTypeFilterOption { Display = HistoryText("AllServers"), Value = null },
+			new ServerTypeFilterOption { Display = HistoryText("Public"), Value = ServerType.Public },
+			new ServerTypeFilterOption { Display = HistoryText("Private"), Value = ServerType.Private },
+			new ServerTypeFilterOption { Display = HistoryText("Reserved"), Value = ServerType.Reserved },
+		};
 
 	public SortByOption SelectedSort
 	{
@@ -150,9 +154,7 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
 		{
 			await LoadDataAsync(_lifetimeToken);
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("SortByOption::OnGameLeave", ex);
@@ -168,8 +170,12 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
 			FileInfo file = new(_historyFilePath);
 			if (file.Length <= 0 || file.Length > MaxHistoryFileBytes)
 				return new();
-			return JsonFile.Deserialize<List<ActivityData>>(_historyFilePath, JsonOptions.Tolerant, MaxHistoryFileBytes)
-				.Where(HistoryPersister.IsWithinDesktopRetention).OrderByDescending(item => item.TimeJoined).Take(MaxLoadedHistoryEntries).ToList();
+			return JsonFile
+				.Deserialize<List<ActivityData>>(_historyFilePath, JsonOptions.Tolerant, MaxHistoryFileBytes)
+				.Where(HistoryPersister.IsWithinDesktopRetention)
+				.OrderByDescending(item => item.TimeJoined)
+				.Take(MaxLoadedHistoryEntries)
+				.ToList();
 		}
 		catch (Exception ex)
 		{
@@ -192,14 +198,18 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
 			List<ActivityData> history;
 			lock (_activityWatcher.History)
 				history = _activityWatcher.History.ToList();
-			await Application.Current.Dispatcher.InvokeAsync(() =>
-			{
-				if (_disposed || token.IsCancellationRequested)
-					return;
-				MergeAndConsolidateHistory(stored.Concat(history));
-				NotifyHistoryChanged();
-				SetSuccessState();
-			}, DispatcherPriority.Background, token);
+			await Application.Current.Dispatcher.InvokeAsync(
+				() =>
+				{
+					if (_disposed || token.IsCancellationRequested)
+						return;
+					MergeAndConsolidateHistory(stored.Concat(history));
+					NotifyHistoryChanged();
+					SetSuccessState();
+				},
+				DispatcherPriority.Background,
+				token
+			);
 			try
 			{
 				using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(token);
@@ -215,26 +225,34 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
 				App.Logger.WriteException("ServerHistoryViewModel::FetchForEntries", ex);
 			}
 			token.ThrowIfCancellationRequested();
-			await Application.Current.Dispatcher.InvokeAsync((Action)delegate
-			{
-				if (token.IsCancellationRequested || _disposed)
-					return;
-				lock (_activityWatcher.History)
-					history = _activityWatcher.History.ToList();
-				MergeAndConsolidateHistory(history);
-			}, DispatcherPriority.Background, token);
+			await Application.Current.Dispatcher.InvokeAsync(
+				(Action)
+					delegate
+					{
+						if (token.IsCancellationRequested || _disposed)
+							return;
+						lock (_activityWatcher.History)
+							history = _activityWatcher.History.ToList();
+						MergeAndConsolidateHistory(history);
+					},
+				DispatcherPriority.Background,
+				token
+			);
 			token.ThrowIfCancellationRequested();
-			await Application.Current.Dispatcher.InvokeAsync((Action)delegate
-			{
-				if (token.IsCancellationRequested || _disposed)
-					return;
-				NotifyHistoryChanged();
-				SetSuccessState();
-			}, DispatcherPriority.Background, token);
+			await Application.Current.Dispatcher.InvokeAsync(
+				(Action)
+					delegate
+					{
+						if (token.IsCancellationRequested || _disposed)
+							return;
+						NotifyHistoryChanged();
+						SetSuccessState();
+					},
+				DispatcherPriority.Background,
+				token
+			);
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested) { }
 		catch (Exception ex)
 		{
 			if (!_disposed)
@@ -262,9 +280,7 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
 			if (IsShown?.Invoke() == true)
 				await RefreshServerStatusesAsync();
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("SortByOption::OnStatusTick", ex);
@@ -279,30 +295,50 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
 			if (_disposed || !await _statusGate.WaitAsync(0, _lifetimeToken))
 				return;
 			acquired = true;
-			var places = FilteredGameHistory.Where(item => item.ServerType == ServerType.Public && !string.IsNullOrWhiteSpace(item.JobId)).GroupBy(item => item.PlaceId).ToArray();
+			var places = FilteredGameHistory
+				.Where(item => item.ServerType == ServerType.Public && !string.IsNullOrWhiteSpace(item.JobId))
+				.GroupBy(item => item.PlaceId)
+				.ToArray();
 			if (places.Length == 0)
 				return;
 			int start = (int)((uint)_nextStatusPlace % (uint)places.Length);
 			places = places.Skip(start).Concat(places.Take(start)).Take(2).ToArray();
 			using CancellationTokenSource deadline = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeToken);
 			deadline.CancelAfter(TimeSpan.FromSeconds(20));
-			await Parallel.ForEachAsync(places, new ParallelOptions { MaxDegreeOfParallelism = 1, CancellationToken = deadline.Token }, async (place, token) =>
-			{
-				Interlocked.Increment(ref _nextStatusPlace);
-				Dictionary<string, bool?> statuses = await QueryServerStatusesAsync(App.HttpClient, place.Key, place.Select(item => item.JobId), token);
-				await Application.Current.Dispatcher.InvokeAsync(() =>
+			await Parallel.ForEachAsync(
+				places,
+				new ParallelOptions { MaxDegreeOfParallelism = 1, CancellationToken = deadline.Token },
+				async (place, token) =>
 				{
-					if (_disposed)
-						return;
-					foreach (ActivityData item in GameHistory.Where(item => item.PlaceId == place.Key && item.ServerType == ServerType.Public && !string.IsNullOrWhiteSpace(item.JobId)))
-						item.SetServerStatus(statuses.GetValueOrDefault(item.JobId));
-					((IRelayCommand)LaunchDeeplinkCommand).NotifyCanExecuteChanged();
-				}, DispatcherPriority.Background, _lifetimeToken);
-			});
+					Interlocked.Increment(ref _nextStatusPlace);
+					Dictionary<string, bool?> statuses = await QueryServerStatusesAsync(
+						App.HttpClient,
+						place.Key,
+						place.Select(item => item.JobId),
+						token
+					);
+					await Application.Current.Dispatcher.InvokeAsync(
+						() =>
+						{
+							if (_disposed)
+								return;
+							foreach (
+								ActivityData item in GameHistory.Where(item =>
+									item.PlaceId == place.Key
+									&& item.ServerType == ServerType.Public
+									&& !string.IsNullOrWhiteSpace(item.JobId)
+								)
+							)
+								item.SetServerStatus(statuses.GetValueOrDefault(item.JobId));
+							((IRelayCommand)LaunchDeeplinkCommand).NotifyCanExecuteChanged();
+						},
+						DispatcherPriority.Background,
+						_lifetimeToken
+					);
+				}
+			);
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			if (!_disposed)
@@ -315,9 +351,16 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
 		}
 	}
 
-	private static async Task<Dictionary<string, bool?>> QueryServerStatusesAsync(System.Net.Http.HttpClient client, long placeId, IEnumerable<string> jobIds, CancellationToken token)
+	private static async Task<Dictionary<string, bool?>> QueryServerStatusesAsync(
+		System.Net.Http.HttpClient client,
+		long placeId,
+		IEnumerable<string> jobIds,
+		CancellationToken token
+	)
 	{
-		Dictionary<string, bool?> statuses = jobIds.Distinct(StringComparer.OrdinalIgnoreCase).ToDictionary(job => job, _ => (bool?)null, StringComparer.OrdinalIgnoreCase);
+		Dictionary<string, bool?> statuses = jobIds
+			.Distinct(StringComparer.OrdinalIgnoreCase)
+			.ToDictionary(job => job, _ => (bool?)null, StringComparer.OrdinalIgnoreCase);
 		string cursor = string.Empty;
 		HashSet<string> cursors = new(StringComparer.Ordinal);
 		try
@@ -326,15 +369,24 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
 			timeout.CancelAfter(TimeSpan.FromSeconds(10));
 			for (int page = 0; page < 10; page++)
 			{
-				string url = $"https://games.roblox.com/v1/games/{placeId}/servers/Public?excludeFullGames=false&limit=100&sortOrder=Desc&cursor={Uri.EscapeDataString(cursor)}";
+				string url =
+					$"https://games.roblox.com/v1/games/{placeId}/servers/Public?excludeFullGames=false&limit=100&sortOrder=Desc&cursor={Uri.EscapeDataString(cursor)}";
 				string json = await Http.GetStringBoundedAsync(client, url, 1024 * 1024, timeout.Token).ConfigureAwait(false);
 				using JsonDocument document = JsonDocument.Parse(json);
 				JsonElement root = document.RootElement;
-				if (!root.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array || !root.TryGetProperty("nextPageCursor", out JsonElement next))
+				if (
+					!root.TryGetProperty("data", out JsonElement data)
+					|| data.ValueKind != JsonValueKind.Array
+					|| !root.TryGetProperty("nextPageCursor", out JsonElement next)
+				)
 					return statuses;
 				foreach (JsonElement server in data.EnumerateArray())
 				{
-					if (!server.TryGetProperty("id", out JsonElement id) || id.ValueKind != JsonValueKind.String || string.IsNullOrWhiteSpace(id.GetString()))
+					if (
+						!server.TryGetProperty("id", out JsonElement id)
+						|| id.ValueKind != JsonValueKind.String
+						|| string.IsNullOrWhiteSpace(id.GetString())
+					)
 						return statuses;
 					string jobId = id.GetString()!;
 					if (statuses.ContainsKey(jobId))
@@ -348,21 +400,21 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
 						statuses[job] ??= false;
 					return statuses;
 				}
-				if (next.ValueKind != JsonValueKind.String || string.IsNullOrWhiteSpace(next.GetString()) || !cursors.Add(next.GetString()!))
+				if (
+					next.ValueKind != JsonValueKind.String
+					|| string.IsNullOrWhiteSpace(next.GetString())
+					|| !cursors.Add(next.GetString()!)
+				)
 					return statuses;
 				cursor = next.GetString()!;
 			}
 		}
-		catch (OperationCanceledException) when (!token.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (!token.IsCancellationRequested) { }
 		catch (OperationCanceledException)
 		{
 			throw;
 		}
-		catch (Http.RateLimitedException)
-		{
-		}
+		catch (Http.RateLimitedException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("ServerHistoryViewModel::QueryServerStatuses", ex);
@@ -370,9 +422,13 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
 		return statuses;
 	}
 
-	private static string HistoryText(string key) => Voidstrap.Resources.Strings.ResourceManager.GetString("ContextMenu.GameHistory." + key, Voidstrap.Resources.Strings.Culture) ?? key;
+	private static string HistoryText(string key) =>
+		Voidstrap.Resources.Strings.ResourceManager.GetString("ContextMenu.GameHistory." + key, Voidstrap.Resources.Strings.Culture) ?? key;
 
-	private static bool CanCopyLink(ActivityData? data) => data is { PlaceId: > 0 } && data.ServerType != ServerType.Reserved && (data.ServerType != ServerType.Private || !string.IsNullOrWhiteSpace(data.AccessCode));
+	private static bool CanCopyLink(ActivityData? data) =>
+		data is { PlaceId: > 0 }
+		&& data.ServerType != ServerType.Reserved
+		&& (data.ServerType != ServerType.Private || !string.IsNullOrWhiteSpace(data.AccessCode));
 
 	private static bool CanRejoin(ActivityData? data) => CanCopyLink(data) && data?.ServerOnline != false;
 
@@ -397,7 +453,7 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
 				FileName = voidstrapPath,
 				UseShellExecute = false,
 				CreateNoWindow = true,
-				WorkingDirectory = Path.GetDirectoryName(voidstrapPath) ?? ""
+				WorkingDirectory = Path.GetDirectoryName(voidstrapPath) ?? "",
 			};
 			startInfo.ArgumentList.Add("-player");
 			startInfo.ArgumentList.Add(data.GetNativeJoinUri());
@@ -446,7 +502,9 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
 		source = (_selectedSort?.Value) switch
 		{
 			ServerHistorySortBy.Oldest => source.OrderBy((ActivityData x) => x.TimeJoined),
-			ServerHistorySortBy.MostPlayed => source.OrderByDescending((ActivityData x) => (x.TimeLeft ?? x.TimeJoined).ToUniversalTime() - x.TimeJoined.ToUniversalTime()),
+			ServerHistorySortBy.MostPlayed => source.OrderByDescending(
+				(ActivityData x) => (x.TimeLeft ?? x.TimeJoined).ToUniversalTime() - x.TimeJoined.ToUniversalTime()
+			),
 			ServerHistorySortBy.NameAZ => source.OrderBy((ActivityData x) => x.GameName),
 			ServerHistorySortBy.NameZA => source.OrderByDescending((ActivityData x) => x.GameName),
 			_ => source.OrderByDescending((ActivityData x) => x.TimeJoined),
@@ -459,32 +517,38 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
 
 	private void SetLoadingState()
 	{
-		RunOnUi(delegate
-		{
-			LoadState = GenericTriState.Unknown;
-			OnPropertyChanged(nameof(LoadState));
-		});
+		RunOnUi(
+			delegate
+			{
+				LoadState = GenericTriState.Unknown;
+				OnPropertyChanged(nameof(LoadState));
+			}
+		);
 	}
 
 	private void SetSuccessState()
 	{
-		RunOnUi(delegate
-		{
-			LoadState = GenericTriState.Successful;
-			OnPropertyChanged(nameof(LoadState));
-		});
+		RunOnUi(
+			delegate
+			{
+				LoadState = GenericTriState.Successful;
+				OnPropertyChanged(nameof(LoadState));
+			}
+		);
 	}
 
 	private void HandleError(Exception ex)
 	{
 		App.Logger.WriteException("ServerHistoryViewModel::HandleError", ex);
-		RunOnUi(delegate
-		{
-			Error = HistoryText("LoadFailed");
-			LoadState = GenericTriState.Failed;
-			OnPropertyChanged(nameof(Error));
-			OnPropertyChanged(nameof(LoadState));
-		});
+		RunOnUi(
+			delegate
+			{
+				Error = HistoryText("LoadFailed");
+				LoadState = GenericTriState.Failed;
+				OnPropertyChanged(nameof(Error));
+				OnPropertyChanged(nameof(LoadState));
+			}
+		);
 	}
 
 	private static void RunOnUi(Action action)

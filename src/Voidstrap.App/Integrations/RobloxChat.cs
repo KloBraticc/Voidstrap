@@ -17,7 +17,7 @@ public enum RobloxChatStatus
 	NotSignedIn,
 	SignInExpired,
 	RateLimited,
-	Unavailable
+	Unavailable,
 }
 
 public sealed class RobloxChatUser
@@ -90,12 +90,15 @@ public static class RobloxChat
 
 	private static HttpClient CreateClient()
 	{
-		HttpClient client = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(12), handler =>
-		{
-			handler.UseCookies = false;
-			handler.AllowAutoRedirect = false;
-			handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-		});
+		HttpClient client = Voidstrap.Utility.VpnHttpClient.Create(
+			TimeSpan.FromSeconds(12),
+			handler =>
+			{
+				handler.UseCookies = false;
+				handler.AllowAutoRedirect = false;
+				handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+			}
+		);
 		client.DefaultRequestHeaders.UserAgent.ParseAdd("Voidstrap/1.0");
 		return client;
 	}
@@ -114,7 +117,14 @@ public static class RobloxChat
 		int hash = StringComparer.Ordinal.GetHashCode(cookie);
 		if (_self is { } known && known.CookieHash == hash)
 			return new RobloxChatResult<long> { Status = RobloxChatStatus.Ready, Value = known.UserId };
-		(RobloxChatStatus status, JsonDocument? document) = await SendAsync(HttpMethod.Get, "https://users.roblox.com/v1/users/authenticated", null, cookie, token).ConfigureAwait(false);
+		(RobloxChatStatus status, JsonDocument? document) = await SendAsync(
+				HttpMethod.Get,
+				"https://users.roblox.com/v1/users/authenticated",
+				null,
+				cookie,
+				token
+			)
+			.ConfigureAwait(false);
 		using (document)
 		{
 			if (document == null)
@@ -122,7 +132,14 @@ public static class RobloxChat
 			long id = ReadLong(document.RootElement, "id");
 			if (id <= 0)
 				return RobloxChatResult<long>.Fail(RobloxChatStatus.Unavailable);
-			RememberUser(new RobloxChatUser { Id = id, Name = ReadString(document.RootElement, "name"), DisplayName = ReadString(document.RootElement, "displayName") });
+			RememberUser(
+				new RobloxChatUser
+				{
+					Id = id,
+					Name = ReadString(document.RootElement, "name"),
+					DisplayName = ReadString(document.RootElement, "displayName"),
+				}
+			);
 			_self = (hash, id);
 			return new RobloxChatResult<long> { Status = RobloxChatStatus.Ready, Value = id };
 		}
@@ -157,12 +174,16 @@ public static class RobloxChat
 			{
 				Status = RobloxChatStatus.Ready,
 				Value = conversations,
-				Cursor = ReadString(document.RootElement, "next_cursor", "nextCursor", "nextPageCursor")
+				Cursor = ReadString(document.RootElement, "next_cursor", "nextCursor", "nextPageCursor"),
 			};
 		}
 	}
 
-	public static async Task<RobloxChatResult<List<RobloxChatMessage>>> GetMessagesAsync(string conversationId, string? cursor, CancellationToken token)
+	public static async Task<RobloxChatResult<List<RobloxChatMessage>>> GetMessagesAsync(
+		string conversationId,
+		string? cursor,
+		CancellationToken token
+	)
 	{
 		string? cookie = RobloxCookie.Get();
 		if (string.IsNullOrEmpty(cookie))
@@ -191,12 +212,16 @@ public static class RobloxChat
 			{
 				Status = RobloxChatStatus.Ready,
 				Value = messages.OrderBy(m => m.CreatedUtc).ToList(),
-				Cursor = ReadCursor(document.RootElement)
+				Cursor = ReadCursor(document.RootElement),
 			};
 		}
 	}
 
-	public static async Task<RobloxChatResult<RobloxChatMessage>> SendMessageAsync(string conversationId, string text, CancellationToken token)
+	public static async Task<RobloxChatResult<RobloxChatMessage>> SendMessageAsync(
+		string conversationId,
+		string text,
+		CancellationToken token
+	)
 	{
 		string? cookie = RobloxCookie.Get();
 		if (string.IsNullOrEmpty(cookie))
@@ -206,12 +231,15 @@ public static class RobloxChat
 			return RobloxChatResult<RobloxChatMessage>.Fail(RobloxChatStatus.Unavailable);
 		if (content.Length > MaxMessageLength)
 			content = content[..MaxMessageLength];
-		string body = JsonSerializer.Serialize(new Dictionary<string, object>
-		{
-			["conversation_id"] = conversationId,
-			["messages"] = new[] { new Dictionary<string, string> { ["content"] = content } }
-		});
-		(RobloxChatStatus status, JsonDocument? document) = await SendAsync(HttpMethod.Post, ChatApi + "send-messages", body, cookie, token).ConfigureAwait(false);
+		string body = JsonSerializer.Serialize(
+			new Dictionary<string, object>
+			{
+				["conversation_id"] = conversationId,
+				["messages"] = new[] { new Dictionary<string, string> { ["content"] = content } },
+			}
+		);
+		(RobloxChatStatus status, JsonDocument? document) = await SendAsync(HttpMethod.Post, ChatApi + "send-messages", body, cookie, token)
+			.ConfigureAwait(false);
 		using (document)
 		{
 			if (document == null)
@@ -229,12 +257,24 @@ public static class RobloxChat
 		if (string.IsNullOrEmpty(cookie))
 			return RobloxChatResult<RobloxConversation>.Fail(RobloxChatStatus.NotSignedIn);
 		// Roblox returns the existing one to one conversation when there already is one
-		string body = JsonSerializer.Serialize(new Dictionary<string, object>
-		{
-			["conversations"] = new[] { new Dictionary<string, object> { ["type"] = "one_to_one", ["participant_user_ids"] = new[] { userId } } },
-			["include_user_data"] = true
-		});
-		(RobloxChatStatus status, JsonDocument? document) = await SendAsync(HttpMethod.Post, ChatApi + "create-conversations", body, cookie, token).ConfigureAwait(false);
+		string body = JsonSerializer.Serialize(
+			new Dictionary<string, object>
+			{
+				["conversations"] = new[]
+				{
+					new Dictionary<string, object> { ["type"] = "one_to_one", ["participant_user_ids"] = new[] { userId } },
+				},
+				["include_user_data"] = true,
+			}
+		);
+		(RobloxChatStatus status, JsonDocument? document) = await SendAsync(
+				HttpMethod.Post,
+				ChatApi + "create-conversations",
+				body,
+				cookie,
+				token
+			)
+			.ConfigureAwait(false);
 		using (document)
 		{
 			if (document == null)
@@ -255,7 +295,8 @@ public static class RobloxChat
 		if (string.IsNullOrEmpty(cookie))
 			return;
 		string body = JsonSerializer.Serialize(new Dictionary<string, string> { ["conversation_id"] = conversationId });
-		(_, JsonDocument? document) = await SendAsync(HttpMethod.Post, ChatApi + "update-typing-status", body, cookie, token).ConfigureAwait(false);
+		(_, JsonDocument? document) = await SendAsync(HttpMethod.Post, ChatApi + "update-typing-status", body, cookie, token)
+			.ConfigureAwait(false);
 		document?.Dispose();
 	}
 
@@ -264,7 +305,14 @@ public static class RobloxChat
 		string? cookie = RobloxCookie.Get();
 		if (string.IsNullOrEmpty(cookie))
 			return RobloxChatResult<List<RobloxChatUser>>.Fail(RobloxChatStatus.NotSignedIn);
-		(RobloxChatStatus status, JsonDocument? document) = await SendAsync(HttpMethod.Get, $"https://friends.roblox.com/v1/users/{userId}/friends", null, cookie, token).ConfigureAwait(false);
+		(RobloxChatStatus status, JsonDocument? document) = await SendAsync(
+				HttpMethod.Get,
+				$"https://friends.roblox.com/v1/users/{userId}/friends",
+				null,
+				cookie,
+				token
+			)
+			.ConfigureAwait(false);
 		using (document)
 		{
 			if (document == null)
@@ -280,12 +328,21 @@ public static class RobloxChat
 					ids.Add(id);
 					string name = ReadString(item, "name");
 					if (name.Length > 0)
-						RememberUser(new RobloxChatUser { Id = id, Name = name, DisplayName = ReadString(item, "displayName") });
+						RememberUser(
+							new RobloxChatUser
+							{
+								Id = id,
+								Name = name,
+								DisplayName = ReadString(item, "displayName"),
+							}
+						);
 				}
 			}
 			await ResolveUsersAsync(ids, token).ConfigureAwait(false);
-			List<RobloxChatUser> friends = ids.Distinct().Select(id => GetCachedUser(id) ?? new RobloxChatUser { Id = id, Name = id.ToString(CultureInfo.InvariantCulture) })
-				.OrderBy(user => user.Label, StringComparer.CurrentCultureIgnoreCase).ToList();
+			List<RobloxChatUser> friends = ids.Distinct()
+				.Select(id => GetCachedUser(id) ?? new RobloxChatUser { Id = id, Name = id.ToString(CultureInfo.InvariantCulture) })
+				.OrderBy(user => user.Label, StringComparer.CurrentCultureIgnoreCase)
+				.ToList();
 			return new RobloxChatResult<List<RobloxChatUser>> { Status = RobloxChatStatus.Ready, Value = friends };
 		}
 	}
@@ -296,7 +353,9 @@ public static class RobloxChat
 		List<long> ids = userIds.Where(id => id > 0).Distinct().ToList();
 		for (int i = 0; i < ids.Count; i += 100)
 		{
-			string url = "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" + string.Join(",", ids.Skip(i).Take(100))
+			string url =
+				"https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds="
+				+ string.Join(",", ids.Skip(i).Take(100))
 				+ "&size=48x48&format=Png&isCircular=true";
 			(_, JsonDocument? document) = await SendAsync(HttpMethod.Get, url, null, null, token).ConfigureAwait(false);
 			using (document)
@@ -322,8 +381,11 @@ public static class RobloxChat
 			missing = userIds.Where(id => id > 0 && !Users.ContainsKey(id)).Distinct().ToList();
 		for (int i = 0; i < missing.Count; i += 100)
 		{
-			string body = JsonSerializer.Serialize(new Dictionary<string, object> { ["userIds"] = missing.Skip(i).Take(100), ["excludeBannedUsers"] = false });
-			(_, JsonDocument? document) = await SendAsync(HttpMethod.Post, "https://users.roblox.com/v1/users", body, null, token).ConfigureAwait(false);
+			string body = JsonSerializer.Serialize(
+				new Dictionary<string, object> { ["userIds"] = missing.Skip(i).Take(100), ["excludeBannedUsers"] = false }
+			);
+			(_, JsonDocument? document) = await SendAsync(HttpMethod.Post, "https://users.roblox.com/v1/users", body, null, token)
+				.ConfigureAwait(false);
 			using (document)
 			{
 				if (document == null || !TryGetArray(document.RootElement, out JsonElement items, "data"))
@@ -332,7 +394,14 @@ public static class RobloxChat
 				{
 					long id = ReadLong(item, "id");
 					if (id > 0)
-						RememberUser(new RobloxChatUser { Id = id, Name = ReadString(item, "name"), DisplayName = ReadString(item, "displayName") });
+						RememberUser(
+							new RobloxChatUser
+							{
+								Id = id,
+								Name = ReadString(item, "name"),
+								DisplayName = ReadString(item, "displayName"),
+							}
+						);
 				}
 			}
 		}
@@ -370,21 +439,31 @@ public static class RobloxChat
 		{
 			foreach (JsonProperty entry in userData.EnumerateObject())
 			{
-				if (!long.TryParse(entry.Name, NumberStyles.Integer, CultureInfo.InvariantCulture, out long userId) || entry.Value.ValueKind != JsonValueKind.Object)
+				if (
+					!long.TryParse(entry.Name, NumberStyles.Integer, CultureInfo.InvariantCulture, out long userId)
+					|| entry.Value.ValueKind != JsonValueKind.Object
+				)
 					continue;
-				RememberUser(new RobloxChatUser
-				{
-					Id = userId,
-					Name = ReadString(entry.Value, "name", "username"),
-					DisplayName = ReadString(entry.Value, "display_name", "displayName", "combined_name")
-				});
+				RememberUser(
+					new RobloxChatUser
+					{
+						Id = userId,
+						Name = ReadString(entry.Value, "name", "username"),
+						DisplayName = ReadString(entry.Value, "display_name", "displayName", "combined_name"),
+					}
+				);
 				if (!participants.Contains(userId))
 					participants.Add(userId);
 			}
 		}
 		RobloxChatMessage? last = null;
 		if (TryGetArray(item, out JsonElement messages, "messages"))
-			last = messages.EnumerateArray().Select(ParseMessage).Where(m => m != null).OrderByDescending(m => m!.CreatedUtc).FirstOrDefault();
+			last = messages
+				.EnumerateArray()
+				.Select(ParseMessage)
+				.Where(m => m != null)
+				.OrderByDescending(m => m!.CreatedUtc)
+				.FirstOrDefault();
 		return new RobloxConversation
 		{
 			Id = id,
@@ -393,7 +472,7 @@ public static class RobloxChat
 			ParticipantIds = participants,
 			LastMessage = last,
 			Unread = (int)Math.Clamp(ReadLong(item, "unread_message_count", "unreadMessageCount"), 0, 9999),
-			UpdatedUtc = ReadTime(item, "updated_at", "updatedAt", "last_updated") ?? last?.CreatedUtc ?? DateTimeOffset.MinValue
+			UpdatedUtc = ReadTime(item, "updated_at", "updatedAt", "last_updated") ?? last?.CreatedUtc ?? DateTimeOffset.MinValue,
 		};
 	}
 
@@ -403,7 +482,11 @@ public static class RobloxChat
 			return null;
 		string id = ReadString(item, "id", "message_id", "messageId");
 		string content = ReadString(item, "content", "text", "content_text", "message", "body");
-		if (content.Length == 0 && TryGetProperty(item, out JsonElement contentObject, "content", "message") && contentObject.ValueKind == JsonValueKind.Object)
+		if (
+			content.Length == 0
+			&& TryGetProperty(item, out JsonElement contentObject, "content", "message")
+			&& contentObject.ValueKind == JsonValueKind.Object
+		)
 			content = ReadString(contentObject, "text", "content", "body");
 		string status = ReadString(item, "moderation_type", "status");
 		if (id.Length == 0 && content.Length == 0)
@@ -411,14 +494,29 @@ public static class RobloxChat
 		return new RobloxChatMessage
 		{
 			Id = id,
-			SenderId = ReadLong(item, "sender_user_id", "senderUserId", "sender_target_id", "senderTargetId", "sender_id", "senderId", "user_id"),
+			SenderId = ReadLong(
+				item,
+				"sender_user_id",
+				"senderUserId",
+				"sender_target_id",
+				"senderTargetId",
+				"sender_id",
+				"senderId",
+				"user_id"
+			),
 			Content = content,
 			CreatedUtc = ReadTime(item, "created_at", "createdAt", "sent") ?? DateTimeOffset.UtcNow,
-			Moderated = status.Contains("moderat", StringComparison.OrdinalIgnoreCase)
+			Moderated = status.Contains("moderat", StringComparison.OrdinalIgnoreCase),
 		};
 	}
 
-	private static async Task<(RobloxChatStatus Status, JsonDocument? Document)> SendAsync(HttpMethod method, string url, string? body, string? cookie, CancellationToken token)
+	private static async Task<(RobloxChatStatus Status, JsonDocument? Document)> SendAsync(
+		HttpMethod method,
+		string url,
+		string? body,
+		string? cookie,
+		CancellationToken token
+	)
 	{
 		Uri uri = new(url);
 		// The account cookie is only ever sent to Roblox over https
@@ -438,11 +536,15 @@ public static class RobloxChat
 			string csrf = _csrf;
 			if (method != HttpMethod.Get && csrf.Length > 0)
 				request.Headers.TryAddWithoutValidation("X-CSRF-TOKEN", csrf);
-			using HttpResponseMessage response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
-			if (response.StatusCode == HttpStatusCode.Forbidden
+			using HttpResponseMessage response = await Client
+				.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token)
+				.ConfigureAwait(false);
+			if (
+				response.StatusCode == HttpStatusCode.Forbidden
 				&& response.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values)
 				&& values.FirstOrDefault() is { Length: > 0 } fresh
-				&& !string.Equals(fresh, csrf, StringComparison.Ordinal))
+				&& !string.Equals(fresh, csrf, StringComparison.Ordinal)
+			)
 			{
 				_csrf = fresh;
 				continue;
@@ -495,8 +597,12 @@ public static class RobloxChat
 		// Some responses wrap the payload one level deeper, for example {"data":{"messages":[...]}}
 		foreach (string wrapper in new[] { "data", "result", "response" })
 		{
-			if (TryGetProperty(element, out JsonElement inner, wrapper) && inner.ValueKind == JsonValueKind.Object
-				&& TryGetProperty(inner, out value, names) && value.ValueKind == JsonValueKind.Array)
+			if (
+				TryGetProperty(element, out JsonElement inner, wrapper)
+				&& inner.ValueKind == JsonValueKind.Object
+				&& TryGetProperty(inner, out value, names)
+				&& value.ValueKind == JsonValueKind.Array
+			)
 				return true;
 		}
 		value = default;
@@ -523,9 +629,14 @@ public static class RobloxChat
 			return element.ValueKind.ToString();
 		return element.ValueKind switch
 		{
-			JsonValueKind.Object => "{" + string.Join(",", element.EnumerateObject().Take(16).Select(p => p.Name + ":" + Describe(p.Value, depth + 1))) + "}",
-			JsonValueKind.Array => "[" + (element.GetArrayLength() > 0 ? Describe(element[0], depth + 1) : "") + "]x" + element.GetArrayLength(),
-			_ => element.ValueKind.ToString()
+			JsonValueKind.Object => "{"
+				+ string.Join(",", element.EnumerateObject().Take(16).Select(p => p.Name + ":" + Describe(p.Value, depth + 1)))
+				+ "}",
+			JsonValueKind.Array => "["
+				+ (element.GetArrayLength() > 0 ? Describe(element[0], depth + 1) : "")
+				+ "]x"
+				+ element.GetArrayLength(),
+			_ => element.ValueKind.ToString(),
 		};
 	}
 
@@ -543,7 +654,7 @@ public static class RobloxChat
 		{
 			JsonValueKind.String => value.GetString() ?? string.Empty,
 			JsonValueKind.Number => value.GetRawText(),
-			_ => string.Empty
+			_ => string.Empty,
 		};
 	}
 
@@ -553,15 +664,26 @@ public static class RobloxChat
 			return 0;
 		if (value.ValueKind == JsonValueKind.Number && value.TryGetInt64(out long number))
 			return number;
-		return value.ValueKind == JsonValueKind.String && long.TryParse(value.GetString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out long parsed) ? parsed : 0;
+		return
+			value.ValueKind == JsonValueKind.String
+			&& long.TryParse(value.GetString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out long parsed)
+			? parsed
+			: 0;
 	}
 
 	private static DateTimeOffset? ReadTime(JsonElement element, params string[] names)
 	{
 		if (!TryGetProperty(element, out JsonElement value, names))
 			return null;
-		if (value.ValueKind == JsonValueKind.String
-			&& DateTimeOffset.TryParse(value.GetString(), CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out DateTimeOffset parsed))
+		if (
+			value.ValueKind == JsonValueKind.String
+			&& DateTimeOffset.TryParse(
+				value.GetString(),
+				CultureInfo.InvariantCulture,
+				DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+				out DateTimeOffset parsed
+			)
+		)
 			return parsed;
 		if (value.ValueKind == JsonValueKind.Number && value.TryGetInt64(out long epoch))
 			return epoch > 100_000_000_000 ? DateTimeOffset.FromUnixTimeMilliseconds(epoch) : DateTimeOffset.FromUnixTimeSeconds(epoch);

@@ -49,9 +49,11 @@ internal static partial class ModLibraryReview
 		if (errors.Count == 0 && reviews.Count == 0)
 			report.AppendLine("  everything passed, publish is allowed");
 		report.AppendLine();
-		report.AppendLine(errors.Count > 0
-			? "Publish stays closed until the X items are fixed. Fix the mod files, then run preflight again."
-			: "Publish may run. The AI reviewer still reads every file, so keep the description honest and remove anything the question marks above mention if it is not essential.");
+		report.AppendLine(
+			errors.Count > 0
+				? "Publish stays closed until the X items are fixed. Fix the mod files, then run preflight again."
+				: "Publish may run. The AI reviewer still reads every file, so keep the description honest and remove anything the question marks above mention if it is not essential."
+		);
 		return report.ToString().TrimEnd();
 	}
 
@@ -88,7 +90,10 @@ internal static partial class ModLibraryReview
 			if (parts.Where((part, index) => part.StartsWith('.') && !(index == 0 && part == PluginManifest.ManifestFolder)).Any())
 				errors.Add(rel + " is a hidden file");
 			CheckNameAgainstRules(rel, errors);
-			if (rel.StartsWith(PluginManifest.ManifestFolder + "/", StringComparison.Ordinal) && rel != PluginManifest.ManifestFolder + "/plugin.json")
+			if (
+				rel.StartsWith(PluginManifest.ManifestFolder + "/", StringComparison.Ordinal)
+				&& rel != PluginManifest.ManifestFolder + "/plugin.json"
+			)
 				errors.Add(rel + " must not be published, only plugin.json belongs in " + PluginManifest.ManifestFolder);
 			if (rel.StartsWith("node_modules/", StringComparison.Ordinal))
 				errors.Add("node_modules must not be published");
@@ -179,7 +184,15 @@ internal static partial class ModLibraryReview
 				errors.Add(rel + " has an out of bounds icon frame");
 				return;
 			}
-			bool isPng = bytes[offset] == 0x89 && bytes[offset + 1] == 0x50 && bytes[offset + 2] == 0x4E && bytes[offset + 3] == 0x47 && bytes[offset + 4] == 0x0D && bytes[offset + 5] == 0x0A && bytes[offset + 6] == 0x1A && bytes[offset + 7] == 0x0A;
+			bool isPng =
+				bytes[offset] == 0x89
+				&& bytes[offset + 1] == 0x50
+				&& bytes[offset + 2] == 0x4E
+				&& bytes[offset + 3] == 0x47
+				&& bytes[offset + 4] == 0x0D
+				&& bytes[offset + 5] == 0x0A
+				&& bytes[offset + 6] == 0x1A
+				&& bytes[offset + 7] == 0x0A;
 			bool isBmp = BitConverter.ToUInt32(bytes, offset) == 40;
 			if (!isPng && !isBmp)
 			{
@@ -220,11 +233,21 @@ internal static partial class ModLibraryReview
 			string line = lines[index].TrimEnd('\r');
 			string where = rel + ":" + (index + 1);
 			if (isCode && line.Length > MaxLineLength)
-				errors.Add(where + " is longer than " + MaxLineLength + " characters, lines this long usually mean minified or packed code, write normal readable code with short lines");
+				errors.Add(
+					where
+						+ " is longer than "
+						+ MaxLineLength
+						+ " characters, lines this long usually mean minified or packed code, write normal readable code with short lines"
+				);
 			if (new Regex("[A-Za-z0-9+/=]{" + MaxEncodedRun + ",}", RegexOptions.None, TimeSpan.FromSeconds(1)).IsMatch(line))
-				errors.Add(where + " holds a long encoded blob, a very long run of letters and digits looks like hidden data, keep data short and readable");
+				errors.Add(
+					where
+						+ " holds a long encoded blob, a very long run of letters and digits looks like hidden data, keep data short and readable"
+				);
 			if (new Regex("(0x)?[0-9a-fA-F]{" + MaxEncodedRun + ",}", RegexOptions.None, TimeSpan.FromSeconds(1)).IsMatch(line))
-				errors.Add(where + " holds a long hex blob, a very long run of hex digits looks like hidden data, keep data short and readable");
+				errors.Add(
+					where + " holds a long hex blob, a very long run of hex digits looks like hidden data, keep data short and readable"
+				);
 			foreach (ReviewRule rule in BlockedRules)
 			{
 				if (!rule.Regex.IsMatch(line))
@@ -235,7 +258,10 @@ internal static partial class ModLibraryReview
 					errors.Add(where + " " + rule.Reason);
 			}
 			if (ReviewerInjectionPattern.IsMatch(line))
-				errors.Add(where + " text that tries to instruct the reviewer, the AI review flags this and blocks the merge, remove every sentence that talks to a reviewer");
+				errors.Add(
+					where
+						+ " text that tries to instruct the reviewer, the AI review flags this and blocks the merge, remove every sentence that talks to a reviewer"
+				);
 		}
 	}
 
@@ -250,7 +276,9 @@ internal static partial class ModLibraryReview
 		System.Text.Json.Nodes.JsonObject? manifest;
 		try
 		{
-			manifest = System.Text.Json.Nodes.JsonNode.Parse(File.ReadAllText(manifestPath)) as System.Text.Json.Nodes.JsonObject ?? throw new InvalidDataException("not an object");
+			manifest =
+				System.Text.Json.Nodes.JsonNode.Parse(File.ReadAllText(manifestPath)) as System.Text.Json.Nodes.JsonObject
+				?? throw new InvalidDataException("not an object");
 		}
 		catch (Exception ex)
 		{
@@ -296,10 +324,14 @@ internal static partial class ModLibraryReview
 			if (permissions.Any(permission => !string.Equals(permission?.ToString(), "roblox-account", StringComparison.Ordinal)))
 				errors.Add("plugin.json permissions may only contain roblox-account");
 			else if (permissions.Count > 0)
-				reviews.Add("asks to use the Roblox account through $.roblox.request, the maintainer must review it, make sure the description says exactly what is read");
+				reviews.Add(
+					"asks to use the Roblox account through $.roblox.request, the maintainer must review it, make sure the description says exactly what is read"
+				);
 		}
 		if (manifest["library"] is System.Text.Json.Nodes.JsonObject)
-			reviews.Add("plugin.json carries a library block, the publish window signs you in and writes owner.json from that account, the ids must match your own account");
+			reviews.Add(
+				"plugin.json carries a library block, the publish window signs you in and writes owner.json from that account, the ids must match your own account"
+			);
 		string hooksPath = Path.Combine(folder, "hooks", "hooks.json");
 		if (!File.Exists(hooksPath))
 		{
@@ -308,8 +340,15 @@ internal static partial class ModLibraryReview
 		}
 		try
 		{
-			System.Text.Json.Nodes.JsonObject? hooks = System.Text.Json.Nodes.JsonNode.Parse(File.ReadAllText(hooksPath)) as System.Text.Json.Nodes.JsonObject ?? throw new InvalidDataException("not an object");
-			if (hooks["modules"] is not System.Text.Json.Nodes.JsonArray modules || modules.Count != 1 || modules[0] is not System.Text.Json.Nodes.JsonValue moduleValue || !moduleValue.TryGetValue(out string? module))
+			System.Text.Json.Nodes.JsonObject? hooks =
+				System.Text.Json.Nodes.JsonNode.Parse(File.ReadAllText(hooksPath)) as System.Text.Json.Nodes.JsonObject
+				?? throw new InvalidDataException("not an object");
+			if (
+				hooks["modules"] is not System.Text.Json.Nodes.JsonArray modules
+				|| modules.Count != 1
+				|| modules[0] is not System.Text.Json.Nodes.JsonValue moduleValue
+				|| !moduleValue.TryGetValue(out string? module)
+			)
 			{
 				errors.Add("hooks.json must name exactly one module");
 				return;
@@ -345,10 +384,17 @@ internal static partial class ModLibraryReview
 				return;
 			string manifestPath = Path.Combine(Paths.Plugins, mod, PluginManifest.ManifestFolder, "plugin.json");
 			string localVersion = "0.0.0";
-			if (File.Exists(manifestPath) && System.Text.Json.Nodes.JsonNode.Parse(File.ReadAllText(manifestPath)) is System.Text.Json.Nodes.JsonObject manifest)
+			if (
+				File.Exists(manifestPath)
+				&& System.Text.Json.Nodes.JsonNode.Parse(File.ReadAllText(manifestPath)) is System.Text.Json.Nodes.JsonObject manifest
+			)
 				localVersion = manifest["version"]?.ToString() ?? "0.0.0";
 			if (CompareVersions(localVersion, indexVersion) <= 0)
-				errors.Add("this mod already exists in the library at version " + indexVersion + ", raise plugin.json version above it, the gate rejects equal or lower versions with a red X");
+				errors.Add(
+					"this mod already exists in the library at version "
+						+ indexVersion
+						+ ", raise plugin.json version above it, the gate rejects equal or lower versions with a red X"
+				);
 		}
 		catch (Exception ex) when (ex is not OperationCanceledException)
 		{

@@ -39,22 +39,30 @@ internal static partial class NativeClipper
 
     [LibraryImport(Library, EntryPoint = "vc_trim")]
     private static unsafe partial int TrimNative(
-        byte* ffmpegPtr, nuint ffmpegLen,
-        byte* inputPtr, nuint inputLen,
-        byte* outputPtr, nuint outputLen,
-        ulong startMs, ulong endMs);
+        byte* ffmpegPtr,
+        nuint ffmpegLen,
+        byte* inputPtr,
+        nuint inputLen,
+        byte* outputPtr,
+        nuint outputLen,
+        ulong startMs,
+        ulong endMs
+    );
 
     [LibraryImport(Library, EntryPoint = "vc_thumbnail")]
     private static unsafe partial int ThumbnailNative(
-        byte* ffmpegPtr, nuint ffmpegLen,
-        byte* inputPtr, nuint inputLen,
-        byte* outputPtr, nuint outputLen,
-        ulong timeMs, uint width);
+        byte* ffmpegPtr,
+        nuint ffmpegLen,
+        byte* inputPtr,
+        nuint inputLen,
+        byte* outputPtr,
+        nuint outputLen,
+        ulong timeMs,
+        uint width
+    );
 
     [LibraryImport(Library, EntryPoint = "vc_probe_duration_ms")]
-    private static unsafe partial long ProbeDurationMsNative(
-        byte* ffmpegPtr, nuint ffmpegLen,
-        byte* inputPtr, nuint inputLen);
+    private static unsafe partial long ProbeDurationMsNative(byte* ffmpegPtr, nuint ffmpegLen, byte* inputPtr, nuint inputLen);
 
     [LibraryImport(Library, EntryPoint = "vc_status_json")]
     private static partial int StatusJsonNative(out IntPtr outPtr, out nuint outLen);
@@ -114,9 +122,7 @@ internal static partial class NativeClipper
         {
             StopNative();
         }
-        catch
-        {
-        }
+        catch { }
     }
 
     public static unsafe bool Save(string outputPath, int seconds, out string error)
@@ -188,7 +194,18 @@ internal static partial class NativeClipper
         fixed (byte* inPtr = inp)
         fixed (byte* outPtr = outp)
         {
-            if (TrimNative(ffPtr, (nuint)ff.Length, inPtr, (nuint)inp.Length, outPtr, (nuint)outp.Length, (ulong)Math.Max(0L, startMs), (ulong)Math.Max(0L, endMs)) != 0)
+            if (
+                TrimNative(
+                    ffPtr,
+                    (nuint)ff.Length,
+                    inPtr,
+                    (nuint)inp.Length,
+                    outPtr,
+                    (nuint)outp.Length,
+                    (ulong)Math.Max(0L, startMs),
+                    (ulong)Math.Max(0L, endMs)
+                ) != 0
+            )
                 return true;
         }
         error = GetLastError();
@@ -206,7 +223,16 @@ internal static partial class NativeClipper
         fixed (byte* inPtr = inp)
         fixed (byte* outPtr = outp)
         {
-            return ThumbnailNative(ffPtr, (nuint)ff.Length, inPtr, (nuint)inp.Length, outPtr, (nuint)outp.Length, (ulong)Math.Max(0L, timeMs), (uint)Math.Max(120, width)) != 0;
+            return ThumbnailNative(
+                    ffPtr,
+                    (nuint)ff.Length,
+                    inPtr,
+                    (nuint)inp.Length,
+                    outPtr,
+                    (nuint)outp.Length,
+                    (ulong)Math.Max(0L, timeMs),
+                    (uint)Math.Max(120, width)
+                ) != 0;
         }
     }
 

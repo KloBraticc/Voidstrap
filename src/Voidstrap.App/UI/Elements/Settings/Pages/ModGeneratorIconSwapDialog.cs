@@ -50,7 +50,8 @@ public sealed class IconSwapItem : INotifyPropertyChanged
 
 	public event PropertyChangedEventHandler? PropertyChanged;
 
-	private void OnPropertyChanged([CallerMemberName] string? name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+	private void OnPropertyChanged([CallerMemberName] string? name = null) =>
+		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
 	private static ImageSource? LoadThumbnail(string path)
 	{
@@ -108,11 +109,26 @@ public sealed class ModGeneratorIconSwapDialog : WpfUiWindow
 		ExtendsContentIntoTitleBar = true;
 		SetResourceReference(BackgroundProperty, "ApplicationBackgroundBrush");
 
-		System.Windows.Controls.TextBlock help = new System.Windows.Controls.TextBlock { Text = Strings.Ui_ModGen_SwapIconsHelp, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 10) };
-		_search = new Wpf.Ui.Controls.TextBox { PlaceholderText = Strings.Ui_ModGen_SearchIcons, Icon = Wpf.Ui.Common.SymbolRegular.Search24 };
+		System.Windows.Controls.TextBlock help = new System.Windows.Controls.TextBlock
+		{
+			Text = Strings.Ui_ModGen_SwapIconsHelp,
+			TextWrapping = TextWrapping.Wrap,
+			Margin = new Thickness(0, 0, 0, 10),
+		};
+		_search = new Wpf.Ui.Controls.TextBox
+		{
+			PlaceholderText = Strings.Ui_ModGen_SearchIcons,
+			Icon = Wpf.Ui.Common.SymbolRegular.Search24,
+		};
 		_search.TextChanged += Search_TextChanged;
 		_searchTimer.Tick += SearchTimer_Tick;
-		_status = new System.Windows.Controls.TextBlock { Text = Strings.Ui_ModGen_LoadingIcons, Margin = new Thickness(0, 8, 0, 8), TextWrapping = TextWrapping.Wrap, FontSize = 12 };
+		_status = new System.Windows.Controls.TextBlock
+		{
+			Text = Strings.Ui_ModGen_LoadingIcons,
+			Margin = new Thickness(0, 8, 0, 8),
+			TextWrapping = TextWrapping.Wrap,
+			FontSize = 12,
+		};
 		_status.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "TextFillColorTertiaryBrush");
 
 		_list = new ListBox
@@ -120,18 +136,35 @@ public sealed class ModGeneratorIconSwapDialog : WpfUiWindow
 			ItemTemplate = BuildTemplate(),
 			BorderThickness = new Thickness(0),
 			Background = Brushes.Transparent,
-			HorizontalContentAlignment = HorizontalAlignment.Stretch
+			HorizontalContentAlignment = HorizontalAlignment.Stretch,
 		};
 		VirtualizingPanel.SetIsVirtualizing(_list, true);
 		VirtualizingPanel.SetVirtualizationMode(_list, VirtualizationMode.Recycling);
 		ScrollViewer.SetCanContentScroll(_list, true);
 		_list.AddHandler(ButtonBase.ClickEvent, new RoutedEventHandler(List_ButtonClick));
 
-		Wpf.Ui.Controls.Button done = new Wpf.Ui.Controls.Button { Content = Strings.Ui_ModGen_Done, Appearance = Wpf.Ui.Common.ControlAppearance.Primary, MinWidth = 110, Margin = new Thickness(0, 0, 8, 0), IsDefault = true };
+		Wpf.Ui.Controls.Button done = new Wpf.Ui.Controls.Button
+		{
+			Content = Strings.Ui_ModGen_Done,
+			Appearance = Wpf.Ui.Common.ControlAppearance.Primary,
+			MinWidth = 110,
+			Margin = new Thickness(0, 0, 8, 0),
+			IsDefault = true,
+		};
 		done.Click += Done_Click;
 		_done = done;
-		Wpf.Ui.Controls.Button cancel = new Wpf.Ui.Controls.Button { Content = Strings.Common_Cancel, MinWidth = 110, IsCancel = true };
-		StackPanel buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 12, 0, 0) };
+		Wpf.Ui.Controls.Button cancel = new Wpf.Ui.Controls.Button
+		{
+			Content = Strings.Common_Cancel,
+			MinWidth = 110,
+			IsCancel = true,
+		};
+		StackPanel buttons = new StackPanel
+		{
+			Orientation = Orientation.Horizontal,
+			HorizontalAlignment = HorizontalAlignment.Right,
+			Margin = new Thickness(0, 12, 0, 0),
+		};
 		buttons.Children.Add(done);
 		buttons.Children.Add(cancel);
 
@@ -283,7 +316,7 @@ public sealed class ModGeneratorIconSwapDialog : WpfUiWindow
 		OpenFileDialog dialog = new OpenFileDialog
 		{
 			Filter = Strings.Ui_ModGen_ImagesFilter + "|*.png;*.jpg;*.jpeg;*.bmp;*.gif",
-			Multiselect = false
+			Multiselect = false,
 		};
 		if (dialog.ShowDialog(this) != true)
 		{
@@ -296,7 +329,10 @@ public sealed class ModGeneratorIconSwapDialog : WpfUiWindow
 
 	private void UpdateStatus()
 	{
-		_status.Text = _swaps.Count == 0 ? Strings.Ui_ModGen_NoSwaps : string.Format(System.Globalization.CultureInfo.CurrentCulture, Strings.Ui_ModGen_SwappedCount, _swaps.Count);
+		_status.Text =
+			_swaps.Count == 0
+				? Strings.Ui_ModGen_NoSwaps
+				: string.Format(System.Globalization.CultureInfo.CurrentCulture, Strings.Ui_ModGen_SwappedCount, _swaps.Count);
 	}
 
 	private void Done_Click(object sender, RoutedEventArgs e)

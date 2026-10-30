@@ -35,17 +35,13 @@ public static class McpBridgeServer
 			if (!ShutdownCts.IsCancellationRequested)
 				ShutdownCts.Cancel();
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			_currentServer?.Dispose();
 			_currentServer = null;
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	public static void EnsureStarted()
@@ -63,7 +59,7 @@ public static class McpBridgeServer
 		var thread = new Thread(() => AcceptLoopAsync(pipeName, token).GetAwaiter().GetResult())
 		{
 			IsBackground = true,
-			Name = "Voidstrap MCP bridge"
+			Name = "Voidstrap MCP bridge",
 		};
 		thread.Start();
 		App.Logger?.WriteLine(LOG_IDENT, "Listening for MCP tools on pipe " + pipeName);
@@ -82,7 +78,8 @@ public static class McpBridgeServer
 					PipeDirection.InOut,
 					NamedPipeServerStream.MaxAllowedServerInstances,
 					PipeTransmissionMode.Byte,
-					PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
+					PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly
+				);
 
 				_currentServer = server;
 				await server.WaitForConnectionAsync(token).ConfigureAwait(false);
@@ -150,11 +147,7 @@ public static class McpBridgeServer
 					{
 						result = new McpToolResult("Voidstrap could not run the tool: " + ex.Message, true);
 					}
-					var response = new JsonObject
-					{
-						["text"] = result.Text,
-						["isError"] = result.IsError
-					};
+					var response = new JsonObject { ["text"] = result.Text, ["isError"] = result.IsError };
 
 					if (!stream.IsConnected)
 						break;
@@ -163,12 +156,8 @@ public static class McpBridgeServer
 				}
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
-		catch (IOException)
-		{
-		}
+		catch (OperationCanceledException) { }
+		catch (IOException) { }
 		catch (Exception ex)
 		{
 			App.Logger?.WriteLine(LOG_IDENT, "Client handling failed: " + ex.Message.Replace('-', ' '));
@@ -225,15 +214,26 @@ public static class McpBridgeServer
 			result = new McpToolResult($"The tool {name} failed: {ex.Message}", true);
 		}
 
-		App.Logger?.WriteLine(LOG_IDENT, $"Tool {name} {(result.IsError ? "returned an error" : "finished")} in {timer.ElapsedMilliseconds} ms");
+		App.Logger?.WriteLine(
+			LOG_IDENT,
+			$"Tool {name} {(result.IsError ? "returned an error" : "finished")} in {timer.ElapsedMilliseconds} ms"
+		);
 
 		if (result.Text.Length > MaxReplyChars)
-			result = result with { Text = result.Text[..MaxReplyChars] + "\n... (reply cut at 2 MB, narrow the request with a filter or line range)" };
+			result = result with
+			{
+				Text = result.Text[..MaxReplyChars] + "\n... (reply cut at 2 MB, narrow the request with a filter or line range)",
+			};
 
 		return result;
 	}
 
-	private static async Task<McpToolResult> RunOnUiThreadAsync(string name, JsonObject args, System.Windows.Threading.Dispatcher dispatcher, CancellationToken token)
+	private static async Task<McpToolResult> RunOnUiThreadAsync(
+		string name,
+		JsonObject args,
+		System.Windows.Threading.Dispatcher dispatcher,
+		CancellationToken token
+	)
 	{
 		var operation = dispatcher.InvokeAsync(() => McpTools.Execute(name, args));
 		Task<McpToolResult> task = operation.Task;
@@ -249,7 +249,12 @@ public static class McpBridgeServer
 		return await task.ConfigureAwait(false);
 	}
 
-	private static async Task<McpToolResult> RunOffUiThreadAsync(string name, JsonObject args, System.Windows.Threading.Dispatcher dispatcher, CancellationToken token)
+	private static async Task<McpToolResult> RunOffUiThreadAsync(
+		string name,
+		JsonObject args,
+		System.Windows.Threading.Dispatcher dispatcher,
+		CancellationToken token
+	)
 	{
 		using CancellationTokenSource limit = CancellationTokenSource.CreateLinkedTokenSource(token);
 		limit.CancelAfter(McpToolCatalog.Timeout(name));
@@ -263,7 +268,7 @@ public static class McpBridgeServer
 			"get_docs" => Task.Run(() => McpTools.GetDocs(args), limit.Token),
 			"manage_app_control" => Task.Run(() => McpTools.ManageAppControl(args), limit.Token),
 			"manage_app_code" => Task.Run(() => McpTools.ManageAppCode(args), limit.Token),
-			_ => Task.FromResult(new McpToolResult($"The tool {name} has no background handler.", true))
+			_ => Task.FromResult(new McpToolResult($"The tool {name} has no background handler.", true)),
 		};
 
 		Task finished = await Task.WhenAny(task, Task.Delay(Timeout.Infinite, limit.Token)).ConfigureAwait(false);
@@ -272,7 +277,10 @@ public static class McpBridgeServer
 			_ = task.ContinueWith(ObserveFault, TaskContinuationOptions.OnlyOnFaulted);
 			if (token.IsCancellationRequested)
 				throw new OperationCanceledException(token);
-			return new McpToolResult($"The tool {name} took longer than {McpToolCatalog.Timeout(name).TotalSeconds:0} seconds and was stopped.", true);
+			return new McpToolResult(
+				$"The tool {name} took longer than {McpToolCatalog.Timeout(name).TotalSeconds:0} seconds and was stopped.",
+				true
+			);
 		}
 
 		return await task.ConfigureAwait(false);

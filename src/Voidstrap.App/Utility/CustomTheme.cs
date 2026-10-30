@@ -57,7 +57,13 @@ namespace Voidstrap.Utility
             if (Radial)
             {
                 Point center = new Point(Math.Clamp(CenterX, 0, 1), Math.Clamp(CenterY, 0, 1));
-                return new RadialGradientBrush(stops) { Center = center, GradientOrigin = center, RadiusX = Math.Clamp(Radius, 0.05, 2), RadiusY = Math.Clamp(Radius, 0.05, 2) };
+                return new RadialGradientBrush(stops)
+                {
+                    Center = center,
+                    GradientOrigin = center,
+                    RadiusX = Math.Clamp(Radius, 0.05, 2),
+                    RadiusY = Math.Clamp(Radius, 0.05, 2),
+                };
             }
             (Point start, Point end) = PointsForAngle(Angle);
             return new LinearGradientBrush(stops, start, end);
@@ -68,7 +74,10 @@ namespace Voidstrap.Utility
             double radians = angle * Math.PI / 180.0;
             double dx = Math.Cos(radians) / 2.0;
             double dy = Math.Sin(radians) / 2.0;
-            return (new Point(Math.Round(0.5 - dx, 4), Math.Round(0.5 - dy, 4)), new Point(Math.Round(0.5 + dx, 4), Math.Round(0.5 + dy, 4)));
+            return (
+                new Point(Math.Round(0.5 - dx, 4), Math.Round(0.5 - dy, 4)),
+                new Point(Math.Round(0.5 + dx, 4), Math.Round(0.5 + dy, 4))
+            );
         }
 
         public static ThemeGradient? FromBrush(object? value)
@@ -87,7 +96,8 @@ namespace Voidstrap.Utility
             }
             else if (brush is LinearGradientBrush linear)
             {
-                double angle = Math.Atan2(linear.EndPoint.Y - linear.StartPoint.Y, linear.EndPoint.X - linear.StartPoint.X) * 180.0 / Math.PI;
+                double angle =
+                    Math.Atan2(linear.EndPoint.Y - linear.StartPoint.Y, linear.EndPoint.X - linear.StartPoint.X) * 180.0 / Math.PI;
                 gradient.Angle = Math.Round((angle + 360) % 360);
             }
             return gradient;
@@ -95,7 +105,14 @@ namespace Voidstrap.Utility
 
         public ThemeGradient Clone()
         {
-            ThemeGradient copy = new ThemeGradient { Radial = Radial, Angle = Angle, Radius = Radius, CenterX = CenterX, CenterY = CenterY };
+            ThemeGradient copy = new ThemeGradient
+            {
+                Radial = Radial,
+                Angle = Angle,
+                Radius = Radius,
+                CenterX = CenterX,
+                CenterY = CenterY,
+            };
             foreach (ThemeGradientStop stop in Stops)
                 copy.Stops.Add(new ThemeGradientStop { Color = stop.Color, Offset = stop.Offset });
             return copy;
@@ -149,45 +166,211 @@ namespace Voidstrap.Utility
             "GradientStopCollection",
             "GradientBrush.GradientStops",
             "LinearGradientBrush.GradientStops",
-            "RadialGradientBrush.GradientStops"
+            "RadialGradientBrush.GradientStops",
         };
 
-        private static readonly Dictionary<string, HashSet<string>> AllowedAttributes = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal)
+        private static readonly Dictionary<string, HashSet<string>> AllowedAttributes = new Dictionary<string, HashSet<string>>(
+            StringComparer.Ordinal
+        )
         {
             ["ResourceDictionary"] = new HashSet<string>(StringComparer.Ordinal),
             ["Color"] = new HashSet<string>(StringComparer.Ordinal) { "Key" },
             ["SolidColorBrush"] = new HashSet<string>(StringComparer.Ordinal) { "Key", "Color", "Opacity" },
-            ["LinearGradientBrush"] = new HashSet<string>(StringComparer.Ordinal) { "Key", "StartPoint", "EndPoint", "MappingMode", "SpreadMethod", "ColorInterpolationMode", "Opacity" },
-            ["RadialGradientBrush"] = new HashSet<string>(StringComparer.Ordinal) { "Key", "Center", "GradientOrigin", "RadiusX", "RadiusY", "MappingMode", "SpreadMethod", "ColorInterpolationMode", "Opacity" },
+            ["LinearGradientBrush"] = new HashSet<string>(StringComparer.Ordinal)
+            {
+                "Key",
+                "StartPoint",
+                "EndPoint",
+                "MappingMode",
+                "SpreadMethod",
+                "ColorInterpolationMode",
+                "Opacity",
+            },
+            ["RadialGradientBrush"] = new HashSet<string>(StringComparer.Ordinal)
+            {
+                "Key",
+                "Center",
+                "GradientOrigin",
+                "RadiusX",
+                "RadiusY",
+                "MappingMode",
+                "SpreadMethod",
+                "ColorInterpolationMode",
+                "Opacity",
+            },
             ["GradientStop"] = new HashSet<string>(StringComparer.Ordinal) { "Color", "Offset" },
             ["GradientStopCollection"] = new HashSet<string>(StringComparer.Ordinal),
             ["GradientBrush.GradientStops"] = new HashSet<string>(StringComparer.Ordinal),
             ["LinearGradientBrush.GradientStops"] = new HashSet<string>(StringComparer.Ordinal),
-            ["RadialGradientBrush.GradientStops"] = new HashSet<string>(StringComparer.Ordinal)
+            ["RadialGradientBrush.GradientStops"] = new HashSet<string>(StringComparer.Ordinal),
         };
 
-        public static IReadOnlyList<ThemeKeyInfo> Schema { get; } = new List<ThemeKeyInfo>
-        {
-            new ThemeKeyInfo { Key = "WindowBackgroundColorPrimary", Label = "Window base", Group = "Window", IsBrush = false, Fallback = "#CC202020" },
-            new ThemeKeyInfo { Key = "WindowBackgroundColorSecondary", Label = "Window glow", Group = "Window", IsBrush = false, Fallback = "#CC202020" },
-            new ThemeKeyInfo { Key = "WindowBackgroundColorThird", Label = "Window edge", Group = "Window", IsBrush = false, Fallback = "#CC202020" },
-            new ThemeKeyInfo { Key = "PrimaryBackgroundColor", Label = "Panels and footer", Group = "Surfaces", IsBrush = true, Fallback = "#FF202020" },
-            new ThemeKeyInfo { Key = "ControlFillColorDefault", Label = "Control fill", Group = "Surfaces", IsBrush = false, Fallback = "#11FFFFFF" },
-            new ThemeKeyInfo { Key = "ComboBoxPopupAcrylicBackground", Label = "Dropdown background", Group = "Surfaces", IsBrush = false, Fallback = "#F0202020" },
-            new ThemeKeyInfo { Key = "NewTextEditorBackground", Label = "Editor background", Group = "Code editor", IsBrush = true, Fallback = "#CC202020" },
-            new ThemeKeyInfo { Key = "NewTextEditorForeground", Label = "Editor text", Group = "Code editor", IsBrush = true, Fallback = "#FFE9EAEC" },
-            new ThemeKeyInfo { Key = "NewTextEditorLink", Label = "Editor link", Group = "Code editor", IsBrush = true, Fallback = "#FF3897E8" },
-            new ThemeKeyInfo { Key = "TextFillColorPrimaryBrush", Label = "Primary text", Group = "Text", IsBrush = true, Fallback = "#FFFFFFFF", Optional = true },
-            new ThemeKeyInfo { Key = "TextFillColorSecondaryBrush", Label = "Secondary text", Group = "Text", IsBrush = true, Fallback = "#C5FFFFFF", Optional = true },
-            new ThemeKeyInfo { Key = "TextFillColorTertiaryBrush", Label = "Hint text", Group = "Text", IsBrush = true, Fallback = "#87FFFFFF", Optional = true },
-            new ThemeKeyInfo { Key = "ControlFillColorDefaultBrush", Label = "Control background", Group = "Controls", IsBrush = true, Fallback = "#0FFFFFFF", Optional = true },
-            new ThemeKeyInfo { Key = "ControlFillColorSecondaryBrush", Label = "Control hover", Group = "Controls", IsBrush = true, Fallback = "#15FFFFFF", Optional = true },
-            new ThemeKeyInfo { Key = "SubtleFillColorSecondaryBrush", Label = "Subtle hover", Group = "Controls", IsBrush = true, Fallback = "#0FFFFFFF", Optional = true },
-            new ThemeKeyInfo { Key = "ControlStrokeColorDefaultBrush", Label = "Control outline", Group = "Controls", IsBrush = true, Fallback = "#12FFFFFF", Optional = true },
-            new ThemeKeyInfo { Key = "CardBackgroundFillColorDefaultBrush", Label = "Card background", Group = "Cards and borders", IsBrush = true, Fallback = "#0DFFFFFF", Optional = true },
-            new ThemeKeyInfo { Key = "CardStrokeColorDefaultBrush", Label = "Card outline", Group = "Cards and borders", IsBrush = true, Fallback = "#19000000", Optional = true },
-            new ThemeKeyInfo { Key = "ControlElevationBorderBrush", Label = "Raised border", Group = "Cards and borders", IsBrush = true, Fallback = "#18FFFFFF", Optional = true }
-        };
+        public static IReadOnlyList<ThemeKeyInfo> Schema { get; } =
+            new List<ThemeKeyInfo>
+            {
+                new ThemeKeyInfo
+                {
+                    Key = "WindowBackgroundColorPrimary",
+                    Label = "Window base",
+                    Group = "Window",
+                    IsBrush = false,
+                    Fallback = "#CC202020",
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "WindowBackgroundColorSecondary",
+                    Label = "Window glow",
+                    Group = "Window",
+                    IsBrush = false,
+                    Fallback = "#CC202020",
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "WindowBackgroundColorThird",
+                    Label = "Window edge",
+                    Group = "Window",
+                    IsBrush = false,
+                    Fallback = "#CC202020",
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "PrimaryBackgroundColor",
+                    Label = "Panels and footer",
+                    Group = "Surfaces",
+                    IsBrush = true,
+                    Fallback = "#FF202020",
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "ControlFillColorDefault",
+                    Label = "Control fill",
+                    Group = "Surfaces",
+                    IsBrush = false,
+                    Fallback = "#11FFFFFF",
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "ComboBoxPopupAcrylicBackground",
+                    Label = "Dropdown background",
+                    Group = "Surfaces",
+                    IsBrush = false,
+                    Fallback = "#F0202020",
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "NewTextEditorBackground",
+                    Label = "Editor background",
+                    Group = "Code editor",
+                    IsBrush = true,
+                    Fallback = "#CC202020",
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "NewTextEditorForeground",
+                    Label = "Editor text",
+                    Group = "Code editor",
+                    IsBrush = true,
+                    Fallback = "#FFE9EAEC",
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "NewTextEditorLink",
+                    Label = "Editor link",
+                    Group = "Code editor",
+                    IsBrush = true,
+                    Fallback = "#FF3897E8",
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "TextFillColorPrimaryBrush",
+                    Label = "Primary text",
+                    Group = "Text",
+                    IsBrush = true,
+                    Fallback = "#FFFFFFFF",
+                    Optional = true,
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "TextFillColorSecondaryBrush",
+                    Label = "Secondary text",
+                    Group = "Text",
+                    IsBrush = true,
+                    Fallback = "#C5FFFFFF",
+                    Optional = true,
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "TextFillColorTertiaryBrush",
+                    Label = "Hint text",
+                    Group = "Text",
+                    IsBrush = true,
+                    Fallback = "#87FFFFFF",
+                    Optional = true,
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "ControlFillColorDefaultBrush",
+                    Label = "Control background",
+                    Group = "Controls",
+                    IsBrush = true,
+                    Fallback = "#0FFFFFFF",
+                    Optional = true,
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "ControlFillColorSecondaryBrush",
+                    Label = "Control hover",
+                    Group = "Controls",
+                    IsBrush = true,
+                    Fallback = "#15FFFFFF",
+                    Optional = true,
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "SubtleFillColorSecondaryBrush",
+                    Label = "Subtle hover",
+                    Group = "Controls",
+                    IsBrush = true,
+                    Fallback = "#0FFFFFFF",
+                    Optional = true,
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "ControlStrokeColorDefaultBrush",
+                    Label = "Control outline",
+                    Group = "Controls",
+                    IsBrush = true,
+                    Fallback = "#12FFFFFF",
+                    Optional = true,
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "CardBackgroundFillColorDefaultBrush",
+                    Label = "Card background",
+                    Group = "Cards and borders",
+                    IsBrush = true,
+                    Fallback = "#0DFFFFFF",
+                    Optional = true,
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "CardStrokeColorDefaultBrush",
+                    Label = "Card outline",
+                    Group = "Cards and borders",
+                    IsBrush = true,
+                    Fallback = "#19000000",
+                    Optional = true,
+                },
+                new ThemeKeyInfo
+                {
+                    Key = "ControlElevationBorderBrush",
+                    Label = "Raised border",
+                    Group = "Cards and borders",
+                    IsBrush = true,
+                    Fallback = "#18FFFFFF",
+                    Optional = true,
+                },
+            };
 
         public static ThemeValidationResult Validate(string xaml)
         {
@@ -212,7 +395,7 @@ namespace Voidstrap.Utility
                     DtdProcessing = DtdProcessing.Prohibit,
                     XmlResolver = null,
                     MaxCharactersInDocument = MaximumXamlCharacters,
-                    MaxCharactersFromEntities = 0
+                    MaxCharactersFromEntities = 0,
                 };
                 using StringReader source = new StringReader(xaml);
                 using XmlReader reader = XmlReader.Create(source, settings);
@@ -257,8 +440,11 @@ namespace Voidstrap.Utility
                         continue;
                     }
                     bool isKey = attribute.Name.LocalName == "Key" && attribute.Name.NamespaceName == XamlNamespace;
-                    bool isPresentationAttribute = string.IsNullOrEmpty(attribute.Name.NamespaceName) || attribute.Name.NamespaceName == PresentationNamespace;
-                    bool attributeAllowed = isKey ? allowed.Contains("Key") : isPresentationAttribute && allowed.Contains(attribute.Name.LocalName);
+                    bool isPresentationAttribute =
+                        string.IsNullOrEmpty(attribute.Name.NamespaceName) || attribute.Name.NamespaceName == PresentationNamespace;
+                    bool attributeAllowed = isKey
+                        ? allowed.Contains("Key")
+                        : isPresentationAttribute && allowed.Contains(attribute.Name.LocalName);
                     if (!attributeAllowed || attribute.Value.Contains('{'))
                     {
                         result.Errors.Add("The attribute " + attribute.Name.LocalName + " is not allowed on <" + name + ">.");
@@ -274,7 +460,8 @@ namespace Voidstrap.Utility
             try
             {
                 using MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(xaml));
-                parsed = XamlReader.Load(stream) as ResourceDictionary
+                parsed =
+                    XamlReader.Load(stream) as ResourceDictionary
                     ?? throw new InvalidOperationException("The outer tag must be a ResourceDictionary.");
             }
             catch (XamlParseException ex)
@@ -292,7 +479,9 @@ namespace Voidstrap.Utility
             if (parsed.Contains(WindowGradientKey))
             {
                 if (parsed[WindowGradientKey] is not GradientBrush gradientBrush)
-                    result.Errors.Add("The window gradient (" + WindowGradientKey + ") must be a LinearGradientBrush or RadialGradientBrush.");
+                    result.Errors.Add(
+                        "The window gradient (" + WindowGradientKey + ") must be a LinearGradientBrush or RadialGradientBrush."
+                    );
                 else if (gradientBrush.GradientStops.Count < 2 || gradientBrush.GradientStops.Count > 16)
                     result.Errors.Add("The window gradient needs between 2 and 16 colour stops.");
             }
@@ -321,10 +510,7 @@ namespace Voidstrap.Utility
         {
             try
             {
-                return new ResourceDictionary
-                {
-                    Source = new Uri("pack://application:,,,/UI/Style/Dark.xaml", UriKind.Absolute)
-                };
+                return new ResourceDictionary { Source = new Uri("pack://application:,,,/UI/Style/Dark.xaml", UriKind.Absolute) };
             }
             catch (Exception ex)
             {
@@ -361,9 +547,7 @@ namespace Voidstrap.Utility
                     if (parsed is Color color)
                         merged[info.Key] = info.IsBrush ? new SolidColorBrush(color) : color;
                 }
-                catch
-                {
-                }
+                catch { }
             }
             return merged;
         }
@@ -378,7 +562,10 @@ namespace Voidstrap.Utility
                     ThemeValidationResult result = Validate(ReadFile(path));
                     if (result.Ok)
                         return Merge(result.Dictionary);
-                    App.Logger?.WriteLine(LOG_IDENT, "Custom theme rejected, using the built in theme instead: " + string.Join(" ", result.Errors.Take(2)));
+                    App.Logger?.WriteLine(
+                        LOG_IDENT,
+                        "Custom theme rejected, using the built in theme instead: " + string.Join(" ", result.Errors.Take(2))
+                    );
                 }
             }
             catch (Exception ex)
@@ -410,7 +597,16 @@ namespace Voidstrap.Utility
             string temporary = fullPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
             try
             {
-                using (FileStream stream = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None, 65536, FileOptions.SequentialScan))
+                using (
+                    FileStream stream = new FileStream(
+                        temporary,
+                        FileMode.CreateNew,
+                        FileAccess.Write,
+                        FileShare.None,
+                        65536,
+                        FileOptions.SequentialScan
+                    )
+                )
                 using (StreamWriter writer = new StreamWriter(stream, new UTF8Encoding(false)))
                 {
                     writer.Write(xaml);
@@ -425,9 +621,7 @@ namespace Voidstrap.Utility
                 {
                     File.Delete(temporary);
                 }
-                catch
-                {
-                }
+                catch { }
             }
         }
 
@@ -457,23 +651,59 @@ namespace Voidstrap.Utility
             }
             if (model.Gradient is { Stops.Count: >= 2 } gradient)
             {
-                string stops = string.Concat(gradient.Stops
-                    .OrderBy(stop => stop.Offset)
-                    .Take(ThemeGradient.MaximumStops)
-                    .Select(stop => "    <GradientStop Color=\"" + ToHex(stop.Color) + "\" Offset=\"" + Math.Clamp(stop.Offset, 0, 1).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture) + "\" />" + Environment.NewLine));
+                string stops = string.Concat(
+                    gradient
+                        .Stops.OrderBy(stop => stop.Offset)
+                        .Take(ThemeGradient.MaximumStops)
+                        .Select(stop =>
+                            "    <GradientStop Color=\""
+                            + ToHex(stop.Color)
+                            + "\" Offset=\""
+                            + Math.Clamp(stop.Offset, 0, 1).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture)
+                            + "\" />"
+                            + Environment.NewLine
+                        )
+                );
                 System.Globalization.CultureInfo invariant = System.Globalization.CultureInfo.InvariantCulture;
                 if (gradient.Radial)
                 {
-                    string center = Math.Clamp(gradient.CenterX, 0, 1).ToString("0.###", invariant) + "," + Math.Clamp(gradient.CenterY, 0, 1).ToString("0.###", invariant);
+                    string center =
+                        Math.Clamp(gradient.CenterX, 0, 1).ToString("0.###", invariant)
+                        + ","
+                        + Math.Clamp(gradient.CenterY, 0, 1).ToString("0.###", invariant);
                     string radius = Math.Clamp(gradient.Radius, 0.05, 2).ToString("0.###", invariant);
-                    sb.AppendLine("  <RadialGradientBrush x:Key=\"" + WindowGradientKey + "\" Center=\"" + center + "\" GradientOrigin=\"" + center + "\" RadiusX=\"" + radius + "\" RadiusY=\"" + radius + "\">");
+                    sb.AppendLine(
+                        "  <RadialGradientBrush x:Key=\""
+                            + WindowGradientKey
+                            + "\" Center=\""
+                            + center
+                            + "\" GradientOrigin=\""
+                            + center
+                            + "\" RadiusX=\""
+                            + radius
+                            + "\" RadiusY=\""
+                            + radius
+                            + "\">"
+                    );
                     sb.Append(stops);
                     sb.AppendLine("  </RadialGradientBrush>");
                 }
                 else
                 {
                     (Point start, Point end) = ThemeGradient.PointsForAngle(gradient.Angle);
-                    sb.AppendLine("  <LinearGradientBrush x:Key=\"" + WindowGradientKey + "\" StartPoint=\"" + start.X.ToString("0.####", invariant) + "," + start.Y.ToString("0.####", invariant) + "\" EndPoint=\"" + end.X.ToString("0.####", invariant) + "," + end.Y.ToString("0.####", invariant) + "\">");
+                    sb.AppendLine(
+                        "  <LinearGradientBrush x:Key=\""
+                            + WindowGradientKey
+                            + "\" StartPoint=\""
+                            + start.X.ToString("0.####", invariant)
+                            + ","
+                            + start.Y.ToString("0.####", invariant)
+                            + "\" EndPoint=\""
+                            + end.X.ToString("0.####", invariant)
+                            + ","
+                            + end.Y.ToString("0.####", invariant)
+                            + "\">"
+                    );
                     sb.Append(stops);
                     sb.AppendLine("  </LinearGradientBrush>");
                 }
@@ -506,7 +736,10 @@ namespace Voidstrap.Utility
         {
             try
             {
-                ResourceDictionary dictionary = new ResourceDictionary { Source = new Uri("pack://application:,,,/UI/Style/" + themeName + ".xaml", UriKind.Absolute) };
+                ResourceDictionary dictionary = new ResourceDictionary
+                {
+                    Source = new Uri("pack://application:,,,/UI/Style/" + themeName + ".xaml", UriKind.Absolute),
+                };
                 return BuildXaml(ReadModel(dictionary));
             }
             catch (Exception ex)
@@ -531,7 +764,12 @@ namespace Voidstrap.Utility
                     return false;
             }
             string upper = trimmed.ToUpperInvariant();
-            return upper is not ("CON" or "PRN" or "AUX" or "NUL") && !(upper.Length == 4 && (upper.StartsWith("COM", StringComparison.Ordinal) || upper.StartsWith("LPT", StringComparison.Ordinal)) && char.IsDigit(upper[3]));
+            return upper is not ("CON" or "PRN" or "AUX" or "NUL")
+                && !(
+                    upper.Length == 4
+                    && (upper.StartsWith("COM", StringComparison.Ordinal) || upper.StartsWith("LPT", StringComparison.Ordinal))
+                    && char.IsDigit(upper[3])
+                );
         }
 
         public static string ProfilePath(string name)
@@ -547,7 +785,8 @@ namespace Voidstrap.Utility
             {
                 if (!Directory.Exists(ProfilesDirectory))
                     return Array.Empty<string>();
-                return Directory.EnumerateFiles(ProfilesDirectory, "*.xaml")
+                return Directory
+                    .EnumerateFiles(ProfilesDirectory, "*.xaml")
                     .Select(Path.GetFileNameWithoutExtension)
                     .Where(name => IsValidProfileName(name))
                     .Select(name => name!)
@@ -608,9 +847,7 @@ namespace Voidstrap.Utility
                     return true;
                 }
             }
-            catch
-            {
-            }
+            catch { }
             return false;
         }
     }

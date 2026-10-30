@@ -73,7 +73,9 @@ internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
 						return false;
 					}
 					string value = _searchText.Trim();
-					return historyGameEntry.Name.Contains(value, StringComparison.OrdinalIgnoreCase) || historyGameEntry.CreatorName.Contains(value, StringComparison.OrdinalIgnoreCase) || historyGameEntry.PlaceId.ToString().Contains(value, StringComparison.OrdinalIgnoreCase);
+					return historyGameEntry.Name.Contains(value, StringComparison.OrdinalIgnoreCase)
+						|| historyGameEntry.CreatorName.Contains(value, StringComparison.OrdinalIgnoreCase)
+						|| historyGameEntry.PlaceId.ToString().Contains(value, StringComparison.OrdinalIgnoreCase);
 				};
 			}
 			return _filteredHistory;
@@ -82,10 +84,7 @@ internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
 
 	public string SearchText
 	{
-		get
-		{
-			return _searchText;
-		}
+		get { return _searchText; }
 		set
 		{
 			if (!(_searchText == value))
@@ -96,9 +95,7 @@ internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
 				{
 					FilteredHistory.Refresh();
 				}
-				catch
-				{
-				}
+				catch { }
 				OnPropertyChanged(nameof(IsFilteredEmpty));
 			}
 		}
@@ -106,10 +103,7 @@ internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
 
 	public GenericTriState LoadState
 	{
-		get
-		{
-			return _loadState;
-		}
+		get { return _loadState; }
 		private set
 		{
 			_loadState = value;
@@ -119,10 +113,7 @@ internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
 
 	public string Error
 	{
-		get
-		{
-			return _error;
-		}
+		get { return _error; }
 		private set
 		{
 			_error = value;
@@ -153,12 +144,10 @@ internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
 		try
 		{
 			DatacenterOptions.Clear();
-			DatacenterOptions.Add(new DatacenterOption
-			{
-				Key = "",
-				Display = "Preferred Server (Auto)"
-			});
-			Dictionary<string, LearnedServerEntry> dictionary = new Dictionary<string, LearnedServerEntry>(StringComparer.OrdinalIgnoreCase);
+			DatacenterOptions.Add(new DatacenterOption { Key = "", Display = "Preferred Server (Auto)" });
+			Dictionary<string, LearnedServerEntry> dictionary = new Dictionary<string, LearnedServerEntry>(
+				StringComparer.OrdinalIgnoreCase
+			);
 			foreach (LearnedServerEntry item in ServerFetchStore.AllEntries())
 			{
 				if (!string.IsNullOrWhiteSpace(item.City) && (item.Lat != 0.0 || item.Lon != 0.0))
@@ -170,13 +159,15 @@ internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
 					}
 				}
 			}
-			foreach (LearnedServerEntry item2 in dictionary.Values.OrderBy<LearnedServerEntry, string>((LearnedServerEntry x) => x.Country, StringComparer.OrdinalIgnoreCase).ThenBy<LearnedServerEntry, string>((LearnedServerEntry x) => x.City, StringComparer.OrdinalIgnoreCase))
+			foreach (
+				LearnedServerEntry item2 in dictionary
+					.Values.OrderBy<LearnedServerEntry, string>((LearnedServerEntry x) => x.Country, StringComparer.OrdinalIgnoreCase)
+					.ThenBy<LearnedServerEntry, string>((LearnedServerEntry x) => x.City, StringComparer.OrdinalIgnoreCase)
+			)
 			{
-				DatacenterOptions.Add(new DatacenterOption
-				{
-					Key = item2.City + "|" + item2.Country,
-					Display = item2.City + ", " + item2.Country
-				});
+				DatacenterOptions.Add(
+					new DatacenterOption { Key = item2.City + "|" + item2.Country, Display = item2.City + ", " + item2.Country }
+				);
 			}
 		}
 		catch (Exception ex)
@@ -191,15 +182,18 @@ internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
 		try
 		{
 			List<ActivityData> entries = await Task.Run(() => ReadFromFile());
-			((DispatcherObject)Application.Current).Dispatcher.Invoke((Action)delegate
-			{
-				_gameHistory.Clear();
-				foreach (ActivityData item in entries)
-				{
-					_gameHistory.Add(new HistoryGameEntry(item, DatacenterOptions));
-				}
-				NotifyCollectionsChanged();
-			});
+			((DispatcherObject)Application.Current).Dispatcher.Invoke(
+				(Action)
+					delegate
+					{
+						_gameHistory.Clear();
+						foreach (ActivityData item in entries)
+						{
+							_gameHistory.Add(new HistoryGameEntry(item, DatacenterOptions));
+						}
+						NotifyCollectionsChanged();
+					}
+			);
 			if (entries.Count == 0)
 			{
 				LoadState = GenericTriState.Successful;
@@ -213,18 +207,21 @@ internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
 			{
 				App.Logger.WriteException("HistoryPageViewModel::FetchForEntries", ex);
 			}
-			((DispatcherObject)Application.Current).Dispatcher.Invoke((Action)delegate
-			{
-				foreach (HistoryGameEntry item2 in _gameHistory)
-				{
-					if (item2.Data.UniverseDetails == null)
+			((DispatcherObject)Application.Current).Dispatcher.Invoke(
+				(Action)
+					delegate
 					{
-						item2.Data.UniverseDetails = UniverseDetails.LoadFromCache(item2.UniverseId);
+						foreach (HistoryGameEntry item2 in _gameHistory)
+						{
+							if (item2.Data.UniverseDetails == null)
+							{
+								item2.Data.UniverseDetails = UniverseDetails.LoadFromCache(item2.UniverseId);
+							}
+							item2.RefreshDetails();
+						}
+						NotifyCollectionsChanged();
 					}
-					item2.RefreshDetails();
-				}
-				NotifyCollectionsChanged();
-			});
+			);
 			await FetchVotesAndPlayingAsync();
 			LoadState = GenericTriState.Successful;
 		}
@@ -245,9 +242,7 @@ internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
 		{
 			FilteredHistory.Refresh();
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private async Task FetchVotesAndPlayingAsync()
@@ -255,15 +250,17 @@ internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
 		List<HistoryGameEntry> source;
 		try
 		{
-			source = ((DispatcherObject)Application.Current).Dispatcher.Invoke<List<HistoryGameEntry>>((Func<List<HistoryGameEntry>>)(() => _gameHistory.ToList()));
+			source = ((DispatcherObject)Application.Current).Dispatcher.Invoke<List<HistoryGameEntry>>(
+				(Func<List<HistoryGameEntry>>)(() => _gameHistory.ToList())
+			);
 		}
 		catch
 		{
 			return;
 		}
-		List<long> list = (from x in source
-			where x.UniverseId != 0
-			select x.UniverseId).Distinct().ToList();
+		List<long> list = (from x in source where x.UniverseId != 0 select x.UniverseId)
+			.Distinct()
+			.ToList();
 		if (list.Count == 0)
 		{
 			return;
@@ -296,22 +293,23 @@ internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
 		}
 		try
 		{
-			await ((DispatcherObject)Application.Current).Dispatcher.InvokeAsync((Action)delegate
-			{
-				foreach (HistoryGameEntry item2 in _gameHistory)
-				{
-					if (likeById.TryGetValue(item2.UniverseId, out string? value5))
+			await ((DispatcherObject)Application.Current).Dispatcher.InvokeAsync(
+				(Action)
+					delegate
 					{
-						item2.LikePercent = value5;
+						foreach (HistoryGameEntry item2 in _gameHistory)
+						{
+							if (likeById.TryGetValue(item2.UniverseId, out string? value5))
+							{
+								item2.LikePercent = value5;
+							}
+							long valueOrDefault = (item2.Data.UniverseDetails?.Data?.Playing).GetValueOrDefault();
+							item2.PlayerCount = ((valueOrDefault > 0) ? FormatCount(valueOrDefault) : "--");
+						}
 					}
-					long valueOrDefault = (item2.Data.UniverseDetails?.Data?.Playing).GetValueOrDefault();
-					item2.PlayerCount = ((valueOrDefault > 0) ? FormatCount(valueOrDefault) : "--");
-				}
-			});
+			);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static string FormatCount(long count)
@@ -336,14 +334,17 @@ internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
 				App.Logger.WriteLine("HistoryPageViewModel::ReadFromFile", "File does not exist");
 				return new List<ActivityData>();
 			}
-			JsonSerializerOptions options = new JsonSerializerOptions
-			{
-				PropertyNameCaseInsensitive = true
-			};
-			List<ActivityData> list = (from x in JsonFile.Deserialize<List<ActivityData>>(_historyFilePath, options, 16777216).Where(HistoryPersister.IsWithinDesktopRetention)
+			JsonSerializerOptions options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+			List<ActivityData> list = (
+				from x in JsonFile
+					.Deserialize<List<ActivityData>>(_historyFilePath, options, 16777216)
+					.Where(HistoryPersister.IsWithinDesktopRetention)
 				orderby x.TimeJoined descending
 				group x by ((x.UniverseId != 0) ? x.UniverseId : -Math.Abs(x.PlaceId)) into g
-				select g.First()).Take(50).ToList();
+				select g.First()
+			)
+				.Take(50)
+				.ToList();
 			foreach (ActivityData item in list)
 			{
 				item.ComputeDisplayTimes();
@@ -391,7 +392,7 @@ internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
 					FileName = process,
 					UseShellExecute = false,
 					CreateNoWindow = true,
-					WorkingDirectory = (Path.GetDirectoryName(process) ?? "")
+					WorkingDirectory = (Path.GetDirectoryName(process) ?? ""),
 				};
 				startInfo.ArgumentList.Add("-player");
 				startInfo.ArgumentList.Add(text);
@@ -405,7 +406,7 @@ internal sealed class HistoryPageViewModel : NotifyPropertyChangedViewModel
 				{
 					FileName = executablePath,
 					UseShellExecute = false,
-					WorkingDirectory = (Path.GetDirectoryName(executablePath) ?? "")
+					WorkingDirectory = (Path.GetDirectoryName(executablePath) ?? ""),
 				};
 				startInfo.ArgumentList.Add(text);
 				Process.Start(startInfo);

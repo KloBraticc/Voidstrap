@@ -24,15 +24,14 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 {
     public partial class ReleasesPage
     {
-        private static readonly JsonSerializerOptions ReleaseJsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };         
+        private static readonly JsonSerializerOptions ReleaseJsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
         private const int MaxReleaseJsonBytes = 4 * 1024 * 1024;
         private const string ReleasesApiUrl = "https://api.github.com/repos/KloBraticc/Voidstrap/releases";
         private const string FallbackReleasesApiUrl = "https://api.github.com/repos/KloBraticc/Voidstrap/releases";
 
         private static readonly HttpClient HttpClient = CreateHttpClient();
-        private static readonly string CacheFile =
-            Path.Combine(Paths.Cache, "Releases.json");
+        private static readonly string CacheFile = Path.Combine(Paths.Cache, "Releases.json");
 
         public ObservableCollection<GithubRelease> Releases { get; } = new();
         private readonly ICollectionView _releasesView;
@@ -44,10 +43,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         private static HttpClient CreateHttpClient()
         {
             var client = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(15));
-            client.DefaultRequestHeaders.UserAgent.ParseAdd(
-                "VoidstrapApp/1.0 (+https://github.com/KloBraticc/Voidstrap)");
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("VoidstrapApp/1.0 (+https://github.com/KloBraticc/Voidstrap)");
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             return client;
         }
 
@@ -78,9 +75,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 _refreshCts?.Cancel();
                 _refreshCts?.Dispose();
             }
-            catch
-            {
-            }
+            catch { }
             _refreshCts = null;
             if (_cacheWatcher != null)
             {
@@ -121,9 +116,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             {
                 Path = Path.GetDirectoryName(CacheFile)!,
                 Filter = Path.GetFileName(CacheFile),
-                NotifyFilter = NotifyFilters.LastWrite |
-                               NotifyFilters.Size |
-                               NotifyFilters.FileName
+                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size | NotifyFilters.FileName,
             };
 
             _cacheWatcher.Changed += OnCacheFileChanged;
@@ -163,12 +156,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 await Task.Delay(500, token);
                 await LoadFromCacheAsync(token);
             }
-            catch (OperationCanceledException)
-            {
-            }
-            catch (ObjectDisposedException)
-            {
-            }
+            catch (OperationCanceledException) { }
+            catch (ObjectDisposedException) { }
             finally
             {
                 Interlocked.Exchange(ref _cacheReloadQueued, 0);
@@ -182,22 +171,21 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             try
             {
                 token.ThrowIfCancellationRequested();
-                var json = await Voidstrap.Utility.GitHubCache.GetStringWithFallbackAsync(ReleasesApiUrl, FallbackReleasesApiUrl, force ? TimeSpan.Zero : _refreshInterval, token);
+                var json = await Voidstrap.Utility.GitHubCache.GetStringWithFallbackAsync(
+                    ReleasesApiUrl,
+                    FallbackReleasesApiUrl,
+                    force ? TimeSpan.Zero : _refreshInterval,
+                    token
+                );
                 if (string.IsNullOrEmpty(json) || Encoding.UTF8.GetByteCount(json) > MaxReleaseJsonBytes)
                     return;
-                var releases = JsonSerializer.Deserialize<GithubRelease[]>(
-                    json,
-                    ReleaseJsonOptions) ?? Array.Empty<GithubRelease>();
-				await Task.Run(() => Voidstrap.Utility.JsonFile.WriteAtomicText(CacheFile, json), token);
+                var releases = JsonSerializer.Deserialize<GithubRelease[]>(json, ReleaseJsonOptions) ?? Array.Empty<GithubRelease>();
+                await Task.Run(() => Voidstrap.Utility.JsonFile.WriteAtomicText(CacheFile, json), token);
 
                 UpdateReleasesCollection(releases, token);
             }
-            catch (OperationCanceledException)
-            {
-            }
-            catch
-            {
-            }
+            catch (OperationCanceledException) { }
+            catch { }
         }
 
         private async Task LoadFromCacheAsync(CancellationToken token)
@@ -209,23 +197,24 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             {
                 var json = await ReadCacheAsync(token);
 
-                var releases = JsonSerializer.Deserialize<GithubRelease[]>(
-                    json,
-                    ReleaseJsonOptions) ?? Array.Empty<GithubRelease>();
+                var releases = JsonSerializer.Deserialize<GithubRelease[]>(json, ReleaseJsonOptions) ?? Array.Empty<GithubRelease>();
 
                 UpdateReleasesCollection(releases, token);
             }
-            catch (OperationCanceledException)
-            {
-            }
-            catch
-            {
-            }
+            catch (OperationCanceledException) { }
+            catch { }
         }
 
         private static async Task<string> ReadCacheAsync(CancellationToken token)
         {
-            await using FileStream stream = new FileStream(CacheFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);
+            await using FileStream stream = new FileStream(
+                CacheFile,
+                FileMode.Open,
+                FileAccess.Read,
+                FileShare.ReadWrite | FileShare.Delete,
+                81920,
+                FileOptions.Asynchronous | FileOptions.SequentialScan
+            );
             if (stream.Length < 0 || stream.Length > MaxReleaseJsonBytes)
                 throw new InvalidDataException("Release cache is too large");
             byte[] bytes = new byte[checked((int)stream.Length)];
@@ -252,8 +241,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var query =
-                (sender as System.Windows.Controls.TextBox)?.Text?.Trim() ?? string.Empty;
+            var query = (sender as System.Windows.Controls.TextBox)?.Text?.Trim() ?? string.Empty;
 
             if (string.IsNullOrWhiteSpace(query))
             {
@@ -263,24 +251,19 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             {
                 _releasesView.Filter = obj =>
                 {
-                    if (obj is not GithubRelease r) return false;
+                    if (obj is not GithubRelease r)
+                        return false;
 
-                    bool Matches(string? s) =>
-                        !string.IsNullOrEmpty(s) &&
-                        s.Contains(query, StringComparison.OrdinalIgnoreCase);
+                    bool Matches(string? s) => !string.IsNullOrEmpty(s) && s.Contains(query, StringComparison.OrdinalIgnoreCase);
 
-                    return Matches(r.Name) ||
-                           Matches(r.TagName) ||
-                           Matches(r.Body);
+                    return Matches(r.Name) || Matches(r.TagName) || Matches(r.Body);
                 };
             }
 
             _releasesView.Refresh();
         }
 
-        private void Hyperlink_RequestNavigate(
-            object sender,
-            RequestNavigateEventArgs e)
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             try
             {
@@ -288,11 +271,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 Uri? uri = e.Uri;
                 if (uri == null || !Utilities.IsWebLink(uri.AbsoluteUri))
                     return;
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = uri.AbsoluteUri,
-                    UseShellExecute = true
-                });
+                Process.Start(new ProcessStartInfo { FileName = uri.AbsoluteUri, UseShellExecute = true });
             }
             catch { }
         }
@@ -327,8 +306,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
             public void CalculateTotals()
             {
-                TotalDownloads =
-                    Assets?.Sum(a => a.DownloadCount) ?? 0;
+                TotalDownloads = Assets?.Sum(a => a.DownloadCount) ?? 0;
             }
         }
 
@@ -349,8 +327,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             [JsonPropertyName("download_count")]
             public int DownloadCount { get; set; }
 
-            public double SizeMb =>
-                Size / 1024d / 1024d;
+            public double SizeMb => Size / 1024d / 1024d;
         }
     }
 }

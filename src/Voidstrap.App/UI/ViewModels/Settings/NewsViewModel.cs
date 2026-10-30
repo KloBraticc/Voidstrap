@@ -1,7 +1,3 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -15,6 +11,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Voidstrap.UI.ViewModels.Settings
 {
@@ -37,8 +37,7 @@ namespace Voidstrap.UI.ViewModels.Settings
         private CancellationTokenSource _cts = new();
         private bool _disposed;
 
-        public const string FeedUrl =
-            "https://raw.githubusercontent.com/KloBraticc/VoidstrapNews-/main/news.json";
+        public const string FeedUrl = "https://raw.githubusercontent.com/KloBraticc/VoidstrapNews-/main/news.json";
 
         private static string BasePath => Paths.Cache;
         private static string CachePath => Path.Combine(BasePath, "news_cache.json");
@@ -78,8 +77,10 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         private static HttpClient CreateHttpClient()
         {
-            var http = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(15), handler =>
-                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate);
+            var http = Voidstrap.Utility.VpnHttpClient.Create(
+                TimeSpan.FromSeconds(15),
+                handler => handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+            );
             http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Voidstrap", "1.0"));
             return http;
         }
@@ -143,7 +144,7 @@ namespace Voidstrap.UI.ViewModels.Settings
 
                     if (File.Exists(ETagPath))
                     {
-                            var etag = await SafeReadAllTextAsync(ETagPath, 4096, ct);
+                        var etag = await SafeReadAllTextAsync(ETagPath, 4096, ct);
                         if (!string.IsNullOrWhiteSpace(etag))
                             req.Headers.TryAddWithoutValidation("If-None-Match", etag.Trim());
                     }
@@ -166,7 +167,10 @@ namespace Voidstrap.UI.ViewModels.Settings
                             await SafeWriteAllTextAsync(ETagPath, resp.Headers.ETag.ToString(), ct);
                     }
                 }
-                catch (OperationCanceledException) { throw; }
+                catch (OperationCanceledException)
+                {
+                    throw;
+                }
                 catch (Exception ex)
                 {
                     Debug.WriteLine($"[News] Online fetch failed: {ex.Message}");
@@ -201,7 +205,16 @@ namespace Voidstrap.UI.ViewModels.Settings
                     if (!Uri.TryCreate(item.ImageUrl, UriKind.Absolute, out var uri))
                         return;
 
-                    var localPath = Path.Combine(BasePath, "news_" + Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(uri.AbsoluteUri)))[..24].ToLowerInvariant() + ".img");
+                    var localPath = Path.Combine(
+                        BasePath,
+                        "news_"
+                            + Convert
+                                .ToHexString(
+                                    System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(uri.AbsoluteUri))
+                                )[..24]
+                                .ToLowerInvariant()
+                            + ".img"
+                    );
 
                     await imageGate.WaitAsync(ct);
                     try
@@ -211,7 +224,11 @@ namespace Voidstrap.UI.ViewModels.Settings
                         if (!File.Exists(localPath))
                         {
                             using HttpRequestMessage imageRequest = new HttpRequestMessage(HttpMethod.Get, uri);
-                            using HttpResponseMessage imageResponse = await _http.SendAsync(imageRequest, HttpCompletionOption.ResponseHeadersRead, ct);
+                            using HttpResponseMessage imageResponse = await _http.SendAsync(
+                                imageRequest,
+                                HttpCompletionOption.ResponseHeadersRead,
+                                ct
+                            );
                             imageResponse.EnsureSuccessStatusCode();
                             var data = await Voidstrap.Utility.Http.ReadBytesBoundedAsync(imageResponse.Content, MaxNewsImageBytes, ct);
                             await SafeWriteAllBytesAsync(localPath, data, ct);
@@ -277,13 +294,13 @@ namespace Voidstrap.UI.ViewModels.Settings
                 {
                     JArray a => a,
                     JObject o when o.TryGetValue("items", StringComparison.OrdinalIgnoreCase, out var t) && t is JArray ja => ja,
-                    _ => throw new FormatException("Unexpected news format.")
+                    _ => throw new FormatException("Unexpected news format."),
                 };
 
                 var settings = new JsonSerializerSettings
                 {
                     MissingMemberHandling = MissingMemberHandling.Ignore,
-                    NullValueHandling = NullValueHandling.Ignore
+                    NullValueHandling = NullValueHandling.Ignore,
                 };
 
                 var dtos = arr.ToObject<NewsItemDto[]>(Newtonsoft.Json.JsonSerializer.Create(settings)) ?? Array.Empty<NewsItemDto>();
@@ -293,13 +310,15 @@ namespace Voidstrap.UI.ViewModels.Settings
                         ? d.ToLocalTime()
                         : DateTime.MinValue;
 
-                return dtos.Take(MaxNewsItems).Select(d => new NewsItem
-                {
-                    Title = d.Title?.Trim() ?? "Untitled",
-                    Content = d.Content?.Trim() ?? string.Empty,
-                    Date = ParseDate(d.Date),
-                    ImageUrl = d.ImageUrl?.Trim() ?? string.Empty
-                }).ToList();
+                return dtos.Take(MaxNewsItems)
+                    .Select(d => new NewsItem
+                    {
+                        Title = d.Title?.Trim() ?? "Untitled",
+                        Content = d.Content?.Trim() ?? string.Empty,
+                        Date = ParseDate(d.Date),
+                        ImageUrl = d.ImageUrl?.Trim() ?? string.Empty,
+                    })
+                    .ToList();
             }
             catch (Exception ex)
             {
@@ -358,10 +377,13 @@ namespace Voidstrap.UI.ViewModels.Settings
             try
             {
                 var data = await SafeReadAllBytesAsync(path, MaxNewsImageBytes, ct);
-                return await Task.Run(() =>
-                {
-                    return Voidstrap.Utility.SafeImaging.FromBytes(data, 900);
-                }, ct);
+                return await Task.Run(
+                    () =>
+                    {
+                        return Voidstrap.Utility.SafeImaging.FromBytes(data, 900);
+                    },
+                    ct
+                );
             }
             catch (Exception ex)
             {

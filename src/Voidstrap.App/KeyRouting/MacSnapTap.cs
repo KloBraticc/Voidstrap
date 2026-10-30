@@ -35,7 +35,11 @@ internal static unsafe partial class MacSnapTap
 		if (supported.Count == 0 || !MacOSInputAccess.IsGranted)
 		{
 			Stop();
-			Report(supported.Count == 0 ? "No valid macOS key groups configured, Snap Tap stays off" : "Snap Tap needs Accessibility access in System Settings");
+			Report(
+				supported.Count == 0
+					? "No valid macOS key groups configured, Snap Tap stays off"
+					: "Snap Tap needs Accessibility access in System Settings"
+			);
 			return false;
 		}
 		lock (Gate)
@@ -92,7 +96,8 @@ internal static unsafe partial class MacSnapTap
 		}
 	}
 
-	private static string Describe(List<int[]> groups, OpposingKeyPriority priority) => priority + ": " + OpposingKeyResolver.FormatGroups(groups);
+	private static string Describe(List<int[]> groups, OpposingKeyPriority priority) =>
+		priority + ": " + OpposingKeyResolver.FormatGroups(groups);
 
 	private sealed record Config(List<int[]> Groups, OpposingKeyPriority Priority);
 
@@ -153,8 +158,14 @@ internal static unsafe partial class MacSnapTap
 				Started.Set();
 				while (!StopEvent.IsSet && !ownsMutex)
 				{
-					try { ownsMutex = mutex.WaitOne(500); }
-					catch (AbandonedMutexException) { ownsMutex = true; }
+					try
+					{
+						ownsMutex = mutex.WaitOne(500);
+					}
+					catch (AbandonedMutexException)
+					{
+						ownsMutex = true;
+					}
 				}
 				if (!ownsMutex || StopEvent.IsSet)
 					return;
@@ -182,8 +193,14 @@ internal static unsafe partial class MacSnapTap
 				if (_tap != 0)
 				{
 					CGEventTapEnable(_tap, false);
-					try { Release(true); }
-					catch (Exception ex) { Report("Snap Tap key cleanup failed: " + ex.Message); }
+					try
+					{
+						Release(true);
+					}
+					catch (Exception ex)
+					{
+						Report("Snap Tap key cleanup failed: " + ex.Message);
+					}
 					CFMachPortInvalidate(_tap);
 				}
 				if (source != 0)
@@ -299,7 +316,8 @@ internal static unsafe partial class MacSnapTap
 
 		private void Release(bool restorePhysical)
 		{
-			bool restore = restorePhysical && _targetPid != 0 && MacOSProcessPolicy.FrontmostProcessId() == _targetPid && !IsSecureEventInputEnabled();
+			bool restore =
+				restorePhysical && _targetPid != 0 && MacOSProcessPolicy.FrontmostProcessId() == _targetPid && !IsSecureEventInputEnabled();
 			for (int key = 0; key < _delivered.Length; key++)
 			{
 				bool down = restore && _resolver.IsMapped(key) && CGEventSourceKeyState(1, _keyCodes[key]);
@@ -331,7 +349,10 @@ internal static unsafe partial class MacSnapTap
 		public void Recover()
 		{
 			StopEvent.Set();
-			try { Release(true); }
+			try
+			{
+				Release(true);
+			}
 			catch { }
 			Report("Snap Tap stopped after an input error, normal keyboard input is restored");
 		}
@@ -348,7 +369,10 @@ internal static unsafe partial class MacSnapTap
 		}
 		catch
 		{
-			try { session?.Recover(); }
+			try
+			{
+				session?.Recover();
+			}
 			catch { }
 			return input;
 		}
@@ -380,17 +404,45 @@ internal static unsafe partial class MacSnapTap
 		ushort[] digits = [29, 18, 19, 20, 21, 23, 22, 26, 28, 25];
 		ushort[] keypad = [82, 83, 84, 85, 86, 87, 88, 89, 91, 92];
 		ushort[] functions = [122, 120, 99, 118, 96, 97, 98, 100, 101, 109, 103, 111, 105, 107, 113, 106, 64, 79, 80, 90];
-		for (int i = 0; i < letters.Length; i++) map['A' + i] = letters[i];
-		for (int i = 0; i < digits.Length; i++) map['0' + i] = digits[i];
-		for (int i = 0; i < keypad.Length; i++) map[0x60 + i] = keypad[i];
-		for (int i = 0; i < functions.Length; i++) map[0x70 + i] = functions[i];
-		map[0x08] = 51; map[0x09] = 48; map[0x0D] = 36; map[0x1B] = 53; map[0x20] = 49;
-		map[0x21] = 116; map[0x22] = 121; map[0x23] = 119; map[0x24] = 115;
-		map[0x25] = 123; map[0x26] = 126; map[0x27] = 124; map[0x28] = 125;
-		map[0x2D] = 114; map[0x2E] = 117;
-		map[0x6A] = 67; map[0x6B] = 69; map[0x6D] = 78; map[0x6E] = 65; map[0x6F] = 75;
-		map[0xBA] = 41; map[0xBB] = 24; map[0xBC] = 43; map[0xBD] = 27; map[0xBE] = 47;
-		map[0xBF] = 44; map[0xC0] = 50; map[0xDB] = 33; map[0xDC] = 42; map[0xDD] = 30; map[0xDE] = 39;
+		for (int i = 0; i < letters.Length; i++)
+			map['A' + i] = letters[i];
+		for (int i = 0; i < digits.Length; i++)
+			map['0' + i] = digits[i];
+		for (int i = 0; i < keypad.Length; i++)
+			map[0x60 + i] = keypad[i];
+		for (int i = 0; i < functions.Length; i++)
+			map[0x70 + i] = functions[i];
+		map[0x08] = 51;
+		map[0x09] = 48;
+		map[0x0D] = 36;
+		map[0x1B] = 53;
+		map[0x20] = 49;
+		map[0x21] = 116;
+		map[0x22] = 121;
+		map[0x23] = 119;
+		map[0x24] = 115;
+		map[0x25] = 123;
+		map[0x26] = 126;
+		map[0x27] = 124;
+		map[0x28] = 125;
+		map[0x2D] = 114;
+		map[0x2E] = 117;
+		map[0x6A] = 67;
+		map[0x6B] = 69;
+		map[0x6D] = 78;
+		map[0x6E] = 65;
+		map[0x6F] = 75;
+		map[0xBA] = 41;
+		map[0xBB] = 24;
+		map[0xBC] = 43;
+		map[0xBD] = 27;
+		map[0xBE] = 47;
+		map[0xBF] = 44;
+		map[0xC0] = 50;
+		map[0xDB] = 33;
+		map[0xDC] = 42;
+		map[0xDD] = 30;
+		map[0xDE] = 39;
 		map[0xE2] = 10;
 		return map;
 	}
@@ -404,25 +456,76 @@ internal static unsafe partial class MacSnapTap
 		return map;
 	}
 
-	[LibraryImport(CoreGraphics)] private static partial nint CGEventTapCreate(uint tap, uint place, uint options, ulong mask, delegate* unmanaged[Cdecl]<nint, uint, nint, nint, nint> callback, nint userInfo);
-	[LibraryImport(CoreGraphics)] private static partial void CGEventTapEnable(nint tap, [MarshalAs(UnmanagedType.I1)] bool enable);
-	[LibraryImport(CoreGraphics)] [return: MarshalAs(UnmanagedType.I1)] private static partial bool CGEventTapIsEnabled(nint tap);
-	[LibraryImport(CoreGraphics)] private static partial long CGEventGetIntegerValueField(nint input, uint field);
-	[LibraryImport(CoreGraphics)] private static partial void CGEventSetIntegerValueField(nint input, uint field, long value);
-	[LibraryImport(CoreGraphics)] private static partial void CGEventSetType(nint input, uint type);
-	[LibraryImport(CoreGraphics)] private static partial nint CGEventCreateCopy(nint input);
-	[LibraryImport(CoreGraphics)] private static partial nint CGEventCreateKeyboardEvent(nint source, ushort key, [MarshalAs(UnmanagedType.I1)] bool down);
-	[LibraryImport(CoreGraphics)] private static partial void CGEventTapPostEvent(nint proxy, nint input);
-	[LibraryImport(CoreGraphics)] private static partial void CGEventPostToPid(int pid, nint input);
-	[LibraryImport(CoreGraphics)] [return: MarshalAs(UnmanagedType.I1)] private static partial bool CGEventSourceKeyState(int state, ushort key);
-	[LibraryImport(CoreFoundation)] private static partial nint CFMachPortCreateRunLoopSource(nint allocator, nint port, nint order);
-	[LibraryImport(CoreFoundation)] private static partial void CFMachPortInvalidate(nint port);
-	[LibraryImport(CoreFoundation, StringMarshalling = StringMarshalling.Utf8)] private static partial nint CFStringCreateWithCString(nint allocator, string text, uint encoding);
-	[LibraryImport(CoreFoundation)] private static partial nint CFRunLoopGetCurrent();
-	[LibraryImport(CoreFoundation)] private static partial void CFRunLoopAddSource(nint loop, nint source, nint mode);
-	[LibraryImport(CoreFoundation)] private static partial void CFRunLoopRemoveSource(nint loop, nint source, nint mode);
-	[LibraryImport(CoreFoundation)] private static partial int CFRunLoopRunInMode(nint mode, double seconds, [MarshalAs(UnmanagedType.I1)] bool returnAfterSourceHandled);
-	[LibraryImport(CoreFoundation)] private static partial void CFRelease(nint value);
-	[LibraryImport("/usr/lib/libproc.dylib")] private static partial int proc_pidpath(int pid, byte* path, uint size);
-	[LibraryImport("/System/Library/Frameworks/Carbon.framework/Carbon")] [return: MarshalAs(UnmanagedType.I1)] private static partial bool IsSecureEventInputEnabled();
+	[LibraryImport(CoreGraphics)]
+	private static partial nint CGEventTapCreate(
+		uint tap,
+		uint place,
+		uint options,
+		ulong mask,
+		delegate* unmanaged[Cdecl]<nint, uint, nint, nint, nint> callback,
+		nint userInfo
+	);
+
+	[LibraryImport(CoreGraphics)]
+	private static partial void CGEventTapEnable(nint tap, [MarshalAs(UnmanagedType.I1)] bool enable);
+
+	[LibraryImport(CoreGraphics)]
+	[return: MarshalAs(UnmanagedType.I1)]
+	private static partial bool CGEventTapIsEnabled(nint tap);
+
+	[LibraryImport(CoreGraphics)]
+	private static partial long CGEventGetIntegerValueField(nint input, uint field);
+
+	[LibraryImport(CoreGraphics)]
+	private static partial void CGEventSetIntegerValueField(nint input, uint field, long value);
+
+	[LibraryImport(CoreGraphics)]
+	private static partial void CGEventSetType(nint input, uint type);
+
+	[LibraryImport(CoreGraphics)]
+	private static partial nint CGEventCreateCopy(nint input);
+
+	[LibraryImport(CoreGraphics)]
+	private static partial nint CGEventCreateKeyboardEvent(nint source, ushort key, [MarshalAs(UnmanagedType.I1)] bool down);
+
+	[LibraryImport(CoreGraphics)]
+	private static partial void CGEventTapPostEvent(nint proxy, nint input);
+
+	[LibraryImport(CoreGraphics)]
+	private static partial void CGEventPostToPid(int pid, nint input);
+
+	[LibraryImport(CoreGraphics)]
+	[return: MarshalAs(UnmanagedType.I1)]
+	private static partial bool CGEventSourceKeyState(int state, ushort key);
+
+	[LibraryImport(CoreFoundation)]
+	private static partial nint CFMachPortCreateRunLoopSource(nint allocator, nint port, nint order);
+
+	[LibraryImport(CoreFoundation)]
+	private static partial void CFMachPortInvalidate(nint port);
+
+	[LibraryImport(CoreFoundation, StringMarshalling = StringMarshalling.Utf8)]
+	private static partial nint CFStringCreateWithCString(nint allocator, string text, uint encoding);
+
+	[LibraryImport(CoreFoundation)]
+	private static partial nint CFRunLoopGetCurrent();
+
+	[LibraryImport(CoreFoundation)]
+	private static partial void CFRunLoopAddSource(nint loop, nint source, nint mode);
+
+	[LibraryImport(CoreFoundation)]
+	private static partial void CFRunLoopRemoveSource(nint loop, nint source, nint mode);
+
+	[LibraryImport(CoreFoundation)]
+	private static partial int CFRunLoopRunInMode(nint mode, double seconds, [MarshalAs(UnmanagedType.I1)] bool returnAfterSourceHandled);
+
+	[LibraryImport(CoreFoundation)]
+	private static partial void CFRelease(nint value);
+
+	[LibraryImport("/usr/lib/libproc.dylib")]
+	private static partial int proc_pidpath(int pid, byte* path, uint size);
+
+	[LibraryImport("/System/Library/Frameworks/Carbon.framework/Carbon")]
+	[return: MarshalAs(UnmanagedType.I1)]
+	private static partial bool IsSecureEventInputEnabled();
 }

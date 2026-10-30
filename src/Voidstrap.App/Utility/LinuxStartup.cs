@@ -51,7 +51,14 @@ internal static partial class LinuxStartup
 
 	private const string VulkanVendorFileName = "vulkan-vendor";
 
-	private static readonly string[] UserVulkanDriverKeys = ["VK_DRIVER_FILES", "VK_ICD_FILENAMES", "VK_ADD_DRIVER_FILES", "VK_LOADER_DRIVERS_SELECT", "VK_LOADER_DRIVERS_DISABLE"];
+	private static readonly string[] UserVulkanDriverKeys =
+	[
+		"VK_DRIVER_FILES",
+		"VK_ICD_FILENAMES",
+		"VK_ADD_DRIVER_FILES",
+		"VK_LOADER_DRIVERS_SELECT",
+		"VK_LOADER_DRIVERS_DISABLE",
+	];
 
 	private static bool _driverFilterAllowed;
 
@@ -69,7 +76,15 @@ internal static partial class LinuxStartup
 
 	private static bool _backgroundHelper;
 
-	private static readonly string[] BackgroundHelperFlags = ["deferredcleanup", "assetwarpguard", "assetwarpcleanup", "nvapply", "telemetryblock", "orcredirect"];
+	private static readonly string[] BackgroundHelperFlags =
+	[
+		"deferredcleanup",
+		"assetwarpguard",
+		"assetwarpcleanup",
+		"nvapply",
+		"telemetryblock",
+		"orcredirect",
+	];
 
 	private static int _confirmed;
 
@@ -77,11 +92,10 @@ internal static partial class LinuxStartup
 
 	public static bool SafeMode => _safeMode;
 
-	internal static bool UsesOpenGl => _activeStage == HardwareGlStage
-		|| (_activeStage == SoftwareStage && LavapipeDrivers().Length == 0);
+	internal static bool UsesOpenGl => _activeStage == HardwareGlStage || (_activeStage == SoftwareStage && LavapipeDrivers().Length == 0);
 
-	public static bool OpaqueWindows => _activeStage is OpaqueStage or SoftwareStage
-		|| Environment.GetEnvironmentVariable(OpaqueWindowsFlag) == "1";
+	public static bool OpaqueWindows =>
+		_activeStage is OpaqueStage or SoftwareStage || Environment.GetEnvironmentVariable(OpaqueWindowsFlag) == "1";
 
 	[ModuleInitializer]
 	internal static void Initialize()
@@ -119,11 +133,14 @@ internal static partial class LinuxStartup
 		Voidstrap.UI.LinuxUiPerformance.Duration("Font setup", fontStarted);
 		try
 		{
-			bool headless = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DISPLAY"))
+			bool headless =
+				string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DISPLAY"))
 				&& string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WAYLAND_DISPLAY"));
 			if (headless)
 			{
-				WriteError("Voidstrap needs a desktop session with X11 or Wayland, but no display was found. Start it from your desktop instead of a text console or SSH session.");
+				WriteError(
+					"Voidstrap needs a desktop session with X11 or Wayland, but no display was found. Start it from your desktop instead of a text console or SSH session."
+				);
 				if (CurrentArguments().Length == 0)
 				{
 					Environment.Exit(1);
@@ -149,7 +166,14 @@ internal static partial class LinuxStartup
 					Supervise(executable, stage);
 				}
 			}
-			foreach (KeyValuePair<string, string?> entry in CreateStartInfo(executable ?? ApplicationName, [], stage, "pid:" + Environment.ProcessId).Environment)
+			foreach (
+				KeyValuePair<string, string?> entry in CreateStartInfo(
+					executable ?? ApplicationName,
+					[],
+					stage,
+					"pid:" + Environment.ProcessId
+				).Environment
+			)
 			{
 				if (entry.Key.Length > 0 && !entry.Key.Contains('='))
 				{
@@ -158,9 +182,7 @@ internal static partial class LinuxStartup
 			}
 			ApplyStageLibraries();
 		}
-		catch (Exception)
-		{
-		}
+		catch (Exception) { }
 	}
 
 	internal static readonly string[] BackendNames = ["Auto", "Vulkan", "OpenGL", "Software"];
@@ -180,8 +202,7 @@ internal static partial class LinuxStartup
 	private static void EnsureStoreWrapperEnvironment()
 	{
 		string? processPath = Environment.ProcessPath;
-		if (string.IsNullOrEmpty(processPath)
-			|| !LinuxAppImageHost.TryGetStorePackageRoot(processPath, out string packageRoot))
+		if (string.IsNullOrEmpty(processPath) || !LinuxAppImageHost.TryGetStorePackageRoot(processPath, out string packageRoot))
 		{
 			return;
 		}
@@ -200,10 +221,7 @@ internal static partial class LinuxStartup
 		{
 			return;
 		}
-		ProcessStartInfo startInfo = new(wrapperPath)
-		{
-			UseShellExecute = false
-		};
+		ProcessStartInfo startInfo = new(wrapperPath) { UseShellExecute = false };
 		foreach (string argument in CurrentArguments())
 		{
 			startInfo.ArgumentList.Add(argument);
@@ -231,7 +249,12 @@ internal static partial class LinuxStartup
 
 	private static void RestoreChildEnvironment()
 	{
-		foreach (string key in (Environment.GetEnvironmentVariable(OwnedKeysFlag) ?? string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries))
+		foreach (
+			string key in (Environment.GetEnvironmentVariable(OwnedKeysFlag) ?? string.Empty).Split(
+				',',
+				StringSplitOptions.RemoveEmptyEntries
+			)
+		)
 		{
 			Environment.SetEnvironmentVariable(key, null);
 		}
@@ -239,7 +262,10 @@ internal static partial class LinuxStartup
 		if (libraryPath != null)
 		{
 			string? blockDirectory = EglBlockDirectory();
-			string stripped = string.Join(':', libraryPath.Split(':', StringSplitOptions.RemoveEmptyEntries).Where(entry => entry != blockDirectory));
+			string stripped = string.Join(
+				':',
+				libraryPath.Split(':', StringSplitOptions.RemoveEmptyEntries).Where(entry => entry != blockDirectory)
+			);
 			Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", stripped.Length == 0 ? null : stripped);
 			if (stripped.Length == 0)
 				_ = UnsetNativeEnvironment("LD_LIBRARY_PATH");
@@ -254,15 +280,21 @@ internal static partial class LinuxStartup
 
 	private static void PreferXWaylandForFallbackStages()
 	{
-		if (_activeStage is not (HardwareGlStage or SoftwareStage)
+		if (
+			_activeStage is not (HardwareGlStage or SoftwareStage)
 			|| string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WAYLAND_DISPLAY"))
-			|| string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DISPLAY")))
+			|| string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DISPLAY"))
+		)
 		{
 			return;
 		}
 		if (UnsetNativeEnvironment("WAYLAND_DISPLAY") == 0)
 		{
-			WriteError("Voidstrap draws its own windows through XWayland while it uses the " + (_activeStage == SoftwareStage ? "software" : "OpenGL") + " renderer, because that renderer cannot present to Wayland windows. Roblox still runs on Wayland.");
+			WriteError(
+				"Voidstrap draws its own windows through XWayland while it uses the "
+					+ (_activeStage == SoftwareStage ? "software" : "OpenGL")
+					+ " renderer, because that renderer cannot present to Wayland windows. Roblox still runs on Wayland."
+			);
 		}
 	}
 
@@ -272,12 +304,19 @@ internal static partial class LinuxStartup
 		string? requested = Environment.GetEnvironmentVariable(GpuRetryFlag);
 		if (string.IsNullOrEmpty(requested))
 			requested = StageForWgpuBackend(Environment.GetEnvironmentVariable("WGPU_BACKEND"));
-		string stage = !string.IsNullOrEmpty(requested)
-			? NormaliseStage(requested)
-			: Environment.GetEnvironmentVariable(ForceGpuFlag) == "1" || recorded.Length == 0 ? DefaultStage : recorded;
+		string stage =
+			!string.IsNullOrEmpty(requested) ? NormaliseStage(requested)
+			: Environment.GetEnvironmentVariable(ForceGpuFlag) == "1" || recorded.Length == 0 ? DefaultStage
+			: recorded;
 		if (string.IsNullOrEmpty(requested) && !CanRunStage(stage))
 			stage = DefaultStage;
-		if (string.IsNullOrEmpty(requested) && stage is SoftwareStage or HardwareGlStage && recorded == stage && File.Exists(ProbeFallbackPath) && ProbeVulkan() == VulkanSupport.Hardware)
+		if (
+			string.IsNullOrEmpty(requested)
+			&& stage is SoftwareStage or HardwareGlStage
+			&& recorded == stage
+			&& File.Exists(ProbeFallbackPath)
+			&& ProbeVulkan() == VulkanSupport.Hardware
+		)
 		{
 			DeleteProbeFallbackNote();
 			WriteError("Vulkan now works on your graphics card, so Voidstrap switches back to hardware rendering.");
@@ -285,15 +324,25 @@ internal static partial class LinuxStartup
 		}
 		else if (string.IsNullOrEmpty(requested) && !(markerConfirmed && recorded == stage) && stage is DefaultStage or OpaqueStage)
 			stage = AdjustForVulkan(stage);
-		if (string.IsNullOrEmpty(requested) && stage == SoftwareStage && CanUseHardwareGl() && ProbeVulkan() == VulkanSupport.SoftwareOnly && _leakyLavapipe)
+		if (
+			string.IsNullOrEmpty(requested)
+			&& stage == SoftwareStage
+			&& CanUseHardwareGl()
+			&& ProbeVulkan() == VulkanSupport.SoftwareOnly
+			&& _leakyLavapipe
+		)
 		{
-			WriteError("This Mesa release's software Vulkan driver keeps growing in memory, so Voidstrap switches to OpenGL software rendering.");
+			WriteError(
+				"This Mesa release's software Vulkan driver keeps growing in memory, so Voidstrap switches to OpenGL software rendering."
+			);
 			WriteProbeFallbackNote();
 			stage = HardwareGlStage;
 		}
 		if (stage == HardwareGlStage && HasOpenGlBackend() && !GlSupportsVertexStorage() && SoftwareRendererAvailable())
 		{
-			WriteError("OpenGL on your graphics card cannot run the Voidstrap renderer because its driver has no vertex storage buffer support, so Voidstrap uses software rendering instead.");
+			WriteError(
+				"OpenGL on your graphics card cannot run the Voidstrap renderer because its driver has no vertex storage buffer support, so Voidstrap uses software rendering instead."
+			);
 			stage = SoftwareStage;
 		}
 		confirmed = markerConfirmed && recorded == stage;
@@ -344,9 +393,7 @@ internal static partial class LinuxStartup
 			delegate* unmanaged<int> getError = (delegate* unmanaged<int>)EglGetProcAddress("glGetError");
 			if (getIntegerv == null || getError == null)
 				return true;
-			while (getError() != 0)
-			{
-			}
+			while (getError() != 0) { }
 			int blocks = 0;
 			getIntegerv(GlMaxVertexShaderStorageBlocks, &blocks);
 			return getError() == 0 && blocks > 0;
@@ -379,7 +426,7 @@ internal static partial class LinuxStartup
 	{
 		Hardware,
 		SoftwareOnly,
-		None
+		None,
 	}
 
 	private static string AdjustForVulkan(string stage)
@@ -389,32 +436,41 @@ internal static partial class LinuxStartup
 			return stage;
 		if (support == VulkanSupport.SoftwareOnly && _leakyLavapipe && CanUseHardwareGl())
 		{
-			WriteError("No graphics card is available through Vulkan and this Mesa release's software Vulkan driver keeps growing in memory, so Voidstrap starts with OpenGL software rendering. Install or update your graphics drivers for full speed.");
+			WriteError(
+				"No graphics card is available through Vulkan and this Mesa release's software Vulkan driver keeps growing in memory, so Voidstrap starts with OpenGL software rendering. Install or update your graphics drivers for full speed."
+			);
 			WriteProbeFallbackNote();
 			return HardwareGlStage;
 		}
 		if (support == VulkanSupport.SoftwareOnly && SoftwareRendererAvailable())
 		{
-			WriteError("No graphics card is available through Vulkan, so Voidstrap starts with software rendering. Install or update your graphics drivers for full speed.");
+			WriteError(
+				"No graphics card is available through Vulkan, so Voidstrap starts with software rendering. Install or update your graphics drivers for full speed."
+			);
 			WriteProbeFallbackNote();
 			return SoftwareStage;
 		}
 		if (support == VulkanSupport.None && CanUseHardwareGl())
 		{
-			WriteError("Vulkan is not working on this system, so Voidstrap starts with OpenGL on your graphics card. Install or update your Vulkan drivers for the best results.");
+			WriteError(
+				"Vulkan is not working on this system, so Voidstrap starts with OpenGL on your graphics card. Install or update your Vulkan drivers for the best results."
+			);
 			WriteProbeFallbackNote();
 			return HardwareGlStage;
 		}
 		if (support == VulkanSupport.None && LavapipeDrivers().Length > 0)
 		{
-			WriteError("Vulkan is not working with your graphics drivers, so Voidstrap starts with software rendering. Install or update your graphics drivers for full speed.");
+			WriteError(
+				"Vulkan is not working with your graphics drivers, so Voidstrap starts with software rendering. Install or update your graphics drivers for full speed."
+			);
 			WriteProbeFallbackNote();
 			return SoftwareStage;
 		}
 		return stage;
 	}
 
-	private static string ProbeFallbackPath => Path.Combine(Path.GetDirectoryName(RendererMarkerPath) ?? string.Empty, "renderer-probe-fallback");
+	private static string ProbeFallbackPath =>
+		Path.Combine(Path.GetDirectoryName(RendererMarkerPath) ?? string.Empty, "renderer-probe-fallback");
 
 	private static void WriteProbeFallbackNote()
 	{
@@ -423,9 +479,7 @@ internal static partial class LinuxStartup
 			Directory.CreateDirectory(Path.GetDirectoryName(ProbeFallbackPath)!);
 			File.WriteAllText(ProbeFallbackPath, "vulkan");
 		}
-		catch (Exception)
-		{
-		}
+		catch (Exception) { }
 	}
 
 	private static void DeleteProbeFallbackNote()
@@ -434,9 +488,7 @@ internal static partial class LinuxStartup
 		{
 			File.Delete(ProbeFallbackPath);
 		}
-		catch (Exception)
-		{
-		}
+		catch (Exception) { }
 	}
 
 	private static VulkanSupport? _probedSupport;
@@ -477,7 +529,11 @@ internal static partial class LinuxStartup
 				int deviceType = *(int*)(properties + 16);
 				if (deviceType is 1 or 2 or 3)
 					hardware = true;
-				else if (deviceType == 4 && *(uint*)(properties + 8) == MesaVendorId && (*(uint*)(properties + 4) >> 22) < FirstStableLavapipeMajor)
+				else if (
+					deviceType == 4
+					&& *(uint*)(properties + 8) == MesaVendorId
+					&& (*(uint*)(properties + 4) >> 22) < FirstStableLavapipeMajor
+				)
 					_leakyLavapipe = true;
 			}
 			if (!CanCreateWindowInstance())
@@ -533,7 +589,7 @@ internal static partial class LinuxStartup
 		{
 			HardwareGlStage => CanUseHardwareGl(),
 			SoftwareStage => SoftwareRendererAvailable(),
-			_ => true
+			_ => true,
 		};
 	}
 
@@ -543,7 +599,7 @@ internal static partial class LinuxStartup
 		{
 			"vulkan" or "vk" => DefaultStage,
 			"gl" or "gles" or "opengl" => HardwareGlStage,
-			_ => null
+			_ => null,
 		};
 	}
 
@@ -596,7 +652,9 @@ internal static partial class LinuxStartup
 				if (rendererFailed)
 				{
 					WriteRendererMarker(DefaultStage, false, 0);
-					WriteError("Voidstrap could not start a GPU or software renderer on this system. Install your graphics drivers, or the Mesa Vulkan drivers package for software rendering, and try again. The next launch tries every renderer again.");
+					WriteError(
+						"Voidstrap could not start a GPU or software renderer on this system. Install your graphics drivers, or the Mesa Vulkan drivers package for software rendering, and try again. The next launch tries every renderer again."
+					);
 				}
 				Environment.Exit(exitCode);
 			}
@@ -617,7 +675,9 @@ internal static partial class LinuxStartup
 	private static void ExitWithoutSoftwareRenderer()
 	{
 		WriteRendererMarker(DefaultStage, false, 0);
-		WriteError("Voidstrap could not start the renderer on your graphics card, and no software renderer is installed. Install the Mesa Vulkan drivers package (lavapipe) or update your graphics drivers, then start Voidstrap again.");
+		WriteError(
+			"Voidstrap could not start the renderer on your graphics card, and no software renderer is installed. Install the Mesa Vulkan drivers package (lavapipe) or update your graphics drivers, then start Voidstrap again."
+		);
 		Environment.Exit(RendererFailedExitCode);
 	}
 
@@ -627,29 +687,35 @@ internal static partial class LinuxStartup
 		{
 			OpaqueStage => "Voidstrap could not start the Vulkan renderer with transparent windows, retrying with opaque windows.",
 			HardwareGlStage => "Voidstrap could not start the Vulkan renderer, retrying with OpenGL on your graphics card.",
-			_ => "Voidstrap could not start an accelerated renderer, retrying with software rendering. Expect reduced performance until your graphics drivers are updated."
+			_ =>
+				"Voidstrap could not start an accelerated renderer, retrying with software rendering. Expect reduced performance until your graphics drivers are updated.",
 		};
 	}
 
 	private static ProcessStartInfo CreateStartInfo(string executable, IEnumerable<string> arguments, string stage, string configuredFor)
 	{
-		ProcessStartInfo startInfo = new(executable)
-		{
-			UseShellExecute = false
-		};
+		ProcessStartInfo startInfo = new(executable) { UseShellExecute = false };
 		foreach (string argument in arguments)
 		{
 			startInfo.ArgumentList.Add(argument);
 		}
 		IDictionary<string, string?> environment = startInfo.Environment;
-		foreach (string key in (environment.TryGetValue(OwnedKeysFlag, out string? owned) ? owned ?? "" : "").Split(',', StringSplitOptions.RemoveEmptyEntries))
+		foreach (
+			string key in (environment.TryGetValue(OwnedKeysFlag, out string? owned) ? owned ?? "" : "").Split(
+				',',
+				StringSplitOptions.RemoveEmptyEntries
+			)
+		)
 		{
 			environment.Remove(key);
 		}
 		environment.Remove(SupervisedFlag);
 		string? libraryPath = environment.TryGetValue("LD_LIBRARY_PATH", out string? currentPath) ? currentPath : null;
 		string? blockDirectory = EglBlockDirectory();
-		libraryPath = string.Join(':', (libraryPath ?? "").Split(':', StringSplitOptions.RemoveEmptyEntries).Where(entry => entry != blockDirectory));
+		libraryPath = string.Join(
+			':',
+			(libraryPath ?? "").Split(':', StringSplitOptions.RemoveEmptyEntries).Where(entry => entry != blockDirectory)
+		);
 		List<string> ownedKeys = [];
 		void Set(string key, string value)
 		{
@@ -674,7 +740,7 @@ internal static partial class LinuxStartup
 		{
 			HardwareGlStage => "OpenGL",
 			SoftwareStage => "Software",
-			_ => ReadConfiguredBackend()
+			_ => ReadConfiguredBackend(),
 		};
 		environment["VOIDSTRAP_RENDER_BACKEND"] = backend;
 		string[] lavapipe = LavapipeDrivers();
@@ -707,7 +773,11 @@ internal static partial class LinuxStartup
 				Set("VK_ICD_FILENAMES", string.Join(':', lavapipe));
 				Set("LP_NUM_THREADS", SoftwareThreadCount.ToString(CultureInfo.InvariantCulture));
 			}
-			else if (_driverFilterAllowed && !UserVulkanDriverKeys.Any(environment.ContainsKey) && VulkanDriverSelection() is string selection)
+			else if (
+				_driverFilterAllowed
+				&& !UserVulkanDriverKeys.Any(environment.ContainsKey)
+				&& VulkanDriverSelection() is string selection
+			)
 			{
 				Set("VK_LOADER_DRIVERS_SELECT", selection);
 			}
@@ -799,25 +869,35 @@ internal static partial class LinuxStartup
 				return match;
 			}
 		}
-		return mapped.FirstOrDefault(path => Path.GetFileName(path).StartsWith("libc.musl", StringComparison.Ordinal)
-			|| Path.GetFileName(path).StartsWith("ld-musl", StringComparison.Ordinal));
+		return mapped.FirstOrDefault(path =>
+			Path.GetFileName(path).StartsWith("libc.musl", StringComparison.Ordinal)
+			|| Path.GetFileName(path).StartsWith("ld-musl", StringComparison.Ordinal)
+		);
 	}
 
 	private static string? MesaEglVendorFile()
 	{
-		foreach (string directory in new[] { "/usr/share/glvnd/egl_vendor.d", "/etc/glvnd/egl_vendor.d", "/run/opengl-driver/share/glvnd/egl_vendor.d" })
+		foreach (
+			string directory in new[]
+			{
+				"/usr/share/glvnd/egl_vendor.d",
+				"/etc/glvnd/egl_vendor.d",
+				"/run/opengl-driver/share/glvnd/egl_vendor.d",
+			}
+		)
 		{
 			try
 			{
 				if (!Directory.Exists(directory))
 					continue;
-				string? mesa = Directory.EnumerateFiles(directory, "*mesa*.json").OrderBy(static path => path, StringComparer.Ordinal).FirstOrDefault();
+				string? mesa = Directory
+					.EnumerateFiles(directory, "*mesa*.json")
+					.OrderBy(static path => path, StringComparer.Ordinal)
+					.FirstOrDefault();
 				if (mesa != null)
 					return mesa;
 			}
-			catch (Exception)
-			{
-			}
+			catch (Exception) { }
 		}
 		return null;
 	}
@@ -825,7 +905,16 @@ internal static partial class LinuxStartup
 	private static string[] LavapipeDrivers()
 	{
 		List<string> drivers = [];
-		foreach (string directory in new[] { "/usr/share/vulkan/icd.d", "/etc/vulkan/icd.d", "/usr/local/share/vulkan/icd.d", "/run/opengl-driver/share/vulkan/icd.d", "/run/opengl-driver-32/share/vulkan/icd.d" })
+		foreach (
+			string directory in new[]
+			{
+				"/usr/share/vulkan/icd.d",
+				"/etc/vulkan/icd.d",
+				"/usr/local/share/vulkan/icd.d",
+				"/run/opengl-driver/share/vulkan/icd.d",
+				"/run/opengl-driver-32/share/vulkan/icd.d",
+			}
+		)
 		{
 			try
 			{
@@ -834,9 +923,7 @@ internal static partial class LinuxStartup
 					drivers.AddRange(Directory.EnumerateFiles(directory, "lvp_icd*.json"));
 				}
 			}
-			catch (Exception)
-			{
-			}
+			catch (Exception) { }
 		}
 		return [.. drivers];
 	}
@@ -866,8 +953,10 @@ internal static partial class LinuxStartup
 			}
 
 			using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse(File.ReadAllText(path));
-			if (document.RootElement.TryGetProperty("LinuxRenderBackend", out System.Text.Json.JsonElement value)
-				&& value.ValueKind == System.Text.Json.JsonValueKind.String)
+			if (
+				document.RootElement.TryGetProperty("LinuxRenderBackend", out System.Text.Json.JsonElement value)
+				&& value.ValueKind == System.Text.Json.JsonValueKind.String
+			)
 			{
 				string selected = value.GetString() ?? "Auto";
 				foreach (string name in BackendNames)
@@ -877,9 +966,7 @@ internal static partial class LinuxStartup
 				}
 			}
 		}
-		catch (Exception)
-		{
-		}
+		catch (Exception) { }
 
 		return "Auto";
 	}
@@ -905,7 +992,7 @@ internal static partial class LinuxStartup
 			DefaultStage => OpaqueStage,
 			OpaqueStage => CanUseHardwareGl() ? HardwareGlStage : SoftwareStage,
 			HardwareGlStage => SoftwareStage,
-			_ => SoftwareStage
+			_ => SoftwareStage,
 		};
 	}
 
@@ -961,20 +1048,37 @@ internal static partial class LinuxStartup
 		try
 		{
 			Type? resolverType = Type.GetType("Silk.NET.Core.Loader.PathResolver, Silk.NET.Core", false);
-			object? resolver = resolverType?.GetProperty("Default", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)?.GetValue(null);
-			if (resolver?.GetType().GetProperty("Resolvers", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)?.GetValue(resolver) is not List<Func<string, IEnumerable<string>>> resolvers)
+			object? resolver = resolverType
+				?.GetProperty("Default", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
+				?.GetValue(null);
+			if (
+				resolver
+					?.GetType()
+					.GetProperty("Resolvers", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)
+					?.GetValue(resolver)
+				is not List<Func<string, IEnumerable<string>>> resolvers
+			)
 				return;
 			resolvers.Insert(0, name => name.Contains("wgpu_native", StringComparison.Ordinal) ? [library] : []);
 		}
-		catch (Exception)
-		{
-		}
+		catch (Exception) { }
 		PrepareOpenGlShaders();
 	}
 
-	private static readonly string[] OpenGlShaderAssemblies = ["ProGPU.Backend", "ProGPU.Compute", "ProGPU.Vector", "ProGPU.Scene", "ProGPU.Text", "ProGPU.Wpf"];
+	private static readonly string[] OpenGlShaderAssemblies =
+	[
+		"ProGPU.Backend",
+		"ProGPU.Compute",
+		"ProGPU.Vector",
+		"ProGPU.Scene",
+		"ProGPU.Text",
+		"ProGPU.Wpf",
+	];
 
-	private static readonly System.Text.RegularExpressions.Regex OpenGlReservedShaderNames = new(@"\b(packed)\b", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+	private static readonly System.Text.RegularExpressions.Regex OpenGlReservedShaderNames = new(
+		@"\b(packed)\b",
+		System.Text.RegularExpressions.RegexOptions.CultureInvariant
+	);
 
 	private static void PrepareOpenGlShaders()
 	{
@@ -983,7 +1087,10 @@ internal static partial class LinuxStartup
 			const System.Reflection.BindingFlags hidden = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static;
 			Type? resourceType = Type.GetType("ProGPU.Backend.ShaderResource, ProGPU.Backend", false);
 			Type? keyType = resourceType?.GetNestedType("ResourceKey", System.Reflection.BindingFlags.NonPublic);
-			if (keyType is null || resourceType?.GetField("s_sources", hidden)?.GetValue(null) is not System.Collections.IDictionary sources)
+			if (
+				keyType is null
+				|| resourceType?.GetField("s_sources", hidden)?.GetValue(null) is not System.Collections.IDictionary sources
+			)
 				return;
 			foreach (string assemblyName in OpenGlShaderAssemblies)
 			{
@@ -999,7 +1106,10 @@ internal static partial class LinuxStartup
 				string prefix = assemblyName + ".Shaders.";
 				foreach (string resource in assembly.GetManifestResourceNames())
 				{
-					if (!resource.StartsWith(prefix, StringComparison.Ordinal) || !resource.EndsWith(".wgsl", StringComparison.OrdinalIgnoreCase))
+					if (
+						!resource.StartsWith(prefix, StringComparison.Ordinal)
+						|| !resource.EndsWith(".wgsl", StringComparison.OrdinalIgnoreCase)
+					)
 						continue;
 					using Stream? stream = assembly.GetManifestResourceStream(resource);
 					if (stream is null)
@@ -1015,9 +1125,7 @@ internal static partial class LinuxStartup
 				}
 			}
 		}
-		catch (Exception)
-		{
-		}
+		catch (Exception) { }
 	}
 
 	private static bool HasOpenGlBackend()
@@ -1045,7 +1153,7 @@ internal static partial class LinuxStartup
 			OpaqueStage => OpaqueStage,
 			HardwareGlStage => HardwareGlStage,
 			SoftwareStage => SoftwareStage,
-			_ => DefaultStage
+			_ => DefaultStage,
 		};
 	}
 
@@ -1111,11 +1219,18 @@ internal static partial class LinuxStartup
 			}
 
 			int safeLaunches = confirmed ? Math.Max(_safeLaunches - 1, 0) : _safeLaunches;
-			File.WriteAllText(path, stage + "|" + (confirmed ? "ok" : "pending") + "|" + attempts.ToString(CultureInfo.InvariantCulture) + "|" + safeLaunches.ToString(CultureInfo.InvariantCulture));
+			File.WriteAllText(
+				path,
+				stage
+					+ "|"
+					+ (confirmed ? "ok" : "pending")
+					+ "|"
+					+ attempts.ToString(CultureInfo.InvariantCulture)
+					+ "|"
+					+ safeLaunches.ToString(CultureInfo.InvariantCulture)
+			);
 		}
-		catch (Exception)
-		{
-		}
+		catch (Exception) { }
 	}
 
 	public static void BeginRendererProbe()
@@ -1175,8 +1290,10 @@ internal static partial class LinuxStartup
 		try
 		{
 			string? vendor = null;
-			if (ProGPU.Backend.WgpuContext.TryGetFirstActiveContext(out ProGPU.Backend.WgpuContext? context)
-				&& string.Equals(context.AdapterBackendType.ToString(), "Vulkan", StringComparison.OrdinalIgnoreCase))
+			if (
+				ProGPU.Backend.WgpuContext.TryGetFirstActiveContext(out ProGPU.Backend.WgpuContext? context)
+				&& string.Equals(context.AdapterBackendType.ToString(), "Vulkan", StringComparison.OrdinalIgnoreCase)
+			)
 			{
 				vendor = VulkanVendorForAdapter(context.AdapterName ?? string.Empty);
 			}
@@ -1193,15 +1310,17 @@ internal static partial class LinuxStartup
 			Directory.CreateDirectory(Path.GetDirectoryName(path)!);
 			File.WriteAllText(path, vendor);
 		}
-		catch (Exception)
-		{
-		}
+		catch (Exception) { }
 #endif
 	}
 
 	private static string? VulkanVendorForAdapter(string adapter)
 	{
-		if (adapter.Contains("llvmpipe", StringComparison.OrdinalIgnoreCase) || adapter.Contains("lavapipe", StringComparison.OrdinalIgnoreCase) || adapter.Contains("swiftshader", StringComparison.OrdinalIgnoreCase))
+		if (
+			adapter.Contains("llvmpipe", StringComparison.OrdinalIgnoreCase)
+			|| adapter.Contains("lavapipe", StringComparison.OrdinalIgnoreCase)
+			|| adapter.Contains("swiftshader", StringComparison.OrdinalIgnoreCase)
+		)
 			return null;
 		if (adapter.Contains("(NVK", StringComparison.OrdinalIgnoreCase))
 			return "nouveau";
@@ -1231,7 +1350,7 @@ internal static partial class LinuxStartup
 				"radeon" => ("*radeon*", "0x1002"),
 				"amd" => ("*amd*,*radeon*", "0x1002"),
 				"intel" => ("*intel*", "0x8086"),
-				_ => null
+				_ => null,
 			};
 			if (choice is not { } selected || !HasGpuFromVendor(selected.pciVendor))
 			{
@@ -1254,13 +1373,14 @@ internal static partial class LinuxStartup
 			foreach (string card in Directory.EnumerateDirectories("/sys/class/drm", "card*"))
 			{
 				string vendorFile = Path.Combine(card, "device", "vendor");
-				if (File.Exists(vendorFile) && string.Equals(File.ReadAllText(vendorFile).Trim(), pciVendor, StringComparison.OrdinalIgnoreCase))
+				if (
+					File.Exists(vendorFile)
+					&& string.Equals(File.ReadAllText(vendorFile).Trim(), pciVendor, StringComparison.OrdinalIgnoreCase)
+				)
 					return true;
 			}
 		}
-		catch (Exception)
-		{
-		}
+		catch (Exception) { }
 		return false;
 	}
 
@@ -1270,9 +1390,7 @@ internal static partial class LinuxStartup
 		{
 			File.Delete(VulkanVendorPath);
 		}
-		catch (Exception)
-		{
-		}
+		catch (Exception) { }
 	}
 
 	public static void Shutdown()
@@ -1291,9 +1409,7 @@ internal static partial class LinuxStartup
 		{
 			Console.Error.WriteLine(message);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static void OnFatalException(object sender, UnhandledExceptionEventArgs e)
@@ -1303,7 +1419,8 @@ internal static partial class LinuxStartup
 			return;
 		}
 		string text = exception.ToString();
-		bool gpuFailure = text.Contains("WebGPU", StringComparison.OrdinalIgnoreCase)
+		bool gpuFailure =
+			text.Contains("WebGPU", StringComparison.OrdinalIgnoreCase)
 			|| text.Contains("WgpuContext", StringComparison.Ordinal)
 			|| text.Contains("No suitable adapter", StringComparison.OrdinalIgnoreCase)
 			|| text.Contains("failed to create surface", StringComparison.OrdinalIgnoreCase)
@@ -1323,7 +1440,9 @@ internal static partial class LinuxStartup
 		if (_activeStage == SoftwareStage)
 		{
 			WriteRendererMarker(DefaultStage, false, 0);
-			WriteError("Voidstrap could not start a GPU or software renderer on this system. Install your graphics drivers, or the Mesa Vulkan drivers package for software rendering, and try again. The next launch tries every renderer again.");
+			WriteError(
+				"Voidstrap could not start a GPU or software renderer on this system. Install your graphics drivers, or the Mesa Vulkan drivers package for software rendering, and try again. The next launch tries every renderer again."
+			);
 			Environment.Exit(1);
 			return;
 		}
@@ -1350,9 +1469,7 @@ internal static partial class LinuxStartup
 				Environment.Exit(0);
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static void ReplaceProcess(ProcessStartInfo startInfo)
@@ -1367,12 +1484,14 @@ internal static partial class LinuxStartup
 		try
 		{
 			nint[] argv = [Utf8(startInfo.FileName), .. startInfo.ArgumentList.Select(Utf8), 0];
-			nint[] envp = [.. startInfo.Environment.Where(entry => entry.Value != null).Select(entry => Utf8(entry.Key + "=" + entry.Value)), 0];
+			nint[] envp =
+			[
+				.. startInfo.Environment.Where(entry => entry.Value != null).Select(entry => Utf8(entry.Key + "=" + entry.Value)),
+				0,
+			];
 			Execve(argv[0], argv, envp);
 		}
-		catch (Exception)
-		{
-		}
+		catch (Exception) { }
 		finally
 		{
 			foreach (nint pointer in allocated)

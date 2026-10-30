@@ -1,5 +1,4 @@
 using System;
-using Voidstrap.Utility;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,8 +14,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -34,11 +33,12 @@ using Voidstrap.Extensions;
 using Voidstrap.Integrations;
 using Voidstrap.Models.Persistable;
 using Voidstrap.Resources;
+using Voidstrap.UI;
 using Voidstrap.UI.Elements.Base;
 using Voidstrap.UI.Elements.Controls;
 using Voidstrap.UI.Elements.Settings.Pages;
-using Voidstrap.UI;
 using Voidstrap.UI.ViewModels.Settings;
+using Voidstrap.Utility;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Controls.Interfaces;
@@ -49,31 +49,48 @@ namespace Voidstrap.UI.Elements.Settings;
 
 public partial class MainWindow : WpfUiWindow, INavigationWindow
 {
-    public sealed record SidebarItemDefinition(string Key, string DefaultName, string Section, SymbolRegular DefaultIcon, bool CanHide = true, string? NameKey = null)
+    public sealed record SidebarItemDefinition(
+        string Key,
+        string DefaultName,
+        string Section,
+        SymbolRegular DefaultIcon,
+        bool CanHide = true,
+        string? NameKey = null
+    )
     {
-        public string DisplayName => NameKey != null && Voidstrap.Resources.LocalizedStrings.Instance[NameKey] is { Length: > 0 } localized ? localized : DefaultName;
+        public string DisplayName =>
+            NameKey != null && Voidstrap.Resources.LocalizedStrings.Instance[NameKey] is { Length: > 0 } localized
+                ? localized
+                : DefaultName;
     }
 
-    public static IReadOnlyList<SidebarItemDefinition> SidebarCustomizationItems { get; } = new SidebarItemDefinition[]
-    {
-        new("HomeNavItem", "Home", "Core", SymbolRegular.Home24, false, NameKey: "Ui_Nav_Home"),
-        new("IntegrationsNavItem", "Integrations", "Core", SymbolRegular.Add12, NameKey: "Menu_Integrations_Title"),
-        new("DeploymentNavItem", "Deployment", "Core", SymbolRegular.PlaySettings20, NameKey: "Common_Deployment"),
-        new("AppearanceNavItem", "Appearance", "Core", SymbolRegular.Color24, false, NameKey: "Menu_Appearance_Title"),
-        new("FastFlagSettingsNavItem", "FastFlag Settings", "Configuration", SymbolRegular.Settings28, NameKey: "Ui_Nav_FastFlagSettings"),
-        new("FastFlagEditorNavItem", "FastFlag Editor", "Configuration", SymbolRegular.Flag28, NameKey: "Ui_Nav_FastFlagEditor"),
-        new("ModsNavItem", "Mods", "Configuration", SymbolRegular.WrenchScrewdriver20, NameKey: "Menu_Mods_Title"),
-        new("MoreNavItem", "More", "Configuration", SymbolRegular.MoreHorizontal24, NameKey: "Ui_Nav_More"),
-        new("GlobalNavItem", "Global", "More", SymbolRegular.GlobeLocation20, NameKey: "Ui_Nav_Global"),
-        new("ShortcutsNavItem", "Shortcuts", "More", SymbolRegular.Apps32, NameKey: "Common_Shortcuts"),
-        new("NewsNavItem", "News", "More", SymbolRegular.News16, NameKey: "Ui_Nav_News"),
-        new("ExtensionsNavItem", "Extensions", "Footer", SymbolRegular.CubeAdd20, NameKey: "Ui_Nav_Extensions"),
-        new("ManagerNavItem", "Manager", "Footer", SymbolRegular.ArrowDownload24, NameKey: "Ui_Nav_Manager"),
-        new("SoberNavItem", "Sober", "Footer", SymbolRegular.Empty, NameKey: "Menu_Sober_Title"),
-        new("RosemaryNavItem", "Rosemary", "Footer", SymbolRegular.Empty, NameKey: "Menu_Rosemary_Title"),
-        new("SettingsNavItem", "Settings", "Footer", SymbolRegular.Settings28, NameKey: "Ui_Nav_Settings"),
-        new("AboutNavItem", "About", "Footer", SymbolRegular.QuestionCircle32, NameKey: "Menu_About_Title")
-    };
+    public static IReadOnlyList<SidebarItemDefinition> SidebarCustomizationItems { get; } =
+        new SidebarItemDefinition[]
+        {
+            new("HomeNavItem", "Home", "Core", SymbolRegular.Home24, false, NameKey: "Ui_Nav_Home"),
+            new("IntegrationsNavItem", "Integrations", "Core", SymbolRegular.Add12, NameKey: "Menu_Integrations_Title"),
+            new("DeploymentNavItem", "Deployment", "Core", SymbolRegular.PlaySettings20, NameKey: "Common_Deployment"),
+            new("AppearanceNavItem", "Appearance", "Core", SymbolRegular.Color24, false, NameKey: "Menu_Appearance_Title"),
+            new(
+                "FastFlagSettingsNavItem",
+                "FastFlag Settings",
+                "Configuration",
+                SymbolRegular.Settings28,
+                NameKey: "Ui_Nav_FastFlagSettings"
+            ),
+            new("FastFlagEditorNavItem", "FastFlag Editor", "Configuration", SymbolRegular.Flag28, NameKey: "Ui_Nav_FastFlagEditor"),
+            new("ModsNavItem", "Mods", "Configuration", SymbolRegular.WrenchScrewdriver20, NameKey: "Menu_Mods_Title"),
+            new("MoreNavItem", "More", "Configuration", SymbolRegular.MoreHorizontal24, NameKey: "Ui_Nav_More"),
+            new("GlobalNavItem", "Global", "More", SymbolRegular.GlobeLocation20, NameKey: "Ui_Nav_Global"),
+            new("ShortcutsNavItem", "Shortcuts", "More", SymbolRegular.Apps32, NameKey: "Common_Shortcuts"),
+            new("NewsNavItem", "News", "More", SymbolRegular.News16, NameKey: "Ui_Nav_News"),
+            new("ExtensionsNavItem", "Extensions", "Footer", SymbolRegular.CubeAdd20, NameKey: "Ui_Nav_Extensions"),
+            new("ManagerNavItem", "Manager", "Footer", SymbolRegular.ArrowDownload24, NameKey: "Ui_Nav_Manager"),
+            new("SoberNavItem", "Sober", "Footer", SymbolRegular.Empty, NameKey: "Menu_Sober_Title"),
+            new("RosemaryNavItem", "Rosemary", "Footer", SymbolRegular.Empty, NameKey: "Menu_Rosemary_Title"),
+            new("SettingsNavItem", "Settings", "Footer", SymbolRegular.Settings28, NameKey: "Ui_Nav_Settings"),
+            new("AboutNavItem", "About", "Footer", SymbolRegular.QuestionCircle32, NameKey: "Menu_About_Title"),
+        };
 
     public static bool IsSidebarItemAvailable(string key)
     {
@@ -82,7 +99,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             "SoberNavItem" => Voidstrap.Utility.Platform.IsLinux && !Voidstrap.Utility.LinuxRuntimeChoice.PageUsesRosemary,
             "RosemaryNavItem" => Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxRuntimeChoice.PageUsesRosemary,
             "ExtensionsNavItem" or "ManagerNavItem" => Voidstrap.Utility.Platform.IsWindows,
-            _ => true
+            _ => true,
         };
     }
 
@@ -99,7 +116,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     [Conditional("DEBUG")]
     private static void VerifySidebarCustomization()
     {
-        Debug.Assert(SidebarCustomizationItems.Select(item => item.Key).Distinct(StringComparer.Ordinal).Count() == SidebarCustomizationItems.Count);
+        Debug.Assert(
+            SidebarCustomizationItems.Select(item => item.Key).Distinct(StringComparer.Ordinal).Count() == SidebarCustomizationItems.Count
+        );
         Debug.Assert(SidebarCustomizationItems.All(item => item.Section is "Core" or "Configuration" or "More" or "Footer"));
         Debug.Assert(SidebarCustomizationItems.Where(item => item.Key is "HomeNavItem" or "AppearanceNavItem").All(item => !item.CanHide));
         Debug.Assert(NormalizeSidebarName("  My\nPage  ", "Page") == "My Page");
@@ -114,7 +133,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private sealed partial class TopSearchEntry
     {
-		public string Id { get; }
+        public string Id { get; }
 
         public string DisplayText { get; }
 
@@ -126,26 +145,41 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
         public IReadOnlyList<string> TargetTerms { get; }
 
-		public List<string> ContainerTerms { get; }
+        public List<string> ContainerTerms { get; }
 
-		public string NormalizedSearchText { get; }
+        public string NormalizedSearchText { get; }
 
-		public string NormalizedTargetText { get; }
+        public string NormalizedTargetText { get; }
 
-		public bool HiddenByDefault { get; }
+        public bool HiddenByDefault { get; }
 
-        public TopSearchEntry(string id, string displayText, string searchText, Type pageType, string? targetText = null, IEnumerable<string>? targetTerms = null, IEnumerable<string>? containerTerms = null, bool hiddenByDefault = false)
+        public TopSearchEntry(
+            string id,
+            string displayText,
+            string searchText,
+            Type pageType,
+            string? targetText = null,
+            IEnumerable<string>? targetTerms = null,
+            IEnumerable<string>? containerTerms = null,
+            bool hiddenByDefault = false
+        )
         {
-			Id = id;
-			HiddenByDefault = hiddenByDefault;
+            Id = id;
+            HiddenByDefault = hiddenByDefault;
             DisplayText = displayText;
             SearchText = searchText;
             PageType = pageType;
             TargetText = targetText;
-            TargetTerms = (targetTerms ?? Enumerable.Empty<string>()).Where(term => !string.IsNullOrWhiteSpace(term)).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
-			ContainerTerms = (containerTerms ?? Enumerable.Empty<string>()).Where(term => !string.IsNullOrWhiteSpace(term)).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
-			NormalizedSearchText = NormalizeSearchText(searchText);
-			NormalizedTargetText = NormalizeSearchText(targetText ?? string.Empty);
+            TargetTerms = (targetTerms ?? Enumerable.Empty<string>())
+                .Where(term => !string.IsNullOrWhiteSpace(term))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+            ContainerTerms = (containerTerms ?? Enumerable.Empty<string>())
+                .Where(term => !string.IsNullOrWhiteSpace(term))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+            NormalizedSearchText = NormalizeSearchText(searchText);
+            NormalizedTargetText = NormalizeSearchText(targetText ?? string.Empty);
         }
     }
 
@@ -188,7 +222,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 Voidstrap.Utility.AppNotifications.KindCrash => (SymbolRegular.ErrorCircle24, CrashBrush),
                 Voidstrap.Utility.AppNotifications.KindError => (SymbolRegular.Warning24, ErrorBrush),
-                _ => (SymbolRegular.Info24, InfoBrush)
+                _ => (SymbolRegular.Info24, InfoBrush),
             };
             string text = source.Text.Trim();
             if (source.Key.StartsWith("upgrade:", StringComparison.Ordinal))
@@ -211,7 +245,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 LogPath = source.LogPath,
                 IsUnread = !source.Read,
                 Icon = icon,
-                IconBrush = brush
+                IconBrush = brush,
             };
         }
 
@@ -221,7 +255,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 return "";
             }
-            DateTimeOffset when = timestamp > 100_000_000_000 ? DateTimeOffset.FromUnixTimeMilliseconds(timestamp) : DateTimeOffset.FromUnixTimeSeconds(timestamp);
+            DateTimeOffset when =
+                timestamp > 100_000_000_000
+                    ? DateTimeOffset.FromUnixTimeMilliseconds(timestamp)
+                    : DateTimeOffset.FromUnixTimeSeconds(timestamp);
             TimeSpan age = DateTimeOffset.UtcNow - when;
             if (age.TotalMinutes < 1)
             {
@@ -284,7 +321,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private bool _isClosed;
 
-	private bool _restartNotificationBusy;
+    private bool _restartNotificationBusy;
 
     private readonly CancellationTokenSource _lifetimeCts = new CancellationTokenSource();
 
@@ -322,7 +359,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private int _robloxCheckRunning;
 
-    private static readonly Dictionary<string, (string Details, string State)> _voidRpcPageDescriptions = new Dictionary<string, (string, string)>
+    private static readonly Dictionary<string, (string Details, string State)> _voidRpcPageDescriptions = new Dictionary<
+        string,
+        (string, string)
+    >
     {
         ["HomePage"] = ("Home", "On the home screen"),
         ["GamePage"] = ("Game Details", "Viewing a game"),
@@ -353,7 +393,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ["Releases"] = ("Releases", "Reading the release history"),
         ["ServerBrowserPage"] = ("Server Browser", "Searching for a server"),
         ["NvidiaFastFlagsPage"] = ("NVIDIA FastFlags", "Tweaking NVIDIA GPU settings"),
-        ["ModGeneratorPage"] = ("Mod Generator", "Recoloring the Roblox icons")
+        ["ModGeneratorPage"] = ("Mod Generator", "Recoloring the Roblox icons"),
     };
 
     private AppearanceViewModel.BackgroundSettings _backgroundSettings;
@@ -368,7 +408,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private int _backgroundGeneration;
 
-    private readonly Dictionary<UIElement, TaskCompletionSource<bool>> _backgroundAnimationWaiters = new Dictionary<UIElement, TaskCompletionSource<bool>>();
+    private readonly Dictionary<UIElement, TaskCompletionSource<bool>> _backgroundAnimationWaiters =
+        new Dictionary<UIElement, TaskCompletionSource<bool>>();
 
     private Vector _currentOffset;
 
@@ -384,7 +425,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private readonly List<TopSearchEntry> _topSearchEntriesList = new List<TopSearchEntry>();
 
-    private readonly Dictionary<string, TopSearchEntry> _topSearchEntries = new Dictionary<string, TopSearchEntry>(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, TopSearchEntry> _topSearchEntries = new Dictionary<string, TopSearchEntry>(
+        StringComparer.OrdinalIgnoreCase
+    );
 
     private readonly ObservableCollection<CommandPaletteRow> _commandPaletteRows = new ObservableCollection<CommandPaletteRow>();
 
@@ -398,15 +441,31 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private CancellationTokenSource? _commandPaletteSearchCts;
 
-    private sealed record CommandPalettePage(Type PageType, string Name, SymbolRegular Icon, string Shortcut, Action Open, string Section = "Footer");
+    private sealed record CommandPalettePage(
+        Type PageType,
+        string Name,
+        SymbolRegular Icon,
+        string Shortcut,
+        Action Open,
+        string Section = "Footer"
+    );
 
-    private sealed record CommandPaletteSnapshot(string Query, IReadOnlyList<CommandPalettePage> Pages, IReadOnlyDictionary<Type, string> PageNames, IReadOnlyDictionary<Type, SymbolRegular> PageIcons, TopSearchEntry[] Entries);
+    private sealed record CommandPaletteSnapshot(
+        string Query,
+        IReadOnlyList<CommandPalettePage> Pages,
+        IReadOnlyDictionary<Type, string> PageNames,
+        IReadOnlyDictionary<Type, SymbolRegular> PageIcons,
+        TopSearchEntry[] Entries
+    );
 
-    private readonly Dictionary<string, (WeakReference<FrameworkElement> Element, bool Visible)> _searchTargetStates = new Dictionary<string, (WeakReference<FrameworkElement>, bool)>(StringComparer.Ordinal);
+    private readonly Dictionary<string, (WeakReference<FrameworkElement> Element, bool Visible)> _searchTargetStates = new Dictionary<
+        string,
+        (WeakReference<FrameworkElement>, bool)
+    >(StringComparer.Ordinal);
 
     private TopSearchEntry? _pendingTopSearchEntry;
 
-	private int _topSearchNavigationGeneration;
+    private int _topSearchNavigationGeneration;
 
     private bool _navigationInitialized;
 
@@ -435,7 +494,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         typeof(DonoPage),
         typeof(LibraryPage),
         typeof(PrivateServersPage),
-        typeof(AccountsPage)
+        typeof(AccountsPage),
     };
 
     private LibraryPage? _libraryPage;
@@ -489,10 +548,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public double GradientLayerOpacity
     {
-        get
-        {
-            return _gradientLayerOpacity;
-        }
+        get { return _gradientLayerOpacity; }
         set
         {
             if (_gradientLayerOpacity != value)
@@ -511,7 +567,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         base.ApplyTheme();
         Voidstrap.UI.WindowBackdrop.ApplyMainWindow(this);
-        Resources["LauncherMenuBrush"] = TryFindResource("SystemFillColorSolidNeutralBackgroundBrush") as Brush ?? Voidstrap.UI.WindowBackdrop.CreateOpaqueSurfaceBrush(this);
+        Resources["LauncherMenuBrush"] =
+            TryFindResource("SystemFillColorSolidNeutralBackgroundBrush") as Brush
+            ?? Voidstrap.UI.WindowBackdrop.CreateOpaqueSurfaceBrush(this);
         SyncHomeTargetMenuBrush();
     }
 
@@ -591,7 +649,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void ApplyThemeBackground()
     {
-        Resources["LauncherMenuBrush"] = TryFindResource("SystemFillColorSolidNeutralBackgroundBrush") as Brush ?? Voidstrap.UI.WindowBackdrop.CreateOpaqueSurfaceBrush(this);
+        Resources["LauncherMenuBrush"] =
+            TryFindResource("SystemFillColorSolidNeutralBackgroundBrush") as Brush
+            ?? Voidstrap.UI.WindowBackdrop.CreateOpaqueSurfaceBrush(this);
         SyncHomeTargetMenuBrush();
         if (GradientLayer == null)
         {
@@ -632,7 +692,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                     Name = "BackgroundPortableMedia",
                     Opacity = 1.0,
                     IsHitTestVisible = false,
-                    Visibility = Visibility.Collapsed
+                    Visibility = Visibility.Collapsed,
                 };
                 BackgroundLayer.Children.Insert(0, portable);
                 BackgroundPortableMedia = portable;
@@ -647,7 +707,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 IsHitTestVisible = false,
                 LoadedBehavior = MediaState.Manual,
                 UnloadedBehavior = MediaState.Stop,
-                Visibility = Visibility.Collapsed
+                Visibility = Visibility.Collapsed,
             };
             BackgroundLayer.Children.Insert(0, media);
             BackgroundMedia = media;
@@ -674,8 +734,20 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         //IL_01de: Expected O, but got Unknown
         InitializeComponent();
         SyncHomeTargetMenuBrush();
-        InstallLaunchButton.SetBinding(SplitButton.DropDownOnRightProperty, new System.Windows.Data.Binding(nameof(MainWindowViewModel.LaunchDropdownOnRight)) { Mode = System.Windows.Data.BindingMode.OneWay });
-        InstallLaunchButton.SetBinding(SplitButton.DropDownToolTipProperty, new System.Windows.Data.Binding(nameof(MainWindowViewModel.SelectedLaunchTargetName)) { Mode = System.Windows.Data.BindingMode.OneWay });
+        InstallLaunchButton.SetBinding(
+            SplitButton.DropDownOnRightProperty,
+            new System.Windows.Data.Binding(nameof(MainWindowViewModel.LaunchDropdownOnRight))
+            {
+                Mode = System.Windows.Data.BindingMode.OneWay,
+            }
+        );
+        InstallLaunchButton.SetBinding(
+            SplitButton.DropDownToolTipProperty,
+            new System.Windows.Data.Binding(nameof(MainWindowViewModel.SelectedLaunchTargetName))
+            {
+                Mode = System.Windows.Data.BindingMode.OneWay,
+            }
+        );
         InstallLaunchButton.DropDownClick += LaunchTargetButton_Click;
         if (Voidstrap.Utility.Platform.IsLinux)
         {
@@ -777,9 +849,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         _defaultIcons.Clear();
         Dictionary<string, string> customIcons = App.Settings.Prop.SidebarIcons ??= new Dictionary<string, string>();
-        foreach (NavigationItem item in from i in RootNavigation.Items.OfType<NavigationItem>().Concat(RootNavigation.Footer.OfType<NavigationItem>())
-                                        where i.Tag != null && i.Image == null && !customIcons.ContainsKey(i.Name)
-                                        select i)
+        foreach (
+            NavigationItem item in from i in RootNavigation
+                .Items.OfType<NavigationItem>()
+                .Concat(RootNavigation.Footer.OfType<NavigationItem>())
+            where i.Tag != null && i.Image == null && !customIcons.ContainsKey(i.Name)
+            select i
+        )
         {
             SymbolRegular defaultIcon = item.Icon;
             _defaultIcons[item] = defaultIcon;
@@ -804,7 +880,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
+    private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent)
+        where T : DependencyObject
     {
         if (parent == null)
         {
@@ -825,7 +902,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private static T? FindAncestor<T>(DependencyObject current) where T : DependencyObject
+    private static T? FindAncestor<T>(DependencyObject current)
+        where T : DependencyObject
     {
         while (current != null)
         {
@@ -932,12 +1010,20 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (page is Pages.ModCustomPage)
             return true;
-        if (ReferenceEquals(page, _libraryPage) || ReferenceEquals(page, _privateServersPage) || ReferenceEquals(page, _accountsPage) || ReferenceEquals(page, _robloxNewsPage) || ReferenceEquals(page, _voidstrapModsPage))
+        if (
+            ReferenceEquals(page, _libraryPage)
+            || ReferenceEquals(page, _privateServersPage)
+            || ReferenceEquals(page, _accountsPage)
+            || ReferenceEquals(page, _robloxNewsPage)
+            || ReferenceEquals(page, _voidstrapModsPage)
+        )
         {
             return true;
         }
         Type pageType = page.GetType();
-        foreach (NavigationItem item in RootNavigation.Items.OfType<NavigationItem>().Concat(RootNavigation.Footer.OfType<NavigationItem>()))
+        foreach (
+            NavigationItem item in RootNavigation.Items.OfType<NavigationItem>().Concat(RootNavigation.Footer.OfType<NavigationItem>())
+        )
         {
             if (item.PageType == pageType)
             {
@@ -974,7 +1060,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 }
                 catch (Exception ex)
                 {
-                    App.Logger.WriteLine("MainWindow::DetachDiscardedPage", page.GetType().Name + " " + itemsControl.GetType().Name + " " + itemsControl.Name + ": " + ex.Message);
+                    App.Logger.WriteLine(
+                        "MainWindow::DetachDiscardedPage",
+                        page.GetType().Name + " " + itemsControl.GetType().Name + " " + itemsControl.Name + ": " + ex.Message
+                    );
                 }
             }
             page.DataContext = null;
@@ -1001,7 +1090,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             DependencyObject current = pending.Pop();
             yield return current;
-            int count = current is Visual || current is System.Windows.Media.Media3D.Visual3D ? VisualTreeHelper.GetChildrenCount(current) : 0;
+            int count =
+                current is Visual || current is System.Windows.Media.Media3D.Visual3D ? VisualTreeHelper.GetChildrenCount(current) : 0;
             for (int i = 0; i < count; i++)
             {
                 pending.Push(VisualTreeHelper.GetChild(current, i));
@@ -1017,21 +1107,24 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         double total = _navigationCreateMs + System.Diagnostics.Stopwatch.GetElapsedTime(_navigationStartedTicks).TotalMilliseconds;
         _navigationStartedTicks = 0;
-        App.Logger.WriteLine("MainWindow::Navigation", content.GetType().Name + " ready in " + (int)total + " ms, construct " + (int)_navigationCreateMs + " ms");
+        App.Logger.WriteLine(
+            "MainWindow::Navigation",
+            content.GetType().Name + " ready in " + (int)total + " ms, construct " + (int)_navigationCreateMs + " ms"
+        );
     }
 
     private void RootFrame_Navigated(object sender, NavigationEventArgs e)
     {
-		if (!Voidstrap.Utility.Platform.IsWindows && (e.Content is DownloadsPage or ExtensionPage))
-		{
-			if (e.Content is FrameworkElement hiddenPage)
-			{
-				hiddenPage.Visibility = Visibility.Collapsed;
-			}
+        if (!Voidstrap.Utility.Platform.IsWindows && (e.Content is DownloadsPage or ExtensionPage))
+        {
+            if (e.Content is FrameworkElement hiddenPage)
+            {
+                hiddenPage.Visibility = Visibility.Collapsed;
+            }
 
-			Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() => RootNavigation.Navigate(typeof(HomePage))));
-			return;
-		}
+            Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() => RootNavigation.Navigate(typeof(HomePage))));
+            return;
+        }
 
         _pageSearchTargets.Clear();
         _lastPage = null;
@@ -1040,15 +1133,24 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() => LogPageReady(readyContent)));
         Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(DetachDiscardedPage));
         object content = e.Content;
-        Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
-        {
-            Voidstrap.Integrations.Plugins.PluginHost.Invoke("page.navigate", new System.Text.Json.Nodes.JsonObject { ["page"] = DescribePage(content) });
-            Voidstrap.Integrations.Plugins.PluginAnchors.ApplyAll();
-        }));
-        Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() =>
-        {
-            Voidstrap.Integrations.Plugins.PluginAnchors.ApplyAll();
-        }));
+        Dispatcher.BeginInvoke(
+            DispatcherPriority.Loaded,
+            new Action(() =>
+            {
+                Voidstrap.Integrations.Plugins.PluginHost.Invoke(
+                    "page.navigate",
+                    new System.Text.Json.Nodes.JsonObject { ["page"] = DescribePage(content) }
+                );
+                Voidstrap.Integrations.Plugins.PluginAnchors.ApplyAll();
+            })
+        );
+        Dispatcher.BeginInvoke(
+            DispatcherPriority.ContextIdle,
+            new Action(() =>
+            {
+                Voidstrap.Integrations.Plugins.PluginAnchors.ApplyAll();
+            })
+        );
         RefreshGlobalSearchBoxVisibility();
         if (BreadcrumbPanel != null)
         {
@@ -1062,13 +1164,19 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         UpdateTopNavActive(content);
         if (content is Page)
         {
-            Dispatcher.BeginInvoke(new Action(IndexLoadedPageSearchEntries), _pendingTopSearchEntry != null ? DispatcherPriority.Loaded : DispatcherPriority.ApplicationIdle);
+            Dispatcher.BeginInvoke(
+                new Action(IndexLoadedPageSearchEntries),
+                _pendingTopSearchEntry != null ? DispatcherPriority.Loaded : DispatcherPriority.ApplicationIdle
+            );
         }
         else if (_pendingTopSearchEntry != null)
         {
             _pendingTopSearchEntry = null;
         }
-        NavigationItem? navigationItem = RootNavigation.Items.OfType<NavigationItem>().Concat(RootNavigation.Footer.OfType<NavigationItem>()).FirstOrDefault((NavigationItem i) => i.IsActive);
+        NavigationItem? navigationItem = RootNavigation
+            .Items.OfType<NavigationItem>()
+            .Concat(RootNavigation.Footer.OfType<NavigationItem>())
+            .FirstOrDefault((NavigationItem i) => i.IsActive);
         if (navigationItem != null && _defaultIcons.TryGetValue(navigationItem, out var value))
         {
             PageBreadcrumb.Icon = value;
@@ -1081,7 +1189,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         AnimatePageHeader(18.0);
     }
 
-    private static string DescribePage(object content) => content is Pages.ModCustomPage modPage ? ("mod:" + modPage.PluginName + ":" + modPage.PageId) : (content?.GetType().Name ?? "");
+    private static string DescribePage(object content) =>
+        content is Pages.ModCustomPage modPage ? ("mod:" + modPage.PluginName + ":" + modPage.PageId) : (content?.GetType().Name ?? "");
 
     private void SyncHomeTargetMenuBrush()
     {
@@ -1145,7 +1254,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private static readonly CubicEase PageHeaderEase = CreatePageHeaderEase();
 
-    private static readonly DoubleAnimation PageHeaderFade = CreateFrozen(new DoubleAnimation(0.0, 1.0, TimeSpan.FromMilliseconds(240)) { EasingFunction = PageHeaderEase });
+    private static readonly DoubleAnimation PageHeaderFade = CreateFrozen(
+        new DoubleAnimation(0.0, 1.0, TimeSpan.FromMilliseconds(240)) { EasingFunction = PageHeaderEase }
+    );
 
     private static readonly Dictionary<double, DoubleAnimation> PageHeaderSlides = new Dictionary<double, DoubleAnimation>();
 
@@ -1175,9 +1286,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     internal void RefreshGlobalSearchBoxVisibility()
     {
         object? content = RootFrame.Content;
-        bool hideSearchBox = content != null && (_pagesToHideSearchBox.Contains(content.GetType())
-            || content is Voidstrap.UI.Elements.Settings.Pages.FastFlagsPage fastFlagsPage && fastFlagsPage.IsAdvancedTabSelected
-            || content is Voidstrap.UI.Elements.Settings.Pages.ModsPage modsPage && modsPage.IsModPackSelected);
+        bool hideSearchBox =
+            content != null
+            && (
+                _pagesToHideSearchBox.Contains(content.GetType())
+                || content is Voidstrap.UI.Elements.Settings.Pages.FastFlagsPage fastFlagsPage && fastFlagsPage.IsAdvancedTabSelected
+                || content is Voidstrap.UI.Elements.Settings.Pages.ModsPage modsPage && modsPage.IsModPackSelected
+            );
         if (BreadcrumbPanel != null)
         {
             Grid.SetColumnSpan(BreadcrumbPanel, hideSearchBox ? 2 : 1);
@@ -1196,9 +1311,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private NavigationItem[] GetNavigationItemsInServiceOrder()
     {
-        return RootNavigation.Items.OfType<NavigationItem>()
-            .Concat(RootNavigation.Footer.OfType<NavigationItem>())
-            .ToArray();
+        return RootNavigation.Items.OfType<NavigationItem>().Concat(RootNavigation.Footer.OfType<NavigationItem>()).ToArray();
     }
 
     private void OnLinuxRuntimeChanged(object? sender, EventArgs e)
@@ -1220,7 +1333,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private readonly Dictionary<string, NavigationItem> _modSidebarItems = new Dictionary<string, NavigationItem>(StringComparer.Ordinal);
 
-    private readonly Dictionary<string, Pages.ModCustomPage> _modCustomPages = new Dictionary<string, Pages.ModCustomPage>(StringComparer.Ordinal);
+    private readonly Dictionary<string, Pages.ModCustomPage> _modCustomPages = new Dictionary<string, Pages.ModCustomPage>(
+        StringComparer.Ordinal
+    );
 
     private void ModSidebarItem_Click(object sender, RoutedEventArgs e)
     {
@@ -1290,25 +1405,29 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         int generation = ++_modBannerRenderGeneration;
         IReadOnlyList<Voidstrap.Integrations.Plugins.PluginHost.BannerInfo> banners = Voidstrap.Integrations.Plugins.PluginHost.Banners;
-        List<(Voidstrap.Integrations.Plugins.PluginHost.BannerInfo Banner, System.Text.Json.Nodes.JsonNode? Tree)> rendered = await Task.Run(() =>
-        {
-            List<(Voidstrap.Integrations.Plugins.PluginHost.BannerInfo, System.Text.Json.Nodes.JsonNode?)> list = [];
-            foreach (Voidstrap.Integrations.Plugins.PluginHost.BannerInfo banner in banners)
+        List<(Voidstrap.Integrations.Plugins.PluginHost.BannerInfo Banner, System.Text.Json.Nodes.JsonNode? Tree)> rendered =
+            await Task.Run(() =>
             {
-                System.Text.Json.Nodes.JsonNode? tree;
-                try
+                List<(Voidstrap.Integrations.Plugins.PluginHost.BannerInfo, System.Text.Json.Nodes.JsonNode?)> list = [];
+                foreach (Voidstrap.Integrations.Plugins.PluginHost.BannerInfo banner in banners)
                 {
-                    tree = Voidstrap.Integrations.Plugins.PluginHost.RenderBanner(banner);
+                    System.Text.Json.Nodes.JsonNode? tree;
+                    try
+                    {
+                        tree = Voidstrap.Integrations.Plugins.PluginHost.RenderBanner(banner);
+                    }
+                    catch (Exception ex)
+                    {
+                        Voidstrap.Integrations.Plugins.PluginHost.Problem(
+                            banner.Plugin,
+                            "the banner " + banner.Id + " could not be drawn: " + Voidstrap.Integrations.Plugins.PluginHost.Describe(ex)
+                        );
+                        tree = null;
+                    }
+                    list.Add((banner, tree));
                 }
-                catch (Exception ex)
-                {
-                    Voidstrap.Integrations.Plugins.PluginHost.Problem(banner.Plugin, "the banner " + banner.Id + " could not be drawn: " + Voidstrap.Integrations.Plugins.PluginHost.Describe(ex));
-                    tree = null;
-                }
-                list.Add((banner, tree));
-            }
-            return list;
-        });
+                return list;
+            });
         if (generation != _modBannerRenderGeneration || Dispatcher.HasShutdownStarted)
             return;
         ModTopBannerHost.Children.Clear();
@@ -1329,7 +1448,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                         Margin = new Thickness(0, 0, 0, 6),
                         CornerRadius = new CornerRadius(6),
                         BorderThickness = new Thickness(1),
-                        Child = built
+                        Child = built,
                     };
                     container.SetResourceReference(Border.BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
                     container.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
@@ -1341,7 +1460,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             }
             catch (Exception ex)
             {
-                Voidstrap.Integrations.Plugins.PluginHost.Problem(banner.Plugin, "the banner " + banner.Id + " could not be drawn: " + Voidstrap.Integrations.Plugins.PluginHost.Describe(ex));
+                Voidstrap.Integrations.Plugins.PluginHost.Problem(
+                    banner.Plugin,
+                    "the banner " + banner.Id + " could not be drawn: " + Voidstrap.Integrations.Plugins.PluginHost.Describe(ex)
+                );
             }
         }
     }
@@ -1360,19 +1482,31 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (trimmed.StartsWith("mod:", StringComparison.OrdinalIgnoreCase))
         {
             string rest = trimmed[4..];
-            IReadOnlyList<Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo> modPages = Voidstrap.Integrations.Plugins.PluginSidebar.GetModPages();
+            IReadOnlyList<Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo> modPages =
+                Voidstrap.Integrations.Plugins.PluginSidebar.GetModPages();
             Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo? match = modPages.FirstOrDefault(p =>
                 string.Equals(p.Plugin + ":" + p.Id, rest, StringComparison.OrdinalIgnoreCase)
                 || string.Equals(p.Id, rest, StringComparison.OrdinalIgnoreCase)
-                || string.Equals(p.Key, rest, StringComparison.OrdinalIgnoreCase));
+                || string.Equals(p.Key, rest, StringComparison.OrdinalIgnoreCase)
+            );
             if (match == null)
             {
-                Voidstrap.Integrations.Plugins.PluginModPages.ModPageEntry? menuMatch = Voidstrap.Integrations.Plugins.PluginModPages.GetEntries().FirstOrDefault(p =>
-                    string.Equals(p.Plugin + ":" + p.Id, rest, StringComparison.OrdinalIgnoreCase)
-                    || string.Equals(p.Id, rest, StringComparison.OrdinalIgnoreCase)
-                    || string.Equals(p.Key, rest, StringComparison.OrdinalIgnoreCase));
+                Voidstrap.Integrations.Plugins.PluginModPages.ModPageEntry? menuMatch = Voidstrap
+                    .Integrations.Plugins.PluginModPages.GetEntries()
+                    .FirstOrDefault(p =>
+                        string.Equals(p.Plugin + ":" + p.Id, rest, StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(p.Id, rest, StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(p.Key, rest, StringComparison.OrdinalIgnoreCase)
+                    );
                 if (menuMatch != null)
-                    match = new Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo(menuMatch.Plugin, menuMatch.Id, menuMatch.Key, menuMatch.Title, "Core", menuMatch.Icon);
+                    match = new Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo(
+                        menuMatch.Plugin,
+                        menuMatch.Id,
+                        menuMatch.Key,
+                        menuMatch.Title,
+                        "Core",
+                        menuMatch.Icon
+                    );
             }
             if (match != null)
             {
@@ -1382,8 +1516,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         if (plugin != null)
         {
-            Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo? ownMatch = Voidstrap.Integrations.Plugins.PluginSidebar.GetModPages()
-                .FirstOrDefault(p => string.Equals(p.Plugin, plugin, StringComparison.OrdinalIgnoreCase) && string.Equals(p.Id, trimmed, StringComparison.OrdinalIgnoreCase));
+            Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo? ownMatch = Voidstrap
+                .Integrations.Plugins.PluginSidebar.GetModPages()
+                .FirstOrDefault(p =>
+                    string.Equals(p.Plugin, plugin, StringComparison.OrdinalIgnoreCase)
+                    && string.Equals(p.Id, trimmed, StringComparison.OrdinalIgnoreCase)
+                );
             if (ownMatch != null)
             {
                 OpenModCustomPage(ownMatch);
@@ -1511,7 +1649,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             .OfType<NavigationItem>()
             .Where(item => !string.IsNullOrEmpty(item.Name))
             .ToDictionary(item => item.Name, StringComparer.Ordinal);
-        _defaultSidebarContent ??= items.ToDictionary<KeyValuePair<string, NavigationItem>, string, object?>(pair => pair.Key, pair => (object?)BindingOperations.GetBindingBase(pair.Value, ContentControl.ContentProperty) ?? (object?)pair.Value.Content, StringComparer.Ordinal);
+        _defaultSidebarContent ??= items.ToDictionary<KeyValuePair<string, NavigationItem>, string, object?>(
+            pair => pair.Key,
+            pair => (object?)BindingOperations.GetBindingBase(pair.Value, ContentControl.ContentProperty) ?? (object?)pair.Value.Content,
+            StringComparer.Ordinal
+        );
         _defaultSidebarIcons ??= items.ToDictionary(pair => pair.Key, pair => pair.Value.Icon, StringComparer.Ordinal);
         _defaultSidebarImages ??= items.ToDictionary(pair => pair.Key, pair => (BitmapSource?)pair.Value.Image, StringComparer.Ordinal);
         Dictionary<string, string> names = App.Settings.Prop.SidebarNames ??= new Dictionary<string, string>();
@@ -1521,19 +1663,28 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         List<string> savedOrder = App.Settings.Prop.SidebarOrder ??= new List<string>();
         bool needsFullIconFont = false;
         List<SidebarItemDefinition> allSidebarDefinitions = SidebarCustomizationItems.ToList();
-        foreach (Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo modPage in Voidstrap.Integrations.Plugins.PluginSidebar.GetModPages())
+        foreach (
+            Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo modPage in Voidstrap.Integrations.Plugins.PluginSidebar.GetModPages()
+        )
         {
             if (!_modSidebarItems.TryGetValue(modPage.Key, out NavigationItem? modNav))
             {
                 modNav = new NavigationItem { Name = modPage.Key, Cache = false };
                 _modSidebarItems[modPage.Key] = modNav;
             }
-            SymbolRegular modDefaultIcon = Enum.TryParse(modPage.Icon, ignoreCase: true, out SymbolRegular parsedModIcon) ? parsedModIcon : SymbolRegular.Apps24;
+            SymbolRegular modDefaultIcon = Enum.TryParse(modPage.Icon, ignoreCase: true, out SymbolRegular parsedModIcon)
+                ? parsedModIcon
+                : SymbolRegular.Apps24;
             modNav.Tag = modPage;
             modNav.Click -= ModSidebarItem_Click;
             modNav.Click += ModSidebarItem_Click;
-            modNav.Content = names.TryGetValue(modPage.Key, out string? customModTitle) ? NormalizeSidebarName(customModTitle, modPage.Title) : modPage.Title;
-            if (icons.TryGetValue(modPage.Key, out string? customModIconName) && Enum.TryParse(customModIconName, ignoreCase: true, out SymbolRegular customModSym))
+            modNav.Content = names.TryGetValue(modPage.Key, out string? customModTitle)
+                ? NormalizeSidebarName(customModTitle, modPage.Title)
+                : modPage.Title;
+            if (
+                icons.TryGetValue(modPage.Key, out string? customModIconName)
+                && Enum.TryParse(customModIconName, ignoreCase: true, out SymbolRegular customModSym)
+            )
             {
                 modNav.Icon = customModSym;
                 if (Voidstrap.UI.Elements.Dialogs.SidebarIconPickerDialog.CanRender(customModSym))
@@ -1580,15 +1731,19 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             item.Icon = _defaultSidebarIcons[definition.Key];
             BitmapSource? defaultImage = _defaultSidebarImages[definition.Key];
             item.SetValue(NavigationItem.ImageProperty, defaultImage);
-            if (iconImages.TryGetValue(definition.Key, out string? imagePath)
-                && SafeImaging.FromFile(imagePath, 48) is BitmapSource customImage)
+            if (
+                iconImages.TryGetValue(definition.Key, out string? imagePath)
+                && SafeImaging.FromFile(imagePath, 48) is BitmapSource customImage
+            )
             {
                 item.Icon = SymbolRegular.Empty;
                 item.Image = customImage;
             }
-            else if (icons.TryGetValue(definition.Key, out string? iconName)
+            else if (
+                icons.TryGetValue(definition.Key, out string? iconName)
                 && Enum.TryParse(iconName, out SymbolRegular customIcon)
-                && Voidstrap.UI.Elements.Dialogs.SidebarIconPickerDialog.CanRender(customIcon))
+                && Voidstrap.UI.Elements.Dialogs.SidebarIconPickerDialog.CanRender(customIcon)
+            )
             {
                 item.SetValue(NavigationItem.ImageProperty, null);
                 item.Icon = customIcon;
@@ -1599,7 +1754,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         if (needsFullIconFont)
         {
-            RootNavigation.Resources[Voidstrap.UI.Elements.Dialogs.SidebarIconPickerDialog.IconFontResourceKey] = Voidstrap.UI.Elements.Dialogs.SidebarIconPickerDialog.FullIconFont;
+            RootNavigation.Resources[Voidstrap.UI.Elements.Dialogs.SidebarIconPickerDialog.IconFontResourceKey] = Voidstrap
+                .UI
+                .Elements
+                .Dialogs
+                .SidebarIconPickerDialog
+                .FullIconFont;
         }
         else
         {
@@ -1615,7 +1775,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         NavigationItem[] headers = _defaultMainSidebarItems.OfType<NavigationItem>().Where(item => !item.IsEnabled).Take(2).ToArray();
         NavigationItem coreHeader = headers[0];
         NavigationItem configurationHeader = headers[1];
-        Wpf.Ui.Controls.Navigation.NavigationSeparator separator = _defaultMainSidebarItems.OfType<Wpf.Ui.Controls.Navigation.NavigationSeparator>().First();
+        Wpf.Ui.Controls.Navigation.NavigationSeparator separator = _defaultMainSidebarItems
+            .OfType<Wpf.Ui.Controls.Navigation.NavigationSeparator>()
+            .First();
         bool hasConfigurationItems = Ordered("Configuration").Any(definition => items[definition.Key].Visibility == Visibility.Visible);
         configurationHeader.Visibility = hasConfigurationItems ? Visibility.Visible : Visibility.Collapsed;
         separator.Visibility = configurationHeader.Visibility;
@@ -1661,8 +1823,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         if (IsLoaded)
         {
-            if (RootFrame?.Content is Pages.ModCustomPage activeModPage
-                && !items.ContainsKey(activeModPage.PageKey))
+            if (RootFrame?.Content is Pages.ModCustomPage activeModPage && !items.ContainsKey(activeModPage.PageKey))
             {
                 RootNavigation.Navigate(typeof(HomePage));
             }
@@ -1866,21 +2027,48 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                     continue;
                 }
                 string description = SearchCatalog.Resolve(option.DescriptionToken).Trim();
-				string[] containers = option.Containers.Select(SearchCatalog.Resolve).Where(value => !string.IsNullOrWhiteSpace(value)).ToArray();
-                string displayText = "Option: " + title + " | " + pageName + (containers.Length > 0 ? " | " + string.Join(" › ", containers) : string.Empty);
+                string[] containers = option
+                    .Containers.Select(SearchCatalog.Resolve)
+                    .Where(value => !string.IsNullOrWhiteSpace(value))
+                    .ToArray();
+                string displayText =
+                    "Option: " + title + " | " + pageName + (containers.Length > 0 ? " | " + string.Join(" › ", containers) : string.Empty);
                 List<string> terms = new List<string> { title, option.TitleToken, description, option.TargetName, option.Id };
                 terms.AddRange(option.Aliases);
-				terms.AddRange(containers);
-                entries.Add(new TopSearchEntry(option.Id, displayText, string.Join(" ", terms), option.PageType, title, terms, containers, option.HiddenByDefault));
+                terms.AddRange(containers);
+                entries.Add(
+                    new TopSearchEntry(
+                        option.Id,
+                        displayText,
+                        string.Join(" ", terms),
+                        option.PageType,
+                        title,
+                        terms,
+                        containers,
+                        option.HiddenByDefault
+                    )
+                );
             }
             _topSearchEntriesList.Clear();
             _topSearchEntries.Clear();
-			Dictionary<string, int> displayCounts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+            Dictionary<string, int> displayCounts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
             foreach (TopSearchEntry originalEntry in entries)
             {
-				int occurrence = displayCounts.TryGetValue(originalEntry.DisplayText, out int count) ? count + 1 : 1;
-				displayCounts[originalEntry.DisplayText] = occurrence;
-				TopSearchEntry entry = occurrence == 1 ? originalEntry : new TopSearchEntry(originalEntry.Id, originalEntry.DisplayText + " | " + occurrence, originalEntry.SearchText, originalEntry.PageType, originalEntry.TargetText, originalEntry.TargetTerms, originalEntry.ContainerTerms, originalEntry.HiddenByDefault);
+                int occurrence = displayCounts.TryGetValue(originalEntry.DisplayText, out int count) ? count + 1 : 1;
+                displayCounts[originalEntry.DisplayText] = occurrence;
+                TopSearchEntry entry =
+                    occurrence == 1
+                        ? originalEntry
+                        : new TopSearchEntry(
+                            originalEntry.Id,
+                            originalEntry.DisplayText + " | " + occurrence,
+                            originalEntry.SearchText,
+                            originalEntry.PageType,
+                            originalEntry.TargetText,
+                            originalEntry.TargetTerms,
+                            originalEntry.ContainerTerms,
+                            originalEntry.HiddenByDefault
+                        );
                 _topSearchEntriesList.Add(entry);
                 _topSearchEntries.Add(entry.DisplayText, entry);
             }
@@ -1896,7 +2084,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         catch (Exception ex)
         {
-			App.Logger.WriteLine("MainWindow::Search", "Could not populate settings search: " + ex.Message);
+            App.Logger.WriteLine("MainWindow::Search", "Could not populate settings search: " + ex.Message);
         }
     }
 
@@ -1925,42 +2113,43 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private async Task LoadCatalogOptionsAsync()
     {
-		long searchStarted = System.Diagnostics.Stopwatch.GetTimestamp();
-		try
-		{
-			for (int attempt = 0; attempt < 3 && !_lifetimeCts.IsCancellationRequested; attempt++)
-			{
-				await SearchCatalog.LoadOptionsAsync().ConfigureAwait(false);
-				if (SearchCatalog.Options.Count > 0)
-				{
-					break;
-				}
-				await Task.Delay(TimeSpan.FromMilliseconds(500), _lifetimeCts.SafeToken()).ConfigureAwait(false);
-			}
-			if (!_lifetimeCts.IsCancellationRequested)
-			{
-				await Dispatcher.InvokeAsync(() =>
-				{
-					PopulateTopSearch();
-					Voidstrap.UI.LinuxUiPerformance.Duration("Settings search indexing", searchStarted);
-					Voidstrap.UI.LinuxUiPerformance.Mark("Settings search ready with " + _topSearchEntriesList.Count + " entries");
-				}, DispatcherPriority.Background);
-			}
-		}
-		catch (OperationCanceledException) when (_lifetimeCts.IsCancellationRequested)
-		{
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("MainWindow::Search", "Could not load settings search: " + ex.Message);
-		}
+        long searchStarted = System.Diagnostics.Stopwatch.GetTimestamp();
+        try
+        {
+            for (int attempt = 0; attempt < 3 && !_lifetimeCts.IsCancellationRequested; attempt++)
+            {
+                await SearchCatalog.LoadOptionsAsync().ConfigureAwait(false);
+                if (SearchCatalog.Options.Count > 0)
+                {
+                    break;
+                }
+                await Task.Delay(TimeSpan.FromMilliseconds(500), _lifetimeCts.SafeToken()).ConfigureAwait(false);
+            }
+            if (!_lifetimeCts.IsCancellationRequested)
+            {
+                await Dispatcher.InvokeAsync(
+                    () =>
+                    {
+                        PopulateTopSearch();
+                        Voidstrap.UI.LinuxUiPerformance.Duration("Settings search indexing", searchStarted);
+                        Voidstrap.UI.LinuxUiPerformance.Mark("Settings search ready with " + _topSearchEntriesList.Count + " entries");
+                    },
+                    DispatcherPriority.Background
+                );
+            }
+        }
+        catch (OperationCanceledException) when (_lifetimeCts.IsCancellationRequested) { }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("MainWindow::Search", "Could not load settings search: " + ex.Message);
+        }
     }
 
     private Dictionary<Type, string> GetSidebarPageNames()
     {
         Dictionary<Type, string> pages = new Dictionary<Type, string>();
-        IEnumerable<NavigationItem> items = RootNavigation.Items
-            .OfType<NavigationItem>()
+        IEnumerable<NavigationItem> items = RootNavigation
+            .Items.OfType<NavigationItem>()
             .Concat(RootNavigation.Footer.OfType<NavigationItem>());
         foreach (NavigationItem item in items)
         {
@@ -1974,7 +2163,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         return pages;
     }
 
-    private readonly System.Runtime.CompilerServices.ConditionalWeakTable<Page, object> _indexedSearchPages = new System.Runtime.CompilerServices.ConditionalWeakTable<Page, object>();
+    private readonly System.Runtime.CompilerServices.ConditionalWeakTable<Page, object> _indexedSearchPages =
+        new System.Runtime.CompilerServices.ConditionalWeakTable<Page, object>();
 
     private void IndexLoadedPageSearchEntries()
     {
@@ -2041,7 +2231,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 }
                 continue;
             }
-			TopSearchEntry entry = new TopSearchEntry("Dynamic." + pageType.Name + "." + element.Name + "." + _topSearchEntriesList.Count, displayText, text + " " + element.Name, pageType, text, new[] { text, element.Name });
+            TopSearchEntry entry = new TopSearchEntry(
+                "Dynamic." + pageType.Name + "." + element.Name + "." + _topSearchEntriesList.Count,
+                displayText,
+                text + " " + element.Name,
+                pageType,
+                text,
+                new[] { text, element.Name }
+            );
             _topSearchEntriesList.Add(entry);
             _topSearchEntries.Add(displayText, entry);
             TrackSearchTarget(entry.Id, element);
@@ -2052,7 +2249,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 continue;
             }
-            FrameworkElement? target = optionHeaders.GetValueOrDefault(entry.NormalizedTargetText) ?? entry.TargetTerms.Select(term => namedElements.GetValueOrDefault(term)).FirstOrDefault(element => element != null);
+            FrameworkElement? target =
+                optionHeaders.GetValueOrDefault(entry.NormalizedTargetText)
+                ?? entry.TargetTerms.Select(term => namedElements.GetValueOrDefault(term)).FirstOrDefault(element => element != null);
             if (target != null)
             {
                 TrackSearchTarget(entry.Id, target);
@@ -2093,8 +2292,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         return true;
     }
 
-	private void QueueTopSearchNavigation(TopSearchEntry entry)
-	{
+    private void QueueTopSearchNavigation(TopSearchEntry entry)
+    {
         _pendingTopSearchEntry = entry;
         Dispatcher.BeginInvoke(new Action(CompleteTopSearchNavigation), DispatcherPriority.Input);
     }
@@ -2132,133 +2331,162 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         TopSearchEntry? entry = _pendingTopSearchEntry;
         _pendingTopSearchEntry = null;
-        if (entry == null || string.IsNullOrWhiteSpace(entry.TargetText) || RootFrame.Content?.GetType() != entry.PageType || RootFrame.Content is not Page page)
+        if (
+            entry == null
+            || string.IsNullOrWhiteSpace(entry.TargetText)
+            || RootFrame.Content?.GetType() != entry.PageType
+            || RootFrame.Content is not Page page
+        )
         {
             return;
         }
-		int generation = Interlocked.Increment(ref _topSearchNavigationGeneration);
-		_ = ApplyTopSearchEntryAsync(page, entry, generation);
+        int generation = Interlocked.Increment(ref _topSearchNavigationGeneration);
+        _ = ApplyTopSearchEntryAsync(page, entry, generation);
     }
 
-	private async Task ApplyTopSearchEntryAsync(Page page, TopSearchEntry entry, int generation)
-	{
-		try
-		{
-			FrameworkElement? target = null;
-			for (int attempt = 0; attempt < 3 && generation == Volatile.Read(ref _topSearchNavigationGeneration) && !_isClosed; attempt++)
-			{
-				page.UpdateLayout();
-				target = FindTopSearchTarget(page, entry);
-				if (target != null)
-				{
-					RevealTopSearchTarget(target, page);
-					if (!target.IsVisible)
-					{
-						RevealSearchContainers(page, entry);
-					}
-					page.UpdateLayout();
-					await Dispatcher.InvokeAsync(page.UpdateLayout, attempt == 0 ? DispatcherPriority.Loaded : DispatcherPriority.ContextIdle);
-					if (target.IsVisible || attempt == 2)
-					{
-						break;
-					}
-				}
-				else
-				{
-					RevealSearchContainers(page, entry);
-					await Dispatcher.InvokeAsync(page.UpdateLayout, DispatcherPriority.Loaded);
-				}
-			}
-			if (generation != Volatile.Read(ref _topSearchNavigationGeneration) || _isClosed || RootFrame.Content?.GetType() != entry.PageType)
-			{
-				return;
-			}
-			if (target == null)
-			{
-				PerformSearch(entry.TargetText ?? string.Empty);
-				return;
-			}
-			CachePageSearchTargets(page);
-			ScrollSearchTargetIntoView(target);
-			FocusSearchTarget(target);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("MainWindow::Search", "Could not navigate to the selected setting: " + ex.Message);
-			if (!_isClosed && RootFrame.Content is Page currentPage && RootFrame.Content?.GetType() == entry.PageType)
-			{
-				PerformSearch(entry.TargetText ?? string.Empty);
-			}
-		}
-	}
+    private async Task ApplyTopSearchEntryAsync(Page page, TopSearchEntry entry, int generation)
+    {
+        try
+        {
+            FrameworkElement? target = null;
+            for (int attempt = 0; attempt < 3 && generation == Volatile.Read(ref _topSearchNavigationGeneration) && !_isClosed; attempt++)
+            {
+                page.UpdateLayout();
+                target = FindTopSearchTarget(page, entry);
+                if (target != null)
+                {
+                    RevealTopSearchTarget(target, page);
+                    if (!target.IsVisible)
+                    {
+                        RevealSearchContainers(page, entry);
+                    }
+                    page.UpdateLayout();
+                    await Dispatcher.InvokeAsync(
+                        page.UpdateLayout,
+                        attempt == 0 ? DispatcherPriority.Loaded : DispatcherPriority.ContextIdle
+                    );
+                    if (target.IsVisible || attempt == 2)
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    RevealSearchContainers(page, entry);
+                    await Dispatcher.InvokeAsync(page.UpdateLayout, DispatcherPriority.Loaded);
+                }
+            }
+            if (
+                generation != Volatile.Read(ref _topSearchNavigationGeneration)
+                || _isClosed
+                || RootFrame.Content?.GetType() != entry.PageType
+            )
+            {
+                return;
+            }
+            if (target == null)
+            {
+                PerformSearch(entry.TargetText ?? string.Empty);
+                return;
+            }
+            CachePageSearchTargets(page);
+            ScrollSearchTargetIntoView(target);
+            FocusSearchTarget(target);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("MainWindow::Search", "Could not navigate to the selected setting: " + ex.Message);
+            if (!_isClosed && RootFrame.Content is Page currentPage && RootFrame.Content?.GetType() == entry.PageType)
+            {
+                PerformSearch(entry.TargetText ?? string.Empty);
+            }
+        }
+    }
 
     private static FrameworkElement? FindTopSearchTarget(Page page, TopSearchEntry entry)
     {
-		return EnumerateSearchElements(page)
-			.Select(element => (Element: element, Score: ScoreSearchTarget(element, entry)))
-			.Where(item => item.Score < int.MaxValue)
-			.OrderBy(item => item.Score)
-			.ThenByDescending(item => item.Element.IsVisible)
-			.Select(item => item.Element)
-			.FirstOrDefault();
+        return EnumerateSearchElements(page)
+            .Select(element => (Element: element, Score: ScoreSearchTarget(element, entry)))
+            .Where(item => item.Score < int.MaxValue)
+            .OrderBy(item => item.Score)
+            .ThenByDescending(item => item.Element.IsVisible)
+            .Select(item => item.Element)
+            .FirstOrDefault();
     }
 
-	private static int ScoreSearchTarget(FrameworkElement element, TopSearchEntry entry)
-	{
-		if (!string.IsNullOrWhiteSpace(element.Name) && entry.TargetTerms.Any(term => string.Equals(element.Name, term, StringComparison.OrdinalIgnoreCase)))
-		{
-			return 0;
-		}
-		string text = GetSearchableElementText(element);
-		if (element is OptionControl option)
-		{
-			if (entry.TargetTerms.Any(term => string.Equals(SearchCatalog.Resolve(option.Header), SearchCatalog.Resolve(term), StringComparison.OrdinalIgnoreCase)))
-			{
-				return 1;
-			}
-			if (entry.TargetTerms.Any(term => IsFuzzyMatch(option.Header + " " + option.Description, SearchCatalog.Resolve(term))))
-			{
-				return 10;
-			}
-		}
-		if (text.Length > 0 && entry.TargetTerms.Any(term => string.Equals(NormalizeSearchText(text), NormalizeSearchText(SearchCatalog.Resolve(term)), StringComparison.Ordinal)))
-		{
-			return 20;
-		}
-		if (text.Length > 0 && entry.TargetTerms.Any(term => IsFuzzyMatch(text, SearchCatalog.Resolve(term))))
-		{
-			return 50;
-		}
-		return int.MaxValue;
-	}
+    private static int ScoreSearchTarget(FrameworkElement element, TopSearchEntry entry)
+    {
+        if (
+            !string.IsNullOrWhiteSpace(element.Name)
+            && entry.TargetTerms.Any(term => string.Equals(element.Name, term, StringComparison.OrdinalIgnoreCase))
+        )
+        {
+            return 0;
+        }
+        string text = GetSearchableElementText(element);
+        if (element is OptionControl option)
+        {
+            if (
+                entry.TargetTerms.Any(term =>
+                    string.Equals(SearchCatalog.Resolve(option.Header), SearchCatalog.Resolve(term), StringComparison.OrdinalIgnoreCase)
+                )
+            )
+            {
+                return 1;
+            }
+            if (entry.TargetTerms.Any(term => IsFuzzyMatch(option.Header + " " + option.Description, SearchCatalog.Resolve(term))))
+            {
+                return 10;
+            }
+        }
+        if (
+            text.Length > 0
+            && entry.TargetTerms.Any(term =>
+                string.Equals(NormalizeSearchText(text), NormalizeSearchText(SearchCatalog.Resolve(term)), StringComparison.Ordinal)
+            )
+        )
+        {
+            return 20;
+        }
+        if (text.Length > 0 && entry.TargetTerms.Any(term => IsFuzzyMatch(text, SearchCatalog.Resolve(term))))
+        {
+            return 50;
+        }
+        return int.MaxValue;
+    }
 
-	private static void RevealSearchContainers(Page page, TopSearchEntry entry)
-	{
-		if (entry.ContainerTerms.Count == 0)
-		{
-			return;
-		}
-		foreach (FrameworkElement element in EnumerateSearchElements(page))
-		{
-			string text = GetSearchableElementText(element);
-			if (!entry.ContainerTerms.Any(term => IsFuzzyMatch(text, SearchCatalog.Resolve(term))))
-			{
-				continue;
-			}
-			if (element is TabItem tabItem && tabItem.IsEnabled && tabItem.Visibility == Visibility.Visible && ItemsControl.ItemsControlFromItemContainer(tabItem) is TabControl tabControl)
-			{
-				tabControl.SelectedItem = tabItem;
-			}
-			else if (element is System.Windows.Controls.Expander nativeExpander)
-			{
-				nativeExpander.IsExpanded = true;
-			}
-			else if (element is Voidstrap.UI.Elements.Controls.Expander expander)
-			{
-				expander.IsExpanded = true;
-			}
-		}
-	}
+    private static void RevealSearchContainers(Page page, TopSearchEntry entry)
+    {
+        if (entry.ContainerTerms.Count == 0)
+        {
+            return;
+        }
+        foreach (FrameworkElement element in EnumerateSearchElements(page))
+        {
+            string text = GetSearchableElementText(element);
+            if (!entry.ContainerTerms.Any(term => IsFuzzyMatch(text, SearchCatalog.Resolve(term))))
+            {
+                continue;
+            }
+            if (
+                element is TabItem tabItem
+                && tabItem.IsEnabled
+                && tabItem.Visibility == Visibility.Visible
+                && ItemsControl.ItemsControlFromItemContainer(tabItem) is TabControl tabControl
+            )
+            {
+                tabControl.SelectedItem = tabItem;
+            }
+            else if (element is System.Windows.Controls.Expander nativeExpander)
+            {
+                nativeExpander.IsExpanded = true;
+            }
+            else if (element is Voidstrap.UI.Elements.Controls.Expander expander)
+            {
+                expander.IsExpanded = true;
+            }
+        }
+    }
 
     internal static void RevealTopSearchTarget(FrameworkElement target, Page page)
     {
@@ -2296,79 +2524,77 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         return LogicalTreeHelper.GetParent(current);
     }
 
-	internal static IReadOnlyList<FrameworkElement> EnumerateSearchElements(DependencyObject root)
-	{
-		List<FrameworkElement> elements = new List<FrameworkElement>();
-		Queue<DependencyObject> pending = new Queue<DependencyObject>();
-		HashSet<DependencyObject> seen = new HashSet<DependencyObject>(ReferenceEqualityComparer.Instance);
-		pending.Enqueue(root);
-		while (pending.Count > 0)
-		{
-			DependencyObject current = pending.Dequeue();
-			if (!seen.Add(current))
-			{
-				continue;
-			}
-			if (current is FrameworkElement element)
-			{
-				elements.Add(element);
-			}
-			if (current is Visual or System.Windows.Media.Media3D.Visual3D)
-			{
-				try
-				{
-					int visualChildren = VisualTreeHelper.GetChildrenCount(current);
-					for (int index = 0; index < visualChildren; index++)
-					{
-						pending.Enqueue(VisualTreeHelper.GetChild(current, index));
-					}
-				}
-				catch (Exception ex) when (ex is InvalidOperationException or ArgumentException)
-				{
-				}
-			}
-			object[] logicalChildren;
-			try
-			{
-				logicalChildren = LogicalTreeHelper.GetChildren(current).Cast<object>().ToArray();
-			}
-			catch (Exception ex) when (ex is InvalidOperationException or ArgumentException)
-			{
-				logicalChildren = Array.Empty<object>();
-			}
-			foreach (object child in logicalChildren)
-			{
-				if (child is DependencyObject dependencyChild)
-				{
-					pending.Enqueue(dependencyChild);
-				}
-			}
-			if (current is ContentControl contentControl && contentControl.Content is DependencyObject content)
-			{
-				pending.Enqueue(content);
-			}
-			if (current is ItemsControl itemsControl)
-			{
-				object[] items;
-				try
-				{
-					items = itemsControl.Items.Cast<object>().ToArray();
-				}
-				catch (InvalidOperationException)
-				{
-					items = Array.Empty<object>();
-				}
-				foreach (object item in items)
-				{
-					if (item is DependencyObject dependencyItem)
-					{
-						pending.Enqueue(dependencyItem);
-					}
-				}
-			}
-		}
-		return elements;
-	}
+    internal static IReadOnlyList<FrameworkElement> EnumerateSearchElements(DependencyObject root)
+    {
+        List<FrameworkElement> elements = new List<FrameworkElement>();
+        Queue<DependencyObject> pending = new Queue<DependencyObject>();
+        HashSet<DependencyObject> seen = new HashSet<DependencyObject>(ReferenceEqualityComparer.Instance);
+        pending.Enqueue(root);
+        while (pending.Count > 0)
+        {
+            DependencyObject current = pending.Dequeue();
+            if (!seen.Add(current))
+            {
+                continue;
+            }
+            if (current is FrameworkElement element)
+            {
+                elements.Add(element);
+            }
+            if (current is Visual or System.Windows.Media.Media3D.Visual3D)
+            {
+                try
+                {
+                    int visualChildren = VisualTreeHelper.GetChildrenCount(current);
+                    for (int index = 0; index < visualChildren; index++)
+                    {
+                        pending.Enqueue(VisualTreeHelper.GetChild(current, index));
+                    }
+                }
+                catch (Exception ex) when (ex is InvalidOperationException or ArgumentException) { }
+            }
+            object[] logicalChildren;
+            try
+            {
+                logicalChildren = LogicalTreeHelper.GetChildren(current).Cast<object>().ToArray();
+            }
+            catch (Exception ex) when (ex is InvalidOperationException or ArgumentException)
+            {
+                logicalChildren = Array.Empty<object>();
+            }
+            foreach (object child in logicalChildren)
+            {
+                if (child is DependencyObject dependencyChild)
+                {
+                    pending.Enqueue(dependencyChild);
+                }
+            }
+            if (current is ContentControl contentControl && contentControl.Content is DependencyObject content)
+            {
+                pending.Enqueue(content);
+            }
+            if (current is ItemsControl itemsControl)
+            {
+                object[] items;
+                try
+                {
+                    items = itemsControl.Items.Cast<object>().ToArray();
+                }
+                catch (InvalidOperationException)
+                {
+                    items = Array.Empty<object>();
+                }
+                foreach (object item in items)
+                {
+                    if (item is DependencyObject dependencyItem)
+                    {
+                        pending.Enqueue(dependencyItem);
+                    }
+                }
+            }
+        }
+        return elements;
+    }
 
     private static string FormatSearchName(string name)
     {
@@ -2402,7 +2628,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (ModPagesMenuButton == null || ModPagesMenuPanel == null)
             return;
-        IReadOnlyList<Voidstrap.Integrations.Plugins.PluginModPages.ModPageEntry> entries = Voidstrap.Integrations.Plugins.PluginModPages.GetEntries();
+        IReadOnlyList<Voidstrap.Integrations.Plugins.PluginModPages.ModPageEntry> entries =
+            Voidstrap.Integrations.Plugins.PluginModPages.GetEntries();
         ModPagesMenuButton.Visibility = entries.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
         if (ModPagesMenuButton.Visibility == Visibility.Collapsed)
         {
@@ -2416,12 +2643,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 Header = entry.Title,
                 Style = (Style)FindResource("TopBarMenuItemStyle"),
-                Tag = entry
+                Tag = entry,
             };
             item.Icon = new Wpf.Ui.Controls.SymbolIcon
             {
-                Symbol = Enum.TryParse(entry.Icon, ignoreCase: true, out Wpf.Ui.Common.SymbolRegular symbol) ? symbol : Wpf.Ui.Common.SymbolRegular.PuzzlePiece24,
-                FontSize = 16
+                Symbol = Enum.TryParse(entry.Icon, ignoreCase: true, out Wpf.Ui.Common.SymbolRegular symbol)
+                    ? symbol
+                    : Wpf.Ui.Common.SymbolRegular.PuzzlePiece24,
+                FontSize = 16,
             };
             item.Click += ModPageMenuItem_Click;
             ModPagesMenuPanel.Children.Add(item);
@@ -2432,7 +2661,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         ModPagesMenuPopup.IsOpen = false;
         if (sender is FrameworkElement { Tag: Voidstrap.Integrations.Plugins.PluginModPages.ModPageEntry entry })
-            OpenModCustomPage(new Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo(entry.Plugin, entry.Id, entry.Key, entry.Title, "Core", entry.Icon));
+            OpenModCustomPage(
+                new Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo(
+                    entry.Plugin,
+                    entry.Id,
+                    entry.Key,
+                    entry.Title,
+                    "Core",
+                    entry.Icon
+                )
+            );
     }
 
     private void OnModPagesChanged()
@@ -2596,7 +2834,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         List<CommandPalettePage> pages = new List<CommandPalettePage>();
         foreach (NavigationItem item in GetNavigationItemsInServiceOrder())
         {
-            if (item.PageType == null || !pageNames.TryGetValue(item.PageType, out string? pageName) || pageIcons.ContainsKey(item.PageType))
+            if (
+                item.PageType == null
+                || !pageNames.TryGetValue(item.PageType, out string? pageName)
+                || pageIcons.ContainsKey(item.PageType)
+            )
             {
                 continue;
             }
@@ -2604,9 +2846,19 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             pageIcons.Add(item.PageType, icon);
             Type pageType = item.PageType;
             string section = SidebarCustomizationItems.FirstOrDefault(definition => definition.Key == item.Name)?.Section ?? "Footer";
-            pages.Add(new CommandPalettePage(pageType, pageName, icon, GetNavShortcutLabel(pageType), () => NavigateTopNav(pageType), section));
+            pages.Add(
+                new CommandPalettePage(pageType, pageName, icon, GetNavShortcutLabel(pageType), () => NavigateTopNav(pageType), section)
+            );
         }
-        pages.Add(new CommandPalettePage(typeof(Page), Strings.Ui_Pages_Library, SymbolRegular.Apps24, "", () => TopNavLibrary_Click(this, new RoutedEventArgs())));
+        pages.Add(
+            new CommandPalettePage(
+                typeof(Page),
+                Strings.Ui_Pages_Library,
+                SymbolRegular.Apps24,
+                "",
+                () => TopNavLibrary_Click(this, new RoutedEventArgs())
+            )
+        );
         return new CommandPaletteSnapshot(query, pages, pageNames, pageIcons, _topSearchEntriesList.ToArray());
     }
 
@@ -2616,7 +2868,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             if (shortcut.Page == pageType)
             {
-                return Voidstrap.Utility.Platform.IsMacOS ? Wpf.Ui.Converters.ShortcutTextConverter.Format(shortcut.Label) : shortcut.Label.Replace("+", " ", StringComparison.Ordinal);
+                return Voidstrap.Utility.Platform.IsMacOS
+                    ? Wpf.Ui.Converters.ShortcutTextConverter.Format(shortcut.Label)
+                    : shortcut.Label.Replace("+", " ", StringComparison.Ordinal);
             }
         }
         return "";
@@ -2629,8 +2883,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return snapshot.Pages.ToList();
         }
         string normalizedQuery = NormalizeSearchText(snapshot.Query);
-        return snapshot.Pages
-            .Where(page => IsFuzzyMatch(page.Name, snapshot.Query))
+        return snapshot
+            .Pages.Where(page => IsFuzzyMatch(page.Name, snapshot.Query))
             .OrderBy(page => NormalizeSearchText(page.Name).StartsWith(normalizedQuery, StringComparison.Ordinal) ? 0 : 1)
             .ToList();
     }
@@ -2646,8 +2900,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 token.ThrowIfCancellationRequested();
             }
             TopSearchEntry entry = snapshot.Entries[index];
-            if (!snapshot.PageNames.TryGetValue(entry.PageType, out string? pageName)
-                || string.Equals(entry.NormalizedTargetText, NormalizeSearchText(pageName), StringComparison.Ordinal))
+            if (
+                !snapshot.PageNames.TryGetValue(entry.PageType, out string? pageName)
+                || string.Equals(entry.NormalizedTargetText, NormalizeSearchText(pageName), StringComparison.Ordinal)
+            )
             {
                 continue;
             }
@@ -2666,7 +2922,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             .ToList();
     }
 
-    private async Task RankCommandPaletteSettingsAsync(int generation, CommandPaletteSnapshot snapshot, List<CommandPalettePage> pages, CancellationToken token)
+    private async Task RankCommandPaletteSettingsAsync(
+        int generation,
+        CommandPaletteSnapshot snapshot,
+        List<CommandPalettePage> pages,
+        CancellationToken token
+    )
     {
         List<TopSearchEntry> ranked;
         try
@@ -2682,29 +2943,45 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             App.Logger.WriteLine("MainWindow::Search", "Could not rank search results: " + ex.Message);
             return;
         }
-        if (_isClosed || token.IsCancellationRequested || generation != Volatile.Read(ref _commandPaletteSearchGeneration) || !_commandPaletteOpen)
+        if (
+            _isClosed
+            || token.IsCancellationRequested
+            || generation != Volatile.Read(ref _commandPaletteSearchGeneration)
+            || !_commandPaletteOpen
+        )
         {
             return;
         }
         ApplyCommandPaletteResults(generation, snapshot, pages, ranked);
     }
 
-    private void ApplyCommandPaletteResults(int generation, CommandPaletteSnapshot snapshot, List<CommandPalettePage> pages, List<TopSearchEntry>? rankedSettings)
+    private void ApplyCommandPaletteResults(
+        int generation,
+        CommandPaletteSnapshot snapshot,
+        List<CommandPalettePage> pages,
+        List<TopSearchEntry>? rankedSettings
+    )
     {
-        CommandPaletteRow? previous = _commandPaletteSelected >= 0 && _commandPaletteSelected < _commandPaletteRows.Count ? _commandPaletteRows[_commandPaletteSelected] : null;
-        string? keepTitle = rankedSettings != null && previous != null && !previous.IsHeader ? previous.Title + "\n" + previous.Detail : null;
+        CommandPaletteRow? previous =
+            _commandPaletteSelected >= 0 && _commandPaletteSelected < _commandPaletteRows.Count
+                ? _commandPaletteRows[_commandPaletteSelected]
+                : null;
+        string? keepTitle =
+            rankedSettings != null && previous != null && !previous.IsHeader ? previous.Title + "\n" + previous.Detail : null;
         _commandPaletteRows.Clear();
         _commandPaletteSelected = -1;
         int results = 0;
         if (pages.Count > 0 && snapshot.Query.Length == 0)
         {
-            foreach ((string section, string title) in new[]
-            {
-                ("Core", Strings.Ui_Nav_Core),
-                ("Configuration", Strings.Ui_Nav_Configuration),
-                ("More", Strings.Ui_Nav_More),
-                ("Footer", Strings.Ui_Appearance_TabApplication)
-            })
+            foreach (
+                (string section, string title) in new[]
+                {
+                    ("Core", Strings.Ui_Nav_Core),
+                    ("Configuration", Strings.Ui_Nav_Configuration),
+                    ("More", Strings.Ui_Nav_More),
+                    ("Footer", Strings.Ui_Appearance_TabApplication),
+                }
+            )
             {
                 List<CommandPalettePage> sectionPages = pages.Where(page => page.Section == section).ToList();
                 if (sectionPages.Count == 0)
@@ -2740,7 +3017,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 {
                     TopSearchEntry captured = entry;
                     string pageName = snapshot.PageNames.GetValueOrDefault(entry.PageType, "");
-                    _commandPaletteRows.Add(CreateCommandPaletteRow(entry.TargetText ?? pageName, pageName, snapshot.PageIcons.GetValueOrDefault(entry.PageType, SymbolRegular.Document24), snapshot.Query, () => QueueTopSearchNavigation(captured), true));
+                    _commandPaletteRows.Add(
+                        CreateCommandPaletteRow(
+                            entry.TargetText ?? pageName,
+                            pageName,
+                            snapshot.PageIcons.GetValueOrDefault(entry.PageType, SymbolRegular.Document24),
+                            snapshot.Query,
+                            () => QueueTopSearchNavigation(captured),
+                            true
+                        )
+                    );
                     results++;
                 }
             }
@@ -2751,10 +3037,21 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         bool searching = rankedSettings == null && snapshot.Query.Length > 0;
         CommandPaletteEmpty.Visibility = !searching && results == 0 ? Visibility.Visible : Visibility.Collapsed;
-        CommandPaletteEmptyText.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, Strings.Ui_Main_PaletteNoResults, snapshot.Query);
+        CommandPaletteEmptyText.Text = string.Format(
+            System.Globalization.CultureInfo.CurrentCulture,
+            Strings.Ui_Main_PaletteNoResults,
+            snapshot.Query
+        );
         CommandPaletteResultsScroll.Visibility = results == 0 ? Visibility.Collapsed : Visibility.Visible;
-        CommandPaletteCount.Text = snapshot.Query.Length == 0 ? "" : searching ? Strings.Ui_Main_PaletteSearching : results == 1 ? Strings.Ui_Main_PaletteOneResult : string.Format(System.Globalization.CultureInfo.CurrentCulture, Strings.Ui_Main_PaletteResults, results);
-        int keep = keepTitle == null ? -1 : _commandPaletteRows.ToList().FindIndex(row => !row.IsHeader && row.Title + "\n" + row.Detail == keepTitle);
+        CommandPaletteCount.Text =
+            snapshot.Query.Length == 0 ? ""
+            : searching ? Strings.Ui_Main_PaletteSearching
+            : results == 1 ? Strings.Ui_Main_PaletteOneResult
+            : string.Format(System.Globalization.CultureInfo.CurrentCulture, Strings.Ui_Main_PaletteResults, results);
+        int keep =
+            keepTitle == null
+                ? -1
+                : _commandPaletteRows.ToList().FindIndex(row => !row.IsHeader && row.Title + "\n" + row.Detail == keepTitle);
         if (keep >= 0)
         {
             SelectCommandPaletteRow(keep);
@@ -2764,10 +3061,27 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         MoveCommandPaletteSelection(1);
     }
 
-    private static CommandPaletteRow CreateCommandPaletteRow(string title, string detail, SymbolRegular icon, string query, Action open, bool isSetting = false)
+    private static CommandPaletteRow CreateCommandPaletteRow(
+        string title,
+        string detail,
+        SymbolRegular icon,
+        string query,
+        Action open,
+        bool isSetting = false
+    )
     {
         (string before, string match, string after) = SplitCommandPaletteMatch(title, query);
-        return new CommandPaletteRow { Title = title, TitleBefore = before, TitleMatch = match, TitleAfter = after, Detail = detail, Icon = icon, Open = open, IsSetting = isSetting };
+        return new CommandPaletteRow
+        {
+            Title = title,
+            TitleBefore = before,
+            TitleMatch = match,
+            TitleAfter = after,
+            Detail = detail,
+            Icon = icon,
+            Open = open,
+            IsSetting = isSetting,
+        };
     }
 
     internal static (string Before, string Match, string After) SplitCommandPaletteMatch(string title, string query)
@@ -2803,7 +3117,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         int first = title.IndexOf(term, StringComparison.OrdinalIgnoreCase);
         for (int position = first; position >= 0; position = title.IndexOf(term, position + 1, StringComparison.OrdinalIgnoreCase))
         {
-            if (position == 0 || !char.IsLetterOrDigit(title[position - 1]) || (char.IsUpper(title[position]) && char.IsLower(title[position - 1])))
+            if (
+                position == 0
+                || !char.IsLetterOrDigit(title[position - 1])
+                || (char.IsUpper(title[position]) && char.IsLower(title[position - 1]))
+            )
             {
                 return position;
             }
@@ -2813,7 +3131,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void CommandPaletteSearchBox_TextChanged(object sender, TextChangedEventArgs e)
     {
-        CommandPalettePlaceholder.Visibility = string.IsNullOrEmpty(CommandPaletteSearchBox.Text) ? Visibility.Visible : Visibility.Collapsed;
+        CommandPalettePlaceholder.Visibility = string.IsNullOrEmpty(CommandPaletteSearchBox.Text)
+            ? Visibility.Visible
+            : Visibility.Collapsed;
         if (_commandPaletteOpen)
         {
             RefreshCommandPaletteResults();
@@ -2824,30 +3144,30 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         switch (e.Key)
         {
-        case Key.Down:
-            MoveCommandPaletteSelection(1);
-            e.Handled = true;
-            break;
-        case Key.Up:
-            MoveCommandPaletteSelection(-1);
-            e.Handled = true;
-            break;
-        case Key.Tab:
-            MoveCommandPaletteSelection(Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) ? -1 : 1);
-            e.Handled = true;
-            break;
-        case Key.PageDown:
-            MoveCommandPaletteSelection(8);
-            e.Handled = true;
-            break;
-        case Key.PageUp:
-            MoveCommandPaletteSelection(-8);
-            e.Handled = true;
-            break;
-        case Key.Enter:
-            OpenSelectedCommandPaletteRow();
-            e.Handled = true;
-            break;
+            case Key.Down:
+                MoveCommandPaletteSelection(1);
+                e.Handled = true;
+                break;
+            case Key.Up:
+                MoveCommandPaletteSelection(-1);
+                e.Handled = true;
+                break;
+            case Key.Tab:
+                MoveCommandPaletteSelection(Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) ? -1 : 1);
+                e.Handled = true;
+                break;
+            case Key.PageDown:
+                MoveCommandPaletteSelection(8);
+                e.Handled = true;
+                break;
+            case Key.PageUp:
+                MoveCommandPaletteSelection(-8);
+                e.Handled = true;
+                break;
+            case Key.Enter:
+                OpenSelectedCommandPaletteRow();
+                e.Handled = true;
+                break;
         }
     }
 
@@ -2938,12 +3258,20 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void OpenSelectedCommandPaletteRow()
     {
-        if (_commandPaletteAppliedGeneration != Volatile.Read(ref _commandPaletteSearchGeneration) && CommandPaletteSearchBox.Text.Trim().Length > 0)
+        if (
+            _commandPaletteAppliedGeneration != Volatile.Read(ref _commandPaletteSearchGeneration)
+            && CommandPaletteSearchBox.Text.Trim().Length > 0
+        )
         {
             CancelCommandPaletteSearch();
             int generation = Volatile.Read(ref _commandPaletteSearchGeneration);
             CommandPaletteSnapshot snapshot = CaptureCommandPaletteSnapshot();
-            ApplyCommandPaletteResults(generation, snapshot, MatchCommandPalettePages(snapshot), RankCommandPaletteSettings(snapshot, CancellationToken.None));
+            ApplyCommandPaletteResults(
+                generation,
+                snapshot,
+                MatchCommandPalettePages(snapshot),
+                RankCommandPaletteSettings(snapshot, CancellationToken.None)
+            );
         }
         if (_commandPaletteSelected < 0 || _commandPaletteSelected >= _commandPaletteRows.Count)
         {
@@ -3007,15 +3335,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             if (!await CloseAppMenuBeforeDialogAsync())
                 return;
-            Voidstrap.UI.Elements.About.MainWindow window = new Voidstrap.UI.Elements.About.MainWindow
-            {
-                Owner = this
-            };
+            Voidstrap.UI.Elements.About.MainWindow window = new Voidstrap.UI.Elements.About.MainWindow { Owner = this };
             window.ShowOwnedDialog();
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteException("MainWindow::AppMenuAbout_Click", ex);
@@ -3036,9 +3359,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             AppMenuPopup.IsOpen = false;
             await CheckForUpdatesAsync();
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteException("MainWindow::AppMenuUpdates_Click", ex);
@@ -3057,10 +3378,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         try
         {
             string currentText = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0.0";
-            string latestTag = (!Voidstrap.Utility.Platform.IsWindows
-                ? await GithubUpdater.GetLatestVersionTagAsync(_lifetimeCts.SafeToken())
-                : (await App.GetLatestRelease(true))?.TagName) ?? throw new InvalidDataException("Release information is unavailable");
-            if (!Version.TryParse(currentText, out Version? current) || !Version.TryParse(latestTag.TrimStart('v', 'V'), out Version? latest))
+            string latestTag =
+                (
+                    !Voidstrap.Utility.Platform.IsWindows
+                        ? await GithubUpdater.GetLatestVersionTagAsync(_lifetimeCts.SafeToken())
+                        : (await App.GetLatestRelease(true))?.TagName
+                ) ?? throw new InvalidDataException("Release information is unavailable");
+            if (
+                !Version.TryParse(currentText, out Version? current)
+                || !Version.TryParse(latestTag.TrimStart('v', 'V'), out Version? latest)
+            )
             {
                 Frontend.ShowMessageBox("Could not compare this build with the latest release.");
                 return;
@@ -3081,9 +3408,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 throw new InvalidOperationException("The updated application could not be restarted");
             }
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteException("MainWindow::CheckForUpdates", ex);
@@ -3103,9 +3428,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 return;
             ShowReleaseNotes();
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteException("MainWindow::AppMenuReleases_Click", ex);
@@ -3187,11 +3510,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             string file = await Voidstrap.Utility.SupportBundle.CreateAsync(_lifetimeCts.SafeToken());
             Voidstrap.Utility.PlatformShell.TryOpenFolder(System.IO.Path.GetDirectoryName(file) ?? Paths.Desktop);
-            Frontend.ShowMessageBox(string.Format(Strings.Ui_Main_SupportFileCreated, System.IO.Path.GetFileName(file)), MessageBoxImage.Information);
+            Frontend.ShowMessageBox(
+                string.Format(Strings.Ui_Main_SupportFileCreated, System.IO.Path.GetFileName(file)),
+                MessageBoxImage.Information
+            );
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteException("MainWindow::CreateSupportFile", ex);
@@ -3252,7 +3576,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             Activate();
         }
 
-        string key = pageName.Trim().Replace(" ", "", StringComparison.Ordinal).Replace("Page", "", StringComparison.OrdinalIgnoreCase).ToLowerInvariant();
+        string key = pageName
+            .Trim()
+            .Replace(" ", "", StringComparison.Ordinal)
+            .Replace("Page", "", StringComparison.OrdinalIgnoreCase)
+            .ToLowerInvariant();
         bool navigated;
 
         switch (key)
@@ -3294,7 +3622,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                     "extensions" or "extension" => typeof(ExtensionPage),
                     "downloads" or "manager" => typeof(DownloadsPage),
                     "settings" or "channel" => typeof(ChannelPage),
-                    _ => null
+                    _ => null,
                 };
                 if (targetType == null)
                     return false;
@@ -3349,10 +3677,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (_searchDebounceTimer == null)
         {
-            _searchDebounceTimer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(150L)
-            };
+            _searchDebounceTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(150L) };
             _searchDebounceTimer.Tick += SearchDebounceTimer_Tick;
         }
         _searchDebounceTimer.Stop();
@@ -3383,10 +3708,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             if (IsFuzzyMatch(target.Text, query2))
             {
-				if (target.Element.IsVisible)
-				{
-					matches.Add(target);
-				}
+                if (target.Element.IsVisible)
+                {
+                    matches.Add(target);
+                }
             }
         }
         if (matches.Count > 0)
@@ -3405,22 +3730,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 continue;
             }
-            _pageSearchTargets.Add(new PageSearchTarget
-            {
-                Element = element,
-				Text = text
-            });
+            _pageSearchTargets.Add(new PageSearchTarget { Element = element, Text = text });
         }
     }
 
     private static string GetSearchableElementText(FrameworkElement element)
     {
         List<string> parts = new List<string>();
-		if (element is OptionControl optionControl)
-		{
-			parts.Add(SearchCatalog.Resolve(optionControl.Header));
-			parts.Add(SearchCatalog.Resolve(optionControl.Description));
-		}
+        if (element is OptionControl optionControl)
+        {
+            parts.Add(SearchCatalog.Resolve(optionControl.Header));
+            parts.Add(SearchCatalog.Resolve(optionControl.Description));
+        }
         if (element is TextBlock textBlock && !string.IsNullOrWhiteSpace(textBlock.Text))
         {
             parts.Add(textBlock.Text);
@@ -3433,17 +3754,23 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             parts.Add(uiTextBox.PlaceholderText);
         }
-        if (element is HeaderedContentControl headeredContentControl && headeredContentControl.Header is string header && !string.IsNullOrWhiteSpace(header))
+        if (
+            element is HeaderedContentControl headeredContentControl
+            && headeredContentControl.Header is string header
+            && !string.IsNullOrWhiteSpace(header)
+        )
         {
             parts.Add(header);
         }
-		else if (element is HeaderedContentControl complexHeaderControl && complexHeaderControl.Header is DependencyObject complexHeader)
-		{
-			parts.AddRange(EnumerateSearchElements(complexHeader)
-				.OfType<TextBlock>()
-				.Select(text => text.Text)
-				.Where(text => !string.IsNullOrWhiteSpace(text)));
-		}
+        else if (element is HeaderedContentControl complexHeaderControl && complexHeaderControl.Header is DependencyObject complexHeader)
+        {
+            parts.AddRange(
+                EnumerateSearchElements(complexHeader)
+                    .OfType<TextBlock>()
+                    .Select(text => text.Text)
+                    .Where(text => !string.IsNullOrWhiteSpace(text))
+            );
+        }
         if (element is ContentControl contentControl && contentControl.Content is string content && !string.IsNullOrWhiteSpace(content))
         {
             parts.Add(content);
@@ -3459,45 +3786,46 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         return string.Join(" ", parts.Distinct(StringComparer.OrdinalIgnoreCase));
     }
 
-	internal static void ScrollSearchTargetIntoView(FrameworkElement target)
-	{
-		try
-		{
-			target.BringIntoView();
-			target.UpdateLayout();
-			ScrollViewer? scrollViewer = null;
-			for (DependencyObject? current = target; current != null; current = GetParent(current))
-			{
-				if (current is ScrollViewer found)
-				{
-					scrollViewer = found;
-					break;
-				}
-			}
-			if (scrollViewer == null || !target.IsVisible)
-			{
-				return;
-			}
-			Point point = target.TransformToAncestor(scrollViewer).Transform(new Point(0.0, 0.0));
-			double targetOffset = scrollViewer.VerticalOffset + point.Y - Math.Max(0.0, (scrollViewer.ViewportHeight - target.ActualHeight) / 2.0);
-			scrollViewer.ScrollToVerticalOffset(Math.Clamp(targetOffset, 0.0, scrollViewer.ScrollableHeight));
-		}
-		catch (InvalidOperationException)
-		{
-			target.BringIntoView();
-		}
-	}
+    internal static void ScrollSearchTargetIntoView(FrameworkElement target)
+    {
+        try
+        {
+            target.BringIntoView();
+            target.UpdateLayout();
+            ScrollViewer? scrollViewer = null;
+            for (DependencyObject? current = target; current != null; current = GetParent(current))
+            {
+                if (current is ScrollViewer found)
+                {
+                    scrollViewer = found;
+                    break;
+                }
+            }
+            if (scrollViewer == null || !target.IsVisible)
+            {
+                return;
+            }
+            Point point = target.TransformToAncestor(scrollViewer).Transform(new Point(0.0, 0.0));
+            double targetOffset =
+                scrollViewer.VerticalOffset + point.Y - Math.Max(0.0, (scrollViewer.ViewportHeight - target.ActualHeight) / 2.0);
+            scrollViewer.ScrollToVerticalOffset(Math.Clamp(targetOffset, 0.0, scrollViewer.ScrollableHeight));
+        }
+        catch (InvalidOperationException)
+        {
+            target.BringIntoView();
+        }
+    }
 
-	private static void FocusSearchTarget(FrameworkElement target)
-	{
-		Control? control = EnumerateSearchElements(target)
-			.OfType<Control>()
-			.FirstOrDefault(item => item is not OptionControl && item.Focusable && item.IsEnabled && item.IsVisible);
-		if (control != null)
-		{
-			Keyboard.Focus(control);
-		}
-	}
+    private static void FocusSearchTarget(FrameworkElement target)
+    {
+        Control? control = EnumerateSearchElements(target)
+            .OfType<Control>()
+            .FirstOrDefault(item => item is not OptionControl && item.Focusable && item.IsEnabled && item.IsVisible);
+        if (control != null)
+        {
+            Keyboard.Focus(control);
+        }
+    }
 
     private static void ScrollToClosestMatch(IReadOnlyList<PageSearchTarget> matches)
     {
@@ -3535,7 +3863,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (fallbackScrollViewer != null)
         {
             Point point = fallback.Element.TransformToAncestor(fallbackScrollViewer).Transform(new Point(0.0, 0.0));
-            double desiredOffset = fallbackScrollViewer.VerticalOffset + point.Y - Math.Max(0.0, (fallbackScrollViewer.ViewportHeight - fallback.Element.ActualHeight) / 2.0);
+            double desiredOffset =
+                fallbackScrollViewer.VerticalOffset
+                + point.Y
+                - Math.Max(0.0, (fallbackScrollViewer.ViewportHeight - fallback.Element.ActualHeight) / 2.0);
             desiredOffset = Math.Max(0.0, Math.Min(fallbackScrollViewer.ScrollableHeight, desiredOffset));
             SmoothScrollTo(fallbackScrollViewer, desiredOffset);
         }
@@ -3550,10 +3881,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         double distance = targetOffset - startOffset;
         int steps = 15;
         int currentStep = 0;
-        DispatcherTimer timer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromMilliseconds(15L)
-        };
+        DispatcherTimer timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(15L) };
         EventHandler? onTick = null;
         onTick = delegate
         {
@@ -3571,45 +3899,47 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         timer.Start();
     }
 
-	private static int ScoreTopSearchEntry(TopSearchEntry entry, string normalizedQuery)
-	{
-		if (normalizedQuery.Length == 0)
-		{
-			return 0;
-		}
-		if (string.Equals(entry.NormalizedTargetText, normalizedQuery, StringComparison.Ordinal))
-		{
-			return 0;
-		}
-		if (entry.NormalizedTargetText.StartsWith(normalizedQuery, StringComparison.Ordinal))
-		{
-			return 5;
-		}
-		if (entry.NormalizedSearchText.StartsWith(normalizedQuery, StringComparison.Ordinal))
-		{
-			return 10;
-		}
-		int position = entry.NormalizedSearchText.IndexOf(normalizedQuery, StringComparison.Ordinal);
-		if (position >= 0)
-		{
-			return 20 + Math.Min(position, 20);
-		}
-		return IsFuzzyMatch(entry.SearchText, normalizedQuery) ? 100 + Math.Abs(entry.NormalizedTargetText.Length - normalizedQuery.Length) : int.MaxValue;
-	}
+    private static int ScoreTopSearchEntry(TopSearchEntry entry, string normalizedQuery)
+    {
+        if (normalizedQuery.Length == 0)
+        {
+            return 0;
+        }
+        if (string.Equals(entry.NormalizedTargetText, normalizedQuery, StringComparison.Ordinal))
+        {
+            return 0;
+        }
+        if (entry.NormalizedTargetText.StartsWith(normalizedQuery, StringComparison.Ordinal))
+        {
+            return 5;
+        }
+        if (entry.NormalizedSearchText.StartsWith(normalizedQuery, StringComparison.Ordinal))
+        {
+            return 10;
+        }
+        int position = entry.NormalizedSearchText.IndexOf(normalizedQuery, StringComparison.Ordinal);
+        if (position >= 0)
+        {
+            return 20 + Math.Min(position, 20);
+        }
+        return IsFuzzyMatch(entry.SearchText, normalizedQuery)
+            ? 100 + Math.Abs(entry.NormalizedTargetText.Length - normalizedQuery.Length)
+            : int.MaxValue;
+    }
 
-	private static string NormalizeSearchText(string value)
-	{
-		if (string.IsNullOrWhiteSpace(value))
-		{
-			return string.Empty;
-		}
-		return WhitespacePattern.Replace(value.Trim().ToLowerInvariant().Replace('_', ' ').Replace('-', ' '), " ");
-	}
+    private static string NormalizeSearchText(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return string.Empty;
+        }
+        return WhitespacePattern.Replace(value.Trim().ToLowerInvariant().Replace('_', ' ').Replace('-', ' '), " ");
+    }
 
     private static bool IsFuzzyMatch(string text, string query)
     {
-		string normalizedText = NormalizeSearchText(text);
-		string[] terms = NormalizeSearchText(query).Split(separator, StringSplitOptions.RemoveEmptyEntries);
+        string normalizedText = NormalizeSearchText(text);
+        string[] terms = NormalizeSearchText(query).Split(separator, StringSplitOptions.RemoveEmptyEntries);
         if (terms.Length == 0)
         {
             return true;
@@ -3622,7 +3952,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 continue;
             }
             int threshold = term.Length < 4 ? 0 : Math.Max(1, term.Length / 4);
-            if (!words.Any(word => word.Contains(term, StringComparison.Ordinal) || (Math.Abs(word.Length - term.Length) <= threshold && LevenshteinDistance(word, term) <= threshold)))
+            if (
+                !words.Any(word =>
+                    word.Contains(term, StringComparison.Ordinal)
+                    || (Math.Abs(word.Length - term.Length) <= threshold && LevenshteinDistance(word, term) <= threshold)
+                )
+            )
             {
                 return false;
             }
@@ -3632,27 +3967,27 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private static int LevenshteinDistance(string s, string t)
     {
-		if (s.Length > t.Length)
-		{
-			(s, t) = (t, s);
-		}
-		int[] previous = new int[s.Length + 1];
-		int[] current = new int[s.Length + 1];
-		for (int index = 0; index <= s.Length; index++)
-		{
-			previous[index] = index;
-		}
-		for (int row = 1; row <= t.Length; row++)
-		{
-			current[0] = row;
-			for (int column = 1; column <= s.Length; column++)
-			{
-				int substitution = previous[column - 1] + (s[column - 1] == t[row - 1] ? 0 : 1);
-				current[column] = Math.Min(Math.Min(current[column - 1] + 1, previous[column] + 1), substitution);
-			}
-			(previous, current) = (current, previous);
-		}
-		return previous[s.Length];
+        if (s.Length > t.Length)
+        {
+            (s, t) = (t, s);
+        }
+        int[] previous = new int[s.Length + 1];
+        int[] current = new int[s.Length + 1];
+        for (int index = 0; index <= s.Length; index++)
+        {
+            previous[index] = index;
+        }
+        for (int row = 1; row <= t.Length; row++)
+        {
+            current[0] = row;
+            for (int column = 1; column <= s.Length; column++)
+            {
+                int substitution = previous[column - 1] + (s[column - 1] == t[row - 1] ? 0 : 1);
+                current[column] = Math.Min(Math.Min(current[column - 1] + 1, previous[column] + 1), substitution);
+            }
+            (previous, current) = (current, previous);
+        }
+        return previous[s.Length];
     }
 
     private void OnGlobalBackgroundChanged(GlobalBackground.State state)
@@ -3677,10 +4012,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             BackgroundBlackOverlay.BeginAnimation(UIElement.OpacityProperty, null);
             BackgroundBlackOverlay.Opacity = state.BlackOverlayOpacity;
         }
-        DateTime writeTimeUtc = !string.IsNullOrWhiteSpace(state.FilePath) && File.Exists(state.FilePath)
-            ? File.GetLastWriteTimeUtc(state.FilePath)
-            : default;
-        if (!string.Equals(_currentBackgroundPath, state.FilePath, StringComparison.OrdinalIgnoreCase) || _currentBackgroundWriteTimeUtc != writeTimeUtc)
+        DateTime writeTimeUtc =
+            !string.IsNullOrWhiteSpace(state.FilePath) && File.Exists(state.FilePath) ? File.GetLastWriteTimeUtc(state.FilePath) : default;
+        if (
+            !string.Equals(_currentBackgroundPath, state.FilePath, StringComparison.OrdinalIgnoreCase)
+            || _currentBackgroundWriteTimeUtc != writeTimeUtc
+        )
         {
             _ = SetBackgroundImage(state.FilePath);
         }
@@ -3716,11 +4053,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void ApplyBackgroundSettings()
     {
         _backgroundSettings = AppearanceViewModel.LoadSettings();
-        ApplyBackgroundState(new GlobalBackground.State(
-            _backgroundSettings.BackgroundFilePath,
-            _backgroundSettings.GradientOpacity,
-            _backgroundSettings.BlackOverlayOpacity,
-            _backgroundSettings.DisplayEverywhere));
+        ApplyBackgroundState(
+            new GlobalBackground.State(
+                _backgroundSettings.BackgroundFilePath,
+                _backgroundSettings.GradientOpacity,
+                _backgroundSettings.BlackOverlayOpacity,
+                _backgroundSettings.DisplayEverywhere
+            )
+        );
     }
 
     public async Task SetBackgroundImage(string? path, bool loop = true)
@@ -3769,9 +4109,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 BackgroundMedia.Stop();
                 BackgroundMedia.Close();
             }
-            catch
-            {
-            }
+            catch { }
             BackgroundMedia.Source = null;
             BackgroundMedia.Visibility = Visibility.Collapsed;
         }
@@ -3783,7 +4121,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             _currentBackgroundPath = null;
             _currentBackgroundWriteTimeUtc = default;
             BackgroundImage.Visibility = Visibility.Collapsed;
-            if (BackgroundMedia != null) { BackgroundMedia.Visibility = Visibility.Collapsed; }
+            if (BackgroundMedia != null)
+            {
+                BackgroundMedia.Visibility = Visibility.Collapsed;
+            }
             return;
         }
         _currentBackgroundPath = path;
@@ -3836,34 +4177,34 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         switch (text)
         {
             case ".gif":
+            {
+                if (Voidstrap.Utility.Platform.IsWindows)
                 {
-                    if (Voidstrap.Utility.Platform.IsWindows)
-                    {
-                        if (new FileInfo(path).Length > 32L * 1024 * 1024)
-                            return;
-                        BitmapImage value = new BitmapImage();
-                        value.BeginInit();
-                        value.CacheOption = BitmapCacheOption.OnLoad;
-                        value.DecodePixelWidth = GetBackgroundDecodeWidth(1280);
-                        value.UriSource = new Uri(path, UriKind.Absolute);
-                        value.EndInit();
-                        if (value.CanFreeze)
-                            value.Freeze();
-                        ImageBehavior.SetAnimatedSource(BackgroundImage, value);
-                        ImageBehavior.SetRepeatBehavior(BackgroundImage, loop ? RepeatBehavior.Forever : new RepeatBehavior(1.0));
-                    }
-                    else
-                    {
-                        BackgroundImage.Source = Voidstrap.Utility.SafeImaging.FromFile(path);
-                    }
-                    BackgroundImage.Visibility = Visibility.Visible;
-                    if (BackgroundMedia != null)
-                    {
-                        BackgroundMedia.Visibility = Visibility.Collapsed;
-                    }
-                    await FadeInElementAsync(BackgroundImage, 0.2);
-                    return;
+                    if (new FileInfo(path).Length > 32L * 1024 * 1024)
+                        return;
+                    BitmapImage value = new BitmapImage();
+                    value.BeginInit();
+                    value.CacheOption = BitmapCacheOption.OnLoad;
+                    value.DecodePixelWidth = GetBackgroundDecodeWidth(1280);
+                    value.UriSource = new Uri(path, UriKind.Absolute);
+                    value.EndInit();
+                    if (value.CanFreeze)
+                        value.Freeze();
+                    ImageBehavior.SetAnimatedSource(BackgroundImage, value);
+                    ImageBehavior.SetRepeatBehavior(BackgroundImage, loop ? RepeatBehavior.Forever : new RepeatBehavior(1.0));
                 }
+                else
+                {
+                    BackgroundImage.Source = Voidstrap.Utility.SafeImaging.FromFile(path);
+                }
+                BackgroundImage.Visibility = Visibility.Visible;
+                if (BackgroundMedia != null)
+                {
+                    BackgroundMedia.Visibility = Visibility.Collapsed;
+                }
+                await FadeInElementAsync(BackgroundImage, 0.2);
+                return;
+            }
             case ".mp4":
             case ".webm":
             case ".avi":
@@ -3897,7 +4238,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         try
         {
-            int width = (int)Math.Ceiling(((ActualWidth > 0.0) ? ActualWidth : ((Width > 0.0) ? Width : 1280.0)) * VisualTreeHelper.GetDpi(this).DpiScaleX);
+            int width = (int)
+                Math.Ceiling(
+                    ((ActualWidth > 0.0) ? ActualWidth : ((Width > 0.0) ? Width : 1280.0)) * VisualTreeHelper.GetDpi(this).DpiScaleX
+                );
             return Math.Clamp(width, 320, maxWidth);
         }
         catch
@@ -3945,7 +4289,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 watchdog.Stop();
                 watchdog = null;
             }
-            if (!_backgroundAnimationWaiters.TryGetValue(element, out TaskCompletionSource<bool>? current) || !ReferenceEquals(current, tcs))
+            if (
+                !_backgroundAnimationWaiters.TryGetValue(element, out TaskCompletionSource<bool>? current) || !ReferenceEquals(current, tcs)
+            )
                 return;
             _backgroundAnimationWaiters.Remove(element);
             element.BeginAnimation(UIElement.OpacityProperty, null);
@@ -3961,20 +4307,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             From = from,
             To = target,
             Duration = TimeSpan.FromSeconds(durationSeconds),
-            EasingFunction = new QuadraticEase
-            {
-                EasingMode = EasingMode.EaseInOut
-            },
-            FillBehavior = FillBehavior.Stop
+            EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut },
+            FillBehavior = FillBehavior.Stop,
         };
         doubleAnimation.Completed += delegate
         {
             settle();
         };
-        watchdog = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromSeconds(durationSeconds) + TimeSpan.FromMilliseconds(750.0)
-        };
+        watchdog = new DispatcherTimer { Interval = TimeSpan.FromSeconds(durationSeconds) + TimeSpan.FromMilliseconds(750.0) };
         watchdog.Tick += delegate
         {
             settle();
@@ -3995,8 +4335,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void CheckLinuxGradientPointer()
     {
-        if (!Voidstrap.Utility.Platform.IsLinux || !App.Settings.Prop.GRADmentFR || !IsActive
-            || _targetOffset.LengthSquared == 0 || !RootGrid.IsVisible)
+        if (
+            !Voidstrap.Utility.Platform.IsLinux
+            || !App.Settings.Prop.GRADmentFR
+            || !IsActive
+            || _targetOffset.LengthSquared == 0
+            || !RootGrid.IsVisible
+        )
             return;
         if (!Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPointerPosition(out int x, out int y))
             return;
@@ -4084,14 +4429,17 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         target.SetValue(property, value);
         if (Math.Abs(current - value) < 0.000001)
             return;
-        target.BeginAnimation(property, new DoubleAnimation
-        {
-            From = current,
-            To = value,
-            Duration = duration,
-            EasingFunction = new ExponentialEase { Exponent = 5, EasingMode = EasingMode.EaseOut },
-            FillBehavior = FillBehavior.Stop
-        });
+        target.BeginAnimation(
+            property,
+            new DoubleAnimation
+            {
+                From = current,
+                To = value,
+                Duration = duration,
+                EasingFunction = new ExponentialEase { Exponent = 5, EasingMode = EasingMode.EaseOut },
+                FillBehavior = FillBehavior.Stop,
+            }
+        );
     }
 
     private void StopLinuxGradientAnimation(bool reset)
@@ -4147,7 +4495,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             RootNavigation.Navigated += RootNavigation_RpcNavigated;
         }
         Activated += MainWindow_ActivatedRpc;
-        AddHandler(System.Windows.Controls.Primitives.Selector.SelectionChangedEvent, new System.Windows.Controls.SelectionChangedEventHandler(OnRpcTabSelectionChanged), true);
+        AddHandler(
+            System.Windows.Controls.Primitives.Selector.SelectionChangedEvent,
+            new System.Windows.Controls.SelectionChangedEventHandler(OnRpcTabSelectionChanged),
+            true
+        );
         Closed += MainWindow_ClosedRpc;
         Voidstrap.Utility.SavedAccounts.Changed += OnSavedAccountsChanged;
         _settingsIconMotion = new Voidstrap.UI.SettingsIconMotion(SettingsNavItem);
@@ -4163,7 +4515,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             while (!_isClosed && !token.IsCancellationRequested)
             {
-                if (_discordRpcEnabled && _discordClient == null && DateTime.UtcNow >= _discordRetryAtUtc && DiscordIpc.TryFindPipe(out int pipe))
+                if (
+                    _discordRpcEnabled
+                    && _discordClient == null
+                    && DateTime.UtcNow >= _discordRetryAtUtc
+                    && DiscordIpc.TryFindPipe(out int pipe)
+                )
                 {
                     await Dispatcher.InvokeAsync(() => InitializeDiscordRpcClient(pipe), DispatcherPriority.Background, token);
                 }
@@ -4174,9 +4531,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 await Task.Delay(DiscordIpc.PollInterval, token).ConfigureAwait(false);
             }
         }
-        catch (OperationCanceledException) when (token.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
     }
 
     private void InitializeDiscordRpcClient(int pipe)
@@ -4184,11 +4539,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (_isClosed || !_discordRpcEnabled || _discordClient != null)
             return;
 
-        DiscordRpcLogger logger = new DiscordRpcLogger("DiscordRichPresence::App")
-        {
-            Level = LogLevel.Warning
-        };
-        DiscordRpcClient client = DiscordIpc.CreateClient("1459679943498661910", pipe, static () => Voidstrap.Utility.Branding.Name + " " + VoidstrapPresence.PlatformName, logger);
+        DiscordRpcLogger logger = new DiscordRpcLogger("DiscordRichPresence::App") { Level = LogLevel.Warning };
+        DiscordRpcClient client = DiscordIpc.CreateClient(
+            "1459679943498661910",
+            pipe,
+            static () => Voidstrap.Utility.Branding.Name + " " + VoidstrapPresence.PlatformName,
+            logger
+        );
         client.OnReady += DiscordClient_OnReady;
         client.OnError += DiscordClient_OnError;
         client.OnConnectionFailed += DiscordClient_OnConnectionFailed;
@@ -4230,7 +4587,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (!ReferenceEquals(client, _discordClient))
             return;
 
-        App.Logger.WriteLine("DiscordRPC", "Discord connection failed, retrying in " + (int)DiscordIpc.RetryDelay.TotalSeconds + " seconds");
+        App.Logger.WriteLine(
+            "DiscordRPC",
+            "Discord connection failed, retrying in " + (int)DiscordIpc.RetryDelay.TotalSeconds + " seconds"
+        );
         _discordRetryAtUtc = DateTime.UtcNow + DiscordIpc.RetryDelay;
         ReleaseDiscordRpcClient();
     }
@@ -4256,19 +4616,24 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (Dispatcher.HasShutdownStarted || Dispatcher.HasShutdownFinished)
             return;
-        Dispatcher.BeginInvoke(new Action(() =>
-        {
-            if (_isClosed || !ReferenceEquals(sender, _discordClient))
-                return;
-            _discordReady = true;
-            _lastVoidRpcDetails = null;
-            _lastVoidRpcState = null;
-            _lastVoidRpcExtra = null;
-            _lastVoidRpcUpdate = DateTime.MinValue;
-            _voidRpcSuppressed = false;
-            App.Logger.WriteLine("DiscordRPC", "Discord RPC is ready for " + Voidstrap.Utility.Branding.Name + " " + VoidstrapPresence.PlatformName);
-            UpdateDiscordPresence();
-        }));
+        Dispatcher.BeginInvoke(
+            new Action(() =>
+            {
+                if (_isClosed || !ReferenceEquals(sender, _discordClient))
+                    return;
+                _discordReady = true;
+                _lastVoidRpcDetails = null;
+                _lastVoidRpcState = null;
+                _lastVoidRpcExtra = null;
+                _lastVoidRpcUpdate = DateTime.MinValue;
+                _voidRpcSuppressed = false;
+                App.Logger.WriteLine(
+                    "DiscordRPC",
+                    "Discord RPC is ready for " + Voidstrap.Utility.Branding.Name + " " + VoidstrapPresence.PlatformName
+                );
+                UpdateDiscordPresence();
+            })
+        );
     }
 
     private void DiscordClient_OnError(object sender, ErrorMessage e)
@@ -4293,7 +4658,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void MainWindow_ClosedRpc(object? sender, EventArgs e)
     {
         Activated -= MainWindow_ActivatedRpc;
-        RemoveHandler(System.Windows.Controls.Primitives.Selector.SelectionChangedEvent, new System.Windows.Controls.SelectionChangedEventHandler(OnRpcTabSelectionChanged));
+        RemoveHandler(
+            System.Windows.Controls.Primitives.Selector.SelectionChangedEvent,
+            new System.Windows.Controls.SelectionChangedEventHandler(OnRpcTabSelectionChanged)
+        );
         Closed -= MainWindow_ClosedRpc;
         Voidstrap.Utility.SavedAccounts.Changed -= OnSavedAccountsChanged;
         _settingsIconMotion?.Dispose();
@@ -4312,18 +4680,17 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             await Voidstrap.Utility.SavedAccounts.RefreshCurrentAsync(_lifetimeCts.SafeToken());
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         ApplyAccountButton();
     }
 
     private void ApplyAccountButton()
     {
         Voidstrap.Utility.CurrentAccountInfo? current = Voidstrap.Utility.SavedAccounts.Current;
-        AccountButtonName.Text = current == null
-            ? Strings.Accounts_NotSignedIn
-            : string.IsNullOrWhiteSpace(current.DisplayName) ? current.Username : current.DisplayName;
+        AccountButtonName.Text =
+            current == null ? Strings.Accounts_NotSignedIn
+            : string.IsNullOrWhiteSpace(current.DisplayName) ? current.Username
+            : current.DisplayName;
         AccountButton.ToolTip = current == null ? Strings.Accounts_Title : "@" + current.Username;
         Voidstrap.Utility.DynamicRenderSystem.SetLazyImageSource(AccountButtonAvatar, current?.AvatarUrl);
     }
@@ -4349,7 +4716,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         DoubleAnimation rotation = new(angle, new Duration(TimeSpan.FromMilliseconds(220)))
         {
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
         };
         AccountMenuChevronRotation.BeginAnimation(RotateTransform.AngleProperty, rotation);
     }
@@ -4406,16 +4773,25 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             long robloxId = 0;
             string userName = "";
             using (var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.SafeToken()))
-            using (var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, "https://users.roblox.com/v1/users/authenticated"))
+            using (
+                var request = new System.Net.Http.HttpRequestMessage(
+                    System.Net.Http.HttpMethod.Get,
+                    "https://users.roblox.com/v1/users/authenticated"
+                )
+            )
             {
                 cts.CancelAfter(TimeSpan.FromSeconds(15));
                 request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
-                using var response = await App.HttpClient.SendAsync(request, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cts.Token).ConfigureAwait(continueOnCapturedContext: false);
+                using var response = await App
+                    .HttpClient.SendAsync(request, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cts.Token)
+                    .ConfigureAwait(continueOnCapturedContext: false);
                 if (!response.IsSuccessStatusCode)
                 {
                     return;
                 }
-                string text = await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, 200000, cts.Token).ConfigureAwait(continueOnCapturedContext: false);
+                string text = await Voidstrap
+                    .Utility.Http.ReadStringBoundedAsync(response.Content, 200000, cts.Token)
+                    .ConfigureAwait(continueOnCapturedContext: false);
                 using var doc = System.Text.Json.JsonDocument.Parse(text);
                 if (doc.RootElement.TryGetProperty("id", out var idProp) && idProp.ValueKind == System.Text.Json.JsonValueKind.Number)
                 {
@@ -4425,7 +4801,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 {
                     userName = dn.GetString() ?? "";
                 }
-                if (string.IsNullOrEmpty(userName) && doc.RootElement.TryGetProperty("name", out var nm) && nm.ValueKind == System.Text.Json.JsonValueKind.String)
+                if (
+                    string.IsNullOrEmpty(userName)
+                    && doc.RootElement.TryGetProperty("name", out var nm)
+                    && nm.ValueKind == System.Text.Json.JsonValueKind.String
+                )
                 {
                     userName = nm.GetString() ?? "";
                 }
@@ -4438,14 +4818,28 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             using (var cts2 = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.SafeToken()))
             {
                 cts2.CancelAfter(TimeSpan.FromSeconds(15));
-                using var thumbResponse = await App.HttpClient.GetAsync("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" + robloxId + "&size=150x150&format=Png&isCircular=true", System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cts2.Token).ConfigureAwait(continueOnCapturedContext: false);
+                using var thumbResponse = await App
+                    .HttpClient.GetAsync(
+                        "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds="
+                            + robloxId
+                            + "&size=150x150&format=Png&isCircular=true",
+                        System.Net.Http.HttpCompletionOption.ResponseHeadersRead,
+                        cts2.Token
+                    )
+                    .ConfigureAwait(continueOnCapturedContext: false);
                 if (!thumbResponse.IsSuccessStatusCode)
                 {
                     return;
                 }
-                string thumbText = await Voidstrap.Utility.Http.ReadStringBoundedAsync(thumbResponse.Content, 200000, cts2.Token).ConfigureAwait(continueOnCapturedContext: false);
+                string thumbText = await Voidstrap
+                    .Utility.Http.ReadStringBoundedAsync(thumbResponse.Content, 200000, cts2.Token)
+                    .ConfigureAwait(continueOnCapturedContext: false);
                 using var thumbDoc = System.Text.Json.JsonDocument.Parse(thumbText);
-                if (thumbDoc.RootElement.TryGetProperty("data", out var dataProp) && dataProp.ValueKind == System.Text.Json.JsonValueKind.Array && dataProp.GetArrayLength() > 0)
+                if (
+                    thumbDoc.RootElement.TryGetProperty("data", out var dataProp)
+                    && dataProp.ValueKind == System.Text.Json.JsonValueKind.Array
+                    && dataProp.GetArrayLength() > 0
+                )
                 {
                     var first = dataProp[0];
                     if (first.TryGetProperty("imageUrl", out var urlProp) && urlProp.ValueKind == System.Text.Json.JsonValueKind.String)
@@ -4463,7 +4857,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 return;
             }
             string host = imageUri.Host.ToLowerInvariant();
-            if (host != "tr.rbxcdn.com" && !host.EndsWith(".rbxcdn.com", StringComparison.Ordinal) && !host.EndsWith(".roblox.com", StringComparison.Ordinal))
+            if (
+                host != "tr.rbxcdn.com"
+                && !host.EndsWith(".rbxcdn.com", StringComparison.Ordinal)
+                && !host.EndsWith(".roblox.com", StringComparison.Ordinal)
+            )
             {
                 return;
             }
@@ -4490,9 +4888,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                     {
                         await Dispatcher.InvokeAsync(RefreshRpcAvatar);
                     }
-                    catch
-                    {
-                    }
+                    catch { }
                 }
             }
         }
@@ -4505,20 +4901,30 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.SafeToken());
             cts.CancelAfter(TimeSpan.FromSeconds(15));
             using var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, NewsViewModel.FeedUrl);
-            using var response = await App.HttpClient.SendAsync(request, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cts.Token).ConfigureAwait(continueOnCapturedContext: false);
+            using var response = await App
+                .HttpClient.SendAsync(request, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cts.Token)
+                .ConfigureAwait(continueOnCapturedContext: false);
             if (!response.IsSuccessStatusCode)
             {
                 return;
             }
-            string text = await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, 2000000, cts.Token).ConfigureAwait(continueOnCapturedContext: false);
+            string text = await Voidstrap
+                .Utility.Http.ReadStringBoundedAsync(response.Content, 2000000, cts.Token)
+                .ConfigureAwait(continueOnCapturedContext: false);
             string key = "";
             using (var doc = System.Text.Json.JsonDocument.Parse(text))
             {
                 if (doc.RootElement.ValueKind == System.Text.Json.JsonValueKind.Array && doc.RootElement.GetArrayLength() > 0)
                 {
                     var first = doc.RootElement[0];
-                    string title = first.TryGetProperty("Title", out var tEl) && tEl.ValueKind == System.Text.Json.JsonValueKind.String ? tEl.GetString() ?? "" : "";
-                    string date = first.TryGetProperty("Date", out var dEl) && dEl.ValueKind == System.Text.Json.JsonValueKind.String ? dEl.GetString() ?? "" : "";
+                    string title =
+                        first.TryGetProperty("Title", out var tEl) && tEl.ValueKind == System.Text.Json.JsonValueKind.String
+                            ? tEl.GetString() ?? ""
+                            : "";
+                    string date =
+                        first.TryGetProperty("Date", out var dEl) && dEl.ValueKind == System.Text.Json.JsonValueKind.String
+                            ? dEl.GetString() ?? ""
+                            : "";
                     if (title.Length > 200)
                     {
                         title = title.Substring(0, 200);
@@ -4573,14 +4979,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         var panel = new System.Windows.Controls.StackPanel { Orientation = System.Windows.Controls.Orientation.Horizontal };
         panel.Children.Add(new System.Windows.Controls.TextBlock { Text = text, VerticalAlignment = VerticalAlignment.Center });
-        panel.Children.Add(new System.Windows.Shapes.Ellipse
-        {
-            Width = 7.0,
-            Height = 7.0,
-            Margin = new Thickness(6.0, 1.0, 0.0, 0.0),
-            VerticalAlignment = VerticalAlignment.Center,
-            Fill = new SolidColorBrush(Color.FromRgb(248, 113, 113)),
-        });
+        panel.Children.Add(
+            new System.Windows.Shapes.Ellipse
+            {
+                Width = 7.0,
+                Height = 7.0,
+                Margin = new Thickness(6.0, 1.0, 0.0, 0.0),
+                VerticalAlignment = VerticalAlignment.Center,
+                Fill = new SolidColorBrush(Color.FromRgb(248, 113, 113)),
+            }
+        );
         return panel;
     }
 
@@ -4608,7 +5016,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private readonly System.Runtime.CompilerServices.ConditionalWeakTable<object, RpcTabCache> _rpcTabCaches = new System.Runtime.CompilerServices.ConditionalWeakTable<object, RpcTabCache>();
+    private readonly System.Runtime.CompilerServices.ConditionalWeakTable<object, RpcTabCache> _rpcTabCaches =
+        new System.Runtime.CompilerServices.ConditionalWeakTable<object, RpcTabCache>();
 
     private static readonly TimeSpan RpcTabRescanInterval = TimeSpan.FromSeconds(10);
 
@@ -4718,7 +5127,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private static string CleanTabName(string? text)
     {
         string name = (text ?? string.Empty).Trim();
-        if (name.Length == 0 || name.All(static c => char.IsWhiteSpace(c) || c is >= '\uE000' and <= '\uF8FF' || char.IsSurrogate(c) && !char.IsLetterOrDigit(c)))
+        if (
+            name.Length == 0
+            || name.All(static c =>
+                char.IsWhiteSpace(c) || c is >= '\uE000' and <= '\uF8FF' || char.IsSurrogate(c) && !char.IsLetterOrDigit(c)
+            )
+        )
         {
             return string.Empty;
         }
@@ -4743,7 +5157,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         string? item = "";
         NavigationItem[] navigationItems = GetNavigationItemsInServiceOrder();
-        if (RootNavigation.SelectedPageIndex >= 0 && RootNavigation.SelectedPageIndex < navigationItems.Length && navigationItems[RootNavigation.SelectedPageIndex] is NavigationItem { Content: var content } navigationItem)
+        if (
+            RootNavigation.SelectedPageIndex >= 0
+            && RootNavigation.SelectedPageIndex < navigationItems.Length
+            && navigationItems[RootNavigation.SelectedPageIndex] is NavigationItem { Content: var content } navigationItem
+        )
         {
             if (!string.IsNullOrWhiteSpace(content?.ToString()))
             {
@@ -4754,7 +5172,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 text = navigationItem.PageType.Name;
             }
         }
-        if (obj is Page { Title: { Length: > 0 } pageTitle } && (obj is Pages.ModCustomPage || FindNavigationItemForPageType(navigationItems, obj.GetType()) == null))
+        if (
+            obj is Page { Title: { Length: > 0 } pageTitle }
+            && (obj is Pages.ModCustomPage || FindNavigationItemForPageType(navigationItems, obj.GetType()) == null)
+        )
         {
             item = pageTitle;
         }
@@ -4854,7 +5275,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             _robloxRunningCached = Voidstrap.Utility.Platform.IsLinux
                 ? Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow()
-                : (Voidstrap.Utility.Platform.IsMacOS ? Voidstrap.Utility.MacRobloxProcesses.IsGameRunning() : AnyProcessRunning(Voidstrap.Utility.Platform.RobloxPlayerProcessName)) || AnyProcessRunning(Voidstrap.Utility.Platform.RobloxStudioProcessName);
+                : (
+                    Voidstrap.Utility.Platform.IsMacOS
+                        ? Voidstrap.Utility.MacRobloxProcesses.IsGameRunning()
+                        : AnyProcessRunning(Voidstrap.Utility.Platform.RobloxPlayerProcessName)
+                ) || AnyProcessRunning(Voidstrap.Utility.Platform.RobloxStudioProcessName);
         }
         catch
         {
@@ -4882,9 +5307,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 {
                     _discordClient.ClearPresence();
                 }
-                catch
-                {
-                }
+                catch { }
                 _voidRpcSuppressed = true;
                 App.Logger.WriteLine("DiscordRPC", "Roblox is running, hid the Voidstrap status so the game status shows");
                 _lastVoidRpcDetails = null;
@@ -4930,7 +5353,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         else if (!string.IsNullOrWhiteSpace(text2))
         {
             string tabPath = GetSelectedTabPath();
-            details = tabPath.Length > 0 ? Voidstrap.Utility.RpcText.Mark(text2) + ": " + Voidstrap.Utility.RpcText.Mark(tabPath) : Voidstrap.Utility.RpcText.Mark(text2);
+            details =
+                tabPath.Length > 0
+                    ? Voidstrap.Utility.RpcText.Mark(text2) + ": " + Voidstrap.Utility.RpcText.Mark(tabPath)
+                    : Voidstrap.Utility.RpcText.Mark(text2);
             state = Voidstrap.Utility.RpcText.Mark("Exploring the app");
         }
         else
@@ -4950,7 +5376,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         string imageUrl = context != null && VoidstrapPresence.IsWebUrl(context.ImageUrl) ? DiscordPresenceGuard.Key(context.ImageUrl) : "";
         string buttonUrl = context != null && VoidstrapPresence.IsWebUrl(context.ButtonUrl) ? context.ButtonUrl : "";
-        string extra = imageUrl + "|" + buttonUrl + "|" + Voidstrap.Utility.Branding.Name + "|" + Voidstrap.Utility.RpcText.Render(details) + "|" + Voidstrap.Utility.RpcText.Render(state);
+        string extra =
+            imageUrl
+            + "|"
+            + buttonUrl
+            + "|"
+            + Voidstrap.Utility.Branding.Name
+            + "|"
+            + Voidstrap.Utility.RpcText.Render(details)
+            + "|"
+            + Voidstrap.Utility.RpcText.Render(state);
         if (details == _lastVoidRpcDetails && state == _lastVoidRpcState && extra == _lastVoidRpcExtra)
         {
             return;
@@ -4964,61 +5399,66 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             text3 = "";
         }
-        string versionText = string.IsNullOrWhiteSpace(text3) ? Voidstrap.Utility.Branding.Name : Voidstrap.Utility.Branding.Name + " v" + text3;
+        string versionText = string.IsNullOrWhiteSpace(text3)
+            ? Voidstrap.Utility.Branding.Name
+            : Voidstrap.Utility.Branding.Name + " v" + text3;
         string VoidstrapLogo = Voidstrap.Utility.Branding.RpcLogoUrl;
         try
         {
-            Assets assets = imageUrl.Length > 0
-                ? new Assets
-                {
-                    LargeImageKey = imageUrl,
-                    LargeImageText = DiscordPresenceGuard.Text(context!.ImageText.Length > 0 ? context.ImageText : details),
-                    SmallImageKey = VoidstrapLogo,
-                    SmallImageText = versionText
-                }
-                : new Assets
-                {
-                    LargeImageKey = VoidstrapLogo,
-                    LargeImageText = versionText,
-                    SmallImageKey = _voidRpcSmallImageUrl.Length == 0 && _voidRpcAvatarLoading ? App.RpcLoadingImageUrl : DiscordPresenceGuard.Key(_voidRpcSmallImageUrl),
-                    SmallImageText = string.IsNullOrEmpty(_voidRpcSmallImageUrl) ? string.Empty : DiscordPresenceGuard.Text(_voidRpcSmallImageText.Length > 0 ? _voidRpcSmallImageText : "Roblox")
-                };
-            DiscordRPC.Button[] buttons = buttonUrl.Length > 0
-                ? new DiscordRPC.Button[2]
-                {
-                    new DiscordRPC.Button
+            Assets assets =
+                imageUrl.Length > 0
+                    ? new Assets
                     {
-                        Label = DiscordPresenceGuard.Label(context!.ButtonLabel, "Open"),
-                        Url = buttonUrl
-                    },
-                    new DiscordRPC.Button
-                    {
-                        Label = Voidstrap.Utility.RpcText.Mark("Get") + " " + Voidstrap.Utility.Branding.Name,
-                        Url = App.ProjectDownloadLink
+                        LargeImageKey = imageUrl,
+                        LargeImageText = DiscordPresenceGuard.Text(context!.ImageText.Length > 0 ? context.ImageText : details),
+                        SmallImageKey = VoidstrapLogo,
+                        SmallImageText = versionText,
                     }
-                }
-                : new DiscordRPC.Button[2]
-                {
-                    new DiscordRPC.Button
+                    : new Assets
                     {
-                        Label = Voidstrap.Utility.RpcText.Mark("Get") + " " + Voidstrap.Utility.Branding.Name,
-                        Url = App.ProjectDownloadLink
-                    },
-                    new DiscordRPC.Button
+                        LargeImageKey = VoidstrapLogo,
+                        LargeImageText = versionText,
+                        SmallImageKey =
+                            _voidRpcSmallImageUrl.Length == 0 && _voidRpcAvatarLoading
+                                ? App.RpcLoadingImageUrl
+                                : DiscordPresenceGuard.Key(_voidRpcSmallImageUrl),
+                        SmallImageText = string.IsNullOrEmpty(_voidRpcSmallImageUrl)
+                            ? string.Empty
+                            : DiscordPresenceGuard.Text(_voidRpcSmallImageText.Length > 0 ? _voidRpcSmallImageText : "Roblox"),
+                    };
+            DiscordRPC.Button[] buttons =
+                buttonUrl.Length > 0
+                    ? new DiscordRPC.Button[2]
                     {
-                        Label = "Join the Discord",
-                        Url = "https://discord.gg/bzdbHHytFR"
+                        new DiscordRPC.Button { Label = DiscordPresenceGuard.Label(context!.ButtonLabel, "Open"), Url = buttonUrl },
+                        new DiscordRPC.Button
+                        {
+                            Label = Voidstrap.Utility.RpcText.Mark("Get") + " " + Voidstrap.Utility.Branding.Name,
+                            Url = App.ProjectDownloadLink,
+                        },
                     }
-                };
-            if (!_discordClient.SetPresenceSafe(new DiscordRPC.RichPresence
-            {
-                Details = details,
-                State = state,
-                StatusDisplay = StatusDisplayType.Name,
-                Timestamps = new Timestamps(_voidRpcSessionStart),
-                Assets = assets,
-                Buttons = buttons
-            }))
+                    : new DiscordRPC.Button[2]
+                    {
+                        new DiscordRPC.Button
+                        {
+                            Label = Voidstrap.Utility.RpcText.Mark("Get") + " " + Voidstrap.Utility.Branding.Name,
+                            Url = App.ProjectDownloadLink,
+                        },
+                        new DiscordRPC.Button { Label = "Join the Discord", Url = "https://discord.gg/bzdbHHytFR" },
+                    };
+            if (
+                !_discordClient.SetPresenceSafe(
+                    new DiscordRPC.RichPresence
+                    {
+                        Details = details,
+                        State = state,
+                        StatusDisplay = StatusDisplayType.Name,
+                        Timestamps = new Timestamps(_voidRpcSessionStart),
+                        Assets = assets,
+                        Buttons = buttons,
+                    }
+                )
+            )
             {
                 return;
             }
@@ -5072,16 +5512,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 SnowCanvas.SetActive(false);
             }
             Voidstrap.UI.LinuxUiPerformance.Duration("Settings window loaded work", loadedStarted);
-            await ((DispatcherObject)this).Dispatcher.InvokeAsync((Action)delegate
-            {
-            }, (DispatcherPriority)6);
+            await ((DispatcherObject)this).Dispatcher.InvokeAsync((Action)delegate { }, (DispatcherPriority)6);
             PlayIntro();
             Voidstrap.Integrations.FleasionCleanup.WarnAtStartup();
-            _ = Dispatcher.BeginInvoke(new Action(() => Voidstrap.Integrations.Plugins.PluginAnchors.ApplyAll()), DispatcherPriority.ContextIdle);
+            _ = Dispatcher.BeginInvoke(
+                new Action(() => Voidstrap.Integrations.Plugins.PluginAnchors.ApplyAll()),
+                DispatcherPriority.ContextIdle
+            );
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteException("MainWindow::MainWindow_Loaded", ex);
@@ -5106,7 +5545,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private const double SidebarSnapTolerance = 12.0;
 
-    private readonly Dictionary<Wpf.Ui.Controls.NavigationItem, Thickness> _navItemMargins = new Dictionary<Wpf.Ui.Controls.NavigationItem, Thickness>();
+    private readonly Dictionary<Wpf.Ui.Controls.NavigationItem, Thickness> _navItemMargins =
+        new Dictionary<Wpf.Ui.Controls.NavigationItem, Thickness>();
 
     private bool? _sidebarIconMode;
 
@@ -5129,7 +5569,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         (typeof(DownloadsPage), Key.D0, "Ctrl+0"),
         (typeof(ExtensionPage), Key.E, "Ctrl+E"),
         (typeof(ShortcutsPage), Key.U, "Ctrl+U"),
-        (typeof(ChannelPage), Key.OemComma, "Ctrl+,")
+        (typeof(ChannelPage), Key.OemComma, "Ctrl+,"),
     };
 
     private void SetupNavShortcuts()
@@ -5164,10 +5604,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 }
                 item.ToolTip = new System.Windows.Controls.ToolTip
                 {
-                    Content = BuildShortcutToolTip(item.Content?.ToString() ?? "", Wpf.Ui.Converters.ShortcutTextConverter.Format(shortcut.Label)),
+                    Content = BuildShortcutToolTip(
+                        item.Content?.ToString() ?? "",
+                        Wpf.Ui.Converters.ShortcutTextConverter.Format(shortcut.Label)
+                    ),
                     Placement = PlacementMode.Right,
                     HorizontalOffset = 8,
-                    VerticalOffset = 0
+                    VerticalOffset = 0,
                 };
                 ToolTipService.SetInitialShowDelay(item, 350);
                 ToolTipService.SetBetweenShowDelay(item, 60);
@@ -5180,11 +5623,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private static StackPanel BuildShortcutToolTip(string title, string shortcut)
     {
         StackPanel panel = new StackPanel { Orientation = Orientation.Horizontal };
-        panel.Children.Add(new TextBlock
-        {
-            Text = title,
-            VerticalAlignment = VerticalAlignment.Center
-        });
+        panel.Children.Add(new TextBlock { Text = title, VerticalAlignment = VerticalAlignment.Center });
         Border keycap = new Border
         {
             Margin = new Thickness(10.0, 0.0, 0.0, 0.0),
@@ -5197,8 +5636,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 Text = shortcut,
                 FontSize = 11,
                 Opacity = 0.8,
-                VerticalAlignment = VerticalAlignment.Center
-            }
+                VerticalAlignment = VerticalAlignment.Center,
+            },
         };
         keycap.SetResourceReference(Border.BackgroundProperty, "ControlFillColorSecondaryBrush");
         keycap.SetResourceReference(Border.BorderBrushProperty, "ControlElevationBorderBrush");
@@ -5246,7 +5685,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private bool IsNavigablePage(Type pageType)
     {
-        foreach (NavigationItem item in RootNavigation.Items.OfType<NavigationItem>().Concat(RootNavigation.Footer.OfType<NavigationItem>()))
+        foreach (
+            NavigationItem item in RootNavigation.Items.OfType<NavigationItem>().Concat(RootNavigation.Footer.OfType<NavigationItem>())
+        )
         {
             if (item.PageType != pageType)
             {
@@ -5420,14 +5861,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         }
         _uiZoomQueued = true;
-        Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (Action)delegate
-        {
-            _uiZoomQueued = false;
-            if (!_isClosed)
-            {
-                ApplyUiZoom();
-            }
-        });
+        Dispatcher.BeginInvoke(
+            DispatcherPriority.Loaded,
+            (Action)
+                delegate
+                {
+                    _uiZoomQueued = false;
+                    if (!_isClosed)
+                    {
+                        ApplyUiZoom();
+                    }
+                }
+        );
     }
 
     private void OnDisplaySettingsChanged(object? sender, EventArgs e)
@@ -5452,7 +5897,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             if (handle == IntPtr.Zero)
                 return;
             System.Drawing.Rectangle area = System.Windows.Forms.Screen.FromHandle(handle).WorkingArea;
-            System.Windows.Media.Matrix toDevice = PresentationSource.FromVisual(this)?.CompositionTarget?.TransformToDevice ?? System.Windows.Media.Matrix.Identity;
+            System.Windows.Media.Matrix toDevice =
+                PresentationSource.FromVisual(this)?.CompositionTarget?.TransformToDevice ?? System.Windows.Media.Matrix.Identity;
             double scaleX = toDevice.M11 > 0 ? toDevice.M11 : 1.0;
             double scaleY = toDevice.M22 > 0 ? toDevice.M22 : 1.0;
             Rect work = new(area.Left / scaleX, area.Top / scaleY, area.Width / scaleX, area.Height / scaleY);
@@ -5479,7 +5925,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 Top = top;
             if (oversized)
             {
-                App.Logger.WriteLine("MainWindow::KeepInsideWorkArea", "The window was larger than the screen's usable area, opening it maximized so the taskbar stays visible");
+                App.Logger.WriteLine(
+                    "MainWindow::KeepInsideWorkArea",
+                    "The window was larger than the screen's usable area, opening it maximized so the taskbar stays visible"
+                );
                 WindowState = System.Windows.WindowState.Maximized;
             }
         }
@@ -5503,9 +5952,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             }
             else
             {
-                System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(this).Handle);
+                System.Windows.Forms.Screen screen = System.Windows.Forms.Screen.FromHandle(
+                    new System.Windows.Interop.WindowInteropHelper(this).Handle
+                );
                 double dpiScale = PresentationSource.FromVisual(this)?.CompositionTarget?.TransformToDevice.M11 ?? 1.0;
-                work = new Rect(screen.WorkingArea.Left / dpiScale, screen.WorkingArea.Top / dpiScale, screen.WorkingArea.Width / dpiScale, screen.WorkingArea.Height / dpiScale);
+                work = new Rect(
+                    screen.WorkingArea.Left / dpiScale,
+                    screen.WorkingArea.Top / dpiScale,
+                    screen.WorkingArea.Width / dpiScale,
+                    screen.WorkingArea.Height / dpiScale
+                );
             }
             if (work.Width <= 0.0 || work.Height <= 0.0)
                 return;
@@ -5533,9 +5989,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
             ApplyUiZoom();
         }
-        catch
-        {
-        }
+        catch { }
     }
 
     public static void ApplyUiZoomToOpenWindows()
@@ -5681,21 +6135,25 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         DoubleAnimation slide = new DoubleAnimation(from, to, TimeSpan.FromMilliseconds(220))
         {
             EasingFunction = ease,
-            FillBehavior = FillBehavior.HoldEnd
+            FillBehavior = FillBehavior.HoldEnd,
         };
         slide.Completed += RootNavigationSlide_Completed;
         DoubleAnimation fade = new DoubleAnimation(shown ? 0.0 : 1.0, shown ? 1.0 : 0.0, TimeSpan.FromMilliseconds(220))
         {
             EasingFunction = ease,
-            FillBehavior = FillBehavior.Stop
+            FillBehavior = FillBehavior.Stop,
         };
         fade.Freeze();
         if (!ReferenceEquals(RootNavigation.RenderTransform, _navigationSlide))
             RootNavigation.RenderTransform = _navigationSlide;
-        DoubleAnimation move = new DoubleAnimation(Math.Min(0.0, from - navigationWidth), Math.Min(0.0, to - navigationWidth), TimeSpan.FromMilliseconds(220))
+        DoubleAnimation move = new DoubleAnimation(
+            Math.Min(0.0, from - navigationWidth),
+            Math.Min(0.0, to - navigationWidth),
+            TimeSpan.FromMilliseconds(220)
+        )
         {
             EasingFunction = ease,
-            FillBehavior = FillBehavior.HoldEnd
+            FillBehavior = FillBehavior.HoldEnd,
         };
         move.Freeze();
         _navigationSlide.BeginAnimation(TranslateTransform.XProperty, move);
@@ -5722,10 +6180,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         RootFrame.Width = (pageWidth - shift) / pageScale;
         RootFrame.HorizontalAlignment = HorizontalAlignment.Left;
         PageSurface.ClipToBounds = true;
-        ThicknessAnimation hold = new ThicknessAnimation(new Thickness(shift, 0, 0, 0), new Thickness(0), TimeSpan.FromMilliseconds(durationMs))
+        ThicknessAnimation hold = new ThicknessAnimation(
+            new Thickness(shift, 0, 0, 0),
+            new Thickness(0),
+            TimeSpan.FromMilliseconds(durationMs)
+        )
         {
             EasingFunction = ease,
-            FillBehavior = FillBehavior.Stop
+            FillBehavior = FillBehavior.Stop,
         };
         hold.Freeze();
         RootFrame.BeginAnimation(MarginProperty, hold);
@@ -5776,12 +6238,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 SidebarResizer.ReleaseMouseCapture();
             }
-            catch
-            {
-            }
+            catch { }
         }
         bool interrupted = _sidebarToggleTarget.HasValue;
-        double from = interrupted && RootNavigation.ActualWidth > 0 ? RootNavigation.ActualWidth : (double.IsNaN(RootNavigation.Width) ? SidebarDefaultWidth : RootNavigation.Width);
+        double from =
+            interrupted && RootNavigation.ActualWidth > 0
+                ? RootNavigation.ActualWidth
+                : (double.IsNaN(RootNavigation.Width) ? SidebarDefaultWidth : RootNavigation.Width);
         bool collapsed = interrupted ? _sidebarToggleTarget!.Value < SidebarIconThreshold : _sidebarIconMode == true;
         double to = collapsed ? Math.Max(SidebarIconThreshold, _sidebarExpandedWidth) : SidebarCollapsedWidth;
         RootNavigation.BeginAnimation(WidthProperty, null);
@@ -5793,7 +6256,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             DoubleAnimation slide = new DoubleAnimation(from, to, TimeSpan.FromMilliseconds(260))
             {
                 EasingFunction = ease,
-                FillBehavior = FillBehavior.Stop
+                FillBehavior = FillBehavior.Stop,
             };
             slide.Completed += SidebarToggleAnimation_Completed;
             ReleasePinnedPage();
@@ -5835,9 +6298,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 SidebarResizer.ReleaseMouseCapture();
             }
-            catch
-            {
-            }
+            catch { }
             ApplySidebarWidth(SidebarDefaultWidth);
             SaveSidebarWidth();
             e.Handled = true;
@@ -5868,9 +6329,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 SidebarResizer.ReleaseMouseCapture();
             }
-            catch
-            {
-            }
+            catch { }
             SaveSidebarWidth();
         }
     }
@@ -5882,20 +6341,26 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         FooterSaveButton.MinHeight = LinuxFooterButtonHeight;
         FooterCloseButton.MinHeight = LinuxFooterButtonHeight;
         InstallLaunchButton.MinHeight = 0;
-        InstallLaunchButton.SetBinding(FrameworkElement.HeightProperty, new System.Windows.Data.Binding(nameof(FrameworkElement.ActualHeight))
-        {
-            Source = FooterSaveButton,
-            Mode = System.Windows.Data.BindingMode.OneWay
-        });
+        InstallLaunchButton.SetBinding(
+            FrameworkElement.HeightProperty,
+            new System.Windows.Data.Binding(nameof(FrameworkElement.ActualHeight))
+            {
+                Source = FooterSaveButton,
+                Mode = System.Windows.Data.BindingMode.OneWay,
+            }
+        );
         InstallLaunchButton.VerticalAlignment = VerticalAlignment.Center;
         InstallLaunchButton.ApplyTemplate();
         if (InstallLaunchButton.Template?.FindName("PART_DropDownButton", InstallLaunchButton) is FrameworkElement dropDown)
         {
-            dropDown.SetBinding(FrameworkElement.WidthProperty, new System.Windows.Data.Binding(nameof(FrameworkElement.ActualHeight))
-            {
-                RelativeSource = new System.Windows.Data.RelativeSource(System.Windows.Data.RelativeSourceMode.Self),
-                Mode = System.Windows.Data.BindingMode.OneWay
-            });
+            dropDown.SetBinding(
+                FrameworkElement.WidthProperty,
+                new System.Windows.Data.Binding(nameof(FrameworkElement.ActualHeight))
+                {
+                    RelativeSource = new System.Windows.Data.RelativeSource(System.Windows.Data.RelativeSourceMode.Self),
+                    Mode = System.Windows.Data.BindingMode.OneWay,
+                }
+            );
         }
     }
 
@@ -5954,9 +6419,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             storyboard?.Remove(IntroOverlay);
         }
-        catch
-        {
-        }
+        catch { }
         if (IntroOverlay != null)
         {
             IntroOverlay.Visibility = Visibility.Collapsed;
@@ -6120,9 +6583,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             Dispatcher.BeginInvoke(new Action(RefreshNotificationBadge));
         }
-        catch
-        {
-        }
+        catch { }
     }
 
     private void RefreshNotificationBadge()
@@ -6150,8 +6611,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             CubicEase ease = new CubicEase { EasingMode = EasingMode.EaseOut };
             Duration duration = new Duration(TimeSpan.FromMilliseconds(180));
-            NotificationsBadgeScale.BeginAnimation(ScaleTransform.ScaleXProperty, new DoubleAnimation(0.72, 1.0, duration) { EasingFunction = ease });
-            NotificationsBadgeScale.BeginAnimation(ScaleTransform.ScaleYProperty, new DoubleAnimation(0.72, 1.0, duration) { EasingFunction = ease });
+            NotificationsBadgeScale.BeginAnimation(
+                ScaleTransform.ScaleXProperty,
+                new DoubleAnimation(0.72, 1.0, duration) { EasingFunction = ease }
+            );
+            NotificationsBadgeScale.BeginAnimation(
+                ScaleTransform.ScaleYProperty,
+                new DoubleAnimation(0.72, 1.0, duration) { EasingFunction = ease }
+            );
             NotificationsBadge.BeginAnimation(OpacityProperty, new DoubleAnimation(0.35, 1.0, duration) { EasingFunction = ease });
         }
     }
@@ -6211,9 +6678,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             }
             Voidstrap.Utility.AppNotifications.Reload();
         }
-        catch
-        {
-        }
+        catch { }
     }
 
     protected override void OnDeactivated(EventArgs e)
@@ -6240,9 +6705,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 }
             }
         }
-        catch
-        {
-        }
+        catch { }
     }
 
     private void OnNavigationFailed(object? sender, Wpf.Ui.Controls.Navigation.NavigationFailedEventArgs e)
@@ -6253,7 +6716,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             root = root.InnerException;
         }
         App.Logger.WriteException("MainWindow::OnNavigationFailed", root);
-        Frontend.ShowMessageBox($"The {e.PageTag} page could not be opened on this system.\n\n{root.GetType().Name}: {root.Message.Split('\n')[0]}", MessageBoxImage.Warning);
+        Frontend.ShowMessageBox(
+            $"The {e.PageTag} page could not be opened on this system.\n\n{root.GetType().Name}: {root.Message.Split('\n')[0]}",
+            MessageBoxImage.Warning
+        );
     }
 
     private void InitializeViewModel()
@@ -6266,9 +6732,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _declaredWidth = base.Width;
         _declaredHeight = base.Height;
         MainWindowViewModel mainWindowViewModel = (MainWindowViewModel)(base.DataContext = new MainWindowViewModel());
-        mainWindowViewModel.RequestSaveNoticeEvent = (EventHandler)Delegate.Combine(mainWindowViewModel.RequestSaveNoticeEvent, new EventHandler(OnRequestSaveNotice));
-        mainWindowViewModel.RequestSaveLaunchNoticeEvent = (EventHandler)Delegate.Combine(mainWindowViewModel.RequestSaveLaunchNoticeEvent, new EventHandler(OnRequestSaveLaunchNotice));
-        mainWindowViewModel.RequestCloseWindowEvent = (EventHandler)Delegate.Combine(mainWindowViewModel.RequestCloseWindowEvent, new EventHandler(OnRequestCloseWindow));
+        mainWindowViewModel.RequestSaveNoticeEvent = (EventHandler)
+            Delegate.Combine(mainWindowViewModel.RequestSaveNoticeEvent, new EventHandler(OnRequestSaveNotice));
+        mainWindowViewModel.RequestSaveLaunchNoticeEvent = (EventHandler)
+            Delegate.Combine(mainWindowViewModel.RequestSaveLaunchNoticeEvent, new EventHandler(OnRequestSaveLaunchNotice));
+        mainWindowViewModel.RequestCloseWindowEvent = (EventHandler)
+            Delegate.Combine(mainWindowViewModel.RequestCloseWindowEvent, new EventHandler(OnRequestCloseWindow));
     }
 
     private void UpdateButtonContent()
@@ -6278,7 +6747,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         }
         string content;
-        if (base.DataContext is MainWindowViewModel clientVm && !string.IsNullOrEmpty(clientVm.SelectedLaunchClient) && Voidstrap.Utility.ClassicClients.IsClientInstalled(clientVm.SelectedLaunchClient))
+        if (
+            base.DataContext is MainWindowViewModel clientVm
+            && !string.IsNullOrEmpty(clientVm.SelectedLaunchClient)
+            && Voidstrap.Utility.ClassicClients.IsClientInstalled(clientVm.SelectedLaunchClient)
+        )
         {
             content = "Save and Launch";
         }
@@ -6288,14 +6761,20 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             bool installed = IsLaunchTargetInstalled(studio);
             if (Voidstrap.Utility.Platform.IsLinux)
             {
-                string runtime = Voidstrap.Utility.LinuxRuntimeChoice.UsesRosemary(studio ? Voidstrap.Enums.LaunchMode.Studio : Voidstrap.Enums.LaunchMode.Player)
-                    ? "Rosemary"
-                    : studio ? "Vinegar" : "Sober";
+                string runtime =
+                    Voidstrap.Utility.LinuxRuntimeChoice.UsesRosemary(
+                        studio ? Voidstrap.Enums.LaunchMode.Studio : Voidstrap.Enums.LaunchMode.Player
+                    )
+                        ? "Rosemary"
+                    : studio ? "Vinegar"
+                    : "Sober";
                 content = installed ? "Save and Launch " + runtime : "Install " + runtime;
             }
             else
             {
-                content = (studio ? (installed ? "Save and Launch Studio" : "Install Studio") : (installed ? "Save and Launch" : "Install"));
+                content = (
+                    studio ? (installed ? "Save and Launch Studio" : "Install Studio") : (installed ? "Save and Launch" : "Install")
+                );
             }
         }
         if (!object.Equals(LaunchActionText.Text, content))
@@ -6310,19 +6789,36 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             if (Voidstrap.Utility.Platform.IsLinux)
             {
-                if (Voidstrap.Utility.LinuxRuntimeChoice.UsesRosemary(studio ? Voidstrap.Enums.LaunchMode.Studio : Voidstrap.Enums.LaunchMode.Player))
+                if (
+                    Voidstrap.Utility.LinuxRuntimeChoice.UsesRosemary(
+                        studio ? Voidstrap.Enums.LaunchMode.Studio : Voidstrap.Enums.LaunchMode.Player
+                    )
+                )
                     return Voidstrap.Platform.Linux.LinuxRosemary.IsRuntimeInstalled
-                        && Voidstrap.Platform.Linux.LinuxRosemary.IsApplicationInstalled(studio ? Voidstrap.Platform.Linux.RosemaryApplication.Studio : Voidstrap.Platform.Linux.RosemaryApplication.Player);
+                        && Voidstrap.Platform.Linux.LinuxRosemary.IsApplicationInstalled(
+                            studio
+                                ? Voidstrap.Platform.Linux.RosemaryApplication.Studio
+                                : Voidstrap.Platform.Linux.RosemaryApplication.Player
+                        );
                 return studio
                     ? Voidstrap.Platform.Linux.LinuxVinegarStudioRuntimeProvider.IsInstalled()
                     : Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.IsInstalled();
             }
 
             if (Voidstrap.Utility.Platform.IsMacOS)
-                return Voidstrap.Platform.MacOS.MacOSRobloxRuntimeProvider.IsInstalled(studio ? Voidstrap.Platform.RuntimeKind.Studio : Voidstrap.Platform.RuntimeKind.Player);
+                return Voidstrap.Platform.MacOS.MacOSRobloxRuntimeProvider.IsInstalled(
+                    studio ? Voidstrap.Platform.RuntimeKind.Studio : Voidstrap.Platform.RuntimeKind.Player
+                );
 
-            Voidstrap.AppData.IAppData appData = (studio ? ((Voidstrap.AppData.IAppData)new Voidstrap.AppData.RobloxStudioData()) : ((Voidstrap.AppData.IAppData)new Voidstrap.AppData.RobloxPlayerData()));
-            if (!string.IsNullOrEmpty(appData.State.VersionGuid) && (File.Exists(appData.ExecutablePath) || Voidstrap.Utility.RobloxInstallCompression.IsCompressed(appData)))
+            Voidstrap.AppData.IAppData appData = (
+                studio
+                    ? ((Voidstrap.AppData.IAppData)new Voidstrap.AppData.RobloxStudioData())
+                    : ((Voidstrap.AppData.IAppData)new Voidstrap.AppData.RobloxPlayerData())
+            );
+            if (
+                !string.IsNullOrEmpty(appData.State.VersionGuid)
+                && (File.Exists(appData.ExecutablePath) || Voidstrap.Utility.RobloxInstallCompression.IsCompressed(appData))
+            )
             {
                 return true;
             }
@@ -6374,7 +6870,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             base.WindowState = System.Windows.WindowState.Maximized;
         }
-
     }
 
     private static void DiscardOversizedLinuxState()
@@ -6385,7 +6880,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         }
         double scale = Voidstrap.UI.LinuxInterfaceScale.Factor;
-        if (_state.WidthUpdateV2 * scale < work.Width - LinuxScreenMargin && _state.HeightUpdateV2 * scale < work.Height - LinuxScreenMargin)
+        if (
+            _state.WidthUpdateV2 * scale < work.Width - LinuxScreenMargin
+            && _state.HeightUpdateV2 * scale < work.Height - LinuxScreenMargin
+        )
         {
             return;
         }
@@ -6413,7 +6911,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 7 => 6,
                 8 => 9,
                 9 => 7,
-                int page => page
+                int page => page,
             };
             App.State.Prop.SidebarLayoutVersion = 1;
             App.State.SaveDeferred();
@@ -6452,21 +6950,21 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             }
         }
         return 0;
-		bool IsUsable(int num)
-		{
+        bool IsUsable(int num)
+        {
             if (num < 0 || num >= items.Length)
             {
                 return false;
             }
             NavigationItem navigationItem = items[num];
-			if (!navigationItem.IsEnabled)
-			{
-				return false;
-			}
-			if (navigationItem.Visibility != Visibility.Visible)
-			{
-				return false;
-			}
+            if (!navigationItem.IsEnabled)
+            {
+                return false;
+            }
+            if (navigationItem.Visibility != Visibility.Visible)
+            {
+                return false;
+            }
             if ((object)navigationItem.PageType == null)
             {
                 return false;
@@ -6499,185 +6997,193 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-	private void OnRestartRequirementsChanged(object? sender, RestartRequirementsChangedEventArgs e)
-	{
-		if (Dispatcher.CheckAccess())
-		{
-			RefreshRestartNotification();
-		}
-		else if (!_isClosed && !Dispatcher.HasShutdownStarted)
-		{
-			Dispatcher.BeginInvoke(new Action(RefreshRestartNotification));
-		}
-	}
+    private void OnRestartRequirementsChanged(object? sender, RestartRequirementsChangedEventArgs e)
+    {
+        if (Dispatcher.CheckAccess())
+        {
+            RefreshRestartNotification();
+        }
+        else if (!_isClosed && !Dispatcher.HasShutdownStarted)
+        {
+            Dispatcher.BeginInvoke(new Action(RefreshRestartNotification));
+        }
+    }
 
-	private void RefreshRestartNotification()
-	{
-		if (_isClosed || RestartNotificationCard == null)
-		{
-			return;
-		}
+    private void RefreshRestartNotification()
+    {
+        if (_isClosed || RestartNotificationCard == null)
+        {
+            return;
+        }
 
-		RestartRequirement? requirement = RestartNotificationService.Current;
-		if (requirement == null)
-		{
-			HideRestartNotification();
-			return;
-		}
+        RestartRequirement? requirement = RestartNotificationService.Current;
+        if (requirement == null)
+        {
+            HideRestartNotification();
+            return;
+        }
 
-		_restartNotificationBusy = false;
-		RestartNotificationTitle.Text = requirement.Title;
-		RestartNotificationMessage.Text = requirement.Message;
-		RestartNotificationAction.Content = requirement.ActionText;
-		RestartNotificationAction.IsEnabled = true;
-		RestartNotificationAction.IsHitTestVisible = true;
-		RestartNotificationDismiss.IsHitTestVisible = true;
-		RestartNotificationCard.IsHitTestVisible = true;
-		RestartNotificationCard.Visibility = Visibility.Visible;
-		if (Voidstrap.Utility.Platform.IsLinux)
-		{
-			PrepareLinuxRestartNotificationInput();
-		}
-		RestartNotificationCard.Opacity = 1.0;
-		RestartNotificationTranslate.X = 0.0;
-		Wpf.Ui.Animations.RenderReady.Hold(this, TimeSpan.FromMilliseconds(260.0));
-		RestartNotificationCard.BeginAnimation(OpacityProperty, new DoubleAnimation(0.0, 1.0, TimeSpan.FromMilliseconds(180))
-		{
-			EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
-			FillBehavior = FillBehavior.Stop
-		});
-		RestartNotificationTranslate.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(28.0, 0.0, TimeSpan.FromMilliseconds(220))
-		{
-			EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
-			FillBehavior = FillBehavior.Stop
-		});
-	}
+        _restartNotificationBusy = false;
+        RestartNotificationTitle.Text = requirement.Title;
+        RestartNotificationMessage.Text = requirement.Message;
+        RestartNotificationAction.Content = requirement.ActionText;
+        RestartNotificationAction.IsEnabled = true;
+        RestartNotificationAction.IsHitTestVisible = true;
+        RestartNotificationDismiss.IsHitTestVisible = true;
+        RestartNotificationCard.IsHitTestVisible = true;
+        RestartNotificationCard.Visibility = Visibility.Visible;
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            PrepareLinuxRestartNotificationInput();
+        }
+        RestartNotificationCard.Opacity = 1.0;
+        RestartNotificationTranslate.X = 0.0;
+        Wpf.Ui.Animations.RenderReady.Hold(this, TimeSpan.FromMilliseconds(260.0));
+        RestartNotificationCard.BeginAnimation(
+            OpacityProperty,
+            new DoubleAnimation(0.0, 1.0, TimeSpan.FromMilliseconds(180))
+            {
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+                FillBehavior = FillBehavior.Stop,
+            }
+        );
+        RestartNotificationTranslate.BeginAnimation(
+            TranslateTransform.XProperty,
+            new DoubleAnimation(28.0, 0.0, TimeSpan.FromMilliseconds(220))
+            {
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+                FillBehavior = FillBehavior.Stop,
+            }
+        );
+    }
 
-	private void PrepareLinuxRestartNotificationInput()
-	{
-		if (!Voidstrap.Utility.Platform.IsLinux || RestartNotificationCard == null)
-		{
-			return;
-		}
+    private void PrepareLinuxRestartNotificationInput()
+    {
+        if (!Voidstrap.Utility.Platform.IsLinux || RestartNotificationCard == null)
+        {
+            return;
+        }
 
-		RestartNotificationTranslate.BeginAnimation(TranslateTransform.XProperty, null);
-		RestartNotificationTranslate.X = 0.0;
-		Panel.SetZIndex(RestartNotificationCard, 32000);
-		if (RestartNotificationCard.Parent is Panel parent
-			&& parent.Children.Count > 0
-			&& !ReferenceEquals(parent.Children[parent.Children.Count - 1], RestartNotificationCard))
-		{
-			parent.Children.Remove(RestartNotificationCard);
-			parent.Children.Add(RestartNotificationCard);
-		}
-	}
+        RestartNotificationTranslate.BeginAnimation(TranslateTransform.XProperty, null);
+        RestartNotificationTranslate.X = 0.0;
+        Panel.SetZIndex(RestartNotificationCard, 32000);
+        if (
+            RestartNotificationCard.Parent is Panel parent
+            && parent.Children.Count > 0
+            && !ReferenceEquals(parent.Children[parent.Children.Count - 1], RestartNotificationCard)
+        )
+        {
+            parent.Children.Remove(RestartNotificationCard);
+            parent.Children.Add(RestartNotificationCard);
+        }
+    }
 
-	private void HideRestartNotification()
-	{
-		if (RestartNotificationCard == null)
-		{
-			return;
-		}
+    private void HideRestartNotification()
+    {
+        if (RestartNotificationCard == null)
+        {
+            return;
+        }
 
-		RestartNotificationCard.BeginAnimation(OpacityProperty, null);
-		RestartNotificationTranslate?.BeginAnimation(TranslateTransform.XProperty, null);
-		if (Voidstrap.Utility.Platform.IsLinux)
-		{
-			RestartNotificationCard.IsHitTestVisible = false;
-		}
-		RestartNotificationCard.Opacity = 0.0;
-		RestartNotificationCard.Visibility = Visibility.Collapsed;
-	}
+        RestartNotificationCard.BeginAnimation(OpacityProperty, null);
+        RestartNotificationTranslate?.BeginAnimation(TranslateTransform.XProperty, null);
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            RestartNotificationCard.IsHitTestVisible = false;
+        }
+        RestartNotificationCard.Opacity = 0.0;
+        RestartNotificationCard.Visibility = Visibility.Collapsed;
+    }
 
-	private void RestartNotificationDismiss_Click(object sender, RoutedEventArgs e)
-	{
-		HideRestartNotification();
-	}
+    private void RestartNotificationDismiss_Click(object sender, RoutedEventArgs e)
+    {
+        HideRestartNotification();
+    }
 
-	private async void RestartNotificationAction_Click(object sender, RoutedEventArgs e)
-	{
-		if (_restartNotificationBusy)
-		{
-			return;
-		}
+    private async void RestartNotificationAction_Click(object sender, RoutedEventArgs e)
+    {
+        if (_restartNotificationBusy)
+        {
+            return;
+        }
 
-		RestartRequirement? requirement = RestartNotificationService.Current;
-		if (requirement == null)
-		{
-			HideRestartNotification();
-			return;
-		}
+        RestartRequirement? requirement = RestartNotificationService.Current;
+        if (requirement == null)
+        {
+            HideRestartNotification();
+            return;
+        }
 
-		try
-		{
-			requirement.Apply?.Invoke();
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("MainWindow::RestartNotification", ex);
-			ShowRestartNotificationFailure("Settings could not be applied. Check the logs and try again.");
-			return;
-		}
+        try
+        {
+            requirement.Apply?.Invoke();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MainWindow::RestartNotification", ex);
+            ShowRestartNotificationFailure("Settings could not be applied. Check the logs and try again.");
+            return;
+        }
 
-		if (DataContext is MainWindowViewModel viewModel && !await viewModel.TrySaveSettingsAsync(false, false))
-		{
-			ShowRestartNotificationFailure("Settings could not be saved. Check the logs and try again.");
-			return;
-		}
+        if (DataContext is MainWindowViewModel viewModel && !await viewModel.TrySaveSettingsAsync(false, false))
+        {
+            ShowRestartNotificationFailure("Settings could not be saved. Check the logs and try again.");
+            return;
+        }
 
-		_restartNotificationBusy = true;
-		RestartNotificationAction.IsEnabled = false;
-		RestartNotificationAction.Content = "Restarting";
+        _restartNotificationBusy = true;
+        RestartNotificationAction.IsEnabled = false;
+        RestartNotificationAction.Content = "Restarting";
 
-		try
-		{
-			App.Settings.FlushDeferred();
-			App.State.FlushDeferred();
-			App.FastFlags.FlushDeferred();
+        try
+        {
+            App.Settings.FlushDeferred();
+            App.State.FlushDeferred();
+            App.FastFlags.FlushDeferred();
 
-			switch (requirement.Target)
-			{
-				case RestartTarget.RobloxPlayer:
-					RestartNotificationService.ClearAll();
-					LaunchHandler.LaunchRoblox(LaunchMode.Player);
-					break;
-				case RestartTarget.RobloxStudio:
-					RestartNotificationService.ClearAll();
-					LaunchHandler.LaunchRoblox(LaunchMode.Studio);
-					break;
-				default:
+            switch (requirement.Target)
+            {
+                case RestartTarget.RobloxPlayer:
+                    RestartNotificationService.ClearAll();
+                    LaunchHandler.LaunchRoblox(LaunchMode.Player);
+                    break;
+                case RestartTarget.RobloxStudio:
+                    RestartNotificationService.ClearAll();
+                    LaunchHandler.LaunchRoblox(LaunchMode.Studio);
+                    break;
+                default:
                     RestartVoidstrapFromSettings();
-					break;
-			}
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("MainWindow::RestartNotification", ex);
-			ShowRestartNotificationFailure("Voidstrap could not restart. Check the logs and try again.");
-		}
-	}
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MainWindow::RestartNotification", ex);
+            ShowRestartNotificationFailure("Voidstrap could not restart. Check the logs and try again.");
+        }
+    }
 
-	private static void RestartVoidstrapFromSettings()
-	{
-		App.Logger.WriteLine("MainWindow::RestartNotification", "Restarting Voidstrap from settings");
-		RestartNotificationService.ClearAll();
-		if (!App.RestartApplication(["-settings", "-elevatedwait", Environment.ProcessId.ToString()], closeRuntime: false))
-		{
-			throw new InvalidOperationException("The Voidstrap restart process did not start");
-		}
-	}
+    private static void RestartVoidstrapFromSettings()
+    {
+        App.Logger.WriteLine("MainWindow::RestartNotification", "Restarting Voidstrap from settings");
+        RestartNotificationService.ClearAll();
+        if (!App.RestartApplication(["-settings", "-elevatedwait", Environment.ProcessId.ToString()], closeRuntime: false))
+        {
+            throw new InvalidOperationException("The Voidstrap restart process did not start");
+        }
+    }
 
-	private void ShowRestartNotificationFailure(string message)
-	{
-		_restartNotificationBusy = false;
-		RestartNotificationTitle.Text = "Restart failed";
-		RestartNotificationMessage.Text = message;
-		RestartNotificationAction.Content = RestartNotificationService.Current?.ActionText ?? "Try again";
-		RestartNotificationAction.IsEnabled = true;
-		RestartNotificationCard.Visibility = Visibility.Visible;
-		RestartNotificationCard.Opacity = 1.0;
-		RestartNotificationTranslate.X = 0.0;
-	}
+    private void ShowRestartNotificationFailure(string message)
+    {
+        _restartNotificationBusy = false;
+        RestartNotificationTitle.Text = "Restart failed";
+        RestartNotificationMessage.Text = message;
+        RestartNotificationAction.Content = RestartNotificationService.Current?.ActionText ?? "Try again";
+        RestartNotificationAction.IsEnabled = true;
+        RestartNotificationCard.Visibility = Visibility.Visible;
+        RestartNotificationCard.Opacity = 1.0;
+        RestartNotificationTranslate.X = 0.0;
+    }
 
     public void ShowAiActivity(string title, string message)
     {
@@ -6698,9 +7204,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 _ = ((DispatcherObject)this).Dispatcher.InvokeAsync<bool?>((Func<bool?>)(() => AlreadyRunningSnackbar?.Show()));
             }
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
     }
 
     private async void OnRequestCloseWindow(object? sender, EventArgs e)
@@ -6710,9 +7214,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             await Task.Yield();
             Close();
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteException("MainWindow::OnRequestCloseWindow", ex);
@@ -6736,7 +7238,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Voidstrap.UI.TaskbarJumpList.UnpublishWindow(_publishedHandle);
         _publishedHandle = 0;
         MainWindowViewModel? closingViewModel = DataContext as MainWindowViewModel;
-		Interlocked.Increment(ref _topSearchNavigationGeneration);
+        Interlocked.Increment(ref _topSearchNavigationGeneration);
         CloseCommandPalette();
         ReleaseZoomIndicator();
         _backgroundGeneration++;
@@ -6795,17 +7297,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 searchDebounceTimer.Tick -= SearchDebounceTimer_Tick;
             }
         }
-        catch
-        {
-        }
+        catch { }
         ReleaseDiscordRpcClient();
         try
         {
             (TryFindResource("IntroStoryboard") as Storyboard)?.Remove(IntroOverlay);
         }
-        catch
-        {
-        }
+        catch { }
         ReleaseBackgroundResources();
         ClearRetainedUiState();
         Voidstrap.Utility.DynamicRenderSystem.ClearCache();
@@ -6824,7 +7322,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (viewModel == null)
         {
-            App.Logger.WriteLine("MainWindow::StartTestModeLaunch", "The settings view model was already released, launching without saving");
+            App.Logger.WriteLine(
+                "MainWindow::StartTestModeLaunch",
+                "The settings view model was already released, launching without saving"
+            );
             LaunchHandler.LaunchRoblox(LaunchMode.Player);
             return;
         }
@@ -6844,7 +7345,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void ApplyLinuxWindowSize()
     {
-        if (Voidstrap.Utility.Platform.IsWindows || base.WindowState != System.Windows.WindowState.Normal || Voidstrap.UI.LinuxWindowMode.IsFullscreen(this))
+        if (
+            Voidstrap.Utility.Platform.IsWindows
+            || base.WindowState != System.Windows.WindowState.Normal
+            || Voidstrap.UI.LinuxWindowMode.IsFullscreen(this)
+        )
         {
             return;
         }
@@ -6878,16 +7383,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 media.Stop();
             }
-            catch
-            {
-            }
+            catch { }
             try
             {
                 media.Close();
             }
-            catch
-            {
-            }
+            catch { }
             media.Source = null;
             media.BeginAnimation(UIElement.OpacityProperty, null);
             BackgroundLayer?.Children.Remove(media);
@@ -6907,9 +7408,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 IntroContent.CacheMode = null;
             }
         }
-        catch
-        {
-        }
+        catch { }
     }
 
     private void ClearRetainedUiState()
@@ -6942,13 +7441,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             RootNavigation.ClearCache();
             RootFrame.NavigationService?.StopLoading();
             RootFrame.Content = null;
-            while (RootFrame.NavigationService?.RemoveBackEntry() != null)
-            {
-            }
+            while (RootFrame.NavigationService?.RemoveBackEntry() != null) { }
         }
-        catch
-        {
-        }
+        catch { }
         if (base.DataContext is MainWindowViewModel viewModel)
         {
             viewModel.RequestSaveNoticeEvent -= OnRequestSaveNotice;
@@ -6961,7 +7456,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void SaveWindowState()
     {
         double scale = Voidstrap.UI.LinuxInterfaceScale.For(this);
-        if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.UI.LinuxWindowMode.TryGetRestorePlacement(this, out bool fullscreenMaximized, out Rect fullscreenBounds))
+        if (
+            Voidstrap.Utility.Platform.IsLinux
+            && Voidstrap.UI.LinuxWindowMode.TryGetRestorePlacement(this, out bool fullscreenMaximized, out Rect fullscreenBounds)
+        )
         {
             _state.MaximizedUpdateV2 = fullscreenMaximized;
             _state.WidthUpdateV2 = fullscreenBounds.Width / scale;
@@ -6993,7 +7491,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 _state.WidthUpdateV2 = base.Width;
                 _state.HeightUpdateV2 = base.Height;
             }
-            else if (Voidstrap.UI.LinuxWindowSize.TryGet(Title, out int nativeWidth, out int nativeHeight) && nativeWidth > 0 && nativeHeight > 0)
+            else if (
+                Voidstrap.UI.LinuxWindowSize.TryGet(Title, out int nativeWidth, out int nativeHeight)
+                && nativeWidth > 0
+                && nativeHeight > 0
+            )
             {
                 _state.WidthUpdateV2 = nativeWidth / scale;
                 _state.HeightUpdateV2 = nativeHeight / scale;
@@ -7042,10 +7544,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public bool Navigate(Type pageType)
     {
-		if (!Voidstrap.Utility.Platform.IsWindows && (pageType == typeof(DownloadsPage) || pageType == typeof(ExtensionPage)))
-		{
-			return false;
-		}
+        if (!Voidstrap.Utility.Platform.IsWindows && (pageType == typeof(DownloadsPage) || pageType == typeof(ExtensionPage)))
+        {
+            return false;
+        }
 
         return RootNavigation.Navigate(pageType);
     }
@@ -7065,13 +7567,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Close();
     }
 
-    private void Button_Click_1(object sender, RoutedEventArgs e)
-    {
-    }
+    private void Button_Click_1(object sender, RoutedEventArgs e) { }
 
-    private void Button_Click_2(object sender, RoutedEventArgs e)
-    {
-    }
+    private void Button_Click_2(object sender, RoutedEventArgs e) { }
 
     private int _manageModsStatusVersion;
 
@@ -7104,9 +7602,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => ApplyManageModsStatus(enabledCount, version)));
             }
-            catch
-            {
-            }
+            catch { }
         });
     }
 
@@ -7116,9 +7612,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         if (enabledCount > 0)
         {
-            string status = enabledCount == 1
-                ? Strings.Ui_Main_OneModApplied
-                : string.Format(System.Globalization.CultureInfo.CurrentCulture, Strings.Ui_Main_ModsApplied, enabledCount);
+            string status =
+                enabledCount == 1
+                    ? Strings.Ui_Main_OneModApplied
+                    : string.Format(System.Globalization.CultureInfo.CurrentCulture, Strings.Ui_Main_ModsApplied, enabledCount);
             ManageModsAppliedText.Text = status;
             ManageModsAppliedBadge.Visibility = Visibility.Visible;
         }
@@ -7182,7 +7679,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (Voidstrap.Utility.Platform.IsWindows && downloads.ClientItems.Count == 0)
             downloads.RefreshClassic();
 
-        List<object> entries = !Voidstrap.Utility.Platform.IsWindows ? [.. downloads.Items] : [.. downloads.Items, .. downloads.ClientItems];
+        List<object> entries = !Voidstrap.Utility.Platform.IsWindows
+            ? [.. downloads.Items]
+            : [.. downloads.Items, .. downloads.ClientItems];
         if (LaunchTargetList.ItemsSource is not IList<object> shown || !shown.SequenceEqual(entries))
             LaunchTargetList.ItemsSource = entries;
         object? current = null;
@@ -7190,8 +7689,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             string code = vm.SelectedLaunchClient;
             if (!string.IsNullOrEmpty(code))
-                current = downloads.ClientItems.FirstOrDefault(client => string.Equals(client.Code, code, StringComparison.OrdinalIgnoreCase));
-            Voidstrap.Enums.LaunchMode mode = vm.SelectedLaunchModeIndex == 1 ? Voidstrap.Enums.LaunchMode.Studio : Voidstrap.Enums.LaunchMode.Player;
+                current = downloads.ClientItems.FirstOrDefault(client =>
+                    string.Equals(client.Code, code, StringComparison.OrdinalIgnoreCase)
+                );
+            Voidstrap.Enums.LaunchMode mode =
+                vm.SelectedLaunchModeIndex == 1 ? Voidstrap.Enums.LaunchMode.Studio : Voidstrap.Enums.LaunchMode.Player;
             if (Voidstrap.Utility.Platform.IsLinux)
             {
                 bool rosemary = Voidstrap.Utility.LinuxRuntimeChoice.UsesRosemary(mode);
@@ -7297,18 +7799,29 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         LaunchTargetList.FocusList();
     }
 
-    private Border[] ModalPanels => [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel, NewsItemPanel];
+    private Border[] ModalPanels =>
+        [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel, NewsItemPanel];
 
     private void OpenModalOverlay(Border panel, ScaleTransform scale)
     {
         int generation = ++_launchTargetOverlayGeneration;
-        bool fresh = LaunchTargetOverlay.Visibility != Visibility.Visible || !LaunchTargetOverlay.IsHitTestVisible || !ReferenceEquals(_modalPanel, panel);
+        bool fresh =
+            LaunchTargetOverlay.Visibility != Visibility.Visible
+            || !LaunchTargetOverlay.IsHitTestVisible
+            || !ReferenceEquals(_modalPanel, panel);
         _modalPanel = panel;
         _modalScale = scale;
         foreach (Border candidate in ModalPanels)
             candidate.Visibility = ReferenceEquals(panel, candidate) ? Visibility.Visible : Visibility.Collapsed;
         if (Voidstrap.Utility.Platform.IsWindows && panel.Effect == null)
-            panel.Effect = new System.Windows.Media.Effects.DropShadowEffect { BlurRadius = 32, ShadowDepth = 8, Direction = 270, Opacity = 0.37, Color = Colors.Black };
+            panel.Effect = new System.Windows.Media.Effects.DropShadowEffect
+            {
+                BlurRadius = 32,
+                ShadowDepth = 8,
+                Direction = 270,
+                Opacity = 0.37,
+                Color = Colors.Black,
+            };
         if (fresh)
         {
             LaunchTargetOverlay.BeginAnimation(OpacityProperty, null);
@@ -7347,10 +7860,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (_launchTargetsWarmed || _launchTargetWarmupTimer != null)
             return;
-        _launchTargetWarmupTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
-        {
-            Interval = TimeSpan.FromSeconds(2)
-        };
+        _launchTargetWarmupTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle) { Interval = TimeSpan.FromSeconds(2) };
         _launchTargetWarmupTimer.Tick += LaunchTargetWarmupTimer_Tick;
         _launchTargetWarmupTimer.Start();
     }
@@ -7406,10 +7916,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             FinishLaunchTargetWarmup();
             return;
         }
-        _launchTargetSettleTimer = new DispatcherTimer(DispatcherPriority.ContextIdle)
-        {
-            Interval = LaunchTargetWarmDuration
-        };
+        _launchTargetSettleTimer = new DispatcherTimer(DispatcherPriority.ContextIdle) { Interval = LaunchTargetWarmDuration };
         _launchTargetSettleTimer.Tick += LaunchTargetSettleTimer_Tick;
         _launchTargetSettleTimer.Start();
     }
@@ -7489,7 +7996,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 {
                     Viewbox = bounds,
                     ViewboxUnits = BrushMappingMode.Absolute,
-                    Stretch = Stretch.Fill
+                    Stretch = Stretch.Fill,
                 };
                 context.DrawRectangle(brush, null, new Rect(0, 0, bounds.Width, bounds.Height));
             }
@@ -7498,7 +8005,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 (int)Math.Ceiling(bounds.Height * dpi.DpiScaleY),
                 96 * dpi.DpiScaleX,
                 96 * dpi.DpiScaleY,
-                PixelFormats.Pbgra32);
+                PixelFormats.Pbgra32
+            );
             bitmap.Render(drawing);
             bitmap.Freeze();
             SetModalScale(scale, startScale);
@@ -7510,7 +8018,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                     VerticalAlignment = VerticalAlignment.Center,
                     RenderTransformOrigin = new Point(0.5, 0.5),
                     IsHitTestVisible = false,
-                    Stretch = Stretch.Fill
+                    Stretch = Stretch.Fill,
                 };
                 RenderOptions.SetBitmapScalingMode(_modalSnapshot, BitmapScalingMode.Linear);
                 LaunchTargetOverlay.Children.Add(_modalSnapshot);
@@ -7518,7 +8026,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             _modalSnapshot.Source = bitmap;
             _modalSnapshot.Width = bounds.Width;
             _modalSnapshot.Height = bounds.Height;
-            _modalSnapshot.Margin = new Thickness(panel.Margin.Left - pad, panel.Margin.Top - pad, panel.Margin.Right - pad, panel.Margin.Bottom - pad);
+            _modalSnapshot.Margin = new Thickness(
+                panel.Margin.Left - pad,
+                panel.Margin.Top - pad,
+                panel.Margin.Right - pad,
+                panel.Margin.Bottom - pad
+            );
             _modalSnapshot.HorizontalAlignment = panel.HorizontalAlignment;
             _modalSnapshot.VerticalAlignment = panel.VerticalAlignment;
             _modalSnapshot.RenderTransform = scale;
@@ -7699,6 +8212,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     [GeneratedRegex("(?<=[a-z0-9])(?=[A-Z])")]
     private static partial Regex CamelCaseBoundaryPattern { get; }
+
     [GeneratedRegex("\\s+")]
     private static partial Regex WhitespacePattern { get; }
 }

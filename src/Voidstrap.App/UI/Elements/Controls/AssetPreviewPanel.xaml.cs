@@ -29,7 +29,8 @@ using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Controls;
 
-public partial class AssetPreviewPanel : UserControl{
+public partial class AssetPreviewPanel : UserControl
+{
 	private const int MaxModelParts = 2000;
 	private const int MaxModelMeshes = 128;
 	private const long MaxModelMeshBytes = 32L * 1024 * 1024;
@@ -42,7 +43,7 @@ public partial class AssetPreviewPanel : UserControl{
 		Mesh,
 		Audio,
 		Animation,
-		Text
+		Text,
 	}
 
 	private Mode _mode;
@@ -144,22 +145,10 @@ public partial class AssetPreviewPanel : UserControl{
 		//IL_012e: Unknown result type (might be due to invalid IL or missing references)
 		//IL_0141: Expected O, but got Unknown
 		InitializeComponent();
-		_animTimer = new DispatcherTimer((DispatcherPriority)7)
-		{
-			Interval = TimeSpan.FromMilliseconds(16L)
-		};
-		_audioTimer = new DispatcherTimer((DispatcherPriority)9)
-		{
-			Interval = TimeSpan.FromMilliseconds(60L)
-		};
-		_spinTimer = new DispatcherTimer((DispatcherPriority)7)
-		{
-			Interval = TimeSpan.FromMilliseconds(16L)
-		};
-		_moveTimer = new DispatcherTimer((DispatcherPriority)5)
-		{
-			Interval = TimeSpan.FromMilliseconds(16L)
-		};
+		_animTimer = new DispatcherTimer((DispatcherPriority)7) { Interval = TimeSpan.FromMilliseconds(16L) };
+		_audioTimer = new DispatcherTimer((DispatcherPriority)9) { Interval = TimeSpan.FromMilliseconds(60L) };
+		_spinTimer = new DispatcherTimer((DispatcherPriority)7) { Interval = TimeSpan.FromMilliseconds(16L) };
+		_moveTimer = new DispatcherTimer((DispatcherPriority)5) { Interval = TimeSpan.FromMilliseconds(16L) };
 	}
 
 	private void Panel_Loaded(object sender, RoutedEventArgs e)
@@ -259,9 +248,7 @@ public partial class AssetPreviewPanel : UserControl{
 			{
 				previewCts.Cancel();
 			}
-			catch (ObjectDisposedException)
-			{
-			}
+			catch (ObjectDisposedException) { }
 			previewCts.Dispose();
 		}
 		_animTimer.Stop();
@@ -424,11 +411,7 @@ public partial class AssetPreviewPanel : UserControl{
 			{
 				num7 = 1.0;
 			}
-			MeshGeometry3D meshGeometry3D = new MeshGeometry3D
-			{
-				Positions = point3DCollection,
-				TriangleIndices = int32Collection
-			};
+			MeshGeometry3D meshGeometry3D = new MeshGeometry3D { Positions = point3DCollection, TriangleIndices = int32Collection };
 			MaterialGroup materialGroup = new MaterialGroup();
 			materialGroup.Children.Add(new DiffuseMaterial(new SolidColorBrush(Color.FromRgb(194, 194, 202))));
 			materialGroup.Children.Add(new SpecularMaterial(new SolidColorBrush(Color.FromRgb(64, 64, 64)), 18.0));
@@ -437,7 +420,7 @@ public partial class AssetPreviewPanel : UserControl{
 				Geometry = meshGeometry3D,
 				Material = materialGroup,
 				BackMaterial = new DiffuseMaterial(new SolidColorBrush(Color.FromRgb(96, 96, 102))),
-				Transform = new TranslateTransform3D(0.0 - lastMeshCenter.X, 0.0 - lastMeshCenter.Y, 0.0 - lastMeshCenter.Z)
+				Transform = new TranslateTransform3D(0.0 - lastMeshCenter.X, 0.0 - lastMeshCenter.Y, 0.0 - lastMeshCenter.Z),
 			};
 			MeshVisual.Content = _meshSolidModel;
 			_lastMeshGeometry = meshGeometry3D;
@@ -482,11 +465,7 @@ public partial class AssetPreviewPanel : UserControl{
 		Quad(new Point3D(x, y, z), new Point3D(x, y, z2), new Point3D(x, y2, z2), new Point3D(x, y2, z));
 		Quad(new Point3D(x, y2, z2), new Point3D(x2, y2, z2), new Point3D(x2, y2, z), new Point3D(x, y2, z));
 		Quad(new Point3D(x, y, z), new Point3D(x2, y, z), new Point3D(x2, y, z2), new Point3D(x, y, z2));
-		return new MeshGeometry3D
-		{
-			Positions = positions,
-			TriangleIndices = indices
-		};
+		return new MeshGeometry3D { Positions = positions, TriangleIndices = indices };
 		void Quad(Point3D a, Point3D b, Point3D c, Point3D d)
 		{
 			int count = positions.Count;
@@ -557,11 +536,7 @@ public partial class AssetPreviewPanel : UserControl{
 		{
 			int32Collection.Add(index);
 		}
-		return new MeshGeometry3D
-		{
-			Positions = point3DCollection,
-			TriangleIndices = int32Collection
-		};
+		return new MeshGeometry3D { Positions = point3DCollection, TriangleIndices = int32Collection };
 	}
 
 	private void PreviewAnimation(AnimationData anim)
@@ -646,7 +621,10 @@ public partial class AssetPreviewPanel : UserControl{
 	{
 		Dictionary<string, RobloxCFrame> dictionary = ComputePoses(t);
 		RobloxCFrame value;
-		Dictionary<string, RobloxCFrame> dictionary2 = new Dictionary<string, RobloxCFrame>(StringComparer.Ordinal) { [_rig.RootPart] = (dictionary.TryGetValue(_rig.RootPart, out value) ? value : RobloxCFrame.Identity) };
+		Dictionary<string, RobloxCFrame> dictionary2 = new Dictionary<string, RobloxCFrame>(StringComparer.Ordinal)
+		{
+			[_rig.RootPart] = (dictionary.TryGetValue(_rig.RootPart, out value) ? value : RobloxCFrame.Identity),
+		};
 		foreach (RigJoint joint in _rig.Joints)
 		{
 			if (dictionary2.TryGetValue(joint.Part0, out var value2))
@@ -753,32 +731,28 @@ public partial class AssetPreviewPanel : UserControl{
 		string text3;
 		switch (text)
 		{
-		case "WAV":
-			text2 = ".wav";
-			text3 = "WAV audio|*.wav";
-			break;
-		case "MP3":
-			text2 = ".mp3";
-			text3 = "MP3 audio|*.mp3";
-			break;
-		case "AAC (M4A)":
-			text2 = ".m4a";
-			text3 = "AAC audio|*.m4a";
-			break;
-		case "WMA":
-			text2 = ".wma";
-			text3 = "WMA audio|*.wma";
-			break;
-		default:
-			text2 = (string.IsNullOrEmpty(_audioExt) ? ".ogg" : _audioExt);
-			text3 = "Audio|*" + text2;
-			break;
+			case "WAV":
+				text2 = ".wav";
+				text3 = "WAV audio|*.wav";
+				break;
+			case "MP3":
+				text2 = ".mp3";
+				text3 = "MP3 audio|*.mp3";
+				break;
+			case "AAC (M4A)":
+				text2 = ".m4a";
+				text3 = "AAC audio|*.m4a";
+				break;
+			case "WMA":
+				text2 = ".wma";
+				text3 = "WMA audio|*.wma";
+				break;
+			default:
+				text2 = (string.IsNullOrEmpty(_audioExt) ? ".ogg" : _audioExt);
+				text3 = "Audio|*" + text2;
+				break;
 		}
-		SaveFileDialog saveFileDialog = new SaveFileDialog
-		{
-			Filter = text3 + "|All files|*.*",
-			FileName = "audio" + text2
-		};
+		SaveFileDialog saveFileDialog = new SaveFileDialog { Filter = text3 + "|All files|*.*", FileName = "audio" + text2 };
 		if (saveFileDialog.ShowDialog() != true)
 		{
 			return;
@@ -812,15 +786,15 @@ public partial class AssetPreviewPanel : UserControl{
 		MediaFoundationApi.Startup();
 		switch (fmt)
 		{
-		case "MP3":
-			MediaFoundationEncoder.EncodeToMp3(sampleToWaveProvider, path);
-			break;
-		case "AAC (M4A)":
-			MediaFoundationEncoder.EncodeToAac(sampleToWaveProvider, path);
-			break;
-		case "WMA":
-			MediaFoundationEncoder.EncodeToWma(sampleToWaveProvider, path);
-			break;
+			case "MP3":
+				MediaFoundationEncoder.EncodeToMp3(sampleToWaveProvider, path);
+				break;
+			case "AAC (M4A)":
+				MediaFoundationEncoder.EncodeToAac(sampleToWaveProvider, path);
+				break;
+			case "WMA":
+				MediaFoundationEncoder.EncodeToWma(sampleToWaveProvider, path);
+				break;
 		}
 	}
 
@@ -828,8 +802,18 @@ public partial class AssetPreviewPanel : UserControl{
 	{
 		MemoryStream memoryStream = new MemoryStream(data, writable: false);
 		bool num = data.Length > 4 && data[0] == 79 && data[1] == 103 && data[2] == 103 && data[3] == 83;
-		bool flag = data.Length > 12 && data[0] == 82 && data[1] == 73 && data[2] == 70 && data[3] == 70 && data[8] == 87 && data[9] == 65 && data[10] == 86 && data[11] == 69;
-		bool flag2 = data.Length > 3 && ((data[0] == 73 && data[1] == 68 && data[2] == 51) || (data[0] == byte.MaxValue && (data[1] & 0xE0) == 224));
+		bool flag =
+			data.Length > 12
+			&& data[0] == 82
+			&& data[1] == 73
+			&& data[2] == 70
+			&& data[3] == 70
+			&& data[8] == 87
+			&& data[9] == 65
+			&& data[10] == 86
+			&& data[11] == 69;
+		bool flag2 =
+			data.Length > 3 && ((data[0] == 73 && data[1] == 68 && data[2] == 51) || (data[0] == byte.MaxValue && (data[1] & 0xE0) == 224));
 		if (num || string.Equals(ext, ".ogg", StringComparison.OrdinalIgnoreCase))
 		{
 			return new Voidstrap.Utility.VorbisWaveStream(memoryStream, closeOnDispose: true);
@@ -872,9 +856,7 @@ public partial class AssetPreviewPanel : UserControl{
 				_waveOut?.Play();
 				return;
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 		if (flag)
 		{
@@ -892,30 +874,22 @@ public partial class AssetPreviewPanel : UserControl{
 				_waveOut.PlaybackStopped -= WaveOut_PlaybackStopped;
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			_waveOut?.Stop();
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			_waveOut?.Dispose();
 		}
-		catch
-		{
-		}
+		catch { }
 		try
 		{
 			_waveReader?.Dispose();
 		}
-		catch
-		{
-		}
+		catch { }
 		_waveOut = null;
 		_waveReader = null;
 		_audioPlaying = false;
@@ -979,9 +953,7 @@ public partial class AssetPreviewPanel : UserControl{
 				_waveOut.Volume = (float)Math.Clamp(e.NewValue, 0.0, 1.0);
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private void AudioSeek_DragStarted(object sender, DragStartedEventArgs e)
@@ -999,9 +971,7 @@ public partial class AssetPreviewPanel : UserControl{
 				_waveReader.CurrentTime = TimeSpan.FromSeconds(AudioPositionSlider.Value);
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private void UpdateCamera()
@@ -1072,7 +1042,10 @@ public partial class AssetPreviewPanel : UserControl{
 
 	private void Help_Click(object sender, RoutedEventArgs e)
 	{
-		Frontend.ShowMessageBox("Camera Controls\n\nOrbit Mode (default)\n  Click + Drag  -  Rotate the model\n  Scroll Wheel  -  Zoom in / out\n\nFPS Mode (press W/A/S/D to enter)\n  W / A / S / D  -  Move forward / left / back / right\n  Space / Shift  -  Move up / down\n  Click + Drag   -  Look around\n  Scroll Wheel   -  Move in / out\n  Hold Q / E     -  Move slower / faster", MessageBoxImage.Asterisk);
+		Frontend.ShowMessageBox(
+			"Camera Controls\n\nOrbit Mode (default)\n  Click + Drag  -  Rotate the model\n  Scroll Wheel  -  Zoom in / out\n\nFPS Mode (press W/A/S/D to enter)\n  W / A / S / D  -  Move forward / left / back / right\n  Space / Shift  -  Move up / down\n  Click + Drag   -  Look around\n  Scroll Wheel   -  Move in / out\n  Hold Q / E     -  Move slower / faster",
+			MessageBoxImage.Asterisk
+		);
 	}
 
 	private void Host_KeyDown(object sender, KeyEventArgs e)
@@ -1245,17 +1218,13 @@ public partial class AssetPreviewPanel : UserControl{
 			Line(0.0 - num, num2, num, num2);
 			Line(num2, 0.0 - num, num2, num);
 		}
-		MeshGeometry3D geometry = new MeshGeometry3D
-		{
-			Positions = positions,
-			TriangleIndices = indices
-		};
+		MeshGeometry3D geometry = new MeshGeometry3D { Positions = positions, TriangleIndices = indices };
 		EmissiveMaterial emissiveMaterial = new EmissiveMaterial(new SolidColorBrush(Color.FromRgb(74, 74, 82)));
 		_gridModel = new GeometryModel3D
 		{
 			Geometry = geometry,
 			Material = emissiveMaterial,
-			BackMaterial = emissiveMaterial
+			BackMaterial = emissiveMaterial,
 		};
 		ApplyGridVisibility();
 		void Line(double x0, double z0, double x1, double z1)
@@ -1316,13 +1285,9 @@ public partial class AssetPreviewPanel : UserControl{
 		EmissiveMaterial emissiveMaterial = new EmissiveMaterial(new SolidColorBrush(color));
 		return new GeometryModel3D
 		{
-			Geometry = new MeshGeometry3D
-			{
-				Positions = positions,
-				TriangleIndices = indices
-			},
+			Geometry = new MeshGeometry3D { Positions = positions, TriangleIndices = indices },
 			Material = emissiveMaterial,
-			BackMaterial = emissiveMaterial
+			BackMaterial = emissiveMaterial,
 		};
 		void Quad(Point3D a, Point3D b, Point3D cc, Point3D d)
 		{
@@ -1387,14 +1352,10 @@ public partial class AssetPreviewPanel : UserControl{
 		EmissiveMaterial emissiveMaterial = new EmissiveMaterial(new SolidColorBrush(Color.FromRgb(221, 221, 230)));
 		return new GeometryModel3D
 		{
-			Geometry = new MeshGeometry3D
-			{
-				Positions = positions,
-				TriangleIndices = indices
-			},
+			Geometry = new MeshGeometry3D { Positions = positions, TriangleIndices = indices },
 			Material = emissiveMaterial,
 			BackMaterial = emissiveMaterial,
-			Transform = new TranslateTransform3D(0.0 - center.X, 0.0 - center.Y, 0.0 - center.Z)
+			Transform = new TranslateTransform3D(0.0 - center.X, 0.0 - center.Y, 0.0 - center.Z),
 		};
 		void Edge(Point3D p0, Point3D p1, Vector3D vector2)
 		{

@@ -16,9 +16,19 @@ public partial class DownloadsPage : UiPage
 
     private const double PosterMinWidth = 190.0;
 
-    public static readonly DependencyProperty RobloxColumnsProperty = DependencyProperty.Register(nameof(RobloxColumns), typeof(int), typeof(DownloadsPage), new PropertyMetadata(2));
+    public static readonly DependencyProperty RobloxColumnsProperty = DependencyProperty.Register(
+        nameof(RobloxColumns),
+        typeof(int),
+        typeof(DownloadsPage),
+        new PropertyMetadata(2)
+    );
 
-    public static readonly DependencyProperty ClassicColumnsProperty = DependencyProperty.Register(nameof(ClassicColumns), typeof(int), typeof(DownloadsPage), new PropertyMetadata(3));
+    public static readonly DependencyProperty ClassicColumnsProperty = DependencyProperty.Register(
+        nameof(ClassicColumns),
+        typeof(int),
+        typeof(DownloadsPage),
+        new PropertyMetadata(3)
+    );
 
     public int RobloxColumns
     {
@@ -67,7 +77,8 @@ public partial class DownloadsPage : UiPage
     private void SearchBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
         _search = SearchBox.Text?.Trim() ?? "";
-        SearchPlaceholder.Visibility = _search.Length == 0 && string.IsNullOrEmpty(SearchBox.Text) ? Visibility.Visible : Visibility.Collapsed;
+        SearchPlaceholder.Visibility =
+            _search.Length == 0 && string.IsNullOrEmpty(SearchBox.Text) ? Visibility.Visible : Visibility.Collapsed;
         ApplyFilters();
     }
 
@@ -84,7 +95,7 @@ public partial class DownloadsPage : UiPage
         {
             DownloadsViewModel.DownloadItem download => download.Title + " " + download.Subtitle,
             DownloadsViewModel.ClientItem client => client.Title + " " + client.Description,
-            _ => ""
+            _ => "",
         };
         return title.Contains(_search, System.StringComparison.OrdinalIgnoreCase);
     }
@@ -133,9 +144,7 @@ public partial class DownloadsPage : UiPage
                 mainWindow.RootNavigation?.Navigate(typeof(ExtensionPage));
             }
         }
-        catch
-        {
-        }
+        catch { }
     }
 
     private void DownloadsPage_Unloaded(object sender, RoutedEventArgs e)

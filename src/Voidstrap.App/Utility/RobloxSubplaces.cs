@@ -15,12 +15,16 @@ public static class RobloxSubplaces
 	public sealed record Place(long Id, string Name)
 	{
 		public string IconUrl { get; init; } = "";
-		public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Id.ToString(CultureInfo.InvariantCulture) : Name + " (" + Id.ToString(CultureInfo.InvariantCulture) + ")";
+		public string DisplayName =>
+			string.IsNullOrWhiteSpace(Name)
+				? Id.ToString(CultureInfo.InvariantCulture)
+				: Name + " (" + Id.ToString(CultureInfo.InvariantCulture) + ")";
 	}
 
 	private static readonly TimeSpan CacheLifetime = TimeSpan.FromMinutes(10);
 
-	private static readonly System.Collections.Concurrent.ConcurrentDictionary<long, (IReadOnlyList<Place> Places, DateTime At)> Cache = new();
+	private static readonly System.Collections.Concurrent.ConcurrentDictionary<long, (IReadOnlyList<Place> Places, DateTime At)> Cache =
+		new();
 
 	public static bool TryGetCached(long universeId, out IReadOnlyList<Place> places)
 	{
@@ -48,12 +52,28 @@ public static class RobloxSubplaces
 		if (universeId <= 0)
 		{
 			ArgumentOutOfRangeException.ThrowIfNegativeOrZero(placeId);
-			using JsonDocument universe = await GetDocumentAsync(client, "https://apis.roblox.com/universes/v1/places/" + placeId.ToString(CultureInfo.InvariantCulture) + "/universe", token).ConfigureAwait(false);
+			using JsonDocument universe = await GetDocumentAsync(
+					client,
+					"https://apis.roblox.com/universes/v1/places/" + placeId.ToString(CultureInfo.InvariantCulture) + "/universe",
+					token
+				)
+				.ConfigureAwait(false);
 			if (!TryGetPositiveId(universe.RootElement, "universeId", out universeId))
 				throw new InvalidDataException("The place does not belong to an available experience.");
 		}
-		using JsonDocument game = await GetDocumentAsync(client, "https://games.roblox.com/v1/games?universeIds=" + universeId.ToString(CultureInfo.InvariantCulture), token).ConfigureAwait(false);
-		if (game.RootElement.ValueKind != JsonValueKind.Object || !game.RootElement.TryGetProperty("data", out JsonElement games) || games.ValueKind != JsonValueKind.Array || games.GetArrayLength() != 1 || !TryGetPositiveId(games[0], "rootPlaceId", out long rootPlaceId))
+		using JsonDocument game = await GetDocumentAsync(
+				client,
+				"https://games.roblox.com/v1/games?universeIds=" + universeId.ToString(CultureInfo.InvariantCulture),
+				token
+			)
+			.ConfigureAwait(false);
+		if (
+			game.RootElement.ValueKind != JsonValueKind.Object
+			|| !game.RootElement.TryGetProperty("data", out JsonElement games)
+			|| games.ValueKind != JsonValueKind.Array
+			|| games.GetArrayLength() != 1
+			|| !TryGetPositiveId(games[0], "rootPlaceId", out long rootPlaceId)
+		)
 			throw new InvalidDataException("The experience is unavailable.");
 		List<Place> places = new();
 		HashSet<long> ids = new();
@@ -62,20 +82,33 @@ public static class RobloxSubplaces
 		do
 		{
 			token.ThrowIfCancellationRequested();
-			string url = "https://develop.roblox.com/v1/universes/" + universeId.ToString(CultureInfo.InvariantCulture) + "/places?limit=100&sortOrder=Asc";
+			string url =
+				"https://develop.roblox.com/v1/universes/"
+				+ universeId.ToString(CultureInfo.InvariantCulture)
+				+ "/places?limit=100&sortOrder=Asc";
 			if (cursor != null)
 				url += "&cursor=" + Uri.EscapeDataString(cursor);
 			using JsonDocument page = await GetDocumentAsync(client, url, token).ConfigureAwait(false);
-			if (page.RootElement.ValueKind != JsonValueKind.Object || !page.RootElement.TryGetProperty("data", out JsonElement items) || items.ValueKind != JsonValueKind.Array)
+			if (
+				page.RootElement.ValueKind != JsonValueKind.Object
+				|| !page.RootElement.TryGetProperty("data", out JsonElement items)
+				|| items.ValueKind != JsonValueKind.Array
+			)
 				throw new InvalidDataException("Roblox returned an invalid place list.");
 			foreach (JsonElement item in items.EnumerateArray())
 			{
 				if (!TryGetPositiveId(item, "id", out long id) || id == rootPlaceId || !ids.Add(id))
 					continue;
-				string? name = item.TryGetProperty("name", out JsonElement nameValue) && nameValue.ValueKind == JsonValueKind.String ? nameValue.GetString() : null;
+				string? name =
+					item.TryGetProperty("name", out JsonElement nameValue) && nameValue.ValueKind == JsonValueKind.String
+						? nameValue.GetString()
+						: null;
 				places.Add(new Place(id, name ?? ""));
 			}
-			if (!page.RootElement.TryGetProperty("nextPageCursor", out JsonElement cursorValue) || (cursorValue.ValueKind != JsonValueKind.String && cursorValue.ValueKind != JsonValueKind.Null))
+			if (
+				!page.RootElement.TryGetProperty("nextPageCursor", out JsonElement cursorValue)
+				|| (cursorValue.ValueKind != JsonValueKind.String && cursorValue.ValueKind != JsonValueKind.Null)
+			)
 				throw new InvalidDataException("Roblox returned an invalid page cursor.");
 			cursor = cursorValue.ValueKind == JsonValueKind.String ? cursorValue.GetString() : null;
 			if (string.IsNullOrEmpty(cursor))
@@ -102,20 +135,45 @@ public static class RobloxSubplaces
 			string ids = string.Join(',', indices.Keys.Select(id => id.ToString(CultureInfo.InvariantCulture)));
 			try
 			{
-				using JsonDocument response = await GetDocumentAsync(client, "https://thumbnails.roblox.com/v1/places/gameicons?placeIds=" + ids + "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false", request.Token).ConfigureAwait(false);
-				if (response.RootElement.ValueKind != JsonValueKind.Object || !response.RootElement.TryGetProperty("data", out JsonElement images) || images.ValueKind != JsonValueKind.Array)
+				using JsonDocument response = await GetDocumentAsync(
+						client,
+						"https://thumbnails.roblox.com/v1/places/gameicons?placeIds="
+							+ ids
+							+ "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false",
+						request.Token
+					)
+					.ConfigureAwait(false);
+				if (
+					response.RootElement.ValueKind != JsonValueKind.Object
+					|| !response.RootElement.TryGetProperty("data", out JsonElement images)
+					|| images.ValueKind != JsonValueKind.Array
+				)
 					continue;
 				foreach (JsonElement image in images.EnumerateArray())
 				{
-					if (!TryGetPositiveId(image, "targetId", out long id) || !indices.TryGetValue(id, out int index)
-						|| !image.TryGetProperty("state", out JsonElement state) || state.ValueKind != JsonValueKind.String || state.GetString() != "Completed"
-						|| !image.TryGetProperty("imageUrl", out JsonElement imageUrl) || imageUrl.ValueKind != JsonValueKind.String
-						|| !Uri.TryCreate(imageUrl.GetString(), UriKind.Absolute, out Uri? uri) || uri.Scheme != Uri.UriSchemeHttps)
+					if (
+						!TryGetPositiveId(image, "targetId", out long id)
+						|| !indices.TryGetValue(id, out int index)
+						|| !image.TryGetProperty("state", out JsonElement state)
+						|| state.ValueKind != JsonValueKind.String
+						|| state.GetString() != "Completed"
+						|| !image.TryGetProperty("imageUrl", out JsonElement imageUrl)
+						|| imageUrl.ValueKind != JsonValueKind.String
+						|| !Uri.TryCreate(imageUrl.GetString(), UriKind.Absolute, out Uri? uri)
+						|| uri.Scheme != Uri.UriSchemeHttps
+					)
 						continue;
 					places[index] = places[index] with { IconUrl = uri.AbsoluteUri };
 				}
 			}
-			catch (Exception ex) when (ex is HttpRequestException or InvalidDataException or JsonException or OperationCanceledException or Http.RateLimitedException)
+			catch (Exception ex)
+				when (ex
+						is HttpRequestException
+							or InvalidDataException
+							or JsonException
+							or OperationCanceledException
+							or Http.RateLimitedException
+				)
 			{
 				token.ThrowIfCancellationRequested();
 			}

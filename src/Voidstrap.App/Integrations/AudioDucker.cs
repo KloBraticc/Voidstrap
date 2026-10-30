@@ -29,7 +29,9 @@ public static class AudioDucker
 	private const int SessionRefreshIntervalMs = 5000;
 
 	private static readonly object _gate = new object();
-	private static readonly Dictionary<string, SessionSnapshot> _snapshots = new Dictionary<string, SessionSnapshot>(StringComparer.Ordinal);
+	private static readonly Dictionary<string, SessionSnapshot> _snapshots = new Dictionary<string, SessionSnapshot>(
+		StringComparer.Ordinal
+	);
 	private static readonly Dictionary<string, uint> _normalizedSessions = new Dictionary<string, uint>(StringComparer.Ordinal);
 	private static CancellationTokenSource? _cts;
 	private static Task? _loopTask;
@@ -91,15 +93,15 @@ public static class AudioDucker
 			owner = new CancellationTokenSource();
 			_launchResetCts = owner;
 			pendingGeneration = _pendingResetGeneration;
-			_launchResetTask = Task.Run(() => ResetLaunchedProcessAsync((uint)processId, continuousReset, pendingReset, pendingGeneration, owner));
+			_launchResetTask = Task.Run(() =>
+				ResetLaunchedProcessAsync((uint)processId, continuousReset, pendingReset, pendingGeneration, owner)
+			);
 		}
 		try
 		{
 			previous?.Cancel();
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 	}
 
 	public static bool Start()
@@ -169,9 +171,7 @@ public static class AudioDucker
 		{
 			cts?.Cancel();
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 		RestoreAllSnapshots();
 		StartRestoreRetries();
 		if (wasRunning)
@@ -191,7 +191,13 @@ public static class AudioDucker
 		RestoreAllSnapshots();
 	}
 
-	private static async Task ResetLaunchedProcessAsync(uint processId, bool continuousReset, bool clearPending, int pendingGeneration, CancellationTokenSource owner)
+	private static async Task ResetLaunchedProcessAsync(
+		uint processId,
+		bool continuousReset,
+		bool clearPending,
+		int pendingGeneration,
+		CancellationTokenSource owner
+	)
 	{
 		try
 		{
@@ -214,9 +220,7 @@ public static class AudioDucker
 				await Task.Delay(500, owner.Token).ConfigureAwait(false);
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		finally
 		{
 			lock (_gate)
@@ -234,31 +238,34 @@ public static class AudioDucker
 	private static bool SetProcessesVolumeToMax(HashSet<uint> pids, bool duckOnUnfocus)
 	{
 		bool found = false;
-		ForEachRobloxSession(pids, (key, session) =>
-		{
-			lock (_gate)
+		ForEachRobloxSession(
+			pids,
+			(key, session) =>
 			{
-				if (duckOnUnfocus && !IsForegroundRoblox(pids))
+				lock (_gate)
 				{
-					session.SimpleAudioVolume.Volume = DuckLevel;
-					_snapshots[key] = new SessionSnapshot
+					if (duckOnUnfocus && !IsForegroundRoblox(pids))
 					{
-						ProcessId = session.GetProcessID,
-						Volume = 1.0f,
-						Muted = session.SimpleAudioVolume.Mute
-					};
-					App.Logger?.WriteLine(LOG_IDENT, "Roblox audio session initialized at 20 percent while unfocused");
+						session.SimpleAudioVolume.Volume = DuckLevel;
+						_snapshots[key] = new SessionSnapshot
+						{
+							ProcessId = session.GetProcessID,
+							Volume = 1.0f,
+							Muted = session.SimpleAudioVolume.Mute,
+						};
+						App.Logger?.WriteLine(LOG_IDENT, "Roblox audio session initialized at 20 percent while unfocused");
+					}
+					else
+					{
+						session.SimpleAudioVolume.Volume = 1.0f;
+						_snapshots.Remove(key);
+						App.Logger?.WriteLine(LOG_IDENT, "Roblox audio volume reset to 100 percent");
+					}
+					_normalizedSessions[key] = session.GetProcessID;
+					found = true;
 				}
-				else
-				{
-					session.SimpleAudioVolume.Volume = 1.0f;
-					_snapshots.Remove(key);
-					App.Logger?.WriteLine(LOG_IDENT, "Roblox audio volume reset to 100 percent");
-				}
-				_normalizedSessions[key] = session.GetProcessID;
-				found = true;
 			}
-		});
+		);
 		return found;
 	}
 
@@ -302,9 +309,7 @@ public static class AudioDucker
 				await Task.Delay(fading ? FadeIntervalMs : FocusPollIntervalMs, token).ConfigureAwait(false);
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger?.WriteLine(LOG_IDENT, "Audio loop error: " + ex.Message);
@@ -345,65 +350,73 @@ public static class AudioDucker
 		Dictionary<string, SessionSnapshot> snapshots = CopySnapshots();
 		bool complete = true;
 		var seen = new HashSet<string>(StringComparer.Ordinal);
-		ForEachRobloxSession(pids, (key, session) =>
-		{
-			bool normalized;
-			lock (_gate)
+		ForEachRobloxSession(
+			pids,
+			(key, session) =>
 			{
-				if (generation != _generation || !IsRunning)
-					return;
-				normalized = _normalizedSessions.ContainsKey(key);
-				if (!normalized)
+				bool normalized;
+				lock (_gate)
 				{
-					if (!focused)
+					if (generation != _generation || !IsRunning)
+						return;
+					normalized = _normalizedSessions.ContainsKey(key);
+					if (!normalized)
 					{
-						session.SimpleAudioVolume.Volume = DuckLevel;
-						SessionSnapshot seeded = new()
+						if (!focused)
+						{
+							session.SimpleAudioVolume.Volume = DuckLevel;
+							SessionSnapshot seeded = new()
+							{
+								ProcessId = session.GetProcessID,
+								Volume = 1.0f,
+								Muted = session.SimpleAudioVolume.Mute,
+							};
+							_snapshots[key] = seeded;
+							snapshots[key] = seeded;
+						}
+						else
+						{
+							session.SimpleAudioVolume.Volume = 1.0f;
+							_snapshots.Remove(key);
+							snapshots.Remove(key);
+						}
+						_normalizedSessions[key] = session.GetProcessID;
+					}
+					if (!focused && !_snapshots.ContainsKey(key))
+					{
+						SessionSnapshot captured = new()
 						{
 							ProcessId = session.GetProcessID,
-							Volume = 1.0f,
-							Muted = session.SimpleAudioVolume.Mute
+							Volume = HeadsetAudio.BaseVolume ?? session.SimpleAudioVolume.Volume,
+							Muted = session.SimpleAudioVolume.Mute,
 						};
-						_snapshots[key] = seeded;
-						snapshots[key] = seeded;
+						_snapshots[key] = captured;
+						snapshots[key] = captured;
 					}
-					else
+					if (snapshots.TryGetValue(key, out SessionSnapshot? snapshot))
 					{
-						session.SimpleAudioVolume.Volume = 1.0f;
-						_snapshots.Remove(key);
-						snapshots.Remove(key);
+						seen.Add(key);
+						float target = focused ? snapshot.Volume : snapshot.Volume * DuckLevel;
+						float current = session.SimpleAudioVolume.Volume;
+						float next = StepToward(current, target, FadeStep);
+						session.SimpleAudioVolume.Volume = next;
+						if (focused)
+							session.SimpleAudioVolume.Mute = snapshot.Muted;
+						if (Math.Abs(next - target) > 0.005f)
+							complete = false;
+						else
+							session.SimpleAudioVolume.Volume = target;
 					}
-					_normalizedSessions[key] = session.GetProcessID;
 				}
-				if (!focused && !_snapshots.ContainsKey(key))
-				{
-					SessionSnapshot captured = new()
-					{
-						ProcessId = session.GetProcessID,
-						Volume = HeadsetAudio.BaseVolume ?? session.SimpleAudioVolume.Volume,
-						Muted = session.SimpleAudioVolume.Mute
-					};
-					_snapshots[key] = captured;
-					snapshots[key] = captured;
-				}
-				if (snapshots.TryGetValue(key, out SessionSnapshot? snapshot))
-				{
-					seen.Add(key);
-					float target = focused ? snapshot.Volume : snapshot.Volume * DuckLevel;
-					float current = session.SimpleAudioVolume.Volume;
-					float next = StepToward(current, target, FadeStep);
-					session.SimpleAudioVolume.Volume = next;
-					if (focused)
-						session.SimpleAudioVolume.Mute = snapshot.Muted;
-					if (Math.Abs(next - target) > 0.005f)
-						complete = false;
-					else
-						session.SimpleAudioVolume.Volume = target;
-				}
+				if (!normalized)
+					App.Logger?.WriteLine(
+						LOG_IDENT,
+						focused
+							? "Roblox audio session initialized at 100 percent"
+							: "Roblox audio session initialized at 20 percent while unfocused"
+					);
 			}
-			if (!normalized)
-				App.Logger?.WriteLine(LOG_IDENT, focused ? "Roblox audio session initialized at 100 percent" : "Roblox audio session initialized at 20 percent while unfocused");
-		});
+		);
 
 		if (focused)
 		{
@@ -449,18 +462,14 @@ public static class AudioDucker
 				{
 					result.Add((uint)process.Id);
 				}
-				catch
-				{
-				}
+				catch { }
 				finally
 				{
 					process.Dispose();
 				}
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		return result;
 	}
 
@@ -477,7 +486,10 @@ public static class AudioDucker
 			PInvoke.GetWindowThreadProcessId(foreground, out uint pid);
 			if (pids.Contains(pid))
 				return true;
-			return Voidstrap.Integrations.Overlays.RobloxWindowTracker.IsHiddenShellForeground(foregroundValue, Voidstrap.Integrations.Overlays.RobloxWindowTracker.Current.Hwnd);
+			return Voidstrap.Integrations.Overlays.RobloxWindowTracker.IsHiddenShellForeground(
+				foregroundValue,
+				Voidstrap.Integrations.Overlays.RobloxWindowTracker.Current.Hwnd
+			);
 		}
 		catch
 		{
@@ -493,17 +505,20 @@ public static class AudioDucker
 
 		HashSet<uint> pids = GetRobloxPids();
 		var restored = new HashSet<string>(StringComparer.Ordinal);
-		bool enumerated = ForEachRobloxSession(pids, (key, session) =>
-		{
-			if (!snapshots.TryGetValue(key, out SessionSnapshot? snapshot))
-				return;
-			lock (_gate)
+		bool enumerated = ForEachRobloxSession(
+			pids,
+			(key, session) =>
 			{
-				session.SimpleAudioVolume.Volume = snapshot.Volume;
-				session.SimpleAudioVolume.Mute = snapshot.Muted;
-				restored.Add(key);
+				if (!snapshots.TryGetValue(key, out SessionSnapshot? snapshot))
+					return;
+				lock (_gate)
+				{
+					session.SimpleAudioVolume.Volume = snapshot.Volume;
+					session.SimpleAudioVolume.Mute = snapshot.Muted;
+					restored.Add(key);
+				}
 			}
-		});
+		);
 		if (!enumerated)
 			return false;
 		lock (_gate)
@@ -540,9 +555,7 @@ public static class AudioDucker
 				await Task.Delay(500, owner.Token).ConfigureAwait(false);
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		finally
 		{
 			lock (_gate)
@@ -570,9 +583,7 @@ public static class AudioDucker
 		{
 			cts?.Cancel();
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 	}
 
 	private static void CancelLaunchReset()
@@ -588,9 +599,7 @@ public static class AudioDucker
 		{
 			cts?.Cancel();
 		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (ObjectDisposedException) { }
 	}
 
 	private static bool ForEachRobloxSession(HashSet<uint> pids, Action<string, AudioSessionControl> action)
@@ -618,14 +627,10 @@ public static class AudioDucker
 								instance = session.GetSessionIdentifier + ":" + session.GetProcessID;
 							action(device.ID + "|" + instance, session);
 						}
-						catch
-						{
-						}
+						catch { }
 					}
 				}
-				catch
-				{
-				}
+				catch { }
 				finally
 				{
 					device.Dispose();

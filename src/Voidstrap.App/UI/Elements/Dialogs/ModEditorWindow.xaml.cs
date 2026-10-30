@@ -11,11 +11,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Voidstrap.Extensions;
 using Voidstrap.Integrations.CommunityMods;
 using Voidstrap.UI.Elements.Base;
 using Voidstrap.UI.ViewModels.Settings;
 using Voidstrap.Utility;
-using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.Elements.Dialogs;
 
@@ -62,9 +62,7 @@ public partial class ModEditorWindow : WpfUiWindow
 				await LoadSlotsAsync();
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			ShowEmpty("The mod could not be read: " + ex.Message);
@@ -84,16 +82,20 @@ public partial class ModEditorWindow : WpfUiWindow
 		SetBusy(true, "Reading the mod files");
 		ModHint.Text = "Pick which file this mod uses for each Roblox file it replaces. Changes apply the next time Roblox launches.";
 		CancellationToken token = _lifetime.SafeToken();
-		(List<ModSlotRow> rows, bool hasSources) = await Task.Run(() =>
-		{
-			List<ModSlotRow> built = [.. ModVariantStore.BuildSlots(_recordId).Select(slot => new ModSlotRow(slot))];
-			Parallel.ForEach(built, new ParallelOptions { CancellationToken = token }, row => row.Selected.PreloadPreview());
-			return (built, ModVariantStore.HasSources(_recordId));
-		}, token);
+		(List<ModSlotRow> rows, bool hasSources) = await Task.Run(
+			() =>
+			{
+				List<ModSlotRow> built = [.. ModVariantStore.BuildSlots(_recordId).Select(slot => new ModSlotRow(slot))];
+				Parallel.ForEach(built, new ParallelOptions { CancellationToken = token }, row => row.Selected.PreloadPreview());
+				return (built, ModVariantStore.HasSources(_recordId));
+			},
+			token
+		);
 		_slots = rows;
 		SlotList.ItemsSource = _slots;
 
-		bool canDownload = _pack != null && _pack.Id > 0 && string.Equals(_pack.Source, GameBananaCatalog.SourceName, StringComparison.OrdinalIgnoreCase);
+		bool canDownload =
+			_pack != null && _pack.Id > 0 && string.Equals(_pack.Source, GameBananaCatalog.SourceName, StringComparison.OrdinalIgnoreCase);
 		DownloadOptionsButton.Visibility = canDownload ? Visibility.Visible : Visibility.Collapsed;
 		DownloadOptionsButton.Content = hasSources ? "Refresh options from GameBanana" : "Get every option from GameBanana";
 
@@ -116,15 +118,17 @@ public partial class ModEditorWindow : WpfUiWindow
 		Progress<string> progress = new Progress<string>(OnDownloadProgress);
 		try
 		{
-			int count = await Task.Run(() => ModVariantStore.DownloadSourcesAsync(_recordId, _pack, progress, _lifetime.SafeToken()), _lifetime.SafeToken());
+			int count = await Task.Run(
+				() => ModVariantStore.DownloadSourcesAsync(_recordId, _pack, progress, _lifetime.SafeToken()),
+				_lifetime.SafeToken()
+			);
 			await LoadSlotsAsync();
-			StatusText.Text = count > 0
-				? "Found " + count + " files on GameBanana. " + StatusText.Text
-				: "GameBanana did not have any extra options for this mod.";
+			StatusText.Text =
+				count > 0
+					? "Found " + count + " files on GameBanana. " + StatusText.Text
+					: "GameBanana did not have any extra options for this mod.";
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			SetBusy(false, "The options could not be downloaded: " + ex.Message);
@@ -160,9 +164,7 @@ public partial class ModEditorWindow : WpfUiWindow
 			{
 				await ShowConfigAsync(file);
 			}
-			catch (OperationCanceledException)
-			{
-			}
+			catch (OperationCanceledException) { }
 		}
 	}
 
@@ -188,7 +190,12 @@ public partial class ModEditorWindow : WpfUiWindow
 			EmptyText.Text = "This config has no rules.";
 			SaveButton.IsEnabled = true;
 			int enabled = loaded.Rows.Count(row => row.Enabled);
-			StatusText.Text = loaded.Rows.Count + (loaded.Rows.Count == 1 ? " rule, " : " rules, ") + enabled + " on" + (file.Parked ? ". This mod is turned off in My Mods." : "");
+			StatusText.Text =
+				loaded.Rows.Count
+				+ (loaded.Rows.Count == 1 ? " rule, " : " rules, ")
+				+ enabled
+				+ " on"
+				+ (file.Parked ? ". This mod is turned off in My Mods." : "");
 		}
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or InvalidDataException)
 		{
@@ -198,10 +205,9 @@ public partial class ModEditorWindow : WpfUiWindow
 
 	private static LoadedConfig ReadConfig(ReplacementConfigFile file)
 	{
-		JsonObject root = JsonNode.Parse(File.ReadAllText(file.Path)) as JsonObject
-			?? throw new InvalidDataException("The config is not a JSON object.");
-		JsonArray rules = root["replacement_rules"] as JsonArray
-			?? throw new InvalidDataException("The config has no replacement rules.");
+		JsonObject root =
+			JsonNode.Parse(File.ReadAllText(file.Path)) as JsonObject ?? throw new InvalidDataException("The config is not a JSON object.");
+		JsonArray rules = root["replacement_rules"] as JsonArray ?? throw new InvalidDataException("The config has no replacement rules.");
 		IReadOnlyList<string> suggestions = FindLocalAssets(file);
 		return new LoadedConfig(file, root, [.. Flatten(rules).Select(rule => new ReplacementRuleRow(rule, suggestions))]);
 	}
@@ -227,19 +233,27 @@ public partial class ModEditorWindow : WpfUiWindow
 					}
 				}
 				List<LoadedConfig> configs = [.. _configs.Values];
-				await Task.Run(async () =>
-				{
-					foreach (LoadedConfig config in configs)
+				await Task.Run(
+					async () =>
 					{
-						foreach (ReplacementRuleRow row in config.Rows)
+						foreach (LoadedConfig config in configs)
 						{
-							row.WriteBack();
+							foreach (ReplacementRuleRow row in config.Rows)
+							{
+								row.WriteBack();
+							}
+							string temporary = config.File.Path + ".tmp";
+							await File.WriteAllTextAsync(
+								temporary,
+								config.Root.ToJsonString(WriteOptions),
+								new UTF8Encoding(false),
+								_lifetime.SafeToken()
+							);
+							File.Move(temporary, config.File.Path, overwrite: true);
 						}
-						string temporary = config.File.Path + ".tmp";
-						await File.WriteAllTextAsync(temporary, config.Root.ToJsonString(WriteOptions), new UTF8Encoding(false), _lifetime.SafeToken());
-						File.Move(temporary, config.File.Path, overwrite: true);
-					}
-				}, _lifetime.SafeToken());
+					},
+					_lifetime.SafeToken()
+				);
 			}
 			else
 			{
@@ -248,9 +262,7 @@ public partial class ModEditorWindow : WpfUiWindow
 			Changed = true;
 			Close();
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
 		{
 			StatusText.Text = "The changes could not be saved: " + ex.Message;
@@ -313,10 +325,14 @@ public partial class ModEditorWindow : WpfUiWindow
 			{
 				return [];
 			}
-			return [.. Directory.EnumerateFiles(assetFolder, "*", SearchOption.AllDirectories)
-				.Take(2000)
-				.Select(path => "/" + Path.GetRelativePath(root, path).Replace('\\', '/'))
-				.OrderBy(path => path, StringComparer.OrdinalIgnoreCase)];
+			return
+			[
+				.. Directory
+					.EnumerateFiles(assetFolder, "*", SearchOption.AllDirectories)
+					.Take(2000)
+					.Select(path => "/" + Path.GetRelativePath(root, path).Replace('\\', '/'))
+					.OrderBy(path => path, StringComparer.OrdinalIgnoreCase),
+			];
 		}
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
 		{
@@ -405,9 +421,10 @@ internal sealed class ModSlotOptionRow : NotifyPropertyChangedViewModel
 		if (_preview == null)
 		{
 			string? path = Option.SourcePath;
-			_preview = path == null || !ModVariantStore.PreviewExtensions.Contains(Path.GetExtension(path))
-				? Task.FromResult<ImageSource?>(null)
-				: LoadPreviewAsync(path);
+			_preview =
+				path == null || !ModVariantStore.PreviewExtensions.Contains(Path.GetExtension(path))
+					? Task.FromResult<ImageSource?>(null)
+					: LoadPreviewAsync(path);
 		}
 		return _preview;
 	}
@@ -521,13 +538,14 @@ internal sealed class ReplacementRuleRow : NotifyPropertyChangedViewModel
 
 	public bool TargetEnabled => _mode != "remove";
 
-	public string TargetHint => _mode switch
-	{
-		"id" => "The asset id to use instead, leave empty to remove the asset",
-		"local" => "The file to use instead",
-		"cdn" => "A web address to load the asset from",
-		_ => "Removed assets do not need a target"
-	};
+	public string TargetHint =>
+		_mode switch
+		{
+			"id" => "The asset id to use instead, leave empty to remove the asset",
+			"local" => "The file to use instead",
+			"cdn" => "A web address to load the asset from",
+			_ => "Removed assets do not need a target",
+		};
 
 	public string? Validate()
 	{

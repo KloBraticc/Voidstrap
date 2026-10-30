@@ -64,7 +64,10 @@ namespace Voidstrap.Integrations.RiShade
                     {
                         if (!OwnedHashes(studioDirectory).Contains(targetHash, StringComparer.OrdinalIgnoreCase))
                         {
-                            App.Logger.WriteLine(LogIdent, "Studio already has a dxgi.dll that Voidstrap did not install, it is left untouched");
+                            App.Logger.WriteLine(
+                                LogIdent,
+                                "Studio already has a dxgi.dll that Voidstrap did not install, it is left untouched"
+                            );
                             return;
                         }
                         File.Copy(source, target, true);
@@ -95,25 +98,34 @@ namespace Voidstrap.Integrations.RiShade
             if (!File.Exists(ConfigPath))
             {
                 string preset = Path.Combine(RiShadeManager.RiShadeDir, "presets", "RiShade Natural.ini");
-                File.WriteAllText(ConfigPath, string.Join("\r\n",
-                    "[GENERAL]",
-                    "EffectSearchPaths=" + shaders,
-                    "TextureSearchPaths=" + textures,
-                    "IntermediateCachePath=" + cache,
-                    "PresetPath=" + preset,
-                    "NoEffectCache=0",
-                    "",
-                    "[INPUT]",
-                    "KeyOverlay=36,0,0,0",
-                    "",
-                    "[OVERLAY]",
-                    "TutorialProgress=4",
-                    ""));
+                File.WriteAllText(
+                    ConfigPath,
+                    string.Join(
+                        "\r\n",
+                        "[GENERAL]",
+                        "EffectSearchPaths=" + shaders,
+                        "TextureSearchPaths=" + textures,
+                        "IntermediateCachePath=" + cache,
+                        "PresetPath=" + preset,
+                        "NoEffectCache=0",
+                        "",
+                        "[INPUT]",
+                        "KeyOverlay=36,0,0,0",
+                        "",
+                        "[OVERLAY]",
+                        "TutorialProgress=4",
+                        ""
+                    )
+                );
                 return;
             }
 
             string text = File.ReadAllText(ConfigPath);
-            string updated = SetValue(SetValue(SetValue(text, "EffectSearchPaths", shaders), "TextureSearchPaths", textures), "IntermediateCachePath", cache);
+            string updated = SetValue(
+                SetValue(SetValue(text, "EffectSearchPaths", shaders), "TextureSearchPaths", textures),
+                "IntermediateCachePath",
+                cache
+            );
             if (updated != text)
                 File.WriteAllText(ConfigPath, updated);
         }
@@ -140,8 +152,12 @@ namespace Voidstrap.Integrations.RiShade
                 if (File.Exists(target))
                 {
                     string targetHash = Hash(target);
-                    bool owned = OwnedHashes(studioDirectory).Contains(targetHash, StringComparer.OrdinalIgnoreCase) ||
-                        (File.Exists(RiShadeManager.DxgiDllPath) && Hash(RiShadeManager.DxgiDllPath).Equals(targetHash, StringComparison.OrdinalIgnoreCase));
+                    bool owned =
+                        OwnedHashes(studioDirectory).Contains(targetHash, StringComparer.OrdinalIgnoreCase)
+                        || (
+                            File.Exists(RiShadeManager.DxgiDllPath)
+                            && Hash(RiShadeManager.DxgiDllPath).Equals(targetHash, StringComparison.OrdinalIgnoreCase)
+                        );
                     if (!owned)
                         return;
                     File.Delete(target);
@@ -151,16 +167,28 @@ namespace Voidstrap.Integrations.RiShade
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
-                App.Logger.WriteLine(LogIdent, "ReShade could not be removed from Studio while it is running, it is removed on the next Studio launch");
+                App.Logger.WriteLine(
+                    LogIdent,
+                    "ReShade could not be removed from Studio while it is running, it is removed on the next Studio launch"
+                );
             }
         }
 
         private static IEnumerable<string> OwnedHashes(string studioDirectory) =>
-            ReadMarker().Where(entry => entry.Directory.Equals(studioDirectory, StringComparison.OrdinalIgnoreCase)).Select(entry => entry.Hash);
+            ReadMarker()
+                .Where(entry => entry.Directory.Equals(studioDirectory, StringComparison.OrdinalIgnoreCase))
+                .Select(entry => entry.Hash);
 
         private static void RecordInstall(string studioDirectory, string hash)
         {
-            var entries = ReadMarker().Where(entry => !(entry.Directory.Equals(studioDirectory, StringComparison.OrdinalIgnoreCase) && entry.Hash.Equals(hash, StringComparison.OrdinalIgnoreCase))).ToList();
+            var entries = ReadMarker()
+                .Where(entry =>
+                    !(
+                        entry.Directory.Equals(studioDirectory, StringComparison.OrdinalIgnoreCase)
+                        && entry.Hash.Equals(hash, StringComparison.OrdinalIgnoreCase)
+                    )
+                )
+                .ToList();
             entries.Add((studioDirectory, hash));
             WriteMarker(entries);
         }

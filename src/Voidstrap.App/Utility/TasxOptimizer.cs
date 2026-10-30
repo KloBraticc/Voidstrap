@@ -4,8 +4,8 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Voidstrap.Models.Persistable;
 using Voidstrap.Extensions;
+using Voidstrap.Models.Persistable;
 
 namespace Voidstrap.Utility;
 
@@ -85,7 +85,12 @@ internal sealed partial class TasxOptimizer : IDisposable
 
 	[LibraryImport("kernel32.dll", SetLastError = true)]
 	[return: MarshalAs(UnmanagedType.Bool)]
-	private static partial bool SetProcessInformation(IntPtr hProcess, int informationClass, ref PowerThrottlingState information, uint size);
+	private static partial bool SetProcessInformation(
+		IntPtr hProcess,
+		int informationClass,
+		ref PowerThrottlingState information,
+		uint size
+	);
 
 	public static bool ShouldRun(AppSettings? settings)
 	{
@@ -118,9 +123,7 @@ internal sealed partial class TasxOptimizer : IDisposable
 				await Task.Delay(TickIntervalMs, token).ConfigureAwait(false);
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine(LogIdent, "Optimizer loop failed: " + ex.Message);
@@ -193,9 +196,12 @@ internal sealed partial class TasxOptimizer : IDisposable
 			}
 		}
 		_instances[process.Id] = instance;
-		App.Logger.WriteLine(LogIdent, instance.Hardened
-			? "Roblox process " + process.Id + " is protected and does not accept tuning, watching it without changes"
-			: "Now managing Roblox process " + process.Id);
+		App.Logger.WriteLine(
+			LogIdent,
+			instance.Hardened
+				? "Roblox process " + process.Id + " is protected and does not accept tuning, watching it without changes"
+				: "Now managing Roblox process " + process.Id
+		);
 	}
 
 	private static bool IsAccessDenied(Exception ex)
@@ -215,7 +221,8 @@ internal sealed partial class TasxOptimizer : IDisposable
 				(exited ??= new List<int>()).Add(pair.Key);
 				continue;
 			}
-			bool focused = foregroundProcessId != 0 && (uint)pair.Key == foregroundProcessId
+			bool focused =
+				foregroundProcessId != 0 && (uint)pair.Key == foregroundProcessId
 				|| Voidstrap.Integrations.Overlays.RobloxWindowTracker.IsProcessForeground(pair.Key);
 			if (focused)
 			{
@@ -226,7 +233,12 @@ internal sealed partial class TasxOptimizer : IDisposable
 				continue;
 			}
 			bool alive = true;
-			if (instance.Focused != focused || (refreshPriority && instance.AppliedPriority != RobloxProcessOptimizer.ResolveRuntimePriority(App.Settings.Prop, focused)))
+			if (
+				instance.Focused != focused
+				|| (
+					refreshPriority && instance.AppliedPriority != RobloxProcessOptimizer.ResolveRuntimePriority(App.Settings.Prop, focused)
+				)
+			)
 			{
 				instance.Focused = focused;
 				alive = Apply(instance, focused);
@@ -282,7 +294,10 @@ internal sealed partial class TasxOptimizer : IDisposable
 		if (denied)
 		{
 			instance.Hardened = true;
-			App.Logger.WriteLine(LogIdent, "Roblox process " + process.Id + " is protected and does not accept tuning, leaving it alone for this session");
+			App.Logger.WriteLine(
+				LogIdent,
+				"Roblox process " + process.Id + " is protected and does not accept tuning, leaving it alone for this session"
+			);
 			return true;
 		}
 		foreach (string error in errors)
@@ -291,7 +306,12 @@ internal sealed partial class TasxOptimizer : IDisposable
 		}
 		if (errors.Count == 0)
 		{
-			App.Logger.WriteLine(LogIdent, "Roblox process " + process.Id + (focused ? " is focused, full performance applied" : " lost focus, lower priority applied while keeping full speed"));
+			App.Logger.WriteLine(
+				LogIdent,
+				"Roblox process "
+					+ process.Id
+					+ (focused ? " is focused, full performance applied" : " lost focus, lower priority applied while keeping full speed")
+			);
 		}
 		return true;
 	}
@@ -321,7 +341,10 @@ internal sealed partial class TasxOptimizer : IDisposable
 			if (EmptyWorkingSet(instance.Process.Handle))
 			{
 				instance.Process.Refresh();
-				App.Logger.WriteLine(LogIdent, "Trimmed minimized Roblox process " + instance.Process.Id + " to " + instance.Process.WorkingSet64 / 1048576 + " MB");
+				App.Logger.WriteLine(
+					LogIdent,
+					"Trimmed minimized Roblox process " + instance.Process.Id + " to " + instance.Process.WorkingSet64 / 1048576 + " MB"
+				);
 				return true;
 			}
 			int code = Marshal.GetLastWin32Error();
@@ -369,7 +392,7 @@ internal sealed partial class TasxOptimizer : IDisposable
 		{
 			Version = PowerThrottlingCurrentVersion,
 			ControlMask = keep ? ExecutionSpeed : 0u,
-			StateMask = 0u
+			StateMask = 0u,
 		};
 		try
 		{
@@ -472,9 +495,7 @@ internal sealed partial class TasxOptimizer : IDisposable
 		{
 			_loopTask?.GetAwaiter().GetResult();
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine(LogIdent, "Shutdown failed: " + ex.Message);

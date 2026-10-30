@@ -96,7 +96,8 @@ public class LanguageSelectorViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-	public Visibility AutoTranslateVisibility => _selectedLanguage?.Id == LanguageOption.AutoTranslateId ? Visibility.Visible : Visibility.Collapsed;
+	public Visibility AutoTranslateVisibility =>
+		_selectedLanguage?.Id == LanguageOption.AutoTranslateId ? Visibility.Visible : Visibility.Collapsed;
 
 	public event EventHandler<bool>? CloseRequestEvent;
 
@@ -143,7 +144,10 @@ public class LanguageSelectorViewModel : NotifyPropertyChangedViewModel
 
 	private string GetInitialAutoTranslateLanguageName()
 	{
-		if (!string.IsNullOrEmpty(_originalAutoTranslateLanguage) && TranslationService.AvailableLanguages.TryGetValue(_originalAutoTranslateLanguage, out string? configured))
+		if (
+			!string.IsNullOrEmpty(_originalAutoTranslateLanguage)
+			&& TranslationService.AvailableLanguages.TryGetValue(_originalAutoTranslateLanguage, out string? configured)
+		)
 		{
 			return configured;
 		}
@@ -160,7 +164,9 @@ public class LanguageSelectorViewModel : NotifyPropertyChangedViewModel
 
 	private string GetSelectedAutoTranslateCode()
 	{
-		KeyValuePair<string, string> match = TranslationService.AvailableLanguages.FirstOrDefault(pair => pair.Value == _selectedAutoTranslateLanguage);
+		KeyValuePair<string, string> match = TranslationService.AvailableLanguages.FirstOrDefault(pair =>
+			pair.Value == _selectedAutoTranslateLanguage
+		);
 		return string.IsNullOrEmpty(match.Key) ? "en" : match.Key;
 	}
 }

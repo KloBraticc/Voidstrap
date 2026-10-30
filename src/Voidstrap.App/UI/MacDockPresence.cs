@@ -30,7 +30,10 @@ internal static class MacDockPresence
 		if (!OperatingSystem.IsMacOS() || !Voidstrap.Platform.MacOS.MacOSApplication.SetDockVisible(wanted))
 			return;
 		_dockVisible = wanted;
-		App.Logger?.WriteLine("MacDockPresence", wanted ? "A window is open, Voidstrap is in the Dock" : "No window is open, Voidstrap left the Dock and stays in the menu bar");
+		App.Logger?.WriteLine(
+			"MacDockPresence",
+			wanted ? "A window is open, Voidstrap is in the Dock" : "No window is open, Voidstrap left the Dock and stays in the menu bar"
+		);
 		if (wanted)
 			Voidstrap.Utility.Branding.ApplyDockIcon();
 	}
@@ -42,7 +45,12 @@ internal static class MacDockPresence
 			return true;
 		foreach (Window window in application.Windows)
 		{
-			if (window.IsVisible && window.ShowInTaskbar && window.ActualWidth >= MinimumWindowSize && window.ActualHeight >= MinimumWindowSize)
+			if (
+				window.IsVisible
+				&& window.ShowInTaskbar
+				&& window.ActualWidth >= MinimumWindowSize
+				&& window.ActualHeight >= MinimumWindowSize
+			)
 				return true;
 		}
 		return false;

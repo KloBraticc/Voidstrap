@@ -1,7 +1,7 @@
 using System;
+using System.Buffers.Binary;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Buffers.Binary;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -19,7 +19,9 @@ internal static class SafeImaging
 	private const long MaxDecodedAnimationBytes = 256L * 1024 * 1024;
 	private const int MaxAnimationFrames = 180;
 
-	private static readonly Lazy<System.Net.Http.HttpClient> _http = new Lazy<System.Net.Http.HttpClient>(() => VpnHttpClient.Create(TimeSpan.FromSeconds(15)));
+	private static readonly Lazy<System.Net.Http.HttpClient> _http = new Lazy<System.Net.Http.HttpClient>(() =>
+		VpnHttpClient.Create(TimeSpan.FromSeconds(15))
+	);
 
 	public static BitmapSource? FromBytes(byte[]? bytes, int decodeWidth = 0)
 	{
@@ -115,7 +117,17 @@ internal static class SafeImaging
 		foreach ((int width, int height, int offset, int length) in entries)
 		{
 			ReadOnlySpan<byte> frame = bytes.AsSpan(offset, length);
-			if (frame.Length >= 8 && frame[0] == 0x89 && frame[1] == 0x50 && frame[2] == 0x4e && frame[3] == 0x47 && frame[4] == 0x0d && frame[5] == 0x0a && frame[6] == 0x1a && frame[7] == 0x0a)
+			if (
+				frame.Length >= 8
+				&& frame[0] == 0x89
+				&& frame[1] == 0x50
+				&& frame[2] == 0x4e
+				&& frame[3] == 0x47
+				&& frame[4] == 0x0d
+				&& frame[5] == 0x0a
+				&& frame[6] == 0x1a
+				&& frame[7] == 0x0a
+			)
 			{
 				source = FromBytes(frame.ToArray(), decodeWidth);
 				if (source != null)
@@ -150,7 +162,15 @@ internal static class SafeImaging
 		long absoluteHeight = Math.Abs((long)dibFullHeight);
 		long decodedWidth = absoluteWidth > 0 ? absoluteWidth : entryWidth;
 		long decodedHeight = absoluteHeight >= 2 ? absoluteHeight / 2 : entryHeight;
-		if (headerSize < 40 || headerSize > frame.Length || decodedWidth <= 0 || decodedHeight <= 0 || bitsPerPixel is not (1 or 4 or 8 or 24 or 32) || compression != 0 || decodedWidth * decodedHeight > MaxDecodedImageBytes / 4)
+		if (
+			headerSize < 40
+			|| headerSize > frame.Length
+			|| decodedWidth <= 0
+			|| decodedHeight <= 0
+			|| bitsPerPixel is not (1 or 4 or 8 or 24 or 32)
+			|| compression != 0
+			|| decodedWidth * decodedHeight > MaxDecodedImageBytes / 4
+		)
 			return false;
 		int width = (int)decodedWidth;
 		int height = (int)decodedHeight;
@@ -238,7 +258,14 @@ internal static class SafeImaging
 		}
 		try
 		{
-			using FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, 81920, FileOptions.SequentialScan);
+			using FileStream stream = new FileStream(
+				path,
+				FileMode.Open,
+				FileAccess.Read,
+				FileShare.ReadWrite | FileShare.Delete,
+				81920,
+				FileOptions.SequentialScan
+			);
 			if (stream.Length <= 0 || stream.Length > MaxCompressedImageBytes)
 			{
 				return null;
@@ -290,15 +317,24 @@ internal static class SafeImaging
 		return loaded;
 	}
 
-	public static async System.Threading.Tasks.Task<BitmapSource?> FromHttpAsync(string? value, int decodeWidth = 0, System.Threading.CancellationToken token = default)
+	public static async System.Threading.Tasks.Task<BitmapSource?> FromHttpAsync(
+		string? value,
+		int decodeWidth = 0,
+		System.Threading.CancellationToken token = default
+	)
 	{
 		if (!Uri.TryCreate(value, UriKind.Absolute, out Uri? uri) || uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps)
 		{
 			return null;
 		}
 		using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, uri);
-		using System.Net.Http.HttpResponseMessage response = await _http.Value.SendAsync(request, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
-		if (!response.IsSuccessStatusCode || response.Content.Headers.ContentLength is long contentLength && contentLength > MaxCompressedImageBytes)
+		using System.Net.Http.HttpResponseMessage response = await _http
+			.Value.SendAsync(request, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, token)
+			.ConfigureAwait(false);
+		if (
+			!response.IsSuccessStatusCode
+			|| response.Content.Headers.ContentLength is long contentLength && contentLength > MaxCompressedImageBytes
+		)
 		{
 			return null;
 		}
@@ -342,9 +378,18 @@ internal static class SafeImaging
 		{
 			if (uri.IsAbsoluteUri && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
 			{
-				using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, uri);
-				using System.Net.Http.HttpResponseMessage response = _http.Value.SendAsync(request, System.Net.Http.HttpCompletionOption.ResponseHeadersRead).GetAwaiter().GetResult();
-				if (!response.IsSuccessStatusCode || response.Content.Headers.ContentLength is long contentLength && contentLength > MaxCompressedImageBytes)
+				using System.Net.Http.HttpRequestMessage request = new System.Net.Http.HttpRequestMessage(
+					System.Net.Http.HttpMethod.Get,
+					uri
+				);
+				using System.Net.Http.HttpResponseMessage response = _http
+					.Value.SendAsync(request, System.Net.Http.HttpCompletionOption.ResponseHeadersRead)
+					.GetAwaiter()
+					.GetResult();
+				if (
+					!response.IsSuccessStatusCode
+					|| response.Content.Headers.ContentLength is long contentLength && contentLength > MaxCompressedImageBytes
+				)
 				{
 					return null;
 				}
@@ -453,7 +498,11 @@ internal static class SafeImaging
 		try
 		{
 			using MemoryStream stream = new MemoryStream(bytes, writable: false);
-			BitmapDecoder decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.None);
+			BitmapDecoder decoder = BitmapDecoder.Create(
+				stream,
+				BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile,
+				BitmapCacheOption.None
+			);
 			if (decoder.Frames.Count == 0)
 				return false;
 			BitmapFrame frame = decoder.Frames[0];
@@ -515,15 +564,27 @@ internal static class SafeImaging
 
 	private static BitmapSource? DecodePortable(byte[] bytes, int decodeWidth)
 	{
-		if (NativeImaging.TryDecodeBgra(bytes, decodeWidth, MaxDecodedImageBytes, out int nativeWidth, out int nativeHeight, out byte[] nativePixels))
-			return Detach(BitmapSource.Create(nativeWidth, nativeHeight, 96, 96, PixelFormats.Bgra32, null, nativePixels, checked(nativeWidth * 4)));
+		if (
+			NativeImaging.TryDecodeBgra(
+				bytes,
+				decodeWidth,
+				MaxDecodedImageBytes,
+				out int nativeWidth,
+				out int nativeHeight,
+				out byte[] nativePixels
+			)
+		)
+			return Detach(
+				BitmapSource.Create(nativeWidth, nativeHeight, 96, 96, PixelFormats.Bgra32, null, nativePixels, checked(nativeWidth * 4))
+			);
 		return null;
 	}
 
 	public static IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> DecodeAnimationPortable(
 		string? path,
 		int decodeWidth = 0,
-		CancellationToken token = default)
+		CancellationToken token = default
+	)
 	{
 		if (string.IsNullOrEmpty(path) || !File.Exists(path))
 			return [];
@@ -550,7 +611,8 @@ internal static class SafeImaging
 	public static IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> DecodeAnimationPortable(
 		byte[]? bytes,
 		int decodeWidth = 0,
-		CancellationToken token = default)
+		CancellationToken token = default
+	)
 	{
 		if (bytes == null || bytes.Length == 0 || bytes.LongLength > MaxCompressedImageBytes)
 			return [];
@@ -569,7 +631,12 @@ internal static class SafeImaging
 		}
 	}
 
-	private static List<(BitmapSource Frame, int DelayMilliseconds)> DecodeAnimationFrames(byte[] bytes, int decodeWidth, long budget, CancellationToken token)
+	private static List<(BitmapSource Frame, int DelayMilliseconds)> DecodeAnimationFrames(
+		byte[] bytes,
+		int decodeWidth,
+		long budget,
+		CancellationToken token
+	)
 	{
 		List<(BitmapSource, int)> frames = [];
 		token.ThrowIfCancellationRequested();
@@ -585,18 +652,55 @@ internal static class SafeImaging
 			targetHeight = Math.Max(1, (int)Math.Round(targetHeight * (double)decodeWidth / targetWidth));
 			targetWidth = decodeWidth;
 		}
-		if (NativeImaging.TryDecodeAnimationBgra(bytes, targetWidth, targetHeight, MaxAnimationFrames, budget, out int width, out int height, out byte[][] pixels, out int[] delays))
+		if (
+			NativeImaging.TryDecodeAnimationBgra(
+				bytes,
+				targetWidth,
+				targetHeight,
+				MaxAnimationFrames,
+				budget,
+				out int width,
+				out int height,
+				out byte[][] pixels,
+				out int[] delays
+			)
+		)
 		{
 			for (int index = 0; index < pixels.Length; index++)
 			{
 				token.ThrowIfCancellationRequested();
-				BitmapSource source = BitmapSource.Create(width, height, 96, 96, PixelFormats.Bgra32, null, pixels[index], checked(width * 4));
+				BitmapSource source = BitmapSource.Create(
+					width,
+					height,
+					96,
+					96,
+					PixelFormats.Bgra32,
+					null,
+					pixels[index],
+					checked(width * 4)
+				);
 				frames.Add((Detach(source), delays[index] <= 10 ? 100 : delays[index]));
 			}
 			return frames;
 		}
 		Raster still = Raster.Decode(bytes, MaxDecodedImageBytes).FitWithin(targetWidth, targetHeight);
-		frames.Add((Detach(BitmapSource.Create(still.Width, still.Height, 96, 96, PixelFormats.Bgra32, null, still.Pixels, checked(still.Width * 4))), 100));
+		frames.Add(
+			(
+				Detach(
+					BitmapSource.Create(
+						still.Width,
+						still.Height,
+						96,
+						96,
+						PixelFormats.Bgra32,
+						null,
+						still.Pixels,
+						checked(still.Width * 4)
+					)
+				),
+				100
+			)
+		);
 		return frames;
 	}
 

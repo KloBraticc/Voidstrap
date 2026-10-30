@@ -12,7 +12,8 @@ using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.ContextMenu;
 
-public partial class ImageAdjustWindow : UiWindow{
+public partial class ImageAdjustWindow : UiWindow
+{
 	private readonly string _sourcePath;
 
 	private readonly string _relativePath;
@@ -36,7 +37,16 @@ public partial class ImageAdjustWindow : UiWindow{
 
 	private void UpdatePreview()
 	{
-		BitmapSource preview = BitmapSource.Create(_currentBitmap.Width, _currentBitmap.Height, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null, _currentBitmap.Pixels, _currentBitmap.Width * 4);
+		BitmapSource preview = BitmapSource.Create(
+			_currentBitmap.Width,
+			_currentBitmap.Height,
+			96,
+			96,
+			System.Windows.Media.PixelFormats.Bgra32,
+			null,
+			_currentBitmap.Pixels,
+			_currentBitmap.Width * 4
+		);
 		preview.Freeze();
 		PreviewImage.Source = preview;
 	}
@@ -106,7 +116,5 @@ public partial class ImageAdjustWindow : UiWindow{
 		Close();
 	}
 
-	private void Cancel_Click(object sender, CancelEventArgs e)
-	{
-	}
+	private void Cancel_Click(object sender, CancelEventArgs e) { }
 }

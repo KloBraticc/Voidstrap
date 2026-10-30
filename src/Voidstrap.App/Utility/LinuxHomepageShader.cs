@@ -25,12 +25,18 @@ internal static class LinuxHomepageShader
 
 	public static HomepageMedia? ResolveMedia()
 	{
-		if (!Platform.IsLinux || VirtualMachineProfile.ShouldForceSafeGraphics
-			|| !App.Settings.Prop.HomepageBackgroundOverlayEnabled || OverlaySettings.HomepageBackgroundMode != "Media")
+		if (
+			!Platform.IsLinux
+			|| VirtualMachineProfile.ShouldForceSafeGraphics
+			|| !App.Settings.Prop.HomepageBackgroundOverlayEnabled
+			|| OverlaySettings.HomepageBackgroundMode != "Media"
+		)
 			return null;
 		string path = App.Settings.Prop.HomepageBackgroundOverlayMediaPath ?? string.Empty;
-		if (Path.GetExtension(path).ToLowerInvariant() is not (".png" or ".jpg" or ".jpeg" or ".bmp" or ".tga" or ".webp")
-			|| !IsHighResolutionImage(path))
+		if (
+			Path.GetExtension(path).ToLowerInvariant() is not (".png" or ".jpg" or ".jpeg" or ".bmp" or ".tga" or ".webp")
+			|| !IsHighResolutionImage(path)
+		)
 			return null;
 		try
 		{
@@ -38,11 +44,16 @@ internal static class LinuxHomepageShader
 			(double displayWidth, double displayHeight) = ScreenMetrics.GetPrimary();
 			int targetWidth = Math.Clamp((int)Math.Round(displayWidth), 320, 7680);
 			int targetHeight = Math.Clamp((int)Math.Round(displayHeight), 240, 4320);
-			string identity = Path.GetFullPath(path)
-				+ "|" + sourceFile.Length.ToString(CultureInfo.InvariantCulture)
-				+ "|" + sourceFile.LastWriteTimeUtc.Ticks.ToString(CultureInfo.InvariantCulture)
-				+ "|" + targetWidth.ToString(CultureInfo.InvariantCulture)
-				+ "x" + targetHeight.ToString(CultureInfo.InvariantCulture);
+			string identity =
+				Path.GetFullPath(path)
+				+ "|"
+				+ sourceFile.Length.ToString(CultureInfo.InvariantCulture)
+				+ "|"
+				+ sourceFile.LastWriteTimeUtc.Ticks.ToString(CultureInfo.InvariantCulture)
+				+ "|"
+				+ targetWidth.ToString(CultureInfo.InvariantCulture)
+				+ "x"
+				+ targetHeight.ToString(CultureInfo.InvariantCulture);
 			string fingerprint = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(identity)))[..16];
 			Directory.CreateDirectory(LinuxEffectLayers.ConfigDirectory);
 			string preparedPath = Path.Combine(LinuxEffectLayers.ConfigDirectory, "VoidstrapHomepagePrepared" + fingerprint + ".png");
@@ -76,28 +87,41 @@ internal static class LinuxHomepageShader
 		if (mode == "Media" && media is null)
 			return null;
 		(float firstRed, float firstGreen, float firstBlue) = ParseColor(App.Settings.Prop.HomepageBackgroundOverlayColor, 18, 18, 21);
-		(float secondRed, float secondGreen, float secondBlue) = ParseColor(App.Settings.Prop.HomepageBackgroundOverlayGradientColor, 91, 46, 255);
+		(float secondRed, float secondGreen, float secondBlue) = ParseColor(
+			App.Settings.Prop.HomepageBackgroundOverlayGradientColor,
+			91,
+			46,
+			255
+		);
 		float angle = (float)(App.Settings.Prop.HomepageBackgroundOverlayGradientAngle * Math.PI / 180d);
 		StringBuilder shader = new();
 		shader.AppendLine("texture VoidstrapHomepageBackBufferTex : COLOR;");
-		shader.AppendLine("sampler VoidstrapHomepageBackBuffer { Texture = VoidstrapHomepageBackBufferTex; MinFilter = POINT; MagFilter = POINT; AddressU = CLAMP; AddressV = CLAMP; };");
+		shader.AppendLine(
+			"sampler VoidstrapHomepageBackBuffer { Texture = VoidstrapHomepageBackBufferTex; MinFilter = POINT; MagFilter = POINT; AddressU = CLAMP; AddressV = CLAMP; };"
+		);
 		shader.AppendLine("texture VoidstrapHomepageStateTex");
 		shader.AppendLine("{");
 		shader.AppendLine("    Width = 1;");
 		shader.AppendLine("    Height = 1;");
 		shader.AppendLine("    Format = R16F;");
 		shader.AppendLine("};");
-		shader.AppendLine("sampler VoidstrapHomepageState { Texture = VoidstrapHomepageStateTex; MinFilter = POINT; MagFilter = POINT; AddressU = CLAMP; AddressV = CLAMP; };");
+		shader.AppendLine(
+			"sampler VoidstrapHomepageState { Texture = VoidstrapHomepageStateTex; MinFilter = POINT; MagFilter = POINT; AddressU = CLAMP; AddressV = CLAMP; };"
+		);
 		shader.AppendLine("texture VoidstrapHomepageHistoryTex");
 		shader.AppendLine("{");
 		shader.AppendLine("    Width = 1;");
 		shader.AppendLine("    Height = 1;");
 		shader.AppendLine("    Format = R16F;");
 		shader.AppendLine("};");
-		shader.AppendLine("sampler VoidstrapHomepageHistory { Texture = VoidstrapHomepageHistoryTex; MinFilter = POINT; MagFilter = POINT; AddressU = CLAMP; AddressV = CLAMP; };");
+		shader.AppendLine(
+			"sampler VoidstrapHomepageHistory { Texture = VoidstrapHomepageHistoryTex; MinFilter = POINT; MagFilter = POINT; AddressU = CLAMP; AddressV = CLAMP; };"
+		);
 		if (media is not null)
 		{
-			string mediaName = Path.GetFileName(LinuxEffectLayers.HomepageMediaFile(media.Path)).Replace("\\", "\\\\", StringComparison.Ordinal).Replace("\"", "\\\"", StringComparison.Ordinal);
+			string mediaName = Path.GetFileName(LinuxEffectLayers.HomepageMediaFile(media.Path))
+				.Replace("\\", "\\\\", StringComparison.Ordinal)
+				.Replace("\"", "\\\"", StringComparison.Ordinal);
 			shader.AppendLine("texture VoidstrapHomepageMediaTex < source = \"" + mediaName + "\"; >");
 			shader.AppendLine("{");
 			shader.AppendLine("    Width = " + media.Width.ToString(CultureInfo.InvariantCulture) + ";");
@@ -105,9 +129,13 @@ internal static class LinuxHomepageShader
 			shader.AppendLine("    Format = RGBA8;");
 			shader.AppendLine("    MipLevels = 1;");
 			shader.AppendLine("};");
-			shader.AppendLine("sampler VoidstrapHomepageMedia { Texture = VoidstrapHomepageMediaTex; MinFilter = LINEAR; MagFilter = LINEAR; MipFilter = LINEAR; AddressU = CLAMP; AddressV = CLAMP; };");
+			shader.AppendLine(
+				"sampler VoidstrapHomepageMedia { Texture = VoidstrapHomepageMediaTex; MinFilter = LINEAR; MagFilter = LINEAR; MipFilter = LINEAR; AddressU = CLAMP; AddressV = CLAMP; };"
+			);
 		}
-		shader.AppendLine("void VoidstrapHomepageVS(in uint id : SV_VertexID, out float4 position : SV_Position, out float2 texcoord : TEXCOORD)");
+		shader.AppendLine(
+			"void VoidstrapHomepageVS(in uint id : SV_VertexID, out float4 position : SV_Position, out float2 texcoord : TEXCOORD)"
+		);
 		shader.AppendLine("{");
 		shader.AppendLine("    texcoord.x = (id == 2) ? 2.0 : 0.0;");
 		shader.AppendLine("    texcoord.y = (id == 1) ? 2.0 : 0.0;");
@@ -115,25 +143,53 @@ internal static class LinuxHomepageShader
 		shader.AppendLine("}");
 		shader.AppendLine("float VoidstrapHomepageWeight(float3 pixel)");
 		shader.AppendLine("{");
-		shader.AppendLine("    float originalDistance = max(abs(pixel.r - 18.0 / 255.0), max(abs(pixel.g - 18.0 / 255.0), abs(pixel.b - 21.0 / 255.0)));");
-		shader.AppendLine("    float soberDistance = max(abs(pixel.r - 18.0 / 255.0), max(abs(pixel.g - 18.0 / 255.0), abs(pixel.b - 24.0 / 255.0)));");
+		shader.AppendLine(
+			"    float originalDistance = max(abs(pixel.r - 18.0 / 255.0), max(abs(pixel.g - 18.0 / 255.0), abs(pixel.b - 21.0 / 255.0)));"
+		);
+		shader.AppendLine(
+			"    float soberDistance = max(abs(pixel.r - 18.0 / 255.0), max(abs(pixel.g - 18.0 / 255.0), abs(pixel.b - 24.0 / 255.0)));"
+		);
 		shader.AppendLine("    return 1.0 - smoothstep(1.0 / 255.0, 10.0 / 255.0, min(originalDistance, soberDistance));");
 		shader.AppendLine("}");
 		shader.AppendLine("float VoidstrapHomepageDetect(float4 pos : SV_Position, float2 texcoord : TEXCOORD) : SV_Target");
 		shader.AppendLine("{");
 		shader.AppendLine("    float matches = 0.0;");
-		shader.AppendLine("    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.03, 0.04)).rgb));");
-		shader.AppendLine("    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.18, 0.10)).rgb));");
-		shader.AppendLine("    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.39, 0.20)).rgb));");
-		shader.AppendLine("    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.62, 0.18)).rgb));");
-		shader.AppendLine("    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.82, 0.12)).rgb));");
-		shader.AppendLine("    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.97, 0.04)).rgb));");
-		shader.AppendLine("    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.05, 0.48)).rgb));");
-		shader.AppendLine("    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.95, 0.48)).rgb));");
-		shader.AppendLine("    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.04, 0.94)).rgb));");
-		shader.AppendLine("    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.24, 0.89)).rgb));");
-		shader.AppendLine("    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.76, 0.89)).rgb));");
-		shader.AppendLine("    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.96, 0.94)).rgb));");
+		shader.AppendLine(
+			"    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.03, 0.04)).rgb));"
+		);
+		shader.AppendLine(
+			"    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.18, 0.10)).rgb));"
+		);
+		shader.AppendLine(
+			"    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.39, 0.20)).rgb));"
+		);
+		shader.AppendLine(
+			"    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.62, 0.18)).rgb));"
+		);
+		shader.AppendLine(
+			"    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.82, 0.12)).rgb));"
+		);
+		shader.AppendLine(
+			"    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.97, 0.04)).rgb));"
+		);
+		shader.AppendLine(
+			"    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.05, 0.48)).rgb));"
+		);
+		shader.AppendLine(
+			"    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.95, 0.48)).rgb));"
+		);
+		shader.AppendLine(
+			"    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.04, 0.94)).rgb));"
+		);
+		shader.AppendLine(
+			"    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.24, 0.89)).rgb));"
+		);
+		shader.AppendLine(
+			"    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.76, 0.89)).rgb));"
+		);
+		shader.AppendLine(
+			"    matches += step(0.90, VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, float2(0.96, 0.94)).rgb));"
+		);
 		shader.AppendLine("    float previous = tex2D(VoidstrapHomepageHistory, float2(0.5, 0.5)).r;");
 		shader.AppendLine("    if (matches >= 3.5)");
 		shader.AppendLine("        return 1.0;");
@@ -157,20 +213,34 @@ internal static class LinuxHomepageShader
 		shader.AppendLine("    float support = 0.0;");
 		shader.AppendLine("    [unroll] for (int y = -1; y <= 1; y++)");
 		shader.AppendLine("        [unroll] for (int x = -1; x <= 1; x++)");
-		shader.AppendLine("            support += VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, texcoord + float2(x, y) * sampleStep).rgb);");
+		shader.AppendLine(
+			"            support += VoidstrapHomepageWeight(tex2D(VoidstrapHomepageBackBuffer, texcoord + float2(x, y) * sampleStep).rgb);"
+		);
 		shader.AppendLine("    float replace = saturate(own * smoothstep(0.30, 0.55, support / 9.0));");
 		shader.AppendLine("    float3 background = float3(" + F(firstRed) + ", " + F(firstGreen) + ", " + F(firstBlue) + ");");
 		if (mode == "Gradient")
 		{
 			shader.AppendLine("    float2 direction = float2(" + F(MathF.Cos(angle)) + ", " + F(MathF.Sin(angle)) + ");");
-			shader.AppendLine("    float gradientPosition = saturate(dot(texcoord - 0.5, direction) / max(abs(direction.x) + abs(direction.y), 0.0001) + 0.5);");
-			shader.AppendLine("    background = lerp(background, float3(" + F(secondRed) + ", " + F(secondGreen) + ", " + F(secondBlue) + "), gradientPosition);");
+			shader.AppendLine(
+				"    float gradientPosition = saturate(dot(texcoord - 0.5, direction) / max(abs(direction.x) + abs(direction.y), 0.0001) + 0.5);"
+			);
+			shader.AppendLine(
+				"    background = lerp(background, float3("
+					+ F(secondRed)
+					+ ", "
+					+ F(secondGreen)
+					+ ", "
+					+ F(secondBlue)
+					+ "), gradientPosition);"
+			);
 		}
 		else if (media is not null)
 		{
 			shader.AppendLine("    float sourceAspect = " + F(media.Width / (float)media.Height) + ";");
 			shader.AppendLine("    float targetAspect = float(BUFFER_WIDTH) / float(BUFFER_HEIGHT);");
-			shader.AppendLine("    float2 coverScale = targetAspect > sourceAspect ? float2(1.0, sourceAspect / targetAspect) : float2(targetAspect / sourceAspect, 1.0);");
+			shader.AppendLine(
+				"    float2 coverScale = targetAspect > sourceAspect ? float2(1.0, sourceAspect / targetAspect) : float2(targetAspect / sourceAspect, 1.0);"
+			);
 			shader.AppendLine("    float2 mediaCoordinate = (texcoord - 0.5) * coverScale + 0.5;");
 			shader.AppendLine("    float4 mediaPixel = tex2D(VoidstrapHomepageMedia, mediaCoordinate);");
 			shader.AppendLine("    background = lerp(background, mediaPixel.rgb, mediaPixel.a);");
@@ -217,13 +287,16 @@ internal static class LinuxHomepageShader
 			long writeTicks = file.LastWriteTimeUtc.Ticks;
 			lock (MediaResolutionGate)
 			{
-				if (string.Equals(_cachedMediaPath, fullPath, StringComparison.Ordinal)
+				if (
+					string.Equals(_cachedMediaPath, fullPath, StringComparison.Ordinal)
 					&& _cachedMediaLength == file.Length
-					&& _cachedMediaWriteTicks == writeTicks)
+					&& _cachedMediaWriteTicks == writeTicks
+				)
 					return _cachedMediaResolutionValid;
 			}
 			byte[] encoded = File.ReadAllBytes(fullPath);
-			bool valid = Raster.TryIdentify(encoded, out int width, out int height)
+			bool valid =
+				Raster.TryIdentify(encoded, out int width, out int height)
 				&& width >= MinimumMediaWidth
 				&& height >= MinimumMediaHeight
 				&& width <= MaximumMediaEdge
@@ -247,9 +320,11 @@ internal static class LinuxHomepageShader
 	private static (float Red, float Green, float Blue) ParseColor(string? value, byte fallbackRed, byte fallbackGreen, byte fallbackBlue)
 	{
 		value ??= string.Empty;
-		if (value.Length == 7
+		if (
+			value.Length == 7
 			&& value[0] == '#'
-			&& int.TryParse(value.AsSpan(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int rgb))
+			&& int.TryParse(value.AsSpan(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int rgb)
+		)
 			return (((rgb >> 16) & 255) / 255f, ((rgb >> 8) & 255) / 255f, (rgb & 255) / 255f);
 		return (fallbackRed / 255f, fallbackGreen / 255f, fallbackBlue / 255f);
 	}

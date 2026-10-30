@@ -27,11 +27,24 @@ namespace Voidstrap.Integrations
 
         [LibraryImport("setupapi.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static partial bool SetupDiEnumDeviceInterfaces(IntPtr deviceInfoSet, IntPtr deviceInfoData, ref Guid interfaceClassGuid, uint memberIndex, ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData);
+        private static partial bool SetupDiEnumDeviceInterfaces(
+            IntPtr deviceInfoSet,
+            IntPtr deviceInfoData,
+            ref Guid interfaceClassGuid,
+            uint memberIndex,
+            ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData
+        );
 
         [LibraryImport("setupapi.dll", EntryPoint = "SetupDiGetDeviceInterfaceDetailW", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static partial bool SetupDiGetDeviceInterfaceDetail(IntPtr deviceInfoSet, ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData, IntPtr deviceInterfaceDetailData, uint deviceInterfaceDetailDataSize, out uint requiredSize, IntPtr deviceInfoData);
+        private static partial bool SetupDiGetDeviceInterfaceDetail(
+            IntPtr deviceInfoSet,
+            ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData,
+            IntPtr deviceInterfaceDetailData,
+            uint deviceInterfaceDetailDataSize,
+            out uint requiredSize,
+            IntPtr deviceInfoData
+        );
 
         [LibraryImport("setupapi.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -41,7 +54,8 @@ namespace Voidstrap.Integrations
         {
             var guid = BusInterfaceGuid;
             IntPtr info = SetupDiGetClassDevs(ref guid, IntPtr.Zero, IntPtr.Zero, DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
-            if (info == INVALID_HANDLE_VALUE) return null;
+            if (info == INVALID_HANDLE_VALUE)
+                return null;
 
             try
             {
@@ -50,7 +64,8 @@ namespace Voidstrap.Integrations
                     return null;
 
                 SetupDiGetDeviceInterfaceDetail(info, ref ifData, IntPtr.Zero, 0, out uint required, IntPtr.Zero);
-                if (required == 0) return null;
+                if (required == 0)
+                    return null;
 
                 IntPtr detail = Marshal.AllocHGlobal((int)required);
                 try
@@ -76,7 +91,8 @@ namespace Voidstrap.Integrations
             try
             {
                 using var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SYSTEM\CurrentControlSet\Services\ViGEmBus");
-                if (key != null) return true;
+                if (key != null)
+                    return true;
             }
             catch { }
 
@@ -85,7 +101,8 @@ namespace Voidstrap.Integrations
                 foreach (var name in new[] { "ViGEmBus.sys", "ViGEmBus3.sys" })
                 {
                     var p = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "drivers", name);
-                    if (System.IO.File.Exists(p)) return true;
+                    if (System.IO.File.Exists(p))
+                        return true;
                 }
             }
             catch { }
@@ -95,10 +112,11 @@ namespace Voidstrap.Integrations
 
         public static bool IsInstalled()
         {
-            if (!Voidstrap.Utility.Platform.IsWindows) return false;
-            if (IsServiceInstalled()) return true;
+            if (!Voidstrap.Utility.Platform.IsWindows)
+                return false;
+            if (IsServiceInstalled())
+                return true;
             return !string.IsNullOrEmpty(GetBusDevicePath());
         }
-
     }
 }

@@ -18,13 +18,19 @@ namespace Voidstrap.UI.Elements.Controls;
 
 public partial class RoReviewControl : UserControl
 {
-    public static readonly DependencyProperty PlaceIdProperty =
-        DependencyProperty.Register(nameof(PlaceId), typeof(long), typeof(RoReviewControl),
-            new PropertyMetadata(0L, (d, e) => ((RoReviewControl)d).OnPlaceIdChanged((long)e.NewValue)));
+    public static readonly DependencyProperty PlaceIdProperty = DependencyProperty.Register(
+        nameof(PlaceId),
+        typeof(long),
+        typeof(RoReviewControl),
+        new PropertyMetadata(0L, (d, e) => ((RoReviewControl)d).OnPlaceIdChanged((long)e.NewValue))
+    );
 
-    public static readonly DependencyProperty UniverseIdProperty =
-        DependencyProperty.Register(nameof(UniverseId), typeof(long), typeof(RoReviewControl),
-            new PropertyMetadata(0L, (d, e) => ((RoReviewControl)d).OnUniverseIdChanged((long)e.NewValue)));
+    public static readonly DependencyProperty UniverseIdProperty = DependencyProperty.Register(
+        nameof(UniverseId),
+        typeof(long),
+        typeof(RoReviewControl),
+        new PropertyMetadata(0L, (d, e) => ((RoReviewControl)d).OnUniverseIdChanged((long)e.NewValue))
+    );
 
     public long PlaceId
     {
@@ -38,9 +44,13 @@ public partial class RoReviewControl : UserControl
         set => SetValue(UniverseIdProperty, value);
     }
 
-    public static readonly DependencyProperty GameNameProperty =
-        DependencyProperty.Register(nameof(GameName), typeof(string), typeof(RoReviewControl),
-            new PropertyMetadata(string.Empty, (d, e) =>
+    public static readonly DependencyProperty GameNameProperty = DependencyProperty.Register(
+        nameof(GameName),
+        typeof(string),
+        typeof(RoReviewControl),
+        new PropertyMetadata(
+            string.Empty,
+            (d, e) =>
             {
                 RoReviewControl ctrl = (RoReviewControl)d;
                 string? name = e.NewValue as string;
@@ -48,7 +58,9 @@ public partial class RoReviewControl : UserControl
                 {
                     ctrl.GameNameText.Text = name;
                 }
-            }));
+            }
+        )
+    );
 
     public string GameName
     {
@@ -247,7 +259,8 @@ public partial class RoReviewControl : UserControl
                 existing.AuthorName = updated.AuthorName;
                 if (!string.IsNullOrEmpty(updated.AvatarUrl))
                     existing.AvatarUrl = updated.AvatarUrl;
-                existing.CanDelete = (myId > 0 && existing.AuthorId == myId)
+                existing.CanDelete =
+                    (myId > 0 && existing.AuthorId == myId)
                     || (!string.IsNullOrEmpty(myName) && string.Equals(existing.AuthorName, myName, StringComparison.OrdinalIgnoreCase));
                 existing.RefreshRating();
             }
@@ -258,7 +271,8 @@ public partial class RoReviewControl : UserControl
             RoReviewService.ReviewEntry item = data.Reviews[i];
             if (_reviews.Any(r => r.Id == item.Id))
                 continue;
-            item.CanDelete = (myId > 0 && item.AuthorId == myId)
+            item.CanDelete =
+                (myId > 0 && item.AuthorId == myId)
                 || (!string.IsNullOrEmpty(myName) && string.Equals(item.AuthorName, myName, StringComparison.OrdinalIgnoreCase));
             _reviews.Insert(Math.Min(i, _reviews.Count), item);
         }
@@ -324,9 +338,12 @@ public partial class RoReviewControl : UserControl
                     review.AuthorId = myId;
                     review.AuthorName = string.IsNullOrWhiteSpace(myName) ? Strings.Ui_Session_You : myName;
                 }
-                review.CanDelete = !review.Id.StartsWith("temp_", StringComparison.Ordinal)
-                    && ((myId > 0 && review.AuthorId == myId)
-                        || (!string.IsNullOrEmpty(myName) && string.Equals(review.AuthorName, myName, StringComparison.OrdinalIgnoreCase)));
+                review.CanDelete =
+                    !review.Id.StartsWith("temp_", StringComparison.Ordinal)
+                    && (
+                        (myId > 0 && review.AuthorId == myId)
+                        || (!string.IsNullOrEmpty(myName) && string.Equals(review.AuthorName, myName, StringComparison.OrdinalIgnoreCase))
+                    );
             }
             UpdateRatingDisplay();
             long placeId = _activePlaceId;
@@ -363,20 +380,28 @@ public partial class RoReviewControl : UserControl
                 try
                 {
                     string json = await Voidstrap.Utility.Http.GetString(
-                        "https://games.roblox.com/v1/games?universeIds=" + UniverseId.ToString(CultureInfo.InvariantCulture), ct);
+                        "https://games.roblox.com/v1/games?universeIds=" + UniverseId.ToString(CultureInfo.InvariantCulture),
+                        ct
+                    );
                     using JsonDocument doc = JsonDocument.Parse(json);
-                    if (doc.RootElement.TryGetProperty("data", out JsonElement arr) && arr.ValueKind == JsonValueKind.Array && arr.GetArrayLength() > 0)
+                    if (
+                        doc.RootElement.TryGetProperty("data", out JsonElement arr)
+                        && arr.ValueKind == JsonValueKind.Array
+                        && arr.GetArrayLength() > 0
+                    )
                     {
                         JsonElement first = arr[0];
-                        if (first.TryGetProperty("rootPlaceId", out JsonElement rootPlaceEl) && rootPlaceEl.TryGetInt64(out long rootPlace) && rootPlace > 0)
+                        if (
+                            first.TryGetProperty("rootPlaceId", out JsonElement rootPlaceEl)
+                            && rootPlaceEl.TryGetInt64(out long rootPlace)
+                            && rootPlace > 0
+                        )
                         {
                             targetPlaceId = rootPlace;
                         }
                     }
                 }
-                catch
-                {
-                }
+                catch { }
             }
         }
 
@@ -493,7 +518,10 @@ public partial class RoReviewControl : UserControl
                 return;
             }
 
-            App.Logger.WriteLine("RoReviewControl", "Showing " + result.ReviewCount + " reviews for place " + placeId.ToString(CultureInfo.InvariantCulture));
+            App.Logger.WriteLine(
+                "RoReviewControl",
+                "Showing " + result.ReviewCount + " reviews for place " + placeId.ToString(CultureInfo.InvariantCulture)
+            );
 
             _ = Dispatcher.BeginInvoke(() =>
             {
@@ -502,9 +530,7 @@ public partial class RoReviewControl : UserControl
                 ApplyReviewData(result);
             });
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("RoReviewControl", "Load failed: " + ex.Message);
@@ -555,9 +581,12 @@ public partial class RoReviewControl : UserControl
     {
         UpCountText.Text = _upCount.ToString(Locale.CurrentCulture);
         DownCountText.Text = _downCount.ToString(Locale.CurrentCulture);
-        ReviewCountText.Text = _reviewCount > 0
-            ? _reviewCount.ToString(Locale.CurrentCulture) + " " + (_reviewCount == 1 ? Strings.Ui_Session_Review : Strings.Ui_Session_Reviews)
-            : string.Empty;
+        ReviewCountText.Text =
+            _reviewCount > 0
+                ? _reviewCount.ToString(Locale.CurrentCulture)
+                    + " "
+                    + (_reviewCount == 1 ? Strings.Ui_Session_Review : Strings.Ui_Session_Reviews)
+                : string.Empty;
         ApplyVoteHighlight();
     }
 
@@ -572,8 +601,14 @@ public partial class RoReviewControl : UserControl
         VoteUpIcon.SetResourceReference(TextBlock.ForegroundProperty, isUp ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush");
         UpCountText.SetResourceReference(TextBlock.ForegroundProperty, isUp ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush");
 
-        VoteDownIcon.SetResourceReference(TextBlock.ForegroundProperty, isDown ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush");
-        DownCountText.SetResourceReference(TextBlock.ForegroundProperty, isDown ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush");
+        VoteDownIcon.SetResourceReference(
+            TextBlock.ForegroundProperty,
+            isDown ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush"
+        );
+        DownCountText.SetResourceReference(
+            TextBlock.ForegroundProperty,
+            isDown ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush"
+        );
     }
 
     private void OnVoteUp(object sender, RoutedEventArgs e)
@@ -640,30 +675,33 @@ public partial class RoReviewControl : UserControl
         UpdateRatingDisplay();
 
         CancellationToken ct = _lifetimeCts?.Token ?? CancellationToken.None;
-        _ = Task.Run(async () =>
-        {
-            try
+        _ = Task.Run(
+            async () =>
             {
-                if (!RoReviewService.IsAuthenticated && !await AuthenticateAndClearStatusAsync(mutationContext).ConfigureAwait(false))
+                try
                 {
-                    RollbackVote(prevVote, prevUp, prevDown, voteVersion, currentPlaceId, sessionGeneration);
-                    return;
+                    if (!RoReviewService.IsAuthenticated && !await AuthenticateAndClearStatusAsync(mutationContext).ConfigureAwait(false))
+                    {
+                        RollbackVote(prevVote, prevUp, prevDown, voteVersion, currentPlaceId, sessionGeneration);
+                        return;
+                    }
+                    bool ok = await RoReviewService.VoteAsync(currentPlaceId, vote, mutationContext, ct).ConfigureAwait(false);
+                    if (!ok)
+                    {
+                        RollbackVote(prevVote, prevUp, prevDown, voteVersion, currentPlaceId, sessionGeneration);
+                        return;
+                    }
+                    CompleteProfileVote(voteVersion, currentPlaceId);
+                    await RoReviewService.FetchReviewsAsync(currentPlaceId, ct).ConfigureAwait(false);
                 }
-                bool ok = await RoReviewService.VoteAsync(currentPlaceId, vote, mutationContext, ct).ConfigureAwait(false);
-                if (!ok)
+                catch (Exception ex)
                 {
+                    App.Logger.WriteLine("RoReviewControl", "Vote background failed: " + ex.Message);
                     RollbackVote(prevVote, prevUp, prevDown, voteVersion, currentPlaceId, sessionGeneration);
-                    return;
                 }
-                CompleteProfileVote(voteVersion, currentPlaceId);
-                await RoReviewService.FetchReviewsAsync(currentPlaceId, ct).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("RoReviewControl", "Vote background failed: " + ex.Message);
-                RollbackVote(prevVote, prevUp, prevDown, voteVersion, currentPlaceId, sessionGeneration);
-            }
-        }, ct);
+            },
+            ct
+        );
     }
 
     private void RollbackVote(string? prevVote, int prevUp, int prevDown, long version, long placeId, long sessionGeneration)
@@ -745,30 +783,33 @@ public partial class RoReviewControl : UserControl
         long mutationVersion = NextReviewMutationVersion(entry.Id);
         CancellationToken ct = _lifetimeCts?.Token ?? CancellationToken.None;
 
-        _ = Task.Run(async () =>
-        {
-            try
+        _ = Task.Run(
+            async () =>
             {
-                if (!RoReviewService.IsAuthenticated && !await AuthenticateAndClearStatusAsync(mutationContext).ConfigureAwait(false))
+                try
                 {
-                    RollbackDelete(entry, index, mutationVersion, currentPlaceId);
-                    return;
+                    if (!RoReviewService.IsAuthenticated && !await AuthenticateAndClearStatusAsync(mutationContext).ConfigureAwait(false))
+                    {
+                        RollbackDelete(entry, index, mutationVersion, currentPlaceId);
+                        return;
+                    }
+                    bool ok = await RoReviewService.DeleteReviewAsync(currentPlaceId, entry.Id, mutationContext, ct).ConfigureAwait(false);
+                    if (!ok)
+                    {
+                        RollbackDelete(entry, index, mutationVersion, currentPlaceId);
+                        return;
+                    }
+                    CompleteReviewMutation(entry.Id, mutationVersion, currentPlaceId);
+                    await RoReviewService.FetchReviewsAsync(currentPlaceId, ct).ConfigureAwait(false);
                 }
-                bool ok = await RoReviewService.DeleteReviewAsync(currentPlaceId, entry.Id, mutationContext, ct).ConfigureAwait(false);
-                if (!ok)
+                catch (Exception ex)
                 {
+                    App.Logger.WriteLine("RoReviewControl", "Delete background failed: " + ex.Message);
                     RollbackDelete(entry, index, mutationVersion, currentPlaceId);
-                    return;
                 }
-                CompleteReviewMutation(entry.Id, mutationVersion, currentPlaceId);
-                await RoReviewService.FetchReviewsAsync(currentPlaceId, ct).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("RoReviewControl", "Delete background failed: " + ex.Message);
-                RollbackDelete(entry, index, mutationVersion, currentPlaceId);
-            }
-        }, ct);
+            },
+            ct
+        );
     }
 
     private void RollbackDelete(RoReviewService.ReviewEntry entry, int index, long version, long placeId)
@@ -781,7 +822,8 @@ public partial class RoReviewControl : UserControl
             _reviewVoteBaselines.Remove(entry.Id);
             long myId = RoReviewService.SessionUserId;
             string? myName = RoReviewService.SessionUsername;
-            entry.CanDelete = (myId > 0 && entry.AuthorId == myId)
+            entry.CanDelete =
+                (myId > 0 && entry.AuthorId == myId)
                 || (!string.IsNullOrEmpty(myName) && string.Equals(entry.AuthorName, myName, StringComparison.OrdinalIgnoreCase));
             if (!_reviews.Any(review => string.Equals(review.Id, entry.Id, StringComparison.Ordinal)))
             {
@@ -865,33 +907,70 @@ public partial class RoReviewControl : UserControl
 
         CancellationToken ct = _lifetimeCts?.Token ?? CancellationToken.None;
 
-        _ = Task.Run(async () =>
-        {
-            try
+        _ = Task.Run(
+            async () =>
             {
-                if (!RoReviewService.IsAuthenticated && !await AuthenticateAndClearStatusAsync(mutationContext).ConfigureAwait(false))
+                try
                 {
-                    RollbackReviewVote(entry, baseline.Vote, baseline.Up, baseline.Down, mutationVersion, currentPlaceId, sessionGeneration);
-                    return;
+                    if (!RoReviewService.IsAuthenticated && !await AuthenticateAndClearStatusAsync(mutationContext).ConfigureAwait(false))
+                    {
+                        RollbackReviewVote(
+                            entry,
+                            baseline.Vote,
+                            baseline.Up,
+                            baseline.Down,
+                            mutationVersion,
+                            currentPlaceId,
+                            sessionGeneration
+                        );
+                        return;
+                    }
+                    bool ok = await RoReviewService
+                        .RateReviewAsync(currentPlaceId, entry.Id, vote, mutationContext, ct)
+                        .ConfigureAwait(false);
+                    if (!ok)
+                    {
+                        RollbackReviewVote(
+                            entry,
+                            baseline.Vote,
+                            baseline.Up,
+                            baseline.Down,
+                            mutationVersion,
+                            currentPlaceId,
+                            sessionGeneration
+                        );
+                        return;
+                    }
+                    CompleteReviewMutation(entry.Id, mutationVersion, currentPlaceId);
+                    await RoReviewService.FetchReviewsAsync(currentPlaceId, ct).ConfigureAwait(false);
                 }
-                bool ok = await RoReviewService.RateReviewAsync(currentPlaceId, entry.Id, vote, mutationContext, ct).ConfigureAwait(false);
-                if (!ok)
+                catch (Exception ex)
                 {
-                    RollbackReviewVote(entry, baseline.Vote, baseline.Up, baseline.Down, mutationVersion, currentPlaceId, sessionGeneration);
-                    return;
+                    App.Logger.WriteLine("RoReviewControl", "Rate review background failed: " + ex.Message);
+                    RollbackReviewVote(
+                        entry,
+                        baseline.Vote,
+                        baseline.Up,
+                        baseline.Down,
+                        mutationVersion,
+                        currentPlaceId,
+                        sessionGeneration
+                    );
                 }
-                CompleteReviewMutation(entry.Id, mutationVersion, currentPlaceId);
-                await RoReviewService.FetchReviewsAsync(currentPlaceId, ct).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("RoReviewControl", "Rate review background failed: " + ex.Message);
-                RollbackReviewVote(entry, baseline.Vote, baseline.Up, baseline.Down, mutationVersion, currentPlaceId, sessionGeneration);
-            }
-        }, ct);
+            },
+            ct
+        );
     }
 
-    private void RollbackReviewVote(RoReviewService.ReviewEntry entry, string? prevVote, int prevUp, int prevDown, long version, long placeId, long sessionGeneration)
+    private void RollbackReviewVote(
+        RoReviewService.ReviewEntry entry,
+        string? prevVote,
+        int prevUp,
+        int prevDown,
+        long version,
+        long placeId,
+        long sessionGeneration
+    )
     {
         _ = Dispatcher.BeginInvoke(() =>
         {
@@ -949,7 +1028,7 @@ public partial class RoReviewControl : UserControl
             AvatarUrl = avatar,
             Content = content,
             CreatedAt = Strings.Ui_Session_JustNow,
-            CanDelete = false
+            CanDelete = false,
         };
         entry.RefreshRating();
         _pendingSubmitEntry = entry;
@@ -988,7 +1067,12 @@ public partial class RoReviewControl : UserControl
                 RoReviewService.ReviewData? refreshed = await RoReviewService.FetchReviewsAsync(currentPlaceId, ct).ConfigureAwait(false);
                 _ = Dispatcher.BeginInvoke(() =>
                 {
-                    if (_isUnloaded || ct.IsCancellationRequested || submitGeneration != _submitGeneration || _activePlaceId != currentPlaceId)
+                    if (
+                        _isUnloaded
+                        || ct.IsCancellationRequested
+                        || submitGeneration != _submitGeneration
+                        || _activePlaceId != currentPlaceId
+                    )
                         return;
                     _reviews.Remove(entry);
                     if (ReferenceEquals(_pendingSubmitEntry, entry))
@@ -1007,9 +1091,7 @@ public partial class RoReviewControl : UserControl
                     }
                 });
             }
-            catch (OperationCanceledException)
-            {
-            }
+            catch (OperationCanceledException) { }
             catch (Exception ex)
             {
                 App.Logger.WriteLine("RoReviewControl", "Submit background failed: " + ex.Message);
@@ -1080,10 +1162,7 @@ public partial class RoReviewControl : UserControl
         {
             e.Handled = true;
             UIElement? parent = scroller.Parent as UIElement ?? VisualTreeHelper.GetParent(scroller) as UIElement;
-            parent?.RaiseEvent(new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
-            {
-                RoutedEvent = UIElement.MouseWheelEvent
-            });
+            parent?.RaiseEvent(new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta) { RoutedEvent = UIElement.MouseWheelEvent });
         }
     }
 }

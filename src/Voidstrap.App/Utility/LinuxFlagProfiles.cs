@@ -28,7 +28,10 @@ internal sealed class LinuxFlagProfiles
             }
             catch (Exception ex) when (ex is IOException or InvalidDataException or UnauthorizedAccessException or JsonException)
             {
-                App.Logger?.WriteLine("FlagProfiles::Load", "The profile " + Path.GetFileName(file) + " could not be loaded: " + ex.Message);
+                App.Logger?.WriteLine(
+                    "FlagProfiles::Load",
+                    "The profile " + Path.GetFileName(file) + " could not be loaded: " + ex.Message
+                );
             }
         }
         return profiles;
@@ -48,9 +51,14 @@ internal sealed class LinuxFlagProfiles
             File.WriteAllText(temporary, contents);
             for (int suffix = 1; suffix <= 10000; suffix++)
             {
-                string filename = stem + (suffix == 1 ? "" : " (" + suffix.ToString(System.Globalization.CultureInfo.InvariantCulture) + ")") + ".json";
+                string filename =
+                    stem + (suffix == 1 ? "" : " (" + suffix.ToString(System.Globalization.CultureInfo.InvariantCulture) + ")") + ".json";
                 string target = Resolve(filename);
-                if (Directory.EnumerateFiles(_directory).Any(file => string.Equals(Path.GetFileName(file), filename, StringComparison.OrdinalIgnoreCase)))
+                if (
+                    Directory
+                        .EnumerateFiles(_directory)
+                        .Any(file => string.Equals(Path.GetFileName(file), filename, StringComparison.OrdinalIgnoreCase))
+                )
                     continue;
                 try
                 {
@@ -61,7 +69,10 @@ internal sealed class LinuxFlagProfiles
                     continue;
                 }
                 FlagProfile stored = Read(target);
-                if (stored.Flags.Count != flags.Count || flags.Any(flag => !stored.Flags.TryGetValue(flag.Key, out string? value) || value != flag.Value))
+                if (
+                    stored.Flags.Count != flags.Count
+                    || flags.Any(flag => !stored.Flags.TryGetValue(flag.Key, out string? value) || value != flag.Value)
+                )
                     throw new InvalidDataException("The complete flag list could not be saved.");
                 return stored;
             }
@@ -81,7 +92,13 @@ internal sealed class LinuxFlagProfiles
         string target = Resolve(SafeFileName(name));
         if (source == target)
             return Read(source);
-        if (Directory.EnumerateFiles(_directory).Any(file => file != source && string.Equals(Path.GetFileName(file), Path.GetFileName(target), StringComparison.OrdinalIgnoreCase)))
+        if (
+            Directory
+                .EnumerateFiles(_directory)
+                .Any(file =>
+                    file != source && string.Equals(Path.GetFileName(file), Path.GetFileName(target), StringComparison.OrdinalIgnoreCase)
+                )
+        )
             throw new IOException("A profile with that name already exists.");
         File.Move(source, target);
         return Read(target);
@@ -100,7 +117,11 @@ internal sealed class LinuxFlagProfiles
         FileInfo info = new(file);
         if (info.LinkTarget is not null || info.Length <= 0 || info.Length > MaximumBytes)
             throw new InvalidDataException("The profile file is invalid or exceeds the allowed size.");
-        Dictionary<string, JsonElement> raw = JsonFile.Deserialize<Dictionary<string, JsonElement>>(file, JsonOptions.Tolerant, MaximumBytes);
+        Dictionary<string, JsonElement> raw = JsonFile.Deserialize<Dictionary<string, JsonElement>>(
+            file,
+            JsonOptions.Tolerant,
+            MaximumBytes
+        );
         Dictionary<string, string> flags = new(StringComparer.Ordinal);
         foreach ((string key, JsonElement value) in raw)
         {
@@ -110,12 +131,18 @@ internal sealed class LinuxFlagProfiles
                 JsonValueKind.Number => value.GetRawText(),
                 JsonValueKind.True => "True",
                 JsonValueKind.False => "False",
-                _ => throw new InvalidDataException("A profile flag has an unsupported value.")
+                _ => throw new InvalidDataException("A profile flag has an unsupported value."),
             };
         }
         Validate(flags);
         string filename = Path.GetFileName(file);
-        return new FlagProfile { Id = "local:" + filename, Name = Path.GetFileNameWithoutExtension(filename), Flags = flags, LocalFileName = filename };
+        return new FlagProfile
+        {
+            Id = "local:" + filename,
+            Name = Path.GetFileNameWithoutExtension(filename),
+            Flags = flags,
+            LocalFileName = filename,
+        };
     }
 
     private static void Validate(IReadOnlyDictionary<string, string> flags)
@@ -126,8 +153,12 @@ internal sealed class LinuxFlagProfiles
 
     private string Resolve(string filename)
     {
-        if (string.IsNullOrWhiteSpace(filename) || filename != Path.GetFileName(filename) || filename.IndexOfAny(['/', '\\']) >= 0
-            || !string.Equals(Path.GetExtension(filename), ".json", StringComparison.OrdinalIgnoreCase))
+        if (
+            string.IsNullOrWhiteSpace(filename)
+            || filename != Path.GetFileName(filename)
+            || filename.IndexOfAny(['/', '\\']) >= 0
+            || !string.Equals(Path.GetExtension(filename), ".json", StringComparison.OrdinalIgnoreCase)
+        )
             throw new InvalidDataException("The profile filename is invalid.");
         return Path.Combine(_directory, filename);
     }

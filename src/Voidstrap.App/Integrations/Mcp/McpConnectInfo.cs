@@ -20,7 +20,7 @@ public static class McpConnectInfo
 	private static readonly JsonDocumentOptions LooseJsonDocument = new()
 	{
 		CommentHandling = JsonCommentHandling.Skip,
-		AllowTrailingCommas = true
+		AllowTrailingCommas = true,
 	};
 
 	internal static string DesktopClientLabel => string.Concat("Cl", "aude");
@@ -49,9 +49,9 @@ public static class McpConnectInfo
 				["voidstrap"] = new JsonObject
 				{
 					["command"] = exe,
-					["args"] = new JsonArray(McpStdioServer.CommandArg, McpStdioServer.StdioArg)
-				}
-			}
+					["args"] = new JsonArray(McpStdioServer.CommandArg, McpStdioServer.StdioArg),
+				},
+			},
 		};
 
 		return config.ToJsonString(IndentedJson);
@@ -169,7 +169,8 @@ public static class McpConnectInfo
 				Directory.CreateDirectory(dir);
 
 			string escapedExe = ExecutablePath().Replace("\\", "\\\\").Replace("\"", "\\\"");
-			string sectionBlock = $"[mcp_servers.voidstrap]{Environment.NewLine}command = \"{escapedExe}\"{Environment.NewLine}args = [\"{McpStdioServer.CommandArg}\", \"{McpStdioServer.StdioArg}\"]";
+			string sectionBlock =
+				$"[mcp_servers.voidstrap]{Environment.NewLine}command = \"{escapedExe}\"{Environment.NewLine}args = [\"{McpStdioServer.CommandArg}\", \"{McpStdioServer.StdioArg}\"]";
 
 			if (!File.Exists(tomlPath))
 			{
@@ -178,7 +179,11 @@ public static class McpConnectInfo
 			}
 
 			string existing = File.ReadAllText(tomlPath);
-			if (existing.Contains("command = \"" + escapedExe + "\"", StringComparison.OrdinalIgnoreCase) && existing.Contains("\"" + McpStdioServer.StdioArg + "\"]", StringComparison.Ordinal) && IsCliClientConnected())
+			if (
+				existing.Contains("command = \"" + escapedExe + "\"", StringComparison.OrdinalIgnoreCase)
+				&& existing.Contains("\"" + McpStdioServer.StdioArg + "\"]", StringComparison.Ordinal)
+				&& IsCliClientConnected()
+			)
 				return true;
 			string[] lines = existing.Replace("\r\n", "\n").Split('\n');
 			var sb = new StringBuilder();
@@ -199,7 +204,11 @@ public static class McpConnectInfo
 					while (i < lines.Length)
 					{
 						string nextTrimmed = lines[i].Trim();
-						if (nextTrimmed.StartsWith('[') || nextTrimmed.StartsWith("# >>>", StringComparison.Ordinal) || nextTrimmed.StartsWith("# ---", StringComparison.Ordinal))
+						if (
+							nextTrimmed.StartsWith('[')
+							|| nextTrimmed.StartsWith("# >>>", StringComparison.Ordinal)
+							|| nextTrimmed.StartsWith("# ---", StringComparison.Ordinal)
+						)
 						{
 							sb.AppendLine();
 							break;
@@ -350,9 +359,7 @@ public static class McpConnectInfo
 					return Path.Combine(roaming, DesktopConfigFileName);
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 
 		return null;
 	}
@@ -464,7 +471,7 @@ public static class McpConnectInfo
 		{
 			["type"] = "local",
 			["command"] = new JsonArray(exe, McpStdioServer.CommandArg, McpStdioServer.StdioArg),
-			["enabled"] = true
+			["enabled"] = true,
 		};
 
 		if (mcp["voidstrap"] is JsonObject existing && JsonNode.DeepEquals(existing, desired))
@@ -488,11 +495,11 @@ public static class McpConnectInfo
 			if (JsonNode.Parse(text, documentOptions: LooseJsonDocument) is JsonObject obj)
 				return obj;
 		}
-		catch (System.Text.Json.JsonException)
-		{
-		}
+		catch (System.Text.Json.JsonException) { }
 
-		throw new InvalidDataException("The existing config at " + path + " could not be read, so it was left untouched. Fix or remove it, then connect again.");
+		throw new InvalidDataException(
+			"The existing config at " + path + " could not be read, so it was left untouched. Fix or remove it, then connect again."
+		);
 	}
 
 	private static void WriteConfigSafely(string path, string text)

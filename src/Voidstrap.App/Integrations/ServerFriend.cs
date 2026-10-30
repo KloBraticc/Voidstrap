@@ -28,5 +28,8 @@ public sealed class ServerFriend
 
 	public string ToolTipText => Handle.Length > 0 ? Label + " (" + Handle + ")" : Label;
 
-	public string Handle => string.IsNullOrWhiteSpace(Username) || string.Equals(Username, DisplayName, System.StringComparison.Ordinal) ? string.Empty : "@" + Username;
+	public string Handle =>
+		string.IsNullOrWhiteSpace(Username) || string.Equals(Username, DisplayName, System.StringComparison.Ordinal)
+			? string.Empty
+			: "@" + Username;
 }

@@ -37,7 +37,11 @@ public class DbusMenuProperties
 [DBusInterface("com.canonical.dbusmenu")]
 public interface IDbusMenu : IDBusObject
 {
-    Task<(uint revision, (int, IDictionary<string, object>, object[]) layout)> GetLayoutAsync(int ParentId, int RecursionDepth, string[] PropertyNames);
+    Task<(uint revision, (int, IDictionary<string, object>, object[]) layout)> GetLayoutAsync(
+        int ParentId,
+        int RecursionDepth,
+        string[] PropertyNames
+    );
 
     Task<(int, IDictionary<string, object>)[]> GetGroupPropertiesAsync(int[] Ids, string[] PropertyNames);
 
@@ -195,7 +199,10 @@ public sealed class DbusMenuObject : IDbusMenu
         }
         catch (Exception ex)
         {
-            Voidstrap.App.Logger?.WriteLine("LinuxTrayMenu::NotifyLayoutUpdated", "The layout change could not be announced: " + ex.Message);
+            Voidstrap.App.Logger?.WriteLine(
+                "LinuxTrayMenu::NotifyLayoutUpdated",
+                "The layout change could not be announced: " + ex.Message
+            );
         }
     }
 
@@ -233,9 +240,10 @@ public sealed class DbusMenuObject : IDbusMenu
         for (int position = 0; position < items.Count; position++)
         {
             LinuxTrayMenuItem item = items[position];
-            string own = item.IsSeparator
-                ? "sep:" + previous
-                : string.IsNullOrEmpty(item.Label) ? "#" + position.ToString(System.Globalization.CultureInfo.InvariantCulture) : "item:" + item.Label;
+            string own =
+                item.IsSeparator ? "sep:" + previous
+                : string.IsNullOrEmpty(item.Label) ? "#" + position.ToString(System.Globalization.CultureInfo.InvariantCulture)
+                : "item:" + item.Label;
 
             string key = prefix + "/" + own;
             if (!used.Add(key))
@@ -305,9 +313,10 @@ public sealed class DbusMenuObject : IDbusMenu
 
     private (int, IDictionary<string, object>, object[]) BuildLayout(int id, LinuxTrayMenuItem item, int depth)
     {
-        object[] children = depth == 0 || item.Children.Count == 0
-            ? []
-            : [.. item.Children.Select(child => (object)BuildLayout(IdOf(child), child, depth < 0 ? -1 : depth - 1))];
+        object[] children =
+            depth == 0 || item.Children.Count == 0
+                ? []
+                : [.. item.Children.Select(child => (object)BuildLayout(IdOf(child), child, depth < 0 ? -1 : depth - 1))];
 
         return (id, BuildProperties(item), children);
     }
@@ -348,7 +357,10 @@ public sealed class DbusMenuObject : IDbusMenu
             if (!_timeoutLogged)
             {
                 _timeoutLogged = true;
-                Voidstrap.App.Logger?.WriteLine("LinuxTrayMenu::Refresh", "The interface was busy, the tray shows the last menu until it answers");
+                Voidstrap.App.Logger?.WriteLine(
+                    "LinuxTrayMenu::Refresh",
+                    "The interface was busy, the tray shows the last menu until it answers"
+                );
             }
             return false;
         }
@@ -366,20 +378,22 @@ public sealed class DbusMenuObject : IDbusMenu
         }
     }
 
-    public async Task<(uint revision, (int, IDictionary<string, object>, object[]) layout)> GetLayoutAsync(int ParentId, int RecursionDepth, string[] PropertyNames)
+    public async Task<(uint revision, (int, IDictionary<string, object>, object[]) layout)> GetLayoutAsync(
+        int ParentId,
+        int RecursionDepth,
+        string[] PropertyNames
+    )
     {
         await RefreshAsync().ConfigureAwait(false);
         lock (_gate)
         {
             if (ParentId == 0)
             {
-                object[] children = RecursionDepth == 0
-                    ? []
-                    : [.. _items.Select(item => (object)BuildLayout(IdOf(item), item, RecursionDepth < 0 ? -1 : RecursionDepth - 1))];
-                Dictionary<string, object> rootProperties = new(StringComparer.Ordinal)
-                {
-                    ["children-display"] = "submenu"
-                };
+                object[] children =
+                    RecursionDepth == 0
+                        ? []
+                        : [.. _items.Select(item => (object)BuildLayout(IdOf(item), item, RecursionDepth < 0 ? -1 : RecursionDepth - 1))];
+                Dictionary<string, object> rootProperties = new(StringComparer.Ordinal) { ["children-display"] = "submenu" };
                 return (_revision, (0, rootProperties, children));
             }
 
@@ -501,14 +515,16 @@ public sealed class DbusMenuObject : IDbusMenu
 
     public Task<object> GetAsync(string prop)
     {
-        return Task.FromResult(prop switch
-        {
-            "Version" => (object)_properties.Version,
-            "TextDirection" => _properties.TextDirection,
-            "Status" => _properties.Status,
-            "IconThemePath" => _properties.IconThemePath,
-            _ => string.Empty
-        });
+        return Task.FromResult(
+            prop switch
+            {
+                "Version" => (object)_properties.Version,
+                "TextDirection" => _properties.TextDirection,
+                "Status" => _properties.Status,
+                "IconThemePath" => _properties.IconThemePath,
+                _ => string.Empty,
+            }
+        );
     }
 
     public Task<DbusMenuProperties> GetAllAsync()

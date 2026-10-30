@@ -43,7 +43,10 @@ public partial class PublishModDialog : WpfUiWindow
 			SummaryText.Text = check.IsUpdate
 				? string.Format(Strings.Ui_VoidstrapMods_PublishSummaryUpdate, check.PublishedVersion, check.Version)
 				: string.Format(Strings.Ui_VoidstrapMods_PublishSummaryNew, check.Version);
-			NetworkText.Text = check.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", check.Network));
+			NetworkText.Text =
+				check.Network.Count == 0
+					? Strings.Ui_VoidstrapMods_LibraryNoNetwork
+					: string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", check.Network));
 			FilesExpander.Header = string.Format(Strings.Ui_VoidstrapMods_PublishFiles, check.Files.Count + 1);
 			FilesText.Text = string.Join(Environment.NewLine, check.Files.Append("owner.json"));
 			ProblemsText.Text = string.Join(Environment.NewLine, check.Problems.Select(p => "• " + p));
@@ -53,9 +56,7 @@ public partial class PublishModDialog : WpfUiWindow
 			ResultPanel.Visibility = Visibility.Visible;
 			PublishButton.IsEnabled = check.Problems.Count == 0;
 		}
-		catch (OperationCanceledException) when (_cts.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (_cts.IsCancellationRequested) { }
 		catch (Exception ex)
 		{
 			ShowError(ex.Message);
@@ -80,9 +81,7 @@ public partial class PublishModDialog : WpfUiWindow
 			PublishButton.Visibility = Visibility.Collapsed;
 			CloseButton.Content = Strings.Common_Close;
 		}
-		catch (OperationCanceledException) when (_cts.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (_cts.IsCancellationRequested) { }
 		catch (Exception ex)
 		{
 			ShowError(ex.Message);
@@ -102,9 +101,7 @@ public partial class PublishModDialog : WpfUiWindow
 			{
 				Utilities.OpenWebLink(_pullRequestUrl);
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
 
@@ -128,8 +125,6 @@ public partial class PublishModDialog : WpfUiWindow
 			_cts.Cancel();
 			_cts.Dispose();
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 }

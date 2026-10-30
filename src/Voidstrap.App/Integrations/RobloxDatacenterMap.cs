@@ -68,10 +68,23 @@ public static class RobloxDatacenterMap
 					continue;
 				try
 				{
-					if (string.IsNullOrWhiteSpace(entry.City) || !double.IsFinite(entry.Lat) || !double.IsFinite(entry.Lon) || entry.Lat is < -90.0 or > 90.0 || entry.Lon is < -180.0 or > 180.0 || entry.Lat == 0.0 && entry.Lon == 0.0)
+					if (
+						string.IsNullOrWhiteSpace(entry.City)
+						|| !double.IsFinite(entry.Lat)
+						|| !double.IsFinite(entry.Lon)
+						|| entry.Lat is < -90.0 or > 90.0
+						|| entry.Lon is < -180.0 or > 180.0
+						|| entry.Lat == 0.0 && entry.Lon == 0.0
+					)
 						continue;
 					string[] array = entry.Cidr.Split('/');
-					if (array.Length != 2 || !IPAddress.TryParse(array[0], out IPAddress? address) || address.AddressFamily != AddressFamily.InterNetwork || !int.TryParse(array[1], out int prefix) || prefix is < 0 or > 32)
+					if (
+						array.Length != 2
+						|| !IPAddress.TryParse(array[0], out IPAddress? address)
+						|| address.AddressFamily != AddressFamily.InterNetwork
+						|| !int.TryParse(array[1], out int prefix)
+						|| prefix is < 0 or > 32
+					)
 						continue;
 					byte[] bytes = address.GetAddressBytes();
 					uint network = (uint)((bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[3]);
@@ -83,7 +96,7 @@ public static class RobloxDatacenterMap
 						Region = entry.Region,
 						Country = ResolveCountry(entry.City, entry.Country),
 						Lat = entry.Lat,
-						Lon = entry.Lon
+						Lon = entry.Lon,
 					};
 					if (byCidr.TryGetValue(entry.Cidr, out CidrEntry? existing))
 					{
@@ -91,7 +104,9 @@ public static class RobloxDatacenterMap
 						existing.Mask = mask;
 						existing.PrefixLength = prefix;
 						existing.Datacenter = datacenter;
-						int seedIndex = _seedEntries.FindIndex(seed => string.Equals(seed.Cidr, entry.Cidr, StringComparison.OrdinalIgnoreCase));
+						int seedIndex = _seedEntries.FindIndex(seed =>
+							string.Equals(seed.Cidr, entry.Cidr, StringComparison.OrdinalIgnoreCase)
+						);
 						if (seedIndex >= 0)
 							_seedEntries[seedIndex] = entry;
 						continue;
@@ -104,15 +119,13 @@ public static class RobloxDatacenterMap
 						Mask = mask,
 						PrefixLength = prefix,
 						Cidr = entry.Cidr,
-						Datacenter = datacenter
+						Datacenter = datacenter,
 					};
 					_entries.Add(added);
 					_seedEntries.Add(entry);
 					byCidr.Add(entry.Cidr, added);
 				}
-				catch
-				{
-				}
+				catch { }
 			}
 			_entries.Sort((left, right) => right.PrefixLength.CompareTo(left.PrefixLength));
 		}
@@ -191,7 +204,7 @@ public static class RobloxDatacenterMap
 				Region = "Washington",
 				Country = "USA",
 				Lat = 47.6062,
-				Lon = -122.3321
+				Lon = -122.3321,
 			},
 			new SeedCidrEntry
 			{
@@ -200,7 +213,7 @@ public static class RobloxDatacenterMap
 				Region = "California",
 				Country = "USA",
 				Lat = 34.0522,
-				Lon = -118.2437
+				Lon = -118.2437,
 			},
 			new SeedCidrEntry
 			{
@@ -209,7 +222,7 @@ public static class RobloxDatacenterMap
 				Region = "California",
 				Country = "USA",
 				Lat = 34.0522,
-				Lon = -118.2437
+				Lon = -118.2437,
 			},
 			new SeedCidrEntry
 			{
@@ -218,7 +231,7 @@ public static class RobloxDatacenterMap
 				Region = "California",
 				Country = "USA",
 				Lat = 34.0522,
-				Lon = -118.2437
+				Lon = -118.2437,
 			},
 			new SeedCidrEntry
 			{
@@ -227,7 +240,7 @@ public static class RobloxDatacenterMap
 				Region = "Texas",
 				Country = "USA",
 				Lat = 32.7767,
-				Lon = -96.797
+				Lon = -96.797,
 			},
 			new SeedCidrEntry
 			{
@@ -236,7 +249,7 @@ public static class RobloxDatacenterMap
 				Region = "Illinois",
 				Country = "USA",
 				Lat = 41.8781,
-				Lon = -87.6298
+				Lon = -87.6298,
 			},
 			new SeedCidrEntry
 			{
@@ -245,7 +258,7 @@ public static class RobloxDatacenterMap
 				Region = "Illinois",
 				Country = "USA",
 				Lat = 41.8781,
-				Lon = -87.6298
+				Lon = -87.6298,
 			},
 			new SeedCidrEntry
 			{
@@ -254,7 +267,7 @@ public static class RobloxDatacenterMap
 				Region = "Georgia",
 				Country = "USA",
 				Lat = 33.749,
-				Lon = -84.388
+				Lon = -84.388,
 			},
 			new SeedCidrEntry
 			{
@@ -263,7 +276,7 @@ public static class RobloxDatacenterMap
 				Region = "Georgia",
 				Country = "USA",
 				Lat = 33.749,
-				Lon = -84.388
+				Lon = -84.388,
 			},
 			new SeedCidrEntry
 			{
@@ -272,7 +285,7 @@ public static class RobloxDatacenterMap
 				Region = "Florida",
 				Country = "USA",
 				Lat = 25.7617,
-				Lon = -80.1918
+				Lon = -80.1918,
 			},
 			new SeedCidrEntry
 			{
@@ -281,7 +294,7 @@ public static class RobloxDatacenterMap
 				Region = "Florida",
 				Country = "USA",
 				Lat = 25.7617,
-				Lon = -80.1918
+				Lon = -80.1918,
 			},
 			new SeedCidrEntry
 			{
@@ -290,7 +303,7 @@ public static class RobloxDatacenterMap
 				Region = "Virginia",
 				Country = "USA",
 				Lat = 39.0438,
-				Lon = -77.4874
+				Lon = -77.4874,
 			},
 			new SeedCidrEntry
 			{
@@ -299,7 +312,7 @@ public static class RobloxDatacenterMap
 				Region = "Virginia",
 				Country = "USA",
 				Lat = 39.0438,
-				Lon = -77.4874
+				Lon = -77.4874,
 			},
 			new SeedCidrEntry
 			{
@@ -308,7 +321,7 @@ public static class RobloxDatacenterMap
 				Region = "New York",
 				Country = "USA",
 				Lat = 40.7128,
-				Lon = -74.006
+				Lon = -74.006,
 			},
 			new SeedCidrEntry
 			{
@@ -317,7 +330,7 @@ public static class RobloxDatacenterMap
 				Region = "England",
 				Country = "UK",
 				Lat = 51.5074,
-				Lon = -0.1278
+				Lon = -0.1278,
 			},
 			new SeedCidrEntry
 			{
@@ -326,7 +339,7 @@ public static class RobloxDatacenterMap
 				Region = "England",
 				Country = "UK",
 				Lat = 51.5074,
-				Lon = -0.1278
+				Lon = -0.1278,
 			},
 			new SeedCidrEntry
 			{
@@ -335,7 +348,7 @@ public static class RobloxDatacenterMap
 				Region = "North Holland",
 				Country = "Netherlands",
 				Lat = 52.3676,
-				Lon = 4.9041
+				Lon = 4.9041,
 			},
 			new SeedCidrEntry
 			{
@@ -344,7 +357,7 @@ public static class RobloxDatacenterMap
 				Region = "Ile-de-France",
 				Country = "France",
 				Lat = 48.8566,
-				Lon = 2.3522
+				Lon = 2.3522,
 			},
 			new SeedCidrEntry
 			{
@@ -353,7 +366,7 @@ public static class RobloxDatacenterMap
 				Region = "Ile-de-France",
 				Country = "France",
 				Lat = 48.8566,
-				Lon = 2.3522
+				Lon = 2.3522,
 			},
 			new SeedCidrEntry
 			{
@@ -362,7 +375,7 @@ public static class RobloxDatacenterMap
 				Region = "Hesse",
 				Country = "Germany",
 				Lat = 50.1109,
-				Lon = 8.6821
+				Lon = 8.6821,
 			},
 			new SeedCidrEntry
 			{
@@ -371,7 +384,7 @@ public static class RobloxDatacenterMap
 				Region = "Hesse",
 				Country = "Germany",
 				Lat = 50.1109,
-				Lon = 8.6821
+				Lon = 8.6821,
 			},
 			new SeedCidrEntry
 			{
@@ -380,7 +393,7 @@ public static class RobloxDatacenterMap
 				Region = "Hesse",
 				Country = "Germany",
 				Lat = 50.1109,
-				Lon = 8.6821
+				Lon = 8.6821,
 			},
 			new SeedCidrEntry
 			{
@@ -389,7 +402,7 @@ public static class RobloxDatacenterMap
 				Region = "Mazovia",
 				Country = "Poland",
 				Lat = 52.2297,
-				Lon = 21.0122
+				Lon = 21.0122,
 			},
 			new SeedCidrEntry
 			{
@@ -398,7 +411,7 @@ public static class RobloxDatacenterMap
 				Region = "Mazovia",
 				Country = "Poland",
 				Lat = 52.2297,
-				Lon = 21.0122
+				Lon = 21.0122,
 			},
 			new SeedCidrEntry
 			{
@@ -407,7 +420,7 @@ public static class RobloxDatacenterMap
 				Region = "Maharashtra",
 				Country = "India",
 				Lat = 19.076,
-				Lon = 72.8777
+				Lon = 72.8777,
 			},
 			new SeedCidrEntry
 			{
@@ -416,7 +429,7 @@ public static class RobloxDatacenterMap
 				Region = "Kanto",
 				Country = "Japan",
 				Lat = 35.6762,
-				Lon = 139.6503
+				Lon = 139.6503,
 			},
 			new SeedCidrEntry
 			{
@@ -425,7 +438,7 @@ public static class RobloxDatacenterMap
 				Region = "Kanto",
 				Country = "Japan",
 				Lat = 35.6762,
-				Lon = 139.6503
+				Lon = 139.6503,
 			},
 			new SeedCidrEntry
 			{
@@ -434,7 +447,7 @@ public static class RobloxDatacenterMap
 				Region = "Singapore",
 				Country = "Singapore",
 				Lat = 1.3521,
-				Lon = 103.8198
+				Lon = 103.8198,
 			},
 			new SeedCidrEntry
 			{
@@ -443,7 +456,7 @@ public static class RobloxDatacenterMap
 				Region = "Singapore",
 				Country = "Singapore",
 				Lat = 1.3521,
-				Lon = 103.8198
+				Lon = 103.8198,
 			},
 			new SeedCidrEntry
 			{
@@ -452,7 +465,7 @@ public static class RobloxDatacenterMap
 				Region = "New South Wales",
 				Country = "Australia",
 				Lat = -33.8688,
-				Lon = 151.2093
+				Lon = 151.2093,
 			},
 			new SeedCidrEntry
 			{
@@ -461,7 +474,7 @@ public static class RobloxDatacenterMap
 				Region = "California",
 				Country = "USA",
 				Lat = 37.3382,
-				Lon = -121.8863
+				Lon = -121.8863,
 			},
 			new SeedCidrEntry
 			{
@@ -470,7 +483,7 @@ public static class RobloxDatacenterMap
 				Region = "California",
 				Country = "USA",
 				Lat = 37.3382,
-				Lon = -121.8863
+				Lon = -121.8863,
 			},
 			new SeedCidrEntry
 			{
@@ -479,7 +492,7 @@ public static class RobloxDatacenterMap
 				Region = "California",
 				Country = "USA",
 				Lat = 37.3382,
-				Lon = -121.8863
+				Lon = -121.8863,
 			},
 			new SeedCidrEntry
 			{
@@ -488,7 +501,7 @@ public static class RobloxDatacenterMap
 				Region = "New York",
 				Country = "USA",
 				Lat = 40.7128,
-				Lon = -74.006
+				Lon = -74.006,
 			},
 			new SeedCidrEntry
 			{
@@ -497,8 +510,8 @@ public static class RobloxDatacenterMap
 				Region = "Hong Kong",
 				Country = "China",
 				Lat = 22.3193,
-				Lon = 114.1694
-			}
+				Lon = 114.1694,
+			},
 		};
 	}
 
@@ -514,21 +527,23 @@ public static class RobloxDatacenterMap
 			uint num2 = (uint)((addressBytes[0] << 24) | (addressBytes[1] << 16) | (addressBytes[2] << 8) | addressBytes[3]);
 			uint num3 = ((num != 0) ? ((uint)(-1 << 32 - num)) : 0u);
 			num2 &= num3;
-			list.Add(new CidrEntry
-			{
-				Network = num2,
-				Mask = num3,
-				PrefixLength = num,
-				Cidr = seedEntry.Cidr,
-				Datacenter = new RobloxDatacenter
+			list.Add(
+				new CidrEntry
 				{
-					City = seedEntry.City,
-					Region = seedEntry.Region,
-					Country = seedEntry.Country,
-					Lat = seedEntry.Lat,
-					Lon = seedEntry.Lon
+					Network = num2,
+					Mask = num3,
+					PrefixLength = num,
+					Cidr = seedEntry.Cidr,
+					Datacenter = new RobloxDatacenter
+					{
+						City = seedEntry.City,
+						Region = seedEntry.Region,
+						Country = seedEntry.Country,
+						Lat = seedEntry.Lat,
+						Lon = seedEntry.Lon,
+					},
 				}
-			});
+			);
 		}
 		return list;
 	}

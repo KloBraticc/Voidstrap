@@ -154,10 +154,27 @@ public partial class VoidstrapModsPage : UiPage
 		return icon;
 	}
 
-	private sealed record ModRenderItem(PluginHost.ModInfo Info, ModLibrary.LibraryMod? Library, PluginManifest? Manifest, BitmapSource? Icon)
+	private sealed record ModRenderItem(
+		PluginHost.ModInfo Info,
+		ModLibrary.LibraryMod? Library,
+		PluginManifest? Manifest,
+		BitmapSource? Icon
+	)
 	{
-		public string Signature => string.Join("\u0001",
-			Info.Name, Info.Version, Info.Description, Info.Consent, Info.Loaded, Info.Problems.Count, Info.Problems.LastOrDefault() ?? "", Library?.Version ?? "", Manifest?.Version ?? "", Icon != null);
+		public string Signature =>
+			string.Join(
+				"\u0001",
+				Info.Name,
+				Info.Version,
+				Info.Description,
+				Info.Consent,
+				Info.Loaded,
+				Info.Problems.Count,
+				Info.Problems.LastOrDefault() ?? "",
+				Library?.Version ?? "",
+				Manifest?.Version ?? "",
+				Icon != null
+			);
 	}
 
 	private Border BuildInstalledModCard(ModRenderItem item)
@@ -181,13 +198,18 @@ public partial class VoidstrapModsPage : UiPage
 			AddTrustBadges(title, libraryMod);
 		bool invalid = mod.Consent == PluginHost.InvalidState;
 		if (invalid)
-			title.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_InvalidBadge, SymbolRegular.ErrorCircle24, Color.FromRgb(232, 72, 85), ""));
+			title.Children.Add(
+				MakeBadge(Strings.Ui_VoidstrapMods_InvalidBadge, SymbolRegular.ErrorCircle24, Color.FromRgb(232, 72, 85), "")
+			);
 		else
-			title.Children.Add(MakeBadge(
-			mod.Loaded ? Strings.Ui_VoidstrapMods_LoadedBadge : Strings.Ui_VoidstrapMods_DisabledBadge,
-			mod.Loaded ? SymbolRegular.CheckmarkCircle24 : SymbolRegular.PauseCircle24,
-			mod.Loaded ? Color.FromRgb(46, 204, 113) : Color.FromRgb(160, 168, 180),
-			""));
+			title.Children.Add(
+				MakeBadge(
+					mod.Loaded ? Strings.Ui_VoidstrapMods_LoadedBadge : Strings.Ui_VoidstrapMods_DisabledBadge,
+					mod.Loaded ? SymbolRegular.CheckmarkCircle24 : SymbolRegular.PauseCircle24,
+					mod.Loaded ? Color.FromRgb(46, 204, 113) : Color.FromRgb(160, 168, 180),
+					""
+				)
+			);
 		text.Children.Add(title);
 
 		System.Windows.Controls.TextBlock summary = StyledText("RowSummary", mod.Description);
@@ -206,7 +228,14 @@ public partial class VoidstrapModsPage : UiPage
 		}
 		IReadOnlyList<string> networkHosts = libraryMod?.Network ?? item.Manifest?.NetworkHosts ?? [];
 		bool usesRoblox = libraryMod?.UsesRobloxAccount ?? item.Manifest?.HasPermission(PluginManifest.RobloxAccountPermission) ?? false;
-		System.Windows.Controls.TextBlock network = StyledText("RowMeta", (networkHosts.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", networkHosts))) + (usesRoblox ? "   " + Strings.Ui_VoidstrapMods_LibraryRobloxAccess : ""));
+		System.Windows.Controls.TextBlock network = StyledText(
+			"RowMeta",
+			(
+				networkHosts.Count == 0
+					? Strings.Ui_VoidstrapMods_LibraryNoNetwork
+					: string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", networkHosts))
+			) + (usesRoblox ? "   " + Strings.Ui_VoidstrapMods_LibraryRobloxAccess : "")
+		);
 		network.Margin = new Thickness(!string.IsNullOrEmpty(authorLogin) ? 12 : 0, 0, 0, 0);
 		meta.Children.Add(network);
 		text.Children.Add(meta);
@@ -214,8 +243,18 @@ public partial class VoidstrapModsPage : UiPage
 
 		StackPanel side = new() { VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Right };
 		Grid.SetColumn(side, 2);
-		StackPanel version = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 0, 10) };
-		SymbolIcon tagIcon = new() { Symbol = SymbolRegular.Tag24, FontSize = 14, VerticalAlignment = VerticalAlignment.Center };
+		StackPanel version = new()
+		{
+			Orientation = Orientation.Horizontal,
+			HorizontalAlignment = HorizontalAlignment.Right,
+			Margin = new Thickness(0, 0, 0, 10),
+		};
+		SymbolIcon tagIcon = new()
+		{
+			Symbol = SymbolRegular.Tag24,
+			FontSize = 14,
+			VerticalAlignment = VerticalAlignment.Center,
+		};
 		tagIcon.SetResourceReference(SymbolIcon.ForegroundProperty, "TextFillColorTertiaryBrush");
 		version.Children.Add(tagIcon);
 		System.Windows.Controls.TextBlock versionText = StyledText("RowMeta", mod.Version);
@@ -233,7 +272,7 @@ public partial class VoidstrapModsPage : UiPage
 				ToolTip = Strings.Ui_VoidstrapMods_ModSettings,
 				Appearance = ControlAppearance.Secondary,
 				Margin = new Thickness(0, 0, 6, 0),
-				Tag = mod.Name
+				Tag = mod.Name,
 			};
 			settingsBtn.Click += ModSettings_Click;
 			buttons.Children.Add(settingsBtn);
@@ -245,7 +284,7 @@ public partial class VoidstrapModsPage : UiPage
 			ToolTip = Strings.Ui_VoidstrapMods_PublishTooltip,
 			Appearance = ControlAppearance.Secondary,
 			Margin = new Thickness(0, 0, 6, 0),
-			Tag = mod.Name
+			Tag = mod.Name,
 		};
 		publishBtn.Click += PublishMod_Click;
 		if (!invalid)
@@ -257,7 +296,7 @@ public partial class VoidstrapModsPage : UiPage
 			ToolTip = Strings.Ui_VoidstrapMods_ChangeIcon,
 			Appearance = ControlAppearance.Secondary,
 			Margin = new Thickness(0, 0, 6, 0),
-			Tag = mod.Name
+			Tag = mod.Name,
 		};
 		iconBtn.Click += ChangeIcon_Click;
 		if (!invalid)
@@ -269,7 +308,7 @@ public partial class VoidstrapModsPage : UiPage
 			ToolTip = Strings.Ui_VoidstrapMods_ExportTooltip,
 			Appearance = ControlAppearance.Secondary,
 			Margin = new Thickness(0, 0, 6, 0),
-			Tag = mod.Name
+			Tag = mod.Name,
 		};
 		exportBtn.Click += ExportMod_Click;
 		if (!invalid)
@@ -281,7 +320,7 @@ public partial class VoidstrapModsPage : UiPage
 			ToolTip = Strings.Common_Delete,
 			Appearance = ControlAppearance.Secondary,
 			Margin = new Thickness(0, 0, 8, 0),
-			Tag = mod.Name
+			Tag = mod.Name,
 		};
 		deleteBtn.Click += DeleteMod_Click;
 		buttons.Children.Add(deleteBtn);
@@ -293,7 +332,7 @@ public partial class VoidstrapModsPage : UiPage
 			Appearance = ControlAppearance.Secondary,
 			MinWidth = 76,
 			Margin = new Thickness(0, 0, 8, 0),
-			Tag = mod.Name
+			Tag = mod.Name,
 		};
 		editBtn.Click += EditMod_Click;
 		buttons.Children.Add(editBtn);
@@ -305,7 +344,7 @@ public partial class VoidstrapModsPage : UiPage
 			Appearance = on ? ControlAppearance.Secondary : ControlAppearance.Primary,
 			Content = on ? Strings.Ui_VoidstrapMods_LibraryDisable : Strings.Ui_VoidstrapMods_LibraryEnable,
 			Icon = on ? SymbolRegular.Pause24 : SymbolRegular.Play24,
-			Tag = mod.Name
+			Tag = mod.Name,
 		};
 		toggle.Click += CreateModToggle_Click;
 		if (!invalid)
@@ -323,15 +362,29 @@ public partial class VoidstrapModsPage : UiPage
 				Text = string.Join(Environment.NewLine, mod.Problems.TakeLast(10)),
 				FontFamily = new System.Windows.Media.FontFamily("Consolas, Cascadia Mono, monospace"),
 				FontSize = 11,
-				TextWrapping = TextWrapping.Wrap
+				TextWrapping = TextWrapping.Wrap,
 			};
 			problems.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
 			StackPanel problemBody = new();
 			problemBody.Children.Add(problems);
-			Wpf.Ui.Controls.Button clearProblems = new() { Content = Strings.Ui_VoidstrapMods_ClearProblems, Appearance = ControlAppearance.Secondary, Margin = new Thickness(0, 8, 0, 0), Tag = mod.Name };
+			Wpf.Ui.Controls.Button clearProblems = new()
+			{
+				Content = Strings.Ui_VoidstrapMods_ClearProblems,
+				Appearance = ControlAppearance.Secondary,
+				Margin = new Thickness(0, 8, 0, 0),
+				Tag = mod.Name,
+			};
 			clearProblems.Click += ClearProblems_Click;
 			problemBody.Children.Add(clearProblems);
-			body.Children.Add(new Expander { Header = Strings.Ui_VoidstrapMods_RecentProblems, Content = problemBody, IsExpanded = invalid, Margin = new Thickness(0, 8, 0, 0) });
+			body.Children.Add(
+				new Expander
+				{
+					Header = Strings.Ui_VoidstrapMods_RecentProblems,
+					Content = problemBody,
+					IsExpanded = invalid,
+					Margin = new Thickness(0, 8, 0, 0),
+				}
+			);
 		}
 
 		Border card = new() { Child = body };
@@ -342,10 +395,26 @@ public partial class VoidstrapModsPage : UiPage
 	private FrameworkElement BuildModIcon(PluginHost.ModInfo mod, ModLibrary.LibraryMod? libraryMod, BitmapSource? icon)
 	{
 		if (icon != null)
-			return new Image { Source = icon, Stretch = Stretch.Uniform, Margin = new Thickness(8) };
+			return new Image
+			{
+				Source = icon,
+				Stretch = Stretch.Uniform,
+				Margin = new Thickness(8),
+			};
 		if (libraryMod != null && _libraryIcons.TryGetValue(libraryMod.Id, out BitmapSource? libIcon) && libIcon != null)
-			return new Image { Source = libIcon, Stretch = Stretch.Uniform, Margin = new Thickness(8) };
-		return new SymbolIcon { Symbol = SymbolRegular.PuzzlePiece24, FontSize = 34, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+			return new Image
+			{
+				Source = libIcon,
+				Stretch = Stretch.Uniform,
+				Margin = new Thickness(8),
+			};
+		return new SymbolIcon
+		{
+			Symbol = SymbolRegular.PuzzlePiece24,
+			FontSize = 34,
+			HorizontalAlignment = HorizontalAlignment.Center,
+			VerticalAlignment = VerticalAlignment.Center,
+		};
 	}
 
 	private void NewMod_Click(object sender, RoutedEventArgs e)
@@ -398,7 +467,7 @@ public partial class VoidstrapModsPage : UiPage
 			Filter = Strings.Ui_VoidstrapMods_PackageFilter,
 			FileName = modName + ModFiles.PackageExtension,
 			DefaultExt = ModFiles.PackageExtension,
-			AddExtension = true
+			AddExtension = true,
 		};
 		if (picker.ShowDialog(Window.GetWindow(this)) != true)
 			return;
@@ -415,17 +484,27 @@ public partial class VoidstrapModsPage : UiPage
 
 	private void Import_Click(object sender, RoutedEventArgs e)
 	{
-		Microsoft.Win32.OpenFileDialog picker = new() { Filter = Strings.Ui_VoidstrapMods_PackageFilter, CheckFileExists = true, Multiselect = true };
+		Microsoft.Win32.OpenFileDialog picker = new()
+		{
+			Filter = Strings.Ui_VoidstrapMods_PackageFilter,
+			CheckFileExists = true,
+			Multiselect = true,
+		};
 		if (picker.ShowDialog(Window.GetWindow(this)) != true)
 			return;
 		ImportPackages(picker.FileNames);
 	}
 
-	private static bool IsPackageFile(string path) => path.EndsWith(ModFiles.PackageExtension, StringComparison.OrdinalIgnoreCase) || path.EndsWith(".zip", StringComparison.OrdinalIgnoreCase);
+	private static bool IsPackageFile(string path) =>
+		path.EndsWith(ModFiles.PackageExtension, StringComparison.OrdinalIgnoreCase)
+		|| path.EndsWith(".zip", StringComparison.OrdinalIgnoreCase);
 
 	private void Page_DragOver(object sender, DragEventArgs e)
 	{
-		e.Effects = e.Data.GetData(DataFormats.FileDrop) is string[] files && files.Any(IsPackageFile) ? DragDropEffects.Copy : DragDropEffects.None;
+		e.Effects =
+			e.Data.GetData(DataFormats.FileDrop) is string[] files && files.Any(IsPackageFile)
+				? DragDropEffects.Copy
+				: DragDropEffects.None;
 		e.Handled = true;
 	}
 
@@ -445,11 +524,15 @@ public partial class VoidstrapModsPage : UiPage
 			{
 				ModFiles.Package package = await Task.Run(() => ModFiles.OpenPackage(file));
 				string name = package.Manifest.Name;
-				if (Directory.Exists(Path.Combine(Paths.Plugins, name)) && Frontend.ShowMessageBox(
-					string.Format(Strings.Ui_VoidstrapMods_ImportReplacePrompt, name),
-					MessageBoxImage.Question,
-					MessageBoxButton.YesNo,
-					MessageBoxResult.No) != MessageBoxResult.Yes)
+				if (
+					Directory.Exists(Path.Combine(Paths.Plugins, name))
+					&& Frontend.ShowMessageBox(
+						string.Format(Strings.Ui_VoidstrapMods_ImportReplacePrompt, name),
+						MessageBoxImage.Question,
+						MessageBoxButton.YesNo,
+						MessageBoxResult.No
+					) != MessageBoxResult.Yes
+				)
 				{
 					ModFiles.TryDelete(package.StagingFolder);
 					continue;
@@ -460,7 +543,10 @@ public partial class VoidstrapModsPage : UiPage
 			}
 			catch (Exception ex)
 			{
-				Frontend.ShowMessageBox(string.Format(Strings.Ui_VoidstrapMods_ImportFailed, Path.GetFileName(file), ex.Message), MessageBoxImage.Error);
+				Frontend.ShowMessageBox(
+					string.Format(Strings.Ui_VoidstrapMods_ImportFailed, Path.GetFileName(file), ex.Message),
+					MessageBoxImage.Error
+				);
 			}
 		}
 		if (last != null)
@@ -498,7 +584,7 @@ public partial class VoidstrapModsPage : UiPage
 			(ModLibrarySearch.Sort.Relevance, Strings.Ui_VoidstrapMods_LibrarySortRelevance),
 			(ModLibrarySearch.Sort.Newest, Strings.Ui_VoidstrapMods_LibrarySortNewest),
 			(ModLibrarySearch.Sort.Updated, Strings.Ui_VoidstrapMods_LibrarySortUpdated),
-			(ModLibrarySearch.Sort.Name, Strings.Ui_VoidstrapMods_LibrarySortName)
+			(ModLibrarySearch.Sort.Name, Strings.Ui_VoidstrapMods_LibrarySortName),
 		];
 		foreach ((ModLibrarySearch.Sort sort, string label) in sorts)
 			SortBox.Items.Add(new ComboBoxItem { Content = label, Tag = sort });
@@ -509,8 +595,12 @@ public partial class VoidstrapModsPage : UiPage
 	{
 		get
 		{
-			ModLibrarySearch.Sort sort = (SortBox.SelectedItem as ComboBoxItem)?.Tag is ModLibrarySearch.Sort chosen ? chosen : ModLibrarySearch.Sort.Featured;
-			return sort == ModLibrarySearch.Sort.Featured && ModLibrarySearch.Parse(LibrarySearchBox.Text ?? "").Words.Count > 0 ? null : sort;
+			ModLibrarySearch.Sort sort = (SortBox.SelectedItem as ComboBoxItem)?.Tag is ModLibrarySearch.Sort chosen
+				? chosen
+				: ModLibrarySearch.Sort.Featured;
+			return sort == ModLibrarySearch.Sort.Featured && ModLibrarySearch.Parse(LibrarySearchBox.Text ?? "").Words.Count > 0
+				? null
+				: sort;
 		}
 	}
 
@@ -519,8 +609,24 @@ public partial class VoidstrapModsPage : UiPage
 	private static Border MakeBadge(string text, SymbolRegular icon, Color color, string tooltip)
 	{
 		StackPanel content = new() { Orientation = Orientation.Horizontal };
-		content.Children.Add(new SymbolIcon { Symbol = icon, FontSize = 12, Margin = new Thickness(0, 0, 4, 0), Foreground = new SolidColorBrush(color) });
-		content.Children.Add(new System.Windows.Controls.TextBlock { Text = text, FontSize = 11, FontWeight = FontWeights.SemiBold, Foreground = new SolidColorBrush(color) });
+		content.Children.Add(
+			new SymbolIcon
+			{
+				Symbol = icon,
+				FontSize = 12,
+				Margin = new Thickness(0, 0, 4, 0),
+				Foreground = new SolidColorBrush(color),
+			}
+		);
+		content.Children.Add(
+			new System.Windows.Controls.TextBlock
+			{
+				Text = text,
+				FontSize = 11,
+				FontWeight = FontWeights.SemiBold,
+				Foreground = new SolidColorBrush(color),
+			}
+		);
 		return new Border
 		{
 			Child = content,
@@ -529,7 +635,7 @@ public partial class VoidstrapModsPage : UiPage
 			Margin = new Thickness(6, 0, 0, 0),
 			VerticalAlignment = VerticalAlignment.Center,
 			Background = new SolidColorBrush(Color.FromArgb(40, color.R, color.G, color.B)),
-			ToolTip = tooltip
+			ToolTip = tooltip,
 		};
 	}
 
@@ -557,7 +663,10 @@ public partial class VoidstrapModsPage : UiPage
 		if (GitHubPublisher.SignedIn != null)
 		{
 			string message = string.Format(Strings.Ui_VoidstrapMods_SignOutPrompt, GitHubPublisher.SignedIn.Login);
-			if (Frontend.ShowMessageBox(message, MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+			if (
+				Frontend.ShowMessageBox(message, MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No)
+				!= MessageBoxResult.Yes
+			)
 				return;
 			GitHubPublisher.SignOut();
 		}
@@ -596,9 +705,7 @@ public partial class VoidstrapModsPage : UiPage
 			RenderLibrary();
 			RenderMods();
 		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested) { }
 		catch (Exception ex)
 		{
 			LibraryHost.Children.Clear();
@@ -610,11 +717,17 @@ public partial class VoidstrapModsPage : UiPage
 	private void ReportTakedowns(ModLibrary.Index index)
 	{
 		IReadOnlyList<(string Name, string Reason)> disabled = ModLibrary.DisableTakenDown(index);
-		List<string> lines = disabled.Where(d => _reportedTakedowns.Add(d.Name)).Select(d => d.Reason.Length > 0 ? d.Name + ": " + d.Reason : d.Name).ToList();
+		List<string> lines = disabled
+			.Where(d => _reportedTakedowns.Add(d.Name))
+			.Select(d => d.Reason.Length > 0 ? d.Name + ": " + d.Reason : d.Name)
+			.ToList();
 		if (lines.Count == 0)
 			return;
 		RenderMods();
-		Frontend.ShowMessageBox(string.Format(Strings.Ui_VoidstrapMods_LibraryTakenDown, string.Join(Environment.NewLine, lines)), MessageBoxImage.Warning);
+		Frontend.ShowMessageBox(
+			string.Format(Strings.Ui_VoidstrapMods_LibraryTakenDown, string.Join(Environment.NewLine, lines)),
+			MessageBoxImage.Warning
+		);
 	}
 
 	private void RenderLibrary()
@@ -634,36 +747,81 @@ public partial class VoidstrapModsPage : UiPage
 	private FrameworkElement BuildIcon(ModLibrary.LibraryMod mod, double margin, double fallbackSize)
 	{
 		return _libraryIcons.TryGetValue(mod.Id, out BitmapSource? icon) && icon != null
-			? new Image { Source = icon, Stretch = Stretch.Uniform, Margin = new Thickness(margin) }
-			: new SymbolIcon { Symbol = SymbolRegular.PuzzlePiece24, FontSize = fallbackSize, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+			? new Image
+			{
+				Source = icon,
+				Stretch = Stretch.Uniform,
+				Margin = new Thickness(margin),
+			}
+			: new SymbolIcon
+			{
+				Symbol = SymbolRegular.PuzzlePiece24,
+				FontSize = fallbackSize,
+				HorizontalAlignment = HorizontalAlignment.Center,
+				VerticalAlignment = VerticalAlignment.Center,
+			};
 	}
 
 	private static void AddTrustBadges(Panel host, ModLibrary.LibraryMod mod)
 	{
 		if (mod.Verified)
-			host.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_LibraryVerified, SymbolRegular.ShieldCheckmark24, Color.FromRgb(46, 204, 113), Strings.Ui_VoidstrapMods_LibraryVerifiedTooltip));
+			host.Children.Add(
+				MakeBadge(
+					Strings.Ui_VoidstrapMods_LibraryVerified,
+					SymbolRegular.ShieldCheckmark24,
+					Color.FromRgb(46, 204, 113),
+					Strings.Ui_VoidstrapMods_LibraryVerifiedTooltip
+				)
+			);
 		else if (mod.Trusted)
-			host.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_LibraryTrusted, SymbolRegular.PersonAvailable24, Color.FromRgb(88, 166, 255), Strings.Ui_VoidstrapMods_LibraryTrustedTooltip));
+			host.Children.Add(
+				MakeBadge(
+					Strings.Ui_VoidstrapMods_LibraryTrusted,
+					SymbolRegular.PersonAvailable24,
+					Color.FromRgb(88, 166, 255),
+					Strings.Ui_VoidstrapMods_LibraryTrustedTooltip
+				)
+			);
 		else
-			host.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_LibraryUnverified, SymbolRegular.Warning24, Color.FromRgb(210, 153, 34), Strings.Ui_VoidstrapMods_LibraryUnverifiedTooltip));
+			host.Children.Add(
+				MakeBadge(
+					Strings.Ui_VoidstrapMods_LibraryUnverified,
+					SymbolRegular.Warning24,
+					Color.FromRgb(210, 153, 34),
+					Strings.Ui_VoidstrapMods_LibraryUnverifiedTooltip
+				)
+			);
 		if (mod.Featured > 0)
-			host.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_LibraryFeatured, SymbolRegular.Star24, Color.FromRgb(241, 196, 15), Strings.Ui_VoidstrapMods_LibraryFeatured));
+			host.Children.Add(
+				MakeBadge(
+					Strings.Ui_VoidstrapMods_LibraryFeatured,
+					SymbolRegular.Star24,
+					Color.FromRgb(241, 196, 15),
+					Strings.Ui_VoidstrapMods_LibraryFeatured
+				)
+			);
 	}
 
-	private static string InstallLabel(ModLibrary.InstallState state) => state switch
-	{
-		ModLibrary.InstallState.Installed => Strings.Ui_VoidstrapMods_LibraryInstalled,
-		ModLibrary.InstallState.UpdateAvailable => Strings.Ui_VoidstrapMods_LibraryUpdate,
-		ModLibrary.InstallState.NameTaken => Strings.Ui_VoidstrapMods_LibraryNameTaken,
-		_ => Strings.Ui_VoidstrapMods_LibraryInstall
-	};
+	private static string InstallLabel(ModLibrary.InstallState state) =>
+		state switch
+		{
+			ModLibrary.InstallState.Installed => Strings.Ui_VoidstrapMods_LibraryInstalled,
+			ModLibrary.InstallState.UpdateAvailable => Strings.Ui_VoidstrapMods_LibraryUpdate,
+			ModLibrary.InstallState.NameTaken => Strings.Ui_VoidstrapMods_LibraryNameTaken,
+			_ => Strings.Ui_VoidstrapMods_LibraryInstall,
+		};
 
 	private static void ApplyInstallButton(Wpf.Ui.Controls.Button button, ModLibrary.LibraryMod mod)
 	{
 		ModLibrary.InstallState state = ModLibrary.GetState(mod);
 		button.Content = InstallLabel(state);
-		button.Icon = state == ModLibrary.InstallState.UpdateAvailable ? SymbolRegular.ArrowSync24 : state == ModLibrary.InstallState.Installed ? SymbolRegular.Checkmark24 : SymbolRegular.ArrowDownload24;
-		button.Appearance = state is ModLibrary.InstallState.NotInstalled or ModLibrary.InstallState.UpdateAvailable ? ControlAppearance.Primary : ControlAppearance.Secondary;
+		button.Icon =
+			state == ModLibrary.InstallState.UpdateAvailable ? SymbolRegular.ArrowSync24
+			: state == ModLibrary.InstallState.Installed ? SymbolRegular.Checkmark24
+			: SymbolRegular.ArrowDownload24;
+		button.Appearance = state is ModLibrary.InstallState.NotInstalled or ModLibrary.InstallState.UpdateAvailable
+			? ControlAppearance.Primary
+			: ControlAppearance.Secondary;
 		button.IsEnabled = state is ModLibrary.InstallState.NotInstalled or ModLibrary.InstallState.UpdateAvailable;
 		button.Tag = mod;
 	}
@@ -699,7 +857,14 @@ public partial class VoidstrapModsPage : UiPage
 		System.Windows.Controls.TextBlock author = StyledText("RowMeta", "@" + mod.Login);
 		author.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
 		meta.Children.Add(author);
-		System.Windows.Controls.TextBlock network = StyledText("RowMeta", (mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", mod.Network))) + (mod.UsesRobloxAccount ? "   " + Strings.Ui_VoidstrapMods_LibraryRobloxAccess : ""));
+		System.Windows.Controls.TextBlock network = StyledText(
+			"RowMeta",
+			(
+				mod.Network.Count == 0
+					? Strings.Ui_VoidstrapMods_LibraryNoNetwork
+					: string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", mod.Network))
+			) + (mod.UsesRobloxAccount ? "   " + Strings.Ui_VoidstrapMods_LibraryRobloxAccess : "")
+		);
 		network.Margin = new Thickness(12, 0, 0, 0);
 		meta.Children.Add(network);
 		text.Children.Add(meta);
@@ -707,8 +872,18 @@ public partial class VoidstrapModsPage : UiPage
 
 		StackPanel side = new() { VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Right };
 		Grid.SetColumn(side, 2);
-		StackPanel version = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 0, 10) };
-		SymbolIcon tagIcon = new() { Symbol = SymbolRegular.Tag24, FontSize = 14, VerticalAlignment = VerticalAlignment.Center };
+		StackPanel version = new()
+		{
+			Orientation = Orientation.Horizontal,
+			HorizontalAlignment = HorizontalAlignment.Right,
+			Margin = new Thickness(0, 0, 0, 10),
+		};
+		SymbolIcon tagIcon = new()
+		{
+			Symbol = SymbolRegular.Tag24,
+			FontSize = 14,
+			VerticalAlignment = VerticalAlignment.Center,
+		};
 		tagIcon.SetResourceReference(SymbolIcon.ForegroundProperty, "TextFillColorTertiaryBrush");
 		version.Children.Add(tagIcon);
 		System.Windows.Controls.TextBlock versionText = StyledText("RowMeta", mod.Version);
@@ -716,13 +891,27 @@ public partial class VoidstrapModsPage : UiPage
 		version.Children.Add(versionText);
 		side.Children.Add(version);
 		StackPanel buttons = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
-		Wpf.Ui.Controls.Button view = new() { Content = Strings.Ui_Mods_View, Appearance = ControlAppearance.Secondary, MinWidth = 76, Margin = new Thickness(0, 0, 8, 0), Tag = mod };
+		Wpf.Ui.Controls.Button view = new()
+		{
+			Content = Strings.Ui_Mods_View,
+			Appearance = ControlAppearance.Secondary,
+			MinWidth = 76,
+			Margin = new Thickness(0, 0, 8, 0),
+			Tag = mod,
+		};
 		view.Click += LibraryView_Click;
 		buttons.Children.Add(view);
 		if (ModLibrary.GetState(mod) == ModLibrary.InstallState.Installed)
 		{
 			bool on = IsModOn(mod.Name);
-			Wpf.Ui.Controls.Button toggle = new() { MinWidth = 84, Appearance = on ? ControlAppearance.Secondary : ControlAppearance.Primary, Content = on ? Strings.Ui_VoidstrapMods_LibraryDisable : Strings.Ui_VoidstrapMods_LibraryEnable, Icon = on ? SymbolRegular.Pause24 : SymbolRegular.Play24, Tag = mod };
+			Wpf.Ui.Controls.Button toggle = new()
+			{
+				MinWidth = 84,
+				Appearance = on ? ControlAppearance.Secondary : ControlAppearance.Primary,
+				Content = on ? Strings.Ui_VoidstrapMods_LibraryDisable : Strings.Ui_VoidstrapMods_LibraryEnable,
+				Icon = on ? SymbolRegular.Pause24 : SymbolRegular.Play24,
+				Tag = mod,
+			};
 			toggle.Click += LibraryToggle_Click;
 			buttons.Children.Add(toggle);
 		}
@@ -759,12 +948,17 @@ public partial class VoidstrapModsPage : UiPage
 		bool hasIcon = _libraryIcons.TryGetValue(mod.Id, out BitmapSource? icon) && icon != null;
 		DetailIcon.Source = hasIcon ? icon : null;
 		DetailIconFallback.Visibility = hasIcon ? Visibility.Collapsed : Visibility.Visible;
-		DetailNetwork.Text = (mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Join(Environment.NewLine, mod.Network)) + (mod.UsesRobloxAccount ? Environment.NewLine + Strings.Ui_VoidstrapMods_LibraryRobloxAccess : "");
+		DetailNetwork.Text =
+			(mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Join(Environment.NewLine, mod.Network))
+			+ (mod.UsesRobloxAccount ? Environment.NewLine + Strings.Ui_VoidstrapMods_LibraryRobloxAccess : "");
 		DetailFiles.Text = string.Join(Environment.NewLine, mod.Files.Select(f => f.Path + "   " + FormatSize(f.Size)));
 		DetailVersion.Text = mod.Version;
 		DetailUpdated.Text = (mod.Updated ?? mod.Created)?.ToLocalTime().ToString("d") ?? "";
 		DetailCreator.Text = "@" + mod.Login;
-		DetailTrust.Text = mod.Verified ? Strings.Ui_VoidstrapMods_LibraryVerifiedTooltip : mod.Trusted ? Strings.Ui_VoidstrapMods_LibraryTrustedTooltip : Strings.Ui_VoidstrapMods_LibraryUnverifiedTooltip;
+		DetailTrust.Text =
+			mod.Verified ? Strings.Ui_VoidstrapMods_LibraryVerifiedTooltip
+			: mod.Trusted ? Strings.Ui_VoidstrapMods_LibraryTrustedTooltip
+			: Strings.Ui_VoidstrapMods_LibraryUnverifiedTooltip;
 		ApplyInstallButton(DetailInstallButton, mod);
 		DetailInstallButton.Height = 40;
 		ApplyInstalledActions(mod);
@@ -802,7 +996,14 @@ public partial class VoidstrapModsPage : UiPage
 	{
 		if (sender is not FrameworkElement { Tag: ModLibrary.LibraryMod mod })
 			return;
-		if (Frontend.ShowMessageBox(string.Format(Strings.Ui_VoidstrapMods_DeleteModPrompt, mod.Name), MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+		if (
+			Frontend.ShowMessageBox(
+				string.Format(Strings.Ui_VoidstrapMods_DeleteModPrompt, mod.Name),
+				MessageBoxImage.Warning,
+				MessageBoxButton.YesNo,
+				MessageBoxResult.No
+			) != MessageBoxResult.Yes
+		)
 			return;
 		try
 		{
@@ -853,8 +1054,18 @@ public partial class VoidstrapModsPage : UiPage
 		bool vouched = mod.Verified || mod.Trusted;
 		if (!vouched)
 		{
-			string network = mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", mod.Network));
-			if (Frontend.ShowMessageBox(string.Format(Strings.Ui_VoidstrapMods_LibraryUnverifiedPrompt, mod.Name, mod.Version, mod.Login, network), MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+			string network =
+				mod.Network.Count == 0
+					? Strings.Ui_VoidstrapMods_LibraryNoNetwork
+					: string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", mod.Network));
+			if (
+				Frontend.ShowMessageBox(
+					string.Format(Strings.Ui_VoidstrapMods_LibraryUnverifiedPrompt, mod.Name, mod.Version, mod.Login, network),
+					MessageBoxImage.Warning,
+					MessageBoxButton.YesNo,
+					MessageBoxResult.No
+				) != MessageBoxResult.Yes
+			)
 				return;
 		}
 		button.IsEnabled = false;
@@ -866,12 +1077,13 @@ public partial class VoidstrapModsPage : UiPage
 			await Task.Run(PluginHost.Reload);
 			RenderMods();
 		}
-		catch (OperationCanceledException)
-		{
-		}
+		catch (OperationCanceledException) { }
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox(string.Format(Strings.Ui_VoidstrapMods_LibraryInstallFailed, mod.Name, ex.Message), MessageBoxImage.Error);
+			Frontend.ShowMessageBox(
+				string.Format(Strings.Ui_VoidstrapMods_LibraryInstallFailed, mod.Name, ex.Message),
+				MessageBoxImage.Error
+			);
 		}
 		RenderLibrary();
 	}
@@ -891,11 +1103,14 @@ public partial class VoidstrapModsPage : UiPage
 	{
 		if (sender is not FrameworkElement { Tag: string modName })
 			return;
-		if (Frontend.ShowMessageBox(
-			string.Format(Strings.Ui_VoidstrapMods_DeleteModPrompt, modName),
-			MessageBoxImage.Warning,
-			MessageBoxButton.YesNo,
-			MessageBoxResult.No) != MessageBoxResult.Yes)
+		if (
+			Frontend.ShowMessageBox(
+				string.Format(Strings.Ui_VoidstrapMods_DeleteModPrompt, modName),
+				MessageBoxImage.Warning,
+				MessageBoxButton.YesNo,
+				MessageBoxResult.No
+			) != MessageBoxResult.Yes
+		)
 			return;
 		try
 		{
@@ -974,13 +1189,15 @@ public partial class VoidstrapModsPage : UiPage
 		foreach (var (pane, tree) in rendered)
 		{
 			StackPanel body = new();
-			body.Children.Add(new System.Windows.Controls.TextBlock
-			{
-				Text = pane.Title,
-				FontSize = 16,
-				FontWeight = FontWeights.SemiBold,
-				Margin = new Thickness(0, 0, 0, 8)
-			});
+			body.Children.Add(
+				new System.Windows.Controls.TextBlock
+				{
+					Text = pane.Title,
+					FontSize = 16,
+					FontWeight = FontWeights.SemiBold,
+					Margin = new Thickness(0, 0, 0, 8),
+				}
+			);
 			UIElement? content = null;
 			try
 			{
@@ -999,7 +1216,7 @@ public partial class VoidstrapModsPage : UiPage
 				Padding = new Thickness(16),
 				Margin = new Thickness(0, 0, 0, 12),
 				CornerRadius = new CornerRadius(8),
-				BorderThickness = new Thickness(1)
+				BorderThickness = new Thickness(1),
 			};
 			card.SetResourceReference(Border.BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
 			card.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");

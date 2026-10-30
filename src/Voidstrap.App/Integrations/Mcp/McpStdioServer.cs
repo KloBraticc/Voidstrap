@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using System.IO.Pipes;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Text;
 using System.Text.Json.Nodes;
+using System.Threading;
 
 namespace Voidstrap.Integrations.Mcp;
 
@@ -17,52 +17,52 @@ public static partial class McpStdioServer
 	private const string ServerInstructions = McpGuides.Workflow;
 
 	private const string AllowlistAndTrackerReference =
-		"ROBLOX FASTFLAG ALLOWLIST & MAXIMUMADHD FFLAG TRACKER REFERENCE\n\n" +
-		"1. Official Roblox FastFlag Allowlist\n" +
-		"   Announcement: https://devforum.roblox.com/t/allowlist-for-local-client-configuration-via-fast-flags/3966569\n" +
-		"   Live JSON Feed: https://devforum.roblox.com/t/allowlist-for-local-client-configuration-via-fast-flags/3966569.json\n" +
-		"   Overview: Roblox restricts local client configuration via ClientAppSettings.json on PC so that only FastFlags on the official allowlist are applied by the standard client.\n" +
-		"   Official Allowlisted Flags by Category:\n" +
-		"     Geometry:\n" +
-		"       * DFIntCSGLevelOfDetailSwitchingDistance\n" +
-		"       * DFIntCSGLevelOfDetailSwitchingDistanceL12\n" +
-		"       * DFIntCSGLevelOfDetailSwitchingDistanceL23\n" +
-		"       * DFIntCSGLevelOfDetailSwitchingDistanceL34\n" +
-		"     Rendering:\n" +
-		"       * FFlagHandleAltEnterFullscreenManually\n" +
-		"       * DFFlagTextureQualityOverrideEnabled\n" +
-		"       * DFIntTextureQualityOverride\n" +
-		"       * FIntDebugForceMSAASamples\n" +
-		"       * DFFlagDisableDPIScale\n" +
-		"       * FFlagDebugGraphicsPreferD3D11\n" +
-		"       * FFlagDebugSkyGray\n" +
-		"       * DFFlagDebugPauseVoxelizer\n" +
-		"       * DFIntDebugFRMQualityLevelOverride\n" +
-		"       * FIntFRMMaxGrassDistance\n" +
-		"       * FIntFRMMinGrassDistance\n" +
-		"       * FFlagDebugGraphicsPreferVulkan\n" +
-		"       * FFlagDebugGraphicsPreferOpenGL\n" +
-		"     User Interface:\n" +
-		"       * FIntGrassMovementReducedMotionFactor\n\n" +
-		"   Recommended Allowlisted Profiles in Voidstrap:\n" +
-		"     Performance: DFFlagTextureQualityOverrideEnabled=True, DFIntTextureQualityOverride=0, FIntDebugForceMSAASamples=1\n" +
-		"     Balanced:    DFFlagTextureQualityOverrideEnabled=True, DFIntTextureQualityOverride=2, FIntDebugForceMSAASamples=2\n" +
-		"     Quality:     DFFlagTextureQualityOverrideEnabled=True, DFIntTextureQualityOverride=3, FIntDebugForceMSAASamples=4\n\n" +
-		"2. MaximumADHD Roblox-FFlag-Tracker & Roblox-Client-Tracker\n" +
-		"   Tracker Repository: https://github.com/MaximumADHD/Roblox-FFlag-Tracker\n" +
-		"   Client Tracker Repository: https://github.com/MaximumADHD/Roblox-Client-Tracker\n" +
-		"   Live Data Feeds Queried by Voidstrap (via search_fastflag_tracker):\n" +
-		"     * PCDesktopClient: https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCDesktopClient.json\n" +
-		"     * PCClientBootstrapper: https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCClientBootstrapper.json\n" +
-		"     * PCStudioApp: https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCStudioApp.json\n" +
-		"     * FVariables.txt: https://raw.githubusercontent.com/MaximumADHD/Roblox-Client-Tracker/refs/heads/roblox/FVariables.txt\n" +
-		"     * Roblox ClientSettings API: https://clientsettings.roblox.com/v2/settings/application/PCDesktopClient\n\n" +
-		"3. FastFlag Naming & Type Conventions\n" +
-		"   * FFlag / DFFlag / SFFlag: Boolean ('True' or 'False')\n" +
-		"   * FInt / DFInt / SFInt: 32-bit signed integer string (e.g. '0', '1', '144')\n" +
-		"   * FString / DFString / SFString: String value\n" +
-		"   * FLog / DFLog / SFLog: Verbosity log level integer\n" +
-		"   * Prefix 'D' = Dynamic (can update at runtime without restart); 'S' = Synchronized with server.";
+		"ROBLOX FASTFLAG ALLOWLIST & MAXIMUMADHD FFLAG TRACKER REFERENCE\n\n"
+		+ "1. Official Roblox FastFlag Allowlist\n"
+		+ "   Announcement: https://devforum.roblox.com/t/allowlist-for-local-client-configuration-via-fast-flags/3966569\n"
+		+ "   Live JSON Feed: https://devforum.roblox.com/t/allowlist-for-local-client-configuration-via-fast-flags/3966569.json\n"
+		+ "   Overview: Roblox restricts local client configuration via ClientAppSettings.json on PC so that only FastFlags on the official allowlist are applied by the standard client.\n"
+		+ "   Official Allowlisted Flags by Category:\n"
+		+ "     Geometry:\n"
+		+ "       * DFIntCSGLevelOfDetailSwitchingDistance\n"
+		+ "       * DFIntCSGLevelOfDetailSwitchingDistanceL12\n"
+		+ "       * DFIntCSGLevelOfDetailSwitchingDistanceL23\n"
+		+ "       * DFIntCSGLevelOfDetailSwitchingDistanceL34\n"
+		+ "     Rendering:\n"
+		+ "       * FFlagHandleAltEnterFullscreenManually\n"
+		+ "       * DFFlagTextureQualityOverrideEnabled\n"
+		+ "       * DFIntTextureQualityOverride\n"
+		+ "       * FIntDebugForceMSAASamples\n"
+		+ "       * DFFlagDisableDPIScale\n"
+		+ "       * FFlagDebugGraphicsPreferD3D11\n"
+		+ "       * FFlagDebugSkyGray\n"
+		+ "       * DFFlagDebugPauseVoxelizer\n"
+		+ "       * DFIntDebugFRMQualityLevelOverride\n"
+		+ "       * FIntFRMMaxGrassDistance\n"
+		+ "       * FIntFRMMinGrassDistance\n"
+		+ "       * FFlagDebugGraphicsPreferVulkan\n"
+		+ "       * FFlagDebugGraphicsPreferOpenGL\n"
+		+ "     User Interface:\n"
+		+ "       * FIntGrassMovementReducedMotionFactor\n\n"
+		+ "   Recommended Allowlisted Profiles in Voidstrap:\n"
+		+ "     Performance: DFFlagTextureQualityOverrideEnabled=True, DFIntTextureQualityOverride=0, FIntDebugForceMSAASamples=1\n"
+		+ "     Balanced:    DFFlagTextureQualityOverrideEnabled=True, DFIntTextureQualityOverride=2, FIntDebugForceMSAASamples=2\n"
+		+ "     Quality:     DFFlagTextureQualityOverrideEnabled=True, DFIntTextureQualityOverride=3, FIntDebugForceMSAASamples=4\n\n"
+		+ "2. MaximumADHD Roblox-FFlag-Tracker & Roblox-Client-Tracker\n"
+		+ "   Tracker Repository: https://github.com/MaximumADHD/Roblox-FFlag-Tracker\n"
+		+ "   Client Tracker Repository: https://github.com/MaximumADHD/Roblox-Client-Tracker\n"
+		+ "   Live Data Feeds Queried by Voidstrap (via search_fastflag_tracker):\n"
+		+ "     * PCDesktopClient: https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCDesktopClient.json\n"
+		+ "     * PCClientBootstrapper: https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCClientBootstrapper.json\n"
+		+ "     * PCStudioApp: https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCStudioApp.json\n"
+		+ "     * FVariables.txt: https://raw.githubusercontent.com/MaximumADHD/Roblox-Client-Tracker/refs/heads/roblox/FVariables.txt\n"
+		+ "     * Roblox ClientSettings API: https://clientsettings.roblox.com/v2/settings/application/PCDesktopClient\n\n"
+		+ "3. FastFlag Naming & Type Conventions\n"
+		+ "   * FFlag / DFFlag / SFFlag: Boolean ('True' or 'False')\n"
+		+ "   * FInt / DFInt / SFInt: 32-bit signed integer string (e.g. '0', '1', '144')\n"
+		+ "   * FString / DFString / SFString: String value\n"
+		+ "   * FLog / DFLog / SFLog: Verbosity log level integer\n"
+		+ "   * Prefix 'D' = Dynamic (can update at runtime without restart); 'S' = Synchronized with server.";
 
 	public static bool IsRequested(string[] args) => IsMcpStartupArg(args);
 
@@ -107,12 +107,18 @@ public static partial class McpStdioServer
 	private static int FindParentProcessId()
 	{
 		int self = Environment.ProcessId;
-		using Microsoft.Win32.SafeHandles.SafeProcessHandle snapshot = new(Windows.Win32.PInvoke.CreateToolhelp32Snapshot(Windows.Win32.System.Diagnostics.ToolHelp.CREATE_TOOLHELP_SNAPSHOT_FLAGS.TH32CS_SNAPPROCESS, 0), true);
+		using Microsoft.Win32.SafeHandles.SafeProcessHandle snapshot = new(
+			Windows.Win32.PInvoke.CreateToolhelp32Snapshot(
+				Windows.Win32.System.Diagnostics.ToolHelp.CREATE_TOOLHELP_SNAPSHOT_FLAGS.TH32CS_SNAPPROCESS,
+				0
+			),
+			true
+		);
 		if (snapshot.IsInvalid)
 			return 0;
 		Windows.Win32.System.Diagnostics.ToolHelp.PROCESSENTRY32 entry = new()
 		{
-			dwSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf<Windows.Win32.System.Diagnostics.ToolHelp.PROCESSENTRY32>()
+			dwSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf<Windows.Win32.System.Diagnostics.ToolHelp.PROCESSENTRY32>(),
 		};
 		if (!Windows.Win32.PInvoke.Process32First(snapshot, ref entry))
 			return 0;
@@ -120,8 +126,7 @@ public static partial class McpStdioServer
 		{
 			if ((int)entry.th32ProcessID == self)
 				return (int)entry.th32ParentProcessID;
-		}
-		while (Windows.Win32.PInvoke.Process32Next(snapshot, ref entry));
+		} while (Windows.Win32.PInvoke.Process32Next(snapshot, ref entry));
 		return 0;
 	}
 
@@ -162,7 +167,7 @@ public static partial class McpStdioServer
 		})
 		{
 			IsBackground = true,
-			Name = "Voidstrap MCP orphan watch"
+			Name = "Voidstrap MCP orphan watch",
 		};
 		watcher.Start();
 	}
@@ -180,11 +185,7 @@ public static partial class McpStdioServer
 		using Stream stdin = Console.OpenStandardInput();
 		using Stream stdout = Console.OpenStandardOutput();
 		using var reader = new StreamReader(stdin, new UTF8Encoding(false), false, 65536, leaveOpen: true);
-		using var writer = new StreamWriter(stdout, new UTF8Encoding(false), 65536, leaveOpen: true)
-		{
-			AutoFlush = true,
-			NewLine = "\n"
-		};
+		using var writer = new StreamWriter(stdout, new UTF8Encoding(false), 65536, leaveOpen: true) { AutoFlush = true, NewLine = "\n" };
 
 		while (true)
 		{
@@ -272,7 +273,7 @@ public static partial class McpStdioServer
 				"resources/templates/list" => Ok(id, new JsonObject { ["resourceTemplates"] = new JsonArray() }),
 				"resources/read" => Ok(id, HandleResourceRead(@params)),
 				"prompts/list" => Ok(id, new JsonObject { ["prompts"] = new JsonArray() }),
-				_ => Error(id, -32601, "Method not found: " + method)
+				_ => Error(id, -32601, "Method not found: " + method),
 			};
 		}
 		catch (Exception ex)
@@ -290,17 +291,9 @@ public static partial class McpStdioServer
 		return new JsonObject
 		{
 			["protocolVersion"] = negotiated,
-			["capabilities"] = new JsonObject
-			{
-				["tools"] = new JsonObject(),
-				["resources"] = new JsonObject()
-			},
-			["serverInfo"] = new JsonObject
-			{
-				["name"] = "voidstrap",
-				["version"] = "1.0.0"
-			},
-			["instructions"] = ServerInstructions
+			["capabilities"] = new JsonObject { ["tools"] = new JsonObject(), ["resources"] = new JsonObject() },
+			["serverInfo"] = new JsonObject { ["name"] = "voidstrap", ["version"] = "1.0.0" },
+			["instructions"] = ServerInstructions,
 		};
 	}
 
@@ -313,28 +306,37 @@ public static partial class McpStdioServer
 				["uri"] = "voidstrap://guide/overview",
 				["name"] = "Voidstrap Capabilities Guide",
 				["description"] = "Complete guide to Voidstrap settings, FastFlags, editors, themes, mods, UI navigation, and MCP tools.",
-				["mimeType"] = "text/plain"
+				["mimeType"] = "text/plain",
 			},
 			new JsonObject
 			{
 				["uri"] = "voidstrap://fastflags/allowlist-and-tracker",
 				["name"] = "Roblox FastFlag Allowlist & MaximumADHD FFlag Tracker Reference",
-				["description"] = "Complete reference for Roblox's official local FastFlag allowlist (https://devforum.roblox.com/t/allowlist-for-local-client-configuration-via-fast-flags/3966569) and MaximumADHD's Roblox-FFlag-Tracker (https://github.com/MaximumADHD/Roblox-FFlag-Tracker).",
-				["mimeType"] = "text/plain"
+				["description"] =
+					"Complete reference for Roblox's official local FastFlag allowlist (https://devforum.roblox.com/t/allowlist-for-local-client-configuration-via-fast-flags/3966569) and MaximumADHD's Roblox-FFlag-Tracker (https://github.com/MaximumADHD/Roblox-FFlag-Tracker).",
+				["mimeType"] = "text/plain",
 			},
-			Guide("bootstrapper_theme", "Custom Launcher Theme Guide", "Exact Theme.xml elements and attributes, the HTML web panel and its window.voidstrap JavaScript API, a step by step workflow, and examples."),
+			Guide(
+				"bootstrapper_theme",
+				"Custom Launcher Theme Guide",
+				"Exact Theme.xml elements and attributes, the HTML web panel and its window.voidstrap JavaScript API, a step by step workflow, and examples."
+			),
 			Guide("keystroke_theme", "Keystroke Theme Guide", "How to edit keystroke overlay themes in C#, HTML, Rust or JSON."),
 			Guide("app_theme", "Voidstrap App Theme Guide", "How to recolor Voidstrap itself."),
 			Guide("fixing", "Fixing Voidstrap Guide", "How to find and fix in app errors and broken state."),
-			Guide("workflow", "Voidstrap Workflow Guide", "Choose the correct tool, read current state, apply changes and verify what actually works."),
+			Guide(
+				"workflow",
+				"Voidstrap Workflow Guide",
+				"Choose the correct tool, read current state, apply changes and verify what actually works."
+			),
 			Guide("mods", "Voidstrap Mods Guide", "Sandbox APIs, UI placement, cursor timing, a working pointer overlay and render tests."),
 			new JsonObject
 			{
 				["uri"] = "voidstrap://state/overview",
 				["name"] = "Voidstrap Live Overview",
 				["description"] = "Live snapshot of Voidstrap state, paths, active settings, installed themes, and running processes.",
-				["mimeType"] = "text/plain"
-			}
+				["mimeType"] = "text/plain",
+			},
 		};
 	}
 
@@ -345,7 +347,7 @@ public static partial class McpStdioServer
 			["uri"] = "voidstrap://guide/" + topic,
 			["name"] = name,
 			["description"] = description,
-			["mimeType"] = "text/plain"
+			["mimeType"] = "text/plain",
 		};
 	}
 
@@ -359,7 +361,10 @@ public static partial class McpStdioServer
 			McpToolResult live = ForwardToRunningApp("get_voidstrap_overview", new JsonObject());
 			text = live.Text;
 		}
-		else if (uri.StartsWith("voidstrap://guide/", StringComparison.OrdinalIgnoreCase) && McpGuides.Get(uri["voidstrap://guide/".Length..]) is string guide)
+		else if (
+			uri.StartsWith("voidstrap://guide/", StringComparison.OrdinalIgnoreCase)
+			&& McpGuides.Get(uri["voidstrap://guide/".Length..]) is string guide
+		)
 		{
 			text = guide;
 		}
@@ -380,9 +385,9 @@ public static partial class McpStdioServer
 				{
 					["uri"] = string.IsNullOrEmpty(uri) ? "voidstrap://guide/overview" : uri,
 					["mimeType"] = "text/plain",
-					["text"] = text
-				}
-			}
+					["text"] = text,
+				},
+			},
 		};
 	}
 
@@ -408,19 +413,21 @@ public static partial class McpStdioServer
 			using var writer = new StreamWriter(client, new UTF8Encoding(false), 65536, leaveOpen: true)
 			{
 				AutoFlush = true,
-				NewLine = "\n"
+				NewLine = "\n",
 			};
 
 			var payload = new JsonObject
 			{
 				["name"] = name,
 				["client"] = _clientName,
-				["arguments"] = args.DeepClone()
+				["arguments"] = args.DeepClone(),
 			};
 
 			writer.WriteLine(payload.ToJsonString());
 
-			TimeSpan wait = McpToolCatalog.Exists(name) ? McpToolCatalog.Timeout(name) + TimeSpan.FromSeconds(15) : TimeSpan.FromSeconds(45);
+			TimeSpan wait = McpToolCatalog.Exists(name)
+				? McpToolCatalog.Timeout(name) + TimeSpan.FromSeconds(15)
+				: TimeSpan.FromSeconds(45);
 			using var timeout = new System.Threading.CancellationTokenSource(wait);
 			string? reply;
 			try
@@ -429,7 +436,10 @@ public static partial class McpStdioServer
 			}
 			catch (OperationCanceledException)
 			{
-				return new McpToolResult($"Voidstrap did not answer within {wait.TotalSeconds:0} seconds. It may be busy or showing a dialog.", true);
+				return new McpToolResult(
+					$"Voidstrap did not answer within {wait.TotalSeconds:0} seconds. It may be busy or showing a dialog.",
+					true
+				);
 			}
 
 			if (string.IsNullOrEmpty(reply))
@@ -456,13 +466,9 @@ public static partial class McpStdioServer
 		{
 			["content"] = new JsonArray
 			{
-				new JsonObject
-				{
-					["type"] = "text",
-					["text"] = text
-				}
+				new JsonObject { ["type"] = "text", ["text"] = text },
 			},
-			["isError"] = isError
+			["isError"] = isError,
 		};
 	}
 
@@ -472,7 +478,7 @@ public static partial class McpStdioServer
 		{
 			["jsonrpc"] = "2.0",
 			["id"] = id,
-			["result"] = result
+			["result"] = result,
 		};
 	}
 
@@ -482,11 +488,7 @@ public static partial class McpStdioServer
 		{
 			["jsonrpc"] = "2.0",
 			["id"] = id,
-			["error"] = new JsonObject
-			{
-				["code"] = code,
-				["message"] = message
-			}
+			["error"] = new JsonObject { ["code"] = code, ["message"] = message },
 		};
 	}
 }

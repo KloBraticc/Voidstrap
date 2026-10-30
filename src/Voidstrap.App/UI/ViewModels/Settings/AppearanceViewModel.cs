@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.Xml.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Xml.Linq;
 using CommunityToolkit.Mvvm.Input;
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.Win32;
@@ -20,11 +20,11 @@ using Voidstrap.Enums;
 using Voidstrap.Extensions;
 using Voidstrap.Models;
 using Voidstrap.Resources;
+using Voidstrap.UI;
 using Voidstrap.UI.Elements.Bootstrapper;
 using Voidstrap.UI.Elements.Dialogs;
 using Voidstrap.UI.Elements.Editor;
 using Voidstrap.UI.Elements.Settings;
-using Voidstrap.UI;
 using Voidstrap.Utility;
 using SymbolRegular = Wpf.Ui.Common.SymbolRegular;
 
@@ -154,9 +154,20 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
         public BitmapSource? PreviewImage => _previewImage;
 
-        public string IconLabel => _customImagePath != null ? "Image" : _hasCustomSymbol ? _icon.ToString() : "Default";
+        public string IconLabel =>
+            _customImagePath != null ? "Image"
+            : _hasCustomSymbol ? _icon.ToString()
+            : "Default";
 
-        public SidebarItemEditor(MainWindow.SidebarItemDefinition definition, string name, bool isVisible, SymbolRegular icon, bool hasCustomSymbol, string? customImagePath, Action<SidebarItemEditor> changed)
+        public SidebarItemEditor(
+            MainWindow.SidebarItemDefinition definition,
+            string name,
+            bool isVisible,
+            SymbolRegular icon,
+            bool hasCustomSymbol,
+            string? customImagePath,
+            Action<SidebarItemEditor> changed
+        )
         {
             Key = definition.Key;
             DefaultName = definition.DisplayName;
@@ -171,15 +182,17 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
         internal void SetIcon(SymbolRegular icon, bool hasCustomSymbol, string? customImagePath)
         {
-            BitmapSource? image = string.IsNullOrWhiteSpace(customImagePath)
-                ? null
-                : SafeImaging.FromFile(customImagePath, 48);
+            BitmapSource? image = string.IsNullOrWhiteSpace(customImagePath) ? null : SafeImaging.FromFile(customImagePath, 48);
             _icon = icon;
             _hasCustomSymbol = hasCustomSymbol && image == null;
             _customImagePath = image == null ? null : customImagePath;
-            _previewImage = image ?? (Key == "SoberNavItem" && !_hasCustomSymbol
-                ? SafeImaging.FromPack("pack://application:,,,/Resources/SoberIcon.png", 48)
-                : null);
+            _previewImage =
+                image
+                ?? (
+                    Key == "SoberNavItem" && !_hasCustomSymbol
+                        ? SafeImaging.FromPack("pack://application:,,,/Resources/SoberIcon.png", 48)
+                        : null
+                );
             OnPropertyChanged(nameof(Icon));
             OnPropertyChanged(nameof(UsesImagePreview));
             OnPropertyChanged(nameof(PreviewImage));
@@ -187,17 +200,13 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         }
     }
 
-
     public int[] ZoomOptions { get; } = new int[] { 50, 67, 75, 80, 90, 100, 110, 125, 150, 175, 200 };
 
     public ObservableCollection<SidebarItemEditor> SidebarItems { get; } = new ObservableCollection<SidebarItemEditor>();
 
     public int UiZoomPercent
     {
-        get
-        {
-            return App.Settings.Prop.UiZoomPercent;
-        }
+        get { return App.Settings.Prop.UiZoomPercent; }
         set
         {
             if (App.Settings.Prop.UiZoomPercent == value)
@@ -213,18 +222,9 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     private static readonly Dictionary<string, byte[]> _appFontHeaders = new Dictionary<string, byte[]>
     {
-        {
-            "ttf",
-            new byte[4] { 0, 1, 0, 0 }
-        },
-        {
-            "otf",
-            new byte[4] { 79, 84, 84, 79 }
-        },
-        {
-            "ttc",
-            new byte[4] { 116, 116, 99, 102 }
-        }
+        { "ttf", new byte[4] { 0, 1, 0, 0 } },
+        { "otf", new byte[4] { 79, 84, 84, 79 } },
+        { "ttc", new byte[4] { 116, 116, 99, 102 } },
     };
 
     private const string FileName = "BackgroundSettings.json";
@@ -243,9 +243,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
                 return Math.Clamp(settings.GradientOpacity, 0.0, 1.0);
             }
         }
-        catch (Exception)
-        {
-        }
+        catch (Exception) { }
         return 1.0;
     }
 
@@ -259,11 +257,22 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     public IEnumerable<Theme> BindableThemes => Voidstrap.Extensions.ThemeEx.Selections;
 
-    public string PageZoomDescription => "Zooms the settings pages like a browser. " + (Voidstrap.Utility.Platform.IsMacOS ? "⌘ Scroll" : "Ctrl+Scroll") + " for hotkey";
+    public string PageZoomDescription =>
+        "Zooms the settings pages like a browser. " + (Voidstrap.Utility.Platform.IsMacOS ? "⌘ Scroll" : "Ctrl+Scroll") + " for hotkey";
 
-    public IEnumerable<BackdropType> BackdropOptions { get; } = Voidstrap.Utility.Platform.IsMacOS
-        ? [BackdropType.Default, BackdropType.Sidebar, BackdropType.Popover, BackdropType.Hud, BackdropType.UnderWindow, BackdropType.UnderPage, BackdropType.None]
-        : Enum.GetValues<BackdropType>().Where(value => value <= BackdropType.None);
+    public IEnumerable<BackdropType> BackdropOptions { get; } =
+        Voidstrap.Utility.Platform.IsMacOS
+            ?
+            [
+                BackdropType.Default,
+                BackdropType.Sidebar,
+                BackdropType.Popover,
+                BackdropType.Hud,
+                BackdropType.UnderWindow,
+                BackdropType.UnderPage,
+                BackdropType.None,
+            ]
+            : Enum.GetValues<BackdropType>().Where(value => value <= BackdropType.None);
 
     public ICommand PreviewBootstrapperCommand => new RelayCommand(PreviewBootstrapper);
 
@@ -273,7 +282,10 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     private void ChooseAccent()
     {
-        using var dialog = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog(SystemAccent.Get(), title: Strings.Menu_Appearance_Accent_Picker);
+        using var dialog = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog(
+            SystemAccent.Get(),
+            title: Strings.Menu_Appearance_Accent_Picker
+        );
         Window? owner = Application.Current?.Windows.OfType<Window>().LastOrDefault(window => window.IsActive && window != dialog);
         if (owner != null)
             dialog.Owner = owner;
@@ -400,7 +412,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         OpenFileDialog dialog = new OpenFileDialog
         {
             Title = "Choose an app icon",
-            Filter = "Images|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp;*.tif;*.tiff;*.tga;*.ico|All files|*.*"
+            Filter = "Images|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.webp;*.tif;*.tiff;*.tga;*.ico|All files|*.*",
         };
         if (dialog.ShowDialog() != true)
             return;
@@ -493,10 +505,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     public bool Snowww
     {
-        get
-        {
-            return App.Settings.Prop.SnowWOWSOCOOLWpfSnowbtw;
-        }
+        get { return App.Settings.Prop.SnowWOWSOCOOLWpfSnowbtw; }
         set
         {
             if (App.Settings.Prop.SnowWOWSOCOOLWpfSnowbtw == value)
@@ -506,19 +515,18 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             App.Settings.Prop.SnowWOWSOCOOLWpfSnowbtw = value;
             App.Settings.SaveDeferred();
             OnPropertyChanged(nameof(Snowww));
-            ApplyToMainWindow(delegate (MainWindow mainWindow)
-            {
-                mainWindow.ApplySnow(value);
-            });
+            ApplyToMainWindow(
+                delegate(MainWindow mainWindow)
+                {
+                    mainWindow.ApplySnow(value);
+                }
+            );
         }
     }
 
     public bool GRADmentFR
     {
-        get
-        {
-            return App.Settings.Prop.GRADmentFR;
-        }
+        get { return App.Settings.Prop.GRADmentFR; }
         set
         {
             if (App.Settings.Prop.GRADmentFR == value)
@@ -528,10 +536,12 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             App.Settings.Prop.GRADmentFR = value;
             App.Settings.SaveDeferred();
             OnPropertyChanged(nameof(GRADmentFR));
-            ApplyToMainWindow(delegate (MainWindow mainWindow)
-            {
-                mainWindow.ApplyGradientMovement(value);
-            });
+            ApplyToMainWindow(
+                delegate(MainWindow mainWindow)
+                {
+                    mainWindow.ApplyGradientMovement(value);
+                }
+            );
         }
     }
 
@@ -540,10 +550,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     public bool ClearFont
     {
-        get
-        {
-            return _clearFont;
-        }
+        get { return _clearFont; }
         set
         {
             if (_clearFont == value)
@@ -557,7 +564,8 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
                 value,
                 "Clear Font changed",
                 "Restart Voidstrap to apply the new text rendering mode.",
-                ApplyClearFontSetting);
+                ApplyClearFontSetting
+            );
         }
     }
 
@@ -569,10 +577,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     public bool SmooothBARRyesirikikthxlucipook
     {
-        get
-        {
-            return App.Settings.Prop.SmooothBARRyesirikikthxlucipook;
-        }
+        get { return App.Settings.Prop.SmooothBARRyesirikikthxlucipook; }
         set
         {
             if (App.Settings.Prop.SmooothBARRyesirikikthxlucipook == value)
@@ -587,10 +592,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     public string? BackgroundFilePath
     {
-        get
-        {
-            return _settings.BackgroundFilePath;
-        }
+        get { return _settings.BackgroundFilePath; }
         set
         {
             value = string.IsNullOrWhiteSpace(value) ? null : Path.GetFullPath(value);
@@ -606,10 +608,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     public double GradientOpacity
     {
-        get
-        {
-            return _settings.GradientOpacity;
-        }
+        get { return _settings.GradientOpacity; }
         set
         {
             value = Math.Clamp(value, 0.0, 1.0);
@@ -627,10 +626,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     public double BlackOverlayOpacity
     {
-        get
-        {
-            return _settings.BlackOverlayOpacity;
-        }
+        get { return _settings.BlackOverlayOpacity; }
         set
         {
             value = Math.Clamp(value, 0.0, 1.0);
@@ -646,10 +642,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     public bool BackgroundEverywhere
     {
-        get
-        {
-            return _settings.DisplayEverywhere;
-        }
+        get { return _settings.DisplayEverywhere; }
         set
         {
             if (_settings.DisplayEverywhere != value)
@@ -710,9 +703,11 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
                 App.Settings.Prop.WindowBackdrop = BackdropType.Default;
                 App.Settings.SaveDeferred();
             }
-            if (Voidstrap.Utility.Platform.IsWindows
+            if (
+                Voidstrap.Utility.Platform.IsWindows
                 && !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000)
-                && App.Settings.Prop.WindowBackdrop != BackdropType.None)
+                && App.Settings.Prop.WindowBackdrop != BackdropType.None
+            )
             {
                 App.Settings.Prop.WindowBackdrop = BackdropType.None;
                 App.Settings.SaveDeferred();
@@ -751,7 +746,9 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
                 Voidstrap.UI.WindowBackdrop.Apply(window);
             }
         }
-        foreach (Voidstrap.UI.Elements.ContextMenu.MenuContainer menu in Application.Current.Windows.OfType<Voidstrap.UI.Elements.ContextMenu.MenuContainer>())
+        foreach (
+            Voidstrap.UI.Elements.ContextMenu.MenuContainer menu in Application.Current.Windows.OfType<Voidstrap.UI.Elements.ContextMenu.MenuContainer>()
+        )
         {
             menu.ApplyBackdrop();
         }
@@ -761,10 +758,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     public Theme Theme
     {
-        get
-        {
-            return App.Settings.Prop.Theme2;
-        }
+        get { return App.Settings.Prop.Theme2; }
         set
         {
             if (App.Settings.Prop.Theme2 == value)
@@ -777,7 +771,11 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             OnPropertyChanged(nameof(CustomThemeEditorVisibility));
             if (Application.Current == null)
                 return;
-            foreach (Voidstrap.UI.Elements.Base.WpfUiWindow window in Application.Current.Windows.OfType<Voidstrap.UI.Elements.Base.WpfUiWindow>().ToArray())
+            foreach (
+                Voidstrap.UI.Elements.Base.WpfUiWindow window in Application
+                    .Current.Windows.OfType<Voidstrap.UI.Elements.Base.WpfUiWindow>()
+                    .ToArray()
+            )
                 ThemeTransition.Animate(window, window.ApplyTheme);
         }
     }
@@ -837,14 +835,19 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     private const string DiscordLanguageOff = "System Default";
 
-    public List<string> DiscordRpcLanguages => [DiscordLanguageOff, .. TranslationService.AvailableLanguages.Values.OrderBy((string x) => x)];
+    public List<string> DiscordRpcLanguages =>
+        [DiscordLanguageOff, .. TranslationService.AvailableLanguages.Values.OrderBy((string x) => x)];
 
     public string SelectedDiscordRpcLanguage
     {
-        get => TranslationService.AvailableLanguages.TryGetValue(App.Settings.Prop.DiscordRpcLanguage ?? "", out string? name) ? name : DiscordLanguageOff;
+        get =>
+            TranslationService.AvailableLanguages.TryGetValue(App.Settings.Prop.DiscordRpcLanguage ?? "", out string? name)
+                ? name
+                : DiscordLanguageOff;
         set
         {
-            string code = TranslationService.AvailableLanguages.FirstOrDefault((KeyValuePair<string, string> kv) => kv.Value == value).Key ?? "";
+            string code =
+                TranslationService.AvailableLanguages.FirstOrDefault((KeyValuePair<string, string> kv) => kv.Value == value).Key ?? "";
             if (string.Equals(App.Settings.Prop.DiscordRpcLanguage ?? "", code, StringComparison.Ordinal))
                 return;
             App.Settings.Prop.DiscordRpcLanguage = code;
@@ -865,7 +868,9 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             }
             _selectedAutoTranslateLanguage = value;
             OnPropertyChanged(nameof(SelectedAutoTranslateLanguage));
-            KeyValuePair<string, string> match = TranslationService.AvailableLanguages.FirstOrDefault((KeyValuePair<string, string> kv) => kv.Value == value);
+            KeyValuePair<string, string> match = TranslationService.AvailableLanguages.FirstOrDefault(
+                (KeyValuePair<string, string> kv) => kv.Value == value
+            );
             if (!string.IsNullOrEmpty(match.Key))
             {
                 App.Settings.Prop.AutoTranslate = true;
@@ -879,16 +884,14 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         }
     }
 
-    public Visibility AutoTranslateVisibility => _selectedLanguage?.Id == LanguageOption.AutoTranslateId ? Visibility.Visible : Visibility.Collapsed;
+    public Visibility AutoTranslateVisibility =>
+        _selectedLanguage?.Id == LanguageOption.AutoTranslateId ? Visibility.Visible : Visibility.Collapsed;
 
     public IEnumerable<BootstrapperStyle> Dialogs { get; } = BootstrapperStyleEx.Selections;
 
     public BootstrapperStyle Dialog
     {
-        get
-        {
-            return App.Settings.Prop.BootstrapperStyle;
-        }
+        get { return App.Settings.Prop.BootstrapperStyle; }
         set
         {
             App.Settings.Prop.BootstrapperStyle = value;
@@ -907,24 +910,15 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     public BootstrapperScale BootstrapperScale
     {
-        get
-        {
-            return App.Settings.Prop.BootstrapperScale;
-        }
-        set
-        {
-            App.Settings.Prop.BootstrapperScale = value;
-        }
+        get { return App.Settings.Prop.BootstrapperScale; }
+        set { App.Settings.Prop.BootstrapperScale = value; }
     }
 
     public ObservableCollection<BootstrapperIconEntry> Icons { get; set; } = new ObservableCollection<BootstrapperIconEntry>();
 
     public BootstrapperIcon Icon
     {
-        get
-        {
-            return App.Settings.Prop.BootstrapperIcon;
-        }
+        get { return App.Settings.Prop.BootstrapperIcon; }
         set
         {
             if (value == BootstrapperIcon.IconCustom && !HasValidCustomIcon() && !PromptCustomIcon())
@@ -953,10 +947,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     public BootstrapperIcon StudioIcon
     {
-        get
-        {
-            return App.Settings.Prop.StudioBootstrapperIcon;
-        }
+        get { return App.Settings.Prop.StudioBootstrapperIcon; }
         set
         {
             if (value == BootstrapperIcon.IconCustom && !HasValidCustomIcon() && !PromptCustomIcon())
@@ -972,22 +963,13 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     public string Title
     {
-        get
-        {
-            return App.Settings.Prop.BootstrapperTitle;
-        }
-        set
-        {
-            App.Settings.Prop.BootstrapperTitle = value;
-        }
+        get { return App.Settings.Prop.BootstrapperTitle; }
+        set { App.Settings.Prop.BootstrapperTitle = value; }
     }
 
     public string CustomIconLocation
     {
-        get
-        {
-            return App.Settings.Prop.BootstrapperIconCustomLocation;
-        }
+        get { return App.Settings.Prop.BootstrapperIconCustomLocation; }
         set
         {
             if (string.IsNullOrEmpty(value))
@@ -1012,10 +994,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     public string? SelectedCustomTheme
     {
-        get
-        {
-            return App.Settings.Prop.SelectedCustomTheme;
-        }
+        get { return App.Settings.Prop.SelectedCustomTheme; }
         set
         {
             App.Settings.Prop.SelectedCustomTheme = value;
@@ -1063,10 +1042,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         }
         else
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                Filter = Strings.Menu_FontFiles + "|*.ttf;*.otf;*.ttc"
-            };
+            OpenFileDialog openFileDialog = new OpenFileDialog { Filter = Strings.Menu_FontFiles + "|*.ttf;*.otf;*.ttc" };
             if (openFileDialog.ShowDialog() != true)
             {
                 return;
@@ -1108,10 +1084,26 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             : savedClearFont;
         _selectedAutoTranslateLanguage = GetInitialAutoTranslateLanguageName();
         _selectedLanguage = LanguageOption.Find(LanguageOptions, App.Settings.Prop.AutoTranslate, App.Settings.Prop.Locale);
-        ImportBackgroundCommand = new RelayCommand(() => { ImportBackground(); OnPropertyChanged(nameof(HasLauncherBackground)); });
-        RemoveBackgroundCommand = new RelayCommand(() => { RemoveBackground(); OnPropertyChanged(nameof(HasLauncherBackground)); });
-        ImportStartupAudioCommand = new RelayCommand(() => { ImportStartupAudio(); OnPropertyChanged(nameof(HasStartupAudio)); });
-        RemoveStartupAudioCommand = new RelayCommand(() => { RemoveStartupAudio(); OnPropertyChanged(nameof(HasStartupAudio)); });
+        ImportBackgroundCommand = new RelayCommand(() =>
+        {
+            ImportBackground();
+            OnPropertyChanged(nameof(HasLauncherBackground));
+        });
+        RemoveBackgroundCommand = new RelayCommand(() =>
+        {
+            RemoveBackground();
+            OnPropertyChanged(nameof(HasLauncherBackground));
+        });
+        ImportStartupAudioCommand = new RelayCommand(() =>
+        {
+            ImportStartupAudio();
+            OnPropertyChanged(nameof(HasStartupAudio));
+        });
+        RemoveStartupAudioCommand = new RelayCommand(() =>
+        {
+            RemoveStartupAudio();
+            OnPropertyChanged(nameof(HasStartupAudio));
+        });
         MoveSidebarItemUpCommand = new RelayCommand<SidebarItemEditor>(item => MoveSidebarItem(item, -1));
         MoveSidebarItemDownCommand = new RelayCommand<SidebarItemEditor>(item => MoveSidebarItem(item, 1));
         ToggleSidebarItemVisibilityCommand = new RelayCommand<SidebarItemEditor>(ToggleSidebarItemVisibility);
@@ -1145,7 +1137,9 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     private string GetSelectedAutoTranslateCode()
     {
-        KeyValuePair<string, string> match = TranslationService.AvailableLanguages.FirstOrDefault(pair => pair.Value == _selectedAutoTranslateLanguage);
+        KeyValuePair<string, string> match = TranslationService.AvailableLanguages.FirstOrDefault(pair =>
+            pair.Value == _selectedAutoTranslateLanguage
+        );
         return string.IsNullOrEmpty(match.Key) ? "en" : match.Key;
     }
 
@@ -1184,31 +1178,37 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             .Distinct(StringComparer.Ordinal)
             .Select((key, index) => (key, index))
             .ToDictionary(pair => pair.key, pair => pair.index, StringComparer.Ordinal);
-        Dictionary<string, int> defaults = MainWindow.SidebarCustomizationItems
-            .Select((item, index) => (item.Key, index))
+        Dictionary<string, int> defaults = MainWindow
+            .SidebarCustomizationItems.Select((item, index) => (item.Key, index))
             .ToDictionary(pair => pair.Key, pair => pair.index, StringComparer.Ordinal);
         SidebarItems.Clear();
-        foreach (MainWindow.SidebarItemDefinition definition in MainWindow.SidebarCustomizationItems
-            .Where(item => MainWindow.IsSidebarItemAvailable(item.Key))
-            .OrderBy(item => SectionRank(item.Section))
-            .ThenBy(item => ranks.TryGetValue(item.Key, out int rank) ? rank : int.MaxValue)
-            .ThenBy(item => defaults[item.Key]))
+        foreach (
+            MainWindow.SidebarItemDefinition definition in MainWindow
+                .SidebarCustomizationItems.Where(item => MainWindow.IsSidebarItemAvailable(item.Key))
+                .OrderBy(item => SectionRank(item.Section))
+                .ThenBy(item => ranks.TryGetValue(item.Key, out int rank) ? rank : int.MaxValue)
+                .ThenBy(item => defaults[item.Key])
+        )
         {
             string name = names.TryGetValue(definition.Key, out string? customName) ? customName : definition.DisplayName;
             bool visible = !hidden.Contains(definition.Key, StringComparer.Ordinal);
             SymbolRegular customIcon = definition.DefaultIcon;
-            bool hasCustomSymbol = icons.TryGetValue(definition.Key, out string? iconName)
+            bool hasCustomSymbol =
+                icons.TryGetValue(definition.Key, out string? iconName)
                 && Enum.TryParse(iconName, out customIcon)
                 && Voidstrap.UI.Elements.Dialogs.SidebarIconPickerDialog.CanRender(customIcon);
             string? customImagePath = iconImages.TryGetValue(definition.Key, out string? imagePath) ? imagePath : null;
-            SidebarItems.Add(new SidebarItemEditor(
-                definition,
-                name,
-                visible,
-                hasCustomSymbol ? customIcon : definition.DefaultIcon,
-                hasCustomSymbol,
-                customImagePath,
-                SaveSidebarItem));
+            SidebarItems.Add(
+                new SidebarItemEditor(
+                    definition,
+                    name,
+                    visible,
+                    hasCustomSymbol ? customIcon : definition.DefaultIcon,
+                    hasCustomSymbol,
+                    customImagePath,
+                    SaveSidebarItem
+                )
+            );
         }
         RefreshSidebarMoveState();
     }
@@ -1230,7 +1230,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             "Core" => 0,
             "Configuration" => 1,
             "More" => 2,
-            _ => 3
+            _ => 3,
         };
     }
 
@@ -1292,8 +1292,8 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         List<string> merged = new List<string>();
         foreach (string section in new[] { "Core", "Configuration", "More", "Footer" })
         {
-            List<MainWindow.SidebarItemDefinition> definitions = MainWindow.SidebarCustomizationItems
-                .Where(item => item.Section == section)
+            List<MainWindow.SidebarItemDefinition> definitions = MainWindow
+                .SidebarCustomizationItems.Where(item => item.Section == section)
                 .Select((item, index) => (item, index))
                 .OrderBy(pair => ranks.TryGetValue(pair.item.Key, out int rank) ? rank : int.MaxValue)
                 .ThenBy(pair => pair.index)
@@ -1363,7 +1363,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             Filter = Voidstrap.Utility.Platform.IsMacOS
                 ? "Background Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.mp4;*.m4v;*.mov"
                 : "Background Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.mp4;*.webm;*.avi;*.mov",
-            Title = "Select Background File"
+            Title = "Select Background File",
         };
         if (openFileDialog.ShowDialog() == true)
         {
@@ -1510,16 +1510,19 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
                 return JsonFile.Deserialize<BackgroundSettings>(FilePath, JsonOptions.Tolerant);
             }
         }
-        catch (Exception)
-        {
-        }
+        catch (Exception) { }
         return new BackgroundSettings();
     }
 
     private void PushGlobalBackground()
     {
         OnPropertyChanged(nameof(HasCustomBackground));
-        Voidstrap.UI.GlobalBackground.Update(_settings.BackgroundFilePath, _settings.GradientOpacity, _settings.BlackOverlayOpacity, _settings.DisplayEverywhere);
+        Voidstrap.UI.GlobalBackground.Update(
+            _settings.BackgroundFilePath,
+            _settings.GradientOpacity,
+            _settings.BlackOverlayOpacity,
+            _settings.DisplayEverywhere
+        );
     }
 
     private void SaveSettings()
@@ -1529,7 +1532,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             BackgroundFilePath = _settings.BackgroundFilePath,
             GradientOpacity = _settings.GradientOpacity,
             BlackOverlayOpacity = _settings.BlackOverlayOpacity,
-            DisplayEverywhere = _settings.DisplayEverywhere
+            DisplayEverywhere = _settings.DisplayEverywhere,
         };
         CancellationTokenSource cts = new CancellationTokenSource();
         int generation = Interlocked.Increment(ref _saveGeneration);
@@ -1543,72 +1546,70 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         {
             previous?.Cancel();
         }
-        catch (ObjectDisposedException)
-        {
-        }
+        catch (ObjectDisposedException) { }
         previous?.Dispose();
         CancellationToken token = cts.Token;
-        Task.Run(async delegate
-        {
-            _ = 1;
-            try
+        Task.Run(
+            async delegate
             {
-                await Task.Delay(120, token).ConfigureAwait(continueOnCapturedContext: false);
-                if (!token.IsCancellationRequested)
+                _ = 1;
+                try
                 {
-                    token.ThrowIfCancellationRequested();
-                    if (generation == Volatile.Read(ref _saveGeneration))
-                        JsonFile.SerializeAtomic(FilePath, snapshot, JsonOptions.Indented);
-                }
-            }
-            catch (OperationCanceledException)
-            {
-            }
-            catch (Exception)
-            {
-            }
-            finally
-            {
-                lock (_saveLock)
-                {
-                    if (ReferenceEquals(_saveCts, cts))
+                    await Task.Delay(120, token).ConfigureAwait(continueOnCapturedContext: false);
+                    if (!token.IsCancellationRequested)
                     {
-                        _saveCts = null;
+                        token.ThrowIfCancellationRequested();
+                        if (generation == Volatile.Read(ref _saveGeneration))
+                            JsonFile.SerializeAtomic(FilePath, snapshot, JsonOptions.Indented);
                     }
                 }
-                cts.Dispose();
+                catch (OperationCanceledException) { }
+                catch (Exception) { }
+                finally
+                {
+                    lock (_saveLock)
+                    {
+                        if (ReferenceEquals(_saveCts, cts))
+                        {
+                            _saveCts = null;
+                        }
+                    }
+                    cts.Dispose();
+                }
             }
-        });
+        );
     }
 
     private void PreviewBootstrapper()
     {
         IBootstrapperDialog bootstrapperDialog = App.Settings.Prop.BootstrapperStyle.GetNew();
-        bootstrapperDialog.Message = ((App.Settings.Prop.BootstrapperStyle == BootstrapperStyle.ByfronDialog) ? Strings.Bootstrapper_StylePreview_ImageCancel : Strings.Bootstrapper_StylePreview_TextCancel);
+        bootstrapperDialog.Message = (
+            (App.Settings.Prop.BootstrapperStyle == BootstrapperStyle.ByfronDialog)
+                ? Strings.Bootstrapper_StylePreview_ImageCancel
+                : Strings.Bootstrapper_StylePreview_TextCancel
+        );
         bootstrapperDialog.CancelEnabled = true;
         AudioPlayerHelper.PlayStartupAudio();
         if (bootstrapperDialog is Window window)
         {
-			window.Closed += OnPreviewBootstrapperClosed;
+            window.Closed += OnPreviewBootstrapperClosed;
         }
         bootstrapperDialog.ShowBootstrapper();
     }
 
-	private static void OnPreviewBootstrapperClosed(object? sender, EventArgs e)
-	{
-		if (sender is Window window)
-			window.Closed -= OnPreviewBootstrapperClosed;
-		AudioPlayerHelper.StopAudio();
-	}
+    private static void OnPreviewBootstrapperClosed(object? sender, EventArgs e)
+    {
+        if (sender is Window window)
+            window.Closed -= OnPreviewBootstrapperClosed;
+        AudioPlayerHelper.StopAudio();
+    }
 
-    private static string CustomIconFilter => Strings.Menu_IconFiles + (Voidstrap.Utility.Platform.IsMacOS ? "|*.icns;*.ico;*.png" : "|*.ico");
+    private static string CustomIconFilter =>
+        Strings.Menu_IconFiles + (Voidstrap.Utility.Platform.IsMacOS ? "|*.icns;*.ico;*.png" : "|*.ico");
 
     private void BrowseCustomIconLocation()
     {
-        OpenFileDialog openFileDialog = new OpenFileDialog
-        {
-            Filter = CustomIconFilter
-        };
+        OpenFileDialog openFileDialog = new OpenFileDialog { Filter = CustomIconFilter };
         if (openFileDialog.ShowDialog() == true)
         {
             CustomIconLocation = openFileDialog.FileName;
@@ -1620,10 +1621,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         Icons.Clear();
         foreach (BootstrapperIcon selection in BootstrapperIconEx.Selections)
         {
-            Icons.Add(new BootstrapperIconEntry
-            {
-                IconType = selection
-            });
+            Icons.Add(new BootstrapperIconEntry { IconType = selection });
         }
         OnPropertyChanged(nameof(Icons));
     }
@@ -1640,10 +1638,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     private bool PromptCustomIcon()
     {
-        OpenFileDialog openFileDialog = new OpenFileDialog
-        {
-            Filter = CustomIconFilter
-        };
+        OpenFileDialog openFileDialog = new OpenFileDialog { Filter = CustomIconFilter };
         if (openFileDialog.ShowDialog() != true)
         {
             return false;
@@ -1677,7 +1672,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         {
             Title = "Select a Startup Sound",
             Filter = "Audio Files|*.mp3;*.wav;*.ogg;*.flac;*.wma",
-            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)
+            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic),
         };
         if (openFileDialog.ShowDialog() != true)
         {
@@ -1698,9 +1693,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
                 {
                     File.Delete(path);
                 }
-                catch
-                {
-                }
+                catch { }
             }
             string path2 = "startup_audio" + Path.GetExtension(fileName);
             string text = Path.Combine(Paths.Media, path2);
@@ -1724,9 +1717,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
                 {
                     File.Delete(path);
                 }
-                catch
-                {
-                }
+                catch { }
             }
             AudioEvents.RaiseStartupAudioChanged(null);
         }
@@ -1749,7 +1740,10 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             catch (Exception ex)
             {
                 App.Logger.WriteException("AppearanceViewModel::DeleteCustomTheme", ex);
-                Frontend.ShowMessageBox(string.Format(Strings.Menu_Appearance_CustomThemes_DeleteFailed, name, ex.Message), MessageBoxImage.Hand);
+                Frontend.ShowMessageBox(
+                    string.Format(Strings.Menu_Appearance_CustomThemes_DeleteFailed, name, ex.Message),
+                    MessageBoxImage.Hand
+                );
                 return;
             }
             CustomThemes.Remove(name);
@@ -1821,7 +1815,10 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         catch (Exception ex)
         {
             App.Logger.WriteException("AppearanceViewModel::RenameCustomTheme", ex);
-            Frontend.ShowMessageBox(string.Format(Strings.Menu_Appearance_CustomThemes_RenameFailed, oldName, ex.Message), MessageBoxImage.Hand);
+            Frontend.ShowMessageBox(
+                string.Format(Strings.Menu_Appearance_CustomThemes_RenameFailed, oldName, ex.Message),
+                MessageBoxImage.Hand
+            );
             return;
         }
 
@@ -1850,7 +1847,6 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         }
     }
 
-
     private async Task ViewCustomThemeFilesAsync()
     {
         if (SelectedCustomTheme == null)
@@ -1858,9 +1854,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
         try
         {
-            var files = await Voidstrap.Integrations.ThemeFiles
-                .LoadAsync(SelectedCustomTheme)
-                .ConfigureAwait(true);
+            var files = await Voidstrap.Integrations.ThemeFiles.LoadAsync(SelectedCustomTheme).ConfigureAwait(true);
 
             if (files.Count == 0)
             {
@@ -1868,10 +1862,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
                 return;
             }
 
-            ThemeChangesDialog dialog = new ThemeChangesDialog(SelectedCustomTheme, files)
-            {
-                Owner = Application.Current.MainWindow
-            };
+            ThemeChangesDialog dialog = new ThemeChangesDialog(SelectedCustomTheme, files) { Owner = Application.Current.MainWindow };
 
             dialog.ShowOwnedDialog();
         }
@@ -1911,7 +1902,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             Filter = Strings.FileTypes_ZipArchive + "|*.zip",
             OverwritePrompt = true,
             AddExtension = true,
-            DefaultExt = "zip"
+            DefaultExt = "zip",
         };
 
         if (saveFileDialog.ShowDialog() != true)
@@ -1930,10 +1921,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
                 {
                     string relative = Path.GetRelativePath(themeDir, item).Replace(Path.DirectorySeparatorChar, '/');
 
-                    ZipEntry entry = new ZipEntry(relative)
-                    {
-                        DateTime = File.GetLastWriteTime(item)
-                    };
+                    ZipEntry entry = new ZipEntry(relative) { DateTime = File.GetLastWriteTime(item) };
 
                     zipOutputStream.PutNextEntry(entry);
 
@@ -1961,12 +1949,14 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             }
             else
             {
-                using Process? process = Process.Start(new ProcessStartInfo
-                {
-                    FileName = Voidstrap.Utility.PlatformShell.WindowsTool("explorer.exe"),
-                    Arguments = "/select,\"" + saveFileDialog.FileName + "\"",
-                    UseShellExecute = true
-                });
+                using Process? process = Process.Start(
+                    new ProcessStartInfo
+                    {
+                        FileName = Voidstrap.Utility.PlatformShell.WindowsTool("explorer.exe"),
+                        Arguments = "/select,\"" + saveFileDialog.FileName + "\"",
+                        UseShellExecute = true,
+                    }
+                );
             }
         }
         catch (Exception ex)
@@ -1997,7 +1987,13 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
                     if (value.Length > 2 && value[1] == ':' && (value[2] == '\\' || value[2] == '/'))
                     {
-                        problems.Add("<" + attribute.Parent!.Name + "> uses an absolute path in " + attribute.Name + ", which will not exist on another device. Use theme:// instead.");
+                        problems.Add(
+                            "<"
+                                + attribute.Parent!.Name
+                                + "> uses an absolute path in "
+                                + attribute.Name
+                                + ", which will not exist on another device. Use theme:// instead."
+                        );
                         break;
                     }
                 }
@@ -2039,7 +2035,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         {
             Title = "Select a Background Image",
             Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif",
-            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)
+            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
         };
         if (openFileDialog.ShowDialog() != true)
         {
@@ -2060,18 +2056,14 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
                 {
                     File.Delete(path);
                 }
-                catch
-                {
-                }
+                catch { }
             }
             string path2 = "bootstrapper_bg" + Path.GetExtension(fileName);
             string text = Path.Combine(Paths.Media, path2);
             File.Copy(fileName, text, overwrite: true);
             BackgroundEvents.RaiseBackgroundChanged(text);
         }
-        catch (Exception)
-        {
-        }
+        catch (Exception) { }
     }
 
     private static async Task DeleteCustomThemeStructure(string name)
@@ -2111,7 +2103,10 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         }
         catch (Exception ex) when (ex is UnauthorizedAccessException or IOException)
         {
-            throw new IOException("A file in the theme folder is in use and could not be deleted. Delete the folder manually: " + folder, ex);
+            throw new IOException(
+                "A file in the theme folder is in use and could not be deleted. Delete the folder manually: " + folder,
+                ex
+            );
         }
     }
 
@@ -2126,15 +2121,11 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
                 {
                     File.Delete(path);
                 }
-                catch
-                {
-                }
+                catch { }
             }
             BackgroundEvents.RaiseBackgroundChanged(null);
         }
-        catch (Exception)
-        {
-        }
+        catch (Exception) { }
     }
 
     private static async Task RenameCustomThemeStructure(string oldName, string newName)
@@ -2171,7 +2162,11 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         }
         catch (Exception ex) when (ex is UnauthorizedAccessException or IOException)
         {
-            throw new IOException("The theme could not be fully renamed because a file in it is in use. If a folder with the new name was created, delete the old folder manually: " + sourceDirName, ex);
+            throw new IOException(
+                "The theme could not be fully renamed because a file in it is in use. If a folder with the new name was created, delete the old folder manually: "
+                    + sourceDirName,
+                ex
+            );
         }
     }
 

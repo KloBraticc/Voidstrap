@@ -74,7 +74,12 @@ public static class VoidstrapMatchmaker
 
 	private static readonly HttpClient _serverListClient = CreateClient("Voidstrap/1.0", TimeSpan.FromSeconds(10.0), acceptJson: true);
 
-	private static readonly HttpClient _joinClient = CreateClient("Roblox/WinInet", TimeSpan.FromSeconds(8.0), acceptJson: true, allowAutoRedirect: false);
+	private static readonly HttpClient _joinClient = CreateClient(
+		"Roblox/WinInet",
+		TimeSpan.FromSeconds(8.0),
+		acceptJson: true,
+		allowAutoRedirect: false
+	);
 
 	private static readonly object _geoLock = new object();
 
@@ -86,15 +91,23 @@ public static class VoidstrapMatchmaker
 
 	private static int _cachedGeoNetworkVersion = -1;
 
-	private static readonly ConcurrentDictionary<string, RobloxDatacenter> _ipLookupCache = new ConcurrentDictionary<string, RobloxDatacenter>(StringComparer.OrdinalIgnoreCase);
+	private static readonly ConcurrentDictionary<string, RobloxDatacenter> _ipLookupCache = new ConcurrentDictionary<
+		string,
+		RobloxDatacenter
+	>(StringComparer.OrdinalIgnoreCase);
 
 	private static readonly ConcurrentQueue<string> _ipLookupOrder = new ConcurrentQueue<string>();
 
-	private static readonly ConcurrentDictionary<string, DateTime> _ipLookupFailUtc = new ConcurrentDictionary<string, DateTime>(StringComparer.OrdinalIgnoreCase);
+	private static readonly ConcurrentDictionary<string, DateTime> _ipLookupFailUtc = new ConcurrentDictionary<string, DateTime>(
+		StringComparer.OrdinalIgnoreCase
+	);
 
 	private static readonly ConcurrentQueue<string> _ipLookupFailOrder = new ConcurrentQueue<string>();
 
-	private static readonly ConcurrentDictionary<string, ResolvedServerCacheEntry> _resolvedServerCache = new ConcurrentDictionary<string, ResolvedServerCacheEntry>(StringComparer.OrdinalIgnoreCase);
+	private static readonly ConcurrentDictionary<string, ResolvedServerCacheEntry> _resolvedServerCache = new ConcurrentDictionary<
+		string,
+		ResolvedServerCacheEntry
+	>(StringComparer.OrdinalIgnoreCase);
 
 	private static readonly ConcurrentQueue<string> _resolvedServerOrder = new ConcurrentQueue<string>();
 
@@ -107,7 +120,10 @@ public static class VoidstrapMatchmaker
 
 	private const int MaxKnownServerStarts = 4000;
 
-	private static readonly ConcurrentDictionary<string, DateTimeOffset> _knownServerStarts = new ConcurrentDictionary<string, DateTimeOffset>(StringComparer.OrdinalIgnoreCase);
+	private static readonly ConcurrentDictionary<string, DateTimeOffset> _knownServerStarts = new ConcurrentDictionary<
+		string,
+		DateTimeOffset
+	>(StringComparer.OrdinalIgnoreCase);
 
 	private static int _claimedTimeSeen;
 
@@ -117,38 +133,73 @@ public static class VoidstrapMatchmaker
 
 	private readonly record struct ResolvedServerCacheEntry(string Ip, int Port, DateTime ResolvedUtc);
 
-	private static readonly Dictionary<string, string> _countryNormalizationMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+	private static readonly Dictionary<string, string> _countryNormalizationMap = new Dictionary<string, string>(
+		StringComparer.OrdinalIgnoreCase
+	)
 	{
-		{ "US", "USA" }, { "USA", "USA" }, { "United States", "USA" }, { "United States of America", "USA" },
-		{ "GB", "UK" }, { "UK", "UK" }, { "United Kingdom", "UK" }, { "Great Britain", "UK" }, { "England", "UK" },
-		{ "NL", "Netherlands" }, { "Netherlands", "Netherlands" }, { "Holland", "Netherlands" },
-		{ "FR", "France" }, { "France", "France" },
-		{ "DE", "Germany" }, { "Germany", "Germany" },
-		{ "PL", "Poland" }, { "Poland", "Poland" },
-		{ "IN", "India" }, { "India", "India" },
-		{ "JP", "Japan" }, { "Japan", "Japan" },
-		{ "SG", "Singapore" }, { "Singapore", "Singapore" },
-		{ "AU", "Australia" }, { "Australia", "Australia" },
-		{ "CN", "China" }, { "China", "China" }, { "HK", "China" }, { "Hong Kong", "China" },
-		{ "CA", "Canada" }, { "Canada", "Canada" },
-		{ "BR", "Brazil" }, { "Brazil", "Brazil" },
-		{ "KR", "South Korea" }, { "South Korea", "South Korea" }, { "Korea", "South Korea" },
-		{ "TW", "Taiwan" }, { "Taiwan", "Taiwan" },
-		{ "ZA", "South Africa" }, { "South Africa", "South Africa" },
-		{ "AE", "UAE" }, { "United Arab Emirates", "UAE" },
-		{ "RU", "Russia" }, { "Russia", "Russia" },
-		{ "MX", "Mexico" }, { "Mexico", "Mexico" },
-		{ "CL", "Chile" }, { "Chile", "Chile" },
-		{ "AR", "Argentina" }, { "Argentina", "Argentina" }
+		{ "US", "USA" },
+		{ "USA", "USA" },
+		{ "United States", "USA" },
+		{ "United States of America", "USA" },
+		{ "GB", "UK" },
+		{ "UK", "UK" },
+		{ "United Kingdom", "UK" },
+		{ "Great Britain", "UK" },
+		{ "England", "UK" },
+		{ "NL", "Netherlands" },
+		{ "Netherlands", "Netherlands" },
+		{ "Holland", "Netherlands" },
+		{ "FR", "France" },
+		{ "France", "France" },
+		{ "DE", "Germany" },
+		{ "Germany", "Germany" },
+		{ "PL", "Poland" },
+		{ "Poland", "Poland" },
+		{ "IN", "India" },
+		{ "India", "India" },
+		{ "JP", "Japan" },
+		{ "Japan", "Japan" },
+		{ "SG", "Singapore" },
+		{ "Singapore", "Singapore" },
+		{ "AU", "Australia" },
+		{ "Australia", "Australia" },
+		{ "CN", "China" },
+		{ "China", "China" },
+		{ "HK", "China" },
+		{ "Hong Kong", "China" },
+		{ "CA", "Canada" },
+		{ "Canada", "Canada" },
+		{ "BR", "Brazil" },
+		{ "Brazil", "Brazil" },
+		{ "KR", "South Korea" },
+		{ "South Korea", "South Korea" },
+		{ "Korea", "South Korea" },
+		{ "TW", "Taiwan" },
+		{ "Taiwan", "Taiwan" },
+		{ "ZA", "South Africa" },
+		{ "South Africa", "South Africa" },
+		{ "AE", "UAE" },
+		{ "United Arab Emirates", "UAE" },
+		{ "RU", "Russia" },
+		{ "Russia", "Russia" },
+		{ "MX", "Mexico" },
+		{ "Mexico", "Mexico" },
+		{ "CL", "Chile" },
+		{ "Chile", "Chile" },
+		{ "AR", "Argentina" },
+		{ "Argentina", "Argentina" },
 	};
 
 	private static HttpClient CreateClient(string userAgent, TimeSpan timeout, bool acceptJson = false, bool allowAutoRedirect = true)
 	{
-		HttpClient client = Voidstrap.Utility.VpnHttpClient.Create(timeout, handler =>
-		{
-			handler.UseCookies = false;
-			handler.AllowAutoRedirect = allowAutoRedirect;
-		});
+		HttpClient client = Voidstrap.Utility.VpnHttpClient.Create(
+			timeout,
+			handler =>
+			{
+				handler.UseCookies = false;
+				handler.AllowAutoRedirect = allowAutoRedirect;
+			}
+		);
 		client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
 		if (acceptJson)
 			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -173,7 +224,9 @@ public static class VoidstrapMatchmaker
 	{
 		double dLat = ToRad(lat2 - lat1);
 		double dLon = ToRad(lon2 - lon1);
-		double a = Math.Sin(dLat / 2.0) * Math.Sin(dLat / 2.0) + Math.Cos(ToRad(lat1)) * Math.Cos(ToRad(lat2)) * Math.Sin(dLon / 2.0) * Math.Sin(dLon / 2.0);
+		double a =
+			Math.Sin(dLat / 2.0) * Math.Sin(dLat / 2.0)
+			+ Math.Cos(ToRad(lat1)) * Math.Cos(ToRad(lat2)) * Math.Sin(dLon / 2.0) * Math.Sin(dLon / 2.0);
 		return 6371.0 * (2.0 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1.0 - a)));
 	}
 
@@ -295,7 +348,7 @@ public static class VoidstrapMatchmaker
 		[
 			TryGeoProviderAsync("https://ipinfo.io/json", ParseIpInfo, race.Token),
 			TryGeoProviderAsync("https://ipwho.is/", ParseIpWhoIs, race.Token),
-			TryGeoProviderAsync("https://ipapi.co/json/", ParseIpApiCo, race.Token)
+			TryGeoProviderAsync("https://ipapi.co/json/", ParseIpApiCo, race.Token),
 		];
 		try
 		{
@@ -355,7 +408,9 @@ public static class VoidstrapMatchmaker
 	{
 		try
 		{
-			using JsonDocument doc = JsonDocument.Parse(await Utility.Http.GetStringBoundedAsync(_geoClient, url, 262144, token).ConfigureAwait(false));
+			using JsonDocument doc = JsonDocument.Parse(
+				await Utility.Http.GetStringBoundedAsync(_geoClient, url, 262144, token).ConfigureAwait(false)
+			);
 			return parser(doc.RootElement);
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
@@ -374,9 +429,11 @@ public static class VoidstrapMatchmaker
 		if (!root.TryGetProperty("loc", out JsonElement locEl))
 			return null;
 		string[] parts = (locEl.GetString() ?? "").Split(',');
-		if (parts.Length != 2
+		if (
+			parts.Length != 2
 			|| !double.TryParse(parts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out double lat)
-			|| !double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out double lon))
+			|| !double.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out double lon)
+		)
 			return null;
 		return new UserGeo
 		{
@@ -384,7 +441,7 @@ public static class VoidstrapMatchmaker
 			Lon = lon,
 			City = ReadString(root, "city"),
 			Region = ReadString(root, "region"),
-			Country = ReadString(root, "country")
+			Country = ReadString(root, "country"),
 		};
 	}
 
@@ -400,7 +457,7 @@ public static class VoidstrapMatchmaker
 			Lon = lon,
 			City = ReadString(root, "city"),
 			Region = ReadString(root, "region"),
-			Country = ReadString(root, "country_code")
+			Country = ReadString(root, "country_code"),
 		};
 	}
 
@@ -416,7 +473,7 @@ public static class VoidstrapMatchmaker
 			Lon = lon,
 			City = ReadString(root, "city"),
 			Region = ReadString(root, "region"),
-			Country = ReadString(root, "country")
+			Country = ReadString(root, "country"),
 		};
 	}
 
@@ -447,7 +504,7 @@ public static class VoidstrapMatchmaker
 				Region = learned.Region,
 				Country = NormalizeCountryCode(learned.Country),
 				Lat = learned.Lat,
-				Lon = learned.Lon
+				Lon = learned.Lon,
 			};
 		}
 		if (_ipLookupCache.TryGetValue(ip, out RobloxDatacenter? cached))
@@ -462,7 +519,8 @@ public static class VoidstrapMatchmaker
 		{
 			if (_ipLookupCache.TryGetValue(ip, out RobloxDatacenter? raced))
 				return raced;
-			geo = await TryGeoProviderAsync("https://ipinfo.io/" + ip + "/json", ParseIpInfo, token).ConfigureAwait(false)
+			geo =
+				await TryGeoProviderAsync("https://ipinfo.io/" + ip + "/json", ParseIpInfo, token).ConfigureAwait(false)
 				?? await TryGeoProviderAsync("https://ipwho.is/" + ip, ParseIpWhoIs, token).ConfigureAwait(false)
 				?? await TryGeoProviderAsync("https://ipapi.co/" + ip + "/json/", ParseIpApiCo, token).ConfigureAwait(false);
 		}
@@ -482,7 +540,7 @@ public static class VoidstrapMatchmaker
 			Region = geo.Region,
 			Country = NormalizeCountryCode(geo.Country),
 			Lat = geo.Lat,
-			Lon = geo.Lon
+			Lon = geo.Lon,
 		};
 		StoreIpLookup(ip, dc);
 		App.Logger.WriteLine(LOG_IDENT, $"Resolved unknown IP {ip}: {dc.City}, {dc.Country} ({dc.Lat:F2}, {dc.Lon:F2})");
@@ -546,7 +604,13 @@ public static class VoidstrapMatchmaker
 		return double.IsPositiveInfinity(best) ? 0.0 : best;
 	}
 
-	public static async Task<MatchmakerCandidate?> PickBestJobIdAsync(long placeId, IEnumerable<string>? exclude = null, int maxCandidates = 40, string? preferredOverride = null, CancellationToken token = default)
+	public static async Task<MatchmakerCandidate?> PickBestJobIdAsync(
+		long placeId,
+		IEnumerable<string>? exclude = null,
+		int maxCandidates = 40,
+		string? preferredOverride = null,
+		CancellationToken token = default
+	)
 	{
 		try
 		{
@@ -558,7 +622,10 @@ public static class VoidstrapMatchmaker
 		}
 		catch (OperationCanceledException) when (!token.IsCancellationRequested)
 		{
-			App.Logger.WriteLine(LOG_IDENT, $"Matchmaking hit the {OverallDeadline.TotalSeconds:F0}s deadline, letting Roblox pick the server");
+			App.Logger.WriteLine(
+				LOG_IDENT,
+				$"Matchmaking hit the {OverallDeadline.TotalSeconds:F0}s deadline, letting Roblox pick the server"
+			);
 			return null;
 		}
 		catch (Exception ex)
@@ -569,7 +636,13 @@ public static class VoidstrapMatchmaker
 		}
 	}
 
-	public static async Task<MatchmakerServerScan> ScanServersAsync(long placeId, string? preferredOverride = null, string? includeJobId = null, Action<MatchmakerCandidate>? onResult = null, CancellationToken token = default)
+	public static async Task<MatchmakerServerScan> ScanServersAsync(
+		long placeId,
+		string? preferredOverride = null,
+		string? includeJobId = null,
+		Action<MatchmakerCandidate>? onResult = null,
+		CancellationToken token = default
+	)
 	{
 		if (placeId <= 0)
 			return new MatchmakerServerScan { Status = MatchmakerScanStatus.NoServers };
@@ -581,7 +654,10 @@ public static class VoidstrapMatchmaker
 		string? cookie = RobloxAuthLauncher.TryGetRobloxSecurityCookie();
 		if (string.IsNullOrEmpty(cookie))
 		{
-			App.Logger.WriteLine(LOG_IDENT, "No Roblox cookie found, the server browser needs a signed in account to resolve server locations");
+			App.Logger.WriteLine(
+				LOG_IDENT,
+				"No Roblox cookie found, the server browser needs a signed in account to resolve server locations"
+			);
 			return new MatchmakerServerScan { Status = MatchmakerScanStatus.SignedOut };
 		}
 
@@ -609,7 +685,10 @@ public static class VoidstrapMatchmaker
 		}
 
 		List<ServerListItem> probeList = pool.Count > probeBudget ? Stratify(pool, probeBudget) : new List<ServerListItem>(pool);
-		if (!string.IsNullOrEmpty(includeJobId) && !probeList.Any(x => string.Equals(x.JobId, includeJobId, StringComparison.OrdinalIgnoreCase)))
+		if (
+			!string.IsNullOrEmpty(includeJobId)
+			&& !probeList.Any(x => string.Equals(x.JobId, includeJobId, StringComparison.OrdinalIgnoreCase))
+		)
 		{
 			ServerListItem? current = pool.FirstOrDefault(x => string.Equals(x.JobId, includeJobId, StringComparison.OrdinalIgnoreCase));
 			if (current != null)
@@ -618,7 +697,20 @@ public static class VoidstrapMatchmaker
 		App.Logger.WriteLine(LOG_IDENT, $"Server browser probing {probeList.Count} of {pool.Count} servers for place {placeId}");
 
 		double floorMs = EstimateRttMs(NearestDatacenterKm(geo));
-		List<MatchmakerCandidate> probed = await ProbeAsync(placeId, probeList, cookie, geo, preferred, blocked, preferEmpty, floorMs, scanToken, allowEarlyExit: false, onResult: onResult).ConfigureAwait(false);
+		List<MatchmakerCandidate> probed = await ProbeAsync(
+				placeId,
+				probeList,
+				cookie,
+				geo,
+				preferred,
+				blocked,
+				preferEmpty,
+				floorMs,
+				scanToken,
+				allowEarlyExit: false,
+				onResult: onResult
+			)
+			.ConfigureAwait(false);
 		if (probed.Count == 0)
 			return new MatchmakerServerScan { Status = MatchmakerScanStatus.Unresolved, Listed = pool.Count };
 
@@ -639,11 +731,17 @@ public static class VoidstrapMatchmaker
 			Status = status,
 			Servers = probed.OrderBy(c => c.Score).ToList(),
 			Best = best,
-			Listed = pool.Count
+			Listed = pool.Count,
 		};
 	}
 
-	private static async Task<MatchmakerCandidate?> PickBestCoreAsync(long placeId, IEnumerable<string>? exclude, int maxCandidates, string? preferredOverride, CancellationToken token)
+	private static async Task<MatchmakerCandidate?> PickBestCoreAsync(
+		long placeId,
+		IEnumerable<string>? exclude,
+		int maxCandidates,
+		string? preferredOverride,
+		CancellationToken token
+	)
 	{
 		System.Diagnostics.Stopwatch stageClock = System.Diagnostics.Stopwatch.StartNew();
 		using CancellationTokenSource deadlineCts = CancellationTokenSource.CreateLinkedTokenSource(token);
@@ -665,9 +763,10 @@ public static class VoidstrapMatchmaker
 		if (filtering)
 			probeBudget = Math.Min(FilteredCandidateCeiling, probeBudget * 2);
 
-		HashSet<string> excludeSet = exclude == null
-			? new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-			: new HashSet<string>(exclude, StringComparer.OrdinalIgnoreCase);
+		HashSet<string> excludeSet =
+			exclude == null
+				? new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+				: new HashSet<string>(exclude, StringComparer.OrdinalIgnoreCase);
 
 		bool preferEmpty = App.Settings.Prop.VoidstrapMatchmakerPreferEmpty;
 		Task<UserGeo?> geoTask = GetUserGeoAsync(token);
@@ -708,7 +807,10 @@ public static class VoidstrapMatchmaker
 		}
 
 		List<ServerListItem> probeList = pool.Count > probeBudget ? Stratify(pool, probeBudget) : pool;
-		App.Logger.WriteLine(LOG_IDENT, $"Server list ready in {stageClock.ElapsedMilliseconds}ms, probing {probeList.Count} of {pool.Count} servers for place {placeId} at {ProbeConcurrency} at a time");
+		App.Logger.WriteLine(
+			LOG_IDENT,
+			$"Server list ready in {stageClock.ElapsedMilliseconds}ms, probing {probeList.Count} of {pool.Count} servers for place {placeId} at {ProbeConcurrency} at a time"
+		);
 		long listReadyMs = stageClock.ElapsedMilliseconds;
 
 		double nearestDcKm = NearestDatacenterKm(geo);
@@ -718,7 +820,8 @@ public static class VoidstrapMatchmaker
 		{
 			Interlocked.Exchange(ref _claimedTimeSeen, 0);
 			Interlocked.Exchange(ref _claimedTimeSet, 0);
-			probed = await ProbeAsync(placeId, probeList, cookie, geo, preferred, blocked, preferEmpty, floorMs, token).ConfigureAwait(false);
+			probed = await ProbeAsync(placeId, probeList, cookie, geo, preferred, blocked, preferEmpty, floorMs, token)
+				.ConfigureAwait(false);
 		}
 		catch (OperationCanceledException) when (!outerToken.IsCancellationRequested)
 		{
@@ -732,34 +835,58 @@ public static class VoidstrapMatchmaker
 			return null;
 		}
 
-		App.Logger.WriteLine(LOG_IDENT, $"Probed {probed.Count} of {probeList.Count} servers in {stageClock.ElapsedMilliseconds - listReadyMs}ms, {stageClock.ElapsedMilliseconds}ms total so far");
-		App.Logger.WriteLine(LOG_IDENT, $"ServerClaimedTime was set for {Volatile.Read(ref _claimedTimeSet)} of {Volatile.Read(ref _claimedTimeSeen)} probed servers, {_knownServerStarts.Count} server start times known");
+		App.Logger.WriteLine(
+			LOG_IDENT,
+			$"Probed {probed.Count} of {probeList.Count} servers in {stageClock.ElapsedMilliseconds - listReadyMs}ms, {stageClock.ElapsedMilliseconds}ms total so far"
+		);
+		App.Logger.WriteLine(
+			LOG_IDENT,
+			$"ServerClaimedTime was set for {Volatile.Read(ref _claimedTimeSet)} of {Volatile.Read(ref _claimedTimeSeen)} probed servers, {_knownServerStarts.Count} server start times known"
+		);
 
 		MatchmakerCandidate? winner = SelectWinner(probed, preferred, blocked, preferEmpty);
 		if (winner == null)
 			return null;
 
 		string players = winner.MaxPlayers > 0 ? $"{winner.Playing}/{winner.MaxPlayers} players" : "player count unknown";
-		App.Logger.WriteLine(LOG_IDENT, $"Winner: {winner.DatacenterName}, about {winner.EstimatedPingMs}ms, {players}, JobId {winner.JobId}");
+		App.Logger.WriteLine(
+			LOG_IDENT,
+			$"Winner: {winner.DatacenterName}, about {winner.EstimatedPingMs}ms, {players}, JobId {winner.JobId}"
+		);
 
 		bool winnerIsPreferred = preferred.Length > 0 && MatchesPreferredDc(winner.Datacenter, preferred);
 		if (ShouldHandOff(winner.EstimatedPingMs, floorMs, winnerIsPreferred))
 		{
-			App.Logger.WriteLine(LOG_IDENT, $"Every server found is far away, the best is about {winner.EstimatedPingMs}ms, handing off to Roblox matchmaking so it can try a fresh nearby server");
+			App.Logger.WriteLine(
+				LOG_IDENT,
+				$"Every server found is far away, the best is about {winner.EstimatedPingMs}ms, handing off to Roblox matchmaking so it can try a fresh nearby server"
+			);
 			return null;
 		}
 		return winner;
 	}
 
-	internal static MatchmakerCandidate? SelectWinner(List<MatchmakerCandidate> probed, string preferred, HashSet<string> blocked, bool preferEmpty)
+	internal static MatchmakerCandidate? SelectWinner(
+		List<MatchmakerCandidate> probed,
+		string preferred,
+		HashSet<string> blocked,
+		bool preferEmpty
+	)
 	{
 		if (probed.Count == 0)
 			return null;
 
 		MatchmakerCandidate? closestOverall = probed.OrderBy(c => c.DistanceKm).FirstOrDefault();
-		App.Logger.WriteLine(LOG_IDENT, "Datacenters seen: " + string.Join(", ", probed
-			.GroupBy(c => DatacenterKey(c.Datacenter))
-			.Select(g => $"{g.First().Datacenter?.City}({EstimatePingMs(g.Min(c => c.DistanceKm))}ms x{g.Count()})")));
+		App.Logger.WriteLine(
+			LOG_IDENT,
+			"Datacenters seen: "
+				+ string.Join(
+					", ",
+					probed
+						.GroupBy(c => DatacenterKey(c.Datacenter))
+						.Select(g => $"{g.First().Datacenter?.City}({EstimatePingMs(g.Min(c => c.DistanceKm))}ms x{g.Count()})")
+				)
+		);
 
 		List<MatchmakerCandidate> allowed = probed.Where(c => !blocked.Contains(BlockKey(c.Datacenter))).ToList();
 		if (allowed.Count == 0)
@@ -774,7 +901,10 @@ public static class VoidstrapMatchmaker
 		{
 			blockedClosestCity = closestOverall.Datacenter.City;
 			blockedClosestKm = closestOverall.DistanceKm;
-			App.Logger.WriteLine(LOG_IDENT, $"Closest datacenter {blockedClosestCity} ({EstimatePingMs(blockedClosestKm)}ms) is blocked, skipping it");
+			App.Logger.WriteLine(
+				LOG_IDENT,
+				$"Closest datacenter {blockedClosestCity} ({EstimatePingMs(blockedClosestKm)}ms) is blocked, skipping it"
+			);
 		}
 
 		if (preferred.Length > 0)
@@ -787,15 +917,16 @@ public static class VoidstrapMatchmaker
 			}
 			else
 			{
-				App.Logger.WriteLine(LOG_IDENT, "Preferred datacenter had no servers in this list, falling back to the closest allowed one");
+				App.Logger.WriteLine(
+					LOG_IDENT,
+					"Preferred datacenter had no servers in this list, falling back to the closest allowed one"
+				);
 			}
 		}
 		else
 		{
 			double closestRtt = allowed.Min(c => (double)c.EstimatedPingMs);
-			List<MatchmakerCandidate> close = allowed
-				.Where(c => c.EstimatedPingMs <= closestRtt + ClosestDatacenterBandMs)
-				.ToList();
+			List<MatchmakerCandidate> close = allowed.Where(c => c.EstimatedPingMs <= closestRtt + ClosestDatacenterBandMs).ToList();
 			if (close.Count > 0)
 				allowed = close;
 			if (!preferEmpty)
@@ -825,7 +956,7 @@ public static class VoidstrapMatchmaker
 			Fps = winner.Fps,
 			PlayerTokens = winner.PlayerTokens,
 			BlockedClosestCity = blockedClosestCity,
-			BlockedClosestDistanceKm = blockedClosestKm
+			BlockedClosestDistanceKm = blockedClosestKm,
 		};
 	}
 
@@ -867,7 +998,7 @@ public static class VoidstrapMatchmaker
 			1 => 80.0,
 			2 => 60.0,
 			3 => 45.0,
-			_ => fullness < 0.15 ? (0.15 - fullness) * 80.0 : 0.0
+			_ => fullness < 0.15 ? (0.15 - fullness) * 80.0 : 0.0,
 		};
 		double crowdedPenalty = fullness > 0.85 ? (fullness - 0.85) * 120.0 : 0.0;
 		double fullnessTiebreak = Math.Abs(fullness - 0.65) * FullnessTiebreakMs;
@@ -886,7 +1017,19 @@ public static class VoidstrapMatchmaker
 		return 0.0;
 	}
 
-	private static async Task<List<MatchmakerCandidate>> ProbeAsync(long placeId, List<ServerListItem> servers, string cookie, UserGeo geo, string preferred, HashSet<string> blocked, bool preferEmpty, double floorMs, CancellationToken token, bool allowEarlyExit = true, Action<MatchmakerCandidate>? onResult = null)
+	private static async Task<List<MatchmakerCandidate>> ProbeAsync(
+		long placeId,
+		List<ServerListItem> servers,
+		string cookie,
+		UserGeo geo,
+		string preferred,
+		HashSet<string> blocked,
+		bool preferEmpty,
+		double floorMs,
+		CancellationToken token,
+		bool allowEarlyExit = true,
+		Action<MatchmakerCandidate>? onResult = null
+	)
 	{
 		ConcurrentBag<MatchmakerCandidate> results = new ConcurrentBag<MatchmakerCandidate>();
 		int goodEnough = 0;
@@ -936,7 +1079,7 @@ public static class VoidstrapMatchmaker
 						Region = dc.Region,
 						Country = normalized,
 						Lat = dc.Lat,
-						Lon = dc.Lon
+						Lon = dc.Lon,
 					};
 				}
 				ServerFetchStore.RecordSighting(resolved.Value.Ip, dc.City, dc.Region, dc.Country, dc.Lat, dc.Lon);
@@ -944,8 +1087,10 @@ public static class VoidstrapMatchmaker
 				double km = HaversineKm(geo.Lat, geo.Lon, dc.Lat, dc.Lon);
 				double geographicPing = EstimateRttMs(km);
 				double learnedPing = ServerFetchStore.GetMedianPing(resolved.Value.Ip, out int learnedSamples);
-				double learnedWeight = learnedSamples <= 0 || learnedPing < 1.0 || learnedPing > 999.0 ? 0.0 : Math.Min(0.75, 0.2 + learnedSamples * 0.05);
-				double effectivePing = learnedWeight > 0.0 ? geographicPing * (1.0 - learnedWeight) + learnedPing * learnedWeight : geographicPing;
+				double learnedWeight =
+					learnedSamples <= 0 || learnedPing < 1.0 || learnedPing > 999.0 ? 0.0 : Math.Min(0.75, 0.2 + learnedSamples * 0.05);
+				double effectivePing =
+					learnedWeight > 0.0 ? geographicPing * (1.0 - learnedWeight) + learnedPing * learnedWeight : geographicPing;
 				MatchmakerCandidate candidate = new MatchmakerCandidate
 				{
 					JobId = sv.JobId,
@@ -959,7 +1104,7 @@ public static class VoidstrapMatchmaker
 					EstimatedPingMs = Math.Clamp((int)Math.Round(effectivePing), 1, 999),
 					Score = effectivePing + PopulationPenaltyMs(sv.Playing, sv.MaxPlayers, preferEmpty),
 					Fps = sv.FPS,
-					PlayerTokens = sv.PlayerTokens
+					PlayerTokens = sv.PlayerTokens,
 				};
 				results.Add(candidate);
 				Interlocked.Increment(ref resultCount);
@@ -968,7 +1113,8 @@ public static class VoidstrapMatchmaker
 					continue;
 
 				bool usable = !blocked.Contains(BlockKey(dc));
-				bool onTarget = preferred.Length > 0 ? MatchesPreferredDc(dc, preferred) : EstimateRttMs(km) <= floorMs + ClosestDatacenterBandMs;
+				bool onTarget =
+					preferred.Length > 0 ? MatchesPreferredDc(dc, preferred) : EstimateRttMs(km) <= floorMs + ClosestDatacenterBandMs;
 				bool populated = preferEmpty || sv.Playing >= 4 || sv.MaxPlayers > 0 && sv.Playing >= Math.Ceiling(sv.MaxPlayers * 0.15);
 				int requiredMatches = preferred.Length > 0 ? 3 : EarlyExitClosestMatches;
 				if (!usable || !onTarget || !populated)
@@ -989,12 +1135,13 @@ public static class VoidstrapMatchmaker
 		{
 			await Task.WhenAll(workers).ConfigureAwait(false);
 		}
-		catch (OperationCanceledException) when (earlyCts.IsCancellationRequested && !token.IsCancellationRequested)
-		{
-		}
+		catch (OperationCanceledException) when (earlyCts.IsCancellationRequested && !token.IsCancellationRequested) { }
 
 		if (earlyCts.IsCancellationRequested && !token.IsCancellationRequested)
-			App.Logger.WriteLine(LOG_IDENT, $"Settled after {results.Count} probes in {probeClock.ElapsedMilliseconds}ms with {Volatile.Read(ref goodEnough)} good servers");
+			App.Logger.WriteLine(
+				LOG_IDENT,
+				$"Settled after {results.Count} probes in {probeClock.ElapsedMilliseconds}ms with {Volatile.Read(ref goodEnough)} good servers"
+			);
 
 		return results.ToList();
 	}
@@ -1016,7 +1163,9 @@ public static class VoidstrapMatchmaker
 			using HttpRequestMessage req = BuildJoinRequest(UseV2(), placeId, Guid.Empty.ToString(), cookie, null);
 			using CancellationTokenSource timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(token);
 			timeoutCts.CancelAfter(JoinTimeoutMs);
-			using HttpResponseMessage res = await _joinClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token).ConfigureAwait(false);
+			using HttpResponseMessage res = await _joinClient
+				.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token)
+				.ConfigureAwait(false);
 			if (res.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values))
 				_csrfToken = values.FirstOrDefault();
 		}
@@ -1038,8 +1187,23 @@ public static class VoidstrapMatchmaker
 	{
 		string url = useV2 ? "https://gamejoin.roblox.com/v2/join-game-instance" : "https://gamejoin.roblox.com/v1/join-game-instance";
 		string body = useV2
-			? JsonSerializer.Serialize(new { placeId, gameId = jobId, gameJoinAttemptId = Guid.NewGuid().ToString(), joinOrigin = "VoidstrapFetchInfo" })
-			: JsonSerializer.Serialize(new { placeId, gameId = jobId, gameJoinAttemptId = Guid.NewGuid().ToString() });
+			? JsonSerializer.Serialize(
+				new
+				{
+					placeId,
+					gameId = jobId,
+					gameJoinAttemptId = Guid.NewGuid().ToString(),
+					joinOrigin = "VoidstrapFetchInfo",
+				}
+			)
+			: JsonSerializer.Serialize(
+				new
+				{
+					placeId,
+					gameId = jobId,
+					gameJoinAttemptId = Guid.NewGuid().ToString(),
+				}
+			);
 		HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, url);
 		req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
 		req.Headers.Referrer = new Uri("https://www.roblox.com/");
@@ -1054,7 +1218,8 @@ public static class VoidstrapMatchmaker
 		long until = Interlocked.Read(ref _joinBackoffUntilTicks);
 		long now = DateTime.UtcNow.Ticks;
 		if (until > now)
-			await Task.Delay(TimeSpan.FromTicks(until - now) + TimeSpan.FromMilliseconds(Random.Shared.Next(25, 201)), token).ConfigureAwait(false);
+			await Task.Delay(TimeSpan.FromTicks(until - now) + TimeSpan.FromMilliseconds(Random.Shared.Next(25, 201)), token)
+				.ConfigureAwait(false);
 	}
 
 	private static void NoteJoinRateLimited(TimeSpan? retryAfter)
@@ -1157,9 +1322,9 @@ public static class VoidstrapMatchmaker
 	}
 
 	private static long _lastProbeFailureLogTicks;
-    private static readonly string[] separator = new[] { "\r\n\r\n", "\n\n" };
+	private static readonly string[] separator = new[] { "\r\n\r\n", "\n\n" };
 
-    private static void LogProbeFailure(HttpStatusCode status)
+	private static void LogProbeFailure(HttpStatusCode status)
 	{
 		long now = DateTime.UtcNow.Ticks;
 		long last = Interlocked.Read(ref _lastProbeFailureLogTicks);
@@ -1173,14 +1338,14 @@ public static class VoidstrapMatchmaker
 			HttpStatusCode.Forbidden => "Roblox rejected the request token",
 			HttpStatusCode.TooManyRequests => "Roblox is rate limiting the probes",
 			HttpStatusCode.NotFound => "the server has shut down or no longer exists",
-			_ => "Roblox refused the probe"
+			_ => "Roblox refused the probe",
 		};
 		App.Logger.WriteLine(LOG_IDENT, "Server probe returned HTTP " + (int)status + ", " + hint);
 	}
 
 	// A server's start time if a probe already saw it, without asking Roblox again
-	public static DateTimeOffset? KnownServerStart(string? jobId)
-		=> !string.IsNullOrEmpty(jobId) && _knownServerStarts.TryGetValue(jobId, out DateTimeOffset started) ? started : null;
+	public static DateTimeOffset? KnownServerStart(string? jobId) =>
+		!string.IsNullOrEmpty(jobId) && _knownServerStarts.TryGetValue(jobId, out DateTimeOffset started) ? started : null;
 
 	public static async Task<ServerStartLookup> GetServerStartAsync(long placeId, string? jobId, CancellationToken token = default)
 	{
@@ -1217,7 +1382,13 @@ public static class VoidstrapMatchmaker
 
 	private static bool _uptimeV2Missing = true;
 
-	private static async Task<ServerStartLookup> AttemptServerStartAsync(bool useV2, long placeId, string jobId, string cookie, CancellationToken token)
+	private static async Task<ServerStartLookup> AttemptServerStartAsync(
+		bool useV2,
+		long placeId,
+		string jobId,
+		string cookie,
+		CancellationToken token
+	)
 	{
 		string api = useV2 ? "v2" : "v1";
 		for (int attempt = 0; attempt < 2; attempt++)
@@ -1228,7 +1399,9 @@ public static class VoidstrapMatchmaker
 				using HttpRequestMessage req = BuildJoinRequest(useV2, placeId, jobId, cookie, _csrfToken);
 				using CancellationTokenSource timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(token);
 				timeoutCts.CancelAfter(JoinTimeoutMs);
-				using HttpResponseMessage res = await _joinClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token).ConfigureAwait(false);
+				using HttpResponseMessage res = await _joinClient
+					.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token)
+					.ConfigureAwait(false);
 				if (res.StatusCode == HttpStatusCode.Forbidden && res.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values))
 				{
 					_csrfToken = values.FirstOrDefault();
@@ -1258,7 +1431,10 @@ public static class VoidstrapMatchmaker
 				if (!joinScript.HasValue)
 				{
 					int? status = TryGetInt(root, "status");
-					App.Logger.WriteLine(LOG_IDENT, $"Server uptime lookup through gamejoin {api} had no join data, status {status?.ToString(CultureInfo.InvariantCulture) ?? "unknown"}");
+					App.Logger.WriteLine(
+						LOG_IDENT,
+						$"Server uptime lookup through gamejoin {api} had no join data, status {status?.ToString(CultureInfo.InvariantCulture) ?? "unknown"}"
+					);
 					return new ServerStartLookup(status == 6 ? ServerStartStatus.Full : ServerStartStatus.Unavailable, default);
 				}
 				DateTimeOffset? started = ParseServerClaimedTime(joinScript.Value, serverDate);
@@ -1266,11 +1442,17 @@ public static class VoidstrapMatchmaker
 				{
 					if (IsEmptyClaimedTime(joinScript.Value))
 						return new ServerStartLookup(ServerStartStatus.NotShared, default);
-					App.Logger.WriteLine(LOG_IDENT, $"Server uptime lookup through gamejoin {api} could not read ServerClaimedTime, value was {DescribeServerClaimedTime(joinScript.Value)}");
+					App.Logger.WriteLine(
+						LOG_IDENT,
+						$"Server uptime lookup through gamejoin {api} could not read ServerClaimedTime, value was {DescribeServerClaimedTime(joinScript.Value)}"
+					);
 					return new ServerStartLookup(ServerStartStatus.Unavailable, default);
 				}
 				RememberServerStart(jobId, started.Value);
-				App.Logger.WriteLine(LOG_IDENT, $"Server {jobId} has been up since {started.Value.UtcDateTime:yyyy'/'MM'/'dd HH:mm:ss} UTC, from gamejoin {api} ServerClaimedTime");
+				App.Logger.WriteLine(
+					LOG_IDENT,
+					$"Server {jobId} has been up since {started.Value.UtcDateTime:yyyy'/'MM'/'dd HH:mm:ss} UTC, from gamejoin {api} ServerClaimedTime"
+				);
 				return new ServerStartLookup(ServerStartStatus.Found, started.Value);
 			}
 			catch (OperationCanceledException) when (token.IsCancellationRequested)
@@ -1316,7 +1498,7 @@ public static class VoidstrapMatchmaker
 			JsonValueKind.Null => true,
 			JsonValueKind.Number => value.GetDouble() == 0,
 			JsonValueKind.String => string.IsNullOrWhiteSpace(value.GetString()) || value.GetString()!.Trim() == "0",
-			_ => false
+			_ => false,
 		};
 	}
 
@@ -1356,20 +1538,20 @@ public static class VoidstrapMatchmaker
 	{
 		switch (value.ValueKind)
 		{
-		case JsonValueKind.Number:
-			if (value.TryGetInt64(out long whole))
-				return FromEpochNumber(whole);
-			return FromEpochNumber(value.GetDouble());
-		case JsonValueKind.String:
-			return FromTimestampText(value.GetString());
-		case JsonValueKind.Object:
-			double? seconds = ReadNumberProperty(value, "seconds") ?? ReadNumberProperty(value, "Seconds");
-			if (!seconds.HasValue)
+			case JsonValueKind.Number:
+				if (value.TryGetInt64(out long whole))
+					return FromEpochNumber(whole);
+				return FromEpochNumber(value.GetDouble());
+			case JsonValueKind.String:
+				return FromTimestampText(value.GetString());
+			case JsonValueKind.Object:
+				double? seconds = ReadNumberProperty(value, "seconds") ?? ReadNumberProperty(value, "Seconds");
+				if (!seconds.HasValue)
+					return null;
+				double nanos = ReadNumberProperty(value, "nanos") ?? ReadNumberProperty(value, "Nanos") ?? 0;
+				return Plausible(DateTimeOffset.UnixEpoch.AddSeconds(seconds.Value).AddTicks((long)(nanos / 100)));
+			default:
 				return null;
-			double nanos = ReadNumberProperty(value, "nanos") ?? ReadNumberProperty(value, "Nanos") ?? 0;
-			return Plausible(DateTimeOffset.UnixEpoch.AddSeconds(seconds.Value).AddTicks((long)(nanos / 100)));
-		default:
-			return null;
 		}
 	}
 
@@ -1379,7 +1561,10 @@ public static class VoidstrapMatchmaker
 			return null;
 		if (property.ValueKind == JsonValueKind.Number)
 			return property.GetDouble();
-		if (property.ValueKind == JsonValueKind.String && double.TryParse(property.GetString(), NumberStyles.Float, CultureInfo.InvariantCulture, out double parsed))
+		if (
+			property.ValueKind == JsonValueKind.String
+			&& double.TryParse(property.GetString(), NumberStyles.Float, CultureInfo.InvariantCulture, out double parsed)
+		)
 			return parsed;
 		return null;
 	}
@@ -1396,13 +1581,22 @@ public static class VoidstrapMatchmaker
 			int zone = inner.IndexOfAny(['+', '-'], 1);
 			if (zone > 0)
 				inner = inner[..zone];
-			return long.TryParse(inner, NumberStyles.Integer, CultureInfo.InvariantCulture, out long dateMs) ? FromEpochNumber(dateMs) : null;
+			return long.TryParse(inner, NumberStyles.Integer, CultureInfo.InvariantCulture, out long dateMs)
+				? FromEpochNumber(dateMs)
+				: null;
 		}
 		if (long.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out long whole))
 			return FromEpochNumber(whole);
 		if (double.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out double number))
 			return FromEpochNumber(number);
-		if (DateTimeOffset.TryParse(text, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal, out DateTimeOffset parsedDate))
+		if (
+			DateTimeOffset.TryParse(
+				text,
+				CultureInfo.InvariantCulture,
+				DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+				out DateTimeOffset parsedDate
+			)
+		)
 			return Plausible(parsedDate);
 		return null;
 	}
@@ -1453,7 +1647,13 @@ public static class VoidstrapMatchmaker
 		return value;
 	}
 
-	private static async Task<ResolveAttempt> AttemptResolveAsync(bool useV2, long placeId, string jobId, string cookie, CancellationToken token)
+	private static async Task<ResolveAttempt> AttemptResolveAsync(
+		bool useV2,
+		long placeId,
+		string jobId,
+		string cookie,
+		CancellationToken token
+	)
 	{
 		for (int attempt = 0; attempt < 2; attempt++)
 		{
@@ -1463,7 +1663,9 @@ public static class VoidstrapMatchmaker
 				using HttpRequestMessage req = BuildJoinRequest(useV2, placeId, jobId, cookie, _csrfToken);
 				using CancellationTokenSource timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(token);
 				timeoutCts.CancelAfter(JoinTimeoutMs);
-				using HttpResponseMessage res = await _joinClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token).ConfigureAwait(false);
+				using HttpResponseMessage res = await _joinClient
+					.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, timeoutCts.Token)
+					.ConfigureAwait(false);
 
 				if (res.StatusCode == HttpStatusCode.Forbidden && res.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values))
 				{
@@ -1481,9 +1683,16 @@ public static class VoidstrapMatchmaker
 				if (!res.IsSuccessStatusCode)
 				{
 					LogProbeFailure(res.StatusCode);
-					bool alternate = res.StatusCode is HttpStatusCode.BadRequest or HttpStatusCode.NotFound or HttpStatusCode.MethodNotAllowed
-						or HttpStatusCode.RequestTimeout or HttpStatusCode.InternalServerError or HttpStatusCode.BadGateway
-						or HttpStatusCode.ServiceUnavailable or HttpStatusCode.GatewayTimeout;
+					bool alternate =
+						res.StatusCode
+						is HttpStatusCode.BadRequest
+							or HttpStatusCode.NotFound
+							or HttpStatusCode.MethodNotAllowed
+							or HttpStatusCode.RequestTimeout
+							or HttpStatusCode.InternalServerError
+							or HttpStatusCode.BadGateway
+							or HttpStatusCode.ServiceUnavailable
+							or HttpStatusCode.GatewayTimeout;
 					return new ResolveAttempt("", 0, false, alternate);
 				}
 
@@ -1642,7 +1851,8 @@ public static class VoidstrapMatchmaker
 		string? ip = null;
 		int port = 0;
 		JsonElement? joinScript = TryGetObject(root, "joinScript");
-		JsonElement? endpoints = TryGetArray(root, "UdmuxEndpoints") ?? (joinScript.HasValue ? TryGetArray(joinScript.Value, "UdmuxEndpoints") : null);
+		JsonElement? endpoints =
+			TryGetArray(root, "UdmuxEndpoints") ?? (joinScript.HasValue ? TryGetArray(joinScript.Value, "UdmuxEndpoints") : null);
 		if (endpoints.HasValue && endpoints.Value.GetArrayLength() > 0)
 		{
 			JsonElement first = endpoints.Value[0];
@@ -1692,19 +1902,34 @@ public static class VoidstrapMatchmaker
 
 	private static int? TryGetInt(JsonElement el, string prop)
 	{
-		if (el.ValueKind == JsonValueKind.Object && el.TryGetProperty(prop, out JsonElement v) && v.ValueKind == JsonValueKind.Number && v.TryGetInt32(out int i))
+		if (
+			el.ValueKind == JsonValueKind.Object
+			&& el.TryGetProperty(prop, out JsonElement v)
+			&& v.ValueKind == JsonValueKind.Number
+			&& v.TryGetInt32(out int i)
+		)
 			return i;
 		return null;
 	}
 
 	private static double TryGetDouble(JsonElement el, string prop)
 	{
-		return el.ValueKind == JsonValueKind.Object && el.TryGetProperty(prop, out JsonElement value) && value.ValueKind == JsonValueKind.Number && value.TryGetDouble(out double result)
+		return
+			el.ValueKind == JsonValueKind.Object
+			&& el.TryGetProperty(prop, out JsonElement value)
+			&& value.ValueKind == JsonValueKind.Number
+			&& value.TryGetDouble(out double result)
 			? result
 			: 0.0;
 	}
 
-	private static async Task<List<ServerListItem>> ListPublicServersAsync(long placeId, string cookie, int maxPages, bool preferEmpty, CancellationToken token)
+	private static async Task<List<ServerListItem>> ListPublicServersAsync(
+		long placeId,
+		string cookie,
+		int maxPages,
+		bool preferEmpty,
+		CancellationToken token
+	)
 	{
 		List<ServerListItem> items = new List<ServerListItem>();
 		HashSet<string> seenJobIds = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -1714,7 +1939,8 @@ public static class VoidstrapMatchmaker
 		for (int page = 0; page < maxPages; page++)
 		{
 			string sortOrder = preferEmpty ? "Asc" : "Desc";
-			string url = $"https://games.roblox.com/v1/games/{placeId}/servers/Public?excludeFullGames=true&limit=100&sortOrder={sortOrder}";
+			string url =
+				$"https://games.roblox.com/v1/games/{placeId}/servers/Public?excludeFullGames=true&limit=100&sortOrder={sortOrder}";
 			if (!string.IsNullOrEmpty(cursor))
 				url += "&cursor=" + Uri.EscapeDataString(cursor);
 
@@ -1733,7 +1959,9 @@ public static class VoidstrapMatchmaker
 					using HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, url);
 					if (!string.IsNullOrEmpty(cookie))
 						req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
-					using HttpResponseMessage res = await _serverListClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+					using HttpResponseMessage res = await _serverListClient
+						.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, token)
+						.ConfigureAwait(false);
 
 					if (res.StatusCode == HttpStatusCode.TooManyRequests)
 					{
@@ -1758,7 +1986,9 @@ public static class VoidstrapMatchmaker
 						return SortServers(items, preferEmpty);
 					}
 
-					using JsonDocument doc = JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(res.Content, 4 * 1024 * 1024, token).ConfigureAwait(false));
+					using JsonDocument doc = JsonDocument.Parse(
+						await Utility.Http.ReadStringBoundedAsync(res.Content, 4 * 1024 * 1024, token).ConfigureAwait(false)
+					);
 					if (doc.RootElement.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array)
 					{
 						foreach (JsonElement el in data.EnumerateArray())
@@ -1774,16 +2004,24 @@ public static class VoidstrapMatchmaker
 								continue;
 							string[] tokens = [];
 							if (el.TryGetProperty("playerTokens", out JsonElement tokenList) && tokenList.ValueKind == JsonValueKind.Array)
-								tokens = tokenList.EnumerateArray().Where(t => t.ValueKind == JsonValueKind.String).Select(t => t.GetString() ?? string.Empty).Where(t => t.Length > 0).Take(12).ToArray();
-							items.Add(new ServerListItem
-							{
-								JobId = jobId,
-								Playing = playing,
-								MaxPlayers = maxPlayers,
-								Ping = ping,
-								FPS = fps,
-								PlayerTokens = tokens
-							});
+								tokens = tokenList
+									.EnumerateArray()
+									.Where(t => t.ValueKind == JsonValueKind.String)
+									.Select(t => t.GetString() ?? string.Empty)
+									.Where(t => t.Length > 0)
+									.Take(12)
+									.ToArray();
+							items.Add(
+								new ServerListItem
+								{
+									JobId = jobId,
+									Playing = playing,
+									MaxPlayers = maxPlayers,
+									Ping = ping,
+									FPS = fps,
+									PlayerTokens = tokens,
+								}
+							);
 						}
 					}
 					nextCursor = TryGetString(doc.RootElement, "nextPageCursor");
@@ -1816,7 +2054,14 @@ public static class VoidstrapMatchmaker
 	{
 		return preferEmpty
 			? items.OrderBy(x => x.Playing).ToList()
-			: items.OrderByDescending(x => x.MaxPlayers > 0 ? (double)x.Playing / x.MaxPlayers : x.Playing > 0 ? 0.5 : 0.0).ThenByDescending(x => x.Playing).ToList();
+			: items
+				.OrderByDescending(x =>
+					x.MaxPlayers > 0 ? (double)x.Playing / x.MaxPlayers
+					: x.Playing > 0 ? 0.5
+					: 0.0
+				)
+				.ThenByDescending(x => x.Playing)
+				.ToList();
 	}
 
 	internal static bool IsPrivateIp(string? ip)
@@ -1857,7 +2102,7 @@ public enum ServerStartStatus
 	NotSignedIn,
 	Full,
 	NotShared,
-	Unavailable
+	Unavailable,
 }
 
 public readonly record struct ServerStartLookup(ServerStartStatus Status, DateTimeOffset StartedUtc);
@@ -1870,7 +2115,7 @@ public enum MatchmakerScanStatus
 	NoServers,
 	Unresolved,
 	AllBlocked,
-	AllFar
+	AllFar,
 }
 
 public sealed class MatchmakerServerScan

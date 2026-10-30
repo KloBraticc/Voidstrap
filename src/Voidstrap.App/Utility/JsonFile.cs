@@ -31,9 +31,20 @@ internal static class JsonFile
 		return Decode(contents);
 	}
 
-	public static async Task<string> ReadTextAsync(string path, long maximumBytes = DefaultMaximumBytes, CancellationToken cancellationToken = default)
+	public static async Task<string> ReadTextAsync(
+		string path,
+		long maximumBytes = DefaultMaximumBytes,
+		CancellationToken cancellationToken = default
+	)
 	{
-		await using FileStream stream = new(path, FileMode.Open, FileAccess.Read, FileShare.Read, 65536, FileOptions.Asynchronous | FileOptions.SequentialScan);
+		await using FileStream stream = new(
+			path,
+			FileMode.Open,
+			FileAccess.Read,
+			FileShare.Read,
+			65536,
+			FileOptions.Asynchronous | FileOptions.SequentialScan
+		);
 		int length = ValidateLength(stream.Length, maximumBytes);
 		byte[] contents = new byte[length];
 		int offset = 0;
@@ -52,10 +63,18 @@ internal static class JsonFile
 
 	public static T Deserialize<T>(string path, JsonSerializerOptions? options = null, long maximumBytes = DefaultMaximumBytes)
 	{
-		return JsonSerializer.Deserialize<T>(ReadText(path, maximumBytes), options) ?? throw new InvalidDataException("JSON deserialization returned no data");
+		return JsonSerializer.Deserialize<T>(ReadText(path, maximumBytes), options)
+			?? throw new InvalidDataException("JSON deserialization returned no data");
 	}
 
-	public static bool TryLoad<T>(string path, JsonSerializerOptions? options, out T? value, out bool recovered, out Exception? failure, long maximumBytes = DefaultMaximumBytes)
+	public static bool TryLoad<T>(
+		string path,
+		JsonSerializerOptions? options,
+		out T? value,
+		out bool recovered,
+		out Exception? failure,
+		long maximumBytes = DefaultMaximumBytes
+	)
 	{
 		value = default;
 		recovered = false;
@@ -147,14 +166,17 @@ internal static class JsonFile
 	{
 		if (Encoding.UTF8.GetByteCount(contents) > DefaultMaximumBytes)
 			throw new InvalidDataException("JSON content exceeds the allowed size");
-		using (JsonDocument.Parse(contents, new JsonDocumentOptions
-		{
-			AllowTrailingCommas = true,
-			CommentHandling = JsonCommentHandling.Skip,
-			MaxDepth = 128
-		}))
-		{
-		}
+		using (
+			JsonDocument.Parse(
+				contents,
+				new JsonDocumentOptions
+				{
+					AllowTrailingCommas = true,
+					CommentHandling = JsonCommentHandling.Skip,
+					MaxDepth = 128,
+				}
+			)
+		) { }
 		string fullPath = Path.GetFullPath(path);
 		lock (Gates.GetOrAdd(fullPath, static _ => new object()))
 		{
@@ -165,7 +187,16 @@ internal static class JsonFile
 			string temporary = fullPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
 			try
 			{
-				using (FileStream stream = new(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None, 65536, FileOptions.SequentialScan))
+				using (
+					FileStream stream = new(
+						temporary,
+						FileMode.CreateNew,
+						FileAccess.Write,
+						FileShare.None,
+						65536,
+						FileOptions.SequentialScan
+					)
+				)
 				using (StreamWriter writer = new(stream, new UTF8Encoding(false)))
 				{
 					writer.Write(contents);
@@ -182,9 +213,7 @@ internal static class JsonFile
 				{
 					File.Delete(temporary);
 				}
-				catch
-				{
-				}
+				catch { }
 			}
 		}
 	}
@@ -240,12 +269,15 @@ internal static class JsonFile
 	{
 		try
 		{
-			using JsonDocument document = JsonDocument.Parse(ReadText(path), new JsonDocumentOptions
-			{
-				AllowTrailingCommas = true,
-				CommentHandling = JsonCommentHandling.Skip,
-				MaxDepth = 128
-			});
+			using JsonDocument document = JsonDocument.Parse(
+				ReadText(path),
+				new JsonDocumentOptions
+				{
+					AllowTrailingCommas = true,
+					CommentHandling = JsonCommentHandling.Skip,
+					MaxDepth = 128,
+				}
+			);
 			return document.RootElement.ValueKind is JsonValueKind.Object or JsonValueKind.Array;
 		}
 		catch
@@ -263,8 +295,6 @@ internal static class JsonFile
 			string quarantine = path + ".corrupt." + DateTime.UtcNow.ToString("yyyyMMddHHmmssfff");
 			File.Move(path, quarantine, false);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 }

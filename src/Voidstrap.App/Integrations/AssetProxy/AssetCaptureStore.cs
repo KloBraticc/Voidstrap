@@ -61,11 +61,14 @@ public static partial class AssetCaptureStore
 
 	private static readonly ConcurrentDictionary<string, byte> _logsScanned = new();
 
-	private static readonly HttpClient _robloxClient = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(25L), handler =>
-	{
-		handler.UseCookies = false;
-		handler.AllowAutoRedirect = true;
-	});
+	private static readonly HttpClient _robloxClient = Voidstrap.Utility.VpnHttpClient.Create(
+		TimeSpan.FromSeconds(25L),
+		handler =>
+		{
+			handler.UseCookies = false;
+			handler.AllowAutoRedirect = true;
+		}
+	);
 
 	private static long _currentPlaceId;
 
@@ -85,7 +88,10 @@ public static partial class AssetCaptureStore
 
 	private const int RbxhHeaderSize = 37;
 
-	[GeneratedRegex("(?:rbxassetid://|rbxthumb://[^\\s\"']*?[?&]id=|[?&]id=|assetid[\"'=:\\s/\\\\]{1,3}|/asset/)(\\d{3,})", RegexOptions.IgnoreCase)]
+	[GeneratedRegex(
+		"(?:rbxassetid://|rbxthumb://[^\\s\"']*?[?&]id=|[?&]id=|assetid[\"'=:\\s/\\\\]{1,3}|/asset/)(\\d{3,})",
+		RegexOptions.IgnoreCase
+	)]
 	private static partial Regex AssetIdPattern();
 
 	[GeneratedRegex("(\\d{3,})")]
@@ -103,7 +109,8 @@ public static partial class AssetCaptureStore
 
 	private static string RbxStorageDir => Path.Combine(Paths.LocalAppData, "Roblox", "rbx-storage");
 
-	private static string RobloxLogsDir => Voidstrap.Utility.Platform.IsMacOS ? Paths.RobloxLogs : Path.Combine(Paths.LocalAppData, "Roblox", "logs");
+	private static string RobloxLogsDir =>
+		Voidstrap.Utility.Platform.IsMacOS ? Paths.RobloxLogs : Path.Combine(Paths.LocalAppData, "Roblox", "logs");
 
 	private static string CategoryDir(string category)
 	{
@@ -126,7 +133,8 @@ public static partial class AssetCaptureStore
 		return value.Length <= maxLength ? value : value[..maxLength];
 	}
 
-	private static void TrimDictionary<TKey, TValue>(ConcurrentDictionary<TKey, TValue> values, int limit) where TKey : notnull
+	private static void TrimDictionary<TKey, TValue>(ConcurrentDictionary<TKey, TValue> values, int limit)
+		where TKey : notnull
 	{
 		if (values.Count <= limit)
 		{
@@ -172,7 +180,11 @@ public static partial class AssetCaptureStore
 			{
 				return;
 			}
-			Dictionary<string, IndexRecord> dictionary = Voidstrap.Utility.JsonFile.Deserialize<Dictionary<string, IndexRecord>>(path, Voidstrap.Utility.JsonOptions.Tolerant, MaxIndexBytes);
+			Dictionary<string, IndexRecord> dictionary = Voidstrap.Utility.JsonFile.Deserialize<Dictionary<string, IndexRecord>>(
+				path,
+				Voidstrap.Utility.JsonOptions.Tolerant,
+				MaxIndexBytes
+			);
 			foreach (KeyValuePair<string, IndexRecord> item in dictionary.Take(MaxItems))
 			{
 				_index[item.Key] = item.Value;
@@ -230,7 +242,11 @@ public static partial class AssetCaptureStore
 			CapturedAsset capturedAsset = new()
 			{
 				Key = text,
-				AssetId = ((!string.IsNullOrWhiteSpace(assetId)) ? assetId.Trim() : ((!string.IsNullOrWhiteSpace(hash) && _hashToId.TryGetValue(hash.Trim(), out string? value)) ? value : "")),
+				AssetId = (
+					(!string.IsNullOrWhiteSpace(assetId))
+						? assetId.Trim()
+						: ((!string.IsNullOrWhiteSpace(hash) && _hashToId.TryGetValue(hash.Trim(), out string? value)) ? value : "")
+				),
 				Hash = (hash?.Trim() ?? ""),
 				Type = assetTypeInfo.Type,
 				Category = assetTypeInfo.Category,
@@ -239,7 +255,7 @@ public static partial class AssetCaptureStore
 				FilePath = text3,
 				Size = content.Length,
 				IsImage = assetTypeInfo.IsImage,
-				IsMesh = assetTypeInfo.IsMesh
+				IsMesh = assetTypeInfo.IsMesh,
 			};
 			if (!_items.TryAdd(text, capturedAsset))
 			{
@@ -280,7 +296,7 @@ public static partial class AssetCaptureStore
 			Type = "Pending",
 			Category = "Pending",
 			Url = (url ?? ""),
-			FilePath = ""
+			FilePath = "",
 		};
 		if (!_items.TryAdd(text, capturedAsset))
 		{
@@ -304,9 +320,7 @@ public static partial class AssetCaptureStore
 					{
 						File.Delete(value.FilePath);
 					}
-					catch
-					{
-					}
+					catch { }
 				}
 			}
 		}
@@ -330,7 +344,9 @@ public static partial class AssetCaptureStore
 		}
 		try
 		{
-			string root = Path.GetFullPath(CacheDir).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
+			string root =
+				Path.GetFullPath(CacheDir).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+				+ Path.DirectorySeparatorChar;
 			return Path.GetFullPath(path).StartsWith(root, StringComparison.OrdinalIgnoreCase);
 		}
 		catch
@@ -347,7 +363,9 @@ public static partial class AssetCaptureStore
 		}
 		try
 		{
-			string root = Path.GetFullPath(RbxStorageDir).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
+			string root =
+				Path.GetFullPath(RbxStorageDir).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+				+ Path.DirectorySeparatorChar;
 			return Path.GetFullPath(path).StartsWith(root, StringComparison.OrdinalIgnoreCase);
 		}
 		catch
@@ -373,9 +391,14 @@ public static partial class AssetCaptureStore
 				return;
 			}
 			LoadIndex();
-			FileInfo[] files = [.. (from f in new DirectoryInfo(CacheDir).EnumerateFiles("*", SearchOption.AllDirectories)
-				orderby f.LastWriteTimeUtc descending
-				select f)];
+			FileInfo[] files =
+			[
+				.. (
+					from f in new DirectoryInfo(CacheDir).EnumerateFiles("*", SearchOption.AllDirectories)
+					orderby f.LastWriteTimeUtc descending
+					select f
+				),
+			];
 			foreach (FileInfo file in files)
 			{
 				if (!file.Name.Equals("index.json", StringComparison.OrdinalIgnoreCase))
@@ -402,7 +425,9 @@ public static partial class AssetCaptureStore
 					{
 						byte[] array = ReadHead(fullName, 4096);
 						AssetTypeInfo assetTypeInfo = AssetTypeDetector.Detect(array);
-						string assetId = (fileNameWithoutExtension.StartsWith("id-", StringComparison.Ordinal) ? fileNameWithoutExtension[3..] : "");
+						string assetId = (
+							fileNameWithoutExtension.StartsWith("id-", StringComparison.Ordinal) ? fileNameWithoutExtension[3..] : ""
+						);
 						string hash = ((fileNameWithoutExtension.Length == 32) ? fileNameWithoutExtension : "");
 						CapturedAsset capturedAsset = new()
 						{
@@ -416,7 +441,7 @@ public static partial class AssetCaptureStore
 							Size = fileInfo.Length,
 							IsImage = assetTypeInfo.IsImage,
 							IsMesh = assetTypeInfo.IsMesh,
-							CapturedAt = fileInfo.LastWriteTime
+							CapturedAt = fileInfo.LastWriteTime,
 						};
 						if (_index.TryGetValue(fileNameWithoutExtension, out IndexRecord? value) && !string.IsNullOrEmpty(value.Name))
 						{
@@ -428,9 +453,7 @@ public static partial class AssetCaptureStore
 						}
 					}
 				}
-				catch
-				{
-				}
+				catch { }
 			}
 		}
 		catch (Exception ex)
@@ -456,19 +479,28 @@ public static partial class AssetCaptureStore
 			filePath = hashAsset.FilePath;
 			return true;
 		}
-		if (normalizedId.Length > 0 && _items.TryGetValue("id-" + normalizedId, out CapturedAsset? idAsset) && File.Exists(idAsset.FilePath))
+		if (
+			normalizedId.Length > 0
+			&& _items.TryGetValue("id-" + normalizedId, out CapturedAsset? idAsset)
+			&& File.Exists(idAsset.FilePath)
+		)
 		{
 			filePath = idAsset.FilePath;
 			return true;
 		}
 		if (normalizedHash.Length > 0 && _cacheFiles.TryGetValue(normalizedHash, out string? cached) && File.Exists(cached))
 		{
-			CapturedAsset target = hashAsset ?? _items.GetOrAdd(normalizedHash, key => new CapturedAsset
-			{
-				Key = key,
-				AssetId = normalizedId,
-				Hash = normalizedHash
-			});
+			CapturedAsset target =
+				hashAsset
+				?? _items.GetOrAdd(
+					normalizedHash,
+					key => new CapturedAsset
+					{
+						Key = key,
+						AssetId = normalizedId,
+						Hash = normalizedHash,
+					}
+				);
 			PopulateFromFile(target, cached);
 			filePath = cached;
 			return true;
@@ -536,10 +568,14 @@ public static partial class AssetCaptureStore
 			{
 				return 0;
 			}
-			foreach (FileInfo item in (from f in new DirectoryInfo(RbxStorageDir).EnumerateFiles("*", SearchOption.AllDirectories)
-				where f.Name.Length == 32
-				orderby f.LastWriteTimeUtc descending
-				select f).Take(max))
+			foreach (
+				FileInfo item in (
+					from f in new DirectoryInfo(RbxStorageDir).EnumerateFiles("*", SearchOption.AllDirectories)
+					where f.Name.Length == 32
+					orderby f.LastWriteTimeUtc descending
+					select f
+				).Take(max)
+			)
 			{
 				string name = item.Name;
 				if (_items.ContainsKey(name))
@@ -565,7 +601,7 @@ public static partial class AssetCaptureStore
 							Size = Math.Max(0L, item.Length - num2),
 							IsImage = assetTypeInfo.IsImage,
 							IsMesh = assetTypeInfo.IsMesh,
-							CapturedAt = item.LastWriteTime
+							CapturedAt = item.LastWriteTime,
 						};
 						if (_items.TryAdd(name, value))
 						{
@@ -575,9 +611,7 @@ public static partial class AssetCaptureStore
 						}
 					}
 				}
-				catch
-				{
-				}
+				catch { }
 			}
 		}
 		catch (Exception ex)
@@ -610,7 +644,7 @@ public static partial class AssetCaptureStore
 			Url = "https://assetdelivery.roblox.com/v1/asset/?id=" + id.Trim(),
 			FilePath = "",
 			Size = 0L,
-			CapturedAt = DateTime.Now
+			CapturedAt = DateTime.Now,
 		};
 		if (!_items.TryAdd(text, capturedAsset))
 		{
@@ -634,9 +668,11 @@ public static partial class AssetCaptureStore
 			{
 				return 0;
 			}
-			FileInfo? fileInfo = (from f in new DirectoryInfo(RobloxLogsDir).EnumerateFiles("*_Player_*.log")
+			FileInfo? fileInfo = (
+				from f in new DirectoryInfo(RobloxLogsDir).EnumerateFiles("*_Player_*.log")
 				orderby f.LastWriteTimeUtc descending
-				select f).FirstOrDefault();
+				select f
+			).FirstOrDefault();
 			if (fileInfo == null)
 			{
 				return 0;
@@ -695,9 +731,14 @@ public static partial class AssetCaptureStore
 			{
 				return;
 			}
-			List<FileInfo> list = [.. (from f in new DirectoryInfo(RobloxLogsDir).EnumerateFiles("*_Player_*.log")
-				orderby f.LastWriteTimeUtc descending
-				select f).Take(12)];
+			List<FileInfo> list =
+			[
+				.. (
+					from f in new DirectoryInfo(RobloxLogsDir).EnumerateFiles("*_Player_*.log")
+					orderby f.LastWriteTimeUtc descending
+					select f
+				).Take(12),
+			];
 			int num = 0;
 			foreach (FileInfo item in list)
 			{
@@ -728,14 +769,10 @@ public static partial class AssetCaptureStore
 					}
 					num++;
 				}
-				catch
-				{
-				}
+				catch { }
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	public static async Task<byte[]?> GetContentAsync(CapturedAsset asset, CancellationToken ct = default)
@@ -765,9 +802,7 @@ public static partial class AssetCaptureStore
 				WriteAllBytesAtomic(text2, array);
 				asset.FilePath = text2;
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 		else
 		{
@@ -781,9 +816,7 @@ public static partial class AssetCaptureStore
 		{
 			ExtractAndAddReferences(array);
 		}
-		catch
-		{
-		}
+		catch { }
 		return array;
 	}
 
@@ -816,7 +849,11 @@ public static partial class AssetCaptureStore
 		}
 	}
 
-	private static async Task<byte[]?> ReadResponseBytesAsync(HttpResponseMessage response, CancellationToken token, int maxBytes = MaxAssetBytes)
+	private static async Task<byte[]?> ReadResponseBytesAsync(
+		HttpResponseMessage response,
+		CancellationToken token,
+		int maxBytes = MaxAssetBytes
+	)
 	{
 		long? contentLength = response.Content.Headers.ContentLength;
 		if (contentLength <= 0 || contentLength > maxBytes)
@@ -864,9 +901,7 @@ public static partial class AssetCaptureStore
 				req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + text);
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		long currentPlaceId = _currentPlaceId;
 		if (currentPlaceId > 0)
 		{
@@ -886,7 +921,9 @@ public static partial class AssetCaptureStore
 		{
 			using HttpRequestMessage req = new(HttpMethod.Get, "https://assetdelivery.roblox.com/v1/asset/?id=" + id);
 			AddRobloxAuth(req);
-			using HttpResponseMessage res = await _robloxClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(continueOnCapturedContext: false);
+			using HttpResponseMessage res = await _robloxClient
+				.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct)
+				.ConfigureAwait(continueOnCapturedContext: false);
 			if (res.IsSuccessStatusCode)
 			{
 				byte[]? array = await ReadResponseBytesAsync(res, ct).ConfigureAwait(continueOnCapturedContext: false);
@@ -935,7 +972,9 @@ public static partial class AssetCaptureStore
 				return;
 			}
 			string requestUri = $"https://avatar.roblox.com/v1/users/{robloxAccount.UserId}/avatar";
-			using HttpResponseMessage response = await App.HttpClient.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(continueOnCapturedContext: false);
+			using HttpResponseMessage response = await App
+				.HttpClient.GetAsync(requestUri, HttpCompletionOption.ResponseHeadersRead, ct)
+				.ConfigureAwait(continueOnCapturedContext: false);
 			if (!response.IsSuccessStatusCode)
 			{
 				return;
@@ -957,13 +996,21 @@ public static partial class AssetCaptureStore
 				{
 					continue;
 				}
-				string text = ((item.TryGetProperty("id", out JsonElement value2) && value2.ValueKind == JsonValueKind.Number) ? value2.GetRawText() : "");
+				string text = (
+					(item.TryGetProperty("id", out JsonElement value2) && value2.ValueKind == JsonValueKind.Number)
+						? value2.GetRawText()
+						: ""
+				);
 				if (text.Length == 0)
 				{
 					continue;
 				}
 				string t = "";
-				if (item.TryGetProperty("assetType", out var value3) && value3.ValueKind == JsonValueKind.Object && value3.TryGetProperty("name", out var value4))
+				if (
+					item.TryGetProperty("assetType", out var value3)
+					&& value3.ValueKind == JsonValueKind.Object
+					&& value3.TryGetProperty("name", out var value4)
+				)
 				{
 					t = value4.GetString() ?? "";
 				}
@@ -1018,9 +1065,16 @@ public static partial class AssetCaptureStore
 
 	public static async Task ResolveHashesAsync(int max, CancellationToken ct = default)
 	{
-		List<string> pendingItems = [.. (from a in _items.Values
-			where !string.IsNullOrEmpty(a.AssetId) && string.IsNullOrEmpty(a.Hash) && !_hashResolveAttempted.ContainsKey(a.AssetId)
-			select a.AssetId).Distinct(StringComparer.Ordinal).Take(max)];
+		List<string> pendingItems =
+		[
+			.. (
+				from a in _items.Values
+				where !string.IsNullOrEmpty(a.AssetId) && string.IsNullOrEmpty(a.Hash) && !_hashResolveAttempted.ContainsKey(a.AssetId)
+				select a.AssetId
+			)
+				.Distinct(StringComparer.Ordinal)
+				.Take(max),
+		];
 		if (pendingItems.Count == 0)
 		{
 			return;
@@ -1043,7 +1097,9 @@ public static partial class AssetCaptureStore
 				using HttpRequestMessage req = new(HttpMethod.Post, "https://assetdelivery.roblox.com/v1/assets/batch");
 				req.Content = new StringContent(content, Encoding.UTF8, "application/json");
 				AddRobloxAuth(req);
-				using HttpResponseMessage res = await _robloxClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(continueOnCapturedContext: false);
+				using HttpResponseMessage res = await _robloxClient
+					.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct)
+					.ConfigureAwait(continueOnCapturedContext: false);
 				if (!res.IsSuccessStatusCode)
 				{
 					continue;
@@ -1100,11 +1156,19 @@ public static partial class AssetCaptureStore
 	{
 		foreach (CapturedAsset value6 in _items.Values)
 		{
-			if (string.IsNullOrEmpty(value6.AssetId) && !string.IsNullOrEmpty(value6.Hash) && _hashToId.TryGetValue(value6.Hash, out string? value))
+			if (
+				string.IsNullOrEmpty(value6.AssetId)
+				&& !string.IsNullOrEmpty(value6.Hash)
+				&& _hashToId.TryGetValue(value6.Hash, out string? value)
+			)
 			{
 				value6.AssetId = value;
 			}
-			if (string.IsNullOrEmpty(value6.Hash) && !string.IsNullOrEmpty(value6.AssetId) && _idToHash.TryGetValue(value6.AssetId, out string? value2))
+			if (
+				string.IsNullOrEmpty(value6.Hash)
+				&& !string.IsNullOrEmpty(value6.AssetId)
+				&& _idToHash.TryGetValue(value6.AssetId, out string? value2)
+			)
 			{
 				value6.Hash = value2;
 			}
@@ -1116,7 +1180,11 @@ public static partial class AssetCaptureStore
 					PopulateFromFile(value6, text);
 				}
 			}
-			if ((value6.Type == "Asset" || value6.Type == "Other") && !string.IsNullOrEmpty(value6.AssetId) && _typeById.TryGetValue(value6.AssetId, out var value3))
+			if (
+				(value6.Type == "Asset" || value6.Type == "Other")
+				&& !string.IsNullOrEmpty(value6.AssetId)
+				&& _typeById.TryGetValue(value6.AssetId, out var value3)
+			)
 			{
 				var (text2, category) = MapTypeId(value3);
 				if (text2.Length > 0)
@@ -1129,7 +1197,11 @@ public static partial class AssetCaptureStore
 		foreach (KeyValuePair<string, CapturedAsset> item in _items)
 		{
 			CapturedAsset value4 = item.Value;
-			if (value4.Key.StartsWith("id-", StringComparison.Ordinal) && !string.IsNullOrEmpty(value4.Hash) && _items.ContainsKey(value4.Hash))
+			if (
+				value4.Key.StartsWith("id-", StringComparison.Ordinal)
+				&& !string.IsNullOrEmpty(value4.Hash)
+				&& _items.ContainsKey(value4.Hash)
+			)
 			{
 				_items.TryRemove(value4.Key, out _);
 			}
@@ -1152,9 +1224,7 @@ public static partial class AssetCaptureStore
 					return text;
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 		if (_fileById.TryGetValue(id, out string? value) && File.Exists(value))
 		{
@@ -1185,16 +1255,28 @@ public static partial class AssetCaptureStore
 				a.Extension = assetTypeInfo.Extension;
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	public static async Task PrefetchUnsizedAsync(int max, CancellationToken ct = default)
 	{
-		List<string> list = [.. (from a in _items.Values
-			where !string.IsNullOrEmpty(a.AssetId) && a.Size <= 0 && string.IsNullOrEmpty(a.FilePath) && _hashResolveAttempted.ContainsKey(a.AssetId) && !_prefetchAttempted.ContainsKey(a.AssetId) && !IsFetchSuppressed(a.AssetId) && ResolveLocalFile(a.AssetId, a.Hash) == null
-			select a.AssetId).Distinct(StringComparer.Ordinal).Take(max)];
+		List<string> list =
+		[
+			.. (
+				from a in _items.Values
+				where
+					!string.IsNullOrEmpty(a.AssetId)
+					&& a.Size <= 0
+					&& string.IsNullOrEmpty(a.FilePath)
+					&& _hashResolveAttempted.ContainsKey(a.AssetId)
+					&& !_prefetchAttempted.ContainsKey(a.AssetId)
+					&& !IsFetchSuppressed(a.AssetId)
+					&& ResolveLocalFile(a.AssetId, a.Hash) == null
+				select a.AssetId
+			)
+				.Distinct(StringComparer.Ordinal)
+				.Take(max),
+		];
 		if (list.Count == 0)
 		{
 			return;
@@ -1221,9 +1303,7 @@ public static partial class AssetCaptureStore
 					TrimDictionary(_fileById, MaxItems * 2);
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
 
@@ -1232,7 +1312,9 @@ public static partial class AssetCaptureStore
 		string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
 		try
 		{
-			using (FileStream stream = new(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None, 131072, FileOptions.SequentialScan))
+			using (
+				FileStream stream = new(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None, 131072, FileOptions.SequentialScan)
+			)
 			{
 				stream.Write(content);
 				stream.Flush();
@@ -1259,44 +1341,44 @@ public static partial class AssetCaptureStore
 	{
 		return t switch
 		{
-			1 => ("Image", "Image"), 
-			2 => ("T-Shirt", "Image"), 
-			3 => ("Audio", "Audio"), 
-			4 => ("Mesh", "Mesh"), 
-			5 => ("Script", "Data"), 
-			8 => ("Hat", "Model"), 
-			9 => ("Place", "Model"), 
-			10 => ("Model", "Model"), 
-			11 => ("Shirt", "Image"), 
-			12 => ("Pants", "Image"), 
-			13 => ("Decal", "Image"), 
-			17 => ("Head", "Model"), 
-			18 => ("Face", "Image"), 
-			19 => ("Gear", "Model"), 
-			24 => ("Animation", "Animation"), 
-			27 => ("Torso", "Model"), 
-			32 => ("Package", "Model"), 
-			38 => ("Plugin", "Other"), 
-			39 => ("SolidModel", "Mesh"), 
-			40 => ("MeshPart", "Mesh"), 
-			41 => ("Hair Accessory", "Model"), 
-			42 => ("Face Accessory", "Model"), 
-			43 => ("Neck Accessory", "Model"), 
-			44 => ("Shoulder Accessory", "Model"), 
-			45 => ("Front Accessory", "Model"), 
-			46 => ("Back Accessory", "Model"), 
-			47 => ("Waist Accessory", "Model"), 
-			48 => ("Climb Animation", "Animation"), 
-			50 => ("Fall Animation", "Animation"), 
-			51 => ("Idle Animation", "Animation"), 
-			52 => ("Jump Animation", "Animation"), 
-			53 => ("Run Animation", "Animation"), 
-			54 => ("Swim Animation", "Animation"), 
-			55 => ("Walk Animation", "Animation"), 
-			56 => ("Pose Animation", "Animation"), 
-			61 => ("Emote Animation", "Animation"), 
-			62 => ("Video", "Other"), 
-			_ => ("", ""), 
+			1 => ("Image", "Image"),
+			2 => ("T-Shirt", "Image"),
+			3 => ("Audio", "Audio"),
+			4 => ("Mesh", "Mesh"),
+			5 => ("Script", "Data"),
+			8 => ("Hat", "Model"),
+			9 => ("Place", "Model"),
+			10 => ("Model", "Model"),
+			11 => ("Shirt", "Image"),
+			12 => ("Pants", "Image"),
+			13 => ("Decal", "Image"),
+			17 => ("Head", "Model"),
+			18 => ("Face", "Image"),
+			19 => ("Gear", "Model"),
+			24 => ("Animation", "Animation"),
+			27 => ("Torso", "Model"),
+			32 => ("Package", "Model"),
+			38 => ("Plugin", "Other"),
+			39 => ("SolidModel", "Mesh"),
+			40 => ("MeshPart", "Mesh"),
+			41 => ("Hair Accessory", "Model"),
+			42 => ("Face Accessory", "Model"),
+			43 => ("Neck Accessory", "Model"),
+			44 => ("Shoulder Accessory", "Model"),
+			45 => ("Front Accessory", "Model"),
+			46 => ("Back Accessory", "Model"),
+			47 => ("Waist Accessory", "Model"),
+			48 => ("Climb Animation", "Animation"),
+			50 => ("Fall Animation", "Animation"),
+			51 => ("Idle Animation", "Animation"),
+			52 => ("Jump Animation", "Animation"),
+			53 => ("Run Animation", "Animation"),
+			54 => ("Swim Animation", "Animation"),
+			55 => ("Walk Animation", "Animation"),
+			56 => ("Pose Animation", "Animation"),
+			61 => ("Emote Animation", "Animation"),
+			62 => ("Video", "Other"),
+			_ => ("", ""),
 		};
 	}
 
@@ -1308,14 +1390,16 @@ public static partial class AssetCaptureStore
 		}
 		try
 		{
-			RbxmModelParser.ExtractAssetIds(data, AssetIdPattern(), id =>
-			{
-				AddById(id);
-			});
+			RbxmModelParser.ExtractAssetIds(
+				data,
+				AssetIdPattern(),
+				id =>
+				{
+					AddById(id);
+				}
+			);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	public static void ScanModelReferences(int maxFiles)
@@ -1350,9 +1434,7 @@ public static partial class AssetCaptureStore
 					}
 				}
 			}
-			catch
-			{
-			}
+			catch { }
 		}
 	}
 
@@ -1389,9 +1471,7 @@ public static partial class AssetCaptureStore
 		{
 			_diskLoaded = false;
 		}
-		while (_order.TryDequeue(out _))
-		{
-		}
+		while (_order.TryDequeue(out _)) { }
 		try
 		{
 			if (Directory.Exists(CacheDir))
@@ -1427,14 +1507,18 @@ public static partial class AssetCaptureStore
 		{
 			_diskLoaded = false;
 		}
-		while (_order.TryDequeue(out _))
-		{
-		}
+		while (_order.TryDequeue(out _)) { }
 		try
 		{
-			FileInfo? fileInfo = (Directory.Exists(RobloxLogsDir) ? (from f in new DirectoryInfo(RobloxLogsDir).EnumerateFiles("*_Player_*.log")
-				orderby f.LastWriteTimeUtc descending
-				select f).FirstOrDefault() : null);
+			FileInfo? fileInfo = (
+				Directory.Exists(RobloxLogsDir)
+					? (
+						from f in new DirectoryInfo(RobloxLogsDir).EnumerateFiles("*_Player_*.log")
+						orderby f.LastWriteTimeUtc descending
+						select f
+					).FirstOrDefault()
+					: null
+			);
 			if (fileInfo != null)
 			{
 				_logPath = fileInfo.FullName;
@@ -1452,42 +1536,38 @@ public static partial class AssetCaptureStore
 			_logOffset = 0L;
 		}
 		Task.Run(() =>
-		{
-			try
 			{
-				if (Directory.Exists(CacheDir))
+				try
 				{
-					Directory.Delete(CacheDir, recursive: true);
-				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger?.WriteLine(LOG_IDENT, "The asset cache folder could not be removed: " + ex.Message);
-			}
-			try
-			{
-				if (Directory.Exists(RbxStorageDir))
-				{
-					foreach (FileInfo item in new DirectoryInfo(RbxStorageDir).EnumerateFiles("*", SearchOption.AllDirectories))
+					if (Directory.Exists(CacheDir))
 					{
-						try
-						{
-							item.Delete();
-						}
-						catch
-						{
-						}
+						Directory.Delete(CacheDir, recursive: true);
 					}
-					return;
 				}
-			}
-			catch
+				catch (Exception ex)
+				{
+					App.Logger?.WriteLine(LOG_IDENT, "The asset cache folder could not be removed: " + ex.Message);
+				}
+				try
+				{
+					if (Directory.Exists(RbxStorageDir))
+					{
+						foreach (FileInfo item in new DirectoryInfo(RbxStorageDir).EnumerateFiles("*", SearchOption.AllDirectories))
+						{
+							try
+							{
+								item.Delete();
+							}
+							catch { }
+						}
+						return;
+					}
+				}
+				catch { }
+			})
+			.ContinueWith(_ =>
 			{
-			}
-		}).ContinueWith(_ =>
-		{
-			_suppressScan = false;
-		});
+				_suppressScan = false;
+			});
 	}
-
 }

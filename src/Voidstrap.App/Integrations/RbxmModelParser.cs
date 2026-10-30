@@ -62,16 +62,16 @@ public static class RbxmModelParser
 				}
 				switch (text)
 				{
-				case "INST":
-					HandleInst(array2, classRefs, ref totalInstances);
-					continue;
-				case "PROP":
-					HandleProp(array2, classRefs, builders, Get);
-					continue;
-				default:
-					continue;
-				case "END\0":
-					break;
+					case "INST":
+						HandleInst(array2, classRefs, ref totalInstances);
+						continue;
+					case "PROP":
+						HandleProp(array2, classRefs, builders, Get);
+						continue;
+					default:
+						continue;
+					case "END\0":
+						break;
 				}
 				break;
 			}
@@ -93,9 +93,7 @@ public static class RbxmModelParser
 				return value2;
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 		return list;
 	}
 
@@ -166,9 +164,7 @@ public static class RbxmModelParser
 				}
 			}
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	public static List<(string Path, byte[] Bytecode)> ReadScripts(byte[] data, Func<string, bool> includeName)
@@ -249,7 +245,13 @@ public static class RbxmModelParser
 		}
 	}
 
-	private static void ReadScriptProperty(byte[] p, Dictionary<int, int[]> classRefs, Dictionary<int, string> names, Dictionary<int, byte[]> sources, Func<string, bool> includeName)
+	private static void ReadScriptProperty(
+		byte[] p,
+		Dictionary<int, int[]> classRefs,
+		Dictionary<int, string> names,
+		Dictionary<int, byte[]> sources,
+		Func<string, bool> includeName
+	)
 	{
 		int pos = 0;
 		int classId = (int)ReadU32(p, ref pos);
@@ -365,7 +367,12 @@ public static class RbxmModelParser
 		}
 	}
 
-	private static void HandleProp(byte[] p, Dictionary<int, int[]> classRefs, Dictionary<int, ModelPart> builders, Func<int, ModelPart> get)
+	private static void HandleProp(
+		byte[] p,
+		Dictionary<int, int[]> classRefs,
+		Dictionary<int, ModelPart> builders,
+		Func<int, ModelPart> get
+	)
 	{
 		int pos = 0;
 		int key = (int)ReadU32(p, ref pos);
@@ -523,7 +530,20 @@ public static class RbxmModelParser
 		for (int k = 0; k < n; k++)
 		{
 			double[] array7 = array[k];
-			array6[k] = new RobloxCFrame(array3[k], array4[k], array5[k], array7[0], array7[1], array7[2], array7[3], array7[4], array7[5], array7[6], array7[7], array7[8]);
+			array6[k] = new RobloxCFrame(
+				array3[k],
+				array4[k],
+				array5[k],
+				array7[0],
+				array7[1],
+				array7[2],
+				array7[3],
+				array7[4],
+				array7[5],
+				array7[6],
+				array7[7],
+				array7[8]
+			);
 		}
 		return array6;
 	}

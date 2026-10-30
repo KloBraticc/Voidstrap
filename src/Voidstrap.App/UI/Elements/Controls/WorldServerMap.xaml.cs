@@ -36,13 +36,33 @@ public partial class WorldServerMap : UserControl
 		public Ellipse Ring = null!;
 	}
 
-	public static readonly DependencyProperty DatacentersProperty = DependencyProperty.Register(nameof(Datacenters), typeof(IEnumerable), typeof(WorldServerMap), new PropertyMetadata(null, OnDatacentersChanged));
+	public static readonly DependencyProperty DatacentersProperty = DependencyProperty.Register(
+		nameof(Datacenters),
+		typeof(IEnumerable),
+		typeof(WorldServerMap),
+		new PropertyMetadata(null, OnDatacentersChanged)
+	);
 
-	public static readonly DependencyProperty SelectedKeyProperty = DependencyProperty.Register(nameof(SelectedKey), typeof(string), typeof(WorldServerMap), new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedKeyChanged));
+	public static readonly DependencyProperty SelectedKeyProperty = DependencyProperty.Register(
+		nameof(SelectedKey),
+		typeof(string),
+		typeof(WorldServerMap),
+		new FrameworkPropertyMetadata("", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedKeyChanged)
+	);
 
-	public static readonly DependencyProperty UserLatitudeProperty = DependencyProperty.Register(nameof(UserLatitude), typeof(double), typeof(WorldServerMap), new PropertyMetadata(double.NaN, OnUserLocationChanged));
+	public static readonly DependencyProperty UserLatitudeProperty = DependencyProperty.Register(
+		nameof(UserLatitude),
+		typeof(double),
+		typeof(WorldServerMap),
+		new PropertyMetadata(double.NaN, OnUserLocationChanged)
+	);
 
-	public static readonly DependencyProperty UserLongitudeProperty = DependencyProperty.Register(nameof(UserLongitude), typeof(double), typeof(WorldServerMap), new PropertyMetadata(double.NaN, OnUserLocationChanged));
+	public static readonly DependencyProperty UserLongitudeProperty = DependencyProperty.Register(
+		nameof(UserLongitude),
+		typeof(double),
+		typeof(WorldServerMap),
+		new PropertyMetadata(double.NaN, OnUserLocationChanged)
+	);
 
 	public IEnumerable? Datacenters
 	{
@@ -90,10 +110,17 @@ public partial class WorldServerMap : UserControl
 		BorderPath.Data = _borders;
 		MapLayer.RenderTransform = _view;
 
-
 		_labelText = new TextBlock { FontSize = 12, FontWeight = FontWeights.SemiBold };
 		_labelText.SetResourceReference(TextBlock.ForegroundProperty, "TextOnAccentFillColorPrimaryBrush");
-		_label = new Border { Padding = new Thickness(8, 3, 8, 3), CornerRadius = new CornerRadius(4), BorderThickness = new Thickness(1), IsHitTestVisible = false, Visibility = Visibility.Collapsed, Child = _labelText };
+		_label = new Border
+		{
+			Padding = new Thickness(8, 3, 8, 3),
+			CornerRadius = new CornerRadius(4),
+			BorderThickness = new Thickness(1),
+			IsHitTestVisible = false,
+			Visibility = Visibility.Collapsed,
+			Child = _labelText,
+		};
 		_label.SetResourceReference(Border.BackgroundProperty, "SystemAccentColorPrimaryBrush");
 		_label.SetResourceReference(Border.BorderBrushProperty, "SolidBackgroundFillColorBaseBrush");
 		Panel.SetZIndex(_label, 4);
@@ -214,15 +241,39 @@ public partial class WorldServerMap : UserControl
 
 	private Pin CreatePin(BehaviourViewModel.DatacenterItem item)
 	{
-		Ellipse ring = new Ellipse { Width = RingSize, Height = RingSize, StrokeThickness = 2.0, Fill = Brushes.Transparent, Visibility = Visibility.Collapsed };
+		Ellipse ring = new Ellipse
+		{
+			Width = RingSize,
+			Height = RingSize,
+			StrokeThickness = 2.0,
+			Fill = Brushes.Transparent,
+			Visibility = Visibility.Collapsed,
+		};
 		ring.SetResourceReference(Shape.StrokeProperty, "SystemAccentColorPrimaryBrush");
-		Ellipse dot = new Ellipse { Width = PinSize, Height = PinSize, StrokeThickness = 1.5 };
+		Ellipse dot = new Ellipse
+		{
+			Width = PinSize,
+			Height = PinSize,
+			StrokeThickness = 1.5,
+		};
 		dot.SetResourceReference(Shape.StrokeProperty, "SolidBackgroundFillColorBaseBrush");
-		Grid element = new Grid { Width = RingSize, Height = RingSize, Background = Brushes.Transparent, Cursor = Cursors.Hand };
+		Grid element = new Grid
+		{
+			Width = RingSize,
+			Height = RingSize,
+			Background = Brushes.Transparent,
+			Cursor = Cursors.Hand,
+		};
 		element.Children.Add(ring);
 		element.Children.Add(dot);
 		ToolTipService.SetInitialShowDelay(element, 150);
-		Pin pin = new Pin { Item = item, Element = element, Dot = dot, Ring = ring };
+		Pin pin = new Pin
+		{
+			Item = item,
+			Element = element,
+			Dot = dot,
+			Ring = ring,
+		};
 		element.Tag = pin;
 		element.MouseLeftButtonDown += Pin_MouseLeftButtonDown;
 		item.PropertyChanged += Item_PropertyChanged;
@@ -232,7 +283,8 @@ public partial class WorldServerMap : UserControl
 	private void StylePin(Pin pin)
 	{
 		BehaviourViewModel.DatacenterItem item = pin.Item;
-		string fill = !item.IsAllowed ? "TextFillColorTertiaryBrush"
+		string fill =
+			!item.IsAllowed ? "TextFillColorTertiaryBrush"
 			: item.PingMs < 0 ? "TextFillColorSecondaryBrush"
 			: item.PingMs < 70 ? "SystemFillColorSuccessBrush"
 			: item.PingMs < 140 ? "SystemFillColorCautionBrush"
@@ -248,7 +300,12 @@ public partial class WorldServerMap : UserControl
 		string text = item.Location + "\n" + detail + "\n" + item.ServerIps;
 		if (!item.IsAllowed)
 			text += "\nBlocked in the Datacenters list";
-		pin.Element.ToolTip = new TextBlock { Text = text, TextWrapping = TextWrapping.Wrap, MaxWidth = 340 };
+		pin.Element.ToolTip = new TextBlock
+		{
+			Text = text,
+			TextWrapping = TextWrapping.Wrap,
+			MaxWidth = 340,
+		};
 	}
 
 	private bool IsSelected(BehaviourViewModel.DatacenterItem item)
@@ -264,7 +321,8 @@ public partial class WorldServerMap : UserControl
 	private void UpdateSelectionText()
 	{
 		Pin? pin = SelectedPin();
-		SelectionText.Text = pin == null ? "Click a pin to choose a datacenter" : $"Preferred: {pin.Item.Location} ({pin.Item.PingDisplay})";
+		SelectionText.Text =
+			pin == null ? "Click a pin to choose a datacenter" : $"Preferred: {pin.Item.Location} ({pin.Item.PingDisplay})";
 	}
 
 	private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)

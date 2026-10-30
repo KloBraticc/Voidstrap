@@ -20,9 +20,7 @@ public static class RobloxBadges
 
 	private static readonly HttpClient Client = CreateClient();
 
-	private sealed class AwardedRefusedException : Exception
-	{
-	}
+	private sealed class AwardedRefusedException : Exception { }
 
 	private static readonly TimeSpan BadgeListLifetime = TimeSpan.FromMinutes(30);
 
@@ -30,7 +28,10 @@ public static class RobloxBadges
 
 	private static readonly ConcurrentDictionary<long, (DateTime At, IReadOnlyList<Badge> Badges)> BadgeLists = new();
 
-	private static readonly ConcurrentDictionary<(long User, long Universe), (DateTime At, IReadOnlyDictionary<long, DateTime> Awarded)> AwardedCache = new();
+	private static readonly ConcurrentDictionary<
+		(long User, long Universe),
+		(DateTime At, IReadOnlyDictionary<long, DateTime> Awarded)
+	> AwardedCache = new();
 
 	private static readonly ConcurrentDictionary<long, string> IconCache = new();
 
@@ -123,7 +124,10 @@ public static class RobloxBadges
 		}
 	}
 
-	private static string StoreKey(long userId, long universeId) => userId.ToString(System.Globalization.CultureInfo.InvariantCulture) + ":" + universeId.ToString(System.Globalization.CultureInfo.InvariantCulture);
+	private static string StoreKey(long userId, long universeId) =>
+		userId.ToString(System.Globalization.CultureInfo.InvariantCulture)
+		+ ":"
+		+ universeId.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
 	private static string StorePath => Path.Combine(Paths.Cache, "BadgeProgress.json");
 
@@ -149,7 +153,12 @@ public static class RobloxBadges
 		lock (StoreLock)
 		{
 			Dictionary<string, StoredSummary> store = LoadStore();
-			store[StoreKey(progress.SignedIn ? userId : 0, universeId)] = new StoredSummary { Earned = progress.SignedIn ? progress.Earned : 0, Total = progress.Total, At = DateTime.UtcNow };
+			store[StoreKey(progress.SignedIn ? userId : 0, universeId)] = new StoredSummary
+			{
+				Earned = progress.SignedIn ? progress.Earned : 0,
+				Total = progress.Total,
+				At = DateTime.UtcNow,
+			};
 			if (Environment.TickCount64 - _storeSavedTicks >= 5000)
 				SaveStoreLocked();
 		}
@@ -180,7 +189,12 @@ public static class RobloxBadges
 		}
 	}
 
-	public static async Task<Progress> GetProgressAsync(long universeId, bool refreshAwarded, CancellationToken token, bool foreground = false)
+	public static async Task<Progress> GetProgressAsync(
+		long universeId,
+		bool refreshAwarded,
+		CancellationToken token,
+		bool foreground = false
+	)
 	{
 		if (foreground)
 			Interlocked.Increment(ref _foreground);
@@ -210,12 +224,16 @@ public static class RobloxBadges
 				return new Progress(badges, new Dictionary<long, DateTime>(), false);
 			try
 			{
-				IReadOnlyDictionary<long, DateTime> awarded = await GetAwardedAsync(userId, universeId, badges, token).ConfigureAwait(false);
+				IReadOnlyDictionary<long, DateTime> awarded = await GetAwardedAsync(userId, universeId, badges, token)
+					.ConfigureAwait(false);
 				return new Progress(badges, awarded, true);
 			}
 			catch (AwardedRefusedException)
 			{
-				App.Logger.WriteLine("RobloxBadges", "Roblox refused the earned badge list for universe " + universeId + ", showing the badges without progress");
+				App.Logger.WriteLine(
+					"RobloxBadges",
+					"Roblox refused the earned badge list for universe " + universeId + ", showing the badges without progress"
+				);
 				return new Progress(badges, new Dictionary<long, DateTime>(), false);
 			}
 		}
@@ -238,7 +256,10 @@ public static class RobloxBadges
 		}
 		foreach (long[] chunk in missing.Chunk(100))
 		{
-			string url = "https://thumbnails.roblox.com/v1/badges/icons?badgeIds=" + string.Join(',', chunk) + "&size=150x150&format=Png&isCircular=false";
+			string url =
+				"https://thumbnails.roblox.com/v1/badges/icons?badgeIds="
+				+ string.Join(',', chunk)
+				+ "&size=150x150&format=Png&isCircular=false";
 			using JsonDocument document = JsonDocument.Parse(await GetWithRetryAsync(url, token).ConfigureAwait(false));
 			if (!document.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
 				continue;
@@ -276,7 +297,12 @@ public static class RobloxBadges
 			{
 				foreach (JsonElement item in data.EnumerateArray())
 				{
-					if (!item.TryGetProperty("id", out JsonElement idElement) || !idElement.TryGetInt64(out long id) || id <= 0 || !seen.Add(id))
+					if (
+						!item.TryGetProperty("id", out JsonElement idElement)
+						|| !idElement.TryGetInt64(out long id)
+						|| id <= 0
+						|| !seen.Add(id)
+					)
 						continue;
 					if (item.TryGetProperty("enabled", out JsonElement enabled) && enabled.ValueKind == JsonValueKind.False)
 						continue;
@@ -298,7 +324,10 @@ public static class RobloxBadges
 					badges.Add(new Badge(id, name, description, winRate, awardedCount));
 				}
 			}
-			cursor = root.TryGetProperty("nextPageCursor", out JsonElement next) && next.ValueKind == JsonValueKind.String ? next.GetString() : null;
+			cursor =
+				root.TryGetProperty("nextPageCursor", out JsonElement next) && next.ValueKind == JsonValueKind.String
+					? next.GetString()
+					: null;
 			if (string.IsNullOrEmpty(cursor))
 				break;
 		}
@@ -306,12 +335,19 @@ public static class RobloxBadges
 		return badges;
 	}
 
-	private static async Task<IReadOnlyDictionary<long, DateTime>> GetAwardedAsync(long userId, long universeId, IReadOnlyList<Badge> badges, CancellationToken token)
+	private static async Task<IReadOnlyDictionary<long, DateTime>> GetAwardedAsync(
+		long userId,
+		long universeId,
+		IReadOnlyList<Badge> badges,
+		CancellationToken token
+	)
 	{
 		Dictionary<long, DateTime> awarded = new();
 		foreach (Badge[] chunk in badges.Chunk(100))
 		{
-			string url = $"https://badges.roblox.com/v1/users/{userId}/badges/awarded-dates?badgeIds=" + string.Join(',', chunk.Select(badge => badge.Id));
+			string url =
+				$"https://badges.roblox.com/v1/users/{userId}/badges/awarded-dates?badgeIds="
+				+ string.Join(',', chunk.Select(badge => badge.Id));
 			using JsonDocument document = JsonDocument.Parse(await GetWithRetryAsync(url, token, signedIn: true).ConfigureAwait(false));
 			if (!document.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
 				continue;
@@ -319,7 +355,12 @@ public static class RobloxBadges
 			{
 				if (!item.TryGetProperty("badgeId", out JsonElement idElement) || !idElement.TryGetInt64(out long id))
 					continue;
-				DateTime when = item.TryGetProperty("awardedDate", out JsonElement date) && date.ValueKind == JsonValueKind.String && date.TryGetDateTime(out DateTime parsed) ? parsed.ToUniversalTime() : DateTime.MinValue;
+				DateTime when =
+					item.TryGetProperty("awardedDate", out JsonElement date)
+					&& date.ValueKind == JsonValueKind.String
+					&& date.TryGetDateTime(out DateTime parsed)
+						? parsed.ToUniversalTime()
+						: DateTime.MinValue;
 				awarded[id] = when;
 			}
 		}
@@ -360,7 +401,10 @@ public static class RobloxBadges
 					if (wait > TimeSpan.FromSeconds(90))
 						wait = TimeSpan.FromSeconds(90);
 					Interlocked.Exchange(ref _cooldownUntilTicks, Environment.TickCount64 + (long)wait.TotalMilliseconds);
-					App.Logger.WriteLine("RobloxBadges", "Roblox asked to slow down, waiting " + (int)wait.TotalSeconds + " seconds before asking again");
+					App.Logger.WriteLine(
+						"RobloxBadges",
+						"Roblox asked to slow down, waiting " + (int)wait.TotalSeconds + " seconds before asking again"
+					);
 					continue;
 				}
 				if (status >= 500 && attempt < 3)
@@ -376,18 +420,23 @@ public static class RobloxBadges
 
 	private static HttpClient CreateClient()
 	{
-		HttpClient client = VpnHttpClient.Create(TimeSpan.FromSeconds(20), handler =>
-		{
-			handler.UseCookies = false;
-			handler.AllowAutoRedirect = false;
-			handler.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
-		});
+		HttpClient client = VpnHttpClient.Create(
+			TimeSpan.FromSeconds(20),
+			handler =>
+			{
+				handler.UseCookies = false;
+				handler.AllowAutoRedirect = false;
+				handler.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
+			}
+		);
 		client.DefaultRequestHeaders.UserAgent.ParseAdd("Voidstrap/1.0");
 		return client;
 	}
 
 	private static string ReadString(JsonElement item, string property)
 	{
-		return item.TryGetProperty(property, out JsonElement value) && value.ValueKind == JsonValueKind.String ? (value.GetString() ?? string.Empty).Trim() : string.Empty;
+		return item.TryGetProperty(property, out JsonElement value) && value.ValueKind == JsonValueKind.String
+			? (value.GetString() ?? string.Empty).Trim()
+			: string.Empty;
 	}
 }

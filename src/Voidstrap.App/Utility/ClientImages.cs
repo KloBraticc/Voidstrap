@@ -28,15 +28,24 @@ namespace Voidstrap.Utility
             ["2009E"] = "https://static.wikia.nocookie.net/roblox/images/3/3d/2005_Icon.png/revision/latest?cb=20231105222123",
             ["2009L"] = "https://static.wikia.nocookie.net/roblox/images/3/3d/2005_Icon.png/revision/latest?cb=20231105222123",
             ["2009M"] = "https://static.wikia.nocookie.net/roblox/images/3/3d/2005_Icon.png/revision/latest?cb=20231105222123",
-            ["2010E"] = "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
-            ["2010L"] = "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
-            ["2010M"] = "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
-            ["2011E"] = "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
-            ["2011L"] = "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
-            ["2011M"] = "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
-            ["2012E"] = "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
-            ["2012L"] = "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
-            ["2012M"] = "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
+            ["2010E"] =
+                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
+            ["2010L"] =
+                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
+            ["2010M"] =
+                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
+            ["2011E"] =
+                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
+            ["2011L"] =
+                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
+            ["2011M"] =
+                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
+            ["2012E"] =
+                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
+            ["2012L"] =
+                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
+            ["2012M"] =
+                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
             ["2013E"] = "https://static.wikia.nocookie.net/roblox/images/1/15/2011_Icon.png/revision/latest?cb=20250329002829",
             ["2013L"] = "https://static.wikia.nocookie.net/roblox/images/1/15/2011_Icon.png/revision/latest?cb=20250329002829",
             ["2013M"] = "https://static.wikia.nocookie.net/roblox/images/1/15/2011_Icon.png/revision/latest?cb=20250329002829",
@@ -45,7 +54,9 @@ namespace Voidstrap.Utility
         public const int LowRes = 48;
         public const int FullRes = 256;
 
-        private static readonly Dictionary<string, ImageSource> _cache = new Dictionary<string, ImageSource>(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, ImageSource> _cache = new Dictionary<string, ImageSource>(
+            StringComparer.OrdinalIgnoreCase
+        );
         private static readonly Queue<string> _cacheOrder = new Queue<string>();
         private static readonly ConcurrentDictionary<string, Lazy<Task<ImageSource>>> _inflight = new(StringComparer.OrdinalIgnoreCase);
         private static ImageSource? _defaultImage;
@@ -100,7 +111,10 @@ namespace Voidstrap.Utility
         {
             string uri = GetUri(code);
             string key = uri + "@" + (IsLocal(uri) ? 0 : size);
-            Lazy<Task<ImageSource>> candidate = new(() => Task.Run(() => LoadCached(uri, size)), LazyThreadSafetyMode.ExecutionAndPublication);
+            Lazy<Task<ImageSource>> candidate = new(
+                () => Task.Run(() => LoadCached(uri, size)),
+                LazyThreadSafetyMode.ExecutionAndPublication
+            );
             Lazy<Task<ImageSource>> selected = _inflight.GetOrAdd(key, candidate);
             return AwaitInflightAsync(key, selected);
         }
@@ -113,7 +127,9 @@ namespace Voidstrap.Utility
             }
             finally
             {
-                ((ICollection<KeyValuePair<string, Lazy<Task<ImageSource>>>>)_inflight).Remove(new KeyValuePair<string, Lazy<Task<ImageSource>>>(key, operation));
+                ((ICollection<KeyValuePair<string, Lazy<Task<ImageSource>>>>)_inflight).Remove(
+                    new KeyValuePair<string, Lazy<Task<ImageSource>>>(key, operation)
+                );
             }
         }
 
@@ -126,7 +142,12 @@ namespace Voidstrap.Utility
                     return cached;
             }
             string? embedded = AppImage.EmbeddedAsset(uri);
-            ImageSource? image = (embedded != null ? Load(embedded, 0) : IsLocal(uri) ? Load(uri, 0) : LoadRemote(uri, size)) ?? DefaultImage();
+            ImageSource? image =
+                (
+                    embedded != null ? Load(embedded, 0)
+                    : IsLocal(uri) ? Load(uri, 0)
+                    : LoadRemote(uri, size)
+                ) ?? DefaultImage();
             StoreCached(key, image);
             return image;
         }
@@ -193,9 +214,7 @@ namespace Voidstrap.Utility
                         return image;
                 }
             }
-            catch
-            {
-            }
+            catch { }
             return null;
         }
 
@@ -208,8 +227,14 @@ namespace Voidstrap.Utility
                 if (bytes == null)
                 {
                     using HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, candidate);
-                    using HttpResponseMessage response = App.HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).GetAwaiter().GetResult();
-                    if (!response.IsSuccessStatusCode || response.Content.Headers.ContentLength is long contentLength && contentLength > MaxRemoteImageBytes)
+                    using HttpResponseMessage response = App
+                        .HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                        .GetAwaiter()
+                        .GetResult();
+                    if (
+                        !response.IsSuccessStatusCode
+                        || response.Content.Headers.ContentLength is long contentLength && contentLength > MaxRemoteImageBytes
+                    )
                         return null;
                     using Stream stream = response.Content.ReadAsStream();
                     bytes = ReadBounded(stream);
@@ -245,9 +270,7 @@ namespace Voidstrap.Utility
                         return bytes;
                 }
             }
-            catch
-            {
-            }
+            catch { }
             return null;
         }
 
@@ -285,9 +308,7 @@ namespace Voidstrap.Utility
                         File.Delete(temporary);
                 }
             }
-            catch
-            {
-            }
+            catch { }
         }
     }
 }

@@ -13,7 +13,7 @@ internal static unsafe partial class TaskbarProgress
 		Indeterminate = 1,
 		Normal = 2,
 		Error = 4,
-		Paused = 8
+		Paused = 8,
 	}
 
 	private static readonly Guid TaskbarClassId = new Guid("56fdf344-fd6d-11d0-958a-006097c9a090");
@@ -57,12 +57,12 @@ internal static unsafe partial class TaskbarProgress
 	{
 		return state switch
 		{
-			TaskbarItemProgressState.None => TaskbarStates.NoProgress, 
-			TaskbarItemProgressState.Indeterminate => TaskbarStates.Indeterminate, 
-			TaskbarItemProgressState.Normal => TaskbarStates.Normal, 
-			TaskbarItemProgressState.Error => TaskbarStates.Error, 
-			TaskbarItemProgressState.Paused => TaskbarStates.Paused, 
-			_ => throw new ArgumentOutOfRangeException(nameof(state), state, "Unknown TaskbarItemProgressState"), 
+			TaskbarItemProgressState.None => TaskbarStates.NoProgress,
+			TaskbarItemProgressState.Indeterminate => TaskbarStates.Indeterminate,
+			TaskbarItemProgressState.Normal => TaskbarStates.Normal,
+			TaskbarItemProgressState.Error => TaskbarStates.Error,
+			TaskbarItemProgressState.Paused => TaskbarStates.Paused,
+			_ => throw new ArgumentOutOfRangeException(nameof(state), state, "Unknown TaskbarItemProgressState"),
 		};
 	}
 
@@ -71,7 +71,9 @@ internal static unsafe partial class TaskbarProgress
 		try
 		{
 			nint taskbar = GetTaskbar();
-			Marshal.ThrowExceptionForHR(((delegate* unmanaged[Stdcall]<nint, nint, int, int>)(*(nint**)taskbar)[10])(taskbar, windowHandle, (int)ConvertEnum(state)));
+			Marshal.ThrowExceptionForHR(
+				((delegate* unmanaged[Stdcall]<nint, nint, int, int>)(*(nint**)taskbar)[10])(taskbar, windowHandle, (int)ConvertEnum(state))
+			);
 		}
 		catch (Exception ex) when (ex is not OutOfMemoryException)
 		{
@@ -84,7 +86,14 @@ internal static unsafe partial class TaskbarProgress
 		try
 		{
 			nint taskbar = GetTaskbar();
-			Marshal.ThrowExceptionForHR(((delegate* unmanaged[Stdcall]<nint, nint, ulong, ulong, int>)(*(nint**)taskbar)[9])(taskbar, windowHandle, (ulong)value, (ulong)maximum));
+			Marshal.ThrowExceptionForHR(
+				((delegate* unmanaged[Stdcall]<nint, nint, ulong, ulong, int>)(*(nint**)taskbar)[9])(
+					taskbar,
+					windowHandle,
+					(ulong)value,
+					(ulong)maximum
+				)
+			);
 		}
 		catch (Exception ex) when (ex is not OutOfMemoryException)
 		{

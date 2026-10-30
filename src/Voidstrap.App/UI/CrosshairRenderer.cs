@@ -11,16 +11,46 @@ namespace Voidstrap.UI
 		public const int ShapeCircle = 2;
 		public const int MaxSize = 60;
 
-		public static BitmapSource Render(int dimension, double scale, int shape, string? fillHex, string? outlineHex, int crosshairSize, int crosshairGap, int crosshairThickness, double crosshairOpacity)
+		public static BitmapSource Render(
+			int dimension,
+			double scale,
+			int shape,
+			string? fillHex,
+			string? outlineHex,
+			int crosshairSize,
+			int crosshairGap,
+			int crosshairThickness,
+			double crosshairOpacity
+		)
 		{
 			int width = Math.Max(1, dimension);
-			byte[] pixels = RenderPixels(width, scale, shape, fillHex, outlineHex, crosshairSize, crosshairGap, crosshairThickness, crosshairOpacity);
+			byte[] pixels = RenderPixels(
+				width,
+				scale,
+				shape,
+				fillHex,
+				outlineHex,
+				crosshairSize,
+				crosshairGap,
+				crosshairThickness,
+				crosshairOpacity
+			);
 			BitmapSource bitmap = BitmapSource.Create(width, width, 96.0, 96.0, PixelFormats.Pbgra32, null, pixels, width * 4);
 			bitmap.Freeze();
 			return bitmap;
 		}
 
-		public static byte[] RenderPixels(int dimension, double scale, int shape, string? fillHex, string? outlineHex, int crosshairSize, int crosshairGap, int crosshairThickness, double crosshairOpacity)
+		public static byte[] RenderPixels(
+			int dimension,
+			double scale,
+			int shape,
+			string? fillHex,
+			string? outlineHex,
+			int crosshairSize,
+			int crosshairGap,
+			int crosshairThickness,
+			double crosshairOpacity
+		)
 		{
 			const int samples = 4;
 			const int sampleCount = samples * samples;
@@ -87,18 +117,18 @@ namespace Voidstrap.UI
 			double radius = outline ? thickness / 2.0 + 1.0 : thickness / 2.0;
 			switch (shape)
 			{
-			case ShapeCross:
-				return DistanceToSegment(x, y, -size, 0, -gap, 0) <= radius
-					|| DistanceToSegment(x, y, gap, 0, size, 0) <= radius
-					|| DistanceToSegment(x, y, 0, -size, 0, -gap) <= radius
-					|| DistanceToSegment(x, y, 0, gap, 0, size) <= radius;
-			case ShapeDot:
-				return Math.Sqrt(x * x + y * y) <= size / 3.0 + (outline ? 2.0 : 0.0);
-			case ShapeCircle:
-				double circleRadius = outline ? size / 2.0 : Math.Max(0.0, size / 2.0 - 2.0);
-				return Math.Abs(Math.Sqrt(x * x + y * y) - circleRadius) <= radius;
-			default:
-				return false;
+				case ShapeCross:
+					return DistanceToSegment(x, y, -size, 0, -gap, 0) <= radius
+						|| DistanceToSegment(x, y, gap, 0, size, 0) <= radius
+						|| DistanceToSegment(x, y, 0, -size, 0, -gap) <= radius
+						|| DistanceToSegment(x, y, 0, gap, 0, size) <= radius;
+				case ShapeDot:
+					return Math.Sqrt(x * x + y * y) <= size / 3.0 + (outline ? 2.0 : 0.0);
+				case ShapeCircle:
+					double circleRadius = outline ? size / 2.0 : Math.Max(0.0, size / 2.0 - 2.0);
+					return Math.Abs(Math.Sqrt(x * x + y * y) - circleRadius) <= radius;
+				default:
+					return false;
 			}
 		}
 

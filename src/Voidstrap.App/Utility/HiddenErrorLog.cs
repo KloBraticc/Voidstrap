@@ -145,7 +145,12 @@ internal static class HiddenErrorLog
 		{
 			if (operation == null)
 				return "";
-			System.Reflection.MethodInfo? method = (operation.GetType().GetField("_method", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)?.GetValue(operation) as Delegate)?.Method;
+			System.Reflection.MethodInfo? method = (
+				operation
+					.GetType()
+					.GetField("_method", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+					?.GetValue(operation) as Delegate
+			)?.Method;
 			if (method == null)
 				return " while running " + operation.Priority + " work";
 			return " while running " + (method.DeclaringType?.FullName ?? "?") + "." + method.Name;
@@ -167,9 +172,19 @@ internal static class HiddenErrorLog
 			if (Volatile.Read(ref _probePending) == 1)
 			{
 				long waited = now - Interlocked.Read(ref _probeSentTicks);
-				if (waited >= StuckThreshold && Volatile.Read(ref _freezeReports) < MaxFreezeReports && Interlocked.Exchange(ref _stuckReported, 1) == 0)
+				if (
+					waited >= StuckThreshold
+					&& Volatile.Read(ref _freezeReports) < MaxFreezeReports
+					&& Interlocked.Exchange(ref _stuckReported, 1) == 0
+				)
 				{
-					App.Logger.WriteLine("UiFreeze", "The window has not responded for " + (waited / TimeSpan.TicksPerMillisecond) + " ms and is still frozen" + DescribeCurrentWork());
+					App.Logger.WriteLine(
+						"UiFreeze",
+						"The window has not responded for "
+							+ (waited / TimeSpan.TicksPerMillisecond)
+							+ " ms and is still frozen"
+							+ DescribeCurrentWork()
+					);
 					App.Logger.Flush();
 				}
 				return;
@@ -178,9 +193,7 @@ internal static class HiddenErrorLog
 			Volatile.Write(ref _probePending, 1);
 			dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(OnProbeAnswered));
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static void OnProbeAnswered()
@@ -196,7 +209,14 @@ internal static class HiddenErrorLog
 			Interlocked.Exchange(ref _longestFreezeTicks, waited);
 		if (Interlocked.Increment(ref _freezeReports) > MaxFreezeReports)
 			return;
-		App.Logger.WriteLine("UiFreeze", "The window was frozen for " + (waited / TimeSpan.TicksPerMillisecond) + " ms" + work + (wasStuck ? " and has now recovered" : ""));
+		App.Logger.WriteLine(
+			"UiFreeze",
+			"The window was frozen for "
+				+ (waited / TimeSpan.TicksPerMillisecond)
+				+ " ms"
+				+ work
+				+ (wasStuck ? " and has now recovered" : "")
+		);
 	}
 
 	private static void OnFirstChanceException(object? sender, FirstChanceExceptionEventArgs e)
@@ -217,14 +237,15 @@ internal static class HiddenErrorLog
 			if (Sites.Count > MaxDistinctSites)
 			{
 				if (Interlocked.Exchange(ref _overflowReported, 1) == 0)
-					App.Logger.WriteLine(LOG_IDENT, "Over " + MaxDistinctSites + " different error sites this session, further new sites are counted but not described");
+					App.Logger.WriteLine(
+						LOG_IDENT,
+						"Over " + MaxDistinctSites + " different error sites this session, further new sites are counted but not described"
+					);
 				return;
 			}
 			App.Logger.WriteLine(LOG_IDENT, site + ": " + Trim(ex.Message) + CallerSummary());
 		}
-		catch
-		{
-		}
+		catch { }
 		finally
 		{
 			_inside = false;
@@ -238,15 +259,15 @@ internal static class HiddenErrorLog
 			if (current is System.Net.Sockets.SocketException { SocketErrorCode: System.Net.Sockets.SocketError.OperationAborted })
 				return true;
 		}
-		return ex is System.IO.IOException && ex.Message.Contains("aborted because of either a thread exit or an application request", StringComparison.Ordinal);
+		return ex is System.IO.IOException
+			&& ex.Message.Contains("aborted because of either a thread exit or an application request", StringComparison.Ordinal);
 	}
 
 	private static bool IsKnownInternalProbe(Exception ex)
 	{
 		if (Integrations.Plugins.ModTranspiler.IsProbingJavaScript && ex is Acornima.ParseErrorException)
 			return true;
-		return ex.GetType().Name == "TypeNameParserException"
-			&& ex.TargetSite?.DeclaringType?.Namespace == "MS.Internal.Xaml.Parser";
+		return ex.GetType().Name == "TypeNameParserException" && ex.TargetSite?.DeclaringType?.Namespace == "MS.Internal.Xaml.Parser";
 	}
 
 	private static string DescribeSite(Exception ex)
@@ -269,11 +290,18 @@ internal static class HiddenErrorLog
 		try
 		{
 			StackFrame[] frames = new StackTrace(2, false).GetFrames();
-			string callers = string.Join(" < ", frames
-				.Select(static frame => frame.GetMethod())
-				.Where(static method => method?.DeclaringType?.FullName is string name && name.StartsWith("Voidstrap.", StringComparison.Ordinal) && !name.StartsWith("Voidstrap.Utility.HiddenErrorLog", StringComparison.Ordinal))
-				.Take(3)
-				.Select(static method => method!.DeclaringType!.FullName + "." + method.Name));
+			string callers = string.Join(
+				" < ",
+				frames
+					.Select(static frame => frame.GetMethod())
+					.Where(static method =>
+						method?.DeclaringType?.FullName is string name
+						&& name.StartsWith("Voidstrap.", StringComparison.Ordinal)
+						&& !name.StartsWith("Voidstrap.Utility.HiddenErrorLog", StringComparison.Ordinal)
+					)
+					.Take(3)
+					.Select(static method => method!.DeclaringType!.FullName + "." + method.Name)
+			);
 			return callers.Length == 0 ? "" : " (called from " + callers + ")";
 		}
 		catch
@@ -297,26 +325,44 @@ internal static class HiddenErrorLog
 			int freezes = Math.Min(Volatile.Read(ref _freezeReports), MaxFreezeReports);
 			using (Process process = Process.GetCurrentProcess())
 			{
-				App.Logger.WriteLine(LOG_IDENT, "Session lasted " + (int)(DateTime.UtcNow - SessionStarted).TotalMinutes + " minute(s), peak memory " + (process.PeakWorkingSet64 / (1024 * 1024)) + " MB, garbage collections " + GC.CollectionCount(0) + "/" + GC.CollectionCount(1) + "/" + GC.CollectionCount(2) + ", window freezes over 2 s: " + freezes + (freezes > 0 ? ", longest " + (Interlocked.Read(ref _longestFreezeTicks) / TimeSpan.TicksPerMillisecond) + " ms" : ""));
+				App.Logger.WriteLine(
+					LOG_IDENT,
+					"Session lasted "
+						+ (int)(DateTime.UtcNow - SessionStarted).TotalMinutes
+						+ " minute(s), peak memory "
+						+ (process.PeakWorkingSet64 / (1024 * 1024))
+						+ " MB, garbage collections "
+						+ GC.CollectionCount(0)
+						+ "/"
+						+ GC.CollectionCount(1)
+						+ "/"
+						+ GC.CollectionCount(2)
+						+ ", window freezes over 2 s: "
+						+ freezes
+						+ (
+							freezes > 0
+								? ", longest " + (Interlocked.Read(ref _longestFreezeTicks) / TimeSpan.TicksPerMillisecond) + " ms"
+								: ""
+						)
+				);
 			}
 			long total = Interlocked.Read(ref _total);
 			if (total == 0)
 				return;
-			string top = string.Join("; ", Sites.OrderByDescending(static pair => pair.Value).Take(10).Select(static pair => pair.Value + "x " + pair.Key));
+			string top = string.Join(
+				"; ",
+				Sites.OrderByDescending(static pair => pair.Value).Take(10).Select(static pair => pair.Value + "x " + pair.Key)
+			);
 			App.Logger.WriteLine(LOG_IDENT, total + " handled error(s) at " + Sites.Count + " site(s) this session, most frequent: " + top);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private sealed class DiagnosticListener(string category, bool onlyEvents) : TraceListener
 	{
 		private static readonly ConcurrentDictionary<string, byte> Seen = new(StringComparer.Ordinal);
 
-		public override void Write(string? message)
-		{
-		}
+		public override void Write(string? message) { }
 
 		public override void WriteLine(string? message)
 		{
@@ -330,7 +376,14 @@ internal static class HiddenErrorLog
 				Record(message);
 		}
 
-		public override void TraceEvent(TraceEventCache? eventCache, string source, TraceEventType eventType, int id, string? format, params object?[]? args)
+		public override void TraceEvent(
+			TraceEventCache? eventCache,
+			string source,
+			TraceEventType eventType,
+			int id,
+			string? format,
+			params object?[]? args
+		)
 		{
 			if (eventType is not (TraceEventType.Critical or TraceEventType.Error or TraceEventType.Warning) || format == null)
 				return;
@@ -357,9 +410,7 @@ internal static class HiddenErrorLog
 				if (Seen.Count < MaxDistinctSites && Seen.TryAdd(category + text, 0))
 					App.Logger.WriteLine(category, text);
 			}
-			catch
-			{
-			}
+			catch { }
 			finally
 			{
 				_inside = false;

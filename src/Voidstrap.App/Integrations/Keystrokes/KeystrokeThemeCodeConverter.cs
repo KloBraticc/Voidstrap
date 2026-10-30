@@ -13,36 +13,39 @@ public enum ThemeCodeLanguage
     Json,
     CSharp,
     HtmlCss,
-    Rust
+    Rust,
 }
 
 public static class KeystrokeThemeCodeConverter
 {
     private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true };
 
-    public static string GetExtension(ThemeCodeLanguage language) => language switch
-    {
-        ThemeCodeLanguage.CSharp => ".cs",
-        ThemeCodeLanguage.HtmlCss => ".html",
-        ThemeCodeLanguage.Rust => ".rs",
-        _ => ".json"
-    };
+    public static string GetExtension(ThemeCodeLanguage language) =>
+        language switch
+        {
+            ThemeCodeLanguage.CSharp => ".cs",
+            ThemeCodeLanguage.HtmlCss => ".html",
+            ThemeCodeLanguage.Rust => ".rs",
+            _ => ".json",
+        };
 
-    public static string GetDisplayName(ThemeCodeLanguage language) => language switch
-    {
-        ThemeCodeLanguage.CSharp => "C# (.cs)",
-        ThemeCodeLanguage.HtmlCss => "HTML / CSS (.html)",
-        ThemeCodeLanguage.Rust => "Rust (.rs)",
-        _ => "JSON (.json)"
-    };
+    public static string GetDisplayName(ThemeCodeLanguage language) =>
+        language switch
+        {
+            ThemeCodeLanguage.CSharp => "C# (.cs)",
+            ThemeCodeLanguage.HtmlCss => "HTML / CSS (.html)",
+            ThemeCodeLanguage.Rust => "Rust (.rs)",
+            _ => "JSON (.json)",
+        };
 
-    public static string GenerateCode(KeystrokeTheme theme, ThemeCodeLanguage language) => language switch
-    {
-        ThemeCodeLanguage.CSharp => GenerateCSharp(theme),
-        ThemeCodeLanguage.HtmlCss => GenerateHtml(theme),
-        ThemeCodeLanguage.Rust => GenerateRust(theme),
-        _ => GenerateJson(theme)
-    };
+    public static string GenerateCode(KeystrokeTheme theme, ThemeCodeLanguage language) =>
+        language switch
+        {
+            ThemeCodeLanguage.CSharp => GenerateCSharp(theme),
+            ThemeCodeLanguage.HtmlCss => GenerateHtml(theme),
+            ThemeCodeLanguage.Rust => GenerateRust(theme),
+            _ => GenerateJson(theme),
+        };
 
     public static bool TryParseCode(string code, ThemeCodeLanguage language, KeystrokeTheme target, out string? errorMessage)
     {
@@ -60,7 +63,7 @@ public static class KeystrokeThemeCodeConverter
                 ThemeCodeLanguage.CSharp => TryParseCSharp(code, target, out errorMessage),
                 ThemeCodeLanguage.HtmlCss => TryParseHtml(code, target, out errorMessage),
                 ThemeCodeLanguage.Rust => TryParseRust(code, target, out errorMessage),
-                _ => TryParseJson(code, target, out errorMessage)
+                _ => TryParseJson(code, target, out errorMessage),
             };
         }
         catch (Exception ex)
@@ -249,7 +252,11 @@ public static class KeystrokeThemeCodeConverter
         if (circleSize.HasValue)
             target.MouseCircleSize = circleSize.Value;
 
-        var layoutMatch = Regex.Match(code, @"(?:theme\.)?LayoutRows\s*=\s*new\s*(?:List<List<string>>)?\s*\{([^;]+)\}", RegexOptions.Singleline);
+        var layoutMatch = Regex.Match(
+            code,
+            @"(?:theme\.)?LayoutRows\s*=\s*new\s*(?:List<List<string>>)?\s*\{([^;]+)\}",
+            RegexOptions.Singleline
+        );
         if (layoutMatch.Success)
         {
             var rMatches = Regex.Matches(layoutMatch.Groups[1].Value, @"new\s*(?:\(\)|List<string>\(\))\s*\{([^}]+)\}");
@@ -268,13 +275,18 @@ public static class KeystrokeThemeCodeConverter
             }
         }
 
-        var addKeyMatches = Regex.Matches(code, @"(?:AddKey|AddKeycap)\s*\(\s*(?:theme\s*,\s*)?""([^""]+)""\s*,\s*([0-9.]+)\s*,\s*([0-9.]+)\s*,\s*([0-9.]+)");
+        var addKeyMatches = Regex.Matches(
+            code,
+            @"(?:AddKey|AddKeycap)\s*\(\s*(?:theme\s*,\s*)?""([^""]+)""\s*,\s*([0-9.]+)\s*,\s*([0-9.]+)\s*,\s*([0-9.]+)"
+        );
         foreach (Match match in addKeyMatches)
         {
             string keyName = match.Groups[1].Value;
-            if (double.TryParse(match.Groups[2].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out double w) &&
-                double.TryParse(match.Groups[3].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out double h) &&
-                double.TryParse(match.Groups[4].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out double r))
+            if (
+                double.TryParse(match.Groups[2].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out double w)
+                && double.TryParse(match.Groups[3].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out double h)
+                && double.TryParse(match.Groups[4].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out double r)
+            )
             {
                 var cap = target.GetOrCreateKeycap(keyName);
                 cap.Width = w;
@@ -283,7 +295,11 @@ public static class KeystrokeThemeCodeConverter
             }
         }
 
-        var keycapMatches = Regex.Matches(code, @"theme\.Keycaps\[""([^""]+)""\]\s*=\s*new\s*(?:KeycapConfig)?\s*\{([^}]+)\}", RegexOptions.Singleline);
+        var keycapMatches = Regex.Matches(
+            code,
+            @"theme\.Keycaps\[""([^""]+)""\]\s*=\s*new\s*(?:KeycapConfig)?\s*\{([^}]+)\}",
+            RegexOptions.Singleline
+        );
         foreach (Match match in keycapMatches)
         {
             string keyName = match.Groups[1].Value;
@@ -373,7 +389,9 @@ public static class KeystrokeThemeCodeConverter
         sb.AppendLine("      inset: -1px;");
         sb.AppendLine("      border-radius: inherit;");
         sb.AppendLine("      padding: 1px;");
-        sb.AppendLine("      background: conic-gradient(from var(--border-angle), var(--key-pressed-bg, #38bdf8), #38bdf8, var(--key-border-color, #38bdf8), var(--key-pressed-bg, #38bdf8));");
+        sb.AppendLine(
+            "      background: conic-gradient(from var(--border-angle), var(--key-pressed-bg, #38bdf8), #38bdf8, var(--key-border-color, #38bdf8), var(--key-pressed-bg, #38bdf8));"
+        );
         sb.AppendLine("      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);");
         sb.AppendLine("      -webkit-mask-composite: xor;");
         sb.AppendLine("      mask-composite: exclude;");
@@ -596,7 +614,9 @@ public static class KeystrokeThemeCodeConverter
                         label = cap.Text;
                     hide = cap.HideText;
                 }
-                sb.AppendLine($"        <div class=\"keycap\" data-key=\"{key}\" data-label=\"{EscapeHtml(label)}\" data-hide-label=\"{hide.ToString().ToLowerInvariant()}\">{EscapeHtml(hide ? string.Empty : label)}</div>");
+                sb.AppendLine(
+                    $"        <div class=\"keycap\" data-key=\"{key}\" data-label=\"{EscapeHtml(label)}\" data-hide-label=\"{hide.ToString().ToLowerInvariant()}\">{EscapeHtml(hide ? string.Empty : label)}</div>"
+                );
             }
             sb.AppendLine("      </div>");
         }
@@ -684,7 +704,11 @@ public static class KeystrokeThemeCodeConverter
         if (pressBgImg != null)
             target.KeyPressedBackgroundImage = pressBgImg;
 
-        if (code.Contains("class=\"mouse-circle\"") || code.Contains("class='mouse-circle'") || string.Equals(MatchCssVariable(code, "--show-mouse-circle")?.Trim(), "true", StringComparison.OrdinalIgnoreCase))
+        if (
+            code.Contains("class=\"mouse-circle\"")
+            || code.Contains("class='mouse-circle'")
+            || string.Equals(MatchCssVariable(code, "--show-mouse-circle")?.Trim(), "true", StringComparison.OrdinalIgnoreCase)
+        )
             target.ShowMouseCircle = true;
 
         double? mouseSize = MatchCssPixel(code, "--mouse-circle-size");
@@ -733,7 +757,11 @@ public static class KeystrokeThemeCodeConverter
                 cap.Image = img;
         }
 
-        var pressedBlocks = Regex.Matches(code, @"\.keycap\[data-key=[""']?([^""'\]]+)[""']?\]\.pressed\s*\{([^}]+)\}", RegexOptions.Singleline);
+        var pressedBlocks = Regex.Matches(
+            code,
+            @"\.keycap\[data-key=[""']?([^""'\]]+)[""']?\]\.pressed\s*\{([^}]+)\}",
+            RegexOptions.Singleline
+        );
         foreach (Match match in pressedBlocks)
         {
             string keyName = match.Groups[1].Value;
@@ -968,8 +996,14 @@ public static class KeystrokeThemeCodeConverter
         target.KeyBackgroundImage = source.KeyBackgroundImage;
         target.KeyPressedBackgroundImage = source.KeyPressedBackgroundImage;
         target.OverlayBackgroundImage = source.OverlayBackgroundImage;
-        target.KeyImages = source.KeyImages != null ? new Dictionary<string, string>(source.KeyImages, StringComparer.OrdinalIgnoreCase) : new(StringComparer.OrdinalIgnoreCase);
-        target.KeyPressedImages = source.KeyPressedImages != null ? new Dictionary<string, string>(source.KeyPressedImages, StringComparer.OrdinalIgnoreCase) : new(StringComparer.OrdinalIgnoreCase);
+        target.KeyImages =
+            source.KeyImages != null
+                ? new Dictionary<string, string>(source.KeyImages, StringComparer.OrdinalIgnoreCase)
+                : new(StringComparer.OrdinalIgnoreCase);
+        target.KeyPressedImages =
+            source.KeyPressedImages != null
+                ? new Dictionary<string, string>(source.KeyPressedImages, StringComparer.OrdinalIgnoreCase)
+                : new(StringComparer.OrdinalIgnoreCase);
         target.KeyImageStretch = source.KeyImageStretch;
         target.KeyImageOpacity = source.KeyImageOpacity;
         target.ShowMouseCircle = source.ShowMouseCircle;
@@ -994,15 +1028,18 @@ public static class KeystrokeThemeCodeConverter
 
     private static string EscapeString(string? val) => (val ?? string.Empty).Replace("\"", "\\\"");
 
-    private static string EscapeHtml(string? val) => (val ?? string.Empty).Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;");
+    private static string EscapeHtml(string? val) =>
+        (val ?? string.Empty).Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;");
 
     private static string FormatCsStringOrNull(string? val) => string.IsNullOrWhiteSpace(val) ? "null" : $"\"{EscapeString(val)}\"";
 
-    private static string FormatCsDoubleOrNull(double? val) => val.HasValue ? val.Value.ToString("0.0", CultureInfo.InvariantCulture) : "null";
+    private static string FormatCsDoubleOrNull(double? val) =>
+        val.HasValue ? val.Value.ToString("0.0", CultureInfo.InvariantCulture) : "null";
 
     private static string FormatRustOptionString(string? val) => string.IsNullOrWhiteSpace(val) ? "None" : $"Some(\"{EscapeString(val)}\")";
 
-    private static string FormatRustOptionDouble(double? val) => val.HasValue ? $"Some({val.Value.ToString("0.0", CultureInfo.InvariantCulture)})" : "None";
+    private static string FormatRustOptionDouble(double? val) =>
+        val.HasValue ? $"Some({val.Value.ToString("0.0", CultureInfo.InvariantCulture)})" : "None";
 
     private static string? MatchGroup(string input, string pattern)
     {

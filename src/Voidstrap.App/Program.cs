@@ -38,7 +38,17 @@ public static class Program
 			}
 			catch
 			{
-				System.IO.File.AppendAllText(System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Voidstrap.startup.crash.log"), DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " App construction: " + ex.GetType().Name + " - " + ex.Message + Environment.NewLine + ex.StackTrace + Environment.NewLine);
+				System.IO.File.AppendAllText(
+					System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Voidstrap.startup.crash.log"),
+					DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+						+ " App construction: "
+						+ ex.GetType().Name
+						+ " - "
+						+ ex.Message
+						+ Environment.NewLine
+						+ ex.StackTrace
+						+ Environment.NewLine
+				);
 			}
 			throw;
 		}
@@ -58,7 +68,10 @@ public static class Program
 			App.Logger.Flush();
 			throw;
 		}
-		App.Logger.WriteLine("Program::Main", "App shut down, total elapsed " + (int)Stopwatch.GetElapsedTime(startupStart).TotalMilliseconds + " ms");
+		App.Logger.WriteLine(
+			"Program::Main",
+			"App shut down, total elapsed " + (int)Stopwatch.GetElapsedTime(startupStart).TotalMilliseconds + " ms"
+		);
 		App.Logger.Flush();
 		Environment.Exit(exitCode);
 	}

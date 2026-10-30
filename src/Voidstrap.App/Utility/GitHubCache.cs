@@ -14,13 +14,18 @@ internal static class GitHubCache
 	{
 		PropertyNameCaseInsensitive = true,
 		AllowTrailingCommas = true,
-		ReadCommentHandling = JsonCommentHandling.Skip
+		ReadCommentHandling = JsonCommentHandling.Skip,
 	};
 
 	private static readonly SemaphoreSlim WriteLock = new SemaphoreSlim(1, 1);
 	private const long MaxCacheBytes = 8L * 1024L * 1024L;
 
-	public static async Task<string?> GetStringAsync(string url, TimeSpan maxAge, bool useStaleOnFailure = true, CancellationToken token = default(CancellationToken))
+	public static async Task<string?> GetStringAsync(
+		string url,
+		TimeSpan maxAge,
+		bool useStaleOnFailure = true,
+		CancellationToken token = default(CancellationToken)
+	)
 	{
 		string dir = Path.Combine(Paths.Cache, "GitHub");
 		string file = Path.Combine(dir, Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(url))) + ".json");
@@ -92,7 +97,8 @@ internal static class GitHubCache
 		}
 	}
 
-	public static async Task<T?> GetJsonAsync<T>(string url, TimeSpan maxAge, CancellationToken token = default(CancellationToken)) where T : class
+	public static async Task<T?> GetJsonAsync<T>(string url, TimeSpan maxAge, CancellationToken token = default(CancellationToken))
+		where T : class
 	{
 		string? json = await GetStringAsync(url, maxAge, token: token).ConfigureAwait(continueOnCapturedContext: false);
 		if (string.IsNullOrEmpty(json))
@@ -114,9 +120,15 @@ internal static class GitHubCache
 
 	public static bool PrimaryRepositoryReachable => Volatile.Read(ref _primaryReachable) == 1;
 
-	public static string PreferredRepository => PrimaryRepositoryReachable ? "https://github.com/KloBraticc/Voidstrap" : App.ProjectFallbackRepository;
+	public static string PreferredRepository =>
+		PrimaryRepositoryReachable ? "https://github.com/KloBraticc/Voidstrap" : App.ProjectFallbackRepository;
 
-	public static async Task<string?> GetStringWithFallbackAsync(string primaryUrl, string fallbackUrl, TimeSpan maxAge, CancellationToken token = default)
+	public static async Task<string?> GetStringWithFallbackAsync(
+		string primaryUrl,
+		string fallbackUrl,
+		TimeSpan maxAge,
+		CancellationToken token = default
+	)
 	{
 		string? value = await GetStringAsync(primaryUrl, maxAge, false, token).ConfigureAwait(false);
 		if (!string.IsNullOrEmpty(value))
@@ -129,7 +141,13 @@ internal static class GitHubCache
 		return await GetStringAsync(fallbackUrl, maxAge, token: token).ConfigureAwait(false);
 	}
 
-	public static async Task<T?> GetJsonWithFallbackAsync<T>(string primaryUrl, string fallbackUrl, TimeSpan maxAge, CancellationToken token = default) where T : class
+	public static async Task<T?> GetJsonWithFallbackAsync<T>(
+		string primaryUrl,
+		string fallbackUrl,
+		TimeSpan maxAge,
+		CancellationToken token = default
+	)
+		where T : class
 	{
 		string? json = await GetStringWithFallbackAsync(primaryUrl, fallbackUrl, maxAge, token).ConfigureAwait(false);
 		if (string.IsNullOrEmpty(json))

@@ -18,7 +18,8 @@ namespace Voidstrap.Integrations.MotionBlur
 
         public static int CustomAmount => Math.Clamp(App.Settings.Prop.MotionBlurCustomAmount, MinCustomAmount, MaxCustomAmount);
 
-        public static int AmountFor(int strengthIndex) => strengthIndex == CustomIndex ? CustomAmount : PresetAmount[Math.Clamp(strengthIndex, 0, PresetAmount.Length - 1)];
+        public static int AmountFor(int strengthIndex) =>
+            strengthIndex == CustomIndex ? CustomAmount : PresetAmount[Math.Clamp(strengthIndex, 0, PresetAmount.Length - 1)];
 
         public static float ShutterFor(int strengthIndex) => AmountFor(strengthIndex) * 0.006f;
 

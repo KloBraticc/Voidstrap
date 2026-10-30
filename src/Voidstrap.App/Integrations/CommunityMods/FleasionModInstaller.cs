@@ -17,10 +17,13 @@ internal static class FleasionModInstaller
 {
 	public const string ResultPrefix = "fleasion:";
 
-
 	private const long MaxConfigBytes = 4L * 1024 * 1024;
 
-	private static readonly Regex DescribedAssetId = new Regex(@"\bids?\b[^\d<>]{0,40}?(?<id>\d{6,19})\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1));
+	private static readonly Regex DescribedAssetId = new Regex(
+		@"\bids?\b[^\d<>]{0,40}?(?<id>\d{6,19})\b",
+		RegexOptions.IgnoreCase | RegexOptions.CultureInvariant,
+		TimeSpan.FromSeconds(1)
+	);
 
 	private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions { WriteIndented = true };
 
@@ -34,8 +37,12 @@ internal static class FleasionModInstaller
 
 	public static bool LooksRequired(CommunityModEntry entry)
 	{
-		if (entry.Files.Any(file => string.Equals(Path.GetExtension(file.FileName), ".json", StringComparison.OrdinalIgnoreCase)
-			&& !CommunityModGuard.IsFlagFileName(file.FileName)))
+		if (
+			entry.Files.Any(file =>
+				string.Equals(Path.GetExtension(file.FileName), ".json", StringComparison.OrdinalIgnoreCase)
+				&& !CommunityModGuard.IsFlagFileName(file.FileName)
+			)
+		)
 		{
 			return true;
 		}
@@ -49,14 +56,24 @@ internal static class FleasionModInstaller
 		{
 			if (string.Equals(extension, ".json", StringComparison.OrdinalIgnoreCase))
 			{
-				await using FileStream stream = new FileStream(packagePath, FileMode.Open, FileAccess.Read, FileShare.Read, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);
+				await using FileStream stream = new FileStream(
+					packagePath,
+					FileMode.Open,
+					FileAccess.Read,
+					FileShare.Read,
+					81920,
+					FileOptions.Asynchronous | FileOptions.SequentialScan
+				);
 				return await ReadConfigAsync(stream, token).ConfigureAwait(false) != null;
 			}
 			using ZipArchive archive = ZipFile.OpenRead(packagePath);
 			foreach (ZipArchiveEntry entry in archive.Entries)
 			{
 				token.ThrowIfCancellationRequested();
-				if (!string.Equals(Path.GetExtension(entry.Name), ".json", StringComparison.OrdinalIgnoreCase) || entry.Length > MaxConfigBytes)
+				if (
+					!string.Equals(Path.GetExtension(entry.Name), ".json", StringComparison.OrdinalIgnoreCase)
+					|| entry.Length > MaxConfigBytes
+				)
 				{
 					continue;
 				}
@@ -78,7 +95,13 @@ internal static class FleasionModInstaller
 		}
 	}
 
-	public static async Task<string?> TryInstallAsync(CommunityModEntry entry, CommunityModFile file, string packagePath, CancellationToken token, string? packageExtension = null)
+	public static async Task<string?> TryInstallAsync(
+		CommunityModEntry entry,
+		CommunityModFile file,
+		string packagePath,
+		CancellationToken token,
+		string? packageExtension = null
+	)
 	{
 		string extension = packageExtension ?? Path.GetExtension(file.FileName);
 		string suffix = ConfigSuffix(entry, file);
@@ -101,15 +124,26 @@ internal static class FleasionModInstaller
 
 	private static string ConfigSuffix(CommunityModEntry entry, CommunityModFile file)
 	{
-		return entry.Files.Count(CommunityModGuard.IsInstallableFile) > 1
-			? Path.GetFileNameWithoutExtension(file.FileName)
-			: "";
+		return entry.Files.Count(CommunityModGuard.IsInstallableFile) > 1 ? Path.GetFileNameWithoutExtension(file.FileName) : "";
 	}
 
-	private static async Task<IReadOnlyList<string>> InstallJsonAsync(CommunityModEntry entry, string packagePath, string suffix, CancellationToken token)
+	private static async Task<IReadOnlyList<string>> InstallJsonAsync(
+		CommunityModEntry entry,
+		string packagePath,
+		string suffix,
+		CancellationToken token
+	)
 	{
-		await using FileStream stream = new FileStream(packagePath, FileMode.Open, FileAccess.Read, FileShare.Read, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);
-		JsonObject config = await ReadConfigAsync(stream, token).ConfigureAwait(false)
+		await using FileStream stream = new FileStream(
+			packagePath,
+			FileMode.Open,
+			FileAccess.Read,
+			FileShare.Read,
+			81920,
+			FileOptions.Asynchronous | FileOptions.SequentialScan
+		);
+		JsonObject config =
+			await ReadConfigAsync(stream, token).ConfigureAwait(false)
 			?? throw new InvalidDataException("The JSON file is not a " + ReplacementLabel + " config.");
 		RewriteLocalPaths(config, Array.Empty<string>(), "", new HashSet<string>(StringComparer.OrdinalIgnoreCase));
 		string name = BuildConfigName(entry, suffix);
@@ -117,7 +151,12 @@ internal static class FleasionModInstaller
 		return new[] { name };
 	}
 
-	private static async Task<IReadOnlyList<string>?> InstallArchiveAsync(CommunityModEntry entry, string packagePath, string suffix, CancellationToken token)
+	private static async Task<IReadOnlyList<string>?> InstallArchiveAsync(
+		CommunityModEntry entry,
+		string packagePath,
+		string suffix,
+		CancellationToken token
+	)
 	{
 		using ZipArchive archive = ZipFile.OpenRead(packagePath);
 		InspectArchive(archive, token);
@@ -125,7 +164,10 @@ internal static class FleasionModInstaller
 		foreach (ZipArchiveEntry zipEntry in archive.Entries)
 		{
 			token.ThrowIfCancellationRequested();
-			if (!string.Equals(Path.GetExtension(zipEntry.Name), ".json", StringComparison.OrdinalIgnoreCase) || zipEntry.Length > MaxConfigBytes)
+			if (
+				!string.Equals(Path.GetExtension(zipEntry.Name), ".json", StringComparison.OrdinalIgnoreCase)
+				|| zipEntry.Length > MaxConfigBytes
+			)
 			{
 				continue;
 			}
@@ -136,20 +178,24 @@ internal static class FleasionModInstaller
 				continue;
 			}
 			string root = GetDirectory(zipEntry.FullName);
-			Dictionary<string, ZipArchiveEntry> assets = archive.Entries
-				.Where(candidate => !string.IsNullOrEmpty(candidate.Name) && candidate != zipEntry)
+			Dictionary<string, ZipArchiveEntry> assets = archive
+				.Entries.Where(candidate => !string.IsNullOrEmpty(candidate.Name) && candidate != zipEntry)
 				.Select(candidate => (Entry: candidate, Relative: RelativeTo(candidate.FullName, root)))
 				.Where(candidate => candidate.Relative != null)
 				.ToDictionary(candidate => candidate.Relative!, candidate => candidate.Entry, StringComparer.OrdinalIgnoreCase);
-			string name = BuildConfigName(entry, configs.Count == 0
-				? suffix
-				: (suffix.Length > 0 ? suffix + " " : "") + Path.GetFileNameWithoutExtension(zipEntry.Name));
+			string name = BuildConfigName(
+				entry,
+				configs.Count == 0 ? suffix : (suffix.Length > 0 ? suffix + " " : "") + Path.GetFileNameWithoutExtension(zipEntry.Name)
+			);
 			string assetRoot = "Voidstrap Mods/" + SafeName(entry.Name) + " " + entry.Id;
 			HashSet<string> used = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 			int wired = AutoWireRules(config["replacement_rules"] as JsonArray, assets.Keys.ToArray());
 			if (wired > 0)
 			{
-				App.Logger?.WriteLine("FleasionModInstaller", "Matched " + wired + " unfinished replacement rules in " + entry.Name + " to their asset files");
+				App.Logger?.WriteLine(
+					"FleasionModInstaller",
+					"Matched " + wired + " unfinished replacement rules in " + entry.Name + " to their asset files"
+				);
 			}
 			RewriteLocalPaths(config, assets.Keys, assetRoot, used);
 			configs.Add(new PreparedConfig(name, config, assets, used, assetRoot));
@@ -169,7 +215,14 @@ internal static class FleasionModInstaller
 				string destination = GetContainedPath(configsFolder, config.AssetRoot + "/" + relative);
 				Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
 				await using Stream input = source.Open();
-				await using FileStream output = new FileStream(destination, FileMode.Create, FileAccess.Write, FileShare.None, 81920, FileOptions.Asynchronous);
+				await using FileStream output = new FileStream(
+					destination,
+					FileMode.Create,
+					FileAccess.Write,
+					FileShare.None,
+					81920,
+					FileOptions.Asynchronous
+				);
 				await input.CopyToAsync(output, token).ConfigureAwait(false);
 			}
 			await WriteConfigAsync(config.Name, config.Json, configsFolder, token).ConfigureAwait(false);
@@ -209,7 +262,11 @@ internal static class FleasionModInstaller
 			&& CommunityModGuard.IsInstallableAsset(entry.Name);
 	}
 
-	private static async Task<IReadOnlyList<string>?> InstallAssetsAsync(CommunityModEntry entry, string packagePath, CancellationToken token)
+	private static async Task<IReadOnlyList<string>?> InstallAssetsAsync(
+		CommunityModEntry entry,
+		string packagePath,
+		CancellationToken token
+	)
 	{
 		using ZipArchive archive = ZipFile.OpenRead(packagePath);
 		InspectArchive(archive, token);
@@ -227,7 +284,14 @@ internal static class FleasionModInstaller
 			string destination = GetContainedPath(configsFolder, assetRoot + "/" + relative);
 			Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
 			await using Stream input = asset.Open();
-			await using FileStream output = new FileStream(destination, FileMode.Create, FileAccess.Write, FileShare.None, 81920, FileOptions.Asynchronous);
+			await using FileStream output = new FileStream(
+				destination,
+				FileMode.Create,
+				FileAccess.Write,
+				FileShare.None,
+				81920,
+				FileOptions.Asynchronous
+			);
 			await input.CopyToAsync(output, token).ConfigureAwait(false);
 		}
 		App.Logger?.WriteLine("FleasionModInstaller", "Placed " + assets.Length + " asset files for " + entry.Name + " under " + assetRoot);
@@ -247,13 +311,16 @@ internal static class FleasionModInstaller
 					["replace_ids"] = new JsonArray(long.Parse(describedIds[0], System.Globalization.CultureInfo.InvariantCulture)),
 					["mode"] = "local",
 					["enabled"] = true,
-					["local_path"] = "/" + relativePath
-				}
-			}
+					["local_path"] = "/" + relativePath,
+				},
+			},
 		};
 		string name = BuildConfigName(entry, "");
 		await WriteConfigAsync(name, config, configsFolder, token).ConfigureAwait(false);
-		App.Logger?.WriteLine("FleasionModInstaller", "Wired " + assets[0].Name + " to asset " + describedIds[0] + " from the description of " + entry.Name);
+		App.Logger?.WriteLine(
+			"FleasionModInstaller",
+			"Wired " + assets[0].Name + " to asset " + describedIds[0] + " from the description of " + entry.Name
+		);
 		return new[] { name };
 	}
 
@@ -264,7 +331,8 @@ internal static class FleasionModInstaller
 		{
 			return Array.Empty<string>();
 		}
-		return Regex.Matches(text, @"(?<![\d.])\d{6,19}(?![\d.])", RegexOptions.None, TimeSpan.FromSeconds(1))
+		return Regex
+			.Matches(text, @"(?<![\d.])\d{6,19}(?![\d.])", RegexOptions.None, TimeSpan.FromSeconds(1))
 			.Select(match => match.Value)
 			.Where(id => long.TryParse(id, out long value) && value > 0)
 			.Distinct(StringComparer.Ordinal)
@@ -298,7 +366,11 @@ internal static class FleasionModInstaller
 				throw new InvalidDataException("The " + PackageLabel + " package expands beyond the allowed size.");
 			}
 		}
-		if (compressed > 0 && extracted > CommunityModGuard.ZipBombFloorBytes && extracted / compressed > CommunityModGuard.MaxCompressionRatio)
+		if (
+			compressed > 0
+			&& extracted > CommunityModGuard.ZipBombFloorBytes
+			&& extracted / compressed > CommunityModGuard.MaxCompressionRatio
+		)
 		{
 			throw new InvalidDataException("The " + PackageLabel + " package expands far beyond its download size.");
 		}
@@ -341,7 +413,10 @@ internal static class FleasionModInstaller
 			{
 				wired += AutoWireRules(children, availableAssets);
 			}
-			if (rule["local_path"] == null && MatchAssetById(ReadText(rule["mode"], "id"), rule["with_id"] ?? rule["replace_with"], candidates) is string bundled)
+			if (
+				rule["local_path"] == null
+				&& MatchAssetById(ReadText(rule["mode"], "id"), rule["with_id"] ?? rule["replace_with"], candidates) is string bundled
+			)
 			{
 				rule.Remove("with_id");
 				rule.Remove("replace_with");
@@ -355,7 +430,10 @@ internal static class FleasionModInstaller
 				continue;
 			}
 			string mode = ReadText(rule["mode"], "id");
-			if (!string.Equals(mode, "id", StringComparison.OrdinalIgnoreCase) && !string.Equals(mode, "local", StringComparison.OrdinalIgnoreCase))
+			if (
+				!string.Equals(mode, "id", StringComparison.OrdinalIgnoreCase)
+				&& !string.Equals(mode, "local", StringComparison.OrdinalIgnoreCase)
+			)
 			{
 				continue;
 			}
@@ -383,7 +461,14 @@ internal static class FleasionModInstaller
 			return null;
 		}
 		string[] matches = candidates
-			.Where(candidate => Regex.IsMatch(Path.GetFileNameWithoutExtension(candidate), "(?<![0-9])" + id + "(?![0-9])", RegexOptions.None, TimeSpan.FromSeconds(1)))
+			.Where(candidate =>
+				Regex.IsMatch(
+					Path.GetFileNameWithoutExtension(candidate),
+					"(?<![0-9])" + id + "(?![0-9])",
+					RegexOptions.None,
+					TimeSpan.FromSeconds(1)
+				)
+			)
 			.ToArray();
 		return matches.Length == 1 ? matches[0] : null;
 	}
@@ -437,13 +522,25 @@ internal static class FleasionModInstaller
 		return builder.ToString();
 	}
 
-	private static void RewriteLocalPaths(JsonObject config, IEnumerable<string> availableAssets, string assetRoot, ISet<string> usedAssets, bool usePortablePaths = true)
+	private static void RewriteLocalPaths(
+		JsonObject config,
+		IEnumerable<string> availableAssets,
+		string assetRoot,
+		ISet<string> usedAssets,
+		bool usePortablePaths = true
+	)
 	{
 		JsonArray rules = config["replacement_rules"]!.AsArray();
 		RewriteRules(rules, availableAssets.ToArray(), assetRoot, usedAssets, usePortablePaths);
 	}
 
-	private static void RewriteRules(JsonArray rules, IReadOnlyList<string> availableAssets, string assetRoot, ISet<string> usedAssets, bool usePortablePaths)
+	private static void RewriteRules(
+		JsonArray rules,
+		IReadOnlyList<string> availableAssets,
+		string assetRoot,
+		ISet<string> usedAssets,
+		bool usePortablePaths
+	)
 	{
 		foreach (JsonNode? node in rules)
 		{
@@ -508,7 +605,9 @@ internal static class FleasionModInstaller
 		{
 			normalized = normalized.TrimStart('/');
 		}
-		string? exact = availableAssets.FirstOrDefault(asset => string.Equals(asset.Replace('\\', '/'), normalized, StringComparison.OrdinalIgnoreCase));
+		string? exact = availableAssets.FirstOrDefault(asset =>
+			string.Equals(asset.Replace('\\', '/'), normalized, StringComparison.OrdinalIgnoreCase)
+		);
 		if (exact != null)
 		{
 			return exact;
@@ -535,7 +634,9 @@ internal static class FleasionModInstaller
 			}
 		}
 		string fileName = normalized.Split('/', StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? "";
-		string[] matches = availableAssets.Where(asset => string.Equals(Path.GetFileName(asset), fileName, StringComparison.OrdinalIgnoreCase)).ToArray();
+		string[] matches = availableAssets
+			.Where(asset => string.Equals(Path.GetFileName(asset), fileName, StringComparison.OrdinalIgnoreCase))
+			.ToArray();
 		return matches.Length == 1 ? matches[0] : null;
 	}
 
@@ -549,7 +650,8 @@ internal static class FleasionModInstaller
 			string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
 			try
 			{
-				await File.WriteAllTextAsync(temporary, config.ToJsonString(JsonOptions), new UTF8Encoding(false), token).ConfigureAwait(false);
+				await File.WriteAllTextAsync(temporary, config.ToJsonString(JsonOptions), new UTF8Encoding(false), token)
+					.ConfigureAwait(false);
 				File.Move(temporary, path, true);
 			}
 			finally
@@ -577,8 +679,16 @@ internal static class FleasionModInstaller
 			JsonObject settings = new JsonObject();
 			if (File.Exists(path))
 			{
-				await using FileStream input = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);
-				settings = await JsonNode.ParseAsync(input, cancellationToken: token).ConfigureAwait(false) as JsonObject
+				await using FileStream input = new FileStream(
+					path,
+					FileMode.Open,
+					FileAccess.Read,
+					FileShare.Read,
+					81920,
+					FileOptions.Asynchronous | FileOptions.SequentialScan
+				);
+				settings =
+					await JsonNode.ParseAsync(input, cancellationToken: token).ConfigureAwait(false) as JsonObject
 					?? throw new InvalidDataException("Fleasion settings are not valid JSON.");
 			}
 			JsonArray enabled = settings["enabled_configs"] as JsonArray ?? new JsonArray();
@@ -594,7 +704,8 @@ internal static class FleasionModInstaller
 			string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
 			try
 			{
-				await File.WriteAllTextAsync(temporary, settings.ToJsonString(JsonOptions), new UTF8Encoding(false), token).ConfigureAwait(false);
+				await File.WriteAllTextAsync(temporary, settings.ToJsonString(JsonOptions), new UTF8Encoding(false), token)
+					.ConfigureAwait(false);
 				File.Move(temporary, path, true);
 			}
 			finally
@@ -666,5 +777,6 @@ internal static class FleasionModInstaller
 		JsonObject Json,
 		IReadOnlyDictionary<string, ZipArchiveEntry> Assets,
 		IReadOnlySet<string> UsedAssets,
-		string AssetRoot);
+		string AssetRoot
+	);
 }

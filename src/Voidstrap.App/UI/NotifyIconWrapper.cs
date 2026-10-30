@@ -51,10 +51,7 @@ public class NotifyIconWrapper : IDisposable
 	{
 		App.Logger.WriteLine("NotifyIconWrapper::NotifyIconWrapper", "Initializing notification area icon");
 		_watcher = watcher ?? throw new ArgumentNullException(nameof(watcher));
-		_notifyIcon = new NotifyIcon(new Container())
-		{
-			Text = Voidstrap.Utility.Branding.Name
-		};
+		_notifyIcon = new NotifyIcon(new Container()) { Text = Voidstrap.Utility.Branding.Name };
 		if (Voidstrap.Utility.Platform.IsWindows)
 		{
 			_notifyIcon.Icon = Voidstrap.Utility.Branding.CreateDrawingIcon() ?? Voidstrap.Properties.Resources.IconVoidstrap;
@@ -100,10 +97,24 @@ public class NotifyIconWrapper : IDisposable
 		{
 			ActivityWatcher? watcher = ActivityWatcher;
 			// The session dock's shortcut lives in the menu container too, so it starts for the dock even with notifications off
-			bool joinNotifications = App.Settings.Prop.VoidNotify && App.Settings.Prop.NotifyGameJoins && App.Settings.Prop.NotificationWindowShow;
-			if (watcher != null && (joinNotifications || App.Settings.Prop.SessionDockEnabled || App.Settings.Prop.ClipperEnabled || Watcher.NeedsInGameHotkeys))
+			bool joinNotifications =
+				App.Settings.Prop.VoidNotify && App.Settings.Prop.NotifyGameJoins && App.Settings.Prop.NotificationWindowShow;
+			if (
+				watcher != null
+				&& (
+					joinNotifications
+					|| App.Settings.Prop.SessionDockEnabled
+					|| App.Settings.Prop.ClipperEnabled
+					|| Watcher.NeedsInGameHotkeys
+				)
+			)
 				EnsureMenuContainerAsync();
-			bool wanted = watcher != null && App.Settings.Prop.VoidNotify && App.Settings.Prop.NotifyGameJoins && App.Settings.Prop.ShowServerDetails && !App.Settings.Prop.NotificationWindowShow;
+			bool wanted =
+				watcher != null
+				&& App.Settings.Prop.VoidNotify
+				&& App.Settings.Prop.NotifyGameJoins
+				&& App.Settings.Prop.ShowServerDetails
+				&& !App.Settings.Prop.NotificationWindowShow;
 			ActivityWatcher? desired = wanted ? watcher : null;
 			if (ReferenceEquals(desired, _subscribedWatcher))
 				return;
@@ -112,7 +123,10 @@ public class NotifyIconWrapper : IDisposable
 			_subscribedWatcher = desired;
 			if (desired != null)
 				desired.OnGameJoin += ActivityWatcher_OnGameJoin;
-			App.Logger.WriteLine("NotifyIconWrapper::RefreshGameJoinSubscription", desired != null ? "Tray join notification is armed" : "Tray join notification is off");
+			App.Logger.WriteLine(
+				"NotifyIconWrapper::RefreshGameJoinSubscription",
+				desired != null ? "Tray join notification is armed" : "Tray join notification is off"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -157,20 +171,27 @@ public class NotifyIconWrapper : IDisposable
 		Dispatcher? dispatcher = System.Windows.Application.Current?.Dispatcher;
 		if (dispatcher == null || dispatcher.HasShutdownStarted || dispatcher.HasShutdownFinished)
 			return;
-		dispatcher.BeginInvoke(new Action(delegate
-		{
-			try
-			{
-				if (_disposed || _menuContainer != null)
-					return;
-				EnsureMenuContainer();
-				App.Logger.WriteLine("NotifyIconWrapper::EnsureMenuContainerAsync", "Notification host created up front so join notifications do not wait for the tray menu");
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteException("NotifyIconWrapper::EnsureMenuContainerAsync", ex);
-			}
-		}));
+		dispatcher.BeginInvoke(
+			new Action(
+				delegate
+				{
+					try
+					{
+						if (_disposed || _menuContainer != null)
+							return;
+						EnsureMenuContainer();
+						App.Logger.WriteLine(
+							"NotifyIconWrapper::EnsureMenuContainerAsync",
+							"Notification host created up front so join notifications do not wait for the tray menu"
+						);
+					}
+					catch (Exception ex)
+					{
+						App.Logger.WriteException("NotifyIconWrapper::EnsureMenuContainerAsync", ex);
+					}
+				}
+			)
+		);
 	}
 
 	private void NotifyIcon_MouseClick(object? sender, MouseEventArgs e)
@@ -186,22 +207,25 @@ public class NotifyIconWrapper : IDisposable
 		}
 		try
 		{
-			dispatcher.BeginInvoke((Action)delegate
-			{
-				try
-				{
-					if (_disposed)
-						return;
-					MenuContainer menu = EnsureMenuContainer();
-					menu.Activate();
-					if (menu.ContextMenu != null)
-						menu.ContextMenu.IsOpen = true;
-				}
-				catch (Exception ex)
-				{
-					App.Logger.WriteException("NotifyIconWrapper::NotifyIcon_MouseClick", ex);
-				}
-			});
+			dispatcher.BeginInvoke(
+				(Action)
+					delegate
+					{
+						try
+						{
+							if (_disposed)
+								return;
+							MenuContainer menu = EnsureMenuContainer();
+							menu.Activate();
+							if (menu.ContextMenu != null)
+								menu.ContextMenu.IsOpen = true;
+						}
+						catch (Exception ex)
+						{
+							App.Logger.WriteException("NotifyIconWrapper::NotifyIcon_MouseClick", ex);
+						}
+					}
+			);
 		}
 		catch (Exception ex)
 		{
@@ -218,18 +242,21 @@ public class NotifyIconWrapper : IDisposable
 		}
 		try
 		{
-			dispatcher.BeginInvoke((Action)delegate
-			{
-				try
-				{
-					if (!_disposed)
-						EnsureMenuContainer().ShowServerInformationWindow();
-				}
-				catch (Exception ex)
-				{
-					App.Logger.WriteException("NotifyIconWrapper::ShowServerInformationAlertClicked", ex);
-				}
-			});
+			dispatcher.BeginInvoke(
+				(Action)
+					delegate
+					{
+						try
+						{
+							if (!_disposed)
+								EnsureMenuContainer().ShowServerInformationWindow();
+						}
+						catch (Exception ex)
+						{
+							App.Logger.WriteException("NotifyIconWrapper::ShowServerInformationAlertClicked", ex);
+						}
+					}
+			);
 		}
 		catch (Exception ex)
 		{
@@ -255,14 +282,19 @@ public class NotifyIconWrapper : IDisposable
 		}
 		string caption = ActivityWatcher.Data.ServerType switch
 		{
-			ServerType.Public => Strings.ContextMenu_ServerInformation_Notification_Title_Public, 
-			ServerType.Private => Strings.ContextMenu_ServerInformation_Notification_Title_Private, 
-			ServerType.Reserved => Strings.ContextMenu_ServerInformation_Notification_Title_Reserved, 
-			_ => string.Empty, 
+			ServerType.Public => Strings.ContextMenu_ServerInformation_Notification_Title_Public,
+			ServerType.Private => Strings.ContextMenu_ServerInformation_Notification_Title_Private,
+			ServerType.Reserved => Strings.ContextMenu_ServerInformation_Notification_Title_Reserved,
+			_ => string.Empty,
 		};
 		if (App.Settings.Prop.NotifyGameJoins && EnableAppNotifications)
 		{
-			ShowAlert(caption, string.Format(Strings.ContextMenu_ServerInformation_Notification_Text, text), 10, ShowServerInformationAlertClicked);
+			ShowAlert(
+				caption,
+				string.Format(Strings.ContextMenu_ServerInformation_Notification_Text, text),
+				10,
+				ShowServerInformationAlertClicked
+			);
 		}
 		else
 		{
@@ -362,12 +394,8 @@ public class NotifyIconWrapper : IDisposable
 				}
 			}
 		}
-		catch (OperationCanceledException)
-		{
-		}
-		catch (ObjectDisposedException)
-		{
-		}
+		catch (OperationCanceledException) { }
+		catch (ObjectDisposedException) { }
 		catch (Exception ex)
 		{
 			App.Logger.WriteException(logIdent, ex);
@@ -395,9 +423,7 @@ public class NotifyIconWrapper : IDisposable
 				{
 					_subscribedWatcher.OnGameJoin -= ActivityWatcher_OnGameJoin;
 				}
-				catch
-				{
-				}
+				catch { }
 				_subscribedWatcher = null;
 			}
 			if (_menuContainer != null)

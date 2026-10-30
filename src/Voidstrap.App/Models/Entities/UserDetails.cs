@@ -33,11 +33,16 @@ public class UserDetails
 		{
 			return value;
 		}
-		var thumbnailRequest = Http.GetJson<ApiArrayResponse<ThumbnailResponse>>($"https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds={id}&size=180x180&format=Png&isCircular=false", token);
+		var thumbnailRequest = Http.GetJson<ApiArrayResponse<ThumbnailResponse>>(
+			$"https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds={id}&size=180x180&format=Png&isCircular=false",
+			token
+		);
 		GetUserResponse userResponse;
 		try
 		{
-			userResponse = (await Http.GetJson<GetUserResponse>($"https://users.roblox.com/v1/users/{id}", token)) ?? throw new InvalidHTTPResponseException($"Failed to fetch user details for ID {id}");
+			userResponse =
+				(await Http.GetJson<GetUserResponse>($"https://users.roblox.com/v1/users/{id}", token))
+				?? throw new InvalidHTTPResponseException($"Failed to fetch user details for ID {id}");
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
 		{
@@ -51,12 +56,14 @@ public class UserDetails
 		ThumbnailResponse thumbnail;
 		try
 		{
-			thumbnail = (await thumbnailRequest)?.Data?.FirstOrDefault() ?? new ThumbnailResponse
-			{
-				TargetId = id,
-				State = "Unavailable",
-				ImageUrl = null
-			};
+			thumbnail =
+				(await thumbnailRequest)?.Data?.FirstOrDefault()
+				?? new ThumbnailResponse
+				{
+					TargetId = id,
+					State = "Unavailable",
+					ImageUrl = null,
+				};
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
 		{
@@ -69,14 +76,10 @@ public class UserDetails
 			{
 				TargetId = id,
 				State = "Unavailable",
-				ImageUrl = null
+				ImageUrl = null,
 			};
 		}
-		UserDetails userDetails = new UserDetails
-		{
-			Data = userResponse,
-			Thumbnail = thumbnail
-		};
+		UserDetails userDetails = new UserDetails { Data = userResponse, Thumbnail = thumbnail };
 		Store(id, userDetails);
 		return userDetails;
 	}

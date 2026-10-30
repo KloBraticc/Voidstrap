@@ -4,15 +4,15 @@ using System.IO;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Vortice.Direct3D;
-using Vortice.Direct3D11;
-using Vortice.DXGI;
-using Vortice.DirectComposition;
-using Vortice.Mathematics;
 using Voidstrap.Integrations.AntiAliasing;
 using Voidstrap.Integrations.FrameGeneration;
 using Voidstrap.Integrations.MotionBlur;
 using Voidstrap.Integrations.RiShade;
+using Vortice.Direct3D;
+using Vortice.Direct3D11;
+using Vortice.DirectComposition;
+using Vortice.DXGI;
+using Vortice.Mathematics;
 using D3D11 = Vortice.Direct3D11.D3D11;
 using DCompApi = Vortice.DirectComposition.DComp;
 using Interop = Voidstrap.Integrations.AntiAliasing.AntiAliasingInterop;
@@ -32,7 +32,14 @@ namespace Voidstrap.Integrations.Overlays
 
         [LibraryImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static partial bool SetWaitableTimer(IntPtr timer, ref long dueTime, int period, IntPtr completionRoutine, IntPtr argument, [MarshalAs(UnmanagedType.Bool)] bool resume);
+        private static partial bool SetWaitableTimer(
+            IntPtr timer,
+            ref long dueTime,
+            int period,
+            IntPtr completionRoutine,
+            IntPtr argument,
+            [MarshalAs(UnmanagedType.Bool)] bool resume
+        );
 
         [LibraryImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -64,7 +71,7 @@ namespace Voidstrap.Integrations.Overlays
         private int _outputTop;
         private int _outputRight;
         private int _outputBottom;
-		private IntPtr _displayMonitor;
+        private IntPtr _displayMonitor;
         private int _captureFailures;
         private bool _deviceLost;
         private int _stableCaptureFrames;
@@ -76,24 +83,24 @@ namespace Voidstrap.Integrations.Overlays
         private ID3D11PixelShader? _psCropSrgb;
         private ID3D11PixelShader? _psOverlay;
         private ID3D11PixelShader? _psHomeBackground;
-		private HomepageBackgroundMedia? _homepageMedia;
-		private HomepageVideoDecoder? _homepageVideo;
-		private string _homepageMediaPath = "";
-		private string _homepageMediaRequestedPath = "";
-		private string _homepageMediaResolvedPath = "";
-		private long _homepageMediaProbeMs;
-		private const long HomepageMediaProbeIntervalMs = 1000;
-		private ID3D11Texture2D? _homepageMediaTexture;
-		private ID3D11ShaderResourceView? _homepageMediaSrv;
-		private int _homepageMediaWidth;
-		private int _homepageMediaHeight;
-		private long _homepageMediaVersion;
-		private bool _homepageMediaUploaded;
-		private bool _homepageRepaintDue = true;
-		private double _homepageIdleNextMs;
-		private bool _rawValid;
-		private int _rawWidth;
-		private int _rawHeight;
+        private HomepageBackgroundMedia? _homepageMedia;
+        private HomepageVideoDecoder? _homepageVideo;
+        private string _homepageMediaPath = "";
+        private string _homepageMediaRequestedPath = "";
+        private string _homepageMediaResolvedPath = "";
+        private long _homepageMediaProbeMs;
+        private const long HomepageMediaProbeIntervalMs = 1000;
+        private ID3D11Texture2D? _homepageMediaTexture;
+        private ID3D11ShaderResourceView? _homepageMediaSrv;
+        private int _homepageMediaWidth;
+        private int _homepageMediaHeight;
+        private long _homepageMediaVersion;
+        private bool _homepageMediaUploaded;
+        private bool _homepageRepaintDue = true;
+        private double _homepageIdleNextMs;
+        private bool _rawValid;
+        private int _rawWidth;
+        private int _rawHeight;
         private ID3D11SamplerState? _sampler;
         private ID3D11Buffer? _cbuffer;
         private ID3D11BlendState? _hudBlend;
@@ -111,10 +118,12 @@ namespace Voidstrap.Integrations.Overlays
         private ID3D11Texture2D? _backBufferTex;
         private ID3D11Texture2D? _splitLeftTex;
         private ID3D11ShaderResourceView? _splitLeftSrv;
-        private int _splitLeftW, _splitLeftH;
+        private int _splitLeftW,
+            _splitLeftH;
         private ID3D11Texture2D? _splitRightTex;
         private ID3D11ShaderResourceView? _splitRightSrv;
-        private int _splitRightW, _splitRightH;
+        private int _splitRightW,
+            _splitRightH;
         private ID3D11Texture2D? _splitLineTex;
         private ID3D11ShaderResourceView? _splitLineSrv;
         private ID3D11Texture2D? _fgStatusTex;
@@ -123,10 +132,10 @@ namespace Voidstrap.Integrations.Overlays
         private int _fgStatusH;
         private int _fgStatusWindowWidth;
         private string _fgStatusText = "";
-		private readonly string[] _hudLabelsFour = ["FPS", "Real", "Generated", "Engine"];
-		private readonly string[] _hudValuesFour = new string[4];
-		private readonly string[] _hudLabelsThree = ["FPS", "Real", "Generated"];
-		private readonly string[] _hudValuesThree = new string[3];
+        private readonly string[] _hudLabelsFour = ["FPS", "Real", "Generated", "Engine"];
+        private readonly string[] _hudValuesFour = new string[4];
+        private readonly string[] _hudLabelsThree = ["FPS", "Real", "Generated"];
+        private readonly string[] _hudValuesThree = new string[3];
         private const int HudX = 18;
         private const int HudY = 120;
         private bool _timerRaised;
@@ -178,6 +187,7 @@ namespace Voidstrap.Integrations.Overlays
                 App.Logger.WriteLine(LOG_IDENT, $"Frame Generation turning off for {ms / 1000.0:0.#}s: {reason}");
             }
         }
+
         private bool _pairStale;
         private double _lastSlotMs;
         private int _lastTotal;
@@ -215,9 +225,10 @@ namespace Voidstrap.Integrations.Overlays
                     long shown = presents - _lastPresentStat;
                     long scanouts = refreshes - _lastRefreshStat;
                     double perRefresh = (double)shown / scanouts;
-                    note = perRefresh > 1.08
-                        ? $", displayed present ratio {perRefresh:0.000}, {shown} presents over only {scanouts} scanouts, the extra ones are discarded"
-                        : $", displayed present ratio {perRefresh:0.000}, {shown} presents over {scanouts} scanouts";
+                    note =
+                        perRefresh > 1.08
+                            ? $", displayed present ratio {perRefresh:0.000}, {shown} presents over only {scanouts} scanouts, the extra ones are discarded"
+                            : $", displayed present ratio {perRefresh:0.000}, {shown} presents over {scanouts} scanouts";
                 }
                 _lastPresentStat = presents;
                 _lastRefreshStat = refreshes;
@@ -258,7 +269,12 @@ namespace Voidstrap.Integrations.Overlays
         private double _holdNextPresentMs;
         private int _lastDisplayBudget;
         private int _lastGenCount;
-        private PacerQuality _quality = new() { FgQuality = 1, AutoGeneratedLimit = AutoGeneratedCeiling, SixLoadLimit = 5 };
+        private PacerQuality _quality = new()
+        {
+            FgQuality = 1,
+            AutoGeneratedLimit = AutoGeneratedCeiling,
+            SixLoadLimit = 5,
+        };
         private ref int _fgQuality => ref _quality.FgQuality;
         private int _effectiveFgQuality = 2;
         private const int AutoGeneratedCeiling = 7;
@@ -320,8 +336,8 @@ namespace Voidstrap.Integrations.Overlays
         private long _genPresented;
         private readonly Stopwatch _clock = Stopwatch.StartNew();
         private double _lastHwndResolve;
-		private long _nextVisibilityCheckMs;
-		private long _nextFollowMs;
+        private long _nextVisibilityCheckMs;
+        private long _nextFollowMs;
         private double _lastStatsLog;
         private long _realAtLastLog;
         private long _genAtLastLog;
@@ -377,10 +393,15 @@ namespace Voidstrap.Integrations.Overlays
             if (!wanted)
                 return;
             bool roblox = SetGpuPriority(pid, GpuPriorityBelowNormal);
-            bool self = SetGpuPriority((uint)Environment.ProcessId, GpuPriorityHigh) || SetGpuPriority((uint)Environment.ProcessId, GpuPriorityAboveNormal);
+            bool self =
+                SetGpuPriority((uint)Environment.ProcessId, GpuPriorityHigh)
+                || SetGpuPriority((uint)Environment.ProcessId, GpuPriorityAboveNormal);
             _depthGpuPriority = true;
             _depthGpuPriorityPid = pid;
-            App.Logger.WriteLine(LOG_IDENT, $"RiShade is drawing over Roblox, GPU scheduling lowered for Roblox ({(roblox ? "applied" : "refused")}) and raised for Voidstrap ({(self ? "applied" : "refused")}) so the overlay keeps up");
+            App.Logger.WriteLine(
+                LOG_IDENT,
+                $"RiShade is drawing over Roblox, GPU scheduling lowered for Roblox ({(roblox ? "applied" : "refused")}) and raised for Voidstrap ({(self ? "applied" : "refused")}) so the overlay keeps up"
+            );
         }
 
         private static bool SetGpuPriority(uint pid, int priority)
@@ -390,7 +411,13 @@ namespace Voidstrap.Integrations.Overlays
                 using Process process = Process.GetProcessById((int)pid);
                 return D3DKMTSetProcessSchedulingPriorityClass(process.Handle, priority) == 0;
             }
-            catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or System.ComponentModel.Win32Exception or EntryPointNotFoundException)
+            catch (Exception ex)
+                when (ex
+                        is ArgumentException
+                            or InvalidOperationException
+                            or System.ComponentModel.Win32Exception
+                            or EntryPointNotFoundException
+                )
             {
                 return false;
             }
@@ -418,7 +445,8 @@ namespace Voidstrap.Integrations.Overlays
         private void ApplyCompositorThreadPriority()
         {
             ProcessPriorityClass roblox = ReadRobloxPriority();
-            bool robloxOutranksUs = roblox == ProcessPriorityClass.AboveNormal
+            bool robloxOutranksUs =
+                roblox == ProcessPriorityClass.AboveNormal
                 || roblox == ProcessPriorityClass.High
                 || roblox == ProcessPriorityClass.RealTime;
 
@@ -467,7 +495,10 @@ namespace Voidstrap.Integrations.Overlays
                 SyncFrameGenRuntimeServices();
 
                 string riState = !App.Settings.Prop.RiShadeEnabled ? "off" : "on";
-                App.Logger.WriteLine(LOG_IDENT, $"Compositor started. RiShade {riState}, Anti Aliasing {AntiAliasingSettings.MethodNames[AntiAliasingSettings.MethodIndex]}, Frame Generation {FrameGenSettings.ModeNames[FrameGenSettings.ModeIndex]}, display {_refreshHz:0}Hz, Roblox FPS cap {RobloxFpsCap.Describe()}");
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    $"Compositor started. RiShade {riState}, Anti Aliasing {AntiAliasingSettings.MethodNames[AntiAliasingSettings.MethodIndex]}, Frame Generation {FrameGenSettings.ModeNames[FrameGenSettings.ModeIndex]}, display {_refreshHz:0}Hz, Roblox FPS cap {RobloxFpsCap.Describe()}"
+                );
                 OverlayHub.SetCompositorLive(true);
 
                 var msg = default(Interop.MSG);
@@ -553,12 +584,39 @@ namespace Voidstrap.Integrations.Overlays
                 };
                 _classAtom = Interop.RegisterClassExW(ref wc);
 
-                int exStyle = Interop.WS_EX_NOACTIVATE | Interop.WS_EX_TOOLWINDOW | Interop.WS_EX_TRANSPARENT | Interop.WS_EX_TOPMOST | Interop.WS_EX_LAYERED | Interop.WS_EX_NOREDIRECTIONBITMAP;
-                _hwnd = Interop.CreateWindowExW(exStyle, new IntPtr(_classAtom), CaptureWindowName, Interop.WS_POPUP, _rectLeft, _rectTop, _width, _height, IntPtr.Zero, IntPtr.Zero, _hInstance, IntPtr.Zero);
+                int exStyle =
+                    Interop.WS_EX_NOACTIVATE
+                    | Interop.WS_EX_TOOLWINDOW
+                    | Interop.WS_EX_TRANSPARENT
+                    | Interop.WS_EX_TOPMOST
+                    | Interop.WS_EX_LAYERED
+                    | Interop.WS_EX_NOREDIRECTIONBITMAP;
+                _hwnd = Interop.CreateWindowExW(
+                    exStyle,
+                    new IntPtr(_classAtom),
+                    CaptureWindowName,
+                    Interop.WS_POPUP,
+                    _rectLeft,
+                    _rectTop,
+                    _width,
+                    _height,
+                    IntPtr.Zero,
+                    IntPtr.Zero,
+                    _hInstance,
+                    IntPtr.Zero
+                );
                 OverlayHub.SetCompositorWindow(_hwnd);
 
                 Interop.SetLayeredWindowAttributes(_hwnd, 0, 255, Interop.LWA_ALPHA);
-                Interop.SetWindowPos(_hwnd, Interop.HWND_TOPMOST, _rectLeft, _rectTop, _width, _height, Interop.SWP_NOACTIVATE | Interop.SWP_SHOWWINDOW);
+                Interop.SetWindowPos(
+                    _hwnd,
+                    Interop.HWND_TOPMOST,
+                    _rectLeft,
+                    _rectTop,
+                    _width,
+                    _height,
+                    Interop.SWP_NOACTIVATE | Interop.SWP_SHOWWINDOW
+                );
                 Interop.ShowWindow(_hwnd, Interop.SW_SHOWNOACTIVATE);
                 OverlayDiagnostics.RaiseOverlayWindows();
                 App.Logger.WriteLine(LOG_IDENT, "Compositor window created, click through");
@@ -594,7 +652,10 @@ namespace Voidstrap.Integrations.Overlays
             {
                 if (s_reshadeLoadedUnwrapped)
                 {
-                    App.Logger.WriteLine(LOG_IDENT, "ReShade was already loaded without its graphics wrapper in this Voidstrap session, restart Voidstrap for DLSS");
+                    App.Logger.WriteLine(
+                        LOG_IDENT,
+                        "ReShade was already loaded without its graphics wrapper in this Voidstrap session, restart Voidstrap for DLSS"
+                    );
                     return false;
                 }
                 Environment.SetEnvironmentVariable("RESHADE_DISABLE_GRAPHICS_HOOK", null);
@@ -606,14 +667,19 @@ namespace Voidstrap.Integrations.Overlays
                 if (!RiShadeInterop.RuntimeLoad(RiShadeManager.DxgiDllPath))
                     return false;
                 IntPtr module = NativeLibrary.Load(RiShadeManager.DxgiDllPath);
-                if (!NativeLibrary.TryGetExport(module, "CreateDXGIFactory2", out _reshadeCreateFactory)
-                    || !NativeLibrary.TryGetExport(module, "D3D11CreateDevice", out _reshadeCreateDevice))
+                if (
+                    !NativeLibrary.TryGetExport(module, "CreateDXGIFactory2", out _reshadeCreateFactory)
+                    || !NativeLibrary.TryGetExport(module, "D3D11CreateDevice", out _reshadeCreateDevice)
+                )
                 {
                     _reshadeCreateFactory = IntPtr.Zero;
                     _reshadeCreateDevice = IntPtr.Zero;
                     return false;
                 }
-                App.Logger.WriteLine(LOG_IDENT, "DLSS is on, the compositor device and swapchain go through ReShade, its log is ReShade.log in the RiShade folder");
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    "DLSS is on, the compositor device and swapchain go through ReShade, its log is ReShade.log in the RiShade folder"
+                );
                 return true;
             }
             catch (Exception ex)
@@ -640,8 +706,31 @@ namespace Voidstrap.Integrations.Overlays
             int hr;
             fixed (FeatureLevel* levels = _featureLevels)
             {
-                hr = ((delegate* unmanaged[Stdcall]<IntPtr, int, IntPtr, uint, FeatureLevel*, uint, uint, IntPtr*, FeatureLevel*, IntPtr*, int>)_reshadeCreateDevice)(
-                    adapter?.NativePointer ?? IntPtr.Zero, (int)driverType, IntPtr.Zero, (uint)flags, levels, (uint)_featureLevels.Length, 7, &device, &level, &context);
+                hr = (
+                    (delegate* unmanaged[Stdcall]<
+                        IntPtr,
+                        int,
+                        IntPtr,
+                        uint,
+                        FeatureLevel*,
+                        uint,
+                        uint,
+                        IntPtr*,
+                        FeatureLevel*,
+                        IntPtr*,
+                        int>)_reshadeCreateDevice
+                )(
+                    adapter?.NativePointer ?? IntPtr.Zero,
+                    (int)driverType,
+                    IntPtr.Zero,
+                    (uint)flags,
+                    levels,
+                    (uint)_featureLevels.Length,
+                    7,
+                    &device,
+                    &level,
+                    &context
+                );
             }
             if (hr >= 0)
             {
@@ -700,7 +789,10 @@ namespace Voidstrap.Integrations.Overlays
                 if (chosen != null)
                 {
                     CreateD3DDevice(chosen, DriverType.Unknown).CheckError();
-                    App.Logger.WriteLine(LOG_IDENT, $"D3D11 device created on {chosen.Description1.Description}, feature level {_device!.FeatureLevel}");
+                    App.Logger.WriteLine(
+                        LOG_IDENT,
+                        $"D3D11 device created on {chosen.Description1.Description}, feature level {_device!.FeatureLevel}"
+                    );
                     return;
                 }
             }
@@ -729,7 +821,16 @@ namespace Voidstrap.Integrations.Overlays
                 _device?.Dispose();
                 _context = null;
                 _device = null;
-                D3D11.D3D11CreateDevice((IDXGIAdapter?)null, DriverType.Warp, DeviceCreationFlags.BgraSupport, _featureLevels, out _device, out _context).CheckError();
+                D3D11
+                    .D3D11CreateDevice(
+                        (IDXGIAdapter?)null,
+                        DriverType.Warp,
+                        DeviceCreationFlags.BgraSupport,
+                        _featureLevels,
+                        out _device,
+                        out _context
+                    )
+                    .CheckError();
                 App.Logger.WriteLine(LOG_IDENT, $"WARP device created, feature level {_device!.FeatureLevel}");
             }
         }
@@ -749,8 +850,12 @@ namespace Voidstrap.Integrations.Overlays
                         hardware.Add(adapter);
                 }
                 IDXGIAdapter1? match = null;
-                if (hardware.Count > 1 && _robloxHwnd != IntPtr.Zero && GetWindowThreadProcessId(_robloxHwnd, out uint pid) != 0
-                    && ProcessGpuAdapter.FindRenderAdapterLuid((int)pid) is long luid)
+                if (
+                    hardware.Count > 1
+                    && _robloxHwnd != IntPtr.Zero
+                    && GetWindowThreadProcessId(_robloxHwnd, out uint pid) != 0
+                    && ProcessGpuAdapter.FindRenderAdapterLuid((int)pid) is long luid
+                )
                 {
                     foreach (IDXGIAdapter1 adapter in hardware)
                     {
@@ -768,7 +873,10 @@ namespace Voidstrap.Integrations.Overlays
                         adapter.Dispose();
                 }
                 if (match != null)
-                    App.Logger.WriteLine(LOG_IDENT, $"Roblox renders on {match.Description1.Description}, the compositor uses the same GPU");
+                    App.Logger.WriteLine(
+                        LOG_IDENT,
+                        $"Roblox renders on {match.Description1.Description}, the compositor uses the same GPU"
+                    );
                 return match;
             }
             catch (Exception ex)
@@ -792,9 +900,12 @@ namespace Voidstrap.Integrations.Overlays
             try
             {
                 using IDXGIDevice dxgiDevice = _device!.QueryInterface<IDXGIDevice>();
-                App.Logger.WriteLine(LOG_IDENT, dxgiDevice.SetGPUThreadPriority(7).Success
-                    ? "Compositor GPU priority raised so Roblox rendering cannot starve the overlay"
-                    : "Compositor GPU priority could not be raised, Windows did not allow it");
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    dxgiDevice.SetGPUThreadPriority(7).Success
+                        ? "Compositor GPU priority raised so Roblox rendering cannot starve the overlay"
+                        : "Compositor GPU priority could not be raised, Windows did not allow it"
+                );
             }
             catch (Exception ex)
             {
@@ -808,11 +919,22 @@ namespace Voidstrap.Integrations.Overlays
             {
                 lock (RiShadeInterop.GraphicsSetupLock)
                 {
-                    SharpGen.Runtime.Result wrapped = CreateWrappedDevice(adapter, driverType, DeviceCreationFlags.BgraSupport | DeviceCreationFlags.VideoSupport);
+                    SharpGen.Runtime.Result wrapped = CreateWrappedDevice(
+                        adapter,
+                        driverType,
+                        DeviceCreationFlags.BgraSupport | DeviceCreationFlags.VideoSupport
+                    );
                     return wrapped.Success ? wrapped : CreateWrappedDevice(adapter, driverType, DeviceCreationFlags.BgraSupport);
                 }
             }
-            SharpGen.Runtime.Result result = D3D11.D3D11CreateDevice(adapter, driverType, DeviceCreationFlags.BgraSupport | DeviceCreationFlags.VideoSupport, _featureLevels, out _device, out _context);
+            SharpGen.Runtime.Result result = D3D11.D3D11CreateDevice(
+                adapter,
+                driverType,
+                DeviceCreationFlags.BgraSupport | DeviceCreationFlags.VideoSupport,
+                _featureLevels,
+                out _device,
+                out _context
+            );
             if (result.Success)
                 return result;
             _context?.Dispose();
@@ -828,7 +950,10 @@ namespace Voidstrap.Integrations.Overlays
             _wgc = _robloxHwnd != IntPtr.Zero ? RiShadeWgc.TryCreate(_device!, _robloxHwnd, CaptureTargetFps()) : null;
             _wgcHwnd = _wgc != null ? _robloxHwnd : IntPtr.Zero;
             if (_wgc == null && _robloxHwnd != IntPtr.Zero)
-                App.Logger.WriteLine(LOG_IDENT, "Window capture unavailable for the Roblox window, falling back to desktop duplication which is limited to the monitor refresh rate");
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    "Window capture unavailable for the Roblox window, falling back to desktop duplication which is limited to the monitor refresh rate"
+                );
             if (_wgc != null)
             {
                 SetRecordingVisibility(true);
@@ -846,15 +971,19 @@ namespace Voidstrap.Integrations.Overlays
             uint affinity = visible ? Interop.WDA_NONE : Interop.WDA_EXCLUDEFROMCAPTURE;
             if (!Interop.SetWindowDisplayAffinity(_hwnd, affinity))
             {
-                App.Logger.WriteLine(LOG_IDENT, visible
-                    ? "Could not make the game output visible to recording software"
-                    : "Could not protect screen capture fallback from feedback");
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    visible
+                        ? "Could not make the game output visible to recording software"
+                        : "Could not protect screen capture fallback from feedback"
+                );
                 return;
             }
             _recordingVisible = visible;
-            App.Logger.WriteLine(LOG_IDENT, visible
-                ? "OBS output ready as Voidstrap Game Output"
-                : "OBS output paused while screen capture fallback prevents feedback");
+            App.Logger.WriteLine(
+                LOG_IDENT,
+                visible ? "OBS output ready as Voidstrap Game Output" : "OBS output paused while screen capture fallback prevents feedback"
+            );
         }
 
         private void CreateComposition()
@@ -884,7 +1013,10 @@ namespace Voidstrap.Integrations.Overlays
                 _swapChainFlags = SwapChainFlags.None;
                 swapDesc.Flags = _swapChainFlags;
                 _swapChain = _factory!.CreateSwapChainForComposition(_device!, swapDesc, null);
-                App.Logger.WriteLine(LOG_IDENT, "Frame latency waitable swapchain unavailable, using the standard composition queue: " + ex.Message);
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    "Frame latency waitable swapchain unavailable, using the standard composition queue: " + ex.Message
+                );
             }
             CreateBackBufferRtv();
             if ((_swapChainFlags & SwapChainFlags.FrameLatencyWaitableObject) != 0)
@@ -902,7 +1034,10 @@ namespace Voidstrap.Integrations.Overlays
                 }
                 catch (Exception ex)
                 {
-                    App.Logger.WriteLine(LOG_IDENT, "Frame latency synchronization unavailable, continuing with queue depth one: " + ex.Message);
+                    App.Logger.WriteLine(
+                        LOG_IDENT,
+                        "Frame latency synchronization unavailable, continuing with queue depth one: " + ex.Message
+                    );
                 }
             }
             if (_frameLatencyHandle == IntPtr.Zero)
@@ -934,7 +1069,10 @@ namespace Voidstrap.Integrations.Overlays
                     if (!_riMissingRuntimeLogged)
                     {
                         _riMissingRuntimeLogged = true;
-                        App.Logger.WriteLine(LOG_IDENT, "RiShade is waiting for the ReShade runtime to finish installing, frames remain unmodified");
+                        App.Logger.WriteLine(
+                            LOG_IDENT,
+                            "RiShade is waiting for the ReShade runtime to finish installing, frames remain unmodified"
+                        );
                     }
                     return;
                 }
@@ -948,7 +1086,10 @@ namespace Voidstrap.Integrations.Overlays
                         if (!_riWaitingLogged)
                         {
                             _riWaitingLogged = true;
-                            App.Logger.WriteLine(LOG_IDENT, "Waiting for ReShade to create its runtime on the wrapped compositor swapchain");
+                            App.Logger.WriteLine(
+                                LOG_IDENT,
+                                "Waiting for ReShade to create its runtime on the wrapped compositor swapchain"
+                            );
                         }
                         return;
                     }
@@ -956,7 +1097,10 @@ namespace Voidstrap.Integrations.Overlays
                     AttachWrappedRuntimeWindow();
                     RiShadeManager.SetRuntime(_riRuntime);
                     _riRuntimeRetryAt = 0;
-                    App.Logger.WriteLine(LOG_IDENT, "Using ReShade's own runtime on the wrapped compositor swapchain, depth starts after the first frames so DLSS finishes its setup alone");
+                    App.Logger.WriteLine(
+                        LOG_IDENT,
+                        "Using ReShade's own runtime on the wrapped compositor swapchain, depth starts after the first frames so DLSS finishes its setup alone"
+                    );
                     _riDepthStartPresents = WrappedPresentsBeforeDepth;
                     return;
                 }
@@ -974,7 +1118,10 @@ namespace Voidstrap.Integrations.Overlays
                     if (!_riMissingRuntimeLogged)
                     {
                         _riMissingRuntimeLogged = true;
-                        App.Logger.WriteLine(LOG_IDENT, "The ReShade runtime in the RiShade folder could not be loaded, frames remain unmodified");
+                        App.Logger.WriteLine(
+                            LOG_IDENT,
+                            "The ReShade runtime in the RiShade folder could not be loaded, frames remain unmodified"
+                        );
                     }
                     return;
                 }
@@ -992,15 +1139,19 @@ namespace Voidstrap.Integrations.Overlays
                     _context!.NativePointer,
                     _swapChain!.NativePointer,
                     targetHwnd,
-                    configPath);
+                    configPath
+                );
                 RiShadeManager.SetRuntime(_riRuntime);
                 if (_riRuntime != IntPtr.Zero)
                     _riRuntimeRetryAt = 0;
                 if (_riRuntime != IntPtr.Zero && _riDepthBridge)
                     RiShadeInterop.DepthBridgeAttachRuntime(_riRuntime);
-                App.Logger.WriteLine(LOG_IDENT, _riRuntime != IntPtr.Zero
-                    ? "ReShade runtime created for the in-process compositor swapchain"
-                    : "ReShade could not create a runtime for the compositor swapchain, frames remain unmodified");
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    _riRuntime != IntPtr.Zero
+                        ? "ReShade runtime created for the in-process compositor swapchain"
+                        : "ReShade could not create a runtime for the compositor swapchain, frames remain unmodified"
+                );
             }
             catch (Exception ex)
             {
@@ -1028,11 +1179,15 @@ namespace Voidstrap.Integrations.Overlays
                         _riDepthBridgeInitialized = _riDepthBridge = RiShadeInterop.DepthBridgeInitialize(
                             _device!.NativePointer,
                             _context!.NativePointer,
-                            RiShadeManager.RiShadeDir);
+                            RiShadeManager.RiShadeDir
+                        );
                     if (_riDepthBridge)
-                        App.Logger.WriteLine(LOG_IDENT, RiShadeInterop.DepthBridgeUsingModel()
-                            ? "RiShade depth uses the AI model " + modelFile
-                            : "RiShade depth uses scene estimation");
+                        App.Logger.WriteLine(
+                            LOG_IDENT,
+                            RiShadeInterop.DepthBridgeUsingModel()
+                                ? "RiShade depth uses the AI model " + modelFile
+                                : "RiShade depth uses scene estimation"
+                        );
                 }
                 if (!_riDepthBridge)
                     App.Logger.WriteLine(LOG_IDENT, "RiShade depth estimation could not start, color effects remain available");
@@ -1053,7 +1208,10 @@ namespace Voidstrap.Integrations.Overlays
 
             if (!RiShadeInterop.RuntimeAttachWindow(_riRuntime, targetHwnd))
             {
-                App.Logger.WriteLine(LOG_IDENT, "ReShade input could not be attached to the compositor window, the overlay will not take clicks");
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    "ReShade input could not be attached to the compositor window, the overlay will not take clicks"
+                );
                 return;
             }
 
@@ -1090,7 +1248,15 @@ namespace Voidstrap.Integrations.Overlays
                     {
                         exStyle &= ~(Interop.WS_EX_TRANSPARENT | Interop.WS_EX_NOACTIVATE);
                         Interop.SetWindowLongPtrW(_hwnd, Interop.GWL_EXSTYLE, exStyle);
-                        Interop.SetWindowPos(_hwnd, IntPtr.Zero, 0, 0, 0, 0, Interop.SWP_NOMOVE | Interop.SWP_NOSIZE | Interop.SWP_NOZORDER | Interop.SWP_FRAMECHANGED);
+                        Interop.SetWindowPos(
+                            _hwnd,
+                            IntPtr.Zero,
+                            0,
+                            0,
+                            0,
+                            0,
+                            Interop.SWP_NOMOVE | Interop.SWP_NOSIZE | Interop.SWP_NOZORDER | Interop.SWP_FRAMECHANGED
+                        );
                         if (_hiddenByFocus)
                             Interop.ShowWindow(_hwnd, Interop.SW_SHOWNOACTIVATE);
                         Interop.SetForegroundWindow(_hwnd);
@@ -1100,7 +1266,15 @@ namespace Voidstrap.Integrations.Overlays
                     {
                         exStyle |= (Interop.WS_EX_TRANSPARENT | Interop.WS_EX_NOACTIVATE);
                         Interop.SetWindowLongPtrW(_hwnd, Interop.GWL_EXSTYLE, exStyle);
-                        Interop.SetWindowPos(_hwnd, IntPtr.Zero, 0, 0, 0, 0, Interop.SWP_NOMOVE | Interop.SWP_NOSIZE | Interop.SWP_NOZORDER | Interop.SWP_FRAMECHANGED);
+                        Interop.SetWindowPos(
+                            _hwnd,
+                            IntPtr.Zero,
+                            0,
+                            0,
+                            0,
+                            0,
+                            Interop.SWP_NOMOVE | Interop.SWP_NOSIZE | Interop.SWP_NOZORDER | Interop.SWP_FRAMECHANGED
+                        );
                         if (_robloxHwnd != IntPtr.Zero)
                             Interop.SetForegroundWindow(_robloxHwnd);
                     }
@@ -1118,14 +1292,26 @@ namespace Voidstrap.Integrations.Overlays
                 return false;
             try
             {
-                bool unified = _device.CheckFeatureSupport<FeatureDataD3D11Options2>(Vortice.Direct3D11.Feature.D3D11Options2).UnifiedMemoryArchitecture;
+                bool unified = _device
+                    .CheckFeatureSupport<FeatureDataD3D11Options2>(Vortice.Direct3D11.Feature.D3D11Options2)
+                    .UnifiedMemoryArchitecture;
                 using IDXGIDevice dxgi = _device.QueryInterface<IDXGIDevice>();
                 using IDXGIAdapter adapter = dxgi.GetAdapter();
                 AdapterDescription description = adapter.Description;
                 ulong dedicated = (ulong)description.DedicatedVideoMemory;
                 bool software = description.VendorId == 0x1414;
                 bool weak = software || unified || dedicated < LowEndDedicatedMemory;
-                RiShadeDepthModels.ReportGpu(weak, description.Description + ", vendor 0x" + description.VendorId.ToString("X4") + ", " + (dedicated / 1048576) + " MB dedicated memory, " + (unified ? "integrated" : "discrete") + (software ? ", software renderer" : ""));
+                RiShadeDepthModels.ReportGpu(
+                    weak,
+                    description.Description
+                        + ", vendor 0x"
+                        + description.VendorId.ToString("X4")
+                        + ", "
+                        + (dedicated / 1048576)
+                        + " MB dedicated memory, "
+                        + (unified ? "integrated" : "discrete")
+                        + (software ? ", software renderer" : "")
+                );
                 return weak;
             }
             catch (Exception ex)
@@ -1144,7 +1330,15 @@ namespace Voidstrap.Integrations.Overlays
                 nint exStyle = Interop.GetWindowLongPtrW(_hwnd, Interop.GWL_EXSTYLE);
                 exStyle |= (Interop.WS_EX_TRANSPARENT | Interop.WS_EX_NOACTIVATE);
                 Interop.SetWindowLongPtrW(_hwnd, Interop.GWL_EXSTYLE, exStyle);
-                Interop.SetWindowPos(_hwnd, IntPtr.Zero, 0, 0, 0, 0, Interop.SWP_NOMOVE | Interop.SWP_NOSIZE | Interop.SWP_NOZORDER | Interop.SWP_FRAMECHANGED);
+                Interop.SetWindowPos(
+                    _hwnd,
+                    IntPtr.Zero,
+                    0,
+                    0,
+                    0,
+                    0,
+                    Interop.SWP_NOMOVE | Interop.SWP_NOSIZE | Interop.SWP_NOZORDER | Interop.SWP_FRAMECHANGED
+                );
             }
             _riShadeInteractive = false;
             _riRuntimeRetryAt = 0;
@@ -1222,29 +1416,35 @@ namespace Voidstrap.Integrations.Overlays
             _psCropSrgb = CompilePs("PSCropSrgb");
             _psOverlay = CompilePs("PSOverlay");
 
-            _hudBlend = _device!.CreateBlendState(new BlendDescription(Blend.SourceAlpha, Blend.InverseSourceAlpha, Blend.One, Blend.InverseSourceAlpha));
+            _hudBlend = _device!.CreateBlendState(
+                new BlendDescription(Blend.SourceAlpha, Blend.InverseSourceAlpha, Blend.One, Blend.InverseSourceAlpha)
+            );
             _hud.Init(_device!);
             _crosshair.Init(_device!);
             CreateSplitAssets();
 
-            _sampler = _device!.CreateSamplerState(new SamplerDescription
-            {
-                Filter = Filter.MinMagMipLinear,
-                AddressU = TextureAddressMode.Clamp,
-                AddressV = TextureAddressMode.Clamp,
-                AddressW = TextureAddressMode.Clamp,
-                ComparisonFunc = ComparisonFunction.Never,
-                MinLOD = 0,
-                MaxLOD = float.MaxValue,
-            });
+            _sampler = _device!.CreateSamplerState(
+                new SamplerDescription
+                {
+                    Filter = Filter.MinMagMipLinear,
+                    AddressU = TextureAddressMode.Clamp,
+                    AddressV = TextureAddressMode.Clamp,
+                    AddressW = TextureAddressMode.Clamp,
+                    ComparisonFunc = ComparisonFunction.Never,
+                    MinLOD = 0,
+                    MaxLOD = float.MaxValue,
+                }
+            );
 
-            _cbuffer = _device!.CreateBuffer(new BufferDescription
-            {
-                ByteWidth = (uint)Marshal.SizeOf<FrameGenPipelineParams>(),
-                BindFlags = BindFlags.ConstantBuffer,
-                Usage = ResourceUsage.Default,
-                CPUAccessFlags = CpuAccessFlags.None,
-            });
+            _cbuffer = _device!.CreateBuffer(
+                new BufferDescription
+                {
+                    ByteWidth = (uint)Marshal.SizeOf<FrameGenPipelineParams>(),
+                    BindFlags = BindFlags.ConstantBuffer,
+                    Usage = ResourceUsage.Default,
+                    CPUAccessFlags = CpuAccessFlags.None,
+                }
+            );
 
             CreateSizedResources();
         }
@@ -1274,7 +1474,16 @@ namespace Voidstrap.Integrations.Overlays
                         if (copyWidth > 0 && copyHeight > 0)
                         {
                             _context!.ClearRenderTargetView(_rawRtv, new Color4(18f / 255f, 18f / 255f, 21f / 255f, 1f));
-                            _context!.CopySubresourceRegion(_rawTex, 0, 0, 0, 0, previousRaw, 0, new Box(0, 0, 0, copyWidth, copyHeight, 1));
+                            _context!.CopySubresourceRegion(
+                                _rawTex,
+                                0,
+                                0,
+                                0,
+                                0,
+                                previousRaw,
+                                0,
+                                new Box(0, 0, 0, copyWidth, copyHeight, 1)
+                            );
                             _rawValid = true;
                         }
                     }
@@ -1294,26 +1503,27 @@ namespace Voidstrap.Integrations.Overlays
             for (int i = 0; i < 2; i++)
             {
                 _stageTex[i] = CreateTex(Format.B8G8R8A8_Typeless);
-                _stageSrv[i] = _device!.CreateShaderResourceView(_stageTex[i], new ShaderResourceViewDescription
-                {
-                    Format = Format.B8G8R8A8_UNorm,
-                    ViewDimension = ShaderResourceViewDimension.Texture2D,
-                    Texture2D = new Texture2DShaderResourceView { MostDetailedMip = 0, MipLevels = 1 },
-                });
-                _stageRtv[i] = _device!.CreateRenderTargetView(_stageTex[i], new RenderTargetViewDescription
-                {
-                    Format = Format.B8G8R8A8_UNorm,
-                    ViewDimension = RenderTargetViewDimension.Texture2D,
-                });
+                _stageSrv[i] = _device!.CreateShaderResourceView(
+                    _stageTex[i],
+                    new ShaderResourceViewDescription
+                    {
+                        Format = Format.B8G8R8A8_UNorm,
+                        ViewDimension = ShaderResourceViewDimension.Texture2D,
+                        Texture2D = new Texture2DShaderResourceView { MostDetailedMip = 0, MipLevels = 1 },
+                    }
+                );
+                _stageRtv[i] = _device!.CreateRenderTargetView(
+                    _stageTex[i],
+                    new RenderTargetViewDescription { Format = Format.B8G8R8A8_UNorm, ViewDimension = RenderTargetViewDimension.Texture2D }
+                );
                 _compTex[i] = CreateTex();
                 _compSrv[i] = _device!.CreateShaderResourceView(_compTex[i]);
                 _compRtv[i] = _device!.CreateRenderTargetView(_compTex[i]);
             }
-            _stageRtvSrgb = _device!.CreateRenderTargetView(_stageTex[0], new RenderTargetViewDescription
-            {
-                Format = Format.B8G8R8A8_UNorm_SRgb,
-                ViewDimension = RenderTargetViewDimension.Texture2D,
-            });
+            _stageRtvSrgb = _device!.CreateRenderTargetView(
+                _stageTex[0],
+                new RenderTargetViewDescription { Format = Format.B8G8R8A8_UNorm_SRgb, ViewDimension = RenderTargetViewDimension.Texture2D }
+            );
             _dims = new Vector4(_width, _height, 1f / Math.Max(_width, 1), 1f / Math.Max(_height, 1));
             _cur = 0;
             _hasPrev = false;
@@ -1326,27 +1536,29 @@ namespace Voidstrap.Integrations.Overlays
             _dtHead = 0;
             _dtOutlierRun = 0;
             _lastAlignedMs = 0;
-			_captureGapEma = 0;
-			_lastFreshPresentMs = 0;
-			_freshCaptureMs = 0;
-			_captureSrcMs = 0;
-			ResetHudTelemetry();
+            _captureGapEma = 0;
+            _lastFreshPresentMs = 0;
+            _freshCaptureMs = 0;
+            _captureSrcMs = 0;
+            ResetHudTelemetry();
         }
 
         private ID3D11Texture2D CreateTex(Format format = Format.B8G8R8A8_UNorm)
         {
-            return _device!.CreateTexture2D(new Texture2DDescription
-            {
-                Width = (uint)_width,
-                Height = (uint)_height,
-                MipLevels = 1,
-                ArraySize = 1,
-                Format = format,
-                SampleDescription = new SampleDescription(1, 0),
-                Usage = ResourceUsage.Default,
-                BindFlags = BindFlags.ShaderResource | BindFlags.RenderTarget,
-                CPUAccessFlags = CpuAccessFlags.None,
-            });
+            return _device!.CreateTexture2D(
+                new Texture2DDescription
+                {
+                    Width = (uint)_width,
+                    Height = (uint)_height,
+                    MipLevels = 1,
+                    ArraySize = 1,
+                    Format = format,
+                    SampleDescription = new SampleDescription(1, 0),
+                    Usage = ResourceUsage.Default,
+                    BindFlags = BindFlags.ShaderResource | BindFlags.RenderTarget,
+                    CPUAccessFlags = CpuAccessFlags.None,
+                }
+            );
         }
 
         private void ReleaseSizedResources()
@@ -1407,7 +1619,10 @@ namespace Voidstrap.Integrations.Overlays
                                 using var output1 = output.QueryInterface<IDXGIOutput1>();
                                 _duplication = output1.DuplicateOutput(_device!);
                                 _captureFailures = 0;
-                                App.Logger.WriteLine(LOG_IDENT, $"Screen capture active on monitor at {dc.Left},{dc.Top} to {dc.Right},{dc.Bottom}");
+                                App.Logger.WriteLine(
+                                    LOG_IDENT,
+                                    $"Screen capture active on monitor at {dc.Left},{dc.Top} to {dc.Right},{dc.Bottom}"
+                                );
                                 return true;
                             }
                         }
@@ -1451,7 +1666,7 @@ namespace Voidstrap.Integrations.Overlays
                 _duplication = null;
                 SetRecordingVisibility(true);
             }
-			ResetCaptureMeasurements();
+            ResetCaptureMeasurements();
         }
 
         private bool TryRestoreWindowCapture()
@@ -1470,7 +1685,7 @@ namespace Voidstrap.Integrations.Overlays
             _duplication?.Dispose();
             _duplication = null;
             SetRecordingVisibility(true);
-			ResetCaptureMeasurements();
+            ResetCaptureMeasurements();
             App.Logger.WriteLine(LOG_IDENT, "Window capture restored, OBS output resumed with the finished compositor frame");
             return true;
         }
@@ -1483,9 +1698,7 @@ namespace Voidstrap.Integrations.Overlays
                 if (handle != IntPtr.Zero)
                     _robloxHwnd = handle;
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private bool TryGetRobloxRect(out Interop.RECT rect)
@@ -1503,9 +1716,20 @@ namespace Voidstrap.Integrations.Overlays
                 _robloxHwnd = IntPtr.Zero;
                 return false;
             }
-            if (Interop.DwmGetWindowAttribute(_robloxHwnd, Interop.DWMWA_EXTENDED_FRAME_BOUNDS, out Interop.RECT visible, Marshal.SizeOf<Interop.RECT>()) == 0
-                && visible.Right > visible.Left && visible.Bottom > visible.Top
-                && visible.Left >= rect.Left && visible.Top >= rect.Top && visible.Right <= rect.Right && visible.Bottom <= rect.Bottom)
+            if (
+                Interop.DwmGetWindowAttribute(
+                    _robloxHwnd,
+                    Interop.DWMWA_EXTENDED_FRAME_BOUNDS,
+                    out Interop.RECT visible,
+                    Marshal.SizeOf<Interop.RECT>()
+                ) == 0
+                && visible.Right > visible.Left
+                && visible.Bottom > visible.Top
+                && visible.Left >= rect.Left
+                && visible.Top >= rect.Top
+                && visible.Right <= rect.Right
+                && visible.Bottom <= rect.Bottom
+            )
                 rect = visible;
             IntPtr monitor = Interop.MonitorFromWindow(_robloxHwnd, Interop.MONITOR_DEFAULTTONEAREST);
             if (monitor != IntPtr.Zero)
@@ -1524,20 +1748,21 @@ namespace Voidstrap.Integrations.Overlays
 
         private bool UpdateVisibility(CancellationToken token)
         {
-			long tick = Environment.TickCount64;
-			if (tick < _nextVisibilityCheckMs)
-				return !_hiddenByFocus;
-			_nextVisibilityCheckMs = tick + 250;
+            long tick = Environment.TickCount64;
+            if (tick < _nextVisibilityCheckMs)
+                return !_hiddenByFocus;
+            _nextVisibilityCheckMs = tick + 250;
             if (_robloxHwnd == IntPtr.Zero)
                 ResolveRobloxHwnd();
             IntPtr fg = Interop.GetForegroundWindow();
-            bool robloxActive = _robloxHwnd != IntPtr.Zero && fg == _robloxHwnd
-                             || (_hwnd != IntPtr.Zero && fg == _hwnd)
-                             || _riShadeInteractive
-                             || (_riRuntime != IntPtr.Zero && RiShadeManager.IsOverlayOpen)
-                             || OverlayDiagnostics.IsOverlayHandle(fg)
-                             || RobloxWindowTracker.IsRobloxForeground()
-                             || RobloxWindowTracker.IsHiddenShellForeground(fg, _robloxHwnd);
+            bool robloxActive =
+                _robloxHwnd != IntPtr.Zero && fg == _robloxHwnd
+                || (_hwnd != IntPtr.Zero && fg == _hwnd)
+                || _riShadeInteractive
+                || (_riRuntime != IntPtr.Zero && RiShadeManager.IsOverlayOpen)
+                || OverlayDiagnostics.IsOverlayHandle(fg)
+                || RobloxWindowTracker.IsRobloxForeground()
+                || RobloxWindowTracker.IsHiddenShellForeground(fg, _robloxHwnd);
             if (robloxActive || (fg == IntPtr.Zero && !_hiddenByFocus))
             {
                 if (_hiddenByFocus)
@@ -1563,7 +1788,10 @@ namespace Voidstrap.Integrations.Overlays
             if (!_hiddenByFocus)
             {
                 _hiddenByFocus = true;
-                App.Logger.WriteLine(LOG_IDENT, $"Idle, Roblox is not the foreground window (roblox 0x{_robloxHwnd.ToInt64():X}, foreground 0x{fg.ToInt64():X}), nothing renders until it comes back");
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    $"Idle, Roblox is not the foreground window (roblox 0x{_robloxHwnd.ToInt64():X}, foreground 0x{fg.ToInt64():X}), nothing renders until it comes back"
+                );
                 if (FrameGenSettings.ModeIndex > 0)
                 {
                     ResetFrameGenState();
@@ -1587,10 +1815,10 @@ namespace Voidstrap.Integrations.Overlays
 
         private void FollowRoblox()
         {
-			long tick = Environment.TickCount64;
-			if (tick < _nextFollowMs)
-				return;
-			_nextFollowMs = tick + 250;
+            long tick = Environment.TickCount64;
+            if (tick < _nextFollowMs)
+                return;
+            _nextFollowMs = tick + 250;
             if (!TryGetRobloxRect(out var rect))
                 return;
             if (rect.Left <= -30000 || rect.Top <= -30000)
@@ -1607,8 +1835,8 @@ namespace Voidstrap.Integrations.Overlays
             }
 
             bool sizeChanged = w != _width || h != _height;
-			IntPtr currentMonitor = Interop.MonitorFromWindow(_robloxHwnd, Interop.MONITOR_DEFAULTTONEAREST);
-			bool monitorChanged = currentMonitor != IntPtr.Zero && currentMonitor != _displayMonitor;
+            IntPtr currentMonitor = Interop.MonitorFromWindow(_robloxHwnd, Interop.MONITOR_DEFAULTTONEAREST);
+            bool monitorChanged = currentMonitor != IntPtr.Zero && currentMonitor != _displayMonitor;
             if (sizeChanged && (w != _pendingW || h != _pendingH))
             {
                 _pendingW = w;
@@ -1642,16 +1870,16 @@ namespace Voidstrap.Integrations.Overlays
                 if (_wgc == null)
                     CreateDuplicationForRect(_rectLeft, _rectTop);
             }
-			else if (monitorChanged)
-			{
-				App.Logger.WriteLine(LOG_IDENT, "Roblox moved to another monitor, refreshing capture and pacing");
-				_refreshHz = QueryRefreshHz();
-				_wgc?.SetTargetFps(CaptureTargetFps());
-				if (_wgc == null)
-					CreateDuplicationForRect(_rectLeft, _rectTop);
-				ResetCaptureMeasurements();
-				_homepageRepaintDue = true;
-			}
+            else if (monitorChanged)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Roblox moved to another monitor, refreshing capture and pacing");
+                _refreshHz = QueryRefreshHz();
+                _wgc?.SetTargetFps(CaptureTargetFps());
+                if (_wgc == null)
+                    CreateDuplicationForRect(_rectLeft, _rectTop);
+                ResetCaptureMeasurements();
+                _homepageRepaintDue = true;
+            }
             else if (_wgc == null)
             {
                 int cx = _rectLeft + _width / 2;
@@ -1681,7 +1909,7 @@ namespace Voidstrap.Integrations.Overlays
                 IntPtr mon = Interop.MonitorFromWindow(target, Interop.MONITOR_DEFAULTTONEAREST);
                 if (mon == IntPtr.Zero)
                     return 60.0;
-				_displayMonitor = mon;
+                _displayMonitor = mon;
                 var mi = new Interop.MONITORINFOEXW { cbSize = (uint)Marshal.SizeOf<Interop.MONITORINFOEXW>() };
                 if (!Interop.GetMonitorInfoW(mon, ref mi))
                     return 60.0;
@@ -1698,8 +1926,8 @@ namespace Voidstrap.Integrations.Overlays
 
         private double CaptureTargetFps()
         {
-			if (OverlayHub.HomepageBackgroundActive)
-				return _refreshHz;
+            if (OverlayHub.HomepageBackgroundActive)
+                return _refreshHz;
             int cap = RobloxFpsCap.Cap;
             if (FrameGenSettings.ModeIndex <= 0)
                 return cap > 0 && cap < 1000 ? Math.Min(_refreshHz, cap) : _refreshHz;
@@ -1721,30 +1949,34 @@ namespace Voidstrap.Integrations.Overlays
             return actual >= 5.0 && actual <= ceiling ? actual : 0;
         }
 
-		private static Vector4 ReadHomepageBackgroundColor()
-		{
-			return ReadHomepageColor(App.Settings.Prop.HomepageBackgroundOverlayColor, new Vector4(18f / 255f, 18f / 255f, 21f / 255f, 1f));
-		}
+        private static Vector4 ReadHomepageBackgroundColor()
+        {
+            return ReadHomepageColor(App.Settings.Prop.HomepageBackgroundOverlayColor, new Vector4(18f / 255f, 18f / 255f, 21f / 255f, 1f));
+        }
 
-		private static Vector4 ReadHomepageGradientColor()
-		{
-			return ReadHomepageColor(App.Settings.Prop.HomepageBackgroundOverlayGradientColor, new Vector4(91f / 255f, 46f / 255f, 1f, 1f));
-		}
+        private static Vector4 ReadHomepageGradientColor()
+        {
+            return ReadHomepageColor(App.Settings.Prop.HomepageBackgroundOverlayGradientColor, new Vector4(91f / 255f, 46f / 255f, 1f, 1f));
+        }
 
-		private static Vector4 ReadHomepageColor(string? value, Vector4 fallback)
-		{
-			value ??= "";
-			if (value.Length == 7 && value[0] == '#'
-				&& int.TryParse(value.AsSpan(1), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out int rgb))
-			{
-				return new Vector4(
-					((rgb >> 16) & 0xFF) / 255f,
-					((rgb >> 8) & 0xFF) / 255f,
-					(rgb & 0xFF) / 255f,
-					1f);
-			}
-			return fallback;
-		}
+        private static Vector4 ReadHomepageColor(string? value, Vector4 fallback)
+        {
+            value ??= "";
+            if (
+                value.Length == 7
+                && value[0] == '#'
+                && int.TryParse(
+                    value.AsSpan(1),
+                    System.Globalization.NumberStyles.HexNumber,
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    out int rgb
+                )
+            )
+            {
+                return new Vector4(((rgb >> 16) & 0xFF) / 255f, ((rgb >> 8) & 0xFF) / 255f, (rgb & 0xFF) / 255f, 1f);
+            }
+            return fallback;
+        }
 
         private void UpdateWindowCaptureHealth(bool captured)
         {
@@ -1790,7 +2022,10 @@ namespace Voidstrap.Integrations.Overlays
         {
             _captureRestartAllowedAtMs = _clock.Elapsed.TotalMilliseconds + 8000.0;
             _captureHealthFailures = 0;
-            App.Logger.WriteLine(LOG_IDENT, $"Window capture slowed to {captureFps:0} FPS while Roblox remained at {actualFps:0} FPS, rebuilding capture");
+            App.Logger.WriteLine(
+                LOG_IDENT,
+                $"Window capture slowed to {captureFps:0} FPS while Roblox remained at {actualFps:0} FPS, rebuilding capture"
+            );
             _wgc?.Dispose();
             _wgc = null;
             _wgcHwnd = IntPtr.Zero;
@@ -1900,9 +2135,7 @@ namespace Voidstrap.Integrations.Overlays
                 }
                 if (frameInfo.LastPresentTime == 0 && _hasPrev)
                     return false;
-                _captureSrcMs = frameInfo.LastPresentTime != 0
-                    ? frameInfo.LastPresentTime * 1000.0 / Stopwatch.Frequency
-                    : 0;
+                _captureSrcMs = frameInfo.LastPresentTime != 0 ? frameInfo.LastPresentTime * 1000.0 / Stopwatch.Frequency : 0;
 
                 using var desktopTex = desktopResource.QueryInterface<ID3D11Texture2D>();
                 int srcLeft = _rectLeft - _outputLeft;
@@ -1929,16 +2162,20 @@ namespace Voidstrap.Integrations.Overlays
                     _context.IASetInputLayout(null);
                     _context.IASetPrimitiveTopology(PrimitiveTopology.TriangleList);
                     _context.RSSetViewport(new Viewport(0, 0, _width, _height, 0, 1));
-                    _context.UpdateSubresource(new FrameGenPipelineParams
-                    {
-                        Dims = _dims,
-                        SrcRect = new Vector4(
-                            (float)srcLeft / desc.Width,
-                            (float)srcTop / desc.Height,
-                            (float)(right - srcLeft) / desc.Width,
-                            (float)(bottom - srcTop) / desc.Height),
-                        Interp = Vector4.Zero,
-                    }, _cbuffer!);
+                    _context.UpdateSubresource(
+                        new FrameGenPipelineParams
+                        {
+                            Dims = _dims,
+                            SrcRect = new Vector4(
+                                (float)srcLeft / desc.Width,
+                                (float)srcTop / desc.Height,
+                                (float)(right - srcLeft) / desc.Width,
+                                (float)(bottom - srcTop) / desc.Height
+                            ),
+                            Interp = Vector4.Zero,
+                        },
+                        _cbuffer!
+                    );
                     DrawBlit(_psCropSrgb!, _rawRtv!, desktopSrv);
                 }
                 return true;
@@ -1985,204 +2222,215 @@ namespace Voidstrap.Integrations.Overlays
             _context.PSSetShaderResources(0, _nullSrvs);
         }
 
-		private void DrawHomepage(ID3D11RenderTargetView target, ID3D11ShaderResourceView input, ID3D11ShaderResourceView? media)
-		{
-			_psHomeBackground ??= CompilePs("PSHomeBackground");
-			_context!.VSSetShader(_vs);
-			_context.PSSetConstantBuffer(0, _cbuffer);
-			_context.PSSetSampler(0, _sampler);
-			_context.IASetInputLayout(null);
-			_context.IASetPrimitiveTopology(PrimitiveTopology.TriangleList);
-			_context.RSSetViewport(new Viewport(0, 0, _width, _height, 0, 1));
-			_context.PSSetShaderResources(0, _nullSrvs);
-			_context.OMSetRenderTargets(target);
-			_context.PSSetShader(_psHomeBackground);
-			_context.PSSetShaderResource(0, input);
-			_context.PSSetShaderResource(1, media!);
-			_context.Draw(3, 0);
-			_context.PSSetShaderResources(0, _nullSrvs);
-		}
+        private void DrawHomepage(ID3D11RenderTargetView target, ID3D11ShaderResourceView input, ID3D11ShaderResourceView? media)
+        {
+            _psHomeBackground ??= CompilePs("PSHomeBackground");
+            _context!.VSSetShader(_vs);
+            _context.PSSetConstantBuffer(0, _cbuffer);
+            _context.PSSetSampler(0, _sampler);
+            _context.IASetInputLayout(null);
+            _context.IASetPrimitiveTopology(PrimitiveTopology.TriangleList);
+            _context.RSSetViewport(new Viewport(0, 0, _width, _height, 0, 1));
+            _context.PSSetShaderResources(0, _nullSrvs);
+            _context.OMSetRenderTargets(target);
+            _context.PSSetShader(_psHomeBackground);
+            _context.PSSetShaderResource(0, input);
+            _context.PSSetShaderResource(1, media!);
+            _context.Draw(3, 0);
+            _context.PSSetShaderResources(0, _nullSrvs);
+        }
 
-		private bool TryHomepageIdlePresent()
-		{
-			if (!OverlayHub.HomepageBackgroundActive || _fgGenerating)
-				return false;
-			double now = _clock.Elapsed.TotalMilliseconds;
-			if (now < _homepageIdleNextMs)
-				return false;
-			_homepageIdleNextMs = now + 1000.0 / Math.Max(30.0, _refreshHz);
-			_homepageMediaUploaded = false;
-			bool hasMedia = UpdateHomepageMedia();
-			if (!_rawValid || _rawSrv == null || _backBufferRtv == null)
-				return false;
-			if (!_homepageRepaintDue && !_homepageMediaUploaded)
-				return false;
-			_homepageRepaintDue = false;
-			ComposeHomepage(_backBufferRtv, _rawSrv, hasMedia);
-			if (!Present())
-				return false;
-			_realPresented++;
-			return true;
-		}
+        private bool TryHomepageIdlePresent()
+        {
+            if (!OverlayHub.HomepageBackgroundActive || _fgGenerating)
+                return false;
+            double now = _clock.Elapsed.TotalMilliseconds;
+            if (now < _homepageIdleNextMs)
+                return false;
+            _homepageIdleNextMs = now + 1000.0 / Math.Max(30.0, _refreshHz);
+            _homepageMediaUploaded = false;
+            bool hasMedia = UpdateHomepageMedia();
+            if (!_rawValid || _rawSrv == null || _backBufferRtv == null)
+                return false;
+            if (!_homepageRepaintDue && !_homepageMediaUploaded)
+                return false;
+            _homepageRepaintDue = false;
+            ComposeHomepage(_backBufferRtv, _rawSrv, hasMedia);
+            if (!Present())
+                return false;
+            _realPresented++;
+            return true;
+        }
 
-		private bool UpdateHomepageMedia()
-		{
-			try
-			{
-				string path = OverlaySettings.HomepageBackgroundMode == "Media" ? App.Settings.Prop.HomepageBackgroundOverlayMediaPath ?? "" : "";
-				if (!string.Equals(path, _homepageMediaRequestedPath, StringComparison.OrdinalIgnoreCase))
-				{
-					_homepageMediaRequestedPath = path;
-					_homepageMediaProbeMs = 0;
-				}
-				long nowMs = Environment.TickCount64;
-				if (nowMs - _homepageMediaProbeMs >= HomepageMediaProbeIntervalMs)
-				{
-					_homepageMediaProbeMs = nowMs;
-					_homepageMediaResolvedPath = path.Length > 0 && File.Exists(path) ? path : "";
-				}
-				string resolved = _homepageMediaResolvedPath;
-				if (!string.Equals(resolved, _homepageMediaPath, StringComparison.OrdinalIgnoreCase))
-				{
-					ReleaseHomepageMedia();
-					_homepageMediaPath = resolved;
-					if (resolved.Length > 0)
-					{
-						_homepageVideo = TryCreateHomepageVideo(resolved);
-						if (_homepageVideo == null)
-							_homepageMedia = new HomepageBackgroundMedia(resolved, _refreshHz, _width, _height);
-					}
-				}
-				if (_homepageVideo != null)
-				{
-					if (!_homepageVideo.Failed)
-					{
-						if (_homepageVideo.Update(_context!))
-							_homepageMediaUploaded = true;
-						return _homepageVideo.HasFrame;
-					}
-					string failedPath = _homepageMediaPath;
-					ReleaseHomepageMedia();
-					_homepageMediaPath = failedPath;
-					_homepageMedia = new HomepageBackgroundMedia(failedPath, _refreshHz, _width, _height);
-				}
-				if (_homepageMedia == null)
-					return false;
-				_homepageMedia.TryReadFrame(_homepageMediaVersion, UploadHomepageMediaFrame);
-				return _homepageMediaSrv != null;
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine(LOG_IDENT, "The homepage background media failed, continuing without it: " + ex.Message);
-				ReleaseHomepageMedia();
-				_homepageMediaPath = "";
-				_homepageMediaResolvedPath = "";
-				return false;
-			}
-		}
+        private bool UpdateHomepageMedia()
+        {
+            try
+            {
+                string path =
+                    OverlaySettings.HomepageBackgroundMode == "Media" ? App.Settings.Prop.HomepageBackgroundOverlayMediaPath ?? "" : "";
+                if (!string.Equals(path, _homepageMediaRequestedPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    _homepageMediaRequestedPath = path;
+                    _homepageMediaProbeMs = 0;
+                }
+                long nowMs = Environment.TickCount64;
+                if (nowMs - _homepageMediaProbeMs >= HomepageMediaProbeIntervalMs)
+                {
+                    _homepageMediaProbeMs = nowMs;
+                    _homepageMediaResolvedPath = path.Length > 0 && File.Exists(path) ? path : "";
+                }
+                string resolved = _homepageMediaResolvedPath;
+                if (!string.Equals(resolved, _homepageMediaPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    ReleaseHomepageMedia();
+                    _homepageMediaPath = resolved;
+                    if (resolved.Length > 0)
+                    {
+                        _homepageVideo = TryCreateHomepageVideo(resolved);
+                        if (_homepageVideo == null)
+                            _homepageMedia = new HomepageBackgroundMedia(resolved, _refreshHz, _width, _height);
+                    }
+                }
+                if (_homepageVideo != null)
+                {
+                    if (!_homepageVideo.Failed)
+                    {
+                        if (_homepageVideo.Update(_context!))
+                            _homepageMediaUploaded = true;
+                        return _homepageVideo.HasFrame;
+                    }
+                    string failedPath = _homepageMediaPath;
+                    ReleaseHomepageMedia();
+                    _homepageMediaPath = failedPath;
+                    _homepageMedia = new HomepageBackgroundMedia(failedPath, _refreshHz, _width, _height);
+                }
+                if (_homepageMedia == null)
+                    return false;
+                _homepageMedia.TryReadFrame(_homepageMediaVersion, UploadHomepageMediaFrame);
+                return _homepageMediaSrv != null;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "The homepage background media failed, continuing without it: " + ex.Message);
+                ReleaseHomepageMedia();
+                _homepageMediaPath = "";
+                _homepageMediaResolvedPath = "";
+                return false;
+            }
+        }
 
-		private HomepageVideoDecoder? TryCreateHomepageVideo(string path)
-		{
-			if (Voidstrap.Utility.Platform.IsLinux)
-				return null;
-			string extension = Path.GetExtension(path).ToLowerInvariant();
-			if (extension is not (".mp4" or ".m4v" or ".webm" or ".avi" or ".mov" or ".wmv" or ".mpeg" or ".mpg" or ".mkv"))
-				return null;
-			try
-			{
-				HomepageVideoDecoder video = new HomepageVideoDecoder(_device!, path);
-				_homepageMediaSrv = video.Srv;
-				_homepageMediaWidth = video.Width;
-				_homepageMediaHeight = video.Height;
-				App.Logger.WriteLine(LOG_IDENT, $"Homepage background video is decoding on the GPU at {video.Width}x{video.Height}");
-				return video;
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine(LOG_IDENT, "GPU video decoding is unavailable for the homepage background, using the software player: " + ex.Message);
-				return null;
-			}
-		}
+        private HomepageVideoDecoder? TryCreateHomepageVideo(string path)
+        {
+            if (Voidstrap.Utility.Platform.IsLinux)
+                return null;
+            string extension = Path.GetExtension(path).ToLowerInvariant();
+            if (extension is not (".mp4" or ".m4v" or ".webm" or ".avi" or ".mov" or ".wmv" or ".mpeg" or ".mpg" or ".mkv"))
+                return null;
+            try
+            {
+                HomepageVideoDecoder video = new HomepageVideoDecoder(_device!, path);
+                _homepageMediaSrv = video.Srv;
+                _homepageMediaWidth = video.Width;
+                _homepageMediaHeight = video.Height;
+                App.Logger.WriteLine(LOG_IDENT, $"Homepage background video is decoding on the GPU at {video.Width}x{video.Height}");
+                return video;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    "GPU video decoding is unavailable for the homepage background, using the software player: " + ex.Message
+                );
+                return null;
+            }
+        }
 
-		private void UploadHomepageMediaFrame(byte[] pixels, int width, int height, long version)
-		{
-			if (_homepageMediaTexture == null || width != _homepageMediaWidth || height != _homepageMediaHeight)
-			{
-				_homepageMediaSrv?.Dispose();
-				_homepageMediaTexture?.Dispose();
-				_homepageMediaTexture = _device!.CreateTexture2D(new Texture2DDescription
-				{
-					Width = (uint)width,
-					Height = (uint)height,
-					MipLevels = 1,
-					ArraySize = 1,
-					Format = Format.B8G8R8A8_UNorm,
-					SampleDescription = new SampleDescription(1, 0),
-					Usage = ResourceUsage.Dynamic,
-					BindFlags = BindFlags.ShaderResource,
-					CPUAccessFlags = CpuAccessFlags.Write
-				});
-				_homepageMediaSrv = _device.CreateShaderResourceView(_homepageMediaTexture);
-				_homepageMediaWidth = width;
-				_homepageMediaHeight = height;
-			}
-			var mapped = _context!.Map(_homepageMediaTexture!, 0, MapMode.WriteDiscard, Vortice.Direct3D11.MapFlags.None);
-			try
-			{
-				int rowBytes = width * 4;
-				unsafe
-				{
-					fixed (byte* source = pixels)
-					{
-						byte* targetRow = (byte*)mapped.DataPointer;
-						for (int y = 0; y < height; y++)
-							Buffer.MemoryCopy(source + y * rowBytes, targetRow + y * (int)mapped.RowPitch, rowBytes, rowBytes);
-					}
-				}
-			}
-			finally
-			{
-				_context.Unmap(_homepageMediaTexture!, 0);
-			}
-			_homepageMediaVersion = version;
-			_homepageMediaUploaded = true;
-		}
+        private void UploadHomepageMediaFrame(byte[] pixels, int width, int height, long version)
+        {
+            if (_homepageMediaTexture == null || width != _homepageMediaWidth || height != _homepageMediaHeight)
+            {
+                _homepageMediaSrv?.Dispose();
+                _homepageMediaTexture?.Dispose();
+                _homepageMediaTexture = _device!.CreateTexture2D(
+                    new Texture2DDescription
+                    {
+                        Width = (uint)width,
+                        Height = (uint)height,
+                        MipLevels = 1,
+                        ArraySize = 1,
+                        Format = Format.B8G8R8A8_UNorm,
+                        SampleDescription = new SampleDescription(1, 0),
+                        Usage = ResourceUsage.Dynamic,
+                        BindFlags = BindFlags.ShaderResource,
+                        CPUAccessFlags = CpuAccessFlags.Write,
+                    }
+                );
+                _homepageMediaSrv = _device.CreateShaderResourceView(_homepageMediaTexture);
+                _homepageMediaWidth = width;
+                _homepageMediaHeight = height;
+            }
+            var mapped = _context!.Map(_homepageMediaTexture!, 0, MapMode.WriteDiscard, Vortice.Direct3D11.MapFlags.None);
+            try
+            {
+                int rowBytes = width * 4;
+                unsafe
+                {
+                    fixed (byte* source = pixels)
+                    {
+                        byte* targetRow = (byte*)mapped.DataPointer;
+                        for (int y = 0; y < height; y++)
+                            Buffer.MemoryCopy(source + y * rowBytes, targetRow + y * (int)mapped.RowPitch, rowBytes, rowBytes);
+                    }
+                }
+            }
+            finally
+            {
+                _context.Unmap(_homepageMediaTexture!, 0);
+            }
+            _homepageMediaVersion = version;
+            _homepageMediaUploaded = true;
+        }
 
-		private void ReleaseHomepageMedia()
-		{
-			if (_homepageVideo != null)
-			{
-				_homepageVideo.Dispose();
-				_homepageVideo = null;
-				_homepageMediaSrv = null;
-			}
-			_homepageMedia?.Dispose();
-			_homepageMedia = null;
-			_homepageMediaSrv?.Dispose();
-			_homepageMediaSrv = null;
-			_homepageMediaTexture?.Dispose();
-			_homepageMediaTexture = null;
-			_homepageMediaWidth = 0;
-			_homepageMediaHeight = 0;
-			_homepageMediaVersion = 0;
-			_homepageRepaintDue = true;
-		}
+        private void ReleaseHomepageMedia()
+        {
+            if (_homepageVideo != null)
+            {
+                _homepageVideo.Dispose();
+                _homepageVideo = null;
+                _homepageMediaSrv = null;
+            }
+            _homepageMedia?.Dispose();
+            _homepageMedia = null;
+            _homepageMediaSrv?.Dispose();
+            _homepageMediaSrv = null;
+            _homepageMediaTexture?.Dispose();
+            _homepageMediaTexture = null;
+            _homepageMediaWidth = 0;
+            _homepageMediaHeight = 0;
+            _homepageMediaVersion = 0;
+            _homepageRepaintDue = true;
+        }
 
-		private void ReleaseHomepageResources()
-		{
-			if (_homepageVideo == null && _homepageMedia == null && _homepageMediaSrv == null
-				&& _homepageMediaTexture == null && _psHomeBackground == null)
-				return;
-			_context?.PSSetShaderResources(0, _nullSrvs);
-			_context?.PSSetShader(null);
-			ReleaseHomepageMedia();
-			_psHomeBackground?.Dispose();
-			_psHomeBackground = null;
-			_homepageMediaPath = "";
-			_homepageMediaResolvedPath = "";
-			_homepageMediaRequestedPath = "";
-			_homepageMediaProbeMs = 0;
-		}
+        private void ReleaseHomepageResources()
+        {
+            if (
+                _homepageVideo == null
+                && _homepageMedia == null
+                && _homepageMediaSrv == null
+                && _homepageMediaTexture == null
+                && _psHomeBackground == null
+            )
+                return;
+            _context?.PSSetShaderResources(0, _nullSrvs);
+            _context?.PSSetShader(null);
+            ReleaseHomepageMedia();
+            _psHomeBackground?.Dispose();
+            _psHomeBackground = null;
+            _homepageMediaPath = "";
+            _homepageMediaResolvedPath = "";
+            _homepageMediaRequestedPath = "";
+            _homepageMediaProbeMs = 0;
+        }
 
         private void ResetFrameGenState()
         {
@@ -2218,7 +2466,7 @@ namespace Voidstrap.Integrations.Overlays
 
         private void ResetFrameGenAfterFocus()
         {
-			ResetCaptureMeasurements();
+            ResetCaptureMeasurements();
             _fruc?.Deprime();
             _effectiveFgQuality = _fgQuality;
             _captureAgeHead = 0;
@@ -2234,33 +2482,42 @@ namespace Voidstrap.Integrations.Overlays
             _frucUsedAtLastLog = _frucUsedTotal;
         }
 
-		private void ResetCaptureMeasurements()
-		{
-			ResetFrameGenState();
-			ResetHudTelemetry();
-			_captureGapEma = 0;
-			_lastFreshPresentMs = 0;
-			_freshCaptureMs = 0;
-			_captureSrcMs = 0;
-			_poolWaitMs = 0;
-			_poolWaitEma = 0;
-			_captureHealthDropBase = _wgc?.DroppedCount ?? 0;
-			_outputDeficitWindows = 0;
-		}
+        private void ResetCaptureMeasurements()
+        {
+            ResetFrameGenState();
+            ResetHudTelemetry();
+            _captureGapEma = 0;
+            _lastFreshPresentMs = 0;
+            _freshCaptureMs = 0;
+            _captureSrcMs = 0;
+            _poolWaitMs = 0;
+            _poolWaitEma = 0;
+            _captureHealthDropBase = _wgc?.DroppedCount ?? 0;
+            _outputDeficitWindows = 0;
+        }
 
-		private void ResetHudTelemetry()
-		{
-			_hudLastMs = 0;
-			_hudRealBase = _realPresented;
-			_hudGenBase = _genPresented;
-			_hudPainted = false;
-		}
+        private void ResetHudTelemetry()
+        {
+            _hudLastMs = 0;
+            _hudRealBase = _realPresented;
+            _hudGenBase = _genPresented;
+            _hudPainted = false;
+        }
 
         private void SyncStages(bool aaOn, bool mbOn, bool fgOn)
         {
-            if (mbOn && !_mbAttached && Environment.TickCount64 >= _mbAttachRetryAt && Voidstrap.Integrations.MotionBlur.MotionBlurOverlay.EnsurePrepared())
+            if (
+                mbOn
+                && !_mbAttached
+                && Environment.TickCount64 >= _mbAttachRetryAt
+                && Voidstrap.Integrations.MotionBlur.MotionBlurOverlay.EnsurePrepared()
+            )
             {
-                try { _motionBlur.AttachExternal(_device!, _context!, _width, _height); _mbAttached = true; }
+                try
+                {
+                    _motionBlur.AttachExternal(_device!, _context!, _width, _height);
+                    _mbAttached = true;
+                }
                 catch (Exception ex)
                 {
                     App.Logger.WriteException("OverlayCompositor::AttachMotionBlur", ex);
@@ -2275,8 +2532,15 @@ namespace Voidstrap.Integrations.Overlays
 
             if (aaOn && !_aaAttached)
             {
-                try { _aa.AttachExternal(_device!, _context!, _width, _height); _aaAttached = true; }
-                catch (Exception ex) { App.Logger.WriteException("OverlayCompositor::AttachAA", ex); }
+                try
+                {
+                    _aa.AttachExternal(_device!, _context!, _width, _height);
+                    _aaAttached = true;
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteException("OverlayCompositor::AttachAA", ex);
+                }
             }
             else if (!aaOn && _aaAttached)
             {
@@ -2289,7 +2553,10 @@ namespace Voidstrap.Integrations.Overlays
                 if (!FramePacer.Available)
                 {
                     _fgDisabledByError = true;
-                    App.Logger.WriteLine(LOG_IDENT, "Frame Generation is unavailable because " + FramePacer.Failure + ", the overlay keeps running without it");
+                    App.Logger.WriteLine(
+                        LOG_IDENT,
+                        "Frame Generation is unavailable because " + FramePacer.Failure + ", the overlay keeps running without it"
+                    );
                     return;
                 }
                 if (!FrameGenPipeline.IsPrepared && !FrameGenPipeline.PrepareFailed)
@@ -2307,7 +2574,12 @@ namespace Voidstrap.Integrations.Overlays
                     _fg.Attach(_device!, _context!);
                     _fgAttached = true;
                     ResetFrameGenState();
-                    App.Logger.WriteLine(LOG_IDENT, "Frame Generation stage attached, mode " + FrameGenSettings.ModeNames[FrameGenSettings.ModeIndex] + ", waiting for a steady capture rate to start generating");
+                    App.Logger.WriteLine(
+                        LOG_IDENT,
+                        "Frame Generation stage attached, mode "
+                            + FrameGenSettings.ModeNames[FrameGenSettings.ModeIndex]
+                            + ", waiting for a steady capture rate to start generating"
+                    );
                 }
                 catch (Exception ex)
                 {
@@ -2316,7 +2588,10 @@ namespace Voidstrap.Integrations.Overlays
                     if (_fgFailures >= 2)
                     {
                         _fgDisabledByError = true;
-                        App.Logger.WriteLine(LOG_IDENT, "Frame Generation turned off for this session after repeated graphics errors, the overlay keeps running without it");
+                        App.Logger.WriteLine(
+                            LOG_IDENT,
+                            "Frame Generation turned off for this session after repeated graphics errors, the overlay keeps running without it"
+                        );
                     }
                 }
             }
@@ -2341,7 +2616,7 @@ namespace Voidstrap.Integrations.Overlays
             {
                 int previousMode = _activeFgMode;
                 _activeFgMode = fgMode;
-				ResetHudTelemetry();
+                ResetHudTelemetry();
                 if (previousMode > 0 && fgMode > 0)
                 {
                     _fgQuality = InitialFrameGenQuality(fgMode);
@@ -2351,7 +2626,10 @@ namespace Voidstrap.Integrations.Overlays
                     _fgSixLoadLimit = InitialGeneratedLoadLimit(fgMode);
                     _multErr = 0;
                     _lastLoggedMult = -1;
-                    App.Logger.WriteLine(LOG_IDENT, "Frame Generation multiplier changed live to " + FrameGenSettings.ModeNames[fgMode] + ", pacing limits reset");
+                    App.Logger.WriteLine(
+                        LOG_IDENT,
+                        "Frame Generation multiplier changed live to " + FrameGenSettings.ModeNames[fgMode] + ", pacing limits reset"
+                    );
                 }
             }
             int mbStrength = MotionBlurSettings.StrengthIndex;
@@ -2386,7 +2664,11 @@ namespace Voidstrap.Integrations.Overlays
                 if (!filled && !TryHomepageIdlePresent())
                 {
                     if (_wgc != null)
-                        _wgc.WaitForFrame(_fgGenerating ? 1 : _homepageMedia?.IsAnimated == true || _homepageVideo != null ? 4 : 20);
+                        _wgc.WaitForFrame(
+                            _fgGenerating ? 1
+                            : _homepageMedia?.IsAnimated == true || _homepageVideo != null ? 4
+                            : 20
+                        );
                 }
                 return;
             }
@@ -2418,10 +2700,18 @@ namespace Voidstrap.Integrations.Overlays
             if (!_firstCaptureLogged)
             {
                 _firstCaptureLogged = true;
-                App.Logger.WriteLine(LOG_IDENT, $"First frame captured at {_width}x{_height} via {(_wgc != null ? "window capture" : "desktop duplication")}, compositor is live");
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    $"First frame captured at {_width}x{_height} via {(_wgc != null ? "window capture" : "desktop duplication")}, compositor is live"
+                );
             }
 
-            bool depthActive = App.Settings.Prop.RiShadeEnabled && _riRuntime != IntPtr.Zero && _riDepthBridge && _rawSrv != null && RiShadeManager.PresetNeedsDepth;
+            bool depthActive =
+                App.Settings.Prop.RiShadeEnabled
+                && _riRuntime != IntPtr.Zero
+                && _riDepthBridge
+                && _rawSrv != null
+                && RiShadeManager.PresetNeedsDepth;
             ApplyDepthGpuPriority(App.Settings.Prop.RiShadeEnabled && _riRuntime != IntPtr.Zero && RiShadeManager.HasLoadablePreset);
             if (depthActive)
             {
@@ -2436,9 +2726,12 @@ namespace Voidstrap.Integrations.Overlays
                         RiShadeInterop.DepthBridgeSetExact(RiShadeDepthModels.ExactDepth);
                         lock (RiShadeInterop.GraphicsSetupLock)
                             _riDepthBridge = RiShadeInterop.DepthBridgeReload(modelFile ?? string.Empty);
-                        App.Logger.WriteLine(LOG_IDENT, _riDepthBridge && RiShadeInterop.DepthBridgeUsingModel()
-                            ? "RiShade depth switched live to the AI model " + modelFile
-                            : "RiShade depth switched live to scene estimation");
+                        App.Logger.WriteLine(
+                            LOG_IDENT,
+                            _riDepthBridge && RiShadeInterop.DepthBridgeUsingModel()
+                                ? "RiShade depth switched live to the AI model " + modelFile
+                                : "RiShade depth switched live to scene estimation"
+                        );
                     }
                     if (_riDepthBridge && (!_riLowEnd || _freshCaptureMs >= _riDepthNextMs))
                     {
@@ -2468,14 +2761,25 @@ namespace Voidstrap.Integrations.Overlays
 
             bool riRendered = false;
             ID3D11ShaderResourceView composited = _rawSrv!;
-            if (!_riWrapped && App.Settings.Prop.RiShadeEnabled && _riRuntime != IntPtr.Zero && RiShadeManager.HasLoadablePreset && _stageRtv[0] != null && _stageSrv[0] != null)
+            if (
+                !_riWrapped
+                && App.Settings.Prop.RiShadeEnabled
+                && _riRuntime != IntPtr.Zero
+                && RiShadeManager.HasLoadablePreset
+                && _stageRtv[0] != null
+                && _stageSrv[0] != null
+            )
             {
                 try
                 {
                     if (_rawTex != null && _stageTex[0] != null)
                         _context!.CopyResource(_stageTex[0]!, _rawTex!);
 
-                    riRendered = RiShadeInterop.RenderEffects(_riRuntime, _stageRtv[0]!.NativePointer, _stageRtvSrgb?.NativePointer ?? IntPtr.Zero);
+                    riRendered = RiShadeInterop.RenderEffects(
+                        _riRuntime,
+                        _stageRtv[0]!.NativePointer,
+                        _stageRtvSrgb?.NativePointer ?? IntPtr.Zero
+                    );
                     if (riRendered)
                         composited = _stageSrv[0]!;
                 }
@@ -2532,14 +2836,14 @@ namespace Voidstrap.Integrations.Overlays
 
             if (!(fgOn && _fgAttached))
             {
-				if (OverlayHub.HomepageBackgroundActive)
-				{
-					ComposeHomepage(_backBufferRtv!, composited);
-				}
-				else if (!blurredIntoBackBuffer)
-				{
-					DrawBlit(_psPass!, _backBufferRtv!, composited);
-				}
+                if (OverlayHub.HomepageBackgroundActive)
+                {
+                    ComposeHomepage(_backBufferRtv!, composited);
+                }
+                else if (!blurredIntoBackBuffer)
+                {
+                    DrawBlit(_psPass!, _backBufferRtv!, composited);
+                }
                 if (!Present())
                     return;
                 _realPresented++;
@@ -2557,12 +2861,22 @@ namespace Voidstrap.Integrations.Overlays
                 _fgFailures++;
                 if (_fgFailures >= 2)
                 {
-                    DisableFrameGenForSession("Frame Generation turned off for this session after repeated graphics errors, the overlay keeps running without it");
+                    DisableFrameGenForSession(
+                        "Frame Generation turned off for this session after repeated graphics errors, the overlay keeps running without it"
+                    );
                 }
                 else
                 {
-                    try { _fg.Dispose(); } catch { }
-                    try { _fruc?.Dispose(); } catch { }
+                    try
+                    {
+                        _fg.Dispose();
+                    }
+                    catch { }
+                    try
+                    {
+                        _fruc?.Dispose();
+                    }
+                    catch { }
                     _fruc = null;
                     _frucLive = false;
                     _fgAttached = false;
@@ -2585,7 +2899,10 @@ namespace Voidstrap.Integrations.Overlays
             if (!_stallHidden)
             {
                 _stallHidden = true;
-                App.Logger.WriteLine(LOG_IDENT, $"Window capture delivered no frame for {now - _lastFreshTick} ms, hiding the overlay so Roblox stays visible and rebuilding capture");
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    $"Window capture delivered no frame for {now - _lastFreshTick} ms, hiding the overlay so Roblox stays visible and rebuilding capture"
+                );
                 Interop.ShowWindow(_hwnd, Interop.SW_HIDE);
             }
             if (_clock.Elapsed.TotalMilliseconds >= _captureRestartAllowedAtMs)
@@ -2612,7 +2929,10 @@ namespace Voidstrap.Integrations.Overlays
         {
             int health = FramePacer.SourceHealth(ref _quality, baseFps, _clock.Elapsed.TotalSeconds);
             if (health == 2)
-                App.Logger.WriteLine(LOG_IDENT, $"Frame Generation is backing off, Roblox held about {baseFps:0} frames per second against a usual {_sourceFpsPeak:0}");
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    $"Frame Generation is backing off, Roblox held about {baseFps:0} frames per second against a usual {_sourceFpsPeak:0}"
+                );
             return health != 0;
         }
 
@@ -2621,8 +2941,16 @@ namespace Voidstrap.Integrations.Overlays
             if (_fgDisabledByError)
                 return;
             _fgDisabledByError = true;
-            try { _fg.Dispose(); } catch { }
-            try { _fruc?.Dispose(); } catch { }
+            try
+            {
+                _fg.Dispose();
+            }
+            catch { }
+            try
+            {
+                _fruc?.Dispose();
+            }
+            catch { }
             _fruc = null;
             _frucLive = false;
             _fgAttached = false;
@@ -2651,14 +2979,22 @@ namespace Voidstrap.Integrations.Overlays
             Vector4 gradientColor = ReadHomepageGradientColor();
             gradientColor.W = gradientEnabled ? 1f : 0f;
             HomepageBackgroundSourceKeys sourceKeys = HomepageBackgroundSourceKeys.ReadConfigured();
-            _context!.UpdateSubresource(new FrameGenPipelineParams
-            {
-                Dims = gradientColor,
-                SrcRect = new Vector4(hasMedia ? scaleX : directionX, hasMedia ? scaleY : directionY, hasMedia ? 1f / _homepageMediaWidth : 1f, hasMedia ? 1f / _homepageMediaHeight : 1f),
-                Interp = color,
-                Extra = new Vector4(sourceKeys.AdjustedOriginal.Normalized, 0f),
-                Extra2 = new Vector4(sourceKeys.AdjustedSober.Normalized, 0f),
-            }, _cbuffer!);
+            _context!.UpdateSubresource(
+                new FrameGenPipelineParams
+                {
+                    Dims = gradientColor,
+                    SrcRect = new Vector4(
+                        hasMedia ? scaleX : directionX,
+                        hasMedia ? scaleY : directionY,
+                        hasMedia ? 1f / _homepageMediaWidth : 1f,
+                        hasMedia ? 1f / _homepageMediaHeight : 1f
+                    ),
+                    Interp = color,
+                    Extra = new Vector4(sourceKeys.AdjustedOriginal.Normalized, 0f),
+                    Extra2 = new Vector4(sourceKeys.AdjustedSober.Normalized, 0f),
+                },
+                _cbuffer!
+            );
             DrawHomepage(target, source, _homepageMediaSrv);
         }
 
@@ -2677,7 +3013,14 @@ namespace Voidstrap.Integrations.Overlays
         private void ConsiderFrameGenQuality(int minimumQuality, bool captureBackpressure)
         {
             int autoLimitBefore = _autoGeneratedLimit;
-            uint events = FramePacer.ConsiderQuality(ref _quality, minimumQuality, captureBackpressure, _activeFgMode, _lastGenCount, _clock.Elapsed.TotalSeconds);
+            uint events = FramePacer.ConsiderQuality(
+                ref _quality,
+                minimumQuality,
+                captureBackpressure,
+                _activeFgMode,
+                _lastGenCount,
+                _clock.Elapsed.TotalSeconds
+            );
             uint first = events & 0xFF;
             uint second = events >> 8;
             if (first != 0)
@@ -2692,14 +3035,19 @@ namespace Voidstrap.Integrations.Overlays
             {
                 FramePacer.EventFastFlowCapture => "Frame Generation switched to fast flow because capture fell behind Roblox",
                 FramePacer.EventLowerQualityCapture => "Frame Generation reduced flow quality because capture fell behind Roblox",
-                FramePacer.EventSixLowerCapture => $"Frame Generation reduced 6x to {_fgSixLoadLimit + 1}x because capture fell behind Roblox",
-                FramePacer.EventAutoLowerCapture => $"Frame Generation Auto reduced its stable ceiling to {_autoGeneratedLimit + 1}x because capture fell behind Roblox",
-                FramePacer.EventAutoRestoreQuiet => $"Frame Generation Auto restored its ceiling to {autoLimitBefore + 2}x after a quiet period",
+                FramePacer.EventSixLowerCapture =>
+                    $"Frame Generation reduced 6x to {_fgSixLoadLimit + 1}x because capture fell behind Roblox",
+                FramePacer.EventAutoLowerCapture =>
+                    $"Frame Generation Auto reduced its stable ceiling to {_autoGeneratedLimit + 1}x because capture fell behind Roblox",
+                FramePacer.EventAutoRestoreQuiet =>
+                    $"Frame Generation Auto restored its ceiling to {autoLimitBefore + 2}x after a quiet period",
                 FramePacer.EventFastFlowPacing => "Frame Generation switched to fast flow to protect frame pacing",
                 FramePacer.EventLowerQualityPacing => "Frame Generation reduced its flow quality to protect frame pacing",
                 FramePacer.EventSixLowerPacing => $"Frame Generation reduced 6x to {_fgSixLoadLimit + 1}x to protect Roblox performance",
-                FramePacer.EventAutoLowerPacing => $"Frame Generation Auto reduced its stable ceiling to {_autoGeneratedLimit + 1}x to protect Roblox performance",
-                FramePacer.EventAutoRestoreStable => $"Frame Generation Auto restored its ceiling to {_autoGeneratedLimit + 1}x after stable pacing",
+                FramePacer.EventAutoLowerPacing =>
+                    $"Frame Generation Auto reduced its stable ceiling to {_autoGeneratedLimit + 1}x to protect Roblox performance",
+                FramePacer.EventAutoRestoreStable =>
+                    $"Frame Generation Auto restored its ceiling to {_autoGeneratedLimit + 1}x after stable pacing",
                 FramePacer.EventSixRestoreStable => $"Frame Generation restored 6x to {_fgSixLoadLimit + 1}x after stable pacing",
                 FramePacer.EventRaiseQualityTop => "Frame Generation raised its flow quality after stable pacing",
                 FramePacer.EventRaiseQuality => "Frame Generation raised its flow quality to improve motion detail",
@@ -2749,9 +3097,12 @@ namespace Voidstrap.Integrations.Overlays
                 if (_fgGenerating && fullStop)
                 {
                     _fgGenerating = false;
-                    App.Logger.WriteLine(LOG_IDENT, dt > 450.0
-                        ? $"Frame Generation resync after a {dt:0}ms gap (stutter or load), showing real frames until the rate steadies"
-                        : "Frame Generation resync after an irregular capture");
+                    App.Logger.WriteLine(
+                        LOG_IDENT,
+                        dt > 450.0
+                            ? $"Frame Generation resync after a {dt:0}ms gap (stutter or load), showing real frames until the rate steadies"
+                            : "Frame Generation resync after an irregular capture"
+                    );
                 }
                 _fgResetCount++;
                 _fruc?.Deprime();
@@ -2774,16 +3125,19 @@ namespace Voidstrap.Integrations.Overlays
                 return;
             }
 
-            PacerCadenceResult cadence = FramePacer.UpdateCadence(ref _cadence, new PacerCadenceInput
-            {
-                Dt = dt,
-                CapMs = capMs,
-                CaptureGapEma = _captureGapEma,
-                SkippedSinceLastUse = skippedSinceLastUse,
-                FpsCap = fpsCap,
-                DrainedQueuedCapture = drainedQueuedCapture ? 1 : 0,
-                SrcIsCapture = srcIsCapture ? 1 : 0,
-            });
+            PacerCadenceResult cadence = FramePacer.UpdateCadence(
+                ref _cadence,
+                new PacerCadenceInput
+                {
+                    Dt = dt,
+                    CapMs = capMs,
+                    CaptureGapEma = _captureGapEma,
+                    SkippedSinceLastUse = skippedSinceLastUse,
+                    FpsCap = fpsCap,
+                    DrainedQueuedCapture = drainedQueuedCapture ? 1 : 0,
+                    SrcIsCapture = srcIsCapture ? 1 : 0,
+                }
+            );
             if (cadence.ResetHistory != 0)
             {
                 _fruc?.Deprime();
@@ -2800,11 +3154,17 @@ namespace Voidstrap.Integrations.Overlays
             bool sourceRegressed = settled && TrackSourceHealth(baseFps);
             int userMax = FrameGenSettings.MaxGeneratedForCadence(fgMode, pacingIntervalMs, _refreshHz, _consumeRatioEma);
             if (settled)
-                ConsiderFrameGenQuality(_lastGenCount >= 3 ? 2 : _lastGenCount >= 2 ? 1 : 0, (drainedQueuedCapture && _consumeRatioEma < CaptureLossRatio) || sourceRegressed);
+                ConsiderFrameGenQuality(
+                    _lastGenCount >= 3 ? 2
+                        : _lastGenCount >= 2 ? 1
+                        : 0,
+                    (drainedQueuedCapture && _consumeRatioEma < CaptureLossRatio) || sourceRegressed
+                );
             const bool uncap = false;
-            int displayBudget = pacingIntervalMs > 0.5 && _refreshHz > 1.0
-                ? FrameGenSettings.TargetTotal(pacingIntervalMs, _refreshHz, fgMode, uncap, ref _multErr)
-                : 1;
+            int displayBudget =
+                pacingIntervalMs > 0.5 && _refreshHz > 1.0
+                    ? FrameGenSettings.TargetTotal(pacingIntervalMs, _refreshHz, fgMode, uncap, ref _multErr)
+                    : 1;
             int genCount = Math.Clamp(displayBudget - 1, 0, userMax);
             if (fgMode == 1)
                 genCount = Math.Min(genCount, _autoGeneratedLimit);
@@ -2829,17 +3189,23 @@ namespace Voidstrap.Integrations.Overlays
                 {
                     _lastMultLogSec = nowSec;
                     if (genCount == 0)
-                        App.Logger.WriteLine(LOG_IDENT, Environment.TickCount64 < Volatile.Read(ref _fgHoldUntilTick)
-                            ? "Frame Generation is resting while the game loads, real frames pass through until it ends"
-                            : baseFps < 3.0 || _dtCount < FrameGenSettings.RequiredCadenceSamples(pacingIntervalMs)
-                                ? "Frame Generation is measuring Roblox's frame rate before inserting frames"
-                                : $"Frame Generation paused, base {baseFps:0} fps against a {_refreshHz:0}Hz display leaves no room to insert frames");
+                        App.Logger.WriteLine(
+                            LOG_IDENT,
+                            Environment.TickCount64 < Volatile.Read(ref _fgHoldUntilTick)
+                                    ? "Frame Generation is resting while the game loads, real frames pass through until it ends"
+                                : baseFps < 3.0 || _dtCount < FrameGenSettings.RequiredCadenceSamples(pacingIntervalMs)
+                                    ? "Frame Generation is measuring Roblox's frame rate before inserting frames"
+                                : $"Frame Generation paused, base {baseFps:0} fps against a {_refreshHz:0}Hz display leaves no room to insert frames"
+                        );
                     else
                     {
                         double outFps = baseFps * (genCount + 1);
                         string modeWord = FrameGenSettings.IsAuto(fgMode) ? "Auto" : FrameGenSettings.ModeNames[fgMode] + " selected";
                         string note = outFps > _refreshHz + 1 ? $", your {_refreshHz:0}Hz display shows {_refreshHz:0} of them" : "";
-                        App.Logger.WriteLine(LOG_IDENT, $"Frame Generation {modeWord}: base {baseFps:0} fps to about {outFps:0} fps presented, {genCount} generated per real frame{note} (Roblox cap {RobloxFpsCap.Describe()})");
+                        App.Logger.WriteLine(
+                            LOG_IDENT,
+                            $"Frame Generation {modeWord}: base {baseFps:0} fps to about {outFps:0} fps presented, {genCount} generated per real frame{note} (Roblox cap {RobloxFpsCap.Describe()})"
+                        );
                     }
                 }
             }
@@ -2914,7 +3280,10 @@ namespace Voidstrap.Integrations.Overlays
                 if (!_fgEverGenerated)
                 {
                     _fgEverGenerated = true;
-                    App.Logger.WriteLine(LOG_IDENT, "Frame Generation is live: generated frames are evenly paced between each pair of real frames");
+                    App.Logger.WriteLine(
+                        LOG_IDENT,
+                        "Frame Generation is live: generated frames are evenly paced between each pair of real frames"
+                    );
                 }
             }
 
@@ -3040,7 +3409,11 @@ namespace Voidstrap.Integrations.Overlays
                 {
                     if (k == frucSlot && frucJob >= 0)
                     {
-                        double readyBudgetMs = Math.Clamp(alignedTarget - _clock.Elapsed.TotalMilliseconds - 0.15, 0.0, Math.Min(slotMs, 12.0));
+                        double readyBudgetMs = Math.Clamp(
+                            alignedTarget - _clock.Elapsed.TotalMilliseconds - 0.15,
+                            0.0,
+                            Math.Min(slotMs, 12.0)
+                        );
                         frucReady = WaitForFrucReady(fruc!, frucJob, readyBudgetMs);
                     }
                     if (frucReady && fruc!.TryGetReady(frucJob, k, out var aiSrv, out ulong aiSignal))
@@ -3075,7 +3448,10 @@ namespace Voidstrap.Integrations.Overlays
                         if (!_frucLive)
                         {
                             _frucLive = true;
-                            App.Logger.WriteLine(LOG_IDENT, "NVIDIA hardware AI interpolation is live: the optical flow engine analyzes each frame pair and predicts the frames in between");
+                            App.Logger.WriteLine(
+                                LOG_IDENT,
+                                "NVIDIA hardware AI interpolation is live: the optical flow engine analyzes each frame pair and predicts the frames in between"
+                            );
                         }
                         _frucUsedTotal++;
                     }
@@ -3215,7 +3591,16 @@ namespace Voidstrap.Integrations.Overlays
 
         private void LogChain(bool ri, bool aa, bool mb, bool fg)
         {
-            string chain = string.Join("+", new[] { ri ? "RiShade" : "", aa ? "AA" : "", mb ? "MotionBlur " + MotionBlurSettings.Describe() : "", fg ? "FrameGen" : "" }.Where(stage => stage.Length > 0));
+            string chain = string.Join(
+                "+",
+                new[]
+                {
+                    ri ? "RiShade" : "",
+                    aa ? "AA" : "",
+                    mb ? "MotionBlur " + MotionBlurSettings.Describe() : "",
+                    fg ? "FrameGen" : "",
+                }.Where(stage => stage.Length > 0)
+            );
             if (chain == _lastChainLog)
                 return;
             _lastChainLog = chain;
@@ -3247,7 +3632,7 @@ namespace Voidstrap.Integrations.Overlays
                 _hudGenBase = _genPresented;
                 return;
             }
-			if (now - _hudLastMs < (_hudPainted ? 1000.0 : 500.0))
+            if (now - _hudLastMs < (_hudPainted ? 1000.0 : 500.0))
                 return;
             double window = (now - _hudLastMs) / 1000.0;
             long real = _realPresented - _hudRealBase;
@@ -3259,39 +3644,39 @@ namespace Voidstrap.Integrations.Overlays
                 return;
             double outSample = (real + gen) / window;
             double genSample = gen / window;
-			double capturePresentedFps = real / window;
-			double captureCadenceFps = capturePresentedFps;
+            double capturePresentedFps = real / window;
+            double captureCadenceFps = capturePresentedFps;
             if (_dtCount >= 2 && _emaIntervalMs > 0.5)
-				captureCadenceFps = 1000.0 / _emaIntervalMs;
-			double actualFps = ReliableActualFps();
-			bool hasActualFps = actualFps > 0.5;
-			double sourceDisplayFps = hasActualFps ? actualFps : captureCadenceFps;
-			double mult = captureCadenceFps > 0.5 ? outSample / captureCadenceFps : 1.0;
-            string engineVal = Environment.TickCount64 < Volatile.Read(ref _fgHoldUntilTick)
-                ? "Restarting"
-                : _fruc != null && !_fruc.Broken
-                    ? $"NVIDIA Hybrid {mult:0.0}x"
-                    : !_frucFailed ? "NVIDIA preparing" : $"Shader {mult:0.0}x";
-			_hudLabelsFour[1] = hasActualFps ? "Real" : "Capture";
-			_hudLabelsThree[1] = hasActualFps ? "Real" : "Capture";
-			string[] labels;
-			string[] values;
+                captureCadenceFps = 1000.0 / _emaIntervalMs;
+            double actualFps = ReliableActualFps();
+            bool hasActualFps = actualFps > 0.5;
+            double sourceDisplayFps = hasActualFps ? actualFps : captureCadenceFps;
+            double mult = captureCadenceFps > 0.5 ? outSample / captureCadenceFps : 1.0;
+            string engineVal =
+                Environment.TickCount64 < Volatile.Read(ref _fgHoldUntilTick) ? "Restarting"
+                : _fruc != null && !_fruc.Broken ? $"NVIDIA Hybrid {mult:0.0}x"
+                : !_frucFailed ? "NVIDIA preparing"
+                : $"Shader {mult:0.0}x";
+            _hudLabelsFour[1] = hasActualFps ? "Real" : "Capture";
+            _hudLabelsThree[1] = hasActualFps ? "Real" : "Capture";
+            string[] labels;
+            string[] values;
             if (gen > 0)
             {
-				labels = _hudLabelsFour;
-				values = _hudValuesFour;
-				values[0] = $"{outSample:0}/s";
-				values[1] = $"{sourceDisplayFps:0}/s";
-				values[2] = $"{genSample:0}/s";
-				values[3] = engineVal;
+                labels = _hudLabelsFour;
+                values = _hudValuesFour;
+                values[0] = $"{outSample:0}/s";
+                values[1] = $"{sourceDisplayFps:0}/s";
+                values[2] = $"{genSample:0}/s";
+                values[3] = engineVal;
             }
             else
             {
-				labels = _hudLabelsThree;
-				values = _hudValuesThree;
-				values[0] = $"{outSample:0}/s";
-				values[1] = $"{sourceDisplayFps:0}/s";
-				values[2] = "0/s";
+                labels = _hudLabelsThree;
+                values = _hudValuesThree;
+                values[0] = $"{outSample:0}/s";
+                values[1] = $"{sourceDisplayFps:0}/s";
+                values[2] = "0/s";
             }
             try
             {
@@ -3340,8 +3725,16 @@ namespace Voidstrap.Integrations.Overlays
                 var layout = App.Settings.Prop.OverlayLayout;
                 int offsetX = layout?.SafeCrosshairOffsetX ?? 0;
                 int offsetY = layout?.SafeCrosshairOffsetY ?? 0;
-                float x = Math.Clamp((_width - OverlayCrosshair.TexWidth) * 0.5f + offsetX, 0f, Math.Max(0, _width - OverlayCrosshair.TexWidth));
-                float y = Math.Clamp((_height - OverlayCrosshair.TexHeight) * 0.5f + offsetY, 0f, Math.Max(0, _height - OverlayCrosshair.TexHeight));
+                float x = Math.Clamp(
+                    (_width - OverlayCrosshair.TexWidth) * 0.5f + offsetX,
+                    0f,
+                    Math.Max(0, _width - OverlayCrosshair.TexWidth)
+                );
+                float y = Math.Clamp(
+                    (_height - OverlayCrosshair.TexHeight) * 0.5f + offsetY,
+                    0f,
+                    Math.Max(0, _height - OverlayCrosshair.TexHeight)
+                );
                 _context!.OMSetBlendState(_hudBlend);
                 _context.OMSetRenderTargets(_backBufferRtv);
                 _context.VSSetShader(_vs);
@@ -3369,7 +3762,9 @@ namespace Voidstrap.Integrations.Overlays
             if (Environment.TickCount64 < Volatile.Read(ref _fgHoldUntilTick))
                 return "Frame Generation: Waiting for the game, under 1 second";
             if (!FrameGenPipeline.IsPrepared)
-                return FrameGenPipeline.PrepareFailed ? "Frame Generation: Shader preparation failed" : "Frame Generation: Preparing shaders, about 2 seconds";
+                return FrameGenPipeline.PrepareFailed
+                    ? "Frame Generation: Shader preparation failed"
+                    : "Frame Generation: Preparing shaders, about 2 seconds";
             if (!_fgAttached)
                 return "Frame Generation: Attaching";
             if (!_hasPrev)
@@ -3436,11 +3831,21 @@ namespace Voidstrap.Integrations.Overlays
             int maxWidth = Math.Max(80, _width - 24);
             using var probe = new System.Drawing.Bitmap(1, 1);
             using var pg = System.Drawing.Graphics.FromImage(probe);
-            using var probeFont = new System.Drawing.Font("Segoe UI", fontSize, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            using var probeFont = new System.Drawing.Font(
+                "Segoe UI",
+                fontSize,
+                System.Drawing.FontStyle.Bold,
+                System.Drawing.GraphicsUnit.Pixel
+            );
             var measured = pg.MeasureString(text, probeFont);
             if (measured.Width + 28 > maxWidth)
                 fontSize = Math.Max(9f, fontSize * (maxWidth - 28) / measured.Width);
-            using var font = new System.Drawing.Font("Segoe UI", fontSize, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            using var font = new System.Drawing.Font(
+                "Segoe UI",
+                fontSize,
+                System.Drawing.FontStyle.Bold,
+                System.Drawing.GraphicsUnit.Pixel
+            );
             var size = pg.MeasureString(text, font);
             int w = Math.Min(maxWidth, (int)Math.Ceiling(size.Width) + 28);
             int h = (int)Math.Ceiling(size.Height) + 14;
@@ -3508,22 +3913,30 @@ namespace Voidstrap.Integrations.Overlays
 
         private ID3D11Texture2D BitmapToTexture(System.Drawing.Bitmap bmp)
         {
-            int w = bmp.Width, h = bmp.Height;
-            var locked = bmp.LockBits(new System.Drawing.Rectangle(0, 0, w, h), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            int w = bmp.Width,
+                h = bmp.Height;
+            var locked = bmp.LockBits(
+                new System.Drawing.Rectangle(0, 0, w, h),
+                System.Drawing.Imaging.ImageLockMode.ReadOnly,
+                System.Drawing.Imaging.PixelFormat.Format32bppArgb
+            );
             try
             {
                 var data = new SubresourceData(locked.Scan0, (uint)locked.Stride);
-                var tex = _device!.CreateTexture2D(new Texture2DDescription
-                {
-                    Width = (uint)w,
-                    Height = (uint)h,
-                    MipLevels = 1,
-                    ArraySize = 1,
-                    Format = Format.B8G8R8A8_UNorm,
-                    SampleDescription = new SampleDescription(1, 0),
-                    Usage = ResourceUsage.Immutable,
-                    BindFlags = BindFlags.ShaderResource,
-                }, new[] { data });
+                var tex = _device!.CreateTexture2D(
+                    new Texture2DDescription
+                    {
+                        Width = (uint)w,
+                        Height = (uint)h,
+                        MipLevels = 1,
+                        ArraySize = 1,
+                        Format = Format.B8G8R8A8_UNorm,
+                        SampleDescription = new SampleDescription(1, 0),
+                        Usage = ResourceUsage.Immutable,
+                        BindFlags = BindFlags.ShaderResource,
+                    },
+                    new[] { data }
+                );
                 return tex;
             }
             finally
@@ -3567,7 +3980,9 @@ namespace Voidstrap.Integrations.Overlays
                 }
                 if (_splitRightSrv != null)
                 {
-                    _context.RSSetViewport(new Viewport(_width - _splitRightW - 24, _height - _splitRightH - 24, _splitRightW, _splitRightH, 0, 1));
+                    _context.RSSetViewport(
+                        new Viewport(_width - _splitRightW - 24, _height - _splitRightH - 24, _splitRightW, _splitRightH, 0, 1)
+                    );
                     _context.PSSetShaderResource(0, _splitRightSrv);
                     _context.Draw(3, 0);
                 }
@@ -3660,9 +4075,7 @@ namespace Voidstrap.Integrations.Overlays
                     App.Logger.WriteLine(LOG_IDENT, "Settings changed on disk, reloaded so overlay toggles apply live");
                 }
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private void SyncFrameGenRuntimeServices()
@@ -3677,7 +4090,7 @@ namespace Voidstrap.Integrations.Overlays
                     _ = Interop.timeBeginPeriod(1);
                     _timerRaised = true;
                 }
-				return;
+                return;
             }
             if (_timerRaised)
             {
@@ -3820,9 +4233,9 @@ namespace Voidstrap.Integrations.Overlays
             _frucUsedAtLastLog = _frucUsedTotal;
 
             string chain = _lastChainLog.Length == 0 ? "passthrough" : _lastChainLog;
-			double capturePresentedFps = real / window;
-			double captureCadenceFps = _emaIntervalMs > 0.5 ? 1000.0 / _emaIntervalMs : capturePresentedFps;
-			double actualFps = ReliableActualFps();
+            double capturePresentedFps = real / window;
+            double captureCadenceFps = _emaIntervalMs > 0.5 ? 1000.0 / _emaIntervalMs : capturePresentedFps;
+            double actualFps = ReliableActualFps();
             double outFps = (real + gen) / window;
             double captureAgeP95 = Percentile95(_captureAgeSamples, _captureAgeCount);
             double pacingErrorP95 = Percentile95(_paceErrorSamples, _paceErrorCount);
@@ -3830,15 +4243,18 @@ namespace Voidstrap.Integrations.Overlays
             _captureAgeCount = 0;
             _paceErrorHead = 0;
             _paceErrorCount = 0;
-			if (actualFps > 0.5 && window >= 4.0 && window <= 8.0)
-				RobloxFpsCap.ReportMeasuredBase(actualFps);
+            if (actualFps > 0.5 && window >= 4.0 && window <= 8.0)
+                RobloxFpsCap.ReportMeasuredBase(actualFps);
             double presentAvg = _presentWaitCount > 0 ? _presentWaitMs / _presentWaitCount : 0;
             _presentWaitMs = 0;
             _presentWaitCount = 0;
 
             if (FrameGenSettings.ModeIndex <= 0)
             {
-                App.Logger.WriteLine(LOG_IDENT, $"chain [{chain}], {outFps:0} fps presented, capture cadence {captureCadenceFps:0} fps, Roblox {(actualFps > 0.5 ? actualFps.ToString("0") + " fps" : "unavailable")}, present cost {presentAvg:0.00}ms, capture age p95 {captureAgeP95:0.00}ms, queued captures dropped {dropped}");
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    $"chain [{chain}], {outFps:0} fps presented, capture cadence {captureCadenceFps:0} fps, Roblox {(actualFps > 0.5 ? actualFps.ToString("0") + " fps" : "unavailable")}, present cost {presentAvg:0.00}ms, capture age p95 {captureAgeP95:0.00}ms, queued captures dropped {dropped}"
+                );
                 return;
             }
 
@@ -3851,7 +4267,9 @@ namespace Voidstrap.Integrations.Overlays
                     _outputDeficitWindows = 0;
                 if (_outputDeficitWindows >= 2)
                 {
-                    DisableFrameGenForSession($"Frame Generation turned off for this session, it was presenting {outFps:0} fps while Roblox produced {trueSourceFps:0} fps, so it was costing frames instead of adding them");
+                    DisableFrameGenForSession(
+                        $"Frame Generation turned off for this session, it was presenting {outFps:0} fps while Roblox produced {trueSourceFps:0} fps, so it was costing frames instead of adding them"
+                    );
                     _outputDeficitWindows = 0;
                 }
             }
@@ -3861,19 +4279,29 @@ namespace Voidstrap.Integrations.Overlays
             string mode = FrameGenSettings.ModeNames[FrameGenSettings.ModeIndex];
             double frucHit = frucRequested > 0 ? Math.Min(100.0, frucUsed * 100.0 / frucRequested) : 0;
             long frucFallbacks = Math.Max(0, frucRequested - frucUsed);
-			string interpolationPolicy = captureCadenceFps > 0.5 && captureCadenceFps <= 30.0 ? "buffered low rate" : "buffered";
-            string diagnostics = $", interpolation {interpolationPolicy}, flow quality {_effectiveFgQuality}, source cadence {trueSourceFps:0} fps, captures consumed {_consumeRatioEma * 100.0:0} percent, capture age p95 {captureAgeP95:0.00}ms, pacing error p95 {pacingErrorP95:0.00}ms, missed slots {missed}, queued captures dropped {dropped}, NVIDIA hit {frucHit:0.0} percent, universal fallbacks {frucFallbacks}";
+            string interpolationPolicy = captureCadenceFps > 0.5 && captureCadenceFps <= 30.0 ? "buffered low rate" : "buffered";
+            string diagnostics =
+                $", interpolation {interpolationPolicy}, flow quality {_effectiveFgQuality}, source cadence {trueSourceFps:0} fps, captures consumed {_consumeRatioEma * 100.0:0} percent, capture age p95 {captureAgeP95:0.00}ms, pacing error p95 {pacingErrorP95:0.00}ms, missed slots {missed}, queued captures dropped {dropped}, NVIDIA hit {frucHit:0.0} percent, universal fallbacks {frucFallbacks}";
             if (gen > 0)
             {
-				double mult = captureCadenceFps > 0.5 ? outFps / captureCadenceFps : 0;
-                string presentNote = presentAvg > 1.0 ? $", presents are blocking {presentAvg:0.0}ms each (the desktop compositor is throttling output)" : $", present cost {presentAvg:0.00}ms";
-				string actualNote = actualFps > 0.5 ? $", Roblox presents {actualFps:0} fps" : ", Roblox presents unavailable";
-				App.Logger.WriteLine(LOG_IDENT, $"chain [{chain}], Frame Generation {mode} ON, capture cadence {captureCadenceFps:0} fps ({_emaIntervalMs:0.0}ms) to output {outFps:0} fps ({mult:0.0}x) toward {_refreshHz:0}Hz, captured frames {real}, generated frames {gen} over {window:0.0}s{actualNote}, resyncs {_fgResetCount}, capture to use {_poolWaitEma:0.0}ms{presentNote}{diagnostics}{DisplayedFramesNote(real + gen)}");
+                double mult = captureCadenceFps > 0.5 ? outFps / captureCadenceFps : 0;
+                string presentNote =
+                    presentAvg > 1.0
+                        ? $", presents are blocking {presentAvg:0.0}ms each (the desktop compositor is throttling output)"
+                        : $", present cost {presentAvg:0.00}ms";
+                string actualNote = actualFps > 0.5 ? $", Roblox presents {actualFps:0} fps" : ", Roblox presents unavailable";
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    $"chain [{chain}], Frame Generation {mode} ON, capture cadence {captureCadenceFps:0} fps ({_emaIntervalMs:0.0}ms) to output {outFps:0} fps ({mult:0.0}x) toward {_refreshHz:0}Hz, captured frames {real}, generated frames {gen} over {window:0.0}s{actualNote}, resyncs {_fgResetCount}, capture to use {_poolWaitEma:0.0}ms{presentNote}{diagnostics}{DisplayedFramesNote(real + gen)}"
+                );
             }
             else
             {
-				string sourceNote = actualFps > 0.5 ? $", Roblox presents {actualFps:0} fps" : ", Roblox presents unavailable";
-				App.Logger.WriteLine(LOG_IDENT, $"chain [{chain}], Frame Generation {mode} idle, capture cadence {captureCadenceFps:0} fps against a {_refreshHz:0}Hz display{sourceNote}, no generated frames this window (interval {_emaIntervalMs:0.00}ms, samples {_dtCount}, budget {_lastDisplayBudget}, gen {_lastGenCount}, generating {_fgGenerating}, pairStale {_pairStale}, Roblox cap {RobloxFpsCap.Describe()}), resyncs {_fgResetCount}{diagnostics}{DisplayedFramesNote(real + gen)}");
+                string sourceNote = actualFps > 0.5 ? $", Roblox presents {actualFps:0} fps" : ", Roblox presents unavailable";
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    $"chain [{chain}], Frame Generation {mode} idle, capture cadence {captureCadenceFps:0} fps against a {_refreshHz:0}Hz display{sourceNote}, no generated frames this window (interval {_emaIntervalMs:0.00}ms, samples {_dtCount}, budget {_lastDisplayBudget}, gen {_lastGenCount}, generating {_fgGenerating}, pairStale {_pairStale}, Roblox cap {RobloxFpsCap.Describe()}), resyncs {_fgResetCount}{diagnostics}{DisplayedFramesNote(real + gen)}"
+                );
             }
             _fgResetCount = 0;
         }
@@ -3902,7 +4330,7 @@ namespace Voidstrap.Integrations.Overlays
                     _fg.Dispose();
                 _fruc?.Dispose();
                 _fruc = null;
-				ReleaseHomepageResources();
+                ReleaseHomepageResources();
                 _wgc?.Dispose();
                 _duplication?.Dispose();
                 ReleaseSizedResources();
@@ -3921,7 +4349,7 @@ namespace Voidstrap.Integrations.Overlays
                 _cbuffer?.Dispose();
                 _sampler?.Dispose();
                 _psPass?.Dispose();
-				_psHomeBackground?.Dispose();
+                _psHomeBackground?.Dispose();
                 _psCropSrgb?.Dispose();
                 _psOverlay?.Dispose();
                 _vs?.Dispose();
@@ -3961,9 +4389,7 @@ namespace Voidstrap.Integrations.Overlays
                 if (_classAtom != 0)
                     Interop.UnregisterClassW(new IntPtr(_classAtom), _hInstance);
             }
-            catch
-            {
-            }
+            catch { }
             _riShadeInteractive = false;
             _hwnd = IntPtr.Zero;
             OverlayHub.SetCompositorWindow(IntPtr.Zero);

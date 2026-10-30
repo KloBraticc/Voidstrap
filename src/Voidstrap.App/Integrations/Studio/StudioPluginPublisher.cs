@@ -22,7 +22,7 @@ public enum StudioPluginPublishError
 	NotSignedIn,
 	NotAllowed,
 	RateLimited,
-	Failed
+	Failed,
 }
 
 public sealed record StudioPluginPublishResult(StudioPluginPublishError Error, long AssetId, string Detail);
@@ -65,7 +65,14 @@ public static partial class StudioPluginPublisher
 		return valid ? StudioPluginPublishError.None : StudioPluginPublishError.FileNotRoblox;
 	}
 
-	public static async Task<StudioPluginPublishResult> PublishAsync(string filePath, string name, string description, long existingAssetId, IProgress<double>? progress, CancellationToken token)
+	public static async Task<StudioPluginPublishResult> PublishAsync(
+		string filePath,
+		string name,
+		string description,
+		long existingAssetId,
+		IProgress<double>? progress,
+		CancellationToken token
+	)
 	{
 		StudioPluginPublishError fileError = ValidateFile(filePath);
 		if (fileError != StudioPluginPublishError.None)
@@ -88,27 +95,42 @@ public static partial class StudioPluginPublisher
 		RobloxAuthedResult result;
 		if (existingAssetId > 0)
 		{
-			string json = JsonSerializer.Serialize(new Dictionary<string, object>
-			{
-				["assetId"] = existingAssetId.ToString(CultureInfo.InvariantCulture),
-				["displayName"] = cleanName,
-				["description"] = cleanDescription
-			});
-			result = await RobloxAuthedClient.SendMultipartAsync(HttpMethod.Patch, AssetsBase + "assets/" + existingAssetId.ToString(CultureInfo.InvariantCulture), json, file, fileName, token).ConfigureAwait(false);
+			string json = JsonSerializer.Serialize(
+				new Dictionary<string, object>
+				{
+					["assetId"] = existingAssetId.ToString(CultureInfo.InvariantCulture),
+					["displayName"] = cleanName,
+					["description"] = cleanDescription,
+				}
+			);
+			result = await RobloxAuthedClient
+				.SendMultipartAsync(
+					HttpMethod.Patch,
+					AssetsBase + "assets/" + existingAssetId.ToString(CultureInfo.InvariantCulture),
+					json,
+					file,
+					fileName,
+					token
+				)
+				.ConfigureAwait(false);
 		}
 		else
 		{
-			string json = JsonSerializer.Serialize(new Dictionary<string, object>
-			{
-				["assetType"] = "Plugin",
-				["displayName"] = cleanName,
-				["description"] = cleanDescription,
-				["creationContext"] = new Dictionary<string, object>
+			string json = JsonSerializer.Serialize(
+				new Dictionary<string, object>
 				{
-					["creator"] = new Dictionary<string, string> { ["userId"] = account.UserId.ToString(CultureInfo.InvariantCulture) }
+					["assetType"] = "Plugin",
+					["displayName"] = cleanName,
+					["description"] = cleanDescription,
+					["creationContext"] = new Dictionary<string, object>
+					{
+						["creator"] = new Dictionary<string, string> { ["userId"] = account.UserId.ToString(CultureInfo.InvariantCulture) },
+					},
 				}
-			});
-			result = await RobloxAuthedClient.SendMultipartAsync(HttpMethod.Post, AssetsBase + "assets", json, file, fileName, token).ConfigureAwait(false);
+			);
+			result = await RobloxAuthedClient
+				.SendMultipartAsync(HttpMethod.Post, AssetsBase + "assets", json, file, fileName, token)
+				.ConfigureAwait(false);
 		}
 		progress?.Report(0.6);
 		if (!result.Succeeded)
@@ -138,7 +160,10 @@ public static partial class StudioPluginPublisher
 		if (!done || assetId <= 0)
 			return new StudioPluginPublishResult(StudioPluginPublishError.Failed, 0, string.Empty);
 		progress?.Report(1.0);
-		App.Logger?.WriteLine(LogIdent, (existingAssetId > 0 ? "Updated plugin " : "Published plugin ") + assetId.ToString(CultureInfo.InvariantCulture));
+		App.Logger?.WriteLine(
+			LogIdent,
+			(existingAssetId > 0 ? "Updated plugin " : "Published plugin ") + assetId.ToString(CultureInfo.InvariantCulture)
+		);
 		return new StudioPluginPublishResult(StudioPluginPublishError.None, assetId, string.Empty);
 	}
 
@@ -149,7 +174,7 @@ public static partial class StudioPluginPublisher
 			RobloxAuthedStatus.NotSignedIn => StudioPluginPublishError.NotSignedIn,
 			RobloxAuthedStatus.NotAllowed => StudioPluginPublishError.NotAllowed,
 			RobloxAuthedStatus.RateLimited => StudioPluginPublishError.RateLimited,
-			_ => StudioPluginPublishError.Failed
+			_ => StudioPluginPublishError.Failed,
 		};
 		return new StudioPluginPublishResult(error, 0, ReadMessage(result.Body));
 	}
@@ -161,10 +186,16 @@ public static partial class StudioPluginPublisher
 			using JsonDocument document = JsonDocument.Parse(body);
 			JsonElement root = document.RootElement;
 			bool done = root.TryGetProperty("done", out JsonElement doneElement) && doneElement.ValueKind == JsonValueKind.True;
-			string? path = root.TryGetProperty("path", out JsonElement pathElement) && pathElement.ValueKind == JsonValueKind.String ? pathElement.GetString() : null;
+			string? path =
+				root.TryGetProperty("path", out JsonElement pathElement) && pathElement.ValueKind == JsonValueKind.String
+					? pathElement.GetString()
+					: null;
 			long assetId = 0;
-			if (root.TryGetProperty("response", out JsonElement response) && response.ValueKind == JsonValueKind.Object
-				&& response.TryGetProperty("assetId", out JsonElement id))
+			if (
+				root.TryGetProperty("response", out JsonElement response)
+				&& response.ValueKind == JsonValueKind.Object
+				&& response.TryGetProperty("assetId", out JsonElement id)
+			)
 			{
 				if (id.ValueKind == JsonValueKind.String)
 					long.TryParse(id.GetString(), NumberStyles.None, CultureInfo.InvariantCulture, out assetId);
@@ -173,7 +204,10 @@ public static partial class StudioPluginPublisher
 			}
 			string error = string.Empty;
 			if (root.TryGetProperty("error", out JsonElement errorElement) && errorElement.ValueKind == JsonValueKind.Object)
-				error = errorElement.TryGetProperty("message", out JsonElement message) && message.ValueKind == JsonValueKind.String ? message.GetString() ?? "error" : "error";
+				error =
+					errorElement.TryGetProperty("message", out JsonElement message) && message.ValueKind == JsonValueKind.String
+						? message.GetString() ?? "error"
+						: "error";
 			return (done, assetId, path, error);
 		}
 		catch (JsonException)
@@ -199,9 +233,7 @@ public static partial class StudioPluginPublisher
 				}
 			}
 		}
-		catch (JsonException)
-		{
-		}
+		catch (JsonException) { }
 		return string.Empty;
 	}
 }

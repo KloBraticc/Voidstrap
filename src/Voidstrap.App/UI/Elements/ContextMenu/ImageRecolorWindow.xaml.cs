@@ -2,7 +2,6 @@ using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
-
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,7 +13,8 @@ using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.ContextMenu;
 
-public partial class ImageRecolorWindow : UiWindow{
+public partial class ImageRecolorWindow : UiWindow
+{
 	private readonly string _sourcePath;
 
 	private readonly string _relativePath;
@@ -36,7 +36,16 @@ public partial class ImageRecolorWindow : UiWindow{
 
 	private void UpdatePreview()
 	{
-		BitmapSource preview = BitmapSource.Create(_currentBitmap.Width, _currentBitmap.Height, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null, _currentBitmap.Pixels, _currentBitmap.Width * 4);
+		BitmapSource preview = BitmapSource.Create(
+			_currentBitmap.Width,
+			_currentBitmap.Height,
+			96,
+			96,
+			System.Windows.Media.PixelFormats.Bgra32,
+			null,
+			_currentBitmap.Pixels,
+			_currentBitmap.Width * 4
+		);
 		preview.Freeze();
 		PreviewImage.Source = preview;
 	}
@@ -67,9 +76,7 @@ public partial class ImageRecolorWindow : UiWindow{
 			_currentBitmap = bitmap;
 			UpdatePreview();
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 
 	private static bool TryParseHex(string? text, out byte red, out byte green, out byte blue)
@@ -86,7 +93,14 @@ public partial class ImageRecolorWindow : UiWindow{
 			hex = hex[..6];
 		else
 			return false;
-		if (!uint.TryParse(hex, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out uint value))
+		if (
+			!uint.TryParse(
+				hex,
+				System.Globalization.NumberStyles.HexNumber,
+				System.Globalization.CultureInfo.InvariantCulture,
+				out uint value
+			)
+		)
 			return false;
 		red = (byte)(value >> 16);
 		green = (byte)(value >> 8);
@@ -146,7 +160,5 @@ public partial class ImageRecolorWindow : UiWindow{
 		Close();
 	}
 
-	private void Cancel_Click(object sender, CancelEventArgs e)
-	{
-	}
+	private void Cancel_Click(object sender, CancelEventArgs e) { }
 }

@@ -24,7 +24,15 @@ public static class ResilientDownload
 
 	private static readonly SemaphoreSlim SegmentGate = new(32, 32);
 
-	public static async Task DownloadAsync(HttpClient client, IReadOnlyList<string> urls, string destination, long maxBytes, string? expectedSha256 = null, Action<long, long?>? progress = null, CancellationToken token = default)
+	public static async Task DownloadAsync(
+		HttpClient client,
+		IReadOnlyList<string> urls,
+		string destination,
+		long maxBytes,
+		string? expectedSha256 = null,
+		Action<long, long?>? progress = null,
+		CancellationToken token = default
+	)
 	{
 		if (urls.Count == 0)
 			throw new ArgumentException("At least one download URL is required", nameof(urls));
@@ -42,7 +50,16 @@ public static class ResilientDownload
 				token.ThrowIfCancellationRequested();
 				try
 				{
-					(long bytes, long? total) = await DownloadAttemptAsync(client, urls[source], temporary, maxBytes, attempt == 0, progress, token).ConfigureAwait(false);
+					(long bytes, long? total) = await DownloadAttemptAsync(
+							client,
+							urls[source],
+							temporary,
+							maxBytes,
+							attempt == 0,
+							progress,
+							token
+						)
+						.ConfigureAwait(false);
 					await ValidateHashAsync(temporary, expectedSha256, token).ConfigureAwait(false);
 					token.ThrowIfCancellationRequested();
 					File.Move(temporary, destination, true);
@@ -53,7 +70,8 @@ public static class ResilientDownload
 				{
 					throw;
 				}
-				catch (Exception ex) when (ex is HttpRequestException or IOException or TaskCanceledException or CryptographicException or FormatException)
+				catch (Exception ex)
+					when (ex is HttpRequestException or IOException or TaskCanceledException or CryptographicException or FormatException)
 				{
 					last = ex;
 					if (ex is CryptographicException or FormatException)
@@ -66,7 +84,15 @@ public static class ResilientDownload
 		throw new IOException("The download failed from every available source", last);
 	}
 
-	private static async Task<(long Bytes, long? Total)> DownloadAttemptAsync(HttpClient client, string url, string temporary, long maxBytes, bool allowSegments, Action<long, long?>? progress, CancellationToken token)
+	private static async Task<(long Bytes, long? Total)> DownloadAttemptAsync(
+		HttpClient client,
+		string url,
+		string temporary,
+		long maxBytes,
+		bool allowSegments,
+		Action<long, long?>? progress,
+		CancellationToken token
+	)
 	{
 		long offset = File.Exists(temporary) ? new FileInfo(temporary).Length : 0;
 		if (offset < 0 || offset > maxBytes)
@@ -77,10 +103,17 @@ public static class ResilientDownload
 		using HttpRequestMessage request = new(HttpMethod.Get, url);
 		if (offset > 0)
 			request.Headers.Range = new RangeHeaderValue(offset, null);
-		using HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
-		if (offset > 0 && response.StatusCode == HttpStatusCode.RequestedRangeNotSatisfiable && response.Content.Headers.ContentRange?.Length == offset)
+		using HttpResponseMessage response = await client
+			.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token)
+			.ConfigureAwait(false);
+		if (
+			offset > 0
+			&& response.StatusCode == HttpStatusCode.RequestedRangeNotSatisfiable
+			&& response.Content.Headers.ContentRange?.Length == offset
+		)
 			return (offset, offset);
-		bool append = offset > 0 && response.StatusCode == HttpStatusCode.PartialContent && response.Content.Headers.ContentRange?.From == offset;
+		bool append =
+			offset > 0 && response.StatusCode == HttpStatusCode.PartialContent && response.Content.Headers.ContentRange?.From == offset;
 		if (offset > 0 && !append)
 		{
 			offset = 0;
@@ -88,16 +121,25 @@ public static class ResilientDownload
 		}
 		response.EnsureSuccessStatusCode();
 		long? responseBytes = response.Content.Headers.ContentLength;
-		long? expectedTotal = response.Content.Headers.ContentRange?.Length ?? (responseBytes.HasValue ? offset + responseBytes.Value : null);
+		long? expectedTotal =
+			response.Content.Headers.ContentRange?.Length ?? (responseBytes.HasValue ? offset + responseBytes.Value : null);
 		if (expectedTotal is <= 0 || expectedTotal > maxBytes)
 			throw new IOException("The download size is invalid");
 		int maxSegments = DownloadConfiguration.NormalizeSegments(App.Settings.Prop.MaxDownloadSegments);
-		if (allowSegments && offset == 0 && expectedTotal is >= MinSegmentedBytes && maxSegments > 1 && response.Headers.AcceptRanges.Contains("bytes") && response.RequestMessage?.RequestUri is Uri finalUri)
+		if (
+			allowSegments
+			&& offset == 0
+			&& expectedTotal is >= MinSegmentedBytes
+			&& maxSegments > 1
+			&& response.Headers.AcceptRanges.Contains("bytes")
+			&& response.RequestMessage?.RequestUri is Uri finalUri
+		)
 		{
 			response.Dispose();
 			try
 			{
-				await DownloadSegmentedAsync(client, finalUri, temporary, expectedTotal.Value, maxSegments, progress, token).ConfigureAwait(false);
+				await DownloadSegmentedAsync(client, finalUri, temporary, expectedTotal.Value, maxSegments, progress, token)
+					.ConfigureAwait(false);
 			}
 			catch
 			{
@@ -108,7 +150,14 @@ public static class ResilientDownload
 		}
 		await using Stream input = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
 		int bufferSize = DownloadConfiguration.NormalizeBuffer(App.Settings.Prop.DownloadBufferKb) * 1024;
-		await using FileStream output = new(temporary, append ? FileMode.Append : FileMode.Create, FileAccess.Write, FileShare.None, bufferSize, FileOptions.Asynchronous | FileOptions.SequentialScan);
+		await using FileStream output = new(
+			temporary,
+			append ? FileMode.Append : FileMode.Create,
+			FileAccess.Write,
+			FileShare.None,
+			bufferSize,
+			FileOptions.Asynchronous | FileOptions.SequentialScan
+		);
 		byte[] buffer = new byte[bufferSize];
 		long total = offset;
 		long lastProgress = Stopwatch.GetTimestamp();
@@ -146,12 +195,26 @@ public static class ResilientDownload
 		return (total, expectedTotal);
 	}
 
-	private static async Task DownloadSegmentedAsync(HttpClient client, Uri uri, string temporary, long length, int maxSegments, Action<long, long?>? progress, CancellationToken token)
+	private static async Task DownloadSegmentedAsync(
+		HttpClient client,
+		Uri uri,
+		string temporary,
+		long length,
+		int maxSegments,
+		Action<long, long?>? progress,
+		CancellationToken token
+	)
 	{
 		int count = (int)Math.Min(maxSegments, Math.Max(2, length / MinSegmentBytes));
 		int bufferSize = DownloadConfiguration.NormalizeBuffer(App.Settings.Prop.DownloadBufferKb) * 1024;
 		long segmentSize = length / count;
-		using SafeFileHandle handle = File.OpenHandle(temporary, FileMode.Create, FileAccess.Write, FileShare.None, FileOptions.Asynchronous | FileOptions.RandomAccess);
+		using SafeFileHandle handle = File.OpenHandle(
+			temporary,
+			FileMode.Create,
+			FileAccess.Write,
+			FileShare.None,
+			FileOptions.Asynchronous | FileOptions.RandomAccess
+		);
 		RandomAccess.SetLength(handle, length);
 		using CancellationTokenSource failed = CancellationTokenSource.CreateLinkedTokenSource(token);
 		Exception? failure = null;
@@ -164,7 +227,10 @@ public static class ResilientDownload
 				return;
 			long now = Stopwatch.GetTimestamp();
 			long previous = Volatile.Read(ref lastProgress);
-			if (Stopwatch.GetElapsedTime(previous, now) < TimeSpan.FromMilliseconds(100) || Interlocked.CompareExchange(ref lastProgress, now, previous) != previous)
+			if (
+				Stopwatch.GetElapsedTime(previous, now) < TimeSpan.FromMilliseconds(100)
+				|| Interlocked.CompareExchange(ref lastProgress, now, previous) != previous
+			)
 				return;
 			ReportPartial(progress, current, length);
 		}
@@ -191,7 +257,18 @@ public static class ResilientDownload
 		}
 	}
 
-	private static async Task DownloadRangeAsync(HttpClient client, Uri uri, SafeFileHandle handle, long start, long end, long length, int bufferSize, Action<long> progress, Action<Exception> fail, CancellationTokenSource failed)
+	private static async Task DownloadRangeAsync(
+		HttpClient client,
+		Uri uri,
+		SafeFileHandle handle,
+		long start,
+		long end,
+		long length,
+		int bufferSize,
+		Action<long> progress,
+		Action<Exception> fail,
+		CancellationTokenSource failed
+	)
 	{
 		CancellationToken token = failed.Token;
 		bool entered = false;
@@ -202,7 +279,9 @@ public static class ResilientDownload
 			entered = true;
 			using HttpRequestMessage request = new(HttpMethod.Get, uri);
 			request.Headers.Range = new RangeHeaderValue(start, end);
-			using HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+			using HttpResponseMessage response = await client
+				.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token)
+				.ConfigureAwait(false);
 			ContentRangeHeaderValue? range = response.Content.Headers.ContentRange;
 			if (response.StatusCode != HttpStatusCode.PartialContent || range?.From != start || range.To != end || range.Length != length)
 				throw new IOException("The server returned an unexpected byte range");
@@ -215,7 +294,9 @@ public static class ResilientDownload
 				int read;
 				try
 				{
-					read = await input.ReadAsync(buffer.AsMemory(0, (int)Math.Min(buffer.Length, end - position + 1)), stall.Token).ConfigureAwait(false);
+					read = await input
+						.ReadAsync(buffer.AsMemory(0, (int)Math.Min(buffer.Length, end - position + 1)), stall.Token)
+						.ConfigureAwait(false);
 				}
 				catch (OperationCanceledException) when (!token.IsCancellationRequested)
 				{
@@ -255,7 +336,14 @@ public static class ResilientDownload
 		if (expected.Length != 64)
 			throw new CryptographicException("The expected SHA256 digest is invalid");
 		using IncrementalHash hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
-		await using FileStream stream = new(path, FileMode.Open, FileAccess.Read, FileShare.Read, 131072, FileOptions.Asynchronous | FileOptions.SequentialScan);
+		await using FileStream stream = new(
+			path,
+			FileMode.Open,
+			FileAccess.Read,
+			FileShare.Read,
+			131072,
+			FileOptions.Asynchronous | FileOptions.SequentialScan
+		);
 		byte[] buffer = ArrayPool<byte>.Shared.Rent(131072);
 		byte[] actual;
 		try
@@ -284,8 +372,6 @@ public static class ResilientDownload
 			if (File.Exists(path))
 				File.Delete(path);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 }

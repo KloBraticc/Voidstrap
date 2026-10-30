@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 
 namespace Voidstrap.Integrations.Nvidia;
 
@@ -54,7 +54,8 @@ public static class NvidiaProfileInspector
 
     public const string DefaultProfileName = "Voidstrap";
 
-    public const string NeedsElevationMessage = "Windows only lets an administrator change driver profile settings. Restart Voidstrap as administrator and apply again";
+    public const string NeedsElevationMessage =
+        "Windows only lets an administrator change driver profile settings. Restart Voidstrap as administrator and apply again";
 
     private static readonly string[] RobloxExecutables = new string[2] { "RobloxPlayerBeta.exe", "RobloxStudioBeta.exe" };
 
@@ -146,14 +147,16 @@ public static class NvidiaProfileInspector
                 for (int i = 0; i < count; i++)
                 {
                     NvSettingType type = NvApi.ReadSettingType(buffer, i);
-                    results.Add(new NvidiaSetting
-                    {
-                        Id = NvApi.ReadSettingId(buffer, i),
-                        Name = NvApi.ReadSettingName(buffer, i),
-                        Value = type == NvSettingType.Dword ? NvApi.ReadSettingValue(buffer, i) : 0u,
-                        Type = type,
-                        IsPredefined = NvApi.ReadSettingIsPredefined(buffer, i),
-                    });
+                    results.Add(
+                        new NvidiaSetting
+                        {
+                            Id = NvApi.ReadSettingId(buffer, i),
+                            Name = NvApi.ReadSettingName(buffer, i),
+                            Value = type == NvSettingType.Dword ? NvApi.ReadSettingValue(buffer, i) : 0u,
+                            Type = type,
+                            IsPredefined = NvApi.ReadSettingIsPredefined(buffer, i),
+                        }
+                    );
                 }
                 if (count < chunk)
                     break;
@@ -183,7 +186,8 @@ public static class NvidiaProfileInspector
 
     private static string AppliedSettingsPath => Path.Combine(Paths.NipProfiles, "AppliedSettings.json");
 
-    internal static bool HasSettingsToRestore => LoadAppliedSettings().Count > 0
+    internal static bool HasSettingsToRestore =>
+        LoadAppliedSettings().Count > 0
         || (!File.Exists(AppliedSettingsPath) && File.Exists(Path.Combine(Paths.NipProfiles, "Voidstrap.nip")));
 
     private static List<AppliedSetting> LoadAppliedSettings()
@@ -221,14 +225,29 @@ public static class NvidiaProfileInspector
             if (legacyProfile != IntPtr.Zero)
             {
                 Dictionary<uint, NvidiaSetting> live = Enumerate(session, legacyProfile, true).ToDictionary(setting => setting.Id);
-                foreach (Models.NvidiaEditorEntry entry in Integrations.NvidiaProfileManager.LoadFromNip(Path.Combine(Paths.NipProfiles, "Voidstrap.nip")))
+                foreach (
+                    Models.NvidiaEditorEntry entry in Integrations.NvidiaProfileManager.LoadFromNip(
+                        Path.Combine(Paths.NipProfiles, "Voidstrap.nip")
+                    )
+                )
                 {
-                    if (!Integrations.NvidiaProfileManager.TryParseSettingId(entry.SettingId, out uint id)
+                    if (
+                        !Integrations.NvidiaProfileManager.TryParseSettingId(entry.SettingId, out uint id)
                         || !Integrations.NvidiaProfileManager.TryParseSettingValue(entry.Value, entry.ValueType, out uint value)
                         || !live.TryGetValue(id, out NvidiaSetting? current)
-                        || current.Type != NvSettingType.Dword || current.IsPredefined || current.Value != value)
+                        || current.Type != NvSettingType.Dword
+                        || current.IsPredefined
+                        || current.Value != value
+                    )
                         continue;
-                    settings.Add(new AppliedSetting { Profile = name, Id = id, Value = value });
+                    settings.Add(
+                        new AppliedSetting
+                        {
+                            Profile = name,
+                            Id = id,
+                            Value = value,
+                        }
+                    );
                 }
             }
         }
@@ -269,20 +288,29 @@ public static class NvidiaProfileInspector
             List<AppliedSetting> changed = [];
             foreach (AppliedSetting setting in group)
             {
-                if (!live.TryGetValue(setting.Id, out NvidiaSetting? current) || current.IsPredefined
-                    || current.Type != NvSettingType.Dword || current.Value != setting.Value)
+                if (
+                    !live.TryGetValue(setting.Id, out NvidiaSetting? current)
+                    || current.IsPredefined
+                    || current.Type != NvSettingType.Dword
+                    || current.Value != setting.Value
+                )
                     continue;
                 status = setting.Original is uint original
                     ? NvApi.SetDwordSetting(session.Handle, profile, setting.Id, original)
                     : NvApi.DeleteSetting(session.Handle, profile, setting.Id);
                 if (status != NvStatus.Ok && status != NvStatus.SettingNotFound)
-                    return Failure(status == NvStatus.InvalidUserPrivilege ? NeedsElevationMessage : "Could not restore NVIDIA setting " + setting.Id + ": " + status);
+                    return Failure(
+                        status == NvStatus.InvalidUserPrivilege
+                            ? NeedsElevationMessage
+                            : "Could not restore NVIDIA setting " + setting.Id + ": " + status
+                    );
                 restored++;
                 changed.Add(setting);
             }
             if (changed.Count > 0)
             {
-                Dictionary<uint, NvidiaSetting> checkedSettings = Enumerate(session.Handle, profile, true).ToDictionary(setting => setting.Id);
+                Dictionary<uint, NvidiaSetting> checkedSettings = Enumerate(session.Handle, profile, true)
+                    .ToDictionary(setting => setting.Id);
                 foreach (AppliedSetting setting in changed)
                 {
                     bool found = checkedSettings.TryGetValue(setting.Id, out NvidiaSetting? current);
@@ -298,10 +326,17 @@ public static class NvidiaProfileInspector
         {
             NvStatus status = NvApi.SaveSettings(session.Handle);
             if (status != NvStatus.Ok)
-                return Failure(status == NvStatus.InvalidUserPrivilege ? NeedsElevationMessage : "Could not save the NVIDIA cleanup: " + status);
+                return Failure(
+                    status == NvStatus.InvalidUserPrivilege ? NeedsElevationMessage : "Could not save the NVIDIA cleanup: " + status
+                );
         }
         SaveAppliedSettings([]);
-        return new NvidiaApplyResult { Ok = true, Applied = restored, Message = "Restored " + restored + " NVIDIA settings applied by Voidstrap" };
+        return new NvidiaApplyResult
+        {
+            Ok = true,
+            Applied = restored,
+            Message = "Restored " + restored + " NVIDIA settings applied by Voidstrap",
+        };
     }
 
     public static NvidiaApplyResult Apply(IEnumerable<KeyValuePair<uint, uint>> settings, string? profileName = null)
@@ -373,7 +408,14 @@ public static class NvidiaProfileInspector
                 continue;
             applied--;
             accepted.Remove(live.Id);
-            rejected.Add("0x" + live.Id.ToString("X8", CultureInfo.InvariantCulture) + " -> the driver stored " + live.Value + " instead of " + wanted);
+            rejected.Add(
+                "0x"
+                    + live.Id.ToString("X8", CultureInfo.InvariantCulture)
+                    + " -> the driver stored "
+                    + live.Value
+                    + " instead of "
+                    + wanted
+            );
         }
         foreach (uint missing in requested.Keys)
         {
@@ -388,7 +430,12 @@ public static class NvidiaProfileInspector
             NvidiaSetting? original = previous.Find(item => item.Id == setting.Key);
             if (tracked == null)
             {
-                tracked = new AppliedSetting { Profile = targetName, Id = setting.Key, Original = original is { IsPredefined: false, Type: NvSettingType.Dword } ? original.Value : null };
+                tracked = new AppliedSetting
+                {
+                    Profile = targetName,
+                    Id = setting.Key,
+                    Original = original is { IsPredefined: false, Type: NvSettingType.Dword } ? original.Value : null,
+                };
                 backup.Add(tracked);
             }
             else if (original == null || original.IsPredefined)
@@ -419,11 +466,10 @@ public static class NvidiaProfileInspector
         {
             Ok = applied > 0,
             Applied = applied,
-            Message = rejected.Count == 0
-                ? "Applied " + applied + " setting(s) to the \"" + targetName + "\" driver profile"
-                : applied > 0
-                    ? "Applied " + applied + " setting(s) to \"" + targetName + "\", " + rejected.Count + " did not stick"
-                    : "The driver did not keep any of the " + rejected.Count + " setting(s)",
+            Message =
+                rejected.Count == 0 ? "Applied " + applied + " setting(s) to the \"" + targetName + "\" driver profile"
+                : applied > 0 ? "Applied " + applied + " setting(s) to \"" + targetName + "\", " + rejected.Count + " did not stick"
+                : "The driver did not keep any of the " + rejected.Count + " setting(s)",
         };
         result.Failures.AddRange(rejected);
         App.Logger?.WriteLine("NvidiaProfileInspector", result.Message);
@@ -468,9 +514,10 @@ public static class NvidiaProfileInspector
         {
             Ok = save == NvStatus.Ok,
             Applied = cleared,
-            Message = save == NvStatus.Ok
-                ? "Reset " + cleared + " NVIDIA setting(s) for Roblox to the driver default"
-                : "The driver rejected the save (" + save + ")",
+            Message =
+                save == NvStatus.Ok
+                    ? "Reset " + cleared + " NVIDIA setting(s) for Roblox to the driver default"
+                    : "The driver rejected the save (" + save + ")",
         };
         result.Failures.AddRange(rejected);
         App.Logger?.WriteLine("NvidiaProfileInspector", result.Message);

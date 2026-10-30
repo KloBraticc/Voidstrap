@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -14,8 +14,8 @@ using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Voidstrap.Models.Entities;
-using Voidstrap.Resources;
 using Voidstrap.Models.Persistable;
+using Voidstrap.Resources;
 using Voidstrap.Utility;
 
 namespace Voidstrap.UI.ViewModels.Settings;
@@ -34,9 +34,7 @@ public class LibraryEventEntry
 
     public string EventUrl => "https://www.roblox.com/events/" + Id;
 
-    public string StartDisplay => StartUtc.HasValue
-        ? StartUtc.Value.ToLocalTime().ToString("ddd, MMM d, h:mm tt")
-        : string.Empty;
+    public string StartDisplay => StartUtc.HasValue ? StartUtc.Value.ToLocalTime().ToString("ddd, MMM d, h:mm tt") : string.Empty;
 
     public string SubtitleDisplay => string.IsNullOrWhiteSpace(Subtitle) ? GameName : Subtitle;
 }
@@ -230,7 +228,8 @@ public class LibraryGameEntry : INotifyPropertyChanged
         }
     }
 
-    public string BadgeTooltip => HasBadgeProgress ? string.Format(Strings.Library_Badges_Summary, _badgeEarned.ToString("N0"), _badgeTotal.ToString("N0")) : "";
+    public string BadgeTooltip =>
+        HasBadgeProgress ? string.Format(Strings.Library_Badges_Summary, _badgeEarned.ToString("N0"), _badgeTotal.ToString("N0")) : "";
 
     public void SetBadgeProgress(int earned, int total)
     {
@@ -295,13 +294,17 @@ public class LibraryBadgeEntry : INotifyPropertyChanged
 
     public Visibility LockedVisibility => Earned ? Visibility.Collapsed : Visibility.Visible;
 
-    public string StateText => Earned
-        ? (AwardedUtc > DateTime.MinValue ? string.Format(Strings.Library_Badges_EarnedOn, AwardedUtc.ToLocalTime().ToString("d")) : Strings.Library_Badges_EarnedNoDate)
-        : Strings.Library_Badges_Locked;
+    public string StateText =>
+        Earned
+            ? (
+                AwardedUtc > DateTime.MinValue
+                    ? string.Format(Strings.Library_Badges_EarnedOn, AwardedUtc.ToLocalTime().ToString("d"))
+                    : Strings.Library_Badges_EarnedNoDate
+            )
+            : Strings.Library_Badges_Locked;
 
-    public string RarityText => WinRate > 0
-        ? string.Format(Strings.Library_Badges_Rarity, (WinRate * 100).ToString(WinRate * 100 < 1 ? "0.##" : "0.#"))
-        : "";
+    public string RarityText =>
+        WinRate > 0 ? string.Format(Strings.Library_Badges_Rarity, (WinRate * 100).ToString(WinRate * 100 < 1 ? "0.##" : "0.#")) : "";
 
     public Visibility RarityVisibility => WinRate > 0 ? Visibility.Visible : Visibility.Collapsed;
 
@@ -336,9 +339,9 @@ internal sealed class LibraryCollection<T> : ObservableCollection<T>
 
 public class LibraryViewModel : INotifyPropertyChanged
 {
-	private const int MaximumHistoryBytes = 16 * 1024 * 1024;
+    private const int MaximumHistoryBytes = 16 * 1024 * 1024;
 
-	private const int MaximumHistoryEntries = 100;
+    private const int MaximumHistoryEntries = 100;
 
     private const int GamePageSize = 30;
 
@@ -396,19 +399,31 @@ public class LibraryViewModel : INotifyPropertyChanged
     public IReadOnlyList<RobloxSubplaces.Place> Subplaces
     {
         get => _subplaces;
-        private set { _subplaces = value; OnPropertyChanged(nameof(Subplaces)); }
+        private set
+        {
+            _subplaces = value;
+            OnPropertyChanged(nameof(Subplaces));
+        }
     }
 
     public string SubplaceStatus
     {
         get => _subplaceStatus;
-        private set { _subplaceStatus = value; OnPropertyChanged(nameof(SubplaceStatus)); }
+        private set
+        {
+            _subplaceStatus = value;
+            OnPropertyChanged(nameof(SubplaceStatus));
+        }
     }
 
     public bool SubplacesLoading
     {
         get => _subplacesLoading;
-        private set { _subplacesLoading = value; OnPropertyChanged(nameof(SubplacesLoading)); }
+        private set
+        {
+            _subplacesLoading = value;
+            OnPropertyChanged(nameof(SubplacesLoading));
+        }
     }
 
     public bool IsSubplacesTabSelected
@@ -555,7 +570,8 @@ public class LibraryViewModel : INotifyPropertyChanged
 
     public Visibility BadgeSummaryVisibility => _badgeTotalCount > 0 && !BadgesLoading ? Visibility.Visible : Visibility.Collapsed;
 
-    public string BadgeSummaryText => string.Format(Strings.Library_Badges_Summary, _badgeEarnedCount.ToString("N0"), _badgeTotalCount.ToString("N0"));
+    public string BadgeSummaryText =>
+        string.Format(Strings.Library_Badges_Summary, _badgeEarnedCount.ToString("N0"), _badgeTotalCount.ToString("N0"));
 
     public double BadgeSummaryPercent => _badgeTotalCount > 0 ? _badgeEarnedCount * 100.0 / _badgeTotalCount : 0;
 
@@ -655,30 +671,36 @@ public class LibraryViewModel : INotifyPropertyChanged
                 OnPropertyChanged(nameof(SelectedGame));
                 OnPropertyChanged(nameof(DashboardVisibility));
                 OnPropertyChanged(nameof(DetailVisibility));
-				CancellationTokenSource? previous = _gamePassLoadCts;
-				_gamePassLoadCts = null;
-				previous?.Cancel();
-				long version = Interlocked.Increment(ref _gamePassLoadVersion);
-				GamePasses.Clear();
-				GamePassStatus = "";
-				GamePassesLoading = false;
-				_selectedGameVotesCts?.Cancel();
-				_selectedGameVotesCts?.Dispose();
-				_selectedGameVotesCts = null;
+                CancellationTokenSource? previous = _gamePassLoadCts;
+                _gamePassLoadCts = null;
+                previous?.Cancel();
+                long version = Interlocked.Increment(ref _gamePassLoadVersion);
+                GamePasses.Clear();
+                GamePassStatus = "";
+                GamePassesLoading = false;
+                _selectedGameVotesCts?.Cancel();
+                _selectedGameVotesCts?.Dispose();
+                _selectedGameVotesCts = null;
                 if (value == null)
                     Voidstrap.Integrations.VoidstrapPresence.Clear("LibraryPage");
                 else
-                    Voidstrap.Integrations.VoidstrapPresence.SetGame("LibraryPage", value.Name, value.CreatorName, value.UniverseId, value.PlaceId);
+                    Voidstrap.Integrations.VoidstrapPresence.SetGame(
+                        "LibraryPage",
+                        value.Name,
+                        value.CreatorName,
+                        value.UniverseId,
+                        value.PlaceId
+                    );
                 if (value != null)
                 {
-					value.RefreshAll();
-					CancellationTokenSource current = new();
-					_gamePassLoadCts = current;
-					GamePassesLoading = true;
-					_ = LoadGamePassesAsync(value.UniverseId, version, current);
-					CancellationTokenSource votesCts = new();
-					_selectedGameVotesCts = votesCts;
-					_ = RunSelectedGameLiveVotesLoopAsync(value, votesCts.Token);
+                    value.RefreshAll();
+                    CancellationTokenSource current = new();
+                    _gamePassLoadCts = current;
+                    GamePassesLoading = true;
+                    _ = LoadGamePassesAsync(value.UniverseId, version, current);
+                    CancellationTokenSource votesCts = new();
+                    _selectedGameVotesCts = votesCts;
+                    _ = RunSelectedGameLiveVotesLoopAsync(value, votesCts.Token);
                 }
                 StartBadgeLoad(value, refreshAwarded: true);
             }
@@ -695,7 +717,9 @@ public class LibraryViewModel : INotifyPropertyChanged
                 if (token.IsCancellationRequested || game.UniverseId == 0)
                     break;
                 string url = $"https://games.roblox.com/v1/games/votes?universeIds={game.UniverseId}";
-                using JsonDocument doc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, url, token: token).ConfigureAwait(false));
+                using JsonDocument doc = JsonDocument.Parse(
+                    await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, url, token: token).ConfigureAwait(false)
+                );
                 if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
                     continue;
                 foreach (JsonElement item in data.EnumerateArray())
@@ -878,16 +902,18 @@ public class LibraryViewModel : INotifyPropertyChanged
         try
         {
             List<AppSettings.LibraryPin> pins = Integrations.LibraryStore.Pins;
-            (List<LibraryGameEntry> shownGames, bool snapshotFresh) = await Task.Run(() => BuildLocalGames(pins), token).ConfigureAwait(false);
+            (List<LibraryGameEntry> shownGames, bool snapshotFresh) = await Task.Run(() => BuildLocalGames(pins), token)
+                .ConfigureAwait(false);
             token.ThrowIfCancellationRequested();
             if (shownGames.Count > 0)
             {
                 await UpdateUiAsync(() =>
-                {
-                    shownGames = MergeWithShown(shownGames);
-                    PublishGamesCore(shownGames);
-                    IsLoading = false;
-                }).ConfigureAwait(false);
+                    {
+                        shownGames = MergeWithShown(shownGames);
+                        PublishGamesCore(shownGames);
+                        IsLoading = false;
+                    })
+                    .ConfigureAwait(false);
                 App.Logger.WriteLine("LibraryViewModel", "Cached library shown in " + elapsed.ElapsedMilliseconds + " ms");
             }
 
@@ -904,23 +930,25 @@ public class LibraryViewModel : INotifyPropertyChanged
 
             List<LibraryGameEntry> published = games;
             await UpdateUiAsync(() =>
-            {
-                published = MergeWithShown(games);
-                PersistPinSnapshots(published, pins);
-                PublishGamesCore(published);
-                IsLoading = false;
-            }).ConfigureAwait(false);
+                {
+                    published = MergeWithShown(games);
+                    PersistPinSnapshots(published, pins);
+                    PublishGamesCore(published);
+                    IsLoading = false;
+                })
+                .ConfigureAwait(false);
             bool usedNetwork = refreshShown || added.Count > 0;
-            App.Logger.WriteLine("LibraryViewModel", "Library details shown in " + elapsed.ElapsedMilliseconds + " ms, network refresh " + (usedNetwork ? "used" : "skipped"));
+            App.Logger.WriteLine(
+                "LibraryViewModel",
+                "Library details shown in " + elapsed.ElapsedMilliseconds + " ms, network refresh " + (usedNetwork ? "used" : "skipped")
+            );
 
             if (usedNetwork)
                 SaveSnapshot(published);
             _ = FetchEventsInBackgroundAsync(published, token);
             await UpdateUiAsync(() => StartBadgeFill(published)).ConfigureAwait(false);
         }
-        catch (OperationCanceledException) when (token.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
         catch (Exception ex)
         {
             HasLoaded = false;
@@ -930,10 +958,11 @@ public class LibraryViewModel : INotifyPropertyChanged
         finally
         {
             await UpdateUiAsync(() =>
-            {
-                if (ReferenceEquals(_loadCts, cancellation))
-                    IsLoading = false;
-            }).ConfigureAwait(false);
+                {
+                    if (ReferenceEquals(_loadCts, cancellation))
+                        IsLoading = false;
+                })
+                .ConfigureAwait(false);
             _loadInFlight = false;
             if (_reloadRequested)
             {
@@ -947,7 +976,9 @@ public class LibraryViewModel : INotifyPropertyChanged
 
     private (List<LibraryGameEntry> Games, bool Fresh) BuildLocalGames(List<AppSettings.LibraryPin> pins)
     {
-        List<Integrations.RobloxFavorites.Favorite> favorites = App.Settings.Prop.LibraryShowRobloxFavorites ? Integrations.RobloxFavorites.ReadCached() : [];
+        List<Integrations.RobloxFavorites.Favorite> favorites = App.Settings.Prop.LibraryShowRobloxFavorites
+            ? Integrations.RobloxFavorites.ReadCached()
+            : [];
         List<LibraryGameEntry> games = BuildEntries(ReadHistoryFile(), pins, Integrations.PlayTimeStore.Read(), favorites);
         bool fresh = false;
         try
@@ -957,7 +988,9 @@ public class LibraryViewModel : INotifyPropertyChanged
             {
                 fresh = DateTime.UtcNow - File.GetLastWriteTimeUtc(path) < SnapshotFreshness;
                 Dictionary<long, LibraryGameEntry> stored = new();
-                foreach (LibraryGameEntry entry in JsonFile.Deserialize<List<LibraryGameEntry>>(path, SnapshotOptions, MaximumSnapshotBytes))
+                foreach (
+                    LibraryGameEntry entry in JsonFile.Deserialize<List<LibraryGameEntry>>(path, SnapshotOptions, MaximumSnapshotBytes)
+                )
                 {
                     if (entry != null && entry.UniverseId > 0)
                         stored.TryAdd(entry.UniverseId, entry);
@@ -984,7 +1017,9 @@ public class LibraryViewModel : INotifyPropertyChanged
         List<Models.Entities.ActivityData> unresolved = history.Where(static session => session.UniverseId == 0).ToList();
         if (unresolved.Count > 0)
         {
-            await UniverseDetails.ResolvePlacesToUniversesAsync(unresolved.Select(static session => session.PlaceId), token).ConfigureAwait(false);
+            await UniverseDetails
+                .ResolvePlacesToUniversesAsync(unresolved.Select(static session => session.PlaceId), token)
+                .ConfigureAwait(false);
             foreach (Models.Entities.ActivityData session in unresolved)
             {
                 if (UniverseDetails.TryGetUniverseForPlace(session.PlaceId, out long resolvedUniverse))
@@ -994,7 +1029,8 @@ public class LibraryViewModel : INotifyPropertyChanged
         Integrations.PlayTimeStore.StoreData playStore = await Task.Run(Integrations.PlayTimeStore.Read, token).ConfigureAwait(false);
         List<Integrations.RobloxFavorites.Favorite> favorites = [];
         if (App.Settings.Prop.LibraryShowRobloxFavorites)
-            favorites = await Integrations.RobloxFavorites.RefreshAsync(token).ConfigureAwait(false) ?? Integrations.RobloxFavorites.ReadCached();
+            favorites =
+                await Integrations.RobloxFavorites.RefreshAsync(token).ConfigureAwait(false) ?? Integrations.RobloxFavorites.ReadCached();
         List<LibraryGameEntry> games = BuildEntries(history, pins, playStore, favorites);
         ApplyCachedDetails(games);
         return games;
@@ -1005,9 +1041,11 @@ public class LibraryViewModel : INotifyPropertyChanged
         if (games.Count == 0)
             return;
         await Task.WhenAll(
-            FetchUniverseDetailsAsync(games, token),
-            FetchLandscapeThumbnailsAsync(games, token),
-            FetchVotesAsync(games, token)).ConfigureAwait(false);
+                FetchUniverseDetailsAsync(games, token),
+                FetchLandscapeThumbnailsAsync(games, token),
+                FetchVotesAsync(games, token)
+            )
+            .ConfigureAwait(false);
         ApplyCachedDetails(games);
     }
 
@@ -1092,26 +1130,26 @@ public class LibraryViewModel : INotifyPropertyChanged
 
     private static async Task FetchUniverseDetailsAsync(List<LibraryGameEntry> games, CancellationToken token)
     {
-        List<long> ids = games
-            .Where(static game => game.UniverseId > 0)
-            .Select(static game => game.UniverseId)
-            .Distinct()
-            .ToList();
-        await Task.WhenAll(Chunk(ids, 50).Select(async chunk =>
-        {
-            try
-            {
-                await UniverseDetails.FetchBulk(chunk, token).ConfigureAwait(false);
-            }
-            catch (OperationCanceledException) when (token.IsCancellationRequested)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("LibraryViewModel", "Details fetch failed: " + ex.Message);
-            }
-        })).ConfigureAwait(false);
+        List<long> ids = games.Where(static game => game.UniverseId > 0).Select(static game => game.UniverseId).Distinct().ToList();
+        await Task.WhenAll(
+                Chunk(ids, 50)
+                    .Select(async chunk =>
+                    {
+                        try
+                        {
+                            await UniverseDetails.FetchBulk(chunk, token).ConfigureAwait(false);
+                        }
+                        catch (OperationCanceledException) when (token.IsCancellationRequested)
+                        {
+                            throw;
+                        }
+                        catch (Exception ex)
+                        {
+                            App.Logger.WriteLine("LibraryViewModel", "Details fetch failed: " + ex.Message);
+                        }
+                    })
+            )
+            .ConfigureAwait(false);
     }
 
     private async Task FetchEventsInBackgroundAsync(List<LibraryGameEntry> games, CancellationToken token)
@@ -1125,9 +1163,7 @@ public class LibraryViewModel : INotifyPropertyChanged
                 .ToList();
             await FetchEventsAsync(prioritized, token).ConfigureAwait(false);
         }
-        catch (OperationCanceledException) when (token.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("LibraryViewModel", "Event loading stopped: " + ex.Message);
@@ -1169,9 +1205,9 @@ public class LibraryViewModel : INotifyPropertyChanged
         List<Models.Entities.ActivityData> rawHistory,
         List<AppSettings.LibraryPin> pins,
         Integrations.PlayTimeStore.StoreData playStore,
-        List<Integrations.RobloxFavorites.Favorite> favorites)
+        List<Integrations.RobloxFavorites.Favorite> favorites
+    )
     {
-
         Dictionary<long, LibraryGameEntry> byUniverse = new();
         foreach (Models.Entities.ActivityData session in rawHistory.OrderByDescending(x => x.TimeJoined))
         {
@@ -1183,7 +1219,7 @@ public class LibraryViewModel : INotifyPropertyChanged
                 {
                     UniverseId = session.UniverseId,
                     PlaceId = session.PlaceId,
-                    LastPlayed = session.TimeJoined
+                    LastPlayed = session.TimeJoined,
                 };
                 byUniverse[session.UniverseId] = entry;
             }
@@ -1205,7 +1241,7 @@ public class LibraryViewModel : INotifyPropertyChanged
                 {
                     UniverseId = pin.UniverseId,
                     PlaceId = pin.PlaceId,
-                    Name = pin.Name ?? ""
+                    Name = pin.Name ?? "",
                 };
                 byUniverse[pin.UniverseId] = entry;
             }
@@ -1223,11 +1259,7 @@ public class LibraryViewModel : INotifyPropertyChanged
                 continue;
             if (!byUniverse.TryGetValue(favorite.UniverseId, out LibraryGameEntry? entry))
             {
-                entry = new LibraryGameEntry
-                {
-                    UniverseId = favorite.UniverseId,
-                    PlaceId = favorite.PlaceId
-                };
+                entry = new LibraryGameEntry { UniverseId = favorite.UniverseId, PlaceId = favorite.PlaceId };
                 byUniverse[favorite.UniverseId] = entry;
             }
             entry.IsFavorite = true;
@@ -1246,10 +1278,7 @@ public class LibraryViewModel : INotifyPropertyChanged
         {
             if (!byUniverse.TryGetValue(stored.Key, out LibraryGameEntry? entry))
             {
-                entry = new LibraryGameEntry
-                {
-                    UniverseId = stored.Key
-                };
+                entry = new LibraryGameEntry { UniverseId = stored.Key };
                 byUniverse[stored.Key] = entry;
             }
             if (stored.Value.Minutes > entry.PlayTimeMinutes)
@@ -1267,22 +1296,24 @@ public class LibraryViewModel : INotifyPropertyChanged
         return games;
     }
 
-
     private void PublishGamesCore(List<LibraryGameEntry> games)
     {
         _masterGames.Clear();
         _masterGames.AddRange(games.OrderBy(static game => game.Name, StringComparer.OrdinalIgnoreCase));
 
-        ReplaceIfChanged(RecentGames, games
-            .Where(static game => game.LastPlayed != null)
-            .OrderByDescending(static game => game.LastPlayed)
-            .Take(12));
+        ReplaceIfChanged(
+            RecentGames,
+            games.Where(static game => game.LastPlayed != null).OrderByDescending(static game => game.LastPlayed).Take(12)
+        );
 
         DateTime cutoff = DateTime.Now.AddDays(-30);
-        ReplaceIfChanged(WhatsNew, games
-            .Where(game => game.Updated != null && game.Updated.Value.ToLocalTime() >= cutoff)
-            .OrderByDescending(static game => game.Updated)
-            .Take(12));
+        ReplaceIfChanged(
+            WhatsNew,
+            games
+                .Where(game => game.Updated != null && game.Updated.Value.ToLocalTime() >= cutoff)
+                .OrderByDescending(static game => game.Updated)
+                .Take(12)
+        );
 
         ReplaceIfChanged(AllGames, _masterGames.Take(Math.Max(GamePageSize, AllGames.Count)));
 
@@ -1301,7 +1332,8 @@ public class LibraryViewModel : INotifyPropertyChanged
         {
             LibraryGameEntry? match = _masterGames.FirstOrDefault(game =>
                 (currentSelection.UniverseId > 0 && game.UniverseId == currentSelection.UniverseId)
-                || (currentSelection.UniverseId <= 0 && currentSelection.PlaceId > 0 && game.PlaceId == currentSelection.PlaceId));
+                || (currentSelection.UniverseId <= 0 && currentSelection.PlaceId > 0 && game.PlaceId == currentSelection.PlaceId)
+            );
             if (match != null)
                 SelectedGame = match;
         }
@@ -1320,7 +1352,8 @@ public class LibraryViewModel : INotifyPropertyChanged
             collection.Add(item);
     }
 
-    private static void ReplaceIfChanged<T>(ObservableCollection<T> collection, IEnumerable<T> source) where T : class
+    private static void ReplaceIfChanged<T>(ObservableCollection<T> collection, IEnumerable<T> source)
+        where T : class
     {
         List<T> items = source.ToList();
         if (items.Count == collection.Count)
@@ -1392,17 +1425,18 @@ public class LibraryViewModel : INotifyPropertyChanged
     {
         string iconUrl = game.IconUrl ?? "";
         string thumbnailUrl = game.ThumbnailUrl ?? "";
-        bool changed = pin.PlaceId != game.PlaceId ||
-            pin.Name != game.Name ||
-            pin.CreatorName != game.CreatorName ||
-            pin.Description != game.Description ||
-            pin.IconUrl != iconUrl ||
-            pin.ThumbnailUrl != thumbnailUrl ||
-            pin.Visits != game.Visits ||
-            pin.MaxPlayers != game.MaxPlayers ||
-            pin.Genre != game.Genre ||
-            pin.Created != game.Created ||
-            pin.Updated != game.Updated;
+        bool changed =
+            pin.PlaceId != game.PlaceId
+            || pin.Name != game.Name
+            || pin.CreatorName != game.CreatorName
+            || pin.Description != game.Description
+            || pin.IconUrl != iconUrl
+            || pin.ThumbnailUrl != thumbnailUrl
+            || pin.Visits != game.Visits
+            || pin.MaxPlayers != game.MaxPlayers
+            || pin.Genre != game.Genre
+            || pin.Created != game.Created
+            || pin.Updated != game.Updated;
         pin.PlaceId = game.PlaceId;
         pin.Name = game.Name;
         pin.CreatorName = game.CreatorName;
@@ -1423,15 +1457,13 @@ public class LibraryViewModel : INotifyPropertyChanged
         {
             if (!File.Exists(_historyFilePath))
                 return new List<Models.Entities.ActivityData>();
-			JsonSerializerOptions options = new JsonSerializerOptions
-			{
-				PropertyNameCaseInsensitive = true
-			};
-			return JsonFile.Deserialize<List<Models.Entities.ActivityData>>(_historyFilePath, options, MaximumHistoryBytes)
-				.Where(static entry => entry is not null && entry.PlaceId > 0)
-				.OrderByDescending(static entry => entry.TimeJoined)
-				.Take(MaximumHistoryEntries)
-				.ToList();
+            JsonSerializerOptions options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            return JsonFile
+                .Deserialize<List<Models.Entities.ActivityData>>(_historyFilePath, options, MaximumHistoryBytes)
+                .Where(static entry => entry is not null && entry.PlaceId > 0)
+                .OrderByDescending(static entry => entry.TimeJoined)
+                .Take(MaximumHistoryEntries)
+                .ToList();
         }
         catch (Exception ex)
         {
@@ -1453,42 +1485,48 @@ public class LibraryViewModel : INotifyPropertyChanged
         foreach (LibraryGameEntry entry in games)
             byUniverse[entry.UniverseId] = entry;
 
-        await Task.WhenAll(Chunk(ids, 50).Select(async chunk =>
-        {
-            try
-            {
-                string url = $"https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds={chunk}&countPerUniverse=1&defaults=true&size=768x432&format=Jpeg";
-                using JsonDocument doc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, url, token: token).ConfigureAwait(false));
-                if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
-                    return;
-                foreach (JsonElement item in data.EnumerateArray())
+        await Task.WhenAll(
+            Chunk(ids, 50)
+                .Select(async chunk =>
                 {
-                    if (!item.TryGetProperty("universeId", out JsonElement idProp))
-                        continue;
-                    long universeId = idProp.GetInt64();
-                    if (!item.TryGetProperty("thumbnails", out JsonElement thumbs) || thumbs.ValueKind != JsonValueKind.Array)
-                        continue;
-                    foreach (JsonElement thumb in thumbs.EnumerateArray())
+                    try
                     {
-                        if (thumb.TryGetProperty("imageUrl", out JsonElement urlProp) && urlProp.ValueKind == JsonValueKind.String)
+                        string url =
+                            $"https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds={chunk}&countPerUniverse=1&defaults=true&size=768x432&format=Jpeg";
+                        using JsonDocument doc = JsonDocument.Parse(
+                            await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, url, token: token).ConfigureAwait(false)
+                        );
+                        if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
+                            return;
+                        foreach (JsonElement item in data.EnumerateArray())
                         {
-                            string? imageUrl = urlProp.GetString();
-                            if (byUniverse.TryGetValue(universeId, out LibraryGameEntry? game) && !string.IsNullOrEmpty(imageUrl))
-                                game.ThumbnailUrl = imageUrl;
-                            break;
+                            if (!item.TryGetProperty("universeId", out JsonElement idProp))
+                                continue;
+                            long universeId = idProp.GetInt64();
+                            if (!item.TryGetProperty("thumbnails", out JsonElement thumbs) || thumbs.ValueKind != JsonValueKind.Array)
+                                continue;
+                            foreach (JsonElement thumb in thumbs.EnumerateArray())
+                            {
+                                if (thumb.TryGetProperty("imageUrl", out JsonElement urlProp) && urlProp.ValueKind == JsonValueKind.String)
+                                {
+                                    string? imageUrl = urlProp.GetString();
+                                    if (byUniverse.TryGetValue(universeId, out LibraryGameEntry? game) && !string.IsNullOrEmpty(imageUrl))
+                                        game.ThumbnailUrl = imageUrl;
+                                    break;
+                                }
+                            }
                         }
                     }
-                }
-            }
-            catch (OperationCanceledException) when (token.IsCancellationRequested)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("LibraryViewModel", "Thumbnail fetch failed: " + ex.Message);
-            }
-        }));
+                    catch (OperationCanceledException) when (token.IsCancellationRequested)
+                    {
+                        throw;
+                    }
+                    catch (Exception ex)
+                    {
+                        App.Logger.WriteLine("LibraryViewModel", "Thumbnail fetch failed: " + ex.Message);
+                    }
+                })
+        );
     }
 
     private void OpenEvent(LibraryEventEntry? entry)
@@ -1510,95 +1548,101 @@ public class LibraryViewModel : INotifyPropertyChanged
         System.Collections.Concurrent.ConcurrentBag<LibraryEventEntry> found = new();
         using SemaphoreSlim gate = new SemaphoreSlim(6, 6);
 
-        await Task.WhenAll(games.Select(async game =>
-        {
-            if (game.UniverseId <= 0)
-                return;
-            await gate.WaitAsync(token).ConfigureAwait(false);
-            try
-            {
-                string url = "https://apis.roblox.com/virtual-events/v1/universes/" + game.UniverseId + "/virtual-events";
-                string? body = await Voidstrap.Utility.GitHubCache.GetStringAsync(url, TimeSpan.FromMinutes(20), token: token).ConfigureAwait(false);
-                if (string.IsNullOrEmpty(body))
-                    return;
-                using JsonDocument doc = JsonDocument.Parse(body);
-                if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
-                    return;
-
-                foreach (JsonElement item in data.EnumerateArray())
+        await Task.WhenAll(
+                games.Select(async game =>
                 {
-                    if (item.ValueKind != JsonValueKind.Object)
-                        continue;
-                    if (ReadEventText(item, "eventStatus") != "active")
-                        continue;
-                    if (ReadEventText(item, "eventVisibility") != "public")
-                        continue;
-
-                    DateTime? start = null;
-                    DateTime? end = null;
-                    if (item.TryGetProperty("eventTime", out JsonElement time) && time.ValueKind == JsonValueKind.Object)
+                    if (game.UniverseId <= 0)
+                        return;
+                    await gate.WaitAsync(token).ConfigureAwait(false);
+                    try
                     {
-                        start = ReadEventDate(time, "startUtc");
-                        end = ReadEventDate(time, "endUtc");
-                    }
+                        string url = "https://apis.roblox.com/virtual-events/v1/universes/" + game.UniverseId + "/virtual-events";
+                        string? body = await Voidstrap
+                            .Utility.GitHubCache.GetStringAsync(url, TimeSpan.FromMinutes(20), token: token)
+                            .ConfigureAwait(false);
+                        if (string.IsNullOrEmpty(body))
+                            return;
+                        using JsonDocument doc = JsonDocument.Parse(body);
+                        if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
+                            return;
 
-                    if (end.HasValue && end.Value < DateTime.UtcNow)
-                        continue;
-
-                    long mediaId = 0;
-                    if (item.TryGetProperty("thumbnails", out JsonElement thumbs) && thumbs.ValueKind == JsonValueKind.Array)
-                    {
-                        foreach (JsonElement thumb in thumbs.EnumerateArray())
+                        foreach (JsonElement item in data.EnumerateArray())
                         {
-                            if (thumb.ValueKind == JsonValueKind.Object
-                                && thumb.TryGetProperty("mediaId", out JsonElement mid)
-                                && mid.ValueKind == JsonValueKind.Number
-                                && mid.TryGetInt64(out long mv))
+                            if (item.ValueKind != JsonValueKind.Object)
+                                continue;
+                            if (ReadEventText(item, "eventStatus") != "active")
+                                continue;
+                            if (ReadEventText(item, "eventVisibility") != "public")
+                                continue;
+
+                            DateTime? start = null;
+                            DateTime? end = null;
+                            if (item.TryGetProperty("eventTime", out JsonElement time) && time.ValueKind == JsonValueKind.Object)
                             {
-                                mediaId = mv;
-                                break;
+                                start = ReadEventDate(time, "startUtc");
+                                end = ReadEventDate(time, "endUtc");
                             }
+
+                            if (end.HasValue && end.Value < DateTime.UtcNow)
+                                continue;
+
+                            long mediaId = 0;
+                            if (item.TryGetProperty("thumbnails", out JsonElement thumbs) && thumbs.ValueKind == JsonValueKind.Array)
+                            {
+                                foreach (JsonElement thumb in thumbs.EnumerateArray())
+                                {
+                                    if (
+                                        thumb.ValueKind == JsonValueKind.Object
+                                        && thumb.TryGetProperty("mediaId", out JsonElement mid)
+                                        && mid.ValueKind == JsonValueKind.Number
+                                        && mid.TryGetInt64(out long mv)
+                                    )
+                                    {
+                                        mediaId = mv;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            string title = ReadEventText(item, "displayTitle");
+                            if (string.IsNullOrWhiteSpace(title))
+                                title = ReadEventText(item, "title");
+                            string subtitle = ReadEventText(item, "displaySubtitle");
+                            if (string.IsNullOrWhiteSpace(subtitle))
+                                subtitle = ReadEventText(item, "subtitle");
+
+                            found.Add(
+                                new LibraryEventEntry
+                                {
+                                    Id = ReadEventText(item, "id"),
+                                    UniverseId = game.UniverseId,
+                                    Title = title,
+                                    Subtitle = subtitle,
+                                    GameName = game.Name ?? string.Empty,
+                                    StartUtc = start,
+                                    EndUtc = end,
+                                    MediaId = mediaId,
+                                }
+                            );
                         }
                     }
-
-                    string title = ReadEventText(item, "displayTitle");
-                    if (string.IsNullOrWhiteSpace(title))
-                        title = ReadEventText(item, "title");
-                    string subtitle = ReadEventText(item, "displaySubtitle");
-                    if (string.IsNullOrWhiteSpace(subtitle))
-                        subtitle = ReadEventText(item, "subtitle");
-
-                    found.Add(new LibraryEventEntry
+                    catch (OperationCanceledException) when (token.IsCancellationRequested)
                     {
-                        Id = ReadEventText(item, "id"),
-                        UniverseId = game.UniverseId,
-                        Title = title,
-                        Subtitle = subtitle,
-                        GameName = game.Name ?? string.Empty,
-                        StartUtc = start,
-                        EndUtc = end,
-                        MediaId = mediaId,
-                    });
-                }
-            }
-            catch (OperationCanceledException) when (token.IsCancellationRequested)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("LibraryViewModel", "Events fetch failed for " + game.UniverseId + ": " + ex.Message);
-            }
-            finally
-            {
-                gate.Release();
-            }
-        })).ConfigureAwait(false);
+                        throw;
+                    }
+                    catch (Exception ex)
+                    {
+                        App.Logger.WriteLine("LibraryViewModel", "Events fetch failed for " + game.UniverseId + ": " + ex.Message);
+                    }
+                    finally
+                    {
+                        gate.Release();
+                    }
+                })
+            )
+            .ConfigureAwait(false);
 
-        List<LibraryEventEntry> ordered = found
-            .OrderBy(e => e.StartUtc ?? DateTime.MaxValue)
-            .Take(24)
-            .ToList();
+        List<LibraryEventEntry> ordered = found.OrderBy(e => e.StartUtc ?? DateTime.MaxValue).Take(24).ToList();
 
         await ResolveEventThumbnailsAsync(ordered, token).ConfigureAwait(false);
 
@@ -1619,40 +1663,46 @@ public class LibraryViewModel : INotifyPropertyChanged
             return;
 
         Dictionary<long, string> urls = new();
-        await Task.WhenAll(Chunk(mediaIds, 50).Select(async chunk =>
-        {
-            try
-            {
-                string url = "https://thumbnails.roblox.com/v1/assets?assetIds=" + chunk + "&size=768x432&format=Jpeg&isCircular=false";
-                using JsonDocument doc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, url, token: token).ConfigureAwait(false));
-                if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
-                    return;
-                foreach (JsonElement item in data.EnumerateArray())
+        await Task.WhenAll(
+            Chunk(mediaIds, 50)
+                .Select(async chunk =>
                 {
-                    if (item.ValueKind != JsonValueKind.Object)
-                        continue;
-                    if (!item.TryGetProperty("targetId", out JsonElement idProp) || !idProp.TryGetInt64(out long targetId))
-                        continue;
-                    if (item.TryGetProperty("imageUrl", out JsonElement urlProp) && urlProp.ValueKind == JsonValueKind.String)
+                    try
                     {
-                        string? image = urlProp.GetString();
-                        if (!string.IsNullOrEmpty(image))
+                        string url =
+                            "https://thumbnails.roblox.com/v1/assets?assetIds=" + chunk + "&size=768x432&format=Jpeg&isCircular=false";
+                        using JsonDocument doc = JsonDocument.Parse(
+                            await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, url, token: token).ConfigureAwait(false)
+                        );
+                        if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
+                            return;
+                        foreach (JsonElement item in data.EnumerateArray())
                         {
-                            lock (urls)
-                                urls[targetId] = image;
+                            if (item.ValueKind != JsonValueKind.Object)
+                                continue;
+                            if (!item.TryGetProperty("targetId", out JsonElement idProp) || !idProp.TryGetInt64(out long targetId))
+                                continue;
+                            if (item.TryGetProperty("imageUrl", out JsonElement urlProp) && urlProp.ValueKind == JsonValueKind.String)
+                            {
+                                string? image = urlProp.GetString();
+                                if (!string.IsNullOrEmpty(image))
+                                {
+                                    lock (urls)
+                                        urls[targetId] = image;
+                                }
+                            }
                         }
                     }
-                }
-            }
-            catch (OperationCanceledException) when (token.IsCancellationRequested)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("LibraryViewModel", "Event thumbnail fetch failed: " + ex.Message);
-            }
-        }));
+                    catch (OperationCanceledException) when (token.IsCancellationRequested)
+                    {
+                        throw;
+                    }
+                    catch (Exception ex)
+                    {
+                        App.Logger.WriteLine("LibraryViewModel", "Event thumbnail fetch failed: " + ex.Message);
+                    }
+                })
+        );
 
         foreach (LibraryEventEntry entry in events)
         {
@@ -1676,7 +1726,8 @@ public class LibraryViewModel : INotifyPropertyChanged
             value.GetString(),
             null,
             System.Globalization.DateTimeStyles.AdjustToUniversal | System.Globalization.DateTimeStyles.AssumeUniversal,
-            out DateTime parsed)
+            out DateTime parsed
+        )
             ? parsed
             : null;
     }
@@ -1688,34 +1739,39 @@ public class LibraryViewModel : INotifyPropertyChanged
         foreach (LibraryGameEntry entry in games)
             byUniverse[entry.UniverseId] = entry;
 
-        await Task.WhenAll(Chunk(ids, 50).Select(async chunk =>
-        {
-            try
-            {
-                string url = $"https://games.roblox.com/v1/games/votes?universeIds={chunk}";
-                using JsonDocument doc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, url, token: token).ConfigureAwait(false));
-                if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
-                    return;
-                foreach (JsonElement item in data.EnumerateArray())
+        await Task.WhenAll(
+            Chunk(ids, 50)
+                .Select(async chunk =>
                 {
-                    if (!item.TryGetProperty("id", out JsonElement idProp))
-                        continue;
-                    long universeId = idProp.GetInt64();
-                    long up = item.TryGetProperty("upVotes", out JsonElement upProp) ? upProp.GetInt64() : 0;
-                    long down = item.TryGetProperty("downVotes", out JsonElement downProp) ? downProp.GetInt64() : 0;
-                    if (byUniverse.TryGetValue(universeId, out LibraryGameEntry? game) && up + down > 0)
-                        game.LikePercent = $"{Math.Round(up * 100.0 / (up + down))}%";
-                }
-            }
-            catch (OperationCanceledException) when (token.IsCancellationRequested)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("LibraryViewModel", "Votes fetch failed: " + ex.Message);
-            }
-        }));
+                    try
+                    {
+                        string url = $"https://games.roblox.com/v1/games/votes?universeIds={chunk}";
+                        using JsonDocument doc = JsonDocument.Parse(
+                            await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, url, token: token).ConfigureAwait(false)
+                        );
+                        if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
+                            return;
+                        foreach (JsonElement item in data.EnumerateArray())
+                        {
+                            if (!item.TryGetProperty("id", out JsonElement idProp))
+                                continue;
+                            long universeId = idProp.GetInt64();
+                            long up = item.TryGetProperty("upVotes", out JsonElement upProp) ? upProp.GetInt64() : 0;
+                            long down = item.TryGetProperty("downVotes", out JsonElement downProp) ? downProp.GetInt64() : 0;
+                            if (byUniverse.TryGetValue(universeId, out LibraryGameEntry? game) && up + down > 0)
+                                game.LikePercent = $"{Math.Round(up * 100.0 / (up + down))}%";
+                        }
+                    }
+                    catch (OperationCanceledException) when (token.IsCancellationRequested)
+                    {
+                        throw;
+                    }
+                    catch (Exception ex)
+                    {
+                        App.Logger.WriteLine("LibraryViewModel", "Votes fetch failed: " + ex.Message);
+                    }
+                })
+        );
     }
 
     private void RebuildSidebar(bool force = true)
@@ -1724,7 +1780,9 @@ public class LibraryViewModel : INotifyPropertyChanged
         IEnumerable<LibraryGameEntry> filtered = _masterGames;
         if (query.Length > 0)
             filtered = filtered.Where(g => g.Name.Contains(query, StringComparison.OrdinalIgnoreCase));
-        IEnumerable<LibraryGameEntry> ordered = filtered.OrderByDescending(static game => game.IsPinned).ThenBy(static game => game.Name, StringComparer.OrdinalIgnoreCase);
+        IEnumerable<LibraryGameEntry> ordered = filtered
+            .OrderByDescending(static game => game.IsPinned)
+            .ThenBy(static game => game.Name, StringComparer.OrdinalIgnoreCase);
         _suppressSelectionReset = true;
         try
         {
@@ -1783,14 +1841,16 @@ public class LibraryViewModel : INotifyPropertyChanged
         try
         {
             string voidstrapPath = Paths.LaunchExecutable;
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = voidstrapPath,
-                Arguments = $"-player \"{uri}\"",
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                WorkingDirectory = Path.GetDirectoryName(voidstrapPath) ?? ""
-            });
+            Process.Start(
+                new ProcessStartInfo
+                {
+                    FileName = voidstrapPath,
+                    Arguments = $"-player \"{uri}\"",
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    WorkingDirectory = Path.GetDirectoryName(voidstrapPath) ?? "",
+                }
+            );
             return true;
         }
         catch (Exception ex)
@@ -1825,7 +1885,10 @@ public class LibraryViewModel : INotifyPropertyChanged
         if (rootPlaceId <= 0)
             return game.PlaceId;
         if (rootPlaceId != game.PlaceId)
-            App.Logger.WriteLine("LibraryViewModel::LaunchGame", $"Joining the start place {rootPlaceId} of universe {game.UniverseId} instead of the last visited place {game.PlaceId}");
+            App.Logger.WriteLine(
+                "LibraryViewModel::LaunchGame",
+                $"Joining the start place {rootPlaceId} of universe {game.UniverseId} instead of the last visited place {game.PlaceId}"
+            );
         return rootPlaceId;
     }
 
@@ -1842,12 +1905,14 @@ public class LibraryViewModel : INotifyPropertyChanged
         }
         else
         {
-            pins.Add(new AppSettings.LibraryPin
-            {
-                PlaceId = game.PlaceId,
-                UniverseId = game.UniverseId,
-                Name = game.Name ?? ""
-            });
+            pins.Add(
+                new AppSettings.LibraryPin
+                {
+                    PlaceId = game.PlaceId,
+                    UniverseId = game.UniverseId,
+                    Name = game.Name ?? "",
+                }
+            );
             game.IsPinned = true;
         }
         Integrations.LibraryStore.SetFavoriteHidden(game.UniverseId, false);
@@ -1859,7 +1924,11 @@ public class LibraryViewModel : INotifyPropertyChanged
     {
         if (game == null)
             return;
-        MessageBoxResult result = UI.Frontend.ShowMessageBox($"Remove {game.Name} from your library? Its recorded playtime will be deleted.", MessageBoxImage.Question, MessageBoxButton.YesNo);
+        MessageBoxResult result = UI.Frontend.ShowMessageBox(
+            $"Remove {game.Name} from your library? Its recorded playtime will be deleted.",
+            MessageBoxImage.Question,
+            MessageBoxButton.YesNo
+        );
         if (result != MessageBoxResult.Yes)
             return;
         List<AppSettings.LibraryPin> pins = Integrations.LibraryStore.Pins;
@@ -1887,13 +1956,13 @@ public class LibraryViewModel : INotifyPropertyChanged
             List<Models.Entities.ActivityData> kept = new();
             foreach (Models.Entities.ActivityData session in history)
             {
-				if (session.UniverseId == universeId)
-					removedKeys.Add($"{session.PlaceId}_{session.JobId}");
+                if (session.UniverseId == universeId)
+                    removedKeys.Add($"{session.PlaceId}_{session.JobId}");
                 else
                     kept.Add(session);
             }
-			if (removedKeys.Count > 0)
-				JsonFile.SerializeAtomic(_historyFilePath, kept, JsonOptions.Indented);
+            if (removedKeys.Count > 0)
+                JsonFile.SerializeAtomic(_historyFilePath, kept, JsonOptions.Indented);
         }
         catch (Exception ex)
         {
@@ -1932,7 +2001,7 @@ public class LibraryViewModel : INotifyPropertyChanged
                 {
                     PlaceId = placeId,
                     UniverseId = universeId,
-                    Name = $"Place {placeId}"
+                    Name = $"Place {placeId}",
                 };
                 pins.Add(pin);
             }
@@ -1971,19 +2040,19 @@ public class LibraryViewModel : INotifyPropertyChanged
 
     private async Task LoadGamePassesAsync(long universeId, long version, CancellationTokenSource cancellation)
     {
-		CancellationToken ct = cancellation.Token;
+        CancellationToken ct = cancellation.Token;
         try
         {
-			if (_gamePassCache.TryGetValue(universeId, out List<GamePassEntry>? cached))
-			{
-				ApplyGamePasses(universeId, version, cached);
-				return;
-			}
-			ct.ThrowIfCancellationRequested();
+            if (_gamePassCache.TryGetValue(universeId, out List<GamePassEntry>? cached))
+            {
+                ApplyGamePasses(universeId, version, cached);
+                return;
+            }
+            ct.ThrowIfCancellationRequested();
             List<GamePassEntry> passes = new();
             List<long> forSaleIds = new();
             string url = $"https://apis.roblox.com/game-passes/v1/universes/{universeId}/game-passes?limit=100&sortOrder=1";
-			using (JsonDocument doc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, url, token: ct)))
+            using (JsonDocument doc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, url, token: ct)))
             {
                 if (doc.RootElement.TryGetProperty("gamePasses", out JsonElement data) && data.ValueKind == JsonValueKind.Array)
                 {
@@ -1992,90 +2061,115 @@ public class LibraryViewModel : INotifyPropertyChanged
                         long id = item.TryGetProperty("id", out JsonElement idProp) ? idProp.GetInt64() : 0;
                         if (id == 0)
                             continue;
-                        string name = item.TryGetProperty("displayName", out JsonElement dispProp) && dispProp.ValueKind == JsonValueKind.String ? dispProp.GetString() ?? "" : "";
-                        if (name.Length == 0 && item.TryGetProperty("name", out JsonElement nameProp) && nameProp.ValueKind == JsonValueKind.String)
+                        string name =
+                            item.TryGetProperty("displayName", out JsonElement dispProp) && dispProp.ValueKind == JsonValueKind.String
+                                ? dispProp.GetString() ?? ""
+                                : "";
+                        if (
+                            name.Length == 0
+                            && item.TryGetProperty("name", out JsonElement nameProp)
+                            && nameProp.ValueKind == JsonValueKind.String
+                        )
                             name = nameProp.GetString() ?? "";
-                        bool forSale = item.TryGetProperty("isForSale", out JsonElement saleProp) && saleProp.ValueKind == JsonValueKind.True;
+                        bool forSale =
+                            item.TryGetProperty("isForSale", out JsonElement saleProp) && saleProp.ValueKind == JsonValueKind.True;
                         if (forSale)
                             forSaleIds.Add(id);
-                        passes.Add(new GamePassEntry
-                        {
-                            Id = id,
-                            Name = name,
-                            PriceDisplay = forSale ? "For sale" : "Off sale"
-                        });
+                        passes.Add(
+                            new GamePassEntry
+                            {
+                                Id = id,
+                                Name = name,
+                                PriceDisplay = forSale ? "For sale" : "Off sale",
+                            }
+                        );
                     }
                 }
             }
             foreach (GamePassEntry[] batch in passes.Where(p => forSaleIds.Contains(p.Id)).Take(40).Chunk(8))
             {
-				ct.ThrowIfCancellationRequested();
-                await Task.WhenAll(batch.Select(async pass =>
-                {
-                    try
+                ct.ThrowIfCancellationRequested();
+                await Task.WhenAll(
+                    batch.Select(async pass =>
                     {
-						using JsonDocument info = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, $"https://apis.roblox.com/game-passes/v1/game-passes/{pass.Id}/product-info", token: ct));
-                        if (info.RootElement.TryGetProperty("PriceInRobux", out JsonElement priceProp) && priceProp.ValueKind == JsonValueKind.Number)
-                            pass.PriceDisplay = $"R$ {priceProp.GetInt32():N0}";
-                    }
-					catch (OperationCanceledException) when (ct.IsCancellationRequested)
-					{
-						throw;
-					}
-                    catch (Exception ex)
-                    {
-                        App.Logger.WriteLine("LibraryViewModel", "Gamepass price failed: " + ex.Message);
-                    }
-                }));
+                        try
+                        {
+                            using JsonDocument info = JsonDocument.Parse(
+                                await Voidstrap.Utility.Http.GetStringBoundedAsync(
+                                    _http,
+                                    $"https://apis.roblox.com/game-passes/v1/game-passes/{pass.Id}/product-info",
+                                    token: ct
+                                )
+                            );
+                            if (
+                                info.RootElement.TryGetProperty("PriceInRobux", out JsonElement priceProp)
+                                && priceProp.ValueKind == JsonValueKind.Number
+                            )
+                                pass.PriceDisplay = $"R$ {priceProp.GetInt32():N0}";
+                        }
+                        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+                        {
+                            throw;
+                        }
+                        catch (Exception ex)
+                        {
+                            App.Logger.WriteLine("LibraryViewModel", "Gamepass price failed: " + ex.Message);
+                        }
+                    })
+                );
             }
             if (passes.Count > 0)
             {
                 try
                 {
-                    string iconUrl = $"https://thumbnails.roblox.com/v1/game-passes?gamePassIds={string.Join(',', passes.Select(p => p.Id).Take(100))}&size=150x150&format=Png";
-					using JsonDocument iconDoc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, iconUrl, token: ct));
+                    string iconUrl =
+                        $"https://thumbnails.roblox.com/v1/game-passes?gamePassIds={string.Join(',', passes.Select(p => p.Id).Take(100))}&size=150x150&format=Png";
+                    using JsonDocument iconDoc = JsonDocument.Parse(
+                        await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, iconUrl, token: ct)
+                    );
                     if (iconDoc.RootElement.TryGetProperty("data", out JsonElement iconData) && iconData.ValueKind == JsonValueKind.Array)
                     {
                         foreach (JsonElement item in iconData.EnumerateArray())
                         {
                             long targetId = item.TryGetProperty("targetId", out JsonElement idProp) ? idProp.GetInt64() : 0;
-                            string? image = item.TryGetProperty("imageUrl", out JsonElement urlProp) && urlProp.ValueKind == JsonValueKind.String ? urlProp.GetString() : null;
+                            string? image =
+                                item.TryGetProperty("imageUrl", out JsonElement urlProp) && urlProp.ValueKind == JsonValueKind.String
+                                    ? urlProp.GetString()
+                                    : null;
                             GamePassEntry? pass = passes.FirstOrDefault(p => p.Id == targetId);
                             if (pass != null)
                                 pass.IconUrl = image;
                         }
                     }
                 }
-				catch (OperationCanceledException) when (ct.IsCancellationRequested)
-				{
-					throw;
-				}
+                catch (OperationCanceledException) when (ct.IsCancellationRequested)
+                {
+                    throw;
+                }
                 catch (Exception ex)
                 {
                     App.Logger.WriteLine("LibraryViewModel", "Gamepass icons failed: " + ex.Message);
                 }
             }
-			ct.ThrowIfCancellationRequested();
+            ct.ThrowIfCancellationRequested();
             _gamePassCache[universeId] = passes;
-			ApplyGamePasses(universeId, version, passes);
+            ApplyGamePasses(universeId, version, passes);
         }
-		catch (OperationCanceledException) when (ct.IsCancellationRequested)
-		{
-		}
+        catch (OperationCanceledException) when (ct.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("LibraryViewModel", "Gamepass fetch failed: " + ex.Message);
-			if (IsCurrentGamePassLoad(universeId, version))
+            if (IsCurrentGamePassLoad(universeId, version))
                 GamePassStatus = "Could not load this game's store right now.";
         }
         finally
         {
-			if (ReferenceEquals(_gamePassLoadCts, cancellation))
-			{
-				_gamePassLoadCts = null;
-				GamePassesLoading = false;
-			}
-			cancellation.Dispose();
+            if (ReferenceEquals(_gamePassLoadCts, cancellation))
+            {
+                _gamePassLoadCts = null;
+                GamePassesLoading = false;
+            }
+            cancellation.Dispose();
         }
     }
 
@@ -2132,8 +2226,8 @@ public class LibraryViewModel : INotifyPropertyChanged
             ApplyBadgeProgressToEntries(universeId, progress);
             if (!IsCurrentBadgeLoad(universeId, version))
                 return;
-            List<LibraryBadgeEntry> entries = progress.Badges
-                .Select(badge =>
+            List<LibraryBadgeEntry> entries = progress
+                .Badges.Select(badge =>
                 {
                     bool earned = progress.Awarded.TryGetValue(badge.Id, out DateTime when);
                     return new LibraryBadgeEntry
@@ -2143,7 +2237,7 @@ public class LibraryViewModel : INotifyPropertyChanged
                         Description = badge.Description,
                         Earned = earned,
                         AwardedUtc = earned ? when : DateTime.MinValue,
-                        WinRate = badge.WinRate
+                        WinRate = badge.WinRate,
                     };
                 })
                 .OrderByDescending(static entry => entry.Earned)
@@ -2161,7 +2255,10 @@ public class LibraryViewModel : INotifyPropertyChanged
             BadgesLoading = false;
             if (entries.Count == 0)
                 return;
-            IReadOnlyDictionary<long, string> icons = await RobloxBadges.GetIconsAsync(entries.Select(static entry => entry.Id).ToList(), token);
+            IReadOnlyDictionary<long, string> icons = await RobloxBadges.GetIconsAsync(
+                entries.Select(static entry => entry.Id).ToList(),
+                token
+            );
             token.ThrowIfCancellationRequested();
             if (!IsCurrentBadgeLoad(universeId, version))
                 return;
@@ -2171,9 +2268,7 @@ public class LibraryViewModel : INotifyPropertyChanged
                     entry.IconUrl = icon;
             }
         }
-        catch (OperationCanceledException) when (token.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine("LibraryViewModel", "Badges could not be loaded for universe " + universeId + ": " + ex.Message);
@@ -2238,10 +2333,11 @@ public class LibraryViewModel : INotifyPropertyChanged
             if (stored.Count > 0)
             {
                 await UpdateUiAsync(() =>
-                {
-                    foreach ((long universe, int earned, int total) in stored)
-                        ApplyBadgeSummaryToEntries(universe, earned, total);
-                }).ConfigureAwait(false);
+                    {
+                        foreach ((long universe, int earned, int total) in stored)
+                            ApplyBadgeSummaryToEntries(universe, earned, total);
+                    })
+                    .ConfigureAwait(false);
             }
             foreach (long universeId in stale)
             {
@@ -2249,7 +2345,9 @@ public class LibraryViewModel : INotifyPropertyChanged
                 await RobloxBadges.WaitForForegroundAsync(token).ConfigureAwait(false);
                 try
                 {
-                    RobloxBadges.Progress progress = await RobloxBadges.GetProgressAsync(universeId, refreshAwarded: false, token).ConfigureAwait(false);
+                    RobloxBadges.Progress progress = await RobloxBadges
+                        .GetProgressAsync(universeId, refreshAwarded: false, token)
+                        .ConfigureAwait(false);
                     await UpdateUiAsync(() => ApplyBadgeProgressToEntries(universeId, progress)).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException) when (token.IsCancellationRequested)
@@ -2263,9 +2361,7 @@ public class LibraryViewModel : INotifyPropertyChanged
                 await Task.Delay(1500, token).ConfigureAwait(false);
             }
         }
-        catch (OperationCanceledException) when (token.IsCancellationRequested)
-        {
-        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
         finally
         {
             RobloxBadges.SaveNow();
@@ -2275,14 +2371,14 @@ public class LibraryViewModel : INotifyPropertyChanged
         }
     }
 
-	private bool IsCurrentGamePassLoad(long universeId, long version)
-	{
-		return _selectedGame?.UniverseId == universeId && Interlocked.Read(ref _gamePassLoadVersion) == version;
-	}
+    private bool IsCurrentGamePassLoad(long universeId, long version)
+    {
+        return _selectedGame?.UniverseId == universeId && Interlocked.Read(ref _gamePassLoadVersion) == version;
+    }
 
     private void ApplyGamePasses(long universeId, long version, List<GamePassEntry> passes)
     {
-		if (!IsCurrentGamePassLoad(universeId, version))
+        if (!IsCurrentGamePassLoad(universeId, version))
             return;
         GamePasses.Clear();
         foreach (GamePassEntry pass in passes)

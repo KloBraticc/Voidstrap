@@ -19,7 +19,16 @@ public partial class ModGeneratorSection : UserControl
 {
 	private static readonly string[] Presets =
 	[
-		"#FF3B5C", "#FF8A3D", "#FFD23F", "#3DDC84", "#2EC5FF", "#4F7CFF", "#9B5CFF", "#FF5CD6", "#FFFFFF", "#9AA0A6"
+		"#FF3B5C",
+		"#FF8A3D",
+		"#FFD23F",
+		"#3DDC84",
+		"#2EC5FF",
+		"#4F7CFF",
+		"#9B5CFF",
+		"#FF5CD6",
+		"#FFFFFF",
+		"#9AA0A6",
 	];
 
 	private readonly DispatcherTimer _previewTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500.0) };
@@ -28,7 +37,10 @@ public partial class ModGeneratorSection : UserControl
 
 	private const long MaxThemeBytes = 64 * 1024;
 
-	private static readonly System.Text.Json.JsonSerializerOptions ThemeJson = new System.Text.Json.JsonSerializerOptions { WriteIndented = true };
+	private static readonly System.Text.Json.JsonSerializerOptions ThemeJson = new System.Text.Json.JsonSerializerOptions
+	{
+		WriteIndented = true,
+	};
 
 	private CancellationTokenSource? _generateCts;
 
@@ -62,7 +74,7 @@ public partial class ModGeneratorSection : UserControl
 				Style = (Style)Resources["SwatchButton"],
 				Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(preset)),
 				Tag = preset,
-				ToolTip = preset
+				ToolTip = preset,
 			};
 			button.Click += Preset_Click;
 			_presetButtons.Add(button);
@@ -99,7 +111,11 @@ public partial class ModGeneratorSection : UserControl
 			ApplySettings(settings);
 			if (modId != null && settings.GeneratedUtc != default)
 			{
-				StatusText.Text = string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_ModGen_LastGenerated, settings.GeneratedUtc.ToLocalTime().ToString("g", CultureInfo.CurrentCulture));
+				StatusText.Text = string.Format(
+					CultureInfo.CurrentCulture,
+					Voidstrap.Resources.Strings.Ui_ModGen_LastGenerated,
+					settings.GeneratedUtc.ToLocalTime().ToString("g", CultureInfo.CurrentCulture)
+				);
 				GenerateButton.Content = Voidstrap.Resources.Strings.Ui_ModGen_RegenerateMod;
 			}
 		}
@@ -131,7 +147,9 @@ public partial class ModGeneratorSection : UserControl
 			IconFontToggle.IsChecked = settings.RecolorIconFont;
 			UiTexturesToggle.IsChecked = settings.IncludeUiTextures;
 			ModNameBox.Text = settings.ModName;
-			OpacitySlider.Value = Math.Round(Math.Clamp(double.IsFinite(settings.IconOpacity) ? settings.IconOpacity : 1.0, 0.1, 1.0) * 100.0);
+			OpacitySlider.Value = Math.Round(
+				Math.Clamp(double.IsFinite(settings.IconOpacity) ? settings.IconOpacity : 1.0, 0.1, 1.0) * 100.0
+			);
 			OpacityText.Text = Math.Round(OpacitySlider.Value) + "%";
 			_fillImage = settings.FillImage;
 			_logoImage = settings.LogoImage;
@@ -175,7 +193,7 @@ public partial class ModGeneratorSection : UserControl
 			IconOpacity = Math.Clamp(OpacitySlider.Value / 100.0, 0.1, 1.0),
 			LogoImage = _logoImage,
 			IconSwaps = new Dictionary<string, string>(_swaps, StringComparer.Ordinal),
-			ModName = string.IsNullOrWhiteSpace(ModNameBox.Text) ? "Generated UI theme" : ModNameBox.Text.Trim()
+			ModName = string.IsNullOrWhiteSpace(ModNameBox.Text) ? "Generated UI theme" : ModNameBox.Text.Trim(),
 		};
 	}
 
@@ -185,7 +203,8 @@ public partial class ModGeneratorSection : UserControl
 		{
 			case ModGeneratorFill.Solid when !ModGenerator.TryParseColor(settings.SolidColor, out _):
 				return Voidstrap.Resources.Strings.Ui_ModGen_EnterHexColour;
-			case ModGeneratorFill.Gradient when !ModGenerator.TryParseColor(GradientStartBox.Text, out _) || !ModGenerator.TryParseColor(GradientEndBox.Text, out _):
+			case ModGeneratorFill.Gradient
+				when !ModGenerator.TryParseColor(GradientStartBox.Text, out _) || !ModGenerator.TryParseColor(GradientEndBox.Text, out _):
 				return Voidstrap.Resources.Strings.Ui_ModGen_EnterGradientColours;
 			case ModGeneratorFill.Image when string.IsNullOrWhiteSpace(settings.FillImage) || !File.Exists(settings.FillImage):
 				return Voidstrap.Resources.Strings.Ui_ModGen_ChooseFillImage;
@@ -242,7 +261,8 @@ public partial class ModGeneratorSection : UserControl
 	private void Swatch_Click(object sender, MouseButtonEventArgs e)
 	{
 		e.Handled = true;
-		TextBox? box = ReferenceEquals(sender, SolidSwatch) ? SolidColorBox
+		TextBox? box =
+			ReferenceEquals(sender, SolidSwatch) ? SolidColorBox
 			: ReferenceEquals(sender, GradientStartSwatch) ? GradientStartBox
 			: ReferenceEquals(sender, GradientMiddleSwatch) ? GradientMiddleBox
 			: ReferenceEquals(sender, GradientEndSwatch) ? GradientEndBox
@@ -262,7 +282,11 @@ public partial class ModGeneratorSection : UserControl
 			return;
 		}
 		Color picked = dialog.SelectedColor;
-		box.Text = "#" + picked.R.ToString("X2", CultureInfo.InvariantCulture) + picked.G.ToString("X2", CultureInfo.InvariantCulture) + picked.B.ToString("X2", CultureInfo.InvariantCulture);
+		box.Text =
+			"#"
+			+ picked.R.ToString("X2", CultureInfo.InvariantCulture)
+			+ picked.G.ToString("X2", CultureInfo.InvariantCulture)
+			+ picked.B.ToString("X2", CultureInfo.InvariantCulture);
 	}
 
 	private static Color Blend(string start, string end)
@@ -297,9 +321,14 @@ public partial class ModGeneratorSection : UserControl
 
 	private void UpdateImageLabels()
 	{
-		FillImageText.Text = string.IsNullOrWhiteSpace(_fillImage) ? Voidstrap.Resources.Strings.Ui_ModGen_NoImageChosen : Path.GetFileName(_fillImage);
+		FillImageText.Text = string.IsNullOrWhiteSpace(_fillImage)
+			? Voidstrap.Resources.Strings.Ui_ModGen_NoImageChosen
+			: Path.GetFileName(_fillImage);
 		bool hasLogo = !string.IsNullOrWhiteSpace(_logoImage);
-		SwapSummary.Text = _swaps.Count == 0 ? Voidstrap.Resources.Strings.Ui_ModGen_NoSwaps : string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_ModGen_SwappedCount, _swaps.Count);
+		SwapSummary.Text =
+			_swaps.Count == 0
+				? Voidstrap.Resources.Strings.Ui_ModGen_NoSwaps
+				: string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_ModGen_SwappedCount, _swaps.Count);
 		LogoText.Text = hasLogo ? Path.GetFileName(_logoImage) : Voidstrap.Resources.Strings.Ui_ModGen_ReplacesTheRobloxLogoInMenus;
 		ClearLogoButton.Visibility = hasLogo ? Visibility.Visible : Visibility.Collapsed;
 	}
@@ -309,7 +338,7 @@ public partial class ModGeneratorSection : UserControl
 		OpenFileDialog dialog = new OpenFileDialog
 		{
 			Filter = Voidstrap.Resources.Strings.Ui_ModGen_ImagesFilter + "|*.png;*.jpg;*.jpeg;*.bmp;*.gif",
-			Multiselect = false
+			Multiselect = false,
 		};
 		return dialog.ShowDialog() == true ? dialog.FileName : null;
 	}
@@ -404,10 +433,18 @@ public partial class ModGeneratorSection : UserControl
 		}
 		BeforeImage.Source = preview.Before;
 		AfterImage.Source = preview.After;
-		PreviewCaption.Text = preview.NamedIcons > 0 ? Voidstrap.Resources.Strings.Ui_ModGen_RealIconsFromYourRobloxBuild : Voidstrap.Resources.Strings.Ui_ModGen_SliceOfSheet;
-		PreviewNote.Text = preview.NamedIcons > 0
-			? string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_ModGen_NamedIconsRead, preview.NamedIcons.ToString("N0", CultureInfo.CurrentCulture))
-			: Voidstrap.Resources.Strings.Ui_ModGen_LayoutUnreadable;
+		PreviewCaption.Text =
+			preview.NamedIcons > 0
+				? Voidstrap.Resources.Strings.Ui_ModGen_RealIconsFromYourRobloxBuild
+				: Voidstrap.Resources.Strings.Ui_ModGen_SliceOfSheet;
+		PreviewNote.Text =
+			preview.NamedIcons > 0
+				? string.Format(
+					CultureInfo.CurrentCulture,
+					Voidstrap.Resources.Strings.Ui_ModGen_NamedIconsRead,
+					preview.NamedIcons.ToString("N0", CultureInfo.CurrentCulture)
+				)
+				: Voidstrap.Resources.Strings.Ui_ModGen_LayoutUnreadable;
 		ShowFontPreview(preview, settings.RecolorIconFont);
 	}
 
@@ -428,7 +465,10 @@ public partial class ModGeneratorSection : UserControl
 			for (int step = 0; step < 40 && glyphs.Count < 9 && count > 1; step++)
 			{
 				ushort glyph = (ushort)(1 + (long)step * (count - 2) / 40);
-				if (glyphs.Contains(glyph) || typeface.AdvanceWidths[glyph] - typeface.LeftSideBearings[glyph] - typeface.RightSideBearings[glyph] <= 0.0)
+				if (
+					glyphs.Contains(glyph)
+					|| typeface.AdvanceWidths[glyph] - typeface.LeftSideBearings[glyph] - typeface.RightSideBearings[glyph] <= 0.0
+				)
 				{
 					continue;
 				}
@@ -446,7 +486,22 @@ public partial class ModGeneratorSection : UserControl
 			double x = 0;
 			for (int i = 0; i < glyphs.Count; i++)
 			{
-				GlyphRun run = new GlyphRun(typeface, 0, false, size, pixelsPerDip, [glyphs[i]], new Point(x, size), [advances[i]], null, null, null, null, null, null);
+				GlyphRun run = new GlyphRun(
+					typeface,
+					0,
+					false,
+					size,
+					pixelsPerDip,
+					[glyphs[i]],
+					new Point(x, size),
+					[advances[i]],
+					null,
+					null,
+					null,
+					null,
+					null,
+					null
+				);
 				group.Children.Add(new GlyphRunDrawing(brush, run));
 				x += advances[i];
 			}
@@ -566,9 +621,10 @@ public partial class ModGeneratorSection : UserControl
 			< 180 => (0.0, chroma, x),
 			< 240 => (0.0, x, chroma),
 			< 300 => (x, 0.0, chroma),
-			_ => (chroma, 0.0, x)
+			_ => (chroma, 0.0, x),
 		};
-		return "#" + ((byte)Math.Round((r + m) * 255)).ToString("X2", CultureInfo.InvariantCulture)
+		return "#"
+			+ ((byte)Math.Round((r + m) * 255)).ToString("X2", CultureInfo.InvariantCulture)
 			+ ((byte)Math.Round((g + m) * 255)).ToString("X2", CultureInfo.InvariantCulture)
 			+ ((byte)Math.Round((b + m) * 255)).ToString("X2", CultureInfo.InvariantCulture);
 	}
@@ -584,7 +640,7 @@ public partial class ModGeneratorSection : UserControl
 		SaveFileDialog dialog = new SaveFileDialog
 		{
 			Filter = Voidstrap.Resources.Strings.Ui_ModGen_ThemeFiles + "|*.json",
-			FileName = "theme.json"
+			FileName = "theme.json",
 		};
 		if (dialog.ShowDialog() != true)
 		{
@@ -597,7 +653,11 @@ public partial class ModGeneratorSection : UserControl
 			settings.LogoImage = null;
 			settings.IconSwaps = [];
 			File.WriteAllText(dialog.FileName, System.Text.Json.JsonSerializer.Serialize(settings, ThemeJson));
-			StatusText.Text = string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_ModGen_ThemeSaved, Path.GetFileName(dialog.FileName));
+			StatusText.Text = string.Format(
+				CultureInfo.CurrentCulture,
+				Voidstrap.Resources.Strings.Ui_ModGen_ThemeSaved,
+				Path.GetFileName(dialog.FileName)
+			);
 		}
 		catch (Exception ex)
 		{
@@ -611,7 +671,7 @@ public partial class ModGeneratorSection : UserControl
 		OpenFileDialog dialog = new OpenFileDialog
 		{
 			Filter = Voidstrap.Resources.Strings.Ui_ModGen_ThemeFiles + "|*.json",
-			Multiselect = false
+			Multiselect = false,
 		};
 		if (dialog.ShowDialog() != true)
 		{
@@ -623,7 +683,8 @@ public partial class ModGeneratorSection : UserControl
 			{
 				throw new InvalidDataException(Voidstrap.Resources.Strings.Ui_ModGen_NotATheme);
 			}
-			ModGeneratorSettings settings = System.Text.Json.JsonSerializer.Deserialize<ModGeneratorSettings>(File.ReadAllText(dialog.FileName), ThemeJson)
+			ModGeneratorSettings settings =
+				System.Text.Json.JsonSerializer.Deserialize<ModGeneratorSettings>(File.ReadAllText(dialog.FileName), ThemeJson)
 				?? throw new InvalidDataException(Voidstrap.Resources.Strings.Ui_ModGen_NotATheme);
 			if (!Enum.IsDefined(settings.Fill) || settings.Fill == ModGeneratorFill.Image)
 			{

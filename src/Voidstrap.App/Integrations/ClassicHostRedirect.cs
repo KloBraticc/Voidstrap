@@ -21,11 +21,7 @@ public static class ClassicHostRedirect
 
 	private static readonly SemaphoreSlim MutationGate = new(1, 1);
 
-	public static readonly string[] Domains = new string[]
-	{
-		"www.roblox.com",
-		"roblox.com"
-	};
+	public static readonly string[] Domains = new string[] { "www.roblox.com", "roblox.com" };
 
 	private static string HostsPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "drivers", "etc", "hosts");
 
@@ -108,21 +104,25 @@ public static class ClassicHostRedirect
 			await Task.Delay(250, cancellationToken).ConfigureAwait(false);
 		}
 		App.Logger?.WriteLine(LOG_IDENT, Domains[0] + " still does not resolve to the local server after flushing the DNS cache");
-		return "Windows is still resolving " + Domains[0] + " to the live Roblox site instead of the local server. The classic client would load the live site and fail. Try again in a moment, or run \"ipconfig /flushdns\" and retry.";
+		return "Windows is still resolving "
+			+ Domains[0]
+			+ " to the live Roblox site instead of the local server. The classic client would load the live site and fail. Try again in a moment, or run \"ipconfig /flushdns\" and retry.";
 	}
 
 	public static bool IsUrlAclReserved()
 	{
 		try
 		{
-			using Process? process = Process.Start(new ProcessStartInfo(Voidstrap.Utility.PlatformShell.WindowsTool("netsh.exe"), "http show urlacl url=" + ServerPrefix)
-			{
-				CreateNoWindow = true,
-				UseShellExecute = false,
-				RedirectStandardOutput = true,
-				RedirectStandardError = true,
-				WindowStyle = ProcessWindowStyle.Hidden
-			});
+			using Process? process = Process.Start(
+				new ProcessStartInfo(Voidstrap.Utility.PlatformShell.WindowsTool("netsh.exe"), "http show urlacl url=" + ServerPrefix)
+				{
+					CreateNoWindow = true,
+					UseShellExecute = false,
+					RedirectStandardOutput = true,
+					RedirectStandardError = true,
+					WindowStyle = ProcessWindowStyle.Hidden,
+				}
+			);
 			if (process == null)
 			{
 				return false;
@@ -146,18 +146,26 @@ public static class ClassicHostRedirect
 				return;
 			}
 			string user = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-			using Process? process = Process.Start(new ProcessStartInfo(Voidstrap.Utility.PlatformShell.WindowsTool("netsh.exe"), "http add urlacl url=" + ServerPrefix + " user=\"" + user + "\"")
-			{
-				CreateNoWindow = true,
-				UseShellExecute = false,
-				RedirectStandardOutput = true,
-				RedirectStandardError = true,
-				WindowStyle = ProcessWindowStyle.Hidden
-			});
+			using Process? process = Process.Start(
+				new ProcessStartInfo(
+					Voidstrap.Utility.PlatformShell.WindowsTool("netsh.exe"),
+					"http add urlacl url=" + ServerPrefix + " user=\"" + user + "\""
+				)
+				{
+					CreateNoWindow = true,
+					UseShellExecute = false,
+					RedirectStandardOutput = true,
+					RedirectStandardError = true,
+					WindowStyle = ProcessWindowStyle.Hidden,
+				}
+			);
 			process?.WaitForExit(8000);
-			App.Logger?.WriteLine(LOG_IDENT, IsUrlAclReserved()
-				? "Reserved " + ServerPrefix + " for " + user + ", the local ORC server can now bind port 80 without elevation"
-				: "Could not reserve " + ServerPrefix + ", the local ORC server will fail to start");
+			App.Logger?.WriteLine(
+				LOG_IDENT,
+				IsUrlAclReserved()
+					? "Reserved " + ServerPrefix + " for " + user + ", the local ORC server can now bind port 80 without elevation"
+					: "Could not reserve " + ServerPrefix + ", the local ORC server will fail to start"
+			);
 		}
 		catch (Exception ex)
 		{
@@ -251,10 +259,16 @@ public static class ClassicHostRedirect
 			}
 			if (!allowElevation)
 			{
-				App.Logger?.WriteLine(LOG_IDENT, "A previous classic session left the redirect behind, it will be cleared on the next Voidstrap start");
+				App.Logger?.WriteLine(
+					LOG_IDENT,
+					"A previous classic session left the redirect behind, it will be cleared on the next Voidstrap start"
+				);
 				return;
 			}
-			App.Logger?.WriteLine(LOG_IDENT, "A previous classic session left the redirect behind, asking for elevation to restore normal Roblox name resolution");
+			App.Logger?.WriteLine(
+				LOG_IDENT,
+				"A previous classic session left the redirect behind, asking for elevation to restore normal Roblox name resolution"
+			);
 			string? failure = RunElevatedAsync(enable: false, CancellationToken.None).ConfigureAwait(false).GetAwaiter().GetResult();
 			if (failure != null)
 				App.Logger?.WriteLine(LOG_IDENT, "Stale cleanup was not completed: " + failure);
@@ -268,13 +282,14 @@ public static class ClassicHostRedirect
 	private static bool WriteHosts(List<string> lines)
 	{
 		string path = HostsPath;
-		int existing = File.Exists(path)
-			? File.ReadAllLines(path).Count((string l) => !l.Contains(Marker, StringComparison.Ordinal))
-			: 0;
+		int existing = File.Exists(path) ? File.ReadAllLines(path).Count((string l) => !l.Contains(Marker, StringComparison.Ordinal)) : 0;
 		int keeping = lines.Count((string l) => !l.Contains(Marker, StringComparison.Ordinal));
 		if (existing > 0 && keeping < existing)
 		{
-			App.Logger?.WriteLine(LOG_IDENT, "Refused to write the hosts file, it would have dropped " + (existing - keeping) + " unrelated line(s)");
+			App.Logger?.WriteLine(
+				LOG_IDENT,
+				"Refused to write the hosts file, it would have dropped " + (existing - keeping) + " unrelated line(s)"
+			);
 			return false;
 		}
 		File.WriteAllLines(path, lines);
@@ -298,9 +313,7 @@ public static class ClassicHostRedirect
 		{
 			owner = Process.GetProcessById(ownerProcessId);
 		}
-		catch
-		{
-		}
+		catch { }
 
 		try
 		{
@@ -311,17 +324,18 @@ public static class ClassicHostRedirect
 			{
 				App.Logger?.WriteLine(LOG_IDENT, "The Voidstrap window that asked for the redirect is gone, releasing it");
 			}
-			else for (int i = 0; i < 240; i++)
-			{
-				if (Voidstrap.Utility.ClassicClients.AnyClassicClientRunning())
+			else
+				for (int i = 0; i < 240; i++)
 				{
-					started = true;
-					break;
+					if (Voidstrap.Utility.ClassicClients.AnyClassicClientRunning())
+					{
+						started = true;
+						break;
+					}
+					if (owner != null && owner.HasExited)
+						break;
+					Thread.Sleep(500);
 				}
-				if (owner != null && owner.HasExited)
-					break;
-				Thread.Sleep(500);
-			}
 
 			if (started)
 			{
@@ -346,7 +360,11 @@ public static class ClassicHostRedirect
 		}
 		finally
 		{
-			try { owner?.Dispose(); } catch { }
+			try
+			{
+				owner?.Dispose();
+			}
+			catch { }
 		}
 
 		Remove();
@@ -365,13 +383,15 @@ public static class ClassicHostRedirect
 			string argument = enable
 				? "-orcredirect on:" + Environment.ProcessId.ToString(System.Globalization.CultureInfo.InvariantCulture)
 				: "-orcredirect off";
-			using Process? process = Process.Start(new ProcessStartInfo
-			{
-				FileName = processPath,
-				Arguments = argument,
-				UseShellExecute = true,
-				Verb = "runas"
-			});
+			using Process? process = Process.Start(
+				new ProcessStartInfo
+				{
+					FileName = processPath,
+					Arguments = argument,
+					UseShellExecute = true,
+					Verb = "runas",
+				}
+			);
 			if (process == null)
 			{
 				return "Windows did not start the elevated Voidstrap helper.";
@@ -392,7 +412,9 @@ public static class ClassicHostRedirect
 				if (!IsApplied())
 					return "Voidstrap could not point the classic Roblox domains at the local server. Check that the Windows hosts file is writable.";
 				if (!IsUrlAclReserved())
-					return "Voidstrap could not reserve port 80 for the local ORC server. Check that no other program owns " + ServerPrefix + ".";
+					return "Voidstrap could not reserve port 80 for the local ORC server. Check that no other program owns "
+						+ ServerPrefix
+						+ ".";
 				return await WaitForLoopbackResolutionAsync(cancellationToken).ConfigureAwait(false);
 			}
 			using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
@@ -430,16 +452,16 @@ public static class ClassicHostRedirect
 	{
 		try
 		{
-			using Process? process = Process.Start(new ProcessStartInfo(Voidstrap.Utility.PlatformShell.WindowsTool("ipconfig.exe"), "/flushdns")
-			{
-				CreateNoWindow = true,
-				UseShellExecute = false,
-				WindowStyle = ProcessWindowStyle.Hidden
-			});
+			using Process? process = Process.Start(
+				new ProcessStartInfo(Voidstrap.Utility.PlatformShell.WindowsTool("ipconfig.exe"), "/flushdns")
+				{
+					CreateNoWindow = true,
+					UseShellExecute = false,
+					WindowStyle = ProcessWindowStyle.Hidden,
+				}
+			);
 			process?.WaitForExit(3000);
 		}
-		catch
-		{
-		}
+		catch { }
 	}
 }

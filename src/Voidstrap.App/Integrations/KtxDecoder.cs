@@ -58,11 +58,7 @@ public static class KtxDecoder
 
 	private static readonly int[] Bc7W3 = new int[8] { 0, 9, 18, 27, 37, 46, 55, 64 };
 
-	private static readonly int[] Bc7W4 = new int[16]
-	{
-		0, 4, 9, 13, 17, 21, 26, 30, 34, 38,
-		43, 47, 51, 55, 60, 64
-	};
+	private static readonly int[] Bc7W4 = new int[16] { 0, 4, 9, 13, 17, 21, 26, 30, 34, 38, 43, 47, 51, 55, 60, 64 };
 
 	public static bool IsKtx(byte[] d, int off = 0)
 	{
@@ -107,7 +103,16 @@ public static class KtxDecoder
 		{
 			return null;
 		}
-		BitmapSource bitmapSource = BitmapSource.Create(decodedImage.Width, decodedImage.Height, 96.0, 96.0, PixelFormats.Bgra32, null, decodedImage.Bgra, decodedImage.Width * 4);
+		BitmapSource bitmapSource = BitmapSource.Create(
+			decodedImage.Width,
+			decodedImage.Height,
+			96.0,
+			96.0,
+			PixelFormats.Bgra32,
+			null,
+			decodedImage.Bgra,
+			decodedImage.Width * 4
+		);
 		if (((Freezable)bitmapSource).CanFreeze)
 		{
 			((Freezable)bitmapSource).Freeze();
@@ -121,9 +126,9 @@ public static class KtxDecoder
 		{
 			return KtxVersion(data, off) switch
 			{
-				1 => DecodeKtx1(data, off), 
-				2 => DecodeKtx2(data, off), 
-				_ => null, 
+				1 => DecodeKtx1(data, off),
+				2 => DecodeKtx2(data, off),
+				_ => null,
 			};
 		}
 		catch
@@ -145,7 +150,7 @@ public static class KtxDecoder
 			71 or 72 or 80 or 81 => blocks * 8,
 			74 or 75 or 77 or 78 or 83 or 84 or 98 or 99 => blocks * 16,
 			28 or 29 or 87 or 91 => (long)width * height * 4,
-			_ => 0
+			_ => 0,
 		};
 	}
 
@@ -178,33 +183,33 @@ public static class KtxDecoder
 		byte[]? array;
 		switch (num)
 		{
-		case 33776u:
-			array = DecodeBc1(data, p, num2, num3, dxt1Alpha: false);
-			break;
-		case 33777u:
-			array = DecodeBc1(data, p, num2, num3, dxt1Alpha: true);
-			break;
-		case 33778u:
-			array = DecodeBc2(data, p, num2, num3);
-			break;
-		case 33779u:
-			array = DecodeBc3(data, p, num2, num3);
-			break;
-		case 36283u:
-		case 36284u:
-			array = DecodeBc4(data, p, num2, num3);
-			break;
-		case 36285u:
-		case 36286u:
-			array = DecodeBc5(data, p, num2, num3);
-			break;
-		case 36492u:
-		case 36493u:
-			array = DecodeBc7(data, p, num2, num3);
-			break;
-		default:
-			array = DecodeUncompressed(data, p, num2, num3, glFormat, glType);
-			break;
+			case 33776u:
+				array = DecodeBc1(data, p, num2, num3, dxt1Alpha: false);
+				break;
+			case 33777u:
+				array = DecodeBc1(data, p, num2, num3, dxt1Alpha: true);
+				break;
+			case 33778u:
+				array = DecodeBc2(data, p, num2, num3);
+				break;
+			case 33779u:
+				array = DecodeBc3(data, p, num2, num3);
+				break;
+			case 36283u:
+			case 36284u:
+				array = DecodeBc4(data, p, num2, num3);
+				break;
+			case 36285u:
+			case 36286u:
+				array = DecodeBc5(data, p, num2, num3);
+				break;
+			case 36492u:
+			case 36493u:
+				array = DecodeBc7(data, p, num2, num3);
+				break;
+			default:
+				array = DecodeUncompressed(data, p, num2, num3, glFormat, glType);
+				break;
 		}
 		byte[]? array2 = array;
 		if (array2 != null)
@@ -213,7 +218,7 @@ public static class KtxDecoder
 			{
 				Width = num2,
 				Height = num3,
-				Bgra = array2
+				Bgra = array2,
 			};
 		}
 		return null;
@@ -257,41 +262,41 @@ public static class KtxDecoder
 		byte[]? array2;
 		switch (num)
 		{
-		case 131u:
-		case 132u:
-			array2 = DecodeBc1(array, 0, num2, num3, dxt1Alpha: false);
-			break;
-		case 133u:
-		case 134u:
-			array2 = DecodeBc1(array, 0, num2, num3, dxt1Alpha: true);
-			break;
-		case 135u:
-		case 136u:
-			array2 = DecodeBc2(array, 0, num2, num3);
-			break;
-		case 137u:
-		case 138u:
-			array2 = DecodeBc3(array, 0, num2, num3);
-			break;
-		case 139u:
-		case 140u:
-			array2 = DecodeBc4(array, 0, num2, num3);
-			break;
-		case 141u:
-		case 142u:
-			array2 = DecodeBc5(array, 0, num2, num3);
-			break;
-		case 145u:
-		case 146u:
-			array2 = DecodeBc7(array, 0, num2, num3);
-			break;
-		case 37u:
-		case 43u:
-			array2 = RawRgba(array, num2, num3);
-			break;
-		default:
-			array2 = null;
-			break;
+			case 131u:
+			case 132u:
+				array2 = DecodeBc1(array, 0, num2, num3, dxt1Alpha: false);
+				break;
+			case 133u:
+			case 134u:
+				array2 = DecodeBc1(array, 0, num2, num3, dxt1Alpha: true);
+				break;
+			case 135u:
+			case 136u:
+				array2 = DecodeBc2(array, 0, num2, num3);
+				break;
+			case 137u:
+			case 138u:
+				array2 = DecodeBc3(array, 0, num2, num3);
+				break;
+			case 139u:
+			case 140u:
+				array2 = DecodeBc4(array, 0, num2, num3);
+				break;
+			case 141u:
+			case 142u:
+				array2 = DecodeBc5(array, 0, num2, num3);
+				break;
+			case 145u:
+			case 146u:
+				array2 = DecodeBc7(array, 0, num2, num3);
+				break;
+			case 37u:
+			case 43u:
+				array2 = RawRgba(array, num2, num3);
+				break;
+			default:
+				array2 = null;
+				break;
 		}
 		byte[]? array3 = array2;
 		if (array3 != null)
@@ -300,7 +305,7 @@ public static class KtxDecoder
 			{
 				Width = num2,
 				Height = num3,
-				Bgra = array3
+				Bgra = array3,
 			};
 		}
 		return null;
@@ -327,50 +332,50 @@ public static class KtxDecoder
 			ReadOnlySpan<byte> src2 = new ReadOnlySpan<byte>(src, offset, length);
 			switch (scheme)
 			{
-			case 2u:
-			{
-				using Decompressor decompressor = new Decompressor();
-				byte[] array2 = new byte[uncompressedLength];
-				int num = decompressor.Unwrap(src2, array2);
-				if (num < 0 || num > array2.Length)
+				case 2u:
 				{
-					return Array.Empty<byte>();
-				}
-				if (num == array2.Length)
-				{
-					return array2;
-				}
-				byte[] array3 = new byte[num];
-				Array.Copy(array2, array3, num);
-				return array3;
-			}
-			case 3u:
-			{
-				using MemoryStream stream = new MemoryStream(src, offset, length, writable: false);
-				using ZLibStream zLibStream = new ZLibStream(stream, CompressionMode.Decompress);
-				byte[] array4 = new byte[uncompressedLength];
-				int num2 = 0;
-				while (num2 < array4.Length)
-				{
-					int num3 = zLibStream.Read(array4, num2, array4.Length - num2);
-					if (num3 == 0)
+					using Decompressor decompressor = new Decompressor();
+					byte[] array2 = new byte[uncompressedLength];
+					int num = decompressor.Unwrap(src2, array2);
+					if (num < 0 || num > array2.Length)
 					{
-						break;
+						return Array.Empty<byte>();
 					}
-					num2 += num3;
+					if (num == array2.Length)
+					{
+						return array2;
+					}
+					byte[] array3 = new byte[num];
+					Array.Copy(array2, array3, num);
+					return array3;
 				}
-				if (num2 == array4.Length && zLibStream.ReadByte() != -1)
+				case 3u:
 				{
-					return Array.Empty<byte>();
+					using MemoryStream stream = new MemoryStream(src, offset, length, writable: false);
+					using ZLibStream zLibStream = new ZLibStream(stream, CompressionMode.Decompress);
+					byte[] array4 = new byte[uncompressedLength];
+					int num2 = 0;
+					while (num2 < array4.Length)
+					{
+						int num3 = zLibStream.Read(array4, num2, array4.Length - num2);
+						if (num3 == 0)
+						{
+							break;
+						}
+						num2 += num3;
+					}
+					if (num2 == array4.Length && zLibStream.ReadByte() != -1)
+					{
+						return Array.Empty<byte>();
+					}
+					if (num2 == array4.Length)
+					{
+						return array4;
+					}
+					byte[] array5 = new byte[num2];
+					Array.Copy(array4, array5, num2);
+					return array5;
 				}
-				if (num2 == array4.Length)
-				{
-					return array4;
-				}
-				byte[] array5 = new byte[num2];
-				Array.Copy(array4, array5, num2);
-				return array5;
-			}
 			}
 		}
 		catch
@@ -704,30 +709,30 @@ public static class KtxDecoder
 	{
 		switch (rot)
 		{
-		case 1:
-		{
-			int num = r;
-			int num2 = a;
-			a = num;
-			r = num2;
-			break;
-		}
-		case 2:
-		{
-			int num2 = g;
-			int num = a;
-			a = num2;
-			g = num;
-			break;
-		}
-		case 3:
-		{
-			int num = b;
-			int num2 = a;
-			a = num;
-			b = num2;
-			break;
-		}
+			case 1:
+			{
+				int num = r;
+				int num2 = a;
+				a = num;
+				r = num2;
+				break;
+			}
+			case 2:
+			{
+				int num2 = g;
+				int num = a;
+				a = num2;
+				g = num;
+				break;
+			}
+			case 3:
+			{
+				int num = b;
+				int num2 = a;
+				a = num;
+				b = num2;
+				break;
+			}
 		}
 	}
 
@@ -753,26 +758,26 @@ public static class KtxDecoder
 				}
 				switch (k)
 				{
-				case 4:
-					Bc7Mode4(bitReader, array, w, h, j, i);
-					break;
-				case 5:
-					Bc7Mode5(bitReader, array, w, h, j, i);
-					break;
-				case 6:
-					Bc7Mode6(bitReader, array, w, h, j, i);
-					break;
-				default:
-				{
-					for (int l = 0; l < 4; l++)
+					case 4:
+						Bc7Mode4(bitReader, array, w, h, j, i);
+						break;
+					case 5:
+						Bc7Mode5(bitReader, array, w, h, j, i);
+						break;
+					case 6:
+						Bc7Mode6(bitReader, array, w, h, j, i);
+						break;
+					default:
 					{
-						for (int m = 0; m < 4; m++)
+						for (int l = 0; l < 4; l++)
 						{
-							Put(array, w, h, j + m, i + l, 128, 128, 128, byte.MaxValue);
+							for (int m = 0; m < 4; m++)
+							{
+								Put(array, w, h, j + m, i + l, 128, 128, 128, byte.MaxValue);
+							}
 						}
+						break;
 					}
-					break;
-				}
 				}
 				pos += 16;
 			}
@@ -808,7 +813,17 @@ public static class KtxDecoder
 		{
 			int num3 = br.Read((i == 0) ? 3 : 4);
 			int wgt = Bc7W4[num3];
-			Put(o, w, h, bx + (i & 3), by + (i >> 2), (byte)Interp(array[0], array[1], wgt), (byte)Interp(array2[0], array2[1], wgt), (byte)Interp(array3[0], array3[1], wgt), (byte)Interp(array4[0], array4[1], wgt));
+			Put(
+				o,
+				w,
+				h,
+				bx + (i & 3),
+				by + (i >> 2),
+				(byte)Interp(array[0], array[1], wgt),
+				(byte)Interp(array2[0], array2[1], wgt),
+				(byte)Interp(array3[0], array3[1], wgt),
+				(byte)Interp(array4[0], array4[1], wgt)
+			);
 		}
 	}
 
@@ -922,22 +937,22 @@ public static class KtxDecoder
 		int num;
 		switch (glFormat)
 		{
-		case 6408u:
-		case 32993u:
-			num = 4;
-			break;
-		case 6407u:
-			num = 3;
-			break;
-		case 6403u:
-			num = 1;
-			break;
-		case 33319u:
-			num = 2;
-			break;
-		default:
-			num = 0;
-			break;
+			case 6408u:
+			case 32993u:
+				num = 4;
+				break;
+			case 6407u:
+				num = 3;
+				break;
+			case 6403u:
+				num = 1;
+				break;
+			case 33319u:
+				num = 2;
+				break;
+			default:
+				num = 0;
+				break;
 		}
 		int num2 = num;
 		if (num2 == 0)

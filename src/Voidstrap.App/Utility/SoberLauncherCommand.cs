@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,13 +23,25 @@ internal static class SoberLauncherCommand
 		if (launcher.MangoHud)
 		{
 			App.Logger.WriteLine(LogIdent, "Preparing MangoHud for Sober's Flatpak runtime");
-			OperationResult installed = await LinuxEffectLayers.InstallAsync(processes, LinuxEffectLayers.MangoHudLayerId, token).ConfigureAwait(false);
+			OperationResult installed = await LinuxEffectLayers
+				.InstallAsync(processes, LinuxEffectLayers.MangoHudLayerId, token)
+				.ConfigureAwait(false);
 			if (!installed.Succeeded)
 				throw new InvalidOperationException("MangoHud could not be prepared for Sober. " + installed.Failure?.Message);
 			List<string> arguments = [.. launcher.FlatpakArguments, "--filesystem=xdg-config/MangoHud:ro"];
 			if (!arguments.Any(static argument => argument.StartsWith("--env=MANGOHUD_CONFIGFILE=", StringComparison.Ordinal)))
 			{
-				if (LinuxFlatpakHost.TryCreateHostCommand(processes, "sh", ["-c", "file=\"${XDG_CONFIG_HOME:-$HOME/.config}/MangoHud/MangoHud.conf\"; if [ -f \"$file\" ]; then printf '%s' \"$file\"; fi"], out ProcessCommand configCommand))
+				if (
+					LinuxFlatpakHost.TryCreateHostCommand(
+						processes,
+						"sh",
+						[
+							"-c",
+							"file=\"${XDG_CONFIG_HOME:-$HOME/.config}/MangoHud/MangoHud.conf\"; if [ -f \"$file\" ]; then printf '%s' \"$file\"; fi",
+						],
+						out ProcessCommand configCommand
+					)
+				)
 				{
 					OperationResult<ProcessExecution> config = await processes.ExecuteAsync(configCommand, token).ConfigureAwait(false);
 					if (config.Succeeded && config.Value is { ExitCode: 0 } result && !string.IsNullOrWhiteSpace(result.StandardOutput))
@@ -38,8 +50,10 @@ internal static class SoberLauncherCommand
 			}
 			foreach (string argument in arguments.ToArray())
 			{
-				if (argument.StartsWith("--env=MANGOHUD_CONFIGFILE=/", StringComparison.Ordinal)
-					|| argument.StartsWith("--env=MANGOHUD_PRESETSFILE=/", StringComparison.Ordinal))
+				if (
+					argument.StartsWith("--env=MANGOHUD_CONFIGFILE=/", StringComparison.Ordinal)
+					|| argument.StartsWith("--env=MANGOHUD_PRESETSFILE=/", StringComparison.Ordinal)
+				)
 				{
 					string path = argument[(argument.IndexOf('=') + 1)..];
 					path = path[(path.IndexOf('=') + 1)..];
@@ -50,7 +64,10 @@ internal static class SoberLauncherCommand
 		}
 		if (launcher.HostPrefix.Count > 0 && !await ExistsOnHostAsync(launcher.HostPrefix[0], token).ConfigureAwait(false))
 		{
-			App.Logger.WriteLine(LogIdent, "The Sober launcher '" + launcher.HostPrefix[0] + "' was not found, starting Sober without that command");
+			App.Logger.WriteLine(
+				LogIdent,
+				"The Sober launcher '" + launcher.HostPrefix[0] + "' was not found, starting Sober without that command"
+			);
 			launcher = launcher with { HostPrefix = [] };
 		}
 		token.ThrowIfCancellationRequested();
@@ -119,7 +136,14 @@ internal static class SoberLauncherCommand
 	private static async Task<bool> ExistsOnHostAsync(string program, CancellationToken token)
 	{
 		Voidstrap.Core.SystemProcessService processes = new();
-		if (!LinuxFlatpakHost.TryCreateHostCommand(processes, "sh", ["-c", "command -v \"$1\" >/dev/null 2>&1", "sh", program], out ProcessCommand command))
+		if (
+			!LinuxFlatpakHost.TryCreateHostCommand(
+				processes,
+				"sh",
+				["-c", "command -v \"$1\" >/dev/null 2>&1", "sh", program],
+				out ProcessCommand command
+			)
+		)
 			return false;
 		OperationResult<ProcessExecution> result = await processes.ExecuteAsync(command, token).ConfigureAwait(false);
 		token.ThrowIfCancellationRequested();

@@ -44,7 +44,12 @@ internal static class Frontend
 		});
 	}
 
-	public static MessageBoxResult ShowMessageBox(string message, MessageBoxImage icon = MessageBoxImage.None, MessageBoxButton buttons = MessageBoxButton.OK, MessageBoxResult defaultResult = MessageBoxResult.None)
+	public static MessageBoxResult ShowMessageBox(
+		string message,
+		MessageBoxImage icon = MessageBoxImage.None,
+		MessageBoxButton buttons = MessageBoxButton.OK,
+		MessageBoxResult defaultResult = MessageBoxResult.None
+	)
 	{
 		App.Logger.WriteLine("Frontend::ShowMessageBox", message);
 		if (IsSilent)
@@ -54,7 +59,13 @@ internal static class Frontend
 		return ShowFluentMessageBox(message, icon, buttons);
 	}
 
-	public static MessageBoxResult ShowMessageBox(string message, MessageBoxImage icon, string primaryButtonText, string secondaryButtonText, string closeButtonText)
+	public static MessageBoxResult ShowMessageBox(
+		string message,
+		MessageBoxImage icon,
+		string primaryButtonText,
+		string secondaryButtonText,
+		string closeButtonText
+	)
 	{
 		App.Logger.WriteLine("Frontend::ShowMessageBox", message);
 		if (IsSilent)
@@ -74,9 +85,7 @@ internal static class Frontend
 		});
 	}
 
-	public static void ShowPlayerErrorDialog(bool _ = false)
-	{
-	}
+	public static void ShowPlayerErrorDialog(bool _ = false) { }
 
 	private static bool IsSilent
 	{
@@ -97,10 +106,13 @@ internal static class Frontend
 	{
 		if (!IsSilent)
 		{
-			UiDispatcher?.Invoke((Action)delegate
-			{
-				new ExceptionDialog(exception).ShowOwnedDialog();
-			});
+			UiDispatcher?.Invoke(
+				(Action)
+					delegate
+					{
+						new ExceptionDialog(exception).ShowOwnedDialog();
+					}
+			);
 		}
 	}
 
@@ -108,10 +120,13 @@ internal static class Frontend
 	{
 		if (!IsSilent)
 		{
-			UiDispatcher?.Invoke((Action)delegate
-			{
-				new ConnectivityDialog(title, description, image, exception).ShowOwnedDialog();
-			});
+			UiDispatcher?.Invoke(
+				(Action)
+					delegate
+					{
+						new ConnectivityDialog(title, description, image, exception).ShowOwnedDialog();
+					}
+			);
 		}
 	}
 
@@ -130,7 +145,10 @@ internal static class Frontend
 
 			if (!Voidstrap.Utility.CaseInsensitivePath.Exists(Path.Combine(Paths.CustomThemes, selected, "Theme.xml")))
 			{
-				App.Logger.WriteLine("Frontend::GetCustomBootstrapper", "The selected theme " + selected + " is gone, falling back to Fluent");
+				App.Logger.WriteLine(
+					"Frontend::GetCustomBootstrapper",
+					"The selected theme " + selected + " is gone, falling back to Fluent"
+				);
 				App.Settings.Prop.SelectedCustomTheme = null;
 				App.Settings.Save();
 				return GetBootstrapperDialog(BootstrapperStyle.FluentDialog);
@@ -142,7 +160,11 @@ internal static class Frontend
 		}
 		catch (Exception ex)
 		{
-			try { customDialog?.Close(); } catch { }
+			try
+			{
+				customDialog?.Close();
+			}
+			catch { }
 			App.Logger.WriteException("Frontend::GetCustomBootstrapper", ex);
 			if (!IsSilent)
 			{
@@ -171,16 +193,16 @@ internal static class Frontend
 
 		return style switch
 		{
-			BootstrapperStyle.VistaDialog => new VistaDialog(), 
-			BootstrapperStyle.LegacyDialog2008 => new LegacyDialog2008(), 
-			BootstrapperStyle.LegacyDialog2011 => new LegacyDialog2011(), 
-			BootstrapperStyle.ProgressDialog => new ProgressDialog(), 
-			BootstrapperStyle.ClassicFluentDialog => new ClassicFluentDialog(), 
-			BootstrapperStyle.ByfronDialog => new ByfronDialog(), 
-			BootstrapperStyle.FluentDialog => new FluentDialog(aero: false), 
-			BootstrapperStyle.FluentAeroDialog => new FluentDialog(aero: true), 
-			BootstrapperStyle.CustomDialog => GetCustomBootstrapper(), 
-			_ => new FluentDialog(aero: false), 
+			BootstrapperStyle.VistaDialog => new VistaDialog(),
+			BootstrapperStyle.LegacyDialog2008 => new LegacyDialog2008(),
+			BootstrapperStyle.LegacyDialog2011 => new LegacyDialog2011(),
+			BootstrapperStyle.ProgressDialog => new ProgressDialog(),
+			BootstrapperStyle.ClassicFluentDialog => new ClassicFluentDialog(),
+			BootstrapperStyle.ByfronDialog => new ByfronDialog(),
+			BootstrapperStyle.FluentDialog => new FluentDialog(aero: false),
+			BootstrapperStyle.FluentAeroDialog => new FluentDialog(aero: true),
+			BootstrapperStyle.CustomDialog => GetCustomBootstrapper(),
+			_ => new FluentDialog(aero: false),
 		};
 	}
 
@@ -191,12 +213,15 @@ internal static class Frontend
 		{
 			return MessageBoxResult.None;
 		}
-		return dispatcher.Invoke<MessageBoxResult>((Func<MessageBoxResult>)delegate
-		{
-			FluentMessageBox fluentMessageBox = new(message, icon, buttons);
-			fluentMessageBox.ShowOwnedDialog();
-			return fluentMessageBox.Result;
-		});
+		return dispatcher.Invoke<MessageBoxResult>(
+			(Func<MessageBoxResult>)
+				delegate
+				{
+					FluentMessageBox fluentMessageBox = new(message, icon, buttons);
+					fluentMessageBox.ShowOwnedDialog();
+					return fluentMessageBox.Result;
+				}
+		);
 	}
 
 	public static void ShowBalloonTip(string title, string message, ToolTipIcon icon = ToolTipIcon.None, int timeout = 5)
@@ -211,7 +236,7 @@ internal static class Frontend
 		{
 			Icon = Voidstrap.Utility.Branding.CreateDrawingIcon() ?? Voidstrap.Properties.Resources.IconVoidstrap,
 			Text = Voidstrap.Utility.Branding.Name,
-			Visible = true
+			Visible = true,
 		};
 		notifyIcon.BalloonTipClosed += BalloonTip_Finished;
 		notifyIcon.BalloonTipClicked += BalloonTip_Finished;
