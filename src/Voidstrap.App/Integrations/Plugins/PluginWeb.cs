@@ -516,6 +516,10 @@ internal static partial class PluginWeb
         JsonObject? refused = null;
         if (!IsAllowedUrl(url, hosts))
             refused = new JsonObject { ["ok"] = false, ["reason"] = "the url must be https, its host listed under network in plugin.json, and never roblox.com" };
+        else if (url.Length > 512 || (new Uri(url).Query.Length > 64 && !ModLibraryReview.AllowedHosts.Contains(new Uri(url).Host)))
+            refused = new JsonObject { ["ok"] = false, ["reason"] = "the url is too long, sites outside the trusted list allow a query of 64 characters at most" };
+        else if (css.Contains("url(", StringComparison.OrdinalIgnoreCase) || css.Contains("@import", StringComparison.OrdinalIgnoreCase) || css.Contains("http", StringComparison.OrdinalIgnoreCase) || css.Contains("image-set", StringComparison.OrdinalIgnoreCase))
+            refused = new JsonObject { ["ok"] = false, ["reason"] = "css cannot load anything from other addresses" };
         else if (css.Length > 8000)
             refused = new JsonObject { ["ok"] = false, ["reason"] = "css can be at most 8000 characters" };
         return (

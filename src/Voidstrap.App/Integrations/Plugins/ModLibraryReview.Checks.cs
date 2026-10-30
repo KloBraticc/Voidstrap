@@ -321,9 +321,9 @@ internal static partial class ModLibraryReview
         }
         if (manifest["permissions"] is System.Text.Json.Nodes.JsonArray permissions)
         {
-            string[] known = ["roblox-account", "native", "files", "web"];
+            string[] known = ["roblox-account", "native", "files", "web", "clipboard"];
             if (permissions.Any(permission => !known.Contains(permission?.ToString(), StringComparer.Ordinal)))
-                errors.Add("plugin.json permissions may only contain roblox-account, native, files or web");
+                errors.Add("plugin.json permissions may only contain roblox-account, native, files, web or clipboard");
             else if (
                 permissions.Any(permission => permission?.ToString() is "native")
                 && (permissions.Any(permission => permission?.ToString() is "web") || manifest["network"] is System.Text.Json.Nodes.JsonArray { Count: > 0 })
@@ -334,7 +334,7 @@ internal static partial class ModLibraryReview
                 && permissions.Any(permission => permission?.ToString() is "native" or "files" or "web")
             )
                 errors.Add("native, files and web cannot be combined with roblox-account");
-            else if (permissions.Any(permission => permission?.ToString() is "native" or "files" or "web"))
+            else if (permissions.Any(permission => permission?.ToString() is "native" or "files" or "web" or "clipboard"))
                 reviews.Add(
                     "asks for native, files or web access, it shows a Powerful mod badge and users get a timed warning, describe exactly why it needs this"
                 );

@@ -19,7 +19,9 @@ public sealed partial class PluginManifest
 
     public const string WebPermission = "web";
 
-    private static readonly HashSet<string> KnownPermissions = new(StringComparer.Ordinal) { RobloxAccountPermission, NativePermission, FilesPermission, WebPermission };
+    public const string ClipboardPermission = "clipboard";
+
+    private static readonly HashSet<string> KnownPermissions = new(StringComparer.Ordinal) { RobloxAccountPermission, NativePermission, FilesPermission, WebPermission, ClipboardPermission };
 
     private const long MaxJsonBytes = 256 * 1024;
 
@@ -172,7 +174,7 @@ public sealed partial class PluginManifest
             string value = node?.ToString().Trim().ToLowerInvariant() ?? "";
             if (!KnownPermissions.Contains(value))
             {
-                error = "unknown permission " + value + ", the permissions are roblox-account, native, files and web";
+                error = "unknown permission " + value + ", the permissions are roblox-account, native, files, web and clipboard";
                 return false;
             }
             if (!result.Contains(value))

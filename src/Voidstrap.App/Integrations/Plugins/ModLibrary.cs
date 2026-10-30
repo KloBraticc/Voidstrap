@@ -78,7 +78,7 @@ public static partial class ModLibrary
     )
     {
         public bool IsPowerful =>
-            Permissions.Any(permission => permission is PluginManifest.NativePermission or PluginManifest.FilesPermission or PluginManifest.WebPermission);
+            Permissions.Any(permission => permission is PluginManifest.NativePermission or PluginManifest.FilesPermission or PluginManifest.WebPermission or PluginManifest.ClipboardPermission);
 
         public bool UsesRobloxAccount => Permissions.Contains(PluginManifest.RobloxAccountPermission, StringComparer.Ordinal);
     }

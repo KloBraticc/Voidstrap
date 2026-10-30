@@ -427,6 +427,7 @@ declare module 'voidstrap' {
       request(request: string | { url: string; method?: 'GET' | 'POST'; body?: string }): Promise<FetchResult>;
       account(): Promise<RobloxAccountInfo>;
     };
+    /** clipboard.get needs the clipboard permission in plugin.json. */
     clipboard: {
       get(): string;
       set(text: string): void;

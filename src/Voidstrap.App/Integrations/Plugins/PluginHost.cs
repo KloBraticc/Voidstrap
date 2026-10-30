@@ -1871,6 +1871,7 @@ public static class PluginHost
                         if (!_sandbox)
                         {
                             JsonObject spec = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+                            PluginSettings.RejectRemote(spec["backgroundFilePath"]?.ToString() ?? "");
                             if (spec["accentColor"] != null)
                                 PluginRollback.MarkBrushes(Name);
                             PluginRollback.TrackBackground<object?>(
@@ -1962,6 +1963,7 @@ public static class PluginHost
                         if (_sandbox)
                             return "";
                         JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+                        PluginSettings.RejectRemote(request["file"]?.ToString() ?? "");
                         string stored = PluginRollback.TrackBackground(
                             Name,
                             () =>
@@ -2071,7 +2073,17 @@ public static class PluginHost
                     }
                 )
             );
-            host.Set("clipboardGet", Host("clipboardGet", _ => PluginClipboard.Get()));
+            host.Set(
+                "clipboardGet",
+                Host(
+                    "clipboardGet",
+                    _ =>
+                    {
+                        Need(PluginManifest.ClipboardPermission);
+                        return PluginClipboard.Get();
+                    }
+                )
+            );
             host.Set(
                 "clipboardSet",
                 Host(

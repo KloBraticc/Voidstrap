@@ -336,6 +336,10 @@ public static class McpGuides
 		  Network: any host can be listed, but hosts outside the trusted list are read only for $.net.fetch: plain GET, no query, body or custom headers. Hosts
 		  used to collect data (Discord webhooks, webhook.site, pastebin and similar) are refused. On Windows a web window cannot connect to any host outside its list.
 
+		  Clipboard: $.clipboard.get needs the clipboard permission, which counts as a Powerful mod. $.clipboard.set needs nothing.
+		  Settings holding paths, addresses, launch commands or channels cannot be read or changed by mods, and network paths are refused.
+		  Rules cannot change frames, images, or anything that loads a file or address.
+
 		  Menu icons: the icon of $.modpages.add is a Fluent symbol name ('Games24'), a file inside the mod ('assets/icon.png', 2 MB at most), or a vector drawn in code ('path:M4 4h16v16H4z').
 		  Menu buttons: $.modpages.add({ id, title, icon, action: true }) runs code instead of opening a page. Handle it with on('ui.event', { id, plugin: 'your-mod-name' }, ...), event is 'menu'.
 

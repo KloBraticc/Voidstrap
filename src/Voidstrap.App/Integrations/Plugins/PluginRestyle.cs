@@ -13,8 +13,14 @@ using System.Windows.Threading;
 
 namespace Voidstrap.Integrations.Plugins;
 
-internal static class PluginRestyle
+internal static partial class PluginRestyle
 {
+    [System.Text.RegularExpressions.GeneratedRegex(
+        "MessageBox|PowerfulMod|Publish|GitHubSignIn|SignIn|Account|Consent|Install|Mcp|Login|Web",
+        System.Text.RegularExpressions.RegexOptions.IgnoreCase
+    )]
+    private static partial System.Text.RegularExpressions.Regex ProtectedWindowName();
+
     private const string LOG_IDENT = "PluginRestyle";
 
     private const int MaxRulesPerMod = 256;
@@ -390,7 +396,7 @@ internal static class PluginRestyle
     private static IEnumerable<Window> AllWindows() => Application.Current?.Windows.OfType<Window>() ?? [];
 
     private static bool IsProtectedWindow(Window window) =>
-        window.GetType().Name.Contains("MessageBox", StringComparison.OrdinalIgnoreCase);
+        ProtectedWindowName().IsMatch(window.GetType().Name);
 
     private static bool IsProtectedPage(FrameworkElement element) =>
         element.GetType().Name is "VoidstrapModsPage" or "AccountsPage";
@@ -712,13 +718,18 @@ internal static class PluginRestyle
             SetTracked(element, UIElement.VisibilityProperty, hidden ? Visibility.Collapsed : Visibility.Visible);
             return;
         }
+        if (element is Frame)
+        {
+            report.Error("mods cannot change navigation frames");
+            return;
+        }
         DependencyProperty? property = ResolveProperty(element, name);
         if (property == null || property.ReadOnly)
         {
             report.Error(element.GetType().Name + " has no writable property " + name);
             return;
         }
-        if (DeniedProperties.Contains(property.Name))
+        if (DeniedProperties.Contains(property.Name) || !IsSafePropertyType(property.PropertyType))
         {
             report.Error(property.Name + " cannot be changed by a mod");
             return;
@@ -729,6 +740,11 @@ internal static class PluginRestyle
             return;
         }
         string text = value?.ToString() ?? "";
+        if (LooksLikeLocation(text) && property.PropertyType != typeof(string) && property.PropertyType != typeof(object))
+        {
+            report.Error("mods cannot point " + property.Name + " at a file or web address");
+            return;
+        }
         if (PluginNative.LooksLikePhishing(text))
         {
             report.Error("mods cannot show text asking for logins, passwords or cookies");
@@ -755,6 +771,17 @@ internal static class PluginRestyle
             report.Error(text + " is not valid for " + property.Name);
         }
     }
+
+    private static bool LooksLikeLocation(string text) =>
+        text.Contains("://", StringComparison.Ordinal) || text.Contains('\\') || text.Contains('/') || text.Contains("pack:", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsSafePropertyType(Type type) =>
+        type.IsValueType
+        || type == typeof(string)
+        || type == typeof(object)
+        || typeof(Brush).IsAssignableFrom(type)
+        || type == typeof(System.Windows.Media.FontFamily)
+        || type == typeof(System.Windows.Input.Cursor);
 
     private static object? ConvertValue(Type type, JsonNode? value, string text)
     {
@@ -938,6 +965,11 @@ internal static class PluginRestyle
         if (current == null)
         {
             report.Error("no theme resource is named " + key + ", $.ui.resources() lists them");
+            return null;
+        }
+        if (!IsSafePropertyType(current.GetType()) || LooksLikeLocation(text))
+        {
+            report.Error("mods cannot override the resource " + key + " with this value");
             return null;
         }
         try

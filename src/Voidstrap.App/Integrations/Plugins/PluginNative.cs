@@ -60,7 +60,7 @@ internal static partial class PluginNative
     ];
 
     [GeneratedRegex(
-        "cookie|account|token|password|credential|secret|auth|login|process|shell|execute|registry|download|install|webview|webbrowser|clipboard|plugin|consent|rollback|mcp|assembly|reflection|gettype|loadcomponent|dispatcher|objectdataprovider|xmldataprovider|printdialog|voidstrapmods|messagebox|textbox|richtext|autosuggest|textinput|textcomposition",
+        "cookie|account|token|password|credential|secret|auth|login|process|shell|execute|registry|download|install|webview|webbrowser|clipboard|plugin|consent|rollback|mcp|assembly|reflection|gettype|loadcomponent|dispatcher|objectdataprovider|xmldataprovider|printdialog|presentationsource|hwndsource|automation|localvalue|converter|bitmapdecoder|bitmapframe|bitmapimage|mediaplayer|mediaelement|textrange|voidstrapmods|messagebox|textbox|richtext|autosuggest|textinput|textcomposition",
         RegexOptions.IgnoreCase
     )]
     private static partial Regex SensitiveName();
@@ -131,7 +131,8 @@ internal static partial class PluginNative
     public static bool IsPowerful(PluginManifest manifest) =>
         manifest.HasPermission(PluginManifest.NativePermission)
         || manifest.HasPermission(PluginManifest.FilesPermission)
-        || manifest.HasPermission(PluginManifest.WebPermission);
+        || manifest.HasPermission(PluginManifest.WebPermission)
+        || manifest.HasPermission(PluginManifest.ClipboardPermission);
 
     public static bool IsTypeAllowed(Type? type)
     {
@@ -218,10 +219,9 @@ internal static partial class PluginNative
             return "native cannot be combined with web or network hosts, so what a mod reads cannot be sent out";
         if (manifest.HasPermission(PluginManifest.RobloxAccountPermission))
             return "native, files and web cannot be combined with roblox-account";
-        string marker = Path.DirectorySeparatorChar + PluginManifest.ManifestFolder + Path.DirectorySeparatorChar + "types";
         foreach (string file in Directory.EnumerateFiles(manifest.Directory, "*", SearchOption.AllDirectories))
         {
-            if (file.Contains(marker, StringComparison.OrdinalIgnoreCase))
+            if (IsGeneratedType(file))
                 continue;
             if (Path.GetExtension(file).ToLowerInvariant() is ".exe" or ".dll" or ".bat" or ".cmd" or ".ps1" or ".sh" or ".msi" or ".scr" or ".com" or ".vbs" or ".so" or ".dylib")
                 return Path.GetFileName(file) + " is a program, which powerful mods can never include";
@@ -234,13 +234,20 @@ internal static partial class PluginNative
         return null;
     }
 
+    private static bool IsGeneratedType(string file)
+    {
+        string separator = Path.DirectorySeparatorChar.ToString();
+        string marker = separator + PluginManifest.ManifestFolder + separator + "types" + separator;
+        return file.Contains(marker, StringComparison.OrdinalIgnoreCase)
+            && (file.EndsWith(".d.ts", StringComparison.OrdinalIgnoreCase) || Path.GetFileName(file).Equals("tsconfig.json", StringComparison.OrdinalIgnoreCase));
+    }
+
     public static string ContentHash(PluginManifest manifest)
     {
         using IncrementalHash hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
-        string marker = Path.DirectorySeparatorChar + PluginManifest.ManifestFolder + Path.DirectorySeparatorChar + "types";
         foreach (string file in Directory.EnumerateFiles(manifest.Directory, "*", SearchOption.AllDirectories).Order(StringComparer.Ordinal))
         {
-            if (file.Contains(marker, StringComparison.OrdinalIgnoreCase))
+            if (IsGeneratedType(file))
                 continue;
             hash.AppendData(Encoding.UTF8.GetBytes(Path.GetRelativePath(manifest.Directory, file)));
             hash.AppendData(HashableContent(file));

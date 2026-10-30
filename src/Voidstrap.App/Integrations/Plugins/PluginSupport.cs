@@ -244,8 +244,20 @@ internal static class PluginConsent
     }
 }
 
-internal static class PluginSettings
+internal static partial class PluginSettings
 {
+    [System.Text.RegularExpressions.GeneratedRegex(
+        "(Path|Url|Uri|Folder|Directory|Launcher|Command)$|^(Channel|ChannelHash|VinegarChannel|LastServerSave)$|Consent|Rollback|Token|Cookie|Password|Secret|ModRollback",
+        System.Text.RegularExpressions.RegexOptions.IgnoreCase
+    )]
+    private static partial System.Text.RegularExpressions.Regex SensitiveSetting();
+
+    public static void RejectRemote(string value)
+    {
+        if (value.Contains("://", StringComparison.Ordinal) || value.Contains("\\\\", StringComparison.Ordinal) || value.StartsWith("//", StringComparison.Ordinal))
+            throw new InvalidOperationException("mods cannot use network paths or web addresses here");
+    }
+
     private static readonly HashSet<string> Blocked = new(StringComparer.OrdinalIgnoreCase)
     {
         nameof(Voidstrap.Models.Persistable.AppSettings.PluginConsent),
@@ -254,7 +266,7 @@ internal static class PluginSettings
 
     private static PropertyInfo? Find(string name)
     {
-        if (Blocked.Contains(name))
+        if (Blocked.Contains(name) || SensitiveSetting().IsMatch(name))
             return null;
         PropertyInfo? property = typeof(Voidstrap.Models.Persistable.AppSettings).GetProperty(
             name,
@@ -325,6 +337,7 @@ internal static class PluginSettings
     {
         PropertyInfo property =
             Find(name) ?? throw new InvalidOperationException("the setting " + name + " does not exist or cannot be changed by mods");
+        RejectRemote(json);
         JsonNode? parsed = JsonNode.Parse(json);
         Type type = property.PropertyType;
         object? converted;
