@@ -12,28 +12,6 @@ public static class RobloxFastFlagAllowlist
 
     public const string AnnouncementUrl = "https://devforum.roblox.com/t/allowlist-for-local-client-configuration-via-fast-flags/3966569";
 
-    private static readonly IReadOnlyDictionary<string, string> BuiltIn = new Dictionary<string, string>(StringComparer.Ordinal)
-    {
-        ["DFIntCSGLevelOfDetailSwitchingDistance"] = "Geometry",
-        ["DFIntCSGLevelOfDetailSwitchingDistanceL12"] = "Geometry",
-        ["DFIntCSGLevelOfDetailSwitchingDistanceL23"] = "Geometry",
-        ["DFIntCSGLevelOfDetailSwitchingDistanceL34"] = "Geometry",
-        ["FFlagHandleAltEnterFullscreenManually"] = "Rendering",
-        ["DFFlagTextureQualityOverrideEnabled"] = "Rendering",
-        ["DFIntTextureQualityOverride"] = "Rendering",
-        ["FIntDebugForceMSAASamples"] = "Rendering",
-        ["DFFlagDisableDPIScale"] = "Rendering",
-        ["FFlagDebugGraphicsPreferD3D11"] = "Rendering",
-        ["FFlagDebugSkyGray"] = "Rendering",
-        ["DFFlagDebugPauseVoxelizer"] = "Rendering",
-        ["DFIntDebugFRMQualityLevelOverride"] = "Rendering",
-        ["FIntFRMMaxGrassDistance"] = "Rendering",
-        ["FIntFRMMinGrassDistance"] = "Rendering",
-        ["FFlagDebugGraphicsPreferVulkan"] = "Rendering",
-        ["FFlagDebugGraphicsPreferOpenGL"] = "Rendering",
-        ["FIntGrassMovementReducedMotionFactor"] = "User Interface",
-    };
-
     private static readonly HttpClient Client = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(12));
 
     private static readonly SemaphoreSlim RefreshGate = new(1, 1);
@@ -46,11 +24,11 @@ public static class RobloxFastFlagAllowlist
 
     private static string CachePath => Path.Combine(Paths.Cache, "FastFlagAllowlist.json");
 
-    public static IReadOnlyDictionary<string, string> Flags => _remote ?? LoadSaved() ?? BuiltIn;
+    public static IReadOnlyDictionary<string, string> Flags => _remote ?? LoadSaved() ?? new Dictionary<string, string>(StringComparer.Ordinal);
 
     public static bool IsOnline => _remote != null;
 
-    public static bool IsAllowed(string name) => Flags.ContainsKey(name);
+    public static bool IsAllowed(string name) => Flags.Count == 0 || Flags.ContainsKey(name);
 
     public static async Task<IReadOnlyDictionary<string, string>> RefreshAsync(bool force = false, CancellationToken token = default)
     {
@@ -105,7 +83,7 @@ public static class RobloxFastFlagAllowlist
             foreach (JsonElement flag in allowed.EnumerateArray())
             {
                 if (flag.GetString() is { Length: > 0 } name)
-                    result[name] = BuiltIn.TryGetValue(name, out string? category) ? category : "Other";
+                    result[name] = name.Contains("CSG", StringComparison.Ordinal) ? "Geometry" : "Rendering";
             }
             return result.Count == 0 ? null : result;
         }
