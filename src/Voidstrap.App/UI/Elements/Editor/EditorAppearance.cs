@@ -179,7 +179,7 @@ public sealed class EditorSettingsButton : Wpf.Ui.Controls.Button
 
 internal sealed class EditorSettingsWindow : WpfUiWindow
 {
-    private readonly StackPanel _fields = new() { Margin = new Thickness(16) };
+    private readonly StackPanel _fields = new();
 
     private readonly DataGrid? _grid;
 
@@ -189,8 +189,8 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
     {
         var settings = App.Settings.Prop;
         BuildWindow();
-        AddColor(Strings.Ui_EditorSettings_Background, settings.EditorBackground, value => settings.EditorBackground = value);
-        AddColor(Strings.Ui_EditorSettings_TextColor, settings.EditorForeground, value => settings.EditorForeground = value);
+        AddColor(Strings.Ui_EditorSettings_Background, settings.EditorBackground, "ControlFillColorDefaultBrush", value => settings.EditorBackground = value);
+        AddColor(Strings.Ui_EditorSettings_TextColor, settings.EditorForeground, "TextFillColorPrimaryBrush", value => settings.EditorForeground = value);
         AddText(Strings.Ui_EditorSettings_Font, settings.EditorFontFamily, value => settings.EditorFontFamily = value);
         AddSlider(Strings.Ui_EditorSettings_FontSize, 8, 40, settings.EditorFontSize, value => settings.EditorFontSize = value);
         AddToggle(Strings.Ui_EditorSettings_WordWrap, settings.EditorWordWrap, value => settings.EditorWordWrap = value);
@@ -204,8 +204,8 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
         _grid = grid;
         _appearance = appearance;
         BuildWindow();
-        AddColor(Strings.Ui_EditorSettings_Background, appearance.Background, value => appearance.Background = value);
-        AddColor(Strings.Ui_EditorSettings_TextColor, appearance.Foreground, value => appearance.Foreground = value);
+        AddColor(Strings.Ui_EditorSettings_Background, appearance.Background, "ControlFillColorDefaultBrush", value => appearance.Background = value);
+        AddColor(Strings.Ui_EditorSettings_TextColor, appearance.Foreground, "TextFillColorPrimaryBrush", value => appearance.Foreground = value);
         AddText(Strings.Ui_EditorSettings_Font, appearance.FontFamily, value => appearance.FontFamily = value);
         AddSlider(Strings.Ui_EditorSettings_FontSize, 8, 40, appearance.FontSize, value => appearance.FontSize = value);
         FinishWindow(appearance.BackgroundImageOpacity, value => appearance.BackgroundImageOpacity = value);
@@ -214,7 +214,7 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
     private void BuildWindow()
     {
         Title = Strings.Ui_EditorSettings_Title;
-        Width = 460;
+        Width = 420;
         SizeToContent = SizeToContent.Height;
         ExtendsContentIntoTitleBar = true;
         WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -225,15 +225,26 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
     {
         if (!Voidstrap.Utility.Platform.IsMacOS)
             AddImageRow(imageOpacity, setImageOpacity);
-        Wpf.Ui.Controls.Button reset = new() { Content = Strings.Common_Reset, Margin = new Thickness(0, 8, 0, 0), HorizontalAlignment = HorizontalAlignment.Right };
+        Border card = new()
+        {
+            Padding = new Thickness(14, 6, 14, 6),
+            CornerRadius = new CornerRadius(8),
+            BorderThickness = new Thickness(1),
+            Child = _fields,
+        };
+        card.SetResourceReference(Border.BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
+        card.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
+        Wpf.Ui.Controls.Button reset = new() { Content = Strings.Common_Reset, Margin = new Thickness(0, 12, 0, 0), HorizontalAlignment = HorizontalAlignment.Right };
         reset.Click += Reset_Click;
-        _fields.Children.Add(reset);
+        StackPanel body = new() { Margin = new Thickness(14, 4, 14, 14) };
+        body.Children.Add(card);
+        body.Children.Add(reset);
         Grid root = new();
         root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
         root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
         root.Children.Add(new Wpf.Ui.Controls.TitleBar { Title = Title, Padding = new Thickness(8), ShowMinimize = false, ShowMaximize = false, ForceShutdown = false, MinimizeToTray = false });
-        Grid.SetRow(_fields, 1);
-        root.Children.Add(_fields);
+        Grid.SetRow(body, 1);
+        root.Children.Add(body);
         Content = root;
     }
 
@@ -285,32 +296,51 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
         Close();
     }
 
-    private void AddLabel(string text) =>
-        _fields.Children.Add(new TextBlock { Text = text, Margin = new Thickness(0, 6, 0, 3), Foreground = Brushes.White });
+    private void AddRow(string label, FrameworkElement control)
+    {
+        Grid row = new() { Margin = new Thickness(0, 7, 0, 7) };
+        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        TextBlock text = new() { Text = label, VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 12, 0) };
+        text.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+        row.Children.Add(text);
+        control.VerticalAlignment = VerticalAlignment.Center;
+        Grid.SetColumn(control, 1);
+        row.Children.Add(control);
+        _fields.Children.Add(row);
+    }
 
     private void AddText(string label, string value, Action<string> set)
     {
-        AddLabel(label);
-        TextBox box = new() { Text = value };
+        TextBox box = new() { Text = value, Width = 210 };
         box.TextChanged += (_, _) =>
         {
             set(box.Text);
             Changed();
         };
-        _fields.Children.Add(box);
+        AddRow(label, box);
     }
 
-    private void AddColor(string label, string value, Action<string> set)
+    private static void ShowColor(Border swatch, string value, string themeKey)
     {
-        AddLabel(label);
+        if (string.IsNullOrWhiteSpace(value))
+            swatch.SetResourceReference(Border.BackgroundProperty, themeKey);
+        else
+            swatch.Background = new SolidColorBrush(EditorAppearance.ParseColor(value, Colors.Transparent));
+    }
+
+    private void AddColor(string label, string value, string themeKey, Action<string> set)
+    {
         Border swatch = new()
         {
-            Height = 28,
+            Width = 46,
+            Height = 26,
+            CornerRadius = new CornerRadius(6),
             BorderThickness = new Thickness(1),
-            BorderBrush = Brushes.Gray,
             Cursor = System.Windows.Input.Cursors.Hand,
-            Background = new SolidColorBrush(EditorAppearance.ParseColor(value, Colors.Transparent)),
         };
+        swatch.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
+        ShowColor(swatch, value, themeKey);
         swatch.MouseLeftButtonUp += (_, _) =>
         {
             Voidstrap.UI.Elements.Controls.RinColorPickerDialog dialog = new(EditorAppearance.ParseColor(value, Colors.Black), alphaEnabled: false) { Owner = this };
@@ -318,47 +348,45 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
                 return;
             Color color = dialog.SelectedColor;
             value = $"#{color.R:X2}{color.G:X2}{color.B:X2}";
-            swatch.Background = new SolidColorBrush(color);
+            ShowColor(swatch, value, themeKey);
             set(value);
             Changed();
         };
-        _fields.Children.Add(swatch);
+        AddRow(label, swatch);
     }
 
     private void AddSlider(string label, double min, double max, double value, Action<double> set)
     {
-        AddLabel(label);
-        Slider slider = new() { Minimum = min, Maximum = max, Value = value };
+        Slider slider = new() { Minimum = min, Maximum = max, Value = value, Width = 210 };
         slider.ValueChanged += (_, e) =>
         {
             set(e.NewValue);
             Changed();
         };
-        _fields.Children.Add(slider);
+        AddRow(label, slider);
     }
 
     private void AddToggle(string label, bool value, Action<bool> set)
     {
-        CheckBox box = new() { Content = label, IsChecked = value, Margin = new Thickness(0, 6, 0, 0) };
-        box.Click += (_, _) =>
+        Wpf.Ui.Controls.ToggleSwitch toggle = new() { IsChecked = value };
+        toggle.Click += (_, _) =>
         {
-            set(box.IsChecked == true);
+            set(toggle.IsChecked == true);
             Changed();
         };
-        _fields.Children.Add(box);
+        AddRow(label, toggle);
     }
 
     private void AddImageRow(double imageOpacity, Action<double> setImageOpacity)
     {
-        AddLabel(Strings.Ui_EditorSettings_Image);
-        StackPanel row = new() { Orientation = Orientation.Horizontal };
+        StackPanel buttons = new() { Orientation = Orientation.Horizontal };
         Wpf.Ui.Controls.Button browse = new() { Content = Strings.Common_Browse };
         browse.Click += Browse_Click;
         Wpf.Ui.Controls.Button clear = new() { Content = Strings.Ui_EditorSettings_ClearImage, Margin = new Thickness(6, 0, 0, 0) };
         clear.Click += Clear_Click;
-        row.Children.Add(browse);
-        row.Children.Add(clear);
-        _fields.Children.Add(row);
+        buttons.Children.Add(browse);
+        buttons.Children.Add(clear);
+        AddRow(Strings.Ui_EditorSettings_Image, buttons);
         AddSlider(Strings.Ui_EditorSettings_ImageOpacity, 0, 1, imageOpacity, setImageOpacity);
     }
 
