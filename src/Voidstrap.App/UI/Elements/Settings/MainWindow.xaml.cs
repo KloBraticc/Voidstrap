@@ -2662,6 +2662,21 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void ModPageMenuItem_Click(object sender, RoutedEventArgs e)
     {
         ModPagesMenuPopup.IsOpen = false;
+        if (sender is FrameworkElement { Tag: Voidstrap.Integrations.Plugins.PluginModPages.ModPageEntry { IsAction: true } action })
+        {
+            System.Text.Json.Nodes.JsonObject payload = new()
+            {
+                ["id"] = action.Id,
+                ["plugin"] = action.Plugin,
+                ["event"] = "menu",
+                ["name"] = action.Key,
+                ["type"] = "ModPage",
+                ["text"] = action.Title,
+                ["window"] = "MainWindow",
+            };
+            _ = Task.Run(() => Voidstrap.Integrations.Plugins.PluginHost.Invoke("ui.event", payload));
+            return;
+        }
         if (sender is FrameworkElement { Tag: Voidstrap.Integrations.Plugins.PluginModPages.ModPageEntry entry })
             OpenModCustomPage(
                 new Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo(

@@ -108,7 +108,7 @@ declare module 'voidstrap' {
     'game.leave': { input: GameInfo; result: unknown };
     'page.navigate': { input: { page: string }; result: unknown };
     'settings.changed': { input: { name: string; plugin: string }; result: unknown };
-    'ui.event': { input: { id: string; plugin: string; event: 'click'; name: string; type: string; text: string; window: string }; result: unknown };
+    'ui.event': { input: { id: string; plugin: string; event: 'click' | 'menu'; name: string; type: string; text: string; window: string }; result: unknown };
     'ui.render': { input: { component: UiComponentKind; requestId: string; plugin: string; surface: Surface }; result: Node | null };
     'cursor.move': { input: CursorPosition; result: unknown };
     'cursor.down': { input: CursorPosition; result: unknown };
@@ -259,6 +259,7 @@ declare module 'voidstrap' {
 
   export interface ModPageSpec {
     id: string;
+    action?: boolean;
     title?: string;
     icon?: string;
   }

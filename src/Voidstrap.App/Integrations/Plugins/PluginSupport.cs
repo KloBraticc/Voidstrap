@@ -891,7 +891,7 @@ public static class PluginModPages
 
     private static readonly List<ModPageEntry> Entries = [];
 
-    public sealed record ModPageEntry(string Plugin, string Id, string Key, string Title, string Icon);
+    public sealed record ModPageEntry(string Plugin, string Id, string Key, string Title, string Icon, bool IsAction = false);
 
     public static event Action? Changed;
 
@@ -932,7 +932,7 @@ public static class PluginModPages
         if (icon.Length == 0)
             icon = "PuzzlePiece24";
         string key = "ModMenu_" + PluginSidebar.MakePageKey(plugin, id);
-        ModPageEntry entry = new(plugin, id, key, title, icon);
+        ModPageEntry entry = new(plugin, id, key, title, icon, spec["action"] is JsonValue action && action.TryGetValue(out bool isAction) && isAction);
         bool changed;
         lock (Gate)
         {
