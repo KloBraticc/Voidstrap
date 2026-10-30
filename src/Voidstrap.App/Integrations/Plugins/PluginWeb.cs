@@ -233,10 +233,6 @@ internal static partial class PluginWeb
 
         private CoreWebView2? _core;
 
-        private readonly Wpf.Ui.Controls.Button _fullscreenButton = new() { Padding = new Thickness(8, 2, 8, 2), Margin = new Thickness(2), HorizontalAlignment = HorizontalAlignment.Right, Icon = Wpf.Ui.Common.SymbolRegular.FullScreenMaximize24 };
-
-        private readonly System.Windows.Controls.Border _bar = new();
-
         private HwndSource? _source;
 
         private bool _fullscreen;
@@ -256,14 +252,7 @@ internal static partial class PluginWeb
             _start = start;
             _dataFolder = dataFolder;
             _css = css;
-            System.Windows.Controls.DockPanel root = new();
-            _bar.Child = _fullscreenButton;
-            _bar.SetResourceReference(System.Windows.Controls.Border.BackgroundProperty, "ApplicationBackgroundBrush");
-            System.Windows.Controls.DockPanel.SetDock(_bar, System.Windows.Controls.Dock.Top);
-            root.Children.Add(_bar);
-            root.Children.Add(_view);
-            Content = root;
-            _fullscreenButton.Click += OnFullscreenClick;
+            Content = _view;
             SourceInitialized += OnSourceInitialized;
             Activated += OnActivated;
             Deactivated += OnDeactivated;
@@ -359,8 +348,6 @@ internal static partial class PluginWeb
                 ToggleFullscreen();
         }
 
-        private void OnFullscreenClick(object sender, RoutedEventArgs e) => ToggleFullscreen();
-
         private void ToggleFullscreen()
         {
             _fullscreen = !_fullscreen;
@@ -376,7 +363,6 @@ internal static partial class PluginWeb
                 WindowStyle = WindowStyle.SingleBorderWindow;
                 WindowState = _stateBeforeFullscreen;
             }
-            _bar.Visibility = _fullscreen ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private void OnSourceInitialized(object? sender, EventArgs e)
@@ -416,7 +402,6 @@ internal static partial class PluginWeb
             SourceInitialized -= OnSourceInitialized;
             Activated -= OnActivated;
             Deactivated -= OnDeactivated;
-            _fullscreenButton.Click -= OnFullscreenClick;
             UnregisterHotKey(new WindowInteropHelper(this).Handle, FullscreenHotKey);
             _source?.RemoveHook(OnWindowMessage);
             if (_core != null)
