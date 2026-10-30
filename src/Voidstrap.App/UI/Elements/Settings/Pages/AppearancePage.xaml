@@ -100,7 +100,7 @@
                 </ComboBox.Resources>
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" UseLayoutRounding="True" SnapsToDevicePixels="True">
                       <Image Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality">
                         <Image.Source>
                           <MultiBinding Converter="{StaticResource ThemeSwatchConverter}">
