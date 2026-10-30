@@ -9334,4 +9334,49 @@ Mod の重複により Roblox の表示や動作に異常が生じる場合が�
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>{0} を保存しました。Mod を再読み込みしています</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>ファイル</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>ビルド</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>テスト</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>すべて保存</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>元に戻す</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>やり直し</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>切り取り</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>コピー</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>貼り付け</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>ソリューション エクスプローラー</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>出力</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>準備完了</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>ソリューション エクスプローラーを検索</value>
+  </data>
 </root>

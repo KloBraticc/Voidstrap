@@ -9007,4 +9007,49 @@ Overlapping mods can make Roblox look or behave oddly, but this cannot crash Voi
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>{0} saved, the mod reloads now</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>Build</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>Save All</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>Solution Explorer</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>Output</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>Search Solution Explorer</value>
+  </data>
 </root>

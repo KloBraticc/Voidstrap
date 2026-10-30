@@ -9318,4 +9318,49 @@ Voidstrap перед встановленням звіряє кожен файл
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>{0} збережено, мод перезавантажується</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>Вигляд</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>Збірка</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>Тест</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>Зберегти все</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>Повторити</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>Вирізати</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>Копіювати</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>Вставити</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>Знайти</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>Оглядач рішень</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>Вивід</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>Готово</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>Пошук в оглядачі рішень</value>
+  </data>
 </root>

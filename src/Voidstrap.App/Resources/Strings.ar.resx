@@ -9319,4 +9319,49 @@
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>تم حفظ {0}، يُعاد تحميل التعديل الآن</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>ملف</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>عرض</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>إنشاء</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>اختبار</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>حفظ الكل</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>تراجع</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>إعادة</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>قص</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>نسخ</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>لصق</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>بحث</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>مستكشف الحلول</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>الإخراج</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>جاهز</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>البحث في مستكشف الحلول</value>
+  </data>
 </root>

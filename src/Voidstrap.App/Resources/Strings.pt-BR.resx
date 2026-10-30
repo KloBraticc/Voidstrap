@@ -9321,4 +9321,49 @@ Mods sobrepostos podem fazer o Roblox parecer ou se comportar de forma incomum, 
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>{0} salvo, o mod está sendo recarregado</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>Arquivo</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>Exibir</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>Compilar</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>Teste</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>Salvar tudo</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>Desfazer</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>Refazer</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>Recortar</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>Copiar</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>Colar</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>Localizar</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>Gerenciador de Soluções</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>Saída</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>Pronto</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>Pesquisar no Gerenciador de Soluções</value>
+  </data>
 </root>

@@ -9320,4 +9320,49 @@ Overlappande moddar kan fa Roblox att se ut eller bete sig markligt, men det kan
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>{0} sparad, modden laddas om</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>Arkiv</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>Visa</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>Bygg</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>Spara alla</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>Ångra</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>Gör om</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>Klipp ut</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>Kopiera</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>Klistra in</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>Sök</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>Solution Explorer</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>Utdata</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>Klar</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>Sök i Solution Explorer</value>
+  </data>
 </root>

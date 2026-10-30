@@ -9319,4 +9319,49 @@ Az egymasra epulo modok miatt a Roblox furcsan nezhet ki vagy viselkedhet, de a 
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>{0} mentve, a mod újratöltődik</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>Fájl</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>Nézet</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>Összeállítás</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>Teszt</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>Összes mentése</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>Visszavonás</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>Újra</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>Kivágás</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>Másolás</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>Beillesztés</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>Keresés</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>Megoldáskezelő</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>Kimenet</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>Kész</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>Keresés a Megoldáskezelőben</value>
+  </data>
 </root>

@@ -9321,4 +9321,49 @@ Persidengiantys modai gali pakeisti Roblox isvaizda ar elgesi, taciau tai nesuga
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>{0} išsaugota, modas įkeliamas iš naujo</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>Failas</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>Rodymas</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>Kūrimas</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>Testas</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>Įrašyti viską</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>Anuliuoti</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>Kartoti</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>Iškirpti</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>Kopijuoti</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>Įklijuoti</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>Rasti</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>Sprendimų naršyklė</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>Išvestis</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>Parengta</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>Ieškoti sprendimų naršyklėje</value>
+  </data>
 </root>

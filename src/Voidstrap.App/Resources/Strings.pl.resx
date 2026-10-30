@@ -9320,4 +9320,49 @@ Nakladajace sie mody moga sprawic, ze Roblox bedzie wygladac lub dzialac nietypo
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>Zapisano {0}, mod jest przeładowywany</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>Plik</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>Widok</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>Kompilacja</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>Zapisz wszystko</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>Cofnij</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>Ponów</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>Wytnij</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>Kopiuj</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>Wklej</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>Znajdź</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>Eksplorator rozwiązań</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>Dane wyjściowe</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>Gotowe</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>Szukaj w Eksploratorze rozwiązań</value>
+  </data>
 </root>

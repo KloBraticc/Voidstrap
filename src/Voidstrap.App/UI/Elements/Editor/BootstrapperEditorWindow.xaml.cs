@@ -197,6 +197,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow
         _viewModel.Code = text2;
         base.DataContext = _viewModel;
         InitializeComponent();
+        Voidstrap.UI.Elements.Editor.VisualStudioTheme.Apply(this);
         InitialiseCodeEditor();
         UIXML.Text = _viewModel.Code;
         UIXML.TextChanged += OnCodeChanged;

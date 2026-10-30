@@ -9550,6 +9550,36 @@ namespace Voidstrap.Resources {
             }
         }
 
+        public static string Ui_VsEditor_File => ResourceManager.GetString("Ui.VsEditor.File", resourceCulture);
+
+        public static string Ui_VsEditor_View => ResourceManager.GetString("Ui.VsEditor.View", resourceCulture);
+
+        public static string Ui_VsEditor_Build => ResourceManager.GetString("Ui.VsEditor.Build", resourceCulture);
+
+        public static string Ui_VsEditor_Test => ResourceManager.GetString("Ui.VsEditor.Test", resourceCulture);
+
+        public static string Ui_VsEditor_SaveAll => ResourceManager.GetString("Ui.VsEditor.SaveAll", resourceCulture);
+
+        public static string Ui_VsEditor_Undo => ResourceManager.GetString("Ui.VsEditor.Undo", resourceCulture);
+
+        public static string Ui_VsEditor_Redo => ResourceManager.GetString("Ui.VsEditor.Redo", resourceCulture);
+
+        public static string Ui_VsEditor_Cut => ResourceManager.GetString("Ui.VsEditor.Cut", resourceCulture);
+
+        public static string Ui_VsEditor_Copy => ResourceManager.GetString("Ui.VsEditor.Copy", resourceCulture);
+
+        public static string Ui_VsEditor_Paste => ResourceManager.GetString("Ui.VsEditor.Paste", resourceCulture);
+
+        public static string Ui_VsEditor_Find => ResourceManager.GetString("Ui.VsEditor.Find", resourceCulture);
+
+        public static string Ui_VsEditor_SolutionExplorer => ResourceManager.GetString("Ui.VsEditor.SolutionExplorer", resourceCulture);
+
+        public static string Ui_VsEditor_Output => ResourceManager.GetString("Ui.VsEditor.Output", resourceCulture);
+
+        public static string Ui_VsEditor_Ready => ResourceManager.GetString("Ui.VsEditor.Ready", resourceCulture);
+
+        public static string Ui_VsEditor_SearchExplorer => ResourceManager.GetString("Ui.VsEditor.SearchExplorer", resourceCulture);
+
         public static string Ui_ModCode_Title => ResourceManager.GetString("Ui.ModCode.Title", resourceCulture);
 
         public static string Ui_ModCode_Header => ResourceManager.GetString("Ui.ModCode.Header", resourceCulture);

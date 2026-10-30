@@ -9318,4 +9318,49 @@ Voidstrap은 설치 전에 모든 파일을 라이브러리와 대조하고, 모
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>{0} 저장됨, 모드를 다시 로드하는 중입니다</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>파일</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>보기</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>빌드</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>테스트</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>모두 저장</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>실행 취소</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>다시 실행</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>잘라내기</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>복사</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>붙여넣기</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>찾기</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>솔루션 탐색기</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>출력</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>준비</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>솔루션 탐색기 검색</value>
+  </data>
 </root>

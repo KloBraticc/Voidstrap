@@ -9320,4 +9320,49 @@ Ueberlappende Mods koennen dazu fuehren, dass Roblox seltsam aussieht oder sich 
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>{0} gespeichert, die Mod wird neu geladen</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>Datei</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>Ansicht</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>Erstellen</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>Alle speichern</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>Rückgängig</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>Wiederholen</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>Ausschneiden</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>Kopieren</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>Einfügen</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>Suchen</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>Projektmappen Explorer</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>Ausgabe</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>Bereit</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>Projektmappen Explorer durchsuchen</value>
+  </data>
 </root>

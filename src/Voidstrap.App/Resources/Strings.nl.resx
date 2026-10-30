@@ -9321,4 +9321,49 @@ Overlappende mods kunnen ervoor zorgen dat Roblox er vreemd uitziet of werkt, ma
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>{0} opgeslagen, de mod wordt opnieuw geladen</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>Bestand</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>Beeld</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>Bouwen</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>Alles opslaan</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>Ongedaan maken</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>Opnieuw</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>Knippen</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>Kopiëren</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>Plakken</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>Zoeken</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>Solution Explorer</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>Uitvoer</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>Gereed</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>Zoeken in Solution Explorer</value>
+  </data>
 </root>

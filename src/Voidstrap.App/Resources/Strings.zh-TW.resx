@@ -9323,4 +9323,49 @@ Voidstrap 會在安裝前依照模組庫核對每個檔案,並在啟用模組前
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>已儲存 {0}，正在重新載入模組</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>檔案</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>檢視</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>建置</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>測試</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>全部儲存</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>復原</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>重做</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>剪下</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>複製</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>貼上</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>尋找</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>方案總管</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>輸出</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>就緒</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>搜尋方案總管</value>
+  </data>
 </root>

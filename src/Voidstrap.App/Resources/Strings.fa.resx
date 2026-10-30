@@ -9322,4 +9322,49 @@ Voidstrap پیش از نصب هر فایل را با کتابخانه مقایس
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>{0} ذخیره شد، ماد دوباره بارگذاری می‌شود</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>فایل</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>نما</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>ساخت</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>آزمایش</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>ذخیره همه</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>واگرد</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>ازنو</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>برش</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>کپی</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>چسباندن</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>یافتن</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>کاوشگر راه‌حل</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>خروجی</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>آماده</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>جستجو در کاوشگر راه‌حل</value>
+  </data>
 </root>

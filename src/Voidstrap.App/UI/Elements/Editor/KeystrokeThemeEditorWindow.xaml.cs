@@ -31,6 +31,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
     public KeystrokeThemeEditorWindow(string themeName)
     {
         InitializeComponent();
+        Voidstrap.UI.Elements.Editor.VisualStudioTheme.Apply(this);
 
         _themeName = themeName;
         _originalTheme = KeystrokeThemeManager.GetTheme(themeName);

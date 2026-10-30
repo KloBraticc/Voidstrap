@@ -9321,4 +9321,49 @@ Paallekkaiset modit voivat saada Robloxiin outoa ulkoasua tai toimintaa, mutta t
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>{0} tallennettu, modi ladataan uudelleen</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>Tiedosto</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>Näytä</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>Koonti</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>Testi</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>Tallenna kaikki</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>Kumoa</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>Tee uudelleen</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>Leikkaa</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>Kopioi</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>Liitä</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>Etsi</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>Ratkaisunhallinta</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>Tuloste</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>Valmis</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>Hae ratkaisunhallinnasta</value>
+  </data>
 </root>

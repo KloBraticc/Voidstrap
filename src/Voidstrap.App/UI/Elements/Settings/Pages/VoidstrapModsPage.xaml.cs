@@ -1142,7 +1142,7 @@ public partial class VoidstrapModsPage : UiPage
 
     private void ModCode_Click(object sender, RoutedEventArgs e)
     {
-        new Voidstrap.UI.Elements.Dialogs.ModCodeWindow().ShowOwnedDialog();
+        new Voidstrap.UI.Elements.Editor.VoidstrapModEditorWindow().ShowOwnedDialog();
     }
 
     private async void DeleteMod_Click(object sender, RoutedEventArgs e)

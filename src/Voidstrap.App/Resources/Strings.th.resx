@@ -9315,4 +9315,49 @@ Voidstrap จะตรวจสอบทุกไฟล์กับคลัง�
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>บันทึก {0} แล้ว กำลังโหลดม็อดใหม่</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>ไฟล์</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>มุมมอง</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>สร้าง</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>ทดสอบ</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>บันทึกทั้งหมด</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>เลิกทำ</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>ทำซ้ำ</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>ตัด</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>คัดลอก</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>วาง</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>ค้นหา</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>Solution Explorer</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>เอาต์พุต</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>พร้อม</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>ค้นหาใน Solution Explorer</value>
+  </data>
 </root>

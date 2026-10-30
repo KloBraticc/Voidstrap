@@ -9323,4 +9323,49 @@ Cac mod bi chong cheo co the khien Roblox hien thi hoac hoat dong bat thuong, nh
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>Đã lưu {0}, đang tải lại mod</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>Tệp</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>Xem</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>Dựng</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>Kiểm thử</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>Lưu tất cả</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>Hoàn tác</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>Làm lại</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>Cắt</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>Sao chép</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>Dán</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>Tìm</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>Solution Explorer</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>Đầu ra</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>Sẵn sàng</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>Tìm trong Solution Explorer</value>
+  </data>
 </root>

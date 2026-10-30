@@ -42,6 +42,7 @@ public partial class ModEditorWindow : WpfUiWindow
         _recordId = recordId;
         _pack = pack;
         InitializeComponent();
+        Voidstrap.UI.Elements.Editor.VisualStudioTheme.Apply(this);
         ModTitle.Text = name;
         Loaded += OnLoaded;
         Closed += OnClosed;

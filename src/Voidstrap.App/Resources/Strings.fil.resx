@@ -9318,4 +9318,49 @@ Ang magkakapatong na mod ay maaaring magdulot ng kakaibang hitsura o gawi sa Rob
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>Na-save ang {0}, nire-reload na ang mod</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>Build</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>I-save Lahat</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>I-undo</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>I-redo</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>I-cut</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>Kopyahin</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>I-paste</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>Hanapin</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>Solution Explorer</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>Output</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>Handa</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>Maghanap sa Solution Explorer</value>
+  </data>
 </root>

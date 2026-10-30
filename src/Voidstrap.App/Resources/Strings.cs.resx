@@ -9321,4 +9321,49 @@ Prekryvajici se mody mohou zpusobit zvlastni vzhled nebo chovani Robloxu, ale ne
   <data name="Ui.ModCode.Saved" xml:space="preserve">
     <value>{0} uloženo, mod se znovu načítá</value>
   </data>
+  <data name="Ui.VsEditor.File" xml:space="preserve">
+    <value>Soubor</value>
+  </data>
+  <data name="Ui.VsEditor.View" xml:space="preserve">
+    <value>Zobrazit</value>
+  </data>
+  <data name="Ui.VsEditor.Build" xml:space="preserve">
+    <value>Sestavit</value>
+  </data>
+  <data name="Ui.VsEditor.Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="Ui.VsEditor.SaveAll" xml:space="preserve">
+    <value>Uložit vše</value>
+  </data>
+  <data name="Ui.VsEditor.Undo" xml:space="preserve">
+    <value>Zpět</value>
+  </data>
+  <data name="Ui.VsEditor.Redo" xml:space="preserve">
+    <value>Znovu</value>
+  </data>
+  <data name="Ui.VsEditor.Cut" xml:space="preserve">
+    <value>Vyjmout</value>
+  </data>
+  <data name="Ui.VsEditor.Copy" xml:space="preserve">
+    <value>Kopírovat</value>
+  </data>
+  <data name="Ui.VsEditor.Paste" xml:space="preserve">
+    <value>Vložit</value>
+  </data>
+  <data name="Ui.VsEditor.Find" xml:space="preserve">
+    <value>Najít</value>
+  </data>
+  <data name="Ui.VsEditor.SolutionExplorer" xml:space="preserve">
+    <value>Průzkumník řešení</value>
+  </data>
+  <data name="Ui.VsEditor.Output" xml:space="preserve">
+    <value>Výstup</value>
+  </data>
+  <data name="Ui.VsEditor.Ready" xml:space="preserve">
+    <value>Připraveno</value>
+  </data>
+  <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
+    <value>Hledat v Průzkumníku řešení</value>
+  </data>
 </root>

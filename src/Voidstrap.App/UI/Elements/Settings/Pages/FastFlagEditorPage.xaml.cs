@@ -197,6 +197,7 @@ public partial class FastFlagEditorPage : UiPage
     public FastFlagEditorPage()
     {
         InitializeComponent();
+        Voidstrap.UI.Elements.Editor.VisualStudioTheme.Apply(this);
         TogglePresetsButton.IsChecked = true;
         _searchDebounce = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(SearchDebounceMs) };
         HistoryListBox.ItemsSource = _flagHistory;
