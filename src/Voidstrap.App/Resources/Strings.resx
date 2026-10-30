@@ -8983,4 +8983,28 @@ Overlapping mods can make Roblox look or behave oddly, but this cannot crash Voi
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Clear problems</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Voidstrap Mod Code</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Every Voidstrap mod file</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Browse and edit the code of every installed Voidstrap mod. Saved changes reload the mod right away.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} files across {1} mods</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>No Voidstrap mods are installed yet</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Mod Code</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Browse and edit the code of your Voidstrap mods</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} saved, the mod reloads now</value>
+  </data>
 </root>

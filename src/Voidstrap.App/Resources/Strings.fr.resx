@@ -9295,4 +9295,28 @@ Le chevauchement de mods peut donner a Roblox une apparence ou un comportement i
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Effacer les problèmes</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Code des mods Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Tous les fichiers des mods Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Parcourez et modifiez le code de chaque mod Voidstrap installé. Les modifications enregistrées rechargent le mod aussitôt.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} fichiers dans {1} mods</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Aucun mod Voidstrap installé pour le moment</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Code des mods</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Parcourez et modifiez le code de vos mods Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} enregistré, le mod se recharge</value>
+  </data>
 </root>

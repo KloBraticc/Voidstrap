@@ -9287,4 +9287,28 @@ Mod yang bertindih boleh membuatkan Roblox kelihatan atau berkelakuan ganjil, te
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Kosongkan masalah</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Kod Mod Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Semua fail mod Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Semak imbas dan edit kod setiap mod Voidstrap yang dipasang. Perubahan yang disimpan memuat semula mod dengan serta-merta.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} fail dalam {1} mod</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Belum ada mod Voidstrap dipasang</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Kod Mod</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Semak imbas dan edit kod mod Voidstrap anda</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} disimpan, mod sedang dimuat semula</value>
+  </data>
 </root>

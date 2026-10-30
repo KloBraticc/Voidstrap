@@ -9298,4 +9298,28 @@ La sovrapposizione di mod puo causare anomalie visive o di comportamento in Robl
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Cancella i problemi</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Codice delle mod Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Tutti i file delle mod Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Sfoglia e modifica il codice di ogni mod Voidstrap installata. Le modifiche salvate ricaricano subito la mod.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} file in {1} mod</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Nessuna mod Voidstrap ancora installata</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Codice mod</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Sfoglia e modifica il codice delle tue mod Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} salvato, la mod si sta ricaricando</value>
+  </data>
 </root>

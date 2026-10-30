@@ -9294,4 +9294,28 @@ Birbiriyle cakisan modlar Roblox un tuhaf gorunmesine veya davranmasina yol acab
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Sorunları temizle</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Voidstrap mod kodu</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Tüm Voidstrap mod dosyaları</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Yüklü her Voidstrap modunun kodunu görüntüleyin ve düzenleyin. Kaydedilen değişiklikler modu hemen yeniden yükler.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{1} modda {0} dosya</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Henüz yüklü Voidstrap modu yok</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Mod Kodu</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Voidstrap modlarınızın kodunu görüntüleyin ve düzenleyin</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} kaydedildi, mod yeniden yükleniyor</value>
+  </data>
 </root>

@@ -9320,4 +9320,28 @@ Voidstrap 会在安装前根据模组库核对每个文件,并在启用模组前
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>清除问题</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Voidstrap 模组代码</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>所有 Voidstrap 模组文件</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>浏览并编辑每个已安装 Voidstrap 模组的代码。保存更改后模组会立即重新加载。</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{1} 个模组中的 {0} 个文件</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>尚未安装 Voidstrap 模组</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>模组代码</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>浏览并编辑您的 Voidstrap 模组代码</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>已保存 {0}，正在重新加载模组</value>
+  </data>
 </root>

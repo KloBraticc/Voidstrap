@@ -9296,4 +9296,28 @@ Ueberlappende Mods koennen dazu fuehren, dass Roblox seltsam aussieht oder sich 
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Probleme löschen</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Voidstrap Mod Code</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Alle Dateien der Voidstrap Mods</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Durchsuche und bearbeite den Code jeder installierten Voidstrap Mod. Gespeicherte Änderungen laden die Mod sofort neu.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} Dateien in {1} Mods</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Noch keine Voidstrap Mods installiert</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Mod Code</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Durchsuche und bearbeite den Code deiner Voidstrap Mods</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} gespeichert, die Mod wird neu geladen</value>
+  </data>
 </root>

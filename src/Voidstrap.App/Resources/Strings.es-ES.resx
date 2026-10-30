@@ -9296,4 +9296,28 @@ Los mods superpuestos pueden hacer que Roblox se vea o funcione de forma extrana
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Borrar problemas</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Código de mods de Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Todos los archivos de mods de Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Explora y edita el código de cada mod de Voidstrap instalado. Los cambios guardados recargan el mod al instante.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} archivos en {1} mods</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Aún no hay mods de Voidstrap instalados</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Código de mods</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Explora y edita el código de tus mods de Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} guardado, el mod se está recargando</value>
+  </data>
 </root>

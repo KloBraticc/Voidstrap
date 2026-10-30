@@ -9298,4 +9298,28 @@ Voidstrap پیش از نصب هر فایل را با کتابخانه مقایس
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>پاک کردن مشکلات</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>کد مادهای Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>همه فایل‌های مادهای Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>کد هر ماد نصب‌شده Voidstrap را مرور و ویرایش کنید. تغییرات ذخیره‌شده ماد را فوراً دوباره بارگذاری می‌کنند.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} فایل در {1} ماد</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>هنوز هیچ ماد Voidstrap نصب نشده است</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>کد مادها</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>کد مادهای Voidstrap خود را مرور و ویرایش کنید</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} ذخیره شد، ماد دوباره بارگذاری می‌شود</value>
+  </data>
 </root>

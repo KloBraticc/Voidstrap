@@ -9297,4 +9297,28 @@ Persidengiantys modai gali pakeisti Roblox isvaizda ar elgesi, taciau tai nesuga
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Išvalyti problemas</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Voidstrap modų kodas</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Visi Voidstrap modų failai</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Naršykite ir redaguokite kiekvieno įdiegto Voidstrap modo kodą. Išsaugoti pakeitimai iškart iš naujo įkelia modą.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} failų, {1} modų</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Dar neįdiegta jokių Voidstrap modų</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Modų kodas</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Naršykite ir redaguokite savo Voidstrap modų kodą</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} išsaugota, modas įkeliamas iš naujo</value>
+  </data>
 </root>

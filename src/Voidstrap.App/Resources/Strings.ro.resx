@@ -9297,4 +9297,28 @@ Modurile care se suprapun pot face Roblox sa aiba un aspect neobisnuit, dar aces
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Șterge problemele</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Codul modurilor Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Toate fișierele modurilor Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Răsfoiește și editează codul fiecărui mod Voidstrap instalat. Modificările salvate reîncarcă imediat modul.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} fișiere în {1} moduri</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Nu există încă moduri Voidstrap instalate</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Codul modurilor</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Răsfoiește și editează codul modurilor tale Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} salvat, modul se reîncarcă</value>
+  </data>
 </root>

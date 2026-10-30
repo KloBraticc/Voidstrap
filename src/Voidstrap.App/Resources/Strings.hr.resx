@@ -9295,4 +9295,28 @@ Preklapanje modova moze uciniti da Roblox izgleda ili se ponasa neobicno, ali to
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Očisti probleme</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Kod Voidstrap modova</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Sve datoteke Voidstrap modova</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Pregledaj i uredi kod svakog instaliranog Voidstrap moda. Spremljene promjene odmah ponovno učitavaju mod.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} datoteka u {1} modova</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Još nema instaliranih Voidstrap modova</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Kod modova</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Pregledaj i uredi kod svojih Voidstrap modova</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} spremljeno, mod se ponovno učitava</value>
+  </data>
 </root>

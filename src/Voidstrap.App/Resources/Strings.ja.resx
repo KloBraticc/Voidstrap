@@ -9310,4 +9310,28 @@ Mod の重複により Roblox の表示や動作に異常が生じる場合が�
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>問題をクリア</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Voidstrap Mod のコード</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>すべての Voidstrap Mod ファイル</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>インストール済みの Voidstrap Mod のコードを閲覧、編集できます。保存すると Mod がすぐに再読み込みされます。</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{1} 個の Mod に {0} 個のファイル</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Voidstrap Mod はまだインストールされていません</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Mod コード</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Voidstrap Mod のコードを閲覧、編集します</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} を保存しました。Mod を再読み込みしています</value>
+  </data>
 </root>

@@ -9297,4 +9297,28 @@ Prekryvajici se mody mohou zpusobit zvlastni vzhled nebo chovani Robloxu, ale ne
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Vymazat problémy</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Kód modů Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Všechny soubory modů Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Procházejte a upravujte kód všech nainstalovaných modů Voidstrap. Uložené změny mod ihned znovu načtou.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} souborů v {1} modech</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Zatím nejsou nainstalovány žádné mody Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Kód modů</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Procházejte a upravujte kód svých modů Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} uloženo, mod se znovu načítá</value>
+  </data>
 </root>

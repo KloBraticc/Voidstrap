@@ -9294,4 +9294,28 @@ Voidstrap перед встановленням звіряє кожен файл
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Очистити проблеми</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Код модів Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Усі файли модів Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Переглядайте та редагуйте код кожного встановленого мода Voidstrap. Збережені зміни одразу перезавантажують мод.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>Файлів: {0}, модів: {1}</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Моди Voidstrap ще не встановлено</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Код модів</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Переглядайте та редагуйте код Ваших модів Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} збережено, мод перезавантажується</value>
+  </data>
 </root>

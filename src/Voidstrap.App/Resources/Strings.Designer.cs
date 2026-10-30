@@ -9550,6 +9550,22 @@ namespace Voidstrap.Resources {
             }
         }
 
+        public static string Ui_ModCode_Title => ResourceManager.GetString("Ui.ModCode.Title", resourceCulture);
+
+        public static string Ui_ModCode_Header => ResourceManager.GetString("Ui.ModCode.Header", resourceCulture);
+
+        public static string Ui_ModCode_Description => ResourceManager.GetString("Ui.ModCode.Description", resourceCulture);
+
+        public static string Ui_ModCode_Hint => ResourceManager.GetString("Ui.ModCode.Hint", resourceCulture);
+
+        public static string Ui_ModCode_Empty => ResourceManager.GetString("Ui.ModCode.Empty", resourceCulture);
+
+        public static string Ui_ModCode_OpenButton => ResourceManager.GetString("Ui.ModCode.OpenButton", resourceCulture);
+
+        public static string Ui_ModCode_OpenButtonTooltip => ResourceManager.GetString("Ui.ModCode.OpenButtonTooltip", resourceCulture);
+
+        public static string Ui_ModCode_Saved => ResourceManager.GetString("Ui.ModCode.Saved", resourceCulture);
+
         public static string Ui_AppCode_Title {
             get {
                 return ResourceManager.GetString("Ui.AppCode.Title", resourceCulture);

@@ -9294,4 +9294,28 @@ Ang magkakapatong na mod ay maaaring magdulot ng kakaibang hitsura o gawi sa Rob
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>I-clear ang mga problema</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Code ng mga Voidstrap Mod</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Lahat ng file ng Voidstrap mod</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>I-browse at i-edit ang code ng bawat naka-install na Voidstrap mod. Agad na nire-reload ng mga na-save na pagbabago ang mod.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} file sa {1} mod</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Wala pang naka-install na Voidstrap mod</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Code ng Mod</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>I-browse at i-edit ang code ng iyong mga Voidstrap mod</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>Na-save ang {0}, nire-reload na ang mod</value>
+  </data>
 </root>

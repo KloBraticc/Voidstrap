@@ -9291,4 +9291,28 @@ Voidstrap จะตรวจสอบทุกไฟล์กับคลัง�
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>ล้างปัญหา</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>โค้ดม็อด Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>ไฟล์ม็อด Voidstrap ทั้งหมด</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>เรียกดูและแก้ไขโค้ดของม็อด Voidstrap ทุกตัวที่ติดตั้ง การเปลี่ยนแปลงที่บันทึกจะโหลดม็อดใหม่ทันที</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} ไฟล์ใน {1} ม็อด</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>ยังไม่ได้ติดตั้งม็อด Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>โค้ดม็อด</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>เรียกดูและแก้ไขโค้ดม็อด Voidstrap ของคุณ</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>บันทึก {0} แล้ว กำลังโหลดม็อดใหม่</value>
+  </data>
 </root>

@@ -1,4 +1,4 @@
-<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Dialogs.AppCodeWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" Title="{resources:Loc Ui_AppCode_Title}" Width="1120" Height="760" MinWidth="820" MinHeight="520" ExtendsContentIntoTitleBar="True" WindowStartupLocation="CenterOwner" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Dialogs.ModCodeWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" Title="{resources:Loc Ui_ModCode_Title}" Width="1120" Height="760" MinWidth="820" MinHeight="520" ExtendsContentIntoTitleBar="True" WindowStartupLocation="CenterOwner" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
   <Grid>
     <Panel.Background>
       <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
@@ -14,11 +14,11 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Title="{resources:Loc Ui_AppCode_Title}" Grid.Row="0" Padding="8" CanMaximize="True" KeyboardNavigation.TabNavigation="None" />
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Title="{resources:Loc Ui_ModCode_Title}" Grid.Row="0" Padding="8" CanMaximize="True" KeyboardNavigation.TabNavigation="None" />
 
     <StackPanel Grid.Row="1" Margin="20,4,20,8">
-      <TextBlock FontSize="20" FontWeight="SemiBold" Text="{resources:Loc Ui_AppCode_Header}" />
-      <TextBlock Margin="0,4,0,0" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_AppCode_Description}" />
+      <TextBlock FontSize="20" FontWeight="SemiBold" Text="{resources:Loc Ui_ModCode_Header}" />
+      <TextBlock Margin="0,4,0,0" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_ModCode_Description}" />
       <TextBlock x:Name="SourceHint" Margin="0,6,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
     </StackPanel>
 
@@ -26,7 +26,7 @@
       <ui:TextBox x:Name="SearchBox" Width="420" Height="34" VerticalContentAlignment="Center" Icon="Search24" ClearButtonEnabled="True" PlaceholderText="{resources:Loc Ui_AppCode_SearchPlaceholder}" KeyDown="Search_KeyDown" />
       <ui:Button Height="34" Margin="8,0,8,0" Icon="Search24" Content="{resources:Loc Ui_AppCode_Search}" Click="Search_Click" />
       <ui:Button x:Name="BrowseButton" Height="34" Margin="0,0,8,0" Icon="Folder24" Content="{resources:Loc Ui_AppCode_BrowseFiles}" Click="Browse_Click" Visibility="Collapsed" />
-      <ui:Button Height="34" Icon="ArrowExportLtr24" Content="{resources:Loc Ui_AppCode_ExportAll}" Click="Export_Click" ToolTip="{resources:Loc Ui_AppCode_ExportAllTooltip}" />
+      <ui:Button Height="34" Icon="FolderOpen24" Content="{resources:Loc Ui_VoidstrapMods_OpenFolder}" Click="OpenFolder_Click" />
     </StackPanel>
 
     <Grid Grid.Row="3" Margin="20,0,20,8">
@@ -40,7 +40,7 @@
         <Grid>
           <TreeView x:Name="FileTree" Padding="8" ScrollViewer.VerticalScrollBarVisibility="Auto" />
           <ListBox x:Name="SearchResults" Padding="8" ScrollViewer.VerticalScrollBarVisibility="Auto" Visibility="Collapsed" SelectionChanged="SearchResult_Selected" />
-          <TextBlock x:Name="TreeEmpty" Margin="16" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Visibility="Collapsed" Text="{resources:Loc Ui_AppCode_SourceUnavailable}" />
+          <TextBlock x:Name="TreeEmpty" Margin="16" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Visibility="Collapsed" Text="{resources:Loc Ui_ModCode_Empty}" />
         </Grid>
       </Border>
 
@@ -54,10 +54,8 @@
             <RowDefinition Height="Auto" />
           </Grid.RowDefinitions>
           <StackPanel Grid.Row="0" Margin="12,10,12,8" Orientation="Horizontal">
-            <ui:Button x:Name="SaveButton" Height="32" Margin="0,0,8,0" Icon="Save24" Content="{resources:Loc Ui_AppCode_SaveCopy}" Click="Save_Click" IsEnabled="False" />
-            <ui:Button x:Name="ResetButton" Height="32" Margin="0,0,8,0" Icon="ArrowClockwise24" Content="{resources:Loc Ui_AppCode_ResetToOriginal}" Click="Reset_Click" IsEnabled="False" />
-            <TextBlock x:Name="EditedBadge" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Visibility="Collapsed" Text="{resources:Loc Ui_AppCode_EditedBadge}" />
-          </StackPanel>
+            <ui:Button x:Name="SaveButton" Height="32" Margin="0,0,8,0" Icon="Save24" Content="{resources:Loc Common_Save}" Click="Save_Click" IsEnabled="False" />
+            </StackPanel>
           <TextBox x:Name="CodeEditor" Grid.Row="1" Margin="12,0,12,0" FontFamily="Cascadia Mono, Consolas" FontSize="13" AcceptsReturn="True" AcceptsTab="True" IsReadOnly="True" VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" TextChanged="CodeEditor_TextChanged" Background="Transparent" BorderThickness="0" />
           <TextBlock x:Name="EditorStatus" Grid.Row="2" Margin="12,6,12,10" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextTrimming="CharacterEllipsis" Text="{resources:Loc Ui_AppCode_EditorEmpty}" />
         </Grid>

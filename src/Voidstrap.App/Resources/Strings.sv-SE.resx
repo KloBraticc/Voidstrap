@@ -9296,4 +9296,28 @@ Overlappande moddar kan fa Roblox att se ut eller bete sig markligt, men det kan
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Rensa problem</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Voidstrap modkod</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Alla filer för Voidstrap mods</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Bläddra i och redigera koden för varje installerad Voidstrap mod. Sparade ändringar laddar om modden direkt.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} filer i {1} mods</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Inga Voidstrap mods har installerats än</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Modkod</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Bläddra i och redigera koden för dina Voidstrap mods</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} sparad, modden laddas om</value>
+  </data>
 </root>

@@ -9295,4 +9295,28 @@ Az egymasra epulo modok miatt a Roblox furcsan nezhet ki vagy viselkedhet, de a 
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Problémák törlése</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Voidstrap modok kódja</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Az összes Voidstrap mod fájl</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Böngészd és szerkeszd minden telepített Voidstrap mod kódját. A mentett változások azonnal újratöltik a modot.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} fájl, {1} mod</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Még nincs telepített Voidstrap mod</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Mod kód</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Böngészd és szerkeszd a Voidstrap modjaid kódját</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} mentve, a mod újratöltődik</value>
+  </data>
 </root>

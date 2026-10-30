@@ -9297,4 +9297,28 @@ Overlappende mods kunnen ervoor zorgen dat Roblox er vreemd uitziet of werkt, ma
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Problemen wissen</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Voidstrap modcode</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Alle bestanden van Voidstrap mods</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Blader door de code van elke geïnstalleerde Voidstrap mod en bewerk deze. Opgeslagen wijzigingen laden de mod meteen opnieuw.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} bestanden in {1} mods</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Er zijn nog geen Voidstrap mods geïnstalleerd</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Modcode</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Blader door de code van je Voidstrap mods en bewerk deze</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} opgeslagen, de mod wordt opnieuw geladen</value>
+  </data>
 </root>

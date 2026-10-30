@@ -9296,4 +9296,28 @@ Nakladajace sie mody moga sprawic, ze Roblox bedzie wygladac lub dzialac nietypo
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Wyczyść problemy</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Kod modów Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Wszystkie pliki modów Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Przeglądaj i edytuj kod każdego zainstalowanego moda Voidstrap. Zapisane zmiany od razu przeładowują moda.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} plików w {1} modach</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Nie zainstalowano jeszcze modów Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Kod modów</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Przeglądaj i edytuj kod swoich modów Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>Zapisano {0}, mod jest przeładowywany</value>
+  </data>
 </root>

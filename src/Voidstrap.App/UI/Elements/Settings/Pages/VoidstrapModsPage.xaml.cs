@@ -1110,9 +1110,9 @@ public partial class VoidstrapModsPage : UiPage
             OpenModInEditor(modName);
     }
 
-    private void AppCode_Click(object sender, RoutedEventArgs e)
+    private void ModCode_Click(object sender, RoutedEventArgs e)
     {
-        new Voidstrap.UI.Elements.Dialogs.AppCodeWindow().ShowOwnedDialog();
+        new Voidstrap.UI.Elements.Dialogs.ModCodeWindow().ShowOwnedDialog();
     }
 
     private async void DeleteMod_Click(object sender, RoutedEventArgs e)

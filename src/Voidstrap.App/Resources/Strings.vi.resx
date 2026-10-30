@@ -9299,4 +9299,28 @@ Cac mod bi chong cheo co the khien Roblox hien thi hoac hoat dong bat thuong, nh
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Xóa sự cố</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Mã mod Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Tất cả tệp mod Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Duyệt và chỉnh sửa mã của mọi mod Voidstrap đã cài. Thay đổi đã lưu sẽ tải lại mod ngay.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} tệp trong {1} mod</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Chưa cài mod Voidstrap nào</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Mã mod</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Duyệt và chỉnh sửa mã các mod Voidstrap của bạn</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>Đã lưu {0}, đang tải lại mod</value>
+  </data>
 </root>

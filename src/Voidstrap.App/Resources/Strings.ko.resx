@@ -9294,4 +9294,28 @@ Voidstrap은 설치 전에 모든 파일을 라이브러리와 대조하고, 모
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>문제 지우기</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Voidstrap 모드 코드</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>모든 Voidstrap 모드 파일</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>설치된 모든 Voidstrap 모드의 코드를 탐색하고 편집합니다. 변경 사항을 저장하면 모드가 바로 다시 로드됩니다.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>모드 {1}개, 파일 {0}개</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>설치된 Voidstrap 모드가 아직 없습니다</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>모드 코드</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Voidstrap 모드의 코드를 탐색하고 편집합니다</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} 저장됨, 모드를 다시 로드하는 중입니다</value>
+  </data>
 </root>

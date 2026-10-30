@@ -9298,4 +9298,28 @@ Mod yang saling tumpang tindih dapat membuat Roblox terlihat atau berperilaku an
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Hapus masalah</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Kode Mod Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Semua file mod Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Jelajahi dan edit kode setiap mod Voidstrap yang terpasang. Perubahan yang disimpan langsung memuat ulang mod.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} file di {1} mod</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Belum ada mod Voidstrap yang terpasang</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Kode Mod</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Jelajahi dan edit kode mod Voidstrap Anda</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} disimpan, mod sedang dimuat ulang</value>
+  </data>
 </root>

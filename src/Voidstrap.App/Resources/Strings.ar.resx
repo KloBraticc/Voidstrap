@@ -9295,4 +9295,28 @@
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>مسح المشكلات</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>كود تعديلات Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>كل ملفات تعديلات Voidstrap</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>تصفح وعدّل كود كل تعديل Voidstrap مثبت. تعيد التغييرات المحفوظة تحميل التعديل فورًا.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} ملف في {1} تعديل</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>لا توجد تعديلات Voidstrap مثبتة بعد</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>كود التعديلات</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>تصفح وعدّل كود تعديلات Voidstrap الخاصة بك</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>تم حفظ {0}، يُعاد تحميل التعديل الآن</value>
+  </data>
 </root>

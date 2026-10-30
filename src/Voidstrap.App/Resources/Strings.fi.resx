@@ -9297,4 +9297,28 @@ Paallekkaiset modit voivat saada Robloxiin outoa ulkoasua tai toimintaa, mutta t
   <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
     <value>Tyhjennä ongelmat</value>
   </data>
+  <data name="Ui.ModCode.Title" xml:space="preserve">
+    <value>Voidstrap-modien koodi</value>
+  </data>
+  <data name="Ui.ModCode.Header" xml:space="preserve">
+    <value>Kaikki Voidstrap-modien tiedostot</value>
+  </data>
+  <data name="Ui.ModCode.Description" xml:space="preserve">
+    <value>Selaa ja muokkaa jokaisen asennetun Voidstrap-modin koodia. Tallennetut muutokset lataavat modin heti uudelleen.</value>
+  </data>
+  <data name="Ui.ModCode.Hint" xml:space="preserve">
+    <value>{0} tiedostoa, {1} modia</value>
+  </data>
+  <data name="Ui.ModCode.Empty" xml:space="preserve">
+    <value>Voidstrap-modeja ei ole vielä asennettu</value>
+  </data>
+  <data name="Ui.ModCode.OpenButton" xml:space="preserve">
+    <value>Modien koodi</value>
+  </data>
+  <data name="Ui.ModCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Selaa ja muokkaa Voidstrap-modiesi koodia</value>
+  </data>
+  <data name="Ui.ModCode.Saved" xml:space="preserve">
+    <value>{0} tallennettu, modi ladataan uudelleen</value>
+  </data>
 </root>
