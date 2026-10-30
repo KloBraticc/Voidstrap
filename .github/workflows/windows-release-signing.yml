@@ -83,8 +83,9 @@ jobs:
           RELEASE_VERSION: ${{ steps.validate.outputs.version }}
         run: |
           $publishDir = Join-Path $env:RUNNER_TEMP 'voidstrap-publish'
+          $buildRoot = Join-Path $env:RUNNER_TEMP 'voidstrap-build'
           $artifactDir = Join-Path $env:RUNNER_TEMP 'voidstrap-unsigned'
-          dotnet publish src/Voidstrap.App/Voidstrap.csproj -c Release -r win-x64 --self-contained false "-p:Version=$env:RELEASE_VERSION" -p:PublishProfile=FolderProfile -p:PublishReadyToRun=false -p:IncludeAllContentForSelfExtract=false -p:PublishSingleFile=true -p:UseAppHost=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=none -p:DebugSymbols=false -p:ContinuousIntegrationBuild=true -p:IncludeSourceRevisionInInformationalVersion=false -p:RestoreUseStaticGraphEvaluation=true -p:TreatWarningsAsErrors=true -p:EnableWindowsTargeting=true -o $publishDir
+          dotnet publish src/Voidstrap.App/Voidstrap.csproj -c Release -r win-x64 --self-contained false "-p:Version=$env:RELEASE_VERSION" "-p:VoidstrapLinuxPackagingRoot=$buildRoot/" -p:PublishProfile=FolderProfile -p:PublishReadyToRun=false -p:IncludeAllContentForSelfExtract=false -p:PublishSingleFile=true -p:UseAppHost=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=none -p:DebugSymbols=false -p:ContinuousIntegrationBuild=true -p:IncludeSourceRevisionInInformationalVersion=false -p:RestoreUseStaticGraphEvaluation=true -p:TreatWarningsAsErrors=true -p:EnableWindowsTargeting=true -o $publishDir
           if ($LASTEXITCODE -ne 0) { throw 'Voidstrap publish failed.' }
 
           $exe = Join-Path $publishDir 'Voidstrap.exe'
