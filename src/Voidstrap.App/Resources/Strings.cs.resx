@@ -9415,4 +9415,7 @@ Voidstrap blokuje programy, ostatní složky a Vaše přihlášení k Roblox, al
 
 Povolit?</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>Výkonný mod</value>
+  </data>
 </root>

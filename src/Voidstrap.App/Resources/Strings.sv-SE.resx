@@ -9414,4 +9414,7 @@ Voidstrap blockerar program, andra mappar och din Roblox-inloggning, men inget s
 
 Tillåta?</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>Kraftfull modd</value>
+  </data>
 </root>

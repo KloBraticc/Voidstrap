@@ -9412,4 +9412,7 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
 
 허용하시겠습니까?</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>강력한 모드</value>
+  </data>
 </root>

@@ -9415,4 +9415,7 @@ Voidstrap blokkeert programma's, andere mappen en je Roblox-aanmelding, maar gee
 
 Toestaan?</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>Krachtige mod</value>
+  </data>
 </root>

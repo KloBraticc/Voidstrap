@@ -9405,4 +9405,7 @@ Voidstrap menyekat program, folder lain dan log masuk Roblox anda, tetapi tiada 
 
 Benarkan?</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>Mod berkuasa</value>
+  </data>
 </root>

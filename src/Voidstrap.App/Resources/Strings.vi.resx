@@ -9417,4 +9417,7 @@ Voidstrap chặn các chương trình, thư mục khác và thông tin đăng nh
 
 Cho phép?</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>Mod mạnh</value>
+  </data>
 </root>

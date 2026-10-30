@@ -336,7 +336,7 @@ internal static partial class ModLibraryReview
                 errors.Add("native, files and web cannot be combined with roblox-account");
             else if (permissions.Any(permission => permission?.ToString() is "native" or "files" or "web"))
                 reviews.Add(
-                    "asks for native, files or web access, the maintainer must read every line of this mod, and every later update, before merging"
+                    "asks for native, files or web access, it shows a Powerful mod badge and users get a timed warning, describe exactly why it needs this"
                 );
             else if (permissions.Count > 0)
                 reviews.Add(

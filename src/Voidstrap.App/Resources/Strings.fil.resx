@@ -9412,4 +9412,7 @@ Hinaharang ng Voidstrap ang mga program, ibang folder, at ang iyong Roblox login
 
 Payagan ba?</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>Makapangyarihang mod</value>
+  </data>
 </root>

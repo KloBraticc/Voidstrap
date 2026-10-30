@@ -125,12 +125,13 @@ internal static class PluginConsent
             System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
             if (dispatcher == null || dispatcher.HasShutdownStarted)
                 return false;
-            string prompt =
-                manifest.Name + " " + manifest.Version + Environment.NewLine + Environment.NewLine
-                + string.Join(", ", manifest.Permissions) + Environment.NewLine + Environment.NewLine
-                + Strings.Plugins_PowerfulModWarning;
             answer = await dispatcher
-                .InvokeAsync(() => Frontend.ShowMessageBox(prompt, MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) == MessageBoxResult.Yes)
+                .InvokeAsync(() =>
+                {
+                    Voidstrap.UI.Elements.Dialogs.PowerfulModDialog dialog = new(manifest.Name, manifest.Version, manifest.Permissions);
+                    dialog.ShowOwnedDialog();
+                    return dialog.Confirmed;
+                })
                 .Task.ConfigureAwait(true);
         }
         catch

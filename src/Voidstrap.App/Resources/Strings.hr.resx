@@ -9413,4 +9413,7 @@ Voidstrap blokira programe, druge mape i tvoju Roblox prijavu, ali nijedna zašt
 
 Dopustiti?</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>Moćan mod</value>
+  </data>
 </root>

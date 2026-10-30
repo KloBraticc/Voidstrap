@@ -9413,4 +9413,7 @@ A Voidstrap letiltja a programokat, a többi mappát és a Roblox bejelentkezés
 
 Engedélyezed?</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>Erős mod</value>
+  </data>
 </root>

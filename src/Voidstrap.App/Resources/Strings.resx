@@ -9101,4 +9101,7 @@ Voidstrap blocks programs, other folders and your Roblox login, but no protectio
 
 Allow it?</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>Powerful mod</value>
+  </data>
 </root>

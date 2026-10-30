@@ -9412,4 +9412,7 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
 
 Дозволити?</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>Потужний мод</value>
+  </data>
 </root>

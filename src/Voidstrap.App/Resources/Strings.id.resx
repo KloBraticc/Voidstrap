@@ -9416,4 +9416,7 @@ Voidstrap memblokir program, folder lain, dan login Roblox Anda, tetapi tidak ad
 
 Izinkan?</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>Mod kuat</value>
+  </data>
 </root>

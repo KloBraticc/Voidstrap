@@ -9415,4 +9415,7 @@ Voidstrap estää ohjelmat, muut kansiot ja Roblox-kirjautumisesi, mutta mikää
 
 Sallitaanko?</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>Tehokas modi</value>
+  </data>
 </root>

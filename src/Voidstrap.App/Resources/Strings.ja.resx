@@ -9428,4 +9428,7 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
 
 許可しますか？</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>強力なMod</value>
+  </data>
 </root>

@@ -9414,4 +9414,7 @@ Voidstrap блокира програми, други папки и Вашия �
 
 Да бъде ли разрешено?</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>Мощен мод</value>
+  </data>
 </root>

@@ -9415,4 +9415,7 @@ Voidstrap blokuoja programas, kitus aplankus ir jūsų Roblox prisijungimą, ta�
 
 Leisti?</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>Galingas modas</value>
+  </data>
 </root>

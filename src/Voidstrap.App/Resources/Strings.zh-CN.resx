@@ -9438,4 +9438,7 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
 
 是否允许？</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>强力模组</value>
+  </data>
 </root>

@@ -9412,4 +9412,7 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
 
 İzin verilsin mi?</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>Güçlü mod</value>
+  </data>
 </root>

@@ -9409,4 +9409,7 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
 
 อนุญาตหรือไม่</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>ม็อดทรงพลัง</value>
+  </data>
 </root>

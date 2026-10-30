@@ -8058,6 +8058,8 @@ namespace Voidstrap.Resources {
             }
         }
         
+        public static string Ui_VoidstrapMods_PowerfulBadge => ResourceManager.GetString("Ui.VoidstrapMods.PowerfulBadge", resourceCulture);
+
         public static string Plugins_PowerfulModWarning => ResourceManager.GetString("Plugins.PowerfulModWarning", resourceCulture);
 
         /// <summary>

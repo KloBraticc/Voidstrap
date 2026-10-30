@@ -9415,4 +9415,7 @@ Voidstrap blochează programele, alte foldere și autentificarea ta Roblox, dar 
 
 Permiți?</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>Mod puternic</value>
+  </data>
 </root>

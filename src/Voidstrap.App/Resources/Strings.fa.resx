@@ -9416,4 +9416,7 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
 
 اجازه می‌دهید؟</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>ماد قدرتمند</value>
+  </data>
 </root>

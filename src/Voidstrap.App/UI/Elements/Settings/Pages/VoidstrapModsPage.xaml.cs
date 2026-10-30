@@ -202,6 +202,8 @@ public partial class VoidstrapModsPage : UiPage
         title.Children.Add(StyledText("RowTitle", mod.Name));
         if (libraryMod != null)
             AddTrustBadges(title, libraryMod);
+        else if (item.Manifest != null && PluginNative.IsPowerful(item.Manifest))
+            title.Children.Add(MakePowerfulBadge());
         bool invalid = mod.Consent == PluginHost.InvalidState;
         if (invalid)
             title.Children.Add(
@@ -807,8 +809,13 @@ public partial class VoidstrapModsPage : UiPage
             };
     }
 
+    private static Border MakePowerfulBadge() =>
+        MakeBadge(Strings.Ui_VoidstrapMods_PowerfulBadge, SymbolRegular.ShieldError24, Color.FromRgb(232, 72, 85), Strings.Plugins_PowerfulModWarning);
+
     private static void AddTrustBadges(Panel host, ModLibrary.LibraryMod mod)
     {
+        if (mod.IsPowerful)
+            host.Children.Add(MakePowerfulBadge());
         if (mod.Verified)
             host.Children.Add(
                 MakeBadge(

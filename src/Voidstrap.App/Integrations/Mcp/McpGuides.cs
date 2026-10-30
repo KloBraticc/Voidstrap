@@ -308,7 +308,7 @@ public static class McpGuides
 		  Mods stay sandboxed: no files, processes, or direct .NET. Only clicks are reported, never typed text.
 
 		POWERFUL MODS: REAL APP CODE, FILES AND WEB WINDOWS
-		  List what is needed under permissions in plugin.json: native, files, web. Voidstrap shows a strong warning and the user must
+		  List what is needed under permissions in plugin.json: native, files, web. Voidstrap shows a Powerful mod badge and a warning whose Yes button unlocks after 3 seconds. The user must
 		  approve this exact version. ANY change to any file of the mod voids the approval and asks again, including updates.
 		  Until approved nothing works and the mod stays off. Every native type used and file written is logged.
 

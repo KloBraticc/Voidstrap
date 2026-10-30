@@ -9413,4 +9413,7 @@
 
 هل تسمح بذلك؟</value>
   </data>
+  <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
+    <value>تعديل قوي</value>
+  </data>
 </root>
