@@ -39,7 +39,7 @@ public static partial class McpTools
 	internal const string ModLayoutGuide = """
 		VOIDSTRAP MODS
 		Use manage_voidstrap_mods for features inside Voidstrap: widgets, cursor sprites, pages, panels, sidebar changes and automation. This is different from manage_mods, which manages Roblox content files applied on the next launch.
-		Mods run on Windows and Linux inside a sandbox. They cannot access files, processes or .NET directly. Use the $ API from action types. This is not a browser: there is no document, window, DOM, CSS, React, requestAnimationFrame, setInterval or Node.js API. JSX describes native Voidstrap controls.
+		Mods run on Windows, Linux and macOS inside a sandbox. They cannot access files, processes or .NET directly. Use the $ API from action types. This is not a browser: there is no document, window, DOM, CSS, React, requestAnimationFrame, setInterval or Node.js API. JSX describes native Voidstrap controls.
 
 		WORKFLOW, FOLLOW IT IN ORDER
 		1. manage_voidstrap_mods action list: see existing mods and their problems. Edit an existing mod instead of making a near duplicate.
@@ -225,8 +225,6 @@ public static partial class McpTools
 
 	public static async Task<McpToolResult> ManageVoidstrapMods(JsonObject args)
 	{
-		if (!PluginHost.IsSupported)
-			return new McpToolResult("Voidstrap mods are not available on macOS.", true);
 		string action = McpArgs.Trimmed(args, "action", "list").ToLowerInvariant();
 		string mod = McpArgs.Trimmed(args, "mod");
 		switch (action)

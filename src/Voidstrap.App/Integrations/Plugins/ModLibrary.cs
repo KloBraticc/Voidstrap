@@ -372,8 +372,6 @@ public static partial class ModLibrary
 
 	public static void StartAutoUpdater()
 	{
-		if (!PluginHost.IsSupported)
-			return;
 		_autoUpdateTimer?.Dispose();
 		_autoUpdateTimer = new Timer(
 			static _ =>

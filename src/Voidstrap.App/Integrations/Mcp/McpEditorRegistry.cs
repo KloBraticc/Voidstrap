@@ -49,9 +49,6 @@ public static class McpEditorRegistry
 
 	public static string? Register(IMcpEditor editor)
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-			return null;
-
 		string id = editor.Kind + "_" + Interlocked.Increment(ref _counter);
 
 		lock (Gate)

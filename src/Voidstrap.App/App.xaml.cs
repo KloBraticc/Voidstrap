@@ -827,7 +827,7 @@ public partial class App : Application
 		if (Voidstrap.Utility.Platform.IsWindows)
 			DisableProcessWindowsGhosting();
 		RegisterExceptionHandlers();
-		if (!Voidstrap.Utility.LinuxRuntimePreflight.Verify())
+		if (!Cli.IsCliInvocation(e.Args) && !Voidstrap.Utility.LinuxRuntimePreflight.Verify())
 		{
 			Shutdown(NativeRuntimeMissingExitCode);
 			return;
@@ -879,7 +879,7 @@ public partial class App : Application
 		TryStartup("Image guard", Voidstrap.Utility.DynamicRenderSystem.InstallLinuxImageGuard);
 		TryStartup("Background web images", Voidstrap.UI.LinuxWebImageSource.Install);
 		TryStartup("Progress bar motion", Voidstrap.UI.SmoothProgress.Install);
-		if (OperatingSystem.IsLinux())
+		if (OperatingSystem.IsLinux() && !Cli.IsCliInvocation(Environment.GetCommandLineArgs().Skip(1).ToArray()))
 		{
 			base.Exit += OnLinuxExitMarkRenderer;
 			Voidstrap.Utility.LinuxStartup.BeginRendererProbe();

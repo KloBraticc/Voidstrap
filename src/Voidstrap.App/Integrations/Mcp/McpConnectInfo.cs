@@ -35,7 +35,7 @@ public static class McpConnectInfo
 	{
 		if (!string.IsNullOrWhiteSpace(Paths.Process))
 			return Paths.Process;
-		return Environment.ProcessPath ?? Path.Combine(AppContext.BaseDirectory, "Voidstrap.exe");
+		return Environment.ProcessPath ?? Path.Combine(AppContext.BaseDirectory, Voidstrap.Utility.Platform.IsWindows ? "Voidstrap.exe" : "Voidstrap");
 	}
 
 	public static string ConfigJson()
@@ -59,9 +59,6 @@ public static class McpConnectInfo
 
 	public static void RefreshConnectedClients()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-			return;
-
 		try
 		{
 			if (IsDesktopClientConnected())
@@ -79,9 +76,6 @@ public static class McpConnectInfo
 
 	public static bool IsDesktopClientConnected()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-			return false;
-
 		try
 		{
 			string desktopPath = GetDesktopConfigPath();
@@ -98,9 +92,6 @@ public static class McpConnectInfo
 
 	private static bool ConnectDesktopClientCore()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-			return false;
-
 		try
 		{
 			string exe = ExecutablePath();
@@ -122,9 +113,6 @@ public static class McpConnectInfo
 
 	public static bool IsCliClientConnected()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-			return false;
-
 		try
 		{
 			string tomlPath = GetCliConfigPath();
@@ -158,9 +146,6 @@ public static class McpConnectInfo
 
 	private static bool ConnectCliClientCore()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-			return false;
-
 		try
 		{
 			string tomlPath = GetCliConfigPath();
@@ -244,9 +229,6 @@ public static class McpConnectInfo
 
 	public static bool IsOpenCodeClientConnected()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-			return false;
-
 		try
 		{
 			foreach (string path in GetOpenCodeConfigPaths(existingOnly: true))
@@ -266,9 +248,6 @@ public static class McpConnectInfo
 
 	private static bool ConnectOpenCodeClientCore()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-			return false;
-
 		try
 		{
 			string exe = ExecutablePath();
@@ -290,9 +269,6 @@ public static class McpConnectInfo
 
 	public static void Show()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-			return;
-
 		McpBridgeServer.EnsureStarted();
 		McpConnectDialog.ShowSingle();
 	}
@@ -305,6 +281,8 @@ public static class McpConnectInfo
 	{
 		lock (ConfigGate)
 		{
+			if (!Voidstrap.Utility.Platform.IsWindows)
+				return action();
 			using var mutex = new System.Threading.Mutex(false, ConfigMutexName);
 			bool owned = false;
 			try
@@ -334,7 +312,9 @@ public static class McpConnectInfo
 
 	private static string GetDesktopConfigPath()
 	{
-		string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+		string appData = Voidstrap.Utility.Platform.IsMacOS
+			? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Application Support")
+			: Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 		return Path.Combine(appData, DesktopConfigFolderName, DesktopConfigFileName);
 	}
 

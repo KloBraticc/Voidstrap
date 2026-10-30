@@ -76,7 +76,7 @@ public static partial class McpStdioServer
 
 	public static bool IsMcpStartupArg(string[] args)
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows || args.Length < 2)
+		if (args.Length < 2)
 			return false;
 
 		if (!IsMcpToken(args[1]))
@@ -174,13 +174,11 @@ public static partial class McpStdioServer
 
 	public static int Run()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-			return 1;
-
 		Console.InputEncoding = new UTF8Encoding(false);
 		Console.OutputEncoding = new UTF8Encoding(false);
 
-		WatchParentProcess();
+		if (Voidstrap.Utility.Platform.IsWindows)
+			WatchParentProcess();
 
 		using Stream stdin = Console.OpenStandardInput();
 		using Stream stdout = Console.OpenStandardOutput();

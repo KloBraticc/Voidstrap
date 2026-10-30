@@ -1713,6 +1713,11 @@ public static class LaunchHandler
 					App.Settings.Save();
 				}
 				App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", "Using " + ensured.Value);
+				if (App.LaunchSettings.NoLaunchFlag.Active)
+				{
+					App.Terminate();
+					return;
+				}
 
 				SetPortableLaunchStatus(Strings.Bootstrapper_Status_Configuring);
 				try

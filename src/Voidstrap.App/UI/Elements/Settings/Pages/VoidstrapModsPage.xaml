@@ -112,7 +112,7 @@
           <WrapPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <ui:Button x:Name="NewModButton" Margin="0,0,8,4" Appearance="Primary" Icon="Add24" Content="{resources:Loc Ui_VoidstrapMods_NewMod}" Click="NewMod_Click" />
             <ui:Button Margin="0,0,8,4" Icon="ArrowImport24" Content="{resources:Loc Ui_VoidstrapMods_Import}" ToolTip="{resources:Loc Ui_VoidstrapMods_ImportTooltip}" Click="Import_Click" />
-            <ui:Button Margin="0,0,8,4" Icon="PlugConnected24" Content="{resources:Loc Ui_Mcp_Connect}" ToolTip="{resources:Loc Ui_Mcp_ConnectTooltip}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" Click="ConnectAi_Click" />
+            <ui:Button Margin="0,0,8,4" Icon="PlugConnected24" Content="{resources:Loc Ui_Mcp_Connect}" ToolTip="{resources:Loc Ui_Mcp_ConnectTooltip}" Click="ConnectAi_Click" />
             <ui:Button Margin="0,0,8,4" Icon="ArrowClockwise24" Content="{resources:Loc Ui_VoidstrapMods_Reload}" Click="Reload_Click" />
             <ui:Button Margin="0,0,0,4" Icon="FolderOpen24" Content="{resources:Loc Ui_VoidstrapMods_OpenFolder}" Click="OpenFolder_Click" />
           </WrapPanel>

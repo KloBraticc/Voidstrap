@@ -430,7 +430,7 @@ public static class McpGuides
 	public const string Workflow = """
 		HOW TO WORK WITH VOIDSTRAP OVER MCP
 
-		Voidstrap manages Roblox launching, settings, content mods and its own interface. The MCP bridge controls the running Windows app. Open Voidstrap first, then call get_voidstrap_overview to discover paths, active settings, themes and open windows. Do not assume an installed file is active or a running process has a visible window.
+		Voidstrap manages Roblox launching, settings, content mods and its own interface. The MCP bridge controls the running app on Windows, Linux and macOS. Open Voidstrap first, then call get_voidstrap_overview to discover paths, active settings, themes and open windows. Do not assume an installed file is active or a running process has a visible window.
 
 		CHOOSE THE TOOL THAT OWNS THE REQUEST
 		Existing app option: get_settings with a filter, then set_settings using the exact returned property names and types. Do not guess names. globalSettings changes Roblox GlobalBasicSettings properties; settings changes Voidstrap options.
@@ -438,7 +438,7 @@ public static class McpGuides
 		Voidstrap colors or background: manage_app_theme, after get_guide topic app_theme.
 		Launcher window shown while Roblox starts: open_editor type bootstrapper, after get_guide topic bootstrapper_theme. Set activate true, save_editor, then test_bootstrapper_theme. The theme must build AND be the selected Custom launcher. HTML in a launcher uses window.voidstrap, not the mod $ API.
 		Keystroke overlay appearance: open_editor type keystroke, after get_guide topic keystroke_theme. Read the open document and preserve its shape.
-		New Voidstrap widget, cursor sprite, page, panel, sidebar change or automation: manage_voidstrap_mods. Read action guide (also get_guide topic mods), then action list and types. Use a sandboxed mod for these requests, without changing Voidstrap program files. Mods support Windows and Linux; they are unavailable on macOS.
+		New Voidstrap widget, cursor sprite, page, panel, sidebar change or automation: manage_voidstrap_mods. Read action guide (also get_guide topic mods), then action list and types. Use a sandboxed mod for these requests, without changing Voidstrap program files. Mods support Windows, Linux and macOS.
 		Roblox content replacement: manage_mods and manage_themes_and_mods. These content files apply on the next Roblox launch. They are different from TypeScript Voidstrap mods.
 		Existing page or setting on screen: navigate_ui. Read the returned page names and setting locations.
 		Roblox launch or join: launch_roblox with mode and optional placeId/jobId. This tool blocks a second running instance. Use its native launch path.

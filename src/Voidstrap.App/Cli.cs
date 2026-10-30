@@ -80,7 +80,7 @@ internal static partial class Cli
 	internal static bool IsMcpStdioPipeActive()
 	{
 		if (!OperatingSystem.IsWindows())
-			return false;
+			return Console.IsInputRedirected && Console.IsOutputRedirected;
 		if (!IsStdInputRedirected() || !IsStdOutputRedirected())
 			return false;
 		nint handle = GetStdHandle(StdInputHandle);
@@ -228,13 +228,15 @@ internal static partial class Cli
 		Console.WriteLine("FastFlags: " + App.FastFlags.Prop.Count);
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{
-			Console.WriteLine("Roblox: managed by Sober");
-			return 0;
+			Console.WriteLine("Roblox: managed by " + (Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary ? "Rosemary" : "Sober"));
 		}
-		string version = new RobloxPlayerData().State.VersionGuid;
-		Console.WriteLine("Roblox: " + (string.IsNullOrEmpty(version) ? "not installed" : version));
-		Process[] running = Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName);
-		Console.WriteLine("Running: " + running.Length);
+		else
+		{
+			string version = new RobloxPlayerData().State.VersionGuid;
+			Console.WriteLine("Roblox: " + (string.IsNullOrEmpty(version) ? "not installed" : version));
+		}
+		List<Process> running = Voidstrap.Utility.RobloxProcesses.Player();
+		Console.WriteLine("Running: " + running.Count);
 		foreach (Process process in running)
 			process.Dispose();
 		return 0;
@@ -263,18 +265,43 @@ internal static partial class Cli
 	private static async Task<int> InstallAsync(bool repair)
 	{
 		if (Voidstrap.Utility.Platform.IsLinux)
-		{
-			Console.Error.WriteLine("Sober installs and updates Roblox on Linux");
-			return 1;
-		}
+			return await InstallSoberAsync(repair);
 		if (repair)
 		{
+			App.Settings.Prop.ForceRobloxReinstall = Voidstrap.Utility.Platform.IsMacOS;
+			App.Settings.Save();
 			RobloxPlayerData player = new();
 			player.State.VersionGuid = string.Empty;
 			App.State.Save();
 			Console.WriteLine("Roblox will be downloaded again");
 		}
 		return await RunSelfAsync(true, "-player", "-nolaunch");
+	}
+
+	private static async Task<int> InstallSoberAsync(bool repair)
+	{
+		if (Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary)
+		{
+			Console.Error.WriteLine("Rosemary is selected, it installs Roblox itself the next time you launch");
+			return 1;
+		}
+		const string sober = "org.vinegarhq.Sober";
+		using Process probe = StartFlatpak(true, "info", sober);
+		await probe.WaitForExitAsync();
+		bool installed = probe.ExitCode == 0;
+		using Process process = !installed ? StartFlatpak(false, "install", "--user", "-y", "flathub", sober)
+			: repair ? StartFlatpak(false, "repair", "--user", sober)
+			: StartFlatpak(false, "update", "-y", sober);
+		await process.WaitForExitAsync();
+		return process.ExitCode;
+	}
+
+	private static Process StartFlatpak(bool quiet, params string[] arguments)
+	{
+		ProcessStartInfo startInfo = new("flatpak") { UseShellExecute = false, RedirectStandardOutput = quiet, RedirectStandardError = quiet };
+		foreach (string argument in arguments)
+			startInfo.ArgumentList.Add(argument);
+		return Process.Start(startInfo) ?? throw new InvalidOperationException("flatpak did not start");
 	}
 
 	private static int ClearCache(string[] args)
@@ -284,12 +311,7 @@ internal static partial class Cli
 			Console.Error.WriteLine("Usage: Voidstrap cli cache clear");
 			return 2;
 		}
-		if (Voidstrap.Utility.Platform.IsLinux)
-		{
-			Console.Error.WriteLine("Clear the cache from Sober on Linux");
-			return 1;
-		}
-		if (Voidstrap.Utility.ProcessScan.Any(Voidstrap.Utility.Platform.RobloxPlayerProcessName))
+		if (Voidstrap.Utility.RobloxProcesses.PlayerRunning())
 		{
 			Console.Error.WriteLine("Close Roblox first");
 			return 1;
@@ -464,9 +486,6 @@ internal static partial class Cli
 
 	private static string GetUsageText()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-			return Usage;
-
 		string dLabel = Voidstrap.Integrations.Mcp.McpConnectInfo.DesktopClientLabel;
 		string cLabel = Voidstrap.Integrations.Mcp.McpConnectInfo.CliClientLabel;
 		string oLabel = Voidstrap.Integrations.Mcp.McpConnectInfo.OpenCodeClientLabel;
@@ -491,7 +510,7 @@ internal static partial class Cli
 	public static bool TryRunMcpShortcut(string[] fullCommandLineArgs, out int exitCode)
 	{
 		exitCode = 0;
-		if (!Voidstrap.Utility.Platform.IsWindows || fullCommandLineArgs.Length < 2)
+		if (fullCommandLineArgs.Length < 2)
 			return false;
 
 		string[] userArgs = fullCommandLineArgs[1..];
@@ -547,12 +566,6 @@ internal static partial class Cli
 
 	private static int Mcp(string[] args)
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-		{
-			Console.Error.WriteLine("MCP is only available on Windows");
-			return 1;
-		}
-
 		string dLabel = Voidstrap.Integrations.Mcp.McpConnectInfo.DesktopClientLabel;
 		string cLabel = Voidstrap.Integrations.Mcp.McpConnectInfo.CliClientLabel;
 		string oLabel = Voidstrap.Integrations.Mcp.McpConnectInfo.OpenCodeClientLabel;

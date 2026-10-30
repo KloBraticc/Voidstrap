@@ -1464,8 +1464,8 @@ internal static class PluginRoblox
 	{
 		try
 		{
-			Process[] players = Process.GetProcessesByName(App.RobloxPlayerAppName);
-			bool running = players.Length > 0;
+			List<Process> players = Voidstrap.Utility.RobloxProcesses.Player();
+			bool running = players.Count > 0;
 			int pid = running ? players[0].Id : 0;
 			foreach (Process p in players)
 				p.Dispose();

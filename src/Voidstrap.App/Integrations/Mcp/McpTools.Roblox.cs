@@ -55,7 +55,7 @@ public static partial class McpTools
 		{
 			int closed = 0;
 			foreach (
-				Process p in Process.GetProcessesByName(App.RobloxPlayerAppName).Concat(Process.GetProcessesByName(App.RobloxStudioAppName))
+				Process p in Voidstrap.Utility.RobloxProcesses.Player().Concat(Voidstrap.Utility.RobloxProcesses.Studio())
 			)
 			{
 				try
@@ -77,11 +77,7 @@ public static partial class McpTools
 
 		if (mode == "studio")
 		{
-			Process[] runningStudio = Process.GetProcessesByName(App.RobloxStudioAppName);
-			bool alreadyRunningStudio = runningStudio.Length > 0;
-			foreach (Process p in runningStudio)
-				p.Dispose();
-			if (alreadyRunningStudio)
+			if (Voidstrap.Utility.RobloxProcesses.StudioRunning())
 				return new McpToolResult(
 					"Roblox Studio is already running. Multi instance is blocked; close the existing Studio instance first.",
 					true
@@ -92,11 +88,7 @@ public static partial class McpTools
 			return new McpToolResult("Launched Roblox Studio via Voidstrap.");
 		}
 
-		Process[] runningPlayer = Process.GetProcessesByName(App.RobloxPlayerAppName);
-		bool alreadyRunningPlayer = runningPlayer.Length > 0;
-		foreach (Process p in runningPlayer)
-			p.Dispose();
-		if (alreadyRunningPlayer)
+		if (Voidstrap.Utility.RobloxProcesses.PlayerRunning())
 			return new McpToolResult(
 				"Roblox Player is already running. Multi instance is blocked; close the existing Roblox instance first or call launch_roblox with mode 'close'.",
 				true

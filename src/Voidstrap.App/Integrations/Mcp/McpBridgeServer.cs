@@ -23,9 +23,19 @@ public static class McpBridgeServer
 	{
 		get
 		{
+			if (!Voidstrap.Utility.Platform.IsWindows)
+				return PortableSocketPath();
 			using Process current = Process.GetCurrentProcess();
 			return "Voidstrap.Mcp." + current.SessionId;
 		}
+	}
+
+	private static string PortableSocketPath()
+	{
+		string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+		string folder = Voidstrap.Utility.Platform.IsMacOS ? Path.Combine(home, "Library", "Caches") : Path.Combine(home, ".cache");
+		Directory.CreateDirectory(folder);
+		return Path.Combine(folder, "voidstrap-mcp.sock");
 	}
 
 	public static void Stop()
@@ -46,9 +56,6 @@ public static class McpBridgeServer
 
 	public static void EnsureStarted()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-			return;
-
 		if (Interlocked.Exchange(ref _started, 1) == 1)
 			return;
 

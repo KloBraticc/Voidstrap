@@ -432,7 +432,7 @@
           <MenuItem x:Name="TopNavServers" Header="{resources:Loc Library_PrivateServersTab}" Style="{StaticResource TopBarMenuItemStyle}" Click="TopNavServers_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="Server24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
-          <MenuItem x:Name="TopNavVoidstrapMods" Header="{resources:Loc Ui_Nav_VoidstrapMods}" Style="{StaticResource TopBarMenuItemStyle}" Visibility="{x:Static appUi:PlatformFeatureVisibility.NotMacOS}" Click="TopNavVoidstrapMods_Click">
+          <MenuItem x:Name="TopNavVoidstrapMods" Header="{resources:Loc Ui_Nav_VoidstrapMods}" Style="{StaticResource TopBarMenuItemStyle}" Click="TopNavVoidstrapMods_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="PuzzlePiece24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
           <MenuItem x:Name="TopNavNews" Header="{resources:Loc Ui_Nav_News}" Style="{StaticResource TopBarMenuItemStyle}" Click="TopNavNews_Click">
@@ -465,7 +465,7 @@
           <MenuItem Header="{resources:Loc Ui_Main_OpenAppFolder}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuApplicationFolder_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="FolderOpen24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
-          <MenuItem Header="{resources:Loc Ui_Mcp_Connect}" ToolTip="{resources:Loc Ui_Mcp_ConnectTooltip}" Style="{StaticResource TopBarMenuItemStyle}" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" Click="AppMenuConnectAi_Click">
+          <MenuItem Header="{resources:Loc Ui_Mcp_Connect}" ToolTip="{resources:Loc Ui_Mcp_ConnectTooltip}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuConnectAi_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="Sparkle24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
           <Separator Style="{StaticResource TopBarMenuSeparatorStyle}" />

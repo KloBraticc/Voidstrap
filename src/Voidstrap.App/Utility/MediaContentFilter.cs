@@ -22,6 +22,8 @@ internal static class MediaContentFilter
 	private const string OnnxRuntimeUrl =
 		"https://api.nuget.org/v3-flatcontainer/microsoft.ml.onnxruntime.directml/1.24.4/microsoft.ml.onnxruntime.directml.1.24.4.nupkg";
 	private const string OnnxRuntimeHash = "e7eedec6a6f26dc39dc948276a75ef6d2bee3fff944d874ceed0bbd3b97bff40";
+	private const string PortableOnnxRuntimeUrl =
+		"https://api.nuget.org/v3-flatcontainer/microsoft.ml.onnxruntime/1.24.4/microsoft.ml.onnxruntime.1.24.4.nupkg";
 	private static readonly HttpClient Http = VpnHttpClient.Create(TimeSpan.FromSeconds(60));
 	private static readonly SemaphoreSlim Gate = new(1, 1);
 	private static InferenceSession? _session;
@@ -145,9 +147,9 @@ internal static class MediaContentFilter
 		RegisterResolver();
 		string folder = Path.Combine(Paths.Cache, "MediaFilter");
 		Directory.CreateDirectory(folder);
-		string onnxDll = Path.Combine(folder, "onnxruntime.dll");
+		string onnxDll = Path.Combine(folder, OnnxLibraryName);
 		string rishadeDll = Path.Combine(Paths.LocalAppData, "RiShade", "onnxruntime.dll");
-		if (!File.Exists(onnxDll) && !File.Exists(rishadeDll) && Platform.IsWindows)
+		if (!File.Exists(onnxDll) && !(Platform.IsWindows && File.Exists(rishadeDll)))
 			await DownloadOnnxRuntimeAsync(onnxDll).ConfigureAwait(false);
 		string path = Path.Combine(folder, "content.onnx");
 		if (
@@ -164,6 +166,38 @@ internal static class MediaContentFilter
 		_session = new InferenceSession(path, options);
 	}
 
+	private static string OnnxLibraryName =>
+		Platform.IsWindows ? "onnxruntime.dll"
+		: Platform.IsMacOS ? "libonnxruntime.dylib"
+		: "libonnxruntime.so";
+
+	private static (string Url, string Entry, string Hash)? OnnxRuntimeAsset()
+	{
+		if (Platform.IsWindows)
+			return (OnnxRuntimeUrl, "runtimes/win-x64/native/onnxruntime.dll", OnnxRuntimeHash);
+		if (RuntimeInformation.RuntimeIdentifier.Contains("musl", StringComparison.OrdinalIgnoreCase))
+			return null;
+		return (Platform.IsMacOS, RuntimeInformation.ProcessArchitecture) switch
+		{
+			(true, Architecture.Arm64) => (
+				PortableOnnxRuntimeUrl,
+				"runtimes/osx-arm64/native/libonnxruntime.dylib",
+				"0db33e160224e480c17932799d1dfaea59853b8e722b57bf61932c87e03586f0"
+			),
+			(false, Architecture.X64) => (
+				PortableOnnxRuntimeUrl,
+				"runtimes/linux-x64/native/libonnxruntime.so",
+				"d132535d051344ff5c64c9c200004150559049a81ed330eb4422c1962fb6b7e4"
+			),
+			(false, Architecture.Arm64) => (
+				PortableOnnxRuntimeUrl,
+				"runtimes/linux-arm64/native/libonnxruntime.so",
+				"52b2a0e75e79468404284fec38ad5ee1a7a996232274f5e1b84f3e793fb07554"
+			),
+			_ => null,
+		};
+	}
+
 	private static void RegisterResolver()
 	{
 		if (Interlocked.Exchange(ref _resolverRegistered, true))
@@ -176,7 +210,7 @@ internal static class MediaContentFilter
 				{
 					if (name.Equals("onnxruntime", StringComparison.OrdinalIgnoreCase))
 					{
-						string local = Path.Combine(Paths.Cache, "MediaFilter", "onnxruntime.dll");
+						string local = Path.Combine(Paths.Cache, "MediaFilter", OnnxLibraryName);
 						if (File.Exists(local) && NativeLibrary.TryLoad(local, out IntPtr handle))
 							return handle;
 						string rishade = Path.Combine(Paths.LocalAppData, "RiShade", "onnxruntime.dll");
@@ -192,11 +226,13 @@ internal static class MediaContentFilter
 
 	private static async Task DownloadOnnxRuntimeAsync(string target)
 	{
+		if (OnnxRuntimeAsset() is not { } asset)
+			return;
 		string tempZip = target + ".zip.tmp";
 		try
 		{
 			using (
-				HttpResponseMessage response = await Http.GetAsync(OnnxRuntimeUrl, HttpCompletionOption.ResponseHeadersRead)
+				HttpResponseMessage response = await Http.GetAsync(asset.Url, HttpCompletionOption.ResponseHeadersRead)
 					.ConfigureAwait(false)
 			)
 			{
@@ -205,13 +241,13 @@ internal static class MediaContentFilter
 				await response.Content.CopyToAsync(fs).ConfigureAwait(false);
 			}
 			using ZipArchive zip = ZipFile.OpenRead(tempZip);
-			ZipArchiveEntry? entry = zip.GetEntry("runtimes/win-x64/native/onnxruntime.dll");
+			ZipArchiveEntry? entry = zip.GetEntry(asset.Entry);
 			if (entry != null)
 			{
 				string tempDll = target + ".tmp";
 				entry.ExtractToFile(tempDll, true);
 				byte[] bytes = await File.ReadAllBytesAsync(tempDll).ConfigureAwait(false);
-				if (MatchesHash(bytes, OnnxRuntimeHash))
+				if (MatchesHash(bytes, asset.Hash))
 					File.Move(tempDll, target, true);
 				else if (File.Exists(tempDll))
 					File.Delete(tempDll);

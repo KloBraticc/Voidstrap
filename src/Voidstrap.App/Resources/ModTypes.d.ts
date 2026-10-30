@@ -255,7 +255,7 @@ declare module 'voidstrap' {
     mod: { readonly name: string; readonly version: string; options(): Record<string, Json> };
     app: {
       readonly version: string;
-      readonly platform: 'windows' | 'linux';
+      readonly platform: 'windows' | 'linux' | 'macos';
       texts(): Record<string, string>;
       setText(target: string, text: string): string;
       clearText(target: string): boolean;

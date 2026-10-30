@@ -236,8 +236,6 @@ public static class PluginHost
 
 	public sealed record BannerInfo(string Plugin, string Id, string Position);
 
-	public static bool IsSupported => !Voidstrap.Utility.Platform.IsMacOS;
-
 	public static IReadOnlyList<PaneInfo> Panes
 	{
 		get
@@ -267,8 +265,6 @@ public static class PluginHost
 
 	public static void Start()
 	{
-		if (!IsSupported)
-			return;
 		lock (Gate)
 		{
 			if (_started)
@@ -1095,7 +1091,7 @@ public static class PluginHost
 		{
 			JsObject host = new(_engine);
 			host.Set("version", App.Version);
-			host.Set("platform", Voidstrap.Utility.Platform.IsWindows ? "windows" : "linux");
+			host.Set("platform", Voidstrap.Utility.Platform.IsWindows ? "windows" : Voidstrap.Utility.Platform.IsMacOS ? "macos" : "linux");
 			host.Set("modName", Name);
 			host.Set("modVersion", Manifest.Version);
 			host.Set(

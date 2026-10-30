@@ -219,7 +219,7 @@
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
         <ui:Button Appearance="Secondary" Icon="FolderOpen24" Content="{resources:Loc CustomTheme_Editor_OpenThemeDirectory}" Command="{Binding Path=OpenThemeFolderCommand, Mode=OneTime}" />
         <ui:Button Name="ExternalButton" Margin="8,0,0,0" Appearance="Secondary" Icon="Open24" Content="{resources:Loc Ui_Misc_OpenEditor}" ToolTip="{resources:Loc Ui_Misc_EditInAnotherProgramSavingThere}" Click="OpenExternal_Click" />
-        <ui:Button Margin="8,0,0,0" Appearance="Secondary" Icon="PlugConnected24" Content="{resources:Loc Ui_Mcp_Connect}" ToolTip="{resources:Loc Ui_Mcp_ConnectTooltip}" Click="OnConnectAiClicked" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
+        <ui:Button Margin="8,0,0,0" Appearance="Secondary" Icon="PlugConnected24" Content="{resources:Loc Ui_Mcp_Connect}" ToolTip="{resources:Loc Ui_Mcp_ConnectTooltip}" Click="OnConnectAiClicked" />
       </StackPanel>
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
         <ui:Button MinWidth="92" Appearance="Secondary" Content="{resources:Loc CustomTheme_Editor_Preview}" Command="{Binding Path=PreviewCommand, Mode=OneTime}" />

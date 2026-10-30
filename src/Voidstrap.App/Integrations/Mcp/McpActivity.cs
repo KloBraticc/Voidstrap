@@ -57,9 +57,6 @@ public static class McpActivity
 
 	public static void Report(string? client, string tool, JsonObject args)
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-			return;
-
 		var dispatcher = Application.Current?.Dispatcher;
 		if (dispatcher == null || dispatcher.HasShutdownStarted)
 			return;
