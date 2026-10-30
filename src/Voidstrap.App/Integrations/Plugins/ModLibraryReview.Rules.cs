@@ -24,7 +24,8 @@ internal static partial class ModLibraryReview
     ".jsx",
     ".json",
     ".md",
-    ".ico"
+    ".ico",
+    ".svg"
   ],
   "codeExtensions": [
     ".ts",

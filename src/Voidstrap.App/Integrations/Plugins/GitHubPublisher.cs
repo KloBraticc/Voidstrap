@@ -406,11 +406,13 @@ public static class GitHubPublisher
                 problems.Add(rel + " is larger than " + maxFileBytes / 1024 + " KB");
                 continue;
             }
+            if (ext.Equals(".svg", StringComparison.OrdinalIgnoreCase) && !ModSvgRules.IsSafeSvg(File.ReadAllText(full)))
+                problems.Add(rel + " holds scripts, embedded content or outside links, only plain drawing shapes are allowed in an SVG");
             string[] lines = File.ReadAllLines(full);
             for (int i = 0; i < lines.Length; i++)
             {
                 string where = rel + ":" + (i + 1);
-                if (code.Contains(ext) && lines[i].Length > maxLine)
+                if (code.Contains(ext) && lines[i].Length > maxLine && !ModSvgRules.IsSvgStringLine(lines[i]))
                     problems.Add(where + " is longer than " + maxLine + " characters");
                 try
                 {

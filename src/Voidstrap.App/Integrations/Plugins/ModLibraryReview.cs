@@ -38,7 +38,7 @@ internal static partial class ModLibraryReview
         TimeSpan.FromSeconds(1)
     );
 
-    private static readonly string[] AllowedExtensions = [".ts", ".tsx", ".js", ".mjs", ".jsx", ".json", ".md", ".ico"];
+    private static readonly string[] AllowedExtensions = [".ts", ".tsx", ".js", ".mjs", ".jsx", ".json", ".md", ".ico", ".svg"];
 
     private static readonly string[] CodeExtensions = [".ts", ".tsx", ".js", ".mjs", ".jsx"];
 

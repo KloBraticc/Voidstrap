@@ -110,6 +110,12 @@ internal static partial class ModLibraryReview
             }
             if (size > MaxFileBytes)
                 errors.Add(rel + " is larger than " + MaxFileBytes + " bytes");
+            if (extension == ".svg")
+            {
+                if (!ModSvgRules.IsSafeSvg(File.ReadAllText(full)))
+                    errors.Add(rel + " holds scripts, embedded content or outside links, only plain drawing shapes are allowed in an SVG");
+                reviews.Add(rel + " is an SVG, the image scanner cannot check it");
+            }
             CheckText(rel, full, CodeExtensions.Contains(extension), errors, reviews);
         }
     }
@@ -232,7 +238,9 @@ internal static partial class ModLibraryReview
         {
             string line = lines[index].TrimEnd('\r');
             string where = rel + ":" + (index + 1);
-            if (isCode && line.Length > MaxLineLength)
+            if (isCode && line.Length > MaxLineLength && ModSvgRules.IsSvgStringLine(line))
+                reviews.Add(where + " holds an SVG as text, the image scanner cannot check it");
+            else if (isCode && line.Length > MaxLineLength)
                 errors.Add(
                     where
                         + " is longer than "
