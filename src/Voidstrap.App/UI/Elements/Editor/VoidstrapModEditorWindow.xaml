@@ -6,6 +6,8 @@
         <ResourceDictionary Source="/Voidstrap;component/UI/Elements/Editor/VisualStudioTheme.xaml" />
       </ResourceDictionary.MergedDictionaries>
       <Style x:Key="VsTreeItem" TargetType="TreeViewItem">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
         <Setter Property="Template">
           <Setter.Value>

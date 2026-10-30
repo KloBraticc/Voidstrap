@@ -212,9 +212,27 @@ internal static partial class PluginNative
             if (file.Contains(marker, StringComparison.OrdinalIgnoreCase))
                 continue;
             hash.AppendData(Encoding.UTF8.GetBytes(Path.GetRelativePath(manifest.Directory, file)));
-            hash.AppendData(File.ReadAllBytes(file));
+            hash.AppendData(HashableContent(file));
         }
         return Convert.ToHexString(hash.GetHashAndReset());
+    }
+
+    private static byte[] HashableContent(string file)
+    {
+        byte[] content = File.ReadAllBytes(file);
+        if (!Path.GetFileName(file).Equals("plugin.json", StringComparison.OrdinalIgnoreCase))
+            return content;
+        try
+        {
+            if (System.Text.Json.Nodes.JsonNode.Parse(content) is not System.Text.Json.Nodes.JsonObject manifest)
+                return content;
+            manifest.Remove("library");
+            return Encoding.UTF8.GetBytes(manifest.ToJsonString());
+        }
+        catch (System.Text.Json.JsonException)
+        {
+            return content;
+        }
     }
 
     public static string GrantName(PluginManifest manifest) => "powerful:" + ContentHash(manifest);
