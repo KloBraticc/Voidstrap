@@ -59,9 +59,14 @@ internal static class MediaContentFilter
                     return null;
                 foreach (BitmapFrame frame in frames)
                     frame.Freeze();
-                foreach (BitmapFrame frame in frames)
-                    if (!await IsAllowedAsync(frame).ConfigureAwait(false))
-                        return null;
+                string approval = ApprovalPath(bytes);
+                if (!File.Exists(approval))
+                {
+                    foreach (BitmapFrame frame in frames)
+                        if (!await IsAllowedAsync(frame).ConfigureAwait(false))
+                            return null;
+                    RememberApproval(approval);
+                }
                 return (BitmapSource?)frames.OrderByDescending(frame => frame.PixelWidth).First();
             }
             catch (Exception ex)
@@ -70,6 +75,22 @@ internal static class MediaContentFilter
                 return null;
             }
         });
+
+    private static string ApprovalPath(byte[] bytes) =>
+        Path.Combine(Paths.Cache, "MediaFilter", "Approved-" + ModelHash[..12], Convert.ToHexString(SHA256.HashData(bytes)));
+
+    private static void RememberApproval(string path)
+    {
+        try
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+            File.WriteAllBytes(path, []);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            App.Logger?.WriteLine("MediaContentFilter", "The icon check result could not be saved: " + ex.GetType().Name);
+        }
+    }
 
     internal static Task<bool> IsAllowedAsync(BitmapSource source)
     {

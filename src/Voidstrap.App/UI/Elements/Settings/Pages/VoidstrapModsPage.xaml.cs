@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -74,7 +75,7 @@ public partial class VoidstrapModsPage : UiPage
 
     private string _lastModSignature = "";
 
-    private readonly Dictionary<string, (DateTime Stamp, BitmapSource? Icon)> _iconCache = new(StringComparer.OrdinalIgnoreCase);
+    private static readonly ConcurrentDictionary<string, (DateTime Stamp, BitmapSource? Icon)> _iconCache = new(StringComparer.OrdinalIgnoreCase);
 
     private void RenderMods()
     {
@@ -565,7 +566,7 @@ public partial class VoidstrapModsPage : UiPage
 
     private ModLibrary.Index? _libraryIndex;
 
-    private readonly Dictionary<string, BitmapSource?> _libraryIcons = new(StringComparer.Ordinal);
+    private static readonly Dictionary<string, BitmapSource?> _libraryIcons = new(StringComparer.Ordinal);
 
     private ModLibrary.LibraryMod? _detailMod;
 
@@ -697,12 +698,21 @@ public partial class VoidstrapModsPage : UiPage
             PopulateSorts();
             RenderLibrary();
             ReportTakedowns(_libraryIndex);
-            foreach (ModLibrary.LibraryMod mod in _libraryIndex.Mods.Where(m => m.HasIcon && !_libraryIcons.ContainsKey(m.Id)))
+            ModLibrary.Index index = _libraryIndex;
+            List<Task<(string Id, BitmapSource? Icon)>> loading = index
+                .Mods.Where(m => m.HasIcon && !_libraryIcons.ContainsKey(m.Id))
+                .Select(mod => LoadLibraryIconAsync(index, mod, token))
+                .ToList();
+            while (loading.Count > 0)
             {
-                byte[]? bytes = await ModLibrary.GetIconAsync(_libraryIndex, mod, token);
-                _libraryIcons[mod.Id] = bytes == null ? null : await MediaContentFilter.LoadCheckedIconAsync(bytes);
+                Task<(string Id, BitmapSource? Icon)> finished = await Task.WhenAny(loading);
+                loading.Remove(finished);
+                (string id, BitmapSource? icon) = await finished;
+                if (icon != null)
+                    _libraryIcons[id] = icon;
+                if (icon != null || loading.Count == 0)
+                    RenderLibrary();
             }
-            RenderLibrary();
             RenderMods();
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested) { }
@@ -712,6 +722,12 @@ public partial class VoidstrapModsPage : UiPage
             LibraryStatusText.Text = string.Format(Strings.Ui_VoidstrapMods_LibraryFailed, ex.Message);
             LibraryEmpty.Visibility = Visibility.Visible;
         }
+    }
+
+    private static async Task<(string Id, BitmapSource? Icon)> LoadLibraryIconAsync(ModLibrary.Index index, ModLibrary.LibraryMod mod, CancellationToken token)
+    {
+        byte[]? bytes = await ModLibrary.GetIconAsync(index, mod, token).ConfigureAwait(false);
+        return (mod.Id, bytes == null ? null : await MediaContentFilter.LoadCheckedIconAsync(bytes).ConfigureAwait(false));
     }
 
     private void ReportTakedowns(ModLibrary.Index index)

@@ -322,11 +322,22 @@ public static partial class ModLibrary
         LibraryFile? icon = mod.Files.FirstOrDefault(f => f.Path == ModFiles.IconFile);
         if (icon == null)
             return null;
+        string cached = Path.Combine(Paths.Cache, "ModLibraryIcons", icon.Sha256 + ".ico");
         try
         {
-            return await DownloadVerifiedAsync(index, mod, icon, token);
+            if (File.Exists(cached))
+            {
+                byte[] saved = await File.ReadAllBytesAsync(cached, token);
+                if (string.Equals(Convert.ToHexStringLower(SHA256.HashData(saved)), icon.Sha256, StringComparison.Ordinal))
+                    return saved;
+            }
+            byte[] bytes = await DownloadVerifiedAsync(index, mod, icon, token);
+            Directory.CreateDirectory(Path.GetDirectoryName(cached)!);
+            await File.WriteAllBytesAsync(cached + ".tmp", bytes, token);
+            File.Move(cached + ".tmp", cached, true);
+            return bytes;
         }
-        catch (Exception ex) when (ex is HttpRequestException or InvalidDataException or TaskCanceledException)
+        catch (Exception ex) when (ex is HttpRequestException or InvalidDataException or IOException or UnauthorizedAccessException or TaskCanceledException)
         {
             return null;
         }
