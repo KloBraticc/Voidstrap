@@ -1,4 +1,4 @@
-<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Editor.VoidstrapModEditorWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:editor="clr-namespace:Voidstrap.UI.Elements.Editor" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Width="1280" Height="800" MinWidth="760" MinHeight="480" ExtendsContentIntoTitleBar="True" WindowStartupLocation="CenterScreen" Background="#FF2D2D30" Closing="Window_Closing">
+<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Editor.VoidstrapModEditorWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:editor="clr-namespace:Voidstrap.UI.Elements.Editor" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Width="1280" Height="800" MinWidth="760" MinHeight="480" ExtendsContentIntoTitleBar="True" WindowStartupLocation="CenterScreen" Background="#FF2B2D30" Closing="Window_Closing">
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -6,7 +6,7 @@
         <ResourceDictionary Source="/Voidstrap;component/UI/Elements/Editor/VisualStudioTheme.xaml" />
       </ResourceDictionary.MergedDictionaries>
       <Style x:Key="VsTreeItem" TargetType="TreeViewItem">
-        <Setter Property="Foreground" Value="#FFF1F1F1" />
+        <Setter Property="Foreground" Value="#FFDFE1E5" />
         <Setter Property="Template">
           <Setter.Value>
             <ControlTemplate TargetType="TreeViewItem">
@@ -17,7 +17,7 @@
                       <ToggleButton.Template>
                         <ControlTemplate TargetType="ToggleButton">
                           <Border Background="Transparent">
-                            <ui:SymbolIcon x:Name="Glyph" Symbol="ChevronRight24" FontSize="10" Foreground="#FFD0D0D0" />
+                            <ui:SymbolIcon x:Name="Glyph" Symbol="ChevronRight24" FontSize="10" Foreground="#FFB4B8BF" />
                           </Border>
                           <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
@@ -40,7 +40,7 @@
                   <Setter TargetName="Expander" Property="Visibility" Value="Hidden" />
                 </Trigger>
                 <Trigger SourceName="Row" Property="IsMouseOver" Value="True">
-                  <Setter TargetName="Row" Property="Background" Value="#FF3E3E40" />
+                  <Setter TargetName="Row" Property="Background" Value="#FF393B40" />
                 </Trigger>
                 <Trigger Property="IsSelected" Value="True">
                   <Setter TargetName="Row" Property="Background" Value="{DynamicResource AccentFillColorDefaultBrush}" />
@@ -52,7 +52,7 @@
         <Setter Property="ItemContainerStyle" Value="{DynamicResource VsTreeItem}" />
       </Style>
       <Style x:Key="VsPaneHeader" TargetType="TextBlock">
-        <Setter Property="Foreground" Value="#FFD0D0D0" />
+        <Setter Property="Foreground" Value="#FFB4B8BF" />
         <Setter Property="FontSize" Value="12" />
         <Setter Property="Margin" Value="6,3" />
       </Style>
@@ -68,8 +68,8 @@
     </Grid.RowDefinitions>
     <ui:TitleBar x:Name="WindowTitleBar" Grid.Row="0" Padding="8,4,0,4" Icon="pack://application:,,,/Voidstrap.png" ShowMaximize="True" ShowMinimize="True" />
 
-    <DockPanel Grid.Row="1" Background="#FF2D2D30">
-    <Menu Background="#FF2D2D30" Foreground="#FFF1F1F1" FontSize="12.5">
+    <DockPanel Grid.Row="1" Background="#FF2B2D30">
+    <Menu Background="#FF2B2D30" Foreground="#FFDFE1E5" FontSize="12.5">
       <MenuItem Header="{resources:Loc Ui_VsEditor_File}">
         <MenuItem Header="{resources:Loc Ui_VoidstrapMods_NewFileButton}" Click="NewFile_Click" />
         <MenuItem x:Name="SaveMenu" Header="{resources:Loc Common_Save}" InputGestureText="Ctrl+S" Click="SaveOnly_Click" />
@@ -103,16 +103,16 @@
     </Menu>
     </DockPanel>
 
-    <Border Grid.Row="2" Padding="4,2" Background="#FF2D2D30" BorderBrush="#FF3F3F46" BorderThickness="0,0,0,1">
+    <Border Grid.Row="2" Padding="4,2" Background="#FF2B2D30" BorderBrush="#FF393B40" BorderThickness="0,0,0,1">
       <StackPanel Orientation="Horizontal">
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_EditorSettings_Title}" Click="EditorSettings_Click"><ui:SymbolIcon Symbol="Settings24" FontSize="15" /></Button>
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_VoidstrapMods_NewFileButton}" Click="NewFile_Click"><ui:SymbolIcon Symbol="DocumentAdd24" FontSize="15" /></Button>
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Common_Save}" Click="SaveOnly_Click"><ui:SymbolIcon Symbol="Save24" FontSize="15" /></Button>
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_VsEditor_SaveAll}" Click="SaveAll_Click"><ui:SymbolIcon Symbol="SaveMultiple24" FontSize="15" /></Button>
-        <Rectangle Width="1" Margin="4,2" Fill="#FF3F3F46" />
+        <Rectangle Width="1" Margin="4,2" Fill="#FF393B40" />
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_VsEditor_Undo}" Click="Undo_Click"><ui:SymbolIcon Symbol="ArrowUndo24" FontSize="15" /></Button>
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_VsEditor_Redo}" Click="Redo_Click"><ui:SymbolIcon Symbol="ArrowRedo24" FontSize="15" /></Button>
-        <Rectangle Width="1" Margin="4,2" Fill="#FF3F3F46" />
+        <Rectangle Width="1" Margin="4,2" Fill="#FF393B40" />
         <Button Style="{StaticResource VsToolButton}" Click="Save_Click">
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Play24" FontSize="15" Foreground="#FF8DD28A" />
@@ -128,39 +128,39 @@
       </StackPanel>
     </Border>
 
-    <Grid Grid.Row="3" Background="#FF2D2D30">
+    <Grid Grid.Row="3" Background="#FF2B2D30">
       <Grid.ColumnDefinitions>
+        <ColumnDefinition x:Name="ExplorerColumn" Width="280" MinWidth="0" />
+        <ColumnDefinition x:Name="ExplorerSplitColumn" Width="3" />
         <ColumnDefinition Width="*" />
-        <ColumnDefinition x:Name="ExplorerSplitColumn" Width="5" />
-        <ColumnDefinition x:Name="ExplorerColumn" Width="300" MinWidth="0" />
       </Grid.ColumnDefinitions>
-      <Grid>
+      <Grid Grid.Column="2">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition Height="*" />
           <RowDefinition x:Name="OutputSplitRow" Height="5" />
           <RowDefinition x:Name="OutputRow" Height="130" />
         </Grid.RowDefinitions>
-        <Border BorderBrush="{DynamicResource AccentFillColorDefaultBrush}" BorderThickness="0,0,0,2">
+        <Border BorderBrush="#FF393B40" BorderThickness="0,0,0,1">
           <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
             <StackPanel x:Name="DocumentTabs" Orientation="Horizontal" MinHeight="24" />
           </ScrollViewer>
         </Border>
-        <Border Grid.Row="1" Background="#FF1E1E1E">
-          <avalonedit:TextEditor x:Name="CodeEditor" controls:CodeEditorBehavior.Language=".tsx" Padding="4,0,0,0" Background="#FF1E1E1E" Foreground="#FFDCDCDC" FontFamily="Cascadia Mono, Consolas" FontSize="13" ShowLineNumbers="True" LineNumbersForeground="#FF2B91AF" IsReadOnly="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+        <Border Grid.Row="1" Background="#FF1E1F22">
+          <avalonedit:TextEditor x:Name="CodeEditor" controls:CodeEditorBehavior.Language=".tsx" Padding="4,0,0,0" Background="#FF1E1F22" Foreground="#FFBCBEC4" FontFamily="JetBrains Mono, Cascadia Mono, Consolas" FontSize="13" ShowLineNumbers="True" LineNumbersForeground="#FF4B5059" IsReadOnly="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
         </Border>
-        <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF2D2D30" />
-        <Grid x:Name="OutputPane" Grid.Row="3" Background="#FF252526">
+        <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF2B2D30" />
+        <Grid x:Name="OutputPane" Grid.Row="3" Background="#FF2B2D30">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
           </Grid.RowDefinitions>
           <TextBlock Style="{StaticResource VsPaneHeader}" Text="{resources:Loc Ui_VsEditor_Output}" />
-          <avalonedit:TextEditor x:Name="OutputBox" Grid.Row="1" IsReadOnly="True" Background="#FF1E1E1E" Foreground="#FFDCDCDC" FontFamily="Cascadia Mono, Consolas" FontSize="12" Padding="6,2" WordWrap="True" VerticalScrollBarVisibility="Auto" />
+          <avalonedit:TextEditor x:Name="OutputBox" Grid.Row="1" IsReadOnly="True" Background="#FF1E1F22" Foreground="#FFBCBEC4" FontFamily="JetBrains Mono, Cascadia Mono, Consolas" FontSize="12" Padding="6,2" WordWrap="True" VerticalScrollBarVisibility="Auto" />
         </Grid>
       </Grid>
-      <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF2D2D30" />
-      <Grid x:Name="ExplorerPane" Grid.Column="2" Background="#FF252526">
+      <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FF2B2D30" />
+      <Grid x:Name="ExplorerPane" Grid.Column="0" Background="#FF2B2D30">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition Height="Auto" />
@@ -169,22 +169,22 @@
         </Grid.RowDefinitions>
         <TextBlock Style="{StaticResource VsPaneHeader}" Text="{resources:Loc Ui_VsEditor_SolutionExplorer}" />
         <Grid Grid.Row="1" Margin="4,0,4,4">
-          <avalonedit:TextEditor x:Name="ExplorerSearch" Height="22" Padding="4,2" Background="#FF333337" Foreground="#FFF1F1F1" BorderThickness="1" BorderBrush="#FF3F3F46" FontSize="12" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" TextChanged="ExplorerSearch_TextChanged" />
-          <TextBlock x:Name="ExplorerSearchHint" Margin="7,3" FontSize="12" IsHitTestVisible="False" Foreground="#FF999999" Text="{resources:Loc Ui_VsEditor_SearchExplorer}" />
+          <avalonedit:TextEditor x:Name="ExplorerSearch" Height="22" Padding="4,2" Background="#FF393B40" Foreground="#FFDFE1E5" BorderThickness="1" BorderBrush="#FF393B40" FontSize="12" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" TextChanged="ExplorerSearch_TextChanged" />
+          <TextBlock x:Name="ExplorerSearchHint" Margin="7,3" FontSize="12" IsHitTestVisible="False" Foreground="#FF868A91" Text="{resources:Loc Ui_VsEditor_SearchExplorer}" />
         </Grid>
-        <TreeView x:Name="FileTree" Grid.Row="2" Background="Transparent" BorderThickness="0" FontSize="12.5" Foreground="#FFF1F1F1" ItemContainerStyle="{StaticResource VsTreeItem}" />
+        <TreeView x:Name="FileTree" Grid.Row="2" Background="Transparent" BorderThickness="0" FontSize="12.5" Foreground="#FFDFE1E5" ItemContainerStyle="{StaticResource VsTreeItem}" />
         <ui:TextBox x:Name="NewFileBox" Grid.Row="3" Visibility="Collapsed" Margin="4" PlaceholderText="{resources:Loc Ui_VoidstrapMods_NewFilePlaceholder}" KeyDown="NewFileBox_KeyDown" />
       </Grid>
     </Grid>
 
-    <Border Grid.Row="4" Background="{DynamicResource AccentFillColorDefaultBrush}" Padding="8,2">
+    <Border Grid.Row="4" Background="#FF2B2D30" BorderBrush="#FF393B40" BorderThickness="0,1,0,0" Padding="10,3">
       <Grid>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="StatusText" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}" FontSize="12" TextTrimming="CharacterEllipsis" Text="{resources:Loc Ui_VsEditor_Ready}" />
-        <TextBlock x:Name="CaretText" Grid.Column="1" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}" FontSize="12" />
+        <TextBlock x:Name="StatusText" Foreground="#FFB4B8BF" FontSize="12" TextTrimming="CharacterEllipsis" Text="{resources:Loc Ui_VsEditor_Ready}" />
+        <TextBlock x:Name="CaretText" Grid.Column="1" Foreground="#FFB4B8BF" FontSize="12" />
       </Grid>
     </Border>
   </Grid>

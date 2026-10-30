@@ -277,7 +277,8 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
 
     private void RefreshTab(OpenDocument document)
     {
-        document.Tab.Background = document == _active ? (System.Windows.Media.Brush)FindResource("AccentFillColorDefaultBrush") : System.Windows.Media.Brushes.Transparent;
+        document.Tab.BorderThickness = new Thickness(0, 0, 0, 3);
+        document.Tab.BorderBrush = document == _active ? (System.Windows.Media.Brush)FindResource("AccentFillColorDefaultBrush") : System.Windows.Media.Brushes.Transparent;
         if (document.Tab.Child is StackPanel { Children: [System.Windows.Controls.TextBlock label, ..] })
             label.Text = Path.GetFileName(document.Path) + (document.Dirty ? "*" : "");
     }
@@ -530,8 +531,8 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
     {
         bool show = ExplorerMenu.IsChecked;
         ExplorerPane.Visibility = show ? Visibility.Visible : Visibility.Collapsed;
-        ExplorerColumn.Width = new GridLength(show ? 300 : 0);
-        ExplorerSplitColumn.Width = new GridLength(show ? 5 : 0);
+        ExplorerColumn.Width = new GridLength(show ? 280 : 0);
+        ExplorerSplitColumn.Width = new GridLength(show ? 3 : 0);
     }
 
     private void ToggleOutput_Click(object sender, RoutedEventArgs e)

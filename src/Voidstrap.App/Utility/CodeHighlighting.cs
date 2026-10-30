@@ -15,17 +15,17 @@ namespace Voidstrap.Utility
     {
         private const string LOG_IDENT = "CodeHighlighting";
 
-        private const string Comment = "#6A9955";
-        private const string Str = "#CE9178";
-        private const string Number = "#B5CEA8";
-        private const string Keyword = "#569CD6";
-        private const string ControlKeyword = "#C586C0";
-        private const string Method = "#DCDCAA";
-        private const string TypeName = "#4EC9B0";
-        private const string Variable = "#9CDCFE";
+        private const string Comment = "#7A7E85";
+        private const string Str = "#6AAB73";
+        private const string Number = "#2AACB8";
+        private const string Keyword = "#CF8E6D";
+        private const string ControlKeyword = "#CF8E6D";
+        private const string Method = "#56A8F5";
+        private const string TypeName = "#BCBEC4";
+        private const string Variable = "#C77DBA";
         private const string Punctuation = "#808080";
-        private const string Meta = "#D7BA7D";
-        private const string Heading = "#569CD6";
+        private const string Meta = "#B3AE60";
+        private const string Heading = "#CF8E6D";
         private const string Added = "#6A9955";
         private const string Removed = "#F14C4C";
 
@@ -425,11 +425,11 @@ namespace Voidstrap.Utility
 
         private const string GenericSyntax = """
 <SyntaxDefinition name="Generic" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
-  <Color name="Comment" foreground="#6A9955" />
-  <Color name="String" foreground="#CE9178" />
-  <Color name="Number" foreground="#B5CEA8" />
-  <Color name="Keyword" foreground="#569CD6" />
-  <Color name="MethodCall" foreground="#DCDCAA" />
+  <Color name="Comment" foreground="#7A7E85" />
+  <Color name="String" foreground="#6AAB73" />
+  <Color name="Number" foreground="#2AACB8" />
+  <Color name="Keyword" foreground="#CF8E6D" />
+  <Color name="MethodCall" foreground="#56A8F5" />
   <RuleSet>
     <Span color="Comment" multiline="true" begin="/\*" end="\*/" />
     <Span color="Comment" begin="//" />
@@ -464,13 +464,13 @@ namespace Voidstrap.Utility
 
         private const string LuaSyntax = """
 <SyntaxDefinition name="Lua" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
-  <Color name="Comment" foreground="#6A9955" />
-  <Color name="String" foreground="#CE9178" />
-  <Color name="Number" foreground="#B5CEA8" />
-  <Color name="Keyword" foreground="#569CD6" />
-  <Color name="ControlKeyword" foreground="#C586C0" />
+  <Color name="Comment" foreground="#7A7E85" />
+  <Color name="String" foreground="#6AAB73" />
+  <Color name="Number" foreground="#2AACB8" />
+  <Color name="Keyword" foreground="#CF8E6D" />
+  <Color name="ControlKeyword" foreground="#CF8E6D" />
   <Color name="GlobalType" foreground="#4EC9B0" />
-  <Color name="MethodCall" foreground="#DCDCAA" />
+  <Color name="MethodCall" foreground="#56A8F5" />
   <RuleSet ignoreCase="false">
     <Span color="Comment" multiline="true" begin="--\[\[" end="\]\]" />
     <Span color="Comment" begin="--" />

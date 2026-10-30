@@ -130,11 +130,11 @@ namespace Voidstrap.Models.Persistable
         public double CustomDeathSoundVolume { get; set; } = 1.0;
 
         public int CleanRobloxNumber = 0;
-        public string EditorBackground { get; set; } = "#1E1E1E";
+        public string EditorBackground { get; set; } = "#1E1F22";
 
-        public string EditorForeground { get; set; } = "#DCDCDC";
+        public string EditorForeground { get; set; } = "#BCBEC4";
 
-        public string EditorFontFamily { get; set; } = "Cascadia Mono, Consolas";
+        public string EditorFontFamily { get; set; } = "JetBrains Mono, Cascadia Mono, Consolas";
 
         public double EditorFontSize { get; set; } = 13;
 

@@ -10,7 +10,7 @@
                    Title="{resources:Loc Ui_Keystrokes_Editor_Title}" Width="1080" Height="720"
                    MinWidth="960" MinHeight="600" WindowStartupLocation="CenterScreen"
                    ExtendsContentIntoTitleBar="True"
-                   Background="#FF2D2D30">
+                   Background="#FF2B2D30">
   <FrameworkElement.Resources>
     <ResourceDictionary Source="/Voidstrap;component/UI/Elements/Editor/VisualStudioTheme.xaml" />
   </FrameworkElement.Resources>
@@ -26,7 +26,7 @@
     <ui:TitleBar x:Name="TitleBarControl" Icon="pack://application:,,,/Voidstrap.png"
                  Title="{resources:Loc Ui_Keystrokes_Editor_Title}" Grid.Row="0" Padding="8" />
 
-    <Menu Grid.Row="1" Background="#FF2D2D30" Foreground="#FFF1F1F1" FontSize="12.5">
+    <Menu Grid.Row="1" Background="#FF2B2D30" Foreground="#FFDFE1E5" FontSize="12.5">
       <MenuItem Header="{resources:Loc Ui_VsEditor_File}">
         <MenuItem Header="{resources:Loc Common_Save}" Click="OnSaveClicked" />
         <MenuItem Header="{resources:Loc Ui_Keystrokes_Editor_Revert}" Click="OnRevertClicked" />
@@ -36,7 +36,7 @@
       </MenuItem>
     </Menu>
 
-    <Border Grid.Row="2" Padding="4,2" Background="#FF2D2D30" BorderBrush="#FF3F3F46" BorderThickness="0,0,0,1">
+    <Border Grid.Row="2" Padding="4,2" Background="#FF2B2D30" BorderBrush="#FF393B40" BorderThickness="0,0,0,1">
       <StackPanel Orientation="Horizontal">
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_EditorSettings_Title}" Click="EditorSettings_Click"><ui:SymbolIcon Symbol="Settings24" FontSize="15" /></Button>
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Common_Save}" Click="OnSaveClicked"><ui:SymbolIcon Symbol="Save24" FontSize="15" /></Button>
@@ -405,7 +405,7 @@
             <avalonedit:TextEditor x:Name="CodeEditor" Grid.Row="1"
                                    controls:CodeEditorBehavior.Language=".json"
                                    Style="{StaticResource NewTextEditor}"
-                                   FontFamily="Cascadia Mono, Consolas"
+                                   FontFamily="JetBrains Mono, Cascadia Mono, Consolas"
                                    FontSize="13"
                                    ShowLineNumbers="True"
                                    HorizontalScrollBarVisibility="Auto"
@@ -535,8 +535,8 @@
       </Border>
     </Grid>
 
-    <Border Grid.Row="4" Background="{DynamicResource AccentFillColorDefaultBrush}" Padding="8,2">
-      <TextBlock FontSize="12" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}" Text="{resources:Loc Ui_VsEditor_Ready}" />
+    <Border Grid.Row="4" Background="#FF2B2D30" BorderBrush="#FF393B40" BorderThickness="0,1,0,0" Padding="10,3">
+      <TextBlock FontSize="12" Foreground="#FFB4B8BF" Text="{resources:Loc Ui_VsEditor_Ready}" />
     </Border>
   </Grid>
 </base:WpfUiWindow>

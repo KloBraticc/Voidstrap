@@ -54,7 +54,8 @@ internal static class EditorAppearance
         }
     }
 
-    private static Color BackgroundColor => ParseColor(App.Settings.Prop.EditorBackground, Color.FromRgb(0x1E, 0x1E, 0x1E));
+    private static Color BackgroundColor =>
+        App.Settings.Prop.EditorBackground == "#1E1E1E" ? Color.FromRgb(0x1E, 0x1F, 0x22) : ParseColor(App.Settings.Prop.EditorBackground, Color.FromRgb(0x1E, 0x1F, 0x22));
 
     private static void ApplyTo(FrameworkElement panel)
     {
@@ -68,7 +69,7 @@ internal static class EditorAppearance
     {
         var settings = App.Settings.Prop;
         editor.Background = BuildBackground();
-        editor.Foreground = new SolidColorBrush(ParseColor(settings.EditorForeground, Color.FromRgb(0xDC, 0xDC, 0xDC)));
+        editor.Foreground = new SolidColorBrush(settings.EditorForeground == "#DCDCDC" ? Color.FromRgb(0xBC, 0xBE, 0xC4) : ParseColor(settings.EditorForeground, Color.FromRgb(0xBC, 0xBE, 0xC4)));
         editor.FontFamily = new System.Windows.Media.FontFamily(string.IsNullOrWhiteSpace(settings.EditorFontFamily) ? "Cascadia Mono, Consolas" : settings.EditorFontFamily);
         editor.FontSize = Math.Clamp(settings.EditorFontSize, 8.0, 40.0);
         editor.WordWrap = settings.EditorWordWrap;
@@ -183,9 +184,9 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
     private void Reset_Click(object sender, RoutedEventArgs e)
     {
         var settings = App.Settings.Prop;
-        settings.EditorBackground = "#1E1E1E";
-        settings.EditorForeground = "#DCDCDC";
-        settings.EditorFontFamily = "Cascadia Mono, Consolas";
+        settings.EditorBackground = "#1E1F22";
+        settings.EditorForeground = "#BCBEC4";
+        settings.EditorFontFamily = "JetBrains Mono, Cascadia Mono, Consolas";
         settings.EditorFontSize = 13;
         settings.EditorWordWrap = false;
         settings.EditorLineNumbers = true;

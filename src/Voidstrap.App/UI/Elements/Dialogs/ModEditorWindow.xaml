@@ -2,7 +2,7 @@
   <FrameworkElement.Resources>
     <ResourceDictionary Source="/Voidstrap;component/UI/Elements/Editor/VisualStudioTheme.xaml" />
   </FrameworkElement.Resources>
-  <Grid Background="#FF2D2D30">
+  <Grid Background="#FF2B2D30">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
@@ -13,7 +13,7 @@
     </Grid.RowDefinitions>
     <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Title="{resources:Loc Ui_Misc2_EditMod}" Grid.Row="0" Padding="8" CanMaximize="False" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="False" />
 
-    <Menu Grid.Row="1" Background="#FF2D2D30" Foreground="#FFF1F1F1" FontSize="12.5">
+    <Menu Grid.Row="1" Background="#FF2B2D30" Foreground="#FFDFE1E5" FontSize="12.5">
       <MenuItem Header="{resources:Loc Ui_VsEditor_File}">
         <MenuItem Header="{resources:Loc CustomTheme_Editor_Save}" Click="Save_Click" />
         <Separator />
@@ -21,7 +21,7 @@
       </MenuItem>
     </Menu>
 
-    <Border Grid.Row="2" Padding="4,2" Background="#FF2D2D30" BorderBrush="#FF3F3F46" BorderThickness="0,0,0,1">
+    <Border Grid.Row="2" Padding="4,2" Background="#FF2B2D30" BorderBrush="#FF393B40" BorderThickness="0,0,0,1">
       <StackPanel Orientation="Horizontal">
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_EditorSettings_Title}" Click="EditorSettings_Click"><ui:SymbolIcon Symbol="Settings24" FontSize="15" /></Button>
         <Button x:Name="SaveButton" Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc CustomTheme_Editor_Save}" IsEnabled="False" Click="Save_Click"><ui:SymbolIcon Symbol="Save24" FontSize="15" /></Button>
@@ -135,8 +135,8 @@
         </ItemsControl>
     </Grid>
 
-    <Border Grid.Row="5" Background="{DynamicResource AccentFillColorDefaultBrush}" Padding="8,2">
-      <TextBlock x:Name="StatusText" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}" />
+    <Border Grid.Row="5" Background="#FF2B2D30" BorderBrush="#FF393B40" BorderThickness="0,1,0,0" Padding="10,3">
+      <TextBlock x:Name="StatusText" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="#FFB4B8BF" />
     </Border>
   </Grid>
 </base:WpfUiWindow>
