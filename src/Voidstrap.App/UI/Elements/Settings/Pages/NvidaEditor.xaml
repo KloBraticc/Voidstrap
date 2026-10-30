@@ -27,7 +27,7 @@
                Text="{resources:Loc Ui_Pages_ManageNVIDIASettingsSavedInYour}" />
 
     <WrapPanel Grid.Row="1" Orientation="Horizontal">
-      <ui:Button Margin="0,0,10,12" VerticalAlignment="Top" Content="{resources:Loc Ui_EditorSettings_Title}" Icon="Settings24" Click="EditorSettings_Click" />
+      <ui:Button Width="40" Margin="0,0,10,12" Padding="0" VerticalAlignment="Stretch" ToolTip="{resources:Loc Ui_EditorSettings_Title}" Click="EditorSettings_Click"><ui:SymbolIcon Symbol="Settings24" FontSize="16" /></ui:Button>
       <ui:Button Width="110" Margin="0,0,10,12" Content="{resources:Loc Ui_Pages_AddNew}" Icon="AddCircle24" Click="Add_Click" />
       <ui:Button Margin="0,0,10,12" VerticalAlignment="Top" Appearance="Danger" Background="#ff3334" Content="{resources:Loc Ui_Pages_DeleteSelected}" Icon="SlideEraser24" Click="DeleteSelected_Click">
         <ui:Button.PressedBackground>
