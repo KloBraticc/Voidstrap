@@ -215,35 +215,26 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
     private void AddColor(string label, string value, Action<string> set)
     {
         AddLabel(label);
-        Grid row = new();
-        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(36) });
-        Border swatch = new() { Margin = new Thickness(6, 2, 0, 2), BorderThickness = new Thickness(1), BorderBrush = Brushes.Gray, Background = new SolidColorBrush(EditorAppearance.ParseColor(value, Colors.Transparent)) };
-        Grid.SetColumn(swatch, 1);
-        TextBox box = new() { Text = value };
-        box.TextChanged += (_, _) =>
+        Border swatch = new()
         {
-            if (ColorConverter.ConvertFromString(IsColor(box.Text) ? box.Text : "#00000000") is not Color color || !IsColor(box.Text))
+            Height = 28,
+            BorderThickness = new Thickness(1),
+            BorderBrush = Brushes.Gray,
+            Cursor = System.Windows.Input.Cursors.Hand,
+            Background = new SolidColorBrush(EditorAppearance.ParseColor(value, Colors.Transparent)),
+        };
+        swatch.MouseLeftButtonUp += (_, _) =>
+        {
+            Voidstrap.UI.Elements.Controls.RinColorPickerDialog dialog = new(EditorAppearance.ParseColor(value, Colors.Black), alphaEnabled: false) { Owner = this };
+            if (dialog.ShowOwnedDialog() != true)
                 return;
+            Color color = dialog.SelectedColor;
+            value = $"#{color.R:X2}{color.G:X2}{color.B:X2}";
             swatch.Background = new SolidColorBrush(color);
-            set(box.Text);
+            set(value);
             EditorAppearance.Refresh();
         };
-        row.Children.Add(box);
-        row.Children.Add(swatch);
-        _fields.Children.Add(row);
-    }
-
-    private static bool IsColor(string text)
-    {
-        try
-        {
-            return ColorConverter.ConvertFromString(text) is Color;
-        }
-        catch (FormatException)
-        {
-            return false;
-        }
+        _fields.Children.Add(swatch);
     }
 
     private void AddSlider(string label, double min, double max, double value, Action<double> set)
