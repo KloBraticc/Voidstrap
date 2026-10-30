@@ -1548,6 +1548,29 @@ internal sealed partial class Installer
             {
                 File.Delete(stagedPath);
             }
+            RemoveReplacedExecutables();
+        }
+    }
+
+    internal static void RemoveReplacedExecutables()
+    {
+        const string LOG_IDENT = "Installer::RemoveReplacedExecutables";
+        if (!Voidstrap.Utility.Platform.IsWindows)
+            return;
+        string? directory = Path.GetDirectoryName(Paths.Application);
+        if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
+            return;
+        foreach (string file in Directory.EnumerateFiles(directory, Path.GetFileName(Paths.Application) + "~RF*.TMP"))
+        {
+            try
+            {
+                File.Delete(file);
+                App.Logger.WriteLine(LOG_IDENT, "Removed a leftover from an earlier update");
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "A leftover is still in use and is removed on a later start");
+            }
         }
     }
 

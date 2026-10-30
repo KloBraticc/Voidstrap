@@ -1528,6 +1528,7 @@ public partial class App : Application
     {
         Logger.WriteLine("App::OnStartup", "Loaded from " + Paths.Process);
         Logger.WriteLine("App::OnStartup", "Temp path is " + Paths.Temp);
+        _ = Task.Run(Installer.RemoveReplacedExecutables);
         Voidstrap.Utility.LogDiagnostics.WriteEnvironment();
         if (Logger.Initialized && !Logger.NoWriteMode)
             Voidstrap.Utility.LogDiagnostics.MarkSessionStarted(Logger.FileLocation);
