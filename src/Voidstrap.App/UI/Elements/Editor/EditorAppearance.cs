@@ -181,6 +181,8 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
 {
     private readonly StackPanel _fields = new();
 
+    private readonly Wpf.Ui.Controls.Button _imageButton = new();
+
     private readonly DataGrid? _grid;
 
     private readonly GridEditorAppearance? _appearance;
@@ -255,6 +257,7 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
             _appearance.BackgroundImage = path;
         else
             App.Settings.Prop.EditorBackgroundImage = path;
+        UpdateImageButton();
         Changed();
     }
 
@@ -369,27 +372,26 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
 
     private void AddImageRow(double imageOpacity, Action<double> setImageOpacity)
     {
-        StackPanel buttons = new() { Orientation = Orientation.Horizontal };
-        Wpf.Ui.Controls.Button browse = new() { Content = Strings.Common_Browse };
-        browse.Click += Browse_Click;
-        Wpf.Ui.Controls.Button clear = new() { Content = Strings.Ui_EditorSettings_ClearImage, Margin = new Thickness(6, 0, 0, 0) };
-        clear.Click += Clear_Click;
-        buttons.Children.Add(browse);
-        buttons.Children.Add(clear);
-        AddRow(Strings.Ui_EditorSettings_Image, buttons);
+        _imageButton.Click += ImageButton_Click;
+        UpdateImageButton();
+        AddRow(Strings.Ui_EditorSettings_Image, _imageButton);
         AddSlider(Strings.Ui_EditorSettings_ImageOpacity, 0, 1, imageOpacity, setImageOpacity);
     }
 
-    private void Browse_Click(object sender, RoutedEventArgs e)
-    {
-        Microsoft.Win32.OpenFileDialog picker = new() { Filter = Strings.Ui_EditorSettings_ImageFilter, CheckFileExists = true };
-        if (picker.ShowDialog(this) != true)
-            return;
-        SetImage(picker.FileName);
-    }
+    private string CurrentImage => (_appearance != null ? _appearance.BackgroundImage : App.Settings.Prop.EditorBackgroundImage) ?? "";
 
-    private void Clear_Click(object sender, RoutedEventArgs e)
+    private void UpdateImageButton() =>
+        _imageButton.Content = CurrentImage.Length == 0 ? Strings.Common_Browse : Strings.Ui_EditorSettings_ClearImage;
+
+    private void ImageButton_Click(object sender, RoutedEventArgs e)
     {
-        SetImage("");
+        if (CurrentImage.Length > 0)
+        {
+            SetImage("");
+            return;
+        }
+        Microsoft.Win32.OpenFileDialog picker = new() { Filter = Strings.Ui_EditorSettings_ImageFilter, CheckFileExists = true };
+        if (picker.ShowDialog(this) == true)
+            SetImage(picker.FileName);
     }
 }
