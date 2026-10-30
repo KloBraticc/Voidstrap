@@ -15,12 +15,26 @@ public partial class KeystrokePreviewWindow : WpfUiWindow
 {
     private readonly KeystrokeTheme _theme;
     private bool _isRunning;
+    private KeystrokeScriptView? _scriptView;
 
     public KeystrokePreviewWindow(string? themeName = null)
     {
         InitializeComponent();
         _theme = KeystrokeThemeManager.GetTheme(themeName);
         ApplyKeystrokeTheme();
+        if (!string.IsNullOrWhiteSpace(_theme.ScriptSource))
+        {
+            KeystrokeScriptView view = new();
+            if (view.Load(_theme.ScriptSource, System.IO.Path.Combine(Paths.CustomKeystrokeThemes, _theme.Name)) == null && KeysContainer.Parent is Viewbox host)
+            {
+                host.Child = view;
+                _scriptView = view;
+            }
+            else
+            {
+                view.Dispose();
+            }
+        }
         Loaded += OnWindowLoaded;
         Closed += OnWindowClosed;
     }
@@ -125,6 +139,7 @@ public partial class KeystrokePreviewWindow : WpfUiWindow
     private void OnWindowClosed(object? sender, EventArgs e)
     {
         _isRunning = false;
+        _scriptView?.Dispose();
     }
 
     private async Task RunLoopAsync()
@@ -168,6 +183,12 @@ public partial class KeystrokePreviewWindow : WpfUiWindow
 
     private void SetKeyPressed(string tag, bool isDown)
     {
+        if (_scriptView != null)
+        {
+            _scriptView.SetKey(tag, isDown);
+            return;
+        }
+
         (Border? key, Border? highlight, TextBlock? text, TextBlock? cps) = tag switch
         {
             "W" => (KeyW, HighlightW, TextW, null),

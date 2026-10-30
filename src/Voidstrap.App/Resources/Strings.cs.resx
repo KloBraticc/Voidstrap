@@ -9418,4 +9418,34 @@ Povolit?</value>
   <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
     <value>Výkonný mod</value>
   </data>
+  <data name="Ui.Keystrokes.Editor.Examples" xml:space="preserve">
+    <value>Příklady</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Preview" xml:space="preserve">
+    <value>Náhled</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.OverlayPreviewHint" xml:space="preserve">
+    <value>Klikněte sem, poté stiskněte klávesy a pohybujte myší a vyzkoušejte si překryv</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Reference" xml:space="preserve">
+    <value>Referenční příručka API</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.UnsavedPrompt" xml:space="preserve">
+    <value>Chcete před zavřením uložit změny?</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleClassic" xml:space="preserve">
+    <value>Klasické klávesy</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleMinimal" xml:space="preserve">
+    <value>Minimální lišta</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleMouse" xml:space="preserve">
+    <value>Sledování myši</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleCps" xml:space="preserve">
+    <value>Měřič rychlosti klikání</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
+    <value>Animovaná záře</value>
+  </data>
 </root>

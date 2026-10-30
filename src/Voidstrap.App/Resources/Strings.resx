@@ -9104,4 +9104,34 @@ Allow it?</value>
   <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
     <value>Powerful mod</value>
   </data>
+  <data name="Ui.Keystrokes.Editor.Examples" xml:space="preserve">
+    <value>Examples</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.OverlayPreviewHint" xml:space="preserve">
+    <value>Click here, then press keys and move the mouse to try your overlay</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Reference" xml:space="preserve">
+    <value>API reference</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.UnsavedPrompt" xml:space="preserve">
+    <value>Save your changes before closing?</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleClassic" xml:space="preserve">
+    <value>Classic keys</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleMinimal" xml:space="preserve">
+    <value>Minimal bar</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleMouse" xml:space="preserve">
+    <value>Mouse tracker</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleCps" xml:space="preserve">
+    <value>Click speed meter</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
+    <value>Animated glow</value>
+  </data>
 </root>

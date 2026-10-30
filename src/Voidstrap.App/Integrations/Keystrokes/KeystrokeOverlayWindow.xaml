@@ -18,6 +18,8 @@
       <ScaleTransform x:Name="OverlayScaleTransform" ScaleX="1.0" ScaleY="1.0" />
     </Grid.LayoutTransform>
 
+    <ContentPresenter x:Name="ScriptHost" Visibility="Collapsed" />
+
     <StackPanel x:Name="OverlayMainLayout" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
       <Border x:Name="OverlayMouseCircle" Width="88" Height="88" CornerRadius="44" BorderThickness="1.25"
               Margin="0,0,14,0" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">

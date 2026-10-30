@@ -9420,4 +9420,34 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
     <value>強力模組</value>
   </data>
+  <data name="Ui.Keystrokes.Editor.Examples" xml:space="preserve">
+    <value>範例</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Preview" xml:space="preserve">
+    <value>預覽</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.OverlayPreviewHint" xml:space="preserve">
+    <value>點一下這裡,然後按鍵並移動滑鼠來試用你的覆疊</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Reference" xml:space="preserve">
+    <value>API 參考資料</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.UnsavedPrompt" xml:space="preserve">
+    <value>你要在關閉前儲存變更嗎?</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleClassic" xml:space="preserve">
+    <value>經典按鍵</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleMinimal" xml:space="preserve">
+    <value>極簡列</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleMouse" xml:space="preserve">
+    <value>滑鼠追蹤器</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleCps" xml:space="preserve">
+    <value>點擊速度計</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
+    <value>動畫光暈</value>
+  </data>
 </root>

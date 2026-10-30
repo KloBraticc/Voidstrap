@@ -177,18 +177,6 @@ public static partial class McpTools
         KeystrokeThemeManager.SaveCustomTheme(theme);
     }
 
-    private static ThemeCodeLanguage DetectKeystrokeCodeLanguage(string text)
-    {
-        string trimmed = text.TrimStart();
-        if (trimmed.StartsWith('{'))
-            return ThemeCodeLanguage.Json;
-        if (trimmed.StartsWith('<') || trimmed.Contains(":root", StringComparison.OrdinalIgnoreCase))
-            return ThemeCodeLanguage.HtmlCss;
-        if (trimmed.Contains("pub fn configure", StringComparison.Ordinal) || trimmed.Contains("let mut theme", StringComparison.Ordinal))
-            return ThemeCodeLanguage.Rust;
-        return ThemeCodeLanguage.CSharp;
-    }
-
     private static string DescribeType(Type t)
     {
         Type? nullable = Nullable.GetUnderlyingType(t);

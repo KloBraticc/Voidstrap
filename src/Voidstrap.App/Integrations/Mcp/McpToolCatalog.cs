@@ -351,7 +351,7 @@ public static class McpToolCatalog
                     ),
                     ["name"] = P("string", "Theme name."),
                     ["xml"] = P("string", "Theme.xml content for create_bootstrapper_theme."),
-                    ["code"] = P("string", "C#, HTML and CSS, Rust, or JSON for create_keystroke_theme."),
+                    ["code"] = P("string", "JavaScript overlay code for create_keystroke_theme. It must define render(input)."),
                     ["baseTheme"] = P("string", "Keystroke theme to clone."),
                     ["activate"] = P("boolean", "Activate the created theme (default true)."),
                     ["sourcePath"] = P(

@@ -135,9 +135,16 @@ public static partial class McpTools
 
                     if (!string.IsNullOrWhiteSpace(code))
                     {
-                        ThemeCodeLanguage lang = DetectKeystrokeCodeLanguage(code);
-                        if (!KeystrokeThemeCodeConverter.TryParseCode(code, lang, theme, out string? parseError))
-                            return new McpToolResult($"Invalid keystroke theme code: {parseError}", true);
+                        try
+                        {
+                            using KeystrokeScriptHost host = new(code);
+                            host.Render();
+                        }
+                        catch (Exception ex)
+                        {
+                            return new McpToolResult($"Invalid keystroke overlay code: {ex.Message}", true);
+                        }
+                        theme.ScriptSource = code;
                     }
 
                     if (!KeystrokeThemeManager.SaveCustomTheme(theme))

@@ -9408,4 +9408,34 @@ Benarkan?</value>
   <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
     <value>Mod berkuasa</value>
   </data>
+  <data name="Ui.Keystrokes.Editor.Examples" xml:space="preserve">
+    <value>Contoh</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Preview" xml:space="preserve">
+    <value>Pratonton</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.OverlayPreviewHint" xml:space="preserve">
+    <value>Klik di sini, kemudian tekan kekunci dan gerakkan tetikus untuk mencuba tindanan anda</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Reference" xml:space="preserve">
+    <value>Rujukan API</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.UnsavedPrompt" xml:space="preserve">
+    <value>Simpan perubahan anda sebelum menutup?</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleClassic" xml:space="preserve">
+    <value>Kekunci klasik</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleMinimal" xml:space="preserve">
+    <value>Bar minimum</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleMouse" xml:space="preserve">
+    <value>Penjejak tetikus</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleCps" xml:space="preserve">
+    <value>Meter kelajuan klik</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
+    <value>Cahaya animasi</value>
+  </data>
 </root>

@@ -9418,4 +9418,34 @@ Toestaan?</value>
   <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
     <value>Krachtige mod</value>
   </data>
+  <data name="Ui.Keystrokes.Editor.Examples" xml:space="preserve">
+    <value>Voorbeelden</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Preview" xml:space="preserve">
+    <value>Voorbeeldweergave</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.OverlayPreviewHint" xml:space="preserve">
+    <value>Klik hier, druk daarna op toetsen en beweeg de muis om je overlay uit te proberen</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Reference" xml:space="preserve">
+    <value>API-naslag</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.UnsavedPrompt" xml:space="preserve">
+    <value>Wil je je wijzigingen opslaan voordat je sluit?</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleClassic" xml:space="preserve">
+    <value>Klassieke toetsen</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleMinimal" xml:space="preserve">
+    <value>Minimale balk</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleMouse" xml:space="preserve">
+    <value>Muisvolger</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleCps" xml:space="preserve">
+    <value>Kliksnelheidsmeter</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
+    <value>Geanimeerde gloed</value>
+  </data>
 </root>

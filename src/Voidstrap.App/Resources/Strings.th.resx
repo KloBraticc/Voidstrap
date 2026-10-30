@@ -9412,4 +9412,34 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.VoidstrapMods.PowerfulBadge" xml:space="preserve">
     <value>ม็อดทรงพลัง</value>
   </data>
+  <data name="Ui.Keystrokes.Editor.Examples" xml:space="preserve">
+    <value>ตัวอย่าง</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Preview" xml:space="preserve">
+    <value>แสดงตัวอย่าง</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.OverlayPreviewHint" xml:space="preserve">
+    <value>คลิกที่นี่ จากนั้นกดแป้นและขยับเมาส์เพื่อทดลองโอเวอร์เลย์ของคุณ</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Reference" xml:space="preserve">
+    <value>ข้อมูลอ้างอิง API</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.UnsavedPrompt" xml:space="preserve">
+    <value>คุณต้องการบันทึกการเปลี่ยนแปลงก่อนปิดหรือไม่</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleClassic" xml:space="preserve">
+    <value>แป้นแบบคลาสสิก</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleMinimal" xml:space="preserve">
+    <value>แถบแบบเรียบง่าย</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleMouse" xml:space="preserve">
+    <value>ตัวติดตามเมาส์</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleCps" xml:space="preserve">
+    <value>มาตรวัดความเร็วการคลิก</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
+    <value>แสงเรืองแบบเคลื่อนไหว</value>
+  </data>
 </root>

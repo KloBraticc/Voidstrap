@@ -24,6 +24,9 @@ public partial class KeystrokeOverlayWindow : Window
     private readonly RobloxOverlayAnchor _anchor;
     private readonly DispatcherTimer _cpsTimer;
     private readonly Dictionary<string, (Border Key, Border Highlight, TextBlock Text, TextBlock? Cps)> _keyElements = new(StringComparer.OrdinalIgnoreCase);
+    private readonly KeystrokeScriptView _scriptView = new(liveMouse: true);
+    private string? _loadedScript;
+    private string? _scriptFailure;
     private bool _disposed;
 
     public static KeystrokeOverlayWindow? ActiveInstance => _activeInstance;
@@ -148,8 +151,22 @@ public partial class KeystrokeOverlayWindow : Window
             _activeInstance = this;
         }
 
-        InitializeComponent();
+        try
+        {
+            InitializeComponent();
+        }
+        catch
+        {
+            lock (InstanceGate)
+            {
+                if (ReferenceEquals(_activeInstance, this))
+                    _activeInstance = null;
+            }
+            throw;
+        }
         LinuxOverlaySurface.ReleaseMainWindowClaim(this);
+        ScriptHost.Content = _scriptView;
+        _scriptView.ScriptStateChanged += OnScriptStateChanged;
 
         _anchor = new RobloxOverlayAnchor(this, placement: RobloxOverlayPlacement.Center, customPosition: ComputeKeystrokesPosition);
 
@@ -219,6 +236,8 @@ public partial class KeystrokeOverlayWindow : Window
         }
 
         var theme = KeystrokeThemeManager.ActiveTheme;
+        if (ApplyScript(theme))
+            return;
 
         Brush borderBrush = theme.GetKeyBorderBrush();
         Brush textBrush = theme.GetKeyTextBrush();
@@ -425,11 +444,54 @@ public partial class KeystrokeOverlayWindow : Window
         }
     }
 
+    private bool ApplyScript(KeystrokeTheme theme)
+    {
+        string? source = theme.ScriptSource;
+        if (string.IsNullOrWhiteSpace(source))
+        {
+            _scriptView.Unload();
+            _loadedScript = null;
+            ScriptHost.Visibility = Visibility.Collapsed;
+            OverlayMainLayout.Visibility = Visibility.Visible;
+            return false;
+        }
+
+        if (source != _loadedScript || !_scriptView.IsRunning)
+        {
+            _loadedScript = source;
+            _scriptFailure = null;
+            _scriptView.Load(source, System.IO.Path.Combine(Paths.CustomKeystrokeThemes, theme.Name));
+        }
+        if (!_scriptView.IsRunning)
+        {
+            ScriptHost.Visibility = Visibility.Collapsed;
+            OverlayMainLayout.Visibility = Visibility.Visible;
+            return false;
+        }
+
+        ScriptHost.Visibility = Visibility.Visible;
+        OverlayMainLayout.Visibility = Visibility.Collapsed;
+        return true;
+    }
+
+    private void OnScriptStateChanged(string? error)
+    {
+        const string LOG_IDENT = "KeystrokeOverlayWindow::OnScriptStateChanged";
+
+        if (error == null || error == _scriptFailure)
+            return;
+        _scriptFailure = error;
+        App.Logger.WriteLine(LOG_IDENT, "Overlay code error: " + error);
+    }
+
+    private void OnOverlaySizeChanged(object sender, SizeChangedEventArgs e) => _anchor.Refresh();
+
     private void OnOverlayLoaded(object? sender, RoutedEventArgs e)
     {
         MakeClickThrough();
         KeystrokeInputService.KeyNamedChanged += OnKeyNamedChanged;
         KeystrokeThemeManager.ActiveThemeChanged += OnActiveThemeChanged;
+        SizeChanged += OnOverlaySizeChanged;
         _cpsTimer.Start();
         RefreshConfiguration();
     }
@@ -444,6 +506,9 @@ public partial class KeystrokeOverlayWindow : Window
         _disposed = true;
         KeystrokeInputService.KeyNamedChanged -= OnKeyNamedChanged;
         KeystrokeThemeManager.ActiveThemeChanged -= OnActiveThemeChanged;
+        SizeChanged -= OnOverlaySizeChanged;
+        _scriptView.ScriptStateChanged -= OnScriptStateChanged;
+        _scriptView.Dispose();
         _cpsTimer.Stop();
         _cpsTimer.Tick -= OnCpsTimerTick;
         _anchor.Dispose();
@@ -451,7 +516,10 @@ public partial class KeystrokeOverlayWindow : Window
         lock (InstanceGate)
         {
             if (ReferenceEquals(_activeInstance, this))
+            {
                 _activeInstance = null;
+                Application.Current?.Resources.Remove(ResourceKey);
+            }
         }
     }
 
@@ -460,7 +528,7 @@ public partial class KeystrokeOverlayWindow : Window
         if (_disposed)
             return;
 
-        if (App.Settings.Prop.KeystrokesShowCps)
+        if (App.Settings.Prop.KeystrokesShowCps && !_scriptView.IsRunning)
             UpdateCpsText();
     }
 
@@ -482,6 +550,12 @@ public partial class KeystrokeOverlayWindow : Window
         if (!Dispatcher.CheckAccess())
         {
             Dispatcher.BeginInvoke(new Action(() => OnKeyNamedChanged(keyName, isDown)));
+            return;
+        }
+
+        if (_scriptView.IsRunning)
+        {
+            _scriptView.SetKey(keyName, isDown);
             return;
         }
 

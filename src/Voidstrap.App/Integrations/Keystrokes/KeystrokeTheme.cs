@@ -63,6 +63,9 @@ public sealed class KeystrokeTheme
 
     public double MouseCircleSize { get; set; } = 96.0;
 
+    [JsonIgnore]
+    public string? ScriptSource { get; set; }
+
     public string? CustomCss { get; set; }
 
     public string? CustomHtml { get; set; }
@@ -319,6 +322,7 @@ public sealed class KeystrokeTheme
             MouseCircleSize = MouseCircleSize,
             CustomCss = CustomCss,
             CustomHtml = CustomHtml,
+            ScriptSource = ScriptSource,
             LayoutRows = new List<List<string>>()
         };
 

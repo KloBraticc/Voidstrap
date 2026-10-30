@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
@@ -17,7 +18,10 @@ public static class KeystrokeAudioService
 
     private static IWavePlayer? _wavePlayer;
     private static MixingSampleProvider? _mixer;
-    private static bool _initialized;
+    private static volatile bool _initialized;
+    private static int _linuxPlayers;
+    private const int MaxLinuxPlayers = 4;
+    private static readonly WaveFormat MixFormat = WaveFormat.CreateIeeeFloatWaveFormat(44100, 2);
     private static string? _linuxPlayerExecutable;
 
     public static void Initialize()
@@ -33,8 +37,7 @@ public static class KeystrokeAudioService
             {
                 try
                 {
-                    var format = WaveFormat.CreateIeeeFloatWaveFormat(44100, 2);
-                    _mixer = new MixingSampleProvider(format) { ReadFully = true };
+                    _mixer = new MixingSampleProvider(MixFormat) { ReadFully = true };
                     var waveOut = new WaveOut
                     {
                         BufferMilliseconds = 40,
@@ -101,11 +104,16 @@ public static class KeystrokeAudioService
 
         if (Voidstrap.Utility.Platform.IsWindows)
         {
-            if (_mixer != null)
+            MixingSampleProvider? mixer;
+            lock (Gate)
+            {
+                mixer = _mixer;
+            }
+            if (mixer != null)
             {
                 try
                 {
-                    _mixer.AddMixerInput(new StereoCachedSampleProvider(samples, (float)volume));
+                    mixer.AddMixerInput(new StereoCachedSampleProvider(samples, (float)volume));
                 }
                 catch
                 {
@@ -159,20 +167,32 @@ public static class KeystrokeAudioService
         if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
             return;
 
+        if (Interlocked.Increment(ref _linuxPlayers) > MaxLinuxPlayers)
+        {
+            Interlocked.Decrement(ref _linuxPlayers);
+            return;
+        }
+
         _ = Task.Run(() =>
         {
             try
             {
-                using var proc = Process.Start(new ProcessStartInfo
+                ProcessStartInfo start = new()
                 {
                     FileName = exe,
-                    Arguments = "\"" + filePath + "\"",
                     UseShellExecute = false,
                     CreateNoWindow = true
-                });
+                };
+                start.ArgumentList.Add(filePath);
+                using var proc = Process.Start(start);
+                proc?.WaitForExit();
             }
             catch
             {
+            }
+            finally
+            {
+                Interlocked.Decrement(ref _linuxPlayers);
             }
         });
     }
@@ -463,7 +483,7 @@ public static class KeystrokeAudioService
             _volume = Math.Clamp(volume, 0f, 1f);
         }
 
-        public WaveFormat WaveFormat => WaveFormat.CreateIeeeFloatWaveFormat(44100, 2);
+        public WaveFormat WaveFormat => MixFormat;
 
         public int Read(Span<float> buffer)
         {

@@ -8660,6 +8660,26 @@ namespace Voidstrap.Resources {
         public static string Ui_Keystrokes_ThemeAndAppearance => ResourceManager.GetString("Ui.Keystrokes.ThemeAndAppearance", resourceCulture);
         public static string Ui_Keystrokes_DisplayAndSound => ResourceManager.GetString("Ui.Keystrokes.DisplayAndSound", resourceCulture);
         public static string Ui_Keystrokes_AddTheme_Title => ResourceManager.GetString("Ui.Keystrokes.AddTheme.Title", resourceCulture);
+        public static string Ui_Keystrokes_Editor_Examples => ResourceManager.GetString("Ui.Keystrokes.Editor.Examples", resourceCulture);
+
+        public static string Ui_Keystrokes_Editor_Preview => ResourceManager.GetString("Ui.Keystrokes.Editor.Preview", resourceCulture);
+
+        public static string Ui_Keystrokes_Editor_OverlayPreviewHint => ResourceManager.GetString("Ui.Keystrokes.Editor.OverlayPreviewHint", resourceCulture);
+
+        public static string Ui_Keystrokes_Editor_Reference => ResourceManager.GetString("Ui.Keystrokes.Editor.Reference", resourceCulture);
+
+        public static string Ui_Keystrokes_Editor_UnsavedPrompt => ResourceManager.GetString("Ui.Keystrokes.Editor.UnsavedPrompt", resourceCulture);
+
+        public static string Ui_Keystrokes_Editor_ExampleClassic => ResourceManager.GetString("Ui.Keystrokes.Editor.ExampleClassic", resourceCulture);
+
+        public static string Ui_Keystrokes_Editor_ExampleMinimal => ResourceManager.GetString("Ui.Keystrokes.Editor.ExampleMinimal", resourceCulture);
+
+        public static string Ui_Keystrokes_Editor_ExampleMouse => ResourceManager.GetString("Ui.Keystrokes.Editor.ExampleMouse", resourceCulture);
+
+        public static string Ui_Keystrokes_Editor_ExampleCps => ResourceManager.GetString("Ui.Keystrokes.Editor.ExampleCps", resourceCulture);
+
+        public static string Ui_Keystrokes_Editor_ExampleAnimated => ResourceManager.GetString("Ui.Keystrokes.Editor.ExampleAnimated", resourceCulture);
+
         public static string Ui_Keystrokes_Editor_Title => ResourceManager.GetString("Ui.Keystrokes.Editor.Title", resourceCulture);
         public static string Ui_Keystrokes_Editor_ThemeControls => ResourceManager.GetString("Ui.Keystrokes.Editor.ThemeControls", resourceCulture);
         public static string Ui_Keystrokes_Editor_RawJson => ResourceManager.GetString("Ui.Keystrokes.Editor.RawJson", resourceCulture);

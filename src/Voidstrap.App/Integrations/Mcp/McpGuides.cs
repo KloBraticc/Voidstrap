@@ -135,13 +135,12 @@ public static class McpGuides
     public const string KeystrokeTheme = """
 		KEYSTROKE OVERLAY THEMES
 
-		The on screen key display. A theme is one object written in the editor's current language (csharp, html, rust or json),
-		all four describe the same fields. Workflow:
+		The on screen key display. An overlay is JavaScript code that can draw anything. It defines render(input), which returns the
+		elements to show, and runs in a sandbox with no file or network access. Workflow:
 		1. open_editor type "keystroke", name "<Name>", activate true (optionally baseTheme to start from a built in theme).
-		2. get_editor_code first and keep its exact shape, only change values. set_editor_language switches between languages
-		   without losing anything, html is the easiest to read.
+		2. get_editor_code to read the current overlay. The guidance on the editor lists the full API.
 		3. set_editor_code or edit_editor, read the reply, then save_editor.
-		Colors are #RRGGBB or #AARRGGBB, or the word Accent for the Windows accent color. The preview in the editor window
+		Colors are #RRGGBB or #AARRGGBB, or the word Accent for the system accent color. The preview in the editor window
 		updates after every change. A reply that is not a success means nothing was applied.
 		""";
 

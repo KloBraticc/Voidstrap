@@ -36,7 +36,12 @@ public static partial class KeystrokeInputService
     private static readonly HashSet<int> HeldUnnamedCodes = new();
 
     private static bool _active;
-    private static bool _hasInputAccess = true;
+    private static volatile bool _hasInputAccess = true;
+    private static long _mouseDx;
+    private static long _mouseDy;
+    private static long _mouseWheel;
+    private static int _lastMouseX = int.MinValue;
+    private static int _lastMouseY;
     private static int _generation;
     private static Dispatcher? _dispatcher;
 
@@ -87,8 +92,21 @@ public static partial class KeystrokeInputService
         }
     }
 
+    public static (double Dx, double Dy, double Wheel) TakeMouseMotion() =>
+        (Interlocked.Exchange(ref _mouseDx, 0), Interlocked.Exchange(ref _mouseDy, 0), Interlocked.Exchange(ref _mouseWheel, 0));
+
+    private static void AddMouseMotion(int dx, int dy, int wheel)
+    {
+        if (!IsRobloxFocused() && !Voidstrap.Integrations.Overlays.LinuxGameOverlay.Active)
+            return;
+        Interlocked.Add(ref _mouseDx, dx);
+        Interlocked.Add(ref _mouseDy, dy);
+        Interlocked.Add(ref _mouseWheel, wheel);
+    }
+
     public static void Stop()
     {
+        List<string> released = [];
         lock (SyncGate)
         {
             if (!_active)
@@ -110,6 +128,11 @@ public static partial class KeystrokeInputService
                 StopMacMonitoring();
             }
 
+            foreach (KeyValuePair<string, bool> state in NamedKeyStates)
+            {
+                if (state.Value)
+                    released.Add(state.Key);
+            }
             Array.Clear(KeyDownStates, 0, KeyDownStates.Length);
             NamedKeyStates.Clear();
             HeldCodes.Clear();
@@ -119,13 +142,21 @@ public static partial class KeystrokeInputService
                 LmbTimestamps.Clear();
                 RmbTimestamps.Clear();
             }
+            _lastMouseX = int.MinValue;
+            TakeMouseMotion();
         }
+
+        foreach (string name in released)
+            KeyNamedChanged?.Invoke(name, false);
     }
 
     public static bool IsDown(KeystrokeTarget target)
     {
         int idx = (int)target;
-        return idx >= 0 && idx < KeyDownStates.Length && KeyDownStates[idx];
+        lock (SyncGate)
+        {
+            return idx >= 0 && idx < KeyDownStates.Length && KeyDownStates[idx];
+        }
     }
 
     public static int GetLmbCps()
@@ -153,12 +184,12 @@ public static partial class KeystrokeInputService
     private static void RecordClick(bool isLmb)
     {
         long now = Stopwatch.GetTimestamp();
+        long window = Stopwatch.Frequency;
         lock (ClickGate)
         {
-            if (isLmb)
-                LmbTimestamps.Add(now);
-            else
-                RmbTimestamps.Add(now);
+            List<long> clicks = isLmb ? LmbTimestamps : RmbTimestamps;
+            clicks.RemoveAll(t => now - t > window);
+            clicks.Add(now);
         }
     }
 
@@ -171,7 +202,7 @@ public static partial class KeystrokeInputService
         if (dispatcher == null || dispatcher.HasShutdownStarted)
             return;
 
-        int generation = _generation;
+        int generation = Volatile.Read(ref _generation);
         dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() => ProcessInput(generation, code, name, target, isDown)));
     }
 
@@ -203,6 +234,8 @@ public static partial class KeystrokeInputService
                     return;
                 NamedKeyStates[name] = nowDown;
                 isDown = nowDown;
+                if (target.HasValue)
+                    KeyDownStates[(int)target.Value] = nowDown;
             }
         }
 
@@ -224,7 +257,6 @@ public static partial class KeystrokeInputService
 
         if (target.HasValue)
         {
-            KeyDownStates[(int)target.Value] = isDown;
             StateChanged?.Invoke(new KeystrokeInputState(target.Value, isDown));
         }
 
@@ -324,6 +356,17 @@ public static partial class KeystrokeInputService
             {
                 switch ((uint)wParam)
                 {
+                    case 0x0200:
+                        int x = Marshal.ReadInt32(lParam);
+                        int y = Marshal.ReadInt32(lParam, 4);
+                        if (_lastMouseX != int.MinValue)
+                            AddMouseMotion(x - _lastMouseX, y - _lastMouseY, 0);
+                        _lastMouseX = x;
+                        _lastMouseY = y;
+                        break;
+                    case 0x020A:
+                        AddMouseMotion(0, 0, (short)(Marshal.ReadInt32(lParam, 8) >> 16) / 120);
+                        break;
                     case 0x0201:
                         QueueInput(0x01, "LMB", KeystrokeTarget.Lmb, true);
                         break;
@@ -417,10 +460,20 @@ public static partial class KeystrokeInputService
 
     private static void StartLinuxMonitoring()
     {
-        _linuxCts = new CancellationTokenSource();
-        var token = _linuxCts.Token;
+        CancellationTokenSource cts = new();
+        _linuxCts = cts;
 
-        _linuxThread = new Thread(() => LinuxInputLoop(token))
+        _linuxThread = new Thread(() =>
+        {
+            try
+            {
+                LinuxInputLoop(cts.Token);
+            }
+            finally
+            {
+                cts.Dispose();
+            }
+        })
         {
             Name = "KeystrokeLinuxInput",
             IsBackground = true
@@ -433,7 +486,6 @@ public static partial class KeystrokeInputService
         try
         {
             _linuxCts?.Cancel();
-            _linuxCts?.Dispose();
             _linuxCts = null;
             _linuxThread = null;
         }
@@ -542,6 +594,17 @@ public static partial class KeystrokeInputService
                         ushort type = BitConverter.ToUInt16(eventBuffer, offset + 16);
                         ushort code = BitConverter.ToUInt16(eventBuffer, offset + 18);
                         int value = BitConverter.ToInt32(eventBuffer, offset + 20);
+
+                        if (type == 2)
+                        {
+                            if (code == 0)
+                                AddMouseMotion(value, 0, 0);
+                            else if (code == 1)
+                                AddMouseMotion(0, value, 0);
+                            else if (code == 8)
+                                AddMouseMotion(0, 0, value);
+                            continue;
+                        }
 
                         if (type != 1 || value is not (0 or 1))
                             continue;
