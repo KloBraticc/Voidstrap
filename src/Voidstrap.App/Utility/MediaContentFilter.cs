@@ -16,6 +16,8 @@ namespace Voidstrap.Utility;
 
 internal static class MediaContentFilter
 {
+    private const int MaxIconBytes = 1024 * 1024;
+    private const int MaxIconPixels = 1024;
     private const string ModelHash = "e9350e576608afe4b57a089ffeb0ebafa1389cdcea4882dd61df28c45f1c24d2";
     private const string ModelRoot =
         "https://huggingface.co/KanariKanaru/nsfw-image-detection-384-onnx/resolve/8edc47eedf74b30fd379673bc202fe3b754b1538/";
@@ -34,7 +36,7 @@ internal static class MediaContentFilter
     {
         try
         {
-            if (new FileInfo(path).Length > 256 * 1024)
+            if (new FileInfo(path).Length > MaxIconBytes)
                 return null;
             return await LoadCheckedIconAsync(await File.ReadAllBytesAsync(path).ConfigureAwait(false)).ConfigureAwait(false);
         }
@@ -50,24 +52,25 @@ internal static class MediaContentFilter
         {
             try
             {
-                if (bytes.Length > 256 * 1024)
+                if (bytes.Length > MaxIconBytes)
                     return null;
                 using MemoryStream stream = new(bytes, false);
                 BitmapDecoder decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.IgnoreImageCache, BitmapCacheOption.OnLoad);
                 BitmapFrame[] frames = decoder.Frames.ToArray();
-                if (frames.Length == 0 || frames.Length > 16 || frames.Any(frame => frame.PixelWidth > 256 || frame.PixelHeight > 256))
+                if (frames.Length == 0 || frames.Length > 64)
                     return null;
-                foreach (BitmapFrame frame in frames)
-                    frame.Freeze();
+                BitmapFrame shown = frames.OrderByDescending(frame => frame.PixelWidth).First();
+                if (shown.PixelWidth > MaxIconPixels || shown.PixelHeight > MaxIconPixels)
+                    return null;
+                shown.Freeze();
                 string approval = ApprovalPath(bytes);
                 if (!File.Exists(approval))
                 {
-                    foreach (BitmapFrame frame in frames)
-                        if (!await IsAllowedAsync(frame).ConfigureAwait(false))
-                            return null;
+                    if (!await IsAllowedAsync(shown).ConfigureAwait(false))
+                        return null;
                     RememberApproval(approval);
                 }
-                return (BitmapSource?)frames.OrderByDescending(frame => frame.PixelWidth).First();
+                return (BitmapSource?)shown;
             }
             catch (Exception ex)
             {
