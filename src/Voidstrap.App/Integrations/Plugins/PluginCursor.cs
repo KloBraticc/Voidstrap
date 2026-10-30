@@ -108,23 +108,6 @@ public static class PluginCursor
 		}
 	}
 
-	public static void SetTestState(double x, double y, bool isDown = false, string button = "none")
-	{
-		lock (Gate)
-		{
-			_lastX = x;
-			_lastY = y;
-			_lastScreenX = x;
-			_lastScreenY = y;
-			_lastWindowWidth = 1000;
-			_lastWindowHeight = 700;
-			_lastInsideWindow = true;
-			_lastIsDown = isDown;
-			_lastButton = button;
-			_hasState = true;
-		}
-	}
-
 	private static void CaptureCurrentPosition()
 	{
 		Window? window = Application.Current?.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive && w.IsVisible)

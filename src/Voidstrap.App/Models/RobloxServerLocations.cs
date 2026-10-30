@@ -1164,12 +1164,4 @@ public static class RobloxServerLocations
 		}
 	};
 
-	public static RobloxServerLocation? FindByKey(string? key)
-	{
-		if (string.IsNullOrEmpty(key))
-		{
-			return null;
-		}
-		return All.FirstOrDefault((RobloxServerLocation s) => s.Key == key);
-	}
 }

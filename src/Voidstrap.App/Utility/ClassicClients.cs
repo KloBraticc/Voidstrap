@@ -249,15 +249,6 @@ namespace Voidstrap.Utility
             return manifest.ClientSizes.TryGetValue(keyOrClient, out long s) && s > 0 ? s : -1L;
         }
 
-        private static async Task<long> ResolveRemoteSizeAsync(string relativePath, string keyOrClient, CancellationToken ct)
-        {
-            ClassicManifest? manifest = await FetchManifestAsync(ct).ConfigureAwait(false);
-            long fromManifest = ManifestSizeFor(manifest, keyOrClient);
-            if (fromManifest > 0)
-                return fromManifest;
-            return await GetRemoteSizeAsync(relativePath, ct).ConfigureAwait(false);
-        }
-
         public static string BaseUrl
         {
             get
@@ -1188,11 +1179,6 @@ namespace Voidstrap.Utility
             }
         }
 
-        public static long GetInstalledSize(string client)
-        {
-            return LoadIndex().TryGetValue(client, out InstalledAssetRecord? record) ? record.Size : -1L;
-        }
-
         private static InstalledAssetRecord? GetInstalledRecord(string client)
         {
             return LoadIndex().TryGetValue(client, out InstalledAssetRecord? record) ? record : null;
@@ -1203,11 +1189,6 @@ namespace Voidstrap.Utility
             var index = LoadIndex();
             index[client] = new InstalledAssetRecord { Size = size, Sha256 = sha256 };
             SaveIndex(index);
-        }
-
-        public static Task<long> GetRemoteClientSizeAsync(string client, CancellationToken ct)
-        {
-            return GetRemoteSizeAsync("clients/" + client + ".zip", ct);
         }
 
         public static async Task<long> GetRemoteSizeAsync(string relativePath, CancellationToken ct)

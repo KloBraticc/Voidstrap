@@ -30,10 +30,6 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	private const int MaxFRMQuality = 21;
 
-	private const int DefaultMinGrassDistance = 100;
-
-	private const int DefaultMaxGrassDistance = 290;
-
 	private IEnumerable? profileModes;
 
 	private string selectedProfileMods = string.Empty;

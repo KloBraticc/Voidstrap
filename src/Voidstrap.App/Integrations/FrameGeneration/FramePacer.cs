@@ -172,12 +172,6 @@ namespace Voidstrap.Integrations.FrameGeneration
                 return vfp_target_total(frameMs, refreshHz, mode, uncap ? 1 : 0, value);
         }
 
-        public static double MedianInterval(ReadOnlySpan<double> samples)
-        {
-            fixed (double* values = samples)
-                return vfp_median_interval(values, samples.Length);
-        }
-
         [LibraryImport(Library)]
         private static partial Layout vfp_layout();
 

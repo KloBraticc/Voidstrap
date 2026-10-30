@@ -33,11 +33,6 @@ public class LaunchFlag
 		_active = true;
 	}
 
-	public void Deactivate()
-	{
-		_active = false;
-	}
-
 	public void Toggle()
 	{
 		_active = !_active;

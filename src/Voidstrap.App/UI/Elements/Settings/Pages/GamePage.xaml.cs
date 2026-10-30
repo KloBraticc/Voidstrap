@@ -282,9 +282,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             }
         }
 
-        private static string Truncate(string text, int max)
-            => text.Length <= max ? text : string.Concat(text.AsSpan(0, max - 1), "…");
-
         private static string FormatCount(long count)
         {
             if (count >= 1_000_000_000)

@@ -130,7 +130,6 @@ public partial class FastFlagEditorPage : UiPage
 		AllowTrailingCommas = true
 	};
 
-
 	private static readonly ImageSource _presetCheck = LoadIcon("pack://application:,,,/Resources/Checkmark.ico");
 
 	private static readonly ImageSource _presetCross = LoadIcon("pack://application:,,,/Resources/CrossMark.ico");
@@ -979,14 +978,6 @@ public partial class FastFlagEditorPage : UiPage
 		}
 		RefreshView();
 		SelectFlag(newName);
-	}
-
-	private void BackButton_Click(object sender, RoutedEventArgs e)
-	{
-		if (Window.GetWindow(this) is INavigationWindow navigationWindow)
-		{
-			navigationWindow.Navigate(typeof(FastFlagsPage));
-		}
 	}
 
 	private void AddButton_Click(object sender, RoutedEventArgs e)

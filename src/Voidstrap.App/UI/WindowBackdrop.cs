@@ -59,8 +59,6 @@ public static partial class WindowBackdrop
 
     private static readonly ConditionalWeakTable<Window, string> _appliedBackdrops = new();
 
-
-
     private static readonly ConditionalWeakTable<Window, object?> _renderHooked = new();
 
     private sealed class BackdropOverride
@@ -342,26 +340,6 @@ public static partial class WindowBackdrop
         {
             App.Logger.WriteException("WindowBackdrop::ApplyContextMenu", ex);
         }
-    }
-
-    private static bool IsFullyTransparent(Brush brush)
-    {
-        if (brush is SolidColorBrush solid)
-        {
-            return solid.Color.A == 0;
-        }
-        if (brush is GradientBrush gradient)
-        {
-            foreach (GradientStop stop in gradient.GradientStops)
-            {
-                if (stop.Color.A != 0)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
     }
 
     private static BackdropType EffectiveBackdrop(Window? window)
@@ -1055,11 +1033,6 @@ public static partial class WindowBackdrop
             (byte)Math.Round(first.R + ((second.R - first.R) * factor)),
             (byte)Math.Round(first.G + ((second.G - first.G) * factor)),
             (byte)Math.Round(first.B + ((second.B - first.B) * factor)));
-    }
-
-    private static Color WithAlpha(Color color, byte alpha)
-    {
-        return Color.FromArgb(alpha, color.R, color.G, color.B);
     }
 
     private static Color ResolveColor(FrameworkElement element, string key, Color fallback)

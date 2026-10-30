@@ -872,18 +872,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
         public void UpdateCommunityContent() => _ = InstallCommunityContentAsync();
 
-        public void CancelDownload()
-        {
-            _userCancel = true;
-            try
-            {
-                _activeCts?.Cancel();
-            }
-            catch
-            {
-            }
-        }
-
         public void StopAllDownloads()
         {
             try

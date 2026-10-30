@@ -77,7 +77,6 @@ namespace Voidstrap.Integrations
 
         private Dictionary<Keys, string> _keyToButton = new();
         private bool[] _buttonStates = new bool[ButtonCount];
-        private DualShock4DPadDirection _lastDpadDir = DualShock4DPadDirection.None;
 
         private static Xbox360Button ToX360Button(int idx) => idx switch
         {
@@ -234,7 +233,6 @@ namespace Voidstrap.Integrations
 
         [LibraryImport("user32.dll")]
         private static partial short GetAsyncKeyState(int vKey);
-
 
         public void RefreshCache()
         {

@@ -47,8 +47,4 @@ public sealed class RelayCommand : ICommand
 		_execute(parameter);
 	}
 
-	public void RaiseCanExecuteChanged()
-	{
-		CommandManager.InvalidateRequerySuggested();
-	}
 }

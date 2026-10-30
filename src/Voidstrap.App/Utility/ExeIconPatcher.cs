@@ -76,8 +76,6 @@ namespace Voidstrap.Utility
             }
         }
 
-        public static bool HasBackup(string exePath) => File.Exists(exePath + BackupSuffix);
-
         public static bool ApplyIcon(string exePath, string icoPath)
         {
             try

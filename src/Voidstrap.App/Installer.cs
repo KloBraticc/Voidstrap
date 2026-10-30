@@ -31,8 +31,6 @@ internal sealed partial class Installer
 		public string MarkerName { get; set; } = "";
 	}
 
-	private const bool OpenReleaseNotes = false;
-
 	public string InstallLocation = GetDefaultInstallLocation();
 
 	public bool CreateDesktopShortcuts = true;
@@ -1039,7 +1037,6 @@ internal sealed partial class Installer
 		{
 		}
 	}
-
 
 	private static string? ReleaseVersion(string? version)
 	{

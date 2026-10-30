@@ -36,15 +36,10 @@ public partial class DiscordRichPresence : IDisposable
 
 	private const string LOG_IDENT = "DiscordRichPresence";
 
-	private const int MaxQueuedMessages = 64;
-
-	private const string IdleDetails = "Inside Voidstrap";
-
 	private static string IdleDetailsText => Voidstrap.Utility.RpcText.Mark("Inside") + " " + Voidstrap.Utility.Branding.Name;
 
 	private static string IdleStateText => Voidstrap.Utility.RpcText.Mark("Browsing Roblox");
 
-	private const string IdleState = "Browsing Roblox";
 	private static readonly string LoadingState = Voidstrap.Utility.RpcText.Mark("Loading game");
 
 	private static readonly string? LaunchStatusFile = Environment.GetEnvironmentVariable("VOIDSTRAP_STATUS_FILE");
@@ -1319,75 +1314,7 @@ public partial class DiscordRichPresence : IDisposable
 		return resolved;
 	}
 
-	private async Task<bool> SetPrivateExperiencePresenceAsync(ActivityData activity, long placeId, int totalFlags)
-	{
-		if (_disposed)
-		{
-			return false;
-		}
-		string shownName = !string.IsNullOrWhiteSpace(App.Settings.Prop.CustomGameName)
-			? App.Settings.Prop.CustomGameName
-			: Voidstrap.Utility.RpcText.Mark("Private experience");
-		shownName = Voidstrap.Utility.DiscordPresenceGuard.Text(shownName);
-		string stateText = BuildStateText(string.Empty, false, totalFlags);
-		string serverText = BuildServerText(activity.ServerType, string.Empty, null);
-
-		Task<(string key, string text)> smallImageTask = GetSmallImageAsync(activity);
-		string largeImage = string.Empty;
-		if (!string.IsNullOrWhiteSpace(App.Settings.Prop.UseCustomIcon))
-		{
-			largeImage = App.Settings.Prop.UseCustomIcon;
-		}
-		else if (App.Settings.Prop.GameIconChecked)
-		{
-			largeImage = await FetchPlaceIconAsync(placeId).ConfigureAwait(continueOnCapturedContext: false);
-		}
-		largeImage = Voidstrap.Utility.DiscordPresenceGuard.Key(largeImage);
-		if (string.IsNullOrWhiteSpace(largeImage))
-		{
-			largeImage = App.RpcVoidstrapImageUrl;
-		}
-
-		(string smallImage, string smallText) = await smallImageTask.ConfigureAwait(continueOnCapturedContext: false);
-		DateTime started = activity.TimeJoined == default(DateTime) ? DateTime.UtcNow : activity.TimeJoined;
-
-		_currentPresence = new DiscordRPC.RichPresence
-		{
-			Details = App.Settings.Prop.GameNameChecked ? shownName : string.Empty,
-			State = stateText,
-			StatusDisplay = App.Settings.Prop.GameNameChecked && !string.IsNullOrWhiteSpace(shownName) ? DiscordRPC.StatusDisplayType.Details : DiscordRPC.StatusDisplayType.Name,
-			Timestamps = new Timestamps { Start = started.ToUniversalTime() },
-			Buttons = GetButtons(),
-			Assets = new Assets
-			{
-				LargeImageKey = largeImage ?? string.Empty,
-				LargeImageText = serverText,
-				SmallImageKey = smallImage ?? string.Empty,
-				SmallImageText = smallText ?? string.Empty,
-			},
-		};
-		_originalSnapshot = new OriginalSnapshot
-		{
-			Details = _currentPresence.Details,
-			State = _currentPresence.State,
-			LargeImageKey = largeImage ?? string.Empty,
-			LargeImageText = _currentPresence.Assets.LargeImageText,
-			SmallImageKey = smallImage ?? string.Empty,
-			SmallImageText = smallText ?? string.Empty,
-		};
-		lock (_activityGate)
-		{
-			_gamePresenceActive = true;
-			ReplayGameMessages();
-		}
-		UpdatePresence(force: true);
-		App.Logger.WriteLine(LOG_IDENT, "Updated presence for private experience " + placeId);
-		return true;
-	}
-
 	private static readonly (string Pattern, string Tag)[] WipMarkers = BuildWipMarkers();
-
-
 
 	[GeneratedRegex("\\s{2,}")]
 	private static partial Regex WipWhitespace { get; }

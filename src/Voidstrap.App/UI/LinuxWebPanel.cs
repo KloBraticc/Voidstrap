@@ -343,37 +343,6 @@ internal sealed class LinuxWebPanel : FrameworkElement, IDisposable
 		gdk_window_process_updates(gdkWindow, true);
 	}
 
-	private void ScheduleRefresh(uint delay)
-	{
-		GSourceFunc callback = null!;
-		callback = _ =>
-		{
-			try
-			{
-				if (!_disposed)
-				{
-					Refresh();
-					Dispatcher.BeginInvoke(new Action(() => Owner?.RequestWebPanelState()));
-				}
-			}
-			catch (Exception)
-			{
-			}
-			finally
-			{
-				lock (PendingCallbacks)
-					PendingCallbacks.Remove(callback);
-			}
-
-			return false;
-		};
-
-		lock (PendingCallbacks)
-			PendingCallbacks.Add(callback);
-
-		g_timeout_add(delay, callback, IntPtr.Zero);
-	}
-
 	private static void AddScript(IntPtr manager, string source)
 	{
 		IntPtr script = webkit_user_script_new(source, 0, 0, IntPtr.Zero, IntPtr.Zero);

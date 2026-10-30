@@ -100,13 +100,5 @@ namespace Voidstrap.Integrations
             return !string.IsNullOrEmpty(GetBusDevicePath());
         }
 
-        public static string ResolveOpenPath()
-        {
-            var path = GetBusDevicePath();
-            App.Logger.WriteLine("ViGEmInterop", path != null
-                ? $"Resolved ViGEmBus device path: {path}"
-                : $"Could not resolve ViGEmBus device interface (service installed: {IsServiceInstalled()}), falling back to legacy path");
-            return path ?? LegacyPath;
-        }
     }
 }

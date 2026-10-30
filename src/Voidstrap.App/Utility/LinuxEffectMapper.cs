@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Text;
 using Voidstrap.Integrations.AntiAliasing;
@@ -51,11 +51,6 @@ internal static class LinuxEffectMapper
 			3 or 4 => "smaa",
 			_ => LinuxNvidiaSettings.Read().Fxaa ? "fxaa" : null
 		};
-	}
-
-	public static bool IsAntiAliasingSupported()
-	{
-		return AntiAliasingSettings.MethodIndex < SupportedAntiAliasingMethods;
 	}
 
 	private static int MapFrameGenMultiplier()

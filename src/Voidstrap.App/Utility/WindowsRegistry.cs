@@ -8,9 +8,6 @@ namespace Voidstrap.Utility;
 
 internal static class WindowsRegistry
 {
-	private const string RobloxPlaceKey = "Roblox.Place";
-
-	private const string ClassesRoot = "Software\\Classes\\";
 
 	public static readonly List<RegistryKey> Roots = Platform.SupportsRegistry
 		? new List<RegistryKey>

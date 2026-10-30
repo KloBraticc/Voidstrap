@@ -36,37 +36,6 @@ public static class KeystrokeThemeCodeConverter
         _ => "JSON (.json)"
     };
 
-    public static ThemeCodeLanguage DetectLanguage(string code)
-    {
-        if (string.IsNullOrWhiteSpace(code))
-            return ThemeCodeLanguage.Json;
-
-        string trimmed = code.Trim();
-        if (trimmed.StartsWith("<!DOCTYPE", StringComparison.OrdinalIgnoreCase) ||
-            trimmed.Contains("<html", StringComparison.OrdinalIgnoreCase) ||
-            trimmed.Contains("<style", StringComparison.OrdinalIgnoreCase))
-        {
-            return ThemeCodeLanguage.HtmlCss;
-        }
-
-        if (trimmed.Contains("pub const THEME", StringComparison.Ordinal) ||
-            trimmed.Contains("pub struct", StringComparison.Ordinal) ||
-            trimmed.Contains("key_background:", StringComparison.Ordinal))
-        {
-            return ThemeCodeLanguage.Rust;
-        }
-
-        if (trimmed.Contains("public static class", StringComparison.Ordinal) ||
-            trimmed.Contains("new KeystrokeTheme", StringComparison.Ordinal) ||
-            trimmed.Contains("new KeycapConfig", StringComparison.Ordinal) ||
-            trimmed.Contains("using System", StringComparison.Ordinal))
-        {
-            return ThemeCodeLanguage.CSharp;
-        }
-
-        return ThemeCodeLanguage.Json;
-    }
-
     public static string GenerateCode(KeystrokeTheme theme, ThemeCodeLanguage language) => language switch
     {
         ThemeCodeLanguage.CSharp => GenerateCSharp(theme),

@@ -91,8 +91,4 @@ internal static class Connectivity
 		}
 	}
 
-	public static void ResetWarnings()
-	{
-		Warned.Clear();
-	}
 }

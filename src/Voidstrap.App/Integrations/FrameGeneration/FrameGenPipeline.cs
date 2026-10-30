@@ -401,14 +401,6 @@ namespace Voidstrap.Integrations.FrameGeneration
             _context.PSSetShaderResources(0, _nullSrvs);
         }
 
-        public void Blit(ID3D11ShaderResourceView input, ID3D11RenderTargetView output)
-        {
-            SetState();
-            SetPass(_width, _height, 0f);
-            DrawPass(_psPass!, output, input);
-            _context.PSSetShaderResources(0, _nullSrvs);
-        }
-
         private void ReleaseSized()
         {
             for (int set = 0; set < 2; set++)

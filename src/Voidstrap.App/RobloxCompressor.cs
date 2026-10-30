@@ -345,44 +345,6 @@ public static partial class RobloxCompressor
         }
     }
 
-    public static byte[]? CompressData(byte[] data, string contentType, int level = 80)
-    {
-        if (data is null || data.Length == 0)
-            return null;
-
-        string ext;
-        if (contentType.Contains("png", StringComparison.OrdinalIgnoreCase) ||
-            contentType.Contains("image", StringComparison.OrdinalIgnoreCase))
-            ext = ".png";
-        else if (contentType.Contains("ogg", StringComparison.OrdinalIgnoreCase) ||
-                 contentType.Contains("audio", StringComparison.OrdinalIgnoreCase))
-            ext = ".ogg";
-        else
-            return null;
-
-        string tempPath = Path.GetTempFileName() + ext;
-        try
-        {
-            File.WriteAllBytes(tempPath, data);
-            long originalSize = data.Length;
-
-            bool success = ext == ".png" ? CompressPng(tempPath, level) : CompressOgg(tempPath, level);
-            if (!success)
-                return null;
-
-            byte[] result = File.ReadAllBytes(tempPath);
-            return result.Length < originalSize ? result : null;
-        }
-        catch
-        {
-            return null;
-        }
-        finally
-        {
-            try { if (File.Exists(tempPath)) File.Delete(tempPath); } catch { }
-        }
-    }
-
     private static bool CompressImage(string filePath, int level)
     {
         try
@@ -476,24 +438,6 @@ public static partial class RobloxCompressor
 
         if (output.Length < data.Length)
             File.WriteAllBytes(filePath, output.ToArray());
-    }
-
-    private static Bitmap ReducePalette(Bitmap original, int maxColors)
-    {
-        var reduced = new Bitmap(original.Width, original.Height, PixelFormat.Format8bppIndexed);
-        using var graphics = Graphics.FromImage(reduced);
-        var colorPalette = reduced.Palette;
-
-        using var quantized = original.Clone(new Rectangle(0, 0, original.Width, original.Height), PixelFormat.Format32bppArgb);
-        var colorQuantizer = new ColorQuantizer(maxColors);
-        var palette = colorQuantizer.Quantize(quantized);
-
-        for (int j = 0; j < palette.Length && j < 256; j++)
-            colorPalette.Entries[j] = palette[j];
-
-        reduced.Palette = colorPalette;
-        graphics.DrawImage(original, 0, 0);
-        return reduced;
     }
 
     private sealed class ColorQuantizer(int maxColors)

@@ -89,8 +89,4 @@ public static class WindowScaling
 		return new Padding(GetScaledValue(padding.Left), GetScaledValue(padding.Top), GetScaledValue(padding.Right), GetScaledValue(padding.Bottom));
 	}
 
-	public static Rectangle GetScaledRectangle(Rectangle rect)
-	{
-		return new Rectangle(GetScaledValue(rect.X), GetScaledValue(rect.Y), GetScaledValue(rect.Width), GetScaledValue(rect.Height));
-	}
 }

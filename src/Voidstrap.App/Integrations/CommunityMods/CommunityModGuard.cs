@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -33,14 +33,6 @@ public static class CommunityModGuard
 	public const long ZipBombFloorBytes = 64L * 1024 * 1024;
 
 	private const string LogIdent = "CommunityModGuard";
-
-	private static readonly string[] RobloxContentRoots =
-	{
-		"content",
-		"extracontent",
-		"platformcontent",
-		"shaders"
-	};
 
 	public static readonly HashSet<string> InstallablePackageExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 	{

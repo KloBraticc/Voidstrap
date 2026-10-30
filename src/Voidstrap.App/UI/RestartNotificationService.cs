@@ -101,16 +101,6 @@ public static class RestartNotificationService
 		TrackSetting(key, currentValue, title, message, "Restart now", RestartTarget.Application, apply);
 	}
 
-	public static void TrackRobloxPlayerSetting<T>(string key, T currentValue, string title, string message, Action? apply = null)
-	{
-		TrackSetting(key, currentValue, title, message, "Restart Roblox", RestartTarget.RobloxPlayer, apply);
-	}
-
-	public static void TrackRobloxStudioSetting<T>(string key, T currentValue, string title, string message, Action? apply = null)
-	{
-		TrackSetting(key, currentValue, title, message, "Restart Studio", RestartTarget.RobloxStudio, apply);
-	}
-
 	public static void TrackSetting<T>(string key, T currentValue, string title, string message, string actionText, RestartTarget target, Action? apply = null)
 	{
 		RestartRequirementsChangedEventArgs? args = null;

@@ -574,18 +574,6 @@ public static class ServerFetchStore
 		}
 	}
 
-	public static List<LearnedServerEntry> SortedByDistance(double lat, double lon, int max = 10)
-	{
-		EnsureLoaded();
-		lock (_lock)
-		{
-			return (from e in _data.Servers.Values
-				where e.Lat != 0.0 || e.Lon != 0.0
-				orderby VoidstrapMatchmaker.HaversineKm(lat, lon, e.Lat, e.Lon)
-				select e).Take(max).ToList();
-		}
-	}
-
 	public static (int Datacenters, int Servers, int TotalSightings, int PingedDatacenters) GetStats()
 	{
 		EnsureLoaded();

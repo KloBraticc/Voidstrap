@@ -482,24 +482,12 @@ public partial class FastFlagsPage : UiPage{
 		SetupViewModel();
 	}
 
-	private void ValidateIntInput(object sender, TextCompositionEventArgs e)
-	{
-		if (sender is not System.Windows.Controls.TextBox textBox) return;
-		string input = textBox.Text.Insert(textBox.SelectionStart, e.Text);
-		e.Handled = !SignedIntegerInputPattern.IsMatch(input);
-	}
-
 	private void OpenFlagEditor(object? sender, EventArgs e)
 	{
 		if (Window.GetWindow((DependencyObject)(object)this) is INavigationWindow navigationWindow)
 		{
 			navigationWindow.Navigate(typeof(FastFlagEditorPage));
 		}
-	}
-
-	private void ValidateInt32(object sender, TextCompositionEventArgs e)
-	{
-		e.Handled = e.Text != "-" && !int.TryParse(e.Text, out var _);
 	}
 
 	private void ValidateUInt32(object sender, TextCompositionEventArgs e)

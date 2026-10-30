@@ -47,23 +47,11 @@ public partial class ActivityWatcher : IDisposable
 
 	private const string GameJoiningEntryPattern = "! Joining game '([0-9a-fA-F\\-]{36})' place ([0-9]+)(?: at ([^\\s]+))?";
 
-	private const string GameJoinReferralPattern = "referral_page:([^,]+)";
-
-	private const string GameTeleportJoinTypePattern = "JoinTypeId(?:\"|%22)?(?::|%3a)(\\d+)";
-
 	private const string GameJoiningUniversePattern = "universeid:([0-9]+)";
 
 	private const string GameJoiningUserPattern = "userid:([0-9]+)";
 
-	private const string GameJoiningUDMUXPattern = "UDMUX Address = ([0-9\\.]+), Port = [0-9]+ \\| RCC Server Address = ([0-9\\.]+), Port = [0-9]+";
-
-	private const string GameJoinedEntryPattern = "serverId:\\s*([0-9a-f\\-]{36})";
-
 	private const string GameMessageEntryPattern = "\\[(?:Bloxstrap|Voidstrap)RPC\\] (.*)";
-
-	private const string GamePlayerJoinLeavePattern = "(added|removed): (.*) ([0-9]+)\\s*$";
-
-	private const string GameMessageLogPattern = "Success Text: (.*)";
 
 	private const string GameJoinSnapshotEntry = "[FLog::Network] Join snapshot timer:";
 
@@ -138,8 +126,6 @@ public partial class ActivityWatcher : IDisposable
 	private static AppSettings.ResolutionSetting? _originalResolution;
 
 	private static bool _resolutionApplied = false;
-
-	private DateTime _lastRejoinAttempt = DateTime.MinValue;
 
 	private DateTime LastRPCRequest;
 
@@ -279,34 +265,6 @@ public partial class ActivityWatcher : IDisposable
 		catch
 		{
 		}
-	}
-
-	public async Task<string?> GetGameIconAsync()
-	{
-		try
-		{
-			if (Data.UniverseId == 0L)
-			{
-				return null;
-			}
-			string requestUri = $"https://thumbnails.roblox.com/v1/games/icons?universeIds={Data.UniverseId}&size=150x150&format=Png&isCircular=true";
-			using JsonDocument jsonDocument = JsonDocument.Parse(await Voidstrap.Utility.Http.GetString(requestUri).ConfigureAwait(false));
-			return jsonDocument.RootElement.GetProperty("data")[0].GetProperty("imageUrl").GetString();
-		}
-		catch
-		{
-			return null;
-		}
-	}
-
-	public async Task<int> GetPlayerCount()
-	{
-		return (await GetServerPlayerSnapshotAsync().ConfigureAwait(continueOnCapturedContext: false)).Playing;
-	}
-
-	public int GetPlayerCountFromLogs()
-	{
-		return CountPlayersFromLogs();
 	}
 
 	public async Task<int> GetMaxPlayers()

@@ -49,27 +49,6 @@ internal static partial class SystemAccent
 		return Get();
 	}
 
-	public static Brush GetGlassBrush()
-	{
-		if (Platform.IsWindows && !TryGetCustomColor(out _))
-		{
-			try
-			{
-				Brush? glass = System.Windows.SystemParameters.WindowGlassBrush;
-				if (glass != null)
-				{
-					return glass;
-				}
-			}
-			catch
-			{
-			}
-		}
-		SolidColorBrush brush = new SolidColorBrush(Get());
-		brush.Freeze();
-		return brush;
-	}
-
 	public static Color Get()
 	{
 		if (TryGetCustomColor(out Color custom))

@@ -14,31 +14,6 @@ internal static partial class RobloxCacheIndex
 
 	public static string DatabasePath => Path.Combine(Path.GetDirectoryName(RobloxAssetCache.Root)!, "rbx-storage.db");
 
-	public static bool UpdateSizes(IReadOnlyCollection<(string Hash, long Size)> entries)
-	{
-		if (entries.Count == 0 || !File.Exists(DatabasePath))
-			return entries.Count == 0;
-
-		StringBuilder sql = new("BEGIN IMMEDIATE;");
-		foreach ((string hash, long size) in entries)
-		{
-			if (!RobloxAssetCache.IsValidHash(hash) || size <= 0)
-				continue;
-			sql.Append("UPDATE files SET size=").Append(size).Append(" WHERE id=x'").Append(hash).Append("';");
-		}
-		sql.Append("COMMIT;");
-
-		try
-		{
-			return Platform.IsWindows ? Windows.Execute(DatabasePath, sql.ToString()) : Linux.Execute(DatabasePath, sql.ToString());
-		}
-		catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException)
-		{
-			App.Logger?.WriteLine(LogIdent, "SQLite is unavailable, the Roblox cache index was not updated: " + ex.Message);
-			return false;
-		}
-	}
-
 	private static bool Run(Func<nint> open, Func<nint, string, int> exec, Action<nint> close, string sql)
 	{
 		nint db = open();

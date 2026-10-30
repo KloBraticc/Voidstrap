@@ -69,26 +69,17 @@ internal static class NvApi
 
     private const int UnicodeStringMax = 2048;
 
-    private const int BinaryDataMax = 4096;
-
     private const int SettingOffsetVersion = 0;
     private const int SettingOffsetName = 4;
     private const int SettingOffsetId = 4100;
     private const int SettingOffsetType = 4104;
-    private const int SettingOffsetLocation = 4108;
     private const int SettingOffsetIsCurrentPredefined = 4112;
-    private const int SettingOffsetIsPredefinedValid = 4116;
-    private const int SettingOffsetPredefinedUnion = 4120;
-    private const int UnionSize = 4100;
     private const int SettingOffsetCurrentUnion = 8220;
     internal const int SettingSize = 12320;
 
     private const int ProfileOffsetVersion = 0;
     private const int ProfileOffsetName = 4;
     private const int ProfileOffsetGpuSupport = 4100;
-    private const int ProfileOffsetIsPredefined = 4104;
-    private const int ProfileOffsetNumOfApps = 4108;
-    private const int ProfileOffsetNumOfSettings = 4112;
     internal const int ProfileSize = 4116;
 
     private const int AppOffsetVersion = 0;

@@ -746,21 +746,6 @@ internal static partial class ClassicTopBarMod
 		state.RobloxSettings.Clear();
 	}
 
-	public static async Task RestoreRobloxInterfaceAsync(CancellationToken token)
-	{
-		await Gate.WaitAsync(token).ConfigureAwait(false);
-		try
-		{
-			ClassicTopBarState state = LoadState();
-			TryRestoreRobloxSettings(state);
-			SaveState(state);
-		}
-		finally
-		{
-			Gate.Release();
-		}
-	}
-
 	private static void WriteRobloxSettings(string path, string content)
 	{
 		string temporary = path + ".voidstrap.tmp";

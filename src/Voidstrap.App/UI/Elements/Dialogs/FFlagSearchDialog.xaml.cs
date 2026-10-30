@@ -41,8 +41,6 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 
 	private const int MaximumValidationCharacters = 4_000_000;
 
-
-
 	private readonly ObservableCollection<FlagValidationResult> _validationResults = new ObservableCollection<FlagValidationResult>();
 
 	private CancellationTokenSource? _searchCancellation;
@@ -547,8 +545,6 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 		}
 	}
 
-
-
 	private static async Task ExportFlagsAsync(Dictionary<string, object> flags, string defaultName)
 	{
 		SaveFileDialog dialog = new SaveFileDialog
@@ -588,17 +584,10 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 		((DispatcherObject)this).Dispatcher.Invoke<Visibility>((Func<Visibility>)(() => LoadingProgress.Visibility = ((!show) ? Visibility.Collapsed : Visibility.Visible)));
 	}
 
-	private void UpdateSearchResultsCount()
-	{
-		SearchResultsCount.Text = Format("ResultCount", 0, 0);
-	}
-
 	private void UpdateValidationResultsCount()
 	{
 		ValidationResultsCount.Text = Format("ResultCount", 0, 0);
 	}
-
-
 
 	private static bool IsTrueValue(object? value) => bool.TryParse(value?.ToString(), out bool result) && result;
 	private static bool IsFalseValue(object? value) => bool.TryParse(value?.ToString(), out bool result) && !result;
@@ -635,8 +624,6 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 		base.OnClosed(e);
 	}
 
-
-
 	private void PasteMenuItem_Click(object sender, RoutedEventArgs e)
 	{
 		try
@@ -672,9 +659,4 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 		ValidationInputTextBox.SelectAll();
 	}
 
-	private void SampleFormatButton_Click(object sender, RoutedEventArgs e)
-	{
-		string text = "{\n  \"FFlagDebugDisplayFPS\": \"True\",\n  \"DFIntTaskSchedulerTargetFps\": \"120\",\n  \"FFlagDisablePostFx\": \"False\",\n  \"DFIntRenderClampRoughnessMax\": \"-640000000\"\n}";
-		ValidationInputTextBox.Text = text;
-	}
 }

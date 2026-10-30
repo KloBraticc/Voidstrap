@@ -541,12 +541,6 @@ public static class PluginSidebar
 			return ModPages.ToList();
 	}
 
-	public static void ClearModPages()
-	{
-		lock (Gate)
-			ModPages.Clear();
-	}
-
 	public static void RemovePluginPages(HashSet<string> activePlugins)
 	{
 		bool removed;
@@ -804,15 +798,6 @@ public static class PluginModPages
 		bool changed;
 		lock (Gate)
 			changed = Entries.RemoveAll(p => p.Plugin == plugin && p.Id == id) > 0;
-		if (changed)
-			NotifyWindows();
-	}
-
-	public static void RemovePlugin(string plugin)
-	{
-		bool changed;
-		lock (Gate)
-			changed = Entries.RemoveAll(p => p.Plugin == plugin) > 0;
 		if (changed)
 			NotifyWindows();
 	}

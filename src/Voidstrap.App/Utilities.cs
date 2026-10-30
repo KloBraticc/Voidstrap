@@ -210,25 +210,6 @@ public static class Utilities
 		}
 	}
 
-	public static bool DoesMutexExist(string name)
-	{
-		try
-		{
-			Mutex.OpenExisting(name).Close();
-			return true;
-		}
-		catch
-		{
-			return false;
-		}
-	}
-
-	public static void KillBackgroundUpdater()
-	{
-		using EventWaitHandle eventWaitHandle = new EventWaitHandle(initialState: false, EventResetMode.AutoReset, "Voidstrap-BackgroundUpdaterKillEvent");
-		eventWaitHandle.Set();
-	}
-
 	public static void RemoveTeleportFix()
 	{
 		string identity = Environment.UserDomainName + "\\" + Environment.UserName;

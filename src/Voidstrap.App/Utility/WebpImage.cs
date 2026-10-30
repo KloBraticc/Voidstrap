@@ -16,24 +16,5 @@ namespace Voidstrap.Utility
                 && bytes[8] == (byte)'W' && bytes[9] == (byte)'E' && bytes[10] == (byte)'B' && bytes[11] == (byte)'P';
         }
 
-        public static ImageSource? TryDecode(byte[] bytes, int maxPixelWidth)
-        {
-            if (!LooksLikeWebp(bytes))
-                return null;
-            try
-            {
-                if (NativeImaging.TryDecodeBgra(bytes, maxPixelWidth, MaxDecodedPixels * 4, out int nativeWidth, out int nativeHeight, out byte[] nativePixels) && nativeWidth <= MaxDimension && nativeHeight <= MaxDimension)
-                {
-                    var nativeSource = BitmapSource.Create(nativeWidth, nativeHeight, 96, 96, PixelFormats.Bgra32, null, nativePixels, nativeWidth * 4);
-                    nativeSource.Freeze();
-                    return nativeSource;
-                }
-                return null;
-            }
-            catch
-            {
-                return null;
-            }
-        }
     }
 }

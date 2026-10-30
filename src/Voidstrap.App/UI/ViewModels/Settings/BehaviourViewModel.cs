@@ -350,8 +350,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	private static readonly ObservableCollection<MatchmakerModeItem> _matchmakerModes = new()
 	{
 		new MatchmakerModeItem { Value = 0, Display = "Closest server" },
@@ -422,8 +420,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public int VoidstrapMatchmakerMaxCandidates
 	{
 		get
@@ -441,8 +437,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			}
 		}
 	}
-
-
 
 	public bool VoidstrapMatchmakerAutoCandidates
 	{
@@ -462,8 +456,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public bool VoidstrapMatchmakerManualCandidates => !VoidstrapMatchmakerAutoCandidates;
 
 	public int RecommendedMatchmakerCandidates
@@ -474,8 +466,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			return Math.Clamp(40 + blocked * 4, 40, Voidstrap.Integrations.VoidstrapMatchmaker.MaxCandidateCount);
 		}
 	}
-
-
 
 	public int EffectiveMatchmakerCandidates => VoidstrapMatchmakerAutoCandidates ? RecommendedMatchmakerCandidates : VoidstrapMatchmakerMaxCandidates;
 
@@ -488,8 +478,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			return $"Checks up to {count} servers before joining, {speed}.";
 		}
 	}
-
-
 
 	public ObservableCollection<DatacenterItem> Datacenters { get; } = new ObservableCollection<DatacenterItem>();
 
@@ -532,8 +520,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public string DatacenterSearchText
 	{
 		get
@@ -557,8 +543,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			}
 		}
 	}
-
-
 
 	public string DatacenterPresetUrl
 	{
@@ -588,8 +572,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public string PresetFetchStatus
 	{
 		get
@@ -603,8 +585,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			OnPropertyChanged(nameof(HasPresetFetchStatus));
 		}
 	}
-
-
 
 	public bool HasPresetFetchStatus => !string.IsNullOrEmpty(_presetFetchStatus);
 
@@ -622,8 +602,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public bool CanFetchPreset
 	{
 		get
@@ -635,8 +613,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			return false;
 		}
 	}
-
-
 
 	private PreferredDatacenterOption? _selectedPreferredDatacenter;
 
@@ -697,8 +673,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public string VoidstrapMatchmakerLearnedStats
 	{
 		get
@@ -714,8 +688,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			}
 		}
 	}
-
-
 
 	public bool HasLearnedData
 	{
@@ -736,8 +708,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public string LoginStatusText
 	{
 		get
@@ -753,8 +723,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			return "Roblox login found loading account details...";
 		}
 	}
-
-
 
 	public bool IsSignedIn => RobloxCookie.Exists;
 
@@ -777,8 +745,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public string CpuModelName
 	{
 		get
@@ -792,8 +758,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public string CpuSummary
 	{
 		get
@@ -806,8 +770,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			OnPropertyChanged(nameof(CpuSummary));
 		}
 	}
-
-
 
 	public ObservableCollection<string> CpuOptions { get; } = new ObservableCollection<string>();
 
@@ -829,8 +791,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public bool disablecrashhandleryayyysocool
 	{
 		get
@@ -846,8 +806,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			}
 		}
 	}
-
-
 
 	public bool TasxOptimization
 	{
@@ -865,8 +823,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public bool ConfirmLaunches
 	{
 		get
@@ -878,8 +834,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			App.Settings.Prop.ConfirmLaunches = value;
 		}
 	}
-
-
 
 	public bool LaunchRobloxWebsite
 	{
@@ -893,8 +847,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public bool IsBetterServersEnabled
 	{
 		get
@@ -906,8 +858,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			App.Settings.Prop.IsBetterServersEnabled = value;
 		}
 	}
-
-
 
 	public bool OverClockCPU
 	{
@@ -921,8 +871,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public bool IsGameEnabled
 	{
 		get
@@ -935,8 +883,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public bool OverClockGPU
 	{
 		get
@@ -948,8 +894,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			App.Settings.Prop.OverClockGPU = value;
 		}
 	}
-
-
 
 	public bool OptimizeRoblox
 	{
@@ -978,8 +922,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public Visibility CleanRobloxCacheVisibility => Visibility.Visible;
 
-
-
 	public bool ReduceMemoryOutOfFocus
 	{
 		get
@@ -996,7 +938,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			}
 		}
 	}
-
 
 	public bool MultiAccount
 	{
@@ -1015,8 +956,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public bool BackgroundWindow
 	{
 		get
@@ -1028,8 +967,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			App.Settings.Prop.BackgroundWindow = value;
 		}
 	}
-
-
 
 	public bool RenameClientToEurotrucks2
 	{
@@ -1043,8 +980,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public CleanerOptions SelectedCleanUpMode
 	{
 		get
@@ -1056,8 +991,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			App.Settings.Prop.CleanerOptions = value;
 		}
 	}
-
-
 
 	public IEnumerable<CleanerOptions> CleanerOptions => CleanerOptionsEx.Selections;
 
@@ -1072,8 +1005,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			App.Settings.Prop.CleanerOptions = value;
 		}
 	}
-
-
 
 	public bool CleanerLogs
 	{
@@ -1097,8 +1028,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public bool CleanerCache
 	{
 		get
@@ -1121,8 +1050,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public bool CleanerVoidstrap
 	{
 		get
@@ -1144,8 +1071,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			OnPropertyChanged(nameof(CleanerVoidstrap));
 		}
 	}
-
-
 
 	public BehaviourViewModel()
 	{
@@ -1512,8 +1437,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	private async Task CleanRobloxCacheAsync()
 	{
 		bool linux = Voidstrap.Utility.Platform.IsLinux;
@@ -1592,8 +1515,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	private static bool TryDeleteFile(string path)
 	{
 		try
@@ -1611,8 +1532,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			return false;
 		}
 	}
-
-
 
 	private static int DeleteDirectoryContents(string dir)
 	{
@@ -1655,8 +1574,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		return num;
 	}
 
-
-
 	private async Task LoadUserGeoForPreferredAsync()
 	{
 		_ = 1;
@@ -1682,8 +1599,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	private static async Task<(double lat, double lon)?> FetchUserGeoAsync()
 	{
 		try
@@ -1700,8 +1615,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			return null;
 		}
 	}
-
-
 
 	public void RefreshMatchmakerAutoDetect()
 	{
@@ -1728,8 +1641,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				: $"{Datacenters.Count} datacenters known, {blocked} blocked.";
 		}
 	}
-
-
 
 	private static void MigrateKickListIntoBlocklist()
 	{
@@ -1833,8 +1744,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	private static bool IsUsablePingIp(string? ip)
 	{
 		if (string.IsNullOrWhiteSpace(ip))
@@ -1851,11 +1760,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 		return !VoidstrapMatchmaker.IsPrivateIp(ip);
 	}
-
-
-
-
-
 
 	public async Task FetchPresetAsync(bool force = true)
 	{
@@ -1878,24 +1782,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			IsFetchingPreset = false;
 		}
 	}
-
-
-
-	public void ClearAllLearnedDatacenters()
-	{
-		try
-		{
-			int num = ServerFetchStore.PruneUnseenSeedEntries();
-			PresetFetchStatus = ((num > 0) ? $"Cleared {num} unseen pre-seeded entries." : "No unseen pre-seeded entries to clear.");
-			LoadDatacenters();
-		}
-		catch (Exception ex)
-		{
-			PresetFetchStatus = "Clear failed: " + ex.Message;
-		}
-	}
-
-
 
 	public void RefreshPreferredDatacenterOptions()
 	{
@@ -1967,8 +1853,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	private void OnDatacenterToggled(DatacenterItem item)
 	{
 		string blockKey = item.BlockKey;
@@ -1991,8 +1875,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		EnsurePreferredDatacenter();
 		RefreshMatchmakerSummary();
 	}
-
-
 
 	private async Task MeasureDatacenterPingsAsync()
 	{
@@ -2033,8 +1915,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	private static async Task<int> MeasureTcpPingAsync(string ip)
 	{
 		if (!IPAddress.TryParse(ip, out IPAddress? addr))
@@ -2053,8 +1933,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 		return best;
 	}
-
-
 
 	private static async Task<int> TcpConnectRttAsync(IPAddress addr, int port, int timeoutMs)
 	{
@@ -2086,8 +1964,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public void ResetDatacenters()
 	{
 		App.Settings.Prop.VoidstrapMatchmakerDisabledDatacenters?.Clear();
@@ -2107,16 +1983,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		RefreshMatchmakerSummary();
 	}
 
-
-
-	public void RefreshLearnedStats()
-	{
-		OnPropertyChanged(nameof(VoidstrapMatchmakerLearnedStats));
-		OnPropertyChanged(nameof(HasLearnedData));
-	}
-
-
-
 	public void RefreshLoginStatus()
 	{
 		RobloxCookie.InvalidateCache();
@@ -2125,8 +1991,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		OnPropertyChanged(nameof(IsNotSignedIn));
 		_ = LoadAccountAsync();
 	}
-
-
 
 	private async Task LoadAccountAsync()
 	{
@@ -2140,8 +2004,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 		OnPropertyChanged(nameof(LoginStatusText));
 	}
-
-
 
 	private void LoadCpuOptions()
 	{
@@ -2205,8 +2067,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	private static int GetPhysicalCoreCount()
 	{
 		if (!Voidstrap.Utility.Platform.IsWindows)
@@ -2230,14 +2090,10 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	private void UpdateCleanerItems()
 	{
 		App.Settings.Prop.CleanerDirectories = new List<string>(CleanerItems);
 	}
-
-
 
 	public sealed class FullscreenModeItem
 	{
@@ -2312,8 +2168,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public bool CycleTitleWithGameName
 	{
 		get
@@ -2329,8 +2183,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			}
 		}
 	}
-
-
 
 	public bool UseGameIconForRobloxWindow
 	{
@@ -3267,8 +3119,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public sealed class BackdropItem
 	{
 		public int Value { get; init; }
@@ -3306,8 +3156,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 
 	public bool IsWindows11 => OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000);
 
-
-
 	public string RobloxTitle
 	{
 		get
@@ -3325,8 +3173,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public bool WebViewDevTools
 	{
 		get
@@ -3342,8 +3188,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			}
 		}
 	}
-
-
 
 	public bool WebCustomBackgroundEnabled
 	{
@@ -3362,8 +3206,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public bool WebCustomBackgroundBlur
 	{
 		get
@@ -3380,8 +3222,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			}
 		}
 	}
-
-
 
 	public int WebCustomBackgroundOpacity
 	{
@@ -3401,8 +3241,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public string WebCustomBackgroundDisplay
 	{
 		get
@@ -3411,8 +3249,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			return string.IsNullOrEmpty(path) ? "No background applied" : ("Applied: " + Path.GetFileName(path));
 		}
 	}
-
-
 
 	public string ApplyButtonText
 	{
@@ -3426,8 +3262,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			return "Apply Set";
 		}
 	}
-
-
 
 	public ObservableCollection<Voidstrap.Models.CustomBackground> WebBackgrounds => App.Settings.Prop.WebCustomBackgrounds;
 
@@ -3450,8 +3284,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public System.Windows.Media.ImageSource? SelectedBackgroundPreview
 	{
 		get
@@ -3465,8 +3297,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			OnPropertyChanged(nameof(HasBackgroundPreview));
 		}
 	}
-
-
 
 	public bool HasBackgroundPreview => _selectedBackgroundPreview != null;
 
@@ -3504,8 +3334,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-
-
 	public ICommand AddWebBackgroundCommand => new RelayCommand(AddWebBackground);
 
 	public ICommand RemoveWebBackgroundCommand => new RelayCommand(RemoveWebBackground);
@@ -3521,8 +3349,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		App.Settings.SaveDeferred();
 	}
 
-
-
 	private void ClearWebBackground()
 	{
 		App.Settings.Prop.WebCustomBackgroundPath = null;
@@ -3530,8 +3356,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		OnPropertyChanged(nameof(WebCustomBackgroundDisplay));
 		OnPropertyChanged(nameof(ApplyButtonText));
 	}
-
-
 
 	private void AddWebBackground()
 	{
@@ -3565,8 +3389,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		App.Settings.SaveDeferred();
 	}
 
-
-
 	private void RemoveWebBackground()
 	{
 		Voidstrap.Models.CustomBackground? selected = SelectedWebBackground;
@@ -3593,8 +3415,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		App.Settings.SaveDeferred();
 	}
 
-
-
 	private void ApplyWebBackground()
 	{
 		Voidstrap.Models.CustomBackground? selected = SelectedWebBackground;
@@ -3609,6 +3429,5 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		OnPropertyChanged(nameof(WebCustomBackgroundEnabled));
 		OnPropertyChanged(nameof(ApplyButtonText));
 	}
-
 
 }

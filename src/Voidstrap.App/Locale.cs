@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -96,17 +96,6 @@ internal static class Locale
 			return DefaultLocale;
 		}
 		return SupportedLocales.FirstOrDefault<KeyValuePair<string, string>>((KeyValuePair<string, string> x) => x.Value == language).Key ?? "nil";
-	}
-
-	public static List<string> GetLanguages()
-	{
-		List<string> languages = SupportedLocales.Values.Take(2).ToList();
-		languages.AddRange(from x in SupportedLocales.Values
-			where !languages.Contains(x)
-			orderby x
-			select x);
-		languages[0] = Strings.Common_SystemDefault;
-		return languages;
 	}
 
 	public static void Set(string identifier)

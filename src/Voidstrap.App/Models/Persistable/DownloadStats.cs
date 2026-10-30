@@ -23,8 +23,4 @@ public class DownloadStats
 		}
 	}
 
-	public string GetFormattedDownloadStatus(string currentFile, int downloadedSize, int totalSize)
-	{
-		return string.Format(DownloadingStringFormat, currentFile, downloadedSize, totalSize);
-	}
 }

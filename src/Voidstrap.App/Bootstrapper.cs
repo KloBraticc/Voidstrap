@@ -1,4 +1,4 @@
-﻿﻿using System;
+using System;
 using System.Buffers;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -142,8 +142,6 @@ public class Bootstrapper
 
     private const string ProcRobloxCrash = "RobloxCrashHandler";
 
-    private const string ProcRobloxStudio = "RobloxStudioBeta";
-
     private const string ProcRobloxExe = "RobloxPlayerBeta.exe";
 
     private const string SkyboxCommitApiUrl = "https://api.github.com/repos/KloBraticc/SkyboxPackV2/commits/main";
@@ -182,7 +180,6 @@ public class Bootstrapper
 
     private readonly LaunchMode _launchMode;
     private string _deploymentChannel;
-
 
     private string _launchCommandLine = App.LaunchSettings.RobloxLaunchArgs;
 
@@ -297,9 +294,7 @@ public class Bootstrapper
 
     private static readonly string? _launchStatusFile = Environment.GetEnvironmentVariable("VOIDSTRAP_STATUS_FILE");
 
-
     private readonly List<int> _integrationAutoclosePids = [];
-
 
     public bool IsStudioLaunch => _launchMode != LaunchMode.Player;
 
@@ -882,44 +877,6 @@ public class Bootstrapper
         catch
         {
             return "";
-        }
-    }
-
-    private static async Task WaitForRobloxExitAsync(CancellationToken ct)
-    {
-        string procName = Voidstrap.Utility.Platform.RobloxPlayerProcessName;
-        await Task.Delay(4000, ct).ConfigureAwait(continueOnCapturedContext: false);
-        int absentSeconds = 0;
-        while (!ct.IsCancellationRequested)
-        {
-            bool flag;
-            try
-            {
-                Process[] processesByName = Process.GetProcessesByName(procName);
-                flag = processesByName.Length != 0;
-                Process[] array = processesByName;
-                for (int i = 0; i < array.Length; i++)
-                {
-                    array[i].Dispose();
-                }
-            }
-            catch
-            {
-                flag = false;
-            }
-            if (flag)
-            {
-                absentSeconds = 0;
-            }
-            else
-            {
-                absentSeconds += 3;
-                if (absentSeconds >= 25)
-                {
-                    break;
-                }
-            }
-            await Task.Delay(3000, ct).ConfigureAwait(continueOnCapturedContext: false);
         }
     }
 
@@ -1700,7 +1657,6 @@ public class Bootstrapper
             return new MatchmakerDispatchTarget(originalTarget, MatchmakerRewriteOutcome.Failed, exception.Message);
         }
     }
-
 
     private ProcessStartInfo BuildStartInfo()
     {
@@ -4022,7 +3978,6 @@ public class Bootstrapper
             ? target == Voidstrap.Enums.ModApplyTarget.Studio
             : target == Voidstrap.Enums.ModApplyTarget.Player;
     }
-
 
     internal async Task PrepareLinuxStudioLaunchAsync(CancellationToken cancellationToken)
     {

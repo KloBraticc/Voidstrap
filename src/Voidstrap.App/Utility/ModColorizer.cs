@@ -102,13 +102,6 @@ namespace Voidstrap.Utility
             return images;
         }
 
-        public static int CountImages()
-        {
-            var root = FindRobloxContentDir();
-            if (root == null) return 0;
-            return EnumerateImages(root).Count;
-        }
-
         public static async Task<int> ApplyAsync(ColorizeMode mode, string colorAHex, string colorBHex, IProgress<(int done, int total)>? progress = null)
         {
             return await Task.Run(() =>

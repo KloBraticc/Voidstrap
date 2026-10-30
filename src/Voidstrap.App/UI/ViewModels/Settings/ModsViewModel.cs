@@ -63,8 +63,6 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 		Image
 	}
 
-	private const string GitHubApiBase = "https://api.github.com/repos/KloBraticc/ModsHub-Reworked-/contents";
-
 	private static readonly string RepoRoot = "https://api.github.com/repos/KloBraticc/SkyboxPackV2/contents";
 
 	private static readonly HttpClient _http = CreateHttpClient();
@@ -172,7 +170,6 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 	private bool _showAssetNames = true;
 
 	private string _captureStatsText = "";
-
 
 	private DispatcherTimer? _captureTimer;
 
@@ -663,7 +660,6 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 			}
 		}
 	}
-
 
 public ICommand PickCursorColorCommand { get; }
 
@@ -5370,25 +5366,6 @@ public ICommand PickCursorColorCommand { get; }
 		Voidstrap.Utility.PlatformShell.TryOpenFolder(dir);
 	}
 
-	public void StartCaptureBrowser()
-	{
-		//IL_0032: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0037: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0049: Expected O, but got Unknown
-		if (!_captureBrowserActive)
-		{
-			_captureBrowserActive = true;
-			CapturedAsset.ShowNames = _showAssetNames;
-			RunScanAndRebuild(initial: true);
-			_captureTimer = new DispatcherTimer((DispatcherPriority)4)
-			{
-				Interval = TimeSpan.FromSeconds(4L)
-			};
-			_captureTimer.Tick += CaptureTimer_Tick;
-			_captureTimer.Start();
-		}
-	}
-
 	private void CaptureTimer_Tick(object? sender, EventArgs e)
 	{
 		RunScanAndRebuild(initial: false);
@@ -5443,18 +5420,6 @@ public ICommand PickCursorColorCommand { get; }
 			{
 			}
 		});
-	}
-
-	public void StopCaptureBrowser()
-	{
-		_captureBrowserActive = false;
-		DispatcherTimer? captureTimer = _captureTimer;
-		if (captureTimer != null)
-		{
-			captureTimer.Stop();
-			captureTimer.Tick -= CaptureTimer_Tick;
-		}
-		_captureTimer = null;
 	}
 
 	private static void ScanCache()
@@ -5655,11 +5620,6 @@ public ICommand PickCursorColorCommand { get; }
 		catch
 		{
 		}
-	}
-
-	public async Task<byte[]?> GetCaptureContentAsync(CapturedAsset asset)
-	{
-		return await AssetCaptureStore.GetContentAsync(asset);
 	}
 
 	private static string MapAssetCategory(string? devType)

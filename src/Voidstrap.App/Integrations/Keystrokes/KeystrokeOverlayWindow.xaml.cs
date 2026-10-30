@@ -425,31 +425,6 @@ public partial class KeystrokeOverlayWindow : Window
         }
     }
 
-    public async Task TriggerPreviewSequenceAsync()
-    {
-        var settings = App.Settings.Prop;
-        var theme = KeystrokeThemeManager.ActiveTheme;
-        var rows = theme.GetEffectiveLayoutRows();
-        foreach (var r in rows)
-        {
-            foreach (var k in r)
-            {
-                if (!KeystrokeThemeManager.IsKeyAllowedBySettings(k, settings))
-                    continue;
-
-                UpdateVisualNamed(k, true);
-                if (string.Equals(k, "LMB", StringComparison.OrdinalIgnoreCase) || string.Equals(k, "RMB", StringComparison.OrdinalIgnoreCase))
-                    KeystrokeAudioService.PlayMousePress();
-                else
-                    KeystrokeAudioService.PlayKeyboardPress();
-
-                await Task.Delay(110);
-                UpdateVisualNamed(k, false);
-                await Task.Delay(50);
-            }
-        }
-    }
-
     private void OnOverlayLoaded(object? sender, RoutedEventArgs e)
     {
         MakeClickThrough();

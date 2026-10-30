@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Voidstrap.Utility;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -111,7 +111,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
         public string Text { get; init; } = null!;
     }
-
 
     private sealed partial class TopSearchEntry
     {
@@ -325,7 +324,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private int _robloxCheckRunning;
 
-
     private static readonly Dictionary<string, (string Details, string State)> _voidRpcPageDescriptions = new Dictionary<string, (string, string)>
     {
         ["HomePage"] = ("Home", "On the home screen"),
@@ -374,7 +372,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private readonly Dictionary<UIElement, TaskCompletionSource<bool>> _backgroundAnimationWaiters = new Dictionary<UIElement, TaskCompletionSource<bool>>();
 
-
     private Vector _currentOffset;
 
     private Vector _targetOffset;
@@ -422,12 +419,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private Dictionary<string, object?>? _defaultSidebarContent;
 
     private Page? _lastPage;
-
-    private const double MaxOffset = 0.04;
-
-    private const double MaxRotation = 5.0;
-
-    private const double FollowSpeed = 0.035;
 
     private readonly Dictionary<NavigationItem, SymbolRegular> _defaultIcons = new Dictionary<NavigationItem, SymbolRegular>();
 
@@ -495,7 +486,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private DispatcherTimer? _introWatchdog;
 
     private Storyboard? _introWatchdogStoryboard;
-
 
     private static Voidstrap.Models.Persistable.WindowState _state => App.State.Prop.SettingsWindow;
 
@@ -2473,16 +2463,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    public void NavigateBack()
-    {
-        if (_navHistoryBack.Count == 0)
-        {
-            RootNavigation.Navigate(typeof(Pages.HomePage));
-            return;
-        }
-        TopNavBack_Click(this, new RoutedEventArgs());
-    }
-
     public void ShowRobloxNews()
     {
         _robloxNewsPage ??= new Pages.RobloxNewsPage();
@@ -3350,7 +3330,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool ShowWindow(IntPtr hWnd, int nCmdShow);
@@ -3594,27 +3573,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         timer.Start();
     }
 
-    private static void FlashHighlight(TextBlock tb)
-    {
-        //IL_001f: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0024: Unknown result type (might be due to invalid IL or missing references)
-        //IL_003a: Expected O, but got Unknown
-        Brush originalBrush = tb.Background;
-        DispatcherTimer flashTimer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromMilliseconds(300L)
-        };
-        EventHandler? onTick = null;
-        onTick = delegate
-        {
-            flashTimer.Stop();
-            flashTimer.Tick -= onTick;
-            tb.Background = originalBrush;
-        };
-        flashTimer.Tick += onTick;
-        flashTimer.Start();
-    }
-
 	private static int ScoreTopSearchEntry(TopSearchEntry entry, string normalizedQuery)
 	{
 		if (normalizedQuery.Length == 0)
@@ -3697,23 +3655,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 			(previous, current) = (current, previous);
 		}
 		return previous[s.Length];
-    }
-
-    private static void AnimateOpacity(UIElement element, double toOpacity, double durationSeconds = 0.5)
-    {
-        if (element != null)
-        {
-            DoubleAnimation animation = new DoubleAnimation
-            {
-                To = toOpacity,
-                Duration = TimeSpan.FromSeconds(durationSeconds),
-                EasingFunction = new QuadraticEase
-                {
-                    EasingMode = EasingMode.EaseInOut
-                }
-            };
-            element.BeginAnimation(UIElement.OpacityProperty, animation);
-        }
     }
 
     private void OnGlobalBackgroundChanged(GlobalBackground.State state)
@@ -6055,12 +5996,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private long _overlayPopupClosedTicks;
     private Popup? _lastClosedOverlayPopup;
 
-    private bool JustClosedOverlayPopup(Popup popup)
-    {
-        long elapsed = Environment.TickCount64 - _overlayPopupClosedTicks;
-        return ReferenceEquals(_lastClosedOverlayPopup, popup) && elapsed >= 0 && elapsed < 250;
-    }
-
     private void AppMenuPopup_Closing(object? sender, EventArgs e)
     {
         StopLogsSubmenuCloseTimer();
@@ -6239,7 +6174,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             App.State.SaveDeferred();
         }
     }
-
 
     private void MainWindow_SizeChanged(object? sender, SizeChangedEventArgs e)
     {
@@ -6793,11 +6727,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private void OnSaveAndLaunchButtonClick(object sender, EventArgs e)
-    {
-        _isSaveAndLaunchClicked = true;
-    }
-
     private void WpfUiWindow_Closing(object sender, CancelEventArgs e)
     {
         SaveWindowState();
@@ -7142,14 +7071,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     public void CloseWindow()
     {
         Close();
-    }
-
-    private void NavigationItem_Click(object sender, RoutedEventArgs e)
-    {
-    }
-
-    private void NavigationItem_Click_1(object sender, RoutedEventArgs e)
-    {
     }
 
     private void Button_Click_1(object sender, RoutedEventArgs e)

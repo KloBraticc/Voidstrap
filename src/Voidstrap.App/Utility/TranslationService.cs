@@ -150,16 +150,6 @@ namespace Voidstrap.Utility
             }
         }
 
-        public static bool IsTranslated(string? text, string targetLanguage)
-        {
-            if (string.IsNullOrEmpty(text))
-            {
-                return false;
-            }
-            EnsureCacheLoaded();
-            return _outputs.ContainsKey(Key(NormalizeLang(targetLanguage), text));
-        }
-
         public static bool TryGetOriginal(string? text, string targetLanguage, out string original)
         {
             original = "";

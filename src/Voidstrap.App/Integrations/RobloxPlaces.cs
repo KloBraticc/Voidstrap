@@ -94,41 +94,6 @@ public static class RobloxPlaces
 		return places.ToList();
 	}
 
-	public static async Task<Dictionary<long, string>> GetPlaceIconUrlsAsync(IEnumerable<long> placeIds, CancellationToken token)
-	{
-		Dictionary<long, string> urls = new();
-		List<long> missing = new();
-		lock (CacheLock)
-		{
-			foreach (long id in placeIds.Where(id => id > 0).Distinct())
-			{
-				if (IconCache.TryGetValue(id, out string? url))
-					urls[id] = url;
-				else
-					missing.Add(id);
-			}
-		}
-		for (int index = 0; index < missing.Count; index += 50)
-		{
-			string url = "https://thumbnails.roblox.com/v1/places/gameicons?placeIds=" + string.Join(",", missing.Skip(index).Take(50))
-				+ "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false";
-			using JsonDocument? document = await GetAsync(url, token).ConfigureAwait(false);
-			if (document == null || !document.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
-				continue;
-			foreach (JsonElement item in data.EnumerateArray())
-			{
-				long id = item.TryGetProperty("targetId", out JsonElement idElement) && idElement.TryGetInt64(out long value) ? value : 0;
-				string image = item.TryGetProperty("imageUrl", out JsonElement imageElement) && imageElement.ValueKind == JsonValueKind.String ? imageElement.GetString() ?? "" : "";
-				if (id <= 0 || !image.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-					continue;
-				urls[id] = image;
-				lock (CacheLock)
-					IconCache[id] = image;
-			}
-		}
-		return urls;
-	}
-
 	private static async Task<JsonDocument?> GetAsync(string url, CancellationToken token)
 	{
 		try

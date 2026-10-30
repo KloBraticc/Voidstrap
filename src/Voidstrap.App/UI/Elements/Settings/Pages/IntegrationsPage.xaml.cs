@@ -84,10 +84,6 @@ public partial class IntegrationsPage : UiPage{
 		_viewModel.OnPropertyChanged("SelectedCustomIntegration");
 	}
 
-	private void ToggleSwitch_Checked(object sender, RoutedEventArgs e)
-	{
-	}
-
 	private void ResetDatacenters_Click(object sender, RoutedEventArgs e)
 	{
 		if (MatchmakerTab.DataContext is BehaviourViewModel behaviourViewModel)

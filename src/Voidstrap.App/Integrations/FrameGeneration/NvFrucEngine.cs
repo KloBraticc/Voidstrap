@@ -91,27 +91,6 @@ namespace Voidstrap.Integrations.FrameGeneration
 
         public static bool InstallReady => _installReady;
 
-        public static void ConsumeInstall()
-        {
-            _installReady = false;
-            lock (_loadLock)
-            {
-                _loadTried = false;
-                _loadFail = "";
-            }
-        }
-
-        public static void BeginInstall()
-        {
-            lock (_installLock)
-            {
-                if (_installStarted)
-                    return;
-                _installStarted = true;
-            }
-            System.Threading.Tasks.Task.Run(InstallWorker);
-        }
-
         private static void InstallWorker()
         {
             try

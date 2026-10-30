@@ -73,15 +73,6 @@ public static class Deployment
 		SharedHttp.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "application/json");
 	}
 
-	public static string GetInfoUrl(string channel, string binaryType = "WindowsPlayer")
-	{
-		ValidateBinaryType(binaryType);
-		string text = string.Equals(channel, "production", StringComparison.OrdinalIgnoreCase)
-			? "/v2/client-version/" + binaryType
-			: "/v2/client-version/" + binaryType + "/channel/" + Uri.EscapeDataString(channel);
-		return "https://clientsettingscdn.roblox.com" + text;
-	}
-
 	private static async Task<T> SafeGetJson<T>(string channel, string binaryType, CancellationToken cancellationToken)
 	{
 		ValidateBinaryType(binaryType);

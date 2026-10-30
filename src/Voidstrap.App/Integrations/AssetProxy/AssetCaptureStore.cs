@@ -105,14 +105,6 @@ public static partial class AssetCaptureStore
 
 	private static string RobloxLogsDir => Voidstrap.Utility.Platform.IsMacOS ? Paths.RobloxLogs : Path.Combine(Paths.LocalAppData, "Roblox", "logs");
 
-	public static void SetCurrentPlaceId(long placeId)
-	{
-		if (placeId > 0)
-		{
-			Interlocked.Exchange(ref _currentPlaceId, placeId);
-		}
-	}
-
 	private static string CategoryDir(string category)
 	{
 		return Path.Combine(CacheDir, string.IsNullOrWhiteSpace(category) ? "Other" : category);
@@ -265,7 +257,6 @@ public static partial class AssetCaptureStore
 		}
 	}
 
-
 	public static void Shutdown()
 	{
 		if (!_index.IsEmpty)
@@ -298,21 +289,6 @@ public static partial class AssetCaptureStore
 		_order.Enqueue(text);
 		EvictIfNeeded();
 		return capturedAsset;
-	}
-
-	public static void NoteIdForHash(string? hash, string? id)
-	{
-		if (!string.IsNullOrWhiteSpace(hash) && hash.Trim().Length == 32 && !string.IsNullOrWhiteSpace(id) && long.TryParse(id.Trim(), out var result) && result > 0)
-		{
-			string key = hash.Trim();
-			string text = id.Trim();
-			_hashToId[key] = text;
-			TrimDictionary(_hashToId, MaxItems * 2);
-			if (_items.TryGetValue(key, out CapturedAsset? value) && string.IsNullOrEmpty(value.AssetId))
-			{
-				value.AssetId = text;
-			}
-		}
 	}
 
 	private static void EvictIfNeeded()
@@ -507,108 +483,6 @@ public static partial class AssetCaptureStore
 			}
 		}
 		return false;
-	}
-
-	public static async Task<bool> PrefetchAssetAsync(string assetId, string hash, string url, CancellationToken ct)
-	{
-		if (TryGetCachedFile(assetId, hash, out _))
-		{
-			return true;
-		}
-		CapturedAsset? asset = AddMetadata(assetId, hash, url);
-		if (asset == null)
-		{
-			string key = !string.IsNullOrWhiteSpace(hash) ? hash.Trim().ToLowerInvariant() : "id-" + assetId.Trim();
-			_items.TryGetValue(key, out asset);
-		}
-		asset ??= AddById(assetId);
-		if (asset == null)
-		{
-			return false;
-		}
-		byte[]? content = await GetContentAsync(asset, ct).ConfigureAwait(false);
-		return content is { Length: > 0 } && TryGetCachedFile(assetId, hash, out _);
-	}
-
-	public static void InvalidateCachedFile(string? assetId, string? hash, string? filePath)
-	{
-		string normalizedId = assetId?.Trim() ?? "";
-		string normalizedHash = hash?.Trim().ToLowerInvariant() ?? "";
-		if (normalizedHash.Length > 0)
-		{
-			_cacheFiles.TryRemove(normalizedHash, out _);
-			if (_items.TryGetValue(normalizedHash, out CapturedAsset? hashAsset) && string.Equals(hashAsset.FilePath, filePath, StringComparison.OrdinalIgnoreCase))
-			{
-				hashAsset.FilePath = "";
-				hashAsset.Size = 0;
-			}
-		}
-		if (normalizedId.Length > 0 && _items.TryGetValue("id-" + normalizedId, out CapturedAsset? idAsset) && string.Equals(idAsset.FilePath, filePath, StringComparison.OrdinalIgnoreCase))
-		{
-			idAsset.FilePath = "";
-			idAsset.Size = 0;
-		}
-		if (IsCapturedCacheFile(filePath) || IsRobloxCacheFile(filePath))
-		{
-			try
-			{
-				File.Delete(filePath!);
-			}
-			catch
-			{
-			}
-		}
-	}
-
-	public static void EnforceDiskLimit(long maximumBytes)
-	{
-		if (maximumBytes <= 0 || !Directory.Exists(CacheDir))
-		{
-			return;
-		}
-		try
-		{
-			FileInfo[] files = [.. new DirectoryInfo(CacheDir)
-				.EnumerateFiles("*", SearchOption.AllDirectories)
-				.Where(file => !file.Name.Equals("index.json", StringComparison.OrdinalIgnoreCase))
-				.OrderByDescending(file => file.LastWriteTimeUtc)];
-			long total = files.Sum(file => file.Length);
-			if (total <= maximumBytes)
-			{
-				return;
-			}
-			HashSet<string> deleted = new(StringComparer.OrdinalIgnoreCase);
-			foreach (FileInfo file in files.Reverse())
-			{
-				if (total <= maximumBytes)
-				{
-					break;
-				}
-				try
-				{
-					long length = file.Length;
-					file.Delete();
-					total -= length;
-					deleted.Add(file.FullName);
-					_cacheFiles.TryRemove(Path.GetFileNameWithoutExtension(file.Name), out _);
-				}
-				catch
-				{
-				}
-			}
-			foreach (KeyValuePair<string, CapturedAsset> item in _items.ToList())
-			{
-				if (deleted.Contains(item.Value.FilePath))
-				{
-					_items.TryRemove(item.Key, out _);
-					_index.TryRemove(item.Key, out _);
-				}
-			}
-		}
-		catch (Exception ex)
-		{
-			App.Logger?.WriteLine(LOG_IDENT, "Cache cleanup failed: " + ex.Message);
-		}
 	}
 
 	public static byte[]? ReadContent(CapturedAsset asset)
@@ -1046,54 +920,6 @@ public static partial class AssetCaptureStore
 		return false;
 	}
 
-	public static async Task<byte[]?> FetchRawByIdAsync(string idOrUrl, CancellationToken ct = default)
-	{
-		if (string.IsNullOrEmpty(idOrUrl))
-		{
-			return null;
-		}
-		Match match = NumericAssetIdPattern().Match(idOrUrl);
-		if (!match.Success)
-		{
-			return null;
-		}
-		return await FetchAssetAsync(match.Value, ct).ConfigureAwait(continueOnCapturedContext: false);
-	}
-
-	public static async Task<byte[]?> FetchRawForReplacementAsync(string idOrUrl, CancellationToken ct = default)
-	{
-		if (string.IsNullOrEmpty(idOrUrl))
-		{
-			return null;
-		}
-		Match match = NumericAssetIdPattern().Match(idOrUrl);
-		if (!match.Success)
-		{
-			return null;
-		}
-		string value = match.Value;
-		try
-		{
-			using HttpRequestMessage req = new(HttpMethod.Get, "https://assetdelivery.roblox.com/v1/asset/?id=" + value);
-			AddRobloxAuth(req);
-			using HttpResponseMessage res = await _robloxClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(continueOnCapturedContext: false);
-			if (!res.IsSuccessStatusCode)
-			{
-				return null;
-			}
-			byte[]? array = await ReadResponseBytesAsync(res, ct).ConfigureAwait(continueOnCapturedContext: false);
-			return array == null ? null : MaybeGunzip(array);
-		}
-		catch (OperationCanceledException) when (ct.IsCancellationRequested)
-		{
-			throw;
-		}
-		catch
-		{
-			return null;
-		}
-	}
-
 	public static async Task ScanAvatarAssetsAsync(CancellationToken ct = default)
 	{
 		if (_avatarScanned || _suppressScan || DateTime.UtcNow < _avatarCooldownUntil)
@@ -1268,67 +1094,6 @@ public static partial class AssetCaptureStore
 				App.Logger?.WriteLine("AssetCaptureStore", "Batch hash resolve failed: " + ex.Message);
 			}
 		}
-	}
-
-	public static async Task<string?> ResolveHashByIdAsync(string id, CancellationToken ct = default)
-	{
-		if (string.IsNullOrWhiteSpace(id))
-		{
-			return null;
-		}
-		id = id.Trim();
-		if (_idToHash.TryGetValue(id, out string? value) && !string.IsNullOrEmpty(value))
-		{
-			return value;
-		}
-		try
-		{
-			string content = $"[{{\"assetId\":\"{id}\",\"requestId\":\"{id}\"}}]";
-			using HttpRequestMessage req = new(HttpMethod.Post, "https://assetdelivery.roblox.com/v1/assets/batch");
-			req.Content = new StringContent(content, Encoding.UTF8, "application/json");
-			AddRobloxAuth(req);
-			using HttpResponseMessage res = await _robloxClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(continueOnCapturedContext: false);
-			if (!res.IsSuccessStatusCode)
-			{
-				return null;
-			}
-			byte[]? payload = await ReadResponseBytesAsync(res, ct, MaxJsonBytes).ConfigureAwait(continueOnCapturedContext: false);
-			if (payload == null)
-			{
-				return null;
-			}
-			using JsonDocument jsonDocument = JsonDocument.Parse(payload);
-			if (jsonDocument.RootElement.ValueKind != JsonValueKind.Array)
-			{
-				return null;
-			}
-			foreach (JsonElement item in jsonDocument.RootElement.EnumerateArray())
-			{
-				if (item.ValueKind == JsonValueKind.Object)
-				{
-					string input = (item.TryGetProperty("location", out JsonElement value2) ? (value2.GetString() ?? "") : "");
-					Match match = BatchHashPattern().Match(input);
-					if (match.Success)
-					{
-						string text = match.Groups[1].Value.ToLowerInvariant();
-						_idToHash[id] = text;
-						_hashToId[text] = id;
-						TrimDictionary(_idToHash, MaxItems * 2);
-						TrimDictionary(_hashToId, MaxItems * 2);
-						return text;
-					}
-				}
-			}
-		}
-		catch (OperationCanceledException) when (ct.IsCancellationRequested)
-		{
-			throw;
-		}
-		catch (Exception ex)
-		{
-			App.Logger?.WriteLine("AssetCaptureStore", "Single hash resolve failed for " + id + ": " + ex.Message);
-		}
-		return null;
 	}
 
 	public static void ApplyLinks()

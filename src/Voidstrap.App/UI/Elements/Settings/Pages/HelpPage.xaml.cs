@@ -16,7 +16,4 @@ public partial class HelpPage : UiPage{
 		InitializeComponent();
 	}
 
-	private void Expander_Scroll(object sender, ScrollEventArgs e)
-	{
-	}
 }

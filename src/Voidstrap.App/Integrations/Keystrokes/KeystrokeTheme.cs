@@ -159,14 +159,6 @@ public sealed class KeystrokeTheme
 
     public SolidColorBrush GetKeyPressedCpsTextBrush() => CreateBrush(KeyPressedCpsTextColor, Colors.White);
 
-    public void InvalidateBrushCache()
-    {
-        lock (_brushCache)
-        {
-            _brushCache.Clear();
-        }
-    }
-
     public string? ResolveImagePath(string? relativeOrAbsolutePath)
     {
         if (string.IsNullOrWhiteSpace(relativeOrAbsolutePath))

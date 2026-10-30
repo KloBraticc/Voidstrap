@@ -28,17 +28,6 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 
 	public Visibility NavigationVisibility { get; private set; } = Visibility.Visible;
 
-	public void SetNavigationVisible(bool visible)
-	{
-		Visibility target = visible ? Visibility.Visible : Visibility.Collapsed;
-		if (NavigationVisibility == target)
-		{
-			return;
-		}
-		NavigationVisibility = target;
-		OnPropertyChanged(nameof(NavigationVisibility));
-	}
-
 	public int ButtonWidth { get; } = Locale.CurrentCulture.Name.StartsWith("bg", StringComparison.Ordinal) ? 112 : 96;
 
 	public ICommand BackPageCommand => new RelayCommand(BackPage);

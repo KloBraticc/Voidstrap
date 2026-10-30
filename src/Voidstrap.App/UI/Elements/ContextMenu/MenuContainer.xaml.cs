@@ -1116,46 +1116,6 @@ public partial class MenuContainer : WpfUiWindow
         return servers?.Data?.OrderBy(server => server.Ping).FirstOrDefault();
     }
 
-    private async Task UpdateClosestServerMenuItemText()
-    {
-        ActivityData? data = _activityWatcher?.Data;
-        if (_closed || data == null || data.PlaceId == 0)
-        {
-            JoinClosestServerMenuItem.Visibility = Visibility.Collapsed;
-            return;
-        }
-        JoinClosestServerMenuItem.Visibility = Visibility.Visible;
-        if (DateTime.UtcNow < _closestServerBackoffUntilUtc)
-        {
-            JoinClosestServerTextBlock.Text = _lastClosestServer != null && _lastClosestPlaceId == data.PlaceId
-                ? $"Join Closest ({_lastClosestServer.Ping}ms)"
-                : "Rate Limited";
-            return;
-        }
-        try
-        {
-            ServerInfo? server = await FetchClosestServerAsync(data.PlaceId, CancellationToken.None);
-            if (_closed || !ReferenceEquals(_activityWatcher?.Data, data))
-                return;
-            if (server != null)
-            {
-                _lastClosestServer = server;
-                _lastClosestPlaceId = data.PlaceId;
-            }
-            JoinClosestServerTextBlock.Text = _lastClosestServer != null && _lastClosestPlaceId == data.PlaceId
-                ? $"Join Closest ({_lastClosestServer.Ping}ms)"
-                : DateTime.UtcNow < _closestServerBackoffUntilUtc ? "Rate Limited" : "No Servers Detected";
-        }
-        catch (OperationCanceledException)
-        {
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("MenuContainer::UpdateClosestServer", ex);
-            JoinClosestServerTextBlock.Text = _lastClosestServer != null && _lastClosestPlaceId == data.PlaceId ? $"Join Closest ({_lastClosestServer.Ping}ms)" : "Error Fetching Servers";
-        }
-    }
-
     private async void MemoryTimer_Tick(object? sender, EventArgs e)
     {
         try

@@ -105,7 +105,6 @@ public partial class App : Application
 
 	public static readonly GBSEditor GlobalSettings = new();
 
-
 	private static readonly HttpClient _httpClient = CreateHttpClient();
 
 	private static int _showingExceptionDialog;
@@ -705,10 +704,6 @@ public partial class App : Application
 		}
 	}
 
-	public static void SendStat(string _, string _1)
-	{
-	}
-
 	public static void SendLog()
 	{
 	}
@@ -761,24 +756,6 @@ public partial class App : Application
 	}
 
 	private static readonly System.Buffers.SearchValues<char> _spaceTabQuote = System.Buffers.SearchValues.Create([' ', '\t', '"']);
-
-	private static string BuildElevatedArgs(string[] args)
-	{
-		var sb = new StringBuilder();
-		foreach (string a in args)
-		{
-			if (sb.Length > 0)
-				sb.Append(' ');
-			if (a.Length == 0 || a.AsSpan().IndexOfAny(_spaceTabQuote) >= 0)
-				sb.Append('"').Append(a.Replace("\"", "\\\"")).Append('"');
-			else
-				sb.Append(a);
-		}
-		if (sb.Length > 0)
-			sb.Append(' ');
-		sb.Append("-adminretried");
-		return sb.ToString();
-	}
 
 	private const int NativeRuntimeMissingExitCode = 78;
 
@@ -2135,7 +2112,6 @@ public partial class App : Application
 			LinuxUiPerformance.Duration(component, started);
 		}
 	}
-
 
 	protected override void OnExit(ExitEventArgs e)
 	{

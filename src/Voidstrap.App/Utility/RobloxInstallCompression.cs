@@ -57,11 +57,6 @@ internal static class RobloxInstallCompression
 		return directory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + ArchiveExtension;
 	}
 
-	public static bool HasInstall(IAppData data)
-	{
-		return InstallDirectory(data) is string directory && (File.Exists(Path.Combine(directory, data.ExecutableName)) || File.Exists(ArchivePathFor(directory)));
-	}
-
 	public static bool IsCompressed(IAppData data)
 	{
 		return InstallDirectory(data) is string directory && !Directory.Exists(directory) && File.Exists(ArchivePathFor(directory));

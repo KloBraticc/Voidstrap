@@ -42,8 +42,6 @@ public static class VoidstrapMatchmaker
 
 	private const double FullnessTiebreakMs = 8.0;
 
-	private const double GoodEnoughMarginMs = 4.0;
-
 	private const double ClosestDatacenterBandMs = 12.0;
 
 	private const double HandoffPingMs = 120.0;

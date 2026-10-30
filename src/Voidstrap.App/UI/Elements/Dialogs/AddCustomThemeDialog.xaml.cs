@@ -23,9 +23,6 @@ using Wpf.Ui.Controls;
 namespace Voidstrap.UI.Elements.Dialogs;
 
 public partial class AddCustomThemeDialog : WpfUiWindow{
-	private const int CreateNewTabId = 0;
-
-	private const int ImportTabId = 1;
 
 	private readonly AddCustomThemeViewModel _viewModel;
 

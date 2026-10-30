@@ -108,19 +108,6 @@ internal static partial class ClassicTopBarInput
 		Write(key, down: false);
 	}
 
-	public static async Task SequenceAsync(CancellationToken token, params (ushort Key, int DelayMilliseconds)[] steps)
-	{
-		foreach ((ushort key, int delay) in steps)
-		{
-			token.ThrowIfCancellationRequested();
-			Tap(key);
-			if (delay > 0)
-			{
-				await Task.Delay(delay, token).ConfigureAwait(true);
-			}
-		}
-	}
-
 	private static void Write(ushort key, bool down)
 	{
 		if (!OperatingSystem.IsWindows())

@@ -17,17 +17,6 @@ public class FontModPresetTask : StringBaseTask
 		}
 	}
 
-	public string? GetFileHash()
-	{
-		if (!File.Exists(Paths.CustomFont))
-		{
-			return null;
-		}
-		using FileStream inputStream = File.OpenRead(Paths.CustomFont);
-		using MD5 mD = MD5.Create();
-		return MD5Hash.Stringify(mD.ComputeHash(inputStream));
-	}
-
 	public static bool HasFont => File.Exists(Paths.CustomFont);
 
 	public static void Rescale(string? pendingSource = null)

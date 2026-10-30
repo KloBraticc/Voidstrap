@@ -76,7 +76,4 @@ public partial class AboutPage : UiPage{
 		}
 	}
 
-	private void Anchor_Click(object sender, RoutedEventArgs e)
-	{
-	}
 }

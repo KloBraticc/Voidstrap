@@ -74,11 +74,6 @@ internal static class LinuxInlineText
 		return brush;
 	}
 
-	public static void ResetLinkBrush()
-	{
-		_linkBrush = null;
-	}
-
 	public static bool Sanitize(TextBlock block)
 	{
 		if (block is null || block.Inlines.Count == 0)

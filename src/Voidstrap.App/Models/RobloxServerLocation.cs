@@ -44,15 +44,6 @@ public class RobloxServerLocation
 		_ => "", 
 	};
 
-	public double DistanceKmTo(double lat, double lon)
-	{
-		double num = ToRad(lat - Lat);
-		double num2 = ToRad(lon - Lon);
-		double num3 = Math.Sin(num / 2.0) * Math.Sin(num / 2.0) + Math.Cos(ToRad(Lat)) * Math.Cos(ToRad(lat)) * Math.Sin(num2 / 2.0) * Math.Sin(num2 / 2.0);
-		double num4 = 2.0 * Math.Atan2(Math.Sqrt(num3), Math.Sqrt(1.0 - num3));
-		return 6371.0 * num4;
-	}
-
 	private static double ToRad(double d)
 	{
 		return d * Math.PI / 180.0;

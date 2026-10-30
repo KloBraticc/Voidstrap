@@ -22,8 +22,6 @@ internal static partial class ModLibraryReview
 
 	private const string HostPatternText = "^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z]{2,63}$";
 
-	private static readonly Regex NameRegex = new(NamePatternPattern, RegexOptions.None, TimeSpan.FromSeconds(1));
-
 	private static readonly Regex SemverRegex = new(SemverPatternText, RegexOptions.None, TimeSpan.FromSeconds(1));
 
 	private static readonly Regex HostRegex = new(HostPatternText, RegexOptions.None, TimeSpan.FromSeconds(1));

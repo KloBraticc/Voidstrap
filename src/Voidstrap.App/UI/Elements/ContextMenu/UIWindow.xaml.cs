@@ -51,7 +51,6 @@ namespace Voidstrap.UI.Elements.Overlay
         private bool _disposed;
 		private string _lastTimeText = string.Empty;
 
-
         public static bool SurfaceRequired
         {
             get
@@ -83,13 +82,6 @@ namespace Voidstrap.UI.Elements.Overlay
                 existing._root.Opacity = hidden ? 0 : 1;
             }
         }
-
-		public bool MatchesCurrentSettings()
-		{
-			var settings = App.Settings.Prop;
-			return _showTime == settings.CurrentTimeDisplay
-				&& _showLocation == settings.ShowServerDetailsUI;
-		}
 
         public static void Reconcile(ActivityWatcher? activityWatcher = null)
         {

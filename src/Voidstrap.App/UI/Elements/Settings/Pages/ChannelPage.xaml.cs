@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -219,47 +219,6 @@ public partial class ChannelPage : UiPage{
 		if (base.DataContext is ChannelViewModel previous)
 			previous.Dispose();
 		base.DataContext = new ChannelViewModel();
-	}
-
-	private async void Check_Click(object sender, RoutedEventArgs e)
-	{
-		_ = 2;
-		try
-		{
-			string currentVersion = Assembly.GetExecutingAssembly().GetName().Version!.ToString();
-			CancellationToken token = _versionCts?.Token ?? CancellationToken.None;
-			string text = (Voidstrap.Utility.Platform.IsLinux
-				? await Voidstrap.Extensions.GithubUpdater.GetLatestVersionTagAsync(token)
-				: (await App.GetLatestRelease(true))?.TagName) ?? throw new InvalidDataException("Release information is unavailable");
-				if (!TryCompareVersions(text, currentVersion, out bool newer))
-				{
-					Frontend.ShowMessageBox("Could not compare versions. This build reports " + currentVersion + " and the latest release is tagged " + text + ".");
-					return;
-				}
-				if (newer)
-			{
-				Frontend.ShowMessageBox("A new version (" + text + ") is available!");
-				if (!await Voidstrap.Extensions.GithubUpdater.DownloadAndInstallUpdate(text))
-				{
-					throw new InvalidDataException("The update could not be installed");
-				}
-				if (!App.RestartApplication(["-settings", "-elevatedwait", Environment.ProcessId.ToString()]))
-				{
-					throw new InvalidOperationException("The updated application could not be restarted");
-				}
-			}
-			else
-			{
-				Frontend.ShowMessageBox("You are already running the latest version of Voidstrap (" + currentVersion + ").");
-			}
-		}
-		catch (OperationCanceledException)
-		{
-		}
-		catch (Exception ex)
-		{
-			Frontend.ShowMessageBox("Error checking for updates:\n" + ex.Message);
-		}
 	}
 
 	private static bool TryCompareVersions(string latest, string current, out bool newer)

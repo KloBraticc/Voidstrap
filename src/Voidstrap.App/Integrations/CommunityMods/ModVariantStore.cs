@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -315,27 +315,6 @@ internal static partial class ModVariantStore
 		}
 		App.Logger?.WriteLine(LogIdent, "Applied " + changed + " option changes to managed mod " + recordId[..Math.Min(8, recordId.Length)]);
 		return changed;
-	}
-
-	public static void DeleteSources(string recordId)
-	{
-		ManagedModStore.SourcesGate.Wait();
-		try
-		{
-			string sources = GetSourcesFolder(recordId);
-			if (Directory.Exists(sources))
-			{
-				Directory.Delete(sources, recursive: true);
-			}
-		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException)
-		{
-			App.Logger?.WriteLine(LogIdent, "The saved options could not be removed: " + ex.Message);
-		}
-		finally
-		{
-			ManagedModStore.SourcesGate.Release();
-		}
 	}
 
 	private static void CaptureInstalled(string modFolder, string sources)

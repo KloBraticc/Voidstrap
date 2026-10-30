@@ -106,24 +106,6 @@ internal static partial class NativeClipper
         return false;
     }
 
-    public static unsafe bool Reconfigure(NativeClipperConfig config, out string error)
-    {
-        error = string.Empty;
-        if (!IsAvailable)
-        {
-            error = "Native voidclip library is not available";
-            return false;
-        }
-        byte[] json = JsonSerializer.SerializeToUtf8Bytes(config);
-        fixed (byte* ptr = json)
-        {
-            if (ReconfigureNative(ptr, (nuint)json.Length) != 0)
-                return true;
-        }
-        error = GetLastError();
-        return false;
-    }
-
     public static void Stop()
     {
         if (!IsAvailable)

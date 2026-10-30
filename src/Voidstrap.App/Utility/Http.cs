@@ -15,7 +15,6 @@ namespace Voidstrap.Utility;
 
 internal static class Http
 {
-	private const int DefaultMaxAttempts = 3;
 	private const int DefaultMaxResponseBytes = 8 * 1024 * 1024;
 
 	private static readonly TimeSpan DefaultPerCallTimeout = TimeSpan.FromSeconds(20L);
@@ -40,20 +39,6 @@ internal static class Http
 			return val;
 		}
 		throw new InvalidHTTPResponseException("GET " + url + " returned null after deserialization.");
-	}
-
-	public static async Task<T?> PostJson<T>(string url, object body, CancellationToken token = default(CancellationToken))
-	{
-		string jsonBody = JsonSerializer.Serialize(body);
-		return await WithRetryAsync(async delegate(CancellationToken ct)
-		{
-			using StringContent content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
-			using CancellationTokenSource perCallCts = LinkedTimeout(ct);
-			using HttpResponseMessage response = await App.HttpClient.PostAsync(url, content, perCallCts.Token).ConfigureAwait(continueOnCapturedContext: false);
-			ThrowIfShouldNotRetry(response);
-			response.EnsureSuccessStatusCode();
-			return JsonSerializer.Deserialize<T>(await ReadStringBoundedAsync(response.Content, DefaultMaxResponseBytes, perCallCts.Token).ConfigureAwait(continueOnCapturedContext: false), DefaultJsonOptions);
-		}, token).ConfigureAwait(continueOnCapturedContext: false);
 	}
 
 	public static async Task<string> GetString(string url, CancellationToken token = default(CancellationToken))

@@ -26,8 +26,6 @@ public partial class ModsPage : UiPage{
 
 	private readonly System.Windows.Threading.DispatcherTimer _fgWarningTimer;
 
-	private static readonly string[] PreviewableCategories = new string[9] { "Image", "Mesh", "Audio", "Model", "Data", "Pending", "Animation", "Texture", "Other" };
-
 	private Point _managedModDragStart;
 
 	private ManagedModItem? _managedModDragItem;
