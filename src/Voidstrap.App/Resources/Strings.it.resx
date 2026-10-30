@@ -9295,4 +9295,13 @@ Installare comunque?</value>
 
 La sovrapposizione di mod puo causare anomalie visive o di comportamento in Roblox, ma non puo mandare in crash Voidstrap. Disattivane una se noti problemi.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Impostazioni della mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Da correggere</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Cancella i problemi</value>
+  </data>
 </root>

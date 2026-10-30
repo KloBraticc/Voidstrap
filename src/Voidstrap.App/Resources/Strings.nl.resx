@@ -9294,4 +9294,13 @@ Toch installeren?</value>
 
 Overlappende mods kunnen ervoor zorgen dat Roblox er vreemd uitziet of werkt, maar dit kan Voidstrap niet laten crashen. Schakel een van beide uit als er iets mis lijkt.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Modinstellingen</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Moet worden gerepareerd</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Problemen wissen</value>
+  </data>
 </root>

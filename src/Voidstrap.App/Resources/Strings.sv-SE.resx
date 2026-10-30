@@ -9293,4 +9293,13 @@ Installera ändå?</value>
 
 Overlappande moddar kan fa Roblox att se ut eller bete sig markligt, men det kan inte krascha Voidstrap. Inaktivera en av dem om nagot verkar fel.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Modinställningar</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Behöver åtgärdas</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Rensa problem</value>
+  </data>
 </root>

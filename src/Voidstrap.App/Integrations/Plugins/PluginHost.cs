@@ -52,13 +52,25 @@ public static class PluginHost
 
 	public sealed record ModInfo(string Name, string Version, string Description, string Directory, string Consent, bool Loaded, IReadOnlyList<string> Hooks, IReadOnlyList<string> Problems);
 
+	public const string InvalidState = "invalid";
+
+	private static readonly HashSet<string> KnownEvents = new(StringComparer.Ordinal)
+	{
+		"session.start", "session.end", "roblox.launch", "game.join", "game.leave", "page.navigate", "settings.changed", "ui.render",
+		"cursor.move", "cursor.down", "cursor.up", "cursor.enter", "cursor.leave", "cursor.scroll"
+	};
+
+	private static readonly HashSet<string> PendingRestarts = new(StringComparer.Ordinal);
+
 	public static void Problem(string mod, string text)
 	{
-		App.Logger.WriteLine(LogIdent, mod + ": " + text);
 		lock (Gate)
 		{
 			if (!Problems.TryGetValue(mod, out List<string>? list))
 				Problems[mod] = list = [];
+			if (list.Count > 0 && list[^1].EndsWith(" " + text, StringComparison.Ordinal))
+				return;
+			App.Logger.WriteLine(LogIdent, mod + ": " + text);
 			list.Add(DateTime.Now.ToString("HH:mm:ss") + " " + text);
 			if (list.Count > MaxProblems)
 				list.RemoveAt(0);
@@ -68,9 +80,11 @@ public static class PluginHost
 
 	public static void ClearProblems(string mod)
 	{
+		bool removed;
 		lock (Gate)
-			Problems.Remove(mod);
-		ModsChanged?.Invoke();
+			removed = Problems.Remove(mod);
+		if (removed)
+			ModsChanged?.Invoke();
 	}
 
 	public static IReadOnlyList<ModInfo> ListMods()
@@ -97,6 +111,15 @@ public static class PluginHost
 			List<string> hooks = loaded?.DescribeHooks().ToList() ?? [];
 			result[i] = result[i] with { Consent = PluginConsent.GetState(manifests[i]), Hooks = hooks };
 		}
+		lock (Gate)
+		{
+			foreach (KeyValuePair<string, List<string>> entry in Problems)
+			{
+				string folder = Path.Combine(Paths.Plugins, entry.Key);
+				if (!manifests.Any(manifest => manifest.Name == entry.Key) && Directory.Exists(folder))
+					result.Add(new ModInfo(entry.Key, "", "", folder, InvalidState, false, [], entry.Value.ToList()));
+			}
+		}
 		return result;
 	}
 
@@ -114,6 +137,45 @@ public static class PluginHost
 		ModsChanged?.Invoke();
 		if (reload)
 			Task.Run(Reload);
+	}
+
+	public static void DeleteMod(string name)
+	{
+		PluginConsent.SetEnabledState(name, false);
+		string folder = Path.Combine(Paths.Plugins, name);
+		MutationGate.Wait();
+		try
+		{
+			if (Directory.Exists(folder))
+				Directory.Delete(folder, true);
+		}
+		finally
+		{
+			MutationGate.Release();
+		}
+		ForgetConsent(name);
+		Reload();
+		lock (Gate)
+		{
+			SessionState.Remove(name);
+			Problems.Remove(name);
+		}
+		PluginStore.DeleteData(name);
+		PluginOptions.Delete(name);
+		ModsChanged?.Invoke();
+	}
+
+	public static void ReloadNow()
+	{
+		_reloadSignature = null;
+		Reload();
+	}
+
+	public static void RestartMod(string name)
+	{
+		lock (Gate)
+			PendingRestarts.Add(name);
+		ReloadNow();
 	}
 
 	public static void ForgetConsent(string name)
@@ -343,6 +405,15 @@ public static class PluginHost
 			_reloadTimer?.Change(ReloadDelayMs, Timeout.Infinite);
 			return;
 		}
+		try
+		{
+			foreach (PluginManifest manifest in PluginManifest.Discover(Paths.Plugins, report: false))
+				PluginConsent.IsAllowed(manifest);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("PluginHost::Reload", ex);
+		}
 		MutationGate.Wait();
 		try
 		{
@@ -357,18 +428,28 @@ public static class PluginHost
 					old = Loaded.ToList();
 				List<PluginManifest> manifests = PluginManifest.Discover(Paths.Plugins);
 				List<LoadedPlugin> fresh = [];
+				HashSet<string> restarts;
+				lock (Gate)
+				{
+					restarts = PendingRestarts.ToHashSet(StringComparer.Ordinal);
+					PendingRestarts.Clear();
+				}
 				foreach (PluginManifest manifest in manifests)
 				{
 					if (!PluginConsent.IsAllowed(manifest))
+					{
+						ClearProblems(manifest.Name);
 						continue;
+					}
 					try
 					{
 						LoadedPlugin? unchanged = old.FirstOrDefault(plugin => plugin.Name == manifest.Name && plugin.SourceSignature == GetReloadSignature(manifest.Directory, manifest.Name));
-						if (unchanged != null)
+						if (unchanged != null && !restarts.Contains(manifest.Name))
 						{
 							fresh.Add(unchanged);
 							continue;
 						}
+						ClearProblems(manifest.Name);
 						fresh.Add(LoadedPlugin.Load(manifest));
 						App.Logger.WriteLine(LogIdent, manifest.Name + ": loaded " + manifest.Version);
 					}
@@ -497,94 +578,34 @@ public static class PluginHost
 		}
 	}
 
-	public static JsonNode? RenderPane(PaneInfo pane)
-	{
-		_renderDepth++;
-		try
-		{
-			return Invoke("ui.render", new JsonObject
-			{
-				["component"] = "Pane",
-				["requestId"] = pane.Id,
-				["plugin"] = pane.Plugin,
-				["surface"] = "desktop"
-			}, static _ => null, "pane." + pane.Id);
-		}
-		finally
-		{
-			_renderDepth--;
-		}
-	}
+	public static JsonNode? RenderPane(PaneInfo pane) => Render(pane.Plugin, "Pane", pane.Id);
 
-	public static JsonNode? RenderCustomPage(string plugin, string id)
-	{
-		_renderDepth++;
-		try
-		{
-			return Invoke("ui.render", new JsonObject
-			{
-				["component"] = "Page",
-				["requestId"] = id,
-				["plugin"] = plugin,
-				["surface"] = "desktop"
-			}, static _ => null, "page." + id);
-		}
-		finally
-		{
-			_renderDepth--;
-		}
-	}
+	public static JsonNode? RenderCustomPage(string plugin, string id) => Render(plugin, "Page", id);
 
-	public static JsonNode? RenderWidget(string plugin, string id)
-	{
-		_renderDepth++;
-		try
-		{
-			return Invoke("ui.render", new JsonObject
-			{
-				["component"] = "Widget",
-				["requestId"] = id,
-				["plugin"] = plugin,
-				["surface"] = "desktop"
-			}, static _ => null, "widget." + id);
-		}
-		finally
-		{
-			_renderDepth--;
-		}
-	}
+	public static JsonNode? RenderWidget(string plugin, string id) => Render(plugin, "Widget", id);
 
-	public static JsonNode? RenderBanner(BannerInfo banner)
-	{
-		_renderDepth++;
-		try
-		{
-			return Invoke("ui.render", new JsonObject
-			{
-				["component"] = "Banner",
-				["requestId"] = banner.Id,
-				["plugin"] = banner.Plugin,
-				["surface"] = "desktop"
-			}, static _ => null, "banner." + banner.Id);
-		}
-		finally
-		{
-			_renderDepth--;
-		}
-	}
+	public static JsonNode? RenderBanner(BannerInfo banner) => Render(banner.Plugin, "Banner", banner.Id);
 
-	public static JsonNode? RenderDialog(string plugin, string id)
+	public static JsonNode? RenderDialog(string plugin, string id) => Render(plugin, "Dialog", id);
+
+	private static JsonNode? Render(string plugin, string component, string id)
 	{
+		JsonObject input = new()
+		{
+			["component"] = component,
+			["requestId"] = id,
+			["plugin"] = plugin,
+			["surface"] = "desktop"
+		};
+		LoadedPlugin? owner;
+		lock (Gate)
+			owner = Loaded.FirstOrDefault(candidate => candidate.Name == plugin);
+		if (owner != null && !owner.HooksFor("ui.render").Any(hook => Matches(hook.Matcher, input)))
+			Problem(plugin, "nothing draws the " + component + " " + id + ", add on('ui.render', { component: '" + component + "', requestId: '" + id + "' }, ...)");
 		_renderDepth++;
 		try
 		{
-			return Invoke("ui.render", new JsonObject
-			{
-				["component"] = "Dialog",
-				["requestId"] = id,
-				["plugin"] = plugin,
-				["surface"] = "desktop"
-			}, static _ => null, "dialog." + id);
+			return Invoke("ui.render", input, static _ => null, component.ToLowerInvariant() + "." + id);
 		}
 		finally
 		{
@@ -730,6 +751,7 @@ public static class PluginHost
 			  const host = globalThis.__voidstrapHost;
 			  delete globalThis.__voidstrapHost;
 			  const parse = text => text === undefined || text === null ? undefined : JSON.parse(text);
+			  host.setWatch(promise => { promise.then(undefined, error => host.problem(String(error && error.message || error))); });
 			  const elements = Object.freeze({
 			    Box: 'Box', Stack: 'Box', Wrap: 'Wrap', Grid: 'Grid', Canvas: 'Canvas', Scroll: 'Scroll',
 			    Text: 'Text', Badge: 'Badge', Icon: 'Icon', ColorSwatch: 'ColorSwatch',
@@ -742,6 +764,11 @@ public static class PluginHost
 			  globalThis.Fragment = 'Box';
 			  globalThis.$ = Object.freeze({
 			    log: text => host.log(String(text)),
+			    mod: Object.freeze({
+			      name: host.modName,
+			      version: host.modVersion,
+			      options: () => parse(host.modOptions())
+			    }),
 			    app: Object.freeze({
 			      version: host.version,
 			      platform: host.platform,
@@ -783,7 +810,9 @@ public static class PluginHost
 			    }),
 			    store: Object.freeze({
 			      get: key => parse(host.storeGet(String(key))),
-			      set: (key, value) => host.storeSet(String(key), JSON.stringify(value === undefined ? null : value))
+			      set: (key, value) => host.storeSet(String(key), JSON.stringify(value === undefined ? null : value)),
+			      remove: key => host.storeRemove(String(key)),
+			      keys: () => parse(host.storeKeys())
 			    }),
 			    clock: Object.freeze({
 			      now: () => Date.now(),
@@ -873,6 +902,14 @@ public static class PluginHost
 
 		private readonly Dictionary<string, JsonNode?> _sandboxState = new(StringComparer.Ordinal);
 
+		private readonly Dictionary<string, JsonNode?> _sandboxStore = new(StringComparer.Ordinal);
+
+		private readonly List<string> _warnings = [];
+
+		private JsValue _watch = JsValue.Undefined;
+
+		public IReadOnlyList<string> Warnings => _warnings;
+
 		private readonly HashSet<string> _networkHosts;
 
 		private readonly bool _sandbox;
@@ -942,11 +979,17 @@ public static class PluginHost
 					JsonObject? matcher = arguments.Length > 2 ? ToNode(arguments[1], null) as JsonObject : null;
 					if (eventName.Length == 0 || hook is not Function)
 						throw new InvalidOperationException("on needs an event name and a hook function");
+					if (!KnownEvents.Contains(eventName))
+					{
+						_warnings.Add("the event " + eventName + " does not exist, this hook never runs");
+						if (!_sandbox)
+							Problem(Name, _warnings[^1]);
+					}
 					_hooks.Add((eventName, matcher, hook));
 					return JsValue.Undefined;
 				});
 				_engine.Constraints.Reset();
-				Settle(_engine.Invoke(register, on, ToJs(manifest.Options)));
+				Settle(_engine.Invoke(register, on, ToJs(_sandbox ? manifest.Options : PluginOptions.Effective(manifest))));
 				_hookDescriptions = _hooks.Select(hook => hook.Event + (hook.Matcher != null ? " " + hook.Matcher.ToJsonString() : "")).ToArray();
 			}
 		}
@@ -958,6 +1001,19 @@ public static class PluginHost
 			JsObject host = new(_engine);
 			host.Set("version", App.Version);
 			host.Set("platform", Voidstrap.Utility.Platform.IsWindows ? "windows" : "linux");
+			host.Set("modName", Name);
+			host.Set("modVersion", Manifest.Version);
+			host.Set("modOptions", Host("modOptions", _ => (_sandbox ? Manifest.Options : PluginOptions.Effective(Manifest)).ToJsonString()));
+			host.Set("setWatch", Host("setWatch", a =>
+			{
+				_watch = a.Length > 0 ? a[0] : JsValue.Undefined;
+				return JsValue.Undefined;
+			}));
+			host.Set("problem", Host("problem", a =>
+			{
+				Problem(Name, "a promise was rejected: " + Arg(a, 0));
+				return JsValue.Undefined;
+			}));
 			host.Set("log", Host("log", a =>
 			{
 				App.Logger.WriteLine(LogIdent, Name + ": " + Arg(a, 0));
@@ -1070,13 +1126,29 @@ public static class PluginHost
 					PluginFastFlags.Clear(Name);
 				return JsValue.Undefined;
 			}));
-			host.Set("storeGet", Host("storeGet", a => _store.Get(Arg(a, 0)) is string json ? json : JsValue.Undefined));
+			host.Set("storeGet", Host("storeGet", a =>
+			{
+				if (_sandbox)
+					return _sandboxStore.TryGetValue(Arg(a, 0), out JsonNode? val) && val != null ? val.ToJsonString() : JsValue.Undefined;
+				return _store.Get(Arg(a, 0)) is string json ? json : JsValue.Undefined;
+			}));
 			host.Set("storeSet", Host("storeSet", a =>
 			{
-				if (!_sandbox)
+				if (_sandbox)
+					_sandboxStore[Arg(a, 0)] = JsonNode.Parse(Arg(a, 1));
+				else
 					_store.Set(Arg(a, 0), Arg(a, 1));
 				return JsValue.Undefined;
 			}));
+			host.Set("storeRemove", Host("storeRemove", a =>
+			{
+				if (_sandbox)
+					_sandboxStore.Remove(Arg(a, 0));
+				else
+					_store.Remove(Arg(a, 0));
+				return JsValue.Undefined;
+			}));
+			host.Set("storeKeys", Host("storeKeys", _ => new JsonArray((_sandbox ? _sandboxStore.Keys.ToList() : _store.Keys()).Select(key => (JsonNode?)key).ToArray()).ToJsonString()));
 			host.Set("clockStart", Host("clockStart", a =>
 			{
 				if (a.Length < 2 || a[1] is not Function callback)
@@ -1295,13 +1367,14 @@ public static class PluginHost
 				{
 					_engine.Constraints.Reset();
 					JsValue result = _engine.Invoke(tick.Item2, JsValue.Undefined, Array.Empty<object>());
+					Watch(result);
 					_engine.Advanced.ProcessTasks();
 					shouldInvalidate = !result.IsPromise();
 				}
 				catch (Exception ex)
 				{
 					CancelTimer(tick.Item1);
-					Problem(Name, "clock hook skipped: " + Describe(ex));
+					Problem(Name, "a clock callback failed and its timer stopped: " + Describe(ex));
 					shouldInvalidate = false;
 				}
 			}
@@ -1417,6 +1490,12 @@ public static class PluginHost
 			return promise;
 		}
 
+		private void Watch(JsValue value)
+		{
+			if (value.IsPromise() && _watch is Function)
+				_engine.Invoke(_watch, JsValue.Undefined, new object[] { value });
+		}
+
 		private JsValue Settle(JsValue value)
 		{
 			if (!value.IsPromise())
@@ -1449,13 +1528,23 @@ public static class PluginHost
 			  delete globalThis.__voidstrapTest;
 			  const tests = [];
 			  const show = value => JSON.stringify(value);
+			  const matchers = (actual, negated) => {
+			    const check = (passed, message) => { if (passed === negated) throw new Error((negated ? 'not: ' : '') + message); };
+			    return Object.freeze({
+			      toBe: expected => check(actual === expected, 'expected ' + show(expected) + ' but got ' + show(actual)),
+			      toEqual: expected => check(show(actual) === show(expected), 'expected ' + show(expected) + ' but got ' + show(actual)),
+			      toBeTruthy: () => check(Boolean(actual), 'expected a truthy value but got ' + show(actual)),
+			      toBeFalsy: () => check(!actual, 'expected a falsy value but got ' + show(actual)),
+			      toBeDefined: () => check(actual !== undefined, 'expected a defined value'),
+			      toBeNull: () => check(actual === null, 'expected null but got ' + show(actual)),
+			      toBeGreaterThan: expected => check(actual > expected, 'expected ' + show(actual) + ' to be greater than ' + show(expected)),
+			      toBeLessThan: expected => check(actual < expected, 'expected ' + show(actual) + ' to be less than ' + show(expected)),
+			      toContain: expected => check(Boolean(actual && actual.includes && actual.includes(expected)), show(actual) + ' does not contain ' + show(expected)),
+			      toThrow: () => { let threw = false; try { actual(); } catch { threw = true; } check(threw, 'expected the function to throw'); }
+			    });
+			  };
 			  globalThis.test = (name, body) => tests.push({ name: String(name), body });
-			  globalThis.expect = actual => Object.freeze({
-			    toBe: expected => { if (actual !== expected) throw new Error('expected ' + show(expected) + ' but got ' + show(actual)); },
-			    toEqual: expected => { if (show(actual) !== show(expected)) throw new Error('expected ' + show(expected) + ' but got ' + show(actual)); },
-			    toBeTruthy: () => { if (!actual) throw new Error('expected a truthy value but got ' + show(actual)); },
-			    toContain: expected => { if (!(actual && actual.includes && actual.includes(expected))) throw new Error(show(actual) + ' does not contain ' + show(expected)); }
-			  });
+			  globalThis.expect = actual => Object.freeze({ ...matchers(actual, false), not: matchers(actual, true) });
 			  const parse = text => text === undefined || text === null ? undefined : JSON.parse(text);
 			  const find = (node, key) => {
 			    if (!node || typeof node !== 'object') return null;
@@ -1578,6 +1667,9 @@ public static class PluginHost
 				JsValue raw = _engine.Invoke(function, JsValue.Undefined, new object[] { _engine.GetValue("$"), ToJs(input), nextFunction });
 				if (!settlePromises)
 				{
+					Watch(raw);
+					if (raw.IsPromise() && scope != null)
+						Problem(Name, "a ui.render hook cannot be async, draw from state and load data in a handler or session.start");
 					_engine.Advanced.ProcessTasks();
 					return raw.IsPromise() ? null : ToNode(raw, scope);
 				}
@@ -1596,27 +1688,8 @@ public static class PluginHost
 				{
 					_engine.Constraints.Reset();
 					JsValue result = _engine.Invoke(handler, JsValue.Undefined, new object[] { ToJs(argument) });
+					Watch(result);
 					_engine.Advanced.ProcessTasks();
-					if (result.IsPromise())
-					{
-						_ = Task.Run(() =>
-						{
-							lock (_gate)
-							{
-								if (!_disposed)
-								{
-									try
-									{
-										Settle(result);
-									}
-									catch (Exception ex)
-									{
-										Problem(Name, "async handler failed: " + Describe(ex));
-									}
-								}
-							}
-						});
-					}
 				}
 				catch (Exception ex)
 				{

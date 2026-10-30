@@ -8980,4 +8980,13 @@ Install anyway?</value>
 
 Overlapping mods can make Roblox look or behave oddly, but this cannot crash Voidstrap. Turn one of them off if something looks wrong.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Mod settings</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Needs fixing</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Clear problems</value>
+  </data>
 </root>

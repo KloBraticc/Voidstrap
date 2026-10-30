@@ -9288,4 +9288,13 @@ Voidstrap จะตรวจสอบทุกไฟล์กับคลัง�
 
 ม็อดที่ทับซ้อนกันอาจทำให้ Roblox ดูหรือทำงานแปลกไป แต่สิ่งนี้จะไม่ทำให้ Voidstrap ขัดข้อง ปิดการใช้งานม็อดใดม็อดหนึ่งหากพบสิ่งผิดปกติ</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>การตั้งค่าม็อด</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>ต้องแก้ไข</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>ล้างปัญหา</value>
+  </data>
 </root>

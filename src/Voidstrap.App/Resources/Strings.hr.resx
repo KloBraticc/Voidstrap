@@ -9292,4 +9292,13 @@ Ipak instalirati?</value>
 
 Preklapanje modova moze uciniti da Roblox izgleda ili se ponasa neobicno, ali to ne moze srusiti Voidstrap. Iskljucite jednog od njih ako nesto djeluje pogresno.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Postavke moda</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Treba popravak</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Očisti probleme</value>
+  </data>
 </root>

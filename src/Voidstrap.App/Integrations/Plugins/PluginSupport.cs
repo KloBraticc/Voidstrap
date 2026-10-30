@@ -268,6 +268,8 @@ internal static class PluginSettings
 		App.Settings.SaveDeferred();
 		App.Logger.WriteLine("VoidstrapMods", plugin + ": changed the setting " + property.Name);
 		PluginTheme.RefreshWindowsIfVisualSetting(property.Name);
+		JsonObject changed = new() { ["name"] = property.Name, ["plugin"] = plugin };
+		_ = Task.Run(() => PluginHost.Invoke("settings.changed", changed));
 	}
 }
 
@@ -325,8 +327,149 @@ internal static class PluginFastFlags
 	}
 }
 
+internal static class PluginOptions
+{
+	private static string PathFor(string plugin) => Path.Combine(Path.GetDirectoryName(Paths.Plugins) ?? Paths.Plugins, "AppModData", plugin + ".options.json");
+
+	public static JsonObject Effective(PluginManifest manifest)
+	{
+		JsonObject merged = (JsonObject)manifest.Options.DeepClone();
+		try
+		{
+			string path = PathFor(manifest.Name);
+			if (File.Exists(path) && JsonNode.Parse(File.ReadAllText(path)) is JsonObject saved)
+				foreach (KeyValuePair<string, JsonNode?> field in saved)
+					if (merged.ContainsKey(field.Key))
+						merged[field.Key] = field.Value?.DeepClone();
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
+		{
+			App.Logger.WriteLine("VoidstrapMods", manifest.Name + ": the saved settings could not be read: " + ex.Message);
+		}
+		return merged;
+	}
+
+	public static void Save(string plugin, JsonObject values)
+	{
+		string path = PathFor(plugin);
+		Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+		File.WriteAllText(path + ".tmp", values.ToJsonString());
+		File.Move(path + ".tmp", path, true);
+	}
+
+	public static void Delete(string plugin)
+	{
+		if (File.Exists(PathFor(plugin)))
+			File.Delete(PathFor(plugin));
+	}
+
+	public static void ShowEditor(PluginManifest manifest)
+	{
+		JsonObject current = Effective(manifest);
+		StackPanel fields = new() { Margin = new Thickness(16) };
+		List<(string Key, Func<JsonNode?> Read)> readers = [];
+		foreach (KeyValuePair<string, JsonNode?> field in manifest.ConfigFields)
+		{
+			JsonObject spec = field.Value as JsonObject ?? new JsonObject();
+			string label = spec["title"]?.ToString() ?? spec["label"]?.ToString() ?? field.Key;
+			JsonNode? value = current[field.Key];
+			string type = spec["type"]?.ToString() ?? (value is JsonValue v ? (v.TryGetValue(out bool _) ? "boolean" : v.TryGetValue(out double _) ? "number" : "string") : "string");
+			if (type == "boolean")
+			{
+				CheckBox box = new() { Content = label, IsChecked = value is JsonValue b && b.TryGetValue(out bool on) && on, Margin = new Thickness(0, 0, 0, 12) };
+				fields.Children.Add(box);
+				readers.Add((field.Key, () => JsonValue.Create(box.IsChecked == true)));
+				continue;
+			}
+			fields.Children.Add(new TextBlock { Text = label, Margin = new Thickness(0, 0, 0, 4) });
+			if (spec["description"]?.ToString() is string description)
+			{
+				TextBlock hint = new() { Text = description, FontSize = 12, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 4) };
+				hint.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
+				fields.Children.Add(hint);
+			}
+			if (spec["options"] is JsonArray options)
+			{
+				ComboBox combo = new() { Margin = new Thickness(0, 0, 0, 12) };
+				foreach (JsonNode? option in options)
+					combo.Items.Add(option?.ToString() ?? "");
+				combo.SelectedItem = value?.ToString();
+				fields.Children.Add(combo);
+				readers.Add((field.Key, () => JsonValue.Create(combo.SelectedItem as string)));
+				continue;
+			}
+			System.Windows.Controls.TextBox input = new() { Text = value?.ToString() ?? "", Margin = new Thickness(0, 0, 0, 12) };
+			fields.Children.Add(input);
+			JsonNode? fallback = value?.DeepClone();
+			readers.Add((field.Key, () => type != "number" ? JsonValue.Create(input.Text) : double.TryParse(input.Text, System.Globalization.CultureInfo.InvariantCulture, out double number) && double.IsFinite(number) ? JsonValue.Create(number) : fallback?.DeepClone()));
+		}
+		Wpf.Ui.Controls.Button save = new() { Content = Strings.Common_Save, Appearance = Wpf.Ui.Common.ControlAppearance.Primary, HorizontalAlignment = HorizontalAlignment.Right };
+		fields.Children.Add(save);
+		PluginDialogManager.ModDialogWindow window = new()
+		{
+			Title = manifest.Name,
+			Width = 460,
+			SizeToContent = SizeToContent.Height,
+			MaxHeight = 700,
+			ExtendsContentIntoTitleBar = true,
+			WindowStartupLocation = WindowStartupLocation.CenterOwner
+		};
+		window.SetResourceReference(Control.BackgroundProperty, "ApplicationBackgroundBrush");
+		Grid root = new();
+		root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+		root.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+		root.Children.Add(new TitleBar { Title = manifest.Name, Padding = new Thickness(8), ForceShutdown = false, MinimizeToTray = false, ShowMinimize = false, ShowMaximize = false });
+		ScrollViewer scroll = new() { Content = fields, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
+		Grid.SetRow(scroll, 1);
+		root.Children.Add(scroll);
+		window.Content = root;
+		save.Click += (_, _) =>
+		{
+			JsonObject values = new();
+			foreach ((string key, Func<JsonNode?> read) in readers)
+				values[key] = read();
+			try
+			{
+				Save(manifest.Name, values);
+				_ = Task.Run(() => PluginHost.RestartMod(manifest.Name));
+				window.Close();
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+			{
+				Frontend.ShowMessageBox(ex.Message, MessageBoxImage.Error);
+			}
+		};
+		window.ShowOwnedDialog();
+	}
+}
+
 internal sealed class PluginStore
 {
+	public static void DeleteData(string plugin)
+	{
+		string path = Path.Combine(Path.GetDirectoryName(Paths.Plugins) ?? Paths.Plugins, "AppModData", plugin + ".json");
+		if (File.Exists(path))
+			File.Delete(path);
+	}
+
+	public IReadOnlyList<string> Keys()
+	{
+		lock (_gate)
+			return Values().Select(pair => pair.Key).ToList();
+	}
+
+	public void Remove(string key)
+	{
+		lock (_gate)
+		{
+			if (!Values().Remove(key))
+				return;
+			Directory.CreateDirectory(Path.GetDirectoryName(_path)!);
+			File.WriteAllText(_path + ".tmp", Values().ToJsonString());
+			File.Move(_path + ".tmp", _path, true);
+		}
+	}
+
 	private const int MaxBytes = 1024 * 1024;
 
 	private readonly object _gate = new();
@@ -1291,7 +1434,7 @@ internal static class PluginClipboard
 
 internal static class PluginDialogManager
 {
-	private sealed class ModDialogWindow : WpfUiWindow
+	internal sealed class ModDialogWindow : WpfUiWindow
 	{
 	}
 

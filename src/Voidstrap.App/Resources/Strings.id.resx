@@ -9295,4 +9295,13 @@ Tetap instal?</value>
 
 Mod yang saling tumpang tindih dapat membuat Roblox terlihat atau berperilaku aneh, tetapi ini tidak akan membuat Voidstrap mogok. Nonaktifkan salah satunya jika ada yang terlihat salah.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Pengaturan mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Perlu diperbaiki</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Hapus masalah</value>
+  </data>
 </root>

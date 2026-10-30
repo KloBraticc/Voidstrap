@@ -9293,4 +9293,13 @@ Zainstalować mimo to?</value>
 
 Nakladajace sie mody moga sprawic, ze Roblox bedzie wygladac lub dzialac nietypowo, ale nie moze to spowodowac awarii Voidstrap. Wylacz jeden z nich, jesli cos wydaje sie nieprawidlowe.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Ustawienia moda</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Wymaga naprawy</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Wyczyść problemy</value>
+  </data>
 </root>

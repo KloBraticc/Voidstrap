@@ -68,6 +68,8 @@ internal static class ModTools
 			output.WriteLine(hooks.Count == 0 ? "It registers no hooks" : "Hooks:");
 			foreach (string hook in hooks)
 				output.WriteLine("  " + hook);
+			foreach (string warning in plugin.Warnings)
+				output.WriteLine("Warning: " + warning);
 			if (manifest.NetworkHosts.Count > 0)
 				output.WriteLine("Network: " + string.Join(", ", manifest.NetworkHosts));
 			return 0;

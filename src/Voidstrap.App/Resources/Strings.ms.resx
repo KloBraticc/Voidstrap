@@ -9284,4 +9284,13 @@ Pasang juga?</value>
 
 Mod yang bertindih boleh membuatkan Roblox kelihatan atau berkelakuan ganjil, tetapi ini tidak akan meranapkan Voidstrap. Matikan salah satu daripadanya jika kelihatan tidak kena.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Tetapan mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Perlu dibaiki</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Kosongkan masalah</value>
+  </data>
 </root>

@@ -9294,4 +9294,13 @@ Přesto nainstalovat?</value>
 
 Prekryvajici se mody mohou zpusobit zvlastni vzhled nebo chovani Robloxu, ale nemohou zpusobit pad Voidstrapu. Vypnete jeden z nich, pokud neco vypada spatne.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Nastavení modu</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Vyžaduje opravu</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Vymazat problémy</value>
+  </data>
 </root>

@@ -9292,4 +9292,13 @@
 
 قد تؤدي المودات المتداخلة الى ظهور Roblox او تصرفه بشكل غريب، لكن هذا لن يؤدي الى تعطل Voidstrap ابدا. قم بتعطيل احدهما اذا بدا شيء ما خاطئا.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>إعدادات التعديل</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>يحتاج إلى إصلاح</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>مسح المشكلات</value>
+  </data>
 </root>

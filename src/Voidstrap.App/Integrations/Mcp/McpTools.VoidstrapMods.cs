@@ -63,7 +63,10 @@ public static partial class McpTools
 		Every hook is ($, e, next). Call return next(e) once to pass the event to the next hook. Return without next to stop the chain, or return next({ ...e, x }) to pass changed data.
 		A ui.render hook returns its JSX tree instead of next(e). Register hooks in register; put startup work in session.start. Do not perform network work or write state while drawing.
 		on(event, matcher, hook) runs only when the fields in matcher equal the fields of e.
-		Events: session.start, session.end, roblox.launch (return { ...e, cancel: true } to stop a launch), game.join, game.leave, page.navigate, settings.changed, ui.render, cursor.move, cursor.down, cursor.up, cursor.enter, cursor.leave.
+		Events: session.start, session.end, roblox.launch (return { ...e, cancel: true } to stop a launch), game.join, game.leave, page.navigate, settings.changed, ui.render, cursor.move, cursor.down, cursor.up, cursor.enter, cursor.leave, cursor.scroll. An unknown event name is reported by validate and in problems.
+
+		USER SETTINGS
+		Declare settings in plugin.json: "userConfig": { "speed": { "title": "Speed", "type": "number", "default": 5, "description": "Optional hint" }, "mode": { "title": "Mode", "default": "a", "options": ["a", "b"] } }. type is boolean, number or string and is inferred from default. The mod card then shows a settings button; saving restarts the mod. Read values from the second argument of register or from $.mod.options(). $.mod also has name and version. Async errors from timers, handlers and hooks are recorded in problems, so do not swallow them. A ui.render hook cannot be async.
 
 			DRAWING
 			Panes, sidebar pages, mod pages, banners and dialogs are all drawn by ui.render hooks with the matching component and requestId:
@@ -92,7 +95,7 @@ public static partial class McpTools
 		"the setting X does not exist": read $.settings.list() for real names.
 		Network refused: the host is missing from network in plugin.json, or the url is not https.
 		Tests: do not import register in a test file. The mod is already loaded; drive it with mod.emit, mod.render, mod.renderPage and mod.press from 'voidstrap/testing'.
-		hooks.json names one entry module. Import helper modules from that entry, rather than listing every helper in hooks.json. Ensure each imported file exists before reloading, use unique aliases for repeated export names, and declare local helpers before calling them. Tests support only the matchers listed in types; do not assume another test framework's .not syntax exists.
+		hooks.json names one entry module. Import helper modules from that entry, rather than listing every helper in hooks.json. Ensure each imported file exists before reloading, use unique aliases for repeated export names, and declare local helpers before calling them. Tests support only the matchers listed in types, including .not. $.store works in memory during tests.
 		Hooks time out after 2 seconds of running and async work is waited on for at most 10 seconds, so keep hooks short.
 		A sprite moves twice a second: $.clock.every has a 500 ms minimum, even when you ask for 16 or 33 ms. Use cursor.move as described below.
 		A sprite stays invisible: always return a root Canvas, even when its children are hidden. Verify the Widget requestId, WindowRoot anchor and loaded state.
@@ -234,7 +237,7 @@ public static partial class McpTools
 			case "types":
 				return new McpToolResult(Resource.GetString("ModTypes.d.ts"));
 			case "reload":
-				PluginHost.Reload();
+				PluginHost.ReloadNow();
 				return new McpToolResult("Requested a reload of changed Voidstrap mod files. Call list to see what loaded and any problems.");
 			case "ui_map":
 			{
@@ -335,17 +338,7 @@ public static partial class McpTools
 					return new McpToolResult("Deleting a whole mod needs confirm set to true.", true);
 				if (!Directory.Exists(folder))
 					return new McpToolResult("That mod does not exist.", true);
-				PluginHost.MutationGate.Wait();
-				try
-				{
-					Directory.Delete(folder, true);
-				}
-				finally
-				{
-					PluginHost.MutationGate.Release();
-				}
-				PluginHost.ForgetConsent(mod);
-				PluginHost.Reload();
+				PluginHost.DeleteMod(mod);
 				return new McpToolResult("Deleted the mod " + mod + ".");
 			}
 			case "validate":

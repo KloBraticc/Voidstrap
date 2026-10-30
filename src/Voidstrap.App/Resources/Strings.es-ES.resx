@@ -9293,4 +9293,13 @@ NO lo instales salvo que confíes en @{2}. Solo las comprobaciones automáticas 
 
 Los mods superpuestos pueden hacer que Roblox se vea o funcione de forma extrana, pero esto no hara fallar a Voidstrap. Desactiva uno de ellos si algo no se ve bien.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Ajustes del mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Necesita arreglo</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Borrar problemas</value>
+  </data>
 </root>

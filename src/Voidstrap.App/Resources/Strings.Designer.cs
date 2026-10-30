@@ -1579,6 +1579,9 @@ namespace Voidstrap.Resources {
         public static string Ui_VoidstrapMods_NotLoaded => ResourceManager.GetString("Ui.VoidstrapMods.NotLoaded", resourceCulture);
         public static string Ui_VoidstrapMods_Installed => ResourceManager.GetString("Ui.VoidstrapMods.Installed", resourceCulture);
         public static string Ui_VoidstrapMods_Reload => ResourceManager.GetString("Ui.VoidstrapMods.Reload", resourceCulture);
+        public static string Ui_VoidstrapMods_ModSettings => ResourceManager.GetString("Ui.VoidstrapMods.ModSettings", resourceCulture);
+        public static string Ui_VoidstrapMods_InvalidBadge => ResourceManager.GetString("Ui.VoidstrapMods.InvalidBadge", resourceCulture);
+        public static string Ui_VoidstrapMods_ClearProblems => ResourceManager.GetString("Ui.VoidstrapMods.ClearProblems", resourceCulture);
         public static string Ui_VoidstrapMods_OpenFolder => ResourceManager.GetString("Ui.VoidstrapMods.OpenFolder", resourceCulture);
         public static string Ui_VoidstrapMods_Empty => ResourceManager.GetString("Ui.VoidstrapMods.Empty", resourceCulture);
         public static string Ui_Nav_VoidstrapMods => ResourceManager.GetString("Ui.Nav.VoidstrapMods", resourceCulture);

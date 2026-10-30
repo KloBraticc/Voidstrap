@@ -9307,4 +9307,13 @@ Voidstrap はインストール前にすべてのファイルをライブラリ�
 
 Mod の重複により Roblox の表示や動作に異常が生じる場合がありますが、これによって Voidstrap がクラッシュすることはありません。問題が発生した場合はいずれかを無効にしてください。</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Mod の設定</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>修正が必要です</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>問題をクリア</value>
+  </data>
 </root>

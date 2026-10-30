@@ -9291,4 +9291,13 @@ Voidstrap은 설치 전에 모든 파일을 라이브러리와 대조하고, 모
 
 모드가 겹치면 Roblox가 비정상적으로 보이거나 동작할 수 있지만 Voidstrap이 충돌하지는 않습니다. 문제가 있으면 둘 중 하나를 끄세요.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>모드 설정</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>수정 필요</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>문제 지우기</value>
+  </data>
 </root>

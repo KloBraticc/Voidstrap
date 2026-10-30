@@ -9294,4 +9294,13 @@ Asennetaanko silti?</value>
 
 Paallekkaiset modit voivat saada Robloxiin outoa ulkoasua tai toimintaa, mutta tama ei voi kaataa Voidstrapia. Ota toinen niista pois kaytosta, jos jokin nayttaa vialliselta.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Modin asetukset</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Vaatii korjausta</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Tyhjennä ongelmat</value>
+  </data>
 </root>

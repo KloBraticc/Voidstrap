@@ -9294,4 +9294,13 @@ NU îl instala decât dacă ai încredere în @{2}. Doar verificările automate 
 
 Modurile care se suprapun pot face Roblox sa aiba un aspect neobisnuit, dar acest lucru nu poate bloca Voidstrap. Dezactiveaza unul dintre ele daca observi probleme.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Setările modului</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Necesită reparare</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Șterge problemele</value>
+  </data>
 </root>

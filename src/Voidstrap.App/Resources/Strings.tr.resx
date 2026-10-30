@@ -9291,4 +9291,13 @@ Yine de yüklensin mi?</value>
 
 Birbiriyle cakisan modlar Roblox un tuhaf gorunmesine veya davranmasina yol acabilir ancak bu durum Voidstrap i asla cokertmez. Bir sorun gorunurse modlardan birini kapatin.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Mod ayarları</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Düzeltilmesi gerekiyor</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Sorunları temizle</value>
+  </data>
 </root>

@@ -50,6 +50,7 @@ declare module 'voidstrap' {
     'cursor.up': { input: CursorPosition; result: unknown };
     'cursor.enter': { input: CursorPosition; result: unknown };
     'cursor.leave': { input: { x: number; y: number; insideWindow: false; isDown: boolean }; result: unknown };
+    'cursor.scroll': { input: CursorPosition & { delta: number }; result: unknown };
   }
 
   export interface GameInfo {
@@ -251,7 +252,17 @@ declare module 'voidstrap' {
 
   export interface Engine {
     log(text: unknown): void;
-    app: { readonly version: string; readonly platform: 'windows' | 'linux' };
+    mod: { readonly name: string; readonly version: string; options(): Record<string, Json> };
+    app: {
+      readonly version: string;
+      readonly platform: 'windows' | 'linux';
+      texts(): Record<string, string>;
+      setText(target: string, text: string): string;
+      clearText(target: string): boolean;
+      background(): Json;
+      setBackground(request: string | { file: string; gradientOpacity?: number; blackOverlayOpacity?: number; displayEverywhere?: boolean }): string;
+      clearBackground(): void;
+    };
     ui: {
       resolve(e?: unknown): { [K in ElementName]: K };
       open(request: { id: string; title?: string }): { isPlaced: boolean };
@@ -281,7 +292,7 @@ declare module 'voidstrap' {
       remove(name: string): void;
       clear(): void;
     };
-    store: { get(key: string): Json | undefined; set(key: string, value: Json): void };
+    store: { get(key: string): Json | undefined; set(key: string, value: Json): void; remove(key: string): void; keys(): string[] };
     state: { get(key: string): Json | undefined; set(key: string, value: Json): void };
     clock: { now(): number; after(ms: number, fn: () => void | Promise<void>): number; every(ms: number, fn: () => void | Promise<void>): number; cancel(id: number): void };
     net: { fetch(request: string | FetchRequest): Promise<FetchResult> };
@@ -329,6 +340,19 @@ declare module 'voidstrap' {
     };
   }
 
+  export interface Matchers {
+    toBe(expected: unknown): void;
+    toEqual(expected: unknown): void;
+    toBeTruthy(): void;
+    toBeFalsy(): void;
+    toBeDefined(): void;
+    toBeNull(): void;
+    toBeGreaterThan(expected: number): void;
+    toBeLessThan(expected: number): void;
+    toContain(expected: unknown): void;
+    toThrow(): void;
+  }
+
   export interface Atom<T> {
     readonly ref: string;
     readonly initial: T;
@@ -338,7 +362,7 @@ declare module 'voidstrap' {
 declare module 'voidstrap/testing' {
   import type { EventName, Events, Node } from 'voidstrap';
   export const test: (name: string, body: () => void | Promise<void>) => void;
-  export const expect: (actual: unknown) => { toBe(expected: unknown): void; toEqual(expected: unknown): void; toBeTruthy(): void; toContain(expected: unknown): void };
+  export const expect: (actual: unknown) => import('voidstrap').Matchers & { not: import('voidstrap').Matchers };
   export const mod: {
     emit<E extends EventName>(event: E, e: Events[E]['input']): Events[E]['result'];
     render(paneId: string): Node | null;
@@ -357,7 +381,7 @@ declare function atom<T>(ref: string, initial: T): import('voidstrap').Atom<T>;
 declare function read<T>($: import('voidstrap').Engine, item: import('voidstrap').Atom<T>): T;
 declare function update<T>($: import('voidstrap').Engine, item: import('voidstrap').Atom<T>, change: (value: T) => T): void;
 declare function test(name: string, body: () => void | Promise<void>): void;
-declare function expect(actual: unknown): { toBe(expected: unknown): void; toEqual(expected: unknown): void; toBeTruthy(): void; toContain(expected: unknown): void };
+declare function expect(actual: unknown): import('voidstrap').Matchers & { not: import('voidstrap').Matchers };
 declare const mod: {
   emit<E extends import('voidstrap').EventName>(event: E, e: import('voidstrap').Events[E]['input']): import('voidstrap').Events[E]['result'];
   render(paneId: string): import('voidstrap').Node | null;

@@ -32,6 +32,8 @@ public sealed partial class PluginManifest
 
 	public JsonObject Options { get; private init; } = new();
 
+	public JsonObject ConfigFields { get; private init; } = new();
+
 	public IReadOnlyList<string> NetworkHosts { get; private init; } = [];
 
 	public IReadOnlyList<string> Permissions { get; private init; } = [];
@@ -49,10 +51,18 @@ public sealed partial class PluginManifest
 			{
 				if (!System.IO.Directory.Exists(folder) || (File.GetAttributes(folder) & FileAttributes.ReparsePoint) != 0)
 					continue;
+				string folderName = Path.GetFileName(folder);
+				if (folderName.StartsWith('.'))
+					continue;
 				if (TryRead(folder, out PluginManifest? manifest, out string? error))
-					found.Add(manifest!);
-				else if (report && error != null && System.IO.Directory.Exists(folder))
-					PluginHost.Problem(Path.GetFileName(folder), "the manifest was refused: " + error);
+				{
+					if (manifest!.Name == folderName)
+						found.Add(manifest);
+					else if (report)
+						PluginHost.Problem(folderName, "the manifest was refused: the name " + manifest.Name + " must equal the folder name");
+				}
+				else if (report && System.IO.Directory.Exists(folder))
+					PluginHost.Problem(folderName, "the manifest was refused: " + (error ?? ManifestFolder + "/plugin.json is missing"));
 			}
 			catch (Exception ex) when (ex is DirectoryNotFoundException or FileNotFoundException && !System.IO.Directory.Exists(folder))
 			{
@@ -82,7 +92,7 @@ public sealed partial class PluginManifest
 			return false;
 		if (!TryReadObject(manifestPath, out JsonObject? manifestObj, out error))
 			return false;
-		string name = manifestObj!["name"]?.GetValue<string>() ?? "";
+		string name = manifestObj!["name"]?.ToString() ?? "";
 		if (!NamePattern.IsMatch(name))
 		{
 			error = "the name must be lowercase letters, digits and hyphens";
@@ -90,7 +100,7 @@ public sealed partial class PluginManifest
 		}
 		if (!TryReadObject(Path.Combine(folder, "hooks", "hooks.json"), out JsonObject? hooks, out error))
 			return false;
-		string module = hooks!["modules"] is JsonArray modules && modules.Count == 1 ? modules[0]?.GetValue<string>() ?? "" : "";
+		string module = hooks!["modules"] is JsonArray modules && modules.Count == 1 ? modules[0]?.ToString() ?? "" : "";
 		if (module.Length == 0)
 		{
 			error = "hooks.json must name exactly one module";
@@ -119,11 +129,12 @@ public sealed partial class PluginManifest
 		manifest = new PluginManifest
 		{
 			Name = name,
-			Version = manifestObj["version"]?.GetValue<string>() ?? "0.0.0",
-			Description = manifestObj["description"]?.GetValue<string>() ?? "",
+			Version = manifestObj["version"]?.ToString() ?? "0.0.0",
+			Description = manifestObj["description"]?.ToString() ?? "",
 			Directory = root,
 			ModulePath = Path.GetRelativePath(root, modulePath),
 			Options = ReadOptions(manifestObj["userConfig"] as JsonObject),
+			ConfigFields = manifestObj["userConfig"]?.DeepClone() as JsonObject ?? new JsonObject(),
 			NetworkHosts = ReadHosts(manifestObj["network"] as JsonArray),
 			Permissions = permissions
 		};

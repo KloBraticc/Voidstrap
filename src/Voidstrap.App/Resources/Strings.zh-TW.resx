@@ -9296,4 +9296,13 @@ Voidstrap 會在安裝前依照模組庫核對每個檔案,並在啟用模組前
 
 重疊的模組可能會使 Roblox 外觀或行為出現異常，但這不會導致 Voidstrap 當機。若看起來有問題請停用其中一個。</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>模組設定</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>需要修復</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>清除問題</value>
+  </data>
 </root>

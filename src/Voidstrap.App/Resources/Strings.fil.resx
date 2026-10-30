@@ -9291,4 +9291,13 @@ I-install pa rin?</value>
 
 Ang magkakapatong na mod ay maaaring magdulot ng kakaibang hitsura o gawi sa Roblox, ngunit hindi ito magiging sanhi ng pag crash ng Voidstrap. I disable ang isa sa mga ito kung may mali.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Mga setting ng mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Kailangang ayusin</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>I-clear ang mga problema</value>
+  </data>
 </root>

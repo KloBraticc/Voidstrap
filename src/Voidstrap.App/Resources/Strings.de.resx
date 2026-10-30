@@ -9293,4 +9293,13 @@ Trotzdem installieren?</value>
 
 Ueberlappende Mods koennen dazu fuehren, dass Roblox seltsam aussieht oder sich ungewohnt verhaelt, aber Voidstrap kann dadurch nicht abstuerzen. Schalte einen davon aus, falls etwas fehlerhaft wirkt.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Mod Einstellungen</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Muss repariert werden</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Probleme löschen</value>
+  </data>
 </root>

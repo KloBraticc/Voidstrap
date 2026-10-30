@@ -9292,4 +9292,13 @@ Mégis telepíted?</value>
 
 Az egymasra epulo modok miatt a Roblox furcsan nezhet ki vagy viselkedhet, de a Voidstrap emiatt sosem omlik ossze. Kapcsold ki az egyiket, ha barmi rendellenesnek tunik.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Mod beállításai</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Javításra szorul</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Problémák törlése</value>
+  </data>
 </root>

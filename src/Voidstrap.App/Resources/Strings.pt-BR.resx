@@ -9294,4 +9294,13 @@ Instalar mesmo assim?</value>
 
 Mods sobrepostos podem fazer o Roblox parecer ou se comportar de forma incomum, mas isso nao causa travamento no Voidstrap. Desative um deles se algo parecer errado.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Configurações do mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Precisa de correção</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Limpar problemas</value>
+  </data>
 </root>

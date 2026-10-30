@@ -9295,4 +9295,13 @@ Voidstrap پیش از نصب هر فایل را با کتابخانه مقایس
 
 مادهای همپوشان ممکن است ظاهر یا عملکرد Roblox را غیرعادی کنند، اما این موضوع هرگز باعث توقف یا خرابی Voidstrap نمی شود. اگر مشکلی مشاهده کردید یکی از آن ها را خاموش کنید.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>تنظیمات ماد</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>نیاز به اصلاح دارد</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>پاک کردن مشکلات</value>
+  </data>
 </root>

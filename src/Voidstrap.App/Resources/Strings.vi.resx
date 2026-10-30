@@ -9296,4 +9296,13 @@ Vẫn cài đặt?</value>
 
 Cac mod bi chong cheo co the khien Roblox hien thi hoac hoat dong bat thuong, nhung dieu nay khong bao gio gay loi cho Voidstrap. Hay tat mot trong so chung neu co bat thuong.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Cài đặt mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Cần sửa</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Xóa sự cố</value>
+  </data>
 </root>

@@ -9291,4 +9291,13 @@ Voidstrap перед встановленням звіряє кожен файл
 
 Перекриття модів може спричинити незвичний вигляд або поведінку Roblox, але це не призведе до збою Voidstrap. Вимкніть один із них, якщо щось виглядає неправильно.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Налаштування мода</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Потребує виправлення</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Очистити проблеми</value>
+  </data>
 </root>

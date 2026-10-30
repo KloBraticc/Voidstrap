@@ -9293,4 +9293,13 @@ Voidstrap проверява всеки файл спрямо библиотек
 
 Застъпващите се модове могат да накарат Roblox да изглежда или да действа необичайно, но това няма да срине Voidstrap. Изключете единия от тях, ако нещо изглежда нередно.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Настройки на мода</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Нуждае се от поправка</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Изчистване на проблемите</value>
+  </data>
 </root>

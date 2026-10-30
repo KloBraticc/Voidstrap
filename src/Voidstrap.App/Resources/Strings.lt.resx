@@ -9294,4 +9294,13 @@ Vis tiek įdiegti?</value>
 
 Persidengiantys modai gali pakeisti Roblox isvaizda ar elgesi, taciau tai nesugadins Voidstrap veikimo. Isjunkite viena is ju, jei kazkas atrodo netinkamai.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Modo nustatymai</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>Reikia pataisyti</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Išvalyti problemas</value>
+  </data>
 </root>

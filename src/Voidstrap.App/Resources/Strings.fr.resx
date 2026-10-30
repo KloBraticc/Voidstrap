@@ -9292,4 +9292,13 @@ Installer quand même ?</value>
 
 Le chevauchement de mods peut donner a Roblox une apparence ou un comportement inattendu, mais cela ne fera jamais planter Voidstrap. Desactivez en un si quelque chose semble anormal.</value>
   </data>
+  <data name="Ui.VoidstrapMods.ModSettings" xml:space="preserve">
+    <value>Paramètres du mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidBadge" xml:space="preserve">
+    <value>À corriger</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ClearProblems" xml:space="preserve">
+    <value>Effacer les problèmes</value>
+  </data>
 </root>

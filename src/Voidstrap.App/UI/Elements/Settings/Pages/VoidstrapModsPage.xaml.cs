@@ -157,7 +157,7 @@ public partial class VoidstrapModsPage : UiPage
 	private sealed record ModRenderItem(PluginHost.ModInfo Info, ModLibrary.LibraryMod? Library, PluginManifest? Manifest, BitmapSource? Icon)
 	{
 		public string Signature => string.Join("\u0001",
-			Info.Name, Info.Version, Info.Consent, Info.Loaded, Info.Problems.Count, Info.Problems.LastOrDefault() ?? "", Library?.Version ?? "", Manifest?.Version ?? "", Icon != null);
+			Info.Name, Info.Version, Info.Description, Info.Consent, Info.Loaded, Info.Problems.Count, Info.Problems.LastOrDefault() ?? "", Library?.Version ?? "", Manifest?.Version ?? "", Icon != null);
 	}
 
 	private Border BuildInstalledModCard(ModRenderItem item)
@@ -179,7 +179,11 @@ public partial class VoidstrapModsPage : UiPage
 		title.Children.Add(StyledText("RowTitle", mod.Name));
 		if (libraryMod != null)
 			AddTrustBadges(title, libraryMod);
-		title.Children.Add(MakeBadge(
+		bool invalid = mod.Consent == PluginHost.InvalidState;
+		if (invalid)
+			title.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_InvalidBadge, SymbolRegular.ErrorCircle24, Color.FromRgb(232, 72, 85), ""));
+		else
+			title.Children.Add(MakeBadge(
 			mod.Loaded ? Strings.Ui_VoidstrapMods_LoadedBadge : Strings.Ui_VoidstrapMods_DisabledBadge,
 			mod.Loaded ? SymbolRegular.CheckmarkCircle24 : SymbolRegular.PauseCircle24,
 			mod.Loaded ? Color.FromRgb(46, 204, 113) : Color.FromRgb(160, 168, 180),
@@ -221,6 +225,20 @@ public partial class VoidstrapModsPage : UiPage
 
 		StackPanel buttons = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
 
+		if (item.Manifest is { ConfigFields.Count: > 0 })
+		{
+			Wpf.Ui.Controls.Button settingsBtn = new()
+			{
+				Icon = SymbolRegular.Settings24,
+				ToolTip = Strings.Ui_VoidstrapMods_ModSettings,
+				Appearance = ControlAppearance.Secondary,
+				Margin = new Thickness(0, 0, 6, 0),
+				Tag = mod.Name
+			};
+			settingsBtn.Click += ModSettings_Click;
+			buttons.Children.Add(settingsBtn);
+		}
+
 		Wpf.Ui.Controls.Button publishBtn = new()
 		{
 			Icon = SymbolRegular.CloudArrowUp24,
@@ -230,7 +248,8 @@ public partial class VoidstrapModsPage : UiPage
 			Tag = mod.Name
 		};
 		publishBtn.Click += PublishMod_Click;
-		buttons.Children.Add(publishBtn);
+		if (!invalid)
+			buttons.Children.Add(publishBtn);
 
 		Wpf.Ui.Controls.Button iconBtn = new()
 		{
@@ -241,7 +260,8 @@ public partial class VoidstrapModsPage : UiPage
 			Tag = mod.Name
 		};
 		iconBtn.Click += ChangeIcon_Click;
-		buttons.Children.Add(iconBtn);
+		if (!invalid)
+			buttons.Children.Add(iconBtn);
 
 		Wpf.Ui.Controls.Button exportBtn = new()
 		{
@@ -252,7 +272,8 @@ public partial class VoidstrapModsPage : UiPage
 			Tag = mod.Name
 		};
 		exportBtn.Click += ExportMod_Click;
-		buttons.Children.Add(exportBtn);
+		if (!invalid)
+			buttons.Children.Add(exportBtn);
 
 		Wpf.Ui.Controls.Button deleteBtn = new()
 		{
@@ -287,7 +308,8 @@ public partial class VoidstrapModsPage : UiPage
 			Tag = mod.Name
 		};
 		toggle.Click += CreateModToggle_Click;
-		buttons.Children.Add(toggle);
+		if (!invalid)
+			buttons.Children.Add(toggle);
 
 		side.Children.Add(buttons);
 		row.Children.Add(side);
@@ -304,7 +326,12 @@ public partial class VoidstrapModsPage : UiPage
 				TextWrapping = TextWrapping.Wrap
 			};
 			problems.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
-			body.Children.Add(new Expander { Header = Strings.Ui_VoidstrapMods_RecentProblems, Content = problems, Margin = new Thickness(0, 8, 0, 0) });
+			StackPanel problemBody = new();
+			problemBody.Children.Add(problems);
+			Wpf.Ui.Controls.Button clearProblems = new() { Content = Strings.Ui_VoidstrapMods_ClearProblems, Appearance = ControlAppearance.Secondary, Margin = new Thickness(0, 8, 0, 0), Tag = mod.Name };
+			clearProblems.Click += ClearProblems_Click;
+			problemBody.Children.Add(clearProblems);
+			body.Children.Add(new Expander { Header = Strings.Ui_VoidstrapMods_RecentProblems, Content = problemBody, IsExpanded = invalid, Margin = new Thickness(0, 8, 0, 0) });
 		}
 
 		Border card = new() { Child = body };
@@ -328,6 +355,18 @@ public partial class VoidstrapModsPage : UiPage
 			return;
 		PluginHost.SetEnabled(name, true);
 		OpenModInEditor(name);
+	}
+
+	private void ModSettings_Click(object sender, RoutedEventArgs e)
+	{
+		if (sender is FrameworkElement { Tag: string modName } && PluginManifest.Read(Path.Combine(Paths.Plugins, modName)) is { } manifest)
+			PluginOptions.ShowEditor(manifest);
+	}
+
+	private void ClearProblems_Click(object sender, RoutedEventArgs e)
+	{
+		if (sender is FrameworkElement { Tag: string modName })
+			PluginHost.ClearProblems(modName);
 	}
 
 	private void ChangeIcon_Click(object sender, RoutedEventArgs e)
@@ -767,23 +806,7 @@ public partial class VoidstrapModsPage : UiPage
 			return;
 		try
 		{
-			PluginHost.SetEnabled(mod.Name, false, reload: false);
-			string folder = Path.Combine(Paths.Plugins, mod.Name);
-			await Task.Run(() =>
-			{
-				PluginHost.MutationGate.Wait();
-				try
-				{
-					if (Directory.Exists(folder))
-						Directory.Delete(folder, true);
-				}
-				finally
-				{
-					PluginHost.MutationGate.Release();
-				}
-			});
-			PluginHost.ForgetConsent(mod.Name);
-			await Task.Run(PluginHost.Reload);
+			await Task.Run(() => PluginHost.DeleteMod(mod.Name));
 		}
 		catch (Exception ex)
 		{
@@ -876,23 +899,7 @@ public partial class VoidstrapModsPage : UiPage
 			return;
 		try
 		{
-			PluginHost.SetEnabled(modName, false, reload: false);
-			string folder = Path.Combine(Paths.Plugins, modName);
-			await Task.Run(() =>
-			{
-				PluginHost.MutationGate.Wait();
-				try
-				{
-					if (Directory.Exists(folder))
-						Directory.Delete(folder, true);
-				}
-				finally
-				{
-					PluginHost.MutationGate.Release();
-				}
-			});
-			PluginHost.ForgetConsent(modName);
-			await Task.Run(PluginHost.Reload);
+			await Task.Run(() => PluginHost.DeleteMod(modName));
 			RenderMods();
 			RenderLibrary();
 		}
@@ -923,7 +930,7 @@ public partial class VoidstrapModsPage : UiPage
 
 	private void Reload_Click(object sender, RoutedEventArgs e)
 	{
-		Task.Run(PluginHost.Reload);
+		Task.Run(PluginHost.ReloadNow);
 	}
 
 	private void OnPanesChanged() => Dispatcher.BeginInvoke(new Action(RenderAll));
@@ -942,7 +949,6 @@ public partial class VoidstrapModsPage : UiPage
 	private async void RenderAll()
 	{
 		int generation = ++_panesGeneration;
-		PanesHost.Children.Clear();
 		IReadOnlyList<PluginHost.PaneInfo> panes = PluginHost.Panes;
 		ActivePanesHeader.Visibility = panes.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
 		List<(PluginHost.PaneInfo Pane, JsonNode? Tree)> rendered = [];
@@ -964,6 +970,7 @@ public partial class VoidstrapModsPage : UiPage
 		}
 		if (generation != _panesGeneration)
 			return;
+		PanesHost.Children.Clear();
 		foreach (var (pane, tree) in rendered)
 		{
 			StackPanel body = new();
