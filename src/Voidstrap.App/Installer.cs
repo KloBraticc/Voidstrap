@@ -373,7 +373,7 @@ internal sealed partial class Installer
         return string.IsNullOrEmpty(InstallLocationError);
     }
 
-    private static readonly string[] PreservedFolders = ["Config", "VoidstrapMods", "Themes", "Modifications"];
+    private static readonly string[] PreservedFolders = ["Config", "VoidstrapMods", "AppMods", "AppModData", "ModWeb", "Themes", "Modifications"];
 
     private static readonly string[] CloudEnvVars = ["OneDrive", "OneDriveConsumer", "OneDriveCommercial"];
 
