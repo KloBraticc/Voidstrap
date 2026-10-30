@@ -1488,6 +1488,8 @@ public static class ThemeDefinition
         RefreshLivePreview();
     }
 
+    private void EditorSettings_Click(object sender, RoutedEventArgs e) => new Voidstrap.UI.Elements.Editor.EditorSettingsWindow().ShowOwnedDialog();
+
     private void OnSaveClicked(object sender, RoutedEventArgs e)
     {
         if (EditorTabs.SelectedIndex == 1)

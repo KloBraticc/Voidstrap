@@ -106,6 +106,29 @@ internal static class EditorAppearance
     }
 }
 
+internal static class EditorFileIcons
+{
+    public static (SymbolRegular Symbol, Color Color) For(string file)
+    {
+        string ext = Path.GetExtension(file).ToLowerInvariant();
+        return ext switch
+        {
+            ".ts" or ".tsx" => (SymbolRegular.Code24, Color.FromRgb(0x3B, 0x9B, 0xEB)),
+            ".js" or ".mjs" or ".jsx" => (SymbolRegular.Code24, Color.FromRgb(0xE8, 0xD4, 0x4D)),
+            ".json" => (SymbolRegular.BracesVariable24, Color.FromRgb(0xE2, 0xB9, 0x4B)),
+            ".xml" or ".xaml" or ".html" or ".htm" => (SymbolRegular.Code24, Color.FromRgb(0xE3, 0x7B, 0x4A)),
+            ".css" => (SymbolRegular.Color24, Color.FromRgb(0x56, 0x9C, 0xD6)),
+            ".md" or ".txt" => (SymbolRegular.DocumentText24, Color.FromRgb(0x9C, 0xC4, 0xE4)),
+            ".png" or ".jpg" or ".jpeg" or ".gif" or ".ico" or ".svg" or ".bmp" or ".webp" => (SymbolRegular.Image24, Color.FromRgb(0xB5, 0x8C, 0xE0)),
+            _ => (SymbolRegular.Document24, Color.FromRgb(0xC8, 0xC8, 0xC8)),
+        };
+    }
+
+    public static readonly Color Folder = Color.FromRgb(0xDC, 0xB6, 0x7A);
+
+    public static readonly Color Project = Color.FromRgb(0x7F, 0xC8, 0x7F);
+}
+
 public sealed class EditorSettingsButton : Wpf.Ui.Controls.Button
 {
     public EditorSettingsButton()

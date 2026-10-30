@@ -1477,7 +1477,9 @@ public partial class BootstrapperEditorWindow : WpfUiWindow
 
         public string SizeText { get; set; } = "";
 
-        public SymbolRegular Icon { get; set; } = SymbolRegular.Document24;
+        public SymbolRegular Icon => EditorFileIcons.For(RelativePath).Symbol;
+
+        public System.Windows.Media.Brush IconBrush => new System.Windows.Media.SolidColorBrush(EditorFileIcons.For(RelativePath).Color);
 
         public bool IsText { get; set; }
 
@@ -1669,12 +1671,6 @@ public partial class BootstrapperEditorWindow : WpfUiWindow
                         IsText = isText,
                         IsImage = isImage,
                         IsRoot = relative.Equals("Theme.xml", StringComparison.OrdinalIgnoreCase),
-                        Icon =
-                            relative.Equals("Theme.xml", StringComparison.OrdinalIgnoreCase) ? SymbolRegular.Code24
-                            : isImage ? SymbolRegular.Image24
-                            : isMedia ? SymbolRegular.Video24
-                            : isText ? SymbolRegular.DocumentText24
-                            : SymbolRegular.Document24,
                     }
                 );
             }

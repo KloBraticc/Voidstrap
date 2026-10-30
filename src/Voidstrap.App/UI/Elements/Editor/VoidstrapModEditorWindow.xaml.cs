@@ -110,12 +110,12 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
     {
         FileTree.Items.Clear();
         string[] projects = ProjectFolders().ToArray();
-        TreeViewItem solution = MakeItem(SymbolRegular.Apps24, Strings.Ui_Nav_VoidstrapMods + " (" + projects.Length + ")", null);
+        TreeViewItem solution = MakeItem(SymbolRegular.Apps24, Strings.Ui_Nav_VoidstrapMods + " (" + projects.Length + ")", null, EditorFileIcons.Project);
         solution.IsExpanded = true;
         FileTree.Items.Add(solution);
         foreach (string project in projects)
         {
-            TreeViewItem node = MakeItem(SymbolRegular.PuzzlePiece24, Path.GetFileName(project), null);
+            TreeViewItem node = MakeItem(SymbolRegular.PuzzlePiece24, Path.GetFileName(project), null, EditorFileIcons.Project);
             node.IsExpanded = query.Length > 0 || _onlyMod != null;
             AddChildren(node, project, query);
             if (query.Length == 0 || node.Items.Count > 0)
@@ -127,7 +127,7 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
     {
         foreach (string child in Directory.EnumerateDirectories(folder).Where(f => !IsHiddenFolder(f)).OrderBy(f => f, StringComparer.OrdinalIgnoreCase))
         {
-            TreeViewItem node = MakeItem(SymbolRegular.Folder24, Path.GetFileName(child), null);
+            TreeViewItem node = MakeItem(SymbolRegular.Folder24, Path.GetFileName(child), null, EditorFileIcons.Folder);
             node.IsExpanded = query.Length > 0;
             AddChildren(node, child, query);
             if (node.Items.Count > 0)
@@ -137,7 +137,8 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
         {
             if (query.Length > 0 && !Path.GetFileName(file).Contains(query, StringComparison.OrdinalIgnoreCase) && !FileContains(file, query))
                 continue;
-            parent.Items.Add(MakeItem(SymbolRegular.Document24, Path.GetFileName(file), file));
+            (SymbolRegular icon, System.Windows.Media.Color color) = EditorFileIcons.For(file);
+            parent.Items.Add(MakeItem(icon, Path.GetFileName(file), file, color));
         }
     }
 
@@ -153,10 +154,10 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
         }
     }
 
-    private static TreeViewItem MakeItem(SymbolRegular icon, string text, string? path)
+    private static TreeViewItem MakeItem(SymbolRegular icon, string text, string? path, System.Windows.Media.Color color)
     {
         StackPanel header = new() { Orientation = Orientation.Horizontal };
-        header.Children.Add(new SymbolIcon { Symbol = icon, FontSize = 14, Margin = new Thickness(0, 0, 5, 0) });
+        header.Children.Add(new SymbolIcon { Symbol = icon, Filled = true, FontSize = 14, Margin = new Thickness(0, 0, 5, 0), Foreground = new System.Windows.Media.SolidColorBrush(color) });
         header.Children.Add(new System.Windows.Controls.TextBlock { Text = text, VerticalAlignment = VerticalAlignment.Center });
         TreeViewItem item = new() { Header = header, Tag = path };
         if (path != null)

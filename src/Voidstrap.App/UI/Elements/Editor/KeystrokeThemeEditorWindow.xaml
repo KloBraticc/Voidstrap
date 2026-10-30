@@ -10,9 +10,14 @@
                    Title="{resources:Loc Ui_Keystrokes_Editor_Title}" Width="1080" Height="720"
                    MinWidth="960" MinHeight="600" WindowStartupLocation="CenterScreen"
                    ExtendsContentIntoTitleBar="True"
-                   Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+                   Background="#FF2D2D30">
+  <FrameworkElement.Resources>
+    <ResourceDictionary Source="/Voidstrap;component/UI/Elements/Editor/VisualStudioTheme.xaml" />
+  </FrameworkElement.Resources>
   <Grid>
     <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
@@ -21,7 +26,26 @@
     <ui:TitleBar x:Name="TitleBarControl" Icon="pack://application:,,,/Voidstrap.png"
                  Title="{resources:Loc Ui_Keystrokes_Editor_Title}" Grid.Row="0" Padding="8" />
 
-    <Grid Grid.Row="1" Margin="16,4,16,8">
+    <Menu Grid.Row="1" Background="#FF2D2D30" Foreground="#FFF1F1F1" FontSize="12.5">
+      <MenuItem Header="{resources:Loc Ui_VsEditor_File}">
+        <MenuItem Header="{resources:Loc Common_Save}" Click="OnSaveClicked" />
+        <MenuItem Header="{resources:Loc Ui_Keystrokes_Editor_Revert}" Click="OnRevertClicked" />
+        <MenuItem Header="{resources:Loc Ui_Mcp_Connect}" Click="OnConnectAiClicked" />
+        <Separator />
+        <MenuItem Header="{resources:Loc Common_Close}" Click="OnCloseClicked" />
+      </MenuItem>
+    </Menu>
+
+    <Border Grid.Row="2" Padding="4,2" Background="#FF2D2D30" BorderBrush="#FF3F3F46" BorderThickness="0,0,0,1">
+      <StackPanel Orientation="Horizontal">
+        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_EditorSettings_Title}" Click="EditorSettings_Click"><ui:SymbolIcon Symbol="Settings24" FontSize="15" /></Button>
+        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Common_Save}" Click="OnSaveClicked"><ui:SymbolIcon Symbol="Save24" FontSize="15" /></Button>
+        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_Keystrokes_Editor_Revert}" Click="OnRevertClicked"><ui:SymbolIcon Symbol="ArrowUndo24" FontSize="15" /></Button>
+        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_Mcp_Connect}" Click="OnConnectAiClicked"><ui:SymbolIcon Symbol="PlugConnected24" FontSize="15" /></Button>
+      </StackPanel>
+    </Border>
+
+    <Grid Grid.Row="3" Margin="8,6,8,6">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*" MinWidth="540" />
         <ColumnDefinition Width="14" />
@@ -389,7 +413,6 @@
 
             <Grid Grid.Row="2" Margin="0,8,0,0">
               <TextBlock x:Name="TextEditorStats" VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-              <editor:EditorSettingsButton HorizontalAlignment="Center" />
               <ui:Button Content="{resources:Loc Ui_Keystrokes_Editor_ApplyCode}"
                          Appearance="Primary" HorizontalAlignment="Right" Click="OnApplyCodeClicked" />
             </Grid>
@@ -512,21 +535,8 @@
       </Border>
     </Grid>
 
-    <Border Grid.Row="2" Padding="16,12" Background="{DynamicResource PrimaryBackgroundColor}">
-      <Grid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-          <ui:Button Icon="ArrowUndo24" Content="{resources:Loc Ui_Keystrokes_Editor_Revert}" Click="OnRevertClicked" />
-          <ui:Button Icon="PlugConnected24" Content="{resources:Loc Ui_Mcp_Connect}" Margin="8,0,0,0" Click="OnConnectAiClicked"
-                     ToolTip="{resources:Loc Ui_Mcp_ConnectTooltip}"
-                     Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-          <ui:Button Icon="Save24" Content="{resources:Loc Common_Save}" Appearance="Primary"
-                     Click="OnSaveClicked" Width="110" />
-          <Button Content="{resources:Loc Common_Cancel}" Margin="8,0,0,0"
-                  Click="OnCloseClicked" Width="90" />
-        </StackPanel>
-      </Grid>
+    <Border Grid.Row="4" Background="{DynamicResource AccentFillColorDefaultBrush}" Padding="8,2">
+      <TextBlock FontSize="12" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}" Text="{resources:Loc Ui_VsEditor_Ready}" />
     </Border>
   </Grid>
 </base:WpfUiWindow>

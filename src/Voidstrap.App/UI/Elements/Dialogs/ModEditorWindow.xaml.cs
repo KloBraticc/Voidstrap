@@ -271,6 +271,8 @@ public partial class ModEditorWindow : WpfUiWindow
         }
     }
 
+    private void EditorSettings_Click(object sender, RoutedEventArgs e) => new Voidstrap.UI.Elements.Editor.EditorSettingsWindow().ShowOwnedDialog();
+
     private void Cancel_Click(object sender, RoutedEventArgs e)
     {
         Close();

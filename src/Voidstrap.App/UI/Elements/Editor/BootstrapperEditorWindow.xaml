@@ -181,7 +181,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
-                  <ui:SymbolIcon Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center" FontSize="14" Symbol="{Binding Path=Icon, Mode=OneWay}" />
+                  <ui:SymbolIcon Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center" FontSize="14" Filled="True" Foreground="{Binding Path=IconBrush, Mode=OneWay}" Symbol="{Binding Path=Icon, Mode=OneWay}" />
                   <TextBlock Grid.Column="1" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Path=RelativePath, Mode=OneWay}" Text="{Binding Path=Display, Mode=OneWay}" />
                 </Grid>
               </DataTemplate>
