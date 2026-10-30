@@ -324,6 +324,16 @@ internal static partial class ModLibraryReview
             string[] known = ["roblox-account", "native", "files", "web"];
             if (permissions.Any(permission => !known.Contains(permission?.ToString(), StringComparer.Ordinal)))
                 errors.Add("plugin.json permissions may only contain roblox-account, native, files or web");
+            else if (
+                permissions.Any(permission => permission?.ToString() is "native")
+                && (permissions.Any(permission => permission?.ToString() is "web") || manifest["network"] is System.Text.Json.Nodes.JsonArray { Count: > 0 })
+            )
+                errors.Add("native cannot be combined with web or network hosts");
+            else if (
+                permissions.Any(permission => permission?.ToString() is "roblox-account")
+                && permissions.Any(permission => permission?.ToString() is "native" or "files" or "web")
+            )
+                errors.Add("native, files and web cannot be combined with roblox-account");
             else if (permissions.Any(permission => permission?.ToString() is "native" or "files" or "web"))
                 reviews.Add(
                     "asks for native, files or web access, the maintainer must read every line of this mod, and every later update, before merging"

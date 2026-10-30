@@ -321,6 +321,7 @@ declare module 'voidstrap' {
     native: {
       type(fullName: string): any;
       ui<T>(fn: () => T): T;
+      find(target: UiTarget): any[];
     };
     files: {
       read(path: string, encoding?: 'base64'): string;

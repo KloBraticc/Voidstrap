@@ -326,6 +326,13 @@ public static class McpGuides
 		  network in plugin.json, never roblox.com. Own browser profile per mod, so no Roblox login. Downloads, popups, permissions, dev tools,
 		  host objects and web messages are all off.
 
+		  Protections every powerful mod must pass, or it stays off with the reason under problems:
+		    native cannot be combined with web or network hosts. None of the three can be combined with roblox-account.
+		    Source may not contain password, cookie, login, sign in, 2fa and similar words, nor eval, Function, atob, fromCharCode or escaped characters.
+		    Program files may not be included.
+		  Reach existing UI only with $.native.find(target). Windows, the application, frames, tree helpers, Parent, text boxes and keyboard input are blocked.
+		  No mod can see or press message boxes, the Mods page or the Accounts page, and rules cannot show text asking for logins.
+
 		  Other libraries: bundle JavaScript libraries as mod modules. Loading .NET or native DLLs is never allowed.
 
 		THE WORKFLOW

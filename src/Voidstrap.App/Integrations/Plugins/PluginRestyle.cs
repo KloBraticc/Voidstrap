@@ -389,11 +389,37 @@ internal static class PluginRestyle
 
     private static IEnumerable<Window> AllWindows() => Application.Current?.Windows.OfType<Window>() ?? [];
 
-    private static List<FrameworkElement> Snapshot() =>
-        AllWindows()
+    private static bool IsProtectedWindow(Window window) =>
+        window.GetType().Name.Contains("MessageBox", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsProtectedPage(FrameworkElement element) =>
+        element.GetType().Name is "VoidstrapModsPage" or "AccountsPage";
+
+    private static List<FrameworkElement> Snapshot()
+    {
+        List<FrameworkElement> all = AllWindows()
+            .Where(window => !IsProtectedWindow(window))
             .SelectMany(window => PluginAnchors.Descendants(window).OfType<FrameworkElement>())
             .Where(element => element is not Window)
             .ToList();
+        HashSet<FrameworkElement> hidden = new(ReferenceEqualityComparer.Instance);
+        foreach (FrameworkElement page in all.Where(IsProtectedPage).ToList())
+            hidden.UnionWith(PluginAnchors.Descendants(page).OfType<FrameworkElement>());
+        return hidden.Count == 0 ? all : all.Where(element => !hidden.Contains(element)).ToList();
+    }
+
+    public static FrameworkElement[] NativeFind(JsonObject target) =>
+        OnUi(
+            () =>
+            {
+                List<FrameworkElement> elements = Snapshot();
+                List<System.Windows.Controls.Frame> frames = elements.OfType<System.Windows.Controls.Frame>().ToList();
+                return Select(target, elements)
+                    .Where(element => element is not System.Windows.Controls.Frame && !frames.Any(element.IsAncestorOf))
+                    .ToArray();
+            },
+            []
+        );
 
     private static bool WindowMatches(FrameworkElement element, string wanted)
     {
@@ -703,6 +729,11 @@ internal static class PluginRestyle
             return;
         }
         string text = value?.ToString() ?? "";
+        if (PluginNative.LooksLikePhishing(text))
+        {
+            report.Error("mods cannot show text asking for logins, passwords or cookies");
+            return;
+        }
         if (text.StartsWith("theme:", StringComparison.Ordinal))
         {
             Remember(element, property);

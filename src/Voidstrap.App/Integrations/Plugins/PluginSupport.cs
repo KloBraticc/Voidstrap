@@ -99,8 +99,16 @@ internal static class PluginConsent
     public static async Task<bool> IsAllowedAsync(PluginManifest manifest)
     {
         bool allowed = await IsBaseAllowedAsync(manifest).ConfigureAwait(true);
-        if (!allowed || !PluginNative.IsPowerful(manifest) || PluginNative.IsApproved(manifest))
+        if (!allowed || !PluginNative.IsPowerful(manifest))
             return allowed;
+        if (PluginNative.RefusalReason(manifest) is { } refusal)
+        {
+            App.Logger.WriteLine("VoidstrapMods", manifest.Name + ": refused: " + refusal);
+            PluginHost.Problem(manifest.Name, refusal);
+            return false;
+        }
+        if (PluginNative.IsApproved(manifest))
+            return true;
         return await ConfirmPowerfulAsync(manifest).ConfigureAwait(true);
     }
 

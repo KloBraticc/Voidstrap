@@ -865,7 +865,8 @@ public static class PluginHost
 			    }),
 			    native: Object.freeze({
 			      type: name => host.nativeType(String(name)),
-			      ui: fn => host.nativeUi(fn)
+			      ui: fn => host.nativeUi(fn),
+			      find: target => host.nativeFind(JSON.stringify(target || {}))
 			    }),
 			    files: Object.freeze({
 			      read: (path, encoding) => host.filesRead(String(path), String(encoding || '')),
@@ -1344,6 +1345,17 @@ public static class PluginHost
                         else
                             dispatcher.Invoke(Run, TimeSpan.FromMilliseconds(1500));
                         return result;
+                    }
+                )
+            );
+            host.Set(
+                "nativeFind",
+                Host(
+                    "nativeFind",
+                    a =>
+                    {
+                        Need(PluginManifest.NativePermission);
+                        return JsValue.FromObject(_engine, PluginRestyle.NativeFind(JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject()));
                     }
                 )
             );

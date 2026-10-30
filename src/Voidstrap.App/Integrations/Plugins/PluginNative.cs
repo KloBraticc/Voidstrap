@@ -21,6 +21,7 @@ internal static partial class PluginNative
     private static readonly string[] DeniedPrefixes =
     [
         "System.Windows.Markup",
+        "System.Windows.Input",
         "System.Windows.Interop",
         "System.Windows.Navigation",
         "System.Windows.Threading",
@@ -58,7 +59,7 @@ internal static partial class PluginNative
     ];
 
     [GeneratedRegex(
-        "cookie|account|token|password|credential|secret|auth|login|process|shell|execute|registry|download|install|webview|webbrowser|clipboard|plugin|consent|rollback|mcp|assembly|reflection|gettype|loadcomponent|dispatcher|objectdataprovider|xmldataprovider|printdialog",
+        "cookie|account|token|password|credential|secret|auth|login|process|shell|execute|registry|download|install|webview|webbrowser|clipboard|plugin|consent|rollback|mcp|assembly|reflection|gettype|loadcomponent|dispatcher|objectdataprovider|xmldataprovider|printdialog|voidstrapmods|messagebox|textbox|richtext|autosuggest|textinput|textcomposition",
         RegexOptions.IgnoreCase
     )]
     private static partial Regex SensitiveName();
@@ -77,6 +78,14 @@ internal static partial class PluginNative
         "GetContentStream",
         "GetRemoteStream",
         "Shutdown",
+        "Parent",
+        "TemplatedParent",
+        "Owner",
+        "RaiseEvent",
+        "KeyDown",
+        "KeyUp",
+        "PreviewKeyDown",
+        "PreviewKeyUp",
     };
 
     private static readonly Assembly[] SearchAssemblies =
@@ -103,6 +112,14 @@ internal static partial class PluginNative
             return type.GetGenericArguments().All(IsTypeAllowed) && IsGenericContainerAllowed(type);
         if (AllowedSystemTypes.Contains(type))
             return true;
+        if (
+            typeof(Window).IsAssignableFrom(type)
+            || typeof(Application).IsAssignableFrom(type)
+            || typeof(System.Windows.Controls.Frame).IsAssignableFrom(type)
+            || type == typeof(System.Windows.Media.VisualTreeHelper)
+            || type == typeof(LogicalTreeHelper)
+        )
+            return false;
         string name = type.FullName ?? "";
         if (SensitiveName().IsMatch(name))
             return false;
@@ -149,6 +166,41 @@ internal static partial class PluginNative
             return null;
         Type? type = SearchAssemblies.Select(assembly => assembly.GetType(name, false)).FirstOrDefault(found => found != null);
         return IsTypeAllowed(type) ? type : null;
+    }
+
+    [GeneratedRegex(
+        @"password|passwd|roblosecurity|cookie|two.?factor|2fa|credit.?card|seed.?phrase|sign.?in|log.?in|\beval\b|new\s+Function|\bFunction\s*\(|atob|fromCharCode|\\x[0-9a-f]{2}|\\u[0-9a-f]{4}",
+        RegexOptions.IgnoreCase
+    )]
+    private static partial Regex RefusedSource();
+
+    [GeneratedRegex("password|passwd|roblosecurity|cookie|two.?factor|2fa|credit.?card|seed.?phrase|sign.?in|log.?in", RegexOptions.IgnoreCase)]
+    private static partial Regex PhishingText();
+
+    public static bool LooksLikePhishing(string text) => PhishingText().IsMatch(text);
+
+    public static string? RefusalReason(PluginManifest manifest)
+    {
+        bool native = manifest.HasPermission(PluginManifest.NativePermission);
+        bool outbound = manifest.NetworkHosts.Any() || manifest.HasPermission(PluginManifest.WebPermission);
+        if (native && outbound)
+            return "native cannot be combined with web or network hosts, so what a mod reads cannot be sent out";
+        if (manifest.HasPermission(PluginManifest.RobloxAccountPermission))
+            return "native, files and web cannot be combined with roblox-account";
+        string marker = Path.DirectorySeparatorChar + PluginManifest.ManifestFolder + Path.DirectorySeparatorChar + "types";
+        foreach (string file in Directory.EnumerateFiles(manifest.Directory, "*", SearchOption.AllDirectories))
+        {
+            if (file.Contains(marker, StringComparison.OrdinalIgnoreCase))
+                continue;
+            if (Path.GetExtension(file).ToLowerInvariant() is ".exe" or ".dll" or ".bat" or ".cmd" or ".ps1" or ".sh" or ".msi" or ".scr" or ".com" or ".vbs" or ".so" or ".dylib")
+                return Path.GetFileName(file) + " is a program, which powerful mods can never include";
+            if (Path.GetExtension(file).ToLowerInvariant() is not (".ts" or ".tsx" or ".js" or ".jsx" or ".mjs" or ".json"))
+                continue;
+            Match match = RefusedSource().Match(File.ReadAllText(file));
+            if (match.Success)
+                return Path.GetFileName(file) + " contains \"" + match.Value + "\", which powerful mods cannot use";
+        }
+        return null;
     }
 
     public static string ContentHash(PluginManifest manifest)
