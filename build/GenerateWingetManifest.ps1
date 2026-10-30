@@ -1,13 +1,16 @@
- param(
+param(
 	[Parameter(Mandatory = $true)]
+	[ValidatePattern('\A[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\z')]
 	[string]$Version,
 
+	[ValidatePattern('\A[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+\z')]
 	[string]$Repository = 'KloBraticc/Voidstrap',
 
 	[Parameter(Mandatory = $true)]
 	[string]$OutputDirectory,
 
-	[string]$ManifestVersion = '1.9.0'
+	[ValidatePattern('\A[0-9]+\.[0-9]+\.[0-9]+\z')]
+	[string]$ManifestVersion = '1.12.0'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -26,13 +29,18 @@ $downloads = Join-Path ([IO.Path]::GetTempPath()) ('VoidstrapWinget/' + [Guid]::
 $assetPath = Join-Path $downloads $assetName
 
 Write-Host ('  Downloading ' + $installerUrl)
-Invoke-WebRequest -Uri $installerUrl -OutFile $assetPath -UseBasicParsing
-$hash = (Get-FileHash -Path $assetPath -Algorithm SHA256).Hash
-$releaseDate = (Get-Date).ToString('yyyy-MM-dd')
-[System.IO.Directory]::Delete($downloads, $true)
+try {
+	Invoke-WebRequest -Uri $installerUrl -OutFile $assetPath -UseBasicParsing
+	$hash = (Get-FileHash -Path $assetPath -Algorithm SHA256).Hash
+} finally {
+	if ([System.IO.File]::Exists($assetPath)) {
+		[System.IO.File]::Delete($assetPath)
+	}
+	[System.IO.Directory]::Delete($downloads)
+}
 
 $versionManifest = @"
-# yaml-language-server: `$schema=https://aka.ms/winget-manifest.version.1.9.0.schema.json
+# yaml-language-server: `$schema=https://aka.ms/winget-manifest.version.$ManifestVersion.schema.json
 PackageIdentifier: $identifier
 PackageVersion: $Version
 DefaultLocale: en-US
@@ -41,9 +49,13 @@ ManifestVersion: $ManifestVersion
 "@
 
 $installerManifest = @"
-# yaml-language-server: `$schema=https://aka.ms/winget-manifest.installer.1.9.0.schema.json
+# yaml-language-server: `$schema=https://aka.ms/winget-manifest.installer.$ManifestVersion.schema.json
 PackageIdentifier: $identifier
 PackageVersion: $Version
+Dependencies:
+  PackageDependencies:
+    - PackageIdentifier: Microsoft.DotNet.DesktopRuntime.10
+      MinimumVersion: 10.0.0
 Installers:
   - Architecture: x64
     InstallerType: exe
@@ -68,7 +80,7 @@ ManifestVersion: $ManifestVersion
 "@
 
 $localeManifest = @"
-# yaml-language-server: `$schema=https://aka.ms/winget-manifest.defaultLocale.1.9.0.schema.json
+# yaml-language-server: `$schema=https://aka.ms/winget-manifest.defaultLocale.$ManifestVersion.schema.json
 PackageIdentifier: $identifier
 PackageVersion: $Version
 PackageLocale: en-US
@@ -92,14 +104,14 @@ Tags:
   - fastflags
   - game-launcher
 ReleaseNotesUrl: $releaseUrl
-InstallationNotes: Voidstrap finishes setup on first launch and keeps itself up to date.
+InstallationNotes: Requires .NET Desktop Runtime 10. WinGet installs this dependency automatically.
 ManifestType: defaultLocale
 ManifestVersion: $ManifestVersion
 "@
 
-[System.IO.File]::WriteAllText((Join-Path $packageFolder "$identifier.installer.yaml"), $installerManifest)
-[System.IO.File]::WriteAllText((Join-Path $packageFolder "$identifier.locale.en-US.yaml"), $localeManifest)
-[System.IO.File]::WriteAllText((Join-Path $packageFolder "$identifier.yaml"), $versionManifest)
+[System.IO.File]::WriteAllText((Join-Path $packageFolder "$identifier.installer.yaml"), $installerManifest + "`r`n")
+[System.IO.File]::WriteAllText((Join-Path $packageFolder "$identifier.locale.en-US.yaml"), $localeManifest + "`r`n")
+[System.IO.File]::WriteAllText((Join-Path $packageFolder "$identifier.yaml"), $versionManifest + "`r`n")
 
 Write-Host ('  SHA256 ' + $hash)
 Write-Host ('  Manifests written to ' + $packageFolder)
