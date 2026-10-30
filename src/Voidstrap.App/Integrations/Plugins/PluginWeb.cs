@@ -176,7 +176,7 @@ internal static class PluginWeb
                 if (fullscreen)
                 {
                     window.WindowStyle = WindowStyle.None;
-                    window.WindowState = WindowState.Maximized;
+                    window.WindowState = System.Windows.WindowState.Maximized;
                 }
                 window.Show();
             })
