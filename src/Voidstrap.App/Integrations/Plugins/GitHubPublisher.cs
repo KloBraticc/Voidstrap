@@ -494,11 +494,11 @@ public static class GitHubPublisher
         }
 
         JsonObject mainRef =
-            await SendAsync(HttpMethod.Get, "https://api.github.com/repos/" + upstream + "/git/ref/heads/main", null, access, token)
+            await SendAsync(HttpMethod.Get, "https://api.github.com/repos/" + forkName + "/git/ref/heads/main", null, access, token)
                 as JsonObject
-            ?? throw new InvalidDataException("the library has no main branch");
+            ?? throw new InvalidDataException("the fork has no main branch");
         string baseCommit =
-            mainRef["object"]?["sha"]?.GetValue<string>() ?? throw new InvalidDataException("the library has no main branch");
+            mainRef["object"]?["sha"]?.GetValue<string>() ?? throw new InvalidDataException("the fork has no main branch");
         JsonObject baseCommitNode =
             await SendAsync(HttpMethod.Get, "https://api.github.com/repos/" + forkName + "/git/commits/" + baseCommit, null, access, token)
                 as JsonObject
@@ -529,7 +529,17 @@ public static class GitHubPublisher
         written.Add("owner.json");
         foreach (ModLibrary.LibraryFile old in published?.Files ?? [])
         {
-            if (!written.Contains(old.Path))
+            if (
+                !written.Contains(old.Path)
+                && await SendAsync(
+                    HttpMethod.Get,
+                    "https://api.github.com/repos/" + forkName + "/contents/" + prefix + old.Path + "?ref=" + baseCommit,
+                    null,
+                    access,
+                    token,
+                    allowNotFound: true
+                ) != null
+            )
                 tree.Add(
                     new JsonObject
                     {
