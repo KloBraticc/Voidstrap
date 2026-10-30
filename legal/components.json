@@ -2541,6 +2541,23 @@
   },
   {
     "ecosystem": "maven",
+    "name": "androidx.exifinterface:exifinterface",
+    "version": "1.4.2",
+    "license": "The Apache Software License, Version 2.0",
+    "source": "https://dl.google.com/dl/android/maven2/androidx/exifinterface/exifinterface/1.4.2/exifinterface-1.4.2.pom",
+    "documents": [
+      {
+        "path": "texts/074e6e32c86a4c0ef8b3.txt",
+        "source": "http://www.apache.org/licenses/LICENSE-2.0.txt"
+      },
+      {
+        "path": "texts/809fa1ed21450f59827d.txt",
+        "source": "https://dl.google.com/dl/android/maven2/androidx/exifinterface/exifinterface/1.4.2/exifinterface-1.4.2.aar: META-INF/androidx/exifinterface/exifinterface/LICENSE.txt"
+      }
+    ]
+  },
+  {
+    "ecosystem": "maven",
     "name": "androidx.fragment:fragment",
     "version": "1.0.0",
     "license": "The Apache Software License, Version 2.0",

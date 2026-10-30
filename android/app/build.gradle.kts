@@ -12,6 +12,7 @@ val mainVersion = Regex("<VoidstrapVersion>([^<]+)</VoidstrapVersion>")
     .find(rootProject.file("../Directory.Build.props").readText())?.groupValues?.get(1)
     ?: error("VoidstrapVersion is missing")
 val mainVersionCode = mainVersion.split('.').fold(0) { code, part -> code * 100 + part.toInt() }
+val playVersionCode = mainVersionCode + 1
 
 android {
     namespace = "com.voidstrap.android"
@@ -41,6 +42,7 @@ android {
     productFlavors {
         create("play") {
             dimension = "channel"
+            versionCode = playVersionCode
             buildConfigField("boolean", "DIRECT_UPDATES", "false")
         }
         create("direct") {
@@ -144,7 +146,7 @@ fun cargoTask(flavor: String, cargoFeatures: List<String>) = tasks.register<Carg
     workDir.set(rust)
     sources.from(rust.file("Cargo.toml"), rust.file("Cargo.lock"), rust.dir("helper"), rust.file("core/Cargo.toml"), rust.dir("core/src"), rust.dir("vendor"))
     ndk.set(androidComponents.sdkComponents.sdkDirectory.map { it.dir("ndk/${android.ndkVersion}").asFile.path })
-    versionCode.set(mainVersionCode)
+    versionCode.set(if (flavor == "play") playVersionCode else mainVersionCode)
     features.set(cargoFeatures)
     targetDir.set(layout.buildDirectory.dir("rust/target"))
     output.set(layout.buildDirectory.dir("rust/jniLibs-$flavor"))
@@ -197,6 +199,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.core)
     implementation(libs.constraintlayout)
+    implementation(libs.exifinterface)
     implementation(libs.shizuku.api)
     implementation(libs.shizuku.provider)
     "playImplementation"(libs.app.update)

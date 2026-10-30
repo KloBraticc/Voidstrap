@@ -700,6 +700,10 @@ Google Play libraries keep their publisher terms. They are not licensed under Vo
   Terms: The Apache Software License, Version 2.0
   Source: https://dl.google.com/dl/android/maven2/androidx/emoji2/emoji2-views-helper/1.2.0/emoji2-views-helper-1.2.0.pom
 
+- androidx.exifinterface:exifinterface 1.4.2 (maven)
+  Terms: The Apache Software License, Version 2.0
+  Source: https://dl.google.com/dl/android/maven2/androidx/exifinterface/exifinterface/1.4.2/exifinterface-1.4.2.pom
+
 - androidx.fragment:fragment 1.0.0 (maven)
   Terms: The Apache Software License, Version 2.0
   Source: https://dl.google.com/dl/android/maven2/androidx/fragment/fragment/1.0.0/fragment-1.0.0.pom
