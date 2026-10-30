@@ -263,10 +263,12 @@ public static class PluginHost
 			App.Logger.WriteLine(LogIdent, "The mods folder could not be watched: " + ex.Message);
 		}
 		Reload();
+		ModLibrary.StartAutoUpdater();
 	}
 
 	public static void Shutdown()
 	{
+		ModLibrary.StopAutoUpdater();
 		List<LoadedPlugin> doomed;
 		lock (Gate)
 		{

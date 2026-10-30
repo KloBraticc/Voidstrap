@@ -292,6 +292,8 @@ public static partial class ModLibrary
 
 	private static Timer? _autoUpdateTimer;
 
+	private static int _autoUpdateRunning;
+
 	public static void StartAutoUpdater()
 	{
 		if (!PluginHost.IsSupported)
@@ -313,6 +315,8 @@ public static partial class ModLibrary
 	public static async Task<IReadOnlyList<string>> AutoUpdateInstalledModsAsync(CancellationToken token = default)
 	{
 		List<string> updated = [];
+		if (Interlocked.Exchange(ref _autoUpdateRunning, 1) != 0)
+			return updated;
 		try
 		{
 			Index index = await GetIndexAsync(true, token);
@@ -328,11 +332,20 @@ public static partial class ModLibrary
 					continue;
 				if (GetState(entry) != InstallState.UpdateAvailable)
 					continue;
-				bool wasEnabled = PluginConsent.GetState(manifest) == "on";
-				await InstallAsync(index, entry, token);
-				if (wasEnabled && !entry.UsesRobloxAccount)
-					PluginHost.SetEnabled(entry.Name, true, reload: false);
-				updated.Add(entry.Name + " " + entry.Version);
+				if (entry.Network.Any(host => !manifest.NetworkHosts.Contains(host, StringComparer.OrdinalIgnoreCase)) || (entry.UsesRobloxAccount && !manifest.HasPermission(PluginManifest.RobloxAccountPermission)))
+				{
+					App.Logger.WriteLine(LogIdent, "Left " + entry.Name + " for a manual update because " + entry.Version + " asks for new access");
+					continue;
+				}
+				try
+				{
+					await InstallAsync(index, entry, token);
+					updated.Add(entry.Name + " " + entry.Version);
+				}
+				catch (Exception ex) when (ex is not OperationCanceledException)
+				{
+					App.Logger.WriteLine(LogIdent, "Could not update " + entry.Name + ": " + ex.Message);
+				}
 			}
 			if (updated.Count > 0)
 			{
@@ -340,9 +353,13 @@ public static partial class ModLibrary
 				App.Logger.WriteLine(LogIdent, "Auto-updated " + updated.Count + " mod(s): " + string.Join(", ", updated));
 			}
 		}
-		catch (Exception ex) when (ex is HttpRequestException or IOException or InvalidDataException or OperationCanceledException)
+		catch (Exception ex)
 		{
 			App.Logger.WriteLine(LogIdent, "Auto-update skipped: " + ex.Message);
+		}
+		finally
+		{
+			Interlocked.Exchange(ref _autoUpdateRunning, 0);
 		}
 		return updated;
 	}
