@@ -3534,6 +3534,10 @@
       {
         "path": "texts/4b9abebc4338048a7c2d.txt",
         "source": "https://github.com/google/desugar_jdk_libs/blob/master/LICENSE"
+      },
+      {
+        "path": "sources/desugar_jdk_libs_nio-2.1.5.tar.xz",
+        "source": "https://github.com/google/desugar_jdk_libs/tree/73170c345e6a762fc6a1f0301bb15218850023ef"
       }
     ]
   },

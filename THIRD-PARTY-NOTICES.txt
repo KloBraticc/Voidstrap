@@ -995,6 +995,8 @@ Google Play libraries keep their publisher terms. They are not licensed under Vo
 - com.android.tools:desugar_jdk_libs_nio 2.1.5 (maven)
   Terms: GNU General Public License, version 2, with the Classpath Exception
   Source: https://dl.google.com/dl/android/maven2/com/android/tools/desugar_jdk_libs_nio/2.1.5/desugar_jdk_libs_nio-2.1.5.pom
+  Corresponding source: assets/licenses/desugar_jdk_libs_nio-2.1.5.tar.xz
+  Source revision: https://github.com/google/desugar_jdk_libs/tree/73170c345e6a762fc6a1f0301bb15218850023ef
 
 - com.google.android.gms:play-services-basement 18.1.0 (maven)
   Terms: Android Software Development Kit License

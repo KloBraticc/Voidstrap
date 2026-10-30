@@ -161,9 +161,9 @@ abstract class BundleLicenseNotices : DefaultTask() {
     @get:PathSensitive(PathSensitivity.NONE)
     abstract val notices: RegularFileProperty
 
-    @get:InputFile
+    @get:InputFiles
     @get:PathSensitive(PathSensitivity.NONE)
-    abstract val cursorSources: RegularFileProperty
+    abstract val sourceArchives: ConfigurableFileCollection
 
     @get:OutputDirectory
     abstract val output: DirectoryProperty
@@ -174,7 +174,7 @@ abstract class BundleLicenseNotices : DefaultTask() {
     @TaskAction
     fun bundle() {
         fileSystemOperations.sync {
-            from(notices, cursorSources)
+            from(notices, sourceArchives)
             into(output.dir("licenses"))
         }
     }
@@ -182,7 +182,10 @@ abstract class BundleLicenseNotices : DefaultTask() {
 
 val bundleLicenseNotices = tasks.register<BundleLicenseNotices>("bundleLicenseNotices") {
     notices.set(rootProject.layout.projectDirectory.file("../THIRD-PARTY-NOTICES.txt"))
-    cursorSources.set(rootProject.layout.projectDirectory.file("../legal/sources/Bibata-Cursor-v2.0.7.tar.gz"))
+    sourceArchives.from(
+        rootProject.layout.projectDirectory.file("../legal/sources/Bibata-Cursor-v2.0.7.tar.gz"),
+        rootProject.layout.projectDirectory.file("../legal/sources/desugar_jdk_libs_nio-2.1.5.tar.xz")
+    )
     output.set(rootProject.layout.buildDirectory.dir("licenseAssets"))
 }
 
