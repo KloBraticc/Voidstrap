@@ -33,7 +33,7 @@ internal static partial class ModLibraryReview
     );
 
     private static readonly Regex InvisibleCharacterPattern = new(
-        "[\\u200B-\\u200F\\u202A-\\u202E\\u2066-\\u2069\\uFEFF]",
+        "[\\u200B\\u202A-\\u202E\\u2066-\\u2069]|(?!^)\\uFEFF",
         RegexOptions.None,
         TimeSpan.FromSeconds(1)
     );
@@ -88,10 +88,15 @@ internal static partial class ModLibraryReview
                 string reason = entry.GetProperty("reason").GetString() ?? "";
                 string level = entry.GetProperty("level").GetString() ?? "error";
                 bool binary = !entry.TryGetProperty("binary", out JsonElement binaryValue) || binaryValue.ValueKind != JsonValueKind.False;
+                bool codeOnly = entry.TryGetProperty("codeOnly", out JsonElement codeValue) && codeValue.ValueKind == JsonValueKind.True;
+                RegexOptions options =
+                    entry.TryGetProperty("caseSensitive", out JsonElement caseValue) && caseValue.ValueKind == JsonValueKind.True
+                        ? RegexOptions.None
+                        : RegexOptions.IgnoreCase;
                 try
                 {
                     rules.Add(
-                        new ReviewRule(pattern, reason, level, binary, new Regex(pattern, RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1)))
+                        new ReviewRule(pattern, reason, level, binary, codeOnly, new Regex(pattern, options, TimeSpan.FromSeconds(1)))
                     );
                 }
                 catch (ArgumentException ex)
@@ -119,7 +124,7 @@ internal static partial class ModLibraryReview
         return fallback;
     }
 
-    private sealed record ReviewRule(string Pattern, string Reason, string Level, bool Binary, Regex Regex);
+    private sealed record ReviewRule(string Pattern, string Reason, string Level, bool Binary, bool CodeOnly, Regex Regex);
 
     public sealed record PreflightResult(int Errors, int Reviews, string Report);
 }

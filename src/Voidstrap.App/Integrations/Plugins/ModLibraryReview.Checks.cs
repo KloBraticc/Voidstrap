@@ -250,7 +250,7 @@ internal static partial class ModLibraryReview
                 );
             foreach (ReviewRule rule in BlockedRules)
             {
-                if (!rule.Regex.IsMatch(line))
+                if ((rule.CodeOnly && !isCode) || !rule.Regex.IsMatch(line))
                     continue;
                 if (rule.Level == "review")
                     reviews.Add(where + " " + rule.Reason);
