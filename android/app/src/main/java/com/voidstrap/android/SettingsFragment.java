@@ -136,6 +136,7 @@ public final class SettingsFragment extends Page {
         LinearLayout about = v.findViewById(R.id.about_rows);
         row(about, R.drawable.ic_bug, R.string.settings_diagnostics, R.string.settings_diagnostics_body, this::showDiagnostics);
         row(about, R.drawable.ic_document, R.string.settings_licenses, R.string.settings_licenses_body, this::showLicenses);
+        row(about, R.drawable.ic_shield_checkmark, R.string.settings_privacy, R.string.settings_privacy_body, () -> Ui.openWeb(requireContext(), getString(R.string.url_privacy)));
         row(about, R.drawable.ic_globe, R.string.settings_website, R.string.settings_website_body, () -> Ui.openWeb(requireContext(), getString(R.string.url_website)));
         buildUpdates(about);
         if (BuildConfig.DIRECT_UPDATES) {

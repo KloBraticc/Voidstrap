@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name" translatable="false">Voidstrap</string>
     <string name="url_website" translatable="false">https://voidstrapp.pages.dev</string>
+    <string name="url_privacy" translatable="false">https://voidstrapp.pages.dev/privacy</string>
     <string name="url_releases" translatable="false">https://github.com/KloBraticc/Voidstrap/releases</string>
     <string name="pair">%1$s · %2$s</string>
 
@@ -312,66 +313,31 @@
     <string name="settings_diagnostics_body">A report you can copy or share for support</string>
     <string name="settings_licenses">Licenses</string>
     <string name="settings_licenses_body">Open source notices</string>
+    <string name="settings_privacy">Privacy policy</string>
+    <string name="settings_privacy_body">How Voidstrap handles your data</string>
     <string name="settings_website">Voidstrap website</string>
     <string name="settings_website_body">voidstrapp.pages.dev</string>
     <string name="settings_updates">Check for updates</string>
     <string name="settings_updates_body">Open the Voidstrap releases page</string>
-    <string name="update_section">Updates</string>
     <string name="update_auto">Check automatically</string>
     <string name="update_auto_body">Looks for a new Voidstrap a few times a day</string>
     <string name="update_auto_direct">Update automatically</string>
     <string name="update_auto_direct_body">Downloads new releases and opens any Android approval needed to install them</string>
-    <string name="update_channel_releases">Voidstrap releases</string>
-    <string name="update_channel_play">Google Play</string>
     <string name="update_check">Check now</string>
     <string name="update_local">Install from APK</string>
     <string name="update_local_body">Choose a newer Voidstrap APK saved on this device</string>
-    <string name="update_local_reading">Checking the selected APK</string>
-    <string name="update_local_missing">No APK file was provided</string>
-    <string name="update_local_too_large">The selected APK is too large</string>
-    <string name="update_local_ready">APK checked, installing</string>
     <string name="update_checking">Checking for a new version</string>
     <string name="update_current">Voidstrap %1$s, the newest build</string>
     <string name="update_never_checked">Voidstrap %1$s, not checked yet</string>
     <string name="update_checked_ago">Voidstrap %1$s, checked %2$s</string>
     <string name="update_ready_title">Voidstrap %1$s is available</string>
     <string name="update_ready_body">%1$s from %2$s</string>
-    <string name="update_install">Update</string>
-    <string name="update_install_play">Open Google Play</string>
     <string name="update_downloading">Downloading %1$d%%</string>
     <string name="update_installing">Installing</string>
     <string name="update_restart">Restart to finish</string>
     <string name="update_ready_to_install">Update ready to install</string>
-    <string name="update_skip">Skip this version</string>
-    <string name="update_notes">What changed</string>
     <string name="update_available_toast">Voidstrap %1$s is available</string>
-    <string name="update_failed_toast">The update failed, %1$s</string>
     <string name="update_failed">The update could not be completed, %1$s</string>
-    <string name="update_needs_permission">Voidstrap needs permission to install app updates</string>
-    <string name="update_permission_title">Allow app updates</string>
-    <string name="update_permission_body">The update is downloaded. Android needs your approval to let Voidstrap install APK updates. You can allow it in system settings or cancel and install later.</string>
-    <string name="update_open_permission">Open settings</string>
-    <string name="update_channel_notification">App updates</string>
-    <string name="update_confirm_title">Finish installing Voidstrap</string>
-    <string name="update_confirm_body">Tap to approve the Android install</string>
-    <string name="update_open_to_install">Open Voidstrap to approve the install</string>
-    <string name="update_permission_failed">This device has no screen for installing unknown apps</string>
-    <string name="update_error_size">The download did not match the published size</string>
-    <string name="update_error_not_apk">The APK is not a readable Android package</string>
-    <string name="update_error_other_app">The APK belongs to %1$s, not to Voidstrap</string>
-    <string name="update_error_version">The APK is version %1$s but the release said %2$s</string>
-    <string name="update_error_checksum">The downloaded update did not match the checksum published with the release</string>
-    <string name="update_error_older">The APK is not newer than the installed build</string>
-    <string name="update_error_cancelled">The install was cancelled</string>
-    <string name="update_error_blocked">The device blocked the install</string>
-    <string name="update_error_conflict">The installed Voidstrap was signed with a different key, so uninstall it first</string>
-    <string name="update_error_incompatible">The update does not support this device</string>
-    <string name="update_error_invalid">The update package is damaged</string>
-    <string name="update_error_storage">There is not enough storage for the update</string>
-    <string name="update_error_generic">The install did not finish</string>
-    <string name="update_error_no_prompt">The device did not offer the install screen</string>
-    <string name="update_error_check">Could not check for updates. Check your connection and try again</string>
-    <string name="update_error_play">Google Play could not be reached for updates</string>
     <string name="settings_version">Voidstrap for Android %1$s · %2$s</string>
     <string name="edition_play">Play edition</string>
     <string name="edition_direct">Direct edition</string>

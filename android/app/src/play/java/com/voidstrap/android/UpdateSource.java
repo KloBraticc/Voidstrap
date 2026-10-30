@@ -54,7 +54,7 @@ final class UpdateSource {
         if (code <= Updater.installedCode()) return null;
         JSONObject o = new JSONObject();
         try {
-            o.put("version", name(code));
+            o.put("version", app.getString(R.string.update_play_build, code));
             o.put("code", code);
             o.put("url", "https://play.google.com/store/apps/details?id=" + app.getPackageName());
             o.put("size", info.totalBytesToDownload());
@@ -71,18 +71,6 @@ final class UpdateSource {
         } catch (Exception e) {
             throw new IOException(app.getString(R.string.update_error_play));
         }
-    }
-
-    static String name(long code) {
-        StringBuilder sb = new StringBuilder();
-        long left = code;
-        for (int i = 0; i < 4; i++) {
-            sb.insert(0, left % 100);
-            left /= 100;
-            if (left == 0) break;
-            sb.insert(0, '.');
-        }
-        return sb.toString();
     }
 
     static void start(AppCompatActivity a, Updater.Release r, Runnable done, boolean automatic) {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="update_play_build">Build %1$d</string>
     <string name="nav_smart">Smart Join</string>
     <string name="smart_title">Smart Join</string>
     <string name="smart_open_body">Join servers near you with good performance.</string>
@@ -54,4 +55,6 @@
     <string name="smart_joining">Joining a server at %1$d FPS with %2$d ms player ping.</string>
     <string name="smart_joining_plain">Joining the best server we found.</string>
     <string name="smart_fallback">No server matched your filters, letting Roblox choose one near %1$s.</string>
+    <string name="update_channel_play">Google Play</string>
+    <string name="update_error_play">Google Play could not be reached for updates</string>
 </resources>
