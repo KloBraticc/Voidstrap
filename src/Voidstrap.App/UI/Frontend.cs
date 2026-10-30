@@ -14,244 +14,244 @@ namespace Voidstrap.UI;
 
 internal static class Frontend
 {
-	public static bool ConfirmVng()
-	{
-		if (IsSilent || UiDispatcher == null)
-			return false;
-		return UiDispatcher.Invoke(() =>
-		{
-			FluentMessageBox dialog = new(Strings.Vng_Warning, MessageBoxImage.Warning, MessageBoxButton.YesNo, 10);
-			dialog.Title = Strings.Vng_WarningTitle;
-			dialog.RootTitleBar.Title = dialog.Title;
-			dialog.Width = dialog.MaxWidth;
-			dialog.ShowOwnedDialog();
-			if (dialog.Result != MessageBoxResult.Yes)
-				return false;
-			FluentMessageBox confirmation = new(Strings.Vng_Confirmation, MessageBoxImage.Question, MessageBoxButton.YesNo);
-			confirmation.Title = Strings.Vng_WarningTitle;
-			confirmation.RootTitleBar.Title = confirmation.Title;
-			confirmation.Result = MessageBoxResult.No;
-			confirmation.ButtonTwo.IsCancel = true;
-			confirmation.ButtonTwo.IsDefault = true;
-			confirmation.ShowOwnedDialog();
-			if (confirmation.Result != MessageBoxResult.Yes)
-				return false;
-			const string agreementText = "I AGREE";
-			TextInputDialog agreement = new(Strings.Vng_Agreement, string.Empty, agreementText);
-			agreement.Title = Strings.Vng_WarningTitle;
-			agreement.ShowOwnedDialog();
-			return agreement.Confirmed && string.Equals(agreement.Value, agreementText, StringComparison.Ordinal);
-		});
-	}
+    public static bool ConfirmVng()
+    {
+        if (IsSilent || UiDispatcher == null)
+            return false;
+        return UiDispatcher.Invoke(() =>
+        {
+            FluentMessageBox dialog = new(Strings.Vng_Warning, MessageBoxImage.Warning, MessageBoxButton.YesNo, 10);
+            dialog.Title = Strings.Vng_WarningTitle;
+            dialog.RootTitleBar.Title = dialog.Title;
+            dialog.Width = dialog.MaxWidth;
+            dialog.ShowOwnedDialog();
+            if (dialog.Result != MessageBoxResult.Yes)
+                return false;
+            FluentMessageBox confirmation = new(Strings.Vng_Confirmation, MessageBoxImage.Question, MessageBoxButton.YesNo);
+            confirmation.Title = Strings.Vng_WarningTitle;
+            confirmation.RootTitleBar.Title = confirmation.Title;
+            confirmation.Result = MessageBoxResult.No;
+            confirmation.ButtonTwo.IsCancel = true;
+            confirmation.ButtonTwo.IsDefault = true;
+            confirmation.ShowOwnedDialog();
+            if (confirmation.Result != MessageBoxResult.Yes)
+                return false;
+            const string agreementText = "I AGREE";
+            TextInputDialog agreement = new(Strings.Vng_Agreement, string.Empty, agreementText);
+            agreement.Title = Strings.Vng_WarningTitle;
+            agreement.ShowOwnedDialog();
+            return agreement.Confirmed && string.Equals(agreement.Value, agreementText, StringComparison.Ordinal);
+        });
+    }
 
-	public static MessageBoxResult ShowMessageBox(
-		string message,
-		MessageBoxImage icon = MessageBoxImage.None,
-		MessageBoxButton buttons = MessageBoxButton.OK,
-		MessageBoxResult defaultResult = MessageBoxResult.None
-	)
-	{
-		App.Logger.WriteLine("Frontend::ShowMessageBox", message);
-		if (IsSilent)
-		{
-			return defaultResult;
-		}
-		return ShowFluentMessageBox(message, icon, buttons);
-	}
+    public static MessageBoxResult ShowMessageBox(
+        string message,
+        MessageBoxImage icon = MessageBoxImage.None,
+        MessageBoxButton buttons = MessageBoxButton.OK,
+        MessageBoxResult defaultResult = MessageBoxResult.None
+    )
+    {
+        App.Logger.WriteLine("Frontend::ShowMessageBox", message);
+        if (IsSilent)
+        {
+            return defaultResult;
+        }
+        return ShowFluentMessageBox(message, icon, buttons);
+    }
 
-	public static MessageBoxResult ShowMessageBox(
-		string message,
-		MessageBoxImage icon,
-		string primaryButtonText,
-		string secondaryButtonText,
-		string closeButtonText
-	)
-	{
-		App.Logger.WriteLine("Frontend::ShowMessageBox", message);
-		if (IsSilent)
-		{
-			return MessageBoxResult.Cancel;
-		}
-		Dispatcher? dispatcher = UiDispatcher;
-		if (dispatcher == null)
-		{
-			return MessageBoxResult.Cancel;
-		}
-		return dispatcher.Invoke<MessageBoxResult>(() =>
-		{
-			FluentMessageBox fluentMessageBox = new(message, icon, primaryButtonText, secondaryButtonText, closeButtonText);
-			fluentMessageBox.ShowOwnedDialog();
-			return fluentMessageBox.Result;
-		});
-	}
+    public static MessageBoxResult ShowMessageBox(
+        string message,
+        MessageBoxImage icon,
+        string primaryButtonText,
+        string secondaryButtonText,
+        string closeButtonText
+    )
+    {
+        App.Logger.WriteLine("Frontend::ShowMessageBox", message);
+        if (IsSilent)
+        {
+            return MessageBoxResult.Cancel;
+        }
+        Dispatcher? dispatcher = UiDispatcher;
+        if (dispatcher == null)
+        {
+            return MessageBoxResult.Cancel;
+        }
+        return dispatcher.Invoke<MessageBoxResult>(() =>
+        {
+            FluentMessageBox fluentMessageBox = new(message, icon, primaryButtonText, secondaryButtonText, closeButtonText);
+            fluentMessageBox.ShowOwnedDialog();
+            return fluentMessageBox.Result;
+        });
+    }
 
-	public static void ShowPlayerErrorDialog(bool _ = false) { }
+    public static void ShowPlayerErrorDialog(bool _ = false) { }
 
-	private static bool IsSilent
-	{
-		get
-		{
-			LaunchSettings? settings = App.LaunchSettings;
-			if (settings == null)
-			{
-				return false;
-			}
-			return settings.QuietFlag.Active || settings.WindowAuditFlag.Active;
-		}
-	}
+    private static bool IsSilent
+    {
+        get
+        {
+            LaunchSettings? settings = App.LaunchSettings;
+            if (settings == null)
+            {
+                return false;
+            }
+            return settings.QuietFlag.Active || settings.WindowAuditFlag.Active;
+        }
+    }
 
-	private static Dispatcher? UiDispatcher => System.Windows.Application.Current?.Dispatcher;
+    private static Dispatcher? UiDispatcher => System.Windows.Application.Current?.Dispatcher;
 
-	public static void ShowExceptionDialog(Exception exception)
-	{
-		if (!IsSilent)
-		{
-			UiDispatcher?.Invoke(
-				(Action)
-					delegate
-					{
-						new ExceptionDialog(exception).ShowOwnedDialog();
-					}
-			);
-		}
-	}
+    public static void ShowExceptionDialog(Exception exception)
+    {
+        if (!IsSilent)
+        {
+            UiDispatcher?.Invoke(
+                (Action)
+                    delegate
+                    {
+                        new ExceptionDialog(exception).ShowOwnedDialog();
+                    }
+            );
+        }
+    }
 
-	public static void ShowConnectivityDialog(string title, string description, MessageBoxImage image, Exception exception)
-	{
-		if (!IsSilent)
-		{
-			UiDispatcher?.Invoke(
-				(Action)
-					delegate
-					{
-						new ConnectivityDialog(title, description, image, exception).ShowOwnedDialog();
-					}
-			);
-		}
-	}
+    public static void ShowConnectivityDialog(string title, string description, MessageBoxImage image, Exception exception)
+    {
+        if (!IsSilent)
+        {
+            UiDispatcher?.Invoke(
+                (Action)
+                    delegate
+                    {
+                        new ConnectivityDialog(title, description, image, exception).ShowOwnedDialog();
+                    }
+            );
+        }
+    }
 
-	private static IBootstrapperDialog GetCustomBootstrapper()
-	{
-		Directory.CreateDirectory(Paths.CustomThemes);
-		CustomDialog? customDialog = null;
-		try
-		{
-			string? selected = App.Settings.Prop.SelectedCustomTheme;
+    private static IBootstrapperDialog GetCustomBootstrapper()
+    {
+        Directory.CreateDirectory(Paths.CustomThemes);
+        CustomDialog? customDialog = null;
+        try
+        {
+            string? selected = App.Settings.Prop.SelectedCustomTheme;
 
-			if (selected == null)
-			{
-				throw new CustomThemeException("CustomTheme.Errors.NoThemeSelected");
-			}
+            if (selected == null)
+            {
+                throw new CustomThemeException("CustomTheme.Errors.NoThemeSelected");
+            }
 
-			if (!Voidstrap.Utility.CaseInsensitivePath.Exists(Path.Combine(Paths.CustomThemes, selected, "Theme.xml")))
-			{
-				App.Logger.WriteLine(
-					"Frontend::GetCustomBootstrapper",
-					"The selected theme " + selected + " is gone, falling back to Fluent"
-				);
-				App.Settings.Prop.SelectedCustomTheme = null;
-				App.Settings.Save();
-				return GetBootstrapperDialog(BootstrapperStyle.FluentDialog);
-			}
+            if (!Voidstrap.Utility.CaseInsensitivePath.Exists(Path.Combine(Paths.CustomThemes, selected, "Theme.xml")))
+            {
+                App.Logger.WriteLine(
+                    "Frontend::GetCustomBootstrapper",
+                    "The selected theme " + selected + " is gone, falling back to Fluent"
+                );
+                App.Settings.Prop.SelectedCustomTheme = null;
+                App.Settings.Save();
+                return GetBootstrapperDialog(BootstrapperStyle.FluentDialog);
+            }
 
-			customDialog = new CustomDialog();
-			customDialog.ApplyCustomTheme(selected);
-			return customDialog;
-		}
-		catch (Exception ex)
-		{
-			try
-			{
-				customDialog?.Close();
-			}
-			catch { }
-			App.Logger.WriteException("Frontend::GetCustomBootstrapper", ex);
-			if (!IsSilent)
-			{
-				ShowMessageBox(string.Format(Strings.CustomTheme_Errors_SetupFailed, ex.Message), MessageBoxImage.Hand);
-			}
-			return GetBootstrapperDialog(BootstrapperStyle.FluentDialog);
-		}
-	}
+            customDialog = new CustomDialog();
+            customDialog.ApplyCustomTheme(selected);
+            return customDialog;
+        }
+        catch (Exception ex)
+        {
+            try
+            {
+                customDialog?.Close();
+            }
+            catch { }
+            App.Logger.WriteException("Frontend::GetCustomBootstrapper", ex);
+            if (!IsSilent)
+            {
+                ShowMessageBox(string.Format(Strings.CustomTheme_Errors_SetupFailed, ex.Message), MessageBoxImage.Hand);
+            }
+            return GetBootstrapperDialog(BootstrapperStyle.FluentDialog);
+        }
+    }
 
-	public static IBootstrapperDialog GetBootstrapperDialog(BootstrapperStyle style)
-	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-		{
-			switch (style)
-			{
-				case BootstrapperStyle.VistaDialog:
-					return new LinuxVistaDialog();
-				case BootstrapperStyle.LegacyDialog2008:
-					return new LinuxLegacyDialog2008();
-				case BootstrapperStyle.LegacyDialog2011:
-					return new LinuxLegacyDialog2011();
-				case BootstrapperStyle.ProgressDialog:
-					return new LinuxProgressDialog();
-			}
-		}
+    public static IBootstrapperDialog GetBootstrapperDialog(BootstrapperStyle style)
+    {
+        if (!Voidstrap.Utility.Platform.IsWindows)
+        {
+            switch (style)
+            {
+                case BootstrapperStyle.VistaDialog:
+                    return new LinuxVistaDialog();
+                case BootstrapperStyle.LegacyDialog2008:
+                    return new LinuxLegacyDialog2008();
+                case BootstrapperStyle.LegacyDialog2011:
+                    return new LinuxLegacyDialog2011();
+                case BootstrapperStyle.ProgressDialog:
+                    return new LinuxProgressDialog();
+            }
+        }
 
-		return style switch
-		{
-			BootstrapperStyle.VistaDialog => new VistaDialog(),
-			BootstrapperStyle.LegacyDialog2008 => new LegacyDialog2008(),
-			BootstrapperStyle.LegacyDialog2011 => new LegacyDialog2011(),
-			BootstrapperStyle.ProgressDialog => new ProgressDialog(),
-			BootstrapperStyle.ClassicFluentDialog => new ClassicFluentDialog(),
-			BootstrapperStyle.ByfronDialog => new ByfronDialog(),
-			BootstrapperStyle.FluentDialog => new FluentDialog(aero: false),
-			BootstrapperStyle.FluentAeroDialog => new FluentDialog(aero: true),
-			BootstrapperStyle.CustomDialog => GetCustomBootstrapper(),
-			_ => new FluentDialog(aero: false),
-		};
-	}
+        return style switch
+        {
+            BootstrapperStyle.VistaDialog => new VistaDialog(),
+            BootstrapperStyle.LegacyDialog2008 => new LegacyDialog2008(),
+            BootstrapperStyle.LegacyDialog2011 => new LegacyDialog2011(),
+            BootstrapperStyle.ProgressDialog => new ProgressDialog(),
+            BootstrapperStyle.ClassicFluentDialog => new ClassicFluentDialog(),
+            BootstrapperStyle.ByfronDialog => new ByfronDialog(),
+            BootstrapperStyle.FluentDialog => new FluentDialog(aero: false),
+            BootstrapperStyle.FluentAeroDialog => new FluentDialog(aero: true),
+            BootstrapperStyle.CustomDialog => GetCustomBootstrapper(),
+            _ => new FluentDialog(aero: false),
+        };
+    }
 
-	private static MessageBoxResult ShowFluentMessageBox(string message, MessageBoxImage icon, MessageBoxButton buttons)
-	{
-		Dispatcher? dispatcher = UiDispatcher;
-		if (dispatcher == null)
-		{
-			return MessageBoxResult.None;
-		}
-		return dispatcher.Invoke<MessageBoxResult>(
-			(Func<MessageBoxResult>)
-				delegate
-				{
-					FluentMessageBox fluentMessageBox = new(message, icon, buttons);
-					fluentMessageBox.ShowOwnedDialog();
-					return fluentMessageBox.Result;
-				}
-		);
-	}
+    private static MessageBoxResult ShowFluentMessageBox(string message, MessageBoxImage icon, MessageBoxButton buttons)
+    {
+        Dispatcher? dispatcher = UiDispatcher;
+        if (dispatcher == null)
+        {
+            return MessageBoxResult.None;
+        }
+        return dispatcher.Invoke<MessageBoxResult>(
+            (Func<MessageBoxResult>)
+                delegate
+                {
+                    FluentMessageBox fluentMessageBox = new(message, icon, buttons);
+                    fluentMessageBox.ShowOwnedDialog();
+                    return fluentMessageBox.Result;
+                }
+        );
+    }
 
-	public static void ShowBalloonTip(string title, string message, ToolTipIcon icon = ToolTipIcon.None, int timeout = 5)
-	{
-		Dispatcher? dispatcher = System.Windows.Application.Current?.Dispatcher;
-		if (dispatcher != null && !dispatcher.CheckAccess())
-		{
-			dispatcher.BeginInvoke(new Action(() => ShowBalloonTip(title, message, icon, timeout)));
-			return;
-		}
-		NotifyIcon notifyIcon = new()
-		{
-			Icon = Voidstrap.Utility.Branding.CreateDrawingIcon() ?? Voidstrap.Properties.Resources.IconVoidstrap,
-			Text = Voidstrap.Utility.Branding.Name,
-			Visible = true,
-		};
-		notifyIcon.BalloonTipClosed += BalloonTip_Finished;
-		notifyIcon.BalloonTipClicked += BalloonTip_Finished;
-		notifyIcon.ShowBalloonTip(timeout, title, message, icon);
-	}
+    public static void ShowBalloonTip(string title, string message, ToolTipIcon icon = ToolTipIcon.None, int timeout = 5)
+    {
+        Dispatcher? dispatcher = System.Windows.Application.Current?.Dispatcher;
+        if (dispatcher != null && !dispatcher.CheckAccess())
+        {
+            dispatcher.BeginInvoke(new Action(() => ShowBalloonTip(title, message, icon, timeout)));
+            return;
+        }
+        NotifyIcon notifyIcon = new()
+        {
+            Icon = Voidstrap.Utility.Branding.CreateDrawingIcon() ?? Voidstrap.Properties.Resources.IconVoidstrap,
+            Text = Voidstrap.Utility.Branding.Name,
+            Visible = true,
+        };
+        notifyIcon.BalloonTipClosed += BalloonTip_Finished;
+        notifyIcon.BalloonTipClicked += BalloonTip_Finished;
+        notifyIcon.ShowBalloonTip(timeout, title, message, icon);
+    }
 
-	private static void BalloonTip_Finished(object? sender, EventArgs e)
-	{
-		if (sender is not NotifyIcon notifyIcon)
-		{
-			return;
-		}
-		notifyIcon.BalloonTipClosed -= BalloonTip_Finished;
-		notifyIcon.BalloonTipClicked -= BalloonTip_Finished;
-		notifyIcon.Visible = false;
-		notifyIcon.Dispose();
-	}
+    private static void BalloonTip_Finished(object? sender, EventArgs e)
+    {
+        if (sender is not NotifyIcon notifyIcon)
+        {
+            return;
+        }
+        notifyIcon.BalloonTipClosed -= BalloonTip_Finished;
+        notifyIcon.BalloonTipClicked -= BalloonTip_Finished;
+        notifyIcon.Visible = false;
+        notifyIcon.Dispose();
+    }
 }

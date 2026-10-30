@@ -5,10 +5,10 @@ namespace Voidstrap.UI;
 
 public static class LinuxWindowGlContext
 {
-	private const string LogIdent = "LinuxWindowGlContext";
+    private const string LogIdent = "LinuxWindowGlContext";
 
-	public static void Install()
-	{
+    public static void Install()
+    {
 #if CROSSPLAT
 		if (!OperatingSystem.IsLinux() || !Voidstrap.Utility.LinuxStartup.UsesOpenGl)
 			return;
@@ -36,7 +36,7 @@ public static class LinuxWindowGlContext
 		Silk.NET.Windowing.Window.Prioritize(wrapper);
 		App.Logger.WriteLine(LogIdent, "Transparent windows release their GL context before the OpenGL renderer draws");
 #endif
-	}
+    }
 
 #if CROSSPLAT
 	private static void Release(Silk.NET.Windowing.IWindow window)

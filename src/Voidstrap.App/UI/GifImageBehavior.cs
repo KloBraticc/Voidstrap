@@ -36,15 +36,15 @@ namespace Voidstrap.UI
 
         public static void SetSourcePath(DependencyObject obj, string value) => obj.SetValue(SourcePathProperty, value);
 
-		public static void SetFrames(Image image, IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> frames)
-		{
-			if (image == null)
-				return;
-			StopPortableAnimation(image);
-			image.BeginAnimation(Image.SourceProperty, null);
-			image.Source = null;
-			ApplyPortableFrames(image, frames);
-		}
+        public static void SetFrames(Image image, IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> frames)
+        {
+            if (image == null)
+                return;
+            StopPortableAnimation(image);
+            image.BeginAnimation(Image.SourceProperty, null);
+            image.Source = null;
+            ApplyPortableFrames(image, frames);
+        }
 
         private static void OnSourcePathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -177,11 +177,11 @@ namespace Voidstrap.UI
         private static void AnimatePortableGif(Image image, string path)
         {
             IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> frames = Voidstrap.Utility.SafeImaging.DecodeAnimationPortable(path);
-			ApplyPortableFrames(image, frames);
-		}
+            ApplyPortableFrames(image, frames);
+        }
 
-		private static void ApplyPortableFrames(Image image, IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> frames)
-		{
+        private static void ApplyPortableFrames(Image image, IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> frames)
+        {
             if (frames.Count == 0)
             {
                 image.Source = null;

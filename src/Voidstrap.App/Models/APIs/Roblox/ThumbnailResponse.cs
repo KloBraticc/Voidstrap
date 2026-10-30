@@ -4,21 +4,21 @@ namespace Voidstrap.Models.APIs.Roblox;
 
 public class ThumbnailResponse
 {
-	[JsonPropertyName("requestId")]
-	public string RequestId { get; set; } = null!;
+    [JsonPropertyName("requestId")]
+    public string RequestId { get; set; } = null!;
 
-	[JsonPropertyName("errorCode")]
-	public int ErrorCode { get; set; }
+    [JsonPropertyName("errorCode")]
+    public int ErrorCode { get; set; }
 
-	[JsonPropertyName("errorMessage")]
-	public string? ErrorMessage { get; set; }
+    [JsonPropertyName("errorMessage")]
+    public string? ErrorMessage { get; set; }
 
-	[JsonPropertyName("targetId")]
-	public long TargetId { get; set; }
+    [JsonPropertyName("targetId")]
+    public long TargetId { get; set; }
 
-	[JsonPropertyName("state")]
-	public string State { get; set; } = null!;
+    [JsonPropertyName("state")]
+    public string State { get; set; } = null!;
 
-	[JsonPropertyName("imageUrl")]
-	public string? ImageUrl { get; set; }
+    [JsonPropertyName("imageUrl")]
+    public string? ImageUrl { get; set; }
 }

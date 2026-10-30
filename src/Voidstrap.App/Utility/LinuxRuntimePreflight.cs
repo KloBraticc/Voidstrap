@@ -8,331 +8,331 @@ namespace Voidstrap.Utility;
 
 public static class LinuxRuntimePreflight
 {
-	private static readonly (string Library, string Purpose)[] RequiredLibraries =
-	{
-		("libX11.so.6", "opening application windows"),
-		("libfontconfig.so.1", "locating system fonts"),
-		("libfreetype.so.6", "rendering text")
-	};
+    private static readonly (string Library, string Purpose)[] RequiredLibraries =
+    {
+        ("libX11.so.6", "opening application windows"),
+        ("libfontconfig.so.1", "locating system fonts"),
+        ("libfreetype.so.6", "rendering text")
+    };
 
-	private static readonly (string Library, string Purpose)[] RenderLibraries =
-	{
-		("libGL.so.1", "hardware accelerated drawing"),
-		("libEGL.so.1", "hardware accelerated drawing")
-	};
+    private static readonly (string Library, string Purpose)[] RenderLibraries =
+    {
+        ("libGL.so.1", "hardware accelerated drawing"),
+        ("libEGL.so.1", "hardware accelerated drawing")
+    };
 
-	private static readonly string[] Families = { "debian", "fedora", "arch", "suse", "alpine" };
+    private static readonly string[] Families = { "debian", "fedora", "arch", "suse", "alpine" };
 
-	private static readonly (string Installer, string[] Packages)[] FamilyPackages =
-	{
-		("sudo apt install", new[] { "libx11-6", "libfontconfig1", "libfreetype6", "libvulkan1", "mesa-vulkan-drivers", "libgl1" }),
-		("sudo dnf install", new[] { "libX11", "fontconfig", "freetype", "vulkan-loader", "mesa-vulkan-drivers", "mesa-libGL" }),
-		("sudo pacman -S", new[] { "libx11", "fontconfig", "freetype2", "vulkan-icd-loader", "vulkan-swrast", "mesa" }),
-		("sudo zypper install", new[] { "libX11-6", "fontconfig", "freetype2", "libvulkan1", "libvulkan_lvp", "Mesa-libGL1" }),
-		("sudo apk add", new[] { "libx11", "fontconfig", "freetype", "vulkan-loader", "mesa-vulkan-swrast", "mesa-gl" })
-	};
+    private static readonly (string Installer, string[] Packages)[] FamilyPackages =
+    {
+        ("sudo apt install", new[] { "libx11-6", "libfontconfig1", "libfreetype6", "libvulkan1", "mesa-vulkan-drivers", "libgl1" }),
+        ("sudo dnf install", new[] { "libX11", "fontconfig", "freetype", "vulkan-loader", "mesa-vulkan-drivers", "mesa-libGL" }),
+        ("sudo pacman -S", new[] { "libx11", "fontconfig", "freetype2", "vulkan-icd-loader", "vulkan-swrast", "mesa" }),
+        ("sudo zypper install", new[] { "libX11-6", "fontconfig", "freetype2", "libvulkan1", "libvulkan_lvp", "Mesa-libGL1" }),
+        ("sudo apk add", new[] { "libx11", "fontconfig", "freetype", "vulkan-loader", "mesa-vulkan-swrast", "mesa-gl" })
+    };
 
-	private static readonly string[] PackageKeys =
-	{
-		"libX11.so.6", "libfontconfig.so.1", "libfreetype.so.6", "libvulkan.so.1", "a Vulkan driver", "libGL.so.1"
-	};
+    private static readonly string[] PackageKeys =
+    {
+        "libX11.so.6", "libfontconfig.so.1", "libfreetype.so.6", "libvulkan.so.1", "a Vulkan driver", "libGL.so.1"
+    };
 
-	public static bool Verify()
-	{
-		if (!OperatingSystem.IsLinux())
-			return true;
+    public static bool Verify()
+    {
+        if (!OperatingSystem.IsLinux())
+            return true;
 
-		List<(string Library, string Purpose)> missing = new();
-		foreach ((string library, string purpose) in RequiredLibraries)
-		{
-			if (!CanLoad(library))
-				missing.Add((library, purpose));
-		}
+        List<(string Library, string Purpose)> missing = new();
+        foreach ((string library, string purpose) in RequiredLibraries)
+        {
+            if (!CanLoad(library))
+                missing.Add((library, purpose));
+        }
 
-		bool hasRenderer = false;
-		foreach ((string library, _) in RenderLibraries)
-		{
-			if (CanLoad(library))
-			{
-				hasRenderer = true;
-				break;
-			}
-		}
+        bool hasRenderer = false;
+        foreach ((string library, _) in RenderLibraries)
+        {
+            if (CanLoad(library))
+            {
+                hasRenderer = true;
+                break;
+            }
+        }
 
-		if (!hasRenderer)
-		{
-			if (!CanLoad("libvulkan.so.1"))
-				missing.Add(("libvulkan.so.1", "the graphics renderer"));
-			else if (!HasVulkanDriver())
-				missing.Add(("a Vulkan driver", "the graphics renderer, install your distribution's Vulkan driver package"));
-			missing.Add((RenderLibraries[0].Library, RenderLibraries[0].Purpose));
-		}
+        if (!hasRenderer)
+        {
+            if (!CanLoad("libvulkan.so.1"))
+                missing.Add(("libvulkan.so.1", "the graphics renderer"));
+            else if (!HasVulkanDriver())
+                missing.Add(("a Vulkan driver", "the graphics renderer, install your distribution's Vulkan driver package"));
+            missing.Add((RenderLibraries[0].Library, RenderLibraries[0].Purpose));
+        }
 
-		if (missing.Count == 0)
-			return true;
+        if (missing.Count == 0)
+            return true;
 
-		StringBuilder message = new();
-		message.AppendLine("Voidstrap cannot start because these system libraries are missing:");
-		foreach ((string library, string purpose) in missing)
-			message.AppendLine("  " + library + ", needed for " + purpose);
+        StringBuilder message = new();
+        message.AppendLine("Voidstrap cannot start because these system libraries are missing:");
+        foreach ((string library, string purpose) in missing)
+            message.AppendLine("  " + library + ", needed for " + purpose);
 
-		message.AppendLine();
-		message.AppendLine("Voidstrap ships everything else it needs, but the graphics and font libraries have to come from your distribution.");
-		string? hint = ResolveInstallHint(missing);
-		if (hint is not null)
-		{
-			message.AppendLine("On this system, install them with:");
-			message.AppendLine("  " + hint);
-		}
-		else
-		{
-			message.AppendLine("Install the matching runtime packages for your distribution.");
-		}
+        message.AppendLine();
+        message.AppendLine("Voidstrap ships everything else it needs, but the graphics and font libraries have to come from your distribution.");
+        string? hint = ResolveInstallHint(missing);
+        if (hint is not null)
+        {
+            message.AppendLine("On this system, install them with:");
+            message.AppendLine("  " + hint);
+        }
+        else
+        {
+            message.AppendLine("Install the matching runtime packages for your distribution.");
+        }
 
-		Report(message.ToString());
-		return false;
-	}
+        Report(message.ToString());
+        return false;
+    }
 
-	private static bool HasVulkanDriver()
-	{
-		foreach (string variable in new[] { "VK_DRIVER_FILES", "VK_ICD_FILENAMES", "VK_ADD_DRIVER_FILES" })
-		{
-			if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable(variable)))
-				return true;
-		}
+    private static bool HasVulkanDriver()
+    {
+        foreach (string variable in new[] { "VK_DRIVER_FILES", "VK_ICD_FILENAMES", "VK_ADD_DRIVER_FILES" })
+        {
+            if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable(variable)))
+                return true;
+        }
 
-		foreach (string root in VulkanManifestRoots())
-		{
-			try
-			{
-				string directory = Path.Combine(root, "vulkan", "icd.d");
-				if (Directory.Exists(directory) && Directory.EnumerateFiles(directory, "*.json").GetEnumerator().MoveNext())
-					return true;
-			}
-			catch (Exception)
-			{
-			}
-		}
+        foreach (string root in VulkanManifestRoots())
+        {
+            try
+            {
+                string directory = Path.Combine(root, "vulkan", "icd.d");
+                if (Directory.Exists(directory) && Directory.EnumerateFiles(directory, "*.json").GetEnumerator().MoveNext())
+                    return true;
+            }
+            catch (Exception)
+            {
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	private static IEnumerable<string> VulkanManifestRoots()
-	{
-		string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-		yield return XdgHome("XDG_CONFIG_HOME", Path.Combine(home, ".config"));
-		foreach (string directory in XdgDirectories("XDG_CONFIG_DIRS", "/etc/xdg"))
-			yield return directory;
-		yield return "/etc";
-		yield return XdgHome("XDG_DATA_HOME", Path.Combine(home, ".local", "share"));
-		foreach (string directory in XdgDirectories("XDG_DATA_DIRS", "/usr/local/share:/usr/share"))
-			yield return directory;
-		yield return "/usr/local/share";
-		yield return "/usr/share";
-		yield return "/run/opengl-driver/share";
-		yield return "/run/opengl-driver-32/share";
-		yield return "/usr/lib/x86_64-linux-gnu";
-	}
+    private static IEnumerable<string> VulkanManifestRoots()
+    {
+        string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        yield return XdgHome("XDG_CONFIG_HOME", Path.Combine(home, ".config"));
+        foreach (string directory in XdgDirectories("XDG_CONFIG_DIRS", "/etc/xdg"))
+            yield return directory;
+        yield return "/etc";
+        yield return XdgHome("XDG_DATA_HOME", Path.Combine(home, ".local", "share"));
+        foreach (string directory in XdgDirectories("XDG_DATA_DIRS", "/usr/local/share:/usr/share"))
+            yield return directory;
+        yield return "/usr/local/share";
+        yield return "/usr/share";
+        yield return "/run/opengl-driver/share";
+        yield return "/run/opengl-driver-32/share";
+        yield return "/usr/lib/x86_64-linux-gnu";
+    }
 
-	private static string XdgHome(string variable, string fallback)
-	{
-		string? value = Environment.GetEnvironmentVariable(variable);
-		return !string.IsNullOrWhiteSpace(value) && Path.IsPathRooted(value) ? value : fallback;
-	}
+    private static string XdgHome(string variable, string fallback)
+    {
+        string? value = Environment.GetEnvironmentVariable(variable);
+        return !string.IsNullOrWhiteSpace(value) && Path.IsPathRooted(value) ? value : fallback;
+    }
 
-	private static string[] XdgDirectories(string variable, string fallback)
-	{
-		string? value = Environment.GetEnvironmentVariable(variable);
-		return (string.IsNullOrWhiteSpace(value) ? fallback : value).Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-	}
+    private static string[] XdgDirectories(string variable, string fallback)
+    {
+        string? value = Environment.GetEnvironmentVariable(variable);
+        return (string.IsNullOrWhiteSpace(value) ? fallback : value).Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+    }
 
-	private static bool CanLoad(string library)
-	{
-		try
-		{
-			if (NativeLibrary.TryLoad(library, out nint handle))
-			{
-				return true;
-			}
-		}
-		catch (Exception)
-		{
-		}
+    private static bool CanLoad(string library)
+    {
+        try
+        {
+            if (NativeLibrary.TryLoad(library, out nint handle))
+            {
+                return true;
+            }
+        }
+        catch (Exception)
+        {
+        }
 
-		foreach (string directory in ResolveBundledLibraryDirectories())
-		{
-			try
-			{
-				string candidate = Path.Combine(directory, library);
-				if (!File.Exists(candidate))
-					continue;
+        foreach (string directory in ResolveBundledLibraryDirectories())
+        {
+            try
+            {
+                string candidate = Path.Combine(directory, library);
+                if (!File.Exists(candidate))
+                    continue;
 
-				if (NativeLibrary.TryLoad(candidate, out nint bundled))
-				{
-					return true;
-				}
-			}
-			catch (Exception)
-			{
-			}
-		}
+                if (NativeLibrary.TryLoad(candidate, out nint bundled))
+                {
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
 
-		LastLoadFailure = DescribeLoadFailure(library);
-		return false;
-	}
+        LastLoadFailure = DescribeLoadFailure(library);
+        return false;
+    }
 
-	private static string LastLoadFailure = string.Empty;
+    private static string LastLoadFailure = string.Empty;
 
-	private static string DescribeLoadFailure(string library)
-	{
-		try
-		{
-			NativeLibrary.Load(library);
-			return "loaded on retry";
-		}
-		catch (Exception ex)
-		{
-			return ex.Message.Replace('\n', ' ');
-		}
-	}
+    private static string DescribeLoadFailure(string library)
+    {
+        try
+        {
+            NativeLibrary.Load(library);
+            return "loaded on retry";
+        }
+        catch (Exception ex)
+        {
+            return ex.Message.Replace('\n', ' ');
+        }
+    }
 
-	private static IEnumerable<string> ResolveBundledLibraryDirectories()
-	{
-		string? appDir = Environment.GetEnvironmentVariable("APPDIR");
-		if (!string.IsNullOrWhiteSpace(appDir))
-		{
-			yield return Path.Combine(appDir, "usr", "lib");
-			yield return Path.Combine(appDir, "lib");
-		}
+    private static IEnumerable<string> ResolveBundledLibraryDirectories()
+    {
+        string? appDir = Environment.GetEnvironmentVariable("APPDIR");
+        if (!string.IsNullOrWhiteSpace(appDir))
+        {
+            yield return Path.Combine(appDir, "usr", "lib");
+            yield return Path.Combine(appDir, "lib");
+        }
 
-		string? search = Environment.GetEnvironmentVariable("LD_LIBRARY_PATH");
-		if (string.IsNullOrWhiteSpace(search))
-			yield break;
+        string? search = Environment.GetEnvironmentVariable("LD_LIBRARY_PATH");
+        if (string.IsNullOrWhiteSpace(search))
+            yield break;
 
-		foreach (string entry in search.Split(':', StringSplitOptions.RemoveEmptyEntries))
-			yield return entry;
-	}
+        foreach (string entry in search.Split(':', StringSplitOptions.RemoveEmptyEntries))
+            yield return entry;
+    }
 
-	private static string? ResolveInstallHint(List<(string Library, string Purpose)> missing)
-	{
-		int family = ResolveFamilyIndex();
-		if (family < 0)
-			return null;
+    private static string? ResolveInstallHint(List<(string Library, string Purpose)> missing)
+    {
+        int family = ResolveFamilyIndex();
+        if (family < 0)
+            return null;
 
-		(string installer, string[] packages) = FamilyPackages[family];
-		List<string> wanted = new();
-		foreach ((string library, _) in missing)
-		{
-			for (int index = 0; index < PackageKeys.Length; index++)
-			{
-				if (!library.StartsWith(PackageKeys[index], StringComparison.Ordinal))
-					continue;
+        (string installer, string[] packages) = FamilyPackages[family];
+        List<string> wanted = new();
+        foreach ((string library, _) in missing)
+        {
+            for (int index = 0; index < PackageKeys.Length; index++)
+            {
+                if (!library.StartsWith(PackageKeys[index], StringComparison.Ordinal))
+                    continue;
 
-				if (!wanted.Contains(packages[index]))
-					wanted.Add(packages[index]);
-				break;
-			}
-		}
+                if (!wanted.Contains(packages[index]))
+                    wanted.Add(packages[index]);
+                break;
+            }
+        }
 
-		if (wanted.Count == 0)
-			return null;
+        if (wanted.Count == 0)
+            return null;
 
-		return installer + " " + string.Join(" ", wanted);
-	}
+        return installer + " " + string.Join(" ", wanted);
+    }
 
-	private static int ResolveFamilyIndex()
-	{
-		string identifiers = ReadOsReleaseIdentifiers();
-		if (identifiers.Length == 0)
-			return -1;
+    private static int ResolveFamilyIndex()
+    {
+        string identifiers = ReadOsReleaseIdentifiers();
+        if (identifiers.Length == 0)
+            return -1;
 
-		for (int index = 0; index < Families.Length; index++)
-		{
-			if (identifiers.Contains(Families[index], StringComparison.OrdinalIgnoreCase))
-				return index;
-		}
+        for (int index = 0; index < Families.Length; index++)
+        {
+            if (identifiers.Contains(Families[index], StringComparison.OrdinalIgnoreCase))
+                return index;
+        }
 
-		foreach ((string[] names, int index) in new[]
-		{
-			(new[] { "ubuntu", "mint", "pop", "elementary", "zorin", "kali" }, 0),
-			(new[] { "rhel", "centos", "rocky", "alma", "nobara", "amzn" }, 1),
-			(new[] { "manjaro", "endeavour", "garuda", "cachyos" }, 2),
-			(new[] { "opensuse", "sles" }, 3)
-		})
-		{
-			foreach (string name in names)
-			{
-				if (identifiers.Contains(name, StringComparison.OrdinalIgnoreCase))
-					return index;
-			}
-		}
+        foreach ((string[] names, int index) in new[]
+        {
+            (new[] { "ubuntu", "mint", "pop", "elementary", "zorin", "kali" }, 0),
+            (new[] { "rhel", "centos", "rocky", "alma", "nobara", "amzn" }, 1),
+            (new[] { "manjaro", "endeavour", "garuda", "cachyos" }, 2),
+            (new[] { "opensuse", "sles" }, 3)
+        })
+        {
+            foreach (string name in names)
+            {
+                if (identifiers.Contains(name, StringComparison.OrdinalIgnoreCase))
+                    return index;
+            }
+        }
 
-		return -1;
-	}
+        return -1;
+    }
 
-	private static string ReadOsReleaseIdentifiers()
-	{
-		foreach (string path in new[] { "/etc/os-release", "/usr/lib/os-release" })
-		{
-			try
-			{
-				if (!File.Exists(path))
-					continue;
+    private static string ReadOsReleaseIdentifiers()
+    {
+        foreach (string path in new[] { "/etc/os-release", "/usr/lib/os-release" })
+        {
+            try
+            {
+                if (!File.Exists(path))
+                    continue;
 
-				StringBuilder builder = new();
-				foreach (string line in File.ReadLines(path))
-				{
-					if (line.StartsWith("ID=", StringComparison.Ordinal) || line.StartsWith("ID_LIKE=", StringComparison.Ordinal))
-						builder.Append(line).Append(' ');
-				}
+                StringBuilder builder = new();
+                foreach (string line in File.ReadLines(path))
+                {
+                    if (line.StartsWith("ID=", StringComparison.Ordinal) || line.StartsWith("ID_LIKE=", StringComparison.Ordinal))
+                        builder.Append(line).Append(' ');
+                }
 
-				if (builder.Length > 0)
-					return builder.ToString();
-			}
-			catch (Exception)
-			{
-			}
-		}
+                if (builder.Length > 0)
+                    return builder.ToString();
+            }
+            catch (Exception)
+            {
+            }
+        }
 
-		return string.Empty;
-	}
+        return string.Empty;
+    }
 
-	private static void Report(string message)
-	{
-		try
-		{
-			Console.Error.WriteLine(message);
-			Console.Error.Flush();
-		}
-		catch (Exception)
-		{
-		}
+    private static void Report(string message)
+    {
+        try
+        {
+            Console.Error.WriteLine(message);
+            Console.Error.Flush();
+        }
+        catch (Exception)
+        {
+        }
 
-		try
-		{
-			string directory = ResolveReportDirectory();
-			Directory.CreateDirectory(directory);
-			File.WriteAllText(
-				Path.Combine(directory, "startup-requirements.log"),
-				DateTime.UtcNow.ToString("u", System.Globalization.CultureInfo.InvariantCulture)
-					+ Environment.NewLine
-					+ message
-					+ Environment.NewLine);
-		}
-		catch (Exception)
-		{
-		}
-	}
+        try
+        {
+            string directory = ResolveReportDirectory();
+            Directory.CreateDirectory(directory);
+            File.WriteAllText(
+                Path.Combine(directory, "startup-requirements.log"),
+                DateTime.UtcNow.ToString("u", System.Globalization.CultureInfo.InvariantCulture)
+                    + Environment.NewLine
+                    + message
+                    + Environment.NewLine);
+        }
+        catch (Exception)
+        {
+        }
+    }
 
-	private static string ResolveReportDirectory()
-	{
-		string? state = Environment.GetEnvironmentVariable("XDG_STATE_HOME");
-		if (string.IsNullOrWhiteSpace(state))
-		{
-			string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-			state = Path.Combine(home, ".local", "state");
-		}
+    private static string ResolveReportDirectory()
+    {
+        string? state = Environment.GetEnvironmentVariable("XDG_STATE_HOME");
+        if (string.IsNullOrWhiteSpace(state))
+        {
+            string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            state = Path.Combine(home, ".local", "state");
+        }
 
-		return Path.Combine(state, "voidstrap");
-	}
+        return Path.Combine(state, "voidstrap");
+    }
 }

@@ -19,1404 +19,1404 @@ namespace Voidstrap;
 
 public partial class Watcher : IDisposable
 {
-	private const int MaximumSettingsBytes = 4 * 1024 * 1024;
+    private const int MaximumSettingsBytes = 4 * 1024 * 1024;
 
-	private readonly InterProcessLock _lock = new InterProcessLock(
-		"Watcher",
-		App.LaunchSettings.MatchmakerRejoinFlag.Active ? TimeSpan.FromSeconds(15) : TimeSpan.FromSeconds(5)
-	);
+    private readonly InterProcessLock _lock = new InterProcessLock(
+        "Watcher",
+        App.LaunchSettings.MatchmakerRejoinFlag.Active ? TimeSpan.FromSeconds(15) : TimeSpan.FromSeconds(5)
+    );
 
-	private readonly WatcherData? _watcherData;
-	private Process? _robloxClientProcess;
+    private readonly WatcherData? _watcherData;
+    private Process? _robloxClientProcess;
 
-	private readonly CancellationTokenSource _lifetimeCancellation = new CancellationTokenSource();
+    private readonly CancellationTokenSource _lifetimeCancellation = new CancellationTokenSource();
 
-	private readonly object _lifecycleGate = new object();
+    private readonly object _lifecycleGate = new object();
 
-	private bool _disposed;
+    private bool _disposed;
 
-	private NotifyIconWrapper? _notifyIcon;
-
-	public ActivityWatcher? ActivityWatcher;
-
-	public DiscordRichPresence? RichPresence;
-
-	public static Watcher? Current { get; private set; }
-
-	public int RobloxProcessId => _watcherData?.ProcessId ?? 0;
-
-	public IntegrationWatcher? IntegrationWatcher;
-
-	public HistoryPersister? HistoryPersister;
-
-	public ServerMatchmaker? ServerMatchmaker;
-
-	private WindowManipulation? _windowManipulation;
-
-	private Voidstrap.Integrations.LinuxRobloxWindow? _linuxRobloxWindow;
-
-	private FileSystemWatcher? _settingsWatcher;
-
-	private Timer? _settingsReloadTimer;
-
-	private bool _activityTrackingEnabled;
-	private bool _overlayGameStateEnabled;
-
-	private bool _discordRichPresenceEnabled;
-
-	private bool _disableAppPatchEnabled;
-
-	private RobloxProcessOptimizer? _runtimeOptimizer;
-
-	private TasxOptimizer? _tasxOptimizer;
-
-	private Voidstrap.Utility.MacTasxOptimizer? _macTasxOptimizer;
-
-	private Voidstrap.Utility.MacVirtualDisplaySession? _virtualDisplay;
-
-	private LinuxRobloxResourceOptimizer? _linuxResourceOptimizer;
-
-	private Task? _windowManipulationTask;
-
-	public Watcher()
-	{
-		if (!_lock.IsAcquired)
-		{
-			App.Logger.WriteLine("Watcher", "Watcher instance already exists");
-			return;
-		}
-		string? data = App.LaunchSettings.WatcherFlag.Data;
-		if (string.IsNullOrEmpty(data))
-		{
-			throw new Exception("Watcher data not specified");
-		}
-		if (!string.IsNullOrEmpty(data))
-		{
-			_watcherData = JsonSerializer.Deserialize<WatcherData>(Encoding.UTF8.GetString(Convert.FromBase64String(data)));
-		}
-		if (_watcherData == null)
-		{
-			throw new Exception("Watcher data is invalid");
-		}
-		InitializeIntegrations();
-	}
-
-	internal Watcher(WatcherData data)
-	{
-		if (!_lock.IsAcquired)
-		{
-			App.Logger.WriteLine("Watcher::InProcess", "Watcher instance already exists");
-			return;
-		}
-		_watcherData = data ?? throw new Exception("Watcher data is invalid");
-		InitializeIntegrations();
-	}
-
-	private void InitializeIntegrations()
-	{
-		if (_watcherData == null)
-		{
-			return;
-		}
-		Current = this;
-		if (Voidstrap.Utility.Platform.IsWindows)
-			MonitorRobloxClientProcess();
-		MemoryManager.SetGameplayActive(true);
-		StartSettingsWatcher();
-		UpdateVirtualDisplay();
-		bool enableActivityTracking = App.Settings.Prop.EnableActivityTracking;
-		bool flag = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("VOIDSTRAP_STATUS_FILE"));
-		_activityTrackingEnabled = enableActivityTracking;
-		_overlayGameStateEnabled = OverlaysNeedGameState();
-		_discordRichPresenceEnabled = App.Settings.Prop.UseDiscordRichPresence;
-		_disableAppPatchEnabled = App.Settings.Prop.UseDisableAppPatch;
-		bool inGameHotkeys = NeedsInGameHotkeys;
-		if (enableActivityTracking || flag || _overlayGameStateEnabled || FullscreenModeActive || inGameHotkeys)
-		{
-			ActivityWatcher = new ActivityWatcher(_watcherData.LogFile, _watcherData.ProcessId);
-			ActivityWatcher.OnGameJoin += OnRuntimeGameJoin;
-			ActivityWatcher.OnGameLeave += OnRuntimeGameLeave;
-			if (enableActivityTracking && App.Settings.Prop.UseDisableAppPatch)
-			{
-				ActivityWatcher.OnAppClose += OnActivityAppClose;
-			}
-			if ((enableActivityTracking && App.Settings.Prop.UseDiscordRichPresence) || flag)
-			{
-				RichPresence = new DiscordRichPresence(ActivityWatcher);
-			}
-			if (enableActivityTracking)
-			{
-				IntegrationWatcher = new IntegrationWatcher(ActivityWatcher);
-				HistoryPersister = new HistoryPersister(ActivityWatcher);
-				ServerMatchmaker = new ServerMatchmaker(ActivityWatcher, this);
-			}
-		}
-		if (
-			(enableActivityTracking || App.LaunchSettings.TestModeFlag.Active || inGameHotkeys)
-			&& Voidstrap.Utility.Platform.SupportsTrayIcon
-		)
-			_notifyIcon = new NotifyIconWrapper(this);
-		if (ServerMatchmaker != null)
-			ServerMatchmaker.NotifyIconResolver = () => _notifyIcon;
-	}
-
-	private void StartSettingsWatcher()
-	{
-		try
-		{
-			_settingsReloadTimer = new Timer(SettingsReloadTimerCallback, null, Timeout.Infinite, Timeout.Infinite);
-			_settingsWatcher = new FileSystemWatcher(Paths.Config, "AppSettings.json")
-			{
-				NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size | NotifyFilters.CreationTime | NotifyFilters.FileName,
-			};
-			_settingsWatcher.Changed += SettingsFileChanged;
-			_settingsWatcher.Created += SettingsFileChanged;
-			_settingsWatcher.Renamed += SettingsFileRenamed;
-			_settingsWatcher.Error += SettingsWatcherError;
-			_settingsWatcher.EnableRaisingEvents = true;
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("Watcher", "Settings watcher failed: " + ex.Message);
-		}
-	}
-
-	private void MonitorRobloxClientProcess()
-	{
-		if (_watcherData == null)
-			return;
-
-		try
-		{
-			_robloxClientProcess = Process.GetProcessById(_watcherData.ProcessId);
-			_robloxClientProcess.EnableRaisingEvents = true;
-			_robloxClientProcess.Exited += OnRobloxClientExited;
-			Voidstrap.Integrations.RiShade.RiShadeManager.OnRobloxProcessStarted();
-			if (_robloxClientProcess.HasExited)
-				Voidstrap.Integrations.RiShade.RiShadeManager.OnRobloxProcessStopped();
-		}
-		catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or System.ComponentModel.Win32Exception)
-		{
-			App.Logger.WriteLine("Watcher", "Could not monitor Roblox process lifetime for RiShade: " + ex.Message);
-		}
-	}
-
-	private void OnRobloxClientExited(object? sender, EventArgs e)
-	{
-		try
-		{
-			Voidstrap.Integrations.RiShade.RiShadeManager.OnRobloxProcessStopped();
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("Watcher::OnRobloxClientExited", ex);
-		}
-	}
-
-	private void SettingsFileChanged(object sender, FileSystemEventArgs e)
-	{
-		ScheduleSettingsReload();
-	}
-
-	private void SettingsFileRenamed(object sender, RenamedEventArgs e)
-	{
-		ScheduleSettingsReload();
-	}
-
-	private void SettingsWatcherError(object sender, ErrorEventArgs e)
-	{
-		App.Logger.WriteLine("Watcher", "The settings file watch hit an error: " + e.GetException().Message);
-	}
-
-	private void ScheduleSettingsReload()
-	{
-		if (_disposed)
-		{
-			return;
-		}
-		try
-		{
-			_settingsReloadTimer?.Change(500, Timeout.Infinite);
-		}
-		catch (ObjectDisposedException) { }
-	}
-
-	private void SettingsReloadTimerCallback(object? state)
-	{
-		if (_disposed)
-		{
-			return;
-		}
-		try
-		{
-			AppSettings? settings = null;
-			if (!Voidstrap.Utility.Platform.IsLinux || App.Settings.HasFileOnDiskChanged())
-			{
-				settings = JsonFile.Deserialize<AppSettings>(App.Settings.FileLocation, JsonOptions.Tolerant, MaximumSettingsBytes);
-				if (settings == null)
-				{
-					return;
-				}
-			}
-			lock (_lifecycleGate)
-			{
-				if (_disposed)
-				{
-					return;
-				}
-				if (settings != null)
-				{
-					App.Settings.Prop = settings;
-				}
-				ApplyLiveSettings();
-			}
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("Watcher", "Settings reload failed: " + ex.Message);
-		}
-	}
-
-	private void ApplyLiveSettings()
-	{
-		bool activityTrackingEnabled = App.Settings.Prop.EnableActivityTracking;
-		bool overlayGameStateEnabled = OverlaysNeedGameState();
-		bool discordRichPresenceEnabled = App.Settings.Prop.UseDiscordRichPresence;
-		bool disableAppPatchEnabled = App.Settings.Prop.UseDisableAppPatch;
-		if (activityTrackingEnabled != _activityTrackingEnabled)
-		{
-			_activityTrackingEnabled = activityTrackingEnabled;
-			if (activityTrackingEnabled)
-			{
-				EnableActivityIntegrations();
-			}
-			else
-			{
-				DisableActivityIntegrations();
-			}
-		}
-		if (overlayGameStateEnabled != _overlayGameStateEnabled)
-		{
-			_overlayGameStateEnabled = overlayGameStateEnabled;
-			ReconcileOverlayGameState();
-		}
-		if (discordRichPresenceEnabled != _discordRichPresenceEnabled)
-		{
-			_discordRichPresenceEnabled = discordRichPresenceEnabled;
-			if (discordRichPresenceEnabled && _activityTrackingEnabled && ActivityWatcher != null)
-			{
-				RichPresence ??= new DiscordRichPresence(ActivityWatcher);
-				_ = RichPresence.SetCurrentGame();
-			}
-			else
-			{
-				RichPresence?.Dispose();
-				RichPresence = null;
-			}
-		}
-		if (disableAppPatchEnabled != _disableAppPatchEnabled)
-		{
-			_disableAppPatchEnabled = disableAppPatchEnabled;
-			if (_activityTrackingEnabled && ActivityWatcher != null)
-			{
-				ActivityWatcher.OnAppClose -= OnActivityAppClose;
-				if (disableAppPatchEnabled)
-				{
-					ActivityWatcher.OnAppClose += OnActivityAppClose;
-				}
-			}
-		}
-		UpdateRuntimeOptimizer();
-		UpdateVirtualDisplay();
-		Voidstrap.KeyRouting.SnapTapHook.ApplyFromSettings();
-		_notifyIcon?.RefreshGameJoinSubscription();
-		Voidstrap.Integrations.Overlays.OverlayHub.Refresh();
-		RunOnApplicationDispatcher(ReconcileRuntimeSessionWindows);
-	}
-
-	private void StartRuntimeOptimizer()
-	{
-		UpdateRuntimeOptimizer();
-	}
-
-	private void UpdateVirtualDisplay()
-	{
-		if (
-			_disposed
-			|| !Voidstrap.Utility.Platform.IsMacOS
-			|| !App.Settings.Prop.MacVirtualDisplayEnabled
-			|| App.Settings.Prop.LaunchWithoutVoidstrap
-		)
-		{
-			_virtualDisplay?.Dispose();
-			_virtualDisplay = null;
-			return;
-		}
-		if (_virtualDisplay != null)
-			return;
-		_virtualDisplay = Voidstrap.Utility.MacVirtualDisplaySession.TakePrestarted();
-		if (_virtualDisplay != null)
-			return;
-		_virtualDisplay = new Voidstrap.Utility.MacVirtualDisplaySession();
-		_virtualDisplay.Start();
-	}
-
-	private void UpdateRuntimeOptimizer()
-	{
-		if (_watcherData == null)
-		{
-			return;
-		}
-		if (Voidstrap.Utility.Platform.IsLinux)
-		{
-			UpdateLinuxResourceOptimizer();
-			return;
-		}
-		if (!Voidstrap.Utility.Platform.IsWindows)
-		{
-			return;
-		}
-		UpdateTasxOptimizer();
-		if (!RobloxProcessOptimizer.ShouldRun(App.Settings.Prop))
-		{
-			_runtimeOptimizer?.Dispose();
-			_runtimeOptimizer = null;
-			return;
-		}
-		_runtimeOptimizer ??= new RobloxProcessOptimizer(_watcherData.ProcessId);
-		_runtimeOptimizer.Start();
-	}
-
-	private void UpdateLinuxResourceOptimizer()
-	{
-		if (!LinuxRobloxResourceOptimizer.ShouldRun(App.Settings.Prop))
-		{
-			_linuxResourceOptimizer?.Dispose();
-			_linuxResourceOptimizer = null;
-			return;
-		}
-		_linuxResourceOptimizer ??= new LinuxRobloxResourceOptimizer();
-		_linuxResourceOptimizer.Start();
-	}
-
-	private void UpdateTasxOptimizer()
-	{
-		if (Voidstrap.Utility.Platform.IsMacOS)
-		{
-			if (!Voidstrap.Utility.MacTasxOptimizer.ShouldRun(App.Settings.Prop))
-			{
-				_macTasxOptimizer?.Dispose();
-				_macTasxOptimizer = null;
-				return;
-			}
-			_macTasxOptimizer ??= new Voidstrap.Utility.MacTasxOptimizer();
-			_macTasxOptimizer.Start();
-			return;
-		}
-		if (!TasxOptimizer.ShouldRun(App.Settings.Prop))
-		{
-			_tasxOptimizer?.Dispose();
-			_tasxOptimizer = null;
-			return;
-		}
-		_tasxOptimizer ??= new TasxOptimizer();
-		_tasxOptimizer.Start();
-	}
-
-	private void EnableActivityIntegrations()
-	{
-		if (_watcherData == null)
-		{
-			return;
-		}
-		if (ActivityWatcher == null)
-		{
-			ActivityWatcher = new ActivityWatcher(_watcherData.LogFile, _watcherData.ProcessId);
-			ActivityWatcher.OnGameJoin += OnRuntimeGameJoin;
-			ActivityWatcher.OnGameLeave += OnRuntimeGameLeave;
-			ActivityWatcher.Start();
-		}
-		SynchronizeLinuxGameState();
-		if (App.Settings.Prop.UseDisableAppPatch)
-		{
-			ActivityWatcher.OnAppClose -= OnActivityAppClose;
-			ActivityWatcher.OnAppClose += OnActivityAppClose;
-		}
-		if (App.Settings.Prop.UseDiscordRichPresence)
-		{
-			RichPresence ??= new DiscordRichPresence(ActivityWatcher);
-		}
-		IntegrationWatcher ??= new IntegrationWatcher(ActivityWatcher);
-		HistoryPersister ??= new HistoryPersister(ActivityWatcher);
-		ServerMatchmaker ??= new ServerMatchmaker(ActivityWatcher, this);
-		if (ServerMatchmaker != null)
-			ServerMatchmaker.NotifyIconResolver = () => _notifyIcon;
-		if (_notifyIcon == null)
-		{
-			if (Voidstrap.Utility.Platform.SupportsTrayIcon)
-				_notifyIcon = new NotifyIconWrapper(this);
-		}
-		else
-		{
-			_notifyIcon.RefreshGameJoinSubscription();
-		}
-	}
-
-	private void DisableActivityIntegrations()
-	{
-		ServerMatchmaker?.Dispose();
-		ServerMatchmaker = null;
-		HistoryPersister?.Dispose();
-		HistoryPersister = null;
-		IntegrationWatcher?.Dispose();
-		IntegrationWatcher = null;
-		RichPresence?.Dispose();
-		RichPresence = null;
-		if (ActivityWatcher != null)
-		{
-			ActivityWatcher.OnAppClose -= OnActivityAppClose;
-			if (!Voidstrap.Utility.Platform.IsLinux && !_overlayGameStateEnabled)
-			{
-				ActivityWatcher.OnGameJoin -= OnRuntimeGameJoin;
-				ActivityWatcher.OnGameLeave -= OnRuntimeGameLeave;
-				ActivityWatcher.Dispose();
-				ActivityWatcher = null;
-			}
-		}
-		SynchronizeLinuxGameState();
-		LaunchFlag testModeFlag = App.LaunchSettings.TestModeFlag;
-		if (testModeFlag == null || !testModeFlag.Active)
-		{
-			_notifyIcon?.Dispose();
-			_notifyIcon = null;
-		}
-	}
-
-	internal static bool NeedsInGameHotkeys =>
-		Voidstrap.Utility.Platform.IsWindows && (App.Settings.Prop.RiShadeEnabled || App.Settings.Prop.CrosshairShortcutEnabled);
-
-	internal static bool OverlaysNeedGameState()
-	{
-		return OverlayWindow.SurfaceRequired
-			|| App.Settings.Prop.Crosshair
-			|| (Voidstrap.Utility.Platform.IsWindows && App.Settings.Prop.ClassicTopBarEnabled)
-			|| Voidstrap.Integrations.Overlays.OverlaySettings.HomepageBackgroundEnabled
-			|| (!Voidstrap.Utility.Platform.IsLinux && Voidstrap.Integrations.Overlays.OverlaySettings.GameEffectsEnabled);
-	}
-
-	private void ReconcileOverlayGameState()
-	{
-		if (_watcherData == null || _activityTrackingEnabled)
-			return;
-		if (_overlayGameStateEnabled)
-		{
-			if (ActivityWatcher == null)
-			{
-				ActivityWatcher = new ActivityWatcher(_watcherData.LogFile, _watcherData.ProcessId);
-				ActivityWatcher.OnGameJoin += OnRuntimeGameJoin;
-				ActivityWatcher.OnGameLeave += OnRuntimeGameLeave;
-				ActivityWatcher.Start();
-			}
-		}
-		SynchronizeLinuxGameState();
-	}
-
-	private void SynchronizeLinuxGameState()
-	{
-		if (Voidstrap.Utility.Platform.IsLinux && ActivityWatcher != null)
-			Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(
-				ActivityWatcher.InGame || ActivityWatcher.IsTeleporting || ActivityWatcher.Data.PlaceId != 0
-			);
-	}
-
-	private void OnActivityAppClose(object? sender, EventArgs e)
-	{
-		if (_watcherData == null)
-		{
-			return;
-		}
-		try
-		{
-			App.Logger.WriteLine("Watcher", "Received desktop app exit, closing Roblox");
-			using Process process = Process.GetProcessById(_watcherData.ProcessId);
-			process.CloseMainWindow();
-		}
-		catch { }
-	}
-
-	private void OnRuntimeGameJoin(object? sender, EventArgs e)
-	{
-		RunRuntimeAction(() => Voidstrap.Integrations.Plugins.PluginHost.Invoke("game.join", DescribeGame()), "PluginGameJoin");
-		RunRuntimeAction(Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition, "NoteGameTransition");
-		if (Voidstrap.Utility.Platform.IsMacOS)
-		{
-			_ = NotifyMacGameJoinAsync();
-			RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true), "SyncGameJoin");
-			RunOnApplicationDispatcher(EnsureRuntimeSessionWindows);
-			return;
-		}
-		if (Voidstrap.Utility.Platform.IsLinux)
-			RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true), "SyncGameJoin");
-		RunRuntimeAction(Voidstrap.Integrations.Fullscreen.RobloxFullscreen.OnGameJoin, "FullscreenJoin");
-		RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameJoin, "AntiAliasingJoin");
-		RunOnApplicationDispatcher(EnsureRuntimeSessionWindows);
-	}
-
-	private async Task NotifyMacGameJoinAsync()
-	{
-		try
-		{
-			ActivityWatcher? watcher = ActivityWatcher;
-			Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
-			if (
-				watcher == null
-				|| host == null
-				|| !App.Settings.Prop.VoidNotify
-				|| !App.Settings.Prop.NotifyGameJoins
-				|| !App.Settings.Prop.ShowServerDetails
-			)
-				return;
-			string? location = await watcher.Data.QueryServerLocation();
-			if (string.IsNullOrEmpty(location))
-				return;
-			string caption = watcher.Data.ServerType switch
-			{
-				Voidstrap.Enums.ServerType.Private => Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Title_Private,
-				Voidstrap.Enums.ServerType.Reserved => Voidstrap
-					.Resources
-					.Strings
-					.ContextMenu_ServerInformation_Notification_Title_Reserved,
-				_ => Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Title_Public,
-			};
-			string message = string.Format(Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Text, location);
-			Voidstrap.Platform.OperationResult result = await host.Notifications.ShowAsync(
-				new Voidstrap.Platform.NotificationRequest(caption, message)
-			);
-			App.Logger.WriteLine("Watcher::NotifyMacGameJoinAsync", "Game join notification: " + result.Succeeded);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("Watcher::NotifyMacGameJoinAsync", ex);
-		}
-	}
-
-	private System.Text.Json.Nodes.JsonObject DescribeGame()
-	{
-		ActivityData? data = ActivityWatcher?.Data;
-		return new System.Text.Json.Nodes.JsonObject
-		{
-			["placeId"] = data?.PlaceId ?? 0,
-			["universeId"] = data?.UniverseId ?? 0,
-			["jobId"] = data?.JobId ?? "",
-		};
-	}
-
-	private void OnRuntimeGameLeave(object? sender, EventArgs e)
-	{
-		RunRuntimeAction(() => Voidstrap.Integrations.Plugins.PluginHost.Invoke("game.leave", DescribeGame()), "PluginGameLeave");
-		RunRuntimeAction(Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition, "NoteGameTransition");
-		bool teleporting = ActivityWatcher?.IsTeleporting == true;
-		if (Voidstrap.Utility.Platform.IsMacOS)
-		{
-			if (!teleporting)
-			{
-				RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false), "SyncGameLeave");
-				RunOnApplicationDispatcher(CloseRuntimeSessionWindows);
-				RunRuntimeAction(Voidstrap.UI.LinuxWindowMemory.CompactAfterGame, "CompactAfterGame");
-			}
-			return;
-		}
-		if (Voidstrap.Utility.Platform.IsLinux && !teleporting)
-			RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false), "SyncGameLeave");
-		if (!teleporting)
-		{
-			RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameLeave, "AntiAliasingLeave");
-			RunRuntimeAction(Voidstrap.Integrations.FrameGeneration.FrameGenManager.OnGameLeave, "FrameGenerationLeave");
-			RunOnApplicationDispatcher(CloseRuntimeSessionWindows);
-			RunRuntimeAction(Voidstrap.UI.LinuxWindowMemory.CompactAfterGame, "CompactAfterGame");
-		}
-	}
-
-	private static void RunRuntimeAction(Action action, string operation)
-	{
-		try
-		{
-			action();
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("Watcher::" + operation, ex);
-		}
-	}
-
-	private static void RunOnApplicationDispatcher(Action action)
-	{
-		Application? application = Application.Current;
-		if (application == null || application.Dispatcher.HasShutdownStarted)
-		{
-			return;
-		}
-		application.Dispatcher.BeginInvoke(action, System.Windows.Threading.DispatcherPriority.Background);
-	}
-
-	private void EnsureRuntimeSessionWindows()
-	{
-		if (_disposed || ActivityWatcher?.InGame != true)
-		{
-			return;
-		}
-		RunRuntimeAction(CrosshairWindow.Reconcile, "CreateCrosshair");
-		RunRuntimeAction(Voidstrap.UI.Elements.ClassicTopBar.ClassicTopBarOverlay.Reconcile, "CreateClassicTopBar");
-		ScreenColorEffect.ApplyConfigured();
-		RunRuntimeAction(() => OverlayWindow.Reconcile(ActivityWatcher), "CreateOverlay");
-		RunRuntimeAction(Voidstrap.Integrations.Keystrokes.KeystrokeOverlayWindow.Reconcile, "CreateKeystrokes");
-	}
-
-	internal void RefreshOverlayLive()
-	{
-		Application? application = Application.Current;
-		if (application == null || application.Dispatcher.HasShutdownStarted)
-			return;
-		if (!application.Dispatcher.CheckAccess())
-		{
-			RunOnApplicationDispatcher(RefreshOverlayLive);
-			return;
-		}
-		ReconcileRuntimeSessionWindows();
-	}
-
-	private void ReconcileRuntimeSessionWindows()
-	{
-		if (_disposed || ActivityWatcher?.InGame != true)
-		{
-			return;
-		}
-
-		RunRuntimeAction(CrosshairWindow.Reconcile, "RefreshCrosshair");
-		RunRuntimeAction(Voidstrap.UI.Elements.ClassicTopBar.ClassicTopBarOverlay.Reconcile, "RefreshClassicTopBar");
-		RunRuntimeAction(() => OverlayWindow.Reconcile(ActivityWatcher), "RefreshOverlay");
-		RunRuntimeAction(Voidstrap.Integrations.Keystrokes.KeystrokeOverlayWindow.Reconcile, "RefreshKeystrokes");
-	}
-
-	private static void CloseRuntimeSessionWindows()
-	{
-		Application? application = Application.Current;
-		if (application is null)
-		{
-			return;
-		}
-
-		RunRuntimeAction(CrosshairWindow.CloseAll, "CloseCrosshair");
-		RunRuntimeAction(Voidstrap.UI.Elements.ClassicTopBar.ClassicTopBarOverlay.CloseAll, "CloseClassicTopBar");
-		RunRuntimeAction(Voidstrap.Integrations.Keystrokes.KeystrokeOverlayWindow.CloseAll, "CloseKeystrokes");
-		if (application.Resources["OverlayWindow"] is OverlayWindow overlay)
-		{
-			RunRuntimeAction(overlay.Close, "CloseOverlay");
-		}
-		application.Resources.Remove("OverlayWindow");
-		ScreenColorEffect.Reset();
-	}
-
-	public void KillRobloxProcess()
-	{
-		if (Voidstrap.Utility.Platform.IsLinux)
-		{
-			try
-			{
-				if (Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.TryCloseSober())
-				{
-					App.Logger.WriteLine("Watcher::KillRobloxProcess", "Closed the Roblox runtime");
-					return;
-				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine("Watcher::KillRobloxProcess", "The Roblox runtime could not be closed: " + ex.Message);
-			}
-		}
-
-		CloseProcess(_watcherData!.ProcessId, force: true);
-	}
-
-	public static bool IsAnyRobloxRunning()
-	{
-		if (Voidstrap.Utility.Platform.IsMacOS)
-			return Voidstrap.Utility.MacRobloxProcesses.IsGameRunning();
-		try
-		{
-			Process[] processesByName = Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName);
-			bool result = processesByName.Length != 0;
-			Process[] array = processesByName;
-			foreach (Process process in array)
-			{
-				try
-				{
-					process.Dispose();
-				}
-				catch { }
-			}
-			return result;
-		}
-		catch
-		{
-			return false;
-		}
-	}
-
-	public static void ForceShutdownAfterRobloxExit(string logIdent)
-	{
-		if (IsAnyRobloxRunning())
-		{
-			App.Terminate();
-			return;
-		}
-		App.Terminate();
-	}
-
-	public void CloseProcess(int pid, bool force = false)
-	{
-		try
-		{
-			using Process process = Process.GetProcessById(pid);
-			App.Logger.WriteLine("Watcher::CloseProcess", $"Killing process '{process.ProcessName}' (pid={pid}, force={force})");
-			if (process.HasExited)
-			{
-				App.Logger.WriteLine("Watcher::CloseProcess", $"PID {pid} has already exited");
-			}
-			else if (force)
-			{
-				process.Kill();
-			}
-			else
-			{
-				process.CloseMainWindow();
-			}
-		}
-		catch (ArgumentException)
-		{
-			App.Logger.WriteLine("Watcher::CloseProcess", $"PID {pid} already exited before close");
-		}
-		catch (InvalidOperationException)
-		{
-			App.Logger.WriteLine("Watcher::CloseProcess", $"PID {pid} exited during close");
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("Watcher::CloseProcess", $"PID {pid} could not be closed");
-			App.Logger.WriteException("Watcher::CloseProcess", ex);
-		}
-	}
-
-	private const int StartupCrashSeconds = 30;
-
-	private const int CrashHandlerDelaySeconds = 60;
-
-	private async Task MonitorModCrashAsync(DateTime sessionStartedUtc, CancellationToken token)
-	{
-		const int CheckIntervalMs = 2000;
-		const int SettleSeconds = 120;
-		try
-		{
-			while (!token.IsCancellationRequested)
-			{
-				await Task.Delay(CheckIntervalMs, token).ConfigureAwait(false);
-				if (ModCrashGuard.HasCrashReportSince(sessionStartedUtc))
-				{
-					if (!await RobloxExitsSoonAsync().ConfigureAwait(false))
-					{
-						App.Logger.WriteLine(
-							"Watcher::MonitorModCrash",
-							"Roblox wrote a crash report but kept running, so it was not treated as a crash"
-						);
-						sessionStartedUtc = DateTime.UtcNow.AddSeconds(3);
-						continue;
-					}
-					IReadOnlyList<string> disabled = ModCrashGuard.HandleCrash();
-					RunOnApplicationDispatcher(() => ReportModCrash(disabled));
-					return;
-				}
-				if ((DateTime.UtcNow - sessionStartedUtc).TotalSeconds >= SettleSeconds)
-				{
-					ModCrashGuard.MarkHealthy();
-					return;
-				}
-			}
-		}
-		catch (OperationCanceledException) { }
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("Watcher::MonitorModCrash", "The crash guard stopped: " + ex.Message);
-		}
-	}
-
-	private async Task<bool> RobloxExitsSoonAsync()
-	{
-		if (_watcherData == null)
-		{
-			return true;
-		}
-		try
-		{
-			using Process roblox = Process.GetProcessById(_watcherData.ProcessId);
-			using CancellationTokenSource timeout = new CancellationTokenSource(TimeSpan.FromSeconds(15));
-			await roblox.WaitForExitAsync(timeout.Token).ConfigureAwait(false);
-			return true;
-		}
-		catch (OperationCanceledException)
-		{
-			return false;
-		}
-		catch (InvalidOperationException)
-		{
-			return true;
-		}
-		catch (ArgumentException)
-		{
-			return true;
-		}
-	}
-
-	private async Task DisableCrashHandlerWhenSettledAsync(DateTime sessionStartedUtc, CancellationToken token)
-	{
-		if (App.Settings.Prop.DisableCrash != true || _watcherData == null)
-		{
-			return;
-		}
-		try
-		{
-			await Task.Delay(TimeSpan.FromSeconds(CrashHandlerDelaySeconds), token).ConfigureAwait(false);
-			if (ModCrashGuard.HasCrashReportSince(sessionStartedUtc))
-			{
-				return;
-			}
-			using Process roblox = Process.GetProcessById(_watcherData.ProcessId);
-			if (roblox.HasExited)
-			{
-				return;
-			}
-			foreach (Process handler in Process.GetProcessesByName("RobloxCrashHandler"))
-			{
-				using (handler)
-				{
-					try
-					{
-						if (!handler.HasExited && handler.StartTime.ToUniversalTime() >= sessionStartedUtc.AddSeconds(-2))
-						{
-							handler.Kill();
-							App.Logger.WriteLine(
-								"Watcher::DisableCrashHandler",
-								"Closed CrashHandler " + handler.Id + " after the startup safety delay"
-							);
-						}
-					}
-					catch (Exception ex)
-						when (ex is InvalidOperationException or System.ComponentModel.Win32Exception or NotSupportedException)
-					{
-						App.Logger.WriteLine(
-							"Watcher::DisableCrashHandler",
-							"CrashHandler " + handler.Id + " could not be closed: " + ex.Message
-						);
-					}
-				}
-			}
-		}
-		catch (OperationCanceledException) { }
-		catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or System.ComponentModel.Win32Exception)
-		{
-			App.Logger.WriteLine("Watcher::DisableCrashHandler", "The crash handler check stopped: " + ex.Message);
-		}
-	}
-
-	private void ReportModCrash(IReadOnlyList<string> disabled)
-	{
-		if (disabled.Count == 0)
-		{
-			Frontend.ShowMessageBox(
-				"Roblox crashed while starting. None of your recently added mods look responsible, so nothing was turned off. If it keeps happening, try turning off recent mods in My Mods.",
-				MessageBoxImage.Warning
-			);
-			return;
-		}
-		if (_watcherData != null)
-		{
-			CloseProcess(_watcherData.ProcessId, force: true);
-		}
-		string list = string.Join("\n", disabled.Select(name => "  " + name));
-		MessageBoxResult answer = Frontend.ShowMessageBox(
-			"Roblox crashed while loading your mods, so Voidstrap turned these off:\n\n"
-				+ list
-				+ "\n\nYou can turn them back on in My Mods. Launch Roblox again now?",
-			MessageBoxImage.Warning,
-			MessageBoxButton.YesNo,
-			MessageBoxResult.Yes
-		);
-		if (answer == MessageBoxResult.Yes)
-		{
-			RelaunchRoblox();
-		}
-	}
-
-	private static void RelaunchRoblox()
-	{
-		try
-		{
-			ProcessStartInfo startInfo = new ProcessStartInfo { FileName = Paths.LaunchExecutable, UseShellExecute = false };
-			startInfo.ArgumentList.Add("-player");
-			string launchArgs = App.LaunchSettings.RobloxLaunchArgs ?? "";
-			if (launchArgs.StartsWith("roblox", StringComparison.OrdinalIgnoreCase))
-			{
-				startInfo.ArgumentList.Add(launchArgs);
-			}
-			using Process? relaunch = Process.Start(startInfo);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("Watcher::ReportModCrash", "Roblox could not be launched again: " + ex.Message);
-		}
-	}
-
-	public async Task Run()
-	{
-		if (_disposed || !_lock.IsAcquired || _watcherData == null)
-		{
-			return;
-		}
-		Voidstrap.Integrations.Overlays.OverlayHub.MarkHostProcess();
-		ActivityWatcher?.Start();
-		Voidstrap.Integrations.Overlays.OverlayHub.Refresh();
-		StartWindowManipulation();
-		if (FullscreenModeActive)
-			RunOnApplicationDispatcher(Voidstrap.Integrations.Fullscreen.RobloxFullscreen.Start);
-		StartRuntimeOptimizer();
-		DateTime sessionStartedUtc = ModCrashGuard.BeginSession();
-		Task crashMonitor = MonitorModCrashAsync(sessionStartedUtc, _lifetimeCancellation.SafeToken());
-		_ = DisableCrashHandlerWhenSettledAsync(sessionStartedUtc, _lifetimeCancellation.SafeToken());
-		try
-		{
-			await WaitForProcessExitAsync(_watcherData.ProcessId, _lifetimeCancellation.SafeToken()).ConfigureAwait(false);
-		}
-		catch (OperationCanceledException) when (_lifetimeCancellation.IsCancellationRequested)
-		{
-			return;
-		}
-		if (DateTime.UtcNow - sessionStartedUtc < TimeSpan.FromSeconds(StartupCrashSeconds))
-		{
-			await Task.WhenAny(crashMonitor, Task.Delay(5000)).ConfigureAwait(false);
-		}
-		if (_watcherData.AutoclosePids != null)
-		{
-			foreach (int autoclosePid in _watcherData.AutoclosePids)
-			{
-				CloseProcess(autoclosePid);
-			}
-		}
-		ReopenSettingsForTestMode();
-		await Bootstrapper.CompressInstallsAfterExitAsync().ConfigureAwait(false);
-	}
-
-	private const int ExitPollMilliseconds = 1000;
-
-	private static async Task WaitForProcessExitAsync(int processId, CancellationToken token)
-	{
-		string? processName = null;
-		try
-		{
-			using Process process = Process.GetProcessById(processId);
-			processName = process.ProcessName;
-			await process.WaitForExitAsync(token).ConfigureAwait(false);
-			return;
-		}
-		catch (ArgumentException)
-		{
-			return;
-		}
-		catch (InvalidOperationException)
-		{
-			return;
-		}
-		catch (System.ComponentModel.Win32Exception ex)
-		{
-			App.Logger.WriteLine(
-				"Watcher::WaitForProcessExitAsync",
-				$"Roblox process {processId} does not allow a wait handle ({ex.Message}), watching it by polling instead"
-			);
-		}
-		while (!token.IsCancellationRequested)
-		{
-			await Task.Delay(ExitPollMilliseconds, token).ConfigureAwait(false);
-			if (!IsProcessAlive(processId, processName))
-			{
-				return;
-			}
-		}
-	}
-
-	private static bool IsProcessAlive(int processId, string? processName)
-	{
-		try
-		{
-			using Process process = Process.GetProcessById(processId);
-			return processName == null || string.Equals(process.ProcessName, processName, StringComparison.OrdinalIgnoreCase);
-		}
-		catch (ArgumentException)
-		{
-			return false;
-		}
-		catch (InvalidOperationException)
-		{
-			return false;
-		}
-	}
-
-	private void ReopenSettingsForTestMode()
-	{
-		if (_disposed || _lifetimeCancellation.IsCancellationRequested)
-		{
-			return;
-		}
-		ReopenSettingsForTestModeOnce();
-	}
-
-	private static int _testModeReopened;
-
-	internal static void ReopenSettingsForTestModeOnce()
-	{
-		if (!App.LaunchSettings.TestModeFlag.Active || Interlocked.Exchange(ref _testModeReopened, 1) != 0)
-		{
-			return;
-		}
-		try
-		{
-			ProcessStartInfo startInfo = new ProcessStartInfo { FileName = Paths.LaunchExecutable, UseShellExecute = false };
-			startInfo.ArgumentList.Add("-settings");
-			startInfo.ArgumentList.Add("-testmode");
-			using Process? settingsProcess = Process.Start(startInfo);
-			if (settingsProcess == null)
-			{
-				App.Logger.WriteLine("Watcher::ReopenSettingsForTestMode", "Settings did not reopen, the test mode cycle has stopped");
-				return;
-			}
-			App.Logger.WriteLine("Watcher::ReopenSettingsForTestMode", "Roblox closed, settings reopened for the next test mode pass");
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("Watcher::ReopenSettingsForTestMode", ex);
-		}
-	}
-
-	public static bool FullscreenModeActive =>
-		Voidstrap.Utility.Platform.IsWindows && (App.Settings.Prop.FakeBorderlessFullscreen || App.Settings.Prop.FakeExclusiveFullscreen);
-
-	private static bool IsWindowManipulationEnabled()
-	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-		{
-			return false;
-		}
-
-		var prop = App.Settings.Prop;
-		if (
-			prop.CycleTitleWithGameName
-			|| prop.UseGameIconForRobloxWindow
-			|| prop.RobloxIcon != Voidstrap.Enums.BootstrapperIcon.IconVoidstrap
-			|| Voidstrap.Utility.RobloxWindowIcons.HasOverrides
-		)
-		{
-			return true;
-		}
-		return !string.IsNullOrWhiteSpace(prop.RobloxTitle) && prop.RobloxTitle != "Voidstrap";
-	}
-
-	private delegate bool WatcherEnumWindowsProc(IntPtr hwnd, IntPtr lparam);
-
-	[LibraryImport("user32.dll")]
-	[return: MarshalAs(UnmanagedType.Bool)]
-	private static partial bool EnumWindows(IntPtr callback, IntPtr lparam);
-
-	[LibraryImport("user32.dll", EntryPoint = "GetClassNameW", StringMarshalling = StringMarshalling.Utf16)]
-	private static partial int GetClassName(IntPtr hwnd, [Out] char[] className, int maxCount);
-
-	[LibraryImport("user32.dll")]
-	private static partial uint GetWindowThreadProcessId(IntPtr hwnd, out uint processId);
-
-	[LibraryImport("user32.dll")]
-	[return: MarshalAs(UnmanagedType.Bool)]
-	private static partial bool IsWindowVisible(IntPtr hwnd);
-
-	[LibraryImport("user32.dll")]
-	[return: MarshalAs(UnmanagedType.Bool)]
-	private static partial bool IsIconic(IntPtr hwnd);
-
-	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
-	private partial struct WatcherRect
-	{
-		public int Left;
-
-		public int Top;
-
-		public int Right;
-
-		public int Bottom;
-	}
-
-	[LibraryImport("user32.dll")]
-	[return: MarshalAs(UnmanagedType.Bool)]
-	private static partial bool GetClientRect(IntPtr hwnd, out WatcherRect rect);
-
-	private static IntPtr FindRobloxGameWindow(int processId)
-	{
-		IntPtr best = IntPtr.Zero;
-		long bestArea = 0;
-		uint target = (uint)processId;
-
-		try
-		{
-			WatcherEnumWindowsProc callback = delegate(IntPtr hwnd, IntPtr lparam)
-			{
-				if (!IsWindowVisible(hwnd) || IsIconic(hwnd))
-					return true;
-
-				GetWindowThreadProcessId(hwnd, out uint owner);
-				if (owner != target)
-					return true;
-
-				char[] className = new char[64];
-				int classLength = GetClassName(hwnd, className, className.Length);
-				if (!className.AsSpan(0, Math.Max(0, classLength)).SequenceEqual("WINDOWSCLIENT"))
-					return true;
-
-				if (!GetClientRect(hwnd, out WatcherRect rect))
-					return true;
-
-				long area = (long)(rect.Right - rect.Left) * (rect.Bottom - rect.Top);
-				if (area > bestArea)
-				{
-					bestArea = area;
-					best = hwnd;
-				}
-
-				return true;
-			};
-			_ = EnumWindows(Marshal.GetFunctionPointerForDelegate(callback), IntPtr.Zero);
-			GC.KeepAlive(callback);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("Watcher::FindRobloxGameWindow", "Window search failed: " + ex.Message);
-			return IntPtr.Zero;
-		}
-
-		return best;
-	}
-
-	private void StartWindowManipulation()
-	{
-		if (Voidstrap.Utility.Platform.IsLinux)
-		{
-			if (
-				ActivityWatcher != null
-				&& Voidstrap.Integrations.LinuxRobloxWindow.IsEnabled
-				&& Voidstrap.Integrations.Overlays.OverlaySettings.SoberHasX11Window
-			)
-			{
-				lock (_lifecycleGate)
-				{
-					if (!_disposed)
-						_linuxRobloxWindow = Voidstrap.Integrations.LinuxRobloxWindow.Start(ActivityWatcher);
-				}
-			}
-			return;
-		}
-		if (_watcherData == null || !IsWindowManipulationEnabled())
-		{
-			return;
-		}
-		int pid = _watcherData.ProcessId;
-		CancellationToken token = _lifetimeCancellation.SafeToken();
-		_windowManipulationTask = Task.Run(
-			async delegate
-			{
-				try
-				{
-					using Process process = Process.GetProcessById(pid);
-					IntPtr handle = IntPtr.Zero;
-					for (int i = 0; i < 120 && !token.IsCancellationRequested && !process.HasExited; i++)
-					{
-						try
-						{
-							process.Refresh();
-							handle = FindRobloxGameWindow(pid);
-							if (handle == IntPtr.Zero)
-								handle = process.MainWindowHandle;
-						}
-						catch { }
-						if (handle != IntPtr.Zero)
-						{
-							break;
-						}
-						await Task.Delay(500, token);
-					}
-					if (!token.IsCancellationRequested && !(handle == IntPtr.Zero))
-					{
-						WindowManipulation manipulation = new WindowManipulation((long)handle, pid, ActivityWatcher);
-						lock (_lifecycleGate)
-						{
-							if (_disposed || token.IsCancellationRequested)
-							{
-								manipulation.Dispose();
-								return;
-							}
-							_windowManipulation = manipulation;
-							manipulation.Start();
-						}
-					}
-				}
-				catch (OperationCanceledException) when (token.IsCancellationRequested) { }
-				catch (Exception ex)
-				{
-					App.Logger.WriteLine("Watcher::StartWindowManipulation", "Failed: " + ex.Message);
-				}
-			}
-		);
-	}
-
-	public void Dispose()
-	{
-		if (_disposed)
-		{
-			return;
-		}
-		_disposed = true;
-		if (Voidstrap.Utility.Platform.IsWindows)
-			Voidstrap.Integrations.RiShade.RiShadeManager.OnRobloxProcessStopped();
-		if (_robloxClientProcess != null)
-		{
-			_robloxClientProcess.Exited -= OnRobloxClientExited;
-			_robloxClientProcess.Dispose();
-			_robloxClientProcess = null;
-		}
-		_virtualDisplay?.Dispose();
-		_virtualDisplay = null;
-		Voidstrap.Integrations.Overlays.OverlayHub.ReleaseLinuxGameplayLease();
-		if (ReferenceEquals(Current, this))
-		{
-			Current = null;
-		}
-		_lifetimeCancellation.Cancel();
-		lock (_lifecycleGate) { }
-		App.Logger.WriteLine("Watcher::Dispose", "Disposing Watcher");
-		try
-		{
-			if (_settingsWatcher != null)
-			{
-				_settingsWatcher.EnableRaisingEvents = false;
-				_settingsWatcher.Changed -= SettingsFileChanged;
-				_settingsWatcher.Created -= SettingsFileChanged;
-				_settingsWatcher.Renamed -= SettingsFileRenamed;
-				_settingsWatcher.Dispose();
-				_settingsWatcher = null;
-			}
-			if (_settingsReloadTimer != null)
-			{
-				_settingsReloadTimer.DisposeAsync().AsTask().ConfigureAwait(continueOnCapturedContext: false).GetAwaiter().GetResult();
-			}
-			_settingsReloadTimer = null;
-		}
-		catch { }
-		WaitForBackgroundTask(_windowManipulationTask);
-		_windowManipulationTask = null;
-		try
-		{
-			_runtimeOptimizer?.Dispose();
-			_runtimeOptimizer = null;
-		}
-		catch { }
-		try
-		{
-			_tasxOptimizer?.Dispose();
-			_tasxOptimizer = null;
-			_macTasxOptimizer?.Dispose();
-			_macTasxOptimizer = null;
-		}
-		catch { }
-		try
-		{
-			_linuxResourceOptimizer?.Dispose();
-			_linuxResourceOptimizer = null;
-		}
-		catch { }
-		try
-		{
-			_windowManipulation?.Dispose();
-			_windowManipulation = null;
-			_linuxRobloxWindow?.Dispose();
-			_linuxRobloxWindow = null;
-		}
-		catch { }
-		try
-		{
-			ServerMatchmaker?.Dispose();
-			ServerMatchmaker = null;
-		}
-		catch { }
-		try
-		{
-			HistoryPersister?.Dispose();
-			HistoryPersister = null;
-		}
-		catch { }
-		try
-		{
-			IntegrationWatcher?.Dispose();
-			IntegrationWatcher = null;
-		}
-		catch { }
-		try
-		{
-			_notifyIcon?.Dispose();
-			_notifyIcon = null;
-		}
-		catch { }
-		try
-		{
-			RichPresence?.Dispose();
-			RichPresence = null;
-		}
-		catch { }
-		try
-		{
-			if (ActivityWatcher != null)
-			{
-				ActivityWatcher.OnGameJoin -= OnRuntimeGameJoin;
-				ActivityWatcher.OnGameLeave -= OnRuntimeGameLeave;
-			}
-			ActivityWatcher?.OnAppClose -= OnActivityAppClose;
-			ActivityWatcher?.Dispose();
-			ActivityWatcher = null;
-		}
-		catch { }
-		RunOnApplicationDispatcher(CloseRuntimeSessionWindows);
-		try
-		{
-			_lock.Dispose();
-		}
-		catch { }
-		_lifetimeCancellation.Dispose();
-		MemoryManager.SetGameplayActive(false);
-		GC.SuppressFinalize(this);
-	}
-
-	private static void WaitForBackgroundTask(Task? task)
-	{
-		if (task == null)
-		{
-			return;
-		}
-		try
-		{
-			task.ConfigureAwait(continueOnCapturedContext: false).GetAwaiter().GetResult();
-		}
-		catch (OperationCanceledException) { }
-		catch { }
-	}
+    private NotifyIconWrapper? _notifyIcon;
+
+    public ActivityWatcher? ActivityWatcher;
+
+    public DiscordRichPresence? RichPresence;
+
+    public static Watcher? Current { get; private set; }
+
+    public int RobloxProcessId => _watcherData?.ProcessId ?? 0;
+
+    public IntegrationWatcher? IntegrationWatcher;
+
+    public HistoryPersister? HistoryPersister;
+
+    public ServerMatchmaker? ServerMatchmaker;
+
+    private WindowManipulation? _windowManipulation;
+
+    private Voidstrap.Integrations.LinuxRobloxWindow? _linuxRobloxWindow;
+
+    private FileSystemWatcher? _settingsWatcher;
+
+    private Timer? _settingsReloadTimer;
+
+    private bool _activityTrackingEnabled;
+    private bool _overlayGameStateEnabled;
+
+    private bool _discordRichPresenceEnabled;
+
+    private bool _disableAppPatchEnabled;
+
+    private RobloxProcessOptimizer? _runtimeOptimizer;
+
+    private TasxOptimizer? _tasxOptimizer;
+
+    private Voidstrap.Utility.MacTasxOptimizer? _macTasxOptimizer;
+
+    private Voidstrap.Utility.MacVirtualDisplaySession? _virtualDisplay;
+
+    private LinuxRobloxResourceOptimizer? _linuxResourceOptimizer;
+
+    private Task? _windowManipulationTask;
+
+    public Watcher()
+    {
+        if (!_lock.IsAcquired)
+        {
+            App.Logger.WriteLine("Watcher", "Watcher instance already exists");
+            return;
+        }
+        string? data = App.LaunchSettings.WatcherFlag.Data;
+        if (string.IsNullOrEmpty(data))
+        {
+            throw new Exception("Watcher data not specified");
+        }
+        if (!string.IsNullOrEmpty(data))
+        {
+            _watcherData = JsonSerializer.Deserialize<WatcherData>(Encoding.UTF8.GetString(Convert.FromBase64String(data)));
+        }
+        if (_watcherData == null)
+        {
+            throw new Exception("Watcher data is invalid");
+        }
+        InitializeIntegrations();
+    }
+
+    internal Watcher(WatcherData data)
+    {
+        if (!_lock.IsAcquired)
+        {
+            App.Logger.WriteLine("Watcher::InProcess", "Watcher instance already exists");
+            return;
+        }
+        _watcherData = data ?? throw new Exception("Watcher data is invalid");
+        InitializeIntegrations();
+    }
+
+    private void InitializeIntegrations()
+    {
+        if (_watcherData == null)
+        {
+            return;
+        }
+        Current = this;
+        if (Voidstrap.Utility.Platform.IsWindows)
+            MonitorRobloxClientProcess();
+        MemoryManager.SetGameplayActive(true);
+        StartSettingsWatcher();
+        UpdateVirtualDisplay();
+        bool enableActivityTracking = App.Settings.Prop.EnableActivityTracking;
+        bool flag = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("VOIDSTRAP_STATUS_FILE"));
+        _activityTrackingEnabled = enableActivityTracking;
+        _overlayGameStateEnabled = OverlaysNeedGameState();
+        _discordRichPresenceEnabled = App.Settings.Prop.UseDiscordRichPresence;
+        _disableAppPatchEnabled = App.Settings.Prop.UseDisableAppPatch;
+        bool inGameHotkeys = NeedsInGameHotkeys;
+        if (enableActivityTracking || flag || _overlayGameStateEnabled || FullscreenModeActive || inGameHotkeys)
+        {
+            ActivityWatcher = new ActivityWatcher(_watcherData.LogFile, _watcherData.ProcessId);
+            ActivityWatcher.OnGameJoin += OnRuntimeGameJoin;
+            ActivityWatcher.OnGameLeave += OnRuntimeGameLeave;
+            if (enableActivityTracking && App.Settings.Prop.UseDisableAppPatch)
+            {
+                ActivityWatcher.OnAppClose += OnActivityAppClose;
+            }
+            if ((enableActivityTracking && App.Settings.Prop.UseDiscordRichPresence) || flag)
+            {
+                RichPresence = new DiscordRichPresence(ActivityWatcher);
+            }
+            if (enableActivityTracking)
+            {
+                IntegrationWatcher = new IntegrationWatcher(ActivityWatcher);
+                HistoryPersister = new HistoryPersister(ActivityWatcher);
+                ServerMatchmaker = new ServerMatchmaker(ActivityWatcher, this);
+            }
+        }
+        if (
+            (enableActivityTracking || App.LaunchSettings.TestModeFlag.Active || inGameHotkeys)
+            && Voidstrap.Utility.Platform.SupportsTrayIcon
+        )
+            _notifyIcon = new NotifyIconWrapper(this);
+        if (ServerMatchmaker != null)
+            ServerMatchmaker.NotifyIconResolver = () => _notifyIcon;
+    }
+
+    private void StartSettingsWatcher()
+    {
+        try
+        {
+            _settingsReloadTimer = new Timer(SettingsReloadTimerCallback, null, Timeout.Infinite, Timeout.Infinite);
+            _settingsWatcher = new FileSystemWatcher(Paths.Config, "AppSettings.json")
+            {
+                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size | NotifyFilters.CreationTime | NotifyFilters.FileName,
+            };
+            _settingsWatcher.Changed += SettingsFileChanged;
+            _settingsWatcher.Created += SettingsFileChanged;
+            _settingsWatcher.Renamed += SettingsFileRenamed;
+            _settingsWatcher.Error += SettingsWatcherError;
+            _settingsWatcher.EnableRaisingEvents = true;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("Watcher", "Settings watcher failed: " + ex.Message);
+        }
+    }
+
+    private void MonitorRobloxClientProcess()
+    {
+        if (_watcherData == null)
+            return;
+
+        try
+        {
+            _robloxClientProcess = Process.GetProcessById(_watcherData.ProcessId);
+            _robloxClientProcess.EnableRaisingEvents = true;
+            _robloxClientProcess.Exited += OnRobloxClientExited;
+            Voidstrap.Integrations.RiShade.RiShadeManager.OnRobloxProcessStarted();
+            if (_robloxClientProcess.HasExited)
+                Voidstrap.Integrations.RiShade.RiShadeManager.OnRobloxProcessStopped();
+        }
+        catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or System.ComponentModel.Win32Exception)
+        {
+            App.Logger.WriteLine("Watcher", "Could not monitor Roblox process lifetime for RiShade: " + ex.Message);
+        }
+    }
+
+    private void OnRobloxClientExited(object? sender, EventArgs e)
+    {
+        try
+        {
+            Voidstrap.Integrations.RiShade.RiShadeManager.OnRobloxProcessStopped();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("Watcher::OnRobloxClientExited", ex);
+        }
+    }
+
+    private void SettingsFileChanged(object sender, FileSystemEventArgs e)
+    {
+        ScheduleSettingsReload();
+    }
+
+    private void SettingsFileRenamed(object sender, RenamedEventArgs e)
+    {
+        ScheduleSettingsReload();
+    }
+
+    private void SettingsWatcherError(object sender, ErrorEventArgs e)
+    {
+        App.Logger.WriteLine("Watcher", "The settings file watch hit an error: " + e.GetException().Message);
+    }
+
+    private void ScheduleSettingsReload()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+        try
+        {
+            _settingsReloadTimer?.Change(500, Timeout.Infinite);
+        }
+        catch (ObjectDisposedException) { }
+    }
+
+    private void SettingsReloadTimerCallback(object? state)
+    {
+        if (_disposed)
+        {
+            return;
+        }
+        try
+        {
+            AppSettings? settings = null;
+            if (!Voidstrap.Utility.Platform.IsLinux || App.Settings.HasFileOnDiskChanged())
+            {
+                settings = JsonFile.Deserialize<AppSettings>(App.Settings.FileLocation, JsonOptions.Tolerant, MaximumSettingsBytes);
+                if (settings == null)
+                {
+                    return;
+                }
+            }
+            lock (_lifecycleGate)
+            {
+                if (_disposed)
+                {
+                    return;
+                }
+                if (settings != null)
+                {
+                    App.Settings.Prop = settings;
+                }
+                ApplyLiveSettings();
+            }
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("Watcher", "Settings reload failed: " + ex.Message);
+        }
+    }
+
+    private void ApplyLiveSettings()
+    {
+        bool activityTrackingEnabled = App.Settings.Prop.EnableActivityTracking;
+        bool overlayGameStateEnabled = OverlaysNeedGameState();
+        bool discordRichPresenceEnabled = App.Settings.Prop.UseDiscordRichPresence;
+        bool disableAppPatchEnabled = App.Settings.Prop.UseDisableAppPatch;
+        if (activityTrackingEnabled != _activityTrackingEnabled)
+        {
+            _activityTrackingEnabled = activityTrackingEnabled;
+            if (activityTrackingEnabled)
+            {
+                EnableActivityIntegrations();
+            }
+            else
+            {
+                DisableActivityIntegrations();
+            }
+        }
+        if (overlayGameStateEnabled != _overlayGameStateEnabled)
+        {
+            _overlayGameStateEnabled = overlayGameStateEnabled;
+            ReconcileOverlayGameState();
+        }
+        if (discordRichPresenceEnabled != _discordRichPresenceEnabled)
+        {
+            _discordRichPresenceEnabled = discordRichPresenceEnabled;
+            if (discordRichPresenceEnabled && _activityTrackingEnabled && ActivityWatcher != null)
+            {
+                RichPresence ??= new DiscordRichPresence(ActivityWatcher);
+                _ = RichPresence.SetCurrentGame();
+            }
+            else
+            {
+                RichPresence?.Dispose();
+                RichPresence = null;
+            }
+        }
+        if (disableAppPatchEnabled != _disableAppPatchEnabled)
+        {
+            _disableAppPatchEnabled = disableAppPatchEnabled;
+            if (_activityTrackingEnabled && ActivityWatcher != null)
+            {
+                ActivityWatcher.OnAppClose -= OnActivityAppClose;
+                if (disableAppPatchEnabled)
+                {
+                    ActivityWatcher.OnAppClose += OnActivityAppClose;
+                }
+            }
+        }
+        UpdateRuntimeOptimizer();
+        UpdateVirtualDisplay();
+        Voidstrap.KeyRouting.SnapTapHook.ApplyFromSettings();
+        _notifyIcon?.RefreshGameJoinSubscription();
+        Voidstrap.Integrations.Overlays.OverlayHub.Refresh();
+        RunOnApplicationDispatcher(ReconcileRuntimeSessionWindows);
+    }
+
+    private void StartRuntimeOptimizer()
+    {
+        UpdateRuntimeOptimizer();
+    }
+
+    private void UpdateVirtualDisplay()
+    {
+        if (
+            _disposed
+            || !Voidstrap.Utility.Platform.IsMacOS
+            || !App.Settings.Prop.MacVirtualDisplayEnabled
+            || App.Settings.Prop.LaunchWithoutVoidstrap
+        )
+        {
+            _virtualDisplay?.Dispose();
+            _virtualDisplay = null;
+            return;
+        }
+        if (_virtualDisplay != null)
+            return;
+        _virtualDisplay = Voidstrap.Utility.MacVirtualDisplaySession.TakePrestarted();
+        if (_virtualDisplay != null)
+            return;
+        _virtualDisplay = new Voidstrap.Utility.MacVirtualDisplaySession();
+        _virtualDisplay.Start();
+    }
+
+    private void UpdateRuntimeOptimizer()
+    {
+        if (_watcherData == null)
+        {
+            return;
+        }
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            UpdateLinuxResourceOptimizer();
+            return;
+        }
+        if (!Voidstrap.Utility.Platform.IsWindows)
+        {
+            return;
+        }
+        UpdateTasxOptimizer();
+        if (!RobloxProcessOptimizer.ShouldRun(App.Settings.Prop))
+        {
+            _runtimeOptimizer?.Dispose();
+            _runtimeOptimizer = null;
+            return;
+        }
+        _runtimeOptimizer ??= new RobloxProcessOptimizer(_watcherData.ProcessId);
+        _runtimeOptimizer.Start();
+    }
+
+    private void UpdateLinuxResourceOptimizer()
+    {
+        if (!LinuxRobloxResourceOptimizer.ShouldRun(App.Settings.Prop))
+        {
+            _linuxResourceOptimizer?.Dispose();
+            _linuxResourceOptimizer = null;
+            return;
+        }
+        _linuxResourceOptimizer ??= new LinuxRobloxResourceOptimizer();
+        _linuxResourceOptimizer.Start();
+    }
+
+    private void UpdateTasxOptimizer()
+    {
+        if (Voidstrap.Utility.Platform.IsMacOS)
+        {
+            if (!Voidstrap.Utility.MacTasxOptimizer.ShouldRun(App.Settings.Prop))
+            {
+                _macTasxOptimizer?.Dispose();
+                _macTasxOptimizer = null;
+                return;
+            }
+            _macTasxOptimizer ??= new Voidstrap.Utility.MacTasxOptimizer();
+            _macTasxOptimizer.Start();
+            return;
+        }
+        if (!TasxOptimizer.ShouldRun(App.Settings.Prop))
+        {
+            _tasxOptimizer?.Dispose();
+            _tasxOptimizer = null;
+            return;
+        }
+        _tasxOptimizer ??= new TasxOptimizer();
+        _tasxOptimizer.Start();
+    }
+
+    private void EnableActivityIntegrations()
+    {
+        if (_watcherData == null)
+        {
+            return;
+        }
+        if (ActivityWatcher == null)
+        {
+            ActivityWatcher = new ActivityWatcher(_watcherData.LogFile, _watcherData.ProcessId);
+            ActivityWatcher.OnGameJoin += OnRuntimeGameJoin;
+            ActivityWatcher.OnGameLeave += OnRuntimeGameLeave;
+            ActivityWatcher.Start();
+        }
+        SynchronizeLinuxGameState();
+        if (App.Settings.Prop.UseDisableAppPatch)
+        {
+            ActivityWatcher.OnAppClose -= OnActivityAppClose;
+            ActivityWatcher.OnAppClose += OnActivityAppClose;
+        }
+        if (App.Settings.Prop.UseDiscordRichPresence)
+        {
+            RichPresence ??= new DiscordRichPresence(ActivityWatcher);
+        }
+        IntegrationWatcher ??= new IntegrationWatcher(ActivityWatcher);
+        HistoryPersister ??= new HistoryPersister(ActivityWatcher);
+        ServerMatchmaker ??= new ServerMatchmaker(ActivityWatcher, this);
+        if (ServerMatchmaker != null)
+            ServerMatchmaker.NotifyIconResolver = () => _notifyIcon;
+        if (_notifyIcon == null)
+        {
+            if (Voidstrap.Utility.Platform.SupportsTrayIcon)
+                _notifyIcon = new NotifyIconWrapper(this);
+        }
+        else
+        {
+            _notifyIcon.RefreshGameJoinSubscription();
+        }
+    }
+
+    private void DisableActivityIntegrations()
+    {
+        ServerMatchmaker?.Dispose();
+        ServerMatchmaker = null;
+        HistoryPersister?.Dispose();
+        HistoryPersister = null;
+        IntegrationWatcher?.Dispose();
+        IntegrationWatcher = null;
+        RichPresence?.Dispose();
+        RichPresence = null;
+        if (ActivityWatcher != null)
+        {
+            ActivityWatcher.OnAppClose -= OnActivityAppClose;
+            if (!Voidstrap.Utility.Platform.IsLinux && !_overlayGameStateEnabled)
+            {
+                ActivityWatcher.OnGameJoin -= OnRuntimeGameJoin;
+                ActivityWatcher.OnGameLeave -= OnRuntimeGameLeave;
+                ActivityWatcher.Dispose();
+                ActivityWatcher = null;
+            }
+        }
+        SynchronizeLinuxGameState();
+        LaunchFlag testModeFlag = App.LaunchSettings.TestModeFlag;
+        if (testModeFlag == null || !testModeFlag.Active)
+        {
+            _notifyIcon?.Dispose();
+            _notifyIcon = null;
+        }
+    }
+
+    internal static bool NeedsInGameHotkeys =>
+        Voidstrap.Utility.Platform.IsWindows && (App.Settings.Prop.RiShadeEnabled || App.Settings.Prop.CrosshairShortcutEnabled);
+
+    internal static bool OverlaysNeedGameState()
+    {
+        return OverlayWindow.SurfaceRequired
+            || App.Settings.Prop.Crosshair
+            || (Voidstrap.Utility.Platform.IsWindows && App.Settings.Prop.ClassicTopBarEnabled)
+            || Voidstrap.Integrations.Overlays.OverlaySettings.HomepageBackgroundEnabled
+            || (!Voidstrap.Utility.Platform.IsLinux && Voidstrap.Integrations.Overlays.OverlaySettings.GameEffectsEnabled);
+    }
+
+    private void ReconcileOverlayGameState()
+    {
+        if (_watcherData == null || _activityTrackingEnabled)
+            return;
+        if (_overlayGameStateEnabled)
+        {
+            if (ActivityWatcher == null)
+            {
+                ActivityWatcher = new ActivityWatcher(_watcherData.LogFile, _watcherData.ProcessId);
+                ActivityWatcher.OnGameJoin += OnRuntimeGameJoin;
+                ActivityWatcher.OnGameLeave += OnRuntimeGameLeave;
+                ActivityWatcher.Start();
+            }
+        }
+        SynchronizeLinuxGameState();
+    }
+
+    private void SynchronizeLinuxGameState()
+    {
+        if (Voidstrap.Utility.Platform.IsLinux && ActivityWatcher != null)
+            Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(
+                ActivityWatcher.InGame || ActivityWatcher.IsTeleporting || ActivityWatcher.Data.PlaceId != 0
+            );
+    }
+
+    private void OnActivityAppClose(object? sender, EventArgs e)
+    {
+        if (_watcherData == null)
+        {
+            return;
+        }
+        try
+        {
+            App.Logger.WriteLine("Watcher", "Received desktop app exit, closing Roblox");
+            using Process process = Process.GetProcessById(_watcherData.ProcessId);
+            process.CloseMainWindow();
+        }
+        catch { }
+    }
+
+    private void OnRuntimeGameJoin(object? sender, EventArgs e)
+    {
+        RunRuntimeAction(() => Voidstrap.Integrations.Plugins.PluginHost.Invoke("game.join", DescribeGame()), "PluginGameJoin");
+        RunRuntimeAction(Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition, "NoteGameTransition");
+        if (Voidstrap.Utility.Platform.IsMacOS)
+        {
+            _ = NotifyMacGameJoinAsync();
+            RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true), "SyncGameJoin");
+            RunOnApplicationDispatcher(EnsureRuntimeSessionWindows);
+            return;
+        }
+        if (Voidstrap.Utility.Platform.IsLinux)
+            RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true), "SyncGameJoin");
+        RunRuntimeAction(Voidstrap.Integrations.Fullscreen.RobloxFullscreen.OnGameJoin, "FullscreenJoin");
+        RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameJoin, "AntiAliasingJoin");
+        RunOnApplicationDispatcher(EnsureRuntimeSessionWindows);
+    }
+
+    private async Task NotifyMacGameJoinAsync()
+    {
+        try
+        {
+            ActivityWatcher? watcher = ActivityWatcher;
+            Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
+            if (
+                watcher == null
+                || host == null
+                || !App.Settings.Prop.VoidNotify
+                || !App.Settings.Prop.NotifyGameJoins
+                || !App.Settings.Prop.ShowServerDetails
+            )
+                return;
+            string? location = await watcher.Data.QueryServerLocation();
+            if (string.IsNullOrEmpty(location))
+                return;
+            string caption = watcher.Data.ServerType switch
+            {
+                Voidstrap.Enums.ServerType.Private => Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Title_Private,
+                Voidstrap.Enums.ServerType.Reserved => Voidstrap
+                    .Resources
+                    .Strings
+                    .ContextMenu_ServerInformation_Notification_Title_Reserved,
+                _ => Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Title_Public,
+            };
+            string message = string.Format(Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Text, location);
+            Voidstrap.Platform.OperationResult result = await host.Notifications.ShowAsync(
+                new Voidstrap.Platform.NotificationRequest(caption, message)
+            );
+            App.Logger.WriteLine("Watcher::NotifyMacGameJoinAsync", "Game join notification: " + result.Succeeded);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("Watcher::NotifyMacGameJoinAsync", ex);
+        }
+    }
+
+    private System.Text.Json.Nodes.JsonObject DescribeGame()
+    {
+        ActivityData? data = ActivityWatcher?.Data;
+        return new System.Text.Json.Nodes.JsonObject
+        {
+            ["placeId"] = data?.PlaceId ?? 0,
+            ["universeId"] = data?.UniverseId ?? 0,
+            ["jobId"] = data?.JobId ?? "",
+        };
+    }
+
+    private void OnRuntimeGameLeave(object? sender, EventArgs e)
+    {
+        RunRuntimeAction(() => Voidstrap.Integrations.Plugins.PluginHost.Invoke("game.leave", DescribeGame()), "PluginGameLeave");
+        RunRuntimeAction(Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition, "NoteGameTransition");
+        bool teleporting = ActivityWatcher?.IsTeleporting == true;
+        if (Voidstrap.Utility.Platform.IsMacOS)
+        {
+            if (!teleporting)
+            {
+                RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false), "SyncGameLeave");
+                RunOnApplicationDispatcher(CloseRuntimeSessionWindows);
+                RunRuntimeAction(Voidstrap.UI.LinuxWindowMemory.CompactAfterGame, "CompactAfterGame");
+            }
+            return;
+        }
+        if (Voidstrap.Utility.Platform.IsLinux && !teleporting)
+            RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false), "SyncGameLeave");
+        if (!teleporting)
+        {
+            RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameLeave, "AntiAliasingLeave");
+            RunRuntimeAction(Voidstrap.Integrations.FrameGeneration.FrameGenManager.OnGameLeave, "FrameGenerationLeave");
+            RunOnApplicationDispatcher(CloseRuntimeSessionWindows);
+            RunRuntimeAction(Voidstrap.UI.LinuxWindowMemory.CompactAfterGame, "CompactAfterGame");
+        }
+    }
+
+    private static void RunRuntimeAction(Action action, string operation)
+    {
+        try
+        {
+            action();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("Watcher::" + operation, ex);
+        }
+    }
+
+    private static void RunOnApplicationDispatcher(Action action)
+    {
+        Application? application = Application.Current;
+        if (application == null || application.Dispatcher.HasShutdownStarted)
+        {
+            return;
+        }
+        application.Dispatcher.BeginInvoke(action, System.Windows.Threading.DispatcherPriority.Background);
+    }
+
+    private void EnsureRuntimeSessionWindows()
+    {
+        if (_disposed || ActivityWatcher?.InGame != true)
+        {
+            return;
+        }
+        RunRuntimeAction(CrosshairWindow.Reconcile, "CreateCrosshair");
+        RunRuntimeAction(Voidstrap.UI.Elements.ClassicTopBar.ClassicTopBarOverlay.Reconcile, "CreateClassicTopBar");
+        ScreenColorEffect.ApplyConfigured();
+        RunRuntimeAction(() => OverlayWindow.Reconcile(ActivityWatcher), "CreateOverlay");
+        RunRuntimeAction(Voidstrap.Integrations.Keystrokes.KeystrokeOverlayWindow.Reconcile, "CreateKeystrokes");
+    }
+
+    internal void RefreshOverlayLive()
+    {
+        Application? application = Application.Current;
+        if (application == null || application.Dispatcher.HasShutdownStarted)
+            return;
+        if (!application.Dispatcher.CheckAccess())
+        {
+            RunOnApplicationDispatcher(RefreshOverlayLive);
+            return;
+        }
+        ReconcileRuntimeSessionWindows();
+    }
+
+    private void ReconcileRuntimeSessionWindows()
+    {
+        if (_disposed || ActivityWatcher?.InGame != true)
+        {
+            return;
+        }
+
+        RunRuntimeAction(CrosshairWindow.Reconcile, "RefreshCrosshair");
+        RunRuntimeAction(Voidstrap.UI.Elements.ClassicTopBar.ClassicTopBarOverlay.Reconcile, "RefreshClassicTopBar");
+        RunRuntimeAction(() => OverlayWindow.Reconcile(ActivityWatcher), "RefreshOverlay");
+        RunRuntimeAction(Voidstrap.Integrations.Keystrokes.KeystrokeOverlayWindow.Reconcile, "RefreshKeystrokes");
+    }
+
+    private static void CloseRuntimeSessionWindows()
+    {
+        Application? application = Application.Current;
+        if (application is null)
+        {
+            return;
+        }
+
+        RunRuntimeAction(CrosshairWindow.CloseAll, "CloseCrosshair");
+        RunRuntimeAction(Voidstrap.UI.Elements.ClassicTopBar.ClassicTopBarOverlay.CloseAll, "CloseClassicTopBar");
+        RunRuntimeAction(Voidstrap.Integrations.Keystrokes.KeystrokeOverlayWindow.CloseAll, "CloseKeystrokes");
+        if (application.Resources["OverlayWindow"] is OverlayWindow overlay)
+        {
+            RunRuntimeAction(overlay.Close, "CloseOverlay");
+        }
+        application.Resources.Remove("OverlayWindow");
+        ScreenColorEffect.Reset();
+    }
+
+    public void KillRobloxProcess()
+    {
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            try
+            {
+                if (Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.TryCloseSober())
+                {
+                    App.Logger.WriteLine("Watcher::KillRobloxProcess", "Closed the Roblox runtime");
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("Watcher::KillRobloxProcess", "The Roblox runtime could not be closed: " + ex.Message);
+            }
+        }
+
+        CloseProcess(_watcherData!.ProcessId, force: true);
+    }
+
+    public static bool IsAnyRobloxRunning()
+    {
+        if (Voidstrap.Utility.Platform.IsMacOS)
+            return Voidstrap.Utility.MacRobloxProcesses.IsGameRunning();
+        try
+        {
+            Process[] processesByName = Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName);
+            bool result = processesByName.Length != 0;
+            Process[] array = processesByName;
+            foreach (Process process in array)
+            {
+                try
+                {
+                    process.Dispose();
+                }
+                catch { }
+            }
+            return result;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public static void ForceShutdownAfterRobloxExit(string logIdent)
+    {
+        if (IsAnyRobloxRunning())
+        {
+            App.Terminate();
+            return;
+        }
+        App.Terminate();
+    }
+
+    public void CloseProcess(int pid, bool force = false)
+    {
+        try
+        {
+            using Process process = Process.GetProcessById(pid);
+            App.Logger.WriteLine("Watcher::CloseProcess", $"Killing process '{process.ProcessName}' (pid={pid}, force={force})");
+            if (process.HasExited)
+            {
+                App.Logger.WriteLine("Watcher::CloseProcess", $"PID {pid} has already exited");
+            }
+            else if (force)
+            {
+                process.Kill();
+            }
+            else
+            {
+                process.CloseMainWindow();
+            }
+        }
+        catch (ArgumentException)
+        {
+            App.Logger.WriteLine("Watcher::CloseProcess", $"PID {pid} already exited before close");
+        }
+        catch (InvalidOperationException)
+        {
+            App.Logger.WriteLine("Watcher::CloseProcess", $"PID {pid} exited during close");
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("Watcher::CloseProcess", $"PID {pid} could not be closed");
+            App.Logger.WriteException("Watcher::CloseProcess", ex);
+        }
+    }
+
+    private const int StartupCrashSeconds = 30;
+
+    private const int CrashHandlerDelaySeconds = 60;
+
+    private async Task MonitorModCrashAsync(DateTime sessionStartedUtc, CancellationToken token)
+    {
+        const int CheckIntervalMs = 2000;
+        const int SettleSeconds = 120;
+        try
+        {
+            while (!token.IsCancellationRequested)
+            {
+                await Task.Delay(CheckIntervalMs, token).ConfigureAwait(false);
+                if (ModCrashGuard.HasCrashReportSince(sessionStartedUtc))
+                {
+                    if (!await RobloxExitsSoonAsync().ConfigureAwait(false))
+                    {
+                        App.Logger.WriteLine(
+                            "Watcher::MonitorModCrash",
+                            "Roblox wrote a crash report but kept running, so it was not treated as a crash"
+                        );
+                        sessionStartedUtc = DateTime.UtcNow.AddSeconds(3);
+                        continue;
+                    }
+                    IReadOnlyList<string> disabled = ModCrashGuard.HandleCrash();
+                    RunOnApplicationDispatcher(() => ReportModCrash(disabled));
+                    return;
+                }
+                if ((DateTime.UtcNow - sessionStartedUtc).TotalSeconds >= SettleSeconds)
+                {
+                    ModCrashGuard.MarkHealthy();
+                    return;
+                }
+            }
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("Watcher::MonitorModCrash", "The crash guard stopped: " + ex.Message);
+        }
+    }
+
+    private async Task<bool> RobloxExitsSoonAsync()
+    {
+        if (_watcherData == null)
+        {
+            return true;
+        }
+        try
+        {
+            using Process roblox = Process.GetProcessById(_watcherData.ProcessId);
+            using CancellationTokenSource timeout = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+            await roblox.WaitForExitAsync(timeout.Token).ConfigureAwait(false);
+            return true;
+        }
+        catch (OperationCanceledException)
+        {
+            return false;
+        }
+        catch (InvalidOperationException)
+        {
+            return true;
+        }
+        catch (ArgumentException)
+        {
+            return true;
+        }
+    }
+
+    private async Task DisableCrashHandlerWhenSettledAsync(DateTime sessionStartedUtc, CancellationToken token)
+    {
+        if (App.Settings.Prop.DisableCrash != true || _watcherData == null)
+        {
+            return;
+        }
+        try
+        {
+            await Task.Delay(TimeSpan.FromSeconds(CrashHandlerDelaySeconds), token).ConfigureAwait(false);
+            if (ModCrashGuard.HasCrashReportSince(sessionStartedUtc))
+            {
+                return;
+            }
+            using Process roblox = Process.GetProcessById(_watcherData.ProcessId);
+            if (roblox.HasExited)
+            {
+                return;
+            }
+            foreach (Process handler in Process.GetProcessesByName("RobloxCrashHandler"))
+            {
+                using (handler)
+                {
+                    try
+                    {
+                        if (!handler.HasExited && handler.StartTime.ToUniversalTime() >= sessionStartedUtc.AddSeconds(-2))
+                        {
+                            handler.Kill();
+                            App.Logger.WriteLine(
+                                "Watcher::DisableCrashHandler",
+                                "Closed CrashHandler " + handler.Id + " after the startup safety delay"
+                            );
+                        }
+                    }
+                    catch (Exception ex)
+                        when (ex is InvalidOperationException or System.ComponentModel.Win32Exception or NotSupportedException)
+                    {
+                        App.Logger.WriteLine(
+                            "Watcher::DisableCrashHandler",
+                            "CrashHandler " + handler.Id + " could not be closed: " + ex.Message
+                        );
+                    }
+                }
+            }
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or System.ComponentModel.Win32Exception)
+        {
+            App.Logger.WriteLine("Watcher::DisableCrashHandler", "The crash handler check stopped: " + ex.Message);
+        }
+    }
+
+    private void ReportModCrash(IReadOnlyList<string> disabled)
+    {
+        if (disabled.Count == 0)
+        {
+            Frontend.ShowMessageBox(
+                "Roblox crashed while starting. None of your recently added mods look responsible, so nothing was turned off. If it keeps happening, try turning off recent mods in My Mods.",
+                MessageBoxImage.Warning
+            );
+            return;
+        }
+        if (_watcherData != null)
+        {
+            CloseProcess(_watcherData.ProcessId, force: true);
+        }
+        string list = string.Join("\n", disabled.Select(name => "  " + name));
+        MessageBoxResult answer = Frontend.ShowMessageBox(
+            "Roblox crashed while loading your mods, so Voidstrap turned these off:\n\n"
+                + list
+                + "\n\nYou can turn them back on in My Mods. Launch Roblox again now?",
+            MessageBoxImage.Warning,
+            MessageBoxButton.YesNo,
+            MessageBoxResult.Yes
+        );
+        if (answer == MessageBoxResult.Yes)
+        {
+            RelaunchRoblox();
+        }
+    }
+
+    private static void RelaunchRoblox()
+    {
+        try
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo { FileName = Paths.LaunchExecutable, UseShellExecute = false };
+            startInfo.ArgumentList.Add("-player");
+            string launchArgs = App.LaunchSettings.RobloxLaunchArgs ?? "";
+            if (launchArgs.StartsWith("roblox", StringComparison.OrdinalIgnoreCase))
+            {
+                startInfo.ArgumentList.Add(launchArgs);
+            }
+            using Process? relaunch = Process.Start(startInfo);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("Watcher::ReportModCrash", "Roblox could not be launched again: " + ex.Message);
+        }
+    }
+
+    public async Task Run()
+    {
+        if (_disposed || !_lock.IsAcquired || _watcherData == null)
+        {
+            return;
+        }
+        Voidstrap.Integrations.Overlays.OverlayHub.MarkHostProcess();
+        ActivityWatcher?.Start();
+        Voidstrap.Integrations.Overlays.OverlayHub.Refresh();
+        StartWindowManipulation();
+        if (FullscreenModeActive)
+            RunOnApplicationDispatcher(Voidstrap.Integrations.Fullscreen.RobloxFullscreen.Start);
+        StartRuntimeOptimizer();
+        DateTime sessionStartedUtc = ModCrashGuard.BeginSession();
+        Task crashMonitor = MonitorModCrashAsync(sessionStartedUtc, _lifetimeCancellation.SafeToken());
+        _ = DisableCrashHandlerWhenSettledAsync(sessionStartedUtc, _lifetimeCancellation.SafeToken());
+        try
+        {
+            await WaitForProcessExitAsync(_watcherData.ProcessId, _lifetimeCancellation.SafeToken()).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (_lifetimeCancellation.IsCancellationRequested)
+        {
+            return;
+        }
+        if (DateTime.UtcNow - sessionStartedUtc < TimeSpan.FromSeconds(StartupCrashSeconds))
+        {
+            await Task.WhenAny(crashMonitor, Task.Delay(5000)).ConfigureAwait(false);
+        }
+        if (_watcherData.AutoclosePids != null)
+        {
+            foreach (int autoclosePid in _watcherData.AutoclosePids)
+            {
+                CloseProcess(autoclosePid);
+            }
+        }
+        ReopenSettingsForTestMode();
+        await Bootstrapper.CompressInstallsAfterExitAsync().ConfigureAwait(false);
+    }
+
+    private const int ExitPollMilliseconds = 1000;
+
+    private static async Task WaitForProcessExitAsync(int processId, CancellationToken token)
+    {
+        string? processName = null;
+        try
+        {
+            using Process process = Process.GetProcessById(processId);
+            processName = process.ProcessName;
+            await process.WaitForExitAsync(token).ConfigureAwait(false);
+            return;
+        }
+        catch (ArgumentException)
+        {
+            return;
+        }
+        catch (InvalidOperationException)
+        {
+            return;
+        }
+        catch (System.ComponentModel.Win32Exception ex)
+        {
+            App.Logger.WriteLine(
+                "Watcher::WaitForProcessExitAsync",
+                $"Roblox process {processId} does not allow a wait handle ({ex.Message}), watching it by polling instead"
+            );
+        }
+        while (!token.IsCancellationRequested)
+        {
+            await Task.Delay(ExitPollMilliseconds, token).ConfigureAwait(false);
+            if (!IsProcessAlive(processId, processName))
+            {
+                return;
+            }
+        }
+    }
+
+    private static bool IsProcessAlive(int processId, string? processName)
+    {
+        try
+        {
+            using Process process = Process.GetProcessById(processId);
+            return processName == null || string.Equals(process.ProcessName, processName, StringComparison.OrdinalIgnoreCase);
+        }
+        catch (ArgumentException)
+        {
+            return false;
+        }
+        catch (InvalidOperationException)
+        {
+            return false;
+        }
+    }
+
+    private void ReopenSettingsForTestMode()
+    {
+        if (_disposed || _lifetimeCancellation.IsCancellationRequested)
+        {
+            return;
+        }
+        ReopenSettingsForTestModeOnce();
+    }
+
+    private static int _testModeReopened;
+
+    internal static void ReopenSettingsForTestModeOnce()
+    {
+        if (!App.LaunchSettings.TestModeFlag.Active || Interlocked.Exchange(ref _testModeReopened, 1) != 0)
+        {
+            return;
+        }
+        try
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo { FileName = Paths.LaunchExecutable, UseShellExecute = false };
+            startInfo.ArgumentList.Add("-settings");
+            startInfo.ArgumentList.Add("-testmode");
+            using Process? settingsProcess = Process.Start(startInfo);
+            if (settingsProcess == null)
+            {
+                App.Logger.WriteLine("Watcher::ReopenSettingsForTestMode", "Settings did not reopen, the test mode cycle has stopped");
+                return;
+            }
+            App.Logger.WriteLine("Watcher::ReopenSettingsForTestMode", "Roblox closed, settings reopened for the next test mode pass");
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("Watcher::ReopenSettingsForTestMode", ex);
+        }
+    }
+
+    public static bool FullscreenModeActive =>
+        Voidstrap.Utility.Platform.IsWindows && (App.Settings.Prop.FakeBorderlessFullscreen || App.Settings.Prop.FakeExclusiveFullscreen);
+
+    private static bool IsWindowManipulationEnabled()
+    {
+        if (!Voidstrap.Utility.Platform.IsWindows)
+        {
+            return false;
+        }
+
+        var prop = App.Settings.Prop;
+        if (
+            prop.CycleTitleWithGameName
+            || prop.UseGameIconForRobloxWindow
+            || prop.RobloxIcon != Voidstrap.Enums.BootstrapperIcon.IconVoidstrap
+            || Voidstrap.Utility.RobloxWindowIcons.HasOverrides
+        )
+        {
+            return true;
+        }
+        return !string.IsNullOrWhiteSpace(prop.RobloxTitle) && prop.RobloxTitle != "Voidstrap";
+    }
+
+    private delegate bool WatcherEnumWindowsProc(IntPtr hwnd, IntPtr lparam);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool EnumWindows(IntPtr callback, IntPtr lparam);
+
+    [LibraryImport("user32.dll", EntryPoint = "GetClassNameW", StringMarshalling = StringMarshalling.Utf16)]
+    private static partial int GetClassName(IntPtr hwnd, [Out] char[] className, int maxCount);
+
+    [LibraryImport("user32.dll")]
+    private static partial uint GetWindowThreadProcessId(IntPtr hwnd, out uint processId);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool IsWindowVisible(IntPtr hwnd);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool IsIconic(IntPtr hwnd);
+
+    [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+    private partial struct WatcherRect
+    {
+        public int Left;
+
+        public int Top;
+
+        public int Right;
+
+        public int Bottom;
+    }
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool GetClientRect(IntPtr hwnd, out WatcherRect rect);
+
+    private static IntPtr FindRobloxGameWindow(int processId)
+    {
+        IntPtr best = IntPtr.Zero;
+        long bestArea = 0;
+        uint target = (uint)processId;
+
+        try
+        {
+            WatcherEnumWindowsProc callback = delegate (IntPtr hwnd, IntPtr lparam)
+            {
+                if (!IsWindowVisible(hwnd) || IsIconic(hwnd))
+                    return true;
+
+                GetWindowThreadProcessId(hwnd, out uint owner);
+                if (owner != target)
+                    return true;
+
+                char[] className = new char[64];
+                int classLength = GetClassName(hwnd, className, className.Length);
+                if (!className.AsSpan(0, Math.Max(0, classLength)).SequenceEqual("WINDOWSCLIENT"))
+                    return true;
+
+                if (!GetClientRect(hwnd, out WatcherRect rect))
+                    return true;
+
+                long area = (long)(rect.Right - rect.Left) * (rect.Bottom - rect.Top);
+                if (area > bestArea)
+                {
+                    bestArea = area;
+                    best = hwnd;
+                }
+
+                return true;
+            };
+            _ = EnumWindows(Marshal.GetFunctionPointerForDelegate(callback), IntPtr.Zero);
+            GC.KeepAlive(callback);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("Watcher::FindRobloxGameWindow", "Window search failed: " + ex.Message);
+            return IntPtr.Zero;
+        }
+
+        return best;
+    }
+
+    private void StartWindowManipulation()
+    {
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            if (
+                ActivityWatcher != null
+                && Voidstrap.Integrations.LinuxRobloxWindow.IsEnabled
+                && Voidstrap.Integrations.Overlays.OverlaySettings.SoberHasX11Window
+            )
+            {
+                lock (_lifecycleGate)
+                {
+                    if (!_disposed)
+                        _linuxRobloxWindow = Voidstrap.Integrations.LinuxRobloxWindow.Start(ActivityWatcher);
+                }
+            }
+            return;
+        }
+        if (_watcherData == null || !IsWindowManipulationEnabled())
+        {
+            return;
+        }
+        int pid = _watcherData.ProcessId;
+        CancellationToken token = _lifetimeCancellation.SafeToken();
+        _windowManipulationTask = Task.Run(
+            async delegate
+            {
+                try
+                {
+                    using Process process = Process.GetProcessById(pid);
+                    IntPtr handle = IntPtr.Zero;
+                    for (int i = 0; i < 120 && !token.IsCancellationRequested && !process.HasExited; i++)
+                    {
+                        try
+                        {
+                            process.Refresh();
+                            handle = FindRobloxGameWindow(pid);
+                            if (handle == IntPtr.Zero)
+                                handle = process.MainWindowHandle;
+                        }
+                        catch { }
+                        if (handle != IntPtr.Zero)
+                        {
+                            break;
+                        }
+                        await Task.Delay(500, token);
+                    }
+                    if (!token.IsCancellationRequested && !(handle == IntPtr.Zero))
+                    {
+                        WindowManipulation manipulation = new WindowManipulation((long)handle, pid, ActivityWatcher);
+                        lock (_lifecycleGate)
+                        {
+                            if (_disposed || token.IsCancellationRequested)
+                            {
+                                manipulation.Dispose();
+                                return;
+                            }
+                            _windowManipulation = manipulation;
+                            manipulation.Start();
+                        }
+                    }
+                }
+                catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteLine("Watcher::StartWindowManipulation", "Failed: " + ex.Message);
+                }
+            }
+        );
+    }
+
+    public void Dispose()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+        _disposed = true;
+        if (Voidstrap.Utility.Platform.IsWindows)
+            Voidstrap.Integrations.RiShade.RiShadeManager.OnRobloxProcessStopped();
+        if (_robloxClientProcess != null)
+        {
+            _robloxClientProcess.Exited -= OnRobloxClientExited;
+            _robloxClientProcess.Dispose();
+            _robloxClientProcess = null;
+        }
+        _virtualDisplay?.Dispose();
+        _virtualDisplay = null;
+        Voidstrap.Integrations.Overlays.OverlayHub.ReleaseLinuxGameplayLease();
+        if (ReferenceEquals(Current, this))
+        {
+            Current = null;
+        }
+        _lifetimeCancellation.Cancel();
+        lock (_lifecycleGate) { }
+        App.Logger.WriteLine("Watcher::Dispose", "Disposing Watcher");
+        try
+        {
+            if (_settingsWatcher != null)
+            {
+                _settingsWatcher.EnableRaisingEvents = false;
+                _settingsWatcher.Changed -= SettingsFileChanged;
+                _settingsWatcher.Created -= SettingsFileChanged;
+                _settingsWatcher.Renamed -= SettingsFileRenamed;
+                _settingsWatcher.Dispose();
+                _settingsWatcher = null;
+            }
+            if (_settingsReloadTimer != null)
+            {
+                _settingsReloadTimer.DisposeAsync().AsTask().ConfigureAwait(continueOnCapturedContext: false).GetAwaiter().GetResult();
+            }
+            _settingsReloadTimer = null;
+        }
+        catch { }
+        WaitForBackgroundTask(_windowManipulationTask);
+        _windowManipulationTask = null;
+        try
+        {
+            _runtimeOptimizer?.Dispose();
+            _runtimeOptimizer = null;
+        }
+        catch { }
+        try
+        {
+            _tasxOptimizer?.Dispose();
+            _tasxOptimizer = null;
+            _macTasxOptimizer?.Dispose();
+            _macTasxOptimizer = null;
+        }
+        catch { }
+        try
+        {
+            _linuxResourceOptimizer?.Dispose();
+            _linuxResourceOptimizer = null;
+        }
+        catch { }
+        try
+        {
+            _windowManipulation?.Dispose();
+            _windowManipulation = null;
+            _linuxRobloxWindow?.Dispose();
+            _linuxRobloxWindow = null;
+        }
+        catch { }
+        try
+        {
+            ServerMatchmaker?.Dispose();
+            ServerMatchmaker = null;
+        }
+        catch { }
+        try
+        {
+            HistoryPersister?.Dispose();
+            HistoryPersister = null;
+        }
+        catch { }
+        try
+        {
+            IntegrationWatcher?.Dispose();
+            IntegrationWatcher = null;
+        }
+        catch { }
+        try
+        {
+            _notifyIcon?.Dispose();
+            _notifyIcon = null;
+        }
+        catch { }
+        try
+        {
+            RichPresence?.Dispose();
+            RichPresence = null;
+        }
+        catch { }
+        try
+        {
+            if (ActivityWatcher != null)
+            {
+                ActivityWatcher.OnGameJoin -= OnRuntimeGameJoin;
+                ActivityWatcher.OnGameLeave -= OnRuntimeGameLeave;
+            }
+            ActivityWatcher?.OnAppClose -= OnActivityAppClose;
+            ActivityWatcher?.Dispose();
+            ActivityWatcher = null;
+        }
+        catch { }
+        RunOnApplicationDispatcher(CloseRuntimeSessionWindows);
+        try
+        {
+            _lock.Dispose();
+        }
+        catch { }
+        _lifetimeCancellation.Dispose();
+        MemoryManager.SetGameplayActive(false);
+        GC.SuppressFinalize(this);
+    }
+
+    private static void WaitForBackgroundTask(Task? task)
+    {
+        if (task == null)
+        {
+            return;
+        }
+        try
+        {
+            task.ConfigureAwait(continueOnCapturedContext: false).GetAwaiter().GetResult();
+        }
+        catch (OperationCanceledException) { }
+        catch { }
+    }
 }

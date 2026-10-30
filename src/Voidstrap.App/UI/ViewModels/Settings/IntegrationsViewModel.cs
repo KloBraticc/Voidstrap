@@ -20,1043 +20,1043 @@ namespace Voidstrap.UI.ViewModels.Settings;
 
 public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 {
-	public class RpcIdleIconOption
-	{
-		public string Key { get; set; } = "";
-
-		public string Name { get; set; } = "";
-
-		public override string ToString()
-		{
-			return Name;
-		}
-	}
-
-	private readonly ActivityWatcher _watcher;
-	private readonly bool _ownsWatcher;
-	private readonly CancellationTokenSource _lifetimeCts = new();
-	private bool _disposed;
-	private bool _blockTelemetry;
-	private int _telemetryVersion;
-
-	private CustomIntegration? _selectedCustomIntegration;
-
-	public ICommand AddIntegrationCommand => new RelayCommand(AddIntegration);
-
-	public ICommand DeleteIntegrationCommand => new RelayCommand(DeleteIntegration);
-
-	public ICommand BrowseIntegrationLocationCommand => new RelayCommand(BrowseIntegrationLocation);
-
-	public ICommand OpenHistoryWindowCommand { get; }
-
-	public ICommand MusicWindowCommand { get; }
-
-	public ICommand GrantSnapTapAccessCommand { get; }
-
-	public ICommand AddToSteamCommand { get; }
-
-	private bool _addingToSteam;
-
-	public Visibility SteamShortcutVisibility =>
-		Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxSteamIntegration.IsSteamInstalled
-			? Visibility.Visible
-			: Visibility.Collapsed;
-
-	public string SteamShortcutDescription =>
-		Voidstrap.Platform.Linux.LinuxSteamOS.Current.IsGameMode
-			? "Switch to Desktop Mode to add Roblox and Voidstrap to your Steam library, Steam has to close for a moment while its library is updated."
-			: "Adds Roblox and Voidstrap to your Steam library with artwork, so they open from Game Mode on SteamOS and the Steam Deck.";
-
-	private Voidstrap.Platform.Linux.LinuxInputAccessState _snapTapAccess = Voidstrap.Platform.Linux.LinuxInputAccessState.Ready;
-
-	private bool _enableSnapTapAfterGrant;
-
-	public Visibility SnapTapAccessVisibility =>
-		Voidstrap.Utility.Platform.IsMacOS
-		|| (Voidstrap.Utility.Platform.IsLinux && _snapTapAccess != Voidstrap.Platform.Linux.LinuxInputAccessState.Ready)
-			? Visibility.Visible
-			: Visibility.Collapsed;
-
-	public string SnapTapAccessDescription =>
-		Voidstrap.Utility.Platform.IsMacOS
-			? Voidstrap.Platform.MacOS.MacOSInputAccess.IsGranted
-				? "Accessibility access is ready. Snap Tap only changes paired keys while Roblox is focused."
-				: "Enable Voidstrap in System Settings, Privacy & Security, Accessibility. Return here and enable Snap Tap after granting access."
-			: Voidstrap.KeyRouting.LinuxSnapTap.DescribeAccess(_snapTapAccess)
-				+ ". Grant access once so Snap Tap can take over the keyboard while Sober is focused.";
-
-	public bool DuckRobloxAudio
-	{
-		get { return App.Settings.Prop.DuckRobloxAudioOnUnfocus; }
-		set
-		{
-			if (App.Settings.Prop.DuckRobloxAudioOnUnfocus == value)
-			{
-				return;
-			}
-			SettingChangeResult result = SettingChangeNotifier.Try(
-				"IntegrationsViewModel::DuckRobloxAudio",
-				"The Roblox audio setting could not be changed.",
-				() =>
-				{
-					if (value)
-					{
-						if (!Integrations.AudioDucker.Start())
-						{
-							throw new InvalidOperationException("Audio ducking could not start");
-						}
-					}
-					else
-					{
-						Integrations.AudioDucker.Stop();
-						Integrations.AudioDucker.MarkResetOnNextLaunch();
-					}
-				}
-			);
-			if (!result.Success)
-			{
-				OnPropertyChanged(nameof(DuckRobloxAudio));
-				return;
-			}
-			App.Settings.Prop.DuckRobloxAudioOnUnfocus = value;
-			App.Settings.SaveDeferred();
-			OnPropertyChanged(nameof(DuckRobloxAudio));
-		}
-	}
-
-	public bool HeadsetLoudness
-	{
-		get { return App.Settings.Prop.EnableHeadsetLoudness; }
-		set
-		{
-			if (App.Settings.Prop.EnableHeadsetLoudness == value)
-			{
-				return;
-			}
-			SettingChangeResult result = SettingChangeNotifier.Try(
-				"IntegrationsViewModel::HeadsetLoudness",
-				"The headset audio setting could not be changed.",
-				() =>
-				{
-					if (value)
-					{
-						if (!Integrations.HeadsetAudio.Start())
-						{
-							throw new InvalidOperationException("Headset audio could not start");
-						}
-					}
-					else
-					{
-						Integrations.HeadsetAudio.Stop();
-					}
-				}
-			);
-			if (!result.Success)
-			{
-				OnPropertyChanged(nameof(HeadsetLoudness));
-				return;
-			}
-			App.Settings.Prop.EnableHeadsetLoudness = value;
-			App.Settings.SaveDeferred();
-			OnPropertyChanged(nameof(HeadsetLoudness));
-		}
-	}
-
-	public ObservableCollection<RobloxAudioOutput> AudioOutputs { get; } = new();
-
-	public IAsyncRelayCommand RefreshAudioOutputsCommand { get; }
-
-	public Visibility AudioOutputVisibility => RobloxAudioRouting.SupportsOutputDevice ? Visibility.Visible : Visibility.Collapsed;
-
-	public Visibility EqualizerVisibility => RobloxAudioRouting.SupportsEqualizer ? Visibility.Visible : Visibility.Collapsed;
-
-	public RobloxAudioOutput? SelectedAudioOutput
-	{
-		get
-		{
-			string selected = App.Settings.Prop.RobloxAudioOutputDevice ?? "";
-			return AudioOutputs.FirstOrDefault(output => output.Id == selected);
-		}
-		set
-		{
-			if (value == null || value.Id == (App.Settings.Prop.RobloxAudioOutputDevice ?? ""))
-			{
-				return;
-			}
-			App.Settings.Prop.RobloxAudioOutputDevice = value.Id;
-			App.Settings.SaveDeferred();
-			SettingChangeNotifier.Try(
-				"IntegrationsViewModel::SelectedAudioOutput",
-				"The Roblox output device could not be changed.",
-				RobloxAudioRouting.ApplyFromSettings
-			);
-			OnPropertyChanged(nameof(SelectedAudioOutput));
-		}
-	}
-
-	public IReadOnlyList<string> EqualizerPresets =>
-		new[]
-		{
-			Strings.Ui_Sound_Equalizer_Off,
-			Strings.Ui_Sound_Equalizer_BassBoost,
-			Strings.Ui_Sound_Equalizer_Footsteps,
-			Strings.Ui_Sound_Equalizer_Voice,
-			Strings.Ui_Sound_Equalizer_Treble,
-		};
-
-	public int EqualizerPreset
-	{
-		get { return Math.Clamp(App.Settings.Prop.RobloxAudioEqualizer, 0, RobloxAudioRouting.EqualizerPresetCount - 1); }
-		set
-		{
-			value = Math.Clamp(value, 0, RobloxAudioRouting.EqualizerPresetCount - 1);
-			if (App.Settings.Prop.RobloxAudioEqualizer == value)
-			{
-				return;
-			}
-			App.Settings.Prop.RobloxAudioEqualizer = value;
-			App.Settings.SaveDeferred();
-			SettingChangeNotifier.Try(
-				"IntegrationsViewModel::EqualizerPreset",
-				"The Roblox equalizer could not be changed.",
-				RobloxAudioRouting.ApplyFromSettings
-			);
-			OnPropertyChanged(nameof(EqualizerPreset));
-		}
-	}
-
-	private async Task RefreshAudioOutputsAsync()
-	{
-		try
-		{
-			IReadOnlyList<RobloxAudioOutput> outputs = await RobloxAudioRouting.GetOutputsAsync(_lifetimeCts.SafeToken());
-			if (!_disposed)
-			{
-				ResetAudioOutputs(outputs);
-			}
-		}
-		catch (OperationCanceledException) { }
-	}
-
-	private void ResetAudioOutputs(IReadOnlyList<RobloxAudioOutput> outputs)
-	{
-		string selected = App.Settings.Prop.RobloxAudioOutputDevice ?? "";
-		AudioOutputs.Clear();
-		AudioOutputs.Add(new RobloxAudioOutput("", Strings.Ui_Sound_SystemDefault));
-		foreach (RobloxAudioOutput output in outputs)
-		{
-			AudioOutputs.Add(output);
-		}
-		if (selected.Length > 0 && outputs.All(output => output.Id != selected))
-		{
-			AudioOutputs.Add(new RobloxAudioOutput(selected, Strings.Ui_Sound_DeviceUnavailable));
-		}
-		OnPropertyChanged(nameof(SelectedAudioOutput));
-	}
-
-	public bool SnapTapEnabled
-	{
-		get { return App.Settings.Prop.SnapTapEnabled; }
-		set
-		{
-			if (App.Settings.Prop.SnapTapEnabled == value)
-			{
-				return;
-			}
-			if (value && Voidstrap.Utility.Platform.IsLinux)
-			{
-				RefreshSnapTapAccess();
-				if (_snapTapAccess != Voidstrap.Platform.Linux.LinuxInputAccessState.Ready)
-				{
-					OnPropertyChanged(nameof(SnapTapEnabled));
-					MessageBoxResult answer = Frontend.ShowMessageBox(
-						"Snap Tap on Linux needs permission to read your keyboard and to create a virtual keyboard. "
-							+ Voidstrap.KeyRouting.LinuxSnapTap.DescribeAccess(_snapTapAccess)
-							+ ".\n\nGrant keyboard access now? Your password is asked once.",
-						MessageBoxImage.Question,
-						MessageBoxButton.YesNo
-					);
-					if (answer == MessageBoxResult.Yes)
-					{
-						_enableSnapTapAfterGrant = true;
-						GrantSnapTapAccessCommand.Execute(null);
-					}
-					return;
-				}
-			}
-			if (value && Voidstrap.Utility.Platform.IsMacOS && !Voidstrap.Platform.MacOS.MacOSInputAccess.IsGranted)
-			{
-				OnPropertyChanged(nameof(SnapTapEnabled));
-				GrantSnapTapAccessCommand.Execute(null);
-				return;
-			}
-			App.Settings.Prop.SnapTapEnabled = value;
-			App.Settings.Save();
-			SettingChangeResult result = SettingChangeNotifier.Try(
-				"IntegrationsViewModel::SnapTapEnabled",
-				"Snap Tap could not be changed.",
-				() =>
-				{
-					if (!value)
-					{
-						Voidstrap.KeyRouting.SnapTapHook.Stop();
-					}
-					else if (!Voidstrap.KeyRouting.SnapTapHook.Start())
-					{
-						throw new InvalidOperationException("Snap Tap could not start");
-					}
-				}
-			);
-			if (!result.Success && value)
-			{
-				App.Settings.Prop.SnapTapEnabled = false;
-				App.Settings.Save();
-			}
-			OnPropertyChanged(nameof(SnapTapEnabled));
-			OnPropertyChanged(nameof(SnapTapAccessDescription));
-		}
-	}
-
-	public IReadOnlyList<string> SnapTapModes { get; } =
-		new[] { "Last key wins (Snap Tap)", "Neutral, both keys cancel", "First listed key always wins" };
-
-	public int SnapTapMode
-	{
-		get { return Math.Clamp(App.Settings.Prop.SnapTapMode, 0, SnapTapModes.Count - 1); }
-		set
-		{
-			value = Math.Clamp(value, 0, SnapTapModes.Count - 1);
-			if (App.Settings.Prop.SnapTapMode == value)
-			{
-				return;
-			}
-			App.Settings.Prop.SnapTapMode = value;
-			App.Settings.SaveDeferred();
-			if (App.Settings.Prop.SnapTapEnabled)
-			{
-				Voidstrap.KeyRouting.SnapTapHook.Start();
-			}
-			OnPropertyChanged(nameof(SnapTapMode));
-		}
-	}
-
-	public string SnapTapKeys
-	{
-		get { return App.Settings.Prop.SnapTapKeys; }
-		set
-		{
-			List<int[]> groups = Voidstrap.KeyRouting.OpposingKeyResolver.ParseGroups(value);
-			string normalized =
-				groups.Count == 0 ? App.Settings.Prop.SnapTapKeys : Voidstrap.KeyRouting.OpposingKeyResolver.FormatGroups(groups);
-			if (groups.Count == 0)
-			{
-				Frontend.ShowMessageBox("Enter at least two keys per group, for example: A D, W S", MessageBoxImage.Warning);
-			}
-			if (App.Settings.Prop.SnapTapKeys != normalized)
-			{
-				App.Settings.Prop.SnapTapKeys = normalized;
-				App.Settings.SaveDeferred();
-				if (App.Settings.Prop.SnapTapEnabled)
-				{
-					Voidstrap.KeyRouting.SnapTapHook.Start();
-				}
-			}
-			OnPropertyChanged(nameof(SnapTapKeys));
-		}
-	}
-
-	public bool BlockTelemetry
-	{
-		get { return _blockTelemetry; }
-		set
-		{
-			if (_blockTelemetry == value)
-			{
-				return;
-			}
-			_blockTelemetry = value;
-			OnPropertyChanged(nameof(BlockTelemetry));
-			int version = Interlocked.Increment(ref _telemetryVersion);
-			_ = ApplyTelemetrySettingAsync(value, version);
-		}
-	}
-
-	public bool RobloxSystemTray
-	{
-		get { return App.Settings.Prop.RobloxMinimizeToTray; }
-		set
-		{
-			if (App.Settings.Prop.RobloxMinimizeToTray == value)
-			{
-				return;
-			}
-			ApplyAppStorage(
-				nameof(RobloxSystemTray),
-				"The Roblox system tray setting could not be saved.",
-				value,
-				App.Settings.Prop.RobloxLaunchAtStartup
-			);
-		}
-	}
-
-	public bool LaunchStartup
-	{
-		get { return App.Settings.Prop.RobloxLaunchAtStartup; }
-		set
-		{
-			if (App.Settings.Prop.RobloxLaunchAtStartup == value)
-			{
-				return;
-			}
-			ApplyAppStorage(
-				nameof(LaunchStartup),
-				"The Roblox startup setting could not be saved.",
-				App.Settings.Prop.RobloxMinimizeToTray,
-				value
-			);
-		}
-	}
-
-	private void ApplyAppStorage(string propertyName, string failureMessage, bool minimizeToTray, bool launchAtStartup)
-	{
-		SettingChangeResult result = SettingChangeNotifier.Try(
-			"IntegrationsViewModel::" + propertyName,
-			failureMessage,
-			() =>
-			{
-				if (!RobloxAppStorage.Apply(minimizeToTray, launchAtStartup))
-				{
-					throw new InvalidOperationException("The Roblox app storage file could not be written");
-				}
-			}
-		);
-		if (result.Success)
-		{
-			App.Settings.Prop.RobloxMinimizeToTray = minimizeToTray;
-			App.Settings.Prop.RobloxLaunchAtStartup = launchAtStartup;
-			App.Settings.SaveDeferred();
-		}
-		OnPropertyChanged(propertyName);
-	}
-
-	public bool ActivityTrackingEnabled
-	{
-		get { return App.Settings.Prop.EnableActivityTracking; }
-		set
-		{
-			if (App.Settings.Prop.EnableActivityTracking == value)
-			{
-				return;
-			}
-			App.Settings.Prop.EnableActivityTracking = value;
-			SaveAppSetting(nameof(ActivityTrackingEnabled));
-			OnPropertyChanged(nameof(ShowServerDetailsEnabled));
-			OnPropertyChanged(nameof(DisableAppPatchEnabled));
-			OnPropertyChanged(nameof(DiscordActivityEnabled));
-			OnPropertyChanged(nameof(DiscordActivityJoinEnabled));
-		}
-	}
-
-	public bool ShowServerDetailsEnabled
-	{
-		get { return App.Settings.Prop.ShowServerDetails; }
-		set
-		{
-			if (App.Settings.Prop.ShowServerDetails == value)
-			{
-				return;
-			}
-			App.Settings.Prop.ShowServerDetails = value;
-			SaveAppSetting(nameof(ShowServerDetailsEnabled));
-		}
-	}
-
-	public bool LibraryShowRobloxFavorites
-	{
-		get { return App.Settings.Prop.LibraryShowRobloxFavorites; }
-		set
-		{
-			if (App.Settings.Prop.LibraryShowRobloxFavorites == value)
-			{
-				return;
-			}
-			App.Settings.Prop.LibraryShowRobloxFavorites = value;
-			SaveAppSetting(nameof(LibraryShowRobloxFavorites));
-		}
-	}
-
-	public bool FavoriteUpdateAlerts
-	{
-		get { return App.Settings.Prop.FavoriteUpdateAlerts; }
-		set
-		{
-			if (App.Settings.Prop.FavoriteUpdateAlerts == value)
-			{
-				return;
-			}
-			App.Settings.Prop.FavoriteUpdateAlerts = value;
-			SaveAppSetting(nameof(FavoriteUpdateAlerts));
-		}
-	}
-
-	public bool joinGameNotify
-	{
-		get { return App.Settings.Prop.NotificationWindowShow; }
-		set
-		{
-			if (App.Settings.Prop.NotificationWindowShow == value)
-			{
-				return;
-			}
-			App.Settings.Prop.NotificationWindowShow = value;
-			SaveAppSetting(nameof(joinGameNotify));
-		}
-	}
-
-	public bool FriendNotifications
-	{
-		get => App.Settings.Prop.NotifyFriends;
-		set
-		{
-			if (App.Settings.Prop.NotifyFriends == value)
-				return;
-			App.Settings.Prop.NotifyFriends = value;
-			SaveAppSetting(nameof(FriendNotifications));
-		}
-	}
-
-	public bool ExitOnDissy
-	{
-		get { return App.Settings.Prop.ExitOnDissy; }
-		set
-		{
-			if (App.Settings.Prop.ExitOnDissy == value)
-			{
-				return;
-			}
-			App.Settings.Prop.ExitOnDissy = value;
-			SaveAppSetting(nameof(ExitOnDissy));
-		}
-	}
-
-	public string gamename
-	{
-		get { return App.Settings.Prop.CustomGameName; }
-		set
-		{
-			if (App.Settings.Prop.CustomGameName == value)
-			{
-				return;
-			}
-			App.Settings.Prop.CustomGameName = value;
-			SaveAppSetting(nameof(gamename));
-		}
-	}
-
-	public bool GameWIP
-	{
-		get { return App.Settings.Prop.GameWIP; }
-		set
-		{
-			if (App.Settings.Prop.GameWIP == value)
-			{
-				return;
-			}
-			App.Settings.Prop.GameWIP = value;
-			SaveAppSetting(nameof(GameWIP));
-		}
-	}
-
-	public bool FFlagAmountRPC
-	{
-		get { return App.Settings.Prop.FFlagRPCDisplayer; }
-		set
-		{
-			if (App.Settings.Prop.FFlagRPCDisplayer == value)
-			{
-				return;
-			}
-			App.Settings.Prop.FFlagRPCDisplayer = value;
-			SaveAppSetting(nameof(FFlagAmountRPC));
-		}
-	}
-
-	public bool ServerUptimeBetterBLOXcuzitsbetterXD
-	{
-		get { return App.Settings.Prop.ServerUptimeBetterBLOXcuzitsbetterXD; }
-		set
-		{
-			if (App.Settings.Prop.ServerUptimeBetterBLOXcuzitsbetterXD == value)
-			{
-				return;
-			}
-			App.Settings.Prop.ServerUptimeBetterBLOXcuzitsbetterXD = value;
-			SaveAppSetting(nameof(ServerUptimeBetterBLOXcuzitsbetterXD));
-		}
-	}
-
-	public string gameimage
-	{
-		get { return App.Settings.Prop.UseCustomIcon; }
-		set
-		{
-			if (App.Settings.Prop.UseCustomIcon == value)
-			{
-				return;
-			}
-			App.Settings.Prop.UseCustomIcon = value;
-			SaveAppSetting(nameof(gameimage));
-		}
-	}
-
-	public bool DiscordActivityEnabled
-	{
-		get { return App.Settings.Prop.UseDiscordRichPresence; }
-		set
-		{
-			if (App.Settings.Prop.UseDiscordRichPresence == value)
-			{
-				return;
-			}
-			App.Settings.Prop.UseDiscordRichPresence = value;
-			SaveAppSetting(nameof(DiscordActivityEnabled));
-			OnPropertyChanged(nameof(DiscordActivityJoinEnabled));
-			OnPropertyChanged(nameof(DiscordAccountOnProfile));
-			OnPropertyChanged(nameof(GameIconChecked));
-			OnPropertyChanged(nameof(ServerLocationGame));
-		}
-	}
-
-	public bool UncapFPS
-	{
-		get
-		{
-			if (Voidstrap.Utility.Platform.IsMacOS)
-				return App.Settings.Prop.MacVirtualDisplayEnabled;
-			return App.Settings.Prop.FpsUnlockerEnabled ?? App.GlobalSettings.GetInt("FramerateCap", 0) > 240;
-		}
-		set
-		{
-			if (Voidstrap.Utility.Platform.IsMacOS)
-			{
-				if (App.Settings.Prop.MacVirtualDisplayEnabled == value)
-					return;
-				App.Settings.Prop.MacVirtualDisplayEnabled = value;
-				App.Settings.SaveDeferred();
-				OnPropertyChanged(nameof(UncapFPS));
-				return;
-			}
-			App.Settings.Prop.FpsUnlockerEnabled = value;
-			App.Settings.SaveDeferred();
-			if (App.GlobalSettings.SetProperty("FramerateCap", value ? 9999 : 240))
-				App.GlobalSettings.Save();
-			OnPropertyChanged(nameof(UncapFPS));
-		}
-	}
-
-	public string UncapFpsDescription =>
-		Voidstrap.Utility.Platform.IsMacOS
-			? "Create a 240 Hz virtual display that lets Roblox go above your screen's refresh rate in game. Also set Roblox's in game Maximum Frame Rate to 240."
-			: "Remove the 240 FPS limit. Unavailable while Frame Generation is enabled.";
-
-	public bool UncapFpsToggleEnabled =>
-		Voidstrap.Utility.Platform.IsMacOS || Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex == 0;
-
-	public bool DiscordActivityJoinEnabled
-	{
-		get { return !App.Settings.Prop.HideRPCButtons; }
-		set
-		{
-			if (App.Settings.Prop.HideRPCButtons == !value)
-			{
-				return;
-			}
-			App.Settings.Prop.HideRPCButtons = !value;
-			SaveAppSetting(nameof(DiscordActivityJoinEnabled));
-		}
-	}
-
-	public bool DiscordAccountOnProfile
-	{
-		get { return App.Settings.Prop.ShowAccountOnRichPresence; }
-		set
-		{
-			if (App.Settings.Prop.ShowAccountOnRichPresence == value)
-			{
-				return;
-			}
-			App.Settings.Prop.ShowAccountOnRichPresence = value;
-			SaveAppSetting(nameof(DiscordAccountOnProfile));
-		}
-	}
-
-	public bool GameIconChecked
-	{
-		get { return App.Settings.Prop.GameIconChecked; }
-		set
-		{
-			if (App.Settings.Prop.GameIconChecked == value)
-			{
-				return;
-			}
-			App.Settings.Prop.GameIconChecked = value;
-			SaveAppSetting(nameof(GameIconChecked));
-		}
-	}
-
-	public IReadOnlyList<RpcIdleIconOption> RpcIdleIconOptions { get; } =
-		DiscordRichPresence
-			.IdleIconPresets.Select<KeyValuePair<string, (string, string)>, RpcIdleIconOption>(
-				(KeyValuePair<string, (string Name, string Url)> kvp) => new RpcIdleIconOption { Key = kvp.Key, Name = kvp.Value.Name }
-			)
-			.ToList();
-
-	public RpcIdleIconOption SelectedRpcIdleIcon
-	{
-		get
-		{
-			string key = App.Settings.Prop.RpcIdleIcon ?? "blue";
-			return RpcIdleIconOptions.FirstOrDefault((RpcIdleIconOption x) => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase))
-				?? RpcIdleIconOptions[0];
-		}
-		set
-		{
-			if (value != null && !string.Equals(App.Settings.Prop.RpcIdleIcon, value.Key, StringComparison.OrdinalIgnoreCase))
-			{
-				App.Settings.Prop.RpcIdleIcon = value.Key;
-				App.Settings.SaveDeferred();
-				OnPropertyChanged(nameof(SelectedRpcIdleIcon));
-			}
-		}
-	}
-
-	public bool GameNameChecked
-	{
-		get { return App.Settings.Prop.GameNameChecked; }
-		set
-		{
-			if (App.Settings.Prop.GameNameChecked == value)
-			{
-				return;
-			}
-			App.Settings.Prop.GameNameChecked = value;
-			SaveAppSetting(nameof(GameNameChecked));
-		}
-	}
-
-	public bool GameCreatorChecked
-	{
-		get { return App.Settings.Prop.GameCreatorChecked; }
-		set
-		{
-			if (App.Settings.Prop.GameCreatorChecked == value)
-			{
-				return;
-			}
-			App.Settings.Prop.GameCreatorChecked = value;
-			SaveAppSetting(nameof(GameCreatorChecked));
-		}
-	}
-
-	public bool GameStatusChecked
-	{
-		get { return App.Settings.Prop.GameStatusChecked; }
-		set
-		{
-			if (App.Settings.Prop.GameStatusChecked == value)
-			{
-				return;
-			}
-			App.Settings.Prop.GameStatusChecked = value;
-			SaveAppSetting(nameof(GameStatusChecked));
-		}
-	}
-
-	public bool ServerLocationGame
-	{
-		get { return App.Settings.Prop.ServerLocationGame; }
-		set
-		{
-			if (App.Settings.Prop.ServerLocationGame == value)
-			{
-				return;
-			}
-			App.Settings.Prop.ServerLocationGame = value;
-			SaveAppSetting(nameof(ServerLocationGame));
-		}
-	}
-
-	public bool DisableAppPatchEnabled
-	{
-		get { return App.Settings.Prop.UseDisableAppPatch; }
-		set
-		{
-			if (App.Settings.Prop.UseDisableAppPatch == value)
-			{
-				return;
-			}
-			App.Settings.Prop.UseDisableAppPatch = value;
-			SaveAppSetting(nameof(DisableAppPatchEnabled));
-		}
-	}
-
-	public ObservableCollection<CustomIntegration> CustomIntegrations
-	{
-		get { return App.Settings.Prop.CustomIntegrations; }
-		set
-		{
-			if (ReferenceEquals(App.Settings.Prop.CustomIntegrations, value))
-			{
-				return;
-			}
-			App.Settings.Prop.CustomIntegrations = value;
-			SaveAppSetting(nameof(CustomIntegrations));
-		}
-	}
-
-	public CustomIntegration? SelectedCustomIntegration
-	{
-		get { return _selectedCustomIntegration; }
-		set
-		{
-			if (_selectedCustomIntegration != value)
-			{
-				_selectedCustomIntegration = value;
-				OnPropertyChanged(nameof(SelectedCustomIntegration));
-				OnPropertyChanged(nameof(IsCustomIntegrationSelected));
-			}
-		}
-	}
-
-	public int SelectedCustomIntegrationIndex { get; set; }
-
-	public bool IsCustomIntegrationSelected => SelectedCustomIntegration != null;
-
-	public string CustomIntegrationLocationPlaceholder =>
-		Voidstrap.Utility.Platform.IsLinux ? "/usr/bin/obs"
-		: Voidstrap.Utility.Platform.IsMacOS ? "/Applications/OBS.app"
-		: @"C:\Windows\System32\cmd.exe";
-
-	public IntegrationsViewModel(ActivityWatcher watcher, bool ownsWatcher = false)
-	{
-		_watcher = watcher;
-		_ownsWatcher = ownsWatcher;
-		_blockTelemetry = App.Settings.Prop.BlockRobloxTelemetry;
-		OpenHistoryWindowCommand = new RelayCommand(OpenHistoryWindow);
-		MusicWindowCommand = new RelayCommand(MusicPlayerWindow);
-		GrantSnapTapAccessCommand = new AsyncRelayCommand(GrantSnapTapAccessAsync);
-		AddToSteamCommand = new AsyncRelayCommand(AddToSteamAsync);
-		RefreshAudioOutputsCommand = new AsyncRelayCommand(RefreshAudioOutputsAsync);
-		ResetAudioOutputs([]);
-		if (RobloxAudioRouting.SupportsOutputDevice)
-		{
-			_ = RefreshAudioOutputsAsync();
-		}
-		if (Voidstrap.Utility.Platform.IsLinux)
-		{
-			_snapTapAccess = Voidstrap.KeyRouting.LinuxSnapTap.Access;
-		}
-	}
-
-	private void RefreshSnapTapAccess()
-	{
-		if (!Voidstrap.Utility.Platform.IsLinux)
-		{
-			return;
-		}
-		_snapTapAccess = Voidstrap.KeyRouting.LinuxSnapTap.Access;
-		OnPropertyChanged(nameof(SnapTapAccessVisibility));
-		OnPropertyChanged(nameof(SnapTapAccessDescription));
-	}
-
-	private async Task GrantSnapTapAccessAsync()
-	{
-		if (Voidstrap.Utility.Platform.IsMacOS)
-		{
-			SettingChangeNotifier.Try(
-				"IntegrationsViewModel::GrantSnapTapAccess",
-				"Accessibility settings could not be opened.",
-				Voidstrap.Platform.MacOS.MacOSInputAccess.Request
-			);
-			OnPropertyChanged(nameof(SnapTapAccessDescription));
-			return;
-		}
-		Voidstrap.Platform.Linux.LinuxInputAccessResult result = await Voidstrap.Platform.Linux.LinuxInputAccess.GrantAsync();
-		RefreshSnapTapAccess();
-		bool enable = _enableSnapTapAfterGrant;
-		_enableSnapTapAfterGrant = false;
-		if (!result.Success)
-		{
-			Frontend.ShowMessageBox(result.Message, MessageBoxImage.Warning);
-			return;
-		}
-		if (result.RestartRequired)
-		{
-			Frontend.ShowMessageBox(result.Message, MessageBoxImage.Information);
-		}
-		if (_snapTapAccess == Voidstrap.Platform.Linux.LinuxInputAccessState.Ready && (enable || App.Settings.Prop.SnapTapEnabled))
-		{
-			if (App.Settings.Prop.SnapTapEnabled)
-			{
-				Voidstrap.KeyRouting.SnapTapHook.Start();
-			}
-			else
-			{
-				SnapTapEnabled = true;
-			}
-		}
-	}
-
-	private async Task AddToSteamAsync()
-	{
-		if (_addingToSteam)
-			return;
-		if (Voidstrap.Platform.Linux.LinuxSteamOS.Current.IsGameMode)
-		{
-			Frontend.ShowMessageBox(
-				"Switch to Desktop Mode first. Steam has to close for a moment while Voidstrap updates its library, and Game Mode cannot run without Steam.",
-				MessageBoxImage.Information
-			);
-			return;
-		}
-		bool closeSteam = false;
-		if (Voidstrap.Platform.Linux.LinuxSteamLibrary.IsSteamRunning())
-		{
-			MessageBoxResult answer = Frontend.ShowMessageBox(
-				"Steam has to close for a moment while Voidstrap adds Roblox and Voidstrap to your library. Close Steam now and open it again afterwards?",
-				MessageBoxImage.Question,
-				MessageBoxButton.YesNo
-			);
-			if (answer != MessageBoxResult.Yes)
-				return;
-			closeSteam = true;
-		}
-		_addingToSteam = true;
-		try
-		{
-			byte[]? icon = Voidstrap.Utility.LinuxDesktopEntry.ReadIconPng();
-			string message = await Task.Run(() =>
-				Voidstrap.Utility.LinuxSteamIntegration.AddToSteamAsync(icon, closeSteam, _lifetimeCts.SafeToken())
-			);
-			Frontend.ShowMessageBox(message, MessageBoxImage.Information);
-		}
-		catch (OperationCanceledException) { }
-		finally
-		{
-			_addingToSteam = false;
-		}
-	}
-
-	private void AddIntegration()
-	{
-		CustomIntegrations.Add(new CustomIntegration { Name = Strings.Menu_Integrations_Custom_NewIntegration });
-		SelectedCustomIntegrationIndex = CustomIntegrations.Count - 1;
-		OnPropertyChanged(nameof(SelectedCustomIntegrationIndex));
-		OnPropertyChanged(nameof(IsCustomIntegrationSelected));
-	}
-
-	private void SaveAppSetting(string propertyName)
-	{
-		App.Settings.SaveDeferred();
-		OnPropertyChanged(propertyName);
-	}
-
-	private void OpenHistoryWindow()
-	{
-		ServerHistory? existing = Application.Current.Windows.OfType<ServerHistory>().FirstOrDefault();
-		if (existing != null)
-			existing.Activate();
-		else
-			new ServerHistory(_watcher).Show();
-	}
-
-	private void MusicPlayerWindow()
-	{
-		new MusicPlayer(_watcher).Show();
-	}
-
-	private void DeleteIntegration()
-	{
-		if (SelectedCustomIntegration != null)
-		{
-			CustomIntegrations.Remove(SelectedCustomIntegration);
-			if (CustomIntegrations.Count > 0)
-			{
-				SelectedCustomIntegrationIndex = CustomIntegrations.Count - 1;
-				OnPropertyChanged(nameof(SelectedCustomIntegrationIndex));
-			}
-			OnPropertyChanged(nameof(IsCustomIntegrationSelected));
-		}
-	}
-
-	private void BrowseIntegrationLocation()
-	{
-		if (SelectedCustomIntegration != null)
-		{
-			OpenFileDialog openFileDialog = new OpenFileDialog { Filter = Strings.Menu_AllFiles + "|*.*" };
-			if (openFileDialog.ShowDialog() == true)
-			{
-				SelectedCustomIntegration.Name = openFileDialog.SafeFileName;
-				SelectedCustomIntegration.Location = openFileDialog.FileName;
-				OnPropertyChanged(nameof(SelectedCustomIntegration));
-			}
-		}
-	}
-
-	private async Task ApplyTelemetrySettingAsync(bool value, int version)
-	{
-		try
-		{
-			bool applied = await TelemetryBlocker.SetAsync(value, _lifetimeCts.SafeToken()).ConfigureAwait(false);
-			if (_disposed || version != Volatile.Read(ref _telemetryVersion))
-			{
-				return;
-			}
-			await Application.Current.Dispatcher.InvokeAsync(() =>
-			{
-				if (_disposed || version != Volatile.Read(ref _telemetryVersion))
-				{
-					return;
-				}
-				if (applied)
-				{
-					App.Settings.Prop.BlockRobloxTelemetry = value;
-					App.Settings.SaveDeferred();
-					return;
-				}
-				_blockTelemetry = !value;
-				OnPropertyChanged(nameof(BlockTelemetry));
-				string reason =
-					!Voidstrap.Utility.Platform.IsWindows && !string.IsNullOrWhiteSpace(TelemetryBlocker.LastLinuxFailure)
-						? TelemetryBlocker.LastLinuxFailure + "."
-						: "Administrator approval is required to edit the hosts file.";
-				Frontend.ShowMessageBox(
-					(value ? "Voidstrap could not enable the telemetry blocker. " : "Voidstrap could not disable the telemetry blocker. ")
-						+ reason,
-					MessageBoxImage.Warning
-				);
-			});
-		}
-		catch (OperationCanceledException) { }
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("IntegrationsViewModel::ApplyTelemetrySetting", ex);
-		}
-	}
-
-	public void Dispose()
-	{
-		if (_disposed)
-		{
-			return;
-		}
-		_disposed = true;
-		_lifetimeCts.Cancel();
-		if (_ownsWatcher)
-		{
-			_watcher.Dispose();
-		}
-		_lifetimeCts.Dispose();
-		GC.SuppressFinalize(this);
-	}
+    public class RpcIdleIconOption
+    {
+        public string Key { get; set; } = "";
+
+        public string Name { get; set; } = "";
+
+        public override string ToString()
+        {
+            return Name;
+        }
+    }
+
+    private readonly ActivityWatcher _watcher;
+    private readonly bool _ownsWatcher;
+    private readonly CancellationTokenSource _lifetimeCts = new();
+    private bool _disposed;
+    private bool _blockTelemetry;
+    private int _telemetryVersion;
+
+    private CustomIntegration? _selectedCustomIntegration;
+
+    public ICommand AddIntegrationCommand => new RelayCommand(AddIntegration);
+
+    public ICommand DeleteIntegrationCommand => new RelayCommand(DeleteIntegration);
+
+    public ICommand BrowseIntegrationLocationCommand => new RelayCommand(BrowseIntegrationLocation);
+
+    public ICommand OpenHistoryWindowCommand { get; }
+
+    public ICommand MusicWindowCommand { get; }
+
+    public ICommand GrantSnapTapAccessCommand { get; }
+
+    public ICommand AddToSteamCommand { get; }
+
+    private bool _addingToSteam;
+
+    public Visibility SteamShortcutVisibility =>
+        Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxSteamIntegration.IsSteamInstalled
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+
+    public string SteamShortcutDescription =>
+        Voidstrap.Platform.Linux.LinuxSteamOS.Current.IsGameMode
+            ? "Switch to Desktop Mode to add Roblox and Voidstrap to your Steam library, Steam has to close for a moment while its library is updated."
+            : "Adds Roblox and Voidstrap to your Steam library with artwork, so they open from Game Mode on SteamOS and the Steam Deck.";
+
+    private Voidstrap.Platform.Linux.LinuxInputAccessState _snapTapAccess = Voidstrap.Platform.Linux.LinuxInputAccessState.Ready;
+
+    private bool _enableSnapTapAfterGrant;
+
+    public Visibility SnapTapAccessVisibility =>
+        Voidstrap.Utility.Platform.IsMacOS
+        || (Voidstrap.Utility.Platform.IsLinux && _snapTapAccess != Voidstrap.Platform.Linux.LinuxInputAccessState.Ready)
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+
+    public string SnapTapAccessDescription =>
+        Voidstrap.Utility.Platform.IsMacOS
+            ? Voidstrap.Platform.MacOS.MacOSInputAccess.IsGranted
+                ? "Accessibility access is ready. Snap Tap only changes paired keys while Roblox is focused."
+                : "Enable Voidstrap in System Settings, Privacy & Security, Accessibility. Return here and enable Snap Tap after granting access."
+            : Voidstrap.KeyRouting.LinuxSnapTap.DescribeAccess(_snapTapAccess)
+                + ". Grant access once so Snap Tap can take over the keyboard while Sober is focused.";
+
+    public bool DuckRobloxAudio
+    {
+        get { return App.Settings.Prop.DuckRobloxAudioOnUnfocus; }
+        set
+        {
+            if (App.Settings.Prop.DuckRobloxAudioOnUnfocus == value)
+            {
+                return;
+            }
+            SettingChangeResult result = SettingChangeNotifier.Try(
+                "IntegrationsViewModel::DuckRobloxAudio",
+                "The Roblox audio setting could not be changed.",
+                () =>
+                {
+                    if (value)
+                    {
+                        if (!Integrations.AudioDucker.Start())
+                        {
+                            throw new InvalidOperationException("Audio ducking could not start");
+                        }
+                    }
+                    else
+                    {
+                        Integrations.AudioDucker.Stop();
+                        Integrations.AudioDucker.MarkResetOnNextLaunch();
+                    }
+                }
+            );
+            if (!result.Success)
+            {
+                OnPropertyChanged(nameof(DuckRobloxAudio));
+                return;
+            }
+            App.Settings.Prop.DuckRobloxAudioOnUnfocus = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(DuckRobloxAudio));
+        }
+    }
+
+    public bool HeadsetLoudness
+    {
+        get { return App.Settings.Prop.EnableHeadsetLoudness; }
+        set
+        {
+            if (App.Settings.Prop.EnableHeadsetLoudness == value)
+            {
+                return;
+            }
+            SettingChangeResult result = SettingChangeNotifier.Try(
+                "IntegrationsViewModel::HeadsetLoudness",
+                "The headset audio setting could not be changed.",
+                () =>
+                {
+                    if (value)
+                    {
+                        if (!Integrations.HeadsetAudio.Start())
+                        {
+                            throw new InvalidOperationException("Headset audio could not start");
+                        }
+                    }
+                    else
+                    {
+                        Integrations.HeadsetAudio.Stop();
+                    }
+                }
+            );
+            if (!result.Success)
+            {
+                OnPropertyChanged(nameof(HeadsetLoudness));
+                return;
+            }
+            App.Settings.Prop.EnableHeadsetLoudness = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged(nameof(HeadsetLoudness));
+        }
+    }
+
+    public ObservableCollection<RobloxAudioOutput> AudioOutputs { get; } = new();
+
+    public IAsyncRelayCommand RefreshAudioOutputsCommand { get; }
+
+    public Visibility AudioOutputVisibility => RobloxAudioRouting.SupportsOutputDevice ? Visibility.Visible : Visibility.Collapsed;
+
+    public Visibility EqualizerVisibility => RobloxAudioRouting.SupportsEqualizer ? Visibility.Visible : Visibility.Collapsed;
+
+    public RobloxAudioOutput? SelectedAudioOutput
+    {
+        get
+        {
+            string selected = App.Settings.Prop.RobloxAudioOutputDevice ?? "";
+            return AudioOutputs.FirstOrDefault(output => output.Id == selected);
+        }
+        set
+        {
+            if (value == null || value.Id == (App.Settings.Prop.RobloxAudioOutputDevice ?? ""))
+            {
+                return;
+            }
+            App.Settings.Prop.RobloxAudioOutputDevice = value.Id;
+            App.Settings.SaveDeferred();
+            SettingChangeNotifier.Try(
+                "IntegrationsViewModel::SelectedAudioOutput",
+                "The Roblox output device could not be changed.",
+                RobloxAudioRouting.ApplyFromSettings
+            );
+            OnPropertyChanged(nameof(SelectedAudioOutput));
+        }
+    }
+
+    public IReadOnlyList<string> EqualizerPresets =>
+        new[]
+        {
+            Strings.Ui_Sound_Equalizer_Off,
+            Strings.Ui_Sound_Equalizer_BassBoost,
+            Strings.Ui_Sound_Equalizer_Footsteps,
+            Strings.Ui_Sound_Equalizer_Voice,
+            Strings.Ui_Sound_Equalizer_Treble,
+        };
+
+    public int EqualizerPreset
+    {
+        get { return Math.Clamp(App.Settings.Prop.RobloxAudioEqualizer, 0, RobloxAudioRouting.EqualizerPresetCount - 1); }
+        set
+        {
+            value = Math.Clamp(value, 0, RobloxAudioRouting.EqualizerPresetCount - 1);
+            if (App.Settings.Prop.RobloxAudioEqualizer == value)
+            {
+                return;
+            }
+            App.Settings.Prop.RobloxAudioEqualizer = value;
+            App.Settings.SaveDeferred();
+            SettingChangeNotifier.Try(
+                "IntegrationsViewModel::EqualizerPreset",
+                "The Roblox equalizer could not be changed.",
+                RobloxAudioRouting.ApplyFromSettings
+            );
+            OnPropertyChanged(nameof(EqualizerPreset));
+        }
+    }
+
+    private async Task RefreshAudioOutputsAsync()
+    {
+        try
+        {
+            IReadOnlyList<RobloxAudioOutput> outputs = await RobloxAudioRouting.GetOutputsAsync(_lifetimeCts.SafeToken());
+            if (!_disposed)
+            {
+                ResetAudioOutputs(outputs);
+            }
+        }
+        catch (OperationCanceledException) { }
+    }
+
+    private void ResetAudioOutputs(IReadOnlyList<RobloxAudioOutput> outputs)
+    {
+        string selected = App.Settings.Prop.RobloxAudioOutputDevice ?? "";
+        AudioOutputs.Clear();
+        AudioOutputs.Add(new RobloxAudioOutput("", Strings.Ui_Sound_SystemDefault));
+        foreach (RobloxAudioOutput output in outputs)
+        {
+            AudioOutputs.Add(output);
+        }
+        if (selected.Length > 0 && outputs.All(output => output.Id != selected))
+        {
+            AudioOutputs.Add(new RobloxAudioOutput(selected, Strings.Ui_Sound_DeviceUnavailable));
+        }
+        OnPropertyChanged(nameof(SelectedAudioOutput));
+    }
+
+    public bool SnapTapEnabled
+    {
+        get { return App.Settings.Prop.SnapTapEnabled; }
+        set
+        {
+            if (App.Settings.Prop.SnapTapEnabled == value)
+            {
+                return;
+            }
+            if (value && Voidstrap.Utility.Platform.IsLinux)
+            {
+                RefreshSnapTapAccess();
+                if (_snapTapAccess != Voidstrap.Platform.Linux.LinuxInputAccessState.Ready)
+                {
+                    OnPropertyChanged(nameof(SnapTapEnabled));
+                    MessageBoxResult answer = Frontend.ShowMessageBox(
+                        "Snap Tap on Linux needs permission to read your keyboard and to create a virtual keyboard. "
+                            + Voidstrap.KeyRouting.LinuxSnapTap.DescribeAccess(_snapTapAccess)
+                            + ".\n\nGrant keyboard access now? Your password is asked once.",
+                        MessageBoxImage.Question,
+                        MessageBoxButton.YesNo
+                    );
+                    if (answer == MessageBoxResult.Yes)
+                    {
+                        _enableSnapTapAfterGrant = true;
+                        GrantSnapTapAccessCommand.Execute(null);
+                    }
+                    return;
+                }
+            }
+            if (value && Voidstrap.Utility.Platform.IsMacOS && !Voidstrap.Platform.MacOS.MacOSInputAccess.IsGranted)
+            {
+                OnPropertyChanged(nameof(SnapTapEnabled));
+                GrantSnapTapAccessCommand.Execute(null);
+                return;
+            }
+            App.Settings.Prop.SnapTapEnabled = value;
+            App.Settings.Save();
+            SettingChangeResult result = SettingChangeNotifier.Try(
+                "IntegrationsViewModel::SnapTapEnabled",
+                "Snap Tap could not be changed.",
+                () =>
+                {
+                    if (!value)
+                    {
+                        Voidstrap.KeyRouting.SnapTapHook.Stop();
+                    }
+                    else if (!Voidstrap.KeyRouting.SnapTapHook.Start())
+                    {
+                        throw new InvalidOperationException("Snap Tap could not start");
+                    }
+                }
+            );
+            if (!result.Success && value)
+            {
+                App.Settings.Prop.SnapTapEnabled = false;
+                App.Settings.Save();
+            }
+            OnPropertyChanged(nameof(SnapTapEnabled));
+            OnPropertyChanged(nameof(SnapTapAccessDescription));
+        }
+    }
+
+    public IReadOnlyList<string> SnapTapModes { get; } =
+        new[] { "Last key wins (Snap Tap)", "Neutral, both keys cancel", "First listed key always wins" };
+
+    public int SnapTapMode
+    {
+        get { return Math.Clamp(App.Settings.Prop.SnapTapMode, 0, SnapTapModes.Count - 1); }
+        set
+        {
+            value = Math.Clamp(value, 0, SnapTapModes.Count - 1);
+            if (App.Settings.Prop.SnapTapMode == value)
+            {
+                return;
+            }
+            App.Settings.Prop.SnapTapMode = value;
+            App.Settings.SaveDeferred();
+            if (App.Settings.Prop.SnapTapEnabled)
+            {
+                Voidstrap.KeyRouting.SnapTapHook.Start();
+            }
+            OnPropertyChanged(nameof(SnapTapMode));
+        }
+    }
+
+    public string SnapTapKeys
+    {
+        get { return App.Settings.Prop.SnapTapKeys; }
+        set
+        {
+            List<int[]> groups = Voidstrap.KeyRouting.OpposingKeyResolver.ParseGroups(value);
+            string normalized =
+                groups.Count == 0 ? App.Settings.Prop.SnapTapKeys : Voidstrap.KeyRouting.OpposingKeyResolver.FormatGroups(groups);
+            if (groups.Count == 0)
+            {
+                Frontend.ShowMessageBox("Enter at least two keys per group, for example: A D, W S", MessageBoxImage.Warning);
+            }
+            if (App.Settings.Prop.SnapTapKeys != normalized)
+            {
+                App.Settings.Prop.SnapTapKeys = normalized;
+                App.Settings.SaveDeferred();
+                if (App.Settings.Prop.SnapTapEnabled)
+                {
+                    Voidstrap.KeyRouting.SnapTapHook.Start();
+                }
+            }
+            OnPropertyChanged(nameof(SnapTapKeys));
+        }
+    }
+
+    public bool BlockTelemetry
+    {
+        get { return _blockTelemetry; }
+        set
+        {
+            if (_blockTelemetry == value)
+            {
+                return;
+            }
+            _blockTelemetry = value;
+            OnPropertyChanged(nameof(BlockTelemetry));
+            int version = Interlocked.Increment(ref _telemetryVersion);
+            _ = ApplyTelemetrySettingAsync(value, version);
+        }
+    }
+
+    public bool RobloxSystemTray
+    {
+        get { return App.Settings.Prop.RobloxMinimizeToTray; }
+        set
+        {
+            if (App.Settings.Prop.RobloxMinimizeToTray == value)
+            {
+                return;
+            }
+            ApplyAppStorage(
+                nameof(RobloxSystemTray),
+                "The Roblox system tray setting could not be saved.",
+                value,
+                App.Settings.Prop.RobloxLaunchAtStartup
+            );
+        }
+    }
+
+    public bool LaunchStartup
+    {
+        get { return App.Settings.Prop.RobloxLaunchAtStartup; }
+        set
+        {
+            if (App.Settings.Prop.RobloxLaunchAtStartup == value)
+            {
+                return;
+            }
+            ApplyAppStorage(
+                nameof(LaunchStartup),
+                "The Roblox startup setting could not be saved.",
+                App.Settings.Prop.RobloxMinimizeToTray,
+                value
+            );
+        }
+    }
+
+    private void ApplyAppStorage(string propertyName, string failureMessage, bool minimizeToTray, bool launchAtStartup)
+    {
+        SettingChangeResult result = SettingChangeNotifier.Try(
+            "IntegrationsViewModel::" + propertyName,
+            failureMessage,
+            () =>
+            {
+                if (!RobloxAppStorage.Apply(minimizeToTray, launchAtStartup))
+                {
+                    throw new InvalidOperationException("The Roblox app storage file could not be written");
+                }
+            }
+        );
+        if (result.Success)
+        {
+            App.Settings.Prop.RobloxMinimizeToTray = minimizeToTray;
+            App.Settings.Prop.RobloxLaunchAtStartup = launchAtStartup;
+            App.Settings.SaveDeferred();
+        }
+        OnPropertyChanged(propertyName);
+    }
+
+    public bool ActivityTrackingEnabled
+    {
+        get { return App.Settings.Prop.EnableActivityTracking; }
+        set
+        {
+            if (App.Settings.Prop.EnableActivityTracking == value)
+            {
+                return;
+            }
+            App.Settings.Prop.EnableActivityTracking = value;
+            SaveAppSetting(nameof(ActivityTrackingEnabled));
+            OnPropertyChanged(nameof(ShowServerDetailsEnabled));
+            OnPropertyChanged(nameof(DisableAppPatchEnabled));
+            OnPropertyChanged(nameof(DiscordActivityEnabled));
+            OnPropertyChanged(nameof(DiscordActivityJoinEnabled));
+        }
+    }
+
+    public bool ShowServerDetailsEnabled
+    {
+        get { return App.Settings.Prop.ShowServerDetails; }
+        set
+        {
+            if (App.Settings.Prop.ShowServerDetails == value)
+            {
+                return;
+            }
+            App.Settings.Prop.ShowServerDetails = value;
+            SaveAppSetting(nameof(ShowServerDetailsEnabled));
+        }
+    }
+
+    public bool LibraryShowRobloxFavorites
+    {
+        get { return App.Settings.Prop.LibraryShowRobloxFavorites; }
+        set
+        {
+            if (App.Settings.Prop.LibraryShowRobloxFavorites == value)
+            {
+                return;
+            }
+            App.Settings.Prop.LibraryShowRobloxFavorites = value;
+            SaveAppSetting(nameof(LibraryShowRobloxFavorites));
+        }
+    }
+
+    public bool FavoriteUpdateAlerts
+    {
+        get { return App.Settings.Prop.FavoriteUpdateAlerts; }
+        set
+        {
+            if (App.Settings.Prop.FavoriteUpdateAlerts == value)
+            {
+                return;
+            }
+            App.Settings.Prop.FavoriteUpdateAlerts = value;
+            SaveAppSetting(nameof(FavoriteUpdateAlerts));
+        }
+    }
+
+    public bool joinGameNotify
+    {
+        get { return App.Settings.Prop.NotificationWindowShow; }
+        set
+        {
+            if (App.Settings.Prop.NotificationWindowShow == value)
+            {
+                return;
+            }
+            App.Settings.Prop.NotificationWindowShow = value;
+            SaveAppSetting(nameof(joinGameNotify));
+        }
+    }
+
+    public bool FriendNotifications
+    {
+        get => App.Settings.Prop.NotifyFriends;
+        set
+        {
+            if (App.Settings.Prop.NotifyFriends == value)
+                return;
+            App.Settings.Prop.NotifyFriends = value;
+            SaveAppSetting(nameof(FriendNotifications));
+        }
+    }
+
+    public bool ExitOnDissy
+    {
+        get { return App.Settings.Prop.ExitOnDissy; }
+        set
+        {
+            if (App.Settings.Prop.ExitOnDissy == value)
+            {
+                return;
+            }
+            App.Settings.Prop.ExitOnDissy = value;
+            SaveAppSetting(nameof(ExitOnDissy));
+        }
+    }
+
+    public string gamename
+    {
+        get { return App.Settings.Prop.CustomGameName; }
+        set
+        {
+            if (App.Settings.Prop.CustomGameName == value)
+            {
+                return;
+            }
+            App.Settings.Prop.CustomGameName = value;
+            SaveAppSetting(nameof(gamename));
+        }
+    }
+
+    public bool GameWIP
+    {
+        get { return App.Settings.Prop.GameWIP; }
+        set
+        {
+            if (App.Settings.Prop.GameWIP == value)
+            {
+                return;
+            }
+            App.Settings.Prop.GameWIP = value;
+            SaveAppSetting(nameof(GameWIP));
+        }
+    }
+
+    public bool FFlagAmountRPC
+    {
+        get { return App.Settings.Prop.FFlagRPCDisplayer; }
+        set
+        {
+            if (App.Settings.Prop.FFlagRPCDisplayer == value)
+            {
+                return;
+            }
+            App.Settings.Prop.FFlagRPCDisplayer = value;
+            SaveAppSetting(nameof(FFlagAmountRPC));
+        }
+    }
+
+    public bool ServerUptimeBetterBLOXcuzitsbetterXD
+    {
+        get { return App.Settings.Prop.ServerUptimeBetterBLOXcuzitsbetterXD; }
+        set
+        {
+            if (App.Settings.Prop.ServerUptimeBetterBLOXcuzitsbetterXD == value)
+            {
+                return;
+            }
+            App.Settings.Prop.ServerUptimeBetterBLOXcuzitsbetterXD = value;
+            SaveAppSetting(nameof(ServerUptimeBetterBLOXcuzitsbetterXD));
+        }
+    }
+
+    public string gameimage
+    {
+        get { return App.Settings.Prop.UseCustomIcon; }
+        set
+        {
+            if (App.Settings.Prop.UseCustomIcon == value)
+            {
+                return;
+            }
+            App.Settings.Prop.UseCustomIcon = value;
+            SaveAppSetting(nameof(gameimage));
+        }
+    }
+
+    public bool DiscordActivityEnabled
+    {
+        get { return App.Settings.Prop.UseDiscordRichPresence; }
+        set
+        {
+            if (App.Settings.Prop.UseDiscordRichPresence == value)
+            {
+                return;
+            }
+            App.Settings.Prop.UseDiscordRichPresence = value;
+            SaveAppSetting(nameof(DiscordActivityEnabled));
+            OnPropertyChanged(nameof(DiscordActivityJoinEnabled));
+            OnPropertyChanged(nameof(DiscordAccountOnProfile));
+            OnPropertyChanged(nameof(GameIconChecked));
+            OnPropertyChanged(nameof(ServerLocationGame));
+        }
+    }
+
+    public bool UncapFPS
+    {
+        get
+        {
+            if (Voidstrap.Utility.Platform.IsMacOS)
+                return App.Settings.Prop.MacVirtualDisplayEnabled;
+            return App.Settings.Prop.FpsUnlockerEnabled ?? App.GlobalSettings.GetInt("FramerateCap", 0) > 240;
+        }
+        set
+        {
+            if (Voidstrap.Utility.Platform.IsMacOS)
+            {
+                if (App.Settings.Prop.MacVirtualDisplayEnabled == value)
+                    return;
+                App.Settings.Prop.MacVirtualDisplayEnabled = value;
+                App.Settings.SaveDeferred();
+                OnPropertyChanged(nameof(UncapFPS));
+                return;
+            }
+            App.Settings.Prop.FpsUnlockerEnabled = value;
+            App.Settings.SaveDeferred();
+            if (App.GlobalSettings.SetProperty("FramerateCap", value ? 9999 : 240))
+                App.GlobalSettings.Save();
+            OnPropertyChanged(nameof(UncapFPS));
+        }
+    }
+
+    public string UncapFpsDescription =>
+        Voidstrap.Utility.Platform.IsMacOS
+            ? "Create a 240 Hz virtual display that lets Roblox go above your screen's refresh rate in game. Also set Roblox's in game Maximum Frame Rate to 240."
+            : "Remove the 240 FPS limit. Unavailable while Frame Generation is enabled.";
+
+    public bool UncapFpsToggleEnabled =>
+        Voidstrap.Utility.Platform.IsMacOS || Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex == 0;
+
+    public bool DiscordActivityJoinEnabled
+    {
+        get { return !App.Settings.Prop.HideRPCButtons; }
+        set
+        {
+            if (App.Settings.Prop.HideRPCButtons == !value)
+            {
+                return;
+            }
+            App.Settings.Prop.HideRPCButtons = !value;
+            SaveAppSetting(nameof(DiscordActivityJoinEnabled));
+        }
+    }
+
+    public bool DiscordAccountOnProfile
+    {
+        get { return App.Settings.Prop.ShowAccountOnRichPresence; }
+        set
+        {
+            if (App.Settings.Prop.ShowAccountOnRichPresence == value)
+            {
+                return;
+            }
+            App.Settings.Prop.ShowAccountOnRichPresence = value;
+            SaveAppSetting(nameof(DiscordAccountOnProfile));
+        }
+    }
+
+    public bool GameIconChecked
+    {
+        get { return App.Settings.Prop.GameIconChecked; }
+        set
+        {
+            if (App.Settings.Prop.GameIconChecked == value)
+            {
+                return;
+            }
+            App.Settings.Prop.GameIconChecked = value;
+            SaveAppSetting(nameof(GameIconChecked));
+        }
+    }
+
+    public IReadOnlyList<RpcIdleIconOption> RpcIdleIconOptions { get; } =
+        DiscordRichPresence
+            .IdleIconPresets.Select<KeyValuePair<string, (string, string)>, RpcIdleIconOption>(
+                (KeyValuePair<string, (string Name, string Url)> kvp) => new RpcIdleIconOption { Key = kvp.Key, Name = kvp.Value.Name }
+            )
+            .ToList();
+
+    public RpcIdleIconOption SelectedRpcIdleIcon
+    {
+        get
+        {
+            string key = App.Settings.Prop.RpcIdleIcon ?? "blue";
+            return RpcIdleIconOptions.FirstOrDefault((RpcIdleIconOption x) => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase))
+                ?? RpcIdleIconOptions[0];
+        }
+        set
+        {
+            if (value != null && !string.Equals(App.Settings.Prop.RpcIdleIcon, value.Key, StringComparison.OrdinalIgnoreCase))
+            {
+                App.Settings.Prop.RpcIdleIcon = value.Key;
+                App.Settings.SaveDeferred();
+                OnPropertyChanged(nameof(SelectedRpcIdleIcon));
+            }
+        }
+    }
+
+    public bool GameNameChecked
+    {
+        get { return App.Settings.Prop.GameNameChecked; }
+        set
+        {
+            if (App.Settings.Prop.GameNameChecked == value)
+            {
+                return;
+            }
+            App.Settings.Prop.GameNameChecked = value;
+            SaveAppSetting(nameof(GameNameChecked));
+        }
+    }
+
+    public bool GameCreatorChecked
+    {
+        get { return App.Settings.Prop.GameCreatorChecked; }
+        set
+        {
+            if (App.Settings.Prop.GameCreatorChecked == value)
+            {
+                return;
+            }
+            App.Settings.Prop.GameCreatorChecked = value;
+            SaveAppSetting(nameof(GameCreatorChecked));
+        }
+    }
+
+    public bool GameStatusChecked
+    {
+        get { return App.Settings.Prop.GameStatusChecked; }
+        set
+        {
+            if (App.Settings.Prop.GameStatusChecked == value)
+            {
+                return;
+            }
+            App.Settings.Prop.GameStatusChecked = value;
+            SaveAppSetting(nameof(GameStatusChecked));
+        }
+    }
+
+    public bool ServerLocationGame
+    {
+        get { return App.Settings.Prop.ServerLocationGame; }
+        set
+        {
+            if (App.Settings.Prop.ServerLocationGame == value)
+            {
+                return;
+            }
+            App.Settings.Prop.ServerLocationGame = value;
+            SaveAppSetting(nameof(ServerLocationGame));
+        }
+    }
+
+    public bool DisableAppPatchEnabled
+    {
+        get { return App.Settings.Prop.UseDisableAppPatch; }
+        set
+        {
+            if (App.Settings.Prop.UseDisableAppPatch == value)
+            {
+                return;
+            }
+            App.Settings.Prop.UseDisableAppPatch = value;
+            SaveAppSetting(nameof(DisableAppPatchEnabled));
+        }
+    }
+
+    public ObservableCollection<CustomIntegration> CustomIntegrations
+    {
+        get { return App.Settings.Prop.CustomIntegrations; }
+        set
+        {
+            if (ReferenceEquals(App.Settings.Prop.CustomIntegrations, value))
+            {
+                return;
+            }
+            App.Settings.Prop.CustomIntegrations = value;
+            SaveAppSetting(nameof(CustomIntegrations));
+        }
+    }
+
+    public CustomIntegration? SelectedCustomIntegration
+    {
+        get { return _selectedCustomIntegration; }
+        set
+        {
+            if (_selectedCustomIntegration != value)
+            {
+                _selectedCustomIntegration = value;
+                OnPropertyChanged(nameof(SelectedCustomIntegration));
+                OnPropertyChanged(nameof(IsCustomIntegrationSelected));
+            }
+        }
+    }
+
+    public int SelectedCustomIntegrationIndex { get; set; }
+
+    public bool IsCustomIntegrationSelected => SelectedCustomIntegration != null;
+
+    public string CustomIntegrationLocationPlaceholder =>
+        Voidstrap.Utility.Platform.IsLinux ? "/usr/bin/obs"
+        : Voidstrap.Utility.Platform.IsMacOS ? "/Applications/OBS.app"
+        : @"C:\Windows\System32\cmd.exe";
+
+    public IntegrationsViewModel(ActivityWatcher watcher, bool ownsWatcher = false)
+    {
+        _watcher = watcher;
+        _ownsWatcher = ownsWatcher;
+        _blockTelemetry = App.Settings.Prop.BlockRobloxTelemetry;
+        OpenHistoryWindowCommand = new RelayCommand(OpenHistoryWindow);
+        MusicWindowCommand = new RelayCommand(MusicPlayerWindow);
+        GrantSnapTapAccessCommand = new AsyncRelayCommand(GrantSnapTapAccessAsync);
+        AddToSteamCommand = new AsyncRelayCommand(AddToSteamAsync);
+        RefreshAudioOutputsCommand = new AsyncRelayCommand(RefreshAudioOutputsAsync);
+        ResetAudioOutputs([]);
+        if (RobloxAudioRouting.SupportsOutputDevice)
+        {
+            _ = RefreshAudioOutputsAsync();
+        }
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            _snapTapAccess = Voidstrap.KeyRouting.LinuxSnapTap.Access;
+        }
+    }
+
+    private void RefreshSnapTapAccess()
+    {
+        if (!Voidstrap.Utility.Platform.IsLinux)
+        {
+            return;
+        }
+        _snapTapAccess = Voidstrap.KeyRouting.LinuxSnapTap.Access;
+        OnPropertyChanged(nameof(SnapTapAccessVisibility));
+        OnPropertyChanged(nameof(SnapTapAccessDescription));
+    }
+
+    private async Task GrantSnapTapAccessAsync()
+    {
+        if (Voidstrap.Utility.Platform.IsMacOS)
+        {
+            SettingChangeNotifier.Try(
+                "IntegrationsViewModel::GrantSnapTapAccess",
+                "Accessibility settings could not be opened.",
+                Voidstrap.Platform.MacOS.MacOSInputAccess.Request
+            );
+            OnPropertyChanged(nameof(SnapTapAccessDescription));
+            return;
+        }
+        Voidstrap.Platform.Linux.LinuxInputAccessResult result = await Voidstrap.Platform.Linux.LinuxInputAccess.GrantAsync();
+        RefreshSnapTapAccess();
+        bool enable = _enableSnapTapAfterGrant;
+        _enableSnapTapAfterGrant = false;
+        if (!result.Success)
+        {
+            Frontend.ShowMessageBox(result.Message, MessageBoxImage.Warning);
+            return;
+        }
+        if (result.RestartRequired)
+        {
+            Frontend.ShowMessageBox(result.Message, MessageBoxImage.Information);
+        }
+        if (_snapTapAccess == Voidstrap.Platform.Linux.LinuxInputAccessState.Ready && (enable || App.Settings.Prop.SnapTapEnabled))
+        {
+            if (App.Settings.Prop.SnapTapEnabled)
+            {
+                Voidstrap.KeyRouting.SnapTapHook.Start();
+            }
+            else
+            {
+                SnapTapEnabled = true;
+            }
+        }
+    }
+
+    private async Task AddToSteamAsync()
+    {
+        if (_addingToSteam)
+            return;
+        if (Voidstrap.Platform.Linux.LinuxSteamOS.Current.IsGameMode)
+        {
+            Frontend.ShowMessageBox(
+                "Switch to Desktop Mode first. Steam has to close for a moment while Voidstrap updates its library, and Game Mode cannot run without Steam.",
+                MessageBoxImage.Information
+            );
+            return;
+        }
+        bool closeSteam = false;
+        if (Voidstrap.Platform.Linux.LinuxSteamLibrary.IsSteamRunning())
+        {
+            MessageBoxResult answer = Frontend.ShowMessageBox(
+                "Steam has to close for a moment while Voidstrap adds Roblox and Voidstrap to your library. Close Steam now and open it again afterwards?",
+                MessageBoxImage.Question,
+                MessageBoxButton.YesNo
+            );
+            if (answer != MessageBoxResult.Yes)
+                return;
+            closeSteam = true;
+        }
+        _addingToSteam = true;
+        try
+        {
+            byte[]? icon = Voidstrap.Utility.LinuxDesktopEntry.ReadIconPng();
+            string message = await Task.Run(() =>
+                Voidstrap.Utility.LinuxSteamIntegration.AddToSteamAsync(icon, closeSteam, _lifetimeCts.SafeToken())
+            );
+            Frontend.ShowMessageBox(message, MessageBoxImage.Information);
+        }
+        catch (OperationCanceledException) { }
+        finally
+        {
+            _addingToSteam = false;
+        }
+    }
+
+    private void AddIntegration()
+    {
+        CustomIntegrations.Add(new CustomIntegration { Name = Strings.Menu_Integrations_Custom_NewIntegration });
+        SelectedCustomIntegrationIndex = CustomIntegrations.Count - 1;
+        OnPropertyChanged(nameof(SelectedCustomIntegrationIndex));
+        OnPropertyChanged(nameof(IsCustomIntegrationSelected));
+    }
+
+    private void SaveAppSetting(string propertyName)
+    {
+        App.Settings.SaveDeferred();
+        OnPropertyChanged(propertyName);
+    }
+
+    private void OpenHistoryWindow()
+    {
+        ServerHistory? existing = Application.Current.Windows.OfType<ServerHistory>().FirstOrDefault();
+        if (existing != null)
+            existing.Activate();
+        else
+            new ServerHistory(_watcher).Show();
+    }
+
+    private void MusicPlayerWindow()
+    {
+        new MusicPlayer(_watcher).Show();
+    }
+
+    private void DeleteIntegration()
+    {
+        if (SelectedCustomIntegration != null)
+        {
+            CustomIntegrations.Remove(SelectedCustomIntegration);
+            if (CustomIntegrations.Count > 0)
+            {
+                SelectedCustomIntegrationIndex = CustomIntegrations.Count - 1;
+                OnPropertyChanged(nameof(SelectedCustomIntegrationIndex));
+            }
+            OnPropertyChanged(nameof(IsCustomIntegrationSelected));
+        }
+    }
+
+    private void BrowseIntegrationLocation()
+    {
+        if (SelectedCustomIntegration != null)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog { Filter = Strings.Menu_AllFiles + "|*.*" };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                SelectedCustomIntegration.Name = openFileDialog.SafeFileName;
+                SelectedCustomIntegration.Location = openFileDialog.FileName;
+                OnPropertyChanged(nameof(SelectedCustomIntegration));
+            }
+        }
+    }
+
+    private async Task ApplyTelemetrySettingAsync(bool value, int version)
+    {
+        try
+        {
+            bool applied = await TelemetryBlocker.SetAsync(value, _lifetimeCts.SafeToken()).ConfigureAwait(false);
+            if (_disposed || version != Volatile.Read(ref _telemetryVersion))
+            {
+                return;
+            }
+            await Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                if (_disposed || version != Volatile.Read(ref _telemetryVersion))
+                {
+                    return;
+                }
+                if (applied)
+                {
+                    App.Settings.Prop.BlockRobloxTelemetry = value;
+                    App.Settings.SaveDeferred();
+                    return;
+                }
+                _blockTelemetry = !value;
+                OnPropertyChanged(nameof(BlockTelemetry));
+                string reason =
+                    !Voidstrap.Utility.Platform.IsWindows && !string.IsNullOrWhiteSpace(TelemetryBlocker.LastLinuxFailure)
+                        ? TelemetryBlocker.LastLinuxFailure + "."
+                        : "Administrator approval is required to edit the hosts file.";
+                Frontend.ShowMessageBox(
+                    (value ? "Voidstrap could not enable the telemetry blocker. " : "Voidstrap could not disable the telemetry blocker. ")
+                        + reason,
+                    MessageBoxImage.Warning
+                );
+            });
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("IntegrationsViewModel::ApplyTelemetrySetting", ex);
+        }
+    }
+
+    public void Dispose()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+        _disposed = true;
+        _lifetimeCts.Cancel();
+        if (_ownsWatcher)
+        {
+            _watcher.Dispose();
+        }
+        _lifetimeCts.Dispose();
+        GC.SuppressFinalize(this);
+    }
 }

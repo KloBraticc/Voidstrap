@@ -5,9 +5,9 @@ namespace Voidstrap.Integrations;
 
 public sealed class MeshModel
 {
-	public List<Point3D> Positions { get; } = new List<Point3D>();
+    public List<Point3D> Positions { get; } = new List<Point3D>();
 
-	public List<int> Indices { get; } = new List<int>();
+    public List<int> Indices { get; } = new List<int>();
 
-	public int FaceCount => Indices.Count / 3;
+    public int FaceCount => Indices.Count / 3;
 }

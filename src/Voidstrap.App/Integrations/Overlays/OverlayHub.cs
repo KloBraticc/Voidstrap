@@ -3,1043 +3,1043 @@ using System.Threading;
 
 namespace Voidstrap.Integrations.Overlays
 {
-	public static class OverlayHub
-	{
-		private static Thread? _thread;
-		private static CancellationTokenSource? _cts;
-		private static readonly object _lock = new object();
-		private static volatile bool _shutdown;
-		private static volatile bool _gameTransition;
-		private static volatile bool _inGame;
-		private static volatile bool _robloxProcessRunning;
-		private static volatile bool _hostProcess;
-
-		private static volatile bool _compositorLive;
-		private static volatile bool _linuxHomepageNativeShaderActive;
-		private static int _crosshairRefreshPending;
-
-		public static bool InGame => _inGame;
-
-		internal static bool RobloxProcessRunning => _robloxProcessRunning;
-
-		internal static bool GameTransition => _gameTransition;
-		internal static bool CompositorLive => _compositorLive;
-		private static IntPtr _compositorWindow;
-		internal static IntPtr CompositorWindow => Volatile.Read(ref _compositorWindow);
-
-		internal static void SetCompositorWindow(IntPtr handle) => Volatile.Write(ref _compositorWindow, handle);
-
-		private static long _compositorHeartbeat;
-		private static int _compositorStallHidden;
-
-		internal static void CompositorHeartbeat() => Volatile.Write(ref _compositorHeartbeat, Environment.TickCount64);
-
-		internal static bool TakeCompositorStallHidden() => Interlocked.Exchange(ref _compositorStallHidden, 0) != 0;
-
-		internal static bool WorkerRunning
-		{
-			get
-			{
-				lock (_lock)
-					return _thread is { IsAlive: true };
-			}
-		}
-
-		public static void MarkHostProcess()
-		{
-			_hostProcess = true;
-		}
-
-		private static bool _loggedLinuxHomepageUnavailable;
-		private static LinuxHomepageBackgroundOverlay? _linuxHomepage;
-		private static int _linuxHomepageGeneration;
-		private static Mutex? _linuxHomepageMutex;
-		private static bool _linuxHomepageMutexHeld;
-		private static System.Threading.Timer? _linuxHomepageRetry;
-		private const string LinuxGameplayLeaseName = "VoidstrapLinuxGameplayActive";
-		private static readonly object _linuxGameplayLeaseGate = new object();
-		private static readonly object _linuxGameplayProbeGate = new object();
-		private static readonly NamedWaitHandleOptions _linuxGameplayLeaseOptions = new NamedWaitHandleOptions
-		{
-			CurrentUserOnly = true,
-			CurrentSessionOnly = false,
-		};
-		private static Thread? _linuxGameplayLeaseThread;
-		private static AutoResetEvent? _linuxGameplayLeaseSignal;
-		private static ManualResetEventSlim? _linuxGameplayLeaseAcknowledged;
-		private static volatile bool _linuxGameplayLeaseRequested;
-		private static volatile bool _linuxGameplayLeaseStopping;
-		private static volatile bool _linuxGameplayLeaseOperational;
-		private static int _linuxGameplayLeaseCommandGeneration;
-		private static int _linuxGameplayLeaseAcknowledgedGeneration = -1;
-		private static Mutex? _linuxGameplayProbeMutex;
-		private static int _linuxGameplayLeaseFailureLogged;
-		private static int _linuxGameplayProbeFailureLogged;
-
-		internal static bool LinuxHomepageRunning => _linuxHomepage is { IsDisposed: false };
-		internal static bool LinuxGameplayLeaseOperational =>
-			!Voidstrap.Utility.Platform.IsLinux
-			|| _linuxGameplayLeaseOperational
-				&& Volatile.Read(ref _linuxGameplayLeaseAcknowledgedGeneration) == Volatile.Read(ref _linuxGameplayLeaseCommandGeneration);
-
-		public static bool CompositorCrosshairActive => _compositorLive && OverlayCrosshair.CanComposite();
-
-		internal static void SetCompositorLive(bool live)
-		{
-			_compositorLive = live;
-			RefreshCrosshair();
-		}
-
-		public static void RefreshCrosshair()
-		{
-			if (Interlocked.Exchange(ref _crosshairRefreshPending, 1) != 0)
-				return;
-			try
-			{
-				System.Windows.Application? app = System.Windows.Application.Current;
-				if (app == null || app.Dispatcher.HasShutdownStarted || app.Dispatcher.HasShutdownFinished)
-				{
-					Interlocked.Exchange(ref _crosshairRefreshPending, 0);
-					return;
-				}
-				app.Dispatcher.BeginInvoke(
-					new Action(() =>
-					{
-						Interlocked.Exchange(ref _crosshairRefreshPending, 0);
-						try
-						{
-							Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
-						}
-						catch (Exception ex)
-						{
-							App.Logger.WriteException("OverlayHub::RefreshCrosshair", ex);
-						}
-					})
-				);
-			}
-			catch (Exception ex)
-			{
-				Interlocked.Exchange(ref _crosshairRefreshPending, 0);
-				App.Logger.WriteException("OverlayHub::RefreshCrosshair", ex);
-			}
-		}
-
-		public static bool HomepageBackgroundActive =>
-			!_inGame
-			&& !_gameTransition
-			&& OverlaySettings.HomepageBackgroundEnabled
-			&& (!Voidstrap.Utility.Platform.IsLinux || !_linuxHomepageNativeShaderActive && IsLinuxHomepageLifecycleActive());
-
-		internal static void SetLinuxHomepageNativeShaderActive(bool active)
-		{
-			if (!Voidstrap.Utility.Platform.IsLinux || _linuxHomepageNativeShaderActive == active)
-				return;
-			_linuxHomepageNativeShaderActive = active;
-			App.Logger.WriteLine(
-				"Overlays",
-				active
-					? "The Sober-native homepage shader is active, disabling delayed window capture"
-					: "The Sober-native homepage shader is inactive, enabling the compatible window renderer"
-			);
-			Refresh();
-		}
-
-		public static bool Refresh()
-		{
-			RefreshCrosshair();
-			if (OverlaySettings.AnyEnabled && (!_gameTransition || OverlaySettings.RiShadeClientActive))
-				return Start();
-			Stop();
-			return true;
-		}
-
-		internal static void SetRobloxProcessRunning(bool running)
-		{
-			if (!Voidstrap.Utility.Platform.IsWindows || _robloxProcessRunning == running)
-				return;
-			_robloxProcessRunning = running;
-			if (!running)
-			{
-				_inGame = false;
-				_gameTransition = false;
-			}
-			App.Logger.WriteLine(
-				"Overlays",
-				running
-					? "Roblox client process started, enabling the process-scoped RiShade compositor"
-					: "Roblox client process exited, stopping the process-scoped RiShade compositor"
-			);
-			Refresh();
-		}
-
-		public static void Restart()
-		{
-			Stop();
-			Refresh();
-		}
-
-		public static void OnGameJoin()
-		{
-			_inGame = true;
-			_gameTransition = false;
-			if (Voidstrap.Utility.Platform.IsLinux)
-				SetLinuxGameplayLease(true);
-			Refresh();
-		}
-
-		public static void OnGameLeave()
-		{
-			_inGame = false;
-			_gameTransition = false;
-			if (Voidstrap.Utility.Platform.IsLinux)
-				SetLinuxGameplayLease(false);
-			Refresh();
-		}
-
-		internal static void SynchronizeLinuxGameState(bool inGame)
-		{
-			if (!Voidstrap.Utility.Platform.IsLinux && !Voidstrap.Utility.Platform.IsMacOS || _shutdown)
-				return;
-			_inGame = inGame;
-			_gameTransition = false;
-			if (Voidstrap.Utility.Platform.IsLinux)
-				SetLinuxGameplayLease(inGame);
-			Refresh();
-		}
-
-		internal static void ReleaseLinuxGameplayLease()
-		{
-			if (!Voidstrap.Utility.Platform.IsLinux)
-				return;
-			_inGame = false;
-			_gameTransition = false;
-			SetLinuxGameplayLease(false);
-		}
-
-		public static void OnGameTransitionStarted()
-		{
-			_inGame = true;
-			_gameTransition = true;
-			if (Voidstrap.Utility.Platform.IsLinux)
-				SetLinuxGameplayLease(true);
-			if (OverlaySettings.RiShadeClientActive)
-				Refresh();
-			else
-				Stop();
-		}
-
-		public static void OnGameTransitionCompleted()
-		{
-			_inGame = true;
-			_gameTransition = false;
-			if (Voidstrap.Utility.Platform.IsLinux)
-				SetLinuxGameplayLease(true);
-			Refresh();
-		}
-
-		public static void Shutdown()
-		{
-			_shutdown = true;
-			_inGame = false;
-			RefreshCrosshair();
-			if (Voidstrap.Utility.Platform.IsLinux)
-				ShutdownLinuxGameplayLease();
-			Stop();
-			RobloxFpsCap.Shutdown();
-		}
-
-		private static bool IsLinuxHomepageLifecycleActive()
-		{
-			if (_shutdown)
-				return false;
-			lock (_linuxGameplayProbeGate)
-			{
-				if (_shutdown)
-					return false;
-				try
-				{
-					_linuxGameplayProbeMutex ??= new Mutex(false, LinuxGameplayLeaseName, _linuxGameplayLeaseOptions);
-					bool acquired;
-					try
-					{
-						acquired = _linuxGameplayProbeMutex.WaitOne(0);
-					}
-					catch (AbandonedMutexException)
-					{
-						acquired = true;
-					}
-					if (!acquired)
-						return false;
-					_linuxGameplayProbeMutex.ReleaseMutex();
-					Interlocked.Exchange(ref _linuxGameplayProbeFailureLogged, 0);
-					return true;
-				}
-				catch (Exception ex)
-				{
-					if (Interlocked.Exchange(ref _linuxGameplayProbeFailureLogged, 1) == 0)
-						App.Logger.WriteLine("OverlayHub", "The Linux gameplay state could not be checked: " + ex.Message);
-					return false;
-				}
-			}
-		}
-
-		private static bool SetLinuxGameplayLease(bool active)
-		{
-			if (!Voidstrap.Utility.Platform.IsLinux || (_shutdown && active))
-				return false;
-			lock (_linuxGameplayLeaseGate)
-			{
-				if (!active && _linuxGameplayLeaseThread == null)
-					return true;
-				if (!EnsureLinuxGameplayLeaseThread())
-					return false;
-				int currentGeneration = Volatile.Read(ref _linuxGameplayLeaseCommandGeneration);
-				if (
-					_linuxGameplayLeaseRequested == active
-					&& Volatile.Read(ref _linuxGameplayLeaseAcknowledgedGeneration) == currentGeneration
-				)
-					return _linuxGameplayLeaseOperational;
-
-				_linuxGameplayLeaseRequested = active;
-				int generation = Interlocked.Increment(ref _linuxGameplayLeaseCommandGeneration);
-				ManualResetEventSlim acknowledged = _linuxGameplayLeaseAcknowledged!;
-				acknowledged.Reset();
-				_linuxGameplayLeaseSignal!.Set();
-				if (!WaitForLinuxGameplayLeaseAcknowledgement(acknowledged, generation, 5000))
-				{
-					if (Interlocked.Exchange(ref _linuxGameplayLeaseFailureLogged, 1) == 0)
-						App.Logger.WriteLine("OverlayHub", "The Linux gameplay state lease did not acknowledge its new state");
-					return false;
-				}
-				if (!_linuxGameplayLeaseOperational)
-					return false;
-				Interlocked.Exchange(ref _linuxGameplayLeaseFailureLogged, 0);
-				return true;
-			}
-		}
-
-		private static bool EnsureLinuxGameplayLeaseThread()
-		{
-			if (_linuxGameplayLeaseThread is { IsAlive: true })
-				return true;
-			if (_linuxGameplayLeaseThread != null)
-			{
-				_linuxGameplayLeaseSignal?.Dispose();
-				_linuxGameplayLeaseAcknowledged?.Dispose();
-			}
-
-			AutoResetEvent signal = new AutoResetEvent(false);
-			ManualResetEventSlim acknowledged = new ManualResetEventSlim(false);
-			_linuxGameplayLeaseSignal = signal;
-			_linuxGameplayLeaseAcknowledged = acknowledged;
-			_linuxGameplayLeaseRequested = false;
-			_linuxGameplayLeaseStopping = false;
-			_linuxGameplayLeaseOperational = false;
-			Volatile.Write(ref _linuxGameplayLeaseAcknowledgedGeneration, -1);
-			Thread thread = new Thread(() => RunLinuxGameplayLease(signal, acknowledged))
-			{
-				IsBackground = true,
-				Name = "Linux Gameplay Lease",
-			};
-			_linuxGameplayLeaseThread = thread;
-			try
-			{
-				thread.Start();
-				return true;
-			}
-			catch (Exception ex)
-			{
-				_linuxGameplayLeaseThread = null;
-				_linuxGameplayLeaseSignal = null;
-				_linuxGameplayLeaseAcknowledged = null;
-				signal.Dispose();
-				acknowledged.Dispose();
-				if (Interlocked.Exchange(ref _linuxGameplayLeaseFailureLogged, 1) == 0)
-					App.Logger.WriteLine("OverlayHub", "The Linux gameplay state lease could not start: " + ex.Message);
-				return false;
-			}
-		}
-
-		private static void RunLinuxGameplayLease(AutoResetEvent signal, ManualResetEventSlim acknowledged)
-		{
-			Mutex? lease = null;
-			bool held = false;
-			try
-			{
-				lease = new Mutex(false, LinuxGameplayLeaseName, _linuxGameplayLeaseOptions);
-				_linuxGameplayLeaseOperational = true;
-				while (!_linuxGameplayLeaseStopping)
-				{
-					int generation = Volatile.Read(ref _linuxGameplayLeaseCommandGeneration);
-					bool requested = _linuxGameplayLeaseRequested;
-					if (requested && !held)
-					{
-						try
-						{
-							held = lease.WaitOne(0);
-						}
-						catch (AbandonedMutexException)
-						{
-							held = true;
-						}
-					}
-					else if (!requested && held)
-					{
-						lease.ReleaseMutex();
-						held = false;
-					}
-
-					if (_linuxGameplayLeaseStopping)
-						break;
-					if (generation == Volatile.Read(ref _linuxGameplayLeaseCommandGeneration) && requested == _linuxGameplayLeaseRequested)
-					{
-						Volatile.Write(ref _linuxGameplayLeaseAcknowledgedGeneration, generation);
-						acknowledged.Set();
-					}
-					signal.WaitOne(requested && !held ? 100 : Timeout.Infinite);
-				}
-			}
-			catch (Exception ex)
-			{
-				_linuxGameplayLeaseOperational = false;
-				if (Interlocked.Exchange(ref _linuxGameplayLeaseFailureLogged, 1) == 0)
-					App.Logger.WriteLine("OverlayHub", "The Linux gameplay state lease stopped: " + ex.Message);
-			}
-			finally
-			{
-				if (held && lease != null)
-				{
-					try
-					{
-						lease.ReleaseMutex();
-					}
-					catch (ApplicationException) { }
-				}
-				lease?.Dispose();
-				_linuxGameplayLeaseOperational = false;
-				Volatile.Write(ref _linuxGameplayLeaseAcknowledgedGeneration, Volatile.Read(ref _linuxGameplayLeaseCommandGeneration));
-				acknowledged.Set();
-			}
-		}
-
-		private static bool WaitForLinuxGameplayLeaseAcknowledgement(
-			ManualResetEventSlim acknowledged,
-			int generation,
-			int timeoutMilliseconds
-		)
-		{
-			long deadline = Environment.TickCount64 + timeoutMilliseconds;
-			while (true)
-			{
-				if (Volatile.Read(ref _linuxGameplayLeaseAcknowledgedGeneration) == generation)
-					return true;
-				int remaining = (int)Math.Min(int.MaxValue, deadline - Environment.TickCount64);
-				if (remaining <= 0)
-					return false;
-				acknowledged.Wait(Math.Min(remaining, 100));
-				if (Volatile.Read(ref _linuxGameplayLeaseAcknowledgedGeneration) == generation)
-					return true;
-				acknowledged.Reset();
-			}
-		}
-
-		private static void ShutdownLinuxGameplayLease()
-		{
-			Thread? thread;
-			lock (_linuxGameplayLeaseGate)
-			{
-				thread = _linuxGameplayLeaseThread;
-				if (thread is { IsAlive: true })
-				{
-					_linuxGameplayLeaseRequested = false;
-					_linuxGameplayLeaseStopping = true;
-					int generation = Interlocked.Increment(ref _linuxGameplayLeaseCommandGeneration);
-					ManualResetEventSlim acknowledged = _linuxGameplayLeaseAcknowledged!;
-					acknowledged.Reset();
-					_linuxGameplayLeaseSignal!.Set();
-					WaitForLinuxGameplayLeaseAcknowledgement(acknowledged, generation, 5000);
-					if (Thread.CurrentThread != thread)
-						thread.Join(TimeSpan.FromSeconds(5));
-				}
-				if (thread == null || !thread.IsAlive)
-				{
-					_linuxGameplayLeaseThread = null;
-					_linuxGameplayLeaseSignal?.Dispose();
-					_linuxGameplayLeaseSignal = null;
-					_linuxGameplayLeaseAcknowledged?.Dispose();
-					_linuxGameplayLeaseAcknowledged = null;
-				}
-			}
-			lock (_linuxGameplayProbeGate)
-			{
-				_linuxGameplayProbeMutex?.Dispose();
-				_linuxGameplayProbeMutex = null;
-			}
-		}
-
-		private static bool Start()
-		{
-			if (_shutdown || _gameTransition || !_hostProcess)
-				return false;
-			if (Voidstrap.Utility.Platform.IsLinux)
-				return StartLinuxHomepage();
-			if (Voidstrap.Utility.Platform.IsMacOS)
-				return StartMacHomepage();
-			if (!Voidstrap.Utility.Platform.IsWindows)
-				return false;
-			lock (_lock)
-			{
-				if (_thread != null)
-					return true;
-				var cts = new CancellationTokenSource();
-				Thread thread = new Thread(() => Supervise(cts))
-				{
-					IsBackground = true,
-					Name = "Overlays",
-					Priority = ThreadPriority.BelowNormal,
-				};
-				_cts = cts;
-				_thread = thread;
-				try
-				{
-					thread.Start();
-					return true;
-				}
-				catch (Exception ex)
-				{
-					_thread = null;
-					_cts = null;
-					cts.Dispose();
-					App.Logger.WriteException("OverlayHub::Start", ex);
-					return false;
-				}
-			}
-		}
-
-		private static MacHomepageBackgroundOverlay? _macHomepage;
-
-		private static bool _macHomepageStarting;
-
-		private static bool _macHomepagePermissionLogged;
-
-		private static bool StartMacHomepage()
-		{
-			System.Windows.Application? app = System.Windows.Application.Current;
-			if (app == null || app.Dispatcher.HasShutdownStarted)
-				return false;
-			app.Dispatcher.BeginInvoke(
-				new Action(() =>
-				{
-					if (_macHomepage != null || _macHomepageStarting || _shutdown || !HomepageBackgroundActive)
-						return;
-					if (!Voidstrap.Platform.MacOS.MacOSWindowCapture.HasPermission)
-					{
-						if (!_macHomepagePermissionLogged)
-						{
-							_macHomepagePermissionLogged = true;
-							App.Logger.WriteLine(
-								"OverlayHub::StartMacHomepage",
-								"Screen Recording access is not granted, the homepage background stays off"
-							);
-						}
-						return;
-					}
-					_macHomepageStarting = true;
-					try
-					{
-						MacHomepageBackgroundOverlay overlay = new();
-						if (_shutdown || !HomepageBackgroundActive)
-							overlay.Dispose();
-						else
-							_macHomepage = overlay;
-					}
-					catch (Exception ex)
-					{
-						_macHomepage = null;
-						App.Logger.WriteException("OverlayHub::StartMacHomepage", ex);
-					}
-					finally
-					{
-						_macHomepageStarting = false;
-					}
-				})
-			);
-			return true;
-		}
-
-		private static void StopMacHomepage()
-		{
-			System.Windows.Application? app = System.Windows.Application.Current;
-			if (app == null || app.Dispatcher.HasShutdownStarted)
-				return;
-			app.Dispatcher.BeginInvoke(
-				new Action(() =>
-				{
-					MacHomepageBackgroundOverlay? overlay = _macHomepage;
-					_macHomepage = null;
-					overlay?.Dispose();
-				})
-			);
-		}
-
-		private static bool StartLinuxHomepage()
-		{
-			if (App.LaunchSettings.WindowAuditFlag.Active)
-				return false;
-			if (!HomepageBackgroundActive)
-			{
-				StopLinuxHomepage();
-				return false;
-			}
-			if (!LinuxHomepageBackgroundOverlay.IsSupported)
-			{
-				if (!_loggedLinuxHomepageUnavailable)
-				{
-					_loggedLinuxHomepageUnavailable = true;
-					App.Logger.WriteLine("Overlays", "The Sober homepage renderer needs an available composited X11 or XWayland display");
-				}
-				ScheduleLinuxHomepageRetry();
-				return false;
-			}
-			_loggedLinuxHomepageUnavailable = false;
-
-			System.Windows.Application? application = System.Windows.Application.Current;
-			if (application == null || application.Dispatcher.HasShutdownStarted || application.Dispatcher.HasShutdownFinished)
-				return false;
-
-			int generation = Interlocked.Increment(ref _linuxHomepageGeneration);
-			if (application.Dispatcher.CheckAccess())
-			{
-				StartLinuxHomepageOnDispatcher(generation);
-				return LinuxHomepageRunning;
-			}
-
-			try
-			{
-				application.Dispatcher.BeginInvoke(
-					System.Windows.Threading.DispatcherPriority.Normal,
-					new Action(() => StartLinuxHomepageOnDispatcher(generation))
-				);
-				return true;
-			}
-			catch (InvalidOperationException)
-			{
-				return false;
-			}
-		}
-
-		private static void StartLinuxHomepageOnDispatcher(int generation)
-		{
-			if (generation != Volatile.Read(ref _linuxHomepageGeneration) || _shutdown || !HomepageBackgroundActive)
-				return;
-			if (LinuxHomepageRunning)
-			{
-				StopLinuxHomepageRetry();
-				return;
-			}
-			if (_linuxHomepage is { IsDisposed: true } stopping)
-			{
-				if (!stopping.IsSafeToRelease)
-				{
-					ScheduleLinuxHomepageRetry();
-					return;
-				}
-				_linuxHomepage = null;
-			}
-			if (!TryAcquireLinuxHomepageMutex())
-			{
-				ScheduleLinuxHomepageRetry();
-				return;
-			}
-			StopLinuxHomepageRetry();
-
-			try
-			{
-				_linuxHomepage?.Dispose();
-				_linuxHomepage = new LinuxHomepageBackgroundOverlay();
-			}
-			catch (Exception ex)
-			{
-				_linuxHomepage = null;
-				ReleaseLinuxHomepageMutex();
-				App.Logger.WriteException("OverlayHub::StartLinuxHomepage", ex);
-			}
-		}
-
-		private static readonly object LinuxHomepageMutexGate = new();
-
-		private static bool TryAcquireLinuxHomepageMutex()
-		{
-			lock (LinuxHomepageMutexGate)
-			{
-				if (_linuxHomepageMutexHeld)
-					return true;
-				try
-				{
-					_linuxHomepageMutex ??= new Mutex(false, "VoidstrapLinuxHomepageOverlayActive");
-					try
-					{
-						_linuxHomepageMutexHeld = _linuxHomepageMutex.WaitOne(0);
-					}
-					catch (AbandonedMutexException)
-					{
-						_linuxHomepageMutexHeld = true;
-					}
-					return _linuxHomepageMutexHeld;
-				}
-				catch (Exception ex)
-				{
-					App.Logger.WriteLine("OverlayHub", "The Linux homepage ownership lock could not be opened: " + ex.Message);
-					return false;
-				}
-			}
-		}
-
-		private static void ReleaseLinuxHomepageMutex()
-		{
-			lock (LinuxHomepageMutexGate)
-			{
-				if (_linuxHomepageMutexHeld && _linuxHomepageMutex != null)
-				{
-					try
-					{
-						_linuxHomepageMutex.ReleaseMutex();
-					}
-					catch (ApplicationException) { }
-				}
-				_linuxHomepageMutexHeld = false;
-				_linuxHomepageMutex?.Dispose();
-				_linuxHomepageMutex = null;
-			}
-		}
-
-		private static void ScheduleLinuxHomepageRetry()
-		{
-			lock (_lock)
-			{
-				_linuxHomepageRetry ??= new System.Threading.Timer(OnLinuxHomepageRetry, null, 2000, 2000);
-			}
-		}
-
-		private static void StopLinuxHomepageRetry()
-		{
-			System.Threading.Timer? timer;
-			lock (_lock)
-			{
-				timer = _linuxHomepageRetry;
-				_linuxHomepageRetry = null;
-			}
-			timer?.Dispose();
-		}
-
-		private static void OnLinuxHomepageRetry(object? state)
-		{
-			// Thread pool timer callback, an exception here would terminate the process
-			try
-			{
-				if (_shutdown || !HomepageBackgroundActive)
-				{
-					StopLinuxHomepageRetry();
-					return;
-				}
-				StartLinuxHomepage();
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine("Overlays", "The Sober homepage retry failed: " + ex.Message);
-			}
-		}
-
-		private static void SafeStart()
-		{
-			try
-			{
-				Start();
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteException("OverlayHub::Start", ex);
-			}
-		}
-
-		private static void StopLinuxHomepage()
-		{
-			StopLinuxHomepageRetry();
-			int generation = Interlocked.Increment(ref _linuxHomepageGeneration);
-			System.Windows.Application? application = System.Windows.Application.Current;
-			if (application == null || application.Dispatcher.HasShutdownStarted || application.Dispatcher.HasShutdownFinished)
-				return;
-			if (application.Dispatcher.CheckAccess())
-			{
-				StopLinuxHomepageOnDispatcher(generation);
-				return;
-			}
-
-			try
-			{
-				application.Dispatcher.BeginInvoke(
-					System.Windows.Threading.DispatcherPriority.Send,
-					new Action(() => StopLinuxHomepageOnDispatcher(generation))
-				);
-			}
-			catch (InvalidOperationException) { }
-		}
-
-		private static void StopLinuxHomepageOnDispatcher(int generation)
-		{
-			if (generation != Volatile.Read(ref _linuxHomepageGeneration))
-				return;
-			LinuxHomepageBackgroundOverlay? overlay = _linuxHomepage;
-			overlay?.Dispose();
-			if (overlay == null || overlay.IsSafeToRelease)
-			{
-				_linuxHomepage = null;
-				ReleaseLinuxHomepageMutex();
-			}
-			else
-			{
-				_linuxHomepage = overlay;
-			}
-		}
-
-		internal static void OnLinuxHomepageOverlayStopped(LinuxHomepageBackgroundOverlay overlay)
-		{
-			if (!Voidstrap.Utility.Platform.IsLinux)
-				return;
-			System.Windows.Application? application = System.Windows.Application.Current;
-			if (application == null || application.Dispatcher.HasShutdownStarted || application.Dispatcher.HasShutdownFinished)
-				return;
-			try
-			{
-				application.Dispatcher.BeginInvoke(
-					System.Windows.Threading.DispatcherPriority.Background,
-					new Action(() => CompleteLinuxHomepageStop(overlay))
-				);
-			}
-			catch (InvalidOperationException) { }
-		}
-
-		private static void CompleteLinuxHomepageStop(LinuxHomepageBackgroundOverlay overlay)
-		{
-			if (!ReferenceEquals(_linuxHomepage, overlay))
-				return;
-			_linuxHomepage = null;
-			ReleaseLinuxHomepageMutex();
-			if (!_shutdown && HomepageBackgroundActive)
-				StartLinuxHomepage();
-		}
-
-		private static void Stop()
-		{
-			if (Voidstrap.Utility.Platform.IsLinux)
-			{
-				StopLinuxHomepage();
-				return;
-			}
-			if (Voidstrap.Utility.Platform.IsMacOS)
-			{
-				StopMacHomepage();
-				return;
-			}
-			CancellationTokenSource? cts;
-			lock (_lock)
-			{
-				cts = _cts;
-			}
-			if (cts == null)
-				return;
-			try
-			{
-				cts.Cancel();
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteException("OverlayHub::Stop", ex);
-			}
-		}
-
-		private static void Supervise(CancellationTokenSource owner)
-		{
-			CancellationToken token = owner.Token;
-			Mutex? mutex = null;
-			bool held = false;
-			try
-			{
-				mutex = new Mutex(false, "VoidstrapOverlayCompositorActive");
-				bool loggedWaitOwner = false;
-				bool loggedWaitRoblox = false;
-				int fastFailures = 0;
-				while (!token.IsCancellationRequested)
-				{
-					if (!OverlaySettings.AnyEnabled)
-						break;
-					if (!held)
-					{
-						try
-						{
-							held = mutex.WaitOne(0);
-						}
-						catch (AbandonedMutexException)
-						{
-							held = true;
-						}
-						if (!held)
-						{
-							if (!loggedWaitOwner)
-							{
-								loggedWaitOwner = true;
-								App.Logger.WriteLine("Overlays", "Another Voidstrap process is running the compositor, standing by");
-							}
-							if (token.WaitHandle.WaitOne(2000))
-								break;
-							continue;
-						}
-						App.Logger.WriteLine("Overlays", "This process now owns the compositor");
-					}
-
-					if (!RobloxLightingOverlay.RobloxWindow.TryGet(out _))
-					{
-						if (!loggedWaitRoblox)
-						{
-							loggedWaitRoblox = true;
-							App.Logger.WriteLine("Overlays", "Waiting for the Roblox window");
-						}
-						if (token.WaitHandle.WaitOne(1000))
-							break;
-						continue;
-					}
-					loggedWaitRoblox = false;
-
-					IntPtr sessionHwnd = RobloxLightingOverlay.RobloxWindow.GetHandle();
-					long sessionStartedMs = Environment.TickCount64;
-					using (var runCts = CancellationTokenSource.CreateLinkedTokenSource(token))
-					{
-						var runToken = runCts.Token;
-						var watcher = new Thread(() => WatchRoblox(runCts))
-						{
-							IsBackground = true,
-							Name = "OverlaysWatch",
-							Priority = ThreadPriority.BelowNormal,
-						};
-						watcher.Start();
-						try
-						{
-							var compositor = new OverlayCompositor();
-							compositor.Run(runToken);
-						}
-						finally
-						{
-							runCts.Cancel();
-							watcher.Join(1500);
-						}
-					}
-
-					if (!OverlaySettings.AnyEnabled)
-						break;
-					IntPtr currentHwnd = RobloxLightingOverlay.RobloxWindow.GetHandle();
-					if (Environment.TickCount64 - sessionStartedMs < 3000 && sessionHwnd != IntPtr.Zero && currentHwnd == sessionHwnd)
-						fastFailures++;
-					else
-						fastFailures = 0;
-					if (fastFailures == 3)
-						App.Logger.WriteLine("Overlays", "Compositor keeps ending quickly, retrying every 10 seconds");
-					if (!token.IsCancellationRequested)
-						App.Logger.WriteLine("Overlays", "Compositor session ended, waiting for Roblox again");
-					if (token.WaitHandle.WaitOne(fastFailures >= 3 ? 10000 : 1000))
-						break;
-				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteException("OverlayHub::Supervise", ex);
-			}
-			finally
-			{
-				if (held && mutex != null)
-				{
-					try
-					{
-						mutex.ReleaseMutex();
-					}
-					catch { }
-				}
-				mutex?.Dispose();
-				CompleteThread(owner);
-			}
-		}
-
-		private static void CompleteThread(CancellationTokenSource owner)
-		{
-			bool dispose = false;
-			bool restart = false;
-			lock (_lock)
-			{
-				if (ReferenceEquals(_thread, Thread.CurrentThread) && ReferenceEquals(_cts, owner))
-				{
-					_thread = null;
-					_cts = null;
-					dispose = true;
-					restart = !_shutdown && !_gameTransition && OverlaySettings.AnyEnabled;
-				}
-			}
-			if (dispose)
-				owner.Dispose();
-			if (restart)
-				ThreadPool.QueueUserWorkItem(_ => SafeStart());
-			else
-			{
-				try
-				{
-					RobloxFpsCap.Shutdown();
-				}
-				catch (Exception ex)
-				{
-					App.Logger.WriteException("OverlayHub::Supervise", ex);
-				}
-			}
-		}
-
-		private static void HideStalledCompositor()
-		{
-			IntPtr hwnd = CompositorWindow;
-			long beat = Volatile.Read(ref _compositorHeartbeat);
-			if (hwnd == IntPtr.Zero || beat == 0 || Environment.TickCount64 - beat < 4000 || Volatile.Read(ref _compositorStallHidden) != 0)
-				return;
-			Volatile.Write(ref _compositorStallHidden, 1);
-			AntiAliasing.AntiAliasingInterop.SetWindowPos(
-				hwnd,
-				IntPtr.Zero,
-				0,
-				0,
-				0,
-				0,
-				AntiAliasing.AntiAliasingInterop.SWP_HIDEWINDOW
-					| AntiAliasing.AntiAliasingInterop.SWP_ASYNCWINDOWPOS
-					| AntiAliasing.AntiAliasingInterop.SWP_NOMOVE
-					| AntiAliasing.AntiAliasingInterop.SWP_NOSIZE
-					| AntiAliasing.AntiAliasingInterop.SWP_NOZORDER
-					| AntiAliasing.AntiAliasingInterop.SWP_NOACTIVATE
-			);
-			App.Logger.WriteLine("Overlays", "Compositor stopped responding, hiding its window so Roblox stays visible");
-		}
-
-		private static void WatchRoblox(CancellationTokenSource runCts)
-		{
-			try
-			{
-				while (!runCts.IsCancellationRequested)
-				{
-					if (!RobloxLightingOverlay.RobloxWindow.TryGet(out _))
-					{
-						runCts.Cancel();
-						break;
-					}
-					HideStalledCompositor();
-					if (runCts.Token.WaitHandle.WaitOne(750))
-						break;
-				}
-			}
-			catch { }
-		}
-	}
+    public static class OverlayHub
+    {
+        private static Thread? _thread;
+        private static CancellationTokenSource? _cts;
+        private static readonly object _lock = new object();
+        private static volatile bool _shutdown;
+        private static volatile bool _gameTransition;
+        private static volatile bool _inGame;
+        private static volatile bool _robloxProcessRunning;
+        private static volatile bool _hostProcess;
+
+        private static volatile bool _compositorLive;
+        private static volatile bool _linuxHomepageNativeShaderActive;
+        private static int _crosshairRefreshPending;
+
+        public static bool InGame => _inGame;
+
+        internal static bool RobloxProcessRunning => _robloxProcessRunning;
+
+        internal static bool GameTransition => _gameTransition;
+        internal static bool CompositorLive => _compositorLive;
+        private static IntPtr _compositorWindow;
+        internal static IntPtr CompositorWindow => Volatile.Read(ref _compositorWindow);
+
+        internal static void SetCompositorWindow(IntPtr handle) => Volatile.Write(ref _compositorWindow, handle);
+
+        private static long _compositorHeartbeat;
+        private static int _compositorStallHidden;
+
+        internal static void CompositorHeartbeat() => Volatile.Write(ref _compositorHeartbeat, Environment.TickCount64);
+
+        internal static bool TakeCompositorStallHidden() => Interlocked.Exchange(ref _compositorStallHidden, 0) != 0;
+
+        internal static bool WorkerRunning
+        {
+            get
+            {
+                lock (_lock)
+                    return _thread is { IsAlive: true };
+            }
+        }
+
+        public static void MarkHostProcess()
+        {
+            _hostProcess = true;
+        }
+
+        private static bool _loggedLinuxHomepageUnavailable;
+        private static LinuxHomepageBackgroundOverlay? _linuxHomepage;
+        private static int _linuxHomepageGeneration;
+        private static Mutex? _linuxHomepageMutex;
+        private static bool _linuxHomepageMutexHeld;
+        private static System.Threading.Timer? _linuxHomepageRetry;
+        private const string LinuxGameplayLeaseName = "VoidstrapLinuxGameplayActive";
+        private static readonly object _linuxGameplayLeaseGate = new object();
+        private static readonly object _linuxGameplayProbeGate = new object();
+        private static readonly NamedWaitHandleOptions _linuxGameplayLeaseOptions = new NamedWaitHandleOptions
+        {
+            CurrentUserOnly = true,
+            CurrentSessionOnly = false,
+        };
+        private static Thread? _linuxGameplayLeaseThread;
+        private static AutoResetEvent? _linuxGameplayLeaseSignal;
+        private static ManualResetEventSlim? _linuxGameplayLeaseAcknowledged;
+        private static volatile bool _linuxGameplayLeaseRequested;
+        private static volatile bool _linuxGameplayLeaseStopping;
+        private static volatile bool _linuxGameplayLeaseOperational;
+        private static int _linuxGameplayLeaseCommandGeneration;
+        private static int _linuxGameplayLeaseAcknowledgedGeneration = -1;
+        private static Mutex? _linuxGameplayProbeMutex;
+        private static int _linuxGameplayLeaseFailureLogged;
+        private static int _linuxGameplayProbeFailureLogged;
+
+        internal static bool LinuxHomepageRunning => _linuxHomepage is { IsDisposed: false };
+        internal static bool LinuxGameplayLeaseOperational =>
+            !Voidstrap.Utility.Platform.IsLinux
+            || _linuxGameplayLeaseOperational
+                && Volatile.Read(ref _linuxGameplayLeaseAcknowledgedGeneration) == Volatile.Read(ref _linuxGameplayLeaseCommandGeneration);
+
+        public static bool CompositorCrosshairActive => _compositorLive && OverlayCrosshair.CanComposite();
+
+        internal static void SetCompositorLive(bool live)
+        {
+            _compositorLive = live;
+            RefreshCrosshair();
+        }
+
+        public static void RefreshCrosshair()
+        {
+            if (Interlocked.Exchange(ref _crosshairRefreshPending, 1) != 0)
+                return;
+            try
+            {
+                System.Windows.Application? app = System.Windows.Application.Current;
+                if (app == null || app.Dispatcher.HasShutdownStarted || app.Dispatcher.HasShutdownFinished)
+                {
+                    Interlocked.Exchange(ref _crosshairRefreshPending, 0);
+                    return;
+                }
+                app.Dispatcher.BeginInvoke(
+                    new Action(() =>
+                    {
+                        Interlocked.Exchange(ref _crosshairRefreshPending, 0);
+                        try
+                        {
+                            Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
+                        }
+                        catch (Exception ex)
+                        {
+                            App.Logger.WriteException("OverlayHub::RefreshCrosshair", ex);
+                        }
+                    })
+                );
+            }
+            catch (Exception ex)
+            {
+                Interlocked.Exchange(ref _crosshairRefreshPending, 0);
+                App.Logger.WriteException("OverlayHub::RefreshCrosshair", ex);
+            }
+        }
+
+        public static bool HomepageBackgroundActive =>
+            !_inGame
+            && !_gameTransition
+            && OverlaySettings.HomepageBackgroundEnabled
+            && (!Voidstrap.Utility.Platform.IsLinux || !_linuxHomepageNativeShaderActive && IsLinuxHomepageLifecycleActive());
+
+        internal static void SetLinuxHomepageNativeShaderActive(bool active)
+        {
+            if (!Voidstrap.Utility.Platform.IsLinux || _linuxHomepageNativeShaderActive == active)
+                return;
+            _linuxHomepageNativeShaderActive = active;
+            App.Logger.WriteLine(
+                "Overlays",
+                active
+                    ? "The Sober-native homepage shader is active, disabling delayed window capture"
+                    : "The Sober-native homepage shader is inactive, enabling the compatible window renderer"
+            );
+            Refresh();
+        }
+
+        public static bool Refresh()
+        {
+            RefreshCrosshair();
+            if (OverlaySettings.AnyEnabled && (!_gameTransition || OverlaySettings.RiShadeClientActive))
+                return Start();
+            Stop();
+            return true;
+        }
+
+        internal static void SetRobloxProcessRunning(bool running)
+        {
+            if (!Voidstrap.Utility.Platform.IsWindows || _robloxProcessRunning == running)
+                return;
+            _robloxProcessRunning = running;
+            if (!running)
+            {
+                _inGame = false;
+                _gameTransition = false;
+            }
+            App.Logger.WriteLine(
+                "Overlays",
+                running
+                    ? "Roblox client process started, enabling the process-scoped RiShade compositor"
+                    : "Roblox client process exited, stopping the process-scoped RiShade compositor"
+            );
+            Refresh();
+        }
+
+        public static void Restart()
+        {
+            Stop();
+            Refresh();
+        }
+
+        public static void OnGameJoin()
+        {
+            _inGame = true;
+            _gameTransition = false;
+            if (Voidstrap.Utility.Platform.IsLinux)
+                SetLinuxGameplayLease(true);
+            Refresh();
+        }
+
+        public static void OnGameLeave()
+        {
+            _inGame = false;
+            _gameTransition = false;
+            if (Voidstrap.Utility.Platform.IsLinux)
+                SetLinuxGameplayLease(false);
+            Refresh();
+        }
+
+        internal static void SynchronizeLinuxGameState(bool inGame)
+        {
+            if (!Voidstrap.Utility.Platform.IsLinux && !Voidstrap.Utility.Platform.IsMacOS || _shutdown)
+                return;
+            _inGame = inGame;
+            _gameTransition = false;
+            if (Voidstrap.Utility.Platform.IsLinux)
+                SetLinuxGameplayLease(inGame);
+            Refresh();
+        }
+
+        internal static void ReleaseLinuxGameplayLease()
+        {
+            if (!Voidstrap.Utility.Platform.IsLinux)
+                return;
+            _inGame = false;
+            _gameTransition = false;
+            SetLinuxGameplayLease(false);
+        }
+
+        public static void OnGameTransitionStarted()
+        {
+            _inGame = true;
+            _gameTransition = true;
+            if (Voidstrap.Utility.Platform.IsLinux)
+                SetLinuxGameplayLease(true);
+            if (OverlaySettings.RiShadeClientActive)
+                Refresh();
+            else
+                Stop();
+        }
+
+        public static void OnGameTransitionCompleted()
+        {
+            _inGame = true;
+            _gameTransition = false;
+            if (Voidstrap.Utility.Platform.IsLinux)
+                SetLinuxGameplayLease(true);
+            Refresh();
+        }
+
+        public static void Shutdown()
+        {
+            _shutdown = true;
+            _inGame = false;
+            RefreshCrosshair();
+            if (Voidstrap.Utility.Platform.IsLinux)
+                ShutdownLinuxGameplayLease();
+            Stop();
+            RobloxFpsCap.Shutdown();
+        }
+
+        private static bool IsLinuxHomepageLifecycleActive()
+        {
+            if (_shutdown)
+                return false;
+            lock (_linuxGameplayProbeGate)
+            {
+                if (_shutdown)
+                    return false;
+                try
+                {
+                    _linuxGameplayProbeMutex ??= new Mutex(false, LinuxGameplayLeaseName, _linuxGameplayLeaseOptions);
+                    bool acquired;
+                    try
+                    {
+                        acquired = _linuxGameplayProbeMutex.WaitOne(0);
+                    }
+                    catch (AbandonedMutexException)
+                    {
+                        acquired = true;
+                    }
+                    if (!acquired)
+                        return false;
+                    _linuxGameplayProbeMutex.ReleaseMutex();
+                    Interlocked.Exchange(ref _linuxGameplayProbeFailureLogged, 0);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    if (Interlocked.Exchange(ref _linuxGameplayProbeFailureLogged, 1) == 0)
+                        App.Logger.WriteLine("OverlayHub", "The Linux gameplay state could not be checked: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+
+        private static bool SetLinuxGameplayLease(bool active)
+        {
+            if (!Voidstrap.Utility.Platform.IsLinux || (_shutdown && active))
+                return false;
+            lock (_linuxGameplayLeaseGate)
+            {
+                if (!active && _linuxGameplayLeaseThread == null)
+                    return true;
+                if (!EnsureLinuxGameplayLeaseThread())
+                    return false;
+                int currentGeneration = Volatile.Read(ref _linuxGameplayLeaseCommandGeneration);
+                if (
+                    _linuxGameplayLeaseRequested == active
+                    && Volatile.Read(ref _linuxGameplayLeaseAcknowledgedGeneration) == currentGeneration
+                )
+                    return _linuxGameplayLeaseOperational;
+
+                _linuxGameplayLeaseRequested = active;
+                int generation = Interlocked.Increment(ref _linuxGameplayLeaseCommandGeneration);
+                ManualResetEventSlim acknowledged = _linuxGameplayLeaseAcknowledged!;
+                acknowledged.Reset();
+                _linuxGameplayLeaseSignal!.Set();
+                if (!WaitForLinuxGameplayLeaseAcknowledgement(acknowledged, generation, 5000))
+                {
+                    if (Interlocked.Exchange(ref _linuxGameplayLeaseFailureLogged, 1) == 0)
+                        App.Logger.WriteLine("OverlayHub", "The Linux gameplay state lease did not acknowledge its new state");
+                    return false;
+                }
+                if (!_linuxGameplayLeaseOperational)
+                    return false;
+                Interlocked.Exchange(ref _linuxGameplayLeaseFailureLogged, 0);
+                return true;
+            }
+        }
+
+        private static bool EnsureLinuxGameplayLeaseThread()
+        {
+            if (_linuxGameplayLeaseThread is { IsAlive: true })
+                return true;
+            if (_linuxGameplayLeaseThread != null)
+            {
+                _linuxGameplayLeaseSignal?.Dispose();
+                _linuxGameplayLeaseAcknowledged?.Dispose();
+            }
+
+            AutoResetEvent signal = new AutoResetEvent(false);
+            ManualResetEventSlim acknowledged = new ManualResetEventSlim(false);
+            _linuxGameplayLeaseSignal = signal;
+            _linuxGameplayLeaseAcknowledged = acknowledged;
+            _linuxGameplayLeaseRequested = false;
+            _linuxGameplayLeaseStopping = false;
+            _linuxGameplayLeaseOperational = false;
+            Volatile.Write(ref _linuxGameplayLeaseAcknowledgedGeneration, -1);
+            Thread thread = new Thread(() => RunLinuxGameplayLease(signal, acknowledged))
+            {
+                IsBackground = true,
+                Name = "Linux Gameplay Lease",
+            };
+            _linuxGameplayLeaseThread = thread;
+            try
+            {
+                thread.Start();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _linuxGameplayLeaseThread = null;
+                _linuxGameplayLeaseSignal = null;
+                _linuxGameplayLeaseAcknowledged = null;
+                signal.Dispose();
+                acknowledged.Dispose();
+                if (Interlocked.Exchange(ref _linuxGameplayLeaseFailureLogged, 1) == 0)
+                    App.Logger.WriteLine("OverlayHub", "The Linux gameplay state lease could not start: " + ex.Message);
+                return false;
+            }
+        }
+
+        private static void RunLinuxGameplayLease(AutoResetEvent signal, ManualResetEventSlim acknowledged)
+        {
+            Mutex? lease = null;
+            bool held = false;
+            try
+            {
+                lease = new Mutex(false, LinuxGameplayLeaseName, _linuxGameplayLeaseOptions);
+                _linuxGameplayLeaseOperational = true;
+                while (!_linuxGameplayLeaseStopping)
+                {
+                    int generation = Volatile.Read(ref _linuxGameplayLeaseCommandGeneration);
+                    bool requested = _linuxGameplayLeaseRequested;
+                    if (requested && !held)
+                    {
+                        try
+                        {
+                            held = lease.WaitOne(0);
+                        }
+                        catch (AbandonedMutexException)
+                        {
+                            held = true;
+                        }
+                    }
+                    else if (!requested && held)
+                    {
+                        lease.ReleaseMutex();
+                        held = false;
+                    }
+
+                    if (_linuxGameplayLeaseStopping)
+                        break;
+                    if (generation == Volatile.Read(ref _linuxGameplayLeaseCommandGeneration) && requested == _linuxGameplayLeaseRequested)
+                    {
+                        Volatile.Write(ref _linuxGameplayLeaseAcknowledgedGeneration, generation);
+                        acknowledged.Set();
+                    }
+                    signal.WaitOne(requested && !held ? 100 : Timeout.Infinite);
+                }
+            }
+            catch (Exception ex)
+            {
+                _linuxGameplayLeaseOperational = false;
+                if (Interlocked.Exchange(ref _linuxGameplayLeaseFailureLogged, 1) == 0)
+                    App.Logger.WriteLine("OverlayHub", "The Linux gameplay state lease stopped: " + ex.Message);
+            }
+            finally
+            {
+                if (held && lease != null)
+                {
+                    try
+                    {
+                        lease.ReleaseMutex();
+                    }
+                    catch (ApplicationException) { }
+                }
+                lease?.Dispose();
+                _linuxGameplayLeaseOperational = false;
+                Volatile.Write(ref _linuxGameplayLeaseAcknowledgedGeneration, Volatile.Read(ref _linuxGameplayLeaseCommandGeneration));
+                acknowledged.Set();
+            }
+        }
+
+        private static bool WaitForLinuxGameplayLeaseAcknowledgement(
+            ManualResetEventSlim acknowledged,
+            int generation,
+            int timeoutMilliseconds
+        )
+        {
+            long deadline = Environment.TickCount64 + timeoutMilliseconds;
+            while (true)
+            {
+                if (Volatile.Read(ref _linuxGameplayLeaseAcknowledgedGeneration) == generation)
+                    return true;
+                int remaining = (int)Math.Min(int.MaxValue, deadline - Environment.TickCount64);
+                if (remaining <= 0)
+                    return false;
+                acknowledged.Wait(Math.Min(remaining, 100));
+                if (Volatile.Read(ref _linuxGameplayLeaseAcknowledgedGeneration) == generation)
+                    return true;
+                acknowledged.Reset();
+            }
+        }
+
+        private static void ShutdownLinuxGameplayLease()
+        {
+            Thread? thread;
+            lock (_linuxGameplayLeaseGate)
+            {
+                thread = _linuxGameplayLeaseThread;
+                if (thread is { IsAlive: true })
+                {
+                    _linuxGameplayLeaseRequested = false;
+                    _linuxGameplayLeaseStopping = true;
+                    int generation = Interlocked.Increment(ref _linuxGameplayLeaseCommandGeneration);
+                    ManualResetEventSlim acknowledged = _linuxGameplayLeaseAcknowledged!;
+                    acknowledged.Reset();
+                    _linuxGameplayLeaseSignal!.Set();
+                    WaitForLinuxGameplayLeaseAcknowledgement(acknowledged, generation, 5000);
+                    if (Thread.CurrentThread != thread)
+                        thread.Join(TimeSpan.FromSeconds(5));
+                }
+                if (thread == null || !thread.IsAlive)
+                {
+                    _linuxGameplayLeaseThread = null;
+                    _linuxGameplayLeaseSignal?.Dispose();
+                    _linuxGameplayLeaseSignal = null;
+                    _linuxGameplayLeaseAcknowledged?.Dispose();
+                    _linuxGameplayLeaseAcknowledged = null;
+                }
+            }
+            lock (_linuxGameplayProbeGate)
+            {
+                _linuxGameplayProbeMutex?.Dispose();
+                _linuxGameplayProbeMutex = null;
+            }
+        }
+
+        private static bool Start()
+        {
+            if (_shutdown || _gameTransition || !_hostProcess)
+                return false;
+            if (Voidstrap.Utility.Platform.IsLinux)
+                return StartLinuxHomepage();
+            if (Voidstrap.Utility.Platform.IsMacOS)
+                return StartMacHomepage();
+            if (!Voidstrap.Utility.Platform.IsWindows)
+                return false;
+            lock (_lock)
+            {
+                if (_thread != null)
+                    return true;
+                var cts = new CancellationTokenSource();
+                Thread thread = new Thread(() => Supervise(cts))
+                {
+                    IsBackground = true,
+                    Name = "Overlays",
+                    Priority = ThreadPriority.BelowNormal,
+                };
+                _cts = cts;
+                _thread = thread;
+                try
+                {
+                    thread.Start();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    _thread = null;
+                    _cts = null;
+                    cts.Dispose();
+                    App.Logger.WriteException("OverlayHub::Start", ex);
+                    return false;
+                }
+            }
+        }
+
+        private static MacHomepageBackgroundOverlay? _macHomepage;
+
+        private static bool _macHomepageStarting;
+
+        private static bool _macHomepagePermissionLogged;
+
+        private static bool StartMacHomepage()
+        {
+            System.Windows.Application? app = System.Windows.Application.Current;
+            if (app == null || app.Dispatcher.HasShutdownStarted)
+                return false;
+            app.Dispatcher.BeginInvoke(
+                new Action(() =>
+                {
+                    if (_macHomepage != null || _macHomepageStarting || _shutdown || !HomepageBackgroundActive)
+                        return;
+                    if (!Voidstrap.Platform.MacOS.MacOSWindowCapture.HasPermission)
+                    {
+                        if (!_macHomepagePermissionLogged)
+                        {
+                            _macHomepagePermissionLogged = true;
+                            App.Logger.WriteLine(
+                                "OverlayHub::StartMacHomepage",
+                                "Screen Recording access is not granted, the homepage background stays off"
+                            );
+                        }
+                        return;
+                    }
+                    _macHomepageStarting = true;
+                    try
+                    {
+                        MacHomepageBackgroundOverlay overlay = new();
+                        if (_shutdown || !HomepageBackgroundActive)
+                            overlay.Dispose();
+                        else
+                            _macHomepage = overlay;
+                    }
+                    catch (Exception ex)
+                    {
+                        _macHomepage = null;
+                        App.Logger.WriteException("OverlayHub::StartMacHomepage", ex);
+                    }
+                    finally
+                    {
+                        _macHomepageStarting = false;
+                    }
+                })
+            );
+            return true;
+        }
+
+        private static void StopMacHomepage()
+        {
+            System.Windows.Application? app = System.Windows.Application.Current;
+            if (app == null || app.Dispatcher.HasShutdownStarted)
+                return;
+            app.Dispatcher.BeginInvoke(
+                new Action(() =>
+                {
+                    MacHomepageBackgroundOverlay? overlay = _macHomepage;
+                    _macHomepage = null;
+                    overlay?.Dispose();
+                })
+            );
+        }
+
+        private static bool StartLinuxHomepage()
+        {
+            if (App.LaunchSettings.WindowAuditFlag.Active)
+                return false;
+            if (!HomepageBackgroundActive)
+            {
+                StopLinuxHomepage();
+                return false;
+            }
+            if (!LinuxHomepageBackgroundOverlay.IsSupported)
+            {
+                if (!_loggedLinuxHomepageUnavailable)
+                {
+                    _loggedLinuxHomepageUnavailable = true;
+                    App.Logger.WriteLine("Overlays", "The Sober homepage renderer needs an available composited X11 or XWayland display");
+                }
+                ScheduleLinuxHomepageRetry();
+                return false;
+            }
+            _loggedLinuxHomepageUnavailable = false;
+
+            System.Windows.Application? application = System.Windows.Application.Current;
+            if (application == null || application.Dispatcher.HasShutdownStarted || application.Dispatcher.HasShutdownFinished)
+                return false;
+
+            int generation = Interlocked.Increment(ref _linuxHomepageGeneration);
+            if (application.Dispatcher.CheckAccess())
+            {
+                StartLinuxHomepageOnDispatcher(generation);
+                return LinuxHomepageRunning;
+            }
+
+            try
+            {
+                application.Dispatcher.BeginInvoke(
+                    System.Windows.Threading.DispatcherPriority.Normal,
+                    new Action(() => StartLinuxHomepageOnDispatcher(generation))
+                );
+                return true;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+        }
+
+        private static void StartLinuxHomepageOnDispatcher(int generation)
+        {
+            if (generation != Volatile.Read(ref _linuxHomepageGeneration) || _shutdown || !HomepageBackgroundActive)
+                return;
+            if (LinuxHomepageRunning)
+            {
+                StopLinuxHomepageRetry();
+                return;
+            }
+            if (_linuxHomepage is { IsDisposed: true } stopping)
+            {
+                if (!stopping.IsSafeToRelease)
+                {
+                    ScheduleLinuxHomepageRetry();
+                    return;
+                }
+                _linuxHomepage = null;
+            }
+            if (!TryAcquireLinuxHomepageMutex())
+            {
+                ScheduleLinuxHomepageRetry();
+                return;
+            }
+            StopLinuxHomepageRetry();
+
+            try
+            {
+                _linuxHomepage?.Dispose();
+                _linuxHomepage = new LinuxHomepageBackgroundOverlay();
+            }
+            catch (Exception ex)
+            {
+                _linuxHomepage = null;
+                ReleaseLinuxHomepageMutex();
+                App.Logger.WriteException("OverlayHub::StartLinuxHomepage", ex);
+            }
+        }
+
+        private static readonly object LinuxHomepageMutexGate = new();
+
+        private static bool TryAcquireLinuxHomepageMutex()
+        {
+            lock (LinuxHomepageMutexGate)
+            {
+                if (_linuxHomepageMutexHeld)
+                    return true;
+                try
+                {
+                    _linuxHomepageMutex ??= new Mutex(false, "VoidstrapLinuxHomepageOverlayActive");
+                    try
+                    {
+                        _linuxHomepageMutexHeld = _linuxHomepageMutex.WaitOne(0);
+                    }
+                    catch (AbandonedMutexException)
+                    {
+                        _linuxHomepageMutexHeld = true;
+                    }
+                    return _linuxHomepageMutexHeld;
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteLine("OverlayHub", "The Linux homepage ownership lock could not be opened: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+
+        private static void ReleaseLinuxHomepageMutex()
+        {
+            lock (LinuxHomepageMutexGate)
+            {
+                if (_linuxHomepageMutexHeld && _linuxHomepageMutex != null)
+                {
+                    try
+                    {
+                        _linuxHomepageMutex.ReleaseMutex();
+                    }
+                    catch (ApplicationException) { }
+                }
+                _linuxHomepageMutexHeld = false;
+                _linuxHomepageMutex?.Dispose();
+                _linuxHomepageMutex = null;
+            }
+        }
+
+        private static void ScheduleLinuxHomepageRetry()
+        {
+            lock (_lock)
+            {
+                _linuxHomepageRetry ??= new System.Threading.Timer(OnLinuxHomepageRetry, null, 2000, 2000);
+            }
+        }
+
+        private static void StopLinuxHomepageRetry()
+        {
+            System.Threading.Timer? timer;
+            lock (_lock)
+            {
+                timer = _linuxHomepageRetry;
+                _linuxHomepageRetry = null;
+            }
+            timer?.Dispose();
+        }
+
+        private static void OnLinuxHomepageRetry(object? state)
+        {
+            // Thread pool timer callback, an exception here would terminate the process
+            try
+            {
+                if (_shutdown || !HomepageBackgroundActive)
+                {
+                    StopLinuxHomepageRetry();
+                    return;
+                }
+                StartLinuxHomepage();
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("Overlays", "The Sober homepage retry failed: " + ex.Message);
+            }
+        }
+
+        private static void SafeStart()
+        {
+            try
+            {
+                Start();
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException("OverlayHub::Start", ex);
+            }
+        }
+
+        private static void StopLinuxHomepage()
+        {
+            StopLinuxHomepageRetry();
+            int generation = Interlocked.Increment(ref _linuxHomepageGeneration);
+            System.Windows.Application? application = System.Windows.Application.Current;
+            if (application == null || application.Dispatcher.HasShutdownStarted || application.Dispatcher.HasShutdownFinished)
+                return;
+            if (application.Dispatcher.CheckAccess())
+            {
+                StopLinuxHomepageOnDispatcher(generation);
+                return;
+            }
+
+            try
+            {
+                application.Dispatcher.BeginInvoke(
+                    System.Windows.Threading.DispatcherPriority.Send,
+                    new Action(() => StopLinuxHomepageOnDispatcher(generation))
+                );
+            }
+            catch (InvalidOperationException) { }
+        }
+
+        private static void StopLinuxHomepageOnDispatcher(int generation)
+        {
+            if (generation != Volatile.Read(ref _linuxHomepageGeneration))
+                return;
+            LinuxHomepageBackgroundOverlay? overlay = _linuxHomepage;
+            overlay?.Dispose();
+            if (overlay == null || overlay.IsSafeToRelease)
+            {
+                _linuxHomepage = null;
+                ReleaseLinuxHomepageMutex();
+            }
+            else
+            {
+                _linuxHomepage = overlay;
+            }
+        }
+
+        internal static void OnLinuxHomepageOverlayStopped(LinuxHomepageBackgroundOverlay overlay)
+        {
+            if (!Voidstrap.Utility.Platform.IsLinux)
+                return;
+            System.Windows.Application? application = System.Windows.Application.Current;
+            if (application == null || application.Dispatcher.HasShutdownStarted || application.Dispatcher.HasShutdownFinished)
+                return;
+            try
+            {
+                application.Dispatcher.BeginInvoke(
+                    System.Windows.Threading.DispatcherPriority.Background,
+                    new Action(() => CompleteLinuxHomepageStop(overlay))
+                );
+            }
+            catch (InvalidOperationException) { }
+        }
+
+        private static void CompleteLinuxHomepageStop(LinuxHomepageBackgroundOverlay overlay)
+        {
+            if (!ReferenceEquals(_linuxHomepage, overlay))
+                return;
+            _linuxHomepage = null;
+            ReleaseLinuxHomepageMutex();
+            if (!_shutdown && HomepageBackgroundActive)
+                StartLinuxHomepage();
+        }
+
+        private static void Stop()
+        {
+            if (Voidstrap.Utility.Platform.IsLinux)
+            {
+                StopLinuxHomepage();
+                return;
+            }
+            if (Voidstrap.Utility.Platform.IsMacOS)
+            {
+                StopMacHomepage();
+                return;
+            }
+            CancellationTokenSource? cts;
+            lock (_lock)
+            {
+                cts = _cts;
+            }
+            if (cts == null)
+                return;
+            try
+            {
+                cts.Cancel();
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException("OverlayHub::Stop", ex);
+            }
+        }
+
+        private static void Supervise(CancellationTokenSource owner)
+        {
+            CancellationToken token = owner.Token;
+            Mutex? mutex = null;
+            bool held = false;
+            try
+            {
+                mutex = new Mutex(false, "VoidstrapOverlayCompositorActive");
+                bool loggedWaitOwner = false;
+                bool loggedWaitRoblox = false;
+                int fastFailures = 0;
+                while (!token.IsCancellationRequested)
+                {
+                    if (!OverlaySettings.AnyEnabled)
+                        break;
+                    if (!held)
+                    {
+                        try
+                        {
+                            held = mutex.WaitOne(0);
+                        }
+                        catch (AbandonedMutexException)
+                        {
+                            held = true;
+                        }
+                        if (!held)
+                        {
+                            if (!loggedWaitOwner)
+                            {
+                                loggedWaitOwner = true;
+                                App.Logger.WriteLine("Overlays", "Another Voidstrap process is running the compositor, standing by");
+                            }
+                            if (token.WaitHandle.WaitOne(2000))
+                                break;
+                            continue;
+                        }
+                        App.Logger.WriteLine("Overlays", "This process now owns the compositor");
+                    }
+
+                    if (!RobloxLightingOverlay.RobloxWindow.TryGet(out _))
+                    {
+                        if (!loggedWaitRoblox)
+                        {
+                            loggedWaitRoblox = true;
+                            App.Logger.WriteLine("Overlays", "Waiting for the Roblox window");
+                        }
+                        if (token.WaitHandle.WaitOne(1000))
+                            break;
+                        continue;
+                    }
+                    loggedWaitRoblox = false;
+
+                    IntPtr sessionHwnd = RobloxLightingOverlay.RobloxWindow.GetHandle();
+                    long sessionStartedMs = Environment.TickCount64;
+                    using (var runCts = CancellationTokenSource.CreateLinkedTokenSource(token))
+                    {
+                        var runToken = runCts.Token;
+                        var watcher = new Thread(() => WatchRoblox(runCts))
+                        {
+                            IsBackground = true,
+                            Name = "OverlaysWatch",
+                            Priority = ThreadPriority.BelowNormal,
+                        };
+                        watcher.Start();
+                        try
+                        {
+                            var compositor = new OverlayCompositor();
+                            compositor.Run(runToken);
+                        }
+                        finally
+                        {
+                            runCts.Cancel();
+                            watcher.Join(1500);
+                        }
+                    }
+
+                    if (!OverlaySettings.AnyEnabled)
+                        break;
+                    IntPtr currentHwnd = RobloxLightingOverlay.RobloxWindow.GetHandle();
+                    if (Environment.TickCount64 - sessionStartedMs < 3000 && sessionHwnd != IntPtr.Zero && currentHwnd == sessionHwnd)
+                        fastFailures++;
+                    else
+                        fastFailures = 0;
+                    if (fastFailures == 3)
+                        App.Logger.WriteLine("Overlays", "Compositor keeps ending quickly, retrying every 10 seconds");
+                    if (!token.IsCancellationRequested)
+                        App.Logger.WriteLine("Overlays", "Compositor session ended, waiting for Roblox again");
+                    if (token.WaitHandle.WaitOne(fastFailures >= 3 ? 10000 : 1000))
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException("OverlayHub::Supervise", ex);
+            }
+            finally
+            {
+                if (held && mutex != null)
+                {
+                    try
+                    {
+                        mutex.ReleaseMutex();
+                    }
+                    catch { }
+                }
+                mutex?.Dispose();
+                CompleteThread(owner);
+            }
+        }
+
+        private static void CompleteThread(CancellationTokenSource owner)
+        {
+            bool dispose = false;
+            bool restart = false;
+            lock (_lock)
+            {
+                if (ReferenceEquals(_thread, Thread.CurrentThread) && ReferenceEquals(_cts, owner))
+                {
+                    _thread = null;
+                    _cts = null;
+                    dispose = true;
+                    restart = !_shutdown && !_gameTransition && OverlaySettings.AnyEnabled;
+                }
+            }
+            if (dispose)
+                owner.Dispose();
+            if (restart)
+                ThreadPool.QueueUserWorkItem(_ => SafeStart());
+            else
+            {
+                try
+                {
+                    RobloxFpsCap.Shutdown();
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteException("OverlayHub::Supervise", ex);
+                }
+            }
+        }
+
+        private static void HideStalledCompositor()
+        {
+            IntPtr hwnd = CompositorWindow;
+            long beat = Volatile.Read(ref _compositorHeartbeat);
+            if (hwnd == IntPtr.Zero || beat == 0 || Environment.TickCount64 - beat < 4000 || Volatile.Read(ref _compositorStallHidden) != 0)
+                return;
+            Volatile.Write(ref _compositorStallHidden, 1);
+            AntiAliasing.AntiAliasingInterop.SetWindowPos(
+                hwnd,
+                IntPtr.Zero,
+                0,
+                0,
+                0,
+                0,
+                AntiAliasing.AntiAliasingInterop.SWP_HIDEWINDOW
+                    | AntiAliasing.AntiAliasingInterop.SWP_ASYNCWINDOWPOS
+                    | AntiAliasing.AntiAliasingInterop.SWP_NOMOVE
+                    | AntiAliasing.AntiAliasingInterop.SWP_NOSIZE
+                    | AntiAliasing.AntiAliasingInterop.SWP_NOZORDER
+                    | AntiAliasing.AntiAliasingInterop.SWP_NOACTIVATE
+            );
+            App.Logger.WriteLine("Overlays", "Compositor stopped responding, hiding its window so Roblox stays visible");
+        }
+
+        private static void WatchRoblox(CancellationTokenSource runCts)
+        {
+            try
+            {
+                while (!runCts.IsCancellationRequested)
+                {
+                    if (!RobloxLightingOverlay.RobloxWindow.TryGet(out _))
+                    {
+                        runCts.Cancel();
+                        break;
+                    }
+                    HideStalledCompositor();
+                    if (runCts.Token.WaitHandle.WaitOne(750))
+                        break;
+                }
+            }
+            catch { }
+        }
+    }
 }

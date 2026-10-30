@@ -8,11 +8,12 @@ using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
-public partial class DonoPage : UiPage{
+public partial class DonoPage : UiPage
+{
 
-	public DonoPage()
-	{
-		base.DataContext = new DonoPageViewModel();
-		InitializeComponent();
-	}
+    public DonoPage()
+    {
+        base.DataContext = new DonoPageViewModel();
+        InitializeComponent();
+    }
 }

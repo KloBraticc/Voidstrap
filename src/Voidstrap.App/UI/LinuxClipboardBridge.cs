@@ -9,7 +9,7 @@ namespace Voidstrap.UI;
 
 public static class LinuxClipboardBridge
 {
-	private const string LogIdent = "LinuxClipboardBridge";
+    private const string LogIdent = "LinuxClipboardBridge";
 
 #if CROSSPLAT
 	private static readonly ProGPU.Wpf.Interop.PortableWpfServiceKey[] ServiceKeys =
@@ -27,11 +27,11 @@ public static class LinuxClipboardBridge
 
 	public static bool IsActive => _installed;
 #else
-	public static bool IsActive => false;
+    public static bool IsActive => false;
 #endif
 
-	public static void Install()
-	{
+    public static void Install()
+    {
 #if CROSSPLAT
 		if (_installed || !(OperatingSystem.IsLinux() || OperatingSystem.IsMacOS()))
 			return;
@@ -79,10 +79,10 @@ public static class LinuxClipboardBridge
 				: "Copy and paste now use the system clipboard, other apps are read again on every paste"
 		);
 #endif
-	}
+    }
 
-	public static void Invalidate()
-	{
+    public static void Invalidate()
+    {
 #if CROSSPLAT
 		if (!_installed)
 			return;
@@ -102,7 +102,7 @@ public static class LinuxClipboardBridge
 
 		dispatcher.BeginInvoke(DispatcherPriority.Send, new Action(OnInvalidationDispatched));
 #endif
-	}
+    }
 
 #if CROSSPLAT
 	private static void OnInvalidationDispatched()

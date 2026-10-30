@@ -10,172 +10,172 @@ namespace Voidstrap.Utility;
 
 internal static class DiscordPresenceGuard
 {
-	public const int TextLimit = 128;
+    public const int TextLimit = 128;
 
-	private const int KeyLimit = 256;
+    private const int KeyLimit = 256;
 
-	private const int LabelByteLimit = 31;
+    private const int LabelByteLimit = 31;
 
-	private const string Ellipsis = "...";
+    private const string Ellipsis = "...";
 
-	private const string Pad = "⠀";
+    private const string Pad = "⠀";
 
-	private const int UpdatesPerWindow = 4;
+    private const int UpdatesPerWindow = 4;
 
-	private static readonly TimeSpan UpdateWindow = TimeSpan.FromSeconds(20);
+    private static readonly TimeSpan UpdateWindow = TimeSpan.FromSeconds(20);
 
-	private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<DiscordRpcClient, Queue<DateTime>> RecentUpdates = new();
+    private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<DiscordRpcClient, Queue<DateTime>> RecentUpdates = new();
 
-	private static bool TryReserveUpdate(DiscordRpcClient client)
-	{
-		Queue<DateTime> recent = RecentUpdates.GetOrCreateValue(client);
-		lock (recent)
-		{
-			DateTime now = DateTime.UtcNow;
-			while (recent.Count > 0 && now - recent.Peek() >= UpdateWindow)
-				recent.Dequeue();
-			if (recent.Count >= UpdatesPerWindow)
-				return false;
-			recent.Enqueue(now);
-			return true;
-		}
-	}
+    private static bool TryReserveUpdate(DiscordRpcClient client)
+    {
+        Queue<DateTime> recent = RecentUpdates.GetOrCreateValue(client);
+        lock (recent)
+        {
+            DateTime now = DateTime.UtcNow;
+            while (recent.Count > 0 && now - recent.Peek() >= UpdateWindow)
+                recent.Dequeue();
+            if (recent.Count >= UpdatesPerWindow)
+                return false;
+            recent.Enqueue(now);
+            return true;
+        }
+    }
 
-	public static bool SetPresenceSafe(this DiscordRpcClient client, RichPresence? presence)
-	{
-		try
-		{
-			if (client.IsDisposed || !TryReserveUpdate(client))
-				return false;
-			client.SetPresence(Complete(presence));
-			return true;
-		}
-		catch (Exception ex) when (ex is not OutOfMemoryException)
-		{
-			App.Logger?.WriteLine("DiscordPresenceGuard", "Discord did not accept the presence: " + ex.Message);
-			return false;
-		}
-	}
+    public static bool SetPresenceSafe(this DiscordRpcClient client, RichPresence? presence)
+    {
+        try
+        {
+            if (client.IsDisposed || !TryReserveUpdate(client))
+                return false;
+            client.SetPresence(Complete(presence));
+            return true;
+        }
+        catch (Exception ex) when (ex is not OutOfMemoryException)
+        {
+            App.Logger?.WriteLine("DiscordPresenceGuard", "Discord did not accept the presence: " + ex.Message);
+            return false;
+        }
+    }
 
-	public static string Text(string? value, int limit = TextLimit)
-	{
-		string text = string.Join(' ', StripControls(value ?? "").Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries));
-		if (text.Length > limit)
-		{
-			int budget = limit - Ellipsis.Length;
-			int cut = 0;
-			foreach (int start in StringInfo.ParseCombiningCharacters(text))
-			{
-				if (start > budget)
-					break;
-				cut = start;
-			}
-			text = text[..cut].TrimEnd() + Ellipsis;
-		}
-		return text.Length == 1 ? text + Pad : text;
-	}
+    public static string Text(string? value, int limit = TextLimit)
+    {
+        string text = string.Join(' ', StripControls(value ?? "").Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries));
+        if (text.Length > limit)
+        {
+            int budget = limit - Ellipsis.Length;
+            int cut = 0;
+            foreach (int start in StringInfo.ParseCombiningCharacters(text))
+            {
+                if (start > budget)
+                    break;
+                cut = start;
+            }
+            text = text[..cut].TrimEnd() + Ellipsis;
+        }
+        return text.Length == 1 ? text + Pad : text;
+    }
 
-	public static string Label(string? value, string fallback)
-	{
-		string text = Text(value, LabelByteLimit);
-		if (text.Length == 0)
-			text = fallback;
-		while (Encoding.UTF8.GetByteCount(text) > LabelByteLimit)
-		{
-			int[] starts = StringInfo.ParseCombiningCharacters(text);
-			text = text[..starts[^1]].TrimEnd();
-		}
-		return text;
-	}
+    public static string Label(string? value, string fallback)
+    {
+        string text = Text(value, LabelByteLimit);
+        if (text.Length == 0)
+            text = fallback;
+        while (Encoding.UTF8.GetByteCount(text) > LabelByteLimit)
+        {
+            int[] starts = StringInfo.ParseCombiningCharacters(text);
+            text = text[..starts[^1]].TrimEnd();
+        }
+        return text;
+    }
 
-	public static string Key(string? value)
-	{
-		string key = (value ?? "").Trim();
-		if (key.Length == 0 || key.Length > KeyLimit)
-			return "";
-		if (IsAssetName(key))
-			return key;
-		return Uri.TryCreate(key, UriKind.Absolute, out Uri? uri) && IsSafeHttps(uri) && uri.AbsoluteUri.Length <= KeyLimit ? uri.AbsoluteUri : "";
-	}
+    public static string Key(string? value)
+    {
+        string key = (value ?? "").Trim();
+        if (key.Length == 0 || key.Length > KeyLimit)
+            return "";
+        if (IsAssetName(key))
+            return key;
+        return Uri.TryCreate(key, UriKind.Absolute, out Uri? uri) && IsSafeHttps(uri) && uri.AbsoluteUri.Length <= KeyLimit ? uri.AbsoluteUri : "";
+    }
 
-	public static string? Link(string? value)
-	{
-		return Uri.TryCreate((value ?? "").Trim(), UriKind.Absolute, out Uri? uri) && IsSafeHttps(uri) && uri.AbsoluteUri.Length <= 512 ? uri.AbsoluteUri : null;
-	}
+    public static string? Link(string? value)
+    {
+        return Uri.TryCreate((value ?? "").Trim(), UriKind.Absolute, out Uri? uri) && IsSafeHttps(uri) && uri.AbsoluteUri.Length <= 512 ? uri.AbsoluteUri : null;
+    }
 
-	private static bool IsSafeHttps(Uri uri)
-	{
-		return uri.Scheme == Uri.UriSchemeHttps && uri.UserInfo.Length == 0 && !uri.IsLoopback && uri.HostNameType == UriHostNameType.Dns;
-	}
+    private static bool IsSafeHttps(Uri uri)
+    {
+        return uri.Scheme == Uri.UriSchemeHttps && uri.UserInfo.Length == 0 && !uri.IsLoopback && uri.HostNameType == UriHostNameType.Dns;
+    }
 
-	private static bool IsAssetName(string key)
-	{
-		if (key.Length > 64)
-			return false;
-		foreach (char character in key)
-		{
-			if (!(character is >= 'a' and <= 'z' or >= '0' and <= '9' or '_' or '-'))
-				return false;
-		}
-		return true;
-	}
+    private static bool IsAssetName(string key)
+    {
+        if (key.Length > 64)
+            return false;
+        foreach (char character in key)
+        {
+            if (!(character is >= 'a' and <= 'z' or >= '0' and <= '9' or '_' or '-'))
+                return false;
+        }
+        return true;
+    }
 
-	private static string StripControls(string value)
-	{
-		StringBuilder? builder = null;
-		for (int index = 0; index < value.Length; index++)
-		{
-			char character = value[index];
-			bool unsafeCharacter = character is (>= '\u202A' and <= '\u202E') or (>= '\u2066' and <= '\u2069') or '\u200E' or '\u200F' or '\u061C'
-				|| (char.IsControl(character) && !char.IsWhiteSpace(character));
-			if (unsafeCharacter)
-			{
-				builder ??= new StringBuilder(value, 0, index, value.Length);
-				continue;
-			}
-			builder?.Append(character);
-		}
-		return builder?.ToString() ?? value;
-	}
+    private static string StripControls(string value)
+    {
+        StringBuilder? builder = null;
+        for (int index = 0; index < value.Length; index++)
+        {
+            char character = value[index];
+            bool unsafeCharacter = character is (>= '\u202A' and <= '\u202E') or (>= '\u2066' and <= '\u2069') or '\u200E' or '\u200F' or '\u061C'
+                || (char.IsControl(character) && !char.IsWhiteSpace(character));
+            if (unsafeCharacter)
+            {
+                builder ??= new StringBuilder(value, 0, index, value.Length);
+                continue;
+            }
+            builder?.Append(character);
+        }
+        return builder?.ToString() ?? value;
+    }
 
-	private static RichPresence? Complete(RichPresence? presence)
-	{
-		if (presence == null)
-			return null;
-		RichPresence copy = presence.Clone();
-		copy.Details = Render(presence.Details);
-		copy.State = Render(presence.State);
-		if (presence.Buttons is { Length: > 0 } buttons)
-		{
-			List<Button> rendered = new List<Button>(buttons.Length);
-			foreach (Button button in buttons)
-			{
-				if (Link(button.Url) is string url)
-					rendered.Add(new Button { Label = Label(RpcText.Render(button.Label), "Open"), Url = url });
-			}
-			copy.Buttons = rendered.ToArray();
-		}
-		if (presence.Assets == null)
-			return copy;
-		string large = Key(presence.Assets.LargeImageKey);
-		string small = Key(presence.Assets.SmallImageKey);
-		if (large.Length == 0 && small.Length == 0)
-		{
-			copy.Assets = null;
-			return copy;
-		}
-		copy.Assets = new Assets
-		{
-			LargeImageKey = large.Length > 0 ? large : small,
-			LargeImageText = Render(presence.Assets.LargeImageText) ?? "",
-			SmallImageKey = small.Length > 0 ? small : large,
-			SmallImageText = Render(presence.Assets.SmallImageText) ?? ""
-		};
-		return copy;
-	}
+    private static RichPresence? Complete(RichPresence? presence)
+    {
+        if (presence == null)
+            return null;
+        RichPresence copy = presence.Clone();
+        copy.Details = Render(presence.Details);
+        copy.State = Render(presence.State);
+        if (presence.Buttons is { Length: > 0 } buttons)
+        {
+            List<Button> rendered = new List<Button>(buttons.Length);
+            foreach (Button button in buttons)
+            {
+                if (Link(button.Url) is string url)
+                    rendered.Add(new Button { Label = Label(RpcText.Render(button.Label), "Open"), Url = url });
+            }
+            copy.Buttons = rendered.ToArray();
+        }
+        if (presence.Assets == null)
+            return copy;
+        string large = Key(presence.Assets.LargeImageKey);
+        string small = Key(presence.Assets.SmallImageKey);
+        if (large.Length == 0 && small.Length == 0)
+        {
+            copy.Assets = null;
+            return copy;
+        }
+        copy.Assets = new Assets
+        {
+            LargeImageKey = large.Length > 0 ? large : small,
+            LargeImageText = Render(presence.Assets.LargeImageText) ?? "",
+            SmallImageKey = small.Length > 0 ? small : large,
+            SmallImageText = Render(presence.Assets.SmallImageText) ?? ""
+        };
+        return copy;
+    }
 
-	private static string? Render(string? value)
-	{
-		return value == null || !value.Contains('⟪') ? value : Text(RpcText.Render(value));
-	}
+    private static string? Render(string? value)
+    {
+        return value == null || !value.Contains('⟪') ? value : Text(RpcText.Render(value));
+    }
 }

@@ -5,87 +5,87 @@ namespace Voidstrap.UI.Elements.Dialogs;
 
 public class FlagValidationResult : INotifyPropertyChanged
 {
-	public bool CanExport { get; set; }
+    public bool CanExport { get; set; }
 
-	private string _name = "";
+    private string _name = "";
 
-	private string _inputValue = "";
+    private string _inputValue = "";
 
-	private string _status = "";
+    private string _status = "";
 
-	private string _validValue = "";
+    private string _validValue = "";
 
-	private string _notes = "";
+    private string _notes = "";
 
-	public string Name
-	{
-		get
-		{
-			return _name;
-		}
-		set
-		{
-			_name = value;
-			OnPropertyChanged(nameof(Name));
-		}
-	}
+    public string Name
+    {
+        get
+        {
+            return _name;
+        }
+        set
+        {
+            _name = value;
+            OnPropertyChanged(nameof(Name));
+        }
+    }
 
-	public string InputValue
-	{
-		get
-		{
-			return _inputValue;
-		}
-		set
-		{
-			_inputValue = value;
-			OnPropertyChanged(nameof(InputValue));
-		}
-	}
+    public string InputValue
+    {
+        get
+        {
+            return _inputValue;
+        }
+        set
+        {
+            _inputValue = value;
+            OnPropertyChanged(nameof(InputValue));
+        }
+    }
 
-	public string Status
-	{
-		get
-		{
-			return _status;
-		}
-		set
-		{
-			_status = value;
-			OnPropertyChanged(nameof(Status));
-		}
-	}
+    public string Status
+    {
+        get
+        {
+            return _status;
+        }
+        set
+        {
+            _status = value;
+            OnPropertyChanged(nameof(Status));
+        }
+    }
 
-	public string ValidValue
-	{
-		get
-		{
-			return _validValue;
-		}
-		set
-		{
-			_validValue = value;
-			OnPropertyChanged(nameof(ValidValue));
-		}
-	}
+    public string ValidValue
+    {
+        get
+        {
+            return _validValue;
+        }
+        set
+        {
+            _validValue = value;
+            OnPropertyChanged(nameof(ValidValue));
+        }
+    }
 
-	public string Notes
-	{
-		get
-		{
-			return _notes;
-		}
-		set
-		{
-			_notes = value;
-			OnPropertyChanged(nameof(Notes));
-		}
-	}
+    public string Notes
+    {
+        get
+        {
+            return _notes;
+        }
+        set
+        {
+            _notes = value;
+            OnPropertyChanged(nameof(Notes));
+        }
+    }
 
-	public event PropertyChangedEventHandler? PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
-	protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-	{
-		this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-	}
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 }

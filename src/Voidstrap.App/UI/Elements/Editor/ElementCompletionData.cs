@@ -8,23 +8,23 @@ namespace Voidstrap.UI.Elements.Editor;
 
 public class ElementCompletionData : ICompletionData
 {
-	public ImageSource? Image => null;
+    public ImageSource? Image => null;
 
-	public string Text { get; private set; }
+    public string Text { get; private set; }
 
-	public object Content => Text;
+    public object Content => Text;
 
-	public object? Description => null;
+    public object? Description => null;
 
-	public double Priority { get; }
+    public double Priority { get; }
 
-	public ElementCompletionData(string text)
-	{
-		Text = text;
-	}
+    public ElementCompletionData(string text)
+    {
+        Text = text;
+    }
 
-	public void Complete(TextArea textArea, ISegment completionSegment, EventArgs insertionRequestEventArgs)
-	{
-		textArea.Document.Replace(completionSegment, Text);
-	}
+    public void Complete(TextArea textArea, ISegment completionSegment, EventArgs insertionRequestEventArgs)
+    {
+        textArea.Document.Replace(completionSegment, Text);
+    }
 }

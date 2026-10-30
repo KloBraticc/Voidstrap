@@ -2,9 +2,9 @@ namespace Voidstrap.Enums;
 
 public enum EmojiType
 {
-	Default,
-	Catmoji,
-	Windows11,
-	Windows10,
-	Windows8
+    Default,
+    Catmoji,
+    Windows11,
+    Windows10,
+    Windows8
 }

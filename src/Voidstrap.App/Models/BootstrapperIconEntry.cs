@@ -6,9 +6,9 @@ namespace Voidstrap.Models;
 
 public class BootstrapperIconEntry
 {
-	public BootstrapperIcon IconType { get; set; }
+    public BootstrapperIcon IconType { get; set; }
 
-	public string? CustomLocation { get; set; }
+    public string? CustomLocation { get; set; }
 
-	public ImageSource ImageSource => IconEx.GetIconSource(IconType, CustomLocation);
+    public ImageSource ImageSource => IconEx.GetIconSource(IconType, CustomLocation);
 }

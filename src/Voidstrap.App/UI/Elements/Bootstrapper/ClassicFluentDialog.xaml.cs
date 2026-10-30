@@ -17,167 +17,168 @@ using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Bootstrapper;
 
-public partial class ClassicFluentDialog : WpfUiWindow,IBootstrapperDialog{
-	private readonly BootstrapperDialogViewModel _viewModel;
+public partial class ClassicFluentDialog : WpfUiWindow, IBootstrapperDialog
+{
+    private readonly BootstrapperDialogViewModel _viewModel;
 
-	private Window? _mainWindow;
+    private Window? _mainWindow;
 
-	private bool _isClosing;
+    private bool _isClosing;
 
-	public Voidstrap.Bootstrapper? Bootstrapper { get; set; }
+    public Voidstrap.Bootstrapper? Bootstrapper { get; set; }
 
-	public string Message
-	{
-		get
-		{
-			return _viewModel.Message;
-		}
-		set
-		{
-			_viewModel.Message = value;
-			_viewModel.OnPropertyChanged(nameof(Message));
-		}
-	}
+    public string Message
+    {
+        get
+        {
+            return _viewModel.Message;
+        }
+        set
+        {
+            _viewModel.Message = value;
+            _viewModel.OnPropertyChanged(nameof(Message));
+        }
+    }
 
-	public ProgressBarStyle ProgressStyle
-	{
-		get
-		{
-			if (!_viewModel.ProgressIndeterminate)
-			{
-				return ProgressBarStyle.Continuous;
-			}
-			return ProgressBarStyle.Marquee;
-		}
-		set
-		{
-			_viewModel.ProgressIndeterminate = value == ProgressBarStyle.Marquee;
-			_viewModel.OnPropertyChanged("ProgressIndeterminate");
-		}
-	}
+    public ProgressBarStyle ProgressStyle
+    {
+        get
+        {
+            if (!_viewModel.ProgressIndeterminate)
+            {
+                return ProgressBarStyle.Continuous;
+            }
+            return ProgressBarStyle.Marquee;
+        }
+        set
+        {
+            _viewModel.ProgressIndeterminate = value == ProgressBarStyle.Marquee;
+            _viewModel.OnPropertyChanged("ProgressIndeterminate");
+        }
+    }
 
-	public int ProgressMaximum
-	{
-		get
-		{
-			return _viewModel.ProgressMaximum;
-		}
-		set
-		{
-			_viewModel.ProgressMaximum = value;
-			_viewModel.OnPropertyChanged(nameof(ProgressMaximum));
-		}
-	}
+    public int ProgressMaximum
+    {
+        get
+        {
+            return _viewModel.ProgressMaximum;
+        }
+        set
+        {
+            _viewModel.ProgressMaximum = value;
+            _viewModel.OnPropertyChanged(nameof(ProgressMaximum));
+        }
+    }
 
-	public int ProgressValue
-	{
-		get
-		{
-			return _viewModel.ProgressValue;
-		}
-		set
-		{
-			_viewModel.ProgressValue = value;
-			_viewModel.OnPropertyChanged(nameof(ProgressValue));
-		}
-	}
+    public int ProgressValue
+    {
+        get
+        {
+            return _viewModel.ProgressValue;
+        }
+        set
+        {
+            _viewModel.ProgressValue = value;
+            _viewModel.OnPropertyChanged(nameof(ProgressValue));
+        }
+    }
 
-	public TaskbarItemProgressState TaskbarProgressState
-	{
-		get
-		{
-			return _viewModel.TaskbarProgressState;
-		}
-		set
-		{
-			_viewModel.TaskbarProgressState = value;
-			_viewModel.OnPropertyChanged(nameof(TaskbarProgressState));
-		}
-	}
+    public TaskbarItemProgressState TaskbarProgressState
+    {
+        get
+        {
+            return _viewModel.TaskbarProgressState;
+        }
+        set
+        {
+            _viewModel.TaskbarProgressState = value;
+            _viewModel.OnPropertyChanged(nameof(TaskbarProgressState));
+        }
+    }
 
-	public double TaskbarProgressValue
-	{
-		get
-		{
-			return _viewModel.TaskbarProgressValue;
-		}
-		set
-		{
-			_viewModel.TaskbarProgressValue = value;
-			_viewModel.OnPropertyChanged(nameof(TaskbarProgressValue));
-		}
-	}
+    public double TaskbarProgressValue
+    {
+        get
+        {
+            return _viewModel.TaskbarProgressValue;
+        }
+        set
+        {
+            _viewModel.TaskbarProgressValue = value;
+            _viewModel.OnPropertyChanged(nameof(TaskbarProgressValue));
+        }
+    }
 
-	public Action? CancelCallback { get; set; }
+    public Action? CancelCallback { get; set; }
 
-	public bool CancelEnabled
-	{
-		get
-		{
-			return _viewModel.CancelEnabled;
-		}
-		set
-		{
-			_viewModel.CancelEnabled = value;
-			_viewModel.OnPropertyChanged("CancelButtonVisibility");
-			_viewModel.OnPropertyChanged(nameof(CancelEnabled));
-		}
-	}
+    public bool CancelEnabled
+    {
+        get
+        {
+            return _viewModel.CancelEnabled;
+        }
+        set
+        {
+            _viewModel.CancelEnabled = value;
+            _viewModel.OnPropertyChanged("CancelButtonVisibility");
+            _viewModel.OnPropertyChanged(nameof(CancelEnabled));
+        }
+    }
 
-	public ClassicFluentDialog()
-	{
-		InitializeComponent();
-		_mainWindow = System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
-		if (App.Settings.Prop.BackgroundWindow)
-		{
-			_mainWindow?.Hide();
-		}
-		AudioPlayerHelper.PlayStartupAudio();
-		base.Closed += OnClosed;
-		_viewModel = new ClassicFluentDialogViewModel(this);
-		base.DataContext = _viewModel;
-		base.Title = App.Settings.Prop.BootstrapperTitle;
-		base.Icon = Voidstrap.Extensions.IconEx.GetBootstrapperWindowIcon();
-		if (Voidstrap.Utility.Platform.IsWindows)
-		{
-			Voidstrap.UI.WindowBackdrop.SetOverride(this, null, forceOpaque: true);
-		}
-	}
+    public ClassicFluentDialog()
+    {
+        InitializeComponent();
+        _mainWindow = System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+        if (App.Settings.Prop.BackgroundWindow)
+        {
+            _mainWindow?.Hide();
+        }
+        AudioPlayerHelper.PlayStartupAudio();
+        base.Closed += OnClosed;
+        _viewModel = new ClassicFluentDialogViewModel(this);
+        base.DataContext = _viewModel;
+        base.Title = App.Settings.Prop.BootstrapperTitle;
+        base.Icon = Voidstrap.Extensions.IconEx.GetBootstrapperWindowIcon();
+        if (Voidstrap.Utility.Platform.IsWindows)
+        {
+            Voidstrap.UI.WindowBackdrop.SetOverride(this, null, forceOpaque: true);
+        }
+    }
 
-	private void OnClosed(object? sender, EventArgs e)
-	{
-		base.Closed -= OnClosed;
-		Voidstrap.UI.WindowBackdrop.ClearOverride(this);
-		_mainWindow = System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
-		if (App.Settings.Prop.BackgroundWindow)
-		{
-			_mainWindow?.Show();
-		}
-		AudioPlayerHelper.StopAudio();
-	}
+    private void OnClosed(object? sender, EventArgs e)
+    {
+        base.Closed -= OnClosed;
+        Voidstrap.UI.WindowBackdrop.ClearOverride(this);
+        _mainWindow = System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+        if (App.Settings.Prop.BackgroundWindow)
+        {
+            _mainWindow?.Show();
+        }
+        AudioPlayerHelper.StopAudio();
+    }
 
-	private void UiWindow_Closing(object sender, CancelEventArgs e)
-	{
-		if (!_isClosing)
-		{
-			try { CancelCallback?.Invoke(); } catch { }
-			Bootstrapper?.Cancel();
-		}
-	}
+    private void UiWindow_Closing(object sender, CancelEventArgs e)
+    {
+        if (!_isClosing)
+        {
+            try { CancelCallback?.Invoke(); } catch { }
+            Bootstrapper?.Cancel();
+        }
+    }
 
-	public void ShowBootstrapper()
-	{
-		this.ShowOwnedDialog();
-	}
+    public void ShowBootstrapper()
+    {
+        this.ShowOwnedDialog();
+    }
 
-	public void CloseBootstrapper()
-	{
-		_isClosing = true;
-		((DispatcherObject)this).Dispatcher.BeginInvoke((Delegate)new Action(base.Close), Array.Empty<object>());
-	}
+    public void CloseBootstrapper()
+    {
+        _isClosing = true;
+        ((DispatcherObject)this).Dispatcher.BeginInvoke((Delegate)new Action(base.Close), Array.Empty<object>());
+    }
 
-	public void ShowSuccess(string message, Action? callback)
-	{
-		BaseFunctions.ShowSuccess(message, callback);
-	}
+    public void ShowSuccess(string message, Action? callback)
+    {
+        BaseFunctions.ShowSuccess(message, callback);
+    }
 }

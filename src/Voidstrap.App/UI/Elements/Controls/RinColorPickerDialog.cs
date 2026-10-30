@@ -9,132 +9,132 @@ namespace Voidstrap.UI.Elements.Controls;
 
 public class RinColorPickerDialog : WpfUiWindow
 {
-	private readonly RinColor.RinColorPicker _picker;
+    private readonly RinColor.RinColorPicker _picker;
 
-	private readonly Button _ok;
+    private readonly Button _ok;
 
-	public Color SelectedColor => _picker.SelectedColor;
+    public Color SelectedColor => _picker.SelectedColor;
 
-	public bool UseAccent { get; private set; }
+    public bool UseAccent { get; private set; }
 
-	internal RinColor.RinColorPicker Picker => _picker;
+    internal RinColor.RinColorPicker Picker => _picker;
 
-	public RinColorPickerDialog(Color? initial = null, bool alphaEnabled = false, string? title = null, bool allowAccent = false)
-	{
-		Title = title ?? Voidstrap.Resources.Strings.ColorPicker_Title;
-		SizeToContent = SizeToContent.WidthAndHeight;
-		ResizeMode = ResizeMode.NoResize;
-		WindowStartupLocation = WindowStartupLocation.CenterOwner;
-		ShowInTaskbar = false;
-		ExtendsContentIntoTitleBar = true;
-		SetResourceReference(BackgroundProperty, "ApplicationBackgroundBrush");
+    public RinColorPickerDialog(Color? initial = null, bool alphaEnabled = false, string? title = null, bool allowAccent = false)
+    {
+        Title = title ?? Voidstrap.Resources.Strings.ColorPicker_Title;
+        SizeToContent = SizeToContent.WidthAndHeight;
+        ResizeMode = ResizeMode.NoResize;
+        WindowStartupLocation = WindowStartupLocation.CenterOwner;
+        ShowInTaskbar = false;
+        ExtendsContentIntoTitleBar = true;
+        SetResourceReference(BackgroundProperty, "ApplicationBackgroundBrush");
 
-		Voidstrap.Utility.ColorPickerSetup.EnsureConfigured();
-		_picker = new RinColor.RinColorPicker
-		{
-			AlphaEnabled = alphaEnabled,
-			SelectedColor = initial ?? Colors.White
-		};
-		_picker.OriginalColor = _picker.SelectedColor;
+        Voidstrap.Utility.ColorPickerSetup.EnsureConfigured();
+        _picker = new RinColor.RinColorPicker
+        {
+            AlphaEnabled = alphaEnabled,
+            SelectedColor = initial ?? Colors.White
+        };
+        _picker.OriginalColor = _picker.SelectedColor;
 
-		var ok = new Button
-		{
-			Content = Voidstrap.Resources.Strings.Common_OK,
-			MinWidth = 120,
-			Margin = new Thickness(0, 0, 8, 0),
-			IsDefault = true
-		};
-		ok.SetResourceReference(StyleProperty, typeof(Button));
-		_ok = ok;
-		ok.Click += OnOkClick;
+        var ok = new Button
+        {
+            Content = Voidstrap.Resources.Strings.Common_OK,
+            MinWidth = 120,
+            Margin = new Thickness(0, 0, 8, 0),
+            IsDefault = true
+        };
+        ok.SetResourceReference(StyleProperty, typeof(Button));
+        _ok = ok;
+        ok.Click += OnOkClick;
 
-		var cancel = new Button
-		{
-			Content = Voidstrap.Resources.Strings.Common_Cancel,
-			MinWidth = 120,
-			IsCancel = true
-		};
-		cancel.SetResourceReference(StyleProperty, typeof(Button));
+        var cancel = new Button
+        {
+            Content = Voidstrap.Resources.Strings.Common_Cancel,
+            MinWidth = 120,
+            IsCancel = true
+        };
+        cancel.SetResourceReference(StyleProperty, typeof(Button));
 
-		var buttons = new StackPanel
-		{
-			Orientation = Orientation.Horizontal,
-			HorizontalAlignment = HorizontalAlignment.Right,
-			Margin = new Thickness(0, 20, 0, 0)
-		};
-		if (allowAccent)
-		{
-			var accentBtn = new Button
-			{
-				Content = Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_UseAccent,
-				MinWidth = 120,
-				Margin = new Thickness(0, 0, 8, 0)
-			};
-			accentBtn.SetResourceReference(StyleProperty, typeof(Button));
-			accentBtn.Click += OnAccentClick;
-			_accent = accentBtn;
-			buttons.Children.Add(accentBtn);
-		}
-		buttons.Children.Add(ok);
-		buttons.Children.Add(cancel);
+        var buttons = new StackPanel
+        {
+            Orientation = Orientation.Horizontal,
+            HorizontalAlignment = HorizontalAlignment.Right,
+            Margin = new Thickness(0, 20, 0, 0)
+        };
+        if (allowAccent)
+        {
+            var accentBtn = new Button
+            {
+                Content = Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_UseAccent,
+                MinWidth = 120,
+                Margin = new Thickness(0, 0, 8, 0)
+            };
+            accentBtn.SetResourceReference(StyleProperty, typeof(Button));
+            accentBtn.Click += OnAccentClick;
+            _accent = accentBtn;
+            buttons.Children.Add(accentBtn);
+        }
+        buttons.Children.Add(ok);
+        buttons.Children.Add(cancel);
 
-		var body = new StackPanel { Margin = new Thickness(24, 12, 24, 20) };
-		body.Children.Add(_picker);
-		body.Children.Add(buttons);
+        var body = new StackPanel { Margin = new Thickness(24, 12, 24, 20) };
+        body.Children.Add(_picker);
+        body.Children.Add(buttons);
 
-		Content = DialogChrome.Host(DialogChrome.TitleBar(Title), body);
-		if (!Voidstrap.Utility.Platform.IsWindows && Application.Current != null)
-		{
-			Window? active = Application.Current.Windows
-				.OfType<Window>()
-				.LastOrDefault(window => !ReferenceEquals(window, this) && window.IsVisible && window.IsActive);
-			if (active != null)
-				Owner = active;
-		}
-	}
+        Content = DialogChrome.Host(DialogChrome.TitleBar(Title), body);
+        if (!Voidstrap.Utility.Platform.IsWindows && Application.Current != null)
+        {
+            Window? active = Application.Current.Windows
+                .OfType<Window>()
+                .LastOrDefault(window => !ReferenceEquals(window, this) && window.IsVisible && window.IsActive);
+            if (active != null)
+                Owner = active;
+        }
+    }
 
-	protected override void OnSourceInitialized(EventArgs e)
-	{
-		if (Owner == null)
-			WindowStartupLocation = WindowStartupLocation.CenterScreen;
-		else if (Owner.Topmost)
-			Topmost = true;
-		base.OnSourceInitialized(e);
-		if (Topmost && !Voidstrap.UI.PortableOverlay.Active)
-		{
-			IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
-			if (hwnd != IntPtr.Zero)
-				Voidstrap.Integrations.Overlays.OverlayDiagnostics.RegisterOverlayHandle(hwnd);
-		}
-	}
+    protected override void OnSourceInitialized(EventArgs e)
+    {
+        if (Owner == null)
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+        else if (Owner.Topmost)
+            Topmost = true;
+        base.OnSourceInitialized(e);
+        if (Topmost && !Voidstrap.UI.PortableOverlay.Active)
+        {
+            IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+            if (hwnd != IntPtr.Zero)
+                Voidstrap.Integrations.Overlays.OverlayDiagnostics.RegisterOverlayHandle(hwnd);
+        }
+    }
 
-	private Button? _accent;
+    private Button? _accent;
 
-	private void OnAccentClick(object sender, RoutedEventArgs e)
-	{
-		UseAccent = true;
-		DialogResult = true;
-		Close();
-	}
+    private void OnAccentClick(object sender, RoutedEventArgs e)
+    {
+        UseAccent = true;
+        DialogResult = true;
+        Close();
+    }
 
-	private void OnOkClick(object sender, RoutedEventArgs e)
-	{
-		_picker.RememberSelection();
-		DialogResult = true;
-		Close();
-	}
+    private void OnOkClick(object sender, RoutedEventArgs e)
+    {
+        _picker.RememberSelection();
+        DialogResult = true;
+        Close();
+    }
 
-	protected override void OnClosed(EventArgs e)
-	{
-		if (Topmost && !Voidstrap.UI.PortableOverlay.Active)
-		{
-			IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
-			if (hwnd != IntPtr.Zero)
-				Voidstrap.Integrations.Overlays.OverlayDiagnostics.UnregisterOverlayHandle(hwnd);
-		}
-		_ok.Click -= OnOkClick;
-		if (_accent != null)
-			_accent.Click -= OnAccentClick;
-		base.OnClosed(e);
-	}
+    protected override void OnClosed(EventArgs e)
+    {
+        if (Topmost && !Voidstrap.UI.PortableOverlay.Active)
+        {
+            IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+            if (hwnd != IntPtr.Zero)
+                Voidstrap.Integrations.Overlays.OverlayDiagnostics.UnregisterOverlayHandle(hwnd);
+        }
+        _ok.Click -= OnOkClick;
+        if (_accent != null)
+            _accent.Click -= OnAccentClick;
+        base.OnClosed(e);
+    }
 }

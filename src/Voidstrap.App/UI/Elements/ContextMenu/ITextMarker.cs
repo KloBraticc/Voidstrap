@@ -4,13 +4,13 @@ namespace Voidstrap.UI.Elements.ContextMenu;
 
 public interface ITextMarker
 {
-	int StartOffset { get; }
+    int StartOffset { get; }
 
-	int Length { get; }
+    int Length { get; }
 
-	Color? BackgroundColor { get; set; }
+    Color? BackgroundColor { get; set; }
 
-	Color? ForegroundColor { get; set; }
+    Color? ForegroundColor { get; set; }
 
-	string ToolTip { get; set; }
+    string ToolTip { get; set; }
 }

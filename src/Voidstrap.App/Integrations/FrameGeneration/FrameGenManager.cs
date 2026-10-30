@@ -6,208 +6,208 @@ using Voidstrap.Integrations.Overlays;
 
 namespace Voidstrap.Integrations.FrameGeneration
 {
-	public static class FrameGenManager
-	{
-		private static bool _installed;
-		private static int _prepareStarted;
-		private static int _gameTransitionActive;
-		private static int _transitionGeneration;
-		private const int TransitionTimeoutMs = 60000;
-		private static readonly object _transitionGate = new();
-		private static CancellationTokenSource? _transitionTimeout;
+    public static class FrameGenManager
+    {
+        private static bool _installed;
+        private static int _prepareStarted;
+        private static int _gameTransitionActive;
+        private static int _transitionGeneration;
+        private const int TransitionTimeoutMs = 60000;
+        private static readonly object _transitionGate = new();
+        private static CancellationTokenSource? _transitionTimeout;
 
-		public static void Install()
-		{
-			if (_installed)
-				return;
-			_installed = true;
-			int normalizedMode = App.Settings.Prop.FrameGenModeIndex > 0 ? 1 : 0;
-			bool settingsChanged =
-				App.Settings.Prop.FrameGenModeIndex != normalizedMode
-				|| App.Settings.Prop.FrameGenResumeIndex > 1
-				|| App.Settings.Prop.FrameGenUncap;
-			App.Settings.Prop.FrameGenModeIndex = normalizedMode;
-			App.Settings.Prop.FrameGenResumeIndex = normalizedMode > 0 ? 1 : 0;
-			App.Settings.Prop.FrameGenUncap = false;
-			if (settingsChanged)
-				App.Settings.SaveDeferred();
-			int savedTarget = App.Settings.Prop.FrameGenTargetFps;
-			int target = NormalizeTargetCap(savedTarget);
-			if (target != savedTarget)
-			{
-				App.Settings.Prop.FrameGenTargetFps = target;
-				App.Settings.SaveDeferred();
-			}
-			RemoveFrameGenFastFlag(target);
-			if (FrameGenSettings.ModeIndex > 0)
-				PreparePipeline();
-			if (FrameGenSettings.ModeIndex > 0 && target > 0)
-				ApplyTargetCap(target);
-			App.Logger.WriteLine("FrameGen", "Installed, mode is " + FrameGenSettings.ModeNames[FrameGenSettings.ModeIndex]);
-			OverlayHub.Refresh();
-		}
+        public static void Install()
+        {
+            if (_installed)
+                return;
+            _installed = true;
+            int normalizedMode = App.Settings.Prop.FrameGenModeIndex > 0 ? 1 : 0;
+            bool settingsChanged =
+                App.Settings.Prop.FrameGenModeIndex != normalizedMode
+                || App.Settings.Prop.FrameGenResumeIndex > 1
+                || App.Settings.Prop.FrameGenUncap;
+            App.Settings.Prop.FrameGenModeIndex = normalizedMode;
+            App.Settings.Prop.FrameGenResumeIndex = normalizedMode > 0 ? 1 : 0;
+            App.Settings.Prop.FrameGenUncap = false;
+            if (settingsChanged)
+                App.Settings.SaveDeferred();
+            int savedTarget = App.Settings.Prop.FrameGenTargetFps;
+            int target = NormalizeTargetCap(savedTarget);
+            if (target != savedTarget)
+            {
+                App.Settings.Prop.FrameGenTargetFps = target;
+                App.Settings.SaveDeferred();
+            }
+            RemoveFrameGenFastFlag(target);
+            if (FrameGenSettings.ModeIndex > 0)
+                PreparePipeline();
+            if (FrameGenSettings.ModeIndex > 0 && target > 0)
+                ApplyTargetCap(target);
+            App.Logger.WriteLine("FrameGen", "Installed, mode is " + FrameGenSettings.ModeNames[FrameGenSettings.ModeIndex]);
+            OverlayHub.Refresh();
+        }
 
-		public static void SetTargetCap(int fps)
-		{
-			Install();
-			int target = NormalizeTargetCap(fps);
-			App.Settings.Prop.FrameGenTargetFps = target;
-			App.Settings.SaveDeferred();
-			ApplyTargetCap(target);
-		}
+        public static void SetTargetCap(int fps)
+        {
+            Install();
+            int target = NormalizeTargetCap(fps);
+            App.Settings.Prop.FrameGenTargetFps = target;
+            App.Settings.SaveDeferred();
+            ApplyTargetCap(target);
+        }
 
-		private static void ApplyTargetCap(int fps)
-		{
-			if (fps >= 5 && fps < 1000 && App.GlobalSettings.GetInt("FramerateCap", 0) != fps)
-			{
-				App.GlobalSettings.SetInt("FramerateCap", fps);
-				App.GlobalSettings.Save();
-			}
-			RobloxFpsCap.ReloadNow();
-		}
+        private static void ApplyTargetCap(int fps)
+        {
+            if (fps >= 5 && fps < 1000 && App.GlobalSettings.GetInt("FramerateCap", 0) != fps)
+            {
+                App.GlobalSettings.SetInt("FramerateCap", fps);
+                App.GlobalSettings.Save();
+            }
+            RobloxFpsCap.ReloadNow();
+        }
 
-		private static void RemoveFrameGenFastFlag(int target)
-		{
-			if (
-				target <= 0
-				|| App.FastFlags.GetPreset("Rendering.Framerate") != target.ToString(System.Globalization.CultureInfo.InvariantCulture)
-			)
-				return;
-			App.FastFlags.SetPreset("Rendering.Framerate", null);
-			App.FastFlags.SaveDeferred();
-			App.Logger.WriteLine(
-				"FrameGen",
-				"Removed the DFIntTaskSchedulerTargetFps FastFlag that frame generation used to write, its FPS cap now lives only in GlobalBasicSettings"
-			);
-		}
+        private static void RemoveFrameGenFastFlag(int target)
+        {
+            if (
+                target <= 0
+                || App.FastFlags.GetPreset("Rendering.Framerate") != target.ToString(System.Globalization.CultureInfo.InvariantCulture)
+            )
+                return;
+            App.FastFlags.SetPreset("Rendering.Framerate", null);
+            App.FastFlags.SaveDeferred();
+            App.Logger.WriteLine(
+                "FrameGen",
+                "Removed the DFIntTaskSchedulerTargetFps FastFlag that frame generation used to write, its FPS cap now lives only in GlobalBasicSettings"
+            );
+        }
 
-		private static int NormalizeTargetCap(int fps) =>
-			fps >= 5 && fps <= 15 ? 15
-			: fps > 15 && fps <= 10000 ? fps
-			: 0;
+        private static int NormalizeTargetCap(int fps) =>
+            fps >= 5 && fps <= 15 ? 15
+            : fps > 15 && fps <= 10000 ? fps
+            : 0;
 
-		private static void PreparePipeline()
-		{
-			if (Interlocked.Exchange(ref _prepareStarted, 1) != 0)
-				return;
-			System.Threading.Tasks.Task.Run(FrameGenPipeline.Prepare);
-		}
+        private static void PreparePipeline()
+        {
+            if (Interlocked.Exchange(ref _prepareStarted, 1) != 0)
+                return;
+            System.Threading.Tasks.Task.Run(FrameGenPipeline.Prepare);
+        }
 
-		public static void SetMode(int modeIndex)
-		{
-			Install();
-			int nextMode = modeIndex > 0 ? 1 : 0;
-			if (FrameGenSettings.ModeIndex == 0 && nextMode > 0)
-			{
-				MessageBoxResult result = Frontend.ShowMessageBox(
-					"Frame generation does not improve performance or actual FPS. It is intended only to make motion appear smoother on low end PCs. It will not help mid range or high end systems, so never enable it on those systems.\n\nEnable frame generation anyway?",
-					MessageBoxImage.Warning,
-					MessageBoxButton.YesNo,
-					MessageBoxResult.No
-				);
-				if (result != MessageBoxResult.Yes)
-					return;
-			}
-			App.Settings.Prop.FrameGenModeIndex = nextMode;
-			if (FrameGenSettings.ModeIndex > 0)
-				PreparePipeline();
-			if (FrameGenSettings.ModeIndex > 0 && App.Settings.Prop.FrameGenTargetFps > 0)
-				ApplyTargetCap(App.Settings.Prop.FrameGenTargetFps);
-			App.Settings.SaveDeferred();
-			App.Logger.WriteLine("FrameGen", "Mode set to " + FrameGenSettings.ModeNames[FrameGenSettings.ModeIndex]);
-			OverlayHub.Refresh();
-		}
+        public static void SetMode(int modeIndex)
+        {
+            Install();
+            int nextMode = modeIndex > 0 ? 1 : 0;
+            if (FrameGenSettings.ModeIndex == 0 && nextMode > 0)
+            {
+                MessageBoxResult result = Frontend.ShowMessageBox(
+                    "Frame generation does not improve performance or actual FPS. It is intended only to make motion appear smoother on low end PCs. It will not help mid range or high end systems, so never enable it on those systems.\n\nEnable frame generation anyway?",
+                    MessageBoxImage.Warning,
+                    MessageBoxButton.YesNo,
+                    MessageBoxResult.No
+                );
+                if (result != MessageBoxResult.Yes)
+                    return;
+            }
+            App.Settings.Prop.FrameGenModeIndex = nextMode;
+            if (FrameGenSettings.ModeIndex > 0)
+                PreparePipeline();
+            if (FrameGenSettings.ModeIndex > 0 && App.Settings.Prop.FrameGenTargetFps > 0)
+                ApplyTargetCap(App.Settings.Prop.FrameGenTargetFps);
+            App.Settings.SaveDeferred();
+            App.Logger.WriteLine("FrameGen", "Mode set to " + FrameGenSettings.ModeNames[FrameGenSettings.ModeIndex]);
+            OverlayHub.Refresh();
+        }
 
-		public static void OnGameJoin()
-		{
-			OnGameJoinStarting();
-		}
+        public static void OnGameJoin()
+        {
+            OnGameJoinStarting();
+        }
 
-		public static void OnGameJoinStarting()
-		{
-			lock (_transitionGate)
-			{
-				if (_gameTransitionActive != 0)
-					return;
-				_gameTransitionActive = 1;
-				if (FrameGenSettings.ModeIndex > 0)
-					App.Logger.WriteLine("FrameGen", "Game transition started, destroying frame generation until the server is ready");
-				OverlayHub.OnGameTransitionStarted();
-				_transitionTimeout = new CancellationTokenSource();
-				_ = ExpireTransitionAsync(++_transitionGeneration, _transitionTimeout.Token);
-			}
-		}
+        public static void OnGameJoinStarting()
+        {
+            lock (_transitionGate)
+            {
+                if (_gameTransitionActive != 0)
+                    return;
+                _gameTransitionActive = 1;
+                if (FrameGenSettings.ModeIndex > 0)
+                    App.Logger.WriteLine("FrameGen", "Game transition started, destroying frame generation until the server is ready");
+                OverlayHub.OnGameTransitionStarted();
+                _transitionTimeout = new CancellationTokenSource();
+                _ = ExpireTransitionAsync(++_transitionGeneration, _transitionTimeout.Token);
+            }
+        }
 
-		private static async Task ExpireTransitionAsync(int generation, CancellationToken token)
-		{
-			try
-			{
-				await Task.Delay(TransitionTimeoutMs, token).ConfigureAwait(false);
-			}
-			catch (OperationCanceledException) when (token.IsCancellationRequested)
-			{
-				return;
-			}
-			lock (_transitionGate)
-			{
-				if (_transitionGeneration != generation || _gameTransitionActive == 0)
-					return;
-				_gameTransitionActive = 0;
-				CancelTransitionTimeout();
-				App.Logger.WriteLine(
-					"FrameGen",
-					"No server join was confirmed within 60 seconds, resuming game effects while the homepage stays disabled until Roblox returns home"
-				);
-				OverlayHub.OnGameTransitionCompleted();
-			}
-		}
+        private static async Task ExpireTransitionAsync(int generation, CancellationToken token)
+        {
+            try
+            {
+                await Task.Delay(TransitionTimeoutMs, token).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) when (token.IsCancellationRequested)
+            {
+                return;
+            }
+            lock (_transitionGate)
+            {
+                if (_transitionGeneration != generation || _gameTransitionActive == 0)
+                    return;
+                _gameTransitionActive = 0;
+                CancelTransitionTimeout();
+                App.Logger.WriteLine(
+                    "FrameGen",
+                    "No server join was confirmed within 60 seconds, resuming game effects while the homepage stays disabled until Roblox returns home"
+                );
+                OverlayHub.OnGameTransitionCompleted();
+            }
+        }
 
-		private static void CancelTransitionTimeout()
-		{
-			_transitionTimeout?.Cancel();
-			_transitionTimeout?.Dispose();
-			_transitionTimeout = null;
-		}
+        private static void CancelTransitionTimeout()
+        {
+            _transitionTimeout?.Cancel();
+            _transitionTimeout?.Dispose();
+            _transitionTimeout = null;
+        }
 
-		public static void OnGameJoinConfirmed()
-		{
-			lock (_transitionGate)
-			{
-				bool transitioning = _gameTransitionActive != 0;
-				_gameTransitionActive = 0;
-				CancelTransitionTimeout();
-				if (transitioning)
-				{
-					if (FrameGenSettings.ModeIndex > 0)
-						App.Logger.WriteLine("FrameGen", "Server join confirmed, rebuilding frame generation with fresh capture history");
-					OverlayHub.OnGameTransitionCompleted();
-				}
-				else
-				{
-					OverlayHub.OnGameJoin();
-				}
-			}
-		}
+        public static void OnGameJoinConfirmed()
+        {
+            lock (_transitionGate)
+            {
+                bool transitioning = _gameTransitionActive != 0;
+                _gameTransitionActive = 0;
+                CancelTransitionTimeout();
+                if (transitioning)
+                {
+                    if (FrameGenSettings.ModeIndex > 0)
+                        App.Logger.WriteLine("FrameGen", "Server join confirmed, rebuilding frame generation with fresh capture history");
+                    OverlayHub.OnGameTransitionCompleted();
+                }
+                else
+                {
+                    OverlayHub.OnGameJoin();
+                }
+            }
+        }
 
-		public static void OnGameLeave()
-		{
-			lock (_transitionGate)
-			{
-				_gameTransitionActive = 0;
-				CancelTransitionTimeout();
-				OverlayHub.OnGameLeave();
-			}
-		}
+        public static void OnGameLeave()
+        {
+            lock (_transitionGate)
+            {
+                _gameTransitionActive = 0;
+                CancelTransitionTimeout();
+                OverlayHub.OnGameLeave();
+            }
+        }
 
-		public static void Shutdown()
-		{
-			lock (_transitionGate)
-			{
-				_gameTransitionActive = 0;
-				CancelTransitionTimeout();
-				_installed = false;
-				OverlayHub.Shutdown();
-			}
-		}
-	}
+        public static void Shutdown()
+        {
+            lock (_transitionGate)
+            {
+                _gameTransitionActive = 0;
+                CancelTransitionTimeout();
+                _installed = false;
+                OverlayHub.Shutdown();
+            }
+        }
+    }
 }

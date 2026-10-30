@@ -11,255 +11,255 @@ namespace Voidstrap.Integrations.Plugins;
 
 public static partial class ModFiles
 {
-	public const string IconFile = "icon.ico";
+    public const string IconFile = "icon.ico";
 
-	public const string PackageExtension = ".vsmod";
+    public const string PackageExtension = ".vsmod";
 
-	private const long MaxPackageBytes = 20L * 1024 * 1024;
+    private const long MaxPackageBytes = 20L * 1024 * 1024;
 
-	private const long MaxUnpackedBytes = 60L * 1024 * 1024;
+    private const long MaxUnpackedBytes = 60L * 1024 * 1024;
 
-	private const int MaxPackageEntries = 500;
+    private const int MaxPackageEntries = 500;
 
-	private const long MaxIconBytes = 1024 * 1024;
+    private const long MaxIconBytes = 1024 * 1024;
 
-	[GeneratedRegex("^[a-z0-9][a-z0-9-]{0,63}$")]
-	private static partial Regex ModNameRegex { get; }
+    [GeneratedRegex("^[a-z0-9][a-z0-9-]{0,63}$")]
+    private static partial Regex ModNameRegex { get; }
 
-	public sealed record Template(string Key, string DefaultName, string Description);
+    public sealed record Template(string Key, string DefaultName, string Description);
 
-	public static readonly IReadOnlyList<Template> Templates =
-	[
-		new("blank", "my-mod", "A minimal Voidstrap mod with one pane"),
-		new("dashboard", "control-center", "Interactive Voidstrap control center pane"),
-		new("sidebar-page", "custom-sidebar-page", "Adds a custom page directly to the Voidstrap navigation sidebar"),
-		new("theme-customizer", "theme-studio", "Customizes Voidstrap theme brushes, zoom and banners live"),
-		new("sidebar-manager", "sidebar-controller", "Renames, hides and changes icons on Voidstrap sidebar items"),
-		new("fastflags", "fastflag-profiles", "Quick FastFlag and Voidstrap settings controller"),
-		new("game-hooks", "session-tracker", "Tracks Roblox game joins and launches places"),
-	];
+    public static readonly IReadOnlyList<Template> Templates =
+    [
+        new("blank", "my-mod", "A minimal Voidstrap mod with one pane"),
+        new("dashboard", "control-center", "Interactive Voidstrap control center pane"),
+        new("sidebar-page", "custom-sidebar-page", "Adds a custom page directly to the Voidstrap navigation sidebar"),
+        new("theme-customizer", "theme-studio", "Customizes Voidstrap theme brushes, zoom and banners live"),
+        new("sidebar-manager", "sidebar-controller", "Renames, hides and changes icons on Voidstrap sidebar items"),
+        new("fastflags", "fastflag-profiles", "Quick FastFlag and Voidstrap settings controller"),
+        new("game-hooks", "session-tracker", "Tracks Roblox game joins and launches places"),
+    ];
 
-	public static bool IsValidName(string name) => ModNameRegex.IsMatch(name);
+    public static bool IsValidName(string name) => ModNameRegex.IsMatch(name);
 
-	public static string NormalizeName(string raw)
-	{
-		string slug = Regex.Replace((raw ?? "").Trim().ToLowerInvariant(), "[^a-z0-9-]+", "-").Trim('-');
-		return slug.Length > 64 ? slug[..64].TrimEnd('-') : slug;
-	}
+    public static string NormalizeName(string raw)
+    {
+        string slug = Regex.Replace((raw ?? "").Trim().ToLowerInvariant(), "[^a-z0-9-]+", "-").Trim('-');
+        return slug.Length > 64 ? slug[..64].TrimEnd('-') : slug;
+    }
 
-	public static string NextAvailableName(string baseName)
-	{
-		if (!Directory.Exists(Path.Combine(Paths.Plugins, baseName)))
-			return baseName;
-		for (int i = 2; i < 1000; i++)
-		{
-			string candidate = baseName + "-" + i;
-			if (!Directory.Exists(Path.Combine(Paths.Plugins, candidate)))
-				return candidate;
-		}
-		return baseName + "-" + Guid.NewGuid().ToString("N")[..6];
-	}
+    public static string NextAvailableName(string baseName)
+    {
+        if (!Directory.Exists(Path.Combine(Paths.Plugins, baseName)))
+            return baseName;
+        for (int i = 2; i < 1000; i++)
+        {
+            string candidate = baseName + "-" + i;
+            if (!Directory.Exists(Path.Combine(Paths.Plugins, candidate)))
+                return candidate;
+        }
+        return baseName + "-" + Guid.NewGuid().ToString("N")[..6];
+    }
 
-	public static void Create(string name, string templateKey, string? iconSource)
-	{
-		PluginHost.MutationGate.Wait();
-		try
-		{
-			CreateCore(name, templateKey, iconSource);
-		}
-		finally
-		{
-			PluginHost.MutationGate.Release();
-		}
-	}
+    public static void Create(string name, string templateKey, string? iconSource)
+    {
+        PluginHost.MutationGate.Wait();
+        try
+        {
+            CreateCore(name, templateKey, iconSource);
+        }
+        finally
+        {
+            PluginHost.MutationGate.Release();
+        }
+    }
 
-	private static void CreateCore(string name, string templateKey, string? iconSource)
-	{
-		Template template = Templates.FirstOrDefault(t => t.Key == templateKey) ?? Templates[0];
-		string folder = Path.Combine(Paths.Plugins, name);
-		Directory.CreateDirectory(Path.Combine(folder, PluginManifest.ManifestFolder));
-		Directory.CreateDirectory(Path.Combine(folder, "hooks"));
-		JsonSerializerOptions indented = new() { WriteIndented = true };
-		JsonObject manifest = new()
-		{
-			["name"] = name,
-			["version"] = "0.1.0",
-			["description"] = template.Description,
-			["network"] = new JsonArray(),
-			["userConfig"] = new JsonObject(),
-		};
-		File.WriteAllText(Path.Combine(folder, PluginManifest.ManifestFolder, "plugin.json"), manifest.ToJsonString(indented));
-		File.WriteAllText(
-			Path.Combine(folder, "hooks", "hooks.json"),
-			new JsonObject { ["modules"] = new JsonArray(JsonValue.Create("./register.tsx")) }.ToJsonString(indented)
-		);
-		(string register, string test) = BuildTemplateFiles(template.Key, name, template.Description);
-		File.WriteAllText(Path.Combine(folder, "hooks", "register.tsx"), register);
-		File.WriteAllText(Path.Combine(folder, "pane.test.tsx"), test);
-		ModTypes.Write(folder);
-		if (!string.IsNullOrWhiteSpace(iconSource))
-			SetIcon(name, iconSource);
-	}
+    private static void CreateCore(string name, string templateKey, string? iconSource)
+    {
+        Template template = Templates.FirstOrDefault(t => t.Key == templateKey) ?? Templates[0];
+        string folder = Path.Combine(Paths.Plugins, name);
+        Directory.CreateDirectory(Path.Combine(folder, PluginManifest.ManifestFolder));
+        Directory.CreateDirectory(Path.Combine(folder, "hooks"));
+        JsonSerializerOptions indented = new() { WriteIndented = true };
+        JsonObject manifest = new()
+        {
+            ["name"] = name,
+            ["version"] = "0.1.0",
+            ["description"] = template.Description,
+            ["network"] = new JsonArray(),
+            ["userConfig"] = new JsonObject(),
+        };
+        File.WriteAllText(Path.Combine(folder, PluginManifest.ManifestFolder, "plugin.json"), manifest.ToJsonString(indented));
+        File.WriteAllText(
+            Path.Combine(folder, "hooks", "hooks.json"),
+            new JsonObject { ["modules"] = new JsonArray(JsonValue.Create("./register.tsx")) }.ToJsonString(indented)
+        );
+        (string register, string test) = BuildTemplateFiles(template.Key, name, template.Description);
+        File.WriteAllText(Path.Combine(folder, "hooks", "register.tsx"), register);
+        File.WriteAllText(Path.Combine(folder, "pane.test.tsx"), test);
+        ModTypes.Write(folder);
+        if (!string.IsNullOrWhiteSpace(iconSource))
+            SetIcon(name, iconSource);
+    }
 
-	public static string? GetIconPath(string modDirectory)
-	{
-		string path = Path.Combine(modDirectory, IconFile);
-		return File.Exists(path) ? path : null;
-	}
+    public static string? GetIconPath(string modDirectory)
+    {
+        string path = Path.Combine(modDirectory, IconFile);
+        return File.Exists(path) ? path : null;
+    }
 
-	public static void SetIcon(string name, string iconSource)
-	{
-		FileInfo info = new(iconSource);
-		if (!info.Exists || !string.Equals(info.Extension, ".ico", StringComparison.OrdinalIgnoreCase))
-			throw new InvalidDataException("the icon must be an .ico file");
-		if (info.Length > MaxIconBytes)
-			throw new InvalidDataException("the icon must be 1 MB or smaller");
-		byte[] bytes = File.ReadAllBytes(info.FullName);
-		if (bytes.Length < 6 || bytes[0] != 0 || bytes[1] != 0 || bytes[2] != 1 || bytes[3] != 0)
-			throw new InvalidDataException("the file is not a valid .ico icon");
-		File.WriteAllBytes(Path.Combine(Paths.Plugins, name, IconFile), bytes);
-	}
+    public static void SetIcon(string name, string iconSource)
+    {
+        FileInfo info = new(iconSource);
+        if (!info.Exists || !string.Equals(info.Extension, ".ico", StringComparison.OrdinalIgnoreCase))
+            throw new InvalidDataException("the icon must be an .ico file");
+        if (info.Length > MaxIconBytes)
+            throw new InvalidDataException("the icon must be 1 MB or smaller");
+        byte[] bytes = File.ReadAllBytes(info.FullName);
+        if (bytes.Length < 6 || bytes[0] != 0 || bytes[1] != 0 || bytes[2] != 1 || bytes[3] != 0)
+            throw new InvalidDataException("the file is not a valid .ico icon");
+        File.WriteAllBytes(Path.Combine(Paths.Plugins, name, IconFile), bytes);
+    }
 
-	public static void Export(string name, string destination)
-	{
-		string folder = Path.GetFullPath(Path.Combine(Paths.Plugins, name));
-		if (!Directory.Exists(folder))
-			throw new DirectoryNotFoundException(name);
-		string temp = destination + ".tmp";
-		if (File.Exists(temp))
-			File.Delete(temp);
-		using (ZipArchive zip = ZipFile.Open(temp, ZipArchiveMode.Create))
-		{
-			foreach (string file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
-			{
-				if ((File.GetAttributes(file) & FileAttributes.ReparsePoint) != 0)
-					continue;
-				string relative = Path.GetRelativePath(folder, file).Replace(Path.DirectorySeparatorChar, '/');
-				if (relative.StartsWith("node_modules/", StringComparison.OrdinalIgnoreCase))
-					continue;
-				zip.CreateEntryFromFile(file, relative, CompressionLevel.Optimal);
-			}
-		}
-		File.Move(temp, destination, true);
-	}
+    public static void Export(string name, string destination)
+    {
+        string folder = Path.GetFullPath(Path.Combine(Paths.Plugins, name));
+        if (!Directory.Exists(folder))
+            throw new DirectoryNotFoundException(name);
+        string temp = destination + ".tmp";
+        if (File.Exists(temp))
+            File.Delete(temp);
+        using (ZipArchive zip = ZipFile.Open(temp, ZipArchiveMode.Create))
+        {
+            foreach (string file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
+            {
+                if ((File.GetAttributes(file) & FileAttributes.ReparsePoint) != 0)
+                    continue;
+                string relative = Path.GetRelativePath(folder, file).Replace(Path.DirectorySeparatorChar, '/');
+                if (relative.StartsWith("node_modules/", StringComparison.OrdinalIgnoreCase))
+                    continue;
+                zip.CreateEntryFromFile(file, relative, CompressionLevel.Optimal);
+            }
+        }
+        File.Move(temp, destination, true);
+    }
 
-	public sealed record Package(PluginManifest Manifest, string ModFolder, string StagingFolder);
+    public sealed record Package(PluginManifest Manifest, string ModFolder, string StagingFolder);
 
-	public static Package OpenPackage(string packagePath)
-	{
-		FileInfo info = new(packagePath);
-		if (!info.Exists)
-			throw new FileNotFoundException(Path.GetFileName(packagePath));
-		if (info.Length > MaxPackageBytes)
-			throw new InvalidDataException("the file is larger than 20 MB");
-		string staging = Path.Combine(Paths.Temp, "ModImport", Guid.NewGuid().ToString("N"));
-		Directory.CreateDirectory(staging);
-		try
-		{
-			string root = Path.GetFullPath(staging) + Path.DirectorySeparatorChar;
-			using (ZipArchive zip = ZipFile.OpenRead(info.FullName))
-			{
-				if (zip.Entries.Count > MaxPackageEntries)
-					throw new InvalidDataException("the file holds too many entries");
-				long total = 0;
-				foreach (ZipArchiveEntry entry in zip.Entries)
-				{
-					total += entry.Length;
-					if (total > MaxUnpackedBytes)
-						throw new InvalidDataException("the mod is too large when unpacked");
-					string target = Path.GetFullPath(Path.Combine(staging, entry.FullName));
-					if (!target.StartsWith(root, StringComparison.OrdinalIgnoreCase))
-						throw new InvalidDataException("the file holds an unsafe path: " + entry.FullName);
-					if (entry.Name.Length == 0)
-					{
-						Directory.CreateDirectory(target);
-						continue;
-					}
-					Directory.CreateDirectory(Path.GetDirectoryName(target)!);
-					entry.ExtractToFile(target, false);
-				}
-			}
-			string modFolder = staging;
-			if (!File.Exists(Path.Combine(modFolder, PluginManifest.ManifestFolder, "plugin.json")))
-			{
-				string[] children = Directory.GetDirectories(staging);
-				if (children.Length == 1 && Directory.GetFiles(staging).Length == 0)
-					modFolder = children[0];
-			}
-			PluginManifest manifest =
-				PluginManifest.Read(modFolder) ?? throw new InvalidDataException("the file is not a Voidstrap mod, plugin.json is missing");
-			return new Package(manifest, modFolder, staging);
-		}
-		catch
-		{
-			TryDelete(staging);
-			throw;
-		}
-	}
+    public static Package OpenPackage(string packagePath)
+    {
+        FileInfo info = new(packagePath);
+        if (!info.Exists)
+            throw new FileNotFoundException(Path.GetFileName(packagePath));
+        if (info.Length > MaxPackageBytes)
+            throw new InvalidDataException("the file is larger than 20 MB");
+        string staging = Path.Combine(Paths.Temp, "ModImport", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(staging);
+        try
+        {
+            string root = Path.GetFullPath(staging) + Path.DirectorySeparatorChar;
+            using (ZipArchive zip = ZipFile.OpenRead(info.FullName))
+            {
+                if (zip.Entries.Count > MaxPackageEntries)
+                    throw new InvalidDataException("the file holds too many entries");
+                long total = 0;
+                foreach (ZipArchiveEntry entry in zip.Entries)
+                {
+                    total += entry.Length;
+                    if (total > MaxUnpackedBytes)
+                        throw new InvalidDataException("the mod is too large when unpacked");
+                    string target = Path.GetFullPath(Path.Combine(staging, entry.FullName));
+                    if (!target.StartsWith(root, StringComparison.OrdinalIgnoreCase))
+                        throw new InvalidDataException("the file holds an unsafe path: " + entry.FullName);
+                    if (entry.Name.Length == 0)
+                    {
+                        Directory.CreateDirectory(target);
+                        continue;
+                    }
+                    Directory.CreateDirectory(Path.GetDirectoryName(target)!);
+                    entry.ExtractToFile(target, false);
+                }
+            }
+            string modFolder = staging;
+            if (!File.Exists(Path.Combine(modFolder, PluginManifest.ManifestFolder, "plugin.json")))
+            {
+                string[] children = Directory.GetDirectories(staging);
+                if (children.Length == 1 && Directory.GetFiles(staging).Length == 0)
+                    modFolder = children[0];
+            }
+            PluginManifest manifest =
+                PluginManifest.Read(modFolder) ?? throw new InvalidDataException("the file is not a Voidstrap mod, plugin.json is missing");
+            return new Package(manifest, modFolder, staging);
+        }
+        catch
+        {
+            TryDelete(staging);
+            throw;
+        }
+    }
 
-	public static void Install(Package package)
-	{
-		PluginHost.MutationGate.Wait();
-		try
-		{
-			InstallCore(package);
-		}
-		finally
-		{
-			PluginHost.MutationGate.Release();
-		}
-	}
+    public static void Install(Package package)
+    {
+        PluginHost.MutationGate.Wait();
+        try
+        {
+            InstallCore(package);
+        }
+        finally
+        {
+            PluginHost.MutationGate.Release();
+        }
+    }
 
-	private static void InstallCore(Package package)
-	{
-		try
-		{
-			string target = Path.Combine(Paths.Plugins, package.Manifest.Name);
-			Directory.CreateDirectory(Paths.Plugins);
-			if (Directory.Exists(target))
-				Directory.Delete(target, true);
-			CopyDirectory(package.ModFolder, target);
-			ModTypes.Write(target);
-		}
-		finally
-		{
-			TryDelete(package.StagingFolder);
-		}
-	}
+    private static void InstallCore(Package package)
+    {
+        try
+        {
+            string target = Path.Combine(Paths.Plugins, package.Manifest.Name);
+            Directory.CreateDirectory(Paths.Plugins);
+            if (Directory.Exists(target))
+                Directory.Delete(target, true);
+            CopyDirectory(package.ModFolder, target);
+            ModTypes.Write(target);
+        }
+        finally
+        {
+            TryDelete(package.StagingFolder);
+        }
+    }
 
-	public static void TryDelete(string folder)
-	{
-		try
-		{
-			if (Directory.Exists(folder))
-				Directory.Delete(folder, true);
-		}
-		catch (IOException) { }
-		catch (UnauthorizedAccessException) { }
-	}
+    public static void TryDelete(string folder)
+    {
+        try
+        {
+            if (Directory.Exists(folder))
+                Directory.Delete(folder, true);
+        }
+        catch (IOException) { }
+        catch (UnauthorizedAccessException) { }
+    }
 
-	private static void CopyDirectory(string source, string destination)
-	{
-		Directory.CreateDirectory(destination);
-		foreach (string file in Directory.EnumerateFiles(source))
-			File.Copy(file, Path.Combine(destination, Path.GetFileName(file)), true);
-		foreach (string dir in Directory.EnumerateDirectories(source))
-			CopyDirectory(dir, Path.Combine(destination, Path.GetFileName(dir)));
-	}
+    private static void CopyDirectory(string source, string destination)
+    {
+        Directory.CreateDirectory(destination);
+        foreach (string file in Directory.EnumerateFiles(source))
+            File.Copy(file, Path.Combine(destination, Path.GetFileName(file)), true);
+        foreach (string dir in Directory.EnumerateDirectories(source))
+            CopyDirectory(dir, Path.Combine(destination, Path.GetFileName(dir)));
+    }
 
-	public static (string Register, string Test) BuildTemplateFiles(string template, string slug, string description)
-	{
-		string title = string.Join(
-			' ',
-			slug.Split('-', StringSplitOptions.RemoveEmptyEntries).Select(w => char.ToUpperInvariant(w[0]) + w[1..])
-		);
-		if (title.Length == 0)
-			title = "Custom Mod";
-		switch (template)
-		{
-			case "sidebar-page":
-				return (
-					$$"""
+    public static (string Register, string Test) BuildTemplateFiles(string template, string slug, string description)
+    {
+        string title = string.Join(
+            ' ',
+            slug.Split('-', StringSplitOptions.RemoveEmptyEntries).Select(w => char.ToUpperInvariant(w[0]) + w[1..])
+        );
+        if (title.Length == 0)
+            title = "Custom Mod";
+        switch (template)
+        {
+            case "sidebar-page":
+                return (
+                    $$"""
 					import type { Register } from 'voidstrap';
 
 					const visits = atom('visits', 1);
@@ -314,7 +314,7 @@ public static partial class ModFiles
 					  });
 					};
 					""",
-					"""
+                    """
 					import { test, expect, mod } from 'voidstrap/testing';
 
 					test('renders custom sidebar page and increments visits', () => {
@@ -326,11 +326,11 @@ public static partial class ModFiles
 					  expect(JSON.stringify(updated)).toContain('Visits: 2');
 					});
 					"""
-				);
+                );
 
-			case "theme-customizer":
-				return (
-					$$$"""
+            case "theme-customizer":
+                return (
+                    $$$"""
 					import type { Register } from 'voidstrap';
 
 					const activePreset = atom('preset', 'default');
@@ -386,7 +386,7 @@ public static partial class ModFiles
 					  });
 					};
 					""",
-					"""
+                    """
 					import { test, expect, mod } from 'voidstrap/testing';
 
 					test('renders theme customizer pane and switches preset', () => {
@@ -398,11 +398,11 @@ public static partial class ModFiles
 					  expect(JSON.stringify(updated)).toContain('Midnight Cyan');
 					});
 					"""
-				);
+                );
 
-			case "sidebar-manager":
-				return (
-					$$$"""
+            case "sidebar-manager":
+                return (
+                    $$$"""
 					import type { Register } from 'voidstrap';
 
 					const selectedKey = atom('selectedKey', 'HomeNavItem');
@@ -459,7 +459,7 @@ public static partial class ModFiles
 					  });
 					};
 					""",
-					"""
+                    """
 					import { test, expect, mod } from 'voidstrap/testing';
 
 					test('renders sidebar manager pane', () => {
@@ -468,11 +468,11 @@ public static partial class ModFiles
 					  expect(tree).toBeTruthy();
 					});
 					"""
-				);
+                );
 
-			case "fastflags":
-				return (
-					$$$"""
+            case "fastflags":
+                return (
+                    $$$"""
 					import type { Register } from 'voidstrap';
 
 					const flagName = atom('flagName', 'FIntDebugForceMSAASamples');
@@ -511,7 +511,7 @@ public static partial class ModFiles
 					  });
 					};
 					""",
-					"""
+                    """
 					import { test, expect, mod } from 'voidstrap/testing';
 
 					test('renders fastflags controller pane', () => {
@@ -520,11 +520,11 @@ public static partial class ModFiles
 					  expect(tree).toBeTruthy();
 					});
 					"""
-				);
+                );
 
-			case "game-hooks":
-				return (
-					$$"""
+            case "game-hooks":
+                return (
+                    $$"""
 					import type { Register } from 'voidstrap';
 
 					const joins = atom('joins', 0);
@@ -569,7 +569,7 @@ public static partial class ModFiles
 					  });
 					};
 					""",
-					"""
+                    """
 					import { test, expect, mod } from 'voidstrap/testing';
 
 					test('tracks game joins in session pane', () => {
@@ -580,11 +580,11 @@ public static partial class ModFiles
 					  expect(JSON.stringify(tree)).toContain('1818');
 					});
 					"""
-				);
+                );
 
-			case "blank":
-				return (
-					$$"""
+            case "blank":
+                return (
+                    $$"""
 					import type { Register } from 'voidstrap';
 
 					export const register: Register = (on) => {
@@ -602,7 +602,7 @@ public static partial class ModFiles
 					  });
 					};
 					""",
-					"""
+                    """
 					import { test, expect, mod } from 'voidstrap/testing';
 
 					test('renders main pane', () => {
@@ -611,11 +611,11 @@ public static partial class ModFiles
 					  expect(tree).toBeTruthy();
 					});
 					"""
-				);
+                );
 
-			default:
-				return (
-					$$"""
+            default:
+                return (
+                    $$"""
 					import type { Register } from 'voidstrap';
 
 					const count = atom('count', 0);
@@ -654,7 +654,7 @@ public static partial class ModFiles
 					  });
 					};
 					""",
-					"""
+                    """
 					import { test, expect, mod } from 'voidstrap/testing';
 
 					test('increments counter when button is pressed', () => {
@@ -666,7 +666,7 @@ public static partial class ModFiles
 					  expect(JSON.stringify(after)).toContain('Count: 1');
 					});
 					"""
-				);
-		}
-	}
+                );
+        }
+    }
 }

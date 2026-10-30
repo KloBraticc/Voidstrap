@@ -9,11 +9,12 @@ using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
-public partial class HelpPage : UiPage{
+public partial class HelpPage : UiPage
+{
 
-	public HelpPage()
-	{
-		InitializeComponent();
-	}
+    public HelpPage()
+    {
+        InitializeComponent();
+    }
 
 }

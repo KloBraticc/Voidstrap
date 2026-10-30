@@ -10,7 +10,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
     public partial class VistaDialog : WinFormsDialogBase
     {
         private TaskDialogPage _dialogPage = null!;
-		private Action? _successCallback;
+        private Action? _successCallback;
 
         public sealed override string Message
         {
@@ -103,7 +103,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                 Invoke(ShowSuccess, message, callback);
                 return;
             }
-			DetachDialogHandlers();
+            DetachDialogHandlers();
 
             TaskDialogPage successDialog = new()
             {
@@ -113,32 +113,32 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                 Buttons = { TaskDialogButton.OK }
             };
 
-			_successCallback = callback;
-			successDialog.Buttons[0].Click += OnSuccessClick;
+            _successCallback = callback;
+            successDialog.Buttons[0].Click += OnSuccessClick;
 
             _dialogPage.Navigate(successDialog);
             _dialogPage = successDialog;
         }
 
-		private void OnSuccessClick(object? sender, EventArgs e)
-		{
-			if (sender is TaskDialogButton button)
-				button.Click -= OnSuccessClick;
-			Action? callback = _successCallback;
-			_successCallback = null;
-			callback?.Invoke();
-			App.Terminate();
-		}
+        private void OnSuccessClick(object? sender, EventArgs e)
+        {
+            if (sender is TaskDialogButton button)
+                button.Click -= OnSuccessClick;
+            Action? callback = _successCallback;
+            _successCallback = null;
+            callback?.Invoke();
+            App.Terminate();
+        }
 
-		private void DetachDialogHandlers()
-		{
-			if (_dialogPage?.Buttons.Count > 0)
-			{
-				_dialogPage.Buttons[0].Click -= ButtonCancel_Click;
-				_dialogPage.Buttons[0].Click -= OnSuccessClick;
-			}
-			_successCallback = null;
-		}
+        private void DetachDialogHandlers()
+        {
+            if (_dialogPage?.Buttons.Count > 0)
+            {
+                _dialogPage.Buttons[0].Click -= ButtonCancel_Click;
+                _dialogPage.Buttons[0].Click -= OnSuccessClick;
+            }
+            _successCallback = null;
+        }
 
         public override void CloseBootstrapper()
         {

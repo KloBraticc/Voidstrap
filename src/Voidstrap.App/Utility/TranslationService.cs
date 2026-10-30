@@ -281,8 +281,8 @@ namespace Voidstrap.Utility
 
                     var jobs = new List<Task<bool>>();
                     foreach (var kv in byLang)
-                    foreach (var chunk in Chunk(kv.Value))
-                        jobs.Add(TranslateChunkAsync(chunk, kv.Key));
+                        foreach (var chunk in Chunk(kv.Value))
+                            jobs.Add(TranslateChunkAsync(chunk, kv.Key));
 
                     bool any = false;
                     foreach (bool changed in await Task.WhenAll(jobs).ConfigureAwait(false))

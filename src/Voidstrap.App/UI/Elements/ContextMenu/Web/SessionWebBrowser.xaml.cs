@@ -966,7 +966,7 @@ public partial class SessionWebBrowser : Window
                 // Only the page crashed or hung, loading it again brings it back
                 Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => Fenced(() => tab.Core?.Reload())));
                 break;
-            // The graphics and helper processes are restarted by the engine itself
+                // The graphics and helper processes are restarted by the engine itself
         }
     }
 

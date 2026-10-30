@@ -36,13 +36,13 @@ public class ChannelViewModel : NotifyPropertyChangedViewModel
             Mirrors.Add(new MirrorOption(Describe(url), url));
 
         string saved = App.Settings.Prop.PreferredMirror ?? string.Empty;
-		_selectedMirror = Mirrors.FirstOrDefault(option => string.Equals(option.Url, saved, StringComparison.OrdinalIgnoreCase)) ?? Mirrors[0];
-		if (!string.Equals(_selectedMirror.Url, saved, StringComparison.Ordinal))
-		{
-			App.Settings.Prop.PreferredMirror = _selectedMirror.Url;
-			Deployment.PreferredBaseUrl = _selectedMirror.Url;
-			App.Settings.SaveDeferred();
-		}
+        _selectedMirror = Mirrors.FirstOrDefault(option => string.Equals(option.Url, saved, StringComparison.OrdinalIgnoreCase)) ?? Mirrors[0];
+        if (!string.Equals(_selectedMirror.Url, saved, StringComparison.Ordinal))
+        {
+            App.Settings.Prop.PreferredMirror = _selectedMirror.Url;
+            Deployment.PreferredBaseUrl = _selectedMirror.Url;
+            App.Settings.SaveDeferred();
+        }
 
         string savedChannel = App.Settings.Prop.Channel;
         _channel = string.IsNullOrWhiteSpace(savedChannel) ? Deployment.DefaultChannel : savedChannel;

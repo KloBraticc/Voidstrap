@@ -7,7 +7,7 @@ public sealed class PlaytimeTracker : IDisposable
     private readonly ActivityWatcher _watcher;
     private readonly Dictionary<long, TimeSpan> _gamePlaytimes = new();
 
-	private bool _disposed;
+    private bool _disposed;
 
     public PlaytimeTracker(ActivityWatcher watcher)
     {
@@ -49,13 +49,13 @@ public sealed class PlaytimeTracker : IDisposable
         return (max.Key, max.Value);
     }
 
-	public void Dispose()
-	{
-		if (_disposed)
-			return;
-		_disposed = true;
-		_watcher.OnGameJoin -= Watcher_OnGameJoin;
-		_watcher.OnGameLeave -= Watcher_OnGameLeave;
-		GC.SuppressFinalize(this);
-	}
+    public void Dispose()
+    {
+        if (_disposed)
+            return;
+        _disposed = true;
+        _watcher.OnGameJoin -= Watcher_OnGameJoin;
+        _watcher.OnGameLeave -= Watcher_OnGameLeave;
+        GC.SuppressFinalize(this);
+    }
 }

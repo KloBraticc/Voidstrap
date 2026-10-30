@@ -10,15 +10,15 @@ namespace Voidstrap.Utility;
 internal static class LinuxAppearancePortal
 {
 #if !CROSSPLAT
-	public static Color? ReadAccent() => null;
+    public static Color? ReadAccent() => null;
 
-	public static void WatchAccent(Action<Color> changed)
-	{
-	}
+    public static void WatchAccent(Action<Color> changed)
+    {
+    }
 
-	public static void StopWatching()
-	{
-	}
+    public static void StopWatching()
+    {
+    }
 #else
 	private const string LogIdent = "LinuxAppearancePortal";
 

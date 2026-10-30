@@ -158,7 +158,7 @@ public partial class Bootstrapper
                         ((IEnumerable<Package>)_versionPackageManifest)
                             .Select(
                                 (Func<Package, Task>)
-                                    async delegate(Package package)
+                                    async delegate (Package package)
                                     {
                                         try
                                         {

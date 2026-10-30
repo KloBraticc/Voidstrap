@@ -1,5 +1,6 @@
 
 namespace Voidstrap.Models.APIs.GitHub;
+
 public class GithubReleaseAsset
 {
     [JsonPropertyName("browser_download_url")]

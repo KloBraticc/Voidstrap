@@ -16,1170 +16,1170 @@ namespace Voidstrap.Integrations;
 
 public sealed class ServerMatchmaker : IDisposable
 {
-	private const string LOG_IDENT = "ServerMatchmaker";
+    private const string LOG_IDENT = "ServerMatchmaker";
 
-	private const double MinRttGainMs = 25.0;
+    private const double MinRttGainMs = 25.0;
 
-	private const double AcceptablePingMs = 60.0;
-
-	private static readonly TimeSpan MoveWindow = TimeSpan.FromSeconds(10.0);
-
-	private static readonly TimeSpan PrefetchLimit = TimeSpan.FromSeconds(25.0);
-
-	private const int HandoffPollIntervalMs = 500;
-
-	private const int HandoffPollCount = 120;
-	private const int LinuxRejoinLeaseSeconds = 90;
-
-	private static readonly TimeSpan AttemptResetWindow = TimeSpan.FromMinutes(10.0);
-
-	private static readonly TimeSpan HopCooldown = TimeSpan.FromSeconds(90.0);
-
-	private static DateTime _lastHopUtc = DateTime.MinValue;
-	private static long _linuxRejoinLeaseDeadlineUtcTicks;
-
-	internal static bool LinuxRejoinInProgress
-	{
-		get
-		{
-			long deadline = Volatile.Read(ref _linuxRejoinLeaseDeadlineUtcTicks);
-			if (deadline == 0)
-				return false;
-			if (DateTime.UtcNow.Ticks <= deadline)
-				return true;
-			Interlocked.CompareExchange(ref _linuxRejoinLeaseDeadlineUtcTicks, 0, deadline);
-			return false;
-		}
-	}
-
-	private readonly ActivityWatcher _activityWatcher;
-
-	private readonly Watcher _watcher;
-
-	private CancellationTokenSource? _currentCts;
-
-	private CancellationTokenSource? _prefetchCts;
-
-	private Task<MatchmakerCandidate?>? _prefetch;
-
-	private string? _prefetchJobId;
-
-	private string? _linuxRejoinTarget;
-
-	private long _linuxRejoinPlaceId;
-
-	private string? _manualJobId;
-
-	private bool _disposed;
-
-	public Func<NotifyIconWrapper?>? NotifyIconResolver { get; set; }
-
-	public ServerMatchmaker(ActivityWatcher activityWatcher, Watcher watcher)
-	{
-		_activityWatcher = activityWatcher ?? throw new ArgumentNullException(nameof(activityWatcher));
-		_watcher = watcher ?? throw new ArgumentNullException(nameof(watcher));
-		_activityWatcher.OnGameJoining += OnGameJoining;
-		_activityWatcher.OnGameJoin += OnGameJoin;
-	}
-
-	private void OnGameJoining(object? sender, EventArgs e)
-	{
-		CancelPrefetch();
-		try
-		{
-			Interlocked.Exchange(ref _currentCts, null)?.Cancel();
-		}
-		catch (ObjectDisposedException) { }
-		ActivityData? data = _activityWatcher.Data;
-		if (
-			_disposed
-			|| data == null
-			|| data.PlaceId == 0L
-			|| data.IsTeleport
-			|| data.ServerType == ServerType.Reserved
-			|| !IsEnabled()
-			|| IsExcluded(data.PlaceId)
-		)
-			return;
-
-		if (IsManualPick(data.JobId))
-			return;
-
-		MatchmakerCandidate? launchPick = VoidstrapMatchmaker.FindLaunchPick(data.JobId);
-		if (launchPick != null)
-		{
-			App.Logger.WriteLine(
-				LOG_IDENT,
-				$"Joining the server the matchmaker picked in {launchPick.Datacenter?.City ?? "?"}, no second search needed"
-			);
-			return;
-		}
-
-		HashSet<string> tried = GetTriedJobIds(data.PlaceId);
-		if (!string.IsNullOrEmpty(data.JobId))
-			tried.Add(data.JobId);
-		CancellationTokenSource cts = new(PrefetchLimit);
-		_prefetchCts = cts;
-		_prefetchJobId = data.JobId;
-		_prefetch = PrefetchAsync(data.PlaceId, tried, ResolvePreferredDatacenterKey(data.PlaceId), cts);
-		App.Logger.WriteLine(LOG_IDENT, $"Joining place {data.PlaceId}, searching for a better server while Roblox loads");
-	}
-
-	private async Task<MatchmakerCandidate?> PrefetchAsync(
-		long placeId,
-		HashSet<string> tried,
-		string preferredKey,
-		CancellationTokenSource cts
-	)
-	{
-		try
-		{
-			return await VoidstrapMatchmaker
-				.PickBestJobIdAsync(placeId, tried, VoidstrapMatchmaker.ResolveEffectiveCandidateCount(), preferredKey, cts.Token)
-				.ConfigureAwait(false);
-		}
-		catch (OperationCanceledException)
-		{
-			return null;
-		}
-		finally
-		{
-			if (Interlocked.CompareExchange(ref _prefetchCts, null, cts) == cts)
-				cts.Dispose();
-		}
-	}
-
-	private void CancelLinuxPrefetch()
-	{
-		if (Voidstrap.Utility.Platform.IsLinux)
-			CancelPrefetch();
-	}
-
-	private void CancelPrefetch()
-	{
-		CancellationTokenSource? cts = Interlocked.Exchange(ref _prefetchCts, null);
-		_prefetch = null;
-		_prefetchJobId = null;
-		if (cts == null)
-			return;
-		cts.Cancel();
-		cts.Dispose();
-	}
-
-	private void OnGameJoin(object? sender, EventArgs e)
-	{
-		CompleteLinuxRejoinLease();
-		_ = HandleGameJoinAsync();
-	}
-
-	private async Task HandleGameJoinAsync()
-	{
-		CancellationTokenSource? ownedCts = null;
-		try
-		{
-			if (_disposed)
-				return;
-
-			ActivityData? data = _activityWatcher.Data;
-			if (data == null)
-			{
-				App.Logger.WriteLine(LOG_IDENT, "Activity data unavailable, skipping");
-				CancelLinuxPrefetch();
-				return;
-			}
-			if (!data.MachineAddressValid)
-			{
-				App.Logger.WriteLine(
-					LOG_IDENT,
-					$"No routable server address for job {data.JobId}, skipping (address was '{data.MachineAddress}')"
-				);
-				return;
-			}
-
-			_ = RecordLearningAsync(data);
-
-			if (data.IsTeleport)
-			{
-				CancelPrefetch();
-				return;
-			}
-
-			if (IsManualPick(data.JobId))
-			{
-				App.Logger.WriteLine(LOG_IDENT, "Joined the server you picked in the server browser, staying put");
-				ClearLinuxRejoin();
-				ClearAttempt(data.PlaceId);
-				CancelLinuxPrefetch();
-				return;
-			}
-
-			if (!IsEnabled())
-			{
-				App.Logger.WriteLine(LOG_IDENT, "Matchmaker is turned off, staying put");
-				CancelLinuxPrefetch();
-				return;
-			}
-
-			if (IsExcluded(data.PlaceId))
-			{
-				App.Logger.WriteLine(LOG_IDENT, $"Place {data.PlaceId} is excluded from the matchmaker, staying put");
-				ClearAttempt(data.PlaceId);
-				CancelLinuxPrefetch();
-				return;
-			}
-
-			if (data.ServerType != ServerType.Public)
-			{
-				App.Logger.WriteLine(LOG_IDENT, $"Server is {data.ServerType}, the matchmaker only reroutes from public servers");
-				ClearAttempt(data.PlaceId);
-				CancelLinuxPrefetch();
-				return;
-			}
-
-			MatchmakerCandidate? launchPick = VoidstrapMatchmaker.FindLaunchPick(data.JobId);
-			if (launchPick != null && _linuxRejoinTarget == null)
-			{
-				string city = launchPick.Datacenter?.City ?? "the picked datacenter";
-				App.Logger.WriteLine(
-					LOG_IDENT,
-					$"Joined the server the matchmaker picked before launch in {city} ({launchPick.EstimatedPingMs}ms), staying put"
-				);
-				ClearAttempt(data.PlaceId);
-				CancelLinuxPrefetch();
-				ShowAlert($"Connected to {city}, about {launchPick.EstimatedPingMs}ms", 6);
-				return;
-			}
-
-			ownedCts = new CancellationTokenSource();
-			CancellationTokenSource? previous = Interlocked.Exchange(ref _currentCts, ownedCts);
-			try
-			{
-				previous?.Cancel();
-			}
-			catch { }
-			await EvaluateAsync(data, ownedCts.Token).ConfigureAwait(false);
-		}
-		catch (OperationCanceledException) { }
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "Game join handling failed: " + ex.Message);
-			App.Logger.WriteException(LOG_IDENT, ex);
-		}
-		finally
-		{
-			if (ownedCts != null)
-			{
-				Interlocked.CompareExchange(ref _currentCts, null, ownedCts);
-				ownedCts.Dispose();
-			}
-		}
-	}
-
-	private static async Task RecordLearningAsync(ActivityData data)
-	{
-		try
-		{
-			using CancellationTokenSource timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(8.0));
-			RobloxDatacenter? dc = await VoidstrapMatchmaker
-				.LookupUnknownIpAsync(data.MachineAddress, timeoutCts.Token)
-				.ConfigureAwait(false);
-			if (dc != null)
-			{
-				ServerFetchStore.RecordSighting(data.MachineAddress, dc.City, dc.Region, dc.Country, dc.Lat, dc.Lon);
-				App.Logger.WriteLine(LOG_IDENT, $"Logged join: {data.MachineAddress} in {dc.City}, {dc.Country}");
-			}
-			else
-			{
-				ServerFetchStore.RecordSighting(data.MachineAddress);
-				App.Logger.WriteLine(LOG_IDENT, "Logged join, datacenter could not be resolved: " + data.MachineAddress);
-			}
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "Learning store write failed: " + ex.Message);
-		}
-	}
-
-	public static bool IsExcluded(long placeId)
-	{
-		if (placeId == 0L)
-			return false;
-		try
-		{
-			List<long>? excluded = App.Settings.Prop.MatchmakerExcludedPlaceIds;
-			return excluded != null && excluded.Contains(placeId);
-		}
-		catch
-		{
-			return false;
-		}
-	}
-
-	public static void SetExcluded(long placeId, bool excluded)
-	{
-		if (placeId == 0L)
-			return;
-		try
-		{
-			List<long> list = App.Settings.Prop.MatchmakerExcludedPlaceIds ??= [];
-			bool changed;
-			if (excluded)
-			{
-				changed = !list.Contains(placeId);
-				if (changed)
-					list.Add(placeId);
-			}
-			else
-			{
-				changed = list.Remove(placeId);
-			}
-			if (changed)
-				App.Settings.SaveDeferred();
-		}
-		catch (Exception ex)
-		{
-			App.Logger?.WriteLine("ServerMatchmaker::SetExcluded", "Could not update the matchmaker exclusion list: " + ex.Message);
-		}
-	}
-
-	public static bool IsEnabled()
-	{
-		if (App.LaunchSettings.HomeMatchmakerFlag.Active)
-			return true;
-		try
-		{
-			App.Settings.RefreshFromDisk();
-			return App.Settings.Prop.VoidstrapMatchmakerEnabled;
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "Could not read the matchmaker setting, treating it as off: " + ex.Message);
-			return false;
-		}
-	}
-
-	public static string ResolvePreferredDatacenterKey(long placeId)
-	{
-		try
-		{
-			Dictionary<long, string>? map = App.Settings.Prop.PerGamePreferredDatacenters;
-			if (map != null && map.TryGetValue(placeId, out string? key) && !string.IsNullOrWhiteSpace(key))
-				return key.Trim();
-		}
-		catch { }
-		return (App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter ?? "").Trim();
-	}
-
-	private async Task EvaluateAsync(ActivityData data, CancellationToken token)
-	{
-		if (_linuxRejoinTarget != null && _linuxRejoinPlaceId != data.PlaceId)
-			ClearLinuxRejoin();
-
-		Task<MatchmakerCandidate?>? prefetch = string.Equals(_prefetchJobId, data.JobId, StringComparison.OrdinalIgnoreCase)
-			? _prefetch
-			: null;
-		using CancellationTokenSource window = CancellationTokenSource.CreateLinkedTokenSource(token);
-		window.CancelAfter(MoveWindow);
-		try
-		{
-			await DecideAsync(data, prefetch, window.Token, token).ConfigureAwait(false);
-		}
-		catch (OperationCanceledException) when (window.IsCancellationRequested && !token.IsCancellationRequested)
-		{
-			App.Logger.WriteLine(
-				LOG_IDENT,
-				$"No better server was ready within {MoveWindow.TotalSeconds:0}s of joining, staying so you are not pulled out mid game"
-			);
-			ClearLinuxRejoin();
-			ClearAttempt(data.PlaceId);
-		}
-		finally
-		{
-			CancelLinuxPrefetch();
-		}
-	}
-
-	private async Task DecideAsync(
-		ActivityData data,
-		Task<MatchmakerCandidate?>? prefetch,
-		CancellationToken decideBy,
-		CancellationToken token
-	)
-	{
-		if (_disposed || decideBy.IsCancellationRequested)
-			return;
-
-		UserGeo? geo = await VoidstrapMatchmaker.GetUserGeoAsync(decideBy).ConfigureAwait(false);
-		if (geo == null)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "No user location available, staying put");
-			ClearLinuxRejoin();
-			return;
-		}
-
-		RobloxDatacenter? currentDc =
-			RobloxDatacenterMap.Map(data.MachineAddress)
-			?? await VoidstrapMatchmaker.LookupUnknownIpAsync(data.MachineAddress, decideBy).ConfigureAwait(false);
-		if (currentDc == null)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "Current datacenter could not be resolved, staying put instead of hopping blind");
-			ClearLinuxRejoin();
-			ClearAttempt(data.PlaceId);
-			return;
-		}
-
-		double currentKm = VoidstrapMatchmaker.HaversineKm(geo.Lat, geo.Lon, currentDc.Lat, currentDc.Lon);
-		int currentPing = VoidstrapMatchmaker.EstimatePingMs(currentKm);
-		string currentKey = VoidstrapMatchmaker.DatacenterKey(currentDc);
-		bool currentIsBlocked = VoidstrapMatchmaker.GetBlockedDatacenters().Contains(VoidstrapMatchmaker.BlockKey(currentDc));
-		App.Logger.WriteLine(
-			LOG_IDENT,
-			$"Current datacenter {VoidstrapMatchmaker.BlockKey(currentDc)}, about {currentPing}ms{(currentIsBlocked ? ", blocked" : "")}"
-		);
-
-		string preferredKey = ResolvePreferredDatacenterKey(data.PlaceId);
-		bool hasPreferred = preferredKey.Length > 0;
-		bool wantsOtherDc = hasPreferred && !VoidstrapMatchmaker.MatchesPreferredDc(currentDc, preferredKey);
-		bool inPreferredDc = hasPreferred && !wantsOtherDc;
-
-		if (inPreferredDc && !currentIsBlocked)
-		{
-			App.Logger.WriteLine(LOG_IDENT, $"Already in your preferred datacenter {currentDc.City} ({currentPing}ms), staying put");
-			ClearLinuxRejoin();
-			ClearAttempt(data.PlaceId);
-			ShowAlert($"You are in your preferred datacenter {currentDc.City}, about {currentPing}ms", 6);
-			return;
-		}
-
-		bool linuxRejoin = Voidstrap.Utility.Platform.IsLinux && _linuxRejoinTarget != null;
-		string rejoinTarget = linuxRejoin ? _linuxRejoinTarget ?? "" : (App.LaunchSettings.MatchmakerTargetFlag.Data ?? "").Trim();
-		bool landedOnRejoinTarget =
-			rejoinTarget.Length == 0 || string.Equals(currentDc.City, rejoinTarget, StringComparison.OrdinalIgnoreCase);
-		if ((App.LaunchSettings.MatchmakerRejoinFlag.Active || linuxRejoin) && !currentIsBlocked && !wantsOtherDc && landedOnRejoinTarget)
-		{
-			App.Logger.WriteLine(LOG_IDENT, $"Landed via matchmaker rejoin in {currentDc.City} ({currentPing}ms), accepting this server");
-			ClearLinuxRejoin();
-			ClearAttempt(data.PlaceId);
-			ShowAlert($"Connected to {currentDc.City}, about {currentPing}ms", 6);
-			return;
-		}
-		if ((App.LaunchSettings.MatchmakerRejoinFlag.Active || linuxRejoin) && !landedOnRejoinTarget)
-			App.Logger.WriteLine(LOG_IDENT, $"Requested {rejoinTarget} but Roblox landed in {currentDc.City}, searching again");
-
-		if (!linuxRejoin && DateTime.UtcNow - _lastHopUtc < HopCooldown)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "Hop cooldown active, staying put");
-			return;
-		}
-
-		MatchmakerCandidate? best;
-		if (prefetch != null)
-		{
-			best = await prefetch.WaitAsync(decideBy).ConfigureAwait(false);
-		}
-		else
-		{
-			HashSet<string> tried = GetTriedJobIds(data.PlaceId);
-			if (!string.IsNullOrEmpty(data.JobId))
-				tried.Add(data.JobId);
-			best = await VoidstrapMatchmaker
-				.PickBestJobIdAsync(data.PlaceId, tried, VoidstrapMatchmaker.ResolveEffectiveCandidateCount(), preferredKey, decideBy)
-				.ConfigureAwait(false);
-		}
-
-		if (best == null)
-		{
-			ClearLinuxRejoin();
-			ClearAttempt(data.PlaceId);
-			if (currentIsBlocked)
-			{
-				App.Logger.WriteLine(LOG_IDENT, "Current datacenter is blocked but no alternative was found, staying put");
-				ShowAlert($"You are in {currentDc.City} which you blocked, but no other datacenter is available right now", 7);
-			}
-			else
-			{
-				App.Logger.WriteLine(LOG_IDENT, "No better server found, staying put");
-			}
-			return;
-		}
-
-		bool sameDc = string.Equals(currentKey, VoidstrapMatchmaker.DatacenterKey(best.Datacenter), StringComparison.OrdinalIgnoreCase);
-		bool bestIsPreferred = preferredKey.Length > 0 && VoidstrapMatchmaker.MatchesPreferredDc(best.Datacenter, preferredKey);
-		double gainMs = currentPing - best.EstimatedPingMs;
-
-		string? reason = null;
-		if (currentIsBlocked && !sameDc)
-			reason = $"leaving blocked datacenter {currentDc.City}";
-		else if (wantsOtherDc && bestIsPreferred)
-			reason = $"moving to your preferred datacenter {best.Datacenter?.City}";
-		else if (!sameDc && !hasPreferred && currentPing > AcceptablePingMs && gainMs >= MinRttGainMs)
-			reason = $"saving about {(int)gainMs}ms";
-
-		if (reason == null)
-		{
-			ClearLinuxRejoin();
-			ClearAttempt(data.PlaceId);
-			if (currentIsBlocked)
-			{
-				App.Logger.WriteLine(LOG_IDENT, $"Best alternative is in the same blocked datacenter {currentDc.City}, staying put");
-				ShowAlert($"You are in {currentDc.City} which you blocked, but every server there is the same, staying put", 7);
-			}
-			else if (wantsOtherDc)
-			{
-				string preferredCity = preferredKey.Split('|')[0];
-				App.Logger.WriteLine(
-					LOG_IDENT,
-					$"Preferred datacenter {preferredCity} has no servers right now, staying in {currentDc.City} instead of moving somewhere you did not pick"
-				);
-				ShowAlert($"{preferredCity} has no servers right now, staying in {currentDc.City}", 7);
-			}
-			else
-			{
-				App.Logger.WriteLine(
-					LOG_IDENT,
-					$"Current {currentDc.City} at {currentPing}ms vs best {best.DatacenterName} at {best.EstimatedPingMs}ms, not worth reconnecting for {(int)gainMs}ms"
-				);
-				ShowAlert($"You are already on a good server, about {currentPing}ms", 5);
-			}
-			return;
-		}
-
-		int maxRetries = Math.Max(1, App.Settings.Prop.ServerMatchmakerMaxRetries);
-		int attempt = IncrementAndGetAttempt(data.PlaceId);
-		if (attempt > maxRetries)
-		{
-			App.Logger.WriteLine(LOG_IDENT, $"Reached the retry limit of {maxRetries} for place {data.PlaceId}");
-			ClearLinuxRejoin();
-			ClearAttempt(data.PlaceId);
-			ShowAlert($"Could not reach a better datacenter after {maxRetries} tries, staying in {currentDc.City}", 10);
-			return;
-		}
-
-		CancellationTokenSource? moveBy = null;
-		try
-		{
-			if (App.Settings.Prop.MatchmakerAskBeforeMoving && App.LaunchSettings.QuietFlag.Active)
-			{
-				App.Logger.WriteLine(LOG_IDENT, $"Launched quietly, so there is no way to ask before moving, staying in {currentDc.City}");
-				ClearLinuxRejoin();
-				ClearAttempt(data.PlaceId);
-				return;
-			}
-			if (App.Settings.Prop.MatchmakerAskBeforeMoving)
-			{
-				string targetCity = best.Datacenter?.City ?? "a better location";
-				string question =
-					wantsOtherDc && bestIsPreferred
-						? $"Voidstrap found a server in your preferred location {targetCity}, about {best.EstimatedPingMs}ms.\n\nYou are in {currentDc.City} right now, about {currentPing}ms. Move to {targetCity}? You will leave your current server."
-						: $"Voidstrap found a better server in {targetCity}, about {best.EstimatedPingMs}ms.\n\nYou are in {currentDc.City} right now, about {currentPing}ms. Move to {targetCity}? You will leave your current server.";
-				App.Logger.WriteLine(LOG_IDENT, $"Asking before moving from {currentDc.City} to {targetCity}");
-				if (!await AskToMoveAsync(question, token).ConfigureAwait(false))
-				{
-					App.Logger.WriteLine(LOG_IDENT, $"You chose to stay in {currentDc.City}");
-					ClearLinuxRejoin();
-					ClearAttempt(data.PlaceId);
-					return;
-				}
-				if (_disposed || token.IsCancellationRequested || _activityWatcher.Data?.JobId != data.JobId)
-				{
-					App.Logger.WriteLine(LOG_IDENT, "The server changed while you were deciding, staying put");
-					ClearLinuxRejoin();
-					ClearAttempt(data.PlaceId);
-					return;
-				}
-				moveBy = CancellationTokenSource.CreateLinkedTokenSource(token);
-				moveBy.CancelAfter(MoveWindow);
-				decideBy = moveBy.Token;
-			}
-
-			RecordTriedJobId(data.PlaceId, data.JobId);
-			RecordTriedJobId(data.PlaceId, best.JobId);
-			App.Logger.WriteLine(
-				LOG_IDENT,
-				$"Rerouting from {currentDc.City} ({currentPing}ms) to {best.DatacenterName} ({best.EstimatedPingMs}ms), {reason}"
-			);
-
-			string blockedNote = string.IsNullOrEmpty(best.BlockedClosestCity)
-				? ""
-				: $"\n{best.BlockedClosestCity} is closer but you blocked it";
-			string attemptNote = attempt > 1 ? $" Attempt {attempt} of {maxRetries}" : "";
-			ShowAlert(
-				$"Moving you to {best.Datacenter?.City ?? "the best server"}, about {best.EstimatedPingMs}ms{attemptNote}{blockedNote}",
-				8
-			);
-
-			_lastHopUtc = DateTime.UtcNow;
-			VoidstrapMatchmaker.RememberLaunchPick(best);
-			await TriggerRejoinAsync(data.PlaceId, attempt, best.JobId, best.Datacenter?.City, decideBy, token).ConfigureAwait(false);
-		}
-		finally
-		{
-			moveBy?.Dispose();
-		}
-	}
-
-	private static readonly TimeSpan MovePromptTimeout = TimeSpan.FromSeconds(20);
-
-	private static async Task<bool> AskToMoveAsync(string message, CancellationToken token)
-	{
-		System.Windows.Threading.Dispatcher? dispatcher = System.Windows.Application.Current?.Dispatcher;
-		if (dispatcher == null || dispatcher.HasShutdownStarted || token.IsCancellationRequested)
-			return false;
-		try
-		{
-			return await dispatcher.InvokeAsync(() => ShowMovePrompt(message, token)).Task.ConfigureAwait(false);
-		}
-		catch (Exception ex) when (ex is InvalidOperationException or TaskCanceledException)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "The move prompt could not be shown, staying put: " + ex.Message);
-			return false;
-		}
-	}
-
-	private static bool ShowMovePrompt(string message, CancellationToken token)
-	{
-		Voidstrap.UI.Elements.Dialogs.FluentMessageBox box = new(
-			message,
-			System.Windows.MessageBoxImage.Question,
-			System.Windows.MessageBoxButton.YesNo
-		)
-		{
-			Topmost = true,
-			ShowActivated = true,
-		};
-		System.Windows.Threading.DispatcherTimer timer = new() { Interval = MovePromptTimeout };
-		void CloseBox(object? sender, EventArgs e)
-		{
-			timer.Stop();
-			if (box.IsVisible)
-				box.Close();
-		}
-		timer.Tick += CloseBox;
-		using CancellationTokenRegistration registration = token.Register(() =>
-			box.Dispatcher.BeginInvoke(() => CloseBox(null, EventArgs.Empty))
-		);
-		timer.Start();
-		try
-		{
-			if (Voidstrap.Utility.Platform.IsMacOS)
-				box.Dispatcher.BeginInvoke(ActivateMacPrompt, System.Windows.Threading.DispatcherPriority.Loaded);
-			box.ShowTopLevelDialog();
-		}
-		finally
-		{
-			timer.Stop();
-			timer.Tick -= CloseBox;
-		}
-		return box.Result == System.Windows.MessageBoxResult.Yes;
-	}
-
-	public async Task<bool> JoinServerAsync(long placeId, MatchmakerCandidate server, CancellationToken token = default)
-	{
-		if (_disposed || placeId <= 0 || string.IsNullOrWhiteSpace(server.JobId))
-			return false;
-		string? currentJobId = _activityWatcher.Data?.JobId;
-		if (string.Equals(currentJobId, server.JobId, StringComparison.OrdinalIgnoreCase))
-			return false;
-
-		CancelPrefetch();
-		try
-		{
-			Interlocked.Exchange(ref _currentCts, null)?.Cancel();
-		}
-		catch (ObjectDisposedException) { }
-
-		RecordTriedJobId(placeId, currentJobId);
-		RecordTriedJobId(placeId, server.JobId);
-		Volatile.Write(ref _manualJobId, server.JobId);
-		_lastHopUtc = DateTime.UtcNow;
-		VoidstrapMatchmaker.RememberLaunchPick(server);
-		App.Logger.WriteLine(
-			LOG_IDENT,
-			$"Joining {server.DatacenterName} ({server.EstimatedPingMs}ms) picked in the server browser, JobId {server.JobId}"
-		);
-		ShowAlert($"Moving you to {server.Datacenter?.City ?? "the selected server"}, about {server.EstimatedPingMs}ms", 8);
-		await TriggerRejoinAsync(placeId, 1, server.JobId, server.Datacenter?.City, token, token, requireEnabled: false)
-			.ConfigureAwait(false);
-		return true;
-	}
-
-	public async Task<bool> LaunchPlaceAsync(long placeId, string? targetName, CancellationToken token = default, string? accessCode = null)
-	{
-		if (_disposed || placeId <= 0)
-			return false;
-		CancelPrefetch();
-		try
-		{
-			Interlocked.Exchange(ref _currentCts, null)?.Cancel();
-		}
-		catch (ObjectDisposedException) { }
-		_lastHopUtc = DateTime.UtcNow;
-		App.Logger.WriteLine(LOG_IDENT, $"Switching to place {placeId} picked in the game browser");
-		await TriggerRejoinAsync(placeId, 1, null, targetName, token, token, requireEnabled: false, accessCode: accessCode)
-			.ConfigureAwait(false);
-		return true;
-	}
-
-	private bool IsManualPick(string? jobId)
-	{
-		if (string.IsNullOrEmpty(jobId))
-			return false;
-		string? manual = Volatile.Read(ref _manualJobId);
-		if (string.IsNullOrEmpty(manual) && App.LaunchSettings.MatchmakerManualFlag.Active)
-			manual = App.LaunchSettings.MatchmakerManualFlag.Data;
-		return string.Equals(manual, jobId, StringComparison.OrdinalIgnoreCase);
-	}
-
-	private async Task TriggerRejoinAsync(
-		long placeId,
-		int attemptNumber,
-		string? explicitJobId,
-		string? targetName,
-		CancellationToken decideBy,
-		CancellationToken token,
-		bool requireEnabled = true,
-		string? accessCode = null
-	)
-	{
-		if (_disposed || token.IsCancellationRequested)
-			return;
-
-		if (requireEnabled && (!IsEnabled() || IsExcluded(placeId)))
-		{
-			App.Logger.WriteLine(LOG_IDENT, "The matchmaker was turned off or this game was skipped before moving servers, staying put");
-			ClearAttempt(placeId);
-			return;
-		}
-
-		string? authUri = null;
-		if (Voidstrap.Utility.Platform.IsWindows && string.IsNullOrEmpty(accessCode))
-		{
-			try
-			{
-				authUri = await RobloxAuthLauncher.BuildRobloxPlayerUriAsync(placeId, explicitJobId, decideBy).ConfigureAwait(false);
-			}
-			catch (Exception ex) when (!decideBy.IsCancellationRequested)
-			{
-				App.Logger.WriteLine(LOG_IDENT, "Auth URI build failed: " + ex.Message);
-			}
-		}
-		if (_disposed || token.IsCancellationRequested)
-			return;
-		decideBy.ThrowIfCancellationRequested();
-
-		string launchUri = !string.IsNullOrEmpty(authUri)
-			? authUri
-			: LaunchInterceptor.BuildExperienceUri(placeId, explicitJobId, accessCode);
-
-		if (Voidstrap.Utility.Platform.IsLinux)
-		{
-			await TriggerLinuxRejoinAsync(placeId, launchUri, targetName, token).ConfigureAwait(false);
-			return;
-		}
-
-		if (Voidstrap.Utility.Platform.IsMacOS)
-		{
-			await TriggerMacRejoinAsync(launchUri, attemptNumber, targetName, requireEnabled ? null : explicitJobId).ConfigureAwait(false);
-			return;
-		}
-
-		HashSet<int> existingPids = SnapshotRobloxPids();
-		bool spawnedSuccessor = SpawnSuccessor(launchUri, attemptNumber, targetName, requireEnabled ? null : explicitJobId);
-
-		if (!spawnedSuccessor)
-		{
-			try
-			{
-				Voidstrap.Utility.RobloxInstallCompression.EnsureExtracted(new RobloxPlayerData());
-				string playerPath = new RobloxPlayerData().ExecutablePath;
-				ProcessStartInfo startInfo = new ProcessStartInfo
-				{
-					FileName = playerPath,
-					UseShellExecute = false,
-					WorkingDirectory = Path.GetDirectoryName(playerPath) ?? "",
-				};
-				startInfo.ArgumentList.Add(launchUri);
-				using Process? player = Process.Start(startInfo);
-				if (player == null)
-					throw new InvalidOperationException("RobloxPlayerBeta did not start");
-				App.Logger.WriteLine(LOG_IDENT, "Spawned RobloxPlayerBeta directly");
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine(LOG_IDENT, "Fallback launch failed: " + ex.Message);
-				App.Logger.WriteException(LOG_IDENT, ex);
-				return;
-			}
-		}
-
-		if (!await WaitForNewRobloxAsync(existingPids, token).ConfigureAwait(false))
-		{
-			App.Logger.WriteLine(
-				LOG_IDENT,
-				$"The successor did not start Roblox within {HandoffPollCount * HandoffPollIntervalMs / 1000}s, keeping the current session"
-			);
-			return;
-		}
-
-		try
-		{
-			_watcher.KillRobloxProcess();
-			App.Logger.WriteLine(LOG_IDENT, "Closed the old Roblox, the successor takes over");
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "Closing the old Roblox failed: " + ex.Message);
-		}
-	}
-
-	private static bool SpawnSuccessor(string launchUri, int attemptNumber, string? targetName, string? manualJobId = null)
-	{
-		try
-		{
-			string process = Paths.LaunchExecutable;
-			if (string.IsNullOrEmpty(process))
-				return false;
-			ProcessStartInfo startInfo = new ProcessStartInfo
-			{
-				FileName = process,
-				UseShellExecute = false,
-				CreateNoWindow = true,
-				WorkingDirectory = Path.GetDirectoryName(process) ?? "",
-			};
-			startInfo.ArgumentList.Add("-player");
-			startInfo.ArgumentList.Add(launchUri);
-			startInfo.ArgumentList.Add("-matchmakerrejoin");
-			startInfo.ArgumentList.Add("-matchmakerattempt");
-			startInfo.ArgumentList.Add(attemptNumber.ToString());
-			if (!string.IsNullOrWhiteSpace(targetName))
-			{
-				string clean = targetName.Replace("\n", " ").Replace("\r", " ");
-				if (clean.Length > 60)
-					clean = clean.Substring(0, 60);
-				startInfo.ArgumentList.Add("-matchmakertarget");
-				startInfo.ArgumentList.Add(clean);
-			}
-			if (!string.IsNullOrWhiteSpace(manualJobId))
-			{
-				startInfo.ArgumentList.Add("-matchmakermanual");
-				startInfo.ArgumentList.Add(manualJobId);
-			}
-			using Process? successor = Process.Start(startInfo);
-			if (successor == null)
-				return false;
-			App.Logger.WriteLine(LOG_IDENT, "Spawned successor Voidstrap");
-			return true;
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "Could not spawn successor Voidstrap: " + ex.Message);
-			return false;
-		}
-	}
-
-	private static TaskCompletionSource? _macHandoff;
-
-	internal static Task MacHandoffTask => Volatile.Read(ref _macHandoff)?.Task ?? Task.CompletedTask;
-
-	internal static bool MacHandoffStarted => Volatile.Read(ref _macHandoff) != null;
-
-	private async Task TriggerMacRejoinAsync(string launchUri, int attemptNumber, string? targetName, string? manualJobId)
-	{
-		TaskCompletionSource handoff = new(TaskCreationOptions.RunContinuationsAsynchronously);
-		Volatile.Write(ref _macHandoff, handoff);
-		try
-		{
-			App.Logger.WriteLine(
-				LOG_IDENT,
-				"Closing Roblox so the successor can join the selected server, macOS runs one Roblox at a time"
-			);
-			_watcher.KillRobloxProcess();
-			for (int i = 0; i < 40 && Watcher.IsAnyRobloxRunning(); i++)
-				await Task.Delay(250).ConfigureAwait(false);
-			if (Watcher.IsAnyRobloxRunning())
-				App.Logger.WriteLine(LOG_IDENT, "Roblox is still closing, handing off anyway");
-			if (!SpawnSuccessor(launchUri, attemptNumber, targetName, manualJobId))
-			{
-				ShowAlert("Voidstrap could not reopen Roblox on the new server", 10);
-				return;
-			}
-			await Task.Delay(1500).ConfigureAwait(false);
-		}
-		finally
-		{
-			handoff.TrySetResult();
-		}
-	}
-
-	private async Task TriggerLinuxRejoinAsync(long placeId, string launchUri, string? targetName, CancellationToken token)
-	{
-		Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
-		if (host is null || !Uri.TryCreate(launchUri, UriKind.Absolute, out Uri? deeplink))
-		{
-			App.Logger.WriteLine(LOG_IDENT, "The Linux Roblox runtime could not accept the matchmaker rejoin");
-			return;
-		}
-
-		_linuxRejoinPlaceId = placeId;
-		_linuxRejoinTarget = (targetName ?? "").Trim();
-		BeginLinuxRejoinLease();
-		App.Logger.WriteLine(LOG_IDENT, "Closing Sober and joining the selected matchmaker server");
-		Voidstrap.Platform.OperationResult<Voidstrap.Platform.LaunchSession> result;
-		try
-		{
-			result = await host
-				.PlayerRuntime.LaunchAsync(new Voidstrap.Platform.LaunchRequest(Voidstrap.Platform.RuntimeKind.Player, deeplink), token)
-				.ConfigureAwait(false);
-		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-			throw;
-		}
-		catch (Exception ex)
-		{
-			ClearLinuxRejoin();
-			App.Logger.WriteLine(LOG_IDENT, "Sober matchmaker rejoin failed: " + ex.Message);
-			ShowAlert("Sober could not join the selected server: " + ex.Message, 10);
-			return;
-		}
-
-		if (result.Succeeded)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "Sober accepted the matchmaker rejoin");
-			return;
-		}
-
-		ClearLinuxRejoin();
-		string error = result.Failure?.Message ?? "Sober did not accept the matchmaker rejoin";
-		App.Logger.WriteLine(LOG_IDENT, error);
-		ShowAlert(error, 10);
-	}
-
-	private void ClearLinuxRejoin()
-	{
-		CompleteLinuxRejoinLease();
-		_linuxRejoinTarget = null;
-		_linuxRejoinPlaceId = 0;
-	}
-
-	private static void BeginLinuxRejoinLease()
-	{
-		Volatile.Write(ref _linuxRejoinLeaseDeadlineUtcTicks, DateTime.UtcNow.AddSeconds(LinuxRejoinLeaseSeconds).Ticks);
-	}
-
-	private static void CompleteLinuxRejoinLease()
-	{
-		Interlocked.Exchange(ref _linuxRejoinLeaseDeadlineUtcTicks, 0);
-	}
-
-	private static HashSet<int> SnapshotRobloxPids()
-	{
-		HashSet<int> pids = new HashSet<int>();
-		try
-		{
-			foreach (Process p in Process.GetProcessesByName("RobloxPlayerBeta"))
-			{
-				try
-				{
-					pids.Add(p.Id);
-				}
-				finally
-				{
-					p.Dispose();
-				}
-			}
-		}
-		catch { }
-		return pids;
-	}
-
-	private async Task<bool> WaitForNewRobloxAsync(HashSet<int> existingPids, CancellationToken token)
-	{
-		for (int i = 0; i < HandoffPollCount; i++)
-		{
-			try
-			{
-				await Task.Delay(HandoffPollIntervalMs, token).ConfigureAwait(false);
-			}
-			catch (OperationCanceledException)
-			{
-				return false;
-			}
-			if (_disposed || token.IsCancellationRequested)
-				return false;
-			try
-			{
-				bool oldStillRunning = false;
-				foreach (Process p in Process.GetProcessesByName("RobloxPlayerBeta"))
-				{
-					try
-					{
-						if (p.HasExited)
-							continue;
-						if (!existingPids.Contains(p.Id))
-							return true;
-						oldStillRunning = true;
-					}
-					finally
-					{
-						p.Dispose();
-					}
-				}
-				if (!oldStillRunning && i > 0)
-				{
-					App.Logger.WriteLine(LOG_IDENT, "The old Roblox already closed, the successor has taken over");
-					return false;
-				}
-			}
-			catch { }
-		}
-		return false;
-	}
-
-	private static HashSet<string> GetTriedJobIds(long placeId)
-	{
-		try
-		{
-			Dictionary<long, MatchmakerAttempt>? attempts = App.State.Prop.MatchmakerAttempts;
-			if (
-				attempts != null
-				&& attempts.TryGetValue(placeId, out MatchmakerAttempt? entry)
-				&& DateTime.UtcNow - entry.LastUtc <= AttemptResetWindow
-			)
-				return new HashSet<string>(entry.TriedJobIds ?? new List<string>(), StringComparer.OrdinalIgnoreCase);
-		}
-		catch { }
-		return new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-	}
-
-	private static void RecordTriedJobId(long placeId, string? jobId)
-	{
-		if (string.IsNullOrWhiteSpace(jobId))
-			return;
-		try
-		{
-			State state = App.State.Prop;
-			Dictionary<long, MatchmakerAttempt> attempts = state.MatchmakerAttempts ??= new Dictionary<long, MatchmakerAttempt>();
-			if (!attempts.TryGetValue(placeId, out MatchmakerAttempt? entry))
-				entry = attempts[placeId] = new MatchmakerAttempt { Count = 0, LastUtc = DateTime.UtcNow };
-			entry.TriedJobIds ??= new List<string>();
-			if (!entry.TriedJobIds.Contains(jobId, StringComparer.OrdinalIgnoreCase))
-			{
-				entry.TriedJobIds.Add(jobId);
-				if (entry.TriedJobIds.Count > 50)
-					entry.TriedJobIds.RemoveRange(0, entry.TriedJobIds.Count - 50);
-			}
-			App.State.Save();
-		}
-		catch { }
-	}
-
-	private static int IncrementAndGetAttempt(long placeId)
-	{
-		try
-		{
-			State state = App.State.Prop;
-			Dictionary<long, MatchmakerAttempt> attempts = state.MatchmakerAttempts ??= new Dictionary<long, MatchmakerAttempt>();
-			PruneOldAttempts(attempts);
-			if (!attempts.TryGetValue(placeId, out MatchmakerAttempt? entry))
-				entry = attempts[placeId] = new MatchmakerAttempt { Count = 0, LastUtc = DateTime.UtcNow };
-			else if (DateTime.UtcNow - entry.LastUtc > AttemptResetWindow)
-				entry.Count = 0;
-			entry.Count++;
-			entry.LastUtc = DateTime.UtcNow;
-			App.State.Save();
-			return entry.Count;
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "Attempt counter failed: " + ex.Message);
-			return 1;
-		}
-	}
-
-	private static void ClearAttempt(long placeId)
-	{
-		try
-		{
-			Dictionary<long, MatchmakerAttempt>? attempts = App.State.Prop.MatchmakerAttempts;
-			if (attempts != null && attempts.Remove(placeId))
-				App.State.Save();
-		}
-		catch { }
-	}
-
-	private static void PruneOldAttempts(Dictionary<long, MatchmakerAttempt> history)
-	{
-		DateTime cutoff = DateTime.UtcNow - TimeSpan.FromHours(1.0);
-		foreach (long key in history.Where(kv => kv.Value.LastUtc < cutoff).Select(kv => kv.Key).ToList())
-			history.Remove(key);
-	}
-
-	private static void ActivateMacPrompt()
-	{
-		if (OperatingSystem.IsMacOS())
-			Voidstrap.Platform.MacOS.MacOSApplication.Activate();
-	}
-
-	private static async Task ShowMacAlertAsync(string text)
-	{
-		try
-		{
-			Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
-			if (host == null)
-				return;
-			Voidstrap.Platform.OperationResult result = await host
-				.Notifications.ShowAsync(new Voidstrap.Platform.NotificationRequest("Voidstrap Matchmaker", text))
-				.ConfigureAwait(false);
-			if (!result.Succeeded)
-				App.Logger.WriteLine(LOG_IDENT, "Notification failed: " + result.Failure?.Message);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "Notification failed: " + ex.Message);
-		}
-	}
-
-	private void ShowAlert(string text, int durationSeconds)
-	{
-		if (!App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyRoblox)
-			return;
-		if (Voidstrap.Utility.Platform.IsMacOS)
-		{
-			_ = ShowMacAlertAsync(text);
-			return;
-		}
-		try
-		{
-			NotifyIconWrapper? icon = NotifyIconResolver?.Invoke();
-			if (icon != null && icon.EnableAppNotifications)
-				icon.ShowAlert("Voidstrap Matchmaker", text, durationSeconds, null);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine(LOG_IDENT, "Notification failed: " + ex.Message);
-		}
-	}
-
-	public void Dispose()
-	{
-		if (_disposed)
-			return;
-		_disposed = true;
-		CompleteLinuxRejoinLease();
-		try
-		{
-			_activityWatcher.OnGameJoining -= OnGameJoining;
-			_activityWatcher.OnGameJoin -= OnGameJoin;
-		}
-		catch { }
-		CancelPrefetch();
-		try
-		{
-			CancellationTokenSource? current = Interlocked.Exchange(ref _currentCts, null);
-			current?.Cancel();
-		}
-		catch { }
-		GC.SuppressFinalize(this);
-	}
+    private const double AcceptablePingMs = 60.0;
+
+    private static readonly TimeSpan MoveWindow = TimeSpan.FromSeconds(10.0);
+
+    private static readonly TimeSpan PrefetchLimit = TimeSpan.FromSeconds(25.0);
+
+    private const int HandoffPollIntervalMs = 500;
+
+    private const int HandoffPollCount = 120;
+    private const int LinuxRejoinLeaseSeconds = 90;
+
+    private static readonly TimeSpan AttemptResetWindow = TimeSpan.FromMinutes(10.0);
+
+    private static readonly TimeSpan HopCooldown = TimeSpan.FromSeconds(90.0);
+
+    private static DateTime _lastHopUtc = DateTime.MinValue;
+    private static long _linuxRejoinLeaseDeadlineUtcTicks;
+
+    internal static bool LinuxRejoinInProgress
+    {
+        get
+        {
+            long deadline = Volatile.Read(ref _linuxRejoinLeaseDeadlineUtcTicks);
+            if (deadline == 0)
+                return false;
+            if (DateTime.UtcNow.Ticks <= deadline)
+                return true;
+            Interlocked.CompareExchange(ref _linuxRejoinLeaseDeadlineUtcTicks, 0, deadline);
+            return false;
+        }
+    }
+
+    private readonly ActivityWatcher _activityWatcher;
+
+    private readonly Watcher _watcher;
+
+    private CancellationTokenSource? _currentCts;
+
+    private CancellationTokenSource? _prefetchCts;
+
+    private Task<MatchmakerCandidate?>? _prefetch;
+
+    private string? _prefetchJobId;
+
+    private string? _linuxRejoinTarget;
+
+    private long _linuxRejoinPlaceId;
+
+    private string? _manualJobId;
+
+    private bool _disposed;
+
+    public Func<NotifyIconWrapper?>? NotifyIconResolver { get; set; }
+
+    public ServerMatchmaker(ActivityWatcher activityWatcher, Watcher watcher)
+    {
+        _activityWatcher = activityWatcher ?? throw new ArgumentNullException(nameof(activityWatcher));
+        _watcher = watcher ?? throw new ArgumentNullException(nameof(watcher));
+        _activityWatcher.OnGameJoining += OnGameJoining;
+        _activityWatcher.OnGameJoin += OnGameJoin;
+    }
+
+    private void OnGameJoining(object? sender, EventArgs e)
+    {
+        CancelPrefetch();
+        try
+        {
+            Interlocked.Exchange(ref _currentCts, null)?.Cancel();
+        }
+        catch (ObjectDisposedException) { }
+        ActivityData? data = _activityWatcher.Data;
+        if (
+            _disposed
+            || data == null
+            || data.PlaceId == 0L
+            || data.IsTeleport
+            || data.ServerType == ServerType.Reserved
+            || !IsEnabled()
+            || IsExcluded(data.PlaceId)
+        )
+            return;
+
+        if (IsManualPick(data.JobId))
+            return;
+
+        MatchmakerCandidate? launchPick = VoidstrapMatchmaker.FindLaunchPick(data.JobId);
+        if (launchPick != null)
+        {
+            App.Logger.WriteLine(
+                LOG_IDENT,
+                $"Joining the server the matchmaker picked in {launchPick.Datacenter?.City ?? "?"}, no second search needed"
+            );
+            return;
+        }
+
+        HashSet<string> tried = GetTriedJobIds(data.PlaceId);
+        if (!string.IsNullOrEmpty(data.JobId))
+            tried.Add(data.JobId);
+        CancellationTokenSource cts = new(PrefetchLimit);
+        _prefetchCts = cts;
+        _prefetchJobId = data.JobId;
+        _prefetch = PrefetchAsync(data.PlaceId, tried, ResolvePreferredDatacenterKey(data.PlaceId), cts);
+        App.Logger.WriteLine(LOG_IDENT, $"Joining place {data.PlaceId}, searching for a better server while Roblox loads");
+    }
+
+    private async Task<MatchmakerCandidate?> PrefetchAsync(
+        long placeId,
+        HashSet<string> tried,
+        string preferredKey,
+        CancellationTokenSource cts
+    )
+    {
+        try
+        {
+            return await VoidstrapMatchmaker
+                .PickBestJobIdAsync(placeId, tried, VoidstrapMatchmaker.ResolveEffectiveCandidateCount(), preferredKey, cts.Token)
+                .ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            return null;
+        }
+        finally
+        {
+            if (Interlocked.CompareExchange(ref _prefetchCts, null, cts) == cts)
+                cts.Dispose();
+        }
+    }
+
+    private void CancelLinuxPrefetch()
+    {
+        if (Voidstrap.Utility.Platform.IsLinux)
+            CancelPrefetch();
+    }
+
+    private void CancelPrefetch()
+    {
+        CancellationTokenSource? cts = Interlocked.Exchange(ref _prefetchCts, null);
+        _prefetch = null;
+        _prefetchJobId = null;
+        if (cts == null)
+            return;
+        cts.Cancel();
+        cts.Dispose();
+    }
+
+    private void OnGameJoin(object? sender, EventArgs e)
+    {
+        CompleteLinuxRejoinLease();
+        _ = HandleGameJoinAsync();
+    }
+
+    private async Task HandleGameJoinAsync()
+    {
+        CancellationTokenSource? ownedCts = null;
+        try
+        {
+            if (_disposed)
+                return;
+
+            ActivityData? data = _activityWatcher.Data;
+            if (data == null)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Activity data unavailable, skipping");
+                CancelLinuxPrefetch();
+                return;
+            }
+            if (!data.MachineAddressValid)
+            {
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    $"No routable server address for job {data.JobId}, skipping (address was '{data.MachineAddress}')"
+                );
+                return;
+            }
+
+            _ = RecordLearningAsync(data);
+
+            if (data.IsTeleport)
+            {
+                CancelPrefetch();
+                return;
+            }
+
+            if (IsManualPick(data.JobId))
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Joined the server you picked in the server browser, staying put");
+                ClearLinuxRejoin();
+                ClearAttempt(data.PlaceId);
+                CancelLinuxPrefetch();
+                return;
+            }
+
+            if (!IsEnabled())
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Matchmaker is turned off, staying put");
+                CancelLinuxPrefetch();
+                return;
+            }
+
+            if (IsExcluded(data.PlaceId))
+            {
+                App.Logger.WriteLine(LOG_IDENT, $"Place {data.PlaceId} is excluded from the matchmaker, staying put");
+                ClearAttempt(data.PlaceId);
+                CancelLinuxPrefetch();
+                return;
+            }
+
+            if (data.ServerType != ServerType.Public)
+            {
+                App.Logger.WriteLine(LOG_IDENT, $"Server is {data.ServerType}, the matchmaker only reroutes from public servers");
+                ClearAttempt(data.PlaceId);
+                CancelLinuxPrefetch();
+                return;
+            }
+
+            MatchmakerCandidate? launchPick = VoidstrapMatchmaker.FindLaunchPick(data.JobId);
+            if (launchPick != null && _linuxRejoinTarget == null)
+            {
+                string city = launchPick.Datacenter?.City ?? "the picked datacenter";
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    $"Joined the server the matchmaker picked before launch in {city} ({launchPick.EstimatedPingMs}ms), staying put"
+                );
+                ClearAttempt(data.PlaceId);
+                CancelLinuxPrefetch();
+                ShowAlert($"Connected to {city}, about {launchPick.EstimatedPingMs}ms", 6);
+                return;
+            }
+
+            ownedCts = new CancellationTokenSource();
+            CancellationTokenSource? previous = Interlocked.Exchange(ref _currentCts, ownedCts);
+            try
+            {
+                previous?.Cancel();
+            }
+            catch { }
+            await EvaluateAsync(data, ownedCts.Token).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Game join handling failed: " + ex.Message);
+            App.Logger.WriteException(LOG_IDENT, ex);
+        }
+        finally
+        {
+            if (ownedCts != null)
+            {
+                Interlocked.CompareExchange(ref _currentCts, null, ownedCts);
+                ownedCts.Dispose();
+            }
+        }
+    }
+
+    private static async Task RecordLearningAsync(ActivityData data)
+    {
+        try
+        {
+            using CancellationTokenSource timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(8.0));
+            RobloxDatacenter? dc = await VoidstrapMatchmaker
+                .LookupUnknownIpAsync(data.MachineAddress, timeoutCts.Token)
+                .ConfigureAwait(false);
+            if (dc != null)
+            {
+                ServerFetchStore.RecordSighting(data.MachineAddress, dc.City, dc.Region, dc.Country, dc.Lat, dc.Lon);
+                App.Logger.WriteLine(LOG_IDENT, $"Logged join: {data.MachineAddress} in {dc.City}, {dc.Country}");
+            }
+            else
+            {
+                ServerFetchStore.RecordSighting(data.MachineAddress);
+                App.Logger.WriteLine(LOG_IDENT, "Logged join, datacenter could not be resolved: " + data.MachineAddress);
+            }
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Learning store write failed: " + ex.Message);
+        }
+    }
+
+    public static bool IsExcluded(long placeId)
+    {
+        if (placeId == 0L)
+            return false;
+        try
+        {
+            List<long>? excluded = App.Settings.Prop.MatchmakerExcludedPlaceIds;
+            return excluded != null && excluded.Contains(placeId);
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public static void SetExcluded(long placeId, bool excluded)
+    {
+        if (placeId == 0L)
+            return;
+        try
+        {
+            List<long> list = App.Settings.Prop.MatchmakerExcludedPlaceIds ??= [];
+            bool changed;
+            if (excluded)
+            {
+                changed = !list.Contains(placeId);
+                if (changed)
+                    list.Add(placeId);
+            }
+            else
+            {
+                changed = list.Remove(placeId);
+            }
+            if (changed)
+                App.Settings.SaveDeferred();
+        }
+        catch (Exception ex)
+        {
+            App.Logger?.WriteLine("ServerMatchmaker::SetExcluded", "Could not update the matchmaker exclusion list: " + ex.Message);
+        }
+    }
+
+    public static bool IsEnabled()
+    {
+        if (App.LaunchSettings.HomeMatchmakerFlag.Active)
+            return true;
+        try
+        {
+            App.Settings.RefreshFromDisk();
+            return App.Settings.Prop.VoidstrapMatchmakerEnabled;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Could not read the matchmaker setting, treating it as off: " + ex.Message);
+            return false;
+        }
+    }
+
+    public static string ResolvePreferredDatacenterKey(long placeId)
+    {
+        try
+        {
+            Dictionary<long, string>? map = App.Settings.Prop.PerGamePreferredDatacenters;
+            if (map != null && map.TryGetValue(placeId, out string? key) && !string.IsNullOrWhiteSpace(key))
+                return key.Trim();
+        }
+        catch { }
+        return (App.Settings.Prop.VoidstrapMatchmakerPreferredDatacenter ?? "").Trim();
+    }
+
+    private async Task EvaluateAsync(ActivityData data, CancellationToken token)
+    {
+        if (_linuxRejoinTarget != null && _linuxRejoinPlaceId != data.PlaceId)
+            ClearLinuxRejoin();
+
+        Task<MatchmakerCandidate?>? prefetch = string.Equals(_prefetchJobId, data.JobId, StringComparison.OrdinalIgnoreCase)
+            ? _prefetch
+            : null;
+        using CancellationTokenSource window = CancellationTokenSource.CreateLinkedTokenSource(token);
+        window.CancelAfter(MoveWindow);
+        try
+        {
+            await DecideAsync(data, prefetch, window.Token, token).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (window.IsCancellationRequested && !token.IsCancellationRequested)
+        {
+            App.Logger.WriteLine(
+                LOG_IDENT,
+                $"No better server was ready within {MoveWindow.TotalSeconds:0}s of joining, staying so you are not pulled out mid game"
+            );
+            ClearLinuxRejoin();
+            ClearAttempt(data.PlaceId);
+        }
+        finally
+        {
+            CancelLinuxPrefetch();
+        }
+    }
+
+    private async Task DecideAsync(
+        ActivityData data,
+        Task<MatchmakerCandidate?>? prefetch,
+        CancellationToken decideBy,
+        CancellationToken token
+    )
+    {
+        if (_disposed || decideBy.IsCancellationRequested)
+            return;
+
+        UserGeo? geo = await VoidstrapMatchmaker.GetUserGeoAsync(decideBy).ConfigureAwait(false);
+        if (geo == null)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "No user location available, staying put");
+            ClearLinuxRejoin();
+            return;
+        }
+
+        RobloxDatacenter? currentDc =
+            RobloxDatacenterMap.Map(data.MachineAddress)
+            ?? await VoidstrapMatchmaker.LookupUnknownIpAsync(data.MachineAddress, decideBy).ConfigureAwait(false);
+        if (currentDc == null)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Current datacenter could not be resolved, staying put instead of hopping blind");
+            ClearLinuxRejoin();
+            ClearAttempt(data.PlaceId);
+            return;
+        }
+
+        double currentKm = VoidstrapMatchmaker.HaversineKm(geo.Lat, geo.Lon, currentDc.Lat, currentDc.Lon);
+        int currentPing = VoidstrapMatchmaker.EstimatePingMs(currentKm);
+        string currentKey = VoidstrapMatchmaker.DatacenterKey(currentDc);
+        bool currentIsBlocked = VoidstrapMatchmaker.GetBlockedDatacenters().Contains(VoidstrapMatchmaker.BlockKey(currentDc));
+        App.Logger.WriteLine(
+            LOG_IDENT,
+            $"Current datacenter {VoidstrapMatchmaker.BlockKey(currentDc)}, about {currentPing}ms{(currentIsBlocked ? ", blocked" : "")}"
+        );
+
+        string preferredKey = ResolvePreferredDatacenterKey(data.PlaceId);
+        bool hasPreferred = preferredKey.Length > 0;
+        bool wantsOtherDc = hasPreferred && !VoidstrapMatchmaker.MatchesPreferredDc(currentDc, preferredKey);
+        bool inPreferredDc = hasPreferred && !wantsOtherDc;
+
+        if (inPreferredDc && !currentIsBlocked)
+        {
+            App.Logger.WriteLine(LOG_IDENT, $"Already in your preferred datacenter {currentDc.City} ({currentPing}ms), staying put");
+            ClearLinuxRejoin();
+            ClearAttempt(data.PlaceId);
+            ShowAlert($"You are in your preferred datacenter {currentDc.City}, about {currentPing}ms", 6);
+            return;
+        }
+
+        bool linuxRejoin = Voidstrap.Utility.Platform.IsLinux && _linuxRejoinTarget != null;
+        string rejoinTarget = linuxRejoin ? _linuxRejoinTarget ?? "" : (App.LaunchSettings.MatchmakerTargetFlag.Data ?? "").Trim();
+        bool landedOnRejoinTarget =
+            rejoinTarget.Length == 0 || string.Equals(currentDc.City, rejoinTarget, StringComparison.OrdinalIgnoreCase);
+        if ((App.LaunchSettings.MatchmakerRejoinFlag.Active || linuxRejoin) && !currentIsBlocked && !wantsOtherDc && landedOnRejoinTarget)
+        {
+            App.Logger.WriteLine(LOG_IDENT, $"Landed via matchmaker rejoin in {currentDc.City} ({currentPing}ms), accepting this server");
+            ClearLinuxRejoin();
+            ClearAttempt(data.PlaceId);
+            ShowAlert($"Connected to {currentDc.City}, about {currentPing}ms", 6);
+            return;
+        }
+        if ((App.LaunchSettings.MatchmakerRejoinFlag.Active || linuxRejoin) && !landedOnRejoinTarget)
+            App.Logger.WriteLine(LOG_IDENT, $"Requested {rejoinTarget} but Roblox landed in {currentDc.City}, searching again");
+
+        if (!linuxRejoin && DateTime.UtcNow - _lastHopUtc < HopCooldown)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Hop cooldown active, staying put");
+            return;
+        }
+
+        MatchmakerCandidate? best;
+        if (prefetch != null)
+        {
+            best = await prefetch.WaitAsync(decideBy).ConfigureAwait(false);
+        }
+        else
+        {
+            HashSet<string> tried = GetTriedJobIds(data.PlaceId);
+            if (!string.IsNullOrEmpty(data.JobId))
+                tried.Add(data.JobId);
+            best = await VoidstrapMatchmaker
+                .PickBestJobIdAsync(data.PlaceId, tried, VoidstrapMatchmaker.ResolveEffectiveCandidateCount(), preferredKey, decideBy)
+                .ConfigureAwait(false);
+        }
+
+        if (best == null)
+        {
+            ClearLinuxRejoin();
+            ClearAttempt(data.PlaceId);
+            if (currentIsBlocked)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Current datacenter is blocked but no alternative was found, staying put");
+                ShowAlert($"You are in {currentDc.City} which you blocked, but no other datacenter is available right now", 7);
+            }
+            else
+            {
+                App.Logger.WriteLine(LOG_IDENT, "No better server found, staying put");
+            }
+            return;
+        }
+
+        bool sameDc = string.Equals(currentKey, VoidstrapMatchmaker.DatacenterKey(best.Datacenter), StringComparison.OrdinalIgnoreCase);
+        bool bestIsPreferred = preferredKey.Length > 0 && VoidstrapMatchmaker.MatchesPreferredDc(best.Datacenter, preferredKey);
+        double gainMs = currentPing - best.EstimatedPingMs;
+
+        string? reason = null;
+        if (currentIsBlocked && !sameDc)
+            reason = $"leaving blocked datacenter {currentDc.City}";
+        else if (wantsOtherDc && bestIsPreferred)
+            reason = $"moving to your preferred datacenter {best.Datacenter?.City}";
+        else if (!sameDc && !hasPreferred && currentPing > AcceptablePingMs && gainMs >= MinRttGainMs)
+            reason = $"saving about {(int)gainMs}ms";
+
+        if (reason == null)
+        {
+            ClearLinuxRejoin();
+            ClearAttempt(data.PlaceId);
+            if (currentIsBlocked)
+            {
+                App.Logger.WriteLine(LOG_IDENT, $"Best alternative is in the same blocked datacenter {currentDc.City}, staying put");
+                ShowAlert($"You are in {currentDc.City} which you blocked, but every server there is the same, staying put", 7);
+            }
+            else if (wantsOtherDc)
+            {
+                string preferredCity = preferredKey.Split('|')[0];
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    $"Preferred datacenter {preferredCity} has no servers right now, staying in {currentDc.City} instead of moving somewhere you did not pick"
+                );
+                ShowAlert($"{preferredCity} has no servers right now, staying in {currentDc.City}", 7);
+            }
+            else
+            {
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    $"Current {currentDc.City} at {currentPing}ms vs best {best.DatacenterName} at {best.EstimatedPingMs}ms, not worth reconnecting for {(int)gainMs}ms"
+                );
+                ShowAlert($"You are already on a good server, about {currentPing}ms", 5);
+            }
+            return;
+        }
+
+        int maxRetries = Math.Max(1, App.Settings.Prop.ServerMatchmakerMaxRetries);
+        int attempt = IncrementAndGetAttempt(data.PlaceId);
+        if (attempt > maxRetries)
+        {
+            App.Logger.WriteLine(LOG_IDENT, $"Reached the retry limit of {maxRetries} for place {data.PlaceId}");
+            ClearLinuxRejoin();
+            ClearAttempt(data.PlaceId);
+            ShowAlert($"Could not reach a better datacenter after {maxRetries} tries, staying in {currentDc.City}", 10);
+            return;
+        }
+
+        CancellationTokenSource? moveBy = null;
+        try
+        {
+            if (App.Settings.Prop.MatchmakerAskBeforeMoving && App.LaunchSettings.QuietFlag.Active)
+            {
+                App.Logger.WriteLine(LOG_IDENT, $"Launched quietly, so there is no way to ask before moving, staying in {currentDc.City}");
+                ClearLinuxRejoin();
+                ClearAttempt(data.PlaceId);
+                return;
+            }
+            if (App.Settings.Prop.MatchmakerAskBeforeMoving)
+            {
+                string targetCity = best.Datacenter?.City ?? "a better location";
+                string question =
+                    wantsOtherDc && bestIsPreferred
+                        ? $"Voidstrap found a server in your preferred location {targetCity}, about {best.EstimatedPingMs}ms.\n\nYou are in {currentDc.City} right now, about {currentPing}ms. Move to {targetCity}? You will leave your current server."
+                        : $"Voidstrap found a better server in {targetCity}, about {best.EstimatedPingMs}ms.\n\nYou are in {currentDc.City} right now, about {currentPing}ms. Move to {targetCity}? You will leave your current server.";
+                App.Logger.WriteLine(LOG_IDENT, $"Asking before moving from {currentDc.City} to {targetCity}");
+                if (!await AskToMoveAsync(question, token).ConfigureAwait(false))
+                {
+                    App.Logger.WriteLine(LOG_IDENT, $"You chose to stay in {currentDc.City}");
+                    ClearLinuxRejoin();
+                    ClearAttempt(data.PlaceId);
+                    return;
+                }
+                if (_disposed || token.IsCancellationRequested || _activityWatcher.Data?.JobId != data.JobId)
+                {
+                    App.Logger.WriteLine(LOG_IDENT, "The server changed while you were deciding, staying put");
+                    ClearLinuxRejoin();
+                    ClearAttempt(data.PlaceId);
+                    return;
+                }
+                moveBy = CancellationTokenSource.CreateLinkedTokenSource(token);
+                moveBy.CancelAfter(MoveWindow);
+                decideBy = moveBy.Token;
+            }
+
+            RecordTriedJobId(data.PlaceId, data.JobId);
+            RecordTriedJobId(data.PlaceId, best.JobId);
+            App.Logger.WriteLine(
+                LOG_IDENT,
+                $"Rerouting from {currentDc.City} ({currentPing}ms) to {best.DatacenterName} ({best.EstimatedPingMs}ms), {reason}"
+            );
+
+            string blockedNote = string.IsNullOrEmpty(best.BlockedClosestCity)
+                ? ""
+                : $"\n{best.BlockedClosestCity} is closer but you blocked it";
+            string attemptNote = attempt > 1 ? $" Attempt {attempt} of {maxRetries}" : "";
+            ShowAlert(
+                $"Moving you to {best.Datacenter?.City ?? "the best server"}, about {best.EstimatedPingMs}ms{attemptNote}{blockedNote}",
+                8
+            );
+
+            _lastHopUtc = DateTime.UtcNow;
+            VoidstrapMatchmaker.RememberLaunchPick(best);
+            await TriggerRejoinAsync(data.PlaceId, attempt, best.JobId, best.Datacenter?.City, decideBy, token).ConfigureAwait(false);
+        }
+        finally
+        {
+            moveBy?.Dispose();
+        }
+    }
+
+    private static readonly TimeSpan MovePromptTimeout = TimeSpan.FromSeconds(20);
+
+    private static async Task<bool> AskToMoveAsync(string message, CancellationToken token)
+    {
+        System.Windows.Threading.Dispatcher? dispatcher = System.Windows.Application.Current?.Dispatcher;
+        if (dispatcher == null || dispatcher.HasShutdownStarted || token.IsCancellationRequested)
+            return false;
+        try
+        {
+            return await dispatcher.InvokeAsync(() => ShowMovePrompt(message, token)).Task.ConfigureAwait(false);
+        }
+        catch (Exception ex) when (ex is InvalidOperationException or TaskCanceledException)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The move prompt could not be shown, staying put: " + ex.Message);
+            return false;
+        }
+    }
+
+    private static bool ShowMovePrompt(string message, CancellationToken token)
+    {
+        Voidstrap.UI.Elements.Dialogs.FluentMessageBox box = new(
+            message,
+            System.Windows.MessageBoxImage.Question,
+            System.Windows.MessageBoxButton.YesNo
+        )
+        {
+            Topmost = true,
+            ShowActivated = true,
+        };
+        System.Windows.Threading.DispatcherTimer timer = new() { Interval = MovePromptTimeout };
+        void CloseBox(object? sender, EventArgs e)
+        {
+            timer.Stop();
+            if (box.IsVisible)
+                box.Close();
+        }
+        timer.Tick += CloseBox;
+        using CancellationTokenRegistration registration = token.Register(() =>
+            box.Dispatcher.BeginInvoke(() => CloseBox(null, EventArgs.Empty))
+        );
+        timer.Start();
+        try
+        {
+            if (Voidstrap.Utility.Platform.IsMacOS)
+                box.Dispatcher.BeginInvoke(ActivateMacPrompt, System.Windows.Threading.DispatcherPriority.Loaded);
+            box.ShowTopLevelDialog();
+        }
+        finally
+        {
+            timer.Stop();
+            timer.Tick -= CloseBox;
+        }
+        return box.Result == System.Windows.MessageBoxResult.Yes;
+    }
+
+    public async Task<bool> JoinServerAsync(long placeId, MatchmakerCandidate server, CancellationToken token = default)
+    {
+        if (_disposed || placeId <= 0 || string.IsNullOrWhiteSpace(server.JobId))
+            return false;
+        string? currentJobId = _activityWatcher.Data?.JobId;
+        if (string.Equals(currentJobId, server.JobId, StringComparison.OrdinalIgnoreCase))
+            return false;
+
+        CancelPrefetch();
+        try
+        {
+            Interlocked.Exchange(ref _currentCts, null)?.Cancel();
+        }
+        catch (ObjectDisposedException) { }
+
+        RecordTriedJobId(placeId, currentJobId);
+        RecordTriedJobId(placeId, server.JobId);
+        Volatile.Write(ref _manualJobId, server.JobId);
+        _lastHopUtc = DateTime.UtcNow;
+        VoidstrapMatchmaker.RememberLaunchPick(server);
+        App.Logger.WriteLine(
+            LOG_IDENT,
+            $"Joining {server.DatacenterName} ({server.EstimatedPingMs}ms) picked in the server browser, JobId {server.JobId}"
+        );
+        ShowAlert($"Moving you to {server.Datacenter?.City ?? "the selected server"}, about {server.EstimatedPingMs}ms", 8);
+        await TriggerRejoinAsync(placeId, 1, server.JobId, server.Datacenter?.City, token, token, requireEnabled: false)
+            .ConfigureAwait(false);
+        return true;
+    }
+
+    public async Task<bool> LaunchPlaceAsync(long placeId, string? targetName, CancellationToken token = default, string? accessCode = null)
+    {
+        if (_disposed || placeId <= 0)
+            return false;
+        CancelPrefetch();
+        try
+        {
+            Interlocked.Exchange(ref _currentCts, null)?.Cancel();
+        }
+        catch (ObjectDisposedException) { }
+        _lastHopUtc = DateTime.UtcNow;
+        App.Logger.WriteLine(LOG_IDENT, $"Switching to place {placeId} picked in the game browser");
+        await TriggerRejoinAsync(placeId, 1, null, targetName, token, token, requireEnabled: false, accessCode: accessCode)
+            .ConfigureAwait(false);
+        return true;
+    }
+
+    private bool IsManualPick(string? jobId)
+    {
+        if (string.IsNullOrEmpty(jobId))
+            return false;
+        string? manual = Volatile.Read(ref _manualJobId);
+        if (string.IsNullOrEmpty(manual) && App.LaunchSettings.MatchmakerManualFlag.Active)
+            manual = App.LaunchSettings.MatchmakerManualFlag.Data;
+        return string.Equals(manual, jobId, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private async Task TriggerRejoinAsync(
+        long placeId,
+        int attemptNumber,
+        string? explicitJobId,
+        string? targetName,
+        CancellationToken decideBy,
+        CancellationToken token,
+        bool requireEnabled = true,
+        string? accessCode = null
+    )
+    {
+        if (_disposed || token.IsCancellationRequested)
+            return;
+
+        if (requireEnabled && (!IsEnabled() || IsExcluded(placeId)))
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The matchmaker was turned off or this game was skipped before moving servers, staying put");
+            ClearAttempt(placeId);
+            return;
+        }
+
+        string? authUri = null;
+        if (Voidstrap.Utility.Platform.IsWindows && string.IsNullOrEmpty(accessCode))
+        {
+            try
+            {
+                authUri = await RobloxAuthLauncher.BuildRobloxPlayerUriAsync(placeId, explicitJobId, decideBy).ConfigureAwait(false);
+            }
+            catch (Exception ex) when (!decideBy.IsCancellationRequested)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Auth URI build failed: " + ex.Message);
+            }
+        }
+        if (_disposed || token.IsCancellationRequested)
+            return;
+        decideBy.ThrowIfCancellationRequested();
+
+        string launchUri = !string.IsNullOrEmpty(authUri)
+            ? authUri
+            : LaunchInterceptor.BuildExperienceUri(placeId, explicitJobId, accessCode);
+
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            await TriggerLinuxRejoinAsync(placeId, launchUri, targetName, token).ConfigureAwait(false);
+            return;
+        }
+
+        if (Voidstrap.Utility.Platform.IsMacOS)
+        {
+            await TriggerMacRejoinAsync(launchUri, attemptNumber, targetName, requireEnabled ? null : explicitJobId).ConfigureAwait(false);
+            return;
+        }
+
+        HashSet<int> existingPids = SnapshotRobloxPids();
+        bool spawnedSuccessor = SpawnSuccessor(launchUri, attemptNumber, targetName, requireEnabled ? null : explicitJobId);
+
+        if (!spawnedSuccessor)
+        {
+            try
+            {
+                Voidstrap.Utility.RobloxInstallCompression.EnsureExtracted(new RobloxPlayerData());
+                string playerPath = new RobloxPlayerData().ExecutablePath;
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    FileName = playerPath,
+                    UseShellExecute = false,
+                    WorkingDirectory = Path.GetDirectoryName(playerPath) ?? "",
+                };
+                startInfo.ArgumentList.Add(launchUri);
+                using Process? player = Process.Start(startInfo);
+                if (player == null)
+                    throw new InvalidOperationException("RobloxPlayerBeta did not start");
+                App.Logger.WriteLine(LOG_IDENT, "Spawned RobloxPlayerBeta directly");
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Fallback launch failed: " + ex.Message);
+                App.Logger.WriteException(LOG_IDENT, ex);
+                return;
+            }
+        }
+
+        if (!await WaitForNewRobloxAsync(existingPids, token).ConfigureAwait(false))
+        {
+            App.Logger.WriteLine(
+                LOG_IDENT,
+                $"The successor did not start Roblox within {HandoffPollCount * HandoffPollIntervalMs / 1000}s, keeping the current session"
+            );
+            return;
+        }
+
+        try
+        {
+            _watcher.KillRobloxProcess();
+            App.Logger.WriteLine(LOG_IDENT, "Closed the old Roblox, the successor takes over");
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Closing the old Roblox failed: " + ex.Message);
+        }
+    }
+
+    private static bool SpawnSuccessor(string launchUri, int attemptNumber, string? targetName, string? manualJobId = null)
+    {
+        try
+        {
+            string process = Paths.LaunchExecutable;
+            if (string.IsNullOrEmpty(process))
+                return false;
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = process,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                WorkingDirectory = Path.GetDirectoryName(process) ?? "",
+            };
+            startInfo.ArgumentList.Add("-player");
+            startInfo.ArgumentList.Add(launchUri);
+            startInfo.ArgumentList.Add("-matchmakerrejoin");
+            startInfo.ArgumentList.Add("-matchmakerattempt");
+            startInfo.ArgumentList.Add(attemptNumber.ToString());
+            if (!string.IsNullOrWhiteSpace(targetName))
+            {
+                string clean = targetName.Replace("\n", " ").Replace("\r", " ");
+                if (clean.Length > 60)
+                    clean = clean.Substring(0, 60);
+                startInfo.ArgumentList.Add("-matchmakertarget");
+                startInfo.ArgumentList.Add(clean);
+            }
+            if (!string.IsNullOrWhiteSpace(manualJobId))
+            {
+                startInfo.ArgumentList.Add("-matchmakermanual");
+                startInfo.ArgumentList.Add(manualJobId);
+            }
+            using Process? successor = Process.Start(startInfo);
+            if (successor == null)
+                return false;
+            App.Logger.WriteLine(LOG_IDENT, "Spawned successor Voidstrap");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Could not spawn successor Voidstrap: " + ex.Message);
+            return false;
+        }
+    }
+
+    private static TaskCompletionSource? _macHandoff;
+
+    internal static Task MacHandoffTask => Volatile.Read(ref _macHandoff)?.Task ?? Task.CompletedTask;
+
+    internal static bool MacHandoffStarted => Volatile.Read(ref _macHandoff) != null;
+
+    private async Task TriggerMacRejoinAsync(string launchUri, int attemptNumber, string? targetName, string? manualJobId)
+    {
+        TaskCompletionSource handoff = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        Volatile.Write(ref _macHandoff, handoff);
+        try
+        {
+            App.Logger.WriteLine(
+                LOG_IDENT,
+                "Closing Roblox so the successor can join the selected server, macOS runs one Roblox at a time"
+            );
+            _watcher.KillRobloxProcess();
+            for (int i = 0; i < 40 && Watcher.IsAnyRobloxRunning(); i++)
+                await Task.Delay(250).ConfigureAwait(false);
+            if (Watcher.IsAnyRobloxRunning())
+                App.Logger.WriteLine(LOG_IDENT, "Roblox is still closing, handing off anyway");
+            if (!SpawnSuccessor(launchUri, attemptNumber, targetName, manualJobId))
+            {
+                ShowAlert("Voidstrap could not reopen Roblox on the new server", 10);
+                return;
+            }
+            await Task.Delay(1500).ConfigureAwait(false);
+        }
+        finally
+        {
+            handoff.TrySetResult();
+        }
+    }
+
+    private async Task TriggerLinuxRejoinAsync(long placeId, string launchUri, string? targetName, CancellationToken token)
+    {
+        Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
+        if (host is null || !Uri.TryCreate(launchUri, UriKind.Absolute, out Uri? deeplink))
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The Linux Roblox runtime could not accept the matchmaker rejoin");
+            return;
+        }
+
+        _linuxRejoinPlaceId = placeId;
+        _linuxRejoinTarget = (targetName ?? "").Trim();
+        BeginLinuxRejoinLease();
+        App.Logger.WriteLine(LOG_IDENT, "Closing Sober and joining the selected matchmaker server");
+        Voidstrap.Platform.OperationResult<Voidstrap.Platform.LaunchSession> result;
+        try
+        {
+            result = await host
+                .PlayerRuntime.LaunchAsync(new Voidstrap.Platform.LaunchRequest(Voidstrap.Platform.RuntimeKind.Player, deeplink), token)
+                .ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            ClearLinuxRejoin();
+            App.Logger.WriteLine(LOG_IDENT, "Sober matchmaker rejoin failed: " + ex.Message);
+            ShowAlert("Sober could not join the selected server: " + ex.Message, 10);
+            return;
+        }
+
+        if (result.Succeeded)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Sober accepted the matchmaker rejoin");
+            return;
+        }
+
+        ClearLinuxRejoin();
+        string error = result.Failure?.Message ?? "Sober did not accept the matchmaker rejoin";
+        App.Logger.WriteLine(LOG_IDENT, error);
+        ShowAlert(error, 10);
+    }
+
+    private void ClearLinuxRejoin()
+    {
+        CompleteLinuxRejoinLease();
+        _linuxRejoinTarget = null;
+        _linuxRejoinPlaceId = 0;
+    }
+
+    private static void BeginLinuxRejoinLease()
+    {
+        Volatile.Write(ref _linuxRejoinLeaseDeadlineUtcTicks, DateTime.UtcNow.AddSeconds(LinuxRejoinLeaseSeconds).Ticks);
+    }
+
+    private static void CompleteLinuxRejoinLease()
+    {
+        Interlocked.Exchange(ref _linuxRejoinLeaseDeadlineUtcTicks, 0);
+    }
+
+    private static HashSet<int> SnapshotRobloxPids()
+    {
+        HashSet<int> pids = new HashSet<int>();
+        try
+        {
+            foreach (Process p in Process.GetProcessesByName("RobloxPlayerBeta"))
+            {
+                try
+                {
+                    pids.Add(p.Id);
+                }
+                finally
+                {
+                    p.Dispose();
+                }
+            }
+        }
+        catch { }
+        return pids;
+    }
+
+    private async Task<bool> WaitForNewRobloxAsync(HashSet<int> existingPids, CancellationToken token)
+    {
+        for (int i = 0; i < HandoffPollCount; i++)
+        {
+            try
+            {
+                await Task.Delay(HandoffPollIntervalMs, token).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                return false;
+            }
+            if (_disposed || token.IsCancellationRequested)
+                return false;
+            try
+            {
+                bool oldStillRunning = false;
+                foreach (Process p in Process.GetProcessesByName("RobloxPlayerBeta"))
+                {
+                    try
+                    {
+                        if (p.HasExited)
+                            continue;
+                        if (!existingPids.Contains(p.Id))
+                            return true;
+                        oldStillRunning = true;
+                    }
+                    finally
+                    {
+                        p.Dispose();
+                    }
+                }
+                if (!oldStillRunning && i > 0)
+                {
+                    App.Logger.WriteLine(LOG_IDENT, "The old Roblox already closed, the successor has taken over");
+                    return false;
+                }
+            }
+            catch { }
+        }
+        return false;
+    }
+
+    private static HashSet<string> GetTriedJobIds(long placeId)
+    {
+        try
+        {
+            Dictionary<long, MatchmakerAttempt>? attempts = App.State.Prop.MatchmakerAttempts;
+            if (
+                attempts != null
+                && attempts.TryGetValue(placeId, out MatchmakerAttempt? entry)
+                && DateTime.UtcNow - entry.LastUtc <= AttemptResetWindow
+            )
+                return new HashSet<string>(entry.TriedJobIds ?? new List<string>(), StringComparer.OrdinalIgnoreCase);
+        }
+        catch { }
+        return new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+    }
+
+    private static void RecordTriedJobId(long placeId, string? jobId)
+    {
+        if (string.IsNullOrWhiteSpace(jobId))
+            return;
+        try
+        {
+            State state = App.State.Prop;
+            Dictionary<long, MatchmakerAttempt> attempts = state.MatchmakerAttempts ??= new Dictionary<long, MatchmakerAttempt>();
+            if (!attempts.TryGetValue(placeId, out MatchmakerAttempt? entry))
+                entry = attempts[placeId] = new MatchmakerAttempt { Count = 0, LastUtc = DateTime.UtcNow };
+            entry.TriedJobIds ??= new List<string>();
+            if (!entry.TriedJobIds.Contains(jobId, StringComparer.OrdinalIgnoreCase))
+            {
+                entry.TriedJobIds.Add(jobId);
+                if (entry.TriedJobIds.Count > 50)
+                    entry.TriedJobIds.RemoveRange(0, entry.TriedJobIds.Count - 50);
+            }
+            App.State.Save();
+        }
+        catch { }
+    }
+
+    private static int IncrementAndGetAttempt(long placeId)
+    {
+        try
+        {
+            State state = App.State.Prop;
+            Dictionary<long, MatchmakerAttempt> attempts = state.MatchmakerAttempts ??= new Dictionary<long, MatchmakerAttempt>();
+            PruneOldAttempts(attempts);
+            if (!attempts.TryGetValue(placeId, out MatchmakerAttempt? entry))
+                entry = attempts[placeId] = new MatchmakerAttempt { Count = 0, LastUtc = DateTime.UtcNow };
+            else if (DateTime.UtcNow - entry.LastUtc > AttemptResetWindow)
+                entry.Count = 0;
+            entry.Count++;
+            entry.LastUtc = DateTime.UtcNow;
+            App.State.Save();
+            return entry.Count;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Attempt counter failed: " + ex.Message);
+            return 1;
+        }
+    }
+
+    private static void ClearAttempt(long placeId)
+    {
+        try
+        {
+            Dictionary<long, MatchmakerAttempt>? attempts = App.State.Prop.MatchmakerAttempts;
+            if (attempts != null && attempts.Remove(placeId))
+                App.State.Save();
+        }
+        catch { }
+    }
+
+    private static void PruneOldAttempts(Dictionary<long, MatchmakerAttempt> history)
+    {
+        DateTime cutoff = DateTime.UtcNow - TimeSpan.FromHours(1.0);
+        foreach (long key in history.Where(kv => kv.Value.LastUtc < cutoff).Select(kv => kv.Key).ToList())
+            history.Remove(key);
+    }
+
+    private static void ActivateMacPrompt()
+    {
+        if (OperatingSystem.IsMacOS())
+            Voidstrap.Platform.MacOS.MacOSApplication.Activate();
+    }
+
+    private static async Task ShowMacAlertAsync(string text)
+    {
+        try
+        {
+            Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
+            if (host == null)
+                return;
+            Voidstrap.Platform.OperationResult result = await host
+                .Notifications.ShowAsync(new Voidstrap.Platform.NotificationRequest("Voidstrap Matchmaker", text))
+                .ConfigureAwait(false);
+            if (!result.Succeeded)
+                App.Logger.WriteLine(LOG_IDENT, "Notification failed: " + result.Failure?.Message);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Notification failed: " + ex.Message);
+        }
+    }
+
+    private void ShowAlert(string text, int durationSeconds)
+    {
+        if (!App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyRoblox)
+            return;
+        if (Voidstrap.Utility.Platform.IsMacOS)
+        {
+            _ = ShowMacAlertAsync(text);
+            return;
+        }
+        try
+        {
+            NotifyIconWrapper? icon = NotifyIconResolver?.Invoke();
+            if (icon != null && icon.EnableAppNotifications)
+                icon.ShowAlert("Voidstrap Matchmaker", text, durationSeconds, null);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Notification failed: " + ex.Message);
+        }
+    }
+
+    public void Dispose()
+    {
+        if (_disposed)
+            return;
+        _disposed = true;
+        CompleteLinuxRejoinLease();
+        try
+        {
+            _activityWatcher.OnGameJoining -= OnGameJoining;
+            _activityWatcher.OnGameJoin -= OnGameJoin;
+        }
+        catch { }
+        CancelPrefetch();
+        try
+        {
+            CancellationTokenSource? current = Interlocked.Exchange(ref _currentCts, null);
+            current?.Cancel();
+        }
+        catch { }
+        GC.SuppressFinalize(this);
+    }
 }

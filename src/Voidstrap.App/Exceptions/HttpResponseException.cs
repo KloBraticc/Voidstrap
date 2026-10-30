@@ -4,9 +4,9 @@ using System.Net.Http;
 namespace Voidstrap.Exceptions;
 
 internal sealed class HttpResponseException(HttpResponseMessage responseMessage)
-	: Exception(
-		$"Could not connect to {responseMessage.RequestMessage?.RequestUri} because it returned HTTP {(int)responseMessage.StatusCode} ({responseMessage.ReasonPhrase})"
-	)
+    : Exception(
+        $"Could not connect to {responseMessage.RequestMessage?.RequestUri} because it returned HTTP {(int)responseMessage.StatusCode} ({responseMessage.ReasonPhrase})"
+    )
 {
-	public HttpResponseMessage ResponseMessage { get; } = responseMessage;
+    public HttpResponseMessage ResponseMessage { get; } = responseMessage;
 }

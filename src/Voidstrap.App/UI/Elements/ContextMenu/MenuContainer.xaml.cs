@@ -2087,16 +2087,16 @@ public partial class MenuContainer : WpfUiWindow
             case ContentControl contentControl:
                 return ExtractText(contentControl.Content);
             case Panel panel:
-            {
-                foreach (UIElement child in panel.Children)
                 {
-                    string value = ExtractText(child);
-                    if (!string.IsNullOrWhiteSpace(value))
-                        return value;
-                }
+                    foreach (UIElement child in panel.Children)
+                    {
+                        string value = ExtractText(child);
+                        if (!string.IsNullOrWhiteSpace(value))
+                            return value;
+                    }
 
-                return string.Empty;
-            }
+                    return string.Empty;
+                }
             case Decorator decorator:
                 return ExtractText(decorator.Child);
             default:

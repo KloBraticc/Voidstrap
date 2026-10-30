@@ -148,19 +148,19 @@ public partial class ThemeChangesDialog : WpfUiWindow
 
         try
         {
-			if (Voidstrap.Utility.Platform.UsesPortableUi)
-			{
-				BitmapSource? portable = Voidstrap.Utility.SafeImaging.FromFile(path, 512);
-				if (portable == null)
-				{
-					info.Text = "Could not preview this image.";
-					return;
-				}
-				target.Source = portable;
-				target.Visibility = Visibility.Visible;
-				info.Text = portable.PixelWidth + " by " + portable.PixelHeight + ", " + Describe(size);
-				return;
-			}
+            if (Voidstrap.Utility.Platform.UsesPortableUi)
+            {
+                BitmapSource? portable = Voidstrap.Utility.SafeImaging.FromFile(path, 512);
+                if (portable == null)
+                {
+                    info.Text = "Could not preview this image.";
+                    return;
+                }
+                target.Source = portable;
+                target.Visibility = Visibility.Visible;
+                info.Text = portable.PixelWidth + " by " + portable.PixelHeight + ", " + Describe(size);
+                return;
+            }
             BitmapImage bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.CacheOption = BitmapCacheOption.OnLoad;

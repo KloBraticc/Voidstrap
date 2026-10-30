@@ -22,1762 +22,1762 @@ namespace Voidstrap;
 
 internal sealed partial class Installer
 {
-	private sealed class DeferredCleanupPayload
-	{
-		public int ProcessId { get; set; }
-		public long ProcessStartTicks { get; set; }
-		public string Target { get; set; } = "";
-		public bool DeleteDirectory { get; set; }
-		public string MarkerName { get; set; } = "";
-	}
-
-	public string InstallLocation = GetDefaultInstallLocation();
-
-	public bool CreateDesktopShortcuts = true;
-
-	public bool CreateStartMenuShortcuts = true;
-
-	public bool ExtractRobloxIcons;
-
-	public bool CreatePlayerShortcut;
-
-	public bool CreateStudioShortcut;
-
-	public bool CreateSettingsShortcut;
-
-	internal BootstrapperImportPlan? PendingImport { get; set; }
-	internal Voidstrap.Models.SettingTasks.ShortcutTask[]? FunctionShortcutTasks { get; set; }
-
-	public bool EnableAnalytics = true;
-
-	public bool VoidstrapRPCReal = true;
-
-	public bool IsImplicitInstall { get; }
-
-	private static string DesktopShortcut => Path.Combine(Paths.Desktop, "Voidstrap" + Voidstrap.Utility.Shortcut.Suffix);
-
-	private static string StartMenuShortcut => Path.Combine(Paths.WindowsStartMenu, "Voidstrap.lnk");
-
-	public bool ExistingDataPresent => File.Exists(Path.Combine(InstallLocation, "Settings.json"));
-
-	public string InstallLocationError { get; set; } = "";
-
-	public void DoInstall()
-	{
-		App.Logger.WriteLine("Installer::DoInstall", "Beginning installation");
-		if (!Voidstrap.Utility.Platform.IsWindows)
-		{
-			Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
-			string? applicationPath = Paths.Process;
-			if (host == null || string.IsNullOrWhiteSpace(applicationPath))
-			{
-				throw new InvalidOperationException("Platform storage is unavailable");
-			}
-			if (host.Paths is Voidstrap.Platform.Linux.LinuxPaths linuxPaths && !string.IsNullOrWhiteSpace(InstallLocation))
-			{
-				linuxPaths.RelocateData(InstallLocation);
-				App.Logger.WriteLine("Installer::DoInstall", "Voidstrap data will live in " + linuxPaths.Storage.Data);
-			}
-			Voidstrap.Platform.OperationResult directoryResult = host.Paths.EnsureDirectoriesAsync().GetAwaiter().GetResult();
-			if (!directoryResult.Succeeded)
-			{
-				throw new IOException(directoryResult.Failure?.Message ?? "Data folders could not be prepared");
-			}
-			Paths.InitializePortable(host.Paths.Storage, applicationPath);
-			InstallLocation = Paths.Base;
-		}
-		else
-		{
-			Directory.CreateDirectory(InstallLocation);
-			Paths.Initialize(InstallLocation);
-		}
-		Paths.EnsureDirectories();
-		if (
-			Voidstrap.Utility.Platform.IsWindows
-			&& !IsImplicitInstall
-			&& !string.Equals(Paths.Process, Paths.Application, StringComparison.OrdinalIgnoreCase)
-		)
-		{
-			TrySafe("clear read only", () => Filesystem.AssertReadOnly(Paths.Application));
-			try
-			{
-				File.Copy(Paths.Process, Paths.Application, overwrite: true);
-				Voidstrap.Utility.InstallRecord.MakeExecutable(Paths.Application);
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine("Installer::DoInstall", "Could not overwrite executable");
-				App.Logger.WriteException("Installer::DoInstall", ex);
-				throw new IOException(Strings.Installer_Install_CannotOverwrite, ex);
-			}
-		}
-		TrySafe("install record", () => Voidstrap.Utility.InstallRecord.Write(Paths.Base));
-		if (Voidstrap.Utility.Platform.SupportsRegistry)
-		{
-			TrySafe(
-				"uninstall registry entry",
-				delegate
-				{
-					using RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(
-						"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Voidstrap"
-					);
-					registryKey.SetValueSafe("DisplayIcon", Paths.Application + ",0");
-					registryKey.SetValueSafe("DisplayName", "Voidstrap");
-					registryKey.SetValueSafe("DisplayVersion", App.Version);
-					if (registryKey.GetValue("InstallDate") == null)
-					{
-						registryKey.SetValueSafe("InstallDate", DateTime.Now.ToString("yyyyMMdd"));
-					}
-					registryKey.SetValueSafe("InstallLocation", Paths.Base);
-					registryKey.SetValueSafe("NoRepair", 1);
-					registryKey.SetValueSafe("Publisher", "Voidstrap");
-					registryKey.SetValueSafe("ModifyPath", "\"" + Paths.Application + "\" -settings");
-					registryKey.SetValueSafe("QuietUninstallString", "\"" + Paths.Application + "\" -uninstall -quiet");
-					registryKey.SetValueSafe("UninstallString", "\"" + Paths.Application + "\" -uninstall");
-					registryKey.SetValueSafe("HelpLink", App.ProjectHelpLink);
-					registryKey.SetValueSafe("URLInfoAbout", Voidstrap.Utility.GitHubCache.PreferredRepository + "/issues/new");
-					registryKey.SetValueSafe("URLUpdateInfo", Voidstrap.Utility.GitHubCache.PreferredRepository + "/releases");
-				}
-			);
-			TrySafe("api registration", WindowsRegistry.RegisterApis);
-			TrySafe("player registration", WindowsRegistry.RegisterPlayer);
-			TrySafe("studio protocol registration", () => WindowsRegistry.RegisterStudioProtocol(Paths.Application, "-studio \"%1\""));
-		}
-		App.Settings.Load(alertFailure: false);
-		App.State.Load(alertFailure: false);
-		TrySafe("install location repair", () => InstallLocationResolver.Repair(Paths.Base));
-		App.FastFlags.Load(alertFailure: false);
-		if (PendingImport != null)
-			BootstrapperSettingsImport.Apply(PendingImport, App.Settings, App.FastFlags);
-		if (FunctionShortcutTasks != null)
-			foreach (var task in FunctionShortcutTasks)
-				task.StoreAppearance();
-		if (PendingImport?.Settings.ContainsKey(nameof(EnableAnalytics)) != true)
-			App.Settings.Prop.EnableAnalytics = EnableAnalytics;
-		App.Settings.SaveChecked();
-		if (App.IsStudioVisible)
-		{
-			TrySafe("studio registration", WindowsRegistry.RegisterStudio);
-		}
-		if (Voidstrap.Utility.Platform.IsWindows)
-		{
-			if (CreateDesktopShortcuts)
-			{
-				TrySafe("desktop shortcut", () => Voidstrap.Utility.Shortcut.Create(Paths.Application, "", DesktopShortcut));
-			}
-			if (CreateStartMenuShortcuts)
-			{
-				TrySafe("start menu shortcut", () => Voidstrap.Utility.Shortcut.Create(Paths.Application, "", StartMenuShortcut));
-			}
-			if (FunctionShortcutTasks != null)
-				CreateFunctionShortcuts();
-			else
-				TrySafe("function shortcuts", CreateFunctionShortcuts);
-		}
-		else if (Voidstrap.Utility.Platform.IsMacOS)
-		{
-			if (CreateDesktopShortcuts)
-			{
-				TrySafe("desktop shortcut", () => Voidstrap.Utility.Shortcut.Create(Paths.Application, "", DesktopShortcut));
-			}
-			if (FunctionShortcutTasks != null)
-				CreateFunctionShortcuts();
-			else
-				TrySafe("function shortcuts", CreateFunctionShortcuts);
-		}
-		else if (Voidstrap.Utility.Platform.IsLinux)
-		{
-			TrySafe("desktop entry", () => Voidstrap.Utility.LinuxDesktopEntry.Install(Paths.Application, CreateDesktopShortcuts));
-			if (FunctionShortcutTasks != null)
-				CreateFunctionShortcuts();
-			else
-				TrySafe("function shortcuts", CreateFunctionShortcuts);
-		}
-		App.Settings.Save();
-		App.Logger.WriteLine("Installer::DoInstall", "Installation finished");
-	}
-
-	private static string GetDefaultInstallLocation()
-	{
-		if (!Voidstrap.Utility.Platform.IsWindows && Voidstrap.Utility.Platform.RuntimeHost is Voidstrap.Platform.IPlatformHost host)
-		{
-			return host.Paths.Storage.ApplicationSupport;
-		}
-		return Path.Combine(Paths.LocalAppData, "Voidstrap");
-	}
-
-	private bool ValidateLocation()
-	{
-		try
-		{
-			return ValidateLocationCore();
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("Installer::ValidateLocation", "Rejected malformed path: " + ex.Message);
-			return false;
-		}
-	}
-
-	private bool ValidateLocationCore()
-	{
-		if (InstallLocation.Length <= 3)
-		{
-			return false;
-		}
-		if (InstallLocation.StartsWith("\\\\", StringComparison.Ordinal))
-		{
-			return false;
-		}
-		if (
-			InstallLocation.StartsWith(Path.GetTempPath(), StringComparison.InvariantCultureIgnoreCase)
-			|| InstallLocation.Contains("\\Temp\\", StringComparison.InvariantCultureIgnoreCase)
-		)
-		{
-			return false;
-		}
-		if (IsCloudSyncedPath(InstallLocation))
-		{
-			return false;
-		}
-		if (
-			string.Compare(Directory.GetParent(InstallLocation)?.FullName, Paths.UserProfile, StringComparison.OrdinalIgnoreCase) == 0
-			&& !(
-				Voidstrap.Utility.Platform.IsLinux
-				&& string.Equals(
-					Path.GetFileName(Path.TrimEndingDirectorySeparator(InstallLocation)),
-					"voidstrap",
-					StringComparison.OrdinalIgnoreCase
-				)
-			)
-		)
-		{
-			return false;
-		}
-		if (InstallLocation.Contains("Program Files"))
-		{
-			return false;
-		}
-		return true;
-	}
-
-	private void CreateFunctionShortcuts()
-	{
-		if (FunctionShortcutTasks != null)
-		{
-			bool[] wanted = [CreatePlayerShortcut, CreateStudioShortcut, CreateSettingsShortcut];
-			for (int index = 0; index < FunctionShortcutTasks.Length; index++)
-			{
-				if (!wanted[index])
-					continue;
-				var task = FunctionShortcutTasks[index];
-				task.NewState = true;
-				task.Execute();
-			}
-			App.Settings.FlushDeferred();
-		}
-		else
-		{
-			TryCreateShortcut(CreatePlayerShortcut, "-player", Strings.LaunchMenu_LaunchRoblox);
-			TryCreateShortcut(CreateStudioShortcut, "-studio", Strings.LaunchMenu_LaunchRobloxStudio);
-			TryCreateShortcut(CreateSettingsShortcut, "-settings", Strings.Menu_Title);
-		}
-		if (!ExtractRobloxIcons)
-		{
-			return;
-		}
-		try
-		{
-			Voidstrap.Models.SettingTasks.ExtractIconsTask.ExtractAll(overwrite: true);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("Installer::CreateFunctionShortcuts", "Could not extract Roblox icons: " + ex.Message);
-		}
-	}
-
-	private static void TryCreateShortcut(bool wanted, string flags, string name)
-	{
-		if (!wanted)
-		{
-			return;
-		}
-		try
-		{
-			Voidstrap.Utility.Shortcut.Create(
-				Paths.Application,
-				flags,
-				Path.Combine(Paths.Desktop, name + Voidstrap.Utility.Shortcut.Suffix)
-			);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("Installer::TryCreateShortcut", "Could not create the " + name + " shortcut: " + ex.Message);
-		}
-	}
-
-	public bool CheckInstallLocation()
-	{
-		InstallLocationError = "";
-		if (string.IsNullOrEmpty(InstallLocation))
-		{
-			InstallLocationError = Strings.Menu_InstallLocation_NotSet;
-		}
-		else if (!ValidateLocation())
-		{
-			InstallLocationError = Strings.Menu_InstallLocation_CantInstall;
-		}
-		else
-		{
-			if (
-				!IsImplicitInstall
-				&& !InstallLocation.EndsWith("Voidstrap", StringComparison.InvariantCultureIgnoreCase)
-				&& Directory.Exists(InstallLocation)
-				&& Directory.EnumerateFileSystemEntries(InstallLocation).Any()
-			)
-			{
-				string text = Path.Combine(InstallLocation, "Voidstrap");
-				switch (
-					Frontend.ShowMessageBox(
-						string.Format(Strings.Menu_InstallLocation_NotEmpty, text),
-						MessageBoxImage.Exclamation,
-						MessageBoxButton.YesNoCancel,
-						MessageBoxResult.Yes
-					)
-				)
-				{
-					case MessageBoxResult.Yes:
-						InstallLocation = text;
-						break;
-					case MessageBoxResult.None:
-					case MessageBoxResult.Cancel:
-						return false;
-				}
-			}
-			try
-			{
-				string path = Path.Combine(InstallLocation, "VoidstrapWriteTest.txt");
-				Directory.CreateDirectory(InstallLocation);
-				File.WriteAllText(path, "");
-				File.Delete(path);
-			}
-			catch (UnauthorizedAccessException)
-			{
-				InstallLocationError = Strings.Menu_InstallLocation_NoWritePerms;
-			}
-			catch (Exception ex2)
-			{
-				InstallLocationError = ex2.Message;
-			}
-		}
-		return string.IsNullOrEmpty(InstallLocationError);
-	}
-
-	private static readonly string[] PreservedFolders = ["Config", "VoidstrapMods", "Themes", "Modifications"];
-
-	private static readonly string[] CloudEnvVars = ["OneDrive", "OneDriveConsumer", "OneDriveCommercial"];
-
-	private static readonly string[] CloudFolderNames =
-	[
-		"OneDrive",
-		"Dropbox",
-		"Google Drive",
-		"GoogleDrive",
-		"iCloudDrive",
-		"Creative Cloud Files",
-		"Box Sync",
-		"MEGAsync",
-		"pCloudDrive",
-		"Nextcloud",
-		"Syncthing",
-		"Yandex.Disk",
-	];
-
-	public static bool IsCloudSyncedPath(string? path)
-	{
-		if (string.IsNullOrWhiteSpace(path))
-		{
-			return false;
-		}
-
-		string full;
-		try
-		{
-			full = Path.GetFullPath(path).TrimEnd('\\') + "\\";
-		}
-		catch
-		{
-			return false;
-		}
-
-		foreach (string variable in CloudEnvVars)
-		{
-			string root;
-			try
-			{
-				root = Environment.GetEnvironmentVariable(variable) ?? "";
-			}
-			catch
-			{
-				continue;
-			}
-
-			if (root.Length == 0)
-			{
-				continue;
-			}
-
-			try
-			{
-				root = Path.GetFullPath(root).TrimEnd('\\') + "\\";
-			}
-			catch
-			{
-				continue;
-			}
-
-			if (full.StartsWith(root, StringComparison.InvariantCultureIgnoreCase))
-			{
-				return true;
-			}
-		}
-
-		foreach (string folder in CloudFolderNames)
-		{
-			if (
-				full.Contains("\\" + folder + "\\", StringComparison.InvariantCultureIgnoreCase)
-				|| full.Contains("\\" + folder + " - ", StringComparison.InvariantCultureIgnoreCase)
-			)
-			{
-				return true;
-			}
-		}
-
-		return HasCloudPlaceholderAttribute(full);
-	}
-
-	private static bool HasCloudPlaceholderAttribute(string path)
-	{
-		try
-		{
-			string probe = path;
-			for (int depth = 0; depth < 6 && probe.Length > 3; depth++)
-			{
-				if (Directory.Exists(probe))
-				{
-					FileAttributes attributes = File.GetAttributes(probe);
-					if (((int)attributes & 0x400000) != 0 || ((int)attributes & 0x40000) != 0 || ((int)attributes & 0x1000) != 0)
-					{
-						return true;
-					}
-				}
-
-				string? parent = Path.GetDirectoryName(probe.TrimEnd('\\'));
-				if (string.IsNullOrEmpty(parent) || string.Equals(parent, probe, StringComparison.OrdinalIgnoreCase))
-				{
-					break;
-				}
-
-				probe = parent;
-			}
-		}
-		catch { }
-
-		return false;
-	}
-
-	private static void TrySafe(string label, Action action)
-	{
-		try
-		{
-			action();
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("Installer::TrySafe", "Step failed (" + label + "): " + ex.Message);
-		}
-	}
-
-	private static string[] SafeSubdirectories(string root)
-	{
-		try
-		{
-			return Directory.Exists(root) ? Directory.GetDirectories(root) : [];
-		}
-		catch
-		{
-			return [];
-		}
-	}
-
-	private static void ForceDeleteDirectory(string path)
-	{
-		if (!Directory.Exists(path))
-			return;
-		try
-		{
-			ClearReadOnly(path);
-			Directory.Delete(path, recursive: true);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("Installer::DoUninstall", "Could not delete " + path + ": " + ex.Message);
-		}
-	}
-
-	private static void ClearReadOnly(string path)
-	{
-		try
-		{
-			EnumerationOptions options = new EnumerationOptions
-			{
-				RecurseSubdirectories = true,
-				IgnoreInaccessible = true,
-				AttributesToSkip = FileAttributes.ReparsePoint,
-			};
-			foreach (string file in Directory.EnumerateFiles(path, "*", options))
-			{
-				try
-				{
-					FileAttributes attributes = File.GetAttributes(file);
-					if ((attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
-					{
-						File.SetAttributes(file, attributes & ~FileAttributes.ReadOnly);
-					}
-				}
-				catch { }
-			}
-		}
-		catch { }
-	}
-
-	public static async Task<bool> DoUninstallAsync(bool keepData)
-	{
-		try
-		{
-			return await DoUninstallCoreAsync(keepData);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("Installer::DoUninstall", ex);
-			Frontend.ShowExceptionDialog(ex);
-			return false;
-		}
-	}
-
-	private static async Task<bool> DoUninstallCoreAsync(bool keepData)
-	{
-		List<Process> list = [];
-		try
-		{
-			if (!string.IsNullOrEmpty(App.State.Prop.Player.VersionGuid))
-			{
-				list.AddRange(Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName));
-			}
-			if (App.IsStudioVisible)
-			{
-				list.AddRange(Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxStudioProcessName));
-			}
-			if (
-				list.Count > 0
-				&& Frontend.ShowMessageBox(
-					Strings.Bootstrapper_Uninstall_RobloxRunning,
-					MessageBoxImage.Asterisk,
-					MessageBoxButton.OKCancel,
-					MessageBoxResult.OK
-				) != MessageBoxResult.OK
-			)
-			{
-				App.Terminate(ErrorCode.ERROR_CANCELLED);
-				return false;
-			}
-			foreach (Process item in list)
-			{
-				try
-				{
-					item.Kill();
-				}
-				catch (Exception value)
-				{
-					App.Logger.WriteLine("Installer::DoUninstall", $"Failed to close process! {value}");
-				}
-			}
-		}
-		finally
-		{
-			foreach (Process item in list)
-			{
-				item.Dispose();
-			}
-		}
-		Voidstrap.Integrations.Nvidia.NvidiaApplyResult cleanup =
-			await Voidstrap.Integrations.NvidiaProfileManager.RestoreForUninstallAsync();
-		if (!cleanup.Ok)
-		{
-			if (
-				Frontend.ShowMessageBox(
-					string.Format(Strings.Bootstrapper_Uninstall_NvidiaFailed, cleanup.Message),
-					MessageBoxImage.Warning,
-					MessageBoxButton.YesNo,
-					MessageBoxResult.No
-				) != MessageBoxResult.Yes
-			)
-				return false;
-			App.Logger.WriteLine("Installer::DoUninstall", "Continuing uninstall without NVIDIA cleanup");
-		}
-		Voidstrap.Integrations.AssetProxy.AssetWarpLegacyCleanup.Run();
-		Voidstrap.Utility.LinuxDesktopEntry.Remove();
-		Voidstrap.Utility.InstallRecord.Delete();
-		if (Voidstrap.Utility.Platform.IsLinux)
-		{
-			if (keepData)
-			{
-				ForceDeleteDirectory(Paths.Cache);
-				ForceDeleteDirectory(Paths.Logs);
-				ForceDeleteDirectory(Paths.Temp);
-			}
-			else
-			{
-				Paths.ResetUserData();
-			}
-			return true;
-		}
-		if (Voidstrap.Utility.Platform.IsWindows)
-		{
-			WindowsRegistry.Unregister("voidstrap");
-			using RegistryKey? registryKey = Registry.CurrentUser.OpenSubKey(
-				"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\roblox-player"
-			);
-			object? obj = registryKey?.GetValue("InstallLocation");
-			if (registryKey == null || obj is not string)
-			{
-				WindowsRegistry.Unregister("roblox");
-				WindowsRegistry.Unregister("roblox-player");
-			}
-			else
-			{
-				WindowsRegistry.RegisterPlayer(Path.Combine((string)obj, "RobloxPlayerBeta.exe"), "%1");
-			}
-			using RegistryKey? registryKey2 = Registry.CurrentUser.OpenSubKey(
-				"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\roblox-studio"
-			);
-			object? obj2 = registryKey2?.GetValue("InstallLocation");
-			if (registryKey2 == null || obj2 is not string)
-			{
-				WindowsRegistry.Unregister("roblox-studio");
-				WindowsRegistry.Unregister("roblox-studio-auth");
-				WindowsRegistry.Unregister("Roblox.Place");
-				WindowsRegistry.Unregister(".rbxl");
-				WindowsRegistry.Unregister(".rbxlx");
-			}
-			else
-			{
-				string handler = Path.Combine((string)obj2, "RobloxStudioBeta.exe");
-				WindowsRegistry.RegisterStudioProtocol(handler, "%1");
-				WindowsRegistry.RegisterStudioFileClass(handler, "-ide \"%1\"");
-			}
-			TrySafe(
-				"registry Software\\Voidstrap",
-				delegate
-				{
-					Registry.CurrentUser.DeleteSubKeyTree("Software\\Voidstrap", throwOnMissingSubKey: false);
-				}
-			);
-		}
-		List<Action> list2 =
-		[
-			delegate
-			{
-				if (!Voidstrap.Utility.Platform.IsWindows)
-					return;
-				foreach (
-					string item2 in from x in Directory.GetFiles(Paths.Desktop)
-					where x.EndsWith("lnk", StringComparison.Ordinal)
-					select x
-				)
-				{
-					if (ShellLink.Shortcut.ReadFromFile(item2).ExtraData.EnvironmentVariableDataBlock?.TargetUnicode == Paths.Application)
-					{
-						File.Delete(item2);
-					}
-				}
-			},
-			delegate
-			{
-				if (!Voidstrap.Utility.Platform.IsWindows)
-					return;
-				File.Delete(StartMenuShortcut);
-			},
-			delegate
-			{
-				ForceDeleteDirectory(Paths.Versions);
-			},
-			delegate
-			{
-				ForceDeleteDirectory(Paths.Downloads);
-			},
-			delegate
-			{
-				ForceDeleteDirectory(Paths.Cache);
-			},
-			delegate
-			{
-				ForceDeleteDirectory(Paths.RobloxClients);
-			},
-			delegate
-			{
-				File.Delete(App.State.FileLocation);
-			},
-			delegate
-			{
-				if (Paths.Roblox == Path.Combine(Paths.Base, "Roblox"))
-				{
-					ForceDeleteDirectory(Paths.Roblox);
-				}
-			},
-		];
-		if (!keepData)
-		{
-			list2.AddRange([
-				delegate
-				{
-					ForceDeleteDirectory(Paths.Mods);
-				},
-				delegate
-				{
-					ForceDeleteDirectory(Paths.Logs);
-				},
-				delegate
-				{
-					File.Delete(App.Settings.FileLocation);
-				},
-			]);
-		}
-		bool flag3 = !keepData && Directory.Exists(Paths.Base) && Directory.GetFiles(Paths.Base).Length <= 3;
-		if (flag3)
-		{
-			list2.Add(
-				delegate
-				{
-					ForceDeleteDirectory(Paths.Base);
-				}
-			);
-		}
-		foreach (string leftover in SafeSubdirectories(Paths.Base))
-		{
-			string target = leftover;
-			string folderName = Path.GetFileName(target.TrimEnd('\\'));
-			if (keepData && PreservedFolders.Contains(folderName, StringComparer.OrdinalIgnoreCase))
-			{
-				continue;
-			}
-
-			list2.Add(
-				delegate
-				{
-					ForceDeleteDirectory(target);
-				}
-			);
-		}
-
-		list2.Add(
-			delegate
-			{
-				ForceDeleteDirectory(Paths.Logs);
-			}
-		);
-
-		list2.Add(
-			delegate
-			{
-				ForceDeleteDirectory(Path.Combine(Path.GetTempPath(), "Voidstrap"));
-			}
-		);
-
-		list2.Add(
-			delegate
-			{
-				if (Voidstrap.Utility.Platform.IsWindows)
-					Registry.CurrentUser.DeleteSubKeyTree(
-						"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Voidstrap",
-						throwOnMissingSubKey: false
-					);
-			}
-		);
-		await Task.Run(() =>
-			{
-				foreach (Action item3 in list2)
-				{
-					try
-					{
-						item3();
-					}
-					catch (Exception ex)
-					{
-						App.Logger.WriteLine(
-							"Installer::DoUninstall",
-							$"Encountered exception when running cleanup sequence (#{list2.IndexOf(item3)})"
-						);
-						App.Logger.WriteException("Installer::DoUninstall", ex);
-					}
-				}
-			})
-			.ConfigureAwait(true);
-		if (Directory.Exists(Paths.Base))
-		{
-			ScheduleDeferredCleanup(Paths.Base, Paths.Application, flag3);
-		}
-		return true;
-	}
-
-	private static void ScheduleDeferredCleanup(string basePath, string appPath, bool deleteFolder)
-	{
-		ScheduleDeferredCleanup(deleteFolder ? basePath : appPath, deleteFolder, "Installer::DoUninstall");
-	}
-
-	private static void ScheduleDeferredCleanup(string target, bool deleteDirectory, string logSource)
-	{
-		try
-		{
-			string fullTarget = Path.GetFullPath(target).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-			string root = deleteDirectory ? fullTarget : Path.GetDirectoryName(fullTarget) ?? "";
-			if (
-				!IsOwnedInstallRoot(root)
-				|| (
-					!deleteDirectory
-					&& !string.Equals(
-						fullTarget,
-						Path.Combine(root, Path.GetFileName(Paths.Application)),
-						StringComparison.OrdinalIgnoreCase
-					)
-				)
-			)
-				throw new InvalidOperationException("The deferred cleanup target is not an owned install path");
-
-			string markerName = ".Voidstrap.cleanup." + Guid.NewGuid().ToString("N");
-			string markerPath = Path.Combine(root, markerName);
-			using Process current = Process.GetCurrentProcess();
-			var payload = new DeferredCleanupPayload
-			{
-				ProcessId = current.Id,
-				ProcessStartTicks = current.StartTime.ToUniversalTime().Ticks,
-				Target = fullTarget,
-				DeleteDirectory = deleteDirectory,
-				MarkerName = markerName,
-			};
-			File.WriteAllText(markerPath, JsonSerializer.Serialize(payload), new UTF8Encoding(false));
-			CleanupOldHelpers();
-			string helperDirectory = Path.Combine(CleanupHelperRoot, Guid.NewGuid().ToString("N"));
-			Directory.CreateDirectory(helperDirectory);
-			string helperPath = Path.Combine(helperDirectory, Path.GetFileName(Paths.Application));
-			File.Copy(Environment.ProcessPath ?? Paths.Process, helperPath, false);
-			InstallRecord.MakeExecutable(helperPath);
-			var start = new ProcessStartInfo { FileName = helperPath, UseShellExecute = false };
-			start.ArgumentList.Add("-deferredcleanup");
-			start.ArgumentList.Add(markerPath);
-			using Process? helper = Process.Start(start);
-			if (helper == null)
-				throw new InvalidOperationException("The deferred cleanup helper did not start");
-			App.Logger.WriteLine(logSource, "Scheduled deferred removal of " + fullTarget);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine(logSource, "Could not schedule deferred cleanup: " + ex.Message);
-		}
-	}
-
-	internal static async Task RunDeferredCleanupAsync(string? markerArgument)
-	{
-		if (string.IsNullOrWhiteSpace(markerArgument) || markerArgument.Length > 4096)
-			return;
-		DeferredCleanupPayload? payload;
-		try
-		{
-			FileInfo marker = new(Path.GetFullPath(markerArgument));
-			if (!marker.Exists || marker.Length > 16384 || !marker.Name.StartsWith(".Voidstrap.cleanup.", StringComparison.Ordinal))
-				return;
-			payload = JsonSerializer.Deserialize<DeferredCleanupPayload>(File.ReadAllBytes(marker.FullName));
-			if (payload == null || !string.Equals(payload.MarkerName, marker.Name, StringComparison.Ordinal))
-				return;
-		}
-		catch
-		{
-			return;
-		}
-		if (payload.ProcessId <= 0 || payload.ProcessStartTicks <= 0)
-			return;
-
-		string fullTarget;
-		string root;
-		string markerPath;
-		try
-		{
-			fullTarget = Path.GetFullPath(payload.Target).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-			root = payload.DeleteDirectory ? fullTarget : Path.GetDirectoryName(fullTarget) ?? "";
-			if (
-				!IsOwnedInstallRoot(root)
-				|| Path.GetFileName(payload.MarkerName) != payload.MarkerName
-				|| !payload.MarkerName.StartsWith(".Voidstrap.cleanup.", StringComparison.Ordinal)
-			)
-				return;
-			if (!payload.DeleteDirectory)
-			{
-				string fileName = Path.GetFileName(fullTarget);
-				if (
-					!string.Equals(fileName, "Voidstrap.exe", StringComparison.OrdinalIgnoreCase)
-					&& !string.Equals(fileName, "Voidstrap", StringComparison.OrdinalIgnoreCase)
-				)
-					return;
-			}
-			markerPath = Path.Combine(root, payload.MarkerName);
-			if (!string.Equals(Path.GetFullPath(markerPath), Path.GetFullPath(markerArgument), StringComparison.OrdinalIgnoreCase))
-				return;
-		}
-		catch
-		{
-			return;
-		}
-
-		try
-		{
-			using Process process = Process.GetProcessById(payload.ProcessId);
-			if (process.StartTime.ToUniversalTime().Ticks != payload.ProcessStartTicks)
-				return;
-			using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(45));
-			await process.WaitForExitAsync(timeout.Token).ConfigureAwait(false);
-		}
-		catch (ArgumentException) { }
-		catch (OperationCanceledException)
-		{
-			return;
-		}
-		catch
-		{
-			return;
-		}
-
-		for (int attempt = 0; attempt < 6; attempt++)
-		{
-			try
-			{
-				if (!File.Exists(markerPath))
-					return;
-				if (payload.DeleteDirectory)
-				{
-					ForceDeleteDirectory(fullTarget);
-					if (Directory.Exists(fullTarget))
-						throw new IOException("The deferred cleanup directory still exists");
-				}
-				else
-				{
-					File.Delete(fullTarget);
-					if (File.Exists(fullTarget))
-						throw new IOException("The deferred cleanup file still exists");
-					File.Delete(markerPath);
-				}
-				break;
-			}
-			catch when (attempt < 5)
-			{
-				await Task.Delay(500).ConfigureAwait(false);
-			}
-			catch
-			{
-				break;
-			}
-		}
-		if (Voidstrap.Utility.Platform.IsWindows)
-			ForceDeleteDirectory(LauncherBinDirectory);
-		TryRemoveCleanupHelper();
-	}
-
-	private static string LauncherBinDirectory =>
-		Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Voidstrap", "Bin");
-
-	private static bool IsOwnedInstallRoot(string root)
-	{
-		if (string.IsNullOrWhiteSpace(root))
-			return false;
-		string fullRoot = Path.GetFullPath(root).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-		if (
-			string.Equals(
-				fullRoot,
-				Path.GetPathRoot(fullRoot)?.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar),
-				StringComparison.OrdinalIgnoreCase
-			)
-		)
-			return false;
-		return File.Exists(Path.Combine(fullRoot, "Voidstrap.exe")) || File.Exists(Path.Combine(fullRoot, "Voidstrap"));
-	}
-
-	private static string CleanupHelperRoot => Path.Combine(Path.GetTempPath(), "VoidstrapCleanup");
-
-	internal static void CleanupOldHelpers()
-	{
-		string root = CleanupHelperRoot;
-		if (!Directory.Exists(root))
-			return;
-		foreach (string entry in Directory.EnumerateFileSystemEntries(root))
-		{
-			try
-			{
-				if (DateTime.UtcNow - Directory.GetLastWriteTimeUtc(entry) < TimeSpan.FromHours(1))
-					continue;
-				if (Directory.Exists(entry))
-					Directory.Delete(entry, true);
-				else
-					File.Delete(entry);
-			}
-			catch { }
-		}
-	}
-
-	internal static void CleanupStaleBundleExtractions()
-	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-			return;
-		string root = Path.Combine(Path.GetTempPath(), ".net");
-		if (!Directory.Exists(root) || IsAnotherVoidstrapRunning())
-			return;
-		List<string> inUse = CurrentBundleDirectories();
-		int removed = 0;
-		foreach (string directory in Directory.EnumerateDirectories(root, "Voidstrap*"))
-		{
-			string name = Path.GetFileName(directory);
-			if (name.StartsWith("VoidstrapCleanup.", StringComparison.OrdinalIgnoreCase))
-			{
-				removed += TryDeleteExtraction(directory, inUse);
-			}
-			else if (
-				name.Equals("Voidstrap", StringComparison.OrdinalIgnoreCase)
-				|| name.StartsWith("Voidstrap (", StringComparison.OrdinalIgnoreCase)
-			)
-			{
-				foreach (string version in Directory.EnumerateDirectories(directory))
-					removed += TryDeleteExtraction(version, inUse);
-			}
-		}
-		if (removed > 0)
-			App.Logger.WriteLine(
-				"Installer::CleanupStaleBundleExtractions",
-				"Removed " + removed + " stale extraction folders from the temp directory"
-			);
-	}
-
-	internal static void CleanupUpdateBackups()
-	{
-		string? exe = Paths.Process;
-		string? folder = Path.GetDirectoryName(exe);
-		if (string.IsNullOrEmpty(exe) || string.IsNullOrEmpty(folder))
-			return;
-		foreach (string backup in Directory.EnumerateFiles(folder, Path.GetFileName(exe) + ".*old"))
-		{
-			try
-			{
-				File.Delete(backup);
-			}
-			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-			{
-				App.Logger.WriteLine(
-					"Installer::CleanupUpdateBackups",
-					"Could not remove the old update backup " + Path.GetFileName(backup) + ": " + ex.Message
-				);
-			}
-		}
-	}
-
-	private static bool IsAnotherVoidstrapRunning()
-	{
-		bool found = false;
-		int self = Environment.ProcessId;
-		foreach (Process process in Process.GetProcesses())
-		{
-			try
-			{
-				found |= process.Id != self && process.ProcessName.StartsWith("Voidstrap", StringComparison.OrdinalIgnoreCase);
-			}
-			catch { }
-			process.Dispose();
-		}
-		return found;
-	}
-
-	private static List<string> CurrentBundleDirectories()
-	{
-		List<string> directories = [WithTrailingSeparator(AppContext.BaseDirectory)];
-		if (AppContext.GetData("NATIVE_DLL_SEARCH_DIRECTORIES") is string native)
-		{
-			foreach (string entry in native.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries))
-				directories.Add(WithTrailingSeparator(entry));
-		}
-		return directories;
-	}
-
-	private static string WithTrailingSeparator(string path)
-	{
-		return Path.TrimEndingDirectorySeparator(Path.GetFullPath(path)) + Path.DirectorySeparatorChar;
-	}
-
-	private static int TryDeleteExtraction(string directory, List<string> inUse)
-	{
-		string full = WithTrailingSeparator(directory);
-		foreach (string path in inUse)
-		{
-			if (path.StartsWith(full, StringComparison.OrdinalIgnoreCase))
-				return 0;
-		}
-		try
-		{
-			Directory.Delete(full, true);
-			return 1;
-		}
-		catch
-		{
-			return 0;
-		}
-	}
-
-	private static void TryRemoveCleanupHelper()
-	{
-		if (Voidstrap.Utility.Platform.IsWindows)
-			return;
-		try
-		{
-			File.Delete(Paths.Process);
-		}
-		catch { }
-	}
-
-	private static string? ReleaseVersion(string? version)
-	{
-		if (string.IsNullOrWhiteSpace(version))
-			return null;
-		int metadata = version.IndexOf('+');
-		return (metadata < 0 ? version : version[..metadata]).Trim();
-	}
-
-	public static async Task HandleUpgradeAsync()
-	{
-		if (
-			!File.Exists(Paths.Application)
-			|| string.Equals(Paths.Process, Paths.Application, StringComparison.OrdinalIgnoreCase)
-			|| App.LaunchSettings.WindowAuditFlag.Active
-		)
-		{
-			return;
-		}
-		bool flag =
-			App.LaunchSettings.UpgradeFlag.Active
-			|| Paths.Process.StartsWith(Path.Combine(Paths.Base, "Updates"), StringComparison.Ordinal)
-			|| Paths.Process.StartsWith(Path.Combine(Paths.LocalAppData, "Temp"), StringComparison.Ordinal)
-			|| Paths.Process.StartsWith(Paths.TempUpdates, StringComparison.Ordinal);
-		string? productVersion = FileVersionInfo.GetVersionInfo(Paths.Application).ProductVersion;
-		string? productVersion2 = FileVersionInfo.GetVersionInfo(Paths.Process).ProductVersion;
-		if (
-			MD5Hash.FromFile(Paths.Process) == MD5Hash.FromFile(Paths.Application)
-			|| (
-				productVersion2 != null
-				&& productVersion != null
-				&& Utilities.CompareVersions(productVersion2, productVersion) == VersionComparison.LessThan
-				&& Frontend.ShowMessageBox(
-					Strings.InstallChecker_VersionLessThanInstalled,
-					MessageBoxImage.Question,
-					MessageBoxButton.YesNo
-				) != MessageBoxResult.Yes
-			)
-			|| (
-				!flag
-				&& Frontend.ShowMessageBox(
-					Strings.InstallChecker_VersionDifferentThanInstalled,
-					MessageBoxImage.Question,
-					MessageBoxButton.YesNo
-				) != MessageBoxResult.Yes
-			)
-		)
-		{
-			return;
-		}
-		App.Logger.WriteLine("Installer::HandleUpgrade", "Doing upgrade");
-		Filesystem.AssertReadOnly(Paths.Application);
-		using InterProcessLock interProcessLock = new("AutoUpdater", TimeSpan.FromSeconds(5L));
-		if (!interProcessLock.IsAcquired)
-		{
-			App.Logger.WriteLine("Installer::HandleUpgrade", "Failed to update! (Could not obtain singleton mutex)");
-			return;
-		}
-		for (int i = 1; i <= 10; i++)
-		{
-			try
-			{
-				ReplaceInstalledExecutable();
-			}
-			catch (Exception ex)
-			{
-				switch (i)
-				{
-					case 1:
-						App.Logger.WriteLine("Installer::HandleUpgrade", "Waiting for write permissions to update version");
-						break;
-					case 10:
-						App.Logger.WriteLine(
-							"Installer::HandleUpgrade",
-							"Failed to update! (Could not get write permissions after 10 tries/5 seconds)"
-						);
-						App.Logger.WriteException("Installer::HandleUpgrade", ex);
-						return;
-				}
-				await Task.Delay(500);
-				continue;
-			}
-			break;
-		}
-		if (Voidstrap.Utility.Platform.SupportsRegistry)
-		{
-			using RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(
-				"Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Voidstrap"
-			);
-			registryKey.SetValueSafe("DisplayVersion", App.Version);
-			registryKey.SetValueSafe("Publisher", "Voidstrap");
-			registryKey.SetValueSafe("HelpLink", App.ProjectHelpLink);
-			registryKey.SetValueSafe("URLInfoAbout", Voidstrap.Utility.GitHubCache.PreferredRepository + "/issues/new");
-			registryKey.SetValueSafe("URLUpdateInfo", Voidstrap.Utility.GitHubCache.PreferredRepository + "/releases");
-		}
-		else
-		{
-			Voidstrap.Utility.InstallRecord.MakeExecutable(Paths.Application);
-			Voidstrap.Utility.LinuxDesktopEntry.Install(Paths.Application);
-		}
-		if (productVersion != null)
-		{
-			if (Utilities.CompareVersions(productVersion, "1.0.3.6") == VersionComparison.LessThan)
-			{
-				TrySafe("legacy install migration", () => MigrateLegacyInstall(flag));
-			}
-			App.Settings.Save();
-			App.FastFlags.Save();
-			App.State.Save();
-		}
-		RefreshAppIcons();
-		string? newVersion = ReleaseVersion(productVersion2);
-		if (newVersion != null && newVersion != ReleaseVersion(productVersion))
-		{
-			Voidstrap.Utility.AppNotifications.RecordInfo(
-				"upgrade:" + newVersion,
-				"Voidstrap updated",
-				"Voidstrap was updated to version " + newVersion + "."
-			);
-		}
-		if (productVersion2 != null && !flag)
-		{
-			Frontend.ShowMessageBox(string.Format(Strings.InstallChecker_Updated, productVersion2), MessageBoxImage.Asterisk);
-		}
-	}
-
-	private sealed record LinuxInstalledCopy(string Path, string Version, long Length, long LastWriteTicks);
-
-	private static string LinuxInstalledCopyFile => Path.Combine(Paths.Base, "InstalledCopy.json");
-
-	public static async Task HandleLinuxUpgradeAsync()
-	{
-		if (
-			!Voidstrap.Utility.Platform.IsLinux
-			|| App.LaunchSettings.IsHelperInvocation
-			|| Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed
-		)
-		{
-			return;
-		}
-		string running = Path.GetFullPath(Paths.Application);
-		string? installed = LinuxDesktopEntry.InstalledTarget();
-		if (installed == null || !File.Exists(running))
-		{
-			return;
-		}
-		if (string.Equals(installed, running, StringComparison.Ordinal))
-		{
-			RecordLinuxInstalledCopy(installed);
-			return;
-		}
-		if (
-			LinuxDesktopEntry.IsVolatileLocation(running)
-			|| Voidstrap.Platform.Linux.LinuxBundleInstaller.IsPackageManagedLocation(Path.GetDirectoryName(running) ?? "/")
-			|| Voidstrap.Platform.Linux.LinuxAppImageHost.HasValidHeader(running)
-				!= Voidstrap.Platform.Linux.LinuxAppImageHost.HasValidHeader(installed)
-			|| MD5Hash.FromFile(running) == MD5Hash.FromFile(installed)
-		)
-		{
-			return;
-		}
-		bool flag = App.LaunchSettings.UpgradeFlag.Active;
-		string? installedVersion = ReadLinuxInstalledVersion(installed);
-		if (
-			(
-				installedVersion != null
-				&& Utilities.CompareVersions(App.Version, installedVersion) == VersionComparison.LessThan
-				&& Frontend.ShowMessageBox(
-					Strings.InstallChecker_VersionLessThanInstalled,
-					MessageBoxImage.Question,
-					MessageBoxButton.YesNo
-				) != MessageBoxResult.Yes
-			)
-			|| (
-				!flag
-				&& Frontend.ShowMessageBox(
-					Strings.InstallChecker_VersionDifferentThanInstalled,
-					MessageBoxImage.Question,
-					MessageBoxButton.YesNo
-				) != MessageBoxResult.Yes
-			)
-		)
-		{
-			App.Logger.WriteLine("Installer::HandleLinuxUpgrade", "Kept the installed copy at " + installed);
-			return;
-		}
-		App.Logger.WriteLine("Installer::HandleLinuxUpgrade", "Doing upgrade of " + installed);
-		for (int i = 1; i <= 10; i++)
-		{
-			try
-			{
-				ReplaceLinuxInstalledCopy(running, installed);
-			}
-			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-			{
-				switch (i)
-				{
-					case 1:
-						App.Logger.WriteLine("Installer::HandleLinuxUpgrade", "Waiting for write permissions to update version");
-						break;
-					case 10:
-						App.Logger.WriteLine(
-							"Installer::HandleLinuxUpgrade",
-							"Failed to update! (Could not get write permissions after 10 tries/5 seconds)"
-						);
-						App.Logger.WriteException("Installer::HandleLinuxUpgrade", ex);
-						return;
-				}
-				await Task.Delay(500);
-				continue;
-			}
-			break;
-		}
-		RecordLinuxInstalledCopy(installed);
-		if (installedVersion != null)
-		{
-			App.Settings.Save();
-			App.FastFlags.Save();
-			App.State.Save();
-		}
-		string? linuxVersion = ReleaseVersion(App.Version);
-		if (linuxVersion != null && linuxVersion != ReleaseVersion(installedVersion))
-			Voidstrap.Utility.AppNotifications.RecordInfo(
-				"upgrade:" + linuxVersion,
-				"Voidstrap updated",
-				"Voidstrap was updated to version " + linuxVersion + "."
-			);
-		if (!flag)
-		{
-			Frontend.ShowMessageBox(string.Format(Strings.InstallChecker_Updated, App.Version), MessageBoxImage.Asterisk);
-		}
-	}
-
-	private static void ReplaceLinuxInstalledCopy(string source, string destination)
-	{
-		string directory =
-			Path.GetDirectoryName(destination) ?? throw new InvalidOperationException("The install directory is unavailable");
-		string stagedPath = Path.Combine(directory, "." + Path.GetFileName(destination) + ".update." + Guid.NewGuid().ToString("N"));
-		try
-		{
-			File.Copy(source, stagedPath, overwrite: false);
-			Voidstrap.Utility.InstallRecord.MakeExecutable(stagedPath);
-			File.Move(stagedPath, destination, overwrite: true);
-		}
-		finally
-		{
-			if (File.Exists(stagedPath))
-			{
-				File.Delete(stagedPath);
-			}
-		}
-	}
-
-	private static void RecordLinuxInstalledCopy(string path)
-	{
-		try
-		{
-			FileInfo info = new(path);
-			string json = JsonSerializer.Serialize(new LinuxInstalledCopy(path, App.Version, info.Length, info.LastWriteTimeUtc.Ticks));
-			if (
-				File.Exists(LinuxInstalledCopyFile)
-				&& string.Equals(File.ReadAllText(LinuxInstalledCopyFile), json, StringComparison.Ordinal)
-			)
-			{
-				return;
-			}
-			Directory.CreateDirectory(Paths.Base);
-			string temporary = LinuxInstalledCopyFile + ".tmp";
-			File.WriteAllText(temporary, json);
-			File.Move(temporary, LinuxInstalledCopyFile, overwrite: true);
-		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-		{
-			App.Logger.WriteLine("Installer::RecordLinuxInstalledCopy", "The installed copy could not be recorded: " + ex.Message);
-		}
-	}
-
-	private static string? ReadLinuxInstalledVersion(string path)
-	{
-		try
-		{
-			if (!File.Exists(LinuxInstalledCopyFile))
-			{
-				return null;
-			}
-			LinuxInstalledCopy? record = JsonSerializer.Deserialize<LinuxInstalledCopy>(File.ReadAllText(LinuxInstalledCopyFile));
-			FileInfo info = new(path);
-			return
-				record != null
-				&& string.Equals(record.Path, path, StringComparison.Ordinal)
-				&& record.Length == info.Length
-				&& record.LastWriteTicks == info.LastWriteTimeUtc.Ticks
-				? record.Version
-				: null;
-		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
-		{
-			return null;
-		}
-	}
-
-	private static void MigrateLegacyInstall(bool upgradeLaunch)
-	{
-		if (upgradeLaunch)
-		{
-			if (App.LaunchSettings.Args.Length == 0)
-			{
-				App.LaunchSettings.RobloxLaunchMode = LaunchMode.Player;
-			}
-			string? launchArgument = App.LaunchSettings.Args.FirstOrDefault(x => x.Contains("roblox"));
-			if (launchArgument != null)
-			{
-				App.LaunchSettings.RobloxLaunchMode = LaunchMode.Player;
-				App.LaunchSettings.RobloxLaunchArgs = launchArgument;
-			}
-		}
-
-		TrySafe(
-			"legacy desktop shortcut",
-			delegate
-			{
-				string legacyShortcut = Path.Combine(Paths.Desktop, "Play Roblox.lnk");
-				if (File.Exists(legacyShortcut))
-				{
-					File.Move(legacyShortcut, DesktopShortcut, overwrite: true);
-				}
-			}
-		);
-
-		TrySafe(
-			"legacy start menu folder",
-			delegate
-			{
-				string legacyFolder = Path.Combine(Paths.WindowsStartMenu, "Voidstrap");
-				if (!Directory.Exists(legacyFolder))
-				{
-					return;
-				}
-				try
-				{
-					Directory.Delete(legacyFolder, recursive: true);
-				}
-				catch (Exception ex)
-				{
-					App.Logger.WriteException("Installer::MigrateLegacyInstall", ex);
-				}
-				Voidstrap.Utility.Shortcut.Create(Paths.Application, "", StartMenuShortcut);
-			}
-		);
-
-		if (Voidstrap.Utility.Platform.SupportsRegistry)
-		{
-			TrySafe(
-				"legacy registry cleanup",
-				delegate
-				{
-					Registry.CurrentUser.DeleteSubKeyTree("Software\\Voidstrap", throwOnMissingSubKey: false);
-				}
-			);
-		}
-
-		TrySafe("player registration", WindowsRegistry.RegisterPlayer);
-		App.FastFlags.SetValue("FFlagDisableNewIGMinDUA", null);
-		App.FastFlags.SetValue("FFlagFixGraphicsQuality", null);
-	}
-
-	private static void ReplaceInstalledExecutable()
-	{
-		string directory =
-			Path.GetDirectoryName(Paths.Application) ?? throw new InvalidOperationException("The install directory is unavailable");
-		string stagedPath = Path.Combine(directory, ".Voidstrap.update." + Guid.NewGuid().ToString("N"));
-		try
-		{
-			File.Copy(Paths.Process, stagedPath, overwrite: false);
-			Voidstrap.Utility.InstallRecord.MakeExecutable(stagedPath);
-			if (Voidstrap.Utility.Platform.IsWindows)
-			{
-				try
-				{
-					File.Replace(stagedPath, Paths.Application, null, ignoreMetadataErrors: true);
-				}
-				catch (Exception ex) when (Voidstrap.Utility.CloudFiles.IsCloudFailure(ex, Paths.Application))
-				{
-					App.Logger.WriteLine(
-						"Installer::ReplaceInstalledExecutable",
-						"Replace failed on a cloud synced file, moving instead: " + ex.Message
-					);
-					File.Move(stagedPath, Paths.Application, overwrite: true);
-				}
-			}
-			else
-			{
-				File.Move(stagedPath, Paths.Application, overwrite: true);
-			}
-		}
-		finally
-		{
-			if (File.Exists(stagedPath))
-			{
-				File.Delete(stagedPath);
-			}
-		}
-	}
-
-	[LibraryImport("shell32.dll")]
-	private static partial void SHChangeNotify(int wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
-
-	private static void RefreshAppIcons()
-	{
-		if (!Voidstrap.Utility.Platform.IsWindows)
-		{
-			return;
-		}
-		try
-		{
-			Voidstrap.Models.SettingTasks.ExtractIconsTask.ExtractAll(overwrite: true);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("Installer::RefreshAppIcons", ex);
-		}
-		try
-		{
-			if (File.Exists(StartMenuShortcut))
-			{
-				Voidstrap.Utility.Shortcut.Create(Paths.Application, "", StartMenuShortcut, Paths.Application, overwrite: true);
-			}
-		}
-		catch { }
-		try
-		{
-			if (File.Exists(DesktopShortcut))
-			{
-				Voidstrap.Utility.Shortcut.Create(Paths.Application, "", DesktopShortcut);
-			}
-		}
-		catch { }
-		try
-		{
-			SHChangeNotify(0x08000000, 0u, IntPtr.Zero, IntPtr.Zero);
-		}
-		catch (Exception ex2)
-		{
-			App.Logger.WriteException("Installer::RefreshAppIcons", ex2);
-		}
-	}
-
-	public static bool RelocateInstall(string newLocation)
-	{
-		if (string.IsNullOrWhiteSpace(newLocation))
-		{
-			return false;
-		}
-		string text = Paths.Base;
-		string text2 = newLocation.TrimEnd([Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar]);
-		if (!text2.EndsWith("Voidstrap", StringComparison.InvariantCultureIgnoreCase))
-		{
-			text2 = Path.Combine(text2, "Voidstrap");
-		}
-		if (string.Equals(text2, text, StringComparison.OrdinalIgnoreCase))
-		{
-			Frontend.ShowMessageBox("Voidstrap is already installed at that location.", MessageBoxImage.Asterisk);
-			return false;
-		}
-		if (
-			text2.Length <= 3
-			|| text2.StartsWith("\\\\", StringComparison.Ordinal)
-			|| text2.StartsWith(Path.GetTempPath(), StringComparison.OrdinalIgnoreCase)
-			|| text2.Contains("\\Temp\\", StringComparison.OrdinalIgnoreCase)
-			|| IsCloudSyncedPath(text2)
-			|| text2.Contains("Program Files")
-		)
-		{
-			Frontend.ShowMessageBox(Strings.Menu_InstallLocation_CantInstall, MessageBoxImage.Hand);
-			return false;
-		}
-		string text3 = Path.GetFullPath(text).TrimEnd('\\') + "\\";
-		string text4 = Path.GetFullPath(text2).TrimEnd('\\') + "\\";
-		if (
-			text4.StartsWith(text3, StringComparison.InvariantCultureIgnoreCase)
-			|| text3.StartsWith(text4, StringComparison.InvariantCultureIgnoreCase)
-		)
-		{
-			Frontend.ShowMessageBox(Strings.Menu_InstallLocation_CantInstall, MessageBoxImage.Hand);
-			return false;
-		}
-		string targetParent = Directory.GetParent(text2)?.FullName ?? string.Empty;
-		if (string.IsNullOrWhiteSpace(targetParent))
-		{
-			Frontend.ShowMessageBox(Strings.Menu_InstallLocation_CantInstall, MessageBoxImage.Hand);
-			return false;
-		}
-		try
-		{
-			Directory.CreateDirectory(targetParent);
-			string path = Path.Combine(targetParent, ".Voidstrap.write." + Guid.NewGuid().ToString("N"));
-			File.WriteAllText(path, "");
-			File.Delete(path);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("Installer::RelocateInstall", ex);
-			Frontend.ShowMessageBox(Strings.Menu_InstallLocation_NoWritePerms, MessageBoxImage.Hand);
-			return false;
-		}
-		string stagingPath = Path.Combine(targetParent, ".Voidstrap.staging." + Guid.NewGuid().ToString("N"));
-		string? replacedTarget = null;
-		try
-		{
-			App.Logger.WriteLine("Installer::RelocateInstall", $"Relocating install from '{text}' to '{text2}'");
-			if (Directory.Exists(text2))
-			{
-				CopyDirectory(text2, stagingPath);
-			}
-			CopyDirectory(text, stagingPath);
-			string stagedApplication = Path.Combine(stagingPath, Path.GetFileName(Paths.Application));
-			if (!File.Exists(stagedApplication) || new FileInfo(stagedApplication).Length == 0)
-			{
-				throw new IOException("The relocated executable could not be verified");
-			}
-			if (Directory.Exists(text2))
-			{
-				replacedTarget = Path.Combine(targetParent, ".Voidstrap.previous." + Guid.NewGuid().ToString("N"));
-				Directory.Move(text2, replacedTarget);
-			}
-			try
-			{
-				Directory.Move(stagingPath, text2);
-			}
-			catch
-			{
-				if (replacedTarget != null && Directory.Exists(replacedTarget) && !Directory.Exists(text2))
-				{
-					Directory.Move(replacedTarget, text2);
-				}
-				throw;
-			}
-		}
-		catch (Exception ex2)
-		{
-			TryDeleteRelocationDirectory(stagingPath, targetParent);
-			App.Logger.WriteException("Installer::RelocateInstall", ex2);
-			Frontend.ShowMessageBox("Failed to move Voidstrap to the new location.", MessageBoxImage.Hand);
-			return false;
-		}
-		Paths.Initialize(text2);
-		Paths.EnsureDirectories();
-		InstallLocationResolver.Repair(Paths.Base);
-		try
-		{
-			if (App.IsStudioVisible)
-			{
-				WindowsRegistry.RegisterStudio();
-			}
-		}
-		catch (Exception ex3)
-		{
-			App.Logger.WriteException("Installer::RelocateInstall", ex3);
-		}
-		try
-		{
-			using Process? process = Process.Start(
-				new ProcessStartInfo
-				{
-					FileName = Paths.Application,
-					Arguments = "-settings",
-					UseShellExecute = true,
-				}
-			);
-			if (process == null)
-			{
-				throw new InvalidOperationException("The relocated application did not start");
-			}
-		}
-		catch (Exception ex4)
-		{
-			App.Logger.WriteException("Installer::RelocateInstall", ex4);
-			Frontend.ShowMessageBox("Failed to start Voidstrap from the new location.", MessageBoxImage.Hand);
-			Paths.Initialize(text);
-			InstallLocationResolver.Repair(Paths.Base);
-			return false;
-		}
-		if (replacedTarget != null)
-		{
-			TryDeleteRelocationDirectory(replacedTarget, targetParent);
-		}
-		ScheduleOldLocationCleanup(text);
-		App.Terminate();
-		return true;
-	}
-
-	private static void CopyDirectory(string source, string destination)
-	{
-		Directory.CreateDirectory(destination);
-		foreach (string text in Directory.GetFiles(source))
-		{
-			File.Copy(text, Path.Combine(destination, Path.GetFileName(text)), overwrite: true);
-		}
-		foreach (string text2 in Directory.GetDirectories(source))
-		{
-			if (new DirectoryInfo(text2).LinkTarget != null)
-			{
-				continue;
-			}
-			CopyDirectory(text2, Path.Combine(destination, Path.GetFileName(text2)));
-		}
-	}
-
-	private static void TryDeleteRelocationDirectory(string path, string expectedParent)
-	{
-		try
-		{
-			string fullPath = Path.GetFullPath(path);
-			string parent = Directory.GetParent(fullPath)?.FullName ?? string.Empty;
-			if (
-				Directory.Exists(fullPath)
-				&& string.Equals(parent, Path.GetFullPath(expectedParent), StringComparison.OrdinalIgnoreCase)
-				&& Path.GetFileName(fullPath).StartsWith(".Voidstrap.", StringComparison.Ordinal)
-			)
-			{
-				Directory.Delete(fullPath, recursive: true);
-			}
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("Installer::RelocateInstall", ex);
-		}
-	}
-
-	private static void ScheduleOldLocationCleanup(string oldBase)
-	{
-		ScheduleDeferredCleanup(oldBase, true, "Installer::ScheduleOldLocationCleanup");
-	}
+    private sealed class DeferredCleanupPayload
+    {
+        public int ProcessId { get; set; }
+        public long ProcessStartTicks { get; set; }
+        public string Target { get; set; } = "";
+        public bool DeleteDirectory { get; set; }
+        public string MarkerName { get; set; } = "";
+    }
+
+    public string InstallLocation = GetDefaultInstallLocation();
+
+    public bool CreateDesktopShortcuts = true;
+
+    public bool CreateStartMenuShortcuts = true;
+
+    public bool ExtractRobloxIcons;
+
+    public bool CreatePlayerShortcut;
+
+    public bool CreateStudioShortcut;
+
+    public bool CreateSettingsShortcut;
+
+    internal BootstrapperImportPlan? PendingImport { get; set; }
+    internal Voidstrap.Models.SettingTasks.ShortcutTask[]? FunctionShortcutTasks { get; set; }
+
+    public bool EnableAnalytics = true;
+
+    public bool VoidstrapRPCReal = true;
+
+    public bool IsImplicitInstall { get; }
+
+    private static string DesktopShortcut => Path.Combine(Paths.Desktop, "Voidstrap" + Voidstrap.Utility.Shortcut.Suffix);
+
+    private static string StartMenuShortcut => Path.Combine(Paths.WindowsStartMenu, "Voidstrap.lnk");
+
+    public bool ExistingDataPresent => File.Exists(Path.Combine(InstallLocation, "Settings.json"));
+
+    public string InstallLocationError { get; set; } = "";
+
+    public void DoInstall()
+    {
+        App.Logger.WriteLine("Installer::DoInstall", "Beginning installation");
+        if (!Voidstrap.Utility.Platform.IsWindows)
+        {
+            Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
+            string? applicationPath = Paths.Process;
+            if (host == null || string.IsNullOrWhiteSpace(applicationPath))
+            {
+                throw new InvalidOperationException("Platform storage is unavailable");
+            }
+            if (host.Paths is Voidstrap.Platform.Linux.LinuxPaths linuxPaths && !string.IsNullOrWhiteSpace(InstallLocation))
+            {
+                linuxPaths.RelocateData(InstallLocation);
+                App.Logger.WriteLine("Installer::DoInstall", "Voidstrap data will live in " + linuxPaths.Storage.Data);
+            }
+            Voidstrap.Platform.OperationResult directoryResult = host.Paths.EnsureDirectoriesAsync().GetAwaiter().GetResult();
+            if (!directoryResult.Succeeded)
+            {
+                throw new IOException(directoryResult.Failure?.Message ?? "Data folders could not be prepared");
+            }
+            Paths.InitializePortable(host.Paths.Storage, applicationPath);
+            InstallLocation = Paths.Base;
+        }
+        else
+        {
+            Directory.CreateDirectory(InstallLocation);
+            Paths.Initialize(InstallLocation);
+        }
+        Paths.EnsureDirectories();
+        if (
+            Voidstrap.Utility.Platform.IsWindows
+            && !IsImplicitInstall
+            && !string.Equals(Paths.Process, Paths.Application, StringComparison.OrdinalIgnoreCase)
+        )
+        {
+            TrySafe("clear read only", () => Filesystem.AssertReadOnly(Paths.Application));
+            try
+            {
+                File.Copy(Paths.Process, Paths.Application, overwrite: true);
+                Voidstrap.Utility.InstallRecord.MakeExecutable(Paths.Application);
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("Installer::DoInstall", "Could not overwrite executable");
+                App.Logger.WriteException("Installer::DoInstall", ex);
+                throw new IOException(Strings.Installer_Install_CannotOverwrite, ex);
+            }
+        }
+        TrySafe("install record", () => Voidstrap.Utility.InstallRecord.Write(Paths.Base));
+        if (Voidstrap.Utility.Platform.SupportsRegistry)
+        {
+            TrySafe(
+                "uninstall registry entry",
+                delegate
+                {
+                    using RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(
+                        "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Voidstrap"
+                    );
+                    registryKey.SetValueSafe("DisplayIcon", Paths.Application + ",0");
+                    registryKey.SetValueSafe("DisplayName", "Voidstrap");
+                    registryKey.SetValueSafe("DisplayVersion", App.Version);
+                    if (registryKey.GetValue("InstallDate") == null)
+                    {
+                        registryKey.SetValueSafe("InstallDate", DateTime.Now.ToString("yyyyMMdd"));
+                    }
+                    registryKey.SetValueSafe("InstallLocation", Paths.Base);
+                    registryKey.SetValueSafe("NoRepair", 1);
+                    registryKey.SetValueSafe("Publisher", "Voidstrap");
+                    registryKey.SetValueSafe("ModifyPath", "\"" + Paths.Application + "\" -settings");
+                    registryKey.SetValueSafe("QuietUninstallString", "\"" + Paths.Application + "\" -uninstall -quiet");
+                    registryKey.SetValueSafe("UninstallString", "\"" + Paths.Application + "\" -uninstall");
+                    registryKey.SetValueSafe("HelpLink", App.ProjectHelpLink);
+                    registryKey.SetValueSafe("URLInfoAbout", Voidstrap.Utility.GitHubCache.PreferredRepository + "/issues/new");
+                    registryKey.SetValueSafe("URLUpdateInfo", Voidstrap.Utility.GitHubCache.PreferredRepository + "/releases");
+                }
+            );
+            TrySafe("api registration", WindowsRegistry.RegisterApis);
+            TrySafe("player registration", WindowsRegistry.RegisterPlayer);
+            TrySafe("studio protocol registration", () => WindowsRegistry.RegisterStudioProtocol(Paths.Application, "-studio \"%1\""));
+        }
+        App.Settings.Load(alertFailure: false);
+        App.State.Load(alertFailure: false);
+        TrySafe("install location repair", () => InstallLocationResolver.Repair(Paths.Base));
+        App.FastFlags.Load(alertFailure: false);
+        if (PendingImport != null)
+            BootstrapperSettingsImport.Apply(PendingImport, App.Settings, App.FastFlags);
+        if (FunctionShortcutTasks != null)
+            foreach (var task in FunctionShortcutTasks)
+                task.StoreAppearance();
+        if (PendingImport?.Settings.ContainsKey(nameof(EnableAnalytics)) != true)
+            App.Settings.Prop.EnableAnalytics = EnableAnalytics;
+        App.Settings.SaveChecked();
+        if (App.IsStudioVisible)
+        {
+            TrySafe("studio registration", WindowsRegistry.RegisterStudio);
+        }
+        if (Voidstrap.Utility.Platform.IsWindows)
+        {
+            if (CreateDesktopShortcuts)
+            {
+                TrySafe("desktop shortcut", () => Voidstrap.Utility.Shortcut.Create(Paths.Application, "", DesktopShortcut));
+            }
+            if (CreateStartMenuShortcuts)
+            {
+                TrySafe("start menu shortcut", () => Voidstrap.Utility.Shortcut.Create(Paths.Application, "", StartMenuShortcut));
+            }
+            if (FunctionShortcutTasks != null)
+                CreateFunctionShortcuts();
+            else
+                TrySafe("function shortcuts", CreateFunctionShortcuts);
+        }
+        else if (Voidstrap.Utility.Platform.IsMacOS)
+        {
+            if (CreateDesktopShortcuts)
+            {
+                TrySafe("desktop shortcut", () => Voidstrap.Utility.Shortcut.Create(Paths.Application, "", DesktopShortcut));
+            }
+            if (FunctionShortcutTasks != null)
+                CreateFunctionShortcuts();
+            else
+                TrySafe("function shortcuts", CreateFunctionShortcuts);
+        }
+        else if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            TrySafe("desktop entry", () => Voidstrap.Utility.LinuxDesktopEntry.Install(Paths.Application, CreateDesktopShortcuts));
+            if (FunctionShortcutTasks != null)
+                CreateFunctionShortcuts();
+            else
+                TrySafe("function shortcuts", CreateFunctionShortcuts);
+        }
+        App.Settings.Save();
+        App.Logger.WriteLine("Installer::DoInstall", "Installation finished");
+    }
+
+    private static string GetDefaultInstallLocation()
+    {
+        if (!Voidstrap.Utility.Platform.IsWindows && Voidstrap.Utility.Platform.RuntimeHost is Voidstrap.Platform.IPlatformHost host)
+        {
+            return host.Paths.Storage.ApplicationSupport;
+        }
+        return Path.Combine(Paths.LocalAppData, "Voidstrap");
+    }
+
+    private bool ValidateLocation()
+    {
+        try
+        {
+            return ValidateLocationCore();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("Installer::ValidateLocation", "Rejected malformed path: " + ex.Message);
+            return false;
+        }
+    }
+
+    private bool ValidateLocationCore()
+    {
+        if (InstallLocation.Length <= 3)
+        {
+            return false;
+        }
+        if (InstallLocation.StartsWith("\\\\", StringComparison.Ordinal))
+        {
+            return false;
+        }
+        if (
+            InstallLocation.StartsWith(Path.GetTempPath(), StringComparison.InvariantCultureIgnoreCase)
+            || InstallLocation.Contains("\\Temp\\", StringComparison.InvariantCultureIgnoreCase)
+        )
+        {
+            return false;
+        }
+        if (IsCloudSyncedPath(InstallLocation))
+        {
+            return false;
+        }
+        if (
+            string.Compare(Directory.GetParent(InstallLocation)?.FullName, Paths.UserProfile, StringComparison.OrdinalIgnoreCase) == 0
+            && !(
+                Voidstrap.Utility.Platform.IsLinux
+                && string.Equals(
+                    Path.GetFileName(Path.TrimEndingDirectorySeparator(InstallLocation)),
+                    "voidstrap",
+                    StringComparison.OrdinalIgnoreCase
+                )
+            )
+        )
+        {
+            return false;
+        }
+        if (InstallLocation.Contains("Program Files"))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private void CreateFunctionShortcuts()
+    {
+        if (FunctionShortcutTasks != null)
+        {
+            bool[] wanted = [CreatePlayerShortcut, CreateStudioShortcut, CreateSettingsShortcut];
+            for (int index = 0; index < FunctionShortcutTasks.Length; index++)
+            {
+                if (!wanted[index])
+                    continue;
+                var task = FunctionShortcutTasks[index];
+                task.NewState = true;
+                task.Execute();
+            }
+            App.Settings.FlushDeferred();
+        }
+        else
+        {
+            TryCreateShortcut(CreatePlayerShortcut, "-player", Strings.LaunchMenu_LaunchRoblox);
+            TryCreateShortcut(CreateStudioShortcut, "-studio", Strings.LaunchMenu_LaunchRobloxStudio);
+            TryCreateShortcut(CreateSettingsShortcut, "-settings", Strings.Menu_Title);
+        }
+        if (!ExtractRobloxIcons)
+        {
+            return;
+        }
+        try
+        {
+            Voidstrap.Models.SettingTasks.ExtractIconsTask.ExtractAll(overwrite: true);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("Installer::CreateFunctionShortcuts", "Could not extract Roblox icons: " + ex.Message);
+        }
+    }
+
+    private static void TryCreateShortcut(bool wanted, string flags, string name)
+    {
+        if (!wanted)
+        {
+            return;
+        }
+        try
+        {
+            Voidstrap.Utility.Shortcut.Create(
+                Paths.Application,
+                flags,
+                Path.Combine(Paths.Desktop, name + Voidstrap.Utility.Shortcut.Suffix)
+            );
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("Installer::TryCreateShortcut", "Could not create the " + name + " shortcut: " + ex.Message);
+        }
+    }
+
+    public bool CheckInstallLocation()
+    {
+        InstallLocationError = "";
+        if (string.IsNullOrEmpty(InstallLocation))
+        {
+            InstallLocationError = Strings.Menu_InstallLocation_NotSet;
+        }
+        else if (!ValidateLocation())
+        {
+            InstallLocationError = Strings.Menu_InstallLocation_CantInstall;
+        }
+        else
+        {
+            if (
+                !IsImplicitInstall
+                && !InstallLocation.EndsWith("Voidstrap", StringComparison.InvariantCultureIgnoreCase)
+                && Directory.Exists(InstallLocation)
+                && Directory.EnumerateFileSystemEntries(InstallLocation).Any()
+            )
+            {
+                string text = Path.Combine(InstallLocation, "Voidstrap");
+                switch (
+                    Frontend.ShowMessageBox(
+                        string.Format(Strings.Menu_InstallLocation_NotEmpty, text),
+                        MessageBoxImage.Exclamation,
+                        MessageBoxButton.YesNoCancel,
+                        MessageBoxResult.Yes
+                    )
+                )
+                {
+                    case MessageBoxResult.Yes:
+                        InstallLocation = text;
+                        break;
+                    case MessageBoxResult.None:
+                    case MessageBoxResult.Cancel:
+                        return false;
+                }
+            }
+            try
+            {
+                string path = Path.Combine(InstallLocation, "VoidstrapWriteTest.txt");
+                Directory.CreateDirectory(InstallLocation);
+                File.WriteAllText(path, "");
+                File.Delete(path);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                InstallLocationError = Strings.Menu_InstallLocation_NoWritePerms;
+            }
+            catch (Exception ex2)
+            {
+                InstallLocationError = ex2.Message;
+            }
+        }
+        return string.IsNullOrEmpty(InstallLocationError);
+    }
+
+    private static readonly string[] PreservedFolders = ["Config", "VoidstrapMods", "Themes", "Modifications"];
+
+    private static readonly string[] CloudEnvVars = ["OneDrive", "OneDriveConsumer", "OneDriveCommercial"];
+
+    private static readonly string[] CloudFolderNames =
+    [
+        "OneDrive",
+        "Dropbox",
+        "Google Drive",
+        "GoogleDrive",
+        "iCloudDrive",
+        "Creative Cloud Files",
+        "Box Sync",
+        "MEGAsync",
+        "pCloudDrive",
+        "Nextcloud",
+        "Syncthing",
+        "Yandex.Disk",
+    ];
+
+    public static bool IsCloudSyncedPath(string? path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return false;
+        }
+
+        string full;
+        try
+        {
+            full = Path.GetFullPath(path).TrimEnd('\\') + "\\";
+        }
+        catch
+        {
+            return false;
+        }
+
+        foreach (string variable in CloudEnvVars)
+        {
+            string root;
+            try
+            {
+                root = Environment.GetEnvironmentVariable(variable) ?? "";
+            }
+            catch
+            {
+                continue;
+            }
+
+            if (root.Length == 0)
+            {
+                continue;
+            }
+
+            try
+            {
+                root = Path.GetFullPath(root).TrimEnd('\\') + "\\";
+            }
+            catch
+            {
+                continue;
+            }
+
+            if (full.StartsWith(root, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        foreach (string folder in CloudFolderNames)
+        {
+            if (
+                full.Contains("\\" + folder + "\\", StringComparison.InvariantCultureIgnoreCase)
+                || full.Contains("\\" + folder + " - ", StringComparison.InvariantCultureIgnoreCase)
+            )
+            {
+                return true;
+            }
+        }
+
+        return HasCloudPlaceholderAttribute(full);
+    }
+
+    private static bool HasCloudPlaceholderAttribute(string path)
+    {
+        try
+        {
+            string probe = path;
+            for (int depth = 0; depth < 6 && probe.Length > 3; depth++)
+            {
+                if (Directory.Exists(probe))
+                {
+                    FileAttributes attributes = File.GetAttributes(probe);
+                    if (((int)attributes & 0x400000) != 0 || ((int)attributes & 0x40000) != 0 || ((int)attributes & 0x1000) != 0)
+                    {
+                        return true;
+                    }
+                }
+
+                string? parent = Path.GetDirectoryName(probe.TrimEnd('\\'));
+                if (string.IsNullOrEmpty(parent) || string.Equals(parent, probe, StringComparison.OrdinalIgnoreCase))
+                {
+                    break;
+                }
+
+                probe = parent;
+            }
+        }
+        catch { }
+
+        return false;
+    }
+
+    private static void TrySafe(string label, Action action)
+    {
+        try
+        {
+            action();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("Installer::TrySafe", "Step failed (" + label + "): " + ex.Message);
+        }
+    }
+
+    private static string[] SafeSubdirectories(string root)
+    {
+        try
+        {
+            return Directory.Exists(root) ? Directory.GetDirectories(root) : [];
+        }
+        catch
+        {
+            return [];
+        }
+    }
+
+    private static void ForceDeleteDirectory(string path)
+    {
+        if (!Directory.Exists(path))
+            return;
+        try
+        {
+            ClearReadOnly(path);
+            Directory.Delete(path, recursive: true);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("Installer::DoUninstall", "Could not delete " + path + ": " + ex.Message);
+        }
+    }
+
+    private static void ClearReadOnly(string path)
+    {
+        try
+        {
+            EnumerationOptions options = new EnumerationOptions
+            {
+                RecurseSubdirectories = true,
+                IgnoreInaccessible = true,
+                AttributesToSkip = FileAttributes.ReparsePoint,
+            };
+            foreach (string file in Directory.EnumerateFiles(path, "*", options))
+            {
+                try
+                {
+                    FileAttributes attributes = File.GetAttributes(file);
+                    if ((attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+                    {
+                        File.SetAttributes(file, attributes & ~FileAttributes.ReadOnly);
+                    }
+                }
+                catch { }
+            }
+        }
+        catch { }
+    }
+
+    public static async Task<bool> DoUninstallAsync(bool keepData)
+    {
+        try
+        {
+            return await DoUninstallCoreAsync(keepData);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("Installer::DoUninstall", ex);
+            Frontend.ShowExceptionDialog(ex);
+            return false;
+        }
+    }
+
+    private static async Task<bool> DoUninstallCoreAsync(bool keepData)
+    {
+        List<Process> list = [];
+        try
+        {
+            if (!string.IsNullOrEmpty(App.State.Prop.Player.VersionGuid))
+            {
+                list.AddRange(Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName));
+            }
+            if (App.IsStudioVisible)
+            {
+                list.AddRange(Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxStudioProcessName));
+            }
+            if (
+                list.Count > 0
+                && Frontend.ShowMessageBox(
+                    Strings.Bootstrapper_Uninstall_RobloxRunning,
+                    MessageBoxImage.Asterisk,
+                    MessageBoxButton.OKCancel,
+                    MessageBoxResult.OK
+                ) != MessageBoxResult.OK
+            )
+            {
+                App.Terminate(ErrorCode.ERROR_CANCELLED);
+                return false;
+            }
+            foreach (Process item in list)
+            {
+                try
+                {
+                    item.Kill();
+                }
+                catch (Exception value)
+                {
+                    App.Logger.WriteLine("Installer::DoUninstall", $"Failed to close process! {value}");
+                }
+            }
+        }
+        finally
+        {
+            foreach (Process item in list)
+            {
+                item.Dispose();
+            }
+        }
+        Voidstrap.Integrations.Nvidia.NvidiaApplyResult cleanup =
+            await Voidstrap.Integrations.NvidiaProfileManager.RestoreForUninstallAsync();
+        if (!cleanup.Ok)
+        {
+            if (
+                Frontend.ShowMessageBox(
+                    string.Format(Strings.Bootstrapper_Uninstall_NvidiaFailed, cleanup.Message),
+                    MessageBoxImage.Warning,
+                    MessageBoxButton.YesNo,
+                    MessageBoxResult.No
+                ) != MessageBoxResult.Yes
+            )
+                return false;
+            App.Logger.WriteLine("Installer::DoUninstall", "Continuing uninstall without NVIDIA cleanup");
+        }
+        Voidstrap.Integrations.AssetProxy.AssetWarpLegacyCleanup.Run();
+        Voidstrap.Utility.LinuxDesktopEntry.Remove();
+        Voidstrap.Utility.InstallRecord.Delete();
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            if (keepData)
+            {
+                ForceDeleteDirectory(Paths.Cache);
+                ForceDeleteDirectory(Paths.Logs);
+                ForceDeleteDirectory(Paths.Temp);
+            }
+            else
+            {
+                Paths.ResetUserData();
+            }
+            return true;
+        }
+        if (Voidstrap.Utility.Platform.IsWindows)
+        {
+            WindowsRegistry.Unregister("voidstrap");
+            using RegistryKey? registryKey = Registry.CurrentUser.OpenSubKey(
+                "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\roblox-player"
+            );
+            object? obj = registryKey?.GetValue("InstallLocation");
+            if (registryKey == null || obj is not string)
+            {
+                WindowsRegistry.Unregister("roblox");
+                WindowsRegistry.Unregister("roblox-player");
+            }
+            else
+            {
+                WindowsRegistry.RegisterPlayer(Path.Combine((string)obj, "RobloxPlayerBeta.exe"), "%1");
+            }
+            using RegistryKey? registryKey2 = Registry.CurrentUser.OpenSubKey(
+                "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\roblox-studio"
+            );
+            object? obj2 = registryKey2?.GetValue("InstallLocation");
+            if (registryKey2 == null || obj2 is not string)
+            {
+                WindowsRegistry.Unregister("roblox-studio");
+                WindowsRegistry.Unregister("roblox-studio-auth");
+                WindowsRegistry.Unregister("Roblox.Place");
+                WindowsRegistry.Unregister(".rbxl");
+                WindowsRegistry.Unregister(".rbxlx");
+            }
+            else
+            {
+                string handler = Path.Combine((string)obj2, "RobloxStudioBeta.exe");
+                WindowsRegistry.RegisterStudioProtocol(handler, "%1");
+                WindowsRegistry.RegisterStudioFileClass(handler, "-ide \"%1\"");
+            }
+            TrySafe(
+                "registry Software\\Voidstrap",
+                delegate
+                {
+                    Registry.CurrentUser.DeleteSubKeyTree("Software\\Voidstrap", throwOnMissingSubKey: false);
+                }
+            );
+        }
+        List<Action> list2 =
+        [
+            delegate
+            {
+                if (!Voidstrap.Utility.Platform.IsWindows)
+                    return;
+                foreach (
+                    string item2 in from x in Directory.GetFiles(Paths.Desktop)
+                    where x.EndsWith("lnk", StringComparison.Ordinal)
+                    select x
+                )
+                {
+                    if (ShellLink.Shortcut.ReadFromFile(item2).ExtraData.EnvironmentVariableDataBlock?.TargetUnicode == Paths.Application)
+                    {
+                        File.Delete(item2);
+                    }
+                }
+            },
+            delegate
+            {
+                if (!Voidstrap.Utility.Platform.IsWindows)
+                    return;
+                File.Delete(StartMenuShortcut);
+            },
+            delegate
+            {
+                ForceDeleteDirectory(Paths.Versions);
+            },
+            delegate
+            {
+                ForceDeleteDirectory(Paths.Downloads);
+            },
+            delegate
+            {
+                ForceDeleteDirectory(Paths.Cache);
+            },
+            delegate
+            {
+                ForceDeleteDirectory(Paths.RobloxClients);
+            },
+            delegate
+            {
+                File.Delete(App.State.FileLocation);
+            },
+            delegate
+            {
+                if (Paths.Roblox == Path.Combine(Paths.Base, "Roblox"))
+                {
+                    ForceDeleteDirectory(Paths.Roblox);
+                }
+            },
+        ];
+        if (!keepData)
+        {
+            list2.AddRange([
+                delegate
+                {
+                    ForceDeleteDirectory(Paths.Mods);
+                },
+                delegate
+                {
+                    ForceDeleteDirectory(Paths.Logs);
+                },
+                delegate
+                {
+                    File.Delete(App.Settings.FileLocation);
+                },
+            ]);
+        }
+        bool flag3 = !keepData && Directory.Exists(Paths.Base) && Directory.GetFiles(Paths.Base).Length <= 3;
+        if (flag3)
+        {
+            list2.Add(
+                delegate
+                {
+                    ForceDeleteDirectory(Paths.Base);
+                }
+            );
+        }
+        foreach (string leftover in SafeSubdirectories(Paths.Base))
+        {
+            string target = leftover;
+            string folderName = Path.GetFileName(target.TrimEnd('\\'));
+            if (keepData && PreservedFolders.Contains(folderName, StringComparer.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            list2.Add(
+                delegate
+                {
+                    ForceDeleteDirectory(target);
+                }
+            );
+        }
+
+        list2.Add(
+            delegate
+            {
+                ForceDeleteDirectory(Paths.Logs);
+            }
+        );
+
+        list2.Add(
+            delegate
+            {
+                ForceDeleteDirectory(Path.Combine(Path.GetTempPath(), "Voidstrap"));
+            }
+        );
+
+        list2.Add(
+            delegate
+            {
+                if (Voidstrap.Utility.Platform.IsWindows)
+                    Registry.CurrentUser.DeleteSubKeyTree(
+                        "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Voidstrap",
+                        throwOnMissingSubKey: false
+                    );
+            }
+        );
+        await Task.Run(() =>
+            {
+                foreach (Action item3 in list2)
+                {
+                    try
+                    {
+                        item3();
+                    }
+                    catch (Exception ex)
+                    {
+                        App.Logger.WriteLine(
+                            "Installer::DoUninstall",
+                            $"Encountered exception when running cleanup sequence (#{list2.IndexOf(item3)})"
+                        );
+                        App.Logger.WriteException("Installer::DoUninstall", ex);
+                    }
+                }
+            })
+            .ConfigureAwait(true);
+        if (Directory.Exists(Paths.Base))
+        {
+            ScheduleDeferredCleanup(Paths.Base, Paths.Application, flag3);
+        }
+        return true;
+    }
+
+    private static void ScheduleDeferredCleanup(string basePath, string appPath, bool deleteFolder)
+    {
+        ScheduleDeferredCleanup(deleteFolder ? basePath : appPath, deleteFolder, "Installer::DoUninstall");
+    }
+
+    private static void ScheduleDeferredCleanup(string target, bool deleteDirectory, string logSource)
+    {
+        try
+        {
+            string fullTarget = Path.GetFullPath(target).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            string root = deleteDirectory ? fullTarget : Path.GetDirectoryName(fullTarget) ?? "";
+            if (
+                !IsOwnedInstallRoot(root)
+                || (
+                    !deleteDirectory
+                    && !string.Equals(
+                        fullTarget,
+                        Path.Combine(root, Path.GetFileName(Paths.Application)),
+                        StringComparison.OrdinalIgnoreCase
+                    )
+                )
+            )
+                throw new InvalidOperationException("The deferred cleanup target is not an owned install path");
+
+            string markerName = ".Voidstrap.cleanup." + Guid.NewGuid().ToString("N");
+            string markerPath = Path.Combine(root, markerName);
+            using Process current = Process.GetCurrentProcess();
+            var payload = new DeferredCleanupPayload
+            {
+                ProcessId = current.Id,
+                ProcessStartTicks = current.StartTime.ToUniversalTime().Ticks,
+                Target = fullTarget,
+                DeleteDirectory = deleteDirectory,
+                MarkerName = markerName,
+            };
+            File.WriteAllText(markerPath, JsonSerializer.Serialize(payload), new UTF8Encoding(false));
+            CleanupOldHelpers();
+            string helperDirectory = Path.Combine(CleanupHelperRoot, Guid.NewGuid().ToString("N"));
+            Directory.CreateDirectory(helperDirectory);
+            string helperPath = Path.Combine(helperDirectory, Path.GetFileName(Paths.Application));
+            File.Copy(Environment.ProcessPath ?? Paths.Process, helperPath, false);
+            InstallRecord.MakeExecutable(helperPath);
+            var start = new ProcessStartInfo { FileName = helperPath, UseShellExecute = false };
+            start.ArgumentList.Add("-deferredcleanup");
+            start.ArgumentList.Add(markerPath);
+            using Process? helper = Process.Start(start);
+            if (helper == null)
+                throw new InvalidOperationException("The deferred cleanup helper did not start");
+            App.Logger.WriteLine(logSource, "Scheduled deferred removal of " + fullTarget);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(logSource, "Could not schedule deferred cleanup: " + ex.Message);
+        }
+    }
+
+    internal static async Task RunDeferredCleanupAsync(string? markerArgument)
+    {
+        if (string.IsNullOrWhiteSpace(markerArgument) || markerArgument.Length > 4096)
+            return;
+        DeferredCleanupPayload? payload;
+        try
+        {
+            FileInfo marker = new(Path.GetFullPath(markerArgument));
+            if (!marker.Exists || marker.Length > 16384 || !marker.Name.StartsWith(".Voidstrap.cleanup.", StringComparison.Ordinal))
+                return;
+            payload = JsonSerializer.Deserialize<DeferredCleanupPayload>(File.ReadAllBytes(marker.FullName));
+            if (payload == null || !string.Equals(payload.MarkerName, marker.Name, StringComparison.Ordinal))
+                return;
+        }
+        catch
+        {
+            return;
+        }
+        if (payload.ProcessId <= 0 || payload.ProcessStartTicks <= 0)
+            return;
+
+        string fullTarget;
+        string root;
+        string markerPath;
+        try
+        {
+            fullTarget = Path.GetFullPath(payload.Target).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            root = payload.DeleteDirectory ? fullTarget : Path.GetDirectoryName(fullTarget) ?? "";
+            if (
+                !IsOwnedInstallRoot(root)
+                || Path.GetFileName(payload.MarkerName) != payload.MarkerName
+                || !payload.MarkerName.StartsWith(".Voidstrap.cleanup.", StringComparison.Ordinal)
+            )
+                return;
+            if (!payload.DeleteDirectory)
+            {
+                string fileName = Path.GetFileName(fullTarget);
+                if (
+                    !string.Equals(fileName, "Voidstrap.exe", StringComparison.OrdinalIgnoreCase)
+                    && !string.Equals(fileName, "Voidstrap", StringComparison.OrdinalIgnoreCase)
+                )
+                    return;
+            }
+            markerPath = Path.Combine(root, payload.MarkerName);
+            if (!string.Equals(Path.GetFullPath(markerPath), Path.GetFullPath(markerArgument), StringComparison.OrdinalIgnoreCase))
+                return;
+        }
+        catch
+        {
+            return;
+        }
+
+        try
+        {
+            using Process process = Process.GetProcessById(payload.ProcessId);
+            if (process.StartTime.ToUniversalTime().Ticks != payload.ProcessStartTicks)
+                return;
+            using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(45));
+            await process.WaitForExitAsync(timeout.Token).ConfigureAwait(false);
+        }
+        catch (ArgumentException) { }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        catch
+        {
+            return;
+        }
+
+        for (int attempt = 0; attempt < 6; attempt++)
+        {
+            try
+            {
+                if (!File.Exists(markerPath))
+                    return;
+                if (payload.DeleteDirectory)
+                {
+                    ForceDeleteDirectory(fullTarget);
+                    if (Directory.Exists(fullTarget))
+                        throw new IOException("The deferred cleanup directory still exists");
+                }
+                else
+                {
+                    File.Delete(fullTarget);
+                    if (File.Exists(fullTarget))
+                        throw new IOException("The deferred cleanup file still exists");
+                    File.Delete(markerPath);
+                }
+                break;
+            }
+            catch when (attempt < 5)
+            {
+                await Task.Delay(500).ConfigureAwait(false);
+            }
+            catch
+            {
+                break;
+            }
+        }
+        if (Voidstrap.Utility.Platform.IsWindows)
+            ForceDeleteDirectory(LauncherBinDirectory);
+        TryRemoveCleanupHelper();
+    }
+
+    private static string LauncherBinDirectory =>
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Voidstrap", "Bin");
+
+    private static bool IsOwnedInstallRoot(string root)
+    {
+        if (string.IsNullOrWhiteSpace(root))
+            return false;
+        string fullRoot = Path.GetFullPath(root).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        if (
+            string.Equals(
+                fullRoot,
+                Path.GetPathRoot(fullRoot)?.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar),
+                StringComparison.OrdinalIgnoreCase
+            )
+        )
+            return false;
+        return File.Exists(Path.Combine(fullRoot, "Voidstrap.exe")) || File.Exists(Path.Combine(fullRoot, "Voidstrap"));
+    }
+
+    private static string CleanupHelperRoot => Path.Combine(Path.GetTempPath(), "VoidstrapCleanup");
+
+    internal static void CleanupOldHelpers()
+    {
+        string root = CleanupHelperRoot;
+        if (!Directory.Exists(root))
+            return;
+        foreach (string entry in Directory.EnumerateFileSystemEntries(root))
+        {
+            try
+            {
+                if (DateTime.UtcNow - Directory.GetLastWriteTimeUtc(entry) < TimeSpan.FromHours(1))
+                    continue;
+                if (Directory.Exists(entry))
+                    Directory.Delete(entry, true);
+                else
+                    File.Delete(entry);
+            }
+            catch { }
+        }
+    }
+
+    internal static void CleanupStaleBundleExtractions()
+    {
+        if (!Voidstrap.Utility.Platform.IsWindows)
+            return;
+        string root = Path.Combine(Path.GetTempPath(), ".net");
+        if (!Directory.Exists(root) || IsAnotherVoidstrapRunning())
+            return;
+        List<string> inUse = CurrentBundleDirectories();
+        int removed = 0;
+        foreach (string directory in Directory.EnumerateDirectories(root, "Voidstrap*"))
+        {
+            string name = Path.GetFileName(directory);
+            if (name.StartsWith("VoidstrapCleanup.", StringComparison.OrdinalIgnoreCase))
+            {
+                removed += TryDeleteExtraction(directory, inUse);
+            }
+            else if (
+                name.Equals("Voidstrap", StringComparison.OrdinalIgnoreCase)
+                || name.StartsWith("Voidstrap (", StringComparison.OrdinalIgnoreCase)
+            )
+            {
+                foreach (string version in Directory.EnumerateDirectories(directory))
+                    removed += TryDeleteExtraction(version, inUse);
+            }
+        }
+        if (removed > 0)
+            App.Logger.WriteLine(
+                "Installer::CleanupStaleBundleExtractions",
+                "Removed " + removed + " stale extraction folders from the temp directory"
+            );
+    }
+
+    internal static void CleanupUpdateBackups()
+    {
+        string? exe = Paths.Process;
+        string? folder = Path.GetDirectoryName(exe);
+        if (string.IsNullOrEmpty(exe) || string.IsNullOrEmpty(folder))
+            return;
+        foreach (string backup in Directory.EnumerateFiles(folder, Path.GetFileName(exe) + ".*old"))
+        {
+            try
+            {
+                File.Delete(backup);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                App.Logger.WriteLine(
+                    "Installer::CleanupUpdateBackups",
+                    "Could not remove the old update backup " + Path.GetFileName(backup) + ": " + ex.Message
+                );
+            }
+        }
+    }
+
+    private static bool IsAnotherVoidstrapRunning()
+    {
+        bool found = false;
+        int self = Environment.ProcessId;
+        foreach (Process process in Process.GetProcesses())
+        {
+            try
+            {
+                found |= process.Id != self && process.ProcessName.StartsWith("Voidstrap", StringComparison.OrdinalIgnoreCase);
+            }
+            catch { }
+            process.Dispose();
+        }
+        return found;
+    }
+
+    private static List<string> CurrentBundleDirectories()
+    {
+        List<string> directories = [WithTrailingSeparator(AppContext.BaseDirectory)];
+        if (AppContext.GetData("NATIVE_DLL_SEARCH_DIRECTORIES") is string native)
+        {
+            foreach (string entry in native.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries))
+                directories.Add(WithTrailingSeparator(entry));
+        }
+        return directories;
+    }
+
+    private static string WithTrailingSeparator(string path)
+    {
+        return Path.TrimEndingDirectorySeparator(Path.GetFullPath(path)) + Path.DirectorySeparatorChar;
+    }
+
+    private static int TryDeleteExtraction(string directory, List<string> inUse)
+    {
+        string full = WithTrailingSeparator(directory);
+        foreach (string path in inUse)
+        {
+            if (path.StartsWith(full, StringComparison.OrdinalIgnoreCase))
+                return 0;
+        }
+        try
+        {
+            Directory.Delete(full, true);
+            return 1;
+        }
+        catch
+        {
+            return 0;
+        }
+    }
+
+    private static void TryRemoveCleanupHelper()
+    {
+        if (Voidstrap.Utility.Platform.IsWindows)
+            return;
+        try
+        {
+            File.Delete(Paths.Process);
+        }
+        catch { }
+    }
+
+    private static string? ReleaseVersion(string? version)
+    {
+        if (string.IsNullOrWhiteSpace(version))
+            return null;
+        int metadata = version.IndexOf('+');
+        return (metadata < 0 ? version : version[..metadata]).Trim();
+    }
+
+    public static async Task HandleUpgradeAsync()
+    {
+        if (
+            !File.Exists(Paths.Application)
+            || string.Equals(Paths.Process, Paths.Application, StringComparison.OrdinalIgnoreCase)
+            || App.LaunchSettings.WindowAuditFlag.Active
+        )
+        {
+            return;
+        }
+        bool flag =
+            App.LaunchSettings.UpgradeFlag.Active
+            || Paths.Process.StartsWith(Path.Combine(Paths.Base, "Updates"), StringComparison.Ordinal)
+            || Paths.Process.StartsWith(Path.Combine(Paths.LocalAppData, "Temp"), StringComparison.Ordinal)
+            || Paths.Process.StartsWith(Paths.TempUpdates, StringComparison.Ordinal);
+        string? productVersion = FileVersionInfo.GetVersionInfo(Paths.Application).ProductVersion;
+        string? productVersion2 = FileVersionInfo.GetVersionInfo(Paths.Process).ProductVersion;
+        if (
+            MD5Hash.FromFile(Paths.Process) == MD5Hash.FromFile(Paths.Application)
+            || (
+                productVersion2 != null
+                && productVersion != null
+                && Utilities.CompareVersions(productVersion2, productVersion) == VersionComparison.LessThan
+                && Frontend.ShowMessageBox(
+                    Strings.InstallChecker_VersionLessThanInstalled,
+                    MessageBoxImage.Question,
+                    MessageBoxButton.YesNo
+                ) != MessageBoxResult.Yes
+            )
+            || (
+                !flag
+                && Frontend.ShowMessageBox(
+                    Strings.InstallChecker_VersionDifferentThanInstalled,
+                    MessageBoxImage.Question,
+                    MessageBoxButton.YesNo
+                ) != MessageBoxResult.Yes
+            )
+        )
+        {
+            return;
+        }
+        App.Logger.WriteLine("Installer::HandleUpgrade", "Doing upgrade");
+        Filesystem.AssertReadOnly(Paths.Application);
+        using InterProcessLock interProcessLock = new("AutoUpdater", TimeSpan.FromSeconds(5L));
+        if (!interProcessLock.IsAcquired)
+        {
+            App.Logger.WriteLine("Installer::HandleUpgrade", "Failed to update! (Could not obtain singleton mutex)");
+            return;
+        }
+        for (int i = 1; i <= 10; i++)
+        {
+            try
+            {
+                ReplaceInstalledExecutable();
+            }
+            catch (Exception ex)
+            {
+                switch (i)
+                {
+                    case 1:
+                        App.Logger.WriteLine("Installer::HandleUpgrade", "Waiting for write permissions to update version");
+                        break;
+                    case 10:
+                        App.Logger.WriteLine(
+                            "Installer::HandleUpgrade",
+                            "Failed to update! (Could not get write permissions after 10 tries/5 seconds)"
+                        );
+                        App.Logger.WriteException("Installer::HandleUpgrade", ex);
+                        return;
+                }
+                await Task.Delay(500);
+                continue;
+            }
+            break;
+        }
+        if (Voidstrap.Utility.Platform.SupportsRegistry)
+        {
+            using RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(
+                "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Voidstrap"
+            );
+            registryKey.SetValueSafe("DisplayVersion", App.Version);
+            registryKey.SetValueSafe("Publisher", "Voidstrap");
+            registryKey.SetValueSafe("HelpLink", App.ProjectHelpLink);
+            registryKey.SetValueSafe("URLInfoAbout", Voidstrap.Utility.GitHubCache.PreferredRepository + "/issues/new");
+            registryKey.SetValueSafe("URLUpdateInfo", Voidstrap.Utility.GitHubCache.PreferredRepository + "/releases");
+        }
+        else
+        {
+            Voidstrap.Utility.InstallRecord.MakeExecutable(Paths.Application);
+            Voidstrap.Utility.LinuxDesktopEntry.Install(Paths.Application);
+        }
+        if (productVersion != null)
+        {
+            if (Utilities.CompareVersions(productVersion, "1.0.3.6") == VersionComparison.LessThan)
+            {
+                TrySafe("legacy install migration", () => MigrateLegacyInstall(flag));
+            }
+            App.Settings.Save();
+            App.FastFlags.Save();
+            App.State.Save();
+        }
+        RefreshAppIcons();
+        string? newVersion = ReleaseVersion(productVersion2);
+        if (newVersion != null && newVersion != ReleaseVersion(productVersion))
+        {
+            Voidstrap.Utility.AppNotifications.RecordInfo(
+                "upgrade:" + newVersion,
+                "Voidstrap updated",
+                "Voidstrap was updated to version " + newVersion + "."
+            );
+        }
+        if (productVersion2 != null && !flag)
+        {
+            Frontend.ShowMessageBox(string.Format(Strings.InstallChecker_Updated, productVersion2), MessageBoxImage.Asterisk);
+        }
+    }
+
+    private sealed record LinuxInstalledCopy(string Path, string Version, long Length, long LastWriteTicks);
+
+    private static string LinuxInstalledCopyFile => Path.Combine(Paths.Base, "InstalledCopy.json");
+
+    public static async Task HandleLinuxUpgradeAsync()
+    {
+        if (
+            !Voidstrap.Utility.Platform.IsLinux
+            || App.LaunchSettings.IsHelperInvocation
+            || Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed
+        )
+        {
+            return;
+        }
+        string running = Path.GetFullPath(Paths.Application);
+        string? installed = LinuxDesktopEntry.InstalledTarget();
+        if (installed == null || !File.Exists(running))
+        {
+            return;
+        }
+        if (string.Equals(installed, running, StringComparison.Ordinal))
+        {
+            RecordLinuxInstalledCopy(installed);
+            return;
+        }
+        if (
+            LinuxDesktopEntry.IsVolatileLocation(running)
+            || Voidstrap.Platform.Linux.LinuxBundleInstaller.IsPackageManagedLocation(Path.GetDirectoryName(running) ?? "/")
+            || Voidstrap.Platform.Linux.LinuxAppImageHost.HasValidHeader(running)
+                != Voidstrap.Platform.Linux.LinuxAppImageHost.HasValidHeader(installed)
+            || MD5Hash.FromFile(running) == MD5Hash.FromFile(installed)
+        )
+        {
+            return;
+        }
+        bool flag = App.LaunchSettings.UpgradeFlag.Active;
+        string? installedVersion = ReadLinuxInstalledVersion(installed);
+        if (
+            (
+                installedVersion != null
+                && Utilities.CompareVersions(App.Version, installedVersion) == VersionComparison.LessThan
+                && Frontend.ShowMessageBox(
+                    Strings.InstallChecker_VersionLessThanInstalled,
+                    MessageBoxImage.Question,
+                    MessageBoxButton.YesNo
+                ) != MessageBoxResult.Yes
+            )
+            || (
+                !flag
+                && Frontend.ShowMessageBox(
+                    Strings.InstallChecker_VersionDifferentThanInstalled,
+                    MessageBoxImage.Question,
+                    MessageBoxButton.YesNo
+                ) != MessageBoxResult.Yes
+            )
+        )
+        {
+            App.Logger.WriteLine("Installer::HandleLinuxUpgrade", "Kept the installed copy at " + installed);
+            return;
+        }
+        App.Logger.WriteLine("Installer::HandleLinuxUpgrade", "Doing upgrade of " + installed);
+        for (int i = 1; i <= 10; i++)
+        {
+            try
+            {
+                ReplaceLinuxInstalledCopy(running, installed);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                switch (i)
+                {
+                    case 1:
+                        App.Logger.WriteLine("Installer::HandleLinuxUpgrade", "Waiting for write permissions to update version");
+                        break;
+                    case 10:
+                        App.Logger.WriteLine(
+                            "Installer::HandleLinuxUpgrade",
+                            "Failed to update! (Could not get write permissions after 10 tries/5 seconds)"
+                        );
+                        App.Logger.WriteException("Installer::HandleLinuxUpgrade", ex);
+                        return;
+                }
+                await Task.Delay(500);
+                continue;
+            }
+            break;
+        }
+        RecordLinuxInstalledCopy(installed);
+        if (installedVersion != null)
+        {
+            App.Settings.Save();
+            App.FastFlags.Save();
+            App.State.Save();
+        }
+        string? linuxVersion = ReleaseVersion(App.Version);
+        if (linuxVersion != null && linuxVersion != ReleaseVersion(installedVersion))
+            Voidstrap.Utility.AppNotifications.RecordInfo(
+                "upgrade:" + linuxVersion,
+                "Voidstrap updated",
+                "Voidstrap was updated to version " + linuxVersion + "."
+            );
+        if (!flag)
+        {
+            Frontend.ShowMessageBox(string.Format(Strings.InstallChecker_Updated, App.Version), MessageBoxImage.Asterisk);
+        }
+    }
+
+    private static void ReplaceLinuxInstalledCopy(string source, string destination)
+    {
+        string directory =
+            Path.GetDirectoryName(destination) ?? throw new InvalidOperationException("The install directory is unavailable");
+        string stagedPath = Path.Combine(directory, "." + Path.GetFileName(destination) + ".update." + Guid.NewGuid().ToString("N"));
+        try
+        {
+            File.Copy(source, stagedPath, overwrite: false);
+            Voidstrap.Utility.InstallRecord.MakeExecutable(stagedPath);
+            File.Move(stagedPath, destination, overwrite: true);
+        }
+        finally
+        {
+            if (File.Exists(stagedPath))
+            {
+                File.Delete(stagedPath);
+            }
+        }
+    }
+
+    private static void RecordLinuxInstalledCopy(string path)
+    {
+        try
+        {
+            FileInfo info = new(path);
+            string json = JsonSerializer.Serialize(new LinuxInstalledCopy(path, App.Version, info.Length, info.LastWriteTimeUtc.Ticks));
+            if (
+                File.Exists(LinuxInstalledCopyFile)
+                && string.Equals(File.ReadAllText(LinuxInstalledCopyFile), json, StringComparison.Ordinal)
+            )
+            {
+                return;
+            }
+            Directory.CreateDirectory(Paths.Base);
+            string temporary = LinuxInstalledCopyFile + ".tmp";
+            File.WriteAllText(temporary, json);
+            File.Move(temporary, LinuxInstalledCopyFile, overwrite: true);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            App.Logger.WriteLine("Installer::RecordLinuxInstalledCopy", "The installed copy could not be recorded: " + ex.Message);
+        }
+    }
+
+    private static string? ReadLinuxInstalledVersion(string path)
+    {
+        try
+        {
+            if (!File.Exists(LinuxInstalledCopyFile))
+            {
+                return null;
+            }
+            LinuxInstalledCopy? record = JsonSerializer.Deserialize<LinuxInstalledCopy>(File.ReadAllText(LinuxInstalledCopyFile));
+            FileInfo info = new(path);
+            return
+                record != null
+                && string.Equals(record.Path, path, StringComparison.Ordinal)
+                && record.Length == info.Length
+                && record.LastWriteTicks == info.LastWriteTimeUtc.Ticks
+                ? record.Version
+                : null;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
+        {
+            return null;
+        }
+    }
+
+    private static void MigrateLegacyInstall(bool upgradeLaunch)
+    {
+        if (upgradeLaunch)
+        {
+            if (App.LaunchSettings.Args.Length == 0)
+            {
+                App.LaunchSettings.RobloxLaunchMode = LaunchMode.Player;
+            }
+            string? launchArgument = App.LaunchSettings.Args.FirstOrDefault(x => x.Contains("roblox"));
+            if (launchArgument != null)
+            {
+                App.LaunchSettings.RobloxLaunchMode = LaunchMode.Player;
+                App.LaunchSettings.RobloxLaunchArgs = launchArgument;
+            }
+        }
+
+        TrySafe(
+            "legacy desktop shortcut",
+            delegate
+            {
+                string legacyShortcut = Path.Combine(Paths.Desktop, "Play Roblox.lnk");
+                if (File.Exists(legacyShortcut))
+                {
+                    File.Move(legacyShortcut, DesktopShortcut, overwrite: true);
+                }
+            }
+        );
+
+        TrySafe(
+            "legacy start menu folder",
+            delegate
+            {
+                string legacyFolder = Path.Combine(Paths.WindowsStartMenu, "Voidstrap");
+                if (!Directory.Exists(legacyFolder))
+                {
+                    return;
+                }
+                try
+                {
+                    Directory.Delete(legacyFolder, recursive: true);
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteException("Installer::MigrateLegacyInstall", ex);
+                }
+                Voidstrap.Utility.Shortcut.Create(Paths.Application, "", StartMenuShortcut);
+            }
+        );
+
+        if (Voidstrap.Utility.Platform.SupportsRegistry)
+        {
+            TrySafe(
+                "legacy registry cleanup",
+                delegate
+                {
+                    Registry.CurrentUser.DeleteSubKeyTree("Software\\Voidstrap", throwOnMissingSubKey: false);
+                }
+            );
+        }
+
+        TrySafe("player registration", WindowsRegistry.RegisterPlayer);
+        App.FastFlags.SetValue("FFlagDisableNewIGMinDUA", null);
+        App.FastFlags.SetValue("FFlagFixGraphicsQuality", null);
+    }
+
+    private static void ReplaceInstalledExecutable()
+    {
+        string directory =
+            Path.GetDirectoryName(Paths.Application) ?? throw new InvalidOperationException("The install directory is unavailable");
+        string stagedPath = Path.Combine(directory, ".Voidstrap.update." + Guid.NewGuid().ToString("N"));
+        try
+        {
+            File.Copy(Paths.Process, stagedPath, overwrite: false);
+            Voidstrap.Utility.InstallRecord.MakeExecutable(stagedPath);
+            if (Voidstrap.Utility.Platform.IsWindows)
+            {
+                try
+                {
+                    File.Replace(stagedPath, Paths.Application, null, ignoreMetadataErrors: true);
+                }
+                catch (Exception ex) when (Voidstrap.Utility.CloudFiles.IsCloudFailure(ex, Paths.Application))
+                {
+                    App.Logger.WriteLine(
+                        "Installer::ReplaceInstalledExecutable",
+                        "Replace failed on a cloud synced file, moving instead: " + ex.Message
+                    );
+                    File.Move(stagedPath, Paths.Application, overwrite: true);
+                }
+            }
+            else
+            {
+                File.Move(stagedPath, Paths.Application, overwrite: true);
+            }
+        }
+        finally
+        {
+            if (File.Exists(stagedPath))
+            {
+                File.Delete(stagedPath);
+            }
+        }
+    }
+
+    [LibraryImport("shell32.dll")]
+    private static partial void SHChangeNotify(int wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
+
+    private static void RefreshAppIcons()
+    {
+        if (!Voidstrap.Utility.Platform.IsWindows)
+        {
+            return;
+        }
+        try
+        {
+            Voidstrap.Models.SettingTasks.ExtractIconsTask.ExtractAll(overwrite: true);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("Installer::RefreshAppIcons", ex);
+        }
+        try
+        {
+            if (File.Exists(StartMenuShortcut))
+            {
+                Voidstrap.Utility.Shortcut.Create(Paths.Application, "", StartMenuShortcut, Paths.Application, overwrite: true);
+            }
+        }
+        catch { }
+        try
+        {
+            if (File.Exists(DesktopShortcut))
+            {
+                Voidstrap.Utility.Shortcut.Create(Paths.Application, "", DesktopShortcut);
+            }
+        }
+        catch { }
+        try
+        {
+            SHChangeNotify(0x08000000, 0u, IntPtr.Zero, IntPtr.Zero);
+        }
+        catch (Exception ex2)
+        {
+            App.Logger.WriteException("Installer::RefreshAppIcons", ex2);
+        }
+    }
+
+    public static bool RelocateInstall(string newLocation)
+    {
+        if (string.IsNullOrWhiteSpace(newLocation))
+        {
+            return false;
+        }
+        string text = Paths.Base;
+        string text2 = newLocation.TrimEnd([Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar]);
+        if (!text2.EndsWith("Voidstrap", StringComparison.InvariantCultureIgnoreCase))
+        {
+            text2 = Path.Combine(text2, "Voidstrap");
+        }
+        if (string.Equals(text2, text, StringComparison.OrdinalIgnoreCase))
+        {
+            Frontend.ShowMessageBox("Voidstrap is already installed at that location.", MessageBoxImage.Asterisk);
+            return false;
+        }
+        if (
+            text2.Length <= 3
+            || text2.StartsWith("\\\\", StringComparison.Ordinal)
+            || text2.StartsWith(Path.GetTempPath(), StringComparison.OrdinalIgnoreCase)
+            || text2.Contains("\\Temp\\", StringComparison.OrdinalIgnoreCase)
+            || IsCloudSyncedPath(text2)
+            || text2.Contains("Program Files")
+        )
+        {
+            Frontend.ShowMessageBox(Strings.Menu_InstallLocation_CantInstall, MessageBoxImage.Hand);
+            return false;
+        }
+        string text3 = Path.GetFullPath(text).TrimEnd('\\') + "\\";
+        string text4 = Path.GetFullPath(text2).TrimEnd('\\') + "\\";
+        if (
+            text4.StartsWith(text3, StringComparison.InvariantCultureIgnoreCase)
+            || text3.StartsWith(text4, StringComparison.InvariantCultureIgnoreCase)
+        )
+        {
+            Frontend.ShowMessageBox(Strings.Menu_InstallLocation_CantInstall, MessageBoxImage.Hand);
+            return false;
+        }
+        string targetParent = Directory.GetParent(text2)?.FullName ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(targetParent))
+        {
+            Frontend.ShowMessageBox(Strings.Menu_InstallLocation_CantInstall, MessageBoxImage.Hand);
+            return false;
+        }
+        try
+        {
+            Directory.CreateDirectory(targetParent);
+            string path = Path.Combine(targetParent, ".Voidstrap.write." + Guid.NewGuid().ToString("N"));
+            File.WriteAllText(path, "");
+            File.Delete(path);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("Installer::RelocateInstall", ex);
+            Frontend.ShowMessageBox(Strings.Menu_InstallLocation_NoWritePerms, MessageBoxImage.Hand);
+            return false;
+        }
+        string stagingPath = Path.Combine(targetParent, ".Voidstrap.staging." + Guid.NewGuid().ToString("N"));
+        string? replacedTarget = null;
+        try
+        {
+            App.Logger.WriteLine("Installer::RelocateInstall", $"Relocating install from '{text}' to '{text2}'");
+            if (Directory.Exists(text2))
+            {
+                CopyDirectory(text2, stagingPath);
+            }
+            CopyDirectory(text, stagingPath);
+            string stagedApplication = Path.Combine(stagingPath, Path.GetFileName(Paths.Application));
+            if (!File.Exists(stagedApplication) || new FileInfo(stagedApplication).Length == 0)
+            {
+                throw new IOException("The relocated executable could not be verified");
+            }
+            if (Directory.Exists(text2))
+            {
+                replacedTarget = Path.Combine(targetParent, ".Voidstrap.previous." + Guid.NewGuid().ToString("N"));
+                Directory.Move(text2, replacedTarget);
+            }
+            try
+            {
+                Directory.Move(stagingPath, text2);
+            }
+            catch
+            {
+                if (replacedTarget != null && Directory.Exists(replacedTarget) && !Directory.Exists(text2))
+                {
+                    Directory.Move(replacedTarget, text2);
+                }
+                throw;
+            }
+        }
+        catch (Exception ex2)
+        {
+            TryDeleteRelocationDirectory(stagingPath, targetParent);
+            App.Logger.WriteException("Installer::RelocateInstall", ex2);
+            Frontend.ShowMessageBox("Failed to move Voidstrap to the new location.", MessageBoxImage.Hand);
+            return false;
+        }
+        Paths.Initialize(text2);
+        Paths.EnsureDirectories();
+        InstallLocationResolver.Repair(Paths.Base);
+        try
+        {
+            if (App.IsStudioVisible)
+            {
+                WindowsRegistry.RegisterStudio();
+            }
+        }
+        catch (Exception ex3)
+        {
+            App.Logger.WriteException("Installer::RelocateInstall", ex3);
+        }
+        try
+        {
+            using Process? process = Process.Start(
+                new ProcessStartInfo
+                {
+                    FileName = Paths.Application,
+                    Arguments = "-settings",
+                    UseShellExecute = true,
+                }
+            );
+            if (process == null)
+            {
+                throw new InvalidOperationException("The relocated application did not start");
+            }
+        }
+        catch (Exception ex4)
+        {
+            App.Logger.WriteException("Installer::RelocateInstall", ex4);
+            Frontend.ShowMessageBox("Failed to start Voidstrap from the new location.", MessageBoxImage.Hand);
+            Paths.Initialize(text);
+            InstallLocationResolver.Repair(Paths.Base);
+            return false;
+        }
+        if (replacedTarget != null)
+        {
+            TryDeleteRelocationDirectory(replacedTarget, targetParent);
+        }
+        ScheduleOldLocationCleanup(text);
+        App.Terminate();
+        return true;
+    }
+
+    private static void CopyDirectory(string source, string destination)
+    {
+        Directory.CreateDirectory(destination);
+        foreach (string text in Directory.GetFiles(source))
+        {
+            File.Copy(text, Path.Combine(destination, Path.GetFileName(text)), overwrite: true);
+        }
+        foreach (string text2 in Directory.GetDirectories(source))
+        {
+            if (new DirectoryInfo(text2).LinkTarget != null)
+            {
+                continue;
+            }
+            CopyDirectory(text2, Path.Combine(destination, Path.GetFileName(text2)));
+        }
+    }
+
+    private static void TryDeleteRelocationDirectory(string path, string expectedParent)
+    {
+        try
+        {
+            string fullPath = Path.GetFullPath(path);
+            string parent = Directory.GetParent(fullPath)?.FullName ?? string.Empty;
+            if (
+                Directory.Exists(fullPath)
+                && string.Equals(parent, Path.GetFullPath(expectedParent), StringComparison.OrdinalIgnoreCase)
+                && Path.GetFileName(fullPath).StartsWith(".Voidstrap.", StringComparison.Ordinal)
+            )
+            {
+                Directory.Delete(fullPath, recursive: true);
+            }
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("Installer::RelocateInstall", ex);
+        }
+    }
+
+    private static void ScheduleOldLocationCleanup(string oldBase)
+    {
+        ScheduleDeferredCleanup(oldBase, true, "Installer::ScheduleOldLocationCleanup");
+    }
 }

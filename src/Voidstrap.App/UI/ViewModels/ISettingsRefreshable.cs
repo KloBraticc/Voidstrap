@@ -2,5 +2,5 @@ namespace Voidstrap.UI.ViewModels;
 
 public interface ISettingsRefreshable
 {
-	void ReloadFromSettings();
+    void ReloadFromSettings();
 }

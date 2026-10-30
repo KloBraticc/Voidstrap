@@ -2,30 +2,30 @@ namespace Voidstrap.Models.SettingTasks.Base;
 
 public abstract class BaseTask
 {
-	public string Name { get; private set; }
+    public string Name { get; private set; }
 
-	public abstract bool Changed { get; }
+    public abstract bool Changed { get; }
 
-	public BaseTask(string prefix, string name)
-		: this(prefix + "." + name)
-	{
-	}
+    public BaseTask(string prefix, string name)
+        : this(prefix + "." + name)
+    {
+    }
 
-	public BaseTask(string name)
-	{
-		Name = name;
-	}
+    public BaseTask(string name)
+    {
+        Name = name;
+    }
 
-	public override string ToString()
-	{
-		return Name;
-	}
+    public override string ToString()
+    {
+        return Name;
+    }
 
-	public abstract void Execute();
+    public abstract void Execute();
 
-	public virtual Task ExecuteAsync()
-	{
-		Execute();
-		return Task.CompletedTask;
-	}
+    public virtual Task ExecuteAsync()
+    {
+        Execute();
+        return Task.CompletedTask;
+    }
 }

@@ -473,9 +473,9 @@ namespace Voidstrap.Utility
         {
             double[,] r = new double[3, 3];
             for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
-            for (int k = 0; k < 3; k++)
-                r[i, j] += a[i, k] * b[k, j];
+                for (int j = 0; j < 3; j++)
+                    for (int k = 0; k < 3; k++)
+                        r[i, j] += a[i, k] * b[k, j];
             return r;
         }
 
@@ -483,8 +483,8 @@ namespace Voidstrap.Utility
         {
             double[,] r = new double[3, 3];
             for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
-                r[i, j] = a[i, j] + b[i, j];
+                for (int j = 0; j < 3; j++)
+                    r[i, j] = a[i, j] + b[i, j];
             return r;
         }
 
@@ -492,8 +492,8 @@ namespace Voidstrap.Utility
         {
             double[,] r = new double[3, 3];
             for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
-                r[i, j] = a[i, j] - b[i, j];
+                for (int j = 0; j < 3; j++)
+                    r[i, j] = a[i, j] - b[i, j];
             return r;
         }
 
@@ -501,8 +501,8 @@ namespace Voidstrap.Utility
         {
             double[,] r = new double[3, 3];
             for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
-                r[i, j] = (i == j ? 1.0 : 0.0) * (1.0 - t) + m[i, j] * t;
+                for (int j = 0; j < 3; j++)
+                    r[i, j] = (i == j ? 1.0 : 0.0) * (1.0 - t) + m[i, j] * t;
             return r;
         }
 
@@ -547,8 +547,8 @@ namespace Voidstrap.Utility
                 result[i] = Identity[i];
 
             for (int r = 0; r < 3; r++)
-            for (int c = 0; c < 3; c++)
-                result[r * 5 + c] = (float)m33[c, r];
+                for (int c = 0; c < 3; c++)
+                    result[r * 5 + c] = (float)m33[c, r];
 
             return result;
         }

@@ -7,236 +7,236 @@ namespace Voidstrap.Integrations;
 
 public class Cleaner
 {
-	public static readonly Dictionary<string, string> Directories = new Dictionary<string, string>
-	{
-		{
-			"VoidstrapLogs",
-			Paths.Logs
-		},
-		{
-			"VoidstrapCache",
-			Paths.Downloads
-		},
-		{
-			"RobloxLogs",
-			Paths.RobloxLogs
-		},
-		{
-			"RobloxCache",
-			Paths.RobloxCache
-		}
-	};
+    public static readonly Dictionary<string, string> Directories = new Dictionary<string, string>
+    {
+        {
+            "VoidstrapLogs",
+            Paths.Logs
+        },
+        {
+            "VoidstrapCache",
+            Paths.Downloads
+        },
+        {
+            "RobloxLogs",
+            Paths.RobloxLogs
+        },
+        {
+            "RobloxCache",
+            Paths.RobloxCache
+        }
+    };
 
-	public static void DoCleaning()
-	{
-		App.Logger.WriteLine("Cleaner::DoCleaning", "Cleaner has started");
-		int num = App.Settings.Prop.CleanerOptions switch
-		{
-			CleanerOptions.AfterLaunch => 0,
-			CleanerOptions.OneDay => 1,
-			CleanerOptions.OneWeek => 7,
-			CleanerOptions.TwoWeeks => 14,
-			CleanerOptions.ThreeWeeks => 21,
-			CleanerOptions.OneMonth => 30,
-			CleanerOptions.TwoMonths => 60,
-			CleanerOptions.ThreeMonths => 90,
-			CleanerOptions.Never => int.MaxValue,
-			_ => int.MaxValue,
-		};
-		DateTime threshold = num == int.MaxValue ? DateTime.MinValue : DateTime.Now.AddDays(-num);
-		if (App.Settings.Prop.CleanerOptions == CleanerOptions.Never)
-		{
-			App.Logger.WriteLine("Cleaner::DoCleaning", "Cleaner is set to Never, nothing to do");
-			return;
-		}
-		foreach (KeyValuePair<string, string> directory in Directories)
-		{
-			string value = directory.Value;
-			string key = directory.Key;
-			if (!App.Settings.Prop.CleanerDirectories.Contains(key))
-			{
-				App.Logger.WriteLine("Cleaner::DoCleaning", "Skipping " + key);
-			}
-			else
-			{
-				if (string.IsNullOrEmpty(value) || !Directory.Exists(value))
-				{
-					continue;
-				}
-				try
-				{
-					string[] array = RecursivlyGetFiles(value);
-					App.Logger.WriteLine("Cleaner::DoCleaning", $"Running cleaner in {key}, {array.Length} files found");
-					string activeLog = App.Logger.FileLocation ?? string.Empty;
-					Lazy<HashSet<int>> livePids = new Lazy<HashSet<int>>(SnapshotProcessIds);
-					string[] array2 = array;
-					foreach (string text in array2)
-					{
-						if (IsLiveVoidstrapLog(text, livePids))
-						{
-							continue;
-						}
-						if (activeLog.Length > 0 && string.Equals(Path.GetFullPath(text), Path.GetFullPath(activeLog), StringComparison.OrdinalIgnoreCase))
-						{
-							continue;
-						}
-						if (VerifyFile(text, threshold))
-						{
-							try
-							{
-								File.Delete(text);
-							}
-							catch (Exception ex) when (IsInUse(ex))
-							{
-								App.Logger.WriteLine("Cleaner::DoCleaning", "Skipping " + Path.GetFileName(text) + ", it is still open by another program");
-							}
-							catch (Exception ex)
-							{
-								App.Logger.WriteLine("Cleaner::DoCleaning", "Unable to delete " + text);
-								App.Logger.WriteException("Cleaner::DoCleaning", ex);
-							}
-						}
-					}
-				}
-				catch (Exception ex2)
-				{
-					App.Logger.WriteLine("Cleaner::DoCleaning", "Failed to clean up " + value);
-					App.Logger.WriteException("Cleaner::DoCleaning", ex2);
-				}
-			}
-		}
-		if (Voidstrap.Utility.Platform.IsLinux && App.Settings.Prop.CleanerDirectories.Contains("RobloxLogs"))
-		{
-			CleanSoberLogs(threshold);
-		}
-		App.Logger.WriteLine("Cleaner::DoCleaning", "Cleaner finished");
-	}
+    public static void DoCleaning()
+    {
+        App.Logger.WriteLine("Cleaner::DoCleaning", "Cleaner has started");
+        int num = App.Settings.Prop.CleanerOptions switch
+        {
+            CleanerOptions.AfterLaunch => 0,
+            CleanerOptions.OneDay => 1,
+            CleanerOptions.OneWeek => 7,
+            CleanerOptions.TwoWeeks => 14,
+            CleanerOptions.ThreeWeeks => 21,
+            CleanerOptions.OneMonth => 30,
+            CleanerOptions.TwoMonths => 60,
+            CleanerOptions.ThreeMonths => 90,
+            CleanerOptions.Never => int.MaxValue,
+            _ => int.MaxValue,
+        };
+        DateTime threshold = num == int.MaxValue ? DateTime.MinValue : DateTime.Now.AddDays(-num);
+        if (App.Settings.Prop.CleanerOptions == CleanerOptions.Never)
+        {
+            App.Logger.WriteLine("Cleaner::DoCleaning", "Cleaner is set to Never, nothing to do");
+            return;
+        }
+        foreach (KeyValuePair<string, string> directory in Directories)
+        {
+            string value = directory.Value;
+            string key = directory.Key;
+            if (!App.Settings.Prop.CleanerDirectories.Contains(key))
+            {
+                App.Logger.WriteLine("Cleaner::DoCleaning", "Skipping " + key);
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(value) || !Directory.Exists(value))
+                {
+                    continue;
+                }
+                try
+                {
+                    string[] array = RecursivlyGetFiles(value);
+                    App.Logger.WriteLine("Cleaner::DoCleaning", $"Running cleaner in {key}, {array.Length} files found");
+                    string activeLog = App.Logger.FileLocation ?? string.Empty;
+                    Lazy<HashSet<int>> livePids = new Lazy<HashSet<int>>(SnapshotProcessIds);
+                    string[] array2 = array;
+                    foreach (string text in array2)
+                    {
+                        if (IsLiveVoidstrapLog(text, livePids))
+                        {
+                            continue;
+                        }
+                        if (activeLog.Length > 0 && string.Equals(Path.GetFullPath(text), Path.GetFullPath(activeLog), StringComparison.OrdinalIgnoreCase))
+                        {
+                            continue;
+                        }
+                        if (VerifyFile(text, threshold))
+                        {
+                            try
+                            {
+                                File.Delete(text);
+                            }
+                            catch (Exception ex) when (IsInUse(ex))
+                            {
+                                App.Logger.WriteLine("Cleaner::DoCleaning", "Skipping " + Path.GetFileName(text) + ", it is still open by another program");
+                            }
+                            catch (Exception ex)
+                            {
+                                App.Logger.WriteLine("Cleaner::DoCleaning", "Unable to delete " + text);
+                                App.Logger.WriteException("Cleaner::DoCleaning", ex);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex2)
+                {
+                    App.Logger.WriteLine("Cleaner::DoCleaning", "Failed to clean up " + value);
+                    App.Logger.WriteException("Cleaner::DoCleaning", ex2);
+                }
+            }
+        }
+        if (Voidstrap.Utility.Platform.IsLinux && App.Settings.Prop.CleanerDirectories.Contains("RobloxLogs"))
+        {
+            CleanSoberLogs(threshold);
+        }
+        App.Logger.WriteLine("Cleaner::DoCleaning", "Cleaner finished");
+    }
 
-	private static void CleanSoberLogs(DateTime threshold)
-	{
-		string? soberData = Path.GetDirectoryName(Path.GetDirectoryName(Paths.RobloxLogs) ?? string.Empty);
-		if (string.IsNullOrEmpty(soberData))
-		{
-			return;
-		}
-		string folder = Path.Combine(soberData, "sober_logs");
-		if (!Directory.Exists(folder))
-		{
-			return;
-		}
-		string? active = null;
-		try
-		{
-			active = new FileInfo(Path.Combine(folder, "latest.log")).ResolveLinkTarget(true)?.FullName;
-		}
-		catch (IOException)
-		{
-		}
-		bool soberRunning = Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow();
-		int removed = 0;
-		int kept = 0;
-		foreach (string file in Directory.EnumerateFiles(folder, "*.log"))
-		{
-			if (string.Equals(Path.GetFileName(file), "latest.log", StringComparison.Ordinal)
-				|| (soberRunning && string.Equals(file, active, StringComparison.Ordinal)))
-			{
-				kept++;
-				continue;
-			}
-			try
-			{
-				if (!VerifyFile(file, threshold))
-				{
-					kept++;
-					continue;
-				}
-				File.Delete(file);
-				removed++;
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine("Cleaner::DoCleaning", "Unable to delete " + Path.GetFileName(file) + ": " + ex.Message);
-			}
-		}
-		App.Logger.WriteLine("Cleaner::DoCleaning", $"Running cleaner in SoberLogs, removed {removed} and kept {kept}");
-	}
+    private static void CleanSoberLogs(DateTime threshold)
+    {
+        string? soberData = Path.GetDirectoryName(Path.GetDirectoryName(Paths.RobloxLogs) ?? string.Empty);
+        if (string.IsNullOrEmpty(soberData))
+        {
+            return;
+        }
+        string folder = Path.Combine(soberData, "sober_logs");
+        if (!Directory.Exists(folder))
+        {
+            return;
+        }
+        string? active = null;
+        try
+        {
+            active = new FileInfo(Path.Combine(folder, "latest.log")).ResolveLinkTarget(true)?.FullName;
+        }
+        catch (IOException)
+        {
+        }
+        bool soberRunning = Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow();
+        int removed = 0;
+        int kept = 0;
+        foreach (string file in Directory.EnumerateFiles(folder, "*.log"))
+        {
+            if (string.Equals(Path.GetFileName(file), "latest.log", StringComparison.Ordinal)
+                || (soberRunning && string.Equals(file, active, StringComparison.Ordinal)))
+            {
+                kept++;
+                continue;
+            }
+            try
+            {
+                if (!VerifyFile(file, threshold))
+                {
+                    kept++;
+                    continue;
+                }
+                File.Delete(file);
+                removed++;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("Cleaner::DoCleaning", "Unable to delete " + Path.GetFileName(file) + ": " + ex.Message);
+            }
+        }
+        App.Logger.WriteLine("Cleaner::DoCleaning", $"Running cleaner in SoberLogs, removed {removed} and kept {kept}");
+    }
 
-	private static bool IsLiveVoidstrapLog(string file, Lazy<HashSet<int>> livePids)
-	{
-		string name = Path.GetFileNameWithoutExtension(file);
-		if (!name.StartsWith("Voidstrap_", StringComparison.OrdinalIgnoreCase))
-		{
-			return false;
-		}
-		int separator = name.LastIndexOf('_');
-		if (separator < 0 || !int.TryParse(name.AsSpan(separator + 1), out int processId))
-		{
-			return false;
-		}
-		return livePids.Value.Contains(processId);
-	}
+    private static bool IsLiveVoidstrapLog(string file, Lazy<HashSet<int>> livePids)
+    {
+        string name = Path.GetFileNameWithoutExtension(file);
+        if (!name.StartsWith("Voidstrap_", StringComparison.OrdinalIgnoreCase))
+        {
+            return false;
+        }
+        int separator = name.LastIndexOf('_');
+        if (separator < 0 || !int.TryParse(name.AsSpan(separator + 1), out int processId))
+        {
+            return false;
+        }
+        return livePids.Value.Contains(processId);
+    }
 
-	private static HashSet<int> SnapshotProcessIds()
-	{
-		HashSet<int> ids = new HashSet<int>();
-		foreach (System.Diagnostics.Process process in System.Diagnostics.Process.GetProcesses())
-		{
-			using (process)
-				ids.Add(process.Id);
-		}
-		return ids;
-	}
+    private static HashSet<int> SnapshotProcessIds()
+    {
+        HashSet<int> ids = new HashSet<int>();
+        foreach (System.Diagnostics.Process process in System.Diagnostics.Process.GetProcesses())
+        {
+            using (process)
+                ids.Add(process.Id);
+        }
+        return ids;
+    }
 
-	private static bool IsInUse(Exception ex)
-	{
-		return ex is IOException && (ex.HResult == unchecked((int)0x80070020) || ex.HResult == unchecked((int)0x80070021));
-	}
+    private static bool IsInUse(Exception ex)
+    {
+        return ex is IOException && (ex.HResult == unchecked((int)0x80070020) || ex.HResult == unchecked((int)0x80070021));
+    }
 
-	private static bool VerifyFile(string file, DateTime Threshold)
-	{
-		if (!File.Exists(file))
-		{
-			return false;
-		}
-		DateTime lastWrite;
-		DateTime created;
-		try
-		{
-			lastWrite = File.GetLastWriteTime(file);
-			created = File.GetCreationTime(file);
-		}
-		catch
-		{
-			return false;
-		}
-		DateTime age = lastWrite > created ? created : lastWrite;
-		if (age > Threshold)
-		{
-			return false;
-		}
-		if (!file.Contains("Roblox") && !file.Contains("Voidstrap") && !file.Contains(Paths.Base)
-			&& !(Voidstrap.Utility.Platform.IsLinux && file.Contains("/org.vinegarhq.Sober/", StringComparison.Ordinal)))
-		{
-			throw new Exception(file + " was in disallowed directory");
-		}
-		if (file.Contains(@"\Windows\", StringComparison.OrdinalIgnoreCase))
-		{
-			throw new Exception(file + " was in Windows directory");
-		}
-		return true;
-	}
+    private static bool VerifyFile(string file, DateTime Threshold)
+    {
+        if (!File.Exists(file))
+        {
+            return false;
+        }
+        DateTime lastWrite;
+        DateTime created;
+        try
+        {
+            lastWrite = File.GetLastWriteTime(file);
+            created = File.GetCreationTime(file);
+        }
+        catch
+        {
+            return false;
+        }
+        DateTime age = lastWrite > created ? created : lastWrite;
+        if (age > Threshold)
+        {
+            return false;
+        }
+        if (!file.Contains("Roblox") && !file.Contains("Voidstrap") && !file.Contains(Paths.Base)
+            && !(Voidstrap.Utility.Platform.IsLinux && file.Contains("/org.vinegarhq.Sober/", StringComparison.Ordinal)))
+        {
+            throw new Exception(file + " was in disallowed directory");
+        }
+        if (file.Contains(@"\Windows\", StringComparison.OrdinalIgnoreCase))
+        {
+            throw new Exception(file + " was in Windows directory");
+        }
+        return true;
+    }
 
-	private static string[] RecursivlyGetFiles(string Folder)
-	{
-		List<string> list = new List<string>();
-		if (string.IsNullOrEmpty(Folder) || !Directory.Exists(Folder))
-		{
-			throw new Exception("Folder was not found");
-		}
-		foreach (string item in Directory.EnumerateFiles(Folder, "*.*", SearchOption.AllDirectories))
-		{
-			list.Add(item);
-		}
-		return list.ToArray();
-	}
+    private static string[] RecursivlyGetFiles(string Folder)
+    {
+        List<string> list = new List<string>();
+        if (string.IsNullOrEmpty(Folder) || !Directory.Exists(Folder))
+        {
+            throw new Exception("Folder was not found");
+        }
+        foreach (string item in Directory.EnumerateFiles(Folder, "*.*", SearchOption.AllDirectories))
+        {
+            list.Add(item);
+        }
+        return list.ToArray();
+    }
 }

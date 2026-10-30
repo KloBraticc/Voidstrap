@@ -19,8 +19,8 @@ public static class LinuxFontCatalog
 	];
 #endif
 
-	public static void Install()
-	{
+    public static void Install()
+    {
 #if CROSSPLAT
 		if (!OperatingSystem.IsLinux())
 			return;
@@ -96,7 +96,7 @@ public static class LinuxFontCatalog
 
 		App.Logger.WriteLine("LinuxFontCatalog", "Name lookups now prefer the regular face of " + moved + " font files");
 #endif
-	}
+    }
 
 #if CROSSPLAT
 	private static void EnsureBundledFontsPresent(List<ProGPU.Text.FontInfo> fonts)

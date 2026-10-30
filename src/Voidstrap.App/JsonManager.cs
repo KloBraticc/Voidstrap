@@ -15,430 +15,430 @@ using Voidstrap.Utility;
 namespace Voidstrap;
 
 public class JsonManager<T>
-	where T : class, new()
+    where T : class, new()
 {
-	public T OriginalProp { get; set; } = new T();
+    public T OriginalProp { get; set; } = new T();
 
-	public T Prop { get; set; } = new T();
+    public T Prop { get; set; } = new T();
 
-	public virtual string ClassName => typeof(T).Name;
+    public virtual string ClassName => typeof(T).Name;
 
-	public string? LastFileHash { get; private set; }
+    public string? LastFileHash { get; private set; }
 
-	private int _revision;
+    private int _revision;
 
-	public int Revision => Volatile.Read(ref _revision);
+    public int Revision => Volatile.Read(ref _revision);
 
-	public virtual string BackupsLocation => Path.Combine(Paths.Config, "Backup.json");
+    public virtual string BackupsLocation => Path.Combine(Paths.Config, "Backup.json");
 
-	public virtual string FileLocation => Path.Combine(Paths.Config, ClassName + ".json");
+    public virtual string FileLocation => Path.Combine(Paths.Config, ClassName + ".json");
 
-	public virtual string LOG_IDENT_CLASS => "JsonManager<" + ClassName + ">";
+    public virtual string LOG_IDENT_CLASS => "JsonManager<" + ClassName + ">";
 
-	public virtual void Load(bool alertFailure = true)
-	{
-		string identifier = LOG_IDENT_CLASS + "::Load";
-		App.Logger.WriteLine(identifier, "Loading from " + FileLocation + "...");
-		if (!File.Exists(FileLocation))
-		{
-			App.Logger.WriteLine(identifier, "File does not exist, saving defaults.");
-			try
-			{
-				SaveChecked();
-			}
-			catch (Exception loadSaveFailure)
-			{
-				App.Logger.WriteException(identifier, loadSaveFailure);
-			}
-			return;
-		}
-		bool recovered = false;
-		Exception? failure = null;
-		if (
-			(
-				Voidstrap.Utility.NativeStateLoader.TryLoad(FileLocation, JsonFile.DefaultMaximumBytes, out T? loaded)
-				|| JsonFile.TryLoad<T>(FileLocation, JsonOptions.Tolerant, out loaded, out recovered, out failure)
-			)
-			&& loaded != null
-		)
-		{
-			Prop = loaded;
-			Interlocked.Increment(ref _revision);
-			LastFileHash = SafeGetFileHash(FileLocation);
-			_baseline = null;
-			_baselineSource = SupportsMerge ? SafeReadBytes(FileLocation) : null;
-			App.Logger.WriteLine(identifier, recovered ? "Recovered from the last valid backup" : "Loaded successfully");
-			if (recovered)
-				Voidstrap.Utility.AppNotifications.RecordInfo(
-					"recovered:" + ClassName,
-					ClassName + " was restored",
-					ClassName + " contained invalid data and was restored from the last valid backup."
-				);
-			if (recovered && alertFailure)
-				Frontend.ShowMessageBox(
-					ClassName + " contained invalid JSON and was recovered from the last valid backup.",
-					MessageBoxImage.Exclamation
-				);
-			return;
-		}
-		if (failure != null)
-			App.Logger.WriteException(identifier, failure);
-		if (failure != null && Voidstrap.Utility.CloudFiles.IsCloudFailure(failure, FileLocation))
-		{
-			App.Logger.WriteLine(identifier, "The file could not be read from the cloud provider, keeping the stored copy untouched");
-			Voidstrap.Utility.AppNotifications.RecordInfo(
-				"cloud:" + ClassName,
-				ClassName + " is not available offline",
-				ClassName
-					+ " could not be read because its folder is synced to the cloud. Voidstrap is running on defaults for now and will not overwrite the saved copy. Make the folder always available on this device, then restart."
-			);
-			if (alertFailure)
-			{
-				Frontend.ShowMessageBox(
-					ClassName
-						+ " could not be read because its folder is synced to the cloud and the file is not available offline. Voidstrap is running on defaults for now and will not overwrite your saved copy. Make the Voidstrap folder always available on this device, then restart.",
-					MessageBoxImage.Exclamation
-				);
-			}
-			Prop = new T();
-			return;
-		}
-		App.Logger.WriteLine(identifier, "No valid JSON copy was available, defaults will be restored");
-		Voidstrap.Utility.AppNotifications.RecordInfo(
-			"reset:" + ClassName,
-			ClassName + " was reset",
-			ClassName + " contained invalid data and no valid backup was available, so safe defaults were restored."
-		);
-		if (alertFailure)
-		{
-			Frontend.ShowMessageBox(
-				ClassName
-					+ " contained invalid JSON and no valid backup was available. Safe defaults were restored. The damaged file was preserved for recovery.",
-				MessageBoxImage.Exclamation
-			);
-		}
-		Prop = new T();
-		Save();
-	}
+    public virtual void Load(bool alertFailure = true)
+    {
+        string identifier = LOG_IDENT_CLASS + "::Load";
+        App.Logger.WriteLine(identifier, "Loading from " + FileLocation + "...");
+        if (!File.Exists(FileLocation))
+        {
+            App.Logger.WriteLine(identifier, "File does not exist, saving defaults.");
+            try
+            {
+                SaveChecked();
+            }
+            catch (Exception loadSaveFailure)
+            {
+                App.Logger.WriteException(identifier, loadSaveFailure);
+            }
+            return;
+        }
+        bool recovered = false;
+        Exception? failure = null;
+        if (
+            (
+                Voidstrap.Utility.NativeStateLoader.TryLoad(FileLocation, JsonFile.DefaultMaximumBytes, out T? loaded)
+                || JsonFile.TryLoad<T>(FileLocation, JsonOptions.Tolerant, out loaded, out recovered, out failure)
+            )
+            && loaded != null
+        )
+        {
+            Prop = loaded;
+            Interlocked.Increment(ref _revision);
+            LastFileHash = SafeGetFileHash(FileLocation);
+            _baseline = null;
+            _baselineSource = SupportsMerge ? SafeReadBytes(FileLocation) : null;
+            App.Logger.WriteLine(identifier, recovered ? "Recovered from the last valid backup" : "Loaded successfully");
+            if (recovered)
+                Voidstrap.Utility.AppNotifications.RecordInfo(
+                    "recovered:" + ClassName,
+                    ClassName + " was restored",
+                    ClassName + " contained invalid data and was restored from the last valid backup."
+                );
+            if (recovered && alertFailure)
+                Frontend.ShowMessageBox(
+                    ClassName + " contained invalid JSON and was recovered from the last valid backup.",
+                    MessageBoxImage.Exclamation
+                );
+            return;
+        }
+        if (failure != null)
+            App.Logger.WriteException(identifier, failure);
+        if (failure != null && Voidstrap.Utility.CloudFiles.IsCloudFailure(failure, FileLocation))
+        {
+            App.Logger.WriteLine(identifier, "The file could not be read from the cloud provider, keeping the stored copy untouched");
+            Voidstrap.Utility.AppNotifications.RecordInfo(
+                "cloud:" + ClassName,
+                ClassName + " is not available offline",
+                ClassName
+                    + " could not be read because its folder is synced to the cloud. Voidstrap is running on defaults for now and will not overwrite the saved copy. Make the folder always available on this device, then restart."
+            );
+            if (alertFailure)
+            {
+                Frontend.ShowMessageBox(
+                    ClassName
+                        + " could not be read because its folder is synced to the cloud and the file is not available offline. Voidstrap is running on defaults for now and will not overwrite your saved copy. Make the Voidstrap folder always available on this device, then restart.",
+                    MessageBoxImage.Exclamation
+                );
+            }
+            Prop = new T();
+            return;
+        }
+        App.Logger.WriteLine(identifier, "No valid JSON copy was available, defaults will be restored");
+        Voidstrap.Utility.AppNotifications.RecordInfo(
+            "reset:" + ClassName,
+            ClassName + " was reset",
+            ClassName + " contained invalid data and no valid backup was available, so safe defaults were restored."
+        );
+        if (alertFailure)
+        {
+            Frontend.ShowMessageBox(
+                ClassName
+                    + " contained invalid JSON and no valid backup was available. Safe defaults were restored. The damaged file was preserved for recovery.",
+                MessageBoxImage.Exclamation
+            );
+        }
+        Prop = new T();
+        Save();
+    }
 
-	private readonly System.Threading.Lock _saveLock = new();
+    private readonly System.Threading.Lock _saveLock = new();
 
-	private readonly System.Threading.Lock _deferredTimerLock = new();
+    private readonly System.Threading.Lock _deferredTimerLock = new();
 
-	private Timer? _deferredSaveTimer;
+    private Timer? _deferredSaveTimer;
 
-	private int _savePending;
+    private int _savePending;
 
-	public void SaveDeferred()
-	{
-		Interlocked.Increment(ref _revision);
-		Interlocked.Exchange(ref _savePending, 1);
-		lock (_deferredTimerLock)
-		{
-			if (_deferredSaveTimer == null)
-			{
-				_deferredSaveTimer = new Timer(OnDeferredSave, null, 500, Timeout.Infinite);
-			}
-			else
-			{
-				_deferredSaveTimer.Change(500, Timeout.Infinite);
-			}
-		}
-	}
+    public void SaveDeferred()
+    {
+        Interlocked.Increment(ref _revision);
+        Interlocked.Exchange(ref _savePending, 1);
+        lock (_deferredTimerLock)
+        {
+            if (_deferredSaveTimer == null)
+            {
+                _deferredSaveTimer = new Timer(OnDeferredSave, null, 500, Timeout.Infinite);
+            }
+            else
+            {
+                _deferredSaveTimer.Change(500, Timeout.Infinite);
+            }
+        }
+    }
 
-	private void OnDeferredSave(object? state)
-	{
-		if (Interlocked.Exchange(ref _savePending, 0) == 0)
-		{
-			return;
-		}
-		try
-		{
-			Save();
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException(LOG_IDENT_CLASS + "::SaveDeferred", ex);
-		}
-	}
+    private void OnDeferredSave(object? state)
+    {
+        if (Interlocked.Exchange(ref _savePending, 0) == 0)
+        {
+            return;
+        }
+        try
+        {
+            Save();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT_CLASS + "::SaveDeferred", ex);
+        }
+    }
 
-	public void FlushDeferred()
-	{
-		if (Interlocked.Exchange(ref _savePending, 0) == 0)
-		{
-			return;
-		}
-		try
-		{
-			Save();
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException(LOG_IDENT_CLASS + "::FlushDeferred", ex);
-		}
-	}
+    public void FlushDeferred()
+    {
+        if (Interlocked.Exchange(ref _savePending, 0) == 0)
+        {
+            return;
+        }
+        try
+        {
+            Save();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT_CLASS + "::FlushDeferred", ex);
+        }
+    }
 
-	public virtual void Save()
-	{
-		try
-		{
-			SaveChecked();
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine(LOG_IDENT_CLASS + "::Save", "Failed to save");
-			App.Logger.WriteException(LOG_IDENT_CLASS + "::Save", ex);
-			Frontend.ShowMessageBox(
-				string.Format(Strings.Bootstrapper_JsonManagerSaveFailed, ClassName, ex.Message),
-				MessageBoxImage.Exclamation
-			);
-		}
-	}
+    public virtual void Save()
+    {
+        try
+        {
+            SaveChecked();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT_CLASS + "::Save", "Failed to save");
+            App.Logger.WriteException(LOG_IDENT_CLASS + "::Save", ex);
+            Frontend.ShowMessageBox(
+                string.Format(Strings.Bootstrapper_JsonManagerSaveFailed, ClassName, ex.Message),
+                MessageBoxImage.Exclamation
+            );
+        }
+    }
 
-	public void SaveChecked(bool createBackup = true)
-	{
-		Interlocked.Increment(ref _revision);
-		lock (_saveLock)
-		{
-			if (SupportsMerge)
-				AdoptExternalChanges(LOG_IDENT_CLASS + "::Save");
-			JsonFile.SerializeAtomic(FileLocation, Prop, JsonOptions.Indented, createBackup);
-			LastFileHash = SafeGetFileHash(FileLocation);
-			if (SupportsMerge)
-			{
-				_baseline = Snapshot(Prop);
-				_baselineSource = null;
-			}
-		}
-	}
+    public void SaveChecked(bool createBackup = true)
+    {
+        Interlocked.Increment(ref _revision);
+        lock (_saveLock)
+        {
+            if (SupportsMerge)
+                AdoptExternalChanges(LOG_IDENT_CLASS + "::Save");
+            JsonFile.SerializeAtomic(FileLocation, Prop, JsonOptions.Indented, createBackup);
+            LastFileHash = SafeGetFileHash(FileLocation);
+            if (SupportsMerge)
+            {
+                _baseline = Snapshot(Prop);
+                _baselineSource = null;
+            }
+        }
+    }
 
-	private static string? SafeGetFileHash(string path)
-	{
-		try
-		{
-			using (new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-			{
-				return MD5Hash.FromFile(path);
-			}
-		}
-		catch
-		{
-			return null;
-		}
-	}
+    private static string? SafeGetFileHash(string path)
+    {
+        try
+        {
+            using (new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                return MD5Hash.FromFile(path);
+            }
+        }
+        catch
+        {
+            return null;
+        }
+    }
 
-	private static readonly bool SupportsMerge = !typeof(System.Collections.IDictionary).IsAssignableFrom(typeof(T));
+    private static readonly bool SupportsMerge = !typeof(System.Collections.IDictionary).IsAssignableFrom(typeof(T));
 
-	private static readonly PropertyInfo[] MergeableProperties = typeof(T)
-		.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-		.Where(property =>
-			property.CanRead
-			&& property.GetSetMethod() is not null
-			&& property.GetIndexParameters().Length == 0
-			&& property.GetCustomAttribute<JsonIgnoreAttribute>() is null
-		)
-		.ToArray();
+    private static readonly PropertyInfo[] MergeableProperties = typeof(T)
+        .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+        .Where(property =>
+            property.CanRead
+            && property.GetSetMethod() is not null
+            && property.GetIndexParameters().Length == 0
+            && property.GetCustomAttribute<JsonIgnoreAttribute>() is null
+        )
+        .ToArray();
 
-	private JsonObject? _baseline;
+    private JsonObject? _baseline;
 
-	private byte[]? _baselineSource;
+    private byte[]? _baselineSource;
 
-	private JsonObject? Baseline
-	{
-		get
-		{
-			if (_baseline is null && _baselineSource is not null)
-			{
-				byte[] source = _baselineSource;
-				_baselineSource = null;
-				try
-				{
-					T? loaded = JsonSerializer.Deserialize<T>(source, JsonOptions.Tolerant);
-					_baseline = loaded is null ? null : Snapshot(loaded);
-				}
-				catch (Exception ex) when (ex is JsonException or NotSupportedException)
-				{
-					_baseline = null;
-				}
-			}
-			return _baseline;
-		}
-	}
+    private JsonObject? Baseline
+    {
+        get
+        {
+            if (_baseline is null && _baselineSource is not null)
+            {
+                byte[] source = _baselineSource;
+                _baselineSource = null;
+                try
+                {
+                    T? loaded = JsonSerializer.Deserialize<T>(source, JsonOptions.Tolerant);
+                    _baseline = loaded is null ? null : Snapshot(loaded);
+                }
+                catch (Exception ex) when (ex is JsonException or NotSupportedException)
+                {
+                    _baseline = null;
+                }
+            }
+            return _baseline;
+        }
+    }
 
-	private static byte[]? SafeReadBytes(string path)
-	{
-		try
-		{
-			return File.ReadAllBytes(path);
-		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-		{
-			return null;
-		}
-	}
+    private static byte[]? SafeReadBytes(string path)
+    {
+        try
+        {
+            return File.ReadAllBytes(path);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            return null;
+        }
+    }
 
-	public bool RefreshFromDisk()
-	{
-		if (!SupportsMerge)
-			return false;
-		lock (_saveLock)
-			return AdoptExternalChanges(LOG_IDENT_CLASS + "::RefreshFromDisk");
-	}
+    public bool RefreshFromDisk()
+    {
+        if (!SupportsMerge)
+            return false;
+        lock (_saveLock)
+            return AdoptExternalChanges(LOG_IDENT_CLASS + "::RefreshFromDisk");
+    }
 
-	private bool AdoptExternalChanges(string identifier)
-	{
-		try
-		{
-			return TryAdoptExternalChanges(identifier);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine(identifier, "Changes saved by another Voidstrap process could not be merged: " + ex.Message);
-			return false;
-		}
-	}
+    private bool AdoptExternalChanges(string identifier)
+    {
+        try
+        {
+            return TryAdoptExternalChanges(identifier);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(identifier, "Changes saved by another Voidstrap process could not be merged: " + ex.Message);
+            return false;
+        }
+    }
 
-	private bool TryAdoptExternalChanges(string identifier)
-	{
-		if ((_baseline is null && _baselineSource is null) || !File.Exists(FileLocation) || !HasFileOnDiskChanged())
-			return false;
+    private bool TryAdoptExternalChanges(string identifier)
+    {
+        if ((_baseline is null && _baselineSource is null) || !File.Exists(FileLocation) || !HasFileOnDiskChanged())
+            return false;
 
-		JsonObject? baseline = Baseline;
-		if (baseline is null)
-			return false;
+        JsonObject? baseline = Baseline;
+        if (baseline is null)
+            return false;
 
-		byte[] bytes;
-		T? disk;
-		try
-		{
-			bytes = File.ReadAllBytes(FileLocation);
-			disk = JsonSerializer.Deserialize<T>(bytes, JsonOptions.Tolerant);
-		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or NotSupportedException)
-		{
-			return false;
-		}
+        byte[] bytes;
+        T? disk;
+        try
+        {
+            bytes = File.ReadAllBytes(FileLocation);
+            disk = JsonSerializer.Deserialize<T>(bytes, JsonOptions.Tolerant);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or NotSupportedException)
+        {
+            return false;
+        }
 
-		JsonObject? diskSnapshot = disk is null ? null : Snapshot(disk);
-		JsonObject? current = Snapshot(Prop);
-		if (disk is null || diskSnapshot is null || current is null)
-			return false;
+        JsonObject? diskSnapshot = disk is null ? null : Snapshot(disk);
+        JsonObject? current = Snapshot(Prop);
+        if (disk is null || diskSnapshot is null || current is null)
+            return false;
 
-		List<string> adopted = [];
-		foreach (PropertyInfo property in MergeableProperties)
-		{
-			string name = property.GetCustomAttribute<JsonPropertyNameAttribute>()?.Name ?? property.Name;
-			JsonNode? mine = current[name];
-			if (!JsonNode.DeepEquals(mine, baseline[name]) || JsonNode.DeepEquals(mine, diskSnapshot[name]))
-				continue;
-			try
-			{
-				property.SetValue(Prop, property.GetValue(disk));
-				adopted.Add(name);
-			}
-			catch (Exception ex) when (ex is TargetInvocationException or ArgumentException or MethodAccessException) { }
-		}
+        List<string> adopted = [];
+        foreach (PropertyInfo property in MergeableProperties)
+        {
+            string name = property.GetCustomAttribute<JsonPropertyNameAttribute>()?.Name ?? property.Name;
+            JsonNode? mine = current[name];
+            if (!JsonNode.DeepEquals(mine, baseline[name]) || JsonNode.DeepEquals(mine, diskSnapshot[name]))
+                continue;
+            try
+            {
+                property.SetValue(Prop, property.GetValue(disk));
+                adopted.Add(name);
+            }
+            catch (Exception ex) when (ex is TargetInvocationException or ArgumentException or MethodAccessException) { }
+        }
 
-		_baseline = diskSnapshot;
-		_baselineSource = null;
-		LastFileHash = MD5Hash.FromBytes(bytes);
-		if (adopted.Count > 0)
-		{
-			Interlocked.Increment(ref _revision);
-			App.Logger.WriteLine(
-				identifier,
-				$"Kept {adopted.Count} change(s) another Voidstrap process saved: " + string.Join(", ", adopted.Take(12))
-			);
-		}
-		return adopted.Count > 0;
-	}
+        _baseline = diskSnapshot;
+        _baselineSource = null;
+        LastFileHash = MD5Hash.FromBytes(bytes);
+        if (adopted.Count > 0)
+        {
+            Interlocked.Increment(ref _revision);
+            App.Logger.WriteLine(
+                identifier,
+                $"Kept {adopted.Count} change(s) another Voidstrap process saved: " + string.Join(", ", adopted.Take(12))
+            );
+        }
+        return adopted.Count > 0;
+    }
 
-	private static JsonObject? Snapshot(T value)
-	{
-		try
-		{
-			return JsonSerializer.SerializeToNode(value, JsonOptions.Compact) as JsonObject;
-		}
-		catch (Exception ex) when (ex is JsonException or NotSupportedException or InvalidOperationException)
-		{
-			return null;
-		}
-	}
+    private static JsonObject? Snapshot(T value)
+    {
+        try
+        {
+            return JsonSerializer.SerializeToNode(value, JsonOptions.Compact) as JsonObject;
+        }
+        catch (Exception ex) when (ex is JsonException or NotSupportedException or InvalidOperationException)
+        {
+            return null;
+        }
+    }
 
-	public bool HasFileOnDiskChanged()
-	{
-		try
-		{
-			string? text = SafeGetFileHash(FileLocation);
-			return LastFileHash != text;
-		}
-		catch
-		{
-			return true;
-		}
-	}
+    public bool HasFileOnDiskChanged()
+    {
+        try
+        {
+            string? text = SafeGetFileHash(FileLocation);
+            return LastFileHash != text;
+        }
+        catch
+        {
+            return true;
+        }
+    }
 
-	public void SaveBackup(string name)
-	{
-		string savedBackups = Paths.SavedBackups;
-		try
-		{
-			if (!string.IsNullOrWhiteSpace(name))
-			{
-				Directory.CreateDirectory(savedBackups);
-				string safeName = Path.GetFileName(name);
-				if (string.IsNullOrWhiteSpace(safeName))
-					throw new InvalidDataException("Backup name is invalid");
-				string path = Path.Combine(savedBackups, safeName);
-				JsonFile.SerializeAtomic(path, Prop, JsonOptions.Indented, false);
-				App.Logger.WriteLine("SaveBackup::Backups", "Backup '" + name + "' saved successfully.");
-			}
-		}
-		catch (Exception ex)
-		{
-			Frontend.ShowMessageBox("Failed to save backup:\n" + ex.Message, MessageBoxImage.Hand);
-		}
-	}
+    public void SaveBackup(string name)
+    {
+        string savedBackups = Paths.SavedBackups;
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                Directory.CreateDirectory(savedBackups);
+                string safeName = Path.GetFileName(name);
+                if (string.IsNullOrWhiteSpace(safeName))
+                    throw new InvalidDataException("Backup name is invalid");
+                string path = Path.Combine(savedBackups, safeName);
+                JsonFile.SerializeAtomic(path, Prop, JsonOptions.Indented, false);
+                App.Logger.WriteLine("SaveBackup::Backups", "Backup '" + name + "' saved successfully.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Frontend.ShowMessageBox("Failed to save backup:\n" + ex.Message, MessageBoxImage.Hand);
+        }
+    }
 
-	public void LoadBackup(string? name, bool? clearFlags)
-	{
-		string savedBackups = Paths.SavedBackups;
-		try
-		{
-			if (string.IsNullOrWhiteSpace(name))
-			{
-				return;
-			}
-			string safeName = Path.GetFileName(name);
-			if (string.IsNullOrWhiteSpace(safeName))
-				throw new InvalidDataException("Backup name is invalid");
-			string path = Path.Combine(savedBackups, safeName);
-			if (!File.Exists(path))
-			{
-				throw new FileNotFoundException("Backup file '" + name + "' not found.");
-			}
-			T val = JsonFile.Deserialize<T>(path, JsonOptions.Tolerant);
-			if (clearFlags == true)
-			{
-				Prop = val;
-			}
-			else if (val is IDictionary<string, object> dictionary && Prop is IDictionary<string, object> dictionary2)
-			{
-				foreach (KeyValuePair<string, object> item in dictionary)
-				{
-					if (item.Value != null)
-					{
-						dictionary2[item.Key] = item.Value;
-					}
-				}
-			}
-			App.Logger.WriteLine("LoadBackup::Backups", "Backup '" + name + "' loaded successfully.");
-			App.FastFlags.Save();
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("LoadBackup::Backups", ex);
-			Frontend.ShowMessageBox("Failed to load backup:\n" + ex.Message, MessageBoxImage.Hand);
-		}
-	}
+    public void LoadBackup(string? name, bool? clearFlags)
+    {
+        string savedBackups = Paths.SavedBackups;
+        try
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return;
+            }
+            string safeName = Path.GetFileName(name);
+            if (string.IsNullOrWhiteSpace(safeName))
+                throw new InvalidDataException("Backup name is invalid");
+            string path = Path.Combine(savedBackups, safeName);
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException("Backup file '" + name + "' not found.");
+            }
+            T val = JsonFile.Deserialize<T>(path, JsonOptions.Tolerant);
+            if (clearFlags == true)
+            {
+                Prop = val;
+            }
+            else if (val is IDictionary<string, object> dictionary && Prop is IDictionary<string, object> dictionary2)
+            {
+                foreach (KeyValuePair<string, object> item in dictionary)
+                {
+                    if (item.Value != null)
+                    {
+                        dictionary2[item.Key] = item.Value;
+                    }
+                }
+            }
+            App.Logger.WriteLine("LoadBackup::Backups", "Backup '" + name + "' loaded successfully.");
+            App.FastFlags.Save();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("LoadBackup::Backups", ex);
+            Frontend.ShowMessageBox("Failed to load backup:\n" + ex.Message, MessageBoxImage.Hand);
+        }
+    }
 }

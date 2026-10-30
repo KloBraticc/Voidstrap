@@ -9,23 +9,24 @@ using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
-public partial class FastFlagEditorWarningPage : UiPage{
-	private FastFlagEditorWarningViewModel _viewModel;
+public partial class FastFlagEditorWarningPage : UiPage
+{
+    private FastFlagEditorWarningViewModel _viewModel;
 
-	public FastFlagEditorWarningPage()
-	{
-		_viewModel = new FastFlagEditorWarningViewModel(this);
-		base.DataContext = _viewModel;
-		InitializeComponent();
-	}
+    public FastFlagEditorWarningPage()
+    {
+        _viewModel = new FastFlagEditorWarningViewModel(this);
+        base.DataContext = _viewModel;
+        InitializeComponent();
+    }
 
-	private void Page_Loaded(object sender, RoutedEventArgs e)
-	{
-		_viewModel.StartCountdown();
-	}
+    private void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        _viewModel.StartCountdown();
+    }
 
-	private void Page_Unloaded(object sender, RoutedEventArgs e)
-	{
-		_viewModel.StopCountdown();
-	}
+    private void Page_Unloaded(object sender, RoutedEventArgs e)
+    {
+        _viewModel.StopCountdown();
+    }
 }

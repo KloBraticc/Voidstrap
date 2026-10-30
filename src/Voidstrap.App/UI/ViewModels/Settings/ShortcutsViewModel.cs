@@ -16,488 +16,488 @@ namespace Voidstrap.UI.ViewModels.Settings;
 
 public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 {
-	private static readonly HttpClient _httpClient = Voidstrap.Utility.VpnHttpClient.Create();
+    private static readonly HttpClient _httpClient = Voidstrap.Utility.VpnHttpClient.Create();
 
-	private static readonly ConcurrentDictionary<string, (string? Url, DateTime Expiry)> _gameIconCache =
-		new ConcurrentDictionary<string, (string?, DateTime)>();
+    private static readonly ConcurrentDictionary<string, (string? Url, DateTime Expiry)> _gameIconCache =
+        new ConcurrentDictionary<string, (string?, DateTime)>();
 
-	private static readonly ConcurrentDictionary<string, Task<string?>> _ongoingRequests =
-		new ConcurrentDictionary<string, Task<string?>>();
+    private static readonly ConcurrentDictionary<string, Task<string?>> _ongoingRequests =
+        new ConcurrentDictionary<string, Task<string?>>();
 
-	private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(30L);
+    private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(30L);
 
-	private const int MaxGameIconCacheEntries = 64;
+    private const int MaxGameIconCacheEntries = 64;
 
-	private bool _isPrivateServer;
+    private bool _isPrivateServer;
 
-	private string _privateServerCode = null!;
+    private string _privateServerCode = null!;
 
-	private string? _gameInstanceId;
+    private string? _gameInstanceId;
 
-	private string _gameID = App.Settings.Prop.LaunchGameID;
+    private string _gameID = App.Settings.Prop.LaunchGameID;
 
-	private string? _gameIconUrl;
+    private string? _gameIconUrl;
 
-	private bool _isIconVisible;
+    private bool _isIconVisible;
 
-	private string _displayGameName = Strings.Ui_Shortcuts_EnterValidGameId;
+    private string _displayGameName = Strings.Ui_Shortcuts_EnterValidGameId;
 
-	private bool _hasResolvedGameName;
+    private bool _hasResolvedGameName;
 
-	private CancellationTokenSource? _gameLookup;
-	private bool _isSubplaceMode;
-	private bool _isLoadingSubplaces;
-	private CancellationTokenSource? _subplaceRequest;
-	private IReadOnlyList<RobloxSubplaces.Place> _subplaces = Array.Empty<RobloxSubplaces.Place>();
-	private RobloxSubplaces.Place? _selectedSubplace;
-	private string _subplaceStatus = Strings.Shortcuts_SubplaceInitial;
+    private CancellationTokenSource? _gameLookup;
+    private bool _isSubplaceMode;
+    private bool _isLoadingSubplaces;
+    private CancellationTokenSource? _subplaceRequest;
+    private IReadOnlyList<RobloxSubplaces.Place> _subplaces = Array.Empty<RobloxSubplaces.Place>();
+    private RobloxSubplaces.Place? _selectedSubplace;
+    private string _subplaceStatus = Strings.Shortcuts_SubplaceInitial;
 
-	public bool IsSubplaceMode
-	{
-		get => _isSubplaceMode;
-		set
-		{
-			if (_isSubplaceMode == value)
-				return;
-			_isSubplaceMode = value;
-			GameInstanceId = null;
-			OnPropertyChanged();
-			OnPropertyChanged(nameof(IsPublicServer));
-			OnPropertyChanged(nameof(CanLaunchGame));
-			if (value)
-				_ = LoadSubplacesAsync();
-			else if (!value)
-				CancelSubplaceLoading();
-		}
-	}
+    public bool IsSubplaceMode
+    {
+        get => _isSubplaceMode;
+        set
+        {
+            if (_isSubplaceMode == value)
+                return;
+            _isSubplaceMode = value;
+            GameInstanceId = null;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(IsPublicServer));
+            OnPropertyChanged(nameof(CanLaunchGame));
+            if (value)
+                _ = LoadSubplacesAsync();
+            else if (!value)
+                CancelSubplaceLoading();
+        }
+    }
 
-	public IReadOnlyList<RobloxSubplaces.Place> Subplaces
-	{
-		get => _subplaces;
-		private set
-		{
-			_subplaces = value;
-			OnPropertyChanged();
-		}
-	}
+    public IReadOnlyList<RobloxSubplaces.Place> Subplaces
+    {
+        get => _subplaces;
+        private set
+        {
+            _subplaces = value;
+            OnPropertyChanged();
+        }
+    }
 
-	public RobloxSubplaces.Place? SelectedSubplace
-	{
-		get => _selectedSubplace;
-		set
-		{
-			if (_selectedSubplace == value)
-				return;
-			_selectedSubplace = value;
-			GameInstanceId = null;
-			OnPropertyChanged();
-			OnPropertyChanged(nameof(CanLaunchGame));
-		}
-	}
+    public RobloxSubplaces.Place? SelectedSubplace
+    {
+        get => _selectedSubplace;
+        set
+        {
+            if (_selectedSubplace == value)
+                return;
+            _selectedSubplace = value;
+            GameInstanceId = null;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(CanLaunchGame));
+        }
+    }
 
-	public string SubplaceStatus
-	{
-		get => _subplaceStatus;
-		private set
-		{
-			_subplaceStatus = value;
-			OnPropertyChanged();
-		}
-	}
+    public string SubplaceStatus
+    {
+        get => _subplaceStatus;
+        private set
+        {
+            _subplaceStatus = value;
+            OnPropertyChanged();
+        }
+    }
 
-	public bool IsLoadingSubplaces
-	{
-		get => _isLoadingSubplaces;
-		private set
-		{
-			_isLoadingSubplaces = value;
-			OnPropertyChanged();
-			OnPropertyChanged(nameof(CanLoadSubplaces));
-			OnPropertyChanged(nameof(CanLaunchGame));
-		}
-	}
+    public bool IsLoadingSubplaces
+    {
+        get => _isLoadingSubplaces;
+        private set
+        {
+            _isLoadingSubplaces = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(CanLoadSubplaces));
+            OnPropertyChanged(nameof(CanLaunchGame));
+        }
+    }
 
-	public bool CanLoadSubplaces => !IsLoadingSubplaces;
-	public bool CanLaunchGame => !IsSubplaceMode || (!IsLoadingSubplaces && SelectedSubplace != null);
+    public bool CanLoadSubplaces => !IsLoadingSubplaces;
+    public bool CanLaunchGame => !IsSubplaceMode || (!IsLoadingSubplaces && SelectedSubplace != null);
 
-	public void CancelSubplaceLoading()
-	{
-		if (_subplaceRequest == null)
-			return;
-		_subplaceRequest.Cancel();
-		_subplaceRequest.Dispose();
-		_subplaceRequest = null;
-		IsLoadingSubplaces = false;
-		SubplaceStatus = Strings.Shortcuts_SubplaceRetry;
-	}
+    public void CancelSubplaceLoading()
+    {
+        if (_subplaceRequest == null)
+            return;
+        _subplaceRequest.Cancel();
+        _subplaceRequest.Dispose();
+        _subplaceRequest = null;
+        IsLoadingSubplaces = false;
+        SubplaceStatus = Strings.Shortcuts_SubplaceRetry;
+    }
 
-	public async Task LoadSubplacesAsync(int delayMilliseconds = 0)
-	{
-		if (IsLoadingSubplaces)
-			return;
-		CancelSubplaceLoading();
-		SelectedSubplace = null;
-		Subplaces = Array.Empty<RobloxSubplaces.Place>();
-		string gameId = GameID?.Trim() ?? "";
-		if (!long.TryParse(gameId, NumberStyles.None, CultureInfo.InvariantCulture, out long placeId) || placeId <= 0)
-		{
-			SubplaceStatus = Strings.Shortcuts_SubplaceInvalidId;
-			return;
-		}
-		using CancellationTokenSource request = new(TimeSpan.FromSeconds(30));
-		_subplaceRequest = request;
-		CancellationToken token = request.Token;
-		IsLoadingSubplaces = true;
-		SubplaceStatus = Strings.Shortcuts_SubplaceLoading;
-		try
-		{
-			if (delayMilliseconds > 0)
-				await Task.Delay(delayMilliseconds, token);
-			IReadOnlyList<RobloxSubplaces.Place> places = await RobloxSubplaces.GetAsync(_httpClient, placeId, token);
-			if (!ReferenceEquals(_subplaceRequest, request) || !IsCurrentGame(gameId))
-				return;
-			Subplaces = places;
-			SubplaceStatus = places.Count == 0 ? Strings.Shortcuts_SubplaceEmpty : Strings.Shortcuts_SubplaceChoose;
-		}
-		catch (OperationCanceledException)
-		{
-			if (ReferenceEquals(_subplaceRequest, request))
-				SubplaceStatus = Strings.Shortcuts_SubplaceTimeout;
-		}
-		catch (InvalidDataException)
-		{
-			if (ReferenceEquals(_subplaceRequest, request))
-				SubplaceStatus = Strings.Shortcuts_SubplaceFailed;
-		}
-		catch (Exception ex)
-		{
-			if (ReferenceEquals(_subplaceRequest, request))
-			{
-				SubplaceStatus = Strings.Shortcuts_SubplaceFailed;
-				App.Logger.WriteException("Shortcuts::LoadSubplaces", ex);
-			}
-		}
-		finally
-		{
-			if (ReferenceEquals(_subplaceRequest, request))
-			{
-				_subplaceRequest = null;
-				IsLoadingSubplaces = false;
-			}
-		}
-	}
+    public async Task LoadSubplacesAsync(int delayMilliseconds = 0)
+    {
+        if (IsLoadingSubplaces)
+            return;
+        CancelSubplaceLoading();
+        SelectedSubplace = null;
+        Subplaces = Array.Empty<RobloxSubplaces.Place>();
+        string gameId = GameID?.Trim() ?? "";
+        if (!long.TryParse(gameId, NumberStyles.None, CultureInfo.InvariantCulture, out long placeId) || placeId <= 0)
+        {
+            SubplaceStatus = Strings.Shortcuts_SubplaceInvalidId;
+            return;
+        }
+        using CancellationTokenSource request = new(TimeSpan.FromSeconds(30));
+        _subplaceRequest = request;
+        CancellationToken token = request.Token;
+        IsLoadingSubplaces = true;
+        SubplaceStatus = Strings.Shortcuts_SubplaceLoading;
+        try
+        {
+            if (delayMilliseconds > 0)
+                await Task.Delay(delayMilliseconds, token);
+            IReadOnlyList<RobloxSubplaces.Place> places = await RobloxSubplaces.GetAsync(_httpClient, placeId, token);
+            if (!ReferenceEquals(_subplaceRequest, request) || !IsCurrentGame(gameId))
+                return;
+            Subplaces = places;
+            SubplaceStatus = places.Count == 0 ? Strings.Shortcuts_SubplaceEmpty : Strings.Shortcuts_SubplaceChoose;
+        }
+        catch (OperationCanceledException)
+        {
+            if (ReferenceEquals(_subplaceRequest, request))
+                SubplaceStatus = Strings.Shortcuts_SubplaceTimeout;
+        }
+        catch (InvalidDataException)
+        {
+            if (ReferenceEquals(_subplaceRequest, request))
+                SubplaceStatus = Strings.Shortcuts_SubplaceFailed;
+        }
+        catch (Exception ex)
+        {
+            if (ReferenceEquals(_subplaceRequest, request))
+            {
+                SubplaceStatus = Strings.Shortcuts_SubplaceFailed;
+                App.Logger.WriteException("Shortcuts::LoadSubplaces", ex);
+            }
+        }
+        finally
+        {
+            if (ReferenceEquals(_subplaceRequest, request))
+            {
+                _subplaceRequest = null;
+                IsLoadingSubplaces = false;
+            }
+        }
+    }
 
-	public bool IsStudioOptionVisible => App.IsStudioVisible;
+    public bool IsStudioOptionVisible => App.IsStudioVisible;
 
-	private static string ShortcutSuffix => Voidstrap.Utility.Shortcut.Suffix;
+    private static string ShortcutSuffix => Voidstrap.Utility.Shortcut.Suffix;
 
-	private static string ApplicationsFolder =>
-		Voidstrap.Utility.Platform.IsLinux ? Voidstrap.Utility.LinuxDesktopEntry.ApplicationsFolder
-		: Voidstrap.Utility.Platform.IsMacOS
-			? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Applications")
-		: Paths.WindowsStartMenu;
+    private static string ApplicationsFolder =>
+        Voidstrap.Utility.Platform.IsLinux ? Voidstrap.Utility.LinuxDesktopEntry.ApplicationsFolder
+        : Voidstrap.Utility.Platform.IsMacOS
+            ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Applications")
+        : Paths.WindowsStartMenu;
 
-	public ShortcutTask DesktopIconTask { get; } = new ShortcutTask("Desktop", Paths.Desktop, "Voidstrap" + ShortcutSuffix);
+    public ShortcutTask DesktopIconTask { get; } = new ShortcutTask("Desktop", Paths.Desktop, "Voidstrap" + ShortcutSuffix);
 
-	public ShortcutTask StartMenuIconTask { get; } = new ShortcutTask("StartMenu", ApplicationsFolder, "Voidstrap" + ShortcutSuffix);
+    public ShortcutTask StartMenuIconTask { get; } = new ShortcutTask("StartMenu", ApplicationsFolder, "Voidstrap" + ShortcutSuffix);
 
-	public ShortcutTask PlayerIconTask { get; } =
-		new ShortcutTask("RobloxPlayer", Paths.Desktop, Strings.LaunchMenu_LaunchRoblox + ShortcutSuffix, "-player", true);
+    public ShortcutTask PlayerIconTask { get; } =
+        new ShortcutTask("RobloxPlayer", Paths.Desktop, Strings.LaunchMenu_LaunchRoblox + ShortcutSuffix, "-player", true);
 
-	public ShortcutTask StudioIconTask { get; } =
-		new ShortcutTask("RobloxStudio", Paths.Desktop, Strings.LaunchMenu_LaunchRobloxStudio + ShortcutSuffix, "-studio", true);
+    public ShortcutTask StudioIconTask { get; } =
+        new ShortcutTask("RobloxStudio", Paths.Desktop, Strings.LaunchMenu_LaunchRobloxStudio + ShortcutSuffix, "-studio", true);
 
-	public ShortcutTask SettingsIconTask { get; } =
-		new ShortcutTask("Settings", Paths.Desktop, Strings.Menu_Title + ShortcutSuffix, "-settings", true);
+    public ShortcutTask SettingsIconTask { get; } =
+        new ShortcutTask("Settings", Paths.Desktop, Strings.Menu_Title + ShortcutSuffix, "-settings", true);
 
-	public ExtractIconsTask ExtractIconsTask { get; } = new ExtractIconsTask();
+    public ExtractIconsTask ExtractIconsTask { get; } = new ExtractIconsTask();
 
-	public bool IsPrivateServer
-	{
-		get { return _isPrivateServer; }
-		set
-		{
-			if (_isPrivateServer != value)
-			{
-				_isPrivateServer = value;
-				OnPropertyChanged(nameof(IsPrivateServer));
-				OnPropertyChanged(nameof(IsPublicServer));
-			}
-		}
-	}
+    public bool IsPrivateServer
+    {
+        get { return _isPrivateServer; }
+        set
+        {
+            if (_isPrivateServer != value)
+            {
+                _isPrivateServer = value;
+                OnPropertyChanged(nameof(IsPrivateServer));
+                OnPropertyChanged(nameof(IsPublicServer));
+            }
+        }
+    }
 
-	public bool IsPublicServer => IsSubplaceMode || !IsPrivateServer;
+    public bool IsPublicServer => IsSubplaceMode || !IsPrivateServer;
 
-	public string PrivateServerCode
-	{
-		get { return _privateServerCode; }
-		set
-		{
-			if (_privateServerCode != value)
-			{
-				_privateServerCode = value;
-				OnPropertyChanged(nameof(PrivateServerCode));
-			}
-		}
-	}
+    public string PrivateServerCode
+    {
+        get { return _privateServerCode; }
+        set
+        {
+            if (_privateServerCode != value)
+            {
+                _privateServerCode = value;
+                OnPropertyChanged(nameof(PrivateServerCode));
+            }
+        }
+    }
 
-	public string? GameInstanceId
-	{
-		get { return _gameInstanceId; }
-		set
-		{
-			if (_gameInstanceId != value)
-			{
-				_gameInstanceId = value;
-				OnPropertyChanged(nameof(GameInstanceId));
-			}
-		}
-	}
+    public string? GameInstanceId
+    {
+        get { return _gameInstanceId; }
+        set
+        {
+            if (_gameInstanceId != value)
+            {
+                _gameInstanceId = value;
+                OnPropertyChanged(nameof(GameInstanceId));
+            }
+        }
+    }
 
-	public string GameID
-	{
-		get { return _gameID; }
-		set
-		{
-			string normalized = NormalizeGameId(value);
-			if (_gameID != normalized)
-			{
-				_gameID = normalized;
-				value = normalized;
-				CancelSubplaceLoading();
-				SelectedSubplace = null;
-				Subplaces = Array.Empty<RobloxSubplaces.Place>();
-				SubplaceStatus = Strings.Shortcuts_SubplaceReload;
-				GameInstanceId = null;
-				App.Settings.Prop.LaunchGameID = value;
-				OnPropertyChanged(nameof(GameID));
-				_ = LookupGameAsync(value, 350);
-				if (IsSubplaceMode)
-					_ = LoadSubplacesAsync(500);
-			}
-		}
-	}
+    public string GameID
+    {
+        get { return _gameID; }
+        set
+        {
+            string normalized = NormalizeGameId(value);
+            if (_gameID != normalized)
+            {
+                _gameID = normalized;
+                value = normalized;
+                CancelSubplaceLoading();
+                SelectedSubplace = null;
+                Subplaces = Array.Empty<RobloxSubplaces.Place>();
+                SubplaceStatus = Strings.Shortcuts_SubplaceReload;
+                GameInstanceId = null;
+                App.Settings.Prop.LaunchGameID = value;
+                OnPropertyChanged(nameof(GameID));
+                _ = LookupGameAsync(value, 350);
+                if (IsSubplaceMode)
+                    _ = LoadSubplacesAsync(500);
+            }
+        }
+    }
 
-	public string? GameIconUrl
-	{
-		get { return _gameIconUrl; }
-		set
-		{
-			_gameIconUrl = value;
-			OnPropertyChanged(nameof(GameIconUrl));
-			IsIconVisible = !string.IsNullOrEmpty(_gameIconUrl);
-		}
-	}
+    public string? GameIconUrl
+    {
+        get { return _gameIconUrl; }
+        set
+        {
+            _gameIconUrl = value;
+            OnPropertyChanged(nameof(GameIconUrl));
+            IsIconVisible = !string.IsNullOrEmpty(_gameIconUrl);
+        }
+    }
 
-	public bool IsIconVisible
-	{
-		get { return _isIconVisible; }
-		set
-		{
-			_isIconVisible = value;
-			OnPropertyChanged(nameof(IsIconVisible));
-		}
-	}
+    public bool IsIconVisible
+    {
+        get { return _isIconVisible; }
+        set
+        {
+            _isIconVisible = value;
+            OnPropertyChanged(nameof(IsIconVisible));
+        }
+    }
 
-	public string DisplayGameName
-	{
-		get { return _displayGameName; }
-		set
-		{
-			_displayGameName = value;
-			OnPropertyChanged(nameof(DisplayGameName));
-		}
-	}
+    public string DisplayGameName
+    {
+        get { return _displayGameName; }
+        set
+        {
+            _displayGameName = value;
+            OnPropertyChanged(nameof(DisplayGameName));
+        }
+    }
 
-	public string? ResolvedGameName => _hasResolvedGameName ? _displayGameName : null;
+    public string? ResolvedGameName => _hasResolvedGameName ? _displayGameName : null;
 
-	public static string NormalizeGameId(string? value)
-	{
-		string text = value?.Trim() ?? "";
-		if (text.Length == 0 || text.All(char.IsAsciiDigit))
-			return value ?? "";
-		if (
-			Uri.TryCreate(text.Contains("://", StringComparison.Ordinal) ? text : "https://" + text, UriKind.Absolute, out Uri? uri)
-			&& (
-				uri.Host.Equals("roblox.com", StringComparison.OrdinalIgnoreCase)
-				|| uri.Host.EndsWith(".roblox.com", StringComparison.OrdinalIgnoreCase)
-			)
-		)
-		{
-			string[] segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
-			int index = Array.FindIndex(segments, segment => segment.Equals("games", StringComparison.OrdinalIgnoreCase));
-			if (index >= 0 && index + 1 < segments.Length && segments[index + 1].All(char.IsAsciiDigit))
-				return segments[index + 1];
-			string? placeId = System.Web.HttpUtility.ParseQueryString(uri.Query)["placeId"];
-			if (!string.IsNullOrEmpty(placeId) && placeId.All(char.IsAsciiDigit))
-				return placeId;
-		}
-		return value ?? "";
-	}
+    public static string NormalizeGameId(string? value)
+    {
+        string text = value?.Trim() ?? "";
+        if (text.Length == 0 || text.All(char.IsAsciiDigit))
+            return value ?? "";
+        if (
+            Uri.TryCreate(text.Contains("://", StringComparison.Ordinal) ? text : "https://" + text, UriKind.Absolute, out Uri? uri)
+            && (
+                uri.Host.Equals("roblox.com", StringComparison.OrdinalIgnoreCase)
+                || uri.Host.EndsWith(".roblox.com", StringComparison.OrdinalIgnoreCase)
+            )
+        )
+        {
+            string[] segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+            int index = Array.FindIndex(segments, segment => segment.Equals("games", StringComparison.OrdinalIgnoreCase));
+            if (index >= 0 && index + 1 < segments.Length && segments[index + 1].All(char.IsAsciiDigit))
+                return segments[index + 1];
+            string? placeId = System.Web.HttpUtility.ParseQueryString(uri.Query)["placeId"];
+            if (!string.IsNullOrEmpty(placeId) && placeId.All(char.IsAsciiDigit))
+                return placeId;
+        }
+        return value ?? "";
+    }
 
-	private async Task LookupGameAsync(string gameId, int delayMilliseconds)
-	{
-		_gameLookup?.Cancel();
-		_gameLookup?.Dispose();
-		CancellationTokenSource lookup = new CancellationTokenSource();
-		_gameLookup = lookup;
-		string trimmed = gameId?.Trim() ?? "";
-		_hasResolvedGameName = false;
-		if (!long.TryParse(trimmed, out long placeId) || placeId <= 0)
-		{
-			GameIconUrl = null;
-			DisplayGameName = Strings.Ui_Shortcuts_EnterValidGameId;
-			return;
-		}
-		DisplayGameName = Strings.Ui_Shortcuts_LoadingGame;
-		try
-		{
-			if (delayMilliseconds > 0)
-				await Task.Delay(delayMilliseconds, lookup.Token);
-		}
-		catch (OperationCanceledException)
-		{
-			return;
-		}
-		if (!ReferenceEquals(_gameLookup, lookup) || !IsCurrentGame(trimmed))
-			return;
-		await LoadGameIconAsync(trimmed);
-	}
+    private async Task LookupGameAsync(string gameId, int delayMilliseconds)
+    {
+        _gameLookup?.Cancel();
+        _gameLookup?.Dispose();
+        CancellationTokenSource lookup = new CancellationTokenSource();
+        _gameLookup = lookup;
+        string trimmed = gameId?.Trim() ?? "";
+        _hasResolvedGameName = false;
+        if (!long.TryParse(trimmed, out long placeId) || placeId <= 0)
+        {
+            GameIconUrl = null;
+            DisplayGameName = Strings.Ui_Shortcuts_EnterValidGameId;
+            return;
+        }
+        DisplayGameName = Strings.Ui_Shortcuts_LoadingGame;
+        try
+        {
+            if (delayMilliseconds > 0)
+                await Task.Delay(delayMilliseconds, lookup.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        if (!ReferenceEquals(_gameLookup, lookup) || !IsCurrentGame(trimmed))
+            return;
+        await LoadGameIconAsync(trimmed);
+    }
 
-	public ShortcutsViewModel()
-	{
-		_ = LookupGameAsync(GameID, 0);
-		LoadPrivateServerCode();
-	}
+    public ShortcutsViewModel()
+    {
+        _ = LookupGameAsync(GameID, 0);
+        LoadPrivateServerCode();
+    }
 
-	private void LoadPrivateServerCode()
-	{
-		try
-		{
-			string path = Path.Combine(Paths.UserData, "PrivateServerCode.txt");
-			if (File.Exists(path))
-			{
-				PrivateServerCode = File.ReadAllText(path).Trim();
-			}
-		}
-		catch { }
-	}
+    private void LoadPrivateServerCode()
+    {
+        try
+        {
+            string path = Path.Combine(Paths.UserData, "PrivateServerCode.txt");
+            if (File.Exists(path))
+            {
+                PrivateServerCode = File.ReadAllText(path).Trim();
+            }
+        }
+        catch { }
+    }
 
-	private async Task LoadGameIconAsync(string gameId)
-	{
-		gameId = gameId?.Trim() ?? "";
-		if (!long.TryParse(gameId, out long placeId) || placeId <= 0)
-		{
-			GameIconUrl = null;
-			DisplayGameName = Strings.Ui_Shortcuts_EnterValidGameId;
-			return;
-		}
-		_ = LoadGameNameAsync(gameId);
-		if (_gameIconCache.TryGetValue(gameId, out (string?, DateTime) value))
-		{
-			if (value.Item2 > DateTime.UtcNow)
-			{
-				if (!IsCurrentGame(gameId))
-					return;
-				GameIconUrl = value.Item1;
-				return;
-			}
-			_gameIconCache.TryRemove(gameId, out _);
-		}
-		try
-		{
-			Task<string?> request = _ongoingRequests.GetOrAdd(gameId, (string _) => FetchGameIconAsync(gameId));
-			string? text;
-			try
-			{
-				text = await request;
-			}
-			finally
-			{
-				_ongoingRequests.TryRemove(gameId, out _);
-			}
-			_gameIconCache[gameId] = (text, DateTime.UtcNow.Add(CacheDuration));
-			TrimGameIconCache();
-			if (!IsCurrentGame(gameId))
-				return;
-			GameIconUrl = text;
-		}
-		catch
-		{
-			if (!IsCurrentGame(gameId))
-				return;
-			GameIconUrl = null;
-		}
-	}
+    private async Task LoadGameIconAsync(string gameId)
+    {
+        gameId = gameId?.Trim() ?? "";
+        if (!long.TryParse(gameId, out long placeId) || placeId <= 0)
+        {
+            GameIconUrl = null;
+            DisplayGameName = Strings.Ui_Shortcuts_EnterValidGameId;
+            return;
+        }
+        _ = LoadGameNameAsync(gameId);
+        if (_gameIconCache.TryGetValue(gameId, out (string?, DateTime) value))
+        {
+            if (value.Item2 > DateTime.UtcNow)
+            {
+                if (!IsCurrentGame(gameId))
+                    return;
+                GameIconUrl = value.Item1;
+                return;
+            }
+            _gameIconCache.TryRemove(gameId, out _);
+        }
+        try
+        {
+            Task<string?> request = _ongoingRequests.GetOrAdd(gameId, (string _) => FetchGameIconAsync(gameId));
+            string? text;
+            try
+            {
+                text = await request;
+            }
+            finally
+            {
+                _ongoingRequests.TryRemove(gameId, out _);
+            }
+            _gameIconCache[gameId] = (text, DateTime.UtcNow.Add(CacheDuration));
+            TrimGameIconCache();
+            if (!IsCurrentGame(gameId))
+                return;
+            GameIconUrl = text;
+        }
+        catch
+        {
+            if (!IsCurrentGame(gameId))
+                return;
+            GameIconUrl = null;
+        }
+    }
 
-	private async Task LoadGameNameAsync(string gameId)
-	{
-		string? name = null;
-		try
-		{
-			string requestUri = "https://apis.roblox.com/universes/v1/places/" + gameId + "/universe";
-			using JsonDocument uniDoc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, requestUri));
-			if (uniDoc.RootElement.TryGetProperty("universeId", out JsonElement universeId))
-			{
-				string requestUri2 = "https://games.roblox.com/v1/games?universeIds=" + universeId.GetRawText().Trim('"');
-				using JsonDocument gameDoc = JsonDocument.Parse(
-					await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, requestUri2)
-				);
-				if (gameDoc.RootElement.TryGetProperty("data", out JsonElement data) && data.GetArrayLength() != 0)
-					name = data[0].GetProperty("name").GetString();
-			}
-		}
-		catch { }
-		if (!IsCurrentGame(gameId))
-			return;
-		_hasResolvedGameName = !string.IsNullOrWhiteSpace(name);
-		DisplayGameName = _hasResolvedGameName ? name! : Strings.Ui_Shortcuts_UnknownGame;
-	}
+    private async Task LoadGameNameAsync(string gameId)
+    {
+        string? name = null;
+        try
+        {
+            string requestUri = "https://apis.roblox.com/universes/v1/places/" + gameId + "/universe";
+            using JsonDocument uniDoc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, requestUri));
+            if (uniDoc.RootElement.TryGetProperty("universeId", out JsonElement universeId))
+            {
+                string requestUri2 = "https://games.roblox.com/v1/games?universeIds=" + universeId.GetRawText().Trim('"');
+                using JsonDocument gameDoc = JsonDocument.Parse(
+                    await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, requestUri2)
+                );
+                if (gameDoc.RootElement.TryGetProperty("data", out JsonElement data) && data.GetArrayLength() != 0)
+                    name = data[0].GetProperty("name").GetString();
+            }
+        }
+        catch { }
+        if (!IsCurrentGame(gameId))
+            return;
+        _hasResolvedGameName = !string.IsNullOrWhiteSpace(name);
+        DisplayGameName = _hasResolvedGameName ? name! : Strings.Ui_Shortcuts_UnknownGame;
+    }
 
-	private bool IsCurrentGame(string gameId)
-	{
-		return string.Equals(GameID?.Trim(), gameId, StringComparison.Ordinal);
-	}
+    private bool IsCurrentGame(string gameId)
+    {
+        return string.Equals(GameID?.Trim(), gameId, StringComparison.Ordinal);
+    }
 
-	private static void TrimGameIconCache()
-	{
-		DateTime now = DateTime.UtcNow;
-		foreach (KeyValuePair<string, (string? Url, DateTime Expiry)> item in _gameIconCache)
-		{
-			if (item.Value.Expiry <= now)
-			{
-				_gameIconCache.TryRemove(item.Key, out _);
-			}
-		}
-		int removeCount = _gameIconCache.Count - MaxGameIconCacheEntries;
-		if (removeCount <= 0)
-		{
-			return;
-		}
-		foreach (
-			KeyValuePair<string, (string? Url, DateTime Expiry)> item in _gameIconCache
-				.OrderBy(entry => entry.Value.Expiry)
-				.Take(removeCount)
-		)
-		{
-			_gameIconCache.TryRemove(item.Key, out _);
-		}
-	}
+    private static void TrimGameIconCache()
+    {
+        DateTime now = DateTime.UtcNow;
+        foreach (KeyValuePair<string, (string? Url, DateTime Expiry)> item in _gameIconCache)
+        {
+            if (item.Value.Expiry <= now)
+            {
+                _gameIconCache.TryRemove(item.Key, out _);
+            }
+        }
+        int removeCount = _gameIconCache.Count - MaxGameIconCacheEntries;
+        if (removeCount <= 0)
+        {
+            return;
+        }
+        foreach (
+            KeyValuePair<string, (string? Url, DateTime Expiry)> item in _gameIconCache
+                .OrderBy(entry => entry.Value.Expiry)
+                .Take(removeCount)
+        )
+        {
+            _gameIconCache.TryRemove(item.Key, out _);
+        }
+    }
 
-	private static async Task<string?> FetchGameIconAsync(string gameId)
-	{
-		string requestUri =
-			"https://thumbnails.roblox.com/v1/places/gameicons?placeIds="
-			+ gameId
-			+ "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false";
-		using JsonDocument jsonDocument = JsonDocument.Parse(
-			await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, requestUri).ConfigureAwait(continueOnCapturedContext: false)
-		);
-		JsonElement property = jsonDocument.RootElement.GetProperty("data");
-		if (property.GetArrayLength() > 0 && property[0].TryGetProperty("imageUrl", out var value))
-		{
-			return value.GetString();
-		}
-		return null;
-	}
+    private static async Task<string?> FetchGameIconAsync(string gameId)
+    {
+        string requestUri =
+            "https://thumbnails.roblox.com/v1/places/gameicons?placeIds="
+            + gameId
+            + "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false";
+        using JsonDocument jsonDocument = JsonDocument.Parse(
+            await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, requestUri).ConfigureAwait(continueOnCapturedContext: false)
+        );
+        JsonElement property = jsonDocument.RootElement.GetProperty("data");
+        if (property.GetArrayLength() > 0 && property[0].TryGetProperty("imageUrl", out var value))
+        {
+            return value.GetString();
+        }
+        return null;
+    }
 }

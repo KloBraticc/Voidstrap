@@ -7,8 +7,8 @@ namespace Voidstrap.UI;
 
 public static class LinuxPointerHitTest
 {
-	public static void Install()
-	{
+    public static void Install()
+    {
 #if CROSSPLAT
 		if (_installed || !Voidstrap.Utility.Platform.UsesPortableUi)
 			return;
@@ -16,7 +16,7 @@ public static class LinuxPointerHitTest
 		_installed = true;
 		InputManager.Current.PostProcessInput += OnPostProcessInput;
 #endif
-	}
+    }
 
 #if CROSSPLAT
 	private static readonly ConditionalWeakTable<IPortablePresentationSourceHost, object> Released = new();
@@ -49,11 +49,11 @@ public static class LinuxPointerHitTest
 	}
 #endif
 
-	public static void ReleasePopupSource(object source)
-	{
+    public static void ReleasePopupSource(object source)
+    {
 #if CROSSPLAT
 		if (source is IPortablePresentationSourceHost host)
 			Release(host, "popup");
 #endif
-	}
+    }
 }

@@ -317,7 +317,7 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
             App.Logger.WriteLine("SessionGameBrowser", "Game search failed: " + ex.Message);
             if (!_closed && generation == _searchGeneration)
                 if (!_closed)
-                StatusText.Text = Strings.ContextMenu_GameBrowser_Failed;
+                    StatusText.Text = Strings.ContextMenu_GameBrowser_Failed;
         }
         finally
         {

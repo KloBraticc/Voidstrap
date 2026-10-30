@@ -170,8 +170,8 @@ namespace Voidstrap.UI.ViewModels.Settings
                 foreach (string file in _appData.State.ModManifest ?? [])
                     modified.Add(file);
                 foreach (List<string> files in (_appData.State.ManagedModManifest ?? []).Values)
-                foreach (string file in files)
-                    modified.Add(file);
+                    foreach (string file in files)
+                        modified.Add(file);
                 IsBusy = true;
                 Progress = 0;
                 StatusText = "Verifying";

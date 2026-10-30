@@ -171,7 +171,7 @@ public partial class SessionClipperPanel : Window
             RecordBtnDot.Fill = new SolidColorBrush(Color.FromRgb(0xFF, 0x2B, 0x2B));
             RecordToggleButtonText.Text = Strings.Ui_Clipper_StopRecording;
             StatusHeadline.Text = $"{Strings.Ui_Clipper_StatusRecording} • {elapsed}";
-            StatusSubline.Text = $"{st.Width}x{st.Height} @ {st.Fps} FPS • {recMb:0.1} MB • { shortcut}";
+            StatusSubline.Text = $"{st.Width}x{st.Height} @ {st.Fps} FPS • {recMb:0.1} MB • {shortcut}";
             MeterRow.Visibility = Visibility.Visible;
             BufferMeter.IsIndeterminate = false;
             BufferMeter.Maximum = 60;

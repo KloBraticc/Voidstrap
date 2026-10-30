@@ -13,19 +13,19 @@ namespace Voidstrap.UI.Elements.ContextMenu;
 
 public partial class GamePassConsole : WpfUiWindow
 {
-	private readonly GamePassConsoleViewModel _viewModel;
+    private readonly GamePassConsoleViewModel _viewModel;
 
-	public GamePassConsole(long userId)
-	{
-		InitializeComponent();
-		_viewModel = new GamePassConsoleViewModel();
-		DataContext = _viewModel;
-		_viewModel.LoadGamePassesCommand.Execute(userId);
-	}
+    public GamePassConsole(long userId)
+    {
+        InitializeComponent();
+        _viewModel = new GamePassConsoleViewModel();
+        DataContext = _viewModel;
+        _viewModel.LoadGamePassesCommand.Execute(userId);
+    }
 
-	protected override void OnClosed(EventArgs e)
-	{
-		_viewModel.Dispose();
-		base.OnClosed(e);
-	}
+    protected override void OnClosed(EventArgs e)
+    {
+        _viewModel.Dispose();
+        base.OnClosed(e);
+    }
 }

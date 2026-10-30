@@ -5,9 +5,9 @@ namespace Voidstrap.UI.Elements.Settings.Pages;
 
 public partial class RosemaryPage : UiPage
 {
-	public RosemaryPage()
-	{
-		DataContext = new RosemaryViewModel();
-		InitializeComponent();
-	}
+    public RosemaryPage()
+    {
+        DataContext = new RosemaryViewModel();
+        InitializeComponent();
+    }
 }

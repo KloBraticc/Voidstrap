@@ -73,10 +73,10 @@ public static class LinuxSharedGpuDevice
 	private static bool _opaqueReported;
 #endif
 
-	internal const uint MaxSurfaceSize = 8192;
+    internal const uint MaxSurfaceSize = 8192;
 
-	public static void Install()
-	{
+    public static void Install()
+    {
 #if CROSSPLAT
 		if (!OperatingSystem.IsLinux() && !OperatingSystem.IsMacOS())
 			return;
@@ -96,7 +96,7 @@ public static class LinuxSharedGpuDevice
 				: "The window activation service was unavailable, windows use the default host setup"
 		);
 #endif
-	}
+    }
 
 #if CROSSPLAT
 	private static System.Windows.Media.ProGPU.ProGpuWpfWindowHost CreateHost(object window)

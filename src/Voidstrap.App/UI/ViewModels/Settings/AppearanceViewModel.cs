@@ -516,7 +516,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             App.Settings.SaveDeferred();
             OnPropertyChanged(nameof(Snowww));
             ApplyToMainWindow(
-                delegate(MainWindow mainWindow)
+                delegate (MainWindow mainWindow)
                 {
                     mainWindow.ApplySnow(value);
                 }
@@ -537,7 +537,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             App.Settings.SaveDeferred();
             OnPropertyChanged(nameof(GRADmentFR));
             ApplyToMainWindow(
-                delegate(MainWindow mainWindow)
+                delegate (MainWindow mainWindow)
                 {
                     mainWindow.ApplyGradientMovement(value);
                 }

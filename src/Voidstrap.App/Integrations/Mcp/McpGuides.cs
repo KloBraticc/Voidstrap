@@ -6,7 +6,7 @@ namespace Voidstrap.Integrations.Mcp;
 
 public static class McpGuides
 {
-	public const string BootstrapperTheme = """
+    public const string BootstrapperTheme = """
 		CUSTOM BOOTSTRAPPER (LAUNCHER) THEMES
 
 		WHAT IT IS
@@ -132,7 +132,7 @@ public static class McpGuides
 		Two elements with the same Name. Not calling test_bootstrapper_theme before telling the user it is done.
 		""";
 
-	public const string KeystrokeTheme = """
+    public const string KeystrokeTheme = """
 		KEYSTROKE OVERLAY THEMES
 
 		The on screen key display. A theme is one object written in the editor's current language (csharp, html, rust or json),
@@ -145,7 +145,7 @@ public static class McpGuides
 		updates after every change. A reply that is not a success means nothing was applied.
 		""";
 
-	public const string AppTheme = """
+    public const string AppTheme = """
 		VOIDSTRAP APP THEME (THE LOOK OF VOIDSTRAP ITSELF)
 
 		manage_app_theme action schema lists every color key with its label and group. Workflow:
@@ -158,7 +158,7 @@ public static class McpGuides
 		Keep text readable: light text needs dark backgrounds and the reverse.
 		""";
 
-	public const string Fixing = """
+    public const string Fixing = """
 		FIXING VOIDSTRAP PROBLEMS
 
 		1. diagnose_app first. It lists recent in app errors and crashes and broken state, each problem with a fix id.
@@ -169,7 +169,7 @@ public static class McpGuides
 		Never delete user files to fix something when a reset or disable fix exists.
 		""";
 
-	public const string Architecture = """
+    public const string Architecture = """
 		VOIDSTRAP ARCHITECTURE (THE CODE THAT BUILT VOIDSTRAP)
 
 		WHERE THE CODE LIVES
@@ -217,7 +217,7 @@ public static class McpGuides
 
 		""";
 
-	public const string ModApi = """
+    public const string ModApi = """
 		VOIDSTRAP MOD $ API REFERENCE (TypeScript or JavaScript)
 
 		register(on) runs once when the mod loads. on('event', matcher?, handler) subscribes. A handler receives $, the event
@@ -273,7 +273,7 @@ public static class McpGuides
 
 		""";
 
-	public const string AppControl = """
+    public const string AppControl = """
 		LIVE APP CONTROL (TEXTS AND BACKGROUND)
 
 		WHAT IT IS
@@ -301,7 +301,7 @@ public static class McpGuides
 
 		""";
 
-	public const string AppCode = """
+    public const string AppCode = """
 		THE APP CODE AREA (READING AND EDITING VOIDSTRAP ITSELF)
 
 		WHAT IT IS
@@ -331,7 +331,7 @@ public static class McpGuides
 
 		""";
 
-	public const string LibraryPr = """
+    public const string LibraryPr = """
 		PUBLISHING TO THE VOIDSTRAP MODS LIBRARY WITHOUT A RED X
 
 		WHAT A RED X IS
@@ -381,7 +381,7 @@ public static class McpGuides
 		  5 preflight passes, 6 publish and let the user confirm.
 		""";
 
-	public const string Search = """
+    public const string Search = """
 		THE DEEP SEARCH (search_everything)
 
 		One tool answers where anything is. Pick the mode that owns the question, always start from search_everything instead of
@@ -427,7 +427,7 @@ public static class McpGuides
 		acting on it.
 		""";
 
-	public const string Workflow = """
+    public const string Workflow = """
 		HOW TO WORK WITH VOIDSTRAP OVER MCP
 
 		Voidstrap manages Roblox launching, settings, content mods and its own interface. The MCP bridge controls the running app on Windows, Linux and macOS. Open Voidstrap first, then call get_voidstrap_overview to discover paths, active settings, themes and open windows. Do not assume an installed file is active or a running process has a visible window.
@@ -457,34 +457,34 @@ public static class McpGuides
 		Guides: workflow, mods, bootstrapper_theme, keystroke_theme, app_theme, fixing, architecture, mod_api, app_control, app_code, search, library_pr. The same guides are available as voidstrap://guide/<topic> resources. The FastFlag reference is voidstrap://fastflags/allowlist-and-tracker.
 		""";
 
-	private static readonly Dictionary<string, string> Topics = new(StringComparer.OrdinalIgnoreCase)
-	{
-		["bootstrapper_theme"] = BootstrapperTheme,
-		["keystroke_theme"] = KeystrokeTheme,
-		["app_theme"] = AppTheme,
-		["fixing"] = Fixing,
-		["mods"] = McpTools.ModLayoutGuide,
-		["workflow"] = Workflow,
-		["architecture"] = Architecture,
-		["mod_api"] = ModApi,
-		["app_control"] = AppControl,
-		["app_code"] = AppCode,
-		["search"] = Search,
-		["library_pr"] = LibraryPr,
-	};
+    private static readonly Dictionary<string, string> Topics = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["bootstrapper_theme"] = BootstrapperTheme,
+        ["keystroke_theme"] = KeystrokeTheme,
+        ["app_theme"] = AppTheme,
+        ["fixing"] = Fixing,
+        ["mods"] = McpTools.ModLayoutGuide,
+        ["workflow"] = Workflow,
+        ["architecture"] = Architecture,
+        ["mod_api"] = ModApi,
+        ["app_control"] = AppControl,
+        ["app_code"] = AppCode,
+        ["search"] = Search,
+        ["library_pr"] = LibraryPr,
+    };
 
-	public static IEnumerable<string> TopicNames => Topics.Keys;
+    public static IEnumerable<string> TopicNames => Topics.Keys;
 
-	public static string? Get(string? topic)
-	{
-		if (string.IsNullOrWhiteSpace(topic))
-			return null;
-		string clean = topic.Trim().Replace(' ', '_').Replace('-', '_');
-		if (Topics.TryGetValue(clean, out string? text))
-			return text;
-		string? match = Topics.Keys.FirstOrDefault(key =>
-			key.Contains(clean, StringComparison.OrdinalIgnoreCase) || clean.Contains(key.Split('_')[0], StringComparison.OrdinalIgnoreCase)
-		);
-		return match == null ? null : Topics[match];
-	}
+    public static string? Get(string? topic)
+    {
+        if (string.IsNullOrWhiteSpace(topic))
+            return null;
+        string clean = topic.Trim().Replace(' ', '_').Replace('-', '_');
+        if (Topics.TryGetValue(clean, out string? text))
+            return text;
+        string? match = Topics.Keys.FirstOrDefault(key =>
+            key.Contains(clean, StringComparison.OrdinalIgnoreCase) || clean.Contains(key.Split('_')[0], StringComparison.OrdinalIgnoreCase)
+        );
+        return match == null ? null : Topics[match];
+    }
 }

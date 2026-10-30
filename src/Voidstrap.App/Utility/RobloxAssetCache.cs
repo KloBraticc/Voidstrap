@@ -10,474 +10,474 @@ internal readonly record struct AssetCacheEntry(string Hash, string SourcePath);
 
 internal static class RobloxAssetCache
 {
-	private const string LogIdent = "RobloxAssetCache";
+    private const string LogIdent = "RobloxAssetCache";
 
-	private static readonly object StorageGate = new();
+    private static readonly object StorageGate = new();
 
-	public const int HeaderBytes = 37;
+    public const int HeaderBytes = 37;
 
-	public const int ContentLengthOffset = 25;
+    public const int ContentLengthOffset = 25;
 
-	public const long MaxEntryBytes = 64L * 1024 * 1024;
+    public const long MaxEntryBytes = 64L * 1024 * 1024;
 
-	public const string BackupFolderName = "AssetCacheBackup";
+    public const string BackupFolderName = "AssetCacheBackup";
 
-	public const string ManifestName = "AssetCache.lock";
+    public const string ManifestName = "AssetCache.lock";
 
-	public static string Root => Voidstrap.Utility.Platform.IsLinux && LinuxRuntimeChoice.PlayerUsesRosemary
-		? Path.Combine(Voidstrap.Platform.Linux.LinuxRosemary.GuestRobloxRoot, "rbx-storage")
-		: Voidstrap.Utility.Platform.IsLinux
-		? Path.Combine(
-			Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-			".var", "app", "org.vinegarhq.Sober", "cache", "sober", "rbx-storage")
-		: Path.Combine(RobloxLocalReset.Root, "rbx-storage");
+    public static string Root => Voidstrap.Utility.Platform.IsLinux && LinuxRuntimeChoice.PlayerUsesRosemary
+        ? Path.Combine(Voidstrap.Platform.Linux.LinuxRosemary.GuestRobloxRoot, "rbx-storage")
+        : Voidstrap.Utility.Platform.IsLinux
+        ? Path.Combine(
+            Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+            ".var", "app", "org.vinegarhq.Sober", "cache", "sober", "rbx-storage")
+        : Path.Combine(RobloxLocalReset.Root, "rbx-storage");
 
-	public static bool IsValidHash(string? value)
-	{
-		if (string.IsNullOrEmpty(value) || value.Length != 32)
-		{
-			return false;
-		}
-		foreach (char character in value)
-		{
-			bool digit = character >= '0' && character <= '9';
-			bool lower = character >= 'a' && character <= 'f';
-			if (!digit && !lower)
-			{
-				return false;
-			}
-		}
-		return true;
-	}
+    public static bool IsValidHash(string? value)
+    {
+        if (string.IsNullOrEmpty(value) || value.Length != 32)
+        {
+            return false;
+        }
+        foreach (char character in value)
+        {
+            bool digit = character >= '0' && character <= '9';
+            bool lower = character >= 'a' && character <= 'f';
+            if (!digit && !lower)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 
-	public static string? ExtractHash(string fileName)
-	{
-		string name = Path.GetFileNameWithoutExtension(fileName);
-		for (int start = name.Length - 32; start >= 0; start--)
-		{
-			string candidate = name.Substring(start, 32).ToLowerInvariant();
-			if (IsValidHash(candidate))
-			{
-				return candidate;
-			}
-		}
-		return null;
-	}
+    public static string? ExtractHash(string fileName)
+    {
+        string name = Path.GetFileNameWithoutExtension(fileName);
+        for (int start = name.Length - 32; start >= 0; start--)
+        {
+            string candidate = name.Substring(start, 32).ToLowerInvariant();
+            if (IsValidHash(candidate))
+            {
+                return candidate;
+            }
+        }
+        return null;
+    }
 
-	public static bool IsCacheEntry(byte[] header, long totalLength)
-	{
-		if (header.Length < HeaderBytes || totalLength <= HeaderBytes || totalLength > MaxEntryBytes)
-		{
-			return false;
-		}
-		if (header[0] != (byte)'R' || header[1] != (byte)'B' || header[2] != (byte)'X' || header[3] != (byte)'H')
-		{
-			return false;
-		}
-		uint declared = BitConverter.ToUInt32(header, ContentLengthOffset);
-		return declared == totalLength - HeaderBytes;
-	}
+    public static bool IsCacheEntry(byte[] header, long totalLength)
+    {
+        if (header.Length < HeaderBytes || totalLength <= HeaderBytes || totalLength > MaxEntryBytes)
+        {
+            return false;
+        }
+        if (header[0] != (byte)'R' || header[1] != (byte)'B' || header[2] != (byte)'X' || header[3] != (byte)'H')
+        {
+            return false;
+        }
+        uint declared = BitConverter.ToUInt32(header, ContentLengthOffset);
+        return declared == totalLength - HeaderBytes;
+    }
 
-	public static bool IsCacheEntryFile(string path)
-	{
-		try
-		{
-			FileInfo info = new(path);
-			if (info.Length <= HeaderBytes || info.Length > MaxEntryBytes)
-			{
-				return false;
-			}
-			byte[] header = new byte[HeaderBytes];
-			using FileStream stream = new(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-			return stream.Read(header, 0, HeaderBytes) == HeaderBytes && IsCacheEntry(header, info.Length);
-		}
-		catch (Exception)
-		{
-			return false;
-		}
-	}
+    public static bool IsCacheEntryFile(string path)
+    {
+        try
+        {
+            FileInfo info = new(path);
+            if (info.Length <= HeaderBytes || info.Length > MaxEntryBytes)
+            {
+                return false;
+            }
+            byte[] header = new byte[HeaderBytes];
+            using FileStream stream = new(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            return stream.Read(header, 0, HeaderBytes) == HeaderBytes && IsCacheEntry(header, info.Length);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
 
-	public static string GetEntryPath(string hash)
-	{
-		if (!IsValidHash(hash))
-		{
-			throw new InvalidDataException("The asset cache identifier is invalid.");
-		}
-		return Path.Combine(Root, hash[..2], hash);
-	}
+    public static string GetEntryPath(string hash)
+    {
+        if (!IsValidHash(hash))
+        {
+            throw new InvalidDataException("The asset cache identifier is invalid.");
+        }
+        return Path.Combine(Root, hash[..2], hash);
+    }
 
-	public static IReadOnlyList<AssetCacheEntry> Collect(string folder, CancellationToken token = default)
-	{
-		List<AssetCacheEntry> entries = [];
-		if (!Directory.Exists(folder))
-		{
-			return entries;
-		}
-		HashSet<string> seen = new(StringComparer.OrdinalIgnoreCase);
-		foreach (string file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
-		{
-			token.ThrowIfCancellationRequested();
-			string relative = Path.GetRelativePath(folder, file);
-			if (relative.Contains("RESTORE", StringComparison.OrdinalIgnoreCase))
-			{
-				continue;
-			}
-			string? hash = ExtractHash(Path.GetFileName(file));
-			if (hash is null || !IsCacheEntryFile(file) || !seen.Add(hash))
-			{
-				continue;
-			}
-			entries.Add(new AssetCacheEntry(hash, file));
-		}
-		return entries;
-	}
+    public static IReadOnlyList<AssetCacheEntry> Collect(string folder, CancellationToken token = default)
+    {
+        List<AssetCacheEntry> entries = [];
+        if (!Directory.Exists(folder))
+        {
+            return entries;
+        }
+        HashSet<string> seen = new(StringComparer.OrdinalIgnoreCase);
+        foreach (string file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
+        {
+            token.ThrowIfCancellationRequested();
+            string relative = Path.GetRelativePath(folder, file);
+            if (relative.Contains("RESTORE", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+            string? hash = ExtractHash(Path.GetFileName(file));
+            if (hash is null || !IsCacheEntryFile(file) || !seen.Add(hash))
+            {
+                continue;
+            }
+            entries.Add(new AssetCacheEntry(hash, file));
+        }
+        return entries;
+    }
 
-	public static int Install(IReadOnlyList<AssetCacheEntry> entries, string backupFolder, CancellationToken token = default)
-	{
-		if (entries.Count == 0)
-		{
-			return 0;
-		}
-		lock (StorageGate)
-		{
-			return InstallCore(entries, backupFolder, token);
-		}
-	}
+    public static int Install(IReadOnlyList<AssetCacheEntry> entries, string backupFolder, CancellationToken token = default)
+    {
+        if (entries.Count == 0)
+        {
+            return 0;
+        }
+        lock (StorageGate)
+        {
+            return InstallCore(entries, backupFolder, token);
+        }
+    }
 
-	private static int InstallCore(IReadOnlyList<AssetCacheEntry> entries, string backupFolder, CancellationToken token)
-	{
-		Directory.CreateDirectory(backupFolder);
-		int installed = 0;
-		List<string> manifest = [];
-		foreach (AssetCacheEntry entry in entries)
-		{
-			token.ThrowIfCancellationRequested();
-			try
-			{
-				string destination = GetEntryPath(entry.Hash);
-				Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
-				string backup = Path.Combine(backupFolder, entry.Hash + ".lock");
-				if (File.Exists(destination) && !File.Exists(backup))
-				{
-					ClearReadOnly(destination);
-					File.Copy(destination, backup, overwrite: true);
-				}
-				File.Copy(entry.SourcePath, Path.Combine(backupFolder, entry.Hash + ".mod.lock"), overwrite: true);
-				ClearReadOnly(destination);
-				File.Copy(entry.SourcePath, destination, overwrite: true);
-				SetReadOnly(destination);
-				token.ThrowIfCancellationRequested();
-				manifest.Add(entry.Hash);
-				installed++;
-			}
-			catch (Exception ex) when (ex is not OperationCanceledException)
-			{
-				App.Logger?.WriteLine(LogIdent, "Could not replace cached asset " + entry.Hash + ": " + ex.Message);
-			}
-		}
-		if (manifest.Count > 0)
-		{
-			try
-			{
-				File.WriteAllLines(Path.Combine(backupFolder, ManifestName), manifest);
-			}
-			catch (Exception ex)
-			{
-				App.Logger?.WriteLine(LogIdent, "The asset cache manifest could not be written: " + ex.Message);
-			}
-		}
-		App.Logger?.WriteLine(LogIdent, "Replaced " + installed + " cached Roblox assets and locked them against redownload");
-		return installed;
-	}
+    private static int InstallCore(IReadOnlyList<AssetCacheEntry> entries, string backupFolder, CancellationToken token)
+    {
+        Directory.CreateDirectory(backupFolder);
+        int installed = 0;
+        List<string> manifest = [];
+        foreach (AssetCacheEntry entry in entries)
+        {
+            token.ThrowIfCancellationRequested();
+            try
+            {
+                string destination = GetEntryPath(entry.Hash);
+                Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
+                string backup = Path.Combine(backupFolder, entry.Hash + ".lock");
+                if (File.Exists(destination) && !File.Exists(backup))
+                {
+                    ClearReadOnly(destination);
+                    File.Copy(destination, backup, overwrite: true);
+                }
+                File.Copy(entry.SourcePath, Path.Combine(backupFolder, entry.Hash + ".mod.lock"), overwrite: true);
+                ClearReadOnly(destination);
+                File.Copy(entry.SourcePath, destination, overwrite: true);
+                SetReadOnly(destination);
+                token.ThrowIfCancellationRequested();
+                manifest.Add(entry.Hash);
+                installed++;
+            }
+            catch (Exception ex) when (ex is not OperationCanceledException)
+            {
+                App.Logger?.WriteLine(LogIdent, "Could not replace cached asset " + entry.Hash + ": " + ex.Message);
+            }
+        }
+        if (manifest.Count > 0)
+        {
+            try
+            {
+                File.WriteAllLines(Path.Combine(backupFolder, ManifestName), manifest);
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine(LogIdent, "The asset cache manifest could not be written: " + ex.Message);
+            }
+        }
+        App.Logger?.WriteLine(LogIdent, "Replaced " + installed + " cached Roblox assets and locked them against redownload");
+        return installed;
+    }
 
-	public static int Restore(string backupFolder)
-	{
-		lock (StorageGate)
-		{
-			return RestoreCore(backupFolder);
-		}
-	}
+    public static int Restore(string backupFolder)
+    {
+        lock (StorageGate)
+        {
+            return RestoreCore(backupFolder);
+        }
+    }
 
-	private static int RestoreCore(string backupFolder)
-	{
-		string manifestPath = Path.Combine(backupFolder, ManifestName);
-		if (!Directory.Exists(backupFolder))
-		{
-			return 0;
-		}
-		IEnumerable<string> hashes = File.Exists(manifestPath)
-			? ReadManifest(manifestPath)
-			: Directory.EnumerateFiles(backupFolder, "*.lock")
-				.Select(file => Path.GetFileName(file))
-				.Select(name => name.EndsWith(".mod.lock", StringComparison.OrdinalIgnoreCase)
-					? name[..^9]
-					: Path.GetFileNameWithoutExtension(name))
-				.Where(IsValidHash)
-				.Distinct(StringComparer.OrdinalIgnoreCase);
-		int restored = 0;
-		foreach (string hash in hashes)
-		{
-			try
-			{
-				string destination = GetEntryPath(hash);
-				string backup = Path.Combine(backupFolder, hash + ".lock");
-				ClearReadOnly(destination);
-				if (File.Exists(backup))
-				{
-					File.Copy(backup, destination, overwrite: true);
-				}
-				else if (File.Exists(destination))
-				{
-					File.Delete(destination);
-				}
-				restored++;
-			}
-			catch (Exception ex)
-			{
-				App.Logger?.WriteLine(LogIdent, "Could not restore cached asset " + hash + ": " + ex.Message);
-			}
-		}
-		App.Logger?.WriteLine(LogIdent, "Restored " + restored + " cached Roblox assets");
-		return restored;
-	}
+    private static int RestoreCore(string backupFolder)
+    {
+        string manifestPath = Path.Combine(backupFolder, ManifestName);
+        if (!Directory.Exists(backupFolder))
+        {
+            return 0;
+        }
+        IEnumerable<string> hashes = File.Exists(manifestPath)
+            ? ReadManifest(manifestPath)
+            : Directory.EnumerateFiles(backupFolder, "*.lock")
+                .Select(file => Path.GetFileName(file))
+                .Select(name => name.EndsWith(".mod.lock", StringComparison.OrdinalIgnoreCase)
+                    ? name[..^9]
+                    : Path.GetFileNameWithoutExtension(name))
+                .Where(IsValidHash)
+                .Distinct(StringComparer.OrdinalIgnoreCase);
+        int restored = 0;
+        foreach (string hash in hashes)
+        {
+            try
+            {
+                string destination = GetEntryPath(hash);
+                string backup = Path.Combine(backupFolder, hash + ".lock");
+                ClearReadOnly(destination);
+                if (File.Exists(backup))
+                {
+                    File.Copy(backup, destination, overwrite: true);
+                }
+                else if (File.Exists(destination))
+                {
+                    File.Delete(destination);
+                }
+                restored++;
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine(LogIdent, "Could not restore cached asset " + hash + ": " + ex.Message);
+            }
+        }
+        App.Logger?.WriteLine(LogIdent, "Restored " + restored + " cached Roblox assets");
+        return restored;
+    }
 
-	public static int Reapply(string backupFolder)
-	{
-		lock (StorageGate)
-		{
-			return ReapplyCore(backupFolder);
-		}
-	}
+    public static int Reapply(string backupFolder)
+    {
+        lock (StorageGate)
+        {
+            return ReapplyCore(backupFolder);
+        }
+    }
 
-	private static int ReapplyCore(string backupFolder)
-	{
-		string manifestPath = Path.Combine(backupFolder, ManifestName);
-		if (!File.Exists(manifestPath))
-		{
-			return 0;
-		}
-		int applied = 0;
-		foreach (string hash in ReadManifest(manifestPath))
-		{
-			try
-			{
-				string modded = Path.Combine(backupFolder, hash + ".mod.lock");
-				if (!File.Exists(modded))
-				{
-					continue;
-				}
-				string destination = GetEntryPath(hash);
-				Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
-				ClearReadOnly(destination);
-				File.Copy(modded, destination, overwrite: true);
-				SetReadOnly(destination);
-				applied++;
-			}
-			catch (Exception ex)
-			{
-				App.Logger?.WriteLine(LogIdent, "Could not reapply cached asset " + hash + ": " + ex.Message);
-			}
-		}
-		App.Logger?.WriteLine(LogIdent, "Reapplied " + applied + " cached Roblox assets");
-		return applied;
-	}
+    private static int ReapplyCore(string backupFolder)
+    {
+        string manifestPath = Path.Combine(backupFolder, ManifestName);
+        if (!File.Exists(manifestPath))
+        {
+            return 0;
+        }
+        int applied = 0;
+        foreach (string hash in ReadManifest(manifestPath))
+        {
+            try
+            {
+                string modded = Path.Combine(backupFolder, hash + ".mod.lock");
+                if (!File.Exists(modded))
+                {
+                    continue;
+                }
+                string destination = GetEntryPath(hash);
+                Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
+                ClearReadOnly(destination);
+                File.Copy(modded, destination, overwrite: true);
+                SetReadOnly(destination);
+                applied++;
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine(LogIdent, "Could not reapply cached asset " + hash + ": " + ex.Message);
+            }
+        }
+        App.Logger?.WriteLine(LogIdent, "Reapplied " + applied + " cached Roblox assets");
+        return applied;
+    }
 
-	public static bool HasBackups(string backupFolder)
-	{
-		return File.Exists(Path.Combine(backupFolder, ManifestName));
-	}
+    public static bool HasBackups(string backupFolder)
+    {
+        return File.Exists(Path.Combine(backupFolder, ManifestName));
+    }
 
-	private static IEnumerable<string> ReadManifest(string manifestPath)
-	{
-		string[] lines;
-		try
-		{
-			lines = File.ReadAllLines(manifestPath);
-		}
-		catch (Exception ex)
-		{
-			App.Logger?.WriteLine(LogIdent, "The asset cache manifest could not be read: " + ex.Message);
-			return Array.Empty<string>();
-		}
-		return lines.Select(line => line.Trim()).Where(IsValidHash);
-	}
+    private static IEnumerable<string> ReadManifest(string manifestPath)
+    {
+        string[] lines;
+        try
+        {
+            lines = File.ReadAllLines(manifestPath);
+        }
+        catch (Exception ex)
+        {
+            App.Logger?.WriteLine(LogIdent, "The asset cache manifest could not be read: " + ex.Message);
+            return Array.Empty<string>();
+        }
+        return lines.Select(line => line.Trim()).Where(IsValidHash);
+    }
 
-	private static void SetReadOnly(string path)
-	{
-		try
-		{
-			File.SetAttributes(path, File.GetAttributes(path) | FileAttributes.ReadOnly);
-		}
-		catch (Exception ex)
-		{
-			App.Logger?.WriteLine(LogIdent, "Could not lock " + Path.GetFileName(path) + ": " + ex.Message);
-		}
-	}
+    private static void SetReadOnly(string path)
+    {
+        try
+        {
+            File.SetAttributes(path, File.GetAttributes(path) | FileAttributes.ReadOnly);
+        }
+        catch (Exception ex)
+        {
+            App.Logger?.WriteLine(LogIdent, "Could not lock " + Path.GetFileName(path) + ": " + ex.Message);
+        }
+    }
 
-	private static void ClearReadOnly(string path)
-	{
-		try
-		{
-			if (File.Exists(path))
-			{
-				File.SetAttributes(path, File.GetAttributes(path) & ~FileAttributes.ReadOnly);
-			}
-		}
-		catch (Exception ex)
-		{
-			App.Logger?.WriteLine(LogIdent, "Could not unlock " + Path.GetFileName(path) + ": " + ex.Message);
-		}
-	}
+    private static void ClearReadOnly(string path)
+    {
+        try
+        {
+            if (File.Exists(path))
+            {
+                File.SetAttributes(path, File.GetAttributes(path) & ~FileAttributes.ReadOnly);
+            }
+        }
+        catch (Exception ex)
+        {
+            App.Logger?.WriteLine(LogIdent, "Could not unlock " + Path.GetFileName(path) + ": " + ex.Message);
+        }
+    }
 
-	private const string CacheTrashPrefix = "rbx-storage.voidstrap-trash-";
+    private const string CacheTrashPrefix = "rbx-storage.voidstrap-trash-";
 
-	private static int _storageCleared;
+    private static int _storageCleared;
 
-	public static bool ConsumeStorageCleared()
-	{
-		return Interlocked.Exchange(ref _storageCleared, 0) == 1;
-	}
+    public static bool ConsumeStorageCleared()
+    {
+        return Interlocked.Exchange(ref _storageCleared, 0) == 1;
+    }
 
-	public static bool ClearStorage()
-	{
-		lock (StorageGate)
-		{
-			return ClearStorageCore();
-		}
-	}
+    public static bool ClearStorage()
+    {
+        lock (StorageGate)
+        {
+            return ClearStorageCore();
+        }
+    }
 
-	private static bool ClearStorageCore()
-	{
-		string roblox;
-		string[] files;
-		if (Voidstrap.Utility.Platform.IsLinux && LinuxRuntimeChoice.PlayerUsesRosemary)
-		{
-			roblox = Voidstrap.Platform.Linux.LinuxRosemary.GuestRobloxRoot;
-			files =
-			[
-				Path.Combine(roblox, "rbx-storage.db"),
-				Path.Combine(roblox, "rbx-storage.db-wal"),
-				Path.Combine(roblox, "rbx-storage.db-shm")
-			];
-		}
-		else if (Voidstrap.Utility.Platform.IsLinux)
-		{
-			string home = Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-			string sober = Path.GetFullPath(Path.Combine(home, ".var", "app", "org.vinegarhq.Sober"));
-			string appData = Path.Combine(sober, "data", "sober", "appData");
-			roblox = Path.Combine(sober, "cache", "sober");
-			files =
-			[
-				Path.Combine(appData, "rbx-storage.db"),
-				Path.Combine(appData, "rbx-storage.db-wal"),
-				Path.Combine(appData, "rbx-storage.db-shm")
-			];
-		}
-		else if (Voidstrap.Utility.Platform.IsWindows)
-		{
-			string local = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-			roblox = Path.GetFullPath(Path.Combine(local, "Roblox"));
-			string gdk = Path.GetFullPath(Path.Combine(local, "RobloxPCGDK"));
-			files =
-			[
-				Path.Combine(roblox, "rbx-storage.db"),
-				Path.Combine(gdk, "rbx-storage.db")
-			];
-		}
-		else if (OperatingSystem.IsMacOS())
-		{
-			roblox = Path.GetFullPath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Roblox"));
-			files =
-			[
-				Path.Combine(roblox, "rbx-storage.db"),
-				Path.Combine(roblox, "rbx-storage.db-wal"),
-				Path.Combine(roblox, "rbx-storage.db-shm")
-			];
-		}
-		else
-		{
-			return true;
-		}
-		bool cleared = true;
-		foreach (string file in files)
-		{
-			try
-			{
-				if (File.Exists(file))
-				{
-					File.SetAttributes(file, FileAttributes.Normal);
-					File.Delete(file);
-				}
-			}
-			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-			{
-				cleared = false;
-				App.Logger?.WriteLine(LogIdent, "Roblox cache file is locked: " + Path.GetFileName(file));
-			}
-		}
+    private static bool ClearStorageCore()
+    {
+        string roblox;
+        string[] files;
+        if (Voidstrap.Utility.Platform.IsLinux && LinuxRuntimeChoice.PlayerUsesRosemary)
+        {
+            roblox = Voidstrap.Platform.Linux.LinuxRosemary.GuestRobloxRoot;
+            files =
+            [
+                Path.Combine(roblox, "rbx-storage.db"),
+                Path.Combine(roblox, "rbx-storage.db-wal"),
+                Path.Combine(roblox, "rbx-storage.db-shm")
+            ];
+        }
+        else if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            string home = Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string sober = Path.GetFullPath(Path.Combine(home, ".var", "app", "org.vinegarhq.Sober"));
+            string appData = Path.Combine(sober, "data", "sober", "appData");
+            roblox = Path.Combine(sober, "cache", "sober");
+            files =
+            [
+                Path.Combine(appData, "rbx-storage.db"),
+                Path.Combine(appData, "rbx-storage.db-wal"),
+                Path.Combine(appData, "rbx-storage.db-shm")
+            ];
+        }
+        else if (Voidstrap.Utility.Platform.IsWindows)
+        {
+            string local = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            roblox = Path.GetFullPath(Path.Combine(local, "Roblox"));
+            string gdk = Path.GetFullPath(Path.Combine(local, "RobloxPCGDK"));
+            files =
+            [
+                Path.Combine(roblox, "rbx-storage.db"),
+                Path.Combine(gdk, "rbx-storage.db")
+            ];
+        }
+        else if (OperatingSystem.IsMacOS())
+        {
+            roblox = Path.GetFullPath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Roblox"));
+            files =
+            [
+                Path.Combine(roblox, "rbx-storage.db"),
+                Path.Combine(roblox, "rbx-storage.db-wal"),
+                Path.Combine(roblox, "rbx-storage.db-shm")
+            ];
+        }
+        else
+        {
+            return true;
+        }
+        bool cleared = true;
+        foreach (string file in files)
+        {
+            try
+            {
+                if (File.Exists(file))
+                {
+                    File.SetAttributes(file, FileAttributes.Normal);
+                    File.Delete(file);
+                }
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                cleared = false;
+                App.Logger?.WriteLine(LogIdent, "Roblox cache file is locked: " + Path.GetFileName(file));
+            }
+        }
 
-		List<string> trash = [];
-		try
-		{
-			if (Directory.Exists(roblox))
-			{
-				trash.AddRange(Directory.EnumerateDirectories(roblox, CacheTrashPrefix + "*", SearchOption.TopDirectoryOnly));
-			}
-		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-		{
-		}
+        List<string> trash = [];
+        try
+        {
+            if (Directory.Exists(roblox))
+            {
+                trash.AddRange(Directory.EnumerateDirectories(roblox, CacheTrashPrefix + "*", SearchOption.TopDirectoryOnly));
+            }
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+        }
 
-		string storage = Path.GetFullPath(Path.Combine(roblox, "rbx-storage"));
-		if (Directory.Exists(storage))
-		{
-			string moved = Path.Combine(roblox, CacheTrashPrefix + Guid.NewGuid().ToString("N"));
-			try
-			{
-				Directory.Move(storage, moved);
-				trash.Add(moved);
-			}
-			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-			{
-				DeleteTree(storage);
-			}
-		}
+        string storage = Path.GetFullPath(Path.Combine(roblox, "rbx-storage"));
+        if (Directory.Exists(storage))
+        {
+            string moved = Path.Combine(roblox, CacheTrashPrefix + Guid.NewGuid().ToString("N"));
+            try
+            {
+                Directory.Move(storage, moved);
+                trash.Add(moved);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                DeleteTree(storage);
+            }
+        }
 
-		cleared &= !Directory.Exists(storage);
-		if (trash.Count > 0)
-		{
-			string[] pending = [.. trash];
-			_ = System.Threading.Tasks.Task.Run(() =>
-			{
-				foreach (string folder in pending)
-				{
-					DeleteTree(folder);
-				}
-			});
-		}
-		Interlocked.Exchange(ref _storageCleared, 1);
-		App.Logger?.WriteLine(LogIdent, "Roblox asset cache cleared");
-		return cleared;
-	}
+        cleared &= !Directory.Exists(storage);
+        if (trash.Count > 0)
+        {
+            string[] pending = [.. trash];
+            _ = System.Threading.Tasks.Task.Run(() =>
+            {
+                foreach (string folder in pending)
+                {
+                    DeleteTree(folder);
+                }
+            });
+        }
+        Interlocked.Exchange(ref _storageCleared, 1);
+        App.Logger?.WriteLine(LogIdent, "Roblox asset cache cleared");
+        return cleared;
+    }
 
-	private static void DeleteTree(string folder)
-	{
-		try
-		{
-			foreach (string file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
-			{
-				try
-				{
-					File.SetAttributes(file, FileAttributes.Normal);
-				}
-				catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-				{
-				}
-			}
-			Directory.Delete(folder, true);
-		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-		{
-		}
-	}
+    private static void DeleteTree(string folder)
+    {
+        try
+        {
+            foreach (string file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
+            {
+                try
+                {
+                    File.SetAttributes(file, FileAttributes.Normal);
+                }
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+                {
+                }
+            }
+            Directory.Delete(folder, true);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+        }
+    }
 }

@@ -6,59 +6,60 @@ using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
-public partial class GBSEditorPage : UiPage{
-	private GBSEditorViewModel _viewModel = null!;
+public partial class GBSEditorPage : UiPage
+{
+    private GBSEditorViewModel _viewModel = null!;
 
-	public GBSEditorPage()
-	{
-		SetupViewModel();
-		InitializeComponent();
-		base.Loaded += OnPageLoaded;
-		base.Unloaded += OnPageUnloaded;
-	}
+    public GBSEditorPage()
+    {
+        SetupViewModel();
+        InitializeComponent();
+        base.Loaded += OnPageLoaded;
+        base.Unloaded += OnPageUnloaded;
+    }
 
-	private void SetupViewModel()
-	{
-		_viewModel = new GBSEditorViewModel();
-		base.DataContext = _viewModel;
-	}
+    private void SetupViewModel()
+    {
+        _viewModel = new GBSEditorViewModel();
+        base.DataContext = _viewModel;
+    }
 
-	private void OnPageLoaded(object sender, RoutedEventArgs e)
-	{
-		if (_viewModel is null)
-		{
-			SetupViewModel();
-			return;
-		}
-		_viewModel.Resume();
-	}
+    private void OnPageLoaded(object sender, RoutedEventArgs e)
+    {
+        if (_viewModel is null)
+        {
+            SetupViewModel();
+            return;
+        }
+        _viewModel.Resume();
+    }
 
-	private void OnPageUnloaded(object sender, RoutedEventArgs e)
-	{
-		_viewModel?.Dispose();
-	}
+    private void OnPageUnloaded(object sender, RoutedEventArgs e)
+    {
+        _viewModel?.Dispose();
+    }
 
-	private void ValidateUInt32(object sender, TextCompositionEventArgs e)
-	{
-		foreach (char character in e.Text)
-		{
-			if (!char.IsAsciiDigit(character))
-			{
-				e.Handled = true;
-				return;
-			}
-		}
-	}
+    private void ValidateUInt32(object sender, TextCompositionEventArgs e)
+    {
+        foreach (char character in e.Text)
+        {
+            if (!char.IsAsciiDigit(character))
+            {
+                e.Handled = true;
+                return;
+            }
+        }
+    }
 
-	private void ValidateFloat(object sender, TextCompositionEventArgs e)
-	{
-		foreach (char character in e.Text)
-		{
-			if (!char.IsAsciiDigit(character) && character != '.')
-			{
-				e.Handled = true;
-				return;
-			}
-		}
-	}
+    private void ValidateFloat(object sender, TextCompositionEventArgs e)
+    {
+        foreach (char character in e.Text)
+        {
+            if (!char.IsAsciiDigit(character) && character != '.')
+            {
+                e.Handled = true;
+                return;
+            }
+        }
+    }
 }

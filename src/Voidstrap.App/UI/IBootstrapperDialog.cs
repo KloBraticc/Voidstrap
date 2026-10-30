@@ -6,27 +6,27 @@ namespace Voidstrap.UI;
 
 public interface IBootstrapperDialog
 {
-	Bootstrapper? Bootstrapper { get; set; }
+    Bootstrapper? Bootstrapper { get; set; }
 
-	string Message { get; set; }
+    string Message { get; set; }
 
-	ProgressBarStyle ProgressStyle { get; set; }
+    ProgressBarStyle ProgressStyle { get; set; }
 
-	int ProgressValue { get; set; }
+    int ProgressValue { get; set; }
 
-	int ProgressMaximum { get; set; }
+    int ProgressMaximum { get; set; }
 
-	TaskbarItemProgressState TaskbarProgressState { get; set; }
+    TaskbarItemProgressState TaskbarProgressState { get; set; }
 
-	double TaskbarProgressValue { get; set; }
+    double TaskbarProgressValue { get; set; }
 
-	bool CancelEnabled { get; set; }
+    bool CancelEnabled { get; set; }
 
-	Action? CancelCallback { get; set; }
+    Action? CancelCallback { get; set; }
 
-	void ShowBootstrapper();
+    void ShowBootstrapper();
 
-	void CloseBootstrapper();
+    void CloseBootstrapper();
 
-	void ShowSuccess(string message, Action? callback = null);
+    void ShowSuccess(string message, Action? callback = null);
 }

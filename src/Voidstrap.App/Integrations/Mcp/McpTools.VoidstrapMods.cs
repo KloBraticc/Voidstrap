@@ -12,31 +12,31 @@ namespace Voidstrap.Integrations.Mcp;
 
 public static partial class McpTools
 {
-	private const int MaxModFileBytes = 512 * 1024;
+    private const int MaxModFileBytes = 512 * 1024;
 
-	private static readonly string[] ModFileExtensions =
-	[
-		".ts",
-		".tsx",
-		".js",
-		".mjs",
-		".jsx",
-		".json",
-		".md",
-		".png",
-		".ico",
-		".gif",
-		".webp",
-		".jpg",
-		".jpeg",
-		".bmp",
-		".svg",
-	];
+    private static readonly string[] ModFileExtensions =
+    [
+        ".ts",
+        ".tsx",
+        ".js",
+        ".mjs",
+        ".jsx",
+        ".json",
+        ".md",
+        ".png",
+        ".ico",
+        ".gif",
+        ".webp",
+        ".jpg",
+        ".jpeg",
+        ".bmp",
+        ".svg",
+    ];
 
-	[GeneratedRegex("^[a-z0-9][a-z0-9-]{0,63}$")]
-	private static partial Regex ModNamePattern { get; }
+    [GeneratedRegex("^[a-z0-9][a-z0-9-]{0,63}$")]
+    private static partial Regex ModNamePattern { get; }
 
-	internal const string ModLayoutGuide = """
+    internal const string ModLayoutGuide = """
 		VOIDSTRAP MODS
 		Use manage_voidstrap_mods for features inside Voidstrap: widgets, cursor sprites, pages, panels, sidebar changes and automation. This is different from manage_mods, which manages Roblox content files applied on the next launch.
 		Mods run on Windows, Linux and macOS inside a sandbox. They cannot access files, processes or .NET directly. Use the $ API from action types. This is not a browser: there is no document, window, DOM, CSS, React, requestAnimationFrame, setInterval or Node.js API. JSX describes native Voidstrap controls.
@@ -223,296 +223,296 @@ public static partial class McpTools
 		Library rules: readable code only (no eval, Function, encoded or minified code), nothing that touches Roblox logins or cheats, every contacted host listed in plugin.json network. Only the account that first published a mod can update it. Read get_guide topic library_pr for the full red X checklist.
 		""";
 
-	public static async Task<McpToolResult> ManageVoidstrapMods(JsonObject args)
-	{
-		string action = McpArgs.Trimmed(args, "action", "list").ToLowerInvariant();
-		string mod = McpArgs.Trimmed(args, "mod");
-		switch (action)
-		{
-			case "list":
-			{
-				JsonArray mods = new();
-				foreach (PluginHost.ModInfo info in PluginHost.ListMods())
-				{
-					mods.Add(
-						new JsonObject
-						{
-							["name"] = info.Name,
-							["version"] = info.Version,
-							["description"] = info.Description,
-							["state"] = info.Consent,
-							["loaded"] = info.Loaded,
-							["hooks"] = new JsonArray(info.Hooks.Select(hook => (JsonNode?)hook).ToArray()),
-							["problems"] = new JsonArray(info.Problems.TakeLast(10).Select(problem => (JsonNode?)problem).ToArray()),
-						}
-					);
-				}
-				return new McpToolResult(new JsonObject { ["folder"] = Paths.Plugins, ["mods"] = mods }.ToJsonString(IndentedJson));
-			}
-			case "guide":
-				return new McpToolResult(ModLayoutGuide);
-			case "types":
-				return new McpToolResult(Resource.GetString("ModTypes.d.ts"));
-			case "reload":
-				PluginHost.ReloadNow();
-				return new McpToolResult(
-					"Requested a reload of changed Voidstrap mod files. Call list to see what loaded and any problems."
-				);
-			case "ui_map":
-			{
-				JsonArray map = Application.Current.Dispatcher.Invoke(PluginAnchors.Map);
-				return new McpToolResult(
-					new JsonObject
-					{
-						["note"] =
-							"Named elements in the live Voidstrap window. Attach a widget next to one whose attachable is true with $.ui.attach({ id, anchor: name, placement }).",
-						["elements"] = map,
-					}.ToJsonString(IndentedJson)
-				);
-			}
-			case "library_search":
-			{
-				ModLibrary.Index index = ModLibrary.GetIndexAsync(false, CancellationToken.None).GetAwaiter().GetResult();
-				string query = McpArgs.Trimmed(args, "query");
-				JsonArray results = new();
-				foreach (ModLibrary.LibraryMod entry in ModLibrarySearch.Run(index.Mods, query, null, null).Take(50))
-				{
-					results.Add(
-						new JsonObject
-						{
-							["name"] = entry.Name,
-							["version"] = entry.Version,
-							["owner"] = entry.Login,
-							["description"] = entry.Description,
-							["verified"] = entry.Verified,
-							["trustedAuthor"] = entry.Trusted,
-							["tags"] = new JsonArray(entry.Tags.Select(t => (JsonNode?)t).ToArray()),
-							["network"] = new JsonArray(entry.Network.Select(h => (JsonNode?)h).ToArray()),
-							["state"] = ModLibrary.GetState(entry).ToString(),
-						}
-					);
-				}
-				return new McpToolResult(
-					new JsonObject { ["library"] = ModLibrary.RepositoryUrl, ["mods"] = results }.ToJsonString(IndentedJson)
-				);
-			}
-		}
-		if (!ModNamePattern.IsMatch(mod))
-			return new McpToolResult("Provide 'mod', the mod's folder name in lowercase letters, digits and hyphens.", true);
-		string folder = Path.Combine(Paths.Plugins, mod);
-		switch (action)
-		{
-			case "preflight":
-			{
-				ModLibraryReview.PreflightResult result = await ModLibraryReview
-					.RunAsync(mod, CancellationToken.None)
-					.ConfigureAwait(false);
-				return new McpToolResult(result.Report, result.Errors > 0);
-			}
-			case "files":
-			{
-				if (!Directory.Exists(folder))
-					return new McpToolResult("That mod does not exist yet. Write its files with write_file.", true);
-				string[] files = Directory
-					.EnumerateFiles(folder, "*", SearchOption.AllDirectories)
-					.Select(path => Path.GetRelativePath(folder, path).Replace('\\', '/'))
-					.Where(path => !path.StartsWith(PluginManifest.ManifestFolder + "/types/", StringComparison.OrdinalIgnoreCase))
-					.OrderBy(path => path, StringComparer.OrdinalIgnoreCase)
-					.ToArray();
-				return new McpToolResult(string.Join("\n", files));
-			}
-			case "read_file":
-			{
-				string? path = ModFilePath(folder, McpArgs.Trimmed(args, "path"));
-				if (path == null || !File.Exists(path))
-					return new McpToolResult("That file does not exist in the mod.", true);
-				return new McpToolResult(File.ReadAllText(path));
-			}
-			case "write_file":
-			{
-				string relative = McpArgs.Trimmed(args, "path");
-				string? path = ModFilePath(folder, relative);
-				string content = McpArgs.String(args, "content") ?? "";
-				if (path == null || !ModFileExtensions.Contains(Path.GetExtension(path).ToLowerInvariant()))
-					return new McpToolResult(
-						"The path must stay inside the mod and end in " + string.Join(", ", ModFileExtensions) + ".",
-						true
-					);
-				if (content.Length > MaxModFileBytes)
-					return new McpToolResult("Mod files are limited to 512 KB.", true);
-				string? before = File.Exists(path) ? File.ReadAllText(path) : null;
-				if (before == content)
-					return new McpToolResult("The mod file already has these contents. No files were changed.");
-				Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-				File.WriteAllText(path, content);
-				PushUndo(
-					"write " + mod + "/" + relative,
-					() =>
-					{
-						if (before == null)
-							File.Delete(path);
-						else
-							File.WriteAllText(path, before);
-					}
-				);
-				return new McpToolResult("Wrote " + mod + "/" + relative.Replace('\\', '/') + ". Call validate, then test, then reload.");
-			}
-			case "delete_file":
-			{
-				string? path = ModFilePath(folder, McpArgs.Trimmed(args, "path"));
-				if (path == null || !File.Exists(path))
-					return new McpToolResult("That file does not exist in the mod.", true);
-				string before = File.ReadAllText(path);
-				File.Delete(path);
-				PushUndo(
-					"delete " + mod + " file",
-					() =>
-					{
-						Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-						File.WriteAllText(path, before);
-					}
-				);
-				return new McpToolResult("Deleted the file.");
-			}
-			case "delete_mod":
-			{
-				if (!McpArgs.Flag(args, "confirm", false))
-					return new McpToolResult("Deleting a whole mod needs confirm set to true.", true);
-				if (!Directory.Exists(folder))
-					return new McpToolResult("That mod does not exist.", true);
-				PluginHost.DeleteMod(mod);
-				return new McpToolResult("Deleted the mod " + mod + ".");
-			}
-			case "validate":
-			{
-				StringWriter output = new();
-				int code = ModTools.Validate(folder, output);
-				return new McpToolResult(output.ToString(), code != 0);
-			}
-			case "test":
-			{
-				StringWriter output = new();
-				int code = ModTools.Test(folder, output);
-				return new McpToolResult(output.ToString(), code != 0);
-			}
-			case "disable":
-				PluginHost.SetEnabled(mod, false);
-				return new McpToolResult("Turned off the mod " + mod + ".");
-			case "enable":
-				PluginHost.ForgetConsent(mod);
-				PluginHost.Reload();
-				return new McpToolResult(
-					"Asked the user whether to turn on " + mod + ". It loads only if they say yes; call list to see the answer."
-				);
-			case "auto_update":
-			{
-				IReadOnlyList<string> updated = ModLibrary.AutoUpdateInstalledModsAsync(CancellationToken.None).GetAwaiter().GetResult();
-				return updated.Count > 0
-					? new McpToolResult("Auto-updated " + updated.Count + " mod(s): " + string.Join(", ", updated))
-					: new McpToolResult("All installed library mods are up to date.");
-			}
-			case "library_install":
-			{
-				ModLibrary.Index index = ModLibrary.GetIndexAsync(false, CancellationToken.None).GetAwaiter().GetResult();
-				ModLibrary.LibraryMod? entry = index.Mods.FirstOrDefault(m => m.Name == mod);
-				if (entry == null)
-					return new McpToolResult("That mod is not in the library. Use library_search.", true);
-				ModLibrary.InstallState state = ModLibrary.GetState(entry);
-				if (state == ModLibrary.InstallState.Installed)
-					return new McpToolResult(mod + " " + entry.Version + " is already installed.");
-				if (state == ModLibrary.InstallState.NameTaken)
-					return new McpToolResult(
-						"A different mod named " + mod + " is already installed, so the library one cannot be installed.",
-						true
-					);
-				string network =
-					entry.Network.Count == 0
-						? Strings.Ui_VoidstrapMods_LibraryNoNetwork
-						: string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", entry.Network));
-				string prompt =
-					entry.Verified || entry.Trusted
-						? Strings.Ui_VoidstrapMods_LibraryInstallPrompt
-						: Strings.Ui_VoidstrapMods_LibraryUnverifiedPrompt;
-				MessageBoxResult answer = Application.Current.Dispatcher.Invoke(() =>
-					Frontend.ShowMessageBox(
-						string.Format(prompt, entry.Name, entry.Version, entry.Login, network),
-						entry.Verified || entry.Trusted ? MessageBoxImage.Question : MessageBoxImage.Warning,
-						MessageBoxButton.YesNo,
-						MessageBoxResult.No
-					)
-				);
-				if (answer != MessageBoxResult.Yes)
-					return new McpToolResult("The user declined the install.", true);
-				ModLibrary.InstallAsync(index, entry, CancellationToken.None).GetAwaiter().GetResult();
-				PluginHost.Reload();
-				return new McpToolResult(
-					"Installed "
-						+ mod
-						+ " "
-						+ entry.Version
-						+ " from the library. Voidstrap asks the user before turning it on; call list to see whether it loaded."
-				);
-			}
-			case "publish":
-			{
-				if (!Directory.Exists(folder))
-					return new McpToolResult("That mod does not exist.", true);
-				StringWriter output = new();
-				if (ModTools.Validate(folder, output) != 0)
-					return new McpToolResult("Fix these before publishing:" + Environment.NewLine + output, true);
-				ModLibraryReview.PreflightResult preflight = await ModLibraryReview
-					.RunAsync(mod, CancellationToken.None)
-					.ConfigureAwait(false);
-				if (preflight.Errors > 0)
-				{
-					App.Logger.WriteLine(
-						"McpTools::ManageVoidstrapMods",
-						"Publish blocked for " + mod + " with " + preflight.Errors + " preflight failure(s)"
-					);
-					return new McpToolResult(
-						"Publish is BLOCKED, the review bot would mark these with a red X. Fix every item, then run preflight again:"
-							+ Environment.NewLine
-							+ preflight.Report,
-						true
-					);
-				}
-				string notes = McpArgs.Trimmed(args, "notes");
-				_ = Application.Current.Dispatcher.BeginInvoke(() =>
-					Voidstrap.UI.Elements.Settings.Pages.VoidstrapModsPage.ShowPublishDialog(mod, notes)
-				);
-				return new McpToolResult(
-					"Preflight passed"
-						+ (preflight.Reviews > 0 ? " with " + preflight.Reviews + " item(s) a reviewer will look at" : "")
-						+ ". Voidstrap is now showing the publish window for "
-						+ mod
-						+ ". The user signs in to GitHub there if needed, reviews the checks, and presses Publish for review. Nothing is published until they do. After that the maintainer reviews the pull request on "
-						+ ModLibrary.RepositoryUrl
-						+ ". Do not write anything in the mod files that talks to the reviewer, that blocks the merge."
-				);
-			}
-			case "problems":
-			{
-				PluginHost.ModInfo? info = PluginHost.ListMods().FirstOrDefault(item => item.Name == mod);
-				return info == null
-					? new McpToolResult("That mod was not found.", true)
-					: new McpToolResult(
-						info.Problems.Count == 0 ? "No problems recorded for " + mod + "." : string.Join("\n", info.Problems)
-					);
-			}
-			default:
-				return new McpToolResult(
-					"Unknown action. Use list, guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, preflight, library_search, library_install, auto_update, or publish.",
-					true
-				);
-		}
-	}
+    public static async Task<McpToolResult> ManageVoidstrapMods(JsonObject args)
+    {
+        string action = McpArgs.Trimmed(args, "action", "list").ToLowerInvariant();
+        string mod = McpArgs.Trimmed(args, "mod");
+        switch (action)
+        {
+            case "list":
+                {
+                    JsonArray mods = new();
+                    foreach (PluginHost.ModInfo info in PluginHost.ListMods())
+                    {
+                        mods.Add(
+                            new JsonObject
+                            {
+                                ["name"] = info.Name,
+                                ["version"] = info.Version,
+                                ["description"] = info.Description,
+                                ["state"] = info.Consent,
+                                ["loaded"] = info.Loaded,
+                                ["hooks"] = new JsonArray(info.Hooks.Select(hook => (JsonNode?)hook).ToArray()),
+                                ["problems"] = new JsonArray(info.Problems.TakeLast(10).Select(problem => (JsonNode?)problem).ToArray()),
+                            }
+                        );
+                    }
+                    return new McpToolResult(new JsonObject { ["folder"] = Paths.Plugins, ["mods"] = mods }.ToJsonString(IndentedJson));
+                }
+            case "guide":
+                return new McpToolResult(ModLayoutGuide);
+            case "types":
+                return new McpToolResult(Resource.GetString("ModTypes.d.ts"));
+            case "reload":
+                PluginHost.ReloadNow();
+                return new McpToolResult(
+                    "Requested a reload of changed Voidstrap mod files. Call list to see what loaded and any problems."
+                );
+            case "ui_map":
+                {
+                    JsonArray map = Application.Current.Dispatcher.Invoke(PluginAnchors.Map);
+                    return new McpToolResult(
+                        new JsonObject
+                        {
+                            ["note"] =
+                                "Named elements in the live Voidstrap window. Attach a widget next to one whose attachable is true with $.ui.attach({ id, anchor: name, placement }).",
+                            ["elements"] = map,
+                        }.ToJsonString(IndentedJson)
+                    );
+                }
+            case "library_search":
+                {
+                    ModLibrary.Index index = ModLibrary.GetIndexAsync(false, CancellationToken.None).GetAwaiter().GetResult();
+                    string query = McpArgs.Trimmed(args, "query");
+                    JsonArray results = new();
+                    foreach (ModLibrary.LibraryMod entry in ModLibrarySearch.Run(index.Mods, query, null, null).Take(50))
+                    {
+                        results.Add(
+                            new JsonObject
+                            {
+                                ["name"] = entry.Name,
+                                ["version"] = entry.Version,
+                                ["owner"] = entry.Login,
+                                ["description"] = entry.Description,
+                                ["verified"] = entry.Verified,
+                                ["trustedAuthor"] = entry.Trusted,
+                                ["tags"] = new JsonArray(entry.Tags.Select(t => (JsonNode?)t).ToArray()),
+                                ["network"] = new JsonArray(entry.Network.Select(h => (JsonNode?)h).ToArray()),
+                                ["state"] = ModLibrary.GetState(entry).ToString(),
+                            }
+                        );
+                    }
+                    return new McpToolResult(
+                        new JsonObject { ["library"] = ModLibrary.RepositoryUrl, ["mods"] = results }.ToJsonString(IndentedJson)
+                    );
+                }
+        }
+        if (!ModNamePattern.IsMatch(mod))
+            return new McpToolResult("Provide 'mod', the mod's folder name in lowercase letters, digits and hyphens.", true);
+        string folder = Path.Combine(Paths.Plugins, mod);
+        switch (action)
+        {
+            case "preflight":
+                {
+                    ModLibraryReview.PreflightResult result = await ModLibraryReview
+                        .RunAsync(mod, CancellationToken.None)
+                        .ConfigureAwait(false);
+                    return new McpToolResult(result.Report, result.Errors > 0);
+                }
+            case "files":
+                {
+                    if (!Directory.Exists(folder))
+                        return new McpToolResult("That mod does not exist yet. Write its files with write_file.", true);
+                    string[] files = Directory
+                        .EnumerateFiles(folder, "*", SearchOption.AllDirectories)
+                        .Select(path => Path.GetRelativePath(folder, path).Replace('\\', '/'))
+                        .Where(path => !path.StartsWith(PluginManifest.ManifestFolder + "/types/", StringComparison.OrdinalIgnoreCase))
+                        .OrderBy(path => path, StringComparer.OrdinalIgnoreCase)
+                        .ToArray();
+                    return new McpToolResult(string.Join("\n", files));
+                }
+            case "read_file":
+                {
+                    string? path = ModFilePath(folder, McpArgs.Trimmed(args, "path"));
+                    if (path == null || !File.Exists(path))
+                        return new McpToolResult("That file does not exist in the mod.", true);
+                    return new McpToolResult(File.ReadAllText(path));
+                }
+            case "write_file":
+                {
+                    string relative = McpArgs.Trimmed(args, "path");
+                    string? path = ModFilePath(folder, relative);
+                    string content = McpArgs.String(args, "content") ?? "";
+                    if (path == null || !ModFileExtensions.Contains(Path.GetExtension(path).ToLowerInvariant()))
+                        return new McpToolResult(
+                            "The path must stay inside the mod and end in " + string.Join(", ", ModFileExtensions) + ".",
+                            true
+                        );
+                    if (content.Length > MaxModFileBytes)
+                        return new McpToolResult("Mod files are limited to 512 KB.", true);
+                    string? before = File.Exists(path) ? File.ReadAllText(path) : null;
+                    if (before == content)
+                        return new McpToolResult("The mod file already has these contents. No files were changed.");
+                    Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+                    File.WriteAllText(path, content);
+                    PushUndo(
+                        "write " + mod + "/" + relative,
+                        () =>
+                        {
+                            if (before == null)
+                                File.Delete(path);
+                            else
+                                File.WriteAllText(path, before);
+                        }
+                    );
+                    return new McpToolResult("Wrote " + mod + "/" + relative.Replace('\\', '/') + ". Call validate, then test, then reload.");
+                }
+            case "delete_file":
+                {
+                    string? path = ModFilePath(folder, McpArgs.Trimmed(args, "path"));
+                    if (path == null || !File.Exists(path))
+                        return new McpToolResult("That file does not exist in the mod.", true);
+                    string before = File.ReadAllText(path);
+                    File.Delete(path);
+                    PushUndo(
+                        "delete " + mod + " file",
+                        () =>
+                        {
+                            Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+                            File.WriteAllText(path, before);
+                        }
+                    );
+                    return new McpToolResult("Deleted the file.");
+                }
+            case "delete_mod":
+                {
+                    if (!McpArgs.Flag(args, "confirm", false))
+                        return new McpToolResult("Deleting a whole mod needs confirm set to true.", true);
+                    if (!Directory.Exists(folder))
+                        return new McpToolResult("That mod does not exist.", true);
+                    PluginHost.DeleteMod(mod);
+                    return new McpToolResult("Deleted the mod " + mod + ".");
+                }
+            case "validate":
+                {
+                    StringWriter output = new();
+                    int code = ModTools.Validate(folder, output);
+                    return new McpToolResult(output.ToString(), code != 0);
+                }
+            case "test":
+                {
+                    StringWriter output = new();
+                    int code = ModTools.Test(folder, output);
+                    return new McpToolResult(output.ToString(), code != 0);
+                }
+            case "disable":
+                PluginHost.SetEnabled(mod, false);
+                return new McpToolResult("Turned off the mod " + mod + ".");
+            case "enable":
+                PluginHost.ForgetConsent(mod);
+                PluginHost.Reload();
+                return new McpToolResult(
+                    "Asked the user whether to turn on " + mod + ". It loads only if they say yes; call list to see the answer."
+                );
+            case "auto_update":
+                {
+                    IReadOnlyList<string> updated = ModLibrary.AutoUpdateInstalledModsAsync(CancellationToken.None).GetAwaiter().GetResult();
+                    return updated.Count > 0
+                        ? new McpToolResult("Auto-updated " + updated.Count + " mod(s): " + string.Join(", ", updated))
+                        : new McpToolResult("All installed library mods are up to date.");
+                }
+            case "library_install":
+                {
+                    ModLibrary.Index index = ModLibrary.GetIndexAsync(false, CancellationToken.None).GetAwaiter().GetResult();
+                    ModLibrary.LibraryMod? entry = index.Mods.FirstOrDefault(m => m.Name == mod);
+                    if (entry == null)
+                        return new McpToolResult("That mod is not in the library. Use library_search.", true);
+                    ModLibrary.InstallState state = ModLibrary.GetState(entry);
+                    if (state == ModLibrary.InstallState.Installed)
+                        return new McpToolResult(mod + " " + entry.Version + " is already installed.");
+                    if (state == ModLibrary.InstallState.NameTaken)
+                        return new McpToolResult(
+                            "A different mod named " + mod + " is already installed, so the library one cannot be installed.",
+                            true
+                        );
+                    string network =
+                        entry.Network.Count == 0
+                            ? Strings.Ui_VoidstrapMods_LibraryNoNetwork
+                            : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", entry.Network));
+                    string prompt =
+                        entry.Verified || entry.Trusted
+                            ? Strings.Ui_VoidstrapMods_LibraryInstallPrompt
+                            : Strings.Ui_VoidstrapMods_LibraryUnverifiedPrompt;
+                    MessageBoxResult answer = Application.Current.Dispatcher.Invoke(() =>
+                        Frontend.ShowMessageBox(
+                            string.Format(prompt, entry.Name, entry.Version, entry.Login, network),
+                            entry.Verified || entry.Trusted ? MessageBoxImage.Question : MessageBoxImage.Warning,
+                            MessageBoxButton.YesNo,
+                            MessageBoxResult.No
+                        )
+                    );
+                    if (answer != MessageBoxResult.Yes)
+                        return new McpToolResult("The user declined the install.", true);
+                    ModLibrary.InstallAsync(index, entry, CancellationToken.None).GetAwaiter().GetResult();
+                    PluginHost.Reload();
+                    return new McpToolResult(
+                        "Installed "
+                            + mod
+                            + " "
+                            + entry.Version
+                            + " from the library. Voidstrap asks the user before turning it on; call list to see whether it loaded."
+                    );
+                }
+            case "publish":
+                {
+                    if (!Directory.Exists(folder))
+                        return new McpToolResult("That mod does not exist.", true);
+                    StringWriter output = new();
+                    if (ModTools.Validate(folder, output) != 0)
+                        return new McpToolResult("Fix these before publishing:" + Environment.NewLine + output, true);
+                    ModLibraryReview.PreflightResult preflight = await ModLibraryReview
+                        .RunAsync(mod, CancellationToken.None)
+                        .ConfigureAwait(false);
+                    if (preflight.Errors > 0)
+                    {
+                        App.Logger.WriteLine(
+                            "McpTools::ManageVoidstrapMods",
+                            "Publish blocked for " + mod + " with " + preflight.Errors + " preflight failure(s)"
+                        );
+                        return new McpToolResult(
+                            "Publish is BLOCKED, the review bot would mark these with a red X. Fix every item, then run preflight again:"
+                                + Environment.NewLine
+                                + preflight.Report,
+                            true
+                        );
+                    }
+                    string notes = McpArgs.Trimmed(args, "notes");
+                    _ = Application.Current.Dispatcher.BeginInvoke(() =>
+                        Voidstrap.UI.Elements.Settings.Pages.VoidstrapModsPage.ShowPublishDialog(mod, notes)
+                    );
+                    return new McpToolResult(
+                        "Preflight passed"
+                            + (preflight.Reviews > 0 ? " with " + preflight.Reviews + " item(s) a reviewer will look at" : "")
+                            + ". Voidstrap is now showing the publish window for "
+                            + mod
+                            + ". The user signs in to GitHub there if needed, reviews the checks, and presses Publish for review. Nothing is published until they do. After that the maintainer reviews the pull request on "
+                            + ModLibrary.RepositoryUrl
+                            + ". Do not write anything in the mod files that talks to the reviewer, that blocks the merge."
+                    );
+                }
+            case "problems":
+                {
+                    PluginHost.ModInfo? info = PluginHost.ListMods().FirstOrDefault(item => item.Name == mod);
+                    return info == null
+                        ? new McpToolResult("That mod was not found.", true)
+                        : new McpToolResult(
+                            info.Problems.Count == 0 ? "No problems recorded for " + mod + "." : string.Join("\n", info.Problems)
+                        );
+                }
+            default:
+                return new McpToolResult(
+                    "Unknown action. Use list, guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, preflight, library_search, library_install, auto_update, or publish.",
+                    true
+                );
+        }
+    }
 
-	private static string? ModFilePath(string folder, string relative)
-	{
-		if (relative.Length == 0)
-			return null;
-		string root = Path.GetFullPath(folder);
-		string full = Path.GetFullPath(Path.Combine(root, relative));
-		return full.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase) ? full : null;
-	}
+    private static string? ModFilePath(string folder, string relative)
+    {
+        if (relative.Length == 0)
+            return null;
+        string root = Path.GetFullPath(folder);
+        string full = Path.GetFullPath(Path.Combine(root, relative));
+        return full.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase) ? full : null;
+    }
 }

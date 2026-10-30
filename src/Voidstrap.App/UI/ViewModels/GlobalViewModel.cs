@@ -5,13 +5,13 @@ namespace Voidstrap.UI.ViewModels;
 
 public static class GlobalViewModel
 {
-	public static ICommand OpenWebpageCommand => new RelayCommand<string>(OpenWebpage);
+    public static ICommand OpenWebpageCommand => new RelayCommand<string>(OpenWebpage);
 
-	private static void OpenWebpage(string? location)
-	{
-		if (location != null)
-		{
-			Utilities.OpenWebLink(location);
-		}
-	}
+    private static void OpenWebpage(string? location)
+    {
+        if (location != null)
+        {
+            Utilities.OpenWebLink(location);
+        }
+    }
 }

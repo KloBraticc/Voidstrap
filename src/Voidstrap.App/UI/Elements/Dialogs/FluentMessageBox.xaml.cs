@@ -20,226 +20,227 @@ using Wpf.Ui.Common;
 
 namespace Voidstrap.UI.Elements.Dialogs;
 
-public partial class FluentMessageBox : WpfUiWindow{
-	public MessageBoxResult Result;
+public partial class FluentMessageBox : WpfUiWindow
+{
+    public MessageBoxResult Result;
 
-	private readonly int _confirmationDelaySeconds;
-	private readonly Stopwatch _confirmationClock = new();
-	private DispatcherTimer? _confirmationTimer;
-	private string _confirmationButtonText = string.Empty;
+    private readonly int _confirmationDelaySeconds;
+    private readonly Stopwatch _confirmationClock = new();
+    private DispatcherTimer? _confirmationTimer;
+    private string _confirmationButtonText = string.Empty;
 
-	public FluentMessageBox(string message, MessageBoxImage image, MessageBoxButton buttons, int confirmationDelaySeconds = 0)
-	{
-		_confirmationDelaySeconds = Math.Max(0, confirmationDelaySeconds);
-		InitializeComponent();
-		base.Title = "Voidstrap";
-		RootTitleBar.Title = base.Title;
-		string? text = null;
-		SystemSound? systemSound = null;
-		switch (image)
-		{
-		case MessageBoxImage.Hand:
-			text = "Error";
-			systemSound = Voidstrap.Utility.SafeSystemSounds.Get(MessageBoxImage.Hand);
-			break;
-		case MessageBoxImage.Question:
-			text = "Question";
-			systemSound = Voidstrap.Utility.SafeSystemSounds.Get(MessageBoxImage.Question);
-			break;
-		case MessageBoxImage.Exclamation:
-			text = "Warning";
-			systemSound = Voidstrap.Utility.SafeSystemSounds.Get(MessageBoxImage.Exclamation);
-			break;
-		case MessageBoxImage.Asterisk:
-			text = "Information";
-			systemSound = Voidstrap.Utility.SafeSystemSounds.Get(MessageBoxImage.Asterisk);
-			break;
-		}
-		if (text == null)
-		{
-			IconImage.Visibility = Visibility.Collapsed;
-		}
-		else
-		{
-			IconImage.Source = Voidstrap.Utility.SafeImaging.FromUri(new Uri("pack://application:,,,/Resources/MessageBox/" + text + ".png"));
-		}
-		base.Title = "Voidstrap";
-		MessageTextBlock.Text = message;
-		MessageTextBlock.MarkdownText = message;
-		ButtonOne.Visibility = Visibility.Collapsed;
-		ButtonTwo.Visibility = Visibility.Collapsed;
-		ButtonThree.Visibility = Visibility.Collapsed;
-		switch (buttons)
-		{
-		case MessageBoxButton.YesNo:
-			SetButton(ButtonOne, MessageBoxResult.Yes);
-			SetButton(ButtonTwo, MessageBoxResult.No);
-			break;
-		case MessageBoxButton.YesNoCancel:
-			SetButton(ButtonOne, MessageBoxResult.Yes);
-			SetButton(ButtonTwo, MessageBoxResult.No);
-			SetButton(ButtonThree, MessageBoxResult.Cancel);
-			break;
-		case MessageBoxButton.OKCancel:
-			SetButton(ButtonOne, MessageBoxResult.OK);
-			SetButton(ButtonTwo, MessageBoxResult.Cancel);
-			break;
-		default:
-			SetButton(ButtonOne, MessageBoxResult.OK);
-			break;
-		}
-		if (ButtonThree.Visibility == Visibility.Visible)
-		{
-			base.Width = 356.0;
-		}
-		else if (ButtonTwo.Visibility == Visibility.Visible)
-		{
-			base.Width = 245.0;
-		}
-		double num = Math.Ceiling(Rendering.GetTextWidth(MessageTextBlock));
-		num += 48.0;
-		if (image != MessageBoxImage.None)
-		{
-			num += 52.0;
-		}
-		if (num > base.MaxWidth)
-		{
-			base.Width = base.MaxWidth;
-		}
-		else if (num > base.Width)
-		{
-			base.Width = num;
-		}
-		if (Voidstrap.Utility.Platform.IsLinux)
-		{
-			ApplyPortableHeight();
-		}
-		Voidstrap.Utility.SafeSystemSounds.Play(systemSound);
-		if (_confirmationDelaySeconds > 0)
-		{
-			Result = MessageBoxResult.Cancel;
-			_confirmationButtonText = ButtonOne.Content?.ToString() ?? Strings.Common_Yes;
-			ButtonOne.IsEnabled = false;
-			ButtonOne.Appearance = ControlAppearance.Danger;
-			ButtonOne.Content = string.Format(Strings.Vng_Countdown, _confirmationButtonText, _confirmationDelaySeconds);
-			ButtonTwo.IsCancel = true;
-			ButtonTwo.IsDefault = true;
-		}
-		base.Loaded += OnLoaded;
-		base.Closed += OnClosed;
-	}
+    public FluentMessageBox(string message, MessageBoxImage image, MessageBoxButton buttons, int confirmationDelaySeconds = 0)
+    {
+        _confirmationDelaySeconds = Math.Max(0, confirmationDelaySeconds);
+        InitializeComponent();
+        base.Title = "Voidstrap";
+        RootTitleBar.Title = base.Title;
+        string? text = null;
+        SystemSound? systemSound = null;
+        switch (image)
+        {
+            case MessageBoxImage.Hand:
+                text = "Error";
+                systemSound = Voidstrap.Utility.SafeSystemSounds.Get(MessageBoxImage.Hand);
+                break;
+            case MessageBoxImage.Question:
+                text = "Question";
+                systemSound = Voidstrap.Utility.SafeSystemSounds.Get(MessageBoxImage.Question);
+                break;
+            case MessageBoxImage.Exclamation:
+                text = "Warning";
+                systemSound = Voidstrap.Utility.SafeSystemSounds.Get(MessageBoxImage.Exclamation);
+                break;
+            case MessageBoxImage.Asterisk:
+                text = "Information";
+                systemSound = Voidstrap.Utility.SafeSystemSounds.Get(MessageBoxImage.Asterisk);
+                break;
+        }
+        if (text == null)
+        {
+            IconImage.Visibility = Visibility.Collapsed;
+        }
+        else
+        {
+            IconImage.Source = Voidstrap.Utility.SafeImaging.FromUri(new Uri("pack://application:,,,/Resources/MessageBox/" + text + ".png"));
+        }
+        base.Title = "Voidstrap";
+        MessageTextBlock.Text = message;
+        MessageTextBlock.MarkdownText = message;
+        ButtonOne.Visibility = Visibility.Collapsed;
+        ButtonTwo.Visibility = Visibility.Collapsed;
+        ButtonThree.Visibility = Visibility.Collapsed;
+        switch (buttons)
+        {
+            case MessageBoxButton.YesNo:
+                SetButton(ButtonOne, MessageBoxResult.Yes);
+                SetButton(ButtonTwo, MessageBoxResult.No);
+                break;
+            case MessageBoxButton.YesNoCancel:
+                SetButton(ButtonOne, MessageBoxResult.Yes);
+                SetButton(ButtonTwo, MessageBoxResult.No);
+                SetButton(ButtonThree, MessageBoxResult.Cancel);
+                break;
+            case MessageBoxButton.OKCancel:
+                SetButton(ButtonOne, MessageBoxResult.OK);
+                SetButton(ButtonTwo, MessageBoxResult.Cancel);
+                break;
+            default:
+                SetButton(ButtonOne, MessageBoxResult.OK);
+                break;
+        }
+        if (ButtonThree.Visibility == Visibility.Visible)
+        {
+            base.Width = 356.0;
+        }
+        else if (ButtonTwo.Visibility == Visibility.Visible)
+        {
+            base.Width = 245.0;
+        }
+        double num = Math.Ceiling(Rendering.GetTextWidth(MessageTextBlock));
+        num += 48.0;
+        if (image != MessageBoxImage.None)
+        {
+            num += 52.0;
+        }
+        if (num > base.MaxWidth)
+        {
+            base.Width = base.MaxWidth;
+        }
+        else if (num > base.Width)
+        {
+            base.Width = num;
+        }
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            ApplyPortableHeight();
+        }
+        Voidstrap.Utility.SafeSystemSounds.Play(systemSound);
+        if (_confirmationDelaySeconds > 0)
+        {
+            Result = MessageBoxResult.Cancel;
+            _confirmationButtonText = ButtonOne.Content?.ToString() ?? Strings.Common_Yes;
+            ButtonOne.IsEnabled = false;
+            ButtonOne.Appearance = ControlAppearance.Danger;
+            ButtonOne.Content = string.Format(Strings.Vng_Countdown, _confirmationButtonText, _confirmationDelaySeconds);
+            ButtonTwo.IsCancel = true;
+            ButtonTwo.IsDefault = true;
+        }
+        base.Loaded += OnLoaded;
+        base.Closed += OnClosed;
+    }
 
-	public FluentMessageBox(string message, MessageBoxImage image, string primaryButtonText, string secondaryButtonText, string closeButtonText)
-		: this(message, image, MessageBoxButton.YesNoCancel)
-	{
-		ButtonOne.Content = primaryButtonText;
-		ButtonTwo.Content = secondaryButtonText;
-		ButtonThree.Content = closeButtonText;
-		base.Width = Math.Max(base.Width, 560.0);
-	}
+    public FluentMessageBox(string message, MessageBoxImage image, string primaryButtonText, string secondaryButtonText, string closeButtonText)
+        : this(message, image, MessageBoxButton.YesNoCancel)
+    {
+        ButtonOne.Content = primaryButtonText;
+        ButtonTwo.Content = secondaryButtonText;
+        ButtonThree.Content = closeButtonText;
+        base.Width = Math.Max(base.Width, 560.0);
+    }
 
-	private static string GetTextForResult(MessageBoxResult result)
-	{
-		return result switch
-		{
-			MessageBoxResult.OK => Strings.Common_OK, 
-			MessageBoxResult.Cancel => Strings.Common_Cancel, 
-			MessageBoxResult.Yes => Strings.Common_Yes, 
-			MessageBoxResult.No => Strings.Common_No, 
-			_ => result.ToString(), 
-		};
-	}
+    private static string GetTextForResult(MessageBoxResult result)
+    {
+        return result switch
+        {
+            MessageBoxResult.OK => Strings.Common_OK,
+            MessageBoxResult.Cancel => Strings.Common_Cancel,
+            MessageBoxResult.Yes => Strings.Common_Yes,
+            MessageBoxResult.No => Strings.Common_No,
+            _ => result.ToString(),
+        };
+    }
 
-	private void ApplyPortableHeight()
-	{
-		base.SizeToContent = SizeToContent.Manual;
-		base.Height = PortableStartHeight;
-	}
+    private void ApplyPortableHeight()
+    {
+        base.SizeToContent = SizeToContent.Manual;
+        base.Height = PortableStartHeight;
+    }
 
-	private static double PortableStartHeight
-	{
-		get
-		{
-			double screen = Voidstrap.UI.LinuxScreenMetrics.Height;
-			double ceiling = screen > 0d ? screen - 120d : 620d;
-			return Math.Max(360d, Math.Min(620d, ceiling));
-		}
-	}
+    private static double PortableStartHeight
+    {
+        get
+        {
+            double screen = Voidstrap.UI.LinuxScreenMetrics.Height;
+            double ceiling = screen > 0d ? screen - 120d : 620d;
+            return Math.Max(360d, Math.Min(620d, ceiling));
+        }
+    }
 
-	private void ShrinkPortableHeight()
-	{
-		try
-		{
-			base.SizeToContent = SizeToContent.Height;
-		}
-		catch (Exception ex)
-		{
-			App.Logger?.WriteLine("FluentMessageBox::ShrinkPortableHeight", "Could not size the dialog: " + ex.Message);
-		}
-	}
+    private void ShrinkPortableHeight()
+    {
+        try
+        {
+            base.SizeToContent = SizeToContent.Height;
+        }
+        catch (Exception ex)
+        {
+            App.Logger?.WriteLine("FluentMessageBox::ShrinkPortableHeight", "Could not size the dialog: " + ex.Message);
+        }
+    }
 
-	public void SetButton(System.Windows.Controls.Button button, MessageBoxResult result)
-	{
-		button.Visibility = Visibility.Visible;
-		button.Content = GetTextForResult(result);
-		button.Tag = result;
-		button.Click -= OnButtonClick;
-		button.Click += OnButtonClick;
-	}
+    public void SetButton(System.Windows.Controls.Button button, MessageBoxResult result)
+    {
+        button.Visibility = Visibility.Visible;
+        button.Content = GetTextForResult(result);
+        button.Tag = result;
+        button.Click -= OnButtonClick;
+        button.Click += OnButtonClick;
+    }
 
-	private void OnButtonClick(object sender, RoutedEventArgs e)
-	{
-		if (sender is System.Windows.Controls.Button button && button.Tag is MessageBoxResult result)
-		{
-			if (button == ButtonOne && _confirmationDelaySeconds > 0 && _confirmationClock.Elapsed.TotalSeconds < _confirmationDelaySeconds)
-				return;
-			Result = result;
-			Close();
-		}
-	}
+    private void OnButtonClick(object sender, RoutedEventArgs e)
+    {
+        if (sender is System.Windows.Controls.Button button && button.Tag is MessageBoxResult result)
+        {
+            if (button == ButtonOne && _confirmationDelaySeconds > 0 && _confirmationClock.Elapsed.TotalSeconds < _confirmationDelaySeconds)
+                return;
+            Result = result;
+            Close();
+        }
+    }
 
-	private void OnLoaded(object sender, RoutedEventArgs e)
-	{
-		if (_confirmationDelaySeconds > 0 && _confirmationTimer == null)
-		{
-			_confirmationClock.Start();
-			_confirmationTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
-			_confirmationTimer.Tick += OnConfirmationTick;
-			_confirmationTimer.Start();
-			ButtonTwo.Focus();
-		}
-		if (Voidstrap.Utility.Platform.IsWindows) { Windows.Win32.PInvoke.FlashWindow((HWND)new WindowInteropHelper(this).Handle, true); }
-		else { ShrinkPortableHeight(); }
-	}
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        if (_confirmationDelaySeconds > 0 && _confirmationTimer == null)
+        {
+            _confirmationClock.Start();
+            _confirmationTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+            _confirmationTimer.Tick += OnConfirmationTick;
+            _confirmationTimer.Start();
+            ButtonTwo.Focus();
+        }
+        if (Voidstrap.Utility.Platform.IsWindows) { Windows.Win32.PInvoke.FlashWindow((HWND)new WindowInteropHelper(this).Handle, true); }
+        else { ShrinkPortableHeight(); }
+    }
 
-	private void OnConfirmationTick(object? sender, EventArgs e)
-	{
-		int remaining = Math.Max(0, (int)Math.Ceiling(_confirmationDelaySeconds - _confirmationClock.Elapsed.TotalSeconds));
-		ButtonOne.Content = remaining > 0 ? string.Format(Strings.Vng_Countdown, _confirmationButtonText, remaining) : _confirmationButtonText;
-		if (remaining == 0)
-		{
-			ButtonOne.IsEnabled = true;
-			StopConfirmationTimer();
-		}
-	}
+    private void OnConfirmationTick(object? sender, EventArgs e)
+    {
+        int remaining = Math.Max(0, (int)Math.Ceiling(_confirmationDelaySeconds - _confirmationClock.Elapsed.TotalSeconds));
+        ButtonOne.Content = remaining > 0 ? string.Format(Strings.Vng_Countdown, _confirmationButtonText, remaining) : _confirmationButtonText;
+        if (remaining == 0)
+        {
+            ButtonOne.IsEnabled = true;
+            StopConfirmationTimer();
+        }
+    }
 
-	private void StopConfirmationTimer()
-	{
-		if (_confirmationTimer == null)
-			return;
-		_confirmationTimer.Stop();
-		_confirmationTimer.Tick -= OnConfirmationTick;
-		_confirmationTimer = null;
-	}
+    private void StopConfirmationTimer()
+    {
+        if (_confirmationTimer == null)
+            return;
+        _confirmationTimer.Stop();
+        _confirmationTimer.Tick -= OnConfirmationTick;
+        _confirmationTimer = null;
+    }
 
-	private void OnClosed(object? sender, EventArgs e)
-	{
-		StopConfirmationTimer();
-		_confirmationClock.Stop();
-		ButtonOne.Click -= OnButtonClick;
-		ButtonTwo.Click -= OnButtonClick;
-		ButtonThree.Click -= OnButtonClick;
-		base.Loaded -= OnLoaded;
-		base.Closed -= OnClosed;
-	}
+    private void OnClosed(object? sender, EventArgs e)
+    {
+        StopConfirmationTimer();
+        _confirmationClock.Stop();
+        ButtonOne.Click -= OnButtonClick;
+        ButtonTwo.Click -= OnButtonClick;
+        ButtonThree.Click -= OnButtonClick;
+        base.Loaded -= OnLoaded;
+        base.Closed -= OnClosed;
+    }
 }

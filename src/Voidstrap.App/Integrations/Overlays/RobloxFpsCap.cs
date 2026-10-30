@@ -64,7 +64,7 @@ namespace Voidstrap.Integrations.Overlays
                     return;
                 _started = true;
                 Reload();
-				_poll = new System.Threading.Timer(OnPoll, null, 5000, 5000);
+                _poll = new System.Threading.Timer(OnPoll, null, 5000, 5000);
                 try
                 {
                     string? dir = Path.GetDirectoryName(FilePath);

@@ -8,174 +8,174 @@ namespace Voidstrap.Utility;
 
 internal static class MacModSync
 {
-	private const string LogIdent = "MacModSync";
+    private const string LogIdent = "MacModSync";
 
-	private const string MarkerName = ".voidstrap-mods";
+    private const string MarkerName = ".voidstrap-mods";
 
-	private static readonly string[] SkippedExtensions = [".dll", ".exe", ".dylib", ".so", ".lock"];
+    private static readonly string[] SkippedExtensions = [".dll", ".exe", ".dylib", ".so", ".lock"];
 
-	private static string ManifestPath(string resources) => Path.Combine(Paths.Data, "MacMods", Key(resources) + ".json");
+    private static string ManifestPath(string resources) => Path.Combine(Paths.Data, "MacMods", Key(resources) + ".json");
 
-	private static string BackupRoot(string resources) => Path.Combine(Paths.Data, "MacMods", Key(resources));
+    private static string BackupRoot(string resources) => Path.Combine(Paths.Data, "MacMods", Key(resources));
 
-	private static string Key(string resources) =>
-		Path.GetFileName(Path.GetDirectoryName(Path.GetDirectoryName(resources)) ?? "Roblox.app")
-			.Replace(".app", "", StringComparison.OrdinalIgnoreCase);
+    private static string Key(string resources) =>
+        Path.GetFileName(Path.GetDirectoryName(Path.GetDirectoryName(resources)) ?? "Roblox.app")
+            .Replace(".app", "", StringComparison.OrdinalIgnoreCase);
 
-	private sealed class Manifest
-	{
-		public Dictionary<string, bool> Files { get; set; } = new(StringComparer.OrdinalIgnoreCase);
-	}
+    private sealed class Manifest
+    {
+        public Dictionary<string, bool> Files { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+    }
 
-	public static Dictionary<string, string> Collect(bool includeSky)
-	{
-		Dictionary<string, string> selected = new(StringComparer.OrdinalIgnoreCase);
-		FileModManager.FolderGate.Wait();
-		try
-		{
-			if (Directory.Exists(Paths.Mods))
-			{
-				foreach (string file in Directory.EnumerateFiles(Paths.Mods, "*", SearchOption.AllDirectories))
-				{
-					string relative = Path.GetRelativePath(Paths.Mods, file).Replace('\\', '/');
-					if (Accept(relative, includeSky))
-						selected[relative] = file;
-				}
-			}
-		}
-		finally
-		{
-			FileModManager.FolderGate.Release();
-		}
-		try
-		{
-			foreach (ManagedModFile file in ManagedModStore.ScanEnabledFiles().Files)
-			{
-				string relative = file.Relative.Replace('\\', '/');
-				if (Accept(relative, includeSky))
-					selected[relative] = file.Source;
-			}
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine(LogIdent, "Managed mods could not be indexed: " + ex.Message);
-		}
-		return selected;
-	}
+    public static Dictionary<string, string> Collect(bool includeSky)
+    {
+        Dictionary<string, string> selected = new(StringComparer.OrdinalIgnoreCase);
+        FileModManager.FolderGate.Wait();
+        try
+        {
+            if (Directory.Exists(Paths.Mods))
+            {
+                foreach (string file in Directory.EnumerateFiles(Paths.Mods, "*", SearchOption.AllDirectories))
+                {
+                    string relative = Path.GetRelativePath(Paths.Mods, file).Replace('\\', '/');
+                    if (Accept(relative, includeSky))
+                        selected[relative] = file;
+                }
+            }
+        }
+        finally
+        {
+            FileModManager.FolderGate.Release();
+        }
+        try
+        {
+            foreach (ManagedModFile file in ManagedModStore.ScanEnabledFiles().Files)
+            {
+                string relative = file.Relative.Replace('\\', '/');
+                if (Accept(relative, includeSky))
+                    selected[relative] = file.Source;
+            }
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LogIdent, "Managed mods could not be indexed: " + ex.Message);
+        }
+        return selected;
+    }
 
-	private static bool Accept(string relative, bool includeSky)
-	{
-		if (
-			relative.Equals("README.txt", StringComparison.OrdinalIgnoreCase)
-			|| relative.StartsWith("ClientSettings/", StringComparison.OrdinalIgnoreCase)
-			|| relative.Split('/').Any(part => part is "" or "." or "..")
-			|| SkippedExtensions.Contains(Path.GetExtension(relative), StringComparer.OrdinalIgnoreCase)
-			|| ModAutoFixer.IsIgnoredModFile(relative.Replace('/', Path.DirectorySeparatorChar))
-		)
-			return false;
-		return includeSky || !relative.StartsWith("PlatformContent/pc/textures/sky", StringComparison.OrdinalIgnoreCase);
-	}
+    private static bool Accept(string relative, bool includeSky)
+    {
+        if (
+            relative.Equals("README.txt", StringComparison.OrdinalIgnoreCase)
+            || relative.StartsWith("ClientSettings/", StringComparison.OrdinalIgnoreCase)
+            || relative.Split('/').Any(part => part is "" or "." or "..")
+            || SkippedExtensions.Contains(Path.GetExtension(relative), StringComparer.OrdinalIgnoreCase)
+            || ModAutoFixer.IsIgnoredModFile(relative.Replace('/', Path.DirectorySeparatorChar))
+        )
+            return false;
+        return includeSky || !relative.StartsWith("PlatformContent/pc/textures/sky", StringComparison.OrdinalIgnoreCase);
+    }
 
-	public static void Apply(string resources, IReadOnlyDictionary<string, string> selected)
-	{
-		if (!Directory.Exists(resources))
-		{
-			App.Logger.WriteLine(LogIdent, "The Roblox resources folder is missing: " + resources);
-			return;
-		}
+    public static void Apply(string resources, IReadOnlyDictionary<string, string> selected)
+    {
+        if (!Directory.Exists(resources))
+        {
+            App.Logger.WriteLine(LogIdent, "The Roblox resources folder is missing: " + resources);
+            return;
+        }
 
-		string manifestPath = ManifestPath(resources);
-		string backupRoot = BackupRoot(resources);
-		string marker = Path.Combine(resources, MarkerName);
-		Manifest previous = new();
-		if (File.Exists(marker) && File.Exists(manifestPath))
-		{
-			try
-			{
-				previous = JsonSerializer.Deserialize<Manifest>(File.ReadAllText(manifestPath)) ?? new();
-				previous.Files = new(previous.Files, StringComparer.OrdinalIgnoreCase);
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine(LogIdent, "The previous mod list could not be read: " + ex.Message);
-			}
-		}
-		else if (Directory.Exists(backupRoot))
-		{
-			Directory.Delete(backupRoot, true);
-		}
+        string manifestPath = ManifestPath(resources);
+        string backupRoot = BackupRoot(resources);
+        string marker = Path.Combine(resources, MarkerName);
+        Manifest previous = new();
+        if (File.Exists(marker) && File.Exists(manifestPath))
+        {
+            try
+            {
+                previous = JsonSerializer.Deserialize<Manifest>(File.ReadAllText(manifestPath)) ?? new();
+                previous.Files = new(previous.Files, StringComparer.OrdinalIgnoreCase);
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LogIdent, "The previous mod list could not be read: " + ex.Message);
+            }
+        }
+        else if (Directory.Exists(backupRoot))
+        {
+            Directory.Delete(backupRoot, true);
+        }
 
-		Manifest next = new();
-		int restored = 0;
-		foreach ((string relative, bool hadOriginal) in previous.Files)
-		{
-			if (selected.ContainsKey(relative))
-				continue;
-			try
-			{
-				string destination = Path.Combine(resources, relative);
-				string backup = Path.Combine(backupRoot, relative);
-				if (hadOriginal)
-				{
-					Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
-					File.Copy(backup, destination, true);
-				}
-				else if (!hadOriginal && File.Exists(destination))
-					File.Delete(destination);
-				restored++;
-			}
-			catch (Exception ex)
-			{
-				next.Files[relative] = hadOriginal;
-				App.Logger.WriteLine(LogIdent, "Could not restore " + relative + ": " + ex.Message);
-			}
-		}
+        Manifest next = new();
+        int restored = 0;
+        foreach ((string relative, bool hadOriginal) in previous.Files)
+        {
+            if (selected.ContainsKey(relative))
+                continue;
+            try
+            {
+                string destination = Path.Combine(resources, relative);
+                string backup = Path.Combine(backupRoot, relative);
+                if (hadOriginal)
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
+                    File.Copy(backup, destination, true);
+                }
+                else if (!hadOriginal && File.Exists(destination))
+                    File.Delete(destination);
+                restored++;
+            }
+            catch (Exception ex)
+            {
+                next.Files[relative] = hadOriginal;
+                App.Logger.WriteLine(LogIdent, "Could not restore " + relative + ": " + ex.Message);
+            }
+        }
 
-		int applied = 0;
-		foreach ((string relative, string source) in selected)
-		{
-			string destination = Path.Combine(resources, relative);
-			try
-			{
-				bool hadOriginal;
-				if (previous.Files.TryGetValue(relative, out bool known))
-				{
-					hadOriginal = known;
-				}
-				else
-				{
-					hadOriginal = File.Exists(destination);
-					if (hadOriginal)
-					{
-						string backup = Path.Combine(backupRoot, relative);
-						Directory.CreateDirectory(Path.GetDirectoryName(backup)!);
-						File.Copy(destination, backup, true);
-					}
-				}
-				next.Files[relative] = hadOriginal;
-				Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
-				File.Copy(source, destination, true);
-				applied++;
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine(LogIdent, "Could not apply " + relative + ": " + ex.Message);
-			}
-		}
+        int applied = 0;
+        foreach ((string relative, string source) in selected)
+        {
+            string destination = Path.Combine(resources, relative);
+            try
+            {
+                bool hadOriginal;
+                if (previous.Files.TryGetValue(relative, out bool known))
+                {
+                    hadOriginal = known;
+                }
+                else
+                {
+                    hadOriginal = File.Exists(destination);
+                    if (hadOriginal)
+                    {
+                        string backup = Path.Combine(backupRoot, relative);
+                        Directory.CreateDirectory(Path.GetDirectoryName(backup)!);
+                        File.Copy(destination, backup, true);
+                    }
+                }
+                next.Files[relative] = hadOriginal;
+                Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
+                File.Copy(source, destination, true);
+                applied++;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LogIdent, "Could not apply " + relative + ": " + ex.Message);
+            }
+        }
 
-		Directory.CreateDirectory(Path.GetDirectoryName(manifestPath)!);
-		string temporary = manifestPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
-		try
-		{
-			File.WriteAllText(temporary, JsonSerializer.Serialize(next));
-			File.Move(temporary, manifestPath, true);
-		}
-		finally
-		{
-			if (File.Exists(temporary))
-				File.Delete(temporary);
-		}
-		File.WriteAllText(marker, "");
-		App.Logger.WriteLine(LogIdent, $"Applied {applied} mod files and restored {restored} to the Roblox bundle");
-	}
+        Directory.CreateDirectory(Path.GetDirectoryName(manifestPath)!);
+        string temporary = manifestPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
+        try
+        {
+            File.WriteAllText(temporary, JsonSerializer.Serialize(next));
+            File.Move(temporary, manifestPath, true);
+        }
+        finally
+        {
+            if (File.Exists(temporary))
+                File.Delete(temporary);
+        }
+        File.WriteAllText(marker, "");
+        App.Logger.WriteLine(LogIdent, $"Applied {applied} mod files and restored {restored} to the Roblox bundle");
+    }
 }

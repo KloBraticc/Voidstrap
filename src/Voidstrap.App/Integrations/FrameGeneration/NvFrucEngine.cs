@@ -227,7 +227,7 @@ namespace Voidstrap.Integrations.FrameGeneration
             get
             {
                 lock (_jobLock)
-					return !_disposed && _state == 1 && _fence != null && !_busy && _pendingJob == null && (_inFlightSignal == 0 || _fence.CompletedValue >= _inFlightSignal);
+                    return !_disposed && _state == 1 && _fence != null && !_busy && _pendingJob == null && (_inFlightSignal == 0 || _fence.CompletedValue >= _inFlightSignal);
             }
         }
 
@@ -383,7 +383,7 @@ namespace Voidstrap.Integrations.FrameGeneration
                 {
                     IsBackground = true,
                     Name = "NvFrucWorker",
-					Priority = ThreadPriority.Normal,
+                    Priority = ThreadPriority.Normal,
                 };
                 engine._worker.Start();
                 return engine;
@@ -462,7 +462,7 @@ namespace Voidstrap.Integrations.FrameGeneration
 
         public bool AllReady(long jobId)
         {
-			if (_disposed || jobId < 0)
+            if (_disposed || jobId < 0)
                 return false;
             for (int i = 0; i < OutputCount; i++)
                 if (Volatile.Read(ref _outReady[i]) == 1 && _outJob[i] == jobId)
@@ -474,7 +474,7 @@ namespace Voidstrap.Integrations.FrameGeneration
         {
             srv = null;
             signal = 0;
-			if (_disposed || jobId < 0)
+            if (_disposed || jobId < 0)
                 return false;
             for (int i = 0; i < OutputCount; i++)
             {
@@ -705,8 +705,8 @@ namespace Voidstrap.Integrations.FrameGeneration
         {
             if (_disposed)
                 return;
-			_disposed = true;
-			Deprime();
+            _disposed = true;
+            Deprime();
             _stop = true;
             try
             {
@@ -715,21 +715,21 @@ namespace Voidstrap.Integrations.FrameGeneration
             catch (ObjectDisposedException)
             {
             }
-			Thread? worker = _worker;
-			try
+            Thread? worker = _worker;
+            try
             {
-				worker?.Join(5000);
+                worker?.Join(5000);
             }
             catch
             {
             }
-			if (worker?.IsAlive == true)
-			{
-				App.Logger.WriteLine("NvFruc", "The interpolation worker did not stop in time, releasing its resources in the background once it exits");
-				Task.Run(() => ReapAbandonedWorker(worker));
-				GC.SuppressFinalize(this);
-				return;
-			}
+            if (worker?.IsAlive == true)
+            {
+                App.Logger.WriteLine("NvFruc", "The interpolation worker did not stop in time, releasing its resources in the background once it exits");
+                Task.Run(() => ReapAbandonedWorker(worker));
+                GC.SuppressFinalize(this);
+                return;
+            }
             _worker = null;
             ReleaseResources();
             GC.SuppressFinalize(this);

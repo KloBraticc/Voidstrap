@@ -854,7 +854,8 @@ public sealed class ChatMessageItem
             message.CreatedUtc,
             sender,
             false
-        ) { }
+        )
+    { }
 
     private ChatMessageItem(string id, string text, bool mine, bool moderated, DateTimeOffset created, string sender, bool echo)
     {

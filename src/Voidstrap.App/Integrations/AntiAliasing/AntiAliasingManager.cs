@@ -37,7 +37,7 @@ namespace Voidstrap.Integrations.AntiAliasing
 
         public static void Shutdown()
         {
-			_installed = false;
+            _installed = false;
             OverlayHub.Shutdown();
         }
     }

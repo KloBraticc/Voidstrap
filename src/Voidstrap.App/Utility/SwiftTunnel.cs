@@ -98,26 +98,26 @@ internal static class SwiftTunnel
         try
         {
             foreach (RegistryHive hive in new[] { RegistryHive.CurrentUser, RegistryHive.LocalMachine })
-            foreach (RegistryView view in new[] { RegistryView.Registry64, RegistryView.Registry32 })
-            {
-                using RegistryKey root = RegistryKey.OpenBaseKey(hive, view);
-                using RegistryKey? uninstall = root.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall");
-                if (uninstall == null)
-                    continue;
-                foreach (string name in uninstall.GetSubKeyNames())
+                foreach (RegistryView view in new[] { RegistryView.Registry64, RegistryView.Registry32 })
                 {
-                    using RegistryKey? entry = uninstall.OpenSubKey(name);
-                    if (
-                        entry == null
-                        || !string.Equals(entry.GetValue("DisplayName") as string, "SwiftTunnel", StringComparison.OrdinalIgnoreCase)
-                    )
+                    using RegistryKey root = RegistryKey.OpenBaseKey(hive, view);
+                    using RegistryKey? uninstall = root.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall");
+                    if (uninstall == null)
                         continue;
-                    string product = Guid.TryParse(name, out Guid key)
-                        ? key.ToString("B")
-                        : ReadProductCode(entry.GetValue("UninstallString") as string);
-                    return (product, LocateExecutable(entry));
+                    foreach (string name in uninstall.GetSubKeyNames())
+                    {
+                        using RegistryKey? entry = uninstall.OpenSubKey(name);
+                        if (
+                            entry == null
+                            || !string.Equals(entry.GetValue("DisplayName") as string, "SwiftTunnel", StringComparison.OrdinalIgnoreCase)
+                        )
+                            continue;
+                        string product = Guid.TryParse(name, out Guid key)
+                            ? key.ToString("B")
+                            : ReadProductCode(entry.GetValue("UninstallString") as string);
+                        return (product, LocateExecutable(entry));
+                    }
                 }
-            }
         }
         catch (Exception ex)
         {

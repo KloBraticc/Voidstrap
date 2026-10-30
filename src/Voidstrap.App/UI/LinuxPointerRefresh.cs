@@ -8,8 +8,8 @@ namespace Voidstrap.UI;
 
 internal static class LinuxPointerRefresh
 {
-	internal static void Attach(Window window)
-	{
+    internal static void Attach(Window window)
+    {
 #if CROSSPLAT
 		if (!OperatingSystem.IsLinux() || window is null || States.TryGetValue(window, out _))
 			return;
@@ -18,15 +18,15 @@ internal static class LinuxPointerRefresh
 		States.Add(window, state);
 		state.Schedule();
 #endif
-	}
+    }
 
-	internal static void Schedule(Window window)
-	{
+    internal static void Schedule(Window window)
+    {
 #if CROSSPLAT
 		if (OperatingSystem.IsLinux() && window is not null && States.TryGetValue(window, out State? state))
 			state.Schedule();
 #endif
-	}
+    }
 
 #if CROSSPLAT
 	private static readonly ConditionalWeakTable<Window, State> States = new();

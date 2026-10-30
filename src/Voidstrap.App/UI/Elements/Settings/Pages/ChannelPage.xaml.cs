@@ -24,333 +24,333 @@ namespace Voidstrap.UI.Elements.Settings.Pages;
 
 public partial class ChannelPage : UiPage
 {
-	private CancellationTokenSource? _versionCts = null!;
-	private bool _resetInProgress;
-	private Window? _ownerWindow;
+    private CancellationTokenSource? _versionCts = null!;
+    private bool _resetInProgress;
+    private Window? _ownerWindow;
 
-	public ChannelPage()
-	{
-		base.DataContext = new ChannelViewModel();
-		InitializeComponent();
-		if (GameSettingsTab.Visibility == Visibility.Visible)
-		{
-			SettingsTabs.Items.Remove(GameSettingsTab);
-			SettingsTabs.Items.Insert(1, GameSettingsTab);
-		}
-		SettingsTabs.SelectedIndex = 0;
-	}
+    public ChannelPage()
+    {
+        base.DataContext = new ChannelViewModel();
+        InitializeComponent();
+        if (GameSettingsTab.Visibility == Visibility.Visible)
+        {
+            SettingsTabs.Items.Remove(GameSettingsTab);
+            SettingsTabs.Items.Insert(1, GameSettingsTab);
+        }
+        SettingsTabs.SelectedIndex = 0;
+    }
 
-	internal static bool PendingNotificationsTab;
+    internal static bool PendingNotificationsTab;
 
-	internal void ShowNotificationsTab()
-	{
-		PendingNotificationsTab = false;
-		if (NotificationsTab.Visibility == Visibility.Visible)
-			SettingsTabs.SelectedItem = NotificationsTab;
-	}
+    internal void ShowNotificationsTab()
+    {
+        PendingNotificationsTab = false;
+        if (NotificationsTab.Visibility == Visibility.Visible)
+            SettingsTabs.SelectedItem = NotificationsTab;
+    }
 
-	private void OnChannelPageLoaded(object sender, RoutedEventArgs e)
-	{
-		if (PendingNotificationsTab)
-			ShowNotificationsTab();
-		if (base.DataContext is ChannelViewModel viewModel)
-		{
-			viewModel.Resume();
-			viewModel.RefreshMemoryLimit();
-		}
-		else
-		{
-			base.DataContext = new ChannelViewModel();
-		}
-		Window? owner = Window.GetWindow(this);
-		if (!ReferenceEquals(owner, _ownerWindow))
-		{
-			if (_ownerWindow != null)
-			{
-				_ownerWindow.Closed -= OnOwnerWindowClosed;
-			}
-			_ownerWindow = owner;
-			if (_ownerWindow != null)
-			{
-				_ownerWindow.Closed += OnOwnerWindowClosed;
-			}
-		}
-		if (_versionCts != null)
-		{
-			return;
-		}
-		_versionCts = new CancellationTokenSource();
-		_ = AutoUpdateRobloxVersionAsync(_versionCts.Token);
-	}
+    private void OnChannelPageLoaded(object sender, RoutedEventArgs e)
+    {
+        if (PendingNotificationsTab)
+            ShowNotificationsTab();
+        if (base.DataContext is ChannelViewModel viewModel)
+        {
+            viewModel.Resume();
+            viewModel.RefreshMemoryLimit();
+        }
+        else
+        {
+            base.DataContext = new ChannelViewModel();
+        }
+        Window? owner = Window.GetWindow(this);
+        if (!ReferenceEquals(owner, _ownerWindow))
+        {
+            if (_ownerWindow != null)
+            {
+                _ownerWindow.Closed -= OnOwnerWindowClosed;
+            }
+            _ownerWindow = owner;
+            if (_ownerWindow != null)
+            {
+                _ownerWindow.Closed += OnOwnerWindowClosed;
+            }
+        }
+        if (_versionCts != null)
+        {
+            return;
+        }
+        _versionCts = new CancellationTokenSource();
+        _ = AutoUpdateRobloxVersionAsync(_versionCts.Token);
+    }
 
-	private void OnChannelPageUnloaded(object sender, RoutedEventArgs e)
-	{
-		try
-		{
-			_versionCts?.Cancel();
-			_versionCts?.Dispose();
-		}
-		catch { }
-		_versionCts = null;
-		if (base.DataContext is ChannelViewModel viewModel)
-		{
-			viewModel.Suspend();
-		}
-	}
+    private void OnChannelPageUnloaded(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            _versionCts?.Cancel();
+            _versionCts?.Dispose();
+        }
+        catch { }
+        _versionCts = null;
+        if (base.DataContext is ChannelViewModel viewModel)
+        {
+            viewModel.Suspend();
+        }
+    }
 
-	private void OnOwnerWindowClosed(object? sender, EventArgs e)
-	{
-		if (_ownerWindow != null)
-		{
-			_ownerWindow.Closed -= OnOwnerWindowClosed;
-			_ownerWindow = null;
-		}
-		if (base.DataContext is ChannelViewModel viewModel)
-		{
-			viewModel.Dispose();
-			base.DataContext = null;
-		}
-	}
+    private void OnOwnerWindowClosed(object? sender, EventArgs e)
+    {
+        if (_ownerWindow != null)
+        {
+            _ownerWindow.Closed -= OnOwnerWindowClosed;
+            _ownerWindow = null;
+        }
+        if (base.DataContext is ChannelViewModel viewModel)
+        {
+            viewModel.Dispose();
+            base.DataContext = null;
+        }
+    }
 
-	private async Task AutoUpdateRobloxVersionAsync(CancellationToken token)
-	{
-		while (!token.IsCancellationRequested)
-		{
-			try
-			{
-				await GetRobloxVersionAPPAsync(token);
-			}
-			catch (OperationCanceledException)
-			{
-				break;
-			}
-			catch (Exception) { }
-			try
-			{
-				await Task.Delay(30000, token);
-			}
-			catch (OperationCanceledException)
-			{
-				break;
-			}
-		}
-	}
+    private async Task AutoUpdateRobloxVersionAsync(CancellationToken token)
+    {
+        while (!token.IsCancellationRequested)
+        {
+            try
+            {
+                await GetRobloxVersionAPPAsync(token);
+            }
+            catch (OperationCanceledException)
+            {
+                break;
+            }
+            catch (Exception) { }
+            try
+            {
+                await Task.Delay(30000, token);
+            }
+            catch (OperationCanceledException)
+            {
+                break;
+            }
+        }
+    }
 
-	private async Task GetRobloxVersionAPPAsync(CancellationToken token)
-	{
-		try
-		{
-			if (Voidstrap.Utility.Platform.IsMacOS)
-			{
-				string? bundle = Voidstrap.Utility.MacRobloxBundle.Find();
-				string? macVersion =
-					bundle == null ? null : await Task.Run(() => Voidstrap.Utility.MacRobloxBundle.ReadVersion(bundle), token);
-				RobloxVersionAPP.Header = macVersion != null ? "Roblox " + macVersion : "Not Installed";
-				return;
-			}
-			string path = Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "LocalStorage");
-			if (!Directory.Exists(path))
-			{
-				RobloxVersionAPP.Header = "Not Installed";
-				return;
-			}
-			string[] files = Directory
-				.EnumerateFiles(path, "memProfStorage*.json", SearchOption.TopDirectoryOnly)
-				.Select(file => new FileInfo(file))
-				.Where(file => file.Length <= 1024 * 1024)
-				.OrderByDescending(file => file.LastWriteTimeUtc)
-				.Take(20)
-				.Select(file => file.FullName)
-				.ToArray();
-			if (files.Length == 0)
-			{
-				RobloxVersionAPP.Header = "Not Installed";
-				return;
-			}
-			string? version = null;
-			string[] array = files;
-			foreach (string path2 in array)
-			{
-				try
-				{
-					token.ThrowIfCancellationRequested();
-					Match match = AppVersionPattern.Match(await ReadLocalTextBoundedAsync(path2, 1024 * 1024, token));
-					if (match.Success)
-					{
-						version = match.Groups[1].Value;
-						break;
-					}
-				}
-				catch (IOException) { }
-			}
-			if (!string.IsNullOrWhiteSpace(version))
-			{
-				RobloxVersionAPP.Header = "Roblox " + version;
-			}
-			else
-			{
-				RobloxVersionAPP.Header = "Not Installed";
-			}
-		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested) { }
-		catch (Exception ex2)
-		{
-			RobloxVersionAPP.Header = "Roblox Version Error: " + ex2.Message;
-		}
-	}
+    private async Task GetRobloxVersionAPPAsync(CancellationToken token)
+    {
+        try
+        {
+            if (Voidstrap.Utility.Platform.IsMacOS)
+            {
+                string? bundle = Voidstrap.Utility.MacRobloxBundle.Find();
+                string? macVersion =
+                    bundle == null ? null : await Task.Run(() => Voidstrap.Utility.MacRobloxBundle.ReadVersion(bundle), token);
+                RobloxVersionAPP.Header = macVersion != null ? "Roblox " + macVersion : "Not Installed";
+                return;
+            }
+            string path = Path.Combine(Voidstrap.Utility.RobloxLocalReset.Root, "LocalStorage");
+            if (!Directory.Exists(path))
+            {
+                RobloxVersionAPP.Header = "Not Installed";
+                return;
+            }
+            string[] files = Directory
+                .EnumerateFiles(path, "memProfStorage*.json", SearchOption.TopDirectoryOnly)
+                .Select(file => new FileInfo(file))
+                .Where(file => file.Length <= 1024 * 1024)
+                .OrderByDescending(file => file.LastWriteTimeUtc)
+                .Take(20)
+                .Select(file => file.FullName)
+                .ToArray();
+            if (files.Length == 0)
+            {
+                RobloxVersionAPP.Header = "Not Installed";
+                return;
+            }
+            string? version = null;
+            string[] array = files;
+            foreach (string path2 in array)
+            {
+                try
+                {
+                    token.ThrowIfCancellationRequested();
+                    Match match = AppVersionPattern.Match(await ReadLocalTextBoundedAsync(path2, 1024 * 1024, token));
+                    if (match.Success)
+                    {
+                        version = match.Groups[1].Value;
+                        break;
+                    }
+                }
+                catch (IOException) { }
+            }
+            if (!string.IsNullOrWhiteSpace(version))
+            {
+                RobloxVersionAPP.Header = "Roblox " + version;
+            }
+            else
+            {
+                RobloxVersionAPP.Header = "Not Installed";
+            }
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+        catch (Exception ex2)
+        {
+            RobloxVersionAPP.Header = "Roblox Version Error: " + ex2.Message;
+        }
+    }
 
-	private static async Task<string> ReadLocalTextBoundedAsync(string path, int maxBytes, CancellationToken token)
-	{
-		await using FileStream stream = new FileStream(
-			path,
-			FileMode.Open,
-			FileAccess.Read,
-			FileShare.ReadWrite | FileShare.Delete,
-			81920,
-			FileOptions.Asynchronous | FileOptions.SequentialScan
-		);
-		if (stream.Length < 0 || stream.Length > maxBytes)
-			throw new InvalidDataException("Roblox version file is too large");
-		byte[] bytes = new byte[checked((int)stream.Length)];
-		await stream.ReadExactlyAsync(bytes, token);
-		return Encoding.UTF8.GetString(bytes);
-	}
+    private static async Task<string> ReadLocalTextBoundedAsync(string path, int maxBytes, CancellationToken token)
+    {
+        await using FileStream stream = new FileStream(
+            path,
+            FileMode.Open,
+            FileAccess.Read,
+            FileShare.ReadWrite | FileShare.Delete,
+            81920,
+            FileOptions.Asynchronous | FileOptions.SequentialScan
+        );
+        if (stream.Length < 0 || stream.Length > maxBytes)
+            throw new InvalidDataException("Roblox version file is too large");
+        byte[] bytes = new byte[checked((int)stream.Length)];
+        await stream.ReadExactlyAsync(bytes, token);
+        return Encoding.UTF8.GetString(bytes);
+    }
 
-	private void OnSettingsImported(object? sender, EventArgs e)
-	{
-		if (base.DataContext is ChannelViewModel previous)
-			previous.Dispose();
-		base.DataContext = new ChannelViewModel();
-	}
+    private void OnSettingsImported(object? sender, EventArgs e)
+    {
+        if (base.DataContext is ChannelViewModel previous)
+            previous.Dispose();
+        base.DataContext = new ChannelViewModel();
+    }
 
-	private static bool TryCompareVersions(string latest, string current, out bool newer)
-	{
-		newer = false;
-		if (string.IsNullOrWhiteSpace(latest) || string.IsNullOrWhiteSpace(current))
-		{
-			return false;
-		}
-		if (!Version.TryParse(latest.TrimStart('v', 'V'), out Version? remote) || !Version.TryParse(current, out Version? local))
-		{
-			return false;
-		}
-		newer = remote > local;
-		return true;
-	}
+    private static bool TryCompareVersions(string latest, string current, out bool newer)
+    {
+        newer = false;
+        if (string.IsNullOrWhiteSpace(latest) || string.IsNullOrWhiteSpace(current))
+        {
+            return false;
+        }
+        if (!Version.TryParse(latest.TrimStart('v', 'V'), out Version? remote) || !Version.TryParse(current, out Version? local))
+        {
+            return false;
+        }
+        newer = remote > local;
+        return true;
+    }
 
-	private void ResetSettingsButton_Click(object sender, RoutedEventArgs e)
-	{
-		System.Windows.Controls.Button resetButton = (System.Windows.Controls.Button)sender;
-		if (_resetInProgress)
-		{
-			return;
-		}
-		if (
-			Frontend.ShowMessageBox(
-				"Erase all Voidstrap settings, FastFlags, modifications, accounts, themes, caches, and saved data, then return to onboarding? This cannot be undone.",
-				MessageBoxImage.Warning,
-				MessageBoxButton.YesNo,
-				MessageBoxResult.No
-			) != MessageBoxResult.Yes
-		)
-		{
-			return;
-		}
+    private void ResetSettingsButton_Click(object sender, RoutedEventArgs e)
+    {
+        System.Windows.Controls.Button resetButton = (System.Windows.Controls.Button)sender;
+        if (_resetInProgress)
+        {
+            return;
+        }
+        if (
+            Frontend.ShowMessageBox(
+                "Erase all Voidstrap settings, FastFlags, modifications, accounts, themes, caches, and saved data, then return to onboarding? This cannot be undone.",
+                MessageBoxImage.Warning,
+                MessageBoxButton.YesNo,
+                MessageBoxResult.No
+            ) != MessageBoxResult.Yes
+        )
+        {
+            return;
+        }
 
-		_resetInProgress = true;
-		resetButton.IsEnabled = false;
-		try
-		{
-			App.PendingSettingTasks.Clear();
-			ProcessStartInfo startInfo = new()
-			{
-				FileName = Voidstrap.Utility.Platform.IsWindows ? Paths.Application : Paths.LaunchExecutable,
-				UseShellExecute = Voidstrap.Utility.Platform.IsWindows,
-			};
-			if (!Voidstrap.Utility.Platform.IsWindows)
-			{
-				startInfo.ArgumentList.Add("-factoryreset");
-				startInfo.ArgumentList.Add(Environment.ProcessId.ToString(System.Globalization.CultureInfo.InvariantCulture));
-			}
-			else
-			{
-				startInfo.Arguments = "-factoryreset " + Environment.ProcessId;
-			}
-			using Process process =
-				Process.Start(startInfo) ?? throw new InvalidOperationException("Voidstrap could not start the factory reset");
-			Application.Current.Shutdown();
-		}
-		catch (Exception ex)
-		{
-			_resetInProgress = false;
-			resetButton.IsEnabled = true;
-			App.Logger.WriteException("ChannelPage::ResetSettingsButton_Click", ex);
-			Frontend.ShowMessageBox("Factory reset could not start: " + ex.Message, MessageBoxImage.Hand);
-		}
-	}
+        _resetInProgress = true;
+        resetButton.IsEnabled = false;
+        try
+        {
+            App.PendingSettingTasks.Clear();
+            ProcessStartInfo startInfo = new()
+            {
+                FileName = Voidstrap.Utility.Platform.IsWindows ? Paths.Application : Paths.LaunchExecutable,
+                UseShellExecute = Voidstrap.Utility.Platform.IsWindows,
+            };
+            if (!Voidstrap.Utility.Platform.IsWindows)
+            {
+                startInfo.ArgumentList.Add("-factoryreset");
+                startInfo.ArgumentList.Add(Environment.ProcessId.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            }
+            else
+            {
+                startInfo.Arguments = "-factoryreset " + Environment.ProcessId;
+            }
+            using Process process =
+                Process.Start(startInfo) ?? throw new InvalidOperationException("Voidstrap could not start the factory reset");
+            Application.Current.Shutdown();
+        }
+        catch (Exception ex)
+        {
+            _resetInProgress = false;
+            resetButton.IsEnabled = true;
+            App.Logger.WriteException("ChannelPage::ResetSettingsButton_Click", ex);
+            Frontend.ShowMessageBox("Factory reset could not start: " + ex.Message, MessageBoxImage.Hand);
+        }
+    }
 
-	private void OpenChannelListDialog_Click(object sender, RoutedEventArgs e)
-	{
-		ChannelListsDialog channelListsDialog = new ChannelListsDialog();
-		channelListsDialog.Owner = Window.GetWindow((DependencyObject)(object)this);
-		channelListsDialog.ShowOwnedDialog();
-	}
+    private void OpenChannelListDialog_Click(object sender, RoutedEventArgs e)
+    {
+        ChannelListsDialog channelListsDialog = new ChannelListsDialog();
+        channelListsDialog.Owner = Window.GetWindow((DependencyObject)(object)this);
+        channelListsDialog.ShowOwnedDialog();
+    }
 
-	private void LogsButton_Click(object sender, RoutedEventArgs e)
-	{
-		try
-		{
-			Directory.CreateDirectory(Paths.Logs);
-			Process.Start(new ProcessStartInfo { FileName = Paths.Logs, UseShellExecute = true });
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("ChannelPage::LogsButton_Click", ex);
-		}
-	}
+    private void LogsButton_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            Directory.CreateDirectory(Paths.Logs);
+            Process.Start(new ProcessStartInfo { FileName = Paths.Logs, UseShellExecute = true });
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("ChannelPage::LogsButton_Click", ex);
+        }
+    }
 
-	private async void UninstallButton_Click(object sender, RoutedEventArgs e)
-	{
-		try
-		{
-			UninstallerDialog uninstallerDialog = new UninstallerDialog();
-			uninstallerDialog.Owner = Window.GetWindow((DependencyObject)(object)this);
-			uninstallerDialog.ShowOwnedDialog();
-			if (uninstallerDialog.Confirmed)
-			{
-				UIElement? button = sender as UIElement;
-				if (button != null)
-					button.IsEnabled = false;
-				if (!await Voidstrap.Installer.DoUninstallAsync(uninstallerDialog.KeepData))
-				{
-					if (button != null)
-						button.IsEnabled = true;
-					return;
-				}
-				Frontend.ShowMessageBox(Strings.Bootstrapper_SuccessfullyUninstalled, MessageBoxImage.Asterisk);
-				App.Terminate();
-			}
-		}
-		catch (OperationCanceledException) { }
-		catch (Exception ex)
-		{
-			App.Logger.WriteException("ChannelPage::UninstallButton_Click", ex);
-		}
-	}
+    private async void UninstallButton_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            UninstallerDialog uninstallerDialog = new UninstallerDialog();
+            uninstallerDialog.Owner = Window.GetWindow((DependencyObject)(object)this);
+            uninstallerDialog.ShowOwnedDialog();
+            if (uninstallerDialog.Confirmed)
+            {
+                UIElement? button = sender as UIElement;
+                if (button != null)
+                    button.IsEnabled = false;
+                if (!await Voidstrap.Installer.DoUninstallAsync(uninstallerDialog.KeepData))
+                {
+                    if (button != null)
+                        button.IsEnabled = true;
+                    return;
+                }
+                Frontend.ShowMessageBox(Strings.Bootstrapper_SuccessfullyUninstalled, MessageBoxImage.Asterisk);
+                App.Terminate();
+            }
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("ChannelPage::UninstallButton_Click", ex);
+        }
+    }
 
-	private void DonateButton_Click(object sender, RoutedEventArgs e)
-	{
-		string fileName = App.ProjectDonateLink;
-		try
-		{
-			Process.Start(new ProcessStartInfo { FileName = fileName, UseShellExecute = true });
-		}
-		catch (Exception ex)
-		{
-			Frontend.ShowMessageBox("Wasnt able to open: " + ex.Message);
-		}
-	}
+    private void DonateButton_Click(object sender, RoutedEventArgs e)
+    {
+        string fileName = App.ProjectDonateLink;
+        try
+        {
+            Process.Start(new ProcessStartInfo { FileName = fileName, UseShellExecute = true });
+        }
+        catch (Exception ex)
+        {
+            Frontend.ShowMessageBox("Wasnt able to open: " + ex.Message);
+        }
+    }
 
-	[GeneratedRegex("\"AppVersion\"\\s*:\\s*\"([^\"]+)\"")]
-	private static partial Regex AppVersionPattern { get; }
+    [GeneratedRegex("\"AppVersion\"\\s*:\\s*\"([^\"]+)\"")]
+    private static partial Regex AppVersionPattern { get; }
 }

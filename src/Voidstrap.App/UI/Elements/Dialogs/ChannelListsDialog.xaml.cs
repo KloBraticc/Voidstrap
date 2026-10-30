@@ -14,33 +14,34 @@ using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Dialogs;
 
-public partial class ChannelListsDialog : WpfUiWindow{
+public partial class ChannelListsDialog : WpfUiWindow
+{
 
-	public ChannelListsDialog()
-	{
-		InitializeComponent();
-		base.DataContext = new ChannelListsViewModel();
-	}
+    public ChannelListsDialog()
+    {
+        InitializeComponent();
+        base.DataContext = new ChannelListsViewModel();
+    }
 
-	private void ChannelDataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
-	{
-		//IL_0001: Unknown result type (might be due to invalid IL or missing references)
-		//IL_0008: Invalid comparison between Unknown and I4
-		//IL_000a: Unknown result type (might be due to invalid IL or missing references)
-		if ((int)e.Key != 46 || !Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
-		{
-			return;
-		}
-		List<DeployInfoDisplay> list = ((System.Windows.Controls.DataGrid)sender).SelectedItems.Cast<DeployInfoDisplay>().ToList();
-		if (list.Count > 0)
-		{
-			Voidstrap.Utility.ClipboardService.SetText(string.Join(Environment.NewLine, list.Select((DeployInfoDisplay i) => i.ChannelName)));
-			e.Handled = true;
-		}
-	}
+    private void ChannelDataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        //IL_0001: Unknown result type (might be due to invalid IL or missing references)
+        //IL_0008: Invalid comparison between Unknown and I4
+        //IL_000a: Unknown result type (might be due to invalid IL or missing references)
+        if ((int)e.Key != 46 || !Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
+        {
+            return;
+        }
+        List<DeployInfoDisplay> list = ((System.Windows.Controls.DataGrid)sender).SelectedItems.Cast<DeployInfoDisplay>().ToList();
+        if (list.Count > 0)
+        {
+            Voidstrap.Utility.ClipboardService.SetText(string.Join(Environment.NewLine, list.Select((DeployInfoDisplay i) => i.ChannelName)));
+            e.Handled = true;
+        }
+    }
 
-	private void Close_Click(object sender, RoutedEventArgs e)
-	{
-		Close();
-	}
+    private void Close_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
+    }
 }

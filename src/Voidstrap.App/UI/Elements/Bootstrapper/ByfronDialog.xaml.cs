@@ -20,167 +20,167 @@ namespace Voidstrap.UI.Elements.Bootstrapper;
 
 public partial class ByfronDialog : Window, IBootstrapperDialog
 {
-	private readonly ByfronDialogViewModel _viewModel;
+    private readonly ByfronDialogViewModel _viewModel;
 
-	private Window? _mainWindow;
+    private Window? _mainWindow;
 
-	private bool _isClosing;
+    private bool _isClosing;
 
-	public Voidstrap.Bootstrapper? Bootstrapper { get; set; }
+    public Voidstrap.Bootstrapper? Bootstrapper { get; set; }
 
-	public string Message
-	{
-		get { return _viewModel.Message; }
-		set
-		{
-			string text = value;
-			if (text.EndsWith("...", StringComparison.Ordinal))
-			{
-				string text2 = text;
-				text = text2.Substring(0, text2.Length - 3);
-			}
-			_viewModel.Message = text;
-			_viewModel.OnPropertyChanged(nameof(Message));
-		}
-	}
+    public string Message
+    {
+        get { return _viewModel.Message; }
+        set
+        {
+            string text = value;
+            if (text.EndsWith("...", StringComparison.Ordinal))
+            {
+                string text2 = text;
+                text = text2.Substring(0, text2.Length - 3);
+            }
+            _viewModel.Message = text;
+            _viewModel.OnPropertyChanged(nameof(Message));
+        }
+    }
 
-	public ProgressBarStyle ProgressStyle
-	{
-		get
-		{
-			if (!_viewModel.ProgressIndeterminate)
-			{
-				return ProgressBarStyle.Continuous;
-			}
-			return ProgressBarStyle.Marquee;
-		}
-		set
-		{
-			_viewModel.ProgressIndeterminate = value == ProgressBarStyle.Marquee;
-			_viewModel.OnPropertyChanged("ProgressIndeterminate");
-		}
-	}
+    public ProgressBarStyle ProgressStyle
+    {
+        get
+        {
+            if (!_viewModel.ProgressIndeterminate)
+            {
+                return ProgressBarStyle.Continuous;
+            }
+            return ProgressBarStyle.Marquee;
+        }
+        set
+        {
+            _viewModel.ProgressIndeterminate = value == ProgressBarStyle.Marquee;
+            _viewModel.OnPropertyChanged("ProgressIndeterminate");
+        }
+    }
 
-	public int ProgressMaximum
-	{
-		get { return _viewModel.ProgressMaximum; }
-		set
-		{
-			_viewModel.ProgressMaximum = value;
-			_viewModel.OnPropertyChanged(nameof(ProgressMaximum));
-		}
-	}
+    public int ProgressMaximum
+    {
+        get { return _viewModel.ProgressMaximum; }
+        set
+        {
+            _viewModel.ProgressMaximum = value;
+            _viewModel.OnPropertyChanged(nameof(ProgressMaximum));
+        }
+    }
 
-	public int ProgressValue
-	{
-		get { return _viewModel.ProgressValue; }
-		set
-		{
-			_viewModel.ProgressValue = value;
-			_viewModel.OnPropertyChanged(nameof(ProgressValue));
-		}
-	}
+    public int ProgressValue
+    {
+        get { return _viewModel.ProgressValue; }
+        set
+        {
+            _viewModel.ProgressValue = value;
+            _viewModel.OnPropertyChanged(nameof(ProgressValue));
+        }
+    }
 
-	public TaskbarItemProgressState TaskbarProgressState
-	{
-		get { return _viewModel.TaskbarProgressState; }
-		set
-		{
-			_viewModel.TaskbarProgressState = value;
-			_viewModel.OnPropertyChanged(nameof(TaskbarProgressState));
-		}
-	}
+    public TaskbarItemProgressState TaskbarProgressState
+    {
+        get { return _viewModel.TaskbarProgressState; }
+        set
+        {
+            _viewModel.TaskbarProgressState = value;
+            _viewModel.OnPropertyChanged(nameof(TaskbarProgressState));
+        }
+    }
 
-	public double TaskbarProgressValue
-	{
-		get { return _viewModel.TaskbarProgressValue; }
-		set
-		{
-			_viewModel.TaskbarProgressValue = value;
-			_viewModel.OnPropertyChanged(nameof(TaskbarProgressValue));
-		}
-	}
+    public double TaskbarProgressValue
+    {
+        get { return _viewModel.TaskbarProgressValue; }
+        set
+        {
+            _viewModel.TaskbarProgressValue = value;
+            _viewModel.OnPropertyChanged(nameof(TaskbarProgressValue));
+        }
+    }
 
-	public Action? CancelCallback { get; set; }
+    public Action? CancelCallback { get; set; }
 
-	public bool CancelEnabled
-	{
-		get { return _viewModel.CancelEnabled; }
-		set
-		{
-			_viewModel.CancelEnabled = value;
-			_viewModel.OnPropertyChanged(nameof(CancelEnabled));
-			_viewModel.OnPropertyChanged("CancelButtonVisibility");
-			_viewModel.OnPropertyChanged("VersionTextVisibility");
-			_viewModel.OnPropertyChanged("VersionText");
-		}
-	}
+    public bool CancelEnabled
+    {
+        get { return _viewModel.CancelEnabled; }
+        set
+        {
+            _viewModel.CancelEnabled = value;
+            _viewModel.OnPropertyChanged(nameof(CancelEnabled));
+            _viewModel.OnPropertyChanged("CancelButtonVisibility");
+            _viewModel.OnPropertyChanged("VersionTextVisibility");
+            _viewModel.OnPropertyChanged("VersionText");
+        }
+    }
 
-	public ByfronDialog()
-	{
-		_viewModel = new ByfronDialogViewModel(this, Utilities.GetRobloxVersion(Bootstrapper?.IsStudioLaunch ?? false));
-		base.DataContext = _viewModel;
-		base.Title = App.Settings.Prop.BootstrapperTitle;
-		base.Icon = Voidstrap.Extensions.IconEx.GetBootstrapperWindowIcon();
-		if (App.Settings.Prop.Theme2.GetFinal() == Theme.Light)
-		{
-			_viewModel.DialogBorder = new Thickness(1.0);
-			_viewModel.Background = new SolidColorBrush(Color.FromRgb(242, 244, 245));
-			_viewModel.Foreground = new SolidColorBrush(Color.FromRgb(57, 59, 61));
-			_viewModel.IconColor = new SolidColorBrush(Color.FromRgb(57, 59, 61));
-			_viewModel.ProgressBarBackground = new SolidColorBrush(Color.FromRgb(189, 190, 190));
-			_viewModel.ByfronLogoLocation = Voidstrap.Utility.SafeImaging.FromUri(
-				new Uri("pack://application:,,,/Resources/BootstrapperStyles/ByfronDialog/ByfronLogoLight.jpg")
-			);
-		}
-		Voidstrap.UI.RoundedWindowChrome.Prepare(this);
-		InitializeComponent();
-		_mainWindow = System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
-		if (App.Settings.Prop.BackgroundWindow)
-		{
-			_mainWindow?.Hide();
-		}
-		AudioPlayerHelper.PlayStartupAudio();
-		base.Closed += OnClosed;
-	}
+    public ByfronDialog()
+    {
+        _viewModel = new ByfronDialogViewModel(this, Utilities.GetRobloxVersion(Bootstrapper?.IsStudioLaunch ?? false));
+        base.DataContext = _viewModel;
+        base.Title = App.Settings.Prop.BootstrapperTitle;
+        base.Icon = Voidstrap.Extensions.IconEx.GetBootstrapperWindowIcon();
+        if (App.Settings.Prop.Theme2.GetFinal() == Theme.Light)
+        {
+            _viewModel.DialogBorder = new Thickness(1.0);
+            _viewModel.Background = new SolidColorBrush(Color.FromRgb(242, 244, 245));
+            _viewModel.Foreground = new SolidColorBrush(Color.FromRgb(57, 59, 61));
+            _viewModel.IconColor = new SolidColorBrush(Color.FromRgb(57, 59, 61));
+            _viewModel.ProgressBarBackground = new SolidColorBrush(Color.FromRgb(189, 190, 190));
+            _viewModel.ByfronLogoLocation = Voidstrap.Utility.SafeImaging.FromUri(
+                new Uri("pack://application:,,,/Resources/BootstrapperStyles/ByfronDialog/ByfronLogoLight.jpg")
+            );
+        }
+        Voidstrap.UI.RoundedWindowChrome.Prepare(this);
+        InitializeComponent();
+        _mainWindow = System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+        if (App.Settings.Prop.BackgroundWindow)
+        {
+            _mainWindow?.Hide();
+        }
+        AudioPlayerHelper.PlayStartupAudio();
+        base.Closed += OnClosed;
+    }
 
-	private void OnClosed(object? sender, EventArgs e)
-	{
-		base.Closed -= OnClosed;
-		_mainWindow = System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
-		if (App.Settings.Prop.BackgroundWindow)
-		{
-			_mainWindow?.Show();
-		}
-		AudioPlayerHelper.StopAudio();
-	}
+    private void OnClosed(object? sender, EventArgs e)
+    {
+        base.Closed -= OnClosed;
+        _mainWindow = System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+        if (App.Settings.Prop.BackgroundWindow)
+        {
+            _mainWindow?.Show();
+        }
+        AudioPlayerHelper.StopAudio();
+    }
 
-	private void Window_Closing(object sender, CancelEventArgs e)
-	{
-		if (!_isClosing)
-		{
-			try
-			{
-				CancelCallback?.Invoke();
-			}
-			catch { }
-			Bootstrapper?.Cancel();
-		}
-	}
+    private void Window_Closing(object sender, CancelEventArgs e)
+    {
+        if (!_isClosing)
+        {
+            try
+            {
+                CancelCallback?.Invoke();
+            }
+            catch { }
+            Bootstrapper?.Cancel();
+        }
+    }
 
-	public void ShowBootstrapper()
-	{
-		this.ShowOwnedDialog();
-	}
+    public void ShowBootstrapper()
+    {
+        this.ShowOwnedDialog();
+    }
 
-	public void CloseBootstrapper()
-	{
-		_isClosing = true;
-		((DispatcherObject)this).Dispatcher.BeginInvoke((Delegate)new Action(base.Close), Array.Empty<object>());
-	}
+    public void CloseBootstrapper()
+    {
+        _isClosing = true;
+        ((DispatcherObject)this).Dispatcher.BeginInvoke((Delegate)new Action(base.Close), Array.Empty<object>());
+    }
 
-	public void ShowSuccess(string message, Action? callback)
-	{
-		BaseFunctions.ShowSuccess(message, callback);
-	}
+    public void ShowSuccess(string message, Action? callback)
+    {
+        BaseFunctions.ShowSuccess(message, callback);
+    }
 }

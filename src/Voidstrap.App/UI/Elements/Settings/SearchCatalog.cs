@@ -11,194 +11,194 @@ namespace Voidstrap.UI.Elements.Settings;
 
 internal sealed class SearchCatalogOption
 {
-	public string Id { get; }
+    public string Id { get; }
 
-	public Type PageType { get; }
+    public Type PageType { get; }
 
-	public string TitleToken { get; }
+    public string TitleToken { get; }
 
-	public string DescriptionToken { get; }
+    public string DescriptionToken { get; }
 
-	public IReadOnlyList<string> Aliases { get; }
+    public IReadOnlyList<string> Aliases { get; }
 
-	public string TargetName { get; }
+    public string TargetName { get; }
 
-	public IReadOnlyList<string> Containers { get; }
+    public IReadOnlyList<string> Containers { get; }
 
-	public bool HiddenByDefault { get; }
+    public bool HiddenByDefault { get; }
 
-	public SearchCatalogOption(
-		string id,
-		Type pageType,
-		string titleToken,
-		string descriptionToken,
-		IReadOnlyList<string> aliases,
-		string targetName,
-		IReadOnlyList<string> containers,
-		bool hiddenByDefault
-	)
-	{
-		HiddenByDefault = hiddenByDefault;
-		Id = id;
-		PageType = pageType;
-		TitleToken = titleToken;
-		DescriptionToken = descriptionToken;
-		Aliases = aliases;
-		TargetName = targetName;
-		Containers = containers;
-	}
+    public SearchCatalogOption(
+        string id,
+        Type pageType,
+        string titleToken,
+        string descriptionToken,
+        IReadOnlyList<string> aliases,
+        string targetName,
+        IReadOnlyList<string> containers,
+        bool hiddenByDefault
+    )
+    {
+        HiddenByDefault = hiddenByDefault;
+        Id = id;
+        PageType = pageType;
+        TitleToken = titleToken;
+        DescriptionToken = descriptionToken;
+        Aliases = aliases;
+        TargetName = targetName;
+        Containers = containers;
+    }
 }
 
 internal static partial class SearchCatalog
 {
-	private static readonly object OptionsGate = new();
+    private static readonly object OptionsGate = new();
 
-	private static IReadOnlyList<SearchCatalogOption>? _options;
+    private static IReadOnlyList<SearchCatalogOption>? _options;
 
-	private static Task? _loadTask;
+    private static Task? _loadTask;
 
-	public static IReadOnlyList<SearchCatalogOption> Options
-	{
-		get
-		{
-			lock (OptionsGate)
-			{
-				return _options ?? Array.Empty<SearchCatalogOption>();
-			}
-		}
-	}
+    public static IReadOnlyList<SearchCatalogOption> Options
+    {
+        get
+        {
+            lock (OptionsGate)
+            {
+                return _options ?? Array.Empty<SearchCatalogOption>();
+            }
+        }
+    }
 
-	public static Task LoadOptionsAsync()
-	{
-		lock (OptionsGate)
-		{
-			if (_options is { Count: > 0 })
-			{
-				return Task.CompletedTask;
-			}
-			return _loadTask ??= LoadOptionsCoreAsync();
-		}
-	}
+    public static Task LoadOptionsAsync()
+    {
+        lock (OptionsGate)
+        {
+            if (_options is { Count: > 0 })
+            {
+                return Task.CompletedTask;
+            }
+            return _loadTask ??= LoadOptionsCoreAsync();
+        }
+    }
 
-	private static async Task LoadOptionsCoreAsync()
-	{
-		SearchCatalogOption[] loaded = Array.Empty<SearchCatalogOption>();
-		try
-		{
-			OperationResult<IReadOnlyCollection<SettingsCatalogEntry>> result = await SettingsCatalogImporter
-				.LoadAsync()
-				.ConfigureAwait(false);
-			if (result.Succeeded && result.Value is not null)
-			{
-				loaded = result
-					.Value.Select(static entry => new { Entry = entry, PageType = ResolvePageType(entry.SourcePage) })
-					.Where(static item =>
-						item.PageType is not null
-						&& IsPageAvailableOnThisPlatform(item.Entry.SourcePage)
-						&& IsVisibleOnThisPlatform(item.Entry.VisibilityExpression)
-					)
-					.Select(static item => new SearchCatalogOption(
-						item.Entry.Id,
-						item.PageType!,
-						item.Entry.Title,
-						item.Entry.Description,
-						item.Entry.Aliases.ToArray(),
-						item.Entry.TargetName,
-						item.Entry.Containers.ToArray(),
-						item.Entry.VisibilityExpression.StartsWith("Collapsed", StringComparison.Ordinal)
-					))
-					.ToArray();
-			}
-			else
-			{
-				App.Logger.WriteLine(
-					"SearchCatalog",
-					"Settings catalog load failed: " + result.Failure?.Code + ", " + result.Failure?.Message
-				);
-			}
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("SearchCatalog", "Settings catalog load failed: " + ex.Message);
-		}
+    private static async Task LoadOptionsCoreAsync()
+    {
+        SearchCatalogOption[] loaded = Array.Empty<SearchCatalogOption>();
+        try
+        {
+            OperationResult<IReadOnlyCollection<SettingsCatalogEntry>> result = await SettingsCatalogImporter
+                .LoadAsync()
+                .ConfigureAwait(false);
+            if (result.Succeeded && result.Value is not null)
+            {
+                loaded = result
+                    .Value.Select(static entry => new { Entry = entry, PageType = ResolvePageType(entry.SourcePage) })
+                    .Where(static item =>
+                        item.PageType is not null
+                        && IsPageAvailableOnThisPlatform(item.Entry.SourcePage)
+                        && IsVisibleOnThisPlatform(item.Entry.VisibilityExpression)
+                    )
+                    .Select(static item => new SearchCatalogOption(
+                        item.Entry.Id,
+                        item.PageType!,
+                        item.Entry.Title,
+                        item.Entry.Description,
+                        item.Entry.Aliases.ToArray(),
+                        item.Entry.TargetName,
+                        item.Entry.Containers.ToArray(),
+                        item.Entry.VisibilityExpression.StartsWith("Collapsed", StringComparison.Ordinal)
+                    ))
+                    .ToArray();
+            }
+            else
+            {
+                App.Logger.WriteLine(
+                    "SearchCatalog",
+                    "Settings catalog load failed: " + result.Failure?.Code + ", " + result.Failure?.Message
+                );
+            }
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SearchCatalog", "Settings catalog load failed: " + ex.Message);
+        }
 
-		lock (OptionsGate)
-		{
-			if (loaded.Length > 0)
-			{
-				_options = loaded;
-			}
-			_loadTask = null;
-		}
-	}
+        lock (OptionsGate)
+        {
+            if (loaded.Length > 0)
+            {
+                _options = loaded;
+            }
+            _loadTask = null;
+        }
+    }
 
-	private static readonly HashSet<string> WindowsOnlyPages = new(StringComparer.Ordinal)
-	{
-		"ShortcutsPage",
-		"NvidiaFastFlagsPage",
-		"NvidaEditor",
-		"DownloadsPage",
-	};
+    private static readonly HashSet<string> WindowsOnlyPages = new(StringComparer.Ordinal)
+    {
+        "ShortcutsPage",
+        "NvidiaFastFlagsPage",
+        "NvidaEditor",
+        "DownloadsPage",
+    };
 
-	private static bool IsPageAvailableOnThisPlatform(string sourcePage)
-	{
-		return Voidstrap.Utility.Platform.IsWindows || !WindowsOnlyPages.Contains(sourcePage);
-	}
+    private static bool IsPageAvailableOnThisPlatform(string sourcePage)
+    {
+        return Voidstrap.Utility.Platform.IsWindows || !WindowsOnlyPages.Contains(sourcePage);
+    }
 
-	private static bool IsVisibleOnThisPlatform(string visibilityExpression)
-	{
-		if (string.IsNullOrWhiteSpace(visibilityExpression))
-			return true;
+    private static bool IsVisibleOnThisPlatform(string visibilityExpression)
+    {
+        if (string.IsNullOrWhiteSpace(visibilityExpression))
+            return true;
 
-		Match match = PlatformVisibilityMemberPattern.Match(visibilityExpression);
-		if (!match.Success)
-			return true;
+        Match match = PlatformVisibilityMemberPattern.Match(visibilityExpression);
+        if (!match.Success)
+            return true;
 
-		System.Reflection.PropertyInfo? member = typeof(Voidstrap.UI.PlatformFeatureVisibility).GetProperty(
-			match.Groups["member"].Value,
-			System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static
-		);
-		return member?.GetValue(null) is not System.Windows.Visibility visibility || visibility == System.Windows.Visibility.Visible;
-	}
+        System.Reflection.PropertyInfo? member = typeof(Voidstrap.UI.PlatformFeatureVisibility).GetProperty(
+            match.Groups["member"].Value,
+            System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static
+        );
+        return member?.GetValue(null) is not System.Windows.Visibility visibility || visibility == System.Windows.Visibility.Visible;
+    }
 
-	public static string Resolve(string value)
-	{
-		if (string.IsNullOrWhiteSpace(value))
-		{
-			return string.Empty;
-		}
-		Match match = LocResourcePattern.Match(value);
-		if (!match.Success)
-			match = StringsResourcePattern.Match(value);
-		if (match.Success)
-		{
-			string name = match.Groups[1].Value;
-			return typeof(Strings)
-					.GetProperty(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
-					?.GetValue(null) as string
-				?? Strings.ResourceManager.GetString(name)
-				?? Strings.ResourceManager.GetString(name.Replace('_', '.'))
-				?? name;
-		}
-		return value;
-	}
+    public static string Resolve(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return string.Empty;
+        }
+        Match match = LocResourcePattern.Match(value);
+        if (!match.Success)
+            match = StringsResourcePattern.Match(value);
+        if (match.Success)
+        {
+            string name = match.Groups[1].Value;
+            return typeof(Strings)
+                    .GetProperty(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
+                    ?.GetValue(null) as string
+                ?? Strings.ResourceManager.GetString(name)
+                ?? Strings.ResourceManager.GetString(name.Replace('_', '.'))
+                ?? name;
+        }
+        return value;
+    }
 
-	private static Type? ResolvePageType(string sourcePage)
-	{
-		if (string.IsNullOrWhiteSpace(sourcePage))
-		{
-			return null;
-		}
+    private static Type? ResolvePageType(string sourcePage)
+    {
+        if (string.IsNullOrWhiteSpace(sourcePage))
+        {
+            return null;
+        }
 
-		return typeof(SearchCatalog).Assembly.GetType("Voidstrap.UI.Elements.Settings.Pages." + sourcePage);
-	}
+        return typeof(SearchCatalog).Assembly.GetType("Voidstrap.UI.Elements.Settings.Pages." + sourcePage);
+    }
 
-	[GeneratedRegex(@"PlatformFeatureVisibility\.(?<member>[A-Za-z0-9_]+)")]
-	private static partial Regex PlatformVisibilityMemberPattern { get; }
+    [GeneratedRegex(@"PlatformFeatureVisibility\.(?<member>[A-Za-z0-9_]+)")]
+    private static partial Regex PlatformVisibilityMemberPattern { get; }
 
-	[GeneratedRegex(@"\{\s*resources:Loc\s+(?:Key\s*=\s*)?([A-Za-z0-9_]+)\s*\}")]
-	private static partial Regex LocResourcePattern { get; }
+    [GeneratedRegex(@"\{\s*resources:Loc\s+(?:Key\s*=\s*)?([A-Za-z0-9_]+)\s*\}")]
+    private static partial Regex LocResourcePattern { get; }
 
-	[GeneratedRegex("Strings\\.([A-Za-z0-9_]+)")]
-	private static partial Regex StringsResourcePattern { get; }
+    [GeneratedRegex("Strings\\.([A-Za-z0-9_]+)")]
+    private static partial Regex StringsResourcePattern { get; }
 }

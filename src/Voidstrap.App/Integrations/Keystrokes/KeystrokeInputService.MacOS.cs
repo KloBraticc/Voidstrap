@@ -187,31 +187,31 @@ public static partial class KeystrokeInputService
                     break;
                 case MacKeyDown:
                 case MacKeyUp:
-                {
-                    if (CGEventGetIntegerValueField(ev, 8) != 0 && type == MacKeyDown)
-                        break;
-                    int code = (int)CGEventGetIntegerValueField(ev, MacKeycodeField);
-                    QueueInput(code, MapMacKeyToString(code), MapMacKey(code), type == MacKeyDown);
-                    break;
-                }
-                case MacFlagsChanged:
-                {
-                    int code = (int)CGEventGetIntegerValueField(ev, MacKeycodeField);
-                    ulong flag = MacModifierFlag(code);
-                    if (flag == 0)
-                        break;
-                    bool down;
-                    lock (MacHeldModifiers)
                     {
-                        down = (CGEventGetFlags(ev) & flag) != 0 && !MacHeldModifiers.Contains(code);
-                        if (down)
-                            MacHeldModifiers.Add(code);
-                        else
-                            MacHeldModifiers.Remove(code);
+                        if (CGEventGetIntegerValueField(ev, 8) != 0 && type == MacKeyDown)
+                            break;
+                        int code = (int)CGEventGetIntegerValueField(ev, MacKeycodeField);
+                        QueueInput(code, MapMacKeyToString(code), MapMacKey(code), type == MacKeyDown);
+                        break;
                     }
-                    QueueInput(code, MapMacKeyToString(code), MapMacKey(code), down);
-                    break;
-                }
+                case MacFlagsChanged:
+                    {
+                        int code = (int)CGEventGetIntegerValueField(ev, MacKeycodeField);
+                        ulong flag = MacModifierFlag(code);
+                        if (flag == 0)
+                            break;
+                        bool down;
+                        lock (MacHeldModifiers)
+                        {
+                            down = (CGEventGetFlags(ev) & flag) != 0 && !MacHeldModifiers.Contains(code);
+                            if (down)
+                                MacHeldModifiers.Add(code);
+                            else
+                                MacHeldModifiers.Remove(code);
+                        }
+                        QueueInput(code, MapMacKeyToString(code), MapMacKey(code), down);
+                        break;
+                    }
                 case MacLeftDown:
                 case MacLeftUp:
                     QueueInput(0x1001, "LMB", KeystrokeTarget.Lmb, type == MacLeftDown);

@@ -248,6 +248,6 @@ internal static class LinuxWindowReveal
 		}
 	}
 #else
-	internal static bool IsPending(Window window) => false;
+    internal static bool IsPending(Window window) => false;
 #endif
 }

@@ -5,231 +5,231 @@ namespace Voidstrap.Utility;
 
 internal enum RasterFilter
 {
-	Bicubic = 0,
-	Lanczos3 = 1,
-	Bilinear = 2,
-	Nearest = 3
+    Bicubic = 0,
+    Lanczos3 = 1,
+    Bilinear = 2,
+    Nearest = 3
 }
 
 internal enum PngLevel
 {
-	Fast = 0,
-	Default = 1,
-	Best = 2
+    Fast = 0,
+    Default = 1,
+    Best = 2
 }
 
 internal sealed class Raster
 {
-	public const long DefaultMaxBytes = 256L * 1024 * 1024;
+    public const long DefaultMaxBytes = 256L * 1024 * 1024;
 
-	public int Width { get; }
+    public int Width { get; }
 
-	public int Height { get; }
+    public int Height { get; }
 
-	public byte[] Pixels { get; }
+    public byte[] Pixels { get; }
 
-	public Raster(int width, int height, byte[] pixels)
-	{
-		if (width <= 0 || height <= 0 || pixels == null || pixels.LongLength != (long)width * height * 4)
-			throw new ArgumentException("Pixel buffer does not match the image size");
-		Width = width;
-		Height = height;
-		Pixels = pixels;
-	}
+    public Raster(int width, int height, byte[] pixels)
+    {
+        if (width <= 0 || height <= 0 || pixels == null || pixels.LongLength != (long)width * height * 4)
+            throw new ArgumentException("Pixel buffer does not match the image size");
+        Width = width;
+        Height = height;
+        Pixels = pixels;
+    }
 
-	public static Raster Blank(int width, int height)
-	{
-		return new Raster(width, height, new byte[checked(width * height * 4)]);
-	}
+    public static Raster Blank(int width, int height)
+    {
+        return new Raster(width, height, new byte[checked(width * height * 4)]);
+    }
 
-	public static bool TryIdentify(byte[] bytes, out int width, out int height)
-	{
-		if (NativeImaging.TryIdentify(bytes, out width, out height))
-			return true;
-		return RasterFallback.TryIdentify(bytes, out width, out height);
-	}
+    public static bool TryIdentify(byte[] bytes, out int width, out int height)
+    {
+        if (NativeImaging.TryIdentify(bytes, out width, out height))
+            return true;
+        return RasterFallback.TryIdentify(bytes, out width, out height);
+    }
 
-	public static Raster Load(string path, long maxBytes = DefaultMaxBytes)
-	{
-		return Decode(File.ReadAllBytes(path), maxBytes);
-	}
+    public static Raster Load(string path, long maxBytes = DefaultMaxBytes)
+    {
+        return Decode(File.ReadAllBytes(path), maxBytes);
+    }
 
-	public static Raster Decode(byte[] bytes, long maxBytes = DefaultMaxBytes)
-	{
-		if (NativeImaging.TryDecodeBgra(bytes, 0, maxBytes, out int width, out int height, out byte[] pixels))
-			return new Raster(width, height, pixels);
-		return RasterFallback.Decode(bytes, maxBytes);
-	}
+    public static Raster Decode(byte[] bytes, long maxBytes = DefaultMaxBytes)
+    {
+        if (NativeImaging.TryDecodeBgra(bytes, 0, maxBytes, out int width, out int height, out byte[] pixels))
+            return new Raster(width, height, pixels);
+        return RasterFallback.Decode(bytes, maxBytes);
+    }
 
-	public Raster Resize(int width, int height, RasterFilter filter = RasterFilter.Bicubic)
-	{
-		if (width <= 0 || height <= 0)
-			throw new ArgumentOutOfRangeException(nameof(width));
-		if (width == Width && height == Height)
-			return Clone();
-		if (NativeImaging.TryResizeBgra(Pixels, Width, Height, width, height, (int)filter, out byte[] resized))
-			return new Raster(width, height, resized);
-		return new Raster(width, height, RasterFallback.Resize(Pixels, Width, Height, width, height, filter));
-	}
+    public Raster Resize(int width, int height, RasterFilter filter = RasterFilter.Bicubic)
+    {
+        if (width <= 0 || height <= 0)
+            throw new ArgumentOutOfRangeException(nameof(width));
+        if (width == Width && height == Height)
+            return Clone();
+        if (NativeImaging.TryResizeBgra(Pixels, Width, Height, width, height, (int)filter, out byte[] resized))
+            return new Raster(width, height, resized);
+        return new Raster(width, height, RasterFallback.Resize(Pixels, Width, Height, width, height, filter));
+    }
 
-	public Raster FitWithin(int maxWidth, int maxHeight, RasterFilter filter = RasterFilter.Bicubic)
-	{
-		if (Width <= maxWidth && Height <= maxHeight)
-			return this;
-		double scale = Math.Min((double)maxWidth / Width, (double)maxHeight / Height);
-		return Resize(Math.Max(1, (int)Math.Round(Width * scale)), Math.Max(1, (int)Math.Round(Height * scale)), filter);
-	}
+    public Raster FitWithin(int maxWidth, int maxHeight, RasterFilter filter = RasterFilter.Bicubic)
+    {
+        if (Width <= maxWidth && Height <= maxHeight)
+            return this;
+        double scale = Math.Min((double)maxWidth / Width, (double)maxHeight / Height);
+        return Resize(Math.Max(1, (int)Math.Round(Width * scale)), Math.Max(1, (int)Math.Round(Height * scale)), filter);
+    }
 
-	public Raster ResizeToCover(int width, int height, RasterFilter filter = RasterFilter.Bicubic)
-	{
-		double scale = Math.Max((double)width / Width, (double)height / Height);
-		int scaledWidth = Math.Max(width, (int)Math.Round(Width * scale));
-		int scaledHeight = Math.Max(height, (int)Math.Round(Height * scale));
-		Raster scaled = Resize(scaledWidth, scaledHeight, filter);
-		return scaled.Crop((scaledWidth - width) / 2, (scaledHeight - height) / 2, width, height);
-	}
+    public Raster ResizeToCover(int width, int height, RasterFilter filter = RasterFilter.Bicubic)
+    {
+        double scale = Math.Max((double)width / Width, (double)height / Height);
+        int scaledWidth = Math.Max(width, (int)Math.Round(Width * scale));
+        int scaledHeight = Math.Max(height, (int)Math.Round(Height * scale));
+        Raster scaled = Resize(scaledWidth, scaledHeight, filter);
+        return scaled.Crop((scaledWidth - width) / 2, (scaledHeight - height) / 2, width, height);
+    }
 
-	public Raster ResizeToPad(int width, int height, RasterFilter filter = RasterFilter.Bicubic)
-	{
-		double scale = Math.Min((double)width / Width, (double)height / Height);
-		int scaledWidth = Math.Clamp((int)Math.Round(Width * scale), 1, width);
-		int scaledHeight = Math.Clamp((int)Math.Round(Height * scale), 1, height);
-		Raster scaled = Resize(scaledWidth, scaledHeight, filter);
-		Raster canvas = Blank(width, height);
-		int left = Math.Clamp((int)Math.Round((width - Width * scale) / 2), 0, width - scaledWidth);
-		int top = Math.Clamp((int)Math.Round((height - Height * scale) / 2), 0, height - scaledHeight);
-		for (int row = 0; row < scaledHeight; row++)
-			Buffer.BlockCopy(scaled.Pixels, row * scaledWidth * 4, canvas.Pixels, ((top + row) * width + left) * 4, scaledWidth * 4);
-		return canvas;
-	}
+    public Raster ResizeToPad(int width, int height, RasterFilter filter = RasterFilter.Bicubic)
+    {
+        double scale = Math.Min((double)width / Width, (double)height / Height);
+        int scaledWidth = Math.Clamp((int)Math.Round(Width * scale), 1, width);
+        int scaledHeight = Math.Clamp((int)Math.Round(Height * scale), 1, height);
+        Raster scaled = Resize(scaledWidth, scaledHeight, filter);
+        Raster canvas = Blank(width, height);
+        int left = Math.Clamp((int)Math.Round((width - Width * scale) / 2), 0, width - scaledWidth);
+        int top = Math.Clamp((int)Math.Round((height - Height * scale) / 2), 0, height - scaledHeight);
+        for (int row = 0; row < scaledHeight; row++)
+            Buffer.BlockCopy(scaled.Pixels, row * scaledWidth * 4, canvas.Pixels, ((top + row) * width + left) * 4, scaledWidth * 4);
+        return canvas;
+    }
 
-	public Raster Crop(int x, int y, int width, int height)
-	{
-		if (x < 0 || y < 0 || width <= 0 || height <= 0 || x + width > Width || y + height > Height)
-			throw new ArgumentOutOfRangeException(nameof(width));
-		byte[] result = new byte[checked(width * height * 4)];
-		for (int row = 0; row < height; row++)
-			Buffer.BlockCopy(Pixels, ((y + row) * Width + x) * 4, result, row * width * 4, width * 4);
-		return new Raster(width, height, result);
-	}
+    public Raster Crop(int x, int y, int width, int height)
+    {
+        if (x < 0 || y < 0 || width <= 0 || height <= 0 || x + width > Width || y + height > Height)
+            throw new ArgumentOutOfRangeException(nameof(width));
+        byte[] result = new byte[checked(width * height * 4)];
+        for (int row = 0; row < height; row++)
+            Buffer.BlockCopy(Pixels, ((y + row) * Width + x) * 4, result, row * width * 4, width * 4);
+        return new Raster(width, height, result);
+    }
 
-	public Raster FlipHorizontal()
-	{
-		byte[] result = new byte[Pixels.Length];
-		for (int y = 0; y < Height; y++)
-		{
-			int row = y * Width;
-			for (int x = 0; x < Width; x++)
-				Buffer.BlockCopy(Pixels, (row + x) * 4, result, (row + Width - 1 - x) * 4, 4);
-		}
-		return new Raster(Width, Height, result);
-	}
+    public Raster FlipHorizontal()
+    {
+        byte[] result = new byte[Pixels.Length];
+        for (int y = 0; y < Height; y++)
+        {
+            int row = y * Width;
+            for (int x = 0; x < Width; x++)
+                Buffer.BlockCopy(Pixels, (row + x) * 4, result, (row + Width - 1 - x) * 4, 4);
+        }
+        return new Raster(Width, Height, result);
+    }
 
-	public Raster FlipVertical()
-	{
-		byte[] result = new byte[Pixels.Length];
-		int stride = Width * 4;
-		for (int y = 0; y < Height; y++)
-			Buffer.BlockCopy(Pixels, y * stride, result, (Height - 1 - y) * stride, stride);
-		return new Raster(Width, Height, result);
-	}
+    public Raster FlipVertical()
+    {
+        byte[] result = new byte[Pixels.Length];
+        int stride = Width * 4;
+        for (int y = 0; y < Height; y++)
+            Buffer.BlockCopy(Pixels, y * stride, result, (Height - 1 - y) * stride, stride);
+        return new Raster(Width, Height, result);
+    }
 
-	public Raster RotateClockwise()
-	{
-		byte[] result = new byte[Pixels.Length];
-		int newWidth = Height;
-		for (int y = 0; y < Height; y++)
-		{
-			for (int x = 0; x < Width; x++)
-				Buffer.BlockCopy(Pixels, (y * Width + x) * 4, result, (x * newWidth + (newWidth - 1 - y)) * 4, 4);
-		}
-		return new Raster(newWidth, Width, result);
-	}
+    public Raster RotateClockwise()
+    {
+        byte[] result = new byte[Pixels.Length];
+        int newWidth = Height;
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+                Buffer.BlockCopy(Pixels, (y * Width + x) * 4, result, (x * newWidth + (newWidth - 1 - y)) * 4, 4);
+        }
+        return new Raster(newWidth, Width, result);
+    }
 
-	public void DrawOver(Raster source, int left, int top)
-	{
-		for (int y = Math.Max(0, -top); y < source.Height && top + y < Height; y++)
-		{
-			for (int x = Math.Max(0, -left); x < source.Width && left + x < Width; x++)
-			{
-				int from = (y * source.Width + x) * 4;
-				int to = ((top + y) * Width + left + x) * 4;
-				float sourceAlpha = source.Pixels[from + 3] / 255f;
-				if (sourceAlpha <= 0f)
-					continue;
-				float destinationAlpha = Pixels[to + 3] / 255f;
-				float alpha = sourceAlpha + destinationAlpha * (1f - sourceAlpha);
-				for (int channel = 0; channel < 3; channel++)
-				{
-					float value = (source.Pixels[from + channel] * sourceAlpha + Pixels[to + channel] * destinationAlpha * (1f - sourceAlpha)) / alpha;
-					Pixels[to + channel] = (byte)Math.Clamp(MathF.Round(value), 0f, 255f);
-				}
-				Pixels[to + 3] = (byte)Math.Clamp(MathF.Round(alpha * 255f), 0f, 255f);
-			}
-		}
-	}
+    public void DrawOver(Raster source, int left, int top)
+    {
+        for (int y = Math.Max(0, -top); y < source.Height && top + y < Height; y++)
+        {
+            for (int x = Math.Max(0, -left); x < source.Width && left + x < Width; x++)
+            {
+                int from = (y * source.Width + x) * 4;
+                int to = ((top + y) * Width + left + x) * 4;
+                float sourceAlpha = source.Pixels[from + 3] / 255f;
+                if (sourceAlpha <= 0f)
+                    continue;
+                float destinationAlpha = Pixels[to + 3] / 255f;
+                float alpha = sourceAlpha + destinationAlpha * (1f - sourceAlpha);
+                for (int channel = 0; channel < 3; channel++)
+                {
+                    float value = (source.Pixels[from + channel] * sourceAlpha + Pixels[to + channel] * destinationAlpha * (1f - sourceAlpha)) / alpha;
+                    Pixels[to + channel] = (byte)Math.Clamp(MathF.Round(value), 0f, 255f);
+                }
+                Pixels[to + 3] = (byte)Math.Clamp(MathF.Round(alpha * 255f), 0f, 255f);
+            }
+        }
+    }
 
-	public Raster Clone()
-	{
-		return new Raster(Width, Height, (byte[])Pixels.Clone());
-	}
+    public Raster Clone()
+    {
+        return new Raster(Width, Height, (byte[])Pixels.Clone());
+    }
 
-	public byte[] EncodePng(PngLevel level = PngLevel.Default)
-	{
-		if (NativeImaging.TryEncodeBgra(Pixels, Width, Height, 0, (int)level, out byte[] encoded))
-			return encoded;
-		return RasterFallback.EncodePng(Pixels, Width, Height, level);
-	}
+    public byte[] EncodePng(PngLevel level = PngLevel.Default)
+    {
+        if (NativeImaging.TryEncodeBgra(Pixels, Width, Height, 0, (int)level, out byte[] encoded))
+            return encoded;
+        return RasterFallback.EncodePng(Pixels, Width, Height, level);
+    }
 
-	public byte[] EncodeJpeg(int quality)
-	{
-		quality = Math.Clamp(quality, 1, 100);
-		if (NativeImaging.TryEncodeBgra(Pixels, Width, Height, 1, quality, out byte[] encoded))
-			return encoded;
-		return RasterFallback.EncodeJpeg(Pixels, Width, Height, quality);
-	}
+    public byte[] EncodeJpeg(int quality)
+    {
+        quality = Math.Clamp(quality, 1, 100);
+        if (NativeImaging.TryEncodeBgra(Pixels, Width, Height, 1, quality, out byte[] encoded))
+            return encoded;
+        return RasterFallback.EncodeJpeg(Pixels, Width, Height, quality);
+    }
 
-	public byte[] EncodeBmp()
-	{
-		if (NativeImaging.TryEncodeBgra(Pixels, Width, Height, 2, 0, out byte[] encoded))
-			return encoded;
-		return RasterFallback.EncodeBmp(Pixels, Width, Height);
-	}
+    public byte[] EncodeBmp()
+    {
+        if (NativeImaging.TryEncodeBgra(Pixels, Width, Height, 2, 0, out byte[] encoded))
+            return encoded;
+        return RasterFallback.EncodeBmp(Pixels, Width, Height);
+    }
 
-	public byte[] EncodeWebp()
-	{
-		if (NativeImaging.TryEncodeBgra(Pixels, Width, Height, 3, 0, out byte[] encoded))
-			return encoded;
-		throw new InvalidOperationException("WebP encoding needs the native image library");
-	}
+    public byte[] EncodeWebp()
+    {
+        if (NativeImaging.TryEncodeBgra(Pixels, Width, Height, 3, 0, out byte[] encoded))
+            return encoded;
+        throw new InvalidOperationException("WebP encoding needs the native image library");
+    }
 
-	public byte[] EncodeGif()
-	{
-		if (NativeImaging.TryEncodeBgra(Pixels, Width, Height, 4, 0, out byte[] encoded))
-			return encoded;
-		throw new InvalidOperationException("GIF encoding needs the native image library");
-	}
+    public byte[] EncodeGif()
+    {
+        if (NativeImaging.TryEncodeBgra(Pixels, Width, Height, 4, 0, out byte[] encoded))
+            return encoded;
+        throw new InvalidOperationException("GIF encoding needs the native image library");
+    }
 
-	public static byte[] EncodeAnimatedGif(System.Collections.Generic.IReadOnlyList<Raster> frames, int delayMs)
-	{
-		if (frames.Count == 0)
-			throw new ArgumentException("An animation needs at least one frame");
-		int width = frames[0].Width;
-		int height = frames[0].Height;
-		byte[] pixels = new byte[checked(width * height * 4 * frames.Count)];
-		for (int index = 0; index < frames.Count; index++)
-		{
-			if (frames[index].Width != width || frames[index].Height != height)
-				throw new ArgumentException("Animation frames must share one size");
-			Buffer.BlockCopy(frames[index].Pixels, 0, pixels, index * width * height * 4, width * height * 4);
-		}
-		if (NativeImaging.TryEncodeGifFrames(pixels, width, height, frames.Count, delayMs, out byte[] encoded))
-			return encoded;
-		throw new InvalidOperationException("GIF encoding needs the native image library");
-	}
+    public static byte[] EncodeAnimatedGif(System.Collections.Generic.IReadOnlyList<Raster> frames, int delayMs)
+    {
+        if (frames.Count == 0)
+            throw new ArgumentException("An animation needs at least one frame");
+        int width = frames[0].Width;
+        int height = frames[0].Height;
+        byte[] pixels = new byte[checked(width * height * 4 * frames.Count)];
+        for (int index = 0; index < frames.Count; index++)
+        {
+            if (frames[index].Width != width || frames[index].Height != height)
+                throw new ArgumentException("Animation frames must share one size");
+            Buffer.BlockCopy(frames[index].Pixels, 0, pixels, index * width * height * 4, width * height * 4);
+        }
+        if (NativeImaging.TryEncodeGifFrames(pixels, width, height, frames.Count, delayMs, out byte[] encoded))
+            return encoded;
+        throw new InvalidOperationException("GIF encoding needs the native image library");
+    }
 
-	public void SavePng(string path, PngLevel level = PngLevel.Default)
-	{
-		File.WriteAllBytes(path, EncodePng(level));
-	}
+    public void SavePng(string path, PngLevel level = PngLevel.Default)
+    {
+        File.WriteAllBytes(path, EncodePng(level));
+    }
 }

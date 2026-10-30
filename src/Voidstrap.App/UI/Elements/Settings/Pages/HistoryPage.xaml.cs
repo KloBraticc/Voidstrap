@@ -9,13 +9,14 @@ using Voidstrap.UI.ViewModels.Pages;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
-public partial class HistoryPage : Page{
-	private readonly HistoryPageViewModel _viewModel;
+public partial class HistoryPage : Page
+{
+    private readonly HistoryPageViewModel _viewModel;
 
-	public HistoryPage()
-	{
-		_viewModel = new HistoryPageViewModel();
-		base.DataContext = _viewModel;
-		InitializeComponent();
-	}
+    public HistoryPage()
+    {
+        _viewModel = new HistoryPageViewModel();
+        base.DataContext = _viewModel;
+        InitializeComponent();
+    }
 }

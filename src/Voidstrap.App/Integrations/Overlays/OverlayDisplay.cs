@@ -7,53 +7,53 @@ namespace Voidstrap.Integrations.Overlays
 {
     public static class OverlayDisplay
     {
-		private static readonly object _refreshLock = new object();
-		private static IntPtr _cachedMonitor;
-		private static int _cachedHz = 60;
-		private static long _cachedAtMs;
+        private static readonly object _refreshLock = new object();
+        private static IntPtr _cachedMonitor;
+        private static int _cachedHz = 60;
+        private static long _cachedAtMs;
 
         public static int RefreshHz()
         {
             try
             {
-				IntPtr hwnd = RobloxWindowTracker.Current.Hwnd;
-				long now = Environment.TickCount64;
-				if (hwnd == IntPtr.Zero)
-				{
-					lock (_refreshLock)
-					{
-						if (_cachedAtMs != 0 && now - _cachedAtMs < 5000)
-							return _cachedHz;
-					}
-					hwnd = FindRobloxWindow();
-				}
+                IntPtr hwnd = RobloxWindowTracker.Current.Hwnd;
+                long now = Environment.TickCount64;
+                if (hwnd == IntPtr.Zero)
+                {
+                    lock (_refreshLock)
+                    {
+                        if (_cachedAtMs != 0 && now - _cachedAtMs < 5000)
+                            return _cachedHz;
+                    }
+                    hwnd = FindRobloxWindow();
+                }
                 IntPtr mon = hwnd != IntPtr.Zero
                     ? Interop.MonitorFromWindow(hwnd, Interop.MONITOR_DEFAULTTONEAREST)
                     : IntPtr.Zero;
-				lock (_refreshLock)
-				{
-					if (_cachedAtMs != 0 && mon == _cachedMonitor && now - _cachedAtMs < 2000)
-						return _cachedHz;
-				}
-				int refreshHz = ReadRefreshHz(mon);
-				lock (_refreshLock)
-				{
-					_cachedMonitor = mon;
-					_cachedHz = refreshHz;
-					_cachedAtMs = now;
-				}
-				return refreshHz;
-			}
-			catch
-			{
-				return 60;
-			}
-		}
+                lock (_refreshLock)
+                {
+                    if (_cachedAtMs != 0 && mon == _cachedMonitor && now - _cachedAtMs < 2000)
+                        return _cachedHz;
+                }
+                int refreshHz = ReadRefreshHz(mon);
+                lock (_refreshLock)
+                {
+                    _cachedMonitor = mon;
+                    _cachedHz = refreshHz;
+                    _cachedAtMs = now;
+                }
+                return refreshHz;
+            }
+            catch
+            {
+                return 60;
+            }
+        }
 
-		private static int ReadRefreshHz(IntPtr mon)
-		{
-			try
-			{
+        private static int ReadRefreshHz(IntPtr mon)
+        {
+            try
+            {
                 if (mon != IntPtr.Zero)
                 {
                     var mi = new Interop.MONITORINFOEXW { cbSize = (uint)Marshal.SizeOf<Interop.MONITORINFOEXW>() };
@@ -76,44 +76,44 @@ namespace Voidstrap.Integrations.Overlays
 
         private static IntPtr FindRobloxWindow()
         {
-			Process[] processes;
+            Process[] processes;
             try
             {
-				processes = Process.GetProcessesByName("RobloxPlayerBeta");
+                processes = Process.GetProcessesByName("RobloxPlayerBeta");
             }
             catch
             {
                 return IntPtr.Zero;
             }
-			try
-			{
-				foreach (Process process in processes)
-				{
-					try
-					{
-						IntPtr hwnd = process.MainWindowHandle;
-						if (hwnd != IntPtr.Zero)
-							return hwnd;
-					}
-					catch
-					{
-					}
-				}
-				return IntPtr.Zero;
-			}
-			finally
-			{
-				foreach (Process process in processes)
-				{
-					try
-					{
-						process.Dispose();
-					}
-					catch
-					{
-					}
-				}
-			}
+            try
+            {
+                foreach (Process process in processes)
+                {
+                    try
+                    {
+                        IntPtr hwnd = process.MainWindowHandle;
+                        if (hwnd != IntPtr.Zero)
+                            return hwnd;
+                    }
+                    catch
+                    {
+                    }
+                }
+                return IntPtr.Zero;
+            }
+            finally
+            {
+                foreach (Process process in processes)
+                {
+                    try
+                    {
+                        process.Dispose();
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
         }
     }
 }

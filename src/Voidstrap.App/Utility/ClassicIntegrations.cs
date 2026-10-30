@@ -144,7 +144,7 @@ namespace Voidstrap.Utility
         {
             try
             {
-				CrosshairWindow.Reconcile();
+                CrosshairWindow.Reconcile();
             }
             catch (Exception ex)
             {
@@ -174,7 +174,7 @@ namespace Voidstrap.Utility
         {
             try
             {
-				CrosshairWindow.CloseAll();
+                CrosshairWindow.CloseAll();
             }
             catch { }
 

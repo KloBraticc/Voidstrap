@@ -853,8 +853,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             NavigationItem item in from i in RootNavigation
                 .Items.OfType<NavigationItem>()
                 .Concat(RootNavigation.Footer.OfType<NavigationItem>())
-            where i.Tag != null && i.Image == null && !customIcons.ContainsKey(i.Name)
-            select i
+                                   where i.Tag != null && i.Image == null && !customIcons.ContainsKey(i.Name)
+                                   select i
         )
         {
             SymbolRegular defaultIcon = item.Icon;
@@ -4177,34 +4177,34 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         switch (text)
         {
             case ".gif":
-            {
-                if (Voidstrap.Utility.Platform.IsWindows)
                 {
-                    if (new FileInfo(path).Length > 32L * 1024 * 1024)
-                        return;
-                    BitmapImage value = new BitmapImage();
-                    value.BeginInit();
-                    value.CacheOption = BitmapCacheOption.OnLoad;
-                    value.DecodePixelWidth = GetBackgroundDecodeWidth(1280);
-                    value.UriSource = new Uri(path, UriKind.Absolute);
-                    value.EndInit();
-                    if (value.CanFreeze)
-                        value.Freeze();
-                    ImageBehavior.SetAnimatedSource(BackgroundImage, value);
-                    ImageBehavior.SetRepeatBehavior(BackgroundImage, loop ? RepeatBehavior.Forever : new RepeatBehavior(1.0));
+                    if (Voidstrap.Utility.Platform.IsWindows)
+                    {
+                        if (new FileInfo(path).Length > 32L * 1024 * 1024)
+                            return;
+                        BitmapImage value = new BitmapImage();
+                        value.BeginInit();
+                        value.CacheOption = BitmapCacheOption.OnLoad;
+                        value.DecodePixelWidth = GetBackgroundDecodeWidth(1280);
+                        value.UriSource = new Uri(path, UriKind.Absolute);
+                        value.EndInit();
+                        if (value.CanFreeze)
+                            value.Freeze();
+                        ImageBehavior.SetAnimatedSource(BackgroundImage, value);
+                        ImageBehavior.SetRepeatBehavior(BackgroundImage, loop ? RepeatBehavior.Forever : new RepeatBehavior(1.0));
+                    }
+                    else
+                    {
+                        BackgroundImage.Source = Voidstrap.Utility.SafeImaging.FromFile(path);
+                    }
+                    BackgroundImage.Visibility = Visibility.Visible;
+                    if (BackgroundMedia != null)
+                    {
+                        BackgroundMedia.Visibility = Visibility.Collapsed;
+                    }
+                    await FadeInElementAsync(BackgroundImage, 0.2);
+                    return;
                 }
-                else
-                {
-                    BackgroundImage.Source = Voidstrap.Utility.SafeImaging.FromFile(path);
-                }
-                BackgroundImage.Visibility = Visibility.Visible;
-                if (BackgroundMedia != null)
-                {
-                    BackgroundMedia.Visibility = Visibility.Collapsed;
-                }
-                await FadeInElementAsync(BackgroundImage, 0.2);
-                return;
-            }
             case ".mp4":
             case ".webm":
             case ".avi":

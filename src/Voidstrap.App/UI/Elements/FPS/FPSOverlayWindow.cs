@@ -8,5 +8,6 @@ using System.Windows.Markup;
 
 namespace Voidstrap.UI.Elements.FPS;
 
-public partial class FPSOverlayWindow : Window{
+public partial class FPSOverlayWindow : Window
+{
 }

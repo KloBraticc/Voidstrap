@@ -14,402 +14,402 @@ namespace Voidstrap.UI.ViewModels.Settings;
 
 public sealed class NvidiaFastFlagsViewModel : INotifyPropertyChanged
 {
-	private static readonly string NipPath = Path.Combine(Paths.NipProfiles, "Voidstrap.nip");
+    private static readonly string NipPath = Path.Combine(Paths.NipProfiles, "Voidstrap.nip");
 
-	private static readonly bool IsLinux = OperatingSystem.IsLinux();
+    private static readonly bool IsLinux = OperatingSystem.IsLinux();
 
-	private static readonly Dictionary<string, int> LinuxBenchmarkOverlayMap = new()
-	{
-		{ "Disabled", LinuxNvidiaSettings.OverlayOff },
-		{ "FPS counter", LinuxNvidiaSettings.OverlayFps },
-		{ "FPS and frame time graph", LinuxNvidiaSettings.OverlayGraph },
-		{ "Full performance overlay", LinuxNvidiaSettings.OverlayFull },
-	};
+    private static readonly Dictionary<string, int> LinuxBenchmarkOverlayMap = new()
+    {
+        { "Disabled", LinuxNvidiaSettings.OverlayOff },
+        { "FPS counter", LinuxNvidiaSettings.OverlayFps },
+        { "FPS and frame time graph", LinuxNvidiaSettings.OverlayGraph },
+        { "Full performance overlay", LinuxNvidiaSettings.OverlayFull },
+    };
 
-	private static readonly Dictionary<string, int> WindowsBenchmarkOverlayMap = new()
-	{
-		{ "Disabled", 0 },
-		{ "GRAPH_FLIP_FPS - FPS graph, measured on display hw flip", 1 },
-		{ "GRAPH_PRESENT_FPS - FPS graph, measured when the user mode driver starts processing present", 2 },
-		{ "GRAPH_APP_PRESENT_FPS - FPS graph, measured on app present", 4 },
-		{ "DISPLAY_PAGING - Add red paging indicator bars to the GRAPH_PRESENT_FPS graph", 8 },
-		{ "DISPLAY_APP_THREAD_WAIT - Add app thread wait time indiator bars to the GRAPH_APP_PRESENT_FPS graph", 16 },
-		{ "Enabled - Enable everything", 511 },
-	};
+    private static readonly Dictionary<string, int> WindowsBenchmarkOverlayMap = new()
+    {
+        { "Disabled", 0 },
+        { "GRAPH_FLIP_FPS - FPS graph, measured on display hw flip", 1 },
+        { "GRAPH_PRESENT_FPS - FPS graph, measured when the user mode driver starts processing present", 2 },
+        { "GRAPH_APP_PRESENT_FPS - FPS graph, measured on app present", 4 },
+        { "DISPLAY_PAGING - Add red paging indicator bars to the GRAPH_PRESENT_FPS graph", 8 },
+        { "DISPLAY_APP_THREAD_WAIT - Add app thread wait time indiator bars to the GRAPH_APP_PRESENT_FPS graph", 16 },
+        { "Enabled - Enable everything", 511 },
+    };
 
-	private static Dictionary<string, int> BenchmarkOverlayMap => IsLinux ? LinuxBenchmarkOverlayMap : WindowsBenchmarkOverlayMap;
+    private static Dictionary<string, int> BenchmarkOverlayMap => IsLinux ? LinuxBenchmarkOverlayMap : WindowsBenchmarkOverlayMap;
 
-	private string _cplLatency = "Off";
+    private string _cplLatency = "Off";
 
-	private string _benchmarkOverlay = "Disabled";
+    private string _benchmarkOverlay = "Disabled";
 
-	private string _frlLatency = "Off";
+    private string _frlLatency = "Off";
 
-	private string _selectedSilkSmoothness = "Off";
+    private string _selectedSilkSmoothness = "Off";
 
-	private bool _rbar;
+    private bool _rbar;
 
-	private bool _gamma;
+    private bool _gamma;
 
-	private bool _dlssSR;
+    private bool _dlssSR;
 
-	private bool _dlssFG;
+    private bool _dlssFG;
 
-	private bool _mfaa;
+    private bool _mfaa;
 
-	private bool _fxaa;
+    private bool _fxaa;
 
-	private int _textureLodBias;
+    private int _textureLodBias;
 
-	private int _frameRateLimit;
+    private int _frameRateLimit;
 
-	private int _backgroundFrameRateLimit;
+    private int _backgroundFrameRateLimit;
 
-	private bool _loading;
+    private bool _loading;
 
-	public ObservableCollection<string> CplLowLatencyModes { get; } = IsLinux ? ["Off", "On"] : ["Off", "On", "Ultra"];
+    public ObservableCollection<string> CplLowLatencyModes { get; } = IsLinux ? ["Off", "On"] : ["Off", "On", "Ultra"];
 
-	public ObservableCollection<string> BenchMarkOverlayModes { get; } = new ObservableCollection<string>(BenchmarkOverlayMap.Keys);
+    public ObservableCollection<string> BenchMarkOverlayModes { get; } = new ObservableCollection<string>(BenchmarkOverlayMap.Keys);
 
-	public ObservableCollection<string> FrlLowLatencyModes { get; } = ["Off", "On"];
+    public ObservableCollection<string> FrlLowLatencyModes { get; } = ["Off", "On"];
 
-	public ObservableCollection<string> SilkSmoothnessModes { get; } = ["Off", "Low", "Medium", "High", "Ultra"];
+    public ObservableCollection<string> SilkSmoothnessModes { get; } = ["Off", "Low", "Medium", "High", "Ultra"];
 
-	public string SelectedCplLowLatencyMode
-	{
-		get => _cplLatency;
-		set => Set(ref _cplLatency, value, "SelectedCplLowLatencyMode");
-	}
+    public string SelectedCplLowLatencyMode
+    {
+        get => _cplLatency;
+        set => Set(ref _cplLatency, value, "SelectedCplLowLatencyMode");
+    }
 
-	public string BenchMarkOverlayMode
-	{
-		get => _benchmarkOverlay;
-		set => Set(ref _benchmarkOverlay, value, "BenchMarkOverlayMode");
-	}
+    public string BenchMarkOverlayMode
+    {
+        get => _benchmarkOverlay;
+        set => Set(ref _benchmarkOverlay, value, "BenchMarkOverlayMode");
+    }
 
-	public string SelectedFrlLowLatencyMode
-	{
-		get => _frlLatency;
-		set => Set(ref _frlLatency, value, "SelectedFrlLowLatencyMode");
-	}
+    public string SelectedFrlLowLatencyMode
+    {
+        get => _frlLatency;
+        set => Set(ref _frlLatency, value, "SelectedFrlLowLatencyMode");
+    }
 
-	public string SelectedSilkSmoothness
-	{
-		get => _selectedSilkSmoothness;
-		set => Set(ref _selectedSilkSmoothness, value, "SelectedSilkSmoothness");
-	}
+    public string SelectedSilkSmoothness
+    {
+        get => _selectedSilkSmoothness;
+        set => Set(ref _selectedSilkSmoothness, value, "SelectedSilkSmoothness");
+    }
 
-	public bool EnableRbar
-	{
-		get => _rbar;
-		set => Set(ref _rbar, value, "EnableRbar");
-	}
+    public bool EnableRbar
+    {
+        get => _rbar;
+        set => Set(ref _rbar, value, "EnableRbar");
+    }
 
-	public bool EnableGamma
-	{
-		get => _gamma;
-		set => Set(ref _gamma, value, "EnableGamma");
-	}
+    public bool EnableGamma
+    {
+        get => _gamma;
+        set => Set(ref _gamma, value, "EnableGamma");
+    }
 
-	public bool EnableDlssSuperResolution
-	{
-		get => _dlssSR;
-		set => Set(ref _dlssSR, value, "EnableDlssSuperResolution");
-	}
+    public bool EnableDlssSuperResolution
+    {
+        get => _dlssSR;
+        set => Set(ref _dlssSR, value, "EnableDlssSuperResolution");
+    }
 
-	public bool EnableDlssFrameGen
-	{
-		get => _dlssFG;
-		set => Set(ref _dlssFG, value, "EnableDlssFrameGen");
-	}
+    public bool EnableDlssFrameGen
+    {
+        get => _dlssFG;
+        set => Set(ref _dlssFG, value, "EnableDlssFrameGen");
+    }
 
-	public bool EnableMFAA
-	{
-		get => _mfaa;
-		set => Set(ref _mfaa, value, "EnableMFAA");
-	}
+    public bool EnableMFAA
+    {
+        get => _mfaa;
+        set => Set(ref _mfaa, value, "EnableMFAA");
+    }
 
-	public bool EnableFXAA
-	{
-		get => _fxaa;
-		set => Set(ref _fxaa, value, "EnableFXAA");
-	}
+    public bool EnableFXAA
+    {
+        get => _fxaa;
+        set => Set(ref _fxaa, value, "EnableFXAA");
+    }
 
-	public int FrameRateLimit
-	{
-		get => _frameRateLimit;
-		set => Set(ref _frameRateLimit, Math.Clamp(value, 0, 1000), "FrameRateLimit");
-	}
+    public int FrameRateLimit
+    {
+        get => _frameRateLimit;
+        set => Set(ref _frameRateLimit, Math.Clamp(value, 0, 1000), "FrameRateLimit");
+    }
 
-	public int BackgroundFrameRateLimit
-	{
-		get => _backgroundFrameRateLimit;
-		set => Set(ref _backgroundFrameRateLimit, Math.Clamp(value, 0, 1000), "BackgroundFrameRateLimit");
-	}
+    public int BackgroundFrameRateLimit
+    {
+        get => _backgroundFrameRateLimit;
+        set => Set(ref _backgroundFrameRateLimit, Math.Clamp(value, 0, 1000), "BackgroundFrameRateLimit");
+    }
 
-	public int TextureLodBias
-	{
-		get => _textureLodBias;
-		set
-		{
-			Set(ref _textureLodBias, Math.Clamp(value, -32, 120), "TextureLodBias");
-			OnPropertyChanged("TextureLodBiasLabel");
-		}
-	}
+    public int TextureLodBias
+    {
+        get => _textureLodBias;
+        set
+        {
+            Set(ref _textureLodBias, Math.Clamp(value, -32, 120), "TextureLodBias");
+            OnPropertyChanged("TextureLodBiasLabel");
+        }
+    }
 
-	public string TextureLodBiasLabel
-	{
-		get
-		{
-			if (TextureLodBias != 0)
-				return string.Format(CultureInfo.InvariantCulture, "LOD Bias Override: {0:0.###}", (double)TextureLodBias / 8.0);
-			return "Default (Driver Controlled)";
-		}
-	}
+    public string TextureLodBiasLabel
+    {
+        get
+        {
+            if (TextureLodBias != 0)
+                return string.Format(CultureInfo.InvariantCulture, "LOD Bias Override: {0:0.###}", (double)TextureLodBias / 8.0);
+            return "Default (Driver Controlled)";
+        }
+    }
 
-	public string ApplyDescription =>
-		IsLinux
-			? "Save the NVIDIA settings. They apply the next time Roblox starts."
-			: "Apply only the modified NVIDIA FastFlags to the driver.";
+    public string ApplyDescription =>
+        IsLinux
+            ? "Save the NVIDIA settings. They apply the next time Roblox starts."
+            : "Apply only the modified NVIDIA FastFlags to the driver.";
 
-	public string FxaaDescription =>
-		IsLinux
-			? "Smooths jagged edges across the entire frame with minimal performance impact through the vkBasalt layer. Used when no other anti aliasing method is selected."
-			: "Smooths jagged edges (jaggies) across the entire frame with minimal performance impact. FXAA can make edges and fine details appear slightly blurry.";
+    public string FxaaDescription =>
+        IsLinux
+            ? "Smooths jagged edges across the entire frame with minimal performance impact through the vkBasalt layer. Used when no other anti aliasing method is selected."
+            : "Smooths jagged edges (jaggies) across the entire frame with minimal performance impact. FXAA can make edges and fine details appear slightly blurry.";
 
-	public string BenchmarkOverlayDescription =>
-		IsLinux
-			? "Shows a performance overlay with FPS and frame time graphs through the MangoHud layer. Sober runs slightly slower while it is shown."
-			: "Displays NVIDIA driver-level performance overlays such as FPS graphs and present timing data.";
+    public string BenchmarkOverlayDescription =>
+        IsLinux
+            ? "Shows a performance overlay with FPS and frame time graphs through the MangoHud layer. Sober runs slightly slower while it is shown."
+            : "Displays NVIDIA driver-level performance overlays such as FPS graphs and present timing data.";
 
-	public string FrameRateLimitDescription =>
-		IsLinux
-			? "Limits the maximum frames per second through Roblox's own frame cap each time Roblox starts. 0 leaves the cap unchanged."
-			: "Limits the maximum frames per second using the NVIDIA driver. This does not uncap Roblox FPS use the FPS Unlocker on the Integrations page instead.";
+    public string FrameRateLimitDescription =>
+        IsLinux
+            ? "Limits the maximum frames per second through Roblox's own frame cap each time Roblox starts. 0 leaves the cap unchanged."
+            : "Limits the maximum frames per second using the NVIDIA driver. This does not uncap Roblox FPS use the FPS Unlocker on the Integrations page instead.";
 
-	public string CplLowLatencyDescription =>
-		IsLinux
-			? "Makes the NVIDIA driver queue only one frame. Works when Sober uses the OpenGL renderer."
-			: "Limits CPU-rendered frames queued by the NVIDIA Control Panel.";
+    public string CplLowLatencyDescription =>
+        IsLinux
+            ? "Makes the NVIDIA driver queue only one frame. Works when Sober uses the OpenGL renderer."
+            : "Limits CPU-rendered frames queued by the NVIDIA Control Panel.";
 
-	public event PropertyChangedEventHandler? PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
-	public NvidiaFastFlagsViewModel()
-	{
-		EnsureNipExists();
-		Load();
-	}
+    public NvidiaFastFlagsViewModel()
+    {
+        EnsureNipExists();
+        Load();
+    }
 
-	private void Load()
-	{
-		_loading = true;
-		try
-		{
-			LoadValues();
-		}
-		finally
-		{
-			_loading = false;
-		}
-	}
+    private void Load()
+    {
+        _loading = true;
+        try
+        {
+            LoadValues();
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
 
-	private void LoadValues()
-	{
-		List<NvidiaEditorEntry> entries = LoadNormalized();
-		SelectedCplLowLatencyMode = ReadEnum(entries, "390467", CplLowLatencyModes, 0);
-		int overlay = ReadInt(entries, "2945366", 0);
-		if (IsLinux)
-			overlay = LinuxNvidiaSettings.NormalizeOverlay(overlay);
-		BenchMarkOverlayMode = BenchmarkOverlayMap.FirstOrDefault(x => x.Value == overlay).Key ?? "Disabled";
-		SelectedFrlLowLatencyMode = ReadEnum(entries, "277041152", FrlLowLatencyModes, 0);
-		SelectedSilkSmoothness = ReadSilk(entries);
-		EnableRbar = ReadBool(entries, "549198379");
-		EnableDlssSuperResolution = ReadBool(entries, "283385345");
-		EnableDlssFrameGen = ReadBool(entries, "283385347");
-		FrameRateLimit = ReadInt(entries, "277041154", 0);
-		BackgroundFrameRateLimit = ReadInt(entries, "277041157", 0);
-		EnableMFAA = ReadBool(entries, "10011052");
-		EnableFXAA = ReadBool(entries, "276089202") && ReadBool(entries, "276757595");
-		EnableGamma = !ReadBool(entries, "276652957") || !ReadBool(entries, "545898348");
-		TextureLodBias = ReadLodBias(entries);
-	}
+    private void LoadValues()
+    {
+        List<NvidiaEditorEntry> entries = LoadNormalized();
+        SelectedCplLowLatencyMode = ReadEnum(entries, "390467", CplLowLatencyModes, 0);
+        int overlay = ReadInt(entries, "2945366", 0);
+        if (IsLinux)
+            overlay = LinuxNvidiaSettings.NormalizeOverlay(overlay);
+        BenchMarkOverlayMode = BenchmarkOverlayMap.FirstOrDefault(x => x.Value == overlay).Key ?? "Disabled";
+        SelectedFrlLowLatencyMode = ReadEnum(entries, "277041152", FrlLowLatencyModes, 0);
+        SelectedSilkSmoothness = ReadSilk(entries);
+        EnableRbar = ReadBool(entries, "549198379");
+        EnableDlssSuperResolution = ReadBool(entries, "283385345");
+        EnableDlssFrameGen = ReadBool(entries, "283385347");
+        FrameRateLimit = ReadInt(entries, "277041154", 0);
+        BackgroundFrameRateLimit = ReadInt(entries, "277041157", 0);
+        EnableMFAA = ReadBool(entries, "10011052");
+        EnableFXAA = ReadBool(entries, "276089202") && ReadBool(entries, "276757595");
+        EnableGamma = !ReadBool(entries, "276652957") || !ReadBool(entries, "545898348");
+        TextureLodBias = ReadLodBias(entries);
+    }
 
-	private static int ReadLodBias(List<NvidiaEditorEntry> entries)
-	{
-		string? raw = entries.FirstOrDefault(x => x.SettingId == "7573135")?.Value;
-		if (uint.TryParse(raw, NumberStyles.Integer, CultureInfo.InvariantCulture, out uint stored))
-			return unchecked((int)stored);
-		return int.TryParse(raw, NumberStyles.Integer, CultureInfo.InvariantCulture, out int signed) ? signed : 0;
-	}
+    private static int ReadLodBias(List<NvidiaEditorEntry> entries)
+    {
+        string? raw = entries.FirstOrDefault(x => x.SettingId == "7573135")?.Value;
+        if (uint.TryParse(raw, NumberStyles.Integer, CultureInfo.InvariantCulture, out uint stored))
+            return unchecked((int)stored);
+        return int.TryParse(raw, NumberStyles.Integer, CultureInfo.InvariantCulture, out int signed) ? signed : 0;
+    }
 
-	private static List<NvidiaEditorEntry> LoadNormalized()
-	{
-		List<NvidiaEditorEntry> entries = NvidiaProfileManager.LoadFromNip(NipPath);
-		NormalizeIds(entries);
-		return RemoveDuplicateSettingIds(entries);
-	}
+    private static List<NvidiaEditorEntry> LoadNormalized()
+    {
+        List<NvidiaEditorEntry> entries = NvidiaProfileManager.LoadFromNip(NipPath);
+        NormalizeIds(entries);
+        return RemoveDuplicateSettingIds(entries);
+    }
 
-	public List<NvidiaEditorEntry> StageEntries()
-	{
-		List<NvidiaEditorEntry> entries = LoadNormalized();
-		Set(entries, "Frame Rate Limiter", "277041154", FrameRateLimit.ToString(CultureInfo.InvariantCulture));
-		Set(entries, "Background Application Max Frame Rate", "277041157", BackgroundFrameRateLimit.ToString(CultureInfo.InvariantCulture));
-		Set(
-			entries,
-			"CPL Low Latency Mode",
-			"390467",
-			CplLowLatencyModes.IndexOf(SelectedCplLowLatencyMode).ToString(CultureInfo.InvariantCulture)
-		);
-		Set(
-			entries,
-			"Benchmark Overlay",
-			"2945366",
-			BenchmarkOverlayMap.TryGetValue(BenchMarkOverlayMode, out int overlay) ? overlay.ToString(CultureInfo.InvariantCulture) : "0"
-		);
-		Set(
-			entries,
-			"FRL Low Latency Mode",
-			"277041152",
-			FrlLowLatencyModes.IndexOf(SelectedFrlLowLatencyMode).ToString(CultureInfo.InvariantCulture)
-		);
-		Set(entries, "SILK Smoothness", "9990737", SilkToValue(SelectedSilkSmoothness));
-		Set(entries, "Resizable BAR", "549198379", EnableRbar ? "1" : "0");
-		Set(entries, "Enable DLSS-SR override", "283385345", EnableDlssSuperResolution ? "1" : "0");
-		Set(entries, "Enable DLSS-FG override", "283385347", EnableDlssFrameGen ? "1" : "0");
-		string gamma = EnableGamma ? "0" : "1";
-		Set(entries, "Gamma correction", "276652957", gamma);
-		Set(entries, "Line gamma", "545898348", gamma);
-		string antialiasing = EnableFXAA ? "1" : "0";
-		Set(entries, "Enable FXAA", "276089202", antialiasing);
-		Set(entries, "Antialiasing - Mode", "276757595", antialiasing);
-		Set(entries, "MFAA", "10011052", EnableMFAA ? "1" : "0");
-		Set(entries, "Texture filtering - LOD Bias", "7573135", unchecked((uint)TextureLodBias).ToString(CultureInfo.InvariantCulture));
-		if (TextureLodBias != 0)
-		{
-			Set(entries, "Texture filtering - Quality", "13510289", "20");
-			Set(entries, "Anisotropic filtering mode", "282245910", "1");
-			Set(entries, "Antialiasing - Transparency Supersampling", "282364549", "8");
-		}
-		NvidiaProfileManager.SaveToNip(NipPath, entries);
-		return entries;
-	}
+    public List<NvidiaEditorEntry> StageEntries()
+    {
+        List<NvidiaEditorEntry> entries = LoadNormalized();
+        Set(entries, "Frame Rate Limiter", "277041154", FrameRateLimit.ToString(CultureInfo.InvariantCulture));
+        Set(entries, "Background Application Max Frame Rate", "277041157", BackgroundFrameRateLimit.ToString(CultureInfo.InvariantCulture));
+        Set(
+            entries,
+            "CPL Low Latency Mode",
+            "390467",
+            CplLowLatencyModes.IndexOf(SelectedCplLowLatencyMode).ToString(CultureInfo.InvariantCulture)
+        );
+        Set(
+            entries,
+            "Benchmark Overlay",
+            "2945366",
+            BenchmarkOverlayMap.TryGetValue(BenchMarkOverlayMode, out int overlay) ? overlay.ToString(CultureInfo.InvariantCulture) : "0"
+        );
+        Set(
+            entries,
+            "FRL Low Latency Mode",
+            "277041152",
+            FrlLowLatencyModes.IndexOf(SelectedFrlLowLatencyMode).ToString(CultureInfo.InvariantCulture)
+        );
+        Set(entries, "SILK Smoothness", "9990737", SilkToValue(SelectedSilkSmoothness));
+        Set(entries, "Resizable BAR", "549198379", EnableRbar ? "1" : "0");
+        Set(entries, "Enable DLSS-SR override", "283385345", EnableDlssSuperResolution ? "1" : "0");
+        Set(entries, "Enable DLSS-FG override", "283385347", EnableDlssFrameGen ? "1" : "0");
+        string gamma = EnableGamma ? "0" : "1";
+        Set(entries, "Gamma correction", "276652957", gamma);
+        Set(entries, "Line gamma", "545898348", gamma);
+        string antialiasing = EnableFXAA ? "1" : "0";
+        Set(entries, "Enable FXAA", "276089202", antialiasing);
+        Set(entries, "Antialiasing - Mode", "276757595", antialiasing);
+        Set(entries, "MFAA", "10011052", EnableMFAA ? "1" : "0");
+        Set(entries, "Texture filtering - LOD Bias", "7573135", unchecked((uint)TextureLodBias).ToString(CultureInfo.InvariantCulture));
+        if (TextureLodBias != 0)
+        {
+            Set(entries, "Texture filtering - Quality", "13510289", "20");
+            Set(entries, "Anisotropic filtering mode", "282245910", "1");
+            Set(entries, "Antialiasing - Transparency Supersampling", "282364549", "8");
+        }
+        NvidiaProfileManager.SaveToNip(NipPath, entries);
+        return entries;
+    }
 
-	private void SaveChoices()
-	{
-		try
-		{
-			StageEntries();
-		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException)
-		{
-			App.Logger.WriteLine("NvidiaFastFlagsViewModel", "Could not save the NVIDIA choices: " + ex.Message);
-		}
-	}
+    private void SaveChoices()
+    {
+        try
+        {
+            StageEntries();
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException)
+        {
+            App.Logger.WriteLine("NvidiaFastFlagsViewModel", "Could not save the NVIDIA choices: " + ex.Message);
+        }
+    }
 
-	private static void Set(List<NvidiaEditorEntry> entries, string name, string id, string newValue)
-	{
-		NvidiaEditorEntry? existing = entries.FirstOrDefault(x => x.SettingId == id);
-		if (existing != null)
-		{
-			existing.Value = newValue;
-			return;
-		}
-		entries.Add(
-			new NvidiaEditorEntry
-			{
-				Name = name,
-				SettingId = id,
-				Value = newValue,
-				ValueType = "Dword",
-			}
-		);
-	}
+    private static void Set(List<NvidiaEditorEntry> entries, string name, string id, string newValue)
+    {
+        NvidiaEditorEntry? existing = entries.FirstOrDefault(x => x.SettingId == id);
+        if (existing != null)
+        {
+            existing.Value = newValue;
+            return;
+        }
+        entries.Add(
+            new NvidiaEditorEntry
+            {
+                Name = name,
+                SettingId = id,
+                Value = newValue,
+                ValueType = "Dword",
+            }
+        );
+    }
 
-	private static void NormalizeIds(List<NvidiaEditorEntry> entries)
-	{
-		foreach (NvidiaEditorEntry entry in entries)
-		{
-			string text = (entry.SettingId ?? string.Empty).Trim();
-			if (
-				text.StartsWith("0x", StringComparison.OrdinalIgnoreCase)
-				&& uint.TryParse(text.AsSpan(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out uint parsed)
-			)
-			{
-				entry.SettingId = parsed.ToString(CultureInfo.InvariantCulture);
-			}
-		}
-	}
+    private static void NormalizeIds(List<NvidiaEditorEntry> entries)
+    {
+        foreach (NvidiaEditorEntry entry in entries)
+        {
+            string text = (entry.SettingId ?? string.Empty).Trim();
+            if (
+                text.StartsWith("0x", StringComparison.OrdinalIgnoreCase)
+                && uint.TryParse(text.AsSpan(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out uint parsed)
+            )
+            {
+                entry.SettingId = parsed.ToString(CultureInfo.InvariantCulture);
+            }
+        }
+    }
 
-	private static bool ReadBool(List<NvidiaEditorEntry> e, string id)
-	{
-		return e.FirstOrDefault(x => x.SettingId == id)?.Value == "1";
-	}
+    private static bool ReadBool(List<NvidiaEditorEntry> e, string id)
+    {
+        return e.FirstOrDefault(x => x.SettingId == id)?.Value == "1";
+    }
 
-	private static int ReadInt(List<NvidiaEditorEntry> e, string id, int d)
-	{
-		if (!int.TryParse(e.FirstOrDefault(x => x.SettingId == id)?.Value, out int result))
-			return d;
-		return result;
-	}
+    private static int ReadInt(List<NvidiaEditorEntry> e, string id, int d)
+    {
+        if (!int.TryParse(e.FirstOrDefault(x => x.SettingId == id)?.Value, out int result))
+            return d;
+        return result;
+    }
 
-	private static string ReadEnum(List<NvidiaEditorEntry> e, string id, ObservableCollection<string> v, int d)
-	{
-		if (!int.TryParse(e.FirstOrDefault(x => x.SettingId == id)?.Value, out int result) || result < 0)
-			return v[d];
-		if (result >= v.Count)
-			return IsLinux ? v[^1] : v[d];
-		return v[result];
-	}
+    private static string ReadEnum(List<NvidiaEditorEntry> e, string id, ObservableCollection<string> v, int d)
+    {
+        if (!int.TryParse(e.FirstOrDefault(x => x.SettingId == id)?.Value, out int result) || result < 0)
+            return v[d];
+        if (result >= v.Count)
+            return IsLinux ? v[^1] : v[d];
+        return v[result];
+    }
 
-	private static string ReadSilk(List<NvidiaEditorEntry> e)
-	{
-		return e.FirstOrDefault(x => x.SettingId == "9990737")?.Value switch
-		{
-			"1" => "Low",
-			"2" => "Medium",
-			"3" => "High",
-			"4" => "Ultra",
-			_ => "Off",
-		};
-	}
+    private static string ReadSilk(List<NvidiaEditorEntry> e)
+    {
+        return e.FirstOrDefault(x => x.SettingId == "9990737")?.Value switch
+        {
+            "1" => "Low",
+            "2" => "Medium",
+            "3" => "High",
+            "4" => "Ultra",
+            _ => "Off",
+        };
+    }
 
-	private static string SilkToValue(string mode)
-	{
-		return mode switch
-		{
-			"Low" => "1",
-			"Medium" => "2",
-			"High" => "3",
-			"Ultra" => "4",
-			_ => "0",
-		};
-	}
+    private static string SilkToValue(string mode)
+    {
+        return mode switch
+        {
+            "Low" => "1",
+            "Medium" => "2",
+            "High" => "3",
+            "Ultra" => "4",
+            _ => "0",
+        };
+    }
 
-	private static void EnsureNipExists()
-	{
-		Directory.CreateDirectory(Path.GetDirectoryName(NipPath)!);
-		if (!File.Exists(NipPath))
-			NvidiaProfileManager.SaveToNip(NipPath, []);
-	}
+    private static void EnsureNipExists()
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(NipPath)!);
+        if (!File.Exists(NipPath))
+            NvidiaProfileManager.SaveToNip(NipPath, []);
+    }
 
-	private void Set<T>(ref T field, T value, [CallerMemberName] string? name = null)
-	{
-		if (!object.Equals(field, value))
-		{
-			field = value;
-			OnPropertyChanged(name);
-			if (!_loading)
-				SaveChoices();
-		}
-	}
+    private void Set<T>(ref T field, T value, [CallerMemberName] string? name = null)
+    {
+        if (!object.Equals(field, value))
+        {
+            field = value;
+            OnPropertyChanged(name);
+            if (!_loading)
+                SaveChoices();
+        }
+    }
 
-	private static List<NvidiaEditorEntry> RemoveDuplicateSettingIds(List<NvidiaEditorEntry> entries)
-	{
-		return [.. (from x in entries group x by x.SettingId into g select g.First())];
-	}
+    private static List<NvidiaEditorEntry> RemoveDuplicateSettingIds(List<NvidiaEditorEntry> entries)
+    {
+        return [.. (from x in entries group x by x.SettingId into g select g.First())];
+    }
 
-	private void OnPropertyChanged([CallerMemberName] string? name = null)
-	{
-		this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-	}
+    private void OnPropertyChanged([CallerMemberName] string? name = null)
+    {
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
 }

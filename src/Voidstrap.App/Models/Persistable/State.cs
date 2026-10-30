@@ -5,72 +5,72 @@ namespace Voidstrap.Models.Persistable;
 
 public class State
 {
-	public Dictionary<string, SessionPanelLayout> SessionPanels { get; set; } = new();
+    public Dictionary<string, SessionPanelLayout> SessionPanels { get; set; } = new();
 
-	public bool TestModeWarningShown { get; set; }
+    public bool TestModeWarningShown { get; set; }
 
-	public string FleasionWarningDismissedFor { get; set; } = "";
+    public string FleasionWarningDismissedFor { get; set; } = "";
 
-	public bool ShowBloxshadeWarning { get; set; }
+    public bool ShowBloxshadeWarning { get; set; }
 
-	public bool IgnoreOutdatedChannel { get; set; }
+    public bool IgnoreOutdatedChannel { get; set; }
 
-	public bool WatcherRunning { get; set; }
+    public bool WatcherRunning { get; set; }
 
-	public bool PromptWebView2Install { get; set; } = true;
+    public bool PromptWebView2Install { get; set; } = true;
 
-	public int LastPage { get; set; } = 1;
+    public int LastPage { get; set; } = 1;
 
-	public int SidebarLayoutVersion { get; set; }
+    public int SidebarLayoutVersion { get; set; }
 
-	public int HardwareAccelerationResetVersion { get; set; }
+    public int HardwareAccelerationResetVersion { get; set; }
 
-	public AppState Player { get; set; } = new AppState();
+    public AppState Player { get; set; } = new AppState();
 
-	public AppState VngPlayer { get; set; } = new AppState();
+    public AppState VngPlayer { get; set; } = new AppState();
 
-	public AppState Studio { get; set; } = new AppState();
+    public AppState Studio { get; set; } = new AppState();
 
-	public WindowState SettingsWindow { get; set; } = new WindowState();
+    public WindowState SettingsWindow { get; set; } = new WindowState();
 
-	public List<string> ModManifest { get; set; } = new List<string>();
+    public List<string> ModManifest { get; set; } = new List<string>();
 
-	public Dictionary<string, string> ModApplyCache { get; set; } = new Dictionary<string, string>();
+    public Dictionary<string, string> ModApplyCache { get; set; } = new Dictionary<string, string>();
 
-	public Dictionary<string, List<string>> ManagedModManifest { get; set; } = new Dictionary<string, List<string>>();
+    public Dictionary<string, List<string>> ManagedModManifest { get; set; } = new Dictionary<string, List<string>>();
 
-	public string ModApplyVersion { get; set; } = string.Empty;
+    public string ModApplyVersion { get; set; } = string.Empty;
 
-	public Dictionary<long, MatchmakerAttempt> MatchmakerAttempts { get; set; } = new Dictionary<long, MatchmakerAttempt>();
+    public Dictionary<long, MatchmakerAttempt> MatchmakerAttempts { get; set; } = new Dictionary<long, MatchmakerAttempt>();
 
-	public int PendingLaunchMode { get; set; }
+    public int PendingLaunchMode { get; set; }
 
-	public DateTime LastLauncherUpdateCheckUtc { get; set; }
+    public DateTime LastLauncherUpdateCheckUtc { get; set; }
 
-	public string? DeclinedLinuxUpdateTag { get; set; }
+    public string? DeclinedLinuxUpdateTag { get; set; }
 
-	public string? StagedLinuxUpdateTag { get; set; }
+    public string? StagedLinuxUpdateTag { get; set; }
 
-	public DateTime LastSafeLaunchUtc { get; set; }
+    public DateTime LastSafeLaunchUtc { get; set; }
 
-	public string LastSafeLaunchResult { get; set; } = string.Empty;
+    public string LastSafeLaunchResult { get; set; } = string.Empty;
 
-	public bool CacheResetPending { get; set; }
+    public bool CacheResetPending { get; set; }
 
-	public string LastCacheBackup { get; set; } = string.Empty;
+    public string LastCacheBackup { get; set; } = string.Empty;
 
-	public bool SafeLaunchPending { get; set; }
+    public bool SafeLaunchPending { get; set; }
 
-	public bool SessionDockTipShown { get; set; }
+    public bool SessionDockTipShown { get; set; }
 
-	public bool NvidiaFlagsWarningAccepted { get; set; }
+    public bool NvidiaFlagsWarningAccepted { get; set; }
 }
 
 public sealed class SessionPanelLayout
 {
-	public double X { get; set; }
-	public double Y { get; set; }
-	public double Width { get; set; }
-	public double Height { get; set; }
-	public bool Pinned { get; set; }
+    public double X { get; set; }
+    public double Y { get; set; }
+    public double Width { get; set; }
+    public double Height { get; set; }
+    public bool Pinned { get; set; }
 }

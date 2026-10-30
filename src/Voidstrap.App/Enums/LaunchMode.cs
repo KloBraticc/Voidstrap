@@ -2,8 +2,8 @@ namespace Voidstrap.Enums;
 
 public enum LaunchMode
 {
-	None,
-	Player,
-	Studio,
-	StudioAuth
+    None,
+    Player,
+    Studio,
+    StudioAuth
 }

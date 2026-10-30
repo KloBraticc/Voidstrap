@@ -85,15 +85,15 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                 Activate();
         }
 
-		private void Dialog_Closed(object? sender, FormClosedEventArgs e)
-		{
-			this.FormClosed -= Dialog_Closed;
-			_mainWindow = System.Windows.Application.Current.Windows
-				.OfType<Voidstrap.UI.Elements.Settings.MainWindow>()
-				.FirstOrDefault();
-			if (App.Settings.Prop.BackgroundWindow)
-				_mainWindow?.Show();
-			Voidstrap.UI.Elements.Bootstrapper.AudioPlayerHelper.StopAudio();
-		}
+        private void Dialog_Closed(object? sender, FormClosedEventArgs e)
+        {
+            this.FormClosed -= Dialog_Closed;
+            _mainWindow = System.Windows.Application.Current.Windows
+                .OfType<Voidstrap.UI.Elements.Settings.MainWindow>()
+                .FirstOrDefault();
+            if (App.Settings.Prop.BackgroundWindow)
+                _mainWindow?.Show();
+            Voidstrap.UI.Elements.Bootstrapper.AudioPlayerHelper.StopAudio();
+        }
     }
 }

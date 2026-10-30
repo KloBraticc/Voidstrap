@@ -14,390 +14,390 @@ namespace Voidstrap;
 
 public class Logger : IDisposable
 {
-	private const int MaxHistoryEntries = 150;
+    private const int MaxHistoryEntries = 150;
 
-	private const int MaxEntryCharacters = 32768;
+    private const int MaxEntryCharacters = 32768;
 
-	private const int MaxLogFiles = 10;
+    private const int MaxLogFiles = 10;
 
-	private readonly Channel<string> _writeQueue = Channel.CreateBounded<string>(
-		new BoundedChannelOptions(2048)
-		{
-			SingleReader = true,
-			SingleWriter = false,
-			FullMode = BoundedChannelFullMode.DropOldest,
-		}
-	);
+    private readonly Channel<string> _writeQueue = Channel.CreateBounded<string>(
+        new BoundedChannelOptions(2048)
+        {
+            SingleReader = true,
+            SingleWriter = false,
+            FullMode = BoundedChannelFullMode.DropOldest,
+        }
+    );
 
-	private readonly CancellationTokenSource _writerCts = new CancellationTokenSource();
+    private readonly CancellationTokenSource _writerCts = new CancellationTokenSource();
 
-	private readonly SemaphoreSlim _writerGate = new SemaphoreSlim(1, 1);
+    private readonly SemaphoreSlim _writerGate = new SemaphoreSlim(1, 1);
 
-	private StreamWriter? _writer;
+    private StreamWriter? _writer;
 
-	private Task? _writerTask;
+    private Task? _writerTask;
 
-	private readonly object _historyLock = new object();
+    private readonly object _historyLock = new object();
 
-	private string _lastCategory = "";
+    private string _lastCategory = "";
 
-	private bool _disposed;
+    private bool _disposed;
 
-	public List<string> History { get; } = new List<string>();
+    public List<string> History { get; } = new List<string>();
 
-	public bool Initialized { get; private set; }
+    public bool Initialized { get; private set; }
 
-	public bool NoWriteMode { get; private set; }
+    public bool NoWriteMode { get; private set; }
 
-	public string? FileLocation { get; private set; }
+    public string? FileLocation { get; private set; }
 
-	public string AsDocument
-	{
-		get
-		{
-			lock (_historyLock)
-			{
-				return string.Join('\n', History);
-			}
-		}
-	}
+    public string AsDocument
+    {
+        get
+        {
+            lock (_historyLock)
+            {
+                return string.Join('\n', History);
+            }
+        }
+    }
 
-	public void Initialize(bool useTempDir = false)
-	{
-		if (Initialized || _disposed)
-		{
-			WriteLine("Logger::Initialize", "Logger is already initialized");
-			return;
-		}
-		string text = (useTempDir ? Path.Combine(Paths.TempLogs) : Paths.Logs);
-		if (string.IsNullOrWhiteSpace(text))
-		{
-			text = Paths.TempLogs;
-		}
-		string text2 = DateTime.UtcNow.ToString("yyyyMMdd'T'HHmmssfff'Z'");
-		string path = "Voidstrap_" + text2 + "_" + Environment.ProcessId + ".log";
-		string text3 = Path.Combine(text, path);
-		try
-		{
-			Directory.CreateDirectory(text);
-			FileStream stream = new FileStream(text3, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, useAsync: true);
-			StreamWriter writer = new StreamWriter(stream, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false), 4096)
-			{
-				AutoFlush = !Voidstrap.Utility.Platform.IsWindows,
-			};
-			lock (_historyLock)
-			{
-				_writer = writer;
-				FileLocation = text3;
-				string history = string.Join("\r\n", History);
-				if (history.Length > 0)
-				{
-					_writeQueue.Writer.TryWrite(history);
-				}
-				Initialized = true;
-				_writerTask = Task.Run(() => ProcessWritesAsync(writer));
-			}
-			WriteLine("Logger::Initialize", "Logger initialized at " + text3);
-			CleanupOldLogs(text, text3);
-		}
-		catch (UnauthorizedAccessException)
-		{
-			if (!NoWriteMode)
-			{
-				WriteLine("Logger::Initialize", "No write access to " + text);
-				Frontend.ShowMessageBox(string.Format(Strings.Logger_NoWriteMode, text), MessageBoxImage.Exclamation);
-				NoWriteMode = true;
-			}
-		}
-		catch (IOException ex2)
-		{
-			WriteLine("Logger::Initialize", "Failed to initialize due to IO exception: " + ex2.Message);
-		}
-		catch (Exception ex3)
-		{
-			WriteLine("Logger::Initialize", "Failed to initialize at " + text + ": " + ex3.Message);
-		}
-	}
+    public void Initialize(bool useTempDir = false)
+    {
+        if (Initialized || _disposed)
+        {
+            WriteLine("Logger::Initialize", "Logger is already initialized");
+            return;
+        }
+        string text = (useTempDir ? Path.Combine(Paths.TempLogs) : Paths.Logs);
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            text = Paths.TempLogs;
+        }
+        string text2 = DateTime.UtcNow.ToString("yyyyMMdd'T'HHmmssfff'Z'");
+        string path = "Voidstrap_" + text2 + "_" + Environment.ProcessId + ".log";
+        string text3 = Path.Combine(text, path);
+        try
+        {
+            Directory.CreateDirectory(text);
+            FileStream stream = new FileStream(text3, FileMode.Create, FileAccess.Write, FileShare.Read, 4096, useAsync: true);
+            StreamWriter writer = new StreamWriter(stream, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false), 4096)
+            {
+                AutoFlush = !Voidstrap.Utility.Platform.IsWindows,
+            };
+            lock (_historyLock)
+            {
+                _writer = writer;
+                FileLocation = text3;
+                string history = string.Join("\r\n", History);
+                if (history.Length > 0)
+                {
+                    _writeQueue.Writer.TryWrite(history);
+                }
+                Initialized = true;
+                _writerTask = Task.Run(() => ProcessWritesAsync(writer));
+            }
+            WriteLine("Logger::Initialize", "Logger initialized at " + text3);
+            CleanupOldLogs(text, text3);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            if (!NoWriteMode)
+            {
+                WriteLine("Logger::Initialize", "No write access to " + text);
+                Frontend.ShowMessageBox(string.Format(Strings.Logger_NoWriteMode, text), MessageBoxImage.Exclamation);
+                NoWriteMode = true;
+            }
+        }
+        catch (IOException ex2)
+        {
+            WriteLine("Logger::Initialize", "Failed to initialize due to IO exception: " + ex2.Message);
+        }
+        catch (Exception ex3)
+        {
+            WriteLine("Logger::Initialize", "Failed to initialize at " + text + ": " + ex3.Message);
+        }
+    }
 
-	private void CleanupOldLogs(string directory, string? currentLog)
-	{
-		FileInfo[] files;
-		try
-		{
-			if (!Directory.Exists(directory))
-			{
-				return;
-			}
-			files = new DirectoryInfo(directory).GetFiles("Voidstrap_*.log");
-		}
-		catch (Exception ex)
-		{
-			WriteLine("Logger::Cleanup", "Could not read the log folder: " + ex.Message);
-			return;
-		}
+    private void CleanupOldLogs(string directory, string? currentLog)
+    {
+        FileInfo[] files;
+        try
+        {
+            if (!Directory.Exists(directory))
+            {
+                return;
+            }
+            files = new DirectoryInfo(directory).GetFiles("Voidstrap_*.log");
+        }
+        catch (Exception ex)
+        {
+            WriteLine("Logger::Cleanup", "Could not read the log folder: " + ex.Message);
+            return;
+        }
 
-		if (files.Length <= MaxLogFiles)
-		{
-			return;
-		}
+        if (files.Length <= MaxLogFiles)
+        {
+            return;
+        }
 
-		Array.Sort(files, (a, b) => b.LastWriteTimeUtc.CompareTo(a.LastWriteTimeUtc));
+        Array.Sort(files, (a, b) => b.LastWriteTimeUtc.CompareTo(a.LastWriteTimeUtc));
 
-		int kept = 0;
-		int removed = 0;
-		int locked = 0;
-		foreach (FileInfo file in files)
-		{
-			bool isCurrent = currentLog != null && string.Equals(file.FullName, currentLog, StringComparison.OrdinalIgnoreCase);
-			if (isCurrent || kept < MaxLogFiles)
-			{
-				kept++;
-				continue;
-			}
-			try
-			{
-				file.Delete();
-				removed++;
-			}
-			catch (IOException)
-			{
-				locked++;
-			}
-			catch (UnauthorizedAccessException)
-			{
-				locked++;
-			}
-		}
+        int kept = 0;
+        int removed = 0;
+        int locked = 0;
+        foreach (FileInfo file in files)
+        {
+            bool isCurrent = currentLog != null && string.Equals(file.FullName, currentLog, StringComparison.OrdinalIgnoreCase);
+            if (isCurrent || kept < MaxLogFiles)
+            {
+                kept++;
+                continue;
+            }
+            try
+            {
+                file.Delete();
+                removed++;
+            }
+            catch (IOException)
+            {
+                locked++;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                locked++;
+            }
+        }
 
-		if (removed > 0 || locked > 0)
-		{
-			WriteLine("Logger::Cleanup", "Kept the newest " + MaxLogFiles + " logs, removed " + removed + ", still in use " + locked);
-		}
-	}
+        if (removed > 0 || locked > 0)
+        {
+            WriteLine("Logger::Cleanup", "Kept the newest " + MaxLogFiles + " logs, removed " + removed + ", still in use " + locked);
+        }
+    }
 
-	private static string GetCategory(string identifier)
-	{
-		int num = identifier.IndexOf("::", StringComparison.Ordinal);
-		if (num <= 0)
-		{
-			return identifier;
-		}
-		return identifier.Substring(0, num);
-	}
+    private static string GetCategory(string identifier)
+    {
+        int num = identifier.IndexOf("::", StringComparison.Ordinal);
+        if (num <= 0)
+        {
+            return identifier;
+        }
+        return identifier.Substring(0, num);
+    }
 
-	private void WriteEntry(string category, string body)
-	{
-		string text = DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'", System.Globalization.CultureInfo.InvariantCulture);
-		string boundedBody = body.Length > MaxEntryCharacters ? body.Substring(0, MaxEntryCharacters) : body;
-		string text2 =
-			string.IsNullOrEmpty(Paths.UserProfile) ? boundedBody
-			: OperatingSystem.IsWindows()
-				? boundedBody.Replace(Paths.UserProfile, "%UserProfile%", StringComparison.InvariantCultureIgnoreCase)
-			: boundedBody.Replace(Paths.UserProfile, "~", StringComparison.Ordinal);
-		string text3 = text + " " + text2;
-		bool flag;
-		lock (_historyLock)
-		{
-			if (_disposed)
-			{
-				return;
-			}
-			flag = _lastCategory.Length > 0 && !string.Equals(category, _lastCategory, StringComparison.Ordinal);
-			_lastCategory = category;
-			if (flag)
-			{
-				History.Add(string.Empty);
-			}
-			History.Add(text3);
-			while (History.Count > MaxHistoryEntries)
-			{
-				History.RemoveAt(0);
-			}
-			if (flag)
-			{
-				QueueWrite(string.Empty);
-			}
-			QueueWrite(text3);
-		}
-	}
+    private void WriteEntry(string category, string body)
+    {
+        string text = DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'", System.Globalization.CultureInfo.InvariantCulture);
+        string boundedBody = body.Length > MaxEntryCharacters ? body.Substring(0, MaxEntryCharacters) : body;
+        string text2 =
+            string.IsNullOrEmpty(Paths.UserProfile) ? boundedBody
+            : OperatingSystem.IsWindows()
+                ? boundedBody.Replace(Paths.UserProfile, "%UserProfile%", StringComparison.InvariantCultureIgnoreCase)
+            : boundedBody.Replace(Paths.UserProfile, "~", StringComparison.Ordinal);
+        string text3 = text + " " + text2;
+        bool flag;
+        lock (_historyLock)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+            flag = _lastCategory.Length > 0 && !string.Equals(category, _lastCategory, StringComparison.Ordinal);
+            _lastCategory = category;
+            if (flag)
+            {
+                History.Add(string.Empty);
+            }
+            History.Add(text3);
+            while (History.Count > MaxHistoryEntries)
+            {
+                History.RemoveAt(0);
+            }
+            if (flag)
+            {
+                QueueWrite(string.Empty);
+            }
+            QueueWrite(text3);
+        }
+    }
 
-	private static readonly bool EchoToStandardError = Environment.GetEnvironmentVariable("VOIDSTRAP_STDERR_LOG") == "1";
+    private static readonly bool EchoToStandardError = Environment.GetEnvironmentVariable("VOIDSTRAP_STDERR_LOG") == "1";
 
-	private static void Echo(string line)
-	{
-		if (!EchoToStandardError)
-			return;
+    private static void Echo(string line)
+    {
+        if (!EchoToStandardError)
+            return;
 
-		try
-		{
-			Console.Error.WriteLine(line);
-			Console.Error.Flush();
-		}
-		catch (IOException) { }
-	}
+        try
+        {
+            Console.Error.WriteLine(line);
+            Console.Error.Flush();
+        }
+        catch (IOException) { }
+    }
 
-	public void WriteLine(string identifier, string message)
-	{
-		Echo("[" + identifier + "] " + message);
-		WriteEntry(GetCategory(identifier), "[" + identifier + "] " + message);
-	}
+    public void WriteLine(string identifier, string message)
+    {
+        Echo("[" + identifier + "] " + message);
+        WriteEntry(GetCategory(identifier), "[" + identifier + "] " + message);
+    }
 
-	public void WriteException(string identifier, Exception ex)
-	{
-		string value = $"0x{ex.HResult:X8}";
-		Echo($"[{identifier}] ({value}) {ex}");
-		WriteEntry(GetCategory(identifier), $"[{identifier}] ({value}) {ex}");
-		Voidstrap.Utility.AppNotifications.RecordError(identifier, ex);
-	}
+    public void WriteException(string identifier, Exception ex)
+    {
+        string value = $"0x{ex.HResult:X8}";
+        Echo($"[{identifier}] ({value}) {ex}");
+        WriteEntry(GetCategory(identifier), $"[{identifier}] ({value}) {ex}");
+        Voidstrap.Utility.AppNotifications.RecordError(identifier, ex);
+    }
 
-	private void QueueWrite(string message)
-	{
-		if (!Initialized || NoWriteMode || _disposed || _writer == null)
-		{
-			return;
-		}
-		_writeQueue.Writer.TryWrite(message);
-	}
+    private void QueueWrite(string message)
+    {
+        if (!Initialized || NoWriteMode || _disposed || _writer == null)
+        {
+            return;
+        }
+        _writeQueue.Writer.TryWrite(message);
+    }
 
-	private async Task ProcessWritesAsync(StreamWriter writer)
-	{
-		try
-		{
-			while (await _writeQueue.Reader.WaitToReadAsync(_writerCts.SafeToken()).ConfigureAwait(continueOnCapturedContext: false))
-			{
-				await _writerGate.WaitAsync(_writerCts.SafeToken()).ConfigureAwait(continueOnCapturedContext: false);
-				try
-				{
-					while (_writeQueue.Reader.TryRead(out string? message))
-					{
-						await writer.WriteLineAsync(message).ConfigureAwait(continueOnCapturedContext: false);
-					}
-					await writer.FlushAsync(_writerCts.SafeToken()).ConfigureAwait(continueOnCapturedContext: false);
-				}
-				finally
-				{
-					_writerGate.Release();
-				}
-			}
-		}
-		catch (OperationCanceledException) { }
-		catch (ObjectDisposedException) { }
-		catch (IOException)
-		{
-			lock (_historyLock)
-			{
-				NoWriteMode = true;
-				Initialized = false;
-				_writer = null;
-				while (_writeQueue.Reader.TryRead(out _)) { }
-			}
-		}
-		finally
-		{
-			writer.Dispose();
-		}
-	}
+    private async Task ProcessWritesAsync(StreamWriter writer)
+    {
+        try
+        {
+            while (await _writeQueue.Reader.WaitToReadAsync(_writerCts.SafeToken()).ConfigureAwait(continueOnCapturedContext: false))
+            {
+                await _writerGate.WaitAsync(_writerCts.SafeToken()).ConfigureAwait(continueOnCapturedContext: false);
+                try
+                {
+                    while (_writeQueue.Reader.TryRead(out string? message))
+                    {
+                        await writer.WriteLineAsync(message).ConfigureAwait(continueOnCapturedContext: false);
+                    }
+                    await writer.FlushAsync(_writerCts.SafeToken()).ConfigureAwait(continueOnCapturedContext: false);
+                }
+                finally
+                {
+                    _writerGate.Release();
+                }
+            }
+        }
+        catch (OperationCanceledException) { }
+        catch (ObjectDisposedException) { }
+        catch (IOException)
+        {
+            lock (_historyLock)
+            {
+                NoWriteMode = true;
+                Initialized = false;
+                _writer = null;
+                while (_writeQueue.Reader.TryRead(out _)) { }
+            }
+        }
+        finally
+        {
+            writer.Dispose();
+        }
+    }
 
-	public void Flush()
-	{
-		try
-		{
-			Voidstrap.Utility.AppNotifications.Flush();
-		}
-		catch { }
-		StreamWriter? writer;
-		lock (_historyLock)
-		{
-			if (_disposed || !Initialized)
-			{
-				return;
-			}
-			writer = _writer;
-		}
-		if (writer == null)
-		{
-			return;
-		}
-		bool entered = false;
-		try
-		{
-			entered = _writerGate.Wait(TimeSpan.FromSeconds(2));
-			if (!entered)
-			{
-				return;
-			}
-			while (_writeQueue.Reader.TryRead(out string? message))
-			{
-				writer.WriteLine(message);
-			}
-			writer.Flush();
-		}
-		catch { }
-		finally
-		{
-			if (entered)
-			{
-				try
-				{
-					_writerGate.Release();
-				}
-				catch { }
-			}
-		}
-	}
+    public void Flush()
+    {
+        try
+        {
+            Voidstrap.Utility.AppNotifications.Flush();
+        }
+        catch { }
+        StreamWriter? writer;
+        lock (_historyLock)
+        {
+            if (_disposed || !Initialized)
+            {
+                return;
+            }
+            writer = _writer;
+        }
+        if (writer == null)
+        {
+            return;
+        }
+        bool entered = false;
+        try
+        {
+            entered = _writerGate.Wait(TimeSpan.FromSeconds(2));
+            if (!entered)
+            {
+                return;
+            }
+            while (_writeQueue.Reader.TryRead(out string? message))
+            {
+                writer.WriteLine(message);
+            }
+            writer.Flush();
+        }
+        catch { }
+        finally
+        {
+            if (entered)
+            {
+                try
+                {
+                    _writerGate.Release();
+                }
+                catch { }
+            }
+        }
+    }
 
-	public void Dispose()
-	{
-		Task? writerTask;
-		StreamWriter? writer;
-		lock (_historyLock)
-		{
-			if (_disposed)
-			{
-				return;
-			}
-			_disposed = true;
-			Initialized = false;
-			_writeQueue.Writer.TryComplete();
-			writerTask = _writerTask;
-			writer = _writer;
-			_writerTask = null;
-			_writer = null;
-		}
-		bool writerStopped = writerTask == null;
-		try
-		{
-			if (writerTask != null)
-			{
-				writerStopped = writerTask.Wait(TimeSpan.FromSeconds(2));
-				if (!writerStopped)
-				{
-					_writerCts.Cancel();
-					writerStopped = writerTask.Wait(TimeSpan.FromSeconds(3));
-				}
-			}
-		}
-		catch { }
-		if (writerStopped)
-		{
-			_writerCts.Dispose();
-			writer?.Dispose();
-			_writerGate.Dispose();
-		}
-		else if (writerTask != null)
-		{
-			_ = writerTask.ContinueWith(
-				_ =>
-				{
-					writer?.Dispose();
-					_writerCts.Dispose();
-					_writerGate.Dispose();
-				},
-				CancellationToken.None,
-				TaskContinuationOptions.ExecuteSynchronously,
-				TaskScheduler.Default
-			);
-		}
-		GC.SuppressFinalize(this);
-	}
+    public void Dispose()
+    {
+        Task? writerTask;
+        StreamWriter? writer;
+        lock (_historyLock)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+            _disposed = true;
+            Initialized = false;
+            _writeQueue.Writer.TryComplete();
+            writerTask = _writerTask;
+            writer = _writer;
+            _writerTask = null;
+            _writer = null;
+        }
+        bool writerStopped = writerTask == null;
+        try
+        {
+            if (writerTask != null)
+            {
+                writerStopped = writerTask.Wait(TimeSpan.FromSeconds(2));
+                if (!writerStopped)
+                {
+                    _writerCts.Cancel();
+                    writerStopped = writerTask.Wait(TimeSpan.FromSeconds(3));
+                }
+            }
+        }
+        catch { }
+        if (writerStopped)
+        {
+            _writerCts.Dispose();
+            writer?.Dispose();
+            _writerGate.Dispose();
+        }
+        else if (writerTask != null)
+        {
+            _ = writerTask.ContinueWith(
+                _ =>
+                {
+                    writer?.Dispose();
+                    _writerCts.Dispose();
+                    _writerGate.Dispose();
+                },
+                CancellationToken.None,
+                TaskContinuationOptions.ExecuteSynchronously,
+                TaskScheduler.Default
+            );
+        }
+        GC.SuppressFinalize(this);
+    }
 }

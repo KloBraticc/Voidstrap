@@ -15,399 +15,399 @@ namespace Voidstrap.RobloxInterfaces;
 
 public static class Deployment
 {
-	public const string DefaultChannel = "production";
+    public const string DefaultChannel = "production";
 
-	private const string VersionStudioHash = "version-012732894899482c";
+    private const string VersionStudioHash = "version-012732894899482c";
 
-	public static readonly HashSet<HttpStatusCode?> BadChannelCodes;
+    public static readonly HashSet<HttpStatusCode?> BadChannelCodes;
 
-	private static readonly JsonSerializerOptions CaseInsensitiveJson = new() { PropertyNameCaseInsensitive = true };
+    private static readonly JsonSerializerOptions CaseInsensitiveJson = new() { PropertyNameCaseInsensitive = true };
 
-	private static readonly ConcurrentDictionary<string, ClientVersion> ClientVersionCache;
+    private static readonly ConcurrentDictionary<string, ClientVersion> ClientVersionCache;
 
-	private static readonly ConcurrentQueue<string> ClientVersionCacheOrder;
+    private static readonly ConcurrentQueue<string> ClientVersionCacheOrder;
 
-	private const int MaxCachedVersions = 16;
+    private const int MaxCachedVersions = 16;
 
-	private const int MaxVersionResponseBytes = 1048576;
+    private const int MaxVersionResponseBytes = 1048576;
 
-	private static readonly TimeSpan HostTimeout = TimeSpan.FromSeconds(8);
+    private static readonly TimeSpan HostTimeout = TimeSpan.FromSeconds(8);
 
-	private static readonly Dictionary<string, int> BaseUrls;
+    private static readonly Dictionary<string, int> BaseUrls;
 
-	private static readonly string[] ClientSettingsHosts = ["https://clientsettingscdn.roblox.com", "https://clientsettings.roblox.com"];
+    private static readonly string[] ClientSettingsHosts = ["https://clientsettingscdn.roblox.com", "https://clientsettings.roblox.com"];
 
-	private static readonly HttpClient SharedHttp;
+    private static readonly HttpClient SharedHttp;
 
-	public static string BaseUrl { get; private set; }
+    public static string BaseUrl { get; private set; }
 
-	public static string PreferredBaseUrl { get; set; } = string.Empty;
+    public static string PreferredBaseUrl { get; set; } = string.Empty;
 
-	public static IReadOnlyList<string> Mirrors => [.. BaseUrls.OrderBy(entry => entry.Value).Select(entry => entry.Key)];
+    public static IReadOnlyList<string> Mirrors => [.. BaseUrls.OrderBy(entry => entry.Value).Select(entry => entry.Key)];
 
-	static Deployment()
-	{
-		PreferredBaseUrl = App.Settings.Prop.PreferredMirror ?? string.Empty;
-		BaseUrl = string.Empty;
-		BadChannelCodes = [HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden, HttpStatusCode.NotFound];
-		ClientVersionCache = new ConcurrentDictionary<string, ClientVersion>();
-		ClientVersionCacheOrder = new ConcurrentQueue<string>();
-		BaseUrls = new Dictionary<string, int>
-		{
-			{ "https://setup.rbxcdn.com", 0 },
-			{ "https://setup-aws.rbxcdn.com", 2 },
-			{ "https://setup-ak.rbxcdn.com", 2 },
-			{ "https://s3.amazonaws.com/setup.roblox.com", 4 },
-		};
-		SharedHttp = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(30L));
-		SharedHttp.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "VoidstrapUpdater/2.0");
-		SharedHttp.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "application/json");
-	}
+    static Deployment()
+    {
+        PreferredBaseUrl = App.Settings.Prop.PreferredMirror ?? string.Empty;
+        BaseUrl = string.Empty;
+        BadChannelCodes = [HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden, HttpStatusCode.NotFound];
+        ClientVersionCache = new ConcurrentDictionary<string, ClientVersion>();
+        ClientVersionCacheOrder = new ConcurrentQueue<string>();
+        BaseUrls = new Dictionary<string, int>
+        {
+            { "https://setup.rbxcdn.com", 0 },
+            { "https://setup-aws.rbxcdn.com", 2 },
+            { "https://setup-ak.rbxcdn.com", 2 },
+            { "https://s3.amazonaws.com/setup.roblox.com", 4 },
+        };
+        SharedHttp = Voidstrap.Utility.VpnHttpClient.Create(TimeSpan.FromSeconds(30L));
+        SharedHttp.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "VoidstrapUpdater/2.0");
+        SharedHttp.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "application/json");
+    }
 
-	private static async Task<T> SafeGetJson<T>(string channel, string binaryType, CancellationToken cancellationToken)
-	{
-		ValidateBinaryType(binaryType);
-		Exception? lastError = null;
-		IEnumerable<string> hosts = string.Equals(App.Settings.Prop.RobloxUpdateDelivery, "Early", StringComparison.OrdinalIgnoreCase)
-			? Enumerable.Reverse(ClientSettingsHosts)
-			: ClientSettingsHosts;
-		foreach (HttpClient http in new[] { SharedHttp, Voidstrap.Utility.FilteredNetworkHttp.Client })
-		{
-			if (lastError != null && !IsUnreachableError(lastError, cancellationToken))
-				break;
-			if (lastError != null)
-				App.Logger.WriteLine(
-					"Deployment::GetInfo",
-					"Roblox deployment services were not reachable, retrying through encrypted DNS and a split TLS handshake"
-				);
-			foreach (string host in hosts)
-			{
-				string path = string.Equals(channel, "production", StringComparison.OrdinalIgnoreCase)
-					? "/v2/client-version/" + binaryType
-					: "/v2/client-version/" + binaryType + "/channel/" + Uri.EscapeDataString(channel);
-				string url = host + path;
-				try
-				{
-					using CancellationTokenSource hostTimeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-					hostTimeout.CancelAfter(HostTimeout);
-					using HttpResponseMessage response = await http.GetAsync(url, hostTimeout.Token).ConfigureAwait(false);
-					if (!response.IsSuccessStatusCode)
-					{
-						lastError = new HttpRequestException($"Request failed: {(int)response.StatusCode}", null, response.StatusCode);
-						continue;
-					}
-					string text = await Voidstrap
-						.Utility.Http.ReadStringBoundedAsync(response.Content, MaxVersionResponseBytes, hostTimeout.Token)
-						.ConfigureAwait(false);
-					if (string.IsNullOrWhiteSpace(text) || text.TrimStart().StartsWith('<'))
-					{
-						lastError = new InvalidHTTPResponseException("Invalid JSON response from " + url);
-						continue;
-					}
-					T value =
-						JsonSerializer.Deserialize<T>(text, CaseInsensitiveJson)
-						?? throw new InvalidHTTPResponseException("Failed to deserialize JSON from " + url);
-					return value;
-				}
-				catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-				{
-					throw;
-				}
-				catch (Exception ex)
-					when (ex is HttpRequestException or InvalidHTTPResponseException or JsonException or TaskCanceledException)
-				{
-					lastError = ex;
-					App.Logger.WriteLine("Deployment::GetInfo", "Deployment source failed: " + host + ", " + ex.Message);
-				}
-			}
-		}
-		throw lastError ?? new HttpRequestException("Roblox deployment services are unavailable");
-	}
+    private static async Task<T> SafeGetJson<T>(string channel, string binaryType, CancellationToken cancellationToken)
+    {
+        ValidateBinaryType(binaryType);
+        Exception? lastError = null;
+        IEnumerable<string> hosts = string.Equals(App.Settings.Prop.RobloxUpdateDelivery, "Early", StringComparison.OrdinalIgnoreCase)
+            ? Enumerable.Reverse(ClientSettingsHosts)
+            : ClientSettingsHosts;
+        foreach (HttpClient http in new[] { SharedHttp, Voidstrap.Utility.FilteredNetworkHttp.Client })
+        {
+            if (lastError != null && !IsUnreachableError(lastError, cancellationToken))
+                break;
+            if (lastError != null)
+                App.Logger.WriteLine(
+                    "Deployment::GetInfo",
+                    "Roblox deployment services were not reachable, retrying through encrypted DNS and a split TLS handshake"
+                );
+            foreach (string host in hosts)
+            {
+                string path = string.Equals(channel, "production", StringComparison.OrdinalIgnoreCase)
+                    ? "/v2/client-version/" + binaryType
+                    : "/v2/client-version/" + binaryType + "/channel/" + Uri.EscapeDataString(channel);
+                string url = host + path;
+                try
+                {
+                    using CancellationTokenSource hostTimeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                    hostTimeout.CancelAfter(HostTimeout);
+                    using HttpResponseMessage response = await http.GetAsync(url, hostTimeout.Token).ConfigureAwait(false);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        lastError = new HttpRequestException($"Request failed: {(int)response.StatusCode}", null, response.StatusCode);
+                        continue;
+                    }
+                    string text = await Voidstrap
+                        .Utility.Http.ReadStringBoundedAsync(response.Content, MaxVersionResponseBytes, hostTimeout.Token)
+                        .ConfigureAwait(false);
+                    if (string.IsNullOrWhiteSpace(text) || text.TrimStart().StartsWith('<'))
+                    {
+                        lastError = new InvalidHTTPResponseException("Invalid JSON response from " + url);
+                        continue;
+                    }
+                    T value =
+                        JsonSerializer.Deserialize<T>(text, CaseInsensitiveJson)
+                        ?? throw new InvalidHTTPResponseException("Failed to deserialize JSON from " + url);
+                    return value;
+                }
+                catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                    when (ex is HttpRequestException or InvalidHTTPResponseException or JsonException or TaskCanceledException)
+                {
+                    lastError = ex;
+                    App.Logger.WriteLine("Deployment::GetInfo", "Deployment source failed: " + host + ", " + ex.Message);
+                }
+            }
+        }
+        throw lastError ?? new HttpRequestException("Roblox deployment services are unavailable");
+    }
 
-	public static async Task<ClientVersion> GetInfo(
-		string? inputChannel = null,
-		IEnumerable<string>? cycleChannels = null,
-		string binaryType = "WindowsPlayer",
-		Action<string>? resolvedChannel = null,
-		CancellationToken cancellationToken = default,
-		bool fallbackToProduction = true
-	)
-	{
-		ValidateBinaryType(binaryType);
-		string channel = string.IsNullOrEmpty(inputChannel) ? App.Settings.Prop.Channel : inputChannel;
-		bool isDefault = string.Equals(channel, "production", StringComparison.OrdinalIgnoreCase);
-		App.Logger.WriteLine("Deployment::GetInfo", "Fetching deploy info for channel " + channel);
-		string cacheKey = channel + "|" + binaryType;
-		if (ClientVersionCache.TryGetValue(cacheKey, out ClientVersion? value))
-		{
-			App.Logger.WriteLine("Deployment::GetInfo", "Using cached deploy info");
-			resolvedChannel?.Invoke(channel);
-			return value;
-		}
-		try
-		{
-			ClientVersion clientVersion = await SafeGetJson<ClientVersion>(channel, binaryType, cancellationToken);
-			CacheVersion(cacheKey, clientVersion);
-			resolvedChannel?.Invoke(channel);
-			return clientVersion;
-		}
-		catch (Exception ex) when (IsUnreachableError(ex, cancellationToken) && TryLoadKnownVersion(cacheKey, out ClientVersion? known))
-		{
-			App.Logger.WriteLine(
-				"Deployment::GetInfo",
-				"Roblox deployment services could not be reached (" + ex.Message + "), using the last known version " + known.VersionGuid
-			);
-			ClientVersionCache[cacheKey] = known;
-			resolvedChannel?.Invoke(channel);
-			return known;
-		}
-		catch (HttpRequestException ex) when (!isDefault && fallbackToProduction && BadChannelCodes.Contains(ex.StatusCode))
-		{
-			App.Logger.WriteLine("Deployment::GetInfo", $"Channel {channel} failed ({ex.StatusCode}).");
-			if (cycleChannels != null)
-			{
-				foreach (string next in cycleChannels.Distinct<string>(StringComparer.OrdinalIgnoreCase))
-				{
-					try
-					{
-						App.Logger.WriteLine("Deployment::GetInfo", "Trying next channel: " + next);
-						ClientVersion clientVersion2 = await SafeGetJson<ClientVersion>(next, binaryType, cancellationToken);
-						if (!string.IsNullOrWhiteSpace(clientVersion2.Version))
-						{
-							CacheVersion(next + "|" + binaryType, clientVersion2);
-							App.Logger.WriteLine("Deployment::GetInfo", "Found working channel: " + next);
-							resolvedChannel?.Invoke(next);
-							return clientVersion2;
-						}
-					}
-					catch (HttpRequestException ex2) when (BadChannelCodes.Contains(ex2.StatusCode)) { }
-					catch { }
-				}
-			}
-			App.Logger.WriteLine("Deployment::GetInfo", "All cycle channels failed. Falling back to production.");
-			ClientVersion clientVersion3 = await SafeGetJson<ClientVersion>("production", binaryType, cancellationToken);
-			CacheVersion("production|" + binaryType, clientVersion3);
-			resolvedChannel?.Invoke("production");
-			return clientVersion3;
-		}
-	}
+    public static async Task<ClientVersion> GetInfo(
+        string? inputChannel = null,
+        IEnumerable<string>? cycleChannels = null,
+        string binaryType = "WindowsPlayer",
+        Action<string>? resolvedChannel = null,
+        CancellationToken cancellationToken = default,
+        bool fallbackToProduction = true
+    )
+    {
+        ValidateBinaryType(binaryType);
+        string channel = string.IsNullOrEmpty(inputChannel) ? App.Settings.Prop.Channel : inputChannel;
+        bool isDefault = string.Equals(channel, "production", StringComparison.OrdinalIgnoreCase);
+        App.Logger.WriteLine("Deployment::GetInfo", "Fetching deploy info for channel " + channel);
+        string cacheKey = channel + "|" + binaryType;
+        if (ClientVersionCache.TryGetValue(cacheKey, out ClientVersion? value))
+        {
+            App.Logger.WriteLine("Deployment::GetInfo", "Using cached deploy info");
+            resolvedChannel?.Invoke(channel);
+            return value;
+        }
+        try
+        {
+            ClientVersion clientVersion = await SafeGetJson<ClientVersion>(channel, binaryType, cancellationToken);
+            CacheVersion(cacheKey, clientVersion);
+            resolvedChannel?.Invoke(channel);
+            return clientVersion;
+        }
+        catch (Exception ex) when (IsUnreachableError(ex, cancellationToken) && TryLoadKnownVersion(cacheKey, out ClientVersion? known))
+        {
+            App.Logger.WriteLine(
+                "Deployment::GetInfo",
+                "Roblox deployment services could not be reached (" + ex.Message + "), using the last known version " + known.VersionGuid
+            );
+            ClientVersionCache[cacheKey] = known;
+            resolvedChannel?.Invoke(channel);
+            return known;
+        }
+        catch (HttpRequestException ex) when (!isDefault && fallbackToProduction && BadChannelCodes.Contains(ex.StatusCode))
+        {
+            App.Logger.WriteLine("Deployment::GetInfo", $"Channel {channel} failed ({ex.StatusCode}).");
+            if (cycleChannels != null)
+            {
+                foreach (string next in cycleChannels.Distinct<string>(StringComparer.OrdinalIgnoreCase))
+                {
+                    try
+                    {
+                        App.Logger.WriteLine("Deployment::GetInfo", "Trying next channel: " + next);
+                        ClientVersion clientVersion2 = await SafeGetJson<ClientVersion>(next, binaryType, cancellationToken);
+                        if (!string.IsNullOrWhiteSpace(clientVersion2.Version))
+                        {
+                            CacheVersion(next + "|" + binaryType, clientVersion2);
+                            App.Logger.WriteLine("Deployment::GetInfo", "Found working channel: " + next);
+                            resolvedChannel?.Invoke(next);
+                            return clientVersion2;
+                        }
+                    }
+                    catch (HttpRequestException ex2) when (BadChannelCodes.Contains(ex2.StatusCode)) { }
+                    catch { }
+                }
+            }
+            App.Logger.WriteLine("Deployment::GetInfo", "All cycle channels failed. Falling back to production.");
+            ClientVersion clientVersion3 = await SafeGetJson<ClientVersion>("production", binaryType, cancellationToken);
+            CacheVersion("production|" + binaryType, clientVersion3);
+            resolvedChannel?.Invoke("production");
+            return clientVersion3;
+        }
+    }
 
-	private static void ValidateBinaryType(string binaryType)
-	{
-		if (
-			!string.Equals(binaryType, "WindowsPlayer", StringComparison.Ordinal)
-			&& !string.Equals(binaryType, "WindowsStudio64", StringComparison.Ordinal)
-		)
-			throw new ArgumentException("The Roblox deployment binary type is invalid", nameof(binaryType));
-	}
+    private static void ValidateBinaryType(string binaryType)
+    {
+        if (
+            !string.Equals(binaryType, "WindowsPlayer", StringComparison.Ordinal)
+            && !string.Equals(binaryType, "WindowsStudio64", StringComparison.Ordinal)
+        )
+            throw new ArgumentException("The Roblox deployment binary type is invalid", nameof(binaryType));
+    }
 
-	private static readonly object KnownVersionsLock = new();
+    private static readonly object KnownVersionsLock = new();
 
-	private static string KnownVersionsPath => Path.Combine(Paths.Cache, "DeployInfo.json");
+    private static string KnownVersionsPath => Path.Combine(Paths.Cache, "DeployInfo.json");
 
-	private static bool IsUnreachableError(Exception ex, CancellationToken cancellationToken)
-	{
-		if (cancellationToken.IsCancellationRequested)
-			return false;
-		if (ex is HttpRequestException { StatusCode: { } status })
-			return (int)status >= 500;
-		return ex is HttpRequestException or TaskCanceledException or InvalidHTTPResponseException or JsonException or IOException;
-	}
+    private static bool IsUnreachableError(Exception ex, CancellationToken cancellationToken)
+    {
+        if (cancellationToken.IsCancellationRequested)
+            return false;
+        if (ex is HttpRequestException { StatusCode: { } status })
+            return (int)status >= 500;
+        return ex is HttpRequestException or TaskCanceledException or InvalidHTTPResponseException or JsonException or IOException;
+    }
 
-	private static Dictionary<string, ClientVersion> ReadKnownVersions()
-	{
-		try
-		{
-			if (!string.IsNullOrEmpty(Paths.Cache) && File.Exists(KnownVersionsPath))
-				return JsonSerializer.Deserialize<Dictionary<string, ClientVersion>>(
-						File.ReadAllText(KnownVersionsPath),
-						CaseInsensitiveJson
-					) ?? new();
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("Deployment::ReadKnownVersions", "The saved deploy info could not be read: " + ex.Message);
-		}
-		return new();
-	}
+    private static Dictionary<string, ClientVersion> ReadKnownVersions()
+    {
+        try
+        {
+            if (!string.IsNullOrEmpty(Paths.Cache) && File.Exists(KnownVersionsPath))
+                return JsonSerializer.Deserialize<Dictionary<string, ClientVersion>>(
+                        File.ReadAllText(KnownVersionsPath),
+                        CaseInsensitiveJson
+                    ) ?? new();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("Deployment::ReadKnownVersions", "The saved deploy info could not be read: " + ex.Message);
+        }
+        return new();
+    }
 
-	private static bool TryLoadKnownVersion(string key, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out ClientVersion? version)
-	{
-		lock (KnownVersionsLock)
-		{
-			if (ReadKnownVersions().TryGetValue(key, out version) && AppData.CommonAppData.IsVersionGuidValid(version.VersionGuid))
-				return true;
-		}
-		version = null;
-		return false;
-	}
+    private static bool TryLoadKnownVersion(string key, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out ClientVersion? version)
+    {
+        lock (KnownVersionsLock)
+        {
+            if (ReadKnownVersions().TryGetValue(key, out version) && AppData.CommonAppData.IsVersionGuidValid(version.VersionGuid))
+                return true;
+        }
+        version = null;
+        return false;
+    }
 
-	private static void SaveKnownVersion(string key, ClientVersion version)
-	{
-		if (string.IsNullOrEmpty(Paths.Cache) || !AppData.CommonAppData.IsVersionGuidValid(version.VersionGuid))
-			return;
-		lock (KnownVersionsLock)
-		{
-			try
-			{
-				Dictionary<string, ClientVersion> known = ReadKnownVersions();
-				if (known.TryGetValue(key, out ClientVersion? existing) && existing.VersionGuid == version.VersionGuid)
-					return;
-				known[key] = version;
-				Directory.CreateDirectory(Paths.Cache);
-				string temp = KnownVersionsPath + ".tmp";
-				File.WriteAllText(temp, JsonSerializer.Serialize(known));
-				File.Move(temp, KnownVersionsPath, true);
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine("Deployment::SaveKnownVersion", "The deploy info could not be saved: " + ex.Message);
-			}
-		}
-	}
+    private static void SaveKnownVersion(string key, ClientVersion version)
+    {
+        if (string.IsNullOrEmpty(Paths.Cache) || !AppData.CommonAppData.IsVersionGuidValid(version.VersionGuid))
+            return;
+        lock (KnownVersionsLock)
+        {
+            try
+            {
+                Dictionary<string, ClientVersion> known = ReadKnownVersions();
+                if (known.TryGetValue(key, out ClientVersion? existing) && existing.VersionGuid == version.VersionGuid)
+                    return;
+                known[key] = version;
+                Directory.CreateDirectory(Paths.Cache);
+                string temp = KnownVersionsPath + ".tmp";
+                File.WriteAllText(temp, JsonSerializer.Serialize(known));
+                File.Move(temp, KnownVersionsPath, true);
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("Deployment::SaveKnownVersion", "The deploy info could not be saved: " + ex.Message);
+            }
+        }
+    }
 
-	private static void CacheVersion(string key, ClientVersion version)
-	{
-		SaveKnownVersion(key, version);
-		if (ClientVersionCache.TryAdd(key, version))
-		{
-			ClientVersionCacheOrder.Enqueue(key);
-		}
-		else
-		{
-			ClientVersionCache[key] = version;
-		}
-		while (ClientVersionCache.Count > MaxCachedVersions && ClientVersionCacheOrder.TryDequeue(out string? oldest))
-		{
-			ClientVersionCache.TryRemove(oldest, out _);
-		}
-	}
+    private static void CacheVersion(string key, ClientVersion version)
+    {
+        SaveKnownVersion(key, version);
+        if (ClientVersionCache.TryAdd(key, version))
+        {
+            ClientVersionCacheOrder.Enqueue(key);
+        }
+        else
+        {
+            ClientVersionCache[key] = version;
+        }
+        while (ClientVersionCache.Count > MaxCachedVersions && ClientVersionCacheOrder.TryDequeue(out string? oldest))
+        {
+            ClientVersionCache.TryRemove(oldest, out _);
+        }
+    }
 
-	private static readonly TimeSpan MirrorPenalty = TimeSpan.FromMinutes(30);
+    private static readonly TimeSpan MirrorPenalty = TimeSpan.FromMinutes(30);
 
-	private static readonly ConcurrentDictionary<string, DateTime> UnhealthyMirrors = new(StringComparer.OrdinalIgnoreCase);
+    private static readonly ConcurrentDictionary<string, DateTime> UnhealthyMirrors = new(StringComparer.OrdinalIgnoreCase);
 
-	public static void ReportMirrorFailure(string url, string reason)
-	{
-		string? host = BaseUrls.Keys.FirstOrDefault(key =>
-			url.StartsWith(key + "/", StringComparison.OrdinalIgnoreCase) || string.Equals(url, key, StringComparison.OrdinalIgnoreCase)
-		);
-		if (host == null)
-			return;
-		bool alreadyUnhealthy = !IsMirrorHealthy(host);
-		UnhealthyMirrors[host] = DateTime.UtcNow + MirrorPenalty;
-		if (!alreadyUnhealthy)
-			App.Logger.WriteLine(
-				"Deployment::ReportMirrorFailure",
-				$"Mirror {host} is unhealthy ({reason}), trying it last for the next {MirrorPenalty.TotalMinutes:0} minutes"
-			);
-	}
+    public static void ReportMirrorFailure(string url, string reason)
+    {
+        string? host = BaseUrls.Keys.FirstOrDefault(key =>
+            url.StartsWith(key + "/", StringComparison.OrdinalIgnoreCase) || string.Equals(url, key, StringComparison.OrdinalIgnoreCase)
+        );
+        if (host == null)
+            return;
+        bool alreadyUnhealthy = !IsMirrorHealthy(host);
+        UnhealthyMirrors[host] = DateTime.UtcNow + MirrorPenalty;
+        if (!alreadyUnhealthy)
+            App.Logger.WriteLine(
+                "Deployment::ReportMirrorFailure",
+                $"Mirror {host} is unhealthy ({reason}), trying it last for the next {MirrorPenalty.TotalMinutes:0} minutes"
+            );
+    }
 
-	private static bool IsMirrorHealthy(string host)
-	{
-		return !UnhealthyMirrors.TryGetValue(host, out DateTime until) || until <= DateTime.UtcNow;
-	}
+    private static bool IsMirrorHealthy(string host)
+    {
+        return !UnhealthyMirrors.TryGetValue(host, out DateTime until) || until <= DateTime.UtcNow;
+    }
 
-	private static async Task CheckMirrorHealthAsync(string chosen)
-	{
-		try
-		{
-			await Task.WhenAll(
-					BaseUrls
-						.Keys.Where(host => !string.Equals(host, chosen, StringComparison.OrdinalIgnoreCase))
-						.Select(async host =>
-						{
-							using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(10));
-							if (await ProbeAsync(host, timeout.Token).ConfigureAwait(false) == null)
-								ReportMirrorFailure(host, "health check did not return a valid Roblox deployment");
-						})
-				)
-				.ConfigureAwait(false);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("Deployment::CheckMirrorHealth", "Mirror health check stopped: " + ex.Message);
-		}
-	}
+    private static async Task CheckMirrorHealthAsync(string chosen)
+    {
+        try
+        {
+            await Task.WhenAll(
+                    BaseUrls
+                        .Keys.Where(host => !string.Equals(host, chosen, StringComparison.OrdinalIgnoreCase))
+                        .Select(async host =>
+                        {
+                            using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(10));
+                            if (await ProbeAsync(host, timeout.Token).ConfigureAwait(false) == null)
+                                ReportMirrorFailure(host, "health check did not return a valid Roblox deployment");
+                        })
+                )
+                .ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("Deployment::CheckMirrorHealth", "Mirror health check stopped: " + ex.Message);
+        }
+    }
 
-	public static async Task<Exception?> InitializeConnectivity()
-	{
-		using CancellationTokenSource cancellation = new();
-		string preferred = PreferredBaseUrl;
-		if (!string.IsNullOrWhiteSpace(preferred) && BaseUrls.ContainsKey(preferred))
-		{
-			using CancellationTokenSource preferredTimeout = CancellationTokenSource.CreateLinkedTokenSource(cancellation.Token);
-			preferredTimeout.CancelAfter(TimeSpan.FromSeconds(3));
-			string? chosen = await ProbeAsync(preferred, preferredTimeout.Token);
-			if (chosen != null)
-			{
-				BaseUrl = chosen;
-				App.Logger.WriteLine("Deployment::InitializeConnectivity", "Using preferred base URL: " + BaseUrl);
-				_ = CheckMirrorHealthAsync(BaseUrl);
-				return null;
-			}
-			App.Logger.WriteLine(
-				"Deployment::InitializeConnectivity",
-				"Preferred mirror did not respond, falling back to automatic: " + preferred
-			);
-		}
-		List<Task<string>> probes = [.. (from entry in BaseUrls orderby entry.Value select ProbeAsync(entry.Key, cancellation.Token))];
-		while (probes.Count > 0)
-		{
-			Task<string> task = await Task.WhenAny(probes);
-			probes.Remove(task);
-			string text = await task;
-			if (text != null)
-			{
-				cancellation.Cancel();
-				BaseUrl = text;
-				App.Logger.WriteLine("Deployment::InitializeConnectivity", "Using base URL: " + BaseUrl);
-				_ = CheckMirrorHealthAsync(BaseUrl);
-				return null;
-			}
-		}
-		return new Exception("Failed to connect to any setup mirrors.");
-	}
+    public static async Task<Exception?> InitializeConnectivity()
+    {
+        using CancellationTokenSource cancellation = new();
+        string preferred = PreferredBaseUrl;
+        if (!string.IsNullOrWhiteSpace(preferred) && BaseUrls.ContainsKey(preferred))
+        {
+            using CancellationTokenSource preferredTimeout = CancellationTokenSource.CreateLinkedTokenSource(cancellation.Token);
+            preferredTimeout.CancelAfter(TimeSpan.FromSeconds(3));
+            string? chosen = await ProbeAsync(preferred, preferredTimeout.Token);
+            if (chosen != null)
+            {
+                BaseUrl = chosen;
+                App.Logger.WriteLine("Deployment::InitializeConnectivity", "Using preferred base URL: " + BaseUrl);
+                _ = CheckMirrorHealthAsync(BaseUrl);
+                return null;
+            }
+            App.Logger.WriteLine(
+                "Deployment::InitializeConnectivity",
+                "Preferred mirror did not respond, falling back to automatic: " + preferred
+            );
+        }
+        List<Task<string>> probes = [.. (from entry in BaseUrls orderby entry.Value select ProbeAsync(entry.Key, cancellation.Token))];
+        while (probes.Count > 0)
+        {
+            Task<string> task = await Task.WhenAny(probes);
+            probes.Remove(task);
+            string text = await task;
+            if (text != null)
+            {
+                cancellation.Cancel();
+                BaseUrl = text;
+                App.Logger.WriteLine("Deployment::InitializeConnectivity", "Using base URL: " + BaseUrl);
+                _ = CheckMirrorHealthAsync(BaseUrl);
+                return null;
+            }
+        }
+        return new Exception("Failed to connect to any setup mirrors.");
+    }
 
-	private static async Task<string?> ProbeAsync(string url, CancellationToken token)
-	{
-		try
-		{
-			using HttpResponseMessage resp = await SharedHttp.GetAsync(url + "/versionStudio", token);
-			if (!resp.IsSuccessStatusCode)
-			{
-				return null;
-			}
-			return (
-				(await Voidstrap.Utility.Http.ReadStringBoundedAsync(resp.Content, 1024, token).ConfigureAwait(false)).Trim()
-				== VersionStudioHash
-			)
-				? url
-				: null;
-		}
-		catch
-		{
-			return null;
-		}
-	}
+    private static async Task<string?> ProbeAsync(string url, CancellationToken token)
+    {
+        try
+        {
+            using HttpResponseMessage resp = await SharedHttp.GetAsync(url + "/versionStudio", token);
+            if (!resp.IsSuccessStatusCode)
+            {
+                return null;
+            }
+            return (
+                (await Voidstrap.Utility.Http.ReadStringBoundedAsync(resp.Content, 1024, token).ConfigureAwait(false)).Trim()
+                == VersionStudioHash
+            )
+                ? url
+                : null;
+        }
+        catch
+        {
+            return null;
+        }
+    }
 
-	public static IReadOnlyList<string> GetLocations(string resource, bool useVng = false)
-	{
-		List<string> hosts = [];
-		if (!string.IsNullOrEmpty(BaseUrl))
-		{
-			hosts.Add(BaseUrl);
-		}
-		foreach (string key in BaseUrls.OrderBy(entry => entry.Value).Select(entry => entry.Key))
-		{
-			if (!hosts.Contains(key))
-			{
-				hosts.Add(key);
-			}
-		}
-		hosts = hosts.OrderBy(host => IsMirrorHealthy(host) ? 0 : 1).ToList();
-		if (useVng)
-			return [.. hosts.Select(host => host + "/vng" + resource)];
-		return [.. hosts.Select(host => host + "/channel/common" + resource), .. hosts.Select(host => host + resource)];
-	}
+    public static IReadOnlyList<string> GetLocations(string resource, bool useVng = false)
+    {
+        List<string> hosts = [];
+        if (!string.IsNullOrEmpty(BaseUrl))
+        {
+            hosts.Add(BaseUrl);
+        }
+        foreach (string key in BaseUrls.OrderBy(entry => entry.Value).Select(entry => entry.Key))
+        {
+            if (!hosts.Contains(key))
+            {
+                hosts.Add(key);
+            }
+        }
+        hosts = hosts.OrderBy(host => IsMirrorHealthy(host) ? 0 : 1).ToList();
+        if (useVng)
+            return [.. hosts.Select(host => host + "/vng" + resource)];
+        return [.. hosts.Select(host => host + "/channel/common" + resource), .. hosts.Select(host => host + resource)];
+    }
 }
