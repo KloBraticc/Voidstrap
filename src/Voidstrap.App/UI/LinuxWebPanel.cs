@@ -70,7 +70,7 @@ internal sealed class LinuxWebPanel : FrameworkElement, IDisposable
 
     public static bool IsSupported => Voidstrap.Utility.Platform.IsLinux && EnsureGtk();
 
-    private static bool EnsureGtk()
+    internal static bool EnsureGtk()
     {
         lock (StartLock)
         {
@@ -119,7 +119,7 @@ internal sealed class LinuxWebPanel : FrameworkElement, IDisposable
         }
     }
 
-    private static void Post(Action action)
+    internal static void Post(Action action)
     {
         GSourceFunc callback = null!;
         callback = _ =>

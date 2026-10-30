@@ -33,6 +33,33 @@ internal static partial class LinuxWebKitInterop
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     internal delegate bool ContextMenuHandler(IntPtr view, IntPtr menu, IntPtr evt, IntPtr hitTest, IntPtr data);
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate bool PermissionHandler(IntPtr view, IntPtr request, IntPtr data);
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    internal delegate void DestroyHandler(IntPtr widget, IntPtr data);
+
+    [LibraryImport(WebKit, StringMarshalling = StringMarshalling.Utf8)]
+    internal static partial IntPtr webkit_website_data_manager_new(string firstKey, string dataPath, string secondKey, string cachePath, IntPtr end);
+
+    [LibraryImport(WebKit)]
+    internal static partial IntPtr webkit_web_context_new_with_website_data_manager(IntPtr manager);
+
+    [LibraryImport(WebKit)]
+    internal static partial IntPtr webkit_web_view_new_with_context(IntPtr context);
+
+    [LibraryImport(WebKit)]
+    internal static partial IntPtr webkit_web_view_get_user_content_manager(IntPtr view);
+
+    [LibraryImport(WebKit)]
+    internal static partial void webkit_permission_request_deny(IntPtr request);
+
+    [LibraryImport(Gtk, StringMarshalling = StringMarshalling.Utf8)]
+    internal static partial void gtk_window_set_title(IntPtr window, string title);
+
+    [LibraryImport(Gtk)]
+    internal static partial void gtk_window_fullscreen(IntPtr window);
+
     [LibraryImport(Gtk)]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static partial bool gtk_init_check(ref int argc, ref IntPtr argv);

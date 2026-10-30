@@ -22,7 +22,7 @@ public sealed unsafe partial class MacOSWebView : IDisposable
 
 	public event Action? NavigationFinished;
 
-	public MacOSWebView(nint window, string file, string folder, IEnumerable<string> scripts, double cornerRadius, Func<string, bool> isAllowed)
+	public MacOSWebView(nint window, string file, string folder, IEnumerable<string> scripts, double cornerRadius, Func<string, bool> isAllowed, string? remoteUrl = null, Guid? profile = null)
 	{
 		if (!OperatingSystem.IsMacOS() || window == 0)
 			throw new InvalidOperationException("A web panel requires a native window");
@@ -46,6 +46,22 @@ public sealed unsafe partial class MacOSWebView : IDisposable
 				Send(script, Sel("release"));
 			}
 			SendTwoObjects(_controller, Sel("addScriptMessageHandler:name:"), _delegate, NSString(HandlerName));
+			if (profile is Guid profileId)
+			{
+				nint storeClass = objc_getClass("WKWebsiteDataStore");
+				nint store;
+				if (RespondsTo(storeClass, "dataStoreForIdentifier:"))
+				{
+					nint uuid = SendObject(Send(objc_getClass("NSUUID"), Sel("alloc")), Sel("initWithUUIDString:"), NSString(profileId.ToString()));
+					store = SendObject(storeClass, Sel("dataStoreForIdentifier:"), uuid);
+					Send(uuid, Sel("release"));
+				}
+				else
+				{
+					store = Send(storeClass, Sel("nonPersistentDataStore"));
+				}
+				SendObject(configuration, Sel("setWebsiteDataStore:"), store);
+			}
 			nint preferences = Send(configuration, Sel("preferences"));
 			SetBool(preferences, Sel("setJavaScriptCanOpenWindowsAutomatically:"), false);
 
@@ -70,9 +86,17 @@ public sealed unsafe partial class MacOSWebView : IDisposable
 			}
 			SendObject(content, Sel("addSubview:"), _view);
 
-			nint fileUrl = SendObject(objc_getClass("NSURL"), Sel("fileURLWithPath:"), NSString(file));
-			nint folderUrl = SendObjectBool(objc_getClass("NSURL"), Sel("fileURLWithPath:isDirectory:"), NSString(folder), true);
-			SendTwoObjects(_view, Sel("loadFileURL:allowingReadAccessToURL:"), fileUrl, folderUrl);
+			if (remoteUrl != null)
+			{
+				nint url = SendObject(objc_getClass("NSURL"), Sel("URLWithString:"), NSString(remoteUrl));
+				SendObject(_view, Sel("loadRequest:"), SendObject(objc_getClass("NSURLRequest"), Sel("requestWithURL:"), url));
+			}
+			else
+			{
+				nint fileUrl = SendObject(objc_getClass("NSURL"), Sel("fileURLWithPath:"), NSString(file));
+				nint folderUrl = SendObjectBool(objc_getClass("NSURL"), Sel("fileURLWithPath:isDirectory:"), NSString(folder), true);
+				SendTwoObjects(_view, Sel("loadFileURL:allowingReadAccessToURL:"), fileUrl, folderUrl);
+			}
 		}
 		catch
 		{
