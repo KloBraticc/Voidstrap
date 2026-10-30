@@ -333,6 +333,7 @@ public static class McpGuides
 		  Reach existing UI only with $.native.find(target). Windows, the application, frames, tree helpers, Parent, text boxes and keyboard input are blocked.
 		  No mod can see or press message boxes, the Mods page or the Accounts page, and rules cannot show text asking for logins.
 
+		  Menu icons: the icon of $.modpages.add is a Fluent symbol name ('Games24'), a file inside the mod ('assets/icon.png', 2 MB at most), or a vector drawn in code ('path:M4 4h16v16H4z').
 		  Menu buttons: $.modpages.add({ id, title, icon, action: true }) runs code instead of opening a page. Handle it with on('ui.event', { id, plugin: 'your-mod-name' }, ...), event is 'menu'.
 
 		  Other libraries: bundle JavaScript libraries as mod modules. Loading .NET or native DLLs is never allowed.

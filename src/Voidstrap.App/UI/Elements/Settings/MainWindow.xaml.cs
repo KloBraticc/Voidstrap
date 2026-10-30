@@ -2647,13 +2647,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 Style = (Style)FindResource("TopBarMenuItemStyle"),
                 Tag = entry,
             };
-            item.Icon = new Wpf.Ui.Controls.SymbolIcon
-            {
-                Symbol = Enum.TryParse(entry.Icon, ignoreCase: true, out Wpf.Ui.Common.SymbolRegular symbol)
-                    ? symbol
-                    : Wpf.Ui.Common.SymbolRegular.PuzzlePiece24,
-                FontSize = 16,
-            };
+            item.Icon = Voidstrap.Integrations.Plugins.PluginModPages.CreateIcon(entry);
             item.Click += ModPageMenuItem_Click;
             ModPagesMenuPanel.Children.Add(item);
         }

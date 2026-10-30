@@ -922,6 +922,54 @@ public static class PluginModPages
             NotifyWindows();
     }
 
+    private const long MaxIconBytes = 2L * 1024 * 1024;
+
+    public static FrameworkElement CreateIcon(ModPageEntry entry)
+    {
+        const string LOG_IDENT = "PluginModPages::CreateIcon";
+        try
+        {
+            if (entry.Icon.StartsWith("path:", StringComparison.Ordinal))
+                return CreateVectorIcon(entry.Icon["path:".Length..]);
+            if (entry.Icon.Contains('.'))
+                return CreateImageIcon(entry);
+        }
+        catch (Exception ex) when (ex is FormatException or IOException or NotSupportedException or ArgumentException or UnauthorizedAccessException or InvalidOperationException)
+        {
+            App.Logger.WriteLine(LOG_IDENT, entry.Plugin + ": the menu icon could not be loaded: " + ex.Message);
+            return new Wpf.Ui.Controls.SymbolIcon { Symbol = Wpf.Ui.Common.SymbolRegular.PuzzlePiece24, FontSize = 16 };
+        }
+        return new Wpf.Ui.Controls.SymbolIcon
+        {
+            Symbol = Enum.TryParse(entry.Icon, ignoreCase: true, out Wpf.Ui.Common.SymbolRegular symbol) ? symbol : Wpf.Ui.Common.SymbolRegular.PuzzlePiece24,
+            FontSize = 16,
+        };
+    }
+
+    private static FrameworkElement CreateVectorIcon(string data)
+    {
+        System.Windows.Shapes.Path path = new() { Data = System.Windows.Media.Geometry.Parse(data), Stretch = System.Windows.Media.Stretch.Uniform, Width = 16, Height = 16 };
+        path.SetResourceReference(System.Windows.Shapes.Shape.FillProperty, "TextFillColorPrimaryBrush");
+        return path;
+    }
+
+    private static FrameworkElement CreateImageIcon(ModPageEntry entry)
+    {
+        string file =
+            PluginMedia.ResolveLocalPath(System.IO.Path.Combine(Paths.Plugins, entry.Plugin), entry.Icon)
+            ?? throw new InvalidOperationException("the icon must be a file inside the mod");
+        if (new FileInfo(file).Length > MaxIconBytes)
+            throw new InvalidOperationException("the icon is larger than 2 MB");
+        System.Windows.Media.Imaging.BitmapImage bitmap = new();
+        bitmap.BeginInit();
+        bitmap.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+        bitmap.DecodePixelWidth = 48;
+        bitmap.UriSource = new Uri(file);
+        bitmap.EndInit();
+        bitmap.Freeze();
+        return new System.Windows.Controls.Image { Source = bitmap, Width = 16, Height = 16, Stretch = System.Windows.Media.Stretch.Uniform };
+    }
+
     public static JsonObject AddPage(string plugin, JsonObject spec)
     {
         string id = (spec["id"]?.ToString() ?? "").Trim();
