@@ -509,6 +509,18 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
 
     private void EditorSettings_Click(object sender, RoutedEventArgs e) => new EditorSettingsWindow().ShowOwnedDialog();
 
+    private void StripeProject_Click(object sender, RoutedEventArgs e)
+    {
+        ExplorerMenu.IsChecked = !ExplorerMenu.IsChecked;
+        ToggleExplorer_Click(sender, e);
+    }
+
+    private void StripeTool_Click(object sender, RoutedEventArgs e)
+    {
+        OutputMenu.IsChecked = !OutputMenu.IsChecked;
+        ToggleOutput_Click(sender, e);
+    }
+
     private void CloseWindow_Click(object sender, RoutedEventArgs e) => Close();
 
     private void Undo_Click(object sender, RoutedEventArgs e) => CodeEditor.Undo();

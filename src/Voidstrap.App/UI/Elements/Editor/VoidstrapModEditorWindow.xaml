@@ -69,6 +69,30 @@
     <ui:TitleBar x:Name="WindowTitleBar" Grid.Row="0" Padding="8,4,0,4" Icon="pack://application:,,,/Voidstrap.png" ShowMaximize="True" ShowMinimize="True" />
 
     <DockPanel Grid.Row="1" Background="#FF2B2D30">
+    <Border DockPanel.Dock="Right" Padding="4,2" Background="#FF2B2D30" BorderBrush="#FF393B40" BorderThickness="0">
+      <StackPanel Orientation="Horizontal">
+        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_EditorSettings_Title}" Click="EditorSettings_Click"><ui:SymbolIcon Symbol="Settings24" FontSize="15" /></Button>
+        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_VoidstrapMods_NewFileButton}" Click="NewFile_Click"><ui:SymbolIcon Symbol="DocumentAdd24" FontSize="15" /></Button>
+        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Common_Save}" Click="SaveOnly_Click"><ui:SymbolIcon Symbol="Save24" FontSize="15" /></Button>
+        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_VsEditor_SaveAll}" Click="SaveAll_Click"><ui:SymbolIcon Symbol="SaveMultiple24" FontSize="15" /></Button>
+        <Rectangle Width="1" Margin="4,2" Fill="#FF393B40" />
+        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_VsEditor_Undo}" Click="Undo_Click"><ui:SymbolIcon Symbol="ArrowUndo24" FontSize="15" /></Button>
+        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_VsEditor_Redo}" Click="Redo_Click"><ui:SymbolIcon Symbol="ArrowRedo24" FontSize="15" /></Button>
+        <Rectangle Width="1" Margin="4,2" Fill="#FF393B40" />
+        <Button Style="{StaticResource VsToolButton}" Click="Save_Click">
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Play24" FontSize="15" Foreground="#FF8DD28A" />
+            <TextBlock Margin="5,0,2,0" FontSize="12" VerticalAlignment="Center" Text="{resources:Loc Ui_VoidstrapMods_SaveAndReload}" />
+          </StackPanel>
+        </Button>
+        <Button Style="{StaticResource VsToolButton}" Click="Test_Click">
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="BeakerEdit24" FontSize="15" />
+            <TextBlock Margin="5,0,2,0" FontSize="12" VerticalAlignment="Center" Text="{resources:Loc Ui_VoidstrapMods_TestButton}" />
+          </StackPanel>
+        </Button>
+      </StackPanel>
+    </Border>
     <Menu Background="#FF2B2D30" Foreground="#FFDFE1E5" FontSize="12.5">
       <MenuItem Header="{resources:Loc Ui_VsEditor_File}">
         <MenuItem Header="{resources:Loc Ui_VoidstrapMods_NewFileButton}" Click="NewFile_Click" />
@@ -103,32 +127,15 @@
     </Menu>
     </DockPanel>
 
-    <Border Grid.Row="2" Padding="4,2" Background="#FF2B2D30" BorderBrush="#FF393B40" BorderThickness="0,0,0,1">
-      <StackPanel Orientation="Horizontal">
-        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_EditorSettings_Title}" Click="EditorSettings_Click"><ui:SymbolIcon Symbol="Settings24" FontSize="15" /></Button>
-        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_VoidstrapMods_NewFileButton}" Click="NewFile_Click"><ui:SymbolIcon Symbol="DocumentAdd24" FontSize="15" /></Button>
-        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Common_Save}" Click="SaveOnly_Click"><ui:SymbolIcon Symbol="Save24" FontSize="15" /></Button>
-        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_VsEditor_SaveAll}" Click="SaveAll_Click"><ui:SymbolIcon Symbol="SaveMultiple24" FontSize="15" /></Button>
-        <Rectangle Width="1" Margin="4,2" Fill="#FF393B40" />
-        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_VsEditor_Undo}" Click="Undo_Click"><ui:SymbolIcon Symbol="ArrowUndo24" FontSize="15" /></Button>
-        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_VsEditor_Redo}" Click="Redo_Click"><ui:SymbolIcon Symbol="ArrowRedo24" FontSize="15" /></Button>
-        <Rectangle Width="1" Margin="4,2" Fill="#FF393B40" />
-        <Button Style="{StaticResource VsToolButton}" Click="Save_Click">
-          <StackPanel Orientation="Horizontal">
-            <ui:SymbolIcon Symbol="Play24" FontSize="15" Foreground="#FF8DD28A" />
-            <TextBlock Margin="5,0,2,0" FontSize="12" VerticalAlignment="Center" Text="{resources:Loc Ui_VoidstrapMods_SaveAndReload}" />
-          </StackPanel>
-        </Button>
-        <Button Style="{StaticResource VsToolButton}" Click="Test_Click">
-          <StackPanel Orientation="Horizontal">
-            <ui:SymbolIcon Symbol="BeakerEdit24" FontSize="15" />
-            <TextBlock Margin="5,0,2,0" FontSize="12" VerticalAlignment="Center" Text="{resources:Loc Ui_VoidstrapMods_TestButton}" />
-          </StackPanel>
-        </Button>
+
+    <Border Grid.Row="3" Width="36" HorizontalAlignment="Left" Background="#FF2B2D30" BorderBrush="#FF393B40" BorderThickness="0,0,1,0">
+      <StackPanel>
+        <Button Style="{StaticResource VsToolButton}" Height="30" Margin="3,3,3,0" ToolTip="{resources:Loc Ui_VsEditor_SolutionExplorer}" Click="StripeProject_Click"><ui:SymbolIcon Symbol="Folder24" FontSize="17" /></Button>
+        <Button Style="{StaticResource VsToolButton}" Height="30" Margin="3,3,3,0" ToolTip="{resources:Loc Ui_VsEditor_Output}" Click="StripeTool_Click"><ui:SymbolIcon Symbol="Code24" FontSize="17" /></Button>
       </StackPanel>
     </Border>
 
-    <Grid Grid.Row="3" Background="#FF2B2D30">
+    <Grid Grid.Row="3" Margin="36,0,0,0" Background="#FF2B2D30">
       <Grid.ColumnDefinitions>
         <ColumnDefinition x:Name="ExplorerColumn" Width="280" MinWidth="0" />
         <ColumnDefinition x:Name="ExplorerSplitColumn" Width="3" />

@@ -26,7 +26,16 @@
     <ui:TitleBar x:Name="TitleBarControl" Icon="pack://application:,,,/Voidstrap.png"
                  Title="{resources:Loc Ui_Keystrokes_Editor_Title}" Grid.Row="0" Padding="8" />
 
-    <Menu Grid.Row="1" Background="#FF2B2D30" Foreground="#FFDFE1E5" FontSize="12.5">
+    <DockPanel Grid.Row="1" Background="#FF2B2D30">
+    <Border DockPanel.Dock="Right" Padding="4,2" Background="#FF2B2D30" BorderBrush="#FF393B40" BorderThickness="0">
+      <StackPanel Orientation="Horizontal">
+        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_EditorSettings_Title}" Click="EditorSettings_Click"><ui:SymbolIcon Symbol="Settings24" FontSize="15" /></Button>
+        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Common_Save}" Click="OnSaveClicked"><ui:SymbolIcon Symbol="Save24" FontSize="15" /></Button>
+        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_Keystrokes_Editor_Revert}" Click="OnRevertClicked"><ui:SymbolIcon Symbol="ArrowUndo24" FontSize="15" /></Button>
+        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_Mcp_Connect}" Click="OnConnectAiClicked"><ui:SymbolIcon Symbol="PlugConnected24" FontSize="15" /></Button>
+      </StackPanel>
+    </Border>
+    <Menu Background="#FF2B2D30" Foreground="#FFDFE1E5" FontSize="12.5">
       <MenuItem Header="{resources:Loc Ui_VsEditor_File}">
         <MenuItem Header="{resources:Loc Common_Save}" Click="OnSaveClicked" />
         <MenuItem Header="{resources:Loc Ui_Keystrokes_Editor_Revert}" Click="OnRevertClicked" />
@@ -35,15 +44,8 @@
         <MenuItem Header="{resources:Loc Common_Close}" Click="OnCloseClicked" />
       </MenuItem>
     </Menu>
+    </DockPanel>
 
-    <Border Grid.Row="2" Padding="4,2" Background="#FF2B2D30" BorderBrush="#FF393B40" BorderThickness="0,0,0,1">
-      <StackPanel Orientation="Horizontal">
-        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_EditorSettings_Title}" Click="EditorSettings_Click"><ui:SymbolIcon Symbol="Settings24" FontSize="15" /></Button>
-        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Common_Save}" Click="OnSaveClicked"><ui:SymbolIcon Symbol="Save24" FontSize="15" /></Button>
-        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_Keystrokes_Editor_Revert}" Click="OnRevertClicked"><ui:SymbolIcon Symbol="ArrowUndo24" FontSize="15" /></Button>
-        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_Mcp_Connect}" Click="OnConnectAiClicked"><ui:SymbolIcon Symbol="PlugConnected24" FontSize="15" /></Button>
-      </StackPanel>
-    </Border>
 
     <Grid Grid.Row="3" Margin="8,6,8,6">
       <Grid.ColumnDefinitions>

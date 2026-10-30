@@ -13,20 +13,22 @@
     </Grid.RowDefinitions>
     <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Title="{resources:Loc Ui_Misc2_EditMod}" Grid.Row="0" Padding="8" CanMaximize="False" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="False" />
 
-    <Menu Grid.Row="1" Background="#FF2B2D30" Foreground="#FFDFE1E5" FontSize="12.5">
+    <DockPanel Grid.Row="1" Background="#FF2B2D30">
+    <Border DockPanel.Dock="Right" Padding="4,2" Background="#FF2B2D30" BorderBrush="#FF393B40" BorderThickness="0">
+      <StackPanel Orientation="Horizontal">
+        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_EditorSettings_Title}" Click="EditorSettings_Click"><ui:SymbolIcon Symbol="Settings24" FontSize="15" /></Button>
+        <Button x:Name="SaveButton" Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc CustomTheme_Editor_Save}" IsEnabled="False" Click="Save_Click"><ui:SymbolIcon Symbol="Save24" FontSize="15" /></Button>
+      </StackPanel>
+    </Border>
+    <Menu Background="#FF2B2D30" Foreground="#FFDFE1E5" FontSize="12.5">
       <MenuItem Header="{resources:Loc Ui_VsEditor_File}">
         <MenuItem Header="{resources:Loc CustomTheme_Editor_Save}" Click="Save_Click" />
         <Separator />
         <MenuItem Header="{resources:Loc Common_Close}" Click="Cancel_Click" />
       </MenuItem>
     </Menu>
+    </DockPanel>
 
-    <Border Grid.Row="2" Padding="4,2" Background="#FF2B2D30" BorderBrush="#FF393B40" BorderThickness="0,0,0,1">
-      <StackPanel Orientation="Horizontal">
-        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_EditorSettings_Title}" Click="EditorSettings_Click"><ui:SymbolIcon Symbol="Settings24" FontSize="15" /></Button>
-        <Button x:Name="SaveButton" Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc CustomTheme_Editor_Save}" IsEnabled="False" Click="Save_Click"><ui:SymbolIcon Symbol="Save24" FontSize="15" /></Button>
-      </StackPanel>
-    </Border>
 
     <StackPanel Grid.Row="3" Margin="12,8,12,8">
       <TextBlock x:Name="ModTitle" FontSize="20" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />

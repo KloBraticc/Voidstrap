@@ -275,6 +275,20 @@ public partial class BootstrapperEditorWindow : WpfUiWindow
 
     private void EditorSettings_Click(object sender, RoutedEventArgs e) => new EditorSettingsWindow().ShowOwnedDialog();
 
+    private void StripeProject_Click(object sender, RoutedEventArgs e)
+    {
+        bool show = ProjectColumn.ActualWidth <= 0;
+        ProjectColumn.Width = new GridLength(show ? 240 : 0);
+        ProjectSplitColumn.Width = new GridLength(show ? 3 : 0);
+    }
+
+    private void StripeTool_Click(object sender, RoutedEventArgs e)
+    {
+        bool show = PreviewColumn.ActualWidth <= 0;
+        PreviewColumn.Width = new GridLength(show ? 380 : 0);
+        PreviewSplitColumn.Width = new GridLength(show ? 3 : 0);
+    }
+
     private void ZoomOutEditor_Click(object sender, RoutedEventArgs e)
     {
         SetEditorFontSize(UIXML.FontSize - 1);
