@@ -225,19 +225,10 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
     {
         if (!Voidstrap.Utility.Platform.IsMacOS)
             AddImageRow(imageOpacity, setImageOpacity);
-        Border card = new()
-        {
-            Padding = new Thickness(14, 6, 14, 6),
-            CornerRadius = new CornerRadius(8),
-            BorderThickness = new Thickness(1),
-            Child = _fields,
-        };
-        card.SetResourceReference(Border.BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
-        card.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
         Wpf.Ui.Controls.Button reset = new() { Content = Strings.Common_Reset, Margin = new Thickness(0, 12, 0, 0), HorizontalAlignment = HorizontalAlignment.Right };
         reset.Click += Reset_Click;
         StackPanel body = new() { Margin = new Thickness(14, 4, 14, 14) };
-        body.Children.Add(card);
+        body.Children.Add(_fields);
         body.Children.Add(reset);
         Grid root = new();
         root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
