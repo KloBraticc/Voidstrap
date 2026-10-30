@@ -1,6 +1,6 @@
 <base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Editor.KeystrokeThemeEditorWindow"
                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:editor="clr-namespace:Voidstrap.UI.Elements.Editor"
                   xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base"
                   xmlns:resources="clr-namespace:Voidstrap.Resources"
                   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
@@ -389,6 +389,7 @@
 
             <Grid Grid.Row="2" Margin="0,8,0,0">
               <TextBlock x:Name="TextEditorStats" VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              <editor:EditorSettingsButton HorizontalAlignment="Center" />
               <ui:Button Content="{resources:Loc Ui_Keystrokes_Editor_ApplyCode}"
                          Appearance="Primary" HorizontalAlignment="Right" Click="OnApplyCodeClicked" />
             </Grid>

@@ -9363,4 +9363,46 @@ Ang magkakapatong na mod ay maaaring magdulot ng kakaibang hitsura o gawi sa Rob
   <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
     <value>Maghanap sa Solution Explorer</value>
   </data>
+  <data name="Ui.EditorSettings.Title" xml:space="preserve">
+    <value>Mga setting ng editor</value>
+  </data>
+  <data name="Ui.EditorSettings.Background" xml:space="preserve">
+    <value>Kulay ng background</value>
+  </data>
+  <data name="Ui.EditorSettings.TextColor" xml:space="preserve">
+    <value>Kulay ng teksto</value>
+  </data>
+  <data name="Ui.EditorSettings.Image" xml:space="preserve">
+    <value>Larawan sa background</value>
+  </data>
+  <data name="Ui.EditorSettings.ImageOpacity" xml:space="preserve">
+    <value>Lakas ng larawan</value>
+  </data>
+  <data name="Ui.EditorSettings.Font" xml:space="preserve">
+    <value>Font</value>
+  </data>
+  <data name="Ui.EditorSettings.FontSize" xml:space="preserve">
+    <value>Laki ng font</value>
+  </data>
+  <data name="Ui.EditorSettings.WordWrap" xml:space="preserve">
+    <value>Word wrap</value>
+  </data>
+  <data name="Ui.EditorSettings.LineNumbers" xml:space="preserve">
+    <value>Mga numero ng linya</value>
+  </data>
+  <data name="Ui.EditorSettings.HighlightLine" xml:space="preserve">
+    <value>I-highlight ang kasalukuyang linya</value>
+  </data>
+  <data name="Ui.EditorSettings.ClearImage" xml:space="preserve">
+    <value>Alisin ang larawan</value>
+  </data>
+  <data name="Ui.EditorSettings.BuildSucceeded" xml:space="preserve">
+    <value>Matagumpay ang build</value>
+  </data>
+  <data name="Ui.EditorSettings.BuildFailed" xml:space="preserve">
+    <value>Nabigo ang build</value>
+  </data>
+  <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
+    <value>Mga larawan|*.png;*.jpg;*.jpeg;*.bmp</value>
+  </data>
 </root>

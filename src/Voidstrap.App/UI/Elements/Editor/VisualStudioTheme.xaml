@@ -15,10 +15,6 @@
   <SolidColorBrush x:Key="TextFillColorPrimaryBrush" Color="#FFF1F1F1" />
   <SolidColorBrush x:Key="TextFillColorSecondaryBrush" Color="#FFD0D0D0" />
   <SolidColorBrush x:Key="TextFillColorTertiaryBrush" Color="#FF999999" />
-  <SolidColorBrush x:Key="AccentFillColorDefaultBrush" Color="#FF007ACC" />
-  <SolidColorBrush x:Key="TextOnAccentFillColorPrimaryBrush" Color="#FFFFFFFF" />
-  <SolidColorBrush x:Key="VsStatusBarBrush" Color="#FF007ACC" />
   <SolidColorBrush x:Key="VsDocumentBrush" Color="#FF1E1E1E" />
-  <SolidColorBrush x:Key="VsTabActiveBrush" Color="#FF007ACC" />
   <SolidColorBrush x:Key="VsToolHeaderBrush" Color="#FF2D2D30" />
 </ResourceDictionary>

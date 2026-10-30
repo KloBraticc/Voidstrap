@@ -9364,4 +9364,46 @@ Le chevauchement de mods peut donner a Roblox une apparence ou un comportement i
   <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
     <value>Rechercher dans l'Explorateur de solutions</value>
   </data>
+  <data name="Ui.EditorSettings.Title" xml:space="preserve">
+    <value>Paramètres de l'éditeur</value>
+  </data>
+  <data name="Ui.EditorSettings.Background" xml:space="preserve">
+    <value>Couleur de fond</value>
+  </data>
+  <data name="Ui.EditorSettings.TextColor" xml:space="preserve">
+    <value>Couleur du texte</value>
+  </data>
+  <data name="Ui.EditorSettings.Image" xml:space="preserve">
+    <value>Image de fond</value>
+  </data>
+  <data name="Ui.EditorSettings.ImageOpacity" xml:space="preserve">
+    <value>Intensité de l'image</value>
+  </data>
+  <data name="Ui.EditorSettings.Font" xml:space="preserve">
+    <value>Police</value>
+  </data>
+  <data name="Ui.EditorSettings.FontSize" xml:space="preserve">
+    <value>Taille de police</value>
+  </data>
+  <data name="Ui.EditorSettings.WordWrap" xml:space="preserve">
+    <value>Retour à la ligne</value>
+  </data>
+  <data name="Ui.EditorSettings.LineNumbers" xml:space="preserve">
+    <value>Numéros de ligne</value>
+  </data>
+  <data name="Ui.EditorSettings.HighlightLine" xml:space="preserve">
+    <value>Surligner la ligne actuelle</value>
+  </data>
+  <data name="Ui.EditorSettings.ClearImage" xml:space="preserve">
+    <value>Retirer l'image</value>
+  </data>
+  <data name="Ui.EditorSettings.BuildSucceeded" xml:space="preserve">
+    <value>Génération réussie</value>
+  </data>
+  <data name="Ui.EditorSettings.BuildFailed" xml:space="preserve">
+    <value>Échec de la génération</value>
+  </data>
+  <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
+    <value>Images|*.png;*.jpg;*.jpeg;*.bmp</value>
+  </data>
 </root>

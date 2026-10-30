@@ -54,6 +54,7 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
         _onlyMod = mod;
         Title = mod != null ? string.Format(Strings.Ui_VoidstrapMods_EditorTitle, mod) : Strings.Ui_ModCode_Title;
         WindowTitleBar.Title = Title;
+        EditorAppearance.Attach(CodeEditor);
         CodeEditor.Options.IndentationSize = 2;
         CodeEditor.Options.ConvertTabsToSpaces = true;
         CodeEditor.Options.HighlightCurrentLine = true;
@@ -170,7 +171,11 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
             window.OpenFile(path);
     }
 
-    private void ExplorerSearch_TextChanged(object sender, TextChangedEventArgs e) => BuildTree((ExplorerSearch.Text ?? "").Trim());
+    private void ExplorerSearch_TextChanged(object? sender, EventArgs e)
+    {
+        ExplorerSearchHint.Visibility = ExplorerSearch.Text.Length == 0 ? Visibility.Visible : Visibility.Collapsed;
+        BuildTree(ExplorerSearch.Text.Trim());
+    }
 
     private static string Relative(string path) => Path.GetRelativePath(Paths.Plugins, path).Replace('\\', '/');
 
@@ -271,7 +276,7 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
 
     private void RefreshTab(OpenDocument document)
     {
-        document.Tab.Background = document == _active ? (System.Windows.Media.Brush)FindResource("VsTabActiveBrush") : System.Windows.Media.Brushes.Transparent;
+        document.Tab.Background = document == _active ? (System.Windows.Media.Brush)FindResource("AccentFillColorDefaultBrush") : System.Windows.Media.Brushes.Transparent;
         if (document.Tab.Child is StackPanel { Children: [System.Windows.Controls.TextBlock label, ..] })
             label.Text = Path.GetFileName(document.Path) + (document.Dirty ? "*" : "");
     }
@@ -306,6 +311,12 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
 
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
     {
+        if (e.Key == Key.B && Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift))
+        {
+            e.Handled = true;
+            _ = SaveAndReloadAsync();
+            return;
+        }
         if (e.Key != Key.S || (Keyboard.Modifiers & ModifierKeys.Control) == 0)
             return;
         e.Handled = true;
@@ -365,7 +376,7 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
                 return (result, writer.ToString().Trim());
             });
             OutputBox.Text = output;
-            StatusText.Text = Strings.Ui_VsEditor_Ready;
+            StatusText.Text = code == 0 ? Strings.Ui_EditorSettings_BuildSucceeded : Strings.Ui_EditorSettings_BuildFailed;
             if (code == 0)
                 _ = Task.Run(PluginHost.Reload);
         }

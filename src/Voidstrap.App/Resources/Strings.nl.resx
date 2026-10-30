@@ -9366,4 +9366,46 @@ Overlappende mods kunnen ervoor zorgen dat Roblox er vreemd uitziet of werkt, ma
   <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
     <value>Zoeken in Solution Explorer</value>
   </data>
+  <data name="Ui.EditorSettings.Title" xml:space="preserve">
+    <value>Editorinstellingen</value>
+  </data>
+  <data name="Ui.EditorSettings.Background" xml:space="preserve">
+    <value>Achtergrondkleur</value>
+  </data>
+  <data name="Ui.EditorSettings.TextColor" xml:space="preserve">
+    <value>Tekstkleur</value>
+  </data>
+  <data name="Ui.EditorSettings.Image" xml:space="preserve">
+    <value>Achtergrondafbeelding</value>
+  </data>
+  <data name="Ui.EditorSettings.ImageOpacity" xml:space="preserve">
+    <value>Sterkte van afbeelding</value>
+  </data>
+  <data name="Ui.EditorSettings.Font" xml:space="preserve">
+    <value>Lettertype</value>
+  </data>
+  <data name="Ui.EditorSettings.FontSize" xml:space="preserve">
+    <value>Lettergrootte</value>
+  </data>
+  <data name="Ui.EditorSettings.WordWrap" xml:space="preserve">
+    <value>Regelafbreking</value>
+  </data>
+  <data name="Ui.EditorSettings.LineNumbers" xml:space="preserve">
+    <value>Regelnummers</value>
+  </data>
+  <data name="Ui.EditorSettings.HighlightLine" xml:space="preserve">
+    <value>Huidige regel markeren</value>
+  </data>
+  <data name="Ui.EditorSettings.ClearImage" xml:space="preserve">
+    <value>Afbeelding verwijderen</value>
+  </data>
+  <data name="Ui.EditorSettings.BuildSucceeded" xml:space="preserve">
+    <value>Build geslaagd</value>
+  </data>
+  <data name="Ui.EditorSettings.BuildFailed" xml:space="preserve">
+    <value>Build mislukt</value>
+  </data>
+  <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
+    <value>Afbeeldingen|*.png;*.jpg;*.jpeg;*.bmp</value>
+  </data>
 </root>

@@ -9364,4 +9364,46 @@
   <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
     <value>البحث في مستكشف الحلول</value>
   </data>
+  <data name="Ui.EditorSettings.Title" xml:space="preserve">
+    <value>إعدادات المحرر</value>
+  </data>
+  <data name="Ui.EditorSettings.Background" xml:space="preserve">
+    <value>لون الخلفية</value>
+  </data>
+  <data name="Ui.EditorSettings.TextColor" xml:space="preserve">
+    <value>لون النص</value>
+  </data>
+  <data name="Ui.EditorSettings.Image" xml:space="preserve">
+    <value>صورة الخلفية</value>
+  </data>
+  <data name="Ui.EditorSettings.ImageOpacity" xml:space="preserve">
+    <value>قوة الصورة</value>
+  </data>
+  <data name="Ui.EditorSettings.Font" xml:space="preserve">
+    <value>الخط</value>
+  </data>
+  <data name="Ui.EditorSettings.FontSize" xml:space="preserve">
+    <value>حجم الخط</value>
+  </data>
+  <data name="Ui.EditorSettings.WordWrap" xml:space="preserve">
+    <value>التفاف الكلمات</value>
+  </data>
+  <data name="Ui.EditorSettings.LineNumbers" xml:space="preserve">
+    <value>أرقام الأسطر</value>
+  </data>
+  <data name="Ui.EditorSettings.HighlightLine" xml:space="preserve">
+    <value>تمييز السطر الحالي</value>
+  </data>
+  <data name="Ui.EditorSettings.ClearImage" xml:space="preserve">
+    <value>إزالة الصورة</value>
+  </data>
+  <data name="Ui.EditorSettings.BuildSucceeded" xml:space="preserve">
+    <value>نجح الإنشاء</value>
+  </data>
+  <data name="Ui.EditorSettings.BuildFailed" xml:space="preserve">
+    <value>فشل الإنشاء</value>
+  </data>
+  <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
+    <value>الصور|*.png;*.jpg;*.jpeg;*.bmp</value>
+  </data>
 </root>

@@ -242,6 +242,7 @@ namespace Voidstrap.Utility
                 Step(RecolourBuiltIns);
                 Step(RecolourBuiltIns);
                 Step(RegisterLua);
+                Step(RegisterGeneric);
                 Step(RegisterAliases);
             }
         }
@@ -292,7 +293,10 @@ namespace Voidstrap.Utility
                 if (mapped != null)
                     return mapped;
             }
-            return HighlightingManager.Instance.GetDefinitionByExtension(ext);
+            return HighlightingManager.Instance.GetDefinitionByExtension(ext)
+                ?? (ext.Equals(".txt", StringComparison.OrdinalIgnoreCase) || ext.Equals(".log", StringComparison.OrdinalIgnoreCase)
+                    ? null
+                    : HighlightingManager.Instance.GetDefinition("Generic"));
         }
 
         public static IEnumerable<string> LanguageNames =>
@@ -413,6 +417,38 @@ namespace Voidstrap.Utility
             if (xml != null)
                 HighlightingManager.Instance.RegisterHighlighting("XAML", extensions, xml);
         }
+
+        private static void RegisterGeneric()
+        {
+            HighlightingManager.Instance.RegisterHighlighting("Generic", [".generic"], LoadDocument(XDocument.Parse(GenericSyntax)));
+        }
+
+        private const string GenericSyntax = """
+<SyntaxDefinition name="Generic" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="Comment" foreground="#6A9955" />
+  <Color name="String" foreground="#CE9178" />
+  <Color name="Number" foreground="#B5CEA8" />
+  <Color name="Keyword" foreground="#569CD6" />
+  <Color name="MethodCall" foreground="#DCDCAA" />
+  <RuleSet>
+    <Span color="Comment" multiline="true" begin="/\*" end="\*/" />
+    <Span color="Comment" begin="//" />
+    <Span color="Comment" begin="(?&lt;![\w&amp;$])#(?!\[|!)" />
+    <Span color="Comment" begin="(?&lt;!\S)--(?=\s)" />
+    <Span color="String" begin="&quot;" end="&quot;"><RuleSet><Span begin="\\" end="." /></RuleSet></Span>
+    <Span color="String" begin="'" end="'"><RuleSet><Span begin="\\" end="." /></RuleSet></Span>
+    <Span color="String" multiline="true" begin="`" end="`" />
+    <Keywords color="Keyword">
+      <Word>if</Word><Word>else</Word><Word>elif</Word><Word>for</Word><Word>while</Word><Word>do</Word><Word>switch</Word><Word>case</Word><Word>match</Word><Word>when</Word><Word>return</Word><Word>break</Word><Word>continue</Word>
+      <Word>func</Word><Word>fn</Word><Word>fun</Word><Word>def</Word><Word>function</Word><Word>class</Word><Word>struct</Word><Word>enum</Word><Word>interface</Word><Word>trait</Word><Word>impl</Word><Word>type</Word><Word>module</Word><Word>package</Word><Word>import</Word><Word>from</Word><Word>use</Word><Word>using</Word><Word>include</Word><Word>namespace</Word>
+      <Word>let</Word><Word>var</Word><Word>val</Word><Word>const</Word><Word>mut</Word><Word>static</Word><Word>public</Word><Word>private</Word><Word>protected</Word><Word>async</Word><Word>await</Word><Word>try</Word><Word>catch</Word><Word>except</Word><Word>finally</Word><Word>throw</Word><Word>raise</Word>
+      <Word>true</Word><Word>false</Word><Word>null</Word><Word>nil</Word><Word>none</Word><Word>end</Word><Word>then</Word><Word>in</Word><Word>new</Word><Word>self</Word><Word>this</Word>
+    </Keywords>
+    <Rule color="MethodCall">\b[A-Za-z_][\w]*(?=\s*\()</Rule>
+    <Rule color="Number">\b0[xX][0-9a-fA-F]+|\b\d+(\.\d+)?([eE][+-]?\d+)?</Rule>
+  </RuleSet>
+</SyntaxDefinition>
+""";
 
         private static void RegisterLua()
         {

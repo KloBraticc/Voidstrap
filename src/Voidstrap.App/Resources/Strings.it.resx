@@ -9367,4 +9367,46 @@ La sovrapposizione di mod puo causare anomalie visive o di comportamento in Robl
   <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
     <value>Cerca in Esplora soluzioni</value>
   </data>
+  <data name="Ui.EditorSettings.Title" xml:space="preserve">
+    <value>Impostazioni dell'editor</value>
+  </data>
+  <data name="Ui.EditorSettings.Background" xml:space="preserve">
+    <value>Colore di sfondo</value>
+  </data>
+  <data name="Ui.EditorSettings.TextColor" xml:space="preserve">
+    <value>Colore del testo</value>
+  </data>
+  <data name="Ui.EditorSettings.Image" xml:space="preserve">
+    <value>Immagine di sfondo</value>
+  </data>
+  <data name="Ui.EditorSettings.ImageOpacity" xml:space="preserve">
+    <value>Intensità dell'immagine</value>
+  </data>
+  <data name="Ui.EditorSettings.Font" xml:space="preserve">
+    <value>Carattere</value>
+  </data>
+  <data name="Ui.EditorSettings.FontSize" xml:space="preserve">
+    <value>Dimensione del carattere</value>
+  </data>
+  <data name="Ui.EditorSettings.WordWrap" xml:space="preserve">
+    <value>A capo automatico</value>
+  </data>
+  <data name="Ui.EditorSettings.LineNumbers" xml:space="preserve">
+    <value>Numeri di riga</value>
+  </data>
+  <data name="Ui.EditorSettings.HighlightLine" xml:space="preserve">
+    <value>Evidenzia la riga corrente</value>
+  </data>
+  <data name="Ui.EditorSettings.ClearImage" xml:space="preserve">
+    <value>Rimuovi immagine</value>
+  </data>
+  <data name="Ui.EditorSettings.BuildSucceeded" xml:space="preserve">
+    <value>Compilazione riuscita</value>
+  </data>
+  <data name="Ui.EditorSettings.BuildFailed" xml:space="preserve">
+    <value>Compilazione non riuscita</value>
+  </data>
+  <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
+    <value>Immagini|*.png;*.jpg;*.jpeg;*.bmp</value>
+  </data>
 </root>

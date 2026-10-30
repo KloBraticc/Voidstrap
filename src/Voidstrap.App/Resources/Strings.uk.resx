@@ -9363,4 +9363,46 @@ Voidstrap перед встановленням звіряє кожен файл
   <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
     <value>Пошук в оглядачі рішень</value>
   </data>
+  <data name="Ui.EditorSettings.Title" xml:space="preserve">
+    <value>Налаштування редактора</value>
+  </data>
+  <data name="Ui.EditorSettings.Background" xml:space="preserve">
+    <value>Колір тла</value>
+  </data>
+  <data name="Ui.EditorSettings.TextColor" xml:space="preserve">
+    <value>Колір тексту</value>
+  </data>
+  <data name="Ui.EditorSettings.Image" xml:space="preserve">
+    <value>Фонове зображення</value>
+  </data>
+  <data name="Ui.EditorSettings.ImageOpacity" xml:space="preserve">
+    <value>Сила зображення</value>
+  </data>
+  <data name="Ui.EditorSettings.Font" xml:space="preserve">
+    <value>Шрифт</value>
+  </data>
+  <data name="Ui.EditorSettings.FontSize" xml:space="preserve">
+    <value>Розмір шрифту</value>
+  </data>
+  <data name="Ui.EditorSettings.WordWrap" xml:space="preserve">
+    <value>Перенесення слів</value>
+  </data>
+  <data name="Ui.EditorSettings.LineNumbers" xml:space="preserve">
+    <value>Номери рядків</value>
+  </data>
+  <data name="Ui.EditorSettings.HighlightLine" xml:space="preserve">
+    <value>Виділяти поточний рядок</value>
+  </data>
+  <data name="Ui.EditorSettings.ClearImage" xml:space="preserve">
+    <value>Вилучити зображення</value>
+  </data>
+  <data name="Ui.EditorSettings.BuildSucceeded" xml:space="preserve">
+    <value>Збірку виконано</value>
+  </data>
+  <data name="Ui.EditorSettings.BuildFailed" xml:space="preserve">
+    <value>Збій збірки</value>
+  </data>
+  <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
+    <value>Зображення|*.png;*.jpg;*.jpeg;*.bmp</value>
+  </data>
 </root>

@@ -9580,6 +9580,34 @@ namespace Voidstrap.Resources {
 
         public static string Ui_VsEditor_SearchExplorer => ResourceManager.GetString("Ui.VsEditor.SearchExplorer", resourceCulture);
 
+        public static string Ui_EditorSettings_Title => ResourceManager.GetString("Ui.EditorSettings.Title", resourceCulture);
+
+        public static string Ui_EditorSettings_Background => ResourceManager.GetString("Ui.EditorSettings.Background", resourceCulture);
+
+        public static string Ui_EditorSettings_TextColor => ResourceManager.GetString("Ui.EditorSettings.TextColor", resourceCulture);
+
+        public static string Ui_EditorSettings_Image => ResourceManager.GetString("Ui.EditorSettings.Image", resourceCulture);
+
+        public static string Ui_EditorSettings_ImageOpacity => ResourceManager.GetString("Ui.EditorSettings.ImageOpacity", resourceCulture);
+
+        public static string Ui_EditorSettings_Font => ResourceManager.GetString("Ui.EditorSettings.Font", resourceCulture);
+
+        public static string Ui_EditorSettings_FontSize => ResourceManager.GetString("Ui.EditorSettings.FontSize", resourceCulture);
+
+        public static string Ui_EditorSettings_WordWrap => ResourceManager.GetString("Ui.EditorSettings.WordWrap", resourceCulture);
+
+        public static string Ui_EditorSettings_LineNumbers => ResourceManager.GetString("Ui.EditorSettings.LineNumbers", resourceCulture);
+
+        public static string Ui_EditorSettings_HighlightLine => ResourceManager.GetString("Ui.EditorSettings.HighlightLine", resourceCulture);
+
+        public static string Ui_EditorSettings_ClearImage => ResourceManager.GetString("Ui.EditorSettings.ClearImage", resourceCulture);
+
+        public static string Ui_EditorSettings_BuildSucceeded => ResourceManager.GetString("Ui.EditorSettings.BuildSucceeded", resourceCulture);
+
+        public static string Ui_EditorSettings_BuildFailed => ResourceManager.GetString("Ui.EditorSettings.BuildFailed", resourceCulture);
+
+        public static string Ui_EditorSettings_ImageFilter => ResourceManager.GetString("Ui.EditorSettings.ImageFilter", resourceCulture);
+
         public static string Ui_ModCode_Title => ResourceManager.GetString("Ui.ModCode.Title", resourceCulture);
 
         public static string Ui_ModCode_Header => ResourceManager.GetString("Ui.ModCode.Header", resourceCulture);

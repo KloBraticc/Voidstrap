@@ -130,6 +130,24 @@ namespace Voidstrap.Models.Persistable
         public double CustomDeathSoundVolume { get; set; } = 1.0;
 
         public int CleanRobloxNumber = 0;
+        public string EditorBackground { get; set; } = "#1E1E1E";
+
+        public string EditorForeground { get; set; } = "#DCDCDC";
+
+        public string EditorFontFamily { get; set; } = "Cascadia Mono, Consolas";
+
+        public double EditorFontSize { get; set; } = 13;
+
+        public bool EditorWordWrap { get; set; }
+
+        public bool EditorLineNumbers { get; set; } = true;
+
+        public bool EditorHighlightLine { get; set; } = true;
+
+        public string EditorBackgroundImage { get; set; } = "";
+
+        public double EditorBackgroundImageOpacity { get; set; } = 0.15;
+
         public bool DisableCrash { get; set; } = false;
         public string UseCustomIcon { get; set; } = "";
         public string CustomGameName { get; set; } = "";

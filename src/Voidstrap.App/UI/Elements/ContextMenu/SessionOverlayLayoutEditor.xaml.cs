@@ -80,6 +80,7 @@ public partial class SessionOverlayLayoutEditor : Window
         _gameIcon = gameIcon;
         _sendTestNotification = sendTestNotification;
         InitializeComponent();
+        Voidstrap.UI.Elements.Editor.VisualStudioTheme.Apply(this);
         StageBackgroundBrush.ImageSource = gameIcon;
         Voidstrap.Utility.DynamicRenderSystem.SetPortableBrushImage(StageImageHost, gameIcon);
 

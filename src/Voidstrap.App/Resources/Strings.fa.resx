@@ -9367,4 +9367,46 @@ Voidstrap پیش از نصب هر فایل را با کتابخانه مقایس
   <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
     <value>جستجو در کاوشگر راه‌حل</value>
   </data>
+  <data name="Ui.EditorSettings.Title" xml:space="preserve">
+    <value>تنظیمات ویرایشگر</value>
+  </data>
+  <data name="Ui.EditorSettings.Background" xml:space="preserve">
+    <value>رنگ پس‌زمینه</value>
+  </data>
+  <data name="Ui.EditorSettings.TextColor" xml:space="preserve">
+    <value>رنگ متن</value>
+  </data>
+  <data name="Ui.EditorSettings.Image" xml:space="preserve">
+    <value>تصویر پس‌زمینه</value>
+  </data>
+  <data name="Ui.EditorSettings.ImageOpacity" xml:space="preserve">
+    <value>شدت تصویر</value>
+  </data>
+  <data name="Ui.EditorSettings.Font" xml:space="preserve">
+    <value>قلم</value>
+  </data>
+  <data name="Ui.EditorSettings.FontSize" xml:space="preserve">
+    <value>اندازه قلم</value>
+  </data>
+  <data name="Ui.EditorSettings.WordWrap" xml:space="preserve">
+    <value>شکستن خطوط</value>
+  </data>
+  <data name="Ui.EditorSettings.LineNumbers" xml:space="preserve">
+    <value>شماره خطوط</value>
+  </data>
+  <data name="Ui.EditorSettings.HighlightLine" xml:space="preserve">
+    <value>برجسته کردن خط فعلی</value>
+  </data>
+  <data name="Ui.EditorSettings.ClearImage" xml:space="preserve">
+    <value>حذف تصویر</value>
+  </data>
+  <data name="Ui.EditorSettings.BuildSucceeded" xml:space="preserve">
+    <value>ساخت موفق بود</value>
+  </data>
+  <data name="Ui.EditorSettings.BuildFailed" xml:space="preserve">
+    <value>ساخت ناموفق بود</value>
+  </data>
+  <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
+    <value>تصاویر|*.png;*.jpg;*.jpeg;*.bmp</value>
+  </data>
 </root>

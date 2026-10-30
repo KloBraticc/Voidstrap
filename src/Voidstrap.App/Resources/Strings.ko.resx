@@ -9363,4 +9363,46 @@ Voidstrap은 설치 전에 모든 파일을 라이브러리와 대조하고, 모
   <data name="Ui.VsEditor.SearchExplorer" xml:space="preserve">
     <value>솔루션 탐색기 검색</value>
   </data>
+  <data name="Ui.EditorSettings.Title" xml:space="preserve">
+    <value>편집기 설정</value>
+  </data>
+  <data name="Ui.EditorSettings.Background" xml:space="preserve">
+    <value>배경색</value>
+  </data>
+  <data name="Ui.EditorSettings.TextColor" xml:space="preserve">
+    <value>텍스트 색</value>
+  </data>
+  <data name="Ui.EditorSettings.Image" xml:space="preserve">
+    <value>배경 이미지</value>
+  </data>
+  <data name="Ui.EditorSettings.ImageOpacity" xml:space="preserve">
+    <value>이미지 강도</value>
+  </data>
+  <data name="Ui.EditorSettings.Font" xml:space="preserve">
+    <value>글꼴</value>
+  </data>
+  <data name="Ui.EditorSettings.FontSize" xml:space="preserve">
+    <value>글꼴 크기</value>
+  </data>
+  <data name="Ui.EditorSettings.WordWrap" xml:space="preserve">
+    <value>자동 줄 바꿈</value>
+  </data>
+  <data name="Ui.EditorSettings.LineNumbers" xml:space="preserve">
+    <value>줄 번호</value>
+  </data>
+  <data name="Ui.EditorSettings.HighlightLine" xml:space="preserve">
+    <value>현재 줄 강조</value>
+  </data>
+  <data name="Ui.EditorSettings.ClearImage" xml:space="preserve">
+    <value>이미지 제거</value>
+  </data>
+  <data name="Ui.EditorSettings.BuildSucceeded" xml:space="preserve">
+    <value>빌드 성공</value>
+  </data>
+  <data name="Ui.EditorSettings.BuildFailed" xml:space="preserve">
+    <value>빌드 실패</value>
+  </data>
+  <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
+    <value>이미지|*.png;*.jpg;*.jpeg;*.bmp</value>
+  </data>
 </root>

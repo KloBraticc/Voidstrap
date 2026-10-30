@@ -62,6 +62,7 @@ public static class CodeEditorBehavior
 
             CodeHighlighting.Apply(editor, GetLanguage(editor) ?? ".txt");
             ApplyChrome(editor);
+            Voidstrap.UI.Elements.Editor.EditorAppearance.Attach(editor);
             InstallEditingCommands(editor);
 
             editor.SetValue(HighlighterProperty, new CurrentLineHighlighter(editor.TextArea));

@@ -10,5 +10,6 @@ internal static class VisualStudioTheme
     {
         ResourceDictionary theme = new() { Source = Source };
         element.Resources.MergedDictionaries.Add(theme);
+        EditorAppearance.AttachPanel(element);
     }
 }

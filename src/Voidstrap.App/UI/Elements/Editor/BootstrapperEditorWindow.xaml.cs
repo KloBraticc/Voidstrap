@@ -165,7 +165,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow
 
     private SearchPanel? _searchPanel;
 
-    private const double EditorFontSize = 14;
+    private const double EditorFontSize = 13;
 
     private const double MinimumEditorFontSize = 10;
 
@@ -285,7 +285,8 @@ public partial class BootstrapperEditorWindow : WpfUiWindow
 
     private void SetEditorFontSize(double size)
     {
-        UIXML.FontSize = Math.Clamp(size, MinimumEditorFontSize, MaximumEditorFontSize);
+        App.Settings.Prop.EditorFontSize = Math.Clamp(size, MinimumEditorFontSize, MaximumEditorFontSize);
+        EditorAppearance.Refresh();
         UpdateEditorStatus();
         UIXML.Focus();
     }
