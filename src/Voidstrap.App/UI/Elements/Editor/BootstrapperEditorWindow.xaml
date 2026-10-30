@@ -191,7 +191,7 @@
           </DockPanel>
           <Border Grid.Row="1" ClipToBounds="True">
             <Grid>
-              <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+              <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled" SizeChanged="PreviewArea_SizeChanged">
                 <Border Name="PreviewHost" Margin="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
               </ScrollViewer>
               <TextBlock Name="PreviewPlaceholder" Margin="24" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextAlignment="Center" TextWrapping="Wrap" Text="{resources:Loc Ui_Misc_NothingToShowYet}" />

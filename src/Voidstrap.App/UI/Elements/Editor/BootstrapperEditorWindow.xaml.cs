@@ -1306,16 +1306,24 @@ public partial class BootstrapperEditorWindow : WpfUiWindow
         };
     }
 
+    private void PreviewArea_SizeChanged(object sender, SizeChangedEventArgs e) => ScalePreview();
+
     private void ScalePreview()
     {
         if (PreviewHost.Child is not System.Windows.Controls.Border shell)
             return;
 
-        double available = PreviewColumn.ActualWidth - 60;
-        if (available <= 0 || shell.Width <= 0)
+        if (PreviewHost.Parent is not System.Windows.Controls.ScrollViewer area || shell.Width <= 0)
             return;
 
-        double scale = Math.Min(1.0, available / shell.Width);
+        double availableWidth = area.ActualWidth - PreviewHost.Margin.Left - PreviewHost.Margin.Right;
+        double availableHeight = area.ActualHeight - PreviewHost.Margin.Top - PreviewHost.Margin.Bottom;
+        if (availableWidth <= 0 || availableHeight <= 0)
+            return;
+
+        double scale = Math.Min(1.0, availableWidth / shell.Width);
+        if (!double.IsNaN(shell.Height) && shell.Height > 0)
+            scale = Math.Min(scale, availableHeight / shell.Height);
 
         if (shell.LayoutTransform is System.Windows.Media.ScaleTransform applied && !applied.IsFrozen)
         {
