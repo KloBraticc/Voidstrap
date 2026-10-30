@@ -322,7 +322,7 @@ public static class McpGuides
 		  absolute paths. Only data, text, media and font types. Executables, scripts such as .bat or .ps1, and archives can never be stored, and
 		  program headers are checked inside any file. 16 MB per file, 256 MB and 4096 files per mod. There is no way to run anything.
 
-		  web: $.web.open({ url, title, width, height, fullscreen, css }) opens a web window: WebView2 on Windows, WebKitGTK 4.1 on Linux (ok false with the reason if it is not installed), WKWebView on macOS. Ads are blocked, on Linux and macOS by a page script, which is weaker. css is added to the page. Alt+F4 leaves fullscreen. https only, hosts must be under
+		  web: $.web.open({ url, title, width, height, fullscreen, css }) opens a web window: WebView2 on Windows, WebKitGTK 4.1 on Linux (ok false with the reason if it is not installed), WKWebView on macOS. Ads are blocked, on Linux and macOS by a page script, which is weaker. css is added to the page. On Windows the window has a fullscreen button and F11. Requests are not routed through the app except ad hosts, so games stay fast. A crashed page reloads up to 3 times. https only, hosts must be under
 		  network in plugin.json, never roblox.com. Own browser profile per mod, so no Roblox login. Downloads, popups, permissions, dev tools,
 		  host objects and web messages are all off.
 

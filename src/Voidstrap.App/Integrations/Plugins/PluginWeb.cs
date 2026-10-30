@@ -4,11 +4,12 @@ using System.Windows;
 #if !CROSSPLAT
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
+using System.Windows.Interop;
 #endif
 
 namespace Voidstrap.Integrations.Plugins;
 
-internal static class PluginWeb
+internal static partial class PluginWeb
 {
 #if CROSSPLAT
     private const string LOG_IDENT = "PluginWeb";
@@ -232,6 +233,20 @@ internal static class PluginWeb
 
         private CoreWebView2? _core;
 
+        private readonly Wpf.Ui.Controls.Button _fullscreenButton = new() { Padding = new Thickness(8, 2, 8, 2), Margin = new Thickness(2), HorizontalAlignment = HorizontalAlignment.Right, Icon = Wpf.Ui.Common.SymbolRegular.FullScreenMaximize24 };
+
+        private readonly System.Windows.Controls.Border _bar = new();
+
+        private HwndSource? _source;
+
+        private bool _fullscreen;
+
+        private System.Windows.WindowState _stateBeforeFullscreen;
+
+        private int _crashes;
+
+        private int _blockedLogs;
+
         public string Mod { get; }
 
         public WebWindow(string mod, HashSet<string> hosts, string start, string dataFolder, string css)
@@ -241,7 +256,17 @@ internal static class PluginWeb
             _start = start;
             _dataFolder = dataFolder;
             _css = css;
-            Content = _view;
+            System.Windows.Controls.DockPanel root = new();
+            _bar.Child = _fullscreenButton;
+            _bar.SetResourceReference(System.Windows.Controls.Border.BackgroundProperty, "ApplicationBackgroundBrush");
+            System.Windows.Controls.DockPanel.SetDock(_bar, System.Windows.Controls.Dock.Top);
+            root.Children.Add(_bar);
+            root.Children.Add(_view);
+            Content = root;
+            _fullscreenButton.Click += OnFullscreenClick;
+            SourceInitialized += OnSourceInitialized;
+            Activated += OnActivated;
+            Deactivated += OnDeactivated;
             Loaded += OnLoaded;
             Closed += OnClosed;
         }
@@ -251,7 +276,10 @@ internal static class PluginWeb
             try
             {
                 Directory.CreateDirectory(_dataFolder);
-                CoreWebView2Environment environment = await CoreWebView2Environment.CreateAsync(null, _dataFolder);
+                CoreWebView2EnvironmentOptions options = new(
+                    "--force_high_performance_gpu --enable-gpu-rasterization --disable-renderer-backgrounding --disable-background-timer-throttling --disable-features=CalculateNativeWinOcclusion --disable-sync --disable-extensions --js-flags=--max-old-space-size=4096"
+                );
+                CoreWebView2Environment environment = await CoreWebView2Environment.CreateAsync(null, _dataFolder, options);
                 await _view.EnsureCoreWebView2Async(environment);
                 _core = _view.CoreWebView2;
                 CoreWebView2Settings settings = _core.Settings;
@@ -264,7 +292,13 @@ internal static class PluginWeb
                 settings.AreBrowserAcceleratorKeysEnabled = false;
                 _core.NavigationStarting += OnNavigationStarting;
                 _core.FrameNavigationStarting += OnFrameNavigationStarting;
-                _core.AddWebResourceRequestedFilter("*", CoreWebView2WebResourceContext.All);
+                foreach (string host in AdHosts)
+                {
+                    _core.AddWebResourceRequestedFilter("*://" + host + "/*", CoreWebView2WebResourceContext.All);
+                    _core.AddWebResourceRequestedFilter("*://*." + host + "/*", CoreWebView2WebResourceContext.All);
+                }
+                _core.ProcessFailed += OnProcessFailed;
+                _core.ContainsFullScreenElementChanged += OnPageFullscreen;
                 _core.WebResourceRequested += OnResourceRequested;
                 if (_css.Length > 0)
                     await _core.AddScriptToExecuteOnDocumentCreatedAsync(
@@ -289,7 +323,8 @@ internal static class PluginWeb
             if (!IsAllowedUrl(e.Uri, _hosts))
             {
                 e.Cancel = true;
-                App.Logger.WriteLine("VoidstrapMods", Mod + ": blocked a web window navigation outside its listed hosts");
+                if (_blockedLogs++ < 5)
+                    App.Logger.WriteLine("VoidstrapMods", Mod + ": blocked a web window navigation to a host outside its list");
             }
         }
 
@@ -306,6 +341,64 @@ internal static class PluginWeb
                 e.Response = _core!.Environment.CreateWebResourceResponse(null, 403, "Blocked", "");
         }
 
+        private void OnProcessFailed(object? sender, CoreWebView2ProcessFailedEventArgs e)
+        {
+            App.Logger.WriteLine("VoidstrapMods", Mod + ": web window process failed: " + e.ProcessFailedKind + ", " + e.Reason + ", exit code " + e.ExitCode);
+            if (e.ProcessFailedKind == CoreWebView2ProcessFailedKind.BrowserProcessExited)
+            {
+                Dispatcher.BeginInvoke(new Action(Close));
+                return;
+            }
+            if (e.ProcessFailedKind is CoreWebView2ProcessFailedKind.RenderProcessExited or CoreWebView2ProcessFailedKind.RenderProcessUnresponsive && _crashes++ < 3)
+                Dispatcher.BeginInvoke(new Action(() => _core?.Reload()));
+        }
+
+        private void OnPageFullscreen(object? sender, object e)
+        {
+            if (_core != null && _core.ContainsFullScreenElement != _fullscreen)
+                ToggleFullscreen();
+        }
+
+        private void OnFullscreenClick(object sender, RoutedEventArgs e) => ToggleFullscreen();
+
+        private void ToggleFullscreen()
+        {
+            _fullscreen = !_fullscreen;
+            if (_fullscreen)
+            {
+                _stateBeforeFullscreen = WindowState;
+                WindowState = System.Windows.WindowState.Normal;
+                WindowStyle = WindowStyle.None;
+                WindowState = System.Windows.WindowState.Maximized;
+            }
+            else
+            {
+                WindowStyle = WindowStyle.SingleBorderWindow;
+                WindowState = _stateBeforeFullscreen;
+            }
+            _bar.Visibility = _fullscreen ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void OnSourceInitialized(object? sender, EventArgs e)
+        {
+            _source = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
+            _source?.AddHook(OnWindowMessage);
+        }
+
+        private void OnActivated(object? sender, EventArgs e) => RegisterHotKey(new WindowInteropHelper(this).Handle, FullscreenHotKey, 0, VirtualKeyF11);
+
+        private void OnDeactivated(object? sender, EventArgs e) => UnregisterHotKey(new WindowInteropHelper(this).Handle, FullscreenHotKey);
+
+        private IntPtr OnWindowMessage(IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            if (message == WindowMessageHotKey && wParam == FullscreenHotKey)
+            {
+                ToggleFullscreen();
+                handled = true;
+            }
+            return IntPtr.Zero;
+        }
+
         private void OnNewWindow(object? sender, CoreWebView2NewWindowRequestedEventArgs e) => e.Handled = true;
 
         private void OnDownload(object? sender, CoreWebView2DownloadStartingEventArgs e)
@@ -320,11 +413,19 @@ internal static class PluginWeb
         {
             Loaded -= OnLoaded;
             Closed -= OnClosed;
+            SourceInitialized -= OnSourceInitialized;
+            Activated -= OnActivated;
+            Deactivated -= OnDeactivated;
+            _fullscreenButton.Click -= OnFullscreenClick;
+            UnregisterHotKey(new WindowInteropHelper(this).Handle, FullscreenHotKey);
+            _source?.RemoveHook(OnWindowMessage);
             if (_core != null)
             {
                 _core.NavigationStarting -= OnNavigationStarting;
                 _core.FrameNavigationStarting -= OnFrameNavigationStarting;
                 _core.WebResourceRequested -= OnResourceRequested;
+                _core.ProcessFailed -= OnProcessFailed;
+                _core.ContainsFullScreenElementChanged -= OnPageFullscreen;
                 _core.NewWindowRequested -= OnNewWindow;
                 _core.DownloadStarting -= OnDownload;
                 _core.PermissionRequested -= OnPermission;
@@ -332,6 +433,20 @@ internal static class PluginWeb
             _view.Dispose();
         }
     }
+
+    private const int FullscreenHotKey = 0x5646;
+
+    private const int WindowMessageHotKey = 0x0312;
+
+    private const uint VirtualKeyF11 = 0x7A;
+
+    [LibraryImport("user32.dll", EntryPoint = "RegisterHotKey")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool RegisterHotKey(IntPtr window, int id, uint modifiers, uint key);
+
+    [LibraryImport("user32.dll", EntryPoint = "UnregisterHotKey")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool UnregisterHotKey(IntPtr window, int id);
 
     private static readonly string[] AdHosts =
     [
