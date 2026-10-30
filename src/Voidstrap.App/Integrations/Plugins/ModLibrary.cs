@@ -238,7 +238,7 @@ public static partial class ModLibrary
             files,
             (node["permissions"] as JsonArray ?? [])
                 .Select(x => x?.GetValue<string>() ?? "")
-                .Where(x => x == PluginManifest.RobloxAccountPermission)
+                .Where(x => x is PluginManifest.RobloxAccountPermission or PluginManifest.NativePermission or PluginManifest.FilesPermission or PluginManifest.WebPermission or PluginManifest.ClipboardPermission)
                 .Distinct()
                 .ToList()
         );
