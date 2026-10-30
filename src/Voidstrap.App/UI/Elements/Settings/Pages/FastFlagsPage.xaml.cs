@@ -95,103 +95,6 @@ public partial class FastFlagsPage : UiPage
 
     private DispatcherTimer? _waterPreviewTimer;
 
-    private const string AllowlistJsonUrl = RobloxFastFlagAllowlist.AnnouncementUrl + ".json";
-
-    private static Dictionary<string, string>? _allowlistCache;
-
-    private static Task<Dictionary<string, string>>? _allowlistTask;
-
-    private static readonly object AllowlistGate = new();
-
-    private static async Task<Dictionary<string, string>> GetAllowlistAsync()
-    {
-        Dictionary<string, string>? cached = _allowlistCache;
-        if (cached != null)
-            return cached;
-        Task<Dictionary<string, string>> task;
-        lock (AllowlistGate)
-        {
-            cached = _allowlistCache;
-            if (cached != null)
-                return cached;
-            task = _allowlistTask ??= LoadAllowlistCoreAsync();
-        }
-        Dictionary<string, string> result = await task.ConfigureAwait(true);
-        return result;
-    }
-
-    private static async Task<Dictionary<string, string>> LoadAllowlistCoreAsync()
-    {
-        for (int attempt = 0; ; attempt++)
-        {
-            string payload = await Voidstrap
-                .Utility.Http.GetStringBoundedAsync(_httpClient, AllowlistJsonUrl)
-                .ConfigureAwait(continueOnCapturedContext: false);
-            Dictionary<string, string>? parsed = ParseAllowlistPayload(payload);
-            if (parsed is not null)
-            {
-                _allowlistCache = parsed;
-                return parsed;
-            }
-            if (attempt > 0)
-            {
-                throw new InvalidDataException("Roblox's allowlist post was empty or unreadable.");
-            }
-            await Task.Delay(1500).ConfigureAwait(continueOnCapturedContext: false);
-        }
-    }
-
-    private static Dictionary<string, string>? ParseAllowlistPayload(string payload)
-    {
-        if (string.IsNullOrWhiteSpace(payload))
-            return null;
-
-        try
-        {
-            using JsonDocument document = JsonDocument.Parse(payload);
-            if (
-                document.RootElement.ValueKind != JsonValueKind.Object
-                || !document.RootElement.TryGetProperty("post_stream", out JsonElement stream)
-                || stream.ValueKind != JsonValueKind.Object
-                || !stream.TryGetProperty("posts", out JsonElement posts)
-                || posts.ValueKind != JsonValueKind.Array
-                || posts.GetArrayLength() == 0
-                || posts[0].ValueKind != JsonValueKind.Object
-                || !posts[0].TryGetProperty("cooked", out JsonElement cooked)
-                || cooked.ValueKind != JsonValueKind.String
-            )
-                return null;
-
-            Dictionary<string, string> parsed = ParseOfficialAllowlist(cooked.GetString() ?? string.Empty);
-            return parsed.Count == 0 ? null : parsed;
-        }
-        catch (JsonException)
-        {
-            return null;
-        }
-    }
-
-    private static Dictionary<string, string> ParseOfficialAllowlist(string cooked)
-    {
-        Dictionary<string, string> result = new Dictionary<string, string>(StringComparer.Ordinal);
-        int start = cooked.IndexOf("What Fast Flags are currently on the allowlist?", StringComparison.OrdinalIgnoreCase);
-        int end = cooked.IndexOf("How have the Fast Flags on the Allowlist been chosen?", StringComparison.OrdinalIgnoreCase);
-        if (start < 0 || end <= start)
-            return result;
-
-        string section = cooked[start..end];
-        foreach (Match categoryMatch in CategorySectionPattern.Matches(section))
-        {
-            string category = WebUtility.HtmlDecode(categoryMatch.Groups["category"].Value).Trim();
-            foreach (Match flagMatch in FlagListItemPattern.Matches(categoryMatch.Groups["items"].Value))
-            {
-                string flag = flagMatch.Groups["flag"].Value;
-                result[flag] = category;
-            }
-        }
-        return result;
-    }
-
     [GeneratedRegex("^[0-9]+$")]
     private static partial Regex _intRegex { get; }
 
@@ -393,23 +296,7 @@ public partial class FastFlagsPage : UiPage
             return;
         }
 
-        Dictionary<string, string> dict;
-        try
-        {
-            dict = await GetAllowlistAsync();
-        }
-        catch (Exception ex)
-        {
-            lock (AllowlistGate)
-            {
-                _allowlistTask = null;
-            }
-            App.Logger.WriteLine(
-                "FastFlagsPage::LoadFFlagsAsync",
-                "Using the built in allowlist, the online one could not be loaded: " + ex.GetType().Name + ": " + ex.Message
-            );
-            dict = RobloxFastFlagAllowlist.Flags.ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.Ordinal);
-        }
+        IReadOnlyDictionary<string, string> dict = await RobloxFastFlagAllowlist.RefreshAsync();
 
         FFlags.Clear();
         foreach (KeyValuePair<string, string> item in dict.OrderBy(pair => pair.Value).ThenBy(pair => pair.Key))

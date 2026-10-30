@@ -362,22 +362,13 @@ public static partial class McpTools
     private static readonly HttpClient TrackerHttpClient = VpnHttpClient.Create(TimeSpan.FromSeconds(20));
     private static readonly SemaphoreSlim TrackerFetchLock = new(1, 1);
 
-    private static volatile Dictionary<string, string>? _onlineAllowlistCache;
     private static volatile Dictionary<string, TrackerFlagEntry>? _trackerFlagsCache;
     private static volatile Dictionary<string, int>? _trackerSourceCountsCache;
 
-    private static readonly Regex AllowlistCategoryRegex = new(
-        "<p><strong>(?<category>[^<]+)</strong>:</p>\\s*<ul>(?<items>.*?)</ul>",
-        RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled
-    );
-    private static readonly Regex AllowlistItemRegex = new(
-        "<li>(?<flag>[A-Za-z][A-Za-z0-9_]*)</li>",
-        RegexOptions.IgnoreCase | RegexOptions.Compiled
-    );
 
     private static IReadOnlyDictionary<string, string> GetEffectiveAllowlist()
     {
-        return _onlineAllowlistCache ?? RobloxFastFlagAllowlist.Flags;
+        return RobloxFastFlagAllowlist.Flags;
     }
 
     private static bool IsAllowlistedFlag(string name)
@@ -421,7 +412,7 @@ public static partial class McpTools
             {
                 ["announcementUrl"] = RobloxFastFlagAllowlist.AnnouncementUrl,
                 ["jsonFeedUrl"] = RobloxFastFlagAllowlist.AnnouncementUrl + ".json",
-                ["onlineLoaded"] = _onlineAllowlistCache != null,
+                ["onlineLoaded"] = RobloxFastFlagAllowlist.IsOnline,
                 ["count"] = allowlist.Count,
                 ["flags"] = allowlistFlagsNode,
             };
@@ -580,29 +571,22 @@ public static partial class McpTools
 
     private static async Task EnsureTrackerAndAllowlistLoadedAsync(bool forceRefresh, CancellationToken token)
     {
-        if (!forceRefresh && _trackerFlagsCache != null && _onlineAllowlistCache != null)
+        if (!forceRefresh && _trackerFlagsCache != null && RobloxFastFlagAllowlist.IsOnline)
             return;
 
         await TrackerFetchLock.WaitAsync(token).ConfigureAwait(false);
         try
         {
-            if (!forceRefresh && _trackerFlagsCache != null && _onlineAllowlistCache != null)
+            if (!forceRefresh && _trackerFlagsCache != null && RobloxFastFlagAllowlist.IsOnline)
                 return;
 
-            Task<Dictionary<string, string>?> allowlistTask = FetchOnlineAllowlistAsync(token);
+            Task<IReadOnlyDictionary<string, string>> allowlistTask = RobloxFastFlagAllowlist.RefreshAsync(forceRefresh, token);
             Task<(string Name, Dictionary<string, string> Flags)>[] sourceTasks = TrackerSources
                 .Select(src => FetchTrackerSourceAsync(src, token))
                 .ToArray();
 
             await Task.WhenAll(sourceTasks).ConfigureAwait(false);
-            Dictionary<string, string>? onlineAllowlist = await allowlistTask.ConfigureAwait(false);
-
-            if (onlineAllowlist != null && onlineAllowlist.Count > 0)
-            {
-                foreach (KeyValuePair<string, string> builtIn in RobloxFastFlagAllowlist.Flags)
-                    onlineAllowlist.TryAdd(builtIn.Key, builtIn.Value);
-                _onlineAllowlistCache = onlineAllowlist;
-            }
+            await allowlistTask.ConfigureAwait(false);
 
             var combined = new Dictionary<string, TrackerFlagEntry>(StringComparer.Ordinal);
             var counts = new Dictionary<string, int>(StringComparer.Ordinal);
@@ -633,57 +617,6 @@ public static partial class McpTools
         finally
         {
             TrackerFetchLock.Release();
-        }
-    }
-
-    private static async Task<Dictionary<string, string>?> FetchOnlineAllowlistAsync(CancellationToken token)
-    {
-        try
-        {
-            using var cts = CancellationTokenSource.CreateLinkedTokenSource(token);
-            cts.CancelAfter(TimeSpan.FromSeconds(12));
-            string payload = await Http.GetStringBoundedAsync(
-                    TrackerHttpClient,
-                    RobloxFastFlagAllowlist.AnnouncementUrl + ".json",
-                    token: cts.Token
-                )
-                .ConfigureAwait(false);
-            if (string.IsNullOrWhiteSpace(payload))
-                return null;
-
-            using JsonDocument doc = JsonDocument.Parse(payload);
-            if (
-                !doc.RootElement.TryGetProperty("post_stream", out JsonElement stream)
-                || !stream.TryGetProperty("posts", out JsonElement posts)
-                || posts.ValueKind != JsonValueKind.Array
-                || posts.GetArrayLength() == 0
-                || !posts[0].TryGetProperty("cooked", out JsonElement cookedEl)
-            )
-                return null;
-
-            string cooked = cookedEl.GetString() ?? string.Empty;
-            int start = cooked.IndexOf("What Fast Flags are currently on the allowlist?", StringComparison.OrdinalIgnoreCase);
-            int end = cooked.IndexOf("How have the Fast Flags on the Allowlist been chosen?", StringComparison.OrdinalIgnoreCase);
-            if (start < 0 || end <= start)
-                return null;
-
-            string section = cooked[start..end];
-            var parsed = new Dictionary<string, string>(StringComparer.Ordinal);
-            foreach (Match catMatch in AllowlistCategoryRegex.Matches(section))
-            {
-                string category = WebUtility.HtmlDecode(catMatch.Groups["category"].Value).Trim();
-                foreach (Match itemMatch in AllowlistItemRegex.Matches(catMatch.Groups["items"].Value))
-                {
-                    string flag = itemMatch.Groups["flag"].Value;
-                    parsed[flag] = category;
-                }
-            }
-
-            return parsed.Count > 0 ? parsed : null;
-        }
-        catch
-        {
-            return null;
         }
     }
 
