@@ -18,12 +18,6 @@ public static class CodeEditorBehavior
         typeof(CodeEditorBehavior),
         new PropertyMetadata(null, OnLanguageChanged));
 
-    private static readonly DependencyProperty HighlighterProperty = DependencyProperty.RegisterAttached(
-        "Highlighter",
-        typeof(CurrentLineHighlighter),
-        typeof(CodeEditorBehavior),
-        new PropertyMetadata(null));
-
     public static void SetLanguage(DependencyObject element, string value) => element.SetValue(LanguageProperty, value);
 
     public static string GetLanguage(DependencyObject element) => (string)element.GetValue(LanguageProperty);
@@ -65,7 +59,6 @@ public static class CodeEditorBehavior
             Voidstrap.UI.Elements.Editor.EditorAppearance.Attach(editor);
             InstallEditingCommands(editor);
 
-            editor.SetValue(HighlighterProperty, new CurrentLineHighlighter(editor.TextArea));
         }
         catch (Exception ex)
         {
@@ -463,11 +456,6 @@ public static class CodeEditorBehavior
 
     private static void Detach(TextEditor editor)
     {
-        if (editor.GetValue(HighlighterProperty) is CurrentLineHighlighter existing)
-        {
-            existing.Dispose();
-            editor.SetValue(HighlighterProperty, null);
-        }
     }
 
     private static void ApplyChrome(TextEditor editor)
@@ -489,6 +477,11 @@ public static class CodeEditorBehavior
 
         SolidColorBrush link = new(Color.FromRgb(0x4E, 0xC9, 0xB0));
         link.Freeze();
+
+        SolidColorBrush currentLine = new(Color.FromArgb(0x1F, 0xFF, 0xFF, 0xFF));
+        currentLine.Freeze();
+        editor.TextArea.TextView.CurrentLineBackground = currentLine;
+        editor.TextArea.TextView.CurrentLineBorder = null;
 
         editor.Background = background;
         editor.Foreground = foreground;
