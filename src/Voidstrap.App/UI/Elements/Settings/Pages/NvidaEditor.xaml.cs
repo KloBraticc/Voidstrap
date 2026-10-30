@@ -89,8 +89,12 @@ public partial class NvidiaFFlagEditorPage : UiPage
         UpdateEmptyState();
     }
 
+    private void EditorSettings_Click(object sender, RoutedEventArgs e) =>
+        new Voidstrap.UI.Elements.Editor.EditorSettingsWindow(DataGridRef, App.Settings.Prop.NvidiaEditorAppearance).ShowOwnedDialog();
+
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
+        Voidstrap.UI.Elements.Editor.EditorAppearance.Apply(DataGridRef, App.Settings.Prop.NvidiaEditorAppearance);
         if (_pageActive)
             return;
 

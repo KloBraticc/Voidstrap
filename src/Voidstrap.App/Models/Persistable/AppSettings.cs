@@ -148,6 +148,10 @@ namespace Voidstrap.Models.Persistable
 
         public double EditorBackgroundImageOpacity { get; set; } = 0.15;
 
+        public GridEditorAppearance FastFlagEditorAppearance { get; set; } = new();
+
+        public GridEditorAppearance NvidiaEditorAppearance { get; set; } = new();
+
         public bool DisableCrash { get; set; } = false;
         public string UseCustomIcon { get; set; } = "";
         public string CustomGameName { get; set; } = "";

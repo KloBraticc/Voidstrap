@@ -204,8 +204,12 @@ public partial class FastFlagEditorPage : UiPage
         UpdateHistoryCount();
     }
 
+    private void EditorSettings_Click(object sender, RoutedEventArgs e) =>
+        new Voidstrap.UI.Elements.Editor.EditorSettingsWindow(DataGrid, App.Settings.Prop.FastFlagEditorAppearance).ShowOwnedDialog();
+
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
+        Voidstrap.UI.Elements.Editor.EditorAppearance.Apply(DataGrid, App.Settings.Prop.FastFlagEditorAppearance);
         if (!_searchTimerAttached)
         {
             _searchDebounce.Tick += SearchDebounce_Tick;

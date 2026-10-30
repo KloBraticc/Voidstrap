@@ -91,10 +91,27 @@ internal static class EditorAppearance
         editor.Options.HighlightCurrentLine = settings.EditorHighlightLine;
     }
 
-    private static Brush BuildBackground()
+    public static void Apply(DataGrid grid, GridEditorAppearance appearance)
     {
-        Color color = BackgroundColor;
-        string path = App.Settings.Prop.EditorBackgroundImage ?? "";
+        Color color = ParseColor(string.IsNullOrWhiteSpace(appearance.Background) ? null : appearance.Background, Colors.Transparent);
+        grid.Background = BuildBackground(color, appearance.BackgroundImage, appearance.BackgroundImageOpacity);
+        if (string.IsNullOrWhiteSpace(appearance.Foreground))
+            grid.Resources.Remove("TextFillColorPrimaryBrush");
+        else
+            grid.Resources["TextFillColorPrimaryBrush"] = new SolidColorBrush(ParseColor(appearance.Foreground, Colors.White));
+        if (string.IsNullOrWhiteSpace(appearance.FontFamily))
+            grid.ClearValue(Control.FontFamilyProperty);
+        else
+            grid.FontFamily = new System.Windows.Media.FontFamily(appearance.FontFamily);
+        grid.FontSize = Math.Clamp(appearance.FontSize, 8.0, 40.0);
+        grid.RowHeight = Math.Max(32.0, grid.FontSize * 2);
+    }
+
+    private static Brush BuildBackground() =>
+        BuildBackground(BackgroundColor, App.Settings.Prop.EditorBackgroundImage ?? "", App.Settings.Prop.EditorBackgroundImageOpacity);
+
+    private static Brush BuildBackground(Color color, string path, double opacity)
+    {
         if (Voidstrap.Utility.Platform.IsMacOS || path.Length == 0 || !File.Exists(path))
             return new SolidColorBrush(color);
         try
@@ -108,7 +125,7 @@ internal static class EditorAppearance
             Rect area = new(0, 0, image.PixelWidth, image.PixelHeight);
             DrawingGroup group = new();
             group.Children.Add(new GeometryDrawing(new SolidColorBrush(color), null, new RectangleGeometry(area)));
-            DrawingGroup picture = new() { Opacity = Math.Clamp(App.Settings.Prop.EditorBackgroundImageOpacity, 0.0, 1.0) };
+            DrawingGroup picture = new() { Opacity = Math.Clamp(opacity, 0.0, 1.0) };
             picture.Children.Add(new ImageDrawing(image, area));
             group.Children.Add(picture);
             return new DrawingBrush(group) { Stretch = Stretch.UniformToFill };
@@ -164,15 +181,14 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
 {
     private readonly StackPanel _fields = new() { Margin = new Thickness(16) };
 
+    private readonly DataGrid? _grid;
+
+    private readonly GridEditorAppearance? _appearance;
+
     public EditorSettingsWindow()
     {
-        Title = Strings.Ui_EditorSettings_Title;
-        Width = 460;
-        SizeToContent = SizeToContent.Height;
-        ExtendsContentIntoTitleBar = true;
-        WindowStartupLocation = WindowStartupLocation.CenterOwner;
-        VisualStudioTheme.Apply(this);
         var settings = App.Settings.Prop;
+        BuildWindow();
         AddColor(Strings.Ui_EditorSettings_Background, settings.EditorBackground, value => settings.EditorBackground = value);
         AddColor(Strings.Ui_EditorSettings_TextColor, settings.EditorForeground, value => settings.EditorForeground = value);
         AddText(Strings.Ui_EditorSettings_Font, settings.EditorFontFamily, value => settings.EditorFontFamily = value);
@@ -180,8 +196,35 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
         AddToggle(Strings.Ui_EditorSettings_WordWrap, settings.EditorWordWrap, value => settings.EditorWordWrap = value);
         AddToggle(Strings.Ui_EditorSettings_LineNumbers, settings.EditorLineNumbers, value => settings.EditorLineNumbers = value);
         AddToggle(Strings.Ui_EditorSettings_HighlightLine, settings.EditorHighlightLine, value => settings.EditorHighlightLine = value);
+        FinishWindow(settings.EditorBackgroundImageOpacity, value => settings.EditorBackgroundImageOpacity = value);
+    }
+
+    public EditorSettingsWindow(DataGrid grid, GridEditorAppearance appearance)
+    {
+        _grid = grid;
+        _appearance = appearance;
+        BuildWindow();
+        AddColor(Strings.Ui_EditorSettings_Background, appearance.Background, value => appearance.Background = value);
+        AddColor(Strings.Ui_EditorSettings_TextColor, appearance.Foreground, value => appearance.Foreground = value);
+        AddText(Strings.Ui_EditorSettings_Font, appearance.FontFamily, value => appearance.FontFamily = value);
+        AddSlider(Strings.Ui_EditorSettings_FontSize, 8, 40, appearance.FontSize, value => appearance.FontSize = value);
+        FinishWindow(appearance.BackgroundImageOpacity, value => appearance.BackgroundImageOpacity = value);
+    }
+
+    private void BuildWindow()
+    {
+        Title = Strings.Ui_EditorSettings_Title;
+        Width = 460;
+        SizeToContent = SizeToContent.Height;
+        ExtendsContentIntoTitleBar = true;
+        WindowStartupLocation = WindowStartupLocation.CenterOwner;
+        VisualStudioTheme.Apply(this);
+    }
+
+    private void FinishWindow(double imageOpacity, Action<double> setImageOpacity)
+    {
         if (!Voidstrap.Utility.Platform.IsMacOS)
-            AddImageRow();
+            AddImageRow(imageOpacity, setImageOpacity);
         Wpf.Ui.Controls.Button reset = new() { Content = Strings.Common_Reset, Margin = new Thickness(0, 8, 0, 0), HorizontalAlignment = HorizontalAlignment.Right };
         reset.Click += Reset_Click;
         _fields.Children.Add(reset);
@@ -194,8 +237,40 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
         Content = root;
     }
 
+    private void Changed()
+    {
+        if (_grid != null && _appearance != null)
+        {
+            EditorAppearance.Apply(_grid, _appearance);
+            App.Settings.SaveDeferred();
+            return;
+        }
+        EditorAppearance.Refresh();
+    }
+
+    private void SetImage(string path)
+    {
+        if (_appearance != null)
+            _appearance.BackgroundImage = path;
+        else
+            App.Settings.Prop.EditorBackgroundImage = path;
+        Changed();
+    }
+
     private void Reset_Click(object sender, RoutedEventArgs e)
     {
+        if (_appearance != null)
+        {
+            _appearance.Background = "";
+            _appearance.Foreground = "";
+            _appearance.FontFamily = "";
+            _appearance.FontSize = 13;
+            _appearance.BackgroundImage = "";
+            _appearance.BackgroundImageOpacity = 0.15;
+            Changed();
+            Close();
+            return;
+        }
         var settings = App.Settings.Prop;
         settings.EditorBackground = "";
         settings.EditorForeground = "";
@@ -206,7 +281,7 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
         settings.EditorHighlightLine = true;
         settings.EditorBackgroundImage = "";
         settings.EditorBackgroundImageOpacity = 0.15;
-        EditorAppearance.Refresh();
+        Changed();
         Close();
     }
 
@@ -220,7 +295,7 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
         box.TextChanged += (_, _) =>
         {
             set(box.Text);
-            EditorAppearance.Refresh();
+            Changed();
         };
         _fields.Children.Add(box);
     }
@@ -245,7 +320,7 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
             value = $"#{color.R:X2}{color.G:X2}{color.B:X2}";
             swatch.Background = new SolidColorBrush(color);
             set(value);
-            EditorAppearance.Refresh();
+            Changed();
         };
         _fields.Children.Add(swatch);
     }
@@ -257,7 +332,7 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
         slider.ValueChanged += (_, e) =>
         {
             set(e.NewValue);
-            EditorAppearance.Refresh();
+            Changed();
         };
         _fields.Children.Add(slider);
     }
@@ -268,12 +343,12 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
         box.Click += (_, _) =>
         {
             set(box.IsChecked == true);
-            EditorAppearance.Refresh();
+            Changed();
         };
         _fields.Children.Add(box);
     }
 
-    private void AddImageRow()
+    private void AddImageRow(double imageOpacity, Action<double> setImageOpacity)
     {
         AddLabel(Strings.Ui_EditorSettings_Image);
         StackPanel row = new() { Orientation = Orientation.Horizontal };
@@ -284,7 +359,7 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
         row.Children.Add(browse);
         row.Children.Add(clear);
         _fields.Children.Add(row);
-        AddSlider(Strings.Ui_EditorSettings_ImageOpacity, 0, 1, App.Settings.Prop.EditorBackgroundImageOpacity, value => App.Settings.Prop.EditorBackgroundImageOpacity = value);
+        AddSlider(Strings.Ui_EditorSettings_ImageOpacity, 0, 1, imageOpacity, setImageOpacity);
     }
 
     private void Browse_Click(object sender, RoutedEventArgs e)
@@ -292,13 +367,11 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
         Microsoft.Win32.OpenFileDialog picker = new() { Filter = Strings.Ui_EditorSettings_ImageFilter, CheckFileExists = true };
         if (picker.ShowDialog(this) != true)
             return;
-        App.Settings.Prop.EditorBackgroundImage = picker.FileName;
-        EditorAppearance.Refresh();
+        SetImage(picker.FileName);
     }
 
     private void Clear_Click(object sender, RoutedEventArgs e)
     {
-        App.Settings.Prop.EditorBackgroundImage = "";
-        EditorAppearance.Refresh();
+        SetImage("");
     }
 }

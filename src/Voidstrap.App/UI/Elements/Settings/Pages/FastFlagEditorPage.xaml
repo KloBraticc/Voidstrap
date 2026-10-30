@@ -1,6 +1,6 @@
 <ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.FastFlagEditorPage"
            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:editor="clr-namespace:Voidstrap.UI.Elements.Editor"
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -31,7 +31,7 @@
                Text="{resources:Loc Ui_Pages_ManageYourFastFlagsACheckmarkIn}" />
 
     <WrapPanel Grid.Row="1" Orientation="Horizontal">
-      <editor:EditorSettingsButton Margin="0,0,10,12" VerticalAlignment="Top" />
+      <ui:Button Margin="0,0,10,12" VerticalAlignment="Top" Content="{resources:Loc Ui_EditorSettings_Title}" Icon="Settings24" Click="EditorSettings_Click" />
       <ui:Button Width="110" Margin="0,0,10,12" Content="{resources:Loc Menu_FastFlagEditor_AddNew}" Icon="AddCircle24" Click="AddButton_Click" />
       <ui:Button Margin="0,0,10,12" VerticalAlignment="Top" Appearance="Danger" Background="#ff3334" Content="{resources:Loc Menu_FastFlagEditor_DeleteSelected}" Icon="SlideEraser24" Click="DeleteButton_Click">
         <ui:Button.PressedBackground>
