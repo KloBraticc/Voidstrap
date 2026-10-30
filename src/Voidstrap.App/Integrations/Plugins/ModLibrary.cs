@@ -120,6 +120,7 @@ public static partial class ModLibrary
                 return _cached;
             byte[] bytes = await DownloadAsync(IndexUrl + "?t=" + DateTime.UtcNow.Ticks, MaxIndexBytes, token);
             Index index = ParseIndex(bytes);
+            SaveIndexCopy(bytes);
             _cached = index;
             _cachedAt = DateTime.UtcNow;
             App.Logger.WriteLine(LogIdent, "Loaded " + index.Mods.Count + " library mods at " + index.Commit[..12]);
@@ -128,6 +129,41 @@ public static partial class ModLibrary
         finally
         {
             IndexGate.Release();
+        }
+    }
+
+    private static string IndexCopyPath => Path.Combine(Paths.Cache, "ModLibraryIndex.json");
+
+    public static Index? GetLastKnownIndex()
+    {
+        if (_cached != null)
+            return _cached;
+        try
+        {
+            string path = IndexCopyPath;
+            if (!File.Exists(path) || new FileInfo(path).Length > MaxIndexBytes)
+                return null;
+            return ParseIndex(File.ReadAllBytes(path));
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or InvalidDataException or InvalidOperationException or FormatException)
+        {
+            App.Logger.WriteLine(LogIdent, "Ignored the saved library index: " + ex.Message);
+            return null;
+        }
+    }
+
+    private static void SaveIndexCopy(byte[] bytes)
+    {
+        try
+        {
+            string path = IndexCopyPath;
+            Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+            File.WriteAllBytes(path + ".tmp", bytes);
+            File.Move(path + ".tmp", path, true);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            App.Logger.WriteLine(LogIdent, "Could not save the library index: " + ex.Message);
         }
     }
 

@@ -41,7 +41,8 @@ public partial class VoidstrapModsPage : UiPage
         PluginHost.StatusChanged += OnStatusChanged;
         PluginHost.ModsChanged -= OnModsChanged;
         PluginHost.ModsChanged += OnModsChanged;
-        RenderMods();
+        EnsureRenderTimer();
+        RenderTimer_Tick(null, EventArgs.Empty);
         RenderAll();
         RenderStatus();
         RenderAccount();
@@ -82,13 +83,17 @@ public partial class VoidstrapModsPage : UiPage
     {
         if (!IsLoaded || Dispatcher.HasShutdownStarted)
             return;
-        if (_renderTimer == null)
-        {
-            _renderTimer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
-            _renderTimer.Tick += RenderTimer_Tick;
-        }
-        if (!_renderTimer.IsEnabled)
+        EnsureRenderTimer();
+        if (_renderTimer is { IsEnabled: false })
             _renderTimer.Start();
+    }
+
+    private void EnsureRenderTimer()
+    {
+        if (_renderTimer != null)
+            return;
+        _renderTimer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
+        _renderTimer.Tick += RenderTimer_Tick;
     }
 
     private async void RenderTimer_Tick(object? sender, EventArgs e)
@@ -101,7 +106,8 @@ public partial class VoidstrapModsPage : UiPage
         HashSet<string> updating = [.. _updateSpins.Keys];
         try
         {
-            List<ModRenderItem> items = await Task.Run(async () =>
+            List<string> pendingIcons = [];
+            List<ModRenderItem> items = await Task.Run(() =>
             {
                 IReadOnlyList<PluginHost.ModInfo> mods = PluginHost.ListMods();
                 List<ModRenderItem> built = [];
@@ -109,7 +115,9 @@ public partial class VoidstrapModsPage : UiPage
                 {
                     ModLibrary.LibraryMod? libraryMod = _libraryIndex?.Mods.FirstOrDefault(m => m.Name == mod.Name);
                     PluginManifest.TryRead(mod.Directory, out PluginManifest? manifest, out _);
-                    BitmapSource? icon = await DecodeModIconAsync(mod.Directory).ConfigureAwait(false);
+                    BitmapSource? icon = CachedModIcon(mod.Directory, out bool iconPending);
+                    if (iconPending)
+                        pendingIcons.Add(mod.Directory);
                     bool hasUpdate = libraryMod != null && ModLibrary.GetState(libraryMod) == ModLibrary.InstallState.UpdateAvailable;
                     built.Add(new ModRenderItem(mod, libraryMod, manifest, icon, hasUpdate, updating.Contains(mod.Name)));
                 }
@@ -118,13 +126,15 @@ public partial class VoidstrapModsPage : UiPage
             if (generation != _renderGeneration || !IsLoaded || Dispatcher.HasShutdownStarted)
                 return;
             string signature = string.Join("|", items.Select(item => item.Signature));
-            if (signature == _lastModSignature && ModsHost.Children.Count == items.Count)
-                return;
-            _lastModSignature = signature;
-            ModsHost.Children.Clear();
-            EmptyText.Visibility = items.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-            foreach (ModRenderItem item in items)
-                ModsHost.Children.Add(BuildInstalledModCard(item));
+            if (signature != _lastModSignature || ModsHost.Children.Count != items.Count)
+            {
+                _lastModSignature = signature;
+                ModsHost.Children.Clear();
+                EmptyText.Visibility = items.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+                foreach (ModRenderItem item in items)
+                    ModsHost.Children.Add(BuildInstalledModCard(item));
+            }
+            _ = FillModIconsAsync(pendingIcons, generation);
         }
         catch (Exception ex)
         {
@@ -133,6 +143,36 @@ public partial class VoidstrapModsPage : UiPage
         finally
         {
             _modRenderRunning = false;
+        }
+    }
+
+    private async Task FillModIconsAsync(List<string> directories, int generation)
+    {
+        if (directories.Count == 0)
+            return;
+        BitmapSource?[] icons = await Task.WhenAll(directories.Select(DecodeModIconAsync));
+        if (generation != _renderGeneration || !IsLoaded || !icons.Any(icon => icon != null))
+            return;
+        _lastModSignature = "";
+        RenderMods();
+    }
+
+    private static BitmapSource? CachedModIcon(string directory, out bool pending)
+    {
+        pending = false;
+        try
+        {
+            string? iconPath = ModFiles.GetIconPath(directory);
+            if (iconPath == null)
+                return null;
+            if (_iconCache.TryGetValue(iconPath, out (DateTime Stamp, BitmapSource? Icon) cached) && cached.Stamp == File.GetLastWriteTimeUtc(iconPath))
+                return cached.Icon;
+            pending = true;
+            return null;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            return null;
         }
     }
 
@@ -711,15 +751,56 @@ public partial class VoidstrapModsPage : UiPage
         _libraryCts?.Dispose();
         _libraryCts = new CancellationTokenSource();
         CancellationToken token = _libraryCts.Token;
-        LibraryStatusText.Text = Strings.Ui_VoidstrapMods_LibraryLoading;
-        LibraryEmpty.Visibility = Visibility.Visible;
-        try
+        ModLibrary.Index? known = _libraryIndex ?? await Task.Run(ModLibrary.GetLastKnownIndex);
+        if (token.IsCancellationRequested)
+            return;
+        Task knownIcons = Task.CompletedTask;
+        if (known != null)
         {
-            _libraryIndex = await ModLibrary.GetIndexAsync(refresh, token);
+            _libraryIndex = known;
             PopulateSorts();
             RenderLibrary();
-            ReportTakedowns(_libraryIndex);
-            ModLibrary.Index index = _libraryIndex;
+            knownIcons = LoadLibraryIconsAsync(known, token);
+            RenderMods();
+        }
+        else
+        {
+            LibraryStatusText.Text = Strings.Ui_VoidstrapMods_LibraryLoading;
+            LibraryEmpty.Visibility = Visibility.Visible;
+        }
+        try
+        {
+            ModLibrary.Index fresh = await ModLibrary.GetIndexAsync(refresh, token);
+            bool changed = known == null || !string.Equals(known.Commit, fresh.Commit, StringComparison.Ordinal);
+            _libraryIndex = fresh;
+            if (changed)
+            {
+                PopulateSorts();
+                RenderLibrary();
+            }
+            ReportTakedowns(fresh);
+            await knownIcons;
+            if (changed)
+                await LoadLibraryIconsAsync(fresh, token);
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+        catch (Exception ex)
+        {
+            if (known != null)
+            {
+                App.Logger.WriteLine("VoidstrapModsPage::LoadLibraryAsync", "Showing the saved library: " + ex.Message);
+                return;
+            }
+            LibraryHost.Children.Clear();
+            LibraryStatusText.Text = string.Format(Strings.Ui_VoidstrapMods_LibraryFailed, ex.Message);
+            LibraryEmpty.Visibility = Visibility.Visible;
+        }
+    }
+
+    private async Task LoadLibraryIconsAsync(ModLibrary.Index index, CancellationToken token)
+    {
+        try
+        {
             List<Task<(string Id, BitmapSource? Icon)>> loading = index
                 .Mods.Where(m => m.HasIcon && !_libraryIcons.ContainsKey(m.Id))
                 .Select(mod => LoadLibraryIconAsync(index, mod, token))
@@ -748,12 +829,6 @@ public partial class VoidstrapModsPage : UiPage
             RenderMods();
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested) { }
-        catch (Exception ex)
-        {
-            LibraryHost.Children.Clear();
-            LibraryStatusText.Text = string.Format(Strings.Ui_VoidstrapMods_LibraryFailed, ex.Message);
-            LibraryEmpty.Visibility = Visibility.Visible;
-        }
     }
 
     private static async Task<(string Id, BitmapSource? Icon)> LoadLibraryIconAsync(ModLibrary.Index index, ModLibrary.LibraryMod mod, CancellationToken token)
