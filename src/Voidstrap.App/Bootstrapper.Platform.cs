@@ -1,54 +1,32 @@
-using System;
+using Voidstrap.Platform.Linux;
+using Voidstrap.Platform.MacOS;
+using Voidstrap.RobloxInterfaces;
+using Voidstrap.UI.Elements.Bootstrapper.Base;
+using Voidstrap.UI.Elements.Settings;
+using Voidstrap.UI.Elements.Settings.Pages;
+using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.Zip;
+using Microsoft.VisualBasic.Devices;
+using Microsoft.Win32;
 using System.Buffers;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
-using System.Text;
-using System.Text.Json;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Shell;
 using System.Windows.Threading;
-using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
-using Microsoft.VisualBasic.Devices;
-using Microsoft.Win32;
 using Voidstrap.AppData;
 using Voidstrap.Core;
-using Voidstrap.Enums;
-using Voidstrap.Exceptions;
-using Voidstrap.Extensions;
 using Voidstrap.Integrations;
 using Voidstrap.Integrations.AssetProxy;
-using Voidstrap.Models;
-using Voidstrap.Models.APIs.Roblox;
-using Voidstrap.Models.Manifest;
-using Voidstrap.Models.Persistable;
 using Voidstrap.Platform;
-using Voidstrap.Platform.Linux;
-using Voidstrap.Platform.MacOS;
-using Voidstrap.Resources;
-using Voidstrap.RobloxInterfaces;
-using Voidstrap.UI;
-using Voidstrap.UI.Elements.Bootstrapper.Base;
-using Voidstrap.UI.Elements.Settings;
-using Voidstrap.UI.Elements.Settings.Pages;
-using Voidstrap.Utility;
 
 namespace Voidstrap;
 
@@ -334,6 +312,8 @@ public partial class Bootstrapper
 
     private static void RepairModRootCaseCore()
     {
+        const string LOG_IDENT = "Bootstrapper::RepairModRootCase";
+
         foreach (string directory in Directory.EnumerateDirectories(Paths.Mods))
         {
             string name = Path.GetFileName(directory);
@@ -373,11 +353,11 @@ public partial class Bootstrapper
                     File.Move(file, destination, true);
                 }
                 Directory.Delete(directory, true);
-                App.Logger.WriteLine("Bootstrapper::RepairModRootCase", "Moved the " + name + " mod folder into " + canonical);
+                App.Logger.WriteLine(LOG_IDENT, "Moved the " + name + " mod folder into " + canonical);
             }
             catch (Exception ex)
             {
-                App.Logger.WriteLine("Bootstrapper::RepairModRootCase", "Could not move the " + name + " mod folder: " + ex.Message);
+                App.Logger.WriteLine(LOG_IDENT, "Could not move the " + name + " mod folder: " + ex.Message);
             }
         }
     }
@@ -402,6 +382,8 @@ public partial class Bootstrapper
 
     private static void RepairFlattenedModNamesCore()
     {
+        const string LOG_IDENT = "Bootstrapper::RepairFlattenedModNames";
+
         foreach (string file in Directory.EnumerateFiles(Paths.Mods))
         {
             string name = Path.GetFileName(file);
@@ -422,11 +404,11 @@ public partial class Bootstrapper
                     Directory.CreateDirectory(Path.GetDirectoryName(target)!);
                     File.Move(file, target);
                 }
-                App.Logger.WriteLine("Bootstrapper::RepairFlattenedModNames", "Moved " + name + " into its folder");
+                App.Logger.WriteLine(LOG_IDENT, "Moved " + name + " into its folder");
             }
             catch (Exception ex)
             {
-                App.Logger.WriteLine("Bootstrapper::RepairFlattenedModNames", "Could not move " + name + ": " + ex.Message);
+                App.Logger.WriteLine(LOG_IDENT, "Could not move " + name + ": " + ex.Message);
             }
         }
     }

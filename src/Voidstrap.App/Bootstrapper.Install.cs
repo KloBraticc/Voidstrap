@@ -1,54 +1,32 @@
-using System;
+using System.Windows;
+using System.Windows.Shell;
+using Microsoft.VisualBasic.Devices;
+using Microsoft.Win32;
+using Voidstrap.Core;
+using Voidstrap.Integrations;
+using Voidstrap.Integrations.AssetProxy;
+using Voidstrap.Platform.Linux;
+using Voidstrap.Platform.MacOS;
+using Voidstrap.RobloxInterfaces;
+using Voidstrap.UI.Elements.Bootstrapper.Base;
+using Voidstrap.UI.Elements.Settings;
+using Voidstrap.UI.Elements.Settings.Pages;
+using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.Zip;
 using System.Buffers;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
-using System.Text;
-using System.Text.Json;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Shell;
 using System.Windows.Threading;
-using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
-using Microsoft.VisualBasic.Devices;
-using Microsoft.Win32;
 using Voidstrap.AppData;
-using Voidstrap.Core;
-using Voidstrap.Enums;
-using Voidstrap.Exceptions;
-using Voidstrap.Extensions;
-using Voidstrap.Integrations;
-using Voidstrap.Integrations.AssetProxy;
-using Voidstrap.Models;
-using Voidstrap.Models.APIs.Roblox;
-using Voidstrap.Models.Manifest;
-using Voidstrap.Models.Persistable;
 using Voidstrap.Platform;
-using Voidstrap.Platform.Linux;
-using Voidstrap.Platform.MacOS;
-using Voidstrap.Resources;
-using Voidstrap.RobloxInterfaces;
-using Voidstrap.UI;
-using Voidstrap.UI.Elements.Bootstrapper.Base;
-using Voidstrap.UI.Elements.Settings;
-using Voidstrap.UI.Elements.Settings.Pages;
-using Voidstrap.Utility;
 
 namespace Voidstrap;
 
@@ -56,11 +34,13 @@ public partial class Bootstrapper
 {
     private async Task UpgradeRoblox()
     {
+        const string LOG_IDENT = "Bootstrapper::UpgradeRoblox";
+
         CancellationToken ct = _cancelTokenSource.Token;
         string stagingDirectory = _latestVersionDirectory + ".installing";
         if (Interlocked.Exchange(ref _isInstalling, 1) == 1)
         {
-            App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", "Upgrade already in progress, skipping.");
+            App.Logger.WriteLine(LOG_IDENT, "Upgrade already in progress, skipping.");
             return;
         }
         try
@@ -95,7 +75,7 @@ public partial class Bootstrapper
                     {
                         File.Delete(staleFile);
                         App.Logger.WriteLine(
-                            "Bootstrapper::UpgradeRoblox",
+                            LOG_IDENT,
                             "Deleted stale partial download older than 24 hours: " + Path.GetFileName(staleFile)
                         );
                     }
@@ -114,14 +94,14 @@ public partial class Bootstrapper
                     File.SetAttributes(blockingPath, FileAttributes.Normal);
                     File.Delete(blockingPath);
                     App.Logger.WriteLine(
-                        "Bootstrapper::UpgradeRoblox",
+                        LOG_IDENT,
                         "Removed a file that was blocking the installation folder: " + Path.GetFileName(blockingPath)
                     );
                 }
             }
             if (Directory.Exists(stagingDirectory))
             {
-                await SafeDeleteDirectoryAsync(stagingDirectory, "Bootstrapper::UpgradeRoblox", ct)
+                await SafeDeleteDirectoryAsync(stagingDirectory, LOG_IDENT, ct)
                     .ConfigureAwait(continueOnCapturedContext: false);
             }
             Directory.CreateDirectory(stagingDirectory);
@@ -223,7 +203,7 @@ public partial class Bootstrapper
                                         {
                                             Interlocked.Increment(ref failedPackages);
                                             Interlocked.CompareExchange(ref firstPackageFailure, value, null);
-                                            App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", $"Package {package.Name} failed: {value}");
+                                            App.Logger.WriteLine(LOG_IDENT, $"Package {package.Name} failed: {value}");
                                         }
                                     }
                             )
@@ -287,7 +267,7 @@ public partial class Bootstrapper
             }
             catch (Exception ex)
             {
-                App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", "MigrateCompatibilityFlags: " + ex.Message);
+                App.Logger.WriteLine(LOG_IDENT, "MigrateCompatibilityFlags: " + ex.Message);
             }
             AppData.State.VersionGuid = _latestVersionGuid;
             AppData.State.CriticalFiles = [.. _stagedCriticalFiles];
@@ -307,7 +287,7 @@ public partial class Bootstrapper
             }
             catch (Exception ex2)
             {
-                App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", "CleanupVersionsFolder: " + ex2.Message);
+                App.Logger.WriteLine(LOG_IDENT, "CleanupVersionsFolder: " + ex2.Message);
             }
             IEnumerable<string>? enumerable = App.State.Prop.Player?.PackageHashes.Values;
             IEnumerable<string> first = enumerable ?? [];
@@ -331,17 +311,17 @@ public partial class Bootstrapper
             }
             catch (Exception ex3)
             {
-                App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", "Register size failed: " + ex3.Message);
+                App.Logger.WriteLine(LOG_IDENT, "Register size failed: " + ex3.Message);
             }
             App.State.Save();
         }
         catch (OperationCanceledException) when (_cancelTokenSource.IsCancellationRequested)
         {
-            App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", "Upgrade cancelled.");
+            App.Logger.WriteLine(LOG_IDENT, "Upgrade cancelled.");
         }
         catch (Exception ex5)
         {
-            App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", $"Upgrade error: {ex5}");
+            App.Logger.WriteLine(LOG_IDENT, $"Upgrade error: {ex5}");
             string message = IsInstallationAccessError(ex5)
                 ? "Roblox could not be installed because Windows is still using part of the installation. No incomplete replacement was activated. Close Roblox and programs that scan or modify Roblox files, then try again."
                 : "Roblox could not be installed:\n" + ex5.Message;
@@ -355,14 +335,14 @@ public partial class Bootstrapper
             {
                 try
                 {
-                    await SafeDeleteDirectoryAsync(stagingDirectory, "Bootstrapper::UpgradeRoblox", CancellationToken.None)
+                    await SafeDeleteDirectoryAsync(stagingDirectory, LOG_IDENT, CancellationToken.None)
                         .ConfigureAwait(continueOnCapturedContext: false);
-                    App.Logger.WriteLine("Bootstrapper::UpgradeRoblox", "Removed the unfinished installation after the upgrade stopped");
+                    App.Logger.WriteLine(LOG_IDENT, "Removed the unfinished installation after the upgrade stopped");
                 }
                 catch (Exception cleanupException)
                 {
                     App.Logger.WriteLine(
-                        "Bootstrapper::UpgradeRoblox",
+                        LOG_IDENT,
                         "The unfinished installation could not be removed: " + cleanupException.Message
                     );
                 }
@@ -374,6 +354,8 @@ public partial class Bootstrapper
 
     private static void DeleteAbandonedStagingDirectories(string versionsRoot, string currentStagingDirectory)
     {
+        const string LOG_IDENT = "Bootstrapper::UpgradeRoblox";
+
         try
         {
             foreach (string directory in Directory.GetDirectories(versionsRoot, "version-*.installing"))
@@ -387,14 +369,14 @@ public partial class Bootstrapper
                 {
                     Directory.Delete(directory, recursive: true);
                     App.Logger.WriteLine(
-                        "Bootstrapper::UpgradeRoblox",
+                        LOG_IDENT,
                         "Deleted an abandoned unfinished installation: " + Path.GetFileName(directory)
                     );
                 }
                 catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
                 {
                     App.Logger.WriteLine(
-                        "Bootstrapper::UpgradeRoblox",
+                        LOG_IDENT,
                         "Could not delete the abandoned installation " + Path.GetFileName(directory) + ": " + ex.Message
                     );
                 }
@@ -574,7 +556,7 @@ public partial class Bootstrapper
 
     private void ValidateStagedInstallation(string stagingDirectory)
     {
-        string executable = Path.Combine(stagingDirectory, IsStudioLaunch ? AppData.ExecutableName : ProcRobloxExe);
+        string executable = Path.Combine(stagingDirectory, IsStudioLaunch ? AppData.ExecutableName : App.RobloxPlayerExeName);
         FileInfo executableInfo = new(executable);
         if (!executableInfo.Exists || executableInfo.Length < 1048576)
         {
@@ -601,6 +583,8 @@ public partial class Bootstrapper
 
     private List<InstallManifest.Entry> VerifyExtractedPackages(string stagingDirectory)
     {
+        const string LOG_IDENT = "Bootstrapper::VerifyExtractedPackages";
+
         List<InstallManifest.Entry> installedFiles = [];
         List<string> damaged = [];
         foreach (Package package in _versionPackageManifest ?? [])
@@ -608,7 +592,7 @@ public partial class Bootstrapper
             if (FindMissingPackageFiles(package, stagingDirectory, installedFiles, out int missing) && missing > 0)
             {
                 App.Logger.WriteLine(
-                    "Bootstrapper::VerifyExtractedPackages",
+                    LOG_IDENT,
                     $"{package.Name} is missing {missing} files after extraction, extracting it again"
                 );
                 ExtractPackage(package);
@@ -626,7 +610,7 @@ public partial class Bootstrapper
                     + ". Your antivirus most likely removed them. Add the Roblox versions folder to your antivirus exclusions, then launch again."
             );
         }
-        App.Logger.WriteLine("Bootstrapper::VerifyExtractedPackages", $"Verified {installedFiles.Count} installed files");
+        App.Logger.WriteLine(LOG_IDENT, $"Verified {installedFiles.Count} installed files");
         return installedFiles;
     }
 
@@ -660,6 +644,8 @@ public partial class Bootstrapper
 
     private int CountMissingInstalledFiles()
     {
+        const string LOG_IDENT = "Bootstrapper::MustUpgrade";
+
         if (_missingInstalledFiles >= 0)
             return _missingInstalledFiles;
         int missing = 0;
@@ -679,17 +665,17 @@ public partial class Bootstrapper
         }
         catch (InvalidDataException ex)
         {
-            App.Logger.WriteLine("Bootstrapper::MustUpgrade", ex.Message + ", the last install was cut off, repairing Roblox");
+            App.Logger.WriteLine(LOG_IDENT, ex.Message + ", the last install was cut off, repairing Roblox");
             missing = 1;
             first = InstalledFilesListName;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
-            App.Logger.WriteLine("Bootstrapper::MustUpgrade", "The installed file list could not be read: " + ex.Message);
+            App.Logger.WriteLine(LOG_IDENT, "The installed file list could not be read: " + ex.Message);
         }
         if (missing > 0)
             App.Logger.WriteLine(
-                "Bootstrapper::MustUpgrade",
+                LOG_IDENT,
                 $"{missing} installed Roblox files are missing, a repair is required, first: {first}"
             );
         _missingInstalledFiles = missing;
@@ -698,13 +684,15 @@ public partial class Bootstrapper
 
     private void VerifyCommittedInstallation()
     {
+        const string LOG_IDENT = "Bootstrapper::VerifyCommittedInstallation";
+
         foreach (string name in _stagedCriticalFiles)
         {
             if (File.Exists(Path.Combine(_latestVersionDirectory, name)))
             {
                 continue;
             }
-            App.Logger.WriteLine("Bootstrapper::VerifyCommittedInstallation", "Missing after commit: " + name);
+            App.Logger.WriteLine(LOG_IDENT, "Missing after commit: " + name);
             throw new InvalidDataException(
                 "Roblox was installed but "
                     + name
@@ -716,20 +704,22 @@ public partial class Bootstrapper
 
     private void ExtractPackage(Package package, List<string>? files = null)
     {
+        const string LOG_IDENT = "Bootstrapper::ExtractPackage";
+
         string valueOrDefault =
             AppData.PackageDirectoryMap.GetValueOrDefault(package.Name)
             ?? throw new InvalidDataException("Package " + package.Name + " is not present in the extraction map");
         string extractionRoot = _packageExtractionDirectory ?? _latestVersionDirectory;
         if (NativePackageExtractor.IsAvailable)
         {
-            App.Logger.WriteLine("Bootstrapper::ExtractPackage", "Extracting " + package.Name + " natively...");
+            App.Logger.WriteLine(LOG_IDENT, "Extracting " + package.Name + " natively...");
             NativePackageExtractor.Extract(
                 package.DownloadPath,
                 Path.Combine(extractionRoot, valueOrDefault),
                 files,
                 _cancelTokenSource.Token
             );
-            App.Logger.WriteLine("Bootstrapper::ExtractPackage", "Done: " + package.Name);
+            App.Logger.WriteLine(LOG_IDENT, "Done: " + package.Name);
             return;
         }
         string? fileFilter = null;
@@ -740,9 +730,9 @@ public partial class Bootstrapper
             );
             fileFilter = string.Join(';', values);
         }
-        App.Logger.WriteLine("Bootstrapper::ExtractPackage", "Extracting " + package.Name + "...");
+        App.Logger.WriteLine(LOG_IDENT, "Extracting " + package.Name + "...");
         new FastZip(_fastZipEvents).ExtractZip(package.DownloadPath, Path.Combine(extractionRoot, valueOrDefault), fileFilter);
-        App.Logger.WriteLine("Bootstrapper::ExtractPackage", "Done: " + package.Name);
+        App.Logger.WriteLine(LOG_IDENT, "Done: " + package.Name);
     }
 
     private static readonly string[] NativeCodeExtensions =

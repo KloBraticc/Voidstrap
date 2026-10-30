@@ -519,7 +519,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 return ok;
             }
 
-            private void OnProgress(CoreBootstrapper.DownloadProgressInfo info)
+            private void OnProgress(DownloadProgressInfo info)
             {
                 if (info == null || !string.Equals(info.BinaryType, _binaryType, StringComparison.OrdinalIgnoreCase))
                     return;

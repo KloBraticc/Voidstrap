@@ -1,61 +1,98 @@
-using System;
-using System.Buffers;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Sockets;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security.Principal;
-using System.Text;
-using System.Text.Json;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Shell;
-using System.Windows.Threading;
-using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
-using Microsoft.VisualBasic.Devices;
-using Microsoft.Win32;
-using Voidstrap.AppData;
 using Voidstrap.Core;
-using Voidstrap.Enums;
-using Voidstrap.Exceptions;
-using Voidstrap.Extensions;
 using Voidstrap.Integrations;
 using Voidstrap.Integrations.AssetProxy;
-using Voidstrap.Models;
-using Voidstrap.Models.APIs.Roblox;
-using Voidstrap.Models.Manifest;
-using Voidstrap.Models.Persistable;
-using Voidstrap.Platform;
-using Voidstrap.Platform.Linux;
-using Voidstrap.Platform.MacOS;
-using Voidstrap.Resources;
-using Voidstrap.RobloxInterfaces;
-using Voidstrap.UI;
-using Voidstrap.UI.Elements.Bootstrapper.Base;
-using Voidstrap.UI.Elements.Settings;
-using Voidstrap.UI.Elements.Settings.Pages;
-using Voidstrap.Utility;
 
 namespace Voidstrap;
 
 public partial class Bootstrapper
 {
+    private sealed class RobloxLogWaiter : IDisposable
+    {
+        private readonly FileSystemWatcher? _watcher;
+        private readonly HashSet<string> _existingLogs;
+        private readonly DateTime _launchStartedUtc;
+        private readonly TaskCompletionSource<string> _completion = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private bool _disposed;
+
+        public Task<string> Task => _completion.Task;
+
+        public RobloxLogWaiter(string directory, HashSet<string> existingLogs, DateTime launchStartedUtc)
+        {
+            const string LOG_IDENT = "Bootstrapper::RobloxLogWaiter";
+
+            _existingLogs = existingLogs;
+            _launchStartedUtc = launchStartedUtc;
+            try
+            {
+                _watcher = new FileSystemWatcher(directory, "*.log")
+                {
+                    NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime | NotifyFilters.LastWrite,
+                };
+                _watcher.Created += OnCreated;
+                _watcher.Renamed += OnRenamed;
+                _watcher.Error += OnWatcherError;
+                _watcher.EnableRaisingEvents = true;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "The Roblox log folder could not be watched: " + ex.Message);
+            }
+        }
+
+        private void OnWatcherError(object sender, ErrorEventArgs e)
+        {
+            const string LOG_IDENT = "Bootstrapper::RobloxLogWaiter";
+
+            App.Logger.WriteLine(LOG_IDENT, "The Roblox log watch hit an error: " + e.GetException().Message);
+        }
+
+        private void OnCreated(object sender, FileSystemEventArgs e)
+        {
+            TryComplete(e.FullPath);
+        }
+
+        private void OnRenamed(object sender, RenamedEventArgs e)
+        {
+            TryComplete(e.FullPath);
+        }
+
+        private void TryComplete(string path)
+        {
+            try
+            {
+                if (
+                    !_existingLogs.Contains(path)
+                    && File.Exists(path)
+                    && File.GetLastWriteTimeUtc(path) >= _launchStartedUtc.AddSeconds(-3)
+                )
+                    _completion.TrySetResult(path);
+            }
+            catch { }
+        }
+
+        public void Dispose()
+        {
+            if (_disposed)
+                return;
+            _disposed = true;
+            if (_watcher != null)
+            {
+                _watcher.EnableRaisingEvents = false;
+                _watcher.Created -= OnCreated;
+                _watcher.Renamed -= OnRenamed;
+                _watcher.Dispose();
+            }
+            GC.SuppressFinalize(this);
+        }
+    }
+
     private async Task StartRoblox(CancellationToken ct = default)
     {
+        const string LOG_IDENT = "Bootstrapper::StartRoblox";
+
         Stopwatch startTimer = Stopwatch.StartNew();
         SetStatus("Starting Roblox");
         if (_safeMode)
@@ -68,7 +105,7 @@ public partial class Bootstrapper
         {
             if (await TryLaunchNonWindowsClientAsync(_launchCommandLine, _launchMode, ct))
                 return;
-            App.Logger.WriteLine("Bootstrapper::StartRoblox", "No Roblox client available on this platform");
+            App.Logger.WriteLine(LOG_IDENT, "No Roblox client available on this platform");
             return;
         }
         try
@@ -84,16 +121,16 @@ public partial class Bootstrapper
                 else
                 {
                     App.Logger.WriteLine(
-                        "Bootstrapper::StartRoblox",
+                        LOG_IDENT,
                         "Telemetry block entries are missing and Voidstrap is not elevated, skipping reassert"
                     );
                 }
             }
             if (!_safeMode)
-                await LaunchCustomIntegrations("Bootstrapper::StartRoblox", preLaunch: true, ct);
+                await LaunchCustomIntegrations(LOG_IDENT, preLaunch: true, ct);
             if (_launchMode == LaunchMode.Player && !_noConnection)
                 await WarmRobloxSettingsDnsAsync(ct);
-            App.Logger.WriteLine("Bootstrapper::StartRoblox", "Process preparation completed in " + startTimer.ElapsedMilliseconds + " ms");
+            App.Logger.WriteLine(LOG_IDENT, "Process preparation completed in " + startTimer.ElapsedMilliseconds + " ms");
             ProcessStartInfo startInfo = BuildStartInfo();
             if (_launchMode == LaunchMode.Studio)
                 await Voidstrap.Integrations.RiShade.StudioReShade.PrepareLaunchAsync(
@@ -110,7 +147,7 @@ public partial class Bootstrapper
             Directory.CreateDirectory(text);
             string? logFileName = await WaitForLogFileAsync(text, startInfo, ct);
             App.Logger.WriteLine(
-                "Bootstrapper::StartRoblox",
+                LOG_IDENT,
                 "Process start and readiness completed in " + startTimer.ElapsedMilliseconds + " ms"
             );
             if (_safeMode && App.State.Prop.SafeLaunchPending && App.State.Prop.CacheResetPending && !string.IsNullOrEmpty(logFileName))
@@ -129,7 +166,7 @@ public partial class Bootstrapper
                             : " The old cache was saved to " + App.State.Prop.LastCacheBackup + ", you can delete it."
                     );
                 App.Logger.WriteLine(
-                    "Bootstrapper::StartRoblox",
+                    LOG_IDENT,
                     "Safe launch with a reset Roblox cache reached the renderer, the crash came from the Roblox local cache"
                 );
                 Voidstrap.Utility.AppNotifications.RecordInfo("roblox:cacheresetworked", "Roblox started after a cache reset", cacheWorked);
@@ -144,7 +181,7 @@ public partial class Bootstrapper
                     ? "Roblox started once Voidstrap launched it without your mods, FastFlags, matchmaker and launch integrations, so one of those made Roblox crash while starting. They are all back on for your next launch. If Roblox crashes again, turn your mods off in My Mods first, then reset your FastFlags, then turn off AssetWarp, until it starts."
                     : "Roblox started once Voidstrap launched it without your mods, FastFlags, matchmaker and launch integrations, so one of those made Roblox crash while starting. They are all back on for your next launch. If Roblox crashes again, turn your mods off in My Mods first, then reset your FastFlags, until it starts.";
                 App.Logger.WriteLine(
-                    "Bootstrapper::StartRoblox",
+                    LOG_IDENT,
                     "Safe launch reached the Roblox renderer, the crash comes from something Voidstrap adds"
                 );
                 Voidstrap.Utility.AppNotifications.RecordInfo("roblox:safelaunchworked", "Roblox started in a safe launch", safeWorked);
@@ -152,17 +189,17 @@ public partial class Bootstrapper
             }
             if (string.IsNullOrEmpty(logFileName))
             {
-                App.Logger.WriteLine("Bootstrapper::StartRoblox", "Unable to identify log file.");
+                App.Logger.WriteLine(LOG_IDENT, "Unable to identify log file.");
                 Frontend.ShowPlayerErrorDialog();
                 return;
             }
-            App.Logger.WriteLine("Bootstrapper::StartRoblox", "Log file: " + logFileName);
+            App.Logger.WriteLine(LOG_IDENT, "Log file: " + logFileName);
             if (IsStudioLaunch)
             {
                 await RunStudioSessionAsync(_cancelTokenSource.Token);
                 return;
             }
-            await LaunchCustomIntegrations("Bootstrapper::StartRoblox", preLaunch: false, ct);
+            await LaunchCustomIntegrations(LOG_IDENT, preLaunch: false, ct);
             await LaunchWatcherIfNeeded(logFileName, ct);
         }
         catch (OperationCanceledException) when (ct.IsCancellationRequested)
@@ -171,26 +208,28 @@ public partial class Bootstrapper
         }
         catch (Exception value)
         {
-            App.Logger.WriteLine("Bootstrapper::StartRoblox", $"Unexpected error in StartRoblox: {value}");
+            App.Logger.WriteLine(LOG_IDENT, $"Unexpected error in StartRoblox: {value}");
             Frontend.ShowPlayerErrorDialog();
         }
     }
 
     private async Task WarmRobloxSettingsDnsAsync(CancellationToken ct)
     {
+        const string LOG_IDENT = "Bootstrapper::StartRoblox";
+
         for (int attempt = 1; attempt <= 6; attempt++)
         {
             try
             {
                 await Dns.GetHostAddressesAsync("clientsettingscdn.roblox.com", ct).ConfigureAwait(false);
                 if (attempt > 1)
-                    App.Logger.WriteLine("Bootstrapper::StartRoblox", "Roblox's settings server resolved on attempt " + attempt);
+                    App.Logger.WriteLine(LOG_IDENT, "Roblox's settings server resolved on attempt " + attempt);
                 return;
             }
             catch (SocketException ex)
             {
                 App.Logger.WriteLine(
-                    "Bootstrapper::StartRoblox",
+                    LOG_IDENT,
                     $"Roblox's settings server did not resolve ({ex.SocketErrorCode}), waiting for DNS before starting Roblox"
                 );
                 if (attempt == 1)
@@ -222,6 +261,8 @@ public partial class Bootstrapper
         Action? onSearching = null
     )
     {
+        const string LOG_IDENT = "Bootstrapper::MaybeApplyVoidstrapMatchmakerAsync";
+
         if (
             launchMode != LaunchMode.Player
             || App.LaunchSettings.MatchmakerRejoinFlag.Active
@@ -238,7 +279,7 @@ public partial class Bootstrapper
         if (ServerMatchmaker.IsExcluded(placeId))
         {
             App.Logger.WriteLine(
-                "Bootstrapper::MaybeApplyVoidstrapMatchmakerAsync",
+                LOG_IDENT,
                 $"Place {placeId} is excluded from the matchmaker, launching with the original URL."
             );
             return launchCommandLine;
@@ -248,7 +289,7 @@ public partial class Bootstrapper
             return launchCommandLine;
         }
         App.Logger.WriteLine(
-            "Bootstrapper::MaybeApplyVoidstrapMatchmakerAsync",
+            LOG_IDENT,
             "Checking the launch for the Voidstrap Matchmaker, maximum 30 seconds"
         );
         onSearching?.Invoke();
@@ -262,25 +303,25 @@ public partial class Bootstrapper
         {
             case MatchmakerRewriteOutcome.Rewritten:
                 App.Logger.WriteLine(
-                    "Bootstrapper::MaybeApplyVoidstrapMatchmakerAsync",
+                    LOG_IDENT,
                     "Voidstrap Matchmaker rewrote launch URL to the closest server JobId."
                 );
                 break;
             case MatchmakerRewriteOutcome.Unchanged:
                 App.Logger.WriteLine(
-                    "Bootstrapper::MaybeApplyVoidstrapMatchmakerAsync",
+                    LOG_IDENT,
                     "Voidstrap Matchmaker did not rewrite launch URL."
                 );
                 break;
             case MatchmakerRewriteOutcome.Cancelled:
                 App.Logger.WriteLine(
-                    "Bootstrapper::MaybeApplyVoidstrapMatchmakerAsync",
+                    LOG_IDENT,
                     "Voidstrap Matchmaker timed out, launching with the original URL."
                 );
                 break;
             case MatchmakerRewriteOutcome.Failed:
                 App.Logger.WriteLine(
-                    "Bootstrapper::MaybeApplyVoidstrapMatchmakerAsync",
+                    LOG_IDENT,
                     "Voidstrap Matchmaker error, launching with the original URL: " + result.Error
                 );
                 break;
@@ -361,6 +402,8 @@ public partial class Bootstrapper
 
     private async Task<string?> WaitForLogFileAsync(string rbxLogDir, ProcessStartInfo startInfo, CancellationToken ct)
     {
+        const string LOG_IDENT = "Bootstrapper::WaitForLogFile";
+
         HashSet<string> existingLogs = GetExistingLogFiles(rbxLogDir);
         string clientSettingsPath = Path.Combine(AppData.Directory, "ClientSettings", "ClientAppSettings.json");
         string blockedFlagsPath = Path.Combine(Paths.Cache, "BlockedFastFlags.txt");
@@ -369,7 +412,7 @@ public partial class Bootstrapper
             .ConfigureAwait(false);
         if (startupCrash && !ct.IsCancellationRequested)
         {
-            App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Roblox crashed before its renderer started, relaunching once as is");
+            App.Logger.WriteLine(LOG_IDENT, "Roblox crashed before its renderer started, relaunching once as is");
             Voidstrap.Utility.AppNotifications.RecordInfo(
                 "roblox:startupcrash",
                 "Roblox crashed while starting",
@@ -384,7 +427,7 @@ public partial class Bootstrapper
         {
             _safeLaunch = true;
             App.Logger.WriteLine(
-                "Bootstrapper::WaitForLogFile",
+                LOG_IDENT,
                 "Roblox crashed again, relaunching without the process priority, memory limit and throttling changes"
             );
             SetStatus("Roblox crashed while starting, trying a safe launch");
@@ -392,7 +435,7 @@ public partial class Bootstrapper
             (logFile, timedOut, startupCrash) = await LaunchAndWaitForLogFileAsync(rbxLogDir, existingLogs, startInfo, ct)
                 .ConfigureAwait(false);
             if (!startupCrash && !string.IsNullOrEmpty(logFile))
-                App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Roblox started once the launch time process changes were skipped");
+                App.Logger.WriteLine(LOG_IDENT, "Roblox started once the launch time process changes were skipped");
         }
         if (startupCrash && !ct.IsCancellationRequested && (_launchMode != LaunchMode.Player || !File.Exists(clientSettingsPath)))
         {
@@ -417,7 +460,7 @@ public partial class Bootstrapper
             Directory.CreateDirectory(Path.GetDirectoryName(disabledPath)!);
             File.Move(clientSettingsPath, disabledPath, overwrite: true);
             App.Logger.WriteLine(
-                "Bootstrapper::WaitForLogFile",
+                LOG_IDENT,
                 "Roblox did not become ready, retrying once without the installed FastFlag file"
             );
             existingLogs = GetExistingLogFiles(rbxLogDir);
@@ -430,7 +473,7 @@ public partial class Bootstrapper
                     Directory.CreateDirectory(Path.GetDirectoryName(blockedFlagsPath)!);
                     File.WriteAllText(blockedFlagsPath, blockedHash);
                 }
-                App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Roblox recovered after the installed FastFlag file was disabled");
+                App.Logger.WriteLine(LOG_IDENT, "Roblox recovered after the installed FastFlag file was disabled");
                 return logFile;
             }
             if (!File.Exists(clientSettingsPath) && File.Exists(disabledPath))
@@ -442,7 +485,7 @@ public partial class Bootstrapper
         }
         catch (Exception ex)
         {
-            App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "FastFlag launch recovery failed: " + ex.Message);
+            App.Logger.WriteLine(LOG_IDENT, "FastFlag launch recovery failed: " + ex.Message);
             try
             {
                 if (!File.Exists(clientSettingsPath) && File.Exists(disabledPath))
@@ -561,6 +604,8 @@ public partial class Bootstrapper
 
     private async Task<bool> CrashedBeforeRendererAsync(string? logFile, CancellationToken ct)
     {
+        const string LOG_IDENT = "Bootstrapper::WaitForLogFile";
+
         Process? process = _robloxProcess;
         if (process == null || _launchMode != LaunchMode.Player)
             return false;
@@ -584,7 +629,7 @@ public partial class Bootstrapper
                     int exitCode = process.ExitCode;
                     bool crashed = IsCrashExitCode(exitCode);
                     App.Logger.WriteLine(
-                        "Bootstrapper::WaitForLogFile",
+                        LOG_IDENT,
                         $"Roblox exited before renderer readiness, code 0x{(uint)exitCode:X8}, classified as crash: {crashed}, log: {Path.GetFileName(logFile) ?? "none"}"
                     );
                     return crashed;
@@ -593,7 +638,7 @@ public partial class Bootstrapper
                 if (remaining <= TimeSpan.Zero)
                 {
                     App.Logger.WriteLine(
-                        "Bootstrapper::WaitForLogFile",
+                        LOG_IDENT,
                         $"Roblox did not report its renderer within {RendererReadyTimeout.TotalSeconds:0} seconds, skipping the startup crash check"
                     );
                     return false;
@@ -620,13 +665,15 @@ public partial class Bootstrapper
 
     private static void ReportRepeatedStartupCrash(string? robloxLogFile)
     {
-        App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Roblox crashed before its renderer started on every attempt, giving up");
+        const string LOG_IDENT = "Bootstrapper::WaitForLogFile";
+
+        App.Logger.WriteLine(LOG_IDENT, "Roblox crashed before its renderer started on every attempt, giving up");
         if (App.State.Prop.SafeLaunchPending && !App.State.Prop.CacheResetPending)
         {
             App.State.Prop.CacheResetPending = true;
             App.State.Save();
             App.Logger.WriteLine(
-                "Bootstrapper::WaitForLogFile",
+                LOG_IDENT,
                 "Safe launch crashed, trying once more with Roblox's local cache moved aside"
             );
             Voidstrap.Utility.AppNotifications.RecordInfo(
@@ -648,7 +695,7 @@ public partial class Bootstrapper
             string outside = Voidstrap.Utility.Platform.IsLinux
                 ? "Roblox still crashes while starting with a fresh install, a reset Roblox cache and everything Voidstrap adds turned off: no mods, no FastFlags, no matchmaker and no launch integrations. The crash is inside the Roblox client or this PC, not in your Voidstrap setup. Update your graphics driver, close overlays and antivirus tools that inject into games, and try launching Roblox without Voidstrap to confirm."
                 : "Roblox still crashes while starting with a fresh install, a reset Roblox cache and everything Voidstrap adds turned off: no mods, no FastFlags, no matchmaker and no launch integrations. The crash is inside the Roblox client or this PC, not in your Voidstrap setup. Update your graphics driver, close overlays and antivirus tools that inject into games, and try launching Roblox without Voidstrap to confirm.";
-            App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Safe launch also crashed, the crash is outside anything Voidstrap adds");
+            App.Logger.WriteLine(LOG_IDENT, "Safe launch also crashed, the crash is outside anything Voidstrap adds");
             Voidstrap.Utility.AppNotifications.RecordInfo("roblox:safelaunchcrashed", "Roblox crashes even in a safe launch", outside);
             Frontend.ShowMessageBox(outside, MessageBoxImage.Warning);
             return;
@@ -665,7 +712,7 @@ public partial class Bootstrapper
             App.Settings.Prop.UpdateRoblox = true;
             App.Settings.Save();
             App.Logger.WriteLine(
-                "Bootstrapper::WaitForLogFile",
+                LOG_IDENT,
                 "Installing a fresh copy of Roblox automatically after repeated startup crashes"
             );
             Voidstrap.Utility.AppNotifications.RecordInfo(
@@ -675,13 +722,13 @@ public partial class Bootstrapper
             );
             if (App.RestartApplication(App.LaunchSettings.Args))
                 return;
-            App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "The automatic reinstall could not restart Voidstrap");
+            App.Logger.WriteLine(LOG_IDENT, "The automatic reinstall could not restart Voidstrap");
         }
         if (App.State.Prop.LastSafeLaunchResult == SafeLaunchCrashed)
         {
             const string confirmed =
                 "Roblox crashed while starting again. A safe launch in the last few hours already crashed the same way with a fresh Roblox install, a reset Roblox cache and nothing from Voidstrap turned on, so this crash is inside the Roblox client or this PC, not your Voidstrap setup. Update your graphics driver from your GPU maker's website, close overlays and antivirus tools that inject into games, and check whether Roblox starts from the official Roblox launcher.";
-            App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Skipping another reinstall, the last safe launch already crashed");
+            App.Logger.WriteLine(LOG_IDENT, "Skipping another reinstall, the last safe launch already crashed");
             Voidstrap.Utility.AppNotifications.RecordInfo("roblox:safelaunchcrashed", "Roblox crashes even in a safe launch", confirmed);
             Frontend.ShowMessageBox(confirmed, MessageBoxImage.Warning);
             return;
@@ -692,7 +739,7 @@ public partial class Bootstrapper
                 ? "Roblox crashed while starting again. A safe launch in the last few hours worked once your mods, FastFlags and launch integrations were turned off, so one of those makes Roblox crash. Turn your mods off in My Mods first, then reset your FastFlags, then turn off AssetWarp, until Roblox starts."
                 : "Roblox crashed while starting again. A safe launch in the last few hours worked once your mods, FastFlags and launch integrations were turned off, so one of those makes Roblox crash. Turn your mods off in My Mods first, then reset your FastFlags, until Roblox starts.";
             App.Logger.WriteLine(
-                "Bootstrapper::WaitForLogFile",
+                LOG_IDENT,
                 "Skipping another reinstall, the last safe launch worked so the cause is a Voidstrap addition"
             );
             Voidstrap.Utility.AppNotifications.RecordInfo("roblox:safelaunchworked", "Roblox started in a safe launch", modsCause);
@@ -722,7 +769,7 @@ public partial class Bootstrapper
             App.Settings.Prop.UpdateRoblox = true;
             App.Settings.Save();
             App.Logger.WriteLine(
-                "Bootstrapper::WaitForLogFile",
+                LOG_IDENT,
                 "A fresh Roblox installation was requested after repeated startup crashes"
             );
             if (!App.RestartApplication(App.LaunchSettings.Args))
@@ -749,6 +796,8 @@ public partial class Bootstrapper
 
     private void TerminateFailedLaunchProcess()
     {
+        const string LOG_IDENT = "Bootstrapper::WaitForLogFile";
+
         Process? process = _robloxProcess;
         _robloxProcess = null;
         if (process == null)
@@ -759,12 +808,12 @@ public partial class Bootstrapper
             {
                 process.Kill(entireProcessTree: true);
                 process.WaitForExit(5000);
-                App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Terminated the unresponsive Roblox process from this launch attempt");
+                App.Logger.WriteLine(LOG_IDENT, "Terminated the unresponsive Roblox process from this launch attempt");
             }
         }
         catch (Exception ex)
         {
-            App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Could not terminate the failed Roblox process: " + ex.Message);
+            App.Logger.WriteLine(LOG_IDENT, "Could not terminate the failed Roblox process: " + ex.Message);
         }
         finally
         {

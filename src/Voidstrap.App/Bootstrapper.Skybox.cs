@@ -1,54 +1,6 @@
-using System;
-using System.Buffers;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Net.Sockets;
-using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security.Principal;
-using System.Text;
-using System.Text.Json;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Shell;
-using System.Windows.Threading;
-using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
-using Microsoft.VisualBasic.Devices;
-using Microsoft.Win32;
-using Voidstrap.AppData;
-using Voidstrap.Core;
-using Voidstrap.Enums;
-using Voidstrap.Exceptions;
-using Voidstrap.Extensions;
-using Voidstrap.Integrations;
-using Voidstrap.Integrations.AssetProxy;
-using Voidstrap.Models;
-using Voidstrap.Models.APIs.Roblox;
-using Voidstrap.Models.Manifest;
-using Voidstrap.Models.Persistable;
-using Voidstrap.Platform;
-using Voidstrap.Platform.Linux;
-using Voidstrap.Platform.MacOS;
-using Voidstrap.Resources;
-using Voidstrap.RobloxInterfaces;
-using Voidstrap.UI;
-using Voidstrap.UI.Elements.Bootstrapper.Base;
-using Voidstrap.UI.Elements.Settings;
-using Voidstrap.UI.Elements.Settings.Pages;
-using Voidstrap.Utility;
 
 namespace Voidstrap;
 
@@ -61,6 +13,8 @@ public partial class Bootstrapper
 
     public async Task EnsureSkyboxPackDownloadedAsync(string packName)
     {
+        const string LOG_IDENT = "Bootstrapper::EnsureSkyboxPackDownloaded";
+
         if (
             string.IsNullOrWhiteSpace(packName)
             || packName.Length > 128
@@ -78,7 +32,7 @@ public partial class Bootstrapper
         if (!packFolder.StartsWith(packRoot, StringComparison.OrdinalIgnoreCase))
             throw new InvalidDataException("The selected skybox name is invalid.");
 
-        string commitPath = Path.Combine(packFolder, SkyboxPackCommitFile);
+        string commitPath = Path.Combine(packFolder, App.SkyboxPackCommitFile);
         bool present = IsValidSkyboxPackDirectory(packFolder);
         if (present && File.Exists(commitPath) && DateTime.UtcNow - File.GetLastWriteTimeUtc(commitPath) < TimeSpan.FromHours(6))
             return;
@@ -94,7 +48,7 @@ public partial class Bootstrapper
         }
         catch (Exception ex)
         {
-            App.Logger.WriteLine("Bootstrapper::EnsureSkyboxPackDownloaded", "Commit check failed, keeping local pack: " + ex.Message);
+            App.Logger.WriteLine(LOG_IDENT, "Commit check failed, keeping local pack: " + ex.Message);
             if (present)
                 return;
             throw;
@@ -120,7 +74,7 @@ public partial class Bootstrapper
             if (!IsValidSkyboxPackDirectory(stagingFolder))
                 throw new InvalidDataException("The downloaded skybox pack is incomplete.");
 
-            File.WriteAllText(Path.Combine(stagingFolder, SkyboxPackCommitFile), latest);
+            File.WriteAllText(Path.Combine(stagingFolder, App.SkyboxPackCommitFile), latest);
 
             if (Directory.Exists(packFolder))
                 Directory.Move(packFolder, backupFolder);
@@ -182,36 +136,40 @@ public partial class Bootstrapper
 
     private static void TrySetCommitTimestamp(string commitPath)
     {
+        const string LOG_IDENT = "Bootstrapper::EnsureSkyboxPackDownloaded";
+
         try
         {
             File.SetLastWriteTimeUtc(commitPath, DateTime.UtcNow);
         }
         catch (Exception ex)
         {
-            App.Logger.WriteLine("Bootstrapper::EnsureSkyboxPackDownloaded", "Could not refresh the skybox timestamp: " + ex.Message);
+            App.Logger.WriteLine(LOG_IDENT, "Could not refresh the skybox timestamp: " + ex.Message);
         }
     }
 
     private async Task DownloadSkyboxPackFilesAsync(string packName, string commitSha, string stagingFolder, CancellationToken ct)
     {
+        const string LOG_IDENT = "Bootstrapper::DownloadSkyboxPack";
+
         if (!IsSkyboxCommitSha(commitSha))
             throw new InvalidDataException("The skybox version is invalid");
 
-        string prefix = SkyboxRawBaseUrl + commitSha + "/" + Uri.EscapeDataString(packName) + "/";
-        string[] urls = [.. SkyboxFileNames.Select(name => prefix + Uri.EscapeDataString(name))];
+        string prefix = App.SkyboxRawBaseUrl + commitSha + "/" + Uri.EscapeDataString(packName) + "/";
+        string[] urls = [.. App.SkyboxFileNames.Select(name => prefix + Uri.EscapeDataString(name))];
 
         long[] sizes = await Task.WhenAll(urls.Select(url => GetSkyboxFileSizeAsync(url, ct)));
         long total = 0;
         foreach (long size in sizes)
         {
-            if (size > SkyboxMaxFaceBytes)
+            if (size > App.SkyboxMaxFaceBytes)
                 throw new InvalidDataException("The skybox download exceeds the size limit.");
             if (size > 0)
                 total += size;
         }
 
         App.Logger.WriteLine(
-            "Bootstrapper::DownloadSkyboxPack",
+            LOG_IDENT,
             $"Downloading {urls.Length} skybox faces ({total:N0} bytes) from the raw CDN."
         );
 
@@ -233,10 +191,10 @@ public partial class Bootstrapper
                 new ParallelOptions { MaxDegreeOfParallelism = urls.Length, CancellationToken = ct },
                 async (index, token) =>
                 {
-                    string destination = Path.Combine(stagingFolder, SkyboxFileNames[index]);
+                    string destination = Path.Combine(stagingFolder, App.SkyboxFileNames[index]);
                     long size = sizes[index];
 
-                    if (size >= SkyboxMinSegmentBytes * 2L)
+                    if (size >= App.SkyboxMinSegmentBytes * 2L)
                     {
                         try
                         {
@@ -246,7 +204,7 @@ public partial class Bootstrapper
                                 size,
                                 bufferSize,
                                 maxSegments,
-                                SkyboxMinSegmentBytes,
+                                App.SkyboxMinSegmentBytes,
                                 Add,
                                 token
                             );
@@ -255,7 +213,7 @@ public partial class Bootstrapper
                         catch (Exception ex) when (ex is not OperationCanceledException)
                         {
                             App.Logger.WriteLine(
-                                "Bootstrapper::DownloadSkyboxPack",
+                                LOG_IDENT,
                                 "Segmented face download failed (" + ex.Message + "), using a single stream."
                             );
                         }
@@ -267,7 +225,7 @@ public partial class Bootstrapper
                         token
                     );
                     response.EnsureSuccessStatusCode();
-                    await StreamResponseToFileAsync(response, destination, bufferSize, SkyboxMaxFaceBytes, Add, token);
+                    await StreamResponseToFileAsync(response, destination, bufferSize, App.SkyboxMaxFaceBytes, Add, token);
                 }
             );
         }
@@ -535,8 +493,8 @@ public partial class Bootstrapper
         {
             Directory.CreateDirectory(stagingRoot);
             Parallel.ForEach(
-                SkyboxFileNames,
-                new ParallelOptions { MaxDegreeOfParallelism = Math.Min(ModApplyConcurrency, SkyboxFileNames.Length) },
+                App.SkyboxFileNames,
+                new ParallelOptions { MaxDegreeOfParallelism = Math.Min(ModApplyConcurrency, App.SkyboxFileNames.Length) },
                 name =>
                 {
                     string sourceFile = Path.Combine(sourceRoot, name);
@@ -580,13 +538,15 @@ public partial class Bootstrapper
 
     private async Task RestoreStoragePatchesAsync(CancellationToken ct)
     {
+        const string LOG_IDENT = "Bootstrapper::RestoreStoragePatches";
+
         if (!IsStudioLaunch && (_modSkyPatchApplied || App.Settings.Prop.SkyBoxDataSending))
         {
             try
             {
                 await ApplySkyboxPatchToRobloxStorageAsync(ct);
                 App.Logger.WriteLine(
-                    "Bootstrapper::RestoreStoragePatches",
+                    LOG_IDENT,
                     "Reapplied the skybox storage patch after the Roblox asset cache was reset."
                 );
             }
@@ -597,7 +557,7 @@ public partial class Bootstrapper
             catch (Exception ex)
             {
                 App.Logger.WriteLine(
-                    "Bootstrapper::RestoreStoragePatches",
+                    LOG_IDENT,
                     "The skybox storage patch could not be reapplied: " + ex.Message
                 );
             }
@@ -607,6 +567,8 @@ public partial class Bootstrapper
 
     internal static void ReapplyAssetCacheMods()
     {
+        const string LOG_IDENT = "Bootstrapper::RestoreStoragePatches";
+
         try
         {
             foreach (string folder in ManagedModStore.EnabledFoldersByPriority().Reverse())
@@ -618,7 +580,7 @@ public partial class Bootstrapper
         }
         catch (Exception ex)
         {
-            App.Logger.WriteLine("Bootstrapper::RestoreStoragePatches", "Asset cache mods could not be reapplied: " + ex.Message);
+            App.Logger.WriteLine(LOG_IDENT, "Asset cache mods could not be reapplied: " + ex.Message);
         }
     }
 

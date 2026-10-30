@@ -1,54 +1,5 @@
-using System;
-using System.Buffers;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Sockets;
-using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security.Principal;
-using System.Text;
-using System.Text.Json;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Shell;
-using System.Windows.Threading;
-using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
-using Microsoft.VisualBasic.Devices;
-using Microsoft.Win32;
-using Voidstrap.AppData;
-using Voidstrap.Core;
-using Voidstrap.Enums;
-using Voidstrap.Exceptions;
-using Voidstrap.Extensions;
-using Voidstrap.Integrations;
-using Voidstrap.Integrations.AssetProxy;
-using Voidstrap.Models;
-using Voidstrap.Models.APIs.Roblox;
-using Voidstrap.Models.Manifest;
-using Voidstrap.Models.Persistable;
-using Voidstrap.Platform;
-using Voidstrap.Platform.Linux;
-using Voidstrap.Platform.MacOS;
-using Voidstrap.Resources;
-using Voidstrap.RobloxInterfaces;
-using Voidstrap.UI;
-using Voidstrap.UI.Elements.Bootstrapper.Base;
-using Voidstrap.UI.Elements.Settings;
-using Voidstrap.UI.Elements.Settings.Pages;
-using Voidstrap.Utility;
 
 namespace Voidstrap;
 
@@ -56,14 +7,16 @@ public partial class Bootstrapper
 {
     private async Task ApplySkyboxModifications(bool allowStoragePatch)
     {
+        const string LOG_IDENT = "Bootstrapper::ApplyModifications";
+
         string[] files;
         if (IsStudioLaunch)
         {
-            App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Skipping skybox (Roblox Studio).");
+            App.Logger.WriteLine(LOG_IDENT, "Skipping skybox (Roblox Studio).");
         }
         else if (!App.Settings.Prop.SkyBoxDataSending)
         {
-            App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Skipping skybox (disabled).");
+            App.Logger.WriteLine(LOG_IDENT, "Skipping skybox (disabled).");
             try
             {
                 InlineArray5<string> buffer = default;
@@ -93,7 +46,7 @@ public partial class Bootstrapper
             }
             catch (Exception ex)
             {
-                App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Skybox cleanup failed: " + ex.Message);
+                App.Logger.WriteLine(LOG_IDENT, "Skybox cleanup failed: " + ex.Message);
             }
         }
         else
@@ -111,12 +64,12 @@ public partial class Bootstrapper
                 }
                 catch (Exception patchException)
                 {
-                    App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Skybox storage patch unavailable: " + patchException.Message);
+                    App.Logger.WriteLine(LOG_IDENT, "Skybox storage patch unavailable: " + patchException.Message);
                 }
                 if (!App.Settings.Prop.SkyboxName.Equals(SkyboxImageConverter.CustomPackName, StringComparison.OrdinalIgnoreCase))
                     await EnsureSkyboxPackDownloadedAsync(App.Settings.Prop.SkyboxName);
                 await ApplySkyboxAsync(App.Settings.Prop.SkyboxName, Paths.Mods);
-                App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Skybox applied: " + App.Settings.Prop.SkyboxName);
+                App.Logger.WriteLine(LOG_IDENT, "Skybox applied: " + App.Settings.Prop.SkyboxName);
             }
             catch (OperationCanceledException) when (_cancelTokenSource.IsCancellationRequested)
             {
@@ -124,13 +77,15 @@ public partial class Bootstrapper
             }
             catch (Exception ex2)
             {
-                App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Skybox failed: " + ex2.Message);
+                App.Logger.WriteLine(LOG_IDENT, "Skybox failed: " + ex2.Message);
             }
         }
     }
 
     private async Task ApplyModifications()
     {
+        const string LOG_IDENT = "Bootstrapper::ApplyModifications";
+
         SetStatus(Strings.Bootstrapper_Status_ApplyingModifications);
         File.Delete(Path.Combine(Paths.Base, "ModManifest.txt"));
         Directory.CreateDirectory(Paths.Mods);
@@ -139,25 +94,25 @@ public partial class Bootstrapper
         string installedFontDir = Path.Combine(_latestVersionDirectory, "content", "fonts", "families");
         try
         {
-            CustomFontMod.Apply(installedFontDir, "Bootstrapper::ApplyModifications");
+            CustomFontMod.Apply(installedFontDir, LOG_IDENT);
         }
         catch (Exception ex)
         {
-            App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Custom font failed: " + ex.Message);
+            App.Logger.WriteLine(LOG_IDENT, "Custom font failed: " + ex.Message);
         }
         bool modsAllowed = ModsAllowedForThisLaunch();
         bool fastFlagsAllowed = FastFlagsAllowedForThisLaunch();
         if (!modsAllowed)
         {
             App.Logger.WriteLine(
-                "Bootstrapper::ApplyModifications",
+                LOG_IDENT,
                 $"Mods are set to {App.Settings.Prop.ModApplyTarget}, so this {(IsStudioLaunch ? "Studio" : "Player")} launch runs unmodded. Mod files are kept on disk."
             );
         }
         if (App.Settings.Prop.UseFastFlagManager && !fastFlagsAllowed)
         {
             App.Logger.WriteLine(
-                "Bootstrapper::ApplyModifications",
+                LOG_IDENT,
                 $"Fast Flags are set to {App.Settings.Prop.FastFlagApplyTarget}, so this {(IsStudioLaunch ? "Studio" : "Player")} launch runs without them. Your Fast Flags are kept."
             );
         }
@@ -196,7 +151,7 @@ public partial class Bootstrapper
                     }
                     catch (Exception ex5)
                     {
-                        App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Could not remove README.txt: " + ex5.Message);
+                        App.Logger.WriteLine(LOG_IDENT, "Could not remove README.txt: " + ex5.Message);
                     }
                 }
                 else if (modsAllowed && ModAutoFixer.IsIgnoredModFile(text2))
@@ -236,7 +191,7 @@ public partial class Bootstrapper
             }
             catch (Exception ex)
             {
-                App.Logger.WriteLine("Bootstrapper::ApplyModifications", "The generated UI mod could not be refreshed: " + ex.Message);
+                App.Logger.WriteLine(LOG_IDENT, "The generated UI mod could not be refreshed: " + ex.Message);
             }
         }
         try
@@ -264,7 +219,7 @@ public partial class Bootstrapper
             Dictionary<string, List<string>> previousManagedManifest = GetPreviousManagedModManifest();
             foreach ((string id, string message) in scan.Failures)
             {
-                App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Managed mod " + id[..8] + " could not be indexed: " + message);
+                App.Logger.WriteLine(LOG_IDENT, "Managed mod " + id[..8] + " could not be indexed: " + message);
                 if (previousManagedManifest.TryGetValue(id, out List<string>? previousPaths))
                 {
                     nextManagedManifest[id] = [.. previousPaths];
@@ -280,7 +235,7 @@ public partial class Bootstrapper
         }
         catch (Exception ex)
         {
-            App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Managed mods could not be indexed: " + ex.Message);
+            App.Logger.WriteLine(LOG_IDENT, "Managed mods could not be indexed: " + ex.Message);
             nextManagedManifest = GetPreviousManagedModManifest()
                 .ToDictionary(item => item.Key, item => new List<string>(item.Value), StringComparer.OrdinalIgnoreCase);
             preservedManagedPaths.UnionWith(GetPreviousModManifest());
@@ -295,7 +250,7 @@ public partial class Bootstrapper
             string names =
                 string.Join(", ", nativeCode.Take(12)) + (nativeCode.Count > 12 ? " and " + (nativeCode.Count - 12) + " more" : "");
             App.Logger.WriteLine(
-                "Bootstrapper::ApplyModifications",
+                LOG_IDENT,
                 "Skipped "
                     + nativeCode.Count
                     + " mod files that are programs or DLLs, Roblox closes itself when it finds these in its folder: "
@@ -311,7 +266,7 @@ public partial class Bootstrapper
         if (ignoredModFiles > 0)
         {
             App.Logger.WriteLine(
-                "Bootstrapper::ApplyModifications",
+                LOG_IDENT,
                 "Skipped "
                     + ignoredModFiles
                     + " mod files that Roblox cannot load from the client folder: app scripts, configs and translations tied to another Roblox version, duplicate copies, and classic terrain and material textures, which Roblox now downloads instead."
@@ -330,7 +285,7 @@ public partial class Bootstrapper
                 _modSkyPatchApplied = true;
                 await ApplySkyboxPatchToRobloxStorageAsync(_cancelTokenSource.Token);
                 App.Logger.WriteLine(
-                    "Bootstrapper::ApplyModifications",
+                    LOG_IDENT,
                     "A mod replaces the sky, so the skybox storage patch was applied to let Roblox use it."
                 );
             }
@@ -341,7 +296,7 @@ public partial class Bootstrapper
             catch (Exception patchException)
             {
                 App.Logger.WriteLine(
-                    "Bootstrapper::ApplyModifications",
+                    LOG_IDENT,
                     "The skybox storage patch for a mod sky is unavailable: " + patchException.Message
                 );
             }
@@ -413,13 +368,13 @@ public partial class Bootstrapper
         );
         while (applyErrors.TryDequeue(out (string Relative, string Message) error))
         {
-            App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Could not apply " + error.Relative + ": " + error.Message);
+            App.Logger.WriteLine(LOG_IDENT, "Could not apply " + error.Relative + ": " + error.Message);
         }
-        App.Logger.WriteLine("Bootstrapper::ApplyModifications", $"Applied {appliedModCount} changed mod files.");
+        App.Logger.WriteLine(LOG_IDENT, $"Applied {appliedModCount} changed mod files.");
         if (failedModCount > 0)
         {
             App.Logger.WriteLine(
-                "Bootstrapper::ApplyModifications",
+                LOG_IDENT,
                 $"{failedModCount} mod files could not be applied, the rest were still applied."
             );
         }
@@ -429,7 +384,7 @@ public partial class Bootstrapper
         }
         catch (Exception autoFixError)
         {
-            App.Logger.WriteLine("Bootstrapper::ApplyModifications", "The mod auto fixer could not run: " + autoFixError.Message);
+            App.Logger.WriteLine(LOG_IDENT, "The mod auto fixer could not run: " + autoFixError.Message);
         }
         Dictionary<string, List<string>> dictionary = [];
         KeyValuePair<string, string>[] packagePrefixes =
@@ -455,7 +410,7 @@ public partial class Bootstrapper
             }
             if (!TryResolveVersionRelativePath(loc, out string safeTarget))
             {
-                App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Ignored an invalid stale mod path");
+                App.Logger.WriteLine(LOG_IDENT, "Ignored an invalid stale mod path");
                 continue;
             }
             KeyValuePair<string, string> keyValuePair = packagePrefixes.FirstOrDefault(item =>
@@ -475,7 +430,7 @@ public partial class Bootstrapper
                 catch (Exception ex)
                 {
                     unresolvedStalePaths.Add(loc);
-                    App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Could not remove stale mod " + loc + ": " + ex.Message);
+                    App.Logger.WriteLine(LOG_IDENT, "Could not remove stale mod " + loc + ": " + ex.Message);
                 }
             }
             else
@@ -526,7 +481,7 @@ public partial class Bootstrapper
                     unresolvedStalePaths.Add(prefix + file);
                 }
                 App.Logger.WriteLine(
-                    "Bootstrapper::ApplyModifications",
+                    LOG_IDENT,
                     "Could not restore stale files from " + pkgName + ": " + ex.Message
                 );
             }
@@ -557,7 +512,7 @@ public partial class Bootstrapper
         }
         catch (Exception ex4)
         {
-            App.Logger.WriteLine("Bootstrapper::ApplyModifications", "EuroTrucks rename failed: " + ex4.Message);
+            App.Logger.WriteLine(LOG_IDENT, "EuroTrucks rename failed: " + ex4.Message);
         }
     }
 
@@ -658,7 +613,7 @@ public partial class Bootstrapper
 
     private static async Task<string> GetLatestCommitShaAsync(CancellationToken ct)
     {
-        using HttpRequestMessage req = new(HttpMethod.Get, SkyboxCommitApiUrl);
+        using HttpRequestMessage req = new(HttpMethod.Get, App.SkyboxCommitApiUrl);
         req.Headers.UserAgent.ParseAdd("SkyboxInstaller");
         using HttpResponseMessage res = await SkyboxHttpClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct);
         res.EnsureSuccessStatusCode();

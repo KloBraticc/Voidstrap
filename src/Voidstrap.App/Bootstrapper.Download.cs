@@ -1,54 +1,5 @@
-using System;
-using System.Buffers;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Net.Sockets;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security.Principal;
-using System.Text;
-using System.Text.Json;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Shell;
-using System.Windows.Threading;
-using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
-using Microsoft.VisualBasic.Devices;
-using Microsoft.Win32;
-using Voidstrap.AppData;
-using Voidstrap.Core;
-using Voidstrap.Enums;
-using Voidstrap.Exceptions;
-using Voidstrap.Extensions;
-using Voidstrap.Integrations;
-using Voidstrap.Integrations.AssetProxy;
-using Voidstrap.Models;
-using Voidstrap.Models.APIs.Roblox;
-using Voidstrap.Models.Manifest;
-using Voidstrap.Models.Persistable;
-using Voidstrap.Platform;
-using Voidstrap.Platform.Linux;
-using Voidstrap.Platform.MacOS;
-using Voidstrap.Resources;
 using Voidstrap.RobloxInterfaces;
-using Voidstrap.UI;
-using Voidstrap.UI.Elements.Bootstrapper.Base;
-using Voidstrap.UI.Elements.Settings;
-using Voidstrap.UI.Elements.Settings.Pages;
-using Voidstrap.Utility;
 
 namespace Voidstrap;
 
@@ -106,7 +57,7 @@ public partial class Bootstrapper
         string tempFile = package.DownloadPath + ".part";
         string metaFile = tempFile + ".meta";
         bool completed = false;
-        for (int attempt = 1; attempt <= MaxPackageDownloadAttempts; attempt++)
+        for (int attempt = 1; attempt <= App.MaxPackageDownloadAttempts; attempt++)
         {
             if (ct.IsCancellationRequested)
             {
@@ -289,8 +240,8 @@ public partial class Bootstrapper
                     }
                 }
                 catch { }
-                App.Logger.WriteLine(logIdent, $"Attempt {attempt}/{MaxPackageDownloadAttempts}: {exception.Message}");
-                if (attempt < MaxPackageDownloadAttempts)
+                App.Logger.WriteLine(logIdent, $"Attempt {attempt}/{App.MaxPackageDownloadAttempts}: {exception.Message}");
+                if (attempt < App.MaxPackageDownloadAttempts)
                 {
                     urlIndex = (urlIndex + 1) % packageUrls.Count;
                     packageUrl = packageUrls[urlIndex];
@@ -311,8 +262,8 @@ public partial class Bootstrapper
                 {
                     ex3 = ex4.Flatten().InnerException ?? ex4;
                 }
-                App.Logger.WriteLine(logIdent, $"Attempt {attempt}/{MaxPackageDownloadAttempts}: {ex3.Message}");
-                if (attempt == MaxPackageDownloadAttempts)
+                App.Logger.WriteLine(logIdent, $"Attempt {attempt}/{App.MaxPackageDownloadAttempts}: {ex3.Message}");
+                if (attempt == App.MaxPackageDownloadAttempts)
                 {
                     throw;
                 }

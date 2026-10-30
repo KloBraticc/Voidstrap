@@ -1,54 +1,17 @@
-using System;
 using System.Buffers;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Sockets;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security.Principal;
-using System.Text;
-using System.Text.Json;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Shell;
 using System.Windows.Threading;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
-using Microsoft.VisualBasic.Devices;
 using Microsoft.Win32;
 using Voidstrap.AppData;
 using Voidstrap.Core;
-using Voidstrap.Enums;
-using Voidstrap.Exceptions;
-using Voidstrap.Extensions;
-using Voidstrap.Integrations;
-using Voidstrap.Integrations.AssetProxy;
-using Voidstrap.Models;
-using Voidstrap.Models.APIs.Roblox;
-using Voidstrap.Models.Manifest;
-using Voidstrap.Models.Persistable;
 using Voidstrap.Platform;
 using Voidstrap.Platform.Linux;
-using Voidstrap.Platform.MacOS;
-using Voidstrap.Resources;
 using Voidstrap.RobloxInterfaces;
-using Voidstrap.UI;
-using Voidstrap.UI.Elements.Bootstrapper.Base;
-using Voidstrap.UI.Elements.Settings;
-using Voidstrap.UI.Elements.Settings.Pages;
-using Voidstrap.Utility;
 
 namespace Voidstrap;
 
@@ -64,111 +27,7 @@ public partial class Bootstrapper
 
     internal readonly record struct MatchmakerDispatchTarget(string Target, MatchmakerRewriteOutcome Outcome, string? Error);
 
-    private sealed class RobloxLogWaiter : IDisposable
-    {
-        private readonly FileSystemWatcher? _watcher;
-        private readonly HashSet<string> _existingLogs;
-        private readonly DateTime _launchStartedUtc;
-        private readonly TaskCompletionSource<string> _completion = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        private bool _disposed;
-
-        public Task<string> Task => _completion.Task;
-
-        public RobloxLogWaiter(string directory, HashSet<string> existingLogs, DateTime launchStartedUtc)
-        {
-            _existingLogs = existingLogs;
-            _launchStartedUtc = launchStartedUtc;
-            try
-            {
-                _watcher = new FileSystemWatcher(directory, "*.log")
-                {
-                    NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime | NotifyFilters.LastWrite,
-                };
-                _watcher.Created += OnCreated;
-                _watcher.Renamed += OnRenamed;
-                _watcher.Error += OnWatcherError;
-                _watcher.EnableRaisingEvents = true;
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("Bootstrapper::RobloxLogWaiter", "The Roblox log folder could not be watched: " + ex.Message);
-            }
-        }
-
-        private void OnWatcherError(object sender, ErrorEventArgs e)
-        {
-            App.Logger.WriteLine("Bootstrapper::RobloxLogWaiter", "The Roblox log watch hit an error: " + e.GetException().Message);
-        }
-
-        private void OnCreated(object sender, FileSystemEventArgs e)
-        {
-            TryComplete(e.FullPath);
-        }
-
-        private void OnRenamed(object sender, RenamedEventArgs e)
-        {
-            TryComplete(e.FullPath);
-        }
-
-        private void TryComplete(string path)
-        {
-            try
-            {
-                if (
-                    !_existingLogs.Contains(path)
-                    && File.Exists(path)
-                    && File.GetLastWriteTimeUtc(path) >= _launchStartedUtc.AddSeconds(-3)
-                )
-                    _completion.TrySetResult(path);
-            }
-            catch { }
-        }
-
-        public void Dispose()
-        {
-            if (_disposed)
-                return;
-            _disposed = true;
-            if (_watcher != null)
-            {
-                _watcher.EnableRaisingEvents = false;
-                _watcher.Created -= OnCreated;
-                _watcher.Renamed -= OnRenamed;
-                _watcher.Dispose();
-            }
-            GC.SuppressFinalize(this);
-        }
-    }
-
-    private const string ProcRobloxPlayer = "RobloxPlayerBeta";
-
-    private const string ProcRobloxCrash = "RobloxCrashHandler";
-
-    private const string ProcRobloxExe = "RobloxPlayerBeta.exe";
-
-    private const string SkyboxCommitApiUrl = "https://api.github.com/repos/KloBraticc/SkyboxPackV2/commits/main";
-
-    private const string SkyboxRawBaseUrl = "https://raw.githubusercontent.com/KloBraticc/SkyboxPackV2/";
-
-    private const string SkyboxPackCommitFile = ".commit";
-
-    private const long SkyboxMaxFaceBytes = 16777216L;
-
-    private const long SkyboxMinSegmentBytes = 524288L;
-
     private bool _modSkyPatchApplied;
-
-    private static readonly string[] SkyboxFileNames =
-    [
-        "sky512_bk.tex",
-        "sky512_dn.tex",
-        "sky512_ft.tex",
-        "sky512_lf.tex",
-        "sky512_rt.tex",
-        "sky512_up.tex",
-    ];
-
-    private const int MaxPackageDownloadAttempts = 5;
 
     private const string VersionOwnershipFileName = ".voidstrap-managed";
 
@@ -209,17 +68,6 @@ public partial class Bootstrapper
     private bool ReinstallRequested => ForceReinstall || App.Settings.Prop.ForceRobloxReinstall;
 
     private bool UseVng => AppData is RobloxPlayerData { UseVng: true };
-
-    public sealed class DownloadProgressInfo
-    {
-        public double Percent { get; set; }
-        public long BytesDone { get; set; }
-        public long TotalBytes { get; set; }
-        public double SpeedBytesPerSec { get; set; }
-        public int PackagesDone { get; set; }
-        public int TotalPackages { get; set; }
-        public string BinaryType { get; set; } = "";
-    }
 
     public static event Action<DownloadProgressInfo>? DownloadProgressChanged;
 
@@ -316,6 +164,8 @@ public partial class Bootstrapper
 
     private string ApplyUpdateDelivery(string latest, bool forceManifest)
     {
+        const string LOG_IDENT = "Bootstrapper::UpdateDelivery";
+
         AppState state = AppData.State;
         string installed = state.VersionGuid;
         bool late = string.Equals(App.Settings.Prop.RobloxUpdateDelivery, "Late", StringComparison.OrdinalIgnoreCase);
@@ -347,11 +197,11 @@ public partial class Bootstrapper
         TimeSpan remaining = state.HeldVersionFirstSeenUtc + LateDeliveryHold - DateTime.UtcNow;
         if (remaining <= TimeSpan.Zero || remaining > LateDeliveryHold)
         {
-            App.Logger.WriteLine("Bootstrapper::UpdateDelivery", "Late delivery hold is over, installing " + latest);
+            App.Logger.WriteLine(LOG_IDENT, "Late delivery hold is over, installing " + latest);
             return latest;
         }
         App.Logger.WriteLine(
-            "Bootstrapper::UpdateDelivery",
+            LOG_IDENT,
             $"Late delivery is holding {latest} for about {Math.Ceiling(remaining.TotalHours)} more hours, launching the installed {installed}"
         );
         return installed;
@@ -375,6 +225,8 @@ public partial class Bootstrapper
 
     private string? GetMissingCriticalFile()
     {
+        const string LOG_IDENT = "Bootstrapper::MustUpgrade";
+
         IReadOnlyList<string> required = AppData.State.CriticalFiles ?? AppData.CandidateCriticalFiles;
         if (required.Count == 0)
         {
@@ -389,7 +241,7 @@ public partial class Bootstrapper
             }
             if (!File.Exists(Path.Combine(directory, name)))
             {
-                App.Logger.WriteLine("Bootstrapper::MustUpgrade", "Critical file is missing, a repair is required: " + name);
+                App.Logger.WriteLine(LOG_IDENT, "Critical file is missing, a repair is required: " + name);
                 return name;
             }
         }
@@ -440,6 +292,8 @@ public partial class Bootstrapper
 
     private void InvokeOnDialog(Action action)
     {
+        const string LOG_IDENT = "Bootstrapper::InvokeOnDialog";
+
         if (Dialog == null)
         {
             return;
@@ -485,7 +339,7 @@ public partial class Bootstrapper
         catch (Exception ex) when (ex is ObjectDisposedException or InvalidOperationException or TaskCanceledException)
         {
             App.Logger.WriteLine(
-                "Bootstrapper::InvokeOnDialog",
+                LOG_IDENT,
                 "The launch dialog closed before a status update was shown: " + ex.Message
             );
         }
@@ -563,6 +417,8 @@ public partial class Bootstrapper
 
     private void UpdateProgressBar()
     {
+        const string LOG_IDENT = "Bootstrapper::UpdateProgressBar";
+
         if (Dialog == null)
         {
             return;
@@ -584,7 +440,7 @@ public partial class Bootstrapper
         {
             if (Interlocked.Exchange(ref _progressDisplayFailed, 1) == 0)
             {
-                App.Logger.WriteException("Bootstrapper::UpdateProgressBar", ex);
+                App.Logger.WriteException(LOG_IDENT, ex);
             }
         }
     }
@@ -670,37 +526,43 @@ public partial class Bootstrapper
 
     private void ApplyForcedReinstall()
     {
+        const string LOG_IDENT = "Bootstrapper::ApplyForcedReinstall";
+
         if (!ReinstallRequested)
         {
             return;
         }
-        App.Logger.WriteLine("Bootstrapper::ApplyForcedReinstall", "Reinstall was requested for " + AppData.ProductName);
+        App.Logger.WriteLine(LOG_IDENT, "Reinstall was requested for " + AppData.ProductName);
     }
 
     private static void ClearForcedReinstall()
     {
+        const string LOG_IDENT = "Bootstrapper::ClearForcedReinstall";
+
         if (!App.Settings.Prop.ForceRobloxReinstall)
             return;
 
         App.Settings.Prop.ForceRobloxReinstall = false;
         App.Settings.Save();
-        App.Logger.WriteLine("Bootstrapper::ClearForcedReinstall", "Reinstall finished, the setting has been turned back off");
+        App.Logger.WriteLine(LOG_IDENT, "Reinstall finished, the setting has been turned back off");
     }
 
     public async Task Run()
     {
+        const string LOG_IDENT = "Bootstrapper::Run";
+
         if (UseVng && !Frontend.ConfirmVng())
         {
             Dialog?.CloseBootstrapper();
             return;
         }
         Stopwatch launchTimer = Stopwatch.StartNew();
-        App.Logger.WriteLine("Bootstrapper::Run", "Running bootstrapper");
+        App.Logger.WriteLine(LOG_IDENT, "Running bootstrapper");
         _safeMode = _launchMode == LaunchMode.Player && App.State.Prop.SafeLaunchPending;
         if (_safeMode)
         {
             App.Logger.WriteLine(
-                "Bootstrapper::Run",
+                LOG_IDENT,
                 "Safe launch: this launch skips mods, FastFlags, the matchmaker, launch integrations and process changes to test whether one of them makes Roblox crash"
             );
         }
@@ -714,7 +576,7 @@ public partial class Bootstrapper
             {
                 using (existing)
                 {
-                    App.Logger.WriteLine("Bootstrapper::Run", "Voidstrap-Bootstrapper mutex exists, waiting...");
+                    App.Logger.WriteLine(LOG_IDENT, "Voidstrap-Bootstrapper mutex exists, waiting...");
                     SetStatus(Strings.Bootstrapper_Status_WaitingOtherInstances);
                     mutexExists = true;
                 }
@@ -722,7 +584,7 @@ public partial class Bootstrapper
         }
         catch (Exception value)
         {
-            App.Logger.WriteLine("Bootstrapper::Run", $"Unexpected error checking mutex: {value}");
+            App.Logger.WriteLine(LOG_IDENT, $"Unexpected error checking mutex: {value}");
         }
         await using AsyncMutex mutex = new(initiallyOwned: false, "Voidstrap-Bootstrapper");
         await mutex.AcquireAsync(_cancelTokenSource.Token);
@@ -734,7 +596,7 @@ public partial class Bootstrapper
         }
         if (!string.IsNullOrEmpty(AppData.State.VersionGuid) && !IsValidVersionGuid(AppData.State.VersionGuid))
         {
-            App.Logger.WriteLine("Bootstrapper::Run", "Ignoring an invalid installed version identifier");
+            App.Logger.WriteLine(LOG_IDENT, "Ignoring an invalid installed version identifier");
             AppData.State.VersionGuid = string.Empty;
             App.State.Save();
         }
@@ -748,14 +610,14 @@ public partial class Bootstrapper
             if (MustUpgrade)
             {
                 App.Logger.WriteLine(
-                    "Bootstrapper::Run",
+                    LOG_IDENT,
                     "The Roblox connectivity probe failed but Roblox is not installed, trying the install anyway"
                 );
             }
             else
             {
                 _noConnection = true;
-                App.Logger.WriteLine("Bootstrapper::Run", "Offline, skipping update checks and launching the installed Roblox");
+                App.Logger.WriteLine(LOG_IDENT, "Offline, skipping update checks and launching the installed Roblox");
                 SetStatus("You are offline, launching the installed Roblox");
             }
         }
@@ -799,14 +661,14 @@ public partial class Bootstrapper
         {
             Observe(versionInfoTask);
         }
-        App.Logger.WriteLine("Bootstrapper::Run", "Version and launcher checks completed in " + launchTimer.ElapsedMilliseconds + " ms");
+        App.Logger.WriteLine(LOG_IDENT, "Version and launcher checks completed in " + launchTimer.ElapsedMilliseconds + " ms");
         if (!_noConnection)
         {
             bool upgradeRequired = AppData.State.VersionGuid != _latestVersionGuid || MustUpgrade || ReinstallRequested;
             if (upgradeRequired)
             {
                 Exception? connectivityError = await Deployment.InitializeConnectivity();
-                App.Logger.WriteLine("Bootstrapper::Run", "Package connectivity completed in " + launchTimer.ElapsedMilliseconds + " ms");
+                App.Logger.WriteLine(LOG_IDENT, "Package connectivity completed in " + launchTimer.ElapsedMilliseconds + " ms");
                 if (connectivityError != null)
                     await HandleConnectionError(connectivityError);
                 if (!_noConnection)
@@ -855,7 +717,7 @@ public partial class Bootstrapper
         await mutex.ReleaseAsync();
         if (!App.LaunchSettings.NoLaunchFlag.Active && !InstallOnly && !_cancelTokenSource.IsCancellationRequested)
         {
-            App.Logger.WriteLine("Bootstrapper::Run", "Prelaunch preparation completed in " + launchTimer.ElapsedMilliseconds + " ms");
+            App.Logger.WriteLine(LOG_IDENT, "Prelaunch preparation completed in " + launchTimer.ElapsedMilliseconds + " ms");
             await StartRoblox(_cancelTokenSource.Token);
         }
         installLock?.Dispose();
@@ -872,6 +734,8 @@ public partial class Bootstrapper
 
     private async Task<IDisposable?> PrepareCompressedInstallAsync()
     {
+        const string LOG_IDENT = "Bootstrapper::PrepareCompressedInstall";
+
         if (!RobloxInstallCompression.Supported)
         {
             return null;
@@ -890,14 +754,14 @@ public partial class Bootstrapper
         }
         catch (InsufficientSpaceException ex)
         {
-            App.Logger.WriteLine("Bootstrapper::PrepareCompressedInstall", ex.Message);
+            App.Logger.WriteLine(LOG_IDENT, ex.Message);
             Frontend.ShowMessageBox(ex.Message + ". Free up some space, then launch again.", MessageBoxImage.Exclamation);
         }
         catch (Exception ex)
         {
             string archive = RobloxInstallCompression.ArchivePathFor(AppData.Directory);
             App.Logger.WriteLine(
-                "Bootstrapper::PrepareCompressedInstall",
+                LOG_IDENT,
                 "The compressed install could not be unpacked and will be reinstalled: " + ex.Message
             );
             try
@@ -910,7 +774,7 @@ public partial class Bootstrapper
             catch (Exception deleteError) when (deleteError is IOException or UnauthorizedAccessException)
             {
                 App.Logger.WriteLine(
-                    "Bootstrapper::PrepareCompressedInstall",
+                    LOG_IDENT,
                     "Could not remove the unreadable archive: " + deleteError.Message
                 );
             }
@@ -941,17 +805,19 @@ public partial class Bootstrapper
 
     internal async Task<bool> TryUpdateLauncherAsync()
     {
+        const string LOG_IDENT = "Bootstrapper::TryUpdateLauncher";
+
         bool updateCheckFresh = DateTime.UtcNow - App.State.Prop.LastLauncherUpdateCheckUtc < TimeSpan.FromMinutes(2);
         if (!App.Settings.Prop.CheckForUpdates || App.LaunchSettings.UpgradeFlag.Active || InstallOnly || updateCheckFresh)
             return false;
         try
         {
             return await Voidstrap.Utility.Connectivity.IsOnlineAsync(_cancelTokenSource.Token)
-                && await CheckAndApplyUpdate("Bootstrapper::TryUpdateLauncher");
+                && await CheckAndApplyUpdate(LOG_IDENT);
         }
         catch (Exception ex) when (ex is not OperationCanceledException)
         {
-            App.Logger.WriteLine("Bootstrapper::TryUpdateLauncher", "The launcher update check failed: " + ex.Message);
+            App.Logger.WriteLine(LOG_IDENT, "The launcher update check failed: " + ex.Message);
             return false;
         }
     }
@@ -1053,6 +919,8 @@ public partial class Bootstrapper
 
     private async Task<Exception?> FetchVersionInfoAsync(Task started)
     {
+        const string LOG_IDENT = "Bootstrapper::FetchVersionInfo";
+
         using CancellationTokenSource deadline = CancellationTokenSource.CreateLinkedTokenSource(_cancelTokenSource.Token);
         deadline.CancelAfter(ConnectDeadline);
         Exception? lastError = null;
@@ -1076,7 +944,7 @@ public partial class Bootstrapper
                 catch (Exception error)
                 {
                     lastError = UnwrapException(error);
-                    App.Logger.WriteLine("Bootstrapper::FetchVersionInfo", $"Deploy info attempt {attempt} failed: {lastError?.Message}");
+                    App.Logger.WriteLine(LOG_IDENT, $"Deploy info attempt {attempt} failed: {lastError?.Message}");
                     if (deadline.IsCancellationRequested || !IsRetryableConnectionError(lastError) || attempt == ConnectAttempts)
                     {
                         break;
@@ -1111,6 +979,8 @@ public partial class Bootstrapper
 
     private async Task HandleConnectionError(Exception? exception)
     {
+        const string LOG_IDENT = "Bootstrapper::HandleConnectionError";
+
         if (exception == null || _cancelTokenSource.IsCancellationRequested)
         {
             return;
@@ -1120,10 +990,10 @@ public partial class Bootstrapper
         {
             return;
         }
-        App.Logger.WriteException("Bootstrapper::HandleConnectionError", exception!);
+        App.Logger.WriteException(LOG_IDENT, exception!);
         if (Interlocked.Read(in _totalDownloadedBytes) > 0 && Volatile.Read(in _isInstalling) == 1)
         {
-            App.Logger.WriteLine("Bootstrapper::HandleConnectionError", "Already upgrading, skipping retry.");
+            App.Logger.WriteLine(LOG_IDENT, "Already upgrading, skipping retry.");
             return;
         }
         if (exception is HttpRequestException { StatusCode: { } statusCode })
@@ -1136,7 +1006,7 @@ public partial class Bootstrapper
                     if (!string.Equals(_deploymentChannel, "production", StringComparison.OrdinalIgnoreCase))
                     {
                         App.Logger.WriteLine(
-                            "Bootstrapper::HandleConnectionError",
+                            LOG_IDENT,
                             $"HTTP {(int)statusCode} ({statusCode}), switching to default channel '{"production"}'."
                         );
                         _deploymentChannel = "production";
@@ -1151,7 +1021,7 @@ public partial class Bootstrapper
         if (!MustUpgrade)
         {
             App.Logger.WriteLine(
-                "Bootstrapper::HandleConnectionError",
+                LOG_IDENT,
                 "Network/server issue, but Roblox is already installed, launching the existing version silently."
             );
             return;
@@ -1184,11 +1054,13 @@ public partial class Bootstrapper
 
     public void Cancel()
     {
+        const string LOG_IDENT = "Bootstrapper::Cancel";
+
         if (_cancelTokenSource.IsCancellationRequested)
         {
             return;
         }
-        App.Logger.WriteLine("Bootstrapper::Cancel", "Cancelling launch...");
+        App.Logger.WriteLine(LOG_IDENT, "Cancelling launch...");
         _cancelTokenSource.Cancel();
         Dialog?.CancelEnabled = false;
         if (CancellationHandledByCaller)
@@ -1214,6 +1086,8 @@ public partial class Bootstrapper
 
     private async Task FinishInstallCancellationAsync()
     {
+        const string LOG_IDENT = "Bootstrapper::Cancel";
+
         await _installationStopped.Task.ConfigureAwait(continueOnCapturedContext: false);
         try
         {
@@ -1222,15 +1096,15 @@ public partial class Bootstrapper
                 string stagingDirectory = _latestVersionDirectory + ".installing";
                 if (Directory.Exists(stagingDirectory))
                 {
-                    await SafeDeleteDirectoryAsync(stagingDirectory, "Bootstrapper::Cancel", CancellationToken.None)
+                    await SafeDeleteDirectoryAsync(stagingDirectory, LOG_IDENT, CancellationToken.None)
                         .ConfigureAwait(continueOnCapturedContext: false);
                 }
             }
         }
         catch (Exception ex)
         {
-            App.Logger.WriteLine("Bootstrapper::Cancel", "Could not fully clean up installation!");
-            App.Logger.WriteException("Bootstrapper::Cancel", ex);
+            App.Logger.WriteLine(LOG_IDENT, "Could not fully clean up installation!");
+            App.Logger.WriteException(LOG_IDENT, ex);
         }
         CompleteCancellation();
     }
@@ -1250,6 +1124,8 @@ public partial class Bootstrapper
         CancellationToken cancellationToken = default
     )
     {
+        const string LOG_IDENT = "Bootstrapper::GetLatestVersionInfo";
+
         CancellationToken ct = cancellationToken.CanBeCanceled ? cancellationToken : _cancelTokenSource.Token;
         ClientVersion clientVersion = await Deployment
             .GetInfo(
@@ -1280,7 +1156,7 @@ public partial class Bootstrapper
         }
         if (!forceManifest && AppData.State.VersionGuid == _latestVersionGuid && !MustUpgrade && !ReinstallRequested)
         {
-            App.Logger.WriteLine("Bootstrapper::GetLatestVersionInfo", "Already up to date, skipping package manifest fetch.");
+            App.Logger.WriteLine(LOG_IDENT, "Already up to date, skipping package manifest fetch.");
             _versionPackageManifest = [];
             return;
         }
@@ -1293,7 +1169,7 @@ public partial class Bootstrapper
         string? manifestBody = null;
         foreach (string manifestUrl in manifestUrls)
         {
-            App.Logger.WriteLine("Bootstrapper::GetLatestVersionInfo", "Fetching manifest: " + manifestUrl);
+            App.Logger.WriteLine(LOG_IDENT, "Fetching manifest: " + manifestUrl);
             try
             {
                 using HttpRequestMessage request = new(HttpMethod.Get, manifestUrl)
@@ -1307,7 +1183,7 @@ public partial class Bootstrapper
                 {
                     Deployment.ReportMirrorFailure(manifestUrl, $"manifest HTTP {(int)manifestResp.StatusCode}");
                     App.Logger.WriteLine(
-                        "Bootstrapper::GetLatestVersionInfo",
+                        LOG_IDENT,
                         $"Manifest HTTP {(int)manifestResp.StatusCode} ({manifestResp.StatusCode}) from this mirror, trying next."
                     );
                     continue;
@@ -1318,7 +1194,7 @@ public partial class Bootstrapper
                 {
                     Deployment.ReportMirrorFailure(manifestUrl, "manifest returned HTML or empty content");
                     App.Logger.WriteLine(
-                        "Bootstrapper::GetLatestVersionInfo",
+                        LOG_IDENT,
                         "Manifest returned HTML or empty content, trying next mirror."
                     );
                     continue;
@@ -1332,7 +1208,7 @@ public partial class Bootstrapper
             }
             catch (Exception ex2) when (ex2 is HttpRequestException or IOException or TaskCanceledException)
             {
-                App.Logger.WriteLine("Bootstrapper::GetLatestVersionInfo", "Manifest fetch failed: " + ex2.Message);
+                App.Logger.WriteLine(LOG_IDENT, "Manifest fetch failed: " + ex2.Message);
             }
         }
         if (manifestBody == null)
@@ -1340,7 +1216,7 @@ public partial class Bootstrapper
             throw new HttpRequestException("Package manifest is unavailable from every deployment location.");
         }
         _versionPackageManifest = new PackageManifest(manifestBody);
-        App.Logger.WriteLine("Bootstrapper::GetLatestVersionInfo", $"Manifest: {_versionPackageManifest.Count} entries.");
+        App.Logger.WriteLine(LOG_IDENT, $"Manifest: {_versionPackageManifest.Count} entries.");
     }
 
     internal static async Task<RuntimeInstallation> EnsureSoberInstalledAsync(
@@ -1457,6 +1333,8 @@ public partial class Bootstrapper
         CancellationToken cancellationToken
     )
     {
+        const string LOG_IDENT = "Bootstrapper::TryLaunchNonWindowsClient";
+
         try
         {
             RuntimeKind runtimeKind = launchMode == LaunchMode.Player ? RuntimeKind.Player : RuntimeKind.Studio;
@@ -1486,7 +1364,7 @@ public partial class Bootstrapper
                 }
                 if (!installation.Capability.IsAvailable)
                 {
-                    App.Logger.WriteLine("Bootstrapper::TryLaunchNonWindowsClient", installation.Capability.Reason);
+                    App.Logger.WriteLine(LOG_IDENT, installation.Capability.Reason);
                     Frontend.ShowMessageBox(installation.Capability.Reason, MessageBoxImage.Hand);
                     return false;
                 }
@@ -1495,7 +1373,7 @@ public partial class Bootstrapper
                     Voidstrap.Integrations.Overlays.OverlaySettings.RequiresLinuxX11Session
                     && !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY"));
                 App.Logger.WriteLine(
-                    "Bootstrapper::TryLaunchNonWindowsClient",
+                    LOG_IDENT,
                     Voidstrap.Integrations.Overlays.OverlaySettings.DescribeLinuxSoberSession(LinuxSoberRuntimeProvider.ForceX11Session)
                 );
 
@@ -1513,7 +1391,7 @@ public partial class Bootstrapper
                 if (!prepared.Succeeded)
                 {
                     string message = prepared.Failure?.Message ?? "Linux runtime preparation failed.";
-                    App.Logger.WriteLine("Bootstrapper::TryLaunchNonWindowsClient", message);
+                    App.Logger.WriteLine(LOG_IDENT, message);
                     Frontend.ShowMessageBox(message, MessageBoxImage.Hand);
                     return false;
                 }
@@ -1521,7 +1399,7 @@ public partial class Bootstrapper
                 if (configuration.SkippedAssets.Count > 0)
                 {
                     App.Logger.WriteLine(
-                        "Bootstrapper::TryLaunchNonWindowsClient",
+                        LOG_IDENT,
                         configuration.SkippedAssets.Count
                             + " mod files have no matching asset in the installed Sober Roblox package and were not applied: "
                             + string.Join(", ", configuration.SkippedAssets.Take(20))
@@ -1530,7 +1408,7 @@ public partial class Bootstrapper
                 if (configuration.ConflictingAssets.Count > 0)
                 {
                     App.Logger.WriteLine(
-                        "Bootstrapper::TryLaunchNonWindowsClient",
+                        LOG_IDENT,
                         configuration.ConflictingAssets.Count
                             + " mod files were skipped because an overlay path already exists: "
                             + string.Join(", ", configuration.ConflictingAssets.Take(20))
@@ -1545,7 +1423,7 @@ public partial class Bootstrapper
                 settings = settingsResult.Value?.Document;
             }
 
-            await LaunchCustomIntegrations("Bootstrapper::TryLaunchNonWindowsClient", preLaunch: true, cancellationToken);
+            await LaunchCustomIntegrations(LOG_IDENT, preLaunch: true, cancellationToken);
 
             using DeploymentSessionStateMachine session = new(
                 new RuntimeLaunchCoordinator(host.PlayerRuntime, host.StudioRuntime),
@@ -1559,25 +1437,27 @@ public partial class Bootstrapper
             );
             if (result.Succeeded && result.Value is not null)
             {
-                App.Logger.WriteLine("Bootstrapper::TryLaunchNonWindowsClient", result.Value.Summary);
-                await LaunchCustomIntegrations("Bootstrapper::TryLaunchNonWindowsClient", preLaunch: false, cancellationToken);
+                App.Logger.WriteLine(LOG_IDENT, result.Value.Summary);
+                await LaunchCustomIntegrations(LOG_IDENT, preLaunch: false, cancellationToken);
                 return true;
             }
 
             App.Logger.WriteLine(
-                "Bootstrapper::TryLaunchNonWindowsClient",
+                LOG_IDENT,
                 result.Failure?.Message ?? "No Roblox runtime is available on this platform"
             );
         }
         catch (Exception ex)
         {
-            App.Logger.WriteLine("Bootstrapper::TryLaunchNonWindowsClient", "Launch failed: " + ex.Message);
+            App.Logger.WriteLine(LOG_IDENT, "Launch failed: " + ex.Message);
         }
         return false;
     }
 
     private static void ReapplyFpsUnlocker()
     {
+        const string LOG_IDENT = "Bootstrapper::ReapplyFpsUnlocker";
+
         if (
             Voidstrap.Utility.Platform.IsMacOS
             || App.Settings.Prop.FpsUnlockerEnabled != true
@@ -1592,18 +1472,20 @@ public partial class Bootstrapper
             if (App.GlobalSettings.SetProperty("FramerateCap", 9999))
                 App.GlobalSettings.Save();
             App.Logger.WriteLine(
-                "Bootstrapper::ReapplyFpsUnlocker",
+                LOG_IDENT,
                 "Roblox reset FramerateCap to " + cap + ", restored the unlimited cap"
             );
         }
         catch (Exception ex)
         {
-            App.Logger.WriteException("Bootstrapper::ReapplyFpsUnlocker", ex);
+            App.Logger.WriteException(LOG_IDENT, ex);
         }
     }
 
     private static void TrySuppressKnownBlockedFastFlags(string clientSettingsPath, string blockedFlagsPath)
     {
+        const string LOG_IDENT = "Bootstrapper::WaitForLogFile";
+
         try
         {
             if (!File.Exists(clientSettingsPath))
@@ -1617,7 +1499,7 @@ public partial class Bootstrapper
                     Filesystem.AssertReadOnly(clientSettingsPath);
                     File.Delete(clientSettingsPath);
                     App.Logger.WriteLine(
-                        "Bootstrapper::WaitForLogFile",
+                        LOG_IDENT,
                         "Skipped an unchanged FastFlag file that previously prevented Roblox from starting"
                     );
                     return;
@@ -1630,11 +1512,11 @@ public partial class Bootstrapper
             File.WriteAllText(blockedFlagsPath, currentHash);
             Filesystem.AssertReadOnly(clientSettingsPath);
             File.Delete(clientSettingsPath);
-            App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Skipped an invalid FastFlag file: " + reason);
+            App.Logger.WriteLine(LOG_IDENT, "Skipped an invalid FastFlag file: " + reason);
         }
         catch (Exception ex)
         {
-            App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Could not check the blocked FastFlag record: " + ex.Message);
+            App.Logger.WriteLine(LOG_IDENT, "Could not check the blocked FastFlag record: " + ex.Message);
         }
     }
 
@@ -1731,6 +1613,8 @@ public partial class Bootstrapper
 
     private static string? FindNewLogFile(string logDirectory, HashSet<string> existingLogs, DateTime launchStartedUtc)
     {
+        const string LOG_IDENT = "Bootstrapper::WaitForLogFile";
+
         try
         {
             return Directory
@@ -1743,7 +1627,7 @@ public partial class Bootstrapper
         }
         catch (Exception ex)
         {
-            App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Log enumeration failed: " + ex.Message);
+            App.Logger.WriteLine(LOG_IDENT, "Log enumeration failed: " + ex.Message);
             return null;
         }
     }
@@ -1880,6 +1764,8 @@ public partial class Bootstrapper
 
     private async Task RunStudioSessionAsync(CancellationToken ct)
     {
+        const string LOG_IDENT = "Bootstrapper::RunStudioSessionAsync";
+
         _installLock?.Dispose();
         try
         {
@@ -1900,7 +1786,7 @@ public partial class Bootstrapper
         catch { }
         try
         {
-            App.Logger.WriteLine("Bootstrapper::RunStudioSessionAsync", "Keeping Voidstrap in the background for the Studio session");
+            App.Logger.WriteLine(LOG_IDENT, "Keeping Voidstrap in the background for the Studio session");
             try
             {
                 Voidstrap.Integrations.Studio.StudioIntegration.Start();
@@ -1923,13 +1809,13 @@ public partial class Bootstrapper
                 }
                 await Task.Delay(2000, ct).ConfigureAwait(continueOnCapturedContext: false);
             }
-            App.Logger.WriteLine("Bootstrapper::RunStudioSessionAsync", "Roblox Studio closed, ending background session");
+            App.Logger.WriteLine(LOG_IDENT, "Roblox Studio closed, ending background session");
             await CompressInstallsAfterExitAsync().ConfigureAwait(continueOnCapturedContext: false);
         }
         catch (OperationCanceledException) { }
         catch (Exception ex)
         {
-            App.Logger.WriteLine("Bootstrapper::RunStudioSessionAsync", "Session watch failed: " + ex.Message);
+            App.Logger.WriteLine(LOG_IDENT, "Session watch failed: " + ex.Message);
         }
         finally
         {
@@ -1965,10 +1851,12 @@ public partial class Bootstrapper
 
     private Task LaunchWatcherIfNeeded(string logFileName, CancellationToken ct)
     {
+        const string LOG_IDENT = "Bootstrapper::LaunchWatcherIfNeeded";
+
         if (ClosesAfterLaunch && !(App.LaunchSettings.TestModeFlag?.Active ?? false))
         {
             App.Logger.WriteLine(
-                "Bootstrapper::LaunchWatcherIfNeeded",
+                LOG_IDENT,
                 "Launch without Voidstrap is on, nothing keeps running after Roblox starts"
             );
             return Task.CompletedTask;
@@ -2014,13 +1902,13 @@ public partial class Bootstrapper
             using Process? watcherProcess = Process.Start(watcherStartInfo);
             if (watcherProcess == null)
             {
-                App.Logger.WriteLine("Bootstrapper::LaunchWatcherIfNeeded", "Watcher process did not start");
+                App.Logger.WriteLine(LOG_IDENT, "Watcher process did not start");
             }
         }
         catch (OperationCanceledException) { }
         catch (Exception ex)
         {
-            App.Logger.WriteLine("Bootstrapper::LaunchWatcherIfNeeded", "Watcher process start failed: " + ex.Message);
+            App.Logger.WriteLine(LOG_IDENT, "Watcher process start failed: " + ex.Message);
         }
         return Task.CompletedTask;
     }
@@ -2065,17 +1953,19 @@ public partial class Bootstrapper
 
     private static async Task StopRobloxPlayersAsync(CancellationToken ct)
     {
+        const string LOG_IDENT = "Bootstrapper::StopRobloxPlayers";
+
         bool studioRunning = StudioRunning();
         if (studioRunning)
         {
-            App.Logger.WriteLine("Bootstrapper::StopRobloxPlayers", "Studio is running, leaving crash handlers alone.");
+            App.Logger.WriteLine(LOG_IDENT, "Studio is running, leaving crash handlers alone.");
         }
 
         for (int round = 1; round <= 3; round++)
         {
             Process[] processes = studioRunning
-                ? Process.GetProcessesByName(ProcRobloxPlayer)
-                : [.. Process.GetProcessesByName(ProcRobloxPlayer), .. Process.GetProcessesByName(ProcRobloxCrash)];
+                ? Process.GetProcessesByName(App.RobloxPlayerAppName)
+                : [.. Process.GetProcessesByName(App.RobloxPlayerAppName), .. Process.GetProcessesByName(App.RobloxCrashHandlerAppName)];
             if (processes.Length == 0)
             {
                 return;
@@ -2099,7 +1989,7 @@ public partial class Bootstrapper
                 }
                 catch (Exception ex)
                 {
-                    App.Logger.WriteLine("Bootstrapper::StopRobloxPlayers", $"Could not stop process {process.Id}: {ex.Message}");
+                    App.Logger.WriteLine(LOG_IDENT, $"Could not stop process {process.Id}: {ex.Message}");
                 }
                 finally
                 {
@@ -2109,8 +1999,8 @@ public partial class Bootstrapper
             await Task.Delay(500, ct).ConfigureAwait(continueOnCapturedContext: false);
         }
         Process[] remaining = studioRunning
-            ? Process.GetProcessesByName(ProcRobloxPlayer)
-            : [.. Process.GetProcessesByName(ProcRobloxPlayer), .. Process.GetProcessesByName(ProcRobloxCrash)];
+            ? Process.GetProcessesByName(App.RobloxPlayerAppName)
+            : [.. Process.GetProcessesByName(App.RobloxPlayerAppName), .. Process.GetProcessesByName(App.RobloxCrashHandlerAppName)];
         bool stillRunning = false;
         foreach (Process process in remaining)
         {
@@ -2135,6 +2025,8 @@ public partial class Bootstrapper
 
     internal static async Task CompressInstallsAfterExitAsync()
     {
+        const string LOG_IDENT = "Bootstrapper::CompressInstallsAfterExit";
+
         if (!RobloxInstallCompression.Supported || !App.Settings.Prop.CompressRobloxInstalls)
         {
             return;
@@ -2147,7 +2039,7 @@ public partial class Bootstrapper
         catch (OperationCanceledException)
         {
             App.Logger.WriteLine(
-                "Bootstrapper::CompressInstallsAfterExit",
+                LOG_IDENT,
                 "Compression ran out of time and was stopped, the install stays uncompressed"
             );
         }
@@ -2296,22 +2188,12 @@ public partial class Bootstrapper
         return code == 39 || code == 112;
     }
 
-    internal bool FastFlagsAllowedForThisLaunch()
-    {
-        if (!App.Settings.Prop.UseFastFlagManager)
-            return false;
-        Voidstrap.Enums.ModApplyTarget target = App.Settings.Prop.FastFlagApplyTarget;
-        if (target == Voidstrap.Enums.ModApplyTarget.Both)
-            return true;
-        return IsStudioLaunch ? target == Voidstrap.Enums.ModApplyTarget.Studio : target == Voidstrap.Enums.ModApplyTarget.Player;
-    }
+    internal bool FastFlagsAllowedForThisLaunch() =>
+        App.Settings.Prop.UseFastFlagManager && AppliesToThisLaunch(App.Settings.Prop.FastFlagApplyTarget);
 
-    private bool ModsAllowedForThisLaunch()
-    {
-        Voidstrap.Enums.ModApplyTarget target = App.Settings.Prop.ModApplyTarget;
-        if (target == Voidstrap.Enums.ModApplyTarget.Both)
-            return true;
-        return IsStudioLaunch ? target == Voidstrap.Enums.ModApplyTarget.Studio : target == Voidstrap.Enums.ModApplyTarget.Player;
-    }
+    private bool ModsAllowedForThisLaunch() => AppliesToThisLaunch(App.Settings.Prop.ModApplyTarget);
+
+    private bool AppliesToThisLaunch(ModApplyTarget target) =>
+        target == ModApplyTarget.Both || target == (IsStudioLaunch ? ModApplyTarget.Studio : ModApplyTarget.Player);
 
 }

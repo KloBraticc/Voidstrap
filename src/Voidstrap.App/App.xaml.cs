@@ -82,6 +82,32 @@ public partial class App : Application
 
 	public const string RobloxStudioAppName = "RobloxStudioBeta";
 
+	public const string RobloxCrashHandlerAppName = "RobloxCrashHandler";
+
+	public const string RobloxPlayerExeName = "RobloxPlayerBeta.exe";
+
+	internal const string SkyboxCommitApiUrl = "https://api.github.com/repos/KloBraticc/SkyboxPackV2/commits/main";
+
+	internal const string SkyboxRawBaseUrl = "https://raw.githubusercontent.com/KloBraticc/SkyboxPackV2/";
+
+	internal const string SkyboxPackCommitFile = ".commit";
+
+	internal const long SkyboxMaxFaceBytes = 16777216L;
+
+	internal const long SkyboxMinSegmentBytes = 524288L;
+
+	internal const int MaxPackageDownloadAttempts = 5;
+
+	internal static readonly string[] SkyboxFileNames =
+	[
+	    "sky512_bk.tex",
+	    "sky512_dn.tex",
+	    "sky512_ft.tex",
+	    "sky512_lf.tex",
+	    "sky512_rt.tex",
+	    "sky512_up.tex",
+	];
+
 	public const string UninstallKey = "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Voidstrap";
 
 	public const string ApisKey = "Software\\Voidstrap";
