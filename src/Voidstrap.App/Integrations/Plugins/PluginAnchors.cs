@@ -453,7 +453,7 @@ internal static class PluginAnchors
 
     private static (Panel? Panel, UIElement? Child) AttachablePanel(FrameworkElement target)
     {
-        if (target is StackPanel or WrapPanel or DockPanel or Grid or Canvas && target is Panel self)
+        if (target is StackPanel or WrapPanel or DockPanel or Grid or Canvas && target is Panel self && !self.IsItemsHost)
             return (self, self);
         DependencyObject child = target;
         for (int depth = 0; depth < 5; depth++)
@@ -462,6 +462,7 @@ internal static class PluginAnchors
             if (
                 parent is StackPanel or WrapPanel or DockPanel or Grid or Canvas
                 && parent is Panel panel
+                && !panel.IsItemsHost
                 && child is UIElement element
                 && panel.Children.Contains(element)
             )
