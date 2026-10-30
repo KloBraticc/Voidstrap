@@ -5,31 +5,6 @@
         <ResourceDictionary Source="/Voidstrap;component/UI/Elements/Editor/EditorSearchResources.xaml" />
         <ResourceDictionary Source="/Voidstrap;component/UI/Elements/Editor/VisualStudioTheme.xaml" />
       </ResourceDictionary.MergedDictionaries>
-      <Style x:Key="VsToolButton" TargetType="Button">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="#FFF1F1F1" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Padding" Value="6,2" />
-        <Setter Property="Margin" Value="1,0" />
-        <Setter Property="Template">
-          <Setter.Value>
-            <ControlTemplate TargetType="Button">
-              <Border x:Name="Root" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
-                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-              </Border>
-              <ControlTemplate.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                  <Setter TargetName="Root" Property="Background" Value="#FF3E3E40" />
-                </Trigger>
-                <Trigger Property="IsEnabled" Value="False">
-                  <Setter TargetName="Root" Property="Opacity" Value="0.4" />
-                </Trigger>
-              </ControlTemplate.Triggers>
-            </ControlTemplate>
-          </Setter.Value>
-        </Setter>
-      </Style>
       <Style x:Key="VsTreeItem" TargetType="TreeViewItem">
         <Setter Property="Foreground" Value="#FFF1F1F1" />
         <Setter Property="Template">
