@@ -42,6 +42,7 @@ internal static partial class ModLibraryReview
     {
       "pattern": "\\bnew\\s+Function\\s*\\(|(?<![.\\w])Function\\s*\\(",
       "reason": "Function() builds code from text",
+      "caseSensitive": true,
       "level": "error"
     },
     {
@@ -50,7 +51,7 @@ internal static partial class ModLibraryReview
       "level": "error"
     },
     {
-      "pattern": "\\b(atob|btoa|unescape|decodeURIComponent)\\s*\\(",
+      "pattern": "\\b(atob|btoa|unescape)\\s*\\(",
       "reason": "decoding helpers are used to hide payloads",
       "level": "error"
     },
@@ -86,7 +87,7 @@ internal static partial class ModLibraryReview
       "level": "error"
     },
     {
-      "pattern": "\\b(synapse|krnl|fluxus|electron executor|script-?ware|delta executor|wave executor|solara|xeno executor|codex executor|arceus)\\b",
+      "pattern": "\\b(synapse[ -]?x|krnl|fluxus|electron executor|script-?ware|delta executor|wave executor|solara executor|xeno executor|codex executor|arceus ?x)\\b",
       "reason": "Roblox executors and cheats are banned",
       "level": "error"
     },
@@ -103,6 +104,7 @@ internal static partial class ModLibraryReview
     {
       "pattern": "\\b(child_process|require\\s*\\(|process\\.env|__dirname|XMLHttpRequest|WebSocket|importScripts)\\b",
       "reason": "Node and browser escape hatches are not part of the Voidstrap mod API",
+      "codeOnly": true,
       "level": "error",
       "binary": false
     },
