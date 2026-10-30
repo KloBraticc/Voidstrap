@@ -332,7 +332,7 @@ declare module 'voidstrap' {
       list(path?: string): { name: string; folder: boolean; size: number }[];
     };
     web: {
-      open(request: { url: string; title?: string; width?: number; height?: number }): { ok: boolean; reason: string };
+      open(request: { url: string; title?: string; width?: number; height?: number; fullscreen?: boolean; css?: string }): { ok: boolean; reason: string };
     };
     app: {
       readonly version: string;
