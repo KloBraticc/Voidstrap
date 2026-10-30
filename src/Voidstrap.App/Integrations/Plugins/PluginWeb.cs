@@ -266,7 +266,7 @@ internal static partial class PluginWeb
             {
                 Directory.CreateDirectory(_dataFolder);
                 CoreWebView2EnvironmentOptions options = new(
-                    "--force_high_performance_gpu --enable-gpu-rasterization --disable-renderer-backgrounding --disable-background-timer-throttling --disable-features=CalculateNativeWinOcclusion --disable-sync --disable-extensions --js-flags=--max-old-space-size=4096"
+                    "--force_high_performance_gpu --enable-gpu-rasterization --disable-renderer-backgrounding --disable-background-timer-throttling --disable-features=CalculateNativeWinOcclusion,Translate,OptimizationHints,MediaRouter,AutofillServerCommunication,SpareRendererForSitePerProcess --disable-sync --disable-extensions --disable-background-networking --disable-component-update --disable-default-apps --no-first-run --no-default-browser-check --process-per-site --renderer-process-limit=2 --js-flags=--max-old-space-size=4096"
                 );
                 CoreWebView2Environment environment = await CoreWebView2Environment.CreateAsync(null, _dataFolder, options);
                 await _view.EnsureCoreWebView2Async(environment);
@@ -279,6 +279,10 @@ internal static partial class PluginWeb
                 settings.IsGeneralAutofillEnabled = false;
                 settings.AreDefaultContextMenusEnabled = false;
                 settings.AreBrowserAcceleratorKeysEnabled = false;
+                settings.IsStatusBarEnabled = false;
+                settings.IsZoomControlEnabled = false;
+                settings.IsBuiltInErrorPageEnabled = false;
+                _view.DefaultBackgroundColor = System.Drawing.Color.Black;
                 _core.NavigationStarting += OnNavigationStarting;
                 _core.FrameNavigationStarting += OnFrameNavigationStarting;
                 foreach (string host in AdHosts)
@@ -371,9 +375,19 @@ internal static partial class PluginWeb
             _source?.AddHook(OnWindowMessage);
         }
 
-        private void OnActivated(object? sender, EventArgs e) => RegisterHotKey(new WindowInteropHelper(this).Handle, FullscreenHotKey, 0, VirtualKeyF11);
+        private void OnActivated(object? sender, EventArgs e)
+        {
+            RegisterHotKey(new WindowInteropHelper(this).Handle, FullscreenHotKey, 0, VirtualKeyF11);
+            if (_core != null)
+                _core.MemoryUsageTargetLevel = CoreWebView2MemoryUsageTargetLevel.Normal;
+        }
 
-        private void OnDeactivated(object? sender, EventArgs e) => UnregisterHotKey(new WindowInteropHelper(this).Handle, FullscreenHotKey);
+        private void OnDeactivated(object? sender, EventArgs e)
+        {
+            UnregisterHotKey(new WindowInteropHelper(this).Handle, FullscreenHotKey);
+            if (_core != null)
+                _core.MemoryUsageTargetLevel = CoreWebView2MemoryUsageTargetLevel.Low;
+        }
 
         private IntPtr OnWindowMessage(IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
