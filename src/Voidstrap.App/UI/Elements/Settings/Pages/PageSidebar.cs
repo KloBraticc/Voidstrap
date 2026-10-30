@@ -35,6 +35,8 @@ internal sealed class PageSidebar
 
     private double _resizeStartWidth;
 
+    public static event Action? CollapsedChanged;
+
     public bool IsCollapsed { get; private set; }
 
     public PageSidebar(FrameworkElement sidebar, FrameworkElement resizer, IInputElement origin, Action<bool> setIconsOnly, Action<double> saveWidth)
@@ -59,6 +61,7 @@ internal sealed class PageSidebar
             _expandedWidth = width;
         IsCollapsed = iconsOnly;
         _setIconsOnly(iconsOnly);
+        CollapsedChanged?.Invoke();
     }
 
     public void Toggle()

@@ -807,6 +807,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         base.StateChanged += MainWindow_StateChanged;
         RootFrame.Navigating += RootFrame_Navigating;
         RootFrame.Navigated += RootFrame_Navigated;
+        PageSidebar.CollapsedChanged += UpdateSidebarToggleIcon;
         Wpf.Ui.Controls.Navigation.NavigationTiming.PageCreated += OnNavigationPageCreated;
         AppMenuPopup.Closing += AppMenuPopup_Closing;
         AppMenuPopup.Closed += OverlayPopup_Closed;
@@ -1115,6 +1116,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void RootFrame_Navigated(object sender, NavigationEventArgs e)
     {
+        UpdateSidebarToggleIcon();
         if (!Voidstrap.Utility.Platform.IsWindows && (e.Content is DownloadsPage or ExtensionPage))
         {
             if (e.Content is FrameworkElement hiddenPage)
@@ -6044,6 +6046,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (_sidebarIconMode != iconsOnly)
         {
             _sidebarIconMode = iconsOnly;
+            UpdateSidebarToggleIcon();
             ApplyIconModeLayout(RootNavigation.Items, iconsOnly);
             ApplyIconModeLayout(RootNavigation.Footer, iconsOnly);
             SidebarGroup.SetIconOnly(MoreNavItem, iconsOnly);
@@ -6209,6 +6212,22 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         App.Settings.Save();
     }
 
+    private static readonly Geometry SidebarOpenIcon = Geometry.Parse("M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2H5a2 2 0 0 1 -2 -2V5a2 2 0 0 1 2 -2z M9 3v18 M16 9l-3 3 3 3");
+
+    private static readonly Geometry SidebarClosedIcon = Geometry.Parse("M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2H5a2 2 0 0 1 -2 -2V5a2 2 0 0 1 2 -2z M9 3v18 M13 9l3 3 -3 3");
+
+    private void UpdateSidebarToggleIcon()
+    {
+        bool closed = RootFrame.Content switch
+        {
+            LibraryPage page => page.IsSidebarCollapsed,
+            PrivateServersPage page => page.IsSidebarCollapsed,
+            AccountsPage page => page.IsSidebarCollapsed,
+            _ => _sidebarToggleTarget is double target ? target < SidebarIconThreshold : _sidebarIconMode == true,
+        };
+        SidebarToggleIcon.Data = closed ? SidebarClosedIcon : SidebarOpenIcon;
+    }
+
     private void SidebarToggle_Click(object sender, RoutedEventArgs e)
     {
         if (RootFrame.Content is LibraryPage libraryPage)
@@ -6263,6 +6282,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             if (!interrupted)
                 PinPageForSidebarShift(to - from, ease, 260);
             _sidebarToggleTarget = to;
+            UpdateSidebarToggleIcon();
             RootNavigation.Tag = "full";
             RootNavigation.BeginAnimation(WidthProperty, slide);
         }
@@ -7258,6 +7278,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Voidstrap.UI.Elements.Settings.Pages.ExtensionViewModel.AnyProgressChanged -= OnExtensionProgressChanged;
         RootFrame.Navigating -= RootFrame_Navigating;
         RootFrame.Navigated -= RootFrame_Navigated;
+        PageSidebar.CollapsedChanged -= UpdateSidebarToggleIcon;
         Wpf.Ui.Controls.Navigation.NavigationTiming.PageCreated -= OnNavigationPageCreated;
         AppMenuPopup.Closing -= AppMenuPopup_Closing;
         AppMenuPopup.Closed -= OverlayPopup_Closed;

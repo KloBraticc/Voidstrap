@@ -27,6 +27,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             _ = _viewModel.LoadAsync();
         }
 
+        public bool IsSidebarCollapsed => _sidebar.IsCollapsed;
+
         public void ToggleSidebar()
         {
             _sidebar.Toggle();

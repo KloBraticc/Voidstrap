@@ -405,7 +405,7 @@
         <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M4 6h16 M4 12h11 M4 18h7" /></Canvas></Viewbox>
       </Button>
       <Button x:Name="SidebarToggle" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Ui_Main_ToggleSidebar}" AutomationProperties.Name="{resources:Loc Ui_Main_ToggleSidebar}" Click="SidebarToggle_Click">
-        <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2H5a2 2 0 0 1 -2 -2V5a2 2 0 0 1 2 -2z M9 3v18" /></Canvas></Viewbox>
+        <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path x:Name="SidebarToggleIcon" Style="{StaticResource TopBarLineIcon}" Data="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2H5a2 2 0 0 1 -2 -2V5a2 2 0 0 1 2 -2z M9 3v18 M16 9l-3 3 3 3" /></Canvas></Viewbox>
       </Button>
       <Border Width="1" Height="18" Margin="7,0" VerticalAlignment="Center" Background="#1FFFFFFF" SnapsToDevicePixels="True" />
       <Button x:Name="PagesMenuButton" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Ui_Main_PalettePages}" AutomationProperties.Name="{resources:Loc Ui_Main_PalettePages}" Click="PagesMenuButton_Click">

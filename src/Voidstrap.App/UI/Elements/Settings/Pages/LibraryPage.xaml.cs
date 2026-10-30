@@ -69,6 +69,8 @@ public partial class LibraryPage : UiPage
         App.Settings.SaveDeferred();
     }
 
+    public bool IsSidebarCollapsed => _sidebar.IsCollapsed;
+
     public void ToggleSidebar()
     {
         _sidebar.Toggle();
