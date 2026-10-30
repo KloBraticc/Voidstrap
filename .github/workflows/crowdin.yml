@@ -4,8 +4,9 @@ on:
   push:
     branches: [main]
     paths:
-      - src/Voidstrap.App/Resources/Strings.resx
+      - src/Voidstrap.App/Resources/Strings*.resx
       - crowdin.yml
+      - .github/workflows/crowdin.yml
   schedule:
     - cron: "17 6 * * *"
   workflow_dispatch:
@@ -37,10 +38,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-      - uses: crowdin/github-action@959dc74ac104447731cba99a016f85d0ae719788
+      - id: sync
+        continue-on-error: true
+        uses: crowdin/github-action@959dc74ac104447731cba99a016f85d0ae719788
         with:
           upload_sources: true
-          upload_translations: ${{ inputs.upload_translations == true }}
+          upload_translations: ${{ github.event_name == 'push' || inputs.upload_translations == true }}
+          import_eq_suggestions: false
+          auto_approve_imported: true
+          download_translations: ${{ inputs.download_translations == true }}
+          skip_untranslated_strings: true
+          localization_branch_name: crowdin-translations
+          create_pull_request: ${{ inputs.create_pull_request == true }}
+          pull_request_title: "chore: update translations from Crowdin"
+          pull_request_body: Translations pulled from Crowdin.
+          pull_request_base_branch_name: main
+          commit_message: "chore: update translations from Crowdin"
+          github_user_name: KloBratic
+          github_user_email: 195697851+KloBraticc@users.noreply.github.com
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+
+      - name: Wait before retrying
+        if: steps.sync.outcome == 'failure'
+        run: sleep 60
+
+      - name: Retry after a Crowdin failure
+        if: steps.sync.outcome == 'failure'
+        uses: crowdin/github-action@959dc74ac104447731cba99a016f85d0ae719788
+        with:
+          upload_sources: true
+          upload_translations: ${{ github.event_name == 'push' || inputs.upload_translations == true }}
           import_eq_suggestions: false
           auto_approve_imported: true
           download_translations: ${{ inputs.download_translations == true }}
