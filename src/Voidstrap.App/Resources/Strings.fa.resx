@@ -9409,4 +9409,11 @@ Voidstrap پیش از نصب هر فایل را با کتابخانه مقایس
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>تصاویر|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>این ماد دسترسی بیشتری می‌خواهد. می‌تواند کد خود را در Voidstrap اجرا کند، فایل‌هایی را در پوشه خودش نگه دارد یا پنجره‌های وب باز کند.
+
+Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما به Roblox را مسدود می‌کند، اما هیچ محافظتی بی‌نقص نیست. فقط اگر کاملاً به سازنده این ماد اعتماد دارید ادامه دهید. با هر تغییر ماد دوباره از شما پرسیده می‌شود.
+
+اجازه می‌دهید؟</value>
+  </data>
 </root>

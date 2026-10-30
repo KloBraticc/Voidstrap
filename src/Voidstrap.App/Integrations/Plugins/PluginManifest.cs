@@ -13,7 +13,13 @@ public sealed partial class PluginManifest
 
     public const string RobloxAccountPermission = "roblox-account";
 
-    private static readonly HashSet<string> KnownPermissions = new(StringComparer.Ordinal) { RobloxAccountPermission };
+    public const string NativePermission = "native";
+
+    public const string FilesPermission = "files";
+
+    public const string WebPermission = "web";
+
+    private static readonly HashSet<string> KnownPermissions = new(StringComparer.Ordinal) { RobloxAccountPermission, NativePermission, FilesPermission, WebPermission };
 
     private const long MaxJsonBytes = 256 * 1024;
 
@@ -166,7 +172,7 @@ public sealed partial class PluginManifest
             string value = node?.ToString().Trim().ToLowerInvariant() ?? "";
             if (!KnownPermissions.Contains(value))
             {
-                error = "unknown permission " + value + ", the only permission is " + RobloxAccountPermission;
+                error = "unknown permission " + value + ", the permissions are roblox-account, native, files and web";
                 return false;
             }
             if (!result.Contains(value))

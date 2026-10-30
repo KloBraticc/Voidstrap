@@ -9410,4 +9410,11 @@ Voidstrap 會在安裝前依照模組庫核對每個檔案,並在啟用模組前
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>圖片|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>此模組要求額外權限。它可以在 Voidstrap 內執行自己的程式碼、在自己的資料夾中保存檔案或開啟網頁視窗。
+
+Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何保護都不完美。只有在你完全信任此模組的作者時才繼續。每次模組變更時都會再次詢問你。
+
+要允許嗎？</value>
+  </data>
 </root>

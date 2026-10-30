@@ -9405,4 +9405,11 @@ Birbiriyle cakisan modlar Roblox un tuhaf gorunmesine veya davranmasina yol acab
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Resimler|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Bu mod ek izinler istiyor. Voidstrap içinde kendi kodunu çalıştırabilir, kendi klasöründe dosya tutabilir veya web pencereleri açabilir.
+
+Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak hiçbir koruma kusursuz değildir. Yalnızca bu modun yapımcısına tamamen güveniyorsanız devam edin. Mod her değiştiğinde yeniden sorulacaktır.
+
+İzin verilsin mi?</value>
+  </data>
 </root>

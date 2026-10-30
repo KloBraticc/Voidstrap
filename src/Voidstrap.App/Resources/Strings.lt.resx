@@ -9408,4 +9408,11 @@ Persidengiantys modai gali pakeisti Roblox isvaizda ar elgesi, taciau tai nesuga
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Vaizdai|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Šis modas prašo papildomų leidimų. Jis gali vykdyti savo kodą Voidstrap viduje, laikyti failus savo aplanke arba atidaryti žiniatinklio langus.
+
+Voidstrap blokuoja programas, kitus aplankus ir jūsų Roblox prisijungimą, tačiau jokia apsauga nėra tobula. Tęskite tik jei visiškai pasitikite šio modo kūrėju. Klausime iš naujo kaskart, kai modas pasikeis.
+
+Leisti?</value>
+  </data>
 </root>

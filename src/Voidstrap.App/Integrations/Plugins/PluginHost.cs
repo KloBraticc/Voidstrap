@@ -160,7 +160,10 @@ public static class PluginHost
     {
         PluginConsent.SetEnabledState(name, enabled);
         if (!enabled)
+        {
             PluginRollback.Restore(name);
+            PluginWeb.CloseFor(name);
+        }
         if (enabled && System.Windows.Application.Current?.Dispatcher.CheckAccess() == true)
         {
             PluginManifest? manifest = PluginManifest
@@ -198,6 +201,8 @@ public static class PluginHost
             Problems.Remove(name);
         }
         PluginRollback.Restore(name);
+        PluginWeb.CloseFor(name);
+        PluginFiles.DeleteAll(name);
         PluginStore.DeleteData(name);
         PluginOptions.Delete(name);
         ModsChanged?.Invoke();
@@ -858,6 +863,21 @@ public static class PluginHost
 			      setBackground: request => String(host.appBackgroundSet(typeof request === 'string' ? JSON.stringify({ file: request }) : JSON.stringify(request || {}))),
 			      clearBackground: () => host.appBackgroundClear()
 			    }),
+			    native: Object.freeze({
+			      type: name => host.nativeType(String(name)),
+			      ui: fn => host.nativeUi(fn)
+			    }),
+			    files: Object.freeze({
+			      read: (path, encoding) => host.filesRead(String(path), String(encoding || '')),
+			      write: (path, content, encoding) => host.filesWrite(String(path), String(content), String(encoding || '')),
+			      makeFolder: path => host.filesMakeFolder(String(path)),
+			      exists: path => Boolean(host.filesExists(String(path))),
+			      delete: path => host.filesDelete(String(path)),
+			      list: path => parse(host.filesList(String(path || '')))
+			    }),
+			    web: Object.freeze({
+			      open: request => parse(host.webOpen(JSON.stringify(request || {})))
+			    }),
 			    ui: Object.freeze({
 			      resolve: () => elements,
 			      open: request => parse(host.uiOpen(JSON.stringify(request || {}))),
@@ -1025,6 +1045,14 @@ public static class PluginHost
 
         private bool _disposed;
 
+        private readonly bool _powerApproved;
+
+        private void Need(string permission)
+        {
+            if (!_powerApproved || !Manifest.HasPermission(permission))
+                throw new InvalidOperationException("this needs the " + permission + " permission in plugin.json and the user's approval of this exact mod version");
+        }
+
         public string Name { get; }
 
         public PluginManifest Manifest { get; }
@@ -1037,6 +1065,7 @@ public static class PluginHost
             Manifest = manifest;
             SourceSignature = GetReloadSignature(manifest.Directory, manifest.Name);
             _sandbox = sandbox;
+            _powerApproved = !sandbox && PluginNative.IsPowerful(manifest) && PluginNative.IsApproved(manifest);
             _store = new PluginStore(manifest.Name);
             _networkHosts = new HashSet<string>(manifest.NetworkHosts, StringComparer.OrdinalIgnoreCase);
             _engine = new Engine(options =>
@@ -1046,6 +1075,10 @@ public static class PluginHost
                 options.LimitMemory(64L * 1024 * 1024);
                 options.LimitRecursion(256);
                 options.EnableModules(new ModModuleLoader(manifest.Directory));
+                options.Interop.AllowGetType = false;
+                options.Interop.AllowSystemReflection = false;
+                options.Interop.AllowWrite = true;
+                options.SetTypeResolver(new Jint.Runtime.Interop.TypeResolver { MemberFilter = PluginNative.IsMemberAllowed });
             });
         }
 
@@ -1279,6 +1312,118 @@ public static class PluginHost
                         if (PluginRestyle.StyleBackdrop(request) is { } backdrop)
                             PluginRollback.TrackSettings(Name, PluginRollback.ThemeSettings, () => PluginTheme.Set(Name, new JsonObject { ["backdrop"] = backdrop }));
                         return PluginRestyle.Style(Name, request).ToJsonString();
+                    }
+                )
+            );
+            host.Set(
+                "nativeType",
+                Host(
+                    "nativeType",
+                    a =>
+                    {
+                        Need(PluginManifest.NativePermission);
+                        Type type = PluginNative.ResolveType(Arg(a, 0)) ?? throw new InvalidOperationException(Arg(a, 0) + " is blocked or does not exist");
+                        App.Logger.WriteLine(LogIdent, Name + ": native access to " + type.FullName);
+                        return Jint.Runtime.Interop.TypeReference.CreateTypeReference(_engine, type);
+                    }
+                )
+            );
+            host.Set(
+                "nativeUi",
+                Host(
+                    "nativeUi",
+                    a =>
+                    {
+                        Need(PluginManifest.NativePermission);
+                        JsValue callback = a.Length > 0 ? a[0] : JsValue.Undefined;
+                        JsValue result = JsValue.Undefined;
+                        void Run() => result = _engine.Invoke(callback, JsValue.Undefined, Array.Empty<object>());
+                        System.Windows.Threading.Dispatcher dispatcher = System.Windows.Application.Current?.Dispatcher ?? throw new InvalidOperationException("the app is closing");
+                        if (dispatcher.CheckAccess())
+                            Run();
+                        else
+                            dispatcher.Invoke(Run, TimeSpan.FromMilliseconds(1500));
+                        return result;
+                    }
+                )
+            );
+            host.Set(
+                "filesRead",
+                Host(
+                    "filesRead",
+                    a =>
+                    {
+                        Need(PluginManifest.FilesPermission);
+                        return PluginFiles.Read(Name, Arg(a, 0), Arg(a, 1) == "base64");
+                    }
+                )
+            );
+            host.Set(
+                "filesWrite",
+                Host(
+                    "filesWrite",
+                    a =>
+                    {
+                        Need(PluginManifest.FilesPermission);
+                        PluginFiles.Write(Name, Arg(a, 0), Arg(a, 1), Arg(a, 2) == "base64");
+                        return JsValue.Undefined;
+                    }
+                )
+            );
+            host.Set(
+                "filesMakeFolder",
+                Host(
+                    "filesMakeFolder",
+                    a =>
+                    {
+                        Need(PluginManifest.FilesPermission);
+                        PluginFiles.MakeFolder(Name, Arg(a, 0));
+                        return JsValue.Undefined;
+                    }
+                )
+            );
+            host.Set(
+                "filesExists",
+                Host(
+                    "filesExists",
+                    a =>
+                    {
+                        Need(PluginManifest.FilesPermission);
+                        return PluginFiles.Exists(Name, Arg(a, 0));
+                    }
+                )
+            );
+            host.Set(
+                "filesDelete",
+                Host(
+                    "filesDelete",
+                    a =>
+                    {
+                        Need(PluginManifest.FilesPermission);
+                        PluginFiles.Delete(Name, Arg(a, 0));
+                        return JsValue.Undefined;
+                    }
+                )
+            );
+            host.Set(
+                "filesList",
+                Host(
+                    "filesList",
+                    a =>
+                    {
+                        Need(PluginManifest.FilesPermission);
+                        return PluginFiles.List(Name, Arg(a, 0)).ToJsonString();
+                    }
+                )
+            );
+            host.Set(
+                "webOpen",
+                Host(
+                    "webOpen",
+                    a =>
+                    {
+                        Need(PluginManifest.WebPermission);
+                        return PluginWeb.Open(Manifest, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject()).ToJsonString();
                     }
                 )
             );

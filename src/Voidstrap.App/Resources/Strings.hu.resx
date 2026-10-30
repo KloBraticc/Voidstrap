@@ -9406,4 +9406,11 @@ Az egymasra epulo modok miatt a Roblox furcsan nezhet ki vagy viselkedhet, de a 
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Képek|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Ez a mod további jogosultságokat kér. Saját kódot futtathat a Voidstrapen belül, fájlokat tárolhat a saját mappájában, vagy webablakokat nyithat.
+
+A Voidstrap letiltja a programokat, a többi mappát és a Roblox bejelentkezésedet, de egyetlen védelem sem tökéletes. Csak akkor folytasd, ha teljesen megbízol a mod készítőjében. A mod minden változásakor újra rákérdezünk.
+
+Engedélyezed?</value>
+  </data>
 </root>

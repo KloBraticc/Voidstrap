@@ -9406,4 +9406,11 @@ Preklapanje modova moze uciniti da Roblox izgleda ili se ponasa neobicno, ali to
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Slike|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Ovaj mod traži dodatna dopuštenja. Može pokretati vlastiti kod u Voidstrapu, čuvati datoteke u vlastitoj mapi ili otvarati web prozore.
+
+Voidstrap blokira programe, druge mape i tvoju Roblox prijavu, ali nijedna zaštita nije savršena. Nastavi samo ako potpuno vjeruješ autoru ovog moda. Pitat ćemo te ponovno pri svakoj promjeni moda.
+
+Dopustiti?</value>
+  </data>
 </root>

@@ -9407,4 +9407,11 @@ Los mods superpuestos pueden hacer que Roblox se vea o funcione de forma extrana
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Imágenes|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Este mod pide permisos adicionales. Puede ejecutar su propio código dentro de Voidstrap, guardar archivos en su propia carpeta o abrir ventanas web.
+
+Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pero ninguna protección es perfecta. Continúa solo si confías plenamente en quien creó este mod. Se te volverá a preguntar cada vez que el mod cambie.
+
+¿Permitirlo?</value>
+  </data>
 </root>

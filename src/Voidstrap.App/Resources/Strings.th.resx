@@ -9402,4 +9402,11 @@ Voidstrap จะตรวจสอบทุกไฟล์กับคลัง�
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>รูปภาพ|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>ม็อดนี้ขอสิทธิ์เพิ่มเติม สามารถรันโค้ดของตัวเองใน Voidstrap เก็บไฟล์ในโฟลเดอร์ของตัวเอง หรือเปิดหน้าต่างเว็บได้
+
+Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่น และการเข้าสู่ระบบ Roblox ของคุณ แต่ไม่มีการป้องกันใดสมบูรณ์แบบ ดำเนินการต่อเมื่อคุณเชื่อถือผู้สร้างม็อดนี้อย่างเต็มที่เท่านั้น ระบบจะถามอีกครั้งทุกครั้งที่ม็อดเปลี่ยนแปลง
+
+อนุญาตหรือไม่</value>
+  </data>
 </root>

@@ -318,6 +318,21 @@ declare module 'voidstrap' {
   export interface Engine {
     log(text: unknown): void;
     mod: { readonly name: string; readonly version: string; options(): Record<string, Json> };
+    native: {
+      type(fullName: string): any;
+      ui<T>(fn: () => T): T;
+    };
+    files: {
+      read(path: string, encoding?: 'base64'): string;
+      write(path: string, content: string, encoding?: 'base64'): void;
+      makeFolder(path: string): void;
+      exists(path: string): boolean;
+      delete(path: string): void;
+      list(path?: string): { name: string; folder: boolean; size: number }[];
+    };
+    web: {
+      open(request: { url: string; title?: string; width?: number; height?: number }): { ok: boolean; reason: string };
+    };
     app: {
       readonly version: string;
       readonly platform: 'windows' | 'linux' | 'macos';

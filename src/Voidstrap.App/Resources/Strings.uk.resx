@@ -9405,4 +9405,11 @@ Voidstrap перед встановленням звіряє кожен файл
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Зображення|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Цей мод запитує додаткові дозволи. Він може виконувати свій код у Voidstrap, зберігати файли у власній папці або відкривати вебвікна.
+
+Voidstrap блокує програми, інші папки та Ваш вхід у Roblox, але жоден захист не є ідеальним. Продовжуйте, лише якщо Ви повністю довіряєте автору цього мода. Під час кожної зміни мода запит з'явиться знову.
+
+Дозволити?</value>
+  </data>
 </root>

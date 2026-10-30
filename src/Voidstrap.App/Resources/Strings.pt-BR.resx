@@ -9408,4 +9408,11 @@ Mods sobrepostos podem fazer o Roblox parecer ou se comportar de forma incomum, 
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Imagens|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Este mod pede permissões extras. Ele pode executar o próprio código dentro do Voidstrap, guardar arquivos na própria pasta ou abrir janelas da web.
+
+O Voidstrap bloqueia programas, outras pastas e o seu login do Roblox, mas nenhuma proteção é perfeita. Continue somente se você confiar totalmente em quem criou este mod. Você será perguntado novamente sempre que o mod mudar.
+
+Permitir?</value>
+  </data>
 </root>

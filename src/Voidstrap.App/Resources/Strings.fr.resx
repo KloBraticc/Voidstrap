@@ -9406,4 +9406,11 @@ Le chevauchement de mods peut donner a Roblox une apparence ou un comportement i
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Images|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Ce mod demande des droits supplémentaires. Il peut exécuter son propre code dans Voidstrap, conserver des fichiers dans son propre dossier ou ouvrir des fenêtres web.
+
+Voidstrap bloque les programmes, les autres dossiers et votre connexion Roblox, mais aucune protection n'est parfaite. Continuez uniquement si vous faites entièrement confiance à l'auteur de ce mod. La question vous sera reposée à chaque modification du mod.
+
+Autoriser ?</value>
+  </data>
 </root>

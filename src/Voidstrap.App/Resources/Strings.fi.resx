@@ -9408,4 +9408,11 @@ Paallekkaiset modit voivat saada Robloxiin outoa ulkoasua tai toimintaa, mutta t
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Kuvat|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Tämä modi pyytää lisäoikeuksia. Se voi suorittaa omaa koodiaan Voidstrapissa, säilyttää tiedostoja omassa kansiossaan tai avata verkkoikkunoita.
+
+Voidstrap estää ohjelmat, muut kansiot ja Roblox-kirjautumisesi, mutta mikään suojaus ei ole täydellinen. Jatka vain, jos luotat täysin modin tekijään. Sinulta kysytään uudelleen aina, kun modi muuttuu.
+
+Sallitaanko?</value>
+  </data>
 </root>

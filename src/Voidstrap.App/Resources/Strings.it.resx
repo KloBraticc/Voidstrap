@@ -9409,4 +9409,11 @@ La sovrapposizione di mod puo causare anomalie visive o di comportamento in Robl
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Immagini|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Questa mod chiede permessi aggiuntivi. Può eseguire il proprio codice in Voidstrap, conservare file nella propria cartella o aprire finestre web.
+
+Voidstrap blocca i programmi, le altre cartelle e il tuo accesso a Roblox, ma nessuna protezione è perfetta. Continua solo se ti fidi completamente di chi ha creato questa mod. Te lo chiederemo di nuovo ogni volta che la mod cambia.
+
+Consentire?</value>
+  </data>
 </root>

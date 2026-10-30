@@ -94,7 +94,62 @@ internal static class PluginConsent
         }
     }
 
+    private static readonly HashSet<string> PendingPowerful = new(StringComparer.Ordinal);
+
     public static async Task<bool> IsAllowedAsync(PluginManifest manifest)
+    {
+        bool allowed = await IsBaseAllowedAsync(manifest).ConfigureAwait(true);
+        if (!allowed || !PluginNative.IsPowerful(manifest) || PluginNative.IsApproved(manifest))
+            return allowed;
+        return await ConfirmPowerfulAsync(manifest).ConfigureAwait(true);
+    }
+
+    private static async Task<bool> ConfirmPowerfulAsync(PluginManifest manifest)
+    {
+        lock (PendingPowerful)
+        {
+            if (!PendingPowerful.Add(manifest.Name))
+                return false;
+        }
+        bool answer = false;
+        try
+        {
+            System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
+            if (dispatcher == null || dispatcher.HasShutdownStarted)
+                return false;
+            string prompt =
+                manifest.Name + " " + manifest.Version + Environment.NewLine + Environment.NewLine
+                + string.Join(", ", manifest.Permissions) + Environment.NewLine + Environment.NewLine
+                + Strings.Plugins_PowerfulModWarning;
+            answer = await dispatcher
+                .InvokeAsync(() => Frontend.ShowMessageBox(prompt, MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) == MessageBoxResult.Yes)
+                .Task.ConfigureAwait(true);
+        }
+        catch
+        {
+            answer = false;
+        }
+        finally
+        {
+            lock (PendingPowerful)
+                PendingPowerful.Remove(manifest.Name);
+        }
+        lock (Gate)
+        {
+            Dictionary<string, bool> updated = new(App.Settings.Prop.PluginConsent ?? [], StringComparer.Ordinal);
+            foreach (string key in updated.Keys.Where(key => key.StartsWith(manifest.Name + "#powerful:", StringComparison.Ordinal)).ToList())
+                updated.Remove(key);
+            updated[manifest.Name] = answer;
+            if (answer)
+                updated[PermissionKey(manifest.Name, PluginNative.GrantName(manifest))] = true;
+            App.Settings.Prop.PluginConsent = updated;
+        }
+        App.Settings.SaveDeferred();
+        App.Logger.WriteLine("VoidstrapMods", manifest.Name + ": extra permissions " + (answer ? "approved" : "declined") + " by the user");
+        return answer;
+    }
+
+    private static async Task<bool> IsBaseAllowedAsync(PluginManifest manifest)
     {
         Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ??= [];
         bool needsAccount = manifest.HasPermission(PluginManifest.RobloxAccountPermission);
@@ -185,6 +240,7 @@ internal static class PluginSettings
     private static readonly HashSet<string> Blocked = new(StringComparer.OrdinalIgnoreCase)
     {
         nameof(Voidstrap.Models.Persistable.AppSettings.PluginConsent),
+        nameof(Voidstrap.Models.Persistable.AppSettings.ModRollback),
     };
 
     private static PropertyInfo? Find(string name)

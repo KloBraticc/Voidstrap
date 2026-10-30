@@ -321,8 +321,13 @@ internal static partial class ModLibraryReview
         }
         if (manifest["permissions"] is System.Text.Json.Nodes.JsonArray permissions)
         {
-            if (permissions.Any(permission => !string.Equals(permission?.ToString(), "roblox-account", StringComparison.Ordinal)))
-                errors.Add("plugin.json permissions may only contain roblox-account");
+            string[] known = ["roblox-account", "native", "files", "web"];
+            if (permissions.Any(permission => !known.Contains(permission?.ToString(), StringComparer.Ordinal)))
+                errors.Add("plugin.json permissions may only contain roblox-account, native, files or web");
+            else if (permissions.Any(permission => permission?.ToString() is "native" or "files" or "web"))
+                reviews.Add(
+                    "asks for native, files or web access, the maintainer must read every line of this mod, and every later update, before merging"
+                );
             else if (permissions.Count > 0)
                 reviews.Add(
                     "asks to use the Roblox account through $.roblox.request, the maintainer must review it, make sure the description says exactly what is read"

@@ -9421,4 +9421,11 @@ Mod の重複により Roblox の表示や動作に異常が生じる場合が�
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>画像|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>このModは追加の権限を求めています。Voidstrap内で独自のコードを実行したり、専用フォルダーにファイルを保存したり、Webウィンドウを開いたりできます。
+
+Voidstrapはプログラム、他のフォルダー、Robloxのログイン情報をブロックしますが、完全な保護はありません。このModの作者を完全に信頼できる場合のみ続行してください。Modが変更されるたびに再度確認します。
+
+許可しますか？</value>
+  </data>
 </root>

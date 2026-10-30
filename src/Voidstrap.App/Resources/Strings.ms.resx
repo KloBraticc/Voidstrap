@@ -9398,4 +9398,11 @@ Mod yang bertindih boleh membuatkan Roblox kelihatan atau berkelakuan ganjil, te
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Imej|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Mod ini meminta kebenaran tambahan. Ia boleh menjalankan kodnya sendiri dalam Voidstrap, menyimpan fail dalam foldernya sendiri atau membuka tetingkap web.
+
+Voidstrap menyekat program, folder lain dan log masuk Roblox anda, tetapi tiada perlindungan yang sempurna. Teruskan hanya jika anda benar-benar mempercayai pembuat mod ini. Anda akan ditanya semula setiap kali mod berubah.
+
+Benarkan?</value>
+  </data>
 </root>

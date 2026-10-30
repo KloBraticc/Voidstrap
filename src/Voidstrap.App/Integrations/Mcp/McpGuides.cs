@@ -307,6 +307,27 @@ public static class McpGuides
 		    Also: page.navigate, game.join, game.leave, roblox.launch, settings.changed events, $.net.fetch, $.store, $.clock.
 		  Mods stay sandboxed: no files, processes, or direct .NET. Only clicks are reported, never typed text.
 
+		POWERFUL MODS: REAL APP CODE, FILES AND WEB WINDOWS
+		  List what is needed under permissions in plugin.json: native, files, web. Voidstrap shows a strong warning and the user must
+		  approve this exact version. ANY change to any file of the mod voids the approval and asks again, including updates.
+		  Until approved nothing works and the mod stays off. Every native type used and file written is logged.
+
+		  native: $.native.type('System.Windows.Controls.Button') returns a real .NET type to construct or call. Touch UI only inside
+		  $.native.ui(() => { ... }), which runs on the UI thread, limit 1.5 seconds to start. Mods use WPF, Wpf.Ui and Voidstrap.UI, Models,
+		  Enums and Resources. Always blocked: files, processes, registry, network, reflection, assembly loading, XAML loading, data providers,
+		  dispatchers, clipboard, and anything named for accounts, cookies, tokens, passwords, secrets, logins, install or download. Undo is the mod's job
+		  for what it builds natively: restore it on session.end, it is not journaled.
+
+		  files: $.files reads and writes only in <install>/ModFiles/<mod>, deleted along with the mod. No other folder, no links, no ".." and no
+		  absolute paths. Only data, text, media and font types. Executables, scripts such as .bat or .ps1, and archives can never be stored, and
+		  program headers are checked inside any file. 16 MB per file, 256 MB and 4096 files per mod. There is no way to run anything.
+
+		  web: $.web.open({ url, title, width, height }) opens a WebView2 window, Windows only, returns ok false elsewhere. https only, hosts must be under
+		  network in plugin.json, never roblox.com. Own browser profile per mod, so no Roblox login. Downloads, popups, permissions, dev tools,
+		  host objects and web messages are all off.
+
+		  Other libraries: bundle JavaScript libraries as mod modules. Loading .NET or native DLLs is never allowed.
+
 		THE WORKFLOW
 		  1. Look before you change. manage_voidstrap_mods action ui_tree, or $.ui.tree(), returns the real structure.
 		     Arguments: root (a target), depth (default 8, up to 40), namedOnly. Open the page you care about first, because

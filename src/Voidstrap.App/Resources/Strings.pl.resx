@@ -9407,4 +9407,11 @@ Nakladajace sie mody moga sprawic, ze Roblox bedzie wygladac lub dzialac nietypo
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Obrazy|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Ten mod prosi o dodatkowe uprawnienia. Może uruchamiać własny kod w Voidstrap, przechowywać pliki we własnym folderze lub otwierać okna internetowe.
+
+Voidstrap blokuje programy, inne foldery i Twoje logowanie do Roblox, ale żadna ochrona nie jest doskonała. Kontynuuj tylko wtedy, gdy w pełni ufasz twórcy tego moda. Zapytamy ponownie przy każdej zmianie moda.
+
+Zezwolić?</value>
+  </data>
 </root>

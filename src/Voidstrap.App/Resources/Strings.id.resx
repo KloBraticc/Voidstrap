@@ -9409,4 +9409,11 @@ Mod yang saling tumpang tindih dapat membuat Roblox terlihat atau berperilaku an
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Gambar|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Mod ini meminta izin tambahan. Mod dapat menjalankan kodenya sendiri di dalam Voidstrap, menyimpan file di foldernya sendiri, atau membuka jendela web.
+
+Voidstrap memblokir program, folder lain, dan login Roblox Anda, tetapi tidak ada perlindungan yang sempurna. Lanjutkan hanya jika Anda benar-benar memercayai pembuat mod ini. Anda akan ditanya lagi setiap kali mod berubah.
+
+Izinkan?</value>
+  </data>
 </root>

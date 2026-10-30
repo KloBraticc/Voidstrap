@@ -9408,4 +9408,11 @@ Modurile care se suprapun pot face Roblox sa aiba un aspect neobisnuit, dar aces
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Imagini|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Acest mod cere permisiuni suplimentare. Poate rula propriul cod în Voidstrap, poate păstra fișiere în propriul folder sau poate deschide ferestre web.
+
+Voidstrap blochează programele, alte foldere și autentificarea ta Roblox, dar nicio protecție nu este perfectă. Continuă doar dacă ai încredere deplină în autorul acestui mod. Vei fi întrebat din nou de fiecare dată când modul se schimbă.
+
+Permiți?</value>
+  </data>
 </root>

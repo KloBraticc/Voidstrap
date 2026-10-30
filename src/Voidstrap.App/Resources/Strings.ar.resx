@@ -9406,4 +9406,11 @@
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>الصور|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>يطلب هذا التعديل صلاحيات إضافية. يمكنه تشغيل شيفرته داخل Voidstrap أو حفظ ملفات في مجلده الخاص أو فتح نوافذ ويب.
+
+يحظر Voidstrap البرامج والمجلدات الأخرى وتسجيل دخولك إلى Roblox، لكن لا توجد حماية مثالية. تابع فقط إذا كنت تثق تمامًا بصانع هذا التعديل. سيُطلب منك الإذن مجددًا عند أي تغيير في التعديل.
+
+هل تسمح بذلك؟</value>
+  </data>
 </root>

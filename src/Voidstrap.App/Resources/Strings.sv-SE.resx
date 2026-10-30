@@ -9407,4 +9407,11 @@ Overlappande moddar kan fa Roblox att se ut eller bete sig markligt, men det kan
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Bilder|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Den här modden begär extra behörigheter. Den kan köra egen kod i Voidstrap, spara filer i sin egen mapp eller öppna webbfönster.
+
+Voidstrap blockerar program, andra mappar och din Roblox-inloggning, men inget skydd är perfekt. Fortsätt bara om du litar helt på den som skapade modden. Du får frågan igen varje gång modden ändras.
+
+Tillåta?</value>
+  </data>
 </root>

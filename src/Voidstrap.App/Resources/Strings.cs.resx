@@ -9408,4 +9408,11 @@ Prekryvajici se mody mohou zpusobit zvlastni vzhled nebo chovani Robloxu, ale ne
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Obrázky|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Tento mod žádá o další oprávnění. Může spouštět svůj kód ve Voidstrap, ukládat soubory do vlastní složky nebo otevírat webová okna.
+
+Voidstrap blokuje programy, ostatní složky a Vaše přihlášení k Roblox, ale žádná ochrana není dokonalá. Pokračujte pouze tehdy, pokud autorovi modu plně důvěřujete. Při každé změně modu budete dotázáni znovu.
+
+Povolit?</value>
+  </data>
 </root>

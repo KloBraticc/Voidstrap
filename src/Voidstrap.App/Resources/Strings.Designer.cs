@@ -8058,6 +8058,8 @@ namespace Voidstrap.Resources {
             }
         }
         
+        public static string Plugins_PowerfulModWarning => ResourceManager.GetString("Plugins.PowerfulModWarning", resourceCulture);
+
         /// <summary>
         ///   Looks up a localized string similar to Uninstall.
         /// </summary>

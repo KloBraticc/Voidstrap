@@ -9410,4 +9410,11 @@ Cac mod bi chong cheo co the khien Roblox hien thi hoac hoat dong bat thuong, nh
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Ảnh|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Mod này yêu cầu thêm quyền. Mod có thể chạy mã riêng trong Voidstrap, lưu tệp trong thư mục riêng hoặc mở cửa sổ web.
+
+Voidstrap chặn các chương trình, thư mục khác và thông tin đăng nhập Roblox của bạn, nhưng không có biện pháp bảo vệ nào hoàn hảo. Chỉ tiếp tục nếu bạn hoàn toàn tin tưởng người tạo mod này. Bạn sẽ được hỏi lại mỗi khi mod thay đổi.
+
+Cho phép?</value>
+  </data>
 </root>

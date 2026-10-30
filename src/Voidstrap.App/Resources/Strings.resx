@@ -9094,4 +9094,11 @@ Overlapping mods can make Roblox look or behave oddly, but this cannot crash Voi
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Images|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>This mod asks for extra power. It can run its own code inside Voidstrap, keep files in its own folder or open web windows.
+
+Voidstrap blocks programs, other folders and your Roblox login, but no protection is perfect. Only continue if you fully trust who made this mod. You will be asked again whenever the mod changes.
+
+Allow it?</value>
+  </data>
 </root>

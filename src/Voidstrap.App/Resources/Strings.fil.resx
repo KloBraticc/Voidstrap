@@ -9405,4 +9405,11 @@ Ang magkakapatong na mod ay maaaring magdulot ng kakaibang hitsura o gawi sa Rob
   <data name="Ui.EditorSettings.ImageFilter" xml:space="preserve">
     <value>Mga larawan|*.png;*.jpg;*.jpeg;*.bmp</value>
   </data>
+  <data name="Plugins.PowerfulModWarning" xml:space="preserve">
+    <value>Humihingi ang mod na ito ng dagdag na pahintulot. Maaari nitong patakbuhin ang sarili nitong code sa loob ng Voidstrap, mag-imbak ng mga file sa sarili nitong folder, o magbukas ng mga web window.
+
+Hinaharang ng Voidstrap ang mga program, ibang folder, at ang iyong Roblox login, pero walang perpektong proteksyon. Magpatuloy lang kung lubos mong pinagkakatiwalaan ang gumawa ng mod. Tatanungin ka ulit tuwing magbabago ang mod.
+
+Payagan ba?</value>
+  </data>
 </root>
