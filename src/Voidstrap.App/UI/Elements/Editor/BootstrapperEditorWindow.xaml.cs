@@ -273,6 +273,8 @@ public partial class BootstrapperEditorWindow : WpfUiWindow
         _searchPanel?.Open();
     }
 
+    private void EditorSettings_Click(object sender, RoutedEventArgs e) => new EditorSettingsWindow().ShowOwnedDialog();
+
     private void ZoomOutEditor_Click(object sender, RoutedEventArgs e)
     {
         SetEditorFontSize(UIXML.FontSize - 1);

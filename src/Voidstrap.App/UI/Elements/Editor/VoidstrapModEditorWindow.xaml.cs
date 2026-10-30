@@ -505,6 +505,8 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
     private void OpenFolder_Click(object sender, RoutedEventArgs e) =>
         PlatformShell.TryOpenFolder(_onlyMod != null ? Path.Combine(Paths.Plugins, _onlyMod) : Paths.Plugins);
 
+    private void EditorSettings_Click(object sender, RoutedEventArgs e) => new EditorSettingsWindow().ShowOwnedDialog();
+
     private void CloseWindow_Click(object sender, RoutedEventArgs e) => Close();
 
     private void Undo_Click(object sender, RoutedEventArgs e) => CodeEditor.Undo();

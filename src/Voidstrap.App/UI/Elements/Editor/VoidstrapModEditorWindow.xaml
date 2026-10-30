@@ -69,7 +69,6 @@
     <ui:TitleBar x:Name="WindowTitleBar" Grid.Row="0" Padding="8,4,0,4" Icon="pack://application:,,,/Voidstrap.png" ShowMaximize="True" ShowMinimize="True" />
 
     <DockPanel Grid.Row="1" Background="#FF2D2D30">
-    <editor:EditorSettingsButton DockPanel.Dock="Left" Margin="6,2,2,2" Padding="6,2" MinHeight="0" />
     <Menu Background="#FF2D2D30" Foreground="#FFF1F1F1" FontSize="12.5">
       <MenuItem Header="{resources:Loc Ui_VsEditor_File}">
         <MenuItem Header="{resources:Loc Ui_VoidstrapMods_NewFileButton}" Click="NewFile_Click" />
@@ -106,6 +105,7 @@
 
     <Border Grid.Row="2" Padding="4,2" Background="#FF2D2D30" BorderBrush="#FF3F3F46" BorderThickness="0,0,0,1">
       <StackPanel Orientation="Horizontal">
+        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_EditorSettings_Title}" Click="EditorSettings_Click"><ui:SymbolIcon Symbol="Settings24" FontSize="15" /></Button>
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_VoidstrapMods_NewFileButton}" Click="NewFile_Click"><ui:SymbolIcon Symbol="DocumentAdd24" FontSize="15" /></Button>
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Common_Save}" Click="SaveOnly_Click"><ui:SymbolIcon Symbol="Save24" FontSize="15" /></Button>
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_VsEditor_SaveAll}" Click="SaveAll_Click"><ui:SymbolIcon Symbol="SaveMultiple24" FontSize="15" /></Button>

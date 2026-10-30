@@ -76,7 +76,7 @@
 
     <Border Grid.Row="2" Padding="4,2" Background="#FF2D2D30" BorderBrush="#FF3F3F46" BorderThickness="0,0,0,1">
       <StackPanel Orientation="Horizontal">
-        <editor:EditorSettingsButton Margin="1,0,4,0" Padding="6,2" MinHeight="0" />
+        <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_EditorSettings_Title}" Click="EditorSettings_Click"><ui:SymbolIcon Symbol="Settings24" FontSize="15" /></Button>
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_Misc_NewFile}" Click="NewFile_Click"><ui:SymbolIcon Symbol="DocumentAdd24" FontSize="15" /></Button>
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Ui_Misc_NewFolder}" Click="NewFolder_Click"><ui:SymbolIcon Symbol="FolderAdd24" FontSize="15" /></Button>
         <Button Style="{StaticResource VsToolButton}" ToolTip="{resources:Loc Common_Import}" Click="ImportFile_Click"><ui:SymbolIcon Symbol="ArrowImport24" FontSize="15" /></Button>
