@@ -169,12 +169,12 @@ internal static partial class PluginNative
     }
 
     [GeneratedRegex(
-        @"password|passwd|roblosecurity|cookie|two.?factor|2fa|credit.?card|seed.?phrase|sign.?in|log.?in|\beval\b|new\s+Function|\bFunction\s*\(|atob|fromCharCode|\\x[0-9a-f]{2}|\\u[0-9a-f]{4}",
+        @"password|passwd|roblosecurity|cookie|two.?factor|2fa|credit.?card|seed.?phrase|sign.?in|log[ _-]?in|\beval\b|new\s+Function|\bFunction\s*\(|atob|fromCharCode|\\x[0-9a-f]{2}|\\u[0-9a-f]{4}",
         RegexOptions.IgnoreCase
     )]
     private static partial Regex RefusedSource();
 
-    [GeneratedRegex("password|passwd|roblosecurity|cookie|two.?factor|2fa|credit.?card|seed.?phrase|sign.?in|log.?in", RegexOptions.IgnoreCase)]
+    [GeneratedRegex("password|passwd|roblosecurity|cookie|two.?factor|2fa|credit.?card|seed.?phrase|sign.?in|log[ _-]?in", RegexOptions.IgnoreCase)]
     private static partial Regex PhishingText();
 
     public static bool LooksLikePhishing(string text) => PhishingText().IsMatch(text);
@@ -194,7 +194,7 @@ internal static partial class PluginNative
                 continue;
             if (Path.GetExtension(file).ToLowerInvariant() is ".exe" or ".dll" or ".bat" or ".cmd" or ".ps1" or ".sh" or ".msi" or ".scr" or ".com" or ".vbs" or ".so" or ".dylib")
                 return Path.GetFileName(file) + " is a program, which powerful mods can never include";
-            if (Path.GetExtension(file).ToLowerInvariant() is not (".ts" or ".tsx" or ".js" or ".jsx" or ".mjs" or ".json"))
+            if (Path.GetFileName(file).Equals("owner.json", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(file).ToLowerInvariant() is not (".ts" or ".tsx" or ".js" or ".jsx" or ".mjs" or ".json"))
                 continue;
             Match match = RefusedSource().Match(File.ReadAllText(file));
             if (match.Success)
