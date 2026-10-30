@@ -282,8 +282,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         public event PropertyChangedEventHandler? PropertyChanged;
     }
 
-    private bool _isSaveAndLaunchClicked;
-
     private bool _isClosed;
 
 	private bool _restartNotificationBusy;
@@ -6479,18 +6477,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void OnRequestSaveNotice(object? sender, EventArgs e)
     {
-        if (!_isSaveAndLaunchClicked)
-        {
-            SettingsSavedSnackbar.Show();
-        }
+        SettingsSavedSnackbar.Show();
     }
 
     private void OnRequestSaveLaunchNotice(object? sender, EventArgs e)
     {
-        if (!_isSaveAndLaunchClicked)
-        {
-            SettingsSavedLaunchSnackbar.Show();
-        }
+        SettingsSavedLaunchSnackbar.Show();
     }
 
     private void OnSettingChangeFailed(object? sender, SettingChangeFailedEventArgs e)

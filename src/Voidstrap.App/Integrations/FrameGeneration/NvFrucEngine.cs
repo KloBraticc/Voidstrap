@@ -86,7 +86,6 @@ namespace Voidstrap.Integrations.FrameGeneration
         private static DestroyFn? _destroy;
 
         private static readonly Lock _installLock = new();
-        private static bool _installStarted;
         private static volatile bool _installReady;
 
         public static bool InstallReady => _installReady;

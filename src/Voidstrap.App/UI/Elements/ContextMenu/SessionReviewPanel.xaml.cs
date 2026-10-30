@@ -73,6 +73,25 @@ public partial class SessionReviewPanel : Window
         Closed += OnPanelClosed;
     }
 
+    public void SetPlaceId(long placeId, string? gameName = null)
+    {
+        if (placeId <= 0)
+            return;
+        if (_placeId != placeId)
+        {
+            _placeId = placeId;
+            _placeGeneration++;
+            ResetPanelState();
+        }
+        if (!string.IsNullOrWhiteSpace(gameName))
+        {
+            GameNameText.Text = gameName;
+            HeaderPanel.Visibility = Visibility.Visible;
+        }
+        if (_panelVisible && !_closed)
+            _ = LoadAsync();
+    }
+
     public void SetPanelVisible(bool visible)
     {
         if (_closed || _panelVisible == visible)

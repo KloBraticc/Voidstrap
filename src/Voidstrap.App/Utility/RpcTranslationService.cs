@@ -13,7 +13,5 @@ namespace Voidstrap.Utility
 
         private static string TargetLanguage => App.Settings.Prop.AutoTranslateLanguage;
 
-        private static string? _lastTranslatedLanguage;
-
     }
 }

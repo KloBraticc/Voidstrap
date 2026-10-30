@@ -171,10 +171,6 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	private string _captureStatsText = "";
 
-	private DispatcherTimer? _captureTimer;
-
-	private bool _captureBrowserActive;
-
 	private bool _resolving;
 
 	private readonly HashSet<string> _attemptedNames = new HashSet<string>(StringComparer.Ordinal);
@@ -5405,19 +5401,6 @@ public ICommand PickCursorColorCommand { get; }
 			finally
 			{
 				System.Threading.Interlocked.Exchange(ref _scanBusy, 0);
-			}
-			try
-			{
-				((DispatcherObject)System.Windows.Application.Current).Dispatcher.BeginInvoke((DispatcherPriority)4, (Delegate)new Action(delegate
-				{
-					if (_captureBrowserActive)
-					{
-						RebuildCaptures();
-					}
-				}));
-			}
-			catch
-			{
 			}
 		});
 	}
