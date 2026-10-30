@@ -225,6 +225,19 @@ public class ActivityData : INotifyPropertyChanged
         return uri;
     }
 
+    public async Task<string?> QueryServerLocationWithRetry(CancellationToken token = default)
+    {
+        for (int attempt = 0; ; attempt++)
+        {
+            string? location = await QueryServerLocation(token).ConfigureAwait(false);
+            if (!string.IsNullOrEmpty(location) || attempt >= LocationRetryDelaysMs.Length)
+                return location;
+            await Task.Delay(LocationRetryDelaysMs[attempt], token).ConfigureAwait(false);
+        }
+    }
+
+    private static readonly int[] LocationRetryDelaysMs = [1500, 4000, 21000];
+
     public async Task<string?> QueryServerLocation(CancellationToken token = default)
     {
         await serverQuerySemaphore.WaitAsync(token);

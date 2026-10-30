@@ -68,7 +68,7 @@ public static class VoidstrapMatchmaker
 
     private static readonly TimeSpan GeoConsensusGrace = TimeSpan.FromMilliseconds(1500.0);
 
-    private static readonly TimeSpan IpLookupFailCooldown = TimeSpan.FromMinutes(10.0);
+    private static readonly TimeSpan IpLookupFailCooldown = TimeSpan.FromSeconds(20.0);
 
     private static readonly TimeSpan ResolvedServerCacheTtl = TimeSpan.FromMinutes(2.0);
 

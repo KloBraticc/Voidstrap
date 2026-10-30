@@ -1365,10 +1365,25 @@ public partial class MenuContainer : WpfUiWindow
 
     private static readonly TimeSpan NotificationEnrichTimeout = TimeSpan.FromSeconds(8);
 
+    private static readonly TimeSpan JoinLocationTimeout = TimeSpan.FromSeconds(30);
+
     private static string CompactServerLocation(string location)
     {
         string[] parts = location.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         return parts.Length >= 3 ? parts[0] + ", " + parts[^1] : location;
+    }
+
+    private async Task RunJoinNotificationAsync(ActivityData data, Task<(string Name, BitmapSource? Icon)> presentationTask, CancellationToken token)
+    {
+        try
+        {
+            await ShowJoinNotification(data, presentationTask, token);
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested) { }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MenuContainer::ShowJoinNotification", ex);
+        }
     }
 
     private async Task ShowJoinNotification(
@@ -1386,7 +1401,7 @@ public partial class MenuContainer : WpfUiWindow
         {
             return;
         }
-        Task<string?> locationTask = data.QueryServerLocation(token);
+        Task<string?> locationTask = data.QueryServerLocationWithRetry(token);
         Task<string> uptimeTask = LoadJoinUptimeAsync(data, token);
         Task delayTask = Task.Delay(2500, token);
         string universeName;
@@ -1429,7 +1444,7 @@ public partial class MenuContainer : WpfUiWindow
         string serverLocation = "Server location unavailable";
         try
         {
-            string? location = await locationTask.WaitAsync(NotificationEnrichTimeout, token);
+            string? location = await locationTask.WaitAsync(JoinLocationTimeout, token);
             if (!string.IsNullOrWhiteSpace(location))
                 serverLocation = location;
         }
@@ -1488,7 +1503,19 @@ public partial class MenuContainer : WpfUiWindow
         }
         if (Voidstrap.Utility.Platform.IsLinux && text2.Length > 0)
             serverLocation = CompactServerLocation(serverLocation);
-        string uptime = await uptimeTask;
+        string uptime = string.Empty;
+        try
+        {
+            uptime = await uptimeTask;
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MenuContainer::LoadJoinUptime", ex);
+        }
         // Uptime is left out when Roblox does not reveal it, the player count then gets the line to itself
         string lastLine =
             uptime.Length > 0 ? "Uptime: " + uptime + text2
@@ -1824,7 +1851,7 @@ public partial class MenuContainer : WpfUiWindow
         }
         catch (InvalidOperationException) { }
         _ = UpdateCurrentGameIconAsync(data, presentationTask, token);
-        _ = ShowJoinNotification(data, presentationTask, token);
+        _ = RunJoinNotificationAsync(data, presentationTask, token);
         StartSessionNotifier();
         Voidstrap.Integrations.Clipper.ClipperService.NotifyGameSession(true, data.GameName);
     }

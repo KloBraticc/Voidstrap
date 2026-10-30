@@ -576,9 +576,9 @@ public partial class Watcher : IDisposable
                 || !App.Settings.Prop.ShowServerDetails
             )
                 return;
-            string? location = await watcher.Data.QueryServerLocation();
+            string? location = await watcher.Data.QueryServerLocationWithRetry();
             if (string.IsNullOrEmpty(location))
-                return;
+                location = Voidstrap.Resources.Strings.ContextMenu_ServerBrowser_UnknownLocation;
             string caption = watcher.Data.ServerType switch
             {
                 Voidstrap.Enums.ServerType.Private => Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Title_Private,

@@ -122,7 +122,11 @@ public class NotifyIconWrapper : IDisposable
                 _subscribedWatcher.OnGameJoin -= ActivityWatcher_OnGameJoin;
             _subscribedWatcher = desired;
             if (desired != null)
+            {
                 desired.OnGameJoin += ActivityWatcher_OnGameJoin;
+                if (desired.InGame)
+                    ActivityWatcher_OnGameJoin(desired, EventArgs.Empty);
+            }
             App.Logger.WriteLine(
                 "NotifyIconWrapper::RefreshGameJoinSubscription",
                 desired != null ? "Tray join notification is armed" : "Tray join notification is off"
@@ -275,10 +279,11 @@ public class NotifyIconWrapper : IDisposable
             App.Logger.WriteLine("NotifyIconWrapper::OnGameJoinAsync", "Sober shows its own server location notice, skipping the alert");
             return;
         }
-        string? text = await ActivityWatcher.Data.QueryServerLocation();
+        string? text = await ActivityWatcher.Data.QueryServerLocationWithRetry();
         if (string.IsNullOrEmpty(text))
         {
-            return;
+            App.Logger.WriteLine("NotifyIconWrapper::OnGameJoinAsync", "The server location could not be found, showing the alert without it");
+            text = Strings.ContextMenu_ServerBrowser_UnknownLocation;
         }
         string caption = ActivityWatcher.Data.ServerType switch
         {
