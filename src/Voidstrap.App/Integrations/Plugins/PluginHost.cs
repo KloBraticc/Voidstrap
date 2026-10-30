@@ -2090,8 +2090,8 @@ public static class PluginHost
                     "clipboardSet",
                     a =>
                     {
-                        if (!_sandbox)
-                            PluginClipboard.Set(Arg(a, 0));
+                        Need(PluginManifest.ClipboardPermission);
+                        PluginClipboard.Set(Arg(a, 0));
                         return JsValue.Undefined;
                     }
                 )
@@ -2189,6 +2189,8 @@ public static class PluginHost
                 throw new InvalidOperationException("unsupported request method " + method);
             string? body = request["body"]?.ToString();
             JsonObject? headers = request["headers"] as JsonObject;
+            if (Manifest.HasPermission(PluginManifest.RobloxAccountPermission) && !ModLibraryReview.AllowedHosts.Contains(uri.IdnHost))
+                throw new InvalidOperationException("a mod with the roblox-account permission may only reach trusted hosts");
             PluginNative.CheckRequest(uri, method, body, headers);
             var (promise, resolve, reject) = _engine.Advanced.RegisterPromise();
             _pending++;

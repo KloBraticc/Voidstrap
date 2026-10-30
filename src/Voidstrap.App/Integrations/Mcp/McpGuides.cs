@@ -254,7 +254,7 @@ public static class McpGuides
 		  $.ui.resources / undo / reset / changes       list theme resources, remove changes, read back what is active.
 		  $.ui.openDialog / closeDialog / message / confirm
 		  $.ui.status(text)                             status line text. $.ui.refresh() redraws your surfaces.
-		  $.settings.list / get / set                   read and change Voidstrap settings.
+		  $.settings.list / get / set                   read and change on, off, number and choice settings. Paths, text and update or launch safety settings are off limits.
 		  $.fastFlags.getAll / get / set / remove / clear
 		  $.store.get / set(key, value)                 per mod persistent storage.
 		  $.clock.after(ms, fn), $.clock.every, cancel  timers, 500 ms minimum for repeat.
@@ -336,7 +336,7 @@ public static class McpGuides
 		  Network: any host can be listed, but hosts outside the trusted list are read only for $.net.fetch: plain GET, no query, body or custom headers. Hosts
 		  used to collect data (Discord webhooks, webhook.site, pastebin and similar) are refused. On Windows a web window cannot connect to any host outside its list.
 
-		  Clipboard: $.clipboard.get needs the clipboard permission, which counts as a Powerful mod. $.clipboard.set needs nothing.
+		  Clipboard: $.clipboard.get and $.clipboard.set need the clipboard permission, which counts as a Powerful mod and cannot be combined with web or network hosts.
 		  Settings holding paths, addresses, launch commands or channels cannot be read or changed by mods, and network paths are refused.
 		  Rules cannot change frames, images, or anything that loads a file or address.
 

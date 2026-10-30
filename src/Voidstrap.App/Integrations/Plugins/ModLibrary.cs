@@ -429,12 +429,13 @@ public static partial class ModLibrary
                     continue;
                 if (
                     entry.Network.Any(host => !manifest.NetworkHosts.Contains(host, StringComparer.OrdinalIgnoreCase))
-                    || (entry.UsesRobloxAccount && !manifest.HasPermission(PluginManifest.RobloxAccountPermission))
+                    || entry.UsesRobloxAccount
+                    || manifest.HasPermission(PluginManifest.RobloxAccountPermission)
                 )
                 {
                     App.Logger.WriteLine(
                         LogIdent,
-                        "Left " + entry.Name + " for a manual update because " + entry.Version + " asks for new access"
+                        "Left " + entry.Name + " for a manual update because " + entry.Version + " asks for new access or uses the Roblox account"
                     );
                     continue;
                 }

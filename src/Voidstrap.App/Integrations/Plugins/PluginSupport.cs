@@ -254,7 +254,9 @@ internal static partial class PluginSettings
 
     public static void RejectRemote(string value)
     {
-        if (value.Contains("://", StringComparison.Ordinal) || value.Contains("\\\\", StringComparison.Ordinal) || value.StartsWith("//", StringComparison.Ordinal))
+        string trimmed = value.Trim();
+        bool startsWithSeparators = trimmed.Length >= 2 && trimmed[0] is '/' or '\\' && trimmed[1] is '/' or '\\';
+        if (startsWithSeparators || trimmed.Contains("://", StringComparison.Ordinal) || trimmed.Contains("\\\\", StringComparison.Ordinal))
             throw new InvalidOperationException("mods cannot use network paths or web addresses here");
     }
 
@@ -262,7 +264,27 @@ internal static partial class PluginSettings
     {
         nameof(Voidstrap.Models.Persistable.AppSettings.PluginConsent),
         nameof(Voidstrap.Models.Persistable.AppSettings.ModRollback),
+        nameof(Voidstrap.Models.Persistable.AppSettings.AutoUpdateLibraryMods),
+        nameof(Voidstrap.Models.Persistable.AppSettings.CheckForUpdates),
+        nameof(Voidstrap.Models.Persistable.AppSettings.BackgroundUpdatesEnabled),
+        nameof(Voidstrap.Models.Persistable.AppSettings.AllowPreReleaseUpdates),
+        nameof(Voidstrap.Models.Persistable.AppSettings.UpdateRoblox),
+        nameof(Voidstrap.Models.Persistable.AppSettings.ConfirmLaunches),
+        nameof(Voidstrap.Models.Persistable.AppSettings.LaunchWithoutVoidstrap),
+        nameof(Voidstrap.Models.Persistable.AppSettings.RobloxLaunchAtStartup),
+        nameof(Voidstrap.Models.Persistable.AppSettings.FrameGenAutoElevate),
     };
+
+    private static readonly HashSet<string> AllowedText = new(StringComparer.OrdinalIgnoreCase)
+    {
+        nameof(Voidstrap.Models.Persistable.AppSettings.CustomAccentColor),
+    };
+
+    private static bool IsAllowedType(PropertyInfo property)
+    {
+        Type type = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+        return type == typeof(bool) || type == typeof(int) || type == typeof(long) || type == typeof(double) || type.IsEnum || AllowedText.Contains(property.Name);
+    }
 
     private static PropertyInfo? Find(string name)
     {
@@ -272,7 +294,7 @@ internal static partial class PluginSettings
             name,
             BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase
         );
-        if (property == null || !property.CanRead || !property.CanWrite)
+        if (property == null || !property.CanRead || !property.CanWrite || !IsAllowedType(property))
             return null;
         return property;
     }
@@ -312,7 +334,7 @@ internal static partial class PluginSettings
             PropertyInfo prop in typeof(Voidstrap.Models.Persistable.AppSettings).GetProperties(BindingFlags.Public | BindingFlags.Instance)
         )
         {
-            if (!prop.CanRead || !prop.CanWrite || Blocked.Contains(prop.Name))
+            if (Find(prop.Name) == null)
                 continue;
             try
             {
@@ -337,8 +359,9 @@ internal static partial class PluginSettings
     {
         PropertyInfo property =
             Find(name) ?? throw new InvalidOperationException("the setting " + name + " does not exist or cannot be changed by mods");
-        RejectRemote(json);
         JsonNode? parsed = JsonNode.Parse(json);
+        if (parsed is JsonValue textValue && textValue.TryGetValue(out string? text))
+            RejectRemote(text);
         Type type = property.PropertyType;
         object? converted;
         if (

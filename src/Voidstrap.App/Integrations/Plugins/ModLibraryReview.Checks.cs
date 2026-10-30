@@ -330,6 +330,17 @@ internal static partial class ModLibraryReview
             )
                 errors.Add("native cannot be combined with web or network hosts");
             else if (
+                permissions.Any(permission => permission?.ToString() is "clipboard")
+                && (permissions.Any(permission => permission?.ToString() is "web") || manifest["network"] is System.Text.Json.Nodes.JsonArray { Count: > 0 })
+            )
+                errors.Add("clipboard cannot be combined with web or network hosts");
+            else if (
+                permissions.Any(permission => permission?.ToString() is "roblox-account")
+                && manifest["network"] is System.Text.Json.Nodes.JsonArray accountHosts
+                && accountHosts.Any(host => !AllowedHosts.Contains(host?.ToString() ?? ""))
+            )
+                errors.Add("roblox-account can only be combined with trusted network hosts");
+            else if (
                 permissions.Any(permission => permission?.ToString() is "roblox-account")
                 && permissions.Any(permission => permission?.ToString() is "native" or "files" or "web")
             )

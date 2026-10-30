@@ -217,6 +217,8 @@ internal static partial class PluginNative
         bool outbound = manifest.NetworkHosts.Any() || manifest.HasPermission(PluginManifest.WebPermission);
         if (native && outbound)
             return "native cannot be combined with web or network hosts, so what a mod reads cannot be sent out";
+        if (manifest.HasPermission(PluginManifest.ClipboardPermission) && outbound)
+            return "clipboard cannot be combined with web or network hosts, so what a mod reads cannot be sent out";
         if (manifest.HasPermission(PluginManifest.RobloxAccountPermission))
             return "native, files and web cannot be combined with roblox-account";
         foreach (string file in Directory.EnumerateFiles(manifest.Directory, "*", SearchOption.AllDirectories))
