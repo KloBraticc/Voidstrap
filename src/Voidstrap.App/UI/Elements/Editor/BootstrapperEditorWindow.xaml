@@ -150,17 +150,39 @@
           </Grid.RowDefinitions>
           <TextBlock Margin="6,3" FontSize="12" Foreground="#FFD0D0D0" Text="{resources:Loc Ui_VsEditor_SolutionExplorer}" />
           <ListBox Name="FileList" Grid.Row="1" Margin="0" FontSize="12.5" Background="Transparent" BorderThickness="0" SelectionChanged="FileList_SelectionChanged" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemContainerStyle>
+              <Style TargetType="ListBoxItem">
+                <Setter Property="Foreground" Value="#FFF1F1F1" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="Template">
+                  <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                      <Border x:Name="Row" Background="Transparent">
+                        <ContentPresenter />
+                      </Border>
+                      <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                          <Setter TargetName="Row" Property="Background" Value="#FF3E3E40" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                          <Setter TargetName="Row" Property="Background" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+                        </Trigger>
+                      </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                  </Setter.Value>
+                </Setter>
+              </Style>
+            </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
               <DataTemplate>
-                <Grid Margin="2,3">
+                <Grid Margin="16,2,4,2">
                   <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
-                  <ui:SymbolIcon Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center" FontSize="16" Opacity="0.75" Symbol="{Binding Path=Icon, Mode=OneWay}" />
+                  <ui:SymbolIcon Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center" FontSize="14" Symbol="{Binding Path=Icon, Mode=OneWay}" />
                   <TextBlock Grid.Column="1" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Path=RelativePath, Mode=OneWay}" Text="{Binding Path=Display, Mode=OneWay}" />
-                  <TextBlock Grid.Column="2" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Path=SizeText, Mode=OneWay}" />
                 </Grid>
               </DataTemplate>
             </ListBox.ItemTemplate>
