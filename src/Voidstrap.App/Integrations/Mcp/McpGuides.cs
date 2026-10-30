@@ -256,7 +256,7 @@ public static class McpGuides
 		  $.settings.list / get / set                   read and change on, off, number and choice settings. Paths, text and update or launch safety settings are off limits.
 		  $.fastFlags.getAll / get / set / remove / clear
 		  $.store.get / set(key, value)                 per mod persistent storage.
-		  $.clock.after(ms, fn), $.clock.every, cancel  timers, 500 ms minimum for repeat.
+		  $.clock.after(ms, fn), $.clock.every, cancel  timers. every has no fixed minimum, use the slowest rate that looks right.
 		  $.net.fetch({ url, method, body, headers })   https only, hosts must be listed in plugin.json network. Promise based.
 		  $.roblox.launch(request)                      start a place. $.roblox.request needs the roblox-account permission.
 		  $.clipboard.set / get                         clipboard access.
@@ -624,7 +624,7 @@ public static class McpGuides
 		Read existing values or files before editing. Reuse list_editors and its editorId instead of creating duplicate themes. Use dryRun for a broad settings or FastFlag change. Save only the requested changes and read every reply, including isError and any warnings. A timeout can happen after a change started; read the state before retrying.
 		For editor work, get_editor_code and list_editor_files show the real document. edit_editor changes selected regions; set_editor_code replaces the whole file. save_editor persists it. undo_editor reverts an editor change. undo_last_change covers supported settings, FastFlag, mod file and RiShade changes; inspect its history before relying on it.
 		For Voidstrap mods, validate checks loading, test exercises sandbox behavior, reload requests activation, list confirms loaded true, and problems reports runtime errors. These checks serve different purposes. A new mod waits for the user's approval in Voidstrap. Do not report it as running while approval is pending. A successful attach request is asynchronous and does not prove visible layout.
-		Cursor sprites must use cursor.move events. $.clock.every clamps repeat intervals to 500 ms; it cannot animate at 16 or 33 ms. The mods guide has a complete WindowRoot Canvas overlay example and a test.
+		Cursor sprites follow cursor.move events. For animation between moves, such as chasing a still cursor, use $.clock.every with $.cursor.get. $.clock.every runs as fast as you ask, down to about 16 ms in practice, and skips a tick while the mod is still busy. The mods guide has a complete WindowRoot Canvas overlay example and a test.
 		After an edit, read back the changed settings or code, run the relevant test or diagnostic, and inspect visible results when possible. Say what changed, what you actually verified and what still needs the user's action. A saved file, a passing test and a visible working feature are separate claims.
 		Guides: workflow, mods, bootstrapper_theme, keystroke_theme, app_theme, fixing, architecture, mod_api, app_control, app_code, search, library_pr. The same guides are available as voidstrap://guide/<topic> resources. The FastFlag reference is voidstrap://fastflags/allowlist-and-tracker.
 		""";

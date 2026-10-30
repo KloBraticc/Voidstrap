@@ -1004,7 +1004,7 @@ public static class PluginHost
 
         private const int MaxTimers = 32;
 
-        private const int MinRepeatMs = 500;
+        private const int MinRepeatMs = 1;
 
         private const int MaxResponseBytes = 1024 * 1024;
 
@@ -2150,7 +2150,14 @@ public static class PluginHost
             if (state is not ValueTuple<int, JsValue, bool> tick)
                 return;
             bool shouldInvalidate;
-            lock (_gate)
+            bool entered = false;
+            if (tick.Item3)
+                Monitor.TryEnter(_gate, ref entered);
+            else
+                Monitor.Enter(_gate, ref entered);
+            if (!entered)
+                return;
+            try
             {
                 if (_disposed || !_timers.ContainsKey(tick.Item1))
                     return;
@@ -2170,6 +2177,10 @@ public static class PluginHost
                     Problem(Name, "a clock callback failed and its timer stopped: " + Describe(ex));
                     shouldInvalidate = false;
                 }
+            }
+            finally
+            {
+                Monitor.Exit(_gate);
             }
             if (shouldInvalidate)
                 Invalidate(Name);

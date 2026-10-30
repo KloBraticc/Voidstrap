@@ -24,6 +24,8 @@ public static class PluginCursor
     private static long _lastScrollDispatched;
 
     private static int _moveInFlight;
+
+    private static int _moveDirty;
     private static int _scrollInFlight;
     private static bool _installed;
 
@@ -203,28 +205,39 @@ public static class PluginCursor
         if (!_hasMoveHook)
             return;
 
-        long now = Environment.TickCount64;
-        if (now - _lastMoveDispatched >= MoveThrottleMs)
+        Volatile.Write(ref _moveDirty, 1);
+        if (Interlocked.CompareExchange(ref _moveInFlight, 1, 0) == 0)
+            _ = Task.Run(PumpMovesAsync);
+    }
+
+    private static async Task PumpMovesAsync()
+    {
+        while (true)
         {
-            if (Interlocked.CompareExchange(ref _moveInFlight, 1, 0) == 0)
+            while (Interlocked.Exchange(ref _moveDirty, 0) == 1)
             {
-                _lastMoveDispatched = now;
-                JsonObject snapshot = Snapshot();
-                _ = Task.Run(() =>
+                long wait = MoveThrottleMs - (Environment.TickCount64 - _lastMoveDispatched);
+                if (wait > 0)
+                    await Task.Delay((int)wait).ConfigureAwait(false);
+                _lastMoveDispatched = Environment.TickCount64;
+                Volatile.Write(ref _moveDirty, 0);
+                JsonObject snapshot;
+                lock (Gate)
                 {
-                    try
-                    {
-                        PluginHost.Invoke("cursor.move", snapshot);
-                    }
-                    catch
-                    {
-                    }
-                    finally
-                    {
-                        Interlocked.Exchange(ref _moveInFlight, 0);
-                    }
-                });
+                    snapshot = Snapshot();
+                }
+                try
+                {
+                    PluginHost.Invoke("cursor.move", snapshot);
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteLine("PluginCursor::PumpMovesAsync", ex.Message);
+                }
             }
+            Interlocked.Exchange(ref _moveInFlight, 0);
+            if (Volatile.Read(ref _moveDirty) == 0 || Interlocked.CompareExchange(ref _moveInFlight, 1, 0) != 0)
+                return;
         }
     }
 

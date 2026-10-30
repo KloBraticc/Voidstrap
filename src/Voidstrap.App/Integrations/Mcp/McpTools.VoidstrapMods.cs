@@ -114,7 +114,7 @@ public static partial class McpTools
 		Tests: do not import register in a test file. The mod is already loaded; drive it with mod.emit, mod.render, mod.renderPage and mod.press from 'voidstrap/testing'.
 		hooks.json names one entry module. Import helper modules from that entry, rather than listing every helper in hooks.json. Ensure each imported file exists before reloading, use unique aliases for repeated export names, and declare local helpers before calling them. Tests support only the matchers listed in types, including .not. $.store works in memory during tests.
 		Hooks time out after 2 seconds of running and async work is waited on for at most 10 seconds, so keep hooks short.
-		A sprite moves twice a second: $.clock.every has a 500 ms minimum, even when you ask for 16 or 33 ms. Use cursor.move as described below.
+		Use cursor.move to follow the mouse and $.clock.every for animation between moves. $.clock.every runs as fast as you ask, down to about 16 ms in practice, and skips a tick while the mod is still busy.
 		A sprite stays invisible: always return a root Canvas, even when its children are hidden. Verify the Widget requestId, WindowRoot anchor and loaded state.
 		A sprite blocks clicks: set hitTestVisible={false} on the root Canvas. A decoration must let pointer input reach the app beneath it.
 		Images and GIFs: use Image with src set to a mod relative path, a base64 image data URL or an HTTPS URL on an allowed network host. Redirects and paths outside the mod are refused. GIFs play automatically; animate={false} shows the first frame.
@@ -132,7 +132,7 @@ public static partial class McpTools
 		Attachment and rendering are asynchronous. An isPlaced true result means the request was accepted, not that pixels are already on screen. Read reason and inspect the live result.
 
 		CURSOR SPRITES AND TIMING
-		$.clock.every(ms, fn) clamps its interval to at least 500 ms. It is for occasional refreshes, not animation. $.clock.after is a one shot callback, not an animation frame API; do not chain it into a busy animation loop. There are at most 32 timers per mod, and unloading disposes them.
+		$.clock.every(ms, fn) has no fixed minimum and suits animation, keep callbacks short. $.clock.after is a one shot callback, not an animation frame API; do not chain it into a busy animation loop. There are at most 32 timers per mod, and unloading disposes them.
 		Use cursor.move for pointer tracking. The host dispatches moves at most once per 16 ms and skips dispatch while a move hook is busy. This is a rate limit, not a guaranteed 60 fps clock. Events stop when the pointer stops moving. Keep handlers short, with no network calls, logging or expensive calculations in this path.
 		Use event x and y for placement in the window. These are logical window coordinates, not screen pixels. screenX and screenY are screen coordinates and must not be used for Canvas placement. $.cursor.get() returns the last captured position; polling it faster cannot create new pointer events.
 		Cursor events come from Voidstrap windows. A mod cannot draw a desktop overlay or follow the pointer outside those windows. Handle cursor.leave to hide the sprite. Handle cursor.down and cursor.up for click feedback even while the pointer is stationary.
