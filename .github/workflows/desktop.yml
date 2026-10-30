@@ -545,7 +545,7 @@ jobs:
           python3 - "$check" <<'PY'
           import sys
           from pathlib import Path
-          source = Path('src/Voidstrap.App/Bootstrapper.cs').read_text()
+          source = Path('src/Voidstrap.App/Bootstrapper.Platform.cs').read_text()
           start = source.index('    private static readonly string[] CanonicalModRoots')
           end = source.index('    private static void RepairFlattenedModNames()', start)
           Path(sys.argv[1], 'RootRepair.cs').write_text('using Voidstrap; namespace Voidstrap.Utility; internal static class RootRepair {\n' + source[start:end] + '\n}')
