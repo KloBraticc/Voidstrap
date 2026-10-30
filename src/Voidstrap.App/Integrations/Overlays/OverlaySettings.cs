@@ -74,9 +74,7 @@ namespace Voidstrap.Integrations.Overlays
                 || App.Settings.Prop.SoberAutoFullscreen
                 || App.Settings.Prop.SnapTapEnabled
                 || App.Settings.Prop.DuckRobloxAudioOnUnfocus
-                || App.Settings.Prop.SessionDockEnabled
                 || App.Settings.Prop.ClipperEnabled
-                || (App.Settings.Prop.VoidNotify && App.Settings.Prop.NotificationWindowShow && App.Settings.Prop.NotifyGameJoins)
                 || HomepageBackgroundEnabled
                 || App.Settings.Prop.SoberPreferXWayland
             );
