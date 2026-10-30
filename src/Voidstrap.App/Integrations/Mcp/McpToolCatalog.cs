@@ -110,7 +110,7 @@ public static class McpToolCatalog
                 {
                     ["topic"] = P(
                         "string",
-                        "workflow (default), mods, bootstrapper_theme, keystroke_theme, app_theme, fixing, architecture, mod_api, app_control, app_code, search, or library_pr."
+                        "workflow (default), mods, bootstrapper_theme, keystroke_theme, app_theme, fixing, architecture, mod_api, mod_ui (redesigning the interface from a mod), app_control, app_code, search, or library_pr."
                     ),
                 }
             ),
@@ -411,7 +411,7 @@ public static class McpToolCatalog
                 {
                     ["action"] = P(
                         "string",
-                        "list (default), guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, preflight, library_search, library_install, auto_update, publish, or ui_map."
+                        "list (default), guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, preflight, library_search, library_install, auto_update, publish, ui_map, or ui_tree (the live element tree, read get_guide topic mod_ui to restyle or restructure the interface)."
                     ),
                     ["mod"] = P("string", "The mod's folder name: lowercase letters, digits and hyphens."),
                     ["path"] = P("string", "File path inside the mod, for example hooks/register.tsx or .voidstrap-mod/plugin.json."),
@@ -525,7 +525,7 @@ public static class McpToolCatalog
                 {
                     ["topic"] = P(
                         "string",
-                        "Section name such as architecture, mods, mod_api, app_control, app_code, mcp, or cursor. Omit for the section list."
+                        "Section name such as architecture, mods, mod_api, mod_ui, app_control, app_code, mcp, or cursor. Omit for the section list."
                     ),
                 }
             ) with

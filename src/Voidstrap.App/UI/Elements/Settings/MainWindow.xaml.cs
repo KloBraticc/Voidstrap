@@ -5649,6 +5649,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
     {
+        if (
+            (e.Key == Key.System ? e.SystemKey : e.Key) == Key.M
+            && Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Alt | ModifierKeys.Shift)
+        )
+        {
+            Voidstrap.Integrations.Plugins.PluginRestyle.ToggleSuspended();
+            e.Handled = true;
+            return;
+        }
         if (e.Key == Key.Escape && ModalOpen)
         {
             CloseActiveModal();

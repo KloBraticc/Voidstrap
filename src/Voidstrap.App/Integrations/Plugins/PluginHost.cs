@@ -158,6 +158,8 @@ public static class PluginHost
     public static void SetEnabled(string name, bool enabled, bool reload = true)
     {
         PluginConsent.SetEnabledState(name, enabled);
+        if (!enabled)
+            PluginRollback.Restore(name);
         if (enabled && System.Windows.Application.Current?.Dispatcher.CheckAccess() == true)
         {
             PluginManifest? manifest = PluginManifest
@@ -194,6 +196,7 @@ public static class PluginHost
             SessionState.Remove(name);
             Problems.Remove(name);
         }
+        PluginRollback.Restore(name);
         PluginStore.DeleteData(name);
         PluginOptions.Delete(name);
         ModsChanged?.Invoke();
@@ -326,6 +329,7 @@ public static class PluginHost
         foreach (LoadedPlugin plugin in doomed)
             plugin.Dispose();
         PluginModPages.ClearAll();
+        PluginRestyle.ClearAll();
         PluginCursor.Shutdown();
     }
 
@@ -526,6 +530,8 @@ public static class PluginHost
                 PluginSidebar.RemovePluginPages(unchangedNames);
                 PluginModPages.RemovePlugins(changed);
                 PluginAnchors.RemovePlugins(changed);
+                PluginRestyle.RemovePlugins(changed);
+                PluginRollback.RestoreMissing();
                 PluginWindow.RemovePlugins(changed);
                 JsonObject started = new() { ["source"] = old.Count > 0 ? "reload" : "startup" };
                 List<HookEntry> hooks = added
@@ -860,6 +866,16 @@ public static class PluginHost
 			      attach: request => parse(host.uiAttach(JSON.stringify(request || {}))),
 			      detach: id => host.uiDetach(String(id)),
 			      anchors: () => parse(host.uiAnchors()),
+			      tree: request => parse(host.uiTree(JSON.stringify(request || {}))),
+			      query: target => parse(host.uiQuery(JSON.stringify(target || {}))),
+			      rule: request => parse(host.uiRule(JSON.stringify(request || {}))),
+			      move: request => parse(host.uiMove(JSON.stringify(request || {}))),
+			      resources: () => parse(host.uiResources()),
+			      setResources: values => parse(host.uiSetResources(JSON.stringify(values || {}))),
+			      redesign: spec => parse(host.uiRedesign(JSON.stringify(spec || {}))),
+			      undo: id => host.uiUndo(String(id)),
+			      reset: () => host.uiReset(),
+			      changes: () => parse(host.uiChanges()),
 			      openDialog: request => host.uiOpenDialog(JSON.stringify(typeof request === 'string' ? { id: request } : (request || {}))),
 			      closeDialog: id => host.uiCloseDialog(String(id)),
 			      message: (text, title) => host.uiMessage(String(text), title === undefined ? '' : String(title)),
@@ -1217,6 +1233,110 @@ public static class PluginHost
                 )
             );
             host.Set(
+                "uiTree",
+                Host(
+                    "uiTree",
+                    a =>
+                    {
+                        return _sandbox ? "{}" : PluginRestyle.Tree(JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject()).ToJsonString();
+                    }
+                )
+            );
+            host.Set(
+                "uiQuery",
+                Host(
+                    "uiQuery",
+                    a =>
+                    {
+                        return _sandbox ? "[]" : PluginRestyle.Query(JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject()).ToJsonString();
+                    }
+                )
+            );
+            host.Set(
+                "uiRule",
+                Host(
+                    "uiRule",
+                    a =>
+                    {
+                        return _sandbox ? new JsonObject { ["ok"] = true, ["matched"] = 0, ["errors"] = new JsonArray() }.ToJsonString() : PluginRestyle.AddRule(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject()).ToJsonString();
+                    }
+                )
+            );
+            host.Set(
+                "uiMove",
+                Host(
+                    "uiMove",
+                    a =>
+                    {
+                        return _sandbox ? new JsonObject { ["ok"] = true, ["matched"] = 0, ["errors"] = new JsonArray() }.ToJsonString() : PluginRestyle.AddMove(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject()).ToJsonString();
+                    }
+                )
+            );
+            host.Set(
+                "uiResources",
+                Host(
+                    "uiResources",
+                    a =>
+                    {
+                        return _sandbox ? "[]" : PluginRestyle.ListResources().ToJsonString();
+                    }
+                )
+            );
+            host.Set(
+                "uiSetResources",
+                Host(
+                    "uiSetResources",
+                    a =>
+                    {
+                        return _sandbox ? new JsonObject { ["ok"] = true, ["matched"] = 0, ["errors"] = new JsonArray() }.ToJsonString() : PluginRestyle.SetResources(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject()).ToJsonString();
+                    }
+                )
+            );
+            host.Set(
+                "uiRedesign",
+                Host(
+                    "uiRedesign",
+                    a =>
+                    {
+                        return _sandbox ? new JsonObject { ["ok"] = true, ["matched"] = 0, ["errors"] = new JsonArray() }.ToJsonString() : PluginRestyle.Redesign(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject()).ToJsonString();
+                    }
+                )
+            );
+            host.Set(
+                "uiUndo",
+                Host(
+                    "uiUndo",
+                    a =>
+                    {
+                        if (!_sandbox)
+                            PluginRestyle.Remove(Name, Arg(a, 0));
+                        return JsValue.Undefined;
+                    }
+                )
+            );
+            host.Set(
+                "uiReset",
+                Host(
+                    "uiReset",
+                    a =>
+                    {
+                        if (!_sandbox)
+                            PluginRestyle.Clear(Name);
+                        return JsValue.Undefined;
+                    }
+                )
+            );
+            host.Set(
+                "uiChanges",
+                Host(
+                    "uiChanges",
+                    a =>
+                    {
+                        return _sandbox ? "{}" : PluginRestyle.List(Name).ToJsonString();
+                    }
+                )
+            );
+            host.Set(
                 "uiCloseBanner",
                 Host(
                     "uiCloseBanner",
@@ -1299,7 +1419,7 @@ public static class PluginHost
                     a =>
                     {
                         if (!_sandbox)
-                            PluginSettings.Set(Name, Arg(a, 0), Arg(a, 1));
+                            PluginRollback.TrackSettings(Name, [Arg(a, 0)], () => PluginSettings.Set(Name, Arg(a, 0), Arg(a, 1)));
                         return JsValue.Undefined;
                     }
                 )
@@ -1313,7 +1433,7 @@ public static class PluginHost
                     a =>
                     {
                         if (!_sandbox)
-                            PluginFastFlags.Set(Name, Arg(a, 0), Arg(a, 1));
+                            PluginRollback.TrackFlags(Name, [Arg(a, 0)], () => PluginFastFlags.Set(Name, Arg(a, 0), Arg(a, 1)));
                         return JsValue.Undefined;
                     }
                 )
@@ -1325,7 +1445,7 @@ public static class PluginHost
                     a =>
                     {
                         if (!_sandbox)
-                            PluginFastFlags.Remove(Name, Arg(a, 0));
+                            PluginRollback.TrackFlags(Name, [Arg(a, 0)], () => PluginFastFlags.Remove(Name, Arg(a, 0)));
                         return JsValue.Undefined;
                     }
                 )
@@ -1337,7 +1457,7 @@ public static class PluginHost
                     _ =>
                     {
                         if (!_sandbox)
-                            PluginFastFlags.Clear(Name);
+                            PluginRollback.TrackFlags(Name, null, () => PluginFastFlags.Clear(Name));
                         return JsValue.Undefined;
                     }
                 )
@@ -1428,7 +1548,7 @@ public static class PluginHost
                     a =>
                     {
                         if (!_sandbox)
-                            PluginSidebar.Set(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject());
+                            PluginRollback.TrackSettings(Name, PluginRollback.SidebarSettings, () => PluginSidebar.Set(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject()));
                         return JsValue.Undefined;
                     }
                 )
@@ -1440,7 +1560,7 @@ public static class PluginHost
                     _ =>
                     {
                         if (!_sandbox)
-                            PluginSidebar.Reset(Name);
+                            PluginRollback.TrackSettings(Name, PluginRollback.SidebarSettings, () => PluginSidebar.Reset(Name));
                         return JsValue.Undefined;
                     }
                 )
@@ -1542,7 +1662,19 @@ public static class PluginHost
                     a =>
                     {
                         if (!_sandbox)
-                            PluginTheme.Set(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject());
+                        {
+                            JsonObject spec = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+                            if (spec["accentColor"] != null)
+                                PluginRollback.MarkBrushes(Name);
+                            PluginRollback.TrackBackground<object?>(
+                                Name,
+                                () =>
+                                {
+                                    PluginRollback.TrackSettings(Name, PluginRollback.ThemeSettings, () => PluginTheme.Set(Name, spec));
+                                    return null;
+                                }
+                            );
+                        }
                         return JsValue.Undefined;
                     }
                 )
@@ -1555,7 +1687,10 @@ public static class PluginHost
                     a =>
                     {
                         if (!_sandbox)
+                        {
+                            PluginRollback.MarkBrushes(Name);
                             PluginTheme.SetBrush(Name, Arg(a, 0), Arg(a, 1));
+                        }
                         return JsValue.Undefined;
                     }
                 )
@@ -1593,7 +1728,7 @@ public static class PluginHost
                     a =>
                     {
                         if (!_sandbox)
-                            return Voidstrap.Utility.AppControl.SetText(Arg(a, 0), Arg(a, 1));
+                            return PluginRollback.TrackTexts(Name, () => Voidstrap.Utility.AppControl.SetText(Arg(a, 0), Arg(a, 1)));
                         return Arg(a, 0);
                     }
                 )
@@ -1605,7 +1740,7 @@ public static class PluginHost
                     a =>
                     {
                         if (!_sandbox)
-                            return Voidstrap.Utility.AppControl.ClearText(Arg(a, 0));
+                            return PluginRollback.TrackTexts(Name, () => Voidstrap.Utility.AppControl.ClearText(Arg(a, 0)));
                         return false;
                     }
                 )
@@ -1620,13 +1755,17 @@ public static class PluginHost
                         if (_sandbox)
                             return "";
                         JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
-                        string stored = Voidstrap.Utility.AppControl.SetBackground(
-                            request["file"]?.ToString() ?? "",
-                            request["gradientOpacity"] is JsonValue grad && grad.TryGetValue(out double gradValue) ? gradValue : null,
-                            request["blackOverlayOpacity"] is JsonValue black && black.TryGetValue(out double blackValue)
-                                ? blackValue
-                                : null,
-                            request["displayEverywhere"] is JsonValue disp && disp.TryGetValue(out bool dispValue) ? dispValue : null
+                        string stored = PluginRollback.TrackBackground(
+                            Name,
+                            () =>
+                                Voidstrap.Utility.AppControl.SetBackground(
+                                    request["file"]?.ToString() ?? "",
+                                    request["gradientOpacity"] is JsonValue grad && grad.TryGetValue(out double gradValue) ? gradValue : null,
+                                    request["blackOverlayOpacity"] is JsonValue black && black.TryGetValue(out double blackValue)
+                                        ? blackValue
+                                        : null,
+                                    request["displayEverywhere"] is JsonValue disp && disp.TryGetValue(out bool dispValue) ? dispValue : null
+                                )
                         );
                         return stored;
                     }
@@ -1639,7 +1778,14 @@ public static class PluginHost
                     _ =>
                     {
                         if (!_sandbox)
-                            Voidstrap.Utility.AppControl.ClearBackground();
+                            PluginRollback.TrackBackground<object?>(
+                                Name,
+                                () =>
+                                {
+                                    Voidstrap.Utility.AppControl.ClearBackground();
+                                    return null;
+                                }
+                            );
                         return JsValue.Undefined;
                     }
                 )

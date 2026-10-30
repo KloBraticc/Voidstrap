@@ -46,7 +46,7 @@ internal static class PluginAnchors
 
     private static readonly string[] Placements = ["before", "after", "start", "end"];
 
-    private const int MaxWidgetsPerMod = 8;
+    private const int MaxWidgetsPerMod = 32;
 
     private const int MaxMapEntries = 400;
 
@@ -130,6 +130,7 @@ internal static class PluginAnchors
 
     public static void ApplyAll()
     {
+        PluginRestyle.Schedule();
         Dispatcher? dispatcher = Application.Current?.Dispatcher;
         if (dispatcher == null || dispatcher.HasShutdownStarted)
             return;
@@ -465,7 +466,7 @@ internal static class PluginAnchors
         return (null, null);
     }
 
-    private static IEnumerable<DependencyObject> Descendants(DependencyObject root)
+    internal static IEnumerable<DependencyObject> Descendants(DependencyObject root)
     {
         Stack<DependencyObject> stack = new();
         HashSet<DependencyObject> visited = new(ReferenceEqualityComparer.Instance);

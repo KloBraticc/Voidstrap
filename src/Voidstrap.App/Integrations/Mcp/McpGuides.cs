@@ -247,6 +247,9 @@ public static class McpGuides
 		  $.ui.open({ id, title }) and close(id)        panes shown in the main window.
 		  $.ui.openBanner / closeBanner                 banners above or below the content.
 		  $.ui.attach({ id, anchor, placement })        widget attached to a real element, $.ui.anchors() lists live anchors.
+		  $.ui.tree / query                             read the real UI structure.
+		  $.ui.rule / move / setResources / redesign    restyle, rearrange and repaint any part of the main window, read guide mod_ui.
+		  $.ui.resources / undo / reset / changes       list theme resources, remove changes, read back what is active.
 		  $.ui.openDialog / closeDialog / message / confirm
 		  $.ui.status(text)                             status line text. $.ui.refresh() redraws your surfaces.
 		  $.settings.list / get / set                   read and change Voidstrap settings.
@@ -266,10 +269,119 @@ public static class McpGuides
 		  $.window.get / set                            main window geometry and state.
 
 		LIMITS AND GUARDS
-		  Hooks run on a single engine per mod with a 2 second CPU budget and 64 MB memory cap. At most 32 timers, 8 attached
+		  Hooks run on a single engine per mod with a 2 second CPU budget and 64 MB memory cap. At most 32 timers, 32 attached
 		  widgets and a 10 second promise wait. The UI needs approval before a mod loads, revoke it any time from the Mods tab.
 		  The sandbox has no filesystem, no process and no shell access. A mod that throws is reported in the Mods tab problems
 		  list and skipped, it never takes Voidstrap down.
+
+		""";
+
+    public const string ModUi = """
+		REDESIGNING THE VOIDSTRAP INTERFACE FROM A MOD
+
+		A mod can restyle, hide, resize, rearrange and move any element of the live main window, and override any theme
+		resource. Every change is declarative, re-applied when pages load, and undone automatically when the mod is reloaded,
+		turned off or deleted.
+
+		THE WORKFLOW
+		  1. Look before you change. manage_voidstrap_mods action ui_tree, or $.ui.tree(), returns the real structure.
+		     Arguments: root (a target), depth (default 8, up to 40), namedOnly. Open the page you care about first, because
+		     pages only exist in the tree while they are shown.
+		  2. Apply everything from session.start, so it returns after each reload and restart:
+		       export default {
+		         register(on) {
+		           on('session.start', $ => {
+		             const result = $.ui.redesign({ replace: true, resources: {...}, moves: [...], rules: [...] });
+		             if (!result.ok) $.log(result.errors.join(', '));
+		           });
+		         }
+		       };
+		  3. Read the result. { ok, matched, errors }. A "matched nothing yet" entry is normal for an element on a page that is
+		     not open, the rule applies when the page appears. Any other error names what was refused.
+		  4. Use action reload, then action ui_tree and action problems to confirm the outcome. action test runs in a sandbox
+		     where these calls return empty results, so it cannot prove a visual change.
+
+		TARGETS
+		  A target is an object. All fields you give must match.
+		    name          exact x:Name. A trailing * matches a prefix: 'TopNav*'.
+		    type          control class or any base class: 'Button', 'TextBlock', 'Panel'.
+		    text          exact visible text. Text changes with the language, so prefer name.
+		    textContains  case insensitive part of the text.
+		    parent        name of the direct visual parent.
+		    ancestor      name of any visual ancestor. Use it to scope type: { type: 'Button', ancestor: 'TopBar' }.
+		    page          only while this page class is open: 'FastFlagsPage'. page.navigate reports the current page.
+		    index         keep only the nth match, from 0.
+		    all           true allows a target with no other filter, useful with page.
+		  The window itself can never be a target.
+
+		$.ui.rule({ id, target, set })
+		  Sets properties on every match, now and on every element that appears later. Reusing an id replaces that rule.
+		  Any writable WPF dependency property of the element works, in camelCase or PascalCase, through its normal text format:
+		    opacity: 0.5                     width: 240, height: 40, minWidth, maxWidth, minHeight, maxHeight
+		    margin: '8,4,8,4'                padding: '12,6'
+		    background: '#202028'            foreground: '#FFFFFF', borderBrush: '#40FFFFFF', borderThickness: 1
+		    cornerRadius: 12                 fontSize: 15, fontWeight: 'SemiBold', fontFamily: 'Segoe UI'
+		    horizontalAlignment: 'Right'     verticalAlignment: 'Center'
+		    orientation: 'Horizontal'        toolTip: 'Text', content: 'Text', text: 'Text', isEnabled: false
+		    isHitTestVisible: false          clipToBounds: true, cursor: 'Hand'
+		  Layout in the parent panel: 'Grid.Row', 'Grid.Column', 'Grid.RowSpan', 'Grid.ColumnSpan', 'DockPanel.Dock', 'Panel.ZIndex',
+		    'Canvas.Left', 'Canvas.Top', 'Canvas.Right', 'Canvas.Bottom'.
+		  Shortcuts: hidden: true collapses the element. rotate, scale, scaleX, scaleY, translateX, translateY set a render transform.
+		  Theme link: 'theme:KeyName' as a value follows that resource live: background: 'theme:SystemAccentBrush'.
+		  Refused on purpose: DataContext, Template, Style, ItemsSource, ItemTemplate, ContentTemplate, Command and
+		  CommandParameter, and any property two way bound to a setting. Writing those would break features or change saved settings.
+		  Visible text must not be hardcoded when it replaces a translated string for everyone; a personal mod may do as it likes.
+
+		$.ui.move({ id, target, into, index })
+		  Moves the first match into the first Panel matching into, at index, or at the end. The element must sit directly in a
+		  Panel, Border or ContentControl. Panels generated from a list cannot be the destination. Elements of a list, such as
+		  sidebar entries, are rearranged with $.sidebar.set instead. Combine it with a rule for 'Grid.Row' or 'DockPanel.Dock'.
+		  Moves run before rules on each pass.
+
+		$.ui.resources() and $.ui.setResources({ KeyName: value })
+		  Lists colors, brushes, thicknesses, corner radii and numbers, and overrides them for the main window. Every control using
+		  that key through DynamicResource changes at once, which is the fastest way to repaint the app. An empty value removes the
+		  override. Values use the type of the existing resource, so an unknown key is refused. Controls using StaticResource keep their color; target those with a rule.
+
+		$.ui.redesign({ replace, resources, moves, rules })
+		  Applies a whole design in one call. replace: true forgets this mod's earlier changes first. Prefer it for a complete redesign.
+
+		$.ui.undo(id), $.ui.reset(), $.ui.changes()
+		  Remove one rule or move, remove everything from this mod, and read back what is active.
+
+		REPLACING WHOLE AREAS
+		  Hide the original with a rule, then draw your own with $.ui.attach, panes, banners or $.sidebar.addPage:
+		    $.ui.rule({ id: 'hide-top', target: { name: 'TopBarPanel' }, set: { hidden: true } });
+		    $.ui.attach({ id: 'my-top', anchor: 'SomePanel', placement: 'start' });
+		  Up to 32 attached widgets per mod. Names here are examples, take real ones from ui_tree.
+
+		EXAMPLE: A COMPACT REDESIGN
+		  $.ui.redesign({
+		    replace: true,
+		    resources: { ApplicationBackgroundBrush: '#101018', CardBackgroundFillColorDefaultBrush: '#1A1A26' },
+		    rules: [
+		      { id: 'cards', target: { type: 'CardControl' }, set: { cornerRadius: 14 } },
+		      { id: 'flags-title', target: { page: 'FastFlagsPage', type: 'TextBlock', index: 0 }, set: { fontSize: 26 } },
+		      { id: 'quiet-toggle', target: { name: 'SidebarToggle' }, set: { opacity: 0.6, scale: 0.9 } }
+		    ]
+		  });
+
+		WHAT GETS UNDONE AND WHEN
+		  UI rules, moves and resource overrides exist only while the mod runs. They are removed the moment it reloads, turns off or
+		  is deleted, and it reapplies them from session.start when it stays on.
+		  Saved changes are journaled per mod: $.settings.set, $.fastFlags, $.sidebar.set and reset, $.theme.set, $.app.setText and
+		  clearText, $.app.setBackground and clearBackground. Turning the mod off or deleting it puts back the values from before its
+		  first change, also when its folder was removed by hand. A value the user changed afterwards is left alone. $.store data is
+		  kept when turning off and deleted with the mod.
+
+		PANIC SWITCH
+		  Ctrl+Alt+Shift+M in the main window suspends every mod UI rule, move and resource override, and pressing it again resumes
+		  them. Tell the user about it if a design hides navigation. Suspension lasts until the app closes.
+
+		LIMITS
+		  256 rules, 64 moves and 256 resource overrides per mod. The tree returns at most 1500 nodes. The main window only: dialogs
+		  and other windows are not reached. Rules re-apply at most twice a second, and only while a rule exists.
+		  The tree never reports the contents of password fields.
 
 		""";
 
@@ -467,6 +579,7 @@ public static class McpGuides
         ["workflow"] = Workflow,
         ["architecture"] = Architecture,
         ["mod_api"] = ModApi,
+        ["mod_ui"] = ModUi,
         ["app_control"] = AppControl,
         ["app_code"] = AppCode,
         ["search"] = Search,

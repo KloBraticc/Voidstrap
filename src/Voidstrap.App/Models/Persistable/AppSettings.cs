@@ -148,6 +148,8 @@ namespace Voidstrap.Models.Persistable
 
         public double EditorBackgroundImageOpacity { get; set; } = 0.15;
 
+        public Dictionary<string, Dictionary<string, ModRollbackValue>> ModRollback { get; set; } = [];
+
         public GridEditorAppearance FastFlagEditorAppearance { get; set; } = new();
 
         public GridEditorAppearance NvidiaEditorAppearance { get; set; } = new();

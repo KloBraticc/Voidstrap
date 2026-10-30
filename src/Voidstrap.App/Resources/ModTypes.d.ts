@@ -17,6 +17,55 @@ declare module 'voidstrap' {
     attachable: boolean;
   }
 
+  export interface UiTarget {
+    name?: string;
+    type?: string;
+    text?: string;
+    textContains?: string;
+    parent?: string;
+    ancestor?: string;
+    page?: string;
+    index?: number;
+    all?: boolean;
+  }
+
+  export interface UiNode {
+    type: string;
+    name?: string;
+    text?: string;
+    visible: boolean;
+    panel: boolean;
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
+    children?: UiNode[];
+  }
+
+  export interface UiProperties {
+    hidden?: boolean;
+    rotate?: number;
+    scale?: number;
+    scaleX?: number;
+    scaleY?: number;
+    translateX?: number;
+    translateY?: number;
+    [property: string]: string | number | boolean | undefined;
+  }
+
+  export interface UiChangeResult {
+    ok: boolean;
+    matched: number;
+    errors: string[];
+  }
+
+  export interface UiRedesign {
+    replace?: boolean;
+    resources?: Record<string, string>;
+    moves?: { id: string; target: UiTarget; into: UiTarget; index?: number }[];
+    rules?: { id: string; target: UiTarget; set: UiProperties }[];
+  }
+
   export interface RobloxAccountInfo {
     signedIn: boolean;
     userId?: number;
@@ -272,6 +321,16 @@ declare module 'voidstrap' {
       attach(request: { id: string; anchor: string; placement?: 'before' | 'after' | 'start' | 'end' }): { isPlaced: boolean; reason: string };
       detach(id: string): void;
       anchors(): Anchor[];
+      tree(request?: { root?: UiTarget; depth?: number; namedOnly?: boolean }): UiNode;
+      query(target: UiTarget): UiNode[];
+      rule(request: { id: string; target: UiTarget; set: UiProperties }): UiChangeResult;
+      move(request: { id: string; target: UiTarget; into: UiTarget; index?: number }): UiChangeResult;
+      resources(): { key: string; value: string }[];
+      setResources(values: Record<string, string>): UiChangeResult;
+      redesign(spec: UiRedesign): UiChangeResult;
+      undo(id: string): void;
+      reset(): void;
+      changes(): { suspended: boolean; rules: Json[]; moves: Json[]; resources: Record<string, string> };
       openDialog(request: string | { id: string; title?: string; width?: number; height?: number }): void;
       closeDialog(id: string): void;
       message(text: string, title?: string): void;
