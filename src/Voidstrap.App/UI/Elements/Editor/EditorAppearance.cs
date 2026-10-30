@@ -110,6 +110,7 @@ public sealed class EditorSettingsButton : Wpf.Ui.Controls.Button
 {
     public EditorSettingsButton()
     {
+        SetResourceReference(StyleProperty, typeof(Wpf.Ui.Controls.Button));
         Icon = SymbolRegular.Settings24;
         ToolTip = Strings.Ui_EditorSettings_Title;
         Click += OnClick;
