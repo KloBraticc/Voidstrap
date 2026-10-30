@@ -57,6 +57,7 @@ internal static class PluginAnchors
 
     public static JsonObject Attach(string plugin, JsonObject request)
     {
+        PluginRestyle.EnsureHooked();
         string id = request["id"]?.ToString() ?? "";
         string anchor = request["anchor"]?.ToString() ?? "";
         string placement = (request["placement"]?.ToString() ?? "after").ToLowerInvariant();
@@ -208,7 +209,7 @@ internal static class PluginAnchors
         Voidstrap.UI.Elements.Settings.MainWindow? window = MainWindow();
         if (window == null)
             return "Voidstrap is still starting, the widget appears when the window opens";
-        FrameworkElement? target = Find(window, item.Anchor);
+        FrameworkElement? target = Find(window, item.Anchor) ?? FindElsewhere(window, item.Anchor);
         if (target == null)
             return "no element named " + item.Anchor + ", call $.ui.anchors() for the list";
         (Panel? panel, UIElement? child) = AttachablePanel(target);
@@ -428,6 +429,12 @@ internal static class PluginAnchors
         item.Row = null;
         item.Host = null;
     }
+
+    private static FrameworkElement? FindElsewhere(Window main, string name) =>
+        Application.Current?.Windows.OfType<Window>()
+            .Where(window => !ReferenceEquals(window, main))
+            .SelectMany(window => Descendants(window).OfType<FrameworkElement>())
+            .FirstOrDefault(element => element.Name == name);
 
     private static FrameworkElement? Find(Voidstrap.UI.Elements.Settings.MainWindow window, string name)
     {

@@ -17,7 +17,22 @@ declare module 'voidstrap' {
     attachable: boolean;
   }
 
+  export type UiStylePreset = 'glass' | 'midnight' | 'light';
+
+  export interface UiStyle {
+    preset?: UiStylePreset;
+    background?: string;
+    surface?: string;
+    border?: string;
+    text?: string;
+    muted?: string;
+    accent?: string;
+    radius?: string;
+    backdrop?: 'Mica' | 'Aero' | 'Acrylic' | string;
+  }
+
   export interface UiTarget {
+    window?: string;
     name?: string;
     type?: string;
     text?: string;
@@ -93,6 +108,7 @@ declare module 'voidstrap' {
     'game.leave': { input: GameInfo; result: unknown };
     'page.navigate': { input: { page: string }; result: unknown };
     'settings.changed': { input: { name: string; plugin: string }; result: unknown };
+    'ui.event': { input: { id: string; plugin: string; event: 'click'; name: string; type: string; text: string; window: string }; result: unknown };
     'ui.render': { input: { component: UiComponentKind; requestId: string; plugin: string; surface: Surface }; result: Node | null };
     'cursor.move': { input: CursorPosition; result: unknown };
     'cursor.down': { input: CursorPosition; result: unknown };
@@ -321,7 +337,11 @@ declare module 'voidstrap' {
       attach(request: { id: string; anchor: string; placement?: 'before' | 'after' | 'start' | 'end' }): { isPlaced: boolean; reason: string };
       detach(id: string): void;
       anchors(): Anchor[];
-      tree(request?: { root?: UiTarget; depth?: number; namedOnly?: boolean }): UiNode;
+      style(request: UiStylePreset | UiStyle): UiChangeResult;
+      windows(): { type: string; title: string; visible: boolean; active: boolean; width: number; height: number }[];
+      listen(request: { id: string; target: UiTarget }): UiChangeResult;
+      press(target: UiTarget): UiChangeResult;
+      tree(request?: { window?: string; root?: UiTarget; depth?: number; namedOnly?: boolean }): UiNode;
       query(target: UiTarget): UiNode[];
       rule(request: { id: string; target: UiTarget; set: UiProperties }): UiChangeResult;
       move(request: { id: string; target: UiTarget; into: UiTarget; index?: number }): UiChangeResult;

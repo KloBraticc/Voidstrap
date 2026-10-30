@@ -247,8 +247,10 @@ public static class McpGuides
 		  $.ui.open({ id, title }) and close(id)        panes shown in the main window.
 		  $.ui.openBanner / closeBanner                 banners above or below the content.
 		  $.ui.attach({ id, anchor, placement })        widget attached to a real element, $.ui.anchors() lists live anchors.
-		  $.ui.tree / query                             read the real UI structure.
-		  $.ui.rule / move / setResources / redesign    restyle, rearrange and repaint any part of the main window, read guide mod_ui.
+		  $.ui.style(preset or roles)                   theme every window in one call: $.ui.style('glass'). Use this first for themes.
+		  $.ui.windows / listen / press                 list windows, get ui.event on clicks, click a button in any window.
+		  $.ui.tree / query                             read the real UI structure of any window.
+		  $.ui.rule / move / setResources / redesign    restyle, rearrange and repaint any window, read guide mod_ui.
 		  $.ui.resources / undo / reset / changes       list theme resources, remove changes, read back what is active.
 		  $.ui.openDialog / closeDialog / message / confirm
 		  $.ui.status(text)                             status line text. $.ui.refresh() redraws your surfaces.
@@ -279,9 +281,31 @@ public static class McpGuides
     public const string ModUi = """
 		REDESIGNING THE VOIDSTRAP INTERFACE FROM A MOD
 
-		A mod can restyle, hide, resize, rearrange and move any element of the live main window, and override any theme
+		A mod can restyle, hide, resize, rearrange, move and click any element of any open Voidstrap window, and override any theme
 		resource. Every change is declarative, re-applied when pages load, and undone automatically when the mod is reloaded,
 		turned off or deleted.
+
+		THE SHORT WAY: THEME THE WHOLE APP IN ONE LINE
+		  Do this first for any theme request. Do not write long lists of resources or rules for a theme.
+		    on('session.start', $ => { $.ui.style('glass'); });
+		  Presets: glass, midnight, light. Add only what should differ:
+		    $.ui.style({ preset: 'glass', accent: '#FF2D55', radius: '20' });
+		  Roles: background, surface, border, text, muted, accent, radius, backdrop. Colors are #RRGGBB or #AARRGGBB, lower alpha is more see through.
+		  It repaints every Voidstrap window. backdrop is a saved setting, Mica, Aero or Acrylic; blur depends on the system and on Linux may stay flat,
+		  so check the result. Add rules afterwards only for details style cannot reach.
+
+		EVERY WINDOW
+		  Rules, moves, press and listen reach every open Voidstrap window, also ones that open later. Add window to a target to limit it to one
+		  window by class name or title: { window: 'KeystrokeThemeEditorWindow', type: 'Button' }. $.ui.windows() lists open windows.
+		  Open the window first to read it: $.ui.tree({ window: 'MusicPlayer' }). $.ui.attach also finds anchors in other windows.
+
+		ADDING REAL FEATURES
+		  A mod is code with state, timers, network, settings and its own UI. Combine these:
+		    Own UI: $.sidebar.addPage, $.ui.open, $.ui.openDialog (its own window), $.ui.attach into any existing panel.
+		    React to the existing UI: $.ui.listen({ id: 'save', target: { name: 'SaveButton' } }), then on('ui.event', { id: 'save' }, ($, e) => { ... }).
+		    Drive the existing UI: $.ui.press({ name: 'SomeButton' }) clicks a button or toggle as a user would.
+		    Also: page.navigate, game.join, game.leave, roblox.launch, settings.changed events, $.net.fetch, $.store, $.clock.
+		  Mods stay sandboxed: no files, processes, or direct .NET. Only clicks are reported, never typed text.
 
 		THE WORKFLOW
 		  1. Look before you change. manage_voidstrap_mods action ui_tree, or $.ui.tree(), returns the real structure.
@@ -339,7 +363,7 @@ public static class McpGuides
 		  Moves run before rules on each pass.
 
 		$.ui.resources() and $.ui.setResources({ KeyName: value })
-		  Lists colors, brushes, thicknesses, corner radii and numbers, and overrides them for the main window. Every control using
+		  Lists colors, brushes, thicknesses, corner radii and numbers, and overrides them for every window. Every control using
 		  that key through DynamicResource changes at once, which is the fastest way to repaint the app. An empty value removes the
 		  override. Values use the type of the existing resource, so an unknown key is refused. Controls using StaticResource keep their color; target those with a rule.
 
@@ -375,12 +399,11 @@ public static class McpGuides
 		  kept when turning off and deleted with the mod.
 
 		PANIC SWITCH
-		  Ctrl+Alt+Shift+M in the main window suspends every mod UI rule, move and resource override, and pressing it again resumes
+		  Ctrl+Alt+Shift+M in the main window, for every window, suspends every mod UI rule, move and resource override, and pressing it again resumes
 		  them. Tell the user about it if a design hides navigation. Suspension lasts until the app closes.
 
 		LIMITS
-		  256 rules, 64 moves and 256 resource overrides per mod. The tree returns at most 1500 nodes. The main window only: dialogs
-		  and other windows are not reached. Rules re-apply at most twice a second, and only while a rule exists.
+		  256 rules, 64 moves, 256 listeners and 256 resource overrides per mod. The tree returns at most 1500 nodes. Rules re-apply at most twice a second, and only while a rule exists.
 		  The tree never reports the contents of password fields.
 
 		""";

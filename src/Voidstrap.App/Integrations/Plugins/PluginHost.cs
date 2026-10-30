@@ -73,6 +73,7 @@ public static class PluginHost
         "page.navigate",
         "settings.changed",
         "ui.render",
+        "ui.event",
         "cursor.move",
         "cursor.down",
         "cursor.up",
@@ -866,6 +867,10 @@ public static class PluginHost
 			      attach: request => parse(host.uiAttach(JSON.stringify(request || {}))),
 			      detach: id => host.uiDetach(String(id)),
 			      anchors: () => parse(host.uiAnchors()),
+			      windows: () => parse(host.uiWindows()),
+			      listen: request => parse(host.uiListen(JSON.stringify(request || {}))),
+			      press: target => parse(host.uiPress(JSON.stringify(target || {}))),
+			      style: request => parse(host.uiStyle(JSON.stringify(typeof request === 'string' ? { preset: request } : (request || {})))),
 			      tree: request => parse(host.uiTree(JSON.stringify(request || {}))),
 			      query: target => parse(host.uiQuery(JSON.stringify(target || {}))),
 			      rule: request => parse(host.uiRule(JSON.stringify(request || {}))),
@@ -1230,6 +1235,51 @@ public static class PluginHost
                 Host(
                     "uiAnchors",
                     _ => _sandbox ? "[]" : PluginNavigation.InvokeUiBounded(() => PluginAnchors.Map().ToJsonString(), "[]", 1500)
+                )
+            );
+            host.Set(
+                "uiWindows",
+                Host(
+                    "uiWindows",
+                    a =>
+                    {
+                        return _sandbox ? "[]" : PluginRestyle.Windows().ToJsonString();
+                    }
+                )
+            );
+            host.Set(
+                "uiListen",
+                Host(
+                    "uiListen",
+                    a =>
+                    {
+                        return _sandbox ? new JsonObject { ["ok"] = true, ["matched"] = 0, ["errors"] = new JsonArray() }.ToJsonString() : PluginRestyle.Listen(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject()).ToJsonString();
+                    }
+                )
+            );
+            host.Set(
+                "uiPress",
+                Host(
+                    "uiPress",
+                    a =>
+                    {
+                        return _sandbox ? new JsonObject { ["ok"] = true, ["matched"] = 0, ["errors"] = new JsonArray() }.ToJsonString() : PluginRestyle.Press(JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject()).ToJsonString();
+                    }
+                )
+            );
+            host.Set(
+                "uiStyle",
+                Host(
+                    "uiStyle",
+                    a =>
+                    {
+                        if (_sandbox)
+                            return new JsonObject { ["ok"] = true, ["matched"] = 0, ["errors"] = new JsonArray() }.ToJsonString();
+                        JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+                        if (PluginRestyle.StyleBackdrop(request) is { } backdrop)
+                            PluginRollback.TrackSettings(Name, PluginRollback.ThemeSettings, () => PluginTheme.Set(Name, new JsonObject { ["backdrop"] = backdrop }));
+                        return PluginRestyle.Style(Name, request).ToJsonString();
+                    }
                 )
             );
             host.Set(

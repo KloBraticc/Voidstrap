@@ -3,7 +3,10 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
 using System.Windows;
+using System.Windows.Automation.Peers;
+using System.Windows.Automation.Provider;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -30,6 +33,8 @@ internal static class PluginRestyle
 
     private sealed record Move(string Plugin, string Id, JsonObject Target, JsonObject Into, int Index);
 
+    private sealed record Listener(string Plugin, string Id, JsonObject Target);
+
     private sealed record MoveOrigin(DependencyObject Parent, int Index);
 
     private sealed record ResourceOrigin(bool Existed, object? Value);
@@ -50,6 +55,8 @@ internal static class PluginRestyle
     private static readonly List<Rule> Rules = [];
 
     private static readonly List<Move> Moves = [];
+
+    private static readonly List<Listener> Listeners = [];
 
     private static readonly Dictionary<(string Plugin, string Key), string> Resources = [];
 
@@ -180,9 +187,6 @@ internal static class PluginRestyle
     private static JsonObject SetResourcesCore(string plugin, JsonObject values)
     {
         ApplyReport report = new();
-        Voidstrap.UI.Elements.Settings.MainWindow? window = MainWindow();
-        if (window == null)
-            return Failed("the Voidstrap window is not open");
         foreach (KeyValuePair<string, JsonNode?> entry in values)
         {
             string text = entry.Value?.ToString() ?? "";
@@ -196,13 +200,13 @@ internal static class PluginRestyle
                 report.Error("a mod can override at most " + MaxResourcesPerMod + " resources");
                 continue;
             }
-            if (ConvertResource(window, entry.Key, text, report) == null)
+            if (ConvertResource(entry.Key, text, report) == null)
                 continue;
             Resources[(plugin, entry.Key)] = text;
             report.Matched++;
         }
         EnsureHooked();
-        ApplyResources(window);
+        ApplyResources();
         return Report(report);
     }
 
@@ -268,6 +272,7 @@ internal static class PluginRestyle
     {
         Rules.RemoveAll(rule => rule.Plugin == plugin);
         Moves.RemoveAll(move => move.Plugin == plugin);
+        Listeners.RemoveAll(listener => listener.Plugin == plugin);
         foreach ((string Plugin, string Key) key in Resources.Keys.Where(key => key.Plugin == plugin).ToList())
             Resources.Remove(key);
     }
@@ -300,6 +305,7 @@ internal static class PluginRestyle
             {
                 Rules.Clear();
                 Moves.Clear();
+                Listeners.Clear();
                 Resources.Clear();
                 ReapplyEverything();
             })
@@ -345,16 +351,19 @@ internal static class PluginRestyle
         dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(StartTimer));
     }
 
-    private static void EnsureHooked()
+    internal static void EnsureHooked()
     {
         if (_handlerRegistered)
             return;
         _handlerRegistered = true;
         EventManager.RegisterClassHandler(typeof(FrameworkElement), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnAnyElementLoaded));
+        EventManager.RegisterClassHandler(typeof(ButtonBase), ButtonBase.ClickEvent, new RoutedEventHandler(OnAnyClick), true);
     }
 
     private static void OnAnyElementLoaded(object sender, RoutedEventArgs e)
     {
+        if (sender is Window)
+            PluginAnchors.ApplyAll();
         if (!_applying && HasWork && !_suspended)
             StartTimer();
     }
@@ -378,12 +387,194 @@ internal static class PluginRestyle
         ApplyAllNow();
     }
 
-    private static List<FrameworkElement> Snapshot()
+    private static IEnumerable<Window> AllWindows() => Application.Current?.Windows.OfType<Window>() ?? [];
+
+    private static List<FrameworkElement> Snapshot() =>
+        AllWindows()
+            .SelectMany(window => PluginAnchors.Descendants(window).OfType<FrameworkElement>())
+            .Where(element => element is not Window)
+            .ToList();
+
+    private static bool WindowMatches(FrameworkElement element, string wanted)
     {
-        Window? window = MainWindow();
-        if (window == null)
-            return [];
-        return PluginAnchors.Descendants(window).OfType<FrameworkElement>().Where(element => element is not Window).ToList();
+        Window? window = element as Window ?? Window.GetWindow(element);
+        return window != null
+            && (string.Equals(window.GetType().Name, wanted, StringComparison.OrdinalIgnoreCase) || string.Equals(window.Title, wanted, StringComparison.OrdinalIgnoreCase));
+    }
+
+    public static JsonArray Windows() =>
+        OnUi(
+            () =>
+            {
+                JsonArray result = [];
+                foreach (Window window in AllWindows())
+                    result.Add(
+                        new JsonObject
+                        {
+                            ["type"] = window.GetType().Name,
+                            ["title"] = window.Title,
+                            ["visible"] = window.IsVisible,
+                            ["active"] = window.IsActive,
+                            ["width"] = Math.Round(window.ActualWidth),
+                            ["height"] = Math.Round(window.ActualHeight),
+                        }
+                    );
+                return result;
+            },
+            new JsonArray()
+        );
+
+    public static JsonObject Listen(string plugin, JsonObject request) =>
+        OnUi(
+            () =>
+            {
+                string id = request["id"]?.ToString() ?? "";
+                if (id.Length is 0 or > 64 || request["target"] is not JsonObject target || target.Count == 0)
+                    return Failed("listen needs an id and a target");
+                Listeners.RemoveAll(listener => listener.Plugin == plugin && listener.Id == id);
+                if (Listeners.Count(listener => listener.Plugin == plugin) >= MaxRulesPerMod)
+                    return Failed("a mod can keep at most " + MaxRulesPerMod + " listeners");
+                Listeners.Add(new Listener(plugin, id, (JsonObject)target.DeepClone()));
+                EnsureHooked();
+                return new JsonObject { ["ok"] = true, ["matched"] = Select(target, Snapshot()).Count, ["errors"] = new JsonArray() };
+            },
+            Unavailable()
+        );
+
+    public static JsonObject Press(JsonObject target) =>
+        OnUi(
+            () =>
+            {
+                FrameworkElement? element = Select(target, Snapshot()).FirstOrDefault(found => found is ButtonBase);
+                if (element == null)
+                    return Failed("no button matched");
+                AutomationPeer? peer = UIElementAutomationPeer.CreatePeerForElement(element);
+                if (peer?.GetPattern(PatternInterface.Invoke) is IInvokeProvider invoke)
+                    invoke.Invoke();
+                else if (peer?.GetPattern(PatternInterface.Toggle) is IToggleProvider toggle)
+                    toggle.Toggle();
+                else
+                    return Failed("that button cannot be pressed");
+                return new JsonObject { ["ok"] = true, ["matched"] = 1, ["errors"] = new JsonArray() };
+            },
+            Unavailable()
+        );
+
+    private static void OnAnyClick(object sender, RoutedEventArgs e)
+    {
+        if (Listeners.Count == 0 || sender is not FrameworkElement element)
+            return;
+        List<FrameworkElement> single = [element];
+        foreach (Listener listener in Listeners)
+        {
+            if (Select(listener.Target, single).Count == 0)
+                continue;
+            JsonObject payload = new()
+            {
+                ["id"] = listener.Id,
+                ["plugin"] = listener.Plugin,
+                ["event"] = "click",
+                ["name"] = element.Name,
+                ["type"] = element.GetType().Name,
+                ["text"] = TextOf(element),
+                ["window"] = Window.GetWindow(element)?.GetType().Name ?? "",
+            };
+            _ = Task.Run(() => PluginHost.Invoke("ui.event", payload));
+        }
+    }
+
+    private static readonly (string Key, string Role)[] StyleKeys =
+    [
+        ("WindowBackgroundColorPrimary", "background"),
+        ("WindowBackgroundColorSecondary", "background"),
+        ("WindowBackgroundColorThird", "background"),
+        ("WindowBackgroundColorTertiary", "background"),
+        ("PrimaryBackgroundColor", "background"),
+        ("ApplicationBackgroundBrush", "background"),
+        ("CardBackgroundFillColorDefaultBrush", "surface"),
+        ("CardBackgroundFillColorSecondaryBrush", "surface"),
+        ("ControlFillColorDefaultBrush", "surface"),
+        ("ControlFillColorDefault", "surface"),
+        ("ControlFillColorSecondaryBrush", "surface"),
+        ("ControlFillColorTertiaryBrush", "surface"),
+        ("SubtleFillColorSecondaryBrush", "surface"),
+        ("CardStrokeColorDefaultBrush", "border"),
+        ("ControlStrokeColorDefaultBrush", "border"),
+        ("TextFillColorPrimaryBrush", "text"),
+        ("TextFillColorSecondaryBrush", "muted"),
+        ("TextFillColorTertiaryBrush", "muted"),
+        ("AccentFillColorDefaultBrush", "accent"),
+        ("AccentFillColorSecondaryBrush", "accent"),
+        ("AccentFillColorTertiaryBrush", "accent"),
+        ("SystemAccentBrush", "accent"),
+        ("SystemAccentColor", "accent"),
+        ("ControlCornerRadius", "radius"),
+        ("OverlayCornerRadius", "radius"),
+    ];
+
+    private static readonly Dictionary<string, JsonObject> StylePresets = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["glass"] = new JsonObject
+        {
+            ["background"] = "#4D14141C",
+            ["surface"] = "#1FFFFFFF",
+            ["border"] = "#33FFFFFF",
+            ["text"] = "#FFFFFFFF",
+            ["muted"] = "#B3FFFFFF",
+            ["accent"] = "#FF0A84FF",
+            ["radius"] = "14",
+            ["backdrop"] = "Acrylic",
+        },
+        ["midnight"] = new JsonObject
+        {
+            ["background"] = "#FF0B0D14",
+            ["surface"] = "#FF171A24",
+            ["border"] = "#FF2A2E3D",
+            ["text"] = "#FFF2F4FA",
+            ["muted"] = "#FF9AA1B5",
+            ["accent"] = "#FF7C8CFF",
+            ["radius"] = "10",
+        },
+        ["light"] = new JsonObject
+        {
+            ["background"] = "#FFF4F5F8",
+            ["surface"] = "#FFFFFFFF",
+            ["border"] = "#FFD9DCE3",
+            ["text"] = "#FF16181D",
+            ["muted"] = "#FF5D6470",
+            ["accent"] = "#FF0A66D8",
+            ["radius"] = "10",
+        },
+    };
+
+    public static JsonObject Style(string plugin, JsonObject request) => OnUi(() => StyleCore(plugin, request), Unavailable());
+
+    public static string? StyleBackdrop(JsonObject request)
+    {
+        if (request["backdrop"]?.ToString() is { Length: > 0 } backdrop)
+            return backdrop;
+        return request["preset"]?.ToString() is { } preset && StylePresets.TryGetValue(preset, out JsonObject? values) ? values["backdrop"]?.ToString() : null;
+    }
+
+    private static JsonObject StyleCore(string plugin, JsonObject request)
+    {
+        JsonObject merged = [];
+        string? preset = request["preset"]?.ToString();
+        if (preset != null)
+        {
+            if (!StylePresets.TryGetValue(preset, out JsonObject? values))
+                return Failed("unknown preset " + preset + ", use " + string.Join(", ", StylePresets.Keys));
+            foreach (KeyValuePair<string, JsonNode?> entry in values)
+                merged[entry.Key] = entry.Value?.DeepClone();
+        }
+        foreach (KeyValuePair<string, JsonNode?> entry in request)
+            if (entry.Key != "preset")
+                merged[entry.Key] = entry.Value?.DeepClone();
+        JsonObject resources = [];
+        foreach ((string key, string role) in StyleKeys)
+            if (merged[role]?.ToString() is { Length: > 0 } value && Application.Current?.TryFindResource(key) != null)
+                resources[key] = value;
+        return SetResourcesCore(plugin, resources);
     }
 
     private static void ApplyAllNow()
@@ -419,9 +610,7 @@ internal static class PluginRestyle
         {
             RestoreProperties();
             RestoreMoves();
-            Window? window = MainWindow();
-            if (window != null)
-                ApplyResources(window);
+            ApplyResources();
         }
         catch (Exception ex)
         {
@@ -680,8 +869,11 @@ internal static class PluginRestyle
         }
     }
 
-    private static void ApplyResources(Window window)
+    private static void ApplyResources()
     {
+        ResourceDictionary? target = Application.Current?.Resources;
+        if (target == null)
+            return;
         Dictionary<string, string> wanted = [];
         if (!_suspended)
             foreach (KeyValuePair<(string Plugin, string Key), string> entry in Resources)
@@ -690,9 +882,9 @@ internal static class PluginRestyle
         {
             ResourceOrigin origin = ResourceOrigins[key];
             if (origin.Existed)
-                window.Resources[key] = origin.Value;
+                target[key] = origin.Value;
             else
-                window.Resources.Remove(key);
+                target.Remove(key);
             ResourceOrigins.Remove(key);
         }
         ApplyReport ignored = new();
@@ -700,20 +892,18 @@ internal static class PluginRestyle
         {
             if (!ResourceOrigins.ContainsKey(entry.Key))
             {
-                bool existed = window.Resources.Contains(entry.Key);
-                ResourceOrigins[entry.Key] = new ResourceOrigin(existed, existed ? window.Resources[entry.Key] : null);
+                bool existed = target.Contains(entry.Key);
+                ResourceOrigins[entry.Key] = new ResourceOrigin(existed, existed ? target[entry.Key] : null);
             }
-            object? converted = ConvertResource(window, entry.Key, entry.Value, ignored);
+            object? converted = ConvertResource(entry.Key, entry.Value, ignored);
             if (converted != null)
-                window.Resources[entry.Key] = converted;
+                target[entry.Key] = converted;
         }
     }
 
-    private static object? ConvertResource(Window window, string key, string text, ApplyReport report)
+    private static object? ConvertResource(string key, string text, ApplyReport report)
     {
-        object? current = ResourceOrigins.TryGetValue(key, out ResourceOrigin? origin) && origin.Existed
-            ? origin.Value
-            : window.TryFindResource(key);
+        object? current = Application.Current?.TryFindResource(key);
         if (current == null)
         {
             report.Error("no theme resource is named " + key + ", $.ui.resources() lists them");
@@ -772,7 +962,7 @@ internal static class PluginRestyle
             {
                 JsonArray result = [];
                 foreach (FrameworkElement element in Select(target, Snapshot()).Take(MaxTreeNodes))
-                    result.Add(Describe(element, MainWindow()));
+                    result.Add(Describe(element, Window.GetWindow(element)));
                 return result;
             },
             new JsonArray()
@@ -782,9 +972,11 @@ internal static class PluginRestyle
         OnUi(
             () =>
             {
-                Window? window = MainWindow();
+                Window? window = (Window?)MainWindow() ?? AllWindows().FirstOrDefault();
                 if (window == null)
                     return new JsonObject();
+                if (request["window"]?.ToString() is { } wanted && AllWindows().FirstOrDefault(open => WindowMatches(open, wanted)) is { } chosen)
+                    window = chosen;
                 FrameworkElement root = window;
                 if (request["root"] is JsonObject target && Select(target, Snapshot()).FirstOrDefault() is { } picked)
                     root = picked;
@@ -829,6 +1021,8 @@ internal static class PluginRestyle
         string text = TextOf(element);
         if (text.Length > 0)
             node["text"] = text.Length > 80 ? text[..80] : text;
+        if (window != null)
+            node["window"] = window.GetType().Name;
         node["visible"] = element.IsVisible;
         node["panel"] = element is Panel;
         if (window != null && element.IsVisible && !ReferenceEquals(element, window))
@@ -865,6 +1059,7 @@ internal static class PluginRestyle
         string? page = target["page"]?.ToString();
         if (page != null && !string.Equals(MainWindow()?.GetFrame()?.Content?.GetType().Name, page, StringComparison.OrdinalIgnoreCase))
             return [];
+        string? wantedWindow = target["window"]?.ToString();
         string? name = target["name"]?.ToString();
         string? type = target["type"]?.ToString();
         string? text = target["text"]?.ToString();
@@ -872,7 +1067,9 @@ internal static class PluginRestyle
         string? ancestor = target["ancestor"]?.ToString();
         string? parent = target["parent"]?.ToString();
         bool everything = target["all"] is JsonValue flag && flag.TryGetValue(out bool all) && all;
-        if (!everything && name == null && type == null && text == null && contains == null && ancestor == null && parent == null)
+        if (wantedWindow != null)
+            elements = elements.Where(element => WindowMatches(element, wantedWindow)).ToList();
+        if (!everything && wantedWindow == null && name == null && type == null && text == null && contains == null && ancestor == null && parent == null)
             return [];
         IEnumerable<FrameworkElement> found = elements.Where(element =>
             (name == null || NameMatches(element.Name, name))

@@ -122,7 +122,7 @@ public static partial class McpTools
 		All custom image bytes are checked locally before display, including every GIF frame and sprite cell. The fixed content checker and its license files download on first use; images are never uploaded. Checking is asynchronous, so initial renders can be blank. Failed checks, unavailable checking and unsupported or oversized media stay hidden. Limits are 16 MB encoded, 48 MB decoded and 180 frames or cells. This targets sexual imagery and can make mistakes; it is not a general harmful content classifier.
 
 		PLACING UI ANYWHERE IN VOIDSTRAP
-		To restyle, hide, move or fully redesign existing UI instead of adding to it, read get_guide topic mod_ui and use action ui_tree.
+		For any theme, call $.ui.style('glass') or $.ui.style({ preset, accent, ... }) in session.start, one line, not long rule lists. To restyle, hide, move, click or redesign UI in any window, read get_guide topic mod_ui and use action ui_tree.
 		Call manage_voidstrap_mods action ui_map first. It returns every named element in the live Voidstrap window: name, type, visible text, parent, x, y, width, height (pixels from the window's top left) and attachable.
 		Pick an element near where the user wants the new UI, then attach a widget next to it in session.start:
 		  $.ui.attach({ id: 'friends', anchor: 'TopNavBack', placement: 'before' });   placement is before, after, start or end
