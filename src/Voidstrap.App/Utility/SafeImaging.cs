@@ -285,6 +285,11 @@ internal static class SafeImaging
 
     private static readonly ConcurrentDictionary<string, BitmapSource> _uriCache = new(StringComparer.Ordinal);
 
+    public static void ClearUriCache()
+    {
+        _uriCache.Clear();
+    }
+
     public static BitmapSource? FromUri(Uri? uri, int decodeWidth = 0)
     {
         if (uri == null)
