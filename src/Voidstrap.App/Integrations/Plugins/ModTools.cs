@@ -35,6 +35,23 @@ internal static class ModTypes
 		}
 		""";
 
+    internal static bool IsGeneratedRootConfig(string file)
+    {
+        if (!Path.GetFileName(file).Equals("tsconfig.json", StringComparison.OrdinalIgnoreCase))
+            return false;
+        string? folder = Path.GetDirectoryName(file);
+        if (folder == null || !Directory.Exists(Path.Combine(folder, PluginManifest.ManifestFolder)))
+            return false;
+        try
+        {
+            return new FileInfo(file).Length < 1024 && File.ReadAllText(file) == ModTsConfig;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            return false;
+        }
+    }
+
     public static void Write(string modDirectory)
     {
         try

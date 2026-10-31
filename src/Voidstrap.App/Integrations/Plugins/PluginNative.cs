@@ -240,8 +240,14 @@ internal static partial class PluginNative
     {
         string separator = Path.DirectorySeparatorChar.ToString();
         string marker = separator + PluginManifest.ManifestFolder + separator + "types" + separator;
+        if (ModTypes.IsGeneratedRootConfig(file))
+            return true;
         return file.Contains(marker, StringComparison.OrdinalIgnoreCase)
-            && (file.EndsWith(".d.ts", StringComparison.OrdinalIgnoreCase) || Path.GetFileName(file).Equals("tsconfig.json", StringComparison.OrdinalIgnoreCase));
+            && (
+                file.EndsWith(".d.ts", StringComparison.OrdinalIgnoreCase)
+                || Path.GetFileName(file).Equals("tsconfig.json", StringComparison.OrdinalIgnoreCase)
+                || Path.GetFileName(file).Equals("plugin.schema.json", StringComparison.OrdinalIgnoreCase)
+            );
     }
 
     public static string ContentHash(PluginManifest manifest)
