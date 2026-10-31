@@ -86,6 +86,7 @@ internal sealed class StickyTabStrip
         _tabs.Unloaded -= OnTabsUnloaded;
         _pin.Y = 0;
         _strip.Background = Brushes.Transparent;
+        SetIndicators(Visibility.Visible);
     }
 
     private void OnScrollChanged(object sender, ScrollChangedEventArgs e) => Update();
@@ -101,16 +102,26 @@ internal sealed class StickyTabStrip
         SetPinned(offset > 0);
     }
 
+    private void SetIndicators(Visibility visibility)
+    {
+        foreach (UIElement child in _strip.Children)
+        {
+            if (child is TabItem item && item.Template?.FindName("SelectionIndicator", item) is UIElement indicator)
+                indicator.Visibility = visibility;
+        }
+    }
+
     private void SetPinned(bool pinned)
     {
         if (pinned == _pinned)
             return;
         _pinned = pinned;
+        SetIndicators(pinned ? Visibility.Hidden : Visibility.Visible);
         if (_surface == null)
         {
             Color color = (_tabs.TryFindResource("SolidBackgroundFillColorBaseBrush") as SolidColorBrush)?.Color ?? Color.FromRgb(0x20, 0x20, 0x20);
             _surface = new LinearGradientBrush(
-                [new GradientStop(color, 0), new GradientStop(color, 0.8), new GradientStop(Color.FromArgb(0, color.R, color.G, color.B), 1)],
+                [new GradientStop(Color.FromArgb(170, color.R, color.G, color.B), 0), new GradientStop(Color.FromArgb(0, color.R, color.G, color.B), 1)],
                 90
             )
             {
