@@ -294,6 +294,7 @@ public static class GitHubPublisher
                     && rel != PluginManifest.ManifestFolder + "/plugin.json"
                 )
                 || rel == "owner.json"
+                || rel == "tsconfig.json"
             )
                 continue;
             if ((File.GetAttributes(full) & FileAttributes.ReparsePoint) != 0)
@@ -643,6 +644,7 @@ public static class GitHubPublisher
     {
         JsonObject manifest =
             JsonNode.Parse(File.ReadAllText(path)) as JsonObject ?? throw new InvalidDataException("plugin.json is not a JSON object");
+        manifest.Remove("$schema");
         manifest["library"] = new JsonObject { ["id"] = account.Id + "/" + name, ["ownerId"] = account.Id };
         return Encoding.UTF8.GetBytes(manifest.ToJsonString(new JsonSerializerOptions { WriteIndented = true }) + "\n");
     }
