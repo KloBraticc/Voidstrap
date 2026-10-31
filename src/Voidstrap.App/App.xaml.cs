@@ -1072,7 +1072,6 @@ public partial class App : Application
         )
         {
             _macOSStartupReady.TrySetResult(true);
-            TryStartup("Plugins", Voidstrap.Integrations.Plugins.PluginHost.Start);
             LaunchHandler.ProcessLaunchArgs();
             return;
         }
