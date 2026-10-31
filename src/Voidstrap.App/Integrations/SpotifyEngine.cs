@@ -76,12 +76,12 @@ public sealed class SpotifyEngine
               duration: this.text(document.querySelector('[data-testid="playback-duration"]')),
               progress: this.fraction('[data-testid="playback-progressbar"] input[type="range"]'),
               volume: this.fraction('[data-testid="volume-bar"] input[type="range"]'),
-              shuffle: this.isOn(this.shuffleButton()),
+              shuffle: /^Disable/.test((this.shuffleButton() || { getAttribute: function () { return ''; } }).getAttribute('aria-label') || ''),
               repeat: this.checked('control-button-repeat') || 'false',
-              liked: this.isOn(this.likeButton())
+              liked: this.isLiked(this.likeButton())
             };
           },
-          isOn: function (b) { return !!b && b.getAttribute('aria-checked') === 'true'; },
+          isLiked: function (b) { return !!b && (b.getAttribute('aria-checked') === 'true' || /^Add to playlist/.test(b.getAttribute('aria-label') || '')); },
           shuffleButton: function () {
             return document.querySelector('[data-testid="control-button-shuffle"]') || document.querySelector('[data-testid="general-controls"] button');
           },
@@ -173,6 +173,36 @@ public sealed class SpotifyEngine
     private bool _starting;
 
     private TaskCompletionSource? _ready;
+
+    private static string LibraryCachePath => Path.Combine(Paths.Cache, "SpotifyLibrary.json");
+
+    public static List<SpotifyItem> ReadCachedLibrary()
+    {
+        try
+        {
+            return File.Exists(LibraryCachePath) ? JsonSerializer.Deserialize<List<SpotifyItem>>(File.ReadAllText(LibraryCachePath)) ?? new List<SpotifyItem>() : new List<SpotifyItem>();
+        }
+        catch (Exception ex) when (ex is IOException or JsonException or UnauthorizedAccessException)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Ignored the saved library: " + ex.GetType().Name);
+            return new List<SpotifyItem>();
+        }
+    }
+
+    public static void SaveCachedLibrary(List<SpotifyItem>? items)
+    {
+        try
+        {
+            if (items == null)
+                File.Delete(LibraryCachePath);
+            else
+                File.WriteAllText(LibraryCachePath, JsonSerializer.Serialize(items));
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The library could not be saved: " + ex.GetType().Name);
+        }
+    }
 
     public static string UserDataFolder => Path.Combine(Paths.UserData, "SpotifyWebView");
 

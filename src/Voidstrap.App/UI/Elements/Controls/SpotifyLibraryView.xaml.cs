@@ -83,6 +83,12 @@ public partial class SpotifyLibraryView : UserControl
         _timer.Interval = TimeSpan.FromSeconds(1);
         MiniToggle.IsChecked = App.Settings.Prop.SpotifyMiniPlayer;
         ShowSignIn(!App.Settings.Prop.SpotifySignedIn);
+        if (_library.Count == 0 && App.Settings.Prop.SpotifySignedIn)
+        {
+            _library = await Task.Run(SpotifyEngine.ReadCachedLibrary);
+            if (ItemsList.ItemsSource == null)
+                ItemsList.ItemsSource = _library;
+        }
         _engine.SetLowMemory(false);
         _timer.Tick -= Timer_Tick;
         _timer.Tick += Timer_Tick;
@@ -138,9 +144,12 @@ public partial class SpotifyLibraryView : UserControl
     private async Task LoadLibraryAsync()
     {
         Loading.Visibility = Visibility.Visible;
-        _library = await _engine.GetLibraryAsync();
-        App.Logger.WriteLine("SpotifyLibraryView::LoadLibraryAsync", "Loaded " + _library.Count + " library items");
-        if (string.IsNullOrWhiteSpace(SearchBox.Text))
+        List<SpotifyItem> loaded = await _engine.GetLibraryAsync();
+        App.Logger.WriteLine("SpotifyLibraryView::LoadLibraryAsync", "Loaded " + loaded.Count + " library items");
+        bool showingLibrary = ItemsList.ItemsSource == null || ReferenceEquals(ItemsList.ItemsSource, _library);
+        if (loaded.Count > 0 || _library.Count == 0)
+            _library = loaded;
+        if (showingLibrary)
             ItemsList.ItemsSource = _library;
         Loading.Visibility = Visibility.Collapsed;
         await RefreshStateAsync();
@@ -152,6 +161,9 @@ public partial class SpotifyLibraryView : UserControl
             _library = filled;
             if (showing)
                 ItemsList.ItemsSource = _library;
+            List<SpotifyItem> toSave = _library;
+            if (toSave.Count > 0)
+                _ = Task.Run(() => SpotifyEngine.SaveCachedLibrary(toSave));
         }
     }
 
@@ -206,6 +218,12 @@ public partial class SpotifyLibraryView : UserControl
         if (App.Settings.Prop.SpotifySignedIn != state.SignedIn)
         {
             App.Settings.Prop.SpotifySignedIn = state.SignedIn;
+            if (!state.SignedIn)
+            {
+                SpotifyEngine.SaveCachedLibrary(null);
+                _library = new List<SpotifyItem>();
+                ItemsList.ItemsSource = _library;
+            }
             App.Settings.Save();
         }
         NowTitle.Text = state.Title;
