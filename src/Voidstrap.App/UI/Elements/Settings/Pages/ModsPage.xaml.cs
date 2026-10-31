@@ -446,10 +446,26 @@ public partial class ModsPage : UiPage
             ViewModel.CommunityMods.SelectedSource = source;
     }
 
-    private void CommunityCategory_Click(object sender, RoutedEventArgs e)
+    private void CommunityCategories_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is FrameworkElement { Tag: Voidstrap.Integrations.CommunityMods.CommunityModCategory category })
-            ViewModel.CommunityMods.SelectedCategory = category;
+        CommunityModsViewModel mods = ViewModel.CommunityMods;
+        System.Windows.Controls.ContextMenu menu = new() { PlacementTarget = (UIElement)sender, Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom };
+        System.Windows.Controls.MenuItem all = new() { Header = Strings.Ui_Mods_AllCategories, Command = mods.ClearCategoryCommand };
+        menu.Items.Add(all);
+        menu.Items.Add(new System.Windows.Controls.Separator());
+        foreach (Voidstrap.Integrations.CommunityMods.CommunityModCategory category in mods.Categories)
+        {
+            System.Windows.Controls.MenuItem row = new() { Header = category.Display, IsCheckable = true, StaysOpenOnClick = true, IsChecked = mods.IsCategorySelected(category), Tag = category };
+            row.Click += CommunityCategoryRow_Click;
+            menu.Items.Add(row);
+        }
+        menu.IsOpen = true;
+    }
+
+    private void CommunityCategoryRow_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is System.Windows.Controls.MenuItem { Tag: Voidstrap.Integrations.CommunityMods.CommunityModCategory category } row)
+            ViewModel.CommunityMods.SetCategorySelected(category, row.IsChecked);
     }
 
     private void ManagedModsMoreActions_Click(object sender, RoutedEventArgs e)

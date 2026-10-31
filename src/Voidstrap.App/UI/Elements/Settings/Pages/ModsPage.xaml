@@ -378,6 +378,7 @@
                   </StackPanel>
                 </Border>
                 <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+                  <ui:Button MaxWidth="220" Height="34" Margin="0,0,8,0" Appearance="Secondary" Icon="Filter24" Content="{Binding CategoryHeader}" ToolTip="{resources:Loc Ui_Mods_Categories}" Visibility="{Binding CategoryVisibility}" Click="CommunityCategories_Click" />
                   <ComboBox Width="170" Height="34" VerticalContentAlignment="Center" ItemsSource="{Binding SortOptions}" SelectedItem="{Binding SelectedSort, Mode=TwoWay}" Visibility="{Binding SortVisibility}" />
                   <ui:TextBox Width="240" Height="34" Margin="8,0,0,0" VerticalContentAlignment="Center" Icon="Search24" ClearButtonEnabled="True" PlaceholderText="{resources:Loc Ui_Mods_SearchRobloxMods}" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
@@ -391,19 +392,6 @@
                   <ColumnDefinition Width="Auto" />
                   <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Border Width="198" Margin="0,0,12,0" Padding="10" VerticalAlignment="Top" CornerRadius="8" Visibility="{Binding CategoryVisibility}" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
-                  <StackPanel>
-                    <TextBlock Margin="2,0,0,8" FontSize="15" FontWeight="SemiBold" Text="{resources:Loc Ui_Mods_Categories}" />
-                    <ui:Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Margin="0,0,0,4" Appearance="Transparent" Content="{resources:Loc Ui_Mods_AllCategories}" Command="{Binding ClearCategoryCommand}" />
-                    <ItemsControl ItemsSource="{Binding Categories}" Focusable="False">
-                      <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                          <ui:Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Margin="0,0,0,4" Appearance="Transparent" Content="{Binding Display, Mode=OneTime}" Tag="{Binding}" Click="CommunityCategory_Click" />
-                        </DataTemplate>
-                      </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                  </StackPanel>
-                </Border>
                 <StackPanel Grid.Column="1">
                   <Border Padding="24" CornerRadius="8" Visibility="{Binding EmptyVisibility}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
                     <StackPanel HorizontalAlignment="Center">

@@ -43,7 +43,7 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 
     private string _selectedSource = GameBananaCatalog.SourceName;
 
-    private CommunityModCategory? _selectedCategory;
+    private readonly List<CommunityModCategory> _selectedCategories = new List<CommunityModCategory>();
 
     private CommunityModEntry? _selectedMod;
 
@@ -107,7 +107,7 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
                 return;
             }
             _selectedSource = value;
-            _selectedCategory = null;
+            _selectedCategories.Clear();
             _searchText = "";
             _selectedSort = SortOptions[0];
             _suppressRefresh = true;
@@ -117,7 +117,6 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
             OnPropertyChanged(nameof(IsMarketplace));
             OnPropertyChanged(nameof(SortOptions));
             OnPropertyChanged(nameof(SelectedSort));
-            OnPropertyChanged(nameof(SelectedCategory));
             OnPropertyChanged(nameof(CategoryHeader));
             OnPropertyChanged(nameof(CategoryVisibility));
             OnPropertyChanged(nameof(SortVisibility));
@@ -130,7 +129,7 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 
     public Visibility CategoryVisibility => IsMarketplace ? Visibility.Collapsed : Visibility.Visible;
 
-    public Visibility SortVisibility => !IsMarketplace && _selectedCategory != null ? Visibility.Collapsed : Visibility.Visible;
+    public Visibility SortVisibility => !IsMarketplace && _selectedCategories.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
 
     public ICommand RefreshCommand { get; }
 
@@ -183,25 +182,49 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
         }
     }
 
-    public CommunityModCategory? SelectedCategory
+    public bool IsCategorySelected(CommunityModCategory category) => _selectedCategories.Contains(category);
+
+    public void SetCategorySelected(CommunityModCategory category, bool selected)
     {
-        get => _selectedCategory;
-        set
+        if (selected == _selectedCategories.Contains(category))
         {
-            if (ReferenceEquals(_selectedCategory, value))
-            {
-                return;
-            }
-            _selectedCategory = value;
-            OnPropertyChanged(nameof(SelectedCategory));
-            OnPropertyChanged(nameof(CategoryHeader));
-            OnPropertyChanged(nameof(SortVisibility));
-            if (!_suppressRefresh)
-            {
-                CloseDetail();
-                _ = RefreshAsync();
-            }
+            return;
         }
+        if (selected)
+        {
+            _selectedCategories.Add(category);
+        }
+        else
+        {
+            _selectedCategories.Remove(category);
+        }
+        CategoriesChanged();
+    }
+
+    private void CategoriesChanged()
+    {
+        OnPropertyChanged(nameof(CategoryHeader));
+        OnPropertyChanged(nameof(SortVisibility));
+        if (!_suppressRefresh)
+        {
+            CloseDetail();
+            _ = RefreshAsync();
+        }
+    }
+
+    private async Task<CommunityModPage> BrowseSelectedAsync(int page, CancellationToken token)
+    {
+        if (_selectedCategories.Count <= 1)
+        {
+            return await GameBananaCatalog.BrowseAsync(page, _selectedSort, _selectedCategories.FirstOrDefault(), _searchText, token).ConfigureAwait(false);
+        }
+        CommunityModPage[] pages = await Task.WhenAll(
+                _selectedCategories.ToList().Select(category => GameBananaCatalog.BrowseAsync(page, _selectedSort, category, _searchText, token))
+            )
+            .ConfigureAwait(false);
+        CommunityModPage merged = new CommunityModPage { PageNumber = page, PageSize = 1, ReturnedCount = pages.Any(static result => result.HasMore) ? 1 : 0 };
+        merged.Entries.AddRange(pages.SelectMany(static result => result.Entries).DistinctBy(static entry => entry.Id));
+        return merged;
     }
 
     public CommunityModEntry? SelectedMod
@@ -284,7 +307,13 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
         }
     }
 
-    public string CategoryHeader => _selectedCategory == null ? "All categories" : _selectedCategory.Name;
+    public string CategoryHeader =>
+        _selectedCategories.Count switch
+        {
+            0 => Strings.Ui_Mods_AllCategories,
+            1 => _selectedCategories[0].Name,
+            _ => _selectedCategories[0].Name + " +" + (_selectedCategories.Count - 1),
+        };
 
     public bool CanInstall => !IsInstalling && SelectedFile != null;
 
@@ -448,9 +477,7 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
                 CommunityModPage page = IsMarketplace
                     ? await MarketplaceCatalog.BrowseAsync(_selectedSort, _searchText, cancellation.Token).ConfigureAwait(true)
                     : await TakePrefetchAsync(next, cancellation.Token).ConfigureAwait(true)
-                        ?? await GameBananaCatalog
-                            .BrowseAsync(next, _selectedSort, _selectedCategory, _searchText, cancellation.Token)
-                            .ConfigureAwait(true);
+                        ?? await BrowseSelectedAsync(next, cancellation.Token).ConfigureAwait(true);
                 current =
                     !cancellation.Token.IsCancellationRequested && ReferenceEquals(Volatile.Read(ref _loadCancellation), cancellation);
                 if (!current)
@@ -510,7 +537,7 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 
     private string BrowseKey(int page)
     {
-        return _selectedSource + "|" + _selectedSort + "|" + (_selectedCategory?.Id ?? 0) + "|" + _searchText.Trim() + "|" + page;
+        return _selectedSource + "|" + _selectedSort + "|" + string.Join(",", _selectedCategories.Select(static category => category.Id)) + "|" + _searchText.Trim() + "|" + page;
     }
 
     private void StartPrefetch()
@@ -526,13 +553,7 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
         }
         DropPrefetch();
         CancellationTokenSource cancellation = new CancellationTokenSource();
-        Task<CommunityModPage> prefetch = GameBananaCatalog.BrowseAsync(
-            _page + 1,
-            _selectedSort,
-            _selectedCategory,
-            _searchText,
-            cancellation.Token
-        );
+        Task<CommunityModPage> prefetch = BrowseSelectedAsync(_page + 1, cancellation.Token);
         _prefetchCancellation = cancellation;
         _prefetchKey = key;
         _prefetch = prefetch;
@@ -869,7 +890,12 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 
     private void ClearCategory()
     {
-        SelectedCategory = null;
+        if (_selectedCategories.Count == 0)
+        {
+            return;
+        }
+        _selectedCategories.Clear();
+        CategoriesChanged();
     }
 
     public static void OpenEntryPage(CommunityModEntry entry)
