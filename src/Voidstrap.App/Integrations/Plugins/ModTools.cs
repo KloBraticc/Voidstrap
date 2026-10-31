@@ -35,6 +35,7 @@ internal static class ModTypes
             string folder = Path.Combine(modDirectory, PluginManifest.ManifestFolder, "types");
             WriteIfChanged(Path.Combine(folder, "voidstrap", "index.d.ts"), Resource.GetString("ModTypes.d.ts"));
             WriteIfChanged(Path.Combine(folder, "tsconfig.json"), TsConfig);
+            WriteIfChanged(Path.Combine(folder, "plugin.schema.json"), Resource.GetString("ModManifest.schema.json"));
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {

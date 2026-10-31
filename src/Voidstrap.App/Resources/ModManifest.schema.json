@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Voidstrap mod manifest",
+  "type": "object",
+  "required": [
+    "name",
+    "version",
+    "description"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+      "description": "Must equal the mod folder name. Lowercase letters, digits and hyphens."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d{0,5})\\.(0|[1-9]\\d{0,5})\\.(0|[1-9]\\d{0,5})$",
+      "description": "Version such as 1.2.3. Raise it for every library update."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "description": "Shown on the mod card and in the library."
+    },
+    "network": {
+      "type": "array",
+      "uniqueItems": true,
+      "description": "Plain host names $.net.fetch may reach, https only. Required to publish to the library.",
+      "items": {
+        "type": "string",
+        "pattern": "^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z]{2,63}$"
+      }
+    },
+    "permissions": {
+      "type": "array",
+      "uniqueItems": true,
+      "description": "Extra access the mod asks for.",
+      "items": {
+        "enum": [
+          "roblox-account",
+          "native",
+          "files",
+          "web",
+          "clipboard"
+        ]
+      }
+    },
+    "tags": {
+      "type": "array",
+      "maxItems": 5,
+      "uniqueItems": true,
+      "description": "Library tags, up to 5.",
+      "items": {
+        "enum": [
+          "appearance",
+          "theme",
+          "sidebar",
+          "pages",
+          "tools",
+          "utility",
+          "fastflags",
+          "settings",
+          "roblox",
+          "games",
+          "discord",
+          "social",
+          "stats",
+          "performance",
+          "automation",
+          "accessibility",
+          "fun",
+          "developer",
+          "example"
+        ]
+      }
+    },
+    "userConfig": {
+      "type": "object",
+      "description": "Settings shown on the mod card. Each key is a setting name.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Setting label."
+          },
+          "label": {
+            "type": "string",
+            "description": "Used as the label when title is missing."
+          },
+          "type": {
+            "enum": [
+              "boolean",
+              "number",
+              "string"
+            ],
+            "description": "Inferred from default when left out."
+          },
+          "default": {
+            "description": "Starting value."
+          },
+          "description": {
+            "type": "string",
+            "description": "Hint under the label."
+          },
+          "options": {
+            "type": "array",
+            "description": "Limits the setting to these choices."
+          }
+        }
+      }
+    },
+    "library": {
+      "type": "object",
+      "description": "Written by Voidstrap when a mod is published or installed. Do not edit it by hand.",
+      "properties": {
+        "id": {},
+        "ownerId": {},
+        "login": {}
+      }
+    }
+  }
+}

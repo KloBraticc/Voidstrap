@@ -82,6 +82,7 @@ public static partial class ModFiles
         JsonSerializerOptions indented = new() { WriteIndented = true };
         JsonObject manifest = new()
         {
+            ["$schema"] = "./types/plugin.schema.json",
             ["name"] = name,
             ["version"] = "0.1.0",
             ["description"] = template.Description,

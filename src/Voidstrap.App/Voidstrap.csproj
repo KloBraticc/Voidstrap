@@ -126,6 +126,7 @@
 		<EmbeddedResource Include="Resources\mappings.json" />
 		<EmbeddedResource Include="Resources\ModTranspiler.js" />
 		<EmbeddedResource Include="Resources\ModTypes.d.ts" />
+		<EmbeddedResource Include="Resources\ModManifest.schema.json" />
 		<EmbeddedResource Include="Resources\WorldMap\WorldLand.txt" />
 		<EmbeddedResource Include="Resources\WorldMap\WorldBorders.txt" />
 		<EmbeddedResource Include="UI\Style\Editor-Theme-Berry.xshd" />
