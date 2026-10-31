@@ -2,10 +2,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Web.WebView2.Core;
 using Voidstrap.Models.Entities;
+using Voidstrap.Utility;
 
 namespace Voidstrap.Integrations;
 
@@ -47,8 +50,8 @@ public sealed class SpotifyEngine
               else if (parts.length >= 3) href = '/' + parts[1] + '/' + parts[2];
               if (!href || seen[href]) continue;
               seen[href] = 1;
-              var row = titles[i].closest('[data-testid="rootlist-item"],[role="listitem"],li') || titles[i].parentElement;
-              var img = row ? row.querySelector('img') : null;
+              var row = titles[i], img = null;
+              for (var up = 0; up < 8 && row && !img; up++) { img = row.querySelector('img'); row = row.parentElement; }
               var sub = document.getElementById('listrow-subtitle-' + uri);
               out.push({ href: href, name: this.text(titles[i]), detail: this.text(sub), image: img ? img.src : null });
             }
@@ -61,11 +64,14 @@ public sealed class SpotifyEngine
             if (!document.querySelector('[data-testid="global-nav-bar"]')) return null;
             var w = document.querySelector('[data-testid="now-playing-widget"]');
             var img = w ? w.querySelector('img') : null;
+            var session = navigator.mediaSession || {}, meta = session.metadata || null;
+            var art = meta && meta.artwork && meta.artwork.length ? meta.artwork[meta.artwork.length - 1].src : null;
             return {
               signedIn: !document.querySelector('[data-testid="login-button"]'),
-              title: w ? this.text(w.querySelector('[data-testid="context-item-link"]')) : '',
-              artist: w ? this.text(w.querySelector('[data-testid="context-item-info-artist"]')) : '',
-              image: img ? img.src : null,
+              title: meta && meta.title ? meta.title : (w ? this.text(w.querySelector('[data-testid="context-item-link"]')) : ''),
+              artist: meta && meta.artist ? meta.artist : (w ? this.text(w.querySelector('[data-testid="context-item-info-artist"]')) : ''),
+              image: art || (img ? img.src : null),
+              playing: session.playbackState === 'playing',
               position: this.text(document.querySelector('[data-testid="playback-position"]')),
               duration: this.text(document.querySelector('[data-testid="playback-duration"]')),
               progress: this.fraction('[data-testid="playback-progressbar"] input[type="range"]'),
@@ -125,8 +131,14 @@ public sealed class SpotifyEngine
           },
           click: function (id) {
             var b = document.querySelector('[data-testid="' + id + '"]');
-            if (b) b.click();
-            return !!b;
+            if (!b) return false;
+            var r = b.getBoundingClientRect(), o = { bubbles: true, cancelable: true, view: window, clientX: r.left + 2, clientY: r.top + 2, button: 0, pointerId: 1, isPrimary: true };
+            b.dispatchEvent(new PointerEvent('pointerdown', o));
+            b.dispatchEvent(new MouseEvent('mousedown', o));
+            b.dispatchEvent(new PointerEvent('pointerup', o));
+            b.dispatchEvent(new MouseEvent('mouseup', o));
+            b.click();
+            return true;
           },
           playPage: function () {
             var b = document.querySelector('[data-testid="action-bar-row"] [data-testid="play-button"]') || document.querySelector('main [data-testid="play-button"]');
@@ -135,6 +147,8 @@ public sealed class SpotifyEngine
           }
         };
         """;
+
+    private static readonly HttpClient HttpClient = VpnHttpClient.Create(TimeSpan.FromSeconds(15));
 
     private CoreWebView2Controller? _controller;
 
@@ -229,7 +243,7 @@ public sealed class SpotifyEngine
         if (document == null)
             return null;
         JsonElement root = document.RootElement;
-        return new SpotifyState(root.GetProperty("signedIn").GetBoolean(), Text(root, "title") ?? "", Text(root, "artist") ?? "", Text(root, "image"), IsPlayingAudio, Text(root, "position") ?? "", Text(root, "duration") ?? "", root.GetProperty("progress").GetDouble(), root.GetProperty("volume").GetDouble(), root.GetProperty("shuffle").GetBoolean(), Text(root, "repeat") ?? "false", root.GetProperty("liked").GetBoolean());
+        return new SpotifyState(root.GetProperty("signedIn").GetBoolean(), Text(root, "title") ?? "", Text(root, "artist") ?? "", Text(root, "image"), IsPlayingAudio || root.GetProperty("playing").GetBoolean(), Text(root, "position") ?? "", Text(root, "duration") ?? "", root.GetProperty("progress").GetDouble(), root.GetProperty("volume").GetDouble(), root.GetProperty("shuffle").GetBoolean(), Text(root, "repeat") ?? "false", root.GetProperty("liked").GetBoolean());
     }
 
     private async Task<List<SpotifyItem>> ReadItemsAsync(string expression)
@@ -295,6 +309,34 @@ public sealed class SpotifyEngine
     public async Task PressAsync(string control)
     {
         (await RunAsync("click(" + JsonSerializer.Serialize(control) + ")"))?.Dispose();
+    }
+
+    public static async Task<List<SpotifyItem>> FillImagesAsync(List<SpotifyItem> items)
+    {
+        using SemaphoreSlim gate = new(6);
+        SpotifyItem[] filled = await Task.WhenAll(items.Select(item => FillImageAsync(item, gate)));
+        return filled.ToList();
+    }
+
+    private static async Task<SpotifyItem> FillImageAsync(SpotifyItem item, SemaphoreSlim gate)
+    {
+        if (!string.IsNullOrEmpty(item.Image) || item.Href.StartsWith("/collection", StringComparison.Ordinal))
+            return item;
+        await gate.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            string url = "https://open.spotify.com/oembed?url=" + Uri.EscapeDataString(PlayerUrl.TrimEnd('/') + item.Href);
+            using JsonDocument document = JsonDocument.Parse(await Http.GetStringBoundedAsync(HttpClient, url).ConfigureAwait(false));
+            return item with { Image = Text(document.RootElement, "thumbnail_url") };
+        }
+        catch (Exception ex) when (ex is HttpRequestException or JsonException or TaskCanceledException)
+        {
+            return item;
+        }
+        finally
+        {
+            gate.Release();
+        }
     }
 
     public async Task SeekAsync(double value)

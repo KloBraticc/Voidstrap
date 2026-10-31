@@ -116,6 +116,15 @@ public partial class SpotifyLibraryView : UserControl
             ItemsList.ItemsSource = _library;
         Loading.Visibility = Visibility.Collapsed;
         await RefreshStateAsync();
+        List<SpotifyItem> shown = _library;
+        List<SpotifyItem> filled = await SpotifyEngine.FillImagesAsync(shown);
+        if (ReferenceEquals(shown, _library))
+        {
+            bool showing = ReferenceEquals(ItemsList.ItemsSource, _library);
+            _library = filled;
+            if (showing)
+                ItemsList.ItemsSource = _library;
+        }
     }
 
     private async void Timer_Tick(object? sender, EventArgs e)
