@@ -127,6 +127,22 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
         }
     }
 
+    private int _modColumns = 3;
+
+    public int ModColumns
+    {
+        get => _modColumns;
+        set
+        {
+            if (_modColumns == value)
+            {
+                return;
+            }
+            _modColumns = value;
+            OnPropertyChanged(nameof(ModColumns));
+        }
+    }
+
     public Visibility CategoryVisibility => IsMarketplace ? Visibility.Collapsed : Visibility.Visible;
 
     public Visibility SortVisibility => !IsMarketplace && _selectedCategories.Count > 0 ? Visibility.Collapsed : Visibility.Visible;

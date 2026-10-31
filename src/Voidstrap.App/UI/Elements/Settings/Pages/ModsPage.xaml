@@ -399,45 +399,58 @@
                       <TextBlock Margin="0,6,0,0" MaxWidth="460" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Mods_AnythingThatFailsTheRobloxAnd}" />
                     </StackPanel>
                   </Border>
-                  <ItemsControl MaxHeight="640" ItemsSource="{Binding Mods}" Focusable="False" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                  <ItemsControl MaxHeight="640" ItemsSource="{Binding Mods}" Focusable="False" ScrollViewer.VerticalScrollBarVisibility="Auto" SizeChanged="CommunityGrid_SizeChanged">
                     <ItemsControl.Template>
                       <ControlTemplate TargetType="{x:Type ItemsControl}">
-                        <ScrollViewer Focusable="False" CanContentScroll="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <ScrollViewer Focusable="False" CanContentScroll="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                           <ItemsPresenter />
                         </ScrollViewer>
                       </ControlTemplate>
                     </ItemsControl.Template>
                     <ItemsControl.ItemsPanel>
                       <ItemsPanelTemplate>
-                        <VirtualizingStackPanel />
+                        <UniformGrid VerticalAlignment="Top" Columns="{Binding ModColumns}" />
                       </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                       <DataTemplate>
-                        <Border Margin="0,0,4,8" Padding="12" CornerRadius="10" Background="{DynamicResource CardBackgroundBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+                        <Button Margin="0,0,10,10" Padding="0" Cursor="Hand" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Tag="{Binding}" Click="CommunityMod_Click">
+                          <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                              <Border x:Name="Card" CornerRadius="10" Background="{DynamicResource CardBackgroundBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+                                <ContentPresenter />
+                              </Border>
+                              <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                  <Setter TargetName="Card" Property="BorderBrush" Value="{DynamicResource SystemAccentBrush}" />
+                                </Trigger>
+                              </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                          </Button.Template>
                           <Grid>
-                            <Grid.ColumnDefinitions>
-                              <ColumnDefinition Width="Auto" />
-                              <ColumnDefinition Width="*" />
-                              <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Border Width="56" Height="56" CornerRadius="10" Background="{DynamicResource ControlFillColorDefaultBrush}">
-                              <Border.Clip>
-                                <RectangleGeometry Rect="0,0,56,56" RadiusX="10" RadiusY="10" />
-                              </Border.Clip>
-                              <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding IconUrl, Mode=OneTime}" />
+                            <Grid.RowDefinitions>
+                              <RowDefinition Height="150" />
+                              <RowDefinition Height="1" />
+                              <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border CornerRadius="9,9,0,0" ClipToBounds="True" Background="{DynamicResource ControlFillColorDefaultBrush}">
+                              <Image Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding IconUrl, Mode=OneTime}" />
                             </Border>
-                            <StackPanel Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center">
-                              <TextBlock FontSize="15" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Text="{Binding Name, Mode=OneTime}" />
-                              <TextBlock Margin="0,2,0,0" FontSize="13" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Summary, Mode=OneTime}" />
-                              <TextBlock Margin="0,4,0,0" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Author, Mode=OneTime}" />
-                            </StackPanel>
-                            <StackPanel Grid.Column="2" VerticalAlignment="Center" Orientation="Horizontal">
-                              <ui:Button Width="34" Height="34" Padding="0" Margin="0,0,8,0" Appearance="Transparent" Icon="Open24" ToolTip="{resources:Loc Ui_Mods_Page}" AutomationProperties.Name="{resources:Loc Ui_Mods_Page}" Tag="{Binding}" Click="CommunityModPage_Click" />
-                              <ui:Button MinWidth="76" Appearance="Primary" Content="{resources:Loc Ui_Mods_View}" Tag="{Binding}" Click="CommunityMod_Click" />
+                            <Rectangle Grid.Row="1" Fill="{DynamicResource CardStrokeColorDefaultBrush}" />
+                            <StackPanel Grid.Row="2" Margin="14,12,14,12">
+                              <TextBlock FontSize="15" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Name, Mode=OneTime}" ToolTip="{Binding Name, Mode=OneTime}" />
+                              <TextBlock Margin="0,6,0,0" Height="38" FontSize="13" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Summary, Mode=OneTime}" />
+                              <Grid Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                  <ColumnDefinition Width="*" />
+                                  <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock VerticalAlignment="Center" FontSize="13" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Author, Mode=OneTime}" />
+                                <ui:Button Grid.Column="1" Width="28" Height="28" Padding="0" Appearance="Transparent" Icon="Open24" ToolTip="{resources:Loc Ui_Mods_Page}" AutomationProperties.Name="{resources:Loc Ui_Mods_Page}" Tag="{Binding}" Click="CommunityModPage_Click" />
+                              </Grid>
                             </StackPanel>
                           </Grid>
-                        </Border>
+                        </Button>
                       </DataTemplate>
                     </ItemsControl.ItemTemplate>
                   </ItemsControl>

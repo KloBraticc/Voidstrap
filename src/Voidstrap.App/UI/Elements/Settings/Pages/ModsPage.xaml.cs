@@ -446,6 +446,12 @@ public partial class ModsPage : UiPage
             ViewModel.CommunityMods.SelectedSource = source;
     }
 
+    private void CommunityGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        const double CardWidth = 270;
+        ViewModel.CommunityMods.ModColumns = Math.Max(1, (int)(e.NewSize.Width / CardWidth));
+    }
+
     private void CommunityCategories_Click(object sender, RoutedEventArgs e)
     {
         CommunityModsViewModel mods = ViewModel.CommunityMods;
