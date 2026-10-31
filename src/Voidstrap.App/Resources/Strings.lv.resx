@@ -9255,4 +9255,10 @@ Vai atļaut?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Nevarēja ielādēt jūsu bibliotēku: {0}</value>
   </data>
-  </root>
+    <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox motīvs</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Izvēlas tumšo vai gaišo režīmu lietotnei Roblox. Tiek lietots nākamajā Roblox startēšanas reizē.</value>
+  </data>
+</root>

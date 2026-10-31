@@ -9568,4 +9568,10 @@ Povolit?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Načtení vaší knihovny se nepodařilo: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Motiv Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Vybere tmavý nebo světlý režim aplikace Roblox. Projeví se při příštím spuštění Robloxu.</value>
+  </data>
 </root>

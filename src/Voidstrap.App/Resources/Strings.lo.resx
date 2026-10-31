@@ -9255,4 +9255,10 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>ໂຫຼດຄັງສຳຮອງຂອງທ່ານບໍ່ສຳເລັດ: {0}</value>
   </data>
-  </root>
+    <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>ຮູບແບບສີສັນ Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>ເລືອກໂໝດມືດ ຫຼື ສະຫວ່າງສຳລັບແອັບ Roblox. ມີຜົນເມື່ອ Roblox ເລີ່ມເທື່ອຕໍ່ໄປ.</value>
+  </data>
+</root>

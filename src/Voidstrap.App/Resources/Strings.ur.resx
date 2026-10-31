@@ -9254,4 +9254,10 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>آپ کی لائبریری لوڈ نہیں ہو سکی: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox تھیم</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox ایپ کے لیے ڈارک یا لائٹ موڈ منتخب کرتا ہے۔ Roblox کے اگلی بار شروع ہونے پر لاگو ہوگا۔</value>
+  </data>
 </root>

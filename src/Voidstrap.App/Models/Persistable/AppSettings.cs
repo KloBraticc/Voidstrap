@@ -77,6 +77,8 @@ namespace Voidstrap.Models.Persistable
         public bool AssetWarpPreloadFlagsOwned { get; set; }
         public Dictionary<string, string?> AssetWarpPreloadFlagBackup { get; set; } = [];
         public bool BlockRobloxTelemetry { get; set; }
+        public string RobloxTheme { get; set; } = "";
+
         public bool RobloxMinimizeToTray { get; set; }
         public bool RobloxLaunchAtStartup { get; set; }
         public bool StudioPluginEnabled { get; set; }

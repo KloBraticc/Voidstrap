@@ -9570,4 +9570,10 @@ Cho phép?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Không thể tải thư viện của bạn: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Giao diện Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Chọn chế độ tối hoặc sáng cho ứng dụng Roblox. Áp dụng vào lần khởi động Roblox tiếp theo.</value>
+  </data>
 </root>

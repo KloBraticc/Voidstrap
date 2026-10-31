@@ -9570,4 +9570,10 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>載入遊戲庫失敗：{0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox 主題</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>為 Roblox 應用程式選擇深色或淺色模式。將在下次啟動 Roblox 時生效。</value>
+  </data>
 </root>

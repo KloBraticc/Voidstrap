@@ -9254,4 +9254,10 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>ቤተ መጻሕፍትዎን መጫን አልተቻለም፦ {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>የRoblox ገጽታ</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>ለRoblox መተግበሪያ ጨለማ ወይም ብርሃን ሁነታን ይመርጣል። Roblox በሚቀጥለው ጊዜ ሲጀምር ይተገበራል።</value>
+  </data>
 </root>

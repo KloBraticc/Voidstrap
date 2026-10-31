@@ -9254,4 +9254,10 @@ Caniatáu iddo?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Methu llwytho'ch llyfrgell: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Thema Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Yn dewis modd tywyll neu olau ar gyfer ap Roblox. Daw i rym y tro nesaf y bydd Roblox yn cychwyn.</value>
+  </data>
 </root>

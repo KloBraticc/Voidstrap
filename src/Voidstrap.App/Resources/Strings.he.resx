@@ -9255,4 +9255,10 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>טעינת הספרייה שלך נכשלה: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>ערכת נושא של Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>בוחר מצב כהה או בהיר לאפליקציית Roblox. ייכנס לתוקף בהפעלה הבאה של Roblox.</value>
+  </data>
 </root>

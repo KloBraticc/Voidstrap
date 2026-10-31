@@ -9567,4 +9567,10 @@ Dopustiti?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Učitavanje biblioteke nije uspjelo: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox tema</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Odabire tamni ili svijetli način za aplikaciju Roblox. Primjenjuje se pri sljedećem pokretanju Robloxa.</value>
+  </data>
 </root>

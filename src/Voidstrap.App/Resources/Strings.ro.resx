@@ -9569,4 +9569,10 @@ Permiți?</value>
 <data name="Library.LoadFailed" xml:space="preserve">
   <value>Nu s-a putut încărca biblioteca: {0}</value>
 </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Tema Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Alege modul întunecat sau luminos pentru aplicația Roblox. Se aplică la următoarea pornire a Roblox.</value>
+  </data>
 </root>

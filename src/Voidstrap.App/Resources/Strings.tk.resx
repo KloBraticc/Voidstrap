@@ -9254,4 +9254,10 @@ Rugsat beriň?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Kitaphananyz ýüklenmedi: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox temasy</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox programmasy üçin garaňky ýa-da ýagty tertibi saýlaýar. Roblox indiki gezek açylanda güýje girýär.</value>
+  </data>
 </root>

@@ -9255,4 +9255,10 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
 <data name="Library.LoadFailed" xml:space="preserve">
   <value>ਤੁਹਾਡੀ ਲਾਇਬਰੇਰੀ ਲੋਡ ਕਰਨ ਵਿੱਚ ਅਸਫਲ: {0}</value>
 </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox ਥੀਮ</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox ਐਪ ਲਈ ਡਾਰਕ ਜਾਂ ਲਾਈਟ ਮੋਡ ਚੁਣਦਾ ਹੈ। Roblox ਦੇ ਅਗਲੀ ਵਾਰ ਸ਼ੁਰੂ ਹੋਣ 'ਤੇ ਲਾਗੂ ਹੋਵੇਗਾ।</value>
+  </data>
 </root>

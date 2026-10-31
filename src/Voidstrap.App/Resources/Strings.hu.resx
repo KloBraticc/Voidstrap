@@ -9567,4 +9567,10 @@ Engedélyezed?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>A könyvtár betöltése sikertelen: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox téma</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Kiválasztja a sötét vagy világos módot a Roblox alkalmazáshoz. A Roblox következő indításakor lép életbe.</value>
+  </data>
 </root>

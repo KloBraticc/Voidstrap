@@ -9254,4 +9254,10 @@ Je, unairuhusu?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Imeshindikana kupakia maktaba yako: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Mandhari ya Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Huchagua hali ya giza au mwanga kwa programu ya Roblox. Itatumika Roblox itakapoanza tena.</value>
+  </data>
 </root>

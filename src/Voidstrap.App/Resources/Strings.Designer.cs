@@ -9891,5 +9891,7 @@ namespace Voidstrap.Resources {
         public static string Library_InvalidPlace => ResourceManager.GetString("Library.InvalidPlace", resourceCulture);
         public static string Library_PlaceNotFound => ResourceManager.GetString("Library.PlaceNotFound", resourceCulture);
         public static string Library_LoadFailed => ResourceManager.GetString("Library.LoadFailed", resourceCulture);
+        public static string Ui_Integrations_RobloxTheme => ResourceManager.GetString("Ui.Integrations.RobloxTheme", resourceCulture);
+        public static string Ui_Integrations_RobloxTheme_Description => ResourceManager.GetString("Ui.Integrations.RobloxTheme.Description", resourceCulture);
     }
 }

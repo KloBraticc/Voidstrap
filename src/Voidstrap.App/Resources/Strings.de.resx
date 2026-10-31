@@ -9567,4 +9567,10 @@ Erlauben?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Bibliothek konnte nicht geladen werden: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox-Design</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Wählt den dunklen oder hellen Modus für die Roblox-App. Wird beim nächsten Start von Roblox angewendet.</value>
+  </data>
 </root>

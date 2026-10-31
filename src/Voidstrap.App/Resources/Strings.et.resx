@@ -9254,4 +9254,10 @@ Kas lubada?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Teegi laadimine nurjus: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox teema</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Valib Robloxi rakendusele tumeda või heleda režiimi. Rakendub Robloxi järgmisel käivitamisel.</value>
+  </data>
 </root>

@@ -9254,4 +9254,10 @@ Laat dit toe?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Kon jou biblioteek nie laai nie: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox-tema</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Kies donker of ligte modus vir die Roblox-toep. Word toegepas wanneer Roblox weer begin.</value>
+  </data>
 </root>

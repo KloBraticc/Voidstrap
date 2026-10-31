@@ -9254,4 +9254,10 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>আপনার লাইব্রেরি লোড করা ব্যর্থ হয়েছে: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox থিম</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox অ্যাপের জন্য গাঢ় বা হালকা মোড বেছে নেয়। পরের বার Roblox চালু হলে প্রযোজ্য হবে।</value>
+  </data>
 </root>

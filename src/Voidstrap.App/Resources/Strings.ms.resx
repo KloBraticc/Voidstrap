@@ -9559,4 +9559,10 @@ Benarkan?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Gagal memuatkan pustaka anda: {0}</value>
   </data>
-  </root>
+    <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Tema Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Memilih mod gelap atau cerah untuk aplikasi Roblox. Berkuat kuasa apabila Roblox dimulakan seterusnya.</value>
+  </data>
+</root>

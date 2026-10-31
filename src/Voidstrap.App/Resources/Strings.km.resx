@@ -9255,4 +9255,10 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>បរាជ័យក្នុងការផ្ទុកបណ្ណាល័យរបស់អ្នក៖ {0}</value>
   </data>
-  </root>
+    <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>រចនាប័ទ្ម Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>ជ្រើសរើសរបៀបងងឹត ឬភ្លឺសម្រាប់កម្មវិធី Roblox។ មានប្រសិទ្ធភាពនៅពេល Roblox ចាប់ផ្ដើមលើកក្រោយ។</value>
+  </data>
+</root>

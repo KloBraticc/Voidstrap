@@ -9254,4 +9254,10 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>သင့်စာကြည့်တိုက် တင်ယူမှု မအောင်မြင်ပါ- {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox အပြင်အဆင်</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox အက်ပ်အတွက် အမှောင် သို့မဟုတ် အလင်း မုဒ်ကို ရွေးပေးသည်။ Roblox နောက်တစ်ကြိမ် စတင်သောအခါ သက်ရောက်မည်။</value>
+  </data>
 </root>

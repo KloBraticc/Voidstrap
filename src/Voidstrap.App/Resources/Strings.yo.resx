@@ -9254,4 +9254,10 @@ Gba laaye?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Kùnà láti gbé ìkàwé rẹ kalẹ̀: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Àkòrí Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Ó yan ipò dúdú tàbí ìmọ́lẹ̀ fún áàpù Roblox. Yóò ṣiṣẹ́ nígbà tí Roblox bá tún bẹ̀rẹ̀.</value>
+  </data>
 </root>

@@ -9570,4 +9570,10 @@ Izinkan?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Gagal memuat pustaka Anda: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Tema Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Memilih mode gelap atau terang untuk aplikasi Roblox. Berlaku saat Roblox dijalankan berikutnya.</value>
+  </data>
 </root>

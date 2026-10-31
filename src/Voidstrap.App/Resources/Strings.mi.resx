@@ -9255,4 +9255,10 @@ Whakaaetia?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>I rahua te uta i tō whare pukapuka: {0}</value>
   </data>
-  </root>
+    <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Kaupapa Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Ka kōwhiri i te aratau pōuri, mārama rānei mō te taupānga Roblox. Ka whai pānga ā te tīmatanga o Roblox ā muri.</value>
+  </data>
+</root>

@@ -9254,4 +9254,10 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Αποτυχία φόρτωσης της βιβλιοθήκης: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Θέμα Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Επιλέγει σκοτεινή ή φωτεινή λειτουργία για την εφαρμογή Roblox. Εφαρμόζεται στην επόμενη εκκίνηση του Roblox.</value>
+  </data>
 </root>

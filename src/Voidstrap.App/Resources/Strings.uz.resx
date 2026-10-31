@@ -9254,4 +9254,10 @@ Ruxsat berasizmi?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Kutubxonangiz yuklanmadi: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox mavzusi</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox ilovasi uchun qorong‘i yoki yorug‘ rejimni tanlaydi. Roblox keyingi safar ishga tushganda qo‘llanadi.</value>
+  </data>
 </root>

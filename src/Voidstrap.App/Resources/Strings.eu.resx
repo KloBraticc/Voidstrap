@@ -9254,4 +9254,10 @@ Baimendu al duzu?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Ezin izan da zure liburutegia kargatu: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox gaia</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox aplikaziorako modu iluna edo argia aukeratzen du. Roblox hurrengoan abiaraztean aplikatuko da.</value>
+  </data>
 </root>

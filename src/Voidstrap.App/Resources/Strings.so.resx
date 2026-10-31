@@ -9255,4 +9255,10 @@ Oggolow?</value>
 <data name="Library.LoadFailed" xml:space="preserve">
   <value>Kushubinta maktabaddaada wuu fashilmay: {0}</value>
 </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Muuqaalka Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Wuxuu doortaa qaab madow ama iftiin ah barnaamijka Roblox. Wuxuu dhaqangalayaa marka xigta ee Roblox bilaabmo.</value>
+  </data>
 </root>

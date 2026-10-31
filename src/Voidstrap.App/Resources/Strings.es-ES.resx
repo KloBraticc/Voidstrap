@@ -9567,4 +9567,10 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>No se pudo cargar tu biblioteca: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Tema de Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Elige el modo oscuro o claro para la aplicación de Roblox. Se aplica la próxima vez que se inicie Roblox.</value>
+  </data>
 </root>

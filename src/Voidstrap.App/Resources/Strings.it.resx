@@ -9570,4 +9570,10 @@ Consentire?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Caricamento della libreria non riuscito: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Tema di Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Sceglie la modalità scura o chiara per l'app Roblox. Si applica al prossimo avvio di Roblox.</value>
+  </data>
 </root>

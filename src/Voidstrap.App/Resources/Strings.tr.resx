@@ -9565,4 +9565,10 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Kitaplığınız yüklenemedi: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox teması</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox uygulaması için koyu veya açık modu seçer. Roblox bir sonraki başlatıldığında uygulanır.</value>
+  </data>
 </root>

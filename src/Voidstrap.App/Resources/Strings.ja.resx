@@ -9582,4 +9582,10 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>ライブラリの読み込みに失敗しました: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox のテーマ</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox アプリのダークモードまたはライトモードを選択します。次回 Roblox を起動したときに適用されます。</value>
+  </data>
 </root>

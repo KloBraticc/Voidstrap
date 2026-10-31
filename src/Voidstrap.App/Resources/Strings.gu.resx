@@ -9255,4 +9255,10 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>તમારી લાઇબ્રેરી લોડ કરવામાં નિષ્ફળ: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox થીમ</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox ઍપ માટે ડાર્ક અથવા લાઇટ મોડ પસંદ કરે છે. Roblox આગલી વખતે શરૂ થાય ત્યારે લાગુ થશે.</value>
+  </data>
 </root>

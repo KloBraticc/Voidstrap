@@ -9565,4 +9565,10 @@ Payagan ba?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Nabigong i-load ang library mo: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Tema ng Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Pumipili ng dark o light mode para sa Roblox app. Ilalapat sa susunod na pagbukas ng Roblox.</value>
+  </data>
 </root>

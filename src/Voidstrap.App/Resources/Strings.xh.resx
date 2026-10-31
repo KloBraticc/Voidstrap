@@ -9254,4 +9254,10 @@ uyayivumela?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Ihlulekile ukulayisha ilaybrari yakho: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Umxholo weRoblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Ikhetha imo emnyama okanye ekhanyayo ye-app yeRoblox. Iyasebenza xa iRoblox iqala kwakhona.</value>
+  </data>
 </root>

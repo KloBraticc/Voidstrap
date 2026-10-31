@@ -9255,4 +9255,10 @@ Permíteo?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Non se puido cargar a túa biblioteca: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Tema de Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Escolle o modo escuro ou claro para a aplicación de Roblox. Aplícase a próxima vez que se inicie Roblox.</value>
+  </data>
 </root>

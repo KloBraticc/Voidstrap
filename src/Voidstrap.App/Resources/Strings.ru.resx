@@ -9567,4 +9567,10 @@ Voidstrap блокирует программы, другие папки и Ва
 <data name="Library.LoadFailed" xml:space="preserve">
   <value>Не удалось загрузить библиотеку: {0}</value>
 </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Тема Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Выбирает тёмный или светлый режим для приложения Roblox. Применится при следующем запуске Roblox.</value>
+  </data>
 </root>

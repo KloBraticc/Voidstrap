@@ -9255,4 +9255,10 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Таны тоглоомын санг ачаалахад алдаа гарлаа: {0}</value>
   </data>
-  </root>
+    <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox загвар</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox аппын бараан эсвэл цайвар горимыг сонгоно. Roblox дараагийн удаа эхлэхэд хэрэгжинэ.</value>
+  </data>
+</root>

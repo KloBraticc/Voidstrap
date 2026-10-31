@@ -9255,4 +9255,10 @@ Voidstrap блокира програме, друге фасцикле и ваш
 <data name="Library.LoadFailed" xml:space="preserve">
   <value>Није успело учитавање библиотеке: {0}</value>
 </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox тема</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Бира тамни или светли режим за апликацију Roblox. Примењује се при следећем покретању Roblox-а.</value>
+  </data>
 </root>

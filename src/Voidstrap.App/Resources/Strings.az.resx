@@ -9254,4 +9254,10 @@ icazə verilir?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Kitabxananızın yüklənməsi alınmadı: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox mövzusu</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox tətbiqi üçün qaranlıq və ya işıqlı rejimi seçir. Roblox növbəti dəfə başlayanda tətbiq olunur.</value>
+  </data>
 </root>

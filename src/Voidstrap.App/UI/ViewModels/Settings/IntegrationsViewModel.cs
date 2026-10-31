@@ -381,6 +381,23 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
         }
     }
 
+    public IReadOnlyList<string> RobloxThemeOptions => new[] { Strings.Common_Default, Strings.Enums_Theme_Dark, Strings.Enums_Theme_Light };
+
+    public int RobloxThemeIndex
+    {
+        get => App.Settings.Prop.RobloxTheme switch { "dark" => 1, "light" => 2, _ => 0 };
+        set
+        {
+            string theme = value switch { 1 => "dark", 2 => "light", _ => "" };
+            if (App.Settings.Prop.RobloxTheme == theme)
+                return;
+            App.Settings.Prop.RobloxTheme = theme;
+            App.Settings.Save();
+            RobloxAppStorage.Apply();
+            OnPropertyChanged(nameof(RobloxThemeIndex));
+        }
+    }
+
     public bool RobloxSystemTray
     {
         get { return App.Settings.Prop.RobloxMinimizeToTray; }

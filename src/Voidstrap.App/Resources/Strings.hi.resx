@@ -9255,4 +9255,10 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>आपकी लाइब्रेरी लोड करने में विफल: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox थीम</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox ऐप के लिए डार्क या लाइट मोड चुनता है। Roblox के अगली बार शुरू होने पर लागू होगा।</value>
+  </data>
 </root>

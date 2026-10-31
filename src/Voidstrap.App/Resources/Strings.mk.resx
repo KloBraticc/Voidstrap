@@ -9255,4 +9255,10 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Не успеа да се вчита библиотеката: {0}</value>
   </data>
-  </root>
+    <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Тема на Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Избира темен или светол режим за апликацијата Roblox. Се применува при следното стартување на Roblox.</value>
+  </data>
+</root>

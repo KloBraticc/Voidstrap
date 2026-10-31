@@ -9255,4 +9255,10 @@ Emera?</value>
 <data name="Library.LoadFailed" xml:space="preserve">
   <value>Byanze gutangura isomero ryawe: {0}</value>
 </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Insanganyamatsiko ya Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Ihitamo uburyo bwijimye cyangwa bwera kuri porogaramu ya Roblox. Bikurikizwa ubutaha Roblox itangiye.</value>
+  </data>
 </root>

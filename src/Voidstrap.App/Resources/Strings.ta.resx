@@ -9254,4 +9254,10 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>உங்கள் நூலகத்தை ஏற்ற முடியவில்லை: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox தீம்</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox செயலிக்கு இருண்ட அல்லது ஒளி பயன்முறையைத் தேர்ந்தெடுக்கும். அடுத்த முறை Roblox தொடங்கும்போது பொருந்தும்.</value>
+  </data>
 </root>

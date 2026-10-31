@@ -9255,4 +9255,10 @@ Bada shi?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Kasa loda ɗakunan ajiyarku: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Jigon Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Yana zaɓar yanayin duhu ko haske don manhajar Roblox. Zai fara aiki idan Roblox ya sake farawa.</value>
+  </data>
 </root>

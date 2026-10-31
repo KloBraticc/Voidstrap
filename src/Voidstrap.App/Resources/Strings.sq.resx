@@ -9255,4 +9255,10 @@ E lejon atë?</value>
 <data name="Library.LoadFailed" xml:space="preserve">
   <value>Dështoi ngarkimi i bibliotekës: {0}</value>
 </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Tema e Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Zgjedh modalitetin e errët ose të çelët për aplikacionin Roblox. Zbatohet herën tjetër që niset Roblox.</value>
+  </data>
 </root>

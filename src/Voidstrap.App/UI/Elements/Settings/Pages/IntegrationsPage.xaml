@@ -167,6 +167,9 @@
           <controls:OptionControl Header="{resources:Loc Ui_Integrations_TelemetryBlocker}" Description="{resources:Loc Ui_Integrations_BlockRobloxTelemetryAdministratorAccessIs}">
             <ui:ToggleSwitch IsChecked="{Binding BlockTelemetry, Mode=TwoWay}" />
           </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Integrations_RobloxTheme}" Description="{resources:Loc Ui_Integrations_RobloxTheme_Description}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+            <ComboBox MinWidth="160" ItemsSource="{Binding RobloxThemeOptions}" SelectedIndex="{Binding RobloxThemeIndex, Mode=TwoWay}" />
+          </controls:OptionControl>
           <controls:OptionControl Header="{resources:Loc Ui_Integrations_FPSUnlocker}" Description="{Binding UncapFpsDescription, Mode=OneWay}" IsEnabled="{Binding UncapFpsToggleEnabled, Mode=OneWay}">
             <ui:ToggleSwitch IsChecked="{Binding UncapFPS, Mode=TwoWay}" />
           </controls:OptionControl>

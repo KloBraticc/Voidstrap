@@ -9255,4 +9255,10 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
 <data name="Library.LoadFailed" xml:space="preserve">
   <value>तपाईंको लाइब्रेरी लोड गर्न असफल: {0}</value>
 </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox थिम</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox एपका लागि गाढा वा उज्यालो मोड छान्छ। Roblox अर्को पटक सुरु हुँदा लागू हुन्छ।</value>
+  </data>
 </root>

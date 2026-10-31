@@ -9254,4 +9254,10 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>మీ లైబ్రరీని లోడ్ చేయడంలో విఫలమైంది: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox థీమ్</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox యాప్ కోసం డార్క్ లేదా లైట్ మోడ్‌ను ఎంచుకుంటుంది. తదుపరిసారి Roblox ప్రారంభమైనప్పుడు వర్తిస్తుంది.</value>
+  </data>
 </root>

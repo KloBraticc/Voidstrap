@@ -9255,4 +9255,10 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>നിങ്ങളുടെ ലൈബ്രറി ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല: {0}</value>
   </data>
-  </root>
+    <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox തീം</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox ആപ്പിനായി ഡാർക്ക് അല്ലെങ്കിൽ ലൈറ്റ് മോഡ് തിരഞ്ഞെടുക്കുന്നു. അടുത്ത തവണ Roblox ആരംഭിക്കുമ്പോൾ ബാധകമാകും.</value>
+  </data>
+</root>

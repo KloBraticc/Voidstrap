@@ -9566,4 +9566,10 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>라이브러리를 로드하지 못했습니다: {0}</value>
   </data>
-  </root>
+    <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox 테마</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox 앱의 다크 모드 또는 라이트 모드를 선택합니다. 다음에 Roblox를 시작할 때 적용됩니다.</value>
+  </data>
+</root>

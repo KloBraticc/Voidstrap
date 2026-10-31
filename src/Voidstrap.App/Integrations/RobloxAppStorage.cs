@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Voidstrap.Utility;
@@ -13,6 +14,12 @@ internal static class RobloxAppStorage
     private const string TrayKey = "MinimizeToTray";
 
     private const string StartupKey = "LaunchAtStartup";
+
+    private const string ThemeKey = "AuthenticatedTheme";
+
+    private const string DeviceThemeKey = "DeviceLevelTheme";
+
+    private const string DeviceThemeTimeKey = "DeviceLevelThemeSnapshotTimestamp";
 
     private static readonly object Sync = new();
 
@@ -48,6 +55,7 @@ internal static class RobloxAppStorage
                 JsonObject data = Load() ?? new JsonObject();
                 data[TrayKey] = minimizeToTray ? "true" : "false";
                 data[StartupKey] = launchAtStartup ? "true" : "false";
+                ApplyTheme(data, App.Settings?.Prop?.RobloxTheme);
                 Save(data);
                 App.Logger?.WriteLine("RobloxAppStorage::Apply", $"System tray: {minimizeToTray}, launch at startup: {launchAtStartup}");
                 return true;
@@ -57,6 +65,20 @@ internal static class RobloxAppStorage
                 App.Logger?.WriteException("RobloxAppStorage::Apply", ex);
                 return false;
             }
+        }
+    }
+
+    private static void ApplyTheme(JsonObject data, string? theme)
+    {
+        if (theme is not ("dark" or "light"))
+            return;
+        data[ThemeKey] = theme;
+        if (data[DeviceThemeKey] is JsonValue value && value.TryGetValue(out string? text) && !string.IsNullOrWhiteSpace(text) && JsonNode.Parse(text) is JsonObject accounts)
+        {
+            foreach (string account in accounts.Select(static pair => pair.Key).ToList())
+                accounts[account] = theme;
+            data[DeviceThemeKey] = accounts.ToJsonString();
+            data[DeviceThemeTimeKey] = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
         }
     }
 

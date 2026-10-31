@@ -9569,4 +9569,10 @@ Leisti?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Nepavyko įkelti bibliotekos: {0}</value>
   </data>
-  </root>
+    <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox tema</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Pasirenka tamsų arba šviesų režimą Roblox programai. Pritaikoma kitą kartą paleidus Roblox.</value>
+  </data>
+</root>

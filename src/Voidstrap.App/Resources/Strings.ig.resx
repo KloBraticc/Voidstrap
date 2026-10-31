@@ -9255,4 +9255,10 @@ kwe ya?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Enweghị ike ibulite ọbá akwụkwọ gị: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Isiokwu Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Na-ahọrọ ọnọdụ gbara ọchịchịrị ma ọ bụ ìhè maka ngwa Roblox. Ọ ga-arụ ọrụ mgbe Roblox malitere ọzọ.</value>
+  </data>
 </root>

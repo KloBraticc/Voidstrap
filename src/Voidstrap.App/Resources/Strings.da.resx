@@ -9254,4 +9254,10 @@ tillade det?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Kunne ikke indlæse dit bibliotek: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox-tema</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Vælger mørk eller lys tilstand til Roblox-appen. Træder i kraft næste gang Roblox starter.</value>
+  </data>
 </root>

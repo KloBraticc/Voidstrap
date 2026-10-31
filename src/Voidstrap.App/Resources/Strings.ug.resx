@@ -9254,4 +9254,10 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>كۇتۇپخانىڭىزنى يۈكلەش مەغلۇپ بولدى: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox ئۇسلۇبى</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox ئەپى ئۈچۈن قاراڭغۇ ياكى يورۇق ھالەتنى تاللايدۇ. Roblox كېيىنكى قېتىم قوزغالغاندا كۈچكە ئىگە بولىدۇ.</value>
+  </data>
 </root>

@@ -9569,4 +9569,10 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>بارگذاری کتابخانه شما ناموفق بود: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>پوسته Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>حالت تیره یا روشن را برای برنامه Roblox انتخاب می‌کند. دفعه بعد که Roblox اجرا شود اعمال می‌شود.</value>
+  </data>
 </root>

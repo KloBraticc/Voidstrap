@@ -9255,4 +9255,10 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
 <data name="Library.LoadFailed" xml:space="preserve">
   <value>ඔබේ පුස්තකාලය පූරණය කිරීම අසාර්ථක විය: {0}</value>
 </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox තේමාව</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox යෙදුම සඳහා අඳුරු හෝ ආලෝක ප්‍රකාරය තෝරයි. Roblox ඊළඟ වතාවේ ආරම්භ වන විට ක්‍රියාත්මක වේ.</value>
+  </data>
 </root>

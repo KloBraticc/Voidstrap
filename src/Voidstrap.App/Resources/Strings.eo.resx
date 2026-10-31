@@ -9254,4 +9254,10 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Malsukcesis ŝargi vian bibliotekon: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Etoso de Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Elektas malhelan aŭ helan reĝimon por la aplikaĵo Roblox. Efikas ĉe la sekva starto de Roblox.</value>
+  </data>
 </root>

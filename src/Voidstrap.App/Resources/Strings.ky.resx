@@ -9255,4 +9255,10 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Китепкананы жүктөө мүмкүн болбоду: {0}</value>
   </data>
-  </root>
+    <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox темасы</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox колдонмосу үчүн караңгы же жарык режимди тандайт. Roblox кийинки ишке киргенде колдонулат.</value>
+  </data>
+</root>

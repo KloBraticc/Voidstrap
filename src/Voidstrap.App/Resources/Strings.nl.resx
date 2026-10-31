@@ -9569,4 +9569,10 @@ Toestaan?</value>
 <data name="Library.LoadFailed" xml:space="preserve">
   <value>Kan je bibliotheek niet laden: {0}</value>
 </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox-thema</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Kiest de donkere of lichte modus voor de Roblox-app. Wordt toegepast wanneer Roblox de volgende keer start.</value>
+  </data>
 </root>

@@ -9255,4 +9255,10 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
 <data name="Library.LoadFailed" xml:space="preserve">
   <value>ستاسو کتابتون بارولو ناکام شو: {0}</value>
 </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>د Roblox بڼه</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>د Roblox اپلیکیشن لپاره تیاره یا روښانه حالت غوره کوي. کله چې Roblox بیا پیل شي پلي کېږي.</value>
+  </data>
 </root>

@@ -9254,4 +9254,10 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Боркунии китобхона иҷро нашуд: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Мавзӯи Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Реҷаи торик ё равшанро барои барномаи Roblox интихоб мекунад. Ҳангоми оғози навбатии Roblox татбиқ мешавад.</value>
+  </data>
 </root>

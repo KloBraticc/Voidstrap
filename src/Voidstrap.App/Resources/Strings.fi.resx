@@ -9568,4 +9568,10 @@ Sallitaanko?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Kirjaston lataaminen epäonnistui: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox-teema</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Valitsee Roblox-sovellukselle tumman tai vaalean tilan. Tulee voimaan, kun Roblox käynnistyy seuraavan kerran.</value>
+  </data>
 </root>

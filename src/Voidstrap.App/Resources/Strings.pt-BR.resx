@@ -9569,4 +9569,10 @@ Permitir?</value>
 <data name="Library.LoadFailed" xml:space="preserve">
   <value>Falha ao carregar sua biblioteca: {0}</value>
 </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Tema do Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Escolhe o modo escuro ou claro para o aplicativo Roblox. É aplicado na próxima vez que o Roblox iniciar.</value>
+  </data>
 </root>

@@ -9255,4 +9255,10 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Ma setax jittella l-librerija tiegħek: {0}</value>
   </data>
-  </root>
+    <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Tema ta' Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Jagħżel il-modalità skura jew ċara għall-app Roblox. Tapplika meta Roblox jibda d-darba li jmiss.</value>
+  </data>
+</root>

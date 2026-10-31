@@ -9255,4 +9255,10 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>თქვენი ბიბლიოთეკის ჩატვირთვა ვერ მოხერხდა: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox-ის თემა</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>ირჩევს მუქ ან ღია რეჟიმს Roblox აპისთვის. ამოქმედდება Roblox-ის შემდეგ გაშვებისას.</value>
+  </data>
 </root>

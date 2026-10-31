@@ -1898,4 +1898,10 @@ Install anyway?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Failed to load your library: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox theme</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Chooses dark or light mode for the Roblox app. Applies the next time Roblox starts.</value>
+  </data>
 </root>

@@ -9254,4 +9254,10 @@ E lumella?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Ho hlotlohile ho jara laeborari ya hau: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Sehlooho sa Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>E khetha mokhoa o lefifi kapa o khanyang bakeng sa app ea Roblox. E sebetsa ha Roblox e qala nakong e tlang.</value>
+  </data>
 </root>

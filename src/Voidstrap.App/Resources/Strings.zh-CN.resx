@@ -9591,4 +9591,10 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>加载游戏库失败：{0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox 主题</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>为 Roblox 应用选择深色或浅色模式。将在下次启动 Roblox 时生效。</value>
+  </data>
 </root>

@@ -9255,4 +9255,10 @@ Leyfa það?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Mistókst að hlaða safninu þínu: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox-þema</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Velur dökka eða ljósa stillingu fyrir Roblox-forritið. Tekur gildi næst þegar Roblox ræsist.</value>
+  </data>
 </root>

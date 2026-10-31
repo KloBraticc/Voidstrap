@@ -9567,4 +9567,10 @@ Tillåta?</value>
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>Det gick inte att läsa in ditt bibliotek: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox-tema</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Väljer mörkt eller ljust läge för Roblox-appen. Börjar gälla nästa gång Roblox startar.</value>
+  </data>
 </root>

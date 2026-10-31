@@ -9566,4 +9566,10 @@
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>فشل تحميل مكتبتك: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>مظهر Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>يختار الوضع الداكن أو الفاتح لتطبيق Roblox. يُطبَّق عند تشغيل Roblox في المرة القادمة.</value>
+  </data>
 </root>

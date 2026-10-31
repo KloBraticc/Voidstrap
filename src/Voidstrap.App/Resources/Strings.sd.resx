@@ -9255,4 +9255,10 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
 <data name="Library.LoadFailed" xml:space="preserve">
   <value>توهان جي لائبريري لوڊ ڪرڻ ۾ ناڪام: {0}</value>
 </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox ٿيم</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox ايپ لاءِ اونداهو يا روشن موڊ چونڊي ٿو. Roblox ايندڙ ڀيري شروع ٿيڻ تي لاڳو ٿيندو.</value>
+  </data>
 </root>

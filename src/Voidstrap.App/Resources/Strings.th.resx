@@ -9562,4 +9562,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>โหลดคลังของคุณไม่สำเร็จ: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>ธีม Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>เลือกโหมดมืดหรือสว่างสำหรับแอป Roblox โดยจะมีผลเมื่อเริ่ม Roblox ครั้งถัดไป</value>
+  </data>
 </root>

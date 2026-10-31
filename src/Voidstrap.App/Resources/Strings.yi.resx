@@ -9254,4 +9254,10 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Library.LoadFailed" xml:space="preserve">
     <value>נישט געלונגען לאָדן דיין ביבליאָטעק: {0}</value>
   </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox טעמע</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>קלײַבט אויס דעם טונקעלן אָדער העלן מאָדע פֿאַר דער Roblox אַפּ. ווערט געווענדט ווען Roblox הייבט זיך ווידער אָן.</value>
+  </data>
 </root>

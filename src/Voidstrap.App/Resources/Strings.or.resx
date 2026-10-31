@@ -9255,4 +9255,10 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
 <data name="Library.LoadFailed" xml:space="preserve">
   <value>ଆପଣଙ୍କ ଲାଇବ୍ରେରୀ ଲୋଡ୍ କରିବାରେ ବିଫଳ: {0}</value>
 </data>
+  <data name="Ui.Integrations.RobloxTheme" xml:space="preserve">
+    <value>Roblox ଥିମ୍</value>
+  </data>
+  <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
+    <value>Roblox ଆପ୍ ପାଇଁ ଗାଢ଼ କିମ୍ବା ହାଲୁକା ମୋଡ୍ ବାଛେ। Roblox ପରବର୍ତ୍ତୀ ଥର ଆରମ୍ଭ ହେଲେ ଲାଗୁ ହେବ।</value>
+  </data>
 </root>
