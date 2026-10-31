@@ -39,3 +39,7 @@ Process32Next
 PROCESSENTRY32
 CREATE_TOOLHELP_SNAPSHOT_FLAGS
 CloseHandle
+DeleteFile
+SetFileAttributes
+MoveFileEx
+MOVE_FILE_FLAGS

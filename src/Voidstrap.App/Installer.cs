@@ -1562,15 +1562,38 @@ internal sealed partial class Installer
             return;
         foreach (string file in Directory.EnumerateFiles(directory, Path.GetFileName(Paths.Application) + "~RF*.TMP"))
         {
+            Windows.Win32.Foundation.BOOL deleted;
             try
             {
-                File.Delete(file);
-                App.Logger.WriteLine(LOG_IDENT, "Removed a leftover from an earlier update");
+                deleted = Windows.Win32.PInvoke.DeleteFile(file);
             }
-            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            catch (Exception ex)
             {
-                App.Logger.WriteLine(LOG_IDENT, "A leftover is still in use and is removed on a later start");
+                App.Logger.WriteLine(LOG_IDENT, "Could not remove a leftover from an earlier update: " + ex.Message);
+                continue;
             }
+            if (deleted)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Removed a leftover from an earlier update");
+                continue;
+            }
+            int error = Marshal.GetLastWin32Error();
+            if (error == 2)
+                continue;
+            Windows.Win32.PInvoke.SetFileAttributes(file, Windows.Win32.Storage.FileSystem.FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL);
+            deleted = Windows.Win32.PInvoke.DeleteFile(file);
+            if (deleted)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Removed a read only leftover from an earlier update");
+                continue;
+            }
+            error = Marshal.GetLastWin32Error();
+            if (error == 2)
+                continue;
+            if (Windows.Win32.PInvoke.MoveFileEx(file, null, Windows.Win32.Storage.FileSystem.MOVE_FILE_FLAGS.MOVEFILE_DELAY_UNTIL_REBOOT))
+                App.Logger.WriteLine(LOG_IDENT, "A leftover is locked and is scheduled for removal on the next restart");
+            else
+                App.Logger.WriteLine(LOG_IDENT, "A leftover could not be removed this session, error " + error);
         }
     }
 
