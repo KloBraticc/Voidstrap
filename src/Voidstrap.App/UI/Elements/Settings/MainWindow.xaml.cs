@@ -7841,6 +7841,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private Border[] ModalPanels =>
         [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel, NewsItemPanel];
 
+    private bool ModalIsSidebar => ReferenceEquals(_modalPanel, LaunchTargetPanel);
+
+    private double SidebarOffset => Math.Max(LaunchTargetPanel.ActualWidth, LaunchTargetPanel.Width);
+
     private void OpenModalOverlay(Border panel, ScaleTransform scale)
     {
         int generation = ++_launchTargetOverlayGeneration;
@@ -7865,7 +7869,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             LaunchTargetOverlay.BeginAnimation(OpacityProperty, null);
             LaunchTargetOverlay.Opacity = 0;
-            SetModalScale(scale, ModalScaleOffset);
+            if (ModalIsSidebar)
+            {
+                SetModalScale(scale, 1.0);
+                LaunchTargetPanelSlide.BeginAnimation(TranslateTransform.XProperty, null);
+                LaunchTargetPanelSlide.X = SidebarOffset;
+            }
+            else
+            {
+                SetModalScale(scale, ModalScaleOffset);
+            }
         }
         if (!Voidstrap.Utility.Platform.UsesPortableUi)
             panel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
@@ -7886,7 +7899,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             _modalPanel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
         if (_modalSnapshotPanel == null && _modalScale != null)
             ShowModalSnapshot(_modalPanel, _modalScale);
-        AnimateLaunchTargetOverlay(0.0, ModalScaleOffset, ModalCloseFadeDuration, generation, true);
+        if (ModalIsSidebar)
+            AnimateLaunchTargetOverlay(0.0, 1.0, ModalOpenFadeDuration, generation, true);
+        else
+            AnimateLaunchTargetOverlay(0.0, ModalScaleOffset, ModalCloseFadeDuration, generation, true);
     }
 
     private bool _launchTargetsWarmed;
@@ -7996,6 +8012,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         done.Completed += Completed;
         LaunchTargetOverlay.BeginAnimation(OpacityProperty, fade, HandoffBehavior.SnapshotAndReplace);
+        if (ModalIsSidebar)
+        {
+            DoubleAnimation slide = CreateLaunchTargetAnimation(finishClose ? SidebarOffset : 0.0, fadeDuration, ModalScaleEase);
+            LaunchTargetPanelSlide.BeginAnimation(TranslateTransform.XProperty, slide, HandoffBehavior.SnapshotAndReplace);
+        }
         ScaleTransform target = _modalScale ?? LaunchTargetPanelScale;
         target.BeginAnimation(ScaleTransform.ScaleXProperty, scale, HandoffBehavior.SnapshotAndReplace);
         target.BeginAnimation(ScaleTransform.ScaleYProperty, scale, HandoffBehavior.SnapshotAndReplace);
@@ -8015,6 +8036,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         try
         {
             double startScale = scale.ScaleX;
+            double startSlide = LaunchTargetPanelSlide.X;
+            LaunchTargetPanelSlide.BeginAnimation(TranslateTransform.XProperty, null);
+            LaunchTargetPanelSlide.X = 0;
             SetModalScale(scale, 1.0);
             LaunchTargetOverlay.UpdateLayout();
             double width = panel.ActualWidth;
@@ -8022,6 +8046,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             if (width <= 0 || height <= 0)
             {
                 SetModalScale(scale, startScale);
+                LaunchTargetPanelSlide.X = startSlide;
                 return;
             }
             double pad = ModalSnapshotPadding;
@@ -8049,6 +8074,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             bitmap.Render(drawing);
             bitmap.Freeze();
             SetModalScale(scale, startScale);
+            LaunchTargetPanelSlide.X = startSlide;
             if (_modalSnapshot == null)
             {
                 _modalSnapshot = new Image
@@ -8073,7 +8099,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             );
             _modalSnapshot.HorizontalAlignment = panel.HorizontalAlignment;
             _modalSnapshot.VerticalAlignment = panel.VerticalAlignment;
-            _modalSnapshot.RenderTransform = scale;
+            _modalSnapshot.RenderTransform = panel.RenderTransform;
             _modalSnapshot.Visibility = Visibility.Visible;
             panel.Opacity = 0;
             _modalSnapshotPanel = panel;
@@ -8141,6 +8167,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             ReleaseNewsItem();
         if (_modalScale != null)
             SetModalScale(_modalScale, 1.0);
+        LaunchTargetPanelSlide.BeginAnimation(TranslateTransform.XProperty, null);
+        LaunchTargetPanelSlide.X = 0;
         _modalPanel = null;
         _modalScale = null;
         LaunchTargetOverlay.Visibility = Visibility.Hidden;
