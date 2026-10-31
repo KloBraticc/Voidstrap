@@ -34,7 +34,15 @@ public static partial class ModLibrary
 
     private const int MaxFiles = 64;
 
-    private static readonly TimeSpan CacheLifetime = TimeSpan.FromMinutes(5);
+    private const string IndexShaUrl = "https://api.github.com/repos/" + Repository + "/commits/index";
+
+    private static readonly TimeSpan CacheLifetime = TimeSpan.FromSeconds(45);
+
+    private static readonly TimeSpan RefreshCooldown = TimeSpan.FromSeconds(3);
+
+    private static string? _indexSha;
+
+    private static string? _indexShaEtag;
 
     private static readonly HttpClient Client = CreateClient();
 
@@ -113,12 +121,21 @@ public static partial class ModLibrary
 
     public static async Task<Index> GetIndexAsync(bool refresh, CancellationToken token)
     {
-        await IndexGate.WaitAsync(token);
+        await IndexGate.WaitAsync(token).ConfigureAwait(false);
         try
         {
-            if (!refresh && _cached != null && DateTime.UtcNow - _cachedAt < CacheLifetime)
+            TimeSpan age = DateTime.UtcNow - _cachedAt;
+            if (_cached != null && age < (refresh ? RefreshCooldown : CacheLifetime))
                 return _cached;
-            byte[] bytes = await DownloadAsync(IndexUrl + "?t=" + DateTime.UtcNow.Ticks, MaxIndexBytes, token);
+            string? previousSha = _indexSha;
+            string? sha = await GetIndexShaAsync(token).ConfigureAwait(false);
+            if (_cached != null && sha != null && sha == previousSha)
+            {
+                _cachedAt = DateTime.UtcNow;
+                return _cached;
+            }
+            string url = sha != null ? RawPrefix + sha + "/index.json" : IndexUrl + "?t=" + DateTime.UtcNow.Ticks;
+            byte[] bytes = await DownloadAsync(url, MaxIndexBytes, token).ConfigureAwait(false);
             Index index = ParseIndex(bytes);
             SaveIndexCopy(bytes);
             _cached = index;
@@ -129,6 +146,33 @@ public static partial class ModLibrary
         finally
         {
             IndexGate.Release();
+        }
+    }
+
+    private static async Task<string?> GetIndexShaAsync(CancellationToken token)
+    {
+        try
+        {
+            using HttpRequestMessage request = new(HttpMethod.Get, IndexShaUrl);
+            request.Headers.Accept.ParseAdd("application/vnd.github.sha");
+            if (_indexShaEtag != null && _indexSha != null)
+                request.Headers.TryAddWithoutValidation("If-None-Match", _indexShaEtag);
+            using HttpResponseMessage response = await Client.SendAsync(request, token).ConfigureAwait(false);
+            if (response.StatusCode == System.Net.HttpStatusCode.NotModified)
+                return _indexSha;
+            if (!response.IsSuccessStatusCode)
+                return null;
+            string sha = (await response.Content.ReadAsStringAsync(token).ConfigureAwait(false)).Trim();
+            if (!CommitPattern.IsMatch(sha))
+                return null;
+            _indexSha = sha;
+            _indexShaEtag = response.Headers.ETag?.ToString();
+            return sha;
+        }
+        catch (HttpRequestException ex)
+        {
+            App.Logger.WriteLine(LogIdent, "Could not check the latest library index: " + ex.Message);
+            return null;
         }
     }
 
@@ -195,8 +239,9 @@ public static partial class ModLibrary
         Dictionary<string, string> blocked = new(StringComparer.Ordinal);
         foreach (JsonNode? node in root["blocked"] as JsonArray ?? [])
         {
-            string id = node?["id"]?.GetValue<string>() ?? "";
-            string reason = (node?["reason"]?.GetValue<string>() ?? "").Trim();
+            if (node is not JsonObject entry || entry["id"] is not JsonValue idValue || !idValue.TryGetValue(out string? id) || id == null)
+                continue;
+            string reason = entry["reason"] is JsonValue reasonValue && reasonValue.TryGetValue(out string? text) && text != null ? text.Trim() : "";
             if (id.Length is > 0 and < 120)
                 blocked[id] = reason.Length > 300 ? reason[..300] : reason;
         }
@@ -480,15 +525,15 @@ public static partial class ModLibrary
 
     private static async Task<byte[]> DownloadAsync(string url, long maxBytes, CancellationToken token)
     {
-        using HttpResponseMessage response = await Client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token);
+        using HttpResponseMessage response = await Client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
         if (response.Content.Headers.ContentLength is long length && length > maxBytes)
             throw new InvalidDataException("the download is larger than expected");
-        await using Stream stream = await response.Content.ReadAsStreamAsync(token);
+        await using Stream stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
         using MemoryStream buffer = new();
         byte[] chunk = new byte[81920];
         int read;
-        while ((read = await stream.ReadAsync(chunk, token)) > 0)
+        while ((read = await stream.ReadAsync(chunk, token).ConfigureAwait(false)) > 0)
         {
             if (buffer.Length + read > maxBytes)
                 throw new InvalidDataException("the download is larger than expected");

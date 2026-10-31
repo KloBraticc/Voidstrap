@@ -47,10 +47,29 @@ public partial class VoidstrapModsPage : UiPage
         RenderStatus();
         RenderAccount();
         _ = LoadLibraryAsync(false);
+        _libraryPoll.Tick -= LibraryPoll_Tick;
+        _libraryPoll.Tick += LibraryPoll_Tick;
+        _libraryPoll.Start();
+    }
+
+    private async void LibraryPoll_Tick(object? sender, EventArgs e)
+    {
+        try
+        {
+            ModLibrary.Index fresh = await ModLibrary.GetIndexAsync(false, CancellationToken.None);
+            if (_libraryIndex != null && _libraryIndex.Commit != fresh.Commit && IsLoaded)
+                await LoadLibraryAsync(false);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("VoidstrapModsPage::LibraryPoll_Tick", "Could not check the library: " + ex.Message);
+        }
     }
 
     private void Page_Unloaded(object sender, RoutedEventArgs e)
     {
+        _libraryPoll.Stop();
+        _libraryPoll.Tick -= LibraryPoll_Tick;
         _renderGeneration++;
         PluginHost.PanesChanged -= OnPanesChanged;
         PluginHost.PaneInvalidated -= OnPaneInvalidated;
@@ -621,6 +640,8 @@ public partial class VoidstrapModsPage : UiPage
 
     private CancellationTokenSource? _libraryCts;
 
+    private readonly System.Windows.Threading.DispatcherTimer _libraryPoll = new() { Interval = TimeSpan.FromSeconds(120) };
+
     private ModLibrary.Index? _libraryIndex;
 
     private static readonly int[] IconRetryDelaysSeconds = [20, 65, 120];
@@ -1123,9 +1144,20 @@ public partial class VoidstrapModsPage : UiPage
     {
         if (sender is not FrameworkElement { Tag: ModLibrary.LibraryMod mod })
             return;
-        bool turnOn = !IsModOn(mod.Name);
-        PluginHost.SetEnabled(mod.Name, turnOn, reload: false);
-        await Task.Run(PluginHost.Reload);
+        await ToggleModAsync(mod.Name);
+    }
+
+    private async Task ToggleModAsync(string modName)
+    {
+        try
+        {
+            PluginHost.SetEnabled(modName, !IsModOn(modName), reload: false);
+            await Task.Run(PluginHost.Reload);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("VoidstrapModsPage::ToggleModAsync", ex);
+        }
         RenderMods();
         RenderLibrary();
     }
@@ -1209,7 +1241,7 @@ public partial class VoidstrapModsPage : UiPage
         button.IsEnabled = false;
         try
         {
-            await ModLibrary.InstallAsync(index, mod, _libraryCts?.Token ?? CancellationToken.None);
+            await ModLibrary.InstallAsync(index, mod, CancellationToken.None);
             if (vouched)
                 PluginHost.SetEnabled(mod.Name, true, reload: false);
             await Task.Run(PluginHost.Reload);
@@ -1369,11 +1401,7 @@ public partial class VoidstrapModsPage : UiPage
     {
         if (sender is not FrameworkElement { Tag: string modName })
             return;
-        bool turnOn = !IsModOn(modName);
-        PluginHost.SetEnabled(modName, turnOn, reload: false);
-        await Task.Run(PluginHost.Reload);
-        RenderMods();
-        RenderLibrary();
+        await ToggleModAsync(modName);
     }
 
     public void OpenModInEditor(string modName)
