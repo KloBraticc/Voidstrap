@@ -22,6 +22,10 @@ public sealed class SpotifyPlayerView : ContentControl
 
     private DateTime _silentSince;
 
+    private const int AbortedResult = unchecked((int)0x80004004);
+
+    public event EventHandler? Failed;
+
     private bool _shown;
 
     private bool _started;
@@ -69,22 +73,30 @@ public sealed class SpotifyPlayerView : ContentControl
         {
             CoreWebView2Environment environment = await CoreWebView2Environment.CreateAsync(
                 null,
-                Path.Combine(Paths.Cache, "SpotifyWebView"),
+                Path.Combine(Paths.UserData, "SpotifyWebView"),
                 new CoreWebView2EnvironmentOptions(BrowserArguments)
             );
-            _view = new WebView2CompositionControl { DefaultBackgroundColor = System.Drawing.Color.Black };
-            Content = _view;
-            await _view.EnsureCoreWebView2Async(environment);
-            CoreWebView2 core = _view.CoreWebView2!;
+            WebView2CompositionControl view = new() { DefaultBackgroundColor = System.Drawing.Color.Black };
+            _view = view;
+            Content = view;
+            await view.EnsureCoreWebView2Async(environment);
+            if (!ReferenceEquals(_view, view))
+                return;
+            CoreWebView2 core = view.CoreWebView2!;
             core.Settings.AreDevToolsEnabled = false;
             core.Settings.IsStatusBarEnabled = false;
             core.NewWindowRequested += Core_NewWindowRequested;
             core.Navigate(PlayerUrl);
         }
+        catch (Exception ex) when (ex is ObjectDisposedException || (ex is System.Runtime.InteropServices.COMException com && com.HResult == AbortedResult))
+        {
+            Shutdown();
+        }
         catch (Exception ex)
         {
             App.Logger.WriteException(LOG_IDENT, ex);
             Shutdown();
+            Failed?.Invoke(this, EventArgs.Empty);
         }
     }
 

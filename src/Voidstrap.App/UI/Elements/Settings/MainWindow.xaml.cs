@@ -2734,7 +2734,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         SpotifyOverlay.IsHitTestVisible = true;
         AnimateSpotifyPanel(true);
         SpotifyPlayer.SetShown(true);
+        SpotifyPlayer.Failed -= SpotifyPlayer_Failed;
+        SpotifyPlayer.Failed += SpotifyPlayer_Failed;
         await SpotifyPlayer.EnsureStartedAsync();
+    }
+
+    private void SpotifyPlayer_Failed(object? sender, EventArgs e)
+    {
+        AnimateSpotifyPanel(false);
+        Utilities.OpenWebLink(SpotifyWebUrl);
     }
 
     private void SpotifyFade_Completed(object? sender, EventArgs e)
@@ -7387,6 +7395,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ReleaseBackgroundResources();
         ClearRetainedUiState();
         Voidstrap.Utility.DynamicRenderSystem.ClearCache();
+        SpotifyPlayer.Failed -= SpotifyPlayer_Failed;
         SpotifyPlayer.Shutdown();
         _lifetimeCts.Dispose();
         if (App.LaunchSettings.TestModeFlag.Active)

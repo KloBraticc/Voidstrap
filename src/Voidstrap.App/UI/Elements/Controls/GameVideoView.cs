@@ -39,6 +39,10 @@ public sealed class GameVideoView : ContentControl
 
     private long _frameVersion;
 
+    private DateTime _portableStarted;
+
+    private static readonly TimeSpan FirstFrameLimit = TimeSpan.FromSeconds(20);
+
     private string? _playingPath;
 
     public GameVideoView()
@@ -84,6 +88,7 @@ public sealed class GameVideoView : ContentControl
         Teardown();
         _playingPath = path;
         _frameVersion = 0;
+        _portableStarted = DateTime.UtcNow;
         _image = new Image { Stretch = Stretch.UniformToFill };
         RenderOptions.SetBitmapScalingMode(_image, BitmapScalingMode.HighQuality);
         Content = _image;
@@ -100,6 +105,12 @@ public sealed class GameVideoView : ContentControl
         try
         {
             _media.TryReadFrame(_frameVersion, DrawFrame);
+            if (_frameVersion == 0 && DateTime.UtcNow - _portableStarted > FirstFrameLimit)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "The game video produced no frames, showing the screenshot instead");
+                Teardown();
+                return;
+            }
             if (_media.Failure != null)
             {
                 App.Logger.WriteLine(LOG_IDENT, "The game video could not be decoded: " + _media.Failure);
