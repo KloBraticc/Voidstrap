@@ -9596,4 +9596,10 @@ Leisti?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Neteisingas slaptažodis arba sugadintas failas.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Rodyti grojamą kūrinį viršutinėje juostoje</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Eilė</value>
+  </data>
 </root>

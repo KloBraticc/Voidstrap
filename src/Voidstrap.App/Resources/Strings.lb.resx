@@ -9282,4 +9282,10 @@ Erlaabt et?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Falscht Passwuert oder beschiedegte Fichier.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Aktuell Wiedergab an der ieweschter Leescht weisen</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Waardeschlaang</value>
+  </data>
 </root>

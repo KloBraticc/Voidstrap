@@ -9282,4 +9282,10 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>ತಪ್ಪು ಪಾಸ್‌ವರ್ಡ್ ಅಥವಾ ಹಾನಿಗೊಂಡ ಫೈಲ್.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>ಮೇಲಿನ ಪಟ್ಟಿಯಲ್ಲಿ ಪ್ಲೇ ಆಗುತ್ತಿರುವುದನ್ನು ತೋರಿಸಿ</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>ಸರದಿ</value>
+  </data>
 </root>

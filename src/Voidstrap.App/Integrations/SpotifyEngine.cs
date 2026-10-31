@@ -101,6 +101,24 @@ public sealed class SpotifyEngine
             if (b) b.click();
             return !!b;
           },
+          rows: function () {
+            var out = [], seen = {}, rows = document.querySelectorAll('[data-testid="tracklist-row"]');
+            for (var i = 0; i < rows.length; i++) {
+              var a = rows[i].querySelector('a[href^="/track/"]');
+              if (!a || seen[a.getAttribute('href')]) continue;
+              seen[a.getAttribute('href')] = 1;
+              var img = rows[i].querySelector('img');
+              out.push({ href: a.getAttribute('href'), name: this.text(a), detail: this.text(rows[i].querySelector('a[href^="/artist/"]')), image: img ? img.src : null });
+            }
+            return out;
+          },
+          playRow: function (href) {
+            var a = document.querySelector('[data-testid="tracklist-row"] a[href="' + href + '"]');
+            var row = a ? a.closest('[data-testid="tracklist-row"]') : null;
+            if (!row) return false;
+            row.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true, view: window }));
+            return true;
+          },
           go: function (path) {
             history.pushState({}, '', path);
             dispatchEvent(new PopStateEvent('popstate', { state: {} }));
@@ -258,6 +276,20 @@ public sealed class SpotifyEngine
             if (clicked?.RootElement.ValueKind == JsonValueKind.True)
                 return;
         }
+    }
+
+    public async Task<List<SpotifyItem>> OpenAsync(string href)
+    {
+        (await RunAsync("go(" + JsonSerializer.Serialize(href) + ")"))?.Dispose();
+        await Task.Delay(700);
+        return await WaitForItemsAsync("rows()");
+    }
+
+    public Task<List<SpotifyItem>> GetQueueAsync() => OpenAsync("/queue");
+
+    public async Task PlayRowAsync(SpotifyItem item)
+    {
+        (await RunAsync("playRow(" + JsonSerializer.Serialize(item.Href) + ")"))?.Dispose();
     }
 
     public async Task PressAsync(string control)

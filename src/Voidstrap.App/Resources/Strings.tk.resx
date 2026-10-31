@@ -9281,4 +9281,10 @@ Rugsat beriň?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Nädogry açarsöz ýa-da zaýalanan faýl.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Çalynýany ýokarky zolakda görkez</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Nobat</value>
+  </data>
 </root>

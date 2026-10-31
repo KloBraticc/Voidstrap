@@ -9281,4 +9281,10 @@ Kas lubada?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Vale parool või kahjustatud fail.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Näita praegust lugu ülemisel ribal</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Järjekord</value>
+  </data>
 </root>

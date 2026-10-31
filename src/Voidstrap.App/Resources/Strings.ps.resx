@@ -9282,4 +9282,10 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>غلط پټنوم یا خراب فایل.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>پورته پټه کې روان غږ وښایاست</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>کتار</value>
+  </data>
 </root>

@@ -9282,4 +9282,10 @@ Leyfa það?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Rangt lykilorð eða skemmd skrá.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Sýna það sem er í spilun í efstu stikunni</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Röð</value>
+  </data>
 </root>

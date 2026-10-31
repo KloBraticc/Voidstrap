@@ -9597,4 +9597,10 @@ Cho phép?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Sai mật khẩu hoặc tệp bị hỏng.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Hiện bài đang phát trên thanh trên cùng</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Hàng đợi</value>
+  </data>
 </root>

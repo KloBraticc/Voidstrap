@@ -6,10 +6,22 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:Button x:Name="SignInButton" Grid.Row="0" Margin="0,0,0,10" HorizontalAlignment="Stretch" Appearance="Primary" Icon="Person24" Visibility="Collapsed" Click="SignIn_Click" />
+    <ui:Button x:Name="SignInButton" Grid.Row="0" Margin="0,0,0,44" HorizontalAlignment="Stretch" Appearance="Primary" Icon="Person24" Visibility="Collapsed" Click="SignIn_Click" />
     <ui:TextBox x:Name="SearchBox" Grid.Row="1" Margin="0,0,0,10" Icon="Search24" ClearButtonEnabled="True" PlaceholderText="{resources:Loc Ui_AppCode_Search}" KeyDown="SearchBox_KeyDown" TextChanged="SearchBox_TextChanged" />
+ <ui:ToggleSwitch x:Name="MiniToggle" Grid.Row="0" Margin="0,0,0,10" VerticalAlignment="Bottom" Content="{resources:Loc Ui_Spotify_ShowInTopBar}" Click="MiniToggle_Click" />
     <ProgressBar x:Name="Loading" Grid.Row="1" Height="2" VerticalAlignment="Bottom" IsIndeterminate="True" Visibility="Collapsed" />
     <ui:DynamicScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+      <StackPanel>
+      <Grid x:Name="OpenHeader" Margin="0,0,6,8" Visibility="Collapsed">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <ui:Button Width="34" Height="34" Padding="0" Appearance="Transparent" Icon="ArrowLeft24" Click="Back_Click" />
+        <TextBlock x:Name="OpenTitle" Grid.Column="1" Margin="8,0" VerticalAlignment="Center" FontSize="15" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+        <ui:Button x:Name="PlayAllButton" Grid.Column="2" Width="34" Height="34" Padding="0" Appearance="Primary" Icon="Play24" Click="PlayAll_Click" />
+      </Grid>
       <ItemsControl x:Name="ItemsList" Focusable="False">
         <ItemsControl.ItemTemplate>
           <DataTemplate>
@@ -31,6 +43,7 @@
           </DataTemplate>
         </ItemsControl.ItemTemplate>
       </ItemsControl>
+      </StackPanel>
     </ui:DynamicScrollViewer>
     <Border Grid.Row="3" Margin="0,10,0,0" Padding="8" CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}">
       <Grid>
@@ -71,7 +84,8 @@
           <StackPanel Orientation="Horizontal">
             <ui:Button x:Name="ShuffleButton" Width="34" Height="30" Padding="0" Margin="0,0,4,0" Appearance="Transparent" Icon="ArrowShuffle24" Tag="control-button-shuffle" Click="Control_Click" />
             <ui:Button x:Name="RepeatButton" Width="34" Height="30" Padding="0" Margin="0,0,4,0" Appearance="Transparent" Icon="ArrowRepeatAll24" Tag="control-button-repeat" Click="Control_Click" />
-            <ui:Button x:Name="LikeButton" Width="34" Height="30" Padding="0" Appearance="Transparent" Icon="Heart24" Click="Like_Click" />
+            <ui:Button x:Name="LikeButton" Width="34" Height="30" Padding="0" Margin="0,0,4,0" Appearance="Transparent" Icon="Heart24" Click="Like_Click" />
+            <ui:Button Width="34" Height="30" Padding="0" Appearance="Transparent" Icon="TextBulletListLtr24" Click="Queue_Click" />
           </StackPanel>
           <ui:SymbolIcon Grid.Column="2" Margin="0,0,6,0" VerticalAlignment="Center" FontSize="16" Symbol="Speaker224" />
           <Slider x:Name="VolumeSlider" Grid.Column="3" VerticalAlignment="Center" Minimum="0" Maximum="1" IsMoveToPointEnabled="True" PreviewMouseLeftButtonUp="VolumeSlider_MouseUp" />

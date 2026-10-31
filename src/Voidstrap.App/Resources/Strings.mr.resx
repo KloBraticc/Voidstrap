@@ -9282,4 +9282,10 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>चुकीचा पासवर्ड किंवा खराब फाइल.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>वरच्या बारमध्ये सध्या वाजणारे दाखवा</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>रांग</value>
+  </data>
 </root>

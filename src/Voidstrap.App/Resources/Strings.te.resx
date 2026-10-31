@@ -9281,4 +9281,10 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>తప్పు పాస్‌వర్డ్ లేదా పాడైన ఫైల్.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>పై బార్‌లో ప్లే అవుతున్నది చూపించు</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>క్యూ</value>
+  </data>
 </root>

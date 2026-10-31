@@ -9282,4 +9282,10 @@ Emera?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Ijambo ry'ibanga ritari ryo cyangwa dosiye yangiritse.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Erekana ibiri gucurangwa ku mwanya wo hejuru</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Umurongo</value>
+  </data>
 </root>

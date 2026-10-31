@@ -9594,4 +9594,10 @@ Engedélyezed?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Hibás jelszó vagy sérült fájl.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Az éppen játszott mutatása a felső sávban</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Várólista</value>
+  </data>
 </root>

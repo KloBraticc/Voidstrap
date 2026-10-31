@@ -9281,4 +9281,10 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Λάθος κωδικός ή κατεστραμμένο αρχείο.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Εμφάνιση αναπαραγωγής στην επάνω γραμμή</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Ουρά</value>
+  </data>
 </root>

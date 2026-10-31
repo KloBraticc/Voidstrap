@@ -9282,4 +9282,10 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>වැරදි මුරපදයක් හෝ හානි වූ ගොනුවක්.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>ඉහළ තීරුවේ වාදනය වන දේ පෙන්වන්න</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>පෝලිම</value>
+  </data>
 </root>

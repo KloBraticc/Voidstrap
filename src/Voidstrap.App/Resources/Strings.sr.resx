@@ -9282,4 +9282,10 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Погрешна лозинка или оштећена датотека.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Прикажи шта се пушта на горњој траци</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Ред</value>
+  </data>
 </root>

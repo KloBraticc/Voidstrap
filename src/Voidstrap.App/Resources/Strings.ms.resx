@@ -9586,4 +9586,10 @@ Benarkan?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Kata laluan salah atau fail rosak.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Tunjukkan yang sedang dimainkan di bar atas</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Baris gilir</value>
+  </data>
 </root>

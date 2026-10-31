@@ -9281,4 +9281,10 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Пароли нодуруст ё файли вайроншуда.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Навозишро дар панели боло нишон диҳед</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Навбат</value>
+  </data>
 </root>

@@ -9281,4 +9281,10 @@ Je, unairuhusu?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Nenosiri si sahihi au faili limeharibika.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Onyesha kinachocheza kwenye upau wa juu</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Foleni</value>
+  </data>
 </root>

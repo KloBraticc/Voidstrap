@@ -9900,5 +9900,7 @@ namespace Voidstrap.Resources {
         public static string Accounts_Vault_Hint => ResourceManager.GetString("Accounts.Vault.Hint", resourceCulture);
         public static string Accounts_Vault_Mismatch => ResourceManager.GetString("Accounts.Vault.Mismatch", resourceCulture);
         public static string Accounts_Vault_Wrong => ResourceManager.GetString("Accounts.Vault.Wrong", resourceCulture);
+        public static string Ui_Spotify_ShowInTopBar => ResourceManager.GetString("Ui.Spotify.ShowInTopBar", resourceCulture);
+        public static string Ui_Spotify_Queue => ResourceManager.GetString("Ui.Spotify.Queue", resourceCulture);
     }
 }

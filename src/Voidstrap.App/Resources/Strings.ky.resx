@@ -9282,4 +9282,10 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Туура эмес сырсөз же бузулган файл.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Ойноп жатканды жогорку тилкеде көрсөтүү</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Кезек</value>
+  </data>
 </root>

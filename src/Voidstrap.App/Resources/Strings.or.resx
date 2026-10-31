@@ -9282,4 +9282,10 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>ଭୁଲ ପାସୱାର୍ଡ କିମ୍ବା ନଷ୍ଟ ଫାଇଲ।</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>ଉପର ବାରରେ ବାଜୁଥିବା ଦେଖାନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>ଧାଡ଼ି</value>
+  </data>
 </root>

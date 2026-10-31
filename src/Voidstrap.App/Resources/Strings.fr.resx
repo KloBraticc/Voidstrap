@@ -9593,4 +9593,10 @@ Autoriser ?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Mot de passe incorrect ou fichier endommagé.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Afficher la lecture en cours dans la barre supérieure</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>File d'attente</value>
+  </data>
 </root>

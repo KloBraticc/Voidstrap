@@ -9282,4 +9282,10 @@ Bada shi?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Kalmar sirri ba daidai ba ko fayil ya lalace.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Nuna abin da ke kunna a sandar sama</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Jerin gaba</value>
+  </data>
 </root>

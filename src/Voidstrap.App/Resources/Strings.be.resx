@@ -9281,4 +9281,10 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Няправільны пароль або пашкоджаны файл.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Паказваць, што грае, на верхняй панэлі</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Чарга</value>
+  </data>
 </root>

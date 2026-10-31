@@ -9596,4 +9596,10 @@ Permiți?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Parolă greșită sau fișier deteriorat.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Arată ce se redă în bara de sus</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Coadă</value>
+  </data>
 </root>

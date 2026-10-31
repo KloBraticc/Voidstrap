@@ -9281,4 +9281,10 @@ Caniatáu iddo?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Cyfrinair anghywir neu ffeil wedi'i difrodi.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Dangos yr hyn sy'n chwarae yn y bar uchaf</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Ciw</value>
+  </data>
 </root>

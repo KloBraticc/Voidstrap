@@ -9594,4 +9594,10 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Contraseña incorrecta o archivo dañado.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Mostrar lo que suena en la barra superior</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Cola</value>
+  </data>
 </root>

@@ -9594,4 +9594,10 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Неверный пароль или повреждённый файл.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Показывать текущий трек на верхней панели</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Очередь</value>
+  </data>
 </root>

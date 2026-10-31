@@ -9281,4 +9281,10 @@ uyayivumela?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Iphasiwedi engalunganga okanye ifayile eyonakeleyo.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Bonisa okudlalayo kwibha ephezulu</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Umgca</value>
+  </data>
 </root>

@@ -9281,4 +9281,10 @@ Ruxsat berasizmi?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Noto‘g‘ri parol yoki shikastlangan fayl.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Ijro etilayotganini yuqori panelda ko‘rsatish</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Navbat</value>
+  </data>
 </root>

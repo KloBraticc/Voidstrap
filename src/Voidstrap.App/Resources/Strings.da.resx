@@ -9281,4 +9281,10 @@ tillade det?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Forkert adgangskode eller beskadiget fil.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Vis det, der afspilles, i topbjælken</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Kø</value>
+  </data>
 </root>

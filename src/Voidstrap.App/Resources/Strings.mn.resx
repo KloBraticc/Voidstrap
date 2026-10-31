@@ -9282,4 +9282,10 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Буруу нууц үг эсвэл гэмтсэн файл.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Тоглож буйг дээд самбарт харуулах</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Дараалал</value>
+  </data>
 </root>

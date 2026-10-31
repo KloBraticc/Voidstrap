@@ -9281,4 +9281,10 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>የተሳሳተ የይለፍ ቃል ወይም የተበላሸ ፋይል።</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>የሚጫወተውን በላይኛው አሞሌ አሳይ</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>ወረፋ</value>
+  </data>
 </root>

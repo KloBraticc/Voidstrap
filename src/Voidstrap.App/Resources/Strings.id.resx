@@ -9597,4 +9597,10 @@ Izinkan?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Kata sandi salah atau berkas rusak.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Tampilkan yang sedang diputar di bilah atas</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Antrean</value>
+  </data>
 </root>

@@ -367,6 +367,13 @@
     <ui:TitleBar Name="RootTitleBar" MinHeight="40" Padding="8" Grid.Row="0" Panel.ZIndex="1000" ForceShutdown="False" MinimizeToTray="False" UseSnapLayout="True">
       <ui:TitleBar.Header>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" FlowDirection="LeftToRight" Margin="145,1,0,-1">
+          <Border x:Name="SpotifyMini" Height="28" Margin="0,0,8,0" Padding="4,0,2,0" CornerRadius="6" Cursor="Hand" Background="{DynamicResource ControlFillColorDefaultBrush}" Visibility="Collapsed" MouseLeftButtonUp="SpotifyMini_MouseLeftButtonUp">
+            <StackPanel Orientation="Horizontal">
+              <Image x:Name="SpotifyMiniImage" Width="20" Height="20" VerticalAlignment="Center" Stretch="UniformToFill" />
+              <TextBlock x:Name="SpotifyMiniTitle" MaxWidth="170" Margin="6,0" VerticalAlignment="Center" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+              <ui:Button x:Name="SpotifyMiniPlay" Width="24" Height="24" Padding="0" Appearance="Transparent" Icon="Pause24" Click="SpotifyMiniPlay_Click" />
+            </StackPanel>
+          </Border>
           <Button x:Name="TopNavBack" Style="{StaticResource TopBarIconButtonStyle}" Margin="0,0,2,0" IsEnabled="False" ToolTip="{resources:Loc Menu_FastFlagEditor_Back}" AutomationProperties.Name="{resources:Loc Menu_FastFlagEditor_Back}" Click="TopNavBack_Click">
             <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarArrowIcon}" Data="M10.5 4.5L3.5 12L10.5 19.5 M4.5 12H20.5" /></Canvas></Viewbox>
           </Button>

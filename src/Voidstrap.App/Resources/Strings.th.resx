@@ -9589,4 +9589,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>รหัสผ่านไม่ถูกต้องหรือไฟล์เสียหาย</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>แสดงเพลงที่กำลังเล่นในแถบด้านบน</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>คิว</value>
+  </data>
 </root>

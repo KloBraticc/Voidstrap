@@ -9282,4 +9282,10 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>गलत पासवर्ड वा बिग्रिएको फाइल।</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>माथिल्लो पट्टीमा बजिरहेको देखाउनुहोस्</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>लाम</value>
+  </data>
 </root>

@@ -2735,7 +2735,46 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         AnimateSpotifyPanel(true);
         SpotifyPlayer.Failed -= SpotifyPlayer_Failed;
         SpotifyPlayer.Failed += SpotifyPlayer_Failed;
+        SpotifyPlayer.StateChanged -= SpotifyPlayer_StateChanged;
+        SpotifyPlayer.StateChanged += SpotifyPlayer_StateChanged;
+        SpotifyPlayer.MiniPlayerToggled -= SpotifyPlayer_MiniPlayerToggled;
+        SpotifyPlayer.MiniPlayerToggled += SpotifyPlayer_MiniPlayerToggled;
         await SpotifyPlayer.ShowAsync();
+    }
+
+    private string? _spotifyMiniImageUrl;
+
+    private bool _spotifyHasTrack;
+
+    private void SpotifyPlayer_StateChanged(object? sender, Voidstrap.Models.Entities.SpotifyState state)
+    {
+        _spotifyHasTrack = state.Title.Length > 0;
+        SpotifyMiniTitle.Text = state.Title;
+        SpotifyMiniPlay.Icon = state.Playing ? Wpf.Ui.Common.SymbolRegular.Pause24 : Wpf.Ui.Common.SymbolRegular.Play24;
+        if (state.Image != _spotifyMiniImageUrl)
+        {
+            _spotifyMiniImageUrl = state.Image;
+            SpotifyMiniImage.Source = Uri.TryCreate(state.Image, UriKind.Absolute, out Uri? uri) && uri.Scheme == Uri.UriSchemeHttps ? new System.Windows.Media.Imaging.BitmapImage(uri) : null;
+        }
+        UpdateSpotifyMini();
+    }
+
+    private void SpotifyPlayer_MiniPlayerToggled(object? sender, EventArgs e) => UpdateSpotifyMini();
+
+    private void UpdateSpotifyMini()
+    {
+        SpotifyMini.Visibility = App.Settings.Prop.SpotifyMiniPlayer && _spotifyHasTrack ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private void SpotifyMini_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        TopNavSpotify_Click(sender, e);
+    }
+
+    private async void SpotifyMiniPlay_Click(object sender, RoutedEventArgs e)
+    {
+        e.Handled = true;
+        await SpotifyPlayer.TogglePlaybackAsync();
     }
 
     private void SpotifyPlayer_Failed(object? sender, EventArgs e)
@@ -7395,6 +7434,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ClearRetainedUiState();
         Voidstrap.Utility.DynamicRenderSystem.ClearCache();
         SpotifyPlayer.Failed -= SpotifyPlayer_Failed;
+        SpotifyPlayer.StateChanged -= SpotifyPlayer_StateChanged;
+        SpotifyPlayer.MiniPlayerToggled -= SpotifyPlayer_MiniPlayerToggled;
         SpotifyPlayer.Shutdown();
         _lifetimeCts.Dispose();
         if (App.LaunchSettings.TestModeFlag.Active)

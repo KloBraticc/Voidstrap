@@ -9281,4 +9281,10 @@ Allow it?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Wrong password or damaged file.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Show now playing in the top bar</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Queue</value>
+  </data>
 </root>

@@ -9609,4 +9609,10 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>パスワードが違うか、ファイルが破損しています。</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>再生中の曲を上部バーに表示</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>キュー</value>
+  </data>
 </root>

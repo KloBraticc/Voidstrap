@@ -9281,4 +9281,10 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>غلط پاس ورڈ یا خراب فائل۔</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>اوپر والی بار میں چلنے والا دکھائیں</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>قطار</value>
+  </data>
 </root>

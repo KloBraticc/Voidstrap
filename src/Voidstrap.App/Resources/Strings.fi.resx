@@ -9595,4 +9595,10 @@ Sallitaanko?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Väärä salasana tai vioittunut tiedosto.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Näytä soiva kappale yläpalkissa</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Jono</value>
+  </data>
 </root>

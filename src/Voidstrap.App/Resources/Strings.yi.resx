@@ -9281,4 +9281,10 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>פֿאַלש פּאַראָל אָדער אַ קאַליע טעקע.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>ווייַזן וואָס שפּילט אין דער אויבערשטער ליניע</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>ריי</value>
+  </data>
 </root>

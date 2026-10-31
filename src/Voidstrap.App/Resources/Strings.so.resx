@@ -9282,4 +9282,10 @@ Oggolow?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Furaha sirta oo khaldan ama fayl dhaawacan.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Tus waxa socda barka sare</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Saf</value>
+  </data>
 </root>

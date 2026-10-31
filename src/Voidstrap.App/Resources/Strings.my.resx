@@ -9281,4 +9281,10 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>စကားဝှက် မှားနေသည် သို့မဟုတ် ဖိုင် ပျက်စီးနေသည်။</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>လက်ရှိဖွင့်နေသည်ကို အပေါ်ဘားတွင် ပြပါ</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>တန်းစီ</value>
+  </data>
 </root>

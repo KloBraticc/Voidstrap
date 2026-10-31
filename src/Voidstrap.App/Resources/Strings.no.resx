@@ -9282,4 +9282,10 @@ Vil du tillate det?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Feil passord eller skadet fil.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Vis det som spilles i topplinjen</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Kø</value>
+  </data>
 </root>

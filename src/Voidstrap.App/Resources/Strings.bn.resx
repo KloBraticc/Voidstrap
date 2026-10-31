@@ -9281,4 +9281,10 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>ভুল পাসওয়ার্ড বা ক্ষতিগ্রস্ত ফাইল।</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>উপরের বারে এখন যা চলছে দেখান</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>সারি</value>
+  </data>
 </root>

@@ -9281,4 +9281,10 @@ Gba laaye?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Ọ̀rọ̀ ìgbaniwọlé tí kò tọ́ tàbí fáìlì tó bàjẹ́.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Fi ohun tó ń ṣiṣẹ́ hàn ní ọ̀pá òkè</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Ìlà</value>
+  </data>
 </root>

@@ -9281,4 +9281,10 @@ icazə verilir?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Yanlış parol və ya zədələnmiş fayl.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Oxunanı yuxarı paneldə göstər</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Növbə</value>
+  </data>
 </root>

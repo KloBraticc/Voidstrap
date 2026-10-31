@@ -9596,4 +9596,10 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>گذرواژه اشتباه یا فایل آسیب‌دیده.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>نمایش آهنگ در حال پخش در نوار بالا</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>صف</value>
+  </data>
 </root>

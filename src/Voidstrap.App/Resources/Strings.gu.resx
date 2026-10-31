@@ -9282,4 +9282,10 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>ખોટો પાસવર્ડ અથવા ખરાબ ફાઇલ.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>ઉપરની પટ્ટીમાં ચાલતું ગીત બતાવો</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>કતાર</value>
+  </data>
 </root>

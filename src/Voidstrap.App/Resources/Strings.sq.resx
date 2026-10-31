@@ -9282,4 +9282,10 @@ E lejon atë?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Fjalëkalim i gabuar ose skedar i dëmtuar.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Shfaq atë që po luhet në shiritin e sipërm</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Radha</value>
+  </data>
 </root>

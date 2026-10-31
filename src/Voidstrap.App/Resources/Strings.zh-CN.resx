@@ -9618,4 +9618,10 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>密码错误或文件已损坏。</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>在顶部栏显示正在播放</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>队列</value>
+  </data>
 </root>

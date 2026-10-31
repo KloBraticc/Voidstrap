@@ -9281,4 +9281,10 @@ Ho permets?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Contrasenya incorrecta o fitxer malmès.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Mostra el que sona a la barra superior</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Cua</value>
+  </data>
 </root>

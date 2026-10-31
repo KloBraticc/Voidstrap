@@ -9282,4 +9282,10 @@ Permíteo?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Contrasinal incorrecto ou ficheiro danado.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Amosar o que soa na barra superior</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Cola</value>
+  </data>
 </root>

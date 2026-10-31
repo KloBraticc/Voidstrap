@@ -9281,4 +9281,10 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>தவறான கடவுச்சொல் அல்லது சேதமடைந்த கோப்பு.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>மேல் பட்டியில் இயங்குவதைக் காட்டு</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>வரிசை</value>
+  </data>
 </root>

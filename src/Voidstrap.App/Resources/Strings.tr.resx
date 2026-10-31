@@ -9592,4 +9592,10 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Yanlış parola veya hasarlı dosya.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Çalanı üst çubukta göster</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Sıra</value>
+  </data>
 </root>

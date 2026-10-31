@@ -9594,4 +9594,10 @@ Dopustiti?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Pogrešna lozinka ili oštećena datoteka.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Prikaži trenutnu pjesmu na gornjoj traci</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Red</value>
+  </data>
 </root>

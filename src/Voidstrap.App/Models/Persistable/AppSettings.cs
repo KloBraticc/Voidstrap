@@ -79,6 +79,8 @@ namespace Voidstrap.Models.Persistable
         public bool BlockRobloxTelemetry { get; set; }
         public bool SpotifySignedIn { get; set; }
 
+        public bool SpotifyMiniPlayer { get; set; }
+
         public string RobloxTheme { get; set; } = "";
 
         public bool RobloxMinimizeToTray { get; set; }

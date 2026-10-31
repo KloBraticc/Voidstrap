@@ -9594,4 +9594,10 @@ Tillåta?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Fel lösenord eller skadad fil.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Visa vad som spelas i toppfältet</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Kö</value>
+  </data>
 </root>

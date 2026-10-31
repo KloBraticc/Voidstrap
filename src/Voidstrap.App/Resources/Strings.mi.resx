@@ -9282,4 +9282,10 @@ Whakaaetia?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>He hē te kupuhipa, kua pakaru rānei te kōnae.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Whakaaturia te mea e purei ana ki te pae runga</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Tūtira</value>
+  </data>
 </root>

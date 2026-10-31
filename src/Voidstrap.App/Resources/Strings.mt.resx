@@ -9282,4 +9282,10 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Password ħażina jew fajl bil-ħsara.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Uri x'qed jindaqq fil-bar ta' fuq</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Kju</value>
+  </data>
 </root>

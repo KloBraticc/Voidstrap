@@ -9282,4 +9282,10 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>गलत पासवर्ड या खराब फ़ाइल।</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>ऊपरी बार में अभी चल रहा दिखाएँ</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>कतार</value>
+  </data>
 </root>

@@ -9282,4 +9282,10 @@ Dovoli?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Napačno geslo ali poškodovana datoteka.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Prikaži predvajano v zgornji vrstici</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Čakalna vrsta</value>
+  </data>
 </root>

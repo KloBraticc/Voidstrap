@@ -9281,4 +9281,10 @@ Laat dit toe?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Verkeerde wagwoord of beskadigde lêer.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Wys wat speel in die boonste balk</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Tou</value>
+  </data>
 </root>

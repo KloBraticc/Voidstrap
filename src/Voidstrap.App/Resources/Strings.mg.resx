@@ -9282,4 +9282,10 @@ Avelao izany?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Teny miafina diso na rakitra simba.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Asehoy izay milalao eo amin’ny bara ambony</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Filaharana</value>
+  </data>
 </root>

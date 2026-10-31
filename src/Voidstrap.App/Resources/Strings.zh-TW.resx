@@ -9597,4 +9597,10 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>密碼錯誤或檔案已損毀。</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>在頂部列顯示正在播放</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>佇列</value>
+  </data>
 </root>

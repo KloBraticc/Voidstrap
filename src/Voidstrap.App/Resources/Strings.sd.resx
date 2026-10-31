@@ -9282,4 +9282,10 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>غلط پاسورڊ يا خراب فائل.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>مٿين بار ۾ هلندڙ ڏيکاريو</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>قطار</value>
+  </data>
 </root>

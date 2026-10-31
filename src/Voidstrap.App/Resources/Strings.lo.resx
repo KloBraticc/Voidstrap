@@ -9282,4 +9282,10 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>ລະຫັດຜ່ານຜິດ ຫຼື ໄຟລ໌ເສຍຫາຍ.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>ສະແດງສິ່ງທີ່ກຳລັງຫຼິ້ນໃນແຖບເທິງ</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>ຄິວ</value>
+  </data>
 </root>

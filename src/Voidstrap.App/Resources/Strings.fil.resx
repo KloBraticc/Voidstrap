@@ -9592,4 +9592,10 @@ Payagan ba?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Maling password o sirang file.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Ipakita ang tumutugtog sa itaas na bar</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Pila</value>
+  </data>
 </root>

@@ -9282,4 +9282,10 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>ពាក្យសម្ងាត់ខុស ឬឯកសារខូច។</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>បង្ហាញអ្វីដែលកំពុងចាក់នៅរបារខាងលើ</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>ជួរ</value>
+  </data>
 </root>

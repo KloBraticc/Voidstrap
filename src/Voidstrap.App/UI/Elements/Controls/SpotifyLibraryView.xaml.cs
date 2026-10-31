@@ -35,7 +35,22 @@ public partial class SpotifyLibraryView : UserControl
 
     private string? _nowImage;
 
+    private SpotifyItem? _opened;
+
+    private bool _inTrackList;
+
     public event EventHandler? Failed;
+
+    public event EventHandler<SpotifyState>? StateChanged;
+
+    public event EventHandler? MiniPlayerToggled;
+
+    public async Task TogglePlaybackAsync()
+    {
+        await _engine.PressAsync("control-button-playpause");
+        await Task.Delay(300);
+        await RefreshStateAsync();
+    }
 
     public SpotifyLibraryView()
     {
@@ -45,6 +60,7 @@ public partial class SpotifyLibraryView : UserControl
     public async Task ShowAsync()
     {
         _shown = true;
+        MiniToggle.IsChecked = App.Settings.Prop.SpotifyMiniPlayer;
         ShowSignIn(!App.Settings.Prop.SpotifySignedIn);
         _engine.SetLowMemory(false);
         _timer.Tick -= Timer_Tick;
@@ -119,6 +135,8 @@ public partial class SpotifyLibraryView : UserControl
         if (_engine.IsPlayingAudio)
         {
             _silentSince = DateTime.UtcNow;
+            if (App.Settings.Prop.SpotifyMiniPlayer)
+                await RefreshStateAsync();
             return;
         }
         if (DateTime.UtcNow - _silentSince >= IdleLimit)
@@ -126,6 +144,7 @@ public partial class SpotifyLibraryView : UserControl
             _timer.Stop();
             _timer.Tick -= Timer_Tick;
             _engine.Shutdown();
+            StateChanged?.Invoke(this, new SpotifyState(App.Settings.Prop.SpotifySignedIn, "", "", null, false, "", "", 0, 0, false, "false", false));
         }
     }
 
@@ -134,6 +153,7 @@ public partial class SpotifyLibraryView : UserControl
         SpotifyState? state = await _engine.GetStateAsync();
         if (state == null)
             return;
+        StateChanged?.Invoke(this, state);
         ShowSignIn(!state.SignedIn);
         if (App.Settings.Prop.SpotifySignedIn != state.SignedIn)
         {
@@ -175,6 +195,8 @@ public partial class SpotifyLibraryView : UserControl
         if (e.Key != Key.Enter || string.IsNullOrWhiteSpace(SearchBox.Text))
             return;
         Loading.Visibility = Visibility.Visible;
+        _inTrackList = false;
+        OpenHeader.Visibility = Visibility.Collapsed;
         ItemsList.ItemsSource = await _engine.SearchAsync(SearchBox.Text.Trim());
         Loading.Visibility = Visibility.Collapsed;
     }
@@ -187,8 +209,60 @@ public partial class SpotifyLibraryView : UserControl
 
     private async void Item_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is FrameworkElement { Tag: SpotifyItem item })
+        if (sender is not FrameworkElement { Tag: SpotifyItem item })
+            return;
+        if (_inTrackList)
+        {
+            await _engine.PlayRowAsync(item);
+        }
+        else if (item.Href.StartsWith("/track/", StringComparison.Ordinal))
+        {
             await _engine.PlayAsync(item);
+        }
+        else
+        {
+            _opened = item;
+            await ShowTracksAsync(item.Name, _engine.OpenAsync(item.Href), true);
+        }
+    }
+
+    private async Task ShowTracksAsync(string title, Task<List<SpotifyItem>> loading, bool canPlayAll)
+    {
+        OpenTitle.Text = title;
+        OpenHeader.Visibility = Visibility.Visible;
+        PlayAllButton.Visibility = canPlayAll ? Visibility.Visible : Visibility.Collapsed;
+        ItemsList.ItemsSource = null;
+        Loading.Visibility = Visibility.Visible;
+        ItemsList.ItemsSource = await loading;
+        Loading.Visibility = Visibility.Collapsed;
+        _inTrackList = true;
+    }
+
+    private void Back_Click(object sender, RoutedEventArgs e)
+    {
+        _inTrackList = false;
+        _opened = null;
+        OpenHeader.Visibility = Visibility.Collapsed;
+        ItemsList.ItemsSource = _library;
+    }
+
+    private async void PlayAll_Click(object sender, RoutedEventArgs e)
+    {
+        if (_opened != null)
+            await _engine.PlayAsync(_opened);
+    }
+
+    private async void Queue_Click(object sender, RoutedEventArgs e)
+    {
+        _opened = null;
+        await ShowTracksAsync(Voidstrap.Resources.Strings.Ui_Spotify_Queue, _engine.GetQueueAsync(), false);
+    }
+
+    private void MiniToggle_Click(object sender, RoutedEventArgs e)
+    {
+        App.Settings.Prop.SpotifyMiniPlayer = MiniToggle.IsChecked == true;
+        App.Settings.Save();
+        MiniPlayerToggled?.Invoke(this, EventArgs.Empty);
     }
 
     private async void SeekSlider_MouseUp(object sender, MouseButtonEventArgs e)

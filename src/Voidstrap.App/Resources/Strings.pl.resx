@@ -9595,4 +9595,10 @@ Zezwolić?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Błędne hasło lub uszkodzony plik.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Pokaż odtwarzany utwór na górnym pasku</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Kolejka</value>
+  </data>
 </root>

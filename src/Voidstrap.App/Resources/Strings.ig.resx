@@ -9282,4 +9282,10 @@ kwe ya?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Okwuntughe ezighi ezi ma ọ bụ faịlụ mebiri emebi.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Gosi ihe na-akpọ n’ogwe elu</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Ahịrị</value>
+  </data>
 </root>

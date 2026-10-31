@@ -9282,4 +9282,10 @@ Vai atļaut?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Nepareiza parole vai bojāts fails.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Rādīt atskaņoto augšējā joslā</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Rinda</value>
+  </data>
 </root>

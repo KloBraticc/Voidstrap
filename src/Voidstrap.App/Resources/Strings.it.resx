@@ -9597,4 +9597,10 @@ Consentire?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Password errata o file danneggiato.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Mostra il brano in riproduzione nella barra superiore</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Coda</value>
+  </data>
 </root>

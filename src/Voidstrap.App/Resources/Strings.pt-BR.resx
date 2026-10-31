@@ -9596,4 +9596,10 @@ Permitir?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Senha incorreta ou arquivo danificado.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Mostrar o que está tocando na barra superior</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Fila</value>
+  </data>
 </root>

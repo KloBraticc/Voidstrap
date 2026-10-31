@@ -9281,4 +9281,10 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>پارول خاتا ياكى ھۆججەت بۇزۇلغان.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>چېلىنىۋاتقاننى ئۈستى بالداقتا كۆرسىتىش</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>ئۆچرەت</value>
+  </data>
 </root>

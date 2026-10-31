@@ -9595,4 +9595,10 @@ Povolit?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Nesprávné heslo nebo poškozený soubor.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Zobrazit přehrávané v horní liště</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Fronta</value>
+  </data>
 </root>

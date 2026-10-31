@@ -9281,4 +9281,10 @@ E lumella?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Phasewete e fosahetseng kapa faele e senyehileng.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Bontša se bapaloang bareng e ka holimo</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Mola</value>
+  </data>
 </root>

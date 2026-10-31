@@ -9596,4 +9596,10 @@ Toestaan?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Verkeerd wachtwoord of beschadigd bestand.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Nu spelend tonen in de bovenste balk</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Wachtrij</value>
+  </data>
 </root>

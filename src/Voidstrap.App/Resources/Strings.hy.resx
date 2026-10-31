@@ -9282,4 +9282,10 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Սխալ գաղտնաբառ կամ վնասված ֆայլ։</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Ցույց տալ նվագարկվողը վերին գոտում</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Հերթ</value>
+  </data>
 </root>

@@ -9281,4 +9281,10 @@ Baimendu al duzu?</value>
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>Pasahitz okerra edo fitxategi hondatua.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>Erakutsi erreproduzitzen ari dena goiko barran</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>Ilara</value>
+  </data>
 </root>

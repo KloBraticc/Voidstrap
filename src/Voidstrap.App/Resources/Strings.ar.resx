@@ -9593,4 +9593,10 @@
   <data name="Accounts.Vault.Wrong" xml:space="preserve">
     <value>كلمة مرور خاطئة أو ملف تالف.</value>
   </data>
+  <data name="Ui.Spotify.ShowInTopBar" xml:space="preserve">
+    <value>إظهار ما يتم تشغيله في الشريط العلوي</value>
+  </data>
+  <data name="Ui.Spotify.Queue" xml:space="preserve">
+    <value>قائمة الانتظار</value>
+  </data>
 </root>
