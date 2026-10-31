@@ -65,6 +65,10 @@ internal static class ModTranspiler
 {
     private const int MaxCacheEntries = 256;
 
+    private const int MaxSavedEntries = 512;
+
+    private static string? _transpilerHash;
+
     private static readonly object Gate = new();
 
     private static readonly Dictionary<string, string> Cache = new(StringComparer.Ordinal);
@@ -90,6 +94,12 @@ internal static class ModTranspiler
         {
             if (Cache.TryGetValue(key, out string? cached))
                 return cached;
+            string? saved = ReadSaved(key);
+            if (saved != null)
+            {
+                Remember(key, saved);
+                return saved;
+            }
             string output;
             if (kind == ".ts" && IsJavaScript(source))
                 output = source;
@@ -108,10 +118,63 @@ internal static class ModTranspiler
                     throw;
                 }
             }
-            if (Cache.Count >= MaxCacheEntries)
-                Cache.Clear();
-            Cache[key] = output;
+            Remember(key, output);
+            WriteSaved(key, output);
             return output;
+        }
+    }
+
+    private static void Remember(string key, string output)
+    {
+        if (Cache.Count >= MaxCacheEntries)
+            Cache.Clear();
+        Cache[key] = output;
+    }
+
+    private static string SavedFolder => Path.Combine(Paths.Cache, "ModTranspile");
+
+    private static string SavedPath(string key)
+    {
+        _transpilerHash ??= Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(Resource.GetString("ModTranspiler.js"))))[..16];
+        string name = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(_transpilerHash + ":" + key)));
+        return Path.Combine(SavedFolder, name + ".js");
+    }
+
+    private static string? ReadSaved(string key)
+    {
+        try
+        {
+            string path = SavedPath(key);
+            return File.Exists(path) ? File.ReadAllText(path) : null;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            return null;
+        }
+    }
+
+    private static void WriteSaved(string key, string output)
+    {
+        const string LOG_IDENT = "ModTranspiler::WriteSaved";
+
+        try
+        {
+            string folder = SavedFolder;
+            Directory.CreateDirectory(folder);
+            string path = SavedPath(key);
+            string temporary = path + "." + Environment.ProcessId + ".tmp";
+            File.WriteAllText(temporary, output);
+            File.Move(temporary, path, true);
+            FileInfo[] saved = new DirectoryInfo(folder).GetFiles("*.js");
+            if (saved.Length > MaxSavedEntries)
+            {
+                foreach (FileInfo old in saved.OrderBy(file => file.LastWriteTimeUtc).Take(saved.Length - MaxSavedEntries))
+                    old.Delete();
+            }
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            App.Logger.WriteLine(LOG_IDENT, ex.Message);
         }
     }
 
