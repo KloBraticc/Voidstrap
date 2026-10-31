@@ -45,6 +45,7 @@ public sealed class SpotifyEngine
             return this.items(document.querySelector('main,[data-testid="grid-search-results"]') || document);
           },
           state: function () {
+            if (!document.querySelector('[data-testid="global-nav-bar"]')) return null;
             var w = document.querySelector('[data-testid="now-playing-widget"]');
             var img = w ? w.querySelector('img') : null;
             return {
@@ -146,7 +147,7 @@ public sealed class SpotifyEngine
             if (string.IsNullOrEmpty(json) || json == "null")
                 return null;
             string? inner = JsonSerializer.Deserialize<string>(json);
-            return inner == null ? null : JsonDocument.Parse(inner);
+            return inner is null or "null" ? null : JsonDocument.Parse(inner);
         }
         catch (Exception ex) when (ex is JsonException or InvalidOperationException or ObjectDisposedException or System.Runtime.InteropServices.COMException)
         {

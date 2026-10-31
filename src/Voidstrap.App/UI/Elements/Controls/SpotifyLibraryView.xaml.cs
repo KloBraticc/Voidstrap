@@ -19,7 +19,9 @@ public partial class SpotifyLibraryView : UserControl
 
     private readonly SpotifyEngine _engine = new();
 
-    private readonly DispatcherTimer _timer = new() { Interval = TimeSpan.FromSeconds(2) };
+    private readonly DispatcherTimer _timer = new() { Interval = TimeSpan.FromSeconds(1) };
+
+    private bool _starting;
 
     private List<SpotifyItem> _library = new();
 
@@ -39,6 +41,7 @@ public partial class SpotifyLibraryView : UserControl
     public async Task ShowAsync()
     {
         _shown = true;
+        ShowSignIn(!App.Settings.Prop.SpotifySignedIn);
         _engine.SetLowMemory(false);
         _timer.Tick -= Timer_Tick;
         _timer.Tick += Timer_Tick;
@@ -48,9 +51,14 @@ public partial class SpotifyLibraryView : UserControl
             await RefreshStateAsync();
             return;
         }
+        if (_starting)
+            return;
+        _starting = true;
         Loading.Visibility = Visibility.Visible;
         IntPtr handle = new WindowInteropHelper(Window.GetWindow(this)).Handle;
-        if (!await _engine.EnsureStartedAsync(handle))
+        bool started = await _engine.EnsureStartedAsync(handle);
+        _starting = false;
+        if (!started)
         {
             Loading.Visibility = Visibility.Collapsed;
             Failed?.Invoke(this, EventArgs.Empty);
@@ -71,6 +79,12 @@ public partial class SpotifyLibraryView : UserControl
         _timer.Stop();
         _timer.Tick -= Timer_Tick;
         _engine.Shutdown();
+    }
+
+    private void ShowSignIn(bool show)
+    {
+        SignInButton.Content = Voidstrap.Resources.Strings.Accounts_SignInBrowser.Replace("Roblox", "Spotify");
+        SignInButton.Visibility = show ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private async Task LoadLibraryAsync()
@@ -108,8 +122,12 @@ public partial class SpotifyLibraryView : UserControl
         SpotifyState? state = await _engine.GetStateAsync();
         if (state == null)
             return;
-        SignInButton.Content = Voidstrap.Resources.Strings.Accounts_SignInBrowser.Replace("Roblox", "Spotify");
-        SignInButton.Visibility = state.SignedIn ? Visibility.Collapsed : Visibility.Visible;
+        ShowSignIn(!state.SignedIn);
+        if (App.Settings.Prop.SpotifySignedIn != state.SignedIn)
+        {
+            App.Settings.Prop.SpotifySignedIn = state.SignedIn;
+            App.Settings.Save();
+        }
         NowTitle.Text = state.Title;
         NowArtist.Text = state.Artist;
         PlayPause.Icon = state.Playing ? SymbolRegular.Pause24 : SymbolRegular.Play24;
