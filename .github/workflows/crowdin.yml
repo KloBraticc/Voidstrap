@@ -38,6 +38,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Enable every target language on Crowdin
+        env:
+          CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
+          CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import re
+          import urllib.request
+
+          url = "https://api.crowdin.com/api/v2/projects/" + os.environ["CROWDIN_PROJECT_ID"]
+          headers = {"Authorization": "Bearer " + os.environ["CROWDIN_PERSONAL_TOKEN"], "Content-Type": "application/json"}
+          with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=30) as response:
+              current = json.load(response)["data"]["targetLanguageIds"]
+          wanted = re.findall(r"^\s{8}([A-Za-z-]+):", open("crowdin.yml", encoding="utf-8").read(), re.M)
+          with urllib.request.urlopen(urllib.request.Request("https://api.crowdin.com/api/v2/languages?limit=500", headers=headers), timeout=30) as response:
+              known = {item["data"]["id"] for item in json.load(response)["data"]}
+          print("Not on Crowdin:", sorted(set(wanted) - known))
+          merged = sorted(set(current) | (set(wanted) & known))
+          if merged != sorted(current):
+              body = json.dumps([{"op": "replace", "path": "/targetLanguageIds", "value": merged}]).encode()
+              request = urllib.request.Request(url, data=body, headers=headers, method="PATCH")
+              urllib.request.urlopen(request, timeout=30).close()
+          print("Target languages:", len(merged))
+          PY
+
       - id: sync
         continue-on-error: true
         uses: crowdin/github-action@959dc74ac104447731cba99a016f85d0ae719788

@@ -11,12 +11,16 @@ files:
         ar: ar
         bg: bg
         cs: cs
+        da: da
         de: de
+        el: el
         es-ES: es-ES
         fa: fa
         fi: fi
         fil: fil
         fr: fr
+        he: he
+        hi: hi
         hr: hr
         hu: hu
         id: id
@@ -26,6 +30,7 @@ files:
         lt: lt
         ms: ms
         nl: nl
+        no: no
         pl: pl
         pt-BR: pt-BR
         ro: ro
@@ -37,3 +42,62 @@ files:
         vi: vi
         zh-CN: zh-CN
         zh-TW: zh-TW
+        af: af
+        bn: bn
+        ca: ca
+        et: et
+        lv: lv
+        sk: sk
+        sl: sl
+        sr: sr
+        sw: sw
+        ta: ta
+        am: am
+        az: az
+        be: be
+        bs: bs
+        cy: cy
+        eo: eo
+        eu: eu
+        ga-IE: ga
+        gl: gl
+        gu-IN: gu
+        ha: ha
+        hy-AM: hy
+        ig: ig
+        is: is
+        ka: ka
+        kk: kk
+        km: km
+        kn: kn
+        ky: ky
+        lb: lb
+        lo: lo
+        mg: mg
+        mi: mi
+        mk: mk
+        ml-IN: ml
+        mn: mn
+        mr: mr
+        mt: mt
+        my: my
+        ne-NP: ne
+        or: or
+        pa-IN: pa
+        ps: ps
+        rw: rw
+        sd: sd
+        si-LK: si
+        so: so
+        sq: sq
+        st: st
+        te: te
+        tg: tg
+        tk: tk
+        ug: ug
+        ur-PK: ur
+        uz: uz
+        xh: xh
+        yi: yi
+        yo: yo
+        zu: zu
