@@ -1,5 +1,6 @@
 using System.IO;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 
@@ -11,9 +12,53 @@ public sealed class SpotifyPlayerView : ContentControl
 
     private const string PlayerUrl = "https://open.spotify.com/";
 
+    private const string BrowserArguments =
+        "--autoplay-policy=no-user-gesture-required --process-per-site --disk-cache-size=52428800 --media-cache-size=10485760 --renderer-process-limit=1 "
+        + "--disable-background-networking --disable-extensions --disable-sync --disable-translate --disable-features=msWebOOUI,msPdfOOUI,TranslateUI,AutofillServerCommunication,OptimizationHints,MediaRouter";
+
+    private static readonly TimeSpan IdleLimit = TimeSpan.FromMinutes(3);
+
+    private readonly DispatcherTimer _idleTimer = new() { Interval = TimeSpan.FromSeconds(30) };
+
+    private DateTime _silentSince;
+
+    private bool _shown;
+
     private bool _started;
 
     private WebView2CompositionControl? _view;
+
+    public void SetShown(bool shown)
+    {
+        _shown = shown;
+        if (_view?.CoreWebView2 is { } core)
+            core.MemoryUsageTargetLevel = shown ? CoreWebView2MemoryUsageTargetLevel.Normal : CoreWebView2MemoryUsageTargetLevel.Low;
+        _silentSince = DateTime.UtcNow;
+        if (shown)
+        {
+            _idleTimer.Stop();
+            _idleTimer.Tick -= IdleTimer_Tick;
+        }
+        else if (_started)
+        {
+            _idleTimer.Tick -= IdleTimer_Tick;
+            _idleTimer.Tick += IdleTimer_Tick;
+            _idleTimer.Start();
+        }
+    }
+
+    private void IdleTimer_Tick(object? sender, EventArgs e)
+    {
+        if (_shown || _view?.CoreWebView2 is not { } core)
+            return;
+        if (core.IsDocumentPlayingAudio)
+        {
+            _silentSince = DateTime.UtcNow;
+            return;
+        }
+        if (DateTime.UtcNow - _silentSince >= IdleLimit)
+            Shutdown();
+    }
 
     public async Task EnsureStartedAsync()
     {
@@ -25,7 +70,7 @@ public sealed class SpotifyPlayerView : ContentControl
             CoreWebView2Environment environment = await CoreWebView2Environment.CreateAsync(
                 null,
                 Path.Combine(Paths.Cache, "SpotifyWebView"),
-                new CoreWebView2EnvironmentOptions("--autoplay-policy=no-user-gesture-required")
+                new CoreWebView2EnvironmentOptions(BrowserArguments)
             );
             _view = new WebView2CompositionControl { DefaultBackgroundColor = System.Drawing.Color.Black };
             Content = _view;
@@ -53,6 +98,8 @@ public sealed class SpotifyPlayerView : ContentControl
     public void Shutdown()
     {
         _started = false;
+        _idleTimer.Stop();
+        _idleTimer.Tick -= IdleTimer_Tick;
         WebView2CompositionControl? view = _view;
         _view = null;
         Content = null;

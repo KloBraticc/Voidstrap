@@ -801,8 +801,16 @@ namespace Microsoft.Web.WebView2.Core
 		public CoreWebView2WebResourceResponse? Response { get; set; }
 	}
 
+	public enum CoreWebView2MemoryUsageTargetLevel
+	{
+		Normal,
+		Low,
+	}
+
 	public class CoreWebView2
 	{
+		public CoreWebView2MemoryUsageTargetLevel MemoryUsageTargetLevel { get; set; }
+		public bool IsDocumentPlayingAudio => false;
 		public CoreWebView2Settings Settings { get; } = new CoreWebView2Settings();
 
 		public CoreWebView2Environment Environment { get; } = new CoreWebView2Environment();
