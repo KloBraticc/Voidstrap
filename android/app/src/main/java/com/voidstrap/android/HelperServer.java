@@ -16,6 +16,8 @@ public final class HelperServer {
     private static final String CLEANUP_END = "VOIDSTRAP_CLEANUP_END";
     static final String CLEANUP = "K=0\n"
             + "for f in " + FlagWriter.PATH + " " + FlagWriter.PATH + ".new " + LibraryData.JOINS + "; do [ -e \"$f\" ] && K=1; rm -f \"$f\"; done\n"
+            + "[ -e " + FlagWriter.REFRESH_BACKUP + " ] && K=1\n"
+            + "[ \"$(getprop " + FlagWriter.GAME_FPS_CAP + ")\" = true ] && K=1\n"
             + FlagWriter.RESTORE_REFRESH
             + "setprop " + FlagWriter.GAME_FPS_CAP + " false\n"
             + "NS=''\n"

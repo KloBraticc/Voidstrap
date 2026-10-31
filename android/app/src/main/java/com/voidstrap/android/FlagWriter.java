@@ -13,7 +13,7 @@ public final class FlagWriter {
     public static final int FAILED = 2;
 
     public static final String PATH = "/data/local/tmp/ClientAppSettings.json";
-    private static final String REFRESH_BACKUP = "/data/local/tmp/voidstrap_refresh_backup";
+    static final String REFRESH_BACKUP = "/data/local/tmp/voidstrap_refresh_backup";
     static final String GAME_FPS_CAP = "debug.graphics.game_default_frame_rate.disabled";
 
     public enum Mode { HELPER, ROOT, NONE }
@@ -127,9 +127,8 @@ public final class FlagWriter {
     }
 
     public static int remove(Context c, Mode mode, boolean stopRoblox) {
-        String pkg = stopRoblox ? Targets.selected(c) : "";
-        if (pkg == null || !pkg.matches("[A-Za-z0-9_.]+")) pkg = "";
-        return run(mode, script("removeScript", "pkg", pkg, "restore", RESTORE_REFRESH), 60);
+        String pkgs = stopRoblox ? Targets.GLOBAL + " " + Targets.VN : "";
+        return run(mode, script("removeScript", "pkg", pkgs, "restore", RESTORE_REFRESH), 60);
     }
 
     public static boolean removedFromRoblox(Context c) {

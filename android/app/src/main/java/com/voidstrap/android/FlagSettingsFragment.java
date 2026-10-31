@@ -40,6 +40,7 @@ public final class FlagSettingsFragment extends Page {
         Flags.Profile p = store.flags.active();
         p.updated = System.currentTimeMillis();
         store.saveFlags();
+        FlagWriter.setRemovedFromRoblox(requireContext(), false);
         shown = signature();
         store.changed();
     }

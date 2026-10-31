@@ -329,13 +329,12 @@ pub fn write_script(json: &str) -> String {
     )
 }
 
-pub fn remove_script(pkg: &str, restore_refresh: &str) -> String {
-    let stop = if !pkg.is_empty() && pkg.chars().all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '.') {
-        format!("p=$(pidof {pkg})\nif [ -n \"$p\" ]; then am force-stop {pkg}; fi\n")
-    } else {
-        String::new()
-    };
-    format!("rm -f {FLAGS_PATH} || exit 2\n{restore_refresh}setprop {GAME_FPS_CAP} false\n{stop}exit 0\n")
+pub fn remove_script(pkgs: &str, restore_refresh: &str) -> String {
+    let mut stop = String::new();
+    for pkg in pkgs.split_whitespace().filter(|p| p.chars().all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '.')) {
+        stop.push_str(&format!("p=$(pidof {pkg})\nif [ -n \"$p\" ]; then am force-stop {pkg}; fi\n"));
+    }
+    format!("rm -f {FLAGS_PATH} {FLAGS_PATH}.new\n[ -e {FLAGS_PATH} ] && exit 2\n{restore_refresh}setprop {GAME_FPS_CAP} false\n{stop}exit 0\n")
 }
 
 pub fn launch_sync_script(json: &str, unlocked: bool, pkg: &str, restore_refresh: &str) -> String {
