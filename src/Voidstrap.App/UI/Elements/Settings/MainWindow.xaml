@@ -992,7 +992,7 @@
       </Grid>
     </Border>
     <Grid x:Name="LaunchTargetOverlay" Grid.RowSpan="3" Panel.ZIndex="1100" Visibility="Hidden" Opacity="0" IsHitTestVisible="False" ClipToBounds="True">
-      <Border Background="#4D000000" MouseLeftButtonDown="LaunchTargetScrim_MouseLeftButtonDown" />
+      <Border x:Name="LaunchTargetScrim" Background="#4D000000" MouseLeftButtonDown="LaunchTargetScrim_MouseLeftButtonDown" />
       <Border x:Name="LaunchTargetPanel" Style="{StaticResource RinDialogPanelStyle}" Width="400" Margin="0" Padding="18,16,10,16" HorizontalAlignment="Right" VerticalAlignment="Stretch" CornerRadius="0" BorderThickness="1,0,0,0" BorderBrush="{StaticResource LauncherMenuBorderBrush}" Visibility="Visible">
         <Border.RenderTransform>
           <TransformGroup>

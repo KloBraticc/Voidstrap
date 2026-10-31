@@ -7856,7 +7856,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _modalScale = scale;
         foreach (Border candidate in ModalPanels)
             candidate.Visibility = ReferenceEquals(panel, candidate) ? Visibility.Visible : Visibility.Collapsed;
-        if (Voidstrap.Utility.Platform.IsWindows && panel.Effect == null)
+        if (Voidstrap.Utility.Platform.IsWindows && panel.Effect == null && !ModalIsSidebar)
             panel.Effect = new System.Windows.Media.Effects.DropShadowEffect
             {
                 BlurRadius = 32,
@@ -7874,6 +7874,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 SetModalScale(scale, 1.0);
                 LaunchTargetPanelSlide.BeginAnimation(TranslateTransform.XProperty, null);
                 LaunchTargetPanelSlide.X = SidebarOffset;
+                LaunchTargetScrim.BeginAnimation(OpacityProperty, null);
+                LaunchTargetScrim.Opacity = 0;
             }
             else
             {
@@ -7885,7 +7887,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         LaunchTargetOverlay.Visibility = Visibility.Visible;
         LaunchTargetOverlay.IsHitTestVisible = true;
         if (fresh)
+        {
+            LaunchTargetOverlay.UpdateLayout();
             ShowModalSnapshot(panel, scale);
+        }
         AnimateLaunchTargetOverlay(1.0, 1.0, ModalOpenFadeDuration, generation, false);
     }
 
@@ -8011,11 +8016,17 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 FinishLaunchTargetOpen(generation);
         }
         done.Completed += Completed;
-        LaunchTargetOverlay.BeginAnimation(OpacityProperty, fade, HandoffBehavior.SnapshotAndReplace);
         if (ModalIsSidebar)
         {
+            LaunchTargetOverlay.BeginAnimation(OpacityProperty, null);
+            LaunchTargetOverlay.Opacity = 1;
+            LaunchTargetScrim.BeginAnimation(OpacityProperty, fade, HandoffBehavior.SnapshotAndReplace);
             DoubleAnimation slide = CreateLaunchTargetAnimation(finishClose ? SidebarOffset : 0.0, fadeDuration, ModalScaleEase);
             LaunchTargetPanelSlide.BeginAnimation(TranslateTransform.XProperty, slide, HandoffBehavior.SnapshotAndReplace);
+        }
+        else
+        {
+            LaunchTargetOverlay.BeginAnimation(OpacityProperty, fade, HandoffBehavior.SnapshotAndReplace);
         }
         ScaleTransform target = _modalScale ?? LaunchTargetPanelScale;
         target.BeginAnimation(ScaleTransform.ScaleXProperty, scale, HandoffBehavior.SnapshotAndReplace);
@@ -8169,6 +8180,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             SetModalScale(_modalScale, 1.0);
         LaunchTargetPanelSlide.BeginAnimation(TranslateTransform.XProperty, null);
         LaunchTargetPanelSlide.X = 0;
+        LaunchTargetScrim.BeginAnimation(OpacityProperty, null);
+        LaunchTargetScrim.Opacity = 1;
+        LaunchTargetOverlay.BeginAnimation(OpacityProperty, null);
+        LaunchTargetOverlay.Opacity = 0;
         _modalPanel = null;
         _modalScale = null;
         LaunchTargetOverlay.Visibility = Visibility.Hidden;
