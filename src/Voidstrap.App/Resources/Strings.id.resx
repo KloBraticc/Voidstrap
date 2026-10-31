@@ -9576,4 +9576,25 @@ Izinkan?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Memilih mode gelap atau terang untuk aplikasi Roblox. Berlaku saat Roblox dijalankan berikutnya.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Ekspor terenkripsi</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Impor akun terenkripsi</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Kata sandi</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Konfirmasi kata sandi</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Gunakan minimal 12 karakter. Kata sandi yang terlupa tidak dapat dipulihkan.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Periksa kata sandi. Harus cocok dan minimal 12 karakter.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Kata sandi salah atau berkas rusak.</value>
+  </data>
 </root>

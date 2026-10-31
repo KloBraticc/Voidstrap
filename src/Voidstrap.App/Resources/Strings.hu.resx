@@ -9573,4 +9573,25 @@ Engedélyezed?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Kiválasztja a sötét vagy világos módot a Roblox alkalmazáshoz. A Roblox következő indításakor lép életbe.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Titkosított exportálás</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Titkosított fiók importálása</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Jelszó</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Jelszó megerősítése</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Használj legalább 12 karaktert. Az elfelejtett jelszó nem állítható vissza.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Ellenőrizd a jelszót. Egyeznie kell, és legalább 12 karakteres legyen.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Hibás jelszó vagy sérült fájl.</value>
+  </data>
 </root>

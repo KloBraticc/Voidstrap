@@ -9261,4 +9261,25 @@ Vai atļaut?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Izvēlas tumšo vai gaišo režīmu lietotnei Roblox. Tiek lietots nākamajā Roblox startēšanas reizē.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Šifrēts eksports</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Importēt šifrētu kontu</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Parole</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Apstipriniet paroli</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Izmantojiet vismaz 12 rakstzīmes. Aizmirstu paroli nevar atgūt.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Pārbaudiet paroli. Tai jāsakrīt un jābūt vismaz 12 rakstzīmēm.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Nepareiza parole vai bojāts fails.</value>
+  </data>
 </root>

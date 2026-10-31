@@ -9260,4 +9260,25 @@ Kas lubada?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Valib Robloxi rakendusele tumeda või heleda režiimi. Rakendub Robloxi järgmisel käivitamisel.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Krüpteeritud eksport</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Impordi krüpteeritud konto</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Parool</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Kinnita parool</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Kasuta vähemalt 12 märki. Unustatud parooli ei saa taastada.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Kontrolli parooli. See peab ühtima ja olema vähemalt 12 märki.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Vale parool või kahjustatud fail.</value>
+  </data>
 </root>

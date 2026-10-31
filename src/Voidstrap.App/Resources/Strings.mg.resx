@@ -9261,4 +9261,25 @@ Avelao izany?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Mifidy fomba maizina na mazava ho an'ny fampiharana Roblox. Mihatra rehefa manomboka indray ny Roblox.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Avoaka voaaro</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Ampidiro ny kaonty voaaro</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Teny miafina</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Hamafiso ny teny miafina</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Mampiasà litera 12 farafahakeliny. Tsy azo averina ny teny miafina adino.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Hamarino ny teny miafina. Tsy maintsy mitovy sy misy litera 12 farafahakeliny.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Teny miafina diso na rakitra simba.</value>
+  </data>
 </root>

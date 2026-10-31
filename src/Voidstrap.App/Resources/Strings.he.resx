@@ -9261,4 +9261,25 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>בוחר מצב כהה או בהיר לאפליקציית Roblox. ייכנס לתוקף בהפעלה הבאה של Roblox.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>ייצוא מוצפן</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>ייבוא חשבון מוצפן</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>סיסמה</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>אימות סיסמה</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>השתמש לפחות ב-12 תווים. לא ניתן לשחזר סיסמה שנשכחה.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>בדוק את הסיסמה. עליה להתאים ולהכיל לפחות 12 תווים.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>סיסמה שגויה או קובץ פגום.</value>
+  </data>
 </root>

@@ -9575,4 +9575,25 @@ Permiți?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Alege modul întunecat sau luminos pentru aplicația Roblox. Se aplică la următoarea pornire a Roblox.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Export criptat</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Importă cont criptat</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Parolă</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Confirmă parola</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Folosește cel puțin 12 caractere. O parolă uitată nu poate fi recuperată.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Verifică parola. Trebuie să coincidă și să aibă cel puțin 12 caractere.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Parolă greșită sau fișier deteriorat.</value>
+  </data>
 </root>

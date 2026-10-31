@@ -9572,4 +9572,25 @@ Autoriser ?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Choisit le mode sombre ou clair pour l'application Roblox. S'applique au prochain démarrage de Roblox.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Exporter chiffré</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Importer un compte chiffré</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Mot de passe</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Confirmer le mot de passe</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Utilisez au moins 12 caractères. Un mot de passe oublié ne peut pas être récupéré.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Vérifiez le mot de passe. Il doit correspondre et comporter au moins 12 caractères.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Mot de passe incorrect ou fichier endommagé.</value>
+  </data>
 </root>

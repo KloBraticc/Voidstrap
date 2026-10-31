@@ -9261,4 +9261,25 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Roblox ಆ್ಯಪ್‌ಗೆ ಡಾರ್ಕ್ ಅಥವಾ ಲೈಟ್ ಮೋಡ್ ಆಯ್ಕೆ ಮಾಡುತ್ತದೆ. ಮುಂದಿನ ಬಾರಿ Roblox ಪ್ರಾರಂಭವಾದಾಗ ಅನ್ವಯಿಸುತ್ತದೆ.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಿ ರಫ್ತು</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>ಎನ್‌ಕ್ರಿಪ್ಟ್ ಖಾತೆ ಆಮದು</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>ಪಾಸ್‌ವರ್ಡ್</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>ಪಾಸ್‌ವರ್ಡ್ ದೃಢೀಕರಿಸಿ</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>ಕನಿಷ್ಠ 12 ಅಕ್ಷರಗಳನ್ನು ಬಳಸಿ. ಮರೆತ ಪಾಸ್‌ವರ್ಡ್ ಮರುಪಡೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>ಪಾಸ್‌ವರ್ಡ್ ಪರಿಶೀಲಿಸಿ. ಅದು ಹೊಂದಿಕೆಯಾಗಬೇಕು ಮತ್ತು ಕನಿಷ್ಠ 12 ಅಕ್ಷರಗಳಿರಬೇಕು.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>ತಪ್ಪು ಪಾಸ್‌ವರ್ಡ್ ಅಥವಾ ಹಾನಿಗೊಂಡ ಫೈಲ್.</value>
+  </data>
 </root>

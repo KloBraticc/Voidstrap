@@ -9574,4 +9574,25 @@ Povolit?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Vybere tmavý nebo světlý režim aplikace Roblox. Projeví se při příštím spuštění Robloxu.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Šifrovaný export</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Importovat šifrovaný účet</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Heslo</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Potvrďte heslo</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Použijte alespoň 12 znaků. Zapomenuté heslo nelze obnovit.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Zkontrolujte heslo. Musí se shodovat a mít alespoň 12 znaků.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Nesprávné heslo nebo poškozený soubor.</value>
+  </data>
 </root>

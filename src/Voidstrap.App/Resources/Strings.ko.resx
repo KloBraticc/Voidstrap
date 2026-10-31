@@ -9572,4 +9572,25 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Roblox 앱의 다크 모드 또는 라이트 모드를 선택합니다. 다음에 Roblox를 시작할 때 적용됩니다.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>암호화하여 내보내기</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>암호화된 계정 가져오기</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>비밀번호</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>비밀번호 확인</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>12자 이상 사용하세요. 잊어버린 비밀번호는 복구할 수 없습니다.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>비밀번호를 확인하세요. 일치해야 하며 12자 이상이어야 합니다.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>비밀번호가 틀렸거나 파일이 손상되었습니다.</value>
+  </data>
 </root>

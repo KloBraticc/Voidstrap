@@ -9261,4 +9261,25 @@ Vil du tillate det?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Velger mørk eller lys modus for Roblox-appen. Trer i kraft neste gang Roblox starter.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Kryptert eksport</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Importer kryptert konto</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Passord</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Bekreft passord</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Bruk minst 12 tegn. Et glemt passord kan ikke gjenopprettes.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Sjekk passordet. Det må stemme overens og ha minst 12 tegn.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Feil passord eller skadet fil.</value>
+  </data>
 </root>

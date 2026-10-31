@@ -9261,4 +9261,25 @@ Bada shi?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Yana zaɓar yanayin duhu ko haske don manhajar Roblox. Zai fara aiki idan Roblox ya sake farawa.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Fitarwa a ɓoye</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Shigo da asusu da aka ɓoye</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Kalmar sirri</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Tabbatar da kalmar sirri</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Yi amfani da aƙalla haruffa 12. Ba za a iya dawo da kalmar sirri da aka manta ba.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Duba kalmar sirri. Dole ta dace kuma ta kai aƙalla haruffa 12.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Kalmar sirri ba daidai ba ko fayil ya lalace.</value>
+  </data>
 </root>

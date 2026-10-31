@@ -9571,4 +9571,25 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Вибирає темний або світлий режим для застосунку Roblox. Застосовується під час наступного запуску Roblox.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Зашифрований експорт</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Імпортувати зашифрований обліковий запис</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Підтвердьте пароль</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Використовуйте щонайменше 12 символів. Забутий пароль неможливо відновити.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Перевірте пароль. Він має збігатися й містити щонайменше 12 символів.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Неправильний пароль або пошкоджений файл.</value>
+  </data>
 </root>

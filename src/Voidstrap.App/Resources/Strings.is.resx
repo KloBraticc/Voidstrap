@@ -9261,4 +9261,25 @@ Leyfa það?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Velur dökka eða ljósa stillingu fyrir Roblox-forritið. Tekur gildi næst þegar Roblox ræsist.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Dulkóðaður útflutningur</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Flytja inn dulkóðaðan reikning</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Lykilorð</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Staðfesta lykilorð</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Notaðu að minnsta kosti 12 stafi. Ekki er hægt að endurheimta gleymt lykilorð.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Athugaðu lykilorðið. Það verður að passa og vera að minnsta kosti 12 stafir.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Rangt lykilorð eða skemmd skrá.</value>
+  </data>
 </root>

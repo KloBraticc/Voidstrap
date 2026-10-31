@@ -9260,4 +9260,25 @@ Gba laaye?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Ó yan ipò dúdú tàbí ìmọ́lẹ̀ fún áàpù Roblox. Yóò ṣiṣẹ́ nígbà tí Roblox bá tún bẹ̀rẹ̀.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Gbé jáde ní ìpamọ́</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Gbé àkọọ́lẹ̀ ìpamọ́ wọlé</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Ọ̀rọ̀ ìgbaniwọlé</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Jẹ́rìí ọ̀rọ̀ ìgbaniwọlé</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Lo ó kéré tán ohun kikọ 12. A kò lè gba ọ̀rọ̀ ìgbaniwọlé tí a gbàgbé padà.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Ṣàyẹ̀wò ọ̀rọ̀ ìgbaniwọlé. Ó gbọ́dọ̀ bára mu kí ó sì ní ó kéré tán ohun kikọ 12.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Ọ̀rọ̀ ìgbaniwọlé tí kò tọ́ tàbí fáìlì tó bàjẹ́.</value>
+  </data>
 </root>

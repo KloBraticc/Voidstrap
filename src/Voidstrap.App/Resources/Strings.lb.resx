@@ -9261,4 +9261,25 @@ Erlaabt et?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Wielt den donkelen oder hellen Modus fir d'Roblox-App. Gëllt beim nächste Start vu Roblox.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Verschlësselt exportéieren</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Verschlësselte Kont importéieren</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Passwuert</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Passwuert bestätegen</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Benotz op d'mannst 12 Zeechen. E vergiessent Passwuert kann net erëmfonnt ginn.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Kontrolléier d'Passwuert. Et muss iwwereneestëmmen an op d'mannst 12 Zeechen hunn.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Falscht Passwuert oder beschiedegte Fichier.</value>
+  </data>
 </root>

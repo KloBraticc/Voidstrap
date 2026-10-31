@@ -9261,4 +9261,25 @@ Dovoli?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Izbere temni ali svetli način za aplikacijo Roblox. Uveljavi se ob naslednjem zagonu Robloxa.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Šifriran izvoz</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Uvozi šifriran račun</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Geslo</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Potrdi geslo</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Uporabite vsaj 12 znakov. Pozabljenega gesla ni mogoče obnoviti.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Preverite geslo. Mora se ujemati in imeti vsaj 12 znakov.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Napačno geslo ali poškodovana datoteka.</value>
+  </data>
 </root>

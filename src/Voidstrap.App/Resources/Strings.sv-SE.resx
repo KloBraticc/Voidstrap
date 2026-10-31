@@ -9573,4 +9573,25 @@ Tillåta?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Väljer mörkt eller ljust läge för Roblox-appen. Börjar gälla nästa gång Roblox startar.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Krypterad export</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Importera krypterat konto</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Lösenord</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Bekräfta lösenord</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Använd minst 12 tecken. Ett glömt lösenord kan inte återställas.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Kontrollera lösenordet. Det måste stämma och ha minst 12 tecken.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Fel lösenord eller skadad fil.</value>
+  </data>
 </root>

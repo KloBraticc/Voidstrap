@@ -9261,4 +9261,25 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Roblox ആപ്പിനായി ഡാർക്ക് അല്ലെങ്കിൽ ലൈറ്റ് മോഡ് തിരഞ്ഞെടുക്കുന്നു. അടുത്ത തവണ Roblox ആരംഭിക്കുമ്പോൾ ബാധകമാകും.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>എൻക്രിപ്റ്റ് ചെയ്ത് എക്സ്പോർട്ട്</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>എൻക്രിപ്റ്റ് ചെയ്ത അക്കൗണ്ട് ഇമ്പോർട്ട്</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>പാസ്‌വേഡ്</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>പാസ്‌വേഡ് സ്ഥിരീകരിക്കുക</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>കുറഞ്ഞത് 12 അക്ഷരങ്ങൾ ഉപയോഗിക്കുക. മറന്ന പാസ്‌വേഡ് വീണ്ടെടുക്കാനാവില്ല.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>പാസ്‌വേഡ് പരിശോധിക്കുക. അത് പൊരുത്തപ്പെടുകയും കുറഞ്ഞത് 12 അക്ഷരങ്ങൾ ഉണ്ടാവുകയും വേണം.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>തെറ്റായ പാസ്‌വേഡ് അല്ലെങ്കിൽ കേടായ ഫയൽ.</value>
+  </data>
 </root>

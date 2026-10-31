@@ -9261,4 +9261,25 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Roblox аппын бараан эсвэл цайвар горимыг сонгоно. Roblox дараагийн удаа эхлэхэд хэрэгжинэ.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Шифрлэж экспортлох</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Шифрлэсэн бүртгэл импортлох</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Нууц үг</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Нууц үг баталгаажуулах</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Дор хаяж 12 тэмдэгт ашиглана уу. Мартсан нууц үгийг сэргээх боломжгүй.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Нууц үгээ шалгана уу. Таарч, дор хаяж 12 тэмдэгттэй байх ёстой.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Буруу нууц үг эсвэл гэмтсэн файл.</value>
+  </data>
 </root>

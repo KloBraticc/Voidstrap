@@ -9576,4 +9576,25 @@ Consentire?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Sceglie la modalità scura o chiara per l'app Roblox. Si applica al prossimo avvio di Roblox.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Esporta cifrato</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Importa account cifrato</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Conferma password</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Usa almeno 12 caratteri. Una password dimenticata non può essere recuperata.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Controlla la password. Deve corrispondere e avere almeno 12 caratteri.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Password errata o file danneggiato.</value>
+  </data>
 </root>

@@ -9261,4 +9261,25 @@ Ceadaigh é?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Roghnaíonn sé mód dorcha nó geal don aip Roblox. Cuirfear i bhfeidhm é an chéad uair eile a thosóidh Roblox.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Easpórtáil criptithe</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Iompórtáil cuntas criptithe</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Pasfhocal</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Deimhnigh an pasfhocal</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Úsáid 12 charachtar ar a laghad. Ní féidir pasfhocal dearmadta a aisghabháil.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Seiceáil an pasfhocal. Caithfidh sé a bheith comhionann agus 12 charachtar ar a laghad.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Pasfhocal mícheart nó comhad damáistithe.</value>
+  </data>
 </root>

@@ -9261,4 +9261,25 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Избира темен или светол режим за апликацијата Roblox. Се применува при следното стартување на Roblox.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Шифриран извоз</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Увези шифрирана сметка</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Лозинка</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Потврди лозинка</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Користете најмалку 12 знаци. Заборавена лозинка не може да се врати.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Проверете ја лозинката. Мора да се совпаѓа и да има најмалку 12 знаци.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Погрешна лозинка или оштетена датотека.</value>
+  </data>
 </root>

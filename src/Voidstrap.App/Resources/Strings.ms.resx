@@ -9565,4 +9565,25 @@ Benarkan?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Memilih mod gelap atau cerah untuk aplikasi Roblox. Berkuat kuasa apabila Roblox dimulakan seterusnya.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Eksport disulitkan</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Import akaun disulitkan</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Kata laluan</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Sahkan kata laluan</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Gunakan sekurang-kurangnya 12 aksara. Kata laluan yang dilupakan tidak boleh dipulihkan.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Semak kata laluan. Ia mesti sepadan dan sekurang-kurangnya 12 aksara.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Kata laluan salah atau fail rosak.</value>
+  </data>
 </root>

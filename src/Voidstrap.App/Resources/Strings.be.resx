@@ -9260,4 +9260,25 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Выбірае цёмны ці светлы рэжым для праграмы Roblox. Прымяняецца пры наступным запуску Roblox.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Экспарт у зашыфраваным выглядзе</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Імпартаваць зашыфраваны ўліковы запіс</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Пацвердзіце пароль</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Выкарыстоўвайце не менш за 12 сімвалаў. Забыты пароль нельга аднавіць.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Праверце пароль. Ён павінен супадаць і мець не менш за 12 сімвалаў.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Няправільны пароль або пашкоджаны файл.</value>
+  </data>
 </root>

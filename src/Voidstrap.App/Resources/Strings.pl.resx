@@ -9574,4 +9574,25 @@ Zezwolić?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Wybiera tryb ciemny lub jasny dla aplikacji Roblox. Zadziała przy następnym uruchomieniu Roblox.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Eksport szyfrowany</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Importuj zaszyfrowane konto</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Hasło</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Potwierdź hasło</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Użyj co najmniej 12 znaków. Zapomnianego hasła nie można odzyskać.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Sprawdź hasło. Musi się zgadzać i mieć co najmniej 12 znaków.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Błędne hasło lub uszkodzony plik.</value>
+  </data>
 </root>

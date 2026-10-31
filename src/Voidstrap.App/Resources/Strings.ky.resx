@@ -9261,4 +9261,25 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Roblox колдонмосу үчүн караңгы же жарык режимди тандайт. Roblox кийинки ишке киргенде колдонулат.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Шифрленген экспорт</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Шифрленген аккаунтту импорттоо</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Сырсөз</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Сырсөздү ырастоо</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Кеминде 12 белги колдонуңуз. Унутулган сырсөздү калыбына келтирүү мүмкүн эмес.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Сырсөздү текшериңиз. Ал дал келип, кеминде 12 белги болушу керек.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Туура эмес сырсөз же бузулган файл.</value>
+  </data>
 </root>

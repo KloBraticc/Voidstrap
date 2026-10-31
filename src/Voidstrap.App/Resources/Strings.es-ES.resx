@@ -9573,4 +9573,25 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Elige el modo oscuro o claro para la aplicación de Roblox. Se aplica la próxima vez que se inicie Roblox.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Exportar cifrado</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Importar cuenta cifrada</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Confirmar contraseña</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Usa al menos 12 caracteres. Una contraseña olvidada no se puede recuperar.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Comprueba la contraseña. Debe coincidir y tener al menos 12 caracteres.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Contraseña incorrecta o archivo dañado.</value>
+  </data>
 </root>

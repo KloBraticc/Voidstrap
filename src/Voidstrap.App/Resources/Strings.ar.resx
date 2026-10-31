@@ -9572,4 +9572,25 @@
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>يختار الوضع الداكن أو الفاتح لتطبيق Roblox. يُطبَّق عند تشغيل Roblox في المرة القادمة.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>تصدير مشفّر</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>استيراد حساب مشفّر</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>كلمة المرور</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>تأكيد كلمة المرور</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>استخدم 12 حرفًا على الأقل. لا يمكن استعادة كلمة المرور المنسية.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>تحقق من كلمة المرور. يجب أن تتطابق وأن تتكون من 12 حرفًا على الأقل.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>كلمة مرور خاطئة أو ملف تالف.</value>
+  </data>
 </root>

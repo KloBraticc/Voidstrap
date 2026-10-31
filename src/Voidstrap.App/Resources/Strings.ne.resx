@@ -9261,4 +9261,25 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Roblox एपका लागि गाढा वा उज्यालो मोड छान्छ। Roblox अर्को पटक सुरु हुँदा लागू हुन्छ।</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>इन्क्रिप्टेड निर्यात</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>इन्क्रिप्टेड खाता आयात गर्नुहोस्</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>पासवर्ड</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>पासवर्ड पुष्टि गर्नुहोस्</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>कम्तीमा १२ वर्ण प्रयोग गर्नुहोस्। बिर्सिएको पासवर्ड फिर्ता पाउन सकिँदैन।</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>पासवर्ड जाँच गर्नुहोस्। यो मिल्नुपर्छ र कम्तीमा १२ वर्णको हुनुपर्छ।</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>गलत पासवर्ड वा बिग्रिएको फाइल।</value>
+  </data>
 </root>

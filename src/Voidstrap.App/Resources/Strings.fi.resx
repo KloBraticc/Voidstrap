@@ -9574,4 +9574,25 @@ Sallitaanko?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Valitsee Roblox-sovellukselle tumman tai vaalean tilan. Tulee voimaan, kun Roblox käynnistyy seuraavan kerran.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Salattu vienti</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Tuo salattu tili</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Salasana</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Vahvista salasana</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Käytä vähintään 12 merkkiä. Unohdettua salasanaa ei voi palauttaa.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Tarkista salasana. Sen on täsmättävä ja oltava vähintään 12 merkkiä.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Väärä salasana tai vioittunut tiedosto.</value>
+  </data>
 </root>

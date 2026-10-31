@@ -9597,4 +9597,25 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>为 Roblox 应用选择深色或浅色模式。将在下次启动 Roblox 时生效。</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>加密导出</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>导入加密账户</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>确认密码</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>请使用至少 12 个字符。忘记的密码无法恢复。</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>请检查密码。两次输入必须一致且至少 12 个字符。</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>密码错误或文件已损坏。</value>
+  </data>
 </root>

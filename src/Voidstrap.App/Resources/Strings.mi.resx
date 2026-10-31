@@ -9261,4 +9261,25 @@ Whakaaetia?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Ka kōwhiri i te aratau pōuri, mārama rānei mō te taupānga Roblox. Ka whai pānga ā te tīmatanga o Roblox ā muri.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Kaweake kua whakamunatia</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Kawemai pūkete kua whakamunatia</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Kupuhipa</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Whakaū kupuhipa</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Whakamahia kia 12 ngā pūāhua neke atu. Kāore e taea te whakahoki mai i tētahi kupuhipa kua wareware.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Tirohia te kupuhipa. Me ōrite, me 12 ngā pūāhua neke atu.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>He hē te kupuhipa, kua pakaru rānei te kōnae.</value>
+  </data>
 </root>

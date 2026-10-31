@@ -121,6 +121,8 @@ namespace Voidstrap.UI.ViewModels.Settings
             SignUpCommand = new RelayCommand(() => _ = SignInAsync(true));
             ToggleImportCommand = new RelayCommand(() => ImportVisible = !ImportVisible);
             ImportCommand = new RelayCommand(() => _ = ImportAsync());
+            VaultExportCommand = new RelayCommand(() => _ = VaultExportAsync());
+            VaultImportCommand = new RelayCommand(() => _ = VaultImportAsync());
             AddCurrentCommand = new RelayCommand(() => _ = AddCurrentAsync());
             SwitchCommand = new RelayCommand<AccountRow?>(row => _ = SwitchAsync(row ?? _selected, false));
             SwitchAndPlayCommand = new RelayCommand(() => _ = SwitchAsync(_selected, true));
@@ -146,6 +148,8 @@ namespace Voidstrap.UI.ViewModels.Settings
         public ICommand SignUpCommand { get; }
         public ICommand ToggleImportCommand { get; }
         public ICommand ImportCommand { get; }
+        public ICommand VaultExportCommand { get; }
+        public ICommand VaultImportCommand { get; }
         public ICommand AddCurrentCommand { get; }
         public ICommand SwitchCommand { get; }
         public ICommand SwitchAndPlayCommand { get; }
@@ -388,6 +392,74 @@ namespace Voidstrap.UI.ViewModels.Settings
             {
                 IsBusy = false;
             }
+        }
+
+        private static string? AskVaultPassword(bool choosing)
+        {
+            Voidstrap.UI.Elements.Dialogs.AccountPasswordDialog dialog = new(choosing);
+            return dialog.ShowOwnedDialog() == true ? dialog.Password : null;
+        }
+
+        private async Task VaultExportAsync()
+        {
+            const string LOG_IDENT = "AccountsViewModel::VaultExportAsync";
+            SavedAccount? account = _selected?.Model;
+            if (account == null || SavedAccounts.ReadCurrentCookie(account) is not { Length: > 0 } cookie)
+            {
+                Status = Strings.Accounts_Status_Failed;
+                return;
+            }
+            Microsoft.Win32.SaveFileDialog picker = new()
+            {
+                FileName = account.Username + AccountVault.Extension,
+                Filter = "Voidstrap|*" + AccountVault.Extension,
+            };
+            if (picker.ShowDialog() != true || AskVaultPassword(true) is not { } password)
+                return;
+            IsBusy = true;
+            try
+            {
+                byte[] sealedFile = await Task.Run(() => AccountVault.Seal(cookie, password));
+                await File.WriteAllBytesAsync(picker.FileName, sealedFile);
+                Status = "";
+                App.Logger.WriteLine(LOG_IDENT, "Exported an encrypted account");
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "The encrypted account could not be saved: " + ex.GetType().Name);
+                Status = Strings.Accounts_Status_Failed;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async Task VaultImportAsync()
+        {
+            const string LOG_IDENT = "AccountsViewModel::VaultImportAsync";
+            Microsoft.Win32.OpenFileDialog picker = new() { Filter = "Voidstrap|*" + AccountVault.Extension };
+            if (picker.ShowDialog() != true || AskVaultPassword(false) is not { } password)
+                return;
+            IsBusy = true;
+            string? cookie;
+            try
+            {
+                byte[] file = await File.ReadAllBytesAsync(picker.FileName);
+                cookie = await Task.Run(() => AccountVault.TryOpen(file, password));
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "The encrypted account could not be read: " + ex.GetType().Name);
+                cookie = null;
+            }
+            IsBusy = false;
+            if (cookie == null)
+            {
+                Status = Strings.Accounts_Vault_Wrong;
+                return;
+            }
+            await SaveCookieAsync(cookie);
         }
 
         private async Task ImportAsync()

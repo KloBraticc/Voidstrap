@@ -9261,4 +9261,25 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>د Roblox اپلیکیشن لپاره تیاره یا روښانه حالت غوره کوي. کله چې Roblox بیا پیل شي پلي کېږي.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>کوډ شوی صادرول</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>کوډ شوی حساب واردول</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>پټنوم</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>پټنوم تایید کړئ</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>لږ تر لږه ۱۲ توري وکاروئ. هېر شوی پټنوم بېرته نشي ترلاسه کېدای.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>پټنوم وګورئ. باید سره برابر وي او لږ تر لږه ۱۲ توري ولري.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>غلط پټنوم یا خراب فایل.</value>
+  </data>
 </root>

@@ -9261,4 +9261,25 @@ Oggolow?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Wuxuu doortaa qaab madow ama iftiin ah barnaamijka Roblox. Wuxuu dhaqangalayaa marka xigta ee Roblox bilaabmo.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Dhoofin sir ah</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Soo deji akoon sir ah</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Furaha sirta</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Xaqiiji furaha sirta</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Isticmaal ugu yaraan 12 xaraf. Furaha sirta ee la ilaabo lama soo celin karo.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Hubi furaha sirta. Waa inuu is waafaqaa oo uu lahaadaa ugu yaraan 12 xaraf.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Furaha sirta oo khaldan ama fayl dhaawacan.</value>
+  </data>
 </root>

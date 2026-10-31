@@ -9571,4 +9571,25 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Roblox uygulaması için koyu veya açık modu seçer. Roblox bir sonraki başlatıldığında uygulanır.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Şifreli dışa aktar</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Şifreli hesabı içe aktar</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Parola</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Parolayı onayla</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>En az 12 karakter kullanın. Unutulan parola kurtarılamaz.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Parolayı kontrol edin. Eşleşmeli ve en az 12 karakter olmalıdır.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Yanlış parola veya hasarlı dosya.</value>
+  </data>
 </root>

@@ -9575,4 +9575,25 @@ Leisti?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Pasirenka tamsų arba šviesų režimą Roblox programai. Pritaikoma kitą kartą paleidus Roblox.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Šifruotas eksportas</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Importuoti šifruotą paskyrą</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Slaptažodis</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Patvirtinkite slaptažodį</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Naudokite bent 12 simbolių. Pamiršto slaptažodžio atkurti negalima.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Patikrinkite slaptažodį. Jis turi sutapti ir turėti bent 12 simbolių.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Neteisingas slaptažodis arba sugadintas failas.</value>
+  </data>
 </root>

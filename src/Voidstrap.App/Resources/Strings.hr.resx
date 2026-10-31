@@ -9573,4 +9573,25 @@ Dopustiti?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Odabire tamni ili svijetli način za aplikaciju Roblox. Primjenjuje se pri sljedećem pokretanju Robloxa.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Šifrirani izvoz</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Uvezi šifrirani račun</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Lozinka</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Potvrdi lozinku</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Koristi najmanje 12 znakova. Zaboravljena lozinka ne može se vratiti.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Provjeri lozinku. Mora se podudarati i imati najmanje 12 znakova.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Pogrešna lozinka ili oštećena datoteka.</value>
+  </data>
 </root>

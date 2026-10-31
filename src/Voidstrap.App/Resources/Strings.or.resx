@@ -9261,4 +9261,25 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Roblox ଆପ୍ ପାଇଁ ଗାଢ଼ କିମ୍ବା ହାଲୁକା ମୋଡ୍ ବାଛେ। Roblox ପରବର୍ତ୍ତୀ ଥର ଆରମ୍ଭ ହେଲେ ଲାଗୁ ହେବ।</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>ଏନକ୍ରିପ୍ଟେଡ୍ ରପ୍ତାନି</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>ଏନକ୍ରିପ୍ଟେଡ୍ ଆକାଉଣ୍ଟ ଆମଦାନି</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>ପାସୱାର୍ଡ</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>ପାସୱାର୍ଡ ନିଶ୍ଚିତ କରନ୍ତୁ</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>ଅତି କମରେ 12 ଅକ୍ଷର ବ୍ୟବହାର କରନ୍ତୁ। ଭୁଲିଯାଇଥିବା ପାସୱାର୍ଡ ଫେରାଇ ହେବ ନାହିଁ।</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>ପାସୱାର୍ଡ ଯାଞ୍ଚ କରନ୍ତୁ। ଏହା ମେଳ ଖାଇବା ଓ ଅତି କମରେ 12 ଅକ୍ଷର ହେବା ଆବଶ୍ୟକ।</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>ଭୁଲ ପାସୱାର୍ଡ କିମ୍ବା ନଷ୍ଟ ଫାଇଲ।</value>
+  </data>
 </root>

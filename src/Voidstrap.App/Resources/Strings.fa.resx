@@ -9575,4 +9575,25 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>حالت تیره یا روشن را برای برنامه Roblox انتخاب می‌کند. دفعه بعد که Roblox اجرا شود اعمال می‌شود.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>خروجی رمزگذاری‌شده</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>وارد کردن حساب رمزگذاری‌شده</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>گذرواژه</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>تأیید گذرواژه</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>حداقل ۱۲ نویسه استفاده کنید. گذرواژه فراموش‌شده قابل بازیابی نیست.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>گذرواژه را بررسی کنید. باید مطابقت داشته باشد و حداقل ۱۲ نویسه باشد.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>گذرواژه اشتباه یا فایل آسیب‌دیده.</value>
+  </data>
 </root>

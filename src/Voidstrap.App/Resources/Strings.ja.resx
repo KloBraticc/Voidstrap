@@ -9588,4 +9588,25 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Roblox アプリのダークモードまたはライトモードを選択します。次回 Roblox を起動したときに適用されます。</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>暗号化してエクスポート</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>暗号化されたアカウントをインポート</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>パスワード</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>パスワードの確認</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>12 文字以上にしてください。忘れたパスワードは復元できません。</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>パスワードを確認してください。一致し、12 文字以上である必要があります。</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>パスワードが違うか、ファイルが破損しています。</value>
+  </data>
 </root>

@@ -9260,4 +9260,25 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Roblox యాప్ కోసం డార్క్ లేదా లైట్ మోడ్‌ను ఎంచుకుంటుంది. తదుపరిసారి Roblox ప్రారంభమైనప్పుడు వర్తిస్తుంది.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>ఎన్‌క్రిప్ట్ చేసి ఎగుమతి</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>ఎన్‌క్రిప్ట్ చేసిన ఖాతా దిగుమతి</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>పాస్‌వర్డ్</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>పాస్‌వర్డ్ నిర్ధారించండి</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>కనీసం 12 అక్షరాలు ఉపయోగించండి. మర్చిపోయిన పాస్‌వర్డ్‌ను తిరిగి పొందలేరు.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>పాస్‌వర్డ్ తనిఖీ చేయండి. అది సరిపోలాలి, కనీసం 12 అక్షరాలు ఉండాలి.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>తప్పు పాస్‌వర్డ్ లేదా పాడైన ఫైల్.</value>
+  </data>
 </root>

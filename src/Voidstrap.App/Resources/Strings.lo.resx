@@ -9261,4 +9261,25 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>ເລືອກໂໝດມືດ ຫຼື ສະຫວ່າງສຳລັບແອັບ Roblox. ມີຜົນເມື່ອ Roblox ເລີ່ມເທື່ອຕໍ່ໄປ.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>ສົ່ງອອກແບບເຂົ້າລະຫັດ</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>ນຳເຂົ້າບັນຊີທີ່ເຂົ້າລະຫັດ</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>ລະຫັດຜ່ານ</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>ຢືນຢັນລະຫັດຜ່ານ</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>ໃຊ້ຢ່າງໜ້ອຍ 12 ຕົວອັກສອນ. ລະຫັດຜ່ານທີ່ລືມບໍ່ສາມາດກູ້ຄືນໄດ້.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>ກວດສອບລະຫັດຜ່ານ. ຕ້ອງກົງກັນ ແລະ ມີຢ່າງໜ້ອຍ 12 ຕົວອັກສອນ.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>ລະຫັດຜ່ານຜິດ ຫຼື ໄຟລ໌ເສຍຫາຍ.</value>
+  </data>
 </root>

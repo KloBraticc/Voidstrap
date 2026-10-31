@@ -367,6 +367,7 @@
 		<PackageReference Include="AvalonEdit" Version="6.3.1.120" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 		<PackageReference Include="DiscordRichPresence" Version="1.6.1.70" />
+		<PackageReference Include="Konscious.Security.Cryptography.Argon2" Version="1.3.1" />
 		<PackageReference Include="Jint" Version="4.17.0" />
 		<PackageReference Include="Markdig" Version="1.5.1" />
 		<PackageReference Include="Microsoft.ICU.ICU4C.Runtime" Version="72.1.0.3" Condition="'$(RuntimeIdentifier)' == 'linux-x64' Or '$(RuntimeIdentifier)' == 'linux-arm64'" />

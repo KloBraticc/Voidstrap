@@ -9260,4 +9260,25 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>ለRoblox መተግበሪያ ጨለማ ወይም ብርሃን ሁነታን ይመርጣል። Roblox በሚቀጥለው ጊዜ ሲጀምር ይተገበራል።</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>በምስጠራ ላክ</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>የተመሰጠረ መለያ አስገባ</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>የይለፍ ቃል</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>የይለፍ ቃል አረጋግጥ</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>ቢያንስ 12 ቁምፊዎች ይጠቀሙ። የተረሳ የይለፍ ቃል መመለስ አይቻልም።</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>የይለፍ ቃሉን ያረጋግጡ። መመሳሰል እና ቢያንስ 12 ቁምፊዎች መሆን አለበት።</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>የተሳሳተ የይለፍ ቃል ወይም የተበላሸ ፋይል።</value>
+  </data>
 </root>

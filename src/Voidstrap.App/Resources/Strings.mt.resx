@@ -9261,4 +9261,25 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Jagħżel il-modalità skura jew ċara għall-app Roblox. Tapplika meta Roblox jibda d-darba li jmiss.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Esporta kriptat</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Importa kont kriptat</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Ikkonferma l-password</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Uża mill-inqas 12-il karattru. Password minsija ma tistax tiġi rkuprata.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Iċċekkja l-password. Trid taqbel u jkollha mill-inqas 12-il karattru.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Password ħażina jew fajl bil-ħsara.</value>
+  </data>
 </root>

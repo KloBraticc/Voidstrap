@@ -9893,5 +9893,12 @@ namespace Voidstrap.Resources {
         public static string Library_LoadFailed => ResourceManager.GetString("Library.LoadFailed", resourceCulture);
         public static string Ui_Integrations_RobloxTheme => ResourceManager.GetString("Ui.Integrations.RobloxTheme", resourceCulture);
         public static string Ui_Integrations_RobloxTheme_Description => ResourceManager.GetString("Ui.Integrations.RobloxTheme.Description", resourceCulture);
+        public static string Accounts_Vault_Export => ResourceManager.GetString("Accounts.Vault.Export", resourceCulture);
+        public static string Accounts_Vault_Import => ResourceManager.GetString("Accounts.Vault.Import", resourceCulture);
+        public static string Accounts_Vault_Password => ResourceManager.GetString("Accounts.Vault.Password", resourceCulture);
+        public static string Accounts_Vault_Confirm => ResourceManager.GetString("Accounts.Vault.Confirm", resourceCulture);
+        public static string Accounts_Vault_Hint => ResourceManager.GetString("Accounts.Vault.Hint", resourceCulture);
+        public static string Accounts_Vault_Mismatch => ResourceManager.GetString("Accounts.Vault.Mismatch", resourceCulture);
+        public static string Accounts_Vault_Wrong => ResourceManager.GetString("Accounts.Vault.Wrong", resourceCulture);
     }
 }

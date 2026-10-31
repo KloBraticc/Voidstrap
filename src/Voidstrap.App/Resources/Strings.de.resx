@@ -9573,4 +9573,25 @@ Erlauben?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Wählt den dunklen oder hellen Modus für die Roblox-App. Wird beim nächsten Start von Roblox angewendet.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Verschlüsselt exportieren</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Verschlüsseltes Konto importieren</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Passwort</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Passwort bestätigen</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Verwende mindestens 12 Zeichen. Ein vergessenes Passwort kann nicht wiederhergestellt werden.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Prüfe das Passwort. Es muss übereinstimmen und mindestens 12 Zeichen haben.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Falsches Passwort oder beschädigte Datei.</value>
+  </data>
 </root>

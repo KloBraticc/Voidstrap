@@ -9261,4 +9261,25 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Roblox ਐਪ ਲਈ ਡਾਰਕ ਜਾਂ ਲਾਈਟ ਮੋਡ ਚੁਣਦਾ ਹੈ। Roblox ਦੇ ਅਗਲੀ ਵਾਰ ਸ਼ੁਰੂ ਹੋਣ 'ਤੇ ਲਾਗੂ ਹੋਵੇਗਾ।</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>ਇਨਕ੍ਰਿਪਟਡ ਨਿਰਯਾਤ</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>ਇਨਕ੍ਰਿਪਟਡ ਖਾਤਾ ਆਯਾਤ ਕਰੋ</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>ਪਾਸਵਰਡ</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>ਪਾਸਵਰਡ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>ਘੱਟੋ-ਘੱਟ 12 ਅੱਖਰ ਵਰਤੋ। ਭੁੱਲਿਆ ਪਾਸਵਰਡ ਵਾਪਸ ਨਹੀਂ ਮਿਲ ਸਕਦਾ।</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>ਪਾਸਵਰਡ ਜਾਂਚੋ। ਇਹ ਮੇਲ ਖਾਣਾ ਅਤੇ ਘੱਟੋ-ਘੱਟ 12 ਅੱਖਰਾਂ ਦਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>ਗਲਤ ਪਾਸਵਰਡ ਜਾਂ ਖਰਾਬ ਫਾਈਲ।</value>
+  </data>
 </root>

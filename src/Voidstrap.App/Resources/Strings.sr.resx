@@ -9261,4 +9261,25 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Бира тамни или светли режим за апликацију Roblox. Примењује се при следећем покретању Roblox-а.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Шифровани извоз</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Увези шифровани налог</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Лозинка</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Потврди лозинку</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Користите најмање 12 знакова. Заборављена лозинка не може да се врати.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Проверите лозинку. Мора да се поклапа и да има најмање 12 знакова.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Погрешна лозинка или оштећена датотека.</value>
+  </data>
 </root>

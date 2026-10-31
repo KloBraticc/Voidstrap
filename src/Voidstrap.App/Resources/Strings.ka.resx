@@ -9261,4 +9261,25 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>ირჩევს მუქ ან ღია რეჟიმს Roblox აპისთვის. ამოქმედდება Roblox-ის შემდეგ გაშვებისას.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>დაშიფრული ექსპორტი</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>დაშიფრული ანგარიშის იმპორტი</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>პაროლი</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>პაროლის დადასტურება</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>გამოიყენეთ მინიმუმ 12 სიმბოლო. დავიწყებული პაროლის აღდგენა შეუძლებელია.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>შეამოწმეთ პაროლი. უნდა ემთხვეოდეს და ჰქონდეს მინიმუმ 12 სიმბოლო.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>არასწორი პაროლი ან დაზიანებული ფაილი.</value>
+  </data>
 </root>

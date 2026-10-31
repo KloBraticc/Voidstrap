@@ -9261,4 +9261,25 @@ Emera?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Ihitamo uburyo bwijimye cyangwa bwera kuri porogaramu ya Roblox. Bikurikizwa ubutaha Roblox itangiye.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Kohereza bifunze</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Kuzana konti ifunze</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Ijambo ry'ibanga</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Emeza ijambo ry'ibanga</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Koresha nibura inyuguti 12. Ijambo ry'ibanga ryibagiranye ntirishobora kugarurwa.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Reba ijambo ry'ibanga. Rigomba guhura kandi rikagira nibura inyuguti 12.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Ijambo ry'ibanga ritari ryo cyangwa dosiye yangiritse.</value>
+  </data>
 </root>

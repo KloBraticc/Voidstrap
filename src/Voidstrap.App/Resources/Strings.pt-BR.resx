@@ -9575,4 +9575,25 @@ Permitir?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Escolhe o modo escuro ou claro para o aplicativo Roblox. É aplicado na próxima vez que o Roblox iniciar.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Exportar criptografado</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Importar conta criptografada</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Senha</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Confirmar senha</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Use pelo menos 12 caracteres. Uma senha esquecida não pode ser recuperada.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Verifique a senha. Ela deve coincidir e ter pelo menos 12 caracteres.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Senha incorreta ou arquivo danificado.</value>
+  </data>
 </root>

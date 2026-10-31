@@ -9261,4 +9261,25 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Roblox ايپ لاءِ اونداهو يا روشن موڊ چونڊي ٿو. Roblox ايندڙ ڀيري شروع ٿيڻ تي لاڳو ٿيندو.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>انڪرپٽ ٿيل ايڪسپورٽ</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>انڪرپٽ ٿيل اڪائونٽ امپورٽ ڪريو</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>پاسورڊ</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>پاسورڊ جي تصديق ڪريو</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>گهٽ ۾ گهٽ 12 اکر استعمال ڪريو. وساريل پاسورڊ واپس نٿو ٿي سگهي.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>پاسورڊ چيڪ ڪريو. اهو ملندو هجي ۽ گهٽ ۾ گهٽ 12 اکرن جو هجي.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>غلط پاسورڊ يا خراب فائل.</value>
+  </data>
 </root>

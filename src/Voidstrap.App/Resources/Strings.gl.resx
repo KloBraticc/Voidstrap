@@ -9261,4 +9261,25 @@ Permíteo?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Escolle o modo escuro ou claro para a aplicación de Roblox. Aplícase a próxima vez que se inicie Roblox.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Exportar cifrado</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Importar conta cifrada</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Contrasinal</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Confirmar contrasinal</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Usa polo menos 12 caracteres. Un contrasinal esquecido non se pode recuperar.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Comproba o contrasinal. Debe coincidir e ter polo menos 12 caracteres.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Contrasinal incorrecto ou ficheiro danado.</value>
+  </data>
 </root>

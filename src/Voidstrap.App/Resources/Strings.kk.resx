@@ -9261,4 +9261,25 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Roblox қолданбасы үшін қараңғы немесе ашық режимді таңдайды. Roblox келесі іске қосылғанда қолданылады.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Шифрланған экспорт</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Шифрланған тіркелгіні импорттау</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Құпия сөз</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Құпия сөзді растау</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Кемінде 12 таңба қолданыңыз. Ұмытылған құпия сөзді қалпына келтіру мүмкін емес.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Құпия сөзді тексеріңіз. Ол сәйкес келіп, кемінде 12 таңба болуы керек.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Қате құпия сөз немесе зақымдалған файл.</value>
+  </data>
 </root>

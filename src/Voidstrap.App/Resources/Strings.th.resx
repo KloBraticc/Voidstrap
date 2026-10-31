@@ -9568,4 +9568,25 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>เลือกโหมดมืดหรือสว่างสำหรับแอป Roblox โดยจะมีผลเมื่อเริ่ม Roblox ครั้งถัดไป</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>ส่งออกแบบเข้ารหัส</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>นำเข้าบัญชีที่เข้ารหัส</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>รหัสผ่าน</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>ยืนยันรหัสผ่าน</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>ใช้อย่างน้อย 12 ตัวอักษร รหัสผ่านที่ลืมจะกู้คืนไม่ได้</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>ตรวจสอบรหัสผ่าน ต้องตรงกันและมีอย่างน้อย 12 ตัวอักษร</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>รหัสผ่านไม่ถูกต้องหรือไฟล์เสียหาย</value>
+  </data>
 </root>

@@ -9261,4 +9261,25 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>ជ្រើសរើសរបៀបងងឹត ឬភ្លឺសម្រាប់កម្មវិធី Roblox។ មានប្រសិទ្ធភាពនៅពេល Roblox ចាប់ផ្ដើមលើកក្រោយ។</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>នាំចេញដោយអ៊ិនគ្រីប</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>នាំចូលគណនីដែលបានអ៊ិនគ្រីប</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>ពាក្យសម្ងាត់</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>បញ្ជាក់ពាក្យសម្ងាត់</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>ប្រើយ៉ាងហោចណាស់ 12 តួអក្សរ។ ពាក្យសម្ងាត់ដែលភ្លេចមិនអាចយកមកវិញបានទេ។</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>ពិនិត្យពាក្យសម្ងាត់។ វាត្រូវតែត្រូវគ្នា និងមានយ៉ាងហោចណាស់ 12 តួអក្សរ។</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>ពាក្យសម្ងាត់ខុស ឬឯកសារខូច។</value>
+  </data>
 </root>

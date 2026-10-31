@@ -9261,4 +9261,25 @@ kwe ya?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Na-ahọrọ ọnọdụ gbara ọchịchịrị ma ọ bụ ìhè maka ngwa Roblox. Ọ ga-arụ ọrụ mgbe Roblox malitere ọzọ.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Bupụ na nzuzo</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Bubata akaụntụ echekwara na nzuzo</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Okwuntughe</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Kwado okwuntughe</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Jiri opekata mpe mkpụrụedemede 12. Enweghị ike iweghachi okwuntughe echefuru echefu.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Lelee okwuntughe. Ọ ga-adaba ma nwee opekata mpe mkpụrụedemede 12.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Okwuntughe ezighi ezi ma ọ bụ faịlụ mebiri emebi.</value>
+  </data>
 </root>

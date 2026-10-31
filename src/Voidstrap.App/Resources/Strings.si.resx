@@ -9261,4 +9261,25 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Roblox යෙදුම සඳහා අඳුරු හෝ ආලෝක ප්‍රකාරය තෝරයි. Roblox ඊළඟ වතාවේ ආරම්භ වන විට ක්‍රියාත්මක වේ.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>සංකේතනය කර නිර්යාත කරන්න</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>සංකේතිත ගිණුම ආයාත කරන්න</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>මුරපදය</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>මුරපදය තහවුරු කරන්න</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>අවම වශයෙන් අක්ෂර 12ක් භාවිත කරන්න. අමතක වූ මුරපදයක් නැවත ලබාගත නොහැක.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>මුරපදය පරීක්ෂා කරන්න. එය ගැළපිය යුතු අතර අවම අක්ෂර 12ක් තිබිය යුතුය.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>වැරදි මුරපදයක් හෝ හානි වූ ගොනුවක්.</value>
+  </data>
 </root>

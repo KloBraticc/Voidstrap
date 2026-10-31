@@ -9575,4 +9575,25 @@ Toestaan?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Kiest de donkere of lichte modus voor de Roblox-app. Wordt toegepast wanneer Roblox de volgende keer start.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Versleuteld exporteren</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Versleuteld account importeren</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Wachtwoord</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Wachtwoord bevestigen</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Gebruik minstens 12 tekens. Een vergeten wachtwoord kan niet worden hersteld.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Controleer het wachtwoord. Het moet overeenkomen en minstens 12 tekens hebben.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Verkeerd wachtwoord of beschadigd bestand.</value>
+  </data>
 </root>

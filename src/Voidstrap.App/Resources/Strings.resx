@@ -9260,4 +9260,25 @@ Allow it?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Chooses dark or light mode for the Roblox app. Applies the next time Roblox starts.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Export encrypted</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Import encrypted account</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Use at least 12 characters. A forgotten password cannot be recovered.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Check the password. It must match and be at least 12 characters.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Wrong password or damaged file.</value>
+  </data>
 </root>

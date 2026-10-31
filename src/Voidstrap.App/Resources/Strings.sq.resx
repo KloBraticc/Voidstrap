@@ -9261,4 +9261,25 @@ E lejon atë?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Zgjedh modalitetin e errët ose të çelët për aplikacionin Roblox. Zbatohet herën tjetër që niset Roblox.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Eksport i enkriptuar</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Importo llogari të enkriptuar</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Fjalëkalimi</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Konfirmo fjalëkalimin</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Përdor të paktën 12 karaktere. Një fjalëkalim i harruar nuk mund të rikthehet.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Kontrollo fjalëkalimin. Duhet të përputhet dhe të ketë të paktën 12 karaktere.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Fjalëkalim i gabuar ose skedar i dëmtuar.</value>
+  </data>
 </root>

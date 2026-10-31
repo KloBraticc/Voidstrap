@@ -9576,4 +9576,25 @@ Cho phép?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Chọn chế độ tối hoặc sáng cho ứng dụng Roblox. Áp dụng vào lần khởi động Roblox tiếp theo.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Xuất đã mã hóa</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Nhập tài khoản đã mã hóa</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Mật khẩu</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Xác nhận mật khẩu</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Dùng ít nhất 12 ký tự. Mật khẩu bị quên không thể khôi phục.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Kiểm tra mật khẩu. Mật khẩu phải khớp và có ít nhất 12 ký tự.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Sai mật khẩu hoặc tệp bị hỏng.</value>
+  </data>
 </root>

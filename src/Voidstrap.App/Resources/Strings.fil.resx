@@ -9571,4 +9571,25 @@ Payagan ba?</value>
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Pumipili ng dark o light mode para sa Roblox app. Ilalapat sa susunod na pagbukas ng Roblox.</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>I-export nang naka-encrypt</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>I-import ang naka-encrypt na account</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Kumpirmahin ang password</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Gumamit ng hindi bababa sa 12 character. Hindi na mababawi ang nakalimutang password.</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Suriin ang password. Dapat itong magtugma at may hindi bababa sa 12 character.</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Maling password o sirang file.</value>
+  </data>
 </root>

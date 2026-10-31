@@ -106,6 +106,9 @@
             <MenuItem Header="{resources:Loc Accounts_AddCurrent}" Command="{Binding AddCurrentCommand}">
               <MenuItem.Icon><ui:SymbolIcon Symbol="Save24" /></MenuItem.Icon>
             </MenuItem>
+            <MenuItem Header="{resources:Loc Accounts_Vault_Import}" Command="{Binding VaultImportCommand}">
+              <MenuItem.Icon><ui:SymbolIcon Symbol="LockClosed24" /></MenuItem.Icon>
+            </MenuItem>
             <MenuItem Header="{resources:Loc Accounts_ImportCookie}" Command="{Binding ToggleImportCommand}">
               <MenuItem.Icon><ui:SymbolIcon Symbol="Key24" /></MenuItem.Icon>
             </MenuItem>
@@ -261,6 +264,7 @@
           <WrapPanel Margin="0,12,0,0">
             <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="Open24" Content="{resources:Loc Accounts_OpenProfile}" Command="{Binding OpenProfileCommand}" />
             <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="Copy24" Content="{resources:Loc Accounts_CopyUsername}" Command="{Binding CopyUsernameCommand}" />
+            <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="LockClosed24" Content="{resources:Loc Accounts_Vault_Export}" Command="{Binding VaultExportCommand}" />
             <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="Pin24" Content="{Binding SelectedAccount.PinText}" Command="{Binding PinCommand}" />
             <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="ArrowClockwise24" Content="{resources:Loc Accounts_SignInAgain}" Command="{Binding RenewCommand}" Visibility="{Binding BrowserSignInVisibility}" />
             <ui:Button Margin="0,0,8,8" Appearance="Danger" Icon="Delete24" Content="{resources:Loc Accounts_Remove}" Command="{Binding RemoveCommand}" />

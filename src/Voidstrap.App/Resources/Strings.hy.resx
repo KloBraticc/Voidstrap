@@ -9261,4 +9261,25 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Ընտրում է մուգ կամ բաց ռեժիմ Roblox հավելվածի համար։ Կկիրառվի Roblox-ի հաջորդ մեկնարկին։</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>Գաղտնագրված արտահանում</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>Ներմուծել գաղտնագրված հաշիվ</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>Գաղտնաբառ</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>Հաստատեք գաղտնաբառը</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>Օգտագործեք առնվազն 12 նիշ։ Մոռացված գաղտնաբառը հնարավոր չէ վերականգնել։</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>Ստուգեք գաղտնաբառը։ Այն պետք է համընկնի և ունենա առնվազն 12 նիշ։</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>Սխալ գաղտնաբառ կամ վնասված ֆայլ։</value>
+  </data>
 </root>

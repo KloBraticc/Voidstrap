@@ -9261,4 +9261,25 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>Roblox ऐप के लिए डार्क या लाइट मोड चुनता है। Roblox के अगली बार शुरू होने पर लागू होगा।</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>एन्क्रिप्टेड निर्यात</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>एन्क्रिप्टेड खाता आयात करें</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>पासवर्ड</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>पासवर्ड की पुष्टि करें</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>कम से कम 12 वर्ण उपयोग करें। भूला हुआ पासवर्ड वापस नहीं पाया जा सकता।</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>पासवर्ड जाँचें। यह मेल खाना चाहिए और कम से कम 12 वर्णों का होना चाहिए।</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>गलत पासवर्ड या खराब फ़ाइल।</value>
+  </data>
 </root>

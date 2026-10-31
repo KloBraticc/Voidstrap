@@ -9576,4 +9576,25 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Integrations.RobloxTheme.Description" xml:space="preserve">
     <value>為 Roblox 應用程式選擇深色或淺色模式。將在下次啟動 Roblox 時生效。</value>
   </data>
+  <data name="Accounts.Vault.Export" xml:space="preserve">
+    <value>加密匯出</value>
+  </data>
+  <data name="Accounts.Vault.Import" xml:space="preserve">
+    <value>匯入加密帳號</value>
+  </data>
+  <data name="Accounts.Vault.Password" xml:space="preserve">
+    <value>密碼</value>
+  </data>
+  <data name="Accounts.Vault.Confirm" xml:space="preserve">
+    <value>確認密碼</value>
+  </data>
+  <data name="Accounts.Vault.Hint" xml:space="preserve">
+    <value>請使用至少 12 個字元。忘記的密碼無法復原。</value>
+  </data>
+  <data name="Accounts.Vault.Mismatch" xml:space="preserve">
+    <value>請檢查密碼。兩次輸入必須相符且至少 12 個字元。</value>
+  </data>
+  <data name="Accounts.Vault.Wrong" xml:space="preserve">
+    <value>密碼錯誤或檔案已損毀。</value>
+  </data>
 </root>
