@@ -833,6 +833,7 @@ namespace Microsoft.Web.WebView2.Core
 	{
 		public CoreWebView2MemoryUsageTargetLevel MemoryUsageTargetLevel { get; set; }
 		public string Source => "";
+		public System.Threading.Tasks.Task<string> CallDevToolsProtocolMethodAsync(string method, string parameters) => System.Threading.Tasks.Task.FromResult("{}");
 		public event EventHandler<CoreWebView2SourceChangedEventArgs>? SourceChanged
 		{
 			add { }

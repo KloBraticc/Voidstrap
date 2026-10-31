@@ -99,7 +99,13 @@ public sealed class SpotifyEngine
             b.click();
             return true;
           },
-          shuffle: function () { return this.press(this.shuffleButton()); },
+          shuffle: function () { return this.spot(this.shuffleButton()); },
+          control: function (id) { return this.spot(document.querySelector('[data-testid="' + id + '"]')); },
+          spot: function (b) {
+            if (!b) return null;
+            var r = b.getBoundingClientRect();
+            return r.width > 0 ? { x: r.left + r.width / 2, y: r.top + r.height / 2 } : null;
+          },
           checked: function (id) {
             var b = document.querySelector('[data-testid="' + id + '"]');
             return b ? b.getAttribute('aria-checked') : null;
@@ -122,7 +128,7 @@ public sealed class SpotifyEngine
           seek: function (value) { return this.setRange('[data-testid="playback-progressbar"] input[type="range"]', value); },
           volume: function (value) { return this.setRange('[data-testid="volume-bar"] input[type="range"]', value); },
           like: function () {
-            return this.press(this.likeButton());
+            return this.spot(this.likeButton());
           },
           rows: function () {
             var out = [], seen = {}, rows = document.querySelectorAll('[data-testid="tracklist-row"]');
@@ -318,7 +324,7 @@ public sealed class SpotifyEngine
 
     public async Task PressAsync(string control)
     {
-        (await RunAsync("click(" + JsonSerializer.Serialize(control) + ")"))?.Dispose();
+        await ClickAsync("control(" + JsonSerializer.Serialize(control) + ")");
     }
 
     public static async Task<List<SpotifyItem>> FillImagesAsync(List<SpotifyItem> items)
@@ -359,14 +365,39 @@ public sealed class SpotifyEngine
         (await RunAsync("volume(" + value.ToString(System.Globalization.CultureInfo.InvariantCulture) + ")"))?.Dispose();
     }
 
+    private async Task ClickAsync(string target)
+    {
+        using JsonDocument? spot = await RunAsync(target);
+        if (_controller == null || spot == null || spot.RootElement.ValueKind != JsonValueKind.Object)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "A player button was not found: " + target);
+            return;
+        }
+        double x = spot.RootElement.GetProperty("x").GetDouble();
+        double y = spot.RootElement.GetProperty("y").GetDouble();
+        foreach (string type in new[] { "mouseMoved", "mousePressed", "mouseReleased" })
+        {
+            string parameters = JsonSerializer.Serialize(new { type, x, y, button = type == "mouseMoved" ? "none" : "left", clickCount = type == "mouseMoved" ? 0 : 1 });
+            try
+            {
+                await _controller.CoreWebView2.CallDevToolsProtocolMethodAsync("Input.dispatchMouseEvent", parameters);
+            }
+            catch (Exception ex) when (ex is InvalidOperationException or ObjectDisposedException or ArgumentException or System.Runtime.InteropServices.COMException)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "A player click failed: " + ex.GetType().Name);
+                return;
+            }
+        }
+    }
+
     public async Task ToggleShuffleAsync()
     {
-        (await RunAsync("shuffle()"))?.Dispose();
+        await ClickAsync("shuffle()");
     }
 
     public async Task ToggleLikeAsync()
     {
-        (await RunAsync("like()"))?.Dispose();
+        await ClickAsync("like()");
     }
 
     public void Shutdown()
