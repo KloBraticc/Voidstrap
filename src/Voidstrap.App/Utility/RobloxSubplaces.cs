@@ -59,7 +59,7 @@ public static class RobloxSubplaces
                 )
                 .ConfigureAwait(false);
             if (!TryGetPositiveId(universe.RootElement, "universeId", out universeId))
-                throw new InvalidDataException("The place does not belong to an available experience.");
+                return Array.Empty<Place>();
         }
         using JsonDocument game = await GetDocumentAsync(
                 client,
@@ -74,7 +74,7 @@ public static class RobloxSubplaces
             || games.GetArrayLength() != 1
             || !TryGetPositiveId(games[0], "rootPlaceId", out long rootPlaceId)
         )
-            throw new InvalidDataException("The experience is unavailable.");
+            return Array.Empty<Place>();
         List<Place> places = new();
         HashSet<long> ids = new();
         HashSet<string> cursors = new(StringComparer.Ordinal);
