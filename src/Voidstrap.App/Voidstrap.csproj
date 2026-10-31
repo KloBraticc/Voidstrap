@@ -47,7 +47,7 @@
 		<TieredCompilation>true</TieredCompilation>
 		<TieredCompilationQuickJit>true</TieredCompilationQuickJit>
 		<TieredCompilationQuickJitForLoops>true</TieredCompilationQuickJitForLoops>
-		<TieredPGO>true</TieredPGO>
+		<TieredPGO>false</TieredPGO>
 		<ServerGarbageCollection>false</ServerGarbageCollection>
 		<ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
 		<RetainVMGarbageCollection>false</RetainVMGarbageCollection>

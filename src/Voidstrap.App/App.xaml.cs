@@ -821,7 +821,33 @@ public partial class App : Application
     [System.Runtime.InteropServices.LibraryImport("user32.dll")]
     private static partial void DisableProcessWindowsGhosting();
 
-    private static void StartJitProfile(string[] args)
+    private static DateTime _mainEnteredUtc;
+
+    private static DateTime _appBuiltUtc;
+
+    internal static void NoteMainEntered() => _mainEnteredUtc = DateTime.UtcNow;
+
+    internal static void NoteAppBuilt() => _appBuiltUtc = DateTime.UtcNow;
+
+    private static void LogStartupTimeline()
+    {
+        const string LOG_IDENT = "App::StartupTimeline";
+
+        using Process process = Process.GetCurrentProcess();
+        DateTime started = process.StartTime.ToUniversalTime();
+        Logger.WriteLine(
+            LOG_IDENT,
+            "Runtime "
+                + (int)(_mainEnteredUtc - started).TotalMilliseconds
+                + " ms, app styles "
+                + (int)(_appBuiltUtc - _mainEnteredUtc).TotalMilliseconds
+                + " ms, first window idle "
+                + (int)(DateTime.UtcNow - started).TotalMilliseconds
+                + " ms after process start"
+        );
+    }
+
+    internal static void StartJitProfile(string[] args)
     {
         if (
             args.Any(arg =>
@@ -847,7 +873,6 @@ public partial class App : Application
     protected override async void OnStartup(StartupEventArgs e)
     {
         LinuxUiPerformance.Mark("Startup entered");
-        StartJitProfile(e.Args);
         if (Paths.StartedByLauncher)
             SetCurrentProcessExplicitAppUserModelID(Voidstrap.Utility.Shortcut.AppUserModelId);
         if (Voidstrap.Utility.Platform.IsWindows)
@@ -1129,7 +1154,7 @@ public partial class App : Application
         }
 
         bool launchingRoblox = LaunchSettings.RobloxLaunchMode != LaunchMode.None && !LaunchSettings.IsHelperInvocation;
-        if (launchingRoblox)
+        if (launchingRoblox || !LaunchSettings.IsHelperInvocation)
         {
             _ = Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(StartDeferredServices));
         }
@@ -1169,6 +1194,7 @@ public partial class App : Application
             Voidstrap.Integrations.RobloxFavorites.StartBackgroundCheck(_lifetimeCancellation.SafeToken());
         if (!LaunchSettings.UninstallFlag.Active && !LaunchSettings.IsHelperInvocation)
             TryStartup("Plugins", Voidstrap.Integrations.Plugins.PluginHost.Start);
+        _ = Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(LogStartupTimeline));
         LaunchHandler.ProcessLaunchArgs();
     }
 
@@ -1652,7 +1678,7 @@ public partial class App : Application
         InitializeServices();
         Logger.WriteLine(
             "App::StartDeferredServices",
-            "Background services started after the launcher appeared, took "
+            "Background services started after the first window, took "
                 + Stopwatch.GetElapsedTime(servicesStarted).TotalMilliseconds.ToString("0")
                 + " ms"
         );

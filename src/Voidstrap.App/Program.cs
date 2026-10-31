@@ -22,11 +22,14 @@ public static class Program
         }
 
         long startupStart = Stopwatch.GetTimestamp();
+        App.StartJitProfile(cmdLineArgs);
+        App.NoteMainEntered();
         App app;
         try
         {
             app = new App();
             app.InitializeComponent();
+            App.NoteAppBuilt();
         }
         catch (Exception ex)
         {
