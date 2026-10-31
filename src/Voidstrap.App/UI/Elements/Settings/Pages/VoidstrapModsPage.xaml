@@ -17,7 +17,8 @@
       <Grid Margin="10">
         <StackPanel x:Name="LibraryBrowse">
           <WrapPanel Margin="0,0,0,6">
-            <ui:TextBox x:Name="LibrarySearchBox" Width="300" Height="34" Margin="0,0,10,8" VerticalContentAlignment="Center" Icon="Search24" ClearButtonEnabled="True" PlaceholderText="{resources:Loc Ui_VoidstrapMods_LibrarySearchHint}" TextChanged="LibrarySearch_TextChanged" />
+            <ui:TextBox x:Name="LibrarySearchBox" Width="300" Height="34" Margin="0,0,10,8" VerticalContentAlignment="Center" Icon="Search24" ClearButtonEnabled="True" PlaceholderText="{resources:Loc Ui_AppCode_Search}" ToolTip="{resources:Loc Ui_VoidstrapMods_LibrarySearchHint}" TextChanged="LibrarySearch_TextChanged" />
+            <ComboBox x:Name="TagBox" Width="150" Height="34" Margin="0,0,10,8" VerticalContentAlignment="Center" SelectionChanged="TagBox_SelectionChanged" />
             <ComboBox x:Name="SortBox" Width="190" Height="34" Margin="0,0,10,8" VerticalContentAlignment="Center" SelectionChanged="SortBox_SelectionChanged" />
             <ui:Button Height="34" Margin="0,0,8,8" Icon="ArrowClockwise24" Content="{resources:Loc Ui_VoidstrapMods_LibraryRefresh}" Click="LibraryRefresh_Click" />
             <ui:Button Height="34" Margin="0,0,8,8" Icon="Open24" Content="{resources:Loc Ui_VoidstrapMods_LibraryOpenGitHub}" Click="LibraryOpenGitHub_Click" />

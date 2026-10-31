@@ -656,6 +656,34 @@ public partial class VoidstrapModsPage : UiPage
 
     private readonly HashSet<string> _reportedTakedowns = new(StringComparer.Ordinal);
 
+    private bool _populatingTags;
+
+    private string LibraryQuery()
+    {
+        string text = LibrarySearchBox.Text ?? "";
+        return (TagBox.SelectedItem as ComboBoxItem)?.Tag is string tag ? (text + " tag:" + tag).Trim() : text;
+    }
+
+    private void PopulateTags()
+    {
+        if (_libraryIndex == null)
+            return;
+        string? selected = (TagBox.SelectedItem as ComboBoxItem)?.Tag as string;
+        _populatingTags = true;
+        TagBox.Items.Clear();
+        TagBox.Items.Add(new ComboBoxItem { Content = Strings.Ui_Pages_Tags });
+        foreach (string tag in _libraryIndex.Mods.SelectMany(static mod => mod.Tags).Distinct().OrderBy(static tag => tag, StringComparer.Ordinal))
+            TagBox.Items.Add(new ComboBoxItem { Content = tag, Tag = tag });
+        TagBox.SelectedItem = TagBox.Items.OfType<ComboBoxItem>().FirstOrDefault(item => item.Tag as string == selected) ?? TagBox.Items[0];
+        _populatingTags = false;
+    }
+
+    private void TagBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (!_populatingTags)
+            RenderLibrary();
+    }
+
     private void PopulateSorts()
     {
         if (_sortReady)
@@ -780,6 +808,7 @@ public partial class VoidstrapModsPage : UiPage
         {
             _libraryIndex = known;
             PopulateSorts();
+            PopulateTags();
             RenderLibrary();
             knownIcons = LoadLibraryIconsAsync(known, token);
             RenderMods();
@@ -797,6 +826,7 @@ public partial class VoidstrapModsPage : UiPage
             if (changed)
             {
                 PopulateSorts();
+                PopulateTags();
                 RenderLibrary();
             }
             ReportTakedowns(fresh);
@@ -888,7 +918,7 @@ public partial class VoidstrapModsPage : UiPage
             return;
         LibraryHost.Children.Clear();
         _libraryIconHosts.Clear();
-        List<ModLibrary.LibraryMod> mods = ModLibrarySearch.Run(_libraryIndex.Mods, LibrarySearchBox.Text ?? "", null, SelectedSort);
+        List<ModLibrary.LibraryMod> mods = ModLibrarySearch.Run(_libraryIndex.Mods, LibraryQuery(), null, SelectedSort);
         LibraryStatusText.Text = Strings.Ui_VoidstrapMods_LibraryEmpty;
         LibraryEmpty.Visibility = mods.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         foreach (ModLibrary.LibraryMod mod in mods)
