@@ -2,6 +2,7 @@
 
 mod strings;
 
+use std::io::Read;
 use std::env;
 use std::ffi::{OsStr, OsString};
 use std::fs;
@@ -261,9 +262,12 @@ fn unpack() -> Option<PathBuf> {
     if !fs::metadata(&app).map(|meta| meta.len() == check_len).unwrap_or(false) {
         fs::create_dir_all(&directory).ok()?;
         let temporary = directory.join(format!("Voidstrap.{}.tmp", std::process::id()));
-        let decompressed = miniz_oxide::inflate::decompress_to_vec_zlib(bytes).ok();
-        let write_bytes = decompressed.as_deref().unwrap_or(bytes);
-        if fs::write(&temporary, write_bytes).is_err() || fs::rename(&temporary, &app).is_err() {
+        let mut write_bytes = Vec::with_capacity(check_len as usize);
+        lzma_rust2::XzReader::new(bytes, false).read_to_end(&mut write_bytes).ok()?;
+        if write_bytes.len() as u64 != check_len {
+            return None;
+        }
+        if fs::write(&temporary, &write_bytes).is_err() || fs::rename(&temporary, &app).is_err() {
             let _ = fs::remove_file(&temporary);
             if !fs::metadata(&app).map(|meta| meta.len() == check_len).unwrap_or(false) {
                 return None;

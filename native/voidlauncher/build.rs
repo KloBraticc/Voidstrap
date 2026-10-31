@@ -1,3 +1,4 @@
+use std::io::Write;
 use std::env;
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -24,7 +25,12 @@ fn main() {
     println!("cargo:rustc-env=VOIDSTRAP_DOTNET_MAJOR={}", major);
     println!("cargo:rustc-env=VOIDSTRAP_PAYLOAD_LEN={}", uncompressed_len);
 
-    let compressed = miniz_oxide::deflate::compress_to_vec_zlib(&payload_bytes, 9);
+    let mut encoder = lzma_rust2::XzWriter::new(Vec::new(), lzma_rust2::XzOptions::with_preset(9))
+        .expect("the launcher payload could not be compressed");
+    encoder
+        .write_all(&payload_bytes)
+        .expect("the launcher payload could not be compressed");
+    let compressed = encoder.finish().expect("the launcher payload could not be compressed");
     let compressed_payload = out_dir.join("payload.compressed");
     fs::write(&compressed_payload, &compressed).expect("could not write compressed payload");
 

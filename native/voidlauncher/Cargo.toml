@@ -10,11 +10,11 @@ name = "Voidstrap"
 path = "src/main.rs"
 
 [dependencies]
+lzma-rust2 = { version = "0.24.0", default-features = false, features = ["std", "optimization", "xz"] }
 windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_Globalization", "Win32_System_Environment", "Win32_System_LibraryLoader", "Win32_System_Registry", "Win32_UI_Shell", "Win32_UI_WindowsAndMessaging"] }
-miniz_oxide = { version = "0.8", default-features = false, features = ["with-alloc"] }
 
 [build-dependencies]
-miniz_oxide = { version = "0.8", default-features = false, features = ["with-alloc"] }
+lzma-rust2 = { version = "0.24.0", default-features = false, features = ["std", "optimization", "xz", "encoder"] }
 
 [profile.release]
 opt-level = "s"
