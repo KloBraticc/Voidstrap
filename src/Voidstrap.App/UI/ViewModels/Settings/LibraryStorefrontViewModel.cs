@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
@@ -21,6 +22,8 @@ public class LibraryStorefrontViewModel : INotifyPropertyChanged
     private const int TabGameCount = 15;
 
     private const int GenreCount = 8;
+
+    private const int SortCount = 6;
 
     private const int ScreenshotCount = 5;
 
@@ -157,7 +160,13 @@ public class LibraryStorefrontViewModel : INotifyPropertyChanged
         _loading = true;
         try
         {
-            List<StoreSort> sorts = await FetchSortsAsync(token).ConfigureAwait(false);
+            if (!_loaded && Sorts.Count == 0)
+            {
+                List<StoreSort>? saved = await Task.Run(ReadSnapshot, token).ConfigureAwait(false);
+                if (saved is { Count: > 0 })
+                    await Application.Current.Dispatcher.InvokeAsync(() => Apply(saved));
+            }
+            List<StoreSort> sorts = (await FetchSortsAsync(token).ConfigureAwait(false)).Take(SortCount).ToList();
             if (sorts.Count == 0)
                 return;
             List<StoreGameEntry> visible = sorts.SelectMany(static sort => sort.Games.Take(TabGameCount)).GroupBy(static game => game.UniverseId).Select(static group => group.First()).ToList();
@@ -167,6 +176,7 @@ public class LibraryStorefrontViewModel : INotifyPropertyChanged
                 sort.Games = sort.Games.Take(TabGameCount).Select(game => shared[game.UniverseId]).ToList();
             await Application.Current.Dispatcher.InvokeAsync(() => Apply(sorts));
             _loaded = true;
+            await Task.Run(() => SaveSnapshot(sorts), token).ConfigureAwait(false);
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested)
         {
@@ -181,8 +191,76 @@ public class LibraryStorefrontViewModel : INotifyPropertyChanged
         }
     }
 
+    private static string SnapshotPath => Path.Combine(Paths.Library, "StoreSnapshot.json");
+
+    private static List<StoreSort>? ReadSnapshot()
+    {
+        const string LOG_IDENT = "LibraryStorefrontViewModel::ReadSnapshot";
+        try
+        {
+            if (!File.Exists(SnapshotPath))
+                return null;
+            using JsonDocument document = JsonDocument.Parse(File.ReadAllBytes(SnapshotPath));
+            List<StoreSort> sorts = new();
+            foreach (JsonElement sort in document.RootElement.EnumerateArray())
+            {
+                StoreSort entry = new() { Id = sort.GetProperty("id").GetString() ?? "", Title = sort.GetProperty("title").GetString() ?? "" };
+                foreach (JsonElement game in sort.GetProperty("games").EnumerateArray())
+                {
+                    StoreGameEntry item = ReadGame(game);
+                    item.IconUrl = game.TryGetProperty("icon", out JsonElement icon) ? icon.GetString() : null;
+                    item.Screenshots = game.GetProperty("shots").EnumerateArray().Select(static shot => shot.GetString() ?? "").Where(static shot => shot.Length > 0).ToList();
+                    item.ThumbnailUrl = item.Screenshots.FirstOrDefault();
+                    entry.Games.Add(item);
+                }
+                sorts.Add(entry);
+            }
+            return sorts;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Ignored the saved store: " + ex.Message);
+            return null;
+        }
+    }
+
+    private static void SaveSnapshot(List<StoreSort> sorts)
+    {
+        const string LOG_IDENT = "LibraryStorefrontViewModel::SaveSnapshot";
+        try
+        {
+            Directory.CreateDirectory(Paths.Library);
+            var data = sorts.Select(static sort => new
+            {
+                id = sort.Id,
+                title = sort.Title,
+                games = sort.Games.Select(static game => new
+                {
+                    universeId = game.UniverseId,
+                    rootPlaceId = game.PlaceId,
+                    name = game.Name,
+                    playerCount = game.Playing,
+                    totalUpVotes = int.TryParse(game.LikePercent.TrimEnd('%'), out int up) ? up : 0,
+                    totalDownVotes = int.TryParse(game.LikePercent.TrimEnd('%'), out int likes) ? 100 - likes : 0,
+                    genreL1 = game.GenreName,
+                    icon = game.IconUrl,
+                    shots = game.Screenshots,
+                }),
+            });
+            string temporary = SnapshotPath + ".tmp";
+            File.WriteAllText(temporary, JsonSerializer.Serialize(data));
+            File.Move(temporary, SnapshotPath, true);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The store could not be saved: " + ex.Message);
+        }
+    }
+
     private void Apply(List<StoreSort> sorts)
     {
+        string? keepSort = _selectedSort?.Id;
+        long keepFeatured = _featuredGame?.UniverseId ?? 0;
         _selectedSort = null;
         _featuredGame = null;
         _sorts.Clear();
@@ -193,11 +271,11 @@ public class LibraryStorefrontViewModel : INotifyPropertyChanged
         Featured.Clear();
         foreach (StoreGameEntry game in sorts[0].Games.Where(static game => game.Screenshots.Count > 0).Take(FeaturedCount))
             Featured.Add(game);
-        FeaturedGame = Featured.FirstOrDefault();
+        FeaturedGame = Featured.FirstOrDefault(game => game.UniverseId == keepFeatured) ?? Featured.FirstOrDefault();
         GenreTiles.Clear();
         foreach (StoreGameEntry game in sorts.SelectMany(static sort => sort.Games).Where(static game => !string.IsNullOrEmpty(game.GenreName) && game.HasThumbnail).GroupBy(static game => game.GenreName).Select(static group => group.First()).Take(GenreCount))
             GenreTiles.Add(game);
-        SelectedSort = sorts[0];
+        SelectedSort = sorts.FirstOrDefault(sort => sort.Id == keepSort) ?? sorts[0];
         OnPropertyChanged(nameof(StoreVisibility));
     }
 
@@ -242,22 +320,32 @@ public class LibraryStorefrontViewModel : INotifyPropertyChanged
     private static async Task FetchMediaAsync(List<StoreGameEntry> games, CancellationToken token)
     {
         Dictionary<long, StoreGameEntry> byUniverse = games.ToDictionary(static game => game.UniverseId);
-        foreach (StoreGameEntry[] chunk in games.Chunk(50))
+        await Task.WhenAll(games.Chunk(50).Select(chunk => FetchChunkAsync(chunk, byUniverse, token))).ConfigureAwait(false);
+    }
+
+    private static async Task FetchChunkAsync(StoreGameEntry[] chunk, Dictionary<long, StoreGameEntry> byUniverse, CancellationToken token)
+    {
+        string ids = string.Join(',', chunk.Select(static game => game.UniverseId));
+        Task<Dictionary<long, List<string>>> shots = FetchScreenshotsAsync(ids, token);
+        string iconUrl = $"https://thumbnails.roblox.com/v1/games/icons?universeIds={ids}&size=256x256&format=Png&isCircular=false";
+        Task<string> icons = Http.GetStringBoundedAsync(HttpClient, iconUrl, token: token);
+        try
         {
-            string ids = string.Join(',', chunk.Select(static game => game.UniverseId));
-            Dictionary<long, List<string>> screenshots = await FetchScreenshotsAsync(ids, token).ConfigureAwait(false);
-            foreach (KeyValuePair<long, List<string>> pair in screenshots)
+            foreach (KeyValuePair<long, List<string>> pair in await shots.ConfigureAwait(false))
             {
-                if (pair.Value.Count == 0)
+                if (pair.Value.Count == 0 || !byUniverse.TryGetValue(pair.Key, out StoreGameEntry? shown))
                     continue;
-                byUniverse[pair.Key].Screenshots = pair.Value;
-                byUniverse[pair.Key].ThumbnailUrl = pair.Value[0];
+                shown.Screenshots = pair.Value;
+                shown.ThumbnailUrl = pair.Value[0];
             }
-            string iconUrl = $"https://thumbnails.roblox.com/v1/games/icons?universeIds={ids}&size=256x256&format=Png&isCircular=false";
-            using JsonDocument icons = JsonDocument.Parse(await Http.GetStringBoundedAsync(HttpClient, iconUrl, token: token).ConfigureAwait(false));
-            foreach (JsonElement icon in icons.RootElement.GetProperty("data").EnumerateArray())
+            using JsonDocument document = JsonDocument.Parse(await icons.ConfigureAwait(false));
+            foreach (JsonElement icon in document.RootElement.GetProperty("data").EnumerateArray())
                 if (byUniverse.TryGetValue(icon.GetProperty("targetId").GetInt64(), out StoreGameEntry? game))
                     game.IconUrl = icon.GetProperty("imageUrl").GetString();
+        }
+        catch (Exception ex) when (ex is HttpRequestException or JsonException or KeyNotFoundException or InvalidOperationException)
+        {
+            App.Logger.WriteLine("LibraryStorefrontViewModel::FetchChunkAsync", "Store images could not be loaded: " + ex.Message);
         }
     }
 
