@@ -808,6 +808,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         base.StateChanged += MainWindow_StateChanged;
         RootFrame.Navigating += RootFrame_Navigating;
         RootFrame.Navigated += RootFrame_Navigated;
+        StartSpotifyDesktopWatch();
         PageSidebar.CollapsedChanged += UpdateSidebarToggleIcon;
         Wpf.Ui.Controls.Navigation.NavigationTiming.PageCreated += OnNavigationPageCreated;
         AppMenuPopup.Closing += AppMenuPopup_Closing;
@@ -2742,12 +2743,82 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         await SpotifyPlayer.ShowAsync();
     }
 
+    private readonly System.Windows.Threading.DispatcherTimer _spotifyDesktopTimer = new() { Interval = TimeSpan.FromSeconds(2) };
+
+    private string? _spotifyDesktopTitle;
+
+    private bool _spotifyShowingDesktop;
+
+    private bool _spotifyDesktopPolling;
+
+    private void StartSpotifyDesktopWatch()
+    {
+        _spotifyDesktopTimer.Tick -= SpotifyDesktopTimer_Tick;
+        if (Voidstrap.Utility.Platform.UsesPortableUi || !App.Settings.Prop.SpotifyMiniPlayer)
+        {
+            _spotifyDesktopTimer.Stop();
+            return;
+        }
+        _spotifyDesktopTimer.Tick += SpotifyDesktopTimer_Tick;
+        _spotifyDesktopTimer.Start();
+    }
+
+    private async void SpotifyDesktopTimer_Tick(object? sender, EventArgs e)
+    {
+        if (_spotifyDesktopPolling || (_spotifyHasTrack && !_spotifyShowingDesktop))
+            return;
+        _spotifyDesktopPolling = true;
+        Voidstrap.Integrations.SpotifyDesktopTrack? track = await Voidstrap.Integrations.SpotifyDesktopSession.ReadAsync(_spotifyDesktopTitle);
+        _spotifyDesktopPolling = false;
+        if (_isClosed || (_spotifyHasTrack && !_spotifyShowingDesktop))
+            return;
+        _spotifyShowingDesktop = track != null;
+        if (track == null)
+        {
+            _spotifyDesktopTitle = null;
+            _spotifyHasTrack = false;
+            UpdateSpotifyMini();
+            return;
+        }
+        _spotifyHasTrack = true;
+        _spotifyDesktopTitle = track.Title;
+        SpotifyMiniTitle.Text = track.Title;
+        SpotifyMiniPlay.Icon = track.Playing ? Wpf.Ui.Common.SymbolRegular.Pause24 : Wpf.Ui.Common.SymbolRegular.Play24;
+        if (track.Cover != null)
+            SpotifyMiniImage.Source = LoadSpotifyCover(track.Cover);
+        UpdateSpotifyMini();
+    }
+
+    private static System.Windows.Media.Imaging.BitmapImage? LoadSpotifyCover(byte[] bytes)
+    {
+        try
+        {
+            System.Windows.Media.Imaging.BitmapImage image = new();
+            using System.IO.MemoryStream stream = new(bytes);
+            image.BeginInit();
+            image.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+            image.DecodePixelWidth = 40;
+            image.StreamSource = stream;
+            image.EndInit();
+            image.Freeze();
+            return image;
+        }
+        catch (Exception ex) when (ex is NotSupportedException or System.IO.IOException or InvalidOperationException)
+        {
+            return null;
+        }
+    }
+
     private string? _spotifyMiniImageUrl;
 
     private bool _spotifyHasTrack;
 
     private void SpotifyPlayer_StateChanged(object? sender, Voidstrap.Models.Entities.SpotifyState state)
     {
+        if (state.Title.Length == 0 && _spotifyShowingDesktop)
+            return;
+        _spotifyShowingDesktop = false;
+        _spotifyDesktopTitle = null;
         _spotifyHasTrack = state.Title.Length > 0;
         SpotifyMiniTitle.Text = state.Title;
         SpotifyMiniPlay.Icon = state.Playing ? Wpf.Ui.Common.SymbolRegular.Pause24 : Wpf.Ui.Common.SymbolRegular.Play24;
@@ -2759,7 +2830,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         UpdateSpotifyMini();
     }
 
-    private void SpotifyPlayer_MiniPlayerToggled(object? sender, EventArgs e) => UpdateSpotifyMini();
+    private void SpotifyPlayer_MiniPlayerToggled(object? sender, EventArgs e)
+    {
+        StartSpotifyDesktopWatch();
+        UpdateSpotifyMini();
+    }
 
     private void UpdateSpotifyMini()
     {
@@ -2774,7 +2849,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private async void SpotifyMiniPlay_Click(object sender, RoutedEventArgs e)
     {
         e.Handled = true;
-        await SpotifyPlayer.TogglePlaybackAsync();
+        if (_spotifyShowingDesktop)
+            await Voidstrap.Integrations.SpotifyDesktopSession.ToggleAsync();
+        else
+            await SpotifyPlayer.TogglePlaybackAsync();
     }
 
     private void SpotifyPlayer_Failed(object? sender, EventArgs e)
@@ -7433,6 +7511,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ReleaseBackgroundResources();
         ClearRetainedUiState();
         Voidstrap.Utility.DynamicRenderSystem.ClearCache();
+        _spotifyDesktopTimer.Stop();
+        _spotifyDesktopTimer.Tick -= SpotifyDesktopTimer_Tick;
         SpotifyPlayer.Failed -= SpotifyPlayer_Failed;
         SpotifyPlayer.StateChanged -= SpotifyPlayer_StateChanged;
         SpotifyPlayer.MiniPlayerToggled -= SpotifyPlayer_MiniPlayerToggled;

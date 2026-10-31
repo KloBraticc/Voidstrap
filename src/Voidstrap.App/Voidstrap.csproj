@@ -74,8 +74,8 @@
 
 		<StartupObject>Voidstrap.Program</StartupObject>
 
-		<CsWinRTIncludes>Windows.Foundation;Windows.Graphics.Capture;Windows.Graphics.DirectX;Windows.Graphics.SizeInt32;Windows.Graphics.RectInt32;Windows.Graphics.DisplayId;Windows.UI.WindowId;Windows.Security.Authorization.AppCapabilityAccess.AppCapabilityAccessStatus</CsWinRTIncludes>
-		<CsWinRTExcludes>Windows.Foundation.Diagnostics</CsWinRTExcludes>
+		<CsWinRTIncludes>Windows.Media.Control;Windows.Storage.Streams.IRandomAccessStreamReference;Windows.Storage.Streams.IRandomAccessStreamWithContentType;Windows.Storage.Streams.IRandomAccessStream;Windows.Storage.Streams.IInputStream;Windows.Storage.Streams.IOutputStream;Windows.Storage.Streams.IContentTypeProvider;Windows.Storage.Streams.IBuffer;Windows.Storage.Streams.InputStreamOptions;Windows.Storage.Streams.DataReader;Windows.Storage.Streams.IDataReader;Windows.Storage.Streams.DataReaderLoadOperation;Windows.Storage.Streams.ByteOrder;Windows.Storage.Streams.UnicodeEncoding;Windows.Media.MediaPlaybackType;Windows.Media.MediaPlaybackAutoRepeatMode;Windows.Foundation;Windows.Graphics.Capture;Windows.Graphics.DirectX;Windows.Graphics.SizeInt32;Windows.Graphics.RectInt32;Windows.Graphics.DisplayId;Windows.UI.WindowId;Windows.Security.Authorization.AppCapabilityAccess.AppCapabilityAccessStatus</CsWinRTIncludes>
+		<CsWinRTExcludes>Windows.Foundation.Diagnostics;Windows.Storage.Streams.IRandomAccessStreamReferenceStatics;Windows.Storage.Streams.IRandomAccessStreamStatics;Windows.Storage.Streams.IBufferStatics;Windows.Storage.Streams.IBufferFactory</CsWinRTExcludes>
 		<CsWinRTWindowsMetadata>10.0.26100.0</CsWinRTWindowsMetadata>
 		<WindowsProjectionMetadataVersion>10.0.26100.57</WindowsProjectionMetadataVersion>
 	</PropertyGroup>
