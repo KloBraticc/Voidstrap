@@ -4678,6 +4678,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         );
         Closed -= MainWindow_ClosedRpc;
         Voidstrap.Utility.SavedAccounts.Changed -= OnSavedAccountsChanged;
+        _sidebarIconHover.Stop();
         _settingsIconMotion?.Dispose();
         _settingsIconMotion = null;
         _accountsPage?.Release();
