@@ -8,6 +8,13 @@
 		<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="$(MSBuildProjectName.EndsWith('_wpftmp'))">
+		<ProduceOnlyReferenceAssembly>true</ProduceOnlyReferenceAssembly>
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(VoidstrapLinuxPackagingRoot)' != ''">
 		<BaseOutputPath>$(VoidstrapLinuxPackagingRoot)bin/$(MSBuildProjectName)/</BaseOutputPath>
 		<BaseIntermediateOutputPath>$(VoidstrapLinuxPackagingRoot)obj/$(MSBuildProjectName)/</BaseIntermediateOutputPath>
