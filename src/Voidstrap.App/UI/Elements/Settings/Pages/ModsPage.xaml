@@ -426,38 +426,27 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                       <DataTemplate>
-                        <Border Margin="0,0,4,10" Padding="14" CornerRadius="10" Background="{DynamicResource CardBackgroundBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+                        <Border Margin="0,0,4,8" Padding="12" CornerRadius="10" Background="{DynamicResource CardBackgroundBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
                           <Grid>
                             <Grid.ColumnDefinitions>
                               <ColumnDefinition Width="Auto" />
                               <ColumnDefinition Width="*" />
                               <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Border Width="84" Height="84" VerticalAlignment="Top" CornerRadius="12" Background="{DynamicResource ControlFillColorDefaultBrush}">
+                            <Border Width="56" Height="56" CornerRadius="10" Background="{DynamicResource ControlFillColorDefaultBrush}">
                               <Border.Clip>
-                                <RectangleGeometry Rect="0,0,84,84" RadiusX="12" RadiusY="12" />
+                                <RectangleGeometry Rect="0,0,56,56" RadiusX="10" RadiusY="10" />
                               </Border.Clip>
                               <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding IconUrl, Mode=OneTime}" />
                             </Border>
-                            <StackPanel Grid.Column="1" Margin="16,0,16,0" VerticalAlignment="Center">
-                              <TextBlock FontSize="18" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Text="{Binding Name, Mode=OneTime}" />
-                              <TextBlock Margin="0,4,0,0" MaxHeight="40" FontSize="13" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Summary, Mode=OneTime}" />
-                              <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                                <TextBlock FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Author, Mode=OneTime}" />
-                                <TextBlock Margin="12,0,0,0" FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding CategoryDisplay, Mode=OneTime}" />
-                                <TextBlock Margin="12,0,0,0" FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding StatsDisplay, Mode=OneTime}" />
-                              </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center">
+                              <TextBlock FontSize="15" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Text="{Binding Name, Mode=OneTime}" />
+                              <TextBlock Margin="0,2,0,0" FontSize="13" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Summary, Mode=OneTime}" />
+                              <TextBlock Margin="0,4,0,0" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Author, Mode=OneTime}" />
                             </StackPanel>
-                            <StackPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center">
-                              <StackPanel Margin="0,0,0,10" HorizontalAlignment="Right" Orientation="Horizontal">
-                                <ui:SymbolIcon Symbol="Tag24" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-                                <TextBlock Margin="5,0,12,0" FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Version, Mode=OneTime}" />
-                                <TextBlock FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding UpdatedDisplay, Mode=OneTime}" />
-                              </StackPanel>
-                              <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                <ui:Button MinWidth="76" Margin="0,0,8,0" Appearance="Secondary" Content="{resources:Loc Ui_Mods_Page}" Tag="{Binding}" Click="CommunityModPage_Click" />
-                                <ui:Button MinWidth="84" Appearance="Primary" Content="{resources:Loc Ui_Mods_View}" Tag="{Binding}" Click="CommunityMod_Click" />
-                              </StackPanel>
+                            <StackPanel Grid.Column="2" VerticalAlignment="Center" Orientation="Horizontal">
+                              <ui:Button Width="34" Height="34" Padding="0" Margin="0,0,8,0" Appearance="Transparent" Icon="Open24" ToolTip="{resources:Loc Ui_Mods_Page}" AutomationProperties.Name="{resources:Loc Ui_Mods_Page}" Tag="{Binding}" Click="CommunityModPage_Click" />
+                              <ui:Button MinWidth="76" Appearance="Primary" Content="{resources:Loc Ui_Mods_View}" Tag="{Binding}" Click="CommunityMod_Click" />
                             </StackPanel>
                           </Grid>
                         </Border>
