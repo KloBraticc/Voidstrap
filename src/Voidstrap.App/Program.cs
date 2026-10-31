@@ -6,9 +6,52 @@ namespace Voidstrap;
 
 public static class Program
 {
+    private static int _sdkNetResolveTried;
+    private static int _winrtRuntimeResolveTried;
+
+    private static System.Reflection.Assembly? TryLoadFromBaseDirectory(string fileName)
+    {
+        string path = System.IO.Path.Combine(AppContext.BaseDirectory, fileName);
+        return System.IO.File.Exists(path)
+            ? System.Runtime.Loader.AssemblyLoadContext.Default.LoadFromAssemblyPath(path)
+            : null;
+    }
+
+    private static System.Reflection.Assembly? OnAssemblyResolve(object? sender, ResolveEventArgs args)
+    {
+        if (args.Name.StartsWith("Microsoft.Windows.SDK.NET,", StringComparison.OrdinalIgnoreCase))
+        {
+            if (System.Threading.Interlocked.Exchange(ref _sdkNetResolveTried, 1) == 1)
+                return null;
+            try
+            {
+                return TryLoadFromBaseDirectory("Microsoft.Windows.SDK.NET.dll");
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        if (args.Name.StartsWith("WinRT.Runtime,", StringComparison.OrdinalIgnoreCase))
+        {
+            if (System.Threading.Interlocked.Exchange(ref _winrtRuntimeResolveTried, 1) == 1)
+                return null;
+            try
+            {
+                return TryLoadFromBaseDirectory("WinRT.Runtime.dll");
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        return null;
+    }
+
     [STAThread]
     public static void Main()
     {
+        AppDomain.CurrentDomain.AssemblyResolve += OnAssemblyResolve;
         string[] cmdLineArgs = Environment.GetCommandLineArgs();
         if (Voidstrap.Integrations.Mcp.McpStdioServer.IsRequested(cmdLineArgs))
         {
