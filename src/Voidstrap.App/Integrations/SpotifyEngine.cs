@@ -19,7 +19,7 @@ public sealed class SpotifyEngine
     private const string PlayerUrl = "https://open.spotify.com/";
 
     internal const string Arguments =
-        "--autoplay-policy=no-user-gesture-required --process-per-site --disk-cache-size=52428800 --media-cache-size=10485760 "
+        "--autoplay-policy=no-user-gesture-required --lang=en-US --accept-lang=en-US --process-per-site --disk-cache-size=52428800 --media-cache-size=10485760 "
         + "--disable-background-networking --disable-extensions --disable-sync --disable-translate --disable-features=msWebOOUI,msPdfOOUI,TranslateUI,AutofillServerCommunication,OptimizationHints,MediaRouter";
 
     private const string Bridge = """
