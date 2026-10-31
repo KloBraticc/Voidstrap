@@ -20,8 +20,11 @@ public partial class LibraryStorefront : UserControl
 
     private async void Control_Loaded(object sender, RoutedEventArgs e)
     {
+        _rotation.Tick -= Rotation_Tick;
         _rotation.Tick += Rotation_Tick;
-        _rotation.Start();
+        IsVisibleChanged -= Control_IsVisibleChanged;
+        IsVisibleChanged += Control_IsVisibleChanged;
+        _rotation.IsEnabled = IsVisible;
         if (Storefront != null)
             await Storefront.LoadAsync();
     }
@@ -30,6 +33,12 @@ public partial class LibraryStorefront : UserControl
     {
         _rotation.Stop();
         _rotation.Tick -= Rotation_Tick;
+        IsVisibleChanged -= Control_IsVisibleChanged;
+    }
+
+    private void Control_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        _rotation.IsEnabled = IsVisible;
     }
 
     private void Rotation_Tick(object? sender, EventArgs e)

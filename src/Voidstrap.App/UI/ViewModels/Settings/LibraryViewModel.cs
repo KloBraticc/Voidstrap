@@ -163,7 +163,7 @@ public class LibraryGameEntry : INotifyPropertyChanged
                 return Strings.Library_Today;
             if (value.Date == DateTime.Now.Date.AddDays(-1))
                 return Strings.Library_Yesterday;
-            return value.ToString("MMM d, yyyy");
+            return value.ToString("d");
         }
     }
 
@@ -197,7 +197,7 @@ public class LibraryGameEntry : INotifyPropertyChanged
                 return Strings.Library_UpdatedYesterday;
             if (span.TotalDays < 30)
                 return string.Format(Strings.Library_UpdatedDaysAgo, Math.Floor(span.TotalDays));
-            return string.Format(Strings.Library_UpdatedOn, Updated.Value.ToLocalTime().ToString("MMM d, yyyy"));
+            return string.Format(Strings.Library_UpdatedOn, Updated.Value.ToLocalTime().ToString("d"));
         }
     }
 
@@ -217,9 +217,9 @@ public class LibraryGameEntry : INotifyPropertyChanged
         }
     }
 
-    public string CreatedDisplay => Created?.ToLocalTime().ToString("MMM d, yyyy") ?? Strings.Library_Unknown;
+    public string CreatedDisplay => Created?.ToLocalTime().ToString("d") ?? Strings.Library_Unknown;
 
-    public string UpdatedDisplay => Updated?.ToLocalTime().ToString("MMM d, yyyy") ?? Strings.Library_Unknown;
+    public string UpdatedDisplay => Updated?.ToLocalTime().ToString("d") ?? Strings.Library_Unknown;
 
     private int _badgeEarned = -1;
 
@@ -794,6 +794,8 @@ public class LibraryViewModel : INotifyPropertyChanged
         _mediaCts = null;
         GameMedia.Clear();
         SelectedMedia = game?.ThumbnailUrl;
+        _videoShown = false;
+        _tileOffset = 0;
         GameVideoPath = null;
         _gameShots = new List<string>();
         if (game == null)
@@ -819,7 +821,7 @@ public class LibraryViewModel : INotifyPropertyChanged
             string? video = await GameVideoStore.GetLocalVideoAsync(game.UniverseId, token);
             if (!token.IsCancellationRequested)
             {
-                _videoShown = true;
+                _videoShown = video != null;
                 GameVideoPath = video;
                 RebuildMediaTiles();
             }

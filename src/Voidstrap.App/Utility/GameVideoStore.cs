@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
@@ -34,9 +35,18 @@ internal static class GameVideoStore
             if (location == null)
                 return null;
             Directory.CreateDirectory(Folder);
-            string temporary = path + ".tmp";
-            await DownloadAsync(location, temporary, token).ConfigureAwait(false);
-            File.Move(temporary, path, true);
+            TrimCache();
+            string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
+            try
+            {
+                await DownloadAsync(location, temporary, token).ConfigureAwait(false);
+                File.Move(temporary, path, true);
+            }
+            finally
+            {
+                File.Delete(temporary);
+                File.Delete(temporary + ".raw");
+            }
             if (!Platform.IsMacOS)
                 return path;
             return await ConvertAsync(path, playable, token).ConfigureAwait(false) ? playable : null;
@@ -49,6 +59,31 @@ internal static class GameVideoStore
         {
             App.Logger.WriteException(LOG_IDENT, ex);
             return null;
+        }
+    }
+
+    private static void TrimCache()
+    {
+        const long MaximumCacheBytes = 1024L * 1024 * 1024;
+        if (!Directory.Exists(Folder))
+            return;
+        FileInfo[] files = new DirectoryInfo(Folder).GetFiles().OrderByDescending(static file => file.LastAccessTimeUtc).ToArray();
+        long total = 0;
+        foreach (FileInfo file in files)
+        {
+            total += file.Length;
+            if (total <= MaximumCacheBytes)
+                continue;
+            try
+            {
+                file.Delete();
+            }
+            catch (IOException)
+            {
+            }
+            catch (UnauthorizedAccessException)
+            {
+            }
         }
     }
 

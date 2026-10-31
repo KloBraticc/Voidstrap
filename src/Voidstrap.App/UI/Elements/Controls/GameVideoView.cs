@@ -39,6 +39,8 @@ public sealed class GameVideoView : ContentControl
 
     private long _frameVersion;
 
+    private string? _playingPath;
+
     public GameVideoView()
     {
         Loaded += Control_Loaded;
@@ -77,7 +79,10 @@ public sealed class GameVideoView : ContentControl
 
     private void StartPortable(string path)
     {
+        if (_media != null && _playingPath == path)
+            return;
         Teardown();
+        _playingPath = path;
         _frameVersion = 0;
         _image = new Image { Stretch = Stretch.UniformToFill };
         RenderOptions.SetBitmapScalingMode(_image, BitmapScalingMode.HighQuality);
@@ -121,7 +126,7 @@ public sealed class GameVideoView : ContentControl
 
     private async Task StartAsync(string path)
     {
-        if (_starting)
+        if (_starting || (_view != null && _playingPath == path))
             return;
         _starting = true;
         Teardown();
@@ -157,6 +162,7 @@ public sealed class GameVideoView : ContentControl
             );
             core.Navigate($"https://{VirtualHost}/{page}");
             _view = view;
+            _playingPath = path;
         }
         catch (System.Runtime.InteropServices.COMException ex) when (ex.HResult == AbortedResult)
         {
@@ -172,7 +178,7 @@ public sealed class GameVideoView : ContentControl
         {
             _starting = false;
         }
-        if (VideoPath != path)
+        if (VideoPath != path || (_view != null && !IsVisible))
             Refresh();
     }
 
@@ -186,6 +192,7 @@ public sealed class GameVideoView : ContentControl
         }
         _media?.Dispose();
         _media = null;
+        _playingPath = null;
         _bitmap = null;
         _image = null;
         WebView2CompositionControl? view = _view ?? Content as WebView2CompositionControl;
