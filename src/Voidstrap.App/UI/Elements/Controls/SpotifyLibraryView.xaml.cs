@@ -15,7 +15,7 @@ namespace Voidstrap.UI.Elements.Controls;
 
 public partial class SpotifyLibraryView : UserControl
 {
-    private static readonly TimeSpan IdleLimit = TimeSpan.FromMinutes(3);
+    private static readonly TimeSpan IdleLimit = TimeSpan.FromSeconds(60);
 
     private readonly SpotifyEngine _engine = new();
 
@@ -60,6 +60,7 @@ public partial class SpotifyLibraryView : UserControl
     public async Task ShowAsync()
     {
         _shown = true;
+        _timer.Interval = TimeSpan.FromSeconds(1);
         MiniToggle.IsChecked = App.Settings.Prop.SpotifyMiniPlayer;
         ShowSignIn(!App.Settings.Prop.SpotifySignedIn);
         _engine.SetLowMemory(false);
@@ -92,6 +93,13 @@ public partial class SpotifyLibraryView : UserControl
         _shown = false;
         _silentSince = DateTime.UtcNow;
         _engine.SetLowMemory(true);
+        _timer.Interval = TimeSpan.FromSeconds(5);
+        _ = Task.Run(CollectQuietly);
+    }
+
+    private static void CollectQuietly()
+    {
+        GC.Collect(2, GCCollectionMode.Optimized, blocking: false, compacting: false);
     }
 
     public void Shutdown()
@@ -153,6 +161,7 @@ public partial class SpotifyLibraryView : UserControl
             _timer.Stop();
             _timer.Tick -= Timer_Tick;
             _engine.Shutdown();
+            _ = Task.Run(CollectQuietly);
             StateChanged?.Invoke(this, new SpotifyState(App.Settings.Prop.SpotifySignedIn, "", "", null, false, "", "", 0, 0, false, "false", false));
         }
     }
