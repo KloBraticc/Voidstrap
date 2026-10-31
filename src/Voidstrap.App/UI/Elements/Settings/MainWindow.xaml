@@ -767,27 +767,27 @@
           </ui:NavigationFluent.Template>
           <ui:NavigationBase.Items>
             <ui:NavigationItem Content="{resources:Loc Ui_Nav_Core}" IsEnabled="False" Opacity="0.6" />
-            <ui:NavigationItem Cache="True" Name="HomeNavItem" Content="{resources:Loc Ui_Nav_Home}" Icon="Home24" Tag="Home20" PageType="{x:Type pages:HomePage}" />
-            <ui:NavigationItem Cache="True" Name="IntegrationsNavItem" Content="{resources:Loc Menu_Integrations_Title}" Icon="Add12" Tag="Add16" PageType="{x:Type pages:IntegrationsPage}" />
-            <ui:NavigationItem Cache="True" Name="DeploymentNavItem" Content="{resources:Loc Common_Deployment}" Icon="PlaySettings20" Tag="Play20" PageType="{x:Type pages:BehaviourPage}" />
-            <ui:NavigationItem Cache="True" Name="AppearanceNavItem" Content="{resources:Loc Menu_Appearance_Title}" Icon="Color24" Tag="Color20" PageType="{x:Type pages:AppearancePage}" />
+            <ui:NavigationItem Cache="True" Name="HomeNavItem" Content="{resources:Loc Ui_Nav_Home}" Icon="Home24" PageType="{x:Type pages:HomePage}" />
+            <ui:NavigationItem Cache="True" Name="IntegrationsNavItem" Content="{resources:Loc Menu_Integrations_Title}" Icon="Add12" PageType="{x:Type pages:IntegrationsPage}" />
+            <ui:NavigationItem Cache="True" Name="DeploymentNavItem" Content="{resources:Loc Common_Deployment}" Icon="PlaySettings20" PageType="{x:Type pages:BehaviourPage}" />
+            <ui:NavigationItem Cache="True" Name="AppearanceNavItem" Content="{resources:Loc Menu_Appearance_Title}" Icon="Color24" PageType="{x:Type pages:AppearancePage}" />
             <ui:NavigationSeparator />
             <ui:NavigationItem Content="{resources:Loc Ui_Nav_Configuration}" IsEnabled="False" Opacity="0.6" />
-            <ui:NavigationItem Cache="True" Name="FastFlagSettingsNavItem" Content="{resources:Loc Ui_Nav_FastFlagSettings}" Icon="Settings28" Tag="SettingsChat24" PageType="{x:Type pages:FastFlagsPage}" />
-            <ui:NavigationItem Cache="True" Name="FastFlagEditorNavItem" Content="{resources:Loc Ui_Nav_FastFlagEditor}" Icon="Flag28" Tag="Flag20" PageType="{x:Type pages:FastFlagEditorPage}" />
-            <ui:NavigationItem Cache="True" Name="ModsNavItem" Content="{resources:Loc Menu_Mods_Title}" Icon="WrenchScrewdriver20" Tag="Wrench24" PageType="{x:Type pages:ModsPage}" />
-            <ui:NavigationItem Cache="True" Name="MoreNavItem" Content="{resources:Loc Ui_Nav_More}" Icon="MoreHorizontal24" Tag="MoreHorizontal20" PageType="{x:Type pages:MorePage}" vscontrols:SidebarGroup.IsHeader="True" />
-            <ui:NavigationItem Cache="True" Name="GlobalNavItem" Margin="0" Content="{resources:Loc Ui_Nav_Global}" Icon="GlobeLocation20" Tag="Globe20" PageType="{x:Type pages:GBSEditorPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
-            <ui:NavigationItem Cache="True" Name="ShortcutsNavItem" Margin="0" Content="{resources:Loc Common_Shortcuts}" Icon="Apps32" Tag="Apps24" PageType="{x:Type pages:ShortcutsPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
-            <ui:NavigationItem Cache="True" Name="NewsNavItem" Margin="0" Content="{resources:Loc Ui_Nav_News}" Icon="News16" Tag="News20" PageType="{x:Type pages:NewsPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
+            <ui:NavigationItem Cache="True" Name="FastFlagSettingsNavItem" Content="{resources:Loc Ui_Nav_FastFlagSettings}" Icon="Settings28" PageType="{x:Type pages:FastFlagsPage}" />
+            <ui:NavigationItem Cache="True" Name="FastFlagEditorNavItem" Content="{resources:Loc Ui_Nav_FastFlagEditor}" Icon="Flag28" PageType="{x:Type pages:FastFlagEditorPage}" />
+            <ui:NavigationItem Cache="True" Name="ModsNavItem" Content="{resources:Loc Menu_Mods_Title}" Icon="WrenchScrewdriver20" PageType="{x:Type pages:ModsPage}" />
+            <ui:NavigationItem Cache="True" Name="MoreNavItem" Content="{resources:Loc Ui_Nav_More}" Icon="MoreHorizontal24" PageType="{x:Type pages:MorePage}" vscontrols:SidebarGroup.IsHeader="True" />
+            <ui:NavigationItem Cache="True" Name="GlobalNavItem" Margin="0" Content="{resources:Loc Ui_Nav_Global}" Icon="GlobeLocation20" PageType="{x:Type pages:GBSEditorPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
+            <ui:NavigationItem Cache="True" Name="ShortcutsNavItem" Margin="0" Content="{resources:Loc Common_Shortcuts}" Icon="Apps32" PageType="{x:Type pages:ShortcutsPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
+            <ui:NavigationItem Cache="True" Name="NewsNavItem" Margin="0" Content="{resources:Loc Ui_Nav_News}" Icon="News16" PageType="{x:Type pages:NewsPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
           </ui:NavigationBase.Items>
           <ui:NavigationBase.Footer>
-            <ui:NavigationItem Cache="True" Name="ExtensionsNavItem" Content="{resources:Loc Ui_Nav_Extensions}" Icon="CubeAdd20" Tag="CubeLink20" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" PageType="{x:Type pages:ExtensionPage}" />
-            <ui:NavigationItem Cache="True" Name="ManagerNavItem" Content="{resources:Loc Ui_Nav_Manager}" Icon="ArrowDownload24" Tag="ArrowDownload20" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" PageType="{x:Type pages:DownloadsPage}" />
-            <ui:NavigationItem Cache="True" Name="SoberNavItem" Content="{resources:Loc Menu_Sober_Title}" Icon="Empty" Image="pack://application:,,,/Resources/SoberIcon.png" Tag="Settings20" PageType="{x:Type pages:SoberPage}" />
-            <ui:NavigationItem Cache="True" Name="RosemaryNavItem" Content="{resources:Loc Menu_Rosemary_Title}" Icon="Empty" Image="pack://application:,,,/Resources/RosemaryIcon.png" Tag="Settings20" PageType="{x:Type pages:RosemaryPage}" />
-            <ui:NavigationItem Cache="True" Name="SettingsNavItem" Content="{resources:Loc Ui_Nav_Settings}" Icon="Settings28" Tag="Settings20" PageType="{x:Type pages:ChannelPage}" />
-            <ui:NavigationItem Name="AboutNavItem" Content="{resources:Loc Menu_About_Title}" Icon="QuestionCircle32" Tag="QuestionCircle48" Command="{Binding OpenAboutCommand, Mode=OneTime}" />
+            <ui:NavigationItem Cache="True" Name="ExtensionsNavItem" Content="{resources:Loc Ui_Nav_Extensions}" Icon="CubeAdd20" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" PageType="{x:Type pages:ExtensionPage}" />
+            <ui:NavigationItem Cache="True" Name="ManagerNavItem" Content="{resources:Loc Ui_Nav_Manager}" Icon="ArrowDownload24" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" PageType="{x:Type pages:DownloadsPage}" />
+            <ui:NavigationItem Cache="True" Name="SoberNavItem" Content="{resources:Loc Menu_Sober_Title}" Icon="Empty" Image="pack://application:,,,/Resources/SoberIcon.png" PageType="{x:Type pages:SoberPage}" />
+            <ui:NavigationItem Cache="True" Name="RosemaryNavItem" Content="{resources:Loc Menu_Rosemary_Title}" Icon="Empty" Image="pack://application:,,,/Resources/RosemaryIcon.png" PageType="{x:Type pages:RosemaryPage}" />
+            <ui:NavigationItem Cache="True" Name="SettingsNavItem" Content="{resources:Loc Ui_Nav_Settings}" Icon="Settings28" PageType="{x:Type pages:ChannelPage}" />
+            <ui:NavigationItem Name="AboutNavItem" Content="{resources:Loc Menu_About_Title}" Icon="QuestionCircle32" Command="{Binding OpenAboutCommand, Mode=OneTime}" />
           </ui:NavigationBase.Footer>
         </ui:NavigationFluent>
         <Border Name="SidebarResizer" Width="8" HorizontalAlignment="Right" Background="Transparent" Cursor="SizeWE" ToolTip="{resources:Loc Ui_Main_ResizeSidebar}" MouseLeftButtonDown="SidebarResizer_MouseLeftButtonDown" MouseMove="SidebarResizer_MouseMove" MouseLeftButtonUp="SidebarResizer_MouseLeftButtonUp" />
