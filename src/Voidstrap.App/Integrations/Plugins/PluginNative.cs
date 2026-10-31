@@ -229,7 +229,7 @@ internal static partial class PluginNative
                 return Path.GetFileName(file) + " is a program, which powerful mods can never include";
             if (Path.GetFileName(file).Equals("owner.json", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(file).ToLowerInvariant() is not (".ts" or ".tsx" or ".js" or ".jsx" or ".mjs" or ".json"))
                 continue;
-            Match match = RefusedSource().Match(File.ReadAllText(file));
+            Match match = RefusedSource().Match(Encoding.UTF8.GetString(HashableContent(file)));
             if (match.Success)
                 return Path.GetFileName(file) + " contains \"" + match.Value + "\", which powerful mods cannot use";
         }
