@@ -35,6 +35,25 @@ public partial class SpotifyLibraryView : UserControl
 
     private string? _nowImage;
 
+    private string? _lastPosition;
+
+    private string? _lastTitle;
+
+    private DateTime _lastMoved;
+
+    private bool _isPlaying;
+
+    private bool _overrideValue;
+
+    private DateTime _overrideUntil;
+
+    private void ExpectPlaybackToggle()
+    {
+        _overrideValue = !_isPlaying;
+        _overrideUntil = DateTime.UtcNow.AddSeconds(3);
+        _lastMoved = _overrideValue ? DateTime.UtcNow : default;
+    }
+
     private SpotifyItem? _opened;
 
     private bool _inTrackList;
@@ -47,6 +66,7 @@ public partial class SpotifyLibraryView : UserControl
 
     public async Task TogglePlaybackAsync()
     {
+        ExpectPlaybackToggle();
         await _engine.PressAsync("control-button-playpause");
         await Task.Delay(300);
         await RefreshStateAsync();
@@ -149,11 +169,10 @@ public partial class SpotifyLibraryView : UserControl
             }
             return;
         }
-        if (_engine.IsPlayingAudio)
+        await RefreshStateAsync();
+        if (_isPlaying)
         {
             _silentSince = DateTime.UtcNow;
-            if (App.Settings.Prop.SpotifyMiniPlayer)
-                await RefreshStateAsync();
             return;
         }
         if (DateTime.UtcNow - _silentSince >= IdleLimit)
@@ -171,6 +190,17 @@ public partial class SpotifyLibraryView : UserControl
         SpotifyState? state = await _engine.GetStateAsync();
         if (state == null)
             return;
+        DateTime now = DateTime.UtcNow;
+        if (state.Position != _lastPosition)
+        {
+            if (_lastPosition != null && state.Title == _lastTitle)
+                _lastMoved = now;
+            _lastPosition = state.Position;
+            _lastTitle = state.Title;
+        }
+        TimeSpan moveWindow = _shown ? TimeSpan.FromSeconds(2.5) : TimeSpan.FromSeconds(11);
+        _isPlaying = now < _overrideUntil ? _overrideValue : state.Playing || now - _lastMoved < moveWindow;
+        state = state with { Playing = _isPlaying };
         StateChanged?.Invoke(this, state);
         ShowSignIn(!state.SignedIn);
         if (App.Settings.Prop.SpotifySignedIn != state.SignedIn)
@@ -306,6 +336,8 @@ public partial class SpotifyLibraryView : UserControl
     {
         if (sender is FrameworkElement { Tag: string control })
         {
+            if (control == "control-button-playpause")
+                ExpectPlaybackToggle();
             await _engine.PressAsync(control);
             await Task.Delay(300);
             await RefreshStateAsync();
