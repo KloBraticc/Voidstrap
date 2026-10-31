@@ -65,8 +65,41 @@ public sealed class SpotifyEngine
               signedIn: !document.querySelector('[data-testid="login-button"]'),
               title: w ? this.text(w.querySelector('[data-testid="context-item-link"]')) : '',
               artist: w ? this.text(w.querySelector('[data-testid="context-item-info-artist"]')) : '',
-              image: img ? img.src : null
+              image: img ? img.src : null,
+              position: this.text(document.querySelector('[data-testid="playback-position"]')),
+              duration: this.text(document.querySelector('[data-testid="playback-duration"]')),
+              progress: this.fraction('[data-testid="playback-progressbar"] input[type="range"]'),
+              volume: this.fraction('[data-testid="volume-bar"] input[type="range"]'),
+              shuffle: this.checked('control-button-shuffle') === 'true',
+              repeat: this.checked('control-button-repeat') || 'false',
+              liked: !!(w && w.querySelector('[data-testid="add-button"][aria-checked="true"]'))
             };
+          },
+          checked: function (id) {
+            var b = document.querySelector('[data-testid="' + id + '"]');
+            return b ? b.getAttribute('aria-checked') : null;
+          },
+          fraction: function (selector) {
+            var r = document.querySelector(selector);
+            if (!r) return 0;
+            var min = Number(r.min || 0), max = Number(r.max || 1);
+            return max > min ? (Number(r.value) - min) / (max - min) : 0;
+          },
+          setRange: function (selector, value) {
+            var r = document.querySelector(selector);
+            if (!r) return false;
+            var min = Number(r.min || 0), max = Number(r.max || 1);
+            Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(r, String(min + (max - min) * value));
+            r.dispatchEvent(new Event('input', { bubbles: true }));
+            r.dispatchEvent(new Event('change', { bubbles: true }));
+            return true;
+          },
+          seek: function (value) { return this.setRange('[data-testid="playback-progressbar"] input[type="range"]', value); },
+          volume: function (value) { return this.setRange('[data-testid="volume-bar"] input[type="range"]', value); },
+          like: function () {
+            var b = document.querySelector('[data-testid="now-playing-widget"] [data-testid="add-button"]');
+            if (b) b.click();
+            return !!b;
           },
           go: function (path) {
             history.pushState({}, '', path);
@@ -178,7 +211,7 @@ public sealed class SpotifyEngine
         if (document == null)
             return null;
         JsonElement root = document.RootElement;
-        return new SpotifyState(root.GetProperty("signedIn").GetBoolean(), Text(root, "title") ?? "", Text(root, "artist") ?? "", Text(root, "image"), IsPlayingAudio);
+        return new SpotifyState(root.GetProperty("signedIn").GetBoolean(), Text(root, "title") ?? "", Text(root, "artist") ?? "", Text(root, "image"), IsPlayingAudio, Text(root, "position") ?? "", Text(root, "duration") ?? "", root.GetProperty("progress").GetDouble(), root.GetProperty("volume").GetDouble(), root.GetProperty("shuffle").GetBoolean(), Text(root, "repeat") ?? "false", root.GetProperty("liked").GetBoolean());
     }
 
     private async Task<List<SpotifyItem>> ReadItemsAsync(string expression)
@@ -230,6 +263,21 @@ public sealed class SpotifyEngine
     public async Task PressAsync(string control)
     {
         (await RunAsync("click(" + JsonSerializer.Serialize(control) + ")"))?.Dispose();
+    }
+
+    public async Task SeekAsync(double value)
+    {
+        (await RunAsync("seek(" + value.ToString(System.Globalization.CultureInfo.InvariantCulture) + ")"))?.Dispose();
+    }
+
+    public async Task SetVolumeAsync(double value)
+    {
+        (await RunAsync("volume(" + value.ToString(System.Globalization.CultureInfo.InvariantCulture) + ")"))?.Dispose();
+    }
+
+    public async Task ToggleLikeAsync()
+    {
+        (await RunAsync("like()"))?.Dispose();
     }
 
     public void Shutdown()

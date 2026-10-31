@@ -142,6 +142,16 @@ public partial class SpotifyLibraryView : UserControl
         }
         NowTitle.Text = state.Title;
         NowArtist.Text = state.Artist;
+        PositionText.Text = state.Position;
+        DurationText.Text = state.Duration;
+        if (!SeekSlider.IsMouseCaptureWithin)
+            SeekSlider.Value = state.Progress;
+        if (!VolumeSlider.IsMouseCaptureWithin)
+            VolumeSlider.Value = state.Volume;
+        ShuffleButton.Appearance = state.Shuffle ? Wpf.Ui.Common.ControlAppearance.Primary : Wpf.Ui.Common.ControlAppearance.Transparent;
+        RepeatButton.Appearance = state.Repeat == "false" ? Wpf.Ui.Common.ControlAppearance.Transparent : Wpf.Ui.Common.ControlAppearance.Primary;
+        RepeatButton.Icon = state.Repeat == "mixed" ? SymbolRegular.ArrowRepeat124 : SymbolRegular.ArrowRepeatAll24;
+        LikeButton.Appearance = state.Liked ? Wpf.Ui.Common.ControlAppearance.Primary : Wpf.Ui.Common.ControlAppearance.Transparent;
         PlayPause.Icon = state.Playing ? SymbolRegular.Pause24 : SymbolRegular.Play24;
         if (state.Image != _nowImage)
         {
@@ -179,6 +189,25 @@ public partial class SpotifyLibraryView : UserControl
     {
         if (sender is FrameworkElement { Tag: SpotifyItem item })
             await _engine.PlayAsync(item);
+    }
+
+    private async void SeekSlider_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+        await Dispatcher.Yield(DispatcherPriority.Input);
+        await _engine.SeekAsync(SeekSlider.Value);
+    }
+
+    private async void VolumeSlider_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+        await Dispatcher.Yield(DispatcherPriority.Input);
+        await _engine.SetVolumeAsync(VolumeSlider.Value);
+    }
+
+    private async void Like_Click(object sender, RoutedEventArgs e)
+    {
+        await _engine.ToggleLikeAsync();
+        await Task.Delay(300);
+        await RefreshStateAsync();
     }
 
     private async void Control_Click(object sender, RoutedEventArgs e)
