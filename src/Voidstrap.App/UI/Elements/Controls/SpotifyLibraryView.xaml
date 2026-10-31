@@ -82,7 +82,7 @@
             <ColumnDefinition Width="110" />
           </Grid.ColumnDefinitions>
           <StackPanel Orientation="Horizontal">
-            <ui:Button x:Name="ShuffleButton" Width="34" Height="30" Padding="0" Margin="0,0,4,0" Appearance="Transparent" Icon="ArrowShuffle24" Tag="control-button-shuffle" Click="Control_Click" />
+            <ui:Button x:Name="ShuffleButton" Width="34" Height="30" Padding="0" Margin="0,0,4,0" Appearance="Transparent" Icon="ArrowShuffle24" Click="Shuffle_Click" />
             <ui:Button x:Name="RepeatButton" Width="34" Height="30" Padding="0" Margin="0,0,4,0" Appearance="Transparent" Icon="ArrowRepeatAll24" Tag="control-button-repeat" Click="Control_Click" />
             <ui:Button x:Name="LikeButton" Width="34" Height="30" Padding="0" Margin="0,0,4,0" Appearance="Transparent" Icon="Heart24" Click="Like_Click" />
             <ui:Button Width="34" Height="30" Padding="0" Appearance="Transparent" Icon="TextBulletListLtr24" Click="Queue_Click" />

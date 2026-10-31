@@ -76,11 +76,30 @@ public sealed class SpotifyEngine
               duration: this.text(document.querySelector('[data-testid="playback-duration"]')),
               progress: this.fraction('[data-testid="playback-progressbar"] input[type="range"]'),
               volume: this.fraction('[data-testid="volume-bar"] input[type="range"]'),
-              shuffle: this.checked('control-button-shuffle') === 'true',
+              shuffle: this.isOn(this.shuffleButton()),
               repeat: this.checked('control-button-repeat') || 'false',
-              liked: !!(w && w.querySelector('[data-testid="add-button"][aria-checked="true"]'))
+              liked: this.isOn(this.likeButton())
             };
           },
+          isOn: function (b) { return !!b && b.getAttribute('aria-checked') === 'true'; },
+          shuffleButton: function () {
+            return document.querySelector('[data-testid="control-button-shuffle"]') || document.querySelector('[data-testid="general-controls"] button');
+          },
+          likeButton: function () {
+            var bar = document.querySelector('[data-testid="now-playing-bar"]');
+            return bar ? bar.querySelector('[data-testid="add-button"],button[aria-label*="Liked Songs"],button[aria-label*="Add to"]') : null;
+          },
+          press: function (b) {
+            if (!b) return false;
+            var r = b.getBoundingClientRect(), o = { bubbles: true, cancelable: true, view: window, clientX: r.left + 2, clientY: r.top + 2, button: 0, pointerId: 1, isPrimary: true };
+            b.dispatchEvent(new PointerEvent('pointerdown', o));
+            b.dispatchEvent(new MouseEvent('mousedown', o));
+            b.dispatchEvent(new PointerEvent('pointerup', o));
+            b.dispatchEvent(new MouseEvent('mouseup', o));
+            b.click();
+            return true;
+          },
+          shuffle: function () { return this.press(this.shuffleButton()); },
           checked: function (id) {
             var b = document.querySelector('[data-testid="' + id + '"]');
             return b ? b.getAttribute('aria-checked') : null;
@@ -103,9 +122,7 @@ public sealed class SpotifyEngine
           seek: function (value) { return this.setRange('[data-testid="playback-progressbar"] input[type="range"]', value); },
           volume: function (value) { return this.setRange('[data-testid="volume-bar"] input[type="range"]', value); },
           like: function () {
-            var b = document.querySelector('[data-testid="now-playing-widget"] [data-testid="add-button"]');
-            if (b) b.click();
-            return !!b;
+            return this.press(this.likeButton());
           },
           rows: function () {
             var out = [], seen = {}, rows = document.querySelectorAll('[data-testid="tracklist-row"]');
@@ -131,14 +148,7 @@ public sealed class SpotifyEngine
           },
           click: function (id) {
             var b = document.querySelector('[data-testid="' + id + '"]');
-            if (!b) return false;
-            var r = b.getBoundingClientRect(), o = { bubbles: true, cancelable: true, view: window, clientX: r.left + 2, clientY: r.top + 2, button: 0, pointerId: 1, isPrimary: true };
-            b.dispatchEvent(new PointerEvent('pointerdown', o));
-            b.dispatchEvent(new MouseEvent('mousedown', o));
-            b.dispatchEvent(new PointerEvent('pointerup', o));
-            b.dispatchEvent(new MouseEvent('mouseup', o));
-            b.click();
-            return true;
+            return this.press(b);
           },
           playPage: function () {
             var b = document.querySelector('[data-testid="action-bar-row"] [data-testid="play-button"]') || document.querySelector('main [data-testid="play-button"]');
@@ -347,6 +357,11 @@ public sealed class SpotifyEngine
     public async Task SetVolumeAsync(double value)
     {
         (await RunAsync("volume(" + value.ToString(System.Globalization.CultureInfo.InvariantCulture) + ")"))?.Dispose();
+    }
+
+    public async Task ToggleShuffleAsync()
+    {
+        (await RunAsync("shuffle()"))?.Dispose();
     }
 
     public async Task ToggleLikeAsync()

@@ -325,6 +325,13 @@ public partial class SpotifyLibraryView : UserControl
         await _engine.SetVolumeAsync(VolumeSlider.Value);
     }
 
+    private async void Shuffle_Click(object sender, RoutedEventArgs e)
+    {
+        await _engine.ToggleShuffleAsync();
+        await Task.Delay(300);
+        await RefreshStateAsync();
+    }
+
     private async void Like_Click(object sender, RoutedEventArgs e)
     {
         await _engine.ToggleLikeAsync();
