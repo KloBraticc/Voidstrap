@@ -733,7 +733,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         //IL_01cc: Unknown result type (might be due to invalid IL or missing references)
         //IL_01de: Expected O, but got Unknown
         InitializeComponent();
-        Voidstrap.UI.StickyTabStrip.Register();
+        Wpf.Ui.Controls.StickyTabStrip.Register();
         SyncHomeTargetMenuBrush();
         InstallLaunchButton.SetBinding(
             SplitButton.DropDownOnRightProperty,
