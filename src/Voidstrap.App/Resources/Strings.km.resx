@@ -9134,4 +9134,125 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>ពន្លឺមានចលនា</value>
   </data>
-</root>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>បង្កើតផ្លូវកាត់នៅលើដេស្តោប</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>ផ្លូវកាត់សម្រាប់ {0} ត្រូវបានបន្ថែមទៅដេស្តោបរបស់អ្នក។</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>មិនអាចបង្កើតផ្លូវកាត់សម្រាប់ {0} បានទេ។</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>មើលនៅ Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>ចម្លងតំណហ្គេម</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>ផ្លូវកាត់</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>គ្រប់គ្រង</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>លក្ខណៈពិសេស និងណែនាំ</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>រុករកតាមប្រភេទ</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>លេងឥតគិតថ្លៃ</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>កំពុងលេង {0}</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>មតិទាំងអស់៖</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>កាលបរិច្ឆេទចេញផ្សាយ៖</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>អ្នកអភិវឌ្ឍន៍៖</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>វិជ្ជមានខ្លាំងបំផុត</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>វិជ្ជមានខ្លាំង</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>វិជ្ជមានភាគច្រើន</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>លាយលក្ខណ៍</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>អវិជ្ជមានភាគច្រើន</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>ដោយ {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>ខ្ទាស់</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>ដកខ្ទាស់</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>បានខ្ទាស់</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>ទាំងអស់</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>មិនដែល</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>ថ្ងៃនេះ</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>ម្សិលមិញ</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>គ្មានកត់ត្រា</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} នាទី</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} ម៉ោង</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} ម៉ោង {1} នាទី</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>បានធ្វើបច្ចុប្បន្នភាពថ្ងៃនេះ</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>បានធ្វើបច្ចុប្បន្នភាពម្សិលមិញ</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>បានធ្វើបច្ចុប្បន្នភាព {0} ថ្ងៃមុន</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>បានធ្វើបច្ចុប្បន្នភាព {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>មិនស្គាល់</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>ដក {0} ចេញពីបណ្ណាល័យរបស់អ្នក? ពេលលេងដែលបានកត់ត្រានឹងត្រូវលុប។</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>សូមបញ្ចូល PlaceId ត្រឹមត្រូវ ឬតំណហ្គេម Roblox។</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>រកមិនឃើញហ្គេមដែលមាន PlaceId នោះទេ។</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>បរាជ័យក្នុងការផ្ទុកបណ្ណាល័យរបស់អ្នក៖ {0}</value>
+  </data>
+  </root>

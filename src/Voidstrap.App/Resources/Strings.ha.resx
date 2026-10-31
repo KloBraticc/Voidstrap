@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9133,5 +9133,126 @@ Bada shi?</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Haske mai rai</value>
+  </data>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Ƙirƙiri gajeriyar hanyar tebur</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>An ƙara gajeriyar hanyar {0} a kan tebarku.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Ba a iya ƙirƙirar gajeriyar hanya ga {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Duba a Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Kwafi hanyar haɗin wasa</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Gajeriyar hanya</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Sarrafa</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Zaɓaɓɓu da waɗanda aka ba da shawara</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Bincika ta nau'i</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Kyauta don Wasa</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} suna wasa</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Dukkan bita:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Rana da aka fitar:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Mai haɓakawa:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Kyau mai yawa</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Kyau matuka</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Mafi kyau</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Gauriye</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Mafi korau</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>na {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Ɗora pin</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Cire pin</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>AN ƊORA PIN</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>DUKA</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Ba taɓa ba</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Yau</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Jiya</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Ba a rubuta komai</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} minti</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} awa</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} awa {1} minti</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>An sabunta yau</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>An sabunta jiya</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>An sabunta {0} kwana da suka wuce</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>An sabunta {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Ba a sani ba</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>A cire {0} daga ɗakunan ajiyarku? Lokacin wasan da aka rubuta za a goge shi.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Shigar da ingantaccen PlaceId ko hanyar haɗin wasan Roblox.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Ba a sami wasa da wannan PlaceId ba.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Kasa loda ɗakunan ajiyarku: {0}</value>
   </data>
 </root>

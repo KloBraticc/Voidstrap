@@ -9134,4 +9134,124 @@ Dozvoliti?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Animirani sjaj</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Napravi prečac na radnoj površini</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Prečac za {0} je dodan na vašu radnu površinu.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Nije moguće kreirati prečac za {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Pogledaj na Robloxu</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Kopiraj vezu igre</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Prečac</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Upravljaj</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Istaknuto i preporučeno</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Pregledaj po žanru</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Besplatno za igranje</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} igra</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Sve recenzije:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Datum izlaska:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Razvojni tim:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Izuzetno pozitivno</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Vrlo pozitivno</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Pretežno pozitivno</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Miješano</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Pretežno negativno</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>od {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Zakači</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Otkači</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>ZAKAČENO</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>SVE</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Nikada</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Danas</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Jučer</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Nije zabilježeno</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} h</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} h {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Ažurirano danas</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Ažurirano jučer</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Ažurirano prije {0} dana</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Ažurirano {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Nepoznato</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Ukloniti {0} iz vaše biblioteke? Zabilježeno vrijeme igranja će biti obrisano.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Unesite ispravan PlaceId ili vezu Roblox igre.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Nije pronađena igra s tim PlaceId.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Učitavanje biblioteke nije uspjelo: {0}</value>
+  </data>
 </root>

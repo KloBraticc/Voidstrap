@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9133,5 +9133,126 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>זוהר מונפש</value>
+  </data>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>צור קיצור דרך בשולחן העבודה</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>קיצור דרך עבור {0} נוסף לשולחן העבודה שלך.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>לא ניתן היה ליצור קיצור דרך עבור {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>הצג ב-Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>העתק את קישור המשחק</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>קיצור דרך</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>ניהול</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>מוצגים ומומלצים</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>עיין לפי ז׳אנר</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>לשחק בחינם</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} משחקים כעת</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>כל הביקורות:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>תאריך יציאה:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>מפתח:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>חיובי באופן מכריע</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>חיובי מאוד</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>חיובי ברובו</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>מעורב</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>שלילי ברובו</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>מאת {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>הצמד</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>בטל הצמדה</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>הוצמדו</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>הכול</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>מעולם לא</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>היום</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>אתמול</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>לא נרשם זמן</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} דק׳</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} שע׳</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} שע׳ {1} דק׳</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>עודכן היום</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>עודכן אתמול</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>עודכן לפני {0} ימים</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>עודכן ב-{0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>לא ידוע</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>להסיר את {0} מהספרייה שלך? זמן המשחק שנרשם יימחק.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>הזן PlaceId תקף או קישור למשחק Roblox.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>לא נמצא משחק עם PlaceId זה.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>טעינת הספרייה שלך נכשלה: {0}</value>
   </data>
 </root>

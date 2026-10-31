@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -15,6 +16,8 @@ public partial class LibraryPage : UiPage
 
     private bool _stickyShown;
 
+    private LibraryGameEntry? _shownGame;
+
     private readonly PageSidebar _sidebar;
 
     public bool IsSidebarCollapsed => _sidebar.IsCollapsed;
@@ -29,6 +32,7 @@ public partial class LibraryPage : UiPage
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
+        _viewModel.PropertyChanged += ViewModel_PropertyChanged;
         try
         {
             _viewModel.SetSubplaceViewActive(true);
@@ -45,8 +49,17 @@ public partial class LibraryPage : UiPage
         }
     }
 
+    private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != nameof(LibraryViewModel.SelectedGame) || ReferenceEquals(_shownGame, _viewModel.SelectedGame))
+            return;
+        _shownGame = _viewModel.SelectedGame;
+        DetailScroll.ScrollToTop();
+    }
+
     private void Page_Unloaded(object sender, RoutedEventArgs e)
     {
+        _viewModel.PropertyChanged -= ViewModel_PropertyChanged;
         _viewModel.SetSubplaceViewActive(false);
         _viewModel.Servers.SetViewActive(false);
     }

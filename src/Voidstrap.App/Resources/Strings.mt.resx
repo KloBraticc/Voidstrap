@@ -9134,4 +9134,125 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Tiddix animat</value>
   </data>
-</root>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Oħloq shortcut fuq id-desktop</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Shortcut għal {0} żdied fuq id-desktop tiegħek.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Ma setgħinx noħloq shortcut għal {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Ara fuq Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Ikkopja l-link tal-logħba</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Shortcut</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Immaniġġja</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Fl-ispot u Rakkomandati</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Fittex skond il-ġeneru</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Ilab b'xejn</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} qed jilagħbu</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Reċensjonijiet kollha:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Data tar-rilaxx:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Żviluppatur:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Estremament pożittivi</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Ħafna pożittivi</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Fil-biċċa l-kbira pożittivi</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Maqsumin</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Fil-biċċa l-kbira negattivi</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>minn {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Pinnja</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Neħħi l-pin</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>PINNJATI</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>KOLLHA</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Qatt</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Illum</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Ilbieraħ</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Xejn irreġistrat</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} sa</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} sa {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Aġġornat illum</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Aġġornat ilbieraħ</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Aġġornat {0} jiem ilu</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Aġġornat fi {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Mhux magħruf</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Tneħħi {0} mil-librerija tiegħek? Il-ħin tal-logħob irreġistrat se jitneħħa.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Daħħal PlaceId validu jew link tal-logħba Roblox.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Ma nstabx logħba b'dak il-PlaceId.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Ma setax jittella l-librerija tiegħek: {0}</value>
+  </data>
+  </root>

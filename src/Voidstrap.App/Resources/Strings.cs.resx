@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9447,5 +9447,125 @@ Povolit?</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Animovaná záře</value>
+  </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Vytvořit zástupce na ploše</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Zástupce pro {0} byl přidán na vaši plochu.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Nepodařilo se vytvořit zástupce pro {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Zobrazit na Robloxu</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Zkopírovat odkaz na hru</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Zástupce</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Spravovat</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Zvýrazněno a doporučeno</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Procházet podle žánru</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Hrát zdarma</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} hraje</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Všechny recenze:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Datum vydání:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Vývojář:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Mimořádně kladné</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Velmi kladné</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Většinou kladné</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Smíšené</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Většinou záporné</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>od {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Připnout</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Odepnout</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>PŘIPNUTÉ</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>VŠE</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Nikdy</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Dnes</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Včera</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Žádný záznam</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} h</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} h {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Aktualizováno dnes</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Aktualizováno včera</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Aktualizováno před {0} dny</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Aktualizováno {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Neznámé</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Odebrat {0} z vaší knihovny? Zaznamenaná doba hraní bude smazána.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Zadejte platné PlaceId nebo odkaz na hru Roblox.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Hru s tímto PlaceId se nepodařilo najít.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Načtení vaší knihovny se nepodařilo: {0}</value>
   </data>
 </root>

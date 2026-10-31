@@ -9438,4 +9438,125 @@ Benarkan?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Cahaya animasi</value>
   </data>
-</root>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Cipta pintasan desktop</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Pintasan untuk {0} ditambah ke desktop anda.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Tidak dapat mencipta pintasan untuk {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Lihat di Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Salin pautan permainan</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Pintasan</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Urus</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Dipaparkan dan Disyorkan</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Layari mengikut genre</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Main Percuma</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} sedang bermain</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Semua ulasan:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Tarikh keluaran:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Pembangun:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Amat Positif</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Sangat Positif</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Kebanyakannya Positif</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Bercampur</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Kebanyakannya Negatif</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>oleh {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Semat</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Nyahsemat</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>DISEMAT</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>SEMUA</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Tidak pernah</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Hari ini</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Semalam</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Tiada direkod</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} j</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} j {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Dikemas kini hari ini</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Dikemas kini semalam</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Dikemas kini {0} hari lalu</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Dikemas kini {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Tidak diketahui</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Buang {0} daripada pustaka anda? Masa main yang direkod akan dipadamkan.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Masukkan PlaceId atau pautan permainan Roblox yang sah.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Tidak jumpa permainan dengan PlaceId itu.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Gagal memuatkan pustaka anda: {0}</value>
+  </data>
+  </root>

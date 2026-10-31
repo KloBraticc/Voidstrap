@@ -9134,4 +9134,125 @@ Povoliť?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Animovaná žiara</value>
   </data>
+
+<data name="Library.CreateShortcut" xml:space="preserve">
+  <value>Vytvoriť skratku na ploche</value>
+</data>
+<data name="Library.ShortcutCreated" xml:space="preserve">
+  <value>Skratka na {0} bola pridaná na plochu.</value>
+</data>
+<data name="Library.ShortcutFailed" xml:space="preserve">
+  <value>Nepodarilo sa vytvoriť skratku na {0}.</value>
+</data>
+<data name="Library.ViewOnRoblox" xml:space="preserve">
+  <value>Zobraziť na Roblox</value>
+</data>
+<data name="Library.CopyGameLink" xml:space="preserve">
+  <value>Kopírovať odkaz na hru</value>
+</data>
+<data name="Library.Shortcut" xml:space="preserve">
+  <value>Skratka</value>
+</data>
+<data name="Library.Manage" xml:space="preserve">
+  <value>Spravovať</value>
+</data>
+<data name="Library.Store.Featured" xml:space="preserve">
+  <value>Odporúčané a zvýraznené</value>
+</data>
+<data name="Library.Store.BrowseGenre" xml:space="preserve">
+  <value>Prehliadať podľa žánru</value>
+</data>
+<data name="Library.Store.Free" xml:space="preserve">
+  <value>Na hranie zdarma</value>
+</data>
+<data name="Library.Store.Playing" xml:space="preserve">
+  <value>{0} hrá</value>
+</data>
+<data name="Library.Store.AllReviews" xml:space="preserve">
+  <value>Všetky recenzie:</value>
+</data>
+<data name="Library.Store.ReleaseDate" xml:space="preserve">
+  <value>Dátum vydania:</value>
+</data>
+<data name="Library.Store.Developer" xml:space="preserve">
+  <value>Vývojár:</value>
+</data>
+<data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+  <value>Extrémne pozitívne</value>
+</data>
+<data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+  <value>Veľmi pozitívne</value>
+</data>
+<data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+  <value>Prevažne pozitívne</value>
+</data>
+<data name="Library.Store.ReviewMixed" xml:space="preserve">
+  <value>Zmiešané</value>
+</data>
+<data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+  <value>Prevažne negatívne</value>
+</data>
+<data name="Library.By" xml:space="preserve">
+  <value>od {0}</value>
+</data>
+<data name="Library.Pin" xml:space="preserve">
+  <value>Pripnúť</value>
+</data>
+<data name="Library.Unpin" xml:space="preserve">
+  <value>Odopnúť</value>
+</data>
+<data name="Library.GroupPinned" xml:space="preserve">
+  <value>PRIPNUTÉ</value>
+</data>
+<data name="Library.GroupAll" xml:space="preserve">
+  <value>VŠETKY</value>
+</data>
+<data name="Library.Never" xml:space="preserve">
+  <value>Nikdy</value>
+</data>
+<data name="Library.Today" xml:space="preserve">
+  <value>Dnes</value>
+</data>
+<data name="Library.Yesterday" xml:space="preserve">
+  <value>Včera</value>
+</data>
+<data name="Library.NoPlaytime" xml:space="preserve">
+  <value>Žiadne zaznamenané</value>
+</data>
+<data name="Library.Minutes" xml:space="preserve">
+  <value>{0} min</value>
+</data>
+<data name="Library.Hours" xml:space="preserve">
+  <value>{0} hod</value>
+</data>
+<data name="Library.HoursMinutes" xml:space="preserve">
+  <value>{0} hod {1} min</value>
+</data>
+<data name="Library.UpdatedToday" xml:space="preserve">
+  <value>Aktualizované dnes</value>
+</data>
+<data name="Library.UpdatedYesterday" xml:space="preserve">
+  <value>Aktualizované včera</value>
+</data>
+<data name="Library.UpdatedDaysAgo" xml:space="preserve">
+  <value>Aktualizované pred {0} dňami</value>
+</data>
+<data name="Library.UpdatedOn" xml:space="preserve">
+  <value>Aktualizované {0}</value>
+</data>
+<data name="Library.Unknown" xml:space="preserve">
+  <value>Neznáme</value>
+</data>
+<data name="Library.RemoveConfirm" xml:space="preserve">
+  <value>Odstrániť {0} z knižnice? Zaznamenaný čas hrania bude odstránený.</value>
+</data>
+<data name="Library.InvalidPlace" xml:space="preserve">
+  <value>Zadajte platný PlaceId alebo odkaz na hru Roblox.</value>
+</data>
+<data name="Library.PlaceNotFound" xml:space="preserve">
+  <value>Nepodarilo sa nájsť hru s týmto PlaceId.</value>
+</data>
+<data name="Library.LoadFailed" xml:space="preserve">
+  <value>Nepodarilo sa načítať knižnicu: {0}</value>
+</data>
 </root>

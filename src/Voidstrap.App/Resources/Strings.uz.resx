@@ -9134,4 +9134,124 @@ Ruxsat berasizmi?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Animatsiyalangan porlash</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Ish stoli yorlig‘ini yaratish</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>{0} uchun yorliq ish stoliga qo‘shildi.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>{0} uchun yorliq yaratib bo‘lmadi.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Robloxda ko‘rish</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>O‘yin havolasini nusxalash</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Yorliq</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Boshqarish</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Tanlangan va tavsiya etilgan</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Janr bo‘yicha ko‘rish</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Bepul o‘ynash</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} kishi o‘ynamoqda</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Barcha sharhlar:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Chiqarilgan sana:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Ishlab chiquvchi:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Benihoya ijobiy</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Juda ijobiy</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Asosan ijobiy</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Aralash</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Asosan salbiy</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>{0} tomonidan</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Mahkamlash</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Olib tashlash</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>MAHKAMLANGAN</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>HAMMASI</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Hech qachon</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Bugun</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Kecha</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Yozib olinmagan</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} daq</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} so</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} so {1} daq</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Bugun yangilandi</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Kecha yangilandi</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>{0} kun oldin yangilandi</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>{0} kuni yangilandi</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Noma'lum</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>{0} kutubxonangizdan olib tashlansinmi? Yozib olingan o‘yin vaqti o‘chiriladi.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>To‘g‘ri PlaceId yoki Roblox o‘yin havolasini kiriting.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Bu PlaceId bilan o‘yin topilmadi.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Kutubxonangiz yuklanmadi: {0}</value>
+  </data>
 </root>

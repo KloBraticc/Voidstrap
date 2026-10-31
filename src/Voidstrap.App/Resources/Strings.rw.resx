@@ -9134,4 +9134,125 @@ Emera?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Umucyo</value>
   </data>
+
+<data name="Library.CreateShortcut" xml:space="preserve">
+  <value>Kora igicurucupu ku desktop</value>
+</data>
+<data name="Library.ShortcutCreated" xml:space="preserve">
+  <value>Igicurucupu cya {0} cyongewe ku desktop yawe.</value>
+</data>
+<data name="Library.ShortcutFailed" xml:space="preserve">
+  <value>Ntibyakunze gukora igicurucupu cya {0}.</value>
+</data>
+<data name="Library.ViewOnRoblox" xml:space="preserve">
+  <value>Reba kuri Roblox</value>
+</data>
+<data name="Library.CopyGameLink" xml:space="preserve">
+  <value>Koporora umuyoboro w'umukino</value>
+</data>
+<data name="Library.Shortcut" xml:space="preserve">
+  <value>Igicurucupu</value>
+</data>
+<data name="Library.Manage" xml:space="preserve">
+  <value>Gutunganya</value>
+</data>
+<data name="Library.Store.Featured" xml:space="preserve">
+  <value>Ibyihariye n'ibyasingiwe</value>
+</data>
+<data name="Library.Store.BrowseGenre" xml:space="preserve">
+  <value>Shakisha ku bwoko bw'umukino</value>
+</data>
+<data name="Library.Store.Free" xml:space="preserve">
+  <value>Kina ku buntu</value>
+</data>
+<data name="Library.Store.Playing" xml:space="preserve">
+  <value>{0} bari bakina</value>
+</data>
+<data name="Library.Store.AllReviews" xml:space="preserve">
+  <value>Ibitekerezo byose:</value>
+</data>
+<data name="Library.Store.ReleaseDate" xml:space="preserve">
+  <value>Itariki y'umwanzuro:</value>
+</data>
+<data name="Library.Store.Developer" xml:space="preserve">
+  <value>Uwashyizeho:</value>
+</data>
+<data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+  <value>Byemerewe cyane</value>
+</data>
+<data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+  <value>Neza cyane</value>
+</data>
+<data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+  <value>Akenshi neza</value>
+</data>
+<data name="Library.Store.ReviewMixed" xml:space="preserve">
+  <value>Avangwa</value>
+</data>
+<data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+  <value>Akenshi bibi</value>
+</data>
+<data name="Library.By" xml:space="preserve">
+  <value>na {0}</value>
+</data>
+<data name="Library.Pin" xml:space="preserve">
+  <value>Shyira</value>
+</data>
+<data name="Library.Unpin" xml:space="preserve">
+  <value>Kuvanamo</value>
+</data>
+<data name="Library.GroupPinned" xml:space="preserve">
+  <value>IBISHYIZWE</value>
+</data>
+<data name="Library.GroupAll" xml:space="preserve">
+  <value>IBYOSE</value>
+</data>
+<data name="Library.Never" xml:space="preserve">
+  <value>Nta gihe</value>
+</data>
+<data name="Library.Today" xml:space="preserve">
+  <value>Uyu munsi</value>
+</data>
+<data name="Library.Yesterday" xml:space="preserve">
+  <value>E jo</value>
+</data>
+<data name="Library.NoPlaytime" xml:space="preserve">
+  <value>Nta gihe cyanditse</value>
+</data>
+<data name="Library.Minutes" xml:space="preserve">
+  <value>{0} min</value>
+</data>
+<data name="Library.Hours" xml:space="preserve">
+  <value>{0} amasaha</value>
+</data>
+<data name="Library.HoursMinutes" xml:space="preserve">
+  <value>{0} amasaha {1} min</value>
+</data>
+<data name="Library.UpdatedToday" xml:space="preserve">
+  <value>Kyavuguruwe uyu munsi</value>
+</data>
+<data name="Library.UpdatedYesterday" xml:space="preserve">
+  <value>Kyavuguruwe e jo</value>
+</data>
+<data name="Library.UpdatedDaysAgo" xml:space="preserve">
+  <value>Kyavuguruwe iminsi {0} ishize</value>
+</data>
+<data name="Library.UpdatedOn" xml:space="preserve">
+  <value>Kyavuguruwe ku itariki {0}</value>
+</data>
+<data name="Library.Unknown" xml:space="preserve">
+  <value>Kitazwi</value>
+</data>
+<data name="Library.RemoveConfirm" xml:space="preserve">
+  <value>Urifuza kuvanaho {0} mu isomero ryawe? Igihe cyo gukina cyanditse kizasibwa.</value>
+</data>
+<data name="Library.InvalidPlace" xml:space="preserve">
+  <value>Andika PlaceId nyayo cyangwa umuyoboro w'umukino wa Roblox.</value>
+</data>
+<data name="Library.PlaceNotFound" xml:space="preserve">
+  <value>Ntibyakunze kubona umukino ufite iyo PlaceId.</value>
+</data>
+<data name="Library.LoadFailed" xml:space="preserve">
+  <value>Byanze gutangura isomero ryawe: {0}</value>
+</data>
 </root>

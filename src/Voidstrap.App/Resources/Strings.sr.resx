@@ -9134,4 +9134,125 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Анимирани сјај</value>
   </data>
+
+<data name="Library.CreateShortcut" xml:space="preserve">
+  <value>Направи пречицу на радној површини</value>
+</data>
+<data name="Library.ShortcutCreated" xml:space="preserve">
+  <value>Пречица за {0} је додата на радну површину.</value>
+</data>
+<data name="Library.ShortcutFailed" xml:space="preserve">
+  <value>Није могла да се направи пречица за {0}.</value>
+</data>
+<data name="Library.ViewOnRoblox" xml:space="preserve">
+  <value>Погледај на Roblox</value>
+</data>
+<data name="Library.CopyGameLink" xml:space="preserve">
+  <value>Копирај везу игре</value>
+</data>
+<data name="Library.Shortcut" xml:space="preserve">
+  <value>Пречица</value>
+</data>
+<data name="Library.Manage" xml:space="preserve">
+  <value>Управљај</value>
+</data>
+<data name="Library.Store.Featured" xml:space="preserve">
+  <value>Истакнуто и препоручено</value>
+</data>
+<data name="Library.Store.BrowseGenre" xml:space="preserve">
+  <value>Прегледај по жанру</value>
+</data>
+<data name="Library.Store.Free" xml:space="preserve">
+  <value>Бесплатно за играње</value>
+</data>
+<data name="Library.Store.Playing" xml:space="preserve">
+  <value>{0} игра</value>
+</data>
+<data name="Library.Store.AllReviews" xml:space="preserve">
+  <value>Све рецензије:</value>
+</data>
+<data name="Library.Store.ReleaseDate" xml:space="preserve">
+  <value>Датум изласка:</value>
+</data>
+<data name="Library.Store.Developer" xml:space="preserve">
+  <value>Програмер:</value>
+</data>
+<data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+  <value>Изузетно позитивне</value>
+</data>
+<data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+  <value>Врло позитивне</value>
+</data>
+<data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+  <value>Превасходно позитивне</value>
+</data>
+<data name="Library.Store.ReviewMixed" xml:space="preserve">
+  <value>Мешовите</value>
+</data>
+<data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+  <value>Превасходно негативне</value>
+</data>
+<data name="Library.By" xml:space="preserve">
+  <value>од {0}</value>
+</data>
+<data name="Library.Pin" xml:space="preserve">
+  <value>Закачи</value>
+</data>
+<data name="Library.Unpin" xml:space="preserve">
+  <value>Откачи</value>
+</data>
+<data name="Library.GroupPinned" xml:space="preserve">
+  <value>ЗАКАЧЕНО</value>
+</data>
+<data name="Library.GroupAll" xml:space="preserve">
+  <value>СВЕ</value>
+</data>
+<data name="Library.Never" xml:space="preserve">
+  <value>Никада</value>
+</data>
+<data name="Library.Today" xml:space="preserve">
+  <value>Данас</value>
+</data>
+<data name="Library.Yesterday" xml:space="preserve">
+  <value>Јуче</value>
+</data>
+<data name="Library.NoPlaytime" xml:space="preserve">
+  <value>Није забележено</value>
+</data>
+<data name="Library.Minutes" xml:space="preserve">
+  <value>{0} мин</value>
+</data>
+<data name="Library.Hours" xml:space="preserve">
+  <value>{0} ч</value>
+</data>
+<data name="Library.HoursMinutes" xml:space="preserve">
+  <value>{0} ч {1} мин</value>
+</data>
+<data name="Library.UpdatedToday" xml:space="preserve">
+  <value>Ажурирано данас</value>
+</data>
+<data name="Library.UpdatedYesterday" xml:space="preserve">
+  <value>Ажурирано јуче</value>
+</data>
+<data name="Library.UpdatedDaysAgo" xml:space="preserve">
+  <value>Ажурирано пре {0} дана</value>
+</data>
+<data name="Library.UpdatedOn" xml:space="preserve">
+  <value>Ажурирано {0}</value>
+</data>
+<data name="Library.Unknown" xml:space="preserve">
+  <value>Непознато</value>
+</data>
+<data name="Library.RemoveConfirm" xml:space="preserve">
+  <value>Уклонити {0} из библиотеке? Забележено време играња ће бити обрисано.</value>
+</data>
+<data name="Library.InvalidPlace" xml:space="preserve">
+  <value>Унесите важећи PlaceId или везу Roblox игре.</value>
+</data>
+<data name="Library.PlaceNotFound" xml:space="preserve">
+  <value>Није пронађена игра са тим PlaceId.</value>
+</data>
+<data name="Library.LoadFailed" xml:space="preserve">
+  <value>Није успело учитавање библиотеке: {0}</value>
+</data>
 </root>

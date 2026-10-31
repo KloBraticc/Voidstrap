@@ -9134,4 +9134,125 @@ Oggolow?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Iftiin firfircoon</value>
   </data>
+
+<data name="Library.CreateShortcut" xml:space="preserve">
+  <value>Samee gaagaab desktop ah</value>
+</data>
+<data name="Library.ShortcutCreated" xml:space="preserve">
+  <value>Gaagaabka {0} waa lagu daray desktopkaaga.</value>
+</data>
+<data name="Library.ShortcutFailed" xml:space="preserve">
+  <value>Lama sameyn gaagaabka {0}.</value>
+</data>
+<data name="Library.ViewOnRoblox" xml:space="preserve">
+  <value>Ku eeg Roblox</value>
+</data>
+<data name="Library.CopyGameLink" xml:space="preserve">
+  <value>Nuqul ka samee xiriirka ciyaarta</value>
+</data>
+<data name="Library.Shortcut" xml:space="preserve">
+  <value>Gaagaab</value>
+</data>
+<data name="Library.Manage" xml:space="preserve">
+  <value>Maamul</value>
+</data>
+<data name="Library.Store.Featured" xml:space="preserve">
+  <value>La muujiyay iyo la taliyay</value>
+</data>
+<data name="Library.Store.BrowseGenre" xml:space="preserve">
+  <value>Raadi nooca ciyaarta</value>
+</data>
+<data name="Library.Store.Free" xml:space="preserve">
+  <value>Bilaash la ciyaaro</value>
+</data>
+<data name="Library.Store.Playing" xml:space="preserve">
+  <value>{0} ayaa ciyaaraya</value>
+</data>
+<data name="Library.Store.AllReviews" xml:space="preserve">
+  <value>Dhammaan dib-u-eegyada:</value>
+</data>
+<data name="Library.Store.ReleaseDate" xml:space="preserve">
+  <value>Taariikhda la sii daayay:</value>
+</data>
+<data name="Library.Store.Developer" xml:space="preserve">
+  <value>Horumariyaha:</value>
+</data>
+<data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+  <value>Si xad dhaaf ah loo ammaanay</value>
+</data>
+<data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+  <value>Aad loo ammaanay</value>
+</data>
+<data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+  <value>Badanaa wanaagsan</value>
+</data>
+<data name="Library.Store.ReviewMixed" xml:space="preserve">
+  <value>Isku qasan</value>
+</data>
+<data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+  <value>Badanaa xun</value>
+</data>
+<data name="Library.By" xml:space="preserve">
+  <value>waxaa sameeyay {0}</value>
+</data>
+<data name="Library.Pin" xml:space="preserve">
+  <value>Dheji</value>
+</data>
+<data name="Library.Unpin" xml:space="preserve">
+  <value>Ka saar</value>
+</data>
+<data name="Library.GroupPinned" xml:space="preserve">
+  <value>LA DHEJIYAY</value>
+</data>
+<data name="Library.GroupAll" xml:space="preserve">
+  <value>DHAMMAAN</value>
+</data>
+<data name="Library.Never" xml:space="preserve">
+  <value>Weligood</value>
+</data>
+<data name="Library.Today" xml:space="preserve">
+  <value>Maanta</value>
+</data>
+<data name="Library.Yesterday" xml:space="preserve">
+  <value>Shalay</value>
+</data>
+<data name="Library.NoPlaytime" xml:space="preserve">
+  <value>Wax lama diiwaan gelin</value>
+</data>
+<data name="Library.Minutes" xml:space="preserve">
+  <value>{0} daq</value>
+</data>
+<data name="Library.Hours" xml:space="preserve">
+  <value>{0} saac</value>
+</data>
+<data name="Library.HoursMinutes" xml:space="preserve">
+  <value>{0} saac {1} daq</value>
+</data>
+<data name="Library.UpdatedToday" xml:space="preserve">
+  <value>Maanta la cusboonaysiiyay</value>
+</data>
+<data name="Library.UpdatedYesterday" xml:space="preserve">
+  <value>Shalay la cusboonaysiiyay</value>
+</data>
+<data name="Library.UpdatedDaysAgo" xml:space="preserve">
+  <value>{0} maalmood ka hor la cusboonaysiiyay</value>
+</data>
+<data name="Library.UpdatedOn" xml:space="preserve">
+  <value>La cusboonaysiiyay {0}</value>
+</data>
+<data name="Library.Unknown" xml:space="preserve">
+  <value>Aan la garanayn</value>
+</data>
+<data name="Library.RemoveConfirm" xml:space="preserve">
+  <value>Ma ka saarayaa {0} maktabaddaada? Waqtiga ciyaarta la diiwaan geliyay waa la tirtiri.</value>
+</data>
+<data name="Library.InvalidPlace" xml:space="preserve">
+  <value>Geli PlaceId sax ah ama xiriirka ciyaar Roblox ah.</value>
+</data>
+<data name="Library.PlaceNotFound" xml:space="preserve">
+  <value>Lama helin ciyaar leh PlaceId taas.</value>
+</data>
+<data name="Library.LoadFailed" xml:space="preserve">
+  <value>Kushubinta maktabaddaada wuu fashilmay: {0}</value>
+</data>
 </root>

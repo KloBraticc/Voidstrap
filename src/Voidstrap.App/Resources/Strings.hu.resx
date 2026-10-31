@@ -9446,4 +9446,125 @@ Engedélyezed?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Animált ragyogás</value>
   </data>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Asztali parancsikon létrehozása</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>A(z) {0} parancsikonja hozzáadva az asztalhoz.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Nem sikerült parancsikont létrehozni a következőhöz: {0}</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Megtekintés a Robloxon</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Játék linkjének másolása</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Parancsikon</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Kezelés</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Kiemelt és ajánlott</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Böngészés műfaj szerint</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Ingyenesen játszható</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} játékos játszik</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Összes értékelés:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Megjelenés dátuma:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Fejlesztő:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Rendkívül pozitív</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Nagyon pozitív</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Túlnyomórészt pozitív</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Vegyes</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Túlnyomórészt negatív</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>készítette: {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Rögzítés</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Rögzítés eltávolítása</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>RÖGZÍTETT</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>ÖSSZES</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Soha</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Ma</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Tegnap</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Nincs rögzítve</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} perc</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} óra</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} óra {1} perc</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Ma frissítve</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Tegnap frissítve</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>{0} nappal ezelőtt frissítve</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Frissítve: {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Ismeretlen</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Eltávolítod a(z) {0} elemet a könyvtáradból? A rögzített játékidő törlődik.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Adj meg érvényes PlaceId azonosítót vagy Roblox játéklinket.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Nem található játék ezzel a PlaceId azonosítóval.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>A könyvtár betöltése sikertelen: {0}</value>
+  </data>
 </root>

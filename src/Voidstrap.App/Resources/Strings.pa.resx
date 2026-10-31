@@ -9134,4 +9134,125 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>ਐਨੀਮੇਟਿਡ ਚਮਕ</value>
   </data>
+
+<data name="Library.CreateShortcut" xml:space="preserve">
+  <value>ਡੈਸਕਟਾਪ ਸ਼ਾਰਟਕੱਟ ਬਣਾਓ</value>
+</data>
+<data name="Library.ShortcutCreated" xml:space="preserve">
+  <value>{0} ਲਈ ਸ਼ਾਰਟਕੱਟ ਤੁਹਾਡੇ ਡੈਸਕਟਾਪ ਤੇ ਸ਼ਾਮਲ ਕੀਤਾ ਗਿਆ।</value>
+</data>
+<data name="Library.ShortcutFailed" xml:space="preserve">
+  <value>{0} ਲਈ ਸ਼ਾਰਟਕੱਟ ਨਹੀਂ ਬਣਾਇਆ ਜਾ ਸਕਿਆ।</value>
+</data>
+<data name="Library.ViewOnRoblox" xml:space="preserve">
+  <value>Roblox ਤੇ ਵੇਖੋ</value>
+</data>
+<data name="Library.CopyGameLink" xml:space="preserve">
+  <value>ਗੇਮ ਲਿੰਕ ਕਾਪੀ ਕਰੋ</value>
+</data>
+<data name="Library.Shortcut" xml:space="preserve">
+  <value>ਸ਼ਾਰਟਕੱਟ</value>
+</data>
+<data name="Library.Manage" xml:space="preserve">
+  <value>ਪ੍ਰਬੰਧਨ</value>
+</data>
+<data name="Library.Store.Featured" xml:space="preserve">
+  <value>ਵਿਸ਼ੇਸ਼ ਅਤੇ ਸਿਫ਼ਾਰਸ਼ੀ</value>
+</data>
+<data name="Library.Store.BrowseGenre" xml:space="preserve">
+  <value>ਸ਼ੈਲੀ ਅਨੁਸਾਰ ਬਰਾਊਜ਼ ਕਰੋ</value>
+</data>
+<data name="Library.Store.Free" xml:space="preserve">
+  <value>ਮੁਫ਼ਤ ਖੇਡ</value>
+</data>
+<data name="Library.Store.Playing" xml:space="preserve">
+  <value>{0} ਖੇਡ ਰਹੇ ਹਨ</value>
+</data>
+<data name="Library.Store.AllReviews" xml:space="preserve">
+  <value>ਸਾਰੀਆਂ ਸਮੀਖਿਆਂ:</value>
+</data>
+<data name="Library.Store.ReleaseDate" xml:space="preserve">
+  <value>ਰਿਲੀਜ਼ ਮਿਤੀ:</value>
+</data>
+<data name="Library.Store.Developer" xml:space="preserve">
+  <value>ਡਿਵੈਲਪਰ:</value>
+</data>
+<data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+  <value>ਬਹੁਤ ਜ਼ਿਆਦਾ ਸਕਾਰਾਤਮਕ</value>
+</data>
+<data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+  <value>ਬਹੁਤ ਸਕਾਰਾਤਮਕ</value>
+</data>
+<data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+  <value>ਜ਼ਿਆਦਾਤਰ ਸਕਾਰਾਤਮਕ</value>
+</data>
+<data name="Library.Store.ReviewMixed" xml:space="preserve">
+  <value>ਮਿਲੇ-ਜੁਲੇ</value>
+</data>
+<data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+  <value>ਜ਼ਿਆਦਾਤਰ ਨਕਾਰਾਤਮਕ</value>
+</data>
+<data name="Library.By" xml:space="preserve">
+  <value>{0} ਵੱਲੋਂ</value>
+</data>
+<data name="Library.Pin" xml:space="preserve">
+  <value>ਪਿੰਨ ਕਰੋ</value>
+</data>
+<data name="Library.Unpin" xml:space="preserve">
+  <value>ਪਿੰਨ ਹਟਾਓ</value>
+</data>
+<data name="Library.GroupPinned" xml:space="preserve">
+  <value>ਪਿੰਨ ਕੀਤੇ</value>
+</data>
+<data name="Library.GroupAll" xml:space="preserve">
+  <value>ਸਾਰੇ</value>
+</data>
+<data name="Library.Never" xml:space="preserve">
+  <value>ਕਦੇ ਨਹੀਂ</value>
+</data>
+<data name="Library.Today" xml:space="preserve">
+  <value>ਅੱਜ</value>
+</data>
+<data name="Library.Yesterday" xml:space="preserve">
+  <value>ਕੱਲ੍ਹ</value>
+</data>
+<data name="Library.NoPlaytime" xml:space="preserve">
+  <value>ਕੋਈ ਰਿਕਾਰਡ ਨਹੀਂ</value>
+</data>
+<data name="Library.Minutes" xml:space="preserve">
+  <value>{0} ਮਿੰਟ</value>
+</data>
+<data name="Library.Hours" xml:space="preserve">
+  <value>{0} ਘੰਟੇ</value>
+</data>
+<data name="Library.HoursMinutes" xml:space="preserve">
+  <value>{0} ਘੰਟੇ {1} ਮਿੰਟ</value>
+</data>
+<data name="Library.UpdatedToday" xml:space="preserve">
+  <value>ਅੱਜ ਅੱਪਡੇਟ ਕੀਤਾ</value>
+</data>
+<data name="Library.UpdatedYesterday" xml:space="preserve">
+  <value>ਕੱਲ੍ਹ ਅੱਪਡੇਟ ਕੀਤਾ</value>
+</data>
+<data name="Library.UpdatedDaysAgo" xml:space="preserve">
+  <value>{0} ਦਿਨ ਪਹਿਲਾਂ ਅੱਪਡੇਟ ਕੀਤਾ</value>
+</data>
+<data name="Library.UpdatedOn" xml:space="preserve">
+  <value>{0} ਨੂੰ ਅੱਪਡੇਟ ਕੀਤਾ</value>
+</data>
+<data name="Library.Unknown" xml:space="preserve">
+  <value>ਅਣਜਾਣ</value>
+</data>
+<data name="Library.RemoveConfirm" xml:space="preserve">
+  <value>{0} ਨੂੰ ਆਪਣੀ ਲਾਇਬਰੇਰੀ ਵਿੱਚੋਂ ਹਟਾਉਣਾ ਹੈ? ਰਿਕਾਰਡ ਕੀਤਾ ਖੇਡ ਸਮਾਂ ਮਿਟ ਜਾਵੇਗਾ।</value>
+</data>
+<data name="Library.InvalidPlace" xml:space="preserve">
+  <value>ਇੱਕ ਵੈਧ PlaceId ਜਾਂ Roblox ਗੇਮ ਲਿੰਕ ਦਾਖਲ ਕਰੋ।</value>
+</data>
+<data name="Library.PlaceNotFound" xml:space="preserve">
+  <value>ਉਸ PlaceId ਵਾਲੀ ਕੋਈ ਗੇਮ ਨਹੀਂ ਮਿਲੀ।</value>
+</data>
+<data name="Library.LoadFailed" xml:space="preserve">
+  <value>ਤੁਹਾਡੀ ਲਾਇਬਰੇਰੀ ਲੋਡ ਕਰਨ ਵਿੱਚ ਅਸਫਲ: {0}</value>
+</data>
 </root>

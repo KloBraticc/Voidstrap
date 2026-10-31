@@ -9851,5 +9851,45 @@ namespace Voidstrap.Resources {
                 return ResourceManager.GetString("Ui.AppCode.ConflictWarning", resourceCulture);
             }
         }
+        public static string Library_CreateShortcut => ResourceManager.GetString("Library.CreateShortcut", resourceCulture);
+        public static string Library_ShortcutCreated => ResourceManager.GetString("Library.ShortcutCreated", resourceCulture);
+        public static string Library_ShortcutFailed => ResourceManager.GetString("Library.ShortcutFailed", resourceCulture);
+        public static string Library_ViewOnRoblox => ResourceManager.GetString("Library.ViewOnRoblox", resourceCulture);
+        public static string Library_CopyGameLink => ResourceManager.GetString("Library.CopyGameLink", resourceCulture);
+        public static string Library_Shortcut => ResourceManager.GetString("Library.Shortcut", resourceCulture);
+        public static string Library_Manage => ResourceManager.GetString("Library.Manage", resourceCulture);
+        public static string Library_Store_Featured => ResourceManager.GetString("Library.Store.Featured", resourceCulture);
+        public static string Library_Store_BrowseGenre => ResourceManager.GetString("Library.Store.BrowseGenre", resourceCulture);
+        public static string Library_Store_Free => ResourceManager.GetString("Library.Store.Free", resourceCulture);
+        public static string Library_Store_Playing => ResourceManager.GetString("Library.Store.Playing", resourceCulture);
+        public static string Library_Store_AllReviews => ResourceManager.GetString("Library.Store.AllReviews", resourceCulture);
+        public static string Library_Store_ReleaseDate => ResourceManager.GetString("Library.Store.ReleaseDate", resourceCulture);
+        public static string Library_Store_Developer => ResourceManager.GetString("Library.Store.Developer", resourceCulture);
+        public static string Library_Store_ReviewOverwhelming => ResourceManager.GetString("Library.Store.ReviewOverwhelming", resourceCulture);
+        public static string Library_Store_ReviewVeryPositive => ResourceManager.GetString("Library.Store.ReviewVeryPositive", resourceCulture);
+        public static string Library_Store_ReviewMostlyPositive => ResourceManager.GetString("Library.Store.ReviewMostlyPositive", resourceCulture);
+        public static string Library_Store_ReviewMixed => ResourceManager.GetString("Library.Store.ReviewMixed", resourceCulture);
+        public static string Library_Store_ReviewMostlyNegative => ResourceManager.GetString("Library.Store.ReviewMostlyNegative", resourceCulture);
+        public static string Library_By => ResourceManager.GetString("Library.By", resourceCulture);
+        public static string Library_Pin => ResourceManager.GetString("Library.Pin", resourceCulture);
+        public static string Library_Unpin => ResourceManager.GetString("Library.Unpin", resourceCulture);
+        public static string Library_GroupPinned => ResourceManager.GetString("Library.GroupPinned", resourceCulture);
+        public static string Library_GroupAll => ResourceManager.GetString("Library.GroupAll", resourceCulture);
+        public static string Library_Never => ResourceManager.GetString("Library.Never", resourceCulture);
+        public static string Library_Today => ResourceManager.GetString("Library.Today", resourceCulture);
+        public static string Library_Yesterday => ResourceManager.GetString("Library.Yesterday", resourceCulture);
+        public static string Library_NoPlaytime => ResourceManager.GetString("Library.NoPlaytime", resourceCulture);
+        public static string Library_Minutes => ResourceManager.GetString("Library.Minutes", resourceCulture);
+        public static string Library_Hours => ResourceManager.GetString("Library.Hours", resourceCulture);
+        public static string Library_HoursMinutes => ResourceManager.GetString("Library.HoursMinutes", resourceCulture);
+        public static string Library_UpdatedToday => ResourceManager.GetString("Library.UpdatedToday", resourceCulture);
+        public static string Library_UpdatedYesterday => ResourceManager.GetString("Library.UpdatedYesterday", resourceCulture);
+        public static string Library_UpdatedDaysAgo => ResourceManager.GetString("Library.UpdatedDaysAgo", resourceCulture);
+        public static string Library_UpdatedOn => ResourceManager.GetString("Library.UpdatedOn", resourceCulture);
+        public static string Library_Unknown => ResourceManager.GetString("Library.Unknown", resourceCulture);
+        public static string Library_RemoveConfirm => ResourceManager.GetString("Library.RemoveConfirm", resourceCulture);
+        public static string Library_InvalidPlace => ResourceManager.GetString("Library.InvalidPlace", resourceCulture);
+        public static string Library_PlaceNotFound => ResourceManager.GetString("Library.PlaceNotFound", resourceCulture);
+        public static string Library_LoadFailed => ResourceManager.GetString("Library.LoadFailed", resourceCulture);
     }
 }

@@ -9446,4 +9446,124 @@ Autoriser ?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Lueur animée</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Créer un raccourci sur le bureau</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Un raccourci pour {0} a été ajouté à votre bureau.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Impossible de créer un raccourci pour {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Voir sur Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Copier le lien du jeu</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Raccourci</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Gérer</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Recommandés et mis en avant</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Parcourir par genre</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Gratuit</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} en jeu</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Toutes les évaluations :</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Date de sortie :</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Développeur :</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Extrêmement positives</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Très positives</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Plutôt positives</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Mitigées</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Plutôt négatives</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>de {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Épingler</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Désépingler</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>ÉPINGLÉS</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>TOUS</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Jamais</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Aujourd'hui</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Hier</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Aucun temps enregistré</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} h</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} h {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Mis à jour aujourd'hui</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Mis à jour hier</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Mis à jour il y a {0} jours</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Mis à jour le {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Inconnu</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Retirer {0} de votre bibliothèque ? Son temps de jeu enregistré sera supprimé.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Saisissez un PlaceId valide ou un lien de jeu Roblox.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Impossible de trouver un jeu avec ce PlaceId.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Échec du chargement de votre bibliothèque : {0}</value>
+  </data>
 </root>

@@ -9134,4 +9134,124 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>လှုပ်ရှားနေသော အလင်းရောင်</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>ဒეစ်ထော့ shortcut ဖန်တီးရန်</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>{0} အတွက် shortcut ကို ဒေစ်ထော့ပေါ်တွင် ထည့်ပြီးပါပြီ။</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>{0} အတွက် shortcut ဖန်တီး၍ မရပါ။</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Roblox တွင် ကြည့်ရန်</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>ဂိမ်းလင့်ခ် ကော်ပီယူရန်</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Shortcut</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>စီမံရန်</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>အကြံပြုထားသော ဂိမ်းများ</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>အမျိုးအစားအလိုက် ရှာရန်</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>အခမဲ့ ကစားနိုင်သော</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} ယောက် ကစားနေသည်</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>သုံးသပ်ချက် အားလုံး-</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>ထွက်ရှိသည့် ရက်စွဲ-</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>တီထွင်သူ-</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>အလွန်အမင်း အပြုသဘောဆောင်</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>အလွန် အပြုသဘောဆောင်</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>အများအားဖြင့် အပြုသဘောဆောင်</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>ရောနှောနေသော</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>အများအားဖြင့် အနုတ်သဘောဆောင်</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>{0} မှ</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>ပင်ထိုးရန်</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>ပင်ဖြုတ်ရန်</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>ပင်ထိုးထားသည်များ</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>အားလုံး</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>ဘယ်တော့မှ</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>ဒီနေ့</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>မနေ့</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>မှတ်တမ်း မရှိပါ</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} မိနစ်</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} နာရီ</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} နာရီ {1} မိနစ်</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>ဒီနေ့ မွမ်းမံပြီး</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>မနေ့ မွမ်းမံပြီး</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>{0} ရက်အကြာ မွမ်းမံပြီး</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>{0} တွင် မွမ်းမံပြီး</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>မသိပါ</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>{0} ကို သင့်စာကြည့်တိုက်မှ ဖယ်ရှားမလား။ ၎င်း၏ ကစားမှတ်တမ်းလည်း ပျက်သွားမည်ဖြစ်သည်။</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>မှန်ကန်သော PlaceId သို့မဟုတ် Roblox ဂိမ်းလင့်ခ် ထည့်ပါ။</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>ထို PlaceId ဖြင့် ဂိမ်းကို ရှာမတွေ့ပါ။</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>သင့်စာကြည့်တိုက် တင်ယူမှု မအောင်မြင်ပါ- {0}</value>
+  </data>
 </root>

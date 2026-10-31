@@ -9448,4 +9448,125 @@ Permiți?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Strălucire animată</value>
   </data>
+
+<data name="Library.CreateShortcut" xml:space="preserve">
+  <value>Creează comandă rapidă pe desktop</value>
+</data>
+<data name="Library.ShortcutCreated" xml:space="preserve">
+  <value>Comanda rapidă pentru {0} a fost adăugată pe desktop.</value>
+</data>
+<data name="Library.ShortcutFailed" xml:space="preserve">
+  <value>Nu s-a putut crea o comandă rapidă pentru {0}.</value>
+</data>
+<data name="Library.ViewOnRoblox" xml:space="preserve">
+  <value>Vezi pe Roblox</value>
+</data>
+<data name="Library.CopyGameLink" xml:space="preserve">
+  <value>Copiază linkul jocului</value>
+</data>
+<data name="Library.Shortcut" xml:space="preserve">
+  <value>Comandă rapidă</value>
+</data>
+<data name="Library.Manage" xml:space="preserve">
+  <value>Gestionează</value>
+</data>
+<data name="Library.Store.Featured" xml:space="preserve">
+  <value>Recomandate și în evidență</value>
+</data>
+<data name="Library.Store.BrowseGenre" xml:space="preserve">
+  <value>Răsfoiește după gen</value>
+</data>
+<data name="Library.Store.Free" xml:space="preserve">
+  <value>Free to Play</value>
+</data>
+<data name="Library.Store.Playing" xml:space="preserve">
+  <value>{0} joacă</value>
+</data>
+<data name="Library.Store.AllReviews" xml:space="preserve">
+  <value>Toate recenziile:</value>
+</data>
+<data name="Library.Store.ReleaseDate" xml:space="preserve">
+  <value>Data lansării:</value>
+</data>
+<data name="Library.Store.Developer" xml:space="preserve">
+  <value>Dezvoltator:</value>
+</data>
+<data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+  <value>Categoric pozitive</value>
+</data>
+<data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+  <value>Foarte pozitive</value>
+</data>
+<data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+  <value>În mare parte pozitive</value>
+</data>
+<data name="Library.Store.ReviewMixed" xml:space="preserve">
+  <value>Mixte</value>
+</data>
+<data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+  <value>În mare parte negative</value>
+</data>
+<data name="Library.By" xml:space="preserve">
+  <value>de {0}</value>
+</data>
+<data name="Library.Pin" xml:space="preserve">
+  <value>Fixează</value>
+</data>
+<data name="Library.Unpin" xml:space="preserve">
+  <value>Anulează fixarea</value>
+</data>
+<data name="Library.GroupPinned" xml:space="preserve">
+  <value>FIXATE</value>
+</data>
+<data name="Library.GroupAll" xml:space="preserve">
+  <value>TOATE</value>
+</data>
+<data name="Library.Never" xml:space="preserve">
+  <value>Niciodată</value>
+</data>
+<data name="Library.Today" xml:space="preserve">
+  <value>Astăzi</value>
+</data>
+<data name="Library.Yesterday" xml:space="preserve">
+  <value>Ieri</value>
+</data>
+<data name="Library.NoPlaytime" xml:space="preserve">
+  <value>Niciunul înregistrat</value>
+</data>
+<data name="Library.Minutes" xml:space="preserve">
+  <value>{0} min</value>
+</data>
+<data name="Library.Hours" xml:space="preserve">
+  <value>{0} ore</value>
+</data>
+<data name="Library.HoursMinutes" xml:space="preserve">
+  <value>{0} ore {1} min</value>
+</data>
+<data name="Library.UpdatedToday" xml:space="preserve">
+  <value>Actualizat astăzi</value>
+</data>
+<data name="Library.UpdatedYesterday" xml:space="preserve">
+  <value>Actualizat ieri</value>
+</data>
+<data name="Library.UpdatedDaysAgo" xml:space="preserve">
+  <value>Actualizat acum {0} zile</value>
+</data>
+<data name="Library.UpdatedOn" xml:space="preserve">
+  <value>Actualizat pe {0}</value>
+</data>
+<data name="Library.Unknown" xml:space="preserve">
+  <value>Necunoscut</value>
+</data>
+<data name="Library.RemoveConfirm" xml:space="preserve">
+  <value>Elimini {0} din bibliotecă? Timpul de joc înregistrat va fi șters.</value>
+</data>
+<data name="Library.InvalidPlace" xml:space="preserve">
+  <value>Introdu un PlaceId valid sau un link de joc Roblox.</value>
+</data>
+<data name="Library.PlaceNotFound" xml:space="preserve">
+  <value>Nu s-a găsit un joc cu acel PlaceId.</value>
+</data>
+<data name="Library.LoadFailed" xml:space="preserve">
+  <value>Nu s-a putut încărca biblioteca: {0}</value>
+</data>
 </root>

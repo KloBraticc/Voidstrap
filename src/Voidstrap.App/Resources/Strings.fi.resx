@@ -9448,4 +9448,124 @@ Sallitaanko?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Animoitu hehku</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Luo työpöytäoikotie</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Kohteen {0} oikotie lisättiin työpöydällesi.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Oikotien luominen kohteelle {0} ei onnistunut.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Näytä Robloxissa</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Kopioi pelin linkki</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Oikotie</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Hallitse</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Suositellut ja esitellyt</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Selaa genren mukaan</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Ilmainen pelattavaksi</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} pelaamassa</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Kaikki arvostelut:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Julkaisupäivä:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Kehittäjä:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Erittäin myönteinen</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Hyvin myönteinen</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Pääosin myönteinen</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Sekalainen</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Pääosin kielteinen</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>tekijä: {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Kiinnitä</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Irrota</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>KIINNITETYT</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>KAIKKI</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Ei koskaan</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Tänään</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Eilen</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Ei kirjattu</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} t</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} t {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Päivitetty tänään</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Päivitetty eilen</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Päivitetty {0} päivää sitten</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Päivitetty {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Tuntematon</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Poistetaanko {0} kirjastostasi? Sen kirjattu peliaika poistetaan.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Syötä kelvollinen PlaceId tai Roblox-pelin linkki.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>PlaceId:tä vastaavaa peliä ei löytynyt.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Kirjaston lataaminen epäonnistui: {0}</value>
+  </data>
 </root>

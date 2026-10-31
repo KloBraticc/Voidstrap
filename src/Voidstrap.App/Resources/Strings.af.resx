@@ -9134,4 +9134,124 @@ Laat dit toe?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Geanimeerde gloed</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Skep werkskermkortpad</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Kortpad vir {0} is bygevoeg tot jou werkskerm.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Kon nie 'n kortpad vir {0} skep nie.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Bekyk op Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Kopieer speletjie-skakel</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Kortpad</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Bestuur</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Uitgelig en aanbeveel</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Blaai volgens genre</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Gratis om te speel</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} speel tans</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Alle resensies:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Vrystellingsdatum:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Ontwikkelaar:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Oorweldigend positief</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Baie positief</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Meestal positief</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Gemeng</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Meestal negatief</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>deur {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Vaspen</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Ontpen</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>VASPEN</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>ALLES</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Nooit</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Vandag</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Gister</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Geen aangeteken nie</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} uur</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} uur {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Vandag opgedateer</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Gister opgedateer</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>{0} dae gelede opgedateer</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Opgedateer {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Onbekend</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Verwyder {0} uit jou biblioteek? Die aangetekende speletyd sal geskrap word.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Voer 'n geldige PlaceId of Roblox-speletjie-skakel in.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Kon nie 'n speletjie met daardie PlaceId vind nie.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Kon jou biblioteek nie laai nie: {0}</value>
+  </data>
 </root>

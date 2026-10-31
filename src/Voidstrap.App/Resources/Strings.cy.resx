@@ -9134,4 +9134,124 @@ Caniatáu iddo?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Glow animeiddiedig</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Creu llwybr byr ar y bwrdd gwaith</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Ychwanegwyd llwybr byr ar gyfer {0} i'ch bwrdd gwaith.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Methu creu llwybr byr ar gyfer {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Gweld ar Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Copio dolen y gêm</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Llwybr byr</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Rheoli</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Dan Sylw ac Argymhelliedig</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Pori yn ôl genre</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Am ddim i chwarae</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} yn chwarae</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Pob adolygiad:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Dyddiad rhyddhau:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Datblygwr:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Yn gadarnhaol dros ben</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Yn gadarnhaol iawn</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Yn gadarnhaol ar y cyfan</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Cymysgedd</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Yn negyddol ar y cyfan</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>gan {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Pinio</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Dadbinio</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>PINIWYD</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>POB</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Byth</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Heddiw</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Ddoe</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Dim cofnod</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} mun</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} awr</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} awr {1} mun</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Diweddarwyd heddiw</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Diweddarwyd ddoe</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Diweddarwyd {0} diwrnod yn ôl</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Diweddarwyd {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Anhysbys</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Tynnu {0} o'ch llyfrgell? Bydd yr amser chwarae cofnodedig yn cael ei ddileu.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Rhowch PlaceId dilys neu ddolen gêm Roblox.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Methu dod o hyd i gêm gyda'r PlaceId hwnnw.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Methu llwytho'ch llyfrgell: {0}</value>
+  </data>
 </root>

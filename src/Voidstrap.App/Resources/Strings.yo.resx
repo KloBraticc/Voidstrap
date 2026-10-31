@@ -9134,4 +9134,124 @@ Gba laaye?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Ti ere idaraya alábá</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Ṣẹ̀da ọ̀nà àbújá tabili</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Ọ̀nà àbújá fún {0} ti wà lórí tabili rẹ.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Kì í ṣe é ṣẹ̀da ọ̀nà àbújá fún {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Wo ní Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Dáakọ ìjápọ̀ eré</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Ọ̀nà àbújá</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Ṣàkóso</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Àwọn tí a yàn àti tí a ṣe níyì</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Lilọ kiri nípa orísì</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Ọ̀fẹ́ láti ṣeré</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} ń ṣeré</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Gbogbo àtúnyẹ̀wò:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Ọjọ ìtújade:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Olùdàgbàsókè:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Ìfẹ́ ọ̀pọ̀ ènìyàn púpọ̀</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Ìfẹ́ púpọ̀</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Ìfẹ́ jùlọ</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Àdàlú</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Ìkọ̀rìra jùlọ</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>nípasẹ̀ {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Fi Pínì</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Yọ Pínì</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>TÍ A PÍNÌ</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>GBOGBO</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Kì í</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Òní</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Àná</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Kò sí ìkàmọ̀</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} ìṣẹ́jú</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} wákàtí</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} wákàtí {1} ìṣẹ́jú</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Ti ṣàtúnṣe ní òní</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Ti ṣàtúnṣe ní àná</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Ti ṣàtúnṣe {0} ọjọ́ sẹ́yìn</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Ti ṣàtúnṣe {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Àìmọ̀</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Yọ {0} kúrò nínú ìkàwé rẹ? Wákàtí eré tí a gba mọ́ yóò parẹ́.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Tẹ PlaceId tó wúlò tàbí ìjápọ̀ eré Roblox kan.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Kì í rí eré kan pẹ̀lú PlaceId yìí.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Kùnà láti gbé ìkàwé rẹ kalẹ̀: {0}</value>
+  </data>
 </root>

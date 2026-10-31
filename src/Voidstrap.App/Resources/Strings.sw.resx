@@ -9134,4 +9134,124 @@ Je, unairuhusu?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Mwangaza uliohuishwa</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Unda njia ya mkato ya desktop</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Njia ya mkato ya {0} imeongezwa kwenye eneo lako la kazi.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Imeshindikana kuunda njia ya mkato ya {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Tazama kwenye Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Nakili kiungo cha mchezo</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Njia ya mkato</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Simamia</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Zilizoteuliwa na Zinazopendekezwa</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Vinjari kwa aina</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Bure kucheza</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} wanacheza</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Maoni yote:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Tarehe ya kutolewa:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Msanidi programu:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Chanya Kabisa</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Chanya Sana</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Chanya kwa Wengi</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Mchanganyiko</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Hasi kwa Wengi</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>kwa {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Banibisha</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Vua</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>ZILIZOBANIBISHWA</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>ZOTE</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Katu</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Leo</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Jana</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Hakuna iliyorekodiwa</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} dk</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} sa</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} sa {1} dk</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Imesasishwa leo</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Imesasishwa jana</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Imesasishwa siku {0} zilizopita</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Imesasishwa {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Haijulikani</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Uondoe {0} kutoka kwenye maktaba yako? Muda wa kucheza uliorekodiwa utafutwa.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Weka PlaceId sahihi au kiungo cha mchezo wa Roblox.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Hakuna mchezo wenye PlaceId hiyo uliopatikana.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Imeshindikana kupakia maktaba yako: {0}</value>
+  </data>
 </root>

@@ -9134,4 +9134,125 @@ Vai atļaut?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Animēts spīdums</value>
   </data>
-</root>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Izveidot darbvirsmas saīsni</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Saīsne spēlei {0} pievienota darbvirsmai.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Nevarēja izveidot saīsni spēlei {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Skatīt Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Kopēt spēles saiti</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Saīsne</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Pārvaldīt</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Piedāvātie un ieteiktie</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Pārlūkot pēc žanra</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Spēlēt bez maksas</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>Spēlē {0}</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Visas atsauksmes:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Izlaides datums:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Izstrādātājs:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Ārkārtīgi pozitīvas</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Ļoti pozitīvas</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Galvenokārt pozitīvas</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Dažādas</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Galvenokārt negatīvas</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>izveidoja {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Piespraust</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Atspraust</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>PIESPRAUTS</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>VISI</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Nekad</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Šodien</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Vakar</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Nekas nav ierakstīts</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} h</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} h {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Atjaunināts šodien</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Atjaunināts vakar</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Atjaunināts pirms {0} dienām</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Atjaunināts {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Nezināms</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Noņemt {0} no jūsu bibliotēkas? Ierakstītais spēles laiks tiks dzēsts.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Ievadiet derīgu PlaceId vai Roblox spēles saiti.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Nevarēja atrast spēli ar šo PlaceId.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Nevarēja ielādēt jūsu bibliotēku: {0}</value>
+  </data>
+  </root>

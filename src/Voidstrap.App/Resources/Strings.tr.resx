@@ -9445,4 +9445,124 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Hareketli parıltı</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Masaüstü kısayolu oluştur</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>{0} için kısayol masaüstüne eklendi.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>{0} için kısayol oluşturulamadı.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Roblox'ta görüntüle</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Oyun bağlantısını kopyala</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Kısayol</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Yönet</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Öne Çıkanlar ve Önerilenler</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Türe göre göz at</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Ücretsiz Oyna</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} oynuyor</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Tüm incelemeler:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Çıkış tarihi:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Geliştirici:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Çok Olumlu</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Olumlu</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Çoğunlukla Olumlu</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Karışık</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Çoğunlukla Olumsuz</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>{0} tarafından</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Sabitle</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Sabitlemeyi kaldır</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>SABİTLENENLER</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>TÜMÜ</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Hiç</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Bugün</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Dün</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Kaydedilmedi</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} dk</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} sa</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} sa {1} dk</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Bugün güncellendi</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Dün güncellendi</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>{0} gün önce güncellendi</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>{0} tarihinde güncellendi</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Bilinmiyor</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>{0} kitaplığınızdan kaldırılsın mı? Kaydedilen oyun süresi silinecek.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Geçerli bir PlaceId veya Roblox oyun bağlantısı girin.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Bu PlaceId'ye sahip bir oyun bulunamadı.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Kitaplığınız yüklenemedi: {0}</value>
+  </data>
 </root>

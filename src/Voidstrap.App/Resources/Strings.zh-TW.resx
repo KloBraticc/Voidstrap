@@ -9450,4 +9450,124 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>動畫光暈</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>建立桌面捷徑</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>已將 {0} 的捷徑新增至桌面。</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>無法為 {0} 建立捷徑。</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>在 Roblox 上檢視</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>複製遊戲連結</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>捷徑</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>管理</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>精選與推薦</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>依類型瀏覽</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>免費暢玩</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} 人遊玩中</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>全部評論：</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>發行日期：</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>開發商：</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>壓倒性好評</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>極度好評</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>大部分好評</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>褒貶不一</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>大部分負評</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>作者：{0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>釘選</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>取消釘選</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>已釘選</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>從未</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>今天</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>昨天</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>尚無紀錄</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} 分鐘</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} 小時</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} 小時 {1} 分鐘</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>今天更新</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>昨天更新</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>{0} 天前更新</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>更新於 {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>要從遊戲庫移除 {0} 嗎？其紀錄的遊玩時數將被刪除。</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>請輸入有效的 PlaceId 或 Roblox 遊戲連結。</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>找不到該 PlaceId 的遊戲。</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>載入遊戲庫失敗：{0}</value>
+  </data>
 </root>

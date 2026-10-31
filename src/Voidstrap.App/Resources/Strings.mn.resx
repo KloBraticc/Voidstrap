@@ -9134,4 +9134,125 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Хөдөлгөөнт гэрэл</value>
   </data>
-</root>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Ажлын талбайд түүвэр үүсгэх</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>{0} тоглоомын түүвэр таны ажлын талбайд нэмэгдлээ.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>{0} тоглоомын түүвэр үүсгэж чадсангүй.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Roblox дээр харах</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Тоглоомын холбоос хуулах</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Түүвэр</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Удирдах</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Онцлох болон санал болгох</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Төрлөөр үзэх</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Үнэгүй тоглох</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} тоглож байна</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Бүх үнэлгээ:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Гаргасан огноо:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Хөгжүүлэгч:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Аргагүй эерэг</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Маш эерэг</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Дийлэнх нь эерэг</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Холимог</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Дийлэнх нь сөрөг</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>{0} бүтээсэн</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Бэхлэх</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Салгах</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>БЭХЛЭСЭН</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>БҮГД</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Хэзээ ч</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Өнөөдөр</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Өчигдөр</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Бүртгэгдээгүй</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} мин</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} цаг</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} цаг {1} мин</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Өнөөдөр шинэчлэгдсэн</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Өчигдөр шинэчлэгдсэн</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>{0} хоногийн өмнө шинэчлэгдсэн</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Шинэчлэгдсэн {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Тодорхойгүй</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>{0} тоглоомын сангаас хасах уу? Бүртгэсэн тоглох хугацаа устгагдана.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Зөв PlaceId эсвэл Roblox тоглоомын холбоос оруулна уу.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Тухайн PlaceId бүхий тоглоом олдсонгүй.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Таны тоглоомын санг ачаалахад алдаа гарлаа: {0}</value>
+  </data>
+  </root>

@@ -9134,4 +9134,124 @@ uyayivumela?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Ukukhanya okuphilayo</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Yenza indlela emfutshane yedesktop</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Indlela emfutshane ye-{0} yongezwe kudesktop yakho.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Ayikwazanga ukwenza indlela emfutshane ye-{0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Bona kwi-Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Kopisha ikhonkco lomdlalo</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Indlela emfutshane</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Lawula</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Okukhethiweyo nakunconywayo</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Khangela ngohlobo</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Ukudlala mahala</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} bayadlala</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Yonke imibulelo:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Umhla wokukhutshwa:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Umphuhlisi:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Ibulelo eligqamileyo</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Ibulelo eliphezulu</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Ininzi ilungile</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Iyaxubwa</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Ininzi ibi</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>ngu-{0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Faka iphini</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Susa iphini</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>OKUPHINIWEYO</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>KONKE</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Akaze</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Namhlanje</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Izolo</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Akukho bhalo</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} imiz</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} iiyure</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} iiyure {1} imiz</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Kuhlaziywa namhlanje</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Kuhlaziywa izolo</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Kuhlaziywa {0} iintsuku ezedluleyo</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Kuhlaziywa {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Engaziwa</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Susa i-{0} kwilaybrari yakho? Ixesha lodlalo obhalwe liza kucinywa.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Ngenisa i-PlaceId ethe kwayo okanye ikhonkco lomdlalo weRoblox.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Ayikwazanga ukufumana umdlalo ngePlaceId leyo.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Ihlulekile ukulayisha ilaybrari yakho: {0}</value>
+  </data>
 </root>

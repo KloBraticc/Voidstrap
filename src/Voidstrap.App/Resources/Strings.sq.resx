@@ -9134,4 +9134,125 @@ E lejon atë?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Shkëlqim i animuar</value>
   </data>
+
+<data name="Library.CreateShortcut" xml:space="preserve">
+  <value>Krijo një shkurtore në desktop</value>
+</data>
+<data name="Library.ShortcutCreated" xml:space="preserve">
+  <value>Shkurtora për {0} u shtua në desktopin tuaj.</value>
+</data>
+<data name="Library.ShortcutFailed" xml:space="preserve">
+  <value>Nuk mund të krijohej një shkurtore për {0}.</value>
+</data>
+<data name="Library.ViewOnRoblox" xml:space="preserve">
+  <value>Shiko në Roblox</value>
+</data>
+<data name="Library.CopyGameLink" xml:space="preserve">
+  <value>Kopjo lidhjen e lojës</value>
+</data>
+<data name="Library.Shortcut" xml:space="preserve">
+  <value>Shkurtore</value>
+</data>
+<data name="Library.Manage" xml:space="preserve">
+  <value>Administro</value>
+</data>
+<data name="Library.Store.Featured" xml:space="preserve">
+  <value>Të zgjedhura dhe të rekomanduara</value>
+</data>
+<data name="Library.Store.BrowseGenre" xml:space="preserve">
+  <value>Shfleto sipas zhanrit</value>
+</data>
+<data name="Library.Store.Free" xml:space="preserve">
+  <value>Falas për të luajtur</value>
+</data>
+<data name="Library.Store.Playing" xml:space="preserve">
+  <value>{0} po luajnë</value>
+</data>
+<data name="Library.Store.AllReviews" xml:space="preserve">
+  <value>Të gjitha vlerësimet:</value>
+</data>
+<data name="Library.Store.ReleaseDate" xml:space="preserve">
+  <value>Data e publikimit:</value>
+</data>
+<data name="Library.Store.Developer" xml:space="preserve">
+  <value>Zhvilluesi:</value>
+</data>
+<data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+  <value>Ekstremisht pozitive</value>
+</data>
+<data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+  <value>Shumë pozitive</value>
+</data>
+<data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+  <value>Kryesisht pozitive</value>
+</data>
+<data name="Library.Store.ReviewMixed" xml:space="preserve">
+  <value>Të përziera</value>
+</data>
+<data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+  <value>Kryesisht negative</value>
+</data>
+<data name="Library.By" xml:space="preserve">
+  <value>nga {0}</value>
+</data>
+<data name="Library.Pin" xml:space="preserve">
+  <value>Fikso</value>
+</data>
+<data name="Library.Unpin" xml:space="preserve">
+  <value>Çfikso</value>
+</data>
+<data name="Library.GroupPinned" xml:space="preserve">
+  <value>FIKSUAR</value>
+</data>
+<data name="Library.GroupAll" xml:space="preserve">
+  <value>TË GJITHA</value>
+</data>
+<data name="Library.Never" xml:space="preserve">
+  <value>Kurrë</value>
+</data>
+<data name="Library.Today" xml:space="preserve">
+  <value>Sot</value>
+</data>
+<data name="Library.Yesterday" xml:space="preserve">
+  <value>Dje</value>
+</data>
+<data name="Library.NoPlaytime" xml:space="preserve">
+  <value>Pa kohë të regjistruar</value>
+</data>
+<data name="Library.Minutes" xml:space="preserve">
+  <value>{0} min</value>
+</data>
+<data name="Library.Hours" xml:space="preserve">
+  <value>{0} orë</value>
+</data>
+<data name="Library.HoursMinutes" xml:space="preserve">
+  <value>{0} orë {1} min</value>
+</data>
+<data name="Library.UpdatedToday" xml:space="preserve">
+  <value>Përditësuar sot</value>
+</data>
+<data name="Library.UpdatedYesterday" xml:space="preserve">
+  <value>Përditësuar dje</value>
+</data>
+<data name="Library.UpdatedDaysAgo" xml:space="preserve">
+  <value>Përditësuar para {0} ditësh</value>
+</data>
+<data name="Library.UpdatedOn" xml:space="preserve">
+  <value>Përditësuar më {0}</value>
+</data>
+<data name="Library.Unknown" xml:space="preserve">
+  <value>E panjohur</value>
+</data>
+<data name="Library.RemoveConfirm" xml:space="preserve">
+  <value>Të hiqet {0} nga biblioteka juaj? Koha e luajtur e regjistruar do të fshihet.</value>
+</data>
+<data name="Library.InvalidPlace" xml:space="preserve">
+  <value>Fut një PlaceId të vlefshëm ose një lidhje loje Roblox.</value>
+</data>
+<data name="Library.PlaceNotFound" xml:space="preserve">
+  <value>Nuk u gjet asnjë lojë me atë PlaceId.</value>
+</data>
+<data name="Library.LoadFailed" xml:space="preserve">
+  <value>Dështoi ngarkimi i bibliotekës: {0}</value>
+</data>
 </root>

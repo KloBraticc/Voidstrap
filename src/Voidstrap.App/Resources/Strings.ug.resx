@@ -9134,4 +9134,124 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Animated glow</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>ئۈستەل يۈزى قىسقا يولى قۇر</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>{0} نىڭ قىسقا يولى ئۈستەل يۈزىڭىزگە قوشۇلدى.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>{0} ئۈچۈن قىسقا يول قۇرالمىدى.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Roblox دا كۆر</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>ئويۇن ئۇلانمىسىنى كۆچۈر</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>قىسقا يول</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>باشقۇر</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>ئالاھىدە كۆرسىتىلگەن ۋە تەۋسىيە قىلىنغان</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>ژانر بويىچە كۆرۈش</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>ھەقسىز ئويناش</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} كىشى ئوينىماقتا</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>بارلىق باھالار:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>ئېلان قىلىنغان چېسلا:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>تەييارلىغۇچى:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>ئىنتايىن ئاكتىپ</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>بەك ئاكتىپ</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>كۆپىنچە ئاكتىپ</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>ئارىلاش</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>كۆپىنچە پاسسىپ</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>{0} تەرىپىدىن</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>مىخلاش</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>بوشىتىش</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>مىخلانغانلار</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>ھەممىسى</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>ھېچقاچان</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>بۈگۈن</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>تۆنۈگۈن</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>خاتىرىلەنمىگەن</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} مىن</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} سائ</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} سائ {1} مىن</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>بۈگۈن يېڭىلاندى</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>تۆنۈگۈن يېڭىلاندى</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>{0} كۈن ئىلگىرى يېڭىلاندى</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>{0} يېڭىلاندى</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>نامەلۇم</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>{0} نى كۇتۇپخانىڭىزدىن ئېلىپ تاشلامسىز؟ خاتىرىلەنگەن ئويناش ۋاقتى ئۆچۈرۈلىدۇ.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>توغرا PlaceId ياكى Roblox ئويۇن ئۇلانمىسىنى كىرگۈزۈڭ.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>بۇ PlaceId بىلەن ئويۇن تېپىلمىدى.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>كۇتۇپخانىڭىزنى يۈكلەش مەغلۇپ بولدى: {0}</value>
+  </data>
 </root>

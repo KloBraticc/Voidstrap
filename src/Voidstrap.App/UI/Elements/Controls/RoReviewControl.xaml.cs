@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -122,7 +123,7 @@ public partial class RoReviewControl : UserControl
         }
 
         if (IsLoaded && !_isUnloaded)
-            _ = ReloadAsync();
+            QueueReload();
     }
 
     private void OnPlaceIdChanged(long newPlaceId)
@@ -130,7 +131,7 @@ public partial class RoReviewControl : UserControl
         if (newPlaceId <= 0)
             return;
         if (IsLoaded && !_isUnloaded)
-            _ = ReloadAsync();
+            QueueReload();
     }
 
     private void OnUniverseIdChanged(long newUniverseId)
@@ -138,8 +139,24 @@ public partial class RoReviewControl : UserControl
         if (newUniverseId <= 0)
             return;
         if (PlaceId <= 0 && IsLoaded && !_isUnloaded)
-            _ = ReloadAsync();
+            QueueReload();
     }
+
+    private void QueueReload()
+    {
+        if (_reloadQueued)
+            return;
+        _reloadQueued = true;
+        _ = Dispatcher.BeginInvoke(DispatcherPriority.Background, RunQueuedReload);
+    }
+
+    private void RunQueuedReload()
+    {
+        _reloadQueued = false;
+        _ = ReloadAsync();
+    }
+
+    private bool _reloadQueued;
 
     private void OnControlLoaded(object sender, RoutedEventArgs e)
     {

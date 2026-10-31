@@ -9134,4 +9134,124 @@ Baimendu al duzu?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Distira animatua</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Sortu mahaigaineko lasterbidea</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Gehitu da {0} jokoaren lasterbidea mahaigainean.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Ezin izan da {0} jokoaren lasterbiderik sortu.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Ikusi Robloxen</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Kopiatu jokoaren esteka</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Lasterbidea</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Kudeatu</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Nabarmenduak eta gomendatuak</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Arakatu generoz</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Doan jokatzeko</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} jokatzen</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Iruzkin guztiak:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Argitalpen data:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Garatzailea:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Guztiz positiboak</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Oso positiboak</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Gehienbat positiboak</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Nahasiak</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Gehienbat negatiboak</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>Egilea: {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Finkatu</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Desfinkatu</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>FINKATUAK</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>GUZTIAK</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Inoiz ez</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Gaur</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Atzo</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Ez da erregistratu</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} ordu</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} ordu {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Gaur eguneratua</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Atzo eguneratua</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Duela {0} egun eguneratua</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Eguneratua {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Ezezaguna</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>{0} zure liburutegitik kendu? Bere erregistratutako joko-denbora ezabatuko da.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Sartu baliozko PlaceId edo Roblox joko esteka.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Ez da aurkitu PlaceId horrekin jokorik.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Ezin izan da zure liburutegia kargatu: {0}</value>
+  </data>
 </root>

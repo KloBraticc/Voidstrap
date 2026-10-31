@@ -9134,4 +9134,125 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>සජීවිකරණ දීප්තිය</value>
   </data>
+
+<data name="Library.CreateShortcut" xml:space="preserve">
+  <value>ඩෙස්ක්ටොප් කෙටිමගක් සාදන්න</value>
+</data>
+<data name="Library.ShortcutCreated" xml:space="preserve">
+  <value>{0} සඳහා කෙටිමග ඔබේ ඩෙස්ක්ටොප් එකට එකතු කළා.</value>
+</data>
+<data name="Library.ShortcutFailed" xml:space="preserve">
+  <value>{0} සඳහා කෙටිමගක් සාදාගත නොහැකි විය.</value>
+</data>
+<data name="Library.ViewOnRoblox" xml:space="preserve">
+  <value>Roblox හි බලන්න</value>
+</data>
+<data name="Library.CopyGameLink" xml:space="preserve">
+  <value>ක්‍රීඩා සබැඳිය පිටපත් කරන්න</value>
+</data>
+<data name="Library.Shortcut" xml:space="preserve">
+  <value>කෙටිමග</value>
+</data>
+<data name="Library.Manage" xml:space="preserve">
+  <value>කළමනාකරණය</value>
+</data>
+<data name="Library.Store.Featured" xml:space="preserve">
+  <value>විශේෂිත හා නිර්දේශිත</value>
+</data>
+<data name="Library.Store.BrowseGenre" xml:space="preserve">
+  <value>ප්‍රභේදය අනුව පිරික්සන්න</value>
+</data>
+<data name="Library.Store.Free" xml:space="preserve">
+  <value>නොමිලේ ක්‍රීඩා</value>
+</data>
+<data name="Library.Store.Playing" xml:space="preserve">
+  <value>{0} ක්‍රීඩා කරමින්</value>
+</data>
+<data name="Library.Store.AllReviews" xml:space="preserve">
+  <value>සියලු සමාලෝචන:</value>
+</data>
+<data name="Library.Store.ReleaseDate" xml:space="preserve">
+  <value>නිකුත් කළ දිනය:</value>
+</data>
+<data name="Library.Store.Developer" xml:space="preserve">
+  <value>සංවර්ධක:</value>
+</data>
+<data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+  <value>අති ධනාත්මක</value>
+</data>
+<data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+  <value>ඉතා ධනාත්මක</value>
+</data>
+<data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+  <value>බොහෝ විට ධනාත්මක</value>
+</data>
+<data name="Library.Store.ReviewMixed" xml:space="preserve">
+  <value>මිශ්‍ර</value>
+</data>
+<data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+  <value>බොහෝ විට සෘණාත්මක</value>
+</data>
+<data name="Library.By" xml:space="preserve">
+  <value>{0} විසින්</value>
+</data>
+<data name="Library.Pin" xml:space="preserve">
+  <value>අමුණන්න</value>
+</data>
+<data name="Library.Unpin" xml:space="preserve">
+  <value>ගලවන්න</value>
+</data>
+<data name="Library.GroupPinned" xml:space="preserve">
+  <value>අමුණා ඇති</value>
+</data>
+<data name="Library.GroupAll" xml:space="preserve">
+  <value>සියල්ල</value>
+</data>
+<data name="Library.Never" xml:space="preserve">
+  <value>කිසිදා නැත</value>
+</data>
+<data name="Library.Today" xml:space="preserve">
+  <value>අද</value>
+</data>
+<data name="Library.Yesterday" xml:space="preserve">
+  <value>ඊයේ</value>
+</data>
+<data name="Library.NoPlaytime" xml:space="preserve">
+  <value>වාර්තා නැත</value>
+</data>
+<data name="Library.Minutes" xml:space="preserve">
+  <value>{0} මිනි</value>
+</data>
+<data name="Library.Hours" xml:space="preserve">
+  <value>{0} පැය</value>
+</data>
+<data name="Library.HoursMinutes" xml:space="preserve">
+  <value>{0} පැය {1} මිනි</value>
+</data>
+<data name="Library.UpdatedToday" xml:space="preserve">
+  <value>අද යාවත්කාලීන කළා</value>
+</data>
+<data name="Library.UpdatedYesterday" xml:space="preserve">
+  <value>ඊයේ යාවත්කාලීන කළා</value>
+</data>
+<data name="Library.UpdatedDaysAgo" xml:space="preserve">
+  <value>දින {0}කට පෙර යාවත්කාලීන කළා</value>
+</data>
+<data name="Library.UpdatedOn" xml:space="preserve">
+  <value>{0} යාවත්කාලීන කළා</value>
+</data>
+<data name="Library.Unknown" xml:space="preserve">
+  <value>නොදන්නා</value>
+</data>
+<data name="Library.RemoveConfirm" xml:space="preserve">
+  <value>{0} ඔබේ පුස්තකාලයෙන් ඉවත් කරන්නද? වාර්තා කළ ක්‍රීඩා කාලය මැකෙනු ඇත.</value>
+</data>
+<data name="Library.InvalidPlace" xml:space="preserve">
+  <value>වලංගු PlaceId එකක් හෝ Roblox ක්‍රීඩා සබැඳියක් ඇතුළත් කරන්න.</value>
+</data>
+<data name="Library.PlaceNotFound" xml:space="preserve">
+  <value>එම PlaceId සහිත ක්‍රීඩාවක් හමු නොවිය.</value>
+</data>
+<data name="Library.LoadFailed" xml:space="preserve">
+  <value>ඔබේ පුස්තකාලය පූරණය කිරීම අසාර්ථක විය: {0}</value>
+</data>
 </root>

@@ -9134,4 +9134,125 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>ॲनिमेटेड चमक</value>
   </data>
-</root>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>डेस्कटॉप शॉर्टकट तयार करा</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>{0} साठी शॉर्टकट तुमच्या डेस्कटॉपवर जोडले आहे.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>{0} साठी शॉर्टकट तयार करता आले नाही.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Roblox वर पहा</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>गेम लिंक कॉपी करा</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>शॉर्टकट</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>व्यवस्थापित करा</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>वैशिष्ट्यीकृत आणि शिफारस केलेले</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>प्रकारानुसार ब्राउझ करा</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>मोफत खेळा</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} खेळत आहेत</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>सर्व रिव्ह्यू:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>रिलीझ तारीख:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>विकसक:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>प्रचंड सकारात्मक</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>खूप सकारात्मक</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>बहुतांशी सकारात्मक</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>मिश्रित</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>बहुतांशी नकारात्मक</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>{0} यांनी बनवले</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>पिन करा</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>पिन काढा</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>पिन केलेले</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>सर्व</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>कधीच नाही</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>आज</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>काल</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>काही नोंदलेले नाही</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} मिनिटे</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} तास</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} तास {1} मिनिटे</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>आज अपडेट केले</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>काल अपडेट केले</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>{0} दिवसांपूर्वी अपडेट केले</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>{0} रोजी अपडेट केले</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>अज्ञात</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>तुमच्या लायब्ररीतून {0} काढायचे? नोंदवलेला खेळाचा वेळ काढून टाकला जाईल.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>वैध PlaceId किंवा Roblox गेम लिंक टाका.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>त्या PlaceId सह गेम सापडला नाही.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>तुमची लायब्ररी लोड करण्यात अयशस्वी: {0}</value>
+  </data>
+  </root>

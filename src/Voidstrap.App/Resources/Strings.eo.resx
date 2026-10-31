@@ -9134,4 +9134,124 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Vigla brilo</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Krei labortablan ŝparvojon</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Ŝparvojo por {0} aldoniĝis al via labortablo.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Ne eblis krei ŝparvojon por {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Vidi en Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Kopii la ligilon de la ludo</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Ŝparvojo</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Administri</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Elstarigitaj kaj rekomenditaj</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Esplori laŭ ĝenro</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Senpage ludebla</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} ludas nun</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Ĉiuj recenzoj:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Eldondato:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Disvolvisto:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Ege pozitivaj</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Tre pozitivaj</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Ĉefe pozitivaj</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Miksitaj</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Ĉefe negativaj</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>de {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Alpingli</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Depingli</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>ALPINGLITAJ</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>ĈIUJ</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Neniam</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Hodiaŭ</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Hieraŭ</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Nenio registrita</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} hor</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} hor {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Ĝisdatigita hodiaŭ</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Ĝisdatigita hieraŭ</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Ĝisdatigita antaŭ {0} tagoj</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Ĝisdatigita je {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Nekonata</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Ĉu forigi {0} el via biblioteko? La registrita ludotempo estos forigita.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Enigu validan PlaceId aŭ Roblox-ludan ligilon.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Ne troviĝis ludo kun tiu PlaceId.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Malsukcesis ŝargi vian bibliotekon: {0}</value>
+  </data>
 </root>

@@ -9134,4 +9134,124 @@ tillade det?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Animeret glød</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Opret skrivebordsgenvej</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Genvej til {0} blev tilføjet til dit skrivebord.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Kunne ikke oprette en genvej til {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Vis på Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Kopiér spil-link</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Genvej</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Administrér</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Fremhævet og anbefalet</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Gennemse efter genre</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Gratis at spille</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} spiller</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Alle anmeldelser:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Udgivelsesdato:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Udvikler:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Overvældende positive</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Meget positive</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Overvejende positive</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Blandede</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Overvejende negative</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>af {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Fastgør</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Frigør</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>FASTGJORT</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>ALLE</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Aldrig</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>I dag</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>I går</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Ingen registreret</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} t</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} t {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Opdateret i dag</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Opdateret i går</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Opdateret for {0} dage siden</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Opdateret {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Ukendt</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Fjern {0} fra dit bibliotek? Den registrerede spilletid slettes.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Indtast et gyldigt PlaceId eller et Roblox-spil-link.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Kunne ikke finde et spil med det PlaceId.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Kunne ikke indlæse dit bibliotek: {0}</value>
+  </data>
 </root>

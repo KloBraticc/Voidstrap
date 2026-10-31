@@ -9445,4 +9445,124 @@ Payagan ba?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Animated na liwanag</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Gumawa ng desktop shortcut</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Naidagdag sa desktop mo ang shortcut para sa {0}.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Hindi nagawa ang shortcut para sa {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Tingnan sa Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Kopyahin ang link ng laro</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Shortcut</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Pamahalaan</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Tampok at Inirerekomenda</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Mag-browse ayon sa genre</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Libreng laruin</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} ang naglalaro</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Lahat ng review:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Petsa ng paglabas:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Developer:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Labis na Positibo</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Napakapositibo</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Karamihan ay Positibo</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Halo</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Karamihan ay Negatibo</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>ni {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>I-pin</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>I-unpin</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>NAKA-PIN</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>LAHAT</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Hindi pa</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Ngayon</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Kahapon</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Walang naitala</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} oras</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} oras {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Na-update ngayon</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Na-update kahapon</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Na-update {0} araw ang nakalipas</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Na-update noong {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Hindi kilala</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Alisin ang {0} sa library mo? Mabubura ang naitalang oras ng paglalaro nito.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Maglagay ng wastong PlaceId o link ng Roblox game.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Walang nahanap na game na may PlaceId na iyon.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Nabigong i-load ang library mo: {0}</value>
+  </data>
 </root>

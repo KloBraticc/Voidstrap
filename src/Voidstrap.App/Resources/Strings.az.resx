@@ -9134,4 +9134,124 @@ icazə verilir?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Animasiya edilmiş parıltı</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Masaüstü qısayolu yarat</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>{0} üçün qısayol masaüstünüza əlavə edildi.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>{0} üçün qısayol yaratmaq mümkün olmadı.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Roblox-da bax</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Oyun linkini kopyala</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Qısayol</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>İdarə et</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Seçilmiş və tövsiyə olunan</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Janra görə bax</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Pulsuz oynamaq</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} oynayır</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Bütün rəylər:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Çıxış tarixi:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Tərtibatçı:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Son dərəcə müsbət</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Çox müsbət</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Əsasən müsbət</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Qarışıq</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Əsasən mənfi</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>{0} tərəfindən</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Sancaqla</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Sancağı götür</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>SANCAQLANMIŞ</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>HAMISI</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Heç vaxt</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Bu gün</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Dünən</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Qeyd edilməyib</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} dəq</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} saat</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} saat {1} dəq</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Bu gün yeniləndi</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Dünən yeniləndi</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>{0} gün əvvəl yeniləndi</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Yeniləndi {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Naməlum</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>{0} kitabxananızdan silinsin? Qeyd edilmiş oynama vaxtı silinəcək.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Düzgün PlaceId və ya Roblox oyun linki daxil edin.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Bu PlaceId ilə oyun tapılmadı.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Kitabxananızın yüklənməsi alınmadı: {0}</value>
+  </data>
 </root>

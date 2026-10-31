@@ -9134,4 +9134,124 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Κινούμενη λάμψη</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Δημιουργία συντόμευσης στην επιφάνεια εργασίας</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Η συντόμευση για το {0} προστέθηκε στην επιφάνεια εργασίας σου.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Δεν ήταν δυνατή η δημιουργία συντόμευσης για το {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Προβολή στο Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Αντιγραφή συνδέσμου παιχνιδιού</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Συντόμευση</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Διαχείριση</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Επιλεγμένα και προτεινόμενα</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Αναζήτηση κατά είδος</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Δωρεάν για παιχνίδι</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} παίζουν τώρα</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Όλες οι κριτικές:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Ημερομηνία κυκλοφορίας:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Προγραμματιστής:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Καταπληκτικά θετικές</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Πολύ θετικές</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Κυρίως θετικές</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Μικτές</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Κυρίως αρνητικές</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>από {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Καρφίτσωμα</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Ξεκαρφίτσωμα</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>ΚΑΡΦΙΤΣΩΜΕΝΑ</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>ΟΛΑ</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Ποτέ</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Σήμερα</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Χθες</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Δεν έχει καταγραφεί</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} λεπ</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} ώρ</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} ώρ {1} λεπ</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Ενημερώθηκε σήμερα</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Ενημερώθηκε χθες</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Ενημερώθηκε πριν {0} ημέρες</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Ενημερώθηκε στις {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Άγνωστο</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Να αφαιρεθεί το {0} από τη βιβλιοθήκη σου; Ο καταγεγραμμένος χρόνος παιχνιδιού θα διαγραφεί.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Εισάγετε έγκυρο PlaceId ή σύνδεσμο παιχνιδιού Roblox.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Δεν βρέθηκε παιχνίδι με αυτό το PlaceId.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Αποτυχία φόρτωσης της βιβλιοθήκης: {0}</value>
+  </data>
 </root>

@@ -9134,4 +9134,125 @@ Whakaaetia?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Tirama pakiwaituhi</value>
   </data>
-</root>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Hangaia he pokatata mata</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Kua tāpirihia te pokatata mō {0} ki tō mata.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Kāore i putea te pokatata mō {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Tiro ki Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Tāruatia te hononga kēmu</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Pokatata</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Whakahaere</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>E whakaatuhia ana me ngā tūtohutanga</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Torohia mā te momo</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Tākaro kore utu</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} e tākaro ana</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Ngā arotakenga katoa:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Rā tukunga:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Kaihanga:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Tino pai rawa atu</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Tino pai</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>He pai nui noa</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>He ōrite</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>He kino nui noa</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>nā {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Piria</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Tango i te piri</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>KUA PIRIA</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>KATOA</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Kāore rawa</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>I tēnei rā</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Inanahi</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Kāore i hopuhoputia</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} meneti</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} hāora</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} hāora {1} meneti</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Kua whakahoutia i te rā nei</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Kua whakahoutia inanahi</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Kua whakahoutia {0} rā ki muri</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Kua whakahoutia i te {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Kāore i mōhiotia</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Tango {0} i tō whare pukapuka? Ka mukua ngā wā tākaro kua hopuhoputia.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Whakauruhia tētahi PlaceId tika, tētahi hononga kēmu Roblox rānei.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Kāore i kitea tētahi kēmu mō taua PlaceId.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>I rahua te uta i tō whare pukapuka: {0}</value>
+  </data>
+  </root>

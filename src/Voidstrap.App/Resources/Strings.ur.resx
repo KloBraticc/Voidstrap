@@ -9134,4 +9134,124 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>متحرک چمک</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>ڈیسک ٹاپ شارٹ کٹ بنائیں</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>{0} کا شارٹ کٹ آپ کے ڈیسک ٹاپ پر شامل کر دیا گیا۔</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>{0} کا شارٹ کٹ نہیں بن سکا۔</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Roblox پر دیکھیں</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>گیم کا لنک کاپی کریں</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>شارٹ کٹ</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>انتظام کریں</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>نمایاں اور تجویز کردہ</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>طرز کے مطابق دیکھیں</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>مفت کھیلیں</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} کھیل رہے ہیں</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>تمام جائزے:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>تاریخ اجرا:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>ڈویلپر:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>نہایت مثبت</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>بہت مثبت</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>زیادہ تر مثبت</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>مخلوط</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>زیادہ تر منفی</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>بذریعہ {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>پن کریں</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>ان پن کریں</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>پن شدہ</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>تمام</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>کبھی نہیں</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>آج</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>کل</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>کچھ ریکارڈ نہیں</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} منٹ</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} گھنٹے</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} گھنٹے {1} منٹ</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>آج اپ ڈیٹ ہوئی</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>کل اپ ڈیٹ ہوئی</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>{0} دن پہلے اپ ڈیٹ ہوئی</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>{0} کو اپ ڈیٹ ہوئی</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>نامعلوم</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>کیا {0} کو اپنی لائبریری سے ہٹائیں؟ اس کا ریکارڈ شدہ کھیل کا وقت حذف ہو جائے گا۔</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>درست PlaceId یا Roblox گیم لنک درج کریں۔</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>اس PlaceId کے ساتھ کوئی گیم نہیں ملی۔</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>آپ کی لائبریری لوڈ نہیں ہو سکی: {0}</value>
+  </data>
 </root>

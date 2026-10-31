@@ -9134,4 +9134,125 @@ Erlaabt et?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Animéiert Glanz</value>
   </data>
-</root>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Desktopverknüpfung erstellen</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Verknüpfung fir {0} op däin Desktop derbäi gesat.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Konnt keng Verknüpfung fir {0} erstellen.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Op Roblox kucken</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Spilllink kopéieren</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Verknüpfung</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Verwalten</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Emphal an ugeruffen</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>No Genre duerchsichen</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Gratis spillen</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} Spiller elo</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>All Bewertungen:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Verëffentlechungsdatum:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Entwéckler:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Aussergewéinlech positiv</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Sehr positiv</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Meeschtens positiv</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Gemëscht</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Meeschtens negativ</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>vun {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Pinne</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Erofpinnen</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>GEPINNT</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>ALLES</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Ni</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Haut</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Gëschter</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Näischt opgeholl</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} Min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} St</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} St {1} Min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Haut aktualiséiert</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Gëschter aktualiséiert</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Viru {0} Deeg aktualiséiert</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Aktualiséiert {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Onbekannt</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>{0} aus däinere Bibliothéik läschen? Déi opgezeechent Spillzäit gëtt geläscht.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Gëff eng gëlteg PlaceId oder e Roblox Spilllink an.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Et konnt keng Spill mat där PlaceId fonnt ginn.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Konnt deng Bibliothéik net lueden: {0}</value>
+  </data>
+  </root>

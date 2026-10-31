@@ -9446,4 +9446,125 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Анимированное свечение</value>
   </data>
+
+<data name="Library.CreateShortcut" xml:space="preserve">
+  <value>Создать ярлык на рабочем столе</value>
+</data>
+<data name="Library.ShortcutCreated" xml:space="preserve">
+  <value>Ярлык для {0} добавлен на рабочий стол.</value>
+</data>
+<data name="Library.ShortcutFailed" xml:space="preserve">
+  <value>Не удалось создать ярлык для {0}.</value>
+</data>
+<data name="Library.ViewOnRoblox" xml:space="preserve">
+  <value>Посмотреть на Roblox</value>
+</data>
+<data name="Library.CopyGameLink" xml:space="preserve">
+  <value>Скопировать ссылку на игру</value>
+</data>
+<data name="Library.Shortcut" xml:space="preserve">
+  <value>Ярлык</value>
+</data>
+<data name="Library.Manage" xml:space="preserve">
+  <value>Управление</value>
+</data>
+<data name="Library.Store.Featured" xml:space="preserve">
+  <value>Рекомендуемое и популярное</value>
+</data>
+<data name="Library.Store.BrowseGenre" xml:space="preserve">
+  <value>Просмотр по жанрам</value>
+</data>
+<data name="Library.Store.Free" xml:space="preserve">
+  <value>Free to Play</value>
+</data>
+<data name="Library.Store.Playing" xml:space="preserve">
+  <value>{0} играют</value>
+</data>
+<data name="Library.Store.AllReviews" xml:space="preserve">
+  <value>Все обзоры:</value>
+</data>
+<data name="Library.Store.ReleaseDate" xml:space="preserve">
+  <value>Дата выхода:</value>
+</data>
+<data name="Library.Store.Developer" xml:space="preserve">
+  <value>Разработчик:</value>
+</data>
+<data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+  <value>Крайне положительные</value>
+</data>
+<data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+  <value>Очень положительные</value>
+</data>
+<data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+  <value>В основном положительные</value>
+</data>
+<data name="Library.Store.ReviewMixed" xml:space="preserve">
+  <value>Смешанные</value>
+</data>
+<data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+  <value>В основном отрицательные</value>
+</data>
+<data name="Library.By" xml:space="preserve">
+  <value>от {0}</value>
+</data>
+<data name="Library.Pin" xml:space="preserve">
+  <value>Закрепить</value>
+</data>
+<data name="Library.Unpin" xml:space="preserve">
+  <value>Открепить</value>
+</data>
+<data name="Library.GroupPinned" xml:space="preserve">
+  <value>ЗАКРЕПЛЁННЫЕ</value>
+</data>
+<data name="Library.GroupAll" xml:space="preserve">
+  <value>ВСЕ</value>
+</data>
+<data name="Library.Never" xml:space="preserve">
+  <value>Никогда</value>
+</data>
+<data name="Library.Today" xml:space="preserve">
+  <value>Сегодня</value>
+</data>
+<data name="Library.Yesterday" xml:space="preserve">
+  <value>Вчера</value>
+</data>
+<data name="Library.NoPlaytime" xml:space="preserve">
+  <value>Нет данных</value>
+</data>
+<data name="Library.Minutes" xml:space="preserve">
+  <value>{0} мин</value>
+</data>
+<data name="Library.Hours" xml:space="preserve">
+  <value>{0} ч</value>
+</data>
+<data name="Library.HoursMinutes" xml:space="preserve">
+  <value>{0} ч {1} мин</value>
+</data>
+<data name="Library.UpdatedToday" xml:space="preserve">
+  <value>Обновлено сегодня</value>
+</data>
+<data name="Library.UpdatedYesterday" xml:space="preserve">
+  <value>Обновлено вчера</value>
+</data>
+<data name="Library.UpdatedDaysAgo" xml:space="preserve">
+  <value>Обновлено {0} дн. назад</value>
+</data>
+<data name="Library.UpdatedOn" xml:space="preserve">
+  <value>Обновлено {0}</value>
+</data>
+<data name="Library.Unknown" xml:space="preserve">
+  <value>Неизвестно</value>
+</data>
+<data name="Library.RemoveConfirm" xml:space="preserve">
+  <value>Удалить {0} из библиотеки? Записанное время игры будет удалено.</value>
+</data>
+<data name="Library.InvalidPlace" xml:space="preserve">
+  <value>Введите корректный PlaceId или ссылку на игру Roblox.</value>
+</data>
+<data name="Library.PlaceNotFound" xml:space="preserve">
+  <value>Не удалось найти игру с таким PlaceId.</value>
+</data>
+<data name="Library.LoadFailed" xml:space="preserve">
+  <value>Не удалось загрузить библиотеку: {0}</value>
+</data>
 </root>

@@ -9134,4 +9134,125 @@ Avelao izany?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Animated glow</value>
   </data>
-</root>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Hamorona fanafohezana eo amin'ny birao</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Nisiana tao amin'ny birao ny fanafohezana ho an'i {0}.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Tsy nahomby ny fanaovana fanafohezana ho an'i {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Hijery ao amin'i Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Mandika ny rohy lalao</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Fanafohezana</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Hitantana</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Misongadina ary atolotra</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Hijery araka ny sokajy</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Milalao maimaimpoana</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} no milalao</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Hevi-po rehetra:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Daty namoahana:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Mpanamboatra:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Tsara be indrindra</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Tsara be</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Tsara amin'ny ankapobeny</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Tsoa sy ratsy</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Ratsy amin'ny ankapobeny</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>nataon'i {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Apetraho</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Esory</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>VOAPETRAKA</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>REHETRA</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Tsy mbola</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Androany</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>omaly</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Tsy misy voarakitra</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} ora</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} ora {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Nohavaozina androany</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Nohavaozina omaly</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Nohavaozina {0} andro lasa izay</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Nohavaozina ny {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Tsy fantatra</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Esory {0} ao amin'ny tranombokinao? Ny fakana tahaka voarakitra dia hofafana.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Ampidiro ny PlaceId marina na ny rohy lalao Roblox.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Tsy hita ny lalao misy ilay PlaceId.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Tsy nahomby ny fampakatra ny tranombokinao: {0}</value>
+  </data>
+  </root>

@@ -9134,4 +9134,125 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>متحرڪ چمڪ</value>
   </data>
+
+<data name="Library.CreateShortcut" xml:space="preserve">
+  <value>ڊيسڪ ٽاپ شارٽڪٽ ٺاهيو</value>
+</data>
+<data name="Library.ShortcutCreated" xml:space="preserve">
+  <value>{0} لاءِ شارٽڪٽ توهان جي ڊيسڪ ٽاپ تي شامل ڪيو ويو.</value>
+</data>
+<data name="Library.ShortcutFailed" xml:space="preserve">
+  <value>{0} لاءِ شارٽڪٽ ٺاهي نه سگهيو.</value>
+</data>
+<data name="Library.ViewOnRoblox" xml:space="preserve">
+  <value>Roblox تي ڏسو</value>
+</data>
+<data name="Library.CopyGameLink" xml:space="preserve">
+  <value>گيم لنڪ ڪاپي ڪريو</value>
+</data>
+<data name="Library.Shortcut" xml:space="preserve">
+  <value>شارٽڪٽ</value>
+</data>
+<data name="Library.Manage" xml:space="preserve">
+  <value>منظم ڪريو</value>
+</data>
+<data name="Library.Store.Featured" xml:space="preserve">
+  <value>خاص ۽ سفارش ٿيل</value>
+</data>
+<data name="Library.Store.BrowseGenre" xml:space="preserve">
+  <value>قسم مطابق ڏسو</value>
+</data>
+<data name="Library.Store.Free" xml:space="preserve">
+  <value>مفت راند</value>
+</data>
+<data name="Library.Store.Playing" xml:space="preserve">
+  <value>{0} کيڏي رهيا آهن</value>
+</data>
+<data name="Library.Store.AllReviews" xml:space="preserve">
+  <value>سڀ جائزا:</value>
+</data>
+<data name="Library.Store.ReleaseDate" xml:space="preserve">
+  <value>جاري ٿيڻ جي تاريخ:</value>
+</data>
+<data name="Library.Store.Developer" xml:space="preserve">
+  <value>ڊولپر:</value>
+</data>
+<data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+  <value>انتھائي مثبت</value>
+</data>
+<data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+  <value>تمام مثبت</value>
+</data>
+<data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+  <value>گھڻو ڪري مثبت</value>
+</data>
+<data name="Library.Store.ReviewMixed" xml:space="preserve">
+  <value>مليل</value>
+</data>
+<data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+  <value>گھڻو ڪري منفي</value>
+</data>
+<data name="Library.By" xml:space="preserve">
+  <value>{0} پاران</value>
+</data>
+<data name="Library.Pin" xml:space="preserve">
+  <value>پن ڪريو</value>
+</data>
+<data name="Library.Unpin" xml:space="preserve">
+  <value>پن هٽايو</value>
+</data>
+<data name="Library.GroupPinned" xml:space="preserve">
+  <value>پن ٿيل</value>
+</data>
+<data name="Library.GroupAll" xml:space="preserve">
+  <value>سڀ</value>
+</data>
+<data name="Library.Never" xml:space="preserve">
+  <value>ڪڏهن به نه</value>
+</data>
+<data name="Library.Today" xml:space="preserve">
+  <value>اڄ</value>
+</data>
+<data name="Library.Yesterday" xml:space="preserve">
+  <value>ڪالهه</value>
+</data>
+<data name="Library.NoPlaytime" xml:space="preserve">
+  <value>ڪوبه رڪارڊ ناهي</value>
+</data>
+<data name="Library.Minutes" xml:space="preserve">
+  <value>{0} منٽ</value>
+</data>
+<data name="Library.Hours" xml:space="preserve">
+  <value>{0} ڪلاڪ</value>
+</data>
+<data name="Library.HoursMinutes" xml:space="preserve">
+  <value>{0} ڪلاڪ {1} منٽ</value>
+</data>
+<data name="Library.UpdatedToday" xml:space="preserve">
+  <value>اڄ اپڊيٽ ٿيو</value>
+</data>
+<data name="Library.UpdatedYesterday" xml:space="preserve">
+  <value>ڪالهه اپڊيٽ ٿيو</value>
+</data>
+<data name="Library.UpdatedDaysAgo" xml:space="preserve">
+  <value>{0} ڏينهن اڳ اپڊيٽ ٿيو</value>
+</data>
+<data name="Library.UpdatedOn" xml:space="preserve">
+  <value>{0} تي اپڊيٽ ٿيو</value>
+</data>
+<data name="Library.Unknown" xml:space="preserve">
+  <value>نامعلوم</value>
+</data>
+<data name="Library.RemoveConfirm" xml:space="preserve">
+  <value>{0} کي پنهنجي لائبريري مان هٽائڻ آهي؟ رڪارڊ ٿيل کيڏڻ جو وقت ڊهي ويندو.</value>
+</data>
+<data name="Library.InvalidPlace" xml:space="preserve">
+  <value>صحيح PlaceId يا Roblox گيم لنڪ داخل ڪريو.</value>
+</data>
+<data name="Library.PlaceNotFound" xml:space="preserve">
+  <value>ان PlaceId سان گيم نه ملي.</value>
+</data>
+<data name="Library.LoadFailed" xml:space="preserve">
+  <value>توهان جي لائبريري لوڊ ڪرڻ ۾ ناڪام: {0}</value>
+</data>
 </root>

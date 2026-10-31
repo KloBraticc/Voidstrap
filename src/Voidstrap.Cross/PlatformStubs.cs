@@ -883,4 +883,8 @@ namespace Microsoft.Web.WebView2.Wpf
 			GC.SuppressFinalize(this);
 		}
 	}
+
+	public class WebView2CompositionControl : WebView2
+	{
+	}
 }

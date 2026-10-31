@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9133,5 +9133,126 @@ kwe ya?</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Igwe ọkụ na-emegharị anya</value>
+  </data>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Mepụta ụzọ ngwa ngwa deskitọpụ</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Etinyela ụzọ ngwa ngwa maka {0} na deskitọpụ gị.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Enweghị ike ịmepụta ụzọ ngwa ngwa maka {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Lee na Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Detuo njikọ egwuregwu</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Ụzọ ngwa ngwa</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Jikwaa</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Ndị ahọpụtara na ndị a kwadoro</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Chọgharịa site na ụdị</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Gbaa n'efu</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} na-agba</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Nyocha niile:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Ụbọchị mbipụta:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Onye mmepe:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Ọ dị mma nke ukwuu</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Ọ dị mma nnọọ</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Ọtụtụ dị mma</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Ngwakọta</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Ọtụtụ adịghị mma</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>nke {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Pịnie</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Wepụ pịni</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>EPỊNIE</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>NILE</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Ọ dịghị mgbe</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Taa</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Nnyaafụ</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>O nweghị nke edere</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} nkeji</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} awa</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} awa {1} nkeji</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Emelitere taa</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Emelitere nnyaafụ</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Emelitere {0} ụbọchị gara aga</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Emelitere {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>A maghị</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Wepụ {0} na ọbá akwụkwọ gị? Oge egwuregwu edere edere ga-ehichapụ.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Tinye PlaceId ziri ezi ma ọ bụ njikọ egwuregwu Roblox.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Enweghị ike ịchọta egwuregwu na PlaceId ahụ.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Enweghị ike ibulite ọbá akwụkwọ gị: {0}</value>
   </data>
 </root>

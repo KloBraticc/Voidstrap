@@ -9134,4 +9134,125 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>متحرک چمک</value>
   </data>
+
+<data name="Library.CreateShortcut" xml:space="preserve">
+  <value>ډیسکټاپ لنډلار جوړ کړه</value>
+</data>
+<data name="Library.ShortcutCreated" xml:space="preserve">
+  <value>د {0} لنډلار ستاسو ډیسکټاپ ته اضافه شو.</value>
+</data>
+<data name="Library.ShortcutFailed" xml:space="preserve">
+  <value>د {0} لنډلار جوړېدلی نه شو.</value>
+</data>
+<data name="Library.ViewOnRoblox" xml:space="preserve">
+  <value>په Roblox کې وګورئ</value>
+</data>
+<data name="Library.CopyGameLink" xml:space="preserve">
+  <value>د لوبې لینک کاپي کړئ</value>
+</data>
+<data name="Library.Shortcut" xml:space="preserve">
+  <value>لنډلار</value>
+</data>
+<data name="Library.Manage" xml:space="preserve">
+  <value>اداره</value>
+</data>
+<data name="Library.Store.Featured" xml:space="preserve">
+  <value>ځانګړی او سپارښتنه شوی</value>
+</data>
+<data name="Library.Store.BrowseGenre" xml:space="preserve">
+  <value>د ژانر له مخې لټون</value>
+</data>
+<data name="Library.Store.Free" xml:space="preserve">
+  <value>وړیا لوبه</value>
+</data>
+<data name="Library.Store.Playing" xml:space="preserve">
+  <value>{0} لوبه کوي</value>
+</data>
+<data name="Library.Store.AllReviews" xml:space="preserve">
+  <value>ټولې بیاکتنې:</value>
+</data>
+<data name="Library.Store.ReleaseDate" xml:space="preserve">
+  <value>د خپرېدو نېټه:</value>
+</data>
+<data name="Library.Store.Developer" xml:space="preserve">
+  <value>جوړوونکی:</value>
+</data>
+<data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+  <value>خورا مثبت</value>
+</data>
+<data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+  <value>ډېر مثبت</value>
+</data>
+<data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+  <value>زیاتره مثبت</value>
+</data>
+<data name="Library.Store.ReviewMixed" xml:space="preserve">
+  <value>ګډ</value>
+</data>
+<data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+  <value>زیاتره منفي</value>
+</data>
+<data name="Library.By" xml:space="preserve">
+  <value>د {0} لخوا</value>
+</data>
+<data name="Library.Pin" xml:space="preserve">
+  <value>پین کول</value>
+</data>
+<data name="Library.Unpin" xml:space="preserve">
+  <value>پین لرې کول</value>
+</data>
+<data name="Library.GroupPinned" xml:space="preserve">
+  <value>پین شوی</value>
+</data>
+<data name="Library.GroupAll" xml:space="preserve">
+  <value>ټول</value>
+</data>
+<data name="Library.Never" xml:space="preserve">
+  <value>هېڅکله</value>
+</data>
+<data name="Library.Today" xml:space="preserve">
+  <value>نن</value>
+</data>
+<data name="Library.Yesterday" xml:space="preserve">
+  <value>پرون</value>
+</data>
+<data name="Library.NoPlaytime" xml:space="preserve">
+  <value>کوم ریکارډ نشته</value>
+</data>
+<data name="Library.Minutes" xml:space="preserve">
+  <value>{0} دقیقې</value>
+</data>
+<data name="Library.Hours" xml:space="preserve">
+  <value>{0} ساعته</value>
+</data>
+<data name="Library.HoursMinutes" xml:space="preserve">
+  <value>{0} ساعته {1} دقیقې</value>
+</data>
+<data name="Library.UpdatedToday" xml:space="preserve">
+  <value>نن تازه شو</value>
+</data>
+<data name="Library.UpdatedYesterday" xml:space="preserve">
+  <value>پرون تازه شو</value>
+</data>
+<data name="Library.UpdatedDaysAgo" xml:space="preserve">
+  <value>{0} ورځې دمخه تازه شو</value>
+</data>
+<data name="Library.UpdatedOn" xml:space="preserve">
+  <value>په {0} تازه شو</value>
+</data>
+<data name="Library.Unknown" xml:space="preserve">
+  <value>نامعلوم</value>
+</data>
+<data name="Library.RemoveConfirm" xml:space="preserve">
+  <value>{0} د خپلې کتابتون څخه لرې کول غواړئ؟ ثبت شوې د لوبې وخت به ړنګ شي.</value>
+</data>
+<data name="Library.InvalidPlace" xml:space="preserve">
+  <value>یو باوري PlaceId یا د Roblox لوبې لینک دننه کړئ.</value>
+</data>
+<data name="Library.PlaceNotFound" xml:space="preserve">
+  <value>د هغه PlaceId سره لوبه ونه موندل شوه.</value>
+</data>
+<data name="Library.LoadFailed" xml:space="preserve">
+  <value>ستاسو کتابتون بارولو ناکام شو: {0}</value>
+</data>
 </root>

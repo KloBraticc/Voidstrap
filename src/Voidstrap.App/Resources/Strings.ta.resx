@@ -9134,4 +9134,124 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>அனிமேஷன் பிரகாசம்</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>டெஸ்க்டாப் குறுக்குவழியை உருவாக்கு</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>{0} க்கான குறுக்குவழி உங்கள் டெஸ்க்டாபில் சேர்க்கப்பட்டது.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>{0} க்கான குறுக்குவழியை உருவாக்க முடியவில்லை.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Roblox இல் பார்க்க</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>விளையாட்டு இணைப்பை நகலெடு</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>குறுக்குவழி</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>நிர்வகி</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>சிறப்பிக்கப்பட்டதும் பரிந்துரைக்கப்பட்டதும்</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>வகை வாரியாக உலாவு</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>இலவசமாக விளையாடலாம்</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} பேர் விளையாடுகிறார்கள்</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>எல்லா மதிப்பீடுகளும்:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>வெளியீட்டு தேதி:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>டெவலப்பர்:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>மிக அதிகமாக நேர்மறை</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>மிகவும் நேர்மறை</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>பெரும்பாலும் நேர்மறை</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>கலப்பு</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>பெரும்பாலும் எதிர்மறை</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>{0} ஆல்</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>பின் செய்</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>பினை நீக்கு</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>பின் செய்யப்பட்டவை</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>அனைத்தும்</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>ஒருபோதும் இல்லை</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>இன்று</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>நேற்று</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>பதிவு செய்யப்படவில்லை</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} நிமி</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} மணி</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} மணி {1} நிமி</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>இன்று புதுப்பிக்கப்பட்டது</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>நேற்று புதுப்பிக்கப்பட்டது</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>{0} நாட்களுக்கு முன் புதுப்பிக்கப்பட்டது</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>{0} புதுப்பிக்கப்பட்டது</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>தெரியாதது</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>{0} ஐ உங்கள் நூலகத்திலிருந்து அகற்றவா? பதிவு செய்யப்பட்ட விளையாட்டு நேரம் நீக்கப்படும்.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>சரியான PlaceId அல்லது Roblox விளையாட்டு இணைப்பை உள்ளிடுங்கள்.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>அந்த PlaceId உடன் ஒரு விளையாட்டைக் கண்டறிய முடியவில்லை.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>உங்கள் நூலகத்தை ஏற்ற முடியவில்லை: {0}</value>
+  </data>
 </root>

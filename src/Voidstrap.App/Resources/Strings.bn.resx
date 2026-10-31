@@ -9134,4 +9134,124 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>অ্যানিমেটেড আভা</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>ডেস্কটপ শর্টকাট তৈরি করুন</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>{0} এর শর্টকাট আপনার ডেস্কটপে যোগ করা হয়েছে।</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>{0} এর শর্টকাট তৈরি করা যায়নি।</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Roblox এ দেখুন</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>গেম লিংক কপি করুন</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>শর্টকাট</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>ম্যানেজ</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>বাছাইকৃত ও সুপারিশকৃত</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>ঘরানা অনুযায়ী ব্রাউজ করুন</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>বিনামূল্যে খেলুন</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} জন খেলছে</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>সব রিভিউ:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>প্রকাশের তারিখ:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>ডেভেলপার:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>প্রচুর ইতিবাচক</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>খুব ইতিবাচক</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>বেশিরভাগ ইতিবাচক</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>মিশ্র</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>বেশিরভাগ নেতিবাচক</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>{0} দ্বারা</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>পিন করুন</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>আনপিন করুন</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>পিন করা</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>সব</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>কখনোই না</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>আজ</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>গতকাল</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>কোনো রেকর্ড নেই</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} মিনিট</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} ঘণ্টা</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} ঘণ্টা {1} মিনিট</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>আজ আপডেট হয়েছে</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>গতকাল আপডেট হয়েছে</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>{0} দিন আগে আপডেট হয়েছে</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>আপডেট হয়েছে {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>অজানা</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>{0} কে আপনার লাইব্রেরি থেকে সরাবেন? রেকর্ড করা খেলার সময় মুছে যাবে।</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>একটি বৈধ PlaceId বা Roblox গেম লিংক লিখুন।</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>এই PlaceId দিয়ে কোনো গেম খুঁজে পাওয়া যায়নি।</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>আপনার লাইব্রেরি লোড করা ব্যর্থ হয়েছে: {0}</value>
+  </data>
 </root>

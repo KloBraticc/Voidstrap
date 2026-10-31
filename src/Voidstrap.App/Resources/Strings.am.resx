@@ -9134,4 +9134,124 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>የታነመ ብርሃን</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>የዴስክቶፕ አቋራጭ ፍጠር</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>የ{0} አቋራጭ ወደ ዴስክቶፕዎ ታክሏል።</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>የ{0} አቋራጭ መፍጠር አልተቻለም።</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>በRoblox ላይ ይመልከቱ</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>የጨዋታ አገናኝ ቅዳ</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>አቋራጭ</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>አስተዳድር</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>የተመረጠ እና የሚመከር</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>በጨዋታ ዓይነት ያስሱ</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>በነፃ ይጫወቱ</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} በመጫወት ላይ</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>ሁሉም ግምገማዎች፦</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>የመለቀቅ ቀን፦</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>ገንቢ፦</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>በጣም በጣም አዎንታዊ</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>በጣም አዎንታዊ</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>አብዛኛው አዎንታዊ</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>ድብልቅ</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>አብዛኛው አሉታዊ</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>በ{0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>ሰንብ</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>አራግፍ</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>የተሰንበቱ</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>ሁሉም</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>በጭራሽ አይደለም</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>ዛሬ</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>ትናንት</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>አልተመዘገበም</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} ደቂቃ</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} ሰዓት</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} ሰዓት {1} ደቂቃ</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>ዛሬ ዘምኗል</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>ትናንት ዘምኗል</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>ከ{0} ቀናት በፊት ዘምኗል</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>የዘምነው {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>የማይታወቅ</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>{0}ን ከቤተ መጻሕፍትዎ ይወግዱ? የተመዘገበው የመጫወቻ ጊዜ ይሰረዛል።</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>ትክክለኛ PlaceId ወይም የRoblox ጨዋታ አገናኝ ያስገቡ።</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>በዚያ PlaceId ጨዋታ አልተገኘም።</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>ቤተ መጻሕፍትዎን መጫን አልተቻለም፦ {0}</value>
+  </data>
 </root>

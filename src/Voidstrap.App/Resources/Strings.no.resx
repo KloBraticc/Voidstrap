@@ -9134,4 +9134,125 @@ Vil du tillate det?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Animert glød</value>
   </data>
+
+<data name="Library.CreateShortcut" xml:space="preserve">
+  <value>Opprett skrivebordssnarvei</value>
+</data>
+<data name="Library.ShortcutCreated" xml:space="preserve">
+  <value>Snarvei for {0} lagt til på skrivebordet.</value>
+</data>
+<data name="Library.ShortcutFailed" xml:space="preserve">
+  <value>Kunne ikke opprette snarvei for {0}.</value>
+</data>
+<data name="Library.ViewOnRoblox" xml:space="preserve">
+  <value>Vis på Roblox</value>
+</data>
+<data name="Library.CopyGameLink" xml:space="preserve">
+  <value>Kopier spillenke</value>
+</data>
+<data name="Library.Shortcut" xml:space="preserve">
+  <value>Snarvei</value>
+</data>
+<data name="Library.Manage" xml:space="preserve">
+  <value>Administrer</value>
+</data>
+<data name="Library.Store.Featured" xml:space="preserve">
+  <value>Fremhevet og anbefalt</value>
+</data>
+<data name="Library.Store.BrowseGenre" xml:space="preserve">
+  <value>Bla etter sjanger</value>
+</data>
+<data name="Library.Store.Free" xml:space="preserve">
+  <value>Gratis å spille</value>
+</data>
+<data name="Library.Store.Playing" xml:space="preserve">
+  <value>{0} spiller</value>
+</data>
+<data name="Library.Store.AllReviews" xml:space="preserve">
+  <value>Alle anmeldelser:</value>
+</data>
+<data name="Library.Store.ReleaseDate" xml:space="preserve">
+  <value>Utgivelsesdato:</value>
+</data>
+<data name="Library.Store.Developer" xml:space="preserve">
+  <value>Utvikler:</value>
+</data>
+<data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+  <value>Overveldende positiv</value>
+</data>
+<data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+  <value>Svært positiv</value>
+</data>
+<data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+  <value>Mest positiv</value>
+</data>
+<data name="Library.Store.ReviewMixed" xml:space="preserve">
+  <value>Blandet</value>
+</data>
+<data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+  <value>Mest negativ</value>
+</data>
+<data name="Library.By" xml:space="preserve">
+  <value>av {0}</value>
+</data>
+<data name="Library.Pin" xml:space="preserve">
+  <value>Fest</value>
+</data>
+<data name="Library.Unpin" xml:space="preserve">
+  <value>Løsne</value>
+</data>
+<data name="Library.GroupPinned" xml:space="preserve">
+  <value>FESTET</value>
+</data>
+<data name="Library.GroupAll" xml:space="preserve">
+  <value>ALLE</value>
+</data>
+<data name="Library.Never" xml:space="preserve">
+  <value>Aldri</value>
+</data>
+<data name="Library.Today" xml:space="preserve">
+  <value>I dag</value>
+</data>
+<data name="Library.Yesterday" xml:space="preserve">
+  <value>I går</value>
+</data>
+<data name="Library.NoPlaytime" xml:space="preserve">
+  <value>Ingen registrert</value>
+</data>
+<data name="Library.Minutes" xml:space="preserve">
+  <value>{0} min</value>
+</data>
+<data name="Library.Hours" xml:space="preserve">
+  <value>{0} t</value>
+</data>
+<data name="Library.HoursMinutes" xml:space="preserve">
+  <value>{0} t {1} min</value>
+</data>
+<data name="Library.UpdatedToday" xml:space="preserve">
+  <value>Oppdatert i dag</value>
+</data>
+<data name="Library.UpdatedYesterday" xml:space="preserve">
+  <value>Oppdatert i går</value>
+</data>
+<data name="Library.UpdatedDaysAgo" xml:space="preserve">
+  <value>Oppdatert for {0} dager siden</value>
+</data>
+<data name="Library.UpdatedOn" xml:space="preserve">
+  <value>Oppdatert {0}</value>
+</data>
+<data name="Library.Unknown" xml:space="preserve">
+  <value>Ukjent</value>
+</data>
+<data name="Library.RemoveConfirm" xml:space="preserve">
+  <value>Vil du fjerne {0} fra biblioteket ditt? Registrert spilletid slettes.</value>
+</data>
+<data name="Library.InvalidPlace" xml:space="preserve">
+  <value>Angi en gyldig PlaceId eller Roblox-spillenke.</value>
+</data>
+<data name="Library.PlaceNotFound" xml:space="preserve">
+  <value>Fant ikke noe spill med den PlaceId.</value>
+</data>
+<data name="Library.LoadFailed" xml:space="preserve">
+  <value>Kan ikke laste biblioteket ditt: {0}</value>
+</data>
 </root>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9133,5 +9133,126 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   </data>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Անիմացիոն փայլ</value>
+  </data>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Ստեղծել աշխատասեղանի դյուրանուն</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>{0}-ի դյուրանունն ավելացվել է ձեր աշխատասեղանին։</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Չհաջողվեց ստեղծել դյուրանուն {0}-ի համար։</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Դիտել Roblox-ում</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Պատճենել խաղի հղումը</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Դյուրանուն</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Կառավարել</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Հատուկ ընտրանի և առաջարկվող</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Որոնել ըստ ժանրի</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Անվճար խաղալ</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} խաղում է</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Բոլոր գրախոսությունները՝</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Թողարկման ամսաթիվ՝</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Մշակող՝</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Ծայրահեղ դրական</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Շատ դրական</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Հիմնականում դրական</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Խառը</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Հիմնականում բացասական</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>{0}-ի կողմից</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Ամրակցել</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Հանել ամրակցումից</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>ԱՄՐԱԿՑՎԱԾ</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>ԲՈԼՈՐԸ</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Երբեք</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Այսօր</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Երեկ</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Գրանցված չէ</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} րոպե</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} ժամ</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} ժամ {1} րոպե</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Թարմացվել է այսօր</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Թարմացվել է երեկ</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Թարմացվել է {0} օր առաջ</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Թարմացվել է {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Անհայտ</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Հեռացնե՞լ {0}-ը ձեր գրադարանից։ Գրանցված խաղաժամանակը կջնջվի։</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Մուտքագրեք վավեր PlaceId կամ Roblox խաղի հղում։</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Չհաջողվեց գտնել խաղ այդ PlaceId-ով։</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Ձեր գրադարանի բեռնումը ձախողվեց՝ {0}</value>
   </data>
 </root>

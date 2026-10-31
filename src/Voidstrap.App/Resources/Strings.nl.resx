@@ -9448,4 +9448,125 @@ Toestaan?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Geanimeerde gloed</value>
   </data>
+
+<data name="Library.CreateShortcut" xml:space="preserve">
+  <value>Snelkoppeling op bureaublad maken</value>
+</data>
+<data name="Library.ShortcutCreated" xml:space="preserve">
+  <value>Snelkoppeling voor {0} toegevoegd aan je bureaublad.</value>
+</data>
+<data name="Library.ShortcutFailed" xml:space="preserve">
+  <value>Kon geen snelkoppeling maken voor {0}.</value>
+</data>
+<data name="Library.ViewOnRoblox" xml:space="preserve">
+  <value>Bekijken op Roblox</value>
+</data>
+<data name="Library.CopyGameLink" xml:space="preserve">
+  <value>Spelkoppeling kopiëren</value>
+</data>
+<data name="Library.Shortcut" xml:space="preserve">
+  <value>Snelkoppeling</value>
+</data>
+<data name="Library.Manage" xml:space="preserve">
+  <value>Beheren</value>
+</data>
+<data name="Library.Store.Featured" xml:space="preserve">
+  <value>Uitgelicht en aanbevolen</value>
+</data>
+<data name="Library.Store.BrowseGenre" xml:space="preserve">
+  <value>Bladeren op genre</value>
+</data>
+<data name="Library.Store.Free" xml:space="preserve">
+  <value>Gratis te spelen</value>
+</data>
+<data name="Library.Store.Playing" xml:space="preserve">
+  <value>{0} spelen</value>
+</data>
+<data name="Library.Store.AllReviews" xml:space="preserve">
+  <value>Alle reviews:</value>
+</data>
+<data name="Library.Store.ReleaseDate" xml:space="preserve">
+  <value>Releasedatum:</value>
+</data>
+<data name="Library.Store.Developer" xml:space="preserve">
+  <value>Ontwikkelaar:</value>
+</data>
+<data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+  <value>Overweldigend positief</value>
+</data>
+<data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+  <value>Zeer positief</value>
+</data>
+<data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+  <value>Voornamelijk positief</value>
+</data>
+<data name="Library.Store.ReviewMixed" xml:space="preserve">
+  <value>Gemengd</value>
+</data>
+<data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+  <value>Voornamelijk negatief</value>
+</data>
+<data name="Library.By" xml:space="preserve">
+  <value>door {0}</value>
+</data>
+<data name="Library.Pin" xml:space="preserve">
+  <value>Vastmaken</value>
+</data>
+<data name="Library.Unpin" xml:space="preserve">
+  <value>Losmaken</value>
+</data>
+<data name="Library.GroupPinned" xml:space="preserve">
+  <value>VASTGEMAAKT</value>
+</data>
+<data name="Library.GroupAll" xml:space="preserve">
+  <value>ALLES</value>
+</data>
+<data name="Library.Never" xml:space="preserve">
+  <value>Nooit</value>
+</data>
+<data name="Library.Today" xml:space="preserve">
+  <value>Vandaag</value>
+</data>
+<data name="Library.Yesterday" xml:space="preserve">
+  <value>Gisteren</value>
+</data>
+<data name="Library.NoPlaytime" xml:space="preserve">
+  <value>Geen geregistreerd</value>
+</data>
+<data name="Library.Minutes" xml:space="preserve">
+  <value>{0} min</value>
+</data>
+<data name="Library.Hours" xml:space="preserve">
+  <value>{0} u</value>
+</data>
+<data name="Library.HoursMinutes" xml:space="preserve">
+  <value>{0} u {1} min</value>
+</data>
+<data name="Library.UpdatedToday" xml:space="preserve">
+  <value>Vandaag bijgewerkt</value>
+</data>
+<data name="Library.UpdatedYesterday" xml:space="preserve">
+  <value>Gisteren bijgewerkt</value>
+</data>
+<data name="Library.UpdatedDaysAgo" xml:space="preserve">
+  <value>{0} dagen geleden bijgewerkt</value>
+</data>
+<data name="Library.UpdatedOn" xml:space="preserve">
+  <value>Bijgewerkt op {0}</value>
+</data>
+<data name="Library.Unknown" xml:space="preserve">
+  <value>Onbekend</value>
+</data>
+<data name="Library.RemoveConfirm" xml:space="preserve">
+  <value>{0} uit je bibliotheek verwijderen? De geregistreerde speeltijd wordt verwijderd.</value>
+</data>
+<data name="Library.InvalidPlace" xml:space="preserve">
+  <value>Voer een geldige PlaceId of Roblox-spelkoppeling in.</value>
+</data>
+<data name="Library.PlaceNotFound" xml:space="preserve">
+  <value>Kon geen spel met die PlaceId vinden.</value>
+</data>
+<data name="Library.LoadFailed" xml:space="preserve">
+  <value>Kan je bibliotheek niet laden: {0}</value>
+</data>
 </root>

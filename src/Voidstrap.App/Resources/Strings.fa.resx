@@ -9449,4 +9449,124 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>درخشش متحرک</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>ایجاد میان‌بر در دسکتاپ</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>میان‌بر {0} به دسکتاپ شما اضافه شد.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>ایجاد میان‌بر برای {0} ممکن نبود.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>مشاهده در Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>کپی لینک بازی</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>میان‌بر</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>مدیریت</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>منتخب و پیشنهادی</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>مرور بر اساس ژانر</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>رایگان برای بازی</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} در حال بازی</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>همه بررسی‌ها:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>تاریخ انتشار:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>توسعه‌دهنده:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>بسیار بسیار مثبت</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>بسیار مثبت</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>عمدتاً مثبت</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>متوسط</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>عمدتاً منفی</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>توسط {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>سنجاق کردن</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>برداشتن سنجاق</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>سنجاق‌شده</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>همه</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>هرگز</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>امروز</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>دیروز</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>چیزی ثبت نشده</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} دقیقه</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} ساعت</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} ساعت {1} دقیقه</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>امروز به‌روزرسانی شد</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>دیروز به‌روزرسانی شد</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>{0} روز پیش به‌روزرسانی شد</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>به‌روزرسانی‌شده در {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>نامشخص</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>{0} از کتابخانه شما حذف شود؟ زمان بازی ثبت‌شده آن حذف خواهد شد.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>یک PlaceId معتبر یا لینک بازی Roblox وارد کنید.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>بازی‌ای با آن PlaceId پیدا نشد.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>بارگذاری کتابخانه شما ناموفق بود: {0}</value>
+  </data>
 </root>

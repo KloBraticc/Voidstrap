@@ -9448,4 +9448,125 @@ Leisti?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Animuotas švytėjimas</value>
   </data>
-</root>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Sukurti darbalaukio nuorodą</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Nuoroda į {0} pridėta prie jūsų darbalaukio.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Nepavyko sukurti nuorodos į {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Žiūrėti Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Kopijuoti žaidimo nuorodą</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Nuoroda</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Valdyti</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Siūlomi ir rekomenduojami</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Naršyti pagal žanrą</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Žaisti nemokamai</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>Žaidžia {0}</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Visos apžvalgos:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Išleidimo data:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Kūrėjas:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Itin teigiamos</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Labai teigiamos</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Daugiausia teigiamos</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Mišrios</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Daugiausia neigiamos</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>sukūrė {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Prisegti</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Atsegti</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>PRISEGTI</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>VISI</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Niekada</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Šiandien</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Vakar</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Neįrašyta</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} val</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} val {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Atnaujinta šiandien</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Atnaujinta vakar</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Atnaujinta prieš {0} d.</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Atnaujinta {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Nežinoma</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Pašalinti {0} iš bibliotekos? Įrašytas žaidimo laikas bus ištrintas.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Įveskite teisingą PlaceId arba Roblox žaidimo nuorodą.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Nerasta žaidimo su tokiu PlaceId.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Nepavyko įkelti bibliotekos: {0}</value>
+  </data>
+  </root>

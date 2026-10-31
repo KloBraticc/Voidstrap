@@ -9134,4 +9134,125 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>ເງົາເຄື່ອນໄຫວ</value>
   </data>
-</root>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>ສ້າງທາງລັດໃນໜ້າຈໍພື້ນໂຕະ</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>ທາງລັດສຳລັບ {0} ໄດ້ຖືກເພີ່ມໃສ່ໜ້າຈໍພື້ນໂຕະຂອງທ່ານ.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>ບໍ່ສາມາດສ້າງທາງລັດສຳລັບ {0} ໄດ້.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>ເບິ່ງໃນ Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>ສຳເນົາລິ້ງເກມ</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>ທາງລັດ</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>ຈັດການ</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>ເດັ່ນຊັດ ແລະ ແນະນຳ</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>ທ່ອງຕາມປະເພດ</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>ຫຼິ້ນຟຣີ</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>ກຳລັງຫຼິ້ນ {0}</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>ທັງໝົດຄຳຄິດເຫັນ:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>ວັນທີອອກແຜ:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>ນັກພັດທະນາ:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>ບວກຢ່າງແຮງທີ່ສຸດ</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>ບວກຢ່າງແຮງ</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>ສ່ວນໃຫຍ່ບວກ</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>ປະສົມ</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>ສ່ວນໃຫຍ່ລົບ</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>ໂດຍ {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>ປັກໝຸດ</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>ຖອນໝຸດ</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>ປັກໝຸດແລ້ວ</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>ທັງໝົດ</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>ບໍ່ເຄີຍ</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>ມື້ນີ້</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>ມື້ວານ</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>ບໍ່ມີບັນທຶກ</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} ນາທີ</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} ຊົ່ວໂມງ</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} ຊົ່ວໂມງ {1} ນາທີ</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>ອັບເດດມື້ນີ້</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>ອັບເດດມື້ວານ</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>ອັບເດດເມື່ອ {0} ມື້ກ່ອນ</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>ອັບເດດເມື່ອ {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>ບໍ່ຊັດເຈນ</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>ເອົາ {0} ອອກຈາກຄັງສຳຮອງຂອງທ່ານ? ເວລາຫຼິ້ນທີ່ບັນທຶກໄວ້ຈະຖືກລຶບ.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>ກະລຸນາໃສ່ PlaceId ທີ່ຖືກຕ້ອງ ຫຼື ລິ້ງເກມ Roblox.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>ບໍ່ພົບເກມທີ່ມີ PlaceId ນັ້ນ.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>ໂຫຼດຄັງສຳຮອງຂອງທ່ານບໍ່ສຳເລັດ: {0}</value>
+  </data>
+  </root>

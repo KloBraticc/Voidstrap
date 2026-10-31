@@ -9442,4 +9442,124 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>แสงเรืองแบบเคลื่อนไหว</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>สร้างทางลัดบนเดสก์ท็อป</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>เพิ่มทางลัดสำหรับ {0} ไปยังเดสก์ท็อปของคุณแล้ว</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>ไม่สามารถสร้างทางลัดสำหรับ {0} ได้</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>ดูบน Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>คัดลอกลิงก์เกม</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>ทางลัด</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>จัดการ</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>แนะนำพิเศษ</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>เรียกดูตามประเภท</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>เล่นฟรี</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} คนกำลังเล่น</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>ความเห็นทั้งหมด:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>วันวางจำหน่าย:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>ผู้พัฒนา:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>ประทับใจอย่างล้นหลาม</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>ประทับใจอย่างมาก</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>ค่อนข้างประทับใจ</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>คละกันไป</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>ค่อนข้างไม่ประทับใจ</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>โดย {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>ปักหมุด</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>ถอนหมุด</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>ปักหมุดแล้ว</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>ทั้งหมด</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>ไม่เคย</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>วันนี้</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>เมื่อวาน</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>ไม่มีข้อมูล</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} นาที</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} ชม.</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} ชม. {1} นาที</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>อัปเดตวันนี้</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>อัปเดตเมื่อวาน</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>อัปเดต {0} วันก่อน</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>อัปเดตเมื่อ {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>ไม่ทราบ</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>นำ {0} ออกจากคลังของคุณหรือไม่ เวลาเล่นที่บันทึกไว้จะถูกลบ</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>ป้อน PlaceId ที่ถูกต้องหรือลิงก์เกม Roblox</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>ไม่พบเกมที่มี PlaceId นั้น</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>โหลดคลังของคุณไม่สำเร็จ: {0}</value>
+  </data>
 </root>

@@ -9134,4 +9134,124 @@ Kas lubada?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Animeeritud sära</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Loo töölaua otsetee</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Otsetee mängule {0} lisati töölauale.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Mängule {0} ei õnnestunud otseteed luua.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Vaata Robloxis</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Kopeeri mängu link</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Otsetee</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Halda</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Esiletõstetud ja soovitatud</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Sirvi žanri järgi</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Tasuta mängitav</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} mängib</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Kõik arvustused:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Ilmumiskuupäev:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Arendaja:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Üliväga positiivsed</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Väga positiivsed</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Suures osas positiivsed</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Segased</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Suures osas negatiivsed</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>Autor: {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Kinnita</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Eemalda kinnitus</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>KINNITATUD</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>KÕIK</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Mitte kunagi</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Täna</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Eile</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Ei ole registreeritud</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} t</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} t {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Uuendatud täna</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Uuendatud eile</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Uuendatud {0} päeva tagasi</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Uuendatud {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Teadmata</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Eemaldada {0} oma teegist? Selle salvestatud mänguaeg kustutatakse.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Sisesta kehtiv PlaceId või Robloxi mängu link.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Selle PlaceId-ga mängu ei leitud.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Teegi laadimine nurjus: {0}</value>
+  </data>
 </root>

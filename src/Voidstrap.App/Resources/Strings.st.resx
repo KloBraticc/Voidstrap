@@ -9134,4 +9134,124 @@ E lumella?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Khanya e phelang</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Theha khutso ya deskthop</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Khutso ya {0} e kentsoe deskthopeng ya hau.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Ha e khone ho etsa khutso ya {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Sheba ho Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Kopitsa link ya papali</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Khutso</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Laola</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>E Hlakisitsoeng le e Kgothaletsweng</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Batla ka mohuta</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Mahala ho bapala</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} ba bapala</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Litlhahlobo tsohle:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Letsatsi la ho lokolloa:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Moetsi:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>E Ntle Ka Ho Fetisisa</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>E Ntle Haholo</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>E Ntle Ka Bongata</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>E Tsoakiloeng</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>E Mpe Ka Bongata</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>ke {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Becha</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Tlosa becha</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>TSE BEILOENG</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>TSOHLE</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Nke ke</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Kajeno</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Maobane</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Ha ho na nako e rekotiloeng</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} hr</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} hr {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>E ntlafalitsoe kajeno</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>E ntlafalitsoe maobane</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>E ntlafalitsoe matsatsi a {0} a fetileng</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>E ntlafalitsoe {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Ha e tsejoe</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Tlosa {0} laeboraring ya hau? Nako ya papali eo e rekotiloeng e tla hlakoloa.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Kenya PlaceId e nepahetseng kapa link ya papali ya Roblox.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Ha ho fumanoe papali ya PlaceId eo.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Ho hlotlohile ho jara laeborari ya hau: {0}</value>
+  </data>
 </root>

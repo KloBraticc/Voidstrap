@@ -9445,4 +9445,124 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Анімоване сяйво</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Створити ярлик на робочому столі</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Ярлик для {0} додано на робочий стіл.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Не вдалося створити ярлик для {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Переглянути на Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Копіювати посилання на гру</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Ярлик</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Керувати</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Вибране та рекомендоване</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Переглянути за жанром</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Безкоштовна гра</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} грають</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Усі огляди:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Дата виходу:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Розробник:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Крайньо позитивні</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Дуже позитивні</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Здебільшого позитивні</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Змішані</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Здебільшого негативні</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>від {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Закріпити</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Відкріпити</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>ЗАКРІПЛЕНІ</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>УСІ</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Ніколи</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Сьогодні</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Учора</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Не записано</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} хв</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} год</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} год {1} хв</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Оновлено сьогодні</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Оновлено учора</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Оновлено {0} днів тому</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Оновлено {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Невідомо</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Видалити {0} з вашої бібліотеки? Записаний ігровий час буде видалено.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Введіть коректний PlaceId або посилання на гру Roblox.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Не вдалося знайти гру з таким PlaceId.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Не вдалося завантажити вашу бібліотеку: {0}</value>
+  </data>
 </root>

@@ -9134,4 +9134,124 @@ Rugsat beriň?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Animasiýa öwüşgini</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Iş stoly üçin gysga ýol döret</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>{0} üçin gysga ýol iş stolyňyza goşuldy.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>{0} üçin gysga ýol döredilmedi.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Robloxda gör</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Oýun baglanyşygyny göçür</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Gysga ýol</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Dolandyr</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Saýlanan we teklip edilen</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Žanr boýunça göz aýla</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Tegin oýnamak</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} oýnaýar</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Ähli barlaglar:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Çykarylan senesi:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Dörediji:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Örän oňyn</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Has oňyn</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Esasan oňyn</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Aralaş</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Esasan ýaramaz</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>{0} tarapyndan</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Berkit</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Aýyr</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>BERKIDILEN</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>ÄHLI</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Hiç haçan</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Şu gün</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Düýn</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Hasaba alynmadyk</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} sag</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} sag {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Şu gün täzelendi</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Düýn täzelendi</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>{0} gün öň täzelendi</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>{0} täzelendi</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Näbelli</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>{0} kitaphananyzdan aýyrmalymy? Hasaba alynan oýun wagty pozular.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Dogry PlaceId ýa-da Roblox oýun baglanyşygyny giriziň.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Şol PlaceId bilen oýun tapylmady.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Kitaphananyz ýüklenmedi: {0}</value>
+  </data>
 </root>

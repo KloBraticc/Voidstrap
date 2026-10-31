@@ -9134,4 +9134,125 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>ആനിമേറ്റഡ് ഗ്ലോ</value>
   </data>
-</root>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>ഡെസ്ക്ടോപ്പ് കുറുക്കുവഴി സൃഷ്ടിക്കുക</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>{0} എന്നതിനുള്ള കുറുക്കുവഴി നിങ്ങളുടെ ഡെസ്ക്ടോപ്പിൽ ചേർത്തു.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>{0} എന്നതിനുള്ള കുറുക്കുവഴി സൃഷ്ടിക്കാനായില്ല.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Roblox ൽ കാണുക</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>ഗെയിം ലിങ്ക് പകർത്തുക</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>കുറുക്കുവഴി</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>നിയന്ത്രിക്കുക</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>സവിശേഷവും ശുപാർശ ചെയ്തതും</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>വിഭാഗം വഴി പരിശോധിക്കുക</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>സൗജന്യമായി കളിക്കുക</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} കളിക്കുന്നു</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>എല്ലാ അവലോകനങ്ങളും:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>പുറത്തിറങ്ങിയ തീയതി:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>ഡവലപ്പർ:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>അതിയായി അനുകൂലം</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>വളരെ അനുകൂലം</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>മിക്കവാറും അനുകൂലം</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>മിശ്രം</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>മിക്കവാറും പ്രതികൂലം</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>{0} നിർമ്മിച്ചത്</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>പിൻ ചെയ്യുക</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>പിൻ നീക്കുക</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>പിൻ ചെയ്തവ</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>എല്ലാം</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>ഒരിക്കലുമില്ല</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>ഇന്ന്</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>ഇന്നലെ</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>രേഖപ്പെടുത്തിയിട്ടില്ല</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} മിനിറ്റ്</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} മണിക്കൂർ</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} മണിക്കൂർ {1} മിനിറ്റ്</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>ഇന്ന് അപ്ഡേറ്റ് ചെയ്തു</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>ഇന്നലെ അപ്ഡേറ്റ് ചെയ്തു</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>{0} ദിവസം മുമ്പ് അപ്ഡേറ്റ് ചെയ്തു</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>{0} ന് അപ്ഡേറ്റ് ചെയ്തു</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>അജ്ഞാതം</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>നിങ്ങളുടെ ലൈബ്രറിയിൽ നിന്ന് {0} നീക്കം ചെയ്യണോ? രേഖപ്പെടുത്തിയ കളി സമയം ഇല്ലാതാക്കും.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>സാധുവായ PlaceId അല്ലെങ്കിൽ Roblox ഗെയിം ലിങ്ക് നൽകുക.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>ആ PlaceId ഉള്ള ഗെയിം കണ്ടില്ല.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>നിങ്ങളുടെ ലൈബ്രറി ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല: {0}</value>
+  </data>
+  </root>

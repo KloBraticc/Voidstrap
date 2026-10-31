@@ -9134,4 +9134,124 @@ Ho permets?</value>
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>resplendor animat</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Crea una drecera a l'escriptori</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>S'ha afegit la drecera de {0} al vostre escriptori.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>No s'ha pogut crear una drecera per a {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Mostra a Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Copia l'enllaç del joc</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Drecera</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Gestiona</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Destacat i recomanat</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Explora per gènere</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Gratuït</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} jugant</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Totes les ressenyes:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Data de llançament:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Desenvolupador:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Extremament positives</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Molt positives</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Majoritàriament positives</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Mixtes</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Majoritàriament negatives</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>de {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Fixa</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Deixa de fixar</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>FIXAT</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>TOT</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Mai</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Avui</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Ahir</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Cap registrat</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} h</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} h {1} min</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Actualitzat avui</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Actualitzat ahir</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Actualitzat fa {0} dies</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Actualitzat el {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Desconegut</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Voleu eliminar {0} de la vostra biblioteca? El temps de joc registrat s'esborrarà.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Introduïu un PlaceId vàlid o un enllaç de joc de Roblox.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>No s'ha trobat cap joc amb aquest PlaceId.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>No s'ha pogut carregar la vostra biblioteca: {0}</value>
+  </data>
 </root>

@@ -9134,4 +9134,125 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>Анимиран сјај</value>
   </data>
-</root>
+
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>Креирај кратенка на работна површина</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>Кратенка за {0} е додадена на работната површина.</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>Не можеше да се креира кратенка за {0}.</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>Види на Roblox</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>Копирај врска до играта</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>Кратенка</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>Управувај</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>Истакнати и препорачани</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>Разгледај по жанр</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>Играј бесплатно</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>Играат {0}</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>Сите оцени:</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>Датум на издавање:</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>Развивач:</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>Исклучително позитивни</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>Многу позитивни</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>Претежно позитивни</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>Измешани</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>Претежно негативни</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>од {0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>Закачи</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>Откачи</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>ЗАКАЧЕНИ</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>СИТЕ</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>Никогаш</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>Денес</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>Вчера</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>Нема евидентирано</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} мин</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} ч</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} ч {1} мин</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>Ажурирано денес</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>Ажурирано вчера</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>Ажурирано пред {0} дена</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>Ажурирано на {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>Непознато</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>Да го отстранам {0} од вашата библиотека? Запишаното време за играње ќе се избрише.</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>Внесете валиден PlaceId или врска до Roblox игра.</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>Не беше пронајдена игра со тој PlaceId.</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>Не успеа да се вчита библиотеката: {0}</value>
+  </data>
+  </root>

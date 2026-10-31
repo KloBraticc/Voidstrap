@@ -74,11 +74,13 @@ public class LibraryGameEntry : INotifyPropertyChanged
 
     public double PlayTimeMinutes { get; set; }
 
+    public virtual Visibility RemoveVisibility => Visibility.Visible;
+
     public bool HasIcon => !string.IsNullOrEmpty(IconUrl);
 
     public bool HasThumbnail => !string.IsNullOrEmpty(ThumbnailUrl);
 
-    public string CreatorDisplay => string.IsNullOrEmpty(CreatorName) ? "" : "by " + CreatorName;
+    public string CreatorDisplay => string.IsNullOrEmpty(CreatorName) ? "" : string.Format(Strings.Library_By, CreatorName);
 
     public bool IsPinned
     {
@@ -112,11 +114,11 @@ public class LibraryGameEntry : INotifyPropertyChanged
 
     public Visibility FavoriteIconVisibility => IsFavorite && !IsPinned ? Visibility.Visible : Visibility.Collapsed;
 
-    public string PinButtonText => IsPinned ? "Unpin" : "Pin";
+    public string PinButtonText => IsPinned ? Strings.Library_Unpin : Strings.Library_Pin;
 
     public Visibility PinIconVisibility => IsPinned ? Visibility.Visible : Visibility.Collapsed;
 
-    public string SidebarGroup => IsPinned ? "PINNED" : "ALL";
+    public string SidebarGroup => IsPinned ? Strings.Library_GroupPinned : Strings.Library_GroupAll;
 
     public string LikePercent
     {
@@ -127,6 +129,7 @@ public class LibraryGameEntry : INotifyPropertyChanged
             {
                 _likePercent = value;
                 OnPropertyChanged(nameof(LikePercent));
+                OnPropertyChanged(nameof(ReviewSummary));
             }
         }
     }
@@ -154,12 +157,12 @@ public class LibraryGameEntry : INotifyPropertyChanged
         get
         {
             if (LastPlayed == null || LastPlayed.Value == default)
-                return "Never";
+                return Strings.Library_Never;
             DateTime value = LastPlayed.Value;
             if (value.Date == DateTime.Now.Date)
-                return "Today";
+                return Strings.Library_Today;
             if (value.Date == DateTime.Now.Date.AddDays(-1))
-                return "Yesterday";
+                return Strings.Library_Yesterday;
             return value.ToString("MMM d, yyyy");
         }
     }
@@ -169,15 +172,15 @@ public class LibraryGameEntry : INotifyPropertyChanged
         get
         {
             if (PlayTimeMinutes < 1)
-                return "None recorded";
+                return Strings.Library_NoPlaytime;
             long total = (long)Math.Round(PlayTimeMinutes);
             long hours = total / 60;
             long mins = total % 60;
             if (hours == 0)
-                return $"{mins} min";
+                return string.Format(Strings.Library_Minutes, mins);
             if (mins == 0)
-                return $"{hours} hr";
-            return $"{hours} hr {mins} min";
+                return string.Format(Strings.Library_Hours, hours);
+            return string.Format(Strings.Library_HoursMinutes, hours, mins);
         }
     }
 
@@ -189,18 +192,34 @@ public class LibraryGameEntry : INotifyPropertyChanged
                 return "";
             TimeSpan span = DateTime.Now - Updated.Value.ToLocalTime();
             if (span.TotalDays < 1)
-                return "Updated today";
+                return Strings.Library_UpdatedToday;
             if (span.TotalDays < 2)
-                return "Updated yesterday";
+                return Strings.Library_UpdatedYesterday;
             if (span.TotalDays < 30)
-                return $"Updated {Math.Floor(span.TotalDays)} days ago";
-            return "Updated " + Updated.Value.ToLocalTime().ToString("MMM d, yyyy");
+                return string.Format(Strings.Library_UpdatedDaysAgo, Math.Floor(span.TotalDays));
+            return string.Format(Strings.Library_UpdatedOn, Updated.Value.ToLocalTime().ToString("MMM d, yyyy"));
         }
     }
 
-    public string CreatedDisplay => Created?.ToLocalTime().ToString("MMM d, yyyy") ?? "Unknown";
+    public string ReviewSummary
+    {
+        get
+        {
+            if (!int.TryParse(LikePercent.TrimEnd('%'), out int percent))
+                return "";
+            if (percent >= 95)
+                return Strings.Library_Store_ReviewOverwhelming;
+            if (percent >= 80)
+                return Strings.Library_Store_ReviewVeryPositive;
+            if (percent >= 70)
+                return Strings.Library_Store_ReviewMostlyPositive;
+            return percent >= 40 ? Strings.Library_Store_ReviewMixed : Strings.Library_Store_ReviewMostlyNegative;
+        }
+    }
 
-    public string UpdatedDisplay => Updated?.ToLocalTime().ToString("MMM d, yyyy") ?? "Unknown";
+    public string CreatedDisplay => Created?.ToLocalTime().ToString("MMM d, yyyy") ?? Strings.Library_Unknown;
+
+    public string UpdatedDisplay => Updated?.ToLocalTime().ToString("MMM d, yyyy") ?? Strings.Library_Unknown;
 
     private int _badgeEarned = -1;
 
@@ -252,7 +271,7 @@ public class LibraryGameEntry : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    private void OnPropertyChanged(string propertyName)
+    protected void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
@@ -320,6 +339,8 @@ public class GamePassEntry
     public string PriceDisplay { get; set; } = "";
 
     public string? IconUrl { get; set; }
+
+    public virtual Visibility RemoveVisibility => Visibility.Visible;
 
     public bool HasIcon => !string.IsNullOrEmpty(IconUrl);
 }
@@ -621,6 +642,12 @@ public class LibraryViewModel : INotifyPropertyChanged
 
     public ICommand OpenGamePassCommand { get; }
 
+    public ICommand CreateShortcutCommand { get; }
+
+    public ICommand ViewOnRobloxCommand { get; }
+
+    public ICommand CopyGameLinkCommand { get; }
+
     public LibraryViewModel()
     {
         SelectGameCommand = new RelayCommand<LibraryGameEntry>(SelectGame);
@@ -632,7 +659,13 @@ public class LibraryViewModel : INotifyPropertyChanged
         AddGameCommand = new AsyncRelayCommand(AddGameFromTextAsync);
         RefreshCommand = new RelayCommand(Refresh);
         RemoveGameCommand = new AsyncRelayCommand<LibraryGameEntry>(RemoveGameAsync);
+        SelectMediaCommand = new RelayCommand<GameMediaTile>(SelectMedia);
+        MediaBackCommand = new RelayCommand(() => PageMedia(-1));
+        MediaForwardCommand = new RelayCommand(() => PageMedia(1));
         OpenGamePassCommand = new RelayCommand<GamePassEntry>(OpenGamePass);
+        CreateShortcutCommand = new AsyncRelayCommand<LibraryGameEntry>(CreateShortcutAsync);
+        ViewOnRobloxCommand = new RelayCommand<LibraryGameEntry>(ViewOnRoblox);
+        CopyGameLinkCommand = new RelayCommand<LibraryGameEntry>(CopyGameLink);
         OpenBadgeCommand = new RelayCommand<LibraryBadgeEntry>(OpenBadge);
         RefreshBadgesCommand = new RelayCommand(RefreshBadges);
     }
@@ -655,6 +688,151 @@ public class LibraryViewModel : INotifyPropertyChanged
 
     public LibraryServersViewModel Servers { get; } = new();
 
+    public LibraryStorefrontViewModel Storefront { get; } = new();
+
+    public ObservableCollection<GameMediaTile> GameMedia { get; } = new();
+
+    private List<string> _gameShots = new();
+
+    private string? _selectedMedia;
+
+    private CancellationTokenSource? _mediaCts;
+
+    private bool _leavingGame;
+
+    public string? SelectedMedia
+    {
+        get => _selectedMedia;
+        set
+        {
+            if (_selectedMedia != value)
+            {
+                _selectedMedia = value;
+                OnPropertyChanged(nameof(SelectedMedia));
+            }
+        }
+    }
+
+    public ICommand SelectMediaCommand { get; }
+
+    private string? _gameVideoPath;
+
+    private bool _videoShown;
+
+    public string? GameVideoPath
+    {
+        get => _gameVideoPath;
+        private set
+        {
+            _gameVideoPath = value;
+            OnPropertyChanged(nameof(GameVideoPath));
+            RaiseVideoVisibility();
+        }
+    }
+
+    public Visibility GameVideoVisibility => !string.IsNullOrEmpty(_gameVideoPath) && _videoShown ? Visibility.Visible : Visibility.Collapsed;
+
+    private void RaiseVideoVisibility()
+    {
+        OnPropertyChanged(nameof(GameVideoVisibility));
+    }
+
+    private void RebuildMediaTiles()
+    {
+        GameMedia.Clear();
+        List<GameMediaTile> all = new();
+        if (!string.IsNullOrEmpty(_gameVideoPath))
+            all.Add(new GameMediaTile { Url = _gameShots.FirstOrDefault() ?? "", IsVideo = true, IsSelected = _videoShown });
+        foreach (string shot in _gameShots)
+            all.Add(new GameMediaTile { Url = shot, IsSelected = !_videoShown && shot == _selectedMedia });
+        _tileOffset = Math.Clamp(_tileOffset, 0, Math.Max(0, all.Count - MediaTileCount));
+        foreach (GameMediaTile tile in all.Skip(_tileOffset).Take(MediaTileCount))
+            GameMedia.Add(tile);
+        _tileTotal = all.Count;
+        OnPropertyChanged(nameof(MediaArrowVisibility));
+        OnPropertyChanged(nameof(CanPageMediaBack));
+        OnPropertyChanged(nameof(CanPageMediaForward));
+    }
+
+    private const int MediaTileCount = 4;
+
+    private int _tileOffset;
+
+    private int _tileTotal;
+
+    public Visibility MediaArrowVisibility => _tileTotal > MediaTileCount ? Visibility.Visible : Visibility.Collapsed;
+
+    public bool CanPageMediaBack => _tileOffset > 0;
+
+    public bool CanPageMediaForward => _tileOffset + MediaTileCount < _tileTotal;
+
+    public ICommand MediaBackCommand { get; }
+
+    public ICommand MediaForwardCommand { get; }
+
+    private void PageMedia(int step)
+    {
+        _tileOffset += step;
+        RebuildMediaTiles();
+    }
+
+    private void SelectMedia(GameMediaTile? tile)
+    {
+        if (tile == null)
+            return;
+        _videoShown = tile.IsVideo;
+        if (!tile.IsVideo)
+            SelectedMedia = tile.Url;
+        RaiseVideoVisibility();
+        RebuildMediaTiles();
+    }
+
+    private async Task LoadGameMediaAsync(LibraryGameEntry? game)
+    {
+        _mediaCts?.Cancel();
+        _mediaCts?.Dispose();
+        _mediaCts = null;
+        GameMedia.Clear();
+        SelectedMedia = game?.ThumbnailUrl;
+        GameVideoPath = null;
+        _gameShots = new List<string>();
+        if (game == null)
+            return;
+        CancellationTokenSource cancellation = new();
+        _mediaCts = cancellation;
+        CancellationToken token = cancellation.Token;
+        try
+        {
+            if (game is StoreGameEntry)
+            {
+                await EnrichAsync(new List<LibraryGameEntry> { game }, token);
+                game.RefreshAll();
+            }
+            List<string> urls = await LibraryStorefrontViewModel.FetchScreenshotsAsync(game.UniverseId, token);
+            if (token.IsCancellationRequested)
+                return;
+            _gameShots = urls;
+            _tileOffset = 0;
+            RebuildMediaTiles();
+            SelectedMedia = urls.FirstOrDefault() ?? game.ThumbnailUrl;
+            RebuildMediaTiles();
+            string? video = await GameVideoStore.GetLocalVideoAsync(game.UniverseId, token);
+            if (!token.IsCancellationRequested)
+            {
+                _videoShown = true;
+                GameVideoPath = video;
+                RebuildMediaTiles();
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("LibraryViewModel::LoadGameMediaAsync", ex);
+        }
+    }
+
     public LibraryGameEntry? SelectedGame
     {
         get => _selectedGame;
@@ -662,9 +840,12 @@ public class LibraryViewModel : INotifyPropertyChanged
         {
             if (_suppressSelectionReset && value == null && _selectedGame != null)
                 return;
+            if (value == null && _selectedGame is StoreGameEntry && !_leavingGame)
+                return;
             if (_selectedGame != value)
             {
                 _selectedGame = value;
+                StatusText = "";
                 CancelSubplaceLoading();
                 _ = LoadSubplacesAsync();
                 Servers.SetGame(value);
@@ -703,6 +884,7 @@ public class LibraryViewModel : INotifyPropertyChanged
                     _ = RunSelectedGameLiveVotesLoopAsync(value, votesCts.Token);
                 }
                 StartBadgeLoad(value, refreshAwarded: true);
+                _ = LoadGameMediaAsync(value);
             }
         }
     }
@@ -953,7 +1135,7 @@ public class LibraryViewModel : INotifyPropertyChanged
         {
             HasLoaded = false;
             App.Logger.WriteException("LibraryViewModel::LoadAsync", ex);
-            await UpdateUiAsync(() => StatusText = "Failed to load your library: " + ex.Message).ConfigureAwait(false);
+            await UpdateUiAsync(() => StatusText = string.Format(Strings.Library_LoadFailed, ex.Message)).ConfigureAwait(false);
         }
         finally
         {
@@ -1803,6 +1985,7 @@ public class LibraryViewModel : INotifyPropertyChanged
     {
         if (game == null)
             return;
+        game = _masterGames.FirstOrDefault(entry => entry.UniverseId == game.UniverseId) ?? game;
         SelectedGame = game;
         if (!string.IsNullOrEmpty(game.ThumbnailUrl))
             Voidstrap.Utility.DynamicRenderSystem.Prefetch(game.ThumbnailUrl, 1024);
@@ -1810,12 +1993,15 @@ public class LibraryViewModel : INotifyPropertyChanged
 
     private void GoHome()
     {
+        _leavingGame = true;
         SelectedGame = null;
+        _leavingGame = false;
     }
 
     private void Refresh()
     {
         _ = LoadAsync(true);
+        _ = Storefront.LoadAsync(force: true);
     }
 
     private Task LaunchSubplaceAsync(RobloxSubplaces.Place? place)
@@ -1892,6 +2078,39 @@ public class LibraryViewModel : INotifyPropertyChanged
         return rootPlaceId;
     }
 
+    private async Task CreateShortcutAsync(LibraryGameEntry? game)
+    {
+        if (game == null)
+            return;
+        long placeId = await ResolveStartPlaceAsync(game);
+        if (placeId == 0)
+            return;
+        bool created = await GameShortcut.CreateOnDesktopAsync(game.Name, placeId, game.UniverseId);
+        StatusText = string.Format(created ? Strings.Library_ShortcutCreated : Strings.Library_ShortcutFailed, game.Name);
+    }
+
+    private static string GameUrl(LibraryGameEntry game) => $"https://www.roblox.com/games/{game.PlaceId}";
+
+    private static void ViewOnRoblox(LibraryGameEntry? game)
+    {
+        if (game != null && game.PlaceId > 0)
+            Utilities.OpenWebLink(GameUrl(game));
+    }
+
+    private static void CopyGameLink(LibraryGameEntry? game)
+    {
+        if (game == null || game.PlaceId <= 0)
+            return;
+        try
+        {
+            Clipboard.SetText(GameUrl(game));
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("LibraryViewModel::CopyGameLink", ex);
+        }
+    }
+
     private void TogglePin(LibraryGameEntry? game)
     {
         if (game == null)
@@ -1918,6 +2137,8 @@ public class LibraryViewModel : INotifyPropertyChanged
         Integrations.LibraryStore.SetFavoriteHidden(game.UniverseId, false);
         Integrations.LibraryStore.Save();
         RebuildSidebar();
+        if (game is StoreGameEntry)
+            _ = LoadAsync(true);
     }
 
     private async Task RemoveGameAsync(LibraryGameEntry? game)
@@ -1925,7 +2146,7 @@ public class LibraryViewModel : INotifyPropertyChanged
         if (game == null)
             return;
         MessageBoxResult result = UI.Frontend.ShowMessageBox(
-            $"Remove {game.Name} from your library? Its recorded playtime will be deleted.",
+            string.Format(Strings.Library_RemoveConfirm, game.Name),
             MessageBoxImage.Question,
             MessageBoxButton.YesNo
         );
@@ -1943,7 +2164,7 @@ public class LibraryViewModel : INotifyPropertyChanged
             Integrations.PlayTimeStore.RemoveUniverse(universeId, sessionKeys);
         });
         if (_selectedGame?.UniverseId == universeId)
-            SelectedGame = null;
+            GoHome();
         await LoadAsync();
     }
 
@@ -1979,7 +2200,7 @@ public class LibraryViewModel : INotifyPropertyChanged
         long placeId = ParsePlaceId(text);
         if (placeId <= 0)
         {
-            StatusText = "Enter a valid PlaceId or Roblox game link.";
+            StatusText = Strings.Library_InvalidPlace;
             return;
         }
         StatusText = "";
@@ -1989,7 +2210,7 @@ public class LibraryViewModel : INotifyPropertyChanged
             using JsonDocument doc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, url));
             if (!doc.RootElement.TryGetProperty("universeId", out JsonElement idProp) || idProp.ValueKind != JsonValueKind.Number)
             {
-                StatusText = "Could not find a game with that PlaceId.";
+                StatusText = Strings.Library_PlaceNotFound;
                 return;
             }
             long universeId = idProp.GetInt64();
@@ -2019,7 +2240,7 @@ public class LibraryViewModel : INotifyPropertyChanged
         catch (Exception ex)
         {
             App.Logger.WriteLine("LibraryViewModel", "Add game failed: " + ex.Message);
-            StatusText = "Could not find a game with that PlaceId.";
+            StatusText = Strings.Library_PlaceNotFound;
         }
     }
 

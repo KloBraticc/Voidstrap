@@ -9471,4 +9471,124 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Keystrokes.Editor.ExampleAnimated" xml:space="preserve">
     <value>动画光晕</value>
   </data>
+  <data name="Library.CreateShortcut" xml:space="preserve">
+    <value>创建桌面快捷方式</value>
+  </data>
+  <data name="Library.ShortcutCreated" xml:space="preserve">
+    <value>已在桌面创建 {0} 的快捷方式。</value>
+  </data>
+  <data name="Library.ShortcutFailed" xml:space="preserve">
+    <value>无法为 {0} 创建快捷方式。</value>
+  </data>
+  <data name="Library.ViewOnRoblox" xml:space="preserve">
+    <value>在 Roblox 上查看</value>
+  </data>
+  <data name="Library.CopyGameLink" xml:space="preserve">
+    <value>复制游戏链接</value>
+  </data>
+  <data name="Library.Shortcut" xml:space="preserve">
+    <value>快捷方式</value>
+  </data>
+  <data name="Library.Manage" xml:space="preserve">
+    <value>管理</value>
+  </data>
+  <data name="Library.Store.Featured" xml:space="preserve">
+    <value>精选与推荐</value>
+  </data>
+  <data name="Library.Store.BrowseGenre" xml:space="preserve">
+    <value>按类型浏览</value>
+  </data>
+  <data name="Library.Store.Free" xml:space="preserve">
+    <value>免费开玩</value>
+  </data>
+  <data name="Library.Store.Playing" xml:space="preserve">
+    <value>{0} 人正在游戏</value>
+  </data>
+  <data name="Library.Store.AllReviews" xml:space="preserve">
+    <value>全部评测：</value>
+  </data>
+  <data name="Library.Store.ReleaseDate" xml:space="preserve">
+    <value>发行日期：</value>
+  </data>
+  <data name="Library.Store.Developer" xml:space="preserve">
+    <value>开发商：</value>
+  </data>
+  <data name="Library.Store.ReviewOverwhelming" xml:space="preserve">
+    <value>好评如潮</value>
+  </data>
+  <data name="Library.Store.ReviewVeryPositive" xml:space="preserve">
+    <value>特别好评</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyPositive" xml:space="preserve">
+    <value>多半好评</value>
+  </data>
+  <data name="Library.Store.ReviewMixed" xml:space="preserve">
+    <value>褒贬不一</value>
+  </data>
+  <data name="Library.Store.ReviewMostlyNegative" xml:space="preserve">
+    <value>多半差评</value>
+  </data>
+  <data name="Library.By" xml:space="preserve">
+    <value>作者：{0}</value>
+  </data>
+  <data name="Library.Pin" xml:space="preserve">
+    <value>固定</value>
+  </data>
+  <data name="Library.Unpin" xml:space="preserve">
+    <value>取消固定</value>
+  </data>
+  <data name="Library.GroupPinned" xml:space="preserve">
+    <value>已固定</value>
+  </data>
+  <data name="Library.GroupAll" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="Library.Never" xml:space="preserve">
+    <value>从未</value>
+  </data>
+  <data name="Library.Today" xml:space="preserve">
+    <value>今天</value>
+  </data>
+  <data name="Library.Yesterday" xml:space="preserve">
+    <value>昨天</value>
+  </data>
+  <data name="Library.NoPlaytime" xml:space="preserve">
+    <value>暂无记录</value>
+  </data>
+  <data name="Library.Minutes" xml:space="preserve">
+    <value>{0} 分钟</value>
+  </data>
+  <data name="Library.Hours" xml:space="preserve">
+    <value>{0} 小时</value>
+  </data>
+  <data name="Library.HoursMinutes" xml:space="preserve">
+    <value>{0} 小时 {1} 分钟</value>
+  </data>
+  <data name="Library.UpdatedToday" xml:space="preserve">
+    <value>今天更新</value>
+  </data>
+  <data name="Library.UpdatedYesterday" xml:space="preserve">
+    <value>昨天更新</value>
+  </data>
+  <data name="Library.UpdatedDaysAgo" xml:space="preserve">
+    <value>{0} 天前更新</value>
+  </data>
+  <data name="Library.UpdatedOn" xml:space="preserve">
+    <value>更新于 {0}</value>
+  </data>
+  <data name="Library.Unknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="Library.RemoveConfirm" xml:space="preserve">
+    <value>要从库中移除 {0} 吗？其记录的游戏时长将被删除。</value>
+  </data>
+  <data name="Library.InvalidPlace" xml:space="preserve">
+    <value>请输入有效的 PlaceId 或 Roblox 游戏链接。</value>
+  </data>
+  <data name="Library.PlaceNotFound" xml:space="preserve">
+    <value>找不到该 PlaceId 对应的游戏。</value>
+  </data>
+  <data name="Library.LoadFailed" xml:space="preserve">
+    <value>加载游戏库失败：{0}</value>
+  </data>
 </root>
