@@ -60,9 +60,9 @@ public partial class LicensesPage : UiPage
 
     private static List<Notice> ReadNotices()
     {
-        Stream? compressed = typeof(LicensesPage).Assembly.GetManifestResourceStream("Voidstrap.Licenses.Notices.gz");
+        Stream? compressed = typeof(LicensesPage).Assembly.GetManifestResourceStream("Voidstrap.Licenses.Notices.br");
         using Stream stream = compressed is not null
-            ? new GZipStream(compressed, CompressionMode.Decompress)
+            ? new BrotliStream(compressed, CompressionMode.Decompress)
             : typeof(LicensesPage).Assembly.GetManifestResourceStream("Voidstrap.Licenses.Notices")
             ?? throw new InvalidOperationException("The bundled license notices are missing.");
         using StreamReader reader = new(stream);

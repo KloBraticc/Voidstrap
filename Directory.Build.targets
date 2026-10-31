@@ -46,7 +46,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(MSBuildProjectName)' == 'Voidstrap'">
-		<EmbeddedResource Include="$(IntermediateOutputPath)license-notices/THIRD-PARTY-NOTICES.txt.gz" LogicalName="Voidstrap.Licenses.Notices.gz" />
+		<EmbeddedResource Include="$(IntermediateOutputPath)license-notices/THIRD-PARTY-NOTICES.txt.br" LogicalName="Voidstrap.Licenses.Notices.br" />
 		<EmbeddedResource Include="$(MSBuildThisFileDirectory)legal/sources/*.tar.gz" LogicalName="Voidstrap.Licenses.%(Filename)%(Extension)" />
 	</ItemGroup>
 
@@ -56,22 +56,23 @@
 			<Destination ParameterType="System.String" Required="true" />
 		</ParameterGroup>
 		<Task>
+			<Using Namespace="System" />
 			<Using Namespace="System.IO" />
 			<Using Namespace="System.IO.Compression" />
 			<Code Type="Fragment" Language="cs"><![CDATA[
 				Directory.CreateDirectory(Path.GetDirectoryName(Destination));
 				using (FileStream input = File.OpenRead(Source))
 				using (FileStream output = File.Create(Destination))
-				using (GZipStream compressed = new GZipStream(output, CompressionLevel.Optimal))
+				using (Stream compressed = (Stream)Activator.CreateInstance(Type.GetType("System.IO.Compression.BrotliStream, System.IO.Compression.Brotli", true), output, (CompressionLevel)3))
 					input.CopyTo(compressed);
 			]]></Code>
 		</Task>
 	</UsingTask>
 
-	<Target Name="BuildCompressedLicenseNotices" BeforeTargets="AssignTargetPaths" Condition="'$(MSBuildProjectName)' == 'Voidstrap'" Inputs="$(MSBuildThisFileDirectory)THIRD-PARTY-NOTICES.txt;$(MSBuildThisFileFullPath)" Outputs="$(IntermediateOutputPath)license-notices/THIRD-PARTY-NOTICES.txt.gz">
-		<CompressVoidstrapLicenseNotices Source="$(MSBuildThisFileDirectory)THIRD-PARTY-NOTICES.txt" Destination="$(IntermediateOutputPath)license-notices/THIRD-PARTY-NOTICES.txt.gz" />
+	<Target Name="BuildCompressedLicenseNotices" BeforeTargets="AssignTargetPaths" Condition="'$(MSBuildProjectName)' == 'Voidstrap'" Inputs="$(MSBuildThisFileDirectory)THIRD-PARTY-NOTICES.txt;$(MSBuildThisFileFullPath)" Outputs="$(IntermediateOutputPath)license-notices/THIRD-PARTY-NOTICES.txt.br">
+		<CompressVoidstrapLicenseNotices Source="$(MSBuildThisFileDirectory)THIRD-PARTY-NOTICES.txt" Destination="$(IntermediateOutputPath)license-notices/THIRD-PARTY-NOTICES.txt.br" />
 		<ItemGroup>
-			<FileWrites Include="$(IntermediateOutputPath)license-notices/THIRD-PARTY-NOTICES.txt.gz" />
+			<FileWrites Include="$(IntermediateOutputPath)license-notices/THIRD-PARTY-NOTICES.txt.br" />
 		</ItemGroup>
 	</Target>
 
@@ -84,8 +85,10 @@
 		<ParameterGroup>
 			<SourceRoot ParameterType="System.String" Required="true" />
 			<OutputFile ParameterType="System.String" Required="true" />
+			<Level ParameterType="System.Int32" Required="true" />
 		</ParameterGroup>
 		<Task>
+			<Using Namespace="System" />
 			<Using Namespace="System.IO" />
 			<Using Namespace="System.IO.Compression" />
 			<Code Type="Fragment" Language="cs"><![CDATA[
@@ -96,8 +99,8 @@
 				string temporary = OutputFile + ".tmp";
 				if (File.Exists(temporary))
 					File.Delete(temporary);
-				using (FileStream stream = File.Create(temporary))
-				using (ZipArchive archive = new ZipArchive(stream, ZipArchiveMode.Create))
+				MemoryStream stream = new MemoryStream();
+				using (ZipArchive archive = new ZipArchive(stream, ZipArchiveMode.Create, true))
 				{
 					foreach (string file in Directory.EnumerateFiles(SourceRoot, "*", SearchOption.AllDirectories))
 					{
@@ -124,9 +127,13 @@
 						if (info.Length <= 0 || info.Length > 4L * 1024 * 1024)
 							continue;
 						string entryName = relative.Replace(Path.DirectorySeparatorChar, '/').Replace(Path.AltDirectorySeparatorChar, '/');
-						archive.CreateEntryFromFile(file, entryName, CompressionLevel.Optimal);
+						archive.CreateEntryFromFile(file, entryName, CompressionLevel.NoCompression);
 					}
 				}
+				stream.Position = 0;
+				using (FileStream output = File.Create(temporary))
+				using (Stream brotli = (Stream)Activator.CreateInstance(Type.GetType("System.IO.Compression.BrotliStream, System.IO.Compression.Brotli", true), output, (CompressionLevel)Level))
+					stream.CopyTo(brotli);
 				if (File.Exists(OutputFile))
 					File.Delete(OutputFile);
 				File.Move(temporary, OutputFile);
@@ -143,15 +150,19 @@
 
 	<Target Name="PackVoidstrapAppSourceArchive" BeforeTargets="AssignTargetPaths" Condition="('$(MSBuildProjectName)' == 'Voidstrap' Or '$(MSBuildProjectName)' == 'Voidstrap.Cross') And ('$(IncludeAppSource)' == 'true' Or '$(Configuration)' == 'Debug')"
 		Inputs="@(AppSourceInputs);$(MSBuildThisFileFullPath)"
-		Outputs="$(IntermediateOutputPath)app-source/Voidstrap.AppSource.zip">
-		<PackVoidstrapAppSource SourceRoot="$(MSBuildThisFileDirectory)src" OutputFile="$(IntermediateOutputPath)app-source/Voidstrap.AppSource.zip" />
+		Outputs="$(IntermediateOutputPath)app-source/Voidstrap.AppSource.br">
+		<PropertyGroup>
+			<AppSourceBrotliLevel Condition="'$(Configuration)' == 'Debug'">0</AppSourceBrotliLevel>
+			<AppSourceBrotliLevel Condition="'$(Configuration)' != 'Debug'">3</AppSourceBrotliLevel>
+		</PropertyGroup>
+		<PackVoidstrapAppSource SourceRoot="$(MSBuildThisFileDirectory)src" OutputFile="$(IntermediateOutputPath)app-source/Voidstrap.AppSource.br" Level="$(AppSourceBrotliLevel)" />
 		<ItemGroup>
-			<FileWrites Include="$(IntermediateOutputPath)app-source/Voidstrap.AppSource.zip" />
+			<FileWrites Include="$(IntermediateOutputPath)app-source/Voidstrap.AppSource.br" />
 		</ItemGroup>
 	</Target>
 
 	<ItemGroup Condition="('$(MSBuildProjectName)' == 'Voidstrap' Or '$(MSBuildProjectName)' == 'Voidstrap.Cross') And ('$(IncludeAppSource)' == 'true' Or '$(Configuration)' == 'Debug')">
-		<EmbeddedResource Include="$(IntermediateOutputPath)app-source/Voidstrap.AppSource.zip" LogicalName="Voidstrap.AppSource" />
+		<EmbeddedResource Include="$(IntermediateOutputPath)app-source/Voidstrap.AppSource.br" LogicalName="Voidstrap.AppSource.br" />
 	</ItemGroup>
 
 </Project>

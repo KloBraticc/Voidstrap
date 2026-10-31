@@ -11,7 +11,7 @@ internal static class AppSourceStore
 {
     private const string LogIdent = "AppSourceStore";
 
-    private const string ResourceName = "Voidstrap.AppSource";
+    private const string ResourceName = "Voidstrap.AppSource.br";
 
     private const int MaxSearchResults = 80;
 
@@ -42,7 +42,18 @@ internal static class AppSourceStore
             return _entries;
         try
         {
-            Stream? stream = typeof(AppSourceStore).Assembly.GetManifestResourceStream(ResourceName);
+            Stream? stream = null;
+            using (Stream? packed = typeof(AppSourceStore).Assembly.GetManifestResourceStream(ResourceName))
+            {
+                if (packed != null)
+                {
+                    using BrotliStream brotli = new(packed, CompressionMode.Decompress);
+                    MemoryStream unpacked = new();
+                    brotli.CopyTo(unpacked);
+                    unpacked.Position = 0;
+                    stream = unpacked;
+                }
+            }
             if (stream == null)
             {
                 string? external = new[]
