@@ -842,6 +842,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
+    private readonly Voidstrap.UI.SidebarIconHover _sidebarIconHover = new();
+
     private void RegisterHoverIcons()
     {
         foreach (NavigationItem item in _defaultIcons.Keys.ToArray())
@@ -870,7 +872,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (sender is NavigationItem item && Enum.TryParse<SymbolRegular>(item.Tag?.ToString(), out var result))
         {
-            item.Icon = result;
+            _sidebarIconHover.Change(item, result);
         }
     }
 
@@ -878,7 +880,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (sender is NavigationItem item && _defaultIcons.TryGetValue(item, out SymbolRegular defaultIcon))
         {
-            item.Icon = defaultIcon;
+            _sidebarIconHover.Change(item, defaultIcon);
         }
     }
 
