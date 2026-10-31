@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 using Voidstrap.UI.ViewModels.Settings;
 using Wpf.Ui.Controls;
 
@@ -42,6 +43,28 @@ public partial class LibraryPage : UiPage
         {
             App.Logger.WriteException("LibraryPage::Page_Loaded", ex);
         }
+    }
+
+    private bool _addGameOpen;
+
+    private void AddGameToggle_Click(object sender, RoutedEventArgs e)
+    {
+        _addGameOpen = !_addGameOpen;
+        TimeSpan duration = TimeSpan.FromMilliseconds(200);
+        CubicEase ease = new() { EasingMode = EasingMode.EaseInOut };
+        if (_addGameOpen)
+            AddGamePanel.Visibility = Visibility.Visible;
+        DoubleAnimation fade = new(_addGameOpen ? 1 : 0, duration) { EasingFunction = ease };
+        fade.Completed += AddGameFade_Completed;
+        AddGamePanel.BeginAnimation(OpacityProperty, fade);
+        AddGamePanelScale.BeginAnimation(System.Windows.Media.ScaleTransform.ScaleYProperty, new DoubleAnimation(_addGameOpen ? 1 : 0, duration) { EasingFunction = ease });
+        AddGameToggleRotate.BeginAnimation(System.Windows.Media.RotateTransform.AngleProperty, new DoubleAnimation(_addGameOpen ? 45 : 0, duration) { EasingFunction = ease });
+    }
+
+    private void AddGameFade_Completed(object? sender, EventArgs e)
+    {
+        if (!_addGameOpen)
+            AddGamePanel.Visibility = Visibility.Collapsed;
     }
 
     private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)

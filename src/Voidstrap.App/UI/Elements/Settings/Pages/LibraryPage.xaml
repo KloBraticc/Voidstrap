@@ -421,7 +421,18 @@
       </ListBox>
       <Border x:Name="SidebarAddRow" Grid.Row="4" Margin="0,8,0,0" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Padding="0,8,0,0">
         <StackPanel>
-          <Grid>
+          <Button HorizontalAlignment="Right" Width="34" Height="30" Padding="0" Background="Transparent" BorderThickness="0" Cursor="Hand" ToolTip="{resources:Loc Ui_Pages_AddThisGameToYourLibrary}" AutomationProperties.Name="{resources:Loc Ui_Pages_AddThisGameToYourLibrary}" Click="AddGameToggle_Click">
+            <ui:SymbolIcon Symbol="Add24" FontSize="18" RenderTransformOrigin="0.5,0.5">
+              <UIElement.RenderTransform>
+                <RotateTransform x:Name="AddGameToggleRotate" Angle="0" />
+              </UIElement.RenderTransform>
+            </ui:SymbolIcon>
+          </Button>
+          <Border x:Name="AddGamePanel" Margin="0,6,0,0" Opacity="0" Visibility="Collapsed">
+            <Border.LayoutTransform>
+              <ScaleTransform x:Name="AddGamePanelScale" ScaleY="0" />
+            </Border.LayoutTransform>
+            <Grid>
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*" />
               <ColumnDefinition Width="Auto" />
@@ -429,6 +440,7 @@
             <ui:TextBox Grid.Column="0" PlaceholderText="{resources:Loc Ui_Pages_AddByPlaceIdOrLink}" FontSize="12" Text="{Binding AddGameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <ui:Button Grid.Column="1" Margin="6,0,0,0" Icon="Add24" ToolTip="{resources:Loc Ui_Pages_AddThisGameToYourLibrary}" Command="{Binding AddGameCommand}" />
           </Grid>
+          </Border>
           <TextBlock Margin="2,6,0,0" FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource SystemFillColorCautionBrush}" Text="{Binding StatusText}" Visibility="{Binding StatusVisibility}" />
         </StackPanel>
       </Border>
