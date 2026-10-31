@@ -15,7 +15,7 @@ internal sealed class StickyTabStrip
     private readonly ScrollViewer _scroll;
     private readonly Panel _strip;
     private readonly TranslateTransform _pin = new();
-    private SolidColorBrush? _surface;
+    private LinearGradientBrush? _surface;
     private bool _pinned;
 
     public static void Register()
@@ -108,8 +108,14 @@ internal sealed class StickyTabStrip
         _pinned = pinned;
         if (_surface == null)
         {
-            Color color = (_tabs.TryFindResource("LauncherMenuBrush") as SolidColorBrush)?.Color ?? Color.FromRgb(0x2E, 0x2E, 0x2E);
-            _surface = new SolidColorBrush(color) { Opacity = 0 };
+            Color color = (_tabs.TryFindResource("SolidBackgroundFillColorBaseBrush") as SolidColorBrush)?.Color ?? Color.FromRgb(0x20, 0x20, 0x20);
+            _surface = new LinearGradientBrush(
+                [new GradientStop(color, 0), new GradientStop(color, 0.8), new GradientStop(Color.FromArgb(0, color.R, color.G, color.B), 1)],
+                90
+            )
+            {
+                Opacity = 0,
+            };
             _strip.Background = _surface;
         }
         _surface.BeginAnimation(Brush.OpacityProperty, new DoubleAnimation(pinned ? 1 : 0, FadeDuration));
