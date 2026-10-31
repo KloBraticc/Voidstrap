@@ -201,7 +201,7 @@ internal static class ModTranspiler
         Engine engine = new(options =>
         {
             options.Strict();
-            options.TimeoutInterval(TimeSpan.FromSeconds(15));
+            options.TimeoutInterval(TimeSpan.FromSeconds(60));
             options.LimitMemory(256L * 1024 * 1024);
         });
         engine.Execute(Resource.GetString("ModTranspiler.js"));
