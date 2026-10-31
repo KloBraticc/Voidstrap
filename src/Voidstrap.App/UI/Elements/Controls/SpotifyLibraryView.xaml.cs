@@ -23,6 +23,10 @@ public partial class SpotifyLibraryView : UserControl
 
     private bool _starting;
 
+    private bool _loadingLibrary;
+
+    private int _retryTicks;
+
     private List<SpotifyItem> _library = new();
 
     private bool _shown;
@@ -91,6 +95,7 @@ public partial class SpotifyLibraryView : UserControl
     {
         Loading.Visibility = Visibility.Visible;
         _library = await _engine.GetLibraryAsync();
+        App.Logger.WriteLine("SpotifyLibraryView::LoadLibraryAsync", "Loaded " + _library.Count + " library items");
         if (string.IsNullOrWhiteSpace(SearchBox.Text))
             ItemsList.ItemsSource = _library;
         Loading.Visibility = Visibility.Collapsed;
@@ -102,6 +107,13 @@ public partial class SpotifyLibraryView : UserControl
         if (_shown)
         {
             await RefreshStateAsync();
+            if (_library.Count == 0 && !_loadingLibrary && !_starting && _engine.IsRunning && ++_retryTicks >= 10)
+            {
+                _retryTicks = 0;
+                _loadingLibrary = true;
+                await LoadLibraryAsync();
+                _loadingLibrary = false;
+            }
             return;
         }
         if (_engine.IsPlayingAudio)

@@ -39,7 +39,20 @@ public sealed class SpotifyEngine
             return out;
           },
           library: function () {
-            return this.items(document.querySelector('#Desktop_LeftSidebar_Id,[data-testid="rootlist"],nav') || document);
+            var out = [], seen = {}, titles = document.querySelectorAll('[id^="listrow-title-spotify:"]');
+            for (var i = 0; i < titles.length && out.length < 100; i++) {
+              var uri = titles[i].id.replace('listrow-title-', ''), parts = uri.split(':'), href = null;
+              if (parts[1] === 'user' && parts[3] === 'collection') href = '/collection/tracks';
+              else if (parts[1] === 'collection') href = '/collection/tracks';
+              else if (parts.length >= 3) href = '/' + parts[1] + '/' + parts[2];
+              if (!href || seen[href]) continue;
+              seen[href] = 1;
+              var row = titles[i].closest('[data-testid="rootlist-item"],[role="listitem"],li') || titles[i].parentElement;
+              var img = row ? row.querySelector('img') : null;
+              var sub = document.getElementById('listrow-subtitle-' + uri);
+              out.push({ href: href, name: this.text(titles[i]), detail: this.text(sub), image: img ? img.src : null });
+            }
+            return out.length ? out : this.items(document.querySelector('main') || document);
           },
           results: function () {
             return this.items(document.querySelector('main,[data-testid="grid-search-results"]') || document);
