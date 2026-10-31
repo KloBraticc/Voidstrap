@@ -643,7 +643,7 @@
         </StackPanel>
       </ui:DynamicScrollViewer>
 
-      <ui:DynamicScrollViewer x:Name="DetailScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="{Binding DetailVisibility}" ScrollChanged="DetailScroll_ScrollChanged">
+      <ui:DynamicScrollViewer x:Name="DetailScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="{Binding DetailVisibility}">
         <StackPanel Margin="2,0,4,10">
           <TextBlock Margin="0,0,0,10" FontSize="24" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Text="{Binding SelectedGame.Name}" />
           <Border Background="{DynamicResource ControlFillColorDefaultBrush}" Padding="12">
@@ -991,20 +991,6 @@
         </StackPanel>
       </ui:DynamicScrollViewer>
 
-      <Border x:Name="StickyBar" Grid.Row="1" VerticalAlignment="Top" Opacity="0" IsHitTestVisible="False" Padding="2,8,4,10" Visibility="{Binding DetailVisibility}" Background="{DynamicResource ApplicationBackgroundBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="0,0,0,1">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-          </Grid.ColumnDefinitions>
-          <Border Grid.Column="0" Width="32" Height="32" CornerRadius="6" ClipToBounds="True" Background="{DynamicResource ControlFillColorSecondaryBrush}">
-            <Image util:DynamicRenderSystem.LazyImageSource="{Binding SelectedGame.IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
-          </Border>
-          <TextBlock Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center" FontSize="15" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.Name}" />
-          <ui:Button Grid.Column="2" MinWidth="110" Height="34" Appearance="Primary" Background="{DynamicResource SystemAccentBrush}" Icon="Play24" Content="{resources:Loc Ui_Pages_Play}" Command="{Binding LaunchCommand}" CommandParameter="{Binding SelectedGame}" />
-        </Grid>
-      </Border>
     </Grid>
   </Grid>
 </ui:UiPage>
