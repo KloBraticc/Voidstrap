@@ -374,6 +374,11 @@ public partial class RoReviewControl : UserControl
         if (_isUnloaded)
             return;
         (long, long) request = (PlaceId, UniverseId);
+        if (!force && PlaceId > 0 && PlaceId == _activePlaceId && _loadCts is { IsCancellationRequested: false })
+        {
+            _lastRequest = request;
+            return;
+        }
         if (!force && request == _lastRequest && _loadCts is { IsCancellationRequested: false })
             return;
         _lastRequest = request;

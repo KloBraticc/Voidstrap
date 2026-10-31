@@ -168,6 +168,10 @@ public sealed class GameVideoView : ContentControl
         {
             view?.Dispose();
         }
+        catch (ObjectDisposedException)
+        {
+            view?.Dispose();
+        }
         catch (Exception ex)
         {
             App.Logger.WriteException(LOG_IDENT, ex);
