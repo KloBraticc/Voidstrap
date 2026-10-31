@@ -16,7 +16,7 @@
     <StackPanel Grid.Row="1" Margin="20,12" MaxWidth="350" HorizontalAlignment="Left">
       <TextBlock FontSize="20" FontWeight="SemiBold" Text="{resources:Loc Dialog_LanguageSelector_Header}" />
       <TextBlock Margin="0,6,0,12" Text="{resources:Loc Dialog_LanguageSelector_Subtext}" TextWrapping="Wrap" />
-      <ComboBox MinWidth="200" ItemsSource="{Binding LanguageOptions, Mode=OneWay}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
+      <ComboBox ui:ComboBoxSearch.IsEnabled="True" ui:ComboBoxSearch.Placeholder="{resources:Loc Ui_AppCode_Search}" MinWidth="200" ItemsSource="{Binding LanguageOptions, Mode=OneWay}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
         <ComboBox.Resources>
           <langconv:LanguageFlagConverter x:Key="LanguageFlagConverter" />
           <langconv:LanguageFlagVisibilityConverter x:Key="LanguageFlagVisibilityConverter" />

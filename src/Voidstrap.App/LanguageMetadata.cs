@@ -73,8 +73,12 @@ internal static class LanguageMetadata
         return string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Menu_Appearance_Language_CompletionStatus, percent);
     }
 
+    private static readonly Dictionary<string, string> FlagCountries = new(StringComparer.OrdinalIgnoreCase) { ["af"] = "za", ["am"] = "et", ["ar"] = "sa", ["az"] = "az", ["be"] = "by", ["bg"] = "bg", ["bn"] = "bd", ["bs"] = "ba", ["ca"] = "ad", ["cs"] = "cz", ["cy"] = "gb", ["da"] = "dk", ["de"] = "de", ["el"] = "gr", ["en-US"] = "us", ["eo"] = "eu", ["es-ES"] = "es", ["et"] = "ee", ["eu"] = "es", ["fa"] = "ir", ["fi"] = "fi", ["fil"] = "ph", ["fr"] = "fr", ["ga"] = "ie", ["gl"] = "es", ["gu"] = "in", ["ha"] = "ng", ["he"] = "il", ["hi"] = "in", ["hr"] = "hr", ["hu"] = "hu", ["hy"] = "am", ["id"] = "id", ["ig"] = "ng", ["is"] = "is", ["it"] = "it", ["ja"] = "jp", ["ka"] = "ge", ["kk"] = "kz", ["km"] = "kh", ["kn"] = "in", ["ko"] = "kr", ["ky"] = "kg", ["lb"] = "lu", ["lo"] = "la", ["lt"] = "lt", ["lv"] = "lv", ["mg"] = "mg", ["mi"] = "nz", ["mk"] = "mk", ["ml"] = "in", ["mn"] = "mn", ["mr"] = "in", ["ms"] = "my", ["mt"] = "mt", ["my"] = "mm", ["ne"] = "np", ["nl"] = "nl", ["no"] = "no", ["or"] = "in", ["pa"] = "in", ["pl"] = "pl", ["ps"] = "af", ["pt-BR"] = "br", ["ro"] = "ro", ["ru"] = "ru", ["rw"] = "rw", ["sd"] = "pk", ["si"] = "lk", ["sk"] = "sk", ["sl"] = "si", ["so"] = "so", ["sq"] = "al", ["sr"] = "rs", ["st"] = "ls", ["sv-SE"] = "se", ["sw"] = "ke", ["ta"] = "in", ["te"] = "in", ["tg"] = "tj", ["th"] = "th", ["tk"] = "tm", ["tr"] = "tr", ["ug"] = "cn", ["uk"] = "ua", ["ur"] = "pk", ["uz"] = "uz", ["vi"] = "vn", ["xh"] = "za", ["yi"] = "il", ["yo"] = "ng", ["zh-CN"] = "cn", ["zh-TW"] = "tw", ["zu"] = "za" };
+
     private static string? ResolveFlagSource(string identifier)
     {
+        if (FlagCountries.TryGetValue(identifier, out string? country))
+            return string.Format(CultureInfo.InvariantCulture, FlagUriFormat, country);
         try
         {
             CultureInfo specific = CultureInfo.CreateSpecificCulture(identifier);
