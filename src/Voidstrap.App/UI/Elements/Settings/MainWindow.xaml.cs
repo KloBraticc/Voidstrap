@@ -2733,10 +2733,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         SpotifyOverlay.Visibility = Visibility.Visible;
         SpotifyOverlay.IsHitTestVisible = true;
         AnimateSpotifyPanel(true);
-        SpotifyPlayer.SetShown(true);
         SpotifyPlayer.Failed -= SpotifyPlayer_Failed;
         SpotifyPlayer.Failed += SpotifyPlayer_Failed;
-        await SpotifyPlayer.EnsureStartedAsync();
+        await SpotifyPlayer.ShowAsync();
     }
 
     private void SpotifyPlayer_Failed(object? sender, EventArgs e)
@@ -2765,7 +2764,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         fade.Completed += SpotifyFade_Completed;
         SpotifyOverlay.BeginAnimation(OpacityProperty, fade);
         if (!open)
-            SpotifyPlayer.SetShown(false);
+            SpotifyPlayer.Hide();
     }
 
     private void TopNavNews_Click(object sender, RoutedEventArgs e)

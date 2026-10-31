@@ -733,6 +733,11 @@ namespace Microsoft.Web.WebView2.Core
 
 	public class CoreWebView2Environment
 	{
+		public System.Threading.Tasks.Task<CoreWebView2Controller> CreateCoreWebView2ControllerAsync(IntPtr parent)
+		{
+			return System.Threading.Tasks.Task.FromResult(new CoreWebView2Controller());
+		}
+
 		public static System.Threading.Tasks.Task<CoreWebView2Environment> CreateAsync(
 			string? browserExecutableFolder = null,
 			string? userDataFolder = null,
@@ -766,6 +771,23 @@ namespace Microsoft.Web.WebView2.Core
 	public class CoreWebView2NavigationCompletedEventArgs
 	{
 		public bool IsSuccess { get; set; }
+	}
+
+	public class CoreWebView2Controller
+	{
+		public CoreWebView2 CoreWebView2 { get; } = new CoreWebView2();
+
+		public System.Drawing.Rectangle Bounds { get; set; }
+
+		public bool IsVisible { get; set; }
+
+		public void Close()
+		{
+		}
+	}
+
+	public class CoreWebView2SourceChangedEventArgs
+	{
 	}
 
 	public class CoreWebView2NewWindowRequestedEventArgs
@@ -810,6 +832,12 @@ namespace Microsoft.Web.WebView2.Core
 	public class CoreWebView2
 	{
 		public CoreWebView2MemoryUsageTargetLevel MemoryUsageTargetLevel { get; set; }
+		public string Source => "";
+		public event EventHandler<CoreWebView2SourceChangedEventArgs>? SourceChanged
+		{
+			add { }
+			remove { }
+		}
 		public bool IsDocumentPlayingAudio => false;
 		public CoreWebView2Settings Settings { get; } = new CoreWebView2Settings();
 

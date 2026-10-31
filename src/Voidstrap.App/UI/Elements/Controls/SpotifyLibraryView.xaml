@@ -1,0 +1,57 @@
+<UserControl x:Class="Voidstrap.UI.Elements.Controls.SpotifyLibraryView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:resources="clr-namespace:Voidstrap.Resources">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <ui:Button x:Name="SignInButton" Grid.Row="0" Margin="0,0,0,10" HorizontalAlignment="Stretch" Appearance="Primary" Icon="Person24" Content="{resources:Loc Accounts_SignInBrowser}" Visibility="Collapsed" Click="SignIn_Click" />
+    <ui:TextBox x:Name="SearchBox" Grid.Row="1" Margin="0,0,0,10" Icon="Search24" ClearButtonEnabled="True" PlaceholderText="{resources:Loc Ui_AppCode_Search}" KeyDown="SearchBox_KeyDown" TextChanged="SearchBox_TextChanged" />
+    <ProgressBar x:Name="Loading" Grid.Row="1" Height="2" VerticalAlignment="Bottom" IsIndeterminate="True" Visibility="Collapsed" />
+    <ui:DynamicScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+      <ItemsControl x:Name="ItemsList" Focusable="False">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <ui:Button Margin="0,0,6,6" Padding="8" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Appearance="Secondary" Tag="{Binding}" Click="Item_Click">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Width="44" Height="44" util:RoundedClip.Radius="6" Background="{DynamicResource ControlFillColorDefaultBrush}">
+                  <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding Image, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
+                </Border>
+                <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                  <TextBlock FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Name}" />
+                  <TextBlock FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Detail}" />
+                </StackPanel>
+              </Grid>
+            </ui:Button>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </ui:DynamicScrollViewer>
+    <Border Grid.Row="3" Margin="0,10,0,0" Padding="8" CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Border Width="44" Height="44" util:RoundedClip.Radius="6" Background="{DynamicResource ControlFillColorSecondaryBrush}">
+          <Image x:Name="NowImage" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
+        </Border>
+        <StackPanel Grid.Column="1" Margin="10,0" VerticalAlignment="Center">
+          <TextBlock x:Name="NowTitle" FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+          <TextBlock x:Name="NowArtist" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+        </StackPanel>
+        <StackPanel Grid.Column="2" Orientation="Horizontal">
+          <ui:Button Width="34" Height="34" Padding="0" Appearance="Transparent" Icon="Previous24" Tag="control-button-skip-back" Click="Control_Click" />
+          <ui:Button x:Name="PlayPause" Width="38" Height="38" Padding="0" Margin="4,0" Appearance="Primary" Icon="Play24" Tag="control-button-playpause" Click="Control_Click" />
+          <ui:Button Width="34" Height="34" Padding="0" Appearance="Transparent" Icon="Next24" Tag="control-button-skip-forward" Click="Control_Click" />
+        </StackPanel>
+      </Grid>
+    </Border>
+  </Grid>
+</UserControl>

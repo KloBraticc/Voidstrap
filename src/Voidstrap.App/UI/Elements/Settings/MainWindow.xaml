@@ -1019,7 +1019,7 @@
             <TextBlock Style="{StaticResource RinDialogTitleStyle}" Text="Spotify" />
             <ui:Button HorizontalAlignment="Right" Width="34" Height="34" Padding="0" Appearance="Transparent" Icon="Dismiss24" ToolTip="{resources:Loc Common_Close}" Click="SpotifyClose_Click" />
           </Grid>
-          <vscontrols:SpotifyPlayerView x:Name="SpotifyPlayer" Grid.Row="1" />
+          <vscontrols:SpotifyLibraryView x:Name="SpotifyPlayer" Grid.Row="1" />
         </Grid>
       </Border>
     </Grid>
