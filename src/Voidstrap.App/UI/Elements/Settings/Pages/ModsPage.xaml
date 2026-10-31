@@ -337,7 +337,7 @@
                 <RowDefinition Height="*" />
               </Grid.RowDefinitions>
               <WrapPanel Grid.Row="0" Margin="0,0,0,12">
-                <Border Padding="4" CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+                <Border Margin="0,0,8,0" VerticalAlignment="Center" Padding="4" CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
                   <StackPanel Orientation="Horizontal">
                     <ui:Button Height="32" Margin="0,0,4,0" Padding="12,0" Tag="GameBanana" Click="CommunitySource_Click">
                       <ui:Button.Style>
@@ -374,9 +374,9 @@
                   </StackPanel>
                 </Border>
                 <WrapPanel VerticalAlignment="Center">
-                  <ui:Button MaxWidth="220" Height="34" Margin="0,0,8,8" Appearance="Secondary" Icon="Filter24" Content="{Binding CategoryHeader}" ToolTip="{resources:Loc Ui_Mods_Categories}" Visibility="{Binding CategoryVisibility}" Click="CommunityCategories_Click" />
-                  <ComboBox Width="170" Height="34" Margin="0,0,8,8" VerticalContentAlignment="Center" ItemsSource="{Binding SortOptions}" SelectedItem="{Binding SelectedSort, Mode=TwoWay}" Visibility="{Binding SortVisibility}" />
-                  <ui:TextBox Width="240" Height="34" Margin="0,0,0,8" VerticalContentAlignment="Center" Icon="Search24" ClearButtonEnabled="True" PlaceholderText="{resources:Loc Ui_Mods_SearchRobloxMods}" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                  <ui:Button MaxWidth="220" Height="34" Margin="0,4,8,4" VerticalAlignment="Center" Appearance="Secondary" Icon="Filter24" Content="{Binding CategoryHeader}" ToolTip="{resources:Loc Ui_Mods_Categories}" Visibility="{Binding CategoryVisibility}" Click="CommunityCategories_Click" />
+                  <ComboBox Width="170" Height="34" Margin="0,4,8,4" VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding SortOptions}" SelectedItem="{Binding SelectedSort, Mode=TwoWay}" Visibility="{Binding SortVisibility}" />
+                  <ui:TextBox Width="240" Height="34" Margin="0,4,0,4" VerticalContentAlignment="Center" Icon="Search24" ClearButtonEnabled="True" PlaceholderText="{resources:Loc Ui_Mods_SearchRobloxMods}" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </WrapPanel>
               </WrapPanel>
               <Grid Grid.Row="1" Margin="0,0,0,10">
