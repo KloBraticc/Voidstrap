@@ -151,6 +151,7 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
         _timer.Tick += Timer_Tick;
         _saveTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(1.5) };
         _saveTimer.Tick += SaveTimer_Tick;
+        Voidstrap.Integrations.SpotifyEngine.Shared.AudioStarted += Spotify_AudioStarted;
         _libraryView = new ListCollectionView(Tracks) { Filter = MatchesSearch };
 
         OpenFilesCommand = new RelayCommand(OpenFiles);
@@ -486,6 +487,12 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
                 ScheduleSave();
             }
         }
+    }
+
+    private void Spotify_AudioStarted(object? sender, EventArgs e)
+    {
+        if (_isPlaying)
+            PlayPause();
     }
 
     private void Playback_StateChanged(object? sender, EventArgs e)
@@ -845,6 +852,8 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
 
     private void RefreshUI()
     {
+        if (_isPlaying && Voidstrap.Integrations.SpotifyEngine.Shared.IsPlayingAudio)
+            _ = Voidstrap.Integrations.SpotifyEngine.Shared.PauseIfPlayingAsync();
         OnPropertyChanged(nameof(PlayPauseLabel));
         OnPropertyChanged(nameof(PlayPauseIcon));
         OnPropertyChanged(nameof(PositionString));
@@ -1448,6 +1457,7 @@ public partial class MusicPlayerViewModel : INotifyPropertyChanged, IDisposable
         if (_disposed)
             return;
         _disposed = true;
+        Voidstrap.Integrations.SpotifyEngine.Shared.AudioStarted -= Spotify_AudioStarted;
         _saveTimer.Stop();
         _saveTimer.Tick -= SaveTimer_Tick;
         SaveLibrary();

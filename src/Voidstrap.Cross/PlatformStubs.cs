@@ -840,6 +840,11 @@ namespace Microsoft.Web.WebView2.Core
 			remove { }
 		}
 		public bool IsDocumentPlayingAudio => false;
+		public event EventHandler<object>? IsDocumentPlayingAudioChanged
+		{
+			add { }
+			remove { }
+		}
 		public CoreWebView2Settings Settings { get; } = new CoreWebView2Settings();
 
 		public CoreWebView2Environment Environment { get; } = new CoreWebView2Environment();

@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Interop;
+using System.Windows.Threading;
 using Microsoft.Web.WebView2.Core;
 using Voidstrap.Models.Entities;
 using Voidstrap.Utility;
@@ -16,11 +18,13 @@ public sealed class SpotifyEngine
 {
     private const string LOG_IDENT = "SpotifyEngine";
 
+    private static readonly TimeSpan IdleLimit = TimeSpan.FromSeconds(60);
+
     private const string PlayerUrl = "https://open.spotify.com/";
 
     internal const string Arguments =
         "--autoplay-policy=no-user-gesture-required --lang=en-US --accept-lang=en-US --process-per-site --disk-cache-size=52428800 --media-cache-size=10485760 "
-        + "--disable-background-networking --disable-extensions --disable-sync --disable-translate --disable-features=msWebOOUI,msPdfOOUI,TranslateUI,AutofillServerCommunication,OptimizationHints,MediaRouter";
+        + "--disable-background-networking --disable-extensions --disable-sync --disable-translate --disable-features=msWebOOUI,msPdfOOUI,TranslateUI,AutofillServerCommunication,OptimizationHints,MediaRouter,CalculateNativeWinOcclusion --disable-backgrounding-occluded-windows";
 
     private const string Bridge = """
         window.__vsSpotify = {
@@ -170,9 +174,58 @@ public sealed class SpotifyEngine
 
     private CoreWebView2Environment? _environment;
 
-    private bool _starting;
+    private Task<bool>? _starting;
 
     private TaskCompletionSource? _ready;
+
+    private HwndSource? _host;
+
+    private DispatcherTimer? _idleTimer;
+
+    private DateTime _silentSince;
+
+    private int _views;
+
+    public static SpotifyEngine Shared { get; } = new();
+
+    public event EventHandler? AudioStarted;
+
+    public void AddView()
+    {
+        _views++;
+        SetLowMemory(false);
+    }
+
+    public void RemoveView()
+    {
+        _views = Math.Max(0, _views - 1);
+        if (_views > 0)
+            return;
+        _silentSince = DateTime.UtcNow;
+        SetLowMemory(true);
+    }
+
+    public bool HasViews => _views > 0;
+
+    public async Task PauseIfPlayingAsync()
+    {
+        if (IsPlayingAudio)
+            await PressAsync("control-button-playpause");
+    }
+
+    private void IdleTimer_Tick(object? sender, EventArgs e)
+    {
+        if (_views > 0 || IsPlayingAudio)
+            _silentSince = DateTime.UtcNow;
+        else if (DateTime.UtcNow - _silentSince >= IdleLimit)
+            Shutdown();
+    }
+
+    private void Core_AudioChanged(object? sender, object e)
+    {
+        if (IsPlayingAudio)
+            AudioStarted?.Invoke(this, EventArgs.Empty);
+    }
 
     private static string LibraryCachePath => Path.Combine(Paths.Cache, "SpotifyLibrary.json");
 
@@ -210,17 +263,28 @@ public sealed class SpotifyEngine
 
     public bool IsPlayingAudio => _controller?.CoreWebView2.IsDocumentPlayingAudio == true;
 
-    public async Task<bool> EnsureStartedAsync(IntPtr window)
+    public Task<bool> EnsureStartedAsync()
     {
         if (_controller != null)
-            return true;
-        if (_starting)
-            return false;
-        _starting = true;
+            return Task.FromResult(true);
+        return _starting ??= StartAsync();
+    }
+
+    private async Task<bool> StartAsync()
+    {
         try
         {
+            _host = new HwndSource(new HwndSourceParameters("VoidstrapSpotifyHost")
+            {
+                WindowStyle = unchecked((int)0x90000000),
+                ExtendedWindowStyle = 0x08000080,
+                PositionX = -32000,
+                PositionY = -32000,
+                Width = 1,
+                Height = 1
+            });
             _environment = await CoreWebView2Environment.CreateAsync(null, UserDataFolder, new CoreWebView2EnvironmentOptions(Arguments));
-            CoreWebView2Controller controller = await _environment.CreateCoreWebView2ControllerAsync(window);
+            CoreWebView2Controller controller = await _environment.CreateCoreWebView2ControllerAsync(_host.Handle);
             controller.Bounds = new Rectangle(-6000, -6000, 1280, 900);
             controller.IsVisible = true;
             CoreWebView2 core = controller.CoreWebView2;
@@ -228,8 +292,13 @@ public sealed class SpotifyEngine
             await core.AddScriptToExecuteOnDocumentCreatedAsync(Bridge);
             _ready = new TaskCompletionSource();
             core.NavigationCompleted += Core_NavigationCompleted;
+            core.IsDocumentPlayingAudioChanged += Core_AudioChanged;
             core.Navigate(PlayerUrl);
             _controller = controller;
+            _silentSince = DateTime.UtcNow;
+            _idleTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
+            _idleTimer.Tick += IdleTimer_Tick;
+            _idleTimer.Start();
             await Task.WhenAny(_ready.Task, Task.Delay(15000));
             return true;
         }
@@ -241,7 +310,7 @@ public sealed class SpotifyEngine
         }
         finally
         {
-            _starting = false;
+            _starting = null;
         }
     }
 
@@ -432,18 +501,28 @@ public sealed class SpotifyEngine
 
     public void Shutdown()
     {
+        if (_idleTimer != null)
+        {
+            _idleTimer.Stop();
+            _idleTimer.Tick -= IdleTimer_Tick;
+            _idleTimer = null;
+        }
         CoreWebView2Controller? controller = _controller;
         _controller = null;
-        if (controller == null)
-            return;
         try
         {
-            controller.CoreWebView2.NavigationCompleted -= Core_NavigationCompleted;
-            controller.Close();
+            if (controller != null)
+            {
+                controller.CoreWebView2.NavigationCompleted -= Core_NavigationCompleted;
+                controller.CoreWebView2.IsDocumentPlayingAudioChanged -= Core_AudioChanged;
+                controller.Close();
+            }
         }
         catch (Exception ex) when (ex is InvalidOperationException or ObjectDisposedException or System.Runtime.InteropServices.COMException)
         {
             App.Logger.WriteLine(LOG_IDENT, "The hidden player was already closed: " + ex.GetType().Name);
         }
+        _host?.Dispose();
+        _host = null;
     }
 }

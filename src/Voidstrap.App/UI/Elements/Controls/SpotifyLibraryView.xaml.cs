@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Voidstrap.Integrations;
@@ -15,9 +14,7 @@ namespace Voidstrap.UI.Elements.Controls;
 
 public partial class SpotifyLibraryView : UserControl
 {
-    private static readonly TimeSpan IdleLimit = TimeSpan.FromSeconds(60);
-
-    private readonly SpotifyEngine _engine = new();
+    private readonly SpotifyEngine _engine = SpotifyEngine.Shared;
 
     private readonly DispatcherTimer _timer = new() { Interval = TimeSpan.FromSeconds(1) };
 
@@ -30,8 +27,6 @@ public partial class SpotifyLibraryView : UserControl
     private List<SpotifyItem> _library = new();
 
     private bool _shown;
-
-    private DateTime _silentSince = DateTime.UtcNow;
 
     private string? _nowImage;
 
@@ -77,8 +72,15 @@ public partial class SpotifyLibraryView : UserControl
         InitializeComponent();
     }
 
+    public bool ShowTopBarOption
+    {
+        set => MiniToggle.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+    }
+
     public async Task ShowAsync()
     {
+        if (!_shown)
+            _engine.AddView();
         _shown = true;
         _timer.Interval = TimeSpan.FromSeconds(1);
         MiniToggle.IsChecked = App.Settings.Prop.SpotifyMiniPlayer;
@@ -89,7 +91,6 @@ public partial class SpotifyLibraryView : UserControl
             if (ItemsList.ItemsSource == null)
                 ItemsList.ItemsSource = _library;
         }
-        _engine.SetLowMemory(false);
         _timer.Tick -= Timer_Tick;
         _timer.Tick += Timer_Tick;
         _timer.Start();
@@ -102,8 +103,7 @@ public partial class SpotifyLibraryView : UserControl
             return;
         _starting = true;
         Loading.Visibility = Visibility.Visible;
-        IntPtr handle = new WindowInteropHelper(Window.GetWindow(this)).Handle;
-        bool started = await _engine.EnsureStartedAsync(handle);
+        bool started = await _engine.EnsureStartedAsync();
         _starting = false;
         if (!started)
         {
@@ -116,9 +116,10 @@ public partial class SpotifyLibraryView : UserControl
 
     public void Hide()
     {
+        if (!_shown)
+            return;
         _shown = false;
-        _silentSince = DateTime.UtcNow;
-        _engine.SetLowMemory(true);
+        _engine.RemoveView();
         _timer.Interval = TimeSpan.FromSeconds(5);
         _ = Task.Run(CollectQuietly);
     }
@@ -132,7 +133,16 @@ public partial class SpotifyLibraryView : UserControl
     {
         _timer.Stop();
         _timer.Tick -= Timer_Tick;
-        _engine.Shutdown();
+        Hide();
+        if (!_engine.HasViews)
+            _engine.Shutdown();
+    }
+
+    public void Detach()
+    {
+        _timer.Stop();
+        _timer.Tick -= Timer_Tick;
+        Hide();
     }
 
     private void ShowSignIn(bool show)
@@ -182,16 +192,10 @@ public partial class SpotifyLibraryView : UserControl
             return;
         }
         await RefreshStateAsync();
-        if (_isPlaying)
-        {
-            _silentSince = DateTime.UtcNow;
-            return;
-        }
-        if (DateTime.UtcNow - _silentSince >= IdleLimit)
+        if (!_engine.IsRunning)
         {
             _timer.Stop();
             _timer.Tick -= Timer_Tick;
-            _engine.Shutdown();
             _ = Task.Run(CollectQuietly);
             StateChanged?.Invoke(this, new SpotifyState(App.Settings.Prop.SpotifySignedIn, "", "", null, false, "", "", 0, 0, false, "false", false));
         }

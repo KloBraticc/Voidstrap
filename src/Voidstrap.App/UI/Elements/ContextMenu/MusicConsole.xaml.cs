@@ -42,6 +42,22 @@ public partial class MusicPlayer : WpfUiWindow
         base.Loaded += MusicPlayer_Loaded;
         base.Closed += MusicPlayer_Closed;
         base.PreviewKeyDown += MusicPlayer_PreviewKeyDown;
+        SpotifyTab.ShowTopBarOption = false;
+        SpotifyTab.IsVisibleChanged += SpotifyTab_IsVisibleChanged;
+        SpotifyTab.Failed += SpotifyTab_Failed;
+    }
+
+    private async void SpotifyTab_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        if (e.NewValue is true)
+            await SpotifyTab.ShowAsync();
+        else
+            SpotifyTab.Hide();
+    }
+
+    private void SpotifyTab_Failed(object? sender, EventArgs e)
+    {
+        Utilities.OpenWebLink("https://open.spotify.com/");
     }
 
     private void MusicPlayer_Loaded(object sender, RoutedEventArgs e)
@@ -68,6 +84,9 @@ public partial class MusicPlayer : WpfUiWindow
         if (_root != null)
             _root.IsVisibleChanged -= Root_IsVisibleChanged;
         Count(false);
+        SpotifyTab.IsVisibleChanged -= SpotifyTab_IsVisibleChanged;
+        SpotifyTab.Failed -= SpotifyTab_Failed;
+        SpotifyTab.Detach();
         base.DataContext = null;
     }
 
