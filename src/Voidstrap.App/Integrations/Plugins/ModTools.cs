@@ -28,6 +28,13 @@ internal static class ModTypes
 		}
 		""";
 
+    private const string ModTsConfig = """
+		{
+		  "extends": "./.voidstrap-mod/types/tsconfig.json",
+		  "include": ["hooks/**/*", "*.ts", "*.tsx"]
+		}
+		""";
+
     public static void Write(string modDirectory)
     {
         try
@@ -36,6 +43,9 @@ internal static class ModTypes
             WriteIfChanged(Path.Combine(folder, "voidstrap", "index.d.ts"), Resource.GetString("ModTypes.d.ts"));
             WriteIfChanged(Path.Combine(folder, "tsconfig.json"), TsConfig);
             WriteIfChanged(Path.Combine(folder, "plugin.schema.json"), Resource.GetString("ModManifest.schema.json"));
+            string modConfig = Path.Combine(modDirectory, "tsconfig.json");
+            if (!File.Exists(modConfig))
+                File.WriteAllText(modConfig, ModTsConfig);
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
