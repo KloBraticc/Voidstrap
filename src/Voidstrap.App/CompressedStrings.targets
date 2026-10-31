@@ -1,22 +1,35 @@
 <Project>
 	<UsingTask TaskName="CompressFiles" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
 		<ParameterGroup>
+			<Neutral ParameterType="System.String" Required="true" />
+			<KeysFile ParameterType="System.String" Required="true" />
 			<Sources ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
 			<Destinations ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
 		</ParameterGroup>
 		<Task>
+			<Using Namespace="System" />
 			<Using Namespace="System.IO" />
 			<Using Namespace="System.IO.Compression" />
+			<Using Namespace="System.Linq" />
+			<Using Namespace="System.Text" />
+			<Using Namespace="System.Xml.Linq" />
 			<Code Type="Fragment" Language="cs">
 <![CDATA[
+Action<string, string> write = (path, text) =>
+{
+	Directory.CreateDirectory(Path.GetDirectoryName(path));
+	byte[] bytes = new UTF8Encoding(false).GetBytes(text);
+	using (FileStream output = File.Create(path))
+	using (Stream brotli = (Stream)Activator.CreateInstance(Type.GetType("System.IO.Compression.BrotliStream, System.IO.Compression.Brotli", true), output, (CompressionLevel)3))
+		brotli.Write(bytes, 0, bytes.Length);
+};
+string[] keys = XDocument.Load(Neutral).Root.Elements("data").Select(data => (string)data.Attribute("name")).ToArray();
+write(KeysFile, string.Join("\0", keys));
 for (int i = 0; i < Sources.Length; i++)
 {
-	string destination = Destinations[i].ItemSpec;
-	Directory.CreateDirectory(Path.GetDirectoryName(destination));
-	using (FileStream input = File.OpenRead(Sources[i].ItemSpec))
-	using (FileStream output = File.Create(destination))
-	using (DeflateStream deflate = new DeflateStream(output, CompressionLevel.Optimal))
-		input.CopyTo(deflate);
+	var values = XDocument.Load(Sources[i].ItemSpec).Root.Elements("data")
+		.ToDictionary(data => (string)data.Attribute("name"), data => (string)data.Element("value") ?? "");
+	write(Destinations[i].ItemSpec, string.Join("\0", keys.Select(key => values.TryGetValue(key, out string value) ? value : "\u0001")));
 }
 ]]>
 			</Code>
@@ -36,15 +49,15 @@ for (int i = 0; i < Sources.Length; i++)
 		</ItemGroup>
 	</Target>
 
-	<Target Name="CompressTranslatedStrings" BeforeTargets="PrepareResourceNames" DependsOnTargets="ExcludeTranslatedStringsFromSatellites" Inputs="@(TranslatedStrings)" Outputs="@(TranslatedStrings->'$(TranslatedStringsDir)%(Filename).resources.z')">
+	<Target Name="CompressTranslatedStrings" BeforeTargets="PrepareResourceNames" DependsOnTargets="ExcludeTranslatedStringsFromSatellites" Inputs="@(TranslatedStrings);$(MSBuildThisFileDirectory)Resources\Strings.resx" Outputs="@(TranslatedStrings->'$(TranslatedStringsDir)%(Filename).resources.br');$(TranslatedStringsDir)Strings.keys.br">
 		<MakeDir Directories="$(TranslatedStringsDir)" />
-		<GenerateResource Sources="@(TranslatedStrings)" OutputResources="@(TranslatedStrings->'$(TranslatedStringsDir)%(Filename).resources')" ExecuteAsTool="false" />
-		<CompressFiles Sources="@(TranslatedStrings->'$(TranslatedStringsDir)%(Filename).resources')" Destinations="@(TranslatedStrings->'$(TranslatedStringsDir)%(Filename).resources.z')" />
+		<CompressFiles Neutral="$(MSBuildThisFileDirectory)Resources\Strings.resx" KeysFile="$(TranslatedStringsDir)Strings.keys.br" Sources="@(TranslatedStrings)" Destinations="@(TranslatedStrings->'$(TranslatedStringsDir)%(Filename).resources.br')" />
 	</Target>
 
 	<Target Name="EmbedTranslatedStrings" BeforeTargets="PrepareResourceNames" DependsOnTargets="CompressTranslatedStrings">
 		<ItemGroup>
-			<EmbeddedResource Include="@(TranslatedStrings->'$(TranslatedStringsDir)%(Filename).resources.z')" LogicalName="Voidstrap.Resources.%(Filename).resources.z" WithCulture="false" Type="Non-Resx" />
+			<EmbeddedResource Include="@(TranslatedStrings->'$(TranslatedStringsDir)%(Filename).resources.br')" LogicalName="Voidstrap.Resources.%(Filename).resources.br" WithCulture="false" Type="Non-Resx" />
+			<EmbeddedResource Include="$(TranslatedStringsDir)Strings.keys.br" LogicalName="Voidstrap.Resources.Strings.keys.br" WithCulture="false" Type="Non-Resx" />
 		</ItemGroup>
 	</Target>
 </Project>
