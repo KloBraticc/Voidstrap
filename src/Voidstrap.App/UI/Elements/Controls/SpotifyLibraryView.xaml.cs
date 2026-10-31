@@ -108,6 +108,7 @@ public partial class SpotifyLibraryView : UserControl
         SpotifyState? state = await _engine.GetStateAsync();
         if (state == null)
             return;
+        SignInButton.Content = Voidstrap.Resources.Strings.Accounts_SignInBrowser.Replace("Roblox", "Spotify");
         SignInButton.Visibility = state.SignedIn ? Visibility.Collapsed : Visibility.Visible;
         NowTitle.Text = state.Title;
         NowArtist.Text = state.Artist;

@@ -6,7 +6,7 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:Button x:Name="SignInButton" Grid.Row="0" Margin="0,0,0,10" HorizontalAlignment="Stretch" Appearance="Primary" Icon="Person24" Content="{resources:Loc Accounts_SignInBrowser}" Visibility="Collapsed" Click="SignIn_Click" />
+    <ui:Button x:Name="SignInButton" Grid.Row="0" Margin="0,0,0,10" HorizontalAlignment="Stretch" Appearance="Primary" Icon="Person24" Visibility="Collapsed" Click="SignIn_Click" />
     <ui:TextBox x:Name="SearchBox" Grid.Row="1" Margin="0,0,0,10" Icon="Search24" ClearButtonEnabled="True" PlaceholderText="{resources:Loc Ui_AppCode_Search}" KeyDown="SearchBox_KeyDown" TextChanged="SearchBox_TextChanged" />
     <ProgressBar x:Name="Loading" Grid.Row="1" Height="2" VerticalAlignment="Bottom" IsIndeterminate="True" Visibility="Collapsed" />
     <ui:DynamicScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
