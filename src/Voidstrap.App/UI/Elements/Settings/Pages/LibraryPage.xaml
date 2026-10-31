@@ -53,65 +53,6 @@
         <Setter Property="BorderBrush" Value="#26FFFFFF" />
         <Setter Property="Height" Value="1" />
       </Style>
-      <Style TargetType="{x:Type TabControl}">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="Template">
-          <Setter.Value>
-            <ControlTemplate TargetType="{x:Type TabControl}">
-              <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Border Grid.Row="0" HorizontalAlignment="Left" Padding="4" CornerRadius="10" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1">
-                  <WrapPanel Orientation="Horizontal" IsItemsHost="True" />
-                </Border>
-                <Border Grid.Row="1" Margin="0,10,0,0" CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}">
-                  <ContentPresenter ContentSource="SelectedContent" />
-                </Border>
-              </Grid>
-            </ControlTemplate>
-          </Setter.Value>
-        </Setter>
-      </Style>
-      <Style TargetType="{x:Type TabItem}">
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Template">
-          <Setter.Value>
-            <ControlTemplate TargetType="{x:Type TabItem}">
-              <Border x:Name="TabChip" Margin="0,0,2,0" Padding="14,7" CornerRadius="7" Background="Transparent" BorderBrush="Transparent" BorderThickness="1">
-                <Grid>
-                  <ContentPresenter ContentSource="Header" HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.FontWeight="{TemplateBinding FontWeight}" />
-                  <Rectangle x:Name="TabUnderline" Height="2" Width="16" Margin="0,0,0,-6" RadiusX="1" RadiusY="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Opacity="0" Fill="{DynamicResource SystemAccentBrush}" />
-                </Grid>
-              </Border>
-              <ControlTemplate.Triggers>
-                <Trigger Property="IsSelected" Value="True">
-                  <Setter TargetName="TabChip" Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
-                  <Setter TargetName="TabChip" Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
-                  <Setter TargetName="TabUnderline" Property="Opacity" Value="1" />
-                  <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-                  <Setter Property="FontWeight" Value="SemiBold" />
-                </Trigger>
-                <MultiTrigger>
-                  <MultiTrigger.Conditions>
-                    <Condition Property="IsMouseOver" Value="True" />
-                    <Condition Property="IsSelected" Value="False" />
-                  </MultiTrigger.Conditions>
-                  <Setter TargetName="TabChip" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
-                  <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-                </MultiTrigger>
-              </ControlTemplate.Triggers>
-            </ControlTemplate>
-          </Setter.Value>
-        </Setter>
-      </Style>
       <Style x:Key="NavSideItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="ui:RinControlMotion.Enabled" Value="True" />
         <Setter Property="Margin" Value="0,0,0,4" />
@@ -742,34 +683,21 @@
                 </StackPanel>
               </TabItem.Header>
               <StackPanel Margin="12">
-                <TextBlock FontSize="13" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.Description}" />
-                <Separator Margin="0,12,0,12" />
-                <Grid>
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                  </Grid.ColumnDefinitions>
-                  <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                  </Grid.RowDefinitions>
-                  <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,18,6" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Integrations_Creator}" />
-                  <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,0,0,6" FontSize="12" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.CreatorName}" />
-                  <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,18,6" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_Genre}" />
-                  <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,0,6" FontSize="12" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.Genre}" />
-                  <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,18,6" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_MaxPlayers}" />
-                  <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,0,0,6" FontSize="12" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.MaxPlayers}" />
-                  <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,0,18,6" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_Visits}" />
-                  <TextBlock Grid.Row="3" Grid.Column="1" Margin="0,0,0,6" FontSize="12" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.VisitsDisplay}" />
-                  <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,0,18,6" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_Created}" />
-                  <TextBlock Grid.Row="4" Grid.Column="1" Margin="0,0,0,6" FontSize="12" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.CreatedDisplay}" />
-                  <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,0,18,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_Updated}" />
-                  <TextBlock Grid.Row="5" Grid.Column="1" FontSize="12" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.UpdatedDisplay}" />
-                </Grid>
+                <TextBlock FontSize="14" LineHeight="22" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding SelectedGame.Description}" />
+                <UniformGrid Margin="0,16,0,0" Rows="1">
+                  <StackPanel>
+                    <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_Visits}" />
+                    <TextBlock Margin="0,2,0,0" FontSize="13" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.VisitsDisplay}" />
+                  </StackPanel>
+                  <StackPanel>
+                    <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_MaxPlayers}" />
+                    <TextBlock Margin="0,2,0,0" FontSize="13" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.MaxPlayers}" />
+                  </StackPanel>
+                  <StackPanel>
+                    <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_Updated}" />
+                    <TextBlock Margin="0,2,0,0" FontSize="13" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.UpdatedDisplay}" />
+                  </StackPanel>
+                </UniformGrid>
               </StackPanel>
             </TabItem>
             <TabItem>
