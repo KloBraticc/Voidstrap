@@ -68,11 +68,12 @@ internal sealed class SettingsIconMotion : IDisposable
 
     private RotateTransform? EnsureRotation()
     {
-        if (_rotation != null)
-            return _rotation;
         FrameworkElement? icon = FindIcon(_item);
         if (icon == null)
             return null;
+        if (_rotation != null && ReferenceEquals(icon.RenderTransform, _rotation))
+            return _rotation;
+        _rotation?.BeginAnimation(RotateTransform.AngleProperty, null);
         _rotation = new RotateTransform();
         icon.RenderTransformOrigin = new Point(0.5, 0.5);
         icon.RenderTransform = _rotation;
