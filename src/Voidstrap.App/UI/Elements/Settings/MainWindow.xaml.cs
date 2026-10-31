@@ -2720,6 +2720,35 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
+    private const string SpotifyWebUrl = "https://open.spotify.com/";
+
+    private async void TopNavSpotify_Click(object sender, RoutedEventArgs e)
+    {
+        PagesMenuPopup.IsOpen = false;
+        if (Voidstrap.Utility.Platform.UsesPortableUi)
+        {
+            Utilities.OpenWebLink(SpotifyWebUrl);
+            return;
+        }
+        SpotifyOverlay.Visibility = Visibility.Visible;
+        SpotifyOverlay.IsHitTestVisible = true;
+        AnimateSpotifyPanel(true);
+        await SpotifyPlayer.EnsureStartedAsync();
+    }
+
+    private void SpotifyClose_Click(object sender, RoutedEventArgs e) => AnimateSpotifyPanel(false);
+
+    private void SpotifyScrim_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => AnimateSpotifyPanel(false);
+
+    private void AnimateSpotifyPanel(bool open)
+    {
+        TimeSpan duration = TimeSpan.FromMilliseconds(open ? 260 : 200);
+        CubicEase ease = new() { EasingMode = EasingMode.EaseOut };
+        SpotifyOverlay.IsHitTestVisible = open;
+        SpotifyPanelSlide.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(open ? 0 : SpotifyPanel.Width, duration) { EasingFunction = ease });
+        SpotifyOverlay.BeginAnimation(OpacityProperty, new DoubleAnimation(open ? 1 : 0, duration) { EasingFunction = ease });
+    }
+
     private void TopNavNews_Click(object sender, RoutedEventArgs e)
     {
         PagesMenuPopup.IsOpen = false;
@@ -7347,6 +7376,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ReleaseBackgroundResources();
         ClearRetainedUiState();
         Voidstrap.Utility.DynamicRenderSystem.ClearCache();
+        SpotifyPlayer.Shutdown();
         _lifetimeCts.Dispose();
         if (App.LaunchSettings.TestModeFlag.Active)
         {

@@ -438,6 +438,19 @@
           <MenuItem x:Name="TopNavNews" Header="{resources:Loc Ui_Nav_News}" Style="{StaticResource TopBarMenuItemStyle}" Click="TopNavNews_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="News24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
+          <Rectangle Height="1" Margin="10,4" Fill="{StaticResource LauncherMenuBorderBrush}" />
+          <MenuItem x:Name="TopNavSpotify" Header="Spotify" Style="{StaticResource TopBarMenuItemStyle}" Click="TopNavSpotify_Click">
+            <MenuItem.Icon>
+              <Viewbox Width="16" Height="16">
+                <Canvas Width="24" Height="24">
+                  <Path Fill="#1DB954" Data="M12,0 A12,12 0 1 0 12,24 A12,12 0 1 0 12,0 Z" />
+                  <Path Stroke="#000000" StrokeThickness="2.2" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="M5.5,8.8 C10,7.4 15,7.7 19,10" />
+                  <Path Stroke="#000000" StrokeThickness="1.9" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="M6.3,12.4 C10,11.3 14.3,11.7 17.6,13.6" />
+                  <Path Stroke="#000000" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Data="M7,15.8 C10,15 13.4,15.3 16.2,16.9" />
+                </Canvas>
+              </Viewbox>
+            </MenuItem.Icon>
+          </MenuItem>
         </StackPanel>
       </Border>
     </vscontrols:AnimatedPopup>
@@ -991,6 +1004,25 @@
         </Button>
       </Grid>
     </Border>
+    <Grid x:Name="SpotifyOverlay" Grid.RowSpan="3" Panel.ZIndex="1100" Visibility="Hidden" Opacity="0" IsHitTestVisible="False" ClipToBounds="True">
+      <Border Background="#4D000000" MouseLeftButtonDown="SpotifyScrim_MouseLeftButtonDown" />
+      <Border x:Name="SpotifyPanel" Style="{StaticResource RinDialogPanelStyle}" Width="460" Margin="0" Padding="12,12,12,12" HorizontalAlignment="Right" VerticalAlignment="Stretch" CornerRadius="0" BorderThickness="1,0,0,0" BorderBrush="{StaticResource LauncherMenuBorderBrush}" Visibility="Visible">
+        <Border.RenderTransform>
+          <TranslateTransform x:Name="SpotifyPanelSlide" />
+        </Border.RenderTransform>
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <Grid Margin="6,0,0,10">
+            <TextBlock Style="{StaticResource RinDialogTitleStyle}" Text="Spotify" />
+            <ui:Button HorizontalAlignment="Right" Width="34" Height="34" Padding="0" Appearance="Transparent" Icon="Dismiss24" ToolTip="{resources:Loc Common_Close}" Click="SpotifyClose_Click" />
+          </Grid>
+          <vscontrols:SpotifyPlayerView x:Name="SpotifyPlayer" Grid.Row="1" />
+        </Grid>
+      </Border>
+    </Grid>
     <Grid x:Name="LaunchTargetOverlay" Grid.RowSpan="3" Panel.ZIndex="1100" Visibility="Hidden" Opacity="0" IsHitTestVisible="False" ClipToBounds="True">
       <Border x:Name="LaunchTargetScrim" Background="#4D000000" MouseLeftButtonDown="LaunchTargetScrim_MouseLeftButtonDown" />
       <Border x:Name="LaunchTargetPanel" Style="{StaticResource RinDialogPanelStyle}" Width="400" Margin="0" Padding="18,16,10,16" HorizontalAlignment="Right" VerticalAlignment="Stretch" CornerRadius="0" BorderThickness="1,0,0,0" BorderBrush="{StaticResource LauncherMenuBorderBrush}" Visibility="Visible">

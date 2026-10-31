@@ -770,6 +770,7 @@ namespace Microsoft.Web.WebView2.Core
 
 	public class CoreWebView2NewWindowRequestedEventArgs
 	{
+		public string Uri { get; } = "";
 		public bool Handled { get; set; }
 	}
 
