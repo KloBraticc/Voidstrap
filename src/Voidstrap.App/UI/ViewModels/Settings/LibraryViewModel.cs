@@ -713,6 +713,21 @@ public class LibraryViewModel : INotifyPropertyChanged
         }
     }
 
+    private int _allGamesColumns = 4;
+
+    public int AllGamesColumns
+    {
+        get => _allGamesColumns;
+        set
+        {
+            if (_allGamesColumns != value)
+            {
+                _allGamesColumns = value;
+                OnPropertyChanged(nameof(AllGamesColumns));
+            }
+        }
+    }
+
     public ICommand SelectMediaCommand { get; }
 
     private string? _gameVideoPath;

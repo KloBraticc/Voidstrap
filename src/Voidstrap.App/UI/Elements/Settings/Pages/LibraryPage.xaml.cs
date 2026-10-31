@@ -45,6 +45,13 @@ public partial class LibraryPage : UiPage
         }
     }
 
+    private void AllGames_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        _viewModel.AllGamesColumns = Math.Max(1, (int)(e.NewSize.Width / AllGamesTileWidth));
+    }
+
+    private const double AllGamesTileWidth = 160;
+
     private bool _addGameOpen;
 
     private void AddGameToggle_Click(object sender, RoutedEventArgs e)

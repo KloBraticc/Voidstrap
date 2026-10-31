@@ -559,15 +559,15 @@
               <TextBlock FontSize="20" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding AllGamesHeader}" />
               <TextBlock HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding TotalPlayTimeDisplay}" />
             </Grid>
-            <ItemsControl VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding AllGames}">
+            <ItemsControl VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding AllGames}" SizeChanged="AllGames_SizeChanged">
               <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                  <WrapPanel />
+                  <UniformGrid VerticalAlignment="Top" Columns="{Binding DataContext.AllGamesColumns, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
                 </ItemsPanelTemplate>
               </ItemsControl.ItemsPanel>
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                  <Button Style="{StaticResource ShelfCardButton}" Width="150" Margin="0,0,10,10" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" ContextMenu="{StaticResource GameContextMenu}" Command="{Binding DataContext.SelectGameCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}">
+                  <Button Style="{StaticResource ShelfCardButton}" Margin="0,0,10,10" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" ContextMenu="{StaticResource GameContextMenu}" Command="{Binding DataContext.SelectGameCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}">
                     <StackPanel>
                       <Border Height="150" ClipToBounds="True">
                         <Image util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
