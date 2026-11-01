@@ -395,9 +395,8 @@ public static class RobloxBadges
                     throw new AwardedRefusedException();
                 if (status == 429 && attempt < 6)
                 {
-                    TimeSpan wait = response.Headers.RetryAfter?.Delta ?? TimeSpan.FromSeconds(20 * (attempt + 1));
-                    if (wait < TimeSpan.FromSeconds(10))
-                        wait = TimeSpan.FromSeconds(10);
+                    TimeSpan backoff = TimeSpan.FromSeconds(10 * Math.Pow(2, attempt));
+                    TimeSpan wait = response.Headers.RetryAfter?.Delta is { } asked && asked > backoff ? asked : backoff;
                     if (wait > TimeSpan.FromSeconds(90))
                         wait = TimeSpan.FromSeconds(90);
                     Interlocked.Exchange(ref _cooldownUntilTicks, Environment.TickCount64 + (long)wait.TotalMilliseconds);
