@@ -40,13 +40,28 @@ internal static class VoidEditLauncher
                 Utilities.OpenWebLink(ReleasePage);
                 return;
             }
-            Process.Start(new ProcessStartInfo(ExecutablePath) { UseShellExecute = false, WorkingDirectory = Path.GetDirectoryName(ExecutablePath)! });
+            try
+            {
+                Launch();
+            }
+            catch (System.ComponentModel.Win32Exception)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "The saved copy would not start, downloading it again");
+                if (!await DownloadAsync())
+                    throw;
+                Launch();
+            }
         }
         catch (Exception ex) when (ex is HttpRequestException or IOException or UnauthorizedAccessException or JsonException or TaskCanceledException or System.ComponentModel.Win32Exception)
         {
             App.Logger.WriteLine(LOG_IDENT, "Void Edit could not open: " + ex.GetType().Name);
             Utilities.OpenWebLink(ReleasePage);
         }
+    }
+
+    private static void Launch()
+    {
+        Process.Start(new ProcessStartInfo(ExecutablePath) { UseShellExecute = false, WorkingDirectory = Path.GetDirectoryName(ExecutablePath)! });
     }
 
     private static async Task<bool> DownloadAsync()
