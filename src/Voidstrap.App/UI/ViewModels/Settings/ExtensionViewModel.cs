@@ -32,11 +32,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         }
 
         private static string fleasionDir => Paths.Fleasion;
-        private const string ApiDumpRawUrl =
-            "https://raw.githubusercontent.com/MaximumADHD/Roblox-API-Dump-Tool/main/RobloxAPIDumpTool.exe";
         private const long MaxDownloadBytes = 268435456L;
-
-        private static string apiDumpDir => Paths.ApiDumpTool;
 
         private static readonly SemaphoreSlim _gate = new SemaphoreSlim(1, 1);
         private static CancellationTokenSource? _activeCts;
@@ -153,7 +149,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         }
 
         private int _communityRev;
-        private int _apiDumpRev;
         private const int ToggleDebounceMs = 450;
         private static volatile bool _userCancel;
 
@@ -265,7 +260,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             OnPropertyChanged(nameof(FleasionVisibility));
             OnPropertyChanged(nameof(RiShadeVisibility));
             OnPropertyChanged(nameof(CommunityContentVisibility));
-            OnPropertyChanged(nameof(ApiDumpVisibility));
             OnPropertyChanged(nameof(RojoVisibility));
             OnPropertyChanged(nameof(StudioPluginVisibility));
             OnPropertyChanged(nameof(EmptyStateVisibility));
@@ -292,9 +286,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         private bool CommunityVisible =>
             ShowType(TypeClassic) && MatchesSearch("Community Content catalog items decals meshes audio maps classic Roblox clients");
 
-        private bool ApiDumpVisible =>
-            ShowType(TypeExtensions) && MatchesSearch("Roblox API Dump Tool MaximumADHD api dump diff classes members enums Roblox");
-
         private bool RojoVisible =>
             ShowType(TypeStudio)
             && MatchesSearch("Rojo filesystem sync studio project git version control serve build init plugin Roblox Studio Extensions");
@@ -309,7 +300,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             FleasionVisible
             || RiShadeVisible
             || CommunityVisible
-            || ApiDumpVisible
             || RojoVisible
             || StudioPluginVisible
             || (
@@ -392,8 +382,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         }
 
         public Visibility CommunityContentVisibility => CommunityVisible ? Visibility.Visible : Visibility.Collapsed;
-
-        public Visibility ApiDumpVisibility => ApiDumpVisible ? Visibility.Visible : Visibility.Collapsed;
 
         public Visibility RojoVisibility => RojoVisible ? Visibility.Visible : Visibility.Collapsed;
 
@@ -688,160 +676,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 Frontend.ShowMessageBox("Choose a project folder first.", MessageBoxImage.Warning);
         }
 
-        public bool apidumpenabler
-        {
-            get => App.Settings.Prop.RobloxApiDumpTool;
-            set
-            {
-                if (App.Settings.Prop.RobloxApiDumpTool == value)
-                    return;
-                App.Settings.Prop.RobloxApiDumpTool = value;
-                App.Settings.Save();
-                OnPropertyChanged();
-                _ = DebounceApiDumpAsync();
-            }
-        }
-
-        private async Task DebounceApiDumpAsync()
-        {
-            int rev = Interlocked.Increment(ref _apiDumpRev);
-            if (!App.Settings.Prop.RobloxApiDumpTool)
-                StopAllDownloads();
-            try
-            {
-                await Task.Delay(ToggleDebounceMs);
-            }
-            catch { }
-            if (rev != Volatile.Read(ref _apiDumpRev))
-                return;
-            if (App.Settings.Prop.RobloxApiDumpTool)
-                await DownloadApiDumpToolAsync();
-            else
-                await UninstallApiDumpToolAsync();
-        }
-
-        private void RevertApiDumpToggle()
-        {
-            Application.Current?.Dispatcher.Invoke(() =>
-            {
-                if (App.Settings.Prop.RobloxApiDumpTool)
-                {
-                    App.Settings.Prop.RobloxApiDumpTool = false;
-                    App.Settings.Save();
-                    OnPropertyChanged(nameof(apidumpenabler));
-                }
-            });
-        }
-
-        private async Task DownloadApiDumpToolAsync()
-        {
-            var (cts, ct) = BeginOperation();
-            try
-            {
-                await _gate.WaitAsync(ct);
-                try
-                {
-                    OnProgressChanged?.Invoke("Preparing Roblox API Dump Tool", -1.0, true);
-                    Directory.CreateDirectory(apiDumpDir);
-                    string outputPath = Path.Combine(apiDumpDir, "RobloxAPIDumpTool.exe");
-
-                    await KillProcessAsync("RobloxAPIDumpTool", ct);
-
-                    if (File.Exists(outputPath) && IsFileLocked(outputPath))
-                    {
-                        Frontend.ShowMessageBox("RobloxAPIDumpTool.exe is still running. Close it and try again.", MessageBoxImage.Warning);
-                        return;
-                    }
-
-                    var download = await ResolveApiDumpUrlsAsync(ct);
-                    bool ok = await DownloadToFileAsync(download.Urls, outputPath, "Downloading Roblox API Dump Tool", ct);
-                    if (ok && !VerifyApiDumpTool(outputPath, download.BlobSha))
-                    {
-                        TryDeleteFile(outputPath);
-                        throw new InvalidDataException("The downloaded file did not match the official GitHub copy, it was removed.");
-                    }
-                    if (ok)
-                    {
-                        OnProgressChanged?.Invoke("Roblox API Dump Tool ready", 1.0, true);
-                        await Task.Delay(700, ct);
-                    }
-                }
-                finally
-                {
-                    _gate.Release();
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                if (_userCancel)
-                    RevertApiDumpToggle();
-            }
-            catch (Exception ex)
-            {
-                Frontend.ShowMessageBox("Could not download the Roblox API Dump Tool:\n" + ex.Message, MessageBoxImage.Error);
-            }
-            finally
-            {
-                OnProgressChanged?.Invoke("", -1.0, false);
-                EndOperation(cts);
-            }
-        }
-
-        private async Task UninstallApiDumpToolAsync()
-        {
-            var (cts, ct) = BeginOperation();
-            try
-            {
-                await _gate.WaitAsync(ct);
-                try
-                {
-                    if (!Directory.Exists(apiDumpDir))
-                        return;
-
-                    OnProgressChanged?.Invoke("Removing Roblox API Dump Tool", -1.0, true);
-                    await KillProcessAsync("RobloxAPIDumpTool", ct);
-
-                    bool deleted = false;
-                    for (int i = 0; i < 5; i++)
-                    {
-                        try
-                        {
-                            Directory.Delete(apiDumpDir, true);
-                            deleted = true;
-                            break;
-                        }
-                        catch
-                        {
-                            await Task.Delay(400, ct);
-                        }
-                    }
-
-                    if (!deleted && Directory.Exists(apiDumpDir))
-                    {
-                        Frontend.ShowMessageBox(
-                            "Could not remove the Roblox API Dump Tool folder automatically. Opening it for manual deletion.",
-                            MessageBoxImage.Warning
-                        );
-                        OpenFolder(apiDumpDir);
-                    }
-                }
-                finally
-                {
-                    _gate.Release();
-                }
-            }
-            catch (OperationCanceledException) { }
-            catch (Exception ex)
-            {
-                Frontend.ShowMessageBox("Could not uninstall the Roblox API Dump Tool: " + ex.Message, MessageBoxImage.Error);
-            }
-            finally
-            {
-                OnProgressChanged?.Invoke("", -1.0, false);
-                EndOperation(cts);
-            }
-        }
-
         public bool fleasionenabler
         {
             get => App.Settings.Prop.Fleasion;
@@ -1033,56 +867,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             }
             catch { }
             return (urls.Distinct().ToList(), digest);
-        }
-
-        private static async Task<(IReadOnlyList<string> Urls, string BlobSha)> ResolveApiDumpUrlsAsync(CancellationToken ct)
-        {
-            try
-            {
-                using JsonDocument doc = JsonDocument.Parse(
-                    await Voidstrap.Utility.Http.GetStringBoundedAsync(
-                        client,
-                        "https://api.github.com/repos/MaximumADHD/Roblox-API-Dump-Tool/contents/RobloxAPIDumpTool.exe",
-                        token: ct
-                    )
-                );
-                string sha = doc.RootElement.TryGetProperty("sha", out JsonElement shaElement) ? shaElement.GetString() ?? "" : "";
-                string url = doc.RootElement.TryGetProperty("download_url", out JsonElement urlElement) ? urlElement.GetString() ?? "" : "";
-                if (
-                    sha.Length == 40
-                    && sha.All(Uri.IsHexDigit)
-                    && Uri.TryCreate(url, UriKind.Absolute, out Uri? uri)
-                    && uri.Scheme == Uri.UriSchemeHttps
-                    && uri.Host.Equals("raw.githubusercontent.com", StringComparison.OrdinalIgnoreCase)
-                    && uri.AbsolutePath.StartsWith("/MaximumADHD/Roblox-API-Dump-Tool/", StringComparison.OrdinalIgnoreCase)
-                )
-                    return ([url, ApiDumpRawUrl], sha);
-            }
-            catch (OperationCanceledException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("ExtensionViewModel::ResolveApiDumpUrls", "GitHub file info was unavailable: " + ex.Message);
-            }
-            return ([ApiDumpRawUrl], "");
-        }
-
-        private static bool VerifyApiDumpTool(string path, string blobSha)
-        {
-            byte[] data = File.ReadAllBytes(path);
-            if (data.Length < 2 || data[0] != (byte)'M' || data[1] != (byte)'Z')
-                return false;
-            if (blobSha.Length == 0)
-                return true;
-            byte[] header = System.Text.Encoding.ASCII.GetBytes("blob " + data.Length + (char)0);
-            using System.Security.Cryptography.IncrementalHash sha1 = System.Security.Cryptography.IncrementalHash.CreateHash(
-                System.Security.Cryptography.HashAlgorithmName.SHA1
-            );
-            sha1.AppendData(header);
-            sha1.AppendData(data);
-            return Convert.ToHexString(sha1.GetHashAndReset()).Equals(blobSha, StringComparison.OrdinalIgnoreCase);
         }
 
         private static void TryDeleteFile(string path)

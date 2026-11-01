@@ -262,8 +262,6 @@ internal static class Paths
 
     public static string Fleasion { get; private set; } = "";
 
-    public static string ApiDumpTool { get; private set; } = "";
-
     public static string Rojo { get; private set; } = "";
 
     public static string ServerFetch { get; private set; } = "";
@@ -398,7 +396,6 @@ internal static class Paths
         EditorTheme = Path.Combine(Themes, "Editor-Theme-Custom.xshd");
         RiShade = Path.Combine(Extensions, "RiShade");
         Fleasion = Path.Combine(Extensions, "Fleasion");
-        ApiDumpTool = Path.Combine(Extensions, "RobloxAPIDumpTool");
         Rojo = Path.Combine(Extensions, "Rojo");
         ServerFetch = Path.Combine(Data, "ServerFetch");
         AssetProxy = Path.Combine(Data, "AssetProxy");

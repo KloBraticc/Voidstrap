@@ -41,7 +41,6 @@ namespace Voidstrap.Utility
             ["https://avatars.githubusercontent.com/u/194078013?v=4"] = "about-6.png",
             ["https://avatars.githubusercontent.com/u/186699266"] = "ext-fleasion.png",
             ["https://raw.githubusercontent.com/KloBraticc/RiShade/main/Images/RiShde.png"] = "ext-rishade.png",
-            ["https://raw.githubusercontent.com/MaximumADHD/Roblox-API-Dump-Tool/master/Resources/AppLogo.png"] = "ext-apidump.png",
             ["https://github.com/rojo-rbx.png"] = "ext-rojo.png",
             ["https://images.rbxcdn.com/905bd722ee0a6ceda3caacde54c0b081.png"] = "studio.png",
             ["https://static.wikia.nocookie.net/roblox/images/3/3d/2005_Icon.png/revision/latest?cb=20231105222123"] = "client-2007.png",

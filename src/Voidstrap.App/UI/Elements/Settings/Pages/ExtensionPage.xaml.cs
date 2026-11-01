@@ -202,7 +202,6 @@ public partial class ExtensionPage : UiPage
         if (
             e.PropertyName
             is "rishadeenabler"
-                or "apidumpenabler"
                 or "communitycontentenabler"
                 or "rojoenabler"
                 or "studiopluginenabler"
@@ -494,9 +493,6 @@ public partial class ExtensionPage : UiPage
             case "rishade":
                 OpenRiShade();
                 break;
-            case "apidump":
-                OpenApiDumpTool();
-                break;
             case "community":
                 _vm.UpdateCommunityContent();
                 break;
@@ -634,27 +630,6 @@ public partial class ExtensionPage : UiPage
         ExtensionEntry? asset = _assets.Find(entry => entry.Id == id);
         if (asset != null)
             ShowAssetDetail(asset);
-    }
-
-    private static void OpenApiDumpTool()
-    {
-        string directory = Paths.ApiDumpTool;
-        string exe = Path.Combine(directory, "RobloxAPIDumpTool.exe");
-        if (Directory.Exists(directory) && File.Exists(exe))
-        {
-            try
-            {
-                if (!Voidstrap.Utility.ProcessScan.Any("RobloxAPIDumpTool"))
-                    Process.Start(new ProcessStartInfo(exe) { UseShellExecute = true, WorkingDirectory = directory });
-                return;
-            }
-            catch (Exception ex)
-            {
-                Frontend.ShowMessageBox("Failed to open the Roblox API Dump Tool: " + ex.Message);
-                return;
-            }
-        }
-        Frontend.ShowMessageBox("The Roblox API Dump Tool is not enabled or installed yet, turn its toggle on first.");
     }
 
     private static void OpenRiShade()

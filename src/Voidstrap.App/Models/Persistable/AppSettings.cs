@@ -39,7 +39,6 @@ namespace Voidstrap.Models.Persistable
         public bool? FpsUnlockerEnabled { get; set; }
         public bool FrameGenSplitCompare { get; set; } = false;
         public int FrameGenTargetFps { get; set; } = 0;
-        public bool RobloxApiDumpTool { get; set; } = false;
         public string LastSeenNewsKey { get; set; } = "";
 
         [JsonIgnore]

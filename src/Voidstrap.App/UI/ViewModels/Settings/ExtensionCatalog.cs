@@ -8,8 +8,6 @@ public static class ExtensionCatalog
 
     public const string RiShadeIcon = "https://raw.githubusercontent.com/KloBraticc/RiShade/main/Images/RiShde.png";
 
-    public const string ApiDumpIcon = "https://raw.githubusercontent.com/MaximumADHD/Roblox-API-Dump-Tool/master/Resources/AppLogo.png";
-
     public const string RojoIcon = "https://github.com/rojo-rbx.png";
 
     public const string VoidstrapIcon = "pack://application:,,,/Voidstrap.png";
@@ -28,7 +26,6 @@ public static class ExtensionCatalog
         "studioreshade",
         "rojo",
         "studioplugin",
-        "apidump",
         "community",
     };
 
@@ -58,26 +55,6 @@ public static class ExtensionCatalog
                 Icon = RiShadeIcon,
                 CanOpen = true,
                 SearchText = "RiShade ReShade shaders presets visuals effects depth overlay Home",
-            },
-            new ExtensionEntry("apidump", () => vm.apidumpenabler, value => vm.apidumpenabler = value)
-            {
-                Name = "Roblox API Dump Tool",
-                Author = "MaximumADHD",
-                AuthorIcon = ApiDumpIcon,
-                Type = ExtensionViewModel.TypeStudio,
-                WorksWith = ["Roblox Player", "Roblox Studio"],
-                Tags = ["API", "Developer", "Diff"],
-                Summary = "Browse Roblox API classes and enums, and see what changed between Roblox versions.",
-                Description =
-                [
-                    "The Roblox API Dump Tool reads the API dump that ships with every Roblox version and shows every class, property, function, event and enum in a searchable tree.",
-                    "Compare two versions to see exactly what Roblox added, removed or changed, which is handy when a script breaks after an update.",
-                    "Voidstrap downloads a verified copy of the tool and keeps it next to the installed Roblox version.",
-                ],
-                Icon = ApiDumpIcon,
-                Source = "https://github.com/MaximumADHD/Roblox-API-Dump-Tool",
-                CanOpen = true,
-                SearchText = "Roblox API Dump Tool MaximumADHD api dump diff classes members enums",
             },
             new ExtensionEntry("community", () => vm.communitycontentenabler, value => vm.communitycontentenabler = value)
             {
