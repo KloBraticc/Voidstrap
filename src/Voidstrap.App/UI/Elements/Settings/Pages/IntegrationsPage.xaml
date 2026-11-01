@@ -371,12 +371,13 @@
           </StackPanel>
         </HeaderedContentControl.Header>
         <StackPanel x:Name="VoidEditPanel" Margin="10">
-          <TextBlock FontSize="20" FontWeight="SemiBold" Text="Void Edit" />
-          <ui:InfoBar Margin="0,8,0,0" Padding="8" IsClosable="False" IsOpen="True" Severity="Warning" Message="{resources:Loc Ui_VoidEdit_AlphaNotice}" />
-          <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
-            <ui:Button x:Name="VoidEditInstallButton" Appearance="Primary" Icon="ArrowDownload24" Content="{resources:Loc Ui_VoidstrapMods_LibraryInstall}" IsEnabled="False" Click="InstallVoidEdit_Click" />
-            <ui:Button x:Name="VoidEditOpenButton" Margin="8,0,0,0" Appearance="Secondary" Icon="Video24" Content="{resources:Loc Common_Open}" Click="OpenVoidEdit_Click" />
-          </StackPanel>
+          <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Warning" Message="{resources:Loc Ui_VoidEdit_AlphaNotice}" />
+          <ui:CardAction x:Name="VoidEditCard" Margin="0,8,0,0" MinHeight="78" Icon="Video24" IsEnabled="False" Click="VoidEditCard_Click">
+            <StackPanel>
+              <TextBlock FontSize="14" FontWeight="Medium" Text="Void Edit" />
+              <TextBlock x:Name="VoidEditCardStatus" Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_VoidstrapMods_LibraryInstall}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
+            </StackPanel>
+          </ui:CardAction>
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
             <HeaderedContentControl.Header>
               <Grid>

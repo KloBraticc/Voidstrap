@@ -81,46 +81,34 @@ public partial class IntegrationsPage : UiPage
         e.Handled = !uint.TryParse(e.Text, out var _);
     }
 
-    private async void OpenVoidEdit_Click(object sender, RoutedEventArgs e)
-    {
-        VoidEditOpenButton.IsEnabled = false;
-        VoidEditInstallButton.IsEnabled = false;
-        try
-        {
-            await VoidEditLauncher.OpenAsync();
-        }
-        finally
-        {
-            VoidEditOpenButton.IsEnabled = true;
-            await RefreshVoidEditStateAsync();
-        }
-    }
+    private VoidEditLauncher.InstallState _voidEditState = VoidEditLauncher.InstallState.NotInstalled;
 
-    private async void InstallVoidEdit_Click(object sender, RoutedEventArgs e)
+    private async void VoidEditCard_Click(object sender, RoutedEventArgs e)
     {
-        VoidEditOpenButton.IsEnabled = false;
-        VoidEditInstallButton.IsEnabled = false;
+        VoidEditCard.IsEnabled = false;
         try
         {
-            await VoidEditLauncher.InstallAsync();
+            if (_voidEditState == VoidEditLauncher.InstallState.Installed)
+                await VoidEditLauncher.OpenAsync();
+            else
+                await VoidEditLauncher.InstallAsync();
         }
         finally
         {
-            VoidEditOpenButton.IsEnabled = true;
             await RefreshVoidEditStateAsync();
         }
     }
 
     private async Task RefreshVoidEditStateAsync()
     {
-        VoidEditLauncher.InstallState state = await VoidEditLauncher.GetStateAsync();
-        VoidEditInstallButton.Content = state switch
+        _voidEditState = await VoidEditLauncher.GetStateAsync();
+        VoidEditCardStatus.Text = _voidEditState switch
         {
-            VoidEditLauncher.InstallState.Installed => Strings.Ui_VoidstrapMods_LibraryInstalled,
+            VoidEditLauncher.InstallState.Installed => Strings.Common_Open,
             VoidEditLauncher.InstallState.UpdateAvailable => Strings.Ui_VoidstrapMods_LibraryUpdate,
             _ => Strings.Ui_VoidstrapMods_LibraryInstall,
         };
-        VoidEditInstallButton.IsEnabled = state != VoidEditLauncher.InstallState.Installed;
+        VoidEditCard.IsEnabled = true;
     }
 
     private void ResetDatacenters_Click(object sender, RoutedEventArgs e)
