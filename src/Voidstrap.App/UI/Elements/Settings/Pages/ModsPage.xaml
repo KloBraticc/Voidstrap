@@ -196,7 +196,26 @@
               </ComboBox>
             </controls:OptionControl>
             <controls:OptionControl Header="{resources:Loc Ui_Mods_SkyboxManager}" Description="{resources:Loc Ui_Mods_ChooseASkyboxOnceVoidstrapDownloads}">
-              <StackPanel Width="360">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Border
+                    Grid.Column="0"
+                    Width="216"
+                    Height="216"
+                    Margin="0,0,16,0"
+                    VerticalAlignment="Top"
+                    CornerRadius="8"
+                    BorderThickness="1"
+                    BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+                    Background="#FF0D0E12"
+                    ClipToBounds="True"
+                    ToolTip="{resources:Loc Ui_Mods_SkyboxPreviewHint}">
+                  <controls:SkyboxPreviewControl PackName="{Binding SelectedSkyboxPack.Name}" ReloadKey="{Binding SkyboxPreviewVersion}" />
+                </Border>
+                <StackPanel Grid.Column="1" Width="360">
                 <ui:CardExpander Margin="0,0,0,8" IsExpanded="False">
                   <HeaderedContentControl.Header>
                     <StackPanel>
@@ -273,6 +292,7 @@
                   <ui:ToggleSwitch HorizontalAlignment="Right" IsChecked="{Binding SkyboxEnabled, Mode=TwoWay}" IsEnabled="{Binding SkyboxManagerReady}" />
                 </Grid>
               </StackPanel>
+                </Grid>
             </controls:OptionControl>
             <controls:OptionControl Header="{resources:Loc Ui_Mods_FontManager}" Description="{resources:Loc Ui_Mods_UseALocalFontOrUse}">
               <StackPanel Width="360">

@@ -755,17 +755,25 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
         }
     }
 
-    public string SkyboxManagerStatus
-    {
-        get => _skyboxManagerStatus;
-        private set
+        public string SkyboxManagerStatus
         {
-            if (_skyboxManagerStatus == value)
-                return;
-            _skyboxManagerStatus = value;
-            OnPropertyChanged();
+            get => _skyboxManagerStatus;
+            private set
+            {
+                if (_skyboxManagerStatus == value)
+                    return;
+                _skyboxManagerStatus = value;
+                OnPropertyChanged();
+            }
         }
-    }
+
+        public int SkyboxPreviewVersion { get; private set; }
+
+        private void BumpSkyboxPreviewVersion()
+        {
+            SkyboxPreviewVersion++;
+            OnPropertyChanged(nameof(SkyboxPreviewVersion));
+        }
 
     public bool FontManagerCanApply => !FontManagerBusy && SelectedGoogleFont != null;
 
@@ -3149,6 +3157,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
             : "Saved choices are ready. Refresh to check for every skybox.";
         SkyboxManagerBusy = false;
         OnPropertyChanged(nameof(SkyboxManagerReady));
+        BumpSkyboxPreviewVersion();
     }
 
     private static void RunOnDispatcher(Action action)
@@ -3294,6 +3303,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
             App.Logger.WriteLine("ModsViewModel::ApplyCustomSkybox", "Custom skybox saved: " + SkyboxImageConverter.CustomPackDirectory);
             OnPropertyChanged(nameof(HasCustomSkybox));
             OnPropertyChanged(nameof(SkyboxManagerReady));
+            BumpSkyboxPreviewVersion();
         }
         catch (OperationCanceledException) when (cancellation.IsCancellationRequested) { }
         catch (Exception ex)
@@ -3340,6 +3350,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
             App.Settings.SaveDeferred();
             OnPropertyChanged(nameof(HasCustomSkybox));
             OnPropertyChanged(nameof(SkyboxManagerReady));
+            BumpSkyboxPreviewVersion();
         }
         catch (Exception ex)
         {

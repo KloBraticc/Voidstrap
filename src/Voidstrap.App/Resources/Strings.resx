@@ -3339,6 +3339,12 @@ What would you like to do?</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Refresh skyboxes</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Drag to rotate, scroll to zoom, double click to reset</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>The skybox preview is unavailable right now.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Font Manager</value>
   </data>

@@ -452,6 +452,8 @@ namespace Voidstrap.Resources {
         public static string Ui_Mods_SaveAndUse => ResourceManager.GetString("Ui.Mods.SaveAndUse", resourceCulture);
 
         public static string Ui_Mods_RefreshSkyboxes => ResourceManager.GetString("Ui.Mods.RefreshSkyboxes", resourceCulture);
+        public static string Ui_Mods_SkyboxPreviewHint => ResourceManager.GetString("Ui.Mods.SkyboxPreviewHint", resourceCulture);
+        public static string Ui_Mods_SkyboxPreviewFailed => ResourceManager.GetString("Ui.Mods.SkyboxPreviewFailed", resourceCulture);
 
         public static string Ui_Mods_FontManager => ResourceManager.GetString("Ui.Mods.FontManager", resourceCulture);
 
