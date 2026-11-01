@@ -79,6 +79,11 @@ public partial class IntegrationsPage : UiPage
         e.Handled = !uint.TryParse(e.Text, out var _);
     }
 
+    private async void OpenVoidEdit_Click(object sender, RoutedEventArgs e)
+    {
+        await Voidstrap.Integrations.VoidEditLauncher.OpenAsync();
+    }
+
     private void ResetDatacenters_Click(object sender, RoutedEventArgs e)
     {
         if (MatchmakerTab.DataContext is BehaviourViewModel behaviourViewModel)

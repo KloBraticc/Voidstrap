@@ -372,6 +372,7 @@
         </HeaderedContentControl.Header>
         <StackPanel Margin="10">
           <TextBlock FontSize="20" FontWeight="SemiBold" Text="Void Edit" />
+          <ui:Button Margin="0,12,0,0" Appearance="Primary" Icon="Video24" Content="{resources:Loc Common_Open}" Click="OpenVoidEdit_Click" />
         </StackPanel>
       </TabItem>
     </TabControl>
