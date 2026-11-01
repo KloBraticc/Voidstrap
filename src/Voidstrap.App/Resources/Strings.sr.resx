@@ -9300,4 +9300,13 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Сачувано снимака: {0}. Да ли желите да их отворите у Void Edit као нове пројекте?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Отворите видео уређивач и претворите своје снимке у видео записе.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Преузмите видео уређивач да бисте своје снимке претворили у видео записе.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Нова верзија видео уређивача је спремна. Кликните за ажурирање.</value>
+  </data>
 </root>

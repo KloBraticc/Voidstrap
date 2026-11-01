@@ -9299,4 +9299,13 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>சேமித்த பதிவுகள்: {0}. அவற்றை Void Edit இல் புதிய திட்டங்களாகத் திறக்க விரும்புகிறீர்களா?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>வீடியோ எடிட்டரைத் திறந்து உங்கள் பதிவுகளை வீடியோக்களாக மாற்றுங்கள்.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>உங்கள் பதிவுகளை வீடியோக்களாக மாற்ற வீடியோ எடிட்டரைப் பதிவிறக்குங்கள்.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>வீடியோ எடிட்டரின் புதிய பதிப்பு தயார். புதுப்பிக்க கிளிக் செய்யுங்கள்.</value>
+  </data>
 </root>

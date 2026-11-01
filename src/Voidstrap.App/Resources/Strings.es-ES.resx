@@ -9612,4 +9612,13 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Grabaciones guardadas: {0}. ¿Quieres abrirlas en Void Edit como proyectos nuevos?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Abre el editor de vídeo y convierte tus grabaciones en vídeos.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Descarga el editor de vídeo para convertir tus grabaciones en vídeos.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Hay una nueva versión del editor de vídeo. Haz clic para actualizar.</value>
+  </data>
 </root>

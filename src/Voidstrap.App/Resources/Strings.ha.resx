@@ -9300,4 +9300,13 @@ Bada shi?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Rikodin da aka adana: {0}. Kana son buɗe su a Void Edit a matsayin sababbin ayyuka?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Buɗe editan bidiyo ka mayar da rikodinka bidiyoyi.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Sauke editan bidiyo don mayar da rikodinka bidiyoyi.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Sabon sigar editan bidiyo ya shirya. Danna don sabuntawa.</value>
+  </data>
 </root>

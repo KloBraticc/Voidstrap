@@ -9299,4 +9299,13 @@ E lumella?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Direkoto tse bolokilweng: {0}. Na o batla ho di bula ho Void Edit e le diprojeke tse ntjha?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Bula sehlophisi sa video mme o fetole direkoto tsa hao hore e be divideo.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Jarolla sehlophisi sa video ho fetola direkoto tsa hao hore e be divideo.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Mofuta o motjha wa sehlophisi sa video o se o lokile. Tobetsa ho ntjhafatsa.</value>
+  </data>
 </root>

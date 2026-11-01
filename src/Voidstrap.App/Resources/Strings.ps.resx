@@ -9300,4 +9300,13 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>خوندي شوي ثبتونه: {0}. ایا غواړئ چې دا په Void Edit کې د نویو پروژو په توګه پرانیزئ؟</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>د ویډیو سمونګر پرانیزئ او خپل ثبتونه په ویډیوګانو بدل کړئ.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>د خپلو ثبتونو د ویډیوګانو په بدلولو لپاره د ویډیو سمونګر ښکته کړئ.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>د ویډیو سمونګر نوې نسخه چمتو ده. د تازه کولو لپاره کلیک وکړئ.</value>
+  </data>
 </root>

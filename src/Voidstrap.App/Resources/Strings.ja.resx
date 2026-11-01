@@ -9627,4 +9627,13 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>保存された録画: {0} 件。Void Edit で新しいプロジェクトとして開きますか？</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>動画エディターを開いて、録画を動画に仕上げましょう。</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>録画を動画に仕上げるには、動画エディターをダウンロードしてください。</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>動画エディターの新しいバージョンがあります。クリックして更新してください。</value>
+  </data>
 </root>

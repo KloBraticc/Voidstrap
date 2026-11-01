@@ -9299,4 +9299,13 @@ Kas lubada?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Salvestatud salvestisi: {0}. Kas soovid need Void Editis uute projektidena avada?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Ava videotöötlusprogramm ja tee oma salvestistest videod.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Laadi alla videotöötlusprogramm, et oma salvestistest videoid teha.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Videotöötlusprogrammi uus versioon on valmis. Klõpsa värskendamiseks.</value>
+  </data>
 </root>

@@ -1943,4 +1943,13 @@ Install anyway?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Recordings saved: {0}. Do you want to open them in Void Edit as new projects?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Open the video editor and turn your recordings into videos.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Download the video editor to turn your recordings into videos.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>A new version of the video editor is ready. Click to update.</value>
+  </data>
 </root>

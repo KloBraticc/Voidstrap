@@ -9613,4 +9613,13 @@ Sallitaanko?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Tallenteita tallennettu: {0}. Haluatko avata ne Void Editissä uusina projekteina?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Avaa videoeditori ja tee tallenteistasi videoita.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Lataa videoeditori, niin voit tehdä tallenteistasi videoita.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Videoeditorin uusi versio on valmis. Päivitä napsauttamalla.</value>
+  </data>
 </root>

@@ -9300,4 +9300,13 @@ Ceadaigh é?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Taifeadtaí sábháilte: {0}. An bhfuil fonn ort iad a oscailt in Void Edit mar thionscadail nua?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Oscail an t-eagarthóir físe agus déan físeáin de do thaifeadtaí.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Íoslódáil an t-eagarthóir físe chun físeáin a dhéanamh de do thaifeadtaí.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Tá leagan nua den eagarthóir físe réidh. Cliceáil chun nuashonrú.</value>
+  </data>
 </root>

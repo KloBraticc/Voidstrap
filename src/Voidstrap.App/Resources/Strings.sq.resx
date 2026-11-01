@@ -9300,4 +9300,13 @@ E lejon atë?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Regjistrime të ruajtura: {0}. Dëshiron t'i hapësh në Void Edit si projekte të reja?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Hap redaktorin e videove dhe ktheji regjistrimet e tua në video.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Shkarko redaktorin e videove për t'i kthyer regjistrimet e tua në video.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Një version i ri i redaktorit të videove është gati. Kliko për ta përditësuar.</value>
+  </data>
 </root>

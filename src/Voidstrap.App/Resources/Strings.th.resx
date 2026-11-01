@@ -9607,4 +9607,13 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>การบันทึกที่บันทึกไว้: {0} คุณต้องการเปิดใน Void Edit เป็นโปรเจกต์ใหม่หรือไม่</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>เปิดโปรแกรมตัดต่อวิดีโอและเปลี่ยนการบันทึกของคุณให้เป็นวิดีโอ</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>ดาวน์โหลดโปรแกรมตัดต่อวิดีโอเพื่อเปลี่ยนการบันทึกของคุณให้เป็นวิดีโอ</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>โปรแกรมตัดต่อวิดีโอเวอร์ชันใหม่พร้อมแล้ว คลิกเพื่ออัปเดต</value>
+  </data>
 </root>

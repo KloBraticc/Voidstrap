@@ -9299,4 +9299,13 @@ Baimendu al duzu?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Gordetako grabazioak: {0}. Void Edit-en proiektu berri gisa ireki nahi dituzu?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Ireki bideo-editorea eta bihurtu zure grabazioak bideo.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Deskargatu bideo-editorea zure grabazioak bideo bihurtzeko.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Bideo-editorearen bertsio berri bat prest dago. Egin klik eguneratzeko.</value>
+  </data>
 </root>

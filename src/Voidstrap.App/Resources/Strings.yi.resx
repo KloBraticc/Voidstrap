@@ -9299,4 +9299,13 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>געהיטע רעקאָרדירונגען: {0}. ווילסטו זיי עפֿענען אין Void Edit ווי נײַע פּראָיעקטן?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>עפֿן דעם ווידעאָ־רעדאַקטאָר און מאַך פֿון דײַנע רעקאָרדירונגען ווידעאָס.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>אַראָפּלאָדן דעם ווידעאָ־רעדאַקטאָר כּדי צו מאַכן פֿון דײַנע רעקאָרדירונגען ווידעאָס.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>אַ נײַע ווערסיע פֿונעם ווידעאָ־רעדאַקטאָר איז גרייט. קליק צו דערהײַנטיקן.</value>
+  </data>
 </root>

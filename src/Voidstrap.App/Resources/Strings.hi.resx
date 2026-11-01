@@ -9300,4 +9300,13 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>सहेजी गई रिकॉर्डिंग: {0}। क्या आप इन्हें Void Edit में नए प्रोजेक्ट के रूप में खोलना चाहते हैं?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>वीडियो एडिटर खोलें और अपनी रिकॉर्डिंग को वीडियो में बदलें।</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>अपनी रिकॉर्डिंग को वीडियो में बदलने के लिए वीडियो एडिटर डाउनलोड करें।</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>वीडियो एडिटर का नया संस्करण तैयार है। अपडेट करने के लिए क्लिक करें।</value>
+  </data>
 </root>

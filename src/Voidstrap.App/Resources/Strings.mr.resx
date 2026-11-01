@@ -9300,4 +9300,13 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>जतन केलेली रेकॉर्डिंग: {0}. तुम्हाला ती Void Edit मध्ये नवीन प्रोजेक्ट म्हणून उघडायची आहेत का?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>व्हिडिओ एडिटर उघडा आणि तुमच्या रेकॉर्डिंगचे व्हिडिओ बनवा.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>तुमच्या रेकॉर्डिंगचे व्हिडिओ बनवण्यासाठी व्हिडिओ एडिटर डाउनलोड करा.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>व्हिडिओ एडिटरची नवीन आवृत्ती तयार आहे. अपडेट करण्यासाठी क्लिक करा.</value>
+  </data>
 </root>

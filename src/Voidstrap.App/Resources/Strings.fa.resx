@@ -9614,4 +9614,13 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>ضبط‌های ذخیره‌شده: {0}. آیا می‌خواهید آن‌ها را به‌عنوان پروژه‌های جدید در Void Edit باز کنید؟</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>ویرایشگر ویدیو را باز کنید و ضبط‌های خود را به ویدیو تبدیل کنید.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>ویرایشگر ویدیو را دانلود کنید تا ضبط‌های خود را به ویدیو تبدیل کنید.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>نسخهٔ جدیدی از ویرایشگر ویدیو آماده است. برای به‌روزرسانی کلیک کنید.</value>
+  </data>
 </root>

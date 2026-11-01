@@ -9300,4 +9300,13 @@ Vil du tillate det?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Lagrede opptak: {0}. Vil du åpne dem i Void Edit som nye prosjekter?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Åpne videoredigeringsprogrammet og gjør opptakene dine om til videoer.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Last ned videoredigeringsprogrammet for å gjøre opptakene dine om til videoer.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>En ny versjon av videoredigeringsprogrammet er klar. Klikk for å oppdatere.</value>
+  </data>
 </root>

@@ -9259,6 +9259,24 @@ namespace Voidstrap.Resources {
             }
         }
 
+        public static string Ui_VoidEdit_Card_Open {
+            get {
+                return ResourceManager.GetString("Ui.VoidEdit.Card.Open", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidEdit_Card_Install {
+            get {
+                return ResourceManager.GetString("Ui.VoidEdit.Card.Install", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidEdit_Card_Update {
+            get {
+                return ResourceManager.GetString("Ui.VoidEdit.Card.Update", resourceCulture);
+            }
+        }
+
         public static string Ui_VoidEdit_AlphaNotice {
             get {
                 return ResourceManager.GetString("Ui.VoidEdit.AlphaNotice", resourceCulture);

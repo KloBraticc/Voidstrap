@@ -9300,4 +9300,13 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>ਸੰਭਾਲੀਆਂ ਰਿਕਾਰਡਿੰਗਾਂ: {0}। ਕੀ ਤੁਸੀਂ ਇਹਨਾਂ ਨੂੰ Void Edit ਵਿੱਚ ਨਵੇਂ ਪ੍ਰੋਜੈਕਟਾਂ ਵਜੋਂ ਖੋਲ੍ਹਣਾ ਚਾਹੁੰਦੇ ਹੋ?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>ਵੀਡੀਓ ਐਡੀਟਰ ਖੋਲ੍ਹੋ ਅਤੇ ਆਪਣੀਆਂ ਰਿਕਾਰਡਿੰਗਾਂ ਨੂੰ ਵੀਡੀਓ ਵਿੱਚ ਬਦਲੋ।</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>ਆਪਣੀਆਂ ਰਿਕਾਰਡਿੰਗਾਂ ਨੂੰ ਵੀਡੀਓ ਵਿੱਚ ਬਦਲਣ ਲਈ ਵੀਡੀਓ ਐਡੀਟਰ ਡਾਊਨਲੋਡ ਕਰੋ।</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>ਵੀਡੀਓ ਐਡੀਟਰ ਦਾ ਨਵਾਂ ਸੰਸਕਰਣ ਤਿਆਰ ਹੈ। ਅੱਪਡੇਟ ਕਰਨ ਲਈ ਕਲਿੱਕ ਕਰੋ।</value>
+  </data>
 </root>

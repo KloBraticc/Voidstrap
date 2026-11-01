@@ -9300,4 +9300,13 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>შენახული ჩანაწერები: {0}. გსურთ მათი გახსნა Void Edit-ში ახალ პროექტებად?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>გახსენით ვიდეორედაქტორი და აქციეთ თქვენი ჩანაწერები ვიდეოებად.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>ჩამოტვირთეთ ვიდეორედაქტორი, რომ თქვენი ჩანაწერები ვიდეოებად აქციოთ.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>ვიდეორედაქტორის ახალი ვერსია მზადაა. დააწკაპუნეთ განსაახლებლად.</value>
+  </data>
 </root>

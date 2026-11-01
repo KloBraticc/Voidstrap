@@ -9300,4 +9300,13 @@ Povoliť?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Uložené záznamy: {0}. Chcete ich otvoriť vo Void Edit ako nové projekty?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Otvorte video editor a vytvorte zo svojich záznamov videá.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Stiahnite si video editor a vytvorte zo svojich záznamov videá.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Nová verzia video editora je pripravená. Kliknite na aktualizáciu.</value>
+  </data>
 </root>

@@ -9300,4 +9300,13 @@ Permíteo?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Gravacións gardadas: {0}. Queres abrilas en Void Edit como proxectos novos?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Abre o editor de vídeo e converte as túas gravacións en vídeos.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Descarga o editor de vídeo para converter as túas gravacións en vídeos.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Hai unha nova versión do editor de vídeo. Fai clic para actualizar.</value>
+  </data>
 </root>

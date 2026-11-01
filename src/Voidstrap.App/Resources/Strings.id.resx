@@ -9615,4 +9615,13 @@ Izinkan?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Rekaman tersimpan: {0}. Apakah Anda ingin membukanya di Void Edit sebagai proyek baru?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Buka editor video dan ubah rekaman Anda menjadi video.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Unduh editor video untuk mengubah rekaman Anda menjadi video.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Versi baru editor video sudah siap. Klik untuk memperbarui.</value>
+  </data>
 </root>

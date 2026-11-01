@@ -375,7 +375,7 @@
           <ui:CardAction x:Name="VoidEditCard" Margin="0,8,0,0" MinHeight="78" Icon="Video24" IsEnabled="False" Click="VoidEditCard_Click">
             <StackPanel>
               <TextBlock FontSize="14" FontWeight="Medium" Text="Void Edit" />
-              <TextBlock x:Name="VoidEditCardStatus" Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_VoidstrapMods_LibraryInstall}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
+              <TextBlock x:Name="VoidEditCardStatus" Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_VoidEdit_Card_Install}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
             </StackPanel>
           </ui:CardAction>
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">

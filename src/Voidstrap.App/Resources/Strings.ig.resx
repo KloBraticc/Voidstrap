@@ -9300,4 +9300,13 @@ kwe ya?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Ndekọ echekwara: {0}. Ị chọrọ imepe ha na Void Edit dịka ọrụ ọhụrụ?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Mepee ihe ndezi vidiyo ma mee ka ndekọ gị bụrụ vidiyo.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Budata ihe ndezi vidiyo iji mee ka ndekọ gị bụrụ vidiyo.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Ụdị ọhụrụ nke ihe ndezi vidiyo adịla njikere. Pịa ka imelite.</value>
+  </data>
 </root>

@@ -9299,4 +9299,13 @@ uyayivumela?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Iirekhodi ezigciniweyo: {0}. Ngaba ufuna ukuzivula kwi-Void Edit njengeeprojekthi ezintsha?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Vula isihleli sevidiyo uze uguqule iirekhodi zakho zibe ziividiyo.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Khuphela isihleli sevidiyo ukuze uguqule iirekhodi zakho zibe ziividiyo.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Uguqulelo olutsha lwesihleli sevidiyo lulungile. Cofa ukuze uhlaziye.</value>
+  </data>
 </root>

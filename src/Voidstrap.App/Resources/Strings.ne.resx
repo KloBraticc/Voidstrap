@@ -9300,4 +9300,13 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>सुरक्षित गरिएका रेकर्डिङहरू: {0}। के तपाईं तिनलाई Void Edit मा नयाँ प्रोजेक्टको रूपमा खोल्न चाहनुहुन्छ?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>भिडियो सम्पादक खोल्नुहोस् र आफ्ना रेकर्डिङहरूलाई भिडियोमा बदल्नुहोस्।</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>आफ्ना रेकर्डिङहरूलाई भिडियोमा बदल्न भिडियो सम्पादक डाउनलोड गर्नुहोस्।</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>भिडियो सम्पादकको नयाँ संस्करण तयार छ। अद्यावधिक गर्न क्लिक गर्नुहोस्।</value>
+  </data>
 </root>

@@ -9299,4 +9299,13 @@ Rugsat beriň?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Ýatda saklanan ýazgylar: {0}. Olary Void Edit-de täze taslama hökmünde açmak isleýärsiňizmi?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Wideo redaktoryny açyň we ýazgylaryňyzy wideo öwüriň.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Ýazgylaryňyzy wideo öwürmek üçin wideo redaktoryny ýükläň.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Wideo redaktorynyň täze wersiýasy taýýar. Täzelemek üçin basyň.</value>
+  </data>
 </root>

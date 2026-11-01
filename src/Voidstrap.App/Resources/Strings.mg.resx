@@ -9300,4 +9300,13 @@ Avelao izany?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Rakitsary voatahiry: {0}. Te hanokatra azy ireo ao amin'ny Void Edit ho tetikasa vaovao ve ianao?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Sokafy ny fanovana horonantsary ary avadiho ho horonantsary ny rakitsarinao.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Ampidino ny fanovana horonantsary hanovana ny rakitsarinao ho horonantsary.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Vonona ny dikan-teny vaovao amin'ny fanovana horonantsary. Tsindrio hanavaozana.</value>
+  </data>
 </root>

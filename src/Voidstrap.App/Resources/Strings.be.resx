@@ -9299,4 +9299,13 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Захавана запісаў: {0}. Адкрыць іх у Void Edit як новыя праекты?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Адкрыйце відэарэдактар і ператварыце свае запісы ў відэа.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Спампуйце відэарэдактар, каб ператварыць свае запісы ў відэа.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Новая версія відэарэдактара гатовая. Націсніце, каб абнавіць.</value>
+  </data>
 </root>

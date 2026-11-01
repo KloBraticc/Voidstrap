@@ -9300,4 +9300,13 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>הקלטות שנשמרו: {0}. לפתוח אותן ב־Void Edit כפרויקטים חדשים?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>פתחו את עורך הווידאו והפכו את ההקלטות שלכם לסרטונים.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>הורידו את עורך הווידאו כדי להפוך את ההקלטות שלכם לסרטונים.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>גרסה חדשה של עורך הווידאו מוכנה. לחצו כדי לעדכן.</value>
+  </data>
 </root>

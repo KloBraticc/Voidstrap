@@ -9299,4 +9299,13 @@ Ruxsat berasizmi?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Saqlangan yozuvlar: {0}. Ularni Void Edit’da yangi loyiha sifatida ochmoqchimisiz?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Video muharririni oching va yozuvlaringizni videoga aylantiring.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Yozuvlaringizni videoga aylantirish uchun video muharririni yuklab oling.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Video muharririning yangi versiyasi tayyor. Yangilash uchun bosing.</value>
+  </data>
 </root>

@@ -9300,4 +9300,13 @@ Oggolow?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Duubis la keydiyay: {0}. Ma rabtaa inaad ku furto Void Edit sidii mashaariic cusub?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Fur tafatiraha muuqaalka oo duubistaada u beddel muuqaallo.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Soo dejiso tafatiraha muuqaalka si aad duubistaada ugu beddesho muuqaallo.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Nooc cusub oo tafatiraha muuqaalka ah ayaa diyaar ah. Guji si aad u cusboonaysiiso.</value>
+  </data>
 </root>

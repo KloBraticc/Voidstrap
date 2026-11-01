@@ -9604,4 +9604,13 @@ Benarkan?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Rakaman disimpan: {0}. Adakah anda mahu membukanya dalam Void Edit sebagai projek baharu?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Buka penyunting video dan jadikan rakaman anda video.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Muat turun penyunting video untuk menjadikan rakaman anda video.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Versi baharu penyunting video sudah sedia. Klik untuk mengemas kini.</value>
+  </data>
 </root>

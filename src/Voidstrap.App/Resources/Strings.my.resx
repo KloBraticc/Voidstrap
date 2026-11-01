@@ -9299,4 +9299,13 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>သိမ်းဆည်းထားသော ရိုက်ကူးချက်များ: {0}။ ၎င်းတို့ကို Void Edit တွင် ပရောဂျက်အသစ်များအဖြစ် ဖွင့်လိုပါသလား?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>ဗီဒီယိုတည်းဖြတ်ကိရိယာကို ဖွင့်ပြီး သင့်ရိုက်ကူးချက်များကို ဗီဒီယိုများအဖြစ် ပြောင်းပါ။</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>သင့်ရိုက်ကူးချက်များကို ဗီဒီယိုများအဖြစ် ပြောင်းရန် ဗီဒီယိုတည်းဖြတ်ကိရိယာကို ဒေါင်းလုဒ်လုပ်ပါ။</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>ဗီဒီယိုတည်းဖြတ်ကိရိယာ ဗားရှင်းအသစ် အဆင်သင့်ဖြစ်ပါပြီ။ အပ်ဒိတ်လုပ်ရန် နှိပ်ပါ။</value>
+  </data>
 </root>

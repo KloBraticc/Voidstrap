@@ -9299,4 +9299,13 @@ Laat dit toe?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Opnames gestoor: {0}. Wil jy hulle as nuwe projekte in Void Edit oopmaak?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Maak die video-redigeerder oop en maak video's van jou opnames.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Laai die video-redigeerder af om video's van jou opnames te maak.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>'n Nuwe weergawe van die video-redigeerder is gereed. Klik om op te dateer.</value>
+  </data>
 </root>

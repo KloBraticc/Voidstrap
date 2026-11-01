@@ -9300,4 +9300,13 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>ការថតដែលបានរក្សាទុក៖ {0}។ តើអ្នកចង់បើកវាក្នុង Void Edit ជាគម្រោងថ្មីទេ?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>បើកកម្មវិធីកែវីដេអូ ហើយប្តូរការថតរបស់អ្នកទៅជាវីដេអូ។</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>ទាញយកកម្មវិធីកែវីដេអូ ដើម្បីប្តូរការថតរបស់អ្នកទៅជាវីដេអូ។</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>កំណែថ្មីនៃកម្មវិធីកែវីដេអូបានរួចរាល់។ ចុចដើម្បីធ្វើបច្ចុប្បន្នភាព។</value>
+  </data>
 </root>

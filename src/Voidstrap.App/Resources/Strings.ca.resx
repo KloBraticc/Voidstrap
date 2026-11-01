@@ -9299,4 +9299,13 @@ Ho permets?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Gravacions desades: {0}. Vols obrir-les al Void Edit com a projectes nous?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Obre l'editor de vídeo i converteix les teves gravacions en vídeos.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Baixa l'editor de vídeo per convertir les teves gravacions en vídeos.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Hi ha una versió nova de l'editor de vídeo. Fes clic per actualitzar.</value>
+  </data>
 </root>

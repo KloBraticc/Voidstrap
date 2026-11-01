@@ -9300,4 +9300,13 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>ಉಳಿಸಿದ ರೆಕಾರ್ಡಿಂಗ್‌ಗಳು: {0}. ಅವುಗಳನ್ನು Void Edit ನಲ್ಲಿ ಹೊಸ ಪ್ರಾಜೆಕ್ಟ್‌ಗಳಾಗಿ ತೆರೆಯಲು ಬಯಸುವಿರಾ?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>ವೀಡಿಯೊ ಎಡಿಟರ್ ತೆರೆಯಿರಿ ಮತ್ತು ನಿಮ್ಮ ರೆಕಾರ್ಡಿಂಗ್‌ಗಳನ್ನು ವೀಡಿಯೊಗಳನ್ನಾಗಿ ಮಾಡಿ.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>ನಿಮ್ಮ ರೆಕಾರ್ಡಿಂಗ್‌ಗಳನ್ನು ವೀಡಿಯೊಗಳನ್ನಾಗಿ ಮಾಡಲು ವೀಡಿಯೊ ಎಡಿಟರ್ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>ವೀಡಿಯೊ ಎಡಿಟರ್‌ನ ಹೊಸ ಆವೃತ್ತಿ ಸಿದ್ಧವಾಗಿದೆ. ನವೀಕರಿಸಲು ಕ್ಲಿಕ್ ಮಾಡಿ.</value>
+  </data>
 </root>

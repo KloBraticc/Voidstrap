@@ -9299,4 +9299,13 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Konservitaj registraĵoj: {0}. Ĉu vi volas malfermi ilin en Void Edit kiel novajn projektojn?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Malfermu la videoredaktilon kaj faru videojn el viaj registraĵoj.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Elŝutu la videoredaktilon por fari videojn el viaj registraĵoj.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Nova versio de la videoredaktilo estas preta. Alklaku por ĝisdatigi.</value>
+  </data>
 </root>

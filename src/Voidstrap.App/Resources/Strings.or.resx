@@ -9300,4 +9300,13 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>ସେଭ୍ ହୋଇଥିବା ରେକର୍ଡିଂ: {0}। ଆପଣ ସେଗୁଡ଼ିକୁ Void Edit ରେ ନୂଆ ପ୍ରୋଜେକ୍ଟ ଭାବେ ଖୋଲିବାକୁ ଚାହାଁନ୍ତି କି?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>ଭିଡିଓ ଏଡିଟର୍ ଖୋଲନ୍ତୁ ଏବଂ ଆପଣଙ୍କ ରେକର୍ଡିଂଗୁଡ଼ିକୁ ଭିଡିଓରେ ପରିଣତ କରନ୍ତୁ।</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>ଆପଣଙ୍କ ରେକର୍ଡିଂଗୁଡ଼ିକୁ ଭିଡିଓରେ ପରିଣତ କରିବାକୁ ଭିଡିଓ ଏଡିଟର୍ ଡାଉନଲୋଡ୍ କରନ୍ତୁ।</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>ଭିଡିଓ ଏଡିଟର୍‌ର ଏକ ନୂଆ ସଂସ୍କରଣ ପ୍ରସ୍ତୁତ। ଅପଡେଟ୍ କରିବାକୁ କ୍ଲିକ୍ କରନ୍ତୁ।</value>
+  </data>
 </root>

@@ -9636,4 +9636,13 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>已保存录像：{0} 个。是否要在 Void Edit 中将其作为新项目打开？</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>打开视频编辑器，将您的录像制作成视频。</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>下载视频编辑器，将您的录像制作成视频。</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>视频编辑器的新版本已就绪。点击更新。</value>
+  </data>
 </root>

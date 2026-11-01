@@ -9299,4 +9299,13 @@ Caniatáu iddo?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Recordiadau a gadwyd: {0}. Ydych chi am eu hagor yn Void Edit fel prosiectau newydd?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Agorwch y golygydd fideo a throi eich recordiadau yn fideos.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Lawrlwythwch y golygydd fideo i droi eich recordiadau yn fideos.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Mae fersiwn newydd o'r golygydd fideo yn barod. Cliciwch i ddiweddaru.</value>
+  </data>
 </root>

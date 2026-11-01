@@ -9300,4 +9300,13 @@ Erlaabt et?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Gespäichert Opnamen: {0}. Wëlls du se als nei Projeten am Void Edit opmaachen?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Maach de Video-Editor op a maach aus denge Opnamen Videoen.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Lued de Video-Editor erof, fir aus denge Opnamen Videoen ze maachen.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Eng nei Versioun vum Video-Editor ass prett. Klick fir ze aktualiséieren.</value>
+  </data>
 </root>

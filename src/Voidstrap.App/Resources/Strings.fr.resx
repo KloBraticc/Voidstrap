@@ -9611,4 +9611,13 @@ Autoriser ?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Enregistrements sauvegardés : {0}. Voulez-vous les ouvrir dans Void Edit en tant que nouveaux projets ?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Ouvrez l'éditeur vidéo et transformez vos enregistrements en vidéos.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Téléchargez l'éditeur vidéo pour transformer vos enregistrements en vidéos.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Une nouvelle version de l'éditeur vidéo est prête. Cliquez pour mettre à jour.</value>
+  </data>
 </root>

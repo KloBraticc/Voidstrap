@@ -9299,4 +9299,13 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>የተቀመጡ ቀረጻዎች፦ {0}። በVoid Edit እንደ አዲስ ፕሮጀክቶች መክፈት ይፈልጋሉ?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>የቪዲዮ አርታዒውን ይክፈቱ እና ቀረጻዎችዎን ወደ ቪዲዮዎች ይቀይሩ።</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>ቀረጻዎችዎን ወደ ቪዲዮዎች ለመቀየር የቪዲዮ አርታዒውን ያውርዱ።</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>አዲስ የቪዲዮ አርታዒ ስሪት ዝግጁ ነው። ለማዘመን ጠቅ ያድርጉ።</value>
+  </data>
 </root>

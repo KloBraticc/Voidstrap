@@ -9612,4 +9612,13 @@ Tillåta?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Sparade inspelningar: {0}. Vill du öppna dem i Void Edit som nya projekt?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Öppna videoredigeraren och gör om dina inspelningar till videor.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Ladda ned videoredigeraren för att göra om dina inspelningar till videor.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>En ny version av videoredigeraren är klar. Klicka för att uppdatera.</value>
+  </data>
 </root>

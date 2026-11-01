@@ -9300,4 +9300,13 @@ Emera?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Ibyafashwe byabitswe: {0}. Urashaka kubifungura muri Void Edit nk'imishinga mishya?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Fungura porogaramu yo gutunganya amashusho maze uhindure ibyo wafashe amashusho.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Kuramo porogaramu yo gutunganya amashusho kugira ngo uhindure ibyo wafashe amashusho.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Verisiyo nshya ya porogaramu yo gutunganya amashusho yiteguye. Kanda kugira ngo uvugurure.</value>
+  </data>
 </root>

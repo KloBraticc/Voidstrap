@@ -9299,4 +9299,13 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Сабтҳои захирашуда: {0}. Мехоҳед онҳоро дар Void Edit ҳамчун лоиҳаҳои нав кушоед?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Муҳаррири видеоро кушоед ва сабтҳои худро ба видео табдил диҳед.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Барои табдил додани сабтҳоятон ба видео муҳаррири видеоро боргирӣ кунед.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Версияи нави муҳаррири видео омода аст. Барои навсозӣ клик кунед.</value>
+  </data>
 </root>

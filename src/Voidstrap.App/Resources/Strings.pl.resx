@@ -9613,4 +9613,13 @@ Zezwolić?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Zapisane nagrania: {0}. Czy chcesz otworzyć je w Void Edit jako nowe projekty?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Otwórz edytor wideo i zamień swoje nagrania w filmy.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Pobierz edytor wideo, aby zamienić swoje nagrania w filmy.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Nowa wersja edytora wideo jest gotowa. Kliknij, aby zaktualizować.</value>
+  </data>
 </root>

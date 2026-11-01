@@ -9299,4 +9299,13 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>ساقلانغان خاتىرىلەر: {0}. ئۇلارنى Void Edit دا يېڭى تۈر سۈپىتىدە ئاچامسىز؟</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>سىن تەھرىرلىگۈچنى ئېچىپ، خاتىرىلىرىڭىزنى سىنغا ئايلاندۇرۇڭ.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>خاتىرىلىرىڭىزنى سىنغا ئايلاندۇرۇش ئۈچۈن سىن تەھرىرلىگۈچنى چۈشۈرۈڭ.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>سىن تەھرىرلىگۈچنىڭ يېڭى نەشرى تەييار. يېڭىلاش ئۈچۈن چېكىڭ.</value>
+  </data>
 </root>

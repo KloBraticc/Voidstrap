@@ -9300,4 +9300,13 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>ການບັນທຶກທີ່ບັນທຶກໄວ້: {0}. ທ່ານຕ້ອງການເປີດພວກມັນໃນ Void Edit ເປັນໂປຣເຈັກໃໝ່ບໍ?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>ເປີດຕົວແກ້ໄຂວິດີໂອ ແລະ ປ່ຽນການບັນທຶກຂອງທ່ານເປັນວິດີໂອ.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>ດາວໂຫຼດຕົວແກ້ໄຂວິດີໂອເພື່ອປ່ຽນການບັນທຶກຂອງທ່ານເປັນວິດີໂອ.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>ຕົວແກ້ໄຂວິດີໂອເວີຊັນໃໝ່ພ້ອມແລ້ວ. ຄລິກເພື່ອອັບເດດ.</value>
+  </data>
 </root>

@@ -9299,4 +9299,13 @@ Dozvoliti?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Sačuvano snimaka: {0}. Želite li ih otvoriti u Void Edit kao nove projekte?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Otvorite video uređivač i pretvorite svoje snimke u videozapise.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Preuzmite video uređivač da pretvorite svoje snimke u videozapise.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Nova verzija video uređivača je spremna. Kliknite za ažuriranje.</value>
+  </data>
 </root>

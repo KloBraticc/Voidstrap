@@ -9300,4 +9300,13 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>محفوظ ٿيل رڪارڊنگون: {0}. ڇا توهان انهن کي Void Edit ۾ نون پروجيڪٽن طور کولڻ چاهيو ٿا؟</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>وڊيو ايڊيٽر کوليو ۽ پنهنجين رڪارڊنگن کي وڊيوز ۾ بدلايو.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>پنهنجين رڪارڊنگن کي وڊيوز ۾ بدلائڻ لاءِ وڊيو ايڊيٽر ڊائونلوڊ ڪريو.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>وڊيو ايڊيٽر جو نئون ورزن تيار آهي. اپڊيٽ ڪرڻ لاءِ ڪلڪ ڪريو.</value>
+  </data>
 </root>

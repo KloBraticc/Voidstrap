@@ -9615,4 +9615,13 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>已儲存錄影：{0} 個。要在 Void Edit 中將它們作為新專案開啟嗎？</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>開啟影片編輯器，把你的錄影做成影片。</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>下載影片編輯器，把你的錄影做成影片。</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>影片編輯器的新版本已準備好。點擊即可更新。</value>
+  </data>
 </root>

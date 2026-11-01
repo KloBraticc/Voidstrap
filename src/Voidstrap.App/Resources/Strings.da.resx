@@ -9299,4 +9299,13 @@ tillade det?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Gemte optagelser: {0}. Vil du åbne dem i Void Edit som nye projekter?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Åbn videoredigeringsprogrammet, og lav dine optagelser til videoer.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Hent videoredigeringsprogrammet for at lave dine optagelser til videoer.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>En ny version af videoredigeringsprogrammet er klar. Klik for at opdatere.</value>
+  </data>
 </root>

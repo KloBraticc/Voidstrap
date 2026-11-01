@@ -9299,4 +9299,13 @@ Je, unairuhusu?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Rekodi zilizohifadhiwa: {0}. Je, ungependa kuzifungua katika Void Edit kama miradi mipya?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Fungua kihariri cha video na ugeuze rekodi zako kuwa video.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Pakua kihariri cha video ili kugeuza rekodi zako kuwa video.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Toleo jipya la kihariri cha video liko tayari. Bofya ili kusasisha.</value>
+  </data>
 </root>

@@ -9614,4 +9614,13 @@ Leisti?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Išsaugota įrašų: {0}. Ar norite juos atverti Void Edit kaip naujus projektus?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Atverkite vaizdo įrašų redaktorių ir paverskite savo įrašus vaizdo įrašais.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Atsisiųskite vaizdo įrašų redaktorių, kad galėtumėte paversti savo įrašus vaizdo įrašais.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Paruošta nauja vaizdo įrašų redaktoriaus versija. Spustelėkite, kad atnaujintumėte.</value>
+  </data>
 </root>

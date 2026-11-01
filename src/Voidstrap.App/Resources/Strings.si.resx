@@ -9300,4 +9300,13 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>සුරැකි පටිගත කිරීම්: {0}. ඔබට ඒවා Void Edit තුළ නව ව්‍යාපෘති ලෙස විවෘත කිරීමට අවශ්‍යද?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>වීඩියෝ සංස්කාරකය විවෘත කර ඔබේ පටිගත කිරීම් වීඩියෝ බවට පත් කරන්න.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>ඔබේ පටිගත කිරීම් වීඩියෝ බවට පත් කිරීමට වීඩියෝ සංස්කාරකය බාගන්න.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>වීඩියෝ සංස්කාරකයේ නව අනුවාදයක් සූදානම්. යාවත්කාලීන කිරීමට ක්ලික් කරන්න.</value>
+  </data>
 </root>

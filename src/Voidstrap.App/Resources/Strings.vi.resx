@@ -9615,4 +9615,13 @@ Cho phép?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Bản ghi đã lưu: {0}. Bạn có muốn mở chúng trong Void Edit dưới dạng dự án mới không?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Mở trình chỉnh sửa video và biến bản ghi của bạn thành video.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Tải xuống trình chỉnh sửa video để biến bản ghi của bạn thành video.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Đã có phiên bản mới của trình chỉnh sửa video. Nhấp để cập nhật.</value>
+  </data>
 </root>

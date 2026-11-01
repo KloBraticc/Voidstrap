@@ -9610,4 +9610,13 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Kaydedilen kayıtlar: {0}. Bunları Void Edit'te yeni proje olarak açmak ister misiniz?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Video düzenleyiciyi açın ve kayıtlarınızı videoya dönüştürün.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Kayıtlarınızı videoya dönüştürmek için video düzenleyiciyi indirin.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Video düzenleyicinin yeni bir sürümü hazır. Güncellemek için tıklayın.</value>
+  </data>
 </root>

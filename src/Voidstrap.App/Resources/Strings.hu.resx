@@ -9612,4 +9612,13 @@ Engedélyezed?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Mentett felvételek: {0}. Szeretnéd megnyitni őket új projektként a Void Editben?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Nyisd meg a videószerkesztőt, és készíts videókat a felvételeidből.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Töltsd le a videószerkesztőt, hogy videókat készíts a felvételeidből.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Elkészült a videószerkesztő új verziója. Kattints a frissítéshez.</value>
+  </data>
 </root>

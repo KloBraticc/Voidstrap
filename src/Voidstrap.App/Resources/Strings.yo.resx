@@ -9299,4 +9299,13 @@ Gba laaye?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Àwọn gbígbàsílẹ̀ tí a fipamọ́: {0}. Ṣé o fẹ́ ṣí wọn nínú Void Edit gẹ́gẹ́ bí iṣẹ́ àkànṣe tuntun?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Ṣí olóòtú fídíò kí o sì sọ àwọn gbígbàsílẹ̀ rẹ di fídíò.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Ṣe ìgbàsílẹ̀ olóòtú fídíò láti sọ àwọn gbígbàsílẹ̀ rẹ di fídíò.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Ẹ̀yà tuntun olóòtú fídíò ti ṣetán. Tẹ̀ láti ṣe àfikún.</value>
+  </data>
 </root>

@@ -9299,4 +9299,13 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Αποθηκευμένες εγγραφές: {0}. Θέλετε να τις ανοίξετε στο Void Edit ως νέα έργα;</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Ανοίξτε τον επεξεργαστή βίντεο και μετατρέψτε τις εγγραφές σας σε βίντεο.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Κατεβάστε τον επεξεργαστή βίντεο για να μετατρέψετε τις εγγραφές σας σε βίντεο.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Μια νέα έκδοση του επεξεργαστή βίντεο είναι έτοιμη. Κάντε κλικ για ενημέρωση.</value>
+  </data>
 </root>

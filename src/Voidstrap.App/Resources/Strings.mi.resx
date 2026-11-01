@@ -9300,4 +9300,13 @@ Whakaaetia?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Ngā hopunga kua tiakina: {0}. Kei te hiahia koe ki te huaki i ēnei ki Void Edit hei kaupapa hou?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Huakina te ētita ataata, ā, hurihia ō hopunga hei ataata.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Tikiake te ētita ataata hei huri i ō hopunga hei ataata.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Kua rite tētahi putanga hou o te ētita ataata. Pāwhiri kia whakahou.</value>
+  </data>
 </root>

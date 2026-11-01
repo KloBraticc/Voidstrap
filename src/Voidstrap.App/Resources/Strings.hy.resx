@@ -9300,4 +9300,13 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Պահված ձայնագրություններ՝ {0}։ Ցանկանո՞ւմ եք դրանք բացել Void Edit-ում որպես նոր նախագծեր։</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Բացեք տեսախմբագրիչը և ձեր ձայնագրությունները վերածեք տեսանյութերի։</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Ներբեռնեք տեսախմբագրիչը՝ ձեր ձայնագրությունները տեսանյութերի վերածելու համար։</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Տեսախմբագրիչի նոր տարբերակը պատրաստ է։ Սեղմեք՝ թարմացնելու համար։</value>
+  </data>
 </root>

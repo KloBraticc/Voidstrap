@@ -9299,4 +9299,13 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>محفوظ کردہ ریکارڈنگز: {0}۔ کیا آپ انہیں Void Edit میں نئے پروجیکٹس کے طور پر کھولنا چاہتے ہیں؟</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>ویڈیو ایڈیٹر کھولیں اور اپنی ریکارڈنگز کو ویڈیوز میں بدلیں۔</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>اپنی ریکارڈنگز کو ویڈیوز میں بدلنے کے لیے ویڈیو ایڈیٹر ڈاؤن لوڈ کریں۔</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>ویڈیو ایڈیٹر کا نیا ورژن تیار ہے۔ اپ ڈیٹ کرنے کے لیے کلک کریں۔</value>
+  </data>
 </root>

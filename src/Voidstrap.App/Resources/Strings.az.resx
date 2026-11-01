@@ -9299,4 +9299,13 @@ icazə verilir?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Saxlanmış yazılar: {0}. Onları Void Edit-də yeni layihə kimi açmaq istəyirsiniz?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Video redaktorunu açın və yazılarınızı videoya çevirin.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Yazılarınızı videoya çevirmək üçün video redaktorunu endirin.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Video redaktorunun yeni versiyası hazırdır. Yeniləmək üçün klikləyin.</value>
+  </data>
 </root>

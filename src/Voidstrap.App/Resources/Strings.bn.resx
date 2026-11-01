@@ -9299,4 +9299,13 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>সংরক্ষিত রেকর্ডিং: {0}। আপনি কি এগুলো Void Edit-এ নতুন প্রজেক্ট হিসেবে খুলতে চান?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>ভিডিও এডিটর খুলুন এবং আপনার রেকর্ডিংগুলোকে ভিডিওতে পরিণত করুন।</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>আপনার রেকর্ডিংগুলোকে ভিডিওতে পরিণত করতে ভিডিও এডিটর ডাউনলোড করুন।</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>ভিডিও এডিটরের একটি নতুন সংস্করণ প্রস্তুত। আপডেট করতে ক্লিক করুন।</value>
+  </data>
 </root>

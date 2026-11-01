@@ -9612,4 +9612,13 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Сохранено записей: {0}. Хотите открыть их в Void Edit как новые проекты?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Откройте видеоредактор и превратите свои записи в видео.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Скачайте видеоредактор, чтобы превратить свои записи в видео.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Готова новая версия видеоредактора. Нажмите, чтобы обновить.</value>
+  </data>
 </root>

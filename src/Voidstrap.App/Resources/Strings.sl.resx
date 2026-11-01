@@ -9300,4 +9300,13 @@ Dovoli?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Shranjeni posnetki: {0}. Ali jih želite odpreti v Void Edit kot nove projekte?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Odprite urejevalnik videoposnetkov in iz svojih posnetkov naredite videoposnetke.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Prenesite urejevalnik videoposnetkov, da iz svojih posnetkov naredite videoposnetke.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Nova različica urejevalnika videoposnetkov je pripravljena. Kliknite za posodobitev.</value>
+  </data>
 </root>

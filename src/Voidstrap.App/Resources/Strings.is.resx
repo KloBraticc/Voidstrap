@@ -9300,4 +9300,13 @@ Leyfa það?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Vistaðar upptökur: {0}. Viltu opna þær í Void Edit sem ný verkefni?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Opnaðu myndvinnsluforritið og breyttu upptökunum þínum í myndbönd.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Sæktu myndvinnsluforritið til að breyta upptökunum þínum í myndbönd.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Ný útgáfa af myndvinnsluforritinu er tilbúin. Smelltu til að uppfæra.</value>
+  </data>
 </root>

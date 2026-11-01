@@ -9300,4 +9300,13 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Сақталған жазбалар: {0}. Оларды Void Edit-те жаңа жоба ретінде ашқыңыз келе ме?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Бейне редакторын ашып, жазбаларыңызды бейнеге айналдырыңыз.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Жазбаларыңызды бейнеге айналдыру үшін бейне редакторын жүктеп алыңыз.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Бейне редакторының жаңа нұсқасы дайын. Жаңарту үшін басыңыз.</value>
+  </data>
 </root>

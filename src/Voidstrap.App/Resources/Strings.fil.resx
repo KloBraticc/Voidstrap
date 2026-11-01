@@ -9610,4 +9610,13 @@ Payagan ba?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Mga naka-save na recording: {0}. Gusto mo ba silang buksan sa Void Edit bilang mga bagong proyekto?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Buksan ang video editor at gawing mga video ang iyong mga recording.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>I-download ang video editor para gawing mga video ang iyong mga recording.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Handa na ang bagong bersyon ng video editor. I-click para mag-update.</value>
+  </data>
 </root>

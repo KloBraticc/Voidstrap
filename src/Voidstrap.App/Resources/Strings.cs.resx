@@ -9613,4 +9613,13 @@ Povolit?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Uložené záznamy: {0}. Chcete je otevřít ve Void Edit jako nové projekty?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Otevřete video editor a vytvořte ze svých záznamů videa.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Stáhněte si video editor a vytvořte ze svých záznamů videa.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Je k dispozici nová verze video editoru. Klikněte pro aktualizaci.</value>
+  </data>
 </root>

@@ -9611,4 +9611,13 @@
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>التسجيلات المحفوظة: {0}. هل تريد فتحها في Void Edit كمشاريع جديدة؟</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>افتح محرر الفيديو وحوّل تسجيلاتك إلى مقاطع فيديو.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>نزّل محرر الفيديو لتحويل تسجيلاتك إلى مقاطع فيديو.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>إصدار جديد من محرر الفيديو جاهز. انقر للتحديث.</value>
+  </data>
 </root>

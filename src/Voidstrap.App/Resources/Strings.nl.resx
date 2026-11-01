@@ -9614,4 +9614,13 @@ Toestaan?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Opgeslagen opnames: {0}. Wil je ze als nieuwe projecten openen in Void Edit?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Open de video-editor en maak video's van je opnames.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Download de video-editor om video's van je opnames te maken.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Er is een nieuwe versie van de video-editor klaar. Klik om bij te werken.</value>
+  </data>
 </root>

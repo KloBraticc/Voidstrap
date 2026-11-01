@@ -104,9 +104,9 @@ public partial class IntegrationsPage : UiPage
         _voidEditState = await VoidEditLauncher.GetStateAsync();
         VoidEditCardStatus.Text = _voidEditState switch
         {
-            VoidEditLauncher.InstallState.Installed => Strings.Common_Open,
-            VoidEditLauncher.InstallState.UpdateAvailable => Strings.Ui_VoidstrapMods_LibraryUpdate,
-            _ => Strings.Ui_VoidstrapMods_LibraryInstall,
+            VoidEditLauncher.InstallState.Installed => Strings.Ui_VoidEdit_Card_Open,
+            VoidEditLauncher.InstallState.UpdateAvailable => Strings.Ui_VoidEdit_Card_Update,
+            _ => Strings.Ui_VoidEdit_Card_Install,
         };
         VoidEditCard.IsEnabled = true;
     }

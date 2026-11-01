@@ -9300,4 +9300,13 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Зачувани снимки: {0}. Дали сакате да ги отворите во Void Edit како нови проекти?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Отворете го видео уредникот и претворете ги вашите снимки во видеа.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Преземете го видео уредникот за да ги претворите вашите снимки во видеа.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Нова верзија на видео уредникот е подготвена. Кликнете за ажурирање.</value>
+  </data>
 </root>

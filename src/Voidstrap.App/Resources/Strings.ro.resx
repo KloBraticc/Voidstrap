@@ -9614,4 +9614,13 @@ Permiți?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Înregistrări salvate: {0}. Vrei să le deschizi în Void Edit ca proiecte noi?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Deschide editorul video și transformă-ți înregistrările în videoclipuri.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Descarcă editorul video ca să-ți transformi înregistrările în videoclipuri.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>O versiune nouă a editorului video este gata. Fă clic pentru actualizare.</value>
+  </data>
 </root>

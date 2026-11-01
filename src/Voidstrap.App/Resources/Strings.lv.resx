@@ -9300,4 +9300,13 @@ Vai atļaut?</value>
   <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
     <value>Saglabātie ieraksti: {0}. Vai vēlaties tos atvērt Void Edit kā jaunus projektus?</value>
   </data>
+  <data name="Ui.VoidEdit.Card.Open" xml:space="preserve">
+    <value>Atveriet video redaktoru un pārvērtiet savus ierakstus video.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Install" xml:space="preserve">
+    <value>Lejupielādējiet video redaktoru, lai pārvērstu savus ierakstus video.</value>
+  </data>
+  <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
+    <value>Ir gatava jauna video redaktora versija. Noklikšķiniet, lai atjauninātu.</value>
+  </data>
 </root>
