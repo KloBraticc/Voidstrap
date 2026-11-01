@@ -404,10 +404,7 @@ public static class ClassicHostRedirect
                     {
                         return await WaitForLoopbackResolutionAsync(cancellationToken).ConfigureAwait(false);
                     }
-                    if (process.WaitForExit(250))
-                    {
-                        break;
-                    }
+                    await Task.Delay(250, cancellationToken).ConfigureAwait(false);
                 }
                 if (!IsApplied())
                     return "Voidstrap could not point the classic Roblox domains at the local server. Check that the Windows hosts file is writable.";
@@ -419,7 +416,8 @@ public static class ClassicHostRedirect
             }
             using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             timeout.CancelAfter(TimeSpan.FromSeconds(20));
-            await process.WaitForExitAsync(timeout.Token).ConfigureAwait(false);
+            while (IsApplied())
+                await Task.Delay(250, timeout.Token).ConfigureAwait(false);
         }
         catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
         {
