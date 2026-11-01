@@ -10,7 +10,7 @@ namespace Voidstrap.Integrations;
 
 internal static class VoidEditLauncher
 {
-    private const string LatestRelease = "https://api.github.com/repos/KloBraticc/VoidEdit/releases/latest";
+    private const string NewestRelease = "https://api.github.com/repos/KloBraticc/VoidEdit/releases?per_page=1";
 
     private const string ReleasePage = "https://github.com/KloBraticc/VoidEdit/releases";
 
@@ -51,14 +51,15 @@ internal static class VoidEditLauncher
         try
         {
             string installed = File.Exists(VersionPath) ? (await File.ReadAllTextAsync(VersionPath)).Trim() : "";
-            using HttpResponseMessage response = await Client.GetAsync(LatestRelease);
+            using HttpResponseMessage response = await Client.GetAsync(NewestRelease);
             if (!response.IsSuccessStatusCode)
                 return InstallState.Installed;
-            using JsonDocument release = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
-            string latest = release.RootElement.TryGetProperty("tag_name", out JsonElement tag) ? tag.GetString() ?? "" : "";
+            using JsonDocument releases = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+            JsonElement release = releases.RootElement[0];
+            string latest = release.TryGetProperty("tag_name", out JsonElement tag) ? tag.GetString() ?? "" : "";
             return latest.Length > 0 && !latest.Equals(installed, StringComparison.Ordinal) ? InstallState.UpdateAvailable : InstallState.Installed;
         }
-        catch (Exception ex) when (ex is HttpRequestException or IOException or UnauthorizedAccessException or JsonException or TaskCanceledException or InvalidOperationException)
+        catch (Exception ex) when (ex is HttpRequestException or IOException or UnauthorizedAccessException or JsonException or TaskCanceledException or InvalidOperationException or IndexOutOfRangeException)
         {
             App.Logger.WriteLine(LOG_IDENT, "Could not check for an update: " + ex.GetType().Name);
             return InstallState.Installed;
@@ -72,7 +73,7 @@ internal static class VoidEditLauncher
         {
             return await DownloadAsync();
         }
-        catch (Exception ex) when (ex is HttpRequestException or IOException or UnauthorizedAccessException or JsonException or TaskCanceledException or InvalidOperationException or KeyNotFoundException)
+        catch (Exception ex) when (ex is HttpRequestException or IOException or UnauthorizedAccessException or JsonException or TaskCanceledException or InvalidOperationException or IndexOutOfRangeException or KeyNotFoundException)
         {
             App.Logger.WriteLine(LOG_IDENT, "Void Edit could not be downloaded: " + ex.GetType().Name);
             return false;
@@ -101,7 +102,7 @@ internal static class VoidEditLauncher
                 Launch(project);
             }
         }
-        catch (Exception ex) when (ex is HttpRequestException or IOException or UnauthorizedAccessException or JsonException or TaskCanceledException or InvalidOperationException or KeyNotFoundException or System.ComponentModel.Win32Exception)
+        catch (Exception ex) when (ex is HttpRequestException or IOException or UnauthorizedAccessException or JsonException or TaskCanceledException or InvalidOperationException or IndexOutOfRangeException or KeyNotFoundException or System.ComponentModel.Win32Exception)
         {
             App.Logger.WriteLine(LOG_IDENT, "Void Edit could not open: " + ex.GetType().Name);
             Utilities.OpenWebLink(ReleasePage);
@@ -132,15 +133,16 @@ internal static class VoidEditLauncher
     private static async Task<bool> DownloadLatestAsync()
     {
         const string LOG_IDENT = "VoidEditLauncher::DownloadLatestAsync";
-        using HttpResponseMessage response = await Client.GetAsync(LatestRelease);
+        using HttpResponseMessage response = await Client.GetAsync(NewestRelease);
         if (!response.IsSuccessStatusCode)
         {
             App.Logger.WriteLine(LOG_IDENT, "No release is available: " + (int)response.StatusCode);
             return false;
         }
-        using JsonDocument release = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
-        string tagName = release.RootElement.TryGetProperty("tag_name", out JsonElement tag) ? tag.GetString() ?? "" : "";
-        foreach (JsonElement asset in release.RootElement.GetProperty("assets").EnumerateArray())
+        using JsonDocument releases = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+        JsonElement release = releases.RootElement[0];
+        string tagName = release.TryGetProperty("tag_name", out JsonElement tag) ? tag.GetString() ?? "" : "";
+        foreach (JsonElement asset in release.GetProperty("assets").EnumerateArray())
         {
             if (asset.GetProperty("name").GetString() != AssetName)
                 continue;
