@@ -1605,7 +1605,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
     }
 
     private static string CustomIconFilter =>
-        Strings.Menu_IconFiles + (Voidstrap.Utility.Platform.IsMacOS ? "|*.icns;*.ico;*.png" : "|*.ico");
+        Strings.Menu_IconFiles + (Voidstrap.Utility.Platform.IsMacOS ? "|*.icns;" : "|") + Voidstrap.Utility.AnimatedIcon.FileFilterPatterns;
 
     private void BrowseCustomIconLocation()
     {

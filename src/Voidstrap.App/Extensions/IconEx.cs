@@ -34,7 +34,9 @@ public static class IconEx
             {
                 try
                 {
-                    BitmapSource? loaded = Voidstrap.Utility.SafeImaging.FromBytes(File.ReadAllBytes(custom), decodeWidth);
+                    BitmapSource? loaded = UsesFrameDecoder(custom)
+                        ? Voidstrap.Utility.AnimatedIcon.LoadFirstFrame(custom, decodeWidth)
+                        : Voidstrap.Utility.SafeImaging.FromBytes(File.ReadAllBytes(custom), decodeWidth);
                     if (loaded != null)
                     {
                         return loaded;
@@ -74,6 +76,9 @@ public static class IconEx
         return null;
     }
 
+    private static bool UsesFrameDecoder(string path) =>
+        Voidstrap.Utility.AnimatedIcon.IsAnimatable(path) || Path.GetExtension(path).Equals(".cur", StringComparison.OrdinalIgnoreCase);
+
     public static ImageSource GetIconSource(BootstrapperIcon icon, string? customLocation = null)
     {
         if (!Voidstrap.Utility.Platform.IsWindows)
@@ -88,7 +93,15 @@ public static class IconEx
         if (icon == BootstrapperIcon.IconCustom)
         {
             string custom = customLocation ?? App.Settings.Prop.BootstrapperIconCustomLocation;
-            if (!string.IsNullOrEmpty(custom) && File.Exists(custom))
+            if (!string.IsNullOrEmpty(custom) && File.Exists(custom) && UsesFrameDecoder(custom))
+            {
+                BitmapSource? frame = Voidstrap.Utility.AnimatedIcon.LoadFirstFrame(custom, 128);
+                if (frame != null)
+                {
+                    return frame;
+                }
+            }
+            else if (!string.IsNullOrEmpty(custom) && File.Exists(custom))
             {
                 ImageSource? loaded = DecodeIcon(() => File.OpenRead(custom));
                 if (loaded != null)

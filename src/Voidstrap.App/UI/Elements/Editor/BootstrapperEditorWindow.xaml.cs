@@ -2043,7 +2043,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow
             Title = "Add files to this theme",
             Multiselect = true,
             Filter =
-                "Theme files|*.png;*.jpg;*.jpeg;*.jfif;*.webp;*.gif;*.bmp;*.ico;*.ttf;*.otf;*.ttc;*.html;*.htm;*.css;*.js;*.mp4;*.webm;*.mov;*.mp3;*.wav;*.ogg;*.m4a;*.flac|All files|*.*",
+                "Theme files|*.png;*.apng;*.jpg;*.jpeg;*.jfif;*.webp;*.gif;*.bmp;*.ico;*.ani;*.cur;*.ttf;*.otf;*.ttc;*.html;*.htm;*.css;*.js;*.mp4;*.webm;*.mov;*.mp3;*.wav;*.ogg;*.m4a;*.flac|All files|*.*",
         };
 
         if (picker.ShowDialog(this) != true)
@@ -2137,7 +2137,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow
         {
             Title = "Replace " + file.RelativePath,
             Filter = file.IsImage
-                ? "Images|*.png;*.jpg;*.jpeg;*.jfif;*.webp;*.gif;*.bmp;*.ico|All files|*.*"
+                ? "Images|*.png;*.apng;*.jpg;*.jpeg;*.jfif;*.webp;*.gif;*.bmp;*.ico;*.ani;*.cur|All files|*.*"
                 : "Matching files|*" + extension + "|All files|*.*",
         };
 

@@ -699,7 +699,17 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             else
             {
                 bool isAnimated = ParseXmlAttribute<bool>(xmlElement, "IsAnimated", false);
-                if (!isAnimated)
+                string? localPath = sourceData.Uri!.IsFile && System.IO.File.Exists(sourceData.Uri.LocalPath) ? sourceData.Uri.LocalPath : null;
+                string extension = System.IO.Path.GetExtension(localPath ?? "").ToLowerInvariant();
+                if (isAnimated && localPath != null && extension != ".gif" && Voidstrap.Utility.AnimatedIcon.IsAnimatable(localPath))
+                {
+                    Voidstrap.UI.GifImageBehavior.SetFrames(image, Voidstrap.Utility.AnimatedIcon.Load(localPath, 0));
+                }
+                else if (!isAnimated && localPath != null && extension is ".ani" or ".cur")
+                {
+                    image.Source = Voidstrap.Utility.AnimatedIcon.LoadFirstFrame(localPath, 0);
+                }
+                else if (!isAnimated)
                 {
                     BitmapSource? bitmapImage;
                     try
