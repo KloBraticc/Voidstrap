@@ -123,7 +123,7 @@
         </StackPanel>
         <ui:Button HorizontalAlignment="Right" VerticalAlignment="Top" Padding="4,0" Appearance="Transparent" Icon="ArrowSync24" ToolTip="{resources:Loc Common_Refresh}" Command="{Binding RefreshCommand}" />
       </Grid>
-      <ListBox x:Name="SidebarList" Grid.Row="3" Tag="full" Background="#00FFFFFF" BorderThickness="0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.ScrollUnit="Pixel" ItemContainerStyle="{StaticResource NavSideItem}" ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount, Mode=TwoWay}">
+      <ListBox x:Name="SidebarList" Grid.Row="3" Tag="full" Background="#00FFFFFF" BorderThickness="0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.ScrollUnit="Pixel" ItemContainerStyle="{StaticResource NavSideItem}" ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount, Mode=TwoWay}" AllowDrop="True" PreviewMouseLeftButtonDown="SidebarList_PreviewMouseLeftButtonDown" PreviewMouseMove="SidebarList_PreviewMouseMove" DragOver="SidebarList_DragOver" Drop="SidebarList_Drop">
         <ItemsControl.ItemTemplate>
           <DataTemplate>
             <Grid Background="#00FFFFFF" ToolTip="{Binding Handle}">
@@ -266,6 +266,8 @@
             <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="Copy24" Content="{resources:Loc Accounts_CopyUsername}" Command="{Binding CopyUsernameCommand}" />
             <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="LockClosed24" Content="{resources:Loc Accounts_Vault_Export}" Command="{Binding VaultExportCommand}" />
             <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="Pin24" Content="{Binding SelectedAccount.PinText}" Command="{Binding PinCommand}" />
+            <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="ChevronUp24" Content="{resources:Loc Accounts_MoveUp}" IsEnabled="{Binding CanReorder}" Command="{Binding MoveUpCommand}" />
+            <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="ChevronDown24" Content="{resources:Loc Accounts_MoveDown}" IsEnabled="{Binding CanReorder}" Command="{Binding MoveDownCommand}" />
             <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="ArrowClockwise24" Content="{resources:Loc Accounts_SignInAgain}" Command="{Binding RenewCommand}" Visibility="{Binding BrowserSignInVisibility}" />
             <ui:Button Margin="0,0,8,8" Appearance="Danger" Icon="Delete24" Content="{resources:Loc Accounts_Remove}" Command="{Binding RemoveCommand}" />
           </WrapPanel>

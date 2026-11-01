@@ -26,6 +26,8 @@ public sealed class SavedAccount
 
     public bool Expired { get; set; }
 
+    public int Order { get; set; }
+
     public DateTime AddedUtc { get; set; }
 
     public DateTime LastUsedUtc { get; set; }
@@ -189,6 +191,28 @@ public static class SavedAccounts
             AccountStoreGate.Release();
         }
         RaiseChanged();
+    }
+
+    public static async Task SaveOrderAsync(IReadOnlyList<SavedAccount> ordered)
+    {
+        const string LOG_IDENT = "SavedAccounts::SaveOrderAsync";
+        await AccountStoreGate.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            List<SavedAccount> stored = ReadStoredAccounts();
+            for (int i = 0; i < ordered.Count; i++)
+            {
+                int index = stored.FindIndex(a => a.DatFile == ordered[i].DatFile);
+                if (index >= 0)
+                    stored[index].Order = i + 1;
+            }
+            Write(stored);
+            App.Logger?.WriteLine(LOG_IDENT, "Saved a custom order for " + ordered.Count + " account(s)");
+        }
+        finally
+        {
+            AccountStoreGate.Release();
+        }
     }
 
     public static async Task RemoveAsync(SavedAccount account)

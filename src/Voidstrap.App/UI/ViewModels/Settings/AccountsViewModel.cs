@@ -129,6 +129,8 @@ namespace Voidstrap.UI.ViewModels.Settings
             RenewCommand = new RelayCommand(() => _ = SignInAsync(false));
             PinCommand = new RelayCommand(() => _ = TogglePinAsync());
             RemoveCommand = new RelayCommand(() => _ = RemoveAsync());
+            MoveUpCommand = new RelayCommand(() => _ = MoveAsync(_selected, -1));
+            MoveDownCommand = new RelayCommand(() => _ = MoveAsync(_selected, 1));
             CopyIdCommand = new RelayCommand(() => Copy(_selected?.Model.UserId.ToString(CultureInfo.InvariantCulture)));
             CopyUsernameCommand = new RelayCommand(() => Copy(_selected?.Model.Username));
             OpenProfileCommand = new RelayCommand(() =>
@@ -156,6 +158,8 @@ namespace Voidstrap.UI.ViewModels.Settings
         public ICommand RenewCommand { get; }
         public ICommand PinCommand { get; }
         public ICommand RemoveCommand { get; }
+        public ICommand MoveUpCommand { get; }
+        public ICommand MoveDownCommand { get; }
         public ICommand CopyIdCommand { get; }
         public ICommand CopyUsernameCommand { get; }
         public ICommand OpenProfileCommand { get; }
@@ -170,13 +174,18 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public bool CanSwitch => SavedAccounts.SwitchingSupported && !_busy;
 
+        public bool CanReorder => !_busy && SearchText.Trim().Length == 0 && Accounts.Count > 1;
+
         public string SearchText
         {
             get => _searchText;
             set
             {
                 if (SetProperty(ref _searchText, value ?? ""))
+                {
                     ApplyFilter();
+                    OnPropertyChanged(nameof(CanReorder));
+                }
             }
         }
 
@@ -219,6 +228,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 if (!SetProperty(ref _busy, value))
                     return;
                 OnPropertyChanged(nameof(CanSwitch));
+                OnPropertyChanged(nameof(CanReorder));
                 OnPropertyChanged(nameof(StatusVisibility));
             }
         }
@@ -311,9 +321,11 @@ namespace Voidstrap.UI.ViewModels.Settings
         private void ApplyFilter()
         {
             string query = _searchText.Trim();
-            IEnumerable<AccountRow> rows = _all.OrderByDescending(a => a.Model.Pinned)
-                .ThenByDescending(a => a.Model.LastUsedUtc)
-                .ThenBy(a => a.Title, StringComparer.CurrentCultureIgnoreCase);
+            IEnumerable<AccountRow> rows = _all.Any(a => a.Model.Order != 0)
+                ? _all.OrderBy(a => a.Model.Order == 0 ? int.MaxValue : a.Model.Order)
+                : _all.OrderByDescending(a => a.Model.Pinned)
+                    .ThenByDescending(a => a.Model.LastUsedUtc)
+                    .ThenBy(a => a.Title, StringComparer.CurrentCultureIgnoreCase);
             if (query.Length > 0)
             {
                 rows = rows.Where(a =>
@@ -329,6 +341,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 Accounts.Add(row);
             if (keep != null && Accounts.Contains(keep))
                 SelectedAccount = keep;
+            OnPropertyChanged(nameof(CanReorder));
         }
 
         private async Task SignInAsync(bool signUp)
@@ -587,8 +600,58 @@ namespace Voidstrap.UI.ViewModels.Settings
                 return;
             _selected.Model.Pinned = !_selected.Model.Pinned;
             _selected.Refresh();
+            if (_selected.Model.Pinned && _all.Any(a => a.Model.Order != 0) && CanReorder)
+            {
+                await CommitOrderAsync(_selected, 0);
+                return;
+            }
             ApplyFilter();
             await SavedAccounts.UpdateAsync(_selected.Model);
+        }
+
+        private async Task MoveAsync(AccountRow? row, int delta)
+        {
+            if (row == null || !CanReorder)
+                return;
+            int index = Accounts.IndexOf(row);
+            if (index < 0)
+                return;
+            int target = index + delta;
+            if (target < 0 || target >= Accounts.Count)
+                return;
+            await CommitOrderAsync(row, target);
+        }
+
+        public async Task MoveToAsync(AccountRow source, int dropIndex)
+        {
+            if (!CanReorder || dropIndex < 0)
+                return;
+            int sourceIndex = Accounts.IndexOf(source);
+            if (sourceIndex < 0)
+                return;
+            int finalIndex = dropIndex >= Accounts.Count ? Accounts.Count - 1 : dropIndex > sourceIndex ? dropIndex - 1 : dropIndex;
+            if (finalIndex == sourceIndex)
+                return;
+            await CommitOrderAsync(source, finalIndex);
+        }
+
+        private async Task CommitOrderAsync(AccountRow source, int finalIndex)
+        {
+            const string LOG_IDENT = "AccountsViewModel::CommitOrderAsync";
+            List<AccountRow> ordered = Accounts.ToList();
+            ordered.Remove(source);
+            ordered.Insert(Math.Clamp(finalIndex, 0, ordered.Count), source);
+            try
+            {
+                for (int i = 0; i < ordered.Count; i++)
+                    ordered[i].Model.Order = i + 1;
+                ApplyFilter();
+                await SavedAccounts.SaveOrderAsync(ordered.Select(a => a.Model).ToList());
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "The account order could not be saved: " + ex.Message);
+            }
         }
 
         private async Task RemoveAsync()
