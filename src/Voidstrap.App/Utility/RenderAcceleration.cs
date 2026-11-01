@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Windows;
@@ -216,7 +217,7 @@ namespace Voidstrap.Utility
         {
             try
             {
-                if (!File.Exists(SentinelPath))
+                if (App.LaunchSettings.OrcRedirectFlag.Active || !File.Exists(SentinelPath) || SentinelOwnerIsRunning())
                     return;
 
                 File.Delete(SentinelPath);
@@ -236,6 +237,22 @@ namespace Voidstrap.Utility
             }
         }
 
+        private static bool SentinelOwnerIsRunning()
+        {
+            if (!int.TryParse(File.ReadAllText(SentinelPath), out int ownerId) || ownerId == Environment.ProcessId)
+                return false;
+            try
+            {
+                using Process owner = Process.GetProcessById(ownerId);
+                using Process current = Process.GetCurrentProcess();
+                return owner.ProcessName == current.ProcessName;
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+        }
+
         private static void ArmSentinel()
         {
             if (WindowsSoftwareOnly || Interlocked.Exchange(ref _sentinelArmed, 1) != 0)
@@ -243,7 +260,7 @@ namespace Voidstrap.Utility
 
             try
             {
-                File.WriteAllText(SentinelPath, string.Empty);
+                File.WriteAllText(SentinelPath, Environment.ProcessId.ToString(System.Globalization.CultureInfo.InvariantCulture));
                 CompositionTarget.Rendering += OnFirstFrame;
                 if (Application.Current != null)
                     Application.Current.Exit += OnApplicationExit;
