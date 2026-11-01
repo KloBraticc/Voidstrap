@@ -46,6 +46,8 @@ internal static class EditorAppearance
     {
         try
         {
+            if (string.IsNullOrWhiteSpace(text) || (text.TrimStart()[0] == '#' && !System.Text.RegularExpressions.Regex.IsMatch(text.Trim(), "^#([0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$")))
+                return fallback;
             return text != null && ColorConverter.ConvertFromString(text) is Color color ? color : fallback;
         }
         catch (FormatException)
