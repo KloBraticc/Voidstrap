@@ -8040,12 +8040,6 @@ It downloads {0} MB. If you decline, the built in estimate is used. You can chan
   <data name="Accounts.Unpin" xml:space="preserve">
     <value>Unpin</value>
   </data>
-  <data name="Accounts.MoveUp" xml:space="preserve">
-    <value>Move up</value>
-  </data>
-  <data name="Accounts.MoveDown" xml:space="preserve">
-    <value>Move down</value>
-  </data>
   <data name="Accounts.Never" xml:space="preserve">
     <value>Never</value>
   </data>

@@ -129,8 +129,6 @@ namespace Voidstrap.UI.ViewModels.Settings
             RenewCommand = new RelayCommand(() => _ = SignInAsync(false));
             PinCommand = new RelayCommand(() => _ = TogglePinAsync());
             RemoveCommand = new RelayCommand(() => _ = RemoveAsync());
-            MoveUpCommand = new RelayCommand(() => _ = MoveAsync(_selected, -1));
-            MoveDownCommand = new RelayCommand(() => _ = MoveAsync(_selected, 1));
             CopyIdCommand = new RelayCommand(() => Copy(_selected?.Model.UserId.ToString(CultureInfo.InvariantCulture)));
             CopyUsernameCommand = new RelayCommand(() => Copy(_selected?.Model.Username));
             OpenProfileCommand = new RelayCommand(() =>
@@ -158,8 +156,6 @@ namespace Voidstrap.UI.ViewModels.Settings
         public ICommand RenewCommand { get; }
         public ICommand PinCommand { get; }
         public ICommand RemoveCommand { get; }
-        public ICommand MoveUpCommand { get; }
-        public ICommand MoveDownCommand { get; }
         public ICommand CopyIdCommand { get; }
         public ICommand CopyUsernameCommand { get; }
         public ICommand OpenProfileCommand { get; }
@@ -607,19 +603,6 @@ namespace Voidstrap.UI.ViewModels.Settings
             }
             ApplyFilter();
             await SavedAccounts.UpdateAsync(_selected.Model);
-        }
-
-        private async Task MoveAsync(AccountRow? row, int delta)
-        {
-            if (row == null || !CanReorder)
-                return;
-            int index = Accounts.IndexOf(row);
-            if (index < 0)
-                return;
-            int target = index + delta;
-            if (target < 0 || target >= Accounts.Count)
-                return;
-            await CommitOrderAsync(row, target);
         }
 
         public async Task MoveToAsync(AccountRow source, int dropIndex)

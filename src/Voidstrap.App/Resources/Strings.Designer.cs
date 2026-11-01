@@ -8829,8 +8829,6 @@ namespace Voidstrap.Resources {
         public static string Accounts_Remove => ResourceManager.GetString("Accounts.Remove", resourceCulture);
         public static string Accounts_Pin => ResourceManager.GetString("Accounts.Pin", resourceCulture);
         public static string Accounts_Unpin => ResourceManager.GetString("Accounts.Unpin", resourceCulture);
-        public static string Accounts_MoveUp => ResourceManager.GetString("Accounts.MoveUp", resourceCulture);
-        public static string Accounts_MoveDown => ResourceManager.GetString("Accounts.MoveDown", resourceCulture);
         public static string Accounts_Never => ResourceManager.GetString("Accounts.Never", resourceCulture);
         public static string Accounts_NotSignedIn => ResourceManager.GetString("Accounts.NotSignedIn", resourceCulture);
         public static string Accounts_Status_Failed => ResourceManager.GetString("Accounts.Status.Failed", resourceCulture);

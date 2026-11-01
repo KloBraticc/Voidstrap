@@ -266,8 +266,6 @@
             <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="Copy24" Content="{resources:Loc Accounts_CopyUsername}" Command="{Binding CopyUsernameCommand}" />
             <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="LockClosed24" Content="{resources:Loc Accounts_Vault_Export}" Command="{Binding VaultExportCommand}" />
             <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="Pin24" Content="{Binding SelectedAccount.PinText}" Command="{Binding PinCommand}" />
-            <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="ChevronUp24" Content="{resources:Loc Accounts_MoveUp}" IsEnabled="{Binding CanReorder}" Command="{Binding MoveUpCommand}" />
-            <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="ChevronDown24" Content="{resources:Loc Accounts_MoveDown}" IsEnabled="{Binding CanReorder}" Command="{Binding MoveDownCommand}" />
             <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="ArrowClockwise24" Content="{resources:Loc Accounts_SignInAgain}" Command="{Binding RenewCommand}" Visibility="{Binding BrowserSignInVisibility}" />
             <ui:Button Margin="0,0,8,8" Appearance="Danger" Icon="Delete24" Content="{resources:Loc Accounts_Remove}" Command="{Binding RemoveCommand}" />
           </WrapPanel>
