@@ -9287,4 +9287,7 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>క్యూ</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit అనేది Voidstrap కోసం ఒక ఆల్ఫా ఎక్స్‌టెన్షన్, దానిపై ఇంకా పని జరుగుతోంది.</value>
+  </data>
 </root>

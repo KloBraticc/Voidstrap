@@ -9287,4 +9287,7 @@ Ruxsat berasizmi?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Navbat</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit Voidstrap uchun alfa kengaytmasi boʻlib, ustida hali ham ish olib borilmoqda.</value>
+  </data>
 </root>

@@ -9288,4 +9288,7 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>کتار</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit د Voidstrap لپاره یو الفا غځونه ده او لا هم پرې کار روان دی.</value>
+  </data>
 </root>

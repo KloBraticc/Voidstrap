@@ -1931,4 +1931,7 @@ Install anyway?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Queue</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit is an alpha extension for Voidstrap and is still being worked on.</value>
+  </data>
 </root>

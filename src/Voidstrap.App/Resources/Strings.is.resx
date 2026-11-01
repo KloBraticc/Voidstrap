@@ -9288,4 +9288,7 @@ Leyfa það?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Röð</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit er alfaviðbót fyrir Voidstrap og enn er unnið að henni.</value>
+  </data>
 </root>

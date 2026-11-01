@@ -9602,4 +9602,7 @@ Leisti?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Eilė</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit yra alfa versijos Voidstrap plėtinys, ir jį vis dar tobuliname.</value>
+  </data>
 </root>

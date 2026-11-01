@@ -9287,4 +9287,7 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Vico</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit estas alfa etendaĵo por Voidstrap, kaj oni ankoraŭ laboras pri ĝi.</value>
+  </data>
 </root>

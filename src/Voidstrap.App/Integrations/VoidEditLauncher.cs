@@ -30,6 +30,55 @@ internal static class VoidEditLauncher
 
     private static string ExecutablePath => Path.Combine(Paths.Extensions, "VoidEdit", AssetName);
 
+    private static string VersionPath => Path.Combine(Paths.Extensions, "VoidEdit", "version.txt");
+
+    private static readonly SemaphoreSlim DownloadLock = new(1, 1);
+
+    public enum InstallState
+    {
+        NotInstalled,
+        UpdateAvailable,
+        Installed,
+    }
+
+    public static bool IsInstalled => File.Exists(ExecutablePath);
+
+    public static async Task<InstallState> GetStateAsync()
+    {
+        const string LOG_IDENT = "VoidEditLauncher::GetStateAsync";
+        if (!IsInstalled)
+            return InstallState.NotInstalled;
+        try
+        {
+            string installed = File.Exists(VersionPath) ? (await File.ReadAllTextAsync(VersionPath)).Trim() : "";
+            using HttpResponseMessage response = await Client.GetAsync(LatestRelease);
+            if (!response.IsSuccessStatusCode)
+                return InstallState.Installed;
+            using JsonDocument release = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+            string latest = release.RootElement.TryGetProperty("tag_name", out JsonElement tag) ? tag.GetString() ?? "" : "";
+            return latest.Length > 0 && !latest.Equals(installed, StringComparison.Ordinal) ? InstallState.UpdateAvailable : InstallState.Installed;
+        }
+        catch (Exception ex) when (ex is HttpRequestException or IOException or UnauthorizedAccessException or JsonException or TaskCanceledException or InvalidOperationException)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Could not check for an update: " + ex.GetType().Name);
+            return InstallState.Installed;
+        }
+    }
+
+    public static async Task<bool> InstallAsync()
+    {
+        const string LOG_IDENT = "VoidEditLauncher::InstallAsync";
+        try
+        {
+            return await DownloadAsync();
+        }
+        catch (Exception ex) when (ex is HttpRequestException or IOException or UnauthorizedAccessException or JsonException or TaskCanceledException or InvalidOperationException or KeyNotFoundException)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Void Edit could not be downloaded: " + ex.GetType().Name);
+            return false;
+        }
+    }
+
     public static async Task OpenAsync()
     {
         const string LOG_IDENT = "VoidEditLauncher::OpenAsync";
@@ -52,7 +101,7 @@ internal static class VoidEditLauncher
                 Launch();
             }
         }
-        catch (Exception ex) when (ex is HttpRequestException or IOException or UnauthorizedAccessException or JsonException or TaskCanceledException or System.ComponentModel.Win32Exception)
+        catch (Exception ex) when (ex is HttpRequestException or IOException or UnauthorizedAccessException or JsonException or TaskCanceledException or InvalidOperationException or KeyNotFoundException or System.ComponentModel.Win32Exception)
         {
             App.Logger.WriteLine(LOG_IDENT, "Void Edit could not open: " + ex.GetType().Name);
             Utilities.OpenWebLink(ReleasePage);
@@ -66,7 +115,20 @@ internal static class VoidEditLauncher
 
     private static async Task<bool> DownloadAsync()
     {
-        const string LOG_IDENT = "VoidEditLauncher::DownloadAsync";
+        await DownloadLock.WaitAsync();
+        try
+        {
+            return await DownloadLatestAsync();
+        }
+        finally
+        {
+            DownloadLock.Release();
+        }
+    }
+
+    private static async Task<bool> DownloadLatestAsync()
+    {
+        const string LOG_IDENT = "VoidEditLauncher::DownloadLatestAsync";
         using HttpResponseMessage response = await Client.GetAsync(LatestRelease);
         if (!response.IsSuccessStatusCode)
         {
@@ -74,6 +136,7 @@ internal static class VoidEditLauncher
             return false;
         }
         using JsonDocument release = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+        string tagName = release.RootElement.TryGetProperty("tag_name", out JsonElement tag) ? tag.GetString() ?? "" : "";
         foreach (JsonElement asset in release.RootElement.GetProperty("assets").EnumerateArray())
         {
             if (asset.GetProperty("name").GetString() != AssetName)
@@ -89,7 +152,10 @@ internal static class VoidEditLauncher
                 return false;
             }
             Directory.CreateDirectory(Path.GetDirectoryName(ExecutablePath)!);
-            await File.WriteAllBytesAsync(ExecutablePath, data);
+            string partial = ExecutablePath + ".part";
+            await File.WriteAllBytesAsync(partial, data);
+            File.Move(partial, ExecutablePath, true);
+            await File.WriteAllTextAsync(VersionPath, tagName);
             if (!OperatingSystem.IsWindows())
                 File.SetUnixFileMode(ExecutablePath, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
             return true;

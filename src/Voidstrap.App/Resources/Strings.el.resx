@@ -9287,4 +9287,7 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Ουρά</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Το Void Edit είναι μια επέκταση άλφα για το Voidstrap και βρίσκεται ακόμη υπό ανάπτυξη.</value>
+  </data>
 </root>

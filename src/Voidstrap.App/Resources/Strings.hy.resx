@@ -9288,4 +9288,7 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Հերթ</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit-ը Voidstrap-ի ալֆա ընդլայնում է, և դրա վրա դեռ աշխատանք է տարվում։</value>
+  </data>
 </root>

@@ -9287,4 +9287,7 @@ icazə verilir?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Növbə</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit Voidstrap üçün alfa genişlənməsidir və hələ də üzərində işlənir.</value>
+  </data>
 </root>

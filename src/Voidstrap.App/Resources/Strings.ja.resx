@@ -9615,4 +9615,7 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>キュー</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit は Voidstrap のアルファ版拡張機能で、現在も開発が続けられています。</value>
+  </data>
 </root>

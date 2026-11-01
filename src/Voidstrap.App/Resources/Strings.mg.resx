@@ -9288,4 +9288,7 @@ Avelao izany?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Filaharana</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit dia fanitarana alpha ho an'ny Voidstrap ary mbola miasa amin'izany izahay.</value>
+  </data>
 </root>

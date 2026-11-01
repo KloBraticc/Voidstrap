@@ -9598,4 +9598,7 @@ Payagan ba?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Pila</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Ang Void Edit ay isang alpha na extension para sa Voidstrap at patuloy pa itong ginagawa.</value>
+  </data>
 </root>

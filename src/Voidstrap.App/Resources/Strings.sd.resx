@@ -9288,4 +9288,7 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>قطار</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit، Voidstrap لاءِ هڪ الفا واڌارو آهي ۽ ان تي اڃا ڪم جاري آهي.</value>
+  </data>
 </root>

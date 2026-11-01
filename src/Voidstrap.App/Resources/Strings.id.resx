@@ -9603,4 +9603,7 @@ Izinkan?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Antrean</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit adalah ekstensi alfa untuk Voidstrap dan masih terus dikembangkan.</value>
+  </data>
 </root>

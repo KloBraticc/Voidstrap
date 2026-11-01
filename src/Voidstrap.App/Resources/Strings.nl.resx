@@ -9602,4 +9602,7 @@ Toestaan?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Wachtrij</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit is een alfa-extensie voor Voidstrap en er wordt nog aan gewerkt.</value>
+  </data>
 </root>

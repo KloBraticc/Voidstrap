@@ -9288,4 +9288,7 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>පෝලිම</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit යනු Voidstrap සඳහා වූ ඇල්ෆා දිගුවක් වන අතර එය තවමත් සංවර්ධනය වෙමින් පවතී.</value>
+  </data>
 </root>

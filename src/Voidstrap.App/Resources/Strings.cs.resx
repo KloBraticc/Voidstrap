@@ -9601,4 +9601,7 @@ Povolit?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Fronta</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit je alfa rozšíření pro Voidstrap a stále se na něm pracuje.</value>
+  </data>
 </root>

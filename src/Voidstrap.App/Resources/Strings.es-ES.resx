@@ -9600,4 +9600,7 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Cola</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit es una extensión alfa para Voidstrap y todavía se está trabajando en ella.</value>
+  </data>
 </root>

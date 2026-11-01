@@ -9287,4 +9287,7 @@ uyayivumela?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Umgca</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>I-Void Edit sisandiso se-alpha se-Voidstrap kwaye kusasetyenzwa kuso.</value>
+  </data>
 </root>

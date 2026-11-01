@@ -9288,4 +9288,7 @@ Dovoli?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Čakalna vrsta</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit je alfa razširitev za Voidstrap, na kateri se še vedno dela.</value>
+  </data>
 </root>

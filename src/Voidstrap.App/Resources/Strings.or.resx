@@ -9288,4 +9288,7 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>ଧାଡ଼ି</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit ହେଉଛି Voidstrap ପାଇଁ ଏକ ଆଲଫା ଏକ୍ସଟେନସନ୍ ଏବଂ ଏହା ଉପରେ ଏବେ ବି କାମ ଚାଲିଛି।</value>
+  </data>
 </root>

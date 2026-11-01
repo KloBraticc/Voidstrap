@@ -9287,4 +9287,7 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>সারি</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit হলো Voidstrap-এর একটি আলফা এক্সটেনশন এবং এটি নিয়ে এখনও কাজ চলছে।</value>
+  </data>
 </root>

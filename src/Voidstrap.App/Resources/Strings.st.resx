@@ -9287,4 +9287,7 @@ E lumella?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Mola</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit ke katoloso ya alpha ya Voidstrap mme e ntse e sebetswa.</value>
+  </data>
 </root>

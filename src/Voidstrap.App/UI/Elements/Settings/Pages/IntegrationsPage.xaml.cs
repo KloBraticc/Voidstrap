@@ -26,6 +26,7 @@ public partial class IntegrationsPage : UiPage
         base.DataContext = _viewModel;
         InitializeComponent();
         MatchmakerTab.DataContext = new BehaviourViewModel();
+        VoidEditPanel.DataContext = new ClipperViewModel();
         Loaded += OnPageLoaded;
         Unloaded += OnPageUnloaded;
     }
@@ -48,6 +49,7 @@ public partial class IntegrationsPage : UiPage
         _viewModel.OnPropertyChanged("UncapFpsToggleEnabled");
         _viewModel.OnPropertyChanged("UncapFPS");
         StartRpcPreview();
+        _ = RefreshVoidEditStateAsync();
     }
 
     private void OnPageUnloaded(object sender, RoutedEventArgs e)
@@ -81,7 +83,44 @@ public partial class IntegrationsPage : UiPage
 
     private async void OpenVoidEdit_Click(object sender, RoutedEventArgs e)
     {
-        await Voidstrap.Integrations.VoidEditLauncher.OpenAsync();
+        VoidEditOpenButton.IsEnabled = false;
+        VoidEditInstallButton.IsEnabled = false;
+        try
+        {
+            await VoidEditLauncher.OpenAsync();
+        }
+        finally
+        {
+            VoidEditOpenButton.IsEnabled = true;
+            await RefreshVoidEditStateAsync();
+        }
+    }
+
+    private async void InstallVoidEdit_Click(object sender, RoutedEventArgs e)
+    {
+        VoidEditOpenButton.IsEnabled = false;
+        VoidEditInstallButton.IsEnabled = false;
+        try
+        {
+            await VoidEditLauncher.InstallAsync();
+        }
+        finally
+        {
+            VoidEditOpenButton.IsEnabled = true;
+            await RefreshVoidEditStateAsync();
+        }
+    }
+
+    private async Task RefreshVoidEditStateAsync()
+    {
+        VoidEditLauncher.InstallState state = await VoidEditLauncher.GetStateAsync();
+        VoidEditInstallButton.Content = state switch
+        {
+            VoidEditLauncher.InstallState.Installed => Strings.Ui_VoidstrapMods_LibraryInstalled,
+            VoidEditLauncher.InstallState.UpdateAvailable => Strings.Ui_VoidstrapMods_LibraryUpdate,
+            _ => Strings.Ui_VoidstrapMods_LibraryInstall,
+        };
+        VoidEditInstallButton.IsEnabled = state != VoidEditLauncher.InstallState.Installed;
     }
 
     private void ResetDatacenters_Click(object sender, RoutedEventArgs e)

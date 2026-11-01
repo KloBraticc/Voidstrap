@@ -9287,4 +9287,7 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Чарга</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit — гэта альфа-пашырэнне для Voidstrap, і праца над ім яшчэ працягваецца.</value>
+  </data>
 </root>

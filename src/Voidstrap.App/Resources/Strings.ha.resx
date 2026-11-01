@@ -9288,4 +9288,7 @@ Bada shi?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Jerin gaba</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit tsawaitawa ce ta alpha don Voidstrap kuma ana ci gaba da aiki a kanta.</value>
+  </data>
 </root>

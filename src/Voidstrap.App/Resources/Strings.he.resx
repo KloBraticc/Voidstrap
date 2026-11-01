@@ -9288,4 +9288,7 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>תור</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit הוא הרחבת אלפא עבור Voidstrap, והעבודה עליו עדיין נמשכת.</value>
+  </data>
 </root>

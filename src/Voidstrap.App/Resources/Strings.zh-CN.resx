@@ -9624,4 +9624,7 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>队列</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit 是 Voidstrap 的 Alpha 版扩展，目前仍在持续开发中。</value>
+  </data>
 </root>

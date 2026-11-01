@@ -9288,4 +9288,7 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>ਕਤਾਰ</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit, Voidstrap ਲਈ ਇੱਕ ਅਲਫ਼ਾ ਐਕਸਟੈਂਸ਼ਨ ਹੈ ਅਤੇ ਇਸ ਉੱਤੇ ਅਜੇ ਵੀ ਕੰਮ ਚੱਲ ਰਿਹਾ ਹੈ।</value>
+  </data>
 </root>

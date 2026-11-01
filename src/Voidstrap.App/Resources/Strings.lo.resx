@@ -9288,4 +9288,7 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>ຄິວ</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit ເປັນສ່ວນຂະຫຍາຍລຸ້ນອັລຟາສຳລັບ Voidstrap ແລະ ຍັງຢູ່ໃນລະຫວ່າງການພັດທະນາ.</value>
+  </data>
 </root>

@@ -9288,4 +9288,7 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>रांग</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit हे Voidstrap साठीचे अल्फा विस्तार आहे आणि त्यावर अजूनही काम सुरू आहे.</value>
+  </data>
 </root>

@@ -9287,4 +9287,7 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>တန်းစီ</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit သည် Voidstrap အတွက် အယ်လ်ဖာ တိုးချဲ့မှုတစ်ခုဖြစ်ပြီး ဆက်လက်ဖန်တီးနေဆဲဖြစ်သည်။</value>
+  </data>
 </root>

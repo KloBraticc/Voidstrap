@@ -9595,4 +9595,7 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>คิว</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit เป็นส่วนขยายรุ่นอัลฟาสำหรับ Voidstrap และยังอยู่ระหว่างการพัฒนา</value>
+  </data>
 </root>

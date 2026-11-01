@@ -9288,4 +9288,7 @@ Whakaaetia?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Tūtira</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>He toronga arepa a Void Edit mō Voidstrap, ā, kei te mahia tonutia.</value>
+  </data>
 </root>

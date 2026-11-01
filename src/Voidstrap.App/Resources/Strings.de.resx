@@ -9600,4 +9600,7 @@ Erlauben?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Warteschlange</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit ist eine Alpha-Erweiterung für Voidstrap, an der noch gearbeitet wird.</value>
+  </data>
 </root>

@@ -9287,4 +9287,7 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>வரிசை</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit என்பது Voidstrap க்கான ஆல்பா நீட்டிப்பு, இதில் இன்னும் பணி நடந்து வருகிறது.</value>
+  </data>
 </root>

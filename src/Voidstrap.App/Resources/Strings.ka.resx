@@ -9288,4 +9288,7 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>რიგი</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit არის Voidstrap-ის ალფა გაფართოება და მასზე მუშაობა ჯერ კიდევ მიმდინარეობს.</value>
+  </data>
 </root>

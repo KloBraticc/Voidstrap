@@ -9288,4 +9288,7 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Кезек</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit — Voidstrap үшін альфа кеңейтімі, оның үстінде жұмыс әлі жалғасуда.</value>
+  </data>
 </root>

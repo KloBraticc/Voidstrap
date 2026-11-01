@@ -9288,4 +9288,7 @@ kwe ya?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Ahịrị</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit bụ ndọtị alfa maka Voidstrap, a ka na-arụkwa ọrụ na ya.</value>
+  </data>
 </root>

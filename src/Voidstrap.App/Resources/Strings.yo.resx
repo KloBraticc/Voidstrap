@@ -9287,4 +9287,7 @@ Gba laaye?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Ìlà</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit jẹ́ àfikún alpha fún Voidstrap, a sì ń ṣiṣẹ́ lórí rẹ̀ lọ́wọ́lọ́wọ́.</value>
+  </data>
 </root>

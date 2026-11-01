@@ -9602,4 +9602,7 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>صف</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit یک افزونهٔ آلفا برای Voidstrap است و هنوز روی آن کار می‌شود.</value>
+  </data>
 </root>

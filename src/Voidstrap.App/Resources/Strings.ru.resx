@@ -9600,4 +9600,7 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Очередь</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit — это альфа-расширение для Voidstrap, работа над ним продолжается.</value>
+  </data>
 </root>

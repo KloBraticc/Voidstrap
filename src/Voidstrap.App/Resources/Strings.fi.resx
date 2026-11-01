@@ -9601,4 +9601,7 @@ Sallitaanko?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Jono</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit on Voidstrapin alfavaiheen laajennus, ja sen parissa työskennellään yhä.</value>
+  </data>
 </root>

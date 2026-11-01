@@ -9592,4 +9592,7 @@ Benarkan?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Baris gilir</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit ialah sambungan alfa untuk Voidstrap dan masih sedang diusahakan.</value>
+  </data>
 </root>

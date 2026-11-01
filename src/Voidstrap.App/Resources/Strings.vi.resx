@@ -9603,4 +9603,7 @@ Cho phép?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Hàng đợi</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit là một tiện ích mở rộng bản alpha dành cho Voidstrap và vẫn đang được tiếp tục phát triển.</value>
+  </data>
 </root>

@@ -9287,4 +9287,7 @@ Ho permets?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Cua</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit és una extensió alfa per a Voidstrap i encara s'hi està treballant.</value>
+  </data>
 </root>

@@ -9603,4 +9603,7 @@ Consentire?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Coda</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit è un'estensione alfa per Voidstrap ed è ancora in fase di sviluppo.</value>
+  </data>
 </root>

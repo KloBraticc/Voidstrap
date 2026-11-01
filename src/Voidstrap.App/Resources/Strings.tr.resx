@@ -9598,4 +9598,7 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Sıra</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit, Voidstrap için bir alfa uzantısıdır ve üzerinde çalışılmaya devam edilmektedir.</value>
+  </data>
 </root>

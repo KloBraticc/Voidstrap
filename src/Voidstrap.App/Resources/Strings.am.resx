@@ -9287,4 +9287,7 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>ወረፋ</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit ለVoidstrap የአልፋ ቅጥያ ነው፣ እና አሁንም እየተሰራበት ነው።</value>
+  </data>
 </root>

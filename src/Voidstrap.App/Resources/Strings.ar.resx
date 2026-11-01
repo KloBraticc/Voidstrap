@@ -9599,4 +9599,7 @@
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>قائمة الانتظار</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit هو امتداد تجريبي (ألفا) لـ Voidstrap ولا يزال العمل عليه جاريًا.</value>
+  </data>
 </root>

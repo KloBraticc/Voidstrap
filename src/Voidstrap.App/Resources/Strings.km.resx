@@ -9288,4 +9288,7 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>ជួរ</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit គឺជាផ្នែកបន្ថែមកំណែអាល់ហ្វាសម្រាប់ Voidstrap ហើយកំពុងត្រូវបានអភិវឌ្ឍនៅឡើយ។</value>
+  </data>
 </root>

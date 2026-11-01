@@ -9599,4 +9599,7 @@ Autoriser ?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>File d'attente</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit est une extension alpha pour Voidstrap et son développement se poursuit.</value>
+  </data>
 </root>

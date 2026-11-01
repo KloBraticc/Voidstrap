@@ -9288,4 +9288,7 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>ക്യൂ</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit, Voidstrap-നുള്ള ഒരു ആൽഫ എക്സ്റ്റൻഷനാണ്, ഇതിന്റെ പണി ഇപ്പോഴും തുടരുന്നു.</value>
+  </data>
 </root>

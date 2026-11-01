@@ -9599,4 +9599,7 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>대기열</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit는 Voidstrap의 알파 확장 프로그램이며 아직 개발이 진행 중입니다.</value>
+  </data>
 </root>

@@ -9602,4 +9602,7 @@ Permiți?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Coadă</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit este o extensie alfa pentru Voidstrap și se lucrează în continuare la ea.</value>
+  </data>
 </root>

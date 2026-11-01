@@ -9287,4 +9287,7 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Навбат</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit васеъкунандаи алфа барои Voidstrap аст ва кор дар он ҳоло идома дорад.</value>
+  </data>
 </root>

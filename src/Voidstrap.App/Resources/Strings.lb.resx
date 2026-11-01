@@ -9288,4 +9288,7 @@ Erlaabt et?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Waardeschlaang</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit ass eng Alpha-Erweiderung fir Voidstrap, un där nach geschafft gëtt.</value>
+  </data>
 </root>

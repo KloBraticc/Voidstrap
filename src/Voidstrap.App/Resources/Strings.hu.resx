@@ -9600,4 +9600,7 @@ Engedélyezed?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Várólista</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>A Void Edit a Voidstrap alfa állapotú bővítménye, és még folyamatosan dolgozunk rajta.</value>
+  </data>
 </root>

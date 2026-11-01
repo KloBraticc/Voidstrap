@@ -9288,4 +9288,7 @@ Oggolow?</value>
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Saf</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit waa kordhin alfa ah oo loogu talagalay Voidstrap, weli waa la shaqaynayaa.</value>
+  </data>
 </root>

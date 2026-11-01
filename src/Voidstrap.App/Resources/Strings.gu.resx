@@ -9288,4 +9288,7 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>કતાર</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit એ Voidstrap માટેનું આલ્ફા એક્સ્ટેન્શન છે અને તેના પર હજી કામ ચાલી રહ્યું છે.</value>
+  </data>
 </root>

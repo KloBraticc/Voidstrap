@@ -9288,4 +9288,7 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>लाम</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit, Voidstrap का लागि एउटा अल्फा एक्सटेन्सन हो र यसमा अझै काम भइरहेको छ।</value>
+  </data>
 </root>

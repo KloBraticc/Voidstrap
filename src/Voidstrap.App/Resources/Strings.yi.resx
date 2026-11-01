@@ -9287,4 +9287,7 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>ריי</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit איז אַן אַלפֿאַ פֿאַרברייטערונג פֿאַר Voidstrap, און מען אַרבעט נאָך אויף איר.</value>
+  </data>
 </root>

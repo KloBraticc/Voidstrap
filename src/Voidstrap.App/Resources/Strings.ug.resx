@@ -9287,4 +9287,7 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>ئۆچرەت</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit بولسا Voidstrap نىڭ ئالفا كېڭەيتمىسى بولۇپ، ئۇنىڭ ئۈستىدە يەنىلا ئىشلىنىۋاتىدۇ.</value>
+  </data>
 </root>

@@ -9603,4 +9603,7 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>佇列</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit 是 Voidstrap 的 Alpha 版擴充功能，目前仍在持續開發中。</value>
+  </data>
 </root>

@@ -9288,4 +9288,7 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>ಸರದಿ</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit ಎಂಬುದು Voidstrap ಗಾಗಿ ಆಲ್ಫಾ ವಿಸ್ತರಣೆಯಾಗಿದ್ದು, ಅದರ ಮೇಲೆ ಇನ್ನೂ ಕೆಲಸ ನಡೆಯುತ್ತಿದೆ.</value>
+  </data>
 </root>

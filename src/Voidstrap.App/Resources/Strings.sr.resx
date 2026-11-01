@@ -9288,4 +9288,7 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Spotify.Queue" xml:space="preserve">
     <value>Ред</value>
   </data>
+  <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
+    <value>Void Edit је алфа проширење за Voidstrap и на њему се још увек ради.</value>
+  </data>
 </root>
