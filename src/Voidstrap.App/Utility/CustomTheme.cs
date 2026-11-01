@@ -372,6 +372,8 @@ namespace Voidstrap.Utility
                 },
             };
 
+        private const string LegacyBaseNamespace = "xmlns:base=\"clr-namespace:Voidstrap.UI.Elements.Base\"";
+
         public static ThemeValidationResult Validate(string xaml)
         {
             ThemeValidationResult result = new ThemeValidationResult();
@@ -582,7 +584,7 @@ namespace Voidstrap.Utility
                 throw new FileNotFoundException("The theme file was not found", path);
             if (file.Length <= 0 || file.Length > MaximumXamlFileBytes)
                 throw new InvalidDataException("The theme file size is invalid");
-            return File.ReadAllText(path);
+            return File.ReadAllText(path).Replace(LegacyBaseNamespace, string.Empty, StringComparison.Ordinal);
         }
 
         public static void WriteFile(string path, string xaml)
