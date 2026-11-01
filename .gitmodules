@@ -16,3 +16,6 @@
 	path = external/voidstrap-mods-library
 	url = https://github.com/KloBraticc/voidstrap-mods-library
 	branch = main
+[submodule "external/VoidEdit"]
+	path = external/VoidEdit
+	url = https://github.com/KloBraticc/VoidEdit
