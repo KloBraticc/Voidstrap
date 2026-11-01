@@ -9290,4 +9290,13 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit איז אַן אַלפֿאַ פֿאַרברייטערונג פֿאַר Voidstrap, און מען אַרבעט נאָך אויף איר.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>עפֿענען רעקאָרדירונגען אין Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>נאָכן פֿאַרלאָזן אַ שפּיל, פֿרעגן צי צו עפֿענען די געהיטע רעקאָרדירונגען אין Void Edit ווי נײַע פּראָיעקטן.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>געהיטע רעקאָרדירונגען: {0}. ווילסטו זיי עפֿענען אין Void Edit ווי נײַע פּראָיעקטן?</value>
+  </data>
 </root>

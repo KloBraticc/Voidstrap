@@ -9291,4 +9291,13 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit, Voidstrap ਲਈ ਇੱਕ ਅਲਫ਼ਾ ਐਕਸਟੈਂਸ਼ਨ ਹੈ ਅਤੇ ਇਸ ਉੱਤੇ ਅਜੇ ਵੀ ਕੰਮ ਚੱਲ ਰਿਹਾ ਹੈ।</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>ਰਿਕਾਰਡਿੰਗਾਂ Void Edit ਵਿੱਚ ਖੋਲ੍ਹੋ</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>ਗੇਮ ਛੱਡਣ ਤੋਂ ਬਾਅਦ, ਪੁੱਛੋ ਕਿ ਕੀ ਤੁਹਾਡੀਆਂ ਸੰਭਾਲੀਆਂ ਰਿਕਾਰਡਿੰਗਾਂ ਨੂੰ Void Edit ਵਿੱਚ ਨਵੇਂ ਪ੍ਰੋਜੈਕਟਾਂ ਵਜੋਂ ਖੋਲ੍ਹਣਾ ਹੈ।</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>ਸੰਭਾਲੀਆਂ ਰਿਕਾਰਡਿੰਗਾਂ: {0}। ਕੀ ਤੁਸੀਂ ਇਹਨਾਂ ਨੂੰ Void Edit ਵਿੱਚ ਨਵੇਂ ਪ੍ਰੋਜੈਕਟਾਂ ਵਜੋਂ ਖੋਲ੍ਹਣਾ ਚਾਹੁੰਦੇ ਹੋ?</value>
+  </data>
 </root>

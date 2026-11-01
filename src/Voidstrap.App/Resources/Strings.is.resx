@@ -9291,4 +9291,13 @@ Leyfa það?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit er alfaviðbót fyrir Voidstrap og enn er unnið að henni.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Opna upptökur í Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Spyrja eftir að þú hættir í leik hvort opna eigi vistaðar upptökur í Void Edit sem ný verkefni.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Vistaðar upptökur: {0}. Viltu opna þær í Void Edit sem ný verkefni?</value>
+  </data>
 </root>

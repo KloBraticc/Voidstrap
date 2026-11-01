@@ -9606,4 +9606,13 @@ Izinkan?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit adalah ekstensi alfa untuk Voidstrap dan masih terus dikembangkan.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Buka rekaman di Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Setelah Anda keluar dari game, tanyakan apakah rekaman yang tersimpan ingin dibuka di Void Edit sebagai proyek baru.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Rekaman tersimpan: {0}. Apakah Anda ingin membukanya di Void Edit sebagai proyek baru?</value>
+  </data>
 </root>

@@ -9601,4 +9601,13 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit — це альфа-розширення для Voidstrap, робота над ним триває.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Відкривати записи у Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Після виходу з гри запитувати, чи відкрити збережені записи у Void Edit як нові проєкти.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Збережено записів: {0}. Бажаєте відкрити їх у Void Edit як нові проєкти?</value>
+  </data>
 </root>

@@ -9291,4 +9291,13 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit — Voidstrap үчүн альфа кеңейтүүсү, анын үстүндө иш дагы эле улантылууда.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Жазууларды Void Edit'те ачуу</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Оюндан чыккандан кийин сакталган жазууларды Void Edit'те жаңы долбоор катары ачуу керекпи деп суроо.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Сакталган жазуулар: {0}. Аларды Void Edit'те жаңы долбоор катары ачкыңыз келеби?</value>
+  </data>
 </root>

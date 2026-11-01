@@ -9290,4 +9290,13 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit بولسا Voidstrap نىڭ ئالفا كېڭەيتمىسى بولۇپ، ئۇنىڭ ئۈستىدە يەنىلا ئىشلىنىۋاتىدۇ.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>خاتىرىلەرنى Void Edit دا ئېچىش</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>ئويۇندىن چىققاندىن كېيىن، ساقلانغان خاتىرىلەرنى Void Edit دا يېڭى تۈر سۈپىتىدە ئېچىش ياكى ئاچماسلىقنى سورايدۇ.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>ساقلانغان خاتىرىلەر: {0}. ئۇلارنى Void Edit دا يېڭى تۈر سۈپىتىدە ئاچامسىز؟</value>
+  </data>
 </root>

@@ -9291,4 +9291,13 @@ Oggolow?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit waa kordhin alfa ah oo loogu talagalay Voidstrap, weli waa la shaqaynayaa.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Ku fur duubista Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Kadib markaad ka baxdo ciyaar, weydii in duubistaada la keydiyay lagu furo Void Edit sidii mashaariic cusub.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Duubis la keydiyay: {0}. Ma rabtaa inaad ku furto Void Edit sidii mashaariic cusub?</value>
+  </data>
 </root>

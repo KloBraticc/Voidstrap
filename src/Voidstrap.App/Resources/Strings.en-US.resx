@@ -1934,4 +1934,13 @@ Install anyway?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit is an alpha extension for Voidstrap and is still being worked on.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Open recordings in Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>After you leave a game, ask to open your saved recordings in Void Edit as new projects.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Recordings saved: {0}. Do you want to open them in Void Edit as new projects?</value>
+  </data>
 </root>

@@ -9291,4 +9291,13 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit ହେଉଛି Voidstrap ପାଇଁ ଏକ ଆଲଫା ଏକ୍ସଟେନସନ୍ ଏବଂ ଏହା ଉପରେ ଏବେ ବି କାମ ଚାଲିଛି।</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>ରେକର୍ଡିଂଗୁଡ଼ିକ Void Edit ରେ ଖୋଲନ୍ତୁ</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>ଖେଳ ଛାଡ଼ିବା ପରେ, ସେଭ୍ ହୋଇଥିବା ରେକର୍ଡିଂଗୁଡ଼ିକୁ Void Edit ରେ ନୂଆ ପ୍ରୋଜେକ୍ଟ ଭାବେ ଖୋଲିବେ କି ବୋଲି ପଚାରେ।</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>ସେଭ୍ ହୋଇଥିବା ରେକର୍ଡିଂ: {0}। ଆପଣ ସେଗୁଡ଼ିକୁ Void Edit ରେ ନୂଆ ପ୍ରୋଜେକ୍ଟ ଭାବେ ଖୋଲିବାକୁ ଚାହାଁନ୍ତି କି?</value>
+  </data>
 </root>

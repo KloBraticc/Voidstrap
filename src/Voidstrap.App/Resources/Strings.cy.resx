@@ -9290,4 +9290,13 @@ Caniatáu iddo?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Mae Void Edit yn estyniad alffa ar gyfer Voidstrap ac mae gwaith yn dal i fynd rhagddo arno.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Agor recordiadau yn Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Ar ôl i chi adael gêm, gofyn a ddylid agor eich recordiadau a gadwyd yn Void Edit fel prosiectau newydd.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Recordiadau a gadwyd: {0}. Ydych chi am eu hagor yn Void Edit fel prosiectau newydd?</value>
+  </data>
 </root>

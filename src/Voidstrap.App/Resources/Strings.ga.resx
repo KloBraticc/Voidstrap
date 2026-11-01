@@ -9291,4 +9291,13 @@ Ceadaigh é?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Is síneadh alfa do Voidstrap é Void Edit agus táthar fós ag obair air.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Oscail taifeadtaí in Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Tar éis duit cluiche a fhágáil, fiafraigh ar cheart na taifeadtaí sábháilte a oscailt in Void Edit mar thionscadail nua.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Taifeadtaí sábháilte: {0}. An bhfuil fonn ort iad a oscailt in Void Edit mar thionscadail nua?</value>
+  </data>
 </root>

@@ -9602,4 +9602,13 @@ Autoriser ?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit est une extension alpha pour Voidstrap et son développement se poursuit.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Ouvrir les enregistrements dans Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Après avoir quitté un jeu, vous demande s'il faut ouvrir vos enregistrements dans Void Edit en tant que nouveaux projets.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Enregistrements sauvegardés : {0}. Voulez-vous les ouvrir dans Void Edit en tant que nouveaux projets ?</value>
+  </data>
 </root>

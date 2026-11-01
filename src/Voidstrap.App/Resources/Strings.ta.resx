@@ -9290,4 +9290,13 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit என்பது Voidstrap க்கான ஆல்பா நீட்டிப்பு, இதில் இன்னும் பணி நடந்து வருகிறது.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>பதிவுகளை Void Edit இல் திற</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>கேமிலிருந்து வெளியேறிய பின், சேமித்த பதிவுகளை Void Edit இல் புதிய திட்டங்களாகத் திறக்க வேண்டுமா என்று கேட்கும்.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>சேமித்த பதிவுகள்: {0}. அவற்றை Void Edit இல் புதிய திட்டங்களாகத் திறக்க விரும்புகிறீர்களா?</value>
+  </data>
 </root>

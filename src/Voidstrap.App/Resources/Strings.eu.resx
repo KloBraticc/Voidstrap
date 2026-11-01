@@ -9290,4 +9290,13 @@ Baimendu al duzu?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit Voidstrap-erako alfa luzapen bat da, eta oraindik lanean ari gara harekin.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Ireki grabazioak Void Edit-en</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Joko batetik irtetean, galdetu gordetako grabazioak Void Edit-en proiektu berri gisa ireki nahi dituzun.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Gordetako grabazioak: {0}. Void Edit-en proiektu berri gisa ireki nahi dituzu?</value>
+  </data>
 </root>

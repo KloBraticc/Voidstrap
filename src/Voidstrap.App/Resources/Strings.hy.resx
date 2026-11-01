@@ -9291,4 +9291,13 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit-ը Voidstrap-ի ալֆա ընդլայնում է, և դրա վրա դեռ աշխատանք է տարվում։</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Բացել ձայնագրությունները Void Edit-ում</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Խաղից դուրս գալուց հետո հարցնել՝ արդյոք բացել պահված ձայնագրությունները Void Edit-ում որպես նոր նախագծեր։</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Պահված ձայնագրություններ՝ {0}։ Ցանկանո՞ւմ եք դրանք բացել Void Edit-ում որպես նոր նախագծեր։</value>
+  </data>
 </root>

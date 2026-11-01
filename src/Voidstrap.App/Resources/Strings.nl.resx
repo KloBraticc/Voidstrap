@@ -9605,4 +9605,13 @@ Toestaan?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit is een alfa-extensie voor Voidstrap en er wordt nog aan gewerkt.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Opnames openen in Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Vraagt na het verlaten van een game of je opgeslagen opnames als nieuwe projecten in Void Edit moeten worden geopend.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Opgeslagen opnames: {0}. Wil je ze als nieuwe projecten openen in Void Edit?</value>
+  </data>
 </root>

@@ -9601,4 +9601,13 @@ Payagan ba?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Ang Void Edit ay isang alpha na extension para sa Voidstrap at patuloy pa itong ginagawa.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Buksan ang mga recording sa Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Pagkatapos mong umalis sa isang laro, magtanong kung bubuksan ang mga naka-save mong recording sa Void Edit bilang mga bagong proyekto.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Mga naka-save na recording: {0}. Gusto mo ba silang buksan sa Void Edit bilang mga bagong proyekto?</value>
+  </data>
 </root>

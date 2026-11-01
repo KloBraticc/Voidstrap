@@ -9290,4 +9290,13 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit، Voidstrap کے لیے ایک الفا ایکسٹینشن ہے اور اس پر ابھی بھی کام جاری ہے۔</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>ریکارڈنگز Void Edit میں کھولیں</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>گیم چھوڑنے کے بعد پوچھیں کہ کیا آپ کی محفوظ کردہ ریکارڈنگز کو Void Edit میں نئے پروجیکٹس کے طور پر کھولنا ہے۔</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>محفوظ کردہ ریکارڈنگز: {0}۔ کیا آپ انہیں Void Edit میں نئے پروجیکٹس کے طور پر کھولنا چاہتے ہیں؟</value>
+  </data>
 </root>

@@ -9241,6 +9241,24 @@ namespace Voidstrap.Resources {
             }
         }
 
+        public static string Ui_VoidEdit_AskRecordings_Title {
+            get {
+                return ResourceManager.GetString("Ui.VoidEdit.AskRecordings.Title", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidEdit_AskRecordings_Description {
+            get {
+                return ResourceManager.GetString("Ui.VoidEdit.AskRecordings.Description", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidEdit_AskRecordings_Prompt {
+            get {
+                return ResourceManager.GetString("Ui.VoidEdit.AskRecordings.Prompt", resourceCulture);
+            }
+        }
+
         public static string Ui_VoidEdit_AlphaNotice {
             get {
                 return ResourceManager.GetString("Ui.VoidEdit.AlphaNotice", resourceCulture);

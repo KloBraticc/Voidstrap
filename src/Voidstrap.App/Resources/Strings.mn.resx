@@ -9291,4 +9291,13 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit нь Voidstrap-ын альфа өргөтгөл бөгөөд одоо ч хөгжүүлэлт нь үргэлжилж байна.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Бичлэгүүдийг Void Edit-д нээх</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Тоглоомоос гарсны дараа хадгалсан бичлэгүүдийг Void Edit-д шинэ төсөл болгон нээх эсэхийг асууна.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Хадгалсан бичлэг: {0}. Тэдгээрийг Void Edit-д шинэ төсөл болгон нээх үү?</value>
+  </data>
 </root>

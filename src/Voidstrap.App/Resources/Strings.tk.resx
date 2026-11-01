@@ -9290,4 +9290,13 @@ Rugsat beriň?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit Voidstrap üçin alfa giňeltmesidir we onuň üstünde henizem işlenýär.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Ýazgylary Void Edit-de aç</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Oýundan çykanyňyzdan soň ýatda saklanan ýazgylary Void Edit-de täze taslama hökmünde açmalymy diýip soraýar.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Ýatda saklanan ýazgylar: {0}. Olary Void Edit-de täze taslama hökmünde açmak isleýärsiňizmi?</value>
+  </data>
 </root>

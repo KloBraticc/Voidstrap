@@ -9601,4 +9601,13 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit, Voidstrap için bir alfa uzantısıdır ve üzerinde çalışılmaya devam edilmektedir.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Kayıtları Void Edit'te aç</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Bir oyundan çıktıktan sonra kaydedilen kayıtlarınızın Void Edit'te yeni proje olarak açılıp açılmayacağını sorar.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Kaydedilen kayıtlar: {0}. Bunları Void Edit'te yeni proje olarak açmak ister misiniz?</value>
+  </data>
 </root>

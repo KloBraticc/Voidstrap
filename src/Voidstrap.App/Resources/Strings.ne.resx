@@ -9291,4 +9291,13 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit, Voidstrap का लागि एउटा अल्फा एक्सटेन्सन हो र यसमा अझै काम भइरहेको छ।</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>रेकर्डिङहरू Void Edit मा खोल्नुहोस्</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>खेल छोडेपछि, सुरक्षित गरिएका रेकर्डिङहरू Void Edit मा नयाँ प्रोजेक्टको रूपमा खोल्ने कि नखोल्ने भनी सोध्छ।</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>सुरक्षित गरिएका रेकर्डिङहरू: {0}। के तपाईं तिनलाई Void Edit मा नयाँ प्रोजेक्टको रूपमा खोल्न चाहनुहुन्छ?</value>
+  </data>
 </root>

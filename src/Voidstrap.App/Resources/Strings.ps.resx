@@ -9291,4 +9291,13 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit د Voidstrap لپاره یو الفا غځونه ده او لا هم پرې کار روان دی.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>ثبتونه په Void Edit کې پرانیزئ</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>له لوبې وتلو وروسته پوښتنه کوي چې ستاسو خوندي شوي ثبتونه په Void Edit کې د نویو پروژو په توګه پرانیستل شي که نه.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>خوندي شوي ثبتونه: {0}. ایا غواړئ چې دا په Void Edit کې د نویو پروژو په توګه پرانیزئ؟</value>
+  </data>
 </root>

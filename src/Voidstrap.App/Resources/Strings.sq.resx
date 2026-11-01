@@ -9291,4 +9291,13 @@ E lejon atë?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit është një shtesë alfa për Voidstrap dhe ende po punohet për të.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Hap regjistrimet në Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Pasi del nga një lojë, pyet nëse duhen hapur regjistrimet e ruajtura në Void Edit si projekte të reja.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Regjistrime të ruajtura: {0}. Dëshiron t'i hapësh në Void Edit si projekte të reja?</value>
+  </data>
 </root>

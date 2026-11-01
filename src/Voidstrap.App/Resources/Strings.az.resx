@@ -9290,4 +9290,13 @@ icazə verilir?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit Voidstrap üçün alfa genişlənməsidir və hələ də üzərində işlənir.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Yazıları Void Edit-də aç</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Oyundan çıxdıqdan sonra saxlanmış yazılarınızı Void Edit-də yeni layihə kimi açmağı soruş.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Saxlanmış yazılar: {0}. Onları Void Edit-də yeni layihə kimi açmaq istəyirsiniz?</value>
+  </data>
 </root>

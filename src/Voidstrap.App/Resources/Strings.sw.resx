@@ -9290,4 +9290,13 @@ Je, unairuhusu?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit ni kiendelezi cha alfa cha Voidstrap na bado kinaendelea kufanyiwa kazi.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Fungua rekodi katika Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Baada ya kuondoka kwenye mchezo, uliza kama rekodi zako zilizohifadhiwa zifunguliwe katika Void Edit kama miradi mipya.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Rekodi zilizohifadhiwa: {0}. Je, ungependa kuzifungua katika Void Edit kama miradi mipya?</value>
+  </data>
 </root>

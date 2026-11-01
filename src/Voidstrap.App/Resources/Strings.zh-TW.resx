@@ -9606,4 +9606,13 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit 是 Voidstrap 的 Alpha 版擴充功能，目前仍在持續開發中。</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>在 Void Edit 中開啟錄影</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>離開遊戲後，詢問你是否要將儲存的錄影在 Void Edit 中作為新專案開啟。</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>已儲存錄影：{0} 個。要在 Void Edit 中將它們作為新專案開啟嗎？</value>
+  </data>
 </root>

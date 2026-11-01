@@ -9291,4 +9291,13 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit ເປັນສ່ວນຂະຫຍາຍລຸ້ນອັລຟາສຳລັບ Voidstrap ແລະ ຍັງຢູ່ໃນລະຫວ່າງການພັດທະນາ.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>ເປີດການບັນທຶກໃນ Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>ຫຼັງຈາກອອກຈາກເກມ, ຖາມວ່າຈະເປີດການບັນທຶກທີ່ບັນທຶກໄວ້ໃນ Void Edit ເປັນໂປຣເຈັກໃໝ່ຫຼືບໍ່.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>ການບັນທຶກທີ່ບັນທຶກໄວ້: {0}. ທ່ານຕ້ອງການເປີດພວກມັນໃນ Void Edit ເປັນໂປຣເຈັກໃໝ່ບໍ?</value>
+  </data>
 </root>

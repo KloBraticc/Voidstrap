@@ -9291,4 +9291,13 @@ Emera?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit ni umugereka wa alpha wa Voidstrap kandi uracyakorwaho.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Fungura amajwi n'amashusho byafashwe muri Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Nyuma yo kuva mu mukino, baza niba ibyafashwe byabitswe bifungurwa muri Void Edit nk'imishinga mishya.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Ibyafashwe byabitswe: {0}. Urashaka kubifungura muri Void Edit nk'imishinga mishya?</value>
+  </data>
 </root>

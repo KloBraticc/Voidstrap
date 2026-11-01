@@ -9291,4 +9291,13 @@ kwe ya?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit bụ ndọtị alfa maka Voidstrap, a ka na-arụkwa ọrụ na ya.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Mepee ndekọ na Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Mgbe ị hapụrụ egwuregwu, jụọ ma a ga-emepe ndekọ ị chekwara na Void Edit dịka ọrụ ọhụrụ.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Ndekọ echekwara: {0}. Ị chọrọ imepe ha na Void Edit dịka ọrụ ọhụrụ?</value>
+  </data>
 </root>

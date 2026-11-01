@@ -9290,4 +9290,13 @@ E lumella?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit ke katoloso ya alpha ya Voidstrap mme e ntse e sebetswa.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Bula direkoto ho Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Ka mor'a hore o tlohele papadi, botsa hore na direkoto tse bolokilweng di bulwe ho Void Edit e le diprojeke tse ntjha.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Direkoto tse bolokilweng: {0}. Na o batla ho di bula ho Void Edit e le diprojeke tse ntjha?</value>
+  </data>
 </root>

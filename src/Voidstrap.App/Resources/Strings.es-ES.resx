@@ -9603,4 +9603,13 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit es una extensión alfa para Voidstrap y todavía se está trabajando en ella.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Abrir grabaciones en Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Al salir de un juego, pregunta si quieres abrir tus grabaciones guardadas en Void Edit como proyectos nuevos.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Grabaciones guardadas: {0}. ¿Quieres abrirlas en Void Edit como proyectos nuevos?</value>
+  </data>
 </root>

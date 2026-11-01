@@ -9291,4 +9291,13 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit е алфа проширување за Voidstrap и работата на него сè уште продолжува.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Отвори ги снимките во Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Откако ќе излезете од игра, прашува дали зачуваните снимки да се отворат во Void Edit како нови проекти.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Зачувани снимки: {0}. Дали сакате да ги отворите во Void Edit како нови проекти?</value>
+  </data>
 </root>

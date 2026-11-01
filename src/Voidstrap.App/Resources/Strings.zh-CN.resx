@@ -9627,4 +9627,13 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit 是 Voidstrap 的 Alpha 版扩展，目前仍在持续开发中。</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>在 Void Edit 中打开录像</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>退出游戏后，询问您是否要将保存的录像在 Void Edit 中作为新项目打开。</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>已保存录像：{0} 个。是否要在 Void Edit 中将其作为新项目打开？</value>
+  </data>
 </root>

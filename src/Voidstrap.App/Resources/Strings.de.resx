@@ -9603,4 +9603,13 @@ Erlauben?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit ist eine Alpha-Erweiterung für Voidstrap, an der noch gearbeitet wird.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Aufnahmen in Void Edit öffnen</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Nach dem Verlassen eines Spiels fragen, ob deine gespeicherten Aufnahmen als neue Projekte in Void Edit geöffnet werden sollen.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Gespeicherte Aufnahmen: {0}. Möchtest du sie als neue Projekte in Void Edit öffnen?</value>
+  </data>
 </root>

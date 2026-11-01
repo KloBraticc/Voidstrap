@@ -9291,4 +9291,13 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit એ Voidstrap માટેનું આલ્ફા એક્સ્ટેન્શન છે અને તેના પર હજી કામ ચાલી રહ્યું છે.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>રેકોર્ડિંગ Void Edit માં ખોલો</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>ગેમમાંથી નીકળ્યા પછી, તમારા સાચવેલા રેકોર્ડિંગને Void Edit માં નવા પ્રોજેક્ટ તરીકે ખોલવા માટે પૂછો.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>સાચવેલા રેકોર્ડિંગ: {0}. શું તમે તેમને Void Edit માં નવા પ્રોજેક્ટ તરીકે ખોલવા માંગો છો?</value>
+  </data>
 </root>

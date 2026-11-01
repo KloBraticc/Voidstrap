@@ -9618,4 +9618,13 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit は Voidstrap のアルファ版拡張機能で、現在も開発が続けられています。</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>録画を Void Edit で開く</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>ゲームを終了した後、保存した録画を Void Edit で新しいプロジェクトとして開くか確認します。</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>保存された録画: {0} 件。Void Edit で新しいプロジェクトとして開きますか？</value>
+  </data>
 </root>

@@ -329,6 +329,19 @@ public class ClipperViewModel : NotifyPropertyChangedViewModel
         }
     }
 
+    public bool VoidEditAskForRecordings
+    {
+        get => App.Settings.Prop.VoidEditAskForRecordings;
+        set
+        {
+            if (App.Settings.Prop.VoidEditAskForRecordings == value)
+                return;
+            App.Settings.Prop.VoidEditAskForRecordings = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged();
+        }
+    }
+
     public bool ClipperShowIndicator
     {
         get => App.Settings.Prop.ClipperShowIndicator;

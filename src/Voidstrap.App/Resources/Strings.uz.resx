@@ -9290,4 +9290,13 @@ Ruxsat berasizmi?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit Voidstrap uchun alfa kengaytmasi boʻlib, ustida hali ham ish olib borilmoqda.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Yozuvlarni Void Edit’da ochish</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>O‘yindan chiqqaningizdan so‘ng saqlangan yozuvlarni Void Edit’da yangi loyiha sifatida ochish kerakmi, deb so‘raydi.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Saqlangan yozuvlar: {0}. Ularni Void Edit’da yangi loyiha sifatida ochmoqchimisiz?</value>
+  </data>
 </root>

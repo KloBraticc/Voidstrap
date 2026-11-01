@@ -9291,4 +9291,13 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit ಎಂಬುದು Voidstrap ಗಾಗಿ ಆಲ್ಫಾ ವಿಸ್ತರಣೆಯಾಗಿದ್ದು, ಅದರ ಮೇಲೆ ಇನ್ನೂ ಕೆಲಸ ನಡೆಯುತ್ತಿದೆ.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>ರೆಕಾರ್ಡಿಂಗ್‌ಗಳನ್ನು Void Edit ನಲ್ಲಿ ತೆರೆಯಿರಿ</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>ಆಟದಿಂದ ಹೊರಬಂದ ನಂತರ, ಉಳಿಸಿದ ರೆಕಾರ್ಡಿಂಗ್‌ಗಳನ್ನು Void Edit ನಲ್ಲಿ ಹೊಸ ಪ್ರಾಜೆಕ್ಟ್‌ಗಳಾಗಿ ತೆರೆಯಬೇಕೆ ಎಂದು ಕೇಳುತ್ತದೆ.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>ಉಳಿಸಿದ ರೆಕಾರ್ಡಿಂಗ್‌ಗಳು: {0}. ಅವುಗಳನ್ನು Void Edit ನಲ್ಲಿ ಹೊಸ ಪ್ರಾಜೆಕ್ಟ್‌ಗಳಾಗಿ ತೆರೆಯಲು ಬಯಸುವಿರಾ?</value>
+  </data>
 </root>

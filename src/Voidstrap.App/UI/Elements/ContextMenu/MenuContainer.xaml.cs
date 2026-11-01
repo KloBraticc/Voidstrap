@@ -2191,6 +2191,7 @@ public partial class MenuContainer : WpfUiWindow
         Voidstrap.Integrations.Clipper.ClipperService.ClipSaved -= OnClipSavedByService;
         Voidstrap.Integrations.Clipper.ClipperService.NotifyGameSession(false);
         Voidstrap.Integrations.Clipper.ClipperService.NotifyClientRunning(false);
+        Voidstrap.Integrations.VoidEditClipHandoff.Prompt();
         if (_sessionDockHotkeyRegistered && Voidstrap.Utility.Platform.IsWindows)
             UnregisterHotKey(_handle, SessionDockHotkeyId);
         if (_clipperHotkeyRegistered && Voidstrap.Utility.Platform.IsWindows)

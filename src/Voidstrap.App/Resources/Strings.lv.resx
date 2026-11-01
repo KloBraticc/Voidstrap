@@ -9291,4 +9291,13 @@ Vai atļaut?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit ir Voidstrap alfa paplašinājums, un pie tā joprojām tiek strādāts.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Atvērt ierakstus Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Pēc spēles pamešanas jautāt, vai atvērt saglabātos ierakstus Void Edit kā jaunus projektus.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Saglabātie ieraksti: {0}. Vai vēlaties tos atvērt Void Edit kā jaunus projektus?</value>
+  </data>
 </root>

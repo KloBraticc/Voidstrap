@@ -9290,4 +9290,13 @@ Dozvoliti?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit je alfa proširenje za Voidstrap i na njemu se još uvijek radi.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Otvori snimke u Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Nakon što napustite igru, pita da li da otvori sačuvane snimke u Void Edit kao nove projekte.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Sačuvano snimaka: {0}. Želite li ih otvoriti u Void Edit kao nove projekte?</value>
+  </data>
 </root>

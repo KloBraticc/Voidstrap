@@ -9606,4 +9606,13 @@ Cho phép?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit là một tiện ích mở rộng bản alpha dành cho Voidstrap và vẫn đang được tiếp tục phát triển.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Mở bản ghi trong Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Sau khi bạn rời trò chơi, hỏi có mở các bản ghi đã lưu trong Void Edit dưới dạng dự án mới hay không.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Bản ghi đã lưu: {0}. Bạn có muốn mở chúng trong Void Edit dưới dạng dự án mới không?</value>
+  </data>
 </root>

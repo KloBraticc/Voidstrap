@@ -9290,4 +9290,13 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit သည် Voidstrap အတွက် အယ်လ်ဖာ တိုးချဲ့မှုတစ်ခုဖြစ်ပြီး ဆက်လက်ဖန်တီးနေဆဲဖြစ်သည်။</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Void Edit တွင် ရိုက်ကူးချက်များကို ဖွင့်ရန်</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>ဂိမ်းမှ ထွက်ပြီးနောက် သိမ်းဆည်းထားသော ရိုက်ကူးချက်များကို Void Edit တွင် ပရောဂျက်အသစ်များအဖြစ် ဖွင့်ရန် မေးမြန်းပါမည်။</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>သိမ်းဆည်းထားသော ရိုက်ကူးချက်များ: {0}။ ၎င်းတို့ကို Void Edit တွင် ပရောဂျက်အသစ်များအဖြစ် ဖွင့်လိုပါသလား?</value>
+  </data>
 </root>

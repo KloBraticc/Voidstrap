@@ -9290,4 +9290,13 @@ Laat dit toe?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit is 'n alfa-uitbreiding vir Voidstrap en word steeds aan gewerk.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Maak opnames in Void Edit oop</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Vra ná 'n speletjie of jou gestoorde opnames as nuwe projekte in Void Edit oopgemaak moet word.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Opnames gestoor: {0}. Wil jy hulle as nuwe projekte in Void Edit oopmaak?</value>
+  </data>
 </root>

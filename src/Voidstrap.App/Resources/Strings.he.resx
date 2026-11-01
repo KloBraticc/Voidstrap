@@ -9291,4 +9291,13 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit הוא הרחבת אלפא עבור Voidstrap, והעבודה עליו עדיין נמשכת.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>פתיחת הקלטות ב־Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>אחרי יציאה ממשחק, לשאול אם לפתוח את ההקלטות השמורות ב־Void Edit כפרויקטים חדשים.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>הקלטות שנשמרו: {0}. לפתוח אותן ב־Void Edit כפרויקטים חדשים?</value>
+  </data>
 </root>

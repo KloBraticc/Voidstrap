@@ -9605,4 +9605,13 @@ Permiți?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit este o extensie alfa pentru Voidstrap și se lucrează în continuare la ea.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Deschide înregistrările în Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>După ce ieși dintr-un joc, întreabă dacă vrei să deschizi înregistrările salvate în Void Edit ca proiecte noi.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Înregistrări salvate: {0}. Vrei să le deschizi în Void Edit ca proiecte noi?</value>
+  </data>
 </root>

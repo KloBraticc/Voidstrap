@@ -9603,4 +9603,13 @@ Dopustiti?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit je alfa proširenje za Voidstrap i na njemu se još uvijek radi.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Otvori snimke u Void Editu</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Nakon što napustiš igru, pitaj trebaju li se spremljene snimke otvoriti u Void Editu kao novi projekti.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Spremljenih snimki: {0}. Želiš li ih otvoriti u Void Editu kao nove projekte?</value>
+  </data>
 </root>

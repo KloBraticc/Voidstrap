@@ -9290,4 +9290,13 @@ uyayivumela?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>I-Void Edit sisandiso se-alpha se-Voidstrap kwaye kusasetyenzwa kuso.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Vula iirekhodi kwi-Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Emva kokuba uphume emdlalweni, buza ukuba iirekhodi zakho ezigciniweyo zivulwe kwi-Void Edit njengeeprojekthi ezintsha.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Iirekhodi ezigciniweyo: {0}. Ngaba ufuna ukuzivula kwi-Void Edit njengeeprojekthi ezintsha?</value>
+  </data>
 </root>

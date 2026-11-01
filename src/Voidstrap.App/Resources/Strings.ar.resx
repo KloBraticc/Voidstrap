@@ -9602,4 +9602,13 @@
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit هو امتداد تجريبي (ألفا) لـ Voidstrap ولا يزال العمل عليه جاريًا.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>فتح التسجيلات في Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>بعد مغادرة اللعبة، اسأل عن فتح تسجيلاتك المحفوظة في Void Edit كمشاريع جديدة.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>التسجيلات المحفوظة: {0}. هل تريد فتحها في Void Edit كمشاريع جديدة؟</value>
+  </data>
 </root>

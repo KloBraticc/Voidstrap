@@ -9291,4 +9291,13 @@ Avelao izany?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit dia fanitarana alpha ho an'ny Voidstrap ary mbola miasa amin'izany izahay.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Sokafy ao amin'ny Void Edit ny rakitsary</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Rehefa miala amin'ny lalao ianao, anontanio raha hosokafana ao amin'ny Void Edit ho tetikasa vaovao ny rakitsary voatahiry.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Rakitsary voatahiry: {0}. Te hanokatra azy ireo ao amin'ny Void Edit ho tetikasa vaovao ve ianao?</value>
+  </data>
 </root>

@@ -9605,4 +9605,13 @@ Leisti?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit yra alfa versijos Voidstrap plėtinys, ir jį vis dar tobuliname.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Atverti įrašus Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Išėjus iš žaidimo, klausti, ar atverti išsaugotus įrašus Void Edit kaip naujus projektus.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Išsaugota įrašų: {0}. Ar norite juos atverti Void Edit kaip naujus projektus?</value>
+  </data>
 </root>

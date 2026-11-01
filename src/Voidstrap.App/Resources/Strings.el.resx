@@ -9290,4 +9290,13 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Το Void Edit είναι μια επέκταση άλφα για το Voidstrap και βρίσκεται ακόμη υπό ανάπτυξη.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Άνοιγμα εγγραφών στο Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Μετά την έξοδο από ένα παιχνίδι, ερώτηση για άνοιγμα των αποθηκευμένων εγγραφών στο Void Edit ως νέα έργα.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Αποθηκευμένες εγγραφές: {0}. Θέλετε να τις ανοίξετε στο Void Edit ως νέα έργα;</value>
+  </data>
 </root>

@@ -9291,4 +9291,13 @@ Whakaaetia?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>He toronga arepa a Void Edit mō Voidstrap, ā, kei te mahia tonutia.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Huakina ngā hopunga ki Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Ina wehe koe i tētahi kēmu, ka pātai mēnā me huaki ō hopunga kua tiakina ki Void Edit hei kaupapa hou.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Ngā hopunga kua tiakina: {0}. Kei te hiahia koe ki te huaki i ēnei ki Void Edit hei kaupapa hou?</value>
+  </data>
 </root>

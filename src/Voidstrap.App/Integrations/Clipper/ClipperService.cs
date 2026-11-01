@@ -454,6 +454,7 @@ public static class ClipperService
             ClipperIndicatorOverlayWindow.PulseSaved();
             ClipperIndicatorOverlayWindow.Reconcile();
             ClipSaved?.Invoke(info);
+            VoidEditClipHandoff.Add(info);
             RaiseStateChanged();
             return (true, info, string.Empty);
         }
@@ -528,6 +529,7 @@ public static class ClipperService
             App.Logger.WriteLine("ClipperService", $"Saved replay clip {info.FileName} ({info.FormattedDuration}, {info.FormattedSize})");
             ClipperIndicatorOverlayWindow.PulseSaved();
             ClipSaved?.Invoke(info);
+            VoidEditClipHandoff.Add(info);
             RaiseStateChanged();
             return (true, info, string.Empty);
         }

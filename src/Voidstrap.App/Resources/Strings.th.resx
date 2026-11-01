@@ -9598,4 +9598,13 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit เป็นส่วนขยายรุ่นอัลฟาสำหรับ Voidstrap และยังอยู่ระหว่างการพัฒนา</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>เปิดการบันทึกใน Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>หลังจากออกจากเกม จะถามว่าจะเปิดการบันทึกที่บันทึกไว้ใน Void Edit เป็นโปรเจกต์ใหม่หรือไม่</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>การบันทึกที่บันทึกไว้: {0} คุณต้องการเปิดใน Void Edit เป็นโปรเจกต์ใหม่หรือไม่</value>
+  </data>
 </root>

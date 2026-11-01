@@ -9291,4 +9291,13 @@ Erlaabt et?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit ass eng Alpha-Erweiderung fir Voidstrap, un där nach geschafft gëtt.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Opnamen am Void Edit opmaachen</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Nodeems s du e Spill verlooss hues, froen, ob deng gespäichert Opnamen als nei Projeten am Void Edit opgemaach solle ginn.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Gespäichert Opnamen: {0}. Wëlls du se als nei Projeten am Void Edit opmaachen?</value>
+  </data>
 </root>

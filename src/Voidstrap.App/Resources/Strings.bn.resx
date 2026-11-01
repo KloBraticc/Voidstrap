@@ -9290,4 +9290,13 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit হলো Voidstrap-এর একটি আলফা এক্সটেনশন এবং এটি নিয়ে এখনও কাজ চলছে।</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Void Edit-এ রেকর্ডিং খুলুন</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>গেম ছাড়ার পরে আপনার সংরক্ষিত রেকর্ডিংগুলো Void Edit-এ নতুন প্রজেক্ট হিসেবে খোলার জন্য জিজ্ঞাসা করুন।</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>সংরক্ষিত রেকর্ডিং: {0}। আপনি কি এগুলো Void Edit-এ নতুন প্রজেক্ট হিসেবে খুলতে চান?</value>
+  </data>
 </root>

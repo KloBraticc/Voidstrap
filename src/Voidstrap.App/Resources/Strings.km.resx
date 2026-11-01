@@ -9291,4 +9291,13 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit គឺជាផ្នែកបន្ថែមកំណែអាល់ហ្វាសម្រាប់ Voidstrap ហើយកំពុងត្រូវបានអភិវឌ្ឍនៅឡើយ។</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>បើកការថតក្នុង Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>បន្ទាប់ពីអ្នកចាកចេញពីហ្គេម សួរថាតើត្រូវបើកការថតដែលបានរក្សាទុកក្នុង Void Edit ជាគម្រោងថ្មីដែរឬទេ។</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>ការថតដែលបានរក្សាទុក៖ {0}។ តើអ្នកចង់បើកវាក្នុង Void Edit ជាគម្រោងថ្មីទេ?</value>
+  </data>
 </root>

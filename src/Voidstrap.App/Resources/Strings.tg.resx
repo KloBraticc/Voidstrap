@@ -9290,4 +9290,13 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit васеъкунандаи алфа барои Voidstrap аст ва кор дар он ҳоло идома дорад.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Кушодани сабтҳо дар Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Пас аз баромадан аз бозӣ мепурсад, ки оё сабтҳои захирашуда дар Void Edit ҳамчун лоиҳаҳои нав кушода шаванд.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Сабтҳои захирашуда: {0}. Мехоҳед онҳоро дар Void Edit ҳамчун лоиҳаҳои нав кушоед?</value>
+  </data>
 </root>

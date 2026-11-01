@@ -9290,4 +9290,13 @@ Kas lubada?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit on Voidstrapi alfaversioonis laiendus ja selle kallal töötatakse veel.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Ava salvestised Void Editis</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Pärast mängust lahkumist küsitakse, kas avada salvestatud salvestised Void Editis uute projektidena.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Salvestatud salvestisi: {0}. Kas soovid need Void Editis uute projektidena avada?</value>
+  </data>
 </root>

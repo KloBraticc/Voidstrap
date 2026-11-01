@@ -9291,4 +9291,13 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit არის Voidstrap-ის ალფა გაფართოება და მასზე მუშაობა ჯერ კიდევ მიმდინარეობს.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>ჩანაწერების გახსნა Void Edit-ში</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>თამაშიდან გასვლის შემდეგ იკითხავს, გაიხსნას თუ არა შენახული ჩანაწერები Void Edit-ში ახალ პროექტებად.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>შენახული ჩანაწერები: {0}. გსურთ მათი გახსნა Void Edit-ში ახალ პროექტებად?</value>
+  </data>
 </root>

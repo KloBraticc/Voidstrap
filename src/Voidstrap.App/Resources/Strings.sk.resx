@@ -9291,4 +9291,13 @@ Povoliť?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit je alfa rozšírenie pre Voidstrap a stále sa na ňom pracuje.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Otvárať záznamy vo Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Po opustení hry sa opýtať, či otvoriť uložené záznamy vo Void Edit ako nové projekty.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Uložené záznamy: {0}. Chcete ich otvoriť vo Void Edit ako nové projekty?</value>
+  </data>
 </root>

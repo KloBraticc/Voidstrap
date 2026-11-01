@@ -9291,4 +9291,13 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit हे Voidstrap साठीचे अल्फा विस्तार आहे आणि त्यावर अजूनही काम सुरू आहे.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>रेकॉर्डिंग Void Edit मध्ये उघडा</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>गेम सोडल्यानंतर, तुमची जतन केलेली रेकॉर्डिंग Void Edit मध्ये नवीन प्रोजेक्ट म्हणून उघडायची का ते विचारा.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>जतन केलेली रेकॉर्डिंग: {0}. तुम्हाला ती Void Edit मध्ये नवीन प्रोजेक्ट म्हणून उघडायची आहेत का?</value>
+  </data>
 </root>

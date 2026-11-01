@@ -9291,4 +9291,13 @@ Permíteo?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit é unha extensión alfa para Voidstrap e aínda se está a traballar nela.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Abrir as gravacións en Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Ao saír dun xogo, pregunta se queres abrir as túas gravacións gardadas en Void Edit como proxectos novos.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Gravacións gardadas: {0}. Queres abrilas en Void Edit como proxectos novos?</value>
+  </data>
 </root>

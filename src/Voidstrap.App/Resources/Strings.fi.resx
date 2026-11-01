@@ -9604,4 +9604,13 @@ Sallitaanko?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit on Voidstrapin alfavaiheen laajennus, ja sen parissa työskennellään yhä.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Avaa tallenteet Void Editissä</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Kysy pelistä poistumisen jälkeen, avataanko tallennetut tallenteet Void Editissä uusina projekteina.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Tallenteita tallennettu: {0}. Haluatko avata ne Void Editissä uusina projekteina?</value>
+  </data>
 </root>

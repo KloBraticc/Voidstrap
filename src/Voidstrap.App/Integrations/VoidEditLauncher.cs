@@ -79,7 +79,7 @@ internal static class VoidEditLauncher
         }
     }
 
-    public static async Task OpenAsync()
+    public static async Task OpenAsync(string? project = null)
     {
         const string LOG_IDENT = "VoidEditLauncher::OpenAsync";
         try
@@ -91,14 +91,14 @@ internal static class VoidEditLauncher
             }
             try
             {
-                Launch();
+                Launch(project);
             }
             catch (System.ComponentModel.Win32Exception)
             {
                 App.Logger.WriteLine(LOG_IDENT, "The saved copy would not start, downloading it again");
                 if (!await DownloadAsync())
                     throw;
-                Launch();
+                Launch(project);
             }
         }
         catch (Exception ex) when (ex is HttpRequestException or IOException or UnauthorizedAccessException or JsonException or TaskCanceledException or InvalidOperationException or KeyNotFoundException or System.ComponentModel.Win32Exception)
@@ -108,9 +108,12 @@ internal static class VoidEditLauncher
         }
     }
 
-    private static void Launch()
+    private static void Launch(string? project)
     {
-        Process.Start(new ProcessStartInfo(ExecutablePath) { UseShellExecute = false, WorkingDirectory = Path.GetDirectoryName(ExecutablePath)! });
+        ProcessStartInfo info = new(ExecutablePath) { UseShellExecute = false, WorkingDirectory = Path.GetDirectoryName(ExecutablePath)! };
+        if (!string.IsNullOrEmpty(project))
+            info.ArgumentList.Add(project);
+        Process.Start(info);
     }
 
     private static async Task<bool> DownloadAsync()

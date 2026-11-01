@@ -9291,4 +9291,13 @@ Bada shi?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit tsawaitawa ce ta alpha don Voidstrap kuma ana ci gaba da aiki a kanta.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Buɗe rikodi a Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Bayan ka bar wasa, a tambaye ka ko a buɗe rikodin da ka adana a Void Edit a matsayin sababbin ayyuka.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Rikodin da aka adana: {0}. Kana son buɗe su a Void Edit a matsayin sababbin ayyuka?</value>
+  </data>
 </root>

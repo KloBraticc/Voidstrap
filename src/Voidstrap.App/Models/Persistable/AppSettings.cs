@@ -351,6 +351,8 @@ namespace Voidstrap.Models.Persistable
 
         public bool ClipperShowIndicator { get; set; } = true;
 
+        public bool VoidEditAskForRecordings { get; set; } = true;
+
         public string ClipperOutputFolder { get; set; } = string.Empty;
 
         public bool KeystrokesOverlayEnabled { get; set; } = false;

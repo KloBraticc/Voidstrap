@@ -9290,4 +9290,13 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit ለVoidstrap የአልፋ ቅጥያ ነው፣ እና አሁንም እየተሰራበት ነው።</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>ቀረጻዎችን በVoid Edit ክፈት</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>ከጨዋታ ከወጡ በኋላ የተቀመጡ ቀረጻዎችዎን በVoid Edit እንደ አዲስ ፕሮጀክቶች ለመክፈት ይጠይቅ።</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>የተቀመጡ ቀረጻዎች፦ {0}። በVoid Edit እንደ አዲስ ፕሮጀክቶች መክፈት ይፈልጋሉ?</value>
+  </data>
 </root>

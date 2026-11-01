@@ -428,6 +428,9 @@
               <controls:OptionControl Header="{resources:Loc Ui_Clipper_StatusIndicator}" Description="{resources:Loc Ui_Clipper_StatusIndicatorHint}">
                 <ui:ToggleSwitch IsChecked="{Binding ClipperShowIndicator, Mode=TwoWay}" />
               </controls:OptionControl>
+              <controls:OptionControl Header="{resources:Loc Ui_VoidEdit_AskRecordings_Title}" Description="{resources:Loc Ui_VoidEdit_AskRecordings_Description}">
+                <ui:ToggleSwitch IsChecked="{Binding VoidEditAskForRecordings, Mode=TwoWay}" />
+              </controls:OptionControl>
               <controls:OptionControl Header="{resources:Loc Ui_Clipper_ClipsFolder}" Description="{resources:Loc Ui_Clipper_ClipsFolderHint}">
                 <Button Width="140" Content="{resources:Loc Ui_Clipper_OpenFolder}" Command="{Binding OpenClipsFolderCommand}" />
               </controls:OptionControl>

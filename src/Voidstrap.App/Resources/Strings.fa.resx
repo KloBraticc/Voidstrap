@@ -9605,4 +9605,13 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit یک افزونهٔ آلفا برای Voidstrap است و هنوز روی آن کار می‌شود.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>باز کردن ضبط‌ها در Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>پس از خروج از بازی، بپرسد که ضبط‌های ذخیره‌شدهٔ شما به‌عنوان پروژه‌های جدید در Void Edit باز شوند یا نه.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>ضبط‌های ذخیره‌شده: {0}. آیا می‌خواهید آن‌ها را به‌عنوان پروژه‌های جدید در Void Edit باز کنید؟</value>
+  </data>
 </root>

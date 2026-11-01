@@ -9595,4 +9595,13 @@ Benarkan?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit ialah sambungan alfa untuk Voidstrap dan masih sedang diusahakan.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Buka rakaman dalam Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Selepas anda keluar dari permainan, tanya sama ada mahu membuka rakaman yang disimpan dalam Void Edit sebagai projek baharu.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Rakaman disimpan: {0}. Adakah anda mahu membukanya dalam Void Edit sebagai projek baharu?</value>
+  </data>
 </root>

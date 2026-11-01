@@ -9291,4 +9291,13 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit، Voidstrap لاءِ هڪ الفا واڌارو آهي ۽ ان تي اڃا ڪم جاري آهي.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>رڪارڊنگون Void Edit ۾ کوليو</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>راند ڇڏڻ کان پوءِ، پڇي ٿو ته ڇا توهان جون محفوظ ٿيل رڪارڊنگون Void Edit ۾ نون پروجيڪٽن طور کوليون وڃن.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>محفوظ ٿيل رڪارڊنگون: {0}. ڇا توهان انهن کي Void Edit ۾ نون پروجيڪٽن طور کولڻ چاهيو ٿا؟</value>
+  </data>
 </root>

@@ -9290,4 +9290,13 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit estas alfa etendaĵo por Voidstrap, kaj oni ankoraŭ laboras pri ĝi.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Malfermi registraĵojn en Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Post kiam vi forlasas ludon, demandi ĉu malfermi viajn konservitajn registraĵojn en Void Edit kiel novajn projektojn.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Konservitaj registraĵoj: {0}. Ĉu vi volas malfermi ilin en Void Edit kiel novajn projektojn?</value>
+  </data>
 </root>

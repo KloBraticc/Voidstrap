@@ -9290,4 +9290,13 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit — гэта альфа-пашырэнне для Voidstrap, і праца над ім яшчэ працягваецца.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Адкрываць запісы ў Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Пасля выхаду з гульні пытаць, ці адкрыць захаваныя запісы ў Void Edit як новыя праекты.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Захавана запісаў: {0}. Адкрыць іх у Void Edit як новыя праекты?</value>
+  </data>
 </root>

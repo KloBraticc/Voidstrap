@@ -9603,4 +9603,13 @@ Tillåta?</value>
   <data name="Ui.VoidEdit.AlphaNotice" xml:space="preserve">
     <value>Void Edit är ett alfatillägg för Voidstrap och arbetet med det pågår fortfarande.</value>
   </data>
+  <data name="Ui.VoidEdit.AskRecordings.Title" xml:space="preserve">
+    <value>Öppna inspelningar i Void Edit</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Description" xml:space="preserve">
+    <value>Fråga när du lämnar ett spel om dina sparade inspelningar ska öppnas i Void Edit som nya projekt.</value>
+  </data>
+  <data name="Ui.VoidEdit.AskRecordings.Prompt" xml:space="preserve">
+    <value>Sparade inspelningar: {0}. Vill du öppna dem i Void Edit som nya projekt?</value>
+  </data>
 </root>
