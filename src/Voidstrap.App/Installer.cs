@@ -1524,17 +1524,15 @@ internal sealed partial class Installer
             Voidstrap.Utility.InstallRecord.MakeExecutable(stagedPath);
             if (Voidstrap.Utility.Platform.IsWindows)
             {
+                string? retired = RetireInstalledExecutable();
                 try
                 {
-                    File.Replace(stagedPath, Paths.Application, null, ignoreMetadataErrors: true);
-                }
-                catch (Exception ex) when (Voidstrap.Utility.CloudFiles.IsCloudFailure(ex, Paths.Application))
-                {
-                    App.Logger.WriteLine(
-                        "Installer::ReplaceInstalledExecutable",
-                        "Replace failed on a cloud synced file, moving instead: " + ex.Message
-                    );
                     File.Move(stagedPath, Paths.Application, overwrite: true);
+                }
+                catch when (retired != null && !File.Exists(Paths.Application))
+                {
+                    File.Move(retired, Paths.Application);
+                    throw;
                 }
             }
             else
@@ -1552,6 +1550,19 @@ internal sealed partial class Installer
         }
     }
 
+    private static string RetiredDirectory => Path.Combine(Path.GetDirectoryName(Paths.Application)!, ".replaced");
+
+    private static string? RetireInstalledExecutable()
+    {
+        if (!File.Exists(Paths.Application))
+            return null;
+        DirectoryInfo folder = Directory.CreateDirectory(RetiredDirectory);
+        folder.Attributes |= FileAttributes.Hidden;
+        string retired = Path.Combine(folder.FullName, Guid.NewGuid().ToString("N") + ".old");
+        File.Move(Paths.Application, retired);
+        return retired;
+    }
+
     internal static void RemoveReplacedExecutables()
     {
         const string LOG_IDENT = "Installer::RemoveReplacedExecutables";
@@ -1560,6 +1571,23 @@ internal sealed partial class Installer
         string? directory = Path.GetDirectoryName(Paths.Application);
         if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
             return;
+        if (Directory.Exists(RetiredDirectory))
+        {
+            foreach (string file in Directory.EnumerateFiles(RetiredDirectory))
+            {
+                try
+                {
+                    File.Delete(file);
+                }
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
+            }
+            try
+            {
+                if (!Directory.EnumerateFileSystemEntries(RetiredDirectory).Any())
+                    Directory.Delete(RetiredDirectory);
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
+        }
         foreach (string file in Directory.EnumerateFiles(directory, Path.GetFileName(Paths.Application) + "~RF*.TMP"))
         {
             Windows.Win32.Foundation.BOOL deleted;
@@ -1590,6 +1618,15 @@ internal sealed partial class Installer
             error = Marshal.GetLastWin32Error();
             if (error == 2)
                 continue;
+            try
+            {
+                DirectoryInfo folder = Directory.CreateDirectory(RetiredDirectory);
+                folder.Attributes |= FileAttributes.Hidden;
+                File.Move(file, Path.Combine(folder.FullName, Guid.NewGuid().ToString("N") + ".old"));
+                App.Logger.WriteLine(LOG_IDENT, "Moved a locked leftover out of the install folder");
+                continue;
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
             if (Windows.Win32.PInvoke.MoveFileEx(file, null, Windows.Win32.Storage.FileSystem.MOVE_FILE_FLAGS.MOVEFILE_DELAY_UNTIL_REBOOT))
                 App.Logger.WriteLine(LOG_IDENT, "A leftover is locked and is scheduled for removal on the next restart");
             else
