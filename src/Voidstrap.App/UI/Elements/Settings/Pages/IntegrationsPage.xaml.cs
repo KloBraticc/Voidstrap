@@ -79,12 +79,6 @@ public partial class IntegrationsPage : UiPage
         e.Handled = !uint.TryParse(e.Text, out var _);
     }
 
-    public void CustomIntegrationSelection(object sender, SelectionChangedEventArgs e)
-    {
-        _viewModel.SelectedCustomIntegration = (CustomIntegration)((ListBox)sender).SelectedItem;
-        _viewModel.OnPropertyChanged("SelectedCustomIntegration");
-    }
-
     private void ResetDatacenters_Click(object sender, RoutedEventArgs e)
     {
         if (MatchmakerTab.DataContext is BehaviourViewModel behaviourViewModel)
