@@ -430,8 +430,13 @@ public static class VoidstrapMatchmaker
         return double.IsFinite(lat) && double.IsFinite(lon) && lat is >= -90.0 and <= 90.0 && lon is >= -180.0 and <= 180.0;
     }
 
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, DateTime> _geoCooldowns = new();
+
     private static async Task<UserGeo?> TryGeoProviderAsync(string url, Func<JsonElement, UserGeo?> parser, CancellationToken token)
     {
+        string host = new Uri(url).Host;
+        if (_geoCooldowns.TryGetValue(host, out DateTime until) && DateTime.UtcNow < until)
+            return null;
         try
         {
             using JsonDocument doc = JsonDocument.Parse(
@@ -445,6 +450,8 @@ public static class VoidstrapMatchmaker
         }
         catch (Exception ex)
         {
+            if (ex is Utility.Http.RateLimitedException)
+                _geoCooldowns[host] = DateTime.UtcNow.AddMinutes(15);
             App.Logger.WriteLine(LOG_IDENT, "Geo provider failed (" + url + "): " + ex.Message);
             return null;
         }
