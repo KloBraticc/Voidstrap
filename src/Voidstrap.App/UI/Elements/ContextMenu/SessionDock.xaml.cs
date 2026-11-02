@@ -850,6 +850,7 @@ public partial class SessionDock : Window
                 panel.Present(true, _activateOnSettle);
         }
         RestorePinnedPanels();
+        SpotifyEngine.Prewarm();
         StartPrewarm();
         if (_popoutOnSettle)
         {

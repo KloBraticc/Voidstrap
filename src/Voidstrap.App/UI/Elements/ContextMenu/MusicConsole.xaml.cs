@@ -45,6 +45,7 @@ public partial class MusicPlayer : WpfUiWindow
         SpotifyTab.ShowTopBarOption = false;
         SpotifyTab.IsVisibleChanged += SpotifyTab_IsVisibleChanged;
         SpotifyTab.Failed += SpotifyTab_Failed;
+        SpotifyEngine.Prewarm();
     }
 
     private async void SpotifyTab_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)

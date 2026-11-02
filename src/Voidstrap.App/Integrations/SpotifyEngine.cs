@@ -20,6 +20,8 @@ public sealed class SpotifyEngine
 
     private static readonly TimeSpan IdleLimit = TimeSpan.FromSeconds(60);
 
+    private static readonly TimeSpan PrewarmLimit = TimeSpan.FromMinutes(10);
+
     private const string PlayerUrl = "https://open.spotify.com/";
 
     internal const string Arguments =
@@ -186,6 +188,8 @@ public sealed class SpotifyEngine
 
     private int _views;
 
+    private bool _everViewed;
+
     public static SpotifyEngine Shared { get; } = new();
 
     public event EventHandler? AudioStarted;
@@ -193,6 +197,7 @@ public sealed class SpotifyEngine
     public void AddView()
     {
         _views++;
+        _everViewed = true;
         SetLowMemory(false);
     }
 
@@ -217,7 +222,7 @@ public sealed class SpotifyEngine
     {
         if (_views > 0 || IsPlayingAudio)
             _silentSince = DateTime.UtcNow;
-        else if (DateTime.UtcNow - _silentSince >= IdleLimit)
+        else if (DateTime.UtcNow - _silentSince >= (_everViewed ? IdleLimit : PrewarmLimit))
             Shutdown();
     }
 
@@ -263,6 +268,17 @@ public sealed class SpotifyEngine
 
     public bool IsPlayingAudio => _controller?.CoreWebView2.IsDocumentPlayingAudio == true;
 
+    public static void Prewarm()
+    {
+        if (!Voidstrap.Utility.Platform.IsWindows)
+            return;
+        SpotifyEngine engine = Shared;
+        if (engine._controller != null || engine._starting != null || !App.Settings.Prop.SpotifySignedIn)
+            return;
+        App.Logger.WriteLine(LOG_IDENT, "Prewarming the hidden player before the panel is opened");
+        _ = engine.EnsureStartedAsync();
+    }
+
     public Task<bool> EnsureStartedAsync()
     {
         if (_controller != null)
@@ -295,6 +311,7 @@ public sealed class SpotifyEngine
             core.IsDocumentPlayingAudioChanged += Core_AudioChanged;
             core.Navigate(PlayerUrl);
             _controller = controller;
+            SetLowMemory(_views == 0);
             _silentSince = DateTime.UtcNow;
             _idleTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
             _idleTimer.Tick += IdleTimer_Tick;
