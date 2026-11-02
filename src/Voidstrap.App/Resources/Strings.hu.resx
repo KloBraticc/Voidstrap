@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9652,5 +9652,59 @@ Engedélyezed?</value>
   </data>
   <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
     <value>Kép kiválasztása</value>
+  </data>
+  <data name="Ui.Home.EditLayout" xml:space="preserve">
+    <value>Elrendezés szerkesztése</value>
+  </data>
+  <data name="Ui.Home.DoneEditingLayout" xml:space="preserve">
+    <value>Kész</value>
+  </data>
+  <data name="Ui.Home.ResetLayout" xml:space="preserve">
+    <value>Elrendezés visszaállítása</value>
+  </data>
+  <data name="Ui.Home.HiddenSections" xml:space="preserve">
+    <value>Rejtett szakaszok</value>
+  </data>
+  <data name="Ui.Home.EditLayoutTooltip" xml:space="preserve">
+    <value>Átrendezheti vagy elrejtheti az oldal szakaszait</value>
+  </data>
+  <data name="Ui.Home.ResetLayoutTooltip" xml:space="preserve">
+    <value>Eredeti sorrend visszaállítása és minden rejtett szakasz megjelenítése</value>
+  </data>
+  <data name="Ui.Home.HideSectionTooltip" xml:space="preserve">
+    <value>Szakasz elrejtése</value>
+  </data>
+  <data name="Ui.Home.DragSectionTooltip" xml:space="preserve">
+    <value>Húzza a szakasz mozgatásához</value>
+  </data>
+  <data name="Ui.Home.ShowSectionTooltip" xml:space="preserve">
+    <value>Szakasz megjelenítése újra</value>
+  </data>
+  <data name="Ui.Home.SectionHero" xml:space="preserve">
+    <value>Kiadási banner</value>
+  </data>
+  <data name="Ui.Home.SectionNews" xml:space="preserve">
+    <value>Legfrissebb Roblox-hírek</value>
+  </data>
+  <data name="Ui.Home.SectionCatalog" xml:space="preserve">
+    <value>Újdonságok a katalógusban</value>
+  </data>
+  <data name="Ui.Home.SectionContinue" xml:space="preserve">
+    <value>Játék folytatása</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFavorites" xml:space="preserve">
+    <value>Studio kedvencek</value>
+  </data>
+  <data name="Ui.Home.SectionStudioRecent" xml:space="preserve">
+    <value>Legutóbbi élményeim</value>
+  </data>
+  <data name="Ui.Home.SectionStudioOwned" xml:space="preserve">
+    <value>Élményeim</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFiles" xml:space="preserve">
+    <value>Legutóbbi fájlok</value>
+  </data>
+  <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
+    <value>Sablonok</value>
   </data>
 </root>

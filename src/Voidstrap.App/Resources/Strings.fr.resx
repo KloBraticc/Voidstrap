@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9651,5 +9651,59 @@ Autoriser ?</value>
   </data>
   <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
     <value>Choisir une image</value>
+  </data>
+  <data name="Ui.Home.EditLayout" xml:space="preserve">
+    <value>Modifier la disposition</value>
+  </data>
+  <data name="Ui.Home.DoneEditingLayout" xml:space="preserve">
+    <value>Terminé</value>
+  </data>
+  <data name="Ui.Home.ResetLayout" xml:space="preserve">
+    <value>Réinitialiser la disposition</value>
+  </data>
+  <data name="Ui.Home.HiddenSections" xml:space="preserve">
+    <value>Sections masquées</value>
+  </data>
+  <data name="Ui.Home.EditLayoutTooltip" xml:space="preserve">
+    <value>Réorganisez ou masquez les sections de cette page</value>
+  </data>
+  <data name="Ui.Home.ResetLayoutTooltip" xml:space="preserve">
+    <value>Restaurez l'ordre d'origine et affichez toutes les sections masquées</value>
+  </data>
+  <data name="Ui.Home.HideSectionTooltip" xml:space="preserve">
+    <value>Masquer cette section</value>
+  </data>
+  <data name="Ui.Home.DragSectionTooltip" xml:space="preserve">
+    <value>Faites glisser pour déplacer cette section</value>
+  </data>
+  <data name="Ui.Home.ShowSectionTooltip" xml:space="preserve">
+    <value>Afficher à nouveau cette section</value>
+  </data>
+  <data name="Ui.Home.SectionHero" xml:space="preserve">
+    <value>Bannière de version</value>
+  </data>
+  <data name="Ui.Home.SectionNews" xml:space="preserve">
+    <value>Dernières actualités Roblox</value>
+  </data>
+  <data name="Ui.Home.SectionCatalog" xml:space="preserve">
+    <value>Nouveau dans le catalogue</value>
+  </data>
+  <data name="Ui.Home.SectionContinue" xml:space="preserve">
+    <value>Continuer à jouer</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFavorites" xml:space="preserve">
+    <value>Favoris Studio</value>
+  </data>
+  <data name="Ui.Home.SectionStudioRecent" xml:space="preserve">
+    <value>Mes expériences récentes</value>
+  </data>
+  <data name="Ui.Home.SectionStudioOwned" xml:space="preserve">
+    <value>Mes expériences</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFiles" xml:space="preserve">
+    <value>Fichiers récents</value>
+  </data>
+  <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
+    <value>Modèles</value>
   </data>
 </root>

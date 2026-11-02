@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9339,5 +9339,59 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   </data>
   <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
     <value>رەسىم تاللاش</value>
+  </data>
+  <data name="Ui.Home.EditLayout" xml:space="preserve">
+    <value>ئورۇنلاشتۇرۇشنى تەھرىرلەش</value>
+  </data>
+  <data name="Ui.Home.DoneEditingLayout" xml:space="preserve">
+    <value>تامام</value>
+  </data>
+  <data name="Ui.Home.ResetLayout" xml:space="preserve">
+    <value>ئورۇنلاشتۇرۇشنى ئەسلىگە كەلتۈرۈش</value>
+  </data>
+  <data name="Ui.Home.HiddenSections" xml:space="preserve">
+    <value>يوشۇرۇن قىسىملار</value>
+  </data>
+  <data name="Ui.Home.EditLayoutTooltip" xml:space="preserve">
+    <value>بۇ بەتتىكى قىسىملارنى رەتلەش ياكى يوشۇرۇش</value>
+  </data>
+  <data name="Ui.Home.ResetLayoutTooltip" xml:space="preserve">
+    <value>ئەسلى تەرتىپنى ئەسلىگە كەلتۈرۈپ، بارلىق يوشۇرۇن قىسىملارنى كۆرسىتىش</value>
+  </data>
+  <data name="Ui.Home.HideSectionTooltip" xml:space="preserve">
+    <value>بۇ قىسىمنى يوشۇرۇش</value>
+  </data>
+  <data name="Ui.Home.DragSectionTooltip" xml:space="preserve">
+    <value>بۇ قىسىمنى يۆتكەش ئۈچۈن سۆرەڭ</value>
+  </data>
+  <data name="Ui.Home.ShowSectionTooltip" xml:space="preserve">
+    <value>بۇ قىسىمنى قايتا كۆرسىتىش</value>
+  </data>
+  <data name="Ui.Home.SectionHero" xml:space="preserve">
+    <value>تارقىتىش باينىرى</value>
+  </data>
+  <data name="Ui.Home.SectionNews" xml:space="preserve">
+    <value>ئەڭ يېڭى Roblox خەۋەرلىرى</value>
+  </data>
+  <data name="Ui.Home.SectionCatalog" xml:space="preserve">
+    <value>كاتالوگدىكى يېڭى</value>
+  </data>
+  <data name="Ui.Home.SectionContinue" xml:space="preserve">
+    <value>داۋاملىق ئويناش</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFavorites" xml:space="preserve">
+    <value>Studio ياقتۇرىدىغانلىرى</value>
+  </data>
+  <data name="Ui.Home.SectionStudioRecent" xml:space="preserve">
+    <value>مېنىڭ يېقىنقى كەچۈرمىشلىرىم</value>
+  </data>
+  <data name="Ui.Home.SectionStudioOwned" xml:space="preserve">
+    <value>مېنىڭ كەچۈرمىشلىرىم</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFiles" xml:space="preserve">
+    <value>يېقىنقى ھۆججەتلەر</value>
+  </data>
+  <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
+    <value>قېلىپلار</value>
   </data>
 </root>

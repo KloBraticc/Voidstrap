@@ -562,6 +562,20 @@ namespace Voidstrap.UI.ViewModels.Pages
         public Visibility RobloxTabVisibility => _isStudioTab ? Visibility.Collapsed : Visibility.Visible;
         public Visibility StudioTabVisibility => _isStudioTab ? Visibility.Visible : Visibility.Collapsed;
 
+        private bool _isLayoutEditMode;
+
+        public bool IsLayoutEditMode
+        {
+            get => _isLayoutEditMode;
+            set
+            {
+                if (_isLayoutEditMode == value)
+                    return;
+                _isLayoutEditMode = value;
+                OnPropertyChanged(nameof(IsLayoutEditMode));
+            }
+        }
+
         public bool IsStudioLoading
         {
             get => _isStudioLoading;

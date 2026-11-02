@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9340,5 +9340,59 @@ Dovoli?</value>
   </data>
   <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
     <value>Izberi sliko</value>
+  </data>
+  <data name="Ui.Home.EditLayout" xml:space="preserve">
+    <value>Uredi postavitev</value>
+  </data>
+  <data name="Ui.Home.DoneEditingLayout" xml:space="preserve">
+    <value>Končano</value>
+  </data>
+  <data name="Ui.Home.ResetLayout" xml:space="preserve">
+    <value>Ponastavi postavitev</value>
+  </data>
+  <data name="Ui.Home.HiddenSections" xml:space="preserve">
+    <value>Skriti razdelki</value>
+  </data>
+  <data name="Ui.Home.EditLayoutTooltip" xml:space="preserve">
+    <value>Razporedite ali skrijte razdelke te strani</value>
+  </data>
+  <data name="Ui.Home.ResetLayoutTooltip" xml:space="preserve">
+    <value>Obnovite izvirni vrstni red in pokažite vse skrite razdelke</value>
+  </data>
+  <data name="Ui.Home.HideSectionTooltip" xml:space="preserve">
+    <value>Skrij ta razdelek</value>
+  </data>
+  <data name="Ui.Home.DragSectionTooltip" xml:space="preserve">
+    <value>Povlecite za premikanje tega razdelka</value>
+  </data>
+  <data name="Ui.Home.ShowSectionTooltip" xml:space="preserve">
+    <value>Ponovno prikaži ta razdelek</value>
+  </data>
+  <data name="Ui.Home.SectionHero" xml:space="preserve">
+    <value>Banner izdaje</value>
+  </data>
+  <data name="Ui.Home.SectionNews" xml:space="preserve">
+    <value>Najnovejše novice Roblox</value>
+  </data>
+  <data name="Ui.Home.SectionCatalog" xml:space="preserve">
+    <value>Novo v katalogu</value>
+  </data>
+  <data name="Ui.Home.SectionContinue" xml:space="preserve">
+    <value>Nadaljujte z igranjem</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFavorites" xml:space="preserve">
+    <value>Priljubljene v Studiu</value>
+  </data>
+  <data name="Ui.Home.SectionStudioRecent" xml:space="preserve">
+    <value>Moje nedavne izkušnje</value>
+  </data>
+  <data name="Ui.Home.SectionStudioOwned" xml:space="preserve">
+    <value>Moje izkušnje</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFiles" xml:space="preserve">
+    <value>Nedavne datoteke</value>
+  </data>
+  <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
+    <value>Predloge</value>
   </data>
 </root>

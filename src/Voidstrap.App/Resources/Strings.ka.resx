@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9340,5 +9340,59 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   </data>
   <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
     <value>სურათის არჩევა</value>
+  </data>
+  <data name="Ui.Home.EditLayout" xml:space="preserve">
+    <value>განლაგების რედაქტირება</value>
+  </data>
+  <data name="Ui.Home.DoneEditingLayout" xml:space="preserve">
+    <value>შესრულებულია</value>
+  </data>
+  <data name="Ui.Home.ResetLayout" xml:space="preserve">
+    <value>განლაგების საწყის მდგომარეობაში დაბრუნება</value>
+  </data>
+  <data name="Ui.Home.HiddenSections" xml:space="preserve">
+    <value>დამალული განყოფილებები</value>
+  </data>
+  <data name="Ui.Home.EditLayoutTooltip" xml:space="preserve">
+    <value>დაალაგეთ ან დამალეთ ამ გვერდის განყოფილებები</value>
+  </data>
+  <data name="Ui.Home.ResetLayoutTooltip" xml:space="preserve">
+    <value>აღადგინეთ თავდაპირველი თანმიმდევრობა და აჩვენეთ ყველა დამალული განყოფილება</value>
+  </data>
+  <data name="Ui.Home.HideSectionTooltip" xml:space="preserve">
+    <value>ამ განყოფილების დამალვა</value>
+  </data>
+  <data name="Ui.Home.DragSectionTooltip" xml:space="preserve">
+    <value>გადაათრიეთ ამ განყოფილების გადასაადგილებლად</value>
+  </data>
+  <data name="Ui.Home.ShowSectionTooltip" xml:space="preserve">
+    <value>ამ განყოფილების ხელახლა ჩვენება</value>
+  </data>
+  <data name="Ui.Home.SectionHero" xml:space="preserve">
+    <value>რელიზის ბანერი</value>
+  </data>
+  <data name="Ui.Home.SectionNews" xml:space="preserve">
+    <value>უახლესი Roblox სიახლეები</value>
+  </data>
+  <data name="Ui.Home.SectionCatalog" xml:space="preserve">
+    <value>სიახლე კატალოგში</value>
+  </data>
+  <data name="Ui.Home.SectionContinue" xml:space="preserve">
+    <value>განაგრძეთ თამაში</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFavorites" xml:space="preserve">
+    <value>Studio-ს ფავორიტები</value>
+  </data>
+  <data name="Ui.Home.SectionStudioRecent" xml:space="preserve">
+    <value>ჩემი უახლესი გამოცდილება</value>
+  </data>
+  <data name="Ui.Home.SectionStudioOwned" xml:space="preserve">
+    <value>ჩემი გამოცდილება</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFiles" xml:space="preserve">
+    <value>ბოლო ფაილები</value>
+  </data>
+  <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
+    <value>შაბლონები</value>
   </data>
 </root>

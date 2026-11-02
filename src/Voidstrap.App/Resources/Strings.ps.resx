@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9340,5 +9340,59 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   </data>
   <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
     <value>انځور وټاکئ</value>
+  </data>
+  <data name="Ui.Home.EditLayout" xml:space="preserve">
+    <value>بڼه سمول</value>
+  </data>
+  <data name="Ui.Home.DoneEditingLayout" xml:space="preserve">
+    <value>ترسره شو</value>
+  </data>
+  <data name="Ui.Home.ResetLayout" xml:space="preserve">
+    <value>بڼه بېرته اصلي حالت ته راوړل</value>
+  </data>
+  <data name="Ui.Home.HiddenSections" xml:space="preserve">
+    <value>پټې برخې</value>
+  </data>
+  <data name="Ui.Home.EditLayoutTooltip" xml:space="preserve">
+    <value>د دې پاڼې برخې ترتیبول یا پټول</value>
+  </data>
+  <data name="Ui.Home.ResetLayoutTooltip" xml:space="preserve">
+    <value>اصلي ترتیب بېرته راوړل او ټولې پټې برخې ښودل</value>
+  </data>
+  <data name="Ui.Home.HideSectionTooltip" xml:space="preserve">
+    <value>دا برخه پټول</value>
+  </data>
+  <data name="Ui.Home.DragSectionTooltip" xml:space="preserve">
+    <value>دا برخه خوځولو لپاره کش کړئ</value>
+  </data>
+  <data name="Ui.Home.ShowSectionTooltip" xml:space="preserve">
+    <value>دا برخه بیا ښودل</value>
+  </data>
+  <data name="Ui.Home.SectionHero" xml:space="preserve">
+    <value>د خپریدو بینر</value>
+  </data>
+  <data name="Ui.Home.SectionNews" xml:space="preserve">
+    <value>تازه Roblox خبرونه</value>
+  </data>
+  <data name="Ui.Home.SectionCatalog" xml:space="preserve">
+    <value>په کتلاګ کې نوی</value>
+  </data>
+  <data name="Ui.Home.SectionContinue" xml:space="preserve">
+    <value>لوبې ته دوام ورکړئ</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFavorites" xml:space="preserve">
+    <value>د Studio خوښې</value>
+  </data>
+  <data name="Ui.Home.SectionStudioRecent" xml:space="preserve">
+    <value>زما وروستۍ تجربې</value>
+  </data>
+  <data name="Ui.Home.SectionStudioOwned" xml:space="preserve">
+    <value>زما تجربې</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFiles" xml:space="preserve">
+    <value>وروستي فایلونه</value>
+  </data>
+  <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
+    <value>نمونې</value>
   </data>
 </root>

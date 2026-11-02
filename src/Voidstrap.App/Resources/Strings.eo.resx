@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9339,5 +9339,59 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   </data>
   <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
     <value>Elekti bildon</value>
+  </data>
+  <data name="Ui.Home.EditLayout" xml:space="preserve">
+    <value>Redakti aranĝon</value>
+  </data>
+  <data name="Ui.Home.DoneEditingLayout" xml:space="preserve">
+    <value>Farita</value>
+  </data>
+  <data name="Ui.Home.ResetLayout" xml:space="preserve">
+    <value>Restarigi aranĝon</value>
+  </data>
+  <data name="Ui.Home.HiddenSections" xml:space="preserve">
+    <value>Kaŝitaj sekcioj</value>
+  </data>
+  <data name="Ui.Home.EditLayoutTooltip" xml:space="preserve">
+    <value>Reordigu aŭ kaŝu la sekciojn de ĉi tiu paĝo</value>
+  </data>
+  <data name="Ui.Home.ResetLayoutTooltip" xml:space="preserve">
+    <value>Restarigu la originalan ordon kaj montru ĉiujn kaŝitajn sekciojn</value>
+  </data>
+  <data name="Ui.Home.HideSectionTooltip" xml:space="preserve">
+    <value>Kaŝi ĉi tiun sekcion</value>
+  </data>
+  <data name="Ui.Home.DragSectionTooltip" xml:space="preserve">
+    <value>Trenu por movi ĉi tiun sekcion</value>
+  </data>
+  <data name="Ui.Home.ShowSectionTooltip" xml:space="preserve">
+    <value>Montri ĉi tiun sekcion denove</value>
+  </data>
+  <data name="Ui.Home.SectionHero" xml:space="preserve">
+    <value>Eldona standardo</value>
+  </data>
+  <data name="Ui.Home.SectionNews" xml:space="preserve">
+    <value>Plej novaj Roblox-Novaĵoj</value>
+  </data>
+  <data name="Ui.Home.SectionCatalog" xml:space="preserve">
+    <value>Nova en la Katalogo</value>
+  </data>
+  <data name="Ui.Home.SectionContinue" xml:space="preserve">
+    <value>Daŭrigu Ludon</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFavorites" xml:space="preserve">
+    <value>Studio ŝatataĵoj</value>
+  </data>
+  <data name="Ui.Home.SectionStudioRecent" xml:space="preserve">
+    <value>Miaj Lastatempaj Spertoj</value>
+  </data>
+  <data name="Ui.Home.SectionStudioOwned" xml:space="preserve">
+    <value>Miaj Spertoj</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFiles" xml:space="preserve">
+    <value>Lastatempaj Dosieroj</value>
+  </data>
+  <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
+    <value>Ŝablonoj</value>
   </data>
 </root>

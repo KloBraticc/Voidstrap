@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9340,5 +9340,59 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   </data>
   <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
     <value>ചിത്രം തിരഞ്ഞെടുക്കുക</value>
+  </data>
+  <data name="Ui.Home.EditLayout" xml:space="preserve">
+    <value>ലേഔട്ട് എഡിറ്റുചെയ്യുക</value>
+  </data>
+  <data name="Ui.Home.DoneEditingLayout" xml:space="preserve">
+    <value>ചെയ്തു</value>
+  </data>
+  <data name="Ui.Home.ResetLayout" xml:space="preserve">
+    <value>ലേഔട്ട് പുനഃസജ്ജമാക്കുക</value>
+  </data>
+  <data name="Ui.Home.HiddenSections" xml:space="preserve">
+    <value>മറച്ച വിഭാഗങ്ങൾ</value>
+  </data>
+  <data name="Ui.Home.EditLayoutTooltip" xml:space="preserve">
+    <value>ഈ പേജിലെ വിഭാഗങ്ങൾ ക്രമീകരിക്കുക അല്ലെങ്കിൽ മറയ്ക്കുക</value>
+  </data>
+  <data name="Ui.Home.ResetLayoutTooltip" xml:space="preserve">
+    <value>യഥാർത്ഥ ക്രമം പുനഃസ്ഥാപിച്ച് എല്ലാ മറച്ച വിഭാഗങ്ങളും കാണിക്കുക</value>
+  </data>
+  <data name="Ui.Home.HideSectionTooltip" xml:space="preserve">
+    <value>ഈ വിഭാഗം മറയ്ക്കുക</value>
+  </data>
+  <data name="Ui.Home.DragSectionTooltip" xml:space="preserve">
+    <value>ഈ വിഭാഗം നീക്കാൻ വലിക്കുക</value>
+  </data>
+  <data name="Ui.Home.ShowSectionTooltip" xml:space="preserve">
+    <value>ഈ വിഭാഗം വീണ്ടും കാണിക്കുക</value>
+  </data>
+  <data name="Ui.Home.SectionHero" xml:space="preserve">
+    <value>റിലീസ് ബാനർ</value>
+  </data>
+  <data name="Ui.Home.SectionNews" xml:space="preserve">
+    <value>ഏറ്റവും പുതിയ Roblox വാർത്തകൾ</value>
+  </data>
+  <data name="Ui.Home.SectionCatalog" xml:space="preserve">
+    <value>കാറ്റലോഗിൽ പുതിയത്</value>
+  </data>
+  <data name="Ui.Home.SectionContinue" xml:space="preserve">
+    <value>കളിക്കുന്നത് തുടരുക</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFavorites" xml:space="preserve">
+    <value>Studio പ്രിയപ്പെട്ടവ</value>
+  </data>
+  <data name="Ui.Home.SectionStudioRecent" xml:space="preserve">
+    <value>എൻ്റെ സമീപകാല അനുഭവങ്ങൾ</value>
+  </data>
+  <data name="Ui.Home.SectionStudioOwned" xml:space="preserve">
+    <value>എൻ്റെ അനുഭവങ്ങൾ</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFiles" xml:space="preserve">
+    <value>സമീപകാല ഫയലുകൾ</value>
+  </data>
+  <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
+    <value>ടെംപ്ലേറ്റുകൾ</value>
   </data>
 </root>

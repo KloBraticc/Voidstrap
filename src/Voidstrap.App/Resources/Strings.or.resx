@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9340,5 +9340,59 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   </data>
   <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
     <value>ଛବି ବାଛନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Home.EditLayout" xml:space="preserve">
+    <value>ଲେଆଉଟ୍ ସମ୍ପାଦନ କରନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Home.DoneEditingLayout" xml:space="preserve">
+    <value>ସମାପ୍ତ</value>
+  </data>
+  <data name="Ui.Home.ResetLayout" xml:space="preserve">
+    <value>ଲେଆଉଟ୍ ରିସେଟ୍ କରନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Home.HiddenSections" xml:space="preserve">
+    <value>ଲୁଚାଯାଇଥିବା ବିଭାଗ</value>
+  </data>
+  <data name="Ui.Home.EditLayoutTooltip" xml:space="preserve">
+    <value>ଏହି ପୃଷ୍ଠାର ବିଭାଗଗୁଡ଼ିକୁ ସଜାନ୍ତୁ କିମ୍ବା ଲୁଚାନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Home.ResetLayoutTooltip" xml:space="preserve">
+    <value>ମୂଳ କ୍ରମ ପୁନରୁଦ୍ଧାର କରି ସମସ୍ତ ଲୁଚାଯାଇଥିବା ବିଭାଗ ଦେଖାନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Home.HideSectionTooltip" xml:space="preserve">
+    <value>ଏହି ବିଭାଗ ଲୁଚାନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Home.DragSectionTooltip" xml:space="preserve">
+    <value>ଏହି ବିଭାଗ ଘୁଞ୍ଚାଇବା ପାଇଁ ଟାଣନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Home.ShowSectionTooltip" xml:space="preserve">
+    <value>ଏହି ବିଭାଗ ପୁଣି ଦେଖାନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Home.SectionHero" xml:space="preserve">
+    <value>ରିଲିଜ୍ ବ୍ୟାନର୍</value>
+  </data>
+  <data name="Ui.Home.SectionNews" xml:space="preserve">
+    <value>ସର୍ବଶେଷ Roblox ସମ୍ବାଦ |</value>
+  </data>
+  <data name="Ui.Home.SectionCatalog" xml:space="preserve">
+    <value>କାଟାଲଗ୍ ରେ ନୂଆ |</value>
+  </data>
+  <data name="Ui.Home.SectionContinue" xml:space="preserve">
+    <value>ଖେଳିବା ଜାରି ରଖ |</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFavorites" xml:space="preserve">
+    <value>Studio ପସନ୍ଦ</value>
+  </data>
+  <data name="Ui.Home.SectionStudioRecent" xml:space="preserve">
+    <value>ମୋର ସାମ୍ପ୍ରତିକ ଅନୁଭୂତି |</value>
+  </data>
+  <data name="Ui.Home.SectionStudioOwned" xml:space="preserve">
+    <value>ମୋର ଅନୁଭୂତି</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFiles" xml:space="preserve">
+    <value>ସାମ୍ପ୍ରତିକ ଫାଇଲଗୁଡିକ</value>
+  </data>
+  <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
+    <value>ଟେମ୍ପଲେଟ୍</value>
   </data>
 </root>

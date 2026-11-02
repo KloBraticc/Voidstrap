@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9340,5 +9340,59 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   </data>
   <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
     <value>प्रतिमा निवडा</value>
+  </data>
+  <data name="Ui.Home.EditLayout" xml:space="preserve">
+    <value>लेआउट संपादित करा</value>
+  </data>
+  <data name="Ui.Home.DoneEditingLayout" xml:space="preserve">
+    <value>झाले</value>
+  </data>
+  <data name="Ui.Home.ResetLayout" xml:space="preserve">
+    <value>लेआउट रीसेट करा</value>
+  </data>
+  <data name="Ui.Home.HiddenSections" xml:space="preserve">
+    <value>लपलेले विभाग</value>
+  </data>
+  <data name="Ui.Home.EditLayoutTooltip" xml:space="preserve">
+    <value>या पृष्ठाचे विभाग क्रमाने लावा किंवा लपवा</value>
+  </data>
+  <data name="Ui.Home.ResetLayoutTooltip" xml:space="preserve">
+    <value>मूळ क्रम पुनर्संचारित करा आणि सर्व लपलेले विभाग दाखवा</value>
+  </data>
+  <data name="Ui.Home.HideSectionTooltip" xml:space="preserve">
+    <value>हा विभाग लपवा</value>
+  </data>
+  <data name="Ui.Home.DragSectionTooltip" xml:space="preserve">
+    <value>हा विभाग हलवण्यासाठी ओढा</value>
+  </data>
+  <data name="Ui.Home.ShowSectionTooltip" xml:space="preserve">
+    <value>हा विभाग पुन्हा दाखवा</value>
+  </data>
+  <data name="Ui.Home.SectionHero" xml:space="preserve">
+    <value>रिलीज बॅनर</value>
+  </data>
+  <data name="Ui.Home.SectionNews" xml:space="preserve">
+    <value>नवीनतम Roblox बातम्या</value>
+  </data>
+  <data name="Ui.Home.SectionCatalog" xml:space="preserve">
+    <value>कॅटलॉगवर नवीन</value>
+  </data>
+  <data name="Ui.Home.SectionContinue" xml:space="preserve">
+    <value>खेळणे सुरू ठेवा</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFavorites" xml:space="preserve">
+    <value>Studio आवडते</value>
+  </data>
+  <data name="Ui.Home.SectionStudioRecent" xml:space="preserve">
+    <value>माझे अलीकडील अनुभव</value>
+  </data>
+  <data name="Ui.Home.SectionStudioOwned" xml:space="preserve">
+    <value>माझे अनुभव</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFiles" xml:space="preserve">
+    <value>अलीकडील फायली</value>
+  </data>
+  <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
+    <value>टेम्पलेट्स</value>
   </data>
 </root>

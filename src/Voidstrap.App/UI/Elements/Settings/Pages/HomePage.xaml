@@ -282,6 +282,92 @@
                                 </EventTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
+
+        <Style x:Key="HomeSectionStyle" TargetType="Border">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="AllowDrop" Value="True"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding DataContext.IsLayoutEditMode, RelativeSource={RelativeSource AncestorType=Page}}" Value="True">
+                    <Setter Property="BorderBrush" Value="{StaticResource AccentColorSecondaryBrush}"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="CornerRadius" Value="10"/>
+                    <Setter Property="Padding" Value="10"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="HomeSectionContentStyle" TargetType="Grid">
+            <Setter Property="IsHitTestVisible" Value="True"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding DataContext.IsLayoutEditMode, RelativeSource={RelativeSource AncestorType=Page}}" Value="True">
+                    <Setter Property="IsHitTestVisible" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="HomeSectionChromeStyle" TargetType="StackPanel">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding DataContext.IsLayoutEditMode, RelativeSource={RelativeSource AncestorType=Page}}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="HomeSectionGripStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource AccentColorSecondaryBrush}"/>
+            <Setter Property="Padding" Value="5,2"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Margin" Value="0,0,6,0"/>
+            <Setter Property="Cursor" Value="SizeAll"/>
+            <Setter Property="ToolTip" Value="{resources:Loc Ui_Home_DragSectionTooltip}"/>
+            <EventSetter Event="MouseLeftButtonDown" Handler="SectionGrip_MouseLeftButtonDown"/>
+            <EventSetter Event="MouseMove" Handler="SectionGrip_MouseMove"/>
+        </Style>
+
+        <Style x:Key="HomeSectionHideButtonStyle" TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+            <Setter Property="Appearance" Value="Transparent"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="ToolTip" Value="{resources:Loc Ui_Home_HideSectionTooltip}"/>
+            <EventSetter Event="Click" Handler="SectionHide_Click"/>
+        </Style>
+
+        <Style x:Key="HomeHiddenTrayStyle" TargetType="Border">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Background" Value="#0AFFFFFF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#1FFFFFFF"/>
+            <Setter Property="Margin" Value="0,12,0,0"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding DataContext.IsLayoutEditMode, RelativeSource={RelativeSource AncestorType=Page}}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="HomeEditLayoutButtonStyle" TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+            <Setter Property="Content" Value="{resources:Loc Ui_Home_EditLayout}"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding DataContext.IsLayoutEditMode, RelativeSource={RelativeSource AncestorType=Page}}" Value="True">
+                    <Setter Property="Content" Value="{resources:Loc Ui_Home_DoneEditingLayout}"/>
+                    <Setter Property="Appearance" Value="Primary"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="HomeResetLayoutButtonStyle" TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding DataContext.IsLayoutEditMode, RelativeSource={RelativeSource AncestorType=Page}}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Page.Resources>
 
     <Grid Margin="0,0,0,0">
@@ -292,16 +378,32 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Margin="0,4,28,6">
-            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Visibility="{Binding StudioTabVisibility}">
-                <ProgressBar Width="120" Height="3" Margin="0,0,12,0" VerticalAlignment="Center" IsIndeterminate="True"
-                             Visibility="{Binding IsStudioLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <ui:Button Content="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Icon="ArrowSync24" Appearance="Secondary" Command="{Binding RefreshStudioCommand}" />
-                <ui:Button Margin="8,0,0,0" Appearance="Primary" Command="{Binding LaunchStudioCommand}" ToolTip="{resources:Loc LaunchMenu_LaunchRobloxStudio}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Width="16" Height="16" Margin="0,0,7,0" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/RobloxStudioIcon.png" />
-                        <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Home_OpenStudio}" />
-                    </StackPanel>
-                </ui:Button>
+            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+                <ui:Button x:Name="EditLayoutButton"
+                           Appearance="Secondary"
+                           Icon="Edit24"
+                           ToolTip="{resources:Loc Ui_Home_EditLayoutTooltip}"
+                           Style="{StaticResource HomeEditLayoutButtonStyle}"
+                           Click="EditLayout_Click"/>
+                <ui:Button x:Name="ResetLayoutButton"
+                           Margin="8,0,0,0"
+                           Appearance="Secondary"
+                           Icon="ArrowCounterclockwise24"
+                           Content="{resources:Loc Ui_Home_ResetLayout}"
+                           ToolTip="{resources:Loc Ui_Home_ResetLayoutTooltip}"
+                           Style="{StaticResource HomeResetLayoutButtonStyle}"
+                           Click="ResetLayout_Click"/>
+                <StackPanel Margin="12,0,0,0" Orientation="Horizontal" Visibility="{Binding StudioTabVisibility}">
+                    <ProgressBar Width="120" Height="3" Margin="0,0,12,0" VerticalAlignment="Center" IsIndeterminate="True"
+                                 Visibility="{Binding IsStudioLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <ui:Button Content="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Icon="ArrowSync24" Appearance="Secondary" Command="{Binding RefreshStudioCommand}" />
+                    <ui:Button Margin="8,0,0,0" Appearance="Primary" Command="{Binding LaunchStudioCommand}" ToolTip="{resources:Loc LaunchMenu_LaunchRobloxStudio}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="16" Height="16" Margin="0,0,7,0" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/RobloxStudioIcon.png" />
+                            <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Home_OpenStudio}" />
+                        </StackPanel>
+                    </ui:Button>
+                </StackPanel>
             </StackPanel>
         </Grid>
 
@@ -327,60 +429,100 @@
                       Visibility="{Binding RobloxTabVisibility}"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled">
-            <StackPanel Margin="0,0,28,0">
+            <StackPanel x:Name="RobloxSections" Margin="0,0,28,0">
 
-                <ContentControl Content="{Binding RiShadeRelease}"
-                                ContentTemplate="{StaticResource NewsCardTemplate}"
-                                Margin="0,12,0,0"
-                                Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}"/>
-
-                <Grid Margin="0,12,0,14"
-                      Visibility="{Binding HasLatestNews,
-                          Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="{resources:Loc Ui_Home_LatestRobloxNews}"
-                                   FontSize="21"
-                                   FontWeight="Bold"
-                                   Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
-                        <TextBlock Text="{Binding NewsHeaderCount}"
-                                   FontSize="13"
-                                   Margin="9,4,0,0"
-                                   VerticalAlignment="Center"
-                                   Foreground="{DynamicResource TextFillColorTertiaryBrush}"/>
+                <Border x:Name="RobloxHiddenTray" Style="{StaticResource HomeHiddenTrayStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{resources:Loc Ui_Home_HiddenSections}" FontSize="12" VerticalAlignment="Center" Margin="0,0,8,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                        <WrapPanel x:Name="RobloxHiddenChips" VerticalAlignment="Center"/>
                     </StackPanel>
-                    <ui:Button HorizontalAlignment="Right"
-                               VerticalAlignment="Center"
-                               Appearance="Transparent"
-                               Padding="6,3"
-                               ToolTip="{resources:Loc Ui_Home_SeeEveryRobloxAnnouncement}"
-                               Click="ExploreNews_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{resources:Loc Ui_Home_ExploreAllNews}"
-                                       FontSize="13.5"
-                                       VerticalAlignment="Center"
-                                       Foreground="{StaticResource AccentColorSecondaryBrush}"/>
-                            <ui:SymbolIcon Symbol="ChevronRight24"
-                                           FontSize="11"
-                                           Margin="6,1,0,0"
-                                           VerticalAlignment="Center"
-                                           Foreground="{StaticResource AccentColorSecondaryBrush}"/>
+                </Border>
+
+                <Border x:Name="HomeSectionHero" Style="{StaticResource HomeSectionStyle}">
+                    <Grid>
+                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                            <ContentControl Content="{Binding RiShadeRelease}"
+                                            ContentTemplate="{StaticResource NewsCardTemplate}"
+                                            Margin="0,12,0,0"
+                                            Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}"/>
+                        </Grid>
+                        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Panel.ZIndex="2" Margin="0,16,12,0"
+                                    Style="{StaticResource HomeSectionChromeStyle}">
+                            <Border Style="{StaticResource HomeSectionGripStyle}">
+                                <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
+                            </Border>
+                            <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
                         </StackPanel>
-                    </ui:Button>
-                </Grid>
+                    </Grid>
+                </Border>
 
-                <ItemsControl ItemsSource="{Binding LatestNews}"
-                              ItemTemplate="{StaticResource NewsCardTemplate}"
-                              Margin="0,0,0,24"
-                              Visibility="{Binding HasLatestNews,
-                                  Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="2"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    
-                </ItemsControl>
+                <Border x:Name="HomeSectionNews" Style="{StaticResource HomeSectionStyle}">
+                    <Grid>
+                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                            <StackPanel>
+                                <Grid Margin="0,12,0,14"
+                                      Visibility="{Binding HasLatestNews,
+                                          Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="{resources:Loc Ui_Home_LatestRobloxNews}"
+                                                   FontSize="21"
+                                                   FontWeight="Bold"
+                                                   Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                        <TextBlock Text="{Binding NewsHeaderCount}"
+                                                   FontSize="13"
+                                                   Margin="9,4,0,0"
+                                                   VerticalAlignment="Center"
+                                                   Foreground="{DynamicResource TextFillColorTertiaryBrush}"/>
+                                    </StackPanel>
+                                    <ui:Button HorizontalAlignment="Right"
+                                               VerticalAlignment="Center"
+                                               Appearance="Transparent"
+                                               Padding="6,3"
+                                               ToolTip="{resources:Loc Ui_Home_SeeEveryRobloxAnnouncement}"
+                                               Click="ExploreNews_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{resources:Loc Ui_Home_ExploreAllNews}"
+                                                       FontSize="13.5"
+                                                       VerticalAlignment="Center"
+                                                       Foreground="{StaticResource AccentColorSecondaryBrush}"/>
+                                            <ui:SymbolIcon Symbol="ChevronRight24"
+                                                           FontSize="11"
+                                                           Margin="6,1,0,0"
+                                                           VerticalAlignment="Center"
+                                                           Foreground="{StaticResource AccentColorSecondaryBrush}"/>
+                                        </StackPanel>
+                                    </ui:Button>
+                                </Grid>
 
+                                <ItemsControl ItemsSource="{Binding LatestNews}"
+                                              ItemTemplate="{StaticResource NewsCardTemplate}"
+                                              Margin="0,0,0,24"
+                                              Visibility="{Binding HasLatestNews,
+                                                  Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Columns="2"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+
+                                </ItemsControl>
+                            </StackPanel>
+                        </Grid>
+                        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Panel.ZIndex="2" Margin="0,16,12,0"
+                                    Style="{StaticResource HomeSectionChromeStyle}">
+                            <Border Style="{StaticResource HomeSectionGripStyle}">
+                                <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
+                            </Border>
+                            <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+
+                <Border x:Name="HomeSectionCatalog" Style="{StaticResource HomeSectionStyle}">
+                    <Grid>
+                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                            <StackPanel>
 
                 <Grid Margin="0,8,10,8">
                     <TextBlock Text="{resources:Loc Ui_Home_NewOnTheCatalog}"
@@ -551,6 +693,23 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
+                            </StackPanel>
+                        </Grid>
+                        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Panel.ZIndex="2" Margin="0,12,12,0"
+                                    Style="{StaticResource HomeSectionChromeStyle}">
+                            <Border Style="{StaticResource HomeSectionGripStyle}">
+                                <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
+                            </Border>
+                            <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+
+                <Border x:Name="HomeSectionContinue" Style="{StaticResource HomeSectionStyle}">
+                    <Grid>
+                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                            <StackPanel>
 
                 <Grid Margin="0,8,10,8">
                     <Grid.ColumnDefinitions>
@@ -815,6 +974,18 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
+                            </StackPanel>
+                        </Grid>
+                        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Panel.ZIndex="2" Margin="0,12,12,0"
+                                    Style="{StaticResource HomeSectionChromeStyle}">
+                            <Border Style="{StaticResource HomeSectionGripStyle}">
+                                <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
+                            </Border>
+                            <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
             </StackPanel>
         </ui:DynamicScrollViewer>
 
@@ -823,7 +994,7 @@
                       Visibility="{Binding StudioTabVisibility}"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled">
-            <StackPanel Margin="0,0,28,18">
+            <StackPanel x:Name="StudioSections" Margin="0,0,28,18">
                 <TextBlock Text="{Binding StudioStatus}"
                            Margin="0,12,0,0"
                            FontSize="13"
@@ -839,23 +1010,72 @@
                     </TextBlock.Style>
                 </TextBlock>
 
-                <StackPanel Visibility="{Binding StudioFavoritesVisibility}">
+                <Border x:Name="StudioHiddenTray" Style="{StaticResource HomeHiddenTrayStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{resources:Loc Ui_Home_HiddenSections}" FontSize="12" VerticalAlignment="Center" Margin="0,0,8,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                        <WrapPanel x:Name="StudioHiddenChips" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="StudioSectionFavorites" Style="{StaticResource HomeSectionStyle}">
+                    <Grid>
+                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                            <StackPanel Visibility="{Binding StudioFavoritesVisibility}">
                     <TextBlock Text="{resources:Loc Ui_Home_Favourites}" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioFavorites}" ItemTemplate="{StaticResource StudioProjectCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
                 </StackPanel>
+                        </Grid>
+                        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Panel.ZIndex="2" Margin="0,12,12,0"
+                                    Style="{StaticResource HomeSectionChromeStyle}">
+                            <Border Style="{StaticResource HomeSectionGripStyle}">
+                                <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
+                            </Border>
+                            <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
 
-                <StackPanel Visibility="{Binding StudioRecentVisibility}">
+                <Border x:Name="StudioSectionRecent" Style="{StaticResource HomeSectionStyle}">
+                    <Grid>
+                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                            <StackPanel Visibility="{Binding StudioRecentVisibility}">
                     <TextBlock Text="{resources:Loc Ui_Home_MyRecentExperiences}" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioRecent}" ItemTemplate="{StaticResource StudioProjectCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
                 </StackPanel>
+                        </Grid>
+                        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Panel.ZIndex="2" Margin="0,12,12,0"
+                                    Style="{StaticResource HomeSectionChromeStyle}">
+                            <Border Style="{StaticResource HomeSectionGripStyle}">
+                                <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
+                            </Border>
+                            <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
 
-                <StackPanel Visibility="{Binding StudioOwnedVisibility}">
+                <Border x:Name="StudioSectionOwned" Style="{StaticResource HomeSectionStyle}">
+                    <Grid>
+                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                            <StackPanel Visibility="{Binding StudioOwnedVisibility}">
                     <TextBlock Text="{resources:Loc Ui_Home_MyExperiences}" FontSize="21" FontWeight="Bold" Margin="0,12,0,4" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                     <TextBlock Text="{resources:Loc Ui_Home_EveryExperienceOnYourAccountNewest}" FontSize="13" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioOwned}" ItemTemplate="{StaticResource StudioProjectCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
                 </StackPanel>
+                        </Grid>
+                        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Panel.ZIndex="2" Margin="0,12,12,0"
+                                    Style="{StaticResource HomeSectionChromeStyle}">
+                            <Border Style="{StaticResource HomeSectionGripStyle}">
+                                <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
+                            </Border>
+                            <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
 
-                <StackPanel Visibility="{Binding StudioLocalFilesVisibility}">
+                <Border x:Name="StudioSectionFiles" Style="{StaticResource HomeSectionStyle}">
+                    <Grid>
+                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                            <StackPanel Visibility="{Binding StudioLocalFilesVisibility}">
                     <TextBlock Text="{resources:Loc Ui_Home_RecentFiles}" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioLocalFiles}">
                         <ItemsControl.ItemTemplate>
@@ -896,13 +1116,36 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Panel.ZIndex="2" Margin="0,12,12,0"
+                                    Style="{StaticResource HomeSectionChromeStyle}">
+                            <Border Style="{StaticResource HomeSectionGripStyle}">
+                                <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
+                            </Border>
+                            <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
 
-                <StackPanel Visibility="{Binding StudioTemplatesVisibility}">
+                <Border x:Name="StudioSectionTemplates" Style="{StaticResource HomeSectionStyle}">
+                    <Grid>
+                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                            <StackPanel Visibility="{Binding StudioTemplatesVisibility}">
                     <TextBlock Text="{resources:Loc Ui_Home_OpenATemplate}" FontSize="21" FontWeight="Bold" Margin="0,12,0,4" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                     <TextBlock Text="{resources:Loc Ui_Home_SeeWhatSPossibleOnRoblox}" FontSize="13" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioTemplates}" ItemTemplate="{StaticResource StudioTemplateCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
                 </StackPanel>
+                        </Grid>
+                        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Panel.ZIndex="2" Margin="0,12,12,0"
+                                    Style="{StaticResource HomeSectionChromeStyle}">
+                            <Border Style="{StaticResource HomeSectionGripStyle}">
+                                <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
+                            </Border>
+                            <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
             </StackPanel>
         </ui:DynamicScrollViewer>
     </Grid>

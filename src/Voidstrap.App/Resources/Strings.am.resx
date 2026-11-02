@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9339,5 +9339,59 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   </data>
   <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
     <value>ምስል ይምረጡ</value>
+  </data>
+  <data name="Ui.Home.EditLayout" xml:space="preserve">
+    <value>የአቀማመጥ አርትዕ</value>
+  </data>
+  <data name="Ui.Home.DoneEditingLayout" xml:space="preserve">
+    <value>ተከናውኗል</value>
+  </data>
+  <data name="Ui.Home.ResetLayout" xml:space="preserve">
+    <value>አቀማመጥ ዳግም አስጀምር</value>
+  </data>
+  <data name="Ui.Home.HiddenSections" xml:space="preserve">
+    <value>የተደበቁ ክፍሎች</value>
+  </data>
+  <data name="Ui.Home.EditLayoutTooltip" xml:space="preserve">
+    <value>የዚህን ገጽ ክፍሎች ደርድር ወይም ደብቅ</value>
+  </data>
+  <data name="Ui.Home.ResetLayoutTooltip" xml:space="preserve">
+    <value>የመጀመሪያውን ቅደም ተከተል አሳይ እና ሁሉንም የተደበቁ ክፍሎች አሳይ</value>
+  </data>
+  <data name="Ui.Home.HideSectionTooltip" xml:space="preserve">
+    <value>ይህን ክፍል ደብቅ</value>
+  </data>
+  <data name="Ui.Home.DragSectionTooltip" xml:space="preserve">
+    <value>ይህን ክፍል ለማንቀሳቀስ ጎትት</value>
+  </data>
+  <data name="Ui.Home.ShowSectionTooltip" xml:space="preserve">
+    <value>ይህን ክፍል እንደገና አሳይ</value>
+  </data>
+  <data name="Ui.Home.SectionHero" xml:space="preserve">
+    <value>የመውጫ ባናር</value>
+  </data>
+  <data name="Ui.Home.SectionNews" xml:space="preserve">
+    <value>የቅርብ ጊዜ Roblox ዜና</value>
+  </data>
+  <data name="Ui.Home.SectionCatalog" xml:space="preserve">
+    <value>በካታሎግ ላይ አዲስ</value>
+  </data>
+  <data name="Ui.Home.SectionContinue" xml:space="preserve">
+    <value>መጫወቱን ይቀጥሉ</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFavorites" xml:space="preserve">
+    <value>የStudio ተወዳጆች</value>
+  </data>
+  <data name="Ui.Home.SectionStudioRecent" xml:space="preserve">
+    <value>የቅርብ ጊዜ ገጠመኞቼ</value>
+  </data>
+  <data name="Ui.Home.SectionStudioOwned" xml:space="preserve">
+    <value>የእኔ ተሞክሮዎች</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFiles" xml:space="preserve">
+    <value>የቅርብ ጊዜ ፋይሎች</value>
+  </data>
+  <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
+    <value>አብነቶች</value>
   </data>
 </root>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9651,5 +9651,59 @@
   </data>
   <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
     <value>اختر صورة</value>
+  </data>
+  <data name="Ui.Home.EditLayout" xml:space="preserve">
+    <value>تعديل التنسيق</value>
+  </data>
+  <data name="Ui.Home.DoneEditingLayout" xml:space="preserve">
+    <value>تم</value>
+  </data>
+  <data name="Ui.Home.ResetLayout" xml:space="preserve">
+    <value>إعادة تعيين التنسيق</value>
+  </data>
+  <data name="Ui.Home.HiddenSections" xml:space="preserve">
+    <value>الأقسام المخفية</value>
+  </data>
+  <data name="Ui.Home.EditLayoutTooltip" xml:space="preserve">
+    <value>رتب الأقسام في هذه الصفحة أو أخفها</value>
+  </data>
+  <data name="Ui.Home.ResetLayoutTooltip" xml:space="preserve">
+    <value>استعادة الترتيب الأصلي للأقسام وإظهار كل قسم مخفي</value>
+  </data>
+  <data name="Ui.Home.HideSectionTooltip" xml:space="preserve">
+    <value>أخف هذا القسم</value>
+  </data>
+  <data name="Ui.Home.DragSectionTooltip" xml:space="preserve">
+    <value>اسحب لتحريك هذا القسم</value>
+  </data>
+  <data name="Ui.Home.ShowSectionTooltip" xml:space="preserve">
+    <value>أظهر هذا القسم مرة أخرى</value>
+  </data>
+  <data name="Ui.Home.SectionHero" xml:space="preserve">
+    <value>لافتة الإصدار</value>
+  </data>
+  <data name="Ui.Home.SectionNews" xml:space="preserve">
+    <value>آخر أخبار Roblox</value>
+  </data>
+  <data name="Ui.Home.SectionCatalog" xml:space="preserve">
+    <value>جديد في الكتالوج</value>
+  </data>
+  <data name="Ui.Home.SectionContinue" xml:space="preserve">
+    <value>متابعة اللعب</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFavorites" xml:space="preserve">
+    <value>مفضلات الاستوديو</value>
+  </data>
+  <data name="Ui.Home.SectionStudioRecent" xml:space="preserve">
+    <value>تجاربي الأخيرة</value>
+  </data>
+  <data name="Ui.Home.SectionStudioOwned" xml:space="preserve">
+    <value>تجاربي</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFiles" xml:space="preserve">
+    <value>الملفات الأخيرة</value>
+  </data>
+  <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
+    <value>القوالب</value>
   </data>
 </root>

@@ -1718,6 +1718,42 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Home_ContinuePlaying => ResourceManager.GetString("Ui.Home.ContinuePlaying", resourceCulture);
 
+        public static string Ui_Home_EditLayout => ResourceManager.GetString("Ui.Home.EditLayout", resourceCulture);
+
+        public static string Ui_Home_DoneEditingLayout => ResourceManager.GetString("Ui.Home.DoneEditingLayout", resourceCulture);
+
+        public static string Ui_Home_ResetLayout => ResourceManager.GetString("Ui.Home.ResetLayout", resourceCulture);
+
+        public static string Ui_Home_HiddenSections => ResourceManager.GetString("Ui.Home.HiddenSections", resourceCulture);
+
+        public static string Ui_Home_EditLayoutTooltip => ResourceManager.GetString("Ui.Home.EditLayoutTooltip", resourceCulture);
+
+        public static string Ui_Home_ResetLayoutTooltip => ResourceManager.GetString("Ui.Home.ResetLayoutTooltip", resourceCulture);
+
+        public static string Ui_Home_HideSectionTooltip => ResourceManager.GetString("Ui.Home.HideSectionTooltip", resourceCulture);
+
+        public static string Ui_Home_DragSectionTooltip => ResourceManager.GetString("Ui.Home.DragSectionTooltip", resourceCulture);
+
+        public static string Ui_Home_ShowSectionTooltip => ResourceManager.GetString("Ui.Home.ShowSectionTooltip", resourceCulture);
+
+        public static string Ui_Home_SectionHero => ResourceManager.GetString("Ui.Home.SectionHero", resourceCulture);
+
+        public static string Ui_Home_SectionNews => ResourceManager.GetString("Ui.Home.SectionNews", resourceCulture);
+
+        public static string Ui_Home_SectionCatalog => ResourceManager.GetString("Ui.Home.SectionCatalog", resourceCulture);
+
+        public static string Ui_Home_SectionContinue => ResourceManager.GetString("Ui.Home.SectionContinue", resourceCulture);
+
+        public static string Ui_Home_SectionStudioFavorites => ResourceManager.GetString("Ui.Home.SectionStudioFavorites", resourceCulture);
+
+        public static string Ui_Home_SectionStudioRecent => ResourceManager.GetString("Ui.Home.SectionStudioRecent", resourceCulture);
+
+        public static string Ui_Home_SectionStudioOwned => ResourceManager.GetString("Ui.Home.SectionStudioOwned", resourceCulture);
+
+        public static string Ui_Home_SectionStudioFiles => ResourceManager.GetString("Ui.Home.SectionStudioFiles", resourceCulture);
+
+        public static string Ui_Home_SectionStudioTemplates => ResourceManager.GetString("Ui.Home.SectionStudioTemplates", resourceCulture);
+
         public static string Ui_Home_ServerForEveryGame => ResourceManager.GetString("Ui.Home.ServerForEveryGame", resourceCulture);
 
         public static string Ui_Home_UseForAllGames => ResourceManager.GetString("Ui.Home.UseForAllGames", resourceCulture);

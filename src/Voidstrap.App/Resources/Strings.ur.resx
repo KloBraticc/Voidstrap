@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9339,5 +9339,59 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   </data>
   <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
     <value>تصویر منتخب کریں</value>
+  </data>
+  <data name="Ui.Home.EditLayout" xml:space="preserve">
+    <value>لے آؤٹ ترمیم کریں</value>
+  </data>
+  <data name="Ui.Home.DoneEditingLayout" xml:space="preserve">
+    <value>ہو گیا</value>
+  </data>
+  <data name="Ui.Home.ResetLayout" xml:space="preserve">
+    <value>لے آؤٹ ری سیٹ کریں</value>
+  </data>
+  <data name="Ui.Home.HiddenSections" xml:space="preserve">
+    <value>چھپے ہوئے حصے</value>
+  </data>
+  <data name="Ui.Home.EditLayoutTooltip" xml:space="preserve">
+    <value>اس صفحے کے حصوں کو ترتیب دیں یا چھپائیں</value>
+  </data>
+  <data name="Ui.Home.ResetLayoutTooltip" xml:space="preserve">
+    <value>اصل ترتیب بحال کریں اور تمام چھپے ہوئے حصے دکھائیں</value>
+  </data>
+  <data name="Ui.Home.HideSectionTooltip" xml:space="preserve">
+    <value>اس حصے کو چھپائیں</value>
+  </data>
+  <data name="Ui.Home.DragSectionTooltip" xml:space="preserve">
+    <value>اس حصے کو منتقل کرنے کے لیے کھینچیں</value>
+  </data>
+  <data name="Ui.Home.ShowSectionTooltip" xml:space="preserve">
+    <value>اس حصے کو دوبارہ دکھائیں</value>
+  </data>
+  <data name="Ui.Home.SectionHero" xml:space="preserve">
+    <value>ریلیز بینر</value>
+  </data>
+  <data name="Ui.Home.SectionNews" xml:space="preserve">
+    <value>تازہ ترین Roblox خبریں۔</value>
+  </data>
+  <data name="Ui.Home.SectionCatalog" xml:space="preserve">
+    <value>کیٹلاگ پر نیا</value>
+  </data>
+  <data name="Ui.Home.SectionContinue" xml:space="preserve">
+    <value>کھیلنا جاری رکھیں</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFavorites" xml:space="preserve">
+    <value>Studio پسندیدہ</value>
+  </data>
+  <data name="Ui.Home.SectionStudioRecent" xml:space="preserve">
+    <value>میرے حالیہ تجربات</value>
+  </data>
+  <data name="Ui.Home.SectionStudioOwned" xml:space="preserve">
+    <value>میرے تجربات</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFiles" xml:space="preserve">
+    <value>حالیہ فائلیں۔</value>
+  </data>
+  <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
+    <value>سانچے</value>
   </data>
 </root>

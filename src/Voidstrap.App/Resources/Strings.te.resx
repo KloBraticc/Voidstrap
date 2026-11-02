@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9339,5 +9339,59 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   </data>
   <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
     <value>చిత్రాన్ని ఎంచుకోండి</value>
+  </data>
+  <data name="Ui.Home.EditLayout" xml:space="preserve">
+    <value>లేఅవుట్ సవరించండి</value>
+  </data>
+  <data name="Ui.Home.DoneEditingLayout" xml:space="preserve">
+    <value>పూర్తయింది</value>
+  </data>
+  <data name="Ui.Home.ResetLayout" xml:space="preserve">
+    <value>లేఅవుట్ రీసెట్ చేయండి</value>
+  </data>
+  <data name="Ui.Home.HiddenSections" xml:space="preserve">
+    <value>దాచిన విభాగాలు</value>
+  </data>
+  <data name="Ui.Home.EditLayoutTooltip" xml:space="preserve">
+    <value>ఈ పేజీ విభాగాలను క్రమపరచండి లేదా దాచండి</value>
+  </data>
+  <data name="Ui.Home.ResetLayoutTooltip" xml:space="preserve">
+    <value>అసలు క్రమాన్ని పునరుద్ధరించి దాచిన అన్ని విభాగాలను చూపించండి</value>
+  </data>
+  <data name="Ui.Home.HideSectionTooltip" xml:space="preserve">
+    <value>ఈ విభాగాన్ని దాచండి</value>
+  </data>
+  <data name="Ui.Home.DragSectionTooltip" xml:space="preserve">
+    <value>ఈ విభాగాన్ని తరలించడానికి లాగండి</value>
+  </data>
+  <data name="Ui.Home.ShowSectionTooltip" xml:space="preserve">
+    <value>ఈ విభాగాన్ని మళ్లీ చూపించండి</value>
+  </data>
+  <data name="Ui.Home.SectionHero" xml:space="preserve">
+    <value>విడుదల బ్యానర్</value>
+  </data>
+  <data name="Ui.Home.SectionNews" xml:space="preserve">
+    <value>తాజా Roblox వార్తలు</value>
+  </data>
+  <data name="Ui.Home.SectionCatalog" xml:space="preserve">
+    <value>కేటలాగ్లో కొత్తది</value>
+  </data>
+  <data name="Ui.Home.SectionContinue" xml:space="preserve">
+    <value>ఆడటం కొనసాగించు</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFavorites" xml:space="preserve">
+    <value>Studio ఇష్టమైనవి</value>
+  </data>
+  <data name="Ui.Home.SectionStudioRecent" xml:space="preserve">
+    <value>నా ఇటీవలి అనుభవాలు</value>
+  </data>
+  <data name="Ui.Home.SectionStudioOwned" xml:space="preserve">
+    <value>నా అనుభవాలు</value>
+  </data>
+  <data name="Ui.Home.SectionStudioFiles" xml:space="preserve">
+    <value>ఇటీవలి ఫైల్లు</value>
+  </data>
+  <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
+    <value>టెంప్లేట్లు</value>
   </data>
 </root>
