@@ -1,6 +1,7 @@
 <ui:UiPage xmlns:util="clr-namespace:Voidstrap.Utility" x:Class="Voidstrap.UI.Elements.Settings.Pages.ModsPage" xmlns:uianim="clr-namespace:Wpf.Ui.Animations;assembly=Wpf.Ui" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:conv="clr-namespace:Voidstrap.Converters" xmlns:converters="clr-namespace:Voidstrap.UI.Converters" xmlns:settings="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:gif="clr-namespace:WpfAnimatedGif;assembly=WpfAnimatedGif" Title="ModsPage" Scrollable="True">
   <FrameworkElement.Resources>
     <ResourceDictionary>
+      <converters:CursorPreviewConverter x:Key="CursorPreviewConverter" />
       <conv:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
       <conv:EnumNotEqualsVisibilityConverter x:Key="EnumNotEqualsVisibilityConverter" />
       <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -84,10 +85,31 @@
 
             <TextBlock Margin="2,24,0,0" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_Mods_Cursor}" />
                         <controls:OptionControl Header="{resources:Loc Ui_Mods_CursorStyle}" Description="{resources:Loc Ui_Mods_UseTheRobloxCursorABuilt}">
-              <ComboBox Width="220" Padding="10,5,10,5" ItemsSource="{Binding CursorSettings.Styles, Mode=OneTime}" SelectedItem="{Binding CursorSettings.SelectedStyle, Mode=TwoWay}">
+              <ComboBox Width="240" Padding="10,5,10,5" ItemsSource="{Binding CursorSettings.Styles, Mode=OneTime}" SelectedItem="{Binding CursorSettings.SelectedStyle, Mode=TwoWay}">
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
-                    <TextBlock Text="{Binding Path=., Converter={StaticResource EnumNameConverter}}" />
+                    <StackPanel Orientation="Horizontal">
+                      <Grid Width="20" Height="20" Margin="0,0,10,0" VerticalAlignment="Center">
+                        <Image Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality">
+                          <Image.Source>
+                            <Binding Path="." Converter="{StaticResource CursorPreviewConverter}" />
+                          </Image.Source>
+                        </Image>
+                        <ui:SymbolIcon Symbol="Cursor24" FontSize="16">
+                          <ui:SymbolIcon.Style>
+                            <Style TargetType="ui:SymbolIcon">
+                              <Setter Property="Visibility" Value="Collapsed" />
+                              <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=., Converter={StaticResource CursorPreviewConverter}}" Value="{x:Null}">
+                                  <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                              </Style.Triggers>
+                            </Style>
+                          </ui:SymbolIcon.Style>
+                        </ui:SymbolIcon>
+                      </Grid>
+                      <TextBlock VerticalAlignment="Center" Text="{Binding Path=., Converter={StaticResource EnumNameConverter}}" />
+                    </StackPanel>
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
               </ComboBox>

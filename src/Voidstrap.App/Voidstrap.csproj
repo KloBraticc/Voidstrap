@@ -150,6 +150,7 @@
 		<EmbeddedResource Include="Resources\CustomBootstrapperTemplate_Simple.xml" />
 		<EmbeddedResource Include="Resources\CustomBootstrapperTemplate_Html.xml" />
 		<EmbeddedResource Include="Resources\CustomBootstrapperTemplate_Panel.html" />
+		<EmbeddedResource Include="Resources\Mods\Cursor\Default\ArrowFarCursor.png" />
 		<EmbeddedResource Include="Resources\Mods\Cursor\From2006\ArrowCursor.png" />
 		<EmbeddedResource Include="Resources\Mods\Cursor\From2006\ArrowFarCursor.png" />
 		<EmbeddedResource Include="Resources\Mods\Cursor\From2006\ArrowCursorDecalDrag.png" />
