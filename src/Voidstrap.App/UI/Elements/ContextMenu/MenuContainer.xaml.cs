@@ -2137,6 +2137,31 @@ public partial class MenuContainer : WpfUiWindow
             Voidstrap.UI.WindowBackdrop.ApplyContextMenu(base.ContextMenu);
     }
 
+    internal void OpenTrayMenu()
+    {
+        const string LOG_IDENT = "MenuContainer::OpenTrayMenu";
+        const uint MenuKey = 0x12;
+        const uint KeyUp = 0x2;
+        System.Windows.Controls.ContextMenu? menu = base.ContextMenu;
+        if (menu == null || !Voidstrap.Utility.Platform.IsWindows || _handle == IntPtr.Zero)
+            return;
+        Activate();
+        if (!PInvoke.SetForegroundWindow(new HWND(_handle)))
+        {
+            keybd_event(MenuKey, 0, 0, 0);
+            PInvoke.SetForegroundWindow(new HWND(_handle));
+            keybd_event(MenuKey, 0, KeyUp, 0);
+        }
+        if (menu.IsOpen)
+            return;
+        menu.Placement = System.Windows.Controls.Primitives.PlacementMode.MousePoint;
+        menu.IsOpen = true;
+        App.Logger.WriteLine(LOG_IDENT, "Opened the tray menu");
+    }
+
+    [LibraryImport("user32.dll", EntryPoint = "keybd_event")]
+    private static partial void keybd_event(uint key, byte scan, uint flags, UIntPtr extraInfo);
+
     private void ContextMenu_Opened(object sender, RoutedEventArgs e)
     {
         SyncMenuState();

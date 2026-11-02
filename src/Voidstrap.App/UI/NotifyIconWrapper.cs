@@ -55,17 +55,14 @@ public class NotifyIconWrapper : IDisposable
         {
             _notifyIcon.Icon = Voidstrap.Utility.Branding.CreateDrawingIcon() ?? Voidstrap.Properties.Resources.IconVoidstrap;
         }
-        if (!Voidstrap.Utility.Platform.IsWindows)
+        try
         {
-            try
-            {
-                EnsureMenuContainer();
-                App.Logger.WriteLine("NotifyIconWrapper::NotifyIconWrapper", "Tray menu built before the icon was published");
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteException("NotifyIconWrapper::NotifyIconWrapper", ex);
-            }
+            EnsureMenuContainer();
+            App.Logger.WriteLine("NotifyIconWrapper::NotifyIconWrapper", "Tray menu host created before the icon was published");
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("NotifyIconWrapper::NotifyIconWrapper", ex);
         }
 
         _notifyIcon.Visible = true;
@@ -185,6 +182,11 @@ public class NotifyIconWrapper : IDisposable
                             if (_disposed)
                                 return;
                             MenuContainer menu = EnsureMenuContainer();
+                            if (Voidstrap.Utility.Platform.IsWindows)
+                            {
+                                menu.OpenTrayMenu();
+                                return;
+                            }
                             menu.Activate();
                             if (menu.ContextMenu != null)
                                 menu.ContextMenu.IsOpen = true;
