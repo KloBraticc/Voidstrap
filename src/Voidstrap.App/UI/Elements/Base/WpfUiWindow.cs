@@ -370,8 +370,26 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
                 hwndSource.AddHook(WindowProc);
             }
         }
+        FitMinimumSizeToScreen();
         ApplyRoundedCorners();
         Voidstrap.UI.WindowBackdrop.Apply(this);
+    }
+
+    private void FitMinimumSizeToScreen()
+    {
+        if (ResizeMode != ResizeMode.CanResize && ResizeMode != ResizeMode.CanResizeWithGrip)
+            return;
+        Rect work = SystemParameters.WorkArea;
+        if (work.Width <= 0 || work.Height <= 0)
+            return;
+        if (MinWidth > work.Width)
+            MinWidth = work.Width;
+        if (MinHeight > work.Height)
+            MinHeight = work.Height;
+        if (!double.IsNaN(Width) && Width > work.Width)
+            Width = work.Width;
+        if (!double.IsNaN(Height) && Height > work.Height)
+            Height = work.Height;
     }
 
     protected override void OnActivated(EventArgs e)
@@ -559,8 +577,8 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
                     double minW = MinWidth > 0 ? MinWidth : 800.0;
                     double minH = MinHeight > 0 ? MinHeight : 500.0;
                     System.Windows.Media.Matrix matrix = _hwndSource?.CompositionTarget?.TransformToDevice ?? System.Windows.Media.Matrix.Identity;
-                    mmi.MinTrackSize.X = (int)Math.Ceiling(minW * matrix.M11);
-                    mmi.MinTrackSize.Y = (int)Math.Ceiling(minH * matrix.M22);
+                    mmi.MinTrackSize.X = Math.Min((int)Math.Ceiling(minW * matrix.M11), mmi.MaxSize.X);
+                    mmi.MinTrackSize.Y = Math.Min((int)Math.Ceiling(minH * matrix.M22), mmi.MaxSize.Y);
                     System.Runtime.InteropServices.Marshal.StructureToPtr(mmi, lParam, fDeleteOld: false);
                     handled = true;
                 }
