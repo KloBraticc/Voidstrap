@@ -50,11 +50,8 @@ public class NotifyIconWrapper : IDisposable
     {
         App.Logger.WriteLine("NotifyIconWrapper::NotifyIconWrapper", "Initializing notification area icon");
         _watcher = watcher ?? throw new ArgumentNullException(nameof(watcher));
-        _notifyIcon = new NotifyIcon(new Container()) { Text = Voidstrap.Utility.Branding.Name };
-        if (Voidstrap.Utility.Platform.IsWindows)
-        {
-            _notifyIcon.Icon = Voidstrap.Utility.Branding.CreateDrawingIcon() ?? Voidstrap.Properties.Resources.IconVoidstrap;
-        }
+        Dispatcher uiDispatcher = System.Windows.Application.Current.Dispatcher;
+        _notifyIcon = uiDispatcher.CheckAccess() ? CreateNotifyIcon() : uiDispatcher.Invoke(CreateNotifyIcon);
         try
         {
             EnsureMenuContainer();
@@ -65,7 +62,10 @@ public class NotifyIconWrapper : IDisposable
             App.Logger.WriteException("NotifyIconWrapper::NotifyIconWrapper", ex);
         }
 
-        _notifyIcon.Visible = true;
+        if (uiDispatcher.CheckAccess())
+            _notifyIcon.Visible = true;
+        else
+            uiDispatcher.Invoke(() => _notifyIcon.Visible = true);
 
 #if CROSSPLAT
 		if (!Voidstrap.Utility.Platform.IsWindows)
@@ -83,6 +83,16 @@ public class NotifyIconWrapper : IDisposable
 
         _notifyIcon.MouseClick += NotifyIcon_MouseClick;
         RefreshGameJoinSubscription();
+    }
+
+    private static NotifyIcon CreateNotifyIcon()
+    {
+        NotifyIcon icon = new NotifyIcon(new Container()) { Text = Voidstrap.Utility.Branding.Name };
+        if (Voidstrap.Utility.Platform.IsWindows)
+        {
+            icon.Icon = Voidstrap.Utility.Branding.CreateDrawingIcon() ?? Voidstrap.Properties.Resources.IconVoidstrap;
+        }
+        return icon;
     }
 
     public void RefreshGameJoinSubscription()
@@ -166,6 +176,7 @@ public class NotifyIconWrapper : IDisposable
         {
             return;
         }
+        App.Logger.WriteLine("NotifyIconWrapper::NotifyIcon_MouseClick", "Tray icon right clicked");
         Dispatcher? dispatcher = System.Windows.Application.Current?.Dispatcher;
         if (_disposed || dispatcher == null || dispatcher.HasShutdownStarted || dispatcher.HasShutdownFinished)
         {

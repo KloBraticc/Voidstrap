@@ -2144,7 +2144,10 @@ public partial class MenuContainer : WpfUiWindow
         const uint KeyUp = 0x2;
         System.Windows.Controls.ContextMenu? menu = base.ContextMenu;
         if (menu == null || !Voidstrap.Utility.Platform.IsWindows || _handle == IntPtr.Zero)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Tray menu host is not ready");
             return;
+        }
         Activate();
         if (!PInvoke.SetForegroundWindow(new HWND(_handle)))
         {
