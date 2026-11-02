@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Media;
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -386,13 +385,10 @@ public partial class FastFlagsPage : UiPage
 
     private void CheckSystemButton_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is not UIElement button)
-            return;
-        button.IsEnabled = false;
+        CheckSystemButton.IsEnabled = false;
         try
         {
-            ComboBox? box = (VisualTreeHelper.GetParent(button) as Panel)?.Children.OfType<ComboBox>().FirstOrDefault();
-            ApplyRecommendedFlags((box?.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "Balanced");
+            ApplyRecommendedFlags();
         }
         catch (Exception ex)
         {
@@ -401,12 +397,13 @@ public partial class FastFlagsPage : UiPage
         }
         finally
         {
-            button.IsEnabled = true;
+            CheckSystemButton.IsEnabled = true;
         }
     }
 
-    private void ApplyRecommendedFlags(string profile)
+    private void ApplyRecommendedFlags()
     {
+        string profile = (RecommendedProfileBox.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "Balanced";
         Dictionary<string, Dictionary<string, string>> profiles = new Dictionary<string, Dictionary<string, string>>(StringComparer.Ordinal)
         {
             ["Performance"] = new Dictionary<string, string>
