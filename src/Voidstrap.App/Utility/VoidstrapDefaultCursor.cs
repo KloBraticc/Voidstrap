@@ -18,7 +18,7 @@ internal static class VoidstrapDefaultCursor
     {
         EnsureSelection();
         RemoveLegacyShiftlock();
-        if (App.Settings.Prop.CursorType != CursorType.VoidstrapDefault)
+        if (App.Settings.Prop.CursorType != CursorType.VoidstrapDefault || string.IsNullOrWhiteSpace(Paths.Mods))
             return;
 
         foreach ((string relativePath, string resourceName) in Files)
@@ -43,6 +43,8 @@ internal static class VoidstrapDefaultCursor
 
     private static void RemoveLegacyShiftlock()
     {
+        if (string.IsNullOrWhiteSpace(Paths.Mods))
+            return;
         string destination = Path.Combine(Paths.Mods, "content", "textures", "MouseLockedCursor.png");
         try
         {

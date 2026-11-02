@@ -49,6 +49,8 @@ public class EnumModPresetTask<T> : EnumBaseTask<T> where T : struct, Enum
 
     private void ExecuteCore()
     {
+        if (string.IsNullOrWhiteSpace(Paths.Mods))
+            return;
         if (NewState.Equals(default(T)))
         {
             foreach (Dictionary<string, ModPresetFileData> files in _fileDataMap.Values)

@@ -89,25 +89,7 @@
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                      <Grid Width="20" Height="20" Margin="0,0,10,0" VerticalAlignment="Center">
-                        <Image Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality">
-                          <Image.Source>
-                            <Binding Path="." Converter="{StaticResource CursorPreviewConverter}" />
-                          </Image.Source>
-                        </Image>
-                        <ui:SymbolIcon Symbol="Cursor24" FontSize="16">
-                          <ui:SymbolIcon.Style>
-                            <Style TargetType="ui:SymbolIcon">
-                              <Setter Property="Visibility" Value="Collapsed" />
-                              <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=., Converter={StaticResource CursorPreviewConverter}}" Value="{x:Null}">
-                                  <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                              </Style.Triggers>
-                            </Style>
-                          </ui:SymbolIcon.Style>
-                        </ui:SymbolIcon>
-                      </Grid>
+                      <Image Width="18" Height="18" Margin="0,0,8,0" VerticalAlignment="Center" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding Path=., Converter={StaticResource CursorPreviewConverter}}" />
                       <TextBlock VerticalAlignment="Center" Text="{Binding Path=., Converter={StaticResource EnumNameConverter}}" />
                     </StackPanel>
                   </DataTemplate>

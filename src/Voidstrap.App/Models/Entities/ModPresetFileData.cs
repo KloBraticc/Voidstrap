@@ -62,7 +62,7 @@ public class ModPresetFileData
 
     private byte[]? ReadFileHash()
     {
-        if (!IsAvailable || !File.Exists(FullFilePath))
+        if (!IsAvailable || string.IsNullOrWhiteSpace(Paths.Mods) || !File.Exists(FullFilePath))
         {
             return null;
         }
