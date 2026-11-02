@@ -199,100 +199,97 @@
               <Grid>
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Border
-                    Grid.Column="0"
-                    Width="216"
-                    Height="216"
-                    Margin="0,0,16,0"
-                    VerticalAlignment="Top"
-                    CornerRadius="8"
-                    BorderThickness="1"
-                    BorderBrush="{DynamicResource ControlElevationBorderBrush}"
-                    Background="#FF0D0E12"
-                    ClipToBounds="True"
-                    ToolTip="{resources:Loc Ui_Mods_SkyboxPreviewHint}">
+                <Border Width="168" Height="168" Margin="0,0,16,0" VerticalAlignment="Top" CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Background="#FF0D0E12" ClipToBounds="True" ToolTip="{resources:Loc Ui_Mods_SkyboxPreviewHint}">
                   <controls:SkyboxPreviewControl PackName="{Binding SelectedSkyboxPack.Name}" ReloadKey="{Binding SkyboxPreviewVersion}" />
                 </Border>
-                <StackPanel Grid.Column="1" Width="360">
-                <ui:CardExpander Margin="0,0,0,8" IsExpanded="False">
-                  <HeaderedContentControl.Header>
-                    <StackPanel>
-                      <TextBlock FontSize="14" Text="{resources:Loc Ui_Mods_CustomSkybox}" />
-                      <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Mods_UseOneImageOrChooseEvery}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <StackPanel Grid.Column="1">
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel VerticalAlignment="Center">
+                      <TextBlock FontSize="14" Text="{resources:Loc Ui_Mods_SkyboxManager}" />
+                      <TextBlock Margin="0,2,0,0" FontSize="12" TextWrapping="Wrap" Text="{resources:Loc Ui_Mods_ChooseASkyboxOnceVoidstrapDownloads}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                     </StackPanel>
-                  </HeaderedContentControl.Header>
-                  <StackPanel>
-                    <ui:Button HorizontalAlignment="Stretch" Content="{resources:Loc Ui_Mods_UseOneImageForEverySide}" Icon="ImageAdd24" Command="{Binding ChooseSingleSkyboxImageCommand}" IsEnabled="{Binding CustomSkyboxControlsEnabled}" />
-                    <Grid Margin="0,8,0,0">
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="52" />
-                        <ColumnDefinition Width="*" />
-                      </Grid.ColumnDefinitions>
-                      <TextBlock VerticalAlignment="Center" Text="{resources:Loc Menu_FastFlagEditor_Back}" />
-                      <ui:Button Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Content="{Binding CustomSkyboxBack}" ToolTip="{Binding CustomSkyboxBack}" Command="{Binding ChooseSkyboxFaceCommand}" CommandParameter="Back" IsEnabled="{Binding CustomSkyboxControlsEnabled}" />
-                    </Grid>
-                    <Grid Margin="0,6,0,0">
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="52" />
-                        <ColumnDefinition Width="*" />
-                      </Grid.ColumnDefinitions>
-                      <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Mods_Down}" />
-                      <ui:Button Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Content="{Binding CustomSkyboxDown}" ToolTip="{Binding CustomSkyboxDown}" Command="{Binding ChooseSkyboxFaceCommand}" CommandParameter="Down" IsEnabled="{Binding CustomSkyboxControlsEnabled}" />
-                    </Grid>
-                    <Grid Margin="0,6,0,0">
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="52" />
-                        <ColumnDefinition Width="*" />
-                      </Grid.ColumnDefinitions>
-                      <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Mods_Front}" />
-                      <ui:Button Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Content="{Binding CustomSkyboxFront}" ToolTip="{Binding CustomSkyboxFront}" Command="{Binding ChooseSkyboxFaceCommand}" CommandParameter="Front" IsEnabled="{Binding CustomSkyboxControlsEnabled}" />
-                    </Grid>
-                    <Grid Margin="0,6,0,0">
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="52" />
-                        <ColumnDefinition Width="*" />
-                      </Grid.ColumnDefinitions>
-                      <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Mods_Left}" />
-                      <ui:Button Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Content="{Binding CustomSkyboxLeft}" ToolTip="{Binding CustomSkyboxLeft}" Command="{Binding ChooseSkyboxFaceCommand}" CommandParameter="Left" IsEnabled="{Binding CustomSkyboxControlsEnabled}" />
-                    </Grid>
-                    <Grid Margin="0,6,0,0">
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="52" />
-                        <ColumnDefinition Width="*" />
-                      </Grid.ColumnDefinitions>
-                      <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Mods_Right}" />
-                      <ui:Button Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Content="{Binding CustomSkyboxRight}" ToolTip="{Binding CustomSkyboxRight}" Command="{Binding ChooseSkyboxFaceCommand}" CommandParameter="Right" IsEnabled="{Binding CustomSkyboxControlsEnabled}" />
-                    </Grid>
-                    <Grid Margin="0,6,0,0">
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="52" />
-                        <ColumnDefinition Width="*" />
-                      </Grid.ColumnDefinitions>
-                      <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Mods_Up}" />
-                      <ui:Button Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Content="{Binding CustomSkyboxUp}" ToolTip="{Binding CustomSkyboxUp}" Command="{Binding ChooseSkyboxFaceCommand}" CommandParameter="Up" IsEnabled="{Binding CustomSkyboxControlsEnabled}" />
-                    </Grid>
-                    <WrapPanel Margin="0,10,0,0" HorizontalAlignment="Right">
-                      <ui:ProgressRing Width="20" Height="20" Margin="0,0,8,0" IsIndeterminate="True" Visibility="{Binding CustomSkyboxBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                      <ui:Button Margin="0,0,8,0" Appearance="Danger" Content="{resources:Loc Ui_Mods_RemoveCustom}" Icon="Delete16" Command="{Binding RemoveCustomSkyboxCommand}" IsEnabled="{Binding CustomSkyboxControlsEnabled}" Visibility="{Binding HasCustomSkybox, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                      <ui:Button Appearance="Primary" Content="{resources:Loc Ui_Mods_SaveAndUse}" Command="{Binding ApplyCustomSkyboxCommand}" IsEnabled="{Binding CustomSkyboxCanApply}" />
-                    </WrapPanel>
-                  </StackPanel>
-                </ui:CardExpander>
-                <Grid>
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                  </Grid.ColumnDefinitions>
-                  <ComboBox Grid.Column="0" MinWidth="240" Padding="10,5,10,5" DisplayMemberPath="Name" ItemsSource="{Binding AvailableSkyboxPacks}" SelectedItem="{Binding SelectedSkyboxPack, Mode=TwoWay}" IsEnabled="{Binding SkyboxManagerReady}" />
-                  <ui:Button Grid.Column="1" Margin="8,0,0,0" Icon="ArrowClockwise24" ToolTip="{resources:Loc Ui_Mods_RefreshSkyboxes}" Command="{Binding RefreshSkyboxesCommand}" IsEnabled="{Binding SkyboxManagerReady}" />
-                </Grid>
-                <Grid Margin="0,8,0,0">
-                  <ui:ToggleSwitch HorizontalAlignment="Right" AutomationProperties.Name="{resources:Loc Ui_Mods_SkyboxManager}" IsChecked="{Binding SkyboxEnabled, Mode=TwoWay}" IsEnabled="{Binding SkyboxManagerReady}" />
-                </Grid>
-              </StackPanel>
-                </Grid>
+                    <ui:ToggleSwitch Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" AutomationProperties.Name="{resources:Loc Ui_Mods_SkyboxManager}" IsChecked="{Binding SkyboxEnabled, Mode=TwoWay}" IsEnabled="{Binding SkyboxManagerReady}" />
+                  </Grid>
+                  <Grid Margin="0,12,0,0">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox Padding="10,5,10,5" DisplayMemberPath="Name" ItemsSource="{Binding AvailableSkyboxPacks}" SelectedItem="{Binding SelectedSkyboxPack, Mode=TwoWay}" IsEnabled="{Binding SkyboxManagerReady}" />
+                    <ui:Button Grid.Column="1" Margin="8,0,0,0" Icon="ArrowClockwise24" ToolTip="{resources:Loc Ui_Mods_RefreshSkyboxes}" Command="{Binding RefreshSkyboxesCommand}" IsEnabled="{Binding SkyboxManagerReady}" />
+                  </Grid>
+                  <ui:CardExpander Margin="0,10,0,0" IsExpanded="False">
+                    <HeaderedContentControl.Header>
+                      <StackPanel>
+                        <TextBlock FontSize="14" Text="{resources:Loc Ui_Mods_CustomSkybox}" />
+                        <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Mods_UseOneImageOrChooseEvery}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                      </StackPanel>
+                    </HeaderedContentControl.Header>
+                    <StackPanel>
+                      <ui:Button HorizontalAlignment="Stretch" Content="{resources:Loc Ui_Mods_UseOneImageForEverySide}" Icon="ImageAdd24" Command="{Binding ChooseSingleSkyboxImageCommand}" IsEnabled="{Binding CustomSkyboxControlsEnabled}" />
+                      <Grid Margin="0,8,0,0">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="52" />
+                          <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock VerticalAlignment="Center" Text="{resources:Loc Menu_FastFlagEditor_Back}" />
+                        <ui:Button Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Content="{Binding CustomSkyboxBack}" ToolTip="{Binding CustomSkyboxBack}" Command="{Binding ChooseSkyboxFaceCommand}" CommandParameter="Back" IsEnabled="{Binding CustomSkyboxControlsEnabled}" />
+                      </Grid>
+                      <Grid Margin="0,6,0,0">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="52" />
+                          <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Mods_Down}" />
+                        <ui:Button Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Content="{Binding CustomSkyboxDown}" ToolTip="{Binding CustomSkyboxDown}" Command="{Binding ChooseSkyboxFaceCommand}" CommandParameter="Down" IsEnabled="{Binding CustomSkyboxControlsEnabled}" />
+                      </Grid>
+                      <Grid Margin="0,6,0,0">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="52" />
+                          <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Mods_Front}" />
+                        <ui:Button Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Content="{Binding CustomSkyboxFront}" ToolTip="{Binding CustomSkyboxFront}" Command="{Binding ChooseSkyboxFaceCommand}" CommandParameter="Front" IsEnabled="{Binding CustomSkyboxControlsEnabled}" />
+                      </Grid>
+                      <Grid Margin="0,6,0,0">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="52" />
+                          <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Mods_Left}" />
+                        <ui:Button Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Content="{Binding CustomSkyboxLeft}" ToolTip="{Binding CustomSkyboxLeft}" Command="{Binding ChooseSkyboxFaceCommand}" CommandParameter="Left" IsEnabled="{Binding CustomSkyboxControlsEnabled}" />
+                      </Grid>
+                      <Grid Margin="0,6,0,0">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="52" />
+                          <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Mods_Right}" />
+                        <ui:Button Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Content="{Binding CustomSkyboxRight}" ToolTip="{Binding CustomSkyboxRight}" Command="{Binding ChooseSkyboxFaceCommand}" CommandParameter="Right" IsEnabled="{Binding CustomSkyboxControlsEnabled}" />
+                      </Grid>
+                      <Grid Margin="0,6,0,0">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="52" />
+                          <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Mods_Up}" />
+                        <ui:Button Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Content="{Binding CustomSkyboxUp}" ToolTip="{Binding CustomSkyboxUp}" Command="{Binding ChooseSkyboxFaceCommand}" CommandParameter="Up" IsEnabled="{Binding CustomSkyboxControlsEnabled}" />
+                      </Grid>
+                      <WrapPanel Margin="0,10,0,0" HorizontalAlignment="Right">
+                        <ui:ProgressRing Width="20" Height="20" Margin="0,0,8,0" IsIndeterminate="True" Visibility="{Binding CustomSkyboxBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <ui:Button Margin="0,0,8,0" Appearance="Danger" Content="{resources:Loc Ui_Mods_RemoveCustom}" Icon="Delete16" Command="{Binding RemoveCustomSkyboxCommand}" IsEnabled="{Binding CustomSkyboxControlsEnabled}" Visibility="{Binding HasCustomSkybox, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <ui:Button Appearance="Primary" Content="{resources:Loc Ui_Mods_SaveAndUse}" Command="{Binding ApplyCustomSkyboxCommand}" IsEnabled="{Binding CustomSkyboxCanApply}" />
+                      </WrapPanel>
+                    </StackPanel>
+                  </ui:CardExpander>
+                </StackPanel>
+              </Grid>
             </ui:Card>
             <controls:OptionControl Header="{resources:Loc Ui_Mods_FontManager}" Description="{resources:Loc Ui_Mods_UseALocalFontOrUse}">
               <StackPanel Width="360">
