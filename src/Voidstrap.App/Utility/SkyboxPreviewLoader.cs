@@ -17,6 +17,8 @@ internal static class SkyboxPreviewLoader
 
     private const int PreviewTextureLimit = 4096;
 
+    private static readonly SemaphoreSlim DownloadGate = new(1, 1);
+
     private static readonly HttpClient RequestClient = new() { Timeout = TimeSpan.FromSeconds(30.0) };
 
     public static async Task<SkyboxPreviewResult> LoadAsync(string packName, CancellationToken token)
@@ -103,35 +105,37 @@ internal static class SkyboxPreviewLoader
 
     private static async Task<bool> DownloadPackAsync(string packName, string folder, CancellationToken token)
     {
-        Directory.CreateDirectory(Paths.SkyboxPack);
-        string prefix = App.SkyboxRawBaseUrl + "main/" + Uri.EscapeDataString(packName) + "/";
-        Directory.CreateDirectory(folder);
+        await DownloadGate.WaitAsync(token).ConfigureAwait(false);
+        string staging = Path.Combine(Path.GetDirectoryName(Paths.SkyboxPack) ?? Paths.SkyboxPack, ".skybox-download-" + Guid.NewGuid().ToString("N"));
         try
         {
+            if (SkyboxImageConverter.IsValidPackDirectory(folder))
+                return true;
+            Directory.CreateDirectory(Paths.SkyboxPack);
+            Directory.CreateDirectory(staging);
+            string prefix = App.SkyboxRawBaseUrl + "main/" + Uri.EscapeDataString(packName) + "/";
             foreach (string name in App.SkyboxFileNames)
             {
                 token.ThrowIfCancellationRequested();
                 byte[]? bytes = await TryReadBoundedAsync(prefix + Uri.EscapeDataString(name), name, App.SkyboxMaxFaceBytes, token).ConfigureAwait(false);
                 if (bytes == null)
-                {
-                    TryDelete(folder);
                     return false;
-                }
-                await File.WriteAllBytesAsync(Path.Combine(folder, name), bytes, token).ConfigureAwait(false);
+                await File.WriteAllBytesAsync(Path.Combine(staging, name), bytes, token).ConfigureAwait(false);
             }
+            TryDelete(folder);
+            Directory.Move(staging, folder);
             App.Logger?.WriteLine(LogIdent, "Downloaded the " + packName + " skybox pack for the preview");
             return true;
         }
-        catch (OperationCanceledException)
-        {
-            TryDelete(folder);
-            throw;
-        }
-        catch (Exception ex)
+        catch (Exception ex) when (!token.IsCancellationRequested)
         {
             App.Logger?.WriteLine(LogIdent, "The " + packName + " skybox pack could not be downloaded for the preview: " + ex.Message);
-            TryDelete(folder);
             return false;
+        }
+        finally
+        {
+            TryDelete(staging);
+            DownloadGate.Release();
         }
     }
 
