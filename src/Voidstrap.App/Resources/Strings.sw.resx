@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Je, ungependa kufanya nini?</value>
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Onyesha upya skyboxes</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Vuta ili kuzungusha, sogeza ili kukuza, bofya mara mbili ili kuweka upya</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Hakiki ya skybox haipatikani kwa sasa.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Meneja wa herufi</value>

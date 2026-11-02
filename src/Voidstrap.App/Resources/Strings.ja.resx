@@ -3579,6 +3579,12 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>スカイボックスを更新</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>ドラッグで回転、スクロールでズーム、ダブルクリックでリセット</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>skybox のプレビューは現在利用できません。</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>フォント管理</value>
   </data>

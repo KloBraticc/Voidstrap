@@ -3339,6 +3339,12 @@ Roblox ჩამოიტვირთება, როდესაც მას 
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>განაახლეთ skyboxes</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>მოსაბრუნებლად გადაათრიეთ, გასადიდებლად გადაახვიეთ, დასაბრუნებლად ორჯერ დააწკაპუნეთ</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Skybox წინასწარი ხედვა ამჟამად მიუწვდომელია.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>შრიფტის მენეჯერი</value>
   </data>

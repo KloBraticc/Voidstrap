@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox நீங்கள் முதல்முறையாகVoidstrap ம�
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>ஸ்கைபாக்ஸைப் புதுப்பிக்கவும்</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>சுழற்ற இழுக்கவும், பெரிதாக்க உருட்டவும், மீட்டமைக்க இருமுறை கிளிக் செய்யவும்</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>ஸ்கைபாக்ஸ் முன்னோட்டம் இப்போது கிடைக்கவில்லை.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>எழுத்துரு மேலாளர்</value>

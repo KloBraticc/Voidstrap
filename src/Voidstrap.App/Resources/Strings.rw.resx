@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Urashaka gukora iki?</value>
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Kuvugurura agasanduku k'ikirere</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Kurura kugira ngo uyihindure, yokera kugira ngo wiyegereze, kanda kabiri kugira ngo usubize</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Kwigaragaza mbere ya skybox ntibashoboka ubu.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Umuyobozi wimyandikire</value>

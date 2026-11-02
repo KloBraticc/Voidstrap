@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox ڈاؤن لوڈ ہو جائے گا۔ آپ لانچ کرنے سے پہلے
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>اسکائی باکسز کو ریفریش کریں۔</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>گھمانے کے لیے کھینچیں، زوم کے لیے اسکرول کریں، ری سیٹ کے لیے ڈبل کلک کریں</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>اسکائی باکس کا پیش نظارہ اس وقت دستیاب نہیں۔</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>فونٹ مینیجر</value>

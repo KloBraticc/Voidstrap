@@ -3517,6 +3517,12 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Muat semula skybox</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Seret untuk memutar, tatal untuk zum, klik dua kali untuk menetapkan semula</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Pratonton skybox tidak tersedia buat masa ini.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Pengurus fon</value>
   </data>

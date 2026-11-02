@@ -3562,6 +3562,12 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Làm mới skybox</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Kéo để xoay, cuộn để thu phóng, nhấp đúp để đặt lại</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Bản xem trước skybox hiện không khả dụng.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Trình quản lý phông chữ</value>
   </data>

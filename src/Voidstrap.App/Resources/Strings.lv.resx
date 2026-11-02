@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Ko jūs vēlētos darīt?</value>
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Atsvaidziniet debess kastes</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Velciet, lai pagrieztu, ritiniet, lai tuvinātu, dubultklikšķiniet, lai atiestatītu</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Skybox priekšskatījums pašlaik nav pieejams.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Fontu pārvaldnieks</value>

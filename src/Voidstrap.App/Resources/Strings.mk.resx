@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox ќе се преземе кога ќе го стартувате прек
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Освежете ги skyboxes</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Влечете за ротација, скролирајте за приближување, двоен клик за ресетирање</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Прегледот на skybox не е достапен во моментов.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Менаџер со фонтови</value>

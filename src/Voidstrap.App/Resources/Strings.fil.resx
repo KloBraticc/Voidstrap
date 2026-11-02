@@ -3329,6 +3329,12 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>I-refresh ang mga skybox</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>I-drag para i-rotate, i-scroll para i-zoom, i-double click para i-reset</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Hindi available ang skybox preview sa ngayon.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Font manager</value>
   </data>

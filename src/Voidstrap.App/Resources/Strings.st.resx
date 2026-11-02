@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ U ka rata ho etsa eng?</value>
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Hlakola li-skyboxes</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Hula ho potoloha, skrola ho nkella haufi, tobetsa gabedi ho seta hape</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Pono-pele ya skybox ha e fumanehe hajwale.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Motsamaisi oa Mengolo</value>

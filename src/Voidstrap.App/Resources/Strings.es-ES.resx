@@ -3547,6 +3547,12 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Actualizar skyboxes</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Arrastra para girar, desplázate para hacer zoom, haz doble clic para restablecer</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>La vista previa del skybox no está disponible en este momento.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Gestor de fuentes</value>
   </data>

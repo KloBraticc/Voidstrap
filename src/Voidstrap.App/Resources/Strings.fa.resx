@@ -3594,6 +3594,12 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>تازه‌سازی آسمان‌ها</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>برای چرخش بکشید، برای بزرگنمایی اسکرول کنید، برای بازنشانی دوبار کلیک کنید</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>پیش‌نمایش اسکای‌باکس در حال حاضر در دسترس نیست.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>مدیریت قلم</value>
   </data>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Ανανεώστε τα skyboxes</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Σύρετε για περιστροφή, κάντε κύλιση για ζουμ, κάντε διπλό κλικ για επαναφορά</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Η προεπισκόπηση skybox δεν είναι διαθέσιμη αυτή τη στιγμή.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Διαχείριση γραμματοσειρών</value>

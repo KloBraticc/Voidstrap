@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Nə etmək istərdiniz?</value>
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Göy qutularını yeniləyin</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Döndərmək üçün çəkin, yaxınlaşdırmaq üçün sürüşdürün, sıfırlamaq üçün iki dəfə klikləyin</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Skybox önizləməsi hazırda əlçatmazdır.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Şrift meneceri</value>

@@ -3550,6 +3550,12 @@ Co chcesz zrobić?</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Odśwież skyboxy</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Przeciągnij, aby obrócić, przewiń, aby przybliżyć, kliknij dwukrotnie, aby przywrócić</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Podgląd skybox jest obecnie niedostępny.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Menedżer czcionek</value>
   </data>

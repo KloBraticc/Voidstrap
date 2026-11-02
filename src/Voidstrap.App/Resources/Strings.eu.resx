@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Zer egin nahiko zenuke?</value>
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Freskatu skyboxes</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Arrastatu biratzeko, korritu zoom egiteko, egin klik bi aldiz berrezartzeko</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Skybox aurrebista ez dago erabilgarri une honetan.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Letra-tipoen kudeatzailea</value>

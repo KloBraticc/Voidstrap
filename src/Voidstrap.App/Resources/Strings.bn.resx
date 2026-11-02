@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox ডাউনলোড করা হবে যখন আপনি এট�
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>স্কাইবক্স রিফ্রেশ করুন</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>ঘোরাতে টেনে আনুন, জুম করতে স্ক্রল করুন, রিসেট করতে ডাবল ক্লিক করুন</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>স্কাইবক্স প্রিভিউ এখন উপলব্ধ নয়।</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>ফন্ট ম্যানেজার</value>

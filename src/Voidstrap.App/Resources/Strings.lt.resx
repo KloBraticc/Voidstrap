@@ -3590,6 +3590,12 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Atnaujinti skybox</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Tempkite, kad pasuktumėte, slinkite, kad priartintumėte, dukart spustelėkite, kad atstatytumėte</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Skybox peržiūra šiuo metu neprieinama.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Šriftų tvarkyklė</value>
   </data>

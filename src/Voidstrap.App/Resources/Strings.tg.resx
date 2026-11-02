@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox вақте ки шумо онро бори аввал тавассутиV
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Қуттиҳои осмониро нав кунед</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Барои гардонидан кашида гузоред, барои калон кардан скрол кунед, барои аз нав танзим кардан ду маротиба клик кунед</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Пешнамоиши skybox ҳоло дастрас нест.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Менеҷери шрифт</value>

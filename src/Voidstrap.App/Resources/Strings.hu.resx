@@ -3552,6 +3552,12 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Skyboxok frissítése</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Húzza az elforgatáshoz, görgessen a nagyításhoz, duplán kattintson a visszaállításhoz</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>A skybox előnézet jelenleg nem érhető el.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Betűtípus-kezelő</value>
   </data>

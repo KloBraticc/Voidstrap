@@ -3339,6 +3339,12 @@ Roblox डाउनलोड हो जाएगा। आप लॉन्च �
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>स्काईबॉक्स ताज़ा करें</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>घुमाने के लिए खींचें, ज़ूम करने के लिए स्क्रॉल करें, रीसेट करने के लिए डबल क्लिक करें</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>स्काईबॉक्स प्रीव्यू अभी उपलब्ध नहीं है।</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>फ़ॉन्ट प्रबंधक</value>
   </data>

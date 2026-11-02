@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Nima qilishni xohlaysiz?</value>
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Osmon qutilarini yangilang</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Aylantirish uchun sudrab suring, kattalashtirish uchun g'ilontiring, tiklash uchun ikki marta bosing</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Skybox oldindan ko'rish hozir mavjud emas.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Shrift menejeri</value>

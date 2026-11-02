@@ -3556,6 +3556,12 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>重新整理天空盒</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>拖曳旋轉，捲動縮放，雙擊重設</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>skybox 預覽目前無法使用。</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>字型管理員</value>
   </data>

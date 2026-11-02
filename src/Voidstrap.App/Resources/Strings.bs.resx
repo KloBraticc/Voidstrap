@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Osvježite skyboxes</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Povucite za rotaciju, skrolujte za zumiranje, dvokliknite za resetovanje</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Pregled skyboxa trenutno nije dostupan.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Font Manager</value>

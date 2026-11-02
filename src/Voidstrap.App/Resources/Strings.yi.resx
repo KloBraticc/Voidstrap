@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox וועט זיין דאַונלאָודיד ווען איר קאַטער �
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>דערפרישן סקיבאָקסעס</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>ציען צו דרייען, שרוילן צו פארגרעסערן, דאפלעק קליק צו רעסעטירן</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>דער skybox פארויסבליק איז איצט נישט בנימצא.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>פאָנט מאַנאַגער</value>

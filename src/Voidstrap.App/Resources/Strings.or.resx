@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox ଡାଉନଲୋଡ୍ ହେବ | ଲଞ୍ଚ କରିବା ପୂ�
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>ଆକାଶବାକ୍ସ ସତେଜ କରନ୍ତୁ |</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>ଘୂର୍ଣ୍ଣନ ପାଇଁ ଟାଣନ୍ତୁ, ଜୁମ୍ ପାଇଁ ସ୍କ୍ରୋଲ୍ କରନ୍ତୁ, ରିସେଟ୍ ପାଇଁ ଡବଲ୍ କ୍ଲିକ୍ କରନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>ସ୍କାଏବକ୍ସ ପ୍ରିଭ୍ୟୁ ବର୍ତ୍ତମାନ ଉପଲବ୍ଧ ନାହିଁ।</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>ଫଣ୍ଟ ମ୍ୟାନେଜର୍</value>

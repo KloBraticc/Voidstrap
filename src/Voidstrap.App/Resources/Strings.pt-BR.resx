@@ -3536,6 +3536,12 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Atualizar skyboxes</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Arraste para girar, role para dar zoom, clique duas vezes para redefinir</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>A prévia do skybox não está disponível no momento.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Gerenciador de fontes</value>
   </data>

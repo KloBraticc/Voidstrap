@@ -3339,6 +3339,12 @@ Roblox-ը կներբեռնվի, երբ այն առաջին անգամ գործա
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Թարմացրեք skyboxes</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Պտտելու համար քաշեք, մոտեցնելու համար ոլորեք, վերակայելու համար կրկնակի սեղմեք</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Skybox նախադիտումը ներկայումս հասանելի չէ։</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Տառատեսակի կառավարիչ</value>
   </data>

@@ -3536,6 +3536,12 @@ Ce vrei să faci?</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Reîmprospătează skyboxurile</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Trageți pentru a roti, derulați pentru a mări, faceți dublu clic pentru a reseta</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Previzualizarea skybox nu este disponibilă momentan.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Manager de fonturi</value>
   </data>

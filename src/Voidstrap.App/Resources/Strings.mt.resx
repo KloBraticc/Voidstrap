@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ X'tixtieq tagħmel?</value>
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Aġġorna skyboxes</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Irragfr biex iddur, skrolla biex tkabbar, agħfas darbtejn biex tirristatta</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Il-previżjoni tas-skybox mhix disponibbli bħalissa.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Font Manager</value>

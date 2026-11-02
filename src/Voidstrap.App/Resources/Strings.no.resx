@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Hva vil du gjøre?</value>
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Oppdater skyboxer</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Dra for å rotere, rull for å zoome, dobbeltklikk for å tilbakestille</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Skybox forhåndsvisningen er ikke tilgjengelig akkurat nå.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Font Manager</value>

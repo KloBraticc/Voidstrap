@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Yintoni ongathanda ukuyenza?</value>
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Hlaziya iibhokisi ze-skybox</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Rhuqa ukujika, skrolela ukusondeza, cofa kabini ukuseta kwakhona</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Imboniselo yangaphambili ye skybox ayifumaneki okwangoku.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Umphathi Wefonti</value>

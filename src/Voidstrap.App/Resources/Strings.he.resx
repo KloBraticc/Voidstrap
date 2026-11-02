@@ -3339,6 +3339,12 @@ Roblox יוריד כשתפעיל אותו דרךVoidstrap בפעם הראשונ�
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>רענן תיבות סקי</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>גררו לסיבוב, גללו להתקרבות, לחצו פעמיים לאיפוס</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>התצוגה המקדימה של קופסת השמיים אינה זמינה כעת.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>מנהל גופנים</value>
   </data>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>ස්කයිබොක්ස් නැවුම් කරන්න</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>කරකැවීමට ඇදිල්ල, විශාලනයට අනුචලනය, යළි සැකසීමට දෙවරක් ක්ලික් කරන්න</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>ස්කයිබොක්ස් පෙරදසුන දැනට ලබාගත නොහැක.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>අකුරු කළමනාකරු</value>

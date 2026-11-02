@@ -3339,6 +3339,12 @@ Hvað myndir þú vilja gera?</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Endurnýja skybox</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Dragðu til að snúa, skrunaðu til að þysja, tvísmelltu til að endurstilla</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Skybox forskoðun er ekki tiltæk eins og er.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Leturgerðarstjóri</value>
   </data>

@@ -3558,6 +3558,12 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Обновить скайбоксы</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Перетащите для вращения, прокрутите для масштабирования, двойной клик для сброса</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Предпросмотр skybox сейчас недоступен.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Менеджер шрифтов</value>
   </data>

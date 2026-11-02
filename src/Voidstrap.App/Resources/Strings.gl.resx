@@ -3339,6 +3339,12 @@ Que che gustaría facer?</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Actualiza os skybox</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Arrastra para xirar, desprázate para ampliar, fai dobre clic para restablecer</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>A vista previa do skybox non está dispoñible agora mesmo.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Xestor de fontes</value>
   </data>

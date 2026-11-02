@@ -3339,6 +3339,12 @@ Me kuke so ku yi?</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Sake sabunta akwatunan sama</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Zag da juya, gungura don zumunta, danna sau biyu don sake saiti</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Duban skybox ba a samuwa ba a yanzu.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Manajan Font</value>
   </data>

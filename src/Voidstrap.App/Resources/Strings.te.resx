@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox డౌన్లోడ్ చేయబడుతుంది. మీరు 
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>స్కైబాక్స్లను రిఫ్రెష్ చేయండి</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>తిప్పడానికి లాగండి, జూమ్ చేయడానికి స్క్రోల్ చేయండి, రీసెట్ చేయడానికి రెండుసార్లు క్లిక్ చేయండి</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>స్కైబాక్స్ ప్రివ్యూ ప్రస్తుతం అందుబాటులో లేదు.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>ఫాంట్ మేనేజర్</value>

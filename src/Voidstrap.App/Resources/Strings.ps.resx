@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox به ډاونلوډ شي کله چې تاسو د لومړي ځل لپار
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>د آسمان بکسونه تازه کړئ</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>د چرخولو لپاره راکش کړئ، د زوم لپاره سکرول کړئ، د بیا تنظیمولو لپاره دوه ځله کلیک وکړئ</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>د skybox مخکتنه اوس مهال نشته.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>د فونټ مدیر</value>

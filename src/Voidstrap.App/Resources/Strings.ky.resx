@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Скайбоксторду жаңыртуу</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Айландыруу үчүн сүйрөңүз, чоңойтуу үчүн айлантыңыз, баштапкы абалга келтирүү үчүн эки жолу басыңыз</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Skybox алдын ала көрүү азыр жеткиликсиз.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Font Manager</value>

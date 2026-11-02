@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox do të shkarkohet kur ta lëshoni për herë të parë përmesVoidstrap .
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Rifresko kutitë e qiellit</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Tërhiq për të rrotulluar, rrëshqit për të zmadhuar, kliko dy herë për ta rivendosur</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Parapamja e skybox nuk është e disponueshme për momentin.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Menaxher i shkronjave</value>

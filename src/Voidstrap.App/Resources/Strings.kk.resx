@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox оныVoidstrap арқылы алғаш рет іске қосқан ке
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Аспан жәшіктерін жаңарту</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Айналдыру үшін сүйреңіз, үлкейту үшін айналдырыңыз, қалпына келтіру үшін екі рет басыңыз</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Skybox алдын ала көрінісі қазір қолжетімсіз.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Қаріп менеджері</value>

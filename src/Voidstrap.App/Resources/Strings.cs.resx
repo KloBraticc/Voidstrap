@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3535,6 +3535,12 @@ Co chcete udělat?</value>
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Obnovit skyboxy</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Tažením otočíte, posouváním přiblížíte, dvojitým kliknutím obnovíte</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Náhled skyboxu není momentálně dostupný.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Správce písem</value>

@@ -3555,6 +3555,12 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Osvježi skyboxe</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Povucite za rotaciju, klizajte za zumiranje, dvokliknite za resetiranje</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Pregled skyboxa trenutno nije dostupan.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Upravitelj fontova</value>
   </data>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Beth hoffech chi ei wneud?</value>
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Adnewyddu skyboxes</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Llusgwch i gylchdroi, sgroliwch i chwyddo, cliciwch ddwywaith i ailosod</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Nid yw rhagolwg y skybox ar gael ar hyn o bryd.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Rheolwr Ffont</value>

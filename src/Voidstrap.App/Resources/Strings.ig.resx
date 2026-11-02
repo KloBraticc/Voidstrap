@@ -3339,6 +3339,12 @@ Kedu ihe ị ga-achọ ime?</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Weghachite igbe elu igwe</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Dọrọ iji ghọghọọ, detụ iji soo anya, pịa ugboro abụọ iji hazie ya ọzọ</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Ihe ngosi skybox adịghị ugbu a.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Onye njikwa mkpụrụedemede</value>
   </data>

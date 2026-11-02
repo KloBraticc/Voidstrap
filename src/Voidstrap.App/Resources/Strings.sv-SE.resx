@@ -3514,6 +3514,12 @@ Vad vill du göra?</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Uppdatera skyboxar</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Dra för att rotera, rulla för att zooma, dubbelklicka för att återställa</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Förhandsvisningen av skyboxen är inte tillgänglig just nu.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Typsnittshanterare</value>
   </data>

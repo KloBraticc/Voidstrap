@@ -3566,6 +3566,12 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Оновити скайбокси</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Перетягніть для обертання, прокрутіть для масштабування, подвійний клік для скидання</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Попередній перегляд skybox зараз недоступний.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Менеджер шрифтів</value>
   </data>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox पहिलो पटकVoidstrap मार्फत लन्च गर
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>स्काईबक्सहरू ताजा गर्नुहोस्</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>घुमाउन तान्नुहोस्, जुम गर्न स्क्रोल गर्नुहोस्, रिसेट गर्न डबल क्लिक गर्नुहोस्</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>स्काईबक्स पूर्वावलोकन अहिले उपलब्ध छैन।</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>फन्ट प्रबन्धक</value>

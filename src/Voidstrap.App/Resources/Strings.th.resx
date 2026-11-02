@@ -3548,6 +3548,12 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>รีเฟรชสกายบ็อกซ์</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>ลากเพื่อหมุน เลื่อนเพื่อซูม ดับเบิลคลิกเพื่อรีเซ็ต</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>การดูตัวอย่าง skybox ไม่พร้อมใช้งานในขณะนี้</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>ตัวจัดการฟอนต์</value>
   </data>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox ለመጀመሪያ ጊዜ በVoidstrap በኩል ሲያስጀምሩት �
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>የሰማይ ሳጥኖችን ያድሱ</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>ለማዞር ይጎትቱ፣ ለማጉላት ያሸብልሉ፣ እንደገና ለማስጀመር ባለሁለት ጊዜ ይንኩ</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>የskybox ቅድመ እይታ በአሁኑ ጊዜ አይገኝም።</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>የቅርጸ ቁምፊ አስተዳዳሪ</value>

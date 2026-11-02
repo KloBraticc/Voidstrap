@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Näme etmek isleýärsiňiz?</value>
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Asman gutularyny täzeläň</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Aýlanmak üçin çekip geçiň, ýakynlaşdyrmak üçin sürüşdiriň, başdan başlamak üçin iki basyň</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Skybox öňünden görmek şu wagtda elýeterli däl.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Şrift dolandyryjysy</value>

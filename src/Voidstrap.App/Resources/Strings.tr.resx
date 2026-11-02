@@ -3548,6 +3548,12 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Skybox'ları yenile</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Döndürmek için sürükleyin, yakınlaştırmak için kaydırın, sıfırlamak için çift tıklayın</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Skybox önizlemesi şu anda kullanılamıyor.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Yazı tipi yöneticisi</value>
   </data>

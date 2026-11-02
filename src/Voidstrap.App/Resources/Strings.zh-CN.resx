@@ -3577,6 +3577,12 @@ Voidstrap 的安装路径是：
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>刷新天空盒</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>拖动旋转，滚动缩放，双击重置</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>skybox 预览当前不可用。</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>字体管理器</value>
   </data>

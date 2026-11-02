@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox നിങ്ങൾ ആദ്യമായിVoidstrap വഴി ലോഞ�
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>സ്കൈബോക്സുകൾ പുതുക്കുക</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>തിരിക്കാൻ വലിക്കുക, സൂം ചെയ്യാൻ സ്ക്രോൾ ചെയ്യുക, പുനഃസജ്ജമാക്കാൻ ഇരട്ട ക്ലിക്ക് ചെയ്യുക</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>സ്കൈബോക്സ് പ്രിവ്യൂ ഇപ്പോൾ ലഭ്യമല്ല.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>ഫോണ്ട് മാനേജർ</value>

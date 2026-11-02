@@ -3339,6 +3339,12 @@ Roblox ડાઉનલોડ થશે જ્યારે તમે તેને
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>સ્કાયબોક્સ રિફ્રેશ કરો</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>ઘુમાવવા માટે ખેંચો, ઝૂમ કરવા માટે સ્ક્રોલ કરો, રીસેટ કરવા માટે ડબલ ક્લિક કરો</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>સ્કાયબોક્સ પ્રીવ્યૂ હમણાં ઉપલબ્ધ નથી.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>ફોન્ટ મેનેજર</value>
   </data>

@@ -3510,6 +3510,12 @@ Apa yang ingin Anda lakukan?</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Muat ulang skybox</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Seret untuk memutar, gulir untuk memperbesar, klik dua kali untuk mengatur ulang</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Pratinjau skybox tidak tersedia saat ini.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Pengelola font</value>
   </data>

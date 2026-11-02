@@ -3548,6 +3548,12 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Päivitä skyboxit</value>
   </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Kierrä raahaamalla, zoomaa vierittämällä, nollaa kaksoisnapsauttamalla</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Skybox esikatselu ei ole juuri nyt saatavilla.</value>
+  </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Fonttien hallinta</value>
   </data>

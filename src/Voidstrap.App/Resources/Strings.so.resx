@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Maxaad jeclaan lahayd inaad samayso?</value>
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Dib u cusboonaysii sanduuqyada cirka</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Jiid si aad u rogto, gal si aad u kordho, laba jeer guji si aad dib u dejiyso</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Muuqaalka hore ee skybox hadda lama heli karo.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Maareeyaha farta</value>

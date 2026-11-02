@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Inona no tianao hatao?</value>
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Havaozy ny skyboxes</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Tariho mba hihodina, kiteto mba halehibe, tsindrio indroa mba hamerenana</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Tsy misy ny fanaovana topi maso an'ny skybox izao.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Mpitantana endritsoratra</value>

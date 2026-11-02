@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3555,6 +3555,12 @@ Roblox ще бъде изтеглен, когато го стартирате з
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>Опресняване на skybox</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>Завлачете за завъртане, превъртете за приближаване, щракнете двукратно за нулиране</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>Прегледът на skybox не е наличен в момента.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>Мениджър на шрифтове</value>

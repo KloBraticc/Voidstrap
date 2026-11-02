@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -3338,6 +3338,12 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
   </data>
   <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
     <value>ໂຫຼດ skybox ຄືນໃໝ່</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewHint" xml:space="preserve">
+    <value>ລາກເພື່ອໝູນ ເລື່ອນເພື່ອຊູມ ກົດສອງເທື່ອເພື່ອຕັ້ງຄ່າໃໝ່</value>
+  </data>
+  <data name="Ui.Mods.SkyboxPreviewFailed" xml:space="preserve">
+    <value>ການເບິ່ງ skybox ລ່ວງໜ້າບໍ່ສາມາດໃຊ້ໄດ້ໃນຕອນນີ້.</value>
   </data>
   <data name="Ui.Mods.FontManager" xml:space="preserve">
     <value>ຕົວຈັດການຕົວອັກສອນ</value>
