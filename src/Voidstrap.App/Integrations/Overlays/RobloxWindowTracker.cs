@@ -639,7 +639,21 @@ namespace Voidstrap.Integrations.Overlays
                 return false;
             if (!IsWindow(roblox) || !IsWindowVisible(roblox) || IsIconic(roblox))
                 return false;
-            return DwmGetWindowAttribute(foreground, DwmwaCloaked, out int cloaked, sizeof(int)) == 0 && cloaked != 0;
+            if (DwmGetWindowAttribute(foreground, DwmwaCloaked, out int cloaked, sizeof(int)) == 0 && cloaked != 0)
+                return true;
+            return IsOverlayCovering(foreground, roblox);
+        }
+
+        private static bool IsOverlayCovering(IntPtr foreground, IntPtr roblox)
+        {
+            long exStyle = GetWindowLongPtr(foreground, GwlExStyle).ToInt64();
+            if ((exStyle & WsExTopmost) == 0 || (exStyle & (WsExLayered | WsExToolWindow | WsExNoActivate | WsExTransparent)) == 0)
+                return false;
+            if (!GetWindowRect(foreground, out RECT overlay) || !GetWindowRect(roblox, out RECT game))
+                return false;
+            int width = Math.Min(overlay.Right, game.Right) - Math.Max(overlay.Left, game.Left);
+            int height = Math.Min(overlay.Bottom, game.Bottom) - Math.Max(overlay.Top, game.Top);
+            return width > 0 && height > 0;
         }
 
         public static bool IsProcessForeground(int processId)
@@ -804,6 +818,20 @@ namespace Voidstrap.Integrations.Overlays
         private static partial bool IsIconic(IntPtr hwnd);
 
         private const int DwmwaCloaked = 14;
+
+        private const int GwlExStyle = -20;
+        private const long WsExTopmost = 0x8;
+        private const long WsExTransparent = 0x20;
+        private const long WsExToolWindow = 0x80;
+        private const long WsExLayered = 0x80000;
+        private const long WsExNoActivate = 0x8000000;
+
+        [LibraryImport("user32.dll", EntryPoint = "GetWindowLongPtrW")]
+        private static partial IntPtr GetWindowLongPtr(IntPtr hwnd, int index);
+
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static partial bool GetWindowRect(IntPtr hwnd, out RECT rect);
 
         [LibraryImport("dwmapi.dll")]
         private static partial int DwmGetWindowAttribute(IntPtr hwnd, int attribute, out int value, int size);
