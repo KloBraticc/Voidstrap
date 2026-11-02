@@ -1575,18 +1575,25 @@ internal sealed partial class Installer
         {
             foreach (string file in Directory.EnumerateFiles(RetiredDirectory))
             {
-                try
-                {
-                    File.Delete(file);
-                }
-                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
+                if (Windows.Win32.PInvoke.DeleteFile(file))
+                    continue;
+                int error = Marshal.GetLastWin32Error();
+                if (error == 2)
+                    continue;
+                Windows.Win32.PInvoke.SetFileAttributes(file, Windows.Win32.Storage.FileSystem.FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL);
+                if (Windows.Win32.PInvoke.DeleteFile(file))
+                    continue;
+                error = Marshal.GetLastWin32Error();
+                App.Logger.WriteLine(LOG_IDENT, "The previous executable is still in use and is removed the next time Voidstrap starts, error " + error);
             }
-            try
+            if (!Directory.EnumerateFileSystemEntries(RetiredDirectory).Any())
             {
-                if (!Directory.EnumerateFileSystemEntries(RetiredDirectory).Any())
-                    Directory.Delete(RetiredDirectory);
+                if (Windows.Win32.PInvoke.RemoveDirectory(RetiredDirectory))
+                    return;
+                int error = Marshal.GetLastWin32Error();
+                if (error != 2)
+                    App.Logger.WriteLine(LOG_IDENT, "The retired executables folder could not be removed, error " + error);
             }
-            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
         }
         foreach (string file in Directory.EnumerateFiles(directory, Path.GetFileName(Paths.Application) + "~RF*.TMP"))
         {

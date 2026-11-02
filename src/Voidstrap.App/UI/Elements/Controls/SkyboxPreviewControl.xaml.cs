@@ -144,12 +144,22 @@ namespace Voidstrap.UI.Elements.Controls
             StatusText.Visibility = Visibility.Collapsed;
             try
             {
-                SkyboxPreviewFaces faces = await SkyboxPreviewLoader.LoadAsync(name, token);
+                SkyboxPreviewResult result = await SkyboxPreviewLoader.LoadAsync(name, token);
                 if (token.IsCancellationRequested)
                     return;
-                ApplyFaces(faces.Faces);
-                LoadingPanel.Visibility = Visibility.Collapsed;
-                StatusText.Visibility = Visibility.Collapsed;
+                if (result.Faces != null)
+                {
+                    ApplyFaces(result.Faces.Faces);
+                    LoadingPanel.Visibility = Visibility.Collapsed;
+                    StatusText.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    ApplyPlaceholder();
+                    LoadingPanel.Visibility = Visibility.Collapsed;
+                    StatusText.Text = result.Message ?? Strings.Ui_Mods_SkyboxPreviewFailed;
+                    StatusText.Visibility = Visibility.Visible;
+                }
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
@@ -159,7 +169,7 @@ namespace Voidstrap.UI.Elements.Controls
                 App.Logger?.WriteLine(LOG_IDENT, "The skybox preview could not be loaded: " + ex.Message);
                 ApplyPlaceholder();
                 LoadingPanel.Visibility = Visibility.Collapsed;
-                StatusText.Text = string.IsNullOrWhiteSpace(ex.Message) ? Strings.Ui_Mods_SkyboxPreviewFailed : ex.Message;
+                StatusText.Text = Strings.Ui_Mods_SkyboxPreviewFailed;
                 StatusText.Visibility = Visibility.Visible;
             }
         }
