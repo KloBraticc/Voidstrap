@@ -9314,4 +9314,30 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>አዲስ የቪዲዮ አርታዒ ስሪት ዝግጁ ነው። ለማዘመን ጠቅ ያድርጉ።</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>ለዚህ የሰማይ ሳጥን ገጽ ምስል ይምረጡ፦ {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>ለእያንዳንዱ የሰማይ ሳጥን ገጽ አንድ ምስል ይምረጡ</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>የምስል መምረጫው ሊከፈት አልቻለም።</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>መጀመሪያ ሁሉንም ስድስት ገጾች ይምረጡ ወይም ለእያንዳንዱ ጎን አንድ ምስል ይጠቀሙ።</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>ብጁ የሰማይ ሳጥኑ ሊቀመጥ አልቻለም፦
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>የተቀመጠውን ብጁ የሰማይ ሳጥን ይወገድ?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>ብጁ የሰማይ ሳጥኑ ሊወገድ አልቻለም፦
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>ምስል ይምረጡ</value>
+  </data>
 </root>

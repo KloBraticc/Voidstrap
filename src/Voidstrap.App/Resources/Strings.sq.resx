@@ -9315,4 +9315,30 @@ E lejon atë?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Një version i ri i redaktorit të videove është gati. Kliko për ta përditësuar.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Zgjidh një imazh për këtë faqe të skybox-it: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Zgjidh një imazh për të gjitha faqet e skybox-it</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Zgjedhësi i imazheve nuk u hap dot.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Fillimisht zgjidh të gjashtë faqet ose përdor një imazh për çdo anë.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Skybox-i i personalizuar nuk u ruajt dot:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Të hiqet skybox-i yt i personalizuar i ruajtur?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Skybox-i i personalizuar nuk u hoq dot:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Zgjidh imazhin</value>
+  </data>
 </root>

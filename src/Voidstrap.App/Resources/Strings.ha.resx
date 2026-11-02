@@ -9315,4 +9315,30 @@ Bada shi?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Sabon sigar editan bidiyo ya shirya. Danna don sabuntawa.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Zaɓi hoto don wannan fuskar skybox: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Zaɓi hoto ɗaya don kowace fuskar skybox</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Ba a iya buɗe mai zaɓin hoto ba.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Da farko zaɓi dukkan fuskoki shida ko yi amfani da hoto ɗaya don kowane gefe.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Ba a iya adana skybox na musamman ba:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Cire skybox na musamman da ka adana?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Ba a iya cire skybox na musamman ba:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Zaɓi hoto</value>
+  </data>
 </root>

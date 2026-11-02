@@ -9315,4 +9315,30 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Нова верзија на видео уредникот е подготвена. Кликнете за ажурирање.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Изберете слика за оваа страна на скајбоксот: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Изберете една слика за сите страни на скајбоксот</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Изборникот на слики не можеше да се отвори.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Прво изберете ги сите шест страни или користете една слика за сите.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Сопствениот скајбокс не можеше да се зачува:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Да се отстрани зачуваниот сопствен скајбокс?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Сопствениот скајбокс не можеше да се отстрани:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Изберете слика</value>
+  </data>
 </root>

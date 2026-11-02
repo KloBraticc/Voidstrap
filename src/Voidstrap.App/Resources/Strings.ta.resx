@@ -9314,4 +9314,30 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>வீடியோ எடிட்டரின் புதிய பதிப்பு தயார். புதுப்பிக்க கிளிக் செய்யுங்கள்.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>இந்த ஸ்கைபாக்ஸ் பக்கத்திற்கு ஒரு படத்தைத் தேர்ந்தெடுக்கவும்: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>எல்லா ஸ்கைபாக்ஸ் பக்கங்களுக்கும் ஒரு படத்தைத் தேர்ந்தெடுக்கவும்</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>படத் தேர்வியைத் திறக்க முடியவில்லை.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>முதலில் ஆறு பக்கங்களையும் தேர்ந்தெடுக்கவும் அல்லது எல்லாப் பக்கங்களுக்கும் ஒரு படத்தைப் பயன்படுத்தவும்.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>தனிப்பயன் ஸ்கைபாக்ஸைச் சேமிக்க முடியவில்லை:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>சேமித்த தனிப்பயன் ஸ்கைபாக்ஸை அகற்றவா?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>தனிப்பயன் ஸ்கைபாக்ஸை அகற்ற முடியவில்லை:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>படத்தைத் தேர்ந்தெடு</value>
+  </data>
 </root>

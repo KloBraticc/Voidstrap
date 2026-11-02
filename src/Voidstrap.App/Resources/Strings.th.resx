@@ -9622,4 +9622,30 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>โปรแกรมตัดต่อวิดีโอเวอร์ชันใหม่พร้อมแล้ว คลิกเพื่ออัปเดต</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>เลือกรูปภาพสำหรับด้านนี้ของสกายบ็อกซ์: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>เลือกรูปภาพหนึ่งรูปสำหรับทุกด้านของสกายบ็อกซ์</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>ไม่สามารถเปิดตัวเลือกรูปภาพได้</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>เลือกครบทั้งหกด้านก่อน หรือใช้รูปภาพเดียวสำหรับทุกด้าน</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>ไม่สามารถบันทึกสกายบ็อกซ์แบบกำหนดเองได้:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>ลบสกายบ็อกซ์แบบกำหนดเองที่บันทึกไว้หรือไม่</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>ไม่สามารถลบสกายบ็อกซ์แบบกำหนดเองได้:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>เลือกรูปภาพ</value>
+  </data>
 </root>

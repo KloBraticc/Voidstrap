@@ -9314,4 +9314,30 @@ Ruxsat berasizmi?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Video muharririning yangi versiyasi tayyor. Yangilash uchun bosing.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Skyboksning ushbu tomoni uchun rasm tanlang: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Skyboksning barcha tomonlari uchun bitta rasm tanlang</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Rasm tanlagichni ochib bo‘lmadi.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Avval oltita tomonning hammasini tanlang yoki har bir tomon uchun bitta rasm ishlating.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Maxsus skyboksni saqlab bo‘lmadi:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Saqlangan maxsus skybox olib tashlansinmi?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Maxsus skyboksni olib tashlab bo‘lmadi:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Rasm tanlash</value>
+  </data>
 </root>

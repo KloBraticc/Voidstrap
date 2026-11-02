@@ -9625,4 +9625,30 @@ Payagan ba?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Handa na ang bagong bersyon ng video editor. I-click para mag-update.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Pumili ng larawan para sa mukhang ito ng skybox: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Pumili ng isang larawan para sa bawat mukha ng skybox</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Hindi mabuksan ang pumipili ng larawan.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Piliin muna ang lahat ng anim na mukha o gumamit ng isang larawan para sa bawat gilid.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Hindi ma-save ang custom na skybox:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Alisin ang naka-save mong custom na skybox?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Hindi maalis ang custom na skybox:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Pumili ng larawan</value>
+  </data>
 </root>

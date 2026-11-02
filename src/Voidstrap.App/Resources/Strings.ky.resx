@@ -9315,4 +9315,30 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Видео редактордун жаңы версиясы даяр. Жаңыртуу үчүн басыңыз.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Скайбокстун бул тарабына сүрөт тандаңыз: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Скайбокстун бардык тарабына бир сүрөт тандаңыз</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Сүрөт тандагыч ачылган жок.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Адегенде алты тараптын баарын тандаңыз же баарына бир сүрөт колдонуңуз.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Жеке скайбокс сакталган жок:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Сакталган жеке скайбоксту өчүрөсүзбү?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Жеке скайбокс өчүрүлгөн жок:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Сүрөт тандоо</value>
+  </data>
 </root>

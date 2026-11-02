@@ -9315,4 +9315,30 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Տեսախմբագրիչի նոր տարբերակը պատրաստ է։ Սեղմեք՝ թարմացնելու համար։</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Ընտրեք պատկեր երկնատուփի այս կողմի համար՝ {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Ընտրեք մեկ պատկեր երկնատուփի բոլոր կողմերի համար</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Պատկերի ընտրիչը չհաջողվեց բացել։</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Նախ ընտրեք բոլոր վեց կողմերը կամ օգտագործեք մեկ պատկեր բոլորի համար։</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Անհատական երկնատուփը չհաջողվեց պահել՝
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Հեռացնե՞լ պահված անհատական երկնատուփը։</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Անհատական երկնատուփը չհաջողվեց հեռացնել՝
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Ընտրել պատկեր</value>
+  </data>
 </root>

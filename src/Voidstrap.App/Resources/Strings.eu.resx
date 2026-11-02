@@ -9314,4 +9314,30 @@ Baimendu al duzu?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Bideo-editorearen bertsio berri bat prest dago. Egin klik eguneratzeko.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Aukeratu irudi bat skybox-aren alde honetarako: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Aukeratu irudi bat skybox-aren alde guztietarako</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Ezin izan da irudi-hautatzailea ireki.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Lehenik aukeratu sei aldeak edo erabili irudi bat alde guztietarako.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Ezin izan da skybox pertsonalizatua gorde:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Gordetako skybox pertsonalizatua kendu nahi duzu?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Ezin izan da skybox pertsonalizatua kendu:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Aukeratu irudia</value>
+  </data>
 </root>

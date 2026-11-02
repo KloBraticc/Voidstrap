@@ -9626,4 +9626,30 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>동영상 편집기의 새 버전이 준비되었습니다. 클릭하여 업데이트하세요.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>이 스카이박스 면에 사용할 이미지를 선택하세요: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>모든 스카이박스 면에 사용할 이미지 한 장을 선택하세요</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>이미지 선택 창을 열 수 없습니다.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>먼저 여섯 면을 모두 선택하거나 모든 면에 이미지 한 장을 사용하세요.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>사용자 지정 스카이박스를 저장할 수 없습니다:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>저장된 사용자 지정 스카이박스를 제거하시겠습니까?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>사용자 지정 스카이박스를 제거할 수 없습니다:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>이미지 선택</value>
+  </data>
 </root>

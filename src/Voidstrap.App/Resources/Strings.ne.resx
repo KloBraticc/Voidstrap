@@ -9315,4 +9315,30 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>भिडियो सम्पादकको नयाँ संस्करण तयार छ। अद्यावधिक गर्न क्लिक गर्नुहोस्।</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>यो स्काइबक्स सतहका लागि छवि छान्नुहोस्: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>सबै स्काइबक्स सतहका लागि एउटा छवि छान्नुहोस्</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>छवि चयनकर्ता खोल्न सकिएन।</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>पहिले छवटै सतह छान्नुहोस् वा सबै पक्षका लागि एउटा छवि प्रयोग गर्नुहोस्।</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>अनुकूल स्काइबक्स सुरक्षित गर्न सकिएन:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>सुरक्षित गरिएको अनुकूल स्काइबक्स हटाउने?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>अनुकूल स्काइबक्स हटाउन सकिएन:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>छवि छान्नुहोस्</value>
+  </data>
 </root>

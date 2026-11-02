@@ -9314,4 +9314,30 @@ icazə verilir?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Video redaktorunun yeni versiyası hazırdır. Yeniləmək üçün klikləyin.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Bu səma qutusu üzü üçün şəkil seçin: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Bütün səma qutusu üzləri üçün bir şəkil seçin</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Şəkil seçicisi açıla bilmədi.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Əvvəlcə altı üzün hamısını seçin və ya hər tərəf üçün bir şəkil istifadə edin.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Fərdi səma qutusu saxlanıla bilmədi:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Saxlanmış fərdi səma qutusu silinsin?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Fərdi səma qutusu silinə bilmədi:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Şəkil seçin</value>
+  </data>
 </root>

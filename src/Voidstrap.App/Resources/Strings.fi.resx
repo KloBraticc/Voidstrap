@@ -9628,4 +9628,30 @@ Sallitaanko?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Videoeditorin uusi versio on valmis. Päivitä napsauttamalla.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Valitse kuva tälle taivaslaatikon sivulle: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Valitse yksi kuva kaikille taivaslaatikon sivuille</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Kuvavalitsinta ei voitu avata.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Valitse ensin kaikki kuusi sivua tai käytä yhtä kuvaa jokaiselle sivulle.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Omaa taivaslaatikkoa ei voitu tallentaa:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Poistetaanko tallennettu oma taivaslaatikko?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Omaa taivaslaatikkoa ei voitu poistaa:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Valitse kuva</value>
+  </data>
 </root>

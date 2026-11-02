@@ -9315,4 +9315,30 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>വീഡിയോ എഡിറ്ററിന്റെ പുതിയ പതിപ്പ് തയ്യാറാണ്. അപ്ഡേറ്റ് ചെയ്യാൻ ക്ലിക്ക് ചെയ്യുക.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>ഈ സ്കൈബോക്സ് മുഖത്തിന് ഒരു ചിത്രം തിരഞ്ഞെടുക്കുക: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>എല്ലാ സ്കൈബോക്സ് മുഖങ്ങൾക്കും ഒരു ചിത്രം തിരഞ്ഞെടുക്കുക</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>ചിത്ര തിരഞ്ഞെടുക്കൽ തുറക്കാനായില്ല.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>ആദ്യം ആറ് മുഖങ്ങളും തിരഞ്ഞെടുക്കുക അല്ലെങ്കിൽ എല്ലാ വശങ്ങൾക്കും ഒരു ചിത്രം ഉപയോഗിക്കുക.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>കസ്റ്റം സ്കൈബോക്സ് സേവ് ചെയ്യാനായില്ല:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>സേവ് ചെയ്ത കസ്റ്റം സ്കൈബോക്സ് നീക്കം ചെയ്യണോ?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>കസ്റ്റം സ്കൈബോക്സ് നീക്കം ചെയ്യാനായില്ല:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>ചിത്രം തിരഞ്ഞെടുക്കുക</value>
+  </data>
 </root>

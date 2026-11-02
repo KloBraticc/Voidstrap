@@ -9314,4 +9314,30 @@ Uyakuvumela?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Inguqulo entsha yesihleli sevidiyo isilungile. Chofoza ukuze ubuyekeze.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Khetha isithombe salolu hlangothi lwe-skybox: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Khetha isithombe esisodwa sazo zonke izinhlangothi ze-skybox</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Isikhethi sezithombe asikwazanga ukuvulwa.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Khetha zonke izinhlangothi eziyisithupha kuqala noma usebenzise isithombe esisodwa ohlangothini ngalunye.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>I-skybox yakho yangokwezifiso ayikwazanga ukulondolozwa:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Susa i-skybox yakho yangokwezifiso elondoloziwe?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>I-skybox yakho yangokwezifiso ayikwazanga ukususwa:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Khetha isithombe</value>
+  </data>
 </root>

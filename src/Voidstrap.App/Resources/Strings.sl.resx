@@ -9315,4 +9315,30 @@ Dovoli?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Nova različica urejevalnika videoposnetkov je pripravljena. Kliknite za posodobitev.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Izberite sliko za to stran skyboxa: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Izberite eno sliko za vse strani skyboxa</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Izbirnika slik ni bilo mogoče odpreti.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Najprej izberite vseh šest strani ali uporabite eno sliko za vse.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Skyboxa po meri ni bilo mogoče shraniti:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Ali želite odstraniti shranjeni skybox po meri?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Skyboxa po meri ni bilo mogoče odstraniti:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Izberi sliko</value>
+  </data>
 </root>

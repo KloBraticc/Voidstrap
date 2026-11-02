@@ -9315,4 +9315,30 @@ Vil du tillate det?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>En ny versjon av videoredigeringsprogrammet er klar. Klikk for å oppdatere.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Velg et bilde for denne siden av skyboksen: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Velg ett bilde for alle sidene av skyboksen</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Bildevelgeren kunne ikke åpnes.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Velg alle seks sidene eller bruk ett bilde for hver side først.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Den egendefinerte skyboksen kunne ikke lagres:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Fjerne den lagrede egendefinerte skyboksen?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Den egendefinerte skyboksen kunne ikke fjernes:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Velg bilde</value>
+  </data>
 </root>

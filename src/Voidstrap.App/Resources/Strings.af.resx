@@ -9314,4 +9314,30 @@ Laat dit toe?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>'n Nuwe weergawe van die video-redigeerder is gereed. Klik om op te dateer.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Kies 'n prent vir hierdie lugkas-vlak: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Kies een prent vir elke lugkas-vlak</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Die prentkieser kon nie oopgemaak word nie.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Kies eers al ses vlakke of gebruik een prent vir elke kant.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Die pasgemaakte lugkas kon nie gestoor word nie:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Verwyder jou gestoorde pasgemaakte lugkas?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Die pasgemaakte lugkas kon nie verwyder word nie:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Kies prent</value>
+  </data>
 </root>

@@ -9625,4 +9625,30 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Video düzenleyicinin yeni bir sürümü hazır. Güncellemek için tıklayın.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Bu gökyüzü kutusu yüzü için bir görsel seçin: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Tüm gökyüzü kutusu yüzleri için tek bir görsel seçin</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Görsel seçici açılamadı.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Önce altı yüzün tamamını seçin veya her taraf için tek bir görsel kullanın.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Özel gökyüzü kutusu kaydedilemedi:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Kayıtlı özel gökyüzü kutunuz kaldırılsın mı?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Özel gökyüzü kutusu kaldırılamadı:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Görsel seç</value>
+  </data>
 </root>

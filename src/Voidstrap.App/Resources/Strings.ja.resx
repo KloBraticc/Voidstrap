@@ -9642,4 +9642,30 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>動画エディターの新しいバージョンがあります。クリックして更新してください。</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>このスカイボックスの面に使う画像を選んでください: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>すべてのスカイボックスの面に使う画像を 1 枚選んでください</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>画像の選択画面を開けませんでした。</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>先に 6 面すべてを選ぶか、すべての面に 1 枚の画像を使ってください。</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>カスタムスカイボックスを保存できませんでした:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>保存したカスタムスカイボックスを削除しますか？</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>カスタムスカイボックスを削除できませんでした:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>画像を選択</value>
+  </data>
 </root>

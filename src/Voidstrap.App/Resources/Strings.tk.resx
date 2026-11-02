@@ -9314,4 +9314,30 @@ Rugsat beriň?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Wideo redaktorynyň täze wersiýasy taýýar. Täzelemek üçin basyň.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Skyboksyň bu tarapy üçin surat saýlaň: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Skyboksyň ähli taraplary üçin bir surat saýlaň</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Surat saýlaýjy açylyp bilmedi.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Ilki alty tarapyň hemmesini saýlaň ýa-da her tarap üçin bir surat ulanyň.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Şahsy skyboks ýatda saklanyp bilmedi:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Ýatda saklanan şahsy skyboks aýrylsynmy?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Şahsy skyboks aýrylyp bilmedi:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Surat saýla</value>
+  </data>
 </root>

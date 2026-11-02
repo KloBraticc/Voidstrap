@@ -9315,4 +9315,30 @@ Vai atļaut?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Ir gatava jauna video redaktora versija. Noklikšķiniet, lai atjauninātu.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Izvēlieties attēlu šai debesu kastes pusei: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Izvēlieties vienu attēlu visām debesu kastes pusēm</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Neizdevās atvērt attēlu atlasītāju.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Vispirms izvēlieties visas sešas puses vai izmantojiet vienu attēlu visām.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Pielāgoto debesu kasti neizdevās saglabāt:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Vai noņemt saglabāto pielāgoto debesu kasti?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Pielāgoto debesu kasti neizdevās noņemt:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Izvēlēties attēlu</value>
+  </data>
 </root>

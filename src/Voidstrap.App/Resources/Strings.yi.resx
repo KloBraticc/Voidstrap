@@ -9314,4 +9314,30 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>אַ נײַע ווערסיע פֿונעם ווידעאָ־רעדאַקטאָר איז גרייט. קליק צו דערהײַנטיקן.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>קלײַבט אַ בילד פֿאַר דער זײַט פֿון דעם סקײַבאָקס: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>קלײַבט איין בילד פֿאַר אַלע זײַטן פֿון דעם סקײַבאָקס</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>מען האָט נישט געקענט עפֿענען דעם בילד־אויסקלײַבער.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>קלײַבט קודם אַלע זעקס זײַטן אָדער ניצט איין בילד פֿאַר יעדער זײַט.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>מען האָט נישט געקענט היטן דעם אייגענעם סקײַבאָקס:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>אַוועקנעמען דעם געהיטן אייגענעם סקײַבאָקס?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>מען האָט נישט געקענט אַוועקנעמען דעם אייגענעם סקײַבאָקס:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>קלײַבן בילד</value>
+  </data>
 </root>

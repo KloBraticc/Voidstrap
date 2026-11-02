@@ -9314,4 +9314,30 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Новая версія відэарэдактара гатовая. Націсніце, каб абнавіць.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Выберыце выяву для гэтага боку скайбокса: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Выберыце адну выяву для ўсіх бакоў скайбокса</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Не ўдалося адкрыць выбар выяў.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Спачатку выберыце ўсе шэсць бакоў або выкарыстайце адну выяву для ўсіх.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Не ўдалося захаваць уласны скайбокс:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Выдаліць захаваны ўласны скайбокс?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Не ўдалося выдаліць уласны скайбокс:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Выбраць выяву</value>
+  </data>
 </root>

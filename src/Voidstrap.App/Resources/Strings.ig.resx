@@ -9315,4 +9315,30 @@ kwe ya?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Ụdị ọhụrụ nke ihe ndezi vidiyo adịla njikere. Pịa ka imelite.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Họrọ onyonyo maka ihu skybox a: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Họrọ otu onyonyo maka ihu skybox ọ bụla</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Enweghị ike imepe ihe nhọrọ onyonyo.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Buru ụzọ họrọ ihu isii niile ma ọ bụ jiri otu onyonyo maka akụkụ ọ bụla.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Enweghị ike ịchekwa skybox ahaziri:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Wepụ skybox ahaziri ị chekwara?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Enweghị ike iwepụ skybox ahaziri:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Họrọ onyonyo</value>
+  </data>
 </root>

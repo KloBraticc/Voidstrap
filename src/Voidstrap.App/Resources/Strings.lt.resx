@@ -9629,4 +9629,30 @@ Leisti?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Paruošta nauja vaizdo įrašų redaktoriaus versija. Spustelėkite, kad atnaujintumėte.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Pasirinkite paveikslėlį šiai dangaus dėžės pusei: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Pasirinkite vieną paveikslėlį visoms dangaus dėžės pusėms</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Nepavyko atverti paveikslėlių parinkiklio.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Pirmiausia pasirinkite visas šešias puses arba naudokite vieną paveikslėlį visoms.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Nepavyko išsaugoti pasirinktinės dangaus dėžės:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Pašalinti išsaugotą pasirinktinę dangaus dėžę?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Nepavyko pašalinti pasirinktinės dangaus dėžės:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Pasirinkti paveikslėlį</value>
+  </data>
 </root>

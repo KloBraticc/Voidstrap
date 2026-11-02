@@ -9315,4 +9315,30 @@ Emera?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Verisiyo nshya ya porogaramu yo gutunganya amashusho yiteguye. Kanda kugira ngo uvugurure.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Hitamo ishusho y'uru ruhande rwa skybox: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Hitamo ishusho imwe y'impande zose za skybox</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Ntibyashobotse gufungura uburyo bwo guhitamo amashusho.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Banza uhitemo impande zose uko ari esheshatu cyangwa ukoreshe ishusho imwe ku mpande zose.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Skybox yawe yihariye ntiyabashije kubikwa:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Gukuraho skybox yihariye wabitse?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Skybox yihariye ntiyabashije gukurwaho:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Hitamo ishusho</value>
+  </data>
 </root>

@@ -9315,4 +9315,30 @@ Whakaaetia?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Kua rite tētahi putanga hou o te ētita ataata. Pāwhiri kia whakahou.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Kōwhiria he whakaahua mō tēnei mata skybox: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Kōwhiria kia kotahi te whakaahua mō ngā mata skybox katoa</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Kāore i taea te huaki i te kōwhiri whakaahua.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Me kōwhiri ngā mata e ono katoa i te tuatahi, me whakamahi rānei kia kotahi te whakaahua mō ngā taha katoa.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Kāore i taea te tiaki i te skybox ritenga:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Tangohia tō skybox ritenga kua tiakina?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Kāore i taea te tango i te skybox ritenga:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Kōwhiri whakaahua</value>
+  </data>
 </root>

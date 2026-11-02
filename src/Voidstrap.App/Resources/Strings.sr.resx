@@ -9315,4 +9315,30 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Нова верзија видео уређивача је спремна. Кликните за ажурирање.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Изаберите слику за ову страну скајбокса: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Изаберите једну слику за све стране скајбокса</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Бирач слика није могао да се отвори.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Прво изаберите свих шест страна или користите једну слику за све.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Прилагођени скајбокс није могао да се сачува:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Уклонити сачувани прилагођени скајбокс?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Прилагођени скајбокс није могао да се уклони:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Изабери слику</value>
+  </data>
 </root>

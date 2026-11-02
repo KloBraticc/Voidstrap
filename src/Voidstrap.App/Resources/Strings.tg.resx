@@ -9314,4 +9314,30 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Версияи нави муҳаррири видео омода аст. Барои навсозӣ клик кунед.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Барои ин тарафи скайбокс тасвир интихоб кунед: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Барои ҳамаи тарафҳои скайбокс як тасвир интихоб кунед</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Интихобкунандаи тасвир кушода нашуд.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Аввал ҳамаи шаш тарафро интихоб кунед ё барои ҳама як тасвир истифода баред.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Скайбокси фармоишӣ захира нашуд:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Скайбокси фармоишии захирашуда нест карда шавад?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Скайбокси фармоишӣ нест карда нашуд:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Интихоби тасвир</value>
+  </data>
 </root>

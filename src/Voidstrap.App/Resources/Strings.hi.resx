@@ -9315,4 +9315,30 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>वीडियो एडिटर का नया संस्करण तैयार है। अपडेट करने के लिए क्लिक करें।</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>इस स्काईबॉक्स सतह के लिए छवि चुनें: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>हर स्काईबॉक्स सतह के लिए एक छवि चुनें</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>छवि चयनकर्ता खोला नहीं जा सका।</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>पहले सभी छह सतहें चुनें या हर तरफ़ के लिए एक छवि का उपयोग करें।</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>कस्टम स्काईबॉक्स सहेजा नहीं जा सका:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>अपना सहेजा गया कस्टम स्काईबॉक्स हटाएँ?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>कस्टम स्काईबॉक्स हटाया नहीं जा सका:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>छवि चुनें</value>
+  </data>
 </root>

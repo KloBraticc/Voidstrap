@@ -9627,4 +9627,30 @@ Engedélyezed?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Elkészült a videószerkesztő új verziója. Kattints a frissítéshez.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Válassz képet a skybox ezen oldalához: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Válassz egy képet a skybox minden oldalához</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>A képválasztót nem sikerült megnyitni.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Előbb válaszd ki mind a hat oldalt, vagy használj egy képet minden oldalhoz.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Az egyéni skyboxot nem sikerült menteni:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Eltávolítod a mentett egyéni skyboxot?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Az egyéni skyboxot nem sikerült eltávolítani:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Kép kiválasztása</value>
+  </data>
 </root>

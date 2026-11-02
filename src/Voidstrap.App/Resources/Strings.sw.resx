@@ -9314,4 +9314,30 @@ Je, unairuhusu?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Toleo jipya la kihariri cha video liko tayari. Bofya ili kusasisha.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Chagua picha ya upande huu wa skybox: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Chagua picha moja kwa kila upande wa skybox</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Kichagua picha hakikuweza kufunguliwa.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Chagua pande zote sita kwanza au tumia picha moja kwa kila upande.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Skybox maalum haikuweza kuhifadhiwa:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Ungependa kuondoa skybox maalum uliyohifadhi?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Skybox maalum haikuweza kuondolewa:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Chagua picha</value>
+  </data>
 </root>

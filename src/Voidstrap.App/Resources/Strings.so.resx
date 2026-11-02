@@ -9315,4 +9315,30 @@ Oggolow?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Nooc cusub oo tafatiraha muuqaalka ah ayaa diyaar ah. Guji si aad u cusboonaysiiso.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Dooro sawir loogu talagalay wejigan skybox: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Dooro hal sawir oo loogu talagalay dhammaan wejiyada skybox</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Doorashada sawirka lama furi karin.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Marka hore dooro dhammaan lixda weji ama isticmaal hal sawir dhinac kasta.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Skybox-ka gaarka ah lama kaydin karin:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Ka saar skybox-kaaga gaarka ah ee kaydsan?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Skybox-ka gaarka ah lama saari karin:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Dooro sawir</value>
+  </data>
 </root>

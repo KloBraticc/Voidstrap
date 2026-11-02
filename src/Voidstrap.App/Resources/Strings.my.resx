@@ -9314,4 +9314,30 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>ဗီဒီယိုတည်းဖြတ်ကိရိယာ ဗားရှင်းအသစ် အဆင်သင့်ဖြစ်ပါပြီ။ အပ်ဒိတ်လုပ်ရန် နှိပ်ပါ။</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>ဤ skybox မျက်နှာအတွက် ပုံတစ်ပုံ ရွေးပါ- {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>skybox မျက်နှာအားလုံးအတွက် ပုံတစ်ပုံ ရွေးပါ</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>ပုံရွေးချယ်ကိရိယာကို ဖွင့်၍မရပါ။</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>မျက်နှာခြောက်ခုလုံးကို ဦးစွာရွေးပါ သို့မဟုတ် ဘက်တိုင်းအတွက် ပုံတစ်ပုံ အသုံးပြုပါ။</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>စိတ်ကြိုက် skybox ကို သိမ်း၍မရပါ-
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>သိမ်းထားသော စိတ်ကြိုက် skybox ကို ဖယ်ရှားမလား။</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>စိတ်ကြိုက် skybox ကို ဖယ်ရှား၍မရပါ-
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>ပုံရွေးပါ</value>
+  </data>
 </root>

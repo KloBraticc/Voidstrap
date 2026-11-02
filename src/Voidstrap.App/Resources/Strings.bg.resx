@@ -9627,4 +9627,30 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Готова е нова версия на видео редактора. Щракнете, за да актуализирате.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Изберете изображение за тази страна на скайбокса: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Изберете едно изображение за всички страни на скайбокса</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Инструментът за избор на изображения не можа да се отвори.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Първо изберете и шестте страни или използвайте едно изображение за всички.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Персонализираният скайбокс не можа да бъде запазен:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Да се премахне ли запазеният персонализиран скайбокс?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Персонализираният скайбокс не можа да бъде премахнат:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Изберете изображение</value>
+  </data>
 </root>

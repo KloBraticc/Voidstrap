@@ -9315,4 +9315,30 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>وڊيو ايڊيٽر جو نئون ورزن تيار آهي. اپڊيٽ ڪرڻ لاءِ ڪلڪ ڪريو.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>هن اسڪائي باڪس پاسي لاءِ تصوير چونڊيو: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>سڀني اسڪائي باڪس پاسن لاءِ هڪ تصوير چونڊيو</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>تصوير چونڊيندڙ کولي نه سگهيو.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>پهريان سڀ ڇهه پاسا چونڊيو يا هر پاسي لاءِ هڪ تصوير استعمال ڪريو.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>ڪسٽم اسڪائي باڪس محفوظ نه ٿي سگهيو:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>پنهنجو محفوظ ٿيل ڪسٽم اسڪائي باڪس هٽايو؟</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>ڪسٽم اسڪائي باڪس هٽائي نه سگهيو:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>تصوير چونڊيو</value>
+  </data>
 </root>

@@ -9315,4 +9315,30 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>גרסה חדשה של עורך הווידאו מוכנה. לחצו כדי לעדכן.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>בחרו תמונה לפאה הזו של הסקייבוקס: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>בחרו תמונה אחת לכל פאות הסקייבוקס</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>לא ניתן היה לפתוח את בוחר התמונות.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>בחרו קודם את כל שש הפאות או השתמשו בתמונה אחת לכל הצדדים.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>לא ניתן היה לשמור את הסקייבוקס המותאם:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>להסיר את הסקייבוקס המותאם השמור?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>לא ניתן היה להסיר את הסקייבוקס המותאם:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>בחירת תמונה</value>
+  </data>
 </root>

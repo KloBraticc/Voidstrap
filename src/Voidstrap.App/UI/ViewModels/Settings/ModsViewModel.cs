@@ -3184,7 +3184,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
     {
         if (CustomSkyboxBusy || string.IsNullOrWhiteSpace(face))
             return;
-        string? source = ShowSkyboxImagePicker("Choose the " + face.ToLowerInvariant() + " skybox face");
+        string? source = ShowSkyboxImagePicker(string.Format(Strings.Ui_Mods_Skybox_ChooseFace, SkyboxFaceName(face)));
         if (source == null)
             return;
         SetSkyboxFace(face, source);
@@ -3194,7 +3194,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
     {
         if (CustomSkyboxBusy)
             return;
-        string? source = ShowSkyboxImagePicker("Choose one image for every skybox face");
+        string? source = ShowSkyboxImagePicker(Strings.Ui_Mods_Skybox_ChooseOneImage);
         if (source == null)
             return;
         _customSkyboxBack = source;
@@ -3223,7 +3223,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
         catch (Exception ex)
         {
             App.Logger.WriteException("ModsViewModel::SkyboxPicker", ex);
-            Frontend.ShowMessageBox("The image picker could not be opened.", MessageBoxImage.Hand);
+            Frontend.ShowMessageBox(Strings.Ui_Mods_Skybox_PickerFailed, MessageBoxImage.Hand);
             return null;
         }
     }
@@ -3273,7 +3273,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
     {
         if (!CustomSkyboxCanApply)
         {
-            Frontend.ShowMessageBox("Choose all six faces or use one image for every side first.", MessageBoxImage.Information);
+            Frontend.ShowMessageBox(Strings.Ui_Mods_Skybox_ChooseAllFaces, MessageBoxImage.Information);
             return;
         }
         CancellationTokenSource cancellation = new();
@@ -3309,7 +3309,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
         catch (Exception ex)
         {
             App.Logger.WriteException("ModsViewModel::ApplyCustomSkybox", ex);
-            Frontend.ShowMessageBox("The custom skybox could not be saved:\n" + ex.Message, MessageBoxImage.Hand);
+            Frontend.ShowMessageBox(string.Format(Strings.Ui_Mods_Skybox_SaveFailed, ex.Message), MessageBoxImage.Hand);
         }
         finally
         {
@@ -3328,7 +3328,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
             return;
         if (
             Frontend.ShowMessageBox(
-                "Remove your saved custom skybox?",
+                Strings.Ui_Mods_Skybox_RemoveConfirm,
                 MessageBoxImage.Warning,
                 MessageBoxButton.YesNo,
                 MessageBoxResult.No
@@ -3355,13 +3355,25 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
         catch (Exception ex)
         {
             App.Logger.WriteException("ModsViewModel::RemoveCustomSkybox", ex);
-            Frontend.ShowMessageBox("The custom skybox could not be removed:\n" + ex.Message, MessageBoxImage.Hand);
+            Frontend.ShowMessageBox(string.Format(Strings.Ui_Mods_Skybox_RemoveFailed, ex.Message), MessageBoxImage.Hand);
         }
     }
 
+    private static string SkyboxFaceName(string face) =>
+        face switch
+        {
+            "Back" => Strings.Menu_FastFlagEditor_Back,
+            "Down" => Strings.Ui_Mods_Down,
+            "Front" => Strings.Ui_Mods_Front,
+            "Left" => Strings.Ui_Mods_Left,
+            "Right" => Strings.Ui_Mods_Right,
+            "Up" => Strings.Ui_Mods_Up,
+            _ => face,
+        };
+
     private static string GetSkyboxFaceDisplayName(string path)
     {
-        return string.IsNullOrWhiteSpace(path) ? "Choose image" : Path.GetFileName(path);
+        return string.IsNullOrWhiteSpace(path) ? Strings.Ui_Mods_Skybox_ChooseImage : Path.GetFileName(path);
     }
 
     private void NotifyCustomSkyboxSelectionChanged()

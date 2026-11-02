@@ -9314,4 +9314,30 @@ E lumella?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Mofuta o motjha wa sehlophisi sa video o se o lokile. Tobetsa ho ntjhafatsa.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Kgetha setshwantsho bakeng sa sefahleho sena sa skybox: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Kgetha setshwantsho se le seng bakeng sa difahleho tsohle tsa skybox</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Mokgethi wa ditshwantsho a ka se bulwe.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Kgetha difahleho tsohle tse tsheletseng pele kapa o sebedise setshwantsho se le seng bakeng sa lehlakore le leng le le leng.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Skybox e iketsetsang e ka se bolokwe:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Tlosa skybox ya hao e iketsetsang e bolokilweng?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Skybox e iketsetsang e ka se tloswe:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Kgetha setshwantsho</value>
+  </data>
 </root>

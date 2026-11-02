@@ -9315,4 +9315,30 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Verżjoni ġdida tal-editur tal-vidjo hija lesta. Ikklikkja biex taġġorna.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Agħżel immaġni għal din il-wiċċ tas-skybox: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Agħżel immaġni waħda għal kull wiċċ tas-skybox</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Is-selettur tal-immaġnijiet ma setax jinfetaħ.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>L-ewwel agħżel is-sitt uċuħ kollha jew uża immaġni waħda għal kull naħa.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Is-skybox personalizzat ma setax jiġi ssejvjat:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Tneħħi s-skybox personalizzat issejvjat tiegħek?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Is-skybox personalizzat ma setax jitneħħa:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Agħżel immaġni</value>
+  </data>
 </root>

@@ -9314,4 +9314,30 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>వీడియో ఎడిటర్ కొత్త వెర్షన్ సిద్ధంగా ఉంది. అప్‌డేట్ చేయడానికి క్లిక్ చేయండి.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>ఈ స్కైబాక్స్ వైపు కోసం చిత్రాన్ని ఎంచుకోండి: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>అన్ని స్కైబాక్స్ వైపుల కోసం ఒక చిత్రాన్ని ఎంచుకోండి</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>చిత్ర ఎంపికను తెరవడం సాధ్యం కాలేదు.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>ముందుగా ఆరు వైపులనూ ఎంచుకోండి లేదా ప్రతి వైపుకూ ఒక చిత్రాన్ని ఉపయోగించండి.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>అనుకూల స్కైబాక్స్‌ను సేవ్ చేయడం సాధ్యం కాలేదు:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>సేవ్ చేసిన అనుకూల స్కైబాక్స్‌ను తీసివేయాలా?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>అనుకూల స్కైబాక్స్‌ను తీసివేయడం సాధ్యం కాలేదు:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>చిత్రాన్ని ఎంచుకోండి</value>
+  </data>
 </root>

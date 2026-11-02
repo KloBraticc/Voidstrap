@@ -9315,4 +9315,30 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>ଭିଡିଓ ଏଡିଟର୍‌ର ଏକ ନୂଆ ସଂସ୍କରଣ ପ୍ରସ୍ତୁତ। ଅପଡେଟ୍ କରିବାକୁ କ୍ଲିକ୍ କରନ୍ତୁ।</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>ଏହି ସ୍କାଇବକ୍ସ ପାର୍ଶ୍ୱ ପାଇଁ ଏକ ଛବି ବାଛନ୍ତୁ: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>ପ୍ରତ୍ୟେକ ସ୍କାଇବକ୍ସ ପାର୍ଶ୍ୱ ପାଇଁ ଗୋଟିଏ ଛବି ବାଛନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>ଛବି ଚୟନକାରୀ ଖୋଲାଯାଇପାରିଲା ନାହିଁ।</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>ପ୍ରଥମେ ସମସ୍ତ ଛଅ ପାର୍ଶ୍ୱ ବାଛନ୍ତୁ କିମ୍ବା ପ୍ରତ୍ୟେକ ପାର୍ଶ୍ୱ ପାଇଁ ଗୋଟିଏ ଛବି ବ୍ୟବହାର କରନ୍ତୁ।</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>କଷ୍ଟମ୍ ସ୍କାଇବକ୍ସ ସେଭ୍ କରାଯାଇପାରିଲା ନାହିଁ:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>ଆପଣଙ୍କ ସେଭ୍ ହୋଇଥିବା କଷ୍ଟମ୍ ସ୍କାଇବକ୍ସ ହଟାଇବେ କି?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>କଷ୍ଟମ୍ ସ୍କାଇବକ୍ସ ହଟାଯାଇପାରିଲା ନାହିଁ:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>ଛବି ବାଛନ୍ତୁ</value>
+  </data>
 </root>

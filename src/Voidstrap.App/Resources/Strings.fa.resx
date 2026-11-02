@@ -9629,4 +9629,30 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>نسخهٔ جدیدی از ویرایشگر ویدیو آماده است. برای به‌روزرسانی کلیک کنید.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>برای این وجه آسمان‌جعبه یک تصویر انتخاب کنید: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>یک تصویر برای همهٔ وجه‌های آسمان‌جعبه انتخاب کنید</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>انتخابگر تصویر باز نشد.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>ابتدا هر شش وجه را انتخاب کنید یا برای همهٔ وجه‌ها یک تصویر به کار ببرید.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>آسمان‌جعبهٔ سفارشی ذخیره نشد:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>آسمان‌جعبهٔ سفارشی ذخیره‌شده حذف شود؟</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>آسمان‌جعبهٔ سفارشی حذف نشد:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>انتخاب تصویر</value>
+  </data>
 </root>

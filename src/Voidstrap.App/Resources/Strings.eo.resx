@@ -9314,4 +9314,30 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Nova versio de la videoredaktilo estas preta. Alklaku por ĝisdatigi.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Elektu bildon por ĉi tiu ĉielskatola flanko: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Elektu unu bildon por ĉiuj ĉielskatolaj flankoj</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>La bildelektilo ne povis malfermiĝi.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Unue elektu ĉiujn ses flankojn aŭ uzu unu bildon por ĉiu flanko.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>La propra ĉielskatolo ne povis esti konservita:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Ĉu forigi vian konservitan propran ĉielskatolon?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>La propra ĉielskatolo ne povis esti forigita:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Elekti bildon</value>
+  </data>
 </root>

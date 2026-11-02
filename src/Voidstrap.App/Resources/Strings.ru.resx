@@ -9627,4 +9627,30 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Готова новая версия видеоредактора. Нажмите, чтобы обновить.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Выберите изображение для этой грани скайбокса: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Выберите одно изображение для всех граней скайбокса</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Не удалось открыть выбор изображения.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Сначала выберите все шесть граней или используйте одно изображение для всех.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Не удалось сохранить собственный скайбокс:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Удалить сохранённый собственный скайбокс?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Не удалось удалить собственный скайбокс:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Выбрать изображение</value>
+  </data>
 </root>

@@ -9626,4 +9626,30 @@
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>إصدار جديد من محرر الفيديو جاهز. انقر للتحديث.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>اختر صورة لهذا الوجه من صندوق السماء: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>اختر صورة واحدة لكل أوجه صندوق السماء</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>تعذّر فتح أداة اختيار الصور.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>اختر الأوجه الستة كلها أو استخدم صورة واحدة لكل جانب أولًا.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>تعذّر حفظ صندوق السماء المخصص:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>هل تريد إزالة صندوق السماء المخصص المحفوظ؟</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>تعذّرت إزالة صندوق السماء المخصص:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>اختر صورة</value>
+  </data>
 </root>

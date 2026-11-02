@@ -9315,4 +9315,30 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>व्हिडिओ एडिटरची नवीन आवृत्ती तयार आहे. अपडेट करण्यासाठी क्लिक करा.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>या स्कायबॉक्स बाजूसाठी प्रतिमा निवडा: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>प्रत्येक स्कायबॉक्स बाजूसाठी एक प्रतिमा निवडा</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>प्रतिमा निवडक उघडता आला नाही.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>आधी सर्व सहा बाजू निवडा किंवा प्रत्येक बाजूसाठी एक प्रतिमा वापरा.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>कस्टम स्कायबॉक्स जतन करता आला नाही:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>तुमचा जतन केलेला कस्टम स्कायबॉक्स काढायचा?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>कस्टम स्कायबॉक्स काढता आला नाही:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>प्रतिमा निवडा</value>
+  </data>
 </root>

@@ -9314,4 +9314,30 @@ Kas lubada?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Videotöötlusprogrammi uus versioon on valmis. Klõpsa värskendamiseks.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Vali selle taevakasti külje jaoks pilt: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Vali üks pilt kõigi taevakasti külgede jaoks</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Pildivalijat ei õnnestunud avada.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Vali esmalt kõik kuus külge või kasuta ühte pilti kõigi külgede jaoks.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Kohandatud taevakasti ei õnnestunud salvestada:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Kas eemaldada salvestatud kohandatud taevakast?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Kohandatud taevakasti ei õnnestunud eemaldada:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Vali pilt</value>
+  </data>
 </root>

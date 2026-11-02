@@ -9629,4 +9629,30 @@ Permiți?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>O versiune nouă a editorului video este gata. Fă clic pentru actualizare.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Alege o imagine pentru această față a skybox-ului: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Alege o imagine pentru toate fețele skybox-ului</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Selectorul de imagini nu a putut fi deschis.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Alege mai întâi toate cele șase fețe sau folosește o imagine pentru fiecare parte.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Skybox-ul personalizat nu a putut fi salvat:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Elimini skybox-ul personalizat salvat?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Skybox-ul personalizat nu a putut fi eliminat:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Alege imaginea</value>
+  </data>
 </root>

@@ -9630,4 +9630,30 @@ Cho phép?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Đã có phiên bản mới của trình chỉnh sửa video. Nhấp để cập nhật.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Chọn hình ảnh cho mặt skybox này: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Chọn một hình ảnh cho mọi mặt của skybox</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Không thể mở trình chọn hình ảnh.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Hãy chọn đủ sáu mặt trước hoặc dùng một hình ảnh cho mọi mặt.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Không thể lưu skybox tùy chỉnh:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Xóa skybox tùy chỉnh đã lưu của bạn?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Không thể xóa skybox tùy chỉnh:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Chọn hình ảnh</value>
+  </data>
 </root>

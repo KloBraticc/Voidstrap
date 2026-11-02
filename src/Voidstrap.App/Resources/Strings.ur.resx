@@ -9314,4 +9314,30 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>ویڈیو ایڈیٹر کا نیا ورژن تیار ہے۔ اپ ڈیٹ کرنے کے لیے کلک کریں۔</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>اس اسکائی باکس رخ کے لیے تصویر منتخب کریں: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>تمام اسکائی باکس رخوں کے لیے ایک تصویر منتخب کریں</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>تصویر منتخب کنندہ کھولا نہیں جا سکا۔</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>پہلے تمام چھ رخ منتخب کریں یا ہر طرف کے لیے ایک تصویر استعمال کریں۔</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>حسب ضرورت اسکائی باکس محفوظ نہیں ہو سکا:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>اپنا محفوظ کردہ حسب ضرورت اسکائی باکس ہٹائیں؟</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>حسب ضرورت اسکائی باکس ہٹایا نہیں جا سکا:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>تصویر منتخب کریں</value>
+  </data>
 </root>

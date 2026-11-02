@@ -9627,4 +9627,30 @@ Tillåta?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>En ny version av videoredigeraren är klar. Klicka för att uppdatera.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Välj en bild för den här sidan av skyboxen: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Välj en bild för alla sidor av skyboxen</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Bildväljaren kunde inte öppnas.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Välj först alla sex sidor eller använd en bild för varje sida.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Den anpassade skyboxen kunde inte sparas:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Ta bort din sparade anpassade skybox?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Den anpassade skyboxen kunde inte tas bort:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Välj bild</value>
+  </data>
 </root>

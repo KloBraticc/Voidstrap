@@ -9315,4 +9315,30 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>වීඩියෝ සංස්කාරකයේ නව අනුවාදයක් සූදානම්. යාවත්කාලීන කිරීමට ක්ලික් කරන්න.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>මෙම skybox පැත්ත සඳහා රූපයක් තෝරන්න: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>සියලු skybox පැති සඳහා එක් රූපයක් තෝරන්න</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>රූප තෝරනය විවෘත කළ නොහැකි විය.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>පළමුව පැති හයම තෝරන්න හෝ සෑම පැත්තකටම එක් රූපයක් භාවිත කරන්න.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>අභිරුචි skybox සුරැකිය නොහැකි විය:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>ඔබ සුරැකි අභිරුචි skybox ඉවත් කරන්නද?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>අභිරුචි skybox ඉවත් කළ නොහැකි විය:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>රූපය තෝරන්න</value>
+  </data>
 </root>

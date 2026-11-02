@@ -9315,4 +9315,30 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>កំណែថ្មីនៃកម្មវិធីកែវីដេអូបានរួចរាល់។ ចុចដើម្បីធ្វើបច្ចុប្បន្នភាព។</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>ជ្រើសរើសរូបភាពសម្រាប់ផ្ទៃ skybox នេះ៖ {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>ជ្រើសរើសរូបភាពមួយសម្រាប់ផ្ទៃ skybox ទាំងអស់</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>មិនអាចបើកកម្មវិធីជ្រើសរូបភាពបានទេ។</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>សូមជ្រើសរើសផ្ទៃទាំងប្រាំមួយជាមុនសិន ឬប្រើរូបភាពមួយសម្រាប់គ្រប់ផ្ទៃ។</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>មិនអាចរក្សាទុក skybox ផ្ទាល់ខ្លួនបានទេ៖
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>លុប skybox ផ្ទាល់ខ្លួនដែលបានរក្សាទុកឬ?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>មិនអាចលុប skybox ផ្ទាល់ខ្លួនបានទេ៖
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>ជ្រើសរើសរូបភាព</value>
+  </data>
 </root>

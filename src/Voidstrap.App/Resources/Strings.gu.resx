@@ -9315,4 +9315,30 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>વિડિયો એડિટરનું નવું સંસ્કરણ તૈયાર છે. અપડેટ કરવા માટે ક્લિક કરો.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>આ સ્કાયબોક્સ બાજુ માટે છબી પસંદ કરો: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>દરેક સ્કાયબોક્સ બાજુ માટે એક છબી પસંદ કરો</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>છબી પસંદગીકર્તા ખોલી શકાયું નથી.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>પહેલા બધી છ બાજુઓ પસંદ કરો અથવા દરેક બાજુ માટે એક છબી વાપરો.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>કસ્ટમ સ્કાયબોક્સ સાચવી શકાયું નથી:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>તમારું સાચવેલું કસ્ટમ સ્કાયબોક્સ દૂર કરવું છે?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>કસ્ટમ સ્કાયબોક્સ દૂર કરી શકાયું નથી:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>છબી પસંદ કરો</value>
+  </data>
 </root>

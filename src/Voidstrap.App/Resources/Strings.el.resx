@@ -9314,4 +9314,30 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Μια νέα έκδοση του επεξεργαστή βίντεο είναι έτοιμη. Κάντε κλικ για ενημέρωση.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Επιλέξτε εικόνα για αυτή την πλευρά του skybox: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Επιλέξτε μία εικόνα για όλες τις πλευρές του skybox</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Δεν ήταν δυνατό να ανοίξει η επιλογή εικόνας.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Επιλέξτε πρώτα και τις έξι πλευρές ή χρησιμοποιήστε μία εικόνα για όλες.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Δεν ήταν δυνατή η αποθήκευση του προσαρμοσμένου skybox:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Να αφαιρεθεί το αποθηκευμένο προσαρμοσμένο skybox;</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Δεν ήταν δυνατή η αφαίρεση του προσαρμοσμένου skybox:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Επιλογή εικόνας</value>
+  </data>
 </root>

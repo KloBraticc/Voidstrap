@@ -9314,4 +9314,30 @@ Gba laaye?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Ẹ̀yà tuntun olóòtú fídíò ti ṣetán. Tẹ̀ láti ṣe àfikún.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Yan àwòrán fún ojú skybox yìí: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Yan àwòrán kan fún gbogbo ojú skybox</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>A kò lè ṣí olùyàn àwòrán.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Kọ́kọ́ yan gbogbo ojú mẹ́fà tàbí lo àwòrán kan fún gbogbo ẹ̀gbẹ́.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>A kò lè fi skybox àdáni pamọ́:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Ṣé o fẹ́ yọ skybox àdáni tí o fi pamọ́ kúrò?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>A kò lè yọ skybox àdáni kúrò:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Yan àwòrán</value>
+  </data>
 </root>

@@ -9314,4 +9314,30 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>ভিডিও এডিটরের একটি নতুন সংস্করণ প্রস্তুত। আপডেট করতে ক্লিক করুন।</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>এই স্কাইবক্স দিকের জন্য একটি ছবি বেছে নিন: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>প্রতিটি স্কাইবক্স দিকের জন্য একটি ছবি বেছে নিন</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>ছবি নির্বাচক খোলা যায়নি।</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>আগে ছয়টি দিকই বেছে নিন অথবা প্রতিটি দিকের জন্য একটি ছবি ব্যবহার করুন।</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>কাস্টম স্কাইবক্স সংরক্ষণ করা যায়নি:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>আপনার সংরক্ষিত কাস্টম স্কাইবক্স সরাবেন?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>কাস্টম স্কাইবক্স সরানো যায়নি:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>ছবি বেছে নিন</value>
+  </data>
 </root>

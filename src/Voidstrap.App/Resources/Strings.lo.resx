@@ -9315,4 +9315,30 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>ຕົວແກ້ໄຂວິດີໂອເວີຊັນໃໝ່ພ້ອມແລ້ວ. ຄລິກເພື່ອອັບເດດ.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>ເລືອກຮູບສຳລັບໜ້າ skybox ນີ້: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>ເລືອກຮູບໜຶ່ງຮູບສຳລັບທຸກໜ້າຂອງ skybox</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>ບໍ່ສາມາດເປີດຕົວເລືອກຮູບໄດ້.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>ກະລຸນາເລືອກທັງຫົກໜ້າກ່ອນ ຫຼື ໃຊ້ຮູບດຽວສຳລັບທຸກດ້ານ.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>ບໍ່ສາມາດບັນທຶກ skybox ທີ່ກຳນົດເອງໄດ້:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>ລຶບ skybox ທີ່ກຳນົດເອງທີ່ບັນທຶກໄວ້ບໍ?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>ບໍ່ສາມາດລຶບ skybox ທີ່ກຳນົດເອງໄດ້:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>ເລືອກຮູບ</value>
+  </data>
 </root>

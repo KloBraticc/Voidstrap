@@ -9314,4 +9314,30 @@ Caniatáu iddo?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Mae fersiwn newydd o'r golygydd fideo yn barod. Cliciwch i ddiweddaru.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Dewiswch ddelwedd ar gyfer yr wyneb skybox hwn: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Dewiswch un ddelwedd ar gyfer pob wyneb skybox</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Nid oedd modd agor y dewisydd delweddau.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Dewiswch bob un o'r chwe wyneb neu defnyddiwch un ddelwedd ar gyfer pob ochr yn gyntaf.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Nid oedd modd cadw'r skybox personol:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Tynnu eich skybox personol sydd wedi'i gadw?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Nid oedd modd tynnu'r skybox personol:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Dewis delwedd</value>
+  </data>
 </root>

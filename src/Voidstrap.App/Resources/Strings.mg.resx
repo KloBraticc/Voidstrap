@@ -9315,4 +9315,30 @@ Avelao izany?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Vonona ny dikan-teny vaovao amin'ny fanovana horonantsary. Tsindrio hanavaozana.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Mifidiana sary ho an'ity tavan'ny skybox ity: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Mifidiana sary iray ho an'ny tavan'ny skybox rehetra</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Tsy afaka nosokafana ny mpifantina sary.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Fidio aloha ireo tava enina rehetra na ampiasao sary iray ho an'ny lafiny rehetra.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Tsy voatahiry ny skybox manokana:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Hesorina ve ny skybox manokana voatahiry?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Tsy voaesotra ny skybox manokana:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Mifidiana sary</value>
+  </data>
 </root>

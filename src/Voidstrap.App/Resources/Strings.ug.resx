@@ -9314,4 +9314,30 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>سىن تەھرىرلىگۈچنىڭ يېڭى نەشرى تەييار. يېڭىلاش ئۈچۈن چېكىڭ.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>بۇ ئاسمان قۇتىسى يۈزى ئۈچۈن رەسىم تاللاڭ: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>ئاسمان قۇتىسىنىڭ ھەممە يۈزى ئۈچۈن بىر رەسىم تاللاڭ</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>رەسىم تاللىغۇچنى ئاچقىلى بولمىدى.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>ئالدى بىلەن ئالتە يۈزنىڭ ھەممىسىنى تاللاڭ ياكى ھەممە تەرەپكە بىر رەسىم ئىشلىتىڭ.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>خاس ئاسمان قۇتىسىنى ساقلىغىلى بولمىدى:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>ساقلانغان خاس ئاسمان قۇتىسىنى ئۆچۈرەمسىز؟</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>خاس ئاسمان قۇتىسىنى ئۆچۈرگىلى بولمىدى:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>رەسىم تاللاش</value>
+  </data>
 </root>

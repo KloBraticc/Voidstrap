@@ -9315,4 +9315,30 @@ Ceadaigh é?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Tá leagan nua den eagarthóir físe réidh. Cliceáil chun nuashonrú.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Roghnaigh íomhá don éadan skybox seo: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Roghnaigh íomhá amháin do gach éadan skybox</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Níorbh fhéidir an roghnóir íomhánna a oscailt.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Roghnaigh na sé éadan ar fad nó úsáid íomhá amháin do gach taobh ar dtús.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Níorbh fhéidir an skybox saincheaptha a shábháil:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Bain do skybox saincheaptha sábháilte?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Níorbh fhéidir an skybox saincheaptha a bhaint:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Roghnaigh íomhá</value>
+  </data>
 </root>

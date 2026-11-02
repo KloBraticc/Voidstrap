@@ -9315,4 +9315,30 @@ Erlaabt et?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Eng nei Versioun vum Video-Editor ass prett. Klick fir ze aktualiséieren.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Wiel e Bild fir dës Skybox-Säit: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Wiel ee Bild fir all Skybox-Säiten</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>D'Bildauswiel konnt net opgemaach ginn.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Wiel fir d'éischt all sechs Säiten oder benotz ee Bild fir all Säit.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Déi eege Skybox konnt net gespäichert ginn:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Deng gespäichert eege Skybox ewechhuelen?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Déi eege Skybox konnt net ewechgeholl ginn:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Bild wielen</value>
+  </data>
 </root>

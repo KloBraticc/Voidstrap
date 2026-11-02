@@ -9279,6 +9279,54 @@ namespace Voidstrap.Resources {
             }
         }
 
+        public static string Ui_Mods_Skybox_ChooseFace {
+            get {
+                return ResourceManager.GetString("Ui.Mods.Skybox.ChooseFace", resourceCulture);
+            }
+        }
+
+        public static string Ui_Mods_Skybox_ChooseOneImage {
+            get {
+                return ResourceManager.GetString("Ui.Mods.Skybox.ChooseOneImage", resourceCulture);
+            }
+        }
+
+        public static string Ui_Mods_Skybox_PickerFailed {
+            get {
+                return ResourceManager.GetString("Ui.Mods.Skybox.PickerFailed", resourceCulture);
+            }
+        }
+
+        public static string Ui_Mods_Skybox_ChooseAllFaces {
+            get {
+                return ResourceManager.GetString("Ui.Mods.Skybox.ChooseAllFaces", resourceCulture);
+            }
+        }
+
+        public static string Ui_Mods_Skybox_SaveFailed {
+            get {
+                return ResourceManager.GetString("Ui.Mods.Skybox.SaveFailed", resourceCulture);
+            }
+        }
+
+        public static string Ui_Mods_Skybox_RemoveConfirm {
+            get {
+                return ResourceManager.GetString("Ui.Mods.Skybox.RemoveConfirm", resourceCulture);
+            }
+        }
+
+        public static string Ui_Mods_Skybox_RemoveFailed {
+            get {
+                return ResourceManager.GetString("Ui.Mods.Skybox.RemoveFailed", resourceCulture);
+            }
+        }
+
+        public static string Ui_Mods_Skybox_ChooseImage {
+            get {
+                return ResourceManager.GetString("Ui.Mods.Skybox.ChooseImage", resourceCulture);
+            }
+        }
+
         public static string Ui_VoidEdit_AlphaNotice {
             get {
                 return ResourceManager.GetString("Ui.VoidEdit.AlphaNotice", resourceCulture);

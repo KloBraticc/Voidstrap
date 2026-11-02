@@ -9315,4 +9315,30 @@ Povoliť?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Nová verzia video editora je pripravená. Kliknite na aktualizáciu.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Vyberte obrázok pre túto stranu skyboxu: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Vyberte jeden obrázok pre všetky strany skyboxu</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Výber obrázka sa nepodarilo otvoriť.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Najprv vyberte všetkých šesť strán alebo použite jeden obrázok pre všetky.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Vlastný skybox sa nepodarilo uložiť:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Odstrániť uložený vlastný skybox?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Vlastný skybox sa nepodarilo odstrániť:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Vybrať obrázok</value>
+  </data>
 </root>

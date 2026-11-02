@@ -9629,4 +9629,30 @@ Toestaan?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Er is een nieuwe versie van de video-editor klaar. Klik om bij te werken.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Kies een afbeelding voor deze kant van de skybox: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Kies één afbeelding voor alle kanten van de skybox</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>De afbeeldingskiezer kon niet worden geopend.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Kies eerst alle zes kanten of gebruik één afbeelding voor elke kant.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>De eigen skybox kon niet worden opgeslagen:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Je opgeslagen eigen skybox verwijderen?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>De eigen skybox kon niet worden verwijderd:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Afbeelding kiezen</value>
+  </data>
 </root>

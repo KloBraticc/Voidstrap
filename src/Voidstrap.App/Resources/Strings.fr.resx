@@ -9626,4 +9626,30 @@ Autoriser ?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Une nouvelle version de l'éditeur vidéo est prête. Cliquez pour mettre à jour.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Choisissez une image pour cette face du skybox : {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Choisissez une image pour toutes les faces du skybox</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>Le sélecteur d'images n'a pas pu s'ouvrir.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Choisissez d'abord les six faces ou utilisez une seule image pour toutes.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>Le skybox personnalisé n'a pas pu être enregistré :
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Supprimer votre skybox personnalisé enregistré ?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>Le skybox personnalisé n'a pas pu être supprimé :
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Choisir une image</value>
+  </data>
 </root>

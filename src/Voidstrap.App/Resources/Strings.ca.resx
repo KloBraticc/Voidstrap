@@ -9314,4 +9314,30 @@ Ho permets?</value>
   <data name="Ui.VoidEdit.Card.Update" xml:space="preserve">
     <value>Hi ha una versió nova de l'editor de vídeo. Fes clic per actualitzar.</value>
   </data>
+  <data name="Ui.Mods.Skybox.ChooseFace" xml:space="preserve">
+    <value>Tria una imatge per a aquesta cara del skybox: {0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseOneImage" xml:space="preserve">
+    <value>Tria una imatge per a totes les cares del skybox</value>
+  </data>
+  <data name="Ui.Mods.Skybox.PickerFailed" xml:space="preserve">
+    <value>No s'ha pogut obrir el selector d'imatges.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseAllFaces" xml:space="preserve">
+    <value>Primer tria les sis cares o fes servir una imatge per a cada costat.</value>
+  </data>
+  <data name="Ui.Mods.Skybox.SaveFailed" xml:space="preserve">
+    <value>No s'ha pogut desar el skybox personalitzat:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveConfirm" xml:space="preserve">
+    <value>Vols suprimir el skybox personalitzat desat?</value>
+  </data>
+  <data name="Ui.Mods.Skybox.RemoveFailed" xml:space="preserve">
+    <value>No s'ha pogut suprimir el skybox personalitzat:
+{0}</value>
+  </data>
+  <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
+    <value>Tria una imatge</value>
+  </data>
 </root>
