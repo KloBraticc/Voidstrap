@@ -9,6 +9,27 @@
         WindowStartupLocation="Manual" UseLayoutRounding="True"
         FontFamily="Segoe UI" Foreground="{DynamicResource TextFillColorPrimaryBrush}">
   <Window.Resources>
+    <Style TargetType="ToolTip">
+      <Setter Property="Placement" Value="Custom" />
+      <Setter Property="CustomPopupPlacementCallback" Value="{x:Static platform:OverlayToolTipPlacement.Above}" />
+      <Setter Property="HasDropShadow" Value="False" />
+      <Setter Property="FontFamily" Value="Segoe UI" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="MaxWidth" Value="320" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+      <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorSecondaryBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource SurfaceStrokeColorDefaultBrush}" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ToolTip">
+            <Border Padding="10,6,10,6" BorderThickness="1" CornerRadius="6"
+                    Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+              <TextBlock Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" TextWrapping="Wrap" Foreground="{TemplateBinding Foreground}" />
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
     <Style x:Key="DockAction" TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
       <Setter Property="Margin" Value="3,0" />
       <Setter Property="Padding" Value="10,8" />
