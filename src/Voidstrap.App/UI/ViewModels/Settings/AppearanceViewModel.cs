@@ -767,6 +767,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             }
             App.Settings.Prop.Theme2 = value;
             App.Settings.SaveDeferred();
+            Voidstrap.UI.ThemeTransition.RememberSystemTheme();
             OnPropertyChanged(nameof(Theme));
             OnPropertyChanged(nameof(CustomThemeEditorVisibility));
             if (Application.Current == null)

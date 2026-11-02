@@ -117,6 +117,28 @@ internal static class ThemeTransition
 
     private static FadeAdorner? _activeAdorner;
 
+    private static Theme? _systemTheme;
+
+    public static void RememberSystemTheme() =>
+        _systemTheme = App.Settings.Prop.Theme2 == Theme.Default ? Theme.Default.GetFinal() : null;
+
+    public static void FollowSystemTheme()
+    {
+        if (App.Settings.Prop.Theme2 != Theme.Default || Application.Current == null)
+        {
+            _systemTheme = null;
+            return;
+        }
+        Theme current = Theme.Default.GetFinal();
+        Theme? previous = _systemTheme;
+        _systemTheme = current;
+        if (previous == null || previous == current)
+            return;
+        App.Logger?.WriteLine("ThemeTransition::FollowSystemTheme", "Windows switched to " + current + ", updating open windows");
+        foreach (Voidstrap.UI.Elements.Base.WpfUiWindow window in Application.Current.Windows.OfType<Voidstrap.UI.Elements.Base.WpfUiWindow>().ToArray())
+            Animate(window, window.ApplyTheme);
+    }
+
     public static void Animate(Window window, Action applyTheme)
     {
         if (applyTheme == null)

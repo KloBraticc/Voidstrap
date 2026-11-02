@@ -120,6 +120,7 @@ internal static partial class SystemAccent
         if (Platform.IsWindows)
         {
             SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+            Voidstrap.UI.ThemeTransition.RememberSystemTheme();
             _subscribed = true;
         }
         else if (OperatingSystem.IsLinux())
@@ -245,6 +246,7 @@ internal static partial class SystemAccent
         }
         if (!TryGetCustomColor(out _))
             application.Dispatcher.BeginInvoke(new Action(Refresh));
+        application.Dispatcher.BeginInvoke(new Action(Voidstrap.UI.ThemeTransition.FollowSystemTheme));
     }
 
     private static Color ResolveFill(Application application)
