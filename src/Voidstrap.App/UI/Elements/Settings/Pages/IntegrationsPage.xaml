@@ -370,7 +370,7 @@
             <TextBlock Text="Void Edit" />
           </StackPanel>
         </HeaderedContentControl.Header>
-        <StackPanel x:Name="VoidEditPanel" Margin="10">
+        <StackPanel x:Name="VoidEditPanel" DataContext="{x:Null}" Margin="10">
           <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Warning" Message="{resources:Loc Ui_VoidEdit_AlphaNotice}" />
           <ui:CardAction x:Name="VoidEditCard" Margin="0,8,0,0" MinHeight="78" Icon="Video24" IsEnabled="False" Click="VoidEditCard_Click">
             <StackPanel>

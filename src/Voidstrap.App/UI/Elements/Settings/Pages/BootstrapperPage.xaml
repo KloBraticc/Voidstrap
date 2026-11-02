@@ -254,7 +254,7 @@
           </controls:OptionControl>
 
         
-          <StackPanel x:Name="RobloxIntegrations">
+          <StackPanel x:Name="RobloxIntegrations" DataContext="{x:Null}">
           <TextBlock Margin="0,16,0,8" FontSize="20" FontWeight="SemiBold" Text="{resources:Loc Ui_Integrations_RobloxTheme}" />
           <controls:OptionControl Header="{resources:Loc Ui_Integrations_TelemetryBlocker}" Description="{resources:Loc Ui_Integrations_BlockRobloxTelemetryAdministratorAccessIs}">
             <ui:ToggleSwitch IsChecked="{Binding BlockTelemetry, Mode=TwoWay}" />
