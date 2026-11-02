@@ -978,6 +978,10 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
                 {
                     App.Settings.Prop.BootstrapperIcon = BootstrapperIcon.IconVoidstrap;
                 }
+                if (App.Settings.Prop.StudioBootstrapperIcon == BootstrapperIcon.IconCustom)
+                {
+                    App.Settings.Prop.StudioBootstrapperIcon = BootstrapperIcon.IconVoidstrap;
+                }
             }
             else
             {
@@ -985,8 +989,9 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             }
             App.Settings.Prop.BootstrapperIconCustomLocation = value;
             App.Settings.SaveDeferred();
-            RebuildIcons();
+            RefreshCustomIconEntry();
             OnPropertyChanged(nameof(Icon));
+            OnPropertyChanged(nameof(StudioIcon));
             OnPropertyChanged(nameof(CustomIconLocation));
             Voidstrap.UI.LinuxApplicationIdentity.Refresh();
         }
@@ -1616,6 +1621,15 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         }
     }
 
+    private void RefreshCustomIconEntry()
+    {
+        foreach (BootstrapperIconEntry entry in Icons)
+        {
+            if (entry.IconType == BootstrapperIcon.IconCustom)
+                entry.RefreshImage();
+        }
+    }
+
     private void RebuildIcons()
     {
         Icons.Clear();
@@ -1646,6 +1660,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         App.Settings.Prop.BootstrapperIconCustomLocation = openFileDialog.FileName;
         App.Settings.SaveDeferred();
         OnPropertyChanged(nameof(CustomIconLocation));
+        RefreshCustomIconEntry();
         return true;
     }
 
