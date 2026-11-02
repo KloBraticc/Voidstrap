@@ -550,7 +550,6 @@ public partial class Watcher : IDisposable
         RunRuntimeAction(Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition, "NoteGameTransition");
         if (Voidstrap.Utility.Platform.IsMacOS)
         {
-            _ = NotifyMacGameJoinAsync();
             RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true), "SyncGameJoin");
             RunOnApplicationDispatcher(EnsureRuntimeSessionWindows);
             return;
@@ -560,44 +559,6 @@ public partial class Watcher : IDisposable
         RunRuntimeAction(Voidstrap.Integrations.Fullscreen.RobloxFullscreen.OnGameJoin, "FullscreenJoin");
         RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameJoin, "AntiAliasingJoin");
         RunOnApplicationDispatcher(EnsureRuntimeSessionWindows);
-    }
-
-    private async Task NotifyMacGameJoinAsync()
-    {
-        try
-        {
-            ActivityWatcher? watcher = ActivityWatcher;
-            Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
-            if (
-                watcher == null
-                || host == null
-                || !App.Settings.Prop.VoidNotify
-                || !App.Settings.Prop.NotifyGameJoins
-                || !App.Settings.Prop.ShowServerDetails
-            )
-                return;
-            string? location = await watcher.Data.QueryServerLocationWithRetry();
-            if (string.IsNullOrEmpty(location))
-                location = Voidstrap.Resources.Strings.ContextMenu_ServerBrowser_UnknownLocation;
-            string caption = watcher.Data.ServerType switch
-            {
-                Voidstrap.Enums.ServerType.Private => Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Title_Private,
-                Voidstrap.Enums.ServerType.Reserved => Voidstrap
-                    .Resources
-                    .Strings
-                    .ContextMenu_ServerInformation_Notification_Title_Reserved,
-                _ => Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Title_Public,
-            };
-            string message = string.Format(Voidstrap.Resources.Strings.ContextMenu_ServerInformation_Notification_Text, location);
-            Voidstrap.Platform.OperationResult result = await host.Notifications.ShowAsync(
-                new Voidstrap.Platform.NotificationRequest(caption, message)
-            );
-            App.Logger.WriteLine("Watcher::NotifyMacGameJoinAsync", "Game join notification: " + result.Succeeded);
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("Watcher::NotifyMacGameJoinAsync", ex);
-        }
     }
 
     private System.Text.Json.Nodes.JsonObject DescribeGame()

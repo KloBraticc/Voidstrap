@@ -24,7 +24,6 @@ public class NotifyIconWrapper : IDisposable
 
     private EventHandler? _alertClickHandler;
 
-    private ActivityWatcher? _subscribedWatcher;
 
     private readonly object _alertLock = new object();
 
@@ -109,44 +108,10 @@ public class NotifyIconWrapper : IDisposable
                 )
             )
                 EnsureMenuContainerAsync();
-            bool wanted =
-                watcher != null
-                && App.Settings.Prop.VoidNotify
-                && App.Settings.Prop.NotifyGameJoins
-                && App.Settings.Prop.ShowServerDetails
-                && !App.Settings.Prop.NotificationWindowShow;
-            ActivityWatcher? desired = wanted ? watcher : null;
-            if (ReferenceEquals(desired, _subscribedWatcher))
-                return;
-            if (_subscribedWatcher != null)
-                _subscribedWatcher.OnGameJoin -= ActivityWatcher_OnGameJoin;
-            _subscribedWatcher = desired;
-            if (desired != null)
-            {
-                desired.OnGameJoin += ActivityWatcher_OnGameJoin;
-                if (desired.InGame)
-                    ActivityWatcher_OnGameJoin(desired, EventArgs.Empty);
-            }
-            App.Logger.WriteLine(
-                "NotifyIconWrapper::RefreshGameJoinSubscription",
-                desired != null ? "Tray join notification is armed" : "Tray join notification is off"
-            );
         }
         catch (Exception ex)
         {
             App.Logger.WriteException("NotifyIconWrapper::RefreshGameJoinSubscription", ex);
-        }
-    }
-
-    private async void ActivityWatcher_OnGameJoin(object? sender, EventArgs e)
-    {
-        try
-        {
-            await OnGameJoinAsync(sender, e);
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("NotifyIconWrapper::ActivityWatcher_OnGameJoin", ex);
         }
     }
 
@@ -234,76 +199,6 @@ public class NotifyIconWrapper : IDisposable
         catch (Exception ex)
         {
             App.Logger.WriteException("NotifyIconWrapper::NotifyIcon_MouseClick", ex);
-        }
-    }
-
-    private void ShowServerInformationAlertClicked(object? sender, EventArgs e)
-    {
-        Dispatcher? dispatcher = System.Windows.Application.Current?.Dispatcher;
-        if (_disposed || dispatcher == null || dispatcher.HasShutdownStarted || dispatcher.HasShutdownFinished)
-        {
-            return;
-        }
-        try
-        {
-            dispatcher.BeginInvoke(
-                (Action)
-                    delegate
-                    {
-                        try
-                        {
-                            if (!_disposed)
-                                EnsureMenuContainer().ShowServerInformationWindow();
-                        }
-                        catch (Exception ex)
-                        {
-                            App.Logger.WriteException("NotifyIconWrapper::ShowServerInformationAlertClicked", ex);
-                        }
-                    }
-            );
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("NotifyIconWrapper::ShowServerInformationAlertClicked", ex);
-        }
-    }
-
-    public async Task OnGameJoinAsync(object? sender, EventArgs e)
-    {
-        if (!App.Settings.Prop.VoidNotify || !App.Settings.Prop.NotifyGameJoins || ActivityWatcher == null)
-        {
-            return;
-        }
-        if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.Platform.Linux.SoberNativeSettings.IsServerLocationIndicatorEnabled())
-        {
-            App.Logger.WriteLine("NotifyIconWrapper::OnGameJoinAsync", "Sober shows its own server location notice, skipping the alert");
-            return;
-        }
-        string? text = await ActivityWatcher.Data.QueryServerLocationWithRetry();
-        if (string.IsNullOrEmpty(text))
-        {
-            App.Logger.WriteLine("NotifyIconWrapper::OnGameJoinAsync", "The server location could not be found, showing the alert without it");
-            text = Strings.ContextMenu_ServerBrowser_UnknownLocation;
-        }
-        string caption = ActivityWatcher.Data.ServerType switch
-        {
-            ServerType.Public => Strings.ContextMenu_ServerInformation_Notification_Title_Public,
-            ServerType.Private => Strings.ContextMenu_ServerInformation_Notification_Title_Private,
-            ServerType.Reserved => Strings.ContextMenu_ServerInformation_Notification_Title_Reserved,
-            _ => string.Empty,
-        };
-        if (App.Settings.Prop.NotifyGameJoins && EnableAppNotifications)
-        {
-            ShowAlert(
-                caption,
-                string.Format(Strings.ContextMenu_ServerInformation_Notification_Text, text),
-                10,
-                ShowServerInformationAlertClicked
-            );
-        }
-        else
-        {
-            App.Logger.WriteLine("NotifyIconWrapper::OnGameJoinAsync", "App notifications disabled skipping alert");
         }
     }
 
@@ -422,15 +317,6 @@ public class NotifyIconWrapper : IDisposable
         if (disposing)
         {
             App.Logger.WriteLine("NotifyIconWrapper::Dispose", "Disposing NotifyIcon");
-            if (_subscribedWatcher != null)
-            {
-                try
-                {
-                    _subscribedWatcher.OnGameJoin -= ActivityWatcher_OnGameJoin;
-                }
-                catch { }
-                _subscribedWatcher = null;
-            }
             if (_menuContainer != null)
             {
                 try
