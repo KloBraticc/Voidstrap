@@ -195,7 +195,7 @@
                 </ItemsControl.ItemTemplate>
               </ComboBox>
             </controls:OptionControl>
-            <controls:OptionControl Header="{resources:Loc Ui_Mods_SkyboxManager}" Description="{resources:Loc Ui_Mods_ChooseASkyboxOnceVoidstrapDownloads}">
+            <ui:Card Margin="0,8,0,0">
               <Grid>
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="Auto" />
@@ -289,11 +289,11 @@
                   <ui:Button Grid.Column="1" Margin="8,0,0,0" Icon="ArrowClockwise24" ToolTip="{resources:Loc Ui_Mods_RefreshSkyboxes}" Command="{Binding RefreshSkyboxesCommand}" IsEnabled="{Binding SkyboxManagerReady}" />
                 </Grid>
                 <Grid Margin="0,8,0,0">
-                  <ui:ToggleSwitch HorizontalAlignment="Right" IsChecked="{Binding SkyboxEnabled, Mode=TwoWay}" IsEnabled="{Binding SkyboxManagerReady}" />
+                  <ui:ToggleSwitch HorizontalAlignment="Right" AutomationProperties.Name="{resources:Loc Ui_Mods_SkyboxManager}" IsChecked="{Binding SkyboxEnabled, Mode=TwoWay}" IsEnabled="{Binding SkyboxManagerReady}" />
                 </Grid>
               </StackPanel>
                 </Grid>
-            </controls:OptionControl>
+            </ui:Card>
             <controls:OptionControl Header="{resources:Loc Ui_Mods_FontManager}" Description="{resources:Loc Ui_Mods_UseALocalFontOrUse}">
               <StackPanel Width="360">
                 <Border Margin="0,0,0,8" Padding="9" MinHeight="54" CornerRadius="6" BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}" Visibility="{Binding FontPreviewVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
