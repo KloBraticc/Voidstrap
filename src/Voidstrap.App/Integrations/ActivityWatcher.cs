@@ -839,6 +839,11 @@ public partial class ActivityWatcher : IDisposable
     {
         CancellationToken token = _playerLifetimeCts.SafeToken();
         FileInfo? logFileInfo = null;
+        if (!string.IsNullOrEmpty(LogLocation) && !File.Exists(LogLocation))
+        {
+            App.Logger.WriteLine("ActivityWatcher::Start", "The given log file is gone, searching for the current one");
+            LogLocation = null!;
+        }
         if (string.IsNullOrEmpty(LogLocation) && OperatingSystem.IsLinux())
         {
             logFileInfo = await WaitForLinuxLogAsync(token);
