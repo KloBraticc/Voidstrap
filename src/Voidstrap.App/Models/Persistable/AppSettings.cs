@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json.Serialization;
 using Voidstrap.Enums;
@@ -63,6 +63,7 @@ namespace Voidstrap.Models.Persistable
         public Dictionary<string, uint> OriginalNetworkMtuValues { get; set; } = [];
         public string BootstrapperTitle { get; set; } = App.ProjectName;
         public string BootstrapperIconCustomLocation { get; set; } = "";
+        public List<string> RecentCustomIcons { get; set; } = [];
         public Theme Theme2 { get; set; } = Theme.Dark;
         public string? CustomAccentColor { get; set; }
         public Dictionary<string, Models.SettingTasks.ShortcutAppearance> ShortcutAppearances { get; set; } = new();

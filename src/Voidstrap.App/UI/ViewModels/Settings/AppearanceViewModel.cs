@@ -930,6 +930,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             App.Settings.Prop.BootstrapperIcon = value;
             App.Settings.SaveDeferred();
             OnPropertyChanged(nameof(Icon));
+            OnPropertyChanged(nameof(IsCustomIcon));
             Voidstrap.UI.LinuxApplicationIdentity.Refresh();
         }
     }
@@ -962,6 +963,46 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         }
     }
 
+    public bool IsCustomIcon => Icon == BootstrapperIcon.IconCustom;
+
+    public ObservableCollection<CustomIconChoice> CustomIconChoices { get; } = new();
+
+    public ICommand SelectCustomIconCommand => new RelayCommand<string>(SelectCustomIcon);
+
+    private void SelectCustomIcon(string? path)
+    {
+        if (!string.IsNullOrEmpty(path) && File.Exists(path))
+            CustomIconLocation = path;
+        else
+            RebuildCustomIconChoices();
+    }
+
+    private const int MaxRecentCustomIcons = 12;
+
+    private void RebuildCustomIconChoices()
+    {
+        string current = App.Settings.Prop.BootstrapperIconCustomLocation;
+        List<string> recent = App.Settings.Prop.RecentCustomIcons ??= [];
+        if (!string.IsNullOrEmpty(current) && File.Exists(current))
+        {
+            recent.RemoveAll(path => string.Equals(path, current, StringComparison.OrdinalIgnoreCase));
+            recent.Insert(0, current);
+        }
+        recent.RemoveAll(path => string.IsNullOrEmpty(path) || !File.Exists(path));
+        if (recent.Count > MaxRecentCustomIcons)
+            recent.RemoveRange(MaxRecentCustomIcons, recent.Count - MaxRecentCustomIcons);
+        CustomIconChoices.Clear();
+        foreach (string path in recent)
+        {
+            CustomIconChoices.Add(new CustomIconChoice
+            {
+                Path = path,
+                Image = AnimatedIcon.LoadFirstFrame(path, 64),
+                IsSelected = string.Equals(path, current, StringComparison.OrdinalIgnoreCase)
+            });
+        }
+    }
+
     public string Title
     {
         get { return App.Settings.Prop.BootstrapperTitle; }
@@ -991,7 +1032,9 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             App.Settings.Prop.BootstrapperIconCustomLocation = value;
             App.Settings.SaveDeferred();
             RefreshCustomIconEntry();
+            RebuildCustomIconChoices();
             OnPropertyChanged(nameof(Icon));
+            OnPropertyChanged(nameof(IsCustomIcon));
             OnPropertyChanged(nameof(StudioIcon));
             OnPropertyChanged(nameof(CustomIconLocation));
             Voidstrap.UI.LinuxApplicationIdentity.Refresh();
@@ -1119,6 +1162,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         ImportBackgroundCommand2 = new RelayCommand<object>(ImportFile);
         RemoveBackgroundCommand2 = new RelayCommand<object>(RemoveFile);
         RebuildIcons();
+        RebuildCustomIconChoices();
         PopulateCustomThemes();
         LoadSidebarItems();
     }
@@ -1662,6 +1706,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         App.Settings.SaveDeferred();
         OnPropertyChanged(nameof(CustomIconLocation));
         RefreshCustomIconEntry();
+        RebuildCustomIconChoices();
         return true;
     }
 

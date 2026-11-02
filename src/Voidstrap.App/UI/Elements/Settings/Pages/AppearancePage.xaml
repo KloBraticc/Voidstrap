@@ -597,8 +597,18 @@
         </TabItem.Header>
         <StackPanel Margin="10">
           <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="{resources:Loc Paths_Icons}" />
-          <controls:OptionControl x:Name="IconSelector" Header="{resources:Loc Menu_Appearance_Icon_Title}" Description="{resources:Loc Menu_Appearance_Icon_Description}">
-            <ComboBox Padding="10,5,10,5" SelectedValuePath="IconType" ItemsSource="{Binding Icons, Mode=OneWay}" SelectedValue="{Binding Icon, Mode=TwoWay}">
+          <ui:CardExpander x:Name="IconSelector" Margin="0,8,0,0" Style="{StaticResource NoUserExpansionCardExpanderStyle}" IsExpanded="{Binding IsCustomIcon, Mode=OneWay}">
+            <HeaderedContentControl.Header>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center">
+                  <TextBlock FontSize="14" Text="{resources:Loc Menu_Appearance_Icon_Title}" />
+                  <TextBlock FontSize="12" Text="{resources:Loc Menu_Appearance_Icon_Description}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                </StackPanel>
+                <ComboBox Grid.Column="1" VerticalAlignment="Center" Padding="10,5,10,5" SelectedValuePath="IconType" ItemsSource="{Binding Icons, Mode=OneWay}" SelectedValue="{Binding Icon, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
                   <Grid>
@@ -612,7 +622,36 @@
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
             </ComboBox>
-          </controls:OptionControl>
+              </Grid>
+            </HeaderedContentControl.Header>
+            <WrapPanel Margin="0,4,0,0">
+              <ItemsControl ItemsSource="{Binding CustomIconChoices}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <WrapPanel />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <ui:Button Width="64" Height="64" Margin="0,0,8,8" Padding="0" ToolTip="{Binding Path}" Command="{Binding DataContext.SelectCustomIconCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding Path}">
+                      <ui:Button.Style>
+                        <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                          <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                              <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+                              <Setter Property="BorderThickness" Value="2" />
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </ui:Button.Style>
+                      <Image Width="40" Height="40" Source="{Binding Image}" RenderOptions.BitmapScalingMode="HighQuality" />
+                    </ui:Button>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <ui:Button Width="64" Height="64" Margin="0,0,8,8" Padding="0" Icon="ImageAdd24" ToolTip="{resources:Loc Ui_Mods_Skybox_ChooseImage}" Command="{Binding BrowseCustomIconLocationCommand}" />
+            </WrapPanel>
+          </ui:CardExpander>
           <controls:OptionControl x:Name="StudioIconSelector" Header="{resources:Loc Ui_Appearance_StudioIcon}" Description="{resources:Loc Ui_Appearance_StudioIconDescription}" Visibility="{Binding StudioIconVisibility, Mode=OneWay}">
             <ComboBox Padding="10,5,10,5" SelectedValuePath="IconType" ItemsSource="{Binding Icons, Mode=OneWay}" SelectedValue="{Binding StudioIcon, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
