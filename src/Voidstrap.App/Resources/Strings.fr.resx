@@ -9715,4 +9715,10 @@ Autoriser ?</value>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Créez un écran virtuel à {0} Hz qui permet à Roblox de dépasser la fréquence de rafraîchissement de votre écran en jeu. Réglez aussi la fréquence d'images maximale de Roblox en jeu sur {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Déplacer la section vers le haut</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Déplacer la section vers le bas</value>
+  </data>
 </root>

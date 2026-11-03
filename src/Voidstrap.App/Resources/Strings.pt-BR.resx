@@ -9718,4 +9718,10 @@ Permitir?</value>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Crie uma tela virtual de {0} Hz que permite ao Roblox ultrapassar a taxa de atualização da sua tela no jogo. Defina também a taxa máxima de quadros do Roblox no jogo como {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Mover seção para cima</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Mover seção para baixo</value>
+  </data>
 </root>

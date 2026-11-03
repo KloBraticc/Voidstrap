@@ -9717,4 +9717,10 @@ Povolit?</value>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Vytvořte virtuální displej s {0} Hz, který Robloxu umožní ve hře překročit obnovovací frekvenci Vaší obrazovky. Nastavte také maximální snímkovou frekvenci ve hře Roblox na {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Přesunout sekci nahoru</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Přesunout sekci dolů</value>
+  </data>
 </root>

@@ -9717,4 +9717,10 @@ Sallitaanko?</value>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Luo {0} Hz:n virtuaalinäyttö, jonka avulla Roblox voi ylittää näyttösi virkistystaajuuden pelissä. Aseta myös Robloxin pelinsisäinen enimmäiskuvataajuus arvoon {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Siirrä osio ylös</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Siirrä osio alas</value>
+  </data>
 </root>

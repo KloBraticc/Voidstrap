@@ -9403,4 +9403,10 @@ Allow it?</value>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Create a {0} Hz virtual display that lets Roblox go above your screen's refresh rate in game. Also set Roblox's in game Maximum Frame Rate to {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Move section up</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Move section down</value>
+  </data>
 </root>

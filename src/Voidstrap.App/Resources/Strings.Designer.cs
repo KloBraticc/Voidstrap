@@ -1725,6 +1725,8 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Home_DoneEditingLayout => ResourceManager.GetString("Ui.Home.DoneEditingLayout", resourceCulture);
 
+        public static string Ui_Home_MoveSectionUpTooltip => ResourceManager.GetString("Ui.Home.MoveSectionUpTooltip", resourceCulture);
+        public static string Ui_Home_MoveSectionDownTooltip => ResourceManager.GetString("Ui.Home.MoveSectionDownTooltip", resourceCulture);
         public static string Ui_Home_ResetLayout => ResourceManager.GetString("Ui.Home.ResetLayout", resourceCulture);
 
         public static string Ui_Home_HiddenSections => ResourceManager.GetString("Ui.Home.HiddenSections", resourceCulture);

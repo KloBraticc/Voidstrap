@@ -9718,4 +9718,10 @@ Permiți?</value>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Creează un ecran virtual de {0} Hz care îi permite lui Roblox să depășească rata de reîmprospătare a ecranului tău în joc. Setează și rata maximă de cadre din joc a Roblox la {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Mută secțiunea în sus</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Mută secțiunea în jos</value>
+  </data>
 </root>

@@ -9715,4 +9715,10 @@
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>أنشئ شاشة افتراضية بتردد {0} هرتز تتيح لـ Roblox تجاوز معدل تحديث شاشتك داخل اللعبة. واضبط أيضًا الحد الأقصى لمعدل الإطارات داخل لعبة Roblox على {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>نقل القسم لأعلى</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>نقل القسم لأسفل</value>
+  </data>
 </root>

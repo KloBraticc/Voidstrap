@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using Voidstrap.Integrations.Plugins;
@@ -15,6 +16,10 @@ public partial class HomePage
         ["studioFavorites", "studioRecent", "studioOwned", "studioFiles", "studioTemplates"];
 
     private Border? _dropSection;
+
+    private bool _dropAfter;
+
+    private DropLineAdorner? _dropAdorner;
 
     private Border? _dragSection;
 
@@ -221,6 +226,18 @@ public partial class HomePage
             return;
         _dragSection = FindSection(grip);
         _dragStart = e.GetPosition(this);
+        if (_dragSection != null)
+        {
+            grip.CaptureMouse();
+            e.Handled = true;
+        }
+    }
+
+    private void SectionGrip_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+        _dragSection = null;
+        if (sender is UIElement grip && grip.IsMouseCaptured)
+            grip.ReleaseMouseCapture();
     }
 
     private void SectionGrip_MouseMove(object sender, MouseEventArgs e)
@@ -241,6 +258,8 @@ public partial class HomePage
         const string LOG_IDENT = "HomePage::SectionDrag";
         Border section = _dragSection;
         _dragSection = null;
+        if (sender is UIElement grip && grip.IsMouseCaptured)
+            grip.ReleaseMouseCapture();
         try
         {
             section.Opacity = 0.55;
@@ -253,7 +272,7 @@ public partial class HomePage
         finally
         {
             section.Opacity = 1.0;
-            SetDropHighlight(null);
+            SetDropHighlight(null, false);
         }
     }
 
@@ -270,7 +289,7 @@ public partial class HomePage
         if (sender is not Border target || !IsSectionDrag(e, target))
             return;
         e.Effects = DragDropEffects.Move;
-        SetDropHighlight(target);
+        SetDropHighlight(target, e.GetPosition(target).Y >= target.ActualHeight / 2);
         AutoScrollSectionDrag(e, target);
         e.Handled = true;
     }
@@ -278,12 +297,12 @@ public partial class HomePage
     private void Section_DragLeave(object sender, DragEventArgs e)
     {
         if (sender is Border target && ReferenceEquals(_dropSection, target))
-            SetDropHighlight(null);
+            SetDropHighlight(null, false);
     }
 
     private void Section_Drop(object sender, DragEventArgs e)
     {
-        SetDropHighlight(null);
+        SetDropHighlight(null, false);
         if (sender is not Border target || !IsSectionDrag(e, target))
             return;
         string? key = e.Data.GetData(DataFormats.StringFormat) as string;
@@ -297,23 +316,81 @@ public partial class HomePage
             to++;
         if (from < to)
             to--;
-        root.Children.Remove(source);
-        root.Children.Insert(Math.Clamp(to, 0, root.Children.Count), source);
-        SaveLayout();
-        DetachModHosts(root);
-        PluginAnchors.ApplyAll();
+        MoveSection(root, source, to);
         e.Handled = true;
     }
 
-    private void SetDropHighlight(Border? target)
+    private void MoveSection(Panel root, Border section, int index)
     {
-        if (ReferenceEquals(_dropSection, target))
+        int from = root.Children.IndexOf(section);
+        index = Math.Clamp(index, 0, root.Children.Count - 1);
+        if (from < 0 || from == index)
             return;
-        if (_dropSection != null)
-            _dropSection.Opacity = 1.0;
+        root.Children.Remove(section);
+        root.Children.Insert(index, section);
+        SaveLayout();
+        DetachModHosts(root);
+        PluginAnchors.ApplyAll();
+        section.BringIntoView();
+    }
+
+    private void SectionMoveUp_Click(object sender, RoutedEventArgs e) => StepSection(sender, -1);
+
+    private void SectionMoveDown_Click(object sender, RoutedEventArgs e) => StepSection(sender, 1);
+
+    private void StepSection(object sender, int direction)
+    {
+        if (sender is not FrameworkElement element || FindSection(element) is not Border section || section.Parent is not Panel root)
+            return;
+        List<Border> visible = root.Children.OfType<Border>()
+            .Where(candidate => IsSectionKey(candidate.Tag) && candidate.Visibility == Visibility.Visible)
+            .ToList();
+        int position = visible.IndexOf(section) + direction;
+        if (position < 0 || position >= visible.Count)
+            return;
+        int target = root.Children.IndexOf(visible[position]);
+        MoveSection(root, section, target);
+    }
+
+    private void SetDropHighlight(Border? target, bool after)
+    {
+        if (ReferenceEquals(_dropSection, target) && _dropAfter == after)
+            return;
+        if (_dropAdorner != null)
+        {
+            AdornerLayer.GetAdornerLayer(_dropAdorner.AdornedElement)?.Remove(_dropAdorner);
+            _dropAdorner = null;
+        }
         _dropSection = target;
-        if (_dropSection != null)
-            _dropSection.Opacity = 0.7;
+        _dropAfter = after;
+        if (target == null || AdornerLayer.GetAdornerLayer(target) is not AdornerLayer layer)
+            return;
+        Brush brush = TryFindResource("AccentColorSecondaryBrush") as Brush ?? Brushes.White;
+        _dropAdorner = new DropLineAdorner(target, after, brush);
+        layer.Add(_dropAdorner);
+    }
+
+    private sealed class DropLineAdorner : Adorner
+    {
+        private readonly bool _after;
+
+        private readonly Pen _pen;
+
+        public DropLineAdorner(UIElement adorned, bool after, Brush brush)
+            : base(adorned)
+        {
+            _after = after;
+            _pen = new Pen(brush, 3) { StartLineCap = PenLineCap.Round, EndLineCap = PenLineCap.Round };
+            _pen.Freeze();
+            IsHitTestVisible = false;
+        }
+
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            Size size = AdornedElement.RenderSize;
+            double y = _after ? size.Height + 4 : -4;
+            drawingContext.DrawLine(_pen, new Point(8, y), new Point(Math.Max(8, size.Width - 8), y));
+        }
     }
 
     private void AutoScrollSectionDrag(DragEventArgs e, Border target)

@@ -9716,4 +9716,10 @@ Engedélyezed?</value>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Hozz létre egy {0} Hz-es virtuális kijelzőt, amellyel a Roblox játék közben túlléphet a képernyőd frissítési gyakoriságán. Állítsd a Roblox játékon belüli maximális képkockasebességét is {0} értékre.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Szakasz mozgatása felfelé</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Szakasz mozgatása lefelé</value>
+  </data>
 </root>

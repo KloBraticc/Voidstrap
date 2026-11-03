@@ -9715,4 +9715,10 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>{0} Hz 가상 디스플레이를 만들어 게임 중 Roblox가 화면 주사율을 넘을 수 있도록 합니다. Roblox 게임 내 최대 프레임 속도도 {0}(으)로 설정하십시오.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>섹션을 위로 이동</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>섹션을 아래로 이동</value>
+  </data>
 </root>

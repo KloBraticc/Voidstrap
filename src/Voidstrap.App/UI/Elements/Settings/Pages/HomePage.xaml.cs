@@ -15,7 +15,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             _viewModel = new HomePageViewModel();
             DataContext = _viewModel;
             InitializeComponent();
-            WireLayoutSections();
             ApplyHomeLayout();
             Loaded += OnHomePageLoaded;
             Unloaded += OnHomePageUnloaded;
@@ -38,6 +37,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             _viewModel.RiShadeReleaseRequested -= OnRiShadeReleaseRequested;
             _viewModel.RiShadeReleaseRequested += OnRiShadeReleaseRequested;
             _viewModel.RefreshMatchmakerState();
+            UnwireLayoutSections();
+            WireLayoutSections();
             ApplyHomeLayout();
             Voidstrap.Integrations.Plugins.PluginAnchors.ApplyAll();
             await _viewModel.LoadAsync();

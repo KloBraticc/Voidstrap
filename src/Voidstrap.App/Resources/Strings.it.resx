@@ -9719,4 +9719,10 @@ Consentire?</value>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Crea un display virtuale a {0} Hz che permette a Roblox di superare la frequenza di aggiornamento del tuo schermo in gioco. Imposta anche la frequenza massima dei fotogrammi di Roblox in gioco su {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Sposta la sezione in alto</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Sposta la sezione in basso</value>
+  </data>
 </root>

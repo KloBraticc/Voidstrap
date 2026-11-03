@@ -9718,4 +9718,10 @@ Toestaan?</value>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Maak een virtueel scherm van {0} Hz waarmee Roblox in het spel boven de verversingssnelheid van je scherm kan uitkomen. Stel ook de maximale framerate van Roblox in het spel in op {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Sectie omhoog verplaatsen</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Sectie omlaag verplaatsen</value>
+  </data>
 </root>

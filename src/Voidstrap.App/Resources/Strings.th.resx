@@ -9711,4 +9711,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>สร้างจอแสดงผลเสมือน {0} Hz ที่ช่วยให้ Roblox ทำงานเกินอัตรารีเฟรชของหน้าจอคุณในเกมได้ และตั้งค่าอัตราเฟรมสูงสุดในเกมของ Roblox เป็น {0} ด้วย</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>ย้ายส่วนขึ้น</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>ย้ายส่วนลง</value>
+  </data>
 </root>

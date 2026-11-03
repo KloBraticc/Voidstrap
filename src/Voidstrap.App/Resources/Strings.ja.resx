@@ -9731,4 +9731,10 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>{0} Hz の仮想ディスプレイを作成し、ゲーム中に Roblox が画面のリフレッシュレートを超えられるようにします。Roblox のゲーム内の最大フレームレートも {0} に設定してください。</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>セクションを上に移動</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>セクションを下に移動</value>
+  </data>
 </root>

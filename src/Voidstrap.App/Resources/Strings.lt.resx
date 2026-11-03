@@ -9718,4 +9718,10 @@ Leisti?</value>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Sukurkite {0} Hz virtualų ekraną, leidžiantį Roblox žaidime viršyti jūsų ekrano atnaujinimo dažnį. Taip pat nustatykite Roblox žaidimo didžiausią kadrų dažnį į {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Perkelti skiltį aukštyn</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Perkelti skiltį žemyn</value>
+  </data>
 </root>

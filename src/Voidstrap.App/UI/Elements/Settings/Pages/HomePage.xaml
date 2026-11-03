@@ -325,6 +325,25 @@
             <Setter Property="ToolTip" Value="{resources:Loc Ui_Home_DragSectionTooltip}"/>
             <EventSetter Event="MouseLeftButtonDown" Handler="SectionGrip_MouseLeftButtonDown"/>
             <EventSetter Event="MouseMove" Handler="SectionGrip_MouseMove"/>
+            <EventSetter Event="MouseLeftButtonUp" Handler="SectionGrip_MouseLeftButtonUp"/>
+        </Style>
+
+        <Style x:Key="HomeSectionMoveUpButtonStyle" TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+            <Setter Property="Appearance" Value="Transparent"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Icon" Value="ArrowUp24"/>
+            <Setter Property="ToolTip" Value="{resources:Loc Ui_Home_MoveSectionUpTooltip}"/>
+            <EventSetter Event="Click" Handler="SectionMoveUp_Click"/>
+        </Style>
+
+        <Style x:Key="HomeSectionMoveDownButtonStyle" TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+            <Setter Property="Appearance" Value="Transparent"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Icon" Value="ArrowDown24"/>
+            <Setter Property="ToolTip" Value="{resources:Loc Ui_Home_MoveSectionDownTooltip}"/>
+            <EventSetter Event="Click" Handler="SectionMoveDown_Click"/>
         </Style>
 
         <Style x:Key="HomeSectionHideButtonStyle" TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
@@ -451,6 +470,8 @@
                             <Border Style="{StaticResource HomeSectionGripStyle}">
                                 <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
                             </Border>
+                            <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
+                            <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
                             <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
                         </StackPanel>
                     </Grid>
@@ -513,6 +534,8 @@
                             <Border Style="{StaticResource HomeSectionGripStyle}">
                                 <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
                             </Border>
+                            <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
+                            <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
                             <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
                         </StackPanel>
                     </Grid>
@@ -700,6 +723,8 @@
                             <Border Style="{StaticResource HomeSectionGripStyle}">
                                 <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
                             </Border>
+                            <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
+                            <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
                             <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
                         </StackPanel>
                     </Grid>
@@ -981,6 +1006,8 @@
                             <Border Style="{StaticResource HomeSectionGripStyle}">
                                 <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
                             </Border>
+                            <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
+                            <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
                             <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
                         </StackPanel>
                     </Grid>
@@ -1030,6 +1057,8 @@
                             <Border Style="{StaticResource HomeSectionGripStyle}">
                                 <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
                             </Border>
+                            <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
+                            <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
                             <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
                         </StackPanel>
                     </Grid>
@@ -1048,6 +1077,8 @@
                             <Border Style="{StaticResource HomeSectionGripStyle}">
                                 <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
                             </Border>
+                            <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
+                            <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
                             <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
                         </StackPanel>
                     </Grid>
@@ -1067,6 +1098,8 @@
                             <Border Style="{StaticResource HomeSectionGripStyle}">
                                 <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
                             </Border>
+                            <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
+                            <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
                             <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
                         </StackPanel>
                     </Grid>
@@ -1123,6 +1156,8 @@
                             <Border Style="{StaticResource HomeSectionGripStyle}">
                                 <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
                             </Border>
+                            <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
+                            <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
                             <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
                         </StackPanel>
                     </Grid>
@@ -1142,6 +1177,8 @@
                             <Border Style="{StaticResource HomeSectionGripStyle}">
                                 <ui:SymbolIcon Symbol="Drag20" FontSize="14" Foreground="#FF0B0D11"/>
                             </Border>
+                            <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
+                            <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
                             <ui:Button Icon="EyeOff24" Style="{StaticResource HomeSectionHideButtonStyle}"/>
                         </StackPanel>
                     </Grid>

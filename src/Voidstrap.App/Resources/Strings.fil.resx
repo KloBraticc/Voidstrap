@@ -9714,4 +9714,10 @@ Payagan ba?</value>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Gumawa ng {0} Hz na virtual display para makalampas ang Roblox sa refresh rate ng screen mo habang naglalaro. Itakda rin sa {0} ang Maximum Frame Rate ng Roblox sa loob ng laro.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Ilipat pataas ang seksyon</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Ilipat pababa ang seksyon</value>
+  </data>
 </root>

@@ -9708,4 +9708,10 @@ Benarkan?</value>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Cipta paparan maya {0} Hz yang membolehkan Roblox melebihi kadar segar semula skrin anda dalam permainan. Tetapkan juga Kadar Bingkai Maksimum Roblox dalam permainan kepada {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Alihkan bahagian ke atas</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Alihkan bahagian ke bawah</value>
+  </data>
 </root>

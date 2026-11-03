@@ -9717,4 +9717,10 @@ Zezwolić?</value>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Utwórz wirtualny ekran {0} Hz, który pozwoli Robloxowi przekroczyć w grze częstotliwość odświeżania twojego ekranu. Ustaw też maksymalną liczbę klatek w grze Roblox na {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Przenieś sekcję w górę</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Przenieś sekcję w dół</value>
+  </data>
 </root>

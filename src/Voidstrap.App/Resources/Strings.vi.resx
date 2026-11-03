@@ -9719,4 +9719,10 @@ Cho phép?</value>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Tạo màn hình ảo {0} Hz để Roblox có thể vượt quá tần số quét màn hình của bạn trong trò chơi. Đồng thời đặt Tốc độ khung hình tối đa trong trò chơi của Roblox thành {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Di chuyển mục lên</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Di chuyển mục xuống</value>
+  </data>
 </root>

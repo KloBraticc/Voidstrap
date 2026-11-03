@@ -9716,4 +9716,10 @@ Tillåta?</value>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Skapa en virtuell skärm på {0} Hz som låter Roblox gå över din skärms uppdateringsfrekvens i spelet. Ställ också in Roblox maximala bildfrekvens i spelet på {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Flytta avsnittet uppåt</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Flytta avsnittet nedåt</value>
+  </data>
 </root>

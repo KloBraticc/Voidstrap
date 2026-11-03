@@ -9716,4 +9716,10 @@ Erlauben?</value>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Erstelle ein virtuelles Display mit {0} Hz, damit Roblox im Spiel über die Bildwiederholrate deines Bildschirms hinausgehen kann. Stelle außerdem die maximale Bildrate im Spiel von Roblox auf {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Abschnitt nach oben verschieben</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Abschnitt nach unten verschieben</value>
+  </data>
 </root>

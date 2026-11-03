@@ -9716,4 +9716,10 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Создайте виртуальный дисплей на {0} Гц, чтобы Roblox мог превышать частоту обновления Вашего экрана в игре. Также установите максимальную частоту кадров в игре Roblox на {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Переместить раздел вверх</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Переместить раздел вниз</value>
+  </data>
 </root>

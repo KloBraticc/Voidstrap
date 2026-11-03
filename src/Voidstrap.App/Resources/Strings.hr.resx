@@ -9716,4 +9716,10 @@ Dopustiti?</value>
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Napravi virtualni zaslon od {0} Hz koji Robloxu omogućuje da u igri premaši frekvenciju osvježavanja tvog zaslona. Također postavi najveću brzinu sličica u igri Roblox na {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Pomakni odjeljak gore</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Pomakni odjeljak dolje</value>
+  </data>
 </root>

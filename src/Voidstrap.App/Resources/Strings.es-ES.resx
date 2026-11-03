@@ -9716,4 +9716,10 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Crea una pantalla virtual de {0} Hz que permite a Roblox superar la frecuencia de actualización de tu pantalla en el juego. Ajusta también la velocidad máxima de fotogramas de Roblox en el juego a {0}.</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Mover sección hacia arriba</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Mover sección hacia abajo</value>
+  </data>
 </root>

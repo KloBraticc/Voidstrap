@@ -9740,4 +9740,10 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
     <value>创建一个 {0} Hz 的虚拟显示器，让 Roblox 在游戏中突破您屏幕的刷新率。同时请将 Roblox 游戏内的最大帧率设为 {0}。</value>
   </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>上移板块</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>下移板块</value>
+  </data>
 </root>
