@@ -23,15 +23,18 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           ref: output
-      - uses: Platane/snk/svg-only@d8f6715049803e982ee5ff501b6b9b7d5deeb09b
-        with:
-          github_user_name: ${{ github.repository_owner }}
-          outputs: |
-            github-contribution-grid-snake.svg
-            github-contribution-grid-snake-dark.svg?palette=github-dark
+          path: output
+      - name: Test the contribution calendar
+        run: python3 -B -m unittest discover -s .github/scripts -p 'test_generate_snake.py'
+      - name: Generate the contribution calendar
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 -B .github/scripts/generate_snake.py output
       - name: Publish the snake to the output branch
+        working-directory: output
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
