@@ -482,7 +482,7 @@
                     </StackPanel>
                 </Border>
 
-                <Border x:Name="HomeSectionHero" Style="{StaticResource HomeSectionStyle}">
+                <Border x:Name="HomeSectionHero" Tag="hero" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -513,7 +513,7 @@
                     </Grid>
                 </Border>
 
-                <Border x:Name="HomeSectionNews" Style="{StaticResource HomeSectionStyle}">
+                <Border x:Name="HomeSectionNews" Tag="news" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -589,7 +589,7 @@
                 </Border>
 
 
-                <Border x:Name="HomeSectionCatalog" Style="{StaticResource HomeSectionStyle}">
+                <Border x:Name="HomeSectionCatalog" Tag="catalog" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -789,7 +789,7 @@
                 </Border>
 
 
-                <Border x:Name="HomeSectionContinue" Style="{StaticResource HomeSectionStyle}">
+                <Border x:Name="HomeSectionContinue" Tag="continue" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -1113,7 +1113,7 @@
                     </StackPanel>
                 </Border>
 
-                <Border x:Name="StudioSectionFavorites" Style="{StaticResource HomeSectionStyle}">
+                <Border x:Name="StudioSectionFavorites" Tag="studioFavorites" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -1144,7 +1144,7 @@
                     </Grid>
                 </Border>
 
-                <Border x:Name="StudioSectionRecent" Style="{StaticResource HomeSectionStyle}">
+                <Border x:Name="StudioSectionRecent" Tag="studioRecent" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -1175,7 +1175,7 @@
                     </Grid>
                 </Border>
 
-                <Border x:Name="StudioSectionOwned" Style="{StaticResource HomeSectionStyle}">
+                <Border x:Name="StudioSectionOwned" Tag="studioOwned" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -1207,7 +1207,7 @@
                     </Grid>
                 </Border>
 
-                <Border x:Name="StudioSectionFiles" Style="{StaticResource HomeSectionStyle}">
+                <Border x:Name="StudioSectionFiles" Tag="studioFiles" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -1276,7 +1276,7 @@
                     </Grid>
                 </Border>
 
-                <Border x:Name="StudioSectionTemplates" Style="{StaticResource HomeSectionStyle}">
+                <Border x:Name="StudioSectionTemplates" Tag="studioTemplates" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
