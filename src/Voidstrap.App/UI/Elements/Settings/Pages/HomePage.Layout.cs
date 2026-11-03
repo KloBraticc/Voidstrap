@@ -92,6 +92,23 @@ public partial class HomePage
         ApplySectionOrder(RobloxSections, RobloxSectionKeys, App.Settings.Prop.HomeSectionOrder);
         ApplySectionOrder(StudioSections, StudioSectionKeys, App.Settings.Prop.HomeStudioSectionOrder);
         RefreshHiddenTrays();
+        foreach (Border section in LayoutSections())
+        {
+            if (FindSectionTitle(section) is TextBlock title)
+                title.Text = SectionDisplayName((string)section.Tag);
+        }
+    }
+
+    private static TextBlock? FindSectionTitle(DependencyObject parent)
+    {
+        foreach (object child in LogicalTreeHelper.GetChildren(parent))
+        {
+            if (child is TextBlock { Tag: "sectionTitle" } title)
+                return title;
+            if (child is DependencyObject node && FindSectionTitle(node) is TextBlock found)
+                return found;
+        }
+        return null;
     }
 
     private static void ApplySectionOrder(Panel root, string[] defaults, List<string>? saved)
