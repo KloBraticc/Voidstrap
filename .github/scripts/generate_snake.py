@@ -65,49 +65,57 @@ def render(counts, today, theme):
     total = sum(counts[today - timedelta(days=i)] for i in range(21))
     maximum = max((counts[day] for day in days), default=1)
     rows = (len(days) + 6) // 7
-    points = [(col * 44, row * 48) for row in range(rows)
+    points = [(col * 44, row * 28) for row in range(rows)
               for col in (range(7) if row % 2 == 0 else range(6, -1, -1))]
     points += points[-2:0:-1]
-    duration = len(points) * 0.3
-    frames = "".join(f"{i / len(points) * 100:.3f}%{{transform:translate({x}px,{y}px)}}"
+    duration = len(points) * 0.24
+    frames = "".join(f"{i / len(points) * 100:.3f}%{{transform:translate({483 + x}px,{76 + y}px)}}"
                      for i, (x, y) in enumerate(points))
+    head_frames = []
+    for i, (x, y) in enumerate(points):
+        next_x, next_y = points[(i + 1) % len(points)]
+        angle = 0 if next_x > x else 180 if next_x < x else 90 if next_y > y else -90
+        head_frames.append(f"{i / len(points) * 100:.4f}%{{transform:translate({483 + x}px,{76 + y}px) rotate({angle}deg)}}")
+        head_frames.append(f"{(i + 0.94) / len(points) * 100:.4f}%{{transform:translate({483 + next_x}px,{76 + next_y}px) rotate({angle}deg)}}")
     c = THEMES[theme]
-    parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="840" height="390" viewBox="0 0 840 390" role="img" aria-label="Animated contribution calendar for the last 21 days">',
-             f'<style>@keyframes crawl{{{frames}100%{{transform:translate(0px,0px)}}}}'
-             f'.snake{{animation:crawl {duration:.1f}s linear infinite}}'
-             '@media (prefers-reduced-motion:reduce){.snake{animation:none}}</style>',
-             f'<rect width="840" height="390" rx="30" fill="{c["card"]}"/>',
-             f'<path d="{BADGE}" fill="#5C61C4"/>',
-             f'<path d="{FIRE}" transform="translate(40 38)" fill="#FFFFFF"/>',
-             f'<text x="90" y="58" font-family="{FONT}" font-size="24" font-weight="700" fill="{c["text"]}">Contribution snake</text>',
-             '<rect x="28" y="100" width="396" height="262" rx="26" fill="#5C61C4"/>',
-             '<g transform="translate(0 68)">',
+    parts = [f'<svg xmlns="http://www.w3.org/2000/svg" width="840" height="200" viewBox="0 0 840 200" role="img" aria-label="Animated contribution calendar for the last 21 days">',
+             f'<style>@keyframes crawl{{{frames}100%{{transform:translate(483px,76px)}}}}'
+             f'@keyframes face{{{"".join(head_frames)}100%{{transform:translate(483px,76px) rotate(0deg)}}}}'
+             f'.snake{{animation:crawl {duration:.2f}s linear infinite backwards}}'
+             f'.snake-head{{animation:face {duration:.2f}s linear infinite}}'
+             '@media (prefers-reduced-motion:reduce){.snake,.snake-head{animation:none;transform:translate(483px,76px)}}</style>',
+             f'<rect width="840" height="200" rx="30" fill="{c["card"]}"/>',
+             f'<path d="{BADGE}" transform="translate(0 -13)" fill="#5C61C4"/>',
+             f'<path d="{FIRE}" transform="translate(40 25)" fill="#FFFFFF"/>',
+             f'<text x="90" y="45" font-family="{FONT}" font-size="24" font-weight="700" fill="{c["text"]}">Contribution snake</text>',
+             '<rect x="28" y="66" width="396" height="118" rx="26" fill="#5C61C4"/>',
+             '<g transform="translate(0 -40)">',
              f'<path d="{BADGE}" transform="translate(35 90) scale(1.5)" fill="#A8A2E8"/>',
              f'<path d="{FIRE}" transform="translate(97 151)" fill="#2B2A6E"/>',
              f'<text x="162" y="179" font-family="{FONT}" font-size="42" font-weight="800" fill="#FFFFFF">{total:,}</text>',
              f'<text x="162" y="206" font-family="{FONT}" font-size="15" fill="#DDD9F2">Contributions in the last 21 days</text>',
              '</g>',
-             f'<rect x="440" y="100" width="372" height="262" rx="26" fill="{c["surface"]}"/>',
-             f'<text x="464" y="129" font-family="{FONT}" font-size="17" font-weight="700" fill="{c["text"]}">Last 21 days</text>']
+             f'<rect x="440" y="16" width="372" height="168" rx="26" fill="{c["surface"]}"/>',
+             f'<text x="464" y="39" font-family="{FONT}" font-size="17" font-weight="700" fill="{c["text"]}">Last 21 days</text>']
     for col, letter in enumerate("SMTWTFS"):
-        parts.append(f'<text x="{464 + col * 44 + 19}" y="152" font-family="{FONT}" font-size="12" text-anchor="middle" fill="{c["muted"]}">{letter}</text>')
+        parts.append(f'<text x="{464 + col * 44 + 19}" y="57" font-family="{FONT}" font-size="12" text-anchor="middle" fill="{c["muted"]}">{letter}</text>')
     for i in range(rows * 7):
-        x, y = 464 + (i % 7) * 44, 162 + (i // 7) * 48
+        x, y = 464 + (i % 7) * 44, 64 + (i // 7) * 28
         if i >= len(days):
-            parts.append(f'<rect x="{x}" y="{y}" width="38" height="42" rx="12" fill="none" stroke="{c["outline"]}" stroke-width="1.5" stroke-dasharray="4 5"/>')
+            parts.append(f'<rect x="{x}" y="{y}" width="38" height="24" rx="9" fill="none" stroke="{c["outline"]}" stroke-width="1.5" stroke-dasharray="4 5"/>')
             continue
         day = days[i]
         count = counts[day]
         ratio = 0 if maximum <= 4 else count / maximum
         level = 0 if count == 0 else 1 if ratio <= 0.25 else 2 if ratio <= 0.5 else 3 if ratio <= 0.75 else 4
-        parts.append(f'<rect x="{x}" y="{y}" width="38" height="42" rx="12" fill="{c["heat"][level]}"/>')
-        parts.append(f'<text x="{x + 19}" y="{y + 27}" font-family="{FONT}" font-size="14" font-weight="600" text-anchor="middle" fill="{c["heat_text"][level]}">{day.day}</text>')
+        parts.append(f'<rect x="{x}" y="{y}" width="38" height="24" rx="9" fill="{c["heat"][level]}"/>')
+        parts.append(f'<text x="{x + 19}" y="{y + 17}" font-family="{FONT}" font-size="13" font-weight="600" text-anchor="middle" fill="{c["heat_text"][level]}">{day.day}</text>')
         if day == today:
-            parts.append(f'<rect x="{x - 2.5}" y="{y - 2.5}" width="43" height="47" rx="14" fill="none" stroke="{c["ring"]}" stroke-width="2"/>')
+            parts.append(f'<rect x="{x - 2}" y="{y - 2}" width="42" height="28" rx="11" fill="none" stroke="{c["ring"]}" stroke-width="2"/>')
     for i in range(7, 0, -1):
-        radius = max(2.8, 5.2 - i * 0.3)
-        parts.append(f'<circle class="snake" cx="483" cy="168" r="{radius}" fill="{c["ring"]}" style="animation-delay:-{i * 0.035:.3f}s"/>')
-    parts.append(f'<g class="snake"><circle cx="483" cy="168" r="5.5" fill="{c["ring"]}"/><circle cx="481.5" cy="166.5" r="0.8" fill="{c["surface"]}"/><circle cx="484.5" cy="166.5" r="0.8" fill="{c["surface"]}"/></g>')
+        radius = 7.0 - i * 0.35
+        parts.append(f'<circle class="snake" r="{radius:.2f}" fill="{c["ring"]}" stroke="{c["surface"]}" stroke-width="0.6" style="animation-delay:{i * 0.04:.2f}s"/>')
+    parts.append(f'<g class="snake-head"><ellipse rx="9" ry="7" fill="{c["ring"]}" stroke="{c["surface"]}" stroke-width="0.8"/><circle cx="3" cy="-3" r="2" fill="#FFFFFF"/><circle cx="3" cy="3" r="2" fill="#FFFFFF"/><circle cx="3.7" cy="-3" r="1" fill="#2B2A6E"/><circle cx="3.7" cy="3" r="1" fill="#2B2A6E"/></g>')
     parts.append('</svg>')
     return "".join(parts)
 

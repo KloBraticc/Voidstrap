@@ -15,10 +15,15 @@ class CalendarTests(unittest.TestCase):
         for theme in ("dark", "light"):
             svg = render(counts, today, theme)
             root = ET.fromstring(svg)
-            self.assertEqual(root.attrib["viewBox"], "0 0 840 390")
+            self.assertEqual(root.attrib["viewBox"], "0 0 840 200")
             self.assertIn(">32</text>", svg)
             self.assertEqual(svg.count('stroke-dasharray="4 5"'), 2)
-            self.assertEqual(svg.count('class="snake"'), 8)
+            self.assertEqual(svg.count('class="snake"'), 7)
+            self.assertIn('class="snake-head"', svg)
+            self.assertIn('translate(483px,76px)', svg)
+            self.assertIn('rotate(180deg)', svg)
+            self.assertIn('rotate(90deg)', svg)
+            self.assertIn('animation-delay:0.04s', svg)
             self.assertIn("prefers-reduced-motion:reduce", svg)
             self.assertIn('>1</text>', svg)
 
