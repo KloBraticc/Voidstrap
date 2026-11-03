@@ -99,6 +99,12 @@ public partial class HomePage
         }
     }
 
+    private void SectionTitle_Loaded(object sender, RoutedEventArgs e)
+    {
+        if (sender is TextBlock title && FindSection(title)?.Tag is string key)
+            title.Text = SectionDisplayName(key);
+    }
+
     private static TextBlock? FindSectionTitle(DependencyObject parent)
     {
         foreach (object child in LogicalTreeHelper.GetChildren(parent))

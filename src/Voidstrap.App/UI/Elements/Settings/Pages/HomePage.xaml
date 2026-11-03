@@ -293,7 +293,7 @@
                     <Setter Property="BorderBrush" Value="{StaticResource AccentColorSecondaryBrush}"/>
                     <Setter Property="BorderThickness" Value="1"/>
                     <Setter Property="CornerRadius" Value="12"/>
-                    <Setter Property="Padding" Value="10,58,10,10"/>
+                    <Setter Property="Padding" Value="10"/>
                     <Setter Property="Margin" Value="0,0,0,10"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -311,18 +311,19 @@
         <Style x:Key="HomeSectionToolbarStyle" TargetType="Border">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="Height" Value="38"/>
-            <Setter Property="Margin" Value="0,-48,0,0"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="Cursor" Value="SizeAll"/>
+            <Setter Property="ToolTip" Value="{resources:Loc Ui_Home_DragSectionTooltip}"/>
+            <EventSetter Event="MouseLeftButtonDown" Handler="SectionGrip_MouseLeftButtonDown"/>
+            <EventSetter Event="MouseMove" Handler="SectionGrip_MouseMove"/>
+            <EventSetter Event="MouseLeftButtonUp" Handler="SectionGrip_MouseLeftButtonUp"/>
             <Setter Property="Padding" Value="4,0,4,0"/>
             <Setter Property="CornerRadius" Value="8"/>
             <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorDefaultBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Panel.ZIndex" Value="5"/>
-            <Setter Property="Grid.ColumnSpan" Value="99"/>
-            <Setter Property="Grid.RowSpan" Value="1"/>
             <Setter Property="Grid.Row" Value="0"/>
-            <Setter Property="Grid.Column" Value="0"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding DataContext.IsLayoutEditMode, RelativeSource={RelativeSource AncestorType=Page}}" Value="True">
                     <Setter Property="Visibility" Value="Visible"/>
@@ -342,11 +343,6 @@
             <Setter Property="Padding" Value="8,0,8,0"/>
             <Setter Property="CornerRadius" Value="6"/>
             <Setter Property="Margin" Value="0,4,4,4"/>
-            <Setter Property="Cursor" Value="SizeAll"/>
-            <Setter Property="ToolTip" Value="{resources:Loc Ui_Home_DragSectionTooltip}"/>
-            <EventSetter Event="MouseLeftButtonDown" Handler="SectionGrip_MouseLeftButtonDown"/>
-            <EventSetter Event="MouseMove" Handler="SectionGrip_MouseMove"/>
-            <EventSetter Event="MouseLeftButtonUp" Handler="SectionGrip_MouseLeftButtonUp"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/>
@@ -488,7 +484,11 @@
 
                 <Border x:Name="HomeSectionHero" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
-                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="1" Style="{StaticResource HomeSectionContentStyle}">
                             <ContentControl Content="{Binding RiShadeRelease}"
                                             ContentTemplate="{StaticResource NewsCardTemplate}"
                                             Margin="0,12,0,0"
@@ -505,7 +505,7 @@
                                 <Border Style="{StaticResource HomeSectionGripStyle}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <ui:SymbolIcon Symbol="ReOrderDotsVertical24" FontSize="16" Margin="0,0,8,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                                        <TextBlock Tag="sectionTitle" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                        <TextBlock Tag="sectionTitle" Loaded="SectionTitle_Loaded" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                                     </StackPanel>
                                 </Border>
                             </DockPanel>
@@ -515,7 +515,11 @@
 
                 <Border x:Name="HomeSectionNews" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
-                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="1" Style="{StaticResource HomeSectionContentStyle}">
                             <StackPanel>
                                 <Grid Margin="0,12,0,14"
                                       Visibility="{Binding HasLatestNews,
@@ -576,7 +580,7 @@
                                 <Border Style="{StaticResource HomeSectionGripStyle}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <ui:SymbolIcon Symbol="ReOrderDotsVertical24" FontSize="16" Margin="0,0,8,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                                        <TextBlock Tag="sectionTitle" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                        <TextBlock Tag="sectionTitle" Loaded="SectionTitle_Loaded" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                                     </StackPanel>
                                 </Border>
                             </DockPanel>
@@ -587,7 +591,11 @@
 
                 <Border x:Name="HomeSectionCatalog" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
-                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="1" Style="{StaticResource HomeSectionContentStyle}">
                             <StackPanel>
 
                 <Grid Margin="0,8,10,8">
@@ -772,7 +780,7 @@
                                 <Border Style="{StaticResource HomeSectionGripStyle}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <ui:SymbolIcon Symbol="ReOrderDotsVertical24" FontSize="16" Margin="0,0,8,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                                        <TextBlock Tag="sectionTitle" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                        <TextBlock Tag="sectionTitle" Loaded="SectionTitle_Loaded" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                                     </StackPanel>
                                 </Border>
                             </DockPanel>
@@ -783,7 +791,11 @@
 
                 <Border x:Name="HomeSectionContinue" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
-                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="1" Style="{StaticResource HomeSectionContentStyle}">
                             <StackPanel>
 
                 <Grid Margin="0,8,10,8">
@@ -1062,7 +1074,7 @@
                                 <Border Style="{StaticResource HomeSectionGripStyle}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <ui:SymbolIcon Symbol="ReOrderDotsVertical24" FontSize="16" Margin="0,0,8,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                                        <TextBlock Tag="sectionTitle" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                        <TextBlock Tag="sectionTitle" Loaded="SectionTitle_Loaded" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                                     </StackPanel>
                                 </Border>
                             </DockPanel>
@@ -1103,7 +1115,11 @@
 
                 <Border x:Name="StudioSectionFavorites" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
-                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="1" Style="{StaticResource HomeSectionContentStyle}">
                             <StackPanel Visibility="{Binding StudioFavoritesVisibility}">
                     <TextBlock Text="{resources:Loc Ui_Home_Favourites}" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioFavorites}" ItemTemplate="{StaticResource StudioProjectCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
@@ -1120,7 +1136,7 @@
                                 <Border Style="{StaticResource HomeSectionGripStyle}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <ui:SymbolIcon Symbol="ReOrderDotsVertical24" FontSize="16" Margin="0,0,8,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                                        <TextBlock Tag="sectionTitle" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                        <TextBlock Tag="sectionTitle" Loaded="SectionTitle_Loaded" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                                     </StackPanel>
                                 </Border>
                             </DockPanel>
@@ -1130,7 +1146,11 @@
 
                 <Border x:Name="StudioSectionRecent" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
-                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="1" Style="{StaticResource HomeSectionContentStyle}">
                             <StackPanel Visibility="{Binding StudioRecentVisibility}">
                     <TextBlock Text="{resources:Loc Ui_Home_MyRecentExperiences}" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioRecent}" ItemTemplate="{StaticResource StudioProjectCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
@@ -1147,7 +1167,7 @@
                                 <Border Style="{StaticResource HomeSectionGripStyle}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <ui:SymbolIcon Symbol="ReOrderDotsVertical24" FontSize="16" Margin="0,0,8,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                                        <TextBlock Tag="sectionTitle" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                        <TextBlock Tag="sectionTitle" Loaded="SectionTitle_Loaded" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                                     </StackPanel>
                                 </Border>
                             </DockPanel>
@@ -1157,7 +1177,11 @@
 
                 <Border x:Name="StudioSectionOwned" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
-                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="1" Style="{StaticResource HomeSectionContentStyle}">
                             <StackPanel Visibility="{Binding StudioOwnedVisibility}">
                     <TextBlock Text="{resources:Loc Ui_Home_MyExperiences}" FontSize="21" FontWeight="Bold" Margin="0,12,0,4" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                     <TextBlock Text="{resources:Loc Ui_Home_EveryExperienceOnYourAccountNewest}" FontSize="13" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
@@ -1175,7 +1199,7 @@
                                 <Border Style="{StaticResource HomeSectionGripStyle}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <ui:SymbolIcon Symbol="ReOrderDotsVertical24" FontSize="16" Margin="0,0,8,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                                        <TextBlock Tag="sectionTitle" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                        <TextBlock Tag="sectionTitle" Loaded="SectionTitle_Loaded" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                                     </StackPanel>
                                 </Border>
                             </DockPanel>
@@ -1185,7 +1209,11 @@
 
                 <Border x:Name="StudioSectionFiles" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
-                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="1" Style="{StaticResource HomeSectionContentStyle}">
                             <StackPanel Visibility="{Binding StudioLocalFilesVisibility}">
                     <TextBlock Text="{resources:Loc Ui_Home_RecentFiles}" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioLocalFiles}">
@@ -1240,7 +1268,7 @@
                                 <Border Style="{StaticResource HomeSectionGripStyle}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <ui:SymbolIcon Symbol="ReOrderDotsVertical24" FontSize="16" Margin="0,0,8,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                                        <TextBlock Tag="sectionTitle" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                        <TextBlock Tag="sectionTitle" Loaded="SectionTitle_Loaded" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                                     </StackPanel>
                                 </Border>
                             </DockPanel>
@@ -1250,7 +1278,11 @@
 
                 <Border x:Name="StudioSectionTemplates" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
-                        <Grid Style="{StaticResource HomeSectionContentStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="1" Style="{StaticResource HomeSectionContentStyle}">
                             <StackPanel Visibility="{Binding StudioTemplatesVisibility}">
                     <TextBlock Text="{resources:Loc Ui_Home_OpenATemplate}" FontSize="21" FontWeight="Bold" Margin="0,12,0,4" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                     <TextBlock Text="{resources:Loc Ui_Home_SeeWhatSPossibleOnRoblox}" FontSize="13" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
@@ -1268,7 +1300,7 @@
                                 <Border Style="{StaticResource HomeSectionGripStyle}">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <ui:SymbolIcon Symbol="ReOrderDotsVertical24" FontSize="16" Margin="0,0,8,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                                        <TextBlock Tag="sectionTitle" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                        <TextBlock Tag="sectionTitle" Loaded="SectionTitle_Loaded" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                                     </StackPanel>
                                 </Border>
                             </DockPanel>
