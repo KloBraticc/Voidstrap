@@ -2811,7 +2811,7 @@ namespace Voidstrap.Integrations.Overlays
                 {
                     if (!(fgOn && _fgAttached) && !OverlayHub.HomepageBackgroundActive && _backBufferRtv != null)
                     {
-                        _motionBlur.RenderInto(composited, _backBufferRtv, _width, _height);
+                        _motionBlur.RenderInto(composited, _backBufferRtv, _width, _height, _captureSrcMs);
                         blurredIntoBackBuffer = true;
                     }
                     else
@@ -2819,7 +2819,7 @@ namespace Voidstrap.Integrations.Overlays
                         int mbStage = ReferenceEquals(composited, _stageSrv[0]) ? 1 : 0;
                         if (_stageRtv[mbStage] != null && _stageSrv[mbStage] != null)
                         {
-                            _motionBlur.RenderInto(composited, _stageRtv[mbStage]!, _width, _height);
+                            _motionBlur.RenderInto(composited, _stageRtv[mbStage]!, _width, _height, _captureSrcMs);
                             composited = _stageSrv[mbStage]!;
                         }
                     }

@@ -23,6 +23,7 @@ namespace Voidstrap.Integrations.MotionBlur
         private const float DeadZonePixels = 1.5f;
         private const double ResyncGapMs = 250.0;
         private const double ReferenceFps = 60.0;
+        private const double MaxSearchRange = 16.0;
 
         private static int _prepareStarted;
         private static int _prepareFailureLogged;
@@ -39,7 +40,6 @@ namespace Voidstrap.Integrations.MotionBlur
 
         private static readonly ID3D11ShaderResourceView[] _nullSrvs = new ID3D11ShaderResourceView[3];
 
-        private readonly Stopwatch _clock = Stopwatch.StartNew();
         private int _width;
         private int _height;
         private int _set;
@@ -182,7 +182,7 @@ namespace Voidstrap.Integrations.MotionBlur
             _context.RSSetViewport(new Viewport(0, 0, _width, _height, 0, 1));
         }
 
-        public void RenderInto(ID3D11ShaderResourceView input, ID3D11RenderTargetView output, int width, int height)
+        public void RenderInto(ID3D11ShaderResourceView input, ID3D11RenderTargetView output, int width, int height, double frameTimeMs = 0)
         {
             width = Math.Max(16, width);
             height = Math.Max(16, height);
@@ -195,8 +195,8 @@ namespace Voidstrap.Integrations.MotionBlur
             }
 
             int strength = MotionBlurSettings.StrengthIndex;
-            double now = _clock.Elapsed.TotalMilliseconds;
-            double gap = _lastFrameMs > 0 ? now - _lastFrameMs : 0;
+            double now = frameTimeMs > 0 ? frameTimeMs : Stopwatch.GetTimestamp() * 1000.0 / Stopwatch.Frequency;
+            double gap = _lastFrameMs > 0 && now > _lastFrameMs ? now - _lastFrameMs : 0;
             _lastFrameMs = now;
             if (strength <= 0 || !_flow!.Ready || gap > ResyncGapMs)
             {
@@ -214,7 +214,10 @@ namespace Voidstrap.Integrations.MotionBlur
             }
 
             if (gap > 0.5)
-                _intervalEmaMs = _intervalEmaMs <= 0 ? gap : _intervalEmaMs * 0.9 + gap * 0.1;
+            {
+                double sample = _intervalEmaMs > 0 ? Math.Clamp(gap, _intervalEmaMs * 0.5, _intervalEmaMs * 2.0) : gap;
+                _intervalEmaMs = _intervalEmaMs <= 0 ? sample : _intervalEmaMs * 0.95 + sample * 0.05;
+            }
             int current = _set ^ 1;
             _flow.BuildPyramid(current, input);
             if (!_hasPrevious)
@@ -227,7 +230,7 @@ namespace Voidstrap.Integrations.MotionBlur
             }
 
             double fps = _intervalEmaMs > 0.5 ? 1000.0 / _intervalEmaMs : 60.0;
-            float searchRange = (float)Math.Clamp(12.0 * (55.0 / fps), 6.0, 28.0);
+            float searchRange = (float)Math.Clamp(12.0 * (55.0 / fps), 6.0, MaxSearchRange);
             float rateScale = (float)Math.Clamp(fps / ReferenceFps, 0.5, 5.0);
             float resolutionScale = Math.Clamp(_height / 1080f, 0.5f, 3f);
             float deadZone = DeadZonePixels * resolutionScale * MathF.Sqrt(Math.Max(1f, rateScale));
