@@ -30,8 +30,19 @@ fetch_file("${RESHADE_HEADERS_URL}/reshade_api_resource.hpp" 32cdafe6d783813f3ac
 fetch_file("${RESHADE_HEADERS_URL}/reshade_events.hpp" 2717f56e2bd89af6d708c9c316353d6581c5a41d4526629fadba51d13be57a89 "${RESHADE_INCLUDE}/reshade_events.hpp")
 fetch_file("${RESHADE_HEADERS_URL}/reshade_overlay.hpp" ed914b12fbc41ed038287b0163c0bc934772afcff2c22392044c6008adc5ae79 "${RESHADE_INCLUDE}/reshade_overlay.hpp")
 
-add_library(mumu_depth SHARED src/mumu_depth.cpp)
-target_include_directories(mumu_depth PRIVATE "${RESHADE_INCLUDE}")
+find_program(GLSLANG_VALIDATOR glslangValidator HINTS "$ENV{VULKAN_SDK}/Bin" REQUIRED)
+set(SHADER_INCLUDE "${CMAKE_BINARY_DIR}/shaders")
+foreach(shader remap resolve)
+    add_custom_command(
+        OUTPUT "${SHADER_INCLUDE}/${shader}_comp.h"
+        COMMAND "${CMAKE_COMMAND}" -E make_directory "${SHADER_INCLUDE}"
+        COMMAND "${GLSLANG_VALIDATOR}" -V --vn ${shader}_comp -o "${SHADER_INCLUDE}/${shader}_comp.h" "${CMAKE_CURRENT_SOURCE_DIR}/src/${shader}.comp"
+        DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/${shader}.comp")
+    list(APPEND SHADER_HEADERS "${SHADER_INCLUDE}/${shader}_comp.h")
+endforeach()
+
+add_library(mumu_depth SHARED src/mumu_depth.cpp ${SHADER_HEADERS})
+target_include_directories(mumu_depth PRIVATE "${RESHADE_INCLUDE}" "${SHADER_INCLUDE}")
 target_compile_definitions(mumu_depth PRIVATE UNICODE _UNICODE NOMINMAX WIN32_LEAN_AND_MEAN ImTextureID=ImU64)
 target_compile_options(mumu_depth PRIVATE /W4 /WX /permissive- /utf-8 /EHsc)
 set_target_properties(mumu_depth PROPERTIES OUTPUT_NAME mumu_depth SUFFIX ".addon64")

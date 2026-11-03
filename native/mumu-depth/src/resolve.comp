@@ -1,0 +1,17 @@
+#version 450
+
+layout(local_size_x = 8, local_size_y = 8) in;
+layout(set = 0, binding = 0) uniform sampler2DMS source;
+layout(set = 0, binding = 1, r32f) uniform writeonly imageBuffer target;
+layout(push_constant) uniform Params
+{
+    ivec4 size;
+} params;
+
+void main()
+{
+    ivec2 pixel = ivec2(gl_GlobalInvocationID.xy);
+    if (pixel.x >= params.size.x || pixel.y >= params.size.y)
+        return;
+    imageStore(target, pixel.y * params.size.x + pixel.x, vec4(texelFetch(source, pixel, 0).r));
+}

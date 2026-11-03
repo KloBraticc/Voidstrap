@@ -1,0 +1,41 @@
+#version 450
+
+layout(local_size_x = 8, local_size_y = 8) in;
+layout(set = 0, binding = 0, r32f) uniform readonly imageBuffer source;
+layout(set = 0, binding = 1, r32f) uniform writeonly image2D target;
+layout(push_constant) uniform Params
+{
+    vec4 rect;
+    vec4 mode;
+} params;
+
+void main()
+{
+    ivec2 size = imageSize(target);
+    ivec2 pixel = ivec2(gl_GlobalInvocationID.xy);
+    if (pixel.x >= size.x || pixel.y >= size.y)
+        return;
+    vec2 uv = (vec2(pixel) + 0.5) / vec2(size);
+    vec2 local = (uv - params.rect.xy) / params.rect.zw;
+    float depth = params.mode.w;
+    ivec2 src_size = ivec2(params.mode.yz);
+    if (src_size.x > 0 && all(greaterThanEqual(local, vec2(0.0))) && all(lessThanEqual(local, vec2(1.0))))
+    {
+        int bits = int(params.mode.x);
+        int rotation = bits & 3;
+        vec2 src = local;
+        if (rotation == 1)
+            src = vec2(local.y, 1.0 - local.x);
+        else if (rotation == 2)
+            src = vec2(1.0 - local.y, local.x);
+        else if (rotation == 3)
+            src = vec2(1.0 - local.x, 1.0 - local.y);
+        if ((bits & 4) != 0)
+            src.x = 1.0 - src.x;
+        if ((bits & 8) != 0)
+            src.y = 1.0 - src.y;
+        ivec2 texel = clamp(ivec2(src * vec2(src_size)), ivec2(0), src_size - 1);
+        depth = imageLoad(source, texel.y * src_size.x + texel.x).r;
+    }
+    imageStore(target, pixel, vec4(depth));
+}
