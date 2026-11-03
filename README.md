@@ -654,12 +654,6 @@ The macOS virtual display helper implements the [AppleBlox VirtualDisplay approa
   </picture>
 </p>
 
-<p align="center">
-  <a href="https://discord.gg/5tJBqBH8ck">
-    <img src="https://discord.com/api/guilds/1327967202015580223/widget.png?style=banner2" alt="Join the Voidstrap Discord Bro">
-  </a>
-</p>
-
 [shield-repo-downloads]:  https://img.shields.io/github/downloads/KloBraticc/Voidstrap/latest/total?color=981bfe
 [shield-repo-total]:      https://img.shields.io/github/downloads/KloBraticc/Voidstrap/total?color=8a2be2
 [shield-repo-latest]:     https://img.shields.io/github/v/release/KloBraticc/Voidstrap?color=7a39fb
