@@ -19,6 +19,10 @@ public partial class HomePage
 
     private bool _dropAfter;
 
+    private bool _dragging;
+
+    private bool _endingDrag;
+
     private DropLineAdorner? _dropAdorner;
 
     private Border? _dragSection;
@@ -66,26 +70,6 @@ public partial class HomePage
             "studioTemplates" => Strings.Ui_Home_SectionStudioTemplates,
             _ => key,
         };
-
-    private void WireLayoutSections()
-    {
-        foreach (Border section in LayoutSections())
-        {
-            section.DragOver += Section_DragOver;
-            section.DragLeave += Section_DragLeave;
-            section.Drop += Section_Drop;
-        }
-    }
-
-    private void UnwireLayoutSections()
-    {
-        foreach (Border section in LayoutSections())
-        {
-            section.DragOver -= Section_DragOver;
-            section.DragLeave -= Section_DragLeave;
-            section.Drop -= Section_Drop;
-        }
-    }
 
     private void ApplyHomeLayout()
     {
@@ -245,102 +229,109 @@ public partial class HomePage
 
     private void SectionGrip_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        if (sender is not FrameworkElement grip)
+        if (sender is not UIElement grip || FindSection(grip) is not Border section)
             return;
-        _dragSection = FindSection(grip);
+        _dragSection = section;
         _dragStart = e.GetPosition(this);
-        if (_dragSection != null)
-        {
-            grip.CaptureMouse();
-            e.Handled = true;
-        }
-    }
-
-    private void SectionGrip_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-    {
-        _dragSection = null;
-        if (sender is UIElement grip && grip.IsMouseCaptured)
-            grip.ReleaseMouseCapture();
+        _dragging = false;
+        grip.CaptureMouse();
+        e.Handled = true;
     }
 
     private void SectionGrip_MouseMove(object sender, MouseEventArgs e)
     {
-        if (_dragSection == null)
+        if (_dragSection == null || sender is not UIElement grip)
             return;
         if (e.LeftButton != MouseButtonState.Pressed)
         {
-            _dragSection = null;
+            EndSectionDrag(grip, false);
             return;
         }
         Point current = e.GetPosition(this);
         if (
-            Math.Abs(current.X - _dragStart.X) < SystemParameters.MinimumHorizontalDragDistance
+            !_dragging
+            && Math.Abs(current.X - _dragStart.X) < SystemParameters.MinimumHorizontalDragDistance
             && Math.Abs(current.Y - _dragStart.Y) < SystemParameters.MinimumVerticalDragDistance
         )
             return;
-        const string LOG_IDENT = "HomePage::SectionDrag";
-        Border section = _dragSection;
-        _dragSection = null;
-        if (sender is UIElement grip && grip.IsMouseCaptured)
-            grip.ReleaseMouseCapture();
-        try
+        if (!_dragging)
         {
-            section.Opacity = 0.55;
-            DragDrop.DoDragDrop(section, (string)section.Tag, DragDropEffects.Move);
+            _dragging = true;
+            _dragSection.Opacity = 0.55;
         }
-        catch (Exception ex)
-        {
-            App.Logger.WriteLine(LOG_IDENT, "The section could not be dragged: " + ex.GetType().Name);
-        }
-        finally
-        {
-            section.Opacity = 1.0;
-            SetDropHighlight(null, false);
-        }
-    }
-
-    private bool IsSectionDrag(DragEventArgs e, Border target)
-    {
-        if (!e.Data.GetDataPresent(DataFormats.StringFormat))
-            return false;
-        string? key = e.Data.GetData(DataFormats.StringFormat) as string;
-        return key != null && AllSectionKeys.Contains(key) && !ReferenceEquals(SectionByKey(key), target);
-    }
-
-    private void Section_DragOver(object sender, DragEventArgs e)
-    {
-        if (sender is not Border target || !IsSectionDrag(e, target))
-            return;
-        e.Effects = DragDropEffects.Move;
-        SetDropHighlight(target, e.GetPosition(target).Y >= target.ActualHeight / 2);
-        AutoScrollSectionDrag(e, target);
+        AutoScrollSectionDrag(_dragSection);
+        (Border? target, bool after) = SectionDropTarget(_dragSection);
+        SetDropHighlight(target, after);
         e.Handled = true;
     }
 
-    private void Section_DragLeave(object sender, DragEventArgs e)
+    private void SectionGrip_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-        if (sender is Border target && ReferenceEquals(_dropSection, target))
-            SetDropHighlight(null, false);
+        if (sender is UIElement grip)
+            EndSectionDrag(grip, true);
     }
 
-    private void Section_Drop(object sender, DragEventArgs e)
+    private void SectionGrip_LostMouseCapture(object sender, MouseEventArgs e)
     {
+        if (sender is UIElement grip && _dragSection != null && !_endingDrag)
+            EndSectionDrag(grip, false);
+    }
+
+    private void EndSectionDrag(UIElement grip, bool commit)
+    {
+        Border? section = _dragSection;
+        Border? target = _dropSection;
+        bool after = _dropAfter;
+        bool dragged = _dragging;
+        _dragSection = null;
+        _dragging = false;
+        _endingDrag = true;
+        if (grip.IsMouseCaptured)
+            grip.ReleaseMouseCapture();
+        _endingDrag = false;
         SetDropHighlight(null, false);
-        if (sender is not Border target || !IsSectionDrag(e, target))
+        if (section == null)
             return;
-        string? key = e.Data.GetData(DataFormats.StringFormat) as string;
-        Border? source = SectionByKey(key);
-        if (source == null || source.Parent is not Panel root || !ReferenceEquals(target.Parent, root))
+        section.Opacity = 1.0;
+        if (
+            !commit
+            || !dragged
+            || target == null
+            || ReferenceEquals(target, section)
+            || section.Parent is not Panel root
+            || !ReferenceEquals(target.Parent, root)
+        )
             return;
-        Point point = e.GetPosition(target);
-        int from = root.Children.IndexOf(source);
-        int to = root.Children.IndexOf(target);
-        if (point.Y >= target.ActualHeight / 2)
-            to++;
+        int from = root.Children.IndexOf(section);
+        int to = root.Children.IndexOf(target) + (after ? 1 : 0);
         if (from < to)
             to--;
-        MoveSection(root, source, to);
-        e.Handled = true;
+        MoveSection(root, section, to);
+    }
+
+    private static (Border? Target, bool After) SectionDropTarget(Border dragged)
+    {
+        if (dragged.Parent is not Panel root)
+            return (null, false);
+        Point pointer = Mouse.GetPosition(root);
+        Border? best = null;
+        bool after = false;
+        foreach (Border candidate in root.Children.OfType<Border>())
+        {
+            if (!IsSectionKey(candidate.Tag) || candidate.Visibility != Visibility.Visible || candidate.ActualHeight <= 0)
+                continue;
+            double top = candidate.TranslatePoint(new Point(0, 0), root).Y;
+            if (best == null || pointer.Y >= top)
+            {
+                best = candidate;
+                after = pointer.Y >= top + candidate.ActualHeight / 2;
+            }
+            if (pointer.Y < top + candidate.ActualHeight)
+                break;
+        }
+        if (best == null || ReferenceEquals(best, dragged))
+            return (null, false);
+        return (best, after);
     }
 
     private void MoveSection(Panel root, Border section, int index)
@@ -417,16 +408,16 @@ public partial class HomePage
         }
     }
 
-    private void AutoScrollSectionDrag(DragEventArgs e, Border target)
+    private static void AutoScrollSectionDrag(Border section)
     {
-        ScrollViewer? scrollViewer = FindAncestor<ScrollViewer>(target);
+        ScrollViewer? scrollViewer = FindAncestor<ScrollViewer>(section);
         if (scrollViewer == null)
             return;
-        Point position = e.GetPosition(scrollViewer);
-        if (position.Y < 48)
-            scrollViewer.LineUp();
-        else if (position.Y > scrollViewer.ViewportHeight - 48)
-            scrollViewer.LineDown();
+        double y = Mouse.GetPosition(scrollViewer).Y;
+        if (y < 60)
+            scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - 24);
+        else if (y > scrollViewer.ViewportHeight - 60)
+            scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset + 24);
     }
 
     private static T? FindAncestor<T>(DependencyObject element)
