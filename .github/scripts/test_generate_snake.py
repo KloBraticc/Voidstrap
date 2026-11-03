@@ -20,7 +20,7 @@ class CalendarTests(unittest.TestCase):
             self.assertEqual(svg.count('stroke-dasharray="4 5"'), 2)
             self.assertEqual(svg.count('class="snake"'), 7)
             self.assertIn('class="snake-head"', svg)
-            self.assertIn('translate(483px,76px)', svg)
+            self.assertIn('translate(494px,76px)', svg)
             self.assertIn('rotate(180deg)', svg)
             self.assertIn('rotate(90deg)', svg)
             self.assertIn('animation-delay:0.04s', svg)
