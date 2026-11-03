@@ -644,6 +644,7 @@ internal sealed partial class Installer
         }
         if (Voidstrap.Utility.Platform.IsWindows)
         {
+            TrySafe("MuMuRoblox", Voidstrap.Integrations.MuMu.MuMuRoblox.Uninstall);
             WindowsRegistry.Unregister("voidstrap");
             using RegistryKey? registryKey = Registry.CurrentUser.OpenSubKey(
                 "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\roblox-player"

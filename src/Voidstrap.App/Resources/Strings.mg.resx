@@ -9395,4 +9395,31 @@ Avelao izany?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Modely</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>Roblox Android ao amin'ny MuMu Player miaraka amin'ny effet RiShade</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>Fitaovana Voidstrap ao amin'ny MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>Mametraka ny MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>Manomana ny fitaovana Voidstrap</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>Manomboka ny MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>Midira amin'ny Google Play ao amin'ny MuMu Player ary apetraho ny Roblox</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>Mandefa ny Roblox</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>Tsy afaka natomboka tao amin'ny MuMu Player ny Roblox: {0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>Tsy afaka nalamina ny MuMu Player</value>
+  </data>
 </root>

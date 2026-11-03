@@ -37,6 +37,12 @@ public partial class App : Application
 {
     public const string ProjectName = "Voidstrap";
 
+    public const string MuMuLaunchClientCode = "mumu-rishade";
+
+    public const string MuMuRobloxPackage = "com.roblox.client";
+
+    public const string MuMuInstallerUrl = "https://api.mumuplayer.com/api/dl/win?channel=gw-download-win";
+
     public const int MacVirtualDisplayDefaultRefreshRate = 240;
 
     public const int MacVirtualDisplayMinRefreshRate = 30;

@@ -9394,4 +9394,31 @@ Dozvoliti?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Šabloni</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>Android Roblox u MuMu Playeru sa RiShade efektima</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>Voidstrap uređaj u MuMu Playeru</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>Instaliranje MuMu Playera</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>Priprema Voidstrap uređaja</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>Pokretanje MuMu Playera</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>Prijavite se na Google Play u MuMu Playeru i instalirajte Roblox</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>Pokretanje Robloxa</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>Roblox se nije mogao pokrenuti u MuMu Playeru: {0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>MuMu Player se nije mogao postaviti</value>
+  </data>
 </root>

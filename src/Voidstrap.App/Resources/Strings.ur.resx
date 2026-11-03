@@ -9394,4 +9394,31 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>سانچے</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>RiShade اثرات کے ساتھ MuMu Player میں Android Roblox</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>MuMu Player میں Voidstrap ڈیوائس</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>MuMu Player انسٹال ہو رہا ہے</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>Voidstrap ڈیوائس تیار ہو رہی ہے</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>MuMu Player شروع ہو رہا ہے</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>MuMu Player میں Google Play میں سائن ان کریں اور Roblox انسٹال کریں</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>Roblox شروع ہو رہا ہے</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>MuMu Player میں Roblox شروع نہیں ہو سکا: {0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>MuMu Player سیٹ اپ نہیں ہو سکا</value>
+  </data>
 </root>

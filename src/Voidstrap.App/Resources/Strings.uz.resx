@@ -9394,4 +9394,31 @@ Ruxsat berasizmi?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Shablonlar</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>RiShade effektlari bilan MuMu Player ichidagi Android Roblox</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>MuMu Player ichidagi Voidstrap qurilmasi</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>MuMu Player o'rnatilmoqda</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>Voidstrap qurilmasi tayyorlanmoqda</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>MuMu Player ishga tushirilmoqda</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>MuMu Player ichida Google Play hisobiga kiring va Roblox o'rnating</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>Roblox ishga tushirilmoqda</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>Roblox MuMu Player ichida ishga tushmadi: {0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>MuMu Player sozlanmadi</value>
+  </data>
 </root>

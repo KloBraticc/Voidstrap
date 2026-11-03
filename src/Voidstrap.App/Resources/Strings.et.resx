@@ -9394,4 +9394,31 @@ Kas lubada?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Mallid</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>Androidi Roblox MuMu Playeris RiShade efektidega</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>Voidstrapi seade MuMu Playeris</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>MuMu Playeri installimine</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>Voidstrapi seadme ettevalmistamine</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>MuMu Playeri käivitamine</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>Logi MuMu Playeris Google Playsse sisse ja installi Roblox</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>Robloxi käivitamine</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>Robloxi ei saanud MuMu Playeris käivitada: {0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>MuMu Playerit ei saanud seadistada</value>
+  </data>
 </root>

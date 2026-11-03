@@ -9717,4 +9717,31 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>ย้ายส่วนลง</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>Roblox สำหรับ Android ใน MuMu Player พร้อมเอฟเฟกต์ RiShade</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>อุปกรณ์ Voidstrap ใน MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>กำลังติดตั้ง MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>กำลังเตรียมอุปกรณ์ Voidstrap</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>กำลังเริ่ม MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>โปรดลงชื่อเข้าใช้ Google Play ใน MuMu Player และติดตั้ง Roblox</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>กำลังเปิด Roblox</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>ไม่สามารถเริ่ม Roblox ใน MuMu Player ได้: {0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>ไม่สามารถตั้งค่า MuMu Player ได้</value>
+  </data>
 </root>

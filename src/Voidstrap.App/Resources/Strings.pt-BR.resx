@@ -9724,4 +9724,31 @@ Permitir?</value>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Mover seção para baixo</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>Roblox para Android no MuMu Player com efeitos do RiShade</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>Dispositivo do Voidstrap no MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>Instalando o MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>Preparando o dispositivo do Voidstrap</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>Iniciando o MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>Entre no Google Play no MuMu Player e instale o Roblox</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>Iniciando o Roblox</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>Não foi possível iniciar o Roblox no MuMu Player: {0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>Não foi possível configurar o MuMu Player</value>
+  </data>
 </root>

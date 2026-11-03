@@ -9723,4 +9723,31 @@ Povolit?</value>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Přesunout sekci dolů</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>Android Roblox v MuMu Player s efekty RiShade</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>Zařízení Voidstrap v MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>Instalace MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>Příprava zařízení Voidstrap</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>Spouštění MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>Přihlaste se v MuMu Player do Google Play a nainstalujte Roblox</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>Spouštění Robloxu</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>Roblox se v MuMu Player nepodařilo spustit: {0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>MuMu Player se nepodařilo nastavit</value>
+  </data>
 </root>

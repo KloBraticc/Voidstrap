@@ -9395,4 +9395,31 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>תבניות</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>Roblox ל Android ב MuMu Player עם אפקטים של RiShade</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>מכשיר Voidstrap ב MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>מתקין את MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>מכין את מכשיר Voidstrap</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>מפעיל את MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>התחבר ל Google Play ב MuMu Player והתקן את Roblox</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>מפעיל את Roblox</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>לא ניתן היה להפעיל את Roblox ב MuMu Player: {0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>לא ניתן היה להגדיר את MuMu Player</value>
+  </data>
 </root>

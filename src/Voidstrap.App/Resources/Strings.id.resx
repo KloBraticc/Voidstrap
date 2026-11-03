@@ -9725,4 +9725,31 @@ Izinkan?</value>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Pindahkan bagian ke bawah</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>Roblox Android di MuMu Player dengan efek RiShade</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>Perangkat Voidstrap di MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>Memasang MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>Menyiapkan perangkat Voidstrap</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>Memulai MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>Masuk ke Google Play di MuMu Player lalu pasang Roblox</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>Membuka Roblox</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>Roblox tidak dapat dimulai di MuMu Player: {0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>MuMu Player tidak dapat disiapkan</value>
+  </data>
 </root>

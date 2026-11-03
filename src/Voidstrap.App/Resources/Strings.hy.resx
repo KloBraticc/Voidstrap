@@ -9395,4 +9395,31 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Կաղապարներ</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>Android Roblox MuMu Player-ում RiShade էֆեկտներով</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>Voidstrap սարք MuMu Player-ում</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>MuMu Player-ի տեղադրում</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>Voidstrap սարքի նախապատրաստում</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>MuMu Player-ի գործարկում</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>Մուտք գործեք Google Play MuMu Player-ում և տեղադրեք Roblox</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>Roblox-ի գործարկում</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>Չհաջողվեց գործարկել Roblox-ը MuMu Player-ում: {0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>Չհաջողվեց կարգավորել MuMu Player-ը</value>
+  </data>
 </root>

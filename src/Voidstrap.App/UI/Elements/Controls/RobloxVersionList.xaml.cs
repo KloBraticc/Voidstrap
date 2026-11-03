@@ -47,6 +47,7 @@ public partial class RobloxVersionList : UserControl
         {
             DownloadsViewModel.ClientItem => true,
             DownloadsViewModel.DownloadItem => true,
+            DownloadsViewModel.MuMuItem => true,
             _ => false
         };
     }

@@ -9723,4 +9723,31 @@ Sallitaanko?</value>
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Siirrä osio alas</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>Androidin Roblox MuMu Playerissa RiShade tehosteilla</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>Voidstrapin laite MuMu Playerissa</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>Asennetaan MuMu Playeria</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>Valmistellaan Voidstrapin laitetta</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>Käynnistetään MuMu Playeria</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>Kirjaudu Google Playhin MuMu Playerissa ja asenna Roblox</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>Käynnistetään Robloxia</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>Robloxia ei voitu käynnistää MuMu Playerissa: {0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>MuMu Playeria ei voitu määrittää</value>
+  </data>
 </root>

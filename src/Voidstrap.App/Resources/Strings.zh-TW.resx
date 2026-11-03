@@ -9725,4 +9725,31 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>下移區塊</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>在 MuMu Player 中執行帶有 RiShade 效果的 Android 版 Roblox</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>MuMu Player 中的 Voidstrap 裝置</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>正在安裝 MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>正在準備 Voidstrap 裝置</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>正在啟動 MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>請在 MuMu Player 中登入 Google Play 並安裝 Roblox</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>正在啟動 Roblox</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>無法在 MuMu Player 中啟動 Roblox：{0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>無法設定 MuMu Player</value>
+  </data>
 </root>

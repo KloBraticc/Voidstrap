@@ -9394,4 +9394,31 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Πρότυπα</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>Roblox για Android στο MuMu Player με εφέ RiShade</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>Συσκευή Voidstrap στο MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>Εγκατάσταση του MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>Προετοιμασία της συσκευής Voidstrap</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>Εκκίνηση του MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>Συνδεθείτε στο Google Play στο MuMu Player και εγκαταστήστε το Roblox</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>Εκκίνηση του Roblox</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>Δεν ήταν δυνατή η εκκίνηση του Roblox στο MuMu Player: {0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>Δεν ήταν δυνατή η ρύθμιση του MuMu Player</value>
+  </data>
 </root>

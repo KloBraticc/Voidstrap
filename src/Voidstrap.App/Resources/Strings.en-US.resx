@@ -9708,4 +9708,31 @@ Allow it?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Templates</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>Android Roblox in MuMu Player with RiShade effects</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>Voidstrap device in MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>Installing MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>Preparing the Voidstrap device</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>Starting MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>Sign in to Google Play in MuMu Player and install Roblox</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>Launching Roblox</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>Roblox could not be started in MuMu Player: {0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>MuMu Player could not be set up</value>
+  </data>
 </root>

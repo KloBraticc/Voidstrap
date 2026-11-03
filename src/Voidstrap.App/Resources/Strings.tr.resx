@@ -9720,4 +9720,31 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
     <value>Bölümü aşağı taşı</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>MuMu Player içinde RiShade efektleriyle Android Roblox</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>MuMu Player içindeki Voidstrap cihazı</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>MuMu Player yükleniyor</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>Voidstrap cihazı hazırlanıyor</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>MuMu Player başlatılıyor</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>Lütfen MuMu Player içinde Google Play'de oturum açın ve Roblox'u yükleyin</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>Roblox başlatılıyor</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>Roblox MuMu Player içinde başlatılamadı: {0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>MuMu Player kurulamadı</value>
+  </data>
 </root>

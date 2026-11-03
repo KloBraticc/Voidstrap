@@ -10035,5 +10035,14 @@ namespace Voidstrap.Resources {
         public static string Accounts_Vault_Wrong => ResourceManager.GetString("Accounts.Vault.Wrong", resourceCulture);
         public static string Ui_Spotify_ShowInTopBar => ResourceManager.GetString("Ui.Spotify.ShowInTopBar", resourceCulture);
         public static string Ui_Spotify_Queue => ResourceManager.GetString("Ui.Spotify.Queue", resourceCulture);
+        public static string Ui_Downloads_MuMu_Subtitle => ResourceManager.GetString("Ui.Downloads.MuMu.Subtitle", resourceCulture);
+        public static string Ui_Downloads_MuMu_Location => ResourceManager.GetString("Ui.Downloads.MuMu.Location", resourceCulture);
+        public static string MuMu_Status_Installing => ResourceManager.GetString("MuMu.Status.Installing", resourceCulture);
+        public static string MuMu_Status_Preparing => ResourceManager.GetString("MuMu.Status.Preparing", resourceCulture);
+        public static string MuMu_Status_Starting => ResourceManager.GetString("MuMu.Status.Starting", resourceCulture);
+        public static string MuMu_Status_WaitingRoblox => ResourceManager.GetString("MuMu.Status.WaitingRoblox", resourceCulture);
+        public static string MuMu_Status_Launching => ResourceManager.GetString("MuMu.Status.Launching", resourceCulture);
+        public static string MuMu_Error_Failed => ResourceManager.GetString("MuMu.Error.Failed", resourceCulture);
+        public static string MuMu_Error_Setup => ResourceManager.GetString("MuMu.Error.Setup", resourceCulture);
     }
 }

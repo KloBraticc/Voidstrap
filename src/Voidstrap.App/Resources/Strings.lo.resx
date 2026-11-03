@@ -9395,4 +9395,31 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>ແມ່ແບບ</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>Roblox Android ໃນ MuMu Player ພ້ອມເອັບເຟັກ RiShade</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>ອຸປະກອນ Voidstrap ໃນ MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>ກຳລັງຕິດຕັ້ງ MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>ກຳລັງກະກຽມອຸປະກອນ Voidstrap</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>ກຳລັງເລີ່ມ MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>ເຂົ້າສູ່ລະບົບ Google Play ໃນ MuMu Player ແລ້ວຕິດຕັ້ງ Roblox</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>ກຳລັງເປີດ Roblox</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>ບໍ່ສາມາດເລີ່ມ Roblox ໃນ MuMu Player ໄດ້: {0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>ບໍ່ສາມາດຕັ້ງຄ່າ MuMu Player ໄດ້</value>
+  </data>
 </root>

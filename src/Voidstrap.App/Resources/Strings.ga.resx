@@ -9395,4 +9395,31 @@ Ceadaigh é?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Teimpléid</value>
   </data>
+  <data name="Ui.Downloads.MuMu.Subtitle" xml:space="preserve">
+    <value>Roblox Android in MuMu Player le maisiúcháin RiShade</value>
+  </data>
+  <data name="Ui.Downloads.MuMu.Location" xml:space="preserve">
+    <value>Gléas Voidstrap in MuMu Player</value>
+  </data>
+  <data name="MuMu.Status.Installing" xml:space="preserve">
+    <value>MuMu Player á shuiteáil</value>
+  </data>
+  <data name="MuMu.Status.Preparing" xml:space="preserve">
+    <value>Gléas Voidstrap á ullmhú</value>
+  </data>
+  <data name="MuMu.Status.Starting" xml:space="preserve">
+    <value>MuMu Player á thosú</value>
+  </data>
+  <data name="MuMu.Status.WaitingRoblox" xml:space="preserve">
+    <value>Sínigh isteach ar Google Play in MuMu Player agus suiteáil Roblox</value>
+  </data>
+  <data name="MuMu.Status.Launching" xml:space="preserve">
+    <value>Roblox á lainseáil</value>
+  </data>
+  <data name="MuMu.Error.Failed" xml:space="preserve">
+    <value>Níorbh fhéidir Roblox a thosú in MuMu Player: {0}</value>
+  </data>
+  <data name="MuMu.Error.Setup" xml:space="preserve">
+    <value>Níorbh fhéidir MuMu Player a shocrú</value>
+  </data>
 </root>
