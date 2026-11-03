@@ -1573,6 +1573,8 @@ internal sealed partial class Installer
             return;
         if (Directory.Exists(RetiredDirectory))
         {
+            int inUse = 0;
+            int lastError = 0;
             foreach (string file in Directory.EnumerateFiles(RetiredDirectory))
             {
                 if (Windows.Win32.PInvoke.DeleteFile(file))
@@ -1583,9 +1585,14 @@ internal sealed partial class Installer
                 Windows.Win32.PInvoke.SetFileAttributes(file, Windows.Win32.Storage.FileSystem.FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL);
                 if (Windows.Win32.PInvoke.DeleteFile(file))
                     continue;
-                error = Marshal.GetLastWin32Error();
-                App.Logger.WriteLine(LOG_IDENT, "The previous executable is still in use and is removed the next time Voidstrap starts, error " + error);
+                inUse++;
+                lastError = Marshal.GetLastWin32Error();
             }
+            if (inUse > 0)
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    $"{inUse} previous executable(s) are still in use and are removed the next time Voidstrap starts, error {lastError}"
+                );
             if (!Directory.EnumerateFileSystemEntries(RetiredDirectory).Any())
             {
                 if (Windows.Win32.PInvoke.RemoveDirectory(RetiredDirectory))
