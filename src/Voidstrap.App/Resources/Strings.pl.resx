@@ -9708,4 +9708,13 @@ Zezwolić?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Szablony</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Częstotliwość odświeżania wirtualnego ekranu</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Częstotliwość odświeżania w Hz, z jaką działa wirtualny ekran. Roblox może renderować maksymalnie tyle klatek na sekundę.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Utwórz wirtualny ekran {0} Hz, który pozwoli Robloxowi przekroczyć w grze częstotliwość odświeżania twojego ekranu. Ustaw też maksymalną liczbę klatek w grze Roblox na {0}.</value>
+  </data>
 </root>

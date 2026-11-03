@@ -9709,4 +9709,13 @@ Toestaan?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Sjablonen</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Verversingssnelheid van het virtuele scherm</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>De verversingssnelheid in Hz waarop het virtuele scherm draait. Roblox kan tot zoveel frames per seconde renderen.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Maak een virtueel scherm van {0} Hz waarmee Roblox in het spel boven de verversingssnelheid van je scherm kan uitkomen. Stel ook de maximale framerate van Roblox in het spel in op {0}.</value>
+  </data>
 </root>

@@ -9707,4 +9707,13 @@ Erlauben?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Vorlagen</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Bildwiederholrate des virtuellen Displays</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Die Bildwiederholrate in Hz, mit der das virtuelle Display läuft. Roblox kann bis zu so viele Bilder pro Sekunde rendern.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Erstelle ein virtuelles Display mit {0} Hz, damit Roblox im Spiel über die Bildwiederholrate deines Bildschirms hinausgehen kann. Stelle außerdem die maximale Bildrate im Spiel von Roblox auf {0}.</value>
+  </data>
 </root>

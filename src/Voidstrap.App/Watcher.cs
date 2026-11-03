@@ -352,8 +352,9 @@ public partial class Watcher : IDisposable
             _virtualDisplay = null;
             return;
         }
-        if (_virtualDisplay != null)
+        if (_virtualDisplay != null && _virtualDisplay.RefreshRate == Voidstrap.Utility.MacVirtualDisplaySession.CurrentRefreshRate)
             return;
+        _virtualDisplay?.Dispose();
         _virtualDisplay = Voidstrap.Utility.MacVirtualDisplaySession.TakePrestarted();
         if (_virtualDisplay != null)
             return;

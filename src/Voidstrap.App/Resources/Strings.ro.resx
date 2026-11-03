@@ -9709,4 +9709,13 @@ Permiți?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Șabloane</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Rata de reîmprospătare a ecranului virtual</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Rata de reîmprospătare în Hz la care rulează ecranul virtual. Roblox poate randa până la atâtea cadre pe secundă.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Creează un ecran virtual de {0} Hz care îi permite lui Roblox să depășească rata de reîmprospătare a ecranului tău în joc. Setează și rata maximă de cadre din joc a Roblox la {0}.</value>
+  </data>
 </root>

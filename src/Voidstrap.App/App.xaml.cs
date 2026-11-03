@@ -37,6 +37,12 @@ public partial class App : Application
 {
     public const string ProjectName = "Voidstrap";
 
+    public const int MacVirtualDisplayDefaultRefreshRate = 240;
+
+    public const int MacVirtualDisplayMinRefreshRate = 30;
+
+    public const int MacVirtualDisplayMaxRefreshRate = 480;
+
     public const string ProjectOwner = "Voidstrap";
 
     public const string ProjectRepository = "/KloBraticc/Voidstrap/";

@@ -9699,4 +9699,13 @@ Benarkan?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Templat</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Kadar segar semula paparan maya</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Kadar segar semula dalam Hz yang digunakan oleh paparan maya. Roblox boleh memaparkan sehingga sebanyak ini bingkai sesaat.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Cipta paparan maya {0} Hz yang membolehkan Roblox melebihi kadar segar semula skrin anda dalam permainan. Tetapkan juga Kadar Bingkai Maksimum Roblox dalam permainan kepada {0}.</value>
+  </data>
 </root>

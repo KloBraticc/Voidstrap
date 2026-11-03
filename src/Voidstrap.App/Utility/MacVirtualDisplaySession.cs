@@ -18,6 +18,11 @@ internal sealed partial class MacVirtualDisplaySession : IDisposable
     private bool _disposed;
     private bool _started;
 
+    public int RefreshRate { get; } = CurrentRefreshRate;
+
+    public static int CurrentRefreshRate =>
+        Math.Clamp(App.Settings.Prop.MacVirtualDisplayRefreshRate, App.MacVirtualDisplayMinRefreshRate, App.MacVirtualDisplayMaxRefreshRate);
+
     public void Start()
     {
         lock (_gate)
@@ -49,7 +54,13 @@ internal sealed partial class MacVirtualDisplaySession : IDisposable
 
     public static MacVirtualDisplaySession? TakePrestarted()
     {
-        return Interlocked.Exchange(ref _prestarted, null);
+        MacVirtualDisplaySession? session = Interlocked.Exchange(ref _prestarted, null);
+        if (session != null && session.RefreshRate != CurrentRefreshRate)
+        {
+            session.Dispose();
+            return null;
+        }
+        return session;
     }
 
     private async Task StartAsync()
@@ -79,6 +90,8 @@ internal sealed partial class MacVirtualDisplaySession : IDisposable
                     CreateNoWindow = true,
                 };
                 info.ArgumentList.Add("--watch-stdin");
+                info.ArgumentList.Add("--refresh-rate");
+                info.ArgumentList.Add(RefreshRate.ToString(System.Globalization.CultureInfo.InvariantCulture));
                 _process = Process.Start(info);
                 if (_process != null)
                 {

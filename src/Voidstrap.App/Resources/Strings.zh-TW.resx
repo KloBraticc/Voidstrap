@@ -9710,4 +9710,13 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Studio 收藏</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>虛擬顯示器更新率</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>虛擬顯示器執行的更新率 (Hz)。Roblox 每秒最多可算繪這麼多影格。</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>建立一個 {0} Hz 的虛擬顯示器，讓 Roblox 在遊戲中突破你螢幕的更新率。同時請將 Roblox 遊戲內的最大影格率設為 {0}。</value>
+  </data>
 </root>

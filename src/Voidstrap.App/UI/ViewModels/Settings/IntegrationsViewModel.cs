@@ -673,8 +673,26 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 
     public string UncapFpsDescription =>
         Voidstrap.Utility.Platform.IsMacOS
-            ? "Create a 240 Hz virtual display that lets Roblox go above your screen's refresh rate in game. Also set Roblox's in game Maximum Frame Rate to 240."
+            ? string.Format(Strings.Ui_Integrations_MacVirtualDisplay_Description, Voidstrap.Utility.MacVirtualDisplaySession.CurrentRefreshRate)
             : "Remove the 240 FPS limit. Unavailable while Frame Generation is enabled.";
+
+    public IReadOnlyList<int> MacVirtualDisplayRefreshRates { get; } = new[] { 60, 75, 90, 100, 120, 144, 165, 180, 200, 240, 280, 300, 360, 480 };
+
+    public int MacVirtualDisplayRefreshRate
+    {
+        get => Voidstrap.Utility.MacVirtualDisplaySession.CurrentRefreshRate;
+        set
+        {
+            int rate = Math.Clamp(value, App.MacVirtualDisplayMinRefreshRate, App.MacVirtualDisplayMaxRefreshRate);
+            if (App.Settings.Prop.MacVirtualDisplayRefreshRate == rate)
+                return;
+            App.Settings.Prop.MacVirtualDisplayRefreshRate = rate;
+            App.Settings.SaveDeferred();
+            App.Logger.WriteLine("IntegrationsViewModel::MacVirtualDisplayRefreshRate", "Virtual display refresh rate set to " + rate + " Hz");
+            OnPropertyChanged(nameof(MacVirtualDisplayRefreshRate));
+            OnPropertyChanged(nameof(UncapFpsDescription));
+        }
+    }
 
     public bool UncapFpsToggleEnabled =>
         Voidstrap.Utility.Platform.IsMacOS || Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex == 0;

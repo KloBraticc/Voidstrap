@@ -9707,4 +9707,13 @@ Dopustiti?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Predlošci</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Frekvencija osvježavanja virtualnog zaslona</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Frekvencija osvježavanja u Hz na kojoj radi virtualni zaslon. Roblox može prikazati najviše toliko sličica u sekundi.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Napravi virtualni zaslon od {0} Hz koji Robloxu omogućuje da u igri premaši frekvenciju osvježavanja tvog zaslona. Također postavi najveću brzinu sličica u igri Roblox na {0}.</value>
+  </data>
 </root>

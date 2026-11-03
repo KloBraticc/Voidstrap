@@ -9706,4 +9706,13 @@ Autoriser ?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Modèles</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Fréquence de rafraîchissement de l'écran virtuel</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>La fréquence de rafraîchissement en Hz de l'écran virtuel. Roblox peut afficher jusqu'à ce nombre d'images par seconde.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Créez un écran virtuel à {0} Hz qui permet à Roblox de dépasser la fréquence de rafraîchissement de votre écran en jeu. Réglez aussi la fréquence d'images maximale de Roblox en jeu sur {0}.</value>
+  </data>
 </root>

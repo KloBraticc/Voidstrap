@@ -9705,4 +9705,13 @@ Payagan ba?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Mga template</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Refresh rate ng virtual display</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Ang refresh rate sa Hz na ginagamit ng virtual display. Kayang mag-render ng Roblox ng hanggang ganito karaming frame bawat segundo.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Gumawa ng {0} Hz na virtual display para makalampas ang Roblox sa refresh rate ng screen mo habang naglalaro. Itakda rin sa {0} ang Maximum Frame Rate ng Roblox sa loob ng laro.</value>
+  </data>
 </root>

@@ -9708,4 +9708,13 @@ Sallitaanko?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Mallit</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Virtuaalinäytön virkistystaajuus</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Virkistystaajuus hertseinä, jolla virtuaalinäyttö toimii. Roblox voi piirtää enintään näin monta kuvaa sekunnissa.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Luo {0} Hz:n virtuaalinäyttö, jonka avulla Roblox voi ylittää näyttösi virkistystaajuuden pelissä. Aseta myös Robloxin pelinsisäinen enimmäiskuvataajuus arvoon {0}.</value>
+  </data>
 </root>

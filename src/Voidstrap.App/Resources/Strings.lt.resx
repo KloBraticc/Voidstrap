@@ -9709,4 +9709,13 @@ Leisti?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Šablonai</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Virtualaus ekrano atnaujinimo dažnis</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Atnaujinimo dažnis hercais, kuriuo veikia virtualus ekranas. Roblox gali atvaizduoti iki tiek kadrų per sekundę.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Sukurkite {0} Hz virtualų ekraną, leidžiantį Roblox žaidime viršyti jūsų ekrano atnaujinimo dažnį. Taip pat nustatykite Roblox žaidimo didžiausią kadrų dažnį į {0}.</value>
+  </data>
 </root>

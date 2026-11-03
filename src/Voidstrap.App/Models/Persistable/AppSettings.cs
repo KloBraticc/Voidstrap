@@ -313,6 +313,8 @@ namespace Voidstrap.Models.Persistable
 
         public bool MacVirtualDisplayEnabled { get; set; } = false;
 
+        public int MacVirtualDisplayRefreshRate { get; set; } = App.MacVirtualDisplayDefaultRefreshRate;
+
         public bool ClassicTopBarHideAllCoreGui { get; set; } = false;
 
         public bool SessionDockEnabled { get; set; } = true;

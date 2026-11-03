@@ -9702,4 +9702,13 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>เทมเพลต</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>อัตรารีเฟรชของจอแสดงผลเสมือน</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>อัตรารีเฟรชเป็น Hz ที่จอแสดงผลเสมือนทำงาน Roblox สามารถเรนเดอร์ได้สูงสุดเท่านี้เฟรมต่อวินาที</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>สร้างจอแสดงผลเสมือน {0} Hz ที่ช่วยให้ Roblox ทำงานเกินอัตรารีเฟรชของหน้าจอคุณในเกมได้ และตั้งค่าอัตราเฟรมสูงสุดในเกมของ Roblox เป็น {0} ด้วย</value>
+  </data>
 </root>

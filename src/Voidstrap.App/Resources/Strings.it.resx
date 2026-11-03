@@ -9710,4 +9710,13 @@ Consentire?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Modelli</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Frequenza di aggiornamento del display virtuale</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>La frequenza di aggiornamento in Hz del display virtuale. Roblox può renderizzare fino a questo numero di fotogrammi al secondo.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Crea un display virtuale a {0} Hz che permette a Roblox di superare la frequenza di aggiornamento del tuo schermo in gioco. Imposta anche la frequenza massima dei fotogrammi di Roblox in gioco su {0}.</value>
+  </data>
 </root>

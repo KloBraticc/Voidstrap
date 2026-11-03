@@ -9706,4 +9706,13 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>템플릿</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>가상 디스플레이 주사율</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>가상 디스플레이가 실행되는 주사율(Hz)입니다. Roblox는 초당 최대 이 수만큼 프레임을 렌더링할 수 있습니다.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>{0} Hz 가상 디스플레이를 만들어 게임 중 Roblox가 화면 주사율을 넘을 수 있도록 합니다. Roblox 게임 내 최대 프레임 속도도 {0}(으)로 설정하십시오.</value>
+  </data>
 </root>

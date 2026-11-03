@@ -9707,4 +9707,13 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Plantillas</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Frecuencia de actualización de la pantalla virtual</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>La frecuencia de actualización en Hz a la que funciona la pantalla virtual. Roblox puede renderizar hasta esa cantidad de fotogramas por segundo.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Crea una pantalla virtual de {0} Hz que permite a Roblox superar la frecuencia de actualización de tu pantalla en el juego. Ajusta también la velocidad máxima de fotogramas de Roblox en el juego a {0}.</value>
+  </data>
 </root>

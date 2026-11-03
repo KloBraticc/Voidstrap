@@ -9707,4 +9707,13 @@ Engedélyezed?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Sablonok</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>A virtuális kijelző frissítési gyakorisága</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>A virtuális kijelző frissítési gyakorisága Hz-ben. A Roblox legfeljebb ennyi képkockát tud megjeleníteni másodpercenként.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Hozz létre egy {0} Hz-es virtuális kijelzőt, amellyel a Roblox játék közben túlléphet a képernyőd frissítési gyakoriságán. Állítsd a Roblox játékon belüli maximális képkockasebességét is {0} értékre.</value>
+  </data>
 </root>

@@ -9710,4 +9710,13 @@ Izinkan?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Templat</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Kecepatan refresh layar virtual</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Kecepatan refresh dalam Hz yang digunakan layar virtual. Roblox dapat merender hingga sebanyak ini frame per detik.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Buat layar virtual {0} Hz yang memungkinkan Roblox melampaui kecepatan refresh layar Anda di dalam game. Atur juga Kecepatan Frame Maksimum Roblox di dalam game ke {0}.</value>
+  </data>
 </root>

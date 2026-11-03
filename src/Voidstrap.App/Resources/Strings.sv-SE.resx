@@ -9707,4 +9707,13 @@ Tillåta?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Mallar</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Uppdateringsfrekvens för virtuell skärm</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Uppdateringsfrekvensen i Hz som den virtuella skärmen körs i. Roblox kan rendera upp till så många bilder per sekund.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Skapa en virtuell skärm på {0} Hz som låter Roblox gå över din skärms uppdateringsfrekvens i spelet. Ställ också in Roblox maximala bildfrekvens i spelet på {0}.</value>
+  </data>
 </root>

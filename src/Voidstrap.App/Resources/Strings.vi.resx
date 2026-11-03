@@ -9710,4 +9710,13 @@ Cho phép?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Mẫu</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Tần số quét của màn hình ảo</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Tần số quét tính bằng Hz mà màn hình ảo chạy. Roblox có thể hiển thị tối đa chừng ấy khung hình mỗi giây.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Tạo màn hình ảo {0} Hz để Roblox có thể vượt quá tần số quét màn hình của bạn trong trò chơi. Đồng thời đặt Tốc độ khung hình tối đa trong trò chơi của Roblox thành {0}.</value>
+  </data>
 </root>

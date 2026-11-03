@@ -9709,4 +9709,13 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>قالب‌ها</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>نرخ تازه‌سازی نمایشگر مجازی</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>نرخ تازه‌سازی بر حسب هرتز که نمایشگر مجازی با آن اجرا می‌شود. Roblox می‌تواند حداکثر همین تعداد فریم در ثانیه رندر کند.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>یک نمایشگر مجازی {0} هرتز بسازید تا Roblox در بازی از نرخ تازه‌سازی صفحه شما فراتر برود. همچنین حداکثر نرخ فریم درون بازی Roblox را روی {0} تنظیم کنید.</value>
+  </data>
 </root>

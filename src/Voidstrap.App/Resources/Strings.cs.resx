@@ -9708,4 +9708,13 @@ Povolit?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Šablony</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Obnovovací frekvence virtuálního displeje</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Obnovovací frekvence v Hz, se kterou běží virtuální displej. Roblox může vykreslovat až tolik snímků za sekundu.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Vytvořte virtuální displej s {0} Hz, který Robloxu umožní ve hře překročit obnovovací frekvenci Vaší obrazovky. Nastavte také maximální snímkovou frekvenci ve hře Roblox na {0}.</value>
+  </data>
 </root>

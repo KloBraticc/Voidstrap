@@ -9394,4 +9394,13 @@ Allow it?</value>
   <data name="Ui.Mods.Skybox.ChooseImage" xml:space="preserve">
     <value>Choose image</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Virtual display refresh rate</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>The refresh rate in Hz the virtual display runs at. Roblox can render up to this many frames per second.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Create a {0} Hz virtual display that lets Roblox go above your screen's refresh rate in game. Also set Roblox's in game Maximum Frame Rate to {0}.</value>
+  </data>
 </root>

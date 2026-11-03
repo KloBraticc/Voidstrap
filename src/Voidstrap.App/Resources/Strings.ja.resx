@@ -9722,4 +9722,13 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Studio のお気に入り</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>仮想ディスプレイのリフレッシュレート</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>仮想ディスプレイが動作するリフレッシュレート (Hz) です。Roblox は 1 秒あたりこのフレーム数まで描画できます。</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>{0} Hz の仮想ディスプレイを作成し、ゲーム中に Roblox が画面のリフレッシュレートを超えられるようにします。Roblox のゲーム内の最大フレームレートも {0} に設定してください。</value>
+  </data>
 </root>

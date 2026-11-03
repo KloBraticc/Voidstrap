@@ -9709,4 +9709,13 @@ Permitir?</value>
   <data name="Ui.Home.SectionStudioTemplates" xml:space="preserve">
     <value>Modelos</value>
   </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Taxa de atualização da tela virtual</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>A taxa de atualização em Hz da tela virtual. O Roblox pode renderizar até essa quantidade de quadros por segundo.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Crie uma tela virtual de {0} Hz que permite ao Roblox ultrapassar a taxa de atualização da sua tela no jogo. Defina também a taxa máxima de quadros do Roblox no jogo como {0}.</value>
+  </data>
 </root>
