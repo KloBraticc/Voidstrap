@@ -403,8 +403,9 @@ public partial class HomePage
             : base(adorned)
         {
             _after = after;
-            _pen = new Pen(brush, 3) { StartLineCap = PenLineCap.Round, EndLineCap = PenLineCap.Round };
-            _pen.Freeze();
+            _pen = new Pen(brush.CanFreeze ? brush : brush.CloneCurrentValue(), 3) { StartLineCap = PenLineCap.Round, EndLineCap = PenLineCap.Round };
+            if (_pen.CanFreeze)
+                _pen.Freeze();
             IsHitTestVisible = false;
         }
 
