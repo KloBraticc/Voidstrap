@@ -25,7 +25,6 @@ public partial class IntegrationsPage : UiPage
         _viewModel = new IntegrationsViewModel(activeWatcher ?? new ActivityWatcher(), activeWatcher == null);
         base.DataContext = _viewModel;
         InitializeComponent();
-        MatchmakerTab.DataContext = new BehaviourViewModel();
         VoidEditPanel.DataContext = new ClipperViewModel();
         Loaded += OnPageLoaded;
         Unloaded += OnPageUnloaded;
@@ -109,13 +108,5 @@ public partial class IntegrationsPage : UiPage
             _ => Strings.Ui_VoidEdit_Card_Install,
         };
         VoidEditCard.IsEnabled = true;
-    }
-
-    private void ResetDatacenters_Click(object sender, RoutedEventArgs e)
-    {
-        if (MatchmakerTab.DataContext is BehaviourViewModel behaviourViewModel)
-        {
-            behaviourViewModel.ResetDatacenters();
-        }
     }
 }

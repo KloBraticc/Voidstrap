@@ -61,4 +61,12 @@ public partial class BehaviourPage : UiPage
         if (base.DataContext is BehaviourViewModel behaviourViewModel)
             behaviourViewModel.Mtu.RefreshCommand.Cancel();
     }
+
+    private void ResetDatacenters_Click(object sender, RoutedEventArgs e)
+    {
+        if (base.DataContext is BehaviourViewModel behaviourViewModel)
+        {
+            behaviourViewModel.ResetDatacenters();
+        }
+    }
 }
