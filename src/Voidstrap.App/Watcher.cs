@@ -306,7 +306,7 @@ public partial class Watcher : IDisposable
             if (discordRichPresenceEnabled && _activityTrackingEnabled && ActivityWatcher != null)
             {
                 RichPresence ??= new DiscordRichPresence(ActivityWatcher);
-                _ = RichPresence.SetCurrentGame();
+                RichPresence.Refresh();
             }
             else
             {

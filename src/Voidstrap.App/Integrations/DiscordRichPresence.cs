@@ -139,6 +139,8 @@ public partial class DiscordRichPresence : IDisposable
 
     private ActivityData? _enrichedActivity;
 
+    private ActivityData? _nameRetryActivity;
+
     private string? _enrichedLocation;
 
     private string _enrichedLargeImage = string.Empty;
@@ -305,7 +307,7 @@ public partial class DiscordRichPresence : IDisposable
     private void OnClientPresenceUpdate(object sender, PresenceMessage e)
     {
         if (!_disposed && ReferenceEquals(sender, _rpcClient))
-            App.Logger.WriteLine(LOG_IDENT, "Discord confirmed the Roblox activity");
+            App.Logger.WriteLine(LOG_IDENT, "Discord acknowledged activity: " + (e.Presence?.Details ?? "none"));
     }
 
     private void OnClientError(object sender, ErrorMessage e)
@@ -350,6 +352,7 @@ public partial class DiscordRichPresence : IDisposable
                 return;
             }
             DiscordRpcClient client = DiscordIpc.CreateClient("1005469189907173486", pipe);
+            client.SkipIdenticalPresence = false;
             client.OnReady += OnClientReady;
             client.OnPresenceUpdate += OnClientPresenceUpdate;
             client.OnError += OnClientError;
@@ -711,6 +714,8 @@ public partial class DiscordRichPresence : IDisposable
         });
     }
 
+    public void Refresh() => _ = Task.Run(SetCurrentGameAsync, _lifetimeToken);
+
     private async Task SetCurrentGameAsync()
     {
         if (_disposed)
@@ -793,7 +798,7 @@ public partial class DiscordRichPresence : IDisposable
         }
     }
 
-    public async Task<bool> SetCurrentGame()
+    private async Task<bool> SetCurrentGame()
     {
         if (_disposed)
             return false;
@@ -829,30 +834,13 @@ public partial class DiscordRichPresence : IDisposable
             ? FetchPlaceIconAsync(activity.PlaceId, enrichmentToken)
             : Task.FromResult(string.Empty);
         Task<string> placeNameTask = GetPlaceNameAsync(activity.PlaceId, gameToken);
-        if (activity.UniverseDetails == null && activity.UniverseId > 0)
-        {
-            try
-            {
-                using var timeout = CancellationTokenSource.CreateLinkedTokenSource(gameToken);
-                timeout.CancelAfter(TimeSpan.FromSeconds(5));
-                await UniverseDetails.FetchSingle(activity.UniverseId, timeout.Token).ConfigureAwait(false);
-                activity.UniverseDetails = UniverseDetails.LoadFromCache(activity.UniverseId);
-            }
-            catch (OperationCanceledException) when (gameToken.IsCancellationRequested)
-            {
-                return false;
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine(LOG_IDENT, "Universe details request failed: " + ex.Message);
-            }
-        }
-
-        UniverseDetails? universe = activity.UniverseDetails;
+        Task<UniverseDetails?> universeTask = FetchGameUniverseAsync(activity, gameToken);
+        (string placeName, UniverseDetails? universe, bool refreshDetails) = await ResolveGameDetailsAsync(
+            activity, placeNameTask, universeTask
+        ).ConfigureAwait(false);
         string rootName = universe?.Data?.Name ?? string.Empty;
         if (!IsCurrentActivity(activity, revision))
             return false;
-        string placeName = await placeNameTask.ConfigureAwait(false);
         string shownName = string.IsNullOrWhiteSpace(rootName) ? placeName : rootName;
         long rootPlaceId = universe?.Data?.RootPlaceId ?? 0;
         string subplaceName =
@@ -952,15 +940,20 @@ public partial class DiscordRichPresence : IDisposable
             original = _originalSnapshot;
             bool joined = Interlocked.Exchange(ref _joinPresenceUpdatePending, 0) == 1;
             string signature = BuildPresenceSignature(_currentPresence);
-            if (!joined && signature == _lastPresenceSignature)
-                return true;
-            _lastPresenceSignature = signature;
-            UpdatePresence(force: joined);
-            string status = "Updated presence for " + Voidstrap.Utility.RpcText.Render(detailText);
-            App.Logger.WriteLine(LOG_IDENT, status);
-            if (joined)
-                PublishLaunchStatus(status);
+            if (joined || signature != _lastPresenceSignature)
+            {
+                _lastPresenceSignature = signature;
+                UpdatePresence(force: joined);
+                string status = "Prepared presence for " + Voidstrap.Utility.RpcText.Render(detailText);
+                App.Logger.WriteLine(LOG_IDENT, status);
+                if (joined)
+                    PublishLaunchStatus(status);
+            }
         }
+        if (refreshDetails)
+            _ = RefreshGameDetailsAsync(activity, revision, placeName, universe, placeNameTask, universeTask, gameToken);
+        if (unlistedExperience && string.IsNullOrWhiteSpace(App.Settings.Prop.CustomGameName))
+            ScheduleGameNameRetry(activity, revision, gameToken);
         Task<string?> locationTask = App.Settings.Prop.ServerLocationGame
             ? (knownLocation != null ? Task.FromResult<string?>(knownLocation) : activity.QueryServerLocation(enrichmentToken))
             : Task.FromResult<string?>(null);
@@ -1056,6 +1049,104 @@ public partial class DiscordRichPresence : IDisposable
         }
     }
 
+    private static async Task<(string PlaceName, UniverseDetails? Universe, bool Refresh)> ResolveGameDetailsAsync(
+        ActivityData activity,
+        Task<string> placeNameTask,
+        Task<UniverseDetails?> universeTask
+    )
+    {
+        await Task.WhenAny(placeNameTask, universeTask).ConfigureAwait(false);
+        bool haveUniverse = universeTask.IsCompletedSuccessfully;
+        bool havePlaceName = placeNameTask.IsCompletedSuccessfully;
+        UniverseDetails? universe = haveUniverse ? universeTask.Result : activity.UniverseDetails;
+        string placeName = havePlaceName ? placeNameTask.Result : string.Empty;
+        if (string.IsNullOrWhiteSpace(placeName) && string.IsNullOrWhiteSpace(universe?.Data?.Name))
+        {
+            await Task.WhenAll(placeNameTask, universeTask).ConfigureAwait(false);
+            return (placeNameTask.Result, universeTask.Result, false);
+        }
+        return (placeName, universe, !havePlaceName || !haveUniverse);
+    }
+
+    private static async Task<UniverseDetails?> FetchGameUniverseAsync(ActivityData activity, CancellationToken token)
+    {
+        if (activity.UniverseDetails != null || activity.UniverseId <= 0)
+            return activity.UniverseDetails;
+        try
+        {
+            using var timeout = CancellationTokenSource.CreateLinkedTokenSource(token);
+            timeout.CancelAfter(TimeSpan.FromSeconds(5));
+            await UniverseDetails.FetchSingle(activity.UniverseId, timeout.Token).ConfigureAwait(false);
+            return activity.UniverseDetails = UniverseDetails.LoadFromCache(activity.UniverseId);
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Universe details request failed: " + ex.Message);
+            return UniverseDetails.LoadFromCache(activity.UniverseId);
+        }
+    }
+
+    private async Task RefreshGameDetailsAsync(
+        ActivityData activity,
+        int revision,
+        string placeName,
+        UniverseDetails? universe,
+        Task<string> placeNameTask,
+        Task<UniverseDetails?> universeTask,
+        CancellationToken token
+    )
+    {
+        try
+        {
+            await Task.WhenAll(placeNameTask, universeTask).ConfigureAwait(false);
+            if (
+                !token.IsCancellationRequested
+                && IsCurrentActivity(activity, revision)
+                && ((!string.IsNullOrWhiteSpace(placeNameTask.Result) && placeNameTask.Result != placeName)
+                    || (universeTask.Result != null && !ReferenceEquals(universeTask.Result, universe)))
+            )
+                _ = Task.Run(SetCurrentGameAsync, _lifetimeToken);
+        }
+        catch (OperationCanceledException) { }
+    }
+
+    private void ScheduleGameNameRetry(ActivityData activity, int revision, CancellationToken token)
+    {
+        lock (_activityGate)
+        {
+            if (!IsCurrentActivity(activity, revision) || ReferenceEquals(_nameRetryActivity, activity))
+                return;
+            _nameRetryActivity = activity;
+        }
+        _ = RetryGameNameAsync(activity, revision, token);
+    }
+
+    private async Task RetryGameNameAsync(ActivityData activity, int revision, CancellationToken token)
+    {
+        try
+        {
+            await Task.Delay(TimeSpan.FromSeconds(15), token).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        finally
+        {
+            lock (_activityGate)
+            {
+                if (ReferenceEquals(_nameRetryActivity, activity))
+                    _nameRetryActivity = null;
+            }
+        }
+        if (IsCurrentActivity(activity, revision))
+            Refresh();
+    }
+
     internal static async Task<string> GetPlaceNameAsync(long placeId, CancellationToken token)
     {
         if (placeId <= 0)
@@ -1074,14 +1165,12 @@ public partial class DiscordRichPresence : IDisposable
             request.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
             using HttpResponseMessage response = await App.HttpClient.SendAsync(request, timeout.Token).ConfigureAwait(false);
             if (!response.IsSuccessStatusCode)
-            {
-                StorePlaceName(placeId, string.Empty, DateTime.UtcNow.AddMinutes(2));
                 return string.Empty;
-            }
             using Stream stream = await response.Content.ReadAsStreamAsync(timeout.Token).ConfigureAwait(false);
             using JsonDocument json = await JsonDocument.ParseAsync(stream, cancellationToken: timeout.Token).ConfigureAwait(false);
             string name = ReadPlaceName(json.RootElement);
-            StorePlaceName(placeId, name, DateTime.UtcNow.AddHours(name.Length > 0 ? 6 : 1));
+            if (!string.IsNullOrWhiteSpace(name))
+                StorePlaceName(placeId, name, DateTime.UtcNow.AddHours(6));
             return name;
         }
         catch (OperationCanceledException)
@@ -1090,7 +1179,6 @@ public partial class DiscordRichPresence : IDisposable
         }
         catch
         {
-            StorePlaceName(placeId, string.Empty, DateTime.UtcNow.AddMinutes(2));
             return string.Empty;
         }
     }
