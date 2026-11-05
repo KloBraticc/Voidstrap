@@ -41,7 +41,7 @@
                                 <ui:ToggleSwitch IsChecked="{Binding VoidRPC, Mode=TwoWay}" />
                             </controls:OptionControl>
               <StackPanel Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
-            <StackPanel Margin="0,4,0,0">
+            <StackPanel Margin="0,8,0,0">
                             <Border CornerRadius="8" Padding="10" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
                 <StackPanel>
                   <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding Monitors}">
