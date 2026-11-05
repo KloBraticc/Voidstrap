@@ -19,77 +19,101 @@
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <TextBlock Margin="4,4,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Appearance_Color}" />
-              <controls:OptionControl Header="{resources:Loc Menu_Appearance_Accent_Title}" Description="{resources:Loc Menu_Appearance_Accent_Description}">
-                <StackPanel Orientation="Horizontal">
-                  <Border Width="24" Height="24" CornerRadius="4" Background="{DynamicResource SystemAccentColorBrush}" Margin="0,0,8,0" />
-                  <ui:Button Content="{resources:Loc Menu_Appearance_Accent_Choose}" Command="{Binding ChooseAccentCommand}" Margin="0,0,6,0" />
-                  <ui:Button Content="{resources:Loc Menu_Appearance_Accent_System}" Command="{Binding ResetAccentCommand}" />
+              <ui:CardExpander Margin="0,0,0,8" IsExpanded="False">
+                <HeaderedContentControl.Header>
+                  <TextBlock FontSize="14" Text="{resources:Loc Ui_Appearance_Color}" />
+                </HeaderedContentControl.Header>
+                <StackPanel>
+                  <controls:OptionControl Header="{resources:Loc Menu_Appearance_Accent_Title}" Description="{resources:Loc Menu_Appearance_Accent_Description}">
+                    <StackPanel Orientation="Horizontal">
+                      <Border Width="24" Height="24" CornerRadius="4" Background="{DynamicResource SystemAccentColorBrush}" Margin="0,0,8,0" />
+                      <ui:Button Content="{resources:Loc Menu_Appearance_Accent_Choose}" Command="{Binding ChooseAccentCommand}" Margin="0,0,6,0" />
+                      <ui:Button Content="{resources:Loc Menu_Appearance_Accent_System}" Command="{Binding ResetAccentCommand}" />
+                    </StackPanel>
+                  </controls:OptionControl>
                 </StackPanel>
-              </controls:OptionControl>
-              <TextBlock Margin="4,16,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Appearance_Background}" />
-              <controls:OptionControl Header="{resources:Loc Ui_Appearance_BackgroundImage}" Description="{resources:Loc Ui_Appearance_BackgroundImageDescription}">
-                <ui:Button>
-                  <ui:Button.Style>
-                    <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
-                      <Setter Property="Content" Value="Import" />
-                      <Setter Property="Command" Value="{Binding ImportBackgroundCommand2}" />
-                      <Setter Property="Appearance" Value="Secondary" />
-                      <Style.Triggers>
-                        <DataTrigger Binding="{Binding HasCustomBackground}" Value="True">
-                          <Setter Property="Content" Value="Remove" />
-                          <Setter Property="Command" Value="{Binding RemoveBackgroundCommand2}" />
-                          <Setter Property="Appearance" Value="Danger" />
-                        </DataTrigger>
-                      </Style.Triggers>
-                    </Style>
-                  </ui:Button.Style>
-                </ui:Button>
-              </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Installer_Appearance_GradientOpacity}" Description="{resources:Loc Ui_Appearance_GradientOpacityDescription}">
-                <StackPanel Orientation="Horizontal">
-                  <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Value="{Binding GradientOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                  <TextBlock MinWidth="44" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding GradientOpacity, StringFormat={}{0:P0}}" />
+              </ui:CardExpander>
+              <ui:CardExpander Margin="0,0,0,8" IsExpanded="False">
+                <HeaderedContentControl.Header>
+                  <TextBlock FontSize="14" Text="{resources:Loc Ui_Appearance_Background}" />
+                </HeaderedContentControl.Header>
+                <StackPanel>
+                  <controls:OptionControl Header="{resources:Loc Ui_Appearance_BackgroundImage}" Description="{resources:Loc Ui_Appearance_BackgroundImageDescription}">
+                    <ui:Button>
+                      <ui:Button.Style>
+                        <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                          <Setter Property="Content" Value="Import" />
+                          <Setter Property="Command" Value="{Binding ImportBackgroundCommand2}" />
+                          <Setter Property="Appearance" Value="Secondary" />
+                          <Style.Triggers>
+                            <DataTrigger Binding="{Binding HasCustomBackground}" Value="True">
+                              <Setter Property="Content" Value="Remove" />
+                              <Setter Property="Command" Value="{Binding RemoveBackgroundCommand2}" />
+                              <Setter Property="Appearance" Value="Danger" />
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </ui:Button.Style>
+                    </ui:Button>
+                  </controls:OptionControl>
+                  <controls:OptionControl Header="{resources:Loc Installer_Appearance_GradientOpacity}" Description="{resources:Loc Ui_Appearance_GradientOpacityDescription}">
+                    <StackPanel Orientation="Horizontal">
+                      <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Value="{Binding GradientOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                      <TextBlock MinWidth="44" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding GradientOpacity, StringFormat={}{0:P0}}" />
+                    </StackPanel>
+                  </controls:OptionControl>
+                  <controls:OptionControl Header="{resources:Loc Installer_Appearance_DarkOverlay}" Description="{resources:Loc Ui_Appearance_DarkOverlayDescription}">
+                    <StackPanel Orientation="Horizontal">
+                      <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Value="{Binding BlackOverlayOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                      <TextBlock MinWidth="44" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding BlackOverlayOpacity, StringFormat={}{0:P0}}" />
+                    </StackPanel>
+                  </controls:OptionControl>
+                  <controls:OptionControl Header="{resources:Loc Ui_Appearance_BackgroundEverywhere}" Description="{resources:Loc Ui_Appearance_BackgroundEverywhereDescription}">
+                    <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding BackgroundEverywhere, Mode=TwoWay}" />
+                  </controls:OptionControl>
+                  <controls:OptionControl Header="{resources:Loc Ui_Appearance_Snow}" Description="{resources:Loc Ui_Appearance_SnowDescription}">
+                    <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding Snowww, Mode=TwoWay}" />
+                  </controls:OptionControl>
+                  <controls:OptionControl Header="{resources:Loc Installer_Appearance_GradientMovement_Title}" Description="{resources:Loc Ui_Appearance_GradientMovementDescription}">
+                    <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding GRADmentFR, Mode=TwoWay}" />
+                  </controls:OptionControl>
                 </StackPanel>
-              </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Installer_Appearance_DarkOverlay}" Description="{resources:Loc Ui_Appearance_DarkOverlayDescription}">
-                <StackPanel Orientation="Horizontal">
-                  <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Value="{Binding BlackOverlayOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                  <TextBlock MinWidth="44" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding BlackOverlayOpacity, StringFormat={}{0:P0}}" />
+              </ui:CardExpander>
+              <ui:CardExpander Margin="0,0,0,8" IsExpanded="False">
+                <HeaderedContentControl.Header>
+                  <TextBlock FontSize="14" Text="{resources:Loc Ui_Appearance_Shape}" />
+                </HeaderedContentControl.Header>
+                <StackPanel>
+                  <controls:OptionControl Header="{resources:Loc Ui_Appearance_WindowCorners}" Description="{resources:Loc Ui_Appearance_WindowCornersDescription}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
+                    <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding WindowCornerStyles, Mode=OneTime}" SelectedItem="{Binding WindowCornerStyle, Mode=TwoWay}">
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                          <TextBlock Text="{Binding Converter={StaticResource EnumNameConverter}}" />
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ComboBox>
+                  </controls:OptionControl>
+                  <controls:OptionControl Header="{resources:Loc Ui_Appearance_CornerRoundness}" Description="{resources:Loc Ui_Appearance_CornerRoundnessDescription}">
+                    <StackPanel Orientation="Horizontal">
+                      <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="2" SmallChange="0.05" LargeChange="0.25" TickFrequency="0.05" IsSnapToTickEnabled="True" Value="{Binding UiCornerScale, Mode=TwoWay}" />
+                      <TextBlock MinWidth="44" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding UiCornerScale, StringFormat={}{0:P0}}" />
+                    </StackPanel>
+                  </controls:OptionControl>
                 </StackPanel>
-              </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Ui_Appearance_BackgroundEverywhere}" Description="{resources:Loc Ui_Appearance_BackgroundEverywhereDescription}">
-                <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding BackgroundEverywhere, Mode=TwoWay}" />
-              </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Ui_Appearance_Snow}" Description="{resources:Loc Ui_Appearance_SnowDescription}">
-                <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding Snowww, Mode=TwoWay}" />
-              </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Installer_Appearance_GradientMovement_Title}" Description="{resources:Loc Ui_Appearance_GradientMovementDescription}">
-                <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding GRADmentFR, Mode=TwoWay}" />
-              </controls:OptionControl>
-              <TextBlock Margin="4,16,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Appearance_Shape}" />
-              <controls:OptionControl Header="{resources:Loc Ui_Appearance_WindowCorners}" Description="{resources:Loc Ui_Appearance_WindowCornersDescription}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
-                <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding WindowCornerStyles, Mode=OneTime}" SelectedItem="{Binding WindowCornerStyle, Mode=TwoWay}">
-                  <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                      <TextBlock Text="{Binding Converter={StaticResource EnumNameConverter}}" />
-                    </DataTemplate>
-                  </ItemsControl.ItemTemplate>
-                </ComboBox>
-              </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Ui_Appearance_CornerRoundness}" Description="{resources:Loc Ui_Appearance_CornerRoundnessDescription}">
-                <StackPanel Orientation="Horizontal">
-                  <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="2" SmallChange="0.05" LargeChange="0.25" TickFrequency="0.05" IsSnapToTickEnabled="True" Value="{Binding UiCornerScale, Mode=TwoWay}" />
-                  <TextBlock MinWidth="44" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding UiCornerScale, StringFormat={}{0:P0}}" />
+              </ui:CardExpander>
+              <ui:CardExpander Margin="0,0,0,8" IsExpanded="False" Visibility="{Binding WindowsOnlyVisibility}">
+                <HeaderedContentControl.Header>
+                  <TextBlock FontSize="14" Text="{resources:Loc Ui_Appearance_TextAndScrolling}" />
+                </HeaderedContentControl.Header>
+                <StackPanel>
+                  <controls:OptionControl Header="{resources:Loc Installer_Appearance_ClearFont_Title}" Description="{resources:Loc Installer_Appearance_ClearFont_Description}" Visibility="{Binding WindowsOnlyVisibility}">
+                    <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding ClearFont, Mode=TwoWay}" />
+                  </controls:OptionControl>
+                  <controls:OptionControl Header="{resources:Loc Ui_Appearance_SmoothScrollbar}" Description="{resources:Loc Ui_Appearance_SmoothScrollbarDescription}" Visibility="{Binding WindowsOnlyVisibility}">
+                    <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding SmooothBARRyesirikikthxlucipook, Mode=TwoWay}" />
+                  </controls:OptionControl>
                 </StackPanel>
-              </controls:OptionControl>
-              <TextBlock Margin="4,16,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Appearance_TextAndScrolling}" Visibility="{Binding WindowsOnlyVisibility}" />
-              <controls:OptionControl Header="{resources:Loc Installer_Appearance_ClearFont_Title}" Description="{resources:Loc Installer_Appearance_ClearFont_Description}" Visibility="{Binding WindowsOnlyVisibility}">
-                <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding ClearFont, Mode=TwoWay}" />
-              </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Ui_Appearance_SmoothScrollbar}" Description="{resources:Loc Ui_Appearance_SmoothScrollbarDescription}" Visibility="{Binding WindowsOnlyVisibility}">
-                <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding SmooothBARRyesirikikthxlucipook, Mode=TwoWay}" />
-              </controls:OptionControl>
+              </ui:CardExpander>
             </StackPanel>
           </ui:CardExpander>
           <controls:OptionControl Header="{resources:Loc Menu_Appearance_Global_Theme_Title}" Description="{resources:Loc Ui_Appearance_ThemesDescription}">
