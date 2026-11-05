@@ -9,7 +9,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Wpf.Ui.Controls;
-using MenuItem = System.Windows.Controls.MenuItem;
 
 namespace Voidstrap.UI.Elements.Controls;
 
@@ -224,56 +223,7 @@ public static class SidebarGroup
         if (sender is not NavigationItem header || !ReferenceEquals(e.OriginalSource, header))
             return;
         if (GetIconOnly(header))
-        {
-            OpenFlyout(header);
             return;
-        }
         Expand(header, !GetIsExpanded(header), animate: true);
-    }
-
-    private static void OpenFlyout(NavigationItem header)
-    {
-        if (!Children.TryGetValue(header, out List<NavigationItem>? children) || children.Count == 0)
-            return;
-        System.Windows.Controls.ContextMenu menu = new System.Windows.Controls.ContextMenu
-        {
-            PlacementTarget = header,
-            Placement = PlacementMode.Right
-        };
-        foreach (NavigationItem child in children)
-        {
-            if (child.Visibility != Visibility.Visible)
-                continue;
-            MenuItem item = new MenuItem { Header = LabelOf(child), Tag = child };
-            item.Click += OnFlyoutItemClick;
-            menu.Items.Add(item);
-        }
-        menu.Closed += OnFlyoutClosed;
-        menu.IsOpen = true;
-    }
-
-    private static string LabelOf(NavigationItem item)
-    {
-        return item.Content switch
-        {
-            string text => text,
-            Panel panel => panel.Children.OfType<TextBlock>().Select(block => block.Text).FirstOrDefault() ?? "",
-            _ => item.Content?.ToString() ?? ""
-        };
-    }
-
-    private static void OnFlyoutItemClick(object sender, RoutedEventArgs e)
-    {
-        if (sender is MenuItem { Tag: NavigationItem child })
-            child.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent, child));
-    }
-
-    private static void OnFlyoutClosed(object sender, RoutedEventArgs e)
-    {
-        if (sender is not System.Windows.Controls.ContextMenu menu)
-            return;
-        menu.Closed -= OnFlyoutClosed;
-        foreach (MenuItem item in menu.Items.OfType<MenuItem>())
-            item.Click -= OnFlyoutItemClick;
     }
 }
