@@ -1862,6 +1862,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         SynchronizeSidebarSelection(RootFrame?.Content);
         SidebarGroup.RefreshActiveChild(MoreNavItem);
+        if (RootFrame?.Content is MorePage)
+            PageBreadcrumb.Current = GetSidebarDisplayName("MoreNavItem", Strings.Ui_Nav_More);
     }
 
     private void SynchronizeSidebarSelection(object? content)

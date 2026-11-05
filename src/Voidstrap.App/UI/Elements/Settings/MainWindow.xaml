@@ -603,38 +603,6 @@
                       </Trigger>
                       <MultiTrigger>
                         <MultiTrigger.Conditions>
-                          <Condition Property="vscontrols:SidebarGroup.HasActiveChild" Value="True" />
-                          <Condition Property="vscontrols:SidebarGroup.IsExpanded" Value="False" />
-                        </MultiTrigger.Conditions>
-                        <Setter TargetName="ActiveRectangle" Property="Height" Value="17" />
-                        <Setter TargetName="ActiveRectangle" Property="Opacity" Value="1" />
-                        <Setter TargetName="MainBorder" Property="Background">
-                          <Setter.Value>
-                            <SolidColorBrush Color="{DynamicResource SubtleFillColorSecondary}" />
-                          </Setter.Value>
-                        </Setter>
-                        <MultiTrigger.EnterActions>
-                          <BeginStoryboard x:Name="PillParent">
-                            <Storyboard>
-                              <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="0.0" To="1.0" Duration="00:00:00.25">
-                                <DoubleAnimation.EasingFunction>
-                                  <QuadraticEase EasingMode="EaseOut" />
-                                </DoubleAnimation.EasingFunction>
-                              </DoubleAnimation>
-                              <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Height)" From="0" To="17" Duration="00:00:00.667">
-                                <DoubleAnimation.EasingFunction>
-                                  <QuinticEase EasingMode="EaseOut" />
-                                </DoubleAnimation.EasingFunction>
-                              </DoubleAnimation>
-                            </Storyboard>
-                          </BeginStoryboard>
-                        </MultiTrigger.EnterActions>
-                        <MultiTrigger.ExitActions>
-                          <RemoveStoryboard BeginStoryboardName="PillParent" />
-                        </MultiTrigger.ExitActions>
-                      </MultiTrigger>
-                      <MultiTrigger>
-                        <MultiTrigger.Conditions>
                           <Condition Property="IsMouseOver" Value="True" />
                           <Condition Property="IsEnabled" Value="True" />
                           <Condition Property="vscontrols:SidebarGroup.IsChild" Value="False" />
