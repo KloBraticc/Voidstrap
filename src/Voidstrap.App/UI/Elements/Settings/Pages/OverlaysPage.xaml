@@ -355,6 +355,7 @@
         </StackPanel>
       </ui:CardExpander>
 
+      <TextBlock Margin="2,20,0,0" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_Mods_Display}" />
       <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
         <HeaderedContentControl.Header>
           <Grid>

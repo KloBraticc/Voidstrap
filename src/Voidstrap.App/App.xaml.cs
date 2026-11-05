@@ -1454,6 +1454,11 @@ public partial class App : Application
                 Paths.Initialize(installLocation);
             }
 
+            if (!Installer.CloseManagedRobloxProcesses())
+            {
+                Terminate(ErrorCode.ERROR_CANCELLED);
+                return;
+            }
             AssetWarpLegacyCleanup.Run();
             if (Voidstrap.Integrations.TelemetryBlocker.IsApplied() && !Voidstrap.Integrations.TelemetryBlocker.Set(false))
             {

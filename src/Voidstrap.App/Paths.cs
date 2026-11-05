@@ -1004,7 +1004,7 @@ internal static class Paths
         Directory.Delete(fullPath, recursive: true);
     }
 
-    private static void DeleteOwnedDirectory(string path, string basePath)
+    internal static void DeleteOwnedDirectory(string path, string basePath)
     {
         if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
         {
@@ -1032,6 +1032,13 @@ internal static class Paths
         {
             try
             {
+                if (!Directory.Exists(fullPath))
+                    return;
+                if (new DirectoryInfo(fullPath).LinkTarget != null)
+                {
+                    Directory.Delete(fullPath);
+                    return;
+                }
                 ClearReadOnly(fullPath);
                 Directory.Delete(fullPath, recursive: true);
                 return;
@@ -1046,7 +1053,7 @@ internal static class Paths
             }
         }
 
-        throw new IOException("Voidstrap data could not be removed from " + fullPath, failure);
+        throw new IOException("Voidstrap data could not be removed from " + fullPath + ": " + failure?.Message, failure);
     }
 
     private static void ClearReadOnly(string path)

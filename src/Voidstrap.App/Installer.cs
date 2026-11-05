@@ -565,16 +565,69 @@ internal sealed partial class Installer
         }
     }
 
+    internal static bool CloseManagedRobloxProcesses()
+    {
+        if (!Voidstrap.Utility.Platform.IsWindows)
+            return true;
+
+        string[] roots = [Paths.Versions, Paths.RobloxClients, Paths.Roblox, Path.Combine(Paths.Base, "MultiInstance")];
+        roots = roots.Select(path => Path.GetFullPath(path).TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar).ToArray();
+        List<Process> managed = [];
+        foreach (Process process in Process.GetProcesses())
+        {
+            try
+            {
+                string? executable = process.MainModule?.FileName;
+                if (!string.IsNullOrEmpty(executable) && roots.Any(root => executable.StartsWith(root, StringComparison.OrdinalIgnoreCase)))
+                {
+                    managed.Add(process);
+                    continue;
+                }
+            }
+            catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException or NotSupportedException) { }
+            process.Dispose();
+        }
+
+        try
+        {
+            if (managed.Count == 0)
+                return true;
+            if (Frontend.ShowMessageBox(Strings.ContextMenu_CloseRobloxMessage, MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+                return false;
+            foreach (Process process in managed)
+            {
+                try
+                {
+                    if (!process.HasExited)
+                    {
+                        process.Kill();
+                        if (!process.WaitForExit(10000))
+                            throw new IOException("A Roblox process did not close in time");
+                    }
+                }
+                catch (InvalidOperationException) { }
+            }
+            return true;
+        }
+        finally
+        {
+            foreach (Process process in managed)
+                process.Dispose();
+        }
+    }
+
     private static async Task<bool> DoUninstallCoreAsync(bool keepData)
     {
+        if (Voidstrap.Utility.Platform.IsWindows && !CloseManagedRobloxProcesses())
+            return false;
         List<Process> list = [];
         try
         {
-            if (!string.IsNullOrEmpty(App.State.Prop.Player.VersionGuid))
+            if (!Voidstrap.Utility.Platform.IsWindows && !string.IsNullOrEmpty(App.State.Prop.Player.VersionGuid))
             {
                 list.AddRange(Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName));
             }
-            if (App.IsStudioVisible)
+            if (!Voidstrap.Utility.Platform.IsWindows && App.IsStudioVisible)
             {
                 list.AddRange(Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxStudioProcessName));
             }
@@ -644,6 +697,9 @@ internal sealed partial class Installer
         }
         if (Voidstrap.Utility.Platform.IsWindows)
         {
+            string basePath = Path.GetFullPath(Paths.Base).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            Paths.DeleteOwnedDirectory(Paths.Versions, basePath);
+            Paths.DeleteOwnedDirectory(Paths.RobloxClients, basePath);
             TrySafe("MuMuRoblox", Voidstrap.Integrations.MuMu.MuMuRoblox.Uninstall);
             WindowsRegistry.Unregister("voidstrap");
             using RegistryKey? registryKey = Registry.CurrentUser.OpenSubKey(
@@ -711,19 +767,11 @@ internal sealed partial class Installer
             },
             delegate
             {
-                ForceDeleteDirectory(Paths.Versions);
-            },
-            delegate
-            {
                 ForceDeleteDirectory(Paths.Downloads);
             },
             delegate
             {
                 ForceDeleteDirectory(Paths.Cache);
-            },
-            delegate
-            {
-                ForceDeleteDirectory(Paths.RobloxClients);
             },
             delegate
             {
