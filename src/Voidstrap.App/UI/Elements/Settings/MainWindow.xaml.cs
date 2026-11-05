@@ -7900,7 +7900,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
         List<object> entries = !Voidstrap.Utility.Platform.IsWindows
             ? [.. downloads.Items]
-            : [.. downloads.Items, .. (downloads.MuMu != null ? new object[] { downloads.MuMu } : []), .. downloads.ClientItems];
+            : [.. downloads.Items, .. (downloads.MuMu != null ? new object[] { downloads.MuMu } : []), .. downloads.ClientItems.Where(client => client.IsInstalled)];
         if (LaunchTargetList.ItemsSource is not IList<object> shown || !shown.SequenceEqual(entries))
             LaunchTargetList.ItemsSource = entries;
         object? current = null;
