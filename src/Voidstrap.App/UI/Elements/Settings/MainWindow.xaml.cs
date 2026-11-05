@@ -2107,6 +2107,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         _startupWorkStarted = true;
         Voidstrap.Integrations.Mcp.McpBridgeServer.EnsureStarted();
+        if (!Voidstrap.Utility.Platform.UsesPortableUi)
+        {
+            Voidstrap.Integrations.SpotifyEngine.Prewarm();
+            _ = SpotifyPlayer.PreloadAsync();
+        }
         _ = LoadCatalogOptionsAsync();
         if (_introFinished)
             ScheduleLaunchTargetWarmup();

@@ -77,6 +77,25 @@ public partial class SpotifyLibraryView : UserControl
         set => MiniToggle.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
     }
 
+    public async Task PreloadAsync()
+    {
+        if (_library.Count > 0 || !App.Settings.Prop.SpotifySignedIn)
+            return;
+        List<SpotifyItem> cached = await Task.Run(SpotifyEngine.ReadCachedLibrary);
+        if (_library.Count > 0 || cached.Count == 0)
+            return;
+        _library = cached;
+        if (ItemsList.ItemsSource == null)
+            ItemsList.ItemsSource = _library;
+        foreach (SpotifyItem item in cached)
+        {
+            if (string.IsNullOrEmpty(item.Image))
+                continue;
+            Voidstrap.Utility.DynamicRenderSystem.Prefetch(item.Image, 64);
+            Voidstrap.Utility.DynamicRenderSystem.Prefetch(item.Image, 128);
+        }
+    }
+
     public async Task ShowAsync()
     {
         if (!_shown)
