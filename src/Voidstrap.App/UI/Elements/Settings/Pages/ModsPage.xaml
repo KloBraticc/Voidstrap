@@ -83,81 +83,93 @@
               </ComboBox>
             </controls:OptionControl>
 
-            <TextBlock Margin="2,24,0,0" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_Mods_Cursor}" />
-                        <controls:OptionControl Header="{resources:Loc Ui_Mods_CursorStyle}" Description="{resources:Loc Ui_Mods_UseTheRobloxCursorABuilt}">
-              <ComboBox Width="240" Padding="10,5,10,5" ItemsSource="{Binding CursorSettings.Styles, Mode=OneTime}" SelectedItem="{Binding CursorSettings.SelectedStyle, Mode=TwoWay}">
-                <ItemsControl.ItemTemplate>
-                  <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                      <Image Width="18" Height="18" Margin="0,0,8,0" VerticalAlignment="Center" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding Path=., Converter={StaticResource CursorPreviewConverter}}" />
-                      <TextBlock VerticalAlignment="Center" Text="{Binding Path=., Converter={StaticResource EnumNameConverter}}" />
-                    </StackPanel>
-                  </DataTemplate>
-                </ItemsControl.ItemTemplate>
-              </ComboBox>
-            </controls:OptionControl>
-            <controls:OptionControl Header="{resources:Loc Ui_Mods_CustomCursor}" Description="{resources:Loc Ui_Mods_UseOneImageForThePointer}">
-              <StackPanel Orientation="Horizontal">
-                <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="#33000000" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
-                  <Image Margin="4" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding CursorSettings.Pointer.Preview}" />
-                </Border>
-                <ui:Button Icon="DocumentAdd16" Content="{resources:Loc Ui_Mods_Choose}" Command="{Binding CursorSettings.ChooseCustomCursorCommand}" />
-                <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="{resources:Loc Ui_Mods_Remove}" Command="{Binding CursorSettings.RemoveCustomCursorCommand}" Visibility="{Binding CursorSettings.HasCustomCursor, Converter={StaticResource BooleanToVisibilityConverter}}" />
-              </StackPanel>
-            </controls:OptionControl>
-            <controls:OptionControl Header="{resources:Loc Ui_Mods_CustomDragCursor}" Description="{resources:Loc Ui_Mods_ShownWhileDraggingInRobloxStudio}">
-              <StackPanel Orientation="Horizontal">
-                <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="#33000000" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
-                  <Image Margin="4" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding CursorSettings.Drag.Preview}" />
-                </Border>
-                <ui:Button Icon="DocumentAdd16" Content="{resources:Loc Ui_Mods_Choose}" Command="{Binding CursorSettings.Drag.ChooseCommand}" />
-                <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="{resources:Loc Ui_Mods_Remove}" Command="{Binding CursorSettings.Drag.ClearCommand}" Visibility="{Binding CursorSettings.Drag.HasImage, Converter={StaticResource BooleanToVisibilityConverter}}" />
-              </StackPanel>
-            </controls:OptionControl>
-            <controls:OptionControl Visibility="{Binding ShiftLockVisibility}" Header="{resources:Loc Ui_Mods_CustomShiftlock}" Description="{resources:Loc Ui_Mods_ShownInTheMiddleOfThe}">
-              <StackPanel Orientation="Horizontal">
-                <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="#33000000" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
-                  <Image Margin="4" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding CursorSettings.ShiftLock.Preview}" />
-                </Border>
-                <ui:Button Icon="DocumentAdd16" Content="{resources:Loc Ui_Mods_Choose}" Command="{Binding CursorSettings.ShiftLock.ChooseCommand}" />
-                <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="{resources:Loc Ui_Mods_Remove}" Command="{Binding CursorSettings.ShiftLock.ClearCommand}" Visibility="{Binding CursorSettings.ShiftLock.HasImage, Converter={StaticResource BooleanToVisibilityConverter}}" />
-              </StackPanel>
-            </controls:OptionControl>
+            <StackPanel Margin="2,24,0,0" Orientation="Horizontal" TextElement.FontSize="16" TextElement.FontWeight="SemiBold">
+              <TextBlock Text="{resources:Loc Ui_Mods_Cursor}" />
+              <TextBlock Margin="5,0" Text="&amp;" />
+              <TextBlock Text="{resources:Loc Ui_Mods_Interface}" />
+            </StackPanel>
             <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
               <HeaderedContentControl.Header>
                 <StackPanel>
-                  <TextBlock FontSize="14" Text="{resources:Loc Ui_Mods_CustomCursorSets}" />
-                  <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Mods_KeepSeveralCursorSetsReadyAnd}" TextWrapping="Wrap" />
+                  <TextBlock FontSize="14" Text="{resources:Loc Ui_Mods_Cursor}" />
+                  <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Mods_UseTheRobloxCursorABuilt}" TextWrapping="Wrap" />
                 </StackPanel>
               </HeaderedContentControl.Header>
               <StackPanel>
-                <Grid>
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                  </Grid.ColumnDefinitions>
-                  <ComboBox HorizontalAlignment="Stretch" Padding="10,5,10,5" ItemsSource="{Binding CursorSettings.SavedSets}" SelectedItem="{Binding CursorSettings.SelectedSet, Mode=TwoWay}" Visibility="{Binding CursorSettings.HasSavedSets, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                  <TextBlock VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Mods_NoCursorSetsYetPressNew}" TextWrapping="Wrap" Visibility="{Binding CursorSettings.HasNoSavedSets, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                  <StackPanel Grid.Column="1" Margin="8,0,0,0" Orientation="Horizontal">
-                    <ui:Button Icon="Add24" Content="{resources:Loc Common_New}" Command="{Binding CursorSettings.NewSetCommand}" />
-                    <ui:Button Margin="8,0,0,0" Icon="FolderZip24" Content="{resources:Loc Common_Import}" Command="{Binding CursorSettings.ImportSetCommand}" />
-                    <ui:Button Margin="8,0,0,0" Icon="FolderOpen24" Content="{resources:Loc Ui_Mods_Folder}" ToolTip="{resources:Loc Ui_Mods_OpenTheCursorSetsFolder}" Command="{Binding CursorSettings.OpenSetsFolderCommand}" />
-                  </StackPanel>
-                </Grid>
-                <StackPanel Margin="0,12,0,0" Visibility="{Binding CursorSettings.HasSelectedSet, Converter={StaticResource BooleanToVisibilityConverter}}">
-                  <ItemsControl ItemsSource="{Binding CursorSettings.SetSlots}" ItemTemplate="{StaticResource CursorSlotRow}" />
-                  <WrapPanel Margin="0,4,0,0">
-                    <ui:Button Margin="0,0,8,8" Appearance="Primary" Icon="Checkmark20" Content="{resources:Loc Ui_Mods_UseThisSet}" Command="{Binding CursorSettings.UseSetCommand}" />
-                    <ui:Button Margin="0,0,8,8" Icon="CollectionsAdd24" Content="{resources:Loc Ui_Mods_CopyCurrentCursor}" ToolTip="{resources:Loc Ui_Mods_ReplaceThisSetWithYourCurrent}" Command="{Binding CursorSettings.CopyCurrentToSetCommand}" />
-                    <ui:Button Margin="0,0,8,8" Icon="Edit24" Content="{resources:Loc Common_Rename}" Command="{Binding CursorSettings.RenameSetCommand}" />
-                    <ui:Button Margin="0,0,8,8" Icon="ArrowExportRtl24" Content="{resources:Loc Common_Export}" Command="{Binding CursorSettings.ExportSetCommand}" />
-                    <ui:Button Margin="0,0,0,8" Appearance="Danger" Icon="Delete24" Content="{resources:Loc Common_Delete}" Command="{Binding CursorSettings.DeleteSetCommand}" />
-                  </WrapPanel>
+              <controls:OptionControl Margin="0,-8,0,0" Header="{resources:Loc Ui_Mods_CursorStyle}">
+                <ComboBox Width="240" Padding="10,5,10,5" ItemsSource="{Binding CursorSettings.Styles, Mode=OneTime}" SelectedItem="{Binding CursorSettings.SelectedStyle, Mode=TwoWay}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <StackPanel Orientation="Horizontal">
+                        <Image Width="18" Height="18" Margin="0,0,8,0" VerticalAlignment="Center" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding Path=., Converter={StaticResource CursorPreviewConverter}}" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Path=., Converter={StaticResource EnumNameConverter}}" />
+                      </StackPanel>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ComboBox>
+              </controls:OptionControl>
+              <controls:OptionControl Header="{resources:Loc Ui_Mods_CustomCursor}" Description="{resources:Loc Ui_Mods_UseOneImageForThePointer}">
+                <StackPanel Orientation="Horizontal">
+                  <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="#33000000" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
+                    <Image Margin="4" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding CursorSettings.Pointer.Preview}" />
+                  </Border>
+                  <ui:Button Icon="DocumentAdd16" Content="{resources:Loc Ui_Mods_Choose}" Command="{Binding CursorSettings.ChooseCustomCursorCommand}" />
+                  <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="{resources:Loc Ui_Mods_Remove}" Command="{Binding CursorSettings.RemoveCustomCursorCommand}" Visibility="{Binding CursorSettings.HasCustomCursor, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </StackPanel>
+              </controls:OptionControl>
+              <controls:OptionControl Header="{resources:Loc Ui_Mods_CustomDragCursor}" Description="{resources:Loc Ui_Mods_ShownWhileDraggingInRobloxStudio}">
+                <StackPanel Orientation="Horizontal">
+                  <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="#33000000" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
+                    <Image Margin="4" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding CursorSettings.Drag.Preview}" />
+                  </Border>
+                  <ui:Button Icon="DocumentAdd16" Content="{resources:Loc Ui_Mods_Choose}" Command="{Binding CursorSettings.Drag.ChooseCommand}" />
+                  <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="{resources:Loc Ui_Mods_Remove}" Command="{Binding CursorSettings.Drag.ClearCommand}" Visibility="{Binding CursorSettings.Drag.HasImage, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </StackPanel>
+              </controls:OptionControl>
+              <controls:OptionControl Visibility="{Binding ShiftLockVisibility}" Header="{resources:Loc Ui_Mods_CustomShiftlock}" Description="{resources:Loc Ui_Mods_ShownInTheMiddleOfThe}">
+                <StackPanel Orientation="Horizontal">
+                  <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="#33000000" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
+                    <Image Margin="4" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding CursorSettings.ShiftLock.Preview}" />
+                  </Border>
+                  <ui:Button Icon="DocumentAdd16" Content="{resources:Loc Ui_Mods_Choose}" Command="{Binding CursorSettings.ShiftLock.ChooseCommand}" />
+                  <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="{resources:Loc Ui_Mods_Remove}" Command="{Binding CursorSettings.ShiftLock.ClearCommand}" Visibility="{Binding CursorSettings.ShiftLock.HasImage, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </StackPanel>
+              </controls:OptionControl>
+              <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+                <HeaderedContentControl.Header>
+                  <StackPanel>
+                    <TextBlock FontSize="14" Text="{resources:Loc Ui_Mods_CustomCursorSets}" />
+                    <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Mods_KeepSeveralCursorSetsReadyAnd}" TextWrapping="Wrap" />
+                  </StackPanel>
+                </HeaderedContentControl.Header>
+                <StackPanel>
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox HorizontalAlignment="Stretch" Padding="10,5,10,5" ItemsSource="{Binding CursorSettings.SavedSets}" SelectedItem="{Binding CursorSettings.SelectedSet, Mode=TwoWay}" Visibility="{Binding CursorSettings.HasSavedSets, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <TextBlock VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Mods_NoCursorSetsYetPressNew}" TextWrapping="Wrap" Visibility="{Binding CursorSettings.HasNoSavedSets, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <StackPanel Grid.Column="1" Margin="8,0,0,0" Orientation="Horizontal">
+                      <ui:Button Icon="Add24" Content="{resources:Loc Common_New}" Command="{Binding CursorSettings.NewSetCommand}" />
+                      <ui:Button Margin="8,0,0,0" Icon="FolderZip24" Content="{resources:Loc Common_Import}" Command="{Binding CursorSettings.ImportSetCommand}" />
+                      <ui:Button Margin="8,0,0,0" Icon="FolderOpen24" Content="{resources:Loc Ui_Mods_Folder}" ToolTip="{resources:Loc Ui_Mods_OpenTheCursorSetsFolder}" Command="{Binding CursorSettings.OpenSetsFolderCommand}" />
+                    </StackPanel>
+                  </Grid>
+                  <StackPanel Margin="0,12,0,0" Visibility="{Binding CursorSettings.HasSelectedSet, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <ItemsControl ItemsSource="{Binding CursorSettings.SetSlots}" ItemTemplate="{StaticResource CursorSlotRow}" />
+                    <WrapPanel Margin="0,4,0,0">
+                      <ui:Button Margin="0,0,8,8" Appearance="Primary" Icon="Checkmark20" Content="{resources:Loc Ui_Mods_UseThisSet}" Command="{Binding CursorSettings.UseSetCommand}" />
+                      <ui:Button Margin="0,0,8,8" Icon="CollectionsAdd24" Content="{resources:Loc Ui_Mods_CopyCurrentCursor}" ToolTip="{resources:Loc Ui_Mods_ReplaceThisSetWithYourCurrent}" Command="{Binding CursorSettings.CopyCurrentToSetCommand}" />
+                      <ui:Button Margin="0,0,8,8" Icon="Edit24" Content="{resources:Loc Common_Rename}" Command="{Binding CursorSettings.RenameSetCommand}" />
+                      <ui:Button Margin="0,0,8,8" Icon="ArrowExportRtl24" Content="{resources:Loc Common_Export}" Command="{Binding CursorSettings.ExportSetCommand}" />
+                      <ui:Button Margin="0,0,0,8" Appearance="Danger" Icon="Delete24" Content="{resources:Loc Common_Delete}" Command="{Binding CursorSettings.DeleteSetCommand}" />
+                    </WrapPanel>
+                  </StackPanel>
+                </StackPanel>
+              </ui:CardExpander>
               </StackPanel>
             </ui:CardExpander>
-
-            <TextBlock Margin="2,24,0,0" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_Mods_Interface}" />
             <controls:OptionControl Header="{resources:Loc Ui_Mods_OldRobloxTopbarUi}" Description="{resources:Loc Ui_Mods_The2014To2015TopbarAnd}" Visibility="{Binding ClassicTopBarVisibility}">
               <StackPanel Orientation="Horizontal">
                 <ui:ProgressRing Width="20" Height="20" Margin="0,0,10,0" IsIndeterminate="True" Visibility="{Binding ClassicTopBarBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
