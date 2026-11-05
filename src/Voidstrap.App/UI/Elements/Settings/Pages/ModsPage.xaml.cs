@@ -93,7 +93,6 @@ public partial class ModsPage : UiPage
             ModsTabs.SelectionChanged -= ModsTabs_SelectionChanged;
             ModsTabs.SelectionChanged += ModsTabs_SelectionChanged;
             PublishPresence();
-            ShowModPacksNoticeIfNeeded();
             ViewModel.ModPackViewRequested -= OnModPackViewRequested;
             ViewModel.ModPackViewRequested += OnModPackViewRequested;
             _fgWarningTimer.Tick -= FgWarningTimer_Tick;
@@ -152,7 +151,6 @@ public partial class ModsPage : UiPage
             return;
         }
         PublishPresence();
-        ShowModPacksNoticeIfNeeded();
         UpdateBreadcrumb();
     }
 
@@ -199,25 +197,6 @@ public partial class ModsPage : UiPage
     }
 
     private void OnStudioPluginDetailChanged(object? sender, EventArgs e) => UpdateBreadcrumb();
-
-    private void ShowModPacksNoticeIfNeeded()
-    {
-        if (!ReferenceEquals(ModsTabs.SelectedItem, ModPacksTab) || App.Settings.Prop.ModPacksNoticeShown)
-        {
-            return;
-        }
-        App.Settings.Prop.ModPacksNoticeShown = true;
-        App.Settings.Save();
-        _ = Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.ApplicationIdle, new Action(ShowModPacksNotice));
-    }
-
-    private static void ShowModPacksNotice()
-    {
-        Frontend.ShowMessageBox(
-            "I don't vouch for any mod packs here, and neither does my team. If any bad mod packs show up here, there isn't much we can do about it.\n\nMy team and I have tried our best to limit the amount of bad content here.",
-            MessageBoxImage.Information
-        );
-    }
 
     private void PublishPresence()
     {
