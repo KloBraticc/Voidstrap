@@ -99,6 +99,27 @@ public partial class RobloxVersionList : UserControl
         e.Handled = true;
     }
 
+    private void VersionsListBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        if (e.Delta == 0)
+            return;
+        int direction = e.Delta < 0 ? 1 : -1;
+        int index = VersionsListBox.SelectedIndex;
+        if (index < 0)
+            index = direction > 0 ? -1 : VersionsListBox.Items.Count;
+        for (int i = index + direction; i >= 0 && i < VersionsListBox.Items.Count; i += direction)
+        {
+            object item = VersionsListBox.Items[i];
+            if (!IsSelectable(item))
+                continue;
+            VersionsListBox.SelectedItem = item;
+            VersionsListBox.ScrollIntoView(item);
+            FocusList();
+            break;
+        }
+        e.Handled = true;
+    }
+
     private static bool IsInsideButton(DependencyObject? source, DependencyObject stop)
     {
         while (source != null && !ReferenceEquals(source, stop))
