@@ -17,7 +17,9 @@
             <StackPanel>
               <ui:TextBox Width="360" Margin="0,0,0,6" Text="{Binding InstallLocationText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
               <StackPanel Orientation="Horizontal">
-                <Button Content="{resources:Loc Ui_Channel_Browse}" Margin="0,0,5,0" Command="{Binding BrowseInstallLocationCommand}" />
+                <ui:Button ToolTip="{resources:Loc Ui_Channel_Browse}" Margin="0,0,5,0" Padding="6" Command="{Binding BrowseInstallLocationCommand}">
+                  <ui:SymbolIcon Symbol="FolderOpen24" />
+                </ui:Button>
                 <Button Content="{resources:Loc Ui_Appearance_Move}" Visibility="{Binding MoveButtonVisibility}" Command="{Binding ApplyInstallLocationCommand}" />
               </StackPanel>
             </StackPanel>
