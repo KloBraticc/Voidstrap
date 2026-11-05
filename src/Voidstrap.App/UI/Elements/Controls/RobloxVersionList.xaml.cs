@@ -101,7 +101,7 @@ public partial class RobloxVersionList : UserControl
 
     private void VersionsListBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
     {
-        if (e.Delta == 0)
+        if (e.Delta == 0 || FindScrollViewer(VersionsListBox)?.ScrollableHeight > 0)
             return;
         int direction = e.Delta < 0 ? 1 : -1;
         int index = VersionsListBox.SelectedIndex;
@@ -118,6 +118,19 @@ public partial class RobloxVersionList : UserControl
             break;
         }
         e.Handled = true;
+    }
+
+    private static ScrollViewer? FindScrollViewer(DependencyObject root)
+    {
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++)
+        {
+            DependencyObject child = VisualTreeHelper.GetChild(root, i);
+            if (child is ScrollViewer viewer)
+                return viewer;
+            if (FindScrollViewer(child) is ScrollViewer nested)
+                return nested;
+        }
+        return null;
     }
 
     private static bool IsInsideButton(DependencyObject? source, DependencyObject stop)
