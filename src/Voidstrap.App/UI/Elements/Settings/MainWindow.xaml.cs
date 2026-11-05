@@ -6231,10 +6231,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         double font = (iconsOnly ? 11.0 : 11.0 + (w - SidebarIconThreshold) * 4.0 / (SidebarMaxWidth - SidebarIconThreshold));
         ApplyNavFontSize(RootNavigation.Items, font);
         ApplyNavFontSize(RootNavigation.Footer, font);
-        if (iconsOnly)
-            MoreNavItem.PageType = typeof(MorePage);
-        else
-            MoreNavItem.ClearValue(NavigationItem.PageTypeProperty);
         if (_sidebarIconMode != iconsOnly)
         {
             _sidebarIconMode = iconsOnly;
@@ -6245,6 +6241,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             if (iconsOnly)
                 SidebarGroup.Expand(MoreNavItem, false, animate: false);
         }
+    }
+
+    private void MoreNavItem_Click(object sender, RoutedEventArgs e)
+    {
+        if (_sidebarIconMode == true && ReferenceEquals(e.OriginalSource, MoreNavItem))
+            RootNavigation.Navigate(typeof(MorePage));
     }
 
     private void ApplyIconModeLayout(System.Collections.IEnumerable items, bool iconsOnly)
