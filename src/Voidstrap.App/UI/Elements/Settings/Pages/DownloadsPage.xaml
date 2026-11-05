@@ -5,6 +5,7 @@
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
            xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages"
+           xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls"
            xmlns:resources="clr-namespace:Voidstrap.Resources"
            Title="{resources:Loc Ui_Pages_Downloads}" Scrollable="False">
     <FrameworkElement.Resources>
@@ -17,27 +18,6 @@
                     <TextBlock Text="{resources:Loc Vng_UninstallWarning}" FontSize="12" Foreground="{DynamicResource SystemFillColorCautionBrush}" Margin="0,8,0,0" TextWrapping="Wrap" />
                 </StackPanel>
             </DataTemplate>
-
-            <Style x:Key="InstallRowStyle" TargetType="{x:Type Border}">
-                <Setter Property="MinHeight" Value="68" />
-                <Setter Property="Padding" Value="12,10,12,10" />
-                <Setter Property="Margin" Value="0,0,0,6" />
-                <Setter Property="CornerRadius" Value="8" />
-                <Setter Property="BorderThickness" Value="1" />
-                <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
-                <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
-                <Setter Property="Cursor" Value="Hand" />
-                <Setter Property="SnapsToDevicePixels" Value="True" />
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
-                    </Trigger>
-                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                        <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
-                        <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
 
             <Style x:Key="InstallPillStyle" TargetType="{x:Type Border}">
                 <Setter Property="Padding" Value="8,3" />
@@ -85,61 +65,30 @@
             </Style>
 
             <DataTemplate x:Key="PosterCardTemplate">
-                <Border Style="{StaticResource InstallRowStyle}" ToolTip="{Binding Subtitle}">
-                    <Border.InputBindings>
+                <controls:OptionControl Margin="0,0,0,0" Cursor="Hand" Header="{Binding Title}" Description="{Binding Subtitle}">
+                    <controls:OptionControl.InputBindings>
                         <MouseBinding MouseAction="LeftClick" Command="{Binding SelectCommand}" />
-                    </Border.InputBindings>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid Grid.Column="0" Width="44" Height="44" VerticalAlignment="Center">
-                            <Border CornerRadius="8">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsVng}" Value="True">
-                                                <Setter Property="Background" Value="#335FFF" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                            </Border>
-                            <Image Source="{Binding IconImage}" Stretch="UniformToFill">
-                                <Image.Clip>
-                                    <RectangleGeometry Rect="0,0,44,44" RadiusX="8" RadiusY="8" />
-                                </Image.Clip>
-                            </Image>
-                        </Grid>
-                        <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
-                            <DockPanel LastChildFill="False">
-                                <TextBlock FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Text="{Binding Title}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-                                <Border Style="{StaticResource InstallPillStyle}" Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <ui:SymbolIcon Symbol="CheckmarkCircle16" FontSize="12" Foreground="{DynamicResource SystemFillColorSuccessBrush}" VerticalAlignment="Center" />
-                                        <TextBlock Text="{resources:Loc Ui_Pages_Installed}" FontSize="11" Margin="4,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                                    </StackPanel>
-                                </Border>
-                                <Border Style="{StaticResource InstallPillStyle}" Visibility="{Binding UpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <ui:SymbolIcon Symbol="ArrowSync16" FontSize="12" Foreground="{DynamicResource AccentFillColorDefaultBrush}" VerticalAlignment="Center" />
-                                        <TextBlock Text="{resources:Loc Ui_Pages_Update}" FontSize="11" Margin="4,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                                    </StackPanel>
-                                </Border>
-                            </DockPanel>
-                            <TextBlock Margin="0,3,0,0" FontSize="12" Text="{Binding Subtitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-                            <StackPanel Margin="0,6,0,0" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <ProgressBar Height="3" Minimum="0" Maximum="100" Value="{Binding Progress, Mode=OneWay}" />
-                                <TextBlock Margin="0,4,0,0" FontSize="11" Text="{Binding ProgressDetail}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-                            </StackPanel>
+                    </controls:OptionControl.InputBindings>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <StackPanel Width="160" Margin="0,0,12,0" VerticalAlignment="Center" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <ProgressBar Height="3" Minimum="0" Maximum="100" Value="{Binding Progress, Mode=OneWay}" />
+                            <TextBlock Margin="0,4,0,0" FontSize="11" Text="{Binding ProgressDetail}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                         </StackPanel>
-                        <ui:Button Grid.Column="3" Margin="12,0,0,0" MinWidth="96" VerticalAlignment="Center" Appearance="Secondary" Icon="ArrowDownload24" Content="{Binding PrimaryButtonText}" IsEnabled="{Binding CanPrimary}" Command="{Binding InstallCommand}" />
-                    </Grid>
-                </Border>
+                        <Border Style="{StaticResource InstallPillStyle}" Margin="0,0,10,0" Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:SymbolIcon Symbol="CheckmarkCircle16" FontSize="12" Foreground="{DynamicResource SystemFillColorSuccessBrush}" VerticalAlignment="Center" />
+                                <TextBlock Text="{resources:Loc Ui_Pages_Installed}" FontSize="11" Margin="4,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource InstallPillStyle}" Margin="0,0,10,0" Visibility="{Binding UpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:SymbolIcon Symbol="ArrowSync16" FontSize="12" Foreground="{DynamicResource AccentFillColorDefaultBrush}" VerticalAlignment="Center" />
+                                <TextBlock Text="{resources:Loc Ui_Pages_Update}" FontSize="11" Margin="4,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                            </StackPanel>
+                        </Border>
+                        <ui:Button MinWidth="96" VerticalAlignment="Center" Appearance="Secondary" Icon="ArrowDownload24" Content="{Binding PrimaryButtonText}" IsEnabled="{Binding CanPrimary}" Command="{Binding InstallCommand}" />
+                    </StackPanel>
+                </controls:OptionControl>
             </DataTemplate>
         </ResourceDictionary>
     </FrameworkElement.Resources>
