@@ -5,7 +5,6 @@
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
            xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages"
-           xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls"
            xmlns:resources="clr-namespace:Voidstrap.Resources"
            Title="{resources:Loc Ui_Pages_Downloads}" Scrollable="False">
     <FrameworkElement.Resources>
@@ -65,10 +64,22 @@
             </Style>
 
             <DataTemplate x:Key="PosterCardTemplate">
-                <controls:OptionControl Margin="0,0,0,0" Cursor="Hand" Header="{Binding Title}" Description="{Binding Subtitle}">
-                    <controls:OptionControl.InputBindings>
-                        <MouseBinding MouseAction="LeftClick" Command="{Binding SelectCommand}" />
-                    </controls:OptionControl.InputBindings>
+                <ui:CardControl Margin="0,8,0,0" Cursor="Hand" Command="{Binding SelectCommand}">
+                    <ui:CardControl.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Grid Width="36" Height="36" Margin="0,0,14,0" VerticalAlignment="Center">
+                                <Image Source="{Binding IconImage}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality">
+                                    <Image.Clip>
+                                        <RectangleGeometry Rect="0,0,36,36" RadiusX="7" RadiusY="7" />
+                                    </Image.Clip>
+                                </Image>
+                            </Grid>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock FontSize="14" Text="{Binding Title}" />
+                                <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Subtitle}" TextWrapping="Wrap" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ui:CardControl.Header>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <StackPanel Width="160" Margin="0,0,12,0" VerticalAlignment="Center" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <ProgressBar Height="3" Minimum="0" Maximum="100" Value="{Binding Progress, Mode=OneWay}" />
@@ -88,7 +99,7 @@
                         </Border>
                         <ui:Button MinWidth="96" VerticalAlignment="Center" Appearance="Secondary" Icon="ArrowDownload24" Content="{Binding PrimaryButtonText}" IsEnabled="{Binding CanPrimary}" Command="{Binding InstallCommand}" />
                     </StackPanel>
-                </controls:OptionControl>
+                </ui:CardControl>
             </DataTemplate>
         </ResourceDictionary>
     </FrameworkElement.Resources>
