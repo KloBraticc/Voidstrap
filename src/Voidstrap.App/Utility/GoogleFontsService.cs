@@ -337,6 +337,8 @@ internal static partial class GoogleFontsService
     private static bool TryLoadCache(out IReadOnlyList<GoogleFontOption> fonts)
     {
         fonts = [];
+        if (!File.Exists(CatalogPath))
+            return false;
         try
         {
             CatalogEnvelope envelope = JsonFile.Deserialize<CatalogEnvelope>(CatalogPath, JsonOptions.Tolerant, MaximumCatalogBytes);
