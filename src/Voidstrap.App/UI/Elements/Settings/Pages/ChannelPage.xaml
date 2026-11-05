@@ -32,7 +32,15 @@
             <ui:ToggleSwitch IsChecked="{Binding LaunchWithoutVoidstrap, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:BootstrapperImportControl Imported="OnSettingsImported" />
-          <Expander Header="{resources:Loc Ui_Channel_DisplayAndResolution}" IsExpanded="False" Margin="0,8,0,0" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <Expander Header="{resources:Loc Ui_Channel_AppSettings}" IsExpanded="False" Margin="0,8,0,0">
+            <StackPanel>
+                            <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Ui_Channel_HardwareAcceleration}" Description="{resources:Loc Ui_Channel_UsesTheGPUToRenderVoidstrap}">
+                                <ui:ToggleSwitch IsChecked="{Binding HWAccelEnabled, Mode=TwoWay}" />
+                            </controls:OptionControl>
+                            <controls:OptionControl Description="{resources:Loc Ui_Channel_DisplaysVoidstrapsDiscordRPC}" Header="{resources:Loc Ui_Channel_VoidstrapRPC}">
+                                <ui:ToggleSwitch IsChecked="{Binding VoidRPC, Mode=TwoWay}" />
+                            </controls:OptionControl>
+              <StackPanel Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <StackPanel Margin="0,4,0,0">
                             <Border CornerRadius="8" Padding="10" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
                 <StackPanel>
@@ -92,18 +100,10 @@
                 </StackPanel>
               </controls:OptionControl>
             </StackPanel>
+              </StackPanel>
+            <controls:ProfilesExpander Kind="Settings" Applied="OnSettingsImported" />
+            </StackPanel>
           </Expander>
-                    <Expander Header="{resources:Loc Ui_Channel_AppSettings}" IsExpanded="False" Margin="0,8,0,0">
-                        <StackPanel>
-                            <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Ui_Channel_HardwareAcceleration}" Description="{resources:Loc Ui_Channel_UsesTheGPUToRenderVoidstrap}">
-                                <ui:ToggleSwitch IsChecked="{Binding HWAccelEnabled, Mode=TwoWay}" />
-                            </controls:OptionControl>
-                            <controls:OptionControl Description="{resources:Loc Ui_Channel_DisplaysVoidstrapsDiscordRPC}" Header="{resources:Loc Ui_Channel_VoidstrapRPC}">
-                                <ui:ToggleSwitch IsChecked="{Binding VoidRPC, Mode=TwoWay}" />
-                            </controls:OptionControl>
-                        </StackPanel>
-                    </Expander>
-          <controls:ProfilesExpander Kind="Settings" Applied="OnSettingsImported" />
                     <StackPanel Orientation="Horizontal">
             <ui:Button Content="{resources:Loc Ui_Channel_FactoryReset}" Appearance="Danger" Margin="0,8,8,0" Icon="ArrowReset24" Click="ResetSettingsButton_Click" />
             <ui:Button Content="{resources:Loc Ui_Channel_Donate}" Icon="Heart24" Margin="0,8,8,0" Click="DonateButton_Click" />
