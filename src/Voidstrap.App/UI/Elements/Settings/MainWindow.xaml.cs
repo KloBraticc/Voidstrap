@@ -6246,6 +6246,22 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             SidebarGroup.SetIconOnly(MoreNavItem, iconsOnly);
             if (iconsOnly)
                 SidebarGroup.Expand(MoreNavItem, false, animate: false);
+            else if (RootFrame.Content is MorePage)
+            {
+                bool restored = false;
+                while (_navHistoryBack.Count > 0 && !restored)
+                {
+                    NavigationHistoryEntry entry = _navHistoryBack[_navHistoryBack.Count - 1];
+                    _navHistoryBack.RemoveAt(_navHistoryBack.Count - 1);
+                    if (entry.PageType != typeof(MorePage))
+                        restored = RestoreNavigationHistoryEntry(entry, _navHistoryForward);
+                }
+                _navHistoryForward.RemoveAll(entry => entry.PageType == typeof(MorePage));
+                if (!restored)
+                    RootNavigation.Navigate(typeof(HomePage));
+                _navHistoryBack.RemoveAll(entry => entry.PageType == typeof(MorePage));
+                UpdateTopNavArrows();
+            }
         }
     }
 
