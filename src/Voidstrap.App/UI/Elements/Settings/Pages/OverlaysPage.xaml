@@ -263,9 +263,9 @@
         </StackPanel>
       </ui:CardExpander>
 
-      <TextBlock Margin="2,20,0,0" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_Mods_Display}" />
+      <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Header="{resources:Loc Ui_Mods_Display}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
+        <StackPanel>
                   <StackPanel Margin="0,8,0,0" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
-        <TextBlock Margin="2,0,0,0" FontSize="14" FontWeight="Medium" Text="{resources:Loc Ui_Mods_ScreenColor}" />
         <StackPanel>
           <controls:OptionControl Header="{resources:Loc Ui_Mods_Saturation}" Description="{resources:Loc Ui_Mods_100IsNormal}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <StackPanel Orientation="Horizontal">
@@ -289,7 +289,6 @@
       </StackPanel>
 
       <StackPanel Margin="0,14,0,0" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
-        <TextBlock Margin="2,0,0,0" FontSize="14" FontWeight="Medium" Text="{resources:Loc Ui_Mods_SmoothingAndFrames}" />
         <StackPanel>
           <controls:OptionControl Header="{resources:Loc Ui_Mods_AntiAliasing}" Description="{resources:Loc Ui_Mods_SmoothsJaggedEdgesUsingYourGpu}">
             <ComboBox Padding="10,5,10,5" MinWidth="140" ItemsSource="{Binding AntiAliasingMethodNames, Mode=OneTime}" SelectedIndex="{Binding AntiAliasingMethodIndex, Mode=TwoWay}" />
@@ -353,11 +352,24 @@
         </StackPanel>
       </ui:CardExpander>
 
-      <TextBlock Margin="2,20,0,0" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_Mods_InGameTools}" />
-                  <controls:OptionControl Header="{resources:Loc Ui_Mods_Clock}" Description="{resources:Loc Ui_Mods_ShowsTheTimeInTheCorner}">
-        <ui:ToggleSwitch IsChecked="{Binding CurrentTimeDisplay, Mode=TwoWay}" />
-      </controls:OptionControl>
-      <StackPanel Margin="16,0,0,0" IsEnabled="{Binding CurrentTimeDisplay}">
+        </StackPanel>
+      </ui:CardExpander>
+
+      <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+        <HeaderedContentControl.Header>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Center">
+              <TextBlock FontSize="14" Text="{resources:Loc Ui_Mods_Clock}" />
+              <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Mods_ShowsTheTimeInTheCorner}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+            </StackPanel>
+            <ui:ToggleSwitch Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center" IsChecked="{Binding CurrentTimeDisplay, Mode=TwoWay}" />
+          </Grid>
+        </HeaderedContentControl.Header>
+      <StackPanel IsEnabled="{Binding CurrentTimeDisplay}">
         <controls:OptionControl Header="{resources:Loc Ui_Mods_TimeZone}" Description="{resources:Loc Ui_Mods_SystemFollowsThisComputer}">
           <ComboBox Width="280" Padding="10,5,10,5" SelectedValuePath="Id" DisplayMemberPath="Display"
                     ItemsSource="{Binding ClockTimeZones, Mode=OneTime}"
@@ -367,6 +379,7 @@
           <ui:ToggleSwitch IsChecked="{Binding Clock24Hour, Mode=TwoWay}" />
         </controls:OptionControl>
       </StackPanel>
+      </ui:CardExpander>
       <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
         <HeaderedContentControl.Header>
           <Grid>
