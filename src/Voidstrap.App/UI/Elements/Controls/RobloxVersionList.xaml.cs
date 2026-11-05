@@ -22,6 +22,8 @@ public partial class RobloxVersionList : UserControl
 
     public event EventHandler<object>? ItemChosen;
 
+    public event EventHandler<object>? ItemScrolled;
+
     public IEnumerable? ItemsSource
     {
         get => VersionsListBox.ItemsSource;
@@ -115,6 +117,7 @@ public partial class RobloxVersionList : UserControl
             VersionsListBox.SelectedItem = item;
             VersionsListBox.ScrollIntoView(item);
             FocusList();
+            ItemScrolled?.Invoke(this, item);
             break;
         }
         e.Handled = true;

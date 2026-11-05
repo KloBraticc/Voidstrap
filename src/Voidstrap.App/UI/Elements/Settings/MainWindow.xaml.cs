@@ -7961,6 +7961,17 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void LaunchTargetList_ItemChosen(object? sender, object item)
     {
+        ApplyLaunchTarget(item);
+        CloseLaunchTargetOverlay();
+    }
+
+    private void LaunchTargetList_ItemScrolled(object? sender, object item)
+    {
+        ApplyLaunchTarget(item);
+    }
+
+    private void ApplyLaunchTarget(object item)
+    {
         if (base.DataContext is MainWindowViewModel mainWindowViewModel)
         {
             switch (item)
@@ -7990,7 +8001,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             }
         }
         UpdateButtonContent();
-        CloseLaunchTargetOverlay();
     }
 
     private void LaunchTargetClose_Click(object sender, RoutedEventArgs e)
