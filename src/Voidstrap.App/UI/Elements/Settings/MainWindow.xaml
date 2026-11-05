@@ -889,9 +889,9 @@
         <ui:Button Height="30" Margin="10,0,0,0" Padding="12,0" Content="{resources:Loc Common_Reset}" Click="ZoomReset_Click" />
       </StackPanel>
     </Border>
-    <Border x:Name="StatusBarHost" Grid.Row="2" VerticalAlignment="Bottom" MinHeight="52" CornerRadius="0" Padding="0" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Background="{ui:ThemeResource ControlFillColorDefaultBrush}">
+    <Border x:Name="StatusBarHost" Grid.Row="2" VerticalAlignment="Bottom" MinHeight="58" CornerRadius="0" Padding="0" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Background="{ui:ThemeResource ControlFillColorDefaultBrush}">
       <Grid>
-        <StatusBar Name="RootStatusBar" Padding="14,10" BorderThickness="0" Background="Transparent">
+        <StatusBar Name="RootStatusBar" Padding="16,11" BorderThickness="0" Background="Transparent">
           <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
               <Grid>
@@ -917,7 +917,7 @@
                   </StackPanel>
                 </Border>
               </vscontrols:AnimatedPopup>
-              <Button x:Name="AccountButton" Height="32" VerticalAlignment="Center" Margin="0,0,14,0" Padding="6,0,12,0" Style="{StaticResource TopBarPillButtonStyle}" AutomationProperties.Name="{resources:Loc Accounts_Title}" Click="AccountButton_Click">
+              <Button x:Name="AccountButton" Height="35" VerticalAlignment="Center" Margin="0,0,14,0" Padding="6,0,12,0" Style="{StaticResource TopBarPillButtonStyle}" AutomationProperties.Name="{resources:Loc Accounts_Title}" Click="AccountButton_Click">
                 <StackPanel Orientation="Horizontal">
                 <Border x:Name="AccountMenuChevron" Background="Transparent" Margin="-6,-8,6,-8" Padding="8,8,4,8">
                   <Viewbox Width="12" Height="12" RenderTransformOrigin="0.5,0.5">
@@ -939,7 +939,7 @@
             </StackPanel>
           </StatusBarItem>
           <StatusBarItem Grid.Column="2" Padding="0,0,8,0">
-            <ui:SplitButton Name="InstallLaunchButton" Height="{Binding ActualHeight, ElementName=FooterSaveButton}" MinHeight="0" HorizontalAlignment="Center"
+            <ui:SplitButton Name="InstallLaunchButton" FontSize="14.5" Height="{Binding ActualHeight, ElementName=FooterSaveButton}" MinHeight="0" HorizontalAlignment="Center"
                             Background="{DynamicResource AccentFillColorPrimaryBrush}" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"
                             AutomationProperties.Name="{Binding Text, ElementName=LaunchActionText}"
                             Command="{Binding SaveAndLaunchSettingsCommand, Mode=OneWay}">
@@ -947,10 +947,10 @@
             </ui:SplitButton>
           </StatusBarItem>
           <StatusBarItem Grid.Column="3" Padding="0,0,8,0">
-            <ui:Button x:Name="FooterSaveButton" MinWidth="56.587" Appearance="Secondary" Content="{resources:Loc Menu_Save}" Command="{Binding SaveSettingsCommand, Mode=OneWay}" Click="Button_Click_1" />
+            <ui:Button x:Name="FooterSaveButton" MinWidth="60" Height="35" Padding="14,0" FontSize="14.5" Appearance="Secondary" Content="{resources:Loc Menu_Save}" Command="{Binding SaveSettingsCommand, Mode=OneWay}" Click="Button_Click_1" />
           </StatusBarItem>
           <StatusBarItem Grid.Column="4" Padding="0">
-            <ui:Button x:Name="FooterCloseButton" MinWidth="56.587" Height="{Binding ActualHeight, ElementName=FooterSaveButton}" MinHeight="0" HorizontalAlignment="Center" Appearance="Secondary" Content="{resources:Loc Common_Close}" Command="{Binding CloseWindowCommand, Mode=OneTime}" Click="Button_Click_2" />
+            <ui:Button x:Name="FooterCloseButton" MinWidth="60" Padding="14,0" FontSize="14.5" Height="{Binding ActualHeight, ElementName=FooterSaveButton}" MinHeight="0" HorizontalAlignment="Center" Appearance="Secondary" Content="{resources:Loc Common_Close}" Command="{Binding CloseWindowCommand, Mode=OneTime}" Click="Button_Click_2" />
           </StatusBarItem>
         </StatusBar>
         <Button x:Name="ManageModsButton"
