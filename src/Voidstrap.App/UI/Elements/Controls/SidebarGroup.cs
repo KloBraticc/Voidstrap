@@ -228,7 +228,7 @@ public static class SidebarGroup
 
     private static void OnHeaderClick(object sender, RoutedEventArgs e)
     {
-        if (sender is not NavigationItem header || !ReferenceEquals(e.OriginalSource, header))
+        if (sender is not NavigationItem header)
             return;
         if (GetIconOnly(header))
         {
@@ -236,6 +236,8 @@ public static class SidebarGroup
                 navigation.Navigate(page);
             return;
         }
+        if (!ReferenceEquals(e.OriginalSource, header))
+            return;
         Expand(header, !GetIsExpanded(header), animate: true);
     }
 
