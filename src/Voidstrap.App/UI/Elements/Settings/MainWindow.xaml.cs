@@ -1030,7 +1030,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             NavigationItem item in RootNavigation.Items.OfType<NavigationItem>().Concat(RootNavigation.Footer.OfType<NavigationItem>())
         )
         {
-            if (item.PageType == pageType)
+            if (item.PageType == pageType || SidebarGroup.GetIconOnlyPage(item) == pageType)
             {
                 return item.Cache;
             }
@@ -1875,7 +1875,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Type contentType = content.GetType();
         NavigationItem? activeItem = content is Pages.ModCustomPage modPage
             ? navigationItems.FirstOrDefault(item => string.Equals(item.Name, modPage.PageKey, StringComparison.Ordinal))
-            : navigationItems.FirstOrDefault(item => item.PageType == contentType);
+            : navigationItems.FirstOrDefault(item => item.PageType == contentType || SidebarGroup.GetIconOnlyPage(item) == contentType);
         if (activeItem == null)
         {
             return;
@@ -1889,7 +1889,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
                 item.IsActive = isActive;
             }
-            if (isActive)
+            if (isActive && item.PageType != null)
             {
                 RootNavigation.SelectedPageIndex = i;
                 if (App.State.Prop.LastPage != i)

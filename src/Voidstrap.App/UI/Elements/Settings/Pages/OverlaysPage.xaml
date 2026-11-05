@@ -184,85 +184,6 @@
         </StackPanel>
       </ui:CardExpander>
 
-      <TextBlock Margin="2,20,0,0" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_Appearance_Background}" />
-                  <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
-        <HeaderedContentControl.Header>
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <StackPanel VerticalAlignment="Center">
-              <TextBlock FontSize="14" Text="{resources:Loc Ui_Mods_HomepageBackground}" />
-              <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Mods_ReplaceTheDarkRobloxHomeBackground}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
-            </StackPanel>
-            <ui:ToggleSwitch Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center" IsChecked="{Binding HomepageBackgroundOverlayEnabled, Mode=TwoWay}" />
-          </Grid>
-        </HeaderedContentControl.Header>
-        <StackPanel>
-          <controls:OptionControl Header="{resources:Loc Menu_Appearance_Style_Title}" Description="{resources:Loc Ui_Mods_WhatToShowBehindTheHome}">
-            <ComboBox Width="190" Padding="10,5" ItemsSource="{Binding HomepageBackgroundModes}" SelectedItem="{Binding SelectedHomepageBackgroundMode, Mode=TwoWay}" />
-          </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Appearance_Color}" Visibility="{Binding ShowHomepageSolidColor, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Button Width="120" Content="{Binding HomepageBackgroundOverlayColor}" Command="{Binding PickHomepageBackgroundColorCommand}" />
-          </controls:OptionControl>
-          <StackPanel Visibility="{Binding ShowHomepageGradient, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <controls:OptionControl Header="{resources:Loc Ui_Mods_Colors}" Description="{resources:Loc Ui_Mods_StartAndEndOfTheGradient}">
-              <StackPanel Orientation="Horizontal">
-                <Button Width="110" Content="{Binding HomepageBackgroundOverlayColor}" Command="{Binding PickHomepageBackgroundColorCommand}" />
-                <Button Width="110" Margin="8,0,0,0" Content="{Binding HomepageBackgroundOverlayGradientColor}" Command="{Binding PickHomepageBackgroundGradientColorCommand}" />
-              </StackPanel>
-            </controls:OptionControl>
-            <controls:OptionControl Header="{resources:Loc Ui_Mods_Direction}">
-              <StackPanel Orientation="Horizontal">
-                <Slider Width="200" Minimum="0" Maximum="360" TickFrequency="1" VerticalAlignment="Center" Value="{Binding HomepageBackgroundOverlayGradientAngle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding HomepageBackgroundOverlayGradientAngleDisplay}" />
-              </StackPanel>
-            </controls:OptionControl>
-          </StackPanel>
-          <StackPanel Visibility="{Binding ShowHomepageMedia, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <controls:OptionControl Header="{resources:Loc Ui_Mods_File}" Description="{Binding HomepageBackgroundOverlayMediaName}">
-              <ui:Button MinWidth="120" Content="{Binding HomepageBackgroundMediaButtonText}" Command="{Binding ToggleHomepageBackgroundMediaCommand}">
-                <FrameworkElement.Style>
-                  <Style BasedOn="{StaticResource {x:Type ui:Button}}" TargetType="{x:Type ui:Button}">
-                    <Style.Triggers>
-                      <DataTrigger Binding="{Binding HasHomepageBackgroundMedia}" Value="True">
-                        <Setter Property="Appearance" Value="Danger" />
-                      </DataTrigger>
-                    </Style.Triggers>
-                  </Style>
-                </FrameworkElement.Style>
-              </ui:Button>
-            </controls:OptionControl>
-            <Border Height="150" Margin="0,8,0,4" CornerRadius="6"
-                    Background="{DynamicResource ControlFillColorSecondaryBrush}"
-                    BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1"
-                    ClipToBounds="True" SnapsToDevicePixels="True"
-                    Visibility="{Binding HasHomepageBackgroundMedia, Converter={StaticResource BooleanToVisibilityConverter}}">
-              <Grid>
-                <Grid Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
-                  <Image Stretch="UniformToFill" IsHitTestVisible="False"
-                         Source="{Binding HomepageMediaStillSource}"
-                         Visibility="{Binding HomepageMediaIsStill, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                  <Image Stretch="UniformToFill" IsHitTestVisible="False"
-                         gif:ImageBehavior.RepeatBehavior="Forever"
-                         gif:ImageBehavior.AnimatedSource="{Binding HomepageMediaAnimatedSource}"
-                         Visibility="{Binding HomepageMediaIsAnimated, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                  <controls:HomepageMediaPreviewVideo IsHitTestVisible="False"
-                                                      Visibility="{Binding HomepageMediaIsVideo, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                </Grid>
-                <controls:HomepageMediaPreviewVideo IsHitTestVisible="False"
-                                                    SourcePath="{Binding HomepageBackgroundOverlayMediaPath}"
-                                                    Visibility="{x:Static platform:PlatformFeatureVisibility.PortableImages}" />
-                <TextBlock Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"
-                           TextAlignment="Center" Opacity="0.7" Text="{Binding HomepageMediaPreviewMessage}"
-                           Visibility="{Binding HasHomepageMediaPreviewMessage, Converter={StaticResource BooleanToVisibilityConverter}}" />
-              </Grid>
-            </Border>
-          </StackPanel>
-        </StackPanel>
-      </ui:CardExpander>
-
       <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Header="{resources:Loc Ui_Mods_Display}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
         <StackPanel>
                   <StackPanel Margin="0,8,0,0" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
@@ -352,6 +273,85 @@
         </StackPanel>
       </ui:CardExpander>
 
+        </StackPanel>
+      </ui:CardExpander>
+
+      <TextBlock Margin="2,20,0,0" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_Appearance_Background}" />
+                  <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+        <HeaderedContentControl.Header>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Center">
+              <TextBlock FontSize="14" Text="{resources:Loc Ui_Mods_HomepageBackground}" />
+              <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Mods_ReplaceTheDarkRobloxHomeBackground}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
+            </StackPanel>
+            <ui:ToggleSwitch Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center" IsChecked="{Binding HomepageBackgroundOverlayEnabled, Mode=TwoWay}" />
+          </Grid>
+        </HeaderedContentControl.Header>
+        <StackPanel>
+          <controls:OptionControl Header="{resources:Loc Menu_Appearance_Style_Title}" Description="{resources:Loc Ui_Mods_WhatToShowBehindTheHome}">
+            <ComboBox Width="190" Padding="10,5" ItemsSource="{Binding HomepageBackgroundModes}" SelectedItem="{Binding SelectedHomepageBackgroundMode, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Appearance_Color}" Visibility="{Binding ShowHomepageSolidColor, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Button Width="120" Content="{Binding HomepageBackgroundOverlayColor}" Command="{Binding PickHomepageBackgroundColorCommand}" />
+          </controls:OptionControl>
+          <StackPanel Visibility="{Binding ShowHomepageGradient, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <controls:OptionControl Header="{resources:Loc Ui_Mods_Colors}" Description="{resources:Loc Ui_Mods_StartAndEndOfTheGradient}">
+              <StackPanel Orientation="Horizontal">
+                <Button Width="110" Content="{Binding HomepageBackgroundOverlayColor}" Command="{Binding PickHomepageBackgroundColorCommand}" />
+                <Button Width="110" Margin="8,0,0,0" Content="{Binding HomepageBackgroundOverlayGradientColor}" Command="{Binding PickHomepageBackgroundGradientColorCommand}" />
+              </StackPanel>
+            </controls:OptionControl>
+            <controls:OptionControl Header="{resources:Loc Ui_Mods_Direction}">
+              <StackPanel Orientation="Horizontal">
+                <Slider Width="200" Minimum="0" Maximum="360" TickFrequency="1" VerticalAlignment="Center" Value="{Binding HomepageBackgroundOverlayGradientAngle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding HomepageBackgroundOverlayGradientAngleDisplay}" />
+              </StackPanel>
+            </controls:OptionControl>
+          </StackPanel>
+          <StackPanel Visibility="{Binding ShowHomepageMedia, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <controls:OptionControl Header="{resources:Loc Ui_Mods_File}" Description="{Binding HomepageBackgroundOverlayMediaName}">
+              <ui:Button MinWidth="120" Content="{Binding HomepageBackgroundMediaButtonText}" Command="{Binding ToggleHomepageBackgroundMediaCommand}">
+                <FrameworkElement.Style>
+                  <Style BasedOn="{StaticResource {x:Type ui:Button}}" TargetType="{x:Type ui:Button}">
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding HasHomepageBackgroundMedia}" Value="True">
+                        <Setter Property="Appearance" Value="Danger" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </ui:Button>
+            </controls:OptionControl>
+            <Border Height="150" Margin="0,8,0,4" CornerRadius="6"
+                    Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                    BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1"
+                    ClipToBounds="True" SnapsToDevicePixels="True"
+                    Visibility="{Binding HasHomepageBackgroundMedia, Converter={StaticResource BooleanToVisibilityConverter}}">
+              <Grid>
+                <Grid Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+                  <Image Stretch="UniformToFill" IsHitTestVisible="False"
+                         Source="{Binding HomepageMediaStillSource}"
+                         Visibility="{Binding HomepageMediaIsStill, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                  <Image Stretch="UniformToFill" IsHitTestVisible="False"
+                         gif:ImageBehavior.RepeatBehavior="Forever"
+                         gif:ImageBehavior.AnimatedSource="{Binding HomepageMediaAnimatedSource}"
+                         Visibility="{Binding HomepageMediaIsAnimated, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                  <controls:HomepageMediaPreviewVideo IsHitTestVisible="False"
+                                                      Visibility="{Binding HomepageMediaIsVideo, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </Grid>
+                <controls:HomepageMediaPreviewVideo IsHitTestVisible="False"
+                                                    SourcePath="{Binding HomepageBackgroundOverlayMediaPath}"
+                                                    Visibility="{x:Static platform:PlatformFeatureVisibility.PortableImages}" />
+                <TextBlock Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"
+                           TextAlignment="Center" Opacity="0.7" Text="{Binding HomepageMediaPreviewMessage}"
+                           Visibility="{Binding HasHomepageMediaPreviewMessage, Converter={StaticResource BooleanToVisibilityConverter}}" />
+              </Grid>
+            </Border>
+          </StackPanel>
         </StackPanel>
       </ui:CardExpander>
 
