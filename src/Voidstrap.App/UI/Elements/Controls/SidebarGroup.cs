@@ -23,6 +23,8 @@ public static class SidebarGroup
 
     private static readonly ConditionalWeakTable<NavigationItem, List<NavigationItem>> Children = new ConditionalWeakTable<NavigationItem, List<NavigationItem>>();
 
+    private static readonly ConditionalWeakTable<NavigationItem, FrameworkElement> IconOnlyPageInstances = new ConditionalWeakTable<NavigationItem, FrameworkElement>();
+
     private static readonly Duration FillDuration = new Duration(TimeSpan.FromMilliseconds(187));
 
     private static readonly RoutedEventHandler HeaderClickHandler = OnHeaderClick;
@@ -233,7 +235,17 @@ public static class SidebarGroup
         if (GetIconOnly(header))
         {
             if (GetIconOnlyPage(header) is Type page && FindNavigation(header) is NavigationBase navigation)
-                navigation.Navigate(page);
+            {
+                if (!IconOnlyPageInstances.TryGetValue(header, out FrameworkElement? pageInstance) || pageInstance.GetType() != page)
+                {
+                    pageInstance = Activator.CreateInstance(page) as FrameworkElement;
+                    if (pageInstance == null)
+                        return;
+                    IconOnlyPageInstances.Remove(header);
+                    IconOnlyPageInstances.Add(header, pageInstance);
+                }
+                navigation.NavigateExternal(pageInstance);
+            }
             return;
         }
         if (!ReferenceEquals(e.OriginalSource, header))

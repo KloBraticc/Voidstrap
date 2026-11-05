@@ -503,6 +503,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private AccountsPage? _accountsPage;
 
+    private MorePage? _morePage;
+
     private Voidstrap.UI.SettingsIconMotion? _settingsIconMotion;
 
     private Pages.RobloxNewsPage? _robloxNewsPage;
@@ -1614,7 +1616,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 break;
             case "more":
             case "morepage":
-                RootNavigation.Navigate(typeof(MorePage));
+                _morePage ??= new MorePage();
+                if (!ReferenceEquals(RootFrame.Content, _morePage))
+                    RootNavigation.NavigateExternal(_morePage);
                 break;
             case "serverbrowser":
             case "serverbrowserpage":
