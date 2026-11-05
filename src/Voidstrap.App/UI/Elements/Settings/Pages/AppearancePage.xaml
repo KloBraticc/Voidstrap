@@ -19,20 +19,13 @@
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <ui:CardExpander Margin="0,0,0,8" IsExpanded="False">
-                <HeaderedContentControl.Header>
-                  <TextBlock FontSize="14" Text="{resources:Loc Ui_Appearance_Color}" />
-                </HeaderedContentControl.Header>
-                <StackPanel>
-                  <controls:OptionControl Header="{resources:Loc Menu_Appearance_Accent_Title}" Description="{resources:Loc Menu_Appearance_Accent_Description}">
-                    <StackPanel Orientation="Horizontal">
-                      <Border Width="24" Height="24" CornerRadius="4" Background="{DynamicResource SystemAccentColorBrush}" Margin="0,0,8,0" />
-                      <ui:Button Content="{resources:Loc Menu_Appearance_Accent_Choose}" Command="{Binding ChooseAccentCommand}" Margin="0,0,6,0" />
-                      <ui:Button Content="{resources:Loc Menu_Appearance_Accent_System}" Command="{Binding ResetAccentCommand}" />
-                    </StackPanel>
-                  </controls:OptionControl>
+              <controls:OptionControl Margin="0,0,0,8" Header="{resources:Loc Menu_Appearance_Accent_Title}" Description="{resources:Loc Menu_Appearance_Accent_Description}">
+                <StackPanel Orientation="Horizontal">
+                  <Border Width="24" Height="24" CornerRadius="4" Background="{DynamicResource SystemAccentColorBrush}" Margin="0,0,8,0" />
+                  <ui:Button Content="{resources:Loc Menu_Appearance_Accent_Choose}" Command="{Binding ChooseAccentCommand}" Margin="0,0,6,0" />
+                  <ui:Button Content="{resources:Loc Menu_Appearance_Accent_System}" Command="{Binding ResetAccentCommand}" />
                 </StackPanel>
-              </ui:CardExpander>
+              </controls:OptionControl>
               <ui:CardExpander Margin="0,0,0,8" IsExpanded="False">
                 <HeaderedContentControl.Header>
                   <TextBlock FontSize="14" Text="{resources:Loc Ui_Appearance_Background}" />
