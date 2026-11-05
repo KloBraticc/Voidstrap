@@ -6243,12 +6243,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private void MoreNavItem_Click(object sender, RoutedEventArgs e)
-    {
-        if (_sidebarIconMode == true && ReferenceEquals(e.OriginalSource, MoreNavItem))
-            RootNavigation.Navigate(typeof(MorePage));
-    }
-
     private void ApplyIconModeLayout(System.Collections.IEnumerable items, bool iconsOnly)
     {
         if (items == null)

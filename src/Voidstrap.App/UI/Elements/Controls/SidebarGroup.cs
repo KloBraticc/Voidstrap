@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Wpf.Ui.Controls;
+using Wpf.Ui.Controls.Navigation;
 
 namespace Voidstrap.UI.Elements.Controls;
 
@@ -64,6 +65,13 @@ public static class SidebarGroup
     public static bool GetIsExpanded(DependencyObject element) => (bool)element.GetValue(IsExpandedProperty);
 
     public static void SetIsExpanded(DependencyObject element, bool value) => element.SetValue(IsExpandedProperty, value);
+
+    public static readonly DependencyProperty IconOnlyPageProperty = DependencyProperty.RegisterAttached(
+        "IconOnlyPage", typeof(Type), typeof(SidebarGroup), new PropertyMetadata(null));
+
+    public static Type? GetIconOnlyPage(DependencyObject element) => (Type?)element.GetValue(IconOnlyPageProperty);
+
+    public static void SetIconOnlyPage(DependencyObject element, Type? value) => element.SetValue(IconOnlyPageProperty, value);
 
     public static bool GetIconOnly(DependencyObject element) => (bool)element.GetValue(IconOnlyProperty);
 
@@ -223,7 +231,19 @@ public static class SidebarGroup
         if (sender is not NavigationItem header || !ReferenceEquals(e.OriginalSource, header))
             return;
         if (GetIconOnly(header))
+        {
+            if (GetIconOnlyPage(header) is Type page && FindNavigation(header) is NavigationBase navigation)
+                navigation.Navigate(page);
             return;
+        }
         Expand(header, !GetIsExpanded(header), animate: true);
+    }
+
+    private static NavigationBase? FindNavigation(DependencyObject element)
+    {
+        DependencyObject? current = element;
+        while (current != null && current is not NavigationBase)
+            current = VisualTreeHelper.GetParent(current) ?? LogicalTreeHelper.GetParent(current);
+        return current as NavigationBase;
     }
 }
