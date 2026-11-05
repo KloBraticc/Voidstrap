@@ -463,7 +463,7 @@
                               <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Border ClipToBounds="True" util:RoundedClip.Radius="9" Background="{DynamicResource ControlFillColorDefaultBrush}">
-                              <Image Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding IconUrl, Mode=OneTime}" />
+                              <Image Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl, Mode=OneTime}" />
                             </Border>
                             <Rectangle Grid.Row="1" Fill="{DynamicResource CardStrokeColorDefaultBrush}" />
                             <StackPanel Grid.Row="2" Margin="14,12,14,12">
@@ -502,7 +502,7 @@
                       <Border.Clip>
                         <RectangleGeometry Rect="0,0,84,84" RadiusX="12" RadiusY="12" />
                       </Border.Clip>
-                      <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding SelectedMod.IconUrl}" />
+                      <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding SelectedMod.IconUrl}" />
                     </Border>
                     <StackPanel Grid.Column="1" Margin="16,0,12,0" VerticalAlignment="Center">
                       <TextBlock FontSize="18" FontWeight="SemiBold" MaxHeight="50" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Text="{Binding SelectedMod.Name}" />
@@ -590,7 +590,7 @@
                               <Border.Clip>
                                 <RectangleGeometry Rect="0,0,220,138" RadiusX="8" RadiusY="8" />
                               </Border.Clip>
-                              <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding Thumbnail, Mode=OneTime}" />
+                              <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding Thumbnail, Mode=OneTime}" />
                             </Border>
                             <TextBlock Margin="2,6,0,0" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Caption, Mode=OneTime}" />
                           </StackPanel>
@@ -823,7 +823,7 @@
                         <ui:SymbolIcon Width="20" Height="20" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="ReOrderDotsVertical24" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                       </Border>
                       <Border Grid.Column="1" Width="44" Height="44" Margin="0,0,10,0" VerticalAlignment="Center" CornerRadius="6" ClipToBounds="True" Background="{DynamicResource ControlFillColorSecondaryBrush}" Visibility="{Binding PackIconVisibility}">
-                        <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding Pack.IconUrl, Mode=OneWay}" />
+                        <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding Pack.IconUrl, Mode=OneWay}" />
                       </Border>
                       <ToggleButton Grid.Column="2" Width="36" Height="36" Margin="0,0,12,0" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding Enabled, Mode=OneWay}" Command="{Binding DataContext.ToggleManagedModCommand, RelativeSource={RelativeSource AncestorType={x:Type pages:ModsPage}}}" CommandParameter="{Binding}" AutomationProperties.Name="{resources:Loc Ui_Mods_EnableOrDisableThisMod}">
                         <ui:SymbolIcon Width="20" Height="20" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Power24" Filled="{Binding Enabled, Mode=OneWay}" />
