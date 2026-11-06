@@ -244,6 +244,10 @@ public static class SidebarGroup
                     IconOnlyPageInstances.Remove(header);
                     IconOnlyPageInstances.Add(header, pageInstance);
                 }
+                else if (pageInstance.IsLoaded && pageInstance.IsVisible)
+                {
+                    return;
+                }
                 navigation.NavigateExternal(pageInstance);
             }
             return;
