@@ -1147,16 +1147,18 @@ public partial class SessionDock : Window
         Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         double shadowRoom = Voidstrap.Utility.Platform.IsLinux ? 0 : ShadowRoomX;
         double width = Math.Min(MaxDockWidth * userScale, Math.Ceiling(Pill.DesiredSize.Width)) + shadowRoom;
-        if (PortableOverlay.Active && RobloxWindowTracker.Current is { Valid: true } bounds)
+        if (RobloxWindowTracker.Current is { Valid: true } bounds && bounds.Width > 0)
         {
             _availableWidth = bounds.Width;
-            double available = Math.Max(1, bounds.Width - shadowRoom);
+            double dpiX = PortableOverlay.Active ? 1.0 : Math.Max(0.5, VisualTreeHelper.GetDpi(this).DpiScaleX);
+            double gameWidth = bounds.Width / dpiX;
+            double available = Math.Max(1, gameWidth - shadowRoom - (PortableOverlay.Active ? 0 : 24));
             double fitScale = Math.Min(1, available / Math.Max(1, width - shadowRoom));
             double combinedScale = userScale * fitScale;
             Pill.LayoutTransform =
                 Math.Abs(combinedScale - 1.0) > 0.005 ? new ScaleTransform(combinedScale, combinedScale) : Transform.Identity;
             Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-            width = Math.Min(bounds.Width, Math.Ceiling(Pill.DesiredSize.Width) + shadowRoom);
+            width = Math.Min(gameWidth, Math.Ceiling(Pill.DesiredSize.Width) + shadowRoom);
         }
         if (Voidstrap.Utility.Platform.IsLinux)
         {
@@ -1190,7 +1192,7 @@ public partial class SessionDock : Window
         }
         if (_linuxMotionActive && !bounds.Matches(_linuxMotionBounds))
             FinishLinuxDockAnimation(_linuxMotionGeneration);
-        if (PortableOverlay.Active && bounds.Valid && bounds.Width != _availableWidth)
+        if (bounds.Valid && bounds.Width != _availableWidth)
             FitWidth();
         if (_opened && !bounds.Foreground)
         {
@@ -2041,6 +2043,12 @@ public partial class SessionDock : Window
         int width = (int)Math.Ceiling(pill.Width * dpi.DpiScaleX);
         int height = (int)Math.Ceiling(PopoutHeight * dpi.DpiScaleY);
         int gap = (int)Math.Round(PopoutGap * dpi.DpiScaleY);
+        if (RobloxWindowTracker.Current is { Valid: true } gameRect)
+        {
+            int room = topEdge ? gameRect.Top + gameRect.Height - bottom - gap : top - gap - gameRect.Top;
+            if (room > 80)
+                height = Math.Min(height, room);
+        }
         int targetY = topEdge ? bottom + gap : top - gap - height;
         SetWindowPos(_popoutHandle, HwndTopmost, left, targetY, width, height, 0x0010 | 0x0040);
     }
