@@ -552,6 +552,7 @@ Voidstrap would not exist without the projects and people below. Thank you all.
 - **[Helium](https://github.com/imputnet/helium)**, the inspiration for the title bar UI.
 - **[Claude Code](https://claude.com/claude-code)** by Anthropic, the inspiration for the title bar UI.
 - **[Codex](https://github.com/openai/codex)** by OpenAI, the inspiration for the title bar UI.
+- **[squiredot](https://github.com/UltimatePlayer97)**, the inspiration for the idea of Void Edit and the Recorder.
 
 ### Built on
 
