@@ -23,7 +23,7 @@ namespace Voidstrap.Integrations.MotionBlur
         private const float DeadZonePixels = 1.5f;
         private const double ResyncGapMs = 250.0;
         private const double ReferenceFps = 60.0;
-        private const double MaxSearchRange = 16.0;
+        private const double MaxSearchRange = 28.0;
 
         private static int _prepareStarted;
         private static int _prepareFailureLogged;
@@ -230,7 +230,7 @@ namespace Voidstrap.Integrations.MotionBlur
             }
 
             double fps = _intervalEmaMs > 0.5 ? 1000.0 / _intervalEmaMs : 60.0;
-            float searchRange = (float)Math.Clamp(12.0 * (55.0 / fps), 6.0, MaxSearchRange);
+            float searchRange = (float)Math.Clamp(20.0 * (55.0 / fps), 8.0, MaxSearchRange);
             float rateScale = (float)Math.Clamp(fps / ReferenceFps, 0.5, 5.0);
             float resolutionScale = Math.Clamp(_height / 1080f, 0.5f, 3f);
             float deadZone = DeadZonePixels * resolutionScale * MathF.Sqrt(Math.Max(1f, rateScale));

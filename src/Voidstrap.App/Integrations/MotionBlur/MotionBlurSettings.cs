@@ -21,9 +21,9 @@ namespace Voidstrap.Integrations.MotionBlur
         public static int AmountFor(int strengthIndex) =>
             strengthIndex == CustomIndex ? CustomAmount : PresetAmount[Math.Clamp(strengthIndex, 0, PresetAmount.Length - 1)];
 
-        public static float ShutterFor(int strengthIndex) => AmountFor(strengthIndex) * 0.006f;
+        public static float ShutterFor(int strengthIndex) => AmountFor(strengthIndex) * 0.012f;
 
-        public static float MaxBlurPixelsFor(int strengthIndex) => AmountFor(strengthIndex) * 0.48f;
+        public static float MaxBlurPixelsFor(int strengthIndex) => AmountFor(strengthIndex) * 0.9f;
 
         public static string Describe() => StrengthIndex == CustomIndex ? "Custom at " + CustomAmount : StrengthNames[StrengthIndex];
     }

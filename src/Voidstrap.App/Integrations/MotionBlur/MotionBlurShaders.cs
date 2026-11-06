@@ -34,10 +34,11 @@ float2 motionAt(float2 uv)
     float4 f = tex1.SampleLevel(smp, uv, 0);
     float2 previous = tex2.SampleLevel(smp, uv, 0).xy * dims.xy;
     float2 current = f.xy * dims.xy;
-    float agreement = saturate(1.5 - 1.5 * length(current - previous) / (length(current) + length(previous) + 1.0));
-    float confidence = saturate(1.0 - f.z * 2.8) * agreement;
+    float agreement = lerp(0.6, 1.0, saturate(1.5 - 1.5 * length(current - previous) / (length(current) + length(previous) + 1.0)));
+    float confidence = lerp(0.35, 1.0, saturate(1.0 - f.z * 1.2)) * agreement;
     float2 px = current * mb.x * confidence;
-    px *= saturate((length(px) - mb.z) / max(mb.z, 0.001));
+    float raw = length(px);
+    px *= raw > mb.z ? (raw - mb.z * 0.5) / max(raw, 0.001) : 0.0;
     float len = length(px);
     return len > mb.y ? px * (mb.y / len) : px;
 }
@@ -47,18 +48,18 @@ float4 PSBlur(VSOut inp) : SV_Target
     float3 center = tex0.SampleLevel(smp, inp.uv, 0).rgb;
     float2 v = motionAt(inp.uv);
     float lenV = length(v);
-    [branch] if (lenV < 0.75)
+    [branch] if (lenV < 0.5)
         return float4(center, 1.0);
 
-    int taps = (int)clamp(ceil(lenV * 0.2), 3.0, 12.0);
+    int taps = (int)clamp(ceil(lenV * 0.35), 4.0, 24.0);
     float jitter = frac(52.9829189 * frac(dot(inp.pos.xy, float2(0.06711056, 0.00583715)))) - 0.5;
-    float3 sum = center;
+    float3 sum = 0;
     [loop] for (int i = 0; i < taps; i++)
     {
         float t = ((i + 0.5 + jitter) / taps) - 0.5;
         sum += tex0.SampleLevel(smp, inp.uv + v * t * dims.zw, 0).rgb;
     }
-    return float4(sum / (taps + 1), 1.0);
+    return float4(sum / taps, 1.0);
 }
 ";
     }
