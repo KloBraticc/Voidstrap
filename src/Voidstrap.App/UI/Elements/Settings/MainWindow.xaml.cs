@@ -2747,6 +2747,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             Utilities.OpenWebLink(SpotifyWebUrl);
             return;
         }
+        if (SpotifyOverlay.Visibility != Visibility.Visible)
+        {
+            SpotifyPanelSlide.BeginAnimation(TranslateTransform.XProperty, null);
+            SpotifyPanelSlide.X = SpotifyPanel.Width;
+            SpotifyOverlay.BeginAnimation(OpacityProperty, null);
+            SpotifyOverlay.Opacity = 0;
+        }
         SpotifyOverlay.Visibility = Visibility.Visible;
         SpotifyOverlay.IsHitTestVisible = true;
         AnimateSpotifyPanel(true);
