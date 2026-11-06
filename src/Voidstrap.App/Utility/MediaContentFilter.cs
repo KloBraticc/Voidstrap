@@ -228,6 +228,14 @@ internal static class MediaContentFilter
     {
         if (Interlocked.Exchange(ref _resolverRegistered, true))
             return;
+        if (Platform.IsWindows)
+        {
+            string local = Path.Combine(Paths.Cache, "MediaFilter", OnnxLibraryName);
+            string rishade = Path.Combine(Paths.LocalAppData, "RiShade", "onnxruntime.dll");
+            if (!(File.Exists(local) && NativeLibrary.TryLoad(local, out _)) && File.Exists(rishade))
+                NativeLibrary.TryLoad(rishade, out _);
+            return;
+        }
         try
         {
             NativeLibrary.SetDllImportResolver(

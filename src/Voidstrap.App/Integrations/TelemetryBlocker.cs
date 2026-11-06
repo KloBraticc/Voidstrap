@@ -360,6 +360,10 @@ public static class TelemetryBlocker
             using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             timeout.CancelAfter(TimeSpan.FromSeconds(20));
             await process.WaitForExitAsync(timeout.Token).ConfigureAwait(false);
+            while (IsApplied() != enable)
+            {
+                await Task.Delay(250, timeout.Token).ConfigureAwait(false);
+            }
         }
         catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
         {
