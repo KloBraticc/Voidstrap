@@ -169,9 +169,37 @@ namespace Voidstrap.Integrations.Overlays
                     UpdateTarget(RobloxWindowTracker.Current);
                     _healTimer = new Timer(OnHealTick, null, HealIntervalMs, HealIntervalMs);
                 }
-                if (_thread != null)
+                if (_thread != null || !_tracingWanted)
                     return;
                 StartThreadLocked();
+            }
+        }
+
+        private static bool _tracingWanted;
+
+        public static void SetTracing(bool wanted)
+        {
+            lock (LifetimeLock)
+            {
+                if (_tracingWanted == wanted)
+                    return;
+                _tracingWanted = wanted;
+                if (wanted)
+                {
+                    if (_references > 0 && _thread == null)
+                        StartThreadLocked();
+                    return;
+                }
+                Interlocked.Increment(ref _stopGeneration);
+                EtwSession? session = _session;
+                try
+                {
+                    session?.Stop();
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteLine("RobloxPresentTracer", "Present trace stop failed: " + ex.Message);
+                }
             }
         }
 
@@ -277,8 +305,8 @@ namespace Voidstrap.Integrations.Overlays
                         Volatile.Write(ref _accepting, 0);
                         ResetSamples();
                     }
-                    restart = _references > 0 && Volatile.Read(ref _stopGeneration) != stopGeneration;
-                    retry = _references > 0 && !restart && Volatile.Read(ref _needsElevation) == 0;
+                    restart = _references > 0 && _tracingWanted && Volatile.Read(ref _stopGeneration) != stopGeneration;
+                    retry = _references > 0 && _tracingWanted && !restart && Volatile.Read(ref _needsElevation) == 0;
                     if (restart)
                         StartThreadLocked();
                 }
@@ -300,7 +328,7 @@ namespace Voidstrap.Integrations.Overlays
             lock (LifetimeLock)
             {
                 Interlocked.Exchange(ref _retryPending, 0);
-                if (_references > 0 && _thread == null)
+                if (_references > 0 && _thread == null && _tracingWanted)
                     StartThreadLocked();
             }
         }

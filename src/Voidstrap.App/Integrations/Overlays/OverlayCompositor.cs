@@ -4089,6 +4089,7 @@ namespace Voidstrap.Integrations.Overlays
         {
             bool enabled = FrameGenSettings.ModeIndex > 0 && OverlayHub.InGame;
             Thread.CurrentThread.Priority = enabled ? ThreadPriority.Normal : ThreadPriority.BelowNormal;
+            RobloxPresentTracer.SetTracing(enabled);
             if (enabled)
             {
                 RobloxFpsCap.EnsureStarted();
