@@ -500,6 +500,11 @@ namespace Voidstrap.Integrations.Overlays
                     $"Compositor started. RiShade {riState}, Anti Aliasing {AntiAliasingSettings.MethodNames[AntiAliasingSettings.MethodIndex]}, Frame Generation {FrameGenSettings.ModeNames[FrameGenSettings.ModeIndex]}, display {_refreshHz:0}Hz, Roblox FPS cap {RobloxFpsCap.Describe()}"
                 );
                 OverlayHub.SetCompositorLive(true);
+                if (!_presentTraceHeld)
+                {
+                    RobloxPresentTracer.Start();
+                    _presentTraceHeld = true;
+                }
 
                 var msg = default(Interop.MSG);
                 while (!token.IsCancellationRequested)
@@ -1941,6 +1946,8 @@ namespace Voidstrap.Integrations.Overlays
                 target = Math.Min(_refreshHz, 120.0);
             return Math.Clamp(target, 30.0, Math.Max(30.0, _refreshHz));
         }
+
+        private bool _presentTraceHeld;
 
         private double ReliableActualFps()
         {
@@ -4395,6 +4402,11 @@ namespace Voidstrap.Integrations.Overlays
             OverlayHub.SetCompositorWindow(IntPtr.Zero);
             _classAtom = 0;
             OverlayHub.SetCompositorLive(false);
+            if (_presentTraceHeld)
+            {
+                _presentTraceHeld = false;
+                RobloxPresentTracer.Stop();
+            }
             App.Logger.WriteLine(LOG_IDENT, "Compositor session cleaned up");
         }
     }
