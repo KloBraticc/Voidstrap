@@ -887,7 +887,7 @@ public partial class VoidstrapModsPage : UiPage
         try
         {
             byte[]? bytes = await ModLibrary.GetIconAsync(index, mod, token).ConfigureAwait(false);
-            return (mod.Id, bytes == null ? null : await MediaContentFilter.LoadCheckedIconAsync(bytes).ConfigureAwait(false));
+            return (mod.Id, bytes == null ? null : await MediaContentFilter.LoadCheckedIconAsync(bytes, true).ConfigureAwait(false));
         }
         catch (Exception ex) when (ex is not OperationCanceledException)
         {

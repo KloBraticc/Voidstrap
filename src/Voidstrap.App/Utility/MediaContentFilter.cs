@@ -47,7 +47,7 @@ internal static class MediaContentFilter
         }
     }
 
-    internal static Task<BitmapSource?> LoadCheckedIconAsync(byte[] bytes) =>
+    internal static Task<BitmapSource?> LoadCheckedIconAsync(byte[] bytes, bool verifiedLibraryIcon = false) =>
         Task.Run(async () =>
         {
             try
@@ -64,7 +64,12 @@ internal static class MediaContentFilter
                     return null;
                 shown.Freeze();
                 string approval = ApprovalPath(bytes);
-                if (!File.Exists(approval))
+                if (verifiedLibraryIcon)
+                {
+                    if (!File.Exists(approval))
+                        RememberApproval(approval);
+                }
+                else if (!File.Exists(approval))
                 {
                     if (!await IsAllowedAsync(shown).ConfigureAwait(false))
                         return null;
