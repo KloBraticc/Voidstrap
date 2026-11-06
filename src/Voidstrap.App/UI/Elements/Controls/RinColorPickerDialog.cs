@@ -36,6 +36,8 @@ public class RinColorPickerDialog : WpfUiWindow
             SelectedColor = initial ?? Colors.White
         };
         _picker.OriginalColor = _picker.SelectedColor;
+        if (TryFindResource("DefaultTextBoxStyle") is Style textBoxStyle && textBoxStyle.TargetType == typeof(TextBox))
+            _picker.Resources[typeof(TextBox)] = textBoxStyle;
 
         var ok = new Button
         {

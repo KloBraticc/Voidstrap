@@ -22,13 +22,13 @@
         <Setter Property="SelectionBrush" Value="{DynamicResource SystemAccentColorPrimaryBrush}" />
         <Setter Property="SelectionOpacity" Value="0.55" />
       </Style>
-      <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+      <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource DefaultTextBoxStyle}">
         <Setter Property="SelectionBrush" Value="{DynamicResource SystemAccentColorPrimaryBrush}" />
       </Style>
       <Style TargetType="{x:Type RichTextBox}" BasedOn="{StaticResource {x:Type RichTextBox}}">
         <Setter Property="SelectionBrush" Value="{DynamicResource SystemAccentColorPrimaryBrush}" />
       </Style>
-      <Style TargetType="{x:Type PasswordBox}" BasedOn="{StaticResource {x:Type PasswordBox}}">
+      <Style TargetType="{x:Type PasswordBox}" BasedOn="{StaticResource DefaultPasswordBoxStyle}">
         <Setter Property="SelectionBrush" Value="{DynamicResource SystemAccentColorPrimaryBrush}" />
       </Style>
       <Style TargetType="{x:Type Image}">
