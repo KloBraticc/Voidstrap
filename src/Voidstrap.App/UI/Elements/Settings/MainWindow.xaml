@@ -4,16 +4,16 @@
     <ResourceDictionary>
       <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
       <BitmapImage x:Key="AppIconImage" UriSource="pack://application:,,,/Voidstrap.png" />
-      <SolidColorBrush x:Key="LauncherMenuBrush" Color="#FF2E2E2E" />
-      <SolidColorBrush x:Key="LauncherMenuHoverBrush" Color="#14FFFFFF" />
-      <SolidColorBrush x:Key="LauncherMenuBorderBrush" Color="#1AFFFFFF" />
-      <SolidColorBrush x:Key="LauncherDividerBrush" Color="#12FFFFFF" />
-      <SolidColorBrush x:Key="LauncherControlBrush" Color="#0FFFFFFF" />
-      <SolidColorBrush x:Key="LauncherControlHoverBrush" Color="#1AFFFFFF" />
-      <SolidColorBrush x:Key="LauncherControlPressedBrush" Color="#10FFFFFF" />
-      <SolidColorBrush x:Key="LauncherTextPrimaryBrush" Color="#FFEDEDED" />
-      <SolidColorBrush x:Key="LauncherTextSecondaryBrush" Color="#FFB4B4B4" />
-      <SolidColorBrush x:Key="LauncherTextTertiaryBrush" Color="#FF7C7C7C" />
+      <SolidColorBrush x:Key="LauncherMenuBrush" Color="{DynamicResource SolidBackgroundFillColorQuarternary}" />
+      <SolidColorBrush x:Key="LauncherMenuHoverBrush" Color="{DynamicResource SubtleFillColorSecondary}" />
+      <SolidColorBrush x:Key="LauncherMenuBorderBrush" Color="{DynamicResource ControlStrokeColorDefault}" />
+      <SolidColorBrush x:Key="LauncherDividerBrush" Color="{DynamicResource DividerStrokeColorDefault}" />
+      <SolidColorBrush x:Key="LauncherControlBrush" Color="{DynamicResource ControlFillColorDefault}" />
+      <SolidColorBrush x:Key="LauncherControlHoverBrush" Color="{DynamicResource ControlFillColorSecondary}" />
+      <SolidColorBrush x:Key="LauncherControlPressedBrush" Color="{DynamicResource ControlFillColorTertiary}" />
+      <SolidColorBrush x:Key="LauncherTextPrimaryBrush" Color="{DynamicResource TextFillColorPrimary}" />
+      <SolidColorBrush x:Key="LauncherTextSecondaryBrush" Color="{DynamicResource TextFillColorSecondary}" />
+      <SolidColorBrush x:Key="LauncherTextTertiaryBrush" Color="{DynamicResource TextFillColorTertiary}" />
       <Style x:Key="TopBarFocusVisual">
         <Setter Property="Control.Template">
           <Setter.Value>
@@ -59,7 +59,7 @@
         <Setter Property="Width" Value="32" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Foreground" Value="#FFB4B4B4" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
       </Style>
       <Style x:Key="TopBarLineIcon" TargetType="{x:Type Path}">
         <Setter Property="StrokeThickness" Value="1.75" />
@@ -232,8 +232,8 @@
         <media:DoubleAnimation Storyboard.TargetName="IntroOverlay" Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" BeginTime="0:0:0.45" Duration="0:0:0.3" EasingFunction="{StaticResource SmoothEaseOut}" />
       </Storyboard>
       <Style x:Key="RinDialogPanelStyle" TargetType="{x:Type Border}">
-        <Setter Property="Background" Value="#FF2C2C2C" />
-        <Setter Property="BorderBrush" Value="#12757575" />
+        <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorQuarternaryBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SurfaceStrokeColorFlyoutBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="7" />
         <Setter Property="Margin" Value="8" />
@@ -242,11 +242,11 @@
         <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Visibility" Value="Collapsed" />
-        <Setter Property="TextElement.Foreground" Value="White" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
       </Style>
       <Style x:Key="RinDialogFooterStyle" TargetType="{x:Type Border}">
-        <Setter Property="Background" Value="#FF202020" />
-        <Setter Property="BorderBrush" Value="#12757575" />
+        <Setter Property="Background" Value="{DynamicResource SolidBackgroundFillColorBaseBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerStrokeColorDefaultBrush}" />
         <Setter Property="BorderThickness" Value="0,1,0,0" />
         <Setter Property="CornerRadius" Value="0,0,7,7" />
         <Setter Property="Padding" Value="24" />
@@ -416,7 +416,7 @@
       <Button x:Name="SidebarToggle" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Ui_Main_ToggleSidebar}" AutomationProperties.Name="{resources:Loc Ui_Main_ToggleSidebar}" Click="SidebarToggle_Click">
         <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path x:Name="SidebarToggleIcon" Style="{StaticResource TopBarLineIcon}" Data="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2H5a2 2 0 0 1 -2 -2V5a2 2 0 0 1 2 -2z M9 3v18 M16 9l-3 3 3 3" /></Canvas></Viewbox>
       </Button>
-      <Border Width="1" Height="18" Margin="7,0" VerticalAlignment="Center" Background="#1FFFFFFF" SnapsToDevicePixels="True" />
+      <Border Width="1" Height="18" Margin="7,0" VerticalAlignment="Center" Background="{DynamicResource DividerStrokeColorDefaultBrush}" SnapsToDevicePixels="True" />
       <Button x:Name="PagesMenuButton" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Ui_Main_PalettePages}" AutomationProperties.Name="{resources:Loc Ui_Main_PalettePages}" Click="PagesMenuButton_Click">
         <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2H5a2 2 0 0 1 -2 -2V5a2 2 0 0 1 2 -2z M8 8h8 M8 12h8 M8 16h8" /></Canvas></Viewbox>
       </Button>
@@ -1152,7 +1152,7 @@
                             <Border x:Name="NotificationRow" Background="Transparent" CornerRadius="8" Padding="12,12" Margin="0,2,0,0" Cursor="Hand" MouseLeftButtonUp="NotificationItem_MouseLeftButtonUp">
                               <Grid>
                                 <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                                <Border Width="40" Height="40" VerticalAlignment="Top" CornerRadius="8" Background="#14FFFFFF">
+                                <Border Width="40" Height="40" VerticalAlignment="Top" CornerRadius="8" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
                                   <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="20" Foreground="{Binding IconBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 </Border>
                                 <StackPanel Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Top">
@@ -1195,11 +1195,11 @@
             <RowDefinition Height="Auto" />
           </Grid.RowDefinitions>
           <StackPanel Margin="24">
-            <TextBlock Text="{resources:Loc Ui_Home_RiShadeRelease_DialogTitle}" FontSize="20" FontWeight="SemiBold" Foreground="White" TextWrapping="Wrap" />
-            <TextBlock Text="{resources:Loc Ui_Home_RiShadeRelease_DialogIntro}" Margin="0,12,0,0" FontSize="14" LineHeight="20" Foreground="White" TextWrapping="Wrap" />
-            <TextBlock Text="{resources:Loc Ui_Home_RiShadeRelease_DialogDetails}" Margin="0,12,0,0" FontSize="14" LineHeight="20" Foreground="#C5FFFFFF" TextWrapping="Wrap" />
+            <TextBlock Text="{resources:Loc Ui_Home_RiShadeRelease_DialogTitle}" FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap" />
+            <TextBlock Text="{resources:Loc Ui_Home_RiShadeRelease_DialogIntro}" Margin="0,12,0,0" FontSize="14" LineHeight="20" TextWrapping="Wrap" />
+            <TextBlock Text="{resources:Loc Ui_Home_RiShadeRelease_DialogDetails}" Margin="0,12,0,0" FontSize="14" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" />
           </StackPanel>
-          <Border Grid.Row="1" Background="#FF202020" BorderBrush="#12757575" BorderThickness="0,1,0,0" CornerRadius="0,0,7,7" Padding="24">
+          <Border Grid.Row="1" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}" BorderThickness="0,1,0,0" CornerRadius="0,0,7,7" Padding="24">
             <UniformGrid Columns="2">
               <ui:Button Margin="0,0,4,0" Height="32" HorizontalAlignment="Stretch" Appearance="Primary" Content="{resources:Loc Ui_Home_RiShadeRelease_OpenExtension}" Click="RiShadeReleaseOpen_Click" />
               <ui:Button Margin="4,0,0,0" Height="32" HorizontalAlignment="Stretch" Content="{resources:Loc Common_Close}" Click="ModalClose_Click" />
