@@ -73,15 +73,19 @@ curl -fsSL https://voidstrapp.pages.dev/install.sh | sh
 <a href="https://github.com/shuraiscool"><img src="https://github.com/shuraiscool.png?size=96" width="48" height="48" alt="shuraiscool" title="shuraiscool" /></a>
 <a href="https://github.com/returnrqt"><img src="https://github.com/returnrqt.png?size=96" width="48" height="48" alt="returnrqt" title="returnrqt" /></a>
 <a href="https://github.com/orbice"><img src="https://github.com/orbice.png?size=96" width="48" height="48" alt="orbice" title="orbice" /></a>
-<a href="https://github.com/themallyguy"><img src="https://github.com/themallyguy.png?size=96" width="48" height="48" alt="themallyguy" title="themallyguy" /></a>
-<a href="https://github.com/vanillameow"><img src="https://github.com/vanillameow.png?size=96" width="48" height="48" alt="vanillameow" title="vanillameow" /></a>
-<a href="https://github.com/spencer0187"><img src="https://github.com/spencer0187.png?size=96" width="48" height="48" alt="spencer0187" title="spencer0187" /></a>
-<a href="https://github.com/sky-pluh"><img src="https://github.com/sky-pluh.png?size=96" width="48" height="48" alt="sky-pluh" title="sky-pluh" /></a>
-<a href="https://github.com/realmeddsam"><img src="https://github.com/realmeddsam.png?size=96" width="48" height="48" alt="realmeddsam" title="realmeddsam" /></a>
-<a href="https://github.com/ihatewindowsupdate"><img src="https://github.com/ihatewindowsupdate.png?size=96" width="48" height="48" alt="ihatewindowsupdate" title="ihatewindowsupdate" /></a>
+<a href="https://github.com/TheMallyGuy"><img src="https://github.com/TheMallyGuy.png?size=96" width="48" height="48" alt="TheMallyGuy" title="TheMallyGuy" /></a>
+<a href="https://github.com/VanillaMeow"><img src="https://github.com/VanillaMeow.png?size=96" width="48" height="48" alt="VanillaMeow" title="VanillaMeow" /></a>
+<a href="https://github.com/Spencer0187"><img src="https://github.com/Spencer0187.png?size=96" width="48" height="48" alt="Spencer0187" title="Spencer0187" /></a>
+<a href="https://github.com/Sky-pluh"><img src="https://github.com/Sky-pluh.png?size=96" width="48" height="48" alt="Sky-pluh" title="Sky-pluh" /></a>
+<a href="https://github.com/RealMeddsam"><img src="https://github.com/RealMeddsam.png?size=96" width="48" height="48" alt="RealMeddsam" title="RealMeddsam" /></a>
+<a href="https://github.com/IhateWindowsUpdate"><img src="https://github.com/IhateWindowsUpdate.png?size=96" width="48" height="48" alt="IhateWindowsUpdate" title="IhateWindowsUpdate" /></a>
 <a href="https://github.com/qrhrqiohj"><img src="https://github.com/qrhrqiohj.png?size=96" width="48" height="48" alt="qrhrqiohj" title="qrhrqiohj" /></a>
-<a href="https://github.com/error404notf0und"><img src="https://github.com/error404notf0und.png?size=96" width="48" height="48" alt="error404notf0und" title="error404notf0und" /></a>
-<a href="https://github.com/frossky"><img src="https://github.com/frossky.png?size=96" width="48" height="48" alt="frossky" title="frossky" /></a>
+<a href="https://github.com/Error404NotF0und"><img src="https://github.com/Error404NotF0und.png?size=96" width="48" height="48" alt="Error404NotF0und" title="Error404NotF0und" /></a>
+<a href="https://github.com/FrosSky"><img src="https://github.com/FrosSky.png?size=96" width="48" height="48" alt="FrosSky" title="FrosSky" /></a>
+<a href="https://github.com/AlloryDante"><img src="https://github.com/AlloryDante.png?size=96" width="48" height="48" alt="AlloryDante" title="AlloryDante" /></a>
+<a href="https://github.com/Naymmmm"><img src="https://github.com/Naymmmm.png?size=96" width="48" height="48" alt="Naymmmm" title="Naymmmm" /></a>
+<a href="https://github.com/invra"><img src="https://github.com/invra.png?size=96" width="48" height="48" alt="invra" title="invra" /></a>
+<a href="https://github.com/obaba-samich"><img src="https://github.com/obaba-samich.png?size=96" width="48" height="48" alt="obaba-samich" title="obaba-samich" /></a>
 </p>
 
 ## Contents
