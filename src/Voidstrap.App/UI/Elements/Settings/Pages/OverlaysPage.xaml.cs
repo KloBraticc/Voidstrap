@@ -16,7 +16,7 @@ public partial class OverlaysPage : UiPage
 
     private bool _recordingCrosshairKey;
 
-    private Border? _crosshairKeyBox;
+    private Wpf.Ui.Controls.Button? _crosshairKeyBox;
 
     private System.Windows.Controls.TextBlock? _crosshairKeyStatus;
 
@@ -50,7 +50,7 @@ public partial class OverlaysPage : UiPage
 
     private void CrosshairKeyBox_Loaded(object sender, RoutedEventArgs e)
     {
-        _crosshairKeyBox = sender as Border;
+        _crosshairKeyBox = sender as Wpf.Ui.Controls.Button;
         ShowCrosshairKey(null);
     }
 
@@ -61,7 +61,7 @@ public partial class OverlaysPage : UiPage
 
     private void SetCrosshairKeyText(string text)
     {
-        if (_crosshairKeyBox?.Child is System.Windows.Controls.TextBlock label)
+        if (_crosshairKeyBox?.Content is System.Windows.Controls.TextBlock label)
             label.Text = text;
     }
 
@@ -77,18 +77,18 @@ public partial class OverlaysPage : UiPage
     {
         OverlayShortcut shortcut = App.Settings.Prop.CrosshairShortcut ??= DefaultCrosshairShortcut.Copy();
         SetCrosshairKeyText(shortcut.Describe());
-        _crosshairKeyBox?.SetResourceReference(Border.BorderBrushProperty, "ControlStrokeColorDefaultBrush");
+        _crosshairKeyBox?.SetResourceReference(System.Windows.Controls.Control.BorderBrushProperty, "ControlStrokeColorDefaultBrush");
         SetCrosshairKeyStatus(status);
     }
 
-    private void CrosshairKeyBox_Click(object sender, MouseButtonEventArgs e)
+    private void CrosshairKeyBox_Click(object sender, RoutedEventArgs e)
     {
         if (_recordingCrosshairKey || _crosshairKeyBox == null)
             return;
         _recordingCrosshairKey = true;
         MenuContainer.SuspendCrosshairHotkey(true);
         SetCrosshairKeyText(Strings.Ui_RiShade_OverlayKey_Press);
-        _crosshairKeyBox.SetResourceReference(Border.BorderBrushProperty, "AccentFillColorDefaultBrush");
+        _crosshairKeyBox.SetResourceReference(System.Windows.Controls.Control.BorderBrushProperty, "AccentFillColorDefaultBrush");
         _crosshairKeyBox.Focus();
         Keyboard.Focus(_crosshairKeyBox);
     }
