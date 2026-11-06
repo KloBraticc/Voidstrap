@@ -61,9 +61,9 @@ xmlns:resources="clr-namespace:Voidstrap.Resources"
                                 Padding="0"
                                 CornerRadius="10"
                                 ClipToBounds="True"
-                                Background="#0FFFFFFF"
+                                Background="{DynamicResource SubtleFillColorSecondaryBrush}"
                                 BorderThickness="1"
-                                BorderBrush="#26FFFFFF"
+                                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                                 Cursor="Hand">
                             <Border.InputBindings>
                                 <MouseBinding MouseAction="LeftClick"
@@ -155,7 +155,7 @@ xmlns:resources="clr-namespace:Voidstrap.Resources"
                                         Height="22"
                                         Margin="0,0,16,0"
                                         CornerRadius="11"
-                                        Background="#1FFFFFFF"
+                                        Background="{DynamicResource SubtleFillColorSecondaryBrush}"
                                         VerticalAlignment="Center">
                                     <ui:SymbolIcon Symbol="ArrowRight24"
                                                    FontSize="10"
@@ -167,7 +167,7 @@ xmlns:resources="clr-namespace:Voidstrap.Resources"
                         </Border>
                         <DataTemplate.Triggers>
                             <Trigger SourceName="PostRow" Property="IsMouseOver" Value="True">
-                                <Setter TargetName="PostRow" Property="Background" Value="#1FFFFFFF"/>
+                                <Setter TargetName="PostRow" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/>
                             </Trigger>
                             <EventTrigger SourceName="PostRow" RoutedEvent="Border.MouseEnter">
                                 <BeginStoryboard>

@@ -18,9 +18,9 @@
                     Margin="0,0,12,12"
                     Padding="10"
                     CornerRadius="8"
-                    Background="#0DFFFFFF"
+                    Background="{DynamicResource SubtleFillColorSecondaryBrush}"
                     BorderThickness="1"
-                    BorderBrush="#14FFFFFF"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                     Cursor="Hand"
                     ToolTip="{Binding Name, StringFormat='Open {0} in Studio'}">
                 <Border.InputBindings>
@@ -29,7 +29,7 @@
                                   CommandParameter="{Binding}"/>
                 </Border.InputBindings>
                 <StackPanel>
-                    <Border Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" CornerRadius="6" ClipToBounds="True" Background="#14FFFFFF">
+                    <Border Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" CornerRadius="6" ClipToBounds="True" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
                         <Image Stretch="UniformToFill"
                                RenderOptions.BitmapScalingMode="HighQuality"
                                util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl}"/>
@@ -39,9 +39,9 @@
                                 HorizontalAlignment="Left"
                                 Padding="8,3"
                                 CornerRadius="11"
-                                Background="#14FFFFFF"
+                                Background="{DynamicResource SubtleFillColorSecondaryBrush}"
                                 BorderThickness="1"
-                                BorderBrush="#26FFFFFF">
+                                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
                             <StackPanel Orientation="Horizontal">
                                 <ui:SymbolIcon x:Name="PrivacyIcon" Symbol="{Binding PrivacyIcon}" FontSize="12" Margin="0,0,4,0" VerticalAlignment="Center"/>
                                 <TextBlock x:Name="PrivacyText" Text="{Binding PrivacyLabel}" FontSize="11.5" VerticalAlignment="Center"/>
@@ -76,7 +76,7 @@
             </Border>
             <DataTemplate.Triggers>
                 <Trigger SourceName="ProjectCard" Property="IsMouseOver" Value="True">
-                    <Setter TargetName="ProjectCard" Property="Background" Value="#1AFFFFFF"/>
+                    <Setter TargetName="ProjectCard" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/>
                 </Trigger>
                 <DataTrigger Binding="{Binding IsPublic}" Value="True">
                     <Setter TargetName="PrivacyPill" Property="Background" Value="{DynamicResource AccentFillColorDefaultBrush}"/>
@@ -92,9 +92,9 @@
                     Margin="0,0,12,12"
                     Padding="10"
                     CornerRadius="8"
-                    Background="#0DFFFFFF"
+                    Background="{DynamicResource SubtleFillColorSecondaryBrush}"
                     BorderThickness="1"
-                    BorderBrush="#14FFFFFF"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                     Cursor="Hand"
                     ToolTip="{Binding Name, StringFormat='Start from {0}'}">
                 <Border.InputBindings>
@@ -103,7 +103,7 @@
                                   CommandParameter="{Binding}"/>
                 </Border.InputBindings>
                 <StackPanel>
-                    <Border Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" CornerRadius="6" ClipToBounds="True" Background="#14FFFFFF">
+                    <Border Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" CornerRadius="6" ClipToBounds="True" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
                         <Image Stretch="UniformToFill"
                                RenderOptions.BitmapScalingMode="HighQuality"
                                util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl}"/>
@@ -118,7 +118,7 @@
             </Border>
             <DataTemplate.Triggers>
                 <Trigger SourceName="TemplateCard" Property="IsMouseOver" Value="True">
-                    <Setter TargetName="TemplateCard" Property="Background" Value="#1AFFFFFF"/>
+                    <Setter TargetName="TemplateCard" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/>
                 </Trigger>
             </DataTemplate.Triggers>
         </DataTemplate>
@@ -133,7 +133,7 @@
                                     CornerRadius="10"
                                     Background="#FF0E1015"
                                     BorderThickness="1"
-                                    BorderBrush="#26FFFFFF"
+                                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                                     Cursor="Hand">
                                 <Border.InputBindings>
                                     <MouseBinding MouseAction="LeftClick"
@@ -383,9 +383,9 @@
             <Setter Property="Visibility" Value="Collapsed"/>
             <Setter Property="Padding" Value="10,6"/>
             <Setter Property="CornerRadius" Value="8"/>
-            <Setter Property="Background" Value="#0AFFFFFF"/>
+            <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#1FFFFFFF"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}"/>
             <Setter Property="Margin" Value="0,12,0,0"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding DataContext.IsLayoutEditMode, RelativeSource={RelativeSource AncestorType=Page}}" Value="True">
@@ -693,7 +693,7 @@
                                     <Border Height="100"
                                             CornerRadius="10,10,0,0"
                                             ClipToBounds="True"
-                                            Background="#0DFFFFFF">
+                                            Background="{DynamicResource SubtleFillColorSecondaryBrush}">
                                         <Grid>
                                             <Image Stretch="UniformToFill"
                                                    RenderOptions.BitmapScalingMode="HighQuality"
@@ -833,16 +833,16 @@
                 <Border Margin="0,4,0,18"
                         Padding="0,34,0,34"
                         CornerRadius="10"
-                        Background="#0AFFFFFF"
+                        Background="{DynamicResource SubtleFillColorSecondaryBrush}"
                         BorderThickness="1"
-                        BorderBrush="#1FFFFFFF"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                         Visibility="{Binding IsEmpty,
                             Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel HorizontalAlignment="Center">
                         <Border Width="56"
                                 Height="56"
                                 CornerRadius="28"
-                                Background="#14FFFFFF"
+                                Background="{DynamicResource SubtleFillColorSecondaryBrush}"
                                 HorizontalAlignment="Center">
                             <ui:SymbolIcon Symbol="History24"
                                            FontSize="26"
@@ -866,16 +866,16 @@
                 <Border Margin="0,4,0,18"
                         Padding="0,34,0,34"
                         CornerRadius="10"
-                        Background="#0AFFFFFF"
+                        Background="{DynamicResource SubtleFillColorSecondaryBrush}"
                         BorderThickness="1"
-                        BorderBrush="#1FFFFFFF"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                         Visibility="{Binding IsFilteredEmpty,
                             Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel HorizontalAlignment="Center">
                         <Border Width="56"
                                 Height="56"
                                 CornerRadius="28"
-                                Background="#14FFFFFF"
+                                Background="{DynamicResource SubtleFillColorSecondaryBrush}"
                                 HorizontalAlignment="Center">
                             <ui:SymbolIcon Symbol="Search24"
                                            FontSize="26"
@@ -930,7 +930,7 @@
                                             Cursor="Hand"
                                             ToolTip="{resources:Loc Ui_Home_ViewGamePage}"
                                             MouseLeftButtonUp="GameThumbnail_Click"
-                                            Background="#1AFFFFFF">
+                                            Background="{DynamicResource SubtleFillColorSecondaryBrush}">
                                         <Grid>
 
                                             <Image Stretch="UniformToFill"
@@ -1223,9 +1223,9 @@
                                         Margin="0,0,0,8"
                                         Padding="14,10"
                                         CornerRadius="8"
-                                        Background="#0DFFFFFF"
+                                        Background="{DynamicResource SubtleFillColorSecondaryBrush}"
                                         BorderThickness="1"
-                                        BorderBrush="#14FFFFFF"
+                                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                                         Cursor="Hand"
                                         ToolTip="{Binding FilePath}">
                                     <Border.InputBindings>
@@ -1249,7 +1249,7 @@
                                 </Border>
                                 <DataTemplate.Triggers>
                                     <Trigger SourceName="FileRow" Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="FileRow" Property="Background" Value="#1AFFFFFF"/>
+                                        <Setter TargetName="FileRow" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/>
                                     </Trigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>

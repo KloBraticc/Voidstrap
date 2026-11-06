@@ -13,7 +13,7 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Name="RootTitleBar" Grid.Row="0" Grid.ColumnSpan="2" Padding="8" ShowMinimize="False" ShowMaximize="False" CanMaximize="False" KeyboardNavigation.TabNavigation="None" Title="{resources:Loc Dialog_Connectivity_Title}" Foreground="#FFFFFFFF" />
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Name="RootTitleBar" Grid.Row="0" Grid.ColumnSpan="2" Padding="8" ShowMinimize="False" ShowMaximize="False" CanMaximize="False" KeyboardNavigation.TabNavigation="None" Title="{resources:Loc Dialog_Connectivity_Title}" />
     <Grid Row="1" Margin="16">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" />
@@ -29,7 +29,7 @@
     </Grid>
     <Border Grid.Row="2" Padding="15" Background="{DynamicResource PrimaryBackgroundColor}">
       <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" HorizontalAlignment="Right">
-        <Button Name="CloseButton" MinWidth="100" Content="{resources:Loc Common_Close}" Margin="12,0,0,0" Foreground="#FFFFFFFF" />
+        <Button Name="CloseButton" MinWidth="100" Content="{resources:Loc Common_Close}" Margin="12,0,0,0" />
       </StackPanel>
     </Border>
   </Grid>

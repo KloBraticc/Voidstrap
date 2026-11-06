@@ -49,8 +49,8 @@
         <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
       </Style>
       <Style TargetType="{x:Type Separator}">
-        <Setter Property="Background" Value="#26FFFFFF" />
-        <Setter Property="BorderBrush" Value="#26FFFFFF" />
+        <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
         <Setter Property="Height" Value="1" />
       </Style>
       <Style x:Key="NavSideItem" TargetType="{x:Type ListBoxItem}">
@@ -270,15 +270,15 @@
                               <Border Background="Transparent" Padding="10,12,10,0">
                                 <StackPanel>
                                   <StackPanel Orientation="Horizontal">
-                                    <ui:SymbolIcon x:Name="Chevron" Symbol="ChevronDown12" FontSize="13" Foreground="#7AFFFFFF" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                    <ui:SymbolIcon x:Name="Chevron" Symbol="ChevronDown12" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
                                       <UIElement.RenderTransform>
                                         <RotateTransform Angle="0" />
                                       </UIElement.RenderTransform>
                                     </ui:SymbolIcon>
-                                    <TextBlock x:Name="GroupName" Margin="9,0,0,0" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="#7AFFFFFF" Text="{Binding Name}" />
-                                    <TextBlock x:Name="GroupCount" Margin="7,0,0,0" FontSize="14" VerticalAlignment="Center" Foreground="#4FFFFFFF" Text="{Binding ItemCount, StringFormat=({0})}" />
+                                    <TextBlock x:Name="GroupName" Margin="9,0,0,0" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Name}" />
+                                    <TextBlock x:Name="GroupCount" Margin="7,0,0,0" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding ItemCount, StringFormat=({0})}" />
                                   </StackPanel>
-                                  <Rectangle Height="1" Margin="0,7,0,0" Fill="#1FFFFFFF" />
+                                  <Rectangle Height="1" Margin="0,7,0,0" Fill="{DynamicResource SubtleFillColorSecondaryBrush}" />
                                 </StackPanel>
                               </Border>
                               <ControlTemplate.Triggers>
@@ -307,8 +307,8 @@
                                   </Trigger.ExitActions>
                                 </Trigger>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                  <Setter TargetName="GroupName" Property="Foreground" Value="#FFFFFFFF" />
-                                  <Setter TargetName="Chevron" Property="Foreground" Value="#FFFFFFFF" />
+                                  <Setter TargetName="GroupName" Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+                                  <Setter TargetName="Chevron" Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
                                 </Trigger>
                                 <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" Value="icons">
                                   <Setter TargetName="GroupName" Property="Visibility" Value="Collapsed" />

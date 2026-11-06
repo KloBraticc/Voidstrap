@@ -28,7 +28,7 @@
                     <Run Text="{resources:Loc Ui_Misc2_ViewOnGitHub}" />
                   </Hyperlink>
                 </TextBlock>
-                <TextBox Margin="0,4,0,4" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" BorderThickness="0" Background="#00FFFFFF" Foreground="#FFFFFFFF" VerticalScrollBarVisibility="Auto" Height="120" Text="{Binding Body}" />
+                <TextBox Margin="0,4,0,4" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" BorderThickness="0" Background="#00FFFFFF" Foreground="{DynamicResource TextFillColorPrimaryBrush}" VerticalScrollBarVisibility="Auto" Height="120" Text="{Binding Body}" />
                 <StackPanel Margin="0,4,0,4" Orientation="Horizontal">
                   <TextBlock Margin="0,0,12,0" Foreground="#FF808080" Text="{Binding Assets.Length, StringFormat=Assets: {0}}" />
                   <TextBlock Margin="0,0,12,0" Foreground="#FF808080" Text="{Binding TotalDownloads, StringFormat=Total downloads: {0}}" />

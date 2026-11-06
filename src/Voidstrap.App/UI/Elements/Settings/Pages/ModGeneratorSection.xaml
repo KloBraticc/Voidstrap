@@ -13,10 +13,10 @@
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="Button">
-            <Border x:Name="Chip" CornerRadius="13" Background="{TemplateBinding Background}" BorderBrush="#33FFFFFF" BorderThickness="1" />
+            <Border x:Name="Chip" CornerRadius="13" Background="{TemplateBinding Background}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" />
             <ControlTemplate.Triggers>
               <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="Chip" Property="BorderBrush" Value="#CCFFFFFF" />
+                <Setter TargetName="Chip" Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
               </Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
@@ -26,12 +26,12 @@
     <Style x:Key="ColorSwatch" TargetType="Border">
       <Setter Property="CornerRadius" Value="6" />
       <Setter Property="BorderThickness" Value="1" />
-      <Setter Property="BorderBrush" Value="#33FFFFFF" />
+      <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
       <Setter Property="Cursor" Value="Hand" />
       <Setter Property="ToolTip" Value="{resources:Loc Ui_ModGen_PickColour}" />
       <Style.Triggers>
         <Trigger Property="IsMouseOver" Value="True">
-          <Setter Property="BorderBrush" Value="#CCFFFFFF" />
+          <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
         </Trigger>
       </Style.Triggers>
     </Style>
@@ -48,7 +48,7 @@
     <ui:CardControl Margin="0,10,0,0" Focusable="False" ui:RinControlMotion.Enabled="True">
       <ui:CardControl.Header>
         <StackPanel>
-          <Border CornerRadius="10" Background="#FF15171C" BorderBrush="#1FFFFFFF" BorderThickness="1" ClipToBounds="True">
+          <Border CornerRadius="10" Background="#FF15171C" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" ClipToBounds="True">
             <Grid>
               <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -61,23 +61,23 @@
                   <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Image x:Name="BeforeImage" Margin="18,34,18,14" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Opacity="0.85" />
-                <Border Margin="12,10,0,0" Padding="8,2" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="9" Background="#14FFFFFF">
-                  <TextBlock FontSize="11" Foreground="#B3FFFFFF" Text="{resources:Loc Ui_ModGen_Original}" />
+                <Border Margin="12,10,0,0" Padding="8,2" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="9" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+                  <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_ModGen_Original}" />
                 </Border>
-                <Border Grid.Column="1" Margin="0,14" Background="#1FFFFFFF" />
+                <Border Grid.Column="1" Margin="0,14" Background="{DynamicResource SubtleFillColorSecondaryBrush}" />
                 <Image x:Name="AfterImage" Grid.Column="2" Margin="18,34,18,14" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
                 <Border Grid.Column="2" Margin="12,10,0,0" Padding="8,2" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="9" Background="{DynamicResource SystemAccentColorPrimaryBrush}">
                   <TextBlock FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}" Text="{resources:Loc Ui_ModGen_YourMod}" />
                 </Border>
                 <ui:ProgressRing x:Name="PreviewRing" Grid.Column="2" Width="22" Height="22" IsIndeterminate="True" Visibility="Collapsed" />
               </Grid>
-              <Border x:Name="FontPreviewCard" Grid.Row="1" Height="44" BorderBrush="#1FFFFFFF" BorderThickness="0,1,0,0" Visibility="Collapsed">
+              <Border x:Name="FontPreviewCard" Grid.Row="1" Height="44" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0" Visibility="Collapsed">
                 <Grid>
                   <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                   </Grid.ColumnDefinitions>
-                  <TextBlock Margin="14,0,12,0" VerticalAlignment="Center" FontSize="11" Foreground="#99FFFFFF" Text="{resources:Loc Ui_ModGen_IconFont}" />
+                  <TextBlock Margin="14,0,12,0" VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_ModGen_IconFont}" />
                   <Image x:Name="FontPreviewImage" Grid.Column="1" Margin="0,10,14,10" Stretch="Uniform" HorizontalAlignment="Left" RenderOptions.BitmapScalingMode="HighQuality" />
                 </Grid>
               </Border>

@@ -156,7 +156,7 @@
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Border Width="64" Height="64" CornerRadius="10" ClipToBounds="True" Background="#14FFFFFF">
+        <Border Width="64" Height="64" CornerRadius="10" ClipToBounds="True" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
           <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding SelectedGame.IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
         </Border>
         <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">

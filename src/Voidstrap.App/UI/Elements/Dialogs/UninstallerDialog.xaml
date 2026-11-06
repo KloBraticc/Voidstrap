@@ -12,7 +12,7 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Title="{resources:Loc Enums_Theme_Voidstrap}" Grid.Row="0" Grid.ColumnSpan="2" Padding="8" CanMaximize="False" Foreground="#FFFFFFFF" Icon="pack://application:,,,/Voidstrap.png" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="False" />
+    <ui:TitleBar Title="{resources:Loc Enums_Theme_Voidstrap}" Grid.Row="0" Grid.ColumnSpan="2" Padding="8" CanMaximize="False" Icon="pack://application:,,,/Voidstrap.png" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="False" />
     <StackPanel Grid.Row="1" Margin="12">
       <TextBlock FontSize="20" FontWeight="SemiBold" Text="{resources:Loc Uninstaller_Title}" />
       <controls:MarkdownTextBlock Margin="0,0,0,16" FontSize="14" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" MarkdownText="{Binding Text, Mode=OneTime}" />

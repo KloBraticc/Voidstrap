@@ -12,9 +12,9 @@
     </Grid.RowDefinitions>
     <ScrollViewer Padding="24" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
       <StackPanel>
-        <TextBlock FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap" Foreground="White" Text="{Binding Title}" />
+        <TextBlock FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap" Text="{Binding Title}" />
         <StackPanel Margin="0,6,0,12" Orientation="Horizontal" VerticalAlignment="Center">
-          <TextBlock FontSize="12" Foreground="#9CFFFFFF" Text="{Binding Date, StringFormat={}{0:MMMM dd, yyyy  HH:mm}}" />
+          <TextBlock FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Date, StringFormat={}{0:MMMM dd, yyyy  HH:mm}}" />
           <Border Margin="8,0,0,0" Padding="6,1" VerticalAlignment="Center" CornerRadius="4" Background="{DynamicResource AccentFillColorPrimaryBrush}" Visibility="{Binding IsNew, Converter={StaticResource BoolToVis}}" appUi:LinuxTextGuard.PreserveCompactLayout="True">
             <TextBlock FontSize="10" FontWeight="Bold" VerticalAlignment="Center" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}" Text="{Binding AgeLabel}" />
           </Border>
@@ -22,7 +22,7 @@
         <Border Margin="0,0,0,12" CornerRadius="5" ClipToBounds="True" HorizontalAlignment="Left" Visibility="{Binding Image, Converter={StaticResource NullToVisibilityConverter}}">
           <Image MaxHeight="320" Stretch="Uniform" SnapsToDevicePixels="True" Source="{Binding Image, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
         </Border>
-        <TextBlock FontSize="14" TextWrapping="Wrap" LineHeight="20" Foreground="#C5FFFFFF" Text="{Binding Content}" />
+        <TextBlock FontSize="14" TextWrapping="Wrap" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Content}" />
         <ItemsControl Margin="0,16,0,0" ItemsSource="{Binding Tags}" appUi:LinuxTextGuard.PreserveCompactLayout="True">
           <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
@@ -31,13 +31,13 @@
           </ItemsControl.ItemsPanel>
           <ItemsControl.ItemTemplate>
             <DataTemplate>
-              <Button Margin="0,4,6,0" Padding="8,3" FontSize="12" Cursor="Hand" Foreground="{DynamicResource AccentFillColorPrimaryBrush}" Background="#10FFFFFF" BorderBrush="{DynamicResource AccentFillColorPrimaryBrush}" BorderThickness="1" Content="{Binding}" Click="TagButton_Click" />
+              <Button Margin="0,4,6,0" Padding="8,3" FontSize="12" Cursor="Hand" Foreground="{DynamicResource AccentFillColorPrimaryBrush}" Background="{DynamicResource SubtleFillColorSecondaryBrush}" BorderBrush="{DynamicResource AccentFillColorPrimaryBrush}" BorderThickness="1" Content="{Binding}" Click="TagButton_Click" />
             </DataTemplate>
           </ItemsControl.ItemTemplate>
         </ItemsControl>
       </StackPanel>
     </ScrollViewer>
-    <Border Grid.Row="1" Background="#FF202020" BorderBrush="#12757575" BorderThickness="0,1,0,0" CornerRadius="0,0,7,7" Padding="24">
+    <Border Grid.Row="1" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}" BorderThickness="0,1,0,0" CornerRadius="0,0,7,7" Padding="24">
       <UniformGrid Columns="2">
         <ui:Button Margin="0,0,4,0" Height="32" HorizontalAlignment="Stretch" Appearance="Primary" Content="{resources:Loc Common_CopyText}" Click="CopyText_Click" />
         <ui:Button Margin="4,0,0,0" Height="32" HorizontalAlignment="Stretch" Content="{resources:Loc Common_Close}" Click="Close_Click" />

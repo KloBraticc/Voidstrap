@@ -31,18 +31,18 @@
       </FrameworkElement.Style>
     </TextBlock>
     <Grid Row="3">
-      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,28,0" Padding="46,34,46,34" CornerRadius="10" Background="#0AFFFFFF" BorderThickness="1" BorderBrush="#1FFFFFFF" Visibility="{Binding IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,28,0" Padding="46,34,46,34" CornerRadius="10" Background="{DynamicResource SubtleFillColorSecondaryBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" Visibility="{Binding IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}">
         <StackPanel HorizontalAlignment="Center">
-          <Border Width="56" Height="56" CornerRadius="28" Background="#14FFFFFF" HorizontalAlignment="Center">
+          <Border Width="56" Height="56" CornerRadius="28" Background="{DynamicResource SubtleFillColorSecondaryBrush}" HorizontalAlignment="Center">
             <ui:SymbolIcon Symbol="History24" FontSize="26" Foreground="{StaticResource AccentColorSecondaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
           </Border>
           <TextBlock Text="{resources:Loc Ui_Home_NoHistoryYet}" FontSize="16" FontWeight="SemiBold" Margin="0,14,0,5" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
           <TextBlock Text="{resources:Loc Ui_Home_GamesYouPlayWillShowUp}" FontSize="12.5" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
         </StackPanel>
       </Border>
-      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,28,0" Padding="46,34,46,34" CornerRadius="10" Background="#0AFFFFFF" BorderThickness="1" BorderBrush="#1FFFFFFF" Visibility="{Binding IsFilteredEmpty, Converter={StaticResource BooleanToVisibilityConverter}}">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,28,0" Padding="46,34,46,34" CornerRadius="10" Background="{DynamicResource SubtleFillColorSecondaryBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" Visibility="{Binding IsFilteredEmpty, Converter={StaticResource BooleanToVisibilityConverter}}">
         <StackPanel HorizontalAlignment="Center">
-          <Border Width="56" Height="56" CornerRadius="28" Background="#14FFFFFF" HorizontalAlignment="Center">
+          <Border Width="56" Height="56" CornerRadius="28" Background="{DynamicResource SubtleFillColorSecondaryBrush}" HorizontalAlignment="Center">
             <ui:SymbolIcon Symbol="Search24" FontSize="26" Foreground="{StaticResource AccentColorSecondaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
           </Border>
           <TextBlock Text="{resources:Loc Ui_Home_NoMatches}" FontSize="16" FontWeight="SemiBold" Margin="0,14,0,5" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
@@ -60,7 +60,7 @@
             <DataTemplate>
               <ui:Card Margin="0,0,10,10" Padding="0" Width="200">
                 <StackPanel>
-                  <Border Height="112" CornerRadius="8,8,0,0" ClipToBounds="True" Background="#1AFFFFFF">
+                  <Border Height="112" CornerRadius="8,8,0,0" ClipToBounds="True" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
                     <Grid>
                       <ui:SymbolIcon Symbol="Games28" FontSize="30" Opacity="0.4" HorizontalAlignment="Center" VerticalAlignment="Center" />
                       <Image Stretch="UniformToFill" Source="{Binding ThumbnailUrl, Converter={StaticResource WindowsOnlyImageSourceConverter}, TargetNullValue={x:Null}, FallbackValue={x:Null}}" util:DynamicRenderSystem.LinuxImageSource="{Binding ThumbnailUrl}">

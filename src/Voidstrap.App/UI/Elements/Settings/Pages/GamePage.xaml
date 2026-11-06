@@ -33,7 +33,7 @@ xmlns:resources="clr-namespace:Voidstrap.Resources"
 
                     <Border Grid.Column="0"
                             CornerRadius="8"
-                            Background="#1AFFFFFF"
+                            Background="{DynamicResource SubtleFillColorSecondaryBrush}"
                             MinHeight="235">
                         <Border x:Name="BannerImage" CornerRadius="8" />
                     </Border>
