@@ -4426,7 +4426,7 @@ X'tixtieq tagħmel?</value>
     <value>Roblox aġġornamenti</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanali [Roblox Ibni]</value>
+    <value>Kanali</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Daħħal l-isem tal-kanal tal-iskjerament. Kanali invalidi se jikkawżaw żball 403 404!</value>

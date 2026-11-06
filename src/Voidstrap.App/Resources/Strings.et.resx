@@ -4426,7 +4426,7 @@ Mida sa teha tahaksid?</value>
     <value>Roblox värskendused</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanalid [Roblox Build]</value>
+    <value>Kanalid</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Sisestage juurutuskanali nimi. Valed kanalid põhjustavad tõrke 403 404!</value>

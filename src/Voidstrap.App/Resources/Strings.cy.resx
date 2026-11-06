@@ -4426,7 +4426,7 @@ Beth hoffech chi ei wneud?</value>
     <value>DiweddariadauRoblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Sianeli [Roblox Build]</value>
+    <value>Sianeli</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Rhowch enw sianel lleoli. Bydd sianeli annilys yn achosi gwall 403 404!</value>

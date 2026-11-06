@@ -4426,7 +4426,7 @@ Roblox do të shkarkohet kur ta lëshoni për herë të parë përmesVoidstrap .
     <value>Përditësimet eRoblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanalet [ Ndërtimi iRoblox ]</value>
+    <value>Kanalet</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Fut emrin e kanalit të vendosjes. Kanalet e pavlefshme do të shkaktojnë gabim 403 404!</value>

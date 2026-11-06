@@ -4426,7 +4426,7 @@ Roblox оныVoidstrap арқылы алғаш рет іске қосқан ке
     <value>Roblox жаңартулары</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Арналар [Roblox құрастыру]</value>
+    <value>Арналар</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Орналастыру арнасының атын енгізіңіз. Жарамсыз арналар 403 404 қатесін тудырады!</value>

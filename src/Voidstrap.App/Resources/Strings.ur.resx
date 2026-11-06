@@ -4426,7 +4426,7 @@ Roblox ڈاؤن لوڈ ہو جائے گا۔ آپ لانچ کرنے سے پہلے
     <value>Roblox اپ ڈیٹس</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>چینلز [Roblox Build]</value>
+    <value>چینلز</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>تعیناتی چینل کا نام درج کریں۔ غلط چینلز 403 404 خرابی کا سبب بنیں گے!</value>

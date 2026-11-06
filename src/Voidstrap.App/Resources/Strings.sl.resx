@@ -4426,7 +4426,7 @@ Kaj bi rad počel?</value>
     <value>PosodobitveRoblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanali [zgradbaRoblox ]</value>
+    <value>Kanali</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Vnesite ime uvedbenega kanala. Neveljavni kanali bodo povzročili napako 403 404!</value>

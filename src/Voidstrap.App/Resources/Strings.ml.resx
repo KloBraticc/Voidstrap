@@ -4426,7 +4426,7 @@ Roblox നിങ്ങൾ ആദ്യമായിVoidstrap വഴി ലോഞ�
     <value>Roblox അപ്ഡേറ്റുകൾ</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>ചാനലുകൾ [Roblox ബിൽഡ്]</value>
+    <value>ചാനലുകൾ</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>വിന്യാസ ചാനലിൻ്റെ പേര് നൽകുക. അസാധുവായ ചാനലുകൾ 403 404 പിശകിന് കാരണമാകും!</value>

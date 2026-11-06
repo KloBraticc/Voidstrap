@@ -4426,7 +4426,7 @@ Roblox ඔබ එය පළමු වරටVoidstrap හරහා දියත�
     <value>Roblox යාවත්කාලීන</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>නාලිකා [Roblox Build]</value>
+    <value>නාලිකා</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>යෙදවීමේ නාලිකාවේ නම ඇතුළත් කරන්න. වලංගු නොවන නාලිකා 403 404 දෝෂයක් ඇති කරයි!</value>

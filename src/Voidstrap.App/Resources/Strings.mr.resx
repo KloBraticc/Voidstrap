@@ -4426,7 +4426,7 @@ Roblox तुम्ही प्रथमचVoidstrap द्वारे लॉ�
     <value>Roblox अद्यतने</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>चॅनेल [Roblox बिल्ड]</value>
+    <value>चॅनेल</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>उपयोजन चॅनेलचे नाव प्रविष्ट करा. अवैध चॅनेलमुळे 403 404 त्रुटी निर्माण होईल!</value>

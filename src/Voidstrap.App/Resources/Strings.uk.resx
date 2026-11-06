@@ -4653,7 +4653,7 @@ Roblox буде завантажено під час першого запуск
     <value>Оновлення Roblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Канали   [Roblox Build]</value>
+    <value>Канали</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Введіть назву каналу розгортання. Неправильний канал спричинить помилки 403 404!</value>

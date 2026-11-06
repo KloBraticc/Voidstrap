@@ -4426,7 +4426,7 @@ Roblox ჩამოიტვირთება, როდესაც მას 
     <value>Roblox განახლებები</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>არხები [Roblox Build]</value>
+    <value>არხები</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>შეიყვანეთ განლაგების არხის სახელი. არასწორი არხები გამოიწვევს 403 404 შეცდომას!</value>

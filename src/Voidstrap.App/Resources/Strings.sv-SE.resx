@@ -4601,7 +4601,7 @@ Vad vill du göra?</value>
     <value>Roblox uppdateringar</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanaler   [Roblox Build]</value>
+    <value>Kanaler</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Ange namnet på distributionskanalen. Ogiltiga kanaler orsakar felen 403 404!</value>

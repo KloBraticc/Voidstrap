@@ -4664,7 +4664,7 @@ Voidstrap 的安装路径是：
     <value>Roblox 更新</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>频道   [Roblox Build]</value>
+    <value>频道</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>请输入部署频道名称。无效频道会导致 403 404 错误！</value>

@@ -4416,7 +4416,7 @@ Ano ang gusto mong gawin?</value>
     <value>Mga update ng Roblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Mga channel   [Roblox Build]</value>
+    <value>Mga channel</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Ilagay ang pangalan ng deployment channel. Magdudulot ng error 403 404 ang mga invalid na channel!</value>

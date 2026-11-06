@@ -4426,7 +4426,7 @@ Roblox יוריד כשתפעיל אותו דרךVoidstrap בפעם הראשונ�
     <value>עדכוניRoblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>ערוצים [Roblox Build]</value>
+    <value>ערוצים</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>הזן את שם ערוץ הפריסה. ערוצים לא חוקיים יגרמו לשגיאה 403 404!</value>

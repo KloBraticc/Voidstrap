@@ -4426,7 +4426,7 @@ Roblox डाउनलोड हो जाएगा। आप लॉन्च �
     <value>Roblox अद्यतन</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>चैनल [Roblox बिल्ड]</value>
+    <value>चैनल</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>परिनियोजन चैनल नाम दर्ज करें. अमान्य चैनल 403 404 त्रुटि का कारण बनेंगे!</value>

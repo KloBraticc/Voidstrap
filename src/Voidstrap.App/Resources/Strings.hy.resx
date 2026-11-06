@@ -4426,7 +4426,7 @@ Roblox-ը կներբեռնվի, երբ այն առաջին անգամ գործա
     <value>Roblox թարմացումներ</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Ալիքներ [Roblox Build]</value>
+    <value>Ալիքներ</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Մուտքագրեք տեղակայման ալիքի անունը: Անվավեր ալիքները կառաջացնեն 403 404 սխալ:</value>

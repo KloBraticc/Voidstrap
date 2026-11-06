@@ -4634,7 +4634,7 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
     <value>Actualizaciones de Roblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Canales   [Roblox Build]</value>
+    <value>Canales</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Introduce el nombre del canal de despliegue. ¡Los canales no válidos provocarán los errores 403 404!</value>

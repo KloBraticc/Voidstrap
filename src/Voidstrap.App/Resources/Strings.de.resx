@@ -4571,7 +4571,7 @@ Was möchtest du tun?</value>
     <value>Roblox Updates</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanäle   [Roblox Build]</value>
+    <value>Kanäle</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Gib den Namen des Bereitstellungskanals ein. Ungültige Kanäle führen zu den Fehlern 403 404!</value>

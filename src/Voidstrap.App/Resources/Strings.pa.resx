@@ -4426,7 +4426,7 @@ Roblox ਨੂੰ ਡਾਊਨਲੋਡ ਕੀਤਾ ਜਾਵੇਗਾ ਜਦੋ
     <value>Roblox ਅੱਪਡੇਟ</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>ਚੈਨਲ [Roblox ਬਿਲਡ]</value>
+    <value>ਚੈਨਲ</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>ਤੈਨਾਤੀ ਚੈਨਲ ਦਾ ਨਾਮ ਦਰਜ ਕਰੋ। ਅਵੈਧ ਚੈਨਲਾਂ ਕਾਰਨ 403 404 ਗਲਤੀ ਹੋਵੇਗੀ!</value>

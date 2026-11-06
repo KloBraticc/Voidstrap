@@ -4426,7 +4426,7 @@ Roblox биће преузето када га покренете Voidstrap пр
     <value>Roblox ажурирања</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Канали [Roblox Буилд]</value>
+    <value>Канали</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Унесите назив канала за имплементацију. Неважећи канали ће узроковати грешку 403 404!</value>

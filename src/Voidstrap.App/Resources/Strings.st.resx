@@ -4426,7 +4426,7 @@ U ka rata ho etsa eng?</value>
     <value>Lintlafatso tsaRoblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Likanale [Roblox Build]</value>
+    <value>Likanale</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Kenya lebitso la mocha oa phepelo. Likanale tse sa sebetseng li tla baka phoso ea 403 404!</value>

@@ -4426,7 +4426,7 @@ Roblox sa stiahne, keď ho prvýkrát spustíte cezVoidstrap . Pred spustením m
     <value>AktualizácieRoblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanály [Roblox Build]</value>
+    <value>Kanály</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Zadajte názov kanála nasadenia. Neplatné kanály spôsobia chybu 403 404!</value>

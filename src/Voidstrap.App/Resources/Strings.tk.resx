@@ -4426,7 +4426,7 @@ Näme etmek isleýärsiňiz?</value>
     <value>Roblox täzelenmeleri</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanallar [Roblox Build]</value>
+    <value>Kanallar</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Gurnama kanalynyň adyny giriziň. Nädogry kanallar 403 404 ýalňyşlyga sebäp bolar!</value>

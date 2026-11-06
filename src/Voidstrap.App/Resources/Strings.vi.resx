@@ -4649,7 +4649,7 @@ Bạn muốn làm gì?</value>
     <value>Cập nhật Roblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kênh   [Roblox Build]</value>
+    <value>Kênh</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Nhập tên kênh triển khai. Kênh không hợp lệ sẽ gây lỗi 403 404!</value>

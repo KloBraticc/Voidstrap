@@ -4426,7 +4426,7 @@
     <value>ΕνημερώσειςRoblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Κανάλια [Roblox Build]</value>
+    <value>Κανάλια</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Εισαγάγετε το όνομα του καναλιού ανάπτυξης. Τα μη έγκυρα κανάλια θα προκαλέσουν σφάλμα 403 404!</value>

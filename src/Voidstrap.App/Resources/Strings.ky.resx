@@ -4426,7 +4426,7 @@ Roblox , аныVoidstrap аркылуу биринчи жолу ишке кир�
     <value>Roblox жаңыртуулары</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Каналдар [Roblox Build]</value>
+    <value>Каналдар</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Жайгаштыруу каналынын атын киргизиңиз. Жараксыз каналдар 403 404 катасын жаратат!</value>

@@ -4426,7 +4426,7 @@ Roblox вақте ки шумо онро бори аввал тавассутиV
     <value>НавсозиҳоиRoblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Каналҳо [СохтаниRoblox ]</value>
+    <value>Каналҳо</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Номи канали густаришро ворид кунед. Каналҳои нодуруст боиси хатогии 403 404 мешаванд!</value>

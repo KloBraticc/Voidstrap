@@ -4426,7 +4426,7 @@ Kedu ihe ị ga-achọ ime?</value>
     <value>MmeliteRoblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Ọwa [Roblox Mee]</value>
+    <value>Ọwa</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Tinye aha ọwa mbugharị. Ọwa na-ezighi ezi ga-ebute njehie 403 404!</value>

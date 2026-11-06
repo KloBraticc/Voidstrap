@@ -4635,7 +4635,7 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
     <value>อัปเดต Roblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>ช่อง   [Roblox Build]</value>
+    <value>ช่อง</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>ใส่ชื่อช่องการปรับใช้ ช่องที่ไม่ถูกต้องจะทำให้เกิดข้อผิดพลาด 403 404!</value>

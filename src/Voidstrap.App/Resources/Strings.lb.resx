@@ -4426,7 +4426,7 @@ Wat géift Dir gären maachen?</value>
     <value>Roblox aktualiséiert</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Channels [Roblox Build]</value>
+    <value>Channels</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Gitt den Numm vum Deployment Channel an. Ongülteg Channels verursaache 403 404 Feeler!</value>

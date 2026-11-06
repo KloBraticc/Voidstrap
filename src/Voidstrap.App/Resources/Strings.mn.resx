@@ -4426,7 +4426,7 @@ Roblox-г анх удааVoidstrap -ээр дамжуулан эхлүүлэх �
     <value>Roblox шинэчлэлтүүд</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Сувгууд [Roblox Build]</value>
+    <value>Сувгууд</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Байршуулах сувгийн нэрийг оруулна уу. Буруу суваг нь 403 404 алдаа гаргах болно!</value>

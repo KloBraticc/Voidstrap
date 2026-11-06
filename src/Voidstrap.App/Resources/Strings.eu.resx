@@ -4426,7 +4426,7 @@ Zer egin nahiko zenuke?</value>
     <value>Roblox eguneraketak</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanalak [Roblox Build]</value>
+    <value>Kanalak</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Idatzi inplementazio-kanalaren izena. Baliogabeko kanalek 403 404 errorea eragingo dute!</value>

@@ -4426,7 +4426,7 @@ Roblox будзе спампаваны пры першым запуску пра
     <value>АбнаўленніRoblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Каналы [зборкаRoblox ]</value>
+    <value>Каналы</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Увядзіце назву канала разгортвання. Няправільныя каналы прывядуць да памылкі 403 404!</value>

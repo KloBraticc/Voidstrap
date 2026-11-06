@@ -4623,7 +4623,7 @@ Co chcete udělat?</value>
     <value>Aktualizace Robloxu</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanály   [Roblox Build]</value>
+    <value>Kanály</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Zadejte název kanálu nasazení. Neplatné kanály způsobí chyby 403 404!</value>

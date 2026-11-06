@@ -4677,7 +4677,7 @@ Ką norėtumėte daryti?</value>
     <value>Roblox atnaujinimai</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanalai   [Roblox Build]</value>
+    <value>Kanalai</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Įveskite diegimo kanalo pavadinimą. Netinkami kanalai sukels klaidas 403 404!</value>

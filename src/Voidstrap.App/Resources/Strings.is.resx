@@ -4426,7 +4426,7 @@ Hvað myndir þú vilja gera?</value>
     <value>Roblox uppfærslur</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Rásir [Roblox Build]</value>
+    <value>Rásir</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Sláðu inn heiti dreifingarrásar. Ógildar rásir munu valda 403 404 villu!</value>

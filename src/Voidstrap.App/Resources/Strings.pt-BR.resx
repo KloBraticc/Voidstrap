@@ -4623,7 +4623,7 @@ O que você gostaria de fazer?</value>
     <value>Atualizações do Roblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Canais   [Roblox Build]</value>
+    <value>Canais</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Digite o nome do canal de implantação. Canais inválidos causam os erros 403 404!</value>

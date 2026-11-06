@@ -4426,7 +4426,7 @@ Que che gustaría facer?</value>
     <value>Roblox actualizacións</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Canles [Roblox Build]</value>
+    <value>Canles</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Introduce o nome da canle de implantación. As canles non válidas provocarán un erro 403 404.</value>

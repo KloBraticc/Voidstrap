@@ -4426,7 +4426,7 @@ Roblox تۇنجى قېتىمVoidstrap ئارقىلىق چىقارغاندا چۈ
     <value>Roblox يېڭىلانمىلىرى</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>قاناللار [Roblox Build]</value>
+    <value>قاناللار</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>ئورۇنلاشتۇرۇش قانىلىنىڭ نامىنى كىرگۈزۈڭ. ئىناۋەتسىز قاناللار 403 404 خاتالىق كەلتۈرۈپ چىقىرىدۇ!</value>

@@ -4604,7 +4604,7 @@ Apakah yang anda mahu lakukan?</value>
     <value>Kemas kini Roblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Saluran   [Roblox Build]</value>
+    <value>Saluran</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Masukkan nama saluran penggunaan. Saluran tidak sah akan menyebabkan ralat 403 404!</value>

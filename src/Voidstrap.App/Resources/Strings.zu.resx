@@ -4426,7 +4426,7 @@ Yini ongathanda ukuyenza?</value>
     <value>Ukushintsha kwe-Roblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Iziteshi [Roblox Build]</value>
+    <value>Iziteshi</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Faka igama lesiteshi sokuphakelwa. Iziteshi ezingavumelekile zizodala iphutha elingu-403 404!</value>

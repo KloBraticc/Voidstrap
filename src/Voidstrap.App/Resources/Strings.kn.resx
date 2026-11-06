@@ -4426,7 +4426,7 @@ Roblox ಅನ್ನು ನೀವು ಮೊದಲ ಬಾರಿಗೆVoidstrap ಮ
     <value>Roblox ನವೀಕರಣಗಳು</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>ಚಾನಲ್ಗಳು [Roblox ಬಿಲ್ಡ್]</value>
+    <value>ಚಾನಲ್ಗಳು</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>ನಿಯೋಜನೆ ಚಾನಲ್ ಹೆಸರನ್ನು ನಮೂದಿಸಿ. ಅಮಾನ್ಯವಾದ ಚಾನಲ್ಗಳು 403 404 ದೋಷವನ್ನು ಉಂಟುಮಾಡುತ್ತವೆ!</value>

@@ -4426,7 +4426,7 @@ Maxaad jeclaan lahayd inaad samayso?</value>
     <value>CusboonaysiintaRoblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanaalka [Roblox Dhis]</value>
+    <value>Kanaalka</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Geli magaca kanaalka geynta Kanaalada aan saxda ahayn waxay sababi doonaan 403 404 qalad!</value>

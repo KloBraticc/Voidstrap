@@ -4681,7 +4681,7 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
     <value>به‌روزرسانی‌های Roblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>کانال‌ها   [Roblox Build]</value>
+    <value>کانال‌ها</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>نام کانال استقرار را وارد کنید. کانال‌های نامعتبر باعث خطای 403 404 می‌شوند!</value>

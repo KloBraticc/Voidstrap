@@ -4426,7 +4426,7 @@ Roblox ຈະຖືກດາວໂຫຼດເມື່ອທ່ານເປີ�
     <value>ອັບເດດRoblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>ຊ່ອງ [Roblox Build]</value>
+    <value>ຊ່ອງ</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>ໃສ່ຊື່ຊ່ອງການໃຊ້ງານ. ຊ່ອງທີ່ບໍ່ຖືກຕ້ອງຈະເຮັດໃຫ້ເກີດຄວາມຜິດພາດ 403 404!</value>

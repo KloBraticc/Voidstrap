@@ -4643,7 +4643,7 @@ Voidstrap 安裝在 "{1}"。</value>
     <value>Roblox 更新</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>頻道   [Roblox Build]</value>
+    <value>頻道</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>請輸入部署頻道名稱。無效的頻道會造成 403 404 錯誤！</value>

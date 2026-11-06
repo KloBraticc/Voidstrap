@@ -4426,7 +4426,7 @@ Què t'agradaria fer?</value>
     <value>Actualitzacions deRoblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Canals [Roblox Build]</value>
+    <value>Canals</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Introduïu el nom del canal de desplegament. Els canals no vàlids provocaran un error 403 404!</value>

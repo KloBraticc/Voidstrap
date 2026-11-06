@@ -4666,7 +4666,7 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
     <value>Roblox の更新</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>チャンネル   [Roblox Build]</value>
+    <value>チャンネル</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>デプロイチャンネル名を入力してください。無効なチャンネルは 403 404 エラーの原因になります！</value>

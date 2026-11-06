@@ -4426,7 +4426,7 @@ Roblox သည် ၎င်းကိုVoidstrap မှတစ်ဆင့် ပ�
     <value>Roblox အပ်ဒိတ်များ</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>ချန်နယ်များ [Roblox Build]</value>
+    <value>ချန်နယ်များ</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>အသုံးပြုမှုချန်နယ်အမည်ကို ထည့်သွင်းပါ။ မမှန်ကန်သောချန်နယ်များသည် 403 404 error ကိုဖြစ်စေသည်။</value>

@@ -4426,7 +4426,7 @@ Roblox će biti preuzet kada ga prvi put pokrenete prekoVoidstrap . Možete pril
     <value>Roblox ažuriranja</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanali [Roblox Build]</value>
+    <value>Kanali</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Unesite naziv kanala za implementaciju. Nevažeći kanali će uzrokovati grešku 403 404!</value>

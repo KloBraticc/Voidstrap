@@ -4426,7 +4426,7 @@ Roblox ଡାଉନଲୋଡ୍ ହେବ | ଲଞ୍ଚ କରିବା ପୂ�
     <value>Roblox ଅଦ୍ୟତନଗୁଡ଼ିକ |</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>ଚ୍ୟାନେଲଗୁଡିକ [Roblox ନିର୍ମାଣ]</value>
+    <value>ଚ୍ୟାନେଲଗୁଡିକ</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>ନିୟୋଜନ ଚ୍ୟାନେଲର ନାମ ପ୍ରବେଶ କରନ୍ତୁ | ଅବ val ଧ ଚ୍ୟାନେଲଗୁଡିକ 403 404 ତ୍ରୁଟି ଘଟାଇବ!</value>

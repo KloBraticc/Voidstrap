@@ -4643,7 +4643,7 @@ Roblox ще бъде изтеглен, когато го стартирате з
     <value>Актуализации на Roblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Канали   [Roblox Build]</value>
+    <value>Канали</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Въведете името на канала за внедряване. Невалидните канали ще причинят грешки 403 404!</value>

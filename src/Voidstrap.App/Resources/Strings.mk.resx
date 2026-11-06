@@ -4426,7 +4426,7 @@ Roblox ќе се преземе кога ќе го стартувате прек
     <value>Ажурирања наRoblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Канали [Roblox Build]</value>
+    <value>Канали</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Внесете го името на каналот за распоредување. Неважечките канали ќе предизвикаат грешка 403 404!</value>

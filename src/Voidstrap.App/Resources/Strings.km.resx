@@ -4426,7 +4426,7 @@ Roblox នឹងត្រូវបានទាញយក នៅពេលអ្ន
     <value>ការធ្វើបច្ចុប្បន្នភាពRoblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>ប៉ុស្តិ៍ [Roblox Build]</value>
+    <value>ប៉ុស្តិ៍</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>បញ្ចូលឈ្មោះប៉ុស្តិ៍ដាក់ឱ្យប្រើប្រាស់។ ឆានែលមិនត្រឹមត្រូវនឹងបណ្តាលឱ្យមានកំហុស 403 404!</value>

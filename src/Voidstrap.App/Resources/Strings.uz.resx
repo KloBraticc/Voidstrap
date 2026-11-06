@@ -4426,7 +4426,7 @@ Nima qilishni xohlaysiz?</value>
     <value>Roblox yangilanishlari</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanallar [Roblox Build]</value>
+    <value>Kanallar</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>O'rnatish kanali nomini kiriting. Yaroqsiz kanallar 403 404 xatoga olib keladi!</value>

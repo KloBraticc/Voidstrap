@@ -4426,7 +4426,7 @@ Ko jūs vēlētos darīt?</value>
     <value>Roblox atjauninājumi</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanāli [Roblox Build]</value>
+    <value>Kanāli</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Ievadiet izvietošanas kanāla nosaukumu. Nederīgi kanāli izraisīs 403 404 kļūdu!</value>

@@ -4426,7 +4426,7 @@ Wat wil jy graag doen?</value>
     <value>Roblox-opdaterings</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanale [Roblox Bou]</value>
+    <value>Kanale</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Voer die naam van die ontplooiingskanaal in. Ongeldige kanale sal 403 404-fout veroorsaak!</value>

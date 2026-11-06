@@ -4426,7 +4426,7 @@ Roblox డౌన్లోడ్ చేయబడుతుంది. మీరు 
     <value>Roblox నవీకరణలు</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>ఛానెల్లు [Roblox బిల్డ్]</value>
+    <value>ఛానెల్లు</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>విస్తరణ ఛానెల్ పేరును నమోదు చేయండి. చెల్లని ఛానెల్లు 403 404 ఎర్రర్ను కలిగిస్తాయి!</value>

@@ -4653,7 +4653,7 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
     <value>Roblox 업데이트</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>채널   [Roblox Build]</value>
+    <value>채널</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>배포 채널 이름을 입력하십시오. 잘못된 채널은 403 404 오류를 일으킵니다!</value>

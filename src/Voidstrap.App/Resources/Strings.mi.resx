@@ -4426,7 +4426,7 @@ Me aha koe?</value>
     <value>Roblox whakahōunga</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Hongere [ HangaRoblox ]</value>
+    <value>Hongere</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Whakauruhia te ingoa hongere horahanga. Ko nga hongere muhu ka puta he hapa 403 404!</value>

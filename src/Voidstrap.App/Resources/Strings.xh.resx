@@ -4426,7 +4426,7 @@ Yintoni ongathanda ukuyenza?</value>
     <value>Roblox ihlaziyiwe</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Imijelo [Roblox Yakha]</value>
+    <value>Imijelo</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Ngenisa igama lesitishi sobeko. Imijelo engasebenziyo iza kubangela impazamo ye-403 404!</value>

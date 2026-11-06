@@ -4426,7 +4426,7 @@ Cad ba mhaith leat a dhéanamh?</value>
     <value>NuashonruitheRoblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Cainéil [ TógáilRoblox ]</value>
+    <value>Cainéil</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Cuir isteach ainm an chainéil imlonnaithe. Déanfaidh cainéil neamhbhailí earráid 403 404!</value>

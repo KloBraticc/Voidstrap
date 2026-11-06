@@ -4597,7 +4597,7 @@ Apa yang ingin Anda lakukan?</value>
     <value>Pembaruan Roblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanal   [Roblox Build]</value>
+    <value>Kanal</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Masukkan nama kanal deployment. Kanal tidak valid akan menyebabkan galat 403 404!</value>

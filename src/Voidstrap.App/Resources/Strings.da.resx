@@ -4426,7 +4426,7 @@ Hvad vil du gerne lave?</value>
     <value>Roblox opdateringer</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanaler [Roblox Build]</value>
+    <value>Kanaler</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Angiv navnet på implementeringskanalen. Ugyldige kanaler vil forårsage 403 404 fejl!</value>

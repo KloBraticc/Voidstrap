@@ -4426,7 +4426,7 @@ Roblox நீங்கள் முதல்முறையாகVoidstrap ம�
     <value>Roblox புதுப்பிப்புகள்</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>சேனல்கள் [Roblox Build]</value>
+    <value>சேனல்கள்</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>வரிசைப்படுத்தல் சேனல் பெயரை உள்ளிடவும். தவறான சேனல்கள் 403 404 பிழையை ஏற்படுத்தும்!</value>

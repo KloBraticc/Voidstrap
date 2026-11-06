@@ -256,7 +256,7 @@
                   <TextBlock FontSize="14" Text="{resources:Loc Ui_Channel_ChannelsRobloxBuild}" />
                   <TextBlock FontSize="12" Text="{resources:Loc Ui_Channel_EnterDeploymentChannelNameInvalidChannels}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
                 </StackPanel>
-                <TextBox Grid.Column="1" Width="200" Margin="8,0,8,0" Padding="10,5,10,5" FontSize="13" VerticalContentAlignment="Center" ToolTip="{resources:Loc Ui_Channel_EnterDeploymentChannelEGProduction}" MaxLength="2147483647" AcceptsReturn="False" TextWrapping="NoWrap" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Text="{Binding ViewChannel, Mode=TwoWay, UpdateSourceTrigger=LostFocus, FallbackValue=production}" IsEnabled="{Binding IsChannelEnabled}" />
+                <ui:TextBox Grid.Column="1" Width="220" Margin="8,0,8,0" VerticalAlignment="Center" PlaceholderText="production" ToolTip="{resources:Loc Ui_Channel_EnterDeploymentChannelEGProduction}" MaxLength="64" AcceptsReturn="False" TextWrapping="NoWrap" Text="{Binding ViewChannel, Mode=TwoWay, UpdateSourceTrigger=LostFocus, FallbackValue=production}" IsEnabled="{Binding IsChannelEnabled}" />
                 <ui:ToggleSwitch Grid.Column="2" Margin="8,0,10,0" VerticalAlignment="Center" AutomationProperties.Name="{resources:Loc Ui_Channel_DeploymentChannel}" IsChecked="{Binding IsChannelEnabled, Mode=TwoWay}" />
               </Grid>
             </HeaderedContentControl.Header>

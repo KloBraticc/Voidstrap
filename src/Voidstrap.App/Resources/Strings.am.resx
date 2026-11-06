@@ -4426,7 +4426,7 @@ Roblox ለመጀመሪያ ጊዜ በVoidstrap በኩል ሲያስጀምሩት �
     <value>Roblox ዝማኔዎች</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>ቻናሎች [Roblox ግንባታ]</value>
+    <value>ቻናሎች</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>የማሰማራት ቻናል ስም አስገባ። ልክ ያልሆኑ ቻናሎች 403 404 ስህተት ይፈጥራሉ!</value>

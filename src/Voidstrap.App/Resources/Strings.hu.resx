@@ -4639,7 +4639,7 @@ Mit szeretnél tenni?</value>
     <value>Roblox frissítések</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Csatornák   [Roblox Build]</value>
+    <value>Csatornák</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Add meg a telepítési csatorna nevét. Érvénytelen csatorna 403 404 hibát okoz!</value>

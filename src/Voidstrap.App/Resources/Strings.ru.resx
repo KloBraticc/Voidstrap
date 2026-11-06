@@ -4645,7 +4645,7 @@ Roblox будет скачан при первом запуске через Voi
     <value>Обновления Roblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Каналы   [Roblox Build]</value>
+    <value>Каналы</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Введите название канала развёртывания. Неверный канал вызовет ошибки 403 404!</value>

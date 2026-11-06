@@ -4737,7 +4737,7 @@ What would you like to do?</value>
     <value>Roblox updates</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Channels   [Roblox Build]</value>
+    <value>Channels</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Enter deployment channel name. Invalid channels will cause 403 404 error!</value>

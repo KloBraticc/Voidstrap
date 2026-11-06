@@ -4426,7 +4426,7 @@ Roblox ڊائون لوڊ ڪيو ويندو جڏهن توهان ان کي پهر�
     <value>Roblox اپڊيٽ</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>چينل [Roblox تعمير]</value>
+    <value>چينل</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>مقرري چينل جو نالو داخل ڪريو. غلط چينلز سبب 403 404 غلطي ٿيندي!</value>

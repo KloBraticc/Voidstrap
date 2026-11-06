@@ -4635,7 +4635,7 @@ Mitä haluat tehdä?</value>
     <value>Robloxin päivitykset</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanavat   [Roblox Build]</value>
+    <value>Kanavat</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Anna käyttöönottokanavan nimi. Virheelliset kanavat aiheuttavat virheet 403 404!</value>

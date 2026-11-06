@@ -4426,7 +4426,7 @@ Roblox पहिलो पटकVoidstrap मार्फत लन्च गर
     <value>Roblox अद्यावधिकहरू</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>च्यानलहरू [Roblox निर्माण]</value>
+    <value>च्यानलहरू</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>डिप्लोयमेन्ट च्यानल नाम प्रविष्ट गर्नुहोस्। अमान्य च्यानलहरूले 403 404 त्रुटि निम्त्याउनेछ!</value>

@@ -4426,7 +4426,7 @@ Roblox به ډاونلوډ شي کله چې تاسو د لومړي ځل لپار
     <value>دRoblox تازه معلومات</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>چینلونه [Roblox جوړونه]</value>
+    <value>چینلونه</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>د ځای پرځای کولو چینل نوم دننه کړئ. ناسم چینلونه به د 403 404 تېروتنې لامل شي!</value>

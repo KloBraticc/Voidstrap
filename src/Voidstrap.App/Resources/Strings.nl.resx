@@ -4599,7 +4599,7 @@ Wat wil je doen?</value>
     <value>Roblox-updates</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanalen   [Roblox Build]</value>
+    <value>Kanalen</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Voer de naam van het implementatiekanaal in. Ongeldige kanalen veroorzaken de fouten 403 404!</value>

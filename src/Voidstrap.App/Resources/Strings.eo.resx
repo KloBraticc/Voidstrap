@@ -4426,7 +4426,7 @@ Kion vi ŝatus fari?</value>
     <value>Roblox ĝisdatigoj</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>Kanaloj [Roblox Konstruaĵo]</value>
+    <value>Kanaloj</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>Enigu la nomon de la disfalda kanalo. Nevalidaj kanaloj kaŭzos 403 404 eraron!</value>

@@ -4672,7 +4672,7 @@
     <value>تحديثات Roblox</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
-    <value>القنوات   [Roblox Build]</value>
+    <value>القنوات</value>
   </data>
   <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
     <value>أدخل اسم قناة النشر. القنوات غير الصالحة ستسبب الخطأين 403 404!</value>
