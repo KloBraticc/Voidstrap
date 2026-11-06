@@ -4099,33 +4099,94 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         PerformSearch(GlobalSearchBox.Text?.Trim() ?? "");
     }
 
+    private readonly List<PageSearchTarget> _searchMatches = new List<PageSearchTarget>();
+
+    private int _searchMatchIndex;
+
+    private string _searchMatchQuery = "";
+
     private void PerformSearch(string query)
     {
-        if (string.IsNullOrWhiteSpace(query) || !(RootFrame.Content is Page page))
+        query = query.Trim();
+        if (query.Length == 0 || RootFrame.Content is not Page page)
         {
+            _searchMatches.Clear();
+            _searchMatchQuery = "";
             return;
         }
-        if (page != _lastPage || _pageSearchTargets.Count == 0)
+        try
         {
             page.UpdateLayout();
             CachePageSearchTargets(page);
             _lastPage = page;
-        }
-        string query2 = query.Trim();
-        List<PageSearchTarget> matches = new List<PageSearchTarget>();
-        foreach (PageSearchTarget target in _pageSearchTargets)
-        {
-            if (IsFuzzyMatch(target.Text, query2))
+            string normalizedQuery = NormalizeSearchText(query);
+            List<(PageSearchTarget Target, int Rank)> ranked = new List<(PageSearchTarget, int)>();
+            foreach (PageSearchTarget target in _pageSearchTargets)
             {
-                if (target.Element.IsVisible)
-                {
-                    matches.Add(target);
-                }
+                if (!target.Element.IsVisible || !IsFuzzyMatch(target.Text, query))
+                    continue;
+                string text = NormalizeSearchText(target.Text);
+                int rank = text == normalizedQuery ? 0 : text.StartsWith(normalizedQuery, StringComparison.Ordinal) ? 1 : text.Contains(normalizedQuery, StringComparison.Ordinal) ? 2 : 3;
+                ranked.Add((target, rank));
             }
+            _searchMatches.Clear();
+            _searchMatches.AddRange(ranked.OrderBy(item => item.Rank).Select(item => item.Target));
+            _searchMatchIndex = 0;
+            _searchMatchQuery = query;
+            if (_searchMatches.Count > 0)
+                ScrollToSearchMatch(_searchMatches[0]);
         }
-        if (matches.Count > 0)
+        catch (Exception ex)
         {
-            ScrollToClosestMatch(matches);
+            App.Logger.WriteException("MainWindow::PerformSearch", ex);
+        }
+    }
+
+    private void GlobalSearchBox_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Escape)
+        {
+            GlobalSearchBox.Text = "";
+            _searchMatches.Clear();
+            e.Handled = true;
+            return;
+        }
+        if (e.Key != Key.Enter)
+            return;
+        e.Handled = true;
+        _searchDebounceTimer?.Stop();
+        string query = GlobalSearchBox.Text?.Trim() ?? "";
+        if (!string.Equals(query, _searchMatchQuery, StringComparison.Ordinal) || _searchMatches.Count == 0)
+        {
+            PerformSearch(query);
+            return;
+        }
+        int step = Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) ? -1 : 1;
+        _searchMatchIndex = ((_searchMatchIndex + step) % _searchMatches.Count + _searchMatches.Count) % _searchMatches.Count;
+        PageSearchTarget match = _searchMatches[_searchMatchIndex];
+        if (match.Element.IsVisible)
+            ScrollToSearchMatch(match);
+        else
+            PerformSearch(query);
+    }
+
+    private static void ScrollToSearchMatch(PageSearchTarget match)
+    {
+        ScrollViewer? scrollViewer = FindAncestor<ScrollViewer>(match.Element);
+        if (scrollViewer == null)
+        {
+            match.Element.BringIntoView();
+            return;
+        }
+        try
+        {
+            Point point = match.Element.TransformToAncestor(scrollViewer).Transform(new Point(0.0, 0.0));
+            double desiredOffset = scrollViewer.VerticalOffset + point.Y - Math.Max(0.0, (scrollViewer.ViewportHeight - match.Element.ActualHeight) / 2.0);
+            SmoothScrollTo(scrollViewer, Math.Clamp(desiredOffset, 0.0, scrollViewer.ScrollableHeight));
+        }
+        catch (InvalidOperationException)
+        {
+            match.Element.BringIntoView();
         }
     }
 
@@ -4236,75 +4297,38 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private static void ScrollToClosestMatch(IReadOnlyList<PageSearchTarget> matches)
-    {
-        if (matches.Count == 0)
-        {
-            return;
-        }
-        PageSearchTarget fallback = matches[0];
-        foreach (PageSearchTarget match in matches)
-        {
-            ScrollViewer? scrollViewer = null;
-            for (DependencyObject current = match.Element; current != null; current = VisualTreeHelper.GetParent(current))
-            {
-                if (current is ScrollViewer scrollViewer2)
-                {
-                    scrollViewer = scrollViewer2;
-                    break;
-                }
-            }
-            if (scrollViewer != null)
-            {
-                Point point = match.Element.TransformToAncestor(scrollViewer).Transform(new Point(0.0, 0.0));
-                double viewportHeight = scrollViewer.ViewportHeight;
-                double elementHeight = match.Element.ActualHeight;
-                if (point.Y + elementHeight < 0.0 || point.Y > viewportHeight)
-                {
-                    double desiredOffset = scrollViewer.VerticalOffset + point.Y - Math.Max(0.0, (viewportHeight - elementHeight) / 2.0);
-                    desiredOffset = Math.Max(0.0, Math.Min(scrollViewer.ScrollableHeight, desiredOffset));
-                    SmoothScrollTo(scrollViewer, desiredOffset);
-                    return;
-                }
-            }
-        }
-        ScrollViewer? fallbackScrollViewer = FindAncestor<ScrollViewer>(fallback.Element);
-        if (fallbackScrollViewer != null)
-        {
-            Point point = fallback.Element.TransformToAncestor(fallbackScrollViewer).Transform(new Point(0.0, 0.0));
-            double desiredOffset =
-                fallbackScrollViewer.VerticalOffset
-                + point.Y
-                - Math.Max(0.0, (fallbackScrollViewer.ViewportHeight - fallback.Element.ActualHeight) / 2.0);
-            desiredOffset = Math.Max(0.0, Math.Min(fallbackScrollViewer.ScrollableHeight, desiredOffset));
-            SmoothScrollTo(fallbackScrollViewer, desiredOffset);
-        }
-    }
+    private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<ScrollViewer, DispatcherTimer> _searchScrollTimers = new();
 
     private static void SmoothScrollTo(ScrollViewer scrollViewer, double targetOffset)
     {
-        //IL_003c: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0041: Unknown result type (might be due to invalid IL or missing references)
-        //IL_0054: Expected O, but got Unknown
+        if (_searchScrollTimers.TryGetValue(scrollViewer, out DispatcherTimer? running))
+        {
+            running.Stop();
+            _searchScrollTimers.Remove(scrollViewer);
+        }
         double startOffset = scrollViewer.VerticalOffset;
         double distance = targetOffset - startOffset;
-        int steps = 15;
+        if (Math.Abs(distance) < 0.5)
+            return;
+        const int steps = 15;
         int currentStep = 0;
-        DispatcherTimer timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(15L) };
+        DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Render) { Interval = TimeSpan.FromMilliseconds(15L) };
         EventHandler? onTick = null;
         onTick = delegate
         {
             currentStep++;
-            double num = (double)currentStep / (double)steps;
-            num = num * num * (3.0 - 2.0 * num);
-            scrollViewer.ScrollToVerticalOffset(startOffset + distance * num);
+            double t = (double)currentStep / steps;
+            t = t * t * (3.0 - 2.0 * t);
+            scrollViewer.ScrollToVerticalOffset(startOffset + distance * t);
             if (currentStep >= steps)
             {
                 timer.Stop();
                 timer.Tick -= onTick;
+                _searchScrollTimers.Remove(scrollViewer);
             }
         };
         timer.Tick += onTick;
+        _searchScrollTimers.AddOrUpdate(scrollViewer, timer);
         timer.Start();
     }
 

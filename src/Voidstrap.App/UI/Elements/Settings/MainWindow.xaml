@@ -821,7 +821,7 @@
             </StackPanel>
           </Grid>
           <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-            <ui:TextBox Name="GlobalSearchBox" Width="240" Height="36" Margin="0,0,8,0" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" Visibility="Collapsed" PlaceholderText="{resources:Loc Ui_Main_SearchPlaceholder}" ClearButtonEnabled="True" Icon="Search24" TextChanged="GlobalSearchBox_TextChanged" />
+            <ui:TextBox Name="GlobalSearchBox" Width="240" Height="36" Margin="0,0,8,0" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" Visibility="Collapsed" PlaceholderText="{resources:Loc Ui_Main_SearchPlaceholder}" ClearButtonEnabled="True" Icon="Search24" TextChanged="GlobalSearchBox_TextChanged" PreviewKeyDown="GlobalSearchBox_PreviewKeyDown" />
           </StackPanel>
           <ui:InfoBar Margin="0,0,28,0" Grid.Column="2" Height="36" VerticalAlignment="Center" HorizontalAlignment="Right" Padding="3" IsClosable="True" IsOpen="True" Message="{Binding AppVersion}" appUi:LinuxTextGuard.PreserveCompactLayout="True" />
         </Grid>
