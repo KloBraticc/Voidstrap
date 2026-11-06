@@ -1968,14 +1968,15 @@ public partial class App : Application
                     )
             );
         }
-        if (Settings.Prop.ClearFont)
-        {
-            TryStartup(
-                "Clear font",
-                () =>
-                    EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(ApplyClearFont))
-            );
-        }
+        TryStartup(
+            "Clear font",
+            () =>
+            {
+                EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(ApplyClearFont));
+                EventManager.RegisterClassHandler(typeof(System.Windows.Controls.ContextMenu), System.Windows.Controls.ContextMenu.OpenedEvent, new RoutedEventHandler(ApplyClearFont));
+                EventManager.RegisterClassHandler(typeof(System.Windows.Controls.ToolTip), System.Windows.Controls.ToolTip.OpenedEvent, new RoutedEventHandler(ApplyClearFont));
+            }
+        );
         TryStartup("Linux file dialogs", Voidstrap.UI.LinuxFileDialog.Install);
         TryStartup("Editor compatibility", Voidstrap.UI.LinuxEditorCompat.Install);
         TryStartup(
@@ -2090,15 +2091,52 @@ public partial class App : Application
 
     private static void ApplyClearFont(object sender, RoutedEventArgs e)
     {
-        if (sender is not Window window)
-        {
+        if (sender is FrameworkElement element)
+            SetClearFont(element, Settings.Prop.ClearFont);
+    }
+
+    internal static void ApplyClearFontToOpenWindows()
+    {
+        if (Current == null)
             return;
+        bool enabled = Settings.Prop.ClearFont;
+        foreach (Window window in Current.Windows)
+            SetClearFont(window, enabled);
+    }
+
+    private static void SetClearFont(FrameworkElement element, bool enabled)
+    {
+        const string LOG_IDENT = "App::SetClearFont";
+        if (!enabled && TextOptions.GetTextFormattingMode(element) != TextFormattingMode.Display)
+            return;
+        try
+        {
+            if (enabled && Voidstrap.Utility.Platform.IsWindows)
+            {
+                TextOptions.SetTextFormattingMode(element, TextFormattingMode.Display);
+                TextOptions.SetTextRenderingMode(element, TextRenderingMode.ClearType);
+                RenderOptions.SetClearTypeHint(element, ClearTypeHint.Enabled);
+                element.UseLayoutRounding = true;
+            }
+            else
+            {
+                element.ClearValue(TextOptions.TextFormattingModeProperty);
+                if (!Voidstrap.Utility.Platform.IsLinux)
+                {
+                    element.ClearValue(TextOptions.TextRenderingModeProperty);
+                    element.ClearValue(RenderOptions.ClearTypeHintProperty);
+                }
+            }
         }
-        TextOptions.SetTextRenderingMode(window, OperatingSystem.IsLinux() ? TextRenderingMode.Grayscale : TextRenderingMode.ClearType);
-        TextOptions.SetTextFormattingMode(window, TextFormattingMode.Display);
-        window.UseLayoutRounding = true;
-        window.SnapsToDevicePixels = true;
-        RenderOptions.SetClearTypeHint(window, OperatingSystem.IsLinux() ? ClearTypeHint.Auto : ClearTypeHint.Enabled);
+        catch (Exception ex)
+        {
+            Logger.WriteLine(LOG_IDENT, "Clear font could not be applied, keeping the default text rendering: " + ex.Message);
+            try
+            {
+                element.ClearValue(TextOptions.TextFormattingModeProperty);
+            }
+            catch { }
+        }
     }
 
     private static void LogRenderMode()

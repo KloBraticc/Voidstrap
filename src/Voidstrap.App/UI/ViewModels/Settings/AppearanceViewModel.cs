@@ -32,7 +32,6 @@ namespace Voidstrap.UI.ViewModels.Settings;
 
 public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.ViewModels.ISettingsRefreshable
 {
-    private const string ClearFontRestartKey = "appearance.clearFont";
 
     private bool _clearFont;
 
@@ -559,13 +558,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             }
             _clearFont = value;
             OnPropertyChanged(nameof(ClearFont));
-            RestartNotificationService.TrackApplicationSetting(
-                ClearFontRestartKey,
-                value,
-                "Clear Font changed",
-                "Restart Voidstrap to apply the new text rendering mode.",
-                ApplyClearFontSetting
-            );
+            ApplyClearFontSetting();
         }
     }
 
@@ -573,6 +566,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
     {
         App.Settings.Prop.ClearFont = _clearFont;
         App.Settings.SaveDeferred();
+        App.ApplyClearFontToOpenWindows();
     }
 
     public bool SmooothBARRyesirikikthxlucipook
@@ -1126,11 +1120,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
 
     public AppearanceViewModel()
     {
-        bool savedClearFont = App.Settings.Prop.ClearFont;
-        RestartNotificationService.RegisterSetting(ClearFontRestartKey, savedClearFont);
-        _clearFont = RestartNotificationService.TryGetPendingValue(ClearFontRestartKey, out bool pendingClearFont)
-            ? pendingClearFont
-            : savedClearFont;
+        _clearFont = App.Settings.Prop.ClearFont;
         _selectedAutoTranslateLanguage = GetInitialAutoTranslateLanguageName();
         _selectedLanguage = LanguageOption.Find(LanguageOptions, App.Settings.Prop.AutoTranslate, App.Settings.Prop.Locale);
         ImportBackgroundCommand = new RelayCommand(() =>
