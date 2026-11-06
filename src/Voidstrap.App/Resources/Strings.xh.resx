@@ -9421,4 +9421,16 @@ uyayivumela?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>I MuMu Player ayikwazanga ukusetwa</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Umfanekiso wesikrini uthathiwe</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Umfanekiso wakho wesikrini se Roblox ubanjiwe.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Izaziso zemifanekiso yesikrini</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Bonisa isaziso xa uthatha umfanekiso wesikrini se Roblox.</value>
+  </data>
 </root>

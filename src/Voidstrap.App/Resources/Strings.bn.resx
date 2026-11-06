@@ -9421,4 +9421,16 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player সেট আপ করা যায়নি</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>স্ক্রিনশট নেওয়া হয়েছে</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>আপনার Roblox স্ক্রিনশট ধারণ করা হয়েছে।</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>স্ক্রিনশট বিজ্ঞপ্তি</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Roblox এর স্ক্রিনশট নিলে একটি বিজ্ঞপ্তি দেখান।</value>
+  </data>
 </root>

@@ -9421,4 +9421,16 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player танзим нашуд</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Акси экран гирифта шуд</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Акси экрани Roblox-и шумо гирифта шуд.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Огоҳиҳои акси экран</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Ҳангоми гирифтани акси экрани Roblox огоҳӣ нишон диҳед.</value>
+  </data>
 </root>

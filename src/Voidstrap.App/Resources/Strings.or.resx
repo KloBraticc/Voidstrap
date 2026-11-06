@@ -9422,4 +9422,16 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player ସେଟ ଅପ ହୋଇପାରିଲା ନାହିଁ</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>ସ୍କ୍ରିନସଟ ନିଆଗଲା</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>ଆପଣଙ୍କ Roblox ସ୍କ୍ରିନସଟ କ୍ୟାପଚର ହେଲା।</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>ସ୍କ୍ରିନସଟ ବିଜ୍ଞପ୍ତି</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>ଆପଣ Roblox ର ସ୍କ୍ରିନସଟ ନେଲେ ଏକ ବିଜ୍ଞପ୍ତି ଦେଖାନ୍ତୁ।</value>
+  </data>
 </root>

@@ -9422,4 +9422,16 @@ Ceadaigh é?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>Níorbh fhéidir MuMu Player a shocrú</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Gabhadh gabháil scáileáin</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Gabhadh do ghabháil scáileáin Roblox.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Fógraí gabhála scáileáin</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Taispeáin fógra nuair a ghlacann tú gabháil scáileáin de Roblox.</value>
+  </data>
 </root>

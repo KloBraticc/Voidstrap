@@ -9421,4 +9421,16 @@ Caniatáu iddo?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>Methwyd gosod MuMu Player</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Sgrinlun wedi'i dynnu</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Mae eich sgrinlun Roblox wedi'i ddal.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Hysbysiadau sgrinlun</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Dangos hysbysiad pan fyddwch yn tynnu sgrinlun o Roblox.</value>
+  </data>
 </root>

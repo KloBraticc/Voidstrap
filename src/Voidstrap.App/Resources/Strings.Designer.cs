@@ -1313,6 +1313,14 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Channel_ChoosesTheGraphicsBackendVoidstrapDraws => ResourceManager.GetString("Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws", resourceCulture);
 
+        public static string Ui_SessionNotify_ScreenshotTaken => ResourceManager.GetString("Ui.SessionNotify.ScreenshotTaken", resourceCulture);
+
+        public static string Ui_SessionNotify_ScreenshotTakenText => ResourceManager.GetString("Ui.SessionNotify.ScreenshotTakenText", resourceCulture);
+
+        public static string Ui_Mods_ScreenshotNotify_Title => ResourceManager.GetString("Ui.Mods.ScreenshotNotify.Title", resourceCulture);
+
+        public static string Ui_Mods_ScreenshotNotify_Description => ResourceManager.GetString("Ui.Mods.ScreenshotNotify.Description", resourceCulture);
+
         public static string Ui_SessionNotify_Overlay => ResourceManager.GetString("Ui.SessionNotify.Overlay", resourceCulture);
 
         public static string Ui_SessionNotify_OverlayShortcut => ResourceManager.GetString("Ui.SessionNotify.OverlayShortcut", resourceCulture);

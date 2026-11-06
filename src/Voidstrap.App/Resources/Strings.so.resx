@@ -9422,4 +9422,16 @@ Oggolow?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player lama dejin karin</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Sawirka shaashadda waa la qaaday</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Sawirka shaashadda Roblox waa la qabtay.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Ogeysiisyada sawirka shaashadda</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Muuji ogeysiis markaad qaaddo sawirka shaashadda Roblox.</value>
+  </data>
 </root>

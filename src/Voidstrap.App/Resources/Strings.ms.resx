@@ -9774,4 +9774,16 @@ Benarkan?</value>
   <data name="Ui.Main.PalettePlaying" xml:space="preserve">
     <value>{0:N0} sedang bermain</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Tangkapan skrin diambil</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Tangkapan skrin Roblox anda telah diambil.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Pemberitahuan tangkapan skrin</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Tunjukkan pemberitahuan apabila anda mengambil tangkapan skrin Roblox.</value>
+  </data>
 </root>

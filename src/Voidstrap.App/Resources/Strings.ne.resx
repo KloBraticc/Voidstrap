@@ -9422,4 +9422,16 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player सेट अप गर्न सकिएन</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>स्क्रिनसट लिइयो</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>तपाईंको Roblox स्क्रिनसट खिचियो।</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>स्क्रिनसट सूचनाहरू</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>तपाईंले Roblox को स्क्रिनसट लिँदा सूचना देखाउनुहोस्।</value>
+  </data>
 </root>

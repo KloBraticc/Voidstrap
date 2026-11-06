@@ -9422,4 +9422,16 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player सेट अप नहीं हो सका</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>स्क्रीनशॉट लिया गया</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>आपका Roblox स्क्रीनशॉट कैप्चर हो गया।</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>स्क्रीनशॉट सूचनाएं</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>जब आप Roblox का स्क्रीनशॉट लें तो एक सूचना दिखाएं।</value>
+  </data>
 </root>

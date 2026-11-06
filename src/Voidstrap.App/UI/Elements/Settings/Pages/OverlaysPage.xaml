@@ -16,6 +16,10 @@
         </StackPanel>
       </controls:OptionControl>
 
+      <controls:OptionControl Header="{resources:Loc Ui_Mods_ScreenshotNotify_Title}" Description="{resources:Loc Ui_Mods_ScreenshotNotify_Description}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+        <ui:ToggleSwitch IsChecked="{Binding ScreenshotNotifications, Mode=TwoWay}" />
+      </controls:OptionControl>
+
       <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
         <HeaderedContentControl.Header>
           <Grid>

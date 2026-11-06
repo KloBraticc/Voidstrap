@@ -9421,4 +9421,16 @@ E lumella?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player ha e a ka ya hlophiswa</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Setshwantsho sa skrine se nkuwe</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Setshwantsho sa skrine sa Roblox se nkuwe.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Ditsebiso tsa ditshwantsho tsa skrine</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Bontsha tsebiso ha o nka setshwantsho sa skrine sa Roblox.</value>
+  </data>
 </root>

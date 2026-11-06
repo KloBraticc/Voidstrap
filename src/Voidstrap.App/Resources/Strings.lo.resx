@@ -9422,4 +9422,16 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>ບໍ່ສາມາດຕັ້ງຄ່າ MuMu Player ໄດ້</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>ຖ່າຍຮູບໜ້າຈໍແລ້ວ</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>ຮູບໜ້າຈໍ Roblox ຂອງທ່ານຖືກບັນທຶກແລ້ວ.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>ການແຈ້ງເຕືອນຮູບໜ້າຈໍ</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>ສະແດງການແຈ້ງເຕືອນເມື່ອທ່ານຖ່າຍຮູບໜ້າຈໍ Roblox.</value>
+  </data>
 </root>

@@ -9780,4 +9780,16 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Ui.Main.PalettePlaying" xml:space="preserve">
     <value>{0:N0} oynuyor</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Ekran görüntüsü alındı</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Roblox ekran görüntünüz alındı.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Ekran görüntüsü bildirimleri</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Roblox ekran görüntüsü aldığınızda bir bildirim gösterin.</value>
+  </data>
 </root>

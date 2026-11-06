@@ -9422,4 +9422,16 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player سيٽ اپ نه ٿي سگهيو</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>اسڪرين شاٽ ورتو ويو</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>توهان جو Roblox اسڪرين شاٽ ورتو ويو.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>اسڪرين شاٽ اطلاع</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>جڏهن توهان Roblox جو اسڪرين شاٽ وٺو ته اطلاع ڏيکاريو.</value>
+  </data>
 </root>

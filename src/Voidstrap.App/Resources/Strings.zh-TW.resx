@@ -9785,4 +9785,16 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Main.PalettePlaying" xml:space="preserve">
     <value>{0:N0} 人正在玩</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>已擷取螢幕畫面</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>已擷取你的 Roblox 螢幕畫面。</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>螢幕擷取通知</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>在你擷取 Roblox 螢幕畫面時顯示通知。</value>
+  </data>
 </root>

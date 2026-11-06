@@ -9421,4 +9421,16 @@ Je, unairuhusu?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player haikuweza kusanidiwa</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Picha ya skrini imepigwa</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Picha yako ya skrini ya Roblox imenaswa.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Arifa za picha za skrini</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Onyesha arifa unapopiga picha ya skrini ya Roblox.</value>
+  </data>
 </root>

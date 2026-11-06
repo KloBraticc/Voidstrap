@@ -9422,4 +9422,16 @@ Erlaabt et?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player konnt net agerriicht ginn</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Screenshot gemaach</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Däin Roblox Screenshot gouf opgeholl.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Screenshot Notifikatiounen</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Weis eng Notifikatioun, wann s du e Screenshot vu Roblox mëss.</value>
+  </data>
 </root>

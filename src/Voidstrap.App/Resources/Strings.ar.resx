@@ -9781,4 +9781,16 @@
   <data name="Ui.Main.PalettePlaying" xml:space="preserve">
     <value>{0:N0} يلعبون</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>تم التقاط لقطة الشاشة</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>تم التقاط لقطة شاشة Roblox الخاصة بك.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>إشعارات لقطات الشاشة</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>أظهر إشعارًا عندما تلتقط لقطة شاشة لـ Roblox.</value>
+  </data>
 </root>

@@ -9422,4 +9422,16 @@ Emera?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player ntiyashoboye gutunganywa</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Ifoto ya ekarani yafashwe</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Ifoto ya ekarani ya Roblox yawe yafashwe.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Imenyesha ry'amafoto ya ekarani</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Erekana imenyesha iyo ufashe ifoto ya ekarani ya Roblox.</value>
+  </data>
 </root>

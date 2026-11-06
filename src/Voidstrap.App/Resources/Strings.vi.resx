@@ -9785,4 +9785,16 @@ Cho phép?</value>
   <data name="Ui.Main.PalettePlaying" xml:space="preserve">
     <value>{0:N0} đang chơi</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Đã chụp màn hình</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Ảnh chụp màn hình Roblox của bạn đã được chụp.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Thông báo chụp màn hình</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Hiển thị thông báo khi bạn chụp màn hình Roblox.</value>
+  </data>
 </root>

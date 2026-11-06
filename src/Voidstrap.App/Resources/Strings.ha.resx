@@ -9422,4 +9422,16 @@ Bada shi?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>Ba a iya saita MuMu Player ba</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>An ɗauki hoton allo</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>An ɗauki hoton allon Roblox ɗinka.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Sanarwar hoton allo</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Nuna sanarwa idan ka ɗauki hoton allon Roblox.</value>
+  </data>
 </root>

@@ -9782,4 +9782,16 @@ Tillåta?</value>
   <data name="Ui.Main.PalettePlaying" xml:space="preserve">
     <value>{0:N0} spelar</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Skärmbild tagen</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Din Roblox skärmbild togs.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Skärmbildsaviseringar</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Visa en avisering när du tar en skärmbild av Roblox.</value>
+  </data>
 </root>

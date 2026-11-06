@@ -9421,4 +9421,16 @@ Laat dit toe?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player kon nie opgestel word nie</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Skermskoot geneem</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Jou Roblox-skermskoot is vasgevang.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Skermskootkennisgewings</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Wys 'n kennisgewing wanneer jy 'n skermskoot van Roblox neem.</value>
+  </data>
 </root>

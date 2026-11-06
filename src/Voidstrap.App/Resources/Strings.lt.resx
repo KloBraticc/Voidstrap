@@ -9784,4 +9784,16 @@ Leisti?</value>
   <data name="Ui.Main.PalettePlaying" xml:space="preserve">
     <value>{0:N0} žaidžia</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Ekrano kopija padaryta</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Jūsų Roblox ekrano kopija užfiksuota.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Pranešimai apie ekrano kopijas</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Rodyti pranešimą, kai darote Roblox ekrano kopiją.</value>
+  </data>
 </root>

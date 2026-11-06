@@ -9777,4 +9777,16 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Main.PalettePlaying" xml:space="preserve">
     <value>{0:N0} กำลังเล่น</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>ถ่ายภาพหน้าจอแล้ว</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>ภาพหน้าจอ Roblox ของคุณถูกบันทึกแล้ว</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>การแจ้งเตือนภาพหน้าจอ</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>แสดงการแจ้งเตือนเมื่อคุณถ่ายภาพหน้าจอ Roblox</value>
+  </data>
 </root>

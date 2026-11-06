@@ -9469,4 +9469,16 @@ Allow it?</value>
   <data name="Ui.Main.PalettePlaying" xml:space="preserve">
     <value>{0:N0} playing</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Screenshot taken</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Your Roblox screenshot was captured.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Screenshot notifications</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Show a notification when you take a screenshot of Roblox.</value>
+  </data>
 </root>

@@ -9422,4 +9422,16 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player جوړ نه شو</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>سکرین شاټ واخیستل شو</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>ستاسو د Roblox سکرین شاټ ونیول شو.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>د سکرین شاټ خبرتیاوې</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>کله چې تاسو د Roblox سکرین شاټ اخلئ خبرتیا وښایاست.</value>
+  </data>
 </root>

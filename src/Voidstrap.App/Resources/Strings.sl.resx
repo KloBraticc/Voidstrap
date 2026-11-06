@@ -9422,4 +9422,16 @@ Dovoli?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player ni bilo mogoče nastaviti</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Posnetek zaslona narejen</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Vaš posnetek zaslona Roblox je bil zajet.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Obvestila o posnetkih zaslona</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Pokaži obvestilo, ko naredite posnetek zaslona Roblox.</value>
+  </data>
 </root>

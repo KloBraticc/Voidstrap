@@ -9422,4 +9422,16 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player ma setax jiġi kkonfigurat</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Ittieħed screenshot</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>L-iscreenshot tiegħek ta' Roblox ġie maqbud.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Notifiki tal-iscreenshots</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Uri notifika meta tieħu screenshot ta' Roblox.</value>
+  </data>
 </root>

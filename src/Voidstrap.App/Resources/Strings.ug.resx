@@ -9421,4 +9421,16 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player نى تەڭشىگىلى بولمىدى</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>ئېكران رەسىمى ئېلىندى</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Roblox ئېكران رەسىمىڭىز ئېلىندى.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>ئېكران رەسىمى ئۇقتۇرۇشلىرى</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Roblox ئېكران رەسىمى ئالغاندا ئۇقتۇرۇش كۆرسىتىش.</value>
+  </data>
 </root>

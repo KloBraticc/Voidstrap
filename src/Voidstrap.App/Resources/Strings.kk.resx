@@ -9422,4 +9422,16 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player бапталмады</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Скриншот түсірілді</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Roblox скриншотыңыз түсірілді.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Скриншот хабарландырулары</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Roblox скриншотын түсіргенде хабарландыру көрсету.</value>
+  </data>
 </root>

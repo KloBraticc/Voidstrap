@@ -319,6 +319,8 @@ namespace Voidstrap.Models.Persistable
 
         public bool SessionDockEnabled { get; set; } = true;
 
+        public bool ScreenshotNotifications { get; set; } = true;
+
         public NotificationAppearance NotificationAppearance { get; set; } = new();
 
         public OverlayLayoutSettings OverlayLayout { get; set; } = new();

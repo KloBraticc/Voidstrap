@@ -9422,4 +9422,16 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player ಅನ್ನು ಹೊಂದಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ತೆಗೆಯಲಾಗಿದೆ</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>ನಿಮ್ಮ Roblox ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ಸೆರೆಹಿಡಿಯಲಾಗಿದೆ.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ಅಧಿಸೂಚನೆಗಳು</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>ನೀವು Roblox ನ ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ತೆಗೆದಾಗ ಅಧಿಸೂಚನೆ ತೋರಿಸಿ.</value>
+  </data>
 </root>

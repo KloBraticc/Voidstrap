@@ -9422,4 +9422,16 @@ Povoliť?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player sa nepodarilo nastaviť</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Snímka obrazovky zhotovená</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Vaša snímka obrazovky Roblox bola zhotovená.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Oznámenia o snímkach obrazovky</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Zobraziť oznámenie, keď zhotovíte snímku obrazovky Roblox.</value>
+  </data>
 </root>

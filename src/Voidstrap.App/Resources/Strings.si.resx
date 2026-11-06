@@ -9422,4 +9422,16 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player සැකසිය නොහැකි විය</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>තිර රුව ගන්නා ලදී</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>ඔබගේ Roblox තිර රුව ග්‍රහණය කරන ලදී.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>තිර රුව දැනුම්දීම්</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>ඔබ Roblox තිර රුවක් ගන්නා විට දැනුම්දීමක් පෙන්වන්න.</value>
+  </data>
 </root>

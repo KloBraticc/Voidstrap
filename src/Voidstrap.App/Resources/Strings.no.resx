@@ -9422,4 +9422,16 @@ Vil du tillate det?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player kunne ikke konfigureres</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Skjermbilde tatt</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Roblox skjermbildet ditt ble tatt.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Varsler om skjermbilder</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Vis et varsel når du tar et skjermbilde av Roblox.</value>
+  </data>
 </root>

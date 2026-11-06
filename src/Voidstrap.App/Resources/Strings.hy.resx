@@ -9422,4 +9422,16 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>Չհաջողվեց կարգավորել MuMu Player-ը</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Էկրանի նկարն արված է</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Ձեր Roblox էկրանի նկարը պահպանվեց։</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Էկրանի նկարների ծանուցումներ</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Ցույց տալ ծանուցում, երբ Roblox-ի էկրանի նկար եք անում։</value>
+  </data>
 </root>

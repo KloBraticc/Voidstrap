@@ -9422,4 +9422,16 @@ kwe ya?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>Enweghị ike ịhazi MuMu Player</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>E sere foto ihuenyo</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>E sere foto ihuenyo Roblox gị.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Ọkwa foto ihuenyo</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Gosi ọkwa mgbe ị sere foto ihuenyo Roblox.</value>
+  </data>
 </root>

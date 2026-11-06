@@ -9421,4 +9421,16 @@ Gba laaye?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>A ko le ṣeto MuMu Player</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>A ti ya aworan iboju</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>A ti ya aworan iboju Roblox rẹ.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Awọn iwifunni aworan iboju</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Fi iwifunni han nigbati o ba ya aworan iboju Roblox.</value>
+  </data>
 </root>

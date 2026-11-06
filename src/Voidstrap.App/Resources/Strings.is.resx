@@ -9422,4 +9422,16 @@ Leyfa það?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>Ekki tókst að setja upp MuMu Player</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Skjámynd tekin</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Roblox skjámyndin þín var tekin.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Tilkynningar um skjámyndir</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Sýna tilkynningu þegar þú tekur skjámynd af Roblox.</value>
+  </data>
 </root>

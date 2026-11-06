@@ -9422,4 +9422,16 @@ Whakaaetia?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>Kāore i taea te whakarite i MuMu Player</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Kua tangohia te whakaahua mata</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Kua hopukina tō whakaahua mata Roblox.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Ngā whakamōhiotanga whakaahua mata</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Whakaaturia he whakamōhiotanga ina tangohia e koe he whakaahua mata o Roblox.</value>
+  </data>
 </root>

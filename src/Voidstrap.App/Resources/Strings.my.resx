@@ -9421,4 +9421,16 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player ကို စီစဉ်သတ်မှတ်၍ မရပါ</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>မျက်နှာပြင်ဓာတ်ပုံ ရိုက်ပြီးပါပြီ</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>သင်၏ Roblox မျက်နှာပြင်ဓာတ်ပုံကို ရိုက်ယူပြီးပါပြီ။</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>မျက်နှာပြင်ဓာတ်ပုံ အသိပေးချက်များ</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Roblox ၏ မျက်နှာပြင်ဓာတ်ပုံ ရိုက်သောအခါ အသိပေးချက် ပြပါ။</value>
+  </data>
 </root>

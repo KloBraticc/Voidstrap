@@ -9422,4 +9422,16 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player-ის დაყენება ვერ მოხერხდა</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>ეკრანის ანაბეჭდი გადაღებულია</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>თქვენი Roblox ეკრანის ანაბეჭდი გადაღებულია.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>ეკრანის ანაბეჭდის შეტყობინებები</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>შეტყობინების ჩვენება, როცა Roblox ეკრანის ანაბეჭდს იღებთ.</value>
+  </data>
 </root>

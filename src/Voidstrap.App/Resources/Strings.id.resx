@@ -9785,4 +9785,16 @@ Izinkan?</value>
   <data name="Ui.Main.PalettePlaying" xml:space="preserve">
     <value>{0:N0} bermain</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Tangkapan layar diambil</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Tangkapan layar Roblox Anda telah diambil.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Notifikasi tangkapan layar</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Tampilkan notifikasi saat Anda mengambil tangkapan layar Roblox.</value>
+  </data>
 </root>

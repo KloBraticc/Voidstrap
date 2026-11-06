@@ -9781,4 +9781,16 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Main.PalettePlaying" xml:space="preserve">
     <value>{0:N0}명 플레이 중</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>스크린샷을 찍었습니다</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Roblox 스크린샷이 캡처되었습니다.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>스크린샷 알림</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Roblox 스크린샷을 찍으면 알림을 표시합니다.</value>
+  </data>
 </root>

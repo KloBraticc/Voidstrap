@@ -9783,4 +9783,16 @@ Sallitaanko?</value>
   <data name="Ui.Main.PalettePlaying" xml:space="preserve">
     <value>{0:N0} pelaa</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Kuvakaappaus otettu</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Roblox-kuvakaappauksesi tallennettiin.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Kuvakaappausilmoitukset</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Näytä ilmoitus, kun otat kuvakaappauksen Robloxista.</value>
+  </data>
 </root>

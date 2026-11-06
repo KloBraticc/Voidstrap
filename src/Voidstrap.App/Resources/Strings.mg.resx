@@ -9422,4 +9422,16 @@ Avelao izany?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>Tsy afaka nalamina ny MuMu Player</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Voaray ny pikantsary</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Voaray ny pikantsarin'ny Roblox anao.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Fampandrenesana pikantsary</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Asehoy ny fampandrenesana rehefa maka pikantsarin'ny Roblox ianao.</value>
+  </data>
 </root>

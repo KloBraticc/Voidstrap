@@ -9780,4 +9780,16 @@ Payagan ba?</value>
   <data name="Ui.Main.PalettePlaying" xml:space="preserve">
     <value>{0:N0} naglalaro</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Nakuha ang screenshot</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Nakuha ang iyong Roblox screenshot.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Mga notification sa screenshot</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Magpakita ng notification kapag kumuha ka ng screenshot ng Roblox.</value>
+  </data>
 </root>

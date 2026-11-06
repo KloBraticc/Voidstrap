@@ -9422,4 +9422,16 @@ Vai atļaut?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player neizdevās iestatīt</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Ekrānuzņēmums uzņemts</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Tavs Roblox ekrānuzņēmums ir uzņemts.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Ekrānuzņēmumu paziņojumi</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Rādīt paziņojumu, kad uzņem Roblox ekrānuzņēmumu.</value>
+  </data>
 </root>

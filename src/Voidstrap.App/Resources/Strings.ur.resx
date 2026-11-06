@@ -9421,4 +9421,16 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player سیٹ اپ نہیں ہو سکا</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>اسکرین شاٹ لیا گیا</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>آپ کا Roblox اسکرین شاٹ محفوظ ہو گیا۔</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>اسکرین شاٹ اطلاعات</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>جب آپ Roblox کا اسکرین شاٹ لیں تو اطلاع دکھائیں۔</value>
+  </data>
 </root>

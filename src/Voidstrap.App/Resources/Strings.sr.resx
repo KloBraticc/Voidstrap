@@ -9422,4 +9422,16 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player није могао да се подеси</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Снимак екрана направљен</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Ваш Roblox снимак екрана је снимљен.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Обавештења о снимцима екрана</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Прикажи обавештење када направите снимак екрана Roblox-а.</value>
+  </data>
 </root>

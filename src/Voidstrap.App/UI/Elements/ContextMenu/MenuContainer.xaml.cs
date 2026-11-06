@@ -101,6 +101,10 @@ public partial class MenuContainer : WpfUiWindow
     private int _clipSaveActive;
     private SessionNotifier? _sessionNotifier;
 
+    private RobloxScreenshotWatcher? _screenshotWatcher;
+
+    private NotificationWindow? _screenshotNotification;
+
     private static string TrimWithThreeDots(string text, int maxChars = 18)
     {
         if (string.IsNullOrEmpty(text) || text.Length <= maxChars)
@@ -1691,6 +1695,50 @@ public partial class MenuContainer : WpfUiWindow
         _sessionNotifier.Start();
     }
 
+    private void StartScreenshotWatcher()
+    {
+        if (_screenshotWatcher != null || !Voidstrap.Utility.Platform.IsWindows)
+            return;
+        _screenshotWatcher = new RobloxScreenshotWatcher(Dispatcher, OnRobloxScreenshot);
+        _screenshotWatcher.Start();
+    }
+
+    private void StopScreenshotWatcher()
+    {
+        _screenshotWatcher?.Dispose();
+        _screenshotWatcher = null;
+        if (_screenshotNotification != null && _screenshotNotification.IsUsable)
+            _screenshotNotification.Close();
+        _screenshotNotification = null;
+    }
+
+    private void OnRobloxScreenshot(string? path)
+    {
+        const string LOG_IDENT = "MenuContainer::OnRobloxScreenshot";
+        if (_closed || !OverlayNotificationsOn || !App.Settings.Prop.ScreenshotNotifications)
+            return;
+        try
+        {
+            if (_screenshotNotification == null || !_screenshotNotification.IsUsable)
+                _screenshotNotification = new NotificationWindow { PinTopRight = true };
+            _screenshotNotification.ShowNotification(
+                Strings.Ui_SessionNotify_ScreenshotTaken,
+                Strings.Ui_SessionNotify_ScreenshotTakenText,
+                CurrentGameIcon.Source as BitmapSource,
+                4.0,
+                null,
+                string.Empty,
+                default,
+                Voidstrap.UI.NotificationKind.Server
+            );
+            App.Logger.WriteLine(LOG_IDENT, path == null ? "Clipboard screenshot" : "Screenshot saved");
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "The screenshot notification could not be shown: " + ex.Message);
+        }
+    }
+
     private void StopSessionNotifier()
     {
         _sessionNotifier?.Dispose();
@@ -1853,6 +1901,7 @@ public partial class MenuContainer : WpfUiWindow
         _ = UpdateCurrentGameIconAsync(data, presentationTask, token);
         _ = RunJoinNotificationAsync(data, presentationTask, token);
         StartSessionNotifier();
+        StartScreenshotWatcher();
         Voidstrap.Integrations.Clipper.ClipperService.NotifyGameSession(true, data.GameName);
     }
 
@@ -1865,6 +1914,7 @@ public partial class MenuContainer : WpfUiWindow
             return;
         Voidstrap.Integrations.Clipper.ClipperService.NotifyGameSession(false);
         StopSessionNotifier();
+        StopScreenshotWatcher();
         _sessionDock?.EndSession();
         try
         {
@@ -2216,6 +2266,7 @@ public partial class MenuContainer : WpfUiWindow
         catch { }
         CloseSessionDock();
         StopSessionNotifier();
+        StopScreenshotWatcher();
         Voidstrap.Integrations.Clipper.ClipperService.ClipSaved -= OnClipSavedByService;
         Voidstrap.Integrations.Clipper.ClipperService.NotifyGameSession(false);
         Voidstrap.Integrations.Clipper.ClipperService.NotifyClientRunning(false);

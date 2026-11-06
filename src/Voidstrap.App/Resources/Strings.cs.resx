@@ -9783,4 +9783,16 @@ Povolit?</value>
   <data name="Ui.Main.PalettePlaying" xml:space="preserve">
     <value>{0:N0} hraje</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Snímek obrazovky pořízen</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Váš snímek obrazovky Roblox byl pořízen.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Oznámení o snímcích obrazovky</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Zobrazit oznámení, když pořídíte snímek obrazovky Roblox.</value>
+  </data>
 </root>

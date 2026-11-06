@@ -33,6 +33,10 @@ public partial class NotificationWindow
     private static long _focusReturnedTicks;
     private static int _presentingCount;
 
+    private static readonly List<NotificationWindow> Presenting = new();
+
+    internal bool PinTopRight { get; init; }
+
     internal static bool AnyPresenting => Volatile.Read(ref _presentingCount) > 0;
     private int _placeLogs;
     private double _lastPlaceLeft = double.NaN;
@@ -73,7 +77,15 @@ public partial class NotificationWindow
             SetImage(item.Image);
             SetText(item.Text, item.Flag);
             NotificationAppearance appearance = Voidstrap.UI.NotificationStyle.Current;
+            if (PinTopRight)
+            {
+                appearance = appearance.Copy();
+                appearance.Horizontal = 100;
+                appearance.Vertical = 0;
+            }
             _appearance = appearance;
+            lock (Presenting)
+                Presenting.Add(this);
             NotificationRoot.BeginAnimation(OpacityProperty, null);
             RootTranslate.BeginAnimation(TranslateTransform.XProperty, null);
             RootTranslate.BeginAnimation(TranslateTransform.YProperty, null);
@@ -187,6 +199,8 @@ public partial class NotificationWindow
         {
             if (counted)
                 Interlocked.Decrement(ref _presentingCount);
+            lock (Presenting)
+                Presenting.Remove(this);
             _presenting = false;
             _hoverTimer?.Stop();
             if (!_closed)
@@ -616,6 +630,8 @@ public partial class NotificationWindow
         Point spot = Voidstrap.UI.NotificationStyle.Place(appearance, right - areaLeft, bottom - areaTop, cardWidth, cardHeight, gap);
         int left = Math.Max(areaLeft, areaLeft + (int)Math.Round(spot.X));
         int top = Math.Max(areaTop, areaTop + (int)Math.Round(spot.Y));
+        if (PinTopRight)
+            top = BelowOtherNotifications(handle, left, top, cardWidth, cardHeight, (int)Math.Round(gap));
         if (PortableOverlay.Active)
         {
             double placeLeft = Math.Clamp(left - shadowLeft, areaLeft, Math.Max(areaLeft, right - width));
@@ -642,6 +658,37 @@ public partial class NotificationWindow
             0,
             Interop.SWP_NOSIZE | Interop.SWP_NOZORDER | Interop.SWP_NOACTIVATE
         );
+    }
+
+    private int BelowOtherNotifications(IntPtr self, int left, int top, int cardWidth, int cardHeight, int gap)
+    {
+        NotificationWindow[] others;
+        lock (Presenting)
+            others = Presenting.Where(window => !ReferenceEquals(window, this)).ToArray();
+        bool moved = true;
+        int guard = 0;
+        while (moved && guard++ < 8)
+        {
+            moved = false;
+            foreach (NotificationWindow other in others)
+            {
+                IntPtr handle = other._notificationHandle;
+                if (handle == IntPtr.Zero || handle == self || !GetWindowRect(handle, out NativeRect rect))
+                    continue;
+                Thickness shadow = other.NotificationRoot.Margin;
+                DpiScale dpi = PortableOverlay.Scale(other);
+                int otherLeft = rect.Left + (int)Math.Round(shadow.Left * dpi.DpiScaleX);
+                int otherTop = rect.Top + (int)Math.Round(shadow.Top * dpi.DpiScaleY);
+                int otherRight = rect.Right - (int)Math.Round(shadow.Right * dpi.DpiScaleX);
+                int otherBottom = rect.Bottom - (int)Math.Round(shadow.Bottom * dpi.DpiScaleY);
+                bool overlaps = left < otherRight && left + cardWidth > otherLeft && top < otherBottom && top + cardHeight > otherTop;
+                if (!overlaps)
+                    continue;
+                top = otherBottom + gap;
+                moved = true;
+            }
+        }
+        return top;
     }
 
     private void ReleaseWindowsPresentation()

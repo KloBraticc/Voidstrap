@@ -9782,4 +9782,16 @@ Dopustiti?</value>
   <data name="Ui.Main.PalettePlaying" xml:space="preserve">
     <value>{0:N0} igra</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Snimka zaslona napravljena</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Tvoja Roblox snimka zaslona je snimljena.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Obavijesti o snimkama zaslona</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Prikaži obavijest kada napraviš snimku zaslona Robloxa.</value>
+  </data>
 </root>

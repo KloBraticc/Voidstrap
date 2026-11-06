@@ -9422,4 +9422,16 @@ Permíteo?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>Non se puido configurar MuMu Player</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Captura de pantalla feita</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Capturouse a túa captura de pantalla de Roblox.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Notificacións de capturas de pantalla</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Amosa unha notificación cando fagas unha captura de pantalla de Roblox.</value>
+  </data>
 </root>

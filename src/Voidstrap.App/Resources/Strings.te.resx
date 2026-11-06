@@ -9421,4 +9421,16 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player ని సెటప్ చేయలేకపోయాము</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>స్క్రీన్‌షాట్ తీయబడింది</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>మీ Roblox స్క్రీన్‌షాట్ క్యాప్చర్ చేయబడింది.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>స్క్రీన్‌షాట్ నోటిఫికేషన్‌లు</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>మీరు Roblox స్క్రీన్‌షాట్ తీసినప్పుడు నోటిఫికేషన్ చూపించు.</value>
+  </data>
 </root>

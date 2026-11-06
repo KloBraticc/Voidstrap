@@ -9780,4 +9780,16 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.Main.PalettePlaying" xml:space="preserve">
     <value>{0:N0} грають</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Знімок екрана зроблено</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Ваш знімок екрана Roblox збережено.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Сповіщення про знімки екрана</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Показувати сповіщення, коли Ви робите знімок екрана Roblox.</value>
+  </data>
 </root>

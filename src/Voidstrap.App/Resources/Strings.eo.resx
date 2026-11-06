@@ -9421,4 +9421,16 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player ne povis esti agordita</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Ekrankopio farita</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Via Roblox ekrankopio estis kaptita.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Sciigoj pri ekrankopioj</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Montri sciigon kiam vi faras ekrankopion de Roblox.</value>
+  </data>
 </root>

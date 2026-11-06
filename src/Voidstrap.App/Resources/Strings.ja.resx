@@ -9797,4 +9797,16 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Main.PalettePlaying" xml:space="preserve">
     <value>{0:N0} 人がプレイ中</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>スクリーンショットを撮影しました</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Roblox のスクリーンショットを撮影しました。</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>スクリーンショットの通知</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Roblox のスクリーンショットを撮ったときに通知を表示します。</value>
+  </data>
 </root>

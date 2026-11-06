@@ -9422,4 +9422,16 @@ E lejon atë?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player nuk mund të konfigurohej</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>Pamja e ekranit u bë</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>Pamja juaj e ekranit nga Roblox u kap.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>Njoftimet për pamjet e ekranit</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>Shfaq një njoftim kur bën një pamje ekrani të Roblox.</value>
+  </data>
 </root>

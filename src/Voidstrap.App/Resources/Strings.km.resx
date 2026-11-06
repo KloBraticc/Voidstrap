@@ -9422,4 +9422,16 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>មិនអាចរៀបចំ MuMu Player បានទេ</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>បានថតរូបអេក្រង់</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>រូបថតអេក្រង់ Roblox របស់អ្នកត្រូវបានថត។</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>ការជូនដំណឹងរូបថតអេក្រង់</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>បង្ហាញការជូនដំណឹងនៅពេលអ្នកថតរូបអេក្រង់ Roblox។</value>
+  </data>
 </root>

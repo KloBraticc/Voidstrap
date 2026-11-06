@@ -9422,4 +9422,16 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>לא ניתן היה להגדיר את MuMu Player</value>
   </data>
+  <data name="Ui.SessionNotify.ScreenshotTaken" xml:space="preserve">
+    <value>צילום המסך בוצע</value>
+  </data>
+  <data name="Ui.SessionNotify.ScreenshotTakenText" xml:space="preserve">
+    <value>צילום המסך שלך מ Roblox נשמר.</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Title" xml:space="preserve">
+    <value>התראות על צילומי מסך</value>
+  </data>
+  <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
+    <value>הצג התראה כשאתה מצלם את המסך של Roblox.</value>
+  </data>
 </root>

@@ -1172,6 +1172,19 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
         }
     }
 
+    public bool ScreenshotNotifications
+    {
+        get => App.Settings.Prop.ScreenshotNotifications;
+        set
+        {
+            if (App.Settings.Prop.ScreenshotNotifications == value)
+                return;
+            App.Settings.Prop.ScreenshotNotifications = value;
+            App.Settings.SaveDeferred();
+            OnPropertyChanged();
+        }
+    }
+
     public string SessionDockDescription =>
         App.Settings.Prop.SessionDockShortcut is { IsSet: true } shortcut
             ? "Show the in game dock when you press " + shortcut.Describe() + "."
