@@ -352,7 +352,6 @@ public static class VoidstrapMatchmaker
         [
             TryGeoProviderAsync("https://ipinfo.io/json", ParseIpInfo, race.Token),
             TryGeoProviderAsync("https://ipwho.is/", ParseIpWhoIs, race.Token),
-            TryGeoProviderAsync("https://ipapi.co/json/", ParseIpApiCo, race.Token),
         ];
         try
         {
@@ -371,8 +370,14 @@ public static class VoidstrapMatchmaker
                     }
                 }
                 token.ThrowIfCancellationRequested();
-                if (graceTask is { IsCompleted: true } || answers.Count == 3)
+                if (graceTask is { IsCompleted: true } || answers.Count == 2)
                     break;
+            }
+            if (answers.Count == 0)
+            {
+                UserGeo? fallback = await TryGeoProviderAsync("https://ipapi.co/json/", ParseIpApiCo, race.Token).ConfigureAwait(false);
+                if (fallback != null && IsValidCoordinate(fallback.Lat, fallback.Lon))
+                    answers.Add(fallback);
             }
             return ChooseConsensusGeo(answers);
         }
