@@ -18,6 +18,19 @@
       <SolidColorBrush x:Key="AccentFillColorPrimaryBrush" Color="#80B9EE" />
       <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{DynamicResource SystemAccentColor}" />
       <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="{DynamicResource TextOnAccentFillColorSelectedText}" />
+      <Style TargetType="{x:Type FlowDocumentScrollViewer}">
+        <Setter Property="SelectionBrush" Value="{DynamicResource SystemAccentColorPrimaryBrush}" />
+        <Setter Property="SelectionOpacity" Value="0.55" />
+      </Style>
+      <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="SelectionBrush" Value="{DynamicResource SystemAccentColorPrimaryBrush}" />
+      </Style>
+      <Style TargetType="{x:Type RichTextBox}" BasedOn="{StaticResource {x:Type RichTextBox}}">
+        <Setter Property="SelectionBrush" Value="{DynamicResource SystemAccentColorPrimaryBrush}" />
+      </Style>
+      <Style TargetType="{x:Type PasswordBox}" BasedOn="{StaticResource {x:Type PasswordBox}}">
+        <Setter Property="SelectionBrush" Value="{DynamicResource SystemAccentColorPrimaryBrush}" />
+      </Style>
       <Style TargetType="{x:Type Image}">
         <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
