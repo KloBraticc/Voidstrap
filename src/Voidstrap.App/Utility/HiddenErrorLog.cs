@@ -52,6 +52,10 @@ internal static class HiddenErrorLog
 
     private static long _longestFreezeTicks;
 
+    private static string _activeWindow = "";
+
+    private static string _longestFreezeWindow = "";
+
     private static DispatcherOperation? _currentOperation;
 
     private static long _operationStartedTicks;
@@ -196,6 +200,7 @@ internal static class HiddenErrorLog
                         "The window has not responded for "
                             + (waited / TimeSpan.TicksPerMillisecond)
                             + " ms and is still frozen"
+                            + (_activeWindow.Length > 0 ? " in " + _activeWindow : "")
                             + DescribeCurrentWork()
                             + DescribeProcessState()
                             + Interlocked.Exchange(ref _frozenStack, "")
@@ -209,6 +214,37 @@ internal static class HiddenErrorLog
             dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(OnProbeAnswered));
         }
         catch { }
+    }
+
+    private static string DescribeActiveWindow()
+    {
+        try
+        {
+            System.Windows.Application? application = System.Windows.Application.Current;
+            if (application == null)
+                return "";
+            System.Windows.Window? window = null;
+            foreach (System.Windows.Window candidate in application.Windows)
+            {
+                if (candidate.IsActive)
+                {
+                    window = candidate;
+                    break;
+                }
+                if (window == null && candidate.IsVisible)
+                    window = candidate;
+            }
+            if (window == null)
+                return "";
+            string description = window.GetType().Name;
+            if (window is Voidstrap.UI.Elements.Settings.MainWindow main && main.RootFrame?.Content is object page)
+                description += " on " + page.GetType().Name;
+            return description;
+        }
+        catch
+        {
+            return "";
+        }
     }
 
     private static string DescribeProcessState()
@@ -292,6 +328,8 @@ internal static class HiddenErrorLog
         long waited = DateTime.UtcNow.Ticks - Interlocked.Read(ref _probeSentTicks);
         string work = _lastSlowWork;
         _lastSlowWork = "";
+        string frozenWindow = _activeWindow;
+        _activeWindow = DescribeActiveWindow();
         string stack = Interlocked.Exchange(ref _frozenStack, "");
         Volatile.Write(ref _stackCapturedForProbe, 0);
         Volatile.Write(ref _probePending, 0);
@@ -299,7 +337,10 @@ internal static class HiddenErrorLog
         if (waited < FreezeThreshold)
             return;
         if (waited > Interlocked.Read(ref _longestFreezeTicks))
+        {
             Interlocked.Exchange(ref _longestFreezeTicks, waited);
+            _longestFreezeWindow = frozenWindow;
+        }
         if (Interlocked.Increment(ref _freezeReports) > MaxFreezeReports)
             return;
         App.Logger.WriteLine(
@@ -307,6 +348,7 @@ internal static class HiddenErrorLog
             "The window was frozen for "
                 + (waited / TimeSpan.TicksPerMillisecond)
                 + " ms"
+                + (frozenWindow.Length > 0 ? " in " + frozenWindow : "")
                 + work
                 + (wasStuck ? " and has now recovered" : "")
                 + DescribeProcessState()
@@ -432,12 +474,15 @@ internal static class HiddenErrorLog
                         + GC.CollectionCount(1)
                         + "/"
                         + GC.CollectionCount(2)
-                        + ", window freezes over 2 s: "
-                        + freezes
                         + (
                             freezes > 0
-                                ? ", longest " + (Interlocked.Read(ref _longestFreezeTicks) / TimeSpan.TicksPerMillisecond) + " ms"
-                                : ""
+                                ? ", the window froze for over 2 s "
+                                    + freezes
+                                    + " time(s), longest "
+                                    + (Interlocked.Read(ref _longestFreezeTicks) / TimeSpan.TicksPerMillisecond)
+                                    + " ms"
+                                    + (_longestFreezeWindow.Length > 0 ? " in " + _longestFreezeWindow : "")
+                                : ", no window froze"
                         )
                 );
             }
