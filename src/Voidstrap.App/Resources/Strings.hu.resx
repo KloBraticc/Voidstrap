@@ -9749,4 +9749,10 @@ Engedélyezed?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>A MuMu Player nem állítható be</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Speciális Matchmaker-beállítások</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Adatközpontok, kihagyott játékok és finomhangolás</value>
+  </data>
 </root>

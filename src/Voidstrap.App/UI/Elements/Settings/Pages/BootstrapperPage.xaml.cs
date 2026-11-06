@@ -62,11 +62,11 @@ public partial class BehaviourPage : UiPage
             behaviourViewModel.Mtu.RefreshCommand.Cancel();
     }
 
-    private void ResetDatacenters_Click(object sender, RoutedEventArgs e)
+    private void OpenAdvancedMatchmaker_Click(object sender, RoutedEventArgs e)
     {
         if (base.DataContext is BehaviourViewModel behaviourViewModel)
         {
-            behaviourViewModel.ResetDatacenters();
+            NavigationService?.Navigate(new AdvancedMatchmakerPage(behaviourViewModel));
         }
     }
 }

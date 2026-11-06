@@ -9749,4 +9749,10 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player не можа да се настрои</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Разширени настройки на Matchmaker</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Центрове за данни, пропуснати игри и фина настройка</value>
+  </data>
 </root>

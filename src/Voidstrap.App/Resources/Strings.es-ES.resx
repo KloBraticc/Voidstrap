@@ -9749,4 +9749,10 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>No se pudo configurar MuMu Player</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Opciones avanzadas del Matchmaker</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Centros de datos, juegos omitidos y ajustes finos</value>
+  </data>
 </root>

@@ -9752,4 +9752,10 @@ Consentire?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>Impossibile configurare MuMu Player</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Opzioni avanzate del Matchmaker</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Data center, giochi saltati e regolazioni fini</value>
+  </data>
 </root>

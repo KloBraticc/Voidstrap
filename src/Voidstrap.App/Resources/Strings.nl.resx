@@ -9751,4 +9751,10 @@ Toestaan?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player kon niet worden ingesteld</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Geavanceerde Matchmaker-opties</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Datacenters, overgeslagen games en fijnafstemming</value>
+  </data>
 </root>

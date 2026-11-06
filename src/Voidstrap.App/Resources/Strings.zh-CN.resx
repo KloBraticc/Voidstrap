@@ -9773,4 +9773,10 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>无法设置 MuMu Player</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>高级 Matchmaker 选项</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>数据中心、跳过的游戏和微调</value>
+  </data>
 </root>

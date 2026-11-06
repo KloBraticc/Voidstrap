@@ -9749,4 +9749,10 @@ Tillåta?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player kunde inte konfigureras</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Avancerade Matchmaker-alternativ</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Datacenter, överhoppade spel och finjustering</value>
+  </data>
 </root>

@@ -9748,4 +9748,10 @@
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>تعذّر إعداد MuMu Player</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>خيارات Matchmaker المتقدمة</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>مراكز البيانات والألعاب المتخطاة والضبط الدقيق</value>
+  </data>
 </root>

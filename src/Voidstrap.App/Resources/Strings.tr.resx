@@ -9747,4 +9747,10 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player kurulamadı</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Gelişmiş Matchmaker seçenekleri</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Veri merkezleri, atlanan oyunlar ve ince ayar</value>
+  </data>
 </root>

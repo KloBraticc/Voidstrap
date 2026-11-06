@@ -9751,4 +9751,10 @@ Leisti?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>Nepavyko nustatyti MuMu Player</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Išplėstinės Matchmaker parinktys</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Duomenų centrai, praleidžiami žaidimai ir tikslus derinimas</value>
+  </data>
 </root>

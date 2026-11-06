@@ -9750,4 +9750,10 @@ Sallitaanko?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Playeria ei voitu määrittää</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Matchmakerin lisäasetukset</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Datakeskukset, ohitetut pelit ja hienosäätö</value>
+  </data>
 </root>

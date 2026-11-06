@@ -9752,4 +9752,10 @@ Cho phép?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>Không thể thiết lập MuMu Player</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Tùy chọn Matchmaker nâng cao</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Trung tâm dữ liệu, trò chơi bị bỏ qua và tinh chỉnh</value>
+  </data>
 </root>

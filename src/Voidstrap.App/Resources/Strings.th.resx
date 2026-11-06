@@ -9744,4 +9744,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>ไม่สามารถตั้งค่า MuMu Player ได้</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>ตัวเลือก Matchmaker ขั้นสูง</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>ศูนย์ข้อมูล เกมที่ข้าม และการปรับแต่งอย่างละเอียด</value>
+  </data>
 </root>

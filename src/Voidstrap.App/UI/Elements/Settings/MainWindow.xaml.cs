@@ -394,6 +394,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ["ServerBrowserPage"] = ("Server Browser", "Searching for a server"),
         ["NvidiaFastFlagsPage"] = ("NVIDIA FastFlags", "Tweaking NVIDIA GPU settings"),
         ["ModGeneratorPage"] = ("Mod Generator", "Recoloring the Roblox icons"),
+        ["AdvancedMatchmakerPage"] = ("Advanced Matchmaker", "Tuning the Voidstrap Matchmaker"),
     };
 
     private AppearanceViewModel.BackgroundSettings _backgroundSettings;

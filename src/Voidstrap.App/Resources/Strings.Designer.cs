@@ -1119,6 +1119,8 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Integrations_BalanceLoudAndQuietRobloxAudio => ResourceManager.GetString("Ui.Integrations.BalanceLoudAndQuietRobloxAudio", resourceCulture);
 
+        public static string Ui_Bootstrapper_AdvancedMatchmakerOptions => ResourceManager.GetString("Ui.Bootstrapper.AdvancedMatchmakerOptions", resourceCulture);
+        public static string Ui_Bootstrapper_AdvancedMatchmakerOptionsDescription => ResourceManager.GetString("Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription", resourceCulture);
         public static string Ui_Integrations_TelemetryBlocker => ResourceManager.GetString("Ui.Integrations.TelemetryBlocker", resourceCulture);
 
         public static string Ui_Integrations_BlockRobloxTelemetryAdministratorAccessIs => ResourceManager.GetString("Ui.Integrations.BlockRobloxTelemetryAdministratorAccessIs", resourceCulture);

@@ -9747,4 +9747,10 @@ Payagan ba?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>Hindi ma-set up ang MuMu Player</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Mga advanced na opsyon ng Matchmaker</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Mga datacenter, nilaktawang laro at pinong pag-aayos</value>
+  </data>
 </root>

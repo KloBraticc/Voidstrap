@@ -9436,4 +9436,10 @@ Allow it?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player could not be set up</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Advanced matchmaker options</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Datacenters, skipped games and fine tuning</value>
+  </data>
 </root>

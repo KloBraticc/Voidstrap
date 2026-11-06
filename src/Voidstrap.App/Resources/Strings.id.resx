@@ -9752,4 +9752,10 @@ Izinkan?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player tidak dapat disiapkan</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Opsi Matchmaker lanjutan</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Pusat data, game yang dilewati, dan penyesuaian halus</value>
+  </data>
 </root>

@@ -9749,4 +9749,10 @@ Dopustiti?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player se nije mogao postaviti</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Napredne mogućnosti Matchmakera</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Podatkovni centri, preskočene igre i fino podešavanje</value>
+  </data>
 </root>

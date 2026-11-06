@@ -9751,4 +9751,10 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>راه‌اندازی MuMu Player ممکن نشد</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>گزینه‌های پیشرفته Matchmaker</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>مراکز داده، بازی‌های ردشده و تنظیم دقیق</value>
+  </data>
 </root>

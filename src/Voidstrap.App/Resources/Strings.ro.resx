@@ -9751,4 +9751,10 @@ Permiți?</value>
   <data name="MuMu.Error.Setup" xml:space="preserve">
     <value>MuMu Player nu a putut fi configurat</value>
   </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Opțiuni avansate Matchmaker</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Centre de date, jocuri omise și reglaje fine</value>
+  </data>
 </root>
