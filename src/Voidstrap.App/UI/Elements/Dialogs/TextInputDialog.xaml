@@ -17,10 +17,10 @@
 
     <StackPanel Grid.Row="1" Margin="16">
       <TextBlock Name="PromptText" Margin="0,0,0,8" TextWrapping="Wrap" />
-      <TextBox Name="RequiredValueBox" Margin="0,0,0,8" IsReadOnly="True" IsTabStop="False" Visibility="Collapsed" />
-      <TextBox Name="ValueBox" KeyDown="OnValueKeyDown" />
+      <ui:TextBox Name="RequiredValueBox" Margin="0,0,0,8" IsReadOnly="True" IsTabStop="False" Visibility="Collapsed" />
+      <ui:TextBox Name="ValueBox" KeyDown="OnValueKeyDown" />
       <TextBlock Name="SecondPromptText" Margin="0,14,0,8" TextWrapping="Wrap" Visibility="Collapsed" />
-      <TextBox Name="SecondValueBox" KeyDown="OnValueKeyDown" Visibility="Collapsed" />
+      <ui:TextBox Name="SecondValueBox" KeyDown="OnValueKeyDown" Visibility="Collapsed" />
     </StackPanel>
 
     <Border Grid.Row="2" Padding="15" Background="{DynamicResource PrimaryBackgroundColor}">

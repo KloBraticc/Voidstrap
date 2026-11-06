@@ -543,10 +543,10 @@
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                   <Border x:Name="CrosshairColorSwatch" Width="20" Height="20" CornerRadius="4" Margin="0,0,6,0" VerticalAlignment="Center" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" Cursor="Hand" MouseLeftButtonUp="PickCrosshairFillColor_Click" />
-                  <TextBox x:Name="CrosshairColorHexBox" Width="92" VerticalAlignment="Center" LostFocus="CrosshairColorHexBox_LostFocus" KeyDown="CrosshairColorHexBox_KeyDown" />
+                  <ui:TextBox x:Name="CrosshairColorHexBox" Width="92" VerticalAlignment="Center" LostFocus="CrosshairColorHexBox_LostFocus" KeyDown="CrosshairColorHexBox_KeyDown" />
                   <ui:Button Content="{resources:Loc Ui_Mods_Pick}" Appearance="Secondary" Margin="4,0,12,0" Padding="10,5" Focusable="False" Click="PickCrosshairFillColor_Click" />
                   <Border x:Name="CrosshairOutlineSwatch" Width="20" Height="20" CornerRadius="4" Margin="0,0,6,0" VerticalAlignment="Center" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" Cursor="Hand" MouseLeftButtonUp="PickCrosshairOutlineColor_Click" />
-                  <TextBox x:Name="CrosshairOutlineColorHexBox" Width="92" VerticalAlignment="Center" LostFocus="CrosshairOutlineColorHexBox_LostFocus" KeyDown="CrosshairOutlineColorHexBox_KeyDown" />
+                  <ui:TextBox x:Name="CrosshairOutlineColorHexBox" Width="92" VerticalAlignment="Center" LostFocus="CrosshairOutlineColorHexBox_LostFocus" KeyDown="CrosshairOutlineColorHexBox_KeyDown" />
                   <ui:Button Content="{resources:Loc Ui_Mods_Pick}" Appearance="Secondary" Margin="4,0,0,0" Padding="10,5" Focusable="False" Click="PickCrosshairOutlineColor_Click" />
                 </StackPanel>
               </Grid>

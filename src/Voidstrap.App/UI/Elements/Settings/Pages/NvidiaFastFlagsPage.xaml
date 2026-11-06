@@ -39,10 +39,10 @@
           <ComboBox Width="220" ItemsSource="{Binding BenchMarkOverlayModes}" SelectedItem="{Binding BenchMarkOverlayMode}" />
         </controls:OptionControl>
         <controls:OptionControl Header="{resources:Loc Ui_Pages_FrameRateLimiter}" Description="{Binding FrameRateLimitDescription}">
-          <TextBox Width="220" Text="{Binding FrameRateLimit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          <ui:TextBox Width="220" Text="{Binding FrameRateLimit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </controls:OptionControl>
         <controls:OptionControl Header="{resources:Loc Ui_Pages_BackgroundApplicationFrameRateLimit}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" Description="{resources:Loc Ui_Pages_LimitsTheMaximumFrameRateWhen}">
-          <TextBox Width="220" Text="{Binding BackgroundFrameRateLimit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          <ui:TextBox Width="220" Text="{Binding BackgroundFrameRateLimit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </controls:OptionControl>
       </StackPanel>
     </ui:CardExpander>

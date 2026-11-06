@@ -27,7 +27,7 @@
           </StackPanel>
         </TabItem.Header>
         <Grid Margin="11">
-          <TextBox Name="SaveBackup" Height="32" MaxLength="48" VerticalContentAlignment="Center" TextChanged="SaveBackup_TextChanged" />
+          <ui:TextBox Name="SaveBackup" Height="32" MaxLength="48" VerticalContentAlignment="Center" TextChanged="SaveBackup_TextChanged" />
           <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#FFA9A9A9" IsHitTestVisible="False" Text="{resources:Loc SettingsProfiles_Name}">
             <TextBlock.Style>
               <Style TargetType="TextBlock">
@@ -61,7 +61,7 @@
               <ColumnDefinition Width="*" />
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBox Name="RenameProfileName" Height="32" MaxLength="48" VerticalContentAlignment="Center" TextChanged="RenameProfileName_TextChanged" />
+            <ui:TextBox Name="RenameProfileName" Height="32" MaxLength="48" VerticalContentAlignment="Center" TextChanged="RenameProfileName_TextChanged" />
             <Button Name="RenameButton" Grid.Column="1" Width="90" Margin="8,0,0,0" Content="{resources:Loc Common_Rename}" Click="RenameButton_Click" />
           </Grid>
         </Grid>

@@ -107,7 +107,7 @@
               <TextBlock Margin="0,6,0,0" Text="{Binding CurrentSummary}" TextWrapping="Wrap" FontSize="12" />
               <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
                 <TextBlock VerticalAlignment="Center" Text="{resources:Loc Mtu_CustomValue}" />
-                <TextBox Width="105" Margin="8,0,0,0" MaxLength="10" Text="{Binding CustomMtu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIdle}" />
+                <ui:TextBox Width="105" Margin="8,0,0,0" MaxLength="10" Text="{Binding CustomMtu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIdle}" />
               </StackPanel>
               <TextBlock Margin="0,4,0,0" FontSize="12" Text="{Binding ValidationMessage}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               <StackPanel Orientation="Horizontal" Margin="0,8,0,0">

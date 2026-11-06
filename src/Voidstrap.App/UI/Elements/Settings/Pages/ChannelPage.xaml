@@ -94,7 +94,7 @@
               <controls:OptionControl Header="{resources:Loc Ui_Channel_ResolutionChangerInGame}" Description="{resources:Loc Ui_Channel_AppliesToTheSelectedMonitorWhile}">
                 <StackPanel>
                   <CheckBox Content="{resources:Loc Ui_Channel_OnlyApplyForASpecificPlaceId}" IsChecked="{Binding UsePlaceId, Mode=TwoWay}" />
-                  <TextBox Width="220" HorizontalAlignment="Left" Margin="0,6,0,0" Text="{Binding PlaceId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding UsePlaceId}" />
+                  <ui:TextBox Width="220" HorizontalAlignment="Left" Margin="0,6,0,0" Text="{Binding PlaceId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding UsePlaceId}" />
                   <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
                     <ComboBox DisplayMemberPath="DisplayName" Width="220" ItemsSource="{Binding AvailableResolutionsInGame}" SelectedItem="{Binding SelectedResolutionInGame, Mode=TwoWay}" />
                     <ui:Button Margin="8,0,0,0" Content="{resources:Loc FlagSearch_Label25}" Command="{Binding ClearInGameResolutionCommand}" />

@@ -41,7 +41,7 @@
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
               <TextBlock Grid.Row="0" Grid.Column="0" MinWidth="100" VerticalAlignment="Center" Text="{resources:Loc Common_Name}" />
-              <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Name, Mode=TwoWay}" />
+              <ui:TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Name, Mode=TwoWay}" />
               <TextBlock Grid.Row="1" Grid.Column="1" Foreground="{DynamicResource SystemFillColorCriticalBrush}" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding Path=NameError, Mode=OneWay}" Visibility="{Binding Path=NameErrorVisibility, Mode=OneWay}" />
             </Grid>
             <TextBlock Grid.Row="1" Grid.Column="0" MinWidth="100" VerticalAlignment="Center" Text="{resources:Loc Common_Template}" />

@@ -12,7 +12,7 @@ namespace Voidstrap.UI.Elements.ContextMenu;
 public sealed class DiagnosticsWindow : WpfUiWindow
 {
     private readonly ActivityWatcher? _activity;
-    private readonly TextBox _report;
+    private readonly Wpf.Ui.Controls.TextBox _report;
     private readonly Button _copy;
     private readonly Button _close;
     private readonly DispatcherTimer _timer;
@@ -48,7 +48,7 @@ public sealed class DiagnosticsWindow : WpfUiWindow
         actions.Children.Add(_close);
         DockPanel.SetDock(actions, Dock.Bottom);
         root.Children.Add(actions);
-        _report = new TextBox
+        _report = new Wpf.Ui.Controls.TextBox
         {
             IsReadOnly = true,
             AcceptsReturn = true,

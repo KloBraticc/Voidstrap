@@ -42,7 +42,7 @@
           </StackPanel>
         </Border>
         <TextBlock Margin="0,0,0,4" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_PublishNotes}" />
-        <TextBox x:Name="NotesBox" MinHeight="64" MaxHeight="160" AcceptsReturn="True" TextWrapping="Wrap" MaxLength="2000" VerticalScrollBarVisibility="Auto" />
+        <ui:TextBox x:Name="NotesBox" MinHeight="64" MaxHeight="160" AcceptsReturn="True" TextWrapping="Wrap" MaxLength="2000" VerticalScrollBarVisibility="Auto" />
       </StackPanel>
 
       <StackPanel x:Name="DonePanel" Visibility="Collapsed">
