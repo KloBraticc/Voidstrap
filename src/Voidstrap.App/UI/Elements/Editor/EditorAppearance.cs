@@ -219,6 +219,7 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
         Title = Strings.Ui_EditorSettings_Title;
         Width = 420;
         SizeToContent = SizeToContent.Height;
+        ResizeMode = ResizeMode.NoResize;
         ExtendsContentIntoTitleBar = true;
         WindowStartupLocation = WindowStartupLocation.CenterOwner;
         VisualStudioTheme.Apply(this);
@@ -236,7 +237,7 @@ internal sealed class EditorSettingsWindow : WpfUiWindow
         Grid root = new();
         root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
         root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-        root.Children.Add(new Wpf.Ui.Controls.TitleBar { Title = Title, Padding = new Thickness(8), ShowMinimize = false, ShowMaximize = false, ForceShutdown = false, MinimizeToTray = false });
+        root.Children.Add(new Wpf.Ui.Controls.TitleBar { Title = Title, Padding = new Thickness(8), ShowMinimize = false, ShowMaximize = false, CanMaximize = false, ForceShutdown = false, MinimizeToTray = false });
         Grid.SetRow(body, 1);
         root.Children.Add(body);
         Content = root;

@@ -78,7 +78,6 @@
 
       <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="14,0,0,0" VerticalAlignment="Center">
         <TextBlock Name="TotalFlagsTextBlock" Style="{StaticResource FastFlagsCounter}" Text="Flags added: 0" />
-        <TextBlock Name="CrashRateTextBlock" Style="{StaticResource FastFlagsCounter}" Margin="0" Text="Bloat: 0%" />
       </StackPanel>
     </Grid>
 
