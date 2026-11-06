@@ -416,13 +416,13 @@
             <ComboBox Width="160" ItemsSource="{Binding CrosshairShapes}" SelectedItem="{Binding SelectedShape, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:OptionControl Header="{resources:Loc Ui_Mods_GifLink}" Description="{resources:Loc Ui_Mods_AnimatedGifUrlToUseAs}" Visibility="{Binding SelectedShape, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter=Image}">
-            <TextBox Width="260" Text="{Binding ImageUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <ui:TextBox Width="260" Text="{Binding ImageUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
           <controls:OptionControl Header="{resources:Loc Ui_Mods_Colors}" Description="{resources:Loc Ui_Mods_FillAndOutline}" Visibility="{Binding SelectedShape, Converter={StaticResource EnumNotEqualsVisibilityConverter}, ConverterParameter=Image}">
             <StackPanel Orientation="Horizontal">
-              <TextBox Width="100" Text="{Binding CursorColorHex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              <ui:TextBox Width="100" Text="{Binding CursorColorHex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
               <ui:Button Content="{resources:Loc Ui_Mods_Pick}" Margin="4,0,10,0" Command="{Binding PickCursorColorCommand}" />
-              <TextBox Width="100" Text="{Binding CursorOutlineColorHex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              <ui:TextBox Width="100" Text="{Binding CursorOutlineColorHex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
               <ui:Button Content="{resources:Loc Ui_Mods_Pick}" Margin="4,0,0,0" Command="{Binding PickOutlineColorCommand}" />
             </StackPanel>
           </controls:OptionControl>
@@ -457,7 +457,7 @@
           </controls:OptionControl>
           <controls:OptionControl Header="{resources:Loc Menu_About_Contributors_Code}" Description="{resources:Loc Ui_Mods_ShareOrPasteACrosshairCode}">
             <StackPanel Orientation="Horizontal">
-              <TextBox Width="200" Text="{Binding CursorCode, Mode=TwoWay}" />
+              <ui:TextBox Width="200" Text="{Binding CursorCode, Mode=TwoWay}" />
               <ui:Button Content="{resources:Loc Ui_Mods_Generate}" Margin="4,0,0,0" Command="{Binding GenerateCursorCodeCommand}" />
               <ui:Button Content="{resources:Loc Mtu_Apply}" Margin="4,0,0,0" Command="{Binding ApplyCursorCodeCommand}" />
             </StackPanel>
