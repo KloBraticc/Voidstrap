@@ -19,7 +19,8 @@ public sealed class SmoothSnowLayer : FrameworkElement, IDisposable
         public int BrushIndex;
     }
 
-    private static readonly Brush[] Brushes = CreateBrushes();
+    private static readonly Brush[] LightBrushes = CreateBrushes(255);
+    private static readonly Brush[] DarkBrushes = CreateBrushes(0);
     private readonly List<Particle> _particles = new(96);
     private readonly Random _random = new();
     private TimeSpan _lastRenderTime;
@@ -166,10 +167,11 @@ public sealed class SmoothSnowLayer : FrameworkElement, IDisposable
     protected override void OnRender(DrawingContext drawingContext)
     {
         base.OnRender(drawingContext);
+        Brush[] brushes = TryFindResource("TextFillColorPrimaryBrush") is SolidColorBrush text && text.Color.R + text.Color.G + text.Color.B < 384 ? DarkBrushes : LightBrushes;
         for (int i = 0; i < _particles.Count; i++)
         {
             Particle particle = _particles[i];
-            drawingContext.DrawEllipse(Brushes[particle.BrushIndex], null, new Point(particle.X, particle.Y), particle.Radius, particle.Radius);
+            drawingContext.DrawEllipse(brushes[particle.BrushIndex], null, new Point(particle.X, particle.Y), particle.Radius, particle.Radius);
         }
     }
 
@@ -199,15 +201,15 @@ public sealed class SmoothSnowLayer : FrameworkElement, IDisposable
         particle.Drift = -9.0 + _random.NextDouble() * 18.0;
         particle.Phase = _random.NextDouble() * Math.PI * 2.0;
         particle.Flutter = 0.8 + _random.NextDouble() * 1.8;
-        particle.BrushIndex = Math.Clamp((int)Math.Round(depth * (Brushes.Length - 1)), 0, Brushes.Length - 1);
+        particle.BrushIndex = Math.Clamp((int)Math.Round(depth * (LightBrushes.Length - 1)), 0, LightBrushes.Length - 1);
     }
 
-    private static Brush[] CreateBrushes()
+    private static Brush[] CreateBrushes(byte shade)
     {
         Brush[] brushes = new Brush[8];
         for (int i = 0; i < brushes.Length; i++)
         {
-            SolidColorBrush brush = new(Color.FromArgb((byte)(72 + i * 23), 255, 255, 255));
+            SolidColorBrush brush = new(Color.FromArgb((byte)(72 + i * 23), shade, shade, shade));
             brush.Freeze();
             brushes[i] = brush;
         }
