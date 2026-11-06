@@ -177,6 +177,12 @@ namespace Voidstrap.Integrations.Overlays
 
         private static void StartThreadLocked()
         {
+            if (!Environment.IsPrivilegedProcess)
+            {
+                if (Interlocked.Exchange(ref _needsElevation, 1) == 0)
+                    App.Logger.WriteLine("RobloxPresentTracer", "Present tracing needs administrator, using the captured frame rate instead");
+                return;
+            }
             _thread = new Thread(TraceLoop)
             {
                 IsBackground = true,
@@ -272,7 +278,7 @@ namespace Voidstrap.Integrations.Overlays
                         ResetSamples();
                     }
                     restart = _references > 0 && Volatile.Read(ref _stopGeneration) != stopGeneration;
-                    retry = _references > 0 && !restart;
+                    retry = _references > 0 && !restart && Volatile.Read(ref _needsElevation) == 0;
                     if (restart)
                         StartThreadLocked();
                 }
