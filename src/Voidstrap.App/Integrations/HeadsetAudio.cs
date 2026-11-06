@@ -16,10 +16,10 @@ public static partial class HeadsetAudio
     private const string RobloxProcess = "RobloxPlayerBeta";
     private const float ThresholdDb = -18f;
     private const float Ratio = 4f;
-    private const float AttackMs = 15f;
+    private const float AttackMs = 40f;
     private const float ReleaseMs = 250f;
     private const float MinGain = 0.25f;
-    private const float WriteEpsilon = 0.004f;
+    private const float WriteEpsilon = 0.015f;
     private const int GainDelayPackets = 3;
     private const int IdlePollMs = 1000;
     private const int FailurePollMs = 30000;
@@ -285,10 +285,6 @@ public static partial class HeadsetAudio
 
                 if (ducking || now < duckSettledAt)
                 {
-                    appliedGain = 1f;
-                    gain = 1f;
-                    for (int i = 0; i < history.Length; i++)
-                        history[i] = baseVolume;
                     DrainCapture(capture);
                     continue;
                 }
