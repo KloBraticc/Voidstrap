@@ -369,7 +369,7 @@ public static class VoidstrapMatchmaker
         [
             TryGeoProviderAsync("https://ipinfo.io/json", ParseIpInfo, race.Token),
             TryGeoProviderAsync("https://ipwho.is/", ParseIpWhoIs, race.Token),
-            TryGeoProviderAsync("https://ipapi.co/json/", ParseIpApiCo, race.Token),
+            TryGeoProviderAsync("https://get.geojs.io/v1/ip/geo.json", ParseGeoJs, race.Token),
         ];
         try
         {
@@ -515,10 +515,8 @@ public static class VoidstrapMatchmaker
         };
     }
 
-    private static UserGeo? ParseIpApiCo(JsonElement root)
+    private static UserGeo? ParseGeoJs(JsonElement root)
     {
-        if (root.TryGetProperty("error", out JsonElement err) && err.ValueKind == JsonValueKind.True)
-            return null;
         if (!TryReadDouble(root, "latitude", out double lat) || !TryReadDouble(root, "longitude", out double lon))
             return null;
         return new UserGeo
@@ -527,7 +525,7 @@ public static class VoidstrapMatchmaker
             Lon = lon,
             City = ReadString(root, "city"),
             Region = ReadString(root, "region"),
-            Country = ReadString(root, "country"),
+            Country = ReadString(root, "country_code"),
             UtcOffsetMinutes = OffsetFromZoneId(ReadString(root, "timezone")),
         };
     }
@@ -558,7 +556,11 @@ public static class VoidstrapMatchmaker
     private static bool TryReadDouble(JsonElement root, string prop, out double value)
     {
         value = 0.0;
-        return root.TryGetProperty(prop, out JsonElement el) && el.ValueKind == JsonValueKind.Number && el.TryGetDouble(out value);
+        if (!root.TryGetProperty(prop, out JsonElement el))
+            return false;
+        if (el.ValueKind == JsonValueKind.Number)
+            return el.TryGetDouble(out value);
+        return el.ValueKind == JsonValueKind.String && double.TryParse(el.GetString(), NumberStyles.Float, CultureInfo.InvariantCulture, out value);
     }
 
     public static async Task<RobloxDatacenter?> LookupUnknownIpAsync(string? ip, CancellationToken token)
@@ -595,7 +597,7 @@ public static class VoidstrapMatchmaker
             geo =
                 await TryGeoProviderAsync("https://ipinfo.io/" + ip + "/json", ParseIpInfo, token).ConfigureAwait(false)
                 ?? await TryGeoProviderAsync("https://ipwho.is/" + ip, ParseIpWhoIs, token).ConfigureAwait(false)
-                ?? await TryGeoProviderAsync("https://ipapi.co/" + ip + "/json/", ParseIpApiCo, token).ConfigureAwait(false);
+                ?? await TryGeoProviderAsync("https://get.geojs.io/v1/ip/geo/" + ip + ".json", ParseGeoJs, token).ConfigureAwait(false);
         }
         finally
         {
