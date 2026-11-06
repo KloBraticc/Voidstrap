@@ -64,6 +64,14 @@ curl -fsSL https://voidstrapp.pages.dev/install.sh | sh
 >
 > As of Voidstrap Version `1.1.2.3`, Multi-Instance Launching has been removed from the app and will not be added back in the future.
 
+## Contributors
+
+<a href="https://github.com/KloBraticc/Voidstrap/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=KloBraticc/Voidstrap" alt="Voidstrap contributors" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
+
 ## Contents
 
 * [Installation](#installation)
