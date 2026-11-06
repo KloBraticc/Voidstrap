@@ -9753,4 +9753,10 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>Дата-центри, пропущені ігри та точне налаштування</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Перефарбувати курсори миші</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Фарбує курсори стрілки, тексту та Shift Lock у Ваш колір.</value>
+  </data>
 </root>

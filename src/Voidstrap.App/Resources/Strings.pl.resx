@@ -9756,4 +9756,10 @@ Zezwolić?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>Centra danych, pomijane gry i precyzyjne dostrajanie</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Przekoloruj kursory myszy</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Maluje kursor strzałki, tekstu i Shift Lock w twoim kolorze.</value>
+  </data>
 </root>

@@ -9757,4 +9757,10 @@ Permiți?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>Centre de date, jocuri omise și reglaje fine</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Recolorează cursoarele mouse-ului</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Colorează cursorul săgeată, text și Shift Lock în culoarea ta.</value>
+  </data>
 </root>

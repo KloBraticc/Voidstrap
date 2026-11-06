@@ -9755,4 +9755,10 @@ Erlauben?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>Rechenzentren, übersprungene Spiele und Feinabstimmung</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Mauszeiger umfärben</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Färbt den Pfeil-, Text- und Shift-Lock-Zeiger in deiner Farbe.</value>
+  </data>
 </root>

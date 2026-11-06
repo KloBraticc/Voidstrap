@@ -9758,4 +9758,10 @@ Consentire?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>Data center, giochi saltati e regolazioni fini</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Ricolora i cursori del mouse</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Colora i cursori freccia, testo e blocco Maiusc con il tuo colore.</value>
+  </data>
 </root>

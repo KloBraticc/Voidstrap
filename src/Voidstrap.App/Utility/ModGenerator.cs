@@ -44,6 +44,8 @@ public sealed class ModGeneratorSettings
 
     public bool IncludeUiTextures { get; set; }
 
+    public bool RecolorCursors { get; set; }
+
     public double IconOpacity { get; set; } = 1.0;
 
     public string? LogoImage { get; set; }
@@ -889,6 +891,11 @@ public static class ModGenerator
         {
             textures.AddRange(FindUiTextures(versionDirectory, settings.IconScale).Where(texture => !curatedSet.Contains(texture)));
         }
+        if (settings.RecolorCursors)
+        {
+            foreach (string cursor in FindCursorTextures(versionDirectory).Where(curatedSet.Add))
+                textures.Add(cursor);
+        }
         if (sheets.Count == 0)
         {
             throw new InvalidOperationException("No Roblox UI sprite sheets were found in the installed client.");
@@ -1046,6 +1053,18 @@ public static class ModGenerator
                 yield return relative;
             }
         }
+    }
+
+    private static IEnumerable<string> FindCursorTextures(string versionDirectory)
+    {
+        string cursors = Path.Combine(versionDirectory, "content", "textures", "Cursors", "KeyboardMouse");
+        if (Directory.Exists(cursors))
+        {
+            foreach (string file in Directory.EnumerateFiles(cursors, "*.png"))
+                yield return Path.GetRelativePath(versionDirectory, file).Replace('\\', '/');
+        }
+        if (File.Exists(Path.Combine(versionDirectory, "content", "textures", "MouseLockedCursor.png")))
+            yield return "content/textures/MouseLockedCursor.png";
     }
 
     private static IEnumerable<string> FindUiTextures(string versionDirectory, int scale)

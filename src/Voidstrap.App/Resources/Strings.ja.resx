@@ -9770,4 +9770,10 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>データセンター、スキップするゲーム、細かな調整</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>マウスカーソルの色を変更</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>矢印、テキスト、Shift ロックのカーソルを選んだ色で塗ります。</value>
+  </data>
 </root>

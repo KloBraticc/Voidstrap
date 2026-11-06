@@ -146,6 +146,7 @@ public partial class ModGeneratorSection : UserControl
             RecolorShapesToggle.IsChecked = settings.RecolorShapes;
             IconFontToggle.IsChecked = settings.RecolorIconFont;
             UiTexturesToggle.IsChecked = settings.IncludeUiTextures;
+            CursorsToggle.IsChecked = settings.RecolorCursors;
             ModNameBox.Text = settings.ModName;
             OpacitySlider.Value = Math.Round(
                 Math.Clamp(double.IsFinite(settings.IconOpacity) ? settings.IconOpacity : 1.0, 0.1, 1.0) * 100.0
@@ -190,6 +191,7 @@ public partial class ModGeneratorSection : UserControl
             RecolorShapes = RecolorShapesToggle.IsChecked == true,
             RecolorIconFont = IconFontToggle.IsChecked == true,
             IncludeUiTextures = UiTexturesToggle.IsChecked == true,
+            RecolorCursors = CursorsToggle.IsChecked == true,
             IconOpacity = Math.Clamp(OpacitySlider.Value / 100.0, 0.1, 1.0),
             LogoImage = _logoImage,
             IconSwaps = new Dictionary<string, string>(_swaps, StringComparer.Ordinal),

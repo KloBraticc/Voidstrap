@@ -9755,4 +9755,10 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>Centros de datos, juegos omitidos y ajustes finos</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Recolorear los cursores del ratón</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Pinta los cursores de flecha, texto y Shift Lock con tu color.</value>
+  </data>
 </root>

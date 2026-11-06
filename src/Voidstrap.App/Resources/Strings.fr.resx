@@ -9754,4 +9754,10 @@ Autoriser ?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>Centres de données, jeux ignorés et réglages fins</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Recolorer les curseurs de la souris</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Colore les curseurs flèche, texte et verrouillage Maj avec votre couleur.</value>
+  </data>
 </root>

@@ -9757,4 +9757,10 @@ Toestaan?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>Datacenters, overgeslagen games en fijnafstemming</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Muisaanwijzers opnieuw kleuren</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Kleurt de pijl-, tekst- en Shift Lock-aanwijzer in jouw kleur.</value>
+  </data>
 </root>

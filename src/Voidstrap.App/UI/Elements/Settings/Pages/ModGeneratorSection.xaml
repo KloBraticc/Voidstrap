@@ -248,6 +248,15 @@
           <ui:ToggleSwitch x:Name="UiTexturesToggle" Grid.Column="1" VerticalAlignment="Center" />
         </Grid>
 
+        <Grid Margin="0,10,0,0" ToolTip="{resources:Loc Ui_ModGen_RecolourCursorsHelp}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_ModGen_RecolourCursors}" />
+          <ui:ToggleSwitch x:Name="CursorsToggle" Grid.Column="1" VerticalAlignment="Center" />
+        </Grid>
+
         <Grid Margin="0,12,0,0">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />

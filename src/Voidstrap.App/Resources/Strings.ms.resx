@@ -9747,4 +9747,10 @@ Benarkan?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>Pusat data, permainan yang dilangkau dan penalaan halus</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Warnakan semula kursor tetikus</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Mewarnakan kursor anak panah, teks dan kunci shift dengan warna anda.</value>
+  </data>
 </root>

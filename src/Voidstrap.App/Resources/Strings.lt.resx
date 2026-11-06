@@ -9757,4 +9757,10 @@ Leisti?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>Duomenų centrai, praleidžiami žaidimai ir tikslus derinimas</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Perdažyti pelės žymeklius</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Nudažo rodyklės, teksto ir Shift Lock žymeklius jūsų spalva.</value>
+  </data>
 </root>

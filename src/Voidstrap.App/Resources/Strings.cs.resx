@@ -9756,4 +9756,10 @@ Povolit?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>Datová centra, přeskočené hry a jemné doladění</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Přebarvit kurzory myši</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Obarví kurzor šipky, textu a Shift Lock vaší barvou.</value>
+  </data>
 </root>

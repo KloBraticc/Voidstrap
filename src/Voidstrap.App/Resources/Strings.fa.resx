@@ -9757,4 +9757,10 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>مراکز داده، بازی‌های ردشده و تنظیم دقیق</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>تغییر رنگ نشانگرهای ماوس</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>نشانگرهای پیکان، متن و قفل Shift را با رنگ شما رنگ می‌کند.</value>
+  </data>
 </root>

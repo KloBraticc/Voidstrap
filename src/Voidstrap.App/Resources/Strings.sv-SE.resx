@@ -9755,4 +9755,10 @@ Tillåta?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>Datacenter, överhoppade spel och finjustering</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Färga om muspekarna</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Färgar pil-, text- och Shift Lock-pekaren i din färg.</value>
+  </data>
 </root>

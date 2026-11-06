@@ -9750,4 +9750,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>ศูนย์ข้อมูล เกมที่ข้าม และการปรับแต่งอย่างละเอียด</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>เปลี่ยนสีเคอร์เซอร์เมาส์</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>ระบายเคอร์เซอร์ลูกศร ข้อความ และ Shift Lock ด้วยสีของคุณ</value>
+  </data>
 </root>

@@ -9754,4 +9754,10 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>데이터센터, 건너뛴 게임 및 세부 조정</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>마우스 커서 색상 변경</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>화살표, 텍스트 및 Shift 잠금 커서를 선택한 색으로 칠합니다.</value>
+  </data>
 </root>

@@ -9758,4 +9758,10 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>資料中心、略過的遊戲與微調</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>重新著色滑鼠游標</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>用你的顏色繪製箭頭、文字與 Shift 鎖定游標。</value>
+  </data>
 </root>

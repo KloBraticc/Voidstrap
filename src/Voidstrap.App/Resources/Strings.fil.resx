@@ -9753,4 +9753,10 @@ Payagan ba?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>Mga datacenter, nilaktawang laro at pinong pag-aayos</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Kulayan muli ang mga cursor ng mouse</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Kinukulayan ang arrow, text at shift lock na cursor ng kulay mo.</value>
+  </data>
 </root>

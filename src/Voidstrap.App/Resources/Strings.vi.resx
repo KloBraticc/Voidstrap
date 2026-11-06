@@ -9758,4 +9758,10 @@ Cho phép?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>Trung tâm dữ liệu, trò chơi bị bỏ qua và tinh chỉnh</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Tô màu lại con trỏ chuột</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Tô con trỏ mũi tên, văn bản và khóa Shift bằng màu của bạn.</value>
+  </data>
 </root>

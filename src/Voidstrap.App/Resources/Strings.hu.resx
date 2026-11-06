@@ -9755,4 +9755,10 @@ Engedélyezed?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>Adatközpontok, kihagyott játékok és finomhangolás</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Egérmutatók átszínezése</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>A nyíl, szöveg és Shift Lock mutatót a te színedre festi.</value>
+  </data>
 </root>

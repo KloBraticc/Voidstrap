@@ -1448,6 +1448,8 @@ namespace Voidstrap.Resources {
 
         public static string Ui_ModGen_IncludesLooseInGameAndApp => ResourceManager.GetString("Ui.ModGen.IncludesLooseInGameAndApp", resourceCulture);
 
+        public static string Ui_ModGen_RecolourCursors => ResourceManager.GetString("Ui.ModGen.RecolourCursors", resourceCulture);
+        public static string Ui_ModGen_RecolourCursorsHelp => ResourceManager.GetString("Ui.ModGen.RecolourCursorsHelp", resourceCulture);
         public static string Ui_ModGen_RecolourOtherUITextures => ResourceManager.GetString("Ui.ModGen.RecolourOtherUITextures", resourceCulture);
 
         public static string Ui_ModGen_CustomRobloxLogo => ResourceManager.GetString("Ui.ModGen.CustomRobloxLogo", resourceCulture);

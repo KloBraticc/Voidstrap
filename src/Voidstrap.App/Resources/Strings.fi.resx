@@ -9756,4 +9756,10 @@ Sallitaanko?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>Datakeskukset, ohitetut pelit ja hienosäätö</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Väritä hiiren osoittimet</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Värittää nuoli-, teksti- ja Shift Lock -osoittimet valitsemallasi värillä.</value>
+  </data>
 </root>

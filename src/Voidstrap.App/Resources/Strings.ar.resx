@@ -9754,4 +9754,10 @@
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
     <value>مراكز البيانات والألعاب المتخطاة والضبط الدقيق</value>
   </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>إعادة تلوين مؤشرات الماوس</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>يلوّن مؤشر السهم والنص وقفل Shift بلونك.</value>
+  </data>
 </root>
