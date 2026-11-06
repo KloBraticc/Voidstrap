@@ -9756,4 +9756,25 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
     <value>ระบายเคอร์เซอร์ลูกศร ข้อความ และ Shift Lock ด้วยสีของคุณ</value>
   </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>ค้นหาเกม Roblox</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>พิมพ์ชื่อเกม ไอดีเพลส หรือลิงก์เกม</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>ไม่สามารถเชื่อมต่อการค้นหา Roblox ได้ โปรดลองอีกครั้ง</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>เพลส</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>เข้าร่วมเพลส {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>เกม</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} กำลังเล่น</value>
+  </data>
 </root>

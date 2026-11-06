@@ -9761,4 +9761,25 @@ Erlauben?</value>
   <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
     <value>Färbt den Pfeil-, Text- und Shift-Lock-Zeiger in deiner Farbe.</value>
   </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox Spiele suchen</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Gib einen Spielnamen, eine Place ID oder einen Spiellink ein</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Die Roblox Suche ist nicht erreichbar, versuch es erneut</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Place</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Place {0} beitreten</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Spiele</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} spielen</value>
+  </data>
 </root>

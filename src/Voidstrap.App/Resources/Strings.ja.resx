@@ -9776,4 +9776,25 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
     <value>矢印、テキスト、Shift ロックのカーソルを選んだ色で塗ります。</value>
   </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox のゲームを検索</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>ゲーム名、プレイス ID、またはゲームのリンクを入力してください</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox の検索に接続できませんでした。もう一度お試しください</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>プレイス</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>プレイス {0} に参加</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>ゲーム</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} 人がプレイ中</value>
+  </data>
 </root>

@@ -9785,4 +9785,25 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
     <value>用您的颜色绘制箭头、文本和 Shift 锁定光标。</value>
   </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>搜索 Roblox 游戏</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>输入游戏名称、地点 ID 或游戏链接</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>无法连接 Roblox 搜索，请重试</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>地点</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>加入地点 {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>游戏</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} 人在玩</value>
+  </data>
 </root>

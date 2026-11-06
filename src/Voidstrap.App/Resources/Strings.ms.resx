@@ -9753,4 +9753,25 @@ Benarkan?</value>
   <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
     <value>Mewarnakan kursor anak panah, teks dan kunci shift dengan warna anda.</value>
   </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Cari permainan Roblox</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Taip nama permainan, ID tempat atau pautan permainan</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Carian Roblox tidak dapat dicapai, cuba lagi</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Tempat</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Sertai tempat {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Permainan</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} sedang bermain</value>
+  </data>
 </root>

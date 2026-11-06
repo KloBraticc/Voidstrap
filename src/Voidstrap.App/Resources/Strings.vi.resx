@@ -9764,4 +9764,25 @@ Cho phép?</value>
   <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
     <value>Tô con trỏ mũi tên, văn bản và khóa Shift bằng màu của bạn.</value>
   </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Tìm trò chơi Roblox</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Nhập tên trò chơi, ID địa điểm hoặc liên kết trò chơi</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Không thể kết nối tới tìm kiếm Roblox, hãy thử lại</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Địa điểm</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Tham gia địa điểm {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Trò chơi</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} đang chơi</value>
+  </data>
 </root>

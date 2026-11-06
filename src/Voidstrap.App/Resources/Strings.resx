@@ -9448,4 +9448,25 @@ Allow it?</value>
   <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
     <value>Paints the arrow, text and shift lock cursors in your colour.</value>
   </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Search Roblox games</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Type a game name, place ID or game link</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Could not reach Roblox search, try again</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Place</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Join place {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Games</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} playing</value>
+  </data>
 </root>

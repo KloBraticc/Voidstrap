@@ -9763,4 +9763,25 @@ Permitir?</value>
   <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
     <value>Pinta os cursores de seta, texto e Shift Lock com a sua cor.</value>
   </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Pesquisar jogos do Roblox</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Digite o nome de um jogo, o ID do lugar ou o link do jogo</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Não foi possível acessar a pesquisa do Roblox, tente novamente</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Lugar</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Entrar no lugar {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Jogos</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} jogando</value>
+  </data>
 </root>

@@ -216,6 +216,13 @@ namespace Voidstrap.Resources {
         public static string Ui_Main_ToOpen => ResourceManager.GetString("Ui.Main.ToOpen", resourceCulture);
 
         public static string Ui_Main_ToClose => ResourceManager.GetString("Ui.Main.ToClose", resourceCulture);
+        public static string Ui_Main_SearchRobloxGames => ResourceManager.GetString("Ui.Main.SearchRobloxGames", resourceCulture);
+        public static string Ui_Main_PaletteGamesHint => ResourceManager.GetString("Ui.Main.PaletteGamesHint", resourceCulture);
+        public static string Ui_Main_PaletteGamesFailed => ResourceManager.GetString("Ui.Main.PaletteGamesFailed", resourceCulture);
+        public static string Ui_Main_PalettePlace => ResourceManager.GetString("Ui.Main.PalettePlace", resourceCulture);
+        public static string Ui_Main_PaletteJoinPlace => ResourceManager.GetString("Ui.Main.PaletteJoinPlace", resourceCulture);
+        public static string Ui_Main_PaletteGames => ResourceManager.GetString("Ui.Main.PaletteGames", resourceCulture);
+        public static string Ui_Main_PalettePlaying => ResourceManager.GetString("Ui.Main.PalettePlaying", resourceCulture);
 
         public static string Ui_Appearance_TabApplication => ResourceManager.GetString("Ui.Appearance.TabApplication", resourceCulture);
 

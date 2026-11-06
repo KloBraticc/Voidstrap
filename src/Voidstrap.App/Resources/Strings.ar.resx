@@ -9760,4 +9760,25 @@
   <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
     <value>يلوّن مؤشر السهم والنص وقفل Shift بلونك.</value>
   </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>البحث عن ألعاب Roblox</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>اكتب اسم لعبة أو معرّف المكان أو رابط اللعبة</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>تعذّر الوصول إلى بحث Roblox، حاول مرة أخرى</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>المكان</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>الانضمام إلى المكان {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>الألعاب</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} يلعبون</value>
+  </data>
 </root>

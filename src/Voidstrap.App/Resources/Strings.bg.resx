@@ -9761,4 +9761,25 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
     <value>Оцветява курсорите стрелка, текст и Shift Lock във Вашия цвят.</value>
   </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Търсене на игри в Roblox</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Въведете име на игра, ID на място или връзка към игра</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Търсенето в Roblox не е достъпно, опитайте отново</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Място</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Присъединяване към място {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Игри</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} играят</value>
+  </data>
 </root>

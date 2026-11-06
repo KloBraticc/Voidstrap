@@ -9760,4 +9760,25 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
     <value>화살표, 텍스트 및 Shift 잠금 커서를 선택한 색으로 칠합니다.</value>
   </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox 게임 검색</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>게임 이름, 플레이스 ID 또는 게임 링크를 입력하십시오</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox 검색에 연결할 수 없습니다. 다시 시도하십시오</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>플레이스</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>플레이스 {0} 참여</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>게임</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0}명 플레이 중</value>
+  </data>
 </root>

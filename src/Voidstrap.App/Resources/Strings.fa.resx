@@ -9763,4 +9763,25 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
     <value>نشانگرهای پیکان، متن و قفل Shift را با رنگ شما رنگ می‌کند.</value>
   </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>جستجوی بازی‌های Roblox</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>نام بازی، شناسه مکان یا پیوند بازی را وارد کنید</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>دسترسی به جستجوی Roblox ممکن نشد، دوباره تلاش کنید</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>مکان</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>پیوستن به مکان {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>بازی‌ها</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} در حال بازی</value>
+  </data>
 </root>

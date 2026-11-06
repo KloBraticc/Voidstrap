@@ -2926,17 +2926,28 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void TopSearchButton_Click(object sender, RoutedEventArgs e)
     {
-        ToggleCommandPalette();
+        ToggleCommandPalette(false);
     }
 
-    private void ToggleCommandPalette()
+    private void ToggleCommandPalette(bool games)
     {
         if (_commandPaletteOpen)
         {
-            CloseCommandPalette();
+            if (_commandPaletteGames == games)
+            {
+                CloseCommandPalette();
+                return;
+            }
+            _commandPaletteGames = games;
+            ApplyCommandPaletteMode();
+            CommandPaletteSearchBox.Text = "";
+            RefreshCommandPaletteResults();
+            FocusCommandPalette();
             return;
         }
         CloseOverlayPopups();
+        _commandPaletteGames = games;
+        ApplyCommandPaletteMode();
         CommandPaletteSearchBox.Text = "";
         _commandPaletteOpen = true;
         RefreshCommandPaletteResults();
@@ -2997,8 +3008,164 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         cts.Dispose();
     }
 
+    private void ApplyCommandPaletteMode()
+    {
+        CommandPalettePlaceholder.Text = _commandPaletteGames ? Strings.Ui_Main_SearchRobloxGames : Strings.Ui_Main_SearchTitle;
+        CommandPaletteEmptyHint.Visibility = _commandPaletteGames ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    private static long ParseCommandPalettePlaceId(string query)
+    {
+        if (long.TryParse(query, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out long id))
+            return id > 0 ? id : 0;
+        System.Text.RegularExpressions.Match match = System.Text.RegularExpressions.Regex.Match(
+            query,
+            @"(?:/games/|placeId=)(\d{1,18})",
+            System.Text.RegularExpressions.RegexOptions.IgnoreCase
+        );
+        return match.Success && long.TryParse(match.Groups[1].Value, out id) && id > 0 ? id : 0;
+    }
+
+    private void RefreshRobloxGameResults()
+    {
+        CancelCommandPaletteSearch();
+        int generation = Volatile.Read(ref _commandPaletteSearchGeneration);
+        string query = CommandPaletteSearchBox.Text?.Trim() ?? "";
+        _commandPaletteAppliedGeneration = generation;
+        if (query.Length == 0)
+        {
+            ShowRobloxGameResults(query, null, Strings.Ui_Main_PaletteGamesHint);
+            return;
+        }
+        ShowRobloxGameResults(query, null, null);
+        CancellationTokenSource cts = new CancellationTokenSource();
+        _commandPaletteSearchCts = cts;
+        _ = SearchRobloxGamesAsync(generation, query, cts.Token);
+    }
+
+    private async Task SearchRobloxGamesAsync(int generation, string query, CancellationToken token)
+    {
+        const string LOG_IDENT = "MainWindow::SearchRobloxGames";
+        List<(string Name, long PlaceId, long Players)> games;
+        string? error = null;
+        try
+        {
+            await Task.Delay(300, token);
+            games = await Task.Run(() => FetchRobloxGamesAsync(query, token), token);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT, ex);
+            games = new List<(string, long, long)>();
+            error = Strings.Ui_Main_PaletteGamesFailed;
+        }
+        if (token.IsCancellationRequested || generation != Volatile.Read(ref _commandPaletteSearchGeneration) || !_commandPaletteOpen || !_commandPaletteGames)
+            return;
+        ShowRobloxGameResults(query, games, error);
+    }
+
+    private async Task<List<(string Name, long PlaceId, long Players)>> FetchRobloxGamesAsync(string query, CancellationToken token)
+    {
+        string url = "https://apis.roblox.com/search-api/omni-search?searchQuery=" + Uri.EscapeDataString(query)
+            + "&pageToken=&sessionId=" + _robloxGameSearchSession + "&pageType=all";
+        string body = await Http.GetStringBoundedAsync(App.HttpClient, url, 4 * 1024 * 1024, token).ConfigureAwait(false);
+        List<(string, long, long)> results = new();
+        HashSet<long> seen = new();
+        using JsonDocument document = JsonDocument.Parse(body);
+        if (!document.RootElement.TryGetProperty("searchResults", out JsonElement groups) || groups.ValueKind != JsonValueKind.Array)
+            return results;
+        foreach (JsonElement group in groups.EnumerateArray())
+        {
+            if (group.ValueKind != JsonValueKind.Object || !group.TryGetProperty("contents", out JsonElement contents) || contents.ValueKind != JsonValueKind.Array)
+                continue;
+            foreach (JsonElement item in contents.EnumerateArray())
+            {
+                if (results.Count >= 40)
+                    return results;
+                if (item.ValueKind != JsonValueKind.Object)
+                    continue;
+                if (item.TryGetProperty("isSponsored", out JsonElement sponsored) && sponsored.ValueKind == JsonValueKind.True)
+                    continue;
+                if (!item.TryGetProperty("rootPlaceId", out JsonElement place) || place.ValueKind != JsonValueKind.Number || !place.TryGetInt64(out long id) || id <= 0 || !seen.Add(id))
+                    continue;
+                string name = item.TryGetProperty("name", out JsonElement nameElement) && nameElement.ValueKind == JsonValueKind.String
+                    ? nameElement.GetString() ?? ""
+                    : "";
+                long players = item.TryGetProperty("playerCount", out JsonElement count) && count.ValueKind == JsonValueKind.Number && count.TryGetInt64(out long value) ? value : 0;
+                results.Add((string.IsNullOrWhiteSpace(name) ? id.ToString(System.Globalization.CultureInfo.InvariantCulture) : name.Trim(), id, players));
+            }
+        }
+        return results;
+    }
+
+    private void ShowRobloxGameResults(string query, List<(string Name, long PlaceId, long Players)>? games, string? message)
+    {
+        _commandPaletteRows.Clear();
+        _commandPaletteSelected = -1;
+        int results = 0;
+        long direct = ParseCommandPalettePlaceId(query);
+        if (direct > 0)
+        {
+            _commandPaletteRows.Add(new CommandPaletteRow { IsHeader = true, Title = Strings.Ui_Main_PalettePlace });
+            _commandPaletteRows.Add(
+                CreateCommandPaletteRow(
+                    string.Format(System.Globalization.CultureInfo.CurrentCulture, Strings.Ui_Main_PaletteJoinPlace, direct),
+                    "",
+                    SymbolRegular.Play24,
+                    "",
+                    () => LaunchRobloxGameFromPalette(direct)
+                )
+            );
+            results++;
+        }
+        if (games != null && games.Count > 0)
+        {
+            _commandPaletteRows.Add(new CommandPaletteRow { IsHeader = true, Title = Strings.Ui_Main_PaletteGames });
+            foreach ((string name, long placeId, long players) in games)
+            {
+                long captured = placeId;
+                _commandPaletteRows.Add(
+                    CreateCommandPaletteRow(
+                        name,
+                        players > 0 ? string.Format(System.Globalization.CultureInfo.CurrentCulture, Strings.Ui_Main_PalettePlaying, players) : "",
+                        SymbolRegular.Games24,
+                        query,
+                        () => LaunchRobloxGameFromPalette(captured)
+                    )
+                );
+                results++;
+            }
+        }
+        bool searching = games == null && message == null && query.Length > 0;
+        CommandPaletteEmpty.Visibility = !searching && results == 0 ? Visibility.Visible : Visibility.Collapsed;
+        CommandPaletteEmptyText.Text = message ?? string.Format(System.Globalization.CultureInfo.CurrentCulture, Strings.Ui_Main_PaletteNoResults, query);
+        CommandPaletteResultsScroll.Visibility = results == 0 ? Visibility.Collapsed : Visibility.Visible;
+        CommandPaletteCount.Text =
+            query.Length == 0 ? ""
+            : searching ? Strings.Ui_Main_PaletteSearching
+            : results == 1 ? Strings.Ui_Main_PaletteOneResult
+            : string.Format(System.Globalization.CultureInfo.CurrentCulture, Strings.Ui_Main_PaletteResults, results);
+        CommandPaletteResultsScroll.ScrollToTop();
+        MoveCommandPaletteSelection(1);
+    }
+
+    private static void LaunchRobloxGameFromPalette(long placeId)
+    {
+        if (placeId > 0)
+            LibraryViewModel.TryLaunchPlayer($"roblox://experiences/start?placeId={placeId}");
+    }
+
     private void RefreshCommandPaletteResults()
     {
+        if (_commandPaletteGames)
+        {
+            RefreshRobloxGameResults();
+            return;
+        }
         CancelCommandPaletteSearch();
         int generation = Volatile.Read(ref _commandPaletteSearchGeneration);
         CommandPaletteSnapshot snapshot = CaptureCommandPaletteSnapshot();
@@ -3447,7 +3614,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void OpenSelectedCommandPaletteRow()
     {
         if (
-            _commandPaletteAppliedGeneration != Volatile.Read(ref _commandPaletteSearchGeneration)
+            !_commandPaletteGames
+            && _commandPaletteAppliedGeneration != Volatile.Read(ref _commandPaletteSearchGeneration)
             && CommandPaletteSearchBox.Text.Trim().Length > 0
         )
         {
@@ -5749,6 +5917,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         (typeof(HomePage), Key.D1, "Ctrl+1"),
         (typeof(IntegrationsPage), Key.D2, "Ctrl+2"),
         (typeof(BehaviourPage), Key.D3, "Ctrl+3"),
+        (typeof(AppearancePage), Key.D4, "Ctrl+4"),
         (typeof(FastFlagsPage), Key.D5, "Ctrl+5"),
         (typeof(FastFlagEditorPage), Key.D6, "Ctrl+6"),
         (typeof(GBSEditorPage), Key.D7, "Ctrl+7"),
@@ -5850,9 +6019,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             e.Handled = true;
             return;
         }
+        if (e.Key == Key.L && Keyboard.Modifiers == ModifierKeys.Control)
+        {
+            ToggleCommandPalette(true);
+            e.Handled = true;
+            return;
+        }
         if (e.Key == Key.K && Keyboard.Modifiers == ModifierKeys.Control)
         {
-            ToggleCommandPalette();
+            ToggleCommandPalette(false);
             e.Handled = true;
             return;
         }
@@ -8012,6 +8187,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private bool _launchTargetOverlayOpen;
 
     private bool _commandPaletteOpen;
+
+    private bool _commandPaletteGames;
+
+    private readonly string _robloxGameSearchSession = Guid.NewGuid().ToString();
 
     private Border? _modalPanel;
 

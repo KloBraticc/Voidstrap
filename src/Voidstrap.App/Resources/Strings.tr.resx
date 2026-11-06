@@ -9759,4 +9759,25 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
     <value>Ok, metin ve Shift Lock imleçlerini sizin renginizle boyar.</value>
   </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox oyunlarını ara</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Bir oyun adı, yer kimliği veya oyun bağlantısı yazın</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox aramasına ulaşılamadı, tekrar deneyin</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Yer</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>{0} yerine katıl</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Oyunlar</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} oynuyor</value>
+  </data>
 </root>
