@@ -42,6 +42,10 @@ public partial class DiscordRichPresence : IDisposable
 
     private static readonly string LoadingState = Voidstrap.Utility.RpcText.Mark("Loading game");
 
+    private static readonly TimeSpan LoadingTimeout = TimeSpan.FromMinutes(3);
+
+    private DateTime _loadingSinceUtc = DateTime.MaxValue;
+
     private static readonly string? LaunchStatusFile = Environment.GetEnvironmentVariable("VOIDSTRAP_STATUS_FILE");
 
     private static readonly ConcurrentDictionary<long, (string Name, DateTime Expires)> PlaceNames = new();
@@ -215,6 +219,8 @@ public partial class DiscordRichPresence : IDisposable
             if (_disposed || _activityWatcher.InGame)
                 return;
             _gamePresenceActive = false;
+            if (_currentPresence?.State != LoadingState)
+                _loadingSinceUtc = DateTime.UtcNow;
             _currentPresence = new DiscordRPC.RichPresence
             {
                 Details = "Roblox",
@@ -636,10 +642,18 @@ public partial class DiscordRichPresence : IDisposable
         if (
             _currentPresence?.State == LoadingState
             && !_activityWatcher.InGame
-            && _activityWatcher.Data.PlaceId == 0
             && !_activityWatcher.IsTeleporting
         )
-            _ = Task.Run(SetCurrentGameAsync, _lifetimeToken);
+        {
+            if (_activityWatcher.Data.PlaceId == 0)
+                _ = Task.Run(SetCurrentGameAsync, _lifetimeToken);
+            else if (DateTime.UtcNow - _loadingSinceUtc > LoadingTimeout)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Roblox never finished joining, leaving the loading presence");
+                _loadingSinceUtc = DateTime.MaxValue;
+                _ = Task.Run(SetIdlePresenceAsync, _lifetimeToken);
+            }
+        }
         EnsureConnected();
         lock (_activityGate)
         {
@@ -983,6 +997,11 @@ public partial class DiscordRichPresence : IDisposable
                 gamePresence.Assets.SmallImageKey = original.SmallImageKey = smallImageTask.Result.key;
                 if (gamePresence.Assets.SmallImageText == original.SmallImageText)
                     gamePresence.Assets.SmallImageText = original.SmallImageText = smallImageTask.Result.text;
+            }
+            else if (gamePresence.Assets.SmallImageKey == App.RpcLoadingImageUrl && gamePresence.Assets.SmallImageKey == original.SmallImageKey)
+            {
+                gamePresence.Assets.SmallImageKey = original.SmallImageKey = App.RpcVoidstrapImageUrl;
+                gamePresence.Assets.SmallImageText = original.SmallImageText = "Voidstrap";
             }
             string imageSignature = BuildPresenceSignature(gamePresence);
             if (imageSignature != _lastPresenceSignature)
