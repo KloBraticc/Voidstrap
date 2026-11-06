@@ -1945,7 +1945,7 @@ namespace Voidstrap.Integrations.Overlays
         private double ReliableActualFps()
         {
             double actual = RobloxPresentTracer.FramesPerSecond;
-            double ceiling = Math.Max(90.0, _refreshHz * 1.25);
+            double ceiling = Math.Max(1000.0, _refreshHz * 5.0);
             return actual >= 5.0 && actual <= ceiling ? actual : 0;
         }
 
