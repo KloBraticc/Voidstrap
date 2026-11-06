@@ -35,7 +35,9 @@ internal static class WindowSystemMenu
 
     private static void Attach(Window window)
     {
-        HwndSource.FromHwnd(new WindowInteropHelper(window).Handle)?.AddHook(Hook);
+        IntPtr handle = new WindowInteropHelper(window).Handle;
+        if (handle != IntPtr.Zero)
+            HwndSource.FromHwnd(handle)?.AddHook(Hook);
     }
 
     private static void OnClosed(object? sender, EventArgs e)
@@ -45,8 +47,11 @@ internal static class WindowSystemMenu
         window.PreviewMouseRightButtonUp -= OnPreviewMouseRightButtonUp;
         window.SourceInitialized -= OnSourceInitialized;
         window.Closed -= OnClosed;
-        if (Voidstrap.Utility.Platform.IsWindows)
-            HwndSource.FromHwnd(new WindowInteropHelper(window).Handle)?.RemoveHook(Hook);
+        if (!Voidstrap.Utility.Platform.IsWindows)
+            return;
+        IntPtr handle = new WindowInteropHelper(window).Handle;
+        if (handle != IntPtr.Zero)
+            HwndSource.FromHwnd(handle)?.RemoveHook(Hook);
     }
 
     private static void OnPreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
