@@ -317,7 +317,7 @@ public static class VoidstrapMatchmaker
             if (result != null && LooksLikeVpn(result))
             {
                 UserGeo? saved = LoadSavedGeo();
-                if (saved != null && !LooksLikeVpn(saved))
+                if (saved is { UtcOffsetMinutes: int savedOffset } && Math.Abs(savedOffset - LocalOffsetMinutes) <= 90 && HaversineKm(saved.Lat, saved.Lon, result.Lat, result.Lon) > 300.0)
                 {
                     App.Logger.WriteLine(LOG_IDENT, "Location looks like a VPN exit because its time zone does not match this PC, using the last real location");
                     lock (_geoLock)
