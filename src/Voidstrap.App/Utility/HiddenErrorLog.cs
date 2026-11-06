@@ -58,6 +58,16 @@ internal static class HiddenErrorLog
 
     private static string _lastSlowWork = "";
 
+    private const int MaxStackCaptures = 8;
+
+    private static int _stackCaptures;
+
+    private static int _uiThreadId;
+
+    private static int _stackCapturedForProbe;
+
+    private static string _frozenStack = "";
+
     [ThreadStatic]
     private static bool _inside;
 
@@ -109,6 +119,7 @@ internal static class HiddenErrorLog
         try
         {
             _dispatcher = Dispatcher.CurrentDispatcher;
+            _uiThreadId = Environment.CurrentManagedThreadId;
             _dispatcher.Hooks.OperationStarted += OnOperationStarted;
             _dispatcher.Hooks.OperationCompleted += OnOperationFinished;
             _dispatcher.Hooks.OperationAborted += OnOperationFinished;
@@ -172,6 +183,8 @@ internal static class HiddenErrorLog
             if (Volatile.Read(ref _probePending) == 1)
             {
                 long waited = now - Interlocked.Read(ref _probeSentTicks);
+                if (waited >= FreezeThreshold && Interlocked.Exchange(ref _stackCapturedForProbe, 1) == 0)
+                    Volatile.Write(ref _frozenStack, CaptureUiStack());
                 if (
                     waited >= StuckThreshold
                     && Volatile.Read(ref _freezeReports) < MaxFreezeReports
@@ -184,6 +197,8 @@ internal static class HiddenErrorLog
                             + (waited / TimeSpan.TicksPerMillisecond)
                             + " ms and is still frozen"
                             + DescribeCurrentWork()
+                            + DescribeProcessState()
+                            + Interlocked.Exchange(ref _frozenStack, "")
                     );
                     App.Logger.Flush();
                 }
@@ -196,11 +211,89 @@ internal static class HiddenErrorLog
         catch { }
     }
 
+    private static string DescribeProcessState()
+    {
+        try
+        {
+            ThreadPool.GetAvailableThreads(out int availableWorkers, out _);
+            ThreadPool.GetMaxThreads(out int maxWorkers, out _);
+            GCMemoryInfo gc = GC.GetGCMemoryInfo();
+            using Process process = Process.GetCurrentProcess();
+            return "\n  State: working set "
+                + (process.WorkingSet64 / (1024 * 1024))
+                + " MB, managed heap "
+                + (GC.GetTotalMemory(false) / (1024 * 1024))
+                + " MB, GC "
+                + GC.CollectionCount(0)
+                + "/"
+                + GC.CollectionCount(1)
+                + "/"
+                + GC.CollectionCount(2)
+                + ", last GC pause "
+                + (gc.PauseDurations.Length > 0 ? (int)gc.PauseDurations[0].TotalMilliseconds : 0)
+                + " ms, GC pause time "
+                + gc.PauseTimePercentage.ToString("0.#", CultureInfo.InvariantCulture)
+                + " percent, threads "
+                + process.Threads.Count
+                + ", thread pool busy "
+                + (maxWorkers - availableWorkers)
+                + ", queued work "
+                + ThreadPool.PendingWorkItemCount
+                + ", lock contention "
+                + Monitor.LockContentionCount;
+        }
+        catch
+        {
+            return "";
+        }
+    }
+
+    private static string CaptureUiStack()
+    {
+        if (!OperatingSystem.IsWindows() || Interlocked.Increment(ref _stackCaptures) > MaxStackCaptures)
+            return "";
+#if !CROSSPLAT
+        try
+        {
+            using Microsoft.Diagnostics.Runtime.DataTarget target = Microsoft.Diagnostics.Runtime.DataTarget.CreateSnapshotAndAttach(Environment.ProcessId);
+            using Microsoft.Diagnostics.Runtime.ClrRuntime runtime = target.ClrVersions[0].CreateRuntime();
+            Microsoft.Diagnostics.Runtime.ClrThread? thread = runtime.Threads.FirstOrDefault(t => t.ManagedThreadId == _uiThreadId);
+            if (thread == null)
+                return "\n  UI thread stack: not found";
+            System.Text.StringBuilder builder = new("\n  UI thread stack at the freeze:");
+            int frames = 0;
+            foreach (Microsoft.Diagnostics.Runtime.ClrStackFrame frame in thread.EnumerateStackTrace())
+            {
+                string? text = frame.Method?.Signature ?? frame.FrameName;
+                if (string.IsNullOrEmpty(text))
+                    continue;
+                builder.Append("\n    at ").Append(text);
+                if (++frames >= 60)
+                {
+                    builder.Append("\n    ...");
+                    break;
+                }
+            }
+            if (thread.CurrentException is { } exception)
+                builder.Append("\n  UI thread is handling ").Append(exception.Type?.Name).Append(": ").Append(exception.Message);
+            return builder.ToString();
+        }
+        catch (Exception ex)
+        {
+            return "\n  UI thread stack unavailable: " + ex.GetType().Name + " " + ex.Message;
+        }
+#else
+        return "";
+#endif
+    }
+
     private static void OnProbeAnswered()
     {
         long waited = DateTime.UtcNow.Ticks - Interlocked.Read(ref _probeSentTicks);
         string work = _lastSlowWork;
         _lastSlowWork = "";
+        string stack = Interlocked.Exchange(ref _frozenStack, "");
+        Volatile.Write(ref _stackCapturedForProbe, 0);
         Volatile.Write(ref _probePending, 0);
         bool wasStuck = Interlocked.Exchange(ref _stuckReported, 0) == 1;
         if (waited < FreezeThreshold)
@@ -216,6 +309,8 @@ internal static class HiddenErrorLog
                 + " ms"
                 + work
                 + (wasStuck ? " and has now recovered" : "")
+                + DescribeProcessState()
+                + stack
         );
     }
 
