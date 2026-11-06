@@ -12,7 +12,7 @@ namespace Voidstrap.Integrations.MotionBlur
 
         public const int MaxCustomAmount = 500;
 
-        private static readonly int[] PresetAmount = new int[] { 0, 50, 100, 150, 200 };
+        private static readonly int[] PresetAmount = new int[] { 0, 65, 135, 185, 240 };
 
         public static int StrengthIndex => Math.Clamp(App.Settings.Prop.MotionBlurStrengthIndex, 0, StrengthNames.Length - 1);
 
