@@ -66,11 +66,23 @@ curl -fsSL https://voidstrapp.pages.dev/install.sh | sh
 
 ## Contributors
 
-<a href="https://github.com/KloBraticc/Voidstrap/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=KloBraticc/Voidstrap" alt="Voidstrap contributors" />
-</a>
-
-Made with [contrib.rocks](https://contrib.rocks).
+<p>
+<a href="https://github.com/KloBraticc"><img src="https://github.com/KloBraticc.png?size=96" width="48" height="48" alt="KloBraticc" title="KloBraticc" /></a>
+<a href="https://github.com/Pedrodroks34"><img src="https://github.com/Pedrodroks34.png?size=96" width="48" height="48" alt="Pedrodroks34" title="Pedrodroks34" /></a>
+<a href="https://github.com/UltimatePlayer97"><img src="https://github.com/UltimatePlayer97.png?size=96" width="48" height="48" alt="UltimatePlayer97" title="UltimatePlayer97" /></a>
+<a href="https://github.com/shuraiscool"><img src="https://github.com/shuraiscool.png?size=96" width="48" height="48" alt="shuraiscool" title="shuraiscool" /></a>
+<a href="https://github.com/returnrqt"><img src="https://github.com/returnrqt.png?size=96" width="48" height="48" alt="returnrqt" title="returnrqt" /></a>
+<a href="https://github.com/orbice"><img src="https://github.com/orbice.png?size=96" width="48" height="48" alt="orbice" title="orbice" /></a>
+<a href="https://github.com/themallyguy"><img src="https://github.com/themallyguy.png?size=96" width="48" height="48" alt="themallyguy" title="themallyguy" /></a>
+<a href="https://github.com/vanillameow"><img src="https://github.com/vanillameow.png?size=96" width="48" height="48" alt="vanillameow" title="vanillameow" /></a>
+<a href="https://github.com/spencer0187"><img src="https://github.com/spencer0187.png?size=96" width="48" height="48" alt="spencer0187" title="spencer0187" /></a>
+<a href="https://github.com/sky-pluh"><img src="https://github.com/sky-pluh.png?size=96" width="48" height="48" alt="sky-pluh" title="sky-pluh" /></a>
+<a href="https://github.com/realmeddsam"><img src="https://github.com/realmeddsam.png?size=96" width="48" height="48" alt="realmeddsam" title="realmeddsam" /></a>
+<a href="https://github.com/ihatewindowsupdate"><img src="https://github.com/ihatewindowsupdate.png?size=96" width="48" height="48" alt="ihatewindowsupdate" title="ihatewindowsupdate" /></a>
+<a href="https://github.com/qrhrqiohj"><img src="https://github.com/qrhrqiohj.png?size=96" width="48" height="48" alt="qrhrqiohj" title="qrhrqiohj" /></a>
+<a href="https://github.com/error404notf0und"><img src="https://github.com/error404notf0und.png?size=96" width="48" height="48" alt="error404notf0und" title="error404notf0und" /></a>
+<a href="https://github.com/frossky"><img src="https://github.com/frossky.png?size=96" width="48" height="48" alt="frossky" title="frossky" /></a>
+</p>
 
 ## Contents
 
