@@ -154,6 +154,59 @@ public static partial class McpStdioServer
 
     private static int _watchedAppPid;
 
+    private static void ExitBecauseAppClosed()
+    {
+        App.Logger?.WriteLine("McpStdioServer", "Voidstrap was closed, closing the MCP stdio server too");
+        try
+        {
+            Console.Out.Flush();
+        }
+        catch { }
+        using Process self = Process.GetCurrentProcess();
+        self.Kill();
+    }
+
+    private static void WatchForAppClose()
+    {
+        var probe = new Thread(() =>
+        {
+            bool seen = false;
+            int misses = 0;
+            while (Volatile.Read(ref _watchedAppPid) == 0)
+            {
+                bool running;
+                try
+                {
+                    using var client = new NamedPipeClientStream(".", McpBridgeServer.PipeName, PipeDirection.InOut, PipeOptions.Asynchronous);
+                    client.Connect(250);
+                    running = true;
+                    if (Voidstrap.Utility.Platform.IsWindows)
+                        WatchAppProcess(client);
+                }
+                catch
+                {
+                    running = false;
+                }
+                if (running)
+                {
+                    seen = true;
+                    misses = 0;
+                }
+                else if (seen && ++misses >= 2)
+                {
+                    ExitBecauseAppClosed();
+                    return;
+                }
+                Thread.Sleep(2000);
+            }
+        })
+        {
+            IsBackground = true,
+            Name = "Voidstrap MCP app probe",
+        };
+        probe.Start();
+    }
+
     private static void WatchAppProcess(NamedPipeClientStream client)
     {
         if (!OperatingSystem.IsWindowsVersionAtLeast(6, 0))
@@ -181,8 +234,7 @@ public static partial class McpStdioServer
             }
             if (Volatile.Read(ref _watchedAppPid) != target)
                 return;
-            App.Logger?.WriteLine("McpStdioServer", "Voidstrap was closed, closing the MCP stdio server too");
-            Environment.Exit(0);
+            ExitBecauseAppClosed();
         })
         {
             IsBackground = true,
@@ -198,6 +250,7 @@ public static partial class McpStdioServer
 
         if (Voidstrap.Utility.Platform.IsWindows)
             WatchParentProcess();
+        WatchForAppClose();
 
         using Stream stdin = Console.OpenStandardInput();
         using Stream stdout = Console.OpenStandardOutput();
