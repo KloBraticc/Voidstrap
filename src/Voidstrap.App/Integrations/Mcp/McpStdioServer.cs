@@ -152,6 +152,45 @@ public static partial class McpStdioServer
         watcher.Start();
     }
 
+    private static int _watchedAppPid;
+
+    private static void WatchAppProcess(NamedPipeClientStream client)
+    {
+        if (!OperatingSystem.IsWindowsVersionAtLeast(6, 0))
+            return;
+        uint pid;
+        unsafe
+        {
+            if (!Windows.Win32.PInvoke.GetNamedPipeServerProcessId(new Windows.Win32.Foundation.HANDLE(client.SafePipeHandle.DangerousGetHandle()), &pid) || pid == 0)
+                return;
+        }
+        if (Interlocked.Exchange(ref _watchedAppPid, (int)pid) == (int)pid)
+            return;
+        int target = (int)pid;
+        var watcher = new Thread(() =>
+        {
+            try
+            {
+                using Process process = Process.GetProcessById(target);
+                process.WaitForExit();
+            }
+            catch (ArgumentException) { }
+            catch
+            {
+                return;
+            }
+            if (Volatile.Read(ref _watchedAppPid) != target)
+                return;
+            App.Logger?.WriteLine("McpStdioServer", "Voidstrap was closed, closing the MCP stdio server too");
+            Environment.Exit(0);
+        })
+        {
+            IsBackground = true,
+            Name = "Voidstrap MCP app watch",
+        };
+        watcher.Start();
+    }
+
     public static int Run()
     {
         Console.InputEncoding = new UTF8Encoding(false);
@@ -386,6 +425,7 @@ public static partial class McpStdioServer
         {
             using var client = new NamedPipeClientStream(".", McpBridgeServer.PipeName, PipeDirection.InOut, PipeOptions.Asynchronous);
             client.Connect(3000);
+            WatchAppProcess(client);
 
             using var reader = new StreamReader(client, new UTF8Encoding(false), false, 65536, leaveOpen: true);
             using var writer = new StreamWriter(client, new UTF8Encoding(false), 65536, leaveOpen: true)

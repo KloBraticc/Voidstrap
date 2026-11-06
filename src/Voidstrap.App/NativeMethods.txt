@@ -44,3 +44,4 @@ RemoveDirectory
 SetFileAttributes
 MoveFileEx
 MOVE_FILE_FLAGS
+GetNamedPipeServerProcessId
