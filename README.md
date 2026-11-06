@@ -66,27 +66,11 @@ curl -fsSL https://voidstrapp.pages.dev/install.sh | sh
 
 ## Contributors
 
-<p>
-<a href="https://github.com/KloBraticc"><img src="https://github.com/KloBraticc.png?size=96" width="48" height="48" alt="KloBraticc" title="KloBraticc" /></a>
-<a href="https://github.com/Pedrodroks34"><img src="https://github.com/Pedrodroks34.png?size=96" width="48" height="48" alt="Pedrodroks34" title="Pedrodroks34" /></a>
-<a href="https://github.com/UltimatePlayer97"><img src="https://github.com/UltimatePlayer97.png?size=96" width="48" height="48" alt="UltimatePlayer97" title="UltimatePlayer97" /></a>
-<a href="https://github.com/shuraiscool"><img src="https://github.com/shuraiscool.png?size=96" width="48" height="48" alt="shuraiscool" title="shuraiscool" /></a>
-<a href="https://github.com/returnrqt"><img src="https://github.com/returnrqt.png?size=96" width="48" height="48" alt="returnrqt" title="returnrqt" /></a>
-<a href="https://github.com/orbice"><img src="https://github.com/orbice.png?size=96" width="48" height="48" alt="orbice" title="orbice" /></a>
-<a href="https://github.com/TheMallyGuy"><img src="https://github.com/TheMallyGuy.png?size=96" width="48" height="48" alt="TheMallyGuy" title="TheMallyGuy" /></a>
-<a href="https://github.com/VanillaMeow"><img src="https://github.com/VanillaMeow.png?size=96" width="48" height="48" alt="VanillaMeow" title="VanillaMeow" /></a>
-<a href="https://github.com/Spencer0187"><img src="https://github.com/Spencer0187.png?size=96" width="48" height="48" alt="Spencer0187" title="Spencer0187" /></a>
-<a href="https://github.com/Sky-pluh"><img src="https://github.com/Sky-pluh.png?size=96" width="48" height="48" alt="Sky-pluh" title="Sky-pluh" /></a>
-<a href="https://github.com/RealMeddsam"><img src="https://github.com/RealMeddsam.png?size=96" width="48" height="48" alt="RealMeddsam" title="RealMeddsam" /></a>
-<a href="https://github.com/IhateWindowsUpdate"><img src="https://github.com/IhateWindowsUpdate.png?size=96" width="48" height="48" alt="IhateWindowsUpdate" title="IhateWindowsUpdate" /></a>
-<a href="https://github.com/qrhrqiohj"><img src="https://github.com/qrhrqiohj.png?size=96" width="48" height="48" alt="qrhrqiohj" title="qrhrqiohj" /></a>
-<a href="https://github.com/Error404NotF0und"><img src="https://github.com/Error404NotF0und.png?size=96" width="48" height="48" alt="Error404NotF0und" title="Error404NotF0und" /></a>
-<a href="https://github.com/FrosSky"><img src="https://github.com/FrosSky.png?size=96" width="48" height="48" alt="FrosSky" title="FrosSky" /></a>
-<a href="https://github.com/AlloryDante"><img src="https://github.com/AlloryDante.png?size=96" width="48" height="48" alt="AlloryDante" title="AlloryDante" /></a>
-<a href="https://github.com/Naymmmm"><img src="https://github.com/Naymmmm.png?size=96" width="48" height="48" alt="Naymmmm" title="Naymmmm" /></a>
-<a href="https://github.com/invra"><img src="https://github.com/invra.png?size=96" width="48" height="48" alt="invra" title="invra" /></a>
-<a href="https://github.com/obaba-samich"><img src="https://github.com/obaba-samich.png?size=96" width="48" height="48" alt="obaba-samich" title="obaba-samich" /></a>
-</p>
+<a href="https://github.com/KloBraticc/Voidstrap/graphs/contributors">
+  <img src="assets/contributors.svg" alt="Voidstrap contributors" />
+</a>
+
+Styled after [contrib.rocks](https://contrib.rocks).
 
 ## Contents
 
