@@ -35,21 +35,6 @@
         </Trigger>
       </Style.Triggers>
     </Style>
-    <Style x:Key="PreviewFrame" TargetType="Border">
-      <Setter Property="Height" Value="150" />
-      <Setter Property="CornerRadius" Value="8" />
-      <Setter Property="Background" Value="#FF15171C" />
-      <Setter Property="BorderBrush" Value="#1FFFFFFF" />
-      <Setter Property="BorderThickness" Value="1" />
-      <Setter Property="ClipToBounds" Value="True" />
-    </Style>
-    <Style x:Key="PreviewLabel" TargetType="TextBlock">
-      <Setter Property="Margin" Value="10,7,0,0" />
-      <Setter Property="HorizontalAlignment" Value="Left" />
-      <Setter Property="VerticalAlignment" Value="Top" />
-      <Setter Property="FontSize" Value="11" />
-      <Setter Property="Foreground" Value="#99FFFFFF" />
-    </Style>
     <Style x:Key="OptionLabel" TargetType="TextBlock">
       <Setter Property="VerticalAlignment" Value="Center" />
       <Setter Property="FontSize" Value="13" />
@@ -58,40 +43,50 @@
   </UserControl.Resources>
 
   <StackPanel>
-    <TextBlock Margin="2,24,0,0" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_ModGen_ModGenerator}" />
-    <TextBlock Margin="2,2,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_ModGen_RecolourRobloxSMenuAndTop}" />
+    <TextBlock Margin="2,24,0,0" FontSize="12.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_ModGen_RecolourRobloxSMenuAndTop}" />
 
     <ui:CardControl Margin="0,10,0,0" Focusable="False" ui:RinControlMotion.Enabled="True">
       <ui:CardControl.Header>
         <StackPanel>
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="10" />
-              <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Border Style="{StaticResource PreviewFrame}">
-              <Grid>
-                <Image x:Name="BeforeImage" Margin="8,24,8,8" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
-                <TextBlock Style="{StaticResource PreviewLabel}" Text="{resources:Loc Ui_ModGen_Original}" />
-              </Grid>
-            </Border>
-            <Border Grid.Column="2" Style="{StaticResource PreviewFrame}">
-              <Grid>
-                <Image x:Name="AfterImage" Margin="8,24,8,8" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
-                <TextBlock Style="{StaticResource PreviewLabel}" Text="{resources:Loc Ui_ModGen_YourMod}" />
-                <ui:ProgressRing x:Name="PreviewRing" Width="22" Height="22" IsIndeterminate="True" Visibility="Collapsed" />
-              </Grid>
-            </Border>
-          </Grid>
-          <Border x:Name="FontPreviewCard" Height="52" Margin="0,10,0,0" CornerRadius="8" Background="#FF15171C" BorderBrush="#1FFFFFFF" BorderThickness="1" ClipToBounds="True" Visibility="Collapsed">
+          <Border CornerRadius="10" Background="#FF15171C" BorderBrush="#1FFFFFFF" BorderThickness="1" ClipToBounds="True">
             <Grid>
-              <Image x:Name="FontPreviewImage" Margin="10,20,10,8" Stretch="Uniform" HorizontalAlignment="Left" />
-              <TextBlock Style="{StaticResource PreviewLabel}" Text="{resources:Loc Ui_ModGen_IconFont}" />
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid Height="190">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="1" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Image x:Name="BeforeImage" Margin="18,34,18,14" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Opacity="0.85" />
+                <Border Margin="12,10,0,0" Padding="8,2" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="9" Background="#14FFFFFF">
+                  <TextBlock FontSize="11" Foreground="#B3FFFFFF" Text="{resources:Loc Ui_ModGen_Original}" />
+                </Border>
+                <Border Grid.Column="1" Margin="0,14" Background="#1FFFFFFF" />
+                <Image x:Name="AfterImage" Grid.Column="2" Margin="18,34,18,14" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" />
+                <Border Grid.Column="2" Margin="12,10,0,0" Padding="8,2" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="9" Background="{DynamicResource SystemAccentColorPrimaryBrush}">
+                  <TextBlock FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}" Text="{resources:Loc Ui_ModGen_YourMod}" />
+                </Border>
+                <ui:ProgressRing x:Name="PreviewRing" Grid.Column="2" Width="22" Height="22" IsIndeterminate="True" Visibility="Collapsed" />
+              </Grid>
+              <Border x:Name="FontPreviewCard" Grid.Row="1" Height="44" BorderBrush="#1FFFFFFF" BorderThickness="0,1,0,0" Visibility="Collapsed">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Margin="14,0,12,0" VerticalAlignment="Center" FontSize="11" Foreground="#99FFFFFF" Text="{resources:Loc Ui_ModGen_IconFont}" />
+                  <Image x:Name="FontPreviewImage" Grid.Column="1" Margin="0,10,14,10" Stretch="Uniform" HorizontalAlignment="Left" RenderOptions.BitmapScalingMode="HighQuality" />
+                </Grid>
+              </Border>
             </Grid>
           </Border>
-          <TextBlock x:Name="PreviewCaption" Margin="2,8,0,0" FontSize="11.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_ModGen_RealIconsFromYourRobloxBuild}" />
-          <TextBlock x:Name="PreviewNote" Margin="2,2,0,0" FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+          <WrapPanel Margin="2,8,0,0">
+            <TextBlock x:Name="PreviewCaption" Margin="0,0,6,0" FontSize="11.5" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_ModGen_RealIconsFromYourRobloxBuild}" />
+            <TextBlock x:Name="PreviewNote" FontSize="11.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+          </WrapPanel>
 
           <Grid Margin="0,16,0,0">
             <Grid.ColumnDefinitions>
