@@ -300,6 +300,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
         public SymbolRegular Icon { get; init; } = SymbolRegular.Document24;
 
+        public string? ImageUrl { get; init; }
+
+        public bool HasImage => ImageUrl != null;
+
         public Action? Open { get; init; }
 
         public bool IsSelected
@@ -3046,7 +3050,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private async Task SearchRobloxGamesAsync(int generation, string query, CancellationToken token)
     {
         const string LOG_IDENT = "MainWindow::SearchRobloxGames";
-        List<(string Name, long PlaceId, long Players)> games;
+        List<(string Name, long PlaceId, long Players, string? Icon)> games;
         string? error = null;
         try
         {
@@ -3060,7 +3064,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         catch (Exception ex)
         {
             App.Logger.WriteException(LOG_IDENT, ex);
-            games = new List<(string, long, long)>();
+            games = new List<(string, long, long, string?)>();
             error = Strings.Ui_Main_PaletteGamesFailed;
         }
         if (token.IsCancellationRequested || generation != Volatile.Read(ref _commandPaletteSearchGeneration) || !_commandPaletteOpen || !_commandPaletteGames)
@@ -3068,12 +3072,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ShowRobloxGameResults(query, games, error);
     }
 
-    private async Task<List<(string Name, long PlaceId, long Players)>> FetchRobloxGamesAsync(string query, CancellationToken token)
+    private async Task<List<(string Name, long PlaceId, long Players, string? Icon)>> FetchRobloxGamesAsync(string query, CancellationToken token)
     {
         string url = "https://apis.roblox.com/search-api/omni-search?searchQuery=" + Uri.EscapeDataString(query)
             + "&pageToken=&sessionId=" + _robloxGameSearchSession + "&pageType=all";
         string body = await Http.GetStringBoundedAsync(App.HttpClient, url, 4 * 1024 * 1024, token).ConfigureAwait(false);
-        List<(string, long, long)> results = new();
+        List<(string, long, long, string?)> results = new();
+        List<long> universes = new();
         HashSet<long> seen = new();
         using JsonDocument document = JsonDocument.Parse(body);
         if (!document.RootElement.TryGetProperty("searchResults", out JsonElement groups) || groups.ValueKind != JsonValueKind.Array)
@@ -3085,7 +3090,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             foreach (JsonElement item in contents.EnumerateArray())
             {
                 if (results.Count >= 40)
-                    return results;
+                    break;
                 if (item.ValueKind != JsonValueKind.Object)
                     continue;
                 if (item.TryGetProperty("isSponsored", out JsonElement sponsored) && sponsored.ValueKind == JsonValueKind.True)
@@ -3096,13 +3101,51 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                     ? nameElement.GetString() ?? ""
                     : "";
                 long players = item.TryGetProperty("playerCount", out JsonElement count) && count.ValueKind == JsonValueKind.Number && count.TryGetInt64(out long value) ? value : 0;
-                results.Add((string.IsNullOrWhiteSpace(name) ? id.ToString(System.Globalization.CultureInfo.InvariantCulture) : name.Trim(), id, players));
+                long universe = item.TryGetProperty("universeId", out JsonElement universeElement) && universeElement.ValueKind == JsonValueKind.Number && universeElement.TryGetInt64(out long universeValue) ? universeValue : 0;
+                universes.Add(universe);
+                results.Add((string.IsNullOrWhiteSpace(name) ? id.ToString(System.Globalization.CultureInfo.InvariantCulture) : name.Trim(), id, players, null));
             }
+        }
+        if (results.Count == 0)
+            return results;
+        try
+        {
+            string ids = string.Join(',', universes.Where(static id => id > 0).Distinct());
+            if (ids.Length == 0)
+                return results;
+            string iconBody = await Http.GetStringBoundedAsync(
+                App.HttpClient,
+                "https://thumbnails.roblox.com/v1/games/icons?universeIds=" + ids + "&size=50x50&format=Png&isCircular=false",
+                1024 * 1024,
+                token
+            ).ConfigureAwait(false);
+            Dictionary<long, string> icons = new();
+            using JsonDocument iconDocument = JsonDocument.Parse(iconBody);
+            if (iconDocument.RootElement.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array)
+            {
+                foreach (JsonElement icon in data.EnumerateArray())
+                {
+                    if (icon.ValueKind == JsonValueKind.Object
+                        && icon.TryGetProperty("targetId", out JsonElement target) && target.ValueKind == JsonValueKind.Number && target.TryGetInt64(out long targetId)
+                        && icon.TryGetProperty("imageUrl", out JsonElement image) && image.ValueKind == JsonValueKind.String
+                        && image.GetString() is string imageUrl && imageUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                        icons[targetId] = imageUrl;
+                }
+            }
+            for (int index = 0; index < results.Count; index++)
+            {
+                if (icons.TryGetValue(universes[index], out string? iconUrl))
+                    results[index] = (results[index].Item1, results[index].Item2, results[index].Item3, iconUrl);
+            }
+        }
+        catch (Exception ex) when (ex is HttpRequestException or JsonException or InvalidOperationException)
+        {
+            App.Logger.WriteLine("MainWindow::FetchRobloxGames", "Game icons could not be loaded: " + ex.Message);
         }
         return results;
     }
 
-    private void ShowRobloxGameResults(string query, List<(string Name, long PlaceId, long Players)>? games, string? message)
+    private void ShowRobloxGameResults(string query, List<(string Name, long PlaceId, long Players, string? Icon)>? games, string? message)
     {
         _commandPaletteRows.Clear();
         _commandPaletteSelected = -1;
@@ -3125,7 +3168,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (games != null && games.Count > 0)
         {
             _commandPaletteRows.Add(new CommandPaletteRow { IsHeader = true, Title = Strings.Ui_Main_PaletteGames });
-            foreach ((string name, long placeId, long players) in games)
+            foreach ((string name, long placeId, long players, string? iconUrl) in games)
             {
                 long captured = placeId;
                 _commandPaletteRows.Add(
@@ -3134,7 +3177,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                         players > 0 ? string.Format(System.Globalization.CultureInfo.CurrentCulture, Strings.Ui_Main_PalettePlaying, players) : "",
                         SymbolRegular.Games24,
                         query,
-                        () => LaunchRobloxGameFromPalette(captured)
+                        () => LaunchRobloxGameFromPalette(captured),
+                        imageUrl: iconUrl
                     )
                 );
                 results++;
@@ -3422,7 +3466,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         SymbolRegular icon,
         string query,
         Action open,
-        bool isSetting = false
+        bool isSetting = false,
+        string? imageUrl = null
     )
     {
         (string before, string match, string after) = SplitCommandPaletteMatch(title, query);
@@ -3434,6 +3479,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             TitleAfter = after,
             Detail = detail,
             Icon = icon,
+            ImageUrl = imageUrl,
             Open = open,
             IsSetting = isSetting,
         };
