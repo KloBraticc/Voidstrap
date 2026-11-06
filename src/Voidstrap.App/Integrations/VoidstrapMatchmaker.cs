@@ -314,6 +314,22 @@ public static class VoidstrapMatchmaker
                     return _cachedGeo;
             }
             UserGeo? result = await FirstUserGeoAsync(token).ConfigureAwait(false);
+            if (result != null && LooksLikeVpn(result))
+            {
+                UserGeo? saved = LoadSavedGeo();
+                if (saved != null && !LooksLikeVpn(saved))
+                {
+                    App.Logger.WriteLine(LOG_IDENT, "Location looks like a VPN exit because its time zone does not match this PC, using the last real location");
+                    lock (_geoLock)
+                    {
+                        _cachedGeo = saved;
+                        _cachedGeoUtc = DateTime.UtcNow;
+                        _cachedGeoNetworkVersion = networkVersion;
+                    }
+                    return saved;
+                }
+                App.Logger.WriteLine(LOG_IDENT, "Location looks like a VPN exit and no real location is saved yet, matching against the VPN location");
+            }
             if (result == null || !IsValidCoordinate(result.Lat, result.Lon))
             {
                 result = LoadSavedGeo();
@@ -325,7 +341,8 @@ public static class VoidstrapMatchmaker
                 App.Logger.WriteLine(LOG_IDENT, "Geo providers are unreachable right now, using the last known location");
                 return result;
             }
-            SaveGeo(result);
+            if (!LooksLikeVpn(result))
+                SaveGeo(result);
             lock (_geoLock)
             {
                 _cachedGeo = result;
@@ -475,6 +492,7 @@ public static class VoidstrapMatchmaker
             City = ReadString(root, "city"),
             Region = ReadString(root, "region"),
             Country = ReadString(root, "country"),
+            UtcOffsetMinutes = OffsetFromZoneId(ReadString(root, "timezone")),
         };
     }
 
@@ -491,6 +509,9 @@ public static class VoidstrapMatchmaker
             City = ReadString(root, "city"),
             Region = ReadString(root, "region"),
             Country = ReadString(root, "country_code"),
+            UtcOffsetMinutes = root.TryGetProperty("timezone", out JsonElement zone) && zone.ValueKind == JsonValueKind.Object && TryReadDouble(zone, "offset", out double seconds)
+                ? (int)Math.Round(seconds / 60.0)
+                : null,
         };
     }
 
@@ -507,8 +528,27 @@ public static class VoidstrapMatchmaker
             City = ReadString(root, "city"),
             Region = ReadString(root, "region"),
             Country = ReadString(root, "country"),
+            UtcOffsetMinutes = OffsetFromZoneId(ReadString(root, "timezone")),
         };
     }
+
+    private static int? OffsetFromZoneId(string zoneId)
+    {
+        if (string.IsNullOrWhiteSpace(zoneId))
+            return null;
+        try
+        {
+            return (int)Math.Round(TimeZoneInfo.FindSystemTimeZoneById(zoneId).GetUtcOffset(DateTime.UtcNow).TotalMinutes);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static int LocalOffsetMinutes => (int)Math.Round(TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow).TotalMinutes);
+
+    internal static bool LooksLikeVpn(UserGeo geo) => geo.UtcOffsetMinutes is int offset && Math.Abs(offset - LocalOffsetMinutes) > 90;
 
     private static string ReadString(JsonElement root, string prop)
     {

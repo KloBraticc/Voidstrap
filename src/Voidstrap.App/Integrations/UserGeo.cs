@@ -11,4 +11,6 @@ public sealed class UserGeo
     public string Region { get; init; } = "";
 
     public string Country { get; init; } = "";
+
+    public int? UtcOffsetMinutes { get; init; }
 }
