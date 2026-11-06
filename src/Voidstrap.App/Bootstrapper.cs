@@ -84,6 +84,8 @@ public partial class Bootstrapper
 
     private int _progressDisplayFailed;
 
+    private int _progressUpdateQueued;
+
     private double _progressIncrement;
 
     private double _taskbarProgressIncrement;
@@ -298,6 +300,50 @@ public partial class Bootstrapper
         e.ContinueRunning = !_cancelTokenSource.IsCancellationRequested;
     }
 
+    private void PostToDialog(Action action)
+    {
+        IBootstrapperDialog? dialog = Dialog;
+        if (dialog is DispatcherObject dispatcherObject && !dispatcherObject.Dispatcher.CheckAccess())
+        {
+            if (!dispatcherObject.Dispatcher.HasShutdownStarted)
+            {
+                dispatcherObject.Dispatcher.BeginInvoke(() => RunDialogAction(action), DispatcherPriority.Background);
+            }
+            else
+            {
+                Interlocked.Exchange(ref _progressUpdateQueued, 0);
+            }
+            return;
+        }
+#if !CROSSPLAT
+        if (Voidstrap.Utility.Platform.IsWindows && dialog is Control control && control.InvokeRequired)
+        {
+            if (control.IsDisposed || !control.IsHandleCreated)
+            {
+                Interlocked.Exchange(ref _progressUpdateQueued, 0);
+                return;
+            }
+            control.BeginInvoke(action);
+            return;
+        }
+        action();
+#else
+        InvokeOnDialog(action);
+#endif
+    }
+
+    private static void RunDialogAction(Action action)
+    {
+        try
+        {
+            action();
+        }
+        catch (Exception ex) when (ex is ObjectDisposedException or InvalidOperationException)
+        {
+            App.Logger.WriteLine("Bootstrapper::RunDialogAction", "The launch dialog closed before progress was shown: " + ex.Message);
+        }
+    }
+
     private void InvokeOnDialog(Action action)
     {
         const string LOG_IDENT = "Bootstrapper::InvokeOnDialog";
@@ -431,11 +477,20 @@ public partial class Bootstrapper
         {
             return;
         }
+        if (Interlocked.Exchange(ref _progressUpdateQueued, 1) == 1)
+        {
+            return;
+        }
         try
         {
-            InvokeOnDialog(
+            PostToDialog(
                 delegate
                 {
+                    Interlocked.Exchange(ref _progressUpdateQueued, 0);
+                    if (Dialog == null)
+                    {
+                        return;
+                    }
                     long num = Interlocked.Read(in _totalDownloadedBytes);
                     int progressValue = (int)Math.Clamp(Math.Floor(_progressIncrement * (double)num), 0.0, 10000.0);
                     Dialog.ProgressValue = progressValue;

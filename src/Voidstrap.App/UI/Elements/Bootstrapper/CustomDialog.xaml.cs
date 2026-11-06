@@ -108,6 +108,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         {
             IsDesignPreview = isDesignPreview;
             InitializeComponent();
+            Voidstrap.UI.WindowSystemMenu.Disable(this);
             if (!IsDesignPreview)
             {
                 _mainWindow = System.Windows.Application.Current.Windows

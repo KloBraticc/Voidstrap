@@ -135,6 +135,7 @@ public partial class ByfronDialog : Window, IBootstrapperDialog
         }
         Voidstrap.UI.RoundedWindowChrome.Prepare(this);
         InitializeComponent();
+        Voidstrap.UI.WindowSystemMenu.Disable(this);
         _mainWindow = System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
         if (App.Settings.Prop.BackgroundWindow)
         {

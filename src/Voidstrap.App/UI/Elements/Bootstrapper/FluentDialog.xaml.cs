@@ -210,11 +210,12 @@ public partial class FluentDialog : WpfUiWindow, IBootstrapperDialog
         SetBackgroundImage();
         BackgroundEvents.BackgroundChanged += OnBackgroundEventsChanged;
         base.Closed += OnFluentDialogClosed;
+        Voidstrap.UI.WindowSystemMenu.Disable(this);
     }
 
     private void OnBackgroundEventsChanged(string? path)
     {
-        ((DispatcherObject)this).Dispatcher.Invoke((Action)delegate
+        ((DispatcherObject)this).Dispatcher.BeginInvoke((Action)delegate
         {
             _ = ChangeBackgroundAsync(path);
         });

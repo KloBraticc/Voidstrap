@@ -128,6 +128,7 @@ public partial class ClassicFluentDialog : WpfUiWindow, IBootstrapperDialog
     public ClassicFluentDialog()
     {
         InitializeComponent();
+        Voidstrap.UI.WindowSystemMenu.Disable(this);
         _mainWindow = System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
         if (App.Settings.Prop.BackgroundWindow)
         {
