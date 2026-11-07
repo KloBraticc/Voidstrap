@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -19,6 +20,8 @@ internal static class GitHubCache
 
     private static readonly SemaphoreSlim WriteLock = new SemaphoreSlim(1, 1);
     private const long MaxCacheBytes = 8L * 1024L * 1024L;
+    private const long FailureCooldownMs = 5L * 60L * 1000L;
+    private static readonly ConcurrentDictionary<string, long> FailedUntil = new(StringComparer.Ordinal);
 
     public static async Task<string?> GetStringAsync(
         string url,
@@ -51,6 +54,8 @@ internal static class GitHubCache
         {
             App.Logger.WriteException("GitHubCache::Read", ex);
         }
+        if (FailedUntil.TryGetValue(url, out long until) && Environment.TickCount64 < until)
+            return useStaleOnFailure ? cached : null;
         try
         {
             string fresh = await Http.GetString(url, token).ConfigureAwait(continueOnCapturedContext: false);
@@ -84,6 +89,7 @@ internal static class GitHubCache
             {
                 WriteLock.Release();
             }
+            FailedUntil.TryRemove(url, out _);
             return fresh;
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested)
@@ -92,6 +98,7 @@ internal static class GitHubCache
         }
         catch (Exception ex3)
         {
+            FailedUntil[url] = Environment.TickCount64 + FailureCooldownMs;
             App.Logger.WriteLine("GitHubCache::Fetch", $"Fetch failed for {url}, using cached copy: {cached != null}. {ex3.Message}");
             return useStaleOnFailure ? cached : null;
         }
