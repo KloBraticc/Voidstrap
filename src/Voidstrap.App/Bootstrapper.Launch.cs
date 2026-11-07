@@ -290,13 +290,13 @@ public partial class Bootstrapper
         }
         App.Logger.WriteLine(
             LOG_IDENT,
-            "Checking the launch for the Voidstrap Matchmaker, maximum 30 seconds"
+            "Checking the launch for the Voidstrap Matchmaker, maximum 10 seconds"
         );
         onSearching?.Invoke();
         MatchmakerDispatchTarget result = await ResolveMatchmakerDispatchTargetAsync(
             launchCommandLine,
             token => LaunchInterceptor.MaybeRewriteForClosestAsync(launchCommandLine, token),
-            TimeSpan.FromSeconds(30L),
+            TimeSpan.FromSeconds(10L),
             cancellationToken
         );
         switch (result.Outcome)
