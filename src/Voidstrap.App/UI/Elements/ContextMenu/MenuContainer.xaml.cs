@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -1707,9 +1707,21 @@ public partial class MenuContainer : WpfUiWindow
     {
         _screenshotWatcher?.Dispose();
         _screenshotWatcher = null;
-        if (_screenshotNotification != null && _screenshotNotification.IsUsable)
-            _screenshotNotification.Close();
+        NotificationWindow? notification = _screenshotNotification;
         _screenshotNotification = null;
+        if (notification == null || notification.Dispatcher.HasShutdownStarted)
+            return;
+        if (notification.Dispatcher.CheckAccess())
+        {
+            if (notification.IsUsable)
+                notification.Close();
+            return;
+        }
+        notification.Dispatcher.BeginInvoke(() =>
+        {
+            if (notification.IsUsable)
+                notification.Close();
+        });
     }
 
     private void OnRobloxScreenshot(string? path)
