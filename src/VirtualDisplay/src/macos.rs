@@ -197,8 +197,21 @@ fn refresh_rate(display: u32) -> f64 {
     unsafe { CGDisplayModeGetRefreshRate(current.0) }
 }
 
-fn refresh_rates(target: u32) -> Vec<f64> {
-    let target = target as f64;
+fn aligned_refresh(requested: u32, physical: f64) -> f64 {
+    let requested = requested as f64;
+    if !physical.is_finite() || physical < 24.0 {
+        return requested;
+    }
+    let physical = (physical * 100.0).round() / 100.0;
+    let multiple = (requested / physical).floor().max(1.0);
+    let aligned = ((physical * multiple) * 100.0).round() / 100.0;
+    if aligned > 480.0 {
+        return requested;
+    }
+    aligned
+}
+
+fn refresh_rates(target: f64) -> Vec<f64> {
     let mut rates = vec![target];
     rates.extend([60.0, 120.0].into_iter().filter(|rate| *rate != target));
     rates
@@ -374,7 +387,14 @@ impl Session {
             .size
             .map(|(w, h)| (w as usize, h as usize))
             .unwrap_or((0, 0));
-        let rates = refresh_rates(config.refresh);
+        let refresh = aligned_refresh(config.refresh, refresh_rate(physical));
+        if (refresh - config.refresh as f64).abs() >= 0.5 {
+            eprintln!(
+                "[virtualdisplay] using {refresh} Hz instead of {} Hz to match the physical display",
+                config.refresh
+            );
+        }
+        let rates = refresh_rates(refresh);
         let name = CString::from(DISPLAY_NAME);
         if unsafe {
             virtualdisplay::init(name.as_ptr(), width, height, rates.as_ptr(), rates.len())
@@ -388,7 +408,7 @@ impl Session {
             run_loop: unsafe { CFRunLoopGetCurrent() },
             active: false,
             ready: false,
-            refresh: config.refresh as f64,
+            refresh,
             mode_requested: None,
             error: None,
             stopped,
