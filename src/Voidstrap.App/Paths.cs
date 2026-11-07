@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -687,6 +687,12 @@ internal static class Paths
                 continue;
             }
 
+            if (Directory.Exists(full) && (ContainsPath(full, keep) || ContainsPath(full, running)))
+            {
+                removed += ClearDirectoryContents(full, keep, running);
+                continue;
+            }
+
             if (TryRemove(full))
             {
                 removed++;
@@ -794,6 +800,14 @@ internal static class Paths
             App.Logger?.WriteLine("Paths::ResetLegacyInstall", "Could not list " + root + ": " + ex.Message);
             return [];
         }
+    }
+
+    private static bool ContainsPath(string directory, string path)
+    {
+        if (path.Length == 0)
+            return false;
+        string prefix = directory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
+        return path.StartsWith(prefix, PathComparison);
     }
 
     private static bool TryRemove(string path)
