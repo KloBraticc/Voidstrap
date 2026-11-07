@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -522,7 +522,9 @@ public static class ServerFetchStore
                 _data.Servers[slash24Cidr] = value;
                 App.Logger.WriteLine(
                     "ServerFetchStore",
-                    $"New CIDR learned: {slash24Cidr} (initial label: {city ?? "?"}, {country ?? "?"})"
+                    string.IsNullOrEmpty(city)
+                        ? $"New CIDR learned: {slash24Cidr}, location pending"
+                        : $"New CIDR learned: {slash24Cidr} (initial label: {city}, {country ?? "?"})"
                 );
             }
             else
@@ -530,6 +532,7 @@ public static class ServerFetchStore
                 if (string.IsNullOrEmpty(value.City) && !string.IsNullOrEmpty(city))
                 {
                     value.City = city;
+                    App.Logger.WriteLine("ServerFetchStore", $"Located {slash24Cidr}: {city}, {country ?? "?"}");
                 }
                 if (string.IsNullOrEmpty(value.Region) && !string.IsNullOrEmpty(region))
                 {
