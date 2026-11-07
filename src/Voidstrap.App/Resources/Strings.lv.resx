@@ -9434,4 +9434,11 @@ Vai atļaut?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Rādīt paziņojumu, kad uzņem Roblox ekrānuzņēmumu.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Lieto modus, {0} no {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Modi lietoti, mainīti faili: {0}</value>
+  </data>
 </root>

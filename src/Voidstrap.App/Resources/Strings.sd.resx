@@ -9434,4 +9434,11 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>جڏهن توهان Roblox جو اسڪرين شاٽ وٺو ته اطلاع ڏيکاريو.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>موڊ لاڳو ٿي رهيا آهن، {1} مان {0}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>موڊ لاڳو ٿي ويا، {0} فائلون تبديل ٿيون</value>
+  </data>
 </root>

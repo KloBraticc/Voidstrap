@@ -9795,4 +9795,11 @@ Povolit?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Zobrazit oznámení, když pořídíte snímek obrazovky Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Použití modů, {0} z {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Mody byly použity, změněno souborů: {0}</value>
+  </data>
 </root>

@@ -9434,4 +9434,11 @@ kwe ya?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Gosi ọkwa mgbe ị sere foto ihuenyo Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Na-etinye mods, {0} n'ime {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Etinyela mods, faịlụ {0} gbanwere</value>
+  </data>
 </root>

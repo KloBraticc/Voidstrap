@@ -9433,4 +9433,11 @@ Kas lubada?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Näita teavitust, kui teed Robloxist kuvatõmmise.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Modide rakendamine, {0}/{1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Modid rakendatud, muudetud faile: {0}</value>
+  </data>
 </root>

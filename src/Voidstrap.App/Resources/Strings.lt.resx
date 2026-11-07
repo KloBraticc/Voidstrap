@@ -9796,4 +9796,11 @@ Leisti?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Rodyti pranešimą, kai darote Roblox ekrano kopiją.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Taikomos modifikacijos, {0} iš {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Modifikacijos pritaikytos, pakeista failų: {0}</value>
+  </data>
 </root>

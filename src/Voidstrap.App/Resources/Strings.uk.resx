@@ -9792,4 +9792,11 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Показувати сповіщення, коли Ви робите знімок екрана Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Застосування модів, {0} з {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Моди застосовано, змінено файлів: {0}</value>
+  </data>
 </root>

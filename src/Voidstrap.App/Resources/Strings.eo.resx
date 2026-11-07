@@ -9433,4 +9433,11 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Montri sciigon kiam vi faras ekrankopion de Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Aplikante modifojn, {0} el {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Modifoj aplikitaj, {0} dosieroj ŝanĝitaj</value>
+  </data>
 </root>

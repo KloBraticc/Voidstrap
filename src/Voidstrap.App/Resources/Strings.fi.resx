@@ -9795,4 +9795,11 @@ Sallitaanko?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Näytä ilmoitus, kun otat kuvakaappauksen Robloxista.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Otetaan modeja käyttöön, {0}/{1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Modit otettu käyttöön, {0} tiedostoa muutettu</value>
+  </data>
 </root>

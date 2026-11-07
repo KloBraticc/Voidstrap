@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -9480,5 +9480,12 @@ Allow it?</value>
   </data>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Show a notification when you take a screenshot of Roblox.</value>
+  </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Applying mods, {0} of {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Mods applied, {0} files changed</value>
   </data>
 </root>

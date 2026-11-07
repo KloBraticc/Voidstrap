@@ -9433,4 +9433,11 @@ Je, unairuhusu?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Onyesha arifa unapopiga picha ya skrini ya Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Inatumia mods, {0} kati ya {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Mods zimetumika, faili {0} zimebadilishwa</value>
+  </data>
 </root>

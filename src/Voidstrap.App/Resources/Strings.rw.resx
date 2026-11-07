@@ -9434,4 +9434,11 @@ Emera?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Erekana imenyesha iyo ufashe ifoto ya ekarani ya Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Gushyiraho mods, {0} kuri {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Mods zashyizweho, amadosiye {0} yahindutse</value>
+  </data>
 </root>

@@ -9434,4 +9434,11 @@ E lejon atë?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Shfaq një njoftim kur bën një pamje ekrani të Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Po zbatohen modet, {0} nga {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Modet u zbatuan, {0} skedarë u ndryshuan</value>
+  </data>
 </root>

@@ -9434,4 +9434,11 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>ನೀವು Roblox ನ ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ತೆಗೆದಾಗ ಅಧಿಸೂಚನೆ ತೋರಿಸಿ.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>ಮೋಡ್‌ಗಳನ್ನು ಅನ್ವಯಿಸಲಾಗುತ್ತಿದೆ, {1} ರಲ್ಲಿ {0}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>ಮೋಡ್‌ಗಳನ್ನು ಅನ್ವಯಿಸಲಾಗಿದೆ, {0} ಫೈಲ್‌ಗಳು ಬದಲಾಗಿವೆ</value>
+  </data>
 </root>

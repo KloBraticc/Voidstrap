@@ -9794,4 +9794,11 @@ Engedélyezed?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Értesítés megjelenítése, amikor képernyőképet készítesz a Robloxról.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Modok alkalmazása, {0}/{1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Modok alkalmazva, {0} fájl módosult</value>
+  </data>
 </root>

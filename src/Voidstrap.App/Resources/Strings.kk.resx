@@ -9434,4 +9434,11 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Roblox скриншотын түсіргенде хабарландыру көрсету.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Модтар қолданылуда, {0}/{1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Модтар қолданылды, {0} файл өзгерді</value>
+  </data>
 </root>

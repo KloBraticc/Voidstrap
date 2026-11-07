@@ -9433,4 +9433,11 @@ Ruxsat berasizmi?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Roblox skrinshotini olganingizda bildirishnoma ko'rsatish.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Modlar qoʻllanmoqda, {0}/{1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Modlar qoʻllandi, {0} ta fayl oʻzgardi</value>
+  </data>
 </root>

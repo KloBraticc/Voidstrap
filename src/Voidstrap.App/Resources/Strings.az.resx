@@ -9433,4 +9433,11 @@ icazə verilir?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Roblox ekran görüntüsü çəkdiyiniz zaman bildiriş göstər.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Modlar tətbiq olunur, {0}/{1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Modlar tətbiq olundu, {0} fayl dəyişdi</value>
+  </data>
 </root>

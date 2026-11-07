@@ -9797,4 +9797,11 @@ Consentire?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Mostra una notifica quando fai uno screenshot di Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Applicazione delle mod, {0} di {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Mod applicate, {0} file modificati</value>
+  </data>
 </root>

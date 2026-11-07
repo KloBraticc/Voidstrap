@@ -9793,4 +9793,11 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Roblox 스크린샷을 찍으면 알림을 표시합니다.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>모드를 적용하는 중입니다 ({0}/{1})
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>모드를 적용했습니다. 파일 {0}개가 변경되었습니다</value>
+  </data>
 </root>

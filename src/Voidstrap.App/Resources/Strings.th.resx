@@ -9789,4 +9789,11 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>แสดงการแจ้งเตือนเมื่อคุณถ่ายภาพหน้าจอ Roblox</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>กำลังใช้ม็อด {0} จาก {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>ใช้ม็อดแล้ว เปลี่ยนไฟล์ {0} ไฟล์</value>
+  </data>
 </root>

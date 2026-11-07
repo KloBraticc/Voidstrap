@@ -9433,4 +9433,11 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Roblox ၏ မျက်နှာပြင်ဓာတ်ပုံ ရိုက်သောအခါ အသိပေးချက် ပြပါ။</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>မော့ဒ်များ အသုံးချနေသည် {1} ထဲမှ {0}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>မော့ဒ်များ အသုံးချပြီး ဖိုင် {0} ခု ပြောင်းလဲသည်</value>
+  </data>
 </root>

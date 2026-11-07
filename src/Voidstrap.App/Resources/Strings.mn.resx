@@ -9434,4 +9434,11 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Roblox-ийн дэлгэцийн зураг авах үед мэдэгдэл харуулах.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Модуудыг хэрэглэж байна, {0}/{1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Модуудыг хэрэглэлээ, {0} файл өөрчлөгдсөн</value>
+  </data>
 </root>

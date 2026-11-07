@@ -9434,4 +9434,11 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Прикажи известување кога ќе направите слика од екранот на Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Се применуваат модови, {0} од {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Модовите се применети, променети датотеки: {0}</value>
+  </data>
 </root>

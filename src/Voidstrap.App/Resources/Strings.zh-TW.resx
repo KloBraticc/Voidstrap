@@ -9797,4 +9797,11 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>在你擷取 Roblox 螢幕畫面時顯示通知。</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>正在套用模組，{0}/{1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>模組已套用，已變更 {0} 個檔案</value>
+  </data>
 </root>

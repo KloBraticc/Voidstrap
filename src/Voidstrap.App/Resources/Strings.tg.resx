@@ -9433,4 +9433,11 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Ҳангоми гирифтани акси экрани Roblox огоҳӣ нишон диҳед.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Татбиқи модҳо, {0} аз {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Модҳо татбиқ шуданд, {0} файл тағйир ёфт</value>
+  </data>
 </root>

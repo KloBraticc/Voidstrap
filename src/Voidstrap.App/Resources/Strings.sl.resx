@@ -9434,4 +9434,11 @@ Dovoli?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Pokaži obvestilo, ko naredite posnetek zaslona Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Uveljavljanje modov, {0} od {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Modi uveljavljeni, spremenjenih datotek: {0}</value>
+  </data>
 </root>

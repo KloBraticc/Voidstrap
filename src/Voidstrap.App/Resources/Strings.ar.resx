@@ -9793,4 +9793,11 @@
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>أظهر إشعارًا عندما تلتقط لقطة شاشة لـ Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>جارٍ تطبيق التعديلات، {0} من {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>تم تطبيق التعديلات، تم تغيير {0} من الملفات</value>
+  </data>
 </root>

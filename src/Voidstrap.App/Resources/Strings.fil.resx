@@ -9792,4 +9792,11 @@ Payagan ba?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Magpakita ng notification kapag kumuha ka ng screenshot ng Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Inilalapat ang mga mod, {0} sa {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Nailapat na ang mga mod, {0} file ang nabago</value>
+  </data>
 </root>

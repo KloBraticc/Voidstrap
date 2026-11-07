@@ -9434,4 +9434,11 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>जब आप Roblox का स्क्रीनशॉट लें तो एक सूचना दिखाएं।</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>मॉड लागू किए जा रहे हैं, {1} में से {0}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>मॉड लागू हो गए, {0} फ़ाइलें बदलीं</value>
+  </data>
 </root>

@@ -9797,4 +9797,11 @@ Cho phép?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Hiển thị thông báo khi bạn chụp màn hình Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Đang áp dụng mod, {0} trên {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Đã áp dụng mod, {0} tệp đã thay đổi</value>
+  </data>
 </root>

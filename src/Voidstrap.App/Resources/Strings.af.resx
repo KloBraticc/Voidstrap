@@ -9433,4 +9433,11 @@ Laat dit toe?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Wys 'n kennisgewing wanneer jy 'n skermskoot van Roblox neem.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Mods word toegepas, {0} van {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Mods toegepas, {0} lêers verander</value>
+  </data>
 </root>

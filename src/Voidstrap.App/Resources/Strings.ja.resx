@@ -9809,4 +9809,11 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Roblox のスクリーンショットを撮ったときに通知を表示します。</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>MOD を適用しています ({0}/{1})
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>MOD を適用しました。{0} 個のファイルを変更しました</value>
+  </data>
 </root>

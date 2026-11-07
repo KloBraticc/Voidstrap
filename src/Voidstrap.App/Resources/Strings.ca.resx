@@ -9433,4 +9433,11 @@ Ho permets?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Mostra una notificació quan facis una captura de pantalla de Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>S'estan aplicant els mods, {0} de {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Mods aplicats, {0} fitxers canviats</value>
+  </data>
 </root>

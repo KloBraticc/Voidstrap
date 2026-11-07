@@ -9434,4 +9434,11 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>तुम्ही Roblox चा स्क्रीनशॉट घेता तेव्हा सूचना दाखवा.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>मॉड लागू केले जात आहेत, {1} पैकी {0}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>मॉड लागू झाले, {0} फाइल्स बदलल्या</value>
+  </data>
 </root>

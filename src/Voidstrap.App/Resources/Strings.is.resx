@@ -9434,4 +9434,11 @@ Leyfa það?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Sýna tilkynningu þegar þú tekur skjámynd af Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Beiti mods, {0} af {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Mods beitt, {0} skrám breytt</value>
+  </data>
 </root>

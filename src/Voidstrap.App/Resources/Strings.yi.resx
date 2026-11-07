@@ -9433,4 +9433,11 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>ווייז אַן אָנזאָג ווען דו נעמסט אַ סקרינשאָט פון Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>ווענדט אָן מאָדס, {0} פֿון {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>מאָדס אָנגעווענדט, {0} טעקעס געביטן</value>
+  </data>
 </root>

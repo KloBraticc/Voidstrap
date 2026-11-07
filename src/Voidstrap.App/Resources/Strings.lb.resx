@@ -9434,4 +9434,11 @@ Erlaabt et?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Weis eng Notifikatioun, wann s du e Screenshot vu Roblox mëss.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Mods ginn applizéiert, {0} vu {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Mods applizéiert, {0} Fichiere geännert</value>
+  </data>
 </root>

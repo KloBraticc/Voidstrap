@@ -9433,4 +9433,11 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Roblox ئېكران رەسىمى ئالغاندا ئۇقتۇرۇش كۆرسىتىش.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>مودلار قوللىنىلىۋاتىدۇ، {1} دىن {0}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>مودلار قوللىنىلدى، {0} ھۆججەت ئۆزگەردى</value>
+  </data>
 </root>

@@ -9433,4 +9433,11 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>جب آپ Roblox کا اسکرین شاٹ لیں تو اطلاع دکھائیں۔</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>موڈز لاگو کیے جا رہے ہیں، {1} میں سے {0}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>موڈز لاگو ہو گئے، {0} فائلیں تبدیل ہوئیں</value>
+  </data>
 </root>

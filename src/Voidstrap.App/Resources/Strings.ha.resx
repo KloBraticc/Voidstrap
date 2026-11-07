@@ -9434,4 +9434,11 @@ Bada shi?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Nuna sanarwa idan ka ɗauki hoton allon Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Ana amfani da mods, {0} daga {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>An yi amfani da mods, fayiloli {0} sun canza</value>
+  </data>
 </root>

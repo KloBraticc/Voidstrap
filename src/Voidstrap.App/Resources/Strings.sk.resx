@@ -9434,4 +9434,11 @@ Povoliť?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Zobraziť oznámenie, keď zhotovíte snímku obrazovky Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Používanie modov, {0} z {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Mody boli použité, zmenené súbory: {0}</value>
+  </data>
 </root>

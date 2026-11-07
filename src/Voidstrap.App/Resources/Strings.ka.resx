@@ -9434,4 +9434,11 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>შეტყობინების ჩვენება, როცა Roblox ეკრანის ანაბეჭდს იღებთ.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>მოდების გამოყენება, {0} / {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>მოდები გამოყენებულია, შეიცვალა {0} ფაილი</value>
+  </data>
 </root>

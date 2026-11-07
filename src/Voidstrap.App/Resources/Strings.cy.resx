@@ -9433,4 +9433,11 @@ Caniatáu iddo?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Dangos hysbysiad pan fyddwch yn tynnu sgrinlun o Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Yn gosod mods, {0} o {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Mods wedi'u gosod, {0} ffeil wedi newid</value>
+  </data>
 </root>

@@ -9434,4 +9434,11 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>کله چې تاسو د Roblox سکرین شاټ اخلئ خبرتیا وښایاست.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>موډونه پلي کېږي، {0} له {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>موډونه پلي شول، {0} فایلونه بدل شول</value>
+  </data>
 </root>

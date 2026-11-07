@@ -9433,4 +9433,11 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Roblox এর স্ক্রিনশট নিলে একটি বিজ্ঞপ্তি দেখান।</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>মড প্রয়োগ করা হচ্ছে, {1}টির মধ্যে {0}টি
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>মড প্রয়োগ করা হয়েছে, {0}টি ফাইল পরিবর্তিত</value>
+  </data>
 </root>

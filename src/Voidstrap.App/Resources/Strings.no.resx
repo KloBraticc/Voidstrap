@@ -9434,4 +9434,11 @@ Vil du tillate det?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Vis et varsel når du tar et skjermbilde av Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Bruker mods, {0} av {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Mods brukt, {0} filer endret</value>
+  </data>
 </root>

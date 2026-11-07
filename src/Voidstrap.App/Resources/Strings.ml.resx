@@ -9434,4 +9434,11 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>നിങ്ങൾ Roblox ന്റെ സ്ക്രീൻഷോട്ട് എടുക്കുമ്പോൾ ഒരു അറിയിപ്പ് കാണിക്കുക.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>മോഡുകൾ പ്രയോഗിക്കുന്നു, {1} ൽ {0}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>മോഡുകൾ പ്രയോഗിച്ചു, {0} ഫയലുകൾ മാറി</value>
+  </data>
 </root>

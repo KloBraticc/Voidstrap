@@ -9433,4 +9433,11 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>நீங்கள் Roblox திரைப்பிடிப்பு எடுக்கும்போது அறிவிப்பைக் காட்டு.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>மோட்கள் பயன்படுத்தப்படுகின்றன, {1} இல் {0}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>மோட்கள் பயன்படுத்தப்பட்டன, {0} கோப்புகள் மாற்றப்பட்டன</value>
+  </data>
 </root>

@@ -9794,4 +9794,11 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Muestra una notificación cuando hagas una captura de pantalla de Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Aplicando mods, {0} de {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Mods aplicados, {0} archivos cambiados</value>
+  </data>
 </root>

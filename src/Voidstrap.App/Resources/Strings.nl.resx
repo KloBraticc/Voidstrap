@@ -9796,4 +9796,11 @@ Toestaan?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Toon een melding wanneer je een screenshot van Roblox maakt.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Mods toepassen, {0} van {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Mods toegepast, {0} bestanden gewijzigd</value>
+  </data>
 </root>

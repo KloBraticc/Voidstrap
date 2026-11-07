@@ -9434,4 +9434,11 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>ສະແດງການແຈ້ງເຕືອນເມື່ອທ່ານຖ່າຍຮູບໜ້າຈໍ Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>ກຳລັງນຳໃຊ້ມັອດ {0} ຈາກ {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>ນຳໃຊ້ມັອດແລ້ວ ປ່ຽນໄຟລ໌ {0} ໄຟລ໌</value>
+  </data>
 </root>

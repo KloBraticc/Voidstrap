@@ -9796,4 +9796,11 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>هنگامی که از Roblox اسکرین‌شات می‌گیرید، یک اعلان نمایش داده شود.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>در حال اعمال مادها، {0} از {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>مادها اعمال شدند، {0} فایل تغییر کرد</value>
+  </data>
 </root>

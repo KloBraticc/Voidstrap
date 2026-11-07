@@ -9434,4 +9434,11 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>ଆପଣ Roblox ର ସ୍କ୍ରିନସଟ ନେଲେ ଏକ ବିଜ୍ଞପ୍ତି ଦେଖାନ୍ତୁ।</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>ମୋଡ୍ ପ୍ରୟୋଗ ହେଉଛି, {1} ମଧ୍ୟରୁ {0}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>ମୋଡ୍ ପ୍ରୟୋଗ ହେଲା, {0}ଟି ଫାଇଲ୍ ବଦଳିଲା</value>
+  </data>
 </root>

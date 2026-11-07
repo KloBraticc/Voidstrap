@@ -9434,4 +9434,11 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>ඔබ Roblox තිර රුවක් ගන්නා විට දැනුම්දීමක් පෙන්වන්න.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>මෝඩ් යොදමින්, {1} න් {0}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>මෝඩ් යොදන ලදී, ගොනු {0} ක් වෙනස් විය</value>
+  </data>
 </root>

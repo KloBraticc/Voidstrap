@@ -9433,4 +9433,11 @@ E lumella?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Bontsha tsebiso ha o nka setshwantsho sa skrine sa Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Ho kenya mods, {0} ho {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Mods di kentswe, difaele tse {0} di fetohile</value>
+  </data>
 </root>

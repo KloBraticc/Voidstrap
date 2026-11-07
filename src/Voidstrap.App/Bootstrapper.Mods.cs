@@ -82,6 +82,59 @@ public partial class Bootstrapper
         }
     }
 
+    private async Task ReportModApplyProgressAsync(
+        Func<(int Done, string? Current)> read,
+        int total,
+        IReadOnlyDictionary<string, string> labels,
+        CancellationToken token
+    )
+    {
+        const string LOG_IDENT = "Bootstrapper::ReportModApplyProgressAsync";
+
+        string? last = null;
+        try
+        {
+            while (!token.IsCancellationRequested)
+            {
+                await Task.Delay(500, token).ConfigureAwait(false);
+                (int done, string? current) = read();
+                string detail = string.Empty;
+                if (!string.IsNullOrEmpty(current))
+                {
+                    string label = labels.TryGetValue(current, out string? name) && !string.IsNullOrWhiteSpace(name)
+                        ? name
+                        : "VoidstrapMods";
+                    detail = label + ": " + Path.GetFileName(current);
+                }
+                string text = FormatModStatus(Strings.Bootstrapper_Status_ApplyingModProgress, Math.Min(done, total), total, detail).TrimEnd();
+                if (text != last)
+                {
+                    last = text;
+                    SetStatus(text);
+                }
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Mod progress status stopped: " + ex.Message);
+        }
+    }
+
+    private static string FormatModStatus(string format, params object[] args)
+    {
+        try
+        {
+            return string.Format(format, args);
+        }
+        catch (FormatException)
+        {
+            return Strings.Bootstrapper_Status_ApplyingModifications;
+        }
+    }
+
     private async Task ApplyModifications()
     {
         const string LOG_IDENT = "Bootstrapper::ApplyModifications";
@@ -131,6 +184,7 @@ public partial class Bootstrapper
         int appliedModCount = 0;
         int failedModCount = 0;
         Dictionary<string, string> selectedMods = new(StringComparer.OrdinalIgnoreCase);
+        Dictionary<string, string> modLabels = new(StringComparer.OrdinalIgnoreCase);
         Dictionary<string, List<string>> nextManagedManifest = new(StringComparer.OrdinalIgnoreCase);
         HashSet<string> preservedManagedPaths = new(StringComparer.OrdinalIgnoreCase);
         FileModManager.FolderGate.Wait();
@@ -214,6 +268,7 @@ public partial class Bootstrapper
                 if (IsStudioLaunch && file.Relative.StartsWith("PlatformContent\\pc\\textures\\sky", StringComparison.OrdinalIgnoreCase))
                     continue;
                 selectedMods[file.Relative] = file.Source;
+                modLabels[file.Relative] = file.Mod.Name;
                 nextManagedManifest[file.Mod.Id].Add(file.Relative);
             }
             Dictionary<string, List<string>> previousManagedManifest = GetPreviousManagedModManifest();
@@ -324,48 +379,76 @@ public partial class Bootstrapper
             : new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         ConcurrentDictionary<string, string> nextCache = new(StringComparer.OrdinalIgnoreCase);
         ConcurrentQueue<(string Relative, string Message)> applyErrors = new();
-        await Parallel.ForEachAsync(
-            pendingMods,
-            new ParallelOptions { MaxDegreeOfParallelism = ModApplyConcurrency, CancellationToken = _cancelTokenSource.Token },
-            (item, token) =>
-            {
-                token.ThrowIfCancellationRequested();
-                try
+        int processedModCount = 0;
+        string? currentModFile = null;
+        using CancellationTokenSource progressStop = new();
+        Task progressReporter = pendingMods.Count == 0
+            ? Task.CompletedTask
+            : ReportModApplyProgressAsync(
+                () => (Volatile.Read(ref processedModCount), Volatile.Read(ref currentModFile)),
+                pendingMods.Count,
+                modLabels,
+                progressStop.Token
+            );
+        try
+        {
+            await Parallel.ForEachAsync(
+                pendingMods,
+                new ParallelOptions { MaxDegreeOfParallelism = ModApplyConcurrency, CancellationToken = _cancelTokenSource.Token },
+                (item, token) =>
                 {
-                    FileInfo sourceInfo = new(item.Source);
-                    FileInfo targetInfo = new(item.Target);
-                    string fingerprint = BuildModFingerprint(sourceInfo, targetInfo);
-                    if (
-                        targetInfo.Exists
-                        && previousCache.TryGetValue(item.Relative, out string? cached)
-                        && string.Equals(cached, fingerprint, StringComparison.Ordinal)
-                    )
+                    token.ThrowIfCancellationRequested();
+                    try
                     {
-                        nextCache[item.Relative] = fingerprint;
-                        return ValueTask.CompletedTask;
+                        FileInfo sourceInfo = new(item.Source);
+                        FileInfo targetInfo = new(item.Target);
+                        string fingerprint = BuildModFingerprint(sourceInfo, targetInfo);
+                        if (
+                            targetInfo.Exists
+                            && previousCache.TryGetValue(item.Relative, out string? cached)
+                            && string.Equals(cached, fingerprint, StringComparison.Ordinal)
+                        )
+                        {
+                            nextCache[item.Relative] = fingerprint;
+                            return ValueTask.CompletedTask;
+                        }
+                        bool same =
+                            cacheVersionMatches
+                            && targetInfo.Exists
+                            && sourceInfo.Length == targetInfo.Length
+                            && MD5Hash.FromFile(item.Source) == MD5Hash.FromFile(item.Target);
+                        if (!same)
+                        {
+                            Volatile.Write(ref currentModFile, item.Relative);
+                            Filesystem.AssertReadOnly(item.Target);
+                            File.Copy(item.Source, item.Target, overwrite: true);
+                            Interlocked.Increment(ref appliedModCount);
+                            targetInfo.Refresh();
+                        }
+                        nextCache[item.Relative] = BuildModFingerprint(sourceInfo, targetInfo);
                     }
-                    bool same =
-                        cacheVersionMatches
-                        && targetInfo.Exists
-                        && sourceInfo.Length == targetInfo.Length
-                        && MD5Hash.FromFile(item.Source) == MD5Hash.FromFile(item.Target);
-                    if (!same)
+                    catch (Exception ex)
                     {
-                        Filesystem.AssertReadOnly(item.Target);
-                        File.Copy(item.Source, item.Target, overwrite: true);
-                        Interlocked.Increment(ref appliedModCount);
-                        targetInfo.Refresh();
+                        Interlocked.Increment(ref failedModCount);
+                        applyErrors.Enqueue((item.Relative, ex.Message));
                     }
-                    nextCache[item.Relative] = BuildModFingerprint(sourceInfo, targetInfo);
+                    finally
+                    {
+                        Interlocked.Increment(ref processedModCount);
+                    }
+                    return ValueTask.CompletedTask;
                 }
-                catch (Exception ex)
-                {
-                    Interlocked.Increment(ref failedModCount);
-                    applyErrors.Enqueue((item.Relative, ex.Message));
-                }
-                return ValueTask.CompletedTask;
-            }
-        );
+            );
+        }
+        finally
+        {
+            progressStop.Cancel();
+            await progressReporter.ConfigureAwait(false);
+        }
+        if (appliedModCount > 0)
+        {
+            SetStatus(FormatModStatus(Strings.Bootstrapper_Status_ModsApplied, appliedModCount));
+        }
         while (applyErrors.TryDequeue(out (string Relative, string Message) error))
         {
             App.Logger.WriteLine(LOG_IDENT, "Could not apply " + error.Relative + ": " + error.Message);

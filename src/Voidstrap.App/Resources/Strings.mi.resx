@@ -9434,4 +9434,11 @@ Whakaaetia?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Whakaaturia he whakamōhiotanga ina tangohia e koe he whakaahua mata o Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>E whakamahi ana i ngā mods, {0} o {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Kua whakamahia ngā mods, {0} kōnae kua huri</value>
+  </data>
 </root>

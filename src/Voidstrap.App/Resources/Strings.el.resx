@@ -9433,4 +9433,11 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Εμφάνιση ειδοποίησης όταν τραβάτε στιγμιότυπο οθόνης του Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Εφαρμογή mods, {0} από {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Τα mods εφαρμόστηκαν, άλλαξαν {0} αρχεία</value>
+  </data>
 </root>

@@ -9433,4 +9433,11 @@ Rugsat beriň?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Roblox ekran suratyny alanyňyzda habarnama görkez.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Modlar ulanylýar, {0}/{1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Modlar ulanyldy, {0} faýl üýtgedildi</value>
+  </data>
 </root>

@@ -3188,6 +3188,18 @@ namespace Voidstrap.Resources {
             }
         }
         
+        public static string Bootstrapper_Status_ApplyingModProgress {
+            get {
+                return ResourceManager.GetString("Bootstrapper.Status.ApplyingModProgress", resourceCulture);
+            }
+        }
+        
+        public static string Bootstrapper_Status_ModsApplied {
+            get {
+                return ResourceManager.GetString("Bootstrapper.Status.ModsApplied", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Cancelling Roblox upgrade..
         /// </summary>

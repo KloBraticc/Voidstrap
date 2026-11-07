@@ -9433,4 +9433,11 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>የRoblox ቅጽበታዊ ገጽ እይታ ሲያነሱ ማሳወቂያ አሳይ።</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>ሞዶች በመተግበር ላይ፣ {0} ከ {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>ሞዶች ተተግብረዋል፣ {0} ፋይሎች ተቀይረዋል</value>
+  </data>
 </root>

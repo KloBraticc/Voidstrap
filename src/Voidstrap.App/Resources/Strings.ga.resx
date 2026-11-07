@@ -9434,4 +9434,11 @@ Ceadaigh é?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Taispeáin fógra nuair a ghlacann tú gabháil scáileáin de Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Modhanna á gcur i bhfeidhm, {0} as {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Modhanna curtha i bhfeidhm, {0} comhad athraithe</value>
+  </data>
 </root>

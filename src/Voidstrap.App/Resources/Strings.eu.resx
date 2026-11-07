@@ -9433,4 +9433,11 @@ Baimendu al duzu?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Erakutsi jakinarazpen bat Roblox-en pantaila-argazki bat ateratzen duzunean.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Modak aplikatzen, {0}/{1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Modak aplikatuta, {0} fitxategi aldatuta</value>
+  </data>
 </root>

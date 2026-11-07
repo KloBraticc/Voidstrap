@@ -9434,4 +9434,11 @@ Avelao izany?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Asehoy ny fampandrenesana rehefa maka pikantsarin'ny Roblox ianao.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Mampihatra mods, {0} amin'ny {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Voapetraka ny mods, rakitra {0} no niova</value>
+  </data>
 </root>

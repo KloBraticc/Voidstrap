@@ -9434,4 +9434,11 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>तपाईंले Roblox को स्क्रिनसट लिँदा सूचना देखाउनुहोस्।</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>मोडहरू लागू गरिँदै, {1} मध्ये {0}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>मोडहरू लागू भए, {0} फाइलहरू परिवर्तन भए</value>
+  </data>
 </root>

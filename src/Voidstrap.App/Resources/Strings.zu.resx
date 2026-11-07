@@ -9433,4 +9433,11 @@ Uyakuvumela?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Bonisa isaziso uma uthatha isithombe-skrini se Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Kufakwa ama-mod, {0} kwangu-{1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Ama-mod afakiwe, amafayela angu-{0} ashintshiwe</value>
+  </data>
 </root>

@@ -9786,4 +9786,11 @@ Benarkan?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Tunjukkan pemberitahuan apabila anda mengambil tangkapan skrin Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Menggunakan mod, {0} daripada {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Mod telah digunakan, {0} fail diubah</value>
+  </data>
 </root>

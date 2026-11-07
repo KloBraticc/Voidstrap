@@ -9795,4 +9795,11 @@ Zezwolić?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Pokaż powiadomienie, gdy zrobisz zrzut ekranu Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Stosowanie modów, {0} z {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Mody zastosowane, zmienione pliki: {0}</value>
+  </data>
 </root>

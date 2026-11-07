@@ -9818,4 +9818,11 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>在您截取 Roblox 截图时显示通知。</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>正在应用模组，{0}/{1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>模组已应用，已更改 {0} 个文件</value>
+  </data>
 </root>

@@ -9433,4 +9433,11 @@ Gba laaye?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Fi iwifunni han nigbati o ba ya aworan iboju Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Ń lo àwọn mod, {0} nínú {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>A ti lo àwọn mod, fáìlì {0} ti yí padà</value>
+  </data>
 </root>

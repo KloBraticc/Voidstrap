@@ -9794,4 +9794,11 @@ Tillåta?</value>
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Visa en avisering när du tar en skärmbild av Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Tillämpar moddar, {0} av {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Moddar tillämpade, {0} filer ändrade</value>
+  </data>
 </root>

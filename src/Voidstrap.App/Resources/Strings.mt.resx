@@ -9434,4 +9434,11 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Uri notifika meta tieħu screenshot ta' Roblox.</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Qed jiġu applikati l-mods, {0} minn {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Il-mods ġew applikati, {0} fajls inbidlu</value>
+  </data>
 </root>

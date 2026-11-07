@@ -9434,4 +9434,11 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>បង្ហាញការជូនដំណឹងនៅពេលអ្នកថតរូបអេក្រង់ Roblox។</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>កំពុងអនុវត្តម៉ូដ {0} នៃ {1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>បានអនុវត្តម៉ូដ ឯកសារ {0} បានផ្លាស់ប្តូរ</value>
+  </data>
 </root>

@@ -9434,4 +9434,11 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Mods.ScreenshotNotify.Description" xml:space="preserve">
     <value>Ցույց տալ ծանուցում, երբ Roblox-ի էկրանի նկար եք անում։</value>
   </data>
+  <data name="Bootstrapper.Status.ApplyingModProgress" xml:space="preserve">
+    <value>Մոդերը կիրառվում են, {0}/{1}
+{2}</value>
+  </data>
+  <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
+    <value>Մոդերը կիրառվեցին, փոխվել է {0} ֆայլ</value>
+  </data>
 </root>
