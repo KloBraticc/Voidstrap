@@ -26,7 +26,7 @@ public static class VoidstrapMatchmaker
 
     private const int FilteredCandidateCeiling = 80;
 
-    private const int ProbeConcurrency = 8;
+    private const int ProbeConcurrency = 4;
 
     private const int JoinTimeoutMs = 2500;
 
