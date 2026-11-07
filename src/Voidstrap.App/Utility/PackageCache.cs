@@ -10,9 +10,9 @@ public static class PackageCache
 {
     private const string LOG_IDENT = "PackageCache";
 
-    private const long MaxBudgetBytes = 6L * 1024 * 1024 * 1024;
+    private const long MaxBudgetBytes = 768L * 1024 * 1024;
 
-    private static readonly TimeSpan StalePackageAge = TimeSpan.FromDays(14);
+    private static readonly TimeSpan StalePackageAge = TimeSpan.FromDays(7);
 
     public static void Touch(string path)
     {
@@ -83,10 +83,15 @@ public static class PackageCache
                 .ToList();
             long total = files.Sum(f => f.Length);
             DateTime staleBefore = DateTime.UtcNow - StalePackageAge;
-            foreach (FileInfo file in files.Where(f => !keep.Contains(f.Name)).OrderBy(f => f.LastWriteTimeUtc))
+            IEnumerable<FileInfo> evictionOrder = files
+                .Where(f => !keep.Contains(f.Name))
+                .OrderBy(f => f.LastWriteTimeUtc)
+                .Concat(files.Where(f => keep.Contains(f.Name)).OrderBy(f => f.LastWriteTimeUtc));
+            foreach (FileInfo file in evictionOrder)
             {
-                if (total <= budget && file.LastWriteTimeUtc >= staleBefore)
-                    break;
+                bool kept = keep.Contains(file.Name);
+                if (total <= budget && (kept || file.LastWriteTimeUtc >= staleBefore))
+                    continue;
                 try
                 {
                     long length = file.Length;
