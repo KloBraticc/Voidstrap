@@ -1,3 +1,5 @@
+<a id="readme-top"></a>
+
 <p align="center">
 <a href="https://voidstrapp.pages.dev/">
 <img src="https://github.com/KloBraticc/Voidstrap/blob/main/src/Voidstrap.App/Voidstrap.png" alt="preview" width="100px"/>
@@ -578,6 +580,8 @@ Voidstrap would not exist without the projects and people below. Thank you all.
 
 - **[Sober](https://sober.vinegarhq.org)** and **[Vinegar](https://github.com/vinegarhq/vinegar)** by VinegarHQ, which run Roblox and Roblox Studio on Linux.
 - **[Bibata Cursor](https://github.com/ful1e5/Bibata_Cursor)** by ful1e5, used for custom cursors.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## License
 
