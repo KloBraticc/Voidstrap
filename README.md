@@ -554,6 +554,7 @@ Voidstrap would not exist without the projects and people below. Thank you all.
 ### Inspiration
 
 - **[Froststrap](https://github.com/Froststrap)**, the inspiration for the title bar and many UI elements, the mod generator, the virtual display, and some of our custom cursor features.
+- **[Fishstrap](https://github.com/fishstrap/fishstrap)**, the inspiration for many features and ideas.
 - **[Chevstrap](https://github.com/FrosSky/Chevstrap)**, the inspiration for the Android app, with attributed Android adaptations.
 - **[Helium](https://github.com/imputnet/helium)**, the inspiration for the title bar UI.
 - **[Claude Code](https://claude.com/claude-code)** by Anthropic, the inspiration for the title bar UI.
