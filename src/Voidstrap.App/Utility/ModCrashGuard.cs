@@ -66,7 +66,7 @@ internal static class ModCrashGuard
             state.HasLastGood = true;
             state.LastGoodModIds = [.. ManagedModStore.Load().Where(record => record.Enabled).Select(record => record.Id)];
             Save(state);
-            App.Logger?.WriteLine(LogIdent, "Roblox settled with " + state.LastGoodModIds.Count + " mods enabled, remembering this set as working");
+            App.Logger?.WriteLine(LogIdent, "Roblox settled with " + state.LastGoodModIds.Count + " managed mods enabled, remembering this set as working");
         }
     }
 
