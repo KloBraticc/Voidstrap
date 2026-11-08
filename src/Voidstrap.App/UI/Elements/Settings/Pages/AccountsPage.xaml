@@ -1,4 +1,4 @@
-<ui:UiPage
+﻿<ui:UiPage
     x:Class="Voidstrap.UI.Elements.Settings.Pages.AccountsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -279,9 +279,9 @@
                   </ItemsControl.ItemsPanel>
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                      <ui:Button Height="120" Margin="3" Padding="0" Appearance="Transparent" ToolTip="{resources:Loc Accounts_Outfits_Wear}" Command="{Binding DataContext.WearOutfitCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}" HorizontalContentAlignment="Stretch">
-                        <StackPanel>
-                          <Grid Height="92" util:RoundedClip.Radius="6">
+                      <ui:Button Height="120" Margin="3" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Appearance="Transparent" ToolTip="{resources:Loc Accounts_Outfits_Wear}" Command="{Binding DataContext.WearOutfitCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}" HorizontalContentAlignment="Stretch">
+                        <StackPanel HorizontalAlignment="Stretch">
+                          <Grid Height="92" HorizontalAlignment="Stretch" util:RoundedClip.Radius="6">
                             <Border Background="{DynamicResource ControlFillColorSecondaryBrush}" />
                             <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding ImageUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
                             <ui:ProgressRing Width="18" Height="18" IsIndeterminate="True" Visibility="{Binding Busy, Converter={StaticResource BooleanToVisibilityConverter}}" />

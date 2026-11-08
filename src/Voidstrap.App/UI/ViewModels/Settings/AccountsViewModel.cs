@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -860,16 +860,11 @@ namespace Voidstrap.UI.ViewModels.Settings
                 }
                 if (loaded.Count > 0)
                 {
-                    Dictionary<long, string> thumbs = await FetchOutfitThumbnailsAsync(loaded.Select(o => o.Id), token);
-                    if (token.IsCancellationRequested)
-                        return;
                     foreach (OutfitRow outfit in loaded)
-                    {
-                        if (thumbs.TryGetValue(outfit.Id, out string? url))
-                            outfit.ImageUrl = url;
                         Outfits.Add(outfit);
-                    }
                     UpdateOutfitPage();
+                    OnPropertyChanged(nameof(OutfitsVisibility));
+                    await FillOutfitThumbnailsAsync(loaded, token);
                 }
             }
             catch (OperationCanceledException) { }
@@ -880,36 +875,33 @@ namespace Voidstrap.UI.ViewModels.Settings
             OnPropertyChanged(nameof(OutfitsVisibility));
         }
 
-        private static async Task<Dictionary<long, string>> FetchOutfitThumbnailsAsync(IEnumerable<long> outfitIds, CancellationToken token)
+        private static readonly int[] OutfitThumbnailRetryDelaysMs = [1000, 1500, 2500, 4000, 6000, 8000, 10000, 15000];
+
+        private static async Task FillOutfitThumbnailsAsync(List<OutfitRow> outfits, CancellationToken token)
         {
-            const string LOG_IDENT = "AccountsViewModel::FetchOutfitThumbnailsAsync";
-            Dictionary<long, string> result = new();
-            List<long> ids = outfitIds.ToList();
-            for (int i = 0; i < ids.Count; i += 50)
+            const string LOG_IDENT = "AccountsViewModel::FillOutfitThumbnailsAsync";
+            Dictionary<long, OutfitRow> byId = outfits.GroupBy(o => o.Id).ToDictionary(g => g.Key, g => g.First());
+            List<long> remaining = byId.Keys.ToList();
+            for (int attempt = 0; attempt <= OutfitThumbnailRetryDelaysMs.Length && remaining.Count > 0; attempt++)
             {
-                List<long> chunk = ids.GetRange(i, Math.Min(50, ids.Count - i));
-                for (int attempt = 0; attempt < 6 && chunk.Count > 0; attempt++)
+                if (attempt > 0)
+                    await Task.Delay(OutfitThumbnailRetryDelaysMs[attempt - 1], token);
+                List<long> next = new();
+                for (int i = 0; i < remaining.Count; i += 50)
                 {
-                    if (attempt > 0)
-                    {
-                        try
-                        {
-                            await Task.Delay(1500, token).ConfigureAwait(false);
-                        }
-                        catch (OperationCanceledException)
-                        {
-                            throw;
-                        }
-                    }
-                    List<long> resolved = await RequestThumbnailBatchAsync(chunk, result, token).ConfigureAwait(false);
-                    chunk = resolved;
+                    List<long> chunk = remaining.GetRange(i, Math.Min(50, remaining.Count - i));
+                    Dictionary<long, string> found = new();
+                    next.AddRange(await RequestThumbnailBatchAsync(chunk, found, token));
+                    if (token.IsCancellationRequested)
+                        return;
+                    foreach ((long id, string url) in found)
+                        if (byId.TryGetValue(id, out OutfitRow? row))
+                            row.ImageUrl = url;
                 }
-                if (chunk.Count > 0)
-                {
-                    App.Logger?.WriteLine(LOG_IDENT, chunk.Count + " outfit thumbnails never finished rendering");
-                }
+                remaining = next;
             }
-            return result;
+            if (remaining.Count > 0)
+                App.Logger?.WriteLine(LOG_IDENT, remaining.Count + " outfit thumbnails never finished rendering");
         }
 
         private static async Task<List<long>> RequestThumbnailBatchAsync(List<long> ids, Dictionary<long, string> result, CancellationToken token)
@@ -943,7 +935,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                         continue;
                     if (state == "Completed" && img.Length > 0)
                         result[id] = img;
-                    else if (state == "Pending" || state == "Blocked")
+                    else if (state is "Pending" or "InReview" or "Error")
                         pending.Add(id);
                 }
             }
