@@ -828,7 +828,7 @@
                       <ComboBox Width="170" ItemsSource="{Binding Servers.Regions}" SelectedItem="{Binding Servers.SelectedRegion, Mode=TwoWay}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,2,16,2">
-                      <CheckBox VerticalAlignment="Center" FontSize="12" IsChecked="{Binding Servers.HideFull, Mode=TwoWay}" Content="{resources:Loc ContextMenu_ServerBrowser_ExcludeFull}" />
+                      <CheckBox MinWidth="0" MinHeight="0" Padding="8,0,0,0" VerticalAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding Servers.HideFull, Mode=TwoWay}"><TextBlock VerticalAlignment="Center" FontSize="12" Text="{resources:Loc ContextMenu_ServerBrowser_ExcludeFull}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" /></CheckBox>
                     </StackPanel>
                   </WrapPanel>
                   <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
