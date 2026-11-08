@@ -137,7 +137,6 @@ namespace Voidstrap.UI.ViewModels.Settings
         private bool _importVisible;
         private bool _busy;
         private bool _disposed;
-        private bool _outfitsFailed;
         private string _robux = "";
         private string _premium = "";
         private string _joined = "";
@@ -308,7 +307,6 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public Visibility OutfitsVisibility => Outfits.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
 
-        public Visibility OutfitsEmptyVisibility => _selected != null && Outfits.Count == 0 && !_outfitsFailed ? Visibility.Visible : Visibility.Collapsed;
 
         public async Task LoadAsync()
         {
@@ -752,9 +750,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             _detailCts = null;
             Robux = Premium = Joined = Friends = Followers = "";
             Outfits.Clear();
-            _outfitsFailed = false;
             OnPropertyChanged(nameof(OutfitsVisibility));
-            OnPropertyChanged(nameof(OutfitsEmptyVisibility));
             if (row == null || row.Model.UserId == 0)
                 return;
             _detailCts = CancellationTokenSource.CreateLinkedTokenSource(_cts.Token);
@@ -846,11 +842,9 @@ namespace Voidstrap.UI.ViewModels.Settings
             catch (OperationCanceledException) { }
             catch (Exception ex)
             {
-                _outfitsFailed = true;
                 App.Logger?.WriteLine(LOG_IDENT, "The outfit list could not be loaded: " + ex.Message);
             }
             OnPropertyChanged(nameof(OutfitsVisibility));
-            OnPropertyChanged(nameof(OutfitsEmptyVisibility));
         }
 
         private static async Task<Dictionary<long, string>> FetchOutfitThumbnailsAsync(IEnumerable<long> outfitIds, CancellationToken token)
@@ -873,7 +867,12 @@ namespace Voidstrap.UI.ViewModels.Settings
                 try
                 {
                     using JsonDocument doc = JsonDocument.Parse(response.Body);
-                    foreach (JsonElement el in doc.RootElement.EnumerateArray())
+                    JsonElement items = doc.RootElement.ValueKind == JsonValueKind.Array
+                        ? doc.RootElement
+                        : doc.RootElement.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array ? data : default;
+                    if (items.ValueKind != JsonValueKind.Array)
+                        continue;
+                    foreach (JsonElement el in items.EnumerateArray())
                     {
                         long id = el.TryGetProperty("targetId", out JsonElement t) && t.TryGetInt64(out long l) ? l : 0;
                         string img = el.TryGetProperty("imageUrl", out JsonElement iu) ? iu.GetString() ?? "" : "";

@@ -261,7 +261,7 @@
             </StackPanel>
           </controls:OptionControl>
 
-          <controls:OptionControl Header="{resources:Loc Accounts_Outfits}">
+          <controls:OptionControl Header="{resources:Loc Accounts_Outfits}" Visibility="{Binding OutfitsVisibility}">
             <StackPanel>
               <ScrollViewer MaxHeight="260" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Top">
                 <ItemsControl ItemsSource="{Binding Outfits}">
@@ -288,7 +288,6 @@
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
               </ScrollViewer>
-              <TextBlock Margin="4,6,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Accounts_Outfits_Empty}" Visibility="{Binding OutfitsEmptyVisibility}" />
             </StackPanel>
           </controls:OptionControl>
 
