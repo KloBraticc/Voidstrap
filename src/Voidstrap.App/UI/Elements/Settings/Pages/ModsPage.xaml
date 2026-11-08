@@ -428,14 +428,7 @@
                       <TextBlock Margin="0,6,0,0" MaxWidth="460" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Mods_AnythingThatFailsTheRobloxAnd}" />
                     </StackPanel>
                   </Border>
-                  <ItemsControl MaxHeight="640" ItemsSource="{Binding Mods}" Focusable="False" ScrollViewer.VerticalScrollBarVisibility="Auto" SizeChanged="CommunityGrid_SizeChanged">
-                    <ItemsControl.Template>
-                      <ControlTemplate TargetType="{x:Type ItemsControl}">
-                        <ScrollViewer Focusable="False" CanContentScroll="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                          <ItemsPresenter />
-                        </ScrollViewer>
-                      </ControlTemplate>
-                    </ItemsControl.Template>
+                  <ItemsControl ItemsSource="{Binding Mods}" Focusable="False" SizeChanged="CommunityGrid_SizeChanged">
                     <ItemsControl.ItemsPanel>
                       <ItemsPanelTemplate>
                         <UniformGrid VerticalAlignment="Top" Columns="{Binding ModColumns}" />
@@ -458,7 +451,7 @@
                           </Button.Template>
                           <Grid>
                             <Grid.RowDefinitions>
-                              <RowDefinition Height="150" />
+                              <RowDefinition Height="112" />
                               <RowDefinition Height="1" />
                               <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
@@ -466,15 +459,15 @@
                               <Image Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl, Mode=OneTime}" />
                             </Border>
                             <Rectangle Grid.Row="1" Fill="{DynamicResource CardStrokeColorDefaultBrush}" />
-                            <StackPanel Grid.Row="2" Margin="14,12,14,12">
-                              <TextBlock FontSize="15" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Name, Mode=OneTime}" ToolTip="{Binding Name, Mode=OneTime}" />
-                              <TextBlock Margin="0,6,0,0" Height="38" FontSize="13" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Summary, Mode=OneTime}" />
-                              <Grid Margin="0,10,0,0">
+                            <StackPanel Grid.Row="2" Margin="12,9,12,9">
+                              <TextBlock FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Name, Mode=OneTime}" ToolTip="{Binding Name, Mode=OneTime}" />
+                              <TextBlock Margin="0,4,0,0" Height="32" FontSize="12" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Summary, Mode=OneTime}" />
+                              <Grid Margin="0,6,0,0">
                                 <Grid.ColumnDefinitions>
                                   <ColumnDefinition Width="*" />
                                   <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock VerticalAlignment="Center" FontSize="13" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Author, Mode=OneTime}" />
+                                <TextBlock VerticalAlignment="Center" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Author, Mode=OneTime}" />
                                 <ui:Button Grid.Column="1" Width="28" Height="28" Padding="0" Appearance="Transparent" Icon="Open24" ToolTip="{resources:Loc Ui_Mods_Page}" AutomationProperties.Name="{resources:Loc Ui_Mods_Page}" Tag="{Binding}" Click="CommunityModPage_Click" />
                               </Grid>
                             </StackPanel>

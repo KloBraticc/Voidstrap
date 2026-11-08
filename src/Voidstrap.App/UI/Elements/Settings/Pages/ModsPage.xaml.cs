@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -427,7 +427,7 @@ public partial class ModsPage : UiPage
 
     private void CommunityGrid_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        const double CardWidth = 270;
+        const double CardWidth = 210;
         ViewModel.CommunityMods.ModColumns = Math.Max(1, (int)(e.NewSize.Width / CardWidth));
     }
 
