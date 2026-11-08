@@ -202,7 +202,7 @@
 		<None Include="..\..\external\WindowsSdkTrimmed\Microsoft.Windows.SDK.NET.dll" Link="Microsoft.Windows.SDK.NET.dll" Visible="false" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 		<!-- <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" /> -->
 
-		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.367">
+		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.369">
 			<!--<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>-->
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
