@@ -63,38 +63,6 @@
               </controls:OptionControl>
             </StackPanel>
           </ui:CardExpander>
-          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
-            <HeaderedContentControl.Header>
-              <StackPanel>
-                <TextBlock FontSize="14" Text="{resources:Loc Ui_Bootstrapper_ResourceControls}" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Bootstrapper_SafeSchedulingAndMemoryControlsFor}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-              </StackPanel>
-            </HeaderedContentControl.Header>
-            <StackPanel>
-              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_RobloxCPULimit}" Description="{Binding CpuSummary}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
-                <ComboBox Grid.Column="1" Padding="10,5,10,5" ItemsSource="{Binding CpuOptions}" SelectedItem="{Binding SelectedCpuPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-              </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_TrimMemoryWhenRobloxIsUnfocused}" Description="{resources:Loc Ui_Bootstrapper_AfterRobloxRemainsUnfocusedUnusedWorking}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
-                <ui:ToggleSwitch IsChecked="{Binding MultiAccount, Mode=TwoWay}" />
-              </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_PrioritizeRobloxWhileFocused}" Description="{Binding PrioritizeRobloxDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
-                <ui:ToggleSwitch IsChecked="{Binding OptimizeRoblox, Mode=TwoWay}" />
-              </controls:OptionControl>
-            </StackPanel>
-          </ui:CardExpander>
-          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
-            <HeaderedContentControl.Header>
-              <StackPanel>
-                <TextBlock FontSize="14" Text="{resources:Loc Ui_Bootstrapper_BackgroundResourceUse}" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Bootstrapper_KeepRobloxAndVoidstrapLighterWhen}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-              </StackPanel>
-            </HeaderedContentControl.Header>
-            <StackPanel>
-              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_ReduceResourcesWhenRobloxIsUnfocused}" Description="{Binding ReduceResourcesDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
-                <ui:ToggleSwitch IsChecked="{Binding ReduceMemoryOutOfFocus, Mode=TwoWay}" />
-              </controls:OptionControl>
-            </StackPanel>
-          </ui:CardExpander>
           <ui:CardExpander x:Name="MtuOption" DataContext="{Binding Mtu}" Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.NetworkMtu}">
             <HeaderedContentControl.Header>
               <StackPanel>
@@ -118,6 +86,20 @@
               <TextBlock Margin="0,6,0,0" Text="{Binding Status}" FontSize="12" TextWrapping="Wrap" />
             </StackPanel>
           </ui:CardExpander>
+          <StackPanel Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+            <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_RobloxCPULimit}" Description="{Binding CpuSummary}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+              <ComboBox Grid.Column="1" Padding="10,5,10,5" ItemsSource="{Binding CpuOptions}" SelectedItem="{Binding SelectedCpuPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_TrimMemoryWhenRobloxIsUnfocused}" Description="{resources:Loc Ui_Bootstrapper_AfterRobloxRemainsUnfocusedUnusedWorking}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+              <ui:ToggleSwitch IsChecked="{Binding MultiAccount, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_PrioritizeRobloxWhileFocused}" Description="{Binding PrioritizeRobloxDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+              <ui:ToggleSwitch IsChecked="{Binding OptimizeRoblox, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_ReduceResourcesWhenRobloxIsUnfocused}" Description="{Binding ReduceResourcesDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+              <ui:ToggleSwitch IsChecked="{Binding ReduceMemoryOutOfFocus, Mode=TwoWay}" />
+            </controls:OptionControl>
+          </StackPanel>
         </StackPanel>
       </TabItem>
       <TabItem>
