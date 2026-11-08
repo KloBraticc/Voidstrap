@@ -649,7 +649,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             }
         }
 
-        private static async Task<bool> EnsureRobloxClosedAsync()
+        internal static async Task<bool> EnsureRobloxClosedAsync()
         {
             if (!SavedAccounts.IsRobloxRunning())
                 return true;

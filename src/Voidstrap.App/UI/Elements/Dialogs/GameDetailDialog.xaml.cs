@@ -2,6 +2,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Voidstrap.UI.ViewModels.Pages;
+using Voidstrap.UI.ViewModels.Settings;
+using Voidstrap.Integrations;
 
 namespace Voidstrap.UI.Elements.Dialogs
 {
@@ -12,6 +14,9 @@ namespace Voidstrap.UI.Elements.Dialogs
         private readonly CancellationTokenSource _cts = new();
         private List<GameServerRow> _servers = new();
         private bool _released;
+        private static readonly HttpClient ServerClient = new() { Timeout = TimeSpan.FromSeconds(15) };
+        private bool _syncingAccount;
+        private bool _switching;
         private static readonly TimeSpan[] ServerRetryDelays = [TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(4), TimeSpan.FromSeconds(8)];
 
         public event EventHandler? CloseRequested;
@@ -29,6 +34,7 @@ namespace Voidstrap.UI.Elements.Dialogs
             InitializeComponent();
             TitleText.Text = string.IsNullOrEmpty(name) ? $"Place {placeId}" : name;
             _ = LoadAsync(_cts.Token);
+            _ = LoadAccountsAsync(_cts.Token);
         }
 
         public void Release()
@@ -39,6 +45,7 @@ namespace Voidstrap.UI.Elements.Dialogs
             _cts.Cancel();
             _cts.Dispose();
             ServerList.ItemsSource = null;
+            AccountBox.ItemsSource = null;
         }
 
         private async Task LoadAsync(CancellationToken token)
@@ -250,17 +257,100 @@ namespace Voidstrap.UI.Elements.Dialogs
         private async Task<string> GetServersJsonAsync(CancellationToken token)
         {
             string url = $"https://games.roblox.com/v1/games/{_placeId}/servers/Public?limit=100&sortOrder=Desc&excludeFullGames=false";
+            string? cookie = RobloxAuthLauncher.TryGetRobloxSecurityCookie();
             for (int attempt = 0; ; attempt++)
             {
-                try
+                using HttpRequestMessage request = new(HttpMethod.Get, url);
+                if (!string.IsNullOrEmpty(cookie))
+                    request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
+                using HttpResponseMessage response = await ServerClient.SendAsync(request, token);
+                if (response.StatusCode != HttpStatusCode.TooManyRequests)
                 {
-                    return await Http.GetString(url, token);
+                    response.EnsureSuccessStatusCode();
+                    return await response.Content.ReadAsStringAsync(token);
                 }
-                catch (Http.RateLimitedException) when (attempt < ServerRetryDelays.Length)
-                {
-                    await Task.Delay(ServerRetryDelays[attempt], token);
-                }
+                if (attempt >= ServerRetryDelays.Length)
+                    throw new Http.RateLimitedException();
+                TimeSpan wait = response.Headers.RetryAfter?.Delta is TimeSpan after && after > TimeSpan.Zero && after <= TimeSpan.FromSeconds(10)
+                    ? after
+                    : ServerRetryDelays[attempt];
+                await Task.Delay(wait, token);
             }
+        }
+
+        private async Task LoadAccountsAsync(CancellationToken token)
+        {
+            const string LOG_IDENT = "GameDetailDialog::LoadAccountsAsync";
+
+            if (!SavedAccounts.SwitchingSupported)
+                return;
+            try
+            {
+                List<SavedAccount> accounts = await SavedAccounts.LoadAsync(token);
+                CurrentAccountInfo? current = SavedAccounts.Current ?? await SavedAccounts.RefreshCurrentAsync(token);
+                if (token.IsCancellationRequested || accounts.Count == 0)
+                    return;
+                _syncingAccount = true;
+                AccountBox.ItemsSource = accounts;
+                AccountBox.SelectedItem = accounts.FirstOrDefault(x => x.UserId == current?.UserId);
+                _syncingAccount = false;
+                AccountBox.Visibility = Visibility.Visible;
+            }
+            catch (OperationCanceledException) { }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, ex.Message);
+            }
+        }
+
+        private async void AccountBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            const string LOG_IDENT = "GameDetailDialog::AccountBox_SelectionChanged";
+
+            if (_syncingAccount || _switching || _released || AccountBox.SelectedItem is not SavedAccount target)
+                return;
+            SavedAccount? previous = e.RemovedItems.Count > 0 ? e.RemovedItems[0] as SavedAccount : null;
+            _switching = true;
+            AccountBox.IsEnabled = false;
+            try
+            {
+                if (target.Expired)
+                {
+                    Frontend.ShowMessageBox(Strings.Accounts_Expired, MessageBoxImage.Warning);
+                    Revert(previous);
+                    return;
+                }
+                if (!await AccountsViewModel.EnsureRobloxClosedAsync())
+                {
+                    Revert(previous);
+                    return;
+                }
+                await SavedAccounts.SwitchAsync(target);
+                App.Logger.WriteLine(LOG_IDENT, "Switched account from the game popup");
+                if (!_released)
+                    _ = LoadServersAsync(_cts.Token);
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "The account switch failed: " + ex.Message);
+                Frontend.ShowMessageBox(ex is FileNotFoundException ? Strings.Accounts_MissingLogin : ex.Message, MessageBoxImage.Warning);
+                Revert(previous);
+            }
+            finally
+            {
+                _switching = false;
+                if (!_released)
+                    AccountBox.IsEnabled = true;
+            }
+        }
+
+        private void Revert(SavedAccount? previous)
+        {
+            if (_released)
+                return;
+            _syncingAccount = true;
+            AccountBox.SelectedItem = previous;
+            _syncingAccount = false;
         }
 
         private void ApplyFilter()
