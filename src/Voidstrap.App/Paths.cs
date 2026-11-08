@@ -1038,7 +1038,8 @@ internal static class Paths
             && !string.Equals(fullPath, tempPath, PathComparison)
         )
         {
-            throw new InvalidOperationException("A Voidstrap data location is outside the expected folders");
+            App.Logger?.WriteLine("Paths::DeleteOwnedDirectory", "Leaving a data location outside the Voidstrap folder untouched: " + fullPath);
+            return;
         }
 
         Exception? failure = null;
