@@ -888,38 +888,70 @@ namespace Voidstrap.UI.ViewModels.Settings
             for (int i = 0; i < ids.Count; i += 50)
             {
                 List<long> chunk = ids.GetRange(i, Math.Min(50, ids.Count - i));
-                string body = "[" + string.Join(",", chunk.Select(id => "{\"type\":\"Outfit\",\"targetId\":" + id + ",\"format\":\"Png\",\"size\":\"150x150\",\"isCircular\":false}")) + "]";
-                RobloxApiResponse response = await RobloxCookie.SendPostWithCookieAsync(
-                    "https://thumbnails.roblox.com/v1/batch",
-                    body,
-                    null,
-                    token
-                );
-                if (response.StatusCode != 200 || response.Body == null)
-                    continue;
-                try
+                for (int attempt = 0; attempt < 6 && chunk.Count > 0; attempt++)
                 {
-                    using JsonDocument doc = JsonDocument.Parse(response.Body);
-                    JsonElement items = doc.RootElement.ValueKind == JsonValueKind.Array
-                        ? doc.RootElement
-                        : doc.RootElement.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array ? data : default;
-                    if (items.ValueKind != JsonValueKind.Array)
-                        continue;
-                    foreach (JsonElement el in items.EnumerateArray())
+                    if (attempt > 0)
                     {
-                        long id = el.TryGetProperty("targetId", out JsonElement t) && t.TryGetInt64(out long l) ? l : 0;
-                        string img = el.TryGetProperty("imageUrl", out JsonElement iu) ? iu.GetString() ?? "" : "";
-                        string state = el.TryGetProperty("state", out JsonElement st) ? st.GetString() ?? "" : "";
-                        if (id != 0 && img.Length > 0 && state == "Completed")
-                            result[id] = img;
+                        try
+                        {
+                            await Task.Delay(1500, token).ConfigureAwait(false);
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            throw;
+                        }
                     }
+                    List<long> resolved = await RequestThumbnailBatchAsync(chunk, result, token).ConfigureAwait(false);
+                    chunk = resolved;
                 }
-                catch (JsonException ex)
+                if (chunk.Count > 0)
                 {
-                    App.Logger?.WriteLine(LOG_IDENT, "The outfit thumbnail response could not be parsed: " + ex.Message);
+                    App.Logger?.WriteLine(LOG_IDENT, chunk.Count + " outfit thumbnails never finished rendering");
                 }
             }
             return result;
+        }
+
+        private static async Task<List<long>> RequestThumbnailBatchAsync(List<long> ids, Dictionary<long, string> result, CancellationToken token)
+        {
+            const string LOG_IDENT = "AccountsViewModel::RequestThumbnailBatchAsync";
+            List<long> pending = new();
+            string body = "[" + string.Join(",", ids.Select(id => "{\"type\":\"Outfit\",\"targetId\":" + id + ",\"format\":\"Png\",\"size\":\"150x150\",\"isCircular\":false}")) + "]";
+            RobloxApiResponse response = await RobloxCookie.SendPostWithCookieAsync(
+                "https://thumbnails.roblox.com/v1/batch",
+                body,
+                null,
+                token
+            );
+            if (response.StatusCode != 200 || response.Body == null)
+                return ids;
+            try
+            {
+                using JsonDocument doc = JsonDocument.Parse(response.Body);
+                JsonElement items = doc.RootElement.ValueKind == JsonValueKind.Array
+                    ? doc.RootElement
+                    : doc.RootElement.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array ? data : default;
+                if (items.ValueKind != JsonValueKind.Array)
+                    return ids;
+                HashSet<long> seen = new();
+                foreach (JsonElement el in items.EnumerateArray())
+                {
+                    long id = el.TryGetProperty("targetId", out JsonElement t) && t.TryGetInt64(out long l) ? l : 0;
+                    string img = el.TryGetProperty("imageUrl", out JsonElement iu) ? iu.GetString() ?? "" : "";
+                    string state = el.TryGetProperty("state", out JsonElement st) ? st.GetString() ?? "" : "";
+                    if (id == 0 || !seen.Add(id))
+                        continue;
+                    if (state == "Completed" && img.Length > 0)
+                        result[id] = img;
+                    else if (state == "Pending" || state == "Blocked")
+                        pending.Add(id);
+                }
+            }
+            catch (JsonException ex)
+            {
+                App.Logger?.WriteLine(LOG_IDENT, "The outfit thumbnail response could not be parsed: " + ex.Message);
+            }
+            return pending;
         }
 
         private async Task WearOutfitAsync(OutfitRow? outfit)
