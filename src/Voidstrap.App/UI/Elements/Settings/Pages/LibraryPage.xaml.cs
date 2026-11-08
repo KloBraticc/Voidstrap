@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -82,8 +82,15 @@ public partial class LibraryPage : UiPage
         DetailScroll.ScrollToTop();
     }
 
+    private void RootTabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (e.OriginalSource == RootTabs)
+            GamesView.SetActive(GamesTab.IsSelected);
+    }
+
     private void Page_Unloaded(object sender, RoutedEventArgs e)
     {
+        GamesView.SetActive(false);
         _viewModel.PropertyChanged -= ViewModel_PropertyChanged;
         _viewModel.SetSubplaceViewActive(false);
         _viewModel.Servers.SetViewActive(false);

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -17,6 +17,8 @@ namespace Voidstrap.UI.ViewModels.Pages
     {
         private string? _thumbnailUrl;
 
+        private bool _isFavorite;
+
         public long UniverseId { get; init; }
 
         public long PlaceId { get; init; }
@@ -33,6 +35,12 @@ namespace Voidstrap.UI.ViewModels.Pages
         {
             get => _thumbnailUrl;
             set => SetProperty(ref _thumbnailUrl, value);
+        }
+
+        public bool IsFavorite
+        {
+            get => _isFavorite;
+            set => SetProperty(ref _isFavorite, value);
         }
     }
 
@@ -247,7 +255,7 @@ namespace Voidstrap.UI.ViewModels.Pages
             }
         }
 
-        private static async Task<List<DiscoverGameEntry>> ReadOmniRecommendationsAsync(string session)
+        internal static async Task<List<DiscoverGameEntry>> ReadOmniRecommendationsAsync(string session)
         {
             List<DiscoverGameEntry> result = new();
             string? cookie = RobloxCookie.Get();
@@ -314,6 +322,62 @@ namespace Voidstrap.UI.ViewModels.Pages
             if (!element.TryGetProperty(property, out JsonElement value))
                 return 0;
             return value.ValueKind == JsonValueKind.Number && value.TryGetInt64(out long number) ? number : 0;
+        }
+
+        internal static async Task<List<DiscoverGameEntry>> SearchGamesAsync(string query, string session, CancellationToken token)
+        {
+            List<DiscoverGameEntry> result = new();
+            RobloxApiResponse response = await RobloxCookie
+                .SendGetWithCookieAsync(
+                    "https://apis.roblox.com/search-api/omni-search?searchQuery=" + Uri.EscapeDataString(query) + "&pageToken=&sessionId=" + session + "&pageType=all",
+                    null,
+                    token
+                )
+                .ConfigureAwait(false);
+            if (response.StatusCode != 200 || response.Body == null)
+                return result;
+            using JsonDocument doc = JsonDocument.Parse(response.Body);
+            if (!doc.RootElement.TryGetProperty("searchResults", out JsonElement groups) || groups.ValueKind != JsonValueKind.Array)
+                return result;
+            foreach (JsonElement group in groups.EnumerateArray())
+            {
+                if (!group.TryGetProperty("contents", out JsonElement contents) || contents.ValueKind != JsonValueKind.Array)
+                    continue;
+                foreach (JsonElement item in contents.EnumerateArray())
+                {
+                    if (item.TryGetProperty("isSponsored", out JsonElement sponsored) && sponsored.ValueKind == JsonValueKind.True)
+                        continue;
+                    if (ReadGame(item) is DiscoverGameEntry entry)
+                        result.Add(entry);
+                }
+            }
+            return result;
+        }
+
+        internal static async Task FillGameIconsAsync(List<DiscoverGameEntry> games, CancellationToken token)
+        {
+            Dictionary<long, List<DiscoverGameEntry>> byId = games.GroupBy(game => game.UniverseId).ToDictionary(group => group.Key, group => group.ToList());
+            List<long> ids = byId.Keys.ToList();
+            for (int i = 0; i < ids.Count; i += 50)
+            {
+                string chunk = string.Join(",", ids.Skip(i).Take(50));
+                RobloxApiResponse response = await RobloxCookie
+                    .SendGetWithCookieAsync("https://thumbnails.roblox.com/v1/games/icons?universeIds=" + chunk + "&size=512x512&format=Png&isCircular=false", null, token)
+                    .ConfigureAwait(false);
+                if (response.StatusCode != 200 || response.Body == null)
+                    continue;
+                using JsonDocument doc = JsonDocument.Parse(response.Body);
+                if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
+                    continue;
+                foreach (JsonElement item in data.EnumerateArray())
+                {
+                    string url = item.TryGetProperty("imageUrl", out JsonElement u) ? u.GetString() ?? "" : "";
+                    if (url.Length == 0 || !byId.TryGetValue(ReadLong(item, "targetId"), out List<DiscoverGameEntry>? targets))
+                        continue;
+                    foreach (DiscoverGameEntry target in targets)
+                        target.ThumbnailUrl = url;
+                }
+            }
         }
 
         private static async Task FillDiscoverThumbnailsAsync(List<DiscoverGameEntry> games)

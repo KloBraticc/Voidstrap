@@ -176,7 +176,15 @@
       </Style>
     </ResourceDictionary>
   </FrameworkElement.Resources>
-  <Grid Margin="0,0,14,14">
+  <TabControl x:Name="RootTabs" Margin="0,0,14,14" SelectionChanged="RootTabs_SelectionChanged">
+    <TabItem IsSelected="True">
+      <TabItem.Header>
+        <StackPanel Orientation="Horizontal">
+          <ui:SymbolIcon Symbol="Library24" Margin="0,0,6,0" />
+          <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Pages_Library}" />
+        </StackPanel>
+      </TabItem.Header>
+  <Grid Margin="0,8,0,0">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />
       <ColumnDefinition Width="*" />
@@ -894,4 +902,15 @@
 
     </Grid>
   </Grid>
+    </TabItem>
+    <TabItem x:Name="GamesTab">
+      <TabItem.Header>
+        <StackPanel Orientation="Horizontal">
+          <ui:SymbolIcon Symbol="Games24" Margin="0,0,6,0" />
+          <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Session_Games}" />
+        </StackPanel>
+      </TabItem.Header>
+      <controls:LibraryGamesControl x:Name="GamesView" Margin="0,8,0,0" />
+    </TabItem>
+  </TabControl>
 </ui:UiPage>
