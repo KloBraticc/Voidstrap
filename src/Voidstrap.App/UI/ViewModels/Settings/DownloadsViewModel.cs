@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -1384,7 +1384,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             public bool IsInstalled => true;
         }
 
-        public MuMuItem? MuMu { get; } = Voidstrap.Utility.Platform.IsWindows ? new MuMuItem() : null;
+        public MuMuItem? MuMu { get; } = App.MuMuEnabled && Voidstrap.Utility.Platform.IsWindows ? new MuMuItem() : null;
 
         public ObservableCollection<DownloadItem> Items { get; } = new ObservableCollection<DownloadItem>();
 

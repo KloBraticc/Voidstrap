@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -115,7 +115,8 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
     {
         get
         {
-            return App.Settings.Prop.LaunchSelectedClient ?? "";
+            string code = App.Settings.Prop.LaunchSelectedClient ?? "";
+            return !App.MuMuEnabled && string.Equals(code, App.MuMuLaunchClientCode, StringComparison.Ordinal) ? "" : code;
         }
         set
         {
@@ -272,7 +273,7 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 
     private static bool IsMuMuSelection(string code)
     {
-        return Voidstrap.Utility.Platform.IsWindows && string.Equals(code, App.MuMuLaunchClientCode, StringComparison.Ordinal);
+        return App.MuMuEnabled && Voidstrap.Utility.Platform.IsWindows && string.Equals(code, App.MuMuLaunchClientCode, StringComparison.Ordinal);
     }
 
     private static void LaunchMuMu()

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -38,6 +38,8 @@ public partial class App : Application
     public const string ProjectName = "Voidstrap";
 
     public const string MuMuLaunchClientCode = "mumu-rishade";
+
+    public const bool MuMuEnabled = false;
 
     public const string MuMuRobloxPackage = "com.roblox.client";
 
