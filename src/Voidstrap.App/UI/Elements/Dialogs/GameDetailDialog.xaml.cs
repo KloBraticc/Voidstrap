@@ -397,24 +397,6 @@ namespace Voidstrap.UI.Elements.Dialogs
             return count.ToString(CultureInfo.CurrentCulture);
         }
 
-        private void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (ReferenceEquals(e.OriginalSource, Tabs) && ServerArea != null && ReviewArea != null)
-                SelectTab(Tabs.SelectedIndex == 1);
-        }
-
-        private void SelectTab(bool review)
-        {
-            Visibility servers = review ? Visibility.Collapsed : Visibility.Visible;
-            ServerArea.Visibility = servers;
-            RefreshButton.Visibility = servers;
-            SortBox.Visibility = servers;
-            HideFullBox.Visibility = servers;
-            ReviewArea.Visibility = review ? Visibility.Visible : Visibility.Collapsed;
-            if (review && ReviewControl.PlaceId <= 0)
-                ReviewControl.SetGame(_universeId, _placeId, TitleText.Text);
-        }
-
         private void Filter_Changed(object sender, RoutedEventArgs e) => ApplyFilter();
 
         private void Refresh_Click(object sender, RoutedEventArgs e)

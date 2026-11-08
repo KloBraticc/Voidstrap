@@ -106,57 +106,63 @@
         </StackPanel>
       </Border>
     </UniformGrid>
-    <DockPanel Grid.Row="2" Margin="20,18,20,8" LastChildFill="True">
-      <ui:Button x:Name="RefreshButton" DockPanel.Dock="Right" Margin="8,0,0,0" Icon="ArrowSync24" Content="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Click="Refresh_Click" />
-      <ComboBox x:Name="SortBox" DockPanel.Dock="Right" Margin="0" MinWidth="160" SelectedIndex="0" SelectionChanged="Filter_Changed">
+    <TabControl x:Name="Tabs" Grid.Row="2" Grid.RowSpan="2" Height="380" Margin="16,14,16,8">
+      <TabItem>
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Server24" Margin="0,0,6,0" />
+            <TextBlock Text="{resources:Loc ContextMenu_ServerBrowser_Title}" />
+          </StackPanel>
+        </TabItem.Header>
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+          <DockPanel Margin="4,10,4,6" LastChildFill="False">
+            <ui:Button x:Name="RefreshButton" DockPanel.Dock="Right" Margin="8,0,0,0" Icon="ArrowSync24" Content="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Click="Refresh_Click" />
+            <ComboBox x:Name="SortBox" DockPanel.Dock="Right" Margin="0" MinWidth="160" SelectedIndex="0" SelectionChanged="Filter_Changed">
         <ComboBoxItem Content="{resources:Loc ContextMenu_ServerBrowser_Sort_Ping}" />
         <ComboBoxItem Content="{resources:Loc ContextMenu_ServerBrowser_Sort_Population}" />
         <ComboBoxItem Content="{resources:Loc ContextMenu_ServerBrowser_Sort_Empty}" />
       </ComboBox>
-      <CheckBox x:Name="HideFullBox" DockPanel.Dock="Right" Margin="0,0,12,0" IsChecked="False" Content="{resources:Loc ContextMenu_ServerBrowser_ExcludeFull}" Checked="Filter_Changed" Unchecked="Filter_Changed" />
-      <TabControl x:Name="Tabs" VerticalAlignment="Bottom" SelectionChanged="Tabs_SelectionChanged">
-        <TabItem>
-          <TabItem.Header>
-            <StackPanel Orientation="Horizontal">
-              <ui:SymbolIcon Symbol="Server24" Margin="0,0,6,0" />
-              <TextBlock Text="{resources:Loc ContextMenu_ServerBrowser_Title}" />
-            </StackPanel>
-          </TabItem.Header>
-        </TabItem>
-        <TabItem>
-          <TabItem.Header>
-            <StackPanel Orientation="Horizontal">
-              <ui:SymbolIcon Symbol="StarEdit24" Margin="0,0,6,0" />
-              <TextBlock Text="{resources:Loc Ui_Session_CommunityRating}" />
-            </StackPanel>
-          </TabItem.Header>
-        </TabItem>
-      </TabControl>
-    </DockPanel>
-    <ScrollViewer x:Name="ReviewArea" Grid.Row="3" MinHeight="180" Visibility="Collapsed" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="20,0,20,12">
-      <controls:RoReviewControl x:Name="ReviewControl" />
-    </ScrollViewer>
-    <Grid x:Name="ServerArea" Grid.Row="3" MinHeight="180">
-      <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="20,0,20,8">
-        <ItemsControl x:Name="ServerList">
-          <ItemsControl.ItemTemplate>
-            <DataTemplate>
-              <Border Margin="0,4" Padding="14,10" CornerRadius="6" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
-                <DockPanel LastChildFill="True">
-                  <ui:Button DockPanel.Dock="Right" Margin="12,0,0,0" Appearance="Primary" Icon="Play24" Content="{resources:Loc ContextMenu_ServerBrowser_Join}" Tag="{Binding}" Click="Join_Click" />
-                  <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="{Binding Capacity}" FontSize="14" FontWeight="SemiBold" />
-                    <ProgressBar Margin="0,6,0,0" Height="4" MaxWidth="260" HorizontalAlignment="Left" Width="260" Minimum="0" Maximum="100" Value="{Binding Fill, Mode=OneWay}" />
-                    <TextBlock Margin="0,6,0,0" Text="{Binding Metrics}" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                  </StackPanel>
-                </DockPanel>
-              </Border>
-            </DataTemplate>
-          </ItemsControl.ItemTemplate>
-        </ItemsControl>
-      </ScrollViewer>
-      <TextBlock x:Name="StatusText" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-    </Grid>
+            <CheckBox x:Name="HideFullBox" DockPanel.Dock="Right" Margin="0,0,12,0" VerticalAlignment="Center" IsChecked="False" Content="{resources:Loc ContextMenu_ServerBrowser_ExcludeFull}" Checked="Filter_Changed" Unchecked="Filter_Changed" />
+          </DockPanel>
+          <Grid Grid.Row="1">
+          <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="4,0,4,8">
+            <ItemsControl x:Name="ServerList">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Border Margin="0,4" Padding="14,10" CornerRadius="6" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                    <DockPanel LastChildFill="True">
+                      <ui:Button DockPanel.Dock="Right" Margin="12,0,0,0" Appearance="Primary" Icon="Play24" Content="{resources:Loc ContextMenu_ServerBrowser_Join}" Tag="{Binding}" Click="Join_Click" />
+                      <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Capacity}" FontSize="14" FontWeight="SemiBold" />
+                        <ProgressBar Margin="0,6,0,0" Height="4" MaxWidth="260" HorizontalAlignment="Left" Width="260" Minimum="0" Maximum="100" Value="{Binding Fill, Mode=OneWay}" />
+                        <TextBlock Margin="0,6,0,0" Text="{Binding Metrics}" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                      </StackPanel>
+                    </DockPanel>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+          <TextBlock x:Name="StatusText" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          </Grid>
+        </Grid>
+      </TabItem>
+      <TabItem>
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="StarEdit24" Margin="0,0,6,0" />
+            <TextBlock Text="{resources:Loc Ui_Session_CommunityRating}" />
+          </StackPanel>
+        </TabItem.Header>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="4,10,4,8">
+          <controls:RoReviewControl x:Name="ReviewControl" />
+        </ScrollViewer>
+      </TabItem>
+    </TabControl>
     <Border Grid.Row="4" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}" BorderThickness="0,1,0,0" CornerRadius="0,0,7,7" Padding="20,16">
       <UniformGrid Columns="2">
         <ui:Button Margin="0,0,4,0" Height="34" HorizontalAlignment="Stretch" Appearance="Primary" Icon="Play24" Content="{resources:Loc Ui_Home_Play}" Click="Play_Click" />
