@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -121,6 +121,17 @@ public partial class HomePage
             .OfType<Border>()
             .ToList();
         List<string> hidden = HiddenSections;
+        foreach (Border section in sections)
+        {
+            Visibility wanted = hidden.Contains((string)section.Tag) ? Visibility.Collapsed : Visibility.Visible;
+            if (section.Visibility != wanted)
+                section.Visibility = wanted;
+        }
+        if (sections.SequenceEqual(ordered))
+        {
+            DetachModHosts(root);
+            return;
+        }
         int insertAt = root.Children.IndexOf(sections[0]);
         foreach (Border section in sections)
             root.Children.Remove(section);
