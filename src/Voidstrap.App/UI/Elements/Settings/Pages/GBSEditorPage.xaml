@@ -1,4 +1,4 @@
-﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.GBSEditorPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="GBSEditor" Scrollable="True" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages">
+﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.GBSEditorPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="GBSEditor" Scrollable="False" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages">
   <ui:UiPage.Resources>
     <Style x:Key="SectionHeader" TargetType="{x:Type Border}">
       <Setter Property="Margin" Value="0,30,0,2" />
@@ -13,18 +13,14 @@
       <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
     </Style>
   </ui:UiPage.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" MinWidth="200" />
+    </Grid.ColumnDefinitions>
+    <ui:DynamicScrollViewer x:Name="ContentScroll" Grid.Column="0" VerticalScrollBarVisibility="Auto">
   <StackPanel Margin="0,0,14,14">
     <TextBlock Margin="0,0,0,2" FontSize="14" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Gbs_TheseAreRobloxSOwnIn}" />
-
-    <ui:SelectorBar x:Name="SectionBar" Margin="0,10,0,4" SelectionChanged="SectionBar_SelectionChanged">
-      <ui:SelectorBarItem Tag="{Binding ElementName=SectionInterface}" Icon="Apps24" Content="{resources:Loc Ui_Mods_Interface}" />
-      <ui:SelectorBarItem Tag="{Binding ElementName=SectionGraphics}" Icon="Desktop24" Content="{resources:Loc Ui_Gbs_Graphics}" />
-      <ui:SelectorBarItem Tag="{Binding ElementName=SectionAudio}" Icon="Speaker224" Content="{resources:Loc Ui_Gbs_Audio}" />
-      <ui:SelectorBarItem Tag="{Binding ElementName=SectionInput}" Icon="XboxController24" Content="{resources:Loc Ui_Gbs_InputAndControls}" />
-      <ui:SelectorBarItem Tag="{Binding ElementName=SectionNetwork}" Icon="Wifi124" Content="{resources:Loc Ui_Gbs_Network}" />
-      <ui:SelectorBarItem Tag="{Binding ElementName=SectionVr}" Icon="HeadsetVr24" Content="{resources:Loc Ui_Gbs_VirtualReality}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
-      <ui:SelectorBarItem Tag="{Binding ElementName=SectionAdvanced}" Icon="Wrench24" Content="{resources:Loc Ui_Bootstrapper_Advanced}" />
-    </ui:SelectorBar>
 
     <controls:ProfilesExpander Kind="Global" />
     <controls:OptionControl Margin="0,-4,0,0" Header="{resources:Loc Ui_Gbs_ResetToDefaultSettings}" Description="{resources:Loc Ui_Gbs_RestoreAllPreferencesToDefault}">
@@ -165,4 +161,17 @@
       <ui:ToggleSwitch IsChecked="{Binding OnScreenProfilerEnabled, Mode=TwoWay}" />
     </controls:OptionControl>
   </StackPanel>
+    </ui:DynamicScrollViewer>
+    <Border Grid.Column="1" VerticalAlignment="Top" Margin="6,0,14,0" Padding="8" CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+      <ui:SelectorBar x:Name="SectionBar" Orientation="Vertical" SelectionChanged="SectionBar_SelectionChanged">
+        <ui:SelectorBarItem Tag="{Binding ElementName=SectionInterface}" Icon="Apps24" Content="{resources:Loc Ui_Mods_Interface}" />
+        <ui:SelectorBarItem Tag="{Binding ElementName=SectionGraphics}" Icon="Desktop24" Content="{resources:Loc Ui_Gbs_Graphics}" />
+        <ui:SelectorBarItem Tag="{Binding ElementName=SectionAudio}" Icon="Speaker224" Content="{resources:Loc Ui_Gbs_Audio}" />
+        <ui:SelectorBarItem Tag="{Binding ElementName=SectionInput}" Icon="XboxController24" Content="{resources:Loc Ui_Gbs_InputAndControls}" />
+        <ui:SelectorBarItem Tag="{Binding ElementName=SectionNetwork}" Icon="Wifi124" Content="{resources:Loc Ui_Gbs_Network}" />
+        <ui:SelectorBarItem Tag="{Binding ElementName=SectionVr}" Icon="HeadsetVr24" Content="{resources:Loc Ui_Gbs_VirtualReality}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
+        <ui:SelectorBarItem Tag="{Binding ElementName=SectionAdvanced}" Icon="Wrench24" Content="{resources:Loc Ui_Bootstrapper_Advanced}" />
+      </ui:SelectorBar>
+    </Border>
+  </Grid>
 </ui:UiPage>
