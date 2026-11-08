@@ -867,7 +867,7 @@
                                                    CommandParameter="{Binding}"/>
 
                                         <ui:Button Grid.Column="4"
-                                                   Icon="Star24"
+                                                   Icon="Heart24"
                                                    IconFilled="{Binding IsFavorite}"
                                                    Appearance="Secondary"
                                                    ToolTip="{Binding FavoriteTooltip}"

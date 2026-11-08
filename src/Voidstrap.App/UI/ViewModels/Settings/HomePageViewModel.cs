@@ -50,7 +50,7 @@ namespace Voidstrap.UI.ViewModels.Pages
             _selectedDatacenter = FindSavedDatacenter();
         }
 
-        public bool IsFavorite => App.Settings.Prop.FavoriteGamePlaceIds?.Contains(PlaceId) == true;
+        public bool IsFavorite => Integrations.FavoriteGames.Contains(PlaceId);
 
         public string FavoriteTooltip => IsFavorite ? "Remove from favourites" : "Add to favourites, favourites stay at the top";
 
@@ -58,13 +58,14 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         private void ToggleFavorite()
         {
-            List<long> favorites = App.Settings.Prop.FavoriteGamePlaceIds ??= new List<long>();
-            if (!favorites.Remove(PlaceId))
-                favorites.Add(PlaceId);
-            App.Settings.SaveDeferred();
+            Integrations.FavoriteGames.Toggle(PlaceId);
+            _favoriteChanged?.Invoke(this);
+        }
+
+        public void NotifyFavoriteChanged()
+        {
             OnPropertyChanged(nameof(IsFavorite));
             OnPropertyChanged(nameof(FavoriteTooltip));
-            _favoriteChanged?.Invoke(this);
         }
 
         private DatacenterOption? FindSavedDatacenter()
@@ -307,6 +308,22 @@ namespace Voidstrap.UI.ViewModels.Pages
         public ObservableCollection<DatacenterOption> DatacenterOptions { get; } = new();
 
         public ObservableCollection<HistoryGameEntry> GameHistory => _gameHistory;
+
+        public void RefreshFavorites(long placeId)
+        {
+            foreach (HistoryGameEntry entry in _gameHistory)
+            {
+                if (entry.PlaceId == placeId)
+                    entry.NotifyFavoriteChanged();
+            }
+            if (FeaturedGame?.PlaceId == placeId)
+                FeaturedGame.IsFavorite = Integrations.FavoriteGames.Contains(placeId);
+            foreach (DiscoverGameEntry game in Recommended)
+            {
+                if (game.PlaceId == placeId)
+                    game.IsFavorite = Integrations.FavoriteGames.Contains(placeId);
+            }
+        }
 
         public bool IsEmpty => _gameHistory.Count == 0;
 

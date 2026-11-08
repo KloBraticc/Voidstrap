@@ -370,12 +370,7 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
         e.Handled = true;
         if (_closed || sender is not FrameworkElement { Tag: GameBrowserTile tile } || tile.PlaceId <= 0)
             return;
-        List<long> favorites = App.Settings.Prop.FavoriteGamePlaceIds ??= new List<long>();
-        bool favorite = !favorites.Contains(tile.PlaceId);
-        favorites.RemoveAll(id => id == tile.PlaceId);
-        if (favorite)
-            favorites.Insert(0, tile.PlaceId);
-        App.Settings.SaveDeferred();
+        bool favorite = Integrations.FavoriteGames.Toggle(tile.PlaceId);
         tile.IsFavorite = favorite;
         // Favorites are read again next time that tab opens; leaving it shown here would keep a removed game
         _favoritesLoaded = false;
@@ -671,7 +666,7 @@ public sealed class GameBrowserTile : System.ComponentModel.INotifyPropertyChang
         }
     }
 
-    public string FavoriteGlyph => _isFavorite ? "\uE735" : "\uE734";
+    public string FavoriteGlyph => _isFavorite ? "\uEB52" : "\uEB51";
 
     public string FavoriteTip => _isFavorite ? "Remove from favorites" : "Add to favorites";
     private readonly ActivityData _activity;
@@ -756,6 +751,6 @@ public sealed class GameBrowserTile : System.ComponentModel.INotifyPropertyChang
     public GameBrowserTile(ActivityData activity)
     {
         _activity = activity;
-        _isFavorite = App.Settings.Prop.FavoriteGamePlaceIds?.Contains(activity.PlaceId) == true;
+        _isFavorite = Integrations.FavoriteGames.Contains(activity.PlaceId);
     }
 }

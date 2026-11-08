@@ -25,6 +25,15 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         {
             _viewModel.RiShadeReleaseRequested -= OnRiShadeReleaseRequested;
             PreviewKeyDown -= HomePage_PreviewKeyDown;
+            Voidstrap.Integrations.FavoriteGames.Changed -= OnFavoriteGameChanged;
+        }
+
+        private void OnFavoriteGameChanged(object? sender, long placeId)
+        {
+            if (Dispatcher.CheckAccess())
+                _viewModel.RefreshFavorites(placeId);
+            else
+                Dispatcher.BeginInvoke(() => _viewModel.RefreshFavorites(placeId));
         }
 
         private void OnRiShadeReleaseRequested(object? sender, EventArgs e)
@@ -37,6 +46,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         {
             _viewModel.RiShadeReleaseRequested -= OnRiShadeReleaseRequested;
             _viewModel.RiShadeReleaseRequested += OnRiShadeReleaseRequested;
+            Voidstrap.Integrations.FavoriteGames.Changed -= OnFavoriteGameChanged;
+            Voidstrap.Integrations.FavoriteGames.Changed += OnFavoriteGameChanged;
             _viewModel.RefreshMatchmakerState();
             ApplyHomeLayout();
             Voidstrap.Integrations.Plugins.PluginAnchors.ApplyAll();

@@ -1452,6 +1452,11 @@ public class LibraryViewModel : INotifyPropertyChanged
                 entry.Name = pin.Name;
         }
 
+        foreach (LibraryGameEntry local in byUniverse.Values)
+        {
+            if (Integrations.FavoriteGames.Contains(local.PlaceId))
+                local.IsFavorite = true;
+        }
         foreach (Integrations.RobloxFavorites.Favorite favorite in favorites)
         {
             if (favorite.UniverseId == 0 || Integrations.LibraryStore.IsFavoriteHidden(favorite.UniverseId))

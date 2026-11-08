@@ -40,6 +40,31 @@ namespace Voidstrap.UI.Elements.Controls
         {
             InitializeComponent();
             GamesList.ItemsSource = _games;
+            Loaded += OnControlLoaded;
+            Unloaded += OnControlUnloaded;
+        }
+
+        private void OnControlLoaded(object sender, RoutedEventArgs e)
+        {
+            Integrations.FavoriteGames.Changed -= OnFavoriteGameChanged;
+            Integrations.FavoriteGames.Changed += OnFavoriteGameChanged;
+            HashSet<long> favorites = Integrations.FavoriteGames.Snapshot();
+            foreach (DiscoverGameEntry game in _games)
+                game.IsFavorite = favorites.Contains(game.PlaceId);
+        }
+
+        private void OnControlUnloaded(object sender, RoutedEventArgs e) => Integrations.FavoriteGames.Changed -= OnFavoriteGameChanged;
+
+        private void OnFavoriteGameChanged(object? sender, long placeId)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                foreach (DiscoverGameEntry game in _games)
+                {
+                    if (game.PlaceId == placeId)
+                        game.IsFavorite = Integrations.FavoriteGames.Contains(placeId);
+                }
+            });
         }
 
         public void SetActive(bool active)
@@ -132,7 +157,7 @@ namespace Voidstrap.UI.Elements.Controls
         {
             _lastGames = games;
             _lastQuery = query;
-            HashSet<long> favorites = (App.Settings.Prop.FavoriteGamePlaceIds ?? new List<long>()).ToHashSet();
+            HashSet<long> favorites = Integrations.FavoriteGames.Snapshot();
             _games.Clear();
             foreach (DiscoverGameEntry game in Sorted(games))
             {
@@ -230,13 +255,7 @@ namespace Voidstrap.UI.Elements.Controls
             e.Handled = true;
             if (GameOf(sender) is not DiscoverGameEntry game)
                 return;
-            List<long> favorites = App.Settings.Prop.FavoriteGamePlaceIds ??= new List<long>();
-            bool favorite = !favorites.Contains(game.PlaceId);
-            favorites.RemoveAll(id => id == game.PlaceId);
-            if (favorite)
-                favorites.Insert(0, game.PlaceId);
-            App.Settings.SaveDeferred();
-            game.IsFavorite = favorite;
+            game.IsFavorite = Integrations.FavoriteGames.Toggle(game.PlaceId);
         }
 
         private void More_Click(object sender, RoutedEventArgs e)
