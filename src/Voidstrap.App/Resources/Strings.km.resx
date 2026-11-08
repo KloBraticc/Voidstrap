@@ -9480,4 +9480,16 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>លុបសម្លៀកបំពាក់ {0}? មិនអាចត្រឡប់វិញបានទេ។</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>ស្វែងរក</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>លេងច្រើនបំផុតឥឡូវនេះ</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>ណែនាំសម្រាប់អ្នក</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>លេង</value>
+  </data>
 </root>

@@ -9480,4 +9480,16 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>{0} кийимин өчүрөсүзбү? Муну артка кайтаруу мүмкүн эмес.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Ачуу</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Азыр эң көп ойнолгон</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Сизге сунушталат</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Ойноо</value>
+  </data>
 </root>

@@ -9842,4 +9842,16 @@ Toestaan?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Outfit {0} verwijderen? Dit kan niet ongedaan worden gemaakt.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Ontdekken</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Nu het meest gespeeld</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Aanbevolen voor je</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Spelen</value>
+  </data>
 </root>

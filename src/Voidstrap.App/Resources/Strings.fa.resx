@@ -9842,4 +9842,16 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>لباس {0} حذف شود؟ این کار قابل بازگشت نیست.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>کشف کنید</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>پربازدیدترین در حال حاضر</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>پیشنهادی برای شما</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>بازی کنید</value>
+  </data>
 </root>

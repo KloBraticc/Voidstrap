@@ -9480,4 +9480,16 @@ Permíteo?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Eliminar a roupa {0}? Non se pode desfacer.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Descubrir</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>O máis xogado agora</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Recomendado para ti</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Xogar</value>
+  </data>
 </root>

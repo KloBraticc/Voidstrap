@@ -9842,4 +9842,16 @@ Leisti?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Ištrinti aprangą {0}? To negalima atšaukti.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Atraskite</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Dabar populiariausi</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Rekomenduojama jums</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Žaisti</value>
+  </data>
 </root>

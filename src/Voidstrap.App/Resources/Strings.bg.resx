@@ -9840,4 +9840,16 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Да се изтрие ли тоалетът {0}? Това не може да бъде отменено.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Открийте</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Най-играно в момента</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Препоръчано за Вас</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Играй</value>
+  </data>
 </root>

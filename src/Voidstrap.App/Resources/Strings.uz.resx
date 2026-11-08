@@ -9479,4 +9479,16 @@ Ruxsat berasizmi?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>{0} kiyimi oʻchirilsinmi? Buni qaytarib boʻlmaydi.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Kashf eting</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Hozir eng ko'p o'ynalayotgan</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Siz uchun tavsiya etiladi</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>O'ynash</value>
+  </data>
 </root>

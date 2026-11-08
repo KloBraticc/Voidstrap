@@ -9843,4 +9843,16 @@ Izinkan?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Hapus pakaian {0}? Tindakan ini tidak dapat dibatalkan.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Jelajahi</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Paling banyak dimainkan saat ini</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Direkomendasikan untuk Anda</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Main</value>
+  </data>
 </root>

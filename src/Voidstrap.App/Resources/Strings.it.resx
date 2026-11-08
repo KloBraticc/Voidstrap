@@ -9843,4 +9843,16 @@ Consentire?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Vuoi eliminare l'outfit {0}? L'operazione non può essere annullata.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Scopri</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>I più giocati ora</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Consigliati per te</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Gioca</value>
+  </data>
 </root>

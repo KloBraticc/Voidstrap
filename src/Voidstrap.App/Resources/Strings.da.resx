@@ -9479,4 +9479,16 @@ tillade det?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Slet outfittet {0}? Dette kan ikke fortrydes.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Udforsk</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Mest spillet lige nu</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Anbefalet til dig</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Spil</value>
+  </data>
 </root>

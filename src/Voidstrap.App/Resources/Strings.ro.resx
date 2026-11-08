@@ -9842,4 +9842,16 @@ Permiți?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Ștergi ținuta {0}? Acțiunea nu poate fi anulată.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Descoperă</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Cele mai jucate acum</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Recomandate pentru tine</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Joacă</value>
+  </data>
 </root>

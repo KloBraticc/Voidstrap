@@ -9855,4 +9855,16 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>コーデ {0} を削除しますか？この操作は元に戻せません。</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>発見</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>今いちばん遊ばれているゲーム</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>あなたへのおすすめ</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>プレイ</value>
+  </data>
 </root>

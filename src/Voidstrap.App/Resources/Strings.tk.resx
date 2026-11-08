@@ -9479,4 +9479,16 @@ Rugsat beriň?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>{0} eşigi pozulsynmy? Muny yzyna gaýtaryp bolmaýar.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Açyş et</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Häzir iň köp oýnalýan</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Size maslahat berilýär</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Oýna</value>
+  </data>
 </root>

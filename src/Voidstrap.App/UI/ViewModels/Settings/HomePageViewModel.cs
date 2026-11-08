@@ -284,7 +284,7 @@ namespace Voidstrap.UI.ViewModels.Pages
         public string CatalogUrl => "https://www.roblox.com/catalog/" + Id;
     }
 
-    internal sealed class HomePageViewModel : NotifyPropertyChangedViewModel
+    internal sealed partial class HomePageViewModel : NotifyPropertyChangedViewModel
     {
         private readonly string _historyFilePath = Paths.ServerHistory;
         private const int MaxHistoryEntries = 50;
@@ -820,10 +820,9 @@ namespace Voidstrap.UI.ViewModels.Pages
             }
 
             Task enrichTask = SafeAsync(() => EnrichHistoryAsync(entries), "Enrich");
-            Task catalogTask = SafeAsync(FetchNewCatalogItemsAsync, "Catalog");
-            Task newsTask = SafeAsync(FetchRobloxNewsAsync, "News");
+            Task discoverTask = SafeAsync(LoadDiscoverAsync, "Discover");
 
-            await Task.WhenAll(datacenterTask, enrichTask, catalogTask, newsTask).ConfigureAwait(true);
+            await Task.WhenAll(datacenterTask, enrichTask, discoverTask).ConfigureAwait(true);
             _lastNetworkLoadUtc = DateTime.UtcNow;
             PrefetchVisibleThumbnails();
         }
@@ -1318,9 +1317,16 @@ namespace Voidstrap.UI.ViewModels.Pages
         {
             if (entry is null || entry.PlaceId == 0)
                 return;
+            LaunchPlace(entry.PlaceId);
+        }
+
+        private static void LaunchPlace(long placeId)
+        {
+            if (placeId <= 0)
+                return;
             try
             {
-                string uri = $"roblox://experiences/start?placeId={entry.PlaceId}";
+                string uri = $"roblox://experiences/start?placeId={placeId}";
                 App.Settings.FlushDeferred();
                 App.State.FlushDeferred();
                 App.FastFlags.FlushDeferred();

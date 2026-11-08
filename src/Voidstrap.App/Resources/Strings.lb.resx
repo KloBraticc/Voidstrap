@@ -9480,4 +9480,16 @@ Erlaabt et?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Outfit {0} läschen? Dat kann net réckgängeg gemaach ginn.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Entdecken</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Am meeschte gespillt elo</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Fir dech recommandéiert</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Spillen</value>
+  </data>
 </root>

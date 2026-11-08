@@ -9479,4 +9479,16 @@ Laat dit toe?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Skrap die uitrusting {0}? Dit kan nie ongedaan gemaak word nie.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Ontdek</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Nou die meeste gespeel</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Aanbeveel vir jou</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Speel</value>
+  </data>
 </root>

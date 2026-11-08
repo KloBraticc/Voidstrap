@@ -9832,4 +9832,16 @@ Benarkan?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Padam pakaian {0}? Tindakan ini tidak boleh dibuat asal.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Terokai</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Paling banyak dimainkan sekarang</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Disyorkan untuk anda</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Main</value>
+  </data>
 </root>

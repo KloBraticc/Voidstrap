@@ -9480,4 +9480,16 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Избрисати одећу {0}? Ово се не може поништити.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Откриј</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Тренутно најиграније</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Препоручено за тебе</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Играј</value>
+  </data>
 </root>

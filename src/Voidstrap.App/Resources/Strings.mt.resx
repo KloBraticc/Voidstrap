@@ -9480,4 +9480,16 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Tħassar l-ilbies {0}? Dan ma jistax jitreġġa' lura.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Skopri</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>L-iktar milgħub issa</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Rakkomandat għalik</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Ilgħab</value>
+  </data>
 </root>

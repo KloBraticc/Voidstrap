@@ -9480,4 +9480,16 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>ਪਹਿਰਾਵਾ {0} ਮਿਟਾਉਣਾ ਹੈ? ਇਸਨੂੰ ਵਾਪਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ।</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>ਖੋਜੋ</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>ਹੁਣ ਸਭ ਤੋਂ ਵੱਧ ਖੇਡੀ ਜਾ ਰਹੀ</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>ਤੁਹਾਡੇ ਲਈ ਸਿਫ਼ਾਰਸ਼ੀ</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>ਖੇਡੋ</value>
+  </data>
 </root>

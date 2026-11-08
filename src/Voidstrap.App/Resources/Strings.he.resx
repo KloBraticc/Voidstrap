@@ -9480,4 +9480,16 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>למחוק את התלבושת {0}? לא ניתן לבטל פעולה זו.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>גלה</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>הכי משוחק עכשיו</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>מומלץ עבורך</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>שחק</value>
+  </data>
 </root>

@@ -9479,4 +9479,16 @@ Gba laaye?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Pa aṣọ {0} rẹ? Eyi ko le yipada.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Ṣàwárí</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Èyí tí a ń ṣe jù lọ báyìí</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>A dámọ̀ràn fún ọ</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Ṣeré</value>
+  </data>
 </root>

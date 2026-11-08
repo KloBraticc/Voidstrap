@@ -9480,4 +9480,16 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>पोशाक {0} मेटाउने? यो पूर्ववत गर्न सकिँदैन।</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>पत्ता लगाउनुहोस्</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>अहिले सबैभन्दा धेरै खेलिएको</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>तपाईंका लागि सिफारिस गरिएको</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>खेल्नुहोस्</value>
+  </data>
 </root>

@@ -9480,4 +9480,16 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>წაიშალოს სამოსი {0}? ამის გაუქმება შეუძლებელია.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>აღმოაჩინე</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>ახლა ყველაზე პოპულარული</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>რეკომენდებული თქვენთვის</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>თამაში</value>
+  </data>
 </root>

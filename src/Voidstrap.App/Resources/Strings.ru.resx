@@ -9840,4 +9840,16 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Удалить образ {0}? Это действие нельзя отменить.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Обзор</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Самое популярное сейчас</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Рекомендуем Вам</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Играть</value>
+  </data>
 </root>

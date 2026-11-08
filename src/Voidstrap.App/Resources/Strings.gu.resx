@@ -9480,4 +9480,16 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>પોશાક {0} કાઢી નાખવો છે? આ પાછું ફેરવી શકાતું નથી.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>શોધો</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>હાલમાં સૌથી વધુ રમાયેલ</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>તમારા માટે ભલામણ કરેલ</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>રમો</value>
+  </data>
 </root>

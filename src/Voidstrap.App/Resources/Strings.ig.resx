@@ -9480,4 +9480,16 @@ kwe ya?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Hichapụ uwe {0}? Enweghị ike ịgbanwe nke a.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Chọpụta</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Kacha egwuri ugbu a</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Atụrụ aro maka gị</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Kpọọ</value>
+  </data>
 </root>

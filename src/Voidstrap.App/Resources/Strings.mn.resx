@@ -9480,4 +9480,16 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>{0} хувцсыг устгах уу? Үүнийг буцаах боломжгүй.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Нээх</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Одоо хамгийн их тоглогдож буй</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Танд санал болгох</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Тоглох</value>
+  </data>
 </root>

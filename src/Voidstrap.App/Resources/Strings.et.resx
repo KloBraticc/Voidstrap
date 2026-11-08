@@ -9479,4 +9479,16 @@ Kas lubada?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Kas kustutada riietus {0}? Seda ei saa tagasi võtta.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Avasta</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Praegu enim mängitud</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Sulle soovitatud</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Mängi</value>
+  </data>
 </root>

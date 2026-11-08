@@ -9479,4 +9479,16 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Ĉu forigi la vestaĵon {0}? Tio ne malfareblas.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Malkovri</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Plej ludata nun</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Rekomendita por vi</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Ludi</value>
+  </data>
 </root>

@@ -9479,4 +9479,16 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>உடை {0} நீக்கவா? இதைச் செயல்தவிர்க்க முடியாது.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>கண்டறி</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>இப்போது அதிகம் விளையாடப்படுபவை</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>உங்களுக்கான பரிந்துரைகள்</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>விளையாடு</value>
+  </data>
 </root>

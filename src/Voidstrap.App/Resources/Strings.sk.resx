@@ -9480,4 +9480,16 @@ Povoliť?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Odstrániť outfit {0}? Túto akciu nemožno vrátiť.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Objaviť</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Najhranejšie práve teraz</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Odporúčané pre vás</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Hrať</value>
+  </data>
 </root>

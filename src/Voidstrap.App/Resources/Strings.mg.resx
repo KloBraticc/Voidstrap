@@ -9480,4 +9480,16 @@ Avelao izany?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Hofafana ve ny akanjo {0}? Tsy azo averina izany.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Hitady</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Be lalaovina indrindra izao</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Atolotra ho anao</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Milalao</value>
+  </data>
 </root>

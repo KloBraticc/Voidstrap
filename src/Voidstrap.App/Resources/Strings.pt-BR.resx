@@ -9842,4 +9842,16 @@ Permitir?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Excluir o visual {0}? Isso não pode ser desfeito.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Descobrir</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Mais jogados agora</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Recomendados para você</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Jogar</value>
+  </data>
 </root>

@@ -9840,4 +9840,16 @@ Erlauben?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Outfit {0} löschen? Das kann nicht rückgängig gemacht werden.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Entdecken</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Gerade am meisten gespielt</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Für dich empfohlen</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Spielen</value>
+  </data>
 </root>

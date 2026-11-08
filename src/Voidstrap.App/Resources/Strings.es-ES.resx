@@ -9840,4 +9840,16 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>¿Eliminar el atuendo {0}? No se puede deshacer.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Descubrir</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Lo más jugado ahora</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Recomendado para ti</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Jugar</value>
+  </data>
 </root>

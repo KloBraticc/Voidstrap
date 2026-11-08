@@ -9480,4 +9480,16 @@ E lejon atë?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Të fshihet veshja {0}? Ky veprim nuk mund të zhbëhet.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Zbulo</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Më të luajturat tani</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Rekomanduar për ty</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Luaj</value>
+  </data>
 </root>

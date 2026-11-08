@@ -9480,4 +9480,16 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Ջնջե՞լ {0} հանդերձանքը։ Սա հնարավոր չէ հետարկել։</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Բացահայտել</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Այժմ ամենաշատ խաղացվող</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Առաջարկվում է ձեզ</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Խաղալ</value>
+  </data>
 </root>

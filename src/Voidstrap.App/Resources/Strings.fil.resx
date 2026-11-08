@@ -9838,4 +9838,16 @@ Payagan ba?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Burahin ang kasuotang {0}? Hindi na ito maibabalik.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Tuklasin</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Pinakanilalaro ngayon</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Inirerekomenda para sa iyo</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Maglaro</value>
+  </data>
 </root>

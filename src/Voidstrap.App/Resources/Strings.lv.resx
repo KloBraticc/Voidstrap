@@ -9480,4 +9480,16 @@ Vai atļaut?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Dzēst tērpu {0}? To nevar atsaukt.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Atklāt</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Šobrīd visvairāk spēlētās</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Ieteikts tev</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Spēlēt</value>
+  </data>
 </root>

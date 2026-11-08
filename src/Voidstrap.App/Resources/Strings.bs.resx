@@ -9479,4 +9479,16 @@ Dozvoliti?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Izbrisati odjeću {0}? Ovo se ne može poništiti.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Otkrij</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Trenutno najigranije</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Preporučeno za tebe</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Igraj</value>
+  </data>
 </root>

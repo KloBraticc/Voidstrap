@@ -9479,4 +9479,16 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Либоси {0} нест карда шавад? Инро бекор кардан мумкин нест.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Кашф кунед</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Ҳоло бештар бозишаванда</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Барои шумо тавсия мешавад</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Бозӣ</value>
+  </data>
 </root>

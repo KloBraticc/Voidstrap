@@ -9864,4 +9864,16 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>确定要删除装扮 {0} 吗？此操作无法撤消。</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>发现</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>当前最热门</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>为您推荐</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>开始游戏</value>
+  </data>
 </root>

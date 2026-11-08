@@ -9479,4 +9479,16 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>لباس {0} حذف کریں؟ اسے واپس نہیں کیا جا سکتا۔</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>دریافت کریں</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>اس وقت سب سے زیادہ کھیلا جانے والا</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>آپ کے لیے تجویز کردہ</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>کھیلیں</value>
+  </data>
 </root>

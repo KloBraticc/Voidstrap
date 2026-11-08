@@ -9840,4 +9840,16 @@ Engedélyezed?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Törlöd a(z) {0} öltözéket? Ez nem vonható vissza.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Felfedezés</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Most a legtöbbet játszott</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Neked ajánlott</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Játék</value>
+  </data>
 </root>

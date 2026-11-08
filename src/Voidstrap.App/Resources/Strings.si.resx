@@ -9480,4 +9480,16 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>ඇඳුම {0} මකන්නද? මෙය අහෝසි කළ නොහැක.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>සොයා ගන්න</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>දැන් වැඩිපුරම ක්‍රීඩා කරන</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>ඔබ සඳහා නිර්දේශිත</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>ක්‍රීඩා කරන්න</value>
+  </data>
 </root>

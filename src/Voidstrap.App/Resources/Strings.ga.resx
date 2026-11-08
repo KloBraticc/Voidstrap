@@ -9480,4 +9480,16 @@ Ceadaigh é?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>An bhfuil tú ag iarraidh an feisteas {0} a scriosadh? Ní féidir é seo a chealú.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Faigh amach</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Is mó a imrítear anois</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Molta duit</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Imir</value>
+  </data>
 </root>

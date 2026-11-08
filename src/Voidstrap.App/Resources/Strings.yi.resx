@@ -9479,4 +9479,16 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>אויסמעקן די אויסשטאַפּירונג {0}? מען קען עס נישט צוריקמאַכן.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>אַנטדעקן</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>מערסטע געשפּילט איצט</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>רעקאָמענדירט פֿאַר דיר</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>שפּיל</value>
+  </data>
 </root>

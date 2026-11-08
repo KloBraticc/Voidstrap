@@ -9841,4 +9841,16 @@ Sallitaanko?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Poistetaanko asu {0}? Tätä ei voi kumota.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Löydä</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Pelatuimmat juuri nyt</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Suositeltu sinulle</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Pelaa</value>
+  </data>
 </root>

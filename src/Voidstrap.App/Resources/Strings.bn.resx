@@ -9479,4 +9479,16 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>{0} পোশাকটি মুছবেন? এটি পূর্বাবস্থায় ফেরানো যাবে না।</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>আবিষ্কার করুন</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>এখন সবচেয়ে বেশি খেলা হচ্ছে</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>আপনার জন্য প্রস্তাবিত</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>খেলুন</value>
+  </data>
 </root>

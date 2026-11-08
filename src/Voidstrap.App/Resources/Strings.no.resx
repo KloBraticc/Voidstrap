@@ -9480,4 +9480,16 @@ Vil du tillate det?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Slette antrekket {0}? Dette kan ikke angres.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Utforsk</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Mest spilt akkurat nå</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Anbefalt for deg</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Spill</value>
+  </data>
 </root>

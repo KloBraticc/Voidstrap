@@ -9843,4 +9843,16 @@ Cho phép?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Xóa trang phục {0}? Bạn không thể hoàn tác thao tác này.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Khám phá</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Được chơi nhiều nhất hiện nay</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Đề xuất cho bạn</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Chơi</value>
+  </data>
 </root>

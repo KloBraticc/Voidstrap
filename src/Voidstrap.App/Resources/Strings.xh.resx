@@ -9479,4 +9479,16 @@ uyayivumela?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Cima isinxibo {0}? Oku akunakubuyiselwa umva.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Fumanisa</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Edlalwa kakhulu ngoku</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Icetyiswe wena</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Dlala</value>
+  </data>
 </root>

@@ -9479,4 +9479,16 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Выдаліць убор {0}? Гэта нельга адмяніць.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Адкрыць</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Самае папулярнае зараз</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Рэкамендавана для вас</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Гуляць</value>
+  </data>
 </root>

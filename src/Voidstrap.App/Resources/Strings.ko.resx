@@ -9839,4 +9839,16 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>의상 {0}을(를) 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>둘러보기</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>지금 가장 많이 플레이하는 게임</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>추천 게임</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>플레이</value>
+  </data>
 </root>

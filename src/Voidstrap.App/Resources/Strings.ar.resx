@@ -9839,4 +9839,16 @@
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>هل تريد حذف الزي {0}؟ لا يمكن التراجع عن ذلك.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>اكتشف</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>الأكثر لعبًا الآن</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>موصى به لك</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>العب</value>
+  </data>
 </root>

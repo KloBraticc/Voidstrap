@@ -9479,4 +9479,16 @@ Caniatáu iddo?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Dileu'r wisg {0}? Does dim modd dadwneud hyn.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Darganfod</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Wedi'i chwarae fwyaf nawr</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Argymhellir i chi</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Chwarae</value>
+  </data>
 </root>

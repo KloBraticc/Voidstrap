@@ -1767,6 +1767,10 @@ namespace Voidstrap.Resources {
         public static string Ui_Home_SectionCatalog => ResourceManager.GetString("Ui.Home.SectionCatalog", resourceCulture);
 
         public static string Ui_Home_SectionContinue => ResourceManager.GetString("Ui.Home.SectionContinue", resourceCulture);
+        public static string Ui_Home_SectionDiscover => ResourceManager.GetString("Ui.Home.SectionDiscover", resourceCulture);
+        public static string Ui_Home_MostPlayedNow => ResourceManager.GetString("Ui.Home.MostPlayedNow", resourceCulture);
+        public static string Ui_Home_RecommendedForYou => ResourceManager.GetString("Ui.Home.RecommendedForYou", resourceCulture);
+        public static string Ui_Home_Play => ResourceManager.GetString("Ui.Home.Play", resourceCulture);
 
         public static string Ui_Home_SectionStudioFavorites => ResourceManager.GetString("Ui.Home.SectionStudioFavorites", resourceCulture);
 

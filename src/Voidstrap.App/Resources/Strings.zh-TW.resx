@@ -9843,4 +9843,16 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>確定要刪除服裝 {0} 嗎？此操作無法復原。</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>探索</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>目前最多人玩</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>為你推薦</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>開始遊戲</value>
+  </data>
 </root>

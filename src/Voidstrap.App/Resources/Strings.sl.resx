@@ -9480,4 +9480,16 @@ Dovoli?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Želite izbrisati opravo {0}? Tega ni mogoče razveljaviti.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Odkrij</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Trenutno najbolj igrano</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Priporočeno zate</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Igraj</value>
+  </data>
 </root>

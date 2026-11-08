@@ -9480,4 +9480,16 @@ Bada shi?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Share kayan {0}? Ba za a iya mayar da wannan ba.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Gano</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Mafi yawan wasa yanzu</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Shawarar a gare ka</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Yi wasa</value>
+  </data>
 </root>

@@ -9480,4 +9480,16 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>ପୋଷାକ {0} ବିଲୋପ କରିବେ? ଏହା ପୂର୍ବବତ୍ କରାଯାଇପାରିବ ନାହିଁ।</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>ଆବିଷ୍କାର କରନ୍ତୁ</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>ବର୍ତ୍ତମାନ ସର୍ବାଧିକ ଖେଳାଯାଉଥିବା</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>ଆପଣଙ୍କ ପାଇଁ ସୁପାରିଶ</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>ଖେଳନ୍ତୁ</value>
+  </data>
 </root>

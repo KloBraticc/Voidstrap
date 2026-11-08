@@ -9479,4 +9479,16 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>ဝတ်စုံ {0} ကို ဖျက်မလား။ ပြန်ပြင်၍ မရပါ။</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>ရှာဖွေပါ</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>ယခုအများဆုံးကစားနေသော</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>သင့်အတွက် အကြံပြုထားသော</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>ကစားရန်</value>
+  </data>
 </root>

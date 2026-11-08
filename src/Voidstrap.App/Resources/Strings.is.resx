@@ -9480,4 +9480,16 @@ Leyfa það?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Eyða fötunum {0}? Ekki er hægt að afturkalla þetta.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Uppgötva</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Mest spilað núna</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Mælt með fyrir þig</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Spila</value>
+  </data>
 </root>

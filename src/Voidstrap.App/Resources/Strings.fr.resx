@@ -9839,4 +9839,16 @@ Autoriser ?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Supprimer la tenue {0} ? Cette action est irréversible.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Découvrir</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Les plus joués en ce moment</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Recommandé pour vous</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Jouer</value>
+  </data>
 </root>

@@ -9480,4 +9480,16 @@ Oggolow?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Tirtir labiska {0}? Tan dib looma celin karo.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Soo hel</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Kuwa ugu badan ee hadda la ciyaaro</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Laguu soo jeediyay</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Ciyaar</value>
+  </data>
 </root>

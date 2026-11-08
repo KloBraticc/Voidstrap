@@ -9480,4 +9480,16 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>पोशाख {0} हटवायचा? हे पूर्ववत करता येणार नाही.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>शोधा</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>आत्ता सर्वाधिक खेळले जाणारे</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>तुमच्यासाठी शिफारस केलेले</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>खेळा</value>
+  </data>
 </root>

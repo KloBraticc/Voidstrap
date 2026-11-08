@@ -9840,4 +9840,16 @@ Tillåta?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Ta bort outfiten {0}? Det går inte att ångra.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Upptäck</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Mest spelat just nu</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Rekommenderat för dig</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Spela</value>
+  </data>
 </root>

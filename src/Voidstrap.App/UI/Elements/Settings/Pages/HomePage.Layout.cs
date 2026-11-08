@@ -10,7 +10,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages;
 
 public partial class HomePage
 {
-    private static readonly string[] RobloxSectionKeys = ["hero", "news", "catalog", "continue"];
+    private static readonly string[] RobloxSectionKeys = ["discover", "continue"];
 
     private static readonly string[] StudioSectionKeys =
         ["studioFavorites", "studioRecent", "studioOwned", "studioFiles", "studioTemplates"];
@@ -59,6 +59,7 @@ public partial class HomePage
     private static string SectionDisplayName(string key) =>
         key switch
         {
+            "discover" => Strings.Ui_Home_SectionDiscover,
             "hero" => Strings.Ui_Home_SectionHero,
             "news" => Strings.Ui_Home_SectionNews,
             "catalog" => Strings.Ui_Home_SectionCatalog,
@@ -115,7 +116,7 @@ public partial class HomePage
             .ToDictionary(pair => pair.key, pair => pair.index, StringComparer.Ordinal);
         List<Border> ordered = defaults
             .Select((key, index) => (key, index))
-            .OrderBy(pair => ranks.TryGetValue(pair.key, out int rank) ? rank : int.MaxValue)
+            .OrderBy(pair => ranks.TryGetValue(pair.key, out int rank) ? rank : pair.index == 0 ? -1 : int.MaxValue)
             .ThenBy(pair => pair.index)
             .Select(pair => sections.FirstOrDefault(section => (string?)section.Tag == pair.key))
             .OfType<Border>()

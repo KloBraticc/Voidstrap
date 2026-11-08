@@ -9480,4 +9480,16 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>{0} киімін жою керек пе? Бұны болдырмау мүмкін емес.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Ашу</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Қазір ең көп ойналатын</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Сізге ұсынылады</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Ойнау</value>
+  </data>
 </root>

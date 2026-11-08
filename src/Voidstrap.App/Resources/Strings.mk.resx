@@ -9480,4 +9480,16 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Да се избрише облеката {0}? Ова не може да се врати.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Откриј</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Најиграно моментално</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Препорачано за тебе</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Играј</value>
+  </data>
 </root>

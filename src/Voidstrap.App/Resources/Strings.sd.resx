@@ -9480,4 +9480,16 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>لباس {0} ختم ڪجي؟ اهو واپس نٿو ٿي سگهي.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>ڳوليو</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>هن وقت سڀ کان وڌيڪ کيڏيل</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>توهان لاءِ سفارش ڪيل</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>کيڏيو</value>
+  </data>
 </root>

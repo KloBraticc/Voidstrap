@@ -9479,4 +9479,16 @@ icazə verilir?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>{0} geyimi silinsin? Bu geri qaytarıla bilməz.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Kəşf et</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>İndi ən çox oynanılan</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Sizin üçün tövsiyə olunur</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Oyna</value>
+  </data>
 </root>

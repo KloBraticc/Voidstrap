@@ -9480,4 +9480,16 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>आउटफ़िट {0} हटाएँ? इसे पूर्ववत नहीं किया जा सकता।</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>खोजें</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>अभी सबसे ज़्यादा खेला गया</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>आपके लिए सुझाए गए</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>खेलें</value>
+  </data>
 </root>

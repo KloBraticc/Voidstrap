@@ -9480,4 +9480,16 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>ಉಡುಪು {0} ಅಳಿಸಬೇಕೆ? ಇದನ್ನು ರದ್ದುಗೊಳಿಸಲಾಗುವುದಿಲ್ಲ.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>ಅನ್ವೇಷಿಸಿ</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>ಈಗ ಹೆಚ್ಚು ಆಡಲಾಗುತ್ತಿರುವುದು</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>ನಿಮಗಾಗಿ ಶಿಫಾರಸು</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>ಆಡಿ</value>
+  </data>
 </root>

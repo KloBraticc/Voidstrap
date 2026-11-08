@@ -482,293 +482,82 @@
                     </StackPanel>
                 </Border>
 
-                <Border x:Name="HomeSectionHero" Tag="hero" Style="{StaticResource HomeSectionStyle}">
+                <Border x:Name="HomeSectionDiscover" Tag="discover" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="1" Style="{StaticResource HomeSectionContentStyle}">
-                            <ContentControl Content="{Binding RiShadeRelease}"
-                                            ContentTemplate="{StaticResource NewsCardTemplate}"
-                                            Margin="0,12,0,0"
-                                            Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}"/>
-                        </Grid>
-                        <Border Style="{StaticResource HomeSectionToolbarStyle}">
-                            <DockPanel LastChildFill="True">
-                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-                                    <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
-                                    <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
-                                    <Border Style="{StaticResource HomeSectionToolbarDividerStyle}"/>
-                                    <ui:Button Style="{StaticResource HomeSectionHideButtonStyle}"/>
-                                </StackPanel>
-                                <Border Style="{StaticResource HomeSectionGripStyle}">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <ui:SymbolIcon Symbol="ReOrderDotsVertical24" FontSize="16" Margin="0,0,8,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                                        <TextBlock Tag="sectionTitle" Loaded="SectionTitle_Loaded" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
-                                    </StackPanel>
-                                </Border>
-                            </DockPanel>
-                        </Border>
-                    </Grid>
-                </Border>
-
-                <Border x:Name="HomeSectionNews" Tag="news" Style="{StaticResource HomeSectionStyle}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="1" Style="{StaticResource HomeSectionContentStyle}">
-                            <StackPanel>
-                                <Grid Margin="0,12,0,14"
-                                      Visibility="{Binding HasLatestNews,
-                                          Converter={StaticResource BooleanToVisibilityConverter}}">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Text="{resources:Loc Ui_Home_LatestRobloxNews}"
-                                                   FontSize="21"
-                                                   FontWeight="Bold"
-                                                   Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
-                                        <TextBlock Text="{Binding NewsHeaderCount}"
-                                                   FontSize="13"
-                                                   Margin="9,4,0,0"
-                                                   VerticalAlignment="Center"
-                                                   Foreground="{DynamicResource TextFillColorTertiaryBrush}"/>
-                                    </StackPanel>
-                                    <ui:Button HorizontalAlignment="Right"
-                                               VerticalAlignment="Center"
-                                               Appearance="Transparent"
-                                               Padding="6,3"
-                                               ToolTip="{resources:Loc Ui_Home_SeeEveryRobloxAnnouncement}"
-                                               Click="ExploreNews_Click">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{resources:Loc Ui_Home_ExploreAllNews}"
-                                                       FontSize="13.5"
-                                                       VerticalAlignment="Center"
-                                                       Foreground="{StaticResource AccentColorSecondaryBrush}"/>
-                                            <ui:SymbolIcon Symbol="ChevronRight24"
-                                                           FontSize="11"
-                                                           Margin="6,1,0,0"
-                                                           VerticalAlignment="Center"
-                                                           Foreground="{StaticResource AccentColorSecondaryBrush}"/>
+                        <StackPanel Grid.Row="1" Margin="0,12,0,0">
+                            <Border Height="320" CornerRadius="14" util:RoundedClip.Radius="14" Background="#FF101216" Visibility="{Binding FeaturedVisibility}">
+                                <Grid>
+                                    <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding FeaturedGame.ThumbnailUrl}"/>
+                                    <controls:GameVideoView VideoPath="{Binding FeaturedVideoPath}" IsHitTestVisible="False"/>
+                                    <Border IsHitTestVisible="False">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                <GradientStop Color="#E0000000" Offset="0"/>
+                                                <GradientStop Color="#70000000" Offset="0.45"/>
+                                                <GradientStop Color="#00000000" Offset="0.8"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                    </Border>
+                                    <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="28,0,28,28" MaxWidth="460">
+                                        <Border HorizontalAlignment="Left" CornerRadius="10" Padding="10,3" Background="#33FFFFFF">
+                                            <TextBlock Text="{resources:Loc Ui_Home_MostPlayedNow}" FontSize="11" FontWeight="SemiBold" Foreground="White"/>
+                                        </Border>
+                                        <TextBlock Text="{Binding FeaturedGame.Name}" FontSize="30" FontWeight="Bold" Foreground="White" Margin="0,10,0,0" TextTrimming="CharacterEllipsis"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                            <ui:SymbolIcon Symbol="People24" FontSize="14" Foreground="#DDFFFFFF" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding FeaturedGame.PlayerCount}" FontSize="13" Foreground="#DDFFFFFF" Margin="5,0,14,0" VerticalAlignment="Center"/>
+                                            <Ellipse Width="8" Height="8" Fill="#FF3DDC84" VerticalAlignment="Center" Visibility="{Binding FeaturedGame.LikeVisibility}"/>
+                                            <TextBlock Text="{Binding FeaturedGame.LikePercent}" FontSize="13" Foreground="#DDFFFFFF" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                         </StackPanel>
-                                    </ui:Button>
+                                        <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                                            <ui:Button Appearance="Primary" Icon="Play24" Padding="22,8" Content="{resources:Loc Ui_Home_Play}" Command="{Binding PlayDiscoverCommand}" CommandParameter="{Binding FeaturedGame}"/>
+                                            <ui:Button Margin="8,0,0,0" Icon="Open24" Padding="12,8" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" Command="{Binding OpenDiscoverCommand}" CommandParameter="{Binding FeaturedGame}"/>
+                                        </StackPanel>
+                                    </StackPanel>
                                 </Grid>
+                            </Border>
 
-                                <ItemsControl ItemsSource="{Binding LatestNews}"
-                                              ItemTemplate="{StaticResource NewsCardTemplate}"
-                                              Margin="0,0,0,24"
-                                              Visibility="{Binding HasLatestNews,
-                                                  Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Visibility="{Binding RecommendedVisibility}" Margin="0,20,0,0">
+                                <TextBlock Text="{resources:Loc Ui_Home_RecommendedForYou}" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                <ItemsControl ItemsSource="{Binding Recommended}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <UniformGrid Columns="2"/>
+                                            <UniformGrid Columns="4"/>
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
-
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Margin="0,0,12,14" CornerRadius="12" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                                                <StackPanel>
+                                                    <Border Height="120" CornerRadius="12,12,0,0" util:TopRoundedClip.Radius="12" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+                                                        <Grid>
+                                                            <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding ThumbnailUrl}"/>
+                                                            <ui:Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8" Padding="8" Appearance="Primary" Icon="Play24" ToolTip="{resources:Loc Ui_Home_Play}" Command="{Binding DataContext.PlayDiscoverCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}"/>
+                                                        </Grid>
+                                                    </Border>
+                                                    <StackPanel Margin="12,10,12,12">
+                                                        <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                                        <DockPanel Margin="0,6,0,0">
+                                                            <ui:Button DockPanel.Dock="Right" Padding="4" Icon="Open24" Appearance="Transparent" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" Command="{Binding DataContext.OpenDiscoverCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}"/>
+                                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                                <ui:SymbolIcon Symbol="People24" FontSize="13" Opacity="0.7" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{Binding PlayerCount}" FontSize="12" Opacity="0.7" Margin="4,0,12,0" VerticalAlignment="Center"/>
+                                                                <Ellipse Width="7" Height="7" Fill="#FF3DDC84" VerticalAlignment="Center" Visibility="{Binding LikeVisibility}"/>
+                                                                <TextBlock Text="{Binding LikePercent}" FontSize="12" Opacity="0.7" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                                                            </StackPanel>
+                                                        </DockPanel>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </StackPanel>
-                        </Grid>
-                        <Border Style="{StaticResource HomeSectionToolbarStyle}">
-                            <DockPanel LastChildFill="True">
-                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-                                    <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
-                                    <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
-                                    <Border Style="{StaticResource HomeSectionToolbarDividerStyle}"/>
-                                    <ui:Button Style="{StaticResource HomeSectionHideButtonStyle}"/>
-                                </StackPanel>
-                                <Border Style="{StaticResource HomeSectionGripStyle}">
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <ui:SymbolIcon Symbol="ReOrderDotsVertical24" FontSize="16" Margin="0,0,8,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                                        <TextBlock Tag="sectionTitle" Loaded="SectionTitle_Loaded" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
-                                    </StackPanel>
-                                </Border>
-                            </DockPanel>
-                        </Border>
-                    </Grid>
-                </Border>
-
-
-                <Border x:Name="HomeSectionCatalog" Tag="catalog" Style="{StaticResource HomeSectionStyle}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="1" Style="{StaticResource HomeSectionContentStyle}">
-                            <StackPanel>
-
-                <Grid Margin="0,8,10,8">
-                    <TextBlock Text="{resources:Loc Ui_Home_NewOnTheCatalog}"
-                               FontSize="20" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                               VerticalAlignment="Center"/>
-                    <ui:Button HorizontalAlignment="Right"
-                               VerticalAlignment="Center"
-                               Appearance="Transparent"
-                               Padding="6,3"
-                               ToolTip="{resources:Loc Ui_Home_SeeEveryNewItemOnThe}"
-                               Click="CatalogSeeMore_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{resources:Loc Ui_Home_SeeMore}"
-                                       FontSize="13.5"
-                                       VerticalAlignment="Center"
-                                       Foreground="{StaticResource AccentColorSecondaryBrush}"/>
-                            <ui:SymbolIcon Symbol="ChevronRight24"
-                                           FontSize="11"
-                                           Margin="6,1,0,0"
-                                           VerticalAlignment="Center"
-                                           Foreground="{StaticResource AccentColorSecondaryBrush}"/>
                         </StackPanel>
-                    </ui:Button>
-                </Grid>
-
-                <TextBlock Text="{Binding CatalogError}"
-                           Foreground="Red"
-                           FontSize="12"
-                           Margin="0,0,0,8"
-                           TextWrapping="Wrap">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Visibility" Value="Visible"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding CatalogError}" Value="">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-
-                <TextBlock Text="{resources:Loc Ui_Home_LoadingNewCatalogItems}"
-                           FontSize="12"
-                           Opacity="0.5"
-                           Margin="0,0,0,12">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsCatalogLoading}" Value="True">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-
-                <TextBlock Text="{resources:Loc Ui_Home_NoNewCatalogItemsRightNow}"
-                           FontSize="12"
-                           Opacity="0.45"
-                           Margin="0,0,0,12">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsCatalogEmpty}" Value="True">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-
-                <ItemsControl ItemsSource="{Binding NewCatalogItems}"
-                              Margin="0,0,0,12"
-                              Visibility="{Binding HasCatalogItems,
-                                  Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="5"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ui:Card Margin="0,0,8,8" Padding="0" Cursor="Hand">
-                                <ui:Card.InputBindings>
-                                    <MouseBinding MouseAction="LeftClick"
-                                                  Command="{Binding DataContext.OpenCatalogItemCommand,
-                                                      RelativeSource={RelativeSource AncestorType=Page}}"
-                                                  CommandParameter="{Binding}"/>
-                                </ui:Card.InputBindings>
-                                <StackPanel>
-                                    <Border Height="100"
-                                            CornerRadius="10,10,0,0"
-                                            ClipToBounds="True"
-                                            Background="{DynamicResource SubtleFillColorSecondaryBrush}">
-                                        <Grid>
-                                            <Image Stretch="UniformToFill"
-                                                   RenderOptions.BitmapScalingMode="HighQuality"
-                                                   util:DynamicRenderSystem.LazyImageSource="{Binding ImageUrl}">
-                                                <Image.Style>
-                                                    <Style TargetType="Image">
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding HasImage}" Value="False">
-                                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Image.Style>
-                                            </Image>
-                                        </Grid>
-                                    </Border>
-
-                                    <StackPanel Margin="10,8,10,10">
-                                        <TextBlock FontSize="12"
-                                                   FontWeight="SemiBold"
-                                                   Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                                                   Text="{Binding Name}"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   ToolTip="{Binding Name}"/>
-
-                                        <TextBlock FontSize="10"
-                                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                                                   Margin="0,2,0,0"
-                                                   Text="{Binding Creator}"
-                                                   TextTrimming="CharacterEllipsis"/>
-
-                                        <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                                            <TextBlock Text="{Binding PriceDisplay}"
-                                                       FontSize="11"
-                                                       FontWeight="SemiBold"
-                                                       Foreground="{StaticResource AccentColorSecondaryBrush}"
-                                                       VerticalAlignment="Center"/>
-
-                                            <Border Margin="6,0,0,0"
-                                                    Padding="4,1"
-                                                    CornerRadius="4"
-                                                    Background="#1AFFD700"
-                                                    VerticalAlignment="Center">
-                                                <Border.Style>
-                                                    <Style TargetType="Border">
-                                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Limited}" Value="True">
-                                                                <Setter Property="Visibility" Value="Visible"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Border.Style>
-                                                <TextBlock Text="{resources:Loc Ui_Home_Limited}"
-                                                           FontSize="9"
-                                                           FontWeight="SemiBold"
-                                                           Foreground="#FFD700"/>
-                                            </Border>
-                                        </StackPanel>
-
-                                        <TextBlock FontSize="10"
-                                                   Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                                                   Margin="0,4,0,0"
-                                                   Text="{Binding TypeName}"
-                                                   TextTrimming="CharacterEllipsis"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </ui:Card>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
-                            </StackPanel>
-                        </Grid>
                         <Border Style="{StaticResource HomeSectionToolbarStyle}">
                             <DockPanel LastChildFill="True">
                                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
@@ -787,7 +576,6 @@
                         </Border>
                     </Grid>
                 </Border>
-
 
                 <Border x:Name="HomeSectionContinue" Tag="continue" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
@@ -920,13 +708,13 @@
                             <ui:Card Margin="0,0,10,10" Padding="0" Cursor="Hand">
                                 <ui:Card.Style>
                                     <Style TargetType="{x:Type ui:Card}" BasedOn="{StaticResource {x:Type ui:Card}}">
-                                        <Setter Property="Border.CornerRadius" Value="8"/>
+                                        <Setter Property="Border.CornerRadius" Value="12"/>
                                     </Style>
                                 </ui:Card.Style>
                                 <StackPanel>
-                                    <Border Height="112"
-                                            CornerRadius="7,7,0,0"
-                                            util:TopRoundedClip.Radius="7"
+                                    <Border Height="140"
+                                            CornerRadius="12,12,0,0"
+                                            util:TopRoundedClip.Radius="12"
                                             Cursor="Hand"
                                             ToolTip="{resources:Loc Ui_Home_ViewGamePage}"
                                             MouseLeftButtonUp="GameThumbnail_Click"
@@ -975,10 +763,7 @@
                                         </TextBlock>
 
                                         <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                                            <ui:SymbolIcon Symbol="ThumbLike24"
-                                                           FontSize="14"
-                                                           Opacity="0.75"
-                                                           VerticalAlignment="Center"/>
+                                            <Ellipse Width="7" Height="7" Fill="#FF3DDC84" VerticalAlignment="Center"/>
                                             <TextBlock Text="{Binding LikePercent}"
                                                        FontSize="12"
                                                        Margin="4,0,12,0"

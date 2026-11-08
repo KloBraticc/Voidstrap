@@ -9479,4 +9479,16 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Διαγραφή της στολής {0}; Αυτό δεν μπορεί να αναιρεθεί.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Ανακάλυψη</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Τα πιο δημοφιλή τώρα</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Προτεινόμενα για εσένα</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Παίξε</value>
+  </data>
 </root>

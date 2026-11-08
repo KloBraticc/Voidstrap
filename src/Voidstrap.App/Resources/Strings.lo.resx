@@ -9480,4 +9480,16 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>ລຶບຊຸດ {0} ບໍ? ບໍ່ສາມາດຍົກເລີກໄດ້.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>ຄົ້ນພົບ</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>ຫຼິ້ນຫຼາຍທີ່ສຸດຕອນນີ້</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>ແນະນຳສຳລັບທ່ານ</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>ຫຼິ້ນ</value>
+  </data>
 </root>

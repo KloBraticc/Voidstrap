@@ -9479,4 +9479,16 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>{0} كىيىمىنى ئۆچۈرەمسىز؟ بۇنى ئەسلىگە كەلتۈرگىلى بولمايدۇ.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>بايقاش</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>ھازىر ئەڭ كۆپ ئوينىلىۋاتقان</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>سىزگە تەۋسىيە قىلىنغان</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>ئويناش</value>
+  </data>
 </root>

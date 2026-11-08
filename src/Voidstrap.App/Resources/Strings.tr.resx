@@ -9838,4 +9838,16 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>{0} kıyafetini silmek istiyor musunuz? Bu işlem geri alınamaz.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Keşfet</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Şu anda en çok oynanan</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Sizin için önerilenler</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Oyna</value>
+  </data>
 </root>

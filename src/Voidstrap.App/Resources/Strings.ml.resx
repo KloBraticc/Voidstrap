@@ -9480,4 +9480,16 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>{0} വസ്ത്രം ഇല്ലാതാക്കണോ? ഇത് പഴയപടിയാക്കാനാവില്ല.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>കണ്ടെത്തുക</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>ഇപ്പോൾ ഏറ്റവും കൂടുതൽ കളിക്കുന്നത്</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>നിങ്ങൾക്കായി ശുപാർശ ചെയ്തത്</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>കളിക്കുക</value>
+  </data>
 </root>

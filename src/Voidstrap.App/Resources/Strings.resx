@@ -9527,4 +9527,16 @@ Allow it?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Delete the outfit {0}? This cannot be undone.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Discover</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Most played right now</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Recommended for you</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Play</value>
+  </data>
 </root>

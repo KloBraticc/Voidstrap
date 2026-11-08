@@ -9480,4 +9480,16 @@ Whakaaetia?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Muku i te kākahu {0}? Kāore e taea te wewete.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Tūhura</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Ko ngā mea e tino tākarohia ana ināianei</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Kua tūtohua mōu</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Tākaro</value>
+  </data>
 </root>

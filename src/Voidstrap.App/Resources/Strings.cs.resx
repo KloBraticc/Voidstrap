@@ -9841,4 +9841,16 @@ Povolit?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Smazat oblek {0}? Tuto akci nelze vrátit.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Objevit</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Nejhranější právě teď</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Doporučeno pro Vás</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Hrát</value>
+  </data>
 </root>

@@ -9480,4 +9480,16 @@ Emera?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Gusiba imyambaro {0}? Ibi ntibishobora gusubizwa inyuma.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Vumbura</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Ikinwa cyane ubu</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Byagusabiwe</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Kina</value>
+  </data>
 </root>

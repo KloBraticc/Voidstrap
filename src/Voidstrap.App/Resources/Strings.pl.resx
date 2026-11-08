@@ -9841,4 +9841,16 @@ Zezwolić?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Usunąć strój {0}? Tej operacji nie można cofnąć.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Odkrywaj</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>Teraz najczęściej grane</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Polecane dla ciebie</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Graj</value>
+  </data>
 </root>

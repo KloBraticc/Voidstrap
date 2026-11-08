@@ -9480,4 +9480,16 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>جامې {0} ړنګې کړئ؟ دا بیرته نشي راګرځیدلی.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>ومومئ</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>اوس تر ټولو ډېر لوبول شوی</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>ستاسو لپاره وړاندیز شوی</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>لوبه وکړئ</value>
+  </data>
 </root>

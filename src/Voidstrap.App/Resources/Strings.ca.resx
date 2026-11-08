@@ -9479,4 +9479,16 @@ Ho permets?</value>
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>Vols suprimir el vestit {0}? No es pot desfer.</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>Descobreix</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>El més jugat ara mateix</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>Recomanat per a tu</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>Juga</value>
+  </data>
 </root>

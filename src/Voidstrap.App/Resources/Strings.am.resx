@@ -9479,4 +9479,16 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>አልባሳቱን {0} ይሰረዝ? ይህ ሊቀለበስ አይችልም።</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>ያግኙ</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>አሁን በብዛት የሚጫወት</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>ለእርስዎ የሚመከሩ</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>ተጫወት</value>
+  </data>
 </root>

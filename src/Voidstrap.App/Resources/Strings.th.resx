@@ -9835,4 +9835,16 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
     <value>ลบชุด {0} หรือไม่ การดำเนินการนี้ไม่สามารถย้อนกลับได้</value>
   </data>
+  <data name="Ui.Home.SectionDiscover" xml:space="preserve">
+    <value>ค้นพบ</value>
+  </data>
+  <data name="Ui.Home.MostPlayedNow" xml:space="preserve">
+    <value>เล่นมากที่สุดตอนนี้</value>
+  </data>
+  <data name="Ui.Home.RecommendedForYou" xml:space="preserve">
+    <value>แนะนำสำหรับคุณ</value>
+  </data>
+  <data name="Ui.Home.Play" xml:space="preserve">
+    <value>เล่น</value>
+  </data>
 </root>
