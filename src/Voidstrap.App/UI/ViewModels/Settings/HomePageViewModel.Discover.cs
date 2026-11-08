@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading;
@@ -77,6 +78,70 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         public ICommand OpenDiscoverCommand => _openDiscoverCommand ??= new RelayCommand<DiscoverGameEntry>(OpenDiscover);
 
+        private sealed record DiscoverCacheGame(long UniverseId, long PlaceId, string Name, string PlayerCount, string LikePercent, string? ThumbnailUrl);
+
+        private sealed record DiscoverCache(DiscoverCacheGame? Featured, string? FeaturedVideoPath, List<DiscoverCacheGame> Recommended);
+
+        private static DiscoverCache? _discoverCache;
+
+        private static string DiscoverCachePath => Path.Combine(Paths.Cache, "HomeDiscover.json");
+
+        private static DiscoverCacheGame ToCache(DiscoverGameEntry game) =>
+            new(game.UniverseId, game.PlaceId, game.Name, game.PlayerCount, game.LikePercent, game.ThumbnailUrl);
+
+        private static DiscoverGameEntry FromCache(DiscoverCacheGame game) =>
+            new()
+            {
+                UniverseId = game.UniverseId,
+                PlaceId = game.PlaceId,
+                Name = game.Name,
+                PlayerCount = game.PlayerCount,
+                LikePercent = game.LikePercent,
+                ThumbnailUrl = game.ThumbnailUrl,
+            };
+
+        private void RestoreDiscover()
+        {
+            const string LOG_IDENT = "HomePageViewModel::RestoreDiscover";
+            if (_discoverCache == null)
+            {
+                try
+                {
+                    if (File.Exists(DiscoverCachePath))
+                        _discoverCache = JsonSerializer.Deserialize<DiscoverCache>(File.ReadAllText(DiscoverCachePath));
+                }
+                catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException || ex is JsonException)
+                {
+                    App.Logger.WriteLine(LOG_IDENT, "The saved discover list could not be read: " + ex.Message);
+                }
+            }
+            if (_discoverCache == null)
+                return;
+            foreach (DiscoverCacheGame game in _discoverCache.Recommended)
+                Recommended.Add(FromCache(game));
+            if (_discoverCache.Featured != null)
+            {
+                _featuredGame = FromCache(_discoverCache.Featured);
+                if (!string.IsNullOrEmpty(_discoverCache.FeaturedVideoPath) && File.Exists(_discoverCache.FeaturedVideoPath))
+                    _featuredVideoPath = _discoverCache.FeaturedVideoPath;
+            }
+        }
+
+        private static void SaveDiscover(DiscoverCache cache)
+        {
+            const string LOG_IDENT = "HomePageViewModel::SaveDiscover";
+            _discoverCache = cache;
+            try
+            {
+                Directory.CreateDirectory(Paths.Cache);
+                File.WriteAllText(DiscoverCachePath, JsonSerializer.Serialize(cache));
+            }
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "The discover list could not be saved: " + ex.Message);
+            }
+        }
+
         private async Task LoadDiscoverAsync()
         {
             const string LOG_IDENT = "HomePageViewModel::LoadDiscoverAsync";
@@ -109,6 +174,9 @@ namespace Voidstrap.UI.ViewModels.Pages
 
                 await FillDiscoverThumbnailsAsync(picks.Concat(featuredCandidates).ToList()).ConfigureAwait(false);
 
+                if (picks.Count == 0 && featuredCandidates.Count == 0)
+                    return;
+
                 await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
                     Recommended.Clear();
@@ -119,19 +187,24 @@ namespace Voidstrap.UI.ViewModels.Pages
                         FeaturedGame = featuredCandidates[0];
                 });
 
-                foreach (DiscoverGameEntry candidate in featuredCandidates)
+                long cachedFeatured = _discoverCache?.Featured?.UniverseId ?? 0;
+                foreach (DiscoverGameEntry candidate in featuredCandidates.OrderByDescending(game => game.UniverseId == cachedFeatured))
                 {
                     string? video = await GameVideoStore.GetLocalVideoAsync(candidate.UniverseId, CancellationToken.None).ConfigureAwait(false);
                     if (string.IsNullOrEmpty(video))
                         continue;
                     await Application.Current.Dispatcher.InvokeAsync(() =>
                     {
-                        FeaturedGame = candidate;
-                        FeaturedVideoPath = video;
+                        if (FeaturedGame?.UniverseId != candidate.UniverseId)
+                            FeaturedGame = candidate;
+                        if (FeaturedVideoPath != video)
+                            FeaturedVideoPath = video;
                     });
+                    SaveDiscover(new DiscoverCache(ToCache(candidate), video, picks.Select(ToCache).ToList()));
                     return;
                 }
                 App.Logger.WriteLine(LOG_IDENT, "None of the top games has a trailer video");
+                SaveDiscover(new DiscoverCache(featuredCandidates.Count > 0 ? ToCache(featuredCandidates[0]) : null, null, picks.Select(ToCache).ToList()));
             }
             finally
             {

@@ -497,6 +497,7 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         public HomePageViewModel()
         {
+            RestoreDiscover();
             RefreshCommand = new AsyncRelayCommand(() => LoadAsync(force: true));
             ClearCommand = new RelayCommand(ClearHistory);
             LaunchCommand = new RelayCommand<HistoryGameEntry>(LaunchGame);
@@ -788,6 +789,7 @@ namespace Voidstrap.UI.ViewModels.Pages
         public async Task LoadAsync(bool force)
         {
             Error = string.Empty;
+            Task discoverTask = SafeAsync(LoadDiscoverAsync, "Discover");
 
             List<ActivityData> entries;
             try
@@ -820,7 +822,6 @@ namespace Voidstrap.UI.ViewModels.Pages
             }
 
             Task enrichTask = SafeAsync(() => EnrichHistoryAsync(entries), "Enrich");
-            Task discoverTask = SafeAsync(LoadDiscoverAsync, "Discover");
 
             await Task.WhenAll(datacenterTask, enrichTask, discoverTask).ConfigureAwait(true);
             _lastNetworkLoadUtc = DateTime.UtcNow;
