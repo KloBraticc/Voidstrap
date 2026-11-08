@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -1304,11 +1304,33 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 || content is Voidstrap.UI.Elements.Settings.Pages.FastFlagsPage fastFlagsPage && fastFlagsPage.IsAdvancedTabSelected
                 || content is Voidstrap.UI.Elements.Settings.Pages.ModsPage modsPage && modsPage.IsModPackSelected
             );
-        if (BreadcrumbPanel != null)
+        _searchSpanTimer?.Stop();
+        _searchBoxHidden = hideSearchBox;
+        bool animating = Wpf.Ui.Animations.Transitions.ApplyVisibilityTransition(GlobalSearchBox, !hideSearchBox, 160);
+        if (BreadcrumbPanel == null)
+            return;
+        if (hideSearchBox && animating)
         {
-            Grid.SetColumnSpan(BreadcrumbPanel, hideSearchBox ? 2 : 1);
+            if (_searchSpanTimer == null)
+            {
+                _searchSpanTimer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromMilliseconds(180) };
+                _searchSpanTimer.Tick += SearchSpanTimer_Tick;
+            }
+            _searchSpanTimer.Start();
+            return;
         }
-        Wpf.Ui.Animations.Transitions.ApplyVisibilityTransition(GlobalSearchBox, !hideSearchBox, 160);
+        Grid.SetColumnSpan(BreadcrumbPanel, hideSearchBox ? 2 : 1);
+    }
+
+    private System.Windows.Threading.DispatcherTimer? _searchSpanTimer;
+
+    private bool _searchBoxHidden;
+
+    private void SearchSpanTimer_Tick(object? sender, EventArgs e)
+    {
+        _searchSpanTimer?.Stop();
+        if (BreadcrumbPanel != null && _searchBoxHidden)
+            Grid.SetColumnSpan(BreadcrumbPanel, 2);
     }
 
     private void UpdateTopNavActive(object? content)
@@ -7711,6 +7733,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void WpfUiWindow_Closed(object sender, EventArgs e)
     {
+        if (_searchSpanTimer != null)
+        {
+            _searchSpanTimer.Stop();
+            _searchSpanTimer.Tick -= SearchSpanTimer_Tick;
+            _searchSpanTimer = null;
+        }
         if (_isClosed)
             return;
         _isClosed = true;
