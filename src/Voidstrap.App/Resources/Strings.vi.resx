@@ -9867,4 +9867,19 @@ Cho phép?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Không thể tham gia từ Discord. Hãy đảm bảo Discord đang mở và thử lại.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Di chuyển lên đầu</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Di chuyển xuống cuối</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Biểu ngữ nổi bật</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Hiện tất cả</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Hoàn tác thay đổi bố cục gần nhất</value>
+  </data>
 </root>

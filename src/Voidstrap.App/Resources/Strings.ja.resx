@@ -9879,4 +9879,19 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discord から参加できませんでした。Discord が開いていることを確認して、もう一度お試しください。</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>一番上へ移動</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>一番下へ移動</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>注目のバナー</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>すべて表示</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>最後のレイアウト変更を元に戻す</value>
+  </data>
 </root>

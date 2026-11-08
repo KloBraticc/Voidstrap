@@ -9866,4 +9866,19 @@ Toestaan?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Deelnemen via Discord is mislukt. Controleer of Discord open is en probeer het opnieuw.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Helemaal naar boven</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Helemaal naar beneden</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Uitgelichte banner</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Alles tonen</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Laatste indelingswijziging ongedaan maken</value>
+  </data>
 </root>

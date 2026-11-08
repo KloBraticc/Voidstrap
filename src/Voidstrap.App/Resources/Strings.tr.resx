@@ -9862,4 +9862,19 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discord üzerinden katılınamadı. Discord açık olduğundan emin olun ve tekrar deneyin.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>En üste taşı</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>En alta taşı</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Öne çıkan afiş</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Tümünü göster</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Son düzen değişikliğini geri al</value>
+  </data>
 </root>

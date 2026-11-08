@@ -9859,4 +9859,19 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>ไม่สามารถเข้าร่วมจาก Discord ได้ ตรวจสอบว่าเปิด Discord อยู่แล้วลองอีกครั้ง</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>ย้ายไปบนสุด</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>ย้ายไปล่างสุด</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>แบนเนอร์แนะนำ</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>แสดงทั้งหมด</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>เลิกทำการเปลี่ยนเค้าโครงล่าสุด</value>
+  </data>
 </root>

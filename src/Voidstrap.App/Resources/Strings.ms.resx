@@ -9856,4 +9856,19 @@ Benarkan?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Tidak dapat menyertai daripada Discord. Pastikan Discord dibuka dan cuba lagi.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Alih ke atas</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Alih ke bawah</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Sepanduk pilihan</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Tunjukkan semua</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Buat asal perubahan susun atur terakhir</value>
+  </data>
 </root>

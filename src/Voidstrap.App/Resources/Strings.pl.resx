@@ -9865,4 +9865,19 @@ Zezwolić?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Nie udało się dołączyć z Discorda. Upewnij się, że Discord jest otwarty, i spróbuj ponownie.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Przenieś na górę</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Przenieś na dół</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Polecany baner</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Pokaż wszystko</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Cofnij ostatnią zmianę układu</value>
+  </data>
 </root>

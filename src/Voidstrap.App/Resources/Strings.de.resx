@@ -9864,4 +9864,19 @@ Erlauben?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Beitritt über Discord fehlgeschlagen. Stelle sicher, dass Discord geöffnet ist, und versuche es erneut.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Ganz nach oben</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Ganz nach unten</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Hervorgehobenes Banner</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Alle anzeigen</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Letzte Layoutänderung rückgängig machen</value>
+  </data>
 </root>

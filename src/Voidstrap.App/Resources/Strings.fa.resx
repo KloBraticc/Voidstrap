@@ -9866,4 +9866,19 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>پیوستن از Discord ممکن نشد. مطمئن شوید Discord باز است و دوباره تلاش کنید.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>انتقال به بالا</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>انتقال به پایین</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>بنر ویژه</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>نمایش همه</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>واگرد آخرین تغییر چیدمان</value>
+  </data>
 </root>

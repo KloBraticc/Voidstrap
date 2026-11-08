@@ -9866,4 +9866,19 @@ Permiți?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Nu s-a putut intra din Discord. Asigură-te că Discord este deschis și încearcă din nou.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Mută sus de tot</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Mută jos de tot</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Banner recomandat</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Afișează tot</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Anulează ultima modificare a aspectului</value>
+  </data>
 </root>

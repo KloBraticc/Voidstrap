@@ -10,10 +10,14 @@ namespace Voidstrap.UI.Elements.Settings.Pages;
 
 public partial class HomePage
 {
-    private static readonly string[] RobloxSectionKeys = ["discover", "continue"];
+    private static readonly string[] RobloxSectionKeys = ["featured", "discover", "continue"];
 
     private static readonly string[] StudioSectionKeys =
         ["studioFavorites", "studioRecent", "studioOwned", "studioFiles", "studioTemplates"];
+
+    private const int MaxLayoutUndo = 30;
+
+    private readonly Stack<(List<string> Order, List<string> StudioOrder, List<string> Hidden)> _layoutUndo = new();
 
     private Border? _dropSection;
 
@@ -59,6 +63,7 @@ public partial class HomePage
     private static string SectionDisplayName(string key) =>
         key switch
         {
+            "featured" => Strings.Ui_Home_SectionFeatured,
             "discover" => Strings.Ui_Home_SectionDiscover,
             "hero" => Strings.Ui_Home_SectionHero,
             "news" => Strings.Ui_Home_SectionNews,
@@ -195,17 +200,103 @@ public partial class HomePage
             chip.Click += TrayChip_Click;
             chips.Children.Add(chip);
         }
+        if (chips.Children.Count > 1)
+        {
+            Wpf.Ui.Controls.Button all = new()
+            {
+                Content = Strings.Ui_Home_ShowAllSections,
+                Appearance = ControlAppearance.Primary,
+                FontSize = 12,
+                Padding = new Thickness(8, 2, 8, 2),
+                Margin = new Thickness(0, 0, 6, 0),
+                Tag = keys,
+            };
+            all.Click += TrayShowAll_Click;
+            chips.Children.Add(all);
+        }
         tray.Visibility = chips.Children.Count > 0 && _viewModel.IsLayoutEditMode ? Visibility.Visible : Visibility.Collapsed;
     }
 
-    private void EditLayout_Click(object sender, RoutedEventArgs e)
+    private void EditLayout_Click(object sender, RoutedEventArgs e) => SetLayoutEditMode(!_viewModel.IsLayoutEditMode);
+
+    private void SetLayoutEditMode(bool enabled)
     {
-        _viewModel.IsLayoutEditMode = !_viewModel.IsLayoutEditMode;
+        _viewModel.IsLayoutEditMode = enabled;
+        if (enabled)
+            Focus();
+        else
+            _layoutUndo.Clear();
+        UpdateUndoButton();
         RefreshHiddenTrays();
+    }
+
+    private void HomePage_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (!_viewModel.IsLayoutEditMode)
+            return;
+        if (e.Key == Key.Escape)
+        {
+            SetLayoutEditMode(false);
+            e.Handled = true;
+        }
+        else if (e.Key == Key.Z && Keyboard.Modifiers == ModifierKeys.Control)
+        {
+            UndoLayout();
+            e.Handled = true;
+        }
+    }
+
+    private void PushLayoutUndo()
+    {
+        if (_layoutUndo.Count >= MaxLayoutUndo)
+        {
+            List<(List<string>, List<string>, List<string>)> kept = _layoutUndo.Take(MaxLayoutUndo - 1).Reverse().ToList();
+            _layoutUndo.Clear();
+            foreach ((List<string>, List<string>, List<string>) entry in kept)
+                _layoutUndo.Push(entry);
+        }
+        _layoutUndo.Push((CurrentOrder(RobloxSections, RobloxSectionKeys), CurrentOrder(StudioSections, StudioSectionKeys), [.. HiddenSections]));
+        UpdateUndoButton();
+    }
+
+    private static List<string> CurrentOrder(Panel root, string[] keys) =>
+        root.Children.OfType<Border>()
+            .Where(section => section.Tag is string key && keys.Contains(key))
+            .Select(section => (string)section.Tag)
+            .ToList();
+
+    private void UpdateUndoButton() => UndoLayoutButton.IsEnabled = _layoutUndo.Count > 0;
+
+    private void UndoLayout_Click(object sender, RoutedEventArgs e) => UndoLayout();
+
+    private void UndoLayout()
+    {
+        if (_layoutUndo.Count == 0)
+            return;
+        (List<string> order, List<string> studioOrder, List<string> hidden) = _layoutUndo.Pop();
+        App.Settings.Prop.HomeSectionOrder = order;
+        App.Settings.Prop.HomeStudioSectionOrder = studioOrder;
+        App.Settings.Prop.HomeHiddenSections = hidden;
+        App.Settings.SaveDeferred();
+        UpdateUndoButton();
+        ApplyHomeLayout();
+        PluginAnchors.ApplyAll();
+    }
+
+    private void TrayShowAll_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not FrameworkElement { Tag: string[] keys })
+            return;
+        PushLayoutUndo();
+        HiddenSections.RemoveAll(keys.Contains);
+        App.Settings.SaveDeferred();
+        ApplyHomeLayout();
+        PluginAnchors.ApplyAll();
     }
 
     private void ResetLayout_Click(object sender, RoutedEventArgs e)
     {
+        PushLayoutUndo();
         App.Settings.Prop.HomeSectionOrder = new List<string>();
         App.Settings.Prop.HomeStudioSectionOrder = new List<string>();
         App.Settings.Prop.HomeHiddenSections = new List<string>();
@@ -221,6 +312,7 @@ public partial class HomePage
         Border? section = FindSection(element);
         if (section?.Tag is not string key)
             return;
+        PushLayoutUndo();
         List<string> hidden = HiddenSections;
         if (!hidden.Contains(key))
             hidden.Add(key);
@@ -233,6 +325,7 @@ public partial class HomePage
     {
         if (sender is not FrameworkElement { Tag: string key })
             return;
+        PushLayoutUndo();
         HiddenSections.Remove(key);
         App.Settings.SaveDeferred();
         ApplyHomeLayout();
@@ -352,6 +445,7 @@ public partial class HomePage
         index = Math.Clamp(index, 0, root.Children.Count - 1);
         if (from < 0 || from == index)
             return;
+        PushLayoutUndo();
         root.Children.Remove(section);
         root.Children.Insert(index, section);
         SaveLayout();
@@ -363,6 +457,20 @@ public partial class HomePage
     private void SectionMoveUp_Click(object sender, RoutedEventArgs e) => StepSection(sender, -1);
 
     private void SectionMoveDown_Click(object sender, RoutedEventArgs e) => StepSection(sender, 1);
+
+    private void SectionMoveTop_Click(object sender, RoutedEventArgs e) => JumpSection(sender, true);
+
+    private void SectionMoveBottom_Click(object sender, RoutedEventArgs e) => JumpSection(sender, false);
+
+    private void JumpSection(object sender, bool toTop)
+    {
+        if (sender is not FrameworkElement element || FindSection(element) is not Border section || section.Parent is not Panel root)
+            return;
+        List<Border> sections = root.Children.OfType<Border>().Where(candidate => IsSectionKey(candidate.Tag)).ToList();
+        if (sections.Count == 0)
+            return;
+        MoveSection(root, section, root.Children.IndexOf(toTop ? sections[0] : sections[^1]));
+    }
 
     private void StepSection(object sender, int direction)
     {

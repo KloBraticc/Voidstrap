@@ -373,6 +373,18 @@
             <EventSetter Event="Click" Handler="SectionMoveDown_Click"/>
         </Style>
 
+        <Style x:Key="HomeSectionMoveTopButtonStyle" TargetType="ui:Button" BasedOn="{StaticResource HomeSectionToolButtonStyle}">
+            <Setter Property="Icon" Value="ArrowUpload24"/>
+            <Setter Property="ToolTip" Value="{resources:Loc Ui_Home_MoveSectionTopTooltip}"/>
+            <EventSetter Event="Click" Handler="SectionMoveTop_Click"/>
+        </Style>
+
+        <Style x:Key="HomeSectionMoveBottomButtonStyle" TargetType="ui:Button" BasedOn="{StaticResource HomeSectionToolButtonStyle}">
+            <Setter Property="Icon" Value="ArrowDownload24"/>
+            <Setter Property="ToolTip" Value="{resources:Loc Ui_Home_MoveSectionBottomTooltip}"/>
+            <EventSetter Event="Click" Handler="SectionMoveBottom_Click"/>
+        </Style>
+
         <Style x:Key="HomeSectionHideButtonStyle" TargetType="ui:Button" BasedOn="{StaticResource HomeSectionToolButtonStyle}">
             <Setter Property="Icon" Value="EyeOff24"/>
             <Setter Property="ToolTip" Value="{resources:Loc Ui_Home_HideSectionTooltip}"/>
@@ -437,6 +449,15 @@
                            ToolTip="{resources:Loc Ui_Home_ResetLayoutTooltip}"
                            Style="{StaticResource HomeResetLayoutButtonStyle}"
                            Click="ResetLayout_Click"/>
+                <ui:Button x:Name="UndoLayoutButton"
+                           Margin="8,0,0,0"
+                           Appearance="Secondary"
+                           Icon="ArrowUndo24"
+                           Content="{resources:Loc Ui_Misc_Undo}"
+                           ToolTip="{resources:Loc Ui_Home_UndoLayoutTooltip}"
+                           Style="{StaticResource HomeResetLayoutButtonStyle}"
+                           IsEnabled="False"
+                           Click="UndoLayout_Click"/>
                 <StackPanel Margin="12,0,0,0" Orientation="Horizontal" Visibility="{Binding StudioTabVisibility}">
                     <ProgressBar Width="120" Height="3" Margin="0,0,12,0" VerticalAlignment="Center" IsIndeterminate="True"
                                  Visibility="{Binding IsStudioLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
@@ -482,13 +503,13 @@
                     </StackPanel>
                 </Border>
 
-                <Border x:Name="HomeSectionDiscover" Tag="discover" Style="{StaticResource HomeSectionStyle}">
+                <Border x:Name="HomeSectionFeatured" Tag="featured" Style="{StaticResource HomeSectionStyle}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <StackPanel Grid.Row="1" Margin="0,28,0,0">
+                        <Grid Grid.Row="1" Margin="0,28,0,0" Style="{StaticResource HomeSectionContentStyle}">
                             <Border Height="320" CornerRadius="14" util:RoundedClip.Radius="14" Background="#FF0B0B0D" Visibility="{Binding FeaturedVisibility}" Tag="{Binding FeaturedGame}" Cursor="Hand" MouseLeftButtonUp="GameThumbnail_Click">
                                 <Grid util:RoundedClip.Radius="14">
                                     <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding FeaturedGame.ThumbnailUrl}"/>
@@ -520,8 +541,36 @@
                                     </StackPanel>
                                 </Grid>
                             </Border>
+                        </Grid>
+                        <Border Style="{StaticResource HomeSectionToolbarStyle}">
+                            <DockPanel LastChildFill="True">
+                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <ui:Button Style="{StaticResource HomeSectionMoveTopButtonStyle}"/>
+                                    <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
+                                    <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
+                                    <ui:Button Style="{StaticResource HomeSectionMoveBottomButtonStyle}"/>
+                                    <Border Style="{StaticResource HomeSectionToolbarDividerStyle}"/>
+                                    <ui:Button Style="{StaticResource HomeSectionHideButtonStyle}"/>
+                                </StackPanel>
+                                <Border Style="{StaticResource HomeSectionGripStyle}">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <ui:SymbolIcon Symbol="ReOrderDotsVertical24" FontSize="16" Margin="0,0,8,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                                        <TextBlock Tag="sectionTitle" Loaded="SectionTitle_Loaded" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </Border>
 
-                            <StackPanel Visibility="{Binding RecommendedVisibility}" Margin="0,20,0,0">
+                <Border x:Name="HomeSectionDiscover" Tag="discover" Style="{StaticResource HomeSectionStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="1" Margin="0,28,0,0">
+                            <StackPanel Visibility="{Binding RecommendedVisibility}" Margin="0,0,0,0">
                                 <TextBlock Text="{resources:Loc Ui_Home_RecommendedForYou}" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                                 <ItemsControl ItemsSource="{Binding Recommended}">
                                     <ItemsControl.ItemsPanel>
@@ -561,8 +610,10 @@
                         <Border Style="{StaticResource HomeSectionToolbarStyle}">
                             <DockPanel LastChildFill="True">
                                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <ui:Button Style="{StaticResource HomeSectionMoveTopButtonStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
+                                    <ui:Button Style="{StaticResource HomeSectionMoveBottomButtonStyle}"/>
                                     <Border Style="{StaticResource HomeSectionToolbarDividerStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionHideButtonStyle}"/>
                                 </StackPanel>
@@ -851,8 +902,10 @@
                         <Border Style="{StaticResource HomeSectionToolbarStyle}">
                             <DockPanel LastChildFill="True">
                                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <ui:Button Style="{StaticResource HomeSectionMoveTopButtonStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
+                                    <ui:Button Style="{StaticResource HomeSectionMoveBottomButtonStyle}"/>
                                     <Border Style="{StaticResource HomeSectionToolbarDividerStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionHideButtonStyle}"/>
                                 </StackPanel>
@@ -913,8 +966,10 @@
                         <Border Style="{StaticResource HomeSectionToolbarStyle}">
                             <DockPanel LastChildFill="True">
                                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <ui:Button Style="{StaticResource HomeSectionMoveTopButtonStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
+                                    <ui:Button Style="{StaticResource HomeSectionMoveBottomButtonStyle}"/>
                                     <Border Style="{StaticResource HomeSectionToolbarDividerStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionHideButtonStyle}"/>
                                 </StackPanel>
@@ -944,8 +999,10 @@
                         <Border Style="{StaticResource HomeSectionToolbarStyle}">
                             <DockPanel LastChildFill="True">
                                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <ui:Button Style="{StaticResource HomeSectionMoveTopButtonStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
+                                    <ui:Button Style="{StaticResource HomeSectionMoveBottomButtonStyle}"/>
                                     <Border Style="{StaticResource HomeSectionToolbarDividerStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionHideButtonStyle}"/>
                                 </StackPanel>
@@ -976,8 +1033,10 @@
                         <Border Style="{StaticResource HomeSectionToolbarStyle}">
                             <DockPanel LastChildFill="True">
                                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <ui:Button Style="{StaticResource HomeSectionMoveTopButtonStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
+                                    <ui:Button Style="{StaticResource HomeSectionMoveBottomButtonStyle}"/>
                                     <Border Style="{StaticResource HomeSectionToolbarDividerStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionHideButtonStyle}"/>
                                 </StackPanel>
@@ -1045,8 +1104,10 @@
                         <Border Style="{StaticResource HomeSectionToolbarStyle}">
                             <DockPanel LastChildFill="True">
                                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <ui:Button Style="{StaticResource HomeSectionMoveTopButtonStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
+                                    <ui:Button Style="{StaticResource HomeSectionMoveBottomButtonStyle}"/>
                                     <Border Style="{StaticResource HomeSectionToolbarDividerStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionHideButtonStyle}"/>
                                 </StackPanel>
@@ -1077,8 +1138,10 @@
                         <Border Style="{StaticResource HomeSectionToolbarStyle}">
                             <DockPanel LastChildFill="True">
                                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <ui:Button Style="{StaticResource HomeSectionMoveTopButtonStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionMoveUpButtonStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionMoveDownButtonStyle}"/>
+                                    <ui:Button Style="{StaticResource HomeSectionMoveBottomButtonStyle}"/>
                                     <Border Style="{StaticResource HomeSectionToolbarDividerStyle}"/>
                                     <ui:Button Style="{StaticResource HomeSectionHideButtonStyle}"/>
                                 </StackPanel>

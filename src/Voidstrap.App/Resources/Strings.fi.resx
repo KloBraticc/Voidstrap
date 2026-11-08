@@ -9865,4 +9865,19 @@ Sallitaanko?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Liittyminen Discordista epäonnistui. Varmista, että Discord on auki, ja yritä uudelleen.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Siirrä ylimmäksi</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Siirrä alimmaksi</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Esittelybanneri</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Näytä kaikki</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Kumoa viimeisin asettelumuutos</value>
+  </data>
 </root>

@@ -9867,4 +9867,19 @@ Consentire?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Impossibile entrare da Discord. Assicurati che Discord sia aperto e riprova.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Sposta in cima</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Sposta in fondo</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Banner in evidenza</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Mostra tutto</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Annulla l'ultima modifica al layout</value>
+  </data>
 </root>

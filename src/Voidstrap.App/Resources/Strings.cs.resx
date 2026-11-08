@@ -9865,4 +9865,19 @@ Povolit?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Připojení přes Discord se nezdařilo. Ujistěte se, že je Discord otevřený, a zkuste to znovu.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Přesunout nahoru</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Přesunout dolů</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Hlavní banner</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Zobrazit vše</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Vrátit poslední změnu rozložení</value>
+  </data>
 </root>

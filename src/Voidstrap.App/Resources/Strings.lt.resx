@@ -9866,4 +9866,19 @@ Leisti?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Nepavyko prisijungti per Discord. Įsitikinkite, kad Discord atidarytas, ir bandykite dar kartą.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Perkelti į viršų</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Perkelti į apačią</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Rekomenduojama reklamjuostė</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Rodyti viską</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Anuliuoti paskutinį išdėstymo pakeitimą</value>
+  </data>
 </root>

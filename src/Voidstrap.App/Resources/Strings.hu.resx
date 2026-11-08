@@ -9864,4 +9864,19 @@ Engedélyezed?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Nem sikerült csatlakozni a Discordból. Győződj meg róla, hogy a Discord nyitva van, és próbáld újra.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Áthelyezés legfelülre</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Áthelyezés legalulra</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Kiemelt szalaghirdetés</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Összes megjelenítése</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Az utolsó elrendezésmódosítás visszavonása</value>
+  </data>
 </root>

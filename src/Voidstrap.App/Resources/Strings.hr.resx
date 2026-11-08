@@ -9864,4 +9864,19 @@ Dopustiti?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Pridruživanje putem Discorda nije uspjelo. Provjeri je li Discord otvoren i pokušaj ponovno.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Premjesti na vrh</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Premjesti na dno</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Istaknuti natpis</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Prikaži sve</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Poništi posljednju promjenu rasporeda</value>
+  </data>
 </root>

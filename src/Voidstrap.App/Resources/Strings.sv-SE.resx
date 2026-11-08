@@ -9864,4 +9864,19 @@ Tillåta?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Det gick inte att gå med från Discord. Kontrollera att Discord är öppet och försök igen.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Flytta högst upp</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Flytta längst ned</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Utvald banner</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Visa alla</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Ångra den senaste layoutändringen</value>
+  </data>
 </root>

@@ -9863,4 +9863,19 @@ Autoriser ?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Impossible de rejoindre depuis Discord. Vérifiez que Discord est ouvert et réessayez.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Déplacer tout en haut</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Déplacer tout en bas</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Bannière à la une</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Tout afficher</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Annuler la dernière modification de la disposition</value>
+  </data>
 </root>

@@ -9864,4 +9864,19 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>No se pudo unir desde Discord. Asegúrate de que Discord esté abierto e inténtalo de nuevo.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Mover al principio</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Mover al final</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Banner destacado</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Mostrar todo</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Deshacer el último cambio de diseño</value>
+  </data>
 </root>

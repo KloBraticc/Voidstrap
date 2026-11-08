@@ -9867,4 +9867,19 @@ Izinkan?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Tidak dapat bergabung dari Discord. Pastikan Discord terbuka lalu coba lagi.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Pindahkan ke atas</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Pindahkan ke bawah</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Banner unggulan</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Tampilkan semua</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Urungkan perubahan tata letak terakhir</value>
+  </data>
 </root>

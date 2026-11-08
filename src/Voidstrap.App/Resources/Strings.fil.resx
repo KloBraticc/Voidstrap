@@ -9862,4 +9862,19 @@ Payagan ba?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Hindi makasali mula sa Discord. Tiyaking bukas ang Discord at subukan ulit.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Ilipat sa itaas</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Ilipat sa ibaba</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Itinatampok na banner</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Ipakita lahat</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>I-undo ang huling pagbabago sa layout</value>
+  </data>
 </root>

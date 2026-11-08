@@ -18,11 +18,13 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             ApplyHomeLayout();
             Loaded += OnHomePageLoaded;
             Unloaded += OnHomePageUnloaded;
+            PreviewKeyDown += HomePage_PreviewKeyDown;
         }
 
         private void OnHomePageUnloaded(object sender, RoutedEventArgs e)
         {
             _viewModel.RiShadeReleaseRequested -= OnRiShadeReleaseRequested;
+            PreviewKeyDown -= HomePage_PreviewKeyDown;
         }
 
         private void OnRiShadeReleaseRequested(object? sender, EventArgs e)

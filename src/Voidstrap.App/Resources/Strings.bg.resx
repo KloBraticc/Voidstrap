@@ -9864,4 +9864,19 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Неуспешно присъединяване от Discord. Уверете се, че Discord е отворен, и опитайте отново.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Преместване най-горе</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Преместване най-долу</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Препоръчан банер</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Показване на всички</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Отмяна на последната промяна на оформлението</value>
+  </data>
 </root>

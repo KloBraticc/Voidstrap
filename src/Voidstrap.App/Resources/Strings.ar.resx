@@ -9863,4 +9863,19 @@
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>تعذر الانضمام من Discord. تأكد من أن Discord مفتوح وحاول مرة أخرى.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>النقل إلى الأعلى</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>النقل إلى الأسفل</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>اللافتة المميزة</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>إظهار الكل</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>التراجع عن آخر تغيير في التخطيط</value>
+  </data>
 </root>

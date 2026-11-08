@@ -9863,4 +9863,19 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discord에서 참여하지 못했습니다. Discord가 열려 있는지 확인한 후 다시 시도하십시오.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>맨 위로 이동</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>맨 아래로 이동</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>추천 배너</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>모두 표시</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>마지막 레이아웃 변경 실행 취소</value>
+  </data>
 </root>
