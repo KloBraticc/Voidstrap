@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Text.RegularExpressions;
 using System.Windows.Threading;
 using Voidstrap.UI.Elements.Settings;
 using Voidstrap.UI.ViewModels.Pages;
@@ -10,7 +11,9 @@ namespace Voidstrap.UI.Elements.Controls
 {
     public partial class LibraryGamesControl : UserControl
     {
-        private const int MaxGames = 60;
+        private const int MaxGames = 150;
+
+        private const int SearchPages = 4;
 
         private const double TileGap = 14;
 
@@ -30,6 +33,8 @@ namespace Voidstrap.UI.Elements.Controls
         private CancellationTokenSource? _cts;
         private List<DiscoverGameEntry>? _recommended;
         private bool _active;
+        private List<DiscoverGameEntry>? _lastGames;
+        private string _lastQuery = string.Empty;
 
         public LibraryGamesControl()
         {
@@ -75,6 +80,70 @@ namespace Voidstrap.UI.Elements.Controls
             _debounce.Start();
         }
 
+        private void SearchBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                e.Handled = true;
+                _debounce.Stop();
+                _ = LoadAsync(SearchBox.Text.Trim());
+            }
+            else if (e.Key == Key.Escape && SearchBox.Text.Length > 0)
+            {
+                e.Handled = true;
+                SearchBox.Text = string.Empty;
+            }
+        }
+
+        private void Root_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                e.Handled = true;
+                SearchBox.Focus();
+                SearchBox.SelectAll();
+            }
+        }
+
+        private void SortBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_lastGames != null)
+                Show(_lastGames, _lastQuery);
+        }
+
+        private static long ParsePlaceId(string query)
+        {
+            Match match = Regex.Match(query, @"(?:roblox\.com/(?:[a-z]{2}/)?games/|placeId=)(\d+)", RegexOptions.IgnoreCase);
+            if (match.Success && long.TryParse(match.Groups[1].Value, out long fromUrl))
+                return fromUrl;
+            return query.Length >= 3 && query.All(char.IsAsciiDigit) && long.TryParse(query, out long id) ? id : 0;
+        }
+
+        private IEnumerable<DiscoverGameEntry> Sorted(List<DiscoverGameEntry> games) => SortBox?.SelectedIndex switch
+        {
+            1 => games.OrderByDescending(g => g.Players),
+            2 => games.OrderBy(g => g.Players),
+            3 => games.OrderByDescending(g => g.Rating).ThenByDescending(g => g.Players),
+            4 => games.OrderBy(g => g.Name, StringComparer.CurrentCultureIgnoreCase),
+            _ => games,
+        };
+
+        private void Show(List<DiscoverGameEntry> games, string query)
+        {
+            _lastGames = games;
+            _lastQuery = query;
+            HashSet<long> favorites = (App.Settings.Prop.FavoriteGamePlaceIds ?? new List<long>()).ToHashSet();
+            _games.Clear();
+            foreach (DiscoverGameEntry game in Sorted(games))
+            {
+                game.IsFavorite = favorites.Contains(game.PlaceId);
+                _games.Add(game);
+            }
+            StatusText.Visibility = games.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+            if (games.Count == 0)
+                StatusText.Text = query.Length == 0 ? Strings.Ui_Bootstrapper_WindowIconsNoGamesFound : string.Format(Strings.ContextMenu_GameBrowser_NoResults, query);
+        }
+
         private void Debounce_Tick(object? sender, EventArgs e)
         {
             _debounce.Stop();
@@ -101,9 +170,14 @@ namespace Voidstrap.UI.Elements.Controls
                 {
                     games = await Task.Run(async () =>
                     {
-                        List<DiscoverGameEntry> found = query.Length == 0
-                            ? await HomePageViewModel.ReadOmniRecommendationsAsync(_session).ConfigureAwait(false)
-                            : await HomePageViewModel.SearchGamesAsync(query, _session, token).ConfigureAwait(false);
+                        List<DiscoverGameEntry> found = new();
+                        long placeId = ParsePlaceId(query);
+                        if (placeId > 0 && await HomePageViewModel.LookupPlaceAsync(placeId, token).ConfigureAwait(false) is DiscoverGameEntry direct)
+                            found.Add(direct);
+                        if (placeId <= 0 || !query.Contains('/'))
+                            found.AddRange(query.Length == 0
+                                ? await HomePageViewModel.ReadOmniRecommendationsAsync(_session).ConfigureAwait(false)
+                                : await HomePageViewModel.SearchGamesAsync(query, _session, SearchPages, token).ConfigureAwait(false));
                         return found.GroupBy(g => g.UniverseId).Select(g => g.First()).Take(MaxGames).ToList();
                     }, token);
                     if (query.Length == 0)
@@ -111,18 +185,7 @@ namespace Voidstrap.UI.Elements.Controls
                 }
                 if (token.IsCancellationRequested)
                     return;
-                HashSet<long> favorites = (App.Settings.Prop.FavoriteGamePlaceIds ?? new List<long>()).ToHashSet();
-                _games.Clear();
-                foreach (DiscoverGameEntry game in games)
-                {
-                    game.IsFavorite = favorites.Contains(game.PlaceId);
-                    _games.Add(game);
-                }
-                if (games.Count == 0)
-                {
-                    StatusText.Text = query.Length == 0 ? Strings.Ui_Bootstrapper_WindowIconsNoGamesFound : string.Format(Strings.ContextMenu_GameBrowser_NoResults, query);
-                    StatusText.Visibility = Visibility.Visible;
-                }
+                Show(games, query);
                 List<DiscoverGameEntry> missing = games.Where(g => g.ThumbnailUrl == null).ToList();
                 if (missing.Count > 0)
                     await HomePageViewModel.FillGameIconsAsync(missing, token);

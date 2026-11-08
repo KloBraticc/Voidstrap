@@ -29,6 +29,10 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         public string LikePercent { get; init; } = string.Empty;
 
+        public long Players { get; init; }
+
+        public int Rating { get; init; } = -1;
+
         public Visibility LikeVisibility => LikePercent.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
 
         public string? ThumbnailUrl
@@ -313,6 +317,8 @@ namespace Voidstrap.UI.ViewModels.Pages
                 PlaceId = placeId,
                 Name = name,
                 PlayerCount = FormatCount(ReadLong(game, "playerCount")),
+                Players = ReadLong(game, "playerCount"),
+                Rating = up + down > 0 ? (int)(up * 100 / (up + down)) : -1,
                 LikePercent = up + down > 0 ? (up * 100 / (up + down)) + "%" : string.Empty,
             };
         }
@@ -324,34 +330,95 @@ namespace Voidstrap.UI.ViewModels.Pages
             return value.ValueKind == JsonValueKind.Number && value.TryGetInt64(out long number) ? number : 0;
         }
 
-        internal static async Task<List<DiscoverGameEntry>> SearchGamesAsync(string query, string session, CancellationToken token)
+        internal static async Task<List<DiscoverGameEntry>> SearchGamesAsync(string query, string session, int maxPages, CancellationToken token)
         {
             List<DiscoverGameEntry> result = new();
-            RobloxApiResponse response = await RobloxCookie
-                .SendGetWithCookieAsync(
-                    "https://apis.roblox.com/search-api/omni-search?searchQuery=" + Uri.EscapeDataString(query) + "&pageToken=&sessionId=" + session + "&pageType=all",
-                    null,
-                    token
-                )
-                .ConfigureAwait(false);
-            if (response.StatusCode != 200 || response.Body == null)
-                return result;
-            using JsonDocument doc = JsonDocument.Parse(response.Body);
-            if (!doc.RootElement.TryGetProperty("searchResults", out JsonElement groups) || groups.ValueKind != JsonValueKind.Array)
-                return result;
-            foreach (JsonElement group in groups.EnumerateArray())
+            string pageToken = string.Empty;
+            for (int page = 0; page < maxPages; page++)
             {
-                if (!group.TryGetProperty("contents", out JsonElement contents) || contents.ValueKind != JsonValueKind.Array)
-                    continue;
-                foreach (JsonElement item in contents.EnumerateArray())
+                RobloxApiResponse response = await RobloxCookie
+                    .SendGetWithCookieAsync(
+                        "https://apis.roblox.com/search-api/omni-search?searchQuery=" + Uri.EscapeDataString(query) + "&pageToken=" + Uri.EscapeDataString(pageToken) + "&sessionId=" + session + "&pageType=all",
+                        null,
+                        token
+                    )
+                    .ConfigureAwait(false);
+                if (response.StatusCode != 200 || response.Body == null)
+                    break;
+                using JsonDocument doc = JsonDocument.Parse(response.Body);
+                if (!doc.RootElement.TryGetProperty("searchResults", out JsonElement groups) || groups.ValueKind != JsonValueKind.Array)
+                    break;
+                foreach (JsonElement group in groups.EnumerateArray())
                 {
-                    if (item.TryGetProperty("isSponsored", out JsonElement sponsored) && sponsored.ValueKind == JsonValueKind.True)
+                    if (!group.TryGetProperty("contents", out JsonElement contents) || contents.ValueKind != JsonValueKind.Array)
                         continue;
-                    if (ReadGame(item) is DiscoverGameEntry entry)
-                        result.Add(entry);
+                    foreach (JsonElement item in contents.EnumerateArray())
+                    {
+                        if (item.TryGetProperty("isSponsored", out JsonElement sponsored) && sponsored.ValueKind == JsonValueKind.True)
+                            continue;
+                        if (ReadGame(item) is DiscoverGameEntry entry)
+                            result.Add(entry);
+                    }
                 }
+                pageToken = doc.RootElement.TryGetProperty("nextPageToken", out JsonElement next) && next.ValueKind == JsonValueKind.String ? next.GetString() ?? string.Empty : string.Empty;
+                if (pageToken.Length == 0)
+                    break;
             }
             return result;
+        }
+
+        internal static async Task<DiscoverGameEntry?> LookupPlaceAsync(long placeId, CancellationToken token)
+        {
+            RobloxApiResponse universe = await RobloxCookie
+                .SendGetWithCookieAsync("https://apis.roblox.com/universes/v1/places/" + placeId + "/universe", null, token)
+                .ConfigureAwait(false);
+            if (universe.StatusCode != 200 || universe.Body == null)
+                return null;
+            long universeId;
+            using (JsonDocument doc = JsonDocument.Parse(universe.Body))
+                universeId = ReadLong(doc.RootElement, "universeId");
+            if (universeId <= 0)
+                return null;
+            RobloxApiResponse games = await RobloxCookie
+                .SendGetWithCookieAsync("https://games.roblox.com/v1/games?universeIds=" + universeId, null, token)
+                .ConfigureAwait(false);
+            if (games.StatusCode != 200 || games.Body == null)
+                return null;
+            string name;
+            long players;
+            long rootPlaceId;
+            using (JsonDocument doc = JsonDocument.Parse(games.Body))
+            {
+                if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array || data.GetArrayLength() == 0)
+                    return null;
+                name = data[0].TryGetProperty("name", out JsonElement n) ? n.GetString() ?? "" : "";
+                players = ReadLong(data[0], "playing");
+                rootPlaceId = ReadLong(data[0], "rootPlaceId");
+            }
+            long up = 0;
+            long down = 0;
+            RobloxApiResponse votes = await RobloxCookie
+                .SendGetWithCookieAsync("https://games.roblox.com/v1/games/votes?universeIds=" + universeId, null, token)
+                .ConfigureAwait(false);
+            if (votes.StatusCode == 200 && votes.Body != null)
+            {
+                using JsonDocument doc = JsonDocument.Parse(votes.Body);
+                if (doc.RootElement.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array && data.GetArrayLength() > 0)
+                {
+                    up = ReadLong(data[0], "upVotes");
+                    down = ReadLong(data[0], "downVotes");
+                }
+            }
+            return new DiscoverGameEntry
+            {
+                UniverseId = universeId,
+                PlaceId = rootPlaceId > 0 ? rootPlaceId : placeId,
+                Name = name.Length > 0 ? name : "Place " + placeId,
+                PlayerCount = FormatCount(players),
+                Players = players,
+                Rating = up + down > 0 ? (int)(up * 100 / (up + down)) : -1,
+                LikePercent = up + down > 0 ? (up * 100 / (up + down)) + "%" : string.Empty,
+            };
         }
 
         internal static async Task FillGameIconsAsync(List<DiscoverGameEntry> games, CancellationToken token)
