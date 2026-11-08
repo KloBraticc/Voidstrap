@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -102,7 +102,13 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         JoinCommand = new AsyncRelayCommand<ServerCard>(JoinAsync);
         RefreshCommand = new CommunityToolkit.Mvvm.Input.RelayCommand(() => _ = LoadPublicAsync());
         RefreshPrivateCommand = new CommunityToolkit.Mvvm.Input.RelayCommand(() => _ = LoadPrivateAsync(true));
+        Servers.CollectionChanged += OnServersChanged;
     }
+
+    private void OnServersChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) =>
+        OnPropertyChanged(nameof(PublicProgressVisibility));
+
+    public Visibility PublicProgressVisibility => _publicLoading && Servers.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
 
     public ObservableCollection<ServerCard> Servers { get; } = new();
 
@@ -122,7 +128,10 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         private set
         {
             if (SetProperty(ref _publicLoading, value))
+            {
                 OnPropertyChanged(nameof(PublicStatusVisibility));
+                OnPropertyChanged(nameof(PublicProgressVisibility));
+            }
         }
     }
 

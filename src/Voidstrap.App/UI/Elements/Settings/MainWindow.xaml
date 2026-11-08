@@ -1185,7 +1185,7 @@
         </Border.RenderTransform>
         <ContentControl x:Name="NewsItemHost" Focusable="False" />
       </Border>
-      <Border x:Name="GameDetailPanel" Style="{StaticResource RinDialogPanelStyle}" Width="760" MaxHeight="720">
+      <Border x:Name="GameDetailPanel" Style="{StaticResource RinDialogPanelStyle}" Width="760" MaxHeight="720" Margin="8,24" VerticalAlignment="Stretch">
         <Border.RenderTransform>
           <ScaleTransform x:Name="GameDetailPanelScale" ScaleX="1" ScaleY="1" />
         </Border.RenderTransform>

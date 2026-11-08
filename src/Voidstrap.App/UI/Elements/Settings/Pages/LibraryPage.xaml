@@ -831,9 +831,14 @@
                     </ui:Button>
                   </StackPanel>
                 </Grid>
-                <ProgressBar Height="4" Margin="0,12,0,0" IsIndeterminate="True" Visibility="{Binding Servers.PublicLoading, Converter={StaticResource BoolToVis}}" />
+                <ProgressBar Height="4" Margin="0,12,0,0" IsIndeterminate="True" Visibility="{Binding Servers.PublicProgressVisibility}" />
                 <TextBlock Margin="0,10,0,0" FontSize="12" TextWrapping="Wrap" Text="{Binding Servers.PublicStatus}" Visibility="{Binding Servers.PublicStatusVisibility}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                 <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Servers.Servers}" ItemTemplate="{StaticResource ServerCardTemplate}">
+                  <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                      <Setter Property="Width" Value="322" />
+                    </Style>
+                  </ItemsControl.ItemContainerStyle>
                   <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                       <WrapPanel />
@@ -859,6 +864,11 @@
                 <ProgressBar Height="4" Margin="0,12,0,0" IsIndeterminate="True" Visibility="{Binding Servers.PrivateLoading, Converter={StaticResource BoolToVis}}" />
                 <TextBlock Margin="0,10,0,0" FontSize="12" TextWrapping="Wrap" Text="{Binding Servers.PrivateStatus}" Visibility="{Binding Servers.PrivateStatusVisibility}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                 <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Servers.PrivateServers}" ItemTemplate="{StaticResource ServerCardTemplate}">
+                  <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                      <Setter Property="Width" Value="322" />
+                    </Style>
+                  </ItemsControl.ItemContainerStyle>
                   <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                       <WrapPanel />
