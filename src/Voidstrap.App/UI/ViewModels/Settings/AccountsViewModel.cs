@@ -168,12 +168,16 @@ namespace Voidstrap.UI.ViewModels.Settings
             CheckAllCommand = new RelayCommand(() => _ = CheckAllAsync());
             RefreshCommand = new RelayCommand(() => _ = LoadAsync());
             WearOutfitCommand = new AsyncRelayCommand<OutfitRow?>(row => WearOutfitAsync(row));
+            OutfitBackCommand = new RelayCommand(() => PageOutfits(-1));
+            OutfitForwardCommand = new RelayCommand(() => PageOutfits(1));
             SavedAccounts.Changed += OnStoreChanged;
         }
 
         public ObservableCollection<AccountRow> Accounts { get; } = new();
 
         public ObservableCollection<OutfitRow> Outfits { get; } = new();
+
+        public ObservableCollection<OutfitRow> OutfitPage { get; } = new();
 
         public ICommand SignInCommand { get; }
         public ICommand SignUpCommand { get; }
@@ -194,6 +198,8 @@ namespace Voidstrap.UI.ViewModels.Settings
         public ICommand CheckAllCommand { get; }
         public ICommand RefreshCommand { get; }
         public ICommand WearOutfitCommand { get; }
+        public ICommand OutfitBackCommand { get; }
+        public ICommand OutfitForwardCommand { get; }
 
         public Visibility BrowserSignInVisibility =>
             Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsMacOS ? Visibility.Visible : Visibility.Collapsed;
@@ -307,6 +313,29 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public Visibility OutfitsVisibility => Outfits.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
 
+        public bool CanPageOutfitsBack => _outfitOffset > 0;
+
+        public bool CanPageOutfitsForward => _outfitOffset + OutfitsPerPage < Outfits.Count;
+
+        private const int OutfitsPerPage = 5;
+
+        private int _outfitOffset;
+
+        private void PageOutfits(int direction)
+        {
+            int maxOffset = Math.Max(0, Outfits.Count - OutfitsPerPage);
+            _outfitOffset = Math.Clamp(_outfitOffset + direction * OutfitsPerPage, 0, maxOffset);
+            UpdateOutfitPage();
+        }
+
+        private void UpdateOutfitPage()
+        {
+            OutfitPage.Clear();
+            foreach (OutfitRow outfit in Outfits.Skip(_outfitOffset).Take(OutfitsPerPage))
+                OutfitPage.Add(outfit);
+            OnPropertyChanged(nameof(CanPageOutfitsBack));
+            OnPropertyChanged(nameof(CanPageOutfitsForward));
+        }
 
         public async Task LoadAsync()
         {
@@ -750,6 +779,8 @@ namespace Voidstrap.UI.ViewModels.Settings
             _detailCts = null;
             Robux = Premium = Joined = Friends = Followers = "";
             Outfits.Clear();
+            _outfitOffset = 0;
+            UpdateOutfitPage();
             OnPropertyChanged(nameof(OutfitsVisibility));
             if (row == null || row.Model.UserId == 0)
                 return;
@@ -821,7 +852,8 @@ namespace Voidstrap.UI.ViewModels.Settings
                         {
                             long id = el.TryGetProperty("id", out JsonElement idEl) && idEl.TryGetInt64(out long l) ? l : 0;
                             string name = el.TryGetProperty("name", out JsonElement nameEl) ? nameEl.GetString() ?? "" : "";
-                            if (id != 0)
+                            bool editable = !el.TryGetProperty("isEditable", out JsonElement editEl) || editEl.ValueKind != JsonValueKind.False;
+                            if (id != 0 && editable)
                                 loaded.Add(new OutfitRow(id, name));
                         }
                     }
@@ -837,6 +869,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                             outfit.ImageUrl = url;
                         Outfits.Add(outfit);
                     }
+                    UpdateOutfitPage();
                 }
             }
             catch (OperationCanceledException) { }
