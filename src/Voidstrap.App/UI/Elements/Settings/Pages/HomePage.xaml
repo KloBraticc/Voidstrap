@@ -544,10 +544,10 @@
                                                         <DockPanel Margin="0,6,0,0">
                                                             <ui:Button DockPanel.Dock="Right" Padding="4" Icon="Open24" Appearance="Transparent" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" Command="{Binding DataContext.OpenDiscoverCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}"/>
                                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                                <ui:SymbolIcon Symbol="People24" FontSize="13" Opacity="0.7" VerticalAlignment="Center"/>
-                                                                <TextBlock Text="{Binding PlayerCount}" FontSize="12" Opacity="0.7" Margin="4,-2,12,0" VerticalAlignment="Center"/>
+                                                                <ui:SymbolIcon Symbol="People24" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{Binding PlayerCount}" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="4,-2,12,0" VerticalAlignment="Center"/>
                                                                 <Ellipse Width="7" Height="7" Fill="#FF22C55E" VerticalAlignment="Center" Visibility="{Binding LikeVisibility}"/>
-                                                                <TextBlock Text="{Binding LikePercent}" FontSize="12" Opacity="0.7" Margin="4,-2,0,0" VerticalAlignment="Center"/>
+                                                                <TextBlock Text="{Binding LikePercent}" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="4,-2,0,0" VerticalAlignment="Center"/>
                                                             </StackPanel>
                                                         </DockPanel>
                                                     </StackPanel>
@@ -767,17 +767,17 @@
                                             <TextBlock Text="{Binding LikePercent}"
                                                        FontSize="12"
                                                        Margin="4,-2,12,0"
-                                                       Opacity="0.75"
+                                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                                        VerticalAlignment="Center"/>
 
                                             <ui:SymbolIcon Symbol="People24"
                                                            FontSize="14"
-                                                           Opacity="0.75"
+                                                           Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                                            VerticalAlignment="Center"/>
                                             <TextBlock Text="{Binding PlayerCount}"
                                                        FontSize="12"
                                                        Margin="4,-2,0,0"
-                                                       Opacity="0.75"
+                                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                                        VerticalAlignment="Center"/>
                                         </StackPanel>
 
