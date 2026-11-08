@@ -84,7 +84,7 @@ public partial class LibraryPage : UiPage
 
     private void RootTabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (e.OriginalSource == RootTabs)
+        if (e.OriginalSource == RootTabs && GamesView != null && GamesTab != null)
             GamesView.SetActive(GamesTab.IsSelected);
     }
 
