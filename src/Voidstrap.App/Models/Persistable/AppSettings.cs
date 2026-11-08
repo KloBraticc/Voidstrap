@@ -432,7 +432,8 @@ namespace Voidstrap.Models.Persistable
         public string Channel { get; set; } = RobloxInterfaces.Deployment.DefaultChannel;
         public string ChannelHash { get; set; } = "";
         public string PreferredMirror { get; set; } = "";
-        public bool AllowPreReleaseUpdates { get; set; } = true;
+        [JsonPropertyName("AllowPreReleaseUpdatesV2")]
+        public bool AllowPreReleaseUpdates { get; set; } = false;
 
         public string LaunchGameID { get; set; } = "";
         public bool IsGameEnabled { get; set; } = false;
