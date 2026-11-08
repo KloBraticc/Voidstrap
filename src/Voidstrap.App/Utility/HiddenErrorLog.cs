@@ -10,7 +10,7 @@ using System.Windows.Threading;
 
 namespace Voidstrap.Utility;
 
-internal static class HiddenErrorLog
+internal static partial class HiddenErrorLog
 {
     private const string LOG_IDENT = "HiddenErrors";
 
@@ -72,8 +72,49 @@ internal static class HiddenErrorLog
 
     private static string _frozenStack = "";
 
+    private const int ResourceCheckTicks = 60;
+
+    private const int StarvationQueueLimit = 500;
+
+    private const int StarvationTicksBeforeReport = 6;
+
+    private const int MaxResourceReports = 20;
+
+    private const int HandleWarnStep = 5000;
+
+    private const int GdiWarnStep = 2500;
+
+    private const long HeapWarnStepBytes = 256L * 1024 * 1024;
+
+    private static int _watchdogTicks;
+
+    private static int _starvedTicks;
+
+    private static int _starvationReported;
+
+    private static int _resourceReports;
+
+    private static int _nextHandleWarn = HandleWarnStep;
+
+    private static int _nextGdiWarn = GdiWarnStep;
+
+    private static int _nextUserWarn = GdiWarnStep;
+
+    private static long _nextHeapWarn;
+
+    private static long _baselineHeap;
+
+    private static int _peakHandles;
+
+    private static int _peakGdi;
+
+    private static int _peakUser;
+
     [ThreadStatic]
     private static bool _inside;
+
+    [System.Runtime.InteropServices.LibraryImport("user32.dll", EntryPoint = "GetGuiResources")]
+    private static partial uint GetGuiResources(nint process, uint flags);
 
     public static void Install()
     {
@@ -86,6 +127,11 @@ internal static class HiddenErrorLog
             Listen(PresentationTraceSources.DataBindingSource, "BindingErrors");
             Listen(PresentationTraceSources.ResourceDictionarySource, "ResourceErrors");
             Listen(PresentationTraceSources.AnimationSource, "AnimationErrors");
+            Listen(PresentationTraceSources.DependencyPropertySource, "PropertyErrors");
+            Listen(PresentationTraceSources.FreezableSource, "FreezableErrors");
+            Listen(PresentationTraceSources.MarkupSource, "MarkupErrors");
+            Listen(PresentationTraceSources.NameScopeSource, "NameScopeErrors");
+            Listen(PresentationTraceSources.HwndHostSource, "HwndHostErrors");
             Trace.Listeners.Add(new DiagnosticListener("TraceErrors", true));
         }
         catch (Exception ex)
@@ -183,6 +229,9 @@ internal static class HiddenErrorLog
             Dispatcher? dispatcher = _dispatcher;
             if (dispatcher == null || dispatcher.HasShutdownStarted)
                 return;
+            CheckThreadPool();
+            if (Interlocked.Increment(ref _watchdogTicks) % ResourceCheckTicks == 0)
+                CheckResources();
             long now = DateTime.UtcNow.Ticks;
             if (Volatile.Read(ref _probePending) == 1)
             {
@@ -277,6 +326,106 @@ internal static class HiddenErrorLog
                 + ThreadPool.PendingWorkItemCount
                 + ", lock contention "
                 + Monitor.LockContentionCount;
+        }
+        catch
+        {
+            return "";
+        }
+    }
+
+    private static void CheckThreadPool()
+    {
+        long queued = ThreadPool.PendingWorkItemCount;
+        if (queued < StarvationQueueLimit)
+        {
+            Interlocked.Exchange(ref _starvedTicks, 0);
+            if (Interlocked.Exchange(ref _starvationReported, 0) == 1)
+                App.Logger.WriteLine("ThreadPool", "Background work is flowing again, " + queued + " item(s) queued");
+            return;
+        }
+        if (Interlocked.Increment(ref _starvedTicks) != StarvationTicksBeforeReport || Interlocked.Exchange(ref _starvationReported, 1) == 1)
+            return;
+        App.Logger.WriteLine(
+            "ThreadPool",
+            "Background work is backing up, "
+                + queued
+                + " item(s) queued for over "
+                + (StarvationTicksBeforeReport * (int)WatchdogInterval.TotalMilliseconds)
+                + " ms, something is blocking pool threads"
+                + DescribeProcessState()
+        );
+    }
+
+    private static void CheckResources()
+    {
+        try
+        {
+            if (Volatile.Read(ref _resourceReports) >= MaxResourceReports)
+                return;
+            using Process process = Process.GetCurrentProcess();
+            int handles = process.HandleCount;
+            int gdi = 0;
+            int user = 0;
+            if (OperatingSystem.IsWindows())
+            {
+                gdi = (int)GetGuiResources(process.Handle, 0);
+                user = (int)GetGuiResources(process.Handle, 1);
+            }
+            long heap = GC.GetTotalMemory(false);
+            if (Interlocked.CompareExchange(ref _baselineHeap, heap, 0) == 0)
+                _nextHeapWarn = heap + HeapWarnStepBytes;
+            _peakHandles = Math.Max(_peakHandles, handles);
+            _peakGdi = Math.Max(_peakGdi, gdi);
+            _peakUser = Math.Max(_peakUser, user);
+            string? reason = null;
+            if (handles >= _nextHandleWarn)
+            {
+                reason = "the process holds " + handles + " handles";
+                _nextHandleWarn = handles + HandleWarnStep;
+            }
+            else if (gdi >= _nextGdiWarn)
+            {
+                reason = "the process holds " + gdi + " GDI objects, Windows stops drawing at 10000";
+                _nextGdiWarn = gdi + GdiWarnStep;
+            }
+            else if (user >= _nextUserWarn)
+            {
+                reason = "the process holds " + user + " USER objects, Windows stops creating windows at 10000";
+                _nextUserWarn = user + GdiWarnStep;
+            }
+            else if (_nextHeapWarn > 0 && heap >= _nextHeapWarn)
+            {
+                reason = "the managed heap grew to " + (heap / (1024 * 1024)) + " MB from " + (Interlocked.Read(ref _baselineHeap) / (1024 * 1024)) + " MB at the first check";
+                _nextHeapWarn = heap + HeapWarnStepBytes;
+            }
+            if (reason == null)
+                return;
+            Interlocked.Increment(ref _resourceReports);
+            App.Logger.WriteLine(
+                "ResourceLeak",
+                "Possible leak: "
+                    + reason
+                    + (OperatingSystem.IsWindows() ? ", GDI " + gdi + ", USER " + user : "")
+                    + (_activeWindow.Length > 0 ? ", active window " + _activeWindow : "")
+                    + DescribeProcessState()
+            );
+        }
+        catch { }
+    }
+
+    private static string DescribeInner(Exception ex)
+    {
+        try
+        {
+            System.Text.StringBuilder builder = new();
+            if (ex.HResult != 0 && ex.HResult != unchecked((int)0x80131500))
+                builder.Append(" [0x").Append(ex.HResult.ToString("X8", CultureInfo.InvariantCulture)).Append(']');
+            int depth = 0;
+            for (Exception? inner = ex.InnerException; inner != null && depth < 4; inner = inner.InnerException, depth++)
+                builder.Append(" caused by ").Append(inner.GetType().Name).Append(": ").Append(Trim(inner.Message));
+            if (ex is AggregateException { InnerExceptions.Count: > 1 } aggregate)
+                builder.Append(", ").Append(aggregate.InnerExceptions.Count).Append(" errors aggregated");
+            return builder.ToString();
         }
         catch
         {
@@ -380,7 +529,15 @@ internal static class HiddenErrorLog
                     );
                 return;
             }
-            App.Logger.WriteLine(LOG_IDENT, site + ": " + Trim(ex.Message) + CallerSummary());
+            App.Logger.WriteLine(
+                LOG_IDENT,
+                site
+                    + ": "
+                    + Trim(ex.Message)
+                    + DescribeInner(ex)
+                    + (Environment.CurrentManagedThreadId == _uiThreadId ? " on the UI thread" : " on a background thread")
+                    + CallerSummary()
+            );
         }
         catch { }
         finally
@@ -484,6 +641,9 @@ internal static class HiddenErrorLog
                                     + (_longestFreezeWindow.Length > 0 ? " in " + _longestFreezeWindow : "")
                                 : ", no window froze"
                         )
+                        + ", peak handles "
+                        + _peakHandles
+                        + (OperatingSystem.IsWindows() ? ", peak GDI " + _peakGdi + ", peak USER " + _peakUser : "")
                 );
             }
             long total = Interlocked.Read(ref _total);
