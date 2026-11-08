@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -77,7 +77,21 @@ public sealed class GameVideoView : ContentControl
             Teardown();
         else if (Voidstrap.Utility.Platform.UsesPortableUi)
             StartPortable(VideoPath);
+        else if (_view == null && !_starting && !_deferred)
+        {
+            _deferred = true;
+            Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, StartDeferred);
+        }
         else
+            _ = StartAsync(VideoPath);
+    }
+
+    private bool _deferred;
+
+    private void StartDeferred()
+    {
+        _deferred = false;
+        if (IsLoaded && IsVisible && !string.IsNullOrEmpty(VideoPath))
             _ = StartAsync(VideoPath);
     }
 

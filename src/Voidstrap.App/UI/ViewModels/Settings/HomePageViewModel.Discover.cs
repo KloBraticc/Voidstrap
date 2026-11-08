@@ -100,21 +100,23 @@ namespace Voidstrap.UI.ViewModels.Pages
                 ThumbnailUrl = game.ThumbnailUrl,
             };
 
+        private static DiscoverCache? ReadDiscoverCache()
+        {
+            const string LOG_IDENT = "HomePageViewModel::ReadDiscoverCache";
+            try
+            {
+                if (File.Exists(DiscoverCachePath))
+                    return JsonSerializer.Deserialize<DiscoverCache>(File.ReadAllText(DiscoverCachePath));
+            }
+            catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException || ex is JsonException)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "The saved discover list could not be read: " + ex.Message);
+            }
+            return null;
+        }
+
         private void RestoreDiscover()
         {
-            const string LOG_IDENT = "HomePageViewModel::RestoreDiscover";
-            if (_discoverCache == null)
-            {
-                try
-                {
-                    if (File.Exists(DiscoverCachePath))
-                        _discoverCache = JsonSerializer.Deserialize<DiscoverCache>(File.ReadAllText(DiscoverCachePath));
-                }
-                catch (Exception ex) when (ex is IOException || ex is UnauthorizedAccessException || ex is JsonException)
-                {
-                    App.Logger.WriteLine(LOG_IDENT, "The saved discover list could not be read: " + ex.Message);
-                }
-            }
             if (_discoverCache == null)
                 return;
             foreach (DiscoverCacheGame game in _discoverCache.Recommended)
@@ -150,6 +152,19 @@ namespace Voidstrap.UI.ViewModels.Pages
             _discoverLoading = true;
             try
             {
+                if (_discoverCache == null && Recommended.Count == 0)
+                {
+                    DiscoverCache? saved = await Task.Run(ReadDiscoverCache).ConfigureAwait(true);
+                    if (saved != null && _discoverCache == null && Recommended.Count == 0)
+                    {
+                        _discoverCache = saved;
+                        RestoreDiscover();
+                        OnPropertyChanged(nameof(RecommendedVisibility));
+                        OnPropertyChanged(nameof(FeaturedGame));
+                        OnPropertyChanged(nameof(FeaturedVisibility));
+                        OnPropertyChanged(nameof(FeaturedVideoPath));
+                    }
+                }
                 string session = Guid.NewGuid().ToString();
                 List<DiscoverGameEntry> topPlaying = new();
                 List<DiscoverGameEntry> fallback = new();
