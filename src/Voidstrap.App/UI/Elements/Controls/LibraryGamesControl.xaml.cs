@@ -12,6 +12,18 @@ namespace Voidstrap.UI.Elements.Controls
     {
         private const int MaxGames = 60;
 
+        private const double TileGap = 14;
+
+        private const double TargetTile = 180;
+
+        public static readonly DependencyProperty TileSizeProperty = DependencyProperty.Register(nameof(TileSize), typeof(double), typeof(LibraryGamesControl), new PropertyMetadata(TargetTile));
+
+        public double TileSize
+        {
+            get => (double)GetValue(TileSizeProperty);
+            set => SetValue(TileSizeProperty, value);
+        }
+
         private readonly ObservableCollection<DiscoverGameEntry> _games = new();
         private readonly DispatcherTimer _debounce = new() { Interval = TimeSpan.FromMilliseconds(500) };
         private readonly string _session = Guid.NewGuid().ToString();
@@ -44,6 +56,15 @@ namespace Voidstrap.UI.Elements.Controls
                 _cts?.Dispose();
                 _cts = null;
             }
+        }
+
+        private void GamesList_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double width = e.NewSize.Width;
+            if (width <= 0)
+                return;
+            int columns = Math.Max(1, (int)Math.Floor(width / (TargetTile + TileGap)));
+            TileSize = Math.Floor(width / columns - TileGap);
         }
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -160,18 +181,52 @@ namespace Voidstrap.UI.Elements.Controls
             e.Handled = true;
             if (sender is not Button button || GameOf(sender) is not DiscoverGameEntry game)
                 return;
-            MenuItem open = new() { Header = Strings.Ui_Home_ViewGamePage, Tag = game.PlaceId, Icon = new Wpf.Ui.Controls.SymbolIcon { Symbol = Wpf.Ui.Common.SymbolRegular.Open24 } };
-            open.Click += OpenPage_Click;
-            System.Windows.Controls.ContextMenu menu = new() { PlacementTarget = button };
-            menu.Items.Add(open);
+            System.Windows.Controls.ContextMenu menu = new() { PlacementTarget = button, DataContext = game };
+            AddItem(menu, Strings.Ui_Pages_Play, Wpf.Ui.Common.SymbolRegular.Play24, "play");
+            AddItem(menu, Strings.Ui_Mods_Details, Wpf.Ui.Common.SymbolRegular.Info24, "details");
+            AddItem(menu, Strings.ContextMenu_GameBrowser_Favorites, Wpf.Ui.Common.SymbolRegular.Heart24, "favorite");
+            menu.Items.Add(new Separator());
+            AddItem(menu, Strings.Library_CopyGameLink, Wpf.Ui.Common.SymbolRegular.Link24, "link");
+            AddItem(menu, Strings.Ui_Integrations_PlaceID, Wpf.Ui.Common.SymbolRegular.Copy24, "id");
+            AddItem(menu, Strings.Ui_Home_ViewGamePage, Wpf.Ui.Common.SymbolRegular.Open24, "web");
             menu.Closed += Menu_Closed;
             menu.IsOpen = true;
         }
 
-        private void OpenPage_Click(object sender, RoutedEventArgs e)
+        private void AddItem(System.Windows.Controls.ContextMenu menu, string header, Wpf.Ui.Common.SymbolRegular symbol, string action)
         {
-            if (sender is MenuItem { Tag: long placeId })
-                Utilities.OpenWebLink("https://www.roblox.com/games/" + placeId);
+            MenuItem item = new() { Header = header, Tag = action, Icon = new Wpf.Ui.Controls.SymbolIcon { Symbol = symbol } };
+            item.Click += MenuItem_Click;
+            menu.Items.Add(item);
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not MenuItem { Tag: string action, DataContext: DiscoverGameEntry game })
+                return;
+            string url = "https://www.roblox.com/games/" + game.PlaceId;
+            switch (action)
+            {
+                case "play":
+                    HomePageViewModel.LaunchPlace(game.PlaceId);
+                    break;
+                case "details":
+                    if (Window.GetWindow(this) is MainWindow window)
+                        window.ShowGameDetail(game.PlaceId, game.UniverseId, game.Name);
+                    break;
+                case "favorite":
+                    Favorite_Click(sender, e);
+                    break;
+                case "link":
+                    ClipboardService.SetDataObject(url, true);
+                    break;
+                case "id":
+                    ClipboardService.SetDataObject(game.PlaceId.ToString(CultureInfo.InvariantCulture), true);
+                    break;
+                case "web":
+                    Utilities.OpenWebLink(url);
+                    break;
+            }
         }
 
         private void Menu_Closed(object sender, RoutedEventArgs e)
@@ -180,7 +235,7 @@ namespace Voidstrap.UI.Elements.Controls
                 return;
             menu.Closed -= Menu_Closed;
             foreach (MenuItem item in menu.Items.OfType<MenuItem>())
-                item.Click -= OpenPage_Click;
+                item.Click -= MenuItem_Click;
         }
     }
 }

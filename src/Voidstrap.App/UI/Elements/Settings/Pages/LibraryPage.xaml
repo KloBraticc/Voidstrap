@@ -184,7 +184,7 @@
           <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Pages_Library}" />
         </StackPanel>
       </TabItem.Header>
-  <Grid Margin="0,8,0,0">
+  <Grid Margin="10,10,4,0">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />
       <ColumnDefinition Width="*" />
@@ -909,7 +909,7 @@
           <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Session_Games}" />
         </StackPanel>
       </TabItem.Header>
-      <controls:LibraryGamesControl x:Name="GamesView" Margin="0,8,0,0" />
+      <controls:LibraryGamesControl x:Name="GamesView" Margin="12,10,6,0" />
     </TabItem>
   </TabControl>
 </ui:UiPage>

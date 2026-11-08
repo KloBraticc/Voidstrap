@@ -1,20 +1,20 @@
 <UserControl x:Class="Voidstrap.UI.Elements.Controls.LibraryGamesControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:resources="clr-namespace:Voidstrap.Resources">
   <UserControl.Resources>
     <Style x:Key="TileActionButton" TargetType="Button">
-      <Setter Property="Width" Value="34" />
-      <Setter Property="Height" Value="34" />
-      <Setter Property="Margin" Value="3,0" />
+      <Setter Property="Width" Value="30" />
+      <Setter Property="Height" Value="30" />
+      <Setter Property="Margin" Value="0,0,0,6" />
       <Setter Property="Cursor" Value="Hand" />
       <Setter Property="Foreground" Value="White" />
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="Button">
-            <Border x:Name="Bd" CornerRadius="17" Background="#B0202020">
+            <Border x:Name="Bd" CornerRadius="15" Background="#59FFFFFF" BorderBrush="#66FFFFFF" BorderThickness="1">
               <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
             <ControlTemplate.Triggers>
               <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SystemAccentColorPrimaryBrush}" />
+                <Setter TargetName="Bd" Property="Background" Value="#8CFFFFFF" />
               </Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
@@ -22,9 +22,9 @@
       </Setter>
     </Style>
     <DataTemplate x:Key="GameTileTemplate">
-      <Grid x:Name="Tile" Width="172" Margin="0,0,14,18" Background="Transparent" Cursor="Hand" MouseLeftButtonUp="Tile_Click">
+      <Grid x:Name="Tile" Width="{Binding TileSize, RelativeSource={RelativeSource AncestorType=UserControl}}" Margin="0,0,14,18" Background="Transparent" Cursor="Hand" MouseLeftButtonUp="Tile_Click">
         <Grid.RowDefinitions>
-          <RowDefinition Height="172" />
+          <RowDefinition Height="{Binding TileSize, RelativeSource={RelativeSource AncestorType=UserControl}}" />
           <RowDefinition Height="Auto" />
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -32,25 +32,31 @@
           <Border.OpacityMask>
             <VisualBrush>
               <VisualBrush.Visual>
-                <Border Width="172" Height="172" CornerRadius="10" Background="Black" />
+                <Border Width="100" Height="100" CornerRadius="6" Background="Black" />
               </VisualBrush.Visual>
             </VisualBrush>
           </Border.OpacityMask>
           <Grid>
             <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding ThumbnailUrl}" />
-            <Border x:Name="Overlay" Background="#66000000" Opacity="0" IsHitTestVisible="False">
-              <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+            <Border x:Name="Overlay" Opacity="0" IsHitTestVisible="False">
+              <Border.Background>
+                <LinearGradientBrush StartPoint="1,0" EndPoint="0,0.6">
+                  <GradientStop Color="#66000000" Offset="0" />
+                  <GradientStop Color="#00000000" Offset="1" />
+                </LinearGradientBrush>
+              </Border.Background>
+              <StackPanel Margin="0,8,8,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Vertical">
                 <Button Style="{StaticResource TileActionButton}" Click="Favorite_Click" ToolTip="{resources:Loc ContextMenu_GameBrowser_Favorites}">
-                  <ui:SymbolIcon Symbol="Heart24" FontSize="16" Filled="{Binding IsFavorite}" />
+                  <ui:SymbolIcon Symbol="Heart24" FontSize="14" Filled="{Binding IsFavorite}" />
                 </Button>
                 <Button Style="{StaticResource TileActionButton}" Click="Play_Click" ToolTip="{resources:Loc Ui_Pages_Play}">
-                  <ui:SymbolIcon Symbol="Play24" FontSize="16" Filled="True" />
+                  <ui:SymbolIcon Symbol="Play24" FontSize="14" Filled="True" />
                 </Button>
                 <Button Style="{StaticResource TileActionButton}" Click="View_Click" ToolTip="{resources:Loc Ui_Mods_View}">
-                  <ui:SymbolIcon Symbol="Eye24" FontSize="16" />
+                  <ui:SymbolIcon Symbol="Eye24" FontSize="14" />
                 </Button>
                 <Button Style="{StaticResource TileActionButton}" Click="More_Click" ToolTip="{resources:Loc Ui_Nav_More}">
-                  <ui:SymbolIcon Symbol="MoreHorizontal24" FontSize="16" />
+                  <ui:SymbolIcon Symbol="MoreHorizontal24" FontSize="14" />
                 </Button>
               </StackPanel>
             </Border>
@@ -86,7 +92,7 @@
     <ui:DynamicScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
       <StackPanel>
         <TextBlock x:Name="StatusText" Margin="2,4,0,0" FontSize="13" TextWrapping="Wrap" Visibility="Collapsed" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-        <ItemsControl x:Name="GamesList" ItemTemplate="{StaticResource GameTileTemplate}">
+        <ItemsControl x:Name="GamesList" Margin="0,0,-14,0" SizeChanged="GamesList_SizeChanged" ItemTemplate="{StaticResource GameTileTemplate}">
           <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
               <WrapPanel />
