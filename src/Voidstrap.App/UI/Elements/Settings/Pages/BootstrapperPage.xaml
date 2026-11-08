@@ -71,19 +71,27 @@
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel IsEnabled="{Binding IsIdle, FallbackValue=False}">
-              <ComboBox ItemsSource="{Binding Adapters}" DisplayMemberPath="DisplayName" SelectedItem="{Binding SelectedAdapter, Mode=TwoWay}" IsEnabled="{Binding IsIdle}" ToolTip="{resources:Loc Mtu_Adapter}" />
-              <TextBlock Margin="0,6,0,0" Text="{Binding CurrentSummary}" TextWrapping="Wrap" FontSize="12" />
-              <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                <TextBlock VerticalAlignment="Center" Text="{resources:Loc Mtu_CustomValue}" />
-                <ui:TextBox Width="105" Margin="8,0,0,0" MaxLength="10" Text="{Binding CustomMtu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIdle}" />
-              </StackPanel>
-              <TextBlock Margin="0,4,0,0" FontSize="12" Text="{Binding ValidationMessage}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-              <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                <ui:Button Content="{resources:Loc Mtu_Apply}" Command="{Binding ApplyCommand}" Appearance="Primary" />
-                <ui:Button Margin="6,0,0,0" Content="{resources:Loc Mtu_Restore}" Command="{Binding RestoreCommand}" />
-                <ui:Button Margin="6,0,0,0" Content="{resources:Loc Mtu_Refresh}" Command="{Binding RefreshCommand}" />
-              </StackPanel>
-              <TextBlock Margin="0,6,0,0" Text="{Binding Status}" FontSize="12" TextWrapping="Wrap" />
+              <controls:OptionControl Margin="0,-8,0,0" Header="{resources:Loc Mtu_Adapter}" Description="{Binding CurrentSummary}">
+                <ComboBox MinWidth="200" ItemsSource="{Binding Adapters}" DisplayMemberPath="DisplayName" SelectedItem="{Binding SelectedAdapter, Mode=TwoWay}" />
+              </controls:OptionControl>
+              <controls:OptionControl Header="{resources:Loc Mtu_CustomValue}" Description="{Binding ValidationMessage}">
+                <StackPanel Orientation="Horizontal">
+                  <ui:TextBox Width="105" MaxLength="10" Text="{Binding CustomMtu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                  <ui:Button Margin="8,0,0,0" Content="{resources:Loc Mtu_Apply}" Command="{Binding ApplyCommand}" Appearance="Primary" />
+                  <ui:Button Margin="6,0,0,0" Content="{resources:Loc Mtu_Restore}" Command="{Binding RestoreCommand}" />
+                </StackPanel>
+              </controls:OptionControl>
+              <TextBlock Margin="4,8,0,0" FontSize="12" TextWrapping="Wrap" Text="{Binding Status}">
+                <TextBlock.Style>
+                  <Style TargetType="TextBlock">
+                    <Style.Triggers>
+                      <Trigger Property="Text" Value="">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </TextBlock.Style>
+              </TextBlock>
             </StackPanel>
           </ui:CardExpander>
           <StackPanel Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
