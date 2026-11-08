@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
@@ -103,6 +103,7 @@ namespace Voidstrap.UI.ViewModels.Pages
                     .Take(RecommendedLimit)
                     .ToList();
                 List<DiscoverGameEntry> featuredCandidates = (topPlaying.Count > 0 ? topPlaying : fallback)
+                    .Where(game => !game.Name.Contains("Brookhaven", StringComparison.OrdinalIgnoreCase))
                     .Take(FeaturedCandidateLimit)
                     .ToList();
 

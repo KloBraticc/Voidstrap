@@ -489,7 +489,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <StackPanel Grid.Row="1" Margin="0,12,0,0">
-                            <Border Height="320" CornerRadius="14" util:RoundedClip.Radius="14" Background="#FF101216" Visibility="{Binding FeaturedVisibility}">
+                            <Border Height="320" CornerRadius="14" util:RoundedClip.Radius="14" Background="#FF0B0B0D" Visibility="{Binding FeaturedVisibility}">
                                 <Grid>
                                     <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding FeaturedGame.ThumbnailUrl}"/>
                                     <controls:GameVideoView VideoPath="{Binding FeaturedVideoPath}" IsHitTestVisible="False"/>
@@ -503,19 +503,19 @@
                                         </Border.Background>
                                     </Border>
                                     <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="28,0,28,28" MaxWidth="460">
-                                        <Border HorizontalAlignment="Left" CornerRadius="10" Padding="10,3" Background="#33FFFFFF">
+                                        <Border HorizontalAlignment="Left" CornerRadius="10" Padding="10,3" Background="#26FFFFFF" BorderBrush="#33FFFFFF" BorderThickness="1">
                                             <TextBlock Text="{resources:Loc Ui_Home_MostPlayedNow}" FontSize="11" FontWeight="SemiBold" Foreground="White"/>
                                         </Border>
                                         <TextBlock Text="{Binding FeaturedGame.Name}" FontSize="30" FontWeight="Bold" Foreground="White" Margin="0,10,0,0" TextTrimming="CharacterEllipsis"/>
                                         <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
                                             <ui:SymbolIcon Symbol="People24" FontSize="14" Foreground="#DDFFFFFF" VerticalAlignment="Center"/>
                                             <TextBlock Text="{Binding FeaturedGame.PlayerCount}" FontSize="13" Foreground="#DDFFFFFF" Margin="5,0,14,0" VerticalAlignment="Center"/>
-                                            <Ellipse Width="8" Height="8" Fill="#FF3DDC84" VerticalAlignment="Center" Visibility="{Binding FeaturedGame.LikeVisibility}"/>
+                                            <Ellipse Width="8" Height="8" Fill="#FF22C55E" VerticalAlignment="Center" Visibility="{Binding FeaturedGame.LikeVisibility}"/>
                                             <TextBlock Text="{Binding FeaturedGame.LikePercent}" FontSize="13" Foreground="#DDFFFFFF" Margin="5,0,0,0" VerticalAlignment="Center"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
-                                            <ui:Button Appearance="Primary" Icon="Play24" Padding="22,8" Content="{resources:Loc Ui_Home_Play}" Command="{Binding PlayDiscoverCommand}" CommandParameter="{Binding FeaturedGame}"/>
-                                            <ui:Button Margin="8,0,0,0" Icon="Open24" Padding="12,8" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" Command="{Binding OpenDiscoverCommand}" CommandParameter="{Binding FeaturedGame}"/>
+                                            <ui:Button Icon="Play24" Padding="22,8" FontWeight="SemiBold" Background="White" Foreground="#FF111111" MouseOverBackground="#FFE6E6E6" PressedBackground="#FFD0D0D0" BorderThickness="0" Content="{resources:Loc Ui_Home_Play}" Command="{Binding PlayDiscoverCommand}" CommandParameter="{Binding FeaturedGame}"/>
+                                            <ui:Button Margin="8,0,0,0" Icon="Open24" Padding="12,8" Background="#40FFFFFF" Foreground="White" MouseOverBackground="#60FFFFFF" BorderThickness="0" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" Command="{Binding OpenDiscoverCommand}" CommandParameter="{Binding FeaturedGame}"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>
@@ -536,7 +536,7 @@
                                                     <Border Height="120" CornerRadius="12,12,0,0" util:TopRoundedClip.Radius="12" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
                                                         <Grid>
                                                             <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding ThumbnailUrl}"/>
-                                                            <ui:Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8" Padding="8" Appearance="Primary" Icon="Play24" ToolTip="{resources:Loc Ui_Home_Play}" Command="{Binding DataContext.PlayDiscoverCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}"/>
+                                                            <ui:Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8" Padding="8" Background="#B0000000" Foreground="White" MouseOverBackground="#E0000000" BorderThickness="0" Icon="Play24" ToolTip="{resources:Loc Ui_Home_Play}" Command="{Binding DataContext.PlayDiscoverCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}"/>
                                                         </Grid>
                                                     </Border>
                                                     <StackPanel Margin="12,10,12,12">
@@ -546,7 +546,7 @@
                                                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                                                 <ui:SymbolIcon Symbol="People24" FontSize="13" Opacity="0.7" VerticalAlignment="Center"/>
                                                                 <TextBlock Text="{Binding PlayerCount}" FontSize="12" Opacity="0.7" Margin="4,0,12,0" VerticalAlignment="Center"/>
-                                                                <Ellipse Width="7" Height="7" Fill="#FF3DDC84" VerticalAlignment="Center" Visibility="{Binding LikeVisibility}"/>
+                                                                <Ellipse Width="7" Height="7" Fill="#FF22C55E" VerticalAlignment="Center" Visibility="{Binding LikeVisibility}"/>
                                                                 <TextBlock Text="{Binding LikePercent}" FontSize="12" Opacity="0.7" Margin="4,0,0,0" VerticalAlignment="Center"/>
                                                             </StackPanel>
                                                         </DockPanel>
@@ -763,7 +763,7 @@
                                         </TextBlock>
 
                                         <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                                            <Ellipse Width="7" Height="7" Fill="#FF3DDC84" VerticalAlignment="Center"/>
+                                            <Ellipse Width="7" Height="7" Fill="#FF22C55E" VerticalAlignment="Center"/>
                                             <TextBlock Text="{Binding LikePercent}"
                                                        FontSize="12"
                                                        Margin="4,0,12,0"
