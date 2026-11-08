@@ -9,12 +9,12 @@
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="Button">
-            <Border x:Name="Bd" CornerRadius="15" Background="#59FFFFFF" BorderBrush="#66FFFFFF" BorderThickness="1">
+            <Border x:Name="Bd" CornerRadius="15" Background="#73000000" BorderBrush="#40FFFFFF" BorderThickness="1">
               <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
             <ControlTemplate.Triggers>
               <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="Bd" Property="Background" Value="#8CFFFFFF" />
+                <Setter TargetName="Bd" Property="Background" Value="#A6000000" />
               </Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
