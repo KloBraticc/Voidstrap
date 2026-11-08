@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Voidstrap.UI.ViewModels.Settings;
 using Wpf.Ui.Controls;
@@ -37,6 +38,12 @@ public partial class GBSEditorPage : UiPage
     private void OnPageUnloaded(object sender, RoutedEventArgs e)
     {
         _viewModel?.Dispose();
+    }
+
+    private void SectionBar_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (SectionBar.SelectedItem is FrameworkElement { Tag: FrameworkElement target })
+            target.BringIntoView(new Rect(0, 0, target.ActualWidth, Math.Max(target.ActualHeight, 400)));
     }
 
     private void ValidateUInt32(object sender, TextCompositionEventArgs e)

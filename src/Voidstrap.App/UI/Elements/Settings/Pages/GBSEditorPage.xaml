@@ -1,25 +1,42 @@
 ﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.GBSEditorPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:sys="clr-namespace:System;assembly=mscorlib" Title="GBSEditor" Scrollable="True" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages">
   <ui:UiPage.Resources>
-    <Style x:Key="SectionHeading" TargetType="{x:Type TextBlock}">
-      <Setter Property="FontSize" Value="20" />
-      <Setter Property="FontWeight" Value="Medium" />
-      <Setter Property="Margin" Value="0,26,0,0" />
+    <Style x:Key="SectionHeader" TargetType="{x:Type Border}">
+      <Setter Property="Margin" Value="0,30,0,2" />
+      <Setter Property="Padding" Value="0,0,0,8" />
+      <Setter Property="BorderThickness" Value="0,0,0,1" />
+      <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorDefaultBrush}" />
+    </Style>
+    <Style x:Key="SectionTitle" TargetType="{x:Type TextBlock}">
+      <Setter Property="FontSize" Value="18" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
     </Style>
   </ui:UiPage.Resources>
   <StackPanel Margin="0,0,14,14">
     <TextBlock Margin="0,0,0,2" FontSize="14" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Gbs_TheseAreRobloxSOwnIn}" />
 
+    <ui:SelectorBar x:Name="SectionBar" Margin="0,10,0,4" SelectionChanged="SectionBar_SelectionChanged">
+      <ui:SelectorBarItem Tag="{Binding ElementName=SectionInterface}" Icon="Apps24" Content="{resources:Loc Ui_Mods_Interface}" />
+      <ui:SelectorBarItem Tag="{Binding ElementName=SectionGraphics}" Icon="Desktop24" Content="{resources:Loc Ui_Gbs_Graphics}" />
+      <ui:SelectorBarItem Tag="{Binding ElementName=SectionAudio}" Icon="Speaker224" Content="{resources:Loc Ui_Gbs_Audio}" />
+      <ui:SelectorBarItem Tag="{Binding ElementName=SectionInput}" Icon="XboxController24" Content="{resources:Loc Ui_Gbs_InputAndControls}" />
+      <ui:SelectorBarItem Tag="{Binding ElementName=SectionNetwork}" Icon="Wifi124" Content="{resources:Loc Ui_Gbs_Network}" />
+      <ui:SelectorBarItem Tag="{Binding ElementName=SectionVr}" Icon="HeadsetVr24" Content="{resources:Loc Ui_Gbs_VirtualReality}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
+      <ui:SelectorBarItem Tag="{Binding ElementName=SectionAdvanced}" Icon="Wrench24" Content="{resources:Loc Ui_Bootstrapper_Advanced}" />
+    </ui:SelectorBar>
+
     <controls:ProfilesExpander Kind="Global" />
     <controls:OptionControl Margin="0,-4,0,0" Header="{resources:Loc Ui_Gbs_ResetToDefaultSettings}" Description="{resources:Loc Ui_Gbs_RestoreAllPreferencesToDefault}">
       <Button Content="{resources:Loc Common_Reset}" Width="120" Command="{Binding ResetToDefaultsCommand}" />
     </controls:OptionControl>
-
-    <TextBlock Style="{StaticResource SectionHeading}" Text="{resources:Loc Ui_Gbs_SettingsFile}" />
     <controls:OptionControl Header="{resources:Loc Ui_Gbs_LockSettingsFile}" Description="{resources:Loc Ui_Gbs_MarksTheRobloxSettingsFileRead}">
       <ui:ToggleSwitch IsChecked="{Binding SettingsFileReadOnly, Mode=TwoWay}" />
     </controls:OptionControl>
 
-    <TextBlock Style="{StaticResource SectionHeading}" Text="{resources:Loc Ui_Mods_Interface}" />
+    <Border x:Name="SectionInterface" Style="{StaticResource SectionHeader}">
+      <TextBlock Style="{StaticResource SectionTitle}" Text="{resources:Loc Ui_Mods_Interface}" />
+    </Border>
     <controls:OptionControl Header="{resources:Loc Ui_Gbs_UITransparency}" Description="{resources:Loc Ui_Gbs_SetYourPreferredInterfaceTransparency}">
       <StackPanel Orientation="Horizontal">
         <Slider Minimum="0" Maximum="1" TickFrequency="0.05" IsSnapToTickEnabled="True" Value="{Binding UITransparency, Mode=TwoWay}" Width="200" />
@@ -49,7 +66,9 @@
       <ui:ToggleSwitch IsChecked="{Binding BadgeVisible, Mode=TwoWay}" />
     </controls:OptionControl>
 
-    <TextBlock Style="{StaticResource SectionHeading}" Text="{resources:Loc Ui_Gbs_Graphics}" />
+    <Border x:Name="SectionGraphics" Style="{StaticResource SectionHeader}">
+      <TextBlock Style="{StaticResource SectionTitle}" Text="{resources:Loc Ui_Gbs_Graphics}" />
+    </Border>
     <controls:OptionControl Header="{resources:Loc Ui_Gbs_FramerateCap}" Description="{resources:Loc Ui_Gbs_LimitMaximumFPS}">
       <ui:TextBox Width="100" MaxLength="5" PreviewTextInput="ValidateUInt32" Text="{Binding FramerateCap, Mode=TwoWay}" />
     </controls:OptionControl>
@@ -72,7 +91,9 @@
       <ui:ToggleSwitch IsChecked="{Binding Fullscreen, Mode=TwoWay}" />
     </controls:OptionControl>
 
-    <TextBlock Style="{StaticResource SectionHeading}" Text="{resources:Loc Ui_Gbs_Audio}" />
+    <Border x:Name="SectionAudio" Style="{StaticResource SectionHeader}">
+      <TextBlock Style="{StaticResource SectionTitle}" Text="{resources:Loc Ui_Gbs_Audio}" />
+    </Border>
     <controls:OptionControl Header="{resources:Loc Ui_Gbs_MasterVolume}" Description="{resources:Loc Ui_Gbs_OverallInGameVolume}">
       <StackPanel Orientation="Horizontal">
         <Slider Minimum="0" Maximum="1" TickFrequency="0.05" IsSnapToTickEnabled="True" Value="{Binding MasterVolume, Mode=TwoWay}" Width="200" />
@@ -86,7 +107,9 @@
       </StackPanel>
     </controls:OptionControl>
 
-    <TextBlock Style="{StaticResource SectionHeading}" Text="{resources:Loc Ui_Gbs_InputAndControls}" />
+    <Border x:Name="SectionInput" Style="{StaticResource SectionHeader}">
+      <TextBlock Style="{StaticResource SectionTitle}" Text="{resources:Loc Ui_Gbs_InputAndControls}" />
+    </Border>
     <controls:OptionControl Header="{resources:Loc Ui_Gbs_MouseSensitivity}" Description="{resources:Loc Ui_Gbs_AdjustMouseSensitivity}">
       <ui:TextBox Width="100" MaxLength="6" PreviewTextInput="ValidateFloat" Text="{Binding MouseSensitivity, Mode=TwoWay}" />
     </controls:OptionControl>
@@ -103,7 +126,9 @@
       <ui:ToggleSwitch IsChecked="{Binding ControllerVibration, Mode=TwoWay}" />
     </controls:OptionControl>
 
-    <TextBlock Style="{StaticResource SectionHeading}" Text="{resources:Loc Ui_Gbs_Network}" />
+    <Border x:Name="SectionNetwork" Style="{StaticResource SectionHeader}">
+      <TextBlock Style="{StaticResource SectionTitle}" Text="{resources:Loc Ui_Gbs_Network}" />
+    </Border>
     <controls:OptionControl Header="{resources:Loc Ui_Gbs_NetworkDebugStats}" Description="{resources:Loc Ui_Gbs_ShowNetworkPingAndPacketStats}">
       <ui:ToggleSwitch IsChecked="{Binding NetworkStatsVisible, Mode=TwoWay}" />
     </controls:OptionControl>
@@ -112,7 +137,9 @@
     </controls:OptionControl>
 
     <StackPanel Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
-    <TextBlock Style="{StaticResource SectionHeading}" Text="{resources:Loc Ui_Gbs_VirtualReality}" />
+    <Border x:Name="SectionVr" Style="{StaticResource SectionHeader}">
+      <TextBlock Style="{StaticResource SectionTitle}" Text="{resources:Loc Ui_Gbs_VirtualReality}" />
+    </Border>
     <controls:OptionControl Header="{resources:Loc Ui_Gbs_EnableVR}" Description="{resources:Loc Ui_Gbs_ToggleVirtualRealityMode}">
       <ui:ToggleSwitch IsChecked="{Binding VREnabled, Mode=TwoWay}" />
     </controls:OptionControl>
@@ -128,7 +155,9 @@
     </controls:OptionControl>
     </StackPanel>
 
-    <TextBlock Style="{StaticResource SectionHeading}" Text="{resources:Loc Ui_Bootstrapper_Advanced}" />
+    <Border x:Name="SectionAdvanced" Style="{StaticResource SectionHeader}">
+      <TextBlock Style="{StaticResource SectionTitle}" Text="{resources:Loc Ui_Bootstrapper_Advanced}" />
+    </Border>
     <controls:OptionControl Header="{resources:Loc Ui_Gbs_MicroProfiler}" Description="{resources:Loc Ui_Gbs_EnableRobloxMicroprofilerServer}">
       <ui:ToggleSwitch IsChecked="{Binding MicroProfilerWebServerEnabled, Mode=TwoWay}" />
     </controls:OptionControl>
