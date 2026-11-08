@@ -9456,4 +9456,28 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>ഔട്ട്ഫിറ്റ് പ്രയോഗിക്കാൻ കഴിഞ്ഞില്ല</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>നിലവിലെ അവതാർ സംരക്ഷിക്കുക</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>എന്റെ വസ്ത്രം</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>{0} വസ്ത്രമായി സംരക്ഷിച്ചു</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>{0} അപ്ഡേറ്റ് ചെയ്തു</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>പേരുമാറ്റുക</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>നിലവിലെ അവതാർ ഉപയോഗിച്ച് അപ്ഡേറ്റ് ചെയ്യുക</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>ഇല്ലാതാക്കുക</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>{0} വസ്ത്രം ഇല്ലാതാക്കണോ? ഇത് പഴയപടിയാക്കാനാവില്ല.</value>
+  </data>
 </root>

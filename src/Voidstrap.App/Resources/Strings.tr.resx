@@ -9814,4 +9814,28 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>Kıyafet uygulanamadı</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>Mevcut avatarı kaydet</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>Kıyafetim</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>{0} kıyafet olarak kaydedildi</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>{0} güncellendi</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>Yeniden adlandır</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>Mevcut avatarla güncelle</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>{0} kıyafetini silmek istiyor musunuz? Bu işlem geri alınamaz.</value>
+  </data>
 </root>

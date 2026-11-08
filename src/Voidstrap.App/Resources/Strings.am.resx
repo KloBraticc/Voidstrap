@@ -9455,4 +9455,28 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>ልብሱ ሊተገበር አልቻለም</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>የአሁኑን አቫታር አስቀምጥ</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>የእኔ አልባሳት</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>{0} እንደ አልባሳት ተቀምጧል</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>{0} ተዘምኗል</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>እንደገና ሰይም</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>በአሁኑ አቫታር አዘምን</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>ሰርዝ</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>አልባሳቱን {0} ይሰረዝ? ይህ ሊቀለበስ አይችልም።</value>
+  </data>
 </root>

@@ -9818,4 +9818,28 @@ Permiți?</value>
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>Nu s-a putut aplica ținuta</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>Salvează avatarul curent</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>Ținuta mea</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>{0} a fost salvat ca ținută</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>{0} a fost actualizat</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>Redenumește</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>Actualizează cu avatarul curent</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>Șterge</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>Ștergi ținuta {0}? Acțiunea nu poate fi anulată.</value>
+  </data>
 </root>

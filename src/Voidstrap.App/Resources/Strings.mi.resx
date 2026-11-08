@@ -9456,4 +9456,28 @@ Whakaaetia?</value>
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>Kāore i tau te kākahu</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>Tiakina te avatar o nāianei</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>Taku kākahu</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>Kua tiakina a {0} hei kākahu</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>Kua whakahouhia a {0}</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>Tapa anō</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>Whakahou ki te avatar o nāianei</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>Muku</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>Muku i te kākahu {0}? Kāore e taea te wewete.</value>
+  </data>
 </root>

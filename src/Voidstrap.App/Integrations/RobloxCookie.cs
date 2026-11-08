@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -348,11 +348,26 @@ public static partial class RobloxCookie
         }
     }
 
-    public static async Task<RobloxApiResponse> SendPostWithCookieAsync(
+    public static Task<RobloxApiResponse> SendPostWithCookieAsync(
         string url,
         string? jsonBody,
         string? cookie,
         CancellationToken ct = default(CancellationToken)
+    ) => SendWithCookieAsync(HttpMethod.Post, url, jsonBody, cookie, ct);
+
+    public static Task<RobloxApiResponse> SendPatchWithCookieAsync(
+        string url,
+        string? jsonBody,
+        string? cookie,
+        CancellationToken ct = default(CancellationToken)
+    ) => SendWithCookieAsync(HttpMethod.Patch, url, jsonBody, cookie, ct);
+
+    private static async Task<RobloxApiResponse> SendWithCookieAsync(
+        HttpMethod method,
+        string url,
+        string? jsonBody,
+        string? cookie,
+        CancellationToken ct
     )
     {
         if (!IsRobloxUrl(Uri.TryCreate(url, UriKind.Absolute, out Uri? target) ? target : null))
@@ -363,7 +378,7 @@ public static partial class RobloxCookie
         {
             for (int attempt = 0; attempt < 2; attempt++)
             {
-                using HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, url);
+                using HttpRequestMessage req = new HttpRequestMessage(method, url);
                 if (!string.IsNullOrEmpty(cookie))
                 {
                     req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
@@ -396,7 +411,7 @@ public static partial class RobloxCookie
                 int status = (int)res.StatusCode;
                 if (!res.IsSuccessStatusCode)
                 {
-                    App.Logger?.WriteLine("RobloxCookie", "POST " + target!.Host + target.AbsolutePath + " returned " + status);
+                    App.Logger?.WriteLine("RobloxCookie", method.Method + " " + target!.Host + target.AbsolutePath + " returned " + status);
                     return new RobloxApiResponse(status, null, null);
                 }
                 return new RobloxApiResponse(
@@ -415,7 +430,7 @@ public static partial class RobloxCookie
         }
         catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException or IOException)
         {
-            App.Logger?.WriteLine("RobloxCookie", "POST " + target!.Host + target.AbsolutePath + " failed: " + ex.Message);
+            App.Logger?.WriteLine("RobloxCookie", method.Method + " " + target!.Host + target.AbsolutePath + " failed: " + ex.Message);
             return new RobloxApiResponse(0, null, null);
         }
     }

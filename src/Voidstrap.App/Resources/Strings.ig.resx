@@ -9456,4 +9456,28 @@ kwe ya?</value>
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>Enweghị ike itinye uwe ahụ</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>Chekwaa avatar ugbu a</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>Uwe m</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>Echekwala {0} dịka uwe</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>Emelitere {0}</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>Gụgharịa aha</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>Melite ya na avatar ugbu a</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>Hichapụ</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>Hichapụ uwe {0}? Enweghị ike ịgbanwe nke a.</value>
+  </data>
 </root>

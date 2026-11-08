@@ -263,7 +263,10 @@
 
           <Border Margin="0,8,0,0" Padding="14" CornerRadius="8" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}" Visibility="{Binding OutfitsVisibility}">
             <StackPanel>
-              <TextBlock FontSize="14" Margin="0,0,0,8" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Accounts_Outfits}" />
+              <DockPanel Margin="0,0,0,8" LastChildFill="True">
+                <ui:Button DockPanel.Dock="Right" Padding="10,4" Icon="Add24" Content="{resources:Loc Accounts_Outfits_SaveCurrent}" Command="{Binding SaveCurrentOutfitCommand}" />
+                <TextBlock FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Accounts_Outfits}" />
+              </DockPanel>
               <Grid>
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="Auto" />
@@ -279,7 +282,16 @@
                   </ItemsControl.ItemsPanel>
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                      <ui:Button Height="120" Margin="3" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Appearance="Transparent" ToolTip="{resources:Loc Accounts_Outfits_Wear}" Command="{Binding DataContext.WearOutfitCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}" HorizontalContentAlignment="Stretch">
+                      <ui:Button Height="120" Margin="3" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Appearance="Transparent" ToolTip="{resources:Loc Accounts_Outfits_Wear}" Command="{Binding DataContext.WearOutfitCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}" HorizontalContentAlignment="Stretch" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ui:UiPage}}">
+                        <ui:Button.ContextMenu>
+                          <ContextMenu>
+                            <MenuItem Header="{resources:Loc Accounts_Outfits_Wear}" Command="{Binding PlacementTarget.Tag.WearOutfitCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
+                            <MenuItem Header="{resources:Loc Accounts_Outfits_Rename}" Command="{Binding PlacementTarget.Tag.RenameOutfitCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
+                            <MenuItem Header="{resources:Loc Accounts_Outfits_UpdateCurrent}" Command="{Binding PlacementTarget.Tag.UpdateOutfitCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
+                            <Separator />
+                            <MenuItem Header="{resources:Loc Accounts_Outfits_Delete}" Command="{Binding PlacementTarget.Tag.DeleteOutfitCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
+                          </ContextMenu>
+                        </ui:Button.ContextMenu>
                         <StackPanel HorizontalAlignment="Stretch">
                           <Grid Height="92" HorizontalAlignment="Stretch" util:RoundedClip.Radius="6">
                             <Border Background="{DynamicResource ControlFillColorSecondaryBrush}" />

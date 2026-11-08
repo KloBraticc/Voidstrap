@@ -9814,4 +9814,28 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>Не вдалося застосувати образ</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>Зберегти поточний аватар</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>Мій образ</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>{0} збережено як образ</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>{0} оновлено</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>Перейменувати</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>Оновити поточним аватаром</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>Видалити образ {0}? Цю дію неможливо скасувати.</value>
+  </data>
 </root>

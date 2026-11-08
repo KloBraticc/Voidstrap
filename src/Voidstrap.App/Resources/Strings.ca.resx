@@ -9455,4 +9455,28 @@ Ho permets?</value>
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>No s'ha pogut aplicar la vestimenta</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>Desa l'avatar actual</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>El meu vestit</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>S'ha desat {0} com a vestit</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>S'ha actualitzat {0}</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>Canvia el nom</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>Actualitza amb l'avatar actual</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>Suprimeix</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>Vols suprimir el vestit {0}? No es pot desfer.</value>
+  </data>
 </root>

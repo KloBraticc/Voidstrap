@@ -103,12 +103,18 @@ namespace Voidstrap.UI.ViewModels.Settings
         public OutfitRow(long id, string name)
         {
             Id = id;
-            Name = name;
+            _name = name;
         }
 
         public long Id { get; }
 
-        public string Name { get; }
+        private string _name;
+
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
 
         public string? ImageUrl
         {
@@ -170,6 +176,10 @@ namespace Voidstrap.UI.ViewModels.Settings
             WearOutfitCommand = new AsyncRelayCommand<OutfitRow?>(row => WearOutfitAsync(row));
             OutfitBackCommand = new RelayCommand(() => PageOutfits(-1));
             OutfitForwardCommand = new RelayCommand(() => PageOutfits(1));
+            SaveCurrentOutfitCommand = new AsyncRelayCommand(SaveCurrentOutfitAsync);
+            RenameOutfitCommand = new AsyncRelayCommand<OutfitRow?>(RenameOutfitAsync);
+            UpdateOutfitCommand = new AsyncRelayCommand<OutfitRow?>(UpdateOutfitAsync);
+            DeleteOutfitCommand = new AsyncRelayCommand<OutfitRow?>(DeleteOutfitAsync);
             SavedAccounts.Changed += OnStoreChanged;
         }
 
@@ -200,6 +210,10 @@ namespace Voidstrap.UI.ViewModels.Settings
         public ICommand WearOutfitCommand { get; }
         public ICommand OutfitBackCommand { get; }
         public ICommand OutfitForwardCommand { get; }
+        public ICommand SaveCurrentOutfitCommand { get; }
+        public ICommand RenameOutfitCommand { get; }
+        public ICommand UpdateOutfitCommand { get; }
+        public ICommand DeleteOutfitCommand { get; }
 
         public Visibility BrowserSignInVisibility =>
             Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsMacOS ? Visibility.Visible : Visibility.Collapsed;
@@ -311,7 +325,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             private set => SetProperty(ref _followers, value);
         }
 
-        public Visibility OutfitsVisibility => Outfits.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility OutfitsVisibility => _selected != null && _selected.Model.UserId > 0 ? Visibility.Visible : Visibility.Collapsed;
 
         public bool CanPageOutfitsBack => _outfitOffset > 0;
 
@@ -811,6 +825,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                     null,
                     token
                 );
+                Task outfits = LoadOutfitsAsync(id, cookie, token);
                 await Task.WhenAll(robux, premium, user, friends, followers);
                 if (token.IsCancellationRequested)
                     return;
@@ -825,7 +840,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 Joined = ReadDate(user.Result.Body) ?? none;
                 Friends = ReadNumber(friends.Result.Body, "count") ?? none;
                 Followers = ReadNumber(followers.Result.Body, "count") ?? none;
-                await LoadOutfitsAsync(id, cookie, token);
+                await outfits;
             }
             catch (OperationCanceledException) { }
         }
@@ -875,13 +890,22 @@ namespace Voidstrap.UI.ViewModels.Settings
             OnPropertyChanged(nameof(OutfitsVisibility));
         }
 
+        private static readonly System.Collections.Concurrent.ConcurrentDictionary<long, string> OutfitThumbnailCache = new();
+
         private static readonly int[] OutfitThumbnailRetryDelaysMs = [1000, 1500, 2500, 4000, 6000, 8000, 10000, 15000];
 
         private static async Task FillOutfitThumbnailsAsync(List<OutfitRow> outfits, CancellationToken token)
         {
             const string LOG_IDENT = "AccountsViewModel::FillOutfitThumbnailsAsync";
             Dictionary<long, OutfitRow> byId = outfits.GroupBy(o => o.Id).ToDictionary(g => g.Key, g => g.First());
-            List<long> remaining = byId.Keys.ToList();
+            List<long> remaining = new();
+            foreach ((long id, OutfitRow row) in byId)
+            {
+                if (OutfitThumbnailCache.TryGetValue(id, out string? cached))
+                    row.ImageUrl = cached;
+                else
+                    remaining.Add(id);
+            }
             for (int attempt = 0; attempt <= OutfitThumbnailRetryDelaysMs.Length && remaining.Count > 0; attempt++)
             {
                 if (attempt > 0)
@@ -895,8 +919,11 @@ namespace Voidstrap.UI.ViewModels.Settings
                     if (token.IsCancellationRequested)
                         return;
                     foreach ((long id, string url) in found)
+                    {
+                        OutfitThumbnailCache[id] = url;
                         if (byId.TryGetValue(id, out OutfitRow? row))
                             row.ImageUrl = url;
+                    }
                 }
                 remaining = next;
             }
@@ -981,6 +1008,226 @@ namespace Voidstrap.UI.ViewModels.Settings
             {
                 outfit.Busy = false;
             }
+        }
+
+        private string? OutfitCookie()
+        {
+            if (_selected == null || _busy)
+                return null;
+            string? cookie = SavedAccounts.ReadCurrentCookie(_selected.Model);
+            if (string.IsNullOrEmpty(cookie))
+            {
+                Status = Strings.Accounts_Expired;
+                return null;
+            }
+            return cookie;
+        }
+
+        private static async Task<string?> ReadCurrentAvatarAsync(string cookie, string name, CancellationToken token)
+        {
+            RobloxApiResponse avatar = await RobloxCookie.SendGetWithCookieAsync("https://avatar.roblox.com/v2/avatar/avatar", cookie, token);
+            if (avatar.StatusCode != 200 || string.IsNullOrEmpty(avatar.Body))
+                return null;
+            try
+            {
+                using JsonDocument doc = JsonDocument.Parse(avatar.Body);
+                JsonElement root = doc.RootElement;
+                using System.IO.MemoryStream stream = new();
+                using (Utf8JsonWriter writer = new(stream))
+                {
+                    writer.WriteStartObject();
+                    writer.WriteString("name", name);
+                    if (root.TryGetProperty("bodyColor3s", out JsonElement colors))
+                    {
+                        writer.WritePropertyName("bodyColor3s");
+                        colors.WriteTo(writer);
+                    }
+                    if (root.TryGetProperty("scales", out JsonElement scales))
+                    {
+                        writer.WritePropertyName("scale");
+                        scales.WriteTo(writer);
+                    }
+                    if (root.TryGetProperty("playerAvatarType", out JsonElement type))
+                    {
+                        writer.WritePropertyName("playerAvatarType");
+                        type.WriteTo(writer);
+                    }
+                    writer.WritePropertyName("assets");
+                    writer.WriteStartArray();
+                    if (root.TryGetProperty("assets", out JsonElement assets) && assets.ValueKind == JsonValueKind.Array)
+                        foreach (JsonElement asset in assets.EnumerateArray())
+                        {
+                            if (!asset.TryGetProperty("id", out JsonElement id))
+                                continue;
+                            writer.WriteStartObject();
+                            writer.WritePropertyName("id");
+                            id.WriteTo(writer);
+                            if (asset.TryGetProperty("meta", out JsonElement meta) && meta.ValueKind == JsonValueKind.Object)
+                            {
+                                writer.WritePropertyName("meta");
+                                meta.WriteTo(writer);
+                            }
+                            writer.WriteEndObject();
+                        }
+                    writer.WriteEndArray();
+                    writer.WriteString("outfitType", "Avatar");
+                    writer.WriteEndObject();
+                }
+                return System.Text.Encoding.UTF8.GetString(stream.ToArray());
+            }
+            catch (JsonException)
+            {
+                return null;
+            }
+        }
+
+        private async Task SaveCurrentOutfitAsync()
+        {
+            const string LOG_IDENT = "AccountsViewModel::SaveCurrentOutfitAsync";
+            string? cookie = OutfitCookie();
+            if (cookie == null)
+                return;
+            string? name = AskOutfitName(Strings.Accounts_Outfits_SaveCurrent, Strings.Accounts_Outfits_DefaultName)?.Trim();
+            if (string.IsNullOrEmpty(name))
+                return;
+            try
+            {
+                string? body = await ReadCurrentAvatarAsync(cookie, name, _cts.Token);
+                RobloxApiResponse response = body == null
+                    ? new RobloxApiResponse(0, null, null)
+                    : await RobloxCookie.SendPostWithCookieAsync("https://avatar.roblox.com/v3/outfits/create", body, cookie, _cts.Token);
+                if (response.StatusCode == 200)
+                {
+                    Status = string.Format(Strings.Accounts_Outfits_Saved, name);
+                    await LoadDetailsAsync(_selected);
+                }
+                else
+                {
+                    App.Logger?.WriteLine(LOG_IDENT, "Saving the current avatar returned " + response.StatusCode);
+                    Status = Strings.Accounts_Outfits_Failed;
+                }
+            }
+            catch (OperationCanceledException) { }
+        }
+
+        private async Task RenameOutfitAsync(OutfitRow? outfit)
+        {
+            const string LOG_IDENT = "AccountsViewModel::RenameOutfitAsync";
+            if (outfit == null)
+                return;
+            string? cookie = OutfitCookie();
+            if (cookie == null)
+                return;
+            string? name = AskOutfitName(Strings.Accounts_Outfits_Rename, outfit.Name)?.Trim();
+            if (string.IsNullOrEmpty(name) || name == outfit.Name)
+                return;
+            outfit.Busy = true;
+            try
+            {
+                RobloxApiResponse response = await RobloxCookie.SendPatchWithCookieAsync(
+                    "https://avatar.roblox.com/v1/outfits/" + outfit.Id,
+                    "{\"name\":" + JsonSerializer.Serialize(name) + "}",
+                    cookie,
+                    _cts.Token
+                );
+                if (response.StatusCode == 200)
+                {
+                    outfit.Name = name;
+                    Status = string.Format(Strings.Accounts_Outfits_Updated, name);
+                }
+                else
+                {
+                    App.Logger?.WriteLine(LOG_IDENT, "Renaming outfit " + outfit.Id + " returned " + response.StatusCode);
+                    Status = Strings.Accounts_Outfits_Failed;
+                }
+            }
+            catch (OperationCanceledException) { }
+            finally
+            {
+                outfit.Busy = false;
+            }
+        }
+
+        private async Task UpdateOutfitAsync(OutfitRow? outfit)
+        {
+            const string LOG_IDENT = "AccountsViewModel::UpdateOutfitAsync";
+            if (outfit == null)
+                return;
+            string? cookie = OutfitCookie();
+            if (cookie == null)
+                return;
+            outfit.Busy = true;
+            try
+            {
+                string? body = await ReadCurrentAvatarAsync(cookie, outfit.Name, _cts.Token);
+                RobloxApiResponse response = body == null
+                    ? new RobloxApiResponse(0, null, null)
+                    : await RobloxCookie.SendPatchWithCookieAsync("https://avatar.roblox.com/v3/outfits/" + outfit.Id, body, cookie, _cts.Token);
+                if (response.StatusCode == 200)
+                {
+                    Status = string.Format(Strings.Accounts_Outfits_Updated, outfit.Name);
+                    OutfitThumbnailCache.TryRemove(outfit.Id, out _);
+                    outfit.ImageUrl = null;
+                    await FillOutfitThumbnailsAsync([outfit], _cts.Token);
+                }
+                else
+                {
+                    App.Logger?.WriteLine(LOG_IDENT, "Updating outfit " + outfit.Id + " returned " + response.StatusCode);
+                    Status = Strings.Accounts_Outfits_Failed;
+                }
+            }
+            catch (OperationCanceledException) { }
+            finally
+            {
+                outfit.Busy = false;
+            }
+        }
+
+        private async Task DeleteOutfitAsync(OutfitRow? outfit)
+        {
+            const string LOG_IDENT = "AccountsViewModel::DeleteOutfitAsync";
+            if (outfit == null)
+                return;
+            string? cookie = OutfitCookie();
+            if (cookie == null)
+                return;
+            if (Frontend.ShowMessageBox(string.Format(Strings.Accounts_Outfits_DeleteConfirm, outfit.Name), MessageBoxImage.Warning, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                return;
+            outfit.Busy = true;
+            try
+            {
+                RobloxApiResponse response = await RobloxCookie.SendPostWithCookieAsync(
+                    "https://avatar.roblox.com/v1/outfits/" + outfit.Id + "/delete",
+                    null,
+                    cookie,
+                    _cts.Token
+                );
+                if (response.StatusCode == 200)
+                {
+                    OutfitThumbnailCache.TryRemove(outfit.Id, out _);
+                    Outfits.Remove(outfit);
+                    _outfitOffset = Math.Max(0, Math.Min(_outfitOffset, Outfits.Count - 1) / OutfitsPerPage * OutfitsPerPage);
+                    UpdateOutfitPage();
+                }
+                else
+                {
+                    App.Logger?.WriteLine(LOG_IDENT, "Deleting outfit " + outfit.Id + " returned " + response.StatusCode);
+                    Status = Strings.Accounts_Outfits_Failed;
+                }
+            }
+            catch (OperationCanceledException) { }
+            finally
+            {
+                outfit.Busy = false;
+            }
+        }
+
+        private static string? AskOutfitName(string title, string initial)
+        {
+            Voidstrap.UI.Elements.Dialogs.TextInputDialog dialog = new(title, initial);
+            dialog.Owner = Application.Current.Windows.OfType<Window>().FirstOrDefault(window => window.IsActive);
+            dialog.ShowOwnedDialog();
+            return dialog.Confirmed ? dialog.Value : null;
         }
 
         private static string? ReadNumber(string? json, string property)

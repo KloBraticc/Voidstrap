@@ -9819,4 +9819,28 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>無法套用造型</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>儲存目前的虛擬人偶</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>我的服裝</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>已將 {0} 儲存為服裝</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>已更新 {0}</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>重新命名</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>以目前的虛擬人偶更新</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>刪除</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>確定要刪除服裝 {0} 嗎？此操作無法復原。</value>
+  </data>
 </root>

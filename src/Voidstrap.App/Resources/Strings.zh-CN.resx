@@ -9840,4 +9840,28 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>无法应用装扮</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>保存当前形象</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>我的装扮</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>已将 {0} 保存为装扮</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>已更新 {0}</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>重命名</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>用当前形象更新</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>确定要删除装扮 {0} 吗？此操作无法撤消。</value>
+  </data>
 </root>

@@ -9814,4 +9814,28 @@ Payagan ba?</value>
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>Hindi nailapat ang outfit</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>I-save ang kasalukuyang avatar</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>Aking kasuotan</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>Na-save ang {0} bilang kasuotan</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>Na-update ang {0}</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>Palitan ang pangalan</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>I-update gamit ang kasalukuyang avatar</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>Burahin</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>Burahin ang kasuotang {0}? Hindi na ito maibabalik.</value>
+  </data>
 </root>

@@ -9456,4 +9456,28 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>پوشاڪ لاڳو نه ٿي سگهي</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>موجوده اوتار محفوظ ڪريو</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>منهنجو لباس</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>{0} لباس طور محفوظ ٿيو</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>{0} تازه ٿيو</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>نالو بدلايو</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>موجوده اوتار سان تازه ڪريو</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>ختم ڪريو</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>لباس {0} ختم ڪجي؟ اهو واپس نٿو ٿي سگهي.</value>
+  </data>
 </root>

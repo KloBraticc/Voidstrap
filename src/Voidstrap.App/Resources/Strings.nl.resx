@@ -9818,4 +9818,28 @@ Toestaan?</value>
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>De outfit kon niet worden toegepast</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>Huidige avatar opslaan</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>Mijn outfit</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>{0} opgeslagen als outfit</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>{0} bijgewerkt</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>Naam wijzigen</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>Bijwerken met huidige avatar</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>Outfit {0} verwijderen? Dit kan niet ongedaan worden gemaakt.</value>
+  </data>
 </root>

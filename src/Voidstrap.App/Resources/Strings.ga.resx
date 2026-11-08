@@ -9456,4 +9456,28 @@ Ceadaigh é?</value>
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>Níorbh fhéidir an t-éadach a chur i bhfeidhm</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>Sábháil an t-abhatár reatha</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>M'fheisteas</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>Sábháladh {0} mar fheisteas</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>Nuashonraíodh {0}</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>Athainmnigh</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>Nuashonraigh leis an abhatár reatha</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>Scrios</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>An bhfuil tú ag iarraidh an feisteas {0} a scriosadh? Ní féidir é seo a chealú.</value>
+  </data>
 </root>

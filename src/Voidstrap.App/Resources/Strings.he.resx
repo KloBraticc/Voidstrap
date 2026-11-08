@@ -9456,4 +9456,28 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>לא ניתן היה להחיל את התלבושת</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>שמירת האווטאר הנוכחי</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>התלבושת שלי</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>{0} נשמר כתלבושת</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>{0} עודכן</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>שינוי שם</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>עדכון עם האווטאר הנוכחי</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>מחיקה</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>למחוק את התלבושת {0}? לא ניתן לבטל פעולה זו.</value>
+  </data>
 </root>

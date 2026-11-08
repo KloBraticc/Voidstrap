@@ -9456,4 +9456,28 @@ Oggolow?</value>
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>Lama adeegsan karin dharka</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>Kaydi avatar-ka hadda</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>Labiskayga</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>{0} waxaa loo kaydiyey labis</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>{0} waa la cusbooneysiiyey</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>Magac beddel</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>Ku cusbooneysii avatar-ka hadda</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>Tirtir</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>Tirtir labiska {0}? Tan dib looma celin karo.</value>
+  </data>
 </root>

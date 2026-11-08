@@ -9456,4 +9456,28 @@ Dovoli?</value>
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>Kompleta ni bilo mogoče uporabiti</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>Shrani trenutni avatar</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>Moja oprava</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>{0} je shranjeno kot oprava</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>{0} je posodobljeno</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>Preimenuj</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>Posodobi s trenutnim avatarjem</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>Izbriši</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>Želite izbrisati opravo {0}? Tega ni mogoče razveljaviti.</value>
+  </data>
 </root>

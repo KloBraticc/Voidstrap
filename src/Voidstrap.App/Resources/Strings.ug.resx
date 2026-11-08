@@ -9455,4 +9455,28 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>كىيىمنى قوللىنىش مۇمكىن بولمىدى</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>نۆۋەتتىكى ئاۋاتارنى ساقلاش</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>كىيىمىم</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>{0} كىيىم سۈپىتىدە ساقلاندى</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>{0} يېڭىلاندى</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>نامىنى ئۆزگەرتىش</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>نۆۋەتتىكى ئاۋاتار بىلەن يېڭىلاش</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>ئۆچۈرۈش</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>{0} كىيىمىنى ئۆچۈرەمسىز؟ بۇنى ئەسلىگە كەلتۈرگىلى بولمايدۇ.</value>
+  </data>
 </root>

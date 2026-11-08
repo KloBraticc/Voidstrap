@@ -9456,4 +9456,28 @@ Erlaabt et?</value>
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>Den Outfit konnt net ugewannt ginn</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>Aktuellen Avatar späicheren</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>Mäin Outfit</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>{0} als Outfit gespäichert</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>{0} aktualiséiert</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>Ëmbenennen</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>Mam aktuellen Avatar aktualiséieren</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>Läschen</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>Outfit {0} läschen? Dat kann net réckgängeg gemaach ginn.</value>
+  </data>
 </root>

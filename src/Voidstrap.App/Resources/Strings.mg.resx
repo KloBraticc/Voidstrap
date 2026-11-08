@@ -9456,4 +9456,28 @@ Avelao izany?</value>
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>Tsy voataky ny fitafiana</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>Tehirizo ny avatar ankehitriny</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>Ny akanjoko</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>Voatahiry ho akanjo i {0}</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>Nohavaozina i {0}</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>Ovay anarana</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>Havaozy amin'ny avatar ankehitriny</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>Fafao</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>Hofafana ve ny akanjo {0}? Tsy azo averina izany.</value>
+  </data>
 </root>

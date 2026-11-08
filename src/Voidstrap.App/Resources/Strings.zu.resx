@@ -9455,4 +9455,28 @@ Uyakuvumela?</value>
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>Isembatho alikwazanga ukusetshenziswa</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>Londoloza i-avatar yamanje</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>Imvunulo yami</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>I-{0} ilondolozwe njengemvunulo</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>I-{0} ibuyekeziwe</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>Qamba kabusha</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>Buyekeza nge-avatar yamanje</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>Susa</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>Susa imvunulo {0}? Lokhu akukwazi ukuhlehliswa.</value>
+  </data>
 </root>

@@ -9455,4 +9455,28 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>آؤٹ فٹ لاگو نہیں کیا جا سکا</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>موجودہ اوتار محفوظ کریں</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>میرا لباس</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>{0} لباس کے طور پر محفوظ ہو گیا</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>{0} اپ ڈیٹ ہو گیا</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>نام تبدیل کریں</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>موجودہ اوتار سے اپ ڈیٹ کریں</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>حذف کریں</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>لباس {0} حذف کریں؟ اسے واپس نہیں کیا جا سکتا۔</value>
+  </data>
 </root>

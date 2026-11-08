@@ -9456,4 +9456,28 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>Ma setgħetx tiġi applikata l-libsa</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>Issejvja l-avatar attwali</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>L-ilbies tiegħi</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>{0} ġie ssejvjat bħala lbies</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>{0} ġie aġġornat</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>Erġa' semmi</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>Aġġorna bl-avatar attwali</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>Ħassar</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>Tħassar l-ilbies {0}? Dan ma jistax jitreġġa' lura.</value>
+  </data>
 </root>

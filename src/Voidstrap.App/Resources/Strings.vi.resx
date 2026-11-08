@@ -9819,4 +9819,28 @@ Cho phép?</value>
   <data name="Accounts.Outfits.Failed" xml:space="preserve">
     <value>Không thể áp dụng trang phục</value>
   </data>
+  <data name="Accounts.Outfits.SaveCurrent" xml:space="preserve">
+    <value>Lưu avatar hiện tại</value>
+  </data>
+  <data name="Accounts.Outfits.DefaultName" xml:space="preserve">
+    <value>Trang phục của tôi</value>
+  </data>
+  <data name="Accounts.Outfits.Saved" xml:space="preserve">
+    <value>Đã lưu {0} thành trang phục</value>
+  </data>
+  <data name="Accounts.Outfits.Updated" xml:space="preserve">
+    <value>Đã cập nhật {0}</value>
+  </data>
+  <data name="Accounts.Outfits.Rename" xml:space="preserve">
+    <value>Đổi tên</value>
+  </data>
+  <data name="Accounts.Outfits.UpdateCurrent" xml:space="preserve">
+    <value>Cập nhật bằng avatar hiện tại</value>
+  </data>
+  <data name="Accounts.Outfits.Delete" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="Accounts.Outfits.DeleteConfirm" xml:space="preserve">
+    <value>Xóa trang phục {0}? Bạn không thể hoàn tác thao tác này.</value>
+  </data>
 </root>
