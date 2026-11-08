@@ -67,7 +67,7 @@ jobs:
 
       - id: sync
         continue-on-error: true
-        uses: crowdin/github-action@959dc74ac104447731cba99a016f85d0ae719788
+        uses: crowdin/github-action@d651c77756acbe11a31d77a6fb79d8a239e1e05a
         with:
           upload_sources: true
           upload_translations: ${{ github.event_name == 'push' || inputs.upload_translations == true }}
@@ -94,7 +94,7 @@ jobs:
 
       - name: Retry after a Crowdin failure
         if: steps.sync.outcome == 'failure'
-        uses: crowdin/github-action@959dc74ac104447731cba99a016f85d0ae719788
+        uses: crowdin/github-action@d651c77756acbe11a31d77a6fb79d8a239e1e05a
         with:
           upload_sources: true
           upload_translations: ${{ github.event_name == 'push' || inputs.upload_translations == true }}
