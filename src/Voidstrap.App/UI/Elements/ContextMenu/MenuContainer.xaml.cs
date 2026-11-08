@@ -652,7 +652,7 @@ public partial class MenuContainer : WpfUiWindow
         };
         bool enabled =
             Voidstrap.Integrations.Clipper.ClipperService.Supported
-            && (App.Settings.Prop.ClipperEnabled || App.Settings.Prop.ClipperRecordOnGameStart)
+            && App.Settings.Prop.ClipperEnabled
             && shortcut.IsSet
             && !_clipperHotkeySuspended;
         if (enabled && _clipperHotkeyRegistered && shortcut.SameAs(_registeredClipperShortcut))
@@ -680,7 +680,7 @@ public partial class MenuContainer : WpfUiWindow
         if (_clipperHotkeyRegistered)
             _registeredClipperShortcut = shortcut.Copy();
         else
-            App.Logger.WriteLine("MenuContainer", shortcut.Describe() + " could not be registered for Video Clipper");
+            App.Logger.WriteLine("MenuContainer", shortcut.Describe() + " could not be registered for Video Clipper, another app such as NVIDIA overlay or Xbox Game Bar already uses it, pick a different shortcut in Video Clipper settings");
     }
 
     private void OnPortableClipperShortcut()
@@ -691,7 +691,7 @@ public partial class MenuContainer : WpfUiWindow
 
     private void TriggerSaveClipFromHotkey()
     {
-        if (_closed || (!App.Settings.Prop.ClipperEnabled && !App.Settings.Prop.ClipperRecordOnGameStart))
+        if (_closed || !App.Settings.Prop.ClipperEnabled)
             return;
         if (Interlocked.Exchange(ref _clipSaveActive, 1) != 0)
             return;

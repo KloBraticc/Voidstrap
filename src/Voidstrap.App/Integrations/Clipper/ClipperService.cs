@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -99,7 +99,7 @@ public static class ClipperService
         _clientRunning = running;
         if (running)
         {
-            if (App.Settings.Prop.ClipperRecordOnGameStart)
+            if (App.Settings.Prop.ClipperEnabled && App.Settings.Prop.ClipperRecordOnGameStart)
             {
                 _ = StartRecordingAsync(_activeGameName);
             }
@@ -126,7 +126,7 @@ public static class ClipperService
 
         if (inGame)
         {
-            if (App.Settings.Prop.ClipperRecordOnGameStart)
+            if (App.Settings.Prop.ClipperEnabled && App.Settings.Prop.ClipperRecordOnGameStart)
             {
                 _ = StartRecordingAsync(_activeGameName);
             }
