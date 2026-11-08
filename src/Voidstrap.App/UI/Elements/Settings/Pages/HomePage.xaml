@@ -526,14 +526,14 @@
                                 <ItemsControl ItemsSource="{Binding Recommended}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <UniformGrid Columns="4"/>
+                                            <UniformGrid Columns="3"/>
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Border Margin="0,0,12,14" CornerRadius="12" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
                                                 <StackPanel>
-                                                    <Border Height="120" CornerRadius="12,12,0,0" util:TopRoundedClip.Radius="12" Cursor="Hand" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" MouseLeftButtonUp="GameThumbnail_Click" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+                                                    <Border Height="160" CornerRadius="12,12,0,0" util:TopRoundedClip.Radius="12" Cursor="Hand" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" MouseLeftButtonUp="GameThumbnail_Click" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
                                                         <Grid>
                                                             <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding ThumbnailUrl}"/>
                                                             <ui:Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8" Padding="8" Background="#B0000000" Foreground="White" MouseOverBackground="#E0000000" BorderThickness="0" Icon="Play24" ToolTip="{resources:Loc Ui_Home_Play}" Command="{Binding DataContext.PlayDiscoverCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}"/>

@@ -37,7 +37,7 @@ namespace Voidstrap.UI.ViewModels.Pages
 
     internal sealed partial class HomePageViewModel
     {
-        private const int RecommendedLimit = 12;
+        private const int RecommendedLimit = 6;
 
         private const int FeaturedCandidateLimit = 10;
 
