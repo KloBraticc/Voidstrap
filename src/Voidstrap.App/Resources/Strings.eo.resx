@@ -9491,4 +9491,16 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Ludi</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Permesi Discord-invitojn</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Lasas amikojn aliĝi al via servilo per Discord-invitoj. Funkcias en publikaj kaj privataj serviloj.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} volas aliĝi al via ludo.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Ne eblis aliĝi el Discord. Certigu, ke Discord estas malfermita, kaj reprovu.</value>
+  </data>
 </root>

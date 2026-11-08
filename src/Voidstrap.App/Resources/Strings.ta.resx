@@ -9491,4 +9491,16 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>விளையாடு</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord அழைப்புகளை அனுமதி</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Discord அழைப்புகள் மூலம் நண்பர்கள் உங்கள் சர்வரில் சேர அனுமதிக்கிறது. பொது மற்றும் தனிப்பட்ட சர்வர்களில் வேலை செய்யும்.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} உங்கள் கேமில் சேர விரும்புகிறார்.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord இலிருந்து சேர முடியவில்லை. Discord திறந்திருப்பதை உறுதிசெய்து மீண்டும் முயலவும்.</value>
+  </data>
 </root>

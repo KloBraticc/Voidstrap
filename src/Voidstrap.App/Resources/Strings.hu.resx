@@ -9852,4 +9852,16 @@ Engedélyezed?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Játék</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord meghívók engedélyezése</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Lehetővé teszi, hogy a barátaid Discord meghívókkal csatlakozzanak a szerveredhez. Nyilvános és privát szervereken is működik.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} csatlakozni szeretne a játékodhoz.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Nem sikerült csatlakozni a Discordból. Győződj meg róla, hogy a Discord nyitva van, és próbáld újra.</value>
+  </data>
 </root>

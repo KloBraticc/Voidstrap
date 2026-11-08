@@ -9491,4 +9491,16 @@ icazə verilir?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Oyna</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord dəvətlərinə icazə ver</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Dostlarınıza Discord dəvətləri ilə serverinizə qoşulmağa imkan verir. Açıq və şəxsi serverlərdə işləyir.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} oyununuza qoşulmaq istəyir.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord vasitəsilə qoşulmaq mümkün olmadı. Discord açıq olduğundan əmin olun və yenidən cəhd edin.</value>
+  </data>
 </root>

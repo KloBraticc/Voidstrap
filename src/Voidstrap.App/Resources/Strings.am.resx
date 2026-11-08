@@ -9491,4 +9491,16 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>ተጫወት</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>የDiscord ግብዣዎችን ፍቀድ</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>ጓደኞች በDiscord ግብዣዎች ወደ አገልጋይዎ እንዲቀላቀሉ ያስችላል። በሕዝባዊ እና በግል አገልጋዮች ይሰራል።</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} ጨዋታዎን መቀላቀል ይፈልጋል።</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>ከDiscord መቀላቀል አልተቻለም። Discord መከፈቱን ያረጋግጡ እና እንደገና ይሞክሩ።</value>
+  </data>
 </root>

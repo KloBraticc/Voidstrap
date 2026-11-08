@@ -9851,4 +9851,16 @@ Autoriser ?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Jouer</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Autoriser les invitations Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Permet à vos amis de rejoindre votre serveur via les invitations Discord. Fonctionne sur les serveurs publics et privés.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} veut rejoindre votre partie.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Impossible de rejoindre depuis Discord. Vérifiez que Discord est ouvert et réessayez.</value>
+  </data>
 </root>

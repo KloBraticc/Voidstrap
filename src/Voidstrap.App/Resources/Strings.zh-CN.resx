@@ -9876,4 +9876,16 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>开始游戏</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>允许 Discord 邀请</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>让好友通过 Discord 邀请加入您的服务器。适用于公共服务器和私人服务器。</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} 想加入您的游戏。</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>无法从 Discord 加入。请确认 Discord 已打开，然后重试。</value>
+  </data>
 </root>

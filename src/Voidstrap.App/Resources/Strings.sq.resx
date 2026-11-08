@@ -9492,4 +9492,16 @@ E lejon atë?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Luaj</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Lejo ftesat e Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>U lejon miqve të bashkohen në serverin tënd përmes ftesave të Discord. Funksionon në serverë publikë dhe privatë.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} dëshiron të bashkohet në lojën tënde.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Bashkimi nga Discord dështoi. Sigurohu që Discord është i hapur dhe provo përsëri.</value>
+  </data>
 </root>

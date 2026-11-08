@@ -9850,4 +9850,16 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Oyna</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord davetlerine izin ver</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Arkadaşlarınızın Discord davetleriyle sunucunuza katılmasını sağlar. Herkese açık ve özel sunucularda çalışır.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} oyununuza katılmak istiyor.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord üzerinden katılınamadı. Discord açık olduğundan emin olun ve tekrar deneyin.</value>
+  </data>
 </root>

@@ -9853,4 +9853,16 @@ Zezwolić?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Graj</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Zezwalaj na zaproszenia Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Pozwala znajomym dołączyć do twojego serwera przez zaproszenia Discord. Działa na serwerach publicznych i prywatnych.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} chce dołączyć do twojej gry.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Nie udało się dołączyć z Discorda. Upewnij się, że Discord jest otwarty, i spróbuj ponownie.</value>
+  </data>
 </root>

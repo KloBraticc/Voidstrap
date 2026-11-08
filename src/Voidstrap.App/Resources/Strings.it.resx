@@ -9855,4 +9855,16 @@ Consentire?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Gioca</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Consenti inviti Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Permette ai tuoi amici di entrare nel tuo server tramite gli inviti di Discord. Funziona nei server pubblici e privati.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} vuole unirsi alla tua partita.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Impossibile entrare da Discord. Assicurati che Discord sia aperto e riprova.</value>
+  </data>
 </root>

@@ -9492,4 +9492,16 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>ਖੇਡੋ</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord ਸੱਦਿਆਂ ਦੀ ਆਗਿਆ ਦਿਓ</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>ਦੋਸਤਾਂ ਨੂੰ Discord ਸੱਦਿਆਂ ਰਾਹੀਂ ਤੁਹਾਡੇ ਸਰਵਰ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਦਿੰਦਾ ਹੈ। ਜਨਤਕ ਅਤੇ ਨਿੱਜੀ ਸਰਵਰਾਂ ਵਿੱਚ ਕੰਮ ਕਰਦਾ ਹੈ।</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} ਤੁਹਾਡੀ ਗੇਮ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣਾ ਚਾਹੁੰਦਾ ਹੈ।</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord ਤੋਂ ਸ਼ਾਮਲ ਨਹੀਂ ਹੋ ਸਕੇ। ਪੱਕਾ ਕਰੋ ਕਿ Discord ਖੁੱਲ੍ਹਾ ਹੈ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</value>
+  </data>
 </root>

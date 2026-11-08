@@ -9854,4 +9854,16 @@ Leisti?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Žaisti</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Leisti Discord pakvietimus</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Leidžia draugams prisijungti prie jūsų serverio per Discord pakvietimus. Veikia viešuose ir privačiuose serveriuose.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} nori prisijungti prie jūsų žaidimo.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Nepavyko prisijungti per Discord. Įsitikinkite, kad Discord atidarytas, ir bandykite dar kartą.</value>
+  </data>
 </root>

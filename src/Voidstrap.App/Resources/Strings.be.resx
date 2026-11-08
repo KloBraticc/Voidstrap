@@ -9491,4 +9491,16 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Гуляць</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Дазволіць запрашэнні Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Дазваляе сябрам далучацца да вашага сервера праз запрашэнні Discord. Працуе на публічных і прыватных серверах.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} хоча далучыцца да вашай гульні.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Не ўдалося далучыцца праз Discord. Пераканайцеся, што Discord адкрыты, і паспрабуйце зноў.</value>
+  </data>
 </root>

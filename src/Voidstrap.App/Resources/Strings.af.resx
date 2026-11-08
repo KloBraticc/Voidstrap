@@ -9491,4 +9491,16 @@ Laat dit toe?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Speel</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Laat Discord-uitnodigings toe</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Laat vriende by jou bediener aansluit deur Discord-uitnodigings. Werk in openbare en private bedieners.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} wil by jou speletjie aansluit.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Kon nie vanaf Discord aansluit nie. Maak seker Discord is oop en probeer weer.</value>
+  </data>
 </root>

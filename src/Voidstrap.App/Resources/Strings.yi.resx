@@ -9491,4 +9491,16 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>שפּיל</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>דערלויבן Discord פֿאַרבעטונגען</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>לאָזט פֿרײַנד זיך אָנשליסן צו דײַן סערווער דורך Discord פֿאַרבעטונגען. אַרבעט אויף עפֿנטלעכע און פּריוואַטע סערווערס.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} וויל זיך אָנשליסן צו דײַן שפּיל.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>מע האָט ניט געקענט זיך אָנשליסן פֿון Discord. מאַך זיכער אַז Discord איז אָפֿן און פּרוּוו ווידער.</value>
+  </data>
 </root>

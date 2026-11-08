@@ -9850,4 +9850,16 @@ Payagan ba?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Maglaro</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Payagan ang mga Discord invite</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Hinahayaan ang mga kaibigan na sumali sa server mo sa pamamagitan ng mga Discord invite. Gumagana sa mga pampubliko at pribadong server.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>Gustong sumali ni {0} sa laro mo.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Hindi makasali mula sa Discord. Tiyaking bukas ang Discord at subukan ulit.</value>
+  </data>
 </root>

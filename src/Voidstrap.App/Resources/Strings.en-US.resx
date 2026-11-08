@@ -9838,4 +9838,16 @@ Allow it?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Play</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Allow Discord invites</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Lets friends join your server through Discord invites. Works in public servers and private servers.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} wants to join your game.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Could not join from Discord. Make sure Discord is open and try again.</value>
+  </data>
 </root>

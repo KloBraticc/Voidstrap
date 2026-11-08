@@ -216,6 +216,11 @@ public static class LaunchHandler
             App.Terminate();
             return;
         }
+        if (App.LaunchSettings.DiscordJoinFlag.Active && App.LaunchSettings.RobloxLaunchMode == LaunchMode.None)
+        {
+            _ = JoinFromDiscordAsync();
+            return;
+        }
         if (!App.LaunchSettings.WatcherFlag.Active)
         {
             CloseOtherInstances();
@@ -255,6 +260,26 @@ public static class LaunchHandler
             App.Logger.WriteLine("LaunchHandler::ProcessLaunchArgs", "Closing (quiet flag active)");
             App.Terminate();
         }
+    }
+
+    private static async Task JoinFromDiscordAsync()
+    {
+        const string LOG_IDENT = "LaunchHandler::JoinFromDiscordAsync";
+
+        App.Logger.WriteLine(LOG_IDENT, "Waiting for the Discord join secret");
+        string? deeplink = await DiscordInvites.WaitForJoinAsync();
+        Application.Current?.Dispatcher.Invoke(() =>
+        {
+            if (deeplink == null)
+            {
+                Frontend.ShowMessageBox(Strings.Discord_Invites_JoinFailed, MessageBoxImage.Warning);
+                App.Terminate();
+                return;
+            }
+            App.LaunchSettings.RobloxLaunchMode = LaunchMode.Player;
+            App.LaunchSettings.RobloxLaunchArgs = deeplink;
+            ProcessLaunchArgs();
+        });
     }
 
     public static void LaunchInstaller()

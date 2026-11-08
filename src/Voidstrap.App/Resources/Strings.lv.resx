@@ -9492,4 +9492,16 @@ Vai atļaut?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Spēlēt</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Atļaut Discord ielūgumus</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Ļauj draugiem pievienoties tavam serverim ar Discord ielūgumiem. Darbojas publiskos un privātos serveros.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} vēlas pievienoties tavai spēlei.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Neizdevās pievienoties no Discord. Pārliecinies, ka Discord ir atvērts, un mēģini vēlreiz.</value>
+  </data>
 </root>

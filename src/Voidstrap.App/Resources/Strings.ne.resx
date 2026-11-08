@@ -9492,4 +9492,16 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>खेल्नुहोस्</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord निमन्त्रणहरूलाई अनुमति दिनुहोस्</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>साथीहरूलाई Discord निमन्त्रणमार्फत तपाईंको सर्भरमा सामेल हुन दिन्छ। सार्वजनिक र निजी सर्भरमा काम गर्छ।</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} तपाईंको खेलमा सामेल हुन चाहन्छ।</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord बाट सामेल हुन सकिएन। Discord खुला छ भनी निश्चित गर्नुहोस् र फेरि प्रयास गर्नुहोस्।</value>
+  </data>
 </root>

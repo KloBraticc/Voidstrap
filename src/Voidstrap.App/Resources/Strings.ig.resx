@@ -9492,4 +9492,16 @@ kwe ya?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Kpọọ</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Kwe ka a kpọọ oku Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Na-ekwe ka ndị enyi sonye na sava gị site na oku Discord. Na-arụ ọrụ na sava ọha na nke onwe.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} chọrọ isonye na egwuregwu gị.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Enweghị ike isonye site na Discord. Hụ na Discord mepere ma nwaa ọzọ.</value>
+  </data>
 </root>

@@ -9844,4 +9844,16 @@ Benarkan?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Main</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Benarkan jemputan Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Membolehkan rakan menyertai pelayan anda melalui jemputan Discord. Berfungsi di pelayan awam dan persendirian.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} mahu menyertai permainan anda.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Tidak dapat menyertai daripada Discord. Pastikan Discord dibuka dan cuba lagi.</value>
+  </data>
 </root>

@@ -9491,4 +9491,16 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>ఆడండి</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord ఆహ్వానాలను అనుమతించు</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Discord ఆహ్వానాల ద్వారా స్నేహితులు మీ సర్వర్‌లో చేరేందుకు అనుమతిస్తుంది. పబ్లిక్ మరియు ప్రైవేట్ సర్వర్‌లలో పనిచేస్తుంది.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} మీ గేమ్‌లో చేరాలనుకుంటున్నారు.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord నుండి చేరలేకపోయాము. Discord తెరిచి ఉందని నిర్ధారించుకుని మళ్లీ ప్రయత్నించండి.</value>
+  </data>
 </root>

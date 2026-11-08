@@ -9867,4 +9867,16 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>プレイ</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord の招待を許可</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Discord の招待からフレンドがあなたのサーバーに参加できるようにします。公開サーバーとプライベートサーバーで使えます。</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} さんがあなたのゲームに参加したいと言っています。</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord から参加できませんでした。Discord が開いていることを確認して、もう一度お試しください。</value>
+  </data>
 </root>

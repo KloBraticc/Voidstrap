@@ -9491,4 +9491,16 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>کھیلیں</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord دعوتوں کی اجازت دیں</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>دوستوں کو Discord دعوتوں کے ذریعے آپ کے سرور میں شامل ہونے دیتا ہے۔ عوامی اور نجی سرورز میں کام کرتا ہے۔</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} آپ کے گیم میں شامل ہونا چاہتا ہے۔</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord سے شامل نہیں ہو سکے۔ یقینی بنائیں کہ Discord کھلا ہے اور دوبارہ کوشش کریں۔</value>
+  </data>
 </root>

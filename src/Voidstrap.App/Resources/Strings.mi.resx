@@ -9492,4 +9492,16 @@ Whakaaetia?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Tākaro</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Whakaaetia ngā pōwhiri Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Ka taea e ō hoa te hono ki tō tūmau mā ngā pōwhiri Discord. Ka mahi i ngā tūmau tūmatanui me ngā tūmau tūmataiti.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>Kei te pīrangi a {0} ki te hono ki tō kēmu.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Kāore i taea te hono mai i Discord. Kia mōhio kei te tuwhera a Discord ka ngana anō.</value>
+  </data>
 </root>

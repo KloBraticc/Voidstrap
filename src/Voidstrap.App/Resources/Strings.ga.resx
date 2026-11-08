@@ -9492,4 +9492,16 @@ Ceadaigh é?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Imir</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Ceadaigh cuirí Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Ligeann sé do chairde páirt a ghlacadh i do fhreastalaí trí chuirí Discord. Oibríonn sé ar fhreastalaithe poiblí agus príobháideacha.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>Ba mhaith le {0} páirt a ghlacadh i do chluiche.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Níorbh fhéidir páirt a ghlacadh ó Discord. Cinntigh go bhfuil Discord oscailte agus bain triail eile as.</value>
+  </data>
 </root>

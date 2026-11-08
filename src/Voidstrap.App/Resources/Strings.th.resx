@@ -9847,4 +9847,16 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>เล่น</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>อนุญาตคำเชิญ Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>ให้เพื่อนเข้าร่วมเซิร์ฟเวอร์ของคุณผ่านคำเชิญ Discord ใช้ได้ในเซิร์ฟเวอร์สาธารณะและส่วนตัว</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} ต้องการเข้าร่วมเกมของคุณ</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>ไม่สามารถเข้าร่วมจาก Discord ได้ ตรวจสอบว่าเปิด Discord อยู่แล้วลองอีกครั้ง</value>
+  </data>
 </root>

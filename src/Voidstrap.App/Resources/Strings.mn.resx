@@ -9492,4 +9492,16 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Тоглох</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord урилгыг зөвшөөрөх</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Найзууддаа Discord урилгаар таны серверт нэгдэх боломж олгоно. Нийтийн болон хувийн серверт ажиллана.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} таны тоглоомд нэгдэхийг хүсэж байна.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord оос нэгдэж чадсангүй. Discord нээлттэй эсэхийг шалгаад дахин оролдоно уу.</value>
+  </data>
 </root>

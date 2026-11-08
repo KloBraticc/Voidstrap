@@ -9492,4 +9492,16 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>ଖେଳନ୍ତୁ</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord ନିମନ୍ତ୍ରଣକୁ ଅନୁମତି ଦିଅନ୍ତୁ</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>ସାଙ୍ଗମାନଙ୍କୁ Discord ନିମନ୍ତ୍ରଣ ମାଧ୍ୟମରେ ଆପଣଙ୍କ ସର୍ଭରରେ ଯୋଗ ଦେବାକୁ ଦିଏ। ସାର୍ବଜନୀନ ଏବଂ ବ୍ୟକ୍ତିଗତ ସର୍ଭରରେ କାମ କରେ।</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} ଆପଣଙ୍କ ଖେଳରେ ଯୋଗ ଦେବାକୁ ଚାହାଁନ୍ତି।</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord ରୁ ଯୋଗ ଦେଇହେଲା ନାହିଁ। Discord ଖୋଲା ଅଛି ବୋଲି ନିଶ୍ଚିତ କରନ୍ତୁ ଏବଂ ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।</value>
+  </data>
 </root>

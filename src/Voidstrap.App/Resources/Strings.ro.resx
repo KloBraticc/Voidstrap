@@ -9854,4 +9854,16 @@ Permiți?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Joacă</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Permite invitațiile Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Le permite prietenilor să intre pe serverul tău prin invitații Discord. Funcționează pe servere publice și private.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} vrea să intre în jocul tău.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Nu s-a putut intra din Discord. Asigură-te că Discord este deschis și încearcă din nou.</value>
+  </data>
 </root>

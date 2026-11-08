@@ -711,6 +711,20 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
         }
     }
 
+    public bool DiscordInvitesEnabled
+    {
+        get { return App.Settings.Prop.AllowDiscordInvites; }
+        set
+        {
+            if (App.Settings.Prop.AllowDiscordInvites == value)
+            {
+                return;
+            }
+            App.Settings.Prop.AllowDiscordInvites = value;
+            SaveAppSetting(nameof(DiscordInvitesEnabled));
+        }
+    }
+
     public bool DiscordAccountOnProfile
     {
         get { return App.Settings.Prop.ShowAccountOnRichPresence; }

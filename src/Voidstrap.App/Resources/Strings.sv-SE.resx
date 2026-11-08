@@ -9852,4 +9852,16 @@ Tillåta?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Spela</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Tillåt Discord-inbjudningar</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Låter vänner gå med på din server via Discord-inbjudningar. Fungerar på offentliga och privata servrar.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} vill gå med i ditt spel.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Det gick inte att gå med från Discord. Kontrollera att Discord är öppet och försök igen.</value>
+  </data>
 </root>

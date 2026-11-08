@@ -306,6 +306,7 @@ namespace Voidstrap.Models.Persistable
         // Rich Presence (Discord Integration)
         public bool UseDiscordRichPresence { get; set; } = true;
         public bool HideRPCButtons { get; set; } = true;
+        public bool AllowDiscordInvites { get; set; } = false;
         public bool ShowAccountOnRichPresence { get; set; } = true;
         public bool ShowServerDetails { get; set; } = true;
 

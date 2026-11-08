@@ -9492,4 +9492,16 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Խաղալ</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Թույլատրել Discord հրավերները</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Թույլ է տալիս ընկերներին միանալ ձեր սերվերին Discord հրավերներով։ Աշխատում է հանրային և մասնավոր սերվերներում։</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0}ը ցանկանում է միանալ ձեր խաղին։</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Չհաջողվեց միանալ Discord-ից։ Համոզվեք, որ Discord-ը բաց է, և կրկին փորձեք։</value>
+  </data>
 </root>

@@ -9492,4 +9492,16 @@ Vil du tillate det?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Spill</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Tillat Discord-invitasjoner</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Lar venner bli med på serveren din via Discord-invitasjoner. Fungerer på offentlige og private servere.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} vil bli med i spillet ditt.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Kunne ikke bli med fra Discord. Sørg for at Discord er åpent, og prøv igjen.</value>
+  </data>
 </root>

@@ -9491,4 +9491,16 @@ Caniatáu iddo?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Chwarae</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Caniatáu gwahoddiadau Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Yn gadael i ffrindiau ymuno â’ch gweinydd drwy wahoddiadau Discord. Yn gweithio ar weinyddion cyhoeddus a phreifat.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>Mae {0} eisiau ymuno â’ch gêm.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Methu ymuno o Discord. Gwnewch yn siŵr bod Discord ar agor a rhowch gynnig arall arni.</value>
+  </data>
 </root>

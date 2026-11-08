@@ -260,7 +260,7 @@ namespace Voidstrap.Utility
 
                 if (!Voidstrap.Integrations.DiscordIpc.TryFindPipe(out int pipe))
                     return;
-                var rpc = Voidstrap.Integrations.DiscordIpc.CreateClient("1005469189907173486", pipe);
+                var rpc = Voidstrap.Integrations.DiscordIpc.CreateClient(App.DiscordApplicationId, pipe);
                 rpc.Initialize();
                 rpc.SetPresenceSafe(new DiscordRPC.RichPresence
                 {

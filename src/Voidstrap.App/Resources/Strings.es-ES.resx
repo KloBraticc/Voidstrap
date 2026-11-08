@@ -9852,4 +9852,16 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Jugar</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Permitir invitaciones de Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Permite que tus amigos se unan a tu servidor con invitaciones de Discord. Funciona en servidores públicos y privados.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} quiere unirse a tu partida.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>No se pudo unir desde Discord. Asegúrate de que Discord esté abierto e inténtalo de nuevo.</value>
+  </data>
 </root>

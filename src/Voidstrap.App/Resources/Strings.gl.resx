@@ -9492,4 +9492,16 @@ Permíteo?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Xogar</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Permitir convites de Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Permite que os amigos se unan ao teu servidor mediante convites de Discord. Funciona en servidores públicos e privados.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} quere unirse á túa partida.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Non foi posible unirse desde Discord. Asegúrate de que Discord está aberto e téntao de novo.</value>
+  </data>
 </root>

@@ -9491,4 +9491,16 @@ E lumella?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Bapala</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Dumella memo ya Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>E dumella metsoalle ho kena sebaebaeng sa hao ka memo ya Discord. E sebetsa ho diseva tsa setjhaba le tsa poraefete.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} o batla ho kena papading ya hao.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Ha ho a kgonahala ho kena ho tswa ho Discord. Etsa bonnete ba hore Discord e butswe mme o leke hape.</value>
+  </data>
 </root>

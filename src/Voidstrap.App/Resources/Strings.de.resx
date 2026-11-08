@@ -9852,4 +9852,16 @@ Erlauben?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Spielen</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord Einladungen erlauben</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Lässt Freunde über Discord Einladungen deinem Server beitreten. Funktioniert auf öffentlichen und privaten Servern.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} möchte deinem Spiel beitreten.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Beitritt über Discord fehlgeschlagen. Stelle sicher, dass Discord geöffnet ist, und versuche es erneut.</value>
+  </data>
 </root>

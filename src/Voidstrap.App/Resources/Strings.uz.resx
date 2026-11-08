@@ -9491,4 +9491,16 @@ Ruxsat berasizmi?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>O'ynash</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord taklifnomalariga ruxsat berish</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Do‘stlaringizga Discord taklifnomalari orqali serveringizga qo‘shilish imkonini beradi. Ommaviy va shaxsiy serverlarda ishlaydi.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} o‘yiningizga qo‘shilmoqchi.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord orqali qo‘shilib bo‘lmadi. Discord ochiq ekanini tekshirib, qayta urinib ko‘ring.</value>
+  </data>
 </root>

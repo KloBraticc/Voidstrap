@@ -9492,4 +9492,16 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>ຫຼິ້ນ</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>ອະນຸຍາດການເຊີນ Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>ໃຫ້ໝູ່ເຂົ້າຮ່ວມເຊີບເວີຂອງທ່ານຜ່ານການເຊີນ Discord. ໃຊ້ໄດ້ໃນເຊີບເວີສາທາລະນະ ແລະ ສ່ວນຕົວ.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} ຕ້ອງການເຂົ້າຮ່ວມເກມຂອງທ່ານ.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>ບໍ່ສາມາດເຂົ້າຮ່ວມຈາກ Discord ໄດ້. ກະລຸນາກວດເບິ່ງວ່າ Discord ເປີດຢູ່ ແລະ ລອງໃໝ່.</value>
+  </data>
 </root>

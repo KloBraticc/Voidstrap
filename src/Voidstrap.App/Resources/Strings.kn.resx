@@ -9492,4 +9492,16 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>ಆಡಿ</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord ಆಹ್ವಾನಗಳನ್ನು ಅನುಮತಿಸಿ</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>ಸ್ನೇಹಿತರು Discord ಆಹ್ವಾನಗಳ ಮೂಲಕ ನಿಮ್ಮ ಸರ್ವರ್‌ಗೆ ಸೇರಲು ಅನುಮತಿಸುತ್ತದೆ. ಸಾರ್ವಜನಿಕ ಮತ್ತು ಖಾಸಗಿ ಸರ್ವರ್‌ಗಳಲ್ಲಿ ಕೆಲಸ ಮಾಡುತ್ತದೆ.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} ನಿಮ್ಮ ಆಟಕ್ಕೆ ಸೇರಲು ಬಯಸುತ್ತಾರೆ.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord ನಿಂದ ಸೇರಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. Discord ತೆರೆದಿದೆಯೇ ಎಂದು ಖಚಿತಪಡಿಸಿ ಮತ್ತು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</value>
+  </data>
 </root>

@@ -9492,4 +9492,16 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Играј</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Дозволи покани од Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Им овозможува на пријателите да се приклучат на твојот сервер преку покани од Discord. Работи на јавни и приватни сервери.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} сака да се приклучи на твојата игра.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Не можеше да се приклучи од Discord. Провери дали Discord е отворен и обиди се повторно.</value>
+  </data>
 </root>

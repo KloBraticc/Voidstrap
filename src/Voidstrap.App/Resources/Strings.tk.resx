@@ -9491,4 +9491,16 @@ Rugsat beriň?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Oýna</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord çakylyklaryna rugsat ber</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Dostlaryňyza Discord çakylyklary arkaly serweriňize goşulmaga mümkinçilik berýär. Umumy we hususy serwerlerde işleýär.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} oýnuňyza goşulmak isleýär.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord arkaly goşulyp bolmady. Discord açykdygyna göz ýetiriň we täzeden synanyşyň.</value>
+  </data>
 </root>

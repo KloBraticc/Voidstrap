@@ -9492,4 +9492,16 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>കളിക്കുക</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord ക്ഷണങ്ങൾ അനുവദിക്കുക</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>സുഹൃത്തുക്കളെ Discord ക്ഷണങ്ങൾ വഴി നിങ്ങളുടെ സെർവറിൽ ചേരാൻ അനുവദിക്കുന്നു. പൊതു, സ്വകാര്യ സെർവറുകളിൽ പ്രവർത്തിക്കും.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} നിങ്ങളുടെ ഗെയിമിൽ ചേരാൻ ആഗ്രഹിക്കുന്നു.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord ൽ നിന്ന് ചേരാനായില്ല. Discord തുറന്നിട്ടുണ്ടെന്ന് ഉറപ്പാക്കി വീണ്ടും ശ്രമിക്കുക.</value>
+  </data>
 </root>

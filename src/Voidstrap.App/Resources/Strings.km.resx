@@ -9492,4 +9492,16 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>លេង</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>អនុញ្ញាតការអញ្ជើញ Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>អនុញ្ញាតឱ្យមិត្តភក្តិចូលរួមម៉ាស៊ីនមេរបស់អ្នកតាមរយៈការអញ្ជើញ Discord។ ដំណើរការលើម៉ាស៊ីនមេសាធារណៈ និងឯកជន។</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} ចង់ចូលរួមហ្គេមរបស់អ្នក។</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>មិនអាចចូលរួមពី Discord បានទេ។ សូមប្រាកដថា Discord បានបើក ហើយព្យាយាមម្តងទៀត។</value>
+  </data>
 </root>

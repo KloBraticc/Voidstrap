@@ -9491,4 +9491,16 @@ Je, unairuhusu?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Cheza</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Ruhusu mialiko ya Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Huwaruhusu marafiki kujiunga na seva yako kupitia mialiko ya Discord. Hufanya kazi kwenye seva za umma na za faragha.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} anataka kujiunga na mchezo wako.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Imeshindwa kujiunga kutoka Discord. Hakikisha Discord imefunguliwa kisha ujaribu tena.</value>
+  </data>
 </root>

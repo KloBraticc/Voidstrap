@@ -9492,4 +9492,16 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Ойнау</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord шақыруларына рұқсат ету</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Достарыңызға Discord шақырулары арқылы серверіңізге қосылуға мүмкіндік береді. Жалпы және жеке серверлерде жұмыс істейді.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} ойыныңызға қосылғысы келеді.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord арқылы қосылу мүмкін болмады. Discord ашық екенін тексеріп, қайталап көріңіз.</value>
+  </data>
 </root>

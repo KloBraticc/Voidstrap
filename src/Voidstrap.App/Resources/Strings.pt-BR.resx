@@ -9854,4 +9854,16 @@ Permitir?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Jogar</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Permitir convites do Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Permite que seus amigos entrem no seu servidor por convites do Discord. Funciona em servidores públicos e privados.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} quer entrar no seu jogo.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Não foi possível entrar pelo Discord. Verifique se o Discord está aberto e tente novamente.</value>
+  </data>
 </root>

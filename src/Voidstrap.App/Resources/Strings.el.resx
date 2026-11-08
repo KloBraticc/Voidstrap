@@ -9491,4 +9491,16 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Παίξε</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Να επιτρέπονται οι προσκλήσεις Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Επιτρέπει σε φίλους να μπαίνουν στον διακομιστή σας μέσω προσκλήσεων Discord. Λειτουργεί σε δημόσιους και ιδιωτικούς διακομιστές.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>Ο χρήστης {0} θέλει να μπει στο παιχνίδι σας.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Δεν ήταν δυνατή η σύνδεση από το Discord. Βεβαιωθείτε ότι το Discord είναι ανοιχτό και δοκιμάστε ξανά.</value>
+  </data>
 </root>

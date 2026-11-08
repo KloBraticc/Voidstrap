@@ -9855,4 +9855,16 @@ Izinkan?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Main</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Izinkan undangan Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Memungkinkan teman bergabung ke server Anda melalui undangan Discord. Berfungsi di server publik dan privat.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} ingin bergabung ke game Anda.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Tidak dapat bergabung dari Discord. Pastikan Discord terbuka lalu coba lagi.</value>
+  </data>
 </root>

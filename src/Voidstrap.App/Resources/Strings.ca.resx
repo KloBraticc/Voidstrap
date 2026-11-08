@@ -9491,4 +9491,16 @@ Ho permets?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Juga</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Permet les invitacions de Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Permet que els amics s’uneixin al teu servidor amb invitacions de Discord. Funciona en servidors públics i privats.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} vol unir-se a la teva partida.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>No s’ha pogut unir des de Discord. Assegura’t que Discord està obert i torna-ho a provar.</value>
+  </data>
 </root>

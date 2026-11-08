@@ -9492,4 +9492,16 @@ Erlaabt et?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Spillen</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord Invitatiounen erlaben</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Léisst Frënn iwwer Discord Invitatiounen op däi Server kommen. Fonctionnéiert op ëffentlechen a private Serveren.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} wëll an däi Spill kommen.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Konnt net vun Discord bäitrieden. Kuck, datt Discord op ass, a probéier nach eng Kéier.</value>
+  </data>
 </root>

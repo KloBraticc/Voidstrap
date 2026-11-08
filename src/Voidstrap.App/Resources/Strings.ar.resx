@@ -9851,4 +9851,16 @@
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>العب</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>السماح بدعوات Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>يتيح لأصدقائك الانضمام إلى خادمك عبر دعوات Discord. يعمل في الخوادم العامة والخاصة.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} يريد الانضمام إلى لعبتك.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>تعذر الانضمام من Discord. تأكد من أن Discord مفتوح وحاول مرة أخرى.</value>
+  </data>
 </root>

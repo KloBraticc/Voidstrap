@@ -9492,4 +9492,16 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>שחק</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>אפשר הזמנות Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>מאפשר לחברים להצטרף לשרת שלך דרך הזמנות Discord. עובד בשרתים ציבוריים ופרטיים.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} רוצה להצטרף למשחק שלך.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>לא ניתן היה להצטרף מ Discord. ודא ש Discord פתוח ונסה שוב.</value>
+  </data>
 </root>

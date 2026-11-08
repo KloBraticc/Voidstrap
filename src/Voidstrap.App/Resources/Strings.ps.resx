@@ -9492,4 +9492,16 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>لوبه وکړئ</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>د Discord بلنو ته اجازه ورکړئ</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>ملګرو ته اجازه ورکوي چې د Discord بلنو له لارې ستاسو سرور ته ورګډ شي. په عامه او شخصي سرورونو کې کار کوي.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} غواړي ستاسو لوبې ته ورګډ شي.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>له Discord څخه ګډون ونه شو. ډاډ ترلاسه کړئ چې Discord خلاص دی او بیا هڅه وکړئ.</value>
+  </data>
 </root>

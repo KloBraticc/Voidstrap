@@ -9852,4 +9852,16 @@ Dopustiti?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Igraj</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Dopusti Discord pozivnice</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Omogućuje prijateljima da se pridruže tvom poslužitelju putem Discord pozivnica. Radi na javnim i privatnim poslužiteljima.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} se želi pridružiti tvojoj igri.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Pridruživanje putem Discorda nije uspjelo. Provjeri je li Discord otvoren i pokušaj ponovno.</value>
+  </data>
 </root>

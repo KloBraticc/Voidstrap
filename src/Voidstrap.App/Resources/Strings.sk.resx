@@ -9492,4 +9492,16 @@ Povoliť?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Hrať</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Povoliť pozvánky Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Umožňuje priateľom pripojiť sa na váš server cez pozvánky Discord. Funguje na verejných aj súkromných serveroch.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} sa chce pripojiť k vašej hre.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Pripojenie cez Discord zlyhalo. Uistite sa, že Discord je otvorený, a skúste to znova.</value>
+  </data>
 </root>

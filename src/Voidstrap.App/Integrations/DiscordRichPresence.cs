@@ -306,6 +306,8 @@ public partial class DiscordRichPresence : IDisposable
             assets?.SmallImageText ?? string.Empty,
             presence.Timestamps?.Start?.Ticks.ToString() ?? string.Empty,
             presence.Timestamps?.End?.Ticks.ToString() ?? string.Empty,
+            presence.Party?.ID ?? string.Empty,
+            presence.Secrets?.JoinSecret ?? string.Empty,
             buttons
         );
     }
@@ -335,6 +337,12 @@ public partial class DiscordRichPresence : IDisposable
         RetryLater(sender);
     }
 
+    private void OnClientJoinRequested(object sender, JoinRequestMessage e)
+    {
+        if (!_disposed && DiscordInvites.Enabled && sender is DiscordRpcClient client && ReferenceEquals(client, _rpcClient))
+            DiscordInvites.HandleJoinRequest(client, e);
+    }
+
     private void OnClientConnectionFailed(object sender, ConnectionFailedMessage e)
     {
         RetryLater(sender);
@@ -357,7 +365,7 @@ public partial class DiscordRichPresence : IDisposable
             {
                 return;
             }
-            DiscordRpcClient client = DiscordIpc.CreateClient("1005469189907173486", pipe);
+            DiscordRpcClient client = DiscordIpc.CreateClient(App.DiscordApplicationId, pipe);
             client.SkipIdenticalPresence = false;
             client.OnReady += OnClientReady;
             client.OnPresenceUpdate += OnClientPresenceUpdate;
@@ -365,6 +373,8 @@ public partial class DiscordRichPresence : IDisposable
             client.OnConnectionEstablished += OnClientConnectionEstablished;
             client.OnConnectionFailed += OnClientConnectionFailed;
             client.OnClose += OnClientClose;
+            client.OnJoinRequested += OnClientJoinRequested;
+            DiscordInvites.Register(client);
             _rpcClient = client;
             try
             {
@@ -395,6 +405,7 @@ public partial class DiscordRichPresence : IDisposable
         client.OnConnectionEstablished -= OnClientConnectionEstablished;
         client.OnConnectionFailed -= OnClientConnectionFailed;
         client.OnClose -= OnClientClose;
+        client.OnJoinRequested -= OnClientJoinRequested;
         DiscordIpc.Close(client);
     }
 
@@ -455,6 +466,7 @@ public partial class DiscordRichPresence : IDisposable
         if (message.Command == "SetLaunchData")
         {
             _currentPresence.Buttons = GetButtons();
+            DiscordInvites.Apply(_currentPresence, _activityWatcher.Data, _activityWatcher.Data?.UniverseDetails);
             return true;
         }
         if (
@@ -939,6 +951,7 @@ public partial class DiscordRichPresence : IDisposable
                     SmallImageText = smallText ?? string.Empty,
                 },
             };
+            DiscordInvites.Apply(_currentPresence, activity, universe);
             _originalSnapshot = new OriginalSnapshot
             {
                 Details = detailText,

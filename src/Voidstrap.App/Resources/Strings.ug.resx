@@ -9491,4 +9491,16 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>ئويناش</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord تەكلىپلىرىگە يول قويۇش</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>دوستلىرىڭىزنىڭ Discord تەكلىپلىرى ئارقىلىق مۇلازىمېتىرىڭىزغا قوشۇلۇشىغا يول قويىدۇ. ئاممىۋى ۋە شەخسىي مۇلازىمېتىرلاردا ئىشلەيدۇ.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} ئويۇنىڭىزغا قوشۇلماقچى.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord دىن قوشۇلغىلى بولمىدى. Discord نىڭ ئوچۇقلۇقىنى جەزملەپ قايتا سىناڭ.</value>
+  </data>
 </root>

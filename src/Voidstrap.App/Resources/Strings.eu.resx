@@ -9491,4 +9491,16 @@ Baimendu al duzu?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Jokatu</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Baimendu Discord gonbidapenak</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Lagunei zure zerbitzarira Discord gonbidapenen bidez sartzen uzten die. Zerbitzari publiko eta pribatuetan dabil.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0}(e)k zure jokoan sartu nahi du.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Ezin izan da Discordetik sartu. Ziurtatu Discord irekita dagoela eta saiatu berriro.</value>
+  </data>
 </root>

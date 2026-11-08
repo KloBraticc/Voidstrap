@@ -73,7 +73,7 @@ public sealed partial class StudioRichPresence : IDisposable
     private void Start()
     {
         _clientId = string.IsNullOrWhiteSpace(App.Settings.Prop.StudioRpcClientId)
-            ? "1005469189907173486"
+            ? App.DiscordApplicationId
             : App.Settings.Prop.StudioRpcClientId.Trim();
         _pollTimer = new System.Timers.Timer(4000) { AutoReset = true };
         _pollTimer.Elapsed += OnPollTimer;

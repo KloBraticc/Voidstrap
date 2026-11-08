@@ -9492,4 +9492,16 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Играј</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Дозволи Discord позивнице</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Омогућава пријатељима да се придруже твом серверу преко Discord позивница. Ради на јавним и приватним серверима.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} жели да се придружи твојој игри.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Придруживање преко Discord а није успело. Провери да ли је Discord отворен и покушај поново.</value>
+  </data>
 </root>

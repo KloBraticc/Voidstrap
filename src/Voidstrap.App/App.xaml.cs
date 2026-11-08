@@ -94,6 +94,8 @@ public partial class App : Application
 
     public const string RobloxPlayerAppName = "RobloxPlayerBeta";
 
+    public const string DiscordApplicationId = "1005469189907173486";
+
     public const string RobloxStudioAppName = "RobloxStudioBeta";
 
     public const string RobloxCrashHandlerAppName = "RobloxCrashHandler";

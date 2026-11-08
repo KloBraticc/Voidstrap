@@ -9491,4 +9491,16 @@ Gba laaye?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Ṣeré</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Gba awọn ìpè Discord laaye</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Jẹ́ kí àwọn ọ̀rẹ́ darapọ̀ mọ́ olupin rẹ nípasẹ̀ ìpè Discord. Ó ń ṣiṣẹ́ lórí olupin gbangba àti ti ìkọ̀kọ̀.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} fẹ́ darapọ̀ mọ́ eré rẹ.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Kò ṣeé ṣe láti darapọ̀ láti Discord. Rí i dájú pé Discord ṣí sílẹ̀ kí o sì gbìyànjú lẹ́ẹ̀kan sí i.</value>
+  </data>
 </root>

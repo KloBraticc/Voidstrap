@@ -9855,4 +9855,16 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>開始遊戲</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>允許 Discord 邀請</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>讓好友透過 Discord 邀請加入你的伺服器。適用於公開伺服器與私人伺服器。</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} 想加入你的遊戲。</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>無法從 Discord 加入。請確認 Discord 已開啟，然後再試一次。</value>
+  </data>
 </root>

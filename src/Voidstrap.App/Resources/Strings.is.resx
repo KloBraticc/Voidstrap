@@ -9492,4 +9492,16 @@ Leyfa það?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Spila</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Leyfa Discord boð</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Leyfir vinum að tengjast þjóninum þínum með Discord boðum. Virkar á opinberum og einkaþjónum.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} vill taka þátt í leiknum þínum.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Ekki tókst að tengjast úr Discord. Gakktu úr skugga um að Discord sé opið og reyndu aftur.</value>
+  </data>
 </root>

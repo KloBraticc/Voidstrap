@@ -9491,4 +9491,16 @@ Uyakuvumela?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Dlala</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Vumela izimemo ze Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Ivumela abangane ukuthi bajoyine iseva yakho ngezimemo ze Discord. Isebenza kumaseva omphakathi nawangasese.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>U {0} ufuna ukujoyina umdlalo wakho.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Akukwazekanga ukujoyina usuka ku Discord. Qiniseka ukuthi i Discord ivuliwe bese uzama futhi.</value>
+  </data>
 </root>

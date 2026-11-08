@@ -9492,4 +9492,16 @@ Oggolow?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Ciyaar</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Oggolow martiqaadyada Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Waxay u oggolaanaysaa saaxiibada inay ku biiraan serverkaaga iyagoo adeegsanaya martiqaadyada Discord. Wuxuu ka shaqeeyaa serverada guud iyo kuwa gaarka ah.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} wuxuu doonayaa inuu ku biiro ciyaartaada.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Laguma biiri karin Discord. Hubi in Discord uu furan yahay oo mar kale isku day.</value>
+  </data>
 </root>

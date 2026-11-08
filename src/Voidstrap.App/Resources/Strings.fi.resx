@@ -9853,4 +9853,16 @@ Sallitaanko?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Pelaa</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Salli Discord-kutsut</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Antaa ystävien liittyä palvelimellesi Discord-kutsujen kautta. Toimii julkisilla ja yksityisillä palvelimilla.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} haluaa liittyä peliisi.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Liittyminen Discordista epäonnistui. Varmista, että Discord on auki, ja yritä uudelleen.</value>
+  </data>
 </root>

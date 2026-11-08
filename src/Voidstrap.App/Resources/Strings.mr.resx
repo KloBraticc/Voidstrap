@@ -9492,4 +9492,16 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>खेळा</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord आमंत्रणांना परवानगी द्या</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>मित्रांना Discord आमंत्रणांद्वारे तुमच्या सर्व्हरमध्ये सामील होऊ देते. सार्वजनिक आणि खाजगी सर्व्हरवर चालते.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} तुमच्या गेममध्ये सामील होऊ इच्छितो.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord वरून सामील होता आले नाही. Discord उघडे असल्याची खात्री करा आणि पुन्हा प्रयत्न करा.</value>
+  </data>
 </root>

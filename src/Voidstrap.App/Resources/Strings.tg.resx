@@ -9491,4 +9491,16 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Бозӣ</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Иҷозати даъватҳои Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Ба дӯстон имкон медиҳад, ки тавассути даъватҳои Discord ба сервери шумо ҳамроҳ шаванд. Дар серверҳои умумӣ ва хусусӣ кор мекунад.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} мехоҳад ба бозии шумо ҳамроҳ шавад.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Аз Discord ҳамроҳ шудан муяссар нашуд. Боварӣ ҳосил кунед, ки Discord кушода аст ва бори дигар кӯшиш кунед.</value>
+  </data>
 </root>

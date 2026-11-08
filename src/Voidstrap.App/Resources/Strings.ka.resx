@@ -9492,4 +9492,16 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>თამაში</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord-ის მოწვევების დაშვება</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>მეგობრებს საშუალებას აძლევს Discord-ის მოწვევებით შემოუერთდნენ თქვენს სერვერს. მუშაობს საჯარო და პირად სერვერებზე.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} სურს თქვენს თამაშს შემოუერთდეს.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord-იდან შემოერთება ვერ მოხერხდა. დარწმუნდით, რომ Discord ღიაა და სცადეთ ხელახლა.</value>
+  </data>
 </root>

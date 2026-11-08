@@ -9850,4 +9850,16 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Грати</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Дозволити запрошення Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Дозволяє друзям приєднуватися до Вашого сервера через запрошення Discord. Працює на публічних і приватних серверах.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} хоче приєднатися до Вашої гри.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Не вдалося приєднатися через Discord. Переконайтеся, що Discord відкрито, і спробуйте ще раз.</value>
+  </data>
 </root>

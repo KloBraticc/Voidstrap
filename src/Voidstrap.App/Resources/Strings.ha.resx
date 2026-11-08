@@ -9492,4 +9492,16 @@ Bada shi?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Yi wasa</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Ba da izinin gayyatar Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Yana bar abokai su shiga sabar ku ta gayyatar Discord. Yana aiki a sabobin jama’a da na sirri.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} yana son shiga wasanku.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Ba a iya shiga daga Discord ba. Tabbatar Discord a buɗe yake sannan ku sake gwadawa.</value>
+  </data>
 </root>

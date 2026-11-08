@@ -37,6 +37,8 @@ public class LaunchSettings
 
     public LaunchFlag PlayerFlag { get; } = new LaunchFlag("player");
 
+    public LaunchFlag DiscordJoinFlag { get; } = new LaunchFlag("discordjoin");
+
     public LaunchFlag SoberRefreshFlag { get; } = new LaunchFlag("soberrefresh");
 
     public LaunchFlag StudioFlag { get; } = new LaunchFlag("studio");

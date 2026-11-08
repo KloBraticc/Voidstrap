@@ -9491,4 +9491,16 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>ကစားရန်</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord ဖိတ်ကြားချက်များကို ခွင့်ပြုရန်</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>သူငယ်ချင်းများကို Discord ဖိတ်ကြားချက်ဖြင့် သင့်ဆာဗာသို့ ဝင်ရောက်ခွင့်ပေးသည်။ အများသုံးနှင့် ကိုယ်ပိုင်ဆာဗာများတွင် အလုပ်လုပ်သည်။</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} သည် သင့်ဂိမ်းထဲ ဝင်ရောက်လိုသည်။</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discord မှ ဝင်ရောက်၍ မရပါ။ Discord ဖွင့်ထားကြောင်း သေချာစေပြီး ထပ်မံကြိုးစားပါ။</value>
+  </data>
 </root>

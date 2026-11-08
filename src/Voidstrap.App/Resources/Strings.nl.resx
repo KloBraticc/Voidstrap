@@ -9854,4 +9854,16 @@ Toestaan?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Spelen</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Discord uitnodigingen toestaan</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Laat vrienden via Discord uitnodigingen bij je server komen. Werkt op openbare en privéservers.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} wil bij je spel komen.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Deelnemen via Discord is mislukt. Controleer of Discord open is en probeer het opnieuw.</value>
+  </data>
 </root>

@@ -9491,4 +9491,16 @@ Kas lubada?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Mängi</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Luba Discordi kutsed</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Laseb sõpradel Discordi kutsete kaudu sinu serveriga liituda. Töötab avalikes ja privaatsetes serverites.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} soovib sinu mänguga liituda.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Discordist liitumine ebaõnnestus. Veendu, et Discord on avatud, ja proovi uuesti.</value>
+  </data>
 </root>

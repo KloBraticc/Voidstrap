@@ -9855,4 +9855,16 @@ Cho phép?</value>
   <data name="Ui.Home.Play" xml:space="preserve">
     <value>Chơi</value>
   </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Title" xml:space="preserve">
+    <value>Cho phép lời mời Discord</value>
+  </data>
+  <data name="Menu.Integrations.AllowDiscordInvites.Description" xml:space="preserve">
+    <value>Cho phép bạn bè vào máy chủ của bạn qua lời mời Discord. Hoạt động ở máy chủ công khai và riêng tư.</value>
+  </data>
+  <data name="Discord.Invites.JoinRequest" xml:space="preserve">
+    <value>{0} muốn tham gia trò chơi của bạn.</value>
+  </data>
+  <data name="Discord.Invites.JoinFailed" xml:space="preserve">
+    <value>Không thể tham gia từ Discord. Hãy đảm bảo Discord đang mở và thử lại.</value>
+  </data>
 </root>
