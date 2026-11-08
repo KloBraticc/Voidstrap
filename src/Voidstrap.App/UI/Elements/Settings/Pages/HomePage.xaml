@@ -488,9 +488,9 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <StackPanel Grid.Row="1" Margin="0,12,0,0">
+                        <StackPanel Grid.Row="1" Margin="0,28,0,0">
                             <Border Height="320" CornerRadius="14" util:RoundedClip.Radius="14" Background="#FF0B0B0D" Visibility="{Binding FeaturedVisibility}">
-                                <Grid>
+                                <Grid util:RoundedClip.Radius="14">
                                     <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding FeaturedGame.ThumbnailUrl}"/>
                                     <controls:GameVideoView VideoPath="{Binding FeaturedVideoPath}" IsHitTestVisible="False"/>
                                     <Border IsHitTestVisible="False">
