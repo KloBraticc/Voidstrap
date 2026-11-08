@@ -8915,6 +8915,11 @@ namespace Voidstrap.Resources {
         public static string Accounts_Status_SignedOut => ResourceManager.GetString("Accounts.Status.SignedOut", resourceCulture);
         public static string Accounts_Status_Checked => ResourceManager.GetString("Accounts.Status.Checked", resourceCulture);
         public static string Accounts_Copied => ResourceManager.GetString("Accounts.Copied", resourceCulture);
+        public static string Accounts_Outfits => ResourceManager.GetString("Accounts.Outfits", resourceCulture);
+        public static string Accounts_Outfits_Empty => ResourceManager.GetString("Accounts.Outfits.Empty", resourceCulture);
+        public static string Accounts_Outfits_Wear => ResourceManager.GetString("Accounts.Outfits.Wear", resourceCulture);
+        public static string Accounts_Outfits_Applied => ResourceManager.GetString("Accounts.Outfits.Applied", resourceCulture);
+        public static string Accounts_Outfits_Failed => ResourceManager.GetString("Accounts.Outfits.Failed", resourceCulture);
         public static string Accounts_Premium_Active => ResourceManager.GetString("Accounts.Premium.Active", resourceCulture);
         public static string Accounts_Premium_None => ResourceManager.GetString("Accounts.Premium.None", resourceCulture);
         public static string Accounts_SignIn_RobloxApp => ResourceManager.GetString("Accounts.SignIn.RobloxApp", resourceCulture);

@@ -9440,4 +9440,19 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>مودلار قوللىنىلدى، {0} ھۆججەت ئۆزگەردى</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>كىيىم</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>بۇ ھېسابات ئۈچۈن ساقلانغان كىيىم تېپىلمىدى</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>كىيىش</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>كىيىم {0} قوللىنىلدى</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>كىيىمنى قوللىنىش مۇمكىن بولمىدى</value>
+  </data>
 </root>

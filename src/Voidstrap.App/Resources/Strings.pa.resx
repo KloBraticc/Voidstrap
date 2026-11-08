@@ -9441,4 +9441,19 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>ਮੋਡ ਲਾਗੂ ਹੋਏ, {0} ਫਾਈਲਾਂ ਬਦਲੀਆਂ</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>ਪਹਿਰਾਵੇ</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>ਇਸ ਖਾਤੇ ਲਈ ਸੰਭਾਲੇ ਗਏ ਕੋਈ ਪਹਿਰਾਵੇ ਨਹੀਂ ਮਿਲੇ</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>ਪਾਓ</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>ਪਹਿਰਾਵਾ {0} ਲਾਗੂ ਕੀਤਾ ਗਿਆ</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>ਪਹਿਰਾਵਾ ਲਾਗੂ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ</value>
+  </data>
 </root>

@@ -9440,4 +9440,19 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Modifoj aplikitaj, {0} dosieroj ŝanĝitaj</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Vestoj</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Neniuj konservitaj vestoj por ĉi tiu konto</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Vesti</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Vesto {0} aplikita</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>La vesto ne povis esti aplikita</value>
+  </data>
 </root>

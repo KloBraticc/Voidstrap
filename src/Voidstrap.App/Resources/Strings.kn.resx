@@ -9441,4 +9441,19 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>ಮೋಡ್‌ಗಳನ್ನು ಅನ್ವಯಿಸಲಾಗಿದೆ, {0} ಫೈಲ್‌ಗಳು ಬದಲಾಗಿವೆ</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>ಉಡುಪುಗಳು</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>ಈ ಖಾತೆಗಾಗಿ ಉಳಿಸಿದ ಯಾವುದೇ ಉಡುಪುಗಳು ಸಿಗಲಿಲ್ಲ</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>ಧರಿಸು</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>ಉಡುಪು {0} ಅನ್ನು ಅನ್ವಯಿಸಲಾಗಿದೆ</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>ಉಡುಪನ್ನು ಅನ್ವಯಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ</value>
+  </data>
 </root>

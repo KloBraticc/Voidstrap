@@ -9441,4 +9441,19 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>המודים הוחלו, {0} קבצים שונו</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>תלבושות</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>לא נמצאו תלבושות שמורות עבור חשבון זה</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>לבישה</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>תלבושת {0} הוחלה</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>לא ניתן היה להחיל את התלבושת</value>
+  </data>
 </root>

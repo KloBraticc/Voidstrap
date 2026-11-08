@@ -9440,4 +9440,19 @@ Baimendu al duzu?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Modak aplikatuta, {0} fitxategi aldatuta</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Jantziak</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Kontu honetarako gordetako jantzirik ez da aurkitu</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Jarri</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>{0} jantzia aplikatu da</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Jantzia ezin izan da aplikatu</value>
+  </data>
 </root>

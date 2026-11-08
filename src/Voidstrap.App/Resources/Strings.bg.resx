@@ -9801,4 +9801,19 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Модовете са приложени, променени файлове: {0}</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Облекла</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Няма запазени облекла за този профил</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Облечи</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Облеклото {0} е приложено</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Облеклото не можа да бъде приложено</value>
+  </data>
 </root>

@@ -9802,4 +9802,19 @@ Sallitaanko?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Modit otettu käyttöön, {0} tiedostoa muutettu</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Asut</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Tälle tilille ei löytynyt tallennettuja asuja</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Käytä</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Asu {0} otettu käyttöön</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Asua ei voitu ottaa käyttöön</value>
+  </data>
 </root>

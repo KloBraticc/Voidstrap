@@ -9440,4 +9440,19 @@ Rugsat beriň?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Modlar ulanyldy, {0} faýl üýtgedildi</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Geýimler</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Bu hasap üçin ýatlanylan geýim tapylmady</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Geý</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>{0} geýimi ulanyldy</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Geýimi ulanyp bolmady</value>
+  </data>
 </root>

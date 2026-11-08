@@ -23,6 +23,8 @@ public static partial class RobloxCookie
 
     private static string? _cached;
 
+    private static string? _lastCsrfToken;
+
     private static DateTime _cachedAt = DateTime.MinValue;
 
     private static readonly HttpClient _authClient = Voidstrap.Utility.VpnHttpClient.Create(
@@ -342,6 +344,78 @@ public static partial class RobloxCookie
         catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException or IOException)
         {
             App.Logger?.WriteLine("RobloxCookie", "GET " + target!.Host + target.AbsolutePath + " failed: " + ex.Message);
+            return new RobloxApiResponse(0, null, null);
+        }
+    }
+
+    public static async Task<RobloxApiResponse> SendPostWithCookieAsync(
+        string url,
+        string? jsonBody,
+        string? cookie,
+        CancellationToken ct = default(CancellationToken)
+    )
+    {
+        if (!IsRobloxUrl(Uri.TryCreate(url, UriKind.Absolute, out Uri? target) ? target : null))
+        {
+            return new RobloxApiResponse(0, null, null);
+        }
+        try
+        {
+            for (int attempt = 0; attempt < 2; attempt++)
+            {
+                using HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, url);
+                if (!string.IsNullOrEmpty(cookie))
+                {
+                    req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
+                }
+                req.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
+                req.Headers.TryAddWithoutValidation("Accept", "application/json");
+                if (attempt > 0)
+                {
+                    req.Headers.TryAddWithoutValidation("x-csrf-token", _lastCsrfToken ?? "");
+                }
+                if (jsonBody != null)
+                {
+                    req.Content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+                }
+                using HttpResponseMessage res = await _authClient
+                    .SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct)
+                    .ConfigureAwait(continueOnCapturedContext: false);
+                ObserveRotation(res, cookie);
+                if (res.StatusCode == HttpStatusCode.Forbidden && attempt == 0)
+                {
+                    if (
+                        res.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? tokens)
+                        && tokens.FirstOrDefault() is { Length: > 0 } token
+                    )
+                    {
+                        _lastCsrfToken = token;
+                        continue;
+                    }
+                }
+                int status = (int)res.StatusCode;
+                if (!res.IsSuccessStatusCode)
+                {
+                    App.Logger?.WriteLine("RobloxCookie", "POST " + target!.Host + target.AbsolutePath + " returned " + status);
+                    return new RobloxApiResponse(status, null, null);
+                }
+                return new RobloxApiResponse(
+                    status,
+                    await Utility
+                        .Http.ReadStringBoundedAsync(res.Content, MaxApiResponseBytes, ct)
+                        .ConfigureAwait(continueOnCapturedContext: false),
+                    null
+                );
+            }
+            return new RobloxApiResponse(403, null, null);
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException or IOException)
+        {
+            App.Logger?.WriteLine("RobloxCookie", "POST " + target!.Host + target.AbsolutePath + " failed: " + ex.Message);
             return new RobloxApiResponse(0, null, null);
         }
     }

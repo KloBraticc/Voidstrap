@@ -9441,4 +9441,19 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Модовите се применети, променети датотеки: {0}</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Костими</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Нема зачувани костими за оваа сметка</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Облечи</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Костимот {0} е применет</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Костимот не можеше да се примени</value>
+  </data>
 </root>

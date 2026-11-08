@@ -9801,4 +9801,19 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Mods aplicados, {0} archivos cambiados</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Atuendos</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>No se encontraron atuendos guardados para esta cuenta</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Usar</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Atuendo {0} aplicado</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>No se pudo aplicar el atuendo</value>
+  </data>
 </root>

@@ -9441,4 +9441,19 @@ E lejon atë?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Modet u zbatuan, {0} skedarë u ndryshuan</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Veshje</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Nuk u gjetën veshje të ruajtura për këtë llogari</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Vish</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Veshja {0} u aplikua</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Veshja nuk mund të aplikohet</value>
+  </data>
 </root>

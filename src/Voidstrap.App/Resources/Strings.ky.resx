@@ -9441,4 +9441,19 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Моддор колдонулду, {0} файл өзгөрдү</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Кийимдер</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Бул аккаунт үчүн сакталган кийимдер табылган жок</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Кийүү</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>{0} кийими колдонулду</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Кийимди колдонуу мүмкүн болбоду</value>
+  </data>
 </root>

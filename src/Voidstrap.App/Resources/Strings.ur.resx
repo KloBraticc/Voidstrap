@@ -9440,4 +9440,19 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>موڈز لاگو ہو گئے، {0} فائلیں تبدیل ہوئیں</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>آؤٹ فٹ</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>اس اکاؤنٹ کے لیے کوئی محفوظ شدہ آؤٹ فٹ نہیں ملا</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>پہنیں</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>آؤٹ فٹ {0} لاگو کر دیا گیا</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>آؤٹ فٹ لاگو نہیں کیا جا سکا</value>
+  </data>
 </root>

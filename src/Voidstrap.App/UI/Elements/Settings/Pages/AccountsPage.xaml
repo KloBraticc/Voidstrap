@@ -261,6 +261,37 @@
             </StackPanel>
           </controls:OptionControl>
 
+          <controls:OptionControl Header="{resources:Loc Accounts_Outfits}">
+            <StackPanel>
+              <ScrollViewer MaxHeight="260" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Top">
+                <ItemsControl ItemsSource="{Binding Outfits}">
+                  <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <WrapPanel ItemWidth="110" ItemHeight="130" />
+                    </ItemsPanelTemplate>
+                  </ItemsControl.ItemsPanel>
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <ui:Button Width="100" Height="120" Margin="4" Padding="0" Appearance="Transparent" ToolTip="{resources:Loc Accounts_Outfits_Wear}" Command="{Binding DataContext.WearOutfitCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}" HorizontalContentAlignment="Stretch">
+                        <StackPanel Width="92">
+                          <Grid Width="92" Height="92">
+                            <Border CornerRadius="6" Background="{DynamicResource ControlFillColorSecondaryBrush}" />
+                            <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding ImageUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}">
+                              <Image.Clip><RectangleGeometry RadiusX="6" RadiusY="6" Rect="0,0,92,92" /></Image.Clip>
+                            </Image>
+                            <ui:ProgressRing Width="18" Height="18" IsIndeterminate="True" Visibility="{Binding Busy, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                          </Grid>
+                          <TextBlock Margin="2,4,2,0" FontSize="11.5" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Name}" />
+                        </StackPanel>
+                      </ui:Button>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </ScrollViewer>
+              <TextBlock Margin="4,6,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Accounts_Outfits_Empty}" Visibility="{Binding OutfitsEmptyVisibility}" />
+            </StackPanel>
+          </controls:OptionControl>
+
           <WrapPanel Margin="0,12,0,0">
             <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="Open24" Content="{resources:Loc Accounts_OpenProfile}" Command="{Binding OpenProfileCommand}" />
             <ui:Button Margin="0,0,8,8" Appearance="Secondary" Icon="Copy24" Content="{resources:Loc Accounts_CopyUsername}" Command="{Binding CopyUsernameCommand}" />

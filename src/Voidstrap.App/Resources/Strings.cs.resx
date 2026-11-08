@@ -9802,4 +9802,19 @@ Povolit?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Mody byly použity, změněno souborů: {0}</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Outfity</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Pro tento účet nebyly nalezeny žádné uložené outfity</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Nosit</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Outfit {0} byl nasazen</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Outfit se nepodařilo nasadit</value>
+  </data>
 </root>

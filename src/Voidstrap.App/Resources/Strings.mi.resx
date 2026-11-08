@@ -9441,4 +9441,19 @@ Whakaaetia?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Kua whakamahia ngā mods, {0} kōnae kua huri</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Kākahu</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Kāore i kitea he kākahu kua tiakina mō tēnei pūkete</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Whakamaua</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Kua whakauruhia te kākahu {0}</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Kāore i tau te kākahu</value>
+  </data>
 </root>

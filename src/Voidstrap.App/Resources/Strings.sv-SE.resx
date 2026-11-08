@@ -9801,4 +9801,19 @@ Tillåta?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Moddar tillämpade, {0} filer ändrade</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Outfits</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Inga sparade outfits hittades för det här kontot</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Använd</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Outfit {0} tillämpad</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Outfiten kunde inte tillämpas</value>
+  </data>
 </root>

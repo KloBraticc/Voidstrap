@@ -9441,4 +9441,19 @@ Avelao izany?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Voapetraka ny mods, rakitra {0} no niova</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Fitafiana</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Tsy nisy fitafiana voatahiry hita ho an'ity kaonty ity</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Tafio</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Voataky ny fitafiana {0}</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Tsy voataky ny fitafiana</value>
+  </data>
 </root>

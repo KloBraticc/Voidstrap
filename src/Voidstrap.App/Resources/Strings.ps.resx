@@ -9441,4 +9441,19 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>موډونه پلي شول، {0} فایلونه بدل شول</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>جامې</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>د دې حساب لپاره خوندي شوي جامې ونه موندل شوې</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>اغوستل</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>جامې {0} پلي شوې</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>جامې پلي کول نه شوې</value>
+  </data>
 </root>

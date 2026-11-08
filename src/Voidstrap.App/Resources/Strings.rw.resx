@@ -9441,4 +9441,19 @@ Emera?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Mods zashyizweho, amadosiye {0} yahindutse</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Imyambaro</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Nta myambaro yabitswe iboneka kuri ubu konti</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Yambara</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Imyambaro {0} yakoreshwe</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Ntibyakunze gukoresha imyambaro</value>
+  </data>
 </root>

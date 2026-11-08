@@ -9440,4 +9440,19 @@ E lumella?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Mods di kentswe, difaele tse {0} di fetohile</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Liaparo</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Ha ho liaparo tse bolokiloeng tse fumanehang bakeng sa ak'haut ena</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Apara</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Aparo {0} e sebedisitsoe</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Aparo e ne e ke ke ea sebedisoa</value>
+  </data>
 </root>

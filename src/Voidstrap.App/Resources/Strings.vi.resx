@@ -9804,4 +9804,19 @@ Cho phép?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Đã áp dụng mod, {0} tệp đã thay đổi</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Trang phục</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Không tìm thấy trang phục đã lưu cho tài khoản này</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Mặc</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Đã áp dụng trang phục {0}</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Không thể áp dụng trang phục</value>
+  </data>
 </root>

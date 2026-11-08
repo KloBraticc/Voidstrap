@@ -9802,4 +9802,19 @@ Zezwolić?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Mody zastosowane, zmienione pliki: {0}</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Stroje</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Nie znaleziono zapisanych strojów dla tego konta</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Założ</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Strój {0} został zastosowany</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Nie udało się zastosować stroju</value>
+  </data>
 </root>

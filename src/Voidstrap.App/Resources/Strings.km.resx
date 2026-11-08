@@ -9441,4 +9441,19 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>បានអនុវត្តម៉ូដ ឯកសារ {0} បានផ្លាស់ប្តូរ</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>ឈុត</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>រកមិនឃើញឈុតដែលបានរក្សាទុកសម្រាប់គណនីនេះទេ</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>ពាក់</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>បានអនុវត្តឈុត {0}</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>មិនអាចអនុវត្តឈុតបានទេ</value>
+  </data>
 </root>

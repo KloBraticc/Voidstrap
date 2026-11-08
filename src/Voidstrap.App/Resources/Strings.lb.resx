@@ -9441,4 +9441,19 @@ Erlaabt et?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Mods applizéiert, {0} Fichiere geännert</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Outfits</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Keng gespäicherten Outfits fir dëse Konto fonnt</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Udoen</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Outfit {0} ugewannt</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Den Outfit konnt net ugewannt ginn</value>
+  </data>
 </root>

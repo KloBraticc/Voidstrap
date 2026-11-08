@@ -9801,4 +9801,19 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Моды применены, изменено файлов: {0}</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Образы</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Для этого аккаунта не найдено сохранённых образов</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Носить</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Образ {0} применён</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Не удалось применить образ</value>
+  </data>
 </root>

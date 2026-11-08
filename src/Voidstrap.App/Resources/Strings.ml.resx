@@ -9441,4 +9441,19 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>മോഡുകൾ പ്രയോഗിച്ചു, {0} ഫയലുകൾ മാറി</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>ഔട്ട്ഫിറ്റുകൾ</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>ഈ അക്കൗണ്ടിനായി സംരക്ഷിച്ച ഔട്ട്ഫിറ്റുകളൊന്നും കണ്ടെത്തിയില്ല</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>ധരിക്കുക</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>ഔട്ട്ഫിറ്റ് {0} പ്രയോഗിച്ചു</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>ഔട്ട്ഫിറ്റ് പ്രയോഗിക്കാൻ കഴിഞ്ഞില്ല</value>
+  </data>
 </root>

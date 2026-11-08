@@ -9441,4 +9441,19 @@ Ceadaigh é?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Modhanna curtha i bhfeidhm, {0} comhad athraithe</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Éadaí</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Níor aimsíodh aon éadaí sábháilte don chuntas seo</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Cuir air</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Cuireadh éadach {0} i bhfeidhm</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Níorbh fhéidir an t-éadach a chur i bhfeidhm</value>
+  </data>
 </root>

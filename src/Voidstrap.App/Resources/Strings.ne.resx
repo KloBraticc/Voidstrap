@@ -9441,4 +9441,19 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>मोडहरू लागू भए, {0} फाइलहरू परिवर्तन भए</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>पोशाक</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>यो खाताका लागि सुरक्षित पोशाक भेटिएन</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>लगाउनुहोस्</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>पोशाक {0} लागू गरियो</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>पोशाक लागू गर्न सकिएन</value>
+  </data>
 </root>

@@ -9804,4 +9804,19 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>模組已套用，已變更 {0} 個檔案</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>造型</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>找不到此帳號儲存的造型</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>穿戴</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>已套用造型 {0}</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>無法套用造型</value>
+  </data>
 </root>

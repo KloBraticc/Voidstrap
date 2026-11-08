@@ -9816,4 +9816,19 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>MOD を適用しました。{0} 個のファイルを変更しました</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>コーデ</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>このアカウントには保存されたコーデがありません</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>着用</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>コーデ {0} を適用しました</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>コーデを適用できませんでした</value>
+  </data>
 </root>

@@ -9441,4 +9441,19 @@ Vil du tillate det?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Mods brukt, {0} filer endret</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Outfits</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Ingen lagrede outfits funnet for denne kontoen</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Bruk</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Outfit {0} brukt</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Outfittet kunne ikke brukes</value>
+  </data>
 </root>

@@ -9804,4 +9804,19 @@ Izinkan?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Mod diterapkan, {0} file diubah</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Outfit</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Tidak ada outfit tersimpan untuk akun ini</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Pakai</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Outfit {0} diterapkan</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Outfit tidak dapat diterapkan</value>
+  </data>
 </root>

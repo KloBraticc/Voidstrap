@@ -9440,4 +9440,19 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Модҳо татбиқ шуданд, {0} файл тағйир ёфт</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Либосҳо</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Барои ин ҳисоб либосҳои нигоҳдошта ёфт нашуд</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Пӯшидан</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Либоси {0} татбиқ шуд</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Либос татбиқ нашуд</value>
+  </data>
 </root>

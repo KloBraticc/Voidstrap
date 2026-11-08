@@ -9440,4 +9440,19 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>மோட்கள் பயன்படுத்தப்பட்டன, {0} கோப்புகள் மாற்றப்பட்டன</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>உடைகள்</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>இந்தக் கணக்கிற்கு சேமிக்கப்பட்ட உடைகள் எதுவும் கிடைக்கவில்லை</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>அணி</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>உடை {0} பயன்படுத்தப்பட்டது</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>உடையைப் பயன்படுத்த முடியவில்லை</value>
+  </data>
 </root>

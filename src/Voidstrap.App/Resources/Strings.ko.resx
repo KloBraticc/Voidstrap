@@ -9800,4 +9800,19 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>모드를 적용했습니다. 파일 {0}개가 변경되었습니다</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>아웃핏</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>이 계정에 저장된 아웃핏이 없습니다</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>착용</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>아웃핏 {0}이(가) 적용되었습니다</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>아웃핏을 적용할 수 없습니다</value>
+  </data>
 </root>

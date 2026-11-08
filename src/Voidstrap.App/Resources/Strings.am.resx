@@ -9440,4 +9440,19 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>ሞዶች ተተግብረዋል፣ {0} ፋይሎች ተቀይረዋል</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>ልብሶች</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>ለዚህ መለያ የተቀመጡ ልብሶች አልተገኙም</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>ልበስ</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>ልብስ {0} ተተግብሯል</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>ልብሱ ሊተገበር አልቻለም</value>
+  </data>
 </root>

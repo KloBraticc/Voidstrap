@@ -9440,4 +9440,19 @@ Gba laaye?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>A ti lo àwọn mod, fáìlì {0} ti yí padà</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Aṣọ</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Ko si aṣọ ti a fi pamọ́ fún àkántì yìí</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Wọ</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Wọ́n ti lo aṣọ {0}</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Kò lè lo aṣọ náà</value>
+  </data>
 </root>

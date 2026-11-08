@@ -9441,4 +9441,19 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>მოდები გამოყენებულია, შეიცვალა {0} ფაილი</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>სამოსები</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>ამ ანგარიშისთვის შენახული სამოსები ვერ მოიძებნა</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>ჩაცმა</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>სამოსი {0} გამოყენებულია</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>სამოსის გამოყენება ვერ მოხერხდა</value>
+  </data>
 </root>

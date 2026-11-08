@@ -9801,4 +9801,19 @@ Engedélyezed?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Modok alkalmazva, {0} fájl módosult</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Szettek</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Nem találhatók mentett szettek ehhez a fiókhoz</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Felvétel</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>{0} szett alkalmazva</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>A szettet nem sikerült alkalmazni</value>
+  </data>
 </root>

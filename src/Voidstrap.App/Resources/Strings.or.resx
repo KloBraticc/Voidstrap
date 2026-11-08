@@ -9441,4 +9441,19 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>ମୋଡ୍ ପ୍ରୟୋଗ ହେଲା, {0}ଟି ଫାଇଲ୍ ବଦଳିଲା</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>ପୋଷାକ</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>ଏହି ଖାତା ପାଇଁ ସେଭ ହୋଇଥିବା କୌଣସି ପୋଷାକ ମିଳିଲା ନାହିଁ</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>ପିନ୍ଧ</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>ପୋଷାକ {0} ପ୍ରୟୋଗ ହୋଇଛି</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>ପୋଷାକ ପ୍ରୟୋଗ କରାଯାଇପାରିଲା ନାହିଁ</value>
+  </data>
 </root>

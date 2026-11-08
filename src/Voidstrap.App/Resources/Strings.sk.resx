@@ -9441,4 +9441,19 @@ Povoliť?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Mody boli použité, zmenené súbory: {0}</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Outfity</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Pre tento účet sa nenašli žiadne uložené outfity</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Nosiť</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Outfit {0} bol použitý</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Outfit sa nepodarilo použiť</value>
+  </data>
 </root>

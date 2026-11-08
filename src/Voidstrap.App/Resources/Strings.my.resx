@@ -9440,4 +9440,19 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>မော့ဒ်များ အသုံးချပြီး ဖိုင် {0} ခု ပြောင်းလဲသည်</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>အဝတ်အစားများ</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>ဤအကောင့်အတွက် သိမ်းဆည်းထားသော အဝတ်အစားများ မတွေ့ပါ</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>ဝတ်ပါ</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>အဝတ်အစား {0} ကို အသုံးချပြီးပါပြီ</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>အဝတ်အစားကို အသုံးချ၍မရပါ</value>
+  </data>
 </root>

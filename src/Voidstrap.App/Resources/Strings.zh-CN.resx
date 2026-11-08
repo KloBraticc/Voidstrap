@@ -9825,4 +9825,19 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>模组已应用，已更改 {0} 个文件</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>装扮</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>未找到该账户保存的装扮</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>穿戴</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>已应用装扮 {0}</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>无法应用装扮</value>
+  </data>
 </root>

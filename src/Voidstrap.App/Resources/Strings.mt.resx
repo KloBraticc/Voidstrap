@@ -9441,4 +9441,19 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Il-mods ġew applikati, {0} fajls inbidlu</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Libsi</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Ma nstabux libsi msavr għal dan il-kont</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Ilbes</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Il-libsa {0} ġiet applikata</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Ma setgħetx tiġi applikata l-libsa</value>
+  </data>
 </root>

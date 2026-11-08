@@ -9441,4 +9441,19 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Մոդերը կիրառվեցին, փոխվել է {0} ֆայլ</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Հագուստներ</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Այս հաշվի համար պահպանված հագուստներ չեն գտնվել</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Հագնել</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>{0} հագուստը կիրառվեց</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Հագուստը հնարավոր չեղավ կիրառել</value>
+  </data>
 </root>

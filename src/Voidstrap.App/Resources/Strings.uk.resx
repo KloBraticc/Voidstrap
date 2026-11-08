@@ -9799,4 +9799,19 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Моди застосовано, змінено файлів: {0}</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Образи</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Для цього облікового запису не знайдено збережених образів</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Носити</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Образ {0} застосовано</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Не вдалося застосувати образ</value>
+  </data>
 </root>

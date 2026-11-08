@@ -9441,4 +9441,19 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>મોડ લાગુ થયા, {0} ફાઇલો બદલાઈ</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>પોશાક</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>આ એકાઉન્ટ માટે સાચવેલા કોઈ પોશાક મળ્યા નથી</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>પહેરો</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>પોશાક {0} લાગુ કરાયો</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>પોશાક લાગુ કરી શકાયો નથી</value>
+  </data>
 </root>

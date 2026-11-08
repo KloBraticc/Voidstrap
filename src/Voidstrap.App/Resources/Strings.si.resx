@@ -9441,4 +9441,19 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>මෝඩ් යොදන ලදී, ගොනු {0} ක් වෙනස් විය</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>ඇඳුම්</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>මෙම ගිණුම සඳහා සුරකින ලද ඇඳුම් හමු නොවීය</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>පළඳන්න</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>ඇඳුම {0} යොදවන ලදී</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>ඇඳුම යොදවා ගත නොහැකි විය</value>
+  </data>
 </root>

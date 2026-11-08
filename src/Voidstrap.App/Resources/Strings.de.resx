@@ -9801,4 +9801,19 @@ Erlauben?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Mods angewendet, {0} Dateien geändert</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Outfits</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Keine gespeicherten Outfits für dieses Konto gefunden</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Tragen</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Outfit {0} angewendet</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Das Outfit konnte nicht angewendet werden</value>
+  </data>
 </root>

@@ -9441,4 +9441,19 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>موڊ لاڳو ٿي ويا، {0} فائلون تبديل ٿيون</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>پوشاڪ</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>هن کاتي لاءِ محفوظ ڪيل ڪا پوشاڪ نه ملي</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>پهريو</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>پوشاڪ {0} لاڳو ڪيو ويو</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>پوشاڪ لاڳو نه ٿي سگهي</value>
+  </data>
 </root>

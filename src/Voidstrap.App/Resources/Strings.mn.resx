@@ -9441,4 +9441,19 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Модуудыг хэрэглэлээ, {0} файл өөрчлөгдсөн</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Хувцас</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Энэ дансны хувьд хадгалсан хувцас олдсонгүй</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Өмс</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Хувцас {0} хэрэглэгдлээ</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Хувцас хэрэглэх боломжгүй байна</value>
+  </data>
 </root>

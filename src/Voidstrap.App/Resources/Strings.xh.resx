@@ -9440,4 +9440,19 @@ uyayivumela?</value>
   <data name="Bootstrapper.Status.ModsApplied" xml:space="preserve">
     <value>Ii-mods zifakiwe, iifayile ezi-{0} zitshintshiwe</value>
   </data>
+  <data name="Accounts.Outfits" xml:space="preserve">
+    <value>Iimpahla</value>
+  </data>
+  <data name="Accounts.Outfits.Empty" xml:space="preserve">
+    <value>Akukho mpahla yagcinwa eyafunyanwa yeli akhawunti</value>
+  </data>
+  <data name="Accounts.Outfits.Wear" xml:space="preserve">
+    <value>Nxiba</value>
+  </data>
+  <data name="Accounts.Outfits.Applied" xml:space="preserve">
+    <value>Impahla {0} isetyenzisiwe</value>
+  </data>
+  <data name="Accounts.Outfits.Failed" xml:space="preserve">
+    <value>Impahla ayinakusetyenziswa</value>
+  </data>
 </root>
