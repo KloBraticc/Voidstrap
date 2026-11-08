@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -4499,34 +4499,39 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
         UpdatePreview();
     }
 
-    private void UpdatePreview()
+    private int _previewVersion;
+
+    private async void UpdatePreview()
     {
         if (System.Windows.Application.Current == null)
             return;
-        ((DispatcherObject)System.Windows.Application.Current).Dispatcher.Invoke(
-            (Action)
-                delegate
+        if (!System.Windows.Application.Current.Dispatcher.CheckAccess())
+        {
+            _ = System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(UpdatePreview));
+            return;
+        }
+        int version = ++_previewVersion;
+        try
+        {
+            if (SelectedShape == CrosshairShape.Image && !string.IsNullOrWhiteSpace(ImageUrl))
+            {
+                string url = ImageUrl;
+                BitmapSource? image = await Task.Run(() => LoadImageFromUrl(url));
+                if (version != _previewVersion)
+                    return;
+                if (image != null)
                 {
-                    try
-                    {
-                        if (SelectedShape == CrosshairShape.Image && !string.IsNullOrWhiteSpace(ImageUrl))
-                        {
-                            ImageSource? imageSource = LoadImageFromUrl(ImageUrl);
-                            if (imageSource != null)
-                            {
-                                CursorPreview = imageSource;
-                                return;
-                            }
-                        }
-                        CursorPreview = CreateCrosshairBitmap(128, 0.75);
-                    }
-                    catch (Exception ex)
-                    {
-                        CursorPreview = null;
-                        App.Logger.WriteException("ModsViewModel::UpdatePreview", ex);
-                    }
+                    CursorPreview = image;
+                    return;
                 }
-        );
+            }
+            CursorPreview = CreateCrosshairBitmap(128, 0.75);
+        }
+        catch (Exception ex)
+        {
+            CursorPreview = null;
+            App.Logger.WriteException("ModsViewModel::UpdatePreview", ex);
+        }
     }
 
     private BitmapSource CreateCrosshairBitmap(int dimension, double scale)

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -105,7 +105,7 @@ namespace Voidstrap.Utility
                             return local;
                         continue;
                     }
-                    byte[]? bytes = DownloadBytesAsync(candidate).GetAwaiter().GetResult();
+                    byte[]? bytes = Task.Run(() => DownloadBytesAsync(candidate)).GetAwaiter().GetResult();
                     if (bytes == null || bytes.Length == 0)
                         continue;
                     BitmapSource? bmp = SafeImaging.FromBytes(bytes, decodeWidth);
