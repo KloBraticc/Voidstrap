@@ -290,9 +290,23 @@ namespace Voidstrap.UI.Elements.Dialogs
                 CurrentAccountInfo? current = SavedAccounts.Current ?? await SavedAccounts.RefreshCurrentAsync(token);
                 if (token.IsCancellationRequested || accounts.Count == 0)
                     return;
+                Dictionary<long, string> avatars = new();
+                try
+                {
+                    avatars = await SavedAccounts.GetAvatarsAsync(accounts.Select(x => x.UserId), token);
+                }
+                catch (Exception ex) when (ex is not OperationCanceledException)
+                {
+                    App.Logger.WriteLine(LOG_IDENT, "Could not load avatars: " + ex.Message);
+                }
+                if (token.IsCancellationRequested)
+                    return;
+                List<AccountChoice> choices = accounts
+                    .Select(x => new AccountChoice { Account = x, AvatarUrl = avatars.TryGetValue(x.UserId, out string? url) && url.Length > 0 ? url : null })
+                    .ToList();
                 _syncingAccount = true;
-                AccountBox.ItemsSource = accounts;
-                AccountBox.SelectedItem = accounts.FirstOrDefault(x => x.UserId == current?.UserId);
+                AccountBox.ItemsSource = choices;
+                AccountBox.SelectedItem = choices.FirstOrDefault(x => x.Account.UserId == current?.UserId);
                 _syncingAccount = false;
                 AccountBox.Visibility = Visibility.Visible;
             }
@@ -307,9 +321,9 @@ namespace Voidstrap.UI.Elements.Dialogs
         {
             const string LOG_IDENT = "GameDetailDialog::AccountBox_SelectionChanged";
 
-            if (_syncingAccount || _switching || _released || AccountBox.SelectedItem is not SavedAccount target)
+            if (_syncingAccount || _switching || _released || AccountBox.SelectedItem is not AccountChoice { Account: SavedAccount target })
                 return;
-            SavedAccount? previous = e.RemovedItems.Count > 0 ? e.RemovedItems[0] as SavedAccount : null;
+            AccountChoice? previous = e.RemovedItems.Count > 0 ? e.RemovedItems[0] as AccountChoice : null;
             _switching = true;
             AccountBox.IsEnabled = false;
             try
@@ -344,7 +358,7 @@ namespace Voidstrap.UI.Elements.Dialogs
             }
         }
 
-        private void Revert(SavedAccount? previous)
+        private void Revert(AccountChoice? previous)
         {
             if (_released)
                 return;
