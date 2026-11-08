@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -106,14 +106,17 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
         private void GameThumbnail_Click(object sender, MouseButtonEventArgs e)
         {
-            if (sender is not FrameworkElement element || element.DataContext is not HistoryGameEntry entry)
-                return;
-
-            if (entry.PlaceId == 0)
+            (long placeId, long universeId) = (sender is FrameworkElement { Tag: DiscoverGameEntry tagged } ? tagged : (sender as FrameworkElement)?.DataContext) switch
+            {
+                HistoryGameEntry history => (history.PlaceId, history.UniverseId),
+                DiscoverGameEntry discover => (discover.PlaceId, discover.UniverseId),
+                _ => (0L, 0L),
+            };
+            if (placeId == 0)
                 return;
 
             e.Handled = true;
-            NavigationService?.Navigate(new GamePage(entry.PlaceId, entry.UniverseId));
+            NavigationService?.Navigate(new GamePage(placeId, universeId));
         }
     }
 }
