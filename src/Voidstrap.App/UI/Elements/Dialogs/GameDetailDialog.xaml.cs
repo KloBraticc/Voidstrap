@@ -397,14 +397,14 @@ namespace Voidstrap.UI.Elements.Dialogs
             return count.ToString(CultureInfo.CurrentCulture);
         }
 
-        private void ServersTab_Click(object sender, RoutedEventArgs e) => SelectTab(false);
-
-        private void ReviewTab_Click(object sender, RoutedEventArgs e) => SelectTab(true);
+        private void Tabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ReferenceEquals(e.OriginalSource, Tabs) && ServerArea != null && ReviewArea != null)
+                SelectTab(Tabs.SelectedIndex == 1);
+        }
 
         private void SelectTab(bool review)
         {
-            ServersTab.Appearance = review ? Wpf.Ui.Common.ControlAppearance.Transparent : Wpf.Ui.Common.ControlAppearance.Secondary;
-            ReviewTab.Appearance = review ? Wpf.Ui.Common.ControlAppearance.Secondary : Wpf.Ui.Common.ControlAppearance.Transparent;
             Visibility servers = review ? Visibility.Collapsed : Visibility.Visible;
             ServerArea.Visibility = servers;
             RefreshButton.Visibility = servers;

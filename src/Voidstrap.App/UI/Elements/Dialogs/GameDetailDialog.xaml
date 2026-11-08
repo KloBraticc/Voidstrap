@@ -114,10 +114,24 @@
         <ComboBoxItem Content="{resources:Loc ContextMenu_ServerBrowser_Sort_Empty}" />
       </ComboBox>
       <CheckBox x:Name="HideFullBox" DockPanel.Dock="Right" Margin="0,0,12,0" IsChecked="False" Content="{resources:Loc ContextMenu_ServerBrowser_ExcludeFull}" Checked="Filter_Changed" Unchecked="Filter_Changed" />
-      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-        <ui:Button x:Name="ServersTab" Padding="12,6" Appearance="Secondary" FontWeight="SemiBold" Icon="Server24" Content="{resources:Loc ContextMenu_ServerBrowser_Title}" Click="ServersTab_Click" />
-        <ui:Button x:Name="ReviewTab" Margin="6,0,0,0" Padding="12,6" Appearance="Transparent" FontWeight="SemiBold" Icon="StarEdit24" Content="{resources:Loc Ui_Session_CommunityRating}" Click="ReviewTab_Click" />
-      </StackPanel>
+      <TabControl x:Name="Tabs" VerticalAlignment="Bottom" SelectionChanged="Tabs_SelectionChanged">
+        <TabItem>
+          <TabItem.Header>
+            <StackPanel Orientation="Horizontal">
+              <ui:SymbolIcon Symbol="Server24" Margin="0,0,6,0" />
+              <TextBlock Text="{resources:Loc ContextMenu_ServerBrowser_Title}" />
+            </StackPanel>
+          </TabItem.Header>
+        </TabItem>
+        <TabItem>
+          <TabItem.Header>
+            <StackPanel Orientation="Horizontal">
+              <ui:SymbolIcon Symbol="StarEdit24" Margin="0,0,6,0" />
+              <TextBlock Text="{resources:Loc Ui_Session_CommunityRating}" />
+            </StackPanel>
+          </TabItem.Header>
+        </TabItem>
+      </TabControl>
     </DockPanel>
     <ScrollViewer x:Name="ReviewArea" Grid.Row="3" MinHeight="180" Visibility="Collapsed" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="20,0,20,12">
       <controls:RoReviewControl x:Name="ReviewControl" />
