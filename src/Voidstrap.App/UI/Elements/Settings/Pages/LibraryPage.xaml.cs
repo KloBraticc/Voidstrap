@@ -22,6 +22,7 @@ public partial class LibraryPage : UiPage
     {
         base.DataContext = _viewModel;
         InitializeComponent();
+        _ = LoadLibraryTabIconAsync();
         _sidebar = new PageSidebar(LibrarySidebar, SidebarResizer, this, SetSidebarIconsOnly, SaveSidebarWidth);
         _sidebar.Apply(App.Settings.Prop.LibrarySidebarWidth);
     }
@@ -80,6 +81,32 @@ public partial class LibraryPage : UiPage
             return;
         _shownGame = _viewModel.SelectedGame;
         DetailScroll.ScrollToTop();
+    }
+
+    private async Task LoadLibraryTabIconAsync()
+    {
+        const string LOG_IDENT = "LibraryPage::LoadLibraryTabIconAsync";
+
+        try
+        {
+            using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(15));
+            (long universeId, long placeId)? latest = await TaskbarJumpList.ReadLatestGameAsync(timeout.Token);
+            if (latest is not { universeId: > 0 } game)
+                return;
+            string? url = await TaskbarJumpList.ResolveIconUrlAsync(game.universeId, timeout.Token);
+            if (string.IsNullOrWhiteSpace(url))
+                return;
+            var bitmap = await AppImage.LoadAsync(url, 64, timeout.Token);
+            if (bitmap == null)
+                return;
+            LibraryTabIcon.Background = new System.Windows.Media.ImageBrush(bitmap) { Stretch = System.Windows.Media.Stretch.UniformToFill };
+            LibraryTabIcon.Visibility = Visibility.Visible;
+            LibraryTabSymbol.Visibility = Visibility.Collapsed;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, ex.Message);
+        }
     }
 
     private void RootTabs_SelectionChanged(object sender, SelectionChangedEventArgs e)

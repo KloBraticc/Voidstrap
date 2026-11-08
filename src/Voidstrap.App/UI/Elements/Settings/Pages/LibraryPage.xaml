@@ -180,7 +180,10 @@
     <TabItem IsSelected="True">
       <TabItem.Header>
         <StackPanel Orientation="Horizontal">
-          <ui:SymbolIcon Symbol="Library24" Margin="0,0,6,0" />
+          <Grid Margin="0,0,6,0" VerticalAlignment="Center">
+            <ui:SymbolIcon x:Name="LibraryTabSymbol" Symbol="Library24" />
+            <Border x:Name="LibraryTabIcon" Width="18" Height="18" CornerRadius="4" Visibility="Collapsed" />
+          </Grid>
           <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Pages_Library}" />
         </StackPanel>
       </TabItem.Header>
@@ -905,7 +908,7 @@
     <TabItem x:Name="GamesTab">
       <TabItem.Header>
         <StackPanel Orientation="Horizontal">
-          <ui:SymbolIcon Symbol="Games24" Margin="0,0,6,0" />
+          <Image Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/RobloxPlayerIcon.png" />
           <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Session_Games}" />
         </StackPanel>
       </TabItem.Header>

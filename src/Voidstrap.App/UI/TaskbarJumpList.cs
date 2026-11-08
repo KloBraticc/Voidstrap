@@ -175,7 +175,7 @@ internal static partial class TaskbarJumpList
         }
     }
 
-    private static async Task<(long universeId, long placeId)?> ReadLatestGameAsync(CancellationToken token)
+    internal static async Task<(long universeId, long placeId)?> ReadLatestGameAsync(CancellationToken token)
     {
         string path = Paths.ServerHistory;
         if (string.IsNullOrEmpty(path) || !File.Exists(path))
@@ -206,7 +206,7 @@ internal static partial class TaskbarJumpList
         return details?.Data?.Name;
     }
 
-    private static async Task<string?> ResolveIconUrlAsync(long universeId, CancellationToken token)
+    internal static async Task<string?> ResolveIconUrlAsync(long universeId, CancellationToken token)
     {
         UniverseDetails? details = UniverseDetails.LoadFromCache(universeId);
         if (string.IsNullOrWhiteSpace(details?.Thumbnail?.ImageUrl))
