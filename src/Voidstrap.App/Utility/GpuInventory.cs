@@ -38,6 +38,8 @@ public static class GpuInventory
     public const uint VendorAti = 0x1022;
     public const uint VendorIntel = 0x8086;
     private const uint VendorMicrosoft = 0x1414;
+    private const uint VendorVirtualBox = 0x80EE;
+    private const uint VendorVmware = 0x15AD;
 
     private static readonly object Gate = new object();
     private static List<GpuAdapterInfo>? _adapters;
@@ -54,6 +56,8 @@ public static class GpuInventory
     }
 
     public static bool HasNvidia => Adapters.Any(adapter => adapter.IsNvidia);
+
+    public static bool IsVirtualMachine => Adapters.Count > 0 && Adapters.All(adapter => adapter.VendorId is VendorVirtualBox or VendorVmware);
 
     public static string Summary
     {

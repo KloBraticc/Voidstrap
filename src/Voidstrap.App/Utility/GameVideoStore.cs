@@ -28,7 +28,8 @@ internal static class GameVideoStore
             if (videoId == null)
                 return null;
             string path = Path.Combine(Folder, videoId + ".webm");
-            string playable = Platform.IsMacOS ? Path.ChangeExtension(path, ".mp4") : path;
+            bool convert = Platform.IsMacOS || (Platform.IsWindows && GpuInventory.IsVirtualMachine);
+            string playable = convert ? Path.ChangeExtension(path, ".mp4") : path;
             if (File.Exists(playable))
                 return playable;
             string? location = await FindLocationAsync(videoId, token).ConfigureAwait(false);
@@ -47,7 +48,7 @@ internal static class GameVideoStore
                 File.Delete(temporary);
                 File.Delete(temporary + ".raw");
             }
-            if (!Platform.IsMacOS)
+            if (!convert)
                 return path;
             return await ConvertAsync(path, playable, token).ConfigureAwait(false) ? playable : null;
         }

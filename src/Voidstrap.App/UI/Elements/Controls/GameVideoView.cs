@@ -75,7 +75,7 @@ public sealed class GameVideoView : ContentControl
             return;
         if (!IsVisible || string.IsNullOrEmpty(VideoPath))
             Teardown();
-        else if (Voidstrap.Utility.Platform.UsesPortableUi)
+        else if (Voidstrap.Utility.Platform.UsesPortableUi || _webViewUnavailable || GpuInventory.IsVirtualMachine)
             StartPortable(VideoPath);
         else if (_view == null && !_starting && !_deferred)
         {
@@ -87,6 +87,8 @@ public sealed class GameVideoView : ContentControl
     }
 
     private bool _deferred;
+
+    private static bool _webViewUnavailable;
 
     private void StartDeferred()
     {
@@ -197,9 +199,15 @@ public sealed class GameVideoView : ContentControl
         {
             view?.Dispose();
         }
+        catch (Exception) when (view != null && !ReferenceEquals(Content, view))
+        {
+            view.Dispose();
+        }
         catch (Exception ex)
         {
             App.Logger.WriteException(LOG_IDENT, ex);
+            App.Logger.WriteLine(LOG_IDENT, "WebView2 video playback failed, using the decoded frame player instead");
+            _webViewUnavailable = true;
             Content = null;
             view?.Dispose();
         }
