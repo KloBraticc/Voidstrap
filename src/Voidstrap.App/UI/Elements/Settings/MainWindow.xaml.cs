@@ -8338,7 +8338,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     }
 
     private Border[] ModalPanels =>
-        [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel, NewsItemPanel];
+        [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel, NewsItemPanel, GameDetailPanel];
 
     private bool ModalIsSidebar => ReferenceEquals(_modalPanel, LaunchTargetPanel);
 
@@ -8675,6 +8675,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             ReleaseReleaseNotes();
         if (ReferenceEquals(_modalPanel, NewsItemPanel))
             ReleaseNewsItem();
+        if (ReferenceEquals(_modalPanel, GameDetailPanel))
+            ReleaseGameDetail();
         if (_modalScale != null)
             SetModalScale(_modalScale, 1.0);
         LaunchTargetPanelSlide.BeginAnimation(TranslateTransform.XProperty, null);
@@ -8756,6 +8758,43 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         view.CloseRequested += NewsItem_CloseRequested;
         NewsItemHost.Content = view;
         OpenSimpleModal(NewsItemPanel, NewsItemPanelScale);
+    }
+
+    public void ShowGameDetail(long placeId, long universeId, string name)
+    {
+        if (placeId <= 0)
+            return;
+        ReleaseGameDetail();
+        Voidstrap.UI.Elements.Dialogs.GameDetailDialog view = new(placeId, universeId, name);
+        view.CloseRequested += GameDetail_CloseRequested;
+        view.ViewPageRequested += GameDetail_ViewPageRequested;
+        GameDetailHost.Content = view;
+        OpenSimpleModal(GameDetailPanel, GameDetailPanelScale);
+    }
+
+    private void GameDetail_CloseRequested(object? sender, EventArgs e)
+    {
+        CloseSimpleModal();
+    }
+
+    private void GameDetail_ViewPageRequested(object? sender, EventArgs e)
+    {
+        if (sender is not Voidstrap.UI.Elements.Dialogs.GameDetailDialog view)
+            return;
+        long placeId = view.PlaceId;
+        long universeId = view.UniverseId;
+        CloseSimpleModal();
+        RootNavigation.NavigateExternal(new GamePage(placeId, universeId));
+    }
+
+    private void ReleaseGameDetail()
+    {
+        if (GameDetailHost.Content is not Voidstrap.UI.Elements.Dialogs.GameDetailDialog view)
+            return;
+        view.CloseRequested -= GameDetail_CloseRequested;
+        view.ViewPageRequested -= GameDetail_ViewPageRequested;
+        view.Release();
+        GameDetailHost.Content = null;
     }
 
     private void NewsItem_CloseRequested(object? sender, EventArgs e)

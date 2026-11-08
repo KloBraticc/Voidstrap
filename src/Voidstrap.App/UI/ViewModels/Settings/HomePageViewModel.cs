@@ -1321,13 +1321,16 @@ namespace Voidstrap.UI.ViewModels.Pages
             LaunchPlace(entry.PlaceId);
         }
 
-        private static void LaunchPlace(long placeId)
+        internal static void LaunchPlace(long placeId, string? jobId = null)
         {
             if (placeId <= 0)
                 return;
             try
             {
-                string uri = $"roblox://experiences/start?placeId={placeId}";
+                bool server = Guid.TryParse(jobId, out Guid job);
+                string uri = server
+                    ? $"roblox://experiences/start?placeId={placeId}&gameInstanceId={job:D}"
+                    : $"roblox://experiences/start?placeId={placeId}";
                 App.Settings.FlushDeferred();
                 App.State.FlushDeferred();
                 App.FastFlags.FlushDeferred();
@@ -1337,7 +1340,7 @@ namespace Voidstrap.UI.ViewModels.Pages
                     new ProcessStartInfo
                     {
                         FileName = voidstrapPath,
-                        Arguments = $"-player \"{uri}\" -homematchmaker",
+                        Arguments = server ? $"-player \"{uri}\"" : $"-player \"{uri}\" -homematchmaker",
                         UseShellExecute = false,
                         CreateNoWindow = true,
                         WorkingDirectory = Path.GetDirectoryName(voidstrapPath) ?? "",

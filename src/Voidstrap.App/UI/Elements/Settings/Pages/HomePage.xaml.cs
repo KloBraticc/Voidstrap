@@ -106,17 +106,20 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
         private void GameThumbnail_Click(object sender, MouseButtonEventArgs e)
         {
-            (long placeId, long universeId) = (sender is FrameworkElement { Tag: DiscoverGameEntry tagged } ? tagged : (sender as FrameworkElement)?.DataContext) switch
+            (long placeId, long universeId, string name) = (sender is FrameworkElement { Tag: DiscoverGameEntry tagged } ? tagged : (sender as FrameworkElement)?.DataContext) switch
             {
-                HistoryGameEntry history => (history.PlaceId, history.UniverseId),
-                DiscoverGameEntry discover => (discover.PlaceId, discover.UniverseId),
-                _ => (0L, 0L),
+                HistoryGameEntry history => (history.PlaceId, history.UniverseId, history.Name),
+                DiscoverGameEntry discover => (discover.PlaceId, discover.UniverseId, discover.Name),
+                _ => (0L, 0L, string.Empty),
             };
             if (placeId == 0)
                 return;
 
             e.Handled = true;
-            NavigationService?.Navigate(new GamePage(placeId, universeId));
+            if (Window.GetWindow(this) is MainWindow window)
+                window.ShowGameDetail(placeId, universeId, name);
+            else
+                NavigationService?.Navigate(new GamePage(placeId, universeId));
         }
     }
 }
