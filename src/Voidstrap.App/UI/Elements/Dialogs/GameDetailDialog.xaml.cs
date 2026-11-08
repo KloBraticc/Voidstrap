@@ -12,6 +12,7 @@ namespace Voidstrap.UI.Elements.Dialogs
         private readonly CancellationTokenSource _cts = new();
         private List<GameServerRow> _servers = new();
         private bool _released;
+        private static readonly TimeSpan[] ServerRetryDelays = [TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(4), TimeSpan.FromSeconds(8)];
 
         public event EventHandler? CloseRequested;
 
@@ -196,7 +197,7 @@ namespace Voidstrap.UI.Elements.Dialogs
             ServerList.ItemsSource = null;
             try
             {
-                string json = await Http.GetString($"https://games.roblox.com/v1/games/{_placeId}/servers/Public?limit=100&sortOrder=Desc", token);
+                string json = await GetServersJsonAsync(token);
                 List<GameServerRow> rows = new();
                 using (JsonDocument doc = JsonDocument.Parse(json))
                 {
@@ -232,11 +233,33 @@ namespace Voidstrap.UI.Elements.Dialogs
                 ApplyFilter();
             }
             catch (OperationCanceledException) { }
+            catch (Http.RateLimitedException)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Roblox is still rate limiting the server list");
+                if (!token.IsCancellationRequested)
+                    StatusText.Text = Strings.ContextMenu_ServerBrowser_RateLimited;
+            }
             catch (Exception ex)
             {
                 App.Logger.WriteLine(LOG_IDENT, ex.Message);
                 if (!token.IsCancellationRequested)
                     StatusText.Text = Strings.ContextMenu_ServerBrowser_Failed;
+            }
+        }
+
+        private async Task<string> GetServersJsonAsync(CancellationToken token)
+        {
+            string url = $"https://games.roblox.com/v1/games/{_placeId}/servers/Public?limit=100&sortOrder=Desc&excludeFullGames=false";
+            for (int attempt = 0; ; attempt++)
+            {
+                try
+                {
+                    return await Http.GetString(url, token);
+                }
+                catch (Http.RateLimitedException) when (attempt < ServerRetryDelays.Length)
+                {
+                    await Task.Delay(ServerRetryDelays[attempt], token);
+                }
             }
         }
 
