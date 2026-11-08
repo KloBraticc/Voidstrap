@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Voidstrap.UI.ViewModels.Pages;
 using Voidstrap.UI.ViewModels.Settings;
-using Voidstrap.Integrations;
 
 namespace Voidstrap.UI.Elements.Dialogs
 {
@@ -12,16 +11,15 @@ namespace Voidstrap.UI.Elements.Dialogs
         private readonly long _placeId;
         private long _universeId;
         private readonly CancellationTokenSource _cts = new();
-        private List<GameServerRow> _servers = new();
         private bool _released;
-        private static readonly HttpClient ServerClient = new() { Timeout = TimeSpan.FromSeconds(15) };
         private bool _syncingAccount;
         private bool _switching;
-        private static readonly TimeSpan[] ServerRetryDelays = [TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(4), TimeSpan.FromSeconds(8)];
 
         public event EventHandler? CloseRequested;
 
         public event EventHandler? ViewPageRequested;
+
+        public LibraryServersViewModel Servers { get; } = new();
 
         public long PlaceId => _placeId;
 
@@ -31,8 +29,12 @@ namespace Voidstrap.UI.Elements.Dialogs
         {
             _placeId = placeId;
             _universeId = universeId;
+            DataContext = this;
             InitializeComponent();
             TitleText.Text = string.IsNullOrEmpty(name) ? $"Place {placeId}" : name;
+            Servers.IsServersTabSelected = true;
+            Servers.SetViewActive(true);
+            Servers.SetGame(new LibraryGameEntry { PlaceId = placeId, UniverseId = universeId, Name = TitleText.Text });
             _ = LoadAsync(_cts.Token);
             _ = LoadAccountsAsync(_cts.Token);
         }
@@ -44,7 +46,8 @@ namespace Voidstrap.UI.Elements.Dialogs
             _released = true;
             _cts.Cancel();
             _cts.Dispose();
-            ServerList.ItemsSource = null;
+            Servers.SetViewActive(false);
+            Servers.SetGame(null);
             AccountBox.ItemsSource = null;
         }
 
@@ -61,11 +64,8 @@ namespace Voidstrap.UI.Elements.Dialogs
                     if (uniDoc.RootElement.TryGetProperty("universeId", out JsonElement uid) && uid.ValueKind == JsonValueKind.Number)
                         _universeId = uid.GetInt64();
                 }
-                Task servers = LoadServersAsync(token);
                 if (_universeId != 0)
-                    await Task.WhenAll(LoadDetailsAsync(token), LoadVotesAsync(token), LoadImagesAsync(token), servers);
-                else
-                    await servers;
+                    await Task.WhenAll(LoadDetailsAsync(token), LoadVotesAsync(token), LoadImagesAsync(token));
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
@@ -197,88 +197,6 @@ namespace Voidstrap.UI.Elements.Dialogs
             }
         }
 
-        private async Task LoadServersAsync(CancellationToken token)
-        {
-            const string LOG_IDENT = "GameDetailDialog::LoadServersAsync";
-
-            StatusText.Text = Strings.ContextMenu_ServerBrowser_Loading;
-            ServerList.ItemsSource = null;
-            try
-            {
-                string json = await GetServersJsonAsync(token);
-                List<GameServerRow> rows = new();
-                using (JsonDocument doc = JsonDocument.Parse(json))
-                {
-                    if (doc.RootElement.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array)
-                    {
-                        foreach (JsonElement s in data.EnumerateArray())
-                        {
-                            string id = s.TryGetProperty("id", out JsonElement idEl) ? idEl.GetString() ?? "" : "";
-                            if (!Guid.TryParse(id, out _))
-                                continue;
-                            int playing = s.TryGetProperty("playing", out JsonElement p) && p.ValueKind == JsonValueKind.Number ? p.GetInt32() : 0;
-                            int max = s.TryGetProperty("maxPlayers", out JsonElement m) && m.ValueKind == JsonValueKind.Number ? m.GetInt32() : 0;
-                            int ping = s.TryGetProperty("ping", out JsonElement pi) && pi.ValueKind == JsonValueKind.Number ? pi.GetInt32() : 0;
-                            double fps = s.TryGetProperty("fps", out JsonElement f) && f.ValueKind == JsonValueKind.Number ? f.GetDouble() : 0;
-                            rows.Add(
-                                new GameServerRow
-                                {
-                                    JobId = id,
-                                    Playing = playing,
-                                    MaxPlayers = max,
-                                    Ping = ping,
-                                    Fps = fps,
-                                    Capacity = string.Format(Strings.ContextMenu_ServerBrowser_Capacity, playing, max),
-                                    Metrics = string.Format(Strings.ContextMenu_ServerBrowser_Metrics, ping, Math.Round(fps)),
-                                }
-                            );
-                        }
-                    }
-                }
-                if (token.IsCancellationRequested)
-                    return;
-                _servers = rows;
-                ApplyFilter();
-            }
-            catch (OperationCanceledException) { }
-            catch (Http.RateLimitedException)
-            {
-                App.Logger.WriteLine(LOG_IDENT, "Roblox is still rate limiting the server list");
-                if (!token.IsCancellationRequested)
-                    StatusText.Text = Strings.ContextMenu_ServerBrowser_RateLimited;
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine(LOG_IDENT, ex.Message);
-                if (!token.IsCancellationRequested)
-                    StatusText.Text = Strings.ContextMenu_ServerBrowser_Failed;
-            }
-        }
-
-        private async Task<string> GetServersJsonAsync(CancellationToken token)
-        {
-            string url = $"https://games.roblox.com/v1/games/{_placeId}/servers/Public?limit=100&sortOrder=Desc&excludeFullGames=false";
-            string? cookie = RobloxAuthLauncher.TryGetRobloxSecurityCookie();
-            for (int attempt = 0; ; attempt++)
-            {
-                using HttpRequestMessage request = new(HttpMethod.Get, url);
-                if (!string.IsNullOrEmpty(cookie))
-                    request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
-                using HttpResponseMessage response = await ServerClient.SendAsync(request, token);
-                if (response.StatusCode != HttpStatusCode.TooManyRequests)
-                {
-                    response.EnsureSuccessStatusCode();
-                    return await response.Content.ReadAsStringAsync(token);
-                }
-                if (attempt >= ServerRetryDelays.Length)
-                    throw new Http.RateLimitedException();
-                TimeSpan wait = response.Headers.RetryAfter?.Delta is TimeSpan after && after > TimeSpan.Zero && after <= TimeSpan.FromSeconds(10)
-                    ? after
-                    : ServerRetryDelays[attempt];
-                await Task.Delay(wait, token);
-            }
-        }
-
         private async Task LoadAccountsAsync(CancellationToken token)
         {
             const string LOG_IDENT = "GameDetailDialog::LoadAccountsAsync";
@@ -343,7 +261,7 @@ namespace Voidstrap.UI.Elements.Dialogs
                 await SavedAccounts.SwitchAsync(target);
                 App.Logger.WriteLine(LOG_IDENT, "Switched account from the game popup");
                 if (!_released)
-                    _ = LoadServersAsync(_cts.Token);
+                    Servers.RefreshCommand.Execute(null);
             }
             catch (Exception ex)
             {
@@ -368,24 +286,6 @@ namespace Voidstrap.UI.Elements.Dialogs
             _syncingAccount = false;
         }
 
-        private void ApplyFilter()
-        {
-            if (ServerList == null || SortBox == null || HideFullBox == null)
-                return;
-            IEnumerable<GameServerRow> rows = _servers;
-            if (HideFullBox.IsChecked == true)
-                rows = rows.Where(x => x.MaxPlayers <= 0 || x.Playing < x.MaxPlayers);
-            rows = SortBox.SelectedIndex switch
-            {
-                1 => rows.OrderByDescending(x => x.Playing),
-                2 => rows.OrderBy(x => x.Playing),
-                _ => rows.OrderBy(x => x.Ping <= 0 ? int.MaxValue : x.Ping),
-            };
-            List<GameServerRow> list = rows.ToList();
-            ServerList.ItemsSource = list;
-            StatusText.Text = list.Count == 0 ? Strings.ContextMenu_ServerBrowser_NoServers : string.Empty;
-        }
-
         private static string Compact(long count)
         {
             if (count >= 1_000_000_000)
@@ -395,20 +295,6 @@ namespace Voidstrap.UI.Elements.Dialogs
             if (count >= 1_000)
                 return $"{count / 1_000.0:0.#}K";
             return count.ToString(CultureInfo.CurrentCulture);
-        }
-
-        private void Filter_Changed(object sender, RoutedEventArgs e) => ApplyFilter();
-
-        private void Refresh_Click(object sender, RoutedEventArgs e)
-        {
-            if (!_released)
-                _ = LoadServersAsync(_cts.Token);
-        }
-
-        private void Join_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is FrameworkElement { Tag: GameServerRow row })
-                HomePageViewModel.LaunchPlace(_placeId, row.JobId);
         }
 
         private void Play_Click(object sender, RoutedEventArgs e) => HomePageViewModel.LaunchPlace(_placeId);
