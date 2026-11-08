@@ -101,6 +101,7 @@ namespace Voidstrap.UI.Elements.Dialogs
                     return;
                 if (name.Length > 0)
                     TitleText.Text = name;
+                ReviewControl.SetGame(_universeId, _placeId, TitleText.Text);
                 CreatorText.Text = creator;
                 CreatorChip.Visibility = creator.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
                 VerifiedIcon.Visibility = verified ? Visibility.Visible : Visibility.Collapsed;
@@ -394,6 +395,24 @@ namespace Voidstrap.UI.Elements.Dialogs
             if (count >= 1_000)
                 return $"{count / 1_000.0:0.#}K";
             return count.ToString(CultureInfo.CurrentCulture);
+        }
+
+        private void ServersTab_Click(object sender, RoutedEventArgs e) => SelectTab(false);
+
+        private void ReviewTab_Click(object sender, RoutedEventArgs e) => SelectTab(true);
+
+        private void SelectTab(bool review)
+        {
+            ServersTab.Appearance = review ? Wpf.Ui.Common.ControlAppearance.Transparent : Wpf.Ui.Common.ControlAppearance.Secondary;
+            ReviewTab.Appearance = review ? Wpf.Ui.Common.ControlAppearance.Secondary : Wpf.Ui.Common.ControlAppearance.Transparent;
+            Visibility servers = review ? Visibility.Collapsed : Visibility.Visible;
+            ServerArea.Visibility = servers;
+            RefreshButton.Visibility = servers;
+            SortBox.Visibility = servers;
+            HideFullBox.Visibility = servers;
+            ReviewArea.Visibility = review ? Visibility.Visible : Visibility.Collapsed;
+            if (review && ReviewControl.PlaceId <= 0)
+                ReviewControl.SetGame(_universeId, _placeId, TitleText.Text);
         }
 
         private void Filter_Changed(object sender, RoutedEventArgs e) => ApplyFilter();
