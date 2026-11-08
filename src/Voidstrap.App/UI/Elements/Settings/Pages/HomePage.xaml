@@ -514,8 +514,8 @@
                                             <TextBlock Text="{Binding FeaturedGame.LikePercent}" FontSize="13" Foreground="#DDFFFFFF" Margin="5,-2,0,0" VerticalAlignment="Center"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
-                                            <ui:Button Icon="Play24" Padding="22,8" FontWeight="SemiBold" Background="White" Foreground="#FF111111" MouseOverBackground="#FFE6E6E6" PressedBackground="#FFD0D0D0" BorderThickness="0" Content="{resources:Loc Ui_Home_Play}" Command="{Binding PlayDiscoverCommand}" CommandParameter="{Binding FeaturedGame}"/>
-                                            <ui:Button Margin="8,0,0,0" Icon="Open24" Padding="12,8" Background="#40FFFFFF" Foreground="White" MouseOverBackground="#60FFFFFF" BorderThickness="0" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" Command="{Binding OpenDiscoverCommand}" CommandParameter="{Binding FeaturedGame}"/>
+                                            <ui:Button Appearance="Primary" Icon="Play24" Padding="22,8" FontWeight="SemiBold" Content="{resources:Loc Ui_Home_Play}" Command="{Binding PlayDiscoverCommand}" CommandParameter="{Binding FeaturedGame}"/>
+                                            <ui:Button Margin="8,0,0,0" Icon="Open24" Padding="12,8" Appearance="Secondary" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" Command="{Binding OpenDiscoverCommand}" CommandParameter="{Binding FeaturedGame}"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>
@@ -536,7 +536,7 @@
                                                     <Border Height="160" CornerRadius="12,12,0,0" util:TopRoundedClip.Radius="12" Cursor="Hand" ToolTip="{resources:Loc Ui_Home_ViewGamePage}" MouseLeftButtonUp="GameThumbnail_Click" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
                                                         <Grid>
                                                             <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding ThumbnailUrl}"/>
-                                                            <ui:Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8" Padding="8" Background="#B0000000" Foreground="White" MouseOverBackground="#E0000000" BorderThickness="0" Icon="Play24" ToolTip="{resources:Loc Ui_Home_Play}" Command="{Binding DataContext.PlayDiscoverCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}"/>
+                                                            <ui:Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8" Padding="8" Appearance="Primary" Icon="Play24" ToolTip="{resources:Loc Ui_Home_Play}" Command="{Binding DataContext.PlayDiscoverCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}"/>
                                                         </Grid>
                                                     </Border>
                                                     <StackPanel Margin="12,10,12,12">
