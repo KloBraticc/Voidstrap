@@ -115,6 +115,8 @@ public partial class DiscordRichPresence : IDisposable
 
     private volatile string? _gameActivityName;
 
+    private string _partyJobId = string.Empty;
+
     private int _partyMax;
 
     private readonly EventHandler _onGameJoinHandler;
@@ -419,24 +421,56 @@ public partial class DiscordRichPresence : IDisposable
 
     private async Task RefreshPartyCountAsync()
     {
-        const string LOG_IDENT = "DiscordRichPresence::RefreshPartyCountAsync";
+        string jobId = _activityWatcher.Data?.JobId ?? string.Empty;
+        if (!string.Equals(jobId, _partyJobId, StringComparison.Ordinal))
+        {
+            _partyJobId = jobId;
+            _partyPlaying = 0;
+            _partyMax = 0;
+        }
+        Task<(int Current, int Max)> count = _activityWatcher.GetServerPlayerCountAsync();
+        try
+        {
+            if (await Task.WhenAny(count, Task.Delay(TimeSpan.FromSeconds(3), _lifetimeToken)).ConfigureAwait(false) == count)
+            {
+                ApplyPartyCount(jobId, await count.ConfigureAwait(false));
+                return;
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        _ = ApplyPartyCountLaterAsync(jobId, count);
+    }
+
+    private async Task ApplyPartyCountLaterAsync(string jobId, Task<(int Current, int Max)> count)
+    {
+        const string LOG_IDENT = "DiscordRichPresence::ApplyPartyCountLaterAsync";
 
         try
         {
-            Task<(int Current, int Max)> count = _activityWatcher.GetServerPlayerCountAsync();
-            if (await Task.WhenAny(count, Task.Delay(TimeSpan.FromSeconds(3), _lifetimeToken)).ConfigureAwait(false) != count)
-                return;
-            (int current, int max) = await count.ConfigureAwait(false);
-            if (current > 0)
-                _partyPlaying = current;
-            if (max > 0)
-                _partyMax = max;
+            if (ApplyPartyCount(jobId, await count.ConfigureAwait(false)) && !_disposed)
+                await SetCurrentGameAsync().ConfigureAwait(false);
         }
         catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             App.Logger.WriteLine(LOG_IDENT, ex.Message);
         }
+    }
+
+    private bool ApplyPartyCount(string jobId, (int Current, int Max) count)
+    {
+        if (!string.Equals(jobId, _partyJobId, StringComparison.Ordinal))
+            return false;
+        int playing = count.Current > 0 ? count.Current : _partyPlaying;
+        int max = count.Max > 0 ? count.Max : _partyMax;
+        if (playing == _partyPlaying && max == _partyMax)
+            return false;
+        _partyPlaying = playing;
+        _partyMax = max;
+        return true;
     }
 
     private void OnRefreshTimer(object? state)
