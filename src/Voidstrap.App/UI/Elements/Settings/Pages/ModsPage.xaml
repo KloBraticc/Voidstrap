@@ -719,11 +719,13 @@
                 </Style>
               </Border.Style>
               <StackPanel HorizontalAlignment="Center">
-                <Border Width="56" Height="56" HorizontalAlignment="Center" CornerRadius="10" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
-                  <ui:SymbolIcon FontSize="26" Symbol="BoxMultiple24" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                </Border>
+                <Grid Width="72" Height="72" HorizontalAlignment="Center">
+                  <Border CornerRadius="16" Background="{DynamicResource SystemAccentBrush}" Opacity="0.14" />
+                  <Border CornerRadius="16" BorderThickness="1" BorderBrush="{DynamicResource SystemAccentBrush}" Opacity="0.35" />
+                  <ui:SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="34" Symbol="PuzzlePiece24" Filled="True" Foreground="{DynamicResource SystemAccentBrush}" />
+                </Grid>
                 <TextBlock Margin="0,16,0,0" HorizontalAlignment="Center" FontSize="18" FontWeight="SemiBold" Text="{Binding ManagedModsEmptyTitle}" />
-                <TextBlock Margin="0,8,0,0" MaxWidth="460" HorizontalAlignment="Center" TextAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Menu_Mods_Managed_EmptyHint}" TextWrapping="Wrap" />
+                <TextBlock Margin="0,8,0,0" MaxWidth="460" HorizontalAlignment="Center" TextAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" controls:InlineCodeText.Source="{resources:Loc Menu_Mods_Managed_EmptyHint}" LineHeight="24" TextWrapping="Wrap" />
                 <TextBlock Margin="0,6,0,0" MaxWidth="460" HorizontalAlignment="Center" TextAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Menu_Mods_Managed_PriorityHint}" TextWrapping="Wrap" />
               </StackPanel>
             </Border>
