@@ -375,8 +375,8 @@ internal sealed class DiscordActivityPipe : INamedPipeClient
                     }
                     if (activity["secrets"] is JsonObject secrets && secrets["join"] is JsonValue)
                     {
-                        secrets.Remove("match");
-                        secrets.Remove("spectate");
+                        foreach (string key in secrets.Select(static pair => pair.Key).Where(static key => key != "join").ToList())
+                            secrets.Remove(key);
                         activity["supported_platforms"] = new JsonArray("desktop");
                         changed = true;
                     }
