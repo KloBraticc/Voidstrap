@@ -537,6 +537,8 @@ jobs:
               <Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSBinaryCookies.cs" />
               <Compile Include="$PWD/src/Voidstrap.App/Utility/MacModSync.cs" />
               <Compile Include="$PWD/src/Voidstrap.App/Utility/ManagedModStore.cs" />
+              <Compile Include="$PWD/src/Voidstrap.App/Enums/ModInstallTargets.cs" />
+              <Using Include="Voidstrap.Enums" />
               <Compile Include="$PWD/src/Voidstrap.App/Utility/ModPackInfo.cs" />
               <Compile Include="$PWD/src/Voidstrap.App/Integrations/LaunchInterceptor.cs" />
             </ItemGroup>
