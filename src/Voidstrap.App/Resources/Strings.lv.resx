@@ -9699,4 +9699,7 @@ Vai atļaut?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Pievieno loga vadību savai spēlei ar Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit un ierakstīšana</value>
+  </data>
 </root>

@@ -9699,4 +9699,7 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Luau سان پنهنجي راند ۾ ونڊو ڪنٽرول شامل ڪريو.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit ۽ رڪارڊنگ</value>
+  </data>
 </root>

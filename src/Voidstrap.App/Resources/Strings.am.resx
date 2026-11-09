@@ -9698,4 +9698,7 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>በLuau የመስኮት ቁጥጥርን ወደ የራስዎ ጨዋታ ያክሉ።</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit እና ቀረጻ</value>
+  </data>
 </root>

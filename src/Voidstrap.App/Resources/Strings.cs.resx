@@ -10012,4 +10012,7 @@ Povolit?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Přidejte ovládání okna do své hry pomocí Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit a nahrávání</value>
+  </data>
 </root>

@@ -10009,4 +10009,7 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Luau ile kendi oyununuza pencere denetimi ekleyin.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit ve kayıt</value>
+  </data>
 </root>

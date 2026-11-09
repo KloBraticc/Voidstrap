@@ -9699,4 +9699,7 @@ Permíteo?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Engade o control da xanela ao teu propio xogo con Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit e gravación</value>
+  </data>
 </root>

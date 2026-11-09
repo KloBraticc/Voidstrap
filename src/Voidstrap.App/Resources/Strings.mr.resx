@@ -9699,4 +9699,7 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Luau वापरून तुमच्या गेममध्ये विंडो नियंत्रण जोडा.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit आणि रेकॉर्डिंग</value>
+  </data>
 </root>

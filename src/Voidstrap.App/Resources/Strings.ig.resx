@@ -9699,4 +9699,7 @@ kwe ya?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Tinye njikwa windo n’egwuregwu gị site na Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit na ndekọ</value>
+  </data>
 </root>

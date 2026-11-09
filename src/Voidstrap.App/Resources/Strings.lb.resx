@@ -9699,4 +9699,7 @@ Erlaabt et?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Füügt mat Luau Fënstersteierung an Äert eegent Spill derbäi.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit an Opnam</value>
+  </data>
 </root>

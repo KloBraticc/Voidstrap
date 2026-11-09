@@ -10010,4 +10010,7 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Luau로 직접 만든 게임에 창 제어를 추가하세요.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit 및 녹화</value>
+  </data>
 </root>

@@ -10009,4 +10009,7 @@ Payagan ba?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Magdagdag ng window control sa sarili mong laro gamit ang Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit at pag-record</value>
+  </data>
 </root>

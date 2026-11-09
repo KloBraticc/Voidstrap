@@ -9699,4 +9699,7 @@ Emera?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Ongeraho kugenzura idirishya mu mukino wawe ukoresheje Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit no gufata amashusho</value>
+  </data>
 </root>

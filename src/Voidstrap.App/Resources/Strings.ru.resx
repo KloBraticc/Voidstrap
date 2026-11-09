@@ -10011,4 +10011,7 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Добавьте управление окном в свою игру с помощью Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit и запись</value>
+  </data>
 </root>

@@ -9698,4 +9698,7 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>לייגט צו פֿענצטער קאָנטראָל צו אײַער שפּיל מיט Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit און רעקאָרדירן</value>
+  </data>
 </root>

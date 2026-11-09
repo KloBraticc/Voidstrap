@@ -9698,4 +9698,7 @@ Baimendu al duzu?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Gehitu leihoaren kontrola zure jokoari Luau erabiliz.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit eta grabazioa</value>
+  </data>
 </root>

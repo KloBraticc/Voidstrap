@@ -10010,4 +10010,7 @@ Autoriser ?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Ajoutez le contrôle de fenêtre à votre propre jeu avec Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit et enregistrement</value>
+  </data>
 </root>

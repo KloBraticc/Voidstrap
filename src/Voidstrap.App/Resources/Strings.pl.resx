@@ -10012,4 +10012,7 @@ Zezwolić?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Dodaj sterowanie oknem do swojej gry za pomocą Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit i nagrywanie</value>
+  </data>
 </root>

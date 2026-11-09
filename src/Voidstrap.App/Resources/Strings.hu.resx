@@ -10011,4 +10011,7 @@ Engedélyezed?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Adj ablakvezérlést a saját játékodhoz Luau segítségével.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit és felvétel</value>
+  </data>
 </root>

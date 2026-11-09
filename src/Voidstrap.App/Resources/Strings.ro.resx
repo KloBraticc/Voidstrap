@@ -10013,4 +10013,7 @@ Permiți?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Adaugă controlul ferestrei în propriul tău joc cu Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit și înregistrare</value>
+  </data>
 </root>

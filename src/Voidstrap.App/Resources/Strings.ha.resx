@@ -9699,4 +9699,7 @@ Bada shi?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Ƙara sarrafa taga a wasanka da Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit da naɗa</value>
+  </data>
 </root>

@@ -9698,4 +9698,7 @@ icazə verilir?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Luau ilə öz oyununuza pəncərə idarəsi əlavə edin.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit və yazma</value>
+  </data>
 </root>

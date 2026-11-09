@@ -10009,4 +10009,7 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Додайте керування вікном у свою гру за допомогою Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit і запис</value>
+  </data>
 </root>

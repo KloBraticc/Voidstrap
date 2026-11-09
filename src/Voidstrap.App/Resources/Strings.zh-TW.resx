@@ -10014,4 +10014,7 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>使用 Luau 為你自己的遊戲加入視窗控制。</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit 與錄製</value>
+  </data>
 </root>

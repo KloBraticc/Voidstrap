@@ -10011,4 +10011,7 @@ Tillåta?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Lägg till fönsterstyrning i ditt eget spel med Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit och inspelning</value>
+  </data>
 </root>

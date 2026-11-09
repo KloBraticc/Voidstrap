@@ -9699,4 +9699,7 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>បន្ថែមការគ្រប់គ្រងបង្អួចទៅហ្គេមរបស់អ្នកដោយប្រើ Luau។</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit និងការថត</value>
+  </data>
 </root>

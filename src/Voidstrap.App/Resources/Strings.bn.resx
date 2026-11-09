@@ -9698,4 +9698,7 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Luau দিয়ে আপনার নিজের গেমে উইন্ডো নিয়ন্ত্রণ যোগ করুন।</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit ও রেকর্ডিং</value>
+  </data>
 </root>

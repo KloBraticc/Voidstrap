@@ -10026,4 +10026,7 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Luau でご自身のゲームにウィンドウ操作を追加します。</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit と録画</value>
+  </data>
 </root>

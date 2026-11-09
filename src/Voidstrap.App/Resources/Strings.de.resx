@@ -10011,4 +10011,7 @@ Erlauben?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Füge deinem eigenen Spiel mit Luau Fenstersteuerung hinzu.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit und Aufnahme</value>
+  </data>
 </root>

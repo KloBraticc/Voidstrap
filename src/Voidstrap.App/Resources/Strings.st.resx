@@ -9698,4 +9698,7 @@ E lumella?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Kenya taolo ya fensetere papading ya hao ka Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit le ho rekota</value>
+  </data>
 </root>

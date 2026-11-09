@@ -9698,4 +9698,7 @@ tillade det?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Tilføj vinduesstyring til dit eget spil med Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit og optagelse</value>
+  </data>
 </root>

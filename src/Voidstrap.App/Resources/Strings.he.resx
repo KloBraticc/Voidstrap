@@ -9699,4 +9699,7 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>הוסיפו שליטה בחלון למשחק שלכם עם Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit והקלטה</value>
+  </data>
 </root>

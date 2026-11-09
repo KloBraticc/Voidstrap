@@ -9699,4 +9699,7 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Żid il-kontroll tat-tieqa mal-logħba tiegħek b’Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit u reġistrazzjoni</value>
+  </data>
 </root>

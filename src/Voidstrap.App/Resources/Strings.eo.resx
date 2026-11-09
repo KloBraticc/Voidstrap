@@ -9698,4 +9698,7 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Aldonu fenestran regadon al via propra ludo per Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit kaj registrado</value>
+  </data>
 </root>

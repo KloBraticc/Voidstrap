@@ -9698,4 +9698,7 @@ Ho permets?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Afegeix el control de finestra al teu joc amb Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit i enregistrament</value>
+  </data>
 </root>

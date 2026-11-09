@@ -10010,4 +10010,7 @@
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>أضف التحكم في النافذة إلى لعبتك باستخدام Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit والتسجيل</value>
+  </data>
 </root>

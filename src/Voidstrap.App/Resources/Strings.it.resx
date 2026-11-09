@@ -10014,4 +10014,7 @@ Consentire?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Aggiungi il controllo della finestra al tuo gioco con Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit e registrazione</value>
+  </data>
 </root>

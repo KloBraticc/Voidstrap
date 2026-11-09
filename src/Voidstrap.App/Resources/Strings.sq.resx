@@ -9699,4 +9699,7 @@ E lejon atë?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Shto kontrollin e dritares në lojën tënde me Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit dhe regjistrimi</value>
+  </data>
 </root>

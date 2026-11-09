@@ -9699,4 +9699,7 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>د Luau سره خپلې لوبې ته د کړکۍ کنټرول ورزیات کړئ.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit او ثبت</value>
+  </data>
 </root>

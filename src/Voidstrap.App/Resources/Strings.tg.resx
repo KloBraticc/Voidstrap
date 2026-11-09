@@ -9698,4 +9698,7 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Бо Luau ба бозии худ идоракунии равзанаро илова кунед.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit ва сабт</value>
+  </data>
 </root>

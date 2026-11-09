@@ -10014,4 +10014,7 @@ Cho phép?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Thêm điều khiển cửa sổ vào trò chơi của bạn bằng Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit và ghi hình</value>
+  </data>
 </root>

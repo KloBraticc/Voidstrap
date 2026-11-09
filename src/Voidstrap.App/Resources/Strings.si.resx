@@ -9699,4 +9699,7 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Luau සමඟ ඔබේම ක්‍රීඩාවට කවුළු පාලනය එක් කරන්න.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit සහ පටිගත කිරීම</value>
+  </data>
 </root>

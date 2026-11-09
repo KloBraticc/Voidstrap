@@ -9699,4 +9699,7 @@ Oggolow?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Ku dar xakamaynta daaqadda ciyaartaada adoo isticmaalaya Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit iyo duubid</value>
+  </data>
 </root>

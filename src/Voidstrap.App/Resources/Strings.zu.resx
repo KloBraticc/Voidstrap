@@ -9698,4 +9698,7 @@ Uyakuvumela?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Engeza ukulawula kwewindi emdlalweni wakho nge Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit nokuqopha</value>
+  </data>
 </root>

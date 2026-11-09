@@ -9699,4 +9699,7 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Luau ഉപയോഗിച്ച് നിങ്ങളുടെ ഗെയിമിൽ വിൻഡോ നിയന്ത്രണം ചേർക്കുക.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit ഉം റെക്കോർഡിംഗും</value>
+  </data>
 </root>

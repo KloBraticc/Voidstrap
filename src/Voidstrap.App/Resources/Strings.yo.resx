@@ -9698,4 +9698,7 @@ Gba laaye?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Ṣàfikún ìṣàkóso fèrèsé sí eré rẹ pẹ̀lú Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit àti gbígbàsílẹ̀</value>
+  </data>
 </root>

@@ -10014,4 +10014,7 @@ Izinkan?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Tambahkan kontrol jendela ke game Anda sendiri dengan Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit dan perekaman</value>
+  </data>
 </root>

@@ -9699,4 +9699,7 @@ Povoliť?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Pridajte ovládanie okna do svojej hry pomocou Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit a nahrávanie</value>
+  </data>
 </root>

@@ -10013,4 +10013,7 @@ Toestaan?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Voeg met Luau vensterbediening toe aan je eigen game.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit en opnemen</value>
+  </data>
 </root>

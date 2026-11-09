@@ -9699,4 +9699,7 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Додајте контролу прозора у своју игру помоћу Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit и снимање</value>
+  </data>
 </root>

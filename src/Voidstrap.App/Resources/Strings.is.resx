@@ -9699,4 +9699,7 @@ Leyfa það?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Bættu gluggastýringu við þinn eigin leik með Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit og upptaka</value>
+  </data>
 </root>

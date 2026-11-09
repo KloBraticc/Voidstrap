@@ -10013,4 +10013,7 @@ Leisti?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Pridėkite lango valdymą į savo žaidimą su Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit ir įrašymas</value>
+  </data>
 </root>

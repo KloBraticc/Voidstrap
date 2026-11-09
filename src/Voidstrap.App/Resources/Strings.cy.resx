@@ -9698,4 +9698,7 @@ Caniatáu iddo?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Ychwanegwch reolaeth ffenestr at eich gêm eich hun gyda Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit a recordio</value>
+  </data>
 </root>

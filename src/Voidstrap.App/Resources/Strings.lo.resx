@@ -9699,4 +9699,7 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>ເພີ່ມການຄວບຄຸມໜ້າຕ່າງໃສ່ເກມຂອງທ່ານດ້ວຍ Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit ແລະ ການບັນທຶກ</value>
+  </data>
 </root>

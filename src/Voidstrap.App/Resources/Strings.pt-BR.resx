@@ -10013,4 +10013,7 @@ Permitir?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Adicione o controle de janela ao seu próprio jogo com Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit e gravação</value>
+  </data>
 </root>

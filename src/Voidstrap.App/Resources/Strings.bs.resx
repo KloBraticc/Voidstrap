@@ -9698,4 +9698,7 @@ Dozvoliti?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Dodajte kontrolu prozora u svoju igru pomoću Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit i snimanje</value>
+  </data>
 </root>

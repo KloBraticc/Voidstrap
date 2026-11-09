@@ -9699,4 +9699,7 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Luau प्रयोग गरेर आफ्नो खेलमा विन्डो नियन्त्रण थप्नुहोस्।</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit र रेकर्डिङ</value>
+  </data>
 </root>

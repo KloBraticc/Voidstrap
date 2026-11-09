@@ -9699,4 +9699,7 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Luau ашиглан өөрийн тоглоомд цонхны удирдлага нэмээрэй.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit ба бичлэг</value>
+  </data>
 </root>

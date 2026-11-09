@@ -10003,4 +10003,7 @@ Benarkan?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Tambah kawalan tetingkap pada permainan anda sendiri dengan Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit dan rakaman</value>
+  </data>
 </root>

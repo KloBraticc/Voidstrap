@@ -9699,4 +9699,7 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Ավելացրեք պատուհանի կառավարում ձեր խաղին Luau-ով։</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit և ձայնագրում</value>
+  </data>
 </root>

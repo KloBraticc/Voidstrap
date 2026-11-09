@@ -9699,4 +9699,7 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>დაამატეთ ფანჯრის მართვა თქვენს თამაშში Luau-ით.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit და ჩაწერა</value>
+  </data>
 </root>

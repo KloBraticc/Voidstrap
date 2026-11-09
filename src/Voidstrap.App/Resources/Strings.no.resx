@@ -9699,4 +9699,7 @@ Vil du tillate det?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Legg til vinduskontroll i ditt eget spill med Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit og opptak</value>
+  </data>
 </root>

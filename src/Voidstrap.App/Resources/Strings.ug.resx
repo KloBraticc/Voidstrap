@@ -9698,4 +9698,7 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Luau ئارقىلىق ئۆز ئويۇنىڭىزغا كۆزنەك كونتروللىقىنى قوشۇڭ.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit ۋە خاتىرىلەش</value>
+  </data>
 </root>

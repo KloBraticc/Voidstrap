@@ -9698,4 +9698,7 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Дадайце кіраванне акном у сваю гульню з дапамогай Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit і запіс</value>
+  </data>
 </root>

@@ -9699,4 +9699,7 @@ Whakaaetia?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Tāpirihia te mana matapihi ki tō ake kēmu mā Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit me te hopu</value>
+  </data>
 </root>

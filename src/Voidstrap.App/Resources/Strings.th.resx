@@ -10006,4 +10006,7 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>เพิ่มการควบคุมหน้าต่างให้เกมของคุณด้วย Luau</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit และการบันทึก</value>
+  </data>
 </root>

@@ -10011,4 +10011,7 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Añade el control de ventana a tu propio juego con Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit y grabación</value>
+  </data>
 </root>

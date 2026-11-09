@@ -9699,4 +9699,7 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Luau વડે તમારી પોતાની ગેમમાં વિન્ડો નિયંત્રણ ઉમેરો.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit અને રેકોર્ડિંગ</value>
+  </data>
 </root>

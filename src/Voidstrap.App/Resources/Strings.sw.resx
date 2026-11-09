@@ -9698,4 +9698,7 @@ Je, unairuhusu?</value>
   <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
     <value>Ongeza udhibiti wa dirisha kwenye mchezo wako kwa Luau.</value>
   </data>
+  <data name="Ui.VoidEdit.Section" xml:space="preserve">
+    <value>Void Edit na kurekodi</value>
+  </data>
 </root>
