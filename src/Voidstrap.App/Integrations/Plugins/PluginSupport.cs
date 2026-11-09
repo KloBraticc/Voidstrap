@@ -744,7 +744,7 @@ public static class PluginSidebar
             throw new InvalidOperationException("sidebar page id must be 1 to 48 characters");
         string title = MainWindow.NormalizeSidebarName(spec["title"]?.ToString(), id);
         string section = (spec["section"]?.ToString() ?? "Core").Trim();
-        if (section is not ("Core" or "Configuration" or "More" or "Footer"))
+        if (section is not ("Core" or "Configuration" or "Footer"))
             section = "Core";
         string icon = (spec["icon"]?.ToString() ?? "Apps24").Trim();
         if (icon.Length == 0)
@@ -1111,7 +1111,6 @@ internal static class PluginNavigation
         "Library",
         "PrivateServers",
         "Accounts",
-        "More",
         "ServerBrowser",
     ];
 

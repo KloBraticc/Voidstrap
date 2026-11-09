@@ -1269,7 +1269,6 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
         {
             "Core" => 0,
             "Configuration" => 1,
-            "More" => 2,
             _ => 3,
         };
     }
@@ -1330,7 +1329,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.
             .Select((key, index) => (key, index))
             .ToDictionary(pair => pair.key, pair => pair.index, StringComparer.Ordinal);
         List<string> merged = new List<string>();
-        foreach (string section in new[] { "Core", "Configuration", "More", "Footer" })
+        foreach (string section in new[] { "Core", "Configuration", "Footer" })
         {
             List<MainWindow.SidebarItemDefinition> definitions = MainWindow
                 .SidebarCustomizationItems.Where(item => item.Section == section)

@@ -70,7 +70,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             new("HomeNavItem", "Home", "Core", SymbolRegular.Home24, false, NameKey: "Ui_Nav_Home"),
             new("IntegrationsNavItem", "Integrations", "Core", SymbolRegular.Add12, NameKey: "Menu_Integrations_Title"),
             new("DeploymentNavItem", "Deployment", "Core", SymbolRegular.PlaySettings20, NameKey: "Common_Deployment"),
-            new("AppearanceNavItem", "Appearance", "Core", SymbolRegular.Color24, false, NameKey: "Menu_Appearance_Title"),
             new(
                 "FastFlagSettingsNavItem",
                 "FastFlag Settings",
@@ -80,13 +79,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             ),
             new("FastFlagEditorNavItem", "FastFlag Editor", "Configuration", SymbolRegular.Flag28, NameKey: "Ui_Nav_FastFlagEditor"),
             new("ModsNavItem", "Mods", "Configuration", SymbolRegular.WrenchScrewdriver20, NameKey: "Menu_Mods_Title"),
-            new("MoreNavItem", "More", "Configuration", SymbolRegular.MoreHorizontal24, NameKey: "Ui_Nav_More"),
-            new("GlobalNavItem", "Global", "More", SymbolRegular.GlobeLocation20, NameKey: "Ui_Nav_Global"),
-            new("ShortcutsNavItem", "Shortcuts", "More", SymbolRegular.Apps32, NameKey: "Common_Shortcuts"),
+            new("GlobalNavItem", "Global", "Footer", SymbolRegular.GlobeLocation20, NameKey: "Ui_Nav_Global"),
             new("ExtensionsNavItem", "Extensions", "Footer", SymbolRegular.CubeAdd20, NameKey: "Ui_Nav_Extensions"),
             new("ManagerNavItem", "Manager", "Footer", SymbolRegular.ArrowDownload24, NameKey: "Ui_Nav_Manager"),
             new("SoberNavItem", "Sober", "Footer", SymbolRegular.Empty, NameKey: "Menu_Sober_Title"),
             new("RosemaryNavItem", "Rosemary", "Footer", SymbolRegular.Empty, NameKey: "Menu_Rosemary_Title"),
+            new("ShortcutsNavItem", "Shortcuts", "Footer", SymbolRegular.Apps32, NameKey: "Common_Shortcuts"),
+            new("AppearanceNavItem", "Appearance", "Footer", SymbolRegular.Color24, false, NameKey: "Menu_Appearance_Title"),
             new("SettingsNavItem", "Settings", "Footer", SymbolRegular.Settings28, NameKey: "Ui_Nav_Settings"),
             new("AboutNavItem", "About", "Footer", SymbolRegular.QuestionCircle32, NameKey: "Menu_About_Title"),
         };
@@ -118,7 +117,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Debug.Assert(
             SidebarCustomizationItems.Select(item => item.Key).Distinct(StringComparer.Ordinal).Count() == SidebarCustomizationItems.Count
         );
-        Debug.Assert(SidebarCustomizationItems.All(item => item.Section is "Core" or "Configuration" or "More" or "Footer"));
+        Debug.Assert(SidebarCustomizationItems.All(item => item.Section is "Core" or "Configuration" or "Footer"));
         Debug.Assert(SidebarCustomizationItems.Where(item => item.Key is "HomeNavItem" or "AppearanceNavItem").All(item => !item.CanHide));
         Debug.Assert(NormalizeSidebarName("  My\nPage  ", "Page") == "My Page");
     }
@@ -505,7 +504,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private AccountsPage? _accountsPage;
 
-    private MorePage? _morePage;
 
     private Voidstrap.UI.SettingsIconMotion? _settingsIconMotion;
 
@@ -1168,7 +1166,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         bool hasOwnSidebar = content is LibraryPage or PrivateServersPage or AccountsPage;
         SetRootNavigationShown(!hasOwnSidebar);
         SynchronizeSidebarSelection(content);
-        SidebarGroup.RefreshActiveChild(MoreNavItem);
         Dispatcher.BeginInvoke(new Action(SynchronizeCurrentSidebarSelection), DispatcherPriority.Loaded);
         UpdateTopNavActive(content);
         if (content is Page)
@@ -1635,12 +1632,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 if (!ReferenceEquals(RootFrame.Content, _accountsPage))
                     RootNavigation.NavigateExternal(_accountsPage);
                 break;
-            case "more":
-            case "morepage":
-                _morePage ??= new MorePage();
-                if (!ReferenceEquals(RootFrame.Content, _morePage))
-                    RootNavigation.NavigateExternal(_morePage);
-                break;
             case "serverbrowser":
             case "serverbrowserpage":
                 RootNavigation.Navigate(typeof(ServerBrowserPage));
@@ -1814,14 +1805,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         main.AddRange(Ordered("Core").Select(item => items[item.Key]));
         main.Add(separator);
         main.Add(configurationHeader);
-        foreach (SidebarItemDefinition definition in Ordered("Configuration"))
-        {
-            main.Add(items[definition.Key]);
-            if (definition.Key == "MoreNavItem")
-            {
-                main.AddRange(Ordered("More").Select(item => items[item.Key]));
-            }
-        }
+        main.AddRange(Ordered("Configuration").Select(item => items[item.Key]));
         foreach (NavigationItem item in items.Values.Where(item => RootNavigation.Items.Contains(item)).ToArray())
         {
             RootNavigation.Items.Remove(item);
@@ -1878,9 +1862,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void SynchronizeCurrentSidebarSelection()
     {
         SynchronizeSidebarSelection(RootFrame?.Content);
-        SidebarGroup.RefreshActiveChild(MoreNavItem);
-        if (RootFrame?.Content is MorePage)
-            PageBreadcrumb.Current = GetSidebarDisplayName("MoreNavItem", Strings.Ui_Nav_More);
     }
 
     private void SynchronizeSidebarSelection(object? content)
@@ -3413,7 +3394,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 {
                     ("Core", Strings.Ui_Nav_Core),
                     ("Configuration", Strings.Ui_Nav_Configuration),
-                    ("More", Strings.Ui_Nav_More),
                     ("Footer", Strings.Ui_Appearance_TabApplication),
                 }
             )
@@ -4053,7 +4033,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                     "fastflags" or "fastflagsettings" => typeof(FastFlagsPage),
                     "fastflageditor" => typeof(FastFlagEditorPage),
                     "mods" => typeof(ModsPage),
-                    "more" => typeof(MorePage),
                     "global" or "gbseditor" or "globalbasicsettings" => typeof(GBSEditorPage),
                     "shortcuts" => typeof(ShortcutsPage),
                     "extensions" or "extension" => typeof(ExtensionPage),
@@ -6406,25 +6385,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             UpdateSidebarToggleIcon();
             ApplyIconModeLayout(RootNavigation.Items, iconsOnly);
             ApplyIconModeLayout(RootNavigation.Footer, iconsOnly);
-            SidebarGroup.SetIconOnly(MoreNavItem, iconsOnly);
-            if (iconsOnly)
-                SidebarGroup.Expand(MoreNavItem, false, animate: false);
-            else if (RootFrame.Content is MorePage)
-            {
-                bool restored = false;
-                while (_navHistoryBack.Count > 0 && !restored)
-                {
-                    NavigationHistoryEntry entry = _navHistoryBack[_navHistoryBack.Count - 1];
-                    _navHistoryBack.RemoveAt(_navHistoryBack.Count - 1);
-                    if (entry.PageType != typeof(MorePage))
-                        restored = RestoreNavigationHistoryEntry(entry, _navHistoryForward);
-                }
-                _navHistoryForward.RemoveAll(entry => entry.PageType == typeof(MorePage));
-                if (!restored)
-                    RootNavigation.Navigate(typeof(HomePage));
-                _navHistoryBack.RemoveAll(entry => entry.PageType == typeof(MorePage));
-                UpdateTopNavArrows();
-            }
         }
     }
 
@@ -7933,7 +7893,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void SaveNavigation(INavigation sender, RoutedNavigationEventArgs e)
     {
-        SidebarGroup.RefreshActiveChild(MoreNavItem);
         App.State.Prop.LastPage = RootNavigation.SelectedPageIndex;
         UpdateDiscordPresence();
     }
