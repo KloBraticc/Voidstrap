@@ -10008,4 +10008,16 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>ゲームがウィンドウを透明にできます。</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} の設定を選択</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} から {0} 件の設定と {1} 件の FastFlags をインポートしました。{3} 件の設定には対応する Voidstrap の設定がありませんでした。</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>これらの設定は Voidstrap のインストール時に適用されます。</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>設定をインポートできませんでした: {0}</value>
+  </data>
 </root>

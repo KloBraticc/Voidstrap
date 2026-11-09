@@ -9993,4 +9993,16 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Los juegos pueden hacer la ventana transparente.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Selecciona los ajustes de {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Se importaron {0} ajustes y {1} FastFlags desde {2}. {3} ajustes no tenían un ajuste equivalente en Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Estos ajustes se aplicarán cuando instales Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>No se pudieron importar los ajustes: {0}</value>
+  </data>
 </root>

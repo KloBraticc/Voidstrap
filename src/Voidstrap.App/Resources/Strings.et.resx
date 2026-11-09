@@ -9680,4 +9680,16 @@ Kas lubada?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Mängud saavad akna läbipaistvaks muuta.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Vali {0} seaded</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Imporditi {0} seadet ja {1} FastFlags rakendusest {2}. {3} seadel polnud vastavat Voidstrap seadet.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Need seaded rakendatakse Voidstrap installimisel.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Seadeid ei saanud importida: {0}</value>
+  </data>
 </root>

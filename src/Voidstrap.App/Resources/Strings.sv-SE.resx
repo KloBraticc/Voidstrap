@@ -9993,4 +9993,16 @@ Tillåta?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Spel kan göra fönstret genomskinligt.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Välj inställningar från {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Importerade {0} inställningar och {1} FastFlags från {2}. {3} inställningar saknade en motsvarande Voidstrap inställning.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>De här inställningarna tillämpas när du installerar Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Inställningarna kunde inte importeras: {0}</value>
+  </data>
 </root>

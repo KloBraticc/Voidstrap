@@ -9992,4 +9992,16 @@
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>يمكن للألعاب جعل النافذة شفافة.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>اختر إعدادات {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>تم استيراد {0} إعدادًا و{1} من FastFlags من {2}. لم يكن لـ {3} إعدادًا إعداد مطابق في Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>سيتم تطبيق هذه الإعدادات عند تثبيت Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>تعذّر استيراد الإعدادات: {0}</value>
+  </data>
 </root>

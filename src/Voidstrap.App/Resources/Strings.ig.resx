@@ -9681,4 +9681,16 @@ kwe ya?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Egwuregwu nwere ike ime ka windo bụrụ nke a na-ahụ ọdịda ya.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Họrọ ntọala {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Ebubatala ntọala {0} na FastFlags {1} site na {2}. Ntọala {3} enweghị ntọala Voidstrap kwekọrọ.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>A ga-etinye ntọala ndị a mgbe ị wụnye Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Enweghị ike ibubata ntọala: {0}</value>
+  </data>
 </root>

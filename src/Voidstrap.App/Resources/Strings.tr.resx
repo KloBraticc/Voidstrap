@@ -9991,4 +9991,16 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Oyunlar pencereyi saydam yapabilir.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} ayarlarını seçin</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} uygulamasından {0} ayar ve {1} FastFlags içe aktarıldı. {3} ayarın Voidstrap içinde karşılığı yoktu.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Bu ayarlar Voidstrap yüklendiğinde uygulanacak.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Ayarlar içe aktarılamadı: {0}</value>
+  </data>
 </root>

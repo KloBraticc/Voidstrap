@@ -9995,4 +9995,16 @@ Leisti?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Žaidimai gali padaryti langą skaidrų.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Pasirinkite {0} nustatymus</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Iš {2} importuota {0} nustatymų ir {1} FastFlags. {3} nustatymai neturėjo atitinkamo Voidstrap nustatymo.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Šie nustatymai bus pritaikyti, kai įdiegsite Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Nepavyko importuoti nustatymų: {0}</value>
+  </data>
 </root>

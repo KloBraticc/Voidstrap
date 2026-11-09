@@ -9680,4 +9680,16 @@ Rugsat beriň?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Oýunlar penjiräni aýdyň edip bilýär.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} sazlamalaryny saýlaň</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} programmasyndan {0} sazlama we {1} FastFlags getirildi. {3} sazlamanyň Voidstrap da laýyk sazlamasy ýokdy.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Bu sazlamalar Voidstrap gurnalanda ulanylar.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Sazlamalary getirip bolmady: {0}</value>
+  </data>
 </root>

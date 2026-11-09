@@ -9681,4 +9681,16 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>गेम्स विंडो को पारदर्शी बना सकते हैं।</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} सेटिंग्स चुनें</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} से {0} सेटिंग्स और {1} FastFlags इम्पोर्ट हुए। {3} सेटिंग्स की कोई मिलती जुलती Voidstrap सेटिंग नहीं थी।</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Voidstrap इंस्टॉल करने पर ये सेटिंग्स लागू होंगी।</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>सेटिंग्स इम्पोर्ट नहीं हो सकीं: {0}</value>
+  </data>
 </root>

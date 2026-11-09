@@ -9681,4 +9681,16 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Ойындар терезені мөлдір ете алады.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} параметрлерін таңдаңыз</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} ішінен {0} параметр және {1} FastFlags импортталды. {3} параметрдің Voidstrap ішінде сәйкес параметрі болмады.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Бұл параметрлер Voidstrap орнатылғанда қолданылады.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Параметрлерді импорттау мүмкін болмады: {0}</value>
+  </data>
 </root>

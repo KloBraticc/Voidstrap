@@ -9680,4 +9680,16 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>گیمز ونڈو کو شفاف بنا سکتے ہیں۔</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} کی ترتیبات منتخب کریں</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} سے {0} ترتیبات اور {1} FastFlags درآمد ہوئیں۔ {3} ترتیبات کی کوئی مماثل Voidstrap ترتیب نہیں تھی۔</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Voidstrap انسٹال کرنے پر یہ ترتیبات لاگو ہوں گی۔</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>ترتیبات درآمد نہیں ہو سکیں: {0}</value>
+  </data>
 </root>

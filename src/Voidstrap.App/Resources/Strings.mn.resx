@@ -9681,4 +9681,16 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Тоглоомууд цонхыг тунгалаг болгож чадна.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} тохиргоог сонгох</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2}-оос {0} тохиргоо болон {1} FastFlags импортлогдлоо. {3} тохиргоонд тохирох Voidstrap тохиргоо байсангүй.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Эдгээр тохиргоо Voidstrap суулгах үед хэрэгжинэ.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Тохиргоог импортлож чадсангүй: {0}</value>
+  </data>
 </root>

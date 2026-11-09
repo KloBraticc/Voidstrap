@@ -9681,4 +9681,16 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>משחקים יכולים להפוך את החלון לשקוף.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>בחר את ההגדרות של {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>יובאו {0} הגדרות ו {1} FastFlags מ {2}. ל {3} הגדרות לא הייתה הגדרה תואמת ב Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>ההגדרות האלה יחולו כשתתקין את Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>לא ניתן היה לייבא את ההגדרות: {0}</value>
+  </data>
 </root>

@@ -9680,4 +9680,16 @@ Dozvoliti?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Igre mogu učiniti prozor prozirnim.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Odaberi {0} postavke</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Uvezeno je {0} postavki i {1} FastFlags iz {2}. {3} postavki nije imalo odgovarajuću Voidstrap postavku.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Ove postavke će se primijeniti kada instaliraš Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Postavke nije moguće uvesti: {0}</value>
+  </data>
 </root>

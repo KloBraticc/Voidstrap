@@ -9681,4 +9681,16 @@ Leyfa það?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Leikir geta gert gluggann gegnsæjan.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Veldu stillingar {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Flutt voru inn {0} stillingar og {1} FastFlags úr {2}. {3} stillingar höfðu enga samsvarandi Voidstrap stillingu.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Þessar stillingar verða notaðar þegar þú setur upp Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Ekki tókst að flytja inn stillingar: {0}</value>
+  </data>
 </root>

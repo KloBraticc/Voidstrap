@@ -9681,4 +9681,16 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>თამაშებს შეუძლიათ ფანჯრის გამჭვირვალე გახდომა.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>აირჩიეთ {0} პარამეტრები</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} დან იმპორტირდა {0} პარამეტრი და {1} FastFlags. {3} პარამეტრს Voidstrap ში შესაბამისი პარამეტრი არ ჰქონდა.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>ეს პარამეტრები Voidstrap ის ინსტალაციისას გამოიყენება.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>პარამეტრების იმპორტი ვერ მოხერხდა: {0}</value>
+  </data>
 </root>

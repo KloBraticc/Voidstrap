@@ -9681,4 +9681,16 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>ເກມສາມາດເຮັດໃຫ້ໜ້າຕ່າງໂປ່ງໃສໄດ້.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>ເລືອກການຕັ້ງຄ່າ {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>ນຳເຂົ້າການຕັ້ງຄ່າ {0} ແລະ FastFlags {1} ຈາກ {2} ແລ້ວ. ການຕັ້ງຄ່າ {3} ບໍ່ມີການຕັ້ງຄ່າ Voidstrap ທີ່ກົງກັນ.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>ການຕັ້ງຄ່າເຫຼົ່ານີ້ຈະຖືກນຳໃຊ້ເມື່ອທ່ານຕິດຕັ້ງ Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>ບໍ່ສາມາດນຳເຂົ້າການຕັ້ງຄ່າໄດ້: {0}</value>
+  </data>
 </root>

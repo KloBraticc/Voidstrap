@@ -9992,4 +9992,16 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>게임이 창을 투명하게 만들 수 있습니다.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} 설정 선택</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2}에서 설정 {0}개와 FastFlags {1}개를 가져왔습니다. 설정 {3}개는 일치하는 Voidstrap 설정이 없었습니다.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>이 설정은 Voidstrap을 설치할 때 적용됩니다.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>설정을 가져올 수 없습니다: {0}</value>
+  </data>
 </root>

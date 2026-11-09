@@ -9993,4 +9993,16 @@ Engedélyezed?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>A játékok átlátszóvá tehetik az ablakot.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Válaszd ki a(z) {0} beállításait</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{0} beállítás és {1} FastFlags importálva innen: {2}. {3} beállításnak nem volt megfelelője a Voidstrapben.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Ezek a beállítások a Voidstrap telepítésekor lépnek életbe.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>A beállításokat nem sikerült importálni: {0}</value>
+  </data>
 </root>

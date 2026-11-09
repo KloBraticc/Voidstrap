@@ -9681,4 +9681,16 @@ E lejon atë?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Lojërat mund ta bëjnë dritaren të tejdukshme.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Zgjidh cilësimet e {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>U importuan {0} cilësime dhe {1} FastFlags nga {2}. {3} cilësime nuk kishin cilësim përkatës në Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Këto cilësime do të zbatohen kur të instalosh Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Cilësimet nuk mund të importoheshin: {0}</value>
+  </data>
 </root>

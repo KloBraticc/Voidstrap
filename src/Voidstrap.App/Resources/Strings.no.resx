@@ -9681,4 +9681,16 @@ Vil du tillate det?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Spill kan gjøre vinduet gjennomsiktig.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Velg innstillingene fra {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Importerte {0} innstillinger og {1} FastFlags fra {2}. {3} innstillinger hadde ingen tilsvarende Voidstrap innstilling.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Disse innstillingene brukes når du installerer Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Innstillingene kunne ikke importeres: {0}</value>
+  </data>
 </root>

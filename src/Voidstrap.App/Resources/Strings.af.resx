@@ -9680,4 +9680,16 @@ Laat dit toe?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Speletjies kan die venster deursigtig maak.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Kies {0} instellings</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{0} instellings en {1} FastFlags is vanaf {2} ingevoer. {3} instellings het geen ooreenstemmende Voidstrap instelling gehad nie.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Hierdie instellings sal toegepas word wanneer jy Voidstrap installeer.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Instellings kon nie ingevoer word nie: {0}</value>
+  </data>
 </root>

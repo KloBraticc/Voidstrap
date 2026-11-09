@@ -9681,4 +9681,16 @@ Dovoli?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Igre lahko naredijo okno prosojno.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Izberi nastavitve {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Uvoženih je {0} nastavitev in {1} FastFlags iz {2}. {3} nastavitev ni imelo ustrezne nastavitve v Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Te nastavitve bodo uporabljene, ko namestiš Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Nastavitev ni bilo mogoče uvoziti: {0}</value>
+  </data>
 </root>

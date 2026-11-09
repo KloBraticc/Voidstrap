@@ -9681,4 +9681,16 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Խաղերը կարող են պատուհանը թափանցիկ դարձնել։</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Ընտրեք {0} կարգավորումները</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} հավելվածից ներմուծվեց {0} կարգավորում և {1} FastFlags։ {3} կարգավորում համապատասխան Voidstrap կարգավորում չուներ։</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Այս կարգավորումները կկիրառվեն Voidstrap ը տեղադրելիս։</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Չհաջողվեց ներմուծել կարգավորումները՝ {0}</value>
+  </data>
 </root>

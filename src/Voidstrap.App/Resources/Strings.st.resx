@@ -9680,4 +9680,16 @@ E lumella?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Dipapadi di ka etsa hore fensetere e bonahale ka hare.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Kgetha disetting tsa {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Ho kentswe disetting tse {0} le FastFlags tse {1} ho tswa ho {2}. Disetting tse {3} di ne di se na setting e tshwanang ho Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Disetting tsena di tla sebediswa ha o kenya Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Disetting ha di a kgona ho kenngwa: {0}</value>
+  </data>
 </root>

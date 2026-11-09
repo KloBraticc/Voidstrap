@@ -9680,4 +9680,16 @@ Gba laaye?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Àwọn eré lè mú kí fèrèsé ṣeé ríran kọjá.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Yan àwọn ètò {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>A ti kó ètò {0} àti FastFlags {1} wọlé láti {2}. Ètò {3} kò ní ètò Voidstrap tó bá a mu.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>A ó lo àwọn ètò yìí nígbà tí o bá fi Voidstrap sílẹ̀.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>A kò lè kó àwọn ètò wọlé: {0}</value>
+  </data>
 </root>

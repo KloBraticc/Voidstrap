@@ -9681,4 +9681,16 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>ଖେଳଗୁଡ଼ିକ ୱିଣ୍ଡୋକୁ ସ୍ୱଚ୍ଛ କରିପାରିବେ।</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} ସେଟିଂସ ବାଛନ୍ତୁ</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} ରୁ {0} ସେଟିଂସ ଏବଂ {1} FastFlags ଆମଦାନୀ ହେଲା। {3} ସେଟିଂସର କୌଣସି ମେଳ ଖାଉଥିବା Voidstrap ସେଟିଂ ନଥିଲା।</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Voidstrap ଇନଷ୍ଟଲ କଲେ ଏହି ସେଟିଂସ ଲାଗୁ ହେବ।</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>ସେଟିଂସ ଆମଦାନୀ ହୋଇପାରିଲା ନାହିଁ: {0}</value>
+  </data>
 </root>

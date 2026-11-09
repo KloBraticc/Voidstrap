@@ -9993,4 +9993,16 @@ Voidstrap блокира програми, други папки и Вашия �
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Игрите могат да направят прозореца прозрачен.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Изберете настройките на {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Импортирани са {0} настройки и {1} FastFlags от {2}. {3} настройки нямаха съответна настройка във Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Тези настройки ще бъдат приложени, когато инсталирате Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Настройките не можаха да бъдат импортирани: {0}</value>
+  </data>
 </root>

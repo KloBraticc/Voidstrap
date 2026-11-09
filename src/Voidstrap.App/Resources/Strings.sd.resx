@@ -9681,4 +9681,16 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>رانديون ونڊو کي شفاف بڻائي سگهن ٿيون.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} سيٽنگون چونڊيو</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} مان {0} سيٽنگون ۽ {1} FastFlags درآمد ٿيا. {3} سيٽنگن جي Voidstrap ۾ ملندڙ سيٽنگ نه هئي.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Voidstrap انسٽال ڪرڻ تي اهي سيٽنگون لاڳو ٿينديون.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>سيٽنگون درآمد نه ٿي سگهيون: {0}</value>
+  </data>
 </root>

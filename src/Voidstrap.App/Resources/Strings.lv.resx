@@ -9681,4 +9681,16 @@ Vai atļaut?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Spēles var padarīt logu caurspīdīgu.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Izvēlies {0} iestatījumus</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>No {2} importēti {0} iestatījumi un {1} FastFlags. {3} iestatījumiem nebija atbilstoša Voidstrap iestatījuma.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Šie iestatījumi tiks lietoti, kad instalēsi Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Iestatījumus neizdevās importēt: {0}</value>
+  </data>
 </root>

@@ -9680,4 +9680,16 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Гульні могуць рабіць акно празрыстым.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Выберыце налады {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Імпартавана {0} налад і {1} FastFlags з {2}. {3} налад не мелі адпаведнай налады Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Гэтыя налады будуць ужытыя пры ўсталёўцы Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Не ўдалося імпартаваць налады: {0}</value>
+  </data>
 </root>

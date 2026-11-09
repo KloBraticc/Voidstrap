@@ -9681,4 +9681,16 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>गेम्स विंडो पारदर्शक करू शकतात.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} सेटिंग्ज निवडा</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} मधून {0} सेटिंग्ज आणि {1} FastFlags आयात झाल्या. {3} सेटिंग्जसाठी जुळणारी Voidstrap सेटिंग नव्हती.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Voidstrap इन्स्टॉल केल्यावर या सेटिंग्ज लागू होतील.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>सेटिंग्ज आयात करता आल्या नाहीत: {0}</value>
+  </data>
 </root>

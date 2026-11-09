@@ -9994,4 +9994,16 @@ Allow it?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Games can make the window see through.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Select {0} settings</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Imported {0} settings and {1} FastFlags from {2}. {3} settings had no matching Voidstrap setting.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>These settings will be applied when you install Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Settings could not be imported: {0}</value>
+  </data>
 </root>

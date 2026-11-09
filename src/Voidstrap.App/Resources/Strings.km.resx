@@ -9681,4 +9681,16 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>ហ្គេមអាចធ្វើឱ្យបង្អួចថ្លា។</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>ជ្រើសការកំណត់ {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>បាននាំចូលការកំណត់ {0} និង FastFlags {1} ពី {2}។ ការកំណត់ {3} មិនមានការកំណត់ Voidstrap ត្រូវគ្នាទេ។</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>ការកំណត់ទាំងនេះនឹងត្រូវអនុវត្តនៅពេលអ្នកដំឡើង Voidstrap។</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>មិនអាចនាំចូលការកំណត់បានទេ៖ {0}</value>
+  </data>
 </root>

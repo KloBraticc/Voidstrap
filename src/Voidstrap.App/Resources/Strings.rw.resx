@@ -9681,4 +9681,16 @@ Emera?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Imikino ishobora gutuma idirishya ribonerana.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Hitamo igenamiterere rya {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Hinjijwe igenamiterere {0} na FastFlags {1} bivuye kuri {2}. Igenamiterere {3} ntiryari rifite irihuye muri Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Iri genamiterere rizakoreshwa igihe ushyizeho Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Igenamiterere ntiryashoboye kwinjizwa: {0}</value>
+  </data>
 </root>

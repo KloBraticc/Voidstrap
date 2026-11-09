@@ -9681,4 +9681,16 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Il logħob jista jagħmel it tieqa trasparenti.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Agħżel is settings ta {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Ġew importati {0} settings u {1} FastFlags minn {2}. {3} settings ma kellhomx setting korrispondenti f Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Dawn is settings se jiġu applikati meta tinstalla Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Is settings ma setgħux jiġu importati: {0}</value>
+  </data>
 </root>

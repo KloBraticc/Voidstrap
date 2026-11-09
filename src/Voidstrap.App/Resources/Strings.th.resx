@@ -9988,4 +9988,16 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>เกมสามารถทำให้หน้าต่างโปร่งใสได้</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>เลือกการตั้งค่า {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>นำเข้าการตั้งค่า {0} รายการและ FastFlags {1} รายการจาก {2} แล้ว การตั้งค่า {3} รายการไม่มีการตั้งค่า Voidstrap ที่ตรงกัน</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>การตั้งค่าเหล่านี้จะถูกใช้เมื่อคุณติดตั้ง Voidstrap</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>ไม่สามารถนำเข้าการตั้งค่าได้: {0}</value>
+  </data>
 </root>

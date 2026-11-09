@@ -9680,4 +9680,16 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Ludoj povas igi la fenestron travidebla.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Elektu la agordojn de {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Importiĝis {0} agordoj kaj {1} FastFlags el {2}. {3} agordoj ne havis kongruan Voidstrap agordon.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Ĉi tiuj agordoj aplikiĝos kiam vi instalos Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>La agordoj ne povis esti importitaj: {0}</value>
+  </data>
 </root>

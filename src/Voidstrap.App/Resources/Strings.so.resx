@@ -9681,4 +9681,16 @@ Oggolow?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Ciyaaruhu way ka dhigi karaan daaqadda mid la dhex arki karo.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Dooro dejinta {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Waxaa laga soo dejiyay {2} {0} dejin iyo {1} FastFlags. {3} dejin ma lahayn dejin Voidstrap oo u dhiganta.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Dejintan waxaa la dabaqi doonaa marka aad rakibto Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Dejinta lama soo dejin karin: {0}</value>
+  </data>
 </root>

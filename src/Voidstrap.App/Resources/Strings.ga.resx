@@ -9681,4 +9681,16 @@ Ceadaigh é?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Is féidir le cluichí an fhuinneog a dhéanamh trédhearcach.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Roghnaigh socruithe {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Iompórtáladh {0} socrú agus {1} FastFlags ó {2}. Ní raibh socrú comhfhreagrach Voidstrap ag {3} socrú.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Cuirfear na socruithe seo i bhfeidhm nuair a shuiteálann tú Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Níorbh fhéidir na socruithe a iompórtáil: {0}</value>
+  </data>
 </root>

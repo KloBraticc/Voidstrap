@@ -9996,4 +9996,16 @@ Izinkan?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Game dapat membuat jendela tembus pandang.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Pilih pengaturan {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Berhasil mengimpor {0} pengaturan dan {1} FastFlags dari {2}. {3} pengaturan tidak memiliki padanan di Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Pengaturan ini akan diterapkan saat Anda menginstal Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Pengaturan tidak dapat diimpor: {0}</value>
+  </data>
 </root>

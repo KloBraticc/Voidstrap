@@ -9681,4 +9681,16 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Игрите можат да го направат прозорецот проѕирен.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Избери ги поставките на {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Увезени се {0} поставки и {1} FastFlags од {2}. {3} поставки немаа соодветна поставка во Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Овие поставки ќе се применат кога ќе го инсталираш Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Поставките не можеа да се увезат: {0}</value>
+  </data>
 </root>

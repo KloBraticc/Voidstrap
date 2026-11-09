@@ -9680,4 +9680,16 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>ဂိမ်းများသည် ဝင်းဒိုးကို ဖောက်ထွင်းမြင်ရအောင် ပြုလုပ်နိုင်သည်။</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} ဆက်တင်များ ရွေးပါ</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} မှ ဆက်တင် {0} ခုနှင့် FastFlags {1} ခုကို တင်သွင်းပြီးပါပြီ။ ဆက်တင် {3} ခုတွင် ကိုက်ညီသော Voidstrap ဆက်တင် မရှိပါ။</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Voidstrap ကို ထည့်သွင်းသည့်အခါ ဤဆက်တင်များကို အသုံးပြုပါမည်။</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>ဆက်တင်များကို တင်သွင်း၍ မရပါ: {0}</value>
+  </data>
 </root>

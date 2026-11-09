@@ -9681,4 +9681,16 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>لوبې کولی شي کړکۍ روڼه کړي.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>د {0} ترتیبات وټاکئ</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>له {2} څخه {0} ترتیبات او {1} FastFlags راوړل شول. {3} ترتیباتو په Voidstrap کې ورته ترتیب نه درلود.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>دا ترتیبات به هغه وخت پلي شي چې Voidstrap نصب کړئ.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>ترتیبات نشول راوړل: {0}</value>
+  </data>
 </root>

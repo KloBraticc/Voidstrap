@@ -9680,4 +9680,16 @@ Je, unairuhusu?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Michezo inaweza kufanya dirisha liwe la kuonyesha upande wa pili.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Chagua mipangilio ya {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Mipangilio {0} na FastFlags {1} imeingizwa kutoka {2}. Mipangilio {3} haikuwa na mpangilio unaolingana katika Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Mipangilio hii itatumika unaposakinisha Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Mipangilio haikuweza kuingizwa: {0}</value>
+  </data>
 </root>

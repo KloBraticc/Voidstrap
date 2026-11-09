@@ -9681,4 +9681,16 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Игре могу да учине прозор провидним.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Изабери {0} подешавања</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Увезено је {0} подешавања и {1} FastFlags из {2}. {3} подешавања није имало одговарајуће Voidstrap подешавање.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Ова подешавања ће бити примењена када инсталираш Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Подешавања није могуће увести: {0}</value>
+  </data>
 </root>

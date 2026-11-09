@@ -9994,4 +9994,16 @@ Zezwolić?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Gry mogą uczynić okno przezroczystym.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Wybierz ustawienia {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Zaimportowano {0} ustawień i {1} FastFlags z {2}. {3} ustawień nie miało odpowiednika w Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Te ustawienia zostaną zastosowane, gdy zainstalujesz Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Nie udało się zaimportować ustawień: {0}</value>
+  </data>
 </root>

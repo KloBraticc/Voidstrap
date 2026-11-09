@@ -9680,4 +9680,16 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>விளையாட்டுகள் சாளரத்தை ஒளிபுகும்படி செய்ய முடியும்.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} அமைப்புகளைத் தேர்ந்தெடுக்கவும்</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} இலிருந்து {0} அமைப்புகளும் {1} FastFlags உம் இறக்குமதி செய்யப்பட்டன. {3} அமைப்புகளுக்கு பொருந்தும் Voidstrap அமைப்பு இல்லை.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Voidstrap ஐ நிறுவும்போது இந்த அமைப்புகள் பயன்படுத்தப்படும்.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>அமைப்புகளை இறக்குமதி செய்ய முடியவில்லை: {0}</value>
+  </data>
 </root>

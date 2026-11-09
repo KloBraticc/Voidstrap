@@ -9680,4 +9680,16 @@ icazə verilir?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Oyunlar pəncərəni şəffaf edə bilər.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} parametrlərini seçin</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} tətbiqindən {0} parametr və {1} FastFlags idxal edildi. {3} parametrin uyğun Voidstrap parametri yox idi.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Bu parametrlər Voidstrap quraşdırılanda tətbiq olunacaq.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Parametrləri idxal etmək mümkün olmadı: {0}</value>
+  </data>
 </root>

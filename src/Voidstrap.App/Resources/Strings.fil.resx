@@ -9991,4 +9991,16 @@ Payagan ba?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Puwedeng gawing see through ng mga laro ang window.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Piliin ang settings ng {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Na import ang {0} settings at {1} FastFlags mula sa {2}. Walang katugmang Voidstrap setting ang {3} settings.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Ilalapat ang settings na ito kapag nag install ka ng Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Hindi ma import ang settings: {0}</value>
+  </data>
 </root>

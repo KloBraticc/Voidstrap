@@ -9681,4 +9681,16 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>ಆಟಗಳು ವಿಂಡೋವನ್ನು ಪಾರದರ್ಶಕವಾಗಿಸಬಹುದು.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} ನಿಂದ {0} ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಮತ್ತು {1} FastFlags ಆಮದು ಮಾಡಲಾಗಿದೆ. {3} ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಗೆ ಹೊಂದುವ Voidstrap ಸೆಟ್ಟಿಂಗ್ ಇರಲಿಲ್ಲ.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Voidstrap ಸ್ಥಾಪಿಸಿದಾಗ ಈ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಅನ್ವಯವಾಗುತ್ತವೆ.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಆಮದು ಮಾಡಲಾಗಲಿಲ್ಲ: {0}</value>
+  </data>
 </root>

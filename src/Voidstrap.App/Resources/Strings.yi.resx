@@ -9680,4 +9680,16 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>שפילן קענען מאכן דעם פענצטער דורכזעיק.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>קלײַבט אויס די {0} איינשטעלונגען</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>אימפּאָרטירט {0} איינשטעלונגען און {1} FastFlags פון {2}. {3} איינשטעלונגען האבן נישט געהאט קיין פּאַסיקע Voidstrap איינשטעלונג.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>די איינשטעלונגען וועלן ווערן אָנגעווענדט ווען איר אינסטאַלירט Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>מען האָט נישט געקענט אימפּאָרטירן די איינשטעלונגען: {0}</value>
+  </data>
 </root>

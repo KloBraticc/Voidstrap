@@ -9680,4 +9680,16 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>গেমগুলো উইন্ডোকে স্বচ্ছ করতে পারে।</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} সেটিংস বেছে নিন</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} থেকে {0}টি সেটিংস ও {1}টি FastFlags ইমপোর্ট হয়েছে। {3}টি সেটিংসের মিলে যাওয়া কোনো Voidstrap সেটিং ছিল না।</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Voidstrap ইনস্টল করলে এই সেটিংস প্রয়োগ হবে।</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>সেটিংস ইমপোর্ট করা যায়নি: {0}</value>
+  </data>
 </root>

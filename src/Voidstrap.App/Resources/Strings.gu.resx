@@ -9681,4 +9681,16 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>ગેમ્સ વિન્ડોને પારદર્શક બનાવી શકે છે.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} સેટિંગ્સ પસંદ કરો</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} માંથી {0} સેટિંગ્સ અને {1} FastFlags આયાત થયા. {3} સેટિંગ્સ માટે કોઈ મેળ ખાતી Voidstrap સેટિંગ ન હતી.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Voidstrap ઇન્સ્ટોલ કરશો ત્યારે આ સેટિંગ્સ લાગુ થશે.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>સેટિંગ્સ આયાત થઈ શકી નહીં: {0}</value>
+  </data>
 </root>

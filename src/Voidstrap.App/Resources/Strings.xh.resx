@@ -9680,4 +9680,16 @@ uyayivumela?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Imidlalo inokwenza ifestile ibonakale ngaphakathi.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Khetha iisetingi ze {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Kungeniswe iisetingi ezi {0} kunye ne FastFlags ezi {1} ukusuka ku {2}. Iisetingi ezi {3} bezingenayo isetingi efanayo ku Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Ezi setingi ziya kusetyenziswa xa ufaka i Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Iisetingi azikwazanga ukungeniswa: {0}</value>
+  </data>
 </root>

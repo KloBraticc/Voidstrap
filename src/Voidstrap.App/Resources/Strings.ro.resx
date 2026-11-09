@@ -9995,4 +9995,16 @@ Permiți?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Jocurile pot face fereastra transparentă.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Selectează setările {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Au fost importate {0} setări și {1} FastFlags din {2}. {3} setări nu aveau o setare corespunzătoare în Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Aceste setări vor fi aplicate când instalezi Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Setările nu au putut fi importate: {0}</value>
+  </data>
 </root>

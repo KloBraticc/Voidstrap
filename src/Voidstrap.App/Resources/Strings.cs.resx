@@ -9994,4 +9994,16 @@ Povolit?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Hry mohou okno zprůhlednit.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Vyberte nastavení {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Importováno {0} nastavení a {1} FastFlags z {2}. {3} nastavení nemělo odpovídající nastavení ve Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Tato nastavení budou použita při instalaci Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Nastavení nelze importovat: {0}</value>
+  </data>
 </root>

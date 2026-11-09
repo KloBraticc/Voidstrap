@@ -9996,4 +9996,16 @@ Cho phép?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Trò chơi có thể làm cửa sổ trong suốt.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Chọn cài đặt của {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Đã nhập {0} cài đặt và {1} FastFlags từ {2}. {3} cài đặt không có cài đặt tương ứng trong Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Các cài đặt này sẽ được áp dụng khi bạn cài đặt Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Không thể nhập cài đặt: {0}</value>
+  </data>
 </root>

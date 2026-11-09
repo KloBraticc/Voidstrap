@@ -92,7 +92,7 @@ public partial class BootstrapperImportControl : UserControl
             {
                 var picker = new Microsoft.Win32.OpenFileDialog
                 {
-                    Title = "Select " + source + " settings",
+                    Title = string.Format(Strings.Menu_Import_PickFile, source),
                     Filter = "Settings JSON (*.json)|*.json",
                     FileName = "Settings.json",
                     CheckFileExists = true,
@@ -110,6 +110,7 @@ public partial class BootstrapperImportControl : UserControl
             }
             var plan = await Voidstrap.Utility.BootstrapperSettingsImport.ReadAsync(source, settingsPath, cts.Token);
             cts.Token.ThrowIfCancellationRequested();
+            string previousLocale = App.Settings.Prop.Locale;
             if (StageOnly)
             {
                 PendingPlan = plan;
@@ -121,24 +122,16 @@ public partial class BootstrapperImportControl : UserControl
                 if (cts.IsCancellationRequested)
                     return;
                 Imported?.Invoke(this, EventArgs.Empty);
-                Voidstrap.UI.RestartNotificationService.Require(
-                    "bootstrapperImport",
-                    "Settings imported",
-                    "Restart Voidstrap to refresh settings and open pages. Roblox settings take effect on its next launch.",
-                    "Restart now",
-                    Voidstrap.UI.RestartTarget.Application
-                );
             }
             if (ownerDisabled)
+            {
+                ownerDisabled = false;
                 owner!.IsEnabled = true;
-            Frontend.ShowMessageBox(
-                $"Selected {plan.Settings.Count} settings and {plan.Flags?.Count ?? 0} FastFlags from {source}.\n\nSkipped {plan.Skipped} settings without a compatible Voidstrap setting. "
-                    + (
-                        StageOnly
-                            ? "These settings will be applied when you install Voidstrap."
-                            : "Restart Voidstrap to refresh open pages."
-                    )
-            );
+            }
+            string summary = string.Format(Strings.Menu_Import_Done, plan.Settings.Count, plan.Flags?.Count ?? 0, source, plan.Skipped);
+            Frontend.ShowMessageBox(StageOnly ? summary + "\n\n" + Strings.Menu_Import_Staged : summary);
+            if (!StageOnly)
+                RefreshLive(owner, previousLocale);
         }
         catch (OperationCanceledException) when (cts.IsCancellationRequested) { }
         catch (Exception ex)
@@ -147,7 +140,7 @@ public partial class BootstrapperImportControl : UserControl
                 owner!.IsEnabled = true;
             App.Logger.WriteException("BootstrapperImport::ApplyFrom", ex);
             if (!cts.IsCancellationRequested)
-                Frontend.ShowMessageBox("Settings could not be imported: " + ex.Message, MessageBoxImage.Warning);
+                Frontend.ShowMessageBox(string.Format(Strings.Menu_Import_Failed, ex.Message), MessageBoxImage.Warning);
         }
         finally
         {
@@ -156,6 +149,24 @@ public partial class BootstrapperImportControl : UserControl
             _importCts = null;
             if (_importButton != null)
                 _importButton.IsEnabled = true;
+        }
+    }
+
+    private static void RefreshLive(Window? owner, string previousLocale)
+    {
+        const string LOG_IDENT = "BootstrapperImportControl::RefreshLive";
+        try
+        {
+            if (!string.Equals(previousLocale, App.Settings.Prop.Locale, StringComparison.Ordinal))
+                Locale.Set(App.Settings.Prop.Locale);
+            Voidstrap.UI.Elements.Base.WpfUiWindow.InvalidateCustomTheme();
+            Voidstrap.UI.WindowBackdrop.ApplyThemeToAllOpenWindows();
+            if (owner is Voidstrap.UI.Elements.Settings.MainWindow main)
+                main.ApplyTheme();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Live refresh failed: " + ex.Message);
         }
     }
 }

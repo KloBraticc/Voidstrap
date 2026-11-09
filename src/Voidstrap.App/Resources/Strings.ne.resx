@@ -9681,4 +9681,16 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>खेलहरूले विन्डोलाई पारदर्शी बनाउन सक्छन्।</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} सेटिङहरू छान्नुहोस्</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} बाट {0} सेटिङ र {1} FastFlags आयात भए। {3} सेटिङको मिल्दो Voidstrap सेटिङ थिएन।</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Voidstrap स्थापना गर्दा यी सेटिङहरू लागू हुनेछन्।</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>सेटिङहरू आयात गर्न सकिएन: {0}</value>
+  </data>
 </root>

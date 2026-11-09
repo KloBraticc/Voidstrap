@@ -10135,6 +10135,10 @@ namespace Voidstrap.Resources {
         public static string Menu_Integrations_WindowControl_TitleText_Description => ResourceManager.GetString("Menu.Integrations.WindowControl.TitleText.Description", resourceCulture);
         public static string Menu_Integrations_WindowControl_Transparency_Title => ResourceManager.GetString("Menu.Integrations.WindowControl.Transparency.Title", resourceCulture);
         public static string Menu_Integrations_WindowControl_Transparency_Description => ResourceManager.GetString("Menu.Integrations.WindowControl.Transparency.Description", resourceCulture);
+        public static string Menu_Import_PickFile => ResourceManager.GetString("Menu.Import.PickFile", resourceCulture);
+        public static string Menu_Import_Done => ResourceManager.GetString("Menu.Import.Done", resourceCulture);
+        public static string Menu_Import_Staged => ResourceManager.GetString("Menu.Import.Staged", resourceCulture);
+        public static string Menu_Import_Failed => ResourceManager.GetString("Menu.Import.Failed", resourceCulture);
         public static string Menu_Integrations_AllowDiscordInvites_Title => ResourceManager.GetString("Menu.Integrations.AllowDiscordInvites.Title", resourceCulture);
 
         public static string Menu_Integrations_AllowDiscordInvites_Description => ResourceManager.GetString("Menu.Integrations.AllowDiscordInvites.Description", resourceCulture);

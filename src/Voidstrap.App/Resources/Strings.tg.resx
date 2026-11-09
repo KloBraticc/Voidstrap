@@ -9680,4 +9680,16 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Бозиҳо метавонанд равзанаро шаффоф кунанд.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Танзимоти {0} ро интихоб кунед</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Аз {2} {0} танзимот ва {1} FastFlags ворид шуд. {3} танзимот дар Voidstrap танзими мувофиқ надоштанд.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Ин танзимот ҳангоми насби Voidstrap татбиқ мешаванд.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Танзимотро ворид кардан ғайриимкон шуд: {0}</value>
+  </data>
 </root>

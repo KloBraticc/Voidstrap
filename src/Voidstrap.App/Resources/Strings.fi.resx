@@ -9994,4 +9994,16 @@ Sallitaanko?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Pelit voivat tehdä ikkunasta läpinäkyvän.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Valitse sovelluksen {0} asetukset</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Tuotiin {0} asetusta ja {1} FastFlags sovelluksesta {2}. {3} asetuksella ei ollut vastaavaa Voidstrap asetusta.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Nämä asetukset otetaan käyttöön, kun asennat Voidstrapin.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Asetuksia ei voitu tuoda: {0}</value>
+  </data>
 </root>

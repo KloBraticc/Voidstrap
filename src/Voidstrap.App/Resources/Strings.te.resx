@@ -9680,4 +9680,16 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>గేమ్‌లు విండోను పారదర్శకంగా చేయగలవు.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} సెట్టింగ్‌లను ఎంచుకోండి</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} నుండి {0} సెట్టింగ్‌లు మరియు {1} FastFlags దిగుమతి అయ్యాయి. {3} సెట్టింగ్‌లకు సరిపోలే Voidstrap సెట్టింగ్ లేదు.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>మీరు Voidstrap ని ఇన్‌స్టాల్ చేసినప్పుడు ఈ సెట్టింగ్‌లు వర్తిస్తాయి.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>సెట్టింగ్‌లను దిగుమతి చేయలేకపోయాం: {0}</value>
+  </data>
 </root>

@@ -10017,4 +10017,16 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>游戏可以让窗口变为透明。</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>选择 {0} 设置</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>已从 {2} 导入 {0} 项设置和 {1} 个 FastFlags。有 {3} 项设置在 Voidstrap 中没有对应的设置。</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>这些设置将在您安装 Voidstrap 时应用。</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>无法导入设置：{0}</value>
+  </data>
 </root>

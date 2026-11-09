@@ -9680,4 +9680,16 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>ጨዋታዎች መስኮቱን ግልጽ ማድረግ ይችላሉ።</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>የ{0} ቅንብሮችን ይምረጡ</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>ከ{2} {0} ቅንብሮች እና {1} FastFlags ገብተዋል። {3} ቅንብሮች ተዛማጅ የVoidstrap ቅንብር አልነበራቸውም።</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>እነዚህ ቅንብሮች Voidstrapን ሲጭኑ ይተገበራሉ።</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>ቅንብሮች ሊገቡ አልቻሉም፦ {0}</value>
+  </data>
 </root>

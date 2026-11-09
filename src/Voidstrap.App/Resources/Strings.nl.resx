@@ -9995,4 +9995,16 @@ Toestaan?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Games kunnen het venster doorzichtig maken.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Selecteer de instellingen van {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{0} instellingen en {1} FastFlags geïmporteerd uit {2}. {3} instellingen hadden geen overeenkomende Voidstrap instelling.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Deze instellingen worden toegepast wanneer je Voidstrap installeert.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Instellingen konden niet worden geïmporteerd: {0}</value>
+  </data>
 </root>

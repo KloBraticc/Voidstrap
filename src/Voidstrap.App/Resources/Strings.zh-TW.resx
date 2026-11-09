@@ -9996,4 +9996,16 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>遊戲可以讓視窗變成透明。</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>選擇 {0} 設定</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>已從 {2} 匯入 {0} 項設定和 {1} 個 FastFlags。有 {3} 項設定在 Voidstrap 中沒有對應的設定。</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>這些設定會在你安裝 Voidstrap 時套用。</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>無法匯入設定：{0}</value>
+  </data>
 </root>

@@ -9681,4 +9681,16 @@ Permíteo?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Os xogos poden facer a xanela transparente.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Selecciona os axustes de {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Importáronse {0} axustes e {1} FastFlags desde {2}. {3} axustes non tiñan un axuste equivalente en Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Estes axustes aplicaranse cando instales Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Non se puideron importar os axustes: {0}</value>
+  </data>
 </root>

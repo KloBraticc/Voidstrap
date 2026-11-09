@@ -9681,4 +9681,16 @@ Avelao izany?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Afaka mampangarahara ny varavarankely ny lalao.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Safidio ny fikirana {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>Nampidirina avy amin ny {2} ny fikirana {0} sy FastFlags {1}. Tsy nanana fikirana Voidstrap mitovy ny fikirana {3}.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Hampiharina ireo fikirana ireo rehefa mametraka Voidstrap ianao.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Tsy afaka nampidirina ny fikirana: {0}</value>
+  </data>
 </root>

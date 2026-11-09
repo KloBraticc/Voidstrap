@@ -9985,4 +9985,16 @@ Benarkan?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Permainan boleh menjadikan tetingkap lut sinar.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Pilih tetapan {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{0} tetapan dan {1} FastFlags telah diimport daripada {2}. {3} tetapan tiada tetapan Voidstrap yang sepadan.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Tetapan ini akan digunakan apabila anda memasang Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Tetapan tidak dapat diimport: {0}</value>
+  </data>
 </root>

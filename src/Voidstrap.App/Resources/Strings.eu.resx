@@ -9680,4 +9680,16 @@ Baimendu al duzu?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Jokoek leihoa garden bihur dezakete.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Hautatu {0} ezarpenak</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{0} ezarpen eta {1} FastFlags inportatu dira hemendik: {2}. {3} ezarpenek ez zuten Voidstrap ezarpen baliokiderik.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Ezarpen hauek Voidstrap instalatzean aplikatuko dira.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Ezin izan dira ezarpenak inportatu: {0}</value>
+  </data>
 </root>

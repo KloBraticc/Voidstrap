@@ -9681,4 +9681,16 @@ Erlaabt et?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Spiller kënnen d’Fënster duerchsiichteg maachen.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} Astellunge wielen</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{0} Astellungen a {1} FastFlags aus {2} importéiert. {3} Astellungen haten keng passend Voidstrap Astellung.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Dës Astellunge ginn applizéiert, wann Dir Voidstrap installéiert.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>D’Astellunge konnten net importéiert ginn: {0}</value>
+  </data>
 </root>

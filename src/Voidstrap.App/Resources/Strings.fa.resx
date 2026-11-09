@@ -9995,4 +9995,16 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>بازی‌ها می‌توانند پنجره را شفاف کنند.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>تنظیمات {0} را انتخاب کنید</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{0} تنظیم و {1} FastFlags از {2} وارد شد. {3} تنظیم معادلی در Voidstrap نداشت.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>این تنظیمات هنگام نصب Voidstrap اعمال می‌شوند.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>تنظیمات وارد نشد: {0}</value>
+  </data>
 </root>

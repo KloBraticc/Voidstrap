@@ -9681,4 +9681,16 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>ක්‍රීඩාවලට කවුළුව විනිවිද පෙනෙන ලෙස සැකසිය හැකිය.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>{0} සැකසුම් තෝරන්න</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{2} වෙතින් සැකසුම් {0} ක් සහ FastFlags {1} ක් ආයාත කළා. සැකසුම් {3} කට ගැළපෙන Voidstrap සැකසුමක් නොතිබුණා.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>ඔබ Voidstrap ස්ථාපනය කරන විට මෙම සැකසුම් යෙදේ.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>සැකසුම් ආයාත කළ නොහැකි විය: {0}</value>
+  </data>
 </root>

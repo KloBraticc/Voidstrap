@@ -9995,4 +9995,16 @@ Permitir?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Os jogos podem deixar a janela transparente.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Selecione as configurações do {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>{0} configurações e {1} FastFlags importadas do {2}. {3} configurações não tinham uma configuração correspondente no Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Essas configurações serão aplicadas quando você instalar o Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Não foi possível importar as configurações: {0}</value>
+  </data>
 </root>

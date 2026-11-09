@@ -9681,4 +9681,16 @@ Whakaaetia?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Ka taea e ngā kēmu te whakapūataata i te matapihi.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Kōwhiria ngā tautuhinga {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>I kawemaihia ngā tautuhinga {0} me ngā FastFlags {1} mai i {2}. Kāore he tautuhinga Voidstrap ōrite mō ngā tautuhinga {3}.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Ka whakamahia ēnei tautuhinga ina tāuta koe i a Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Kāore i taea te kawemai i ngā tautuhinga: {0}</value>
+  </data>
 </root>

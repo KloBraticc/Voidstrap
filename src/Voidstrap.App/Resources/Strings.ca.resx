@@ -9680,4 +9680,16 @@ Ho permets?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Els jocs poden fer la finestra transparent.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Selecciona la configuració de {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>S’han importat {0} opcions i {1} FastFlags des de {2}. {3} opcions no tenien cap opció equivalent a Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Aquesta configuració s’aplicarà quan instal·lis Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>No s’ha pogut importar la configuració: {0}</value>
+  </data>
 </root>

@@ -9681,4 +9681,16 @@ Bada shi?</value>
   <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
     <value>Wasanni na iya sa taga ta zama mai bayyanawa.</value>
   </data>
+  <data name="Menu.Import.PickFile" xml:space="preserve">
+    <value>Zaɓi saitunan {0}</value>
+  </data>
+  <data name="Menu.Import.Done" xml:space="preserve">
+    <value>An shigo da saituna {0} da FastFlags {1} daga {2}. Saituna {3} ba su da saitin Voidstrap mai kama da su.</value>
+  </data>
+  <data name="Menu.Import.Staged" xml:space="preserve">
+    <value>Za a yi amfani da waɗannan saitunan idan ka shigar da Voidstrap.</value>
+  </data>
+  <data name="Menu.Import.Failed" xml:space="preserve">
+    <value>Ba a iya shigo da saitunan ba: {0}</value>
+  </data>
 </root>
