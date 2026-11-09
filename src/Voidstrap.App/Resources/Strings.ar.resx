@@ -9878,4 +9878,19 @@
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>التراجع عن آخر تغيير في التخطيط</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>أعجبني</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>لم يعجبني</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>سجّل الدخول إلى حساب Roblox في Voidstrap للتصويت</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>العب هذه اللعبة قبل تقييمها</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>تعذّر حفظ تصويتك، حاول مرة أخرى بعد قليل</value>
+  </data>
 </root>

@@ -121,6 +121,8 @@ public class LibraryGameEntry : INotifyPropertyChanged
 
     public string SidebarGroup => IsPinned ? Strings.Library_GroupPinned : Strings.Library_GroupAll;
 
+    public double LikePercentValue => double.TryParse(_likePercent.TrimEnd('%'), NumberStyles.Float, CultureInfo.InvariantCulture, out double value) ? value : double.NaN;
+
     public string LikePercent
     {
         get => _likePercent;
@@ -130,6 +132,7 @@ public class LibraryGameEntry : INotifyPropertyChanged
             {
                 _likePercent = value;
                 OnPropertyChanged(nameof(LikePercent));
+                OnPropertyChanged(nameof(LikePercentValue));
                 OnPropertyChanged(nameof(ReviewSummary));
             }
         }
@@ -909,33 +912,30 @@ public class LibraryViewModel : INotifyPropertyChanged
 
     private async Task RunSelectedGameLiveVotesLoopAsync(LibraryGameEntry game, CancellationToken token)
     {
+        const string LOG_IDENT = "LibraryViewModel::RunSelectedGameLiveVotesLoopAsync";
+
         while (!token.IsCancellationRequested)
         {
             try
             {
-                await Task.Delay(TimeSpan.FromSeconds(8), token).ConfigureAwait(false);
-                if (token.IsCancellationRequested || game.UniverseId == 0)
-                    break;
-                string url = $"https://games.roblox.com/v1/games/votes?universeIds={game.UniverseId}";
-                using JsonDocument doc = JsonDocument.Parse(
-                    await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, url, token: token).ConfigureAwait(false)
-                );
-                if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
+                await Task.Delay(TimeSpan.FromSeconds(Integrations.GameLiveData.InBackoff() ? 60 : 20), token).ConfigureAwait(false);
+                long universeId = game.UniverseId;
+                if (token.IsCancellationRequested || universeId == 0)
                     continue;
-                foreach (JsonElement item in data.EnumerateArray())
+                Task<Integrations.GameVoteCounts?> votesTask = Integrations.GameLiveData.RefreshVotesAsync(universeId, token);
+                Task<Integrations.GameLiveStats?> statsTask = Integrations.GameLiveData.RefreshStatsAsync(universeId, token);
+                await Task.WhenAll(votesTask, statsTask).ConfigureAwait(false);
+                Integrations.GameVoteCounts? votes = votesTask.Result;
+                Integrations.GameLiveStats? stats = statsTask.Result;
+                await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
-                    long up = item.TryGetProperty("upVotes", out JsonElement upProp) ? upProp.GetInt64() : 0;
-                    long down = item.TryGetProperty("downVotes", out JsonElement downProp) ? downProp.GetInt64() : 0;
-                    if (up + down > 0)
-                    {
-                        string pct = $"{Math.Round(up * 100.0 / (up + down))}%";
-                        await Application.Current.Dispatcher.InvokeAsync(() =>
-                        {
-                            if (!token.IsCancellationRequested && ReferenceEquals(SelectedGame, game))
-                                game.LikePercent = pct;
-                        });
-                    }
-                }
+                    if (token.IsCancellationRequested || !ReferenceEquals(SelectedGame, game))
+                        return;
+                    if (votes is Integrations.GameVoteCounts counts && !double.IsNaN(counts.LikePercent))
+                        game.LikePercent = $"{Math.Round(counts.LikePercent)}%";
+                    if (stats is Integrations.GameLiveStats live)
+                        game.Playing = live.Playing;
+                });
             }
             catch (OperationCanceledException)
             {
@@ -943,7 +943,7 @@ public class LibraryViewModel : INotifyPropertyChanged
             }
             catch (Exception ex)
             {
-                App.Logger.WriteLine("LibraryViewModel", "Live vote refresh failed: " + ex.Message);
+                App.Logger.WriteLine(LOG_IDENT, ex.Message);
             }
         }
     }

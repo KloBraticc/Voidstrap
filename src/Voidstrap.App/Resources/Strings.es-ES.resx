@@ -9879,4 +9879,19 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Deshacer el último cambio de diseño</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Me gusta</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>No me gusta</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Inicia sesión en tu cuenta de Roblox en Voidstrap para votar</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Juega a este juego antes de valorarlo</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>No se pudo guardar tu voto, inténtalo de nuevo en un momento</value>
+  </data>
 </root>

@@ -9881,4 +9881,19 @@ Permitir?</value>
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Desfazer a última alteração do layout</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Gostei</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Não gostei</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Entre na sua conta Roblox no Voidstrap para votar</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Jogue este jogo antes de avaliá-lo</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Não foi possível salvar seu voto, tente novamente em instantes</value>
+  </data>
 </root>

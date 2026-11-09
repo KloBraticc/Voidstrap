@@ -9879,4 +9879,19 @@ Engedélyezed?</value>
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Az utolsó elrendezésmódosítás visszavonása</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Tetszik</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Nem tetszik</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>A szavazáshoz jelentkezz be a Roblox fiókodba a Voidstrapban</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Játssz ezzel a játékkal, mielőtt értékeled</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Nem sikerült menteni a szavazatodat, próbáld újra egy kicsit később</value>
+  </data>
 </root>

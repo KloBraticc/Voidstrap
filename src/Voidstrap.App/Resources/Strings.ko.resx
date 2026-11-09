@@ -9878,4 +9878,19 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>마지막 레이아웃 변경 실행 취소</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>좋아요</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>싫어요</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>투표하려면 Voidstrap에서 Roblox 계정에 로그인하십시오</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>평가하기 전에 이 게임을 플레이하십시오</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>투표를 저장하지 못했습니다. 잠시 후 다시 시도하십시오</value>
+  </data>
 </root>

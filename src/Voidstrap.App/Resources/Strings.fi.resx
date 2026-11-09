@@ -9880,4 +9880,19 @@ Sallitaanko?</value>
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Kumoa viimeisin asettelumuutos</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Tykkää</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>En tykkää</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Kirjaudu Roblox-tilillesi Voidstrapissa äänestääksesi</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Pelaa tätä peliä ennen kuin arvioit sen</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Ääntäsi ei voitu tallentaa, yritä hetken päästä uudelleen</value>
+  </data>
 </root>

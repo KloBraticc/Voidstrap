@@ -9903,4 +9903,19 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>撤销上一次布局更改</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>赞</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>踩</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>请在 Voidstrap 中登录您的 Roblox 账户后投票</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>请先玩过此游戏再进行评价</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>无法保存您的投票，请稍后再试</value>
+  </data>
 </root>

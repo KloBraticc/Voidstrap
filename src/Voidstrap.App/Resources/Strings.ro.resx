@@ -9881,4 +9881,19 @@ Permiți?</value>
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Anulează ultima modificare a aspectului</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Îmi place</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Nu îmi place</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Conectează-te la contul tău Roblox în Voidstrap pentru a vota</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Joacă acest joc înainte de a-l evalua</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Votul tău nu a putut fi salvat, încearcă din nou peste puțin timp</value>
+  </data>
 </root>

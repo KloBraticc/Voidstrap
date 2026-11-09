@@ -9877,4 +9877,19 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Son düzen değişikliğini geri al</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Beğen</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Beğenme</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Oy vermek için Voidstrap içinde Roblox hesabınıza giriş yapın</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Puanlamadan önce bu oyunu oynayın</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Oyunuz kaydedilemedi, biraz sonra tekrar deneyin</value>
+  </data>
 </root>

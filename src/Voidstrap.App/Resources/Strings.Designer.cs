@@ -10040,6 +10040,11 @@ namespace Voidstrap.Resources {
         public static string Library_CreateShortcut => ResourceManager.GetString("Library.CreateShortcut", resourceCulture);
         public static string Library_ShortcutCreated => ResourceManager.GetString("Library.ShortcutCreated", resourceCulture);
         public static string Library_ShortcutFailed => ResourceManager.GetString("Library.ShortcutFailed", resourceCulture);
+        public static string Library_Vote_Like => ResourceManager.GetString("Library.Vote.Like", resourceCulture);
+        public static string Library_Vote_Dislike => ResourceManager.GetString("Library.Vote.Dislike", resourceCulture);
+        public static string Library_Vote_SignIn => ResourceManager.GetString("Library.Vote.SignIn", resourceCulture);
+        public static string Library_Vote_PlayFirst => ResourceManager.GetString("Library.Vote.PlayFirst", resourceCulture);
+        public static string Library_Vote_Failed => ResourceManager.GetString("Library.Vote.Failed", resourceCulture);
         public static string Library_ViewOnRoblox => ResourceManager.GetString("Library.ViewOnRoblox", resourceCulture);
         public static string Library_CopyGameLink => ResourceManager.GetString("Library.CopyGameLink", resourceCulture);
         public static string Library_Shortcut => ResourceManager.GetString("Library.Shortcut", resourceCulture);

@@ -9881,4 +9881,19 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>واگرد آخرین تغییر چیدمان</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>پسندیدم</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>نپسندیدم</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>برای رأی دادن در Voidstrap وارد حساب Roblox خود شوید</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>پیش از امتیاز دادن، این بازی را انجام دهید</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>رأی شما ذخیره نشد، لطفاً کمی بعد دوباره تلاش کنید</value>
+  </data>
 </root>

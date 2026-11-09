@@ -9882,4 +9882,19 @@ Izinkan?</value>
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Urungkan perubahan tata letak terakhir</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Suka</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Tidak suka</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Masuk ke akun Roblox Anda di Voidstrap untuk memberi suara</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Mainkan game ini sebelum menilainya</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Suara Anda tidak dapat disimpan, coba lagi sebentar lagi</value>
+  </data>
 </root>

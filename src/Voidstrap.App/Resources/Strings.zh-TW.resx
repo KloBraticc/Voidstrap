@@ -9882,4 +9882,19 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>復原上一次的版面配置變更</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>喜歡</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>不喜歡</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>請在 Voidstrap 中登入你的 Roblox 帳號後再投票</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>請先玩過這款遊戲再評分</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>無法儲存你的投票，請稍後再試</value>
+  </data>
 </root>

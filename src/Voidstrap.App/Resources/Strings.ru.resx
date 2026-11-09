@@ -9879,4 +9879,19 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Отменить последнее изменение макета</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Нравится</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Не нравится</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Войдите в свою учетную запись Roblox в Voidstrap, чтобы голосовать</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Сыграйте в эту игру, прежде чем оценивать её</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Не удалось сохранить Ваш голос, попробуйте ещё раз чуть позже</value>
+  </data>
 </root>

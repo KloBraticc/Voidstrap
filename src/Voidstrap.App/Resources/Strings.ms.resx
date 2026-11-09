@@ -9871,4 +9871,19 @@ Benarkan?</value>
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Buat asal perubahan susun atur terakhir</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Suka</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Tidak suka</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Log masuk ke akaun Roblox anda dalam Voidstrap untuk mengundi</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Main permainan ini sebelum menilainya</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Undian anda tidak dapat disimpan, cuba lagi sebentar nanti</value>
+  </data>
 </root>

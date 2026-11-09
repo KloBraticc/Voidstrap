@@ -9566,4 +9566,19 @@ Allow it?</value>
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Undo the last layout change</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Like</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Dislike</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Sign in to your Roblox account in Voidstrap to vote</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Play this game before rating it</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Your vote could not be saved, try again in a moment</value>
+  </data>
 </root>

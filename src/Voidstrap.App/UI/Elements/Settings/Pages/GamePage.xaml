@@ -6,6 +6,7 @@ xmlns:resources="clr-namespace:Voidstrap.Resources"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:util="clr-namespace:Voidstrap.Utility"
     xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls"
     Title="GamePage"
     ui:Breadcrumb.Header="{resources:Loc Ui_Pages_GameDetails}"
@@ -60,29 +61,7 @@ xmlns:resources="clr-namespace:Voidstrap.Resources"
                                    FontSize="22"
                                    Click="PlayButton_Click" />
 
-                        <Grid Margin="0,14,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                                <ui:SymbolIcon Symbol="ThumbLike24" FontSize="16" Opacity="0.85" VerticalAlignment="Center" />
-                                <TextBlock x:Name="LikesText" Margin="6,0,0,0" FontSize="14" VerticalAlignment="Center" Text="--" />
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                                <ui:SymbolIcon Symbol="ThumbDislike24" FontSize="16" Opacity="0.85" VerticalAlignment="Center" />
-                                <TextBlock x:Name="DislikesText" Margin="6,0,0,0" FontSize="14" VerticalAlignment="Center" Text="--" />
-                            </StackPanel>
-                        </Grid>
-
-                        <ProgressBar x:Name="RatingBar"
-                                     Margin="0,8,0,0"
-                                     Height="4"
-                                     Minimum="0"
-                                     Maximum="100"
-                                     Value="0" />
+                        <controls:GameVoteBar x:Name="VoteBar" Margin="0,14,0,0" />
                     </StackPanel>
                 </Grid>
 
@@ -113,17 +92,17 @@ xmlns:resources="clr-namespace:Voidstrap.Resources"
 
                         <StackPanel Grid.Column="0">
                             <TextBlock Text="{resources:Loc Ui_Misc2_Active}" FontSize="12" Opacity="0.6" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                            <TextBlock x:Name="ActiveText" Text="--" FontSize="15" FontWeight="SemiBold" Margin="0,4,0,0" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                            <TextBlock x:Name="ActiveText" util:CountUpText.Format="n0" Text="--" FontSize="15" FontWeight="SemiBold" Margin="0,4,0,0" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="1">
                             <TextBlock Text="{resources:Loc ContextMenu_GameBrowser_Favorites}" FontSize="12" Opacity="0.6" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                            <TextBlock x:Name="FavoritesText" Text="--" FontSize="15" FontWeight="SemiBold" Margin="0,4,0,0" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                            <TextBlock x:Name="FavoritesText" util:CountUpText.Format="compactplus" Text="--" FontSize="15" FontWeight="SemiBold" Margin="0,4,0,0" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="2">
                             <TextBlock Text="{resources:Loc Ui_Pages_Visits}" FontSize="12" Opacity="0.6" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                            <TextBlock x:Name="VisitsText" Text="--" FontSize="15" FontWeight="SemiBold" Margin="0,4,0,0" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                            <TextBlock x:Name="VisitsText" util:CountUpText.Format="compactplus" Text="--" FontSize="15" FontWeight="SemiBold" Margin="0,4,0,0" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="3">

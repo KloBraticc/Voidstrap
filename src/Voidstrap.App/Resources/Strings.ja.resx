@@ -9894,4 +9894,19 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>最後のレイアウト変更を元に戻す</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>高評価</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>低評価</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>投票するには Voidstrap で Roblox アカウントにサインインしてください</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>評価する前にこのゲームをプレイしてください</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>投票を保存できませんでした。しばらくしてからもう一度お試しください</value>
+  </data>
 </root>

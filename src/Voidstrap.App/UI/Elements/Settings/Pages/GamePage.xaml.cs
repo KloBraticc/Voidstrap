@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Voidstrap.Integrations;
 
 namespace Voidstrap.UI.Elements.Settings.Pages
 {
@@ -33,7 +34,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 _cts?.Dispose();
                 _cts = new CancellationTokenSource();
                 await LoadGameAsync(_cts.Token);
-                _ = RunLiveVotesLoopAsync(_cts.Token);
+                _ = RunLiveStatsLoopAsync(_cts.Token);
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
@@ -42,16 +43,18 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             }
         }
 
-        private async Task RunLiveVotesLoopAsync(CancellationToken token)
+        private async Task RunLiveStatsLoopAsync(CancellationToken token)
         {
             while (!token.IsCancellationRequested)
             {
                 try
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(8), token).ConfigureAwait(false);
+                    await Task.Delay(TimeSpan.FromSeconds(GameLiveData.InBackoff() ? 60 : 20), token).ConfigureAwait(false);
                     if (token.IsCancellationRequested || _universeId == 0)
-                        break;
-                    await LoadVotesAsync(token).ConfigureAwait(false);
+                        continue;
+                    GameLiveStats? stats = await GameLiveData.RefreshStatsAsync(_universeId, token).ConfigureAwait(false);
+                    if (stats is GameLiveStats live)
+                        await Dispatcher.InvokeAsync(() => ShowStats(live, token));
                 }
                 catch (OperationCanceledException)
                 {
@@ -59,7 +62,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 }
                 catch (Exception ex)
                 {
-                    App.Logger.WriteLine(LOG_IDENT + "::LiveVotes", ex.Message);
+                    App.Logger.WriteLine(LOG_IDENT + "::LiveStats", ex.Message);
                 }
             }
         }
@@ -126,7 +129,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                     return;
                 }
 
-                await Task.WhenAll(LoadDetailsAsync(token), LoadVotesAsync(token), LoadBannerAsync(token));
+                await Task.WhenAll(LoadDetailsAsync(token), LoadBannerAsync(token));
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
@@ -195,9 +198,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                     DescriptionText.Text = description;
                     DescriptionText.Visibility = string.IsNullOrWhiteSpace(description) ? Visibility.Collapsed : Visibility.Visible;
 
-                    ActiveText.Text = playing.ToString("N0");
-                    FavoritesText.Text = FormatCount(favorites);
-                    VisitsText.Text = FormatCount(visits);
+                    ShowStats(new GameLiveStats(playing, visits, favorites), token);
+                    VoteBar.UniverseId = _universeId;
                     CreatedText.Text = created == DateTime.MinValue ? "--" : created.ToString("M/d/yyyy");
                     UpdatedText.Text = updated == DateTime.MinValue ? "--" : updated.ToString("M/d/yyyy");
                     ServerSizeText.Text = maxPlayers > 0 ? maxPlayers.ToString() : "--";
@@ -211,43 +213,13 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             }
         }
 
-        private async Task LoadVotesAsync(CancellationToken token)
+        private void ShowStats(GameLiveStats stats, CancellationToken token)
         {
-            try
-            {
-                string json = await Voidstrap.Utility.Http.GetString(
-                    $"https://games.roblox.com/v1/games/votes?universeIds={_universeId}",
-                    token
-                );
-
-                using var doc = JsonDocument.Parse(json);
-                if (
-                    !doc.RootElement.TryGetProperty("data", out var data)
-                    || data.ValueKind != JsonValueKind.Array
-                    || data.GetArrayLength() == 0
-                )
-                    return;
-
-                var v = data[0];
-                long up = v.TryGetProperty("upVotes", out var upEl) ? upEl.GetInt64() : 0;
-                long down = v.TryGetProperty("downVotes", out var downEl) ? downEl.GetInt64() : 0;
-                long total = up + down;
-
-                token.ThrowIfCancellationRequested();
-                await Dispatcher.InvokeAsync(() =>
-                {
-                    if (token.IsCancellationRequested)
-                        return;
-                    LikesText.Text = FormatCount(up);
-                    DislikesText.Text = FormatCount(down);
-                    RatingBar.Value = total > 0 ? up * 100.0 / total : 0;
-                });
-            }
-            catch (OperationCanceledException) when (token.IsCancellationRequested) { }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine($"{LOG_IDENT}::Votes", ex.Message);
-            }
+            if (token.IsCancellationRequested)
+                return;
+            CountUpText.SetValue(ActiveText, stats.Playing);
+            CountUpText.SetValue(FavoritesText, stats.Favorites);
+            CountUpText.SetValue(VisitsText, stats.Visits);
         }
 
         private async Task LoadBannerAsync(CancellationToken token)
@@ -297,17 +269,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             {
                 App.Logger.WriteLine($"{LOG_IDENT}::Banner", ex.Message);
             }
-        }
-
-        private static string FormatCount(long count)
-        {
-            if (count >= 1_000_000_000)
-                return $"{count / 1_000_000_000.0:0.#}B+";
-            if (count >= 1_000_000)
-                return $"{count / 1_000_000.0:0.#}M+";
-            if (count >= 1_000)
-                return $"{count / 1_000.0:0.#}K+";
-            return count.ToString();
         }
     }
 }

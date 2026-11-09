@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -34,6 +34,7 @@ public static class RobloxAuthedClient
     {
         "apis.roblox.com",
         "publish.roblox.com",
+        "games.roblox.com",
     };
 
     private static readonly HttpClient Client = new(
@@ -61,6 +62,11 @@ public static class RobloxAuthedClient
     public static Task<RobloxAuthedResult> PostJsonAsync(string url, string json, CancellationToken token)
     {
         return SendAsync(HttpMethod.Post, url, () => new StringContent(json, Encoding.UTF8, "application/json"), token);
+    }
+
+    public static Task<RobloxAuthedResult> PatchJsonAsync(string url, string json, CancellationToken token)
+    {
+        return SendAsync(HttpMethod.Patch, url, () => new StringContent(json, Encoding.UTF8, "application/json"), token);
     }
 
     public static Task<RobloxAuthedResult> PostAsync(string url, CancellationToken token)
@@ -134,8 +140,9 @@ public static class RobloxAuthedClient
             request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
             request.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
             request.Headers.TryAddWithoutValidation("Accept", "application/json");
-            request.Headers.TryAddWithoutValidation("Origin", "https://create.roblox.com");
-            request.Headers.TryAddWithoutValidation("Referer", "https://create.roblox.com/");
+            string site = uri.Host == "games.roblox.com" ? "https://www.roblox.com" : "https://create.roblox.com";
+            request.Headers.TryAddWithoutValidation("Origin", site);
+            request.Headers.TryAddWithoutValidation("Referer", site + "/");
             string? csrf;
             lock (CsrfGate)
                 csrf = _csrf;

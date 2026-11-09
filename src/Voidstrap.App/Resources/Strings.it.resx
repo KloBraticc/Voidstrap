@@ -9882,4 +9882,19 @@ Consentire?</value>
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Annulla l'ultima modifica al layout</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Mi piace</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Non mi piace</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Accedi al tuo account Roblox in Voidstrap per votare</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Gioca a questo gioco prima di valutarlo</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Non è stato possibile salvare il tuo voto, riprova tra poco</value>
+  </data>
 </root>

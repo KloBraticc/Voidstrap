@@ -9878,4 +9878,19 @@ Autoriser ?</value>
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Annuler la dernière modification de la disposition</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>J'aime</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Je n'aime pas</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Connectez-vous à votre compte Roblox dans Voidstrap pour voter</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Jouez à ce jeu avant de le noter</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Votre vote n'a pas pu être enregistré, réessayez dans un instant</value>
+  </data>
 </root>

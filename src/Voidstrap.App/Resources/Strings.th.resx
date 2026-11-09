@@ -9874,4 +9874,19 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>เลิกทำการเปลี่ยนเค้าโครงล่าสุด</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>ถูกใจ</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>ไม่ถูกใจ</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้บัญชี Roblox ของคุณใน Voidstrap เพื่อโหวต</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>เล่นเกมนี้ก่อนให้คะแนน</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>ไม่สามารถบันทึกการโหวตของคุณได้ โปรดลองอีกครั้งในอีกสักครู่</value>
+  </data>
 </root>

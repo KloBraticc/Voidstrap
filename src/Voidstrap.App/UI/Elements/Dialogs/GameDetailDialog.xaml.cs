@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Voidstrap.Integrations;
 using Voidstrap.UI.ViewModels.Pages;
 using Voidstrap.UI.ViewModels.Settings;
 
@@ -37,6 +38,8 @@ namespace Voidstrap.UI.Elements.Dialogs
             Servers.SetGame(new LibraryGameEntry { PlaceId = placeId, UniverseId = universeId, Name = TitleText.Text });
             _ = LoadAsync(_cts.Token);
             _ = LoadAccountsAsync(_cts.Token);
+            _ = RunLiveLoopAsync(_cts.Token);
+            GameLiveData.Changed += OnLiveDataChanged;
         }
 
         public void Release()
@@ -44,6 +47,7 @@ namespace Voidstrap.UI.Elements.Dialogs
             if (_released)
                 return;
             _released = true;
+            GameLiveData.Changed -= OnLiveDataChanged;
             _cts.Cancel();
             _cts.Dispose();
             Servers.SetViewActive(false);
@@ -64,6 +68,8 @@ namespace Voidstrap.UI.Elements.Dialogs
                     if (uniDoc.RootElement.TryGetProperty("universeId", out JsonElement uid) && uid.ValueKind == JsonValueKind.Number)
                         _universeId = uid.GetInt64();
                 }
+                if (_universeId != 0)
+                    VoteBar.UniverseId = _universeId;
                 if (_universeId != 0)
                     await Task.WhenAll(LoadDetailsAsync(token), LoadVotesAsync(token), LoadImagesAsync(token));
             }
@@ -107,9 +113,9 @@ namespace Voidstrap.UI.Elements.Dialogs
                 VerifiedIcon.Visibility = verified ? Visibility.Visible : Visibility.Collapsed;
                 GenreText.Text = genre;
                 GenreChip.Visibility = genre.Length > 0 && !genre.Equals("All", StringComparison.OrdinalIgnoreCase) ? Visibility.Visible : Visibility.Collapsed;
-                ActiveText.Text = Compact(playing);
-                VisitsText.Text = Compact(visits);
-                FavoritesText.Text = Compact(favorites);
+                CountUpText.SetValue(ActiveText, playing);
+                CountUpText.SetValue(VisitsText, visits);
+                CountUpText.SetValue(FavoritesText, favorites);
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
@@ -131,7 +137,7 @@ namespace Voidstrap.UI.Elements.Dialogs
                 long up = data[0].TryGetProperty("upVotes", out JsonElement u) ? u.GetInt64() : 0;
                 long down = data[0].TryGetProperty("downVotes", out JsonElement d) ? d.GetInt64() : 0;
                 if (!token.IsCancellationRequested && up + down > 0)
-                    RatingText.Text = $"{Math.Round(up * 100.0 / (up + down))}%";
+                    CountUpText.SetValue(RatingText, up * 100.0 / (up + down));
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
@@ -286,15 +292,48 @@ namespace Voidstrap.UI.Elements.Dialogs
             _syncingAccount = false;
         }
 
-        private static string Compact(long count)
+        private async Task RunLiveLoopAsync(CancellationToken token)
         {
-            if (count >= 1_000_000_000)
-                return $"{count / 1_000_000_000.0:0.#}B";
-            if (count >= 1_000_000)
-                return $"{count / 1_000_000.0:0.#}M";
-            if (count >= 1_000)
-                return $"{count / 1_000.0:0.#}K";
-            return count.ToString(CultureInfo.CurrentCulture);
+            const string LOG_IDENT = "GameDetailDialog::RunLiveLoopAsync";
+
+            try
+            {
+                while (!token.IsCancellationRequested)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(GameLiveData.InBackoff() ? 60 : 20), token);
+                    long universeId = _universeId;
+                    if (universeId == 0)
+                        continue;
+                    await Task.WhenAll(GameLiveData.RefreshStatsAsync(universeId, token), GameLiveData.RefreshVotesAsync(universeId, token));
+                }
+            }
+            catch (OperationCanceledException) { }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, ex.Message);
+            }
+        }
+
+        private void OnLiveDataChanged(object? sender, long universeId)
+        {
+            if (Dispatcher.CheckAccess())
+                ShowLiveData(universeId);
+            else
+                Dispatcher.BeginInvoke(new Action<long>(ShowLiveData), universeId);
+        }
+
+        private void ShowLiveData(long universeId)
+        {
+            if (_released || universeId != _universeId)
+                return;
+            if (GameLiveData.TryGetStats(universeId, out GameLiveStats stats))
+            {
+                CountUpText.SetValue(ActiveText, stats.Playing);
+                CountUpText.SetValue(VisitsText, stats.Visits);
+                CountUpText.SetValue(FavoritesText, stats.Favorites);
+            }
+            if (GameLiveData.TryGetVotes(universeId, out GameVoteCounts votes) && !double.IsNaN(votes.LikePercent))
+                CountUpText.SetValue(RatingText, votes.LikePercent);
         }
 
         private void Play_Click(object sender, RoutedEventArgs e) => HomePageViewModel.LaunchPlace(_placeId);

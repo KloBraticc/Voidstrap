@@ -9882,4 +9882,19 @@ Cho phép?</value>
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Hoàn tác thay đổi bố cục gần nhất</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Thích</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Không thích</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Đăng nhập tài khoản Roblox của bạn trong Voidstrap để bình chọn</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Hãy chơi trò chơi này trước khi đánh giá</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Không thể lưu lượt bình chọn của bạn, hãy thử lại sau giây lát</value>
+  </data>
 </root>

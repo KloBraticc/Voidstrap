@@ -1,4 +1,4 @@
-<UserControl x:Class="Voidstrap.UI.Elements.Settings.Pages.LibraryStorefront" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:resources="clr-namespace:Voidstrap.Resources" Loaded="Control_Loaded" Unloaded="Control_Unloaded" Visibility="{Binding Storefront.StoreVisibility}">
+<UserControl x:Class="Voidstrap.UI.Elements.Settings.Pages.LibraryStorefront" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:resources="clr-namespace:Voidstrap.Resources" Loaded="Control_Loaded" Unloaded="Control_Unloaded" Visibility="{Binding Storefront.StoreVisibility}">
   <UserControl.Resources>
     <Style x:Key="PlainButton" TargetType="{x:Type Button}">
       <Setter Property="Cursor" Value="Hand" />
@@ -56,6 +56,7 @@
             </Border>
             <TextBlock Margin="0,8,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Storefront.FeaturedGame.PriceLine}" />
             <TextBlock Margin="0,2,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Storefront.FeaturedGame.PlayingLine}" />
+            <controls:GameVoteBar Margin="-8,6,0,0" HorizontalAlignment="Left" MinWidth="180" ShowRatio="False" UniverseId="{Binding Storefront.FeaturedGame.UniverseId}" />
           </StackPanel>
         </Grid>
       </Border>

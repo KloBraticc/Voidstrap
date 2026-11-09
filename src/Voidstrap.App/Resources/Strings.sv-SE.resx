@@ -9879,4 +9879,19 @@ Tillåta?</value>
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Ångra den senaste layoutändringen</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Gilla</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Ogilla</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Logga in på ditt Roblox-konto i Voidstrap för att rösta</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Spela det här spelet innan du betygsätter det</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Din röst kunde inte sparas, försök igen om en stund</value>
+  </data>
 </root>

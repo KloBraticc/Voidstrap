@@ -9880,4 +9880,19 @@ Povolit?</value>
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Vrátit poslední změnu rozložení</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Líbí se mi</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Nelíbí se mi</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Pro hlasování se přihlaste ke svému účtu Roblox ve Voidstrapu</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Před hodnocením si tuto hru zahrajte</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Váš hlas se nepodařilo uložit, zkuste to za chvíli znovu</value>
+  </data>
 </root>

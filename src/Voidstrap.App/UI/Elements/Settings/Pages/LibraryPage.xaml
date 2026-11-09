@@ -619,7 +619,8 @@
               <DockPanel Grid.Column="1" Margin="14,0,0,0">
                 <StackPanel DockPanel.Dock="Bottom">
                   <ui:Button HorizontalAlignment="Stretch" Height="44" FontSize="15" Appearance="Primary" Background="{DynamicResource SystemAccentBrush}" Icon="Play24" Content="{resources:Loc Ui_Pages_Play}" Command="{Binding LaunchCommand}" CommandParameter="{Binding SelectedGame}" />
-                  <StackPanel Margin="0,8,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
+                  <controls:GameVoteBar Margin="0,8,0,0" ShowRatio="False" UniverseId="{Binding SelectedGame.UniverseId}" />
+                  <StackPanel Margin="0,4,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
                     <ui:Button Width="40" Height="40" Padding="0" Appearance="Transparent" Icon="Pin24" ToolTip="{Binding SelectedGame.PinButtonText}" AutomationProperties.Name="{Binding SelectedGame.PinButtonText}" Command="{Binding TogglePinCommand}" CommandParameter="{Binding SelectedGame}" />
                     <ui:Button Width="40" Height="40" Padding="0" Appearance="Transparent" Icon="Desktop24" ToolTip="{resources:Loc Library_CreateShortcut}" AutomationProperties.Name="{resources:Loc Library_CreateShortcut}" Command="{Binding CreateShortcutCommand}" CommandParameter="{Binding SelectedGame}" />
                     <ui:Button Width="40" Height="40" Padding="0" Appearance="Transparent" Icon="Open24" ToolTip="{resources:Loc Library_ViewOnRoblox}" AutomationProperties.Name="{resources:Loc Library_ViewOnRoblox}" Command="{Binding ViewOnRobloxCommand}" CommandParameter="{Binding SelectedGame}" />
@@ -628,10 +629,10 @@
                 </StackPanel>
                 <StackPanel>
                 <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Library_Store_AllReviews}" />
-                <TextBlock FontSize="12" Foreground="{DynamicResource SystemAccentColorSecondaryBrush}">
-                  <Run Text="{Binding SelectedGame.ReviewSummary, Mode=OneWay}" />
-                  <Run Text="{Binding SelectedGame.LikePercent, Mode=OneWay}" />
-                </TextBlock>
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock FontSize="12" Foreground="{DynamicResource SystemAccentColorSecondaryBrush}" Text="{Binding SelectedGame.ReviewSummary}" />
+                  <TextBlock Margin="4,0,0,0" FontSize="12" Foreground="{DynamicResource SystemAccentColorSecondaryBrush}" Text="" util:CountUpText.Format="percent" util:CountUpText.Value="{Binding SelectedGame.LikePercentValue, Mode=OneWay}" />
+                </StackPanel>
                 <TextBlock Margin="0,8,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Library_Store_ReleaseDate}" />
                 <TextBlock FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding SelectedGame.CreatedDisplay}" />
                 <TextBlock Margin="0,8,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Library_Store_Developer}" />
@@ -650,7 +651,7 @@
                     </StackPanel>
                     <StackPanel Margin="0,0,0,8">
                       <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_PLAYINGNOW}" />
-                      <TextBlock FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.PlayingDisplay}" />
+                      <TextBlock FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" util:CountUpText.Format="compact" util:CountUpText.Value="{Binding SelectedGame.Playing, Mode=OneWay}" />
                     </StackPanel>
                     <StackPanel Margin="0,0,0,8" ToolTip="{Binding SelectedGame.BadgeTooltip}">
                       <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Library_Badges_Stat}" />

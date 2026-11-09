@@ -9881,4 +9881,19 @@ Leisti?</value>
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Anuliuoti paskutinį išdėstymo pakeitimą</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Patinka</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Nepatinka</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Norėdami balsuoti, prisijunkite prie savo Roblox paskyros Voidstrap</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Prieš vertindami, sužaiskite šį žaidimą</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Jūsų balso nepavyko išsaugoti, bandykite dar kartą po akimirkos</value>
+  </data>
 </root>

@@ -9881,4 +9881,19 @@ Toestaan?</value>
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Laatste indelingswijziging ongedaan maken</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Leuk</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Niet leuk</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Log in op je Roblox-account in Voidstrap om te stemmen</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Speel deze game voordat je hem beoordeelt</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Je stem kon niet worden opgeslagen, probeer het zo opnieuw</value>
+  </data>
 </root>

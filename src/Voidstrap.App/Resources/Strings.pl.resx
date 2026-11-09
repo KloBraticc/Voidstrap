@@ -9880,4 +9880,19 @@ Zezwolić?</value>
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Cofnij ostatnią zmianę układu</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Lubię to</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Nie lubię</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Zaloguj się na swoje konto Roblox w Voidstrap, aby głosować</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Zagraj w tę grę, zanim ją ocenisz</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Nie udało się zapisać twojego głosu, spróbuj ponownie za chwilę</value>
+  </data>
 </root>

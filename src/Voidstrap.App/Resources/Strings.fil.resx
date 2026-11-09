@@ -9877,4 +9877,19 @@ Payagan ba?</value>
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>I-undo ang huling pagbabago sa layout</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Gusto</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Ayaw</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Mag-sign in sa iyong Roblox account sa Voidstrap para bumoto</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Laruin muna ang larong ito bago mo ito i-rate</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Hindi na-save ang iyong boto, subukan muli mamaya</value>
+  </data>
 </root>

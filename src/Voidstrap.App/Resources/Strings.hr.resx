@@ -9879,4 +9879,19 @@ Dopustiti?</value>
   <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
     <value>Poništi posljednju promjenu rasporeda</value>
   </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Sviđa mi se</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Ne sviđa mi se</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Prijavi se na svoj Roblox račun u Voidstrapu za glasanje</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Igraj ovu igru prije nego što je ocijeniš</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Tvoj glas nije spremljen, pokušaj ponovno za trenutak</value>
+  </data>
 </root>

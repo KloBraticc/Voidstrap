@@ -86,25 +86,26 @@
       <Border Style="{StaticResource StatCell}">
         <StackPanel>
           <TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Ui_Misc2_Active}" />
-          <TextBlock x:Name="ActiveText" Style="{StaticResource StatValue}" />
+          <TextBlock x:Name="ActiveText" util:CountUpText.Format="compact" Style="{StaticResource StatValue}" />
         </StackPanel>
       </Border>
       <Border Style="{StaticResource StatCell}">
         <StackPanel>
           <TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Ui_Pages_Visits}" />
-          <TextBlock x:Name="VisitsText" Style="{StaticResource StatValue}" />
+          <TextBlock x:Name="VisitsText" util:CountUpText.Format="compact" Style="{StaticResource StatValue}" />
         </StackPanel>
       </Border>
       <Border Style="{StaticResource StatCell}">
         <StackPanel>
           <TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc ContextMenu_GameBrowser_Favorites}" />
-          <TextBlock x:Name="FavoritesText" Style="{StaticResource StatValue}" />
+          <TextBlock x:Name="FavoritesText" util:CountUpText.Format="compact" Style="{StaticResource StatValue}" />
         </StackPanel>
       </Border>
       <Border Style="{StaticResource StatCell}">
         <StackPanel>
           <TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Ui_Pages_RATING}" />
-          <TextBlock x:Name="RatingText" Style="{StaticResource StatValue}" Foreground="#FF22C55E" />
+          <TextBlock x:Name="RatingText" util:CountUpText.Format="percent" Style="{StaticResource StatValue}" Foreground="#FF22C55E" />
+          <controls:GameVoteBar x:Name="VoteBar" Margin="0,4,0,0" ShowRatio="False" />
         </StackPanel>
       </Border>
     </UniformGrid>
