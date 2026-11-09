@@ -37,6 +37,53 @@ public static class RobloxFriends
     private const string FriendsApi = "https://friends.roblox.com/v1/";
     private const int PresenceBatch = 100;
     private const int TagBatch = 50;
+    private static readonly object SeenLock = new();
+    private static Dictionary<long, DateTimeOffset>? s_seen;
+
+    private static string SeenPath => Path.Combine(Paths.Cache, "FriendsLastOnline.json");
+
+    private static Dictionary<long, DateTimeOffset> Seen()
+    {
+        if (s_seen != null)
+            return s_seen;
+        try
+        {
+            s_seen = File.Exists(SeenPath)
+                ? JsonSerializer.Deserialize<Dictionary<long, DateTimeOffset>>(File.ReadAllText(SeenPath)) ?? new()
+                : new();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("RobloxFriends::Seen", ex);
+            s_seen = new();
+        }
+        return s_seen;
+    }
+
+    private static void RecordSeen(IEnumerable<long> onlineIds, IReadOnlyDictionary<long, DateTimeOffset>? reported)
+    {
+        const string LOG_IDENT = "RobloxFriends::RecordSeen";
+        lock (SeenLock)
+        {
+            Dictionary<long, DateTimeOffset> seen = Seen();
+            DateTimeOffset now = DateTimeOffset.UtcNow;
+            foreach (long id in onlineIds)
+                seen[id] = now;
+            if (reported != null)
+                foreach ((long id, DateTimeOffset when) in reported)
+                    if (!seen.TryGetValue(id, out DateTimeOffset known) || when > known)
+                        seen[id] = when;
+            try
+            {
+                Directory.CreateDirectory(Paths.Cache);
+                File.WriteAllText(SeenPath, JsonSerializer.Serialize(seen));
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException(LOG_IDENT, ex);
+            }
+        }
+    }
 
     private static string? Cookie() => RobloxCookie.Get();
 
@@ -171,6 +218,7 @@ public static class RobloxFriends
                 }
             }
         }
+        RecordSeen(result.Where(static pair => pair.Value.Kind != FriendPresenceKind.Offline).Select(static pair => pair.Key), null);
         return result;
     }
 
@@ -196,6 +244,11 @@ public static class RobloxFriends
                 }
             }
         }
+        RecordSeen(Array.Empty<long>(), result);
+        lock (SeenLock)
+            foreach (long id in userIds)
+                if (Seen().TryGetValue(id, out DateTimeOffset when))
+                    result[id] = when;
         return result;
     }
 
