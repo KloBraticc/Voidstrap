@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -160,6 +160,10 @@ namespace Voidstrap.UI
         private static long _ignoreMouseUntil;
         private static bool _holdingClick;
 
+        private static readonly TimeSpan ConnectedPollInterval = TimeSpan.FromMilliseconds(500);
+
+        private static readonly TimeSpan DisconnectedPollInterval = TimeSpan.FromSeconds(2);
+
         public static void Initialize()
         {
             if (_initialized)
@@ -263,6 +267,9 @@ namespace Voidstrap.UI
             }
             XINPUT_STATE state = default;
             bool connected = TryGetState(ref state);
+            TimeSpan interval = connected ? ConnectedPollInterval : DisconnectedPollInterval;
+            if (_watchdog != null && _watchdog.Interval != interval)
+                _watchdog.Interval = interval;
             if (!connected)
             {
                 if (_rendering)
