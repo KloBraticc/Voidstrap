@@ -156,6 +156,7 @@ public partial class SessionDock : Window
     private IntPtr _popoutHandle;
     private long _bannerUniverse;
     private DateTime _friendsLoadedUtc = DateTime.MinValue;
+    private bool _friendsRefreshing;
     private string _friendsJobId = string.Empty;
     private bool _friendsLoading;
     private CancellationTokenSource? _refreshCts;
@@ -1143,7 +1144,7 @@ public partial class SessionDock : Window
     private void FitWidth()
     {
         double userScale = (App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings()).SafeDockScale;
-        Pill.LayoutTransform = Math.Abs(userScale - 1.0) > 0.005 ? new ScaleTransform(userScale, userScale) : Transform.Identity;
+        SetPillScale(userScale);
         Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         double shadowRoom = Voidstrap.Utility.Platform.IsLinux ? 0 : ShadowRoomX;
         double width = Math.Min(MaxDockWidth * userScale, Math.Ceiling(Pill.DesiredSize.Width)) + shadowRoom;
@@ -1155,8 +1156,7 @@ public partial class SessionDock : Window
             double available = Math.Max(1, gameWidth - shadowRoom - (PortableOverlay.Active ? 0 : 24));
             double fitScale = Math.Min(1, available / Math.Max(1, width - shadowRoom));
             double combinedScale = userScale * fitScale;
-            Pill.LayoutTransform =
-                Math.Abs(combinedScale - 1.0) > 0.005 ? new ScaleTransform(combinedScale, combinedScale) : Transform.Identity;
+            SetPillScale(combinedScale);
             Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             width = Math.Min(gameWidth, Math.Ceiling(Pill.DesiredSize.Width) + shadowRoom);
         }
@@ -1174,6 +1174,14 @@ public partial class SessionDock : Window
             _anchor?.Refresh();
             ApplyLinuxDockShape();
         }
+    }
+
+    private void SetPillScale(double scale)
+    {
+        double current = Pill.LayoutTransform is ScaleTransform existing ? existing.ScaleX : 1.0;
+        if (Math.Abs(current - scale) < 0.005)
+            return;
+        Pill.LayoutTransform = Math.Abs(scale - 1.0) > 0.005 ? new ScaleTransform(scale, scale) : Transform.Identity;
     }
 
     private void OnTrackerChanged(object? sender, RobloxWindowRect bounds)
@@ -1477,8 +1485,11 @@ public partial class SessionDock : Window
             return;
         }
         UpdateReadout();
-        if (PopoutOpen && _popoutView == PopoutView.Server && _data is { } data && DateTime.UtcNow - _friendsLoadedUtc >= FriendsInterval)
+        if (PopoutOpen && _popoutView == PopoutView.Server && _data is { } data && !_friendsRefreshing && DateTime.UtcNow - _friendsLoadedUtc >= FriendsInterval)
+        {
+            _friendsRefreshing = true;
             _ = PortableOverlay.RunAsync(this, () => RefreshFriendsQuietlyAsync(data));
+        }
     }
 
     private async Task RefreshFriendsQuietlyAsync(ActivityData data)
@@ -1491,6 +1502,11 @@ public partial class SessionDock : Window
         catch (Exception ex)
         {
             App.Logger.WriteLine("SessionDock", "Friends in this server could not be refreshed: " + ex.Message);
+        }
+        finally
+        {
+            _friendsLoadedUtc = DateTime.UtcNow;
+            _friendsRefreshing = false;
         }
     }
 
@@ -1517,7 +1533,6 @@ public partial class SessionDock : Window
         );
     }
 
-    // Short clock style, 2:08 or 9:33:02
     private static string FormatClock(TimeSpan span)
     {
         if (span < TimeSpan.Zero)

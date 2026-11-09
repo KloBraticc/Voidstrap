@@ -343,7 +343,7 @@
                     </Ellipse.RenderTransform>
                   </Ellipse>
                 </Grid>
-                <TextBlock x:Name="SessionTimes" FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
+                <TextBlock x:Name="SessionTimes" FontSize="12" Typography.NumeralAlignment="Tabular" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
                   <Run Text="{resources:Loc Ui_Session_Session}" /><Run x:Name="SessionClock" Text="0:00" FontWeight="SemiBold" Foreground="{DynamicResource SystemFillColorSuccessBrush}" /><Run Text="{resources:Loc Ui_Session_Server}" /><Run x:Name="ServerClock" Text="--" FontWeight="SemiBold" Foreground="{DynamicResource SystemFillColorSuccessBrush}" />
                 </TextBlock>
               </StackPanel>
