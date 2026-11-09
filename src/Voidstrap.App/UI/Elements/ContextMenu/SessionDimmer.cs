@@ -20,6 +20,7 @@ internal sealed partial class SessionDimmer : IDisposable
     private byte _alpha;
     private bool _portableOpacityApplied;
     private System.Windows.Window? _portable;
+    private System.Windows.Media.SolidColorBrush? _linuxTint;
     private Voidstrap.Platform.MacOS.MacOSWindowBackdrop? _macBackdrop;
     private int _blurWidth;
     private int _blurHeight;
@@ -43,6 +44,12 @@ internal sealed partial class SessionDimmer : IDisposable
                 Left = -32000,
                 Top = -32000
             };
+            if (Voidstrap.Utility.Platform.IsLinux)
+            {
+                _linuxTint = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 0, 0, 0));
+                _portable.AllowsTransparency = true;
+                _portable.Background = _linuxTint;
+            }
             _portable.SourceInitialized += OnPortableSourceInitialized;
             PortableOverlay.Prepare(_portable);
             PortableOverlay.MarkPassive(_portable);
@@ -131,6 +138,12 @@ internal sealed partial class SessionDimmer : IDisposable
             if (_portableOpacityApplied && alpha == _alpha)
                 return;
             _alpha = alpha;
+            if (_linuxTint != null)
+            {
+                _linuxTint.Color = System.Windows.Media.Color.FromArgb(alpha, 0, 0, 0);
+                _portableOpacityApplied = true;
+                return;
+            }
             nint handle = PortableOverlay.Handle(_portable);
             if (handle == 0)
                 return;
