@@ -37,7 +37,7 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <Grid Height="190" ClipToBounds="True">
+    <Grid Height="160" ClipToBounds="True">
       <Border x:Name="BannerHost" CornerRadius="7,7,0,0" Background="{DynamicResource SubtleFillColorSecondaryBrush}" />
       <Border CornerRadius="7,7,0,0">
         <Border.Background>
@@ -109,7 +109,7 @@
         </StackPanel>
       </Border>
     </UniformGrid>
-    <TabControl x:Name="Tabs" Grid.Row="2" Grid.RowSpan="2" Margin="16,14,16,8">
+    <TabControl x:Name="Tabs" Grid.Row="2" Grid.RowSpan="2" MinHeight="360" Margin="16,12,16,8">
       <TabItem>
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
