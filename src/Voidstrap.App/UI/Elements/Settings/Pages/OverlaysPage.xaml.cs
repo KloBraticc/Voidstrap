@@ -24,6 +24,7 @@ public partial class OverlaysPage : UiPage
     {
         DataContext = new ModsViewModel();
         InitializeComponent();
+        VoidEditPanel.DataContext = new ClipperViewModel();
         Loaded += OnOverlaysPageLoaded;
         Unloaded += OnOverlaysPageUnloaded;
     }
@@ -32,6 +33,7 @@ public partial class OverlaysPage : UiPage
     {
         DataContext = viewModel;
         InitializeComponent();
+        VoidEditPanel.DataContext = new ClipperViewModel();
         Loaded += OnOverlaysPageLoaded;
         Unloaded += OnOverlaysPageUnloaded;
     }
@@ -41,6 +43,37 @@ public partial class OverlaysPage : UiPage
         DataContext ??= new ModsViewModel();
         (DataContext as ModsViewModel)?.PopulateKeystrokeThemes();
         ShowCrosshairKey(null);
+        _ = RefreshVoidEditStateAsync();
+    }
+
+    private Voidstrap.Integrations.VoidEditLauncher.InstallState _voidEditState = Voidstrap.Integrations.VoidEditLauncher.InstallState.NotInstalled;
+
+    private async void VoidEditCard_Click(object sender, RoutedEventArgs e)
+    {
+        VoidEditCard.IsEnabled = false;
+        try
+        {
+            if (_voidEditState == Voidstrap.Integrations.VoidEditLauncher.InstallState.Installed)
+                await Voidstrap.Integrations.VoidEditLauncher.OpenAsync();
+            else
+                await Voidstrap.Integrations.VoidEditLauncher.InstallAsync();
+        }
+        finally
+        {
+            await RefreshVoidEditStateAsync();
+        }
+    }
+
+    private async System.Threading.Tasks.Task RefreshVoidEditStateAsync()
+    {
+        _voidEditState = await Voidstrap.Integrations.VoidEditLauncher.GetStateAsync();
+        VoidEditCardStatus.Text = _voidEditState switch
+        {
+            Voidstrap.Integrations.VoidEditLauncher.InstallState.Installed => Strings.Ui_VoidEdit_Card_Open,
+            Voidstrap.Integrations.VoidEditLauncher.InstallState.UpdateAvailable => Strings.Ui_VoidEdit_Card_Update,
+            _ => Strings.Ui_VoidEdit_Card_Install,
+        };
+        VoidEditCard.IsEnabled = true;
     }
 
     private void OnOverlaysPageUnloaded(object sender, RoutedEventArgs e)

@@ -1,4 +1,4 @@
-<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.OverlaysPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:conv="clr-namespace:Voidstrap.Converters" xmlns:converters="clr-namespace:Voidstrap.UI.Converters" xmlns:settings="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:gif="clr-namespace:WpfAnimatedGif;assembly=WpfAnimatedGif" Title="OverlaysPage" ui:Breadcrumb.Header="{resources:Loc Ui_Mods_Overlays}" Scrollable="True">
+﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.OverlaysPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:conv="clr-namespace:Voidstrap.Converters" xmlns:converters="clr-namespace:Voidstrap.UI.Converters" xmlns:settings="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:gif="clr-namespace:WpfAnimatedGif;assembly=WpfAnimatedGif" Title="OverlaysPage" ui:Breadcrumb.Header="{resources:Loc Ui_Mods_Overlays}" Scrollable="True">
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <conv:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
@@ -188,6 +188,74 @@
         </StackPanel>
       </ui:CardExpander>
 
+      <StackPanel x:Name="VoidEditPanel" DataContext="{x:Null}" Margin="0,8,0,0">
+        <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Warning" Message="{resources:Loc Ui_VoidEdit_AlphaNotice}" />
+        <ui:CardAction x:Name="VoidEditCard" Margin="0,8,0,0" MinHeight="78" Icon="Video24" IsEnabled="False" Click="VoidEditCard_Click">
+          <StackPanel>
+            <TextBlock FontSize="14" FontWeight="Medium" Text="Void Edit" />
+            <TextBlock x:Name="VoidEditCardStatus" Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_VoidEdit_Card_Install}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
+          </StackPanel>
+        </ui:CardAction>
+        <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
+          <HeaderedContentControl.Header>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <StackPanel VerticalAlignment="Center">
+                <TextBlock FontSize="14" Text="{resources:Loc Ui_Clipper_Title}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{Binding ClipperDescription}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
+              </StackPanel>
+              <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,8,0">
+                <Button Margin="0,0,12,0" VerticalAlignment="Center" Content="{resources:Loc Ui_Mods_ResetShortcut}" Command="{Binding ResetClipperShortcutCommand}" IsEnabled="{Binding CanResetClipperShortcut}" />
+                <ui:ToggleSwitch VerticalAlignment="Center" IsChecked="{Binding ClipperEnabled, Mode=TwoWay}" />
+              </StackPanel>
+            </Grid>
+          </HeaderedContentControl.Header>
+          <StackPanel>
+            <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/rishade/#video-clipper" Header="{resources:Loc Ui_Clipper_RecordingMode}" Description="{resources:Loc Ui_Clipper_RecordingModeHint}">
+              <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperModeOptions}" SelectedItem="{Binding SelectedClipperMode, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{resources:Loc Ui_Clipper_BufferLength}" Description="{resources:Loc Ui_Clipper_BufferLengthHint}" Visibility="{Binding ClipperIsClipMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+              <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperBufferOptions}" SelectedItem="{Binding SelectedClipperBuffer, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{resources:Loc Ui_Clipper_RecordOnGameStart}" Description="{resources:Loc Ui_Clipper_RecordOnGameStartHint}">
+              <ui:ToggleSwitch IsChecked="{Binding ClipperRecordOnGameStart, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{resources:Loc Ui_Clipper_RedBorder}" Description="{resources:Loc Ui_Clipper_RedBorderHint}">
+              <ui:ToggleSwitch IsChecked="{Binding ClipperRedBorder, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{resources:Loc Ui_Clipper_VideoQuality}" Description="{resources:Loc Ui_Clipper_VideoQualityHint}">
+              <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperQualityOptions}" SelectedItem="{Binding SelectedClipperQuality, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{resources:Loc Ui_Clipper_Resolution}" Description="{resources:Loc Ui_Clipper_ResolutionHint}">
+              <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperResolutionOptions}" SelectedItem="{Binding SelectedClipperResolution, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{resources:Loc Ui_Clipper_FrameRate}" Description="{resources:Loc Ui_Clipper_FrameRateHint}">
+              <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperFpsOptions}" SelectedItem="{Binding SelectedClipperFps, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{resources:Loc Ui_Clipper_Codec}" Description="{resources:Loc Ui_Clipper_CodecHint}">
+              <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperCodecOptions}" SelectedItem="{Binding SelectedClipperCodec, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{resources:Loc Ui_Clipper_GameAudio}" Description="{resources:Loc Ui_Clipper_GameAudioHint}">
+              <ui:ToggleSwitch IsChecked="{Binding ClipperGameAudio, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{resources:Loc Ui_Clipper_Microphone}" Description="{resources:Loc Ui_Clipper_MicrophoneHint}">
+              <ui:ToggleSwitch IsChecked="{Binding ClipperMicrophone, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{resources:Loc Ui_Clipper_StatusIndicator}" Description="{resources:Loc Ui_Clipper_StatusIndicatorHint}">
+              <ui:ToggleSwitch IsChecked="{Binding ClipperShowIndicator, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{resources:Loc Ui_VoidEdit_AskRecordings_Title}" Description="{resources:Loc Ui_VoidEdit_AskRecordings_Description}">
+              <ui:ToggleSwitch IsChecked="{Binding VoidEditAskForRecordings, Mode=TwoWay}" />
+            </controls:OptionControl>
+            <controls:OptionControl Header="{resources:Loc Ui_Clipper_ClipsFolder}" Description="{resources:Loc Ui_Clipper_ClipsFolderHint}">
+              <Button Width="140" Content="{resources:Loc Ui_Clipper_OpenFolder}" Command="{Binding OpenClipsFolderCommand}" />
+            </controls:OptionControl>
+          </StackPanel>
+        </ui:CardExpander>
+      </StackPanel>
       <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Header="{resources:Loc Ui_Mods_Display}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
         <StackPanel>
                   <StackPanel Margin="0,8,0,0" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">

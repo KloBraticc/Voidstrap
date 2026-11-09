@@ -25,7 +25,6 @@ public partial class IntegrationsPage : UiPage
         _viewModel = new IntegrationsViewModel(activeWatcher ?? new ActivityWatcher(), activeWatcher == null);
         base.DataContext = _viewModel;
         InitializeComponent();
-        VoidEditPanel.DataContext = new ClipperViewModel();
         Loaded += OnPageLoaded;
         Unloaded += OnPageUnloaded;
     }
@@ -48,7 +47,6 @@ public partial class IntegrationsPage : UiPage
         _viewModel.OnPropertyChanged("UncapFpsToggleEnabled");
         _viewModel.OnPropertyChanged("UncapFPS");
         StartRpcPreview();
-        _ = RefreshVoidEditStateAsync();
     }
 
     private void OnPageUnloaded(object sender, RoutedEventArgs e)
@@ -78,35 +76,5 @@ public partial class IntegrationsPage : UiPage
     private void ValidateUInt32(object sender, TextCompositionEventArgs e)
     {
         e.Handled = !uint.TryParse(e.Text, out var _);
-    }
-
-    private VoidEditLauncher.InstallState _voidEditState = VoidEditLauncher.InstallState.NotInstalled;
-
-    private async void VoidEditCard_Click(object sender, RoutedEventArgs e)
-    {
-        VoidEditCard.IsEnabled = false;
-        try
-        {
-            if (_voidEditState == VoidEditLauncher.InstallState.Installed)
-                await VoidEditLauncher.OpenAsync();
-            else
-                await VoidEditLauncher.InstallAsync();
-        }
-        finally
-        {
-            await RefreshVoidEditStateAsync();
-        }
-    }
-
-    private async Task RefreshVoidEditStateAsync()
-    {
-        _voidEditState = await VoidEditLauncher.GetStateAsync();
-        VoidEditCardStatus.Text = _voidEditState switch
-        {
-            VoidEditLauncher.InstallState.Installed => Strings.Ui_VoidEdit_Card_Open,
-            VoidEditLauncher.InstallState.UpdateAvailable => Strings.Ui_VoidEdit_Card_Update,
-            _ => Strings.Ui_VoidEdit_Card_Install,
-        };
-        VoidEditCard.IsEnabled = true;
     }
 }
