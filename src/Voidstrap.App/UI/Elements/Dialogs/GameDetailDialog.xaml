@@ -13,7 +13,7 @@
       <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
     </Style>
     <Style x:Key="StatValue" TargetType="TextBlock">
-      <Setter Property="FontSize" Value="20" />
+      <Setter Property="FontSize" Value="18" />
       <Setter Property="FontWeight" Value="SemiBold" />
       <Setter Property="Margin" Value="0,4,0,0" />
       <Setter Property="HorizontalAlignment" Value="Center" />
@@ -22,7 +22,7 @@
     </Style>
     <Style x:Key="StatCell" TargetType="Border">
       <Setter Property="Margin" Value="4,0" />
-      <Setter Property="Padding" Value="8,12" />
+      <Setter Property="Padding" Value="8,8" />
       <Setter Property="CornerRadius" Value="6" />
       <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
     </Style>
@@ -37,7 +37,7 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <Grid Height="160" ClipToBounds="True">
+    <Grid Height="140" ClipToBounds="True">
       <Border x:Name="BannerHost" CornerRadius="7,7,0,0" Background="{DynamicResource SubtleFillColorSecondaryBrush}" />
       <Border CornerRadius="7,7,0,0">
         <Border.Background>
@@ -82,7 +82,7 @@
         </StackPanel>
       </StackPanel>
     </Grid>
-    <UniformGrid Grid.Row="1" Columns="4" Margin="16,16,16,0">
+    <UniformGrid Grid.Row="1" Columns="4" Margin="16,12,16,0">
       <Border Style="{StaticResource StatCell}">
         <StackPanel>
           <TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Ui_Misc2_Active}" />
@@ -105,11 +105,11 @@
         <StackPanel>
           <TextBlock Style="{StaticResource StatLabel}" Text="{resources:Loc Ui_Pages_RATING}" />
           <TextBlock x:Name="RatingText" util:CountUpText.Format="percent" Style="{StaticResource StatValue}" Foreground="#FF22C55E" />
-          <controls:GameVoteBar x:Name="VoteBar" Margin="0,4,0,0" ShowRatio="False" />
+          <controls:GameVoteBar x:Name="VoteBar" Margin="0,2,0,-4" ShowRatio="False" />
         </StackPanel>
       </Border>
     </UniformGrid>
-    <TabControl x:Name="Tabs" Grid.Row="2" Grid.RowSpan="2" MinHeight="360" Margin="16,12,16,8">
+    <TabControl x:Name="Tabs" Grid.Row="2" Grid.RowSpan="2" Margin="16,8,16,8">
       <TabItem>
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
