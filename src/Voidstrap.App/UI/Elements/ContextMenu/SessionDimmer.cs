@@ -1,4 +1,6 @@
 using System;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Runtime.InteropServices;
 using Voidstrap.Integrations.AntiAliasing;
 using Voidstrap.Integrations.Overlays;
@@ -20,7 +22,7 @@ internal sealed partial class SessionDimmer : IDisposable
     private byte _alpha;
     private bool _portableOpacityApplied;
     private System.Windows.Window? _portable;
-    private System.Windows.Media.SolidColorBrush? _linuxTint;
+    private SolidColorBrush? _linuxTint;
     private bool _catchesPointer;
 
     public event Action? Clicked;
@@ -49,10 +51,10 @@ internal sealed partial class SessionDimmer : IDisposable
             };
             if (Voidstrap.Utility.Platform.IsLinux)
             {
-                _linuxTint = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 0, 0, 0));
+                _linuxTint = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
                 _portable.AllowsTransparency = true;
                 _portable.Background = _linuxTint;
-                _portable.MouseLeftButtonDown += (_, _) => Clicked?.Invoke();
+                _portable.MouseLeftButtonDown += OnPortableMouseDown;
             }
             _portable.SourceInitialized += OnPortableSourceInitialized;
             PortableOverlay.Prepare(_portable);
@@ -144,7 +146,7 @@ internal sealed partial class SessionDimmer : IDisposable
             _alpha = alpha;
             if (_linuxTint != null)
             {
-                _linuxTint.Color = System.Windows.Media.Color.FromArgb(alpha, 0, 0, 0);
+                _linuxTint.Color = Color.FromArgb(alpha, 0, 0, 0);
                 _portableOpacityApplied = true;
                 return;
             }
@@ -165,6 +167,8 @@ internal sealed partial class SessionDimmer : IDisposable
         _alpha = alpha;
         AntiAliasingInterop.SetLayeredWindowAttributes(_hwnd, 0, alpha, AntiAliasingInterop.LWA_ALPHA);
     }
+
+    private void OnPortableMouseDown(object sender, MouseButtonEventArgs e) => Clicked?.Invoke();
 
     public void SetCatchesPointer(bool catches)
     {
@@ -240,6 +244,7 @@ internal sealed partial class SessionDimmer : IDisposable
         if (_portable != null)
         {
             _portable.SourceInitialized -= OnPortableSourceInitialized;
+            _portable.MouseLeftButtonDown -= OnPortableMouseDown;
             _macBackdrop?.Dispose();
             _macBackdrop = null;
             PortableOverlay.Release(_portable);

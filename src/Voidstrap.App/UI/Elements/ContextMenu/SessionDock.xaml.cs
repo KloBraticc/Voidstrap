@@ -1412,6 +1412,8 @@ public partial class SessionDock : Window
             _dimmerFade.Tick -= DimmerFade_Tick;
             _dimmerFade = null;
         }
+        if (_dimmer != null)
+            _dimmer.Clicked -= OnDimmerClicked;
         _dimmer?.Dispose();
         _dimmer = null;
         _dimmerAlpha = 0;
