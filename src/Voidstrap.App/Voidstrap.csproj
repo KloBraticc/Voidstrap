@@ -79,6 +79,9 @@
 		<CsWinRTWindowsMetadata>10.0.26100.0</CsWinRTWindowsMetadata>
 		<WindowsProjectionMetadataVersion>10.0.26100.57</WindowsProjectionMetadataVersion>
 	</PropertyGroup>
+	<ItemGroup>
+		<RuntimeHostConfigurationOption Include="System.GC.ConserveMemory" Value="7" />
+	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 	  <WarningLevel>4</WarningLevel>

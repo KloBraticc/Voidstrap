@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -94,6 +94,7 @@ namespace Voidstrap.Utility
                 _loopCts = cts;
                 _loopTask = Task.Run(() => BackgroundLoopAsync(cts.Token));
             }
+            StartTrimLoop();
         }
 
         public static void Shutdown()
@@ -114,6 +115,7 @@ namespace Voidstrap.Utility
                 _escalationTask = null;
             }
 
+            StopTrimLoop();
             Cancel(loopCts);
             Cancel(escalationCts);
             Wait(loopTask);
