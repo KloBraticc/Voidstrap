@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -76,6 +76,7 @@ namespace Voidstrap.UI.Elements.Controls
             _spinTimer.Tick += SpinTimer_Tick;
             Loaded += OnControlLoaded;
             Unloaded += OnControlUnloaded;
+            IsVisibleChanged += OnControlVisibleChanged;
             _initialized = true;
         }
 
@@ -105,8 +106,20 @@ namespace Voidstrap.UI.Elements.Controls
 
         private void OnControlLoaded(object sender, RoutedEventArgs e)
         {
-            if (!_userInteracted)
+            UpdateSpin();
+        }
+
+        private void OnControlVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            UpdateSpin();
+        }
+
+        private void UpdateSpin()
+        {
+            if (!_userInteracted && IsLoaded && IsVisible)
                 _spinTimer.Start();
+            else
+                _spinTimer.Stop();
         }
 
         private void OnControlUnloaded(object sender, RoutedEventArgs e)
