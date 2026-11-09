@@ -68,6 +68,7 @@ public class FastFlag : INotifyPropertyChanged
                 _visibleTags = null;
                 OnPropertyChanged(nameof(Name));
                 OnPropertyChanged(nameof(VisibleTags));
+                OnPropertyChanged(nameof(AllTagsText));
             }
         }
     }
@@ -105,6 +106,8 @@ public class FastFlag : INotifyPropertyChanged
     }
 
     public IReadOnlyList<string> VisibleTags => _visibleTags ??= BuildVisibleTags();
+
+    public string AllTagsText => string.Join(", ", FastFlagEditorPage.FastFlagTagHelper.GetTags(Name));
 
     private List<string> BuildVisibleTags()
     {

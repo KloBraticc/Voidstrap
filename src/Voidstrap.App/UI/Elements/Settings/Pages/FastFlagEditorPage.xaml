@@ -114,7 +114,7 @@
           <DataGridTemplateColumn Header="{resources:Loc Ui_Pages_Tags}" Width="230" IsReadOnly="True" CanUserSort="False">
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <ItemsControl ItemsSource="{Binding VisibleTags}">
+                <ItemsControl ItemsSource="{Binding VisibleTags}" ToolTip="{Binding AllTagsText}" Background="Transparent">
                   <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                       <StackPanel Orientation="Horizontal" VerticalAlignment="Center" />
@@ -122,8 +122,8 @@
                   </ItemsControl.ItemsPanel>
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                      <Border Style="{StaticResource FastFlagsTagPill}" Background="{Binding ., Converter={StaticResource TagColorConverter}}">
-                        <TextBlock Style="{StaticResource FastFlagsTagText}" Text="{Binding}" />
+                      <Border Style="{StaticResource FastFlagsTagPill}" Background="{Binding ., Converter={StaticResource TagColorConverter}}" BorderBrush="{Binding ., Converter={StaticResource TagColorConverter}, ConverterParameter=Border}">
+                        <TextBlock Style="{StaticResource FastFlagsTagText}" Foreground="{Binding ., Converter={StaticResource TagColorConverter}, ConverterParameter=Foreground}" Text="{Binding}" />
                       </Border>
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>
