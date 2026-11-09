@@ -66,15 +66,15 @@
           <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Pages_LaunchAGameNowOrCreate}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
         </StackPanel>
       </HeaderedContentControl.Header>
-      <Grid x:Name="GameShortcutPanel">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="140" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" Margin="0,0,18,0">
-          <Border Width="120" Height="120" CornerRadius="12" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}" HorizontalAlignment="Left" ClipToBounds="True">
+      <StackPanel x:Name="GameShortcutPanel">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Border Width="64" Height="64" CornerRadius="10" Background="{DynamicResource ControlFillColorSecondaryBrush}" VerticalAlignment="Center" util:RoundedClip.Radius="10">
             <Grid>
-              <ui:SymbolIcon Symbol="Games24" FontSize="38" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              <ui:SymbolIcon Symbol="Games24" FontSize="26" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               <Border Visibility="{Binding IsIconVisible, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Border.Background>
                   <ImageBrush Stretch="UniformToFill" ImageSource="{Binding GameIconUrl, Converter={StaticResource WindowsOnlyImageSourceConverter}, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
@@ -83,70 +83,72 @@
               </Border>
             </Grid>
           </Border>
-          <TextBlock Width="120" MaxHeight="40" Margin="0,8,0,0" FontSize="13" FontWeight="SemiBold" TextAlignment="Center" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Text="{Binding DisplayGameName}" ToolTip="{Binding DisplayGameName}" />
+          <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
+            <TextBlock FontSize="15" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Text="{Binding DisplayGameName}" ToolTip="{Binding DisplayGameName}" />
+            <ui:TextBox Margin="0,6,0,0" PlaceholderText="{resources:Loc Ui_Pages_Example1818}" AutomationProperties.Name="{resources:Loc Menu_Integrations_Custom_GameID}" Text="{Binding GameID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          </StackPanel>
+        </Grid>
+        <TextBlock Margin="0,8,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_UseThePlaceIDFromThe}" TextWrapping="Wrap" />
+        <Border Height="1" Margin="0,14" Background="{DynamicResource ControlStrokeColorDefaultBrush}" />
+        <StackPanel Visibility="{Binding IsSubplaceMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+              <TextBlock FontWeight="Medium" Text="{resources:Loc Enums_ServerType_Private}" />
+              <TextBlock Margin="0,2,12,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_UseAPrivateServerShareLink}" TextWrapping="Wrap" />
+            </StackPanel>
+            <ui:ToggleSwitch Grid.Column="1" VerticalAlignment="Center" AutomationProperties.Name="{resources:Loc Enums_ServerType_Private}" IsChecked="{Binding IsPrivateServer, Mode=TwoWay}" />
+          </Grid>
+          <ui:TextBox Margin="0,10,0,0" PlaceholderText="{resources:Loc Ui_Pages_PasteTheCompletePrivateServerLink}" AutomationProperties.Name="{resources:Loc Ui_Pages_ShareLinkOrAccessCode}" Text="{Binding PrivateServerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsPrivateServer, Converter={StaticResource BoolToVisibilityConverter}}" />
+          <Border Height="1" Margin="0,14" Background="{DynamicResource ControlStrokeColorDefaultBrush}" />
         </StackPanel>
-        <StackPanel Grid.Column="1">
-          <TextBlock FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_Pages_Destination}" />
-          <TextBlock Margin="0,2,0,10" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Pages_UseThePlaceIDFromThe}" TextWrapping="Wrap" />
-          <TextBlock Text="{resources:Loc Menu_Integrations_Custom_GameID}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-          <ui:TextBox Margin="0,4,0,0" PlaceholderText="{resources:Loc Ui_Pages_Example1818}" Text="{Binding GameID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-          <TabControl Margin="0,12,0,0">
-            <TabItem Header="{resources:Loc Shortcuts_GameTab}">
-              <StackPanel Margin="16">
-                <Grid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <StackPanel>
+            <TextBlock FontWeight="Medium" Text="{resources:Loc Shortcuts_SubplaceTab}" />
+            <TextBlock Margin="0,2,12,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Shortcuts_SubplaceDescription}" TextWrapping="Wrap" />
+          </StackPanel>
+          <ui:ToggleSwitch Grid.Column="1" VerticalAlignment="Center" AutomationProperties.Name="{resources:Loc Shortcuts_SubplaceTab}" IsChecked="{Binding IsSubplaceMode, Mode=TwoWay}" />
+        </Grid>
+        <StackPanel Margin="0,10,0,0" Visibility="{Binding IsSubplaceMode, Converter={StaticResource BoolToVisibilityConverter}}">
+          <ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding Subplaces}" SelectedItem="{Binding SelectedSubplace, Mode=TwoWay}" IsEnabled="{Binding CanLoadSubplaces}" AutomationProperties.Name="{resources:Loc Shortcuts_SubplaceTab}" ToolTip="{Binding SelectedSubplace.DisplayName}">
+            <ComboBox.ItemTemplate>
+              <DataTemplate>
+                <Grid Margin="0,2,16,2">
                   <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                   </Grid.ColumnDefinitions>
-                  <StackPanel>
-                    <TextBlock FontWeight="Medium" Text="{resources:Loc Enums_ServerType_Private}" />
-                    <TextBlock Margin="0,2,12,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_UseAPrivateServerShareLink}" TextWrapping="Wrap" />
-                  </StackPanel>
-                  <ui:ToggleSwitch Grid.Column="1" VerticalAlignment="Center" AutomationProperties.Name="{resources:Loc Enums_ServerType_Private}" IsChecked="{Binding IsPrivateServer, Mode=TwoWay}" />
+                  <Border Width="32" Height="32" CornerRadius="4" ClipToBounds="True" Background="{DynamicResource ControlFillColorSecondaryBrush}">
+                    <Grid>
+                      <ui:SymbolIcon Symbol="Games24" FontSize="20" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                      <Image util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl}" Stretch="UniformToFill" />
+                    </Grid>
+                  </Border>
+                  <TextBlock Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center" Text="{Binding DisplayName}" TextTrimming="CharacterEllipsis" />
                 </Grid>
-                <StackPanel Margin="0,10,0,0" Visibility="{Binding IsPrivateServer, Converter={StaticResource BoolToVisibilityConverter}}">
-                  <TextBlock Text="{resources:Loc Ui_Pages_ShareLinkOrAccessCode}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                  <ui:TextBox Margin="0,4,0,0" PlaceholderText="{resources:Loc Ui_Pages_PasteTheCompletePrivateServerLink}" Text="{Binding PrivateServerCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-              </StackPanel>
-            </TabItem>
-            <TabItem Header="{resources:Loc Shortcuts_SubplaceTab}" IsSelected="{Binding IsSubplaceMode, Mode=TwoWay}">
-              <StackPanel Margin="16">
-                <TextBlock Text="{resources:Loc Shortcuts_SubplaceDescription}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                <TextBlock Margin="0,8,0,0" Text="{Binding SubplaceStatus}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                <ComboBox Margin="0,8,0,0" HorizontalAlignment="Stretch" ItemsSource="{Binding Subplaces}" SelectedItem="{Binding SelectedSubplace, Mode=TwoWay}" IsEnabled="{Binding CanLoadSubplaces}" AutomationProperties.Name="{resources:Loc Shortcuts_SubplaceTab}" ToolTip="{Binding SelectedSubplace.DisplayName}">
-                  <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                      <Grid Margin="0,2,16,2">
-                        <Grid.ColumnDefinitions>
-                          <ColumnDefinition Width="Auto" />
-                          <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Border Width="32" Height="32" CornerRadius="4" ClipToBounds="True" Background="{DynamicResource ControlFillColorSecondaryBrush}">
-                          <Grid>
-                            <ui:SymbolIcon Symbol="Games24" FontSize="20" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-                            <Image util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl}" Stretch="UniformToFill" />
-                          </Grid>
-                        </Border>
-                        <TextBlock Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center" Text="{Binding DisplayName}" TextTrimming="CharacterEllipsis" />
-                      </Grid>
-                    </DataTemplate>
-                  </ComboBox.ItemTemplate>
-                </ComboBox>
-                <TextBlock Margin="0,8,0,0" FontSize="12" Text="{resources:Loc Shortcuts_SubplaceAccess}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-              </StackPanel>
-            </TabItem>
-          </TabControl>
-          <StackPanel Margin="0,10,0,0">
-            <TextBlock Text="{resources:Loc Ui_Pages_ServerInstanceID}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-            <ui:TextBox Margin="0,4,0,0" PlaceholderText="{resources:Loc Ui_Pages_OptionalPublicServerInstance}" IsEnabled="{Binding IsPublicServer}" Text="{Binding GameInstanceId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-          </StackPanel>
-          <StackPanel Margin="0,16,0,0" Orientation="Horizontal">
-            <ui:Button x:Name="LaunchGameButton" Appearance="Primary" Icon="Play24" Content="{resources:Loc Ui_Pages_LaunchGame}" IsEnabled="{Binding CanLaunchGame}" Click="BtnLaunchGame_Click" />
-            <ui:Button x:Name="CreateGameShortcutButton" Margin="8,0,0,0" Icon="Desktop24" Content="{resources:Loc Ui_Pages_CreateDesktopShortcut}" IsEnabled="{Binding CanLaunchGame}" Click="BtnCreateShortcut_Click" />
-          </StackPanel>
+              </DataTemplate>
+            </ComboBox.ItemTemplate>
+          </ComboBox>
+          <TextBlock Margin="0,6,0,0" FontSize="12" Text="{Binding SubplaceStatus}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Shortcuts_SubplaceAccess}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
         </StackPanel>
-      </Grid>
+        <StackPanel Visibility="{Binding IsPublicServer, Converter={StaticResource BoolToVisibilityConverter}}">
+          <Border Height="1" Margin="0,14" Background="{DynamicResource ControlStrokeColorDefaultBrush}" />
+          <TextBlock FontWeight="Medium" Text="{resources:Loc Ui_Pages_ServerInstanceID}" />
+          <ui:TextBox Margin="0,6,0,0" PlaceholderText="{resources:Loc Ui_Pages_OptionalPublicServerInstance}" AutomationProperties.Name="{resources:Loc Ui_Pages_ServerInstanceID}" Text="{Binding GameInstanceId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+        <StackPanel Margin="0,16,0,0" Orientation="Horizontal">
+          <ui:Button x:Name="LaunchGameButton" Appearance="Primary" Icon="Play24" Content="{resources:Loc Ui_Pages_LaunchGame}" IsEnabled="{Binding CanLaunchGame}" Click="BtnLaunchGame_Click" />
+          <ui:Button x:Name="CreateGameShortcutButton" Margin="8,0,0,0" Icon="Desktop24" Content="{resources:Loc Ui_Pages_CreateDesktopShortcut}" IsEnabled="{Binding CanLaunchGame}" Click="BtnCreateShortcut_Click" />
+        </StackPanel>
+      </StackPanel>
     </ui:CardExpander>
   </StackPanel>
 </ui:UiPage>
