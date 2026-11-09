@@ -202,6 +202,14 @@ public sealed class GameVideoView : ContentControl
                     + $"<video src=\"{source}\" autoplay muted loop playsinline style=\"width:100vw;height:100vh;object-fit:cover;pointer-events:none\"></video>"
                     + "</body></html>"
             );
+            if (!ReferenceEquals(Content, view) || !IsVisible || VideoPath != path)
+            {
+                if (!ReferenceEquals(Content, view))
+                    view.Dispose();
+                else
+                    Teardown();
+                return;
+            }
             core.Navigate($"https://{VirtualHost}/{page}");
             _view = view;
             _playingPath = path;
