@@ -9943,4 +9943,25 @@ Payagan ba?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Mag import ng settings</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Piliin ang app na pagkukunan ng iyong settings at FastFlags.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Mag import mula sa {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Hinahanap ang settings</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Nahanap ang settings</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Hindi nahanap, puwede mong piliin ang file mismo</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Pumili ng app</value>
+  </data>
 </root>

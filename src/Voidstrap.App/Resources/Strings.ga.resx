@@ -9633,4 +9633,25 @@ Ceadaigh é?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Iompórtáil socruithe</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Roghnaigh an aip ar mhaith leat do shocruithe agus FastFlags a thabhairt uaidh.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Iompórtáil ó {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Ag cuardach socruithe</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Aimsíodh socruithe</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Níor aimsíodh, is féidir leat an comhad a roghnú tú féin</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Roghnaigh aip</value>
+  </data>
 </root>

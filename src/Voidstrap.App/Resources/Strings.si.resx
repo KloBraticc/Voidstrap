@@ -9633,4 +9633,25 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>සැකසුම් ආයාත කරන්න</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>ඔබේ සැකසුම් සහ FastFlags ගෙන ඒමට අවශ්‍ය යෙදුම තෝරන්න.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>{0} වෙතින් ආයාත කරන්න</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>සැකසුම් සොයමින්</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>සැකසුම් හමු විය</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>හමු නොවීය, ඔබට ගොනුව ඔබම තෝරාගත හැක</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>යෙදුම තෝරන්න</value>
+  </data>
 </root>

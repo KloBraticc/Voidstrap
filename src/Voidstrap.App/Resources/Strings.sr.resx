@@ -9633,4 +9633,25 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Увези подешавања</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Изабери апликацију из које желиш да пренесеш подешавања и FastFlags.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Увези из {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Тражење подешавања</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Подешавања пронађена</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Није пронађено, датотеку можеш сам да изабереш</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Изабери апликацију</value>
+  </data>
 </root>

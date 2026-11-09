@@ -10119,6 +10119,13 @@ namespace Voidstrap.Resources {
         public static string Menu_Mods_Managed_NoMatchTitle => ResourceManager.GetString("Menu.Mods.Managed.NoMatchTitle", resourceCulture);
         public static string Menu_Mods_Managed_TargetRoblox => ResourceManager.GetString("Menu.Mods.Managed.TargetRoblox", resourceCulture);
         public static string Menu_Mods_Managed_TargetStudio => ResourceManager.GetString("Menu.Mods.Managed.TargetStudio", resourceCulture);
+        public static string Menu_Import_Title => ResourceManager.GetString("Menu.Import.Title", resourceCulture);
+        public static string Menu_Import_Description => ResourceManager.GetString("Menu.Import.Description", resourceCulture);
+        public static string Menu_Import_From => ResourceManager.GetString("Menu.Import.From", resourceCulture);
+        public static string Menu_Import_Checking => ResourceManager.GetString("Menu.Import.Checking", resourceCulture);
+        public static string Menu_Import_Found => ResourceManager.GetString("Menu.Import.Found", resourceCulture);
+        public static string Menu_Import_NotFound => ResourceManager.GetString("Menu.Import.NotFound", resourceCulture);
+        public static string Menu_Import_Choose => ResourceManager.GetString("Menu.Import.Choose", resourceCulture);
         public static string Menu_Integrations_AllowDiscordInvites_Title => ResourceManager.GetString("Menu.Integrations.AllowDiscordInvites.Title", resourceCulture);
 
         public static string Menu_Integrations_AllowDiscordInvites_Description => ResourceManager.GetString("Menu.Integrations.AllowDiscordInvites.Description", resourceCulture);

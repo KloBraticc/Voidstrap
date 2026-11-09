@@ -9947,4 +9947,25 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>وارد کردن تنظیمات</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>برنامه‌ای را انتخاب کنید که می‌خواهید تنظیمات و FastFlags را از آن بیاورید.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>وارد کردن از {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>در حال جستجوی تنظیمات</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>تنظیمات پیدا شد</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>پیدا نشد، می‌توانید خودتان فایل را انتخاب کنید</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>انتخاب برنامه</value>
+  </data>
 </root>

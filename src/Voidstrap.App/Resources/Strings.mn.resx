@@ -9633,4 +9633,25 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Тохиргоо импортлох</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Тохиргоо болон FastFlags шилжүүлэх аппаа сонгоно уу.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>{0}-оос импортлох</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Тохиргоо хайж байна</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Тохиргоо олдлоо</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Олдсонгүй, файлыг өөрөө сонгож болно</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Апп сонгох</value>
+  </data>
 </root>

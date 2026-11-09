@@ -9633,4 +9633,25 @@ Bada shi?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Shigo da saituna</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Zaɓi manhajar da kake son kawo saitunanka da FastFlags daga ita.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Shigo daga {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Ana neman saituna</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>An sami saituna</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Ba a samu ba, za ka iya zaɓar fayil ɗin da kanka</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Zaɓi manhaja</value>
+  </data>
 </root>

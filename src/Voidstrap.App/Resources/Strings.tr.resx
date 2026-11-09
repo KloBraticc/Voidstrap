@@ -9943,4 +9943,25 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Ayarları içe aktar</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Ayarlarınızı ve FastFlags öğelerini getirmek istediğiniz uygulamayı seçin.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>{0} uygulamasından içe aktar</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Ayarlar aranıyor</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Ayarlar bulundu</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Bulunamadı, dosyayı kendiniz seçebilirsiniz</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Uygulama seç</value>
+  </data>
 </root>

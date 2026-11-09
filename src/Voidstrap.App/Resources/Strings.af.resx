@@ -9632,4 +9632,25 @@ Laat dit toe?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Voer instellings in</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Kies die toep waaruit jy jou instellings en FastFlags wil oorbring.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Voer in vanaf {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Soek na instellings</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Instellings gevind</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Nie gevind nie, jy kan self die lêer kies</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Kies toep</value>
+  </data>
 </root>

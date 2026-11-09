@@ -9632,4 +9632,25 @@ Baimendu al duzu?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Inportatu ezarpenak</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Aukeratu zure ezarpenak eta FastFlags ekarri nahi dituzun aplikazioa.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Inportatu hemendik: {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Ezarpenak bilatzen</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Ezarpenak aurkitu dira</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Ez da aurkitu, fitxategia zuk zeuk aukeratu dezakezu</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Aukeratu aplikazioa</value>
+  </data>
 </root>

@@ -8350,7 +8350,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     }
 
     private Border[] ModalPanels =>
-        [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel, NewsItemPanel, GameDetailPanel];
+        [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel, NewsItemPanel, GameDetailPanel, BootstrapperImportPanel];
 
     private bool ModalIsSidebar => ReferenceEquals(_modalPanel, LaunchTargetPanel);
 
@@ -8689,6 +8689,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             ReleaseNewsItem();
         if (ReferenceEquals(_modalPanel, GameDetailPanel))
             ReleaseGameDetail();
+        if (ReferenceEquals(_modalPanel, BootstrapperImportPanel))
+            ReleaseBootstrapperImport();
         if (_modalScale != null)
             SetModalScale(_modalScale, 1.0);
         LaunchTargetPanelSlide.BeginAnimation(TranslateTransform.XProperty, null);
@@ -8770,6 +8772,43 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         view.CloseRequested += NewsItem_CloseRequested;
         NewsItemHost.Content = view;
         OpenSimpleModal(NewsItemPanel, NewsItemPanelScale);
+    }
+
+    private Action<string>? _bootstrapperImportChosen;
+
+    public void ShowBootstrapperImport(Action<string> chosen)
+    {
+        ReleaseBootstrapperImport();
+        _bootstrapperImportChosen = chosen;
+        Voidstrap.UI.Elements.Dialogs.BootstrapperImportDialog view = new();
+        view.CloseRequested += BootstrapperImport_CloseRequested;
+        view.SourceChosen += BootstrapperImport_SourceChosen;
+        BootstrapperImportHost.Content = view;
+        OpenSimpleModal(BootstrapperImportPanel, BootstrapperImportPanelScale);
+    }
+
+    private void BootstrapperImport_CloseRequested(object? sender, EventArgs e)
+    {
+        CloseSimpleModal();
+    }
+
+    private void BootstrapperImport_SourceChosen(object? sender, string source)
+    {
+        Action<string>? chosen = _bootstrapperImportChosen;
+        _bootstrapperImportChosen = null;
+        CloseSimpleModal();
+        chosen?.Invoke(source);
+    }
+
+    private void ReleaseBootstrapperImport()
+    {
+        _bootstrapperImportChosen = null;
+        if (BootstrapperImportHost.Content is not Voidstrap.UI.Elements.Dialogs.BootstrapperImportDialog view)
+            return;
+        view.CloseRequested -= BootstrapperImport_CloseRequested;
+        view.SourceChosen -= BootstrapperImport_SourceChosen;
+        view.Release();
+        BootstrapperImportHost.Content = null;
     }
 
     public void ShowGameDetail(long placeId, long universeId, string name)

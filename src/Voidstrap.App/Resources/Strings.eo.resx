@@ -9632,4 +9632,25 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Importi agordojn</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Elektu la aplikaĵon, el kiu vi volas transporti viajn agordojn kaj FastFlags.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Importi el {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Serĉante agordojn</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Agordoj trovitaj</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Ne trovita, vi povas mem elekti la dosieron</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Elekti aplikaĵon</value>
+  </data>
 </root>

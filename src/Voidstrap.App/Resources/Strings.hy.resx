@@ -9633,4 +9633,25 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Ներմուծել կարգավորումները</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Ընտրեք այն հավելվածը, որից ուզում եք տեղափոխել ձեր կարգավորումներն ու FastFlags։</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Ներմուծել {0}-ից</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Կարգավորումների որոնում</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Կարգավորումները գտնվեցին</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Չգտնվեց, կարող եք ինքներդ ընտրել ֆայլը</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Ընտրել հավելված</value>
+  </data>
 </root>

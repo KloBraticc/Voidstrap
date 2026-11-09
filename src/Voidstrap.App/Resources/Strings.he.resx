@@ -9633,4 +9633,25 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>ייבוא הגדרות</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>בחר את האפליקציה שממנה תרצה להעביר את ההגדרות וה FastFlags שלך.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>ייבוא מ {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>מחפש הגדרות</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>נמצאו הגדרות</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>לא נמצא, אפשר לבחור את הקובץ בעצמך</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>בחר אפליקציה</value>
+  </data>
 </root>

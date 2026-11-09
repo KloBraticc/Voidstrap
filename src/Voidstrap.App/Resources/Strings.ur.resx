@@ -9632,4 +9632,25 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>سیٹنگز درآمد کریں</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>وہ ایپ منتخب کریں جس سے آپ اپنی سیٹنگز اور FastFlags لانا چاہتے ہیں۔</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>{0} سے درآمد کریں</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>سیٹنگز تلاش کی جا رہی ہیں</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>سیٹنگز مل گئیں</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>نہیں ملیں، آپ فائل خود منتخب کر سکتے ہیں</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>ایپ منتخب کریں</value>
+  </data>
 </root>

@@ -9633,4 +9633,25 @@ kwe ya?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Bubata ntọala</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Họrọ ngwa ị chọrọ iwebata ntọala gị na FastFlags site na ya.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Bubata site na {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Na-achọ ntọala</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Achọtala ntọala</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Achọtaghị ya, ị nwere ike ịhọrọ faịlụ ahụ n onwe gị</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Họrọ ngwa</value>
+  </data>
 </root>

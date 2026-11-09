@@ -9969,4 +9969,25 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>导入设置</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>选择要从中迁移设置和 FastFlags 的应用。</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>从 {0} 导入</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>正在查找设置</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>已找到设置</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>未找到，您可以自行选择文件</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>选择应用</value>
+  </data>
 </root>

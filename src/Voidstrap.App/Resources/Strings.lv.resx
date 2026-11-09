@@ -9633,4 +9633,25 @@ Vai atļaut?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Importēt iestatījumus</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Izvēlies lietotni, no kuras pārnest iestatījumus un FastFlags.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Importēt no {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Meklē iestatījumus</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Iestatījumi atrasti</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Nav atrasts, failu vari izvēlēties pats</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Izvēlēties lietotni</value>
+  </data>
 </root>

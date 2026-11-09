@@ -9633,4 +9633,25 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Увези поставки</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Избери ја апликацијата од која сакаш да ги пренесеш поставките и FastFlags.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Увези од {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Барање поставки</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Поставките се пронајдени</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Не е пронајдено, датотеката можеш сам да ја избереш</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Избери апликација</value>
+  </data>
 </root>

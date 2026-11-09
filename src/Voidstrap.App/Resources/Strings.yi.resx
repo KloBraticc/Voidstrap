@@ -9632,4 +9632,25 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>אימפּאָרטירן באַשטימונגען</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>קלײַב אויס די אַפּ פֿון וועלכער דו ווילסט ברענגען דײַנע באַשטימונגען און FastFlags.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>אימפּאָרטירן פֿון {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>זוכט באַשטימונגען</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>באַשטימונגען געפֿונען</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>נישט געפֿונען, דו קענסט אַליין אויסקלײַבן די טעקע</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>קלײַב אַן אַפּ</value>
+  </data>
 </root>

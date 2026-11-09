@@ -9960,4 +9960,25 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>設定をインポート</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>設定と FastFlags を引き継ぐアプリを選んでください。</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>{0} からインポート</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>設定を検索しています</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>設定が見つかりました</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>見つかりません。ファイルを自分で選択できます</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>アプリを選択</value>
+  </data>
 </root>

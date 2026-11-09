@@ -9945,4 +9945,25 @@ Engedélyezed?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Beállítások importálása</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Válaszd ki az alkalmazást, ahonnan át szeretnéd hozni a beállításaidat és a FastFlags elemeket.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Importálás innen: {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Beállítások keresése</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Beállítások megtalálva</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Nem található, a fájlt kiválaszthatod te is</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Alkalmazás kiválasztása</value>
+  </data>
 </root>

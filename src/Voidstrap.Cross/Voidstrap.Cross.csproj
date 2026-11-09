@@ -1,4 +1,4 @@
-<Project Sdk="LibreWPF.Sdk">
+﻿<Project Sdk="LibreWPF.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net10.0-windows</TargetFramework>
@@ -326,7 +326,7 @@
 		<Resource Visible="false" Include="..\Voidstrap.App\Resources\RobloxVngIcon.png">
 			<Link>Resources\RobloxVngIcon.png</Link>
 		</Resource>
-		<Resource Visible="false" Include="..\Voidstrap.App\Resources\Checkmark.ico;..\Voidstrap.App\Resources\CrossMark.ico;..\Voidstrap.App\Resources\Icon2008.ico;..\Voidstrap.App\Resources\Icon2011.ico;..\Voidstrap.App\Resources\Icon2017.ico;..\Voidstrap.App\Resources\Icon2019.ico;..\Voidstrap.App\Resources\Icon2022.ico;..\Voidstrap.App\Resources\IconEarly2015.ico;..\Voidstrap.App\Resources\IconLate2015.ico;..\Voidstrap.App\Resources\IconVoidstrap.ico;..\Voidstrap.App\Resources\Erik.png;..\Voidstrap.App\Resources\RobloxFace.png;..\Voidstrap.App\Resources\RobloxPlayerIcon.png;..\Voidstrap.App\Resources\RobloxStudioIcon.png;..\Voidstrap.App\Resources\SoberIcon.png;..\Voidstrap.App\Resources\RosemaryIcon.png;..\Voidstrap.App\Resources\VinegarIcon.png">
+		<Resource Visible="false" Include="..\Voidstrap.App\Resources\Checkmark.ico;..\Voidstrap.App\Resources\CrossMark.ico;..\Voidstrap.App\Resources\Icon2008.ico;..\Voidstrap.App\Resources\Icon2011.ico;..\Voidstrap.App\Resources\Icon2017.ico;..\Voidstrap.App\Resources\Icon2019.ico;..\Voidstrap.App\Resources\Icon2022.ico;..\Voidstrap.App\Resources\IconEarly2015.ico;..\Voidstrap.App\Resources\IconLate2015.ico;..\Voidstrap.App\Resources\IconVoidstrap.ico;..\Voidstrap.App\Resources\Erik.png;..\Voidstrap.App\Resources\ImportSourceBloxstrap.png;..\Voidstrap.App\Resources\ImportSourceFishstrap.png;..\Voidstrap.App\Resources\RobloxFace.png;..\Voidstrap.App\Resources\RobloxPlayerIcon.png;..\Voidstrap.App\Resources\RobloxStudioIcon.png;..\Voidstrap.App\Resources\SoberIcon.png;..\Voidstrap.App\Resources\RosemaryIcon.png;..\Voidstrap.App\Resources\VinegarIcon.png">
 			<Link>Resources\%(Filename)%(Extension)</Link>
 		</Resource>
 		<Resource Visible="false" Include="..\Voidstrap.App\Resources\BootstrapperStyles\ByfronDialog\ByfronLogoDark.jpg;..\Voidstrap.App\Resources\BootstrapperStyles\ByfronDialog\ByfronLogoLight.jpg;..\Voidstrap.App\Resources\BootstrapperStyles\ByfronDialog\Matt.png">

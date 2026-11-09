@@ -9632,4 +9632,25 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>সেটিংস ইমপোর্ট করুন</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>যে অ্যাপ থেকে আপনার সেটিংস ও FastFlags আনতে চান সেটি বেছে নিন।</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>{0} থেকে ইমপোর্ট করুন</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>সেটিংস খোঁজা হচ্ছে</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>সেটিংস পাওয়া গেছে</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>পাওয়া যায়নি, আপনি নিজে ফাইল বেছে নিতে পারেন</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>অ্যাপ বেছে নিন</value>
+  </data>
 </root>

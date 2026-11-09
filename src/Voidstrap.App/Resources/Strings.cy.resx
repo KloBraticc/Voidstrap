@@ -9632,4 +9632,25 @@ Caniatáu iddo?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Mewnforio gosodiadau</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Dewiswch yr ap rydych am ddod â’ch gosodiadau a’ch FastFlags ohono.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Mewnforio o {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Yn chwilio am osodiadau</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Gosodiadau wedi’u canfod</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Heb ei ganfod, gallwch ddewis y ffeil eich hun</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Dewis ap</value>
+  </data>
 </root>

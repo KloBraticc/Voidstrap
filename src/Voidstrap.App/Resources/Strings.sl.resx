@@ -9633,4 +9633,25 @@ Dovoli?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Uvozi nastavitve</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Izberi aplikacijo, iz katere želiš prenesti nastavitve in FastFlags.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Uvozi iz {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Iskanje nastavitev</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Nastavitve najdene</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Ni najdeno, datoteko lahko izbereš sam</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Izberi aplikacijo</value>
+  </data>
 </root>

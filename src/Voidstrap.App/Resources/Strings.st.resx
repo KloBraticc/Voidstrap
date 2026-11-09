@@ -9632,4 +9632,25 @@ E lumella?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Kenya disetting</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Kgetha app eo o batlang ho tlisa disetting tsa hao le FastFlags ho yona.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Kenya ho tswa ho {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Ho batlwa disetting</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Disetting di fumanwe</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Ha di a fumanwa, o ka kgetha faele ka bowena</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Kgetha app</value>
+  </data>
 </root>

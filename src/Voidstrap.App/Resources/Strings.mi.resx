@@ -9633,4 +9633,25 @@ Whakaaetia?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Kawemai tautuhinga</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Kōwhiria te taupānga e hiahia ana koe ki te kawe mai i ō tautuhinga me ō FastFlags.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Kawemai mai i {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>E rapu ana i ngā tautuhinga</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Kua kitea ngā tautuhinga</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Kāore i kitea, ka taea e koe te kōwhiri i te kōnae</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Kōwhiri taupānga</value>
+  </data>
 </root>

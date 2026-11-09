@@ -9632,4 +9632,25 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>அமைப்புகளை இறக்குமதி செய்</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>அமைப்புகளையும் FastFlags ஐயும் கொண்டுவர விரும்பும் ஆப்பைத் தேர்ந்தெடுக்கவும்.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>{0} இலிருந்து இறக்குமதி செய்</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>அமைப்புகளைத் தேடுகிறது</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>அமைப்புகள் கிடைத்தன</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>கிடைக்கவில்லை, கோப்பை நீங்களே தேர்வு செய்யலாம்</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>ஆப்பைத் தேர்வு செய்</value>
+  </data>
 </root>

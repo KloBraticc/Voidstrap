@@ -9632,4 +9632,25 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Імпарт налад</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Выберыце праграму, з якой трэба перанесці налады і FastFlags.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Імпарт з {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Пошук налад</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Налады знойдзены</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Не знойдзена, можна выбраць файл самастойна</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Выбраць праграму</value>
+  </data>
 </root>

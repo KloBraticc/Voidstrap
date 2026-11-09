@@ -9633,4 +9633,25 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>პარამეტრების იმპორტი</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>აირჩიეთ აპი, საიდანაც გსურთ პარამეტრებისა და FastFlags გადმოტანა.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>იმპორტი {0}-დან</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>პარამეტრების ძიება</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>პარამეტრები ნაპოვნია</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>ვერ მოიძებნა, ფაილის არჩევა თავად შეგიძლიათ</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>აპის არჩევა</value>
+  </data>
 </root>

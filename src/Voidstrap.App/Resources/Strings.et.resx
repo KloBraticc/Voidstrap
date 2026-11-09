@@ -9632,4 +9632,25 @@ Kas lubada?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Impordi seaded</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Vali rakendus, millest soovid oma seaded ja FastFlags üle tuua.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Impordi rakendusest {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Seadete otsimine</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Seaded leitud</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Ei leitud, saad faili ise valida</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Vali rakendus</value>
+  </data>
 </root>

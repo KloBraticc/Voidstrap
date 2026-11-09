@@ -9633,4 +9633,25 @@ E lejon atë?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Importo cilësimet</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Zgjidh aplikacionin nga i cili do të sjellësh cilësimet dhe FastFlags.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Importo nga {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Po kërkohen cilësimet</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Cilësimet u gjetën</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Nuk u gjet, mund ta zgjedhësh skedarin vetë</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Zgjidh aplikacionin</value>
+  </data>
 </root>

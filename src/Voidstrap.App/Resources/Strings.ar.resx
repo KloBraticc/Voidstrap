@@ -9944,4 +9944,25 @@
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>استيراد الإعدادات</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>اختر التطبيق الذي تريد نقل إعداداتك وFastFlags منه.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>استيراد من {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>جارٍ البحث عن الإعدادات</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>تم العثور على الإعدادات</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>لم يُعثر عليها، يمكنك اختيار الملف بنفسك</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>اختر التطبيق</value>
+  </data>
 </root>

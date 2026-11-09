@@ -9633,4 +9633,25 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>ക്രമീകരണങ്ങൾ ഇമ്പോർട്ട് ചെയ്യുക</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>ക്രമീകരണങ്ങളും FastFlags ഉം കൊണ്ടുവരേണ്ട ആപ്പ് തിരഞ്ഞെടുക്കുക.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>{0} ൽ നിന്ന് ഇമ്പോർട്ട് ചെയ്യുക</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>ക്രമീകരണങ്ങൾ തിരയുന്നു</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>ക്രമീകരണങ്ങൾ കണ്ടെത്തി</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>കണ്ടെത്തിയില്ല, ഫയൽ നിങ്ങൾക്ക് തന്നെ തിരഞ്ഞെടുക്കാം</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>ആപ്പ് തിരഞ്ഞെടുക്കുക</value>
+  </data>
 </root>

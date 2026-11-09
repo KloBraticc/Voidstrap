@@ -9633,4 +9633,25 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಆಮದು ಮಾಡಿ</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>ನಿಮ್ಮ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಮತ್ತು FastFlags ತರಲು ಬಯಸುವ ಆ್ಯಪ್ ಆಯ್ಕೆಮಾಡಿ.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>{0} ನಿಂದ ಆಮದು ಮಾಡಿ</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಹುಡುಕಲಾಗುತ್ತಿದೆ</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಸಿಕ್ಕಿವೆ</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>ಸಿಗಲಿಲ್ಲ, ಫೈಲ್ ಅನ್ನು ನೀವೇ ಆಯ್ಕೆಮಾಡಬಹುದು</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>ಆ್ಯಪ್ ಆಯ್ಕೆಮಾಡಿ</value>
+  </data>
 </root>

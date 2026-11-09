@@ -9633,4 +9633,25 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Importa s-settings</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Agħżel l-app li minnha trid iġġib is-settings u l-FastFlags tiegħek.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Importa minn {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Qed infittxu s-settings</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Instabu s-settings</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Ma nstabx, tista’ tagħżel il-fajl int stess</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Agħżel app</value>
+  </data>
 </root>

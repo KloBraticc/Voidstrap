@@ -9633,4 +9633,25 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>सेटिङहरू आयात गर्नुहोस्</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>सेटिङ र FastFlags ल्याउन चाहेको एप छान्नुहोस्।</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>{0} बाट आयात गर्नुहोस्</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>सेटिङहरू खोजिँदै</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>सेटिङहरू भेटिए</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>भेटिएन, तपाईं आफैं फाइल छान्न सक्नुहुन्छ</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>एप छान्नुहोस्</value>
+  </data>
 </root>

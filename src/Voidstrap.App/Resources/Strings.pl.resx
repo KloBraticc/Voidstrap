@@ -9946,4 +9946,25 @@ Zezwolić?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Importuj ustawienia</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Wybierz aplikację, z której chcesz przenieść ustawienia i FastFlags.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Importuj z {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Szukanie ustawień</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Znaleziono ustawienia</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Nie znaleziono, możesz sam wybrać plik</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Wybierz aplikację</value>
+  </data>
 </root>

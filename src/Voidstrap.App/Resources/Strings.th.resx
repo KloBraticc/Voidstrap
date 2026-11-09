@@ -9940,4 +9940,25 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>นำเข้าการตั้งค่า</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>เลือกแอปที่คุณต้องการนำการตั้งค่าและ FastFlags มา</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>นำเข้าจาก {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>กำลังค้นหาการตั้งค่า</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>พบการตั้งค่า</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>ไม่พบ คุณเลือกไฟล์เองได้</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>เลือกแอป</value>
+  </data>
 </root>

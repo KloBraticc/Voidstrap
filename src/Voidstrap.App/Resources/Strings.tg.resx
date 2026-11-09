@@ -9632,4 +9632,25 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Воридоти танзимот</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Барномаеро интихоб кунед, ки аз он танзимот ва FastFlags овардан мехоҳед.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Воридот аз {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Ҷустуҷӯи танзимот</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Танзимот ёфт шуд</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Ёфт нашуд, файлро худатон интихоб карда метавонед</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Интихоби барнома</value>
+  </data>
 </root>

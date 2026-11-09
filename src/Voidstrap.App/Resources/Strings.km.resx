@@ -9633,4 +9633,25 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>នាំចូលការកំណត់</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>ជ្រើសកម្មវិធីដែលអ្នកចង់នាំការកំណត់ និង FastFlags មកពី។</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>នាំចូលពី {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>កំពុងស្វែងរកការកំណត់</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>បានរកឃើញការកំណត់</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>រកមិនឃើញ អ្នកអាចជ្រើសឯកសារដោយខ្លួនឯង</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>ជ្រើសកម្មវិធី</value>
+  </data>
 </root>

@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,6 +9,8 @@ namespace Voidstrap.UI.Elements.Controls;
 public partial class BootstrapperImportControl : UserControl
 {
     private CancellationTokenSource? _importCts;
+
+    private System.Windows.Controls.Button? _importButton;
     public bool StageOnly { get; set; }
     internal Voidstrap.Utility.BootstrapperImportPlan? PendingPlan { get; private set; }
     public event EventHandler? Imported;
@@ -26,22 +27,60 @@ public partial class BootstrapperImportControl : UserControl
         _importCts?.Cancel();
     }
 
-    private async void ApplyFrom_Click(object sender, RoutedEventArgs e)
+    private void ApplyFrom_Click(object sender, RoutedEventArgs e)
     {
-        if (
-            _importCts != null
-            || sender is not System.Windows.Controls.Button applyButton
-            || applyButton.Parent is not StackPanel panel
-            || panel.Children.OfType<ComboBox>().FirstOrDefault() is not ComboBox sourceSelector
-            || sourceSelector.SelectedItem is not ComboBoxItem item
-            || item.Tag is not string source
-        )
+        if (_importCts != null)
             return;
+        _importButton = sender as System.Windows.Controls.Button;
+        if (Window.GetWindow(this) is Voidstrap.UI.Elements.Settings.MainWindow main)
+        {
+            main.ShowBootstrapperImport(OnSourceChosen);
+            return;
+        }
+        ShowStandaloneChooser();
+    }
 
+    private void ShowStandaloneChooser()
+    {
+        Voidstrap.UI.Elements.Dialogs.BootstrapperImportDialog view = new();
+        Wpf.Ui.Controls.UiWindow window = new()
+        {
+            Title = Strings.Menu_Import_Title,
+            Width = 560,
+            SizeToContent = SizeToContent.Height,
+            ResizeMode = ResizeMode.NoResize,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            ShowInTaskbar = false,
+            ExtendsContentIntoTitleBar = true,
+            Owner = Window.GetWindow(this),
+        };
+        window.SetResourceReference(BackgroundProperty, "ApplicationBackgroundBrush");
+        window.Content = DialogChrome.Host(DialogChrome.TitleBar(Strings.Menu_Import_Title), view);
+        string? chosen = null;
+        void OnChosen(object? s, string source)
+        {
+            chosen = source;
+            window.Close();
+        }
+        void OnClose(object? s, EventArgs args) => window.Close();
+        view.SourceChosen += OnChosen;
+        view.CloseRequested += OnClose;
+        window.ShowOwnedDialog();
+        view.SourceChosen -= OnChosen;
+        view.CloseRequested -= OnClose;
+        view.Release();
+        if (chosen != null)
+            OnSourceChosen(chosen);
+    }
+
+    private async void OnSourceChosen(string source)
+    {
+        if (_importCts != null)
+            return;
         using CancellationTokenSource cts = new();
         _importCts = cts;
-        applyButton.IsEnabled = false;
-        sourceSelector.IsEnabled = false;
+        if (_importButton != null)
+            _importButton.IsEnabled = false;
         Window? owner = Window.GetWindow(this);
         bool ownerEnabled = owner?.IsEnabled == true;
         bool ownerDisabled = false;
@@ -115,8 +154,8 @@ public partial class BootstrapperImportControl : UserControl
             if (ownerDisabled)
                 owner!.IsEnabled = true;
             _importCts = null;
-            applyButton.IsEnabled = true;
-            sourceSelector.IsEnabled = true;
+            if (_importButton != null)
+                _importButton.IsEnabled = true;
         }
     }
 }

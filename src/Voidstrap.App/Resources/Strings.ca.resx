@@ -9632,4 +9632,25 @@ Ho permets?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Importa la configuració</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Tria l’aplicació des d’on vols portar la configuració i les FastFlags.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Importa des de {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Cercant la configuració</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>S’ha trobat la configuració</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>No s’ha trobat, pots triar el fitxer tu mateix</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Tria l’aplicació</value>
+  </data>
 </root>

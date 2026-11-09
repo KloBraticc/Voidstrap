@@ -9633,4 +9633,25 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>ترتیبات راوړل</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>هغه اپ وټاکئ چې غواړئ خپل ترتیبات او FastFlags ترې راوړئ.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>له {0} څخه راوړل</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>ترتیبات لټول کېږي</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>ترتیبات وموندل شول</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>ونه موندل شول، دوتنه پخپله ټاکلی شئ</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>اپ وټاکئ</value>
+  </data>
 </root>

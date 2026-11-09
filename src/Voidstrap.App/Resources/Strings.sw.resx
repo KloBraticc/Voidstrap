@@ -9632,4 +9632,25 @@ Je, unairuhusu?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Leta mipangilio</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Chagua programu unayotaka kuleta mipangilio yako na FastFlags kutoka kwake.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Leta kutoka {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Inatafuta mipangilio</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Mipangilio imepatikana</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Haijapatikana, unaweza kuchagua faili mwenyewe</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Chagua programu</value>
+  </data>
 </root>

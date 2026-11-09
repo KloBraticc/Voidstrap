@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<DebugType>embedded</DebugType>
@@ -101,6 +101,8 @@
 		<Resource Include="Resources\Checkmark.ico" />
 		<Resource Include="Resources\CrossMark.ico" />
 		<Resource Include="Resources\Erik.png" />
+		<Resource Include="Resources\ImportSourceBloxstrap.png" />
+		<Resource Include="Resources\ImportSourceFishstrap.png" />
 		<Resource Include="Resources\RobloxFace.png" />
 		<Resource Include="Resources\RobloxPlayerIcon.png" />
 		<Resource Include="Resources\RobloxVngIcon.png" />

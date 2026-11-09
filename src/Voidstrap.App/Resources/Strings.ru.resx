@@ -9945,4 +9945,25 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Импорт настроек</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Выберите приложение, из которого нужно перенести настройки и FastFlags.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Импорт из {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Поиск настроек</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Настройки найдены</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Не найдено, Вы можете выбрать файл сами</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Выбрать приложение</value>
+  </data>
 </root>

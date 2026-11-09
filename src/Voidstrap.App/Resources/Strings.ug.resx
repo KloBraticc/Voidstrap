@@ -9632,4 +9632,25 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>تەڭشەكلەرنى ئەكىرىش</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>تەڭشەكلىرىڭىز ۋە FastFlags نى ئېلىپ كېلىدىغان ئەپنى تاللاڭ.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>{0} دىن ئەكىرىش</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>تەڭشەكلەر ئىزدەلمەكتە</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>تەڭشەكلەر تېپىلدى</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>تېپىلمىدى، ھۆججەتنى ئۆزىڭىز تاللىيالايسىز</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>ئەپ تاللاش</value>
+  </data>
 </root>

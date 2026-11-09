@@ -9632,4 +9632,25 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>ဆက်တင်များ တင်သွင်းရန်</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>ဆက်တင်များနှင့် FastFlags ယူလိုသော အက်ပ်ကို ရွေးပါ။</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>{0} မှ တင်သွင်းရန်</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>ဆက်တင်များ ရှာနေသည်</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>ဆက်တင်များ တွေ့ပါပြီ</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>မတွေ့ပါ၊ ဖိုင်ကို ကိုယ်တိုင် ရွေးနိုင်သည်</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>အက်ပ် ရွေးရန်</value>
+  </data>
 </root>

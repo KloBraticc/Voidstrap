@@ -9632,4 +9632,25 @@ Ruxsat berasizmi?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Sozlamalarni import qilish</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Sozlamalar va FastFlags olib kelmoqchi bo‘lgan ilovani tanlang.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>{0} dan import qilish</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Sozlamalar qidirilmoqda</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Sozlamalar topildi</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Topilmadi, faylni o‘zingiz tanlashingiz mumkin</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Ilovani tanlash</value>
+  </data>
 </root>

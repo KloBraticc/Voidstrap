@@ -9632,4 +9632,25 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Εισαγωγή ρυθμίσεων</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Επιλέξτε την εφαρμογή από την οποία θέλετε να φέρετε τις ρυθμίσεις και τα FastFlags.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Εισαγωγή από {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Αναζήτηση ρυθμίσεων</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Βρέθηκαν ρυθμίσεις</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Δεν βρέθηκαν, μπορείτε να επιλέξετε το αρχείο μόνοι σας</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Επιλογή εφαρμογής</value>
+  </data>
 </root>

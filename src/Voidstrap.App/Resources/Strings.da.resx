@@ -9632,4 +9632,25 @@ tillade det?</value>
   <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
     <value>Roblox Studio</value>
   </data>
+  <data name="Menu.Import.Title" xml:space="preserve">
+    <value>Importér indstillinger</value>
+  </data>
+  <data name="Menu.Import.Description" xml:space="preserve">
+    <value>Vælg den app, du vil hente dine indstillinger og FastFlags fra.</value>
+  </data>
+  <data name="Menu.Import.From" xml:space="preserve">
+    <value>Importér fra {0}</value>
+  </data>
+  <data name="Menu.Import.Checking" xml:space="preserve">
+    <value>Leder efter indstillinger</value>
+  </data>
+  <data name="Menu.Import.Found" xml:space="preserve">
+    <value>Indstillinger fundet</value>
+  </data>
+  <data name="Menu.Import.NotFound" xml:space="preserve">
+    <value>Ikke fundet, du kan selv vælge filen</value>
+  </data>
+  <data name="Menu.Import.Choose" xml:space="preserve">
+    <value>Vælg app</value>
+  </data>
 </root>
