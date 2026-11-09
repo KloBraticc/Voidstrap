@@ -1181,10 +1181,21 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             _pendingTopSearchEntry = null;
         }
-        NavigationItem? navigationItem = RootNavigation
-            .Items.OfType<NavigationItem>()
-            .Concat(RootNavigation.Footer.OfType<NavigationItem>())
-            .FirstOrDefault((NavigationItem i) => i.IsActive);
+        UpdateBreadcrumbIcon();
+        RefreshHomeTargetButton();
+        AnimatePageHeader(18.0);
+    }
+
+    private void PageBreadcrumb_RootItemChanged(object? sender, EventArgs e) => UpdateBreadcrumbIcon();
+
+    private void UpdateBreadcrumbIcon()
+    {
+        NavigationItem? navigationItem =
+            PageBreadcrumb.RootItem as NavigationItem
+            ?? RootNavigation
+                .Items.OfType<NavigationItem>()
+                .Concat(RootNavigation.Footer.OfType<NavigationItem>())
+                .FirstOrDefault((NavigationItem i) => i.IsActive);
         if (navigationItem != null && _defaultIcons.TryGetValue(navigationItem, out var value))
         {
             PageBreadcrumb.Icon = value;
@@ -1193,8 +1204,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             PageBreadcrumb.Icon = navigationItem.Icon;
         }
-        RefreshHomeTargetButton();
-        AnimatePageHeader(18.0);
     }
 
     private static string DescribePage(object content) =>
@@ -4943,6 +4952,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             true
         );
         Closed += MainWindow_ClosedRpc;
+        PageBreadcrumb.RootItemChanged += PageBreadcrumb_RootItemChanged;
         Voidstrap.Utility.SavedAccounts.Changed += OnSavedAccountsChanged;
         _settingsIconMotion = new Voidstrap.UI.SettingsIconMotion(SettingsNavItem);
         _ = RefreshAccountButtonAsync();
@@ -5094,6 +5104,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void MainWindow_ClosedRpc(object? sender, EventArgs e)
     {
+        PageBreadcrumb.RootItemChanged -= PageBreadcrumb_RootItemChanged;
         Activated -= MainWindow_ActivatedRpc;
         RemoveHandler(
             System.Windows.Controls.Primitives.Selector.SelectionChangedEvent,
