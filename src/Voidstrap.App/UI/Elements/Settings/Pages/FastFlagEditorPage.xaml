@@ -122,8 +122,8 @@
                   </ItemsControl.ItemsPanel>
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                      <Border Style="{StaticResource FastFlagsTagPill}" Background="{Binding ., Converter={StaticResource TagColorConverter}}" BorderBrush="{Binding ., Converter={StaticResource TagColorConverter}, ConverterParameter=Border}">
-                        <TextBlock Style="{StaticResource FastFlagsTagText}" Foreground="{Binding ., Converter={StaticResource TagColorConverter}, ConverterParameter=Foreground}" Text="{Binding}" />
+                      <Border Style="{StaticResource FastFlagsTagPill}" Background="{Binding ., Converter={StaticResource TagColorConverter}}">
+                        <TextBlock Style="{StaticResource FastFlagsTagText}" Text="{Binding}" />
                       </Border>
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>

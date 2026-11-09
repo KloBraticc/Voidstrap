@@ -8,7 +8,10 @@ namespace Voidstrap.UI.Converters;
 
 public class TagColorConverter : IValueConverter
 {
-    private sealed record TagBrushes(SolidColorBrush Background, SolidColorBrush Border, SolidColorBrush Foreground);
+    private static Color Darken(Color color, double factor = 0.7)
+    {
+        return Color.FromRgb((byte)((double)(int)color.R * factor), (byte)((double)(int)color.G * factor), (byte)((double)(int)color.B * factor));
+    }
 
     private static SolidColorBrush Frozen(Color color)
     {
@@ -17,46 +20,28 @@ public class TagColorConverter : IValueConverter
         return brush;
     }
 
-    private static byte Mix(byte channel, double amount) => (byte)Math.Round(channel + (255 - channel) * amount);
-
-    private static TagBrushes Build(Color color) =>
-        new TagBrushes(
-            Frozen(Color.FromArgb(0x38, color.R, color.G, color.B)),
-            Frozen(Color.FromArgb(0x70, color.R, color.G, color.B)),
-            Frozen(Color.FromRgb(Mix(color.R, 0.45), Mix(color.G, 0.45), Mix(color.B, 0.45)))
-        );
-
-    private static readonly Dictionary<string, TagBrushes> Palette = new Dictionary<string, TagBrushes>(StringComparer.Ordinal)
+    private static readonly Dictionary<string, SolidColorBrush> Palette = new Dictionary<string, SolidColorBrush>(StringComparer.Ordinal)
     {
-        ["Performance"] = Build(Color.FromRgb(52, 152, 219)),
-        ["LOD"] = Build(Color.FromRgb(88, 120, 230)),
-        ["Fix"] = Build(Color.FromRgb(231, 76, 60)),
-        ["Graphics"] = Build(Color.FromRgb(26, 188, 156)),
-        ["Experimental"] = Build(Color.FromRgb(241, 196, 15)),
-        ["UI"] = Build(Color.FromRgb(155, 89, 182)),
-        ["Unknown"] = Build(Color.FromRgb(149, 165, 166))
+        ["Performance"] = Frozen(Color.FromRgb(52, 152, 219)),
+        ["LOD"] = Frozen(Darken(Color.FromRgb(41, 122, 175))),
+        ["Fix"] = Frozen(Darken(Color.FromRgb(231, 76, 60))),
+        ["Graphics"] = Frozen(Darken(Color.FromRgb(26, 188, 156))),
+        ["Experimental"] = Frozen(Darken(Color.FromRgb(241, 196, 15))),
+        ["UI"] = Frozen(Darken(Color.FromRgb(155, 89, 182))),
+        ["Unknown"] = Frozen(Darken(Color.FromRgb(149, 165, 166)))
     };
 
-    private static readonly TagBrushes Overflow = Build(Color.FromRgb(160, 160, 170));
+    private static readonly SolidColorBrush OverflowBrush = Frozen(Darken(Color.FromRgb(127, 140, 141)));
 
-    private static readonly TagBrushes Fallback = Build(Colors.Gray);
+    private static readonly SolidColorBrush FallbackBrush = Frozen(Darken(Colors.Gray));
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        TagBrushes brushes = Fallback;
-        if (value is string tag && tag.Length > 0)
-        {
-            if (Palette.TryGetValue(tag, out TagBrushes? found))
-                brushes = found;
-            else if (tag[0] == '+')
-                brushes = Overflow;
-        }
-        return (parameter as string) switch
-        {
-            "Border" => brushes.Border,
-            "Foreground" => brushes.Foreground,
-            _ => brushes.Background,
-        };
+        if (value is not string tag || tag.Length == 0)
+            return FallbackBrush;
+        if (Palette.TryGetValue(tag, out SolidColorBrush? brush))
+            return brush;
+        return tag[0] == '+' ? OverflowBrush : FallbackBrush;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
