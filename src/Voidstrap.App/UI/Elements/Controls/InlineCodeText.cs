@@ -1,4 +1,4 @@
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -42,18 +42,18 @@ public static partial class InlineCodeText
 
     private static InlineUIContainer CreateChip(string term)
     {
-        TextBlock label = new() { Text = term, FontFamily = new System.Windows.Media.FontFamily("Cascadia Mono, Consolas"), FontSize = 12 };
+        TextBlock label = new() { Text = term, FontFamily = new System.Windows.Media.FontFamily("Cascadia Mono, Consolas"), FontSize = 11.5, FontWeight = FontWeights.Normal };
         label.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
         Border chip = new()
         {
             Child = label,
-            Padding = new Thickness(5, 1, 5, 1),
-            Margin = new Thickness(1, 0, 1, -3),
+            Padding = new Thickness(4, 0, 4, 1),
+            Margin = new Thickness(2, 0, 2, -4),
             CornerRadius = new CornerRadius(4),
             BorderThickness = new Thickness(1),
         };
         chip.SetResourceReference(Border.BackgroundProperty, "ControlFillColorTertiaryBrush");
         chip.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
-        return new InlineUIContainer(chip) { BaselineAlignment = BaselineAlignment.Center };
+        return new InlineUIContainer(chip) { BaselineAlignment = BaselineAlignment.Baseline };
     }
 }
