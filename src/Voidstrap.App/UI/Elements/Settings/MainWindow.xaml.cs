@@ -1874,7 +1874,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Type contentType = content.GetType();
         NavigationItem? activeItem = content is Pages.ModCustomPage modPage
             ? navigationItems.FirstOrDefault(item => string.Equals(item.Name, modPage.PageKey, StringComparison.Ordinal))
-            : navigationItems.FirstOrDefault(item => item.PageType == contentType || SidebarGroup.GetIconOnlyPage(item) == contentType);
+            : navigationItems.FirstOrDefault(item => item.Visibility == Visibility.Visible && (item.PageType == contentType || SidebarGroup.GetIconOnlyPage(item) == contentType));
         if (activeItem == null)
         {
             return;
