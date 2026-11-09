@@ -65,9 +65,32 @@ public sealed class GameVideoView : ContentControl
         ((GameVideoView)sender).Refresh();
     }
 
-    private void Control_Loaded(object sender, RoutedEventArgs e) => Refresh();
+    private Window? _hostWindow;
 
-    private void Control_Unloaded(object sender, RoutedEventArgs e) => Teardown();
+    private void Control_Loaded(object sender, RoutedEventArgs e)
+    {
+        AttachHostWindow(Window.GetWindow(this));
+        Refresh();
+    }
+
+    private void Control_Unloaded(object sender, RoutedEventArgs e)
+    {
+        AttachHostWindow(null);
+        Teardown();
+    }
+
+    private void AttachHostWindow(Window? window)
+    {
+        if (ReferenceEquals(_hostWindow, window))
+            return;
+        if (_hostWindow != null)
+            _hostWindow.StateChanged -= HostWindow_StateChanged;
+        _hostWindow = window;
+        if (_hostWindow != null)
+            _hostWindow.StateChanged += HostWindow_StateChanged;
+    }
+
+    private void HostWindow_StateChanged(object? sender, EventArgs e) => Refresh();
 
     private void Control_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) => Refresh();
 
@@ -75,7 +98,7 @@ public sealed class GameVideoView : ContentControl
     {
         if (!IsLoaded)
             return;
-        if (!IsVisible || string.IsNullOrEmpty(VideoPath))
+        if (!IsVisible || string.IsNullOrEmpty(VideoPath) || _hostWindow?.WindowState == System.Windows.WindowState.Minimized)
             Teardown();
         else if (Voidstrap.Utility.Platform.UsesPortableUi || _webViewUnavailable || GpuInventory.IsVirtualMachine)
             StartPortable(VideoPath);
@@ -95,7 +118,7 @@ public sealed class GameVideoView : ContentControl
     private void StartDeferred()
     {
         _deferred = false;
-        if (IsLoaded && IsVisible && !string.IsNullOrEmpty(VideoPath))
+        if (IsLoaded && IsVisible && !string.IsNullOrEmpty(VideoPath) && _hostWindow?.WindowState != System.Windows.WindowState.Minimized)
             _ = StartAsync(VideoPath);
     }
 
