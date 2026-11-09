@@ -36,7 +36,7 @@ public partial class ExtensionPage : UiPage
         InitializeComponent();
         _assets = ExtensionCatalog.Build(_vm);
         AssetList.ItemsSource = _assets;
-        Voidstrap.UI.BreadcrumbHeader.SetLocalized(this, nameof(Strings.Ui_Pages_VoidstrapAssets));
+        Breadcrumb.SetShowsOrigin(this, true);
         Loaded += ExtensionPage_Loaded;
         Unloaded += ExtensionPage_Unloaded;
         Breadcrumb.AddBackRequestedHandler(this, OnBreadcrumbBack);
@@ -469,7 +469,7 @@ public partial class ExtensionPage : UiPage
         _detailItem = null;
         DetailRoot.Visibility = Visibility.Collapsed;
         BrowseRoot.Visibility = Visibility.Visible;
-        Voidstrap.UI.BreadcrumbHeader.SetLocalized(this, nameof(Strings.Ui_Pages_VoidstrapAssets));
+        Voidstrap.UI.BreadcrumbHeader.Clear(this);
         Voidstrap.Integrations.VoidstrapPresence.Clear(nameof(ExtensionPage));
     }
 
