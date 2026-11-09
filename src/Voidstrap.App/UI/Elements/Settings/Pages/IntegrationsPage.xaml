@@ -198,12 +198,6 @@
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
-          <ui:CardAction Margin="0,0,0,8" Icon="DocumentTextToolbox24" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://wiki.voidstrapp.pages.dev/guides/window-control/">
-            <StackPanel>
-              <TextBlock FontSize="14" Text="{resources:Loc Menu_Integrations_WindowControl_Guide_Title}" FontWeight="Medium" />
-              <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Menu_Integrations_WindowControl_Guide_Description}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
-            </StackPanel>
-          </ui:CardAction>
           <controls:OptionControl Header="{resources:Loc Menu_Integrations_WindowControl_Title}" Description="{resources:Loc Menu_Integrations_WindowControl_Description}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}">
             <ui:ToggleSwitch IsChecked="{Binding WindowControlEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
@@ -216,6 +210,12 @@
           <controls:OptionControl Header="{resources:Loc Menu_Integrations_WindowControl_Transparency_Title}" Description="{resources:Loc Menu_Integrations_WindowControl_Transparency_Description}" IsEnabled="{Binding WindowControlEnabled, Mode=OneWay}">
             <ui:ToggleSwitch IsChecked="{Binding WindowControlTransparency, Mode=TwoWay}" />
           </controls:OptionControl>
+          <ui:CardAction Margin="0,8,0,0" Icon="DocumentTextToolbox24" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://wiki.voidstrapp.pages.dev/guides/window-control/">
+            <StackPanel>
+              <TextBlock FontSize="14" Text="{resources:Loc Menu_Integrations_WindowControl_Guide_Title}" FontWeight="Medium" />
+              <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Menu_Integrations_WindowControl_Guide_Description}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
+            </StackPanel>
+          </ui:CardAction>
         </StackPanel>
       </TabItem>
     </TabControl>
