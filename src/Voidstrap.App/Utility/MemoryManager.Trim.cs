@@ -111,7 +111,7 @@ namespace Voidstrap.Utility
             if (now - Volatile.Read(ref _lastTrimTicks) < TrimMinIntervalMs)
                 return;
             LastInputInfo input = new LastInputInfo { Size = (uint)Marshal.SizeOf<LastInputInfo>() };
-            if (GetLastInputInfo(ref input) && unchecked((uint)Environment.TickCount - input.Time) < TrimIdleMs)
+            if (IsAppForeground() && GetLastInputInfo(ref input) && unchecked((uint)Environment.TickCount - input.Time) < TrimIdleMs)
                 return;
             ProcessMemoryCounters counters = new ProcessMemoryCounters { Size = (uint)Marshal.SizeOf<ProcessMemoryCounters>() };
             if (!GetProcessMemoryInfo(CurrentProcess, ref counters, counters.Size))
