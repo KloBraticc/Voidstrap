@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -31,7 +31,11 @@ namespace Voidstrap.UI.Elements.Controls
         private readonly DispatcherTimer _debounce = new() { Interval = TimeSpan.FromMilliseconds(500) };
         private readonly string _session = Guid.NewGuid().ToString();
         private CancellationTokenSource? _cts;
-        private List<DiscoverGameEntry>? _recommended;
+        private static readonly TimeSpan RecommendedLifetime = TimeSpan.FromMinutes(10);
+        private static readonly string PrefetchSession = Guid.NewGuid().ToString();
+        private static Task<List<DiscoverGameEntry>>? _recommendedTask;
+        private static DateTime _recommendedAt;
+        private int _showVersion;
         private bool _active;
         private List<DiscoverGameEntry>? _lastGames;
         private string _lastQuery = string.Empty;
@@ -65,6 +69,25 @@ namespace Voidstrap.UI.Elements.Controls
                         game.IsFavorite = Integrations.FavoriteGames.Contains(placeId);
                 }
             });
+        }
+
+        public static void Prefetch() => _ = RecommendedAsync();
+
+        private static Task<List<DiscoverGameEntry>> RecommendedAsync()
+        {
+            if (_recommendedTask != null && !_recommendedTask.IsFaulted && DateTime.UtcNow - _recommendedAt < RecommendedLifetime)
+                return _recommendedTask;
+            _recommendedAt = DateTime.UtcNow;
+            _recommendedTask = Task.Run(async () =>
+            {
+                List<DiscoverGameEntry> games = (await HomePageViewModel.ReadOmniRecommendationsAsync(PrefetchSession).ConfigureAwait(false))
+                    .GroupBy(g => g.UniverseId).Select(g => g.First()).Take(MaxGames).ToList();
+                List<DiscoverGameEntry> missing = games.Where(g => g.ThumbnailUrl == null).ToList();
+                if (missing.Count > 0)
+                    await HomePageViewModel.FillGameIconsAsync(missing, CancellationToken.None).ConfigureAwait(false);
+                return games;
+            });
+            return _recommendedTask;
         }
 
         public void SetActive(bool active)
@@ -153,16 +176,26 @@ namespace Voidstrap.UI.Elements.Controls
             _ => games,
         };
 
-        private void Show(List<DiscoverGameEntry> games, string query)
+        private async void Show(List<DiscoverGameEntry> games, string query)
         {
+            const int Chunk = 20;
+            int version = ++_showVersion;
             _lastGames = games;
             _lastQuery = query;
             HashSet<long> favorites = Integrations.FavoriteGames.Snapshot();
-            _games.Clear();
-            foreach (DiscoverGameEntry game in Sorted(games))
-            {
+            List<DiscoverGameEntry> ordered = Sorted(games).ToList();
+            foreach (DiscoverGameEntry game in ordered)
                 game.IsFavorite = favorites.Contains(game.PlaceId);
-                _games.Add(game);
+            _games.Clear();
+            for (int i = 0; i < ordered.Count; i++)
+            {
+                if (i > 0 && i % Chunk == 0)
+                {
+                    await Dispatcher.Yield(DispatcherPriority.Background);
+                    if (version != _showVersion)
+                        return;
+                }
+                _games.Add(ordered[i]);
             }
             StatusText.Visibility = games.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
             if (games.Count == 0)
@@ -189,8 +222,8 @@ namespace Voidstrap.UI.Elements.Controls
             try
             {
                 List<DiscoverGameEntry> games;
-                if (query.Length == 0 && _recommended != null)
-                    games = _recommended;
+                if (query.Length == 0)
+                    games = await RecommendedAsync().WaitAsync(token);
                 else
                 {
                     games = await Task.Run(async () =>
@@ -200,13 +233,9 @@ namespace Voidstrap.UI.Elements.Controls
                         if (placeId > 0 && await HomePageViewModel.LookupPlaceAsync(placeId, token).ConfigureAwait(false) is DiscoverGameEntry direct)
                             found.Add(direct);
                         if (placeId <= 0 || !query.Contains('/'))
-                            found.AddRange(query.Length == 0
-                                ? await HomePageViewModel.ReadOmniRecommendationsAsync(_session).ConfigureAwait(false)
-                                : await HomePageViewModel.SearchGamesAsync(query, _session, SearchPages, token).ConfigureAwait(false));
+                            found.AddRange(await HomePageViewModel.SearchGamesAsync(query, _session, SearchPages, token).ConfigureAwait(false));
                         return found.GroupBy(g => g.UniverseId).Select(g => g.First()).Take(MaxGames).ToList();
                     }, token);
-                    if (query.Length == 0)
-                        _recommended = games;
                 }
                 if (token.IsCancellationRequested)
                     return;

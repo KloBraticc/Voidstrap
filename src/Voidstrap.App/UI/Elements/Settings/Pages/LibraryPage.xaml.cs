@@ -29,6 +29,7 @@ public partial class LibraryPage : UiPage
 
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
+        Voidstrap.UI.Elements.Controls.LibraryGamesControl.Prefetch();
         _viewModel.PropertyChanged += ViewModel_PropertyChanged;
         try
         {
