@@ -142,6 +142,23 @@ namespace Voidstrap.Utility
             return DefaultImage();
         }
 
+        public static ImageSource Fallback => DefaultImage();
+
+        public static ImageSource? Peek(string code)
+        {
+            string uri = GetUri(code);
+            if (IsLocal(uri))
+                return Get(code);
+            lock (_cache)
+            {
+                if (_cache.TryGetValue(uri + "@" + FullRes, out ImageSource? full) && full != null)
+                    return full;
+                if (_cache.TryGetValue(uri + "@" + LowRes, out ImageSource? low) && low != null)
+                    return low;
+            }
+            return null;
+        }
+
         public static Task<ImageSource> LoadAsync(string code)
         {
             return LoadAsync(code, FullRes);

@@ -953,8 +953,8 @@ namespace Voidstrap.UI.ViewModels.Settings
             public string StatusText { get; private set; } = "";
             public string SizeText { get; private set; } = "";
             public double Progress { get; private set; }
-            private ImageSource _iconImage;
-            public ImageSource IconImage
+            private ImageSource? _iconImage;
+            public ImageSource? IconImage
             {
                 get => _iconImage;
                 private set
@@ -1016,7 +1016,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 ChangeLocationCommand = new AsyncRelayCommand(InstallOrReinstallAsync);
                 SelectCommand = new RelayCommand(Select);
                 VerifyCommand = new AsyncRelayCommand(() => VerifyAsync(true));
-                _iconImage = ClientImages.Get(Code);
+                _iconImage = ClientImages.Peek(Code);
                 _ = LoadIconAsync();
                 Refresh();
             }
@@ -1043,6 +1043,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                         LogoImage = await logo.ConfigureAwait(true);
                 }
                 catch { }
+                IconImage ??= ClientImages.Fallback;
             }
 
             internal void RefreshInstallState()

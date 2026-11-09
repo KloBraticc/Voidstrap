@@ -81,15 +81,7 @@
             </Style>
 
             <Style x:Key="PosterArtStyle" TargetType="{x:Type Grid}">
-                <Setter Property="OpacityMask">
-                    <Setter.Value>
-                        <VisualBrush Stretch="None" AlignmentX="Left" AlignmentY="Top">
-                            <VisualBrush.Visual>
-                                <Border Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}" Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Grid}}" CornerRadius="8" Background="Black" />
-                            </VisualBrush.Visual>
-                        </VisualBrush>
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="util:RoundedClip.Radius" Value="8" />
             </Style>
 
             <DataTemplate x:Key="PosterCardTemplate">
@@ -99,6 +91,7 @@
                             <MouseBinding MouseAction="LeftClick" Command="{Binding SelectCommand}" />
                         </Border.InputBindings>
                         <Grid Style="{StaticResource PosterArtStyle}">
+                            <controls:LoadingShimmer Source="{Binding IconImage}" IsActive="{Binding HasPoster}" />
                             <Image x:Name="PosterBackdrop" Source="{Binding IconImage}" Stretch="UniformToFill" Opacity="0.5" RenderOptions.BitmapScalingMode="LowQuality">
                                 <Image.Effect>
                                     <BlurEffect Radius="24" KernelType="Gaussian" RenderingBias="Performance" />
@@ -231,14 +224,10 @@
                     <ui:DynamicScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
                         <StackPanel>
                             <Border Height="150" CornerRadius="11,11,0,0" Background="{DynamicResource ControlFillColorSecondaryBrush}">
-                                <Grid>
-                                    <Grid.OpacityMask>
-                                        <VisualBrush Stretch="None" AlignmentX="Left" AlignmentY="Top">
-                                            <VisualBrush.Visual>
-                                                <Border Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}" Height="150" CornerRadius="11,11,0,0" Background="Black" />
-                                            </VisualBrush.Visual>
-                                        </VisualBrush>
-                                    </Grid.OpacityMask>
+                                <Grid ClipToBounds="True">
+                                <Grid Height="161" VerticalAlignment="Top" util:RoundedClip.Radius="11">
+                                <Grid Height="150" VerticalAlignment="Top">
+                                    <controls:LoadingShimmer Source="{Binding IconImage}" IsActive="{Binding HasPoster}" />
                                     <Image Source="{Binding IconImage}" Stretch="UniformToFill" Opacity="0.45" RenderOptions.BitmapScalingMode="LowQuality">
                                         <Image.Effect>
                                             <BlurEffect Radius="26" KernelType="Gaussian" RenderingBias="Performance" />
@@ -274,6 +263,8 @@
                                         </Border.Background>
                                         <TextBlock Text="{Binding StatusText}" FontSize="12" FontWeight="SemiBold" Foreground="White" TextTrimming="CharacterEllipsis" />
                                     </Border>
+                                </Grid>
+                                </Grid>
                                 </Grid>
                             </Border>
                             <StackPanel Margin="16,14,16,0">
