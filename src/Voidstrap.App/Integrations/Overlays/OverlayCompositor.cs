@@ -2657,6 +2657,11 @@ namespace Voidstrap.Integrations.Overlays
 
             if (fgConfigured)
                 UpdateVBlankInfo();
+            if ((_homepageVideo != null || _homepageMedia != null) && !OverlayHub.HomepageBackgroundActive)
+            {
+                ReleaseHomepageMedia();
+                _homepageMediaPath = "";
+            }
             bool fresh = CaptureFrame();
             if (!fresh && HandleCaptureStall())
             {
