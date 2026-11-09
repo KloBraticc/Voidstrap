@@ -390,12 +390,12 @@ public partial class SessionDock : Window
                     glyph.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
             }
         }
-        _dimmer?.SetCatchesPointer(_panels.Values.Any(panel => panel.IsRequested && !panel.IsPinned));
+        _dimmer?.SetCatchesPointer(_panels.Any(static entry => entry.Key != HubKey && entry.Value.IsRequested && !entry.Value.IsPinned));
     }
 
     private void OnDimmerClicked()
     {
-        foreach (SessionPanelWindow panel in _panels.Values.Where(panel => panel.IsRequested && !panel.IsPinned).ToList())
+        foreach (SessionPanelWindow panel in _panels.Where(static entry => entry.Key != HubKey && entry.Value.IsRequested && !entry.Value.IsPinned).Select(static entry => entry.Value).ToList())
             panel.HideForSession();
         UpdateActiveButtons();
         PortableOverlay.ReturnFocus();
