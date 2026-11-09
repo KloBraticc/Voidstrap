@@ -46,11 +46,18 @@
       <TextBlock FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Pages_BrowseAndManageExtensionsForVoidstrap}" />
 
       <WrapPanel Margin="0,10,0,6">
-        <ui:TextBox Width="300" Height="34" Margin="0,0,10,8" VerticalContentAlignment="Center" PlaceholderText="{resources:Loc Ui_Pages_SearchExtensions}" Icon="Search24" ClearButtonEnabled="True" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-          <TextBlock VerticalAlignment="Center" Margin="0,0,8,0" Text="{resources:Loc ContextMenu_ServerInformation_Type}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-          <ComboBox Width="220" Height="34" VerticalContentAlignment="Center" ItemsSource="{Binding ExtensionTypes}" SelectedItem="{Binding SelectedExtensionType, Mode=TwoWay}" />
-        </StackPanel>
+        <Border Width="380" Margin="0,0,10,8" Style="{StaticResource SearchPillBorder}">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ComboBox Grid.Column="0" MinWidth="140" Style="{StaticResource SearchPillComboBox}" ItemsSource="{Binding ExtensionTypes}" SelectedItem="{Binding SelectedExtensionType, Mode=TwoWay}" />
+            <Rectangle Grid.Column="1" Style="{StaticResource SearchPillDivider}" />
+            <ui:TextBox Grid.Column="2" Style="{StaticResource SearchPillTextBox}" PlaceholderText="{resources:Loc Ui_Pages_SearchExtensions}" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          </Grid>
+        </Border>
       </WrapPanel>
 
       <TabControl x:Name="ExtensionTabs" Margin="0,4,0,0">

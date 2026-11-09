@@ -408,8 +408,18 @@
                 </Border>
                 <WrapPanel VerticalAlignment="Center">
                   <ui:Button MaxWidth="220" Height="34" Margin="0,4,8,4" VerticalAlignment="Center" Appearance="Secondary" Icon="Filter24" Content="{Binding CategoryHeader}" ToolTip="{resources:Loc Ui_Mods_Categories}" Visibility="{Binding CategoryVisibility}" Click="CommunityCategories_Click" />
-                  <ComboBox Width="170" Height="34" Margin="0,4,8,4" VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding SortOptions}" SelectedItem="{Binding SelectedSort, Mode=TwoWay}" Visibility="{Binding SortVisibility}" />
-                  <ui:TextBox Width="240" Height="34" Margin="0,4,0,4" VerticalContentAlignment="Center" Icon="Search24" ClearButtonEnabled="True" PlaceholderText="{resources:Loc Ui_Mods_SearchRobloxMods}" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                  <Border Width="400" Margin="0,4,0,4" Style="{StaticResource SearchPillBorder}">
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                      </Grid.ColumnDefinitions>
+                      <ComboBox Grid.Column="0" MinWidth="140" Style="{StaticResource SearchPillComboBox}" ItemsSource="{Binding SortOptions}" SelectedItem="{Binding SelectedSort, Mode=TwoWay}" Visibility="{Binding SortVisibility}" />
+                      <Rectangle Grid.Column="1" Style="{StaticResource SearchPillDivider}" />
+                      <ui:TextBox Grid.Column="2" Style="{StaticResource SearchPillTextBox}" PlaceholderText="{resources:Loc Ui_Mods_SearchRobloxMods}" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                  </Border>
                 </WrapPanel>
               </WrapPanel>
               <Grid Grid.Row="1" Margin="0,0,0,10">

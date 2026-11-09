@@ -87,4 +87,31 @@
       </Setter.Value>
     </Setter>
   </Style>
+  <Style x:Key="SearchPillBorder" TargetType="{x:Type Border}">
+    <Setter Property="Height" Value="36" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+  </Style>
+  <Style x:Key="SearchPillDivider" TargetType="{x:Type Rectangle}">
+    <Setter Property="Width" Value="1" />
+    <Setter Property="Margin" Value="2,9" />
+    <Setter Property="Fill" Value="{DynamicResource ControlElevationBorderBrush}" />
+  </Style>
+  <Style x:Key="SearchPillComboBox" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Margin" Value="2,0,0,0" />
+  </Style>
+  <Style x:Key="SearchPillTextBox" TargetType="{x:Type ui:TextBox}" BasedOn="{StaticResource {x:Type ui:TextBox}}">
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Icon" Value="Search24" />
+    <Setter Property="ClearButtonEnabled" Value="True" />
+  </Style>
 </ResourceDictionary>

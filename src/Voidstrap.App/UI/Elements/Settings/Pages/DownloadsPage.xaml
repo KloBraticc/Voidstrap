@@ -122,24 +122,24 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" Grid.ColumnSpan="2" Height="44" CornerRadius="10" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
+                <Border Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource SearchPillBorder}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <ComboBox x:Name="FilterCombo" Grid.Column="0" MinWidth="118" Margin="6,0,0,0" VerticalAlignment="Center" Padding="10,5" BorderThickness="0" Background="Transparent" SelectedIndex="0" SelectionChanged="FilterCombo_SelectionChanged">
+                        <ComboBox x:Name="FilterCombo" Grid.Column="0" MinWidth="140" Style="{StaticResource SearchPillComboBox}" SelectedIndex="0" SelectionChanged="FilterCombo_SelectionChanged">
                             <ComboBoxItem Content="Everything" />
                             <ComboBoxItem Content="Roblox" />
                             <ComboBoxItem Content="Classic" />
                         </ComboBox>
-                        <Rectangle Grid.Column="1" Width="1" Margin="4,10" Fill="{DynamicResource ControlElevationBorderBrush}" />
+                        <Rectangle Grid.Column="1" Style="{StaticResource SearchPillDivider}" />
                         <TextBox x:Name="SearchBox" Grid.Column="2" Margin="4,0,6,0" VerticalAlignment="Center" BorderThickness="0" Background="Transparent" FontSize="13" TextChanged="SearchBox_TextChanged" />
                         <TextBlock x:Name="SearchPlaceholder" Grid.Column="2" Margin="14,0,0,0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_SearchYourInstalls}" IsHitTestVisible="False" />
                     </Grid>
                 </Border>
-                <ui:Button Grid.Column="2" Height="44" Margin="10,0,0,0" Padding="14,0" Icon="FolderOpen24" Content="{resources:Loc Ui_Pages_InstallFolder}" Appearance="Secondary" Command="{Binding OpenRootCommand}" />
+                <ui:Button Grid.Column="2" Height="36" Margin="10,0,0,0" Padding="14,0" Icon="FolderOpen24" Content="{resources:Loc Ui_Pages_InstallFolder}" Appearance="Secondary" Command="{Binding OpenRootCommand}" />
             </Grid>
 
             <ui:DynamicScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,10,0">
