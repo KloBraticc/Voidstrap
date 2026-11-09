@@ -113,6 +113,8 @@ public partial class DiscordRichPresence : IDisposable
 
     private int _partyPlaying;
 
+    private volatile string? _gameActivityName;
+
     private int _partyMax;
 
     private readonly EventHandler _onGameJoinHandler;
@@ -369,7 +371,7 @@ public partial class DiscordRichPresence : IDisposable
             {
                 return;
             }
-            DiscordRpcClient client = DiscordIpc.CreateClient(App.DiscordApplicationId, pipe);
+            DiscordRpcClient client = DiscordIpc.CreateClient(App.DiscordApplicationId, pipe, GetActivityName);
             client.SkipIdenticalPresence = false;
             client.OnReady += OnClientReady;
             client.OnPresenceUpdate += OnClientPresenceUpdate;
@@ -412,6 +414,8 @@ public partial class DiscordRichPresence : IDisposable
         client.OnJoinRequested -= OnClientJoinRequested;
         DiscordIpc.Close(client);
     }
+
+    private string? GetActivityName() => _activityWatcher.InGame ? _gameActivityName : null;
 
     private async Task RefreshPartyCountAsync()
     {
@@ -919,6 +923,7 @@ public partial class DiscordRichPresence : IDisposable
             return false;
         string creator = universe?.Data?.Creator?.Name ?? string.Empty;
         bool verified = universe?.Data?.Creator?.HasVerifiedBadge ?? false;
+        _gameActivityName = cleanName.Trim().Length < 2 ? cleanName + "⠀⠀⠀" : cleanName;
         string detailText = BuildDetailText(cleanName, betaTag);
         bool sameActivity;
         string? knownLocation;
