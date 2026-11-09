@@ -9968,4 +9968,31 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>انتخاب برنامه</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>کنترل پنجره</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>اجازهٔ کنترل پنجره</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>به بازی‌هایی که از آن پشتیبانی می‌کنند اجازه دهید پنجرهٔ Roblox را تغییر دهند. با خروج شما از بازی همه چیز بازنشانی می‌شود.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>جابه‌جایی پنجره</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>بازی‌ها می‌توانند پنجره را جابه‌جا کنند، اندازه‌اش را تغییر دهند و قاب آن را بردارند.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>عنوان پنجره</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>بازی‌ها می‌توانند عنوان پنجره را تغییر دهند.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>شفافیت پنجره</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>بازی‌ها می‌توانند پنجره را شفاف کنند.</value>
+  </data>
 </root>

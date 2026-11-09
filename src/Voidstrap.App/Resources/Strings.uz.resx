@@ -9653,4 +9653,31 @@ Ruxsat berasizmi?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Ilovani tanlash</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Oyna boshqaruvi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Oyna boshqaruviga ruxsat berish</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Buni qo‘llab quvvatlaydigan o‘yinlarga Roblox oynasini o‘zgartirishga ruxsat bering. O‘yindan chiqqaningizda hammasi asl holiga qaytadi.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Oyna harakati</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>O‘yinlar oynani surishi, o‘lchamini o‘zgartirishi va ramkasini olib tashlashi mumkin.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Oyna sarlavhasi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>O‘yinlar oyna sarlavhasini o‘zgartirishi mumkin.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Oyna shaffofligi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>O‘yinlar oynani shaffof qilishi mumkin.</value>
+  </data>
 </root>

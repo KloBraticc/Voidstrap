@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -46,6 +46,8 @@ public partial class Watcher : IDisposable
     public int RobloxProcessId => _watcherData?.ProcessId ?? 0;
 
     public IntegrationWatcher? IntegrationWatcher;
+
+    public WindowController? WindowController;
 
     public HistoryPersister? HistoryPersister;
 
@@ -147,6 +149,8 @@ public partial class Watcher : IDisposable
             if (enableActivityTracking)
             {
                 IntegrationWatcher = new IntegrationWatcher(ActivityWatcher);
+                if (Voidstrap.Utility.Platform.IsWindows)
+                    WindowController = new WindowController(ActivityWatcher, FindControlledWindow, ApplyGameTitle);
                 HistoryPersister = new HistoryPersister(ActivityWatcher);
                 ServerMatchmaker = new ServerMatchmaker(ActivityWatcher, this);
             }
@@ -448,6 +452,8 @@ public partial class Watcher : IDisposable
             RichPresence ??= new DiscordRichPresence(ActivityWatcher);
         }
         IntegrationWatcher ??= new IntegrationWatcher(ActivityWatcher);
+        if (Voidstrap.Utility.Platform.IsWindows)
+            WindowController ??= new WindowController(ActivityWatcher, FindControlledWindow, ApplyGameTitle);
         HistoryPersister ??= new HistoryPersister(ActivityWatcher);
         ServerMatchmaker ??= new ServerMatchmaker(ActivityWatcher, this);
         if (ServerMatchmaker != null)
@@ -469,6 +475,8 @@ public partial class Watcher : IDisposable
         ServerMatchmaker = null;
         HistoryPersister?.Dispose();
         HistoryPersister = null;
+        WindowController?.Dispose();
+        WindowController = null;
         IntegrationWatcher?.Dispose();
         IntegrationWatcher = null;
         RichPresence?.Dispose();
@@ -1131,6 +1139,27 @@ public partial class Watcher : IDisposable
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool GetClientRect(IntPtr hwnd, out WatcherRect rect);
 
+    private IntPtr FindControlledWindow()
+    {
+        int pid = _watcherData?.ProcessId ?? 0;
+        return pid > 0 ? FindRobloxGameWindow(pid) : IntPtr.Zero;
+    }
+
+    private void ApplyGameTitle(IntPtr hwnd, string? title)
+    {
+        WindowManipulation? manipulation = _windowManipulation;
+        if (manipulation != null)
+        {
+            manipulation.SetGameTitle(title);
+            return;
+        }
+        SetWindowTitle(hwnd, title ?? "Roblox");
+    }
+
+    [LibraryImport("user32.dll", EntryPoint = "SetWindowTextW", StringMarshalling = StringMarshalling.Utf16)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool SetWindowTitle(IntPtr hWnd, string text);
+
     private static IntPtr FindRobloxGameWindow(int processId)
     {
         IntPtr best = IntPtr.Zero;
@@ -1335,6 +1364,8 @@ public partial class Watcher : IDisposable
         catch { }
         try
         {
+            WindowController?.Dispose();
+            WindowController = null;
             IntegrationWatcher?.Dispose();
             IntegrationWatcher = null;
         }

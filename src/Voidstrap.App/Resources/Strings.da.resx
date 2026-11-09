@@ -9653,4 +9653,31 @@ tillade det?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Vælg app</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Vindueskontrol</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Tillad vindueskontrol</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Lad spil, der understøtter det, ændre Roblox vinduet. Alt nulstilles, når du forlader spillet.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Vinduesbevægelse</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Spil kan flytte vinduet, ændre størrelsen og fjerne rammen.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Vinduestitel</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Spil kan ændre vinduestitlen.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Vinduesgennemsigtighed</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Spil kan gøre vinduet gennemsigtigt.</value>
+  </data>
 </root>

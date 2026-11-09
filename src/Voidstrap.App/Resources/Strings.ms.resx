@@ -9958,4 +9958,31 @@ Benarkan?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Pilih aplikasi</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Kawalan tetingkap</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Benarkan kawalan tetingkap</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Benarkan permainan yang menyokongnya menukar tetingkap Roblox. Semuanya dikembalikan apabila anda keluar dari permainan.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Pergerakan tetingkap</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Permainan boleh mengalihkan tetingkap, menukar saiznya dan membuang bingkainya.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Tajuk tetingkap</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Permainan boleh menukar tajuk tetingkap.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Kelutsinaran tetingkap</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Permainan boleh menjadikan tetingkap lut sinar.</value>
+  </data>
 </root>

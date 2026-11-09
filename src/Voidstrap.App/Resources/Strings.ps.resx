@@ -9654,4 +9654,31 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>اپ وټاکئ</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>د کړکۍ کنټرول</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>د کړکۍ کنټرول ته اجازه ورکړئ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>هغو لوبو ته چې ملاتړ یې کوي اجازه ورکړئ چې د Roblox کړکۍ بدله کړي. کله چې له لوبې ووځئ هرڅه بیرته پخوانۍ حالت ته راځي.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>د کړکۍ حرکت</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>لوبې کولی شي کړکۍ وخوځوي، اندازه یې بدله کړي او چوکاټ یې لرې کړي.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>د کړکۍ سرلیک</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>لوبې کولی شي د کړکۍ سرلیک بدل کړي.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>د کړکۍ روڼتیا</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>لوبې کولی شي کړکۍ روڼه کړي.</value>
+  </data>
 </root>

@@ -9967,4 +9967,31 @@ Zezwolić?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Wybierz aplikację</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Sterowanie oknem</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Zezwalaj na sterowanie oknem</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Pozwól grom, które to obsługują, zmieniać okno Roblox. Wszystko wraca do normy, gdy opuścisz grę.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Ruch okna</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Gry mogą przesuwać okno, zmieniać jego rozmiar i usuwać ramkę.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Tytuł okna</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Gry mogą zmieniać tytuł okna.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Przezroczystość okna</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Gry mogą uczynić okno przezroczystym.</value>
+  </data>
 </root>

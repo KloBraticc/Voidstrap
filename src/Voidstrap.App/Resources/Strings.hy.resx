@@ -9654,4 +9654,31 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Ընտրել հավելված</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Պատուհանի կառավարում</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Թույլատրել պատուհանի կառավարումը</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Թույլ տվեք աջակցող խաղերին փոխել Roblox պատուհանը։ Խաղից դուրս գալիս ամեն ինչ վերականգնվում է։</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Պատուհանի տեղաշարժ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Խաղերը կարող են տեղաշարժել պատուհանը, փոխել չափը և հեռացնել շրջանակը։</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Պատուհանի վերնագիր</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Խաղերը կարող են փոխել պատուհանի վերնագիրը։</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Պատուհանի թափանցիկություն</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Խաղերը կարող են պատուհանը թափանցիկ դարձնել։</value>
+  </data>
 </root>

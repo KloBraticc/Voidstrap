@@ -9653,4 +9653,31 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>యాప్‌ను ఎంచుకోండి</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>విండో నియంత్రణ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>విండో నియంత్రణను అనుమతించండి</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>మద్దతు ఇచ్చే గేమ్‌లను Roblox విండోను మార్చనివ్వండి. గేమ్ నుండి వెళ్లినప్పుడు అన్నీ మునుపటిలా అవుతాయి.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>విండో కదలిక</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>గేమ్‌లు విండోను కదిలించగలవు, పరిమాణం మార్చగలవు మరియు అంచును తీసివేయగలవు.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>విండో శీర్షిక</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>గేమ్‌లు విండో శీర్షికను మార్చగలవు.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>విండో పారదర్శకత</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>గేమ్‌లు విండోను పారదర్శకంగా చేయగలవు.</value>
+  </data>
 </root>

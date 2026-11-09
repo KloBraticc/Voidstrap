@@ -9654,4 +9654,31 @@ kwe ya?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Họrọ ngwa</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Njikwa windo</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Kwe ka a jikwaa windo</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Kwe ka egwuregwu na-akwado ya gbanwee windo Roblox. Ihe niile na-alaghachi mgbe ị hapụrụ egwuregwu ahụ.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Mmegharị windo</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Egwuregwu nwere ike ịkwaga windo, gbanwee nha ya ma wepụ oke ya.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Aha windo</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Egwuregwu nwere ike ịgbanwe aha windo.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Nghọta windo</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Egwuregwu nwere ike ime ka windo bụrụ nke a na-ahụ ọdịda ya.</value>
+  </data>
 </root>

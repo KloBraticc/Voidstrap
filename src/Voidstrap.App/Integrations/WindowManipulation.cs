@@ -1,4 +1,4 @@
-using Windows.Win32;
+﻿using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 using System.Drawing;
@@ -178,6 +178,11 @@ namespace Voidstrap.Integrations
                 ApplyBaseIcon();
 
             _titleUpdater?.Refresh();
+        }
+
+        public void SetGameTitle(string? title)
+        {
+            ApplyTitle(title ?? (string.IsNullOrWhiteSpace(App.Settings.Prop.RobloxTitle) ? "Voidstrap" : App.Settings.Prop.RobloxTitle));
         }
 
         private void ApplyTitle(string title)

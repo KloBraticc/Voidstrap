@@ -9654,4 +9654,31 @@ Permíteo?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Escoller aplicación</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Control da xanela</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Permitir o control da xanela</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Deixa que os xogos compatibles cambien a xanela de Roblox. Todo se restablece ao saír do xogo.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Movemento da xanela</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Os xogos poden mover a xanela, cambiar o seu tamaño e quitar o bordo.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Título da xanela</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Os xogos poden cambiar o título da xanela.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Transparencia da xanela</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Os xogos poden facer a xanela transparente.</value>
+  </data>
 </root>

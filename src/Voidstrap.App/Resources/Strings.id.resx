@@ -9969,4 +9969,31 @@ Izinkan?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Pilih aplikasi</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Kontrol jendela</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Izinkan kontrol jendela</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Biarkan game yang mendukungnya mengubah jendela Roblox. Semuanya kembali seperti semula saat Anda keluar dari game.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Pergerakan jendela</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Game dapat memindahkan jendela, mengubah ukurannya, dan menghapus bingkainya.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Judul jendela</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Game dapat mengubah judul jendela.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Transparansi jendela</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Game dapat membuat jendela tembus pandang.</value>
+  </data>
 </root>

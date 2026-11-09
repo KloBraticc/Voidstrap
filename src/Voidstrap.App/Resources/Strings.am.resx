@@ -9653,4 +9653,31 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>መተግበሪያ ይምረጡ</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>የመስኮት ቁጥጥር</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>የመስኮት ቁጥጥርን ፍቀድ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>የሚደግፉ ጨዋታዎች የRoblox መስኮትን እንዲቀይሩ ይፍቀዱ። ጨዋታውን ሲለቁ ሁሉም ነገር ይመለሳል።</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>የመስኮት እንቅስቃሴ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>ጨዋታዎች መስኮቱን ማንቀሳቀስ፣ መጠኑን መቀየር እና ጠርዙን ማስወገድ ይችላሉ።</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>የመስኮት ርዕስ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>ጨዋታዎች የመስኮቱን ርዕስ መቀየር ይችላሉ።</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>የመስኮት ግልጽነት</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>ጨዋታዎች መስኮቱን ግልጽ ማድረግ ይችላሉ።</value>
+  </data>
 </root>

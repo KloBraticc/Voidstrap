@@ -9654,4 +9654,31 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>ਐਪ ਚੁਣੋ</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>ਵਿੰਡੋ ਕੰਟਰੋਲ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>ਵਿੰਡੋ ਕੰਟਰੋਲ ਦੀ ਇਜਾਜ਼ਤ ਦਿਓ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>ਸਹਾਇਕ ਗੇਮਾਂ ਨੂੰ Roblox ਵਿੰਡੋ ਬਦਲਣ ਦਿਓ। ਗੇਮ ਛੱਡਣ ਤੇ ਸਭ ਕੁਝ ਪਹਿਲਾਂ ਵਰਗਾ ਹੋ ਜਾਂਦਾ ਹੈ।</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>ਵਿੰਡੋ ਦੀ ਹਿਲਜੁਲ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>ਗੇਮਾਂ ਵਿੰਡੋ ਨੂੰ ਹਿਲਾ ਸਕਦੀਆਂ ਹਨ, ਆਕਾਰ ਬਦਲ ਸਕਦੀਆਂ ਹਨ ਅਤੇ ਬਾਰਡਰ ਹਟਾ ਸਕਦੀਆਂ ਹਨ।</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>ਵਿੰਡੋ ਦਾ ਸਿਰਲੇਖ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>ਗੇਮਾਂ ਵਿੰਡੋ ਦਾ ਸਿਰਲੇਖ ਬਦਲ ਸਕਦੀਆਂ ਹਨ।</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>ਵਿੰਡੋ ਦੀ ਪਾਰਦਰਸ਼ਤਾ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>ਗੇਮਾਂ ਵਿੰਡੋ ਨੂੰ ਪਾਰਦਰਸ਼ੀ ਬਣਾ ਸਕਦੀਆਂ ਹਨ।</value>
+  </data>
 </root>

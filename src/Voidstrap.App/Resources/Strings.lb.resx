@@ -9654,4 +9654,31 @@ Erlaabt et?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>App auswielen</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Fënstersteierung</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Fënstersteierung erlaben</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Loosst Spiller, déi et ënnerstëtzen, d’Roblox Fënster änneren. Alles gëtt zréckgesat, wann Dir d’Spill verloosst.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Fënsterbeweegung</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Spiller kënnen d’Fënster verréckelen, hir Gréisst änneren an de Rand ewechhuelen.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Fënstertitel</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Spiller kënnen den Titel vun der Fënster änneren.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Fënstertransparenz</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Spiller kënnen d’Fënster duerchsiichteg maachen.</value>
+  </data>
 </root>

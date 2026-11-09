@@ -9964,4 +9964,31 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Вибрати застосунок</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Керування вікном</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Дозволити керування вікном</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Дозвольте іграм, які це підтримують, змінювати вікно Roblox. Усе повертається, коли Ви виходите з гри.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Переміщення вікна</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Ігри можуть переміщувати вікно, змінювати його розмір і прибирати рамку.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Заголовок вікна</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Ігри можуть змінювати заголовок вікна.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Прозорість вікна</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Ігри можуть робити вікно прозорим.</value>
+  </data>
 </root>

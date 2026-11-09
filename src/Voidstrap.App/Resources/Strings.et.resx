@@ -9653,4 +9653,31 @@ Kas lubada?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Vali rakendus</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Akna juhtimine</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Luba akna juhtimine</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Luba seda toetavatel mängudel Roblox akent muuta. Mängust lahkudes taastatakse kõik.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Akna liigutamine</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Mängud saavad akent liigutada, selle suurust muuta ja raami eemaldada.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Akna pealkiri</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Mängud saavad akna pealkirja muuta.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Akna läbipaistvus</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Mängud saavad akna läbipaistvaks muuta.</value>
+  </data>
 </root>

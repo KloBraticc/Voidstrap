@@ -9654,4 +9654,31 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>ಆ್ಯಪ್ ಆಯ್ಕೆಮಾಡಿ</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>ವಿಂಡೋ ನಿಯಂತ್ರಣ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>ವಿಂಡೋ ನಿಯಂತ್ರಣವನ್ನು ಅನುಮತಿಸಿ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>ಬೆಂಬಲಿಸುವ ಆಟಗಳಿಗೆ Roblox ವಿಂಡೋವನ್ನು ಬದಲಾಯಿಸಲು ಬಿಡಿ. ಆಟದಿಂದ ಹೊರಬಂದಾಗ ಎಲ್ಲವೂ ಮರುಹೊಂದಿಸಲ್ಪಡುತ್ತದೆ.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>ವಿಂಡೋ ಚಲನೆ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>ಆಟಗಳು ವಿಂಡೋವನ್ನು ಸರಿಸಬಹುದು, ಗಾತ್ರ ಬದಲಿಸಬಹುದು ಮತ್ತು ಅಂಚನ್ನು ತೆಗೆದುಹಾಕಬಹುದು.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>ವಿಂಡೋ ಶೀರ್ಷಿಕೆ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>ಆಟಗಳು ವಿಂಡೋ ಶೀರ್ಷಿಕೆಯನ್ನು ಬದಲಾಯಿಸಬಹುದು.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>ವಿಂಡೋ ಪಾರದರ್ಶಕತೆ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>ಆಟಗಳು ವಿಂಡೋವನ್ನು ಪಾರದರ್ಶಕವಾಗಿಸಬಹುದು.</value>
+  </data>
 </root>

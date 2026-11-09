@@ -9653,4 +9653,31 @@ icazə verilir?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Tətbiq seç</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Pəncərə idarəsi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Pəncərə idarəsinə icazə ver</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Dəstəkləyən oyunlar Roblox pəncərəsini dəyişə bilsin. Oyundan çıxanda hər şey əvvəlki halına qayıdır.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Pəncərənin hərəkəti</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Oyunlar pəncərəni köçürə, ölçüsünü dəyişə və çərçivəsini silə bilər.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Pəncərə başlığı</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Oyunlar pəncərə başlığını dəyişə bilər.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Pəncərə şəffaflığı</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Oyunlar pəncərəni şəffaf edə bilər.</value>
+  </data>
 </root>

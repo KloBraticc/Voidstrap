@@ -9654,4 +9654,31 @@ Leyfa það?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Velja forrit</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Gluggastýring</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Leyfa gluggastýringu</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Leyfðu leikjum sem styðja það að breyta Roblox glugganum. Allt endurstillist þegar þú ferð úr leiknum.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Hreyfing glugga</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Leikir geta fært gluggann, breytt stærð hans og fjarlægt rammann.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Gluggatitill</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Leikir geta breytt titli gluggans.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Gegnsæi glugga</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Leikir geta gert gluggann gegnsæjan.</value>
+  </data>
 </root>

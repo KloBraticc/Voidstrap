@@ -9653,4 +9653,31 @@ Ho permets?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Tria l’aplicació</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Control de la finestra</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Permet el control de la finestra</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Deixa que els jocs compatibles canviïn la finestra de Roblox. Tot es restableix quan surts del joc.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Moviment de la finestra</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Els jocs poden moure la finestra, canviar-ne la mida i treure’n la vora.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Títol de la finestra</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Els jocs poden canviar el títol de la finestra.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Transparència de la finestra</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Els jocs poden fer la finestra transparent.</value>
+  </data>
 </root>

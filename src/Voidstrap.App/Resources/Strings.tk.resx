@@ -9653,4 +9653,31 @@ Rugsat beriň?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Programma saýla</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Penjiräni dolandyrmak</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Penjiräni dolandyrmaga rugsat ber</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Muny goldaýan oýunlara Roblox penjiresini üýtgetmäge rugsat beriň. Oýundan çykanyňyzda hemme zat öňki ýagdaýyna gaýdýar.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Penjiräniň hereketi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Oýunlar penjiräni süýşürip, ululygyny üýtgedip we çarçuwasyny aýryp bilýär.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Penjiräniň ady</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Oýunlar penjiräniň adyny üýtgedip bilýär.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Penjiräniň aýdyňlygy</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Oýunlar penjiräni aýdyň edip bilýär.</value>
+  </data>
 </root>

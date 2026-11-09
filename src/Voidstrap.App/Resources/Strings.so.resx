@@ -9654,4 +9654,31 @@ Oggolow?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Dooro barnaamij</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Xakamaynta daaqadda</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Oggolow xakamaynta daaqadda</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>U oggolow ciyaaraha taageera inay beddelaan daaqadda Roblox. Wax walba way soo noqdaan markaad ka baxdo ciyaarta.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Dhaqdhaqaaqa daaqadda</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Ciyaaruhu way dhaqaajin karaan daaqadda, beddeli karaan cabbirkeeda oo ka saari karaan xudduudda.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Cinwaanka daaqadda</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Ciyaaruhu way beddeli karaan cinwaanka daaqadda.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Hufnaanta daaqadda</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Ciyaaruhu way ka dhigi karaan daaqadda mid la dhex arki karo.</value>
+  </data>
 </root>

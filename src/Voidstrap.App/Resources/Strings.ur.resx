@@ -9653,4 +9653,31 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>ایپ منتخب کریں</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>ونڈو کنٹرول</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>ونڈو کنٹرول کی اجازت دیں</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>معاونت کرنے والے گیمز کو Roblox ونڈو بدلنے دیں۔ گیم چھوڑنے پر سب کچھ پہلے جیسا ہو جاتا ہے۔</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>ونڈو کی حرکت</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>گیمز ونڈو کو ہلا سکتے ہیں، اس کا سائز بدل سکتے ہیں اور بارڈر ہٹا سکتے ہیں۔</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>ونڈو کا عنوان</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>گیمز ونڈو کا عنوان بدل سکتے ہیں۔</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>ونڈو کی شفافیت</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>گیمز ونڈو کو شفاف بنا سکتے ہیں۔</value>
+  </data>
 </root>

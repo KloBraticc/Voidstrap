@@ -9653,4 +9653,31 @@ Gba laaye?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Yan app</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Ìṣàkóso fèrèsé</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Gba ìṣàkóso fèrèsé láàyè</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Jẹ́ kí àwọn eré tí ó ṣe àtìlẹ́yìn rẹ̀ yí fèrèsé Roblox padà. Gbogbo nǹkan á padà bí ó ti wà nígbà tí o bá kúrò nínú eré náà.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Ìgbésẹ̀ fèrèsé</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Àwọn eré lè gbé fèrèsé, yí ìwọ̀n rẹ̀ padà, kí wọ́n sì yọ ààlà rẹ̀ kúrò.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Àkọlé fèrèsé</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Àwọn eré lè yí àkọlé fèrèsé padà.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Ìfihàn fèrèsé</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Àwọn eré lè mú kí fèrèsé ṣeé ríran kọjá.</value>
+  </data>
 </root>

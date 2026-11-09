@@ -10126,6 +10126,15 @@ namespace Voidstrap.Resources {
         public static string Menu_Import_Found => ResourceManager.GetString("Menu.Import.Found", resourceCulture);
         public static string Menu_Import_NotFound => ResourceManager.GetString("Menu.Import.NotFound", resourceCulture);
         public static string Menu_Import_Choose => ResourceManager.GetString("Menu.Import.Choose", resourceCulture);
+        public static string Menu_Integrations_WindowControl_Tab => ResourceManager.GetString("Menu.Integrations.WindowControl.Tab", resourceCulture);
+        public static string Menu_Integrations_WindowControl_Title => ResourceManager.GetString("Menu.Integrations.WindowControl.Title", resourceCulture);
+        public static string Menu_Integrations_WindowControl_Description => ResourceManager.GetString("Menu.Integrations.WindowControl.Description", resourceCulture);
+        public static string Menu_Integrations_WindowControl_Move_Title => ResourceManager.GetString("Menu.Integrations.WindowControl.Move.Title", resourceCulture);
+        public static string Menu_Integrations_WindowControl_Move_Description => ResourceManager.GetString("Menu.Integrations.WindowControl.Move.Description", resourceCulture);
+        public static string Menu_Integrations_WindowControl_TitleText_Title => ResourceManager.GetString("Menu.Integrations.WindowControl.TitleText.Title", resourceCulture);
+        public static string Menu_Integrations_WindowControl_TitleText_Description => ResourceManager.GetString("Menu.Integrations.WindowControl.TitleText.Description", resourceCulture);
+        public static string Menu_Integrations_WindowControl_Transparency_Title => ResourceManager.GetString("Menu.Integrations.WindowControl.Transparency.Title", resourceCulture);
+        public static string Menu_Integrations_WindowControl_Transparency_Description => ResourceManager.GetString("Menu.Integrations.WindowControl.Transparency.Description", resourceCulture);
         public static string Menu_Integrations_AllowDiscordInvites_Title => ResourceManager.GetString("Menu.Integrations.AllowDiscordInvites.Title", resourceCulture);
 
         public static string Menu_Integrations_AllowDiscordInvites_Description => ResourceManager.GetString("Menu.Integrations.AllowDiscordInvites.Description", resourceCulture);

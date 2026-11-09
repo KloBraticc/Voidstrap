@@ -9968,4 +9968,31 @@ Toestaan?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>App kiezen</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Vensterbeheer</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Vensterbeheer toestaan</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Laat games die het ondersteunen het Roblox venster aanpassen. Alles wordt hersteld als je de game verlaat.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Vensterbeweging</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Games kunnen het venster verplaatsen, het formaat wijzigen en de rand verwijderen.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Venstertitel</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Games kunnen de venstertitel wijzigen.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Venstertransparantie</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Games kunnen het venster doorzichtig maken.</value>
+  </data>
 </root>

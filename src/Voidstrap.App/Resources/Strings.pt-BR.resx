@@ -9968,4 +9968,31 @@ Permitir?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Escolher app</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Controle da janela</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Permitir controle da janela</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Deixe os jogos compatíveis alterarem a janela do Roblox. Tudo volta ao normal quando você sai do jogo.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Movimento da janela</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Os jogos podem mover a janela, mudar o tamanho dela e remover a borda.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Título da janela</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Os jogos podem mudar o título da janela.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Transparência da janela</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Os jogos podem deixar a janela transparente.</value>
+  </data>
 </root>

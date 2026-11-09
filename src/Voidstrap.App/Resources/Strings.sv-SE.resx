@@ -9966,4 +9966,31 @@ Tillåta?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Välj app</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Fönsterstyrning</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Tillåt fönsterstyrning</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Låt spel som stöder det ändra Roblox fönstret. Allt återställs när du lämnar spelet.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Fönsterrörelse</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Spel kan flytta fönstret, ändra dess storlek och ta bort ramen.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Fönstertitel</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Spel kan ändra fönstrets titel.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Fönstergenomskinlighet</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Spel kan göra fönstret genomskinligt.</value>
+  </data>
 </root>

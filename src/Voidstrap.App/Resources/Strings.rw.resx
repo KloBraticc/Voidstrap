@@ -9654,4 +9654,31 @@ Emera?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Hitamo porogaramu</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Kugenzura idirishya</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Emera kugenzura idirishya</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Reka imikino ibishyigikira ihindure idirishya rya Roblox. Byose bisubira uko byari bimeze iyo uvuye mu mukino.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Kwimura idirishya</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Imikino ishobora kwimura idirishya, guhindura ingano yaryo no gukuraho urubibi.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Umutwe w idirishya</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Imikino ishobora guhindura umutwe w idirishya.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Kubonerana kw idirishya</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Imikino ishobora gutuma idirishya ribonerana.</value>
+  </data>
 </root>

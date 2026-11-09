@@ -9965,4 +9965,31 @@
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>اختر التطبيق</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>التحكم في النافذة</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>السماح بالتحكم في النافذة</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>اسمح للألعاب التي تدعم ذلك بتغيير نافذة Roblox. يعود كل شيء كما كان عند مغادرتك اللعبة.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>تحريك النافذة</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>يمكن للألعاب تحريك النافذة وتغيير حجمها وإزالة إطارها.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>عنوان النافذة</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>يمكن للألعاب تغيير عنوان النافذة.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>شفافية النافذة</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>يمكن للألعاب جعل النافذة شفافة.</value>
+  </data>
 </root>

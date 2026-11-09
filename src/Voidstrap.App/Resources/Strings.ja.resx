@@ -9981,4 +9981,31 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>アプリを選択</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>ウィンドウ制御</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>ウィンドウ制御を許可</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>対応しているゲームが Roblox のウィンドウを変更できるようにします。ゲームを離れるとすべて元に戻ります。</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>ウィンドウの移動</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>ゲームがウィンドウの移動、サイズ変更、枠の削除を行えます。</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>ウィンドウのタイトル</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>ゲームがウィンドウのタイトルを変更できます。</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>ウィンドウの透明度</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>ゲームがウィンドウを透明にできます。</value>
+  </data>
 </root>

@@ -9654,4 +9654,31 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>ആപ്പ് തിരഞ്ഞെടുക്കുക</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>വിൻഡോ നിയന്ത്രണം</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>വിൻഡോ നിയന്ത്രണം അനുവദിക്കുക</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>പിന്തുണയ്ക്കുന്ന ഗെയിമുകളെ Roblox വിൻഡോ മാറ്റാൻ അനുവദിക്കുക. ഗെയിം വിടുമ്പോൾ എല്ലാം പഴയപടിയാകും.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>വിൻഡോ ചലനം</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>ഗെയിമുകൾക്ക് വിൻഡോ നീക്കാനും വലുപ്പം മാറ്റാനും അതിർത്തി നീക്കാനും കഴിയും.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>വിൻഡോ ശീർഷകം</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>ഗെയിമുകൾക്ക് വിൻഡോ ശീർഷകം മാറ്റാം.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>വിൻഡോ സുതാര്യത</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>ഗെയിമുകൾക്ക് വിൻഡോ സുതാര്യമാക്കാം.</value>
+  </data>
 </root>

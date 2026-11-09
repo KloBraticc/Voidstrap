@@ -9654,4 +9654,31 @@ Ceadaigh é?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Roghnaigh aip</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Rialú fuinneoige</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Ceadaigh rialú fuinneoige</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Lig do chluichí a thacaíonn leis fuinneog Roblox a athrú. Athshocraítear gach rud nuair a fhágann tú an cluiche.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Bogadh fuinneoige</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Is féidir le cluichí an fhuinneog a bhogadh, a méid a athrú agus an imlíne a bhaint.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Teideal fuinneoige</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Is féidir le cluichí teideal na fuinneoige a athrú.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Trédhearcacht fuinneoige</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Is féidir le cluichí an fhuinneog a dhéanamh trédhearcach.</value>
+  </data>
 </root>

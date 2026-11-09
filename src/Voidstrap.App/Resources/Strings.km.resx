@@ -9654,4 +9654,31 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>ជ្រើសកម្មវិធី</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>ការគ្រប់គ្រងបង្អួច</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>អនុញ្ញាតការគ្រប់គ្រងបង្អួច</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>អនុញ្ញាតឱ្យហ្គេមដែលគាំទ្រផ្លាស់ប្តូរបង្អួច Roblox។ អ្វីៗទាំងអស់នឹងត្រឡប់ដូចដើមនៅពេលអ្នកចាកចេញពីហ្គេម។</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>ចលនាបង្អួច</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>ហ្គេមអាចផ្លាស់ទីបង្អួច ប្តូរទំហំ និងដកស៊ុមចេញ។</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>ចំណងជើងបង្អួច</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>ហ្គេមអាចប្តូរចំណងជើងបង្អួច។</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>ភាពថ្លាបង្អួច</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>ហ្គេមអាចធ្វើឱ្យបង្អួចថ្លា។</value>
+  </data>
 </root>

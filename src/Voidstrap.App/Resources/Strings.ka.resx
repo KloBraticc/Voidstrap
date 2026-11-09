@@ -9654,4 +9654,31 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>აპის არჩევა</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>ფანჯრის მართვა</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>ფანჯრის მართვის დაშვება</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>მიეცით მხარდამჭერ თამაშებს Roblox ფანჯრის შეცვლის უფლება. თამაშიდან გასვლისას ყველაფერი აღდგება.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>ფანჯრის გადაადგილება</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>თამაშებს შეუძლიათ ფანჯრის გადაადგილება, ზომის შეცვლა და ჩარჩოს მოხსნა.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>ფანჯრის სათაური</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>თამაშებს შეუძლიათ ფანჯრის სათაურის შეცვლა.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>ფანჯრის გამჭვირვალობა</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>თამაშებს შეუძლიათ ფანჯრის გამჭვირვალე გახდომა.</value>
+  </data>
 </root>

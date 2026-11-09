@@ -9653,4 +9653,31 @@ Uyakuvumela?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Khetha i app</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Ukulawula iwindi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Vumela ukulawula iwindi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Vumela imidlalo ekusekelayo ukuthi ishintshe iwindi le Roblox. Konke kubuyela esimweni sakho uma ushiya umdlalo.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Ukunyakaza kwewindi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Imidlalo ingahambisa iwindi, ishintshe usayizi walo futhi isuse umngcele.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Isihloko sewindi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Imidlalo ingashintsha isihloko sewindi.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Ukubonisa ngaphakathi kwewindi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Imidlalo ingenza iwindi libonise ngaphakathi.</value>
+  </data>
 </root>

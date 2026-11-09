@@ -9969,4 +9969,31 @@ Cho phép?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Chọn ứng dụng</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Điều khiển cửa sổ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Cho phép điều khiển cửa sổ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Cho phép các trò chơi có hỗ trợ thay đổi cửa sổ Roblox. Mọi thứ sẽ trở lại như cũ khi bạn rời trò chơi.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Di chuyển cửa sổ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Trò chơi có thể di chuyển cửa sổ, đổi kích thước và bỏ viền.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Tiêu đề cửa sổ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Trò chơi có thể đổi tiêu đề cửa sổ.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Độ trong suốt của cửa sổ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Trò chơi có thể làm cửa sổ trong suốt.</value>
+  </data>
 </root>

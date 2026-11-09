@@ -9654,4 +9654,31 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Апп сонгох</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Цонхны удирдлага</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Цонхны удирдлагыг зөвшөөрөх</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Дэмждэг тоглоомуудад Roblox цонхыг өөрчлөхийг зөвшөөрнө. Тоглоомоос гарахад бүх зүйл буцаж сэргэнэ.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Цонхны хөдөлгөөн</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Тоглоомууд цонхыг зөөж, хэмжээг нь өөрчилж, хүрээг нь арилгаж чадна.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Цонхны гарчиг</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Тоглоомууд цонхны гарчгийг өөрчилж чадна.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Цонхны тунгалаг байдал</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Тоглоомууд цонхыг тунгалаг болгож чадна.</value>
+  </data>
 </root>

@@ -9964,4 +9964,31 @@ Payagan ba?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Pumili ng app</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Kontrol ng window</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Payagan ang kontrol ng window</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Hayaan ang mga larong sumusuporta rito na baguhin ang Roblox window. Babalik ang lahat kapag umalis ka sa laro.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Paggalaw ng window</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Puwedeng ilipat, palitan ang laki at alisin ang border ng window ng mga laro.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Pamagat ng window</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Puwedeng palitan ng mga laro ang pamagat ng window.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Transparency ng window</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Puwedeng gawing see through ng mga laro ang window.</value>
+  </data>
 </root>

@@ -9966,4 +9966,31 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Выбрать приложение</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Управление окном</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Разрешить управление окном</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Разрешите поддерживающим это играм изменять окно Roblox. Всё возвращается, когда Вы выходите из игры.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Перемещение окна</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Игры могут перемещать окно, менять его размер и убирать рамку.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Заголовок окна</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Игры могут менять заголовок окна.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Прозрачность окна</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Игры могут делать окно прозрачным.</value>
+  </data>
 </root>

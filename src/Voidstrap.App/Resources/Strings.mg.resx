@@ -9654,4 +9654,31 @@ Avelao izany?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Hisafidy fampiharana</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Fifehezana varavarankely</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Avelao ny fifehezana varavarankely</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Avelao ny lalao manohana izany hanova ny varavarankely Roblox. Miverina ho toy ny teo aloha ny zava drehetra rehefa miala amin ny lalao ianao.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Fihetsehan ny varavarankely</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Afaka mamindra ny varavarankely, manova ny habeny ary manala ny sisiny ny lalao.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Lohatenin ny varavarankely</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Afaka manova ny lohatenin ny varavarankely ny lalao.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Fahazavan ny varavarankely</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Afaka mampangarahara ny varavarankely ny lalao.</value>
+  </data>
 </root>

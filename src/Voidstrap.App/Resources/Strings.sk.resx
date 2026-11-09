@@ -9654,4 +9654,31 @@ Povoliť?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Vybrať aplikáciu</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Ovládanie okna</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Povoliť ovládanie okna</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Umožnite hrám, ktoré to podporujú, meniť okno Roblox. Po opustení hry sa všetko obnoví.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Pohyb okna</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Hry môžu okno presúvať, meniť jeho veľkosť a odstrániť rámik.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Názov okna</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Hry môžu meniť názov okna.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Priehľadnosť okna</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Hry môžu okno spriehľadniť.</value>
+  </data>
 </root>

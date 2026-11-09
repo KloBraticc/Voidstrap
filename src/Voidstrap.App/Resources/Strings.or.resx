@@ -9654,4 +9654,31 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>ଆପ୍ ବାଛନ୍ତୁ</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>ୱିଣ୍ଡୋ ନିୟନ୍ତ୍ରଣ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>ୱିଣ୍ଡୋ ନିୟନ୍ତ୍ରଣକୁ ଅନୁମତି ଦିଅନ୍ତୁ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>ସମର୍ଥନ କରୁଥିବା ଖେଳଗୁଡ଼ିକୁ Roblox ୱିଣ୍ଡୋ ବଦଳାଇବାକୁ ଦିଅନ୍ତୁ। ଖେଳ ଛାଡ଼ିଲେ ସବୁକିଛି ପୂର୍ବ ପରି ହୋଇଯାଏ।</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>ୱିଣ୍ଡୋ ଗତି</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>ଖେଳଗୁଡ଼ିକ ୱିଣ୍ଡୋକୁ ଘୁଞ୍ଚାଇପାରିବେ, ଆକାର ବଦଳାଇପାରିବେ ଏବଂ ସୀମା ହଟାଇପାରିବେ।</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>ୱିଣ୍ଡୋ ଶୀର୍ଷକ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>ଖେଳଗୁଡ଼ିକ ୱିଣ୍ଡୋ ଶୀର୍ଷକ ବଦଳାଇପାରିବେ।</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>ୱିଣ୍ଡୋ ସ୍ୱଚ୍ଛତା</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>ଖେଳଗୁଡ଼ିକ ୱିଣ୍ଡୋକୁ ସ୍ୱଚ୍ଛ କରିପାରିବେ।</value>
+  </data>
 </root>

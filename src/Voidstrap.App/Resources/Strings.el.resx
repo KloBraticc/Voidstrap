@@ -9653,4 +9653,31 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Επιλογή εφαρμογής</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Έλεγχος παραθύρου</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Να επιτρέπεται ο έλεγχος παραθύρου</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Επιτρέψτε στα παιχνίδια που το υποστηρίζουν να αλλάζουν το παράθυρο του Roblox. Όλα επανέρχονται όταν φύγετε από το παιχνίδι.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Μετακίνηση παραθύρου</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Τα παιχνίδια μπορούν να μετακινούν το παράθυρο, να αλλάζουν το μέγεθός του και να αφαιρούν το περίγραμμα.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Τίτλος παραθύρου</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Τα παιχνίδια μπορούν να αλλάζουν τον τίτλο του παραθύρου.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Διαφάνεια παραθύρου</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Τα παιχνίδια μπορούν να κάνουν το παράθυρο διάφανο.</value>
+  </data>
 </root>

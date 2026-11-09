@@ -9654,4 +9654,31 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>अॅप निवडा</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>विंडो नियंत्रण</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>विंडो नियंत्रणास परवानगी द्या</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>समर्थन करणाऱ्या गेम्सना Roblox विंडो बदलू द्या. गेम सोडल्यावर सर्व काही पूर्ववत होते.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>विंडोची हालचाल</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>गेम्स विंडो हलवू शकतात, तिचा आकार बदलू शकतात आणि बॉर्डर काढू शकतात.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>विंडोचे शीर्षक</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>गेम्स विंडोचे शीर्षक बदलू शकतात.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>विंडोची पारदर्शकता</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>गेम्स विंडो पारदर्शक करू शकतात.</value>
+  </data>
 </root>

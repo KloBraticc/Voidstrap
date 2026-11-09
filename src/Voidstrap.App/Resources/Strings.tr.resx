@@ -9964,4 +9964,31 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Uygulama seç</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Pencere denetimi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Pencere denetimine izin ver</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Destekleyen oyunların Roblox penceresini değiştirmesine izin verin. Oyundan çıktığınızda her şey eski haline döner.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Pencere hareketi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Oyunlar pencereyi taşıyabilir, boyutunu değiştirebilir ve kenarlığını kaldırabilir.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Pencere başlığı</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Oyunlar pencere başlığını değiştirebilir.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Pencere saydamlığı</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Oyunlar pencereyi saydam yapabilir.</value>
+  </data>
 </root>

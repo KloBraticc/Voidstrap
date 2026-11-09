@@ -9654,4 +9654,31 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Изабери апликацију</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Контрола прозора</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Дозволи контролу прозора</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Дозволи играма које то подржавају да мењају Roblox прозор. Све се враћа када напустиш игру.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Померање прозора</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Игре могу да померају прозор, мењају му величину и уклоне оквир.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Наслов прозора</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Игре могу да мењају наслов прозора.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Провидност прозора</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Игре могу да учине прозор провидним.</value>
+  </data>
 </root>

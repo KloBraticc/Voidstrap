@@ -9654,4 +9654,31 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>एप छान्नुहोस्</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>विन्डो नियन्त्रण</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>विन्डो नियन्त्रणलाई अनुमति दिनुहोस्</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>समर्थन गर्ने खेलहरूलाई Roblox विन्डो परिवर्तन गर्न दिनुहोस्। खेल छाड्दा सबै कुरा पहिलेजस्तै हुन्छ।</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>विन्डोको चाल</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>खेलहरूले विन्डो सार्न, आकार बदल्न र किनारा हटाउन सक्छन्।</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>विन्डोको शीर्षक</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>खेलहरूले विन्डोको शीर्षक बदल्न सक्छन्।</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>विन्डोको पारदर्शिता</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>खेलहरूले विन्डोलाई पारदर्शी बनाउन सक्छन्।</value>
+  </data>
 </root>

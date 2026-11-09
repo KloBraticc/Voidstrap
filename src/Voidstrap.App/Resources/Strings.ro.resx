@@ -9968,4 +9968,31 @@ Permiți?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Alege aplicația</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Controlul ferestrei</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Permite controlul ferestrei</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Lasă jocurile compatibile să schimbe fereastra Roblox. Totul revine la normal când ieși din joc.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Mișcarea ferestrei</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Jocurile pot muta fereastra, îi pot schimba dimensiunea și pot elimina marginea.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Titlul ferestrei</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Jocurile pot schimba titlul ferestrei.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Transparența ferestrei</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Jocurile pot face fereastra transparentă.</value>
+  </data>
 </root>

@@ -9653,4 +9653,31 @@ Caniatáu iddo?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Dewis ap</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Rheoli ffenestr</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Caniatáu rheoli ffenestr</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Gadewch i gemau sy’n ei gefnogi newid ffenestr Roblox. Mae popeth yn ailosod pan fyddwch yn gadael y gêm.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Symud ffenestr</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Gall gemau symud y ffenestr, newid ei maint a thynnu’r ffin.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Teitl ffenestr</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Gall gemau newid teitl y ffenestr.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Tryloywder ffenestr</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Gall gemau wneud y ffenestr yn dryloyw.</value>
+  </data>
 </root>

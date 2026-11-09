@@ -9653,4 +9653,31 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>ئەپ تاللاش</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>كۆزنەك كونترولى</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>كۆزنەك كونترولىغا يول قويۇش</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>قوللايدىغان ئويۇنلارنىڭ Roblox كۆزنىكىنى ئۆزگەرتىشىگە يول قويۇڭ. ئويۇندىن چىققاندا ھەممە نەرسە ئەسلىگە قايتىدۇ.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>كۆزنەك ھەرىكىتى</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>ئويۇنلار كۆزنەكنى يۆتكىيەلەيدۇ، چوڭلۇقىنى ئۆزگەرتەلەيدۇ ۋە گىرۋىكىنى ئۆچۈرەلەيدۇ.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>كۆزنەك ماۋزۇسى</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>ئويۇنلار كۆزنەك ماۋزۇسىنى ئۆزگەرتەلەيدۇ.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>كۆزنەك سۈزۈكلۈكى</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>ئويۇنلار كۆزنەكنى سۈزۈك قىلالايدۇ.</value>
+  </data>
 </root>

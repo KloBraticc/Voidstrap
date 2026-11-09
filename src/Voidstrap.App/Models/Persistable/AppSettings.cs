@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json.Serialization;
 using Voidstrap.Enums;
@@ -307,6 +307,10 @@ namespace Voidstrap.Models.Persistable
         public bool UseDiscordRichPresence { get; set; } = true;
         public bool HideRPCButtons { get; set; } = true;
         public bool AllowDiscordInvites { get; set; } = false;
+        public bool WindowControlEnabled { get; set; } = false;
+        public bool WindowControlMove { get; set; } = true;
+        public bool WindowControlTitle { get; set; } = true;
+        public bool WindowControlTransparency { get; set; } = true;
         public bool ShowDiscordPartySize { get; set; } = true;
         public bool ShowAccountOnRichPresence { get; set; } = true;
         public bool ShowServerDetails { get; set; } = true;

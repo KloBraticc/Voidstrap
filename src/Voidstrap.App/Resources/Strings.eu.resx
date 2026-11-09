@@ -9653,4 +9653,31 @@ Baimendu al duzu?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Aukeratu aplikazioa</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Leihoaren kontrola</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Baimendu leihoaren kontrola</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Utzi bateragarriak diren jokoei Roblox leihoa aldatzen. Dena berrezartzen da jokotik irtetean.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Leihoaren mugimendua</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Jokoek leihoa mugitu, tamainaz aldatu eta ertza kendu dezakete.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Leihoaren izenburua</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Jokoek leihoaren izenburua alda dezakete.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Leihoaren gardentasuna</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Jokoek leihoa garden bihur dezakete.</value>
+  </data>
 </root>

@@ -9653,4 +9653,31 @@ Je, unairuhusu?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Chagua programu</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Udhibiti wa dirisha</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Ruhusu udhibiti wa dirisha</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Ruhusu michezo inayoikubali ibadilishe dirisha la Roblox. Kila kitu kinarudi kama kilivyokuwa unapoondoka kwenye mchezo.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Kusogeza dirisha</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Michezo inaweza kusogeza dirisha, kubadilisha ukubwa wake na kuondoa mpaka wake.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Kichwa cha dirisha</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Michezo inaweza kubadilisha kichwa cha dirisha.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Uwazi wa dirisha</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Michezo inaweza kufanya dirisha liwe la kuonyesha upande wa pili.</value>
+  </data>
 </root>

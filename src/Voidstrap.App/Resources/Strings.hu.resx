@@ -9966,4 +9966,31 @@ Engedélyezed?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Alkalmazás kiválasztása</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Ablakvezérlés</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Ablakvezérlés engedélyezése</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Engedd, hogy az ezt támogató játékok módosítsák a Roblox ablakot. Minden visszaáll, amikor kilépsz a játékból.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Ablak mozgatása</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>A játékok mozgathatják, átméretezhetik az ablakot és eltávolíthatják a keretét.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Ablak címe</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>A játékok módosíthatják az ablak címét.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Ablak átlátszósága</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>A játékok átlátszóvá tehetik az ablakot.</value>
+  </data>
 </root>

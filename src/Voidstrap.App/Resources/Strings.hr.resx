@@ -9966,4 +9966,31 @@ Dopustiti?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Odaberi aplikaciju</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Upravljanje prozorom</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Dopusti upravljanje prozorom</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Dopusti igrama koje to podržavaju da mijenjaju Roblox prozor. Sve se vraća kada napustiš igru.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Pomicanje prozora</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Igre mogu pomicati prozor, mijenjati mu veličinu i ukloniti okvir.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Naslov prozora</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Igre mogu mijenjati naslov prozora.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Prozirnost prozora</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Igre mogu učiniti prozor prozirnim.</value>
+  </data>
 </root>

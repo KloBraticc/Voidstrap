@@ -9654,4 +9654,31 @@ E lejon atë?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Zgjidh aplikacionin</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Kontrolli i dritares</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Lejo kontrollin e dritares</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Lejo lojërat që e mbështesin të ndryshojnë dritaren e Roblox. Gjithçka rikthehet kur del nga loja.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Lëvizja e dritares</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Lojërat mund ta lëvizin dritaren, t’i ndryshojnë madhësinë dhe t’i heqin kornizën.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Titulli i dritares</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Lojërat mund ta ndryshojnë titullin e dritares.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Tejdukshmëria e dritares</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Lojërat mund ta bëjnë dritaren të tejdukshme.</value>
+  </data>
 </root>

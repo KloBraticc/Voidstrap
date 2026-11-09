@@ -9654,4 +9654,31 @@ Dovoli?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Izberi aplikacijo</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Upravljanje okna</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Dovoli upravljanje okna</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Dovoli igram, ki to podpirajo, da spreminjajo okno Roblox. Ko zapustiš igro, se vse povrne.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Premikanje okna</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Igre lahko premikajo okno, mu spreminjajo velikost in odstranijo obrobo.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Naslov okna</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Igre lahko spremenijo naslov okna.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Prosojnost okna</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Igre lahko naredijo okno prosojno.</value>
+  </data>
 </root>

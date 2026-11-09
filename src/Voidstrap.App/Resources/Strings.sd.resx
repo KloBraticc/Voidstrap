@@ -9654,4 +9654,31 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>ايپ چونڊيو</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>ونڊو ڪنٽرول</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>ونڊو ڪنٽرول جي اجازت ڏيو</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>سهڪار ڪندڙ راندين کي Roblox ونڊو بدلائڻ ڏيو. راند ڇڏڻ تي سڀ ڪجهه اڳ جهڙو ٿي ويندو آهي.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>ونڊو جي حرڪت</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>رانديون ونڊو کي هلائي، ان جي ماپ بدلائي ۽ ڪنارو هٽائي سگهن ٿيون.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>ونڊو جو عنوان</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>رانديون ونڊو جو عنوان بدلائي سگهن ٿيون.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>ونڊو جي شفافيت</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>رانديون ونڊو کي شفاف بڻائي سگهن ٿيون.</value>
+  </data>
 </root>

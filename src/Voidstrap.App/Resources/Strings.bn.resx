@@ -9653,4 +9653,31 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>অ্যাপ বেছে নিন</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>উইন্ডো নিয়ন্ত্রণ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>উইন্ডো নিয়ন্ত্রণের অনুমতি দিন</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>সমর্থিত গেমগুলোকে Roblox উইন্ডো পরিবর্তন করতে দিন। গেম ছেড়ে গেলে সবকিছু আগের মতো হয়ে যায়।</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>উইন্ডো সরানো</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>গেমগুলো উইন্ডো সরাতে, আকার বদলাতে এবং ফ্রেম সরাতে পারে।</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>উইন্ডোর শিরোনাম</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>গেমগুলো উইন্ডোর শিরোনাম বদলাতে পারে।</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>উইন্ডোর স্বচ্ছতা</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>গেমগুলো উইন্ডোকে স্বচ্ছ করতে পারে।</value>
+  </data>
 </root>

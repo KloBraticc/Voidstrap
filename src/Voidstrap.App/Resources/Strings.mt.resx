@@ -9654,4 +9654,31 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Agħżel app</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Kontroll tat tieqa</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Ippermetti l kontroll tat tieqa</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Ħalli l logħob li jappoġġjah ibiddel it tieqa ta Roblox. Kollox jerġa lura meta titlaq mil logħba.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Moviment tat tieqa</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Il logħob jista jċaqlaq it tieqa, ibiddel id daqs tagħha u jneħħi l bordura.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Titlu tat tieqa</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Il logħob jista jbiddel it titlu tat tieqa.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Trasparenza tat tieqa</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Il logħob jista jagħmel it tieqa trasparenti.</value>
+  </data>
 </root>

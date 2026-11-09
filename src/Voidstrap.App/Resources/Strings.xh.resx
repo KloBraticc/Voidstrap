@@ -9653,4 +9653,31 @@ uyayivumela?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Khetha i app</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Ulawulo lwefestile</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Vumela ulawulo lwefestile</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Vumela imidlalo eyixhasayo ukuba itshintshe ifestile ye Roblox. Yonke into ibuyela kwimeko yayo xa ushiya umdlalo.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Ukuhamba kwefestile</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Imidlalo inokuhambisa ifestile, itshintshe ubungakanani bayo kwaye isuse umda.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Isihloko sefestile</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Imidlalo inokutshintsha isihloko sefestile.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Ukubonakala kwefestile</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Imidlalo inokwenza ifestile ibonakale ngaphakathi.</value>
+  </data>
 </root>

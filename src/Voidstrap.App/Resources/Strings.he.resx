@@ -9654,4 +9654,31 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>בחר אפליקציה</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>שליטה בחלון</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>אפשר שליטה בחלון</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>אפשר למשחקים שתומכים בכך לשנות את חלון Roblox. הכל מתאפס כשאתה עוזב את המשחק.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>הזזת חלון</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>משחקים יכולים להזיז את החלון, לשנות את גודלו ולהסיר את המסגרת.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>כותרת החלון</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>משחקים יכולים לשנות את כותרת החלון.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>שקיפות החלון</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>משחקים יכולים להפוך את החלון לשקוף.</value>
+  </data>
 </root>

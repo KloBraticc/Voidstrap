@@ -9653,4 +9653,31 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>ஆப்பைத் தேர்வு செய்</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>சாளரக் கட்டுப்பாடு</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>சாளரக் கட்டுப்பாட்டை அனுமதி</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>ஆதரிக்கும் விளையாட்டுகள் Roblox சாளரத்தை மாற்ற அனுமதிக்கவும். விளையாட்டை விட்டு வெளியேறும்போது அனைத்தும் மீட்டமைக்கப்படும்.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>சாளர நகர்வு</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>விளையாட்டுகள் சாளரத்தை நகர்த்தவும், அளவை மாற்றவும், எல்லையை நீக்கவும் முடியும்.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>சாளரத் தலைப்பு</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>விளையாட்டுகள் சாளரத் தலைப்பை மாற்ற முடியும்.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>சாளர ஒளிபுகுதன்மை</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>விளையாட்டுகள் சாளரத்தை ஒளிபுகும்படி செய்ய முடியும்.</value>
+  </data>
 </root>

@@ -9654,4 +9654,31 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>એપ પસંદ કરો</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>વિન્ડો નિયંત્રણ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>વિન્ડો નિયંત્રણની મંજૂરી આપો</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>સપોર્ટ કરતી ગેમ્સને Roblox વિન્ડો બદલવા દો. ગેમ છોડો ત્યારે બધું પાછું પહેલાં જેવું થઈ જાય છે.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>વિન્ડોની હિલચાલ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>ગેમ્સ વિન્ડો ખસેડી શકે છે, તેનું કદ બદલી શકે છે અને બોર્ડર દૂર કરી શકે છે.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>વિન્ડોનું શીર્ષક</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>ગેમ્સ વિન્ડોનું શીર્ષક બદલી શકે છે.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>વિન્ડોની પારદર્શિતા</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>ગેમ્સ વિન્ડોને પારદર્શક બનાવી શકે છે.</value>
+  </data>
 </root>

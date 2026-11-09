@@ -9653,4 +9653,31 @@ E lumella?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Kgetha app</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Taolo ya fensetere</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Dumella taolo ya fensetere</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Dumella dipapadi tse e tshehetsang ho fetola fensetere ya Roblox. Tsohle di kgutlela moo di neng di le teng ha o tswa papading.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Motsamao wa fensetere</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Dipapadi di ka tsamaisa fensetere, tsa fetola boholo ba yona le ho tlosa moedi.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Sehlooho sa fensetere</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Dipapadi di ka fetola sehlooho sa fensetere.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Ponaletso ya fensetere</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Dipapadi di ka etsa hore fensetere e bonahale ka hare.</value>
+  </data>
 </root>

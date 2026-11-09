@@ -9654,4 +9654,31 @@ Bada shi?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Zaɓi manhaja</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Sarrafa taga</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Ba da izinin sarrafa taga</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Bari wasannin da ke goyon bayan haka su canza tagar Roblox. Komai yana komawa yadda yake idan ka bar wasan.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Motsin taga</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Wasanni na iya motsa taga, canza girmanta da cire iyakarta.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Taken taga</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Wasanni na iya canza taken taga.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Bayyanar taga</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Wasanni na iya sa taga ta zama mai bayyanawa.</value>
+  </data>
 </root>

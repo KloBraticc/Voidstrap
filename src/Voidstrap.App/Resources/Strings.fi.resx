@@ -9967,4 +9967,31 @@ Sallitaanko?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Valitse sovellus</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Ikkunan hallinta</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Salli ikkunan hallinta</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Anna sitä tukevien pelien muuttaa Roblox ikkunaa. Kaikki palautuu, kun poistut pelistä.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Ikkunan liikuttaminen</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Pelit voivat siirtää ikkunaa, muuttaa sen kokoa ja poistaa reunuksen.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Ikkunan otsikko</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Pelit voivat muuttaa ikkunan otsikkoa.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Ikkunan läpinäkyvyys</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Pelit voivat tehdä ikkunasta läpinäkyvän.</value>
+  </data>
 </root>

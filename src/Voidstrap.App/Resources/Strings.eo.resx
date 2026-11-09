@@ -9653,4 +9653,31 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Elekti aplikaĵon</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Fenestra regado</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Permesi fenestran regadon</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Lasu subtenantajn ludojn ŝanĝi la Roblox fenestron. Ĉio restariĝas kiam vi forlasas la ludon.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Fenestra movado</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Ludoj povas movi la fenestron, ŝanĝi ĝian grandon kaj forigi la kadron.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Fenestra titolo</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Ludoj povas ŝanĝi la fenestran titolon.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Fenestra travidebleco</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Ludoj povas igi la fenestron travidebla.</value>
+  </data>
 </root>

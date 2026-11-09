@@ -9654,4 +9654,31 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Колдонмо тандоо</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Терезени башкаруу</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Терезени башкарууга уруксат берүү</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Колдогон оюндарга Roblox терезесин өзгөртүүгө уруксат бериңиз. Оюндан чыкканда баары калыбына келет.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Терезенин кыймылы</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Оюндар терезени жылдырып, өлчөмүн өзгөртүп, алкагын алып сала алат.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Терезенин аталышы</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Оюндар терезенин аталышын өзгөртө алат.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Терезенин тунуктугу</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Оюндар терезени тунук кыла алат.</value>
+  </data>
 </root>

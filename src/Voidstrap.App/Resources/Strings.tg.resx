@@ -9653,4 +9653,31 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Интихоби барнома</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Идораи равзана</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Иҷозати идораи равзана</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Ба бозиҳое, ки инро дастгирӣ мекунанд, иҷозат диҳед, ки равзанаи Roblox ро тағйир диҳанд. Ҳангоми баромадан аз бозӣ ҳама чиз барқарор мешавад.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Ҳаракати равзана</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Бозиҳо метавонанд равзанаро ҷойгузин кунанд, андозаашро тағйир диҳанд ва ҳошияашро гиранд.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Сарлавҳаи равзана</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Бозиҳо метавонанд сарлавҳаи равзанаро тағйир диҳанд.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Шаффофияти равзана</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Бозиҳо метавонанд равзанаро шаффоф кунанд.</value>
+  </data>
 </root>

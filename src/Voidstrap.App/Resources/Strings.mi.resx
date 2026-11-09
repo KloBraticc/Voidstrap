@@ -9654,4 +9654,31 @@ Whakaaetia?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Kōwhiri taupānga</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Mana matapihi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Tukua te mana matapihi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Tukua ngā kēmu e tautoko ana kia huri i te matapihi Roblox. Ka whakahokia ngā mea katoa ina wehe koe i te kēmu.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Nekehanga matapihi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Ka taea e ngā kēmu te neke i te matapihi, te huri i tōna rahi me te tango i te tapa.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Taitara matapihi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Ka taea e ngā kēmu te huri i te taitara o te matapihi.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Pūataata matapihi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Ka taea e ngā kēmu te whakapūataata i te matapihi.</value>
+  </data>
 </root>

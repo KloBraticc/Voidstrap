@@ -9961,4 +9961,31 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>เลือกแอป</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>การควบคุมหน้าต่าง</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>อนุญาตการควบคุมหน้าต่าง</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>ให้เกมที่รองรับเปลี่ยนหน้าต่าง Roblox ได้ ทุกอย่างจะกลับเป็นเหมือนเดิมเมื่อคุณออกจากเกม</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>การเคลื่อนหน้าต่าง</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>เกมสามารถย้ายหน้าต่าง ปรับขนาด และเอากรอบออกได้</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>ชื่อหน้าต่าง</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>เกมสามารถเปลี่ยนชื่อหน้าต่างได้</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>ความโปร่งใสของหน้าต่าง</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>เกมสามารถทำให้หน้าต่างโปร่งใสได้</value>
+  </data>
 </root>

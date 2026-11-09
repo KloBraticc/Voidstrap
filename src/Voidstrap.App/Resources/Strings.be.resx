@@ -9653,4 +9653,31 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Выбраць праграму</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Кіраванне акном</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Дазволіць кіраванне акном</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Дазвольце гульням, якія гэта падтрымліваюць, змяняць акно Roblox. Усё вяртаецца, калі вы выходзіце з гульні.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Рух акна</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>Гульні могуць перамяшчаць акно, змяняць яго памер і прыбіраць рамку.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Загаловак акна</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>Гульні могуць змяняць загаловак акна.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Празрыстасць акна</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>Гульні могуць рабіць акно празрыстым.</value>
+  </data>
 </root>

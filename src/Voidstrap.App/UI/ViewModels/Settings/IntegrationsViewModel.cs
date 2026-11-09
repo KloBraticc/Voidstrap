@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -722,6 +722,62 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
             }
             App.Settings.Prop.ShowDiscordPartySize = value;
             SaveAppSetting(nameof(DiscordPartySizeEnabled));
+        }
+    }
+
+    public bool WindowControlEnabled
+    {
+        get { return App.Settings.Prop.WindowControlEnabled; }
+        set
+        {
+            if (App.Settings.Prop.WindowControlEnabled == value)
+            {
+                return;
+            }
+            App.Settings.Prop.WindowControlEnabled = value;
+            SaveAppSetting(nameof(WindowControlEnabled));
+        }
+    }
+
+    public bool WindowControlMove
+    {
+        get { return App.Settings.Prop.WindowControlMove; }
+        set
+        {
+            if (App.Settings.Prop.WindowControlMove == value)
+            {
+                return;
+            }
+            App.Settings.Prop.WindowControlMove = value;
+            SaveAppSetting(nameof(WindowControlMove));
+        }
+    }
+
+    public bool WindowControlTitle
+    {
+        get { return App.Settings.Prop.WindowControlTitle; }
+        set
+        {
+            if (App.Settings.Prop.WindowControlTitle == value)
+            {
+                return;
+            }
+            App.Settings.Prop.WindowControlTitle = value;
+            SaveAppSetting(nameof(WindowControlTitle));
+        }
+    }
+
+    public bool WindowControlTransparency
+    {
+        get { return App.Settings.Prop.WindowControlTransparency; }
+        set
+        {
+            if (App.Settings.Prop.WindowControlTransparency == value)
+            {
+                return;
+            }
+            App.Settings.Prop.WindowControlTransparency = value;
+            SaveAppSetting(nameof(WindowControlTransparency));
         }
     }
 

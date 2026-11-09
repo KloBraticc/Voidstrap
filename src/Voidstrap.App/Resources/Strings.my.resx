@@ -9653,4 +9653,31 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>အက်ပ် ရွေးရန်</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>ဝင်းဒိုး ထိန်းချုပ်မှု</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>ဝင်းဒိုး ထိန်းချုပ်မှုကို ခွင့်ပြုပါ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>ပံ့ပိုးသော ဂိမ်းများကို Roblox ဝင်းဒိုးကို ပြောင်းလဲခွင့်ပေးပါ။ ဂိမ်းမှ ထွက်သည့်အခါ အားလုံး မူလအတိုင်း ပြန်ဖြစ်သည်။</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>ဝင်းဒိုး ရွှေ့ခြင်း</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>ဂိမ်းများသည် ဝင်းဒိုးကို ရွှေ့ခြင်း၊ အရွယ်အစားပြောင်းခြင်းနှင့် ဘောင်ဖယ်ခြင်း ပြုလုပ်နိုင်သည်။</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>ဝင်းဒိုး ခေါင်းစဉ်</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>ဂိမ်းများသည် ဝင်းဒိုး ခေါင်းစဉ်ကို ပြောင်းနိုင်သည်။</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>ဝင်းဒိုး ဖောက်ထွင်းမြင်ရမှု</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>ဂိမ်းများသည် ဝင်းဒိုးကို ဖောက်ထွင်းမြင်ရအောင် ပြုလုပ်နိုင်သည်။</value>
+  </data>
 </root>

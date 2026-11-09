@@ -9969,4 +9969,31 @@ Consentire?</value>
   <data name="Menu.Import.Choose" xml:space="preserve">
     <value>Scegli app</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Tab" xml:space="preserve">
+    <value>Controllo finestra</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Title" xml:space="preserve">
+    <value>Consenti il controllo della finestra</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
+    <value>Lascia che i giochi compatibili modifichino la finestra di Roblox. Tutto viene ripristinato quando esci dal gioco.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Title" xml:space="preserve">
+    <value>Movimento finestra</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Move.Description" xml:space="preserve">
+    <value>I giochi possono spostare la finestra, ridimensionarla e rimuoverne il bordo.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Title" xml:space="preserve">
+    <value>Titolo finestra</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.TitleText.Description" xml:space="preserve">
+    <value>I giochi possono cambiare il titolo della finestra.</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Title" xml:space="preserve">
+    <value>Trasparenza finestra</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Transparency.Description" xml:space="preserve">
+    <value>I giochi possono rendere la finestra trasparente.</value>
+  </data>
 </root>
