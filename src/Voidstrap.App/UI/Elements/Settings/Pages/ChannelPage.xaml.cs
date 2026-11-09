@@ -136,6 +136,10 @@ public partial class ChannelPage : UiPage
         }
     }
 
+    private string? _versionSignature;
+
+    private string? _versionHeader;
+
     private async Task GetRobloxVersionAPPAsync(CancellationToken token)
     {
         try
@@ -154,19 +158,25 @@ public partial class ChannelPage : UiPage
                 RobloxVersionAPP.Header = "Not Installed";
                 return;
             }
-            string[] files = Directory
+            FileInfo[] candidates = Directory
                 .EnumerateFiles(path, "memProfStorage*.json", SearchOption.TopDirectoryOnly)
                 .Select(file => new FileInfo(file))
                 .Where(file => file.Length <= 1024 * 1024)
                 .OrderByDescending(file => file.LastWriteTimeUtc)
                 .Take(20)
-                .Select(file => file.FullName)
                 .ToArray();
-            if (files.Length == 0)
+            if (candidates.Length == 0)
             {
                 RobloxVersionAPP.Header = "Not Installed";
                 return;
             }
+            string signature = string.Join("|", candidates.Select(file => file.FullName + ":" + file.LastWriteTimeUtc.Ticks + ":" + file.Length));
+            if (_versionSignature == signature && _versionHeader != null)
+            {
+                RobloxVersionAPP.Header = _versionHeader;
+                return;
+            }
+            string[] files = candidates.Select(file => file.FullName).ToArray();
             string? version = null;
             string[] array = files;
             foreach (string path2 in array)
@@ -191,6 +201,8 @@ public partial class ChannelPage : UiPage
             {
                 RobloxVersionAPP.Header = "Not Installed";
             }
+            _versionSignature = signature;
+            _versionHeader = RobloxVersionAPP.Header as string;
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested) { }
         catch (Exception ex2)

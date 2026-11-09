@@ -114,6 +114,7 @@ namespace Voidstrap.Utility
             if (!Platform.IsWindows || _trimCts == null || Interlocked.Exchange(ref _navigationTrimPending, 1) != 0)
                 return;
             CancellationToken token = _trimCts.Token;
+            _ = Task.Run(TrimWorkingSet);
             _ = Task.Run(() => TrimAfterNavigationAsync(token));
         }
 
