@@ -6,7 +6,7 @@
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
            xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages"
            xmlns:resources="clr-namespace:Voidstrap.Resources"
-           Title="{resources:Loc Ui_Pages_Downloads}" Scrollable="False">
+           Title="{resources:Loc Ui_Pages_Downloads}" ui:Breadcrumb.Header="{resources:Loc Ui_Pages_Downloads}" Scrollable="False">
     <FrameworkElement.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />

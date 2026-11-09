@@ -2913,8 +2913,14 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void TopNavManager_Click(object sender, RoutedEventArgs e)
     {
         PagesMenuPopup.IsOpen = false;
-        NavigateTopNav(typeof(DownloadsPage));
+        _managerPage ??= new DownloadsPage();
+        if (!ReferenceEquals(RootFrame.Content, _managerPage))
+        {
+            RootNavigation.NavigateExternal(_managerPage);
+        }
     }
+
+    private DownloadsPage? _managerPage;
 
     private VoidstrapModsPage? _voidstrapModsPage;
 
