@@ -9899,4 +9899,49 @@
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>يعرض عدد اللاعبين في خادمك على ملفك الشخصي في Discord.</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>استبدل الخامات والأصوات والنماذج وملفات اللعبة الأخرى بملفاتك الخاصة.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>استيراد ZIP</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>استيراد مجلد</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>أضف تعديلًا، أو استورد تعديلًا يحتوي على مجلدات content أو ExtraContent أو PlatformContent.</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>التعديلات الأعلى في القائمة لها الأولوية. اسحب التعديل لإعادة ترتيبه.</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>ينطبق على</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>العملاء الكلاسيكيون</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>عندما يستبدل تعديلان الملف نفسه، يُستخدم الأعلى في القائمة.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>تعذّر استيراد التعديل:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>لم يُعثر على ملفات لاستيرادها.</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>تعذّر حفظ أهداف التعديل:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>لا توجد تعديلات بعد</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>لا توجد تعديلات تطابق بحثك</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

@@ -9588,4 +9588,49 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>आपके सर्वर में कितने खिलाड़ी हैं, यह आपकी Discord प्रोफ़ाइल पर दिखाता है।</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>टेक्सचर, आवाज़, मॉडल और गेम की दूसरी फ़ाइलों को अपनी फ़ाइलों से बदलें।</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>ZIP इम्पोर्ट करें</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>फ़ोल्डर इम्पोर्ट करें</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>मॉड जोड़ें, या content, ExtraContent या PlatformContent फ़ोल्डर वाला मॉड इम्पोर्ट करें।</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>सूची में ऊपर वाले मॉड को प्राथमिकता मिलती है। क्रम बदलने के लिए मॉड खींचें।</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>लागू होता है</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>क्लासिक क्लाइंट</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>जब दो मॉड एक ही फ़ाइल बदलते हैं, तो सूची में ऊपर वाला इस्तेमाल होता है।</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>मॉड इम्पोर्ट नहीं हो सका:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>इम्पोर्ट करने के लिए कोई फ़ाइल नहीं मिली।</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>मॉड के लक्ष्य सहेजे नहीं जा सके:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>अभी कोई मॉड नहीं</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>आपकी खोज से कोई मॉड मेल नहीं खाता</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

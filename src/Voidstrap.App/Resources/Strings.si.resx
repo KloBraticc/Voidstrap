@@ -9588,4 +9588,49 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>ඔබේ සේවාදායකයේ ක්‍රීඩකයින් කී දෙනෙක් සිටිනවාද යන්න ඔබේ Discord පැතිකඩෙහි පෙන්වයි.</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>වයනය, ශබ්ද, ආකෘති සහ වෙනත් ක්‍රීඩා ගොනු ඔබේම ගොනු වලින් ප්‍රතිස්ථාපනය කරන්න.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>ZIP ආයාත කරන්න</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>ෆෝල්ඩරය ආයාත කරන්න</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>මොඩ් එකක් එක් කරන්න, නැතහොත් content, ExtraContent හෝ PlatformContent ෆෝල්ඩර සහිත එකක් ආයාත කරන්න.</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>ලැයිස්තුවේ ඉහළ ඇති මොඩ් වලට ප්‍රමුඛතාව ලැබේ. පිළිවෙළ වෙනස් කිරීමට මොඩ් එක අදින්න.</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>අදාළ වේ</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>සම්භාව්‍ය සේවාලාභීන්</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>මොඩ් දෙකක් එකම ගොනුව ප්‍රතිස්ථාපනය කළ විට ලැයිස්තුවේ ඉහළ එක භාවිත වේ.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>මොඩ් එක ආයාත කළ නොහැකි විය:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>ආයාත කිරීමට ගොනු හමු නොවීය.</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>මොඩ් ඉලක්ක සුරැකිය නොහැකි විය:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>තවම මොඩ් නැත</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>ඔබේ සෙවුමට ගැළපෙන මොඩ් නැත</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

@@ -9587,4 +9587,49 @@ Uyakuvumela?</value>
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>Ibonisa ukuthi bangaki abadlali kuseva yakho kuphrofayela yakho ye Discord.</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>Shintsha ukwakheka, imisindo, amamodeli namanye amafayela egeyimu ngawakho.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>Ngenisa i ZIP</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>Ngenisa ifolda</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>Engeza i mod, noma ungenise enamafolda e content, ExtraContent noma PlatformContent.</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>Ama mod aphezulu ohlwini ahamba phambili. Hudula i mod ukuze uyihlele kabusha.</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>Kusebenza ku</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>Amaklayenti akudala</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>Uma ama mod amabili eshintsha ifayela elifanayo, kusetshenziswa eliphezulu ohlwini.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>I mod ayikwazanga ukungeniswa:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>Awekho amafayela atholakele okungeniswa.</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>Izinhloso ze mod azikwazanga ukulondolozwa:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>Awekho ama mod okwamanje</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>Ayikho i mod ehambisana nosesho lwakho</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

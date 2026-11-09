@@ -9902,4 +9902,49 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>تعداد بازیکنان سرور شما را در نمایه Discord شما نشان می‌دهد.</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>بافت‌ها، صداها، مدل‌ها و دیگر فایل‌های بازی را با فایل‌های خودتان جایگزین کنید.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>وارد کردن ZIP</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>وارد کردن پوشه</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>یک ماد اضافه کنید یا مادی را وارد کنید که پوشه‌های content، ExtraContent یا PlatformContent دارد.</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>مادهای بالاتر در فهرست اولویت دارند. برای تغییر ترتیب، ماد را بکشید.</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>اعمال روی</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>کلاینت‌های کلاسیک</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>وقتی دو ماد یک فایل را جایگزین کنند، ماد بالاتر در فهرست استفاده می‌شود.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>ماد وارد نشد:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>هیچ فایلی برای وارد کردن پیدا نشد.</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>اهداف ماد ذخیره نشد:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>هنوز مادی وجود ندارد</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>هیچ مادی با جستجوی شما مطابقت ندارد</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

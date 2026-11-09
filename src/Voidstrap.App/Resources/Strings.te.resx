@@ -9587,4 +9587,49 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>మీ సర్వర్‌లో ఎంత మంది ఆటగాళ్లు ఉన్నారో మీ Discord ప్రొఫైల్‌లో చూపిస్తుంది.</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>టెక్స్చర్‌లు, శబ్దాలు, మోడల్‌లు మరియు ఇతర గేమ్ ఫైల్‌లను మీ సొంత ఫైల్‌లతో మార్చండి.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>ZIP దిగుమతి</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>ఫోల్డర్ దిగుమతి</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>మోడ్‌ను జోడించండి, లేదా content, ExtraContent లేదా PlatformContent ఫోల్డర్‌లు ఉన్న మోడ్‌ను దిగుమతి చేయండి.</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>జాబితాలో పైన ఉన్న మోడ్‌లకు ప్రాధాన్యత. క్రమం మార్చడానికి మోడ్‌ను లాగండి.</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>వర్తిస్తుంది</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>క్లాసిక్ క్లయింట్‌లు</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>రెండు మోడ్‌లు ఒకే ఫైల్‌ను మార్చినప్పుడు జాబితాలో పైన ఉన్నది ఉపయోగించబడుతుంది.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>మోడ్‌ను దిగుమతి చేయలేకపోయాం:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>దిగుమతి చేయడానికి ఫైల్‌లు కనిపించలేదు.</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>మోడ్ లక్ష్యాలను సేవ్ చేయలేకపోయాం:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>ఇంకా మోడ్‌లు లేవు</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>మీ శోధనకు సరిపోలే మోడ్‌లు లేవు</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

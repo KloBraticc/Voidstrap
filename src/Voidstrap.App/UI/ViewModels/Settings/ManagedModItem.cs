@@ -27,6 +27,8 @@ public sealed class ManagedModItem : NotifyPropertyChangedViewModel
 
     private bool _editable;
 
+    private ModInstallTargets _targets;
+
     public ManagedModItem(
         string id,
         string name,
@@ -39,9 +41,11 @@ public sealed class ManagedModItem : NotifyPropertyChangedViewModel
         ModPackInfo? pack = null,
         bool editable = false,
         int overriddenCount = 0,
-        bool appliedOnTop = false
+        bool appliedOnTop = false,
+        ModInstallTargets targets = ModInstallTargets.Roblox | ModInstallTargets.Studio
     )
     {
+        _targets = targets;
         _appliedOnTop = appliedOnTop;
         _overriddenCount = overriddenCount;
         _editable = editable;
@@ -146,6 +150,48 @@ public sealed class ManagedModItem : NotifyPropertyChangedViewModel
         }
     }
 
+    public Action<ManagedModItem, ModInstallTargets>? TargetsRequested { get; set; }
+
+    public ModInstallTargets Targets
+    {
+        get => _targets;
+        private set
+        {
+            if (!SetProperty(ref _targets, value))
+                return;
+            OnPropertyChanged(nameof(AppliesToRoblox));
+            OnPropertyChanged(nameof(AppliesToStudio));
+            OnPropertyChanged(nameof(AppliesToClassic));
+        }
+    }
+
+    public bool AppliesToRoblox
+    {
+        get => (_targets & ModInstallTargets.Roblox) != 0;
+        set => RequestTarget(ModInstallTargets.Roblox, value);
+    }
+
+    public bool AppliesToStudio
+    {
+        get => (_targets & ModInstallTargets.Studio) != 0;
+        set => RequestTarget(ModInstallTargets.Studio, value);
+    }
+
+    public bool AppliesToClassic
+    {
+        get => (_targets & ModInstallTargets.Classic) != 0;
+        set => RequestTarget(ModInstallTargets.Classic, value);
+    }
+
+    private void RequestTarget(ModInstallTargets target, bool on)
+    {
+        ModInstallTargets next = on ? _targets | target : _targets & ~target;
+        if (next == _targets)
+            return;
+        Targets = next;
+        TargetsRequested?.Invoke(this, next);
+    }
+
     public Visibility EditVisibility => _editable ? Visibility.Visible : Visibility.Collapsed;
 
     public bool HasConflicts => ConflictCount > 0;
@@ -220,6 +266,7 @@ public sealed class ManagedModItem : NotifyPropertyChangedViewModel
         ConflictCount = other.ConflictCount;
         ScanError = other.ScanError;
         Editable = other.Editable;
+        Targets = other.Targets;
     }
 
     private static string FormatBytes(long bytes)

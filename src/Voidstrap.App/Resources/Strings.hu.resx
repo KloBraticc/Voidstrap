@@ -9900,4 +9900,49 @@ Engedélyezed?</value>
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>Megmutatja a Discord profilodon, hány játékos van a szervereden.</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>Cseréld le a textúrákat, hangokat, modelleket és más játékfájlokat a sajátjaidra.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>ZIP importálása</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>Mappa importálása</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>Adj hozzá egy modot, vagy importálj egyet content, ExtraContent vagy PlatformContent mappákkal.</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>A listában feljebb lévő modok elsőbbséget élveznek. Húzz egy modot az átrendezéshez.</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>Érvényes</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>Klasszikus kliensek</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>Ha két mod ugyanazt a fájlt cseréli, a listában feljebb lévő érvényesül.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>A modot nem sikerült importálni:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>Nem található importálható fájl.</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>A mod céljait nem sikerült menteni:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>Még nincsenek modok</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>Egy mod sem felel meg a keresésnek</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

@@ -9588,4 +9588,49 @@ Whakaaetia?</value>
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>Ka whakaatu i te maha o ngā kaitākaro kei tō tūmau i tō kōtaha Discord.</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>Whakakapia ngā kakano, ngā oro, ngā tauira me ētahi atu kōnae kēmu ki ōu ake.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>Kawemai ZIP</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>Kawemai kōpaki</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>Tāpirihia he mod, kawemai rānei i tētahi he kōpaki content, ExtraContent, PlatformContent rānei kei roto.</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>Ka matua ngā mod kei runga ake i te rārangi. Tōia tētahi mod hei whakaraupapa anō.</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>Ka pā ki</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>Ngā kiritaki tawhito</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>Ina whakakapi ngā mod e rua i te kōnae kotahi, ka whakamahia te mea kei runga ake.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>Kāore i taea te kawemai i te mod:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>Kāore he kōnae i kitea hei kawemai.</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>Kāore i taea te tiaki i ngā whāinga o te mod:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>Kāore anō kia whai mod</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>Kāore he mod e hāngai ana ki tō rapu</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

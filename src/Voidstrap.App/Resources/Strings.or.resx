@@ -9588,4 +9588,49 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>ଆପଣଙ୍କ ସର୍ଭରରେ କେତେ ଖେଳାଳି ଅଛନ୍ତି ତାହା ଆପଣଙ୍କ Discord ପ୍ରୋଫାଇଲରେ ଦେଖାଏ।</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>ଟେକ୍ସଚର, ଶବ୍ଦ, ମଡେଲ ଓ ଅନ୍ୟ ଖେଳ ଫାଇଲକୁ ଆପଣଙ୍କ ନିଜ ଫାଇଲରେ ବଦଳାନ୍ତୁ।</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>ZIP ଆମଦାନୀ କରନ୍ତୁ</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>ଫୋଲ୍ଡର ଆମଦାନୀ କରନ୍ତୁ</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>ଏକ ମୋଡ୍ ଯୋଡ଼ନ୍ତୁ, କିମ୍ବା content, ExtraContent କିମ୍ବା PlatformContent ଫୋଲ୍ଡର ଥିବା ମୋଡ୍ ଆମଦାନୀ କରନ୍ତୁ।</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>ତାଲିକାରେ ଉପରେ ଥିବା ମୋଡ୍ ପ୍ରାଥମିକତା ପାଏ। କ୍ରମ ବଦଳାଇବାକୁ ମୋଡ୍ ଟାଣନ୍ତୁ।</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>ପ୍ରଯୁଜ୍ୟ</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>କ୍ଲାସିକ କ୍ଲାଏଣ୍ଟ</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>ଦୁଇଟି ମୋଡ୍ ସମାନ ଫାଇଲ ବଦଳାଇଲେ ତାଲିକାରେ ଉପରେ ଥିବାଟି ବ୍ୟବହୃତ ହୁଏ।</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>ମୋଡ୍ ଆମଦାନୀ କରାଯାଇପାରିଲା ନାହିଁ:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>ଆମଦାନୀ ପାଇଁ କୌଣସି ଫାଇଲ ମିଳିଲା ନାହିଁ।</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>ମୋଡ୍‌ର ଲକ୍ଷ୍ୟ ସଞ୍ଚୟ କରାଯାଇପାରିଲା ନାହିଁ:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ମୋଡ୍ ନାହିଁ</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>ଆପଣଙ୍କ ସନ୍ଧାନ ସହ ମେଳ ଖାଉଥିବା ମୋଡ୍ ନାହିଁ</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

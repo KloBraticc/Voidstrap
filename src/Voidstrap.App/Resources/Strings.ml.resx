@@ -9588,4 +9588,49 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>നിങ്ങളുടെ സെർവറിൽ എത്ര കളിക്കാരുണ്ടെന്ന് നിങ്ങളുടെ Discord പ്രൊഫൈലിൽ കാണിക്കുന്നു.</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>ടെക്സ്ചർ, ശബ്ദം, മോഡൽ, മറ്റ് ഗെയിം ഫയലുകൾ എന്നിവ നിങ്ങളുടേതുകൊണ്ട് മാറ്റുക.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>ZIP ഇമ്പോർട്ട് ചെയ്യുക</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>ഫോൾഡർ ഇമ്പോർട്ട് ചെയ്യുക</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>ഒരു മോഡ് ചേർക്കുക, അല്ലെങ്കിൽ content, ExtraContent അല്ലെങ്കിൽ PlatformContent ഫോൾഡറുകളുള്ള മോഡ് ഇമ്പോർട്ട് ചെയ്യുക.</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>ലിസ്റ്റിൽ മുകളിലുള്ള മോഡുകൾക്ക് മുൻഗണന. ക്രമം മാറ്റാൻ മോഡ് വലിച്ചിടുക.</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>ബാധകം</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>ക്ലാസിക് ക്ലയന്റുകൾ</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>രണ്ട് മോഡുകൾ ഒരേ ഫയൽ മാറ്റുമ്പോൾ ലിസ്റ്റിൽ മുകളിലുള്ളത് ഉപയോഗിക്കും.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>മോഡ് ഇമ്പോർട്ട് ചെയ്യാനായില്ല:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>ഇമ്പോർട്ട് ചെയ്യാൻ ഫയലുകളൊന്നും കണ്ടെത്തിയില്ല.</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>മോഡിന്റെ ലക്ഷ്യങ്ങൾ സേവ് ചെയ്യാനായില്ല:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>ഇതുവരെ മോഡുകളില്ല</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>തിരയലുമായി പൊരുത്തപ്പെടുന്ന മോഡുകളില്ല</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

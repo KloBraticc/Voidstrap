@@ -9588,4 +9588,49 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>توهان جي سرور ۾ ڪيترا رانديگر آهن، اهو توهان جي Discord پروفائل تي ڏيکاري ٿو.</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>بناوت، آواز، ماڊل ۽ راند جون ٻيون فائلون پنهنجين فائلن سان بدلايو.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>ZIP درآمد ڪريو</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>فولڊر درآمد ڪريو</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>موڊ شامل ڪريو، يا اهو موڊ درآمد ڪريو جنهن ۾ content، ExtraContent يا PlatformContent فولڊر هجن.</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>لسٽ ۾ مٿي وارن موڊن کي ترجيح ملي ٿي. ترتيب بدلائڻ لاءِ موڊ ڇڪيو.</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>لاڳو ٿئي ٿو</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>ڪلاسڪ ڪلائنٽ</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>جڏهن ٻه موڊ ساڳي فائل بدلائين، لسٽ ۾ مٿيون استعمال ٿئي ٿو.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>موڊ درآمد نه ٿي سگهيو:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>درآمد لاءِ ڪا به فائل نه ملي.</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>موڊ جا هدف محفوظ نه ٿي سگهيا:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>اڃا ڪو موڊ ناهي</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>توهان جي ڳولا سان ڪو موڊ نٿو ملي</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

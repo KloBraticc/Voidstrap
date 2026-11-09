@@ -9588,4 +9588,49 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>თქვენს Discord პროფილზე აჩვენებს, რამდენი მოთამაშეა თქვენს სერვერზე.</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>შეცვალეთ ტექსტურები, ხმები, მოდელები და თამაშის სხვა ფაილები საკუთარით.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>ZIP-ის იმპორტი</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>საქაღალდის იმპორტი</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>დაამატეთ მოდი ან შემოიტანეთ მოდი content, ExtraContent ან PlatformContent საქაღალდეებით.</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>სიაში მაღლა მყოფ მოდებს აქვთ უპირატესობა. გადაათრიეთ მოდი რიგის შესაცვლელად.</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>ვრცელდება</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>კლასიკური კლიენტები</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>როცა ორი მოდი ერთსა და იმავე ფაილს ცვლის, გამოიყენება სიაში მაღლა მყოფი.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>მოდის იმპორტი ვერ მოხერხდა:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>იმპორტისთვის ფაილები ვერ მოიძებნა.</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>მოდის სამიზნეები ვერ შეინახა:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>მოდები ჯერ არ არის</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>თქვენს ძიებას არცერთი მოდი არ ემთხვევა</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

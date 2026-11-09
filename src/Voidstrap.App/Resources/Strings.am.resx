@@ -9587,4 +9587,49 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>በአገልጋይህ ውስጥ ስንት ተጫዋቾች እንዳሉ በDiscord መገለጫህ ላይ ያሳያል።</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>ቴክስቸሮችን፣ ድምፆችን፣ ሞዴሎችን እና ሌሎች የጨዋታ ፋይሎችን በራስዎ ይተኩ።</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>ZIP አስገባ</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>አቃፊ አስገባ</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>ሞድ ያክሉ፣ ወይም content፣ ExtraContent ወይም PlatformContent አቃፊዎች ያሉትን ያስገቡ።</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>በዝርዝሩ ላይ ከፍ ያሉ ሞዶች ቅድሚያ ያገኛሉ። ቅደም ተከተል ለመቀየር ሞድ ይጎትቱ።</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>የሚመለከተው</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>ጥንታዊ ደንበኞች</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>ሁለት ሞዶች አንድ ፋይል ሲተኩ፣ በዝርዝሩ ላይ ከፍ ያለው ጥቅም ላይ ይውላል።</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>ሞዱ ሊገባ አልቻለም፦</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>ለማስገባት ምንም ፋይሎች አልተገኙም።</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>የሞዱ ኢላማዎች ሊቀመጡ አልቻሉም፦</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>እስካሁን ምንም ሞዶች የሉም</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>ከፍለጋዎ ጋር የሚዛመዱ ሞዶች የሉም</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

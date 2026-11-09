@@ -9587,4 +9587,49 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>Дар профили Discord нишон медиҳад, ки дар сервери шумо чанд бозингар ҳаст.</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>Текстураҳо, садоҳо, моделҳо ва дигар файлҳои бозиро бо файлҳои худ иваз кунед.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>Воридоти ZIP</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>Воридоти ҷузвдон</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>Мод илова кунед ё моде ворид кунед, ки ҷузвдонҳои content, ExtraContent ё PlatformContent дорад.</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>Модҳои болотар дар рӯйхат афзалият доранд. Барои тағйири тартиб модро кашед.</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>Татбиқ мешавад ба</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>Мизоҷони классикӣ</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>Вақте ду мод як файлро иваз мекунанд, моди болотар истифода мешавад.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>Модро ворид кардан нашуд:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>Файл барои ворид кардан ёфт нашуд.</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>Ҳадафҳои мод нигоҳ дошта нашуданд:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>Ҳоло мод нест</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>Ягон мод ба ҷустуҷӯи шумо мувофиқ нест</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

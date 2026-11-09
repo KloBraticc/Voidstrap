@@ -9587,4 +9587,49 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>உங்கள் சேவையகத்தில் எத்தனை வீரர்கள் உள்ளனர் என்பதை உங்கள் Discord சுயவிவரத்தில் காட்டும்.</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>டெக்ஸ்சர், ஒலி, மாடல் மற்றும் பிற கேம் கோப்புகளை உங்கள் சொந்தக் கோப்புகளால் மாற்றுங்கள்.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>ZIP இறக்குமதி</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>கோப்புறை இறக்குமதி</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>ஒரு மோடைச் சேர்க்கவும், அல்லது content, ExtraContent அல்லது PlatformContent கோப்புறைகள் உள்ள மோடை இறக்குமதி செய்யவும்.</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>பட்டியலில் மேலே உள்ள மோட்களுக்கு முன்னுரிமை. வரிசையை மாற்ற மோடை இழுக்கவும்.</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>பொருந்தும்</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>கிளாசிக் கிளையன்ட்கள்</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>இரண்டு மோட்கள் ஒரே கோப்பை மாற்றும்போது பட்டியலில் மேலே உள்ளது பயன்படும்.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>மோடை இறக்குமதி செய்ய முடியவில்லை:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>இறக்குமதி செய்ய கோப்புகள் எதுவும் கிடைக்கவில்லை.</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>மோட் இலக்குகளைச் சேமிக்க முடியவில்லை:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>இன்னும் மோட்கள் இல்லை</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>உங்கள் தேடலுக்குப் பொருந்தும் மோட் இல்லை</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

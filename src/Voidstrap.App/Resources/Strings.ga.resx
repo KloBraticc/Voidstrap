@@ -9588,4 +9588,49 @@ Ceadaigh é?</value>
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>Taispeánann sé cé mhéad imreoir atá ar do fhreastalaí ar do phróifíl Discord.</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>Cuir do chuid féin in ionad uigeachtaí, fuaimeanna, samhlacha agus comhaid chluiche eile.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>Iompórtáil ZIP</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>Iompórtáil fillteán</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>Cuir mod leis, nó iompórtáil ceann a bhfuil fillteáin content, ExtraContent nó PlatformContent ann.</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>Bíonn tosaíocht ag modhanna níos airde sa liosta. Tarraing mod chun an t-ord a athrú.</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>Baineann le</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>Cliaint chlasaiceacha</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>Nuair a athraíonn dhá mhod an comhad céanna, úsáidtear an ceann is airde sa liosta.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>Níorbh fhéidir an mod a iompórtáil:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>Níor aimsíodh comhaid le hiompórtáil.</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>Níorbh fhéidir spriocanna an mhod a shábháil:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>Níl aon mhodhanna fós</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>Níl aon mhod ag teacht le do chuardach</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

@@ -847,6 +847,10 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
     public ICommand AddManagedModCommand { get; }
 
+    public ICommand ImportManagedZipCommand { get; }
+
+    public ICommand ImportManagedFolderCommand { get; }
+
     public ICommand RefreshManagedModsCommand { get; }
 
     public ICommand OpenManagedModsRootCommand { get; }
@@ -3665,6 +3669,8 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
         DownloadCurCommand = new RelayCommand(DownloadCurFile);
         DownloadPngCommand = new RelayCommand(DownloadPngFile);
         AddManagedModCommand = new AsyncRelayCommand(AddManagedModAsync);
+        ImportManagedZipCommand = new AsyncRelayCommand(ImportManagedZipAsync);
+        ImportManagedFolderCommand = new AsyncRelayCommand(ImportManagedFolderAsync);
         RefreshManagedModsCommand = new AsyncRelayCommand(LoadManagedModsAsync);
         OpenManagedModsRootCommand = new RelayCommand(OpenManagedModsRoot);
         OpenManagedModCommand = new RelayCommand<ManagedModItem>(OpenManagedMod);
@@ -3922,7 +3928,8 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
                             entry.Pack,
                             editable,
                             overridden,
-                            entry.AppliedOnTop
+                            entry.AppliedOnTop,
+                            entry.Record.Targets
                         );
                     })
                     .ToArray();
@@ -3966,6 +3973,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
             }
             else
             {
+                item.TargetsRequested = OnManagedModTargetsRequested;
                 merged.Add(item);
             }
         }
@@ -3994,7 +4002,7 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
                 ManagedMods.Add(item);
         }
         bool searchHasNoResults = ManagedMods.Count == 0 && _allManagedMods.Count > 0 && !string.IsNullOrEmpty(query);
-        ManagedModsEmptyTitle = searchHasNoResults ? "No Mods match your search" : "No Mods found";
+        ManagedModsEmptyTitle = searchHasNoResults ? Strings.Menu_Mods_Managed_NoMatchTitle : Strings.Menu_Mods_Managed_EmptyTitle;
         ManagedModsEmptyDescription = searchHasNoResults
             ? "Try a different name or identifier."
             : "Roblox is better with mods. Add your first mod to create its indexed folder, then place its files inside.";
@@ -4022,6 +4030,62 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
         }
         if (record is not null)
             OpenManagedFolder(ManagedModStore.GetFolder(record.Id));
+    }
+
+    private async void OnManagedModTargetsRequested(ManagedModItem item, ModInstallTargets targets)
+    {
+        const string LOG_IDENT = "ModsViewModel::OnManagedModTargetsRequested";
+        await _managedModsMutationGate.WaitAsync();
+        try
+        {
+            await Task.Run(() => ManagedModStore.SetTargets(item.Id, targets));
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT, ex);
+            Frontend.ShowMessageBox(Strings.Menu_Mods_Managed_TargetsFailed + "\n" + ex.Message, MessageBoxImage.Warning);
+        }
+        finally
+        {
+            _managedModsMutationGate.Release();
+        }
+    }
+
+    private async Task ImportManagedZipAsync()
+    {
+        Microsoft.Win32.OpenFileDialog dialog = new() { Title = Strings.Menu_Mods_Managed_ImportZip, Filter = "ZIP (*.zip)|*.zip" };
+        if (dialog.ShowDialog() != true || !File.Exists(dialog.FileName))
+            return;
+        await ImportManagedModAsync(Path.GetFileNameWithoutExtension(dialog.FileName), dialog.FileName, true);
+    }
+
+    private async Task ImportManagedFolderAsync()
+    {
+        Microsoft.Win32.OpenFolderDialog dialog = new() { Title = Strings.Menu_Mods_Managed_ImportFolder, Multiselect = false };
+        if (dialog.ShowDialog() != true || !Directory.Exists(dialog.FolderName))
+            return;
+        string trimmed = dialog.FolderName.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        await ImportManagedModAsync(Path.GetFileName(trimmed), trimmed, false);
+    }
+
+    private async Task ImportManagedModAsync(string name, string source, bool isZip)
+    {
+        const string LOG_IDENT = "ModsViewModel::ImportManagedMod";
+        await _managedModsMutationGate.WaitAsync();
+        try
+        {
+            await Task.Run(() => ManagedModImporter.Import(name, source, isZip));
+            await LoadManagedModsAsync();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException(LOG_IDENT, ex);
+            Frontend.ShowMessageBox(Strings.Menu_Mods_Managed_ImportFailed + "\n" + ex.Message, MessageBoxImage.Warning);
+        }
+        finally
+        {
+            _managedModsMutationGate.Release();
+        }
     }
 
     private async Task EditManagedModAsync(ManagedModItem? item)

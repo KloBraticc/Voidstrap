@@ -9588,4 +9588,49 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>បង្ហាញចំនួនអ្នកលេងនៅក្នុងម៉ាស៊ីនមេរបស់អ្នកនៅលើប្រវត្តិរូប Discord របស់អ្នក។</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>ប្ដូរវាយនភាព សំឡេង ម៉ូដែល និងឯកសារហ្គេមផ្សេងទៀតដោយឯកសាររបស់អ្នក។</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>នាំចូល ZIP</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>នាំចូលថត</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>បន្ថែមម៉ូដ ឬនាំចូលម៉ូដដែលមានថត content, ExtraContent ឬ PlatformContent។</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>ម៉ូដនៅខាងលើក្នុងបញ្ជីមានអាទិភាព។ អូសម៉ូដដើម្បីតម្រៀបឡើងវិញ។</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>អនុវត្តចំពោះ</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>កម្មវិធីបុរាណ</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>ពេលម៉ូដពីរប្ដូរឯកសារតែមួយ ម៉ូដនៅខាងលើក្នុងបញ្ជីត្រូវបានប្រើ។</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>មិនអាចនាំចូលម៉ូដបានទេ៖</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>រកមិនឃើញឯកសារដើម្បីនាំចូលទេ។</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>មិនអាចរក្សាទុកគោលដៅម៉ូដបានទេ៖</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>មិនទាន់មានម៉ូដទេ</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>គ្មានម៉ូដត្រូវនឹងការស្វែងរករបស់អ្នកទេ</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

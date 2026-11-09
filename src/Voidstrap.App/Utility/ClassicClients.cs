@@ -1821,6 +1821,8 @@ namespace Voidstrap.Utility
 
             if (launchType == ClientLaunchType.Host)
                 VerifyHostScript(config.Domain);
+            else
+                ClassicModApplier.Apply(executableDir);
 
             var process = new Process();
             process.StartInfo.UseShellExecute = false;

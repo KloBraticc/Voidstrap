@@ -1,4 +1,4 @@
-<ui:UiPage xmlns:util="clr-namespace:Voidstrap.Utility" x:Class="Voidstrap.UI.Elements.Settings.Pages.ModsPage" xmlns:uianim="clr-namespace:Wpf.Ui.Animations;assembly=Wpf.Ui" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:conv="clr-namespace:Voidstrap.Converters" xmlns:converters="clr-namespace:Voidstrap.UI.Converters" xmlns:settings="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:gif="clr-namespace:WpfAnimatedGif;assembly=WpfAnimatedGif" Title="ModsPage" Scrollable="True">
+﻿<ui:UiPage xmlns:util="clr-namespace:Voidstrap.Utility" x:Class="Voidstrap.UI.Elements.Settings.Pages.ModsPage" xmlns:uianim="clr-namespace:Wpf.Ui.Animations;assembly=Wpf.Ui" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:conv="clr-namespace:Voidstrap.Converters" xmlns:converters="clr-namespace:Voidstrap.UI.Converters" xmlns:settings="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:gif="clr-namespace:WpfAnimatedGif;assembly=WpfAnimatedGif" Title="ModsPage" Scrollable="True">
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <converters:CursorPreviewConverter x:Key="CursorPreviewConverter" />
@@ -689,28 +689,25 @@
             </StackPanel>
           </TabItem.Header>
           <StackPanel Margin="12">
-            <Grid>
+            <TextBlock FontSize="20" FontWeight="Bold" Text="{resources:Loc Ui_Mods_MyMods}" />
+            <TextBlock Margin="0,4,0,0" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Menu_Mods_Managed_Description}" TextWrapping="Wrap" />
+            <Grid Margin="0,14,0,0">
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
               </Grid.ColumnDefinitions>
-              <StackPanel VerticalAlignment="Center">
-                <TextBlock FontSize="20" FontWeight="Bold" Text="{Binding ManagedMods.Count, StringFormat=Mods ({0} found)}" />
-                <TextBlock Margin="0,3,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding ManagedModsSummary}" />
-              </StackPanel>
-              <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
-                <Border Padding="3" CornerRadius="6" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
-                  <StackPanel Orientation="Horizontal">
-                    <ui:Button Width="30" Height="26" Padding="0" Appearance="Transparent" Icon="Add24" ToolTip="{resources:Loc Ui_Mods_AddAMod}" AutomationProperties.Name="{resources:Loc Ui_Mods_AddAMod}" Command="{Binding AddManagedModCommand}" />
-                    <ui:Button Width="30" Height="26" Padding="0" Appearance="Transparent" Icon="ArrowSync24" ToolTip="{resources:Loc Ui_Mods_RefreshTheList}" AutomationProperties.Name="{resources:Loc Ui_Mods_RefreshTheList}" Command="{Binding RefreshManagedModsCommand}" />
-                    <ui:Button Width="30" Height="26" Padding="0" Appearance="Transparent" Icon="FolderOpen24" Foreground="{DynamicResource SystemAccentBrush}" ToolTip="{resources:Loc Ui_Mods_OpenTheModLibraryFolder}" AutomationProperties.Name="{resources:Loc Ui_Mods_OpenTheModLibraryFolder}" Command="{Binding OpenManagedModsRootCommand}" />
-                  </StackPanel>
-                </Border>
-                <ui:TextBox Width="220" Margin="10,0,0,0" Icon="Search24" PlaceholderText="{resources:Loc Ui_Mods_SearchMods}" Text="{Binding ManagedModSearchText, UpdateSourceTrigger=PropertyChanged}" />
-              </StackPanel>
+              <WrapPanel VerticalAlignment="Center">
+                <ui:Button Height="32" Margin="0,0,6,6" Padding="12,0" Appearance="Primary" Icon="Add24" Content="{resources:Loc Ui_Mods_AddMod}" Command="{Binding AddManagedModCommand}" />
+                <ui:Button Height="32" Margin="0,0,6,6" Padding="12,0" Icon="FolderZip24" Content="{resources:Loc Menu_Mods_Managed_ImportZip}" Command="{Binding ImportManagedZipCommand}" />
+                <ui:Button Height="32" Margin="0,0,6,6" Padding="12,0" Icon="FolderArrowUp24" Content="{resources:Loc Menu_Mods_Managed_ImportFolder}" Command="{Binding ImportManagedFolderCommand}" />
+                <ui:Button Height="32" Margin="0,0,6,6" Padding="12,0" Icon="FolderOpen24" Content="{resources:Loc Ui_Mods_OpenLibrary}" Command="{Binding OpenManagedModsRootCommand}" />
+                <ui:Button Width="32" Height="32" Margin="0,0,6,6" Padding="0" Icon="ArrowSync24" ToolTip="{resources:Loc Ui_Mods_RefreshTheList}" AutomationProperties.Name="{resources:Loc Ui_Mods_RefreshTheList}" Command="{Binding RefreshManagedModsCommand}" />
+              </WrapPanel>
+              <ui:TextBox Grid.Column="1" Width="220" Margin="10,0,0,6" VerticalAlignment="Center" Icon="Search24" PlaceholderText="{resources:Loc Ui_Mods_SearchMods}" Text="{Binding ManagedModSearchText, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
+            <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding ManagedModsSummary}" />
             <ProgressBar Width="120" Height="3" Margin="0,10,0,0" HorizontalAlignment="Left" IsIndeterminate="True" Visibility="{Binding ManagedModsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <Border Margin="0,6,0,0" Padding="20,30,20,34" CornerRadius="8">
+            <Border Margin="0,10,0,0" Padding="20,36,20,36" CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
               <Border.Style>
                 <Style TargetType="Border">
                   <Setter Property="Visibility" Value="Collapsed" />
@@ -722,78 +719,12 @@
                 </Style>
               </Border.Style>
               <StackPanel HorizontalAlignment="Center">
-                <StackPanel x:Name="ManagedModsEmptyPreview" Width="300" HorizontalAlignment="Center" IsHitTestVisible="False" CacheMode="BitmapCache">
-                  <StackPanel.Effect>
-                    <BlurEffect Radius="8" KernelType="Gaussian" RenderingBias="Performance" />
-                  </StackPanel.Effect>
-                  <StackPanel HorizontalAlignment="Center" Opacity="0.16" Orientation="Horizontal">
-                    <Border Width="60" Height="22" CornerRadius="6" Background="{DynamicResource TextFillColorPrimaryBrush}" />
-                    <Border Width="132" Height="22" Margin="10,0,0,0" CornerRadius="6" Background="{DynamicResource TextFillColorPrimaryBrush}" />
-                  </StackPanel>
-                  <StackPanel Margin="0,10,0,0" HorizontalAlignment="Center" Opacity="0.24" Orientation="Horizontal">
-                    <Border Width="84" Height="26" CornerRadius="6" Background="{DynamicResource TextFillColorPrimaryBrush}" />
-                    <Border Width="150" Height="26" Margin="10,0,0,0" CornerRadius="6" Background="{DynamicResource TextFillColorPrimaryBrush}" />
-                  </StackPanel>
-                  <Border Margin="0,12,0,0" Padding="14" CornerRadius="10" Opacity="0.32" Background="{DynamicResource TextFillColorPrimaryBrush}">
-                    <Grid>
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                      </Grid.ColumnDefinitions>
-                      <Border Width="56" Height="56" CornerRadius="8" Opacity="0.55" Background="{DynamicResource ApplicationBackgroundBrush}" />
-                      <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
-                        <Border Height="13" CornerRadius="4" Opacity="0.55" Background="{DynamicResource ApplicationBackgroundBrush}" />
-                        <StackPanel Margin="0,12,0,0" Orientation="Horizontal">
-                          <Border Width="13" Height="13" CornerRadius="7" Opacity="0.55" Background="{DynamicResource ApplicationBackgroundBrush}" />
-                          <Border Width="13" Height="13" Margin="6,0,0,0" CornerRadius="7" Opacity="0.55" Background="{DynamicResource ApplicationBackgroundBrush}" />
-                          <Border Width="104" Height="13" Margin="8,0,0,0" CornerRadius="4" Opacity="0.55" Background="{DynamicResource ApplicationBackgroundBrush}" />
-                        </StackPanel>
-                      </StackPanel>
-                    </Grid>
-                  </Border>
-                </StackPanel>
-                <TextBlock Margin="0,26,0,0" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="{Binding ManagedModsEmptyTitle}" />
-                <TextBlock Margin="0,10,0,0" MaxWidth="420" HorizontalAlignment="Center" TextAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding ManagedModsEmptyDescription}" TextWrapping="Wrap" />
-                <Grid Margin="0,24,0,0" HorizontalAlignment="Center">
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                  </Grid.ColumnDefinitions>
-                  <ui:Button Height="38" Padding="16,0" Appearance="Primary" Icon="Add24" Content="{resources:Loc Ui_Mods_AddMod}" Command="{Binding AddManagedModCommand}" />
-                  <ui:Button Grid.Column="1" Width="30" Height="38" Margin="1,0,0,0" Padding="0" Appearance="Primary" Icon="ChevronDown24" AutomationProperties.Name="{resources:Loc Ui_Mods_MoreModActions}" Click="ManagedModsMoreActions_Click">
-                    <ui:Button.ContextMenu>
-                      <ContextMenu>
-                        <MenuItem Header="{resources:Loc Ui_Mods_AddMod}" Command="{Binding AddManagedModCommand}">
-                          <MenuItem.Icon>
-                            <ui:SymbolIcon Symbol="Add24" />
-                          </MenuItem.Icon>
-                        </MenuItem>
-                        <MenuItem Header="{resources:Loc Ui_Mods_OpenLibrary}" Command="{Binding OpenManagedModsRootCommand}">
-                          <MenuItem.Icon>
-                            <ui:SymbolIcon Symbol="FolderOpen24" />
-                          </MenuItem.Icon>
-                        </MenuItem>
-                        <Separator />
-                        <MenuItem Header="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Command="{Binding RefreshManagedModsCommand}">
-                          <MenuItem.Icon>
-                            <ui:SymbolIcon Symbol="ArrowSync24" />
-                          </MenuItem.Icon>
-                        </MenuItem>
-                      </ContextMenu>
-                    </ui:Button.ContextMenu>
-                  </ui:Button>
-                </Grid>
-                <Grid Width="240" Margin="0,18,0,18">
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                  </Grid.ColumnDefinitions>
-                  <Border Height="1" VerticalAlignment="Center" Background="{DynamicResource CardStrokeColorDefaultBrush}" />
-                  <TextBlock Grid.Column="1" Margin="12,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Mods_Or}" />
-                  <Border Grid.Column="2" Height="1" VerticalAlignment="Center" Background="{DynamicResource CardStrokeColorDefaultBrush}" />
-                </Grid>
-                <ui:Button Height="38" Padding="16,0" HorizontalAlignment="Center" Icon="ArrowImport24" Content="{resources:Loc Ui_Mods_OpenLibrary}" Command="{Binding OpenManagedModsRootCommand}" />
+                <Border Width="56" Height="56" HorizontalAlignment="Center" CornerRadius="10" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+                  <ui:SymbolIcon FontSize="26" Symbol="BoxMultiple24" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                </Border>
+                <TextBlock Margin="0,16,0,0" HorizontalAlignment="Center" FontSize="18" FontWeight="SemiBold" Text="{Binding ManagedModsEmptyTitle}" />
+                <TextBlock Margin="0,8,0,0" MaxWidth="460" HorizontalAlignment="Center" TextAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Menu_Mods_Managed_EmptyHint}" TextWrapping="Wrap" />
+                <TextBlock Margin="0,6,0,0" MaxWidth="460" HorizontalAlignment="Center" TextAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Menu_Mods_Managed_PriorityHint}" TextWrapping="Wrap" />
               </StackPanel>
             </Border>
             <ItemsControl x:Name="ManagedModsList" AllowDrop="True" DragOver="ManagedModsList_DragOver" Drop="ManagedModsList_Drop" ItemsSource="{Binding ManagedMods}">
@@ -830,6 +761,12 @@
                         <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
                           <Run Text="{Binding FileSummary, Mode=OneWay}" /><Run Text="{resources:Loc Ui_Mods_Id}" /><Run Text="{Binding ShortId, Mode=OneWay}" />
                         </TextBlock>
+                        <WrapPanel Margin="0,6,0,0">
+                          <TextBlock Margin="0,0,8,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Menu_Mods_Managed_AppliesTo}" />
+                          <ToggleButton Height="24" Margin="0,0,4,0" Padding="10,0" FontSize="12" Content="{resources:Loc Menu_Mods_Managed_TargetRoblox}" IsChecked="{Binding AppliesToRoblox}" />
+                          <ToggleButton Height="24" Margin="0,0,4,0" Padding="10,0" FontSize="12" Content="{resources:Loc Menu_Mods_Managed_TargetStudio}" IsChecked="{Binding AppliesToStudio}" />
+                          <ToggleButton Height="24" Padding="10,0" FontSize="12" Content="{resources:Loc Menu_Mods_Managed_TargetClassic}" IsChecked="{Binding AppliesToClassic}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
+                        </WrapPanel>
                         <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource SystemFillColorCautionBrush}" Text="{Binding ConflictText}" Visibility="{Binding HasConflicts, Converter={StaticResource BooleanToVisibilityConverter}}" TextWrapping="Wrap" />
                         <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource SystemFillColorCriticalBrush}" Text="{Binding ScanError, Mode=OneWay}" Visibility="{Binding HasScanError, Converter={StaticResource BooleanToVisibilityConverter}}" TextWrapping="Wrap" />
                       </StackPanel>
@@ -846,6 +783,12 @@
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
             </ItemsControl>
+            <Border Margin="0,12,0,0" Padding="14,10" CornerRadius="6" Background="{DynamicResource CardBackgroundFillColorSecondaryBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+              <StackPanel Orientation="Horizontal">
+                <ui:SymbolIcon Margin="0,0,10,0" FontSize="16" VerticalAlignment="Center" Symbol="Layer24" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                <TextBlock VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" Text="{resources:Loc Menu_Mods_Managed_ConflictRule}" />
+              </StackPanel>
+            </Border>
           </StackPanel>
         </TabItem>
         <TabItem x:Name="StudioPluginsTab" FontWeight="Medium" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">

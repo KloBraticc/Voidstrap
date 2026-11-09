@@ -9588,4 +9588,49 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>ສະແດງຈຳນວນຜູ້ຫຼິ້ນໃນເຊີບເວີຂອງທ່ານໃນໂປຣໄຟລ໌ Discord ຂອງທ່ານ.</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>ປ່ຽນພື້ນຜິວ ສຽງ ໂມເດວ ແລະ ໄຟລ໌ເກມອື່ນໆ ດ້ວຍໄຟລ໌ຂອງທ່ານເອງ.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>ນຳເຂົ້າ ZIP</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>ນຳເຂົ້າໂຟນເດີ</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>ເພີ່ມມັອດ ຫຼື ນຳເຂົ້າມັອດທີ່ມີໂຟນເດີ content, ExtraContent ຫຼື PlatformContent.</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>ມັອດທີ່ຢູ່ສູງກວ່າໃນລາຍການມີຄວາມສຳຄັນກ່ອນ. ລາກມັອດເພື່ອຈັດລຳດັບໃໝ່.</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>ໃຊ້ກັບ</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>ໄຄລເອັນຄລາສສິກ</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>ເມື່ອສອງມັອດປ່ຽນໄຟລ໌ດຽວກັນ ຈະໃຊ້ມັອດທີ່ຢູ່ສູງກວ່າໃນລາຍການ.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>ບໍ່ສາມາດນຳເຂົ້າມັອດໄດ້:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>ບໍ່ພົບໄຟລ໌ທີ່ຈະນຳເຂົ້າ.</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>ບໍ່ສາມາດບັນທຶກເປົ້າໝາຍຂອງມັອດໄດ້:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>ຍັງບໍ່ມີມັອດ</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>ບໍ່ມີມັອດທີ່ກົງກັບການຄົ້ນຫາຂອງທ່ານ</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

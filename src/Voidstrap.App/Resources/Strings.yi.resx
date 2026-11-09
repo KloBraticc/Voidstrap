@@ -9587,4 +9587,49 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>ווײַזט אויף דײַן Discord פּראָפֿיל ווי פֿיל שפּילער זענען אויף דײַן סערווער.</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>פֿאַרבײַט טעקסטורן, קלאַנגען, מאָדעלן און אַנדערע שפּיל טעקעס מיט דײַנע אייגענע.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>אימפּאָרטירן ZIP</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>אימפּאָרטירן טעקע</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>לייג צו אַ מאָד, אָדער אימפּאָרטיר איינעם מיט טעקעס content, ExtraContent אָדער PlatformContent.</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>מאָדס העכער אין דער רשימה האָבן פֿאָרזיץ. שלעפּ אַ מאָד צו ענדערן די סדר.</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>גילט פֿאַר</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>קלאַסישע קליענטן</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>ווען צוויי מאָדס פֿאַרבײַטן די זעלבע טעקע, ווערט גענוצט דער העכערער.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>מען האָט נישט געקענט אימפּאָרטירן דעם מאָד:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>קיין טעקעס צו אימפּאָרטירן זענען נישט געפֿונען געוואָרן.</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>מען האָט נישט געקענט אָפּהיטן די צילן פֿון מאָד:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>נאָך קיין מאָדס</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>קיין מאָדס פּאַסן נישט צו דײַן זוכן</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

@@ -9588,4 +9588,49 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>Ցույց է տալիս ձեր Discord պրոֆիլում, թե քանի խաղացող կա ձեր սերվերում։</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>Փոխարինեք հյուսվածքները, ձայները, մոդելները և խաղի այլ ֆայլերը ձեր սեփականով։</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>Ներմուծել ZIP</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>Ներմուծել թղթապանակ</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>Ավելացրեք մոդ կամ ներմուծեք content, ExtraContent կամ PlatformContent թղթապանակներով մոդ։</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>Ցանկում ավելի վերև գտնվող մոդերն ունեն առաջնահերթություն։ Քաշեք մոդը՝ կարգը փոխելու համար։</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>Կիրառվում է</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>Դասական հաճախորդներ</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>Երբ երկու մոդ փոխարինում են նույն ֆայլը, օգտագործվում է ցանկում վերևինը։</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>Չհաջողվեց ներմուծել մոդը։</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>Ներմուծելու ֆայլեր չգտնվեցին։</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>Չհաջողվեց պահպանել մոդի թիրախները։</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>Դեռ մոդեր չկան</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>Ձեր որոնմանը համապատասխան մոդեր չկան</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

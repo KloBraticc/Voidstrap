@@ -9895,4 +9895,49 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>แสดงจำนวนผู้เล่นในเซิร์ฟเวอร์ของคุณบนโปรไฟล์ Discord ของคุณ</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>แทนที่เท็กซ์เจอร์ เสียง โมเดล และไฟล์เกมอื่นๆ ด้วยไฟล์ของคุณเอง</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>นำเข้า ZIP</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>นำเข้าโฟลเดอร์</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>เพิ่มม็อด หรือนำเข้าม็อดที่มีโฟลเดอร์ content, ExtraContent หรือ PlatformContent</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>ม็อดที่อยู่สูงกว่าในรายการจะได้รับความสำคัญก่อน ลากม็อดเพื่อจัดลำดับใหม่</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>ใช้กับ</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>ไคลเอนต์คลาสสิก</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>เมื่อม็อดสองตัวแทนที่ไฟล์เดียวกัน จะใช้ตัวที่อยู่สูงกว่าในรายการ</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>ไม่สามารถนำเข้าม็อดได้:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>ไม่พบไฟล์ที่จะนำเข้า</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>ไม่สามารถบันทึกเป้าหมายของม็อดได้:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>ยังไม่มีม็อด</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>ไม่มีม็อดที่ตรงกับการค้นหาของคุณ</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

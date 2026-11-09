@@ -42,11 +42,6 @@ public partial class ModsPage : UiPage
         ViewModel = new ModsViewModel();
         base.DataContext = ViewModel;
         InitializeComponent();
-        if (Voidstrap.Utility.Platform.UsesPortableUi)
-        {
-            ManagedModsEmptyPreview.Effect = null;
-            ManagedModsEmptyPreview.CacheMode = null;
-        }
         _fgWarningTimer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromSeconds(2.0) };
         base.Loaded += ModsPage_Loaded;
         base.Unloaded += ModsPage_Unloaded;
@@ -451,16 +446,6 @@ public partial class ModsPage : UiPage
     {
         if (sender is System.Windows.Controls.MenuItem { Tag: Voidstrap.Integrations.CommunityMods.CommunityModCategory category } row)
             ViewModel.CommunityMods.SetCategorySelected(category, row.IsChecked);
-    }
-
-    private void ManagedModsMoreActions_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender is not FrameworkElement source || source.ContextMenu is not System.Windows.Controls.ContextMenu menu)
-            return;
-        menu.PlacementTarget = source;
-        menu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
-        menu.DataContext = DataContext;
-        menu.IsOpen = true;
     }
 
     private void ManagedModsList_DragOver(object sender, DragEventArgs e)

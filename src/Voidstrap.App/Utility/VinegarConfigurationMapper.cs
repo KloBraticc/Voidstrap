@@ -25,7 +25,7 @@ internal static class VinegarConfigurationMapper
         List<LinuxModSource> sources = [];
         try
         {
-            ManagedModScanResult scan = ManagedModStore.ScanEnabledFiles();
+            ManagedModScanResult scan = ManagedModStore.ScanEnabledFiles(ModInstallTargets.Studio);
             foreach (ManagedModFile file in scan.Files)
             {
                 string relative = file.Relative.Replace('\\', '/');

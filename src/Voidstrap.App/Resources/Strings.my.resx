@@ -9587,4 +9587,49 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>သင့်ဆာဗာတွင် ကစားသူမည်မျှရှိကြောင်း သင့် Discord ပရိုဖိုင်တွင် ပြသည်။</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>အသွင်အပြင်၊ အသံ၊ မော်ဒယ်နှင့် အခြားဂိမ်းဖိုင်များကို သင့်ကိုယ်ပိုင်ဖိုင်များဖြင့် အစားထိုးပါ။</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>ZIP တင်သွင်းရန်</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>ဖိုင်တွဲ တင်သွင်းရန်</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>မော့ဒ်ထည့်ပါ သို့မဟုတ် content၊ ExtraContent သို့မဟုတ် PlatformContent ဖိုင်တွဲများပါသော မော့ဒ်ကို တင်သွင်းပါ။</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>စာရင်းတွင် အပေါ်ရှိ မော့ဒ်များ ဦးစားပေးခံရသည်။ အစီအစဉ်ပြောင်းရန် မော့ဒ်ကို ဆွဲပါ။</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>သက်ဆိုင်သည်</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>ဂန္ထဝင် ကလိုင်းယင့်များ</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>မော့ဒ်နှစ်ခုက ဖိုင်တစ်ခုတည်းကို အစားထိုးလျှင် စာရင်းတွင် အပေါ်ရှိတစ်ခုကို အသုံးပြုသည်။</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>မော့ဒ်ကို တင်သွင်း၍ မရပါ:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>တင်သွင်းရန် ဖိုင် မတွေ့ပါ။</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>မော့ဒ်၏ ပစ်မှတ်များကို သိမ်း၍ မရပါ:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>မော့ဒ် မရှိသေးပါ</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>သင့်ရှာဖွေမှုနှင့် ကိုက်ညီသော မော့ဒ် မရှိပါ</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

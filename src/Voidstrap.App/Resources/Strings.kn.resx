@@ -9588,4 +9588,49 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
     <value>ನಿಮ್ಮ ಸರ್ವರ್‌ನಲ್ಲಿ ಎಷ್ಟು ಆಟಗಾರರಿದ್ದಾರೆ ಎಂದು ನಿಮ್ಮ Discord ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ತೋರಿಸುತ್ತದೆ.</value>
   </data>
+  <data name="Menu.Mods.Managed.Description" xml:space="preserve">
+    <value>ಟೆಕ್ಸ್ಚರ್, ಧ್ವನಿ, ಮಾದರಿ ಮತ್ತು ಇತರ ಆಟದ ಫೈಲ್‌ಗಳನ್ನು ನಿಮ್ಮದೇ ಫೈಲ್‌ಗಳಿಂದ ಬದಲಾಯಿಸಿ.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportZip" xml:space="preserve">
+    <value>ZIP ಆಮದು ಮಾಡಿ</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFolder" xml:space="preserve">
+    <value>ಫೋಲ್ಡರ್ ಆಮದು ಮಾಡಿ</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyHint" xml:space="preserve">
+    <value>ಮಾಡ್ ಸೇರಿಸಿ, ಅಥವಾ content, ExtraContent ಅಥವಾ PlatformContent ಫೋಲ್ಡರ್‌ಗಳಿರುವ ಮಾಡ್ ಆಮದು ಮಾಡಿ.</value>
+  </data>
+  <data name="Menu.Mods.Managed.PriorityHint" xml:space="preserve">
+    <value>ಪಟ್ಟಿಯಲ್ಲಿ ಮೇಲಿರುವ ಮಾಡ್‌ಗಳಿಗೆ ಆದ್ಯತೆ. ಕ್ರಮ ಬದಲಿಸಲು ಮಾಡ್ ಎಳೆಯಿರಿ.</value>
+  </data>
+  <data name="Menu.Mods.Managed.AppliesTo" xml:space="preserve">
+    <value>ಅನ್ವಯಿಸುತ್ತದೆ</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetClassic" xml:space="preserve">
+    <value>ಕ್ಲಾಸಿಕ್ ಕ್ಲೈಂಟ್‌ಗಳು</value>
+  </data>
+  <data name="Menu.Mods.Managed.ConflictRule" xml:space="preserve">
+    <value>ಎರಡು ಮಾಡ್‌ಗಳು ಒಂದೇ ಫೈಲ್ ಬದಲಿಸಿದಾಗ, ಪಟ್ಟಿಯಲ್ಲಿ ಮೇಲಿರುವುದನ್ನು ಬಳಸಲಾಗುತ್ತದೆ.</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportFailed" xml:space="preserve">
+    <value>ಮಾಡ್ ಆಮದು ಮಾಡಲಾಗಲಿಲ್ಲ:</value>
+  </data>
+  <data name="Menu.Mods.Managed.ImportEmpty" xml:space="preserve">
+    <value>ಆಮದು ಮಾಡಲು ಯಾವುದೇ ಫೈಲ್ ಸಿಗಲಿಲ್ಲ.</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetsFailed" xml:space="preserve">
+    <value>ಮಾಡ್ ಗುರಿಗಳನ್ನು ಉಳಿಸಲಾಗಲಿಲ್ಲ:</value>
+  </data>
+  <data name="Menu.Mods.Managed.EmptyTitle" xml:space="preserve">
+    <value>ಇನ್ನೂ ಯಾವುದೇ ಮಾಡ್ ಇಲ್ಲ</value>
+  </data>
+  <data name="Menu.Mods.Managed.NoMatchTitle" xml:space="preserve">
+    <value>ನಿಮ್ಮ ಹುಡುಕಾಟಕ್ಕೆ ಹೊಂದುವ ಮಾಡ್ ಇಲ್ಲ</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetRoblox" xml:space="preserve">
+    <value>Roblox</value>
+  </data>
+  <data name="Menu.Mods.Managed.TargetStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
 </root>

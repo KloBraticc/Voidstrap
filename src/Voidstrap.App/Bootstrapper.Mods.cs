@@ -250,7 +250,7 @@ public partial class Bootstrapper
         }
         try
         {
-            ManagedModScanResult scan = ManagedModStore.ScanEnabledFiles();
+            ManagedModScanResult scan = ManagedModStore.ScanEnabledFiles(IsStudioLaunch ? ModInstallTargets.Studio : ModInstallTargets.Roblox);
             ignoredModFiles += scan.IgnoredSkipped;
             foreach (string id in scan.SuccessfulModIds)
                 nextManagedManifest[id] = [];

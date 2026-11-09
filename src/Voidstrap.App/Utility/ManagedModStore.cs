@@ -16,6 +16,10 @@ internal sealed class ManagedModRecord
     public bool Enabled { get; set; } = true;
 
     public DateTime CreatedUtc { get; set; } = DateTime.UtcNow;
+
+    public ModInstallTargets Targets { get; set; } = ModInstallTargets.Roblox | ModInstallTargets.Studio;
+
+    public bool AppliesTo(ModInstallTargets target) => (Targets & target) != 0;
 }
 
 internal sealed class ManagedModIndex
@@ -114,6 +118,11 @@ internal static class ManagedModStore
     public static void SetEnabled(string id, bool enabled)
     {
         Mutate(id, record => record.Enabled = enabled);
+    }
+
+    public static void SetTargets(string id, ModInstallTargets targets)
+    {
+        Mutate(id, record => record.Targets = targets & ModInstallTargets.All);
     }
 
     public static void MoveRelative(string id, string targetId, bool insertAfter)
@@ -305,7 +314,7 @@ internal static class ManagedModStore
         }
     }
 
-    public static IReadOnlyList<string> EnabledFoldersByPriority()
+    public static IReadOnlyList<string> EnabledFoldersByPriority(ModInstallTargets target = ModInstallTargets.Roblox)
     {
         HashSet<string> onTop = Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.FeatureModIds();
         lock (Sync)
@@ -313,14 +322,14 @@ internal static class ManagedModStore
             return
             [
                 .. LoadCore()
-                    .Where(record => record.Enabled)
+                    .Where(record => record.Enabled && record.AppliesTo(target))
                     .OrderByDescending(record => onTop.Contains(record.Id))
                     .Select(record => GetFolderCore(record.Id)),
             ];
         }
     }
 
-    public static ManagedModScanResult ScanEnabledFiles()
+    public static ManagedModScanResult ScanEnabledFiles(ModInstallTargets target = ModInstallTargets.Roblox)
     {
         HashSet<string> onTop = Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.FeatureModIds();
         lock (Sync)
@@ -328,7 +337,7 @@ internal static class ManagedModStore
             ManagedModScanResult result = new();
             HashSet<string> claimed = new(StringComparer.OrdinalIgnoreCase);
             foreach (
-                ManagedModRecord record in LoadCore().Where(record => record.Enabled).OrderByDescending(record => onTop.Contains(record.Id))
+                ManagedModRecord record in LoadCore().Where(record => record.Enabled && record.AppliesTo(target)).OrderByDescending(record => onTop.Contains(record.Id))
             )
             {
                 string folder = GetFolderCore(record.Id);
@@ -582,6 +591,7 @@ internal static class ManagedModStore
             Name = record.Name,
             Enabled = record.Enabled,
             CreatedUtc = record.CreatedUtc,
+            Targets = record.Targets,
         };
     }
 }

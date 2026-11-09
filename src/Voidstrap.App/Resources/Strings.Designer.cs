@@ -10104,6 +10104,21 @@ namespace Voidstrap.Resources {
         public static string MuMu_Error_Setup => ResourceManager.GetString("MuMu.Error.Setup", resourceCulture);
         public static string Menu_Integrations_ShowDiscordPartySize_Title => ResourceManager.GetString("Menu.Integrations.ShowDiscordPartySize.Title", resourceCulture);
         public static string Menu_Integrations_ShowDiscordPartySize_Description => ResourceManager.GetString("Menu.Integrations.ShowDiscordPartySize.Description", resourceCulture);
+        public static string Menu_Mods_Managed_Description => ResourceManager.GetString("Menu.Mods.Managed.Description", resourceCulture);
+        public static string Menu_Mods_Managed_ImportZip => ResourceManager.GetString("Menu.Mods.Managed.ImportZip", resourceCulture);
+        public static string Menu_Mods_Managed_ImportFolder => ResourceManager.GetString("Menu.Mods.Managed.ImportFolder", resourceCulture);
+        public static string Menu_Mods_Managed_EmptyHint => ResourceManager.GetString("Menu.Mods.Managed.EmptyHint", resourceCulture);
+        public static string Menu_Mods_Managed_PriorityHint => ResourceManager.GetString("Menu.Mods.Managed.PriorityHint", resourceCulture);
+        public static string Menu_Mods_Managed_AppliesTo => ResourceManager.GetString("Menu.Mods.Managed.AppliesTo", resourceCulture);
+        public static string Menu_Mods_Managed_TargetClassic => ResourceManager.GetString("Menu.Mods.Managed.TargetClassic", resourceCulture);
+        public static string Menu_Mods_Managed_ConflictRule => ResourceManager.GetString("Menu.Mods.Managed.ConflictRule", resourceCulture);
+        public static string Menu_Mods_Managed_ImportFailed => ResourceManager.GetString("Menu.Mods.Managed.ImportFailed", resourceCulture);
+        public static string Menu_Mods_Managed_ImportEmpty => ResourceManager.GetString("Menu.Mods.Managed.ImportEmpty", resourceCulture);
+        public static string Menu_Mods_Managed_TargetsFailed => ResourceManager.GetString("Menu.Mods.Managed.TargetsFailed", resourceCulture);
+        public static string Menu_Mods_Managed_EmptyTitle => ResourceManager.GetString("Menu.Mods.Managed.EmptyTitle", resourceCulture);
+        public static string Menu_Mods_Managed_NoMatchTitle => ResourceManager.GetString("Menu.Mods.Managed.NoMatchTitle", resourceCulture);
+        public static string Menu_Mods_Managed_TargetRoblox => ResourceManager.GetString("Menu.Mods.Managed.TargetRoblox", resourceCulture);
+        public static string Menu_Mods_Managed_TargetStudio => ResourceManager.GetString("Menu.Mods.Managed.TargetStudio", resourceCulture);
         public static string Menu_Integrations_AllowDiscordInvites_Title => ResourceManager.GetString("Menu.Integrations.AllowDiscordInvites.Title", resourceCulture);
 
         public static string Menu_Integrations_AllowDiscordInvites_Description => ResourceManager.GetString("Menu.Integrations.AllowDiscordInvites.Description", resourceCulture);
