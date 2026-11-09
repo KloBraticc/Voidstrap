@@ -73,7 +73,7 @@ float4 PSBlur(VSOut inp) : SV_Target
     [branch] if (lenV < 0.5)
         return float4(center, 1.0);
 
-    int taps = (int)clamp(ceil(lenV * 0.25), 4.0, 14.0);
+    int taps = (int)clamp(ceil(lenV * 0.34), 4.0, 24.0);
     float jitter = frac(52.9829189 * frac(dot(inp.pos.xy, float2(0.06711056, 0.00583715)))) - 0.5;
     float3 sum = center;
     float weight = 1.0;
