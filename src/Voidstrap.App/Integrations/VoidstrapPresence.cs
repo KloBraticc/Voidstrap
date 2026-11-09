@@ -364,11 +364,24 @@ internal sealed class DiscordActivityPipe : INamedPipeClient
                 if (arguments["pid"] is JsonValue pid && pid.TryGetValue(out long value))
                     _activityPid = value;
                 _hasActivity = arguments["activity"] is JsonObject;
-                string? activityName = _activityName?.Invoke();
-                if (!string.IsNullOrWhiteSpace(activityName) && arguments["activity"] is JsonObject activity)
+                if (arguments["activity"] is JsonObject activity)
                 {
-                    activity["name"] = activityName;
-                    frame.Message = payload.ToJsonString();
+                    bool changed = false;
+                    string? activityName = _activityName?.Invoke();
+                    if (!string.IsNullOrWhiteSpace(activityName))
+                    {
+                        activity["name"] = activityName;
+                        changed = true;
+                    }
+                    if (activity["secrets"] is JsonObject secrets && secrets["join"] is JsonValue)
+                    {
+                        secrets.Remove("match");
+                        secrets.Remove("spectate");
+                        activity["supported_platforms"] = new JsonArray("desktop");
+                        changed = true;
+                    }
+                    if (changed)
+                        frame.Message = payload.ToJsonString();
                 }
             }
         }
