@@ -2,6 +2,8 @@ import base64
 import html
 import re
 import sys
+import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -14,8 +16,14 @@ AGENT = {"User-Agent": "Voidstrap-contributors"}
 
 
 def fetch(url):
-    with urllib.request.urlopen(urllib.request.Request(url, headers=AGENT), timeout=30) as response:
-        return response.read()
+    for attempt in range(5):
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url, headers=AGENT), timeout=30) as response:
+                return response.read()
+        except (urllib.error.URLError, ConnectionError, TimeoutError):
+            if attempt == 4:
+                raise
+            time.sleep(5 * (attempt + 1))
 
 
 def contributors():
