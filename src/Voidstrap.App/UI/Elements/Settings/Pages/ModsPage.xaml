@@ -73,7 +73,7 @@
                 <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Mods_OverlaysCardDescription}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
               </StackPanel>
             </ui:CardAction>
-            <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/mods/#how-it-works" Description="{resources:Loc Ui_Mods_ChooseWhetherYourModsAreApplied}" Header="{resources:Loc Ui_Mods_ApplyModsTo}">
+            <controls:OptionControl Description="{resources:Loc Ui_Mods_ChooseWhetherYourModsAreApplied}" Header="{resources:Loc Ui_Mods_ApplyModsTo}">
               <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding ModApplyTargets, Mode=OneTime}" SelectedItem="{Binding ModApplyTarget, Mode=TwoWay}">
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
