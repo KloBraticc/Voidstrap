@@ -1164,7 +1164,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             BreadcrumbPanel.Visibility = Visibility.Visible;
         }
         bool hasOwnSidebar = content is LibraryPage or PrivateServersPage or AccountsPage;
-        SetRootNavigationShown(!hasOwnSidebar);
+        bool hidesSidebar = content is VoidstrapModsPage or DownloadsPage;
+        SetRootNavigationShown(!hasOwnSidebar && !hidesSidebar);
+        SidebarToggle.Visibility = hidesSidebar ? Visibility.Collapsed : Visibility.Visible;
         SynchronizeSidebarSelection(content);
         Dispatcher.BeginInvoke(new Action(SynchronizeCurrentSidebarSelection), DispatcherPriority.Loaded);
         UpdateTopNavActive(content);
