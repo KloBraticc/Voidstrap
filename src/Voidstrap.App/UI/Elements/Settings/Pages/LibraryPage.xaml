@@ -637,8 +637,8 @@
                 <TextBlock FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding SelectedGame.CreatedDisplay}" />
                 <TextBlock Margin="0,8,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Library_Store_Developer}" />
                 <TextBlock FontSize="12" Foreground="{DynamicResource SystemAccentColorSecondaryBrush}" Text="{Binding SelectedGame.CreatorName}" />
-                <Border Margin="0,10,0,0" HorizontalAlignment="Left" Padding="7,3" Background="#384959">
-                  <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.Genre}" />
+                <Border Margin="0,10,0,0" HorizontalAlignment="Left" Padding="8,3" CornerRadius="4" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" Visibility="{Binding SelectedGame.GenreVisibility}">
+                  <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding SelectedGame.Genre}" />
                 </Border>
               <UniformGrid Margin="0,14,0,0" Columns="2">
                     <StackPanel Margin="0,0,0,8">

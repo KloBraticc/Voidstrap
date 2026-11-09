@@ -67,6 +67,8 @@ public class LibraryGameEntry : INotifyPropertyChanged
 
     public string Genre { get; set; } = "";
 
+    public Visibility GenreVisibility => string.IsNullOrWhiteSpace(Genre) || Genre.Equals("All", StringComparison.OrdinalIgnoreCase) ? Visibility.Collapsed : Visibility.Visible;
+
     public DateTime? Created { get; set; }
 
     public DateTime? Updated { get; set; }

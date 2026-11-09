@@ -56,7 +56,7 @@
             </Border>
             <TextBlock Margin="0,8,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Storefront.FeaturedGame.PriceLine}" />
             <TextBlock Margin="0,2,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Storefront.FeaturedGame.PlayingLine}" />
-            <controls:GameVoteBar Margin="-8,6,0,0" HorizontalAlignment="Left" MinWidth="180" ShowRatio="False" UniverseId="{Binding Storefront.FeaturedGame.UniverseId}" />
+            <controls:GameVoteBar Margin="0,8,0,0" HorizontalAlignment="Stretch" ShowRatio="False" UniverseId="{Binding Storefront.FeaturedGame.UniverseId}" />
           </StackPanel>
         </Grid>
       </Border>
