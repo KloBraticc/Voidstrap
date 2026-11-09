@@ -171,8 +171,6 @@ public partial class SessionDock : Window
         InitializeComponent();
         if (Voidstrap.Utility.Platform.IsLinux)
         {
-            AllowsTransparency = false;
-            SetResourceReference(BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
             DockRoot.Margin = new Thickness(0);
             DockRoot.RowDefinitions[0].Height = new GridLength(0);
             DockRoot.RowDefinitions[1].Height = new GridLength(DockHeight);
