@@ -9581,4 +9581,10 @@ Caniatáu iddo?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Opsiynau matchmaker uwch</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Dangos maint y parti Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Yn dangos faint o chwaraewyr sydd ar eich gweinydd ar eich proffil Discord.</value>
+  </data>
 </root>

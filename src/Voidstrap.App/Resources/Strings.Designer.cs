@@ -10102,6 +10102,8 @@ namespace Voidstrap.Resources {
         public static string MuMu_Status_Launching => ResourceManager.GetString("MuMu.Status.Launching", resourceCulture);
         public static string MuMu_Error_Failed => ResourceManager.GetString("MuMu.Error.Failed", resourceCulture);
         public static string MuMu_Error_Setup => ResourceManager.GetString("MuMu.Error.Setup", resourceCulture);
+        public static string Menu_Integrations_ShowDiscordPartySize_Title => ResourceManager.GetString("Menu.Integrations.ShowDiscordPartySize.Title", resourceCulture);
+        public static string Menu_Integrations_ShowDiscordPartySize_Description => ResourceManager.GetString("Menu.Integrations.ShowDiscordPartySize.Description", resourceCulture);
         public static string Menu_Integrations_AllowDiscordInvites_Title => ResourceManager.GetString("Menu.Integrations.AllowDiscordInvites.Title", resourceCulture);
 
         public static string Menu_Integrations_AllowDiscordInvites_Description => ResourceManager.GetString("Menu.Integrations.AllowDiscordInvites.Description", resourceCulture);

@@ -9889,4 +9889,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>ไม่สามารถบันทึกการโหวตของคุณได้ โปรดลองอีกครั้งในอีกสักครู่</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>แสดงขนาดปาร์ตี้ Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>แสดงจำนวนผู้เล่นในเซิร์ฟเวอร์ของคุณบนโปรไฟล์ Discord ของคุณ</value>
+  </data>
 </root>

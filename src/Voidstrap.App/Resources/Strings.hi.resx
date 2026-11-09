@@ -9582,4 +9582,10 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>उन्नत matchmaker विकल्प</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord पार्टी का आकार दिखाएँ</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>आपके सर्वर में कितने खिलाड़ी हैं, यह आपकी Discord प्रोफ़ाइल पर दिखाता है।</value>
+  </data>
 </root>

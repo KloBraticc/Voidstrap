@@ -9582,4 +9582,10 @@ Erlaabt et?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Erweidert Matchmaker Optiounen</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord Gruppegréisst uweisen</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Weist op dengem Discord Profil, wéi vill Spiller op dengem Server sinn.</value>
+  </data>
 </root>

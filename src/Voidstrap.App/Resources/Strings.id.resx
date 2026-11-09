@@ -9897,4 +9897,10 @@ Izinkan?</value>
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>Suara Anda tidak dapat disimpan, coba lagi sebentar lagi</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Tampilkan ukuran party Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Menampilkan jumlah pemain di server Anda pada profil Discord Anda.</value>
+  </data>
 </root>

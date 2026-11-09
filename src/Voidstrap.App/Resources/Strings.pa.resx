@@ -9582,4 +9582,10 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>ਉੱਨਤ ਮੈਚਮੇਕਰ ਵਿਕਲਪ</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord ਪਾਰਟੀ ਦਾ ਆਕਾਰ ਦਿਖਾਓ</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>ਤੁਹਾਡੇ ਸਰਵਰ ਵਿੱਚ ਕਿੰਨੇ ਖਿਡਾਰੀ ਹਨ, ਇਹ ਤੁਹਾਡੀ Discord ਪ੍ਰੋਫਾਈਲ ਤੇ ਦਿਖਾਉਂਦਾ ਹੈ।</value>
+  </data>
 </root>

@@ -9581,4 +9581,10 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>အဆင့်မြင့် matchmaker ရွေးချယ်စရာများ</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord အဖွဲ့အရွယ်အစားကို ပြပါ</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>သင့်ဆာဗာတွင် ကစားသူမည်မျှရှိကြောင်း သင့် Discord ပရိုဖိုင်တွင် ပြသည်။</value>
+  </data>
 </root>

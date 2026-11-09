@@ -9581,4 +9581,10 @@ Kas lubada?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Täpsemad matchmaker valikud</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Näita Discordi grupi suurust</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Näitab sinu Discordi profiilil, mitu mängijat sinu serveris on.</value>
+  </data>
 </root>

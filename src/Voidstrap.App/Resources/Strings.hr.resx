@@ -9894,4 +9894,10 @@ Dopustiti?</value>
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>Tvoj glas nije spremljen, pokušaj ponovno za trenutak</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Prikaži veličinu Discord grupe</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Prikazuje na tvom Discord profilu koliko je igrača na tvom serveru.</value>
+  </data>
 </root>

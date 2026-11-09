@@ -9581,4 +9581,10 @@ uyayivumela?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Ukhetho oluphambili lwe matchmaker</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Bonisa ubungakanani beqela le Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Ibonisa ukuba bangaphi abadlali kwiseva yakho kwiprofayile yakho ye Discord.</value>
+  </data>
 </root>

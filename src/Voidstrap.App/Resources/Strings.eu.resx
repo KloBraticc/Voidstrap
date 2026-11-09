@@ -9581,4 +9581,10 @@ Baimendu al duzu?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Matchmaker aukera aurreratuak</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Erakutsi Discord taldearen tamaina</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Zure zerbitzarian zenbat jokalari dauden erakusten du zure Discord profilean.</value>
+  </data>
 </root>

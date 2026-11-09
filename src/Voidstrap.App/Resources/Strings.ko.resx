@@ -9893,4 +9893,10 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>투표를 저장하지 못했습니다. 잠시 후 다시 시도하십시오</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord 파티 크기 표시</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>서버에 있는 플레이어 수를 Discord 프로필에 표시합니다.</value>
+  </data>
 </root>

@@ -9892,4 +9892,10 @@ Payagan ba?</value>
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>Hindi na-save ang iyong boto, subukan muli mamaya</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Ipakita ang laki ng Discord party</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Ipinapakita sa iyong Discord profile kung ilang player ang nasa server mo.</value>
+  </data>
 </root>

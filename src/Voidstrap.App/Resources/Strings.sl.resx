@@ -9582,4 +9582,10 @@ Dovoli?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Napredne možnosti matchmakerja</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Prikaži velikost skupine Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Na tvojem profilu Discord prikaže, koliko igralcev je na tvojem strežniku.</value>
+  </data>
 </root>

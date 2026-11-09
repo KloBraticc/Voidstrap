@@ -9582,4 +9582,10 @@ E lejon atë?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Opsionet e avancuara të matchmaker</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Shfaq madhësinë e grupit në Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Shfaq në profilin tënd Discord sa lojtarë janë në serverin tënd.</value>
+  </data>
 </root>

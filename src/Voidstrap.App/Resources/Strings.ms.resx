@@ -9886,4 +9886,10 @@ Benarkan?</value>
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>Undian anda tidak dapat disimpan, cuba lagi sebentar nanti</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Tunjukkan saiz parti Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Menunjukkan bilangan pemain dalam pelayan anda pada profil Discord anda.</value>
+  </data>
 </root>

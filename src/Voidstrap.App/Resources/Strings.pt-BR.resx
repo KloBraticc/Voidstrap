@@ -9896,4 +9896,10 @@ Permitir?</value>
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>Não foi possível salvar seu voto, tente novamente em instantes</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Mostrar tamanho do grupo no Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Mostra no seu perfil do Discord quantos jogadores estão no seu servidor.</value>
+  </data>
 </root>

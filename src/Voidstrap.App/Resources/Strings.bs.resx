@@ -9581,4 +9581,10 @@ Dozvoliti?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Napredne opcije matchmakera</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Prikaži veličinu Discord grupe</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Prikazuje koliko je igrača na tvom serveru na tvom Discord profilu.</value>
+  </data>
 </root>

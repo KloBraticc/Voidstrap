@@ -9892,4 +9892,10 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>Не вдалося зберегти Ваш голос, спробуйте ще раз трохи згодом</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Показувати розмір групи в Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Показує у Вашому профілі Discord, скільки гравців на Вашому сервері.</value>
+  </data>
 </root>

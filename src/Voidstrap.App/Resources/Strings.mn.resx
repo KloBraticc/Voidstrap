@@ -9582,4 +9582,10 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Matchmaker нарийвчилсан тохиргоо</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord бүлгийн хэмжээг харуулах</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Таны серверт хэдэн тоглогч байгааг Discord профайл дээр тань харуулна.</value>
+  </data>
 </root>

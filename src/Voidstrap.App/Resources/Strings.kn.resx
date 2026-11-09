@@ -9582,4 +9582,10 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>ಸುಧಾರಿತ ಮ್ಯಾಚ್‌ಮೇಕರ್ ಆಯ್ಕೆಗಳು</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord ಪಾರ್ಟಿ ಗಾತ್ರವನ್ನು ತೋರಿಸಿ</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>ನಿಮ್ಮ ಸರ್ವರ್‌ನಲ್ಲಿ ಎಷ್ಟು ಆಟಗಾರರಿದ್ದಾರೆ ಎಂದು ನಿಮ್ಮ Discord ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ತೋರಿಸುತ್ತದೆ.</value>
+  </data>
 </root>

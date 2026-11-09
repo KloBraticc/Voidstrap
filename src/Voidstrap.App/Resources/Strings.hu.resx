@@ -9894,4 +9894,10 @@ Engedélyezed?</value>
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>Nem sikerült menteni a szavazatodat, próbáld újra egy kicsit később</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord csoportméret megjelenítése</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Megmutatja a Discord profilodon, hány játékos van a szervereden.</value>
+  </data>
 </root>

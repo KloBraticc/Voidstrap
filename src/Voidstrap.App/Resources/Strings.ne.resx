@@ -9582,4 +9582,10 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>उन्नत म्याचमेकर विकल्पहरू</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord पार्टीको आकार देखाउनुहोस्</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>तपाईंको सर्भरमा कति खेलाडी छन् भनी तपाईंको Discord प्रोफाइलमा देखाउँछ।</value>
+  </data>
 </root>

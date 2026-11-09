@@ -9895,4 +9895,10 @@ Povolit?</value>
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>Váš hlas se nepodařilo uložit, zkuste to za chvíli znovu</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Zobrazit velikost skupiny v Discordu</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Zobrazí na Vašem profilu Discord, kolik hráčů je na Vašem serveru.</value>
+  </data>
 </root>

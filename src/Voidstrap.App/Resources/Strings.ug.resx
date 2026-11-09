@@ -9581,4 +9581,10 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>matchmaker ئالىي تاللانمىلىرى</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord گۇرۇپپا چوڭلۇقىنى كۆرسەت</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>مۇلازىمېتىرىڭىزدا قانچە ئويۇنچى بارلىقىنى Discord ئارخىپىڭىزدا كۆرسىتىدۇ.</value>
+  </data>
 </root>

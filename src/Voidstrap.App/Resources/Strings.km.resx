@@ -9582,4 +9582,10 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>ជម្រើសកម្រិតខ្ពស់នៃកម្មវិធីផ្គូផ្គង</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>បង្ហាញទំហំក្រុម Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>បង្ហាញចំនួនអ្នកលេងនៅក្នុងម៉ាស៊ីនមេរបស់អ្នកនៅលើប្រវត្តិរូប Discord របស់អ្នក។</value>
+  </data>
 </root>

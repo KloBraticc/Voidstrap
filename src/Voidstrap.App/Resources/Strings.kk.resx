@@ -9582,4 +9582,10 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Матчмейкердің кеңейтілген параметрлері</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord топ өлшемін көрсету</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Discord профиліңізде серверіңізде қанша ойыншы бар екенін көрсетеді.</value>
+  </data>
 </root>

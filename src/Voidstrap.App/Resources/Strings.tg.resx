@@ -9581,4 +9581,10 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Имконоти пешрафтаи matchmaker</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Нишон додани андозаи гурӯҳи Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Дар профили Discord нишон медиҳад, ки дар сервери шумо чанд бозингар ҳаст.</value>
+  </data>
 </root>

@@ -9581,4 +9581,10 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>אַוואַנסירטע matchmaker אָפּציעס</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>ווײַזן די גרייס פֿון דער Discord גרופּע</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>ווײַזט אויף דײַן Discord פּראָפֿיל ווי פֿיל שפּילער זענען אויף דײַן סערווער.</value>
+  </data>
 </root>

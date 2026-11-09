@@ -9582,4 +9582,10 @@ Vai atļaut?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Papildu spēlētāju atlases opcijas</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Rādīt Discord grupas lielumu</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Tavā Discord profilā rāda, cik spēlētāju ir tavā serverī.</value>
+  </data>
 </root>

@@ -9582,4 +9582,10 @@ Whakaaetia?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Ngā kōwhiringa matchmaker matatau</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Whakaaturia te rahi o te rōpū Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Ka whakaatu i te maha o ngā kaitākaro kei tō tūmau i tō kōtaha Discord.</value>
+  </data>
 </root>

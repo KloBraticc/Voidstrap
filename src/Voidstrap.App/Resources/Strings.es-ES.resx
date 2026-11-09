@@ -9894,4 +9894,10 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>No se pudo guardar tu voto, inténtalo de nuevo en un momento</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Mostrar tamaño del grupo de Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Muestra cuántos jugadores hay en tu servidor en tu perfil de Discord.</value>
+  </data>
 </root>

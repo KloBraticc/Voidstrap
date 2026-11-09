@@ -9581,4 +9581,10 @@ icazə verilir?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Ətraflı matchmaker seçimləri</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord qrup ölçüsünü göstər</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Serverinizdə neçə oyunçu olduğunu Discord profilinizdə göstərir.</value>
+  </data>
 </root>

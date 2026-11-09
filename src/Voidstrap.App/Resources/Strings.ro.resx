@@ -9896,4 +9896,10 @@ Permiți?</value>
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>Votul tău nu a putut fi salvat, încearcă din nou peste puțin timp</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Afișează dimensiunea grupului Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Arată pe profilul tău Discord câți jucători sunt pe serverul tău.</value>
+  </data>
 </root>

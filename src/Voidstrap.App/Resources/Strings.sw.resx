@@ -9581,4 +9581,10 @@ Je, unairuhusu?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Chaguo za kina za matchmaker</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Onyesha ukubwa wa kikundi cha Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Huonyesha idadi ya wachezaji kwenye seva yako kwenye wasifu wako wa Discord.</value>
+  </data>
 </root>

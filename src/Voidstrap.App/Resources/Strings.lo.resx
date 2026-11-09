@@ -9582,4 +9582,10 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>ຕົວເລືອກຂັ້ນສູງຂອງການຈັບຄູ່</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>ສະແດງຂະໜາດກຸ່ມ Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>ສະແດງຈຳນວນຜູ້ຫຼິ້ນໃນເຊີບເວີຂອງທ່ານໃນໂປຣໄຟລ໌ Discord ຂອງທ່ານ.</value>
+  </data>
 </root>

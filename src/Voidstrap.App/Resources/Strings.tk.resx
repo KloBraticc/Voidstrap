@@ -9581,4 +9581,10 @@ Rugsat beriň?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Matchmaker-iň giňişleýin sazlamalary</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord toparynyň ululygyny görkez</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Serweriňizde näçe oýunçynyň bardygyny Discord profiliňizde görkezýär.</value>
+  </data>
 </root>

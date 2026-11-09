@@ -9582,4 +9582,10 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>אפשרויות matchmaker מתקדמות</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>הצג את גודל הקבוצה ב Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>מציג בפרופיל ה Discord שלך כמה שחקנים נמצאים בשרת שלך.</value>
+  </data>
 </root>

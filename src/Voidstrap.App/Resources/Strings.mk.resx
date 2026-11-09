@@ -9582,4 +9582,10 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Напредни опции за matchmaker</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Прикажи ја големината на Discord групата</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Прикажува на твојот Discord профил колку играчи има на твојот сервер.</value>
+  </data>
 </root>

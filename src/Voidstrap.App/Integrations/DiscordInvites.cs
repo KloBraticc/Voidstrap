@@ -37,7 +37,8 @@ internal static class DiscordInvites
     internal static void Apply(DiscordRPC.RichPresence presence, ActivityData? data, UniverseDetails? universe, int playing = 0, int serverMax = 0)
     {
         string? secret = Enabled ? BuildSecret(data) : null;
-        if (secret == null || data == null)
+        bool showSize = App.Settings.Prop.ShowDiscordPartySize && data != null && data.PlaceId > 0;
+        if (data == null || (secret == null && !showSize))
         {
             presence.Party = null;
             presence.Secrets = null;
@@ -51,6 +52,11 @@ internal static class DiscordInvites
             Max = max,
             Privacy = Party.PrivacySetting.Private,
         };
+        if (secret == null)
+        {
+            presence.Secrets = null;
+            return;
+        }
         presence.Secrets = new Secrets { JoinSecret = secret };
         presence.Buttons = null;
     }

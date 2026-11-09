@@ -9581,4 +9581,10 @@ E lumella?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Dikgetho tse tswetseng pele tsa matchmaker</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Bontsha boholo ba sehlopha sa Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>E bontsha hore na ho na le dibapadi tse kae sebading sa hao profaeleng ya hao ya Discord.</value>
+  </data>
 </root>

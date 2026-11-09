@@ -9582,4 +9582,10 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>د میچ میکر پرمختللي اختیارونه</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>د Discord ډلې اندازه وښایاست</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>ستاسو په Discord پروفایل کې ښیي چې ستاسو په سرور کې څو لوبغاړي دي.</value>
+  </data>
 </root>

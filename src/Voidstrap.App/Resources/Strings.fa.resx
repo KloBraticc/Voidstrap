@@ -9896,4 +9896,10 @@ Voidstrap برنامه‌ها، پوشه‌های دیگر و ورود شما ب
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>رأی شما ذخیره نشد، لطفاً کمی بعد دوباره تلاش کنید</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>نمایش اندازه گروه در Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>تعداد بازیکنان سرور شما را در نمایه Discord شما نشان می‌دهد.</value>
+  </data>
 </root>

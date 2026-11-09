@@ -9581,4 +9581,10 @@ Ho permets?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Opcions avançades del matchmaker</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Mostra la mida del grup de Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Mostra quants jugadors hi ha al teu servidor al teu perfil de Discord.</value>
+  </data>
 </root>

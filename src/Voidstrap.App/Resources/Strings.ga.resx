@@ -9582,4 +9582,10 @@ Ceadaigh é?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Ardroghanna matchmaker</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Taispeáin méid an ghrúpa Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Taispeánann sé cé mhéad imreoir atá ar do fhreastalaí ar do phróifíl Discord.</value>
+  </data>
 </root>

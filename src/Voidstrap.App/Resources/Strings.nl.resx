@@ -9896,4 +9896,10 @@ Toestaan?</value>
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>Je stem kon niet worden opgeslagen, probeer het zo opnieuw</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord-groepsgrootte tonen</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Toont op je Discord-profiel hoeveel spelers er op je server zijn.</value>
+  </data>
 </root>

@@ -9581,4 +9581,10 @@ Ruxsat berasizmi?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Matchmaker kengaytirilgan sozlamalari</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord guruh hajmini ko‘rsatish</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Serveringizda nechta o‘yinchi borligini Discord profilingizda ko‘rsatadi.</value>
+  </data>
 </root>

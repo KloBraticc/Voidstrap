@@ -9581,4 +9581,10 @@ Gba laaye?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Àwọn àṣàyàn matchmaker tó ga jù</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Fi iwọn ẹgbẹ Discord han</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>O fi iye awọn oṣere to wa ninu olupin rẹ han lori profaili Discord rẹ.</value>
+  </data>
 </root>

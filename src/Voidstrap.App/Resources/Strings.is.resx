@@ -9582,4 +9582,10 @@ Leyfa það?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Ítarlegir valkostir leikjapörunar</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Sýna stærð Discord hóps</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Sýnir á Discord prófílnum þínum hversu margir spilarar eru á þjóninum þínum.</value>
+  </data>
 </root>

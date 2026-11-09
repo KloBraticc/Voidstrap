@@ -9893,4 +9893,10 @@
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>تعذّر حفظ تصويتك، حاول مرة أخرى بعد قليل</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>إظهار حجم المجموعة في Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>يعرض عدد اللاعبين في خادمك على ملفك الشخصي في Discord.</value>
+  </data>
 </root>

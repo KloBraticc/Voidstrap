@@ -9892,4 +9892,10 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>Oyunuz kaydedilemedi, biraz sonra tekrar deneyin</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord parti boyutunu göster</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Sunucunuzda kaç oyuncu olduğunu Discord profilinizde gösterir.</value>
+  </data>
 </root>

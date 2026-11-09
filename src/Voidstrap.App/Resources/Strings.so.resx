@@ -9582,4 +9582,10 @@ Oggolow?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Doorashooyinka horumarsan ee matchmaker</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Muuji cabbirka kooxda Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Waxay ku muujinaysaa astaantaada Discord inta ciyaartoy ee ku jira server kaaga.</value>
+  </data>
 </root>

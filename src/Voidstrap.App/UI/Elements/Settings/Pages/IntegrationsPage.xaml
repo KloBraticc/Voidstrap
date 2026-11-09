@@ -90,6 +90,9 @@
           <controls:OptionControl Description="{resources:Loc Menu_Integrations_AllowActivityJoining_Description}" Header="{resources:Loc Menu_Integrations_AllowActivityJoining_Title}" IsEnabled="{Binding DiscordActivityEnabled, Mode=OneWay}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding DiscordActivityJoinEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
+          <controls:OptionControl Description="{resources:Loc Menu_Integrations_ShowDiscordPartySize_Description}" Header="{resources:Loc Menu_Integrations_ShowDiscordPartySize_Title}" IsEnabled="{Binding DiscordActivityEnabled, Mode=OneWay}">
+            <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding DiscordPartySizeEnabled, Mode=TwoWay}" />
+          </controls:OptionControl>
           <controls:OptionControl Description="{resources:Loc Menu_Integrations_AllowDiscordInvites_Description}" Header="{resources:Loc Menu_Integrations_AllowDiscordInvites_Title}" IsEnabled="{Binding DiscordActivityEnabled, Mode=OneWay}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding DiscordInvitesEnabled, Mode=TwoWay}" />
           </controls:OptionControl>

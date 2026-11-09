@@ -9582,4 +9582,10 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>വിപുലമായ മാച്ച്മേക്കർ ഓപ്ഷനുകൾ</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord പാർട്ടി വലുപ്പം കാണിക്കുക</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>നിങ്ങളുടെ സെർവറിൽ എത്ര കളിക്കാരുണ്ടെന്ന് നിങ്ങളുടെ Discord പ്രൊഫൈലിൽ കാണിക്കുന്നു.</value>
+  </data>
 </root>

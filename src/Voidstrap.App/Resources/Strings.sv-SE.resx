@@ -9894,4 +9894,10 @@ Tillåta?</value>
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>Din röst kunde inte sparas, försök igen om en stund</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Visa Discord-gruppstorlek</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Visar på din Discord-profil hur många spelare som är på din server.</value>
+  </data>
 </root>

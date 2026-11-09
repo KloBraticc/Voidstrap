@@ -9582,4 +9582,10 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Напредне опције matchmaker</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Прикажи величину Discord групе</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Приказује на твом Discord профилу колико је играча на твом серверу.</value>
+  </data>
 </root>

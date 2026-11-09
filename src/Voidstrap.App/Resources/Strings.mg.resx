@@ -9582,4 +9582,10 @@ Avelao izany?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Safidy mandroso amin'ny matchmaker</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Asehoy ny haben ny vondrona Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Asehony ao amin ny mombamomba anao Discord ny isan ny mpilalao ao amin ny mpizara anao.</value>
+  </data>
 </root>

@@ -9581,4 +9581,10 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Προηγμένες επιλογές matchmaker</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Εμφάνιση μεγέθους ομάδας Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Δείχνει πόσοι παίκτες είναι στον διακομιστή σου στο προφίλ σου στο Discord.</value>
+  </data>
 </root>

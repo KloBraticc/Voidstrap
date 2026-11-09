@@ -9581,4 +9581,10 @@ Laat dit toe?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Gevorderde matchmaker opsies</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Wys Discord-partygrootte</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Wys hoeveel spelers in jou bediener is op jou Discord-profiel.</value>
+  </data>
 </root>

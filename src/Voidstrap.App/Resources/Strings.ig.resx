@@ -9582,4 +9582,10 @@ kwe ya?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Nhọrọ matchmaker dị elu</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Gosi nha otu Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Na-egosi ole ndị egwuregwu nọ na sava gị na profaịlụ Discord gị.</value>
+  </data>
 </root>

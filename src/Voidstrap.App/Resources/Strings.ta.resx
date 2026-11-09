@@ -9581,4 +9581,10 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>மேம்பட்ட matchmaker விருப்பங்கள்</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord குழு அளவைக் காட்டு</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>உங்கள் சேவையகத்தில் எத்தனை வீரர்கள் உள்ளனர் என்பதை உங்கள் Discord சுயவிவரத்தில் காட்டும்.</value>
+  </data>
 </root>

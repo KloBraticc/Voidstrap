@@ -9582,4 +9582,10 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>ميچ ميڪر جا جديد اختيار</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord پارٽي جي ماپ ڏيکاريو</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>توهان جي سرور ۾ ڪيترا رانديگر آهن، اهو توهان جي Discord پروفائل تي ڏيکاري ٿو.</value>
+  </data>
 </root>

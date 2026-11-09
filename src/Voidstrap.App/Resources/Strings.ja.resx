@@ -9909,4 +9909,10 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>投票を保存できませんでした。しばらくしてからもう一度お試しください</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Discord のパーティー人数を表示</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>サーバーにいるプレイヤー数を Discord プロフィールに表示します。</value>
+  </data>
 </root>

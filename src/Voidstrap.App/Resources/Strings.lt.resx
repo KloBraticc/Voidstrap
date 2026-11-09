@@ -9896,4 +9896,10 @@ Leisti?</value>
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>Jūsų balso nepavyko išsaugoti, bandykite dar kartą po akimirkos</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Rodyti Discord grupės dydį</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Jūsų Discord profilyje rodo, kiek žaidėjų yra jūsų serveryje.</value>
+  </data>
 </root>

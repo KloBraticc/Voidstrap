@@ -9893,4 +9893,10 @@ Autoriser ?</value>
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>Votre vote n'a pas pu être enregistré, réessayez dans un instant</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Afficher la taille du groupe Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Affiche sur votre profil Discord le nombre de joueurs sur votre serveur.</value>
+  </data>
 </root>

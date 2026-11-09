@@ -9581,4 +9581,10 @@ Allow it?</value>
   <data name="Library.Vote.Failed" xml:space="preserve">
     <value>Your vote could not be saved, try again in a moment</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Show Discord party size</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Shows how many players are in your server on your Discord profile.</value>
+  </data>
 </root>

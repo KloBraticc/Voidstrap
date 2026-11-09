@@ -711,6 +711,20 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
         }
     }
 
+    public bool DiscordPartySizeEnabled
+    {
+        get { return App.Settings.Prop.ShowDiscordPartySize; }
+        set
+        {
+            if (App.Settings.Prop.ShowDiscordPartySize == value)
+            {
+                return;
+            }
+            App.Settings.Prop.ShowDiscordPartySize = value;
+            SaveAppSetting(nameof(DiscordPartySizeEnabled));
+        }
+    }
+
     public bool DiscordInvitesEnabled
     {
         get { return App.Settings.Prop.AllowDiscordInvites; }

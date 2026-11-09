@@ -9582,4 +9582,10 @@ Emera?</value>
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Amahitamo yimbitse ya matchmaker</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Erekana ingano y itsinda rya Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Yerekana umubare w abakinnyi bari kuri seriveri yawe kuri porofayili yawe ya Discord.</value>
+  </data>
 </root>

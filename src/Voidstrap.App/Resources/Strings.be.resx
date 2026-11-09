@@ -9581,4 +9581,10 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
     <value>Пашыраныя параметры matchmaker</value>
   </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Title" xml:space="preserve">
+    <value>Паказваць памер групы ў Discord</value>
+  </data>
+  <data name="Menu.Integrations.ShowDiscordPartySize.Description" xml:space="preserve">
+    <value>Паказвае, колькі гульцоў на вашым серверы, у вашым профілі Discord.</value>
+  </data>
 </root>
