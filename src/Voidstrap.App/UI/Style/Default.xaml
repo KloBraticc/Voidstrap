@@ -128,7 +128,14 @@
               <TextBlock x:Name="Placeholder" Grid.Column="3" Margin="2,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False" FontSize="{TemplateBinding FontSize}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextPlaceholderColorBrush}" Text="{TemplateBinding PlaceholderText}" />
               <ScrollViewer x:Name="PART_ContentHost" Grid.Column="3" VerticalAlignment="Center" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
               <ui:Button x:Name="PART_ClearButton" Grid.Column="4" Width="28" Height="26" Margin="0,0,4,0" Padding="0" VerticalAlignment="Center" Appearance="Transparent" Cursor="Arrow" Focusable="False" Icon="Dismiss24" Visibility="Collapsed" />
-              <Border x:Name="AccentLine" Grid.Column="2" Grid.ColumnSpan="3" Height="2" VerticalAlignment="Bottom" CornerRadius="0,0,4,0" Background="{DynamicResource AccentTextFillColorPrimaryBrush}" Visibility="Collapsed" />
+              <Border x:Name="AccentLine" Grid.Column="2" Grid.ColumnSpan="3" Height="2" VerticalAlignment="Bottom" CornerRadius="0,0,4,0" Background="{DynamicResource AccentTextFillColorPrimaryBrush}" Visibility="Collapsed">
+                <Border.OpacityMask>
+                  <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Offset="0" Color="Transparent" />
+                    <GradientStop Offset="0.08" Color="Black" />
+                  </LinearGradientBrush>
+                </Border.OpacityMask>
+              </Border>
             </Grid>
           </Border>
           <ControlTemplate.Triggers>
