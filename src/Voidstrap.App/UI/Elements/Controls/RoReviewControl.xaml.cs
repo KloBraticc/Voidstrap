@@ -390,6 +390,8 @@ public partial class RoReviewControl : UserControl
         CancellationToken ct = cts.Token;
 
         long targetPlaceId = PlaceId;
+        if (targetPlaceId > 0)
+            _activePlaceId = targetPlaceId;
         if (targetPlaceId <= 0 && UniverseId > 0)
         {
             UniverseDetails? cached = UniverseDetails.LoadFromCache(UniverseId);
