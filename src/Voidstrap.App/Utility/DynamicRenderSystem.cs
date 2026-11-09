@@ -23,7 +23,7 @@ namespace Voidstrap.Utility
         private const int MaxCacheEntries = 192;
         private const long MaxCacheBytes = 40L * 1024 * 1024;
         private const long MaxDownloadBytes = 8L * 1024 * 1024;
-        private const long MaxByteCacheBytes = 10L * 1024 * 1024;
+        private const long MaxByteCacheBytes = 4L * 1024 * 1024;
         private static readonly int DecodeConcurrency = Platform.UsesPortableUi
             ? Math.Clamp(Environment.ProcessorCount / 2, 2, 4)
             : Math.Max(4, Environment.ProcessorCount);
