@@ -46,9 +46,9 @@ namespace Voidstrap.Utility
 
         private static readonly IntPtr CurrentProcess = new IntPtr(-1);
 
-        private const int TrimLoopMs = 2000;
-        private const int TrimIdleMs = 1500;
-        private const int TrimMinIntervalMs = 4000;
+        private const int TrimLoopMs = 1000;
+        private const int TrimIdleMs = 800;
+        private const int TrimMinIntervalMs = 2000;
         private const long TrimThresholdBytes = 16L * 1024 * 1024;
 
         private static CancellationTokenSource? _trimCts;
