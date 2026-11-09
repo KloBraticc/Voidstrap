@@ -19,10 +19,10 @@
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
-      <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#shortcuts" Grid.Column="0" Header="{resources:Loc Common_Shortcuts_Desktop}">
+      <controls:OptionControl Grid.Column="0" Header="{resources:Loc Common_Shortcuts_Desktop}">
         <ui:ToggleSwitch IsChecked="{Binding DesktopIconTask.NewState, Mode=TwoWay}" />
       </controls:OptionControl>
-      <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#shortcuts" x:Name="StartMenuOption" Grid.Column="1" Header="{resources:Loc Common_Shortcuts_StartMenu}">
+      <controls:OptionControl x:Name="StartMenuOption" Grid.Column="1" Header="{resources:Loc Common_Shortcuts_StartMenu}">
         <ui:ToggleSwitch IsChecked="{Binding StartMenuIconTask.NewState, Mode=TwoWay}" />
       </controls:OptionControl>
     </Grid>
@@ -35,7 +35,7 @@
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
       <StackPanel Grid.Column="0" Margin="0,0,8,0">
-        <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#shortcuts" Margin="0" Header="{resources:Loc LaunchMenu_LaunchRoblox}">
+        <controls:OptionControl Margin="0" Header="{resources:Loc LaunchMenu_LaunchRoblox}">
           <ui:ToggleSwitch IsChecked="{Binding PlayerIconTask.NewState, Mode=TwoWay}" />
         </controls:OptionControl>
         <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Header="{resources:Loc Menu_Shortcuts_Customize}">
@@ -43,7 +43,7 @@
         </ui:CardExpander>
       </StackPanel>
       <StackPanel Grid.Column="1" Margin="0,0,8,0">
-        <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#shortcuts" Margin="0" Header="{resources:Loc Common_RobloxStudio}">
+        <controls:OptionControl Margin="0" Header="{resources:Loc Common_RobloxStudio}">
           <ui:ToggleSwitch IsChecked="{Binding StudioIconTask.NewState, Mode=TwoWay}" />
         </controls:OptionControl>
         <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Header="{resources:Loc Menu_Shortcuts_Customize}">
@@ -51,7 +51,7 @@
         </ui:CardExpander>
       </StackPanel>
       <StackPanel Grid.Column="2" Margin="0,0,0,0">
-        <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#shortcuts" Margin="0" Header="{resources:Loc Menu_Title}">
+        <controls:OptionControl Margin="0" Header="{resources:Loc Menu_Title}">
           <ui:ToggleSwitch IsChecked="{Binding SettingsIconTask.NewState, Mode=TwoWay}" />
         </controls:OptionControl>
         <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Header="{resources:Loc Menu_Shortcuts_Customize}">

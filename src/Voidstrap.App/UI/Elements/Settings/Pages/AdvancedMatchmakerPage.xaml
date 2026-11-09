@@ -133,7 +133,7 @@
                   <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" FontWeight="SemiBold" Text="{Binding EffectiveMatchmakerCandidates}" />
                 </StackPanel>
               </controls:OptionControl>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/matchmaker/" Header="{resources:Loc Ui_Bootstrapper_ReconnectLimit}" Description="{resources:Loc Ui_Bootstrapper_VoidstrapStopsTryingAfterThisMany}">
+              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_ReconnectLimit}" Description="{resources:Loc Ui_Bootstrapper_VoidstrapStopsTryingAfterThisMany}">
                 <StackPanel Orientation="Horizontal" Margin="0,2">
                   <Slider Width="200" Minimum="1" Maximum="20" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding ServerMatchmakerMaxRetries, Mode=TwoWay}" />
                   <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Text="{Binding ServerMatchmakerMaxRetries}" />

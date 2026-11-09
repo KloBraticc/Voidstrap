@@ -54,18 +54,18 @@
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#desktop-app-and-more" Description="{resources:Loc Ui_Integrations_NotifiesYouInGameWhenA}" Header="{resources:Loc Ui_Integrations_FriendNotifications}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}">
+              <controls:OptionControl Description="{resources:Loc Ui_Integrations_NotifiesYouInGameWhenA}" Header="{resources:Loc Ui_Integrations_FriendNotifications}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding FriendNotifications, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#desktop-app-and-more" Description="{resources:Loc Ui_Integrations_LibraryFavorites_Description}" Header="{resources:Loc Ui_Integrations_LibraryFavorites_Title}">
+              <controls:OptionControl Description="{resources:Loc Ui_Integrations_LibraryFavorites_Description}" Header="{resources:Loc Ui_Integrations_LibraryFavorites_Title}">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding LibraryShowRobloxFavorites, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#desktop-app-and-more" Description="{resources:Loc Ui_Integrations_FavoriteUpdateAlerts_Description}" Header="{resources:Loc Ui_Integrations_FavoriteUpdateAlerts_Title}">
+              <controls:OptionControl Description="{resources:Loc Ui_Integrations_FavoriteUpdateAlerts_Description}" Header="{resources:Loc Ui_Integrations_FavoriteUpdateAlerts_Title}">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding FavoriteUpdateAlerts, Mode=TwoWay}" />
               </controls:OptionControl>
             </StackPanel>
           </ui:CardExpander>
-          <controls:OptionControl Header="{resources:Loc Menu_Integrations_DesktopApp_Title}" HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#desktop-app-and-more" Description="{Binding Source={resources:Loc Menu_Integrations_DesktopApp_Description}, Converter={StaticResource StringFormatConverter}, ConverterParameter=https://wiki.voidstrapp.pages.dev/features/integrations/#desktop-app-and-more}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Header="{resources:Loc Menu_Integrations_DesktopApp_Title}" Description="{Binding Source={resources:Loc Menu_Integrations_DesktopApp_Description}, Converter={StaticResource StringFormatConverter}, ConverterParameter=https://wiki.voidstrapp.pages.dev/features/integrations/#desktop-app-and-more}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding DisableAppPatchEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
         </StackPanel>
@@ -84,16 +84,16 @@
           <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#discord-rich-presence" x:Name="DiscordActivityOption" Header="{resources:Loc Menu_Integrations_ShowGameActivity_Title}" Description="{Binding Source={resources:Loc Menu_Integrations_ShowGameActivity_Description}, Converter={StaticResource StringFormatConverter}, ConverterParameter=https://wiki.voidstrapp.pages.dev/features/troubleshooting/#discord-does-not-show-your-game}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding DiscordActivityEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#discord-rich-presence" Description="{resources:Loc Menu_Integrations_ShowAccountOnProfile_Description}" Header="{resources:Loc Menu_Integrations_ShowAccountOnProfile_Title}" IsEnabled="{Binding DiscordActivityEnabled, Mode=OneWay}">
+          <controls:OptionControl Description="{resources:Loc Menu_Integrations_ShowAccountOnProfile_Description}" Header="{resources:Loc Menu_Integrations_ShowAccountOnProfile_Title}" IsEnabled="{Binding DiscordActivityEnabled, Mode=OneWay}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding DiscordAccountOnProfile, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#discord-rich-presence" Description="{resources:Loc Menu_Integrations_AllowActivityJoining_Description}" Header="{resources:Loc Menu_Integrations_AllowActivityJoining_Title}" IsEnabled="{Binding DiscordActivityEnabled, Mode=OneWay}">
+          <controls:OptionControl Description="{resources:Loc Menu_Integrations_AllowActivityJoining_Description}" Header="{resources:Loc Menu_Integrations_AllowActivityJoining_Title}" IsEnabled="{Binding DiscordActivityEnabled, Mode=OneWay}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding DiscordActivityJoinEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#discord-rich-presence" Description="{resources:Loc Menu_Integrations_ShowDiscordPartySize_Description}" Header="{resources:Loc Menu_Integrations_ShowDiscordPartySize_Title}" IsEnabled="{Binding DiscordActivityEnabled, Mode=OneWay}">
+          <controls:OptionControl Description="{resources:Loc Menu_Integrations_ShowDiscordPartySize_Description}" Header="{resources:Loc Menu_Integrations_ShowDiscordPartySize_Title}" IsEnabled="{Binding DiscordActivityEnabled, Mode=OneWay}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding DiscordPartySizeEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#discord-rich-presence" Description="{resources:Loc Menu_Integrations_AllowDiscordInvites_Description}" Header="{resources:Loc Menu_Integrations_AllowDiscordInvites_Title}" IsEnabled="{Binding DiscordActivityEnabled, Mode=OneWay}">
+          <controls:OptionControl Description="{resources:Loc Menu_Integrations_AllowDiscordInvites_Description}" Header="{resources:Loc Menu_Integrations_AllowDiscordInvites_Title}" IsEnabled="{Binding DiscordActivityEnabled, Mode=OneWay}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding DiscordInvitesEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
             <Border CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1" Margin="0,8,0,10" Padding="14">
@@ -175,16 +175,16 @@
               <ui:Button Margin="8,0,0,0" Icon="ArrowClockwise24" ToolTip="{resources:Loc Ui_Sound_RefreshDevices}" Command="{Binding RefreshAudioOutputsCommand}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#audio" Header="{resources:Loc Ui_Sound_Equalizer_Title}" Description="{resources:Loc Ui_Sound_Equalizer_Description}" Visibility="{Binding EqualizerVisibility, Mode=OneTime}">
+          <controls:OptionControl Header="{resources:Loc Ui_Sound_Equalizer_Title}" Description="{resources:Loc Ui_Sound_Equalizer_Description}" Visibility="{Binding EqualizerVisibility, Mode=OneTime}">
             <ComboBox MinWidth="240" ItemsSource="{Binding EqualizerPresets}" SelectedIndex="{Binding EqualizerPreset, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#audio" Header="{resources:Loc Ui_Integrations_QuietWhenUnfocused}" Description="{resources:Loc Ui_Integrations_LowerRobloxVolumeWhileItsWindow}" Visibility="{x:Static platform:PlatformFeatureVisibility.AudioSession}">
+          <controls:OptionControl Header="{resources:Loc Ui_Integrations_QuietWhenUnfocused}" Description="{resources:Loc Ui_Integrations_LowerRobloxVolumeWhileItsWindow}" Visibility="{x:Static platform:PlatformFeatureVisibility.AudioSession}">
             <ui:ToggleSwitch IsChecked="{Binding DuckRobloxAudio, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#audio" Header="{resources:Loc Ui_Integrations_HeadsetLoudness}" Description="{resources:Loc Ui_Integrations_BalanceLoudAndQuietRobloxAudio}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Header="{resources:Loc Ui_Integrations_HeadsetLoudness}" Description="{resources:Loc Ui_Integrations_BalanceLoudAndQuietRobloxAudio}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding HeadsetLoudness, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#audio" Header="{resources:Loc Ui_Integrations_ViewMusicPlayer}" Description="{resources:Loc Ui_Integrations_ViewAndListenToYourMusic}">
+          <controls:OptionControl Header="{resources:Loc Ui_Integrations_ViewMusicPlayer}" Description="{resources:Loc Ui_Integrations_ViewAndListenToYourMusic}">
             <Button Content="{resources:Loc Ui_Mods_View}" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding MusicWindowCommand}" />
           </controls:OptionControl>
         </StackPanel>
@@ -226,40 +226,40 @@
               <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/rishade/#video-clipper" Header="{resources:Loc Ui_Clipper_RecordingMode}" Description="{resources:Loc Ui_Clipper_RecordingModeHint}">
                 <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperModeOptions}" SelectedItem="{Binding SelectedClipperMode, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/rishade/#video-clipper" Header="{resources:Loc Ui_Clipper_BufferLength}" Description="{resources:Loc Ui_Clipper_BufferLengthHint}" Visibility="{Binding ClipperIsClipMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+              <controls:OptionControl Header="{resources:Loc Ui_Clipper_BufferLength}" Description="{resources:Loc Ui_Clipper_BufferLengthHint}" Visibility="{Binding ClipperIsClipMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperBufferOptions}" SelectedItem="{Binding SelectedClipperBuffer, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/rishade/#video-clipper" Header="{resources:Loc Ui_Clipper_RecordOnGameStart}" Description="{resources:Loc Ui_Clipper_RecordOnGameStartHint}">
+              <controls:OptionControl Header="{resources:Loc Ui_Clipper_RecordOnGameStart}" Description="{resources:Loc Ui_Clipper_RecordOnGameStartHint}">
                 <ui:ToggleSwitch IsChecked="{Binding ClipperRecordOnGameStart, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/rishade/#video-clipper" Header="{resources:Loc Ui_Clipper_RedBorder}" Description="{resources:Loc Ui_Clipper_RedBorderHint}">
+              <controls:OptionControl Header="{resources:Loc Ui_Clipper_RedBorder}" Description="{resources:Loc Ui_Clipper_RedBorderHint}">
                 <ui:ToggleSwitch IsChecked="{Binding ClipperRedBorder, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/rishade/#video-clipper" Header="{resources:Loc Ui_Clipper_VideoQuality}" Description="{resources:Loc Ui_Clipper_VideoQualityHint}">
+              <controls:OptionControl Header="{resources:Loc Ui_Clipper_VideoQuality}" Description="{resources:Loc Ui_Clipper_VideoQualityHint}">
                 <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperQualityOptions}" SelectedItem="{Binding SelectedClipperQuality, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/rishade/#video-clipper" Header="{resources:Loc Ui_Clipper_Resolution}" Description="{resources:Loc Ui_Clipper_ResolutionHint}">
+              <controls:OptionControl Header="{resources:Loc Ui_Clipper_Resolution}" Description="{resources:Loc Ui_Clipper_ResolutionHint}">
                 <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperResolutionOptions}" SelectedItem="{Binding SelectedClipperResolution, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/rishade/#video-clipper" Header="{resources:Loc Ui_Clipper_FrameRate}" Description="{resources:Loc Ui_Clipper_FrameRateHint}">
+              <controls:OptionControl Header="{resources:Loc Ui_Clipper_FrameRate}" Description="{resources:Loc Ui_Clipper_FrameRateHint}">
                 <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperFpsOptions}" SelectedItem="{Binding SelectedClipperFps, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/rishade/#video-clipper" Header="{resources:Loc Ui_Clipper_Codec}" Description="{resources:Loc Ui_Clipper_CodecHint}">
+              <controls:OptionControl Header="{resources:Loc Ui_Clipper_Codec}" Description="{resources:Loc Ui_Clipper_CodecHint}">
                 <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperCodecOptions}" SelectedItem="{Binding SelectedClipperCodec, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/rishade/#video-clipper" Header="{resources:Loc Ui_Clipper_GameAudio}" Description="{resources:Loc Ui_Clipper_GameAudioHint}">
+              <controls:OptionControl Header="{resources:Loc Ui_Clipper_GameAudio}" Description="{resources:Loc Ui_Clipper_GameAudioHint}">
                 <ui:ToggleSwitch IsChecked="{Binding ClipperGameAudio, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/rishade/#video-clipper" Header="{resources:Loc Ui_Clipper_Microphone}" Description="{resources:Loc Ui_Clipper_MicrophoneHint}">
+              <controls:OptionControl Header="{resources:Loc Ui_Clipper_Microphone}" Description="{resources:Loc Ui_Clipper_MicrophoneHint}">
                 <ui:ToggleSwitch IsChecked="{Binding ClipperMicrophone, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/rishade/#video-clipper" Header="{resources:Loc Ui_Clipper_StatusIndicator}" Description="{resources:Loc Ui_Clipper_StatusIndicatorHint}">
+              <controls:OptionControl Header="{resources:Loc Ui_Clipper_StatusIndicator}" Description="{resources:Loc Ui_Clipper_StatusIndicatorHint}">
                 <ui:ToggleSwitch IsChecked="{Binding ClipperShowIndicator, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/rishade/#video-clipper" Header="{resources:Loc Ui_VoidEdit_AskRecordings_Title}" Description="{resources:Loc Ui_VoidEdit_AskRecordings_Description}">
+              <controls:OptionControl Header="{resources:Loc Ui_VoidEdit_AskRecordings_Title}" Description="{resources:Loc Ui_VoidEdit_AskRecordings_Description}">
                 <ui:ToggleSwitch IsChecked="{Binding VoidEditAskForRecordings, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/rishade/#video-clipper" Header="{resources:Loc Ui_Clipper_ClipsFolder}" Description="{resources:Loc Ui_Clipper_ClipsFolderHint}">
+              <controls:OptionControl Header="{resources:Loc Ui_Clipper_ClipsFolder}" Description="{resources:Loc Ui_Clipper_ClipsFolderHint}">
                 <Button Width="140" Content="{resources:Loc Ui_Clipper_OpenFolder}" Command="{Binding OpenClipsFolderCommand}" />
               </controls:OptionControl>
             </StackPanel>

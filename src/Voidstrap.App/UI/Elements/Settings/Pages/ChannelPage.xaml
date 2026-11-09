@@ -27,7 +27,7 @@
           <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#update-timing" Header="{resources:Loc Menu_Behaviour_AutoUpdate_Title}" Description="{resources:Loc Menu_Behaviour_AutoUpdate_Description}">
             <ui:ToggleSwitch IsChecked="{Binding UpdateCheckingEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#update-timing" Header="{resources:Loc Ui_Channel_IncludePreReleaseVersions}" Description="{resources:Loc Ui_Channel_UpdatesToTestBuildsAsSoon}">
+          <controls:OptionControl Header="{resources:Loc Ui_Channel_IncludePreReleaseVersions}" Description="{resources:Loc Ui_Channel_UpdatesToTestBuildsAsSoon}">
             <ui:ToggleSwitch IsChecked="{Binding AllowPreReleaseUpdates, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#background-behaviour" Header="{resources:Loc Ui_Channel_LaunchRobloxWithoutVoidstrap}" Description="{resources:Loc Ui_Channel_JoiningAGameFromYourBrowser}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
@@ -36,7 +36,7 @@
           <controls:BootstrapperImportControl Imported="OnSettingsImported" />
           <Expander Header="{resources:Loc Ui_Channel_AppSettings}" IsExpanded="False" Margin="0,8,0,0">
             <StackPanel>
-                            <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#background-behaviour" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Ui_Channel_HardwareAcceleration}" Description="{resources:Loc Ui_Channel_UsesTheGPUToRenderVoidstrap}">
+                            <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Ui_Channel_HardwareAcceleration}" Description="{resources:Loc Ui_Channel_UsesTheGPUToRenderVoidstrap}">
                                 <ui:ToggleSwitch IsChecked="{Binding HWAccelEnabled, Mode=TwoWay}" />
                             </controls:OptionControl>
                             <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#discord-rich-presence" Description="{resources:Loc Ui_Channel_DisplaysVoidstrapsDiscordRPC}" Header="{resources:Loc Ui_Channel_VoidstrapRPC}">
@@ -88,10 +88,10 @@
                   </Grid>
                 </StackPanel>
               </Border>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#background-behaviour" Header="{resources:Loc Ui_Channel_ResolutionChanger}" Description="{resources:Loc Ui_Channel_ChangesTheResolutionOfTheSelected}">
+              <controls:OptionControl Header="{resources:Loc Ui_Channel_ResolutionChanger}" Description="{resources:Loc Ui_Channel_ChangesTheResolutionOfTheSelected}">
                 <ComboBox DisplayMemberPath="DisplayName" Width="220" ItemsSource="{Binding AvailableResolutions}" SelectedItem="{Binding SelectedResolution, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#background-behaviour" Header="{resources:Loc Ui_Channel_ResolutionChangerInGame}" Description="{resources:Loc Ui_Channel_AppliesToTheSelectedMonitorWhile}">
+              <controls:OptionControl Header="{resources:Loc Ui_Channel_ResolutionChangerInGame}" Description="{resources:Loc Ui_Channel_AppliesToTheSelectedMonitorWhile}">
                 <StackPanel>
                   <CheckBox Content="{resources:Loc Ui_Channel_OnlyApplyForASpecificPlaceId}" IsChecked="{Binding UsePlaceId, Mode=TwoWay}" />
                   <ui:TextBox Width="220" HorizontalAlignment="Left" Margin="0,6,0,0" Text="{Binding PlaceId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding UsePlaceId}" />
@@ -127,19 +127,19 @@
           <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#downloads" Header="{resources:Loc Ui_Channel_DownloadServer}" Description="{resources:Loc Ui_Channel_UsedWhenRobloxIsInstalledOr}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
 			<ComboBox Width="280" Padding="10,5,10,5" DisplayMemberPath="Display" ItemsSource="{Binding MirrorChoices}" SelectedItem="{Binding SelectedMirrorChoice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
-          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#downloads" Header="{resources:Loc Ui_Channel_DownloadBufferSizeKB}" Description="{resources:Loc Ui_Channel_LargerBuffersCanSpeedUpDownloads}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
+          <controls:OptionControl Header="{resources:Loc Ui_Channel_DownloadBufferSizeKB}" Description="{resources:Loc Ui_Channel_LargerBuffersCanSpeedUpDownloads}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
 			<ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding DownloadBufferOptions}" SelectedItem="{Binding DownloadBufferKb, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
-          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#downloads" Header="{resources:Loc Ui_Channel_ConcurrentDownloads}" Description="{resources:Loc Ui_Channel_HowManyPackagesDownloadAtThe}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Header="{resources:Loc Ui_Channel_ConcurrentDownloads}" Description="{resources:Loc Ui_Channel_HowManyPackagesDownloadAtThe}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
 			<ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding ConcurrentDownloadOptions}" SelectedItem="{Binding MaxConcurrentDownloads, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
-          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#downloads" Header="{resources:Loc Ui_Channel_SegmentsPerFile}" Description="{resources:Loc Ui_Channel_SplitsEachPackageIntoParallelChunks}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
+          <controls:OptionControl Header="{resources:Loc Ui_Channel_SegmentsPerFile}" Description="{resources:Loc Ui_Channel_SplitsEachPackageIntoParallelChunks}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
 			<ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding DownloadSegmentOptions}" SelectedItem="{Binding MaxDownloadSegments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
           <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#saving-disk-space" Header="{resources:Loc Ui_Channel_StaticDirectory}" Description="{resources:Loc Ui_Channel_SwitchFromVersionXxxToBinaryType}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding StaticDirectory, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#saving-disk-space" Header="{resources:Loc Ui_Channel_CompressRobloxInstalls}" Description="{resources:Loc Ui_Channel_PacksRobloxIntoACompressedArchive}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Header="{resources:Loc Ui_Channel_CompressRobloxInstalls}" Description="{resources:Loc Ui_Channel_PacksRobloxIntoACompressedArchive}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding CompressRobloxInstalls, Mode=TwoWay}" />
           </controls:OptionControl>
                 </StackPanel>
@@ -213,10 +213,10 @@
                                 </StackPanel>
                             </ui:CardControl.Header>
                         </ui:CardControl>
-                        <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#background-behaviour" Header="{resources:Loc Ui_Channel_EfficiencyMode}" Description="{Binding EfficiencyModeDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+                        <controls:OptionControl Header="{resources:Loc Ui_Channel_EfficiencyMode}" Description="{Binding EfficiencyModeDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding RobloxEfficiencyMode, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#background-behaviour" Header="{resources:Loc Ui_Channel_RobloxPriority}" Description="{Binding RobloxPriorityDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Header="{resources:Loc Ui_Channel_RobloxPriority}" Description="{Binding RobloxPriorityDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ComboBox Grid.Column="1" Margin="8,0,8,0" Padding="10,5,10,5" Width="200" ItemsSource="{Binding PriorityOptions}" SelectedItem="{Binding SelectedPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
 
@@ -232,7 +232,7 @@
             </FrameworkElement.Style>
             <ui:ToggleSwitch IsChecked="{Binding ForceRobloxReinstallation, Mode=TwoWay}" />
           </controls:OptionControl>
-                        <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#update-timing" Description="{resources:Loc Ui_Channel_WhenDisabledRobloxWonTUpdate}" Header="{resources:Loc Ui_Channel_RobloxUpdates}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
+                        <controls:OptionControl Description="{resources:Loc Ui_Channel_WhenDisabledRobloxWonTUpdate}" Header="{resources:Loc Ui_Channel_RobloxUpdates}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
                             <FrameworkElement.Style>
                                 <Style TargetType="{x:Type controls:OptionControl}">
                                     <Style.Triggers>
@@ -362,7 +362,7 @@
             </StackPanel>
           </ui:CardExpander>
           <controls:OptionControl x:Name="RobloxVersionAPP" Header="" />
-          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#background-behaviour" x:Name="RenderBackendOption" Visibility="{x:Static platform:PlatformFeatureVisibility.LinuxIntegration}" Header="{resources:Loc Ui_Channel_RendererBackend}" Description="{resources:Loc Ui_Channel_ChoosesTheGraphicsBackendVoidstrapDraws}">
+          <controls:OptionControl x:Name="RenderBackendOption" Visibility="{x:Static platform:PlatformFeatureVisibility.LinuxIntegration}" Header="{resources:Loc Ui_Channel_RendererBackend}" Description="{resources:Loc Ui_Channel_ChoosesTheGraphicsBackendVoidstrapDraws}">
             <ComboBox Width="230" ItemsSource="{Binding RenderBackendChoices}" DisplayMemberPath="Display" SelectedItem="{Binding RenderBackendChoice, Mode=TwoWay}" />
           </controls:OptionControl>
         </StackPanel>
@@ -380,19 +380,19 @@
             <ui:ToggleSwitch IsChecked="{Binding VoidNotify, Mode=TwoWay}" />
           </controls:OptionControl>
           <StackPanel IsEnabled="{Binding VoidNotify}">
-            <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/overlays/#notifications" Header="{resources:Loc Notifications_Updates}">
+            <controls:OptionControl Header="{resources:Loc Notifications_Updates}">
               <ui:ToggleSwitch IsChecked="{Binding NotifyUpdates, Mode=TwoWay}" />
             </controls:OptionControl>
-            <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/overlays/#notifications" Header="{resources:Loc Notifications_Roblox}">
+            <controls:OptionControl Header="{resources:Loc Notifications_Roblox}">
               <ui:ToggleSwitch IsChecked="{Binding NotifyRoblox, Mode=TwoWay}" />
             </controls:OptionControl>
-            <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/overlays/#notifications" Header="{resources:Loc Notifications_Recovery}">
+            <controls:OptionControl Header="{resources:Loc Notifications_Recovery}">
               <ui:ToggleSwitch IsChecked="{Binding NotifyRecovery, Mode=TwoWay}" />
             </controls:OptionControl>
-            <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/overlays/#notifications" Header="{resources:Loc Notifications_Errors}">
+            <controls:OptionControl Header="{resources:Loc Notifications_Errors}">
               <ui:ToggleSwitch IsChecked="{Binding NotifyErrors, Mode=TwoWay}" />
             </controls:OptionControl>
-            <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/overlays/#notifications" Header="{resources:Loc Notifications_GameJoins}">
+            <controls:OptionControl Header="{resources:Loc Notifications_GameJoins}">
               <ui:ToggleSwitch IsChecked="{Binding NotifyGameJoins, Mode=TwoWay}" />
             </controls:OptionControl>
           </StackPanel>
