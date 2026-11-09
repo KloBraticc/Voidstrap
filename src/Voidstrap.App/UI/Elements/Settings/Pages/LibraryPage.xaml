@@ -395,12 +395,26 @@
               <ScaleTransform x:Name="AddGamePanelScale" ScaleY="0" />
             </Border.LayoutTransform>
             <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*" />
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <ui:TextBox Grid.Column="0" PlaceholderText="{resources:Loc Ui_Pages_AddByPlaceIdOrLink}" FontSize="12" Text="{Binding AddGameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <ui:Button Grid.Column="1" Margin="6,0,0,0" Icon="Add24" ToolTip="{resources:Loc Ui_Pages_AddThisGameToYourLibrary}" Command="{Binding AddGameCommand}" />
+            <Grid Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,8" Visibility="{Binding AddPreviewVisibility}">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Border Width="56" Height="56" CornerRadius="8" util:RoundedClip.Radius="8" Background="{DynamicResource ControlFillColorSecondaryBrush}">
+                <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding AddPreviewIconUrl}" />
+              </Border>
+              <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="13" FontWeight="SemiBold" TextWrapping="Wrap" MaxHeight="40" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding AddPreviewName}" />
+            </Grid>
+            <ui:TextBox Grid.Row="1" Grid.Column="0" PlaceholderText="{resources:Loc Ui_Pages_AddByPlaceIdOrLink}" FontSize="12" Text="{Binding AddGameText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <ui:Button Grid.Row="1" Grid.Column="1" Margin="6,0,0,0" Icon="Add24" ToolTip="{resources:Loc Ui_Pages_AddThisGameToYourLibrary}" Command="{Binding AddGameCommand}" />
           </Grid>
           </Border>
           <TextBlock Margin="2,6,0,0" FontSize="11" TextWrapping="Wrap" Foreground="{DynamicResource SystemFillColorCautionBrush}" Text="{Binding StatusText}" Visibility="{Binding StatusVisibility}" />

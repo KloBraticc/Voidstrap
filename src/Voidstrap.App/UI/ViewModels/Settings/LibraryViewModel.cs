@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -17,6 +17,7 @@ using Voidstrap.Models.Entities;
 using Voidstrap.Models.Persistable;
 using Voidstrap.Resources;
 using Voidstrap.Utility;
+using Voidstrap.UI.ViewModels.Pages;
 
 namespace Voidstrap.UI.ViewModels.Settings;
 
@@ -1004,7 +1005,72 @@ public class LibraryViewModel : INotifyPropertyChanged
             {
                 _addGameText = value;
                 OnPropertyChanged(nameof(AddGameText));
+                _ = UpdateAddPreviewAsync(value);
             }
+        }
+    }
+
+    private CancellationTokenSource? _addPreviewCts;
+
+    private string? _addPreviewIconUrl;
+
+    private string _addPreviewName = "";
+
+    public string? AddPreviewIconUrl
+    {
+        get => _addPreviewIconUrl;
+        private set
+        {
+            _addPreviewIconUrl = value;
+            OnPropertyChanged(nameof(AddPreviewIconUrl));
+            OnPropertyChanged(nameof(AddPreviewVisibility));
+        }
+    }
+
+    public string AddPreviewName
+    {
+        get => _addPreviewName;
+        private set
+        {
+            _addPreviewName = value;
+            OnPropertyChanged(nameof(AddPreviewName));
+        }
+    }
+
+    public Visibility AddPreviewVisibility => string.IsNullOrEmpty(_addPreviewIconUrl) ? Visibility.Collapsed : Visibility.Visible;
+
+    private async Task UpdateAddPreviewAsync(string text)
+    {
+        const string LOG_IDENT = "LibraryViewModel::UpdateAddPreviewAsync";
+        _addPreviewCts?.Cancel();
+        _addPreviewCts?.Dispose();
+        CancellationTokenSource cts = new();
+        _addPreviewCts = cts;
+        long placeId = ParsePlaceId(text.Trim());
+        if (placeId <= 0)
+        {
+            AddPreviewIconUrl = null;
+            AddPreviewName = "";
+            return;
+        }
+        try
+        {
+            await Task.Delay(400, cts.Token);
+            DiscoverGameEntry? game = await HomePageViewModel.LookupPlaceAsync(placeId, cts.Token);
+            string? icon = game == null ? null : await Voidstrap.UI.TaskbarJumpList.ResolveIconUrlAsync(game.UniverseId, cts.Token);
+            if (cts.IsCancellationRequested)
+                return;
+            AddPreviewName = game?.Name ?? "";
+            AddPreviewIconUrl = icon;
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, "Preview lookup failed: " + ex.Message);
+            if (!cts.IsCancellationRequested)
+                AddPreviewIconUrl = null;
         }
     }
 
