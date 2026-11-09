@@ -128,7 +128,7 @@ public static partial class McpTools
 		  $.ui.attach({ id: 'friends', anchor: 'TopNavBack', placement: 'before' });   placement is before, after, start or end
 		Draw it with on('ui.render', { component: 'Widget', requestId: 'friends' }, ...). It redraws whenever the mod's state changes.
 		Only elements with attachable true can take a widget; if yours is false, use a neighbour or its parent from ui_map. $.ui.anchors() returns the same list at runtime.
-		Well known spots: TopNavBack and TopNavForward are the Back and Next arrows at the top right of the title bar, TopNavPanel is the top left menu (Home, Library, Servers, Voidstrap mods, News).
+		Well known spots: TopNavBack and TopNavForward are the Back and Next arrows at the top right of the title bar, TopNavPanel is the top left menu (Home, Library, Servers, Voidstrap mods, Global), with Extensions and Manager buttons next to it.
 		Attachment and rendering are asynchronous. An isPlaced true result means the request was accepted, not that pixels are already on screen. Read reason and inspect the live result.
 
 		CURSOR SPRITES AND TIMING

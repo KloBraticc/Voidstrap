@@ -1104,7 +1104,6 @@ internal static class PluginNavigation
         "Mods",
         "Global",
         "Shortcuts",
-        "News",
         "Extensions",
         "Manager",
         "Settings",

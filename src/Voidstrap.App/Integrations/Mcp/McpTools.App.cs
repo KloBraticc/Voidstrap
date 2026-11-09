@@ -115,7 +115,7 @@ public static partial class McpTools
 
         sb.AppendLine("Navigable UI Pages (use with navigate_ui):");
         sb.AppendLine(
-            "  Home, Integrations, Deployment (or Bootstrapper), Appearance, FastFlags, FastFlagEditor, Mods, More, Global (or GBSEditor), Shortcuts, News, Extensions, Manager (or Downloads), Settings (or Channel), Accounts, Library, PrivateServers"
+            "  Home, Integrations, Deployment (or Bootstrapper), Appearance, FastFlags, FastFlagEditor, Mods, More, Global (or GBSEditor), Shortcuts, Extensions, Manager (or Downloads), Settings (or Channel), Accounts, Library, PrivateServers"
         );
 
         return new McpToolResult(sb.ToString().TrimEnd());
@@ -147,7 +147,7 @@ public static partial class McpTools
         bool ok = mainWin.NavigateToPageByName(pageName, search, focusWindow);
         if (!ok)
             return new McpToolResult(
-                $"Could not navigate to '{pageName}'. Valid pages: Home, Integrations, Deployment (or Bootstrapper), Appearance, FastFlags, FastFlagEditor, Mods, More, Global (or GBSEditor), Shortcuts, News, Extensions, Manager (or Downloads), Settings (or Channel), Accounts, Library, PrivateServers.",
+                $"Could not navigate to '{pageName}'. Valid pages: Home, Integrations, Deployment (or Bootstrapper), Appearance, FastFlags, FastFlagEditor, Mods, More, Global (or GBSEditor), Shortcuts, Extensions, Manager (or Downloads), Settings (or Channel), Accounts, Library, PrivateServers.",
                 true
             );
 

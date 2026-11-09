@@ -83,7 +83,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             new("MoreNavItem", "More", "Configuration", SymbolRegular.MoreHorizontal24, NameKey: "Ui_Nav_More"),
             new("GlobalNavItem", "Global", "More", SymbolRegular.GlobeLocation20, NameKey: "Ui_Nav_Global"),
             new("ShortcutsNavItem", "Shortcuts", "More", SymbolRegular.Apps32, NameKey: "Common_Shortcuts"),
-            new("NewsNavItem", "News", "More", SymbolRegular.News16, NameKey: "Ui_Nav_News"),
             new("ExtensionsNavItem", "Extensions", "Footer", SymbolRegular.CubeAdd20, NameKey: "Ui_Nav_Extensions"),
             new("ManagerNavItem", "Manager", "Footer", SymbolRegular.ArrowDownload24, NameKey: "Ui_Nav_Manager"),
             new("SoberNavItem", "Sober", "Footer", SymbolRegular.Empty, NameKey: "Menu_Sober_Title"),
@@ -98,7 +97,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             "SoberNavItem" => Voidstrap.Utility.Platform.IsLinux && !Voidstrap.Utility.LinuxRuntimeChoice.PageUsesRosemary,
             "RosemaryNavItem" => Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxRuntimeChoice.PageUsesRosemary,
-            "ExtensionsNavItem" or "ManagerNavItem" => Voidstrap.Utility.Platform.IsWindows,
+            "GlobalNavItem" or "ExtensionsNavItem" or "ManagerNavItem" => false,
             _ => true,
         };
     }
@@ -379,7 +378,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ["FastFlagEditorWarningPage"] = ("FastFlag Editor", "Reading the FastFlag warning"),
         ["GBSEditorPage"] = ("Global Settings", "Editing the global Roblox settings"),
         ["ModsPage"] = ("Mods", "Customizing cursors, sounds, overlays and skyboxes"),
-        ["NewsPage"] = ("News", "Reading what's new"),
         ["DownloadsPage"] = ("Downloads", "Managing Roblox installs"),
         ["ExtensionPage"] = ("Extensions", "Browsing plugins and integrations"),
         ["ShortcutsPage"] = ("Shortcuts", "Setting up game shortcuts"),
@@ -492,7 +490,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         typeof(HomePage),
         typeof(FastFlagEditorPage),
-        typeof(NewsPage),
         typeof(DownloadsPage),
         typeof(NvidiaFFlagEditorPage),
         typeof(ReleasesPage),
@@ -780,9 +777,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         SoberNavItem.Visibility = IsSidebarItemAvailable("SoberNavItem") ? Visibility.Visible : Visibility.Collapsed;
         RosemaryNavItem.Visibility = IsSidebarItemAvailable("RosemaryNavItem") ? Visibility.Visible : Visibility.Collapsed;
         Voidstrap.Utility.LinuxRuntimeChoice.Changed += OnLinuxRuntimeChanged;
-        ExtensionsNavItem.Visibility = Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
+        ExtensionsNavItem.Visibility = Visibility.Collapsed;
         ShortcutsNavItem.Visibility = Visibility.Visible;
-        ManagerNavItem.Visibility = Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
+        ManagerNavItem.Visibility = Visibility.Collapsed;
+        GlobalNavItem.Visibility = Visibility.Collapsed;
         VerifySidebarCustomization();
         ApplySidebarCustomization();
         SettingChangeNotifier.Failed += OnSettingChangeFailed;
@@ -1339,7 +1337,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         TopNavLibrary.Tag = content is LibraryPage ? "Active" : null;
         TopNavServers.Tag = content is PrivateServersPage ? "Active" : null;
         TopNavVoidstrapMods.Tag = content is VoidstrapModsPage ? "Active" : null;
-        TopNavNews.Tag = content is NewsPage ? "Active" : null;
+        TopNavGlobal.Tag = content is GBSEditorPage ? "Active" : null;
     }
 
     private NavigationItem[] GetNavigationItemsInServiceOrder()
@@ -1602,10 +1600,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             case "shortcutspage":
                 RootNavigation.Navigate(typeof(ShortcutsPage));
                 break;
-            case "news":
-            case "newspage":
-                RootNavigation.Navigate(typeof(NewsPage));
-                break;
             case "extensions":
             case "extensionpage":
                 if (Voidstrap.Utility.Platform.IsWindows)
@@ -1852,10 +1846,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             RootNavigation.Footer.Insert(footerIndex++, items[definition.Key]);
         }
         RegisterHoverIcons();
-        if (!string.IsNullOrEmpty(_latestNewsKey) && App.Settings.Prop.LastSeenNewsKey != _latestNewsKey)
-        {
-            ShowNewsBadge();
-        }
         if (IsLoaded)
         {
             if (RootFrame?.Content is Pages.ModCustomPage activeModPage && !items.ContainsKey(activeModPage.PageKey))
@@ -2187,6 +2177,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
+    private bool IsTitleBarPage(NavigationItem item)
+    {
+        return ReferenceEquals(item, GlobalNavItem) || Voidstrap.Utility.Platform.IsWindows && (ReferenceEquals(item, ExtensionsNavItem) || ReferenceEquals(item, ManagerNavItem));
+    }
+
     private Dictionary<Type, string> GetSidebarPageNames()
     {
         Dictionary<Type, string> pages = new Dictionary<Type, string>();
@@ -2195,7 +2190,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             .Concat(RootNavigation.Footer.OfType<NavigationItem>());
         foreach (NavigationItem item in items)
         {
-            if (!item.IsEnabled || item.Visibility != Visibility.Visible || item.PageType == null)
+            if (!item.IsEnabled || item.PageType == null || item.Visibility != Visibility.Visible && !IsTitleBarPage(item))
             {
                 continue;
             }
@@ -2929,10 +2924,22 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             SpotifyPlayer.Hide();
     }
 
-    private void TopNavNews_Click(object sender, RoutedEventArgs e)
+    private void TopNavGlobal_Click(object sender, RoutedEventArgs e)
     {
         PagesMenuPopup.IsOpen = false;
-        NavigateTopNav(typeof(NewsPage));
+        NavigateTopNav(typeof(GBSEditorPage));
+    }
+
+    private void ExtensionsTitleButton_Click(object sender, RoutedEventArgs e)
+    {
+        CloseOverlayPopups();
+        NavigateTopNav(typeof(ExtensionPage));
+    }
+
+    private void ManagerTitleButton_Click(object sender, RoutedEventArgs e)
+    {
+        CloseOverlayPopups();
+        NavigateTopNav(typeof(DownloadsPage));
     }
 
     private VoidstrapModsPage? _voidstrapModsPage;
@@ -4049,7 +4056,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                     "more" => typeof(MorePage),
                     "global" or "gbseditor" or "globalbasicsettings" => typeof(GBSEditorPage),
                     "shortcuts" => typeof(ShortcutsPage),
-                    "news" => typeof(NewsPage),
                     "extensions" or "extension" => typeof(ExtensionPage),
                     "downloads" or "manager" => typeof(DownloadsPage),
                     "settings" or "channel" => typeof(ChannelPage),
@@ -4960,7 +4966,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _settingsIconMotion = new Voidstrap.UI.SettingsIconMotion(SettingsNavItem);
         _ = RefreshAccountButtonAsync();
         Voidstrap.UI.Elements.Settings.Pages.ExtensionViewModel.AnyProgressChanged += OnExtensionProgressChanged;
-        _ = CheckForNewNewsAsync();
         _ = FetchRpcAvatarAsync();
     }
 
@@ -5099,10 +5104,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void RootNavigation_RpcNavigated(INavigation sender, RoutedNavigationEventArgs e)
     {
         UpdateDiscordPresence();
-        if (RootFrame?.Content is Voidstrap.UI.Elements.Settings.Pages.NewsPage)
-        {
-            ClearNewsBadge();
-        }
     }
 
     private void MainWindow_ActivatedRpc(object? sender, EventArgs e)
@@ -5196,8 +5197,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             RootNavigation.NavigateExternal(_accountsPage);
         }
     }
-
-    private string _latestNewsKey = "";
 
     private string _voidRpcSmallImageUrl = "";
 
@@ -5346,128 +5345,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                     catch { }
                 }
             }
-        }
-    }
-
-    private async Task CheckForNewNewsAsync()
-    {
-        try
-        {
-            using var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeCts.SafeToken());
-            cts.CancelAfter(TimeSpan.FromSeconds(15));
-            using var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, NewsViewModel.FeedUrl);
-            using var response = await App
-                .HttpClient.SendAsync(request, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cts.Token)
-                .ConfigureAwait(continueOnCapturedContext: false);
-            if (!response.IsSuccessStatusCode)
-            {
-                return;
-            }
-            string text = await Voidstrap
-                .Utility.Http.ReadStringBoundedAsync(response.Content, 2000000, cts.Token)
-                .ConfigureAwait(continueOnCapturedContext: false);
-            string key = "";
-            using (var doc = System.Text.Json.JsonDocument.Parse(text))
-            {
-                if (doc.RootElement.ValueKind == System.Text.Json.JsonValueKind.Array && doc.RootElement.GetArrayLength() > 0)
-                {
-                    var first = doc.RootElement[0];
-                    string title =
-                        first.TryGetProperty("Title", out var tEl) && tEl.ValueKind == System.Text.Json.JsonValueKind.String
-                            ? tEl.GetString() ?? ""
-                            : "";
-                    string date =
-                        first.TryGetProperty("Date", out var dEl) && dEl.ValueKind == System.Text.Json.JsonValueKind.String
-                            ? dEl.GetString() ?? ""
-                            : "";
-                    if (title.Length > 200)
-                    {
-                        title = title.Substring(0, 200);
-                    }
-                    key = date + "|" + title;
-                }
-            }
-            if (string.IsNullOrEmpty(key) || key == "|")
-            {
-                return;
-            }
-            _latestNewsKey = key;
-            string seen = App.Settings.Prop.LastSeenNewsKey;
-            if (string.IsNullOrEmpty(seen))
-            {
-                App.Settings.Prop.LastSeenNewsKey = key;
-                App.Settings.SaveDeferred();
-                return;
-            }
-            if (seen != key)
-            {
-                await Dispatcher.InvokeAsync(ShowNewsBadge);
-            }
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteLine("NewsBadge", "Check failed: " + ex.GetType().Name);
-        }
-    }
-
-    private void ShowNewsBadge()
-    {
-        try
-        {
-            if (NewsNavItem == null)
-            {
-                return;
-            }
-            NewsNavItem.Content = BuildBadgedLabel(GetSidebarDisplayName("NewsNavItem", "News"));
-            if (MoreNavItem != null)
-            {
-                MoreNavItem.Content = BuildBadgedLabel(GetSidebarDisplayName("MoreNavItem", "More"));
-            }
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("MainWindow::ShowNewsBadge", ex);
-        }
-    }
-
-    private static System.Windows.Controls.StackPanel BuildBadgedLabel(string text)
-    {
-        var panel = new System.Windows.Controls.StackPanel { Orientation = System.Windows.Controls.Orientation.Horizontal };
-        panel.Children.Add(new System.Windows.Controls.TextBlock { Text = text, VerticalAlignment = VerticalAlignment.Center });
-        panel.Children.Add(
-            new System.Windows.Shapes.Ellipse
-            {
-                Width = 7.0,
-                Height = 7.0,
-                Margin = new Thickness(6.0, 1.0, 0.0, 0.0),
-                VerticalAlignment = VerticalAlignment.Center,
-                Fill = new SolidColorBrush(Color.FromRgb(248, 113, 113)),
-            }
-        );
-        return panel;
-    }
-
-    private void ClearNewsBadge()
-    {
-        try
-        {
-            if (NewsNavItem != null && NewsNavItem.Content is not string)
-            {
-                NewsNavItem.Content = GetSidebarDisplayName("NewsNavItem", "News");
-            }
-            if (MoreNavItem != null && MoreNavItem.Content is not string)
-            {
-                MoreNavItem.Content = GetSidebarDisplayName("MoreNavItem", "More");
-            }
-            if (!string.IsNullOrEmpty(_latestNewsKey) && App.Settings.Prop.LastSeenNewsKey != _latestNewsKey)
-            {
-                App.Settings.Prop.LastSeenNewsKey = _latestNewsKey;
-                App.Settings.SaveDeferred();
-            }
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteException("MainWindow::ClearNewsBadge", ex);
         }
     }
 
@@ -6021,7 +5898,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         (typeof(FastFlagEditorPage), Key.D6, "Ctrl+6"),
         (typeof(GBSEditorPage), Key.D7, "Ctrl+7"),
         (typeof(ModsPage), Key.D8, "Ctrl+8"),
-        (typeof(NewsPage), Key.D9, "Ctrl+9"),
         (typeof(DownloadsPage), Key.D0, "Ctrl+0"),
         (typeof(ExtensionPage), Key.E, "Ctrl+E"),
         (typeof(ShortcutsPage), Key.U, "Ctrl+U"),
@@ -8350,7 +8226,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     }
 
     private Border[] ModalPanels =>
-        [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel, NewsItemPanel, GameDetailPanel, BootstrapperImportPanel];
+        [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel, GameDetailPanel, BootstrapperImportPanel];
 
     private bool ModalIsSidebar => ReferenceEquals(_modalPanel, LaunchTargetPanel);
 
@@ -8685,8 +8561,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             ResetCommandPalette();
         if (ReferenceEquals(_modalPanel, ReleaseNotesPanel))
             ReleaseReleaseNotes();
-        if (ReferenceEquals(_modalPanel, NewsItemPanel))
-            ReleaseNewsItem();
         if (ReferenceEquals(_modalPanel, GameDetailPanel))
             ReleaseGameDetail();
         if (ReferenceEquals(_modalPanel, BootstrapperImportPanel))
@@ -8765,15 +8639,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         OpenSimpleModal(ReleaseNotesPanel, ReleaseNotesPanelScale);
     }
 
-    public void ShowNewsItem(Voidstrap.UI.ViewModels.Settings.NewsItem item)
-    {
-        ReleaseNewsItem();
-        Voidstrap.UI.Elements.Dialogs.NewsItemDialog view = new(item);
-        view.CloseRequested += NewsItem_CloseRequested;
-        NewsItemHost.Content = view;
-        OpenSimpleModal(NewsItemPanel, NewsItemPanelScale);
-    }
-
     private Action<string>? _bootstrapperImportChosen;
 
     public void ShowBootstrapperImport(Action<string> chosen)
@@ -8846,19 +8711,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         view.ViewPageRequested -= GameDetail_ViewPageRequested;
         view.Release();
         GameDetailHost.Content = null;
-    }
-
-    private void NewsItem_CloseRequested(object? sender, EventArgs e)
-    {
-        CloseSimpleModal();
-    }
-
-    private void ReleaseNewsItem()
-    {
-        if (NewsItemHost.Content is not Voidstrap.UI.Elements.Dialogs.NewsItemDialog view)
-            return;
-        view.CloseRequested -= NewsItem_CloseRequested;
-        NewsItemHost.Content = null;
     }
 
     private void ReleaseNotes_CloseRequested(object? sender, EventArgs e)

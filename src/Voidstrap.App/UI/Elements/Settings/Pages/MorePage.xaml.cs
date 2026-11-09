@@ -12,19 +12,9 @@ public partial class MorePage : UiPage
         InitializeComponent();
     }
 
-    private void OpenGlobal_Click(object sender, RoutedEventArgs e)
-    {
-        Open(typeof(GBSEditorPage));
-    }
-
     private void OpenShortcuts_Click(object sender, RoutedEventArgs e)
     {
         Open(typeof(ShortcutsPage));
-    }
-
-    private void OpenNews_Click(object sender, RoutedEventArgs e)
-    {
-        Open(typeof(NewsPage));
     }
 
     private void Open(Type pageType)

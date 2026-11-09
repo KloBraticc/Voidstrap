@@ -333,7 +333,7 @@ public static class McpToolCatalog
                 {
                     ["page"] = P(
                         "string",
-                        "Home, Integrations, Deployment, Appearance, FastFlags, FastFlagEditor, Mods, More, Global, Shortcuts, News, Extensions, Manager, Settings, Accounts, Library, PrivateServers."
+                        "Home, Integrations, Deployment, Appearance, FastFlags, FastFlagEditor, Mods, More, Global, Shortcuts, Extensions, Manager, Settings, Accounts, Library, PrivateServers."
                     ),
                     ["search"] = P("string", "Setting to search for and highlight."),
                     ["focusWindow"] = P("boolean", "Bring the window to the front (default true)."),
