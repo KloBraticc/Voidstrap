@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
+using System.Windows.Threading;
 
 namespace Voidstrap.UI.Elements.Controls
 {
@@ -27,6 +28,8 @@ namespace Voidstrap.UI.Elements.Controls
         private const int SoftwareFrameLimit = 1024;
 
         private static readonly bool Supports3D = Voidstrap.Utility.Platform.IsWindows;
+
+        private static readonly Color PlaceholderColor = (Color)ColorConverter.ConvertFromString(PlaceholderHex);
 
         private static readonly Vector3D AmbientLight = new Vector3D(0xA9 / 255.0, 0xAD / 255.0, 0xB6 / 255.0);
 
@@ -62,7 +65,6 @@ namespace Voidstrap.UI.Elements.Controls
 
         private readonly GeometryModel3D[] _faceModels = new GeometryModel3D[FaceAxes.Length];
 
-
         private readonly byte[]?[] _softwareFaces = new byte[FaceAxes.Length][];
 
         private readonly int[] _softwareFaceWidths = new int[FaceAxes.Length];
@@ -85,6 +87,7 @@ namespace Voidstrap.UI.Elements.Controls
 
         private bool _orbiting;
 
+        private bool _softwareRenderPending;
 
         private bool _initialized;
 
@@ -95,7 +98,7 @@ namespace Voidstrap.UI.Elements.Controls
             {
                 ((Grid)Viewport.Parent).Children.Remove(Viewport);
                 SoftwareView.Visibility = Visibility.Visible;
-                SizeChanged += (_, _) => RenderSoftware();
+                SizeChanged += OnControlSizeChanged;
             }
             BuildBall();
             UpdateCamera();
@@ -125,6 +128,11 @@ namespace Voidstrap.UI.Elements.Controls
         {
             if (sender is SkyboxPreviewControl control && control._initialized)
                 _ = control.ReloadAsync();
+        }
+
+        private void OnControlSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            RequestSoftwareRender();
         }
 
         private void OnControlUnloaded(object sender, RoutedEventArgs e)
@@ -197,12 +205,22 @@ namespace Voidstrap.UI.Elements.Controls
             if (Supports3D)
                 return;
             for (int i = 0; i < _softwareFaces.Length; i++)
-                _softwareFaces[i] = i < faces.Length ? ReadSoftwareFace(faces[i], out _softwareFaceWidths[i], out _softwareFaceHeights[i]) : null;
-            RenderSoftware();
+            {
+                _softwareFaces[i] = i < faces.Length
+                    ? ReadSoftwareFace(faces[i], out _softwareFaceWidths[i], out _softwareFaceHeights[i])
+                    : null;
+            }
+            RequestSoftwareRender();
         }
 
         private static byte[] ReadSoftwareFace(BitmapSource face, out int width, out int height)
         {
+            if (face.Format != PixelFormats.Bgra32)
+            {
+                FormatConvertedBitmap converted = new FormatConvertedBitmap(face, PixelFormats.Bgra32, null, 0);
+                converted.Freeze();
+                face = converted;
+            }
             width = face.PixelWidth;
             height = face.PixelHeight;
             byte[] pixels = new byte[width * height * 4];
@@ -210,7 +228,9 @@ namespace Voidstrap.UI.Elements.Controls
             if (width <= SoftwareFaceLimit && height <= SoftwareFaceLimit)
                 return pixels;
             double scale = Math.Min((double)SoftwareFaceLimit / width, (double)SoftwareFaceLimit / height);
-            Raster resized = new Raster(width, height, pixels).Resize(Math.Max(1, (int)(width * scale)), Math.Max(1, (int)(height * scale)), RasterFilter.Bilinear);
+            int targetWidth = Math.Max(1, (int)(width * scale));
+            int targetHeight = Math.Max(1, (int)(height * scale));
+            Raster resized = new Raster(width, height, pixels).Resize(targetWidth, targetHeight, RasterFilter.Bilinear);
             width = resized.Width;
             height = resized.Height;
             return resized.Pixels;
@@ -218,7 +238,7 @@ namespace Voidstrap.UI.Elements.Controls
 
         private void ApplyPlaceholder()
         {
-            SolidColorBrush brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(PlaceholderHex));
+            SolidColorBrush brush = new SolidColorBrush(PlaceholderColor);
             brush.Freeze();
             DiffuseMaterial material = new DiffuseMaterial(brush);
             material.Freeze();
@@ -228,7 +248,7 @@ namespace Voidstrap.UI.Elements.Controls
                 model.BackMaterial = material;
             }
             Array.Clear(_softwareFaces);
-            RenderSoftware();
+            RequestSoftwareRender();
         }
 
         private void BuildBall()
@@ -300,7 +320,7 @@ namespace Voidstrap.UI.Elements.Controls
             double z = _distance * Math.Cos(pitchRad) * Math.Cos(yawRad);
             Camera.Position = new Point3D(x, y, z);
             Camera.LookDirection = new Vector3D(-x, -y, -z);
-            RenderSoftware();
+            RequestSoftwareRender();
         }
 
         private static Vector3D ToLight(Vector3D direction)
@@ -309,8 +329,17 @@ namespace Voidstrap.UI.Elements.Controls
             return -direction;
         }
 
+        private void RequestSoftwareRender()
+        {
+            if (Supports3D || !_initialized || _softwareRenderPending)
+                return;
+            _softwareRenderPending = true;
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(RenderSoftware));
+        }
+
         private void RenderSoftware()
         {
+            _softwareRenderPending = false;
             if (Supports3D || !_initialized)
                 return;
             DpiScale dpi = VisualTreeHelper.GetDpi(this);
@@ -324,7 +353,6 @@ namespace Voidstrap.UI.Elements.Controls
                 _softwareFrame = new int[width * height];
                 SoftwareView.Source = _softwareBitmap;
             }
-
             Vector3D origin = (Vector3D)Camera.Position;
             Vector3D forward = Camera.LookDirection;
             forward.Normalize();
@@ -334,8 +362,6 @@ namespace Voidstrap.UI.Elements.Controls
             double tanX = Math.Tan(Camera.FieldOfView * Math.PI / 360.0);
             double tanY = tanX * height / width;
             double c = origin.LengthSquared - 1.0;
-            Color placeholder = (Color)ColorConverter.ConvertFromString(PlaceholderHex);
-
             for (int py = 0; py < height; py++)
             {
                 double sy = (1.0 - 2.0 * (py + 0.5) / height) * tanY;
@@ -357,7 +383,7 @@ namespace Voidstrap.UI.Elements.Controls
                     Vector3D light = AmbientLight;
                     foreach ((Vector3D direction, Vector3D color) in DirectionalLights)
                         light += color * Math.Max(0.0, Vector3D.DotProduct(normal, direction));
-                    SampleFace(normal, placeholder, out byte blue, out byte green, out byte red);
+                    SampleFace(normal, out byte blue, out byte green, out byte red);
                     _softwareFrame[index] = unchecked((int)0xFF000000)
                         | Shade(red, light.X) << 16
                         | Shade(green, light.Y) << 8
@@ -367,7 +393,7 @@ namespace Voidstrap.UI.Elements.Controls
             _softwareBitmap.WritePixels(new Int32Rect(0, 0, width, height), _softwareFrame, width * 4, 0);
         }
 
-        private void SampleFace(Vector3D normal, Color placeholder, out byte blue, out byte green, out byte red)
+        private void SampleFace(Vector3D normal, out byte blue, out byte green, out byte red)
         {
             int face = 0;
             double major = double.MinValue;
@@ -383,9 +409,9 @@ namespace Voidstrap.UI.Elements.Controls
             byte[]? pixels = _softwareFaces[face];
             if (pixels == null)
             {
-                blue = placeholder.B;
-                green = placeholder.G;
-                red = placeholder.R;
+                blue = PlaceholderColor.B;
+                green = PlaceholderColor.G;
+                red = PlaceholderColor.R;
                 return;
             }
             double s = Vector3D.DotProduct(normal, FaceAxes[face].S) / major;
