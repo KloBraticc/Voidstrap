@@ -675,15 +675,19 @@ public partial class SessionChatWindow : Window
     {
         if (sender is not FrameworkElement element || element.DataContext is not ChatMessageItem item || !item.Animate)
             return;
-        if (element.RenderTransform is not TransformGroup group || group.Children.Count < 2)
-            return;
         item.Animate = false;
+        ScaleTransform zoom = new();
+        TranslateTransform slide = new();
+        TransformGroup group = new();
+        group.Children.Add(zoom);
+        group.Children.Add(slide);
+        element.RenderTransform = group;
         CubicEase ease = new() { EasingMode = EasingMode.EaseOut };
         Duration duration = TimeSpan.FromMilliseconds(260);
         DoubleAnimation scale = new(0.8, 1, duration) { EasingFunction = ease };
-        group.Children[0].BeginAnimation(ScaleTransform.ScaleXProperty, scale);
-        group.Children[0].BeginAnimation(ScaleTransform.ScaleYProperty, scale);
-        group.Children[1].BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(16, 0, duration) { EasingFunction = ease });
+        zoom.BeginAnimation(ScaleTransform.ScaleXProperty, scale);
+        zoom.BeginAnimation(ScaleTransform.ScaleYProperty, scale);
+        slide.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(16, 0, duration) { EasingFunction = ease });
         element.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(180)));
     }
 
