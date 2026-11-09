@@ -27,6 +27,8 @@ public sealed class GameVideoView : ContentControl
 
     private WebView2CompositionControl? _view;
 
+    private WebView2CompositionControl? _pendingView;
+
     private bool _starting;
 
     private DispatcherTimer? _frameTimer;
@@ -168,7 +170,20 @@ public sealed class GameVideoView : ContentControl
             );
             view = new WebView2CompositionControl { DefaultBackgroundColor = System.Drawing.Color.Black };
             Content = view;
-            await view.EnsureCoreWebView2Async(environment);
+            _pendingView = view;
+            try
+            {
+                await view.EnsureCoreWebView2Async(environment);
+            }
+            finally
+            {
+                _pendingView = null;
+            }
+            if (!ReferenceEquals(Content, view))
+            {
+                view.Dispose();
+                return;
+            }
             if (!IsVisible || VideoPath != path)
             {
                 Teardown();
@@ -235,6 +250,7 @@ public sealed class GameVideoView : ContentControl
         WebView2CompositionControl? view = _view ?? Content as WebView2CompositionControl;
         _view = null;
         Content = null;
-        view?.Dispose();
+        if (!ReferenceEquals(view, _pendingView))
+            view?.Dispose();
     }
 }
