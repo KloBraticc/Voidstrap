@@ -9692,4 +9692,10 @@ Ho permets?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>No s’ha pogut importar la configuració: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Guia per a desenvolupadors</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Afegeix el control de finestra al teu joc amb Luau.</value>
+  </data>
 </root>

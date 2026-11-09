@@ -9693,4 +9693,10 @@ Ceadaigh é?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Níorbh fhéidir na socruithe a iompórtáil: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Treoir forbróirí</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Cuir rialú fuinneoige le do chluiche féin le Luau.</value>
+  </data>
 </root>

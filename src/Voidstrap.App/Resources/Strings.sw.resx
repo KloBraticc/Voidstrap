@@ -9692,4 +9692,10 @@ Je, unairuhusu?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Mipangilio haikuweza kuingizwa: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Mwongozo wa wasanidi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Ongeza udhibiti wa dirisha kwenye mchezo wako kwa Luau.</value>
+  </data>
 </root>

@@ -9692,4 +9692,10 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>ترتیبات درآمد نہیں ہو سکیں: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>ڈویلپر گائیڈ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Luau کے ساتھ اپنے گیم میں ونڈو کنٹرول شامل کریں۔</value>
+  </data>
 </root>

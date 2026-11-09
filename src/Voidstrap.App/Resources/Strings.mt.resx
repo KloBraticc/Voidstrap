@@ -9693,4 +9693,10 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Is settings ma setgħux jiġu importati: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Gwida għall-iżviluppaturi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Żid il-kontroll tat-tieqa mal-logħba tiegħek b’Luau.</value>
+  </data>
 </root>

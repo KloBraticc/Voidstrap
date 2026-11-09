@@ -9693,4 +9693,10 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Չհաջողվեց ներմուծել կարգավորումները՝ {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Մշակողի ուղեցույց</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Ավելացրեք պատուհանի կառավարում ձեր խաղին Luau-ով։</value>
+  </data>
 </root>

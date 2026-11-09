@@ -9693,4 +9693,10 @@ kwe ya?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Enweghị ike ibubata ntọala: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Ntuziaka ndị mmepe</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Tinye njikwa windo n’egwuregwu gị site na Luau.</value>
+  </data>
 </root>

@@ -9692,4 +9692,10 @@ icazə verilir?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Parametrləri idxal etmək mümkün olmadı: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Tərtibatçı bələdçisi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Luau ilə öz oyununuza pəncərə idarəsi əlavə edin.</value>
+  </data>
 </root>

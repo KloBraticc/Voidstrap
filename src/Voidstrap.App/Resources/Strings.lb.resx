@@ -9693,4 +9693,10 @@ Erlaabt et?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>D’Astellunge konnten net importéiert ginn: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Entwécklerguide</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Füügt mat Luau Fënstersteierung an Äert eegent Spill derbäi.</value>
+  </data>
 </root>

@@ -9693,4 +9693,10 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>ਸੈਟਿੰਗਾਂ ਆਯਾਤ ਨਹੀਂ ਹੋ ਸਕੀਆਂ: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>ਡਿਵੈਲਪਰ ਗਾਈਡ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Luau ਨਾਲ ਆਪਣੀ ਗੇਮ ਵਿੱਚ ਵਿੰਡੋ ਕੰਟਰੋਲ ਸ਼ਾਮਲ ਕਰੋ।</value>
+  </data>
 </root>

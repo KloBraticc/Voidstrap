@@ -10005,4 +10005,10 @@ Voidstrap блокирует программы, другие папки и Ва
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Не удалось импортировать настройки: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Руководство для разработчиков</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Добавьте управление окном в свою игру с помощью Luau.</value>
+  </data>
 </root>

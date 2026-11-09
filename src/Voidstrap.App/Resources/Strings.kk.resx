@@ -9693,4 +9693,10 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Параметрлерді импорттау мүмкін болмады: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Әзірлеуші нұсқаулығы</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Luau арқылы өз ойыныңызға терезені басқаруды қосыңыз.</value>
+  </data>
 </root>

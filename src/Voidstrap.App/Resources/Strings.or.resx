@@ -9693,4 +9693,10 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>ସେଟିଂସ ଆମଦାନୀ ହୋଇପାରିଲା ନାହିଁ: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>ଡେଭେଲପର୍ ଗାଇଡ୍</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Luau ସହିତ ଆପଣଙ୍କ ଖେଳରେ ୱିଣ୍ଡୋ ନିୟନ୍ତ୍ରଣ ଯୋଡନ୍ତୁ।</value>
+  </data>
 </root>

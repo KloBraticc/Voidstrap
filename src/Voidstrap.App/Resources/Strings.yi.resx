@@ -9692,4 +9692,10 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>מען האָט נישט געקענט אימפּאָרטירן די איינשטעלונגען: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>אַנטוויקלער וועגווײַזער</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>לייגט צו פֿענצטער קאָנטראָל צו אײַער שפּיל מיט Luau.</value>
+  </data>
 </root>

@@ -9693,4 +9693,10 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>ບໍ່ສາມາດນຳເຂົ້າການຕັ້ງຄ່າໄດ້: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>ຄູ່ມືນັກພັດທະນາ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>ເພີ່ມການຄວບຄຸມໜ້າຕ່າງໃສ່ເກມຂອງທ່ານດ້ວຍ Luau.</value>
+  </data>
 </root>

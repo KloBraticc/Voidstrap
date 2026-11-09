@@ -9693,4 +9693,10 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Поставките не можеа да се увезат: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Водич за програмери</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Додајте контрола на прозорецот во својата игра со Luau.</value>
+  </data>
 </root>

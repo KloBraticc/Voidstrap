@@ -9693,4 +9693,10 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Тохиргоог импортлож чадсангүй: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Хөгжүүлэгчийн гарын авлага</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Luau ашиглан өөрийн тоглоомд цонхны удирдлага нэмээрэй.</value>
+  </data>
 </root>

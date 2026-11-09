@@ -9997,4 +9997,10 @@ Benarkan?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Tetapan tidak dapat diimport: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Panduan pembangun</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Tambah kawalan tetingkap pada permainan anda sendiri dengan Luau.</value>
+  </data>
 </root>

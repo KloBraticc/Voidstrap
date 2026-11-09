@@ -10007,4 +10007,10 @@ Leisti?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Nepavyko importuoti nustatymų: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Kūrėjų vadovas</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Pridėkite lango valdymą į savo žaidimą su Luau.</value>
+  </data>
 </root>

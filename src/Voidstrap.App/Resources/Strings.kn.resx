@@ -9693,4 +9693,10 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಆಮದು ಮಾಡಲಾಗಲಿಲ್ಲ: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>ಡೆವಲಪರ್ ಮಾರ್ಗದರ್ಶಿ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Luau ಬಳಸಿ ನಿಮ್ಮ ಆಟಕ್ಕೆ ವಿಂಡೋ ನಿಯಂತ್ರಣ ಸೇರಿಸಿ.</value>
+  </data>
 </root>

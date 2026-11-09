@@ -9692,4 +9692,10 @@ Uyakuvumela?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Izilungiselelo azikwazanga ukungeniswa: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Umhlahlandlela wonjiniyela</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Engeza ukulawula kwewindi emdlalweni wakho nge Luau.</value>
+  </data>
 </root>

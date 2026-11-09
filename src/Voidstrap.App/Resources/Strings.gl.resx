@@ -9693,4 +9693,10 @@ Permíteo?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Non se puideron importar os axustes: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Guía para desenvolvedores</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Engade o control da xanela ao teu propio xogo con Luau.</value>
+  </data>
 </root>

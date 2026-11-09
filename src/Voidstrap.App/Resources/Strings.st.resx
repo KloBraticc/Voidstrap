@@ -9692,4 +9692,10 @@ E lumella?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Disetting ha di a kgona ho kenngwa: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Tataiso ya bahlahisi</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Kenya taolo ya fensetere papading ya hao ka Luau.</value>
+  </data>
 </root>

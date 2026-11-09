@@ -9693,4 +9693,10 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>सेटिंग्ज आयात करता आल्या नाहीत: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>डेव्हलपर मार्गदर्शक</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Luau वापरून तुमच्या गेममध्ये विंडो नियंत्रण जोडा.</value>
+  </data>
 </root>

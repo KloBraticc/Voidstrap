@@ -9692,4 +9692,10 @@ Allow it?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Settings could not be imported: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Developer guide</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Add window control to your own game with Luau.</value>
+  </data>
 </root>

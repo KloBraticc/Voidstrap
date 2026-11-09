@@ -10003,4 +10003,10 @@ Payagan ba?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Hindi ma import ang settings: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Gabay para sa developer</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Magdagdag ng window control sa sarili mong laro gamit ang Luau.</value>
+  </data>
 </root>

@@ -9693,4 +9693,10 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>ترتیبات نشول راوړل: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>د پراختیا کوونکو لارښود</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>د Luau سره خپلې لوبې ته د کړکۍ کنټرول ورزیات کړئ.</value>
+  </data>
 </root>

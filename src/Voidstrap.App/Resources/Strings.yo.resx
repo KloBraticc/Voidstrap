@@ -9692,4 +9692,10 @@ Gba laaye?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>A kò lè kó àwọn ètò wọlé: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Ìtọ́sọ́nà olùgbéejáde</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Ṣàfikún ìṣàkóso fèrèsé sí eré rẹ pẹ̀lú Luau.</value>
+  </data>
 </root>

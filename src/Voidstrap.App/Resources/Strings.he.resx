@@ -9693,4 +9693,10 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>לא ניתן היה לייבא את ההגדרות: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>מדריך למפתחים</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>הוסיפו שליטה בחלון למשחק שלכם עם Luau.</value>
+  </data>
 </root>

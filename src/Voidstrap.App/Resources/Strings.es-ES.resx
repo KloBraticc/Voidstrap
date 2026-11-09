@@ -10005,4 +10005,10 @@ Voidstrap bloquea programas, otras carpetas y tu inicio de sesión de Roblox, pe
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>No se pudieron importar los ajustes: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Guía para desarrolladores</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Añade el control de ventana a tu propio juego con Luau.</value>
+  </data>
 </root>

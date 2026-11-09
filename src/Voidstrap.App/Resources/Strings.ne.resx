@@ -9693,4 +9693,10 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>सेटिङहरू आयात गर्न सकिएन: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>विकासकर्ता गाइड</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Luau प्रयोग गरेर आफ्नो खेलमा विन्डो नियन्त्रण थप्नुहोस्।</value>
+  </data>
 </root>

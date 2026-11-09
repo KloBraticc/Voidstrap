@@ -10008,4 +10008,10 @@ Consentire?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Impossibile importare le impostazioni: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Guida per sviluppatori</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Aggiungi il controllo della finestra al tuo gioco con Luau.</value>
+  </data>
 </root>

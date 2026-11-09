@@ -9693,4 +9693,10 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>සැකසුම් ආයාත කළ නොහැකි විය: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>සංවර්ධක මාර්ගෝපදේශය</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Luau සමඟ ඔබේම ක්‍රීඩාවට කවුළු පාලනය එක් කරන්න.</value>
+  </data>
 </root>

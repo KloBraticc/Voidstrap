@@ -9693,4 +9693,10 @@ Bada shi?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Ba a iya shigo da saitunan ba: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Jagorar masu haɓakawa</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Ƙara sarrafa taga a wasanka da Luau.</value>
+  </data>
 </root>

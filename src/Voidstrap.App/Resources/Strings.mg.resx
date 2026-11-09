@@ -9693,4 +9693,10 @@ Avelao izany?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Tsy afaka nampidirina ny fikirana: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Torolalana ho an’ny mpamorona</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Ampio fanaraha-maso ny varavarankely amin’ny lalaonao amin’ny Luau.</value>
+  </data>
 </root>

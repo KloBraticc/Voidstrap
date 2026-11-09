@@ -10003,4 +10003,10 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Не вдалося імпортувати налаштування: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Посібник для розробників</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Додайте керування вікном у свою гру за допомогою Luau.</value>
+  </data>
 </root>

@@ -10008,4 +10008,10 @@ Cho phép?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Không thể nhập cài đặt: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Hướng dẫn cho nhà phát triển</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Thêm điều khiển cửa sổ vào trò chơi của bạn bằng Luau.</value>
+  </data>
 </root>

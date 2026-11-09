@@ -10006,4 +10006,10 @@ Zezwolić?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Nie udało się zaimportować ustawień: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Poradnik dla twórców</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Dodaj sterowanie oknem do swojej gry za pomocą Luau.</value>
+  </data>
 </root>

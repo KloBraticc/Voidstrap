@@ -9693,4 +9693,10 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>سيٽنگون درآمد نه ٿي سگهيون: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>ڊولپر رهنمائي</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Luau سان پنهنجي راند ۾ ونڊو ڪنٽرول شامل ڪريو.</value>
+  </data>
 </root>

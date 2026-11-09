@@ -9692,4 +9692,10 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>সেটিংস ইমপোর্ট করা যায়নি: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>ডেভেলপার গাইড</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Luau দিয়ে আপনার নিজের গেমে উইন্ডো নিয়ন্ত্রণ যোগ করুন।</value>
+  </data>
 </root>

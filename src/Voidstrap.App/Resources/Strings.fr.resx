@@ -10004,4 +10004,10 @@ Autoriser ?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Impossible d’importer les paramètres : {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Guide du développeur</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Ajoutez le contrôle de fenêtre à votre propre jeu avec Luau.</value>
+  </data>
 </root>

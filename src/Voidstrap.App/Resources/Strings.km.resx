@@ -9693,4 +9693,10 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>មិនអាចនាំចូលការកំណត់បានទេ៖ {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>មគ្គុទ្ទេសក៍អ្នកអភិវឌ្ឍន៍</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>បន្ថែមការគ្រប់គ្រងបង្អួចទៅហ្គេមរបស់អ្នកដោយប្រើ Luau។</value>
+  </data>
 </root>

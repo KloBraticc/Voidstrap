@@ -9693,4 +9693,10 @@ Vil du tillate det?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Innstillingene kunne ikke importeres: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Utviklerveiledning</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Legg til vinduskontroll i ditt eget spill med Luau.</value>
+  </data>
 </root>

@@ -9692,4 +9692,10 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>ቅንብሮች ሊገቡ አልቻሉም፦ {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>የገንቢ መመሪያ</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>በLuau የመስኮት ቁጥጥርን ወደ የራስዎ ጨዋታ ያክሉ።</value>
+  </data>
 </root>

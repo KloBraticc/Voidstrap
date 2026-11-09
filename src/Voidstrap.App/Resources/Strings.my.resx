@@ -9692,4 +9692,10 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>ဆက်တင်များကို တင်သွင်း၍ မရပါ: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>ဆော့ဖ်ဝဲရေးသူ လမ်းညွှန်</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Luau ဖြင့် သင့်ဂိမ်းထဲသို့ ဝင်းဒိုး ထိန်းချုပ်မှု ထည့်ပါ။</value>
+  </data>
 </root>

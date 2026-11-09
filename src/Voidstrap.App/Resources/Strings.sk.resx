@@ -9693,4 +9693,10 @@ Povoliť?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Nastavenia sa nepodarilo importovať: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Príručka pre vývojárov</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Pridajte ovládanie okna do svojej hry pomocou Luau.</value>
+  </data>
 </root>

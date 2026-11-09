@@ -9693,4 +9693,10 @@ Whakaaetia?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Kāore i taea te kawemai i ngā tautuhinga: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Aratohu kaiwhakawhanake</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Tāpirihia te mana matapihi ki tō ake kēmu mā Luau.</value>
+  </data>
 </root>

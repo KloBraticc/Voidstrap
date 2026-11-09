@@ -9692,4 +9692,10 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Танзимотро ворид кардан ғайриимкон шуд: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Дастури таҳиягар</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Бо Luau ба бозии худ идоракунии равзанаро илова кунед.</value>
+  </data>
 </root>

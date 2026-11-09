@@ -9692,4 +9692,10 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Δεν ήταν δυνατή η εισαγωγή των ρυθμίσεων: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Οδηγός προγραμματιστών</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Προσθέστε έλεγχο παραθύρου στο δικό σας παιχνίδι με Luau.</value>
+  </data>
 </root>

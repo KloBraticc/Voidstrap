@@ -9693,4 +9693,10 @@ Emera?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Igenamiterere ntiryashoboye kwinjizwa: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Ubuyobozi bw’abakora porogaramu</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Ongeraho kugenzura idirishya mu mukino wawe ukoresheje Luau.</value>
+  </data>
 </root>

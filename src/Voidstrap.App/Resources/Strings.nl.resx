@@ -10007,4 +10007,10 @@ Toestaan?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Instellingen konden niet worden geïmporteerd: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Handleiding voor ontwikkelaars</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Voeg met Luau vensterbediening toe aan je eigen game.</value>
+  </data>
 </root>

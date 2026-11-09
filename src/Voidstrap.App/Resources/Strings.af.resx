@@ -9692,4 +9692,10 @@ Laat dit toe?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Instellings kon nie ingevoer word nie: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Ontwikkelaarsgids</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Voeg vensterbeheer by jou eie speletjie met Luau.</value>
+  </data>
 </root>

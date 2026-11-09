@@ -10008,4 +10008,10 @@ Izinkan?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Pengaturan tidak dapat diimpor: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Panduan pengembang</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Tambahkan kontrol jendela ke game Anda sendiri dengan Luau.</value>
+  </data>
 </root>

@@ -10005,4 +10005,10 @@ Dopustiti?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Postavke nije moguće uvesti: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Vodič za programere</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Dodaj upravljanje prozorom u svoju igru pomoću Luau.</value>
+  </data>
 </root>

@@ -10006,4 +10006,10 @@ Povolit?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Nastavení nelze importovat: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Příručka pro vývojáře</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Přidejte ovládání okna do své hry pomocí Luau.</value>
+  </data>
 </root>

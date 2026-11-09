@@ -9693,4 +9693,10 @@ Leyfa það?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Ekki tókst að flytja inn stillingar: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Leiðbeiningar fyrir forritara</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Bættu gluggastýringu við þinn eigin leik með Luau.</value>
+  </data>
 </root>

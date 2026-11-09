@@ -9693,4 +9693,10 @@ Oggolow?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Dejinta lama soo dejin karin: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Hagaha horumariyeyaasha</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Ku dar xakamaynta daaqadda ciyaartaada adoo isticmaalaya Luau.</value>
+  </data>
 </root>

@@ -9693,4 +9693,10 @@ E lejon atë?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Cilësimet nuk mund të importoheshin: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Udhëzues për zhvilluesit</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Shto kontrollin e dritares në lojën tënde me Luau.</value>
+  </data>
 </root>

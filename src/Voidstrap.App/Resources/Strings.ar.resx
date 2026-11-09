@@ -10004,4 +10004,10 @@
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>تعذّر استيراد الإعدادات: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>دليل المطورين</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>أضف التحكم في النافذة إلى لعبتك باستخدام Luau.</value>
+  </data>
 </root>

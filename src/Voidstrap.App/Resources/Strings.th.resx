@@ -10000,4 +10000,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>ไม่สามารถนำเข้าการตั้งค่าได้: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>คู่มือนักพัฒนา</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>เพิ่มการควบคุมหน้าต่างให้เกมของคุณด้วย Luau</value>
+  </data>
 </root>

@@ -9692,4 +9692,10 @@ Baimendu al duzu?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Ezin izan dira ezarpenak inportatu: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Garatzaileen gida</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Gehitu leihoaren kontrola zure jokoari Luau erabiliz.</value>
+  </data>
 </root>

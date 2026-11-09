@@ -9692,4 +9692,10 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Не ўдалося імпартаваць налады: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Даведнік распрацоўшчыка</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Дадайце кіраванне акном у сваю гульню з дапамогай Luau.</value>
+  </data>
 </root>

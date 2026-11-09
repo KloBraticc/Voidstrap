@@ -9692,4 +9692,10 @@ Caniatáu iddo?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Nid oedd modd mewnforio’r gosodiadau: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Canllaw datblygwyr</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Ychwanegwch reolaeth ffenestr at eich gêm eich hun gyda Luau.</value>
+  </data>
 </root>

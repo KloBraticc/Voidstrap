@@ -10006,4 +10006,10 @@ Sallitaanko?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Asetuksia ei voitu tuoda: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Kehittäjän opas</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Lisää ikkunanhallinta omaan peliisi Luaulla.</value>
+  </data>
 </root>

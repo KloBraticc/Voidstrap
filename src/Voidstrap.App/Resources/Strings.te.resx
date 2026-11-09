@@ -9692,4 +9692,10 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>సెట్టింగ్‌లను దిగుమతి చేయలేకపోయాం: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>డెవలపర్ గైడ్</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Luau తో మీ గేమ్‌కు విండో నియంత్రణను జోడించండి.</value>
+  </data>
 </root>

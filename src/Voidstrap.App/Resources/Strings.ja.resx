@@ -10020,4 +10020,10 @@ Voidstrapはプログラム、他のフォルダー、Robloxのログイン情�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>設定をインポートできませんでした: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>開発者ガイド</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Luau でご自身のゲームにウィンドウ操作を追加します。</value>
+  </data>
 </root>

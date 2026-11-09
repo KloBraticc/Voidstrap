@@ -9693,4 +9693,10 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>პარამეტრების იმპორტი ვერ მოხერხდა: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>დეველოპერის სახელმძღვანელო</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>დაამატეთ ფანჯრის მართვა თქვენს თამაშში Luau-ით.</value>
+  </data>
 </root>

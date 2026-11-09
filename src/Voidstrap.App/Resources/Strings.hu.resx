@@ -10005,4 +10005,10 @@ Engedélyezed?</value>
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>A beállításokat nem sikerült importálni: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Fejlesztői útmutató</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Adj ablakvezérlést a saját játékodhoz Luau segítségével.</value>
+  </data>
 </root>

@@ -9693,4 +9693,10 @@ Voidstrap блокира програме, друге фасцикле и ваш
   <data name="Menu.Import.Failed" xml:space="preserve">
     <value>Подешавања није могуће увести: {0}</value>
   </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Title" xml:space="preserve">
+    <value>Водич за програмере</value>
+  </data>
+  <data name="Menu.Integrations.WindowControl.Guide.Description" xml:space="preserve">
+    <value>Додајте контролу прозора у своју игру помоћу Luau.</value>
+  </data>
 </root>
