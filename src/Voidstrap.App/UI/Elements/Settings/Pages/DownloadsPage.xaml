@@ -63,43 +63,79 @@
                 </Setter>
             </Style>
 
+            <Style x:Key="PosterFrameStyle" TargetType="{x:Type Border}">
+                <Setter Property="Height" Value="236" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="BorderThickness" Value="2" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorDefaultBrush}" />
+                    </Trigger>
+                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                        <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="PosterArtStyle" TargetType="{x:Type Grid}">
+                <Setter Property="OpacityMask">
+                    <Setter.Value>
+                        <VisualBrush Stretch="None" AlignmentX="Left" AlignmentY="Top">
+                            <VisualBrush.Visual>
+                                <Border Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Grid}}" Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Grid}}" CornerRadius="8" Background="Black" />
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
             <DataTemplate x:Key="PosterCardTemplate">
-                <ui:CardControl Margin="0,8,0,0" Cursor="Hand" Command="{Binding SelectCommand}">
-                    <ui:CardControl.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <Grid Width="36" Height="36" Margin="0,0,14,0" VerticalAlignment="Center">
-                                <Image Source="{Binding IconImage}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality">
-                                    <Image.Clip>
-                                        <RectangleGeometry Rect="0,0,36,36" RadiusX="7" RadiusY="7" />
-                                    </Image.Clip>
-                                </Image>
-                            </Grid>
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock FontSize="14" Text="{Binding Title}" />
-                                <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Subtitle}" TextWrapping="Wrap" />
-                            </StackPanel>
-                        </StackPanel>
-                    </ui:CardControl.Header>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <StackPanel Width="160" Margin="0,0,12,0" VerticalAlignment="Center" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <ProgressBar Height="3" Minimum="0" Maximum="100" Value="{Binding Progress, Mode=OneWay}" />
-                            <TextBlock Margin="0,4,0,0" FontSize="11" Text="{Binding ProgressDetail}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-                        </StackPanel>
-                        <Border Style="{StaticResource InstallPillStyle}" Margin="0,0,10,0" Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <StackPanel Orientation="Horizontal">
-                                <ui:SymbolIcon Symbol="CheckmarkCircle16" FontSize="12" Foreground="{DynamicResource SystemFillColorSuccessBrush}" VerticalAlignment="Center" />
-                                <TextBlock Text="{resources:Loc Ui_Pages_Installed}" FontSize="11" Margin="4,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                            </StackPanel>
-                        </Border>
-                        <Border Style="{StaticResource InstallPillStyle}" Margin="0,0,10,0" Visibility="{Binding UpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <StackPanel Orientation="Horizontal">
-                                <ui:SymbolIcon Symbol="ArrowSync16" FontSize="12" Foreground="{DynamicResource AccentFillColorDefaultBrush}" VerticalAlignment="Center" />
-                                <TextBlock Text="{resources:Loc Ui_Pages_Update}" FontSize="11" Margin="4,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                            </StackPanel>
-                        </Border>
-                        <ui:Button MinWidth="96" VerticalAlignment="Center" Appearance="Secondary" Icon="ArrowDownload24" Content="{Binding PrimaryButtonText}" IsEnabled="{Binding CanPrimary}" Command="{Binding InstallCommand}" />
-                    </StackPanel>
-                </ui:CardControl>
+                <StackPanel Margin="0,0,14,18">
+                    <Border Style="{StaticResource PosterFrameStyle}">
+                        <Border.InputBindings>
+                            <MouseBinding MouseAction="LeftClick" Command="{Binding SelectCommand}" />
+                        </Border.InputBindings>
+                        <Grid Style="{StaticResource PosterArtStyle}">
+                            <Image x:Name="PosterBackdrop" Source="{Binding IconImage}" Stretch="UniformToFill" Opacity="0.5" RenderOptions.BitmapScalingMode="LowQuality">
+                                <Image.Effect>
+                                    <BlurEffect Radius="24" KernelType="Gaussian" RenderingBias="Performance" />
+                                </Image.Effect>
+                            </Image>
+                            <Image x:Name="PosterArt" Source="{Binding IconImage}" Stretch="Uniform" Width="96" Height="96" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" />
+                            <Image Source="{Binding LogoImage}" Stretch="Uniform" MaxWidth="64" MaxHeight="64" Margin="16" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality">
+                                <Image.Effect>
+                                    <DropShadowEffect BlurRadius="18" ShadowDepth="0" Opacity="0.7" RenderingBias="Performance" />
+                                </Image.Effect>
+                            </Image>
+                            <Border Margin="8" Padding="6,3" CornerRadius="8" HorizontalAlignment="Right" VerticalAlignment="Top" Background="{DynamicResource ApplicationBackgroundBrush}" Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}" ToolTip="{resources:Loc Ui_Pages_Installed}">
+                                <ui:SymbolIcon Symbol="CheckmarkCircle16" FontSize="13" Foreground="{DynamicResource SystemFillColorSuccessBrush}" />
+                            </Border>
+                            <Border Margin="8" Padding="6,3" CornerRadius="8" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{DynamicResource ApplicationBackgroundBrush}" Visibility="{Binding UpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}" ToolTip="{resources:Loc Ui_Pages_Update}">
+                                <ui:SymbolIcon Symbol="ArrowSync16" FontSize="13" Foreground="{DynamicResource AccentFillColorDefaultBrush}" />
+                            </Border>
+                            <ProgressBar Height="4" Margin="8" VerticalAlignment="Bottom" Minimum="0" Maximum="100" Value="{Binding Progress, Mode=OneWay}" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </Grid>
+                    </Border>
+                    <Grid Margin="2,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Title}" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip="{Binding Subtitle}" />
+                        <ui:Button Grid.Column="1" Style="{StaticResource PosterActionStyle}" Icon="ArrowDownload24" ToolTip="{Binding PrimaryButtonText}" IsEnabled="{Binding CanPrimary}" Command="{Binding InstallCommand}" />
+                    </Grid>
+                </StackPanel>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding HasPoster}" Value="True">
+                        <Setter TargetName="PosterBackdrop" Property="Visibility" Value="Collapsed" />
+                        <Setter TargetName="PosterArt" Property="Stretch" Value="UniformToFill" />
+                        <Setter TargetName="PosterArt" Property="Width" Value="NaN" />
+                        <Setter TargetName="PosterArt" Property="Height" Value="NaN" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>
             </DataTemplate>
         </ResourceDictionary>
     </FrameworkElement.Resources>
@@ -141,7 +177,7 @@
                         <ItemsControl x:Name="RobloxItems" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource PosterCardTemplate}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel />
+                                    <UniformGrid VerticalAlignment="Top" Columns="{Binding ClassicColumns, RelativeSource={RelativeSource AncestorType=pages:DownloadsPage}}" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
@@ -164,7 +200,7 @@
                         <ItemsControl x:Name="ClassicItems" ItemsSource="{Binding ClientItems}" ItemTemplate="{StaticResource PosterCardTemplate}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel />
+                                    <UniformGrid VerticalAlignment="Top" Columns="{Binding ClassicColumns, RelativeSource={RelativeSource AncestorType=pages:DownloadsPage}}" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
@@ -194,7 +230,7 @@
                     </Grid.RowDefinitions>
                     <ui:DynamicScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
                         <StackPanel>
-                            <Border Height="150" CornerRadius="11,11,0,0" Background="#1A1A1F">
+                            <Border Height="150" CornerRadius="11,11,0,0" Background="{DynamicResource ControlFillColorSecondaryBrush}">
                                 <Grid>
                                     <Grid.OpacityMask>
                                         <VisualBrush Stretch="None" AlignmentX="Left" AlignmentY="Top">
@@ -208,7 +244,27 @@
                                             <BlurEffect Radius="26" KernelType="Gaussian" RenderingBias="Performance" />
                                         </Image.Effect>
                                     </Image>
-                                    <Image Source="{Binding IconImage}" Stretch="Uniform" Height="88" Margin="0,0,0,18" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" />
+                                    <Image Source="{Binding IconImage}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RenderOptions.BitmapScalingMode="HighQuality">
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Setter Property="Stretch" Value="Uniform" />
+                                                <Setter Property="Height" Value="88" />
+                                                <Setter Property="Margin" Value="0,0,0,18" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding HasPoster}" Value="True">
+                                                        <Setter Property="Stretch" Value="UniformToFill" />
+                                                        <Setter Property="Height" Value="NaN" />
+                                                        <Setter Property="Margin" Value="0" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <Image Source="{Binding LogoImage}" Stretch="Uniform" MaxHeight="64" Margin="0,0,0,18" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality">
+                                        <Image.Effect>
+                                            <DropShadowEffect BlurRadius="18" ShadowDepth="0" Opacity="0.7" RenderingBias="Performance" />
+                                        </Image.Effect>
+                                    </Image>
                                     <Border VerticalAlignment="Bottom" Padding="12,8" CornerRadius="0">
                                         <Border.Background>
                                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">

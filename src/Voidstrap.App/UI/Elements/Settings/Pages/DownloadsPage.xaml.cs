@@ -16,25 +16,12 @@ public partial class DownloadsPage : UiPage
 
     private const double PosterMinWidth = 190.0;
 
-    public static readonly DependencyProperty RobloxColumnsProperty = DependencyProperty.Register(
-        nameof(RobloxColumns),
-        typeof(int),
-        typeof(DownloadsPage),
-        new PropertyMetadata(2)
-    );
-
     public static readonly DependencyProperty ClassicColumnsProperty = DependencyProperty.Register(
         nameof(ClassicColumns),
         typeof(int),
         typeof(DownloadsPage),
         new PropertyMetadata(3)
     );
-
-    public int RobloxColumns
-    {
-        get => (int)GetValue(RobloxColumnsProperty);
-        set => SetValue(RobloxColumnsProperty, value);
-    }
 
     public int ClassicColumns
     {
@@ -67,9 +54,6 @@ public partial class DownloadsPage : UiPage
 
         double cards = (showDetail ? width - DetailPanelWidth : width) - 40.0;
         int columns = System.Math.Max(1, (int)(cards / PosterMinWidth));
-        int roblox = System.Math.Max(1, System.Math.Min(columns, System.Math.Max(1, _viewModel.Items.Count)));
-        if (roblox != RobloxColumns)
-            RobloxColumns = roblox;
         if (columns != ClassicColumns)
             ClassicColumns = columns;
     }

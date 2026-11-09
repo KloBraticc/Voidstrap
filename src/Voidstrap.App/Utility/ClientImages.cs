@@ -16,43 +16,83 @@ namespace Voidstrap.Utility
     {
         public const string Default = "pack://application:,,,/Resources/RobloxPlayerIcon.png";
 
+        private const string Classic2007 =
+            "https://static.wikia.nocookie.net/roblox/images/8/8c/2006_roblox_crossroads.jpg/revision/latest?cb=20200417134719";
+        private const string Classic2008 =
+            "https://static.wikia.nocookie.net/roblox/images/a/a2/The_Classic-HappyHome.png/revision/latest?cb=20250927073720";
+        private const string Classic2009 =
+            "https://static.wikia.nocookie.net/roblox/images/0/0f/Old_crossroads.png/revision/latest?cb=20110707070414";
+        private const string Classic2010 =
+            "https://static.wikia.nocookie.net/roblox/images/d/d6/2010_starter_place.png/revision/latest?cb=20230331030755";
+        private const string Classic2011 =
+            "https://static.wikia.nocookie.net/roblox/images/1/18/2011_starter_place.png/revision/latest?cb=20230331031833";
+        private const string Classic2012 =
+            "https://static.wikia.nocookie.net/roblox/images/5/57/Ro-Force_Rescue_Mission_Jan_2012_gameplay_footage.png/revision/latest?cb=20260706163719";
+        private const string Classic2013 =
+            "https://static.wikia.nocookie.net/roblox/images/c/cd/Crossroads.jpg/revision/latest?cb=20120418010052";
+
         public static readonly Dictionary<string, string> Images = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
-            ["2007E-FakeFeb"] = "https://static.wikia.nocookie.net/roblox/images/3/3d/2005_Icon.png/revision/latest?cb=20231105222123",
-            ["2007E"] = "https://static.wikia.nocookie.net/roblox/images/3/3d/2005_Icon.png/revision/latest?cb=20231105222123",
-            ["2007L"] = "https://static.wikia.nocookie.net/roblox/images/3/3d/2005_Icon.png/revision/latest?cb=20231105222123",
-            ["2007M"] = "https://static.wikia.nocookie.net/roblox/images/3/3d/2005_Icon.png/revision/latest?cb=20231105222123",
-            ["2008E"] = "https://static.wikia.nocookie.net/roblox/images/3/3d/2005_Icon.png/revision/latest?cb=20231105222123",
-            ["2008L"] = "https://static.wikia.nocookie.net/roblox/images/3/3d/2005_Icon.png/revision/latest?cb=20231105222123",
-            ["2008M"] = "https://static.wikia.nocookie.net/roblox/images/3/3d/2005_Icon.png/revision/latest?cb=20231105222123",
-            ["2009E"] = "https://static.wikia.nocookie.net/roblox/images/3/3d/2005_Icon.png/revision/latest?cb=20231105222123",
-            ["2009L"] = "https://static.wikia.nocookie.net/roblox/images/3/3d/2005_Icon.png/revision/latest?cb=20231105222123",
-            ["2009M"] = "https://static.wikia.nocookie.net/roblox/images/3/3d/2005_Icon.png/revision/latest?cb=20231105222123",
-            ["2010E"] =
-                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
-            ["2010L"] =
-                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
-            ["2010M"] =
-                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
-            ["2011E"] =
-                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
-            ["2011L"] =
-                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
-            ["2011M"] =
-                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
-            ["2012E"] =
-                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
-            ["2012L"] =
-                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
-            ["2012M"] =
-                "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633",
-            ["2013E"] = "https://static.wikia.nocookie.net/roblox/images/1/15/2011_Icon.png/revision/latest?cb=20250329002829",
-            ["2013L"] = "https://static.wikia.nocookie.net/roblox/images/1/15/2011_Icon.png/revision/latest?cb=20250329002829",
-            ["2013M"] = "https://static.wikia.nocookie.net/roblox/images/1/15/2011_Icon.png/revision/latest?cb=20250329002829",
+            ["2007E-FakeFeb"] = Classic2007,
+            ["2007E"] = Classic2007,
+            ["2007L"] = Classic2007,
+            ["2007M"] = Classic2007,
+            ["2008E"] = Classic2008,
+            ["2008L"] = Classic2008,
+            ["2008M"] = Classic2008,
+            ["2009E"] = Classic2009,
+            ["2009L"] = Classic2009,
+            ["2009M"] = Classic2009,
+            ["2010E"] = Classic2010,
+            ["2010L"] = Classic2010,
+            ["2010M"] = Classic2010,
+            ["2011E"] = Classic2011,
+            ["2011L"] = Classic2011,
+            ["2011M"] = Classic2011,
+            ["2012E"] = Classic2012,
+            ["2012L"] = Classic2012,
+            ["2012M"] = Classic2012,
+            ["2013E"] = Classic2013,
+            ["2013L"] = Classic2013,
+            ["2013M"] = Classic2013,
+        };
+
+        private const string Logo2005 =
+            "https://static.wikia.nocookie.net/roblox/images/3/3d/2005_Icon.png/revision/latest?cb=20231105222123";
+        private const string Logo2007 =
+            "https://static.wikia.nocookie.net/roblox/images/1/11/Roblox_2007.PNG_%281%29.png/revision/latest?cb=20221020205633";
+        private const string Logo2011 =
+            "https://static.wikia.nocookie.net/roblox/images/1/15/2011_Icon.png/revision/latest?cb=20250329002829";
+
+        public static readonly Dictionary<string, string> Logos = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["2007E-FakeFeb"] = Logo2005,
+            ["2007E"] = Logo2005,
+            ["2007L"] = Logo2005,
+            ["2007M"] = Logo2005,
+            ["2008E"] = Logo2005,
+            ["2008L"] = Logo2005,
+            ["2008M"] = Logo2005,
+            ["2009E"] = Logo2005,
+            ["2009L"] = Logo2005,
+            ["2009M"] = Logo2005,
+            ["2010E"] = Logo2007,
+            ["2010L"] = Logo2007,
+            ["2010M"] = Logo2007,
+            ["2011E"] = Logo2007,
+            ["2011L"] = Logo2007,
+            ["2011M"] = Logo2007,
+            ["2012E"] = Logo2007,
+            ["2012L"] = Logo2007,
+            ["2012M"] = Logo2007,
+            ["2013E"] = Logo2011,
+            ["2013L"] = Logo2011,
+            ["2013M"] = Logo2011,
         };
 
         public const int LowRes = 48;
-        public const int FullRes = 256;
+        public const int LogoRes = 160;
+        public const int FullRes = 480;
 
         private static readonly Dictionary<string, ImageSource> _cache = new Dictionary<string, ImageSource>(
             StringComparer.OrdinalIgnoreCase
@@ -109,7 +149,18 @@ namespace Voidstrap.Utility
 
         public static Task<ImageSource> LoadAsync(string code, int size)
         {
-            string uri = GetUri(code);
+            return LoadUriAsync(GetUri(code), size);
+        }
+
+        public static Task<ImageSource>? LoadLogoAsync(string code)
+        {
+            if (string.IsNullOrEmpty(code) || !Logos.TryGetValue(code, out string? uri))
+                return null;
+            return LoadUriAsync(uri, LogoRes);
+        }
+
+        private static Task<ImageSource> LoadUriAsync(string uri, int size)
+        {
             string key = uri + "@" + (IsLocal(uri) ? 0 : size);
             Lazy<Task<ImageSource>> candidate = new(
                 () => Task.Run(() => LoadCached(uri, size)),

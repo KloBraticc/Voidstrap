@@ -56,6 +56,8 @@ namespace Voidstrap.UI.ViewModels.Settings
             public bool ShowFleasion => ShowFleasionAddon;
             public bool ShowSwiftTunnel => Voidstrap.Utility.Platform.IsWindows && ShowFleasionAddon;
             public bool ShowCommunityContent => false;
+            public bool HasPoster => false;
+            public ImageSource? LogoImage => null;
 
             public bool IsVng => _appData is RobloxPlayerData { UseVng: true };
 
@@ -924,6 +926,19 @@ namespace Voidstrap.UI.ViewModels.Settings
         public class ClientItem : NotifyPropertyChangedViewModel
         {
             public bool IsVng => false;
+            public bool HasPoster => true;
+
+            private ImageSource? _logoImage;
+
+            public ImageSource? LogoImage
+            {
+                get => _logoImage;
+                private set
+                {
+                    _logoImage = value;
+                    OnPropertyChanged(nameof(LogoImage));
+                }
+            }
             public bool CanChangeLocation => !Voidstrap.Utility.Platform.IsLinux;
 
             private readonly DownloadsViewModel _parent;
@@ -1022,6 +1037,10 @@ namespace Voidstrap.UI.ViewModels.Settings
                         _fullResLoaded = true;
                         IconImage = full;
                     }
+
+                    Task<ImageSource>? logo = ClientImages.LoadLogoAsync(Code);
+                    if (logo != null)
+                        LogoImage = await logo.ConfigureAwait(true);
                 }
                 catch { }
             }
