@@ -7,6 +7,7 @@ on:
     types: [created, edited]
   pull_request_target:
     types: [opened, edited, reopened]
+  workflow_dispatch:
 
 permissions: {}
 
@@ -22,8 +23,6 @@ jobs:
           script: |
             const ownerId = 195697851;
             const target = 'klobratic';
-            const actor = context.payload.sender;
-            if (!actor || actor.id === ownerId || actor.type === 'Bot') return;
 
             const normalize = login => {
               let s = login.toLowerCase().replace(/[-_]/g, '');
@@ -40,22 +39,51 @@ jobs:
               return d[a.length][b.length];
             };
 
-            const name = normalize(actor.login);
             const key = normalize(target);
-            const lookalike = name.includes(key) || name.includes('klobrat') || distance(name, key) <= 1;
-            if (!lookalike) return;
+            const isLookalike = user => {
+              if (!user || user.id === ownerId || user.type === 'Bot') return false;
+              const name = normalize(user.login);
+              return name.includes(key) || name.includes('klobrat') || distance(name, key) <= 1;
+            };
+            const { owner, repo } = context.repo;
+            const shutDown = async (number, isPull) => {
+              if (isPull)
+                await github.rest.pulls.update({ owner, repo, pull_number: number, state: 'closed' });
+              else
+                await github.rest.issues.update({ owner, repo, issue_number: number, state: 'closed', state_reason: 'not_planned' });
+              await github.rest.issues.lock({ owner, repo, issue_number: number, lock_reason: 'spam' });
+            };
+
+            if (context.eventName === 'workflow_dispatch') {
+              const issues = await github.paginate(github.rest.issues.listForRepo, { owner, repo, state: 'all', per_page: 100 });
+              for (const item of issues)
+                if (isLookalike(item.user) && !item.locked) {
+                  core.notice(`Closed #${item.number} by ${item.user.login}`);
+                  await shutDown(item.number, !!item.pull_request);
+                }
+              const comments = await github.paginate(github.rest.issues.listCommentsForRepo, { owner, repo, per_page: 100 });
+              for (const comment of comments)
+                if (isLookalike(comment.user)) {
+                  core.notice(`Deleted comment ${comment.id} by ${comment.user.login}`);
+                  await github.rest.issues.deleteComment({ owner, repo, comment_id: comment.id });
+                }
+              const reviews = await github.paginate(github.rest.pulls.listReviewCommentsForRepo, { owner, repo, per_page: 100 });
+              for (const comment of reviews)
+                if (isLookalike(comment.user)) {
+                  core.notice(`Deleted review comment ${comment.id} by ${comment.user.login}`);
+                  await github.rest.pulls.deleteReviewComment({ owner, repo, comment_id: comment.id });
+                }
+              return;
+            }
+
+            const actor = context.payload.sender;
+            if (!isLookalike(actor)) return;
 
             core.notice(`Blocked impersonation attempt by ${actor.login} (${actor.id})`);
-            const { owner, repo } = context.repo;
-
             if (context.eventName === 'issue_comment') {
               await github.rest.issues.deleteComment({ owner, repo, comment_id: context.payload.comment.id });
               return;
             }
 
             const number = (context.payload.issue || context.payload.pull_request).number;
-            if (context.eventName === 'pull_request_target')
-              await github.rest.pulls.update({ owner, repo, pull_number: number, state: 'closed' });
-            else
-              await github.rest.issues.update({ owner, repo, issue_number: number, state: 'closed', state_reason: 'not_planned' });
-            await github.rest.issues.lock({ owner, repo, issue_number: number, lock_reason: 'spam' });
+            await shutDown(number, context.eventName === 'pull_request_target');
