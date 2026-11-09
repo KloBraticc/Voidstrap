@@ -759,23 +759,36 @@
               <StackPanel Margin="12">
                 <ProgressBar Height="10" Margin="0,0,0,10" IsIndeterminate="True" Visibility="{Binding GamePassesLoading, Converter={StaticResource BoolToVis}}" />
                 <TextBlock Margin="0,0,0,10" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding GamePassStatus}" Visibility="{Binding GamePassStatusVisibility}" />
-                <ItemsControl VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding GamePasses}">
+                <ItemsControl ItemsSource="{Binding GamePasses}" Tag="4" SizeChanged="GamePassGrid_SizeChanged">
                   <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                      <WrapPanel />
+                      <UniformGrid VerticalAlignment="Top" Columns="{Binding Tag, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
                     </ItemsPanelTemplate>
                   </ItemsControl.ItemsPanel>
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                      <Button Style="{StaticResource ShelfCardButton}" Width="150" Margin="0,0,10,10" ToolTip="{resources:Loc Ui_Pages_OpenThisGamepassOnRobloxCom}" Command="{Binding DataContext.OpenGamePassCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}">
-                        <StackPanel Margin="10">
-                          <Border Width="100" Height="100" HorizontalAlignment="Center" CornerRadius="6" Background="{DynamicResource ControlFillColorSecondaryBrush}" ClipToBounds="True">
-                            <Image util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
+                      <Button x:Name="PassCard" Style="{StaticResource ShelfCardButton}" Margin="0,0,10,10" HorizontalContentAlignment="Stretch" ToolTip="{resources:Loc Ui_Pages_OpenThisGamepassOnRobloxCom}" Command="{Binding DataContext.OpenGamePassCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}">
+                        <StackPanel Margin="8">
+                          <Grid>
+                            <Border CornerRadius="8" util:RoundedClip.Radius="8" Background="{DynamicResource ControlFillColorSecondaryBrush}" Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}">
+                              <Grid>
+                                <ui:SymbolIcon Symbol="TicketDiagonal24" FontSize="34" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                                <Image util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
+                              </Grid>
+                            </Border>
+                          </Grid>
+                          <TextBlock Margin="2,8,2,0" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" />
+                          <Border x:Name="PricePill" Margin="2,6,0,0" HorizontalAlignment="Left" Padding="8,2" CornerRadius="10" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+                            <TextBlock x:Name="PriceText" FontSize="11.5" FontWeight="SemiBold" Foreground="{DynamicResource SystemAccentColorSecondaryBrush}" Text="{Binding PriceDisplay}" />
                           </Border>
-                          <TextBlock Margin="0,8,0,0" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" />
-                          <TextBlock Margin="0,3,0,0" FontSize="12" TextAlignment="Center" Foreground="{DynamicResource SystemAccentColorSecondaryBrush}" Text="{Binding PriceDisplay}" />
                         </StackPanel>
                       </Button>
+                      <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding PriceDisplay}" Value="Off sale">
+                          <Setter TargetName="PriceText" Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
+                          <Setter TargetName="PassCard" Property="Opacity" Value="0.7" />
+                        </DataTrigger>
+                      </DataTemplate.Triggers>
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>

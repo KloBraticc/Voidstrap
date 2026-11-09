@@ -27,6 +27,12 @@ public partial class LibraryPage : UiPage
         _sidebar.Apply(App.Settings.Prop.LibrarySidebarWidth);
     }
 
+    private void GamePassGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (sender is FrameworkElement grid && e.NewSize.Width > 0)
+            grid.Tag = Math.Max(2, (int)(e.NewSize.Width / 170));
+    }
+
     private async void Page_Loaded(object sender, RoutedEventArgs e)
     {
         Voidstrap.UI.Elements.Controls.LibraryGamesControl.Prefetch();
