@@ -57,7 +57,7 @@ float2 motionAt(float2 uv)
     float2 blended = lerp(current, lerp(previous, current, 0.55), agreement);
     if (agreement < 0.5)
         blended = length(previous) < length(blended) ? previous : blended;
-    float confidence = lerp(0.25, 1.0, saturate(1.0 - err * 1.6)) * lerp(0.55, 1.0, agreement);
+    float confidence = saturate(1.0 - err * 2.2) * lerp(0.4, 1.0, agreement);
     float2 px = blended * mb.x * confidence;
     float raw = length(px);
     px *= raw > mb.z ? (raw - mb.z * 0.5) / max(raw, 0.001) : 0.0;
@@ -77,12 +77,17 @@ float4 PSBlur(VSOut inp) : SV_Target
     float jitter = frac(52.9829189 * frac(dot(inp.pos.xy, float2(0.06711056, 0.00583715)))) - 0.5;
     float3 sum = center;
     float weight = 1.0;
-    float selfMotion = max(length(flowAt(inp.uv).xy) * 0.5, 0.75);
+    float2 selfFlow = flowAt(inp.uv).xy;
+    float selfLen = max(length(selfFlow), 0.75);
+    float2 selfDir = selfFlow / selfLen;
     [loop] for (int i = 0; i < taps; i++)
     {
         float t = ((i + 0.5 + jitter) / taps) - 0.5;
         float2 tuv = inp.uv + v * t * dims.zw;
-        float w = saturate(length(flowAt(tuv).xy) / selfMotion);
+        float2 tf = flowAt(tuv).xy;
+        float along = saturate(dot(tf, selfDir) / selfLen);
+        float match = saturate(1.0 - length(tf - selfFlow) / (selfLen + 1.0));
+        float w = along * match;
         sum += tex0.SampleLevel(smp, tuv, 0).rgb * w;
         weight += w;
     }
