@@ -435,23 +435,7 @@
 
         <Grid Grid.Row="0" Margin="0,4,28,6">
             <StackPanel x:Name="LearnMoreGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
-            <Button VerticalAlignment="Center" Cursor="Hand" Focusable="False" Content="{resources:Loc Ui_Home_LearnMore}" Click="LearnMore_Click">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Pill" Height="26" Padding="8,0" CornerRadius="6" Background="#2A2A2A">
-                            <TextBlock VerticalAlignment="Center" Text="{TemplateBinding Content}" FontSize="13" Foreground="#6AABF1"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Pill" Property="Background" Value="#333333"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Pill" Property="Background" Value="#262626"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
+            <ui:Button VerticalAlignment="Center" Appearance="Secondary" Foreground="#6AABF1" Content="{resources:Loc Ui_Home_LearnMore}" Click="LearnMore_Click"/>
             <ui:Button x:Name="LearnMoreHideButton" Margin="6,0,0,0" Style="{StaticResource HomeSectionToolButtonStyle}" Icon="EyeOff24" ToolTip="{resources:Loc Ui_Home_HideSectionTooltip}" Visibility="Collapsed" Click="LearnMoreHide_Click"/>
             </StackPanel>
             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
