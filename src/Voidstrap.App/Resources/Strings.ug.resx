@@ -9503,4 +9503,82 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discord دىن قوشۇلغىلى بولمىدى. Discord نىڭ ئوچۇقلۇقىنى جەزملەپ قايتا سىناڭ.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>ئەڭ ئۈستىگە يۆتكە</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>مەۋھۇم ئېكران ئىشلەيدىغان Hz يېڭىلاش سۈرئىتى. Roblox ھەر سېكۇنتتا مۇشۇنچە كادىرغىچە كۆرسىتەلەيدۇ.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>مەۋھۇم ئېكران يېڭىلاش سۈرئىتى</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>ئاخىرقى ئورۇنلاشتۇرۇش ئۆزگىرىشىنى يېنىۋال</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>ھەممىنى كۆرسەت</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>بېلىتىڭىز ساقلانمىدى، سەل تۇرۇپ قايتا سىناڭ</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>ياقتۇرمايمەن</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>تەۋسىيە لەۋھەسى</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Roblox نىڭ ئويۇندا ئېكرانىڭىزنىڭ يېڭىلاش سۈرئىتىدىن ئېشىپ كېتىشىگە يول قويىدىغان {0} Hz مەۋھۇم ئېكران قۇرۇڭ. Roblox ئويۇنىدىكى Maximum Frame Rate نىمۇ {0} قىلىپ تەڭشەڭ.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>بۆلەكنى تۆۋەنگە يۆتكە</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>بۆلەكنى يۇقىرىغا يۆتكە</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>ياقتۇرىمەن</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>باھا بېرىشتىن بۇرۇن بۇ ئويۇننى ئويناڭ</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>بېلەت تاشلاش ئۈچۈن Voidstrap دا Roblox ھېساباتىڭىزغا كىرىڭ</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>ئەڭ ئاستىغا يۆتكە</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} ئويناۋاتىدۇ</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>ئويۇنلار</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>ئورۇن</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox ئىزدەشكە ئۇلانغىلى بولمىدى، قايتا سىناڭ</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>چاشقىنەك نۇر بەلگىلىرىنى قايتا بويا</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox ئويۇنلىرىنى ئىزدە</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>يا ئوق، تېكىست ۋە shift lock نۇر بەلگىلىرىنى سىزنىڭ رەڭگىڭىزدە بويايدۇ.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>سانلىق مەلۇمات مەركەزلىرى، ئاتلانغان ئويۇنلار ۋە ئىنچىكە تەڭشەش</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>{0} ئورنىغا قاتنىش</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>ئويۇن نامى، ئورۇن ID سى ياكى ئويۇن ئۇلانمىسىنى كىرگۈزۈڭ</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>matchmaker ئالىي تاللانمىلىرى</value>
+  </data>
 </root>

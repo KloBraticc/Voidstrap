@@ -9504,4 +9504,82 @@ Bada shi?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Ba a iya shiga daga Discord ba. Tabbatar Discord a buɗe yake sannan ku sake gwadawa.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Matsar zuwa sama</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Saurin sabuntawa a Hz da allon kama-da-wane ke aiki da shi. Roblox na iya nuna har zuwa wannan adadin firam a kowane daƙiƙa.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Saurin sabuntawar allon kama-da-wane</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Soke canjin tsari na ƙarshe</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Nuna duka</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Ba a iya adana ƙuri'arku ba, sake gwadawa nan da ɗan lokaci</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Ban so ba</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Tuta ta musamman</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Ƙirƙiri allon kama-da-wane na {0} Hz wanda zai bar Roblox ya wuce saurin sabuntawar allonku a cikin wasa. Haka kuma saita Matsakaicin Saurin Firam na Roblox a cikin wasa zuwa {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Matsar da sashe ƙasa</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Matsar da sashe sama</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Na so</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Kunna wannan wasan kafin ku ba shi maki</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Shiga asusunku na Roblox a cikin Voidstrap don jefa ƙuri'a</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Matsar zuwa ƙasa</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} suna wasa</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Wasanni</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Wuri</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Ba a iya isa ga binciken Roblox ba, sake gwadawa</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Sake canza launin alamomin linzamin kwamfuta</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Nemi wasannin Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Yana fentin alamomin kibiya, rubutu da shift lock da launinku.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Cibiyoyin bayanai, wasannin da aka tsallake da gyara dalla-dalla</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Shiga wuri {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Rubuta sunan wasa, ID na wuri ko hanyar haɗin wasa</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Zaɓuɓɓukan matchmaker na ci gaba</value>
+  </data>
 </root>

@@ -9503,4 +9503,82 @@ Ruxsat berasizmi?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discord orqali qo‘shilib bo‘lmadi. Discord ochiq ekanini tekshirib, qayta urinib ko‘ring.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Eng yuqoriga ko‘chirish</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Virtual displey ishlaydigan Hz yangilanish chastotasi. Roblox soniyasiga shuncha kadrgacha chiqara oladi.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Virtual displey yangilanish chastotasi</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Oxirgi joylashuv o‘zgarishini bekor qilish</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Hammasini ko‘rsatish</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Ovozingiz saqlanmadi, birozdan keyin qayta urinib ko‘ring</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Yoqmadi</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Tavsiya etilgan banner</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Roblox o‘yinda ekraningiz yangilanish chastotasidan oshib ketishiga imkon beruvchi {0} Hz virtual displey yarating. Shuningdek, Roblox o‘yin ichidagi Maximum Frame Rate qiymatini {0} ga o‘rnating.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Bo‘limni pastga surish</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Bo‘limni yuqoriga surish</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Yoqdi</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Baholashdan oldin bu o‘yinni o‘ynab ko‘ring</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Ovoz berish uchun Voidstrap’da Roblox hisobingizga kiring</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Eng pastga ko‘chirish</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} o‘ynamoqda</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>O‘yinlar</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Joy</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox qidiruviga ulanib bo‘lmadi, qayta urinib ko‘ring</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Sichqoncha kursorlarini qayta bo‘yash</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox o‘yinlarini qidirish</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Strelka, matn va shift lock kursorlarini sizning rangingizga bo‘yaydi.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Ma’lumot markazlari, o‘tkazib yuborilgan o‘yinlar va nozik sozlash</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>{0} joyiga qo‘shilish</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>O‘yin nomi, joy ID si yoki o‘yin havolasini kiriting</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Matchmaker kengaytirilgan sozlamalari</value>
+  </data>
 </root>

@@ -9503,4 +9503,82 @@ E lumella?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Ha ho a kgonahala ho kena ho tswa ho Discord. Etsa bonnete ba hore Discord e butswe mme o leke hape.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Isa ka holimo</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Sekgahla sa ntjhafatso ka Hz seo skrine sa sebele se sebetsang ka sona. Roblox e ka bontsha difreime tse kana ka motsotswana.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Sekgahla sa ntjhafatso sa skrine sa sebele</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Hlakola phetoho ya ho qetela ya moralo</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Bontsha tsohle</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Voutu ya hao ha e a ka ya bolokwa, leka hape kamora nakwana</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Ha ke e rate</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Banner e hlahellang</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Etsa skrine sa sebele sa {0} Hz se dumellang Roblox ho feta sekgahla sa ntjhafatso sa skrine sa hao papading. Hape beha Maximum Frame Rate ya Roblox ka hare ho papadi ho {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Theola karolo</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Phahamisa karolo</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Ke a e rata</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Bapala papadi ena pele o e fa maemo</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Kena akhaonteng ya hao ya Roblox ho Voidstrap ho vouta</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Isa ka tlase</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} ba a bapala</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Dipapadi</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Sebaka</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Ha ho a ka ha kgonahala ho fihla patlong ya Roblox, leka hape</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Fetola mebala ya dikhesara tsa mouse</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Batla dipapadi tsa Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>E penta dikhesara tsa motsu, mongolo le shift lock ka mmala wa hao.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Ditsi tsa data, dipapadi tse tlotsweng le ho lokisa ka botlalo</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Kena sebakeng sa {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Ngola lebitso la papadi, ID ya sebaka kapa sehokelo sa papadi</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Dikgetho tse tswetseng pele tsa matchmaker</value>
+  </data>
 </root>

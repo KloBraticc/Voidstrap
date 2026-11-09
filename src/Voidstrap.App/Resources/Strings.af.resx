@@ -9503,4 +9503,82 @@ Laat dit toe?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Kon nie vanaf Discord aansluit nie. Maak seker Discord is oop en probeer weer.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Skuif na bo</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Die herlaaitempo in Hz waarteen die virtuele skerm loop. Roblox kan tot soveel rame per sekonde weergee.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Herlaaitempo van virtuele skerm</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Ontdoen die laaste uitlegverandering</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Wys alles</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Jou stem kon nie gestoor word nie, probeer weer oor 'n oomblik</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Hou nie van nie</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Uitgeligte banier</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Skep 'n virtuele skerm van {0} Hz wat Roblox in die spel bo jou skerm se herlaaitempo laat gaan. Stel ook Roblox se maksimum raamtempo in die spel op {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Skuif afdeling af</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Skuif afdeling op</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Hou van</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Speel hierdie speletjie voordat jy dit gradeer</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Meld in Voidstrap by jou Roblox rekening aan om te stem</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Skuif na onder</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} speel</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Speletjies</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Plek</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Kon nie Roblox soek bereik nie, probeer weer</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Kleur die muiswysers oor</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Soek Roblox speletjies</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Verf die pyl, teks en shift lock wysers in jou kleur.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Datasentrums, oorgeslaanse speletjies en fynverstelling</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Sluit aan by plek {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Tik 'n speletjienaam, plek ID of speletjieskakel</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Gevorderde matchmaker opsies</value>
+  </data>
 </root>

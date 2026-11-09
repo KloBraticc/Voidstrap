@@ -9503,4 +9503,82 @@ Voidstrap טשעקס יעדער טעקע קעגן די ביבליאָטעק אי
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>מע האָט ניט געקענט זיך אָנשליסן פֿון Discord. מאַך זיכער אַז Discord איז אָפֿן און פּרוּוו ווידער.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>באַוועגן צום שפּיץ</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>די דערפרישונג ראַטע אין Hz אויף וועלכער דער ווירטועלער עקראַן לויפט. Roblox קען ווייַזן ביז אַזוי פיל ראַמען פּער סעקונדע.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>ווירטועלער עקראַן דערפרישונג ראַטע</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>אָפּמאַכן די לעצטע אויסשטעל ענדערונג</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>ווייַזן אַלע</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>אייער שטימע האָט נישט געקענט ווערן געהיט, פּרוּווט ווידער אין אַ מאָמענט</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>געפֿעלט נישט</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>אויסגעצייכנטער באַנער</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>שאַפֿט אַ {0} Hz ווירטועלן עקראַן וואָס לאָזט Roblox גיין העכער פֿון אייער עקראַן דערפרישונג ראַטע אין שפּיל. שטעלט אויך Roblox ס Maximum Frame Rate אין שפּיל אויף {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>באַוועגן אָפּטייל אַראָפּ</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>באַוועגן אָפּטייל אַרויף</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>געפֿעלט</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>שפּילט די שפּיל איידער איר אָפּשאַצט זי</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>לאָגט אַרייַן אין אייער Roblox קאָנטע אין Voidstrap כּדי צו שטימען</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>באַוועגן צום דנאָ</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} שפּילן</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>שפּילן</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>אָרט</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>קען נישט דערגרייכן Roblox זוכן, פּרוּווט ווידער</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>איבערפֿאַרבן די מויז קורסאָרן</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>זוכן Roblox שפּילן</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>פֿאַרבט די פֿייל, טעקסט און shift lock קורסאָרן אין אייער קאָליר.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>דאַטן צענטערס, איבערגעהיפּטע שפּילן און פֿיינע צופּאַסונג</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>פֿאַרבינדן צום אָרט {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>שרייבט אַ שפּיל נאָמען, אָרט ID אָדער שפּיל לינק</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>אַוואַנסירטע matchmaker אָפּציעס</value>
+  </data>
 </root>

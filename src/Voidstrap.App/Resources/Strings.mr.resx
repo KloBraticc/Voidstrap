@@ -9504,4 +9504,82 @@ Voidstrap लायब्ररी स्थापित करण्याप�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discord वरून सामील होता आले नाही. Discord उघडे असल्याची खात्री करा आणि पुन्हा प्रयत्न करा.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>सर्वात वर हलवा</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>व्हर्च्युअल डिस्प्ले चालणारा Hz मधील रिफ्रेश दर. Roblox प्रति सेकंद इतक्या फ्रेमपर्यंत रेंडर करू शकते.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>व्हर्च्युअल डिस्प्ले रिफ्रेश दर</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>शेवटचा लेआउट बदल पूर्ववत करा</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>सर्व दाखवा</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>तुमचे मत जतन करता आले नाही, थोड्या वेळाने पुन्हा प्रयत्न करा</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>नापसंत</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>वैशिष्ट्यीकृत बॅनर</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>गेममध्ये तुमच्या स्क्रीनच्या रिफ्रेश दरापेक्षा जास्त जाऊ देणारा {0} Hz व्हर्च्युअल डिस्प्ले तयार करा. Roblox चा गेममधील कमाल फ्रेम दर देखील {0} वर सेट करा.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>विभाग खाली हलवा</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>विभाग वर हलवा</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>पसंत</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>रेटिंग देण्यापूर्वी हा गेम खेळा</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>मत देण्यासाठी Voidstrap मध्ये तुमच्या Roblox खात्यात साइन इन करा</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>सर्वात खाली हलवा</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} खेळत आहेत</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>गेम्स</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>ठिकाण</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox शोधापर्यंत पोहोचता आले नाही, पुन्हा प्रयत्न करा</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>माउस कर्सर पुन्हा रंगवा</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox गेम्स शोधा</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>बाण, मजकूर आणि shift lock कर्सर तुमच्या रंगात रंगवते.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>डेटा सेंटर, वगळलेले गेम्स आणि सूक्ष्म समायोजन</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>ठिकाण {0} मध्ये सामील व्हा</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>गेमचे नाव, ठिकाण ID किंवा गेम लिंक टाइप करा</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>प्रगत मॅचमेकर पर्याय</value>
+  </data>
 </root>

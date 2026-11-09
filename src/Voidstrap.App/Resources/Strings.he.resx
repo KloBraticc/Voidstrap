@@ -9504,4 +9504,82 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>לא ניתן היה להצטרף מ Discord. ודא ש Discord פתוח ונסה שוב.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>העבר לראש</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>קצב הרענון ב Hz שבו פועל המסך הווירטואלי. Roblox יכול לעבד עד מספר כזה של פריימים בשנייה.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>קצב רענון של המסך הווירטואלי</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>בטל את שינוי הפריסה האחרון</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>הצג הכול</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>לא ניתן היה לשמור את ההצבעה שלך, נסה שוב בעוד רגע</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>לא אהבתי</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>באנר מומלץ</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>צור מסך וירטואלי של {0} Hz שמאפשר ל Roblox לעבור את קצב הרענון של המסך שלך במשחק. הגדר גם את קצב הפריימים המרבי של Roblox במשחק ל {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>העבר את המקטע למטה</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>העבר את המקטע למעלה</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>אהבתי</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>שחק במשחק הזה לפני שתדרג אותו</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>התחבר לחשבון Roblox שלך ב Voidstrap כדי להצביע</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>העבר לתחתית</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} משחקים</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>משחקים</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>מקום</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>לא ניתן היה להגיע לחיפוש של Roblox, נסה שוב</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>צבע מחדש את סמני העכבר</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>חפש משחקי Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>צובע את סמני החץ, הטקסט ו shift lock בצבע שלך.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>מרכזי נתונים, משחקים שדולגו וכוונון עדין</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>הצטרף למקום {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>הקלד שם משחק, מזהה מקום או קישור למשחק</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>אפשרויות matchmaker מתקדמות</value>
+  </data>
 </root>

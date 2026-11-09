@@ -9503,4 +9503,82 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Не ўдалося далучыцца праз Discord. Пераканайцеся, што Discord адкрыты, і паспрабуйце зноў.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Перамясціць уверх</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Частата абнаўлення ў Hz, з якой працуе віртуальны дысплэй. Roblox можа рэндэрыць да такой колькасці кадраў у секунду.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Частата абнаўлення віртуальнага дысплэя</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Адмяніць апошнюю змену макета</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Паказаць усе</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Не ўдалося захаваць ваш голас, паспрабуйце яшчэ раз крыху пазней</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Не падабаецца</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Рэкамендаваны банер</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Стварыце віртуальны дысплэй на {0} Hz, які дазваляе Roblox перавышаць частату абнаўлення вашага экрана ў гульні. Таксама ўсталюйце ў гульні Roblox максімальную частату кадраў {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Перамясціць раздзел ніжэй</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Перамясціць раздзел вышэй</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Падабаецца</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Згуляйце ў гэту гульню, перш чым ацэньваць яе</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Увайдзіце ў свой уліковы запіс Roblox у Voidstrap, каб галасаваць</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Перамясціць уніз</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} гуляюць</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Гульні</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Месца</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Не ўдалося звязацца з пошукам Roblox, паспрабуйце яшчэ раз</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Перафарбаваць курсоры мышы</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Пошук гульняў Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Афарбоўвае курсоры стрэлкі, тэксту і shift lock у ваш колер.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Цэнтры апрацоўкі даных, прапушчаныя гульні і тонкая налада</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Далучыцца да месца {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Увядзіце назву гульні, ID месца або спасылку на гульню</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Пашыраныя параметры matchmaker</value>
+  </data>
 </root>

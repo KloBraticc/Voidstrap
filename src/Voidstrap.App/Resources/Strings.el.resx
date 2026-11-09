@@ -9503,4 +9503,82 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Δεν ήταν δυνατή η σύνδεση από το Discord. Βεβαιωθείτε ότι το Discord είναι ανοιχτό και δοκιμάστε ξανά.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Μετακίνηση στην κορυφή</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Ο ρυθμός ανανέωσης σε Hz με τον οποίο λειτουργεί η εικονική οθόνη. Το Roblox μπορεί να αποδώσει έως τόσα καρέ ανά δευτερόλεπτο.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Ρυθμός ανανέωσης εικονικής οθόνης</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Αναίρεση της τελευταίας αλλαγής διάταξης</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Εμφάνιση όλων</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Δεν ήταν δυνατή η αποθήκευση της ψήφου σας, δοκιμάστε ξανά σε λίγο</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Δεν μου αρέσει</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Προβεβλημένο banner</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Δημιουργήστε μια εικονική οθόνη {0} Hz που επιτρέπει στο Roblox να ξεπερνά τον ρυθμό ανανέωσης της οθόνης σας μέσα στο παιχνίδι. Ορίστε επίσης τον μέγιστο ρυθμό καρέ του Roblox μέσα στο παιχνίδι σε {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Μετακίνηση ενότητας κάτω</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Μετακίνηση ενότητας πάνω</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Μου αρέσει</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Παίξτε αυτό το παιχνίδι πριν το βαθμολογήσετε</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Συνδεθείτε στον λογαριασμό σας Roblox στο Voidstrap για να ψηφίσετε</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Μετακίνηση στο τέλος</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} παίζουν</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Παιχνίδια</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Τοποθεσία</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Δεν ήταν δυνατή η πρόσβαση στην αναζήτηση του Roblox, δοκιμάστε ξανά</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Επαναχρωματισμός δεικτών ποντικιού</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Αναζήτηση παιχνιδιών Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Βάφει τους δείκτες βέλους, κειμένου και shift lock στο χρώμα σας.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Κέντρα δεδομένων, παραλειπόμενα παιχνίδια και λεπτομερής ρύθμιση</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Συμμετοχή στην τοποθεσία {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Πληκτρολογήστε όνομα παιχνιδιού, ID τοποθεσίας ή σύνδεσμο παιχνιδιού</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Προηγμένες επιλογές matchmaker</value>
+  </data>
 </root>

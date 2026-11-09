@@ -9503,4 +9503,82 @@ Uyakuvumela?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Akukwazekanga ukujoyina usuka ku Discord. Qiniseka ukuthi i Discord ivuliwe bese uzama futhi.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Yisa phezulu</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Izinga lokuvuselela ku Hz isibonisi esingokoqobo esisebenza ngalo. Roblox ingabonisa kuze kufike kulawa mafreyimu ngomzuzwana.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Izinga lokuvuselela isibonisi esingokoqobo</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Hlehlisa ushintsho lokugcina lwesakhiwo</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Bonisa konke</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Ivoti lakho alikwazanga ukulondolozwa, zama futhi emzuzwini</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Angikuthandi</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Isibhengezo esivelele</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Dala isibonisi esingokoqobo se {0} Hz esivumela iRoblox ukuthi idlule izinga lokuvuselela lesikrini sakho emdlalweni. Futhi setha iMaximum Frame Rate yeRoblox ngaphakathi komdlalo ibe ngu {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Yehlisa isigaba</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Khuphula isigaba</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Ngiyakuthanda</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Dlala lo mdlalo ngaphambi kokuwulinganisa</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Ngena ku akhawunti yakho yeRoblox ku Voidstrap ukuze uvote</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Yisa phansi</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} bayadlala</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Imidlalo</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Indawo</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Ayikwazanga ukufinyelela ekusesheni kweRoblox, zama futhi</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Faka kabusha imibala kuma khesa egundane</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Sesha imidlalo yeRoblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Ipende ama khesa omcibisholo, ombhalo ne shift lock ngombala wakho.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Izikhungo zedatha, imidlalo eyeqiwe nokulungisa okunemininingwane</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Joyina indawo {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Thayipha igama lomdlalo, i ID yendawo noma isixhumanisi somdlalo</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Izinketho ezithuthukisiwe ze matchmaker</value>
+  </data>
 </root>

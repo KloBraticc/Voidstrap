@@ -9503,4 +9503,82 @@ Dozvoliti?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Pridruživanje putem Discorda nije uspjelo. Provjeri je li Discord otvoren i pokušaj ponovo.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Pomjeri na vrh</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Brzina osvježavanja u Hz na kojoj radi virtuelni ekran. Roblox može prikazati do toliko sličica u sekundi.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Brzina osvježavanja virtuelnog ekrana</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Poništi posljednju promjenu rasporeda</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Prikaži sve</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Vaš glas nije moguće sačuvati, pokušajte ponovo za trenutak</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Ne sviđa mi se</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Istaknuti baner</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Kreirajte virtuelni ekran od {0} Hz koji Robloxu omogućava da u igri pređe brzinu osvježavanja vašeg ekrana. Također postavite maksimalnu brzinu sličica u igri Roblox na {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Pomjeri odjeljak dolje</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Pomjeri odjeljak gore</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Sviđa mi se</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Igrajte ovu igru prije nego što je ocijenite</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Prijavite se na svoj Roblox račun u Voidstrapu da biste glasali</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Pomjeri na dno</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} igra</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Igre</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Mjesto</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Nije moguće pristupiti Roblox pretrazi, pokušajte ponovo</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Prebojite kursore miša</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Pretraži Roblox igre</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Boji kursore strelice, teksta i shift lock u vašu boju.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Podatkovni centri, preskočene igre i fino podešavanje</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Pridruži se mjestu {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Upišite naziv igre, ID mjesta ili link igre</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Napredne opcije matchmakera</value>
+  </data>
 </root>

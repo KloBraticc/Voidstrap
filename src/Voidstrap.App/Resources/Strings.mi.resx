@@ -9504,4 +9504,82 @@ Whakaaetia?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Kāore i taea te hono mai i Discord. Kia mōhio kei te tuwhera a Discord ka ngana anō.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Nekehia ki runga rawa</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Te auau whakahou i te Hz e rere ana te whakaaturanga mariko. Ka taea e Roblox te tuhi tae atu ki tēnei maha o ngā anga ia hēkona.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Auau whakahou o te whakaaturanga mariko</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Wetekia te panoni whakatakotoranga whakamutunga</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Whakaaturia katoa</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Kāore i taea te tiaki i tō pōti, ngana anō ā tōna wā</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Kāore e pai</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Haki whakaatu</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Waihangatia he whakaaturanga mariko {0} Hz e āhei ai a Roblox te hipa i te auau whakahou o tō mata i te kēmu. Me tautuhi hoki te Maximum Frame Rate i roto i te kēmu o Roblox ki te {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Nekehia te wāhanga ki raro</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Nekehia te wāhanga ki runga</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Pai</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Tākarohia tēnei kēmu i mua i te whakatau</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Takiuru ki tō pūkete Roblox i Voidstrap kia pōti ai</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Nekehia ki raro rawa</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} e tākaro ana</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Ngā kēmu</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Wāhi</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Kāore i taea te toro ki te rapu Roblox, ngana anō</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Tae anōtia ngā pehu kiore</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Rapua ngā kēmu Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Ka peita i te pehu pere, te pehu kuputuhi me te pehu shift lock ki tō tae.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Ngā pokapū raraunga, ngā kēmu i pekehia me te whakatika rawa</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Hono atu ki te wāhi {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Patohia he ingoa kēmu, he ID wāhi, he hono kēmu rānei</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Ngā kōwhiringa matchmaker matatau</value>
+  </data>
 </root>

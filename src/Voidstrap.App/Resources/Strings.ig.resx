@@ -9504,4 +9504,82 @@ kwe ya?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Enweghị ike isonye site na Discord. Hụ na Discord mepere ma nwaa ọzọ.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Bugharịa n'elu kacha</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Ọsọ mmeghari ọhụrụ na Hz nke ihuenyo mebere na-agba. Roblox nwere ike igosi ruo ọnụọgụ etiti a kwa sekọnd.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Ọsọ mmeghari ọhụrụ nke ihuenyo mebere</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Wepụ mgbanwe nhazi ikpeazụ</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Gosi ihe niile</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Enweghị ike ịchekwa votu gị, nwaa ọzọ n'oge na-adịghị anya</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Enweghị m mmasị</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Ọkọlọtọ pụrụ iche</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Mepụta ihuenyo mebere {0} Hz nke na-ekwe ka Roblox gafere ọsọ mmeghari ọhụrụ nke ihuenyo gị n'egwuregwu. Tọọkwa Ọsọ Etiti Kachasị nke Roblox n'egwuregwu ka ọ bụrụ {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Bugharịa ngalaba ala</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Bugharịa ngalaba elu</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Enwere m mmasị</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Kpọọ egwuregwu a tupu i nye ya akara</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Banye na akaụntụ Roblox gị na Voidstrap iji votu</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Bugharịa n'ala kacha</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} na-egwu</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Egwuregwu</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Ebe</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Enweghị ike iru ọchụchọ Roblox, nwaa ọzọ</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Tụgharịa agba nke cursor òké</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Chọọ egwuregwu Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Na-ese cursor akụ, ederede na shift lock n'agba gị.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Ebe nchekwa data, egwuregwu a gafere na nhazi nke ọma</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Sonye na ebe {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Pịnye aha egwuregwu, ID ebe ma ọ bụ njikọ egwuregwu</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Nhọrọ matchmaker dị elu</value>
+  </data>
 </root>

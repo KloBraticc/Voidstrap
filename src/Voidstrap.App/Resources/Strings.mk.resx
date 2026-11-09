@@ -9504,4 +9504,82 @@ Voidstrap ја проверува секоја датотека во библи�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Не можеше да се приклучи од Discord. Провери дали Discord е отворен и обиди се повторно.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Премести најгоре</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Стапката на освежување во Hz со која работи виртуелниот екран. Roblox може да прикаже до толку слики во секунда.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Стапка на освежување на виртуелниот екран</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Врати ја последната промена на распоредот</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Прикажи сè</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Вашиот глас не можеше да се зачува, обидете се повторно наскоро</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Не ми се допаѓа</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Истакнат банер</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Создадете виртуелен екран од {0} Hz што му овозможува на Roblox да ја надмине стапката на освежување на вашиот екран во игра. Исто така поставете ја максималната стапка на слики во игра на Roblox на {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Премести го делот надолу</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Премести го делот нагоре</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Ми се допаѓа</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Играјте ја оваа игра пред да ја оцените</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Најавете се на вашата Roblox сметка во Voidstrap за да гласате</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Премести најдолу</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} играат</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Игри</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Место</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Не може да се пристапи до пребарувањето на Roblox, обидете се повторно</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Обои ги повторно покажувачите на глувчето</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Пребарај Roblox игри</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Ги бои покажувачите за стрелка, текст и shift lock во вашата боја.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Центри за податоци, прескокнати игри и фино подесување</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Приклучи се на место {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Внесете име на игра, ID на место или врска до игра</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Напредни опции за matchmaker</value>
+  </data>
 </root>

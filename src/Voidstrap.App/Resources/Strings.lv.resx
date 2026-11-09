@@ -9504,4 +9504,82 @@ Vai atļaut?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Neizdevās pievienoties no Discord. Pārliecinies, ka Discord ir atvērts, un mēģini vēlreiz.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Pārvietot uz augšu</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Virtuālā displeja atsvaidzes intensitāte hercos (Hz). Roblox var attēlot līdz tik kadriem sekundē.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Virtuālā displeja atsvaidzes intensitāte</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Atsaukt pēdējo izkārtojuma izmaiņu</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Rādīt visu</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Jūsu balsi neizdevās saglabāt, mēģiniet vēlreiz pēc brīža</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Nepatīk</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Izceltais baneris</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Izveidojiet {0} Hz virtuālo displeju, kas ļauj Roblox spēlē pārsniegt jūsu ekrāna atsvaidzes intensitāti. Iestatiet arī Roblox spēles maksimālo kadru nomaiņas ātrumu uz {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Pārvietot sadaļu uz leju</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Pārvietot sadaļu uz augšu</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Patīk</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Pirms vērtēšanas izspēlējiet šo spēli</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Lai balsotu, pierakstieties savā Roblox kontā Voidstrap</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Pārvietot uz leju</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} spēlē</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Spēles</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Vieta</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Neizdevās sasniegt Roblox meklēšanu, mēģiniet vēlreiz</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Pārkrāsot peles kursorus</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Meklēt Roblox spēles</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Nokrāso bultas, teksta un shift lock kursorus jūsu krāsā.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Datu centri, izlaistās spēles un precīza regulēšana</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Pievienoties vietai {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Ierakstiet spēles nosaukumu, vietas ID vai spēles saiti</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Papildu spēlētāju atlases opcijas</value>
+  </data>
 </root>

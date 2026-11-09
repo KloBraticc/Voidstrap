@@ -9503,4 +9503,82 @@ Baimendu al duzu?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Ezin izan da Discordetik sartu. Ziurtatu Discord irekita dagoela eta saiatu berriro.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Eraman goraino</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Pantaila birtualak erabiltzen duen freskatze-maiztasuna Hz-etan. Roblox-ek segundoko gehienez hainbeste fotograma errenderiza ditzake.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Pantaila birtualaren freskatze-maiztasuna</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Desegin diseinuaren azken aldaketa</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Erakutsi guztiak</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Ezin izan da zure botoa gorde, saiatu berriro une batean</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Ez dut gustuko</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Banner nabarmendua</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Sortu {0} Hz-eko pantaila birtual bat, Roblox-i jokoan zure pantailaren freskatze-maiztasuna gainditzen uzten diona. Ezarri Roblox-en jokoko gehieneko fotograma-abiadura {0} gisa ere.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Eraman atala behera</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Eraman atala gora</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Gustuko dut</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Jolastu joko honetan baloratu aurretik</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Hasi saioa zure Roblox kontuan Voidstrap-en botoa emateko</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Eraman beheraino</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} jolasten</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Jokoak</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Lekua</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Ezin izan da Roblox-en bilaketara iritsi, saiatu berriro</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Koloreztatu berriro saguaren kurtsoreak</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Bilatu Roblox jokoak</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Gezi, testu eta shift lock kurtsoreak zure kolorez margotzen ditu.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Datu-zentroak, saltatutako jokoak eta doikuntza fina</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Batu {0} lekura</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Idatzi joko baten izena, leku baten IDa edo joko baten esteka</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Matchmaker aukera aurreratuak</value>
+  </data>
 </root>

@@ -9504,4 +9504,82 @@ Leyfa það?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Ekki tókst að tengjast úr Discord. Gakktu úr skugga um að Discord sé opið og reyndu aftur.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Færa efst</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Endurnýjunartíðni sýndarskjásins í Hz. Roblox getur teiknað allt að þennan fjölda ramma á sekúndu.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Endurnýjunartíðni sýndarskjás</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Afturkalla síðustu breytingu á uppsetningu</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Sýna allt</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Ekki tókst að vista atkvæðið þitt, reyndu aftur eftir smástund</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Líkar ekki</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Valinn borði</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Búðu til {0} Hz sýndarskjá sem leyfir Roblox að fara yfir endurnýjunartíðni skjásins í leik. Stilltu einnig hámarksrammatíðni Roblox í leik á {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Færa hluta niður</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Færa hluta upp</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Líkar</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Spilaðu þennan leik áður en þú gefur honum einkunn</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Skráðu þig inn á Roblox reikninginn þinn í Voidstrap til að kjósa</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Færa neðst</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} að spila</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Leikir</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Staður</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Ekki náðist í Roblox leit, reyndu aftur</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Endurlita músarbendlana</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Leita að Roblox leikjum</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Málar örina, textabendilinn og shift lock bendilinn í þínum lit.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Gagnaver, slepptir leikir og fínstilling</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Ganga í stað {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Sláðu inn heiti leiks, auðkenni staðar eða tengil á leik</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Ítarlegir valkostir leikjapörunar</value>
+  </data>
 </root>

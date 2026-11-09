@@ -9503,4 +9503,82 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discord မှ ဝင်ရောက်၍ မရပါ။ Discord ဖွင့်ထားကြောင်း သေချာစေပြီး ထပ်မံကြိုးစားပါ။</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>ထိပ်ဆုံးသို့ ရွှေ့ရန်</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>ပကတိမဟုတ်သော ဖန်သားပြင် လည်ပတ်သည့် Hz ပြန်လည်ဆန်းသစ်နှုန်း။ Roblox သည် တစ်စက္ကန့်လျှင် ဤဖရိမ်အရေအတွက်အထိ ပြသနိုင်သည်။</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>ပကတိမဟုတ်သော ဖန်သားပြင် ပြန်လည်ဆန်းသစ်နှုန်း</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>နောက်ဆုံး အပြင်အဆင် ပြောင်းလဲမှုကို ပြန်ဖျက်ရန်</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>အားလုံးပြရန်</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>သင့်မဲကို သိမ်းဆည်း၍ မရပါ၊ ခဏနေမှ ထပ်စမ်းကြည့်ပါ</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>မကြိုက်ပါ</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>အထူးဖော်ပြ ဗန်နာ</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>ဂိမ်းထဲတွင် သင့်ဖန်သားပြင်၏ ပြန်လည်ဆန်းသစ်နှုန်းထက် Roblox ကျော်လွန်နိုင်စေမည့် {0} Hz ပကတိမဟုတ်သော ဖန်သားပြင်ကို ဖန်တီးပါ။ Roblox ၏ ဂိမ်းအတွင်း အမြင့်ဆုံး ဖရိမ်နှုန်းကိုလည်း {0} သို့ သတ်မှတ်ပါ။</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>အပိုင်းကို အောက်သို့ ရွှေ့ရန်</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>အပိုင်းကို အပေါ်သို့ ရွှေ့ရန်</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>ကြိုက်သည်</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>အဆင့်သတ်မှတ်ခြင်းမပြုမီ ဤဂိမ်းကို ကစားပါ</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>မဲပေးရန် Voidstrap တွင် သင့် Roblox အကောင့်သို့ ဝင်ရောက်ပါ</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>အောက်ဆုံးသို့ ရွှေ့ရန်</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} ဦး ကစားနေသည်</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>ဂိမ်းများ</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>နေရာ</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox ရှာဖွေမှုသို့ မရောက်နိုင်ပါ၊ ထပ်စမ်းကြည့်ပါ</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>မောက်စ်ကာဆာများကို အရောင်ပြန်ခြယ်ရန်</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox ဂိမ်းများ ရှာရန်</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>မြှား၊ စာသားနှင့် shift lock ကာဆာများကို သင့်အရောင်ဖြင့် ခြယ်သည်။</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>ဒေတာစင်တာများ၊ ကျော်ထားသော ဂိမ်းများနှင့် အသေးစိတ်ချိန်ညှိမှု</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>နေရာ {0} သို့ ဝင်ရောက်ရန်</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>ဂိမ်းအမည်၊ နေရာ ID သို့မဟုတ် ဂိမ်းလင့်ခ်ကို ရိုက်ထည့်ပါ</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>အဆင့်မြင့် matchmaker ရွေးချယ်စရာများ</value>
+  </data>
 </root>

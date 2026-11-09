@@ -9504,4 +9504,82 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discord වෙතින් එක්විය නොහැකි විය. Discord විවෘතව ඇති බව තහවුරු කර නැවත උත්සාහ කරන්න.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>ඉහළටම ගෙන යන්න</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>අතථ්‍ය සංදර්ශකය ක්‍රියා කරන Hz නැවුම් කිරීමේ අනුපාතය. Roblox හට තත්පරයකට මෙපමණ රාමු දක්වා පෙන්විය හැක.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>අතථ්‍ය සංදර්ශක නැවුම් කිරීමේ අනුපාතය</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>අවසාන පිරිසැලසුම් වෙනස අහෝසි කරන්න</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>සියල්ල පෙන්වන්න</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>ඔබගේ ඡන්දය සුරැකිය නොහැකි විය, මොහොතකින් නැවත උත්සාහ කරන්න</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>අකමැතියි</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>විශේෂාංග බැනරය</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>ක්‍රීඩාවේදී Roblox හට ඔබගේ තිරයේ නැවුම් කිරීමේ අනුපාතයට වඩා ඉහළ යාමට ඉඩ දෙන {0} Hz අතථ්‍ය සංදර්ශකයක් සාදන්න. Roblox හි ක්‍රීඩාව තුළ Maximum Frame Rate ද {0} ලෙස සකසන්න.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>කොටස පහළට ගෙන යන්න</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>කොටස ඉහළට ගෙන යන්න</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>කැමතියි</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>ශ්‍රේණිගත කිරීමට පෙර මෙම ක්‍රීඩාව ක්‍රීඩා කරන්න</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>ඡන්දය දීමට Voidstrap හි ඔබගේ Roblox ගිණුමට පුරනය වන්න</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>පහළටම ගෙන යන්න</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} ක්‍රීඩා කරමින්</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>ක්‍රීඩා</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>ස්ථානය</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox සෙවුමට ළඟා විය නොහැකි විය, නැවත උත්සාහ කරන්න</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>මූසික කර්සර නැවත වර්ණ ගන්වන්න</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox ක්‍රීඩා සොයන්න</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>ඊතල, පෙළ සහ shift lock කර්සර ඔබගේ වර්ණයෙන් තීන්ත ගාන්නේය.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>දත්ත මධ්‍යස්ථාන, මඟහැරි ක්‍රීඩා සහ සියුම් සීරුමාරු</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>ස්ථානය {0} ට එක්වන්න</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>ක්‍රීඩා නාමයක්, ස්ථාන ID එකක් හෝ ක්‍රීඩා සබැඳියක් ටයිප් කරන්න</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>උසස් matchmaker විකල්ප</value>
+  </data>
 </root>

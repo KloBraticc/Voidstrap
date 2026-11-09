@@ -9504,4 +9504,82 @@ Emera?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Ntibyashobotse kwinjira uvuye kuri Discord. Reba ko Discord ifunguye wongere ugerageze.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Imurira hejuru cyane</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Umuvuduko wo kuvugurura muri Hz ecran y'ikoranabuhanga ikoreraho. Roblox ishobora kwerekana amashusho angana atyo ku isegonda.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Umuvuduko wo kuvugurura ecran y'ikoranabuhanga</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Kuraho impinduka iheruka y'imiterere</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Erekana byose</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Itora ryawe ntiryabitswe, ongera ugerageze mu kanya</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Simbikunze</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Ibendera ryihariye</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Kora ecran y'ikoranabuhanga ya {0} Hz ituma Roblox irenga umuvuduko wo kuvugurura wa ecran yawe mu mukino. Shyiraho kandi Maximum Frame Rate ya Roblox mu mukino kuri {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Manura igice</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Zamura igice</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Ndabikunze</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Kina uyu mukino mbere yo kuwutanga amanota</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Injira muri konti yawe ya Roblox muri Voidstrap kugira ngo utore</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Imurira hasi cyane</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} barimo gukina</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Imikino</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Ahantu</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Ntibyashobotse kugera ku ishakisha rya Roblox, ongera ugerageze</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Hindura amabara y'utumenyetso twa mouse</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Shakisha imikino ya Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Isiga utumenyetso tw'umwambi, inyandiko na shift lock ibara ryawe.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Ibigo by'amakuru, imikino yasimbutswe n'igenamiterere ryimbitse</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Injira ahantu {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Andika izina ry'umukino, ID y'ahantu cyangwa umurongo w'umukino</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Amahitamo yimbitse ya matchmaker</value>
+  </data>
 </root>

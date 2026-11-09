@@ -9504,4 +9504,82 @@ Vil du tillate det?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Kunne ikke bli med fra Discord. Sørg for at Discord er åpent, og prøv igjen.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Flytt til toppen</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Oppdateringsfrekvensen i Hz som den virtuelle skjermen kjører med. Roblox kan tegne opptil så mange bilder per sekund.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Oppdateringsfrekvens for virtuell skjerm</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Angre den siste endringen i oppsettet</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Vis alle</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Stemmen din kunne ikke lagres, prøv igjen om et øyeblikk</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Liker ikke</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Fremhevet banner</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Opprett en virtuell skjerm på {0} Hz som lar Roblox gå over skjermens oppdateringsfrekvens i spillet. Sett også maksimal bildefrekvens i Roblox i spillet til {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Flytt delen ned</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Flytt delen opp</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Liker</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Spill dette spillet før du vurderer det</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Logg på Roblox kontoen din i Voidstrap for å stemme</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Flytt til bunnen</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} spiller</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Spill</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Sted</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Kunne ikke nå Roblox søk, prøv igjen</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Farg musepekerne på nytt</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Søk i Roblox spill</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Farger pil, tekst og shift lock pekerne i din farge.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Datasentre, hoppede spill og finjustering</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Bli med på sted {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Skriv inn et spillnavn, sted ID eller en spillenke</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Avanserte alternativer for matchmaker</value>
+  </data>
 </root>

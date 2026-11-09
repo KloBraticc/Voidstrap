@@ -9503,4 +9503,82 @@ Voidstrap пеш аз насб кардани он ҳар як файлро бо
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Аз Discord ҳамроҳ шудан муяссар нашуд. Боварӣ ҳосил кунед, ки Discord кушода аст ва бори дигар кӯшиш кунед.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Ба боло гузаронед</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Басомади навсозӣ бо Hz, ки дисплейи маҷозӣ бо он кор мекунад. Roblox метавонад то ҳамин қадар кадр дар як сония намоиш диҳад.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Басомади навсозии дисплейи маҷозӣ</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Бекор кардани тағйири охирини тарҳбандӣ</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Ҳамаро нишон диҳед</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Овози шумо нигоҳ дошта нашуд, баъд аз лаҳзае боз кӯшиш кунед</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Маъқул нест</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Баннери махсус</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Дисплейи маҷозии {0} Hz эҷод кунед, ки ба Roblox имкон медиҳад дар бозӣ аз басомади навсозии экрани шумо болотар равад. Инчунин Maximum Frame Rate-и дохили бозии Roblox-ро ба {0} танзим кунед.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Бахшро ба поён гузаронед</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Бахшро ба боло гузаронед</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Маъқул</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Пеш аз баҳо додан ин бозиро бозӣ кунед</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Барои овоз додан ба ҳисоби Roblox-и худ дар Voidstrap ворид шавед</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Ба поён гузаронед</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} бозӣ мекунанд</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Бозиҳо</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Ҷой</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Ба ҷустуҷӯи Roblox дастрасӣ нашуд, боз кӯшиш кунед</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Ранги курсорҳои мушро иваз кунед</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Ҷустуҷӯи бозиҳои Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Курсорҳои тир, матн ва shift lock-ро бо ранги шумо ранг мекунад.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Марказҳои додаҳо, бозиҳои гузаронидашуда ва танзими дақиқ</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Ба ҷойи {0} пайваст шавед</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Номи бозӣ, ID-и ҷой ё пайванди бозиро ворид кунед</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Имконоти пешрафтаи matchmaker</value>
+  </data>
 </root>

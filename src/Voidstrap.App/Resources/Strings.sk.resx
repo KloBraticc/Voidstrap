@@ -9504,4 +9504,82 @@ Povoliť?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Pripojenie cez Discord zlyhalo. Uistite sa, že Discord je otvorený, a skúste to znova.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Presunúť navrch</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Obnovovacia frekvencia v Hz, na ktorej beží virtuálny displej. Roblox dokáže vykresliť až toľko snímok za sekundu.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Obnovovacia frekvencia virtuálneho displeja</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Vrátiť poslednú zmenu rozloženia</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Zobraziť všetko</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Váš hlas sa nepodarilo uložiť, skúste to znova o chvíľu</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Nepáči sa mi</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Odporúčaný banner</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Vytvorte virtuálny displej s frekvenciou {0} Hz, ktorý Robloxu v hre umožní prekročiť obnovovaciu frekvenciu vašej obrazovky. V hre Roblox tiež nastavte Maximum Frame Rate na {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Posunúť sekciu nadol</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Posunúť sekciu nahor</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Páči sa mi</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Pred hodnotením si túto hru zahrajte</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Ak chcete hlasovať, prihláste sa vo Voidstrap do svojho účtu Roblox</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Presunúť naspodok</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} hrá</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Hry</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Miesto</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Vyhľadávanie Roblox nie je dostupné, skúste to znova</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Prefarbiť kurzory myši</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Hľadať hry Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Zafarbí kurzory šípky, textu a shift lock vašou farbou.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Dátové centrá, preskočené hry a jemné doladenie</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Pripojiť sa k miestu {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Zadajte názov hry, ID miesta alebo odkaz na hru</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Rozšírené možnosti matchmakera</value>
+  </data>
 </root>

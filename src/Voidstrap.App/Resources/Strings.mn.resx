@@ -9504,4 +9504,82 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discord оос нэгдэж чадсангүй. Discord нээлттэй эсэхийг шалгаад дахин оролдоно уу.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Хамгийн дээр зөөх</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Виртуал дэлгэцийн Hz шинэчлэлтийн давтамж. Roblox секундэд ийм тооны кадр хүртэл зурж чадна.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Виртуал дэлгэцийн шинэчлэлтийн давтамж</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Сүүлийн байршлын өөрчлөлтийг буцаах</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Бүгдийг харуулах</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Таны саналыг хадгалж чадсангүй, хэсэг хугацааны дараа дахин оролдоно уу</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Дургүй</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Онцлох баннер</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Roblox тоглоомонд таны дэлгэцийн шинэчлэлтийн давтамжаас давах боломж олгох {0} Hz виртуал дэлгэц үүсгэнэ үү. Мөн Roblox тоглоомын дээд кадрын давтамжийг {0} болгож тохируулна уу.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Хэсгийг доош зөөх</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Хэсгийг дээш зөөх</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Дуртай</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Үнэлэхээсээ өмнө энэ тоглоомыг тоглоно уу</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Санал өгөхийн тулд Voidstrap дотор Roblox бүртгэлдээ нэвтэрнэ үү</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Хамгийн доор зөөх</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} тоглож байна</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Тоглоомууд</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Газар</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox хайлтад холбогдож чадсангүй, дахин оролдоно уу</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Хулганы заагчийг дахин будах</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox тоглоом хайх</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Сум, текст болон shift lock заагчийг таны өнгөөр буддаг.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Дата төвүүд, алгассан тоглоомууд болон нарийн тохиргоо</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>{0} газарт нэгдэх</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Тоглоомын нэр, газрын ID эсвэл тоглоомын холбоос бичнэ үү</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Matchmaker нарийвчилсан тохиргоо</value>
+  </data>
 </root>

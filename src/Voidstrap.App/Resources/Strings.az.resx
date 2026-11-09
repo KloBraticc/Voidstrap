@@ -9503,4 +9503,82 @@ icazə verilir?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discord vasitəsilə qoşulmaq mümkün olmadı. Discord açıq olduğundan əmin olun və yenidən cəhd edin.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Ən yuxarıya köçür</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Virtual ekranın işlədiyi yenilənmə tezliyi (Hz). Roblox saniyədə bu qədər kadra qədər göstərə bilər.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Virtual ekranın yenilənmə tezliyi</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Son düzən dəyişikliyini geri al</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Hamısını göstər</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Səsiniz saxlanıla bilmədi, bir az sonra yenidən cəhd edin</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Bəyənmirəm</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Seçilmiş banner</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Oyunda Roblox-un ekranınızın yenilənmə tezliyindən yuxarı çıxmasına imkan verən {0} Hz virtual ekran yaradın. Həmçinin Roblox-un oyundaxili Maksimum Kadr Tezliyini {0} olaraq təyin edin.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Bölməni aşağı köçür</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Bölməni yuxarı köçür</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Bəyənirəm</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Qiymətləndirməzdən əvvəl bu oyunu oynayın</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Səs vermək üçün Voidstrap-da Roblox hesabınıza daxil olun</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Ən aşağıya köçür</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} oynayır</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Oyunlar</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Məkan</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox axtarışına qoşulmaq mümkün olmadı, yenidən cəhd edin</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Siçan kursorlarını yenidən rənglə</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox oyunlarını axtar</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Ox, mətn və shift lock kursorlarını sizin rənginizə boyayır.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Məlumat mərkəzləri, ötürülən oyunlar və incə tənzimləmə</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>{0} məkanına qoşul</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Oyun adı, məkan ID-si və ya oyun linki yazın</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Ətraflı matchmaker seçimləri</value>
+  </data>
 </root>

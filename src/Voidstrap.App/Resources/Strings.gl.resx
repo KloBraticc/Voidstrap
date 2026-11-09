@@ -9504,4 +9504,82 @@ Permíteo?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Non foi posible unirse desde Discord. Asegúrate de que Discord está aberto e téntao de novo.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Mover ao principio</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>A frecuencia de actualización en Hz á que funciona a pantalla virtual. Roblox pode renderizar ata esa cantidade de fotogramas por segundo.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Frecuencia de actualización da pantalla virtual</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Desfacer o último cambio de deseño</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Amosar todo</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Non se puido gardar o teu voto, téntao de novo nun momento</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Non me gusta</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Báner destacado</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Crea unha pantalla virtual de {0} Hz que permite a Roblox superar a frecuencia de actualización da túa pantalla no xogo. Configura tamén a frecuencia máxima de fotogramas de Roblox no xogo en {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Mover a sección abaixo</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Mover a sección arriba</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Gústame</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Xoga a este xogo antes de valoralo</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Inicia sesión na túa conta de Roblox en Voidstrap para votar</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Mover ao final</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} xogando</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Xogos</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Lugar</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Non se puido acceder á busca de Roblox, téntao de novo</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Volver colorear os cursores do rato</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Buscar xogos de Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Pinta os cursores de frecha, texto e shift lock coa túa cor.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Centros de datos, xogos omitidos e axuste fino</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Unirse ao lugar {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Escribe o nome dun xogo, o ID dun lugar ou a ligazón dun xogo</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Opcións avanzadas do matchmaker</value>
+  </data>
 </root>

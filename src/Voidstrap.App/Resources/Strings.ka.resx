@@ -9504,4 +9504,82 @@ Voidstrap ამოწმებს ყველა ფაილს ბიბლ�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discord-იდან შემოერთება ვერ მოხერხდა. დარწმუნდით, რომ Discord ღიაა და სცადეთ ხელახლა.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>ზემოთ გადატანა</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>ვირტუალური ეკრანის განახლების სიხშირე Hz-ში. Roblox-ს შეუძლია წამში ამდენი კადრის დახატვა.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>ვირტუალური ეკრანის განახლების სიხშირე</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>ბოლო განლაგების ცვლილების გაუქმება</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>ყველას ჩვენება</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>თქვენი ხმის შენახვა ვერ მოხერხდა, სცადეთ ცოტა ხანში</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>არ მომწონს</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>გამორჩეული ბანერი</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>შექმენით {0} Hz ვირტუალური ეკრანი, რომელიც Roblox-ს თამაშში თქვენი ეკრანის განახლების სიხშირის გადაჭარბების საშუალებას აძლევს. ასევე დააყენეთ Roblox-ის თამაშის კადრების მაქსიმალური სიხშირე {0}-ზე.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>სექციის ქვემოთ გადატანა</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>სექციის ზემოთ გადატანა</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>მომწონს</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>შეაფასებამდე ითამაშეთ ეს თამაში</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>ხმის მისაცემად შედით თქვენს Roblox ანგარიშზე Voidstrap-ში</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>ბოლოში გადატანა</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} თამაშობს</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>თამაშები</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>ადგილი</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox-ის ძიებასთან დაკავშირება ვერ მოხერხდა, სცადეთ ხელახლა</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>მაუსის კურსორების გადაღებვა</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox თამაშების ძიება</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>ისრის, ტექსტის და shift lock კურსორებს თქვენს ფერში ღებავს.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>მონაცემთა ცენტრები, გამოტოვებული თამაშები და დახვეწილი პარამეტრები</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>ადგილზე შესვლა {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>შეიყვანეთ თამაშის სახელი, ადგილის ID ან თამაშის ბმული</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>მატჩმეიკერის გაფართოებული პარამეტრები</value>
+  </data>
 </root>

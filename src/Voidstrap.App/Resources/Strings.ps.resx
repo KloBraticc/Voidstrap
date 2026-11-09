@@ -9504,4 +9504,82 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>له Discord څخه ګډون ونه شو. ډاډ ترلاسه کړئ چې Discord خلاص دی او بیا هڅه وکړئ.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>سر ته ولېږدوئ</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>هغه تازه کېدو کچه په Hz چې مجازي ښودنه پرې چلېږي. Roblox کولای شي په یوه ثانیه کې تر دې شمېر پورې چوکاټونه انځور کړي.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>د مجازي ښودنې د تازه کېدو کچه</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>د ترتیب وروستی بدلون بېرته واخلئ</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>ټول وښایاست</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>ستاسو رایه خوندي نه شوه، لږ وروسته بیا هڅه وکړئ</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>نه خوښول</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>ځانګړی بینر</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>یوه {0} Hz مجازي ښودنه جوړه کړئ چې Roblox ته اجازه ورکوي په لوبه کې ستاسو د پردې له تازه کېدو کچې لوړ لاړ شي. د Roblox د لوبې دننه اعظمي چوکاټ کچه هم {0} ته وټاکئ.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>برخه ښکته ولېږدوئ</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>برخه پورته ولېږدوئ</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>خوښول</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>د درجه بندۍ نه مخکې دا لوبه وکړئ</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>د رایې ورکولو لپاره په Voidstrap کې خپل Roblox حساب ته ننوځئ</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>لاندې ته ولېږدوئ</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} لوبیږي</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>لوبې</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>ځای</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>د Roblox لټون ته رسېدل ونه شول، بیا هڅه وکړئ</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>د موږک نښې بیا رنګ کړئ</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>د Roblox لوبې ولټوئ</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>د غشي، متن او shift lock نښې ستاسو په رنګ رنګوي.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>ډیټا سنټرونه، پرېښودل شوې لوبې او دقیق تنظیم</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>ځای {0} ته ورګډ شئ</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>د لوبې نوم، د ځای ID یا د لوبې لینک ولیکئ</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>د میچ میکر پرمختللي اختیارونه</value>
+  </data>
 </root>

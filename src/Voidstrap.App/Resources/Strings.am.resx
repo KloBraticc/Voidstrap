@@ -9503,4 +9503,82 @@ Voidstrap ከመጫንዎ በፊት እያንዳንዱን ፋይል ወደ ላ�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>ከDiscord መቀላቀል አልተቻለም። Discord መከፈቱን ያረጋግጡ እና እንደገና ይሞክሩ።</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>ወደ ላይ አንቀሳቅስ</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>ምናባዊው ማሳያ የሚሠራበት የማደሻ ፍጥነት በHz። Roblox በሰከንድ እስከዚህ ያህል ፍሬሞችን ማሳየት ይችላል።</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>የምናባዊ ማሳያ ማደሻ ፍጥነት</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>የመጨረሻውን የአቀማመጥ ለውጥ ቀልብስ</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>ሁሉንም አሳይ</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>ድምጽዎ ሊቀመጥ አልቻለም፣ ከትንሽ ቆይታ በኋላ እንደገና ይሞክሩ</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>አልወደድኩትም</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>ተለይቶ የቀረበ ባነር</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Roblox በጨዋታ ውስጥ ከማያ ገጽዎ የማደሻ ፍጥነት በላይ እንዲሄድ የሚያስችል የ{0} Hz ምናባዊ ማሳያ ይፍጠሩ። እንዲሁም የRoblox የጨዋታ ውስጥ ከፍተኛ የፍሬም ፍጥነትን ወደ {0} ያዘጋጁ።</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>ክፍሉን ወደ ታች አንቀሳቅስ</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>ክፍሉን ወደ ላይ አንቀሳቅስ</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>ወደድኩት</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>ደረጃ ከመስጠትዎ በፊት ይህን ጨዋታ ይጫወቱ</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>ድምጽ ለመስጠት በVoidstrap ውስጥ ወደ Roblox መለያዎ ይግቡ</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>ወደ ታች አንቀሳቅስ</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} በመጫወት ላይ</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>ጨዋታዎች</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>ቦታ</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>የRoblox ፍለጋን መድረስ አልተቻለም፣ እንደገና ይሞክሩ</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>የመዳፊት ጠቋሚዎችን እንደገና ቀልም</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>የRoblox ጨዋታዎችን ፈልግ</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>የቀስት፣ የጽሑፍ እና የshift lock ጠቋሚዎችን በቀለምዎ ይቀባል።</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>የመረጃ ማዕከላት፣ የተዘለሉ ጨዋታዎች እና ጥሩ ማስተካከያ</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>ቦታ {0} ተቀላቀል</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>የጨዋታ ስም፣ የቦታ መታወቂያ ወይም የጨዋታ አገናኝ ይተይቡ</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>የላቀ የmatchmaker አማራጮች</value>
+  </data>
 </root>

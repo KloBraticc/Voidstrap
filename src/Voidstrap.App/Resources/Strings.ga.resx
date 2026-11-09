@@ -9504,4 +9504,82 @@ Ceadaigh é?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Níorbh fhéidir páirt a ghlacadh ó Discord. Cinntigh go bhfuil Discord oscailte agus bain triail eile as.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Bog go dtí an barr</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>An ráta athnuachana in Hz a ritheann an taispeáint fhíorúil air. Is féidir le Roblox suas leis an méid sin fráma sa soicind a rindreáil.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Ráta athnuachana na taispeána fíorúla</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Cealaigh an t-athrú leagain amach is déanaí</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Taispeáin gach rud</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Níorbh fhéidir do vóta a shábháil, bain triail eile as i gceann nóiméid</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Ní maith liom</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Meirge feiceálach</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Cruthaigh taispeáint fhíorúil {0} Hz a ligeann do Roblox dul thar ráta athnuachana do scáileáin sa chluiche. Socraigh Uasráta Frámaí Roblox sa chluiche go {0} freisin.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Bog an rannán síos</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Bog an rannán suas</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Is maith liom</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Imir an cluiche seo sula ndéanann tú é a rátáil</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Sínigh isteach i do chuntas Roblox in Voidstrap chun vótáil</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Bog go dtí an bun</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} ag imirt</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Cluichí</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Áit</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Níorbh fhéidir cuardach Roblox a bhaint amach, bain triail eile as</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Athdhathaigh cúrsóirí na luiche</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Cuardaigh cluichí Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Péinteálann sé na cúrsóirí saighde, téacs agus shift lock i do dhath féin.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Ionaid sonraí, cluichí scipeáilte agus mionchoigeartú</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Téigh isteach in áit {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Clóscríobh ainm cluiche, ID áite nó nasc cluiche</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Ardroghanna matchmaker</value>
+  </data>
 </root>

@@ -9503,4 +9503,82 @@ Caniatáu iddo?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Methu ymuno o Discord. Gwnewch yn siŵr bod Discord ar agor a rhowch gynnig arall arni.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Symud i'r brig</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Y gyfradd adnewyddu mewn Hz y mae'r sgrin rithwir yn rhedeg arni. Gall Roblox rendro hyd at gymaint â hyn o fframiau yr eiliad.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Cyfradd adnewyddu'r sgrin rithwir</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Dadwneud y newid cynllun diwethaf</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Dangos y cyfan</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Nid oedd modd cadw eich pleidlais, rhowch gynnig arall arni mewn munud</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Ddim yn hoffi</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Baner dan sylw</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Creu sgrin rithwir {0} Hz sy'n gadael i Roblox fynd yn uwch na chyfradd adnewyddu eich sgrin yn y gêm. Gosodwch Gyfradd Fframiau Uchaf Roblox yn y gêm i {0} hefyd.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Symud yr adran i lawr</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Symud yr adran i fyny</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Hoffi</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Chwaraewch y gêm hon cyn ei graddio</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Mewngofnodwch i'ch cyfrif Roblox yn Voidstrap i bleidleisio</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Symud i'r gwaelod</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} yn chwarae</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Gemau</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Lle</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Methu cyrraedd chwiliad Roblox, rhowch gynnig arall arni</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Ail liwio cyrchyddion y llygoden</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Chwilio gemau Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Yn paentio'r cyrchyddion saeth, testun a shift lock yn eich lliw chi.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Canolfannau data, gemau wedi'u hepgor a mireinio</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Ymuno â lle {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Teipiwch enw gêm, ID lle neu ddolen gêm</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Opsiynau matchmaker uwch</value>
+  </data>
 </root>

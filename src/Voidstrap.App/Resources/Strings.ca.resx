@@ -9503,4 +9503,82 @@ Ho permets?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>No s’ha pogut unir des de Discord. Assegura’t que Discord està obert i torna-ho a provar.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Mou a dalt de tot</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>La freqüència de refresc en Hz a la qual funciona la pantalla virtual. Roblox pot renderitzar fins a aquest nombre de fotogrames per segon.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Freqüència de refresc de la pantalla virtual</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Desfés l'últim canvi de disposició</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Mostra-ho tot</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>No s'ha pogut desar el teu vot, torna-ho a provar d'aquí a un moment</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>No m'agrada</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Bàner destacat</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Crea una pantalla virtual de {0} Hz que permet a Roblox superar la freqüència de refresc de la teva pantalla dins del joc. Configura també la freqüència màxima de fotogrames de Roblox dins del joc a {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Mou la secció avall</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Mou la secció amunt</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>M'agrada</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Juga a aquest joc abans de valorar-lo</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Inicia la sessió al teu compte de Roblox a Voidstrap per votar</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Mou a baix de tot</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} jugant</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Jocs</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Lloc</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>No s'ha pogut accedir a la cerca de Roblox, torna-ho a provar</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Torna a pintar els cursors del ratolí</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Cerca jocs de Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Pinta els cursors de fletxa, text i shift lock amb el teu color.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Centres de dades, jocs omesos i ajustament fi</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Uneix-te al lloc {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Escriu el nom d'un joc, l'ID d'un lloc o l'enllaç d'un joc</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Opcions avançades del matchmaker</value>
+  </data>
 </root>

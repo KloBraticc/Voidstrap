@@ -9504,4 +9504,82 @@ Voidstrap әрбір файлды орнатпас бұрын оны кітап�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discord арқылы қосылу мүмкін болмады. Discord ашық екенін тексеріп, қайталап көріңіз.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Ең жоғарыға жылжыту</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Виртуалды дисплейдің Hz бойынша жаңарту жиілігі. Roblox секундына осынша кадрға дейін сала алады.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Виртуалды дисплейдің жаңарту жиілігі</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Соңғы орналасу өзгерісін болдырмау</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Барлығын көрсету</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Дауысыңыз сақталмады, біраздан кейін қайталап көріңіз</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Ұнамайды</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Ұсынылған баннер</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Roblox ойында экраныңыздың жаңарту жиілігінен асуына мүмкіндік беретін {0} Hz виртуалды дисплей жасаңыз. Сондай-ақ Roblox ойынындағы ең жоғары кадр жиілігін {0} етіп орнатыңыз.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Бөлімді төмен жылжыту</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Бөлімді жоғары жылжыту</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Ұнайды</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Бағалау алдында бұл ойынды ойнап көріңіз</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Дауыс беру үшін Voidstrap ішінде Roblox тіркелгіңізге кіріңіз</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Ең төменге жылжыту</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} ойнап жатыр</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Ойындар</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Орын</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox іздеуіне қосылу мүмкін болмады, қайталап көріңіз</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Тінтуір курсорларын қайта бояу</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox ойындарын іздеу</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Көрсеткі, мәтін және shift lock курсорларын сіздің түсіңізге бояйды.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Деректер орталықтары, өткізілген ойындар және дәл баптау</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>{0} орнына қосылу</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Ойын атауын, орын ID немесе ойын сілтемесін енгізіңіз</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Матчмейкердің кеңейтілген параметрлері</value>
+  </data>
 </root>

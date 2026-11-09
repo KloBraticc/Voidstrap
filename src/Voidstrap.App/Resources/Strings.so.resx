@@ -9504,4 +9504,82 @@ Oggolow?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Laguma biiri karin Discord. Hubi in Discord uu furan yahay oo mar kale isku day.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>U dhaqaaji xagga sare</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Heerka cusboonaysiinta ee Hz ee shaashadda casriga ah ku shaqeyso. Roblox wuxuu soo bandhigi karaa ilaa intaas oo sawir ilbiriqsi kasta.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Heerka cusboonaysiinta shaashadda casriga ah</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Ka noqo isbeddelkii ugu dambeeyay ee qaabka</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Muuji dhammaan</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Codkaaga lama keydin karin, mar kale isku day wax yar kadib</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Ma jecli</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Calanka la soo bandhigay</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Samee shaashad casri ah oo {0} Hz ah oo u oggolaata Roblox inuu ciyaarta dhexdeeda dhaafo heerka cusboonaysiinta shaashaddaada. Sidoo kale u deji Maximum Frame Rate ee Roblox ciyaarta dhexdeeda {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Qaybta hoos u dhaqaaji</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Qaybta kor u dhaqaaji</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Waan jeclahay</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Ciyaar ciyaartan ka hor intaadan qiimeyn</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Ku gal akoonkaaga Roblox ee Voidstrap si aad u codeyso</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>U dhaqaaji xagga hoose</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} ayaa ciyaaraya</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Ciyaaraha</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Goob</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Lama gaari karin raadinta Roblox, mar kale isku day</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Midab cusub u yeel tilmaameyaasha jiirka</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Raadi ciyaaraha Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Wuxuu tilmaameyaasha fallaarta, qoraalka iyo shift lock ku rinjiyeeyaa midabkaaga.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Xarumaha xogta, ciyaaraha la booday iyo hagaajin faahfaahsan</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Ku biir goobta {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Qor magaca ciyaarta, ID-ga goobta ama xiriirka ciyaarta</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Doorashooyinka horumarsan ee matchmaker</value>
+  </data>
 </root>

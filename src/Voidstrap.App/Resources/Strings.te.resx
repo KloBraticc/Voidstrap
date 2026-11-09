@@ -9503,4 +9503,82 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discord నుండి చేరలేకపోయాము. Discord తెరిచి ఉందని నిర్ధారించుకుని మళ్లీ ప్రయత్నించండి.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>పైకి తరలించు</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>వర్చువల్ డిస్‌ప్లే నడిచే Hz రిఫ్రెష్ రేట్. Roblox సెకనుకు ఇన్ని ఫ్రేమ్‌ల వరకు చూపగలదు.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>వర్చువల్ డిస్‌ప్లే రిఫ్రెష్ రేట్</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>చివరి లేఅవుట్ మార్పును రద్దు చేయి</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>అన్నీ చూపు</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>మీ ఓటును సేవ్ చేయలేకపోయాము, కొద్దిసేపటి తర్వాత మళ్లీ ప్రయత్నించండి</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>నచ్చలేదు</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>ఫీచర్డ్ బ్యానర్</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>గేమ్‌లో Roblox మీ స్క్రీన్ రిఫ్రెష్ రేట్‌ను మించేలా చేసే {0} Hz వర్చువల్ డిస్‌ప్లేను సృష్టించండి. Roblox గేమ్‌లోని Maximum Frame Rate ను కూడా {0} కు సెట్ చేయండి.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>విభాగాన్ని కిందికి తరలించు</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>విభాగాన్ని పైకి తరలించు</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>నచ్చింది</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>రేటింగ్ ఇచ్చే ముందు ఈ గేమ్ ఆడండి</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>ఓటు వేయడానికి Voidstrap లో మీ Roblox ఖాతాకు సైన్ ఇన్ చేయండి</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>కిందికి తరలించు</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} మంది ఆడుతున్నారు</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>గేమ్‌లు</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>ప్లేస్</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox శోధనను చేరుకోలేకపోయాము, మళ్లీ ప్రయత్నించండి</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>మౌస్ కర్సర్‌లకు మళ్లీ రంగు వేయి</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox గేమ్‌లను శోధించు</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>బాణం, టెక్స్ట్ మరియు shift lock కర్సర్‌లకు మీ రంగు వేస్తుంది.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>డేటా సెంటర్లు, దాటవేసిన గేమ్‌లు మరియు సూక్ష్మ సర్దుబాటు</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>ప్లేస్ {0} లో చేరండి</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>గేమ్ పేరు, ప్లేస్ ID లేదా గేమ్ లింక్ టైప్ చేయండి</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>అధునాతన matchmaker ఎంపికలు</value>
+  </data>
 </root>

@@ -9503,4 +9503,82 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discord இலிருந்து சேர முடியவில்லை. Discord திறந்திருப்பதை உறுதிசெய்து மீண்டும் முயலவும்.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>மேலே நகர்த்து</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>மெய்நிகர் காட்சி இயங்கும் Hz புதுப்பிப்பு விகிதம். Roblox ஒரு வினாடிக்கு இத்தனை பிரேம்கள் வரை காட்ட முடியும்.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>மெய்நிகர் காட்சி புதுப்பிப்பு விகிதம்</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>கடைசி தளவமைப்பு மாற்றத்தைச் செயல்தவிர்</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>அனைத்தையும் காட்டு</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>உங்கள் வாக்கைச் சேமிக்க முடியவில்லை, சிறிது நேரத்தில் மீண்டும் முயலவும்</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>பிடிக்கவில்லை</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>சிறப்பு பேனர்</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>விளையாட்டில் Roblox உங்கள் திரையின் புதுப்பிப்பு விகிதத்தை மிஞ்ச அனுமதிக்கும் {0} Hz மெய்நிகர் காட்சியை உருவாக்கவும். Roblox விளையாட்டினுள் Maximum Frame Rate ஐயும் {0} ஆக அமைக்கவும்.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>பகுதியைக் கீழே நகர்த்து</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>பகுதியை மேலே நகர்த்து</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>பிடித்துள்ளது</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>மதிப்பிடும் முன் இந்த விளையாட்டை விளையாடவும்</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>வாக்களிக்க Voidstrap இல் உங்கள் Roblox கணக்கில் உள்நுழையவும்</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>கீழே நகர்த்து</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} பேர் விளையாடுகின்றனர்</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>விளையாட்டுகள்</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>இடம்</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox தேடலை அணுக முடியவில்லை, மீண்டும் முயலவும்</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>மவுஸ் கர்சர்களுக்கு மீண்டும் வண்ணமிடு</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox விளையாட்டுகளைத் தேடு</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>அம்பு, உரை மற்றும் shift lock கர்சர்களை உங்கள் வண்ணத்தில் தீட்டுகிறது.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>தரவு மையங்கள், தவிர்க்கப்பட்ட விளையாட்டுகள் மற்றும் நுண் சரிசெய்தல்</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>இடம் {0} இல் சேர்</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>விளையாட்டின் பெயர், இட ID அல்லது விளையாட்டு இணைப்பைத் தட்டச்சு செய்யவும்</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>மேம்பட்ட matchmaker விருப்பங்கள்</value>
+  </data>
 </root>

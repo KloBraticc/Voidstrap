@@ -9504,4 +9504,82 @@ E lejon atë?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Bashkimi nga Discord dështoi. Sigurohu që Discord është i hapur dhe provo përsëri.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Zhvendos në krye</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Shpejtësia e rifreskimit në Hz me të cilën punon ekrani virtual. Roblox mund të vizatojë deri në kaq korniza në sekondë.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Shpejtësia e rifreskimit të ekranit virtual</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Zhbëj ndryshimin e fundit të paraqitjes</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Shfaq të gjitha</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Vota juaj nuk u ruajt, provoni përsëri pas pak</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Nuk më pëlqen</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Baneri i veçuar</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Krijoni një ekran virtual {0} Hz që i lejon Roblox të kalojë shpejtësinë e rifreskimit të ekranit tuaj në lojë. Vendosni gjithashtu Maximum Frame Rate të Roblox brenda lojës në {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Zhvendos seksionin poshtë</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Zhvendos seksionin lart</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Më pëlqen</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Luajeni këtë lojë para se ta vlerësoni</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Hyni në llogarinë tuaj Roblox në Voidstrap për të votuar</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Zhvendos në fund</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} po luajnë</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Lojëra</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Vendi</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Kërkimi i Roblox nuk u arrit, provoni përsëri</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Ringjyros kursorët e miut</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Kërko lojëra Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Ngjyros kursorët e shigjetës, tekstit dhe shift lock me ngjyrën tuaj.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Qendrat e të dhënave, lojërat e anashkaluara dhe rregullimi i imët</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Bashkohu me vendin {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Shkruani emrin e lojës, ID e vendit ose lidhjen e lojës</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Opsionet e avancuara të matchmaker</value>
+  </data>
 </root>

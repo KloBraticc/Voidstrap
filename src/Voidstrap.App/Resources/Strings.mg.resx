@@ -9504,4 +9504,82 @@ Avelao izany?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Tsy afaka niditra avy amin’ny Discord. Ataovy azo antoka fa misokatra ny Discord dia andramo indray.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Afindra any amin'ny farany ambony</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Ny hafainganam-pamelombelonana amin'ny Hz an'ny efijery virtoaly. Afaka mamoaka sary hatramin'izany isa izany isan-tsegondra ny Roblox.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Hafainganam-pamelombelonana efijery virtoaly</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Foano ny fiovana farany tamin'ny fandaminana</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Asehoy daholo</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Tsy voatahiry ny latsabatonao, andramo indray afaka kelikely</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Tsy tiako</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Sora-baventy nasongadina</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Mamorona efijery virtoaly {0} Hz izay mamela ny Roblox hihoatra ny hafainganam-pamelombelonana ny efijerinao ao amin'ny lalao. Apetraho koa ho {0} ny Maximum Frame Rate ao amin'ny lalao Roblox.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Afindra midina ny fizarana</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Afindra miakatra ny fizarana</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Tiako</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Lalao aloha ity lalao ity vao manome naoty</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Midira amin'ny kaontinao Roblox ao amin'ny Voidstrap mba hifidy</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Afindra any amin'ny farany ambany</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} milalao</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Lalao</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Toerana</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Tsy tratra ny fikarohana Roblox, andramo indray</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Loko vaovao ho an'ny kursora totozy</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Hikaroka lalao Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Mandoko ny kursora zana-tsipìka, lahatsoratra ary shift lock amin'ny lokonao.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Foibe angon-drakitra, lalao nodinganina ary fanitsiana tsara</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Hiditra amin'ny toerana {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Soraty ny anaran'ny lalao, ny ID toerana na ny rohin'ny lalao</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Safidy mandroso amin'ny matchmaker</value>
+  </data>
 </root>

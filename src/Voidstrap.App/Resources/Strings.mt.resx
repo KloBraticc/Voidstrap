@@ -9504,4 +9504,82 @@ Mods li jikkoinċidu jistgħu jagħmlu Roblox jidhru jew iġibu ruħhom b'mod st
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Ma setax jingħaqad minn Discord. Kun żgur li Discord huwa miftuħ u erġa’ pprova.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Mexxi fl-ogħla</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Ir-rata ta' aġġornament f'Hz li biha jaħdem l-iskrin virtwali. Roblox jista' juri sa dan l-għadd ta' frames kull sekonda.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Rata ta' aġġornament tal-iskrin virtwali</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Neħħi l-aħħar bidla fit-tqassim</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Uri kollox</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Il-vot tiegħek ma setax jiġi ssejvjat, erġa' pprova ftit wara</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Ma jogħġobnix</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Banner magħżul</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Oħloq skrin virtwali ta' {0} Hz li jħalli lil Roblox jaqbeż ir-rata ta' aġġornament tal-iskrin tiegħek fil-logħba. Issettja wkoll il-Maximum Frame Rate fil-logħba ta' Roblox għal {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Mexxi t-taqsima 'l isfel</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Mexxi t-taqsima 'l fuq</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Jogħġobni</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Ilgħab din il-logħba qabel ma tivvalutaha</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Idħol fil-kont Roblox tiegħek f'Voidstrap biex tivvota</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Mexxi fl-aktar baxx</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} qed jilgħabu</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Logħob</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Post</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Ma setgħetx tintlaħaq it-tfittxija ta' Roblox, erġa' pprova</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Ibdel il-kulur tal-cursors tal-maws</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Fittex logħob Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Jiżbogħ il-cursors tal-vleġġa, tat-test u tax-shift lock bil-kulur tiegħek.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Ċentri tad-data, logħob maqbuż u rfinar</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Ingħaqad mal-post {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Ikteb isem ta' logħba, ID tal-post jew link tal-logħba</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Għażliet avvanzati tal-matchmaker</value>
+  </data>
 </root>

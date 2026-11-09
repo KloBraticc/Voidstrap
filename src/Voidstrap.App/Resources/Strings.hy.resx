@@ -9504,4 +9504,82 @@ Voidstrap նախքան այն տեղադրելը ստուգում է յուրա�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Չհաջողվեց միանալ Discord-ից։ Համոզվեք, որ Discord-ը բաց է, և կրկին փորձեք։</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Տեղափոխել ամենավերև</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Վիրտուալ էկրանի թարմացման հաճախականությունը Hz-ով։ Roblox-ը կարող է ցուցադրել մինչև այդքան կադր վայրկյանում։</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Վիրտուալ էկրանի թարմացման հաճախականություն</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Չեղարկել դասավորության վերջին փոփոխությունը</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Ցույց տալ բոլորը</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Ձեր ձայնը չհաջողվեց պահպանել, փորձեք կրկին մի փոքր ուշ</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Չեմ հավանում</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Առանձնացված պաստառ</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Ստեղծեք {0} Hz վիրտուալ էկրան, որը թույլ է տալիս Roblox-ին խաղում գերազանցել ձեր էկրանի թարմացման հաճախականությունը։ Նաև Roblox-ի խաղի առավելագույն կադրային հաճախականությունը սահմանեք {0}։</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Տեղափոխել բաժինը ներքև</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Տեղափոխել բաժինը վերև</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Հավանում եմ</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Խաղացեք այս խաղը նախքան այն գնահատելը</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Մուտք գործեք ձեր Roblox հաշիվ Voidstrap-ում՝ քվեարկելու համար</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Տեղափոխել ամենաներքև</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} խաղում են</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Խաղեր</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Վայր</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Չհաջողվեց կապվել Roblox որոնման հետ, փորձեք կրկին</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Վերաներկել մկնիկի կուրսորները</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Որոնել Roblox խաղեր</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Ներկում է սլաքի, տեքստի և shift lock կուրսորները ձեր գույնով։</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Տվյալների կենտրոններ, բաց թողնված խաղեր և նուրբ կարգավորում</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Միանալ {0} վայրին</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Մուտքագրեք խաղի անուն, վայրի ID կամ խաղի հղում</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Ընդլայնված matchmaker ընտրանքներ</value>
+  </data>
 </root>

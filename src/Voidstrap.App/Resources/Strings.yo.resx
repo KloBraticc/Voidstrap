@@ -9503,4 +9503,82 @@ Gba laaye?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Kò ṣeé ṣe láti darapọ̀ láti Discord. Rí i dájú pé Discord ṣí sílẹ̀ kí o sì gbìyànjú lẹ́ẹ̀kan sí i.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Gbé lọ sí òkè pátápátá</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Ìwọ̀n ìtúnṣe ní Hz tí ìfihàn àfojúinú ń ṣiṣẹ́ lé. Roblox lè fi àwọn férémù tó tó èyí hàn ní ìṣẹ́jú àáyá kan.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Ìwọ̀n ìtúnṣe ìfihàn àfojúinú</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Fagi lé àyípadà ìtòlẹ́sẹẹsẹ tó kẹ́yìn</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Fi gbogbo rẹ̀ hàn</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>A kò lè fi ìbò rẹ pamọ́, gbìyànjú lẹ́ẹ̀kan sí i láìpẹ́</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Kò wù mí</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Àsíá àfihàn</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Ṣẹ̀dá ìfihàn àfojúinú {0} Hz tí ó jẹ́ kí Roblox kọjá ìwọ̀n ìtúnṣe ojú iboju rẹ nínú eré. Bákan náà ṣètò Maximum Frame Rate inú eré Roblox sí {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Gbé abala sílẹ̀</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Gbé abala sókè</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Ó wù mí</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Ṣe eré yìí kí o tó fún un ní ìdíwọ̀n</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Wọlé sí àkọọ́lẹ̀ Roblox rẹ nínú Voidstrap láti dìbò</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Gbé lọ sí ìsàlẹ̀ pátápátá</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} ń ṣeré</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Àwọn eré</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Ibì</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>A kò lè dé ìwádìí Roblox, gbìyànjú lẹ́ẹ̀kan sí i</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Tún àwọ̀ àwọn kọ́sọ̀ èkúté ṣe</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Wá àwọn eré Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Ó ń kun àwọn kọ́sọ̀ ọfà, ọ̀rọ̀ àti shift lock ní àwọ̀ rẹ.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Àwọn ibùdó dátà, àwọn eré tí a fò àti àtúnṣe kíkún</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Darapọ̀ mọ́ ibì {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Tẹ orúkọ eré, ID ibì tàbí ìjápọ̀ eré</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Àwọn àṣàyàn matchmaker tó ga jù</value>
+  </data>
 </root>

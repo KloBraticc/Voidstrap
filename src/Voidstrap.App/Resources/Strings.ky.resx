@@ -9504,4 +9504,82 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discord аркылуу кошулуу мүмкүн болгон жок. Discord ачык экенин текшерип, кайра аракет кылыңыз.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Эң өйдөгө жылдыруу</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Виртуалдык дисплейдин Hz менен жаңылоо жыштыгы. Roblox секундасына ушунча кадрга чейин тарта алат.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Виртуалдык дисплейдин жаңылоо жыштыгы</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Акыркы жайгашуу өзгөрүүсүн жокко чыгаруу</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Баарын көрсөтүү</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Добушуңуз сакталган жок, бир аздан кийин кайра аракет кылыңыз</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Жакпайт</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Тандалган баннер</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Roblox оюнда экраныңыздын жаңылоо жыштыгынан ашышына мүмкүндүк берген {0} Hz виртуалдык дисплей түзүңүз. Ошондой эле Roblox оюнундагы максималдуу кадр жыштыгын {0} кылып коюңуз.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Бөлүмдү ылдый жылдыруу</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Бөлүмдү өйдө жылдыруу</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Жагат</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Баалоодон мурун бул оюнду ойноп көрүңүз</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Добуш берүү үчүн Voidstrap ичинде Roblox аккаунтуңузга кириңиз</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Эң ылдыйга жылдыруу</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} ойноп жатат</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Оюндар</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Жай</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox издөөсүнө туташуу мүмкүн болгон жок, кайра аракет кылыңыз</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Чычкан курсорлорун кайра боёо</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox оюндарын издөө</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Жебе, текст жана shift lock курсорлорун сиздин түскө боёйт.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Маалымат борборлору, өткөрүлгөн оюндар жана так жөндөө</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>{0} жайына кошулуу</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Оюндун атын, жай ID же оюн шилтемесин териңиз</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Матчмейкердин кеңейтилген параметрлери</value>
+  </data>
 </root>

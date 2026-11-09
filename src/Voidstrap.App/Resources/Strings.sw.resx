@@ -9503,4 +9503,82 @@ Je, unairuhusu?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Imeshindwa kujiunga kutoka Discord. Hakikisha Discord imefunguliwa kisha ujaribu tena.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Hamisha juu kabisa</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Kiwango cha kuonyesha upya kwa Hz ambacho skrini pepe hufanya kazi nacho. Roblox inaweza kuonyesha hadi fremu hizi kwa sekunde.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Kiwango cha kuonyesha upya cha skrini pepe</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Tendua badiliko la mwisho la mpangilio</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Onyesha zote</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Kura yako haikuweza kuhifadhiwa, jaribu tena baada ya muda mfupi</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Sipendi</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Bango maalum</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Unda skrini pepe ya {0} Hz inayoiruhusu Roblox kuzidi kiwango cha kuonyesha upya cha skrini yako ndani ya mchezo. Pia weka Maximum Frame Rate ya Roblox ndani ya mchezo kuwa {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Shusha sehemu</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Panda sehemu</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Napenda</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Cheza mchezo huu kabla ya kuukadiria</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Ingia kwenye akaunti yako ya Roblox katika Voidstrap ili kupiga kura</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Hamisha chini kabisa</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} wanacheza</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Michezo</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Mahali</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Imeshindwa kufikia utafutaji wa Roblox, jaribu tena</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Badilisha rangi za vielekezi vya kipanya</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Tafuta michezo ya Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Hupaka vielekezi vya mshale, maandishi na shift lock kwa rangi yako.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Vituo vya data, michezo iliyorukwa na urekebishaji wa kina</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Jiunge na mahali {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Andika jina la mchezo, ID ya mahali au kiungo cha mchezo</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Chaguo za kina za matchmaker</value>
+  </data>
 </root>

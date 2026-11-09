@@ -9504,4 +9504,82 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>មិនអាចចូលរួមពី Discord បានទេ។ សូមប្រាកដថា Discord បានបើក ហើយព្យាយាមម្តងទៀត។</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>ផ្លាស់ទីទៅខាងលើបំផុត</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>អត្រាធ្វើឱ្យស្រស់ជា Hz ដែលអេក្រង់និម្មិតដំណើរការ។ Roblox អាចបង្ហាញស៊ុមរហូតដល់ចំនួននេះក្នុងមួយវិនាទី។</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>អត្រាធ្វើឱ្យស្រស់នៃអេក្រង់និម្មិត</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>មិនធ្វើវិញនូវការផ្លាស់ប្តូរប្លង់ចុងក្រោយ</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>បង្ហាញទាំងអស់</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>មិនអាចរក្សាទុកការបោះឆ្នោតរបស់អ្នកបានទេ សូមព្យាយាមម្តងទៀតបន្តិចទៀត</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>មិនចូលចិត្ត</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>បដាពិសេស</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>បង្កើតអេក្រង់និម្មិត {0} Hz ដែលអនុញ្ញាតឱ្យ Roblox លើសអត្រាធ្វើឱ្យស្រស់នៃអេក្រង់របស់អ្នកក្នុងហ្គេម។ ហើយកំណត់អត្រាស៊ុមអតិបរមាក្នុងហ្គេមរបស់ Roblox ទៅ {0} ផងដែរ។</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>ផ្លាស់ទីផ្នែកចុះក្រោម</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>ផ្លាស់ទីផ្នែកឡើងលើ</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>ចូលចិត្ត</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>សូមលេងហ្គេមនេះមុនពេលវាយតម្លៃ</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>ចូលគណនី Roblox របស់អ្នកក្នុង Voidstrap ដើម្បីបោះឆ្នោត</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>ផ្លាស់ទីទៅខាងក្រោមបំផុត</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} កំពុងលេង</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>ហ្គេម</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>កន្លែង</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>មិនអាចភ្ជាប់ទៅការស្វែងរក Roblox បានទេ សូមព្យាយាមម្តងទៀត</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>លាបពណ៌ទស្សន៍ទ្រនិចកណ្ដុរឡើងវិញ</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>ស្វែងរកហ្គេម Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>លាបពណ៌ទស្សន៍ទ្រនិចព្រួញ អត្ថបទ និង shift lock ជាពណ៌របស់អ្នក។</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>មជ្ឈមណ្ឌលទិន្នន័យ ហ្គេមដែលបានរំលង និងការកែសម្រួលលម្អិត</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>ចូលកន្លែង {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>វាយឈ្មោះហ្គេម លេខសម្គាល់កន្លែង ឬតំណហ្គេម</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>ជម្រើសកម្រិតខ្ពស់នៃកម្មវិធីផ្គូផ្គង</value>
+  </data>
 </root>

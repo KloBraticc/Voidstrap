@@ -9503,4 +9503,82 @@ Kas lubada?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discordist liitumine ebaõnnestus. Veendu, et Discord on avatud, ja proovi uuesti.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Teisalda kõige üles</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Värskendussagedus hertsides (Hz), millel virtuaalne ekraan töötab. Roblox saab renderdada kuni nii palju kaadreid sekundis.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Virtuaalse ekraani värskendussagedus</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Võta viimane paigutuse muudatus tagasi</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Näita kõiki</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Sinu häält ei õnnestunud salvestada, proovi hetke pärast uuesti</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Ei meeldi</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Esiletõstetud bänner</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Loo {0} Hz virtuaalne ekraan, mis laseb Robloxil mängus ületada sinu ekraani värskendussagedust. Määra ka Robloxi mängusisene maksimaalne kaadrisagedus väärtusele {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Teisalda jaotis alla</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Teisalda jaotis üles</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Meeldib</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Mängi seda mängu enne selle hindamist</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Hääletamiseks logi Voidstrapis sisse oma Roblox kontole</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Teisalda kõige alla</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} mängib</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Mängud</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Koht</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox otsinguga ei saadud ühendust, proovi uuesti</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Värvi hiirekursorid ümber</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Otsi Roblox mänge</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Värvib noole, teksti ja shift lock kursorid sinu värvi.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Andmekeskused, vahele jäetud mängud ja peenhäälestus</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Liitu kohaga {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Sisesta mängu nimi, koha ID või mängu link</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Täpsemad matchmaker valikud</value>
+  </data>
 </root>

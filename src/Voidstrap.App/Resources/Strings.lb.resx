@@ -9504,4 +9504,82 @@ Erlaabt et?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Konnt net vun Discord bäitrieden. Kuck, datt Discord op ass, a probéier nach eng Kéier.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Ganz no uewe réckelen</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>D'Bildwiederhuelungsfrequenz an Hz, mat där de virtuellen Ecran leeft. Roblox kann bis zu sou vill Biller pro Sekonn duerstellen.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Bildwiederhuelungsfrequenz vum virtuellen Ecran</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Déi lescht Layoutännerung réckgängeg maachen</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Alles weisen</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Däi Vote konnt net gespäichert ginn, prouf et gläich nach eng Kéier</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Gefält mer net</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Mise en avant Banner</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Erstell e virtuellen Ecran mat {0} Hz, deen et Roblox erlaabt, am Spill iwwer d'Bildwiederhuelungsfrequenz vun dengem Ecran ze goen. Setz och déi maximal Bildrate am Spill vu Roblox op {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Sektioun no ënne réckelen</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Sektioun no uewe réckelen</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Gefält mer</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Spill dëst Spill, ier s de et bewäerts</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Mell dech an Voidstrap mat dengem Roblox Kont un, fir ofzestëmmen</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Ganz no ënne réckelen</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} spillen</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Spiller</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Plaz</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>D'Roblox Sich war net erreechbar, prouf et nach eng Kéier</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>D'Mauszeiger nei faarwen</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox Spiller sichen</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Faarft de Feil, den Textzeiger an de Shift Lock Zeiger an denger Faarf.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Rechenzentren, iwwersprongen Spiller a Feinastellung</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Plaz {0} bäitrieden</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Gëff en Numm vun engem Spill, eng Plaz ID oder e Link zum Spill an</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Erweidert Matchmaker Optiounen</value>
+  </data>
 </root>

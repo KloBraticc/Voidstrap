@@ -9503,4 +9503,82 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Ne eblis aliĝi el Discord. Certigu, ke Discord estas malfermita, kaj reprovu.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Movi al la supro</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>La refreŝiga rapido en Hz, je kiu funkcias la virtuala ekrano. Roblox povas bildigi ĝis tiom da kadroj sekunde.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Refreŝiga rapido de virtuala ekrano</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Malfari la lastan aranĝan ŝanĝon</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Montri ĉiujn</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Via voĉdono ne povis esti konservita, reprovu post momento</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Malŝati</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Elstara standardo</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Kreu virtualan ekranon de {0} Hz, kiu permesas al Roblox superi la refreŝigan rapidon de via ekrano en la ludo. Agordu ankaŭ la maksimuman kadrorapidon de Roblox en la ludo al {0}.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Movi sekcion malsupren</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Movi sekcion supren</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Ŝati</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Ludu ĉi tiun ludon antaŭ ol taksi ĝin</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Ensalutu al via Roblox konto en Voidstrap por voĉdoni</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Movi al la fundo</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} ludas</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Ludoj</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Loko</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Ne eblis atingi la serĉon de Roblox, reprovu</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Rekolorigi la musmontrilojn</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Serĉi Roblox ludojn</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Kolorigas la sagan, tekstan kaj shift lock montrilojn per via koloro.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Datumcentroj, preterlasitaj ludoj kaj fajnagordo</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>Aliĝi al loko {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Tajpu nomon de ludo, ID de loko aŭ ligilon al ludo</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Altnivelaj matchmaker agordoj</value>
+  </data>
 </root>

@@ -9503,4 +9503,82 @@ Rugsat beriň?</value>
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discord arkaly goşulyp bolmady. Discord açykdygyna göz ýetiriň we täzeden synanyşyň.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>Iň ýokary geçir</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Wirtual displeýiň işleýän Hz täzelenme ýygylygy. Roblox sekuntda şunça kadra çenli görkezip biler.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>Wirtual displeýiň täzelenme ýygylygy</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>Soňky ýerleşiş üýtgeşmesini yzyna al</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>Hemmesini görkez</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>Sesiňiz ýatda saklanmady, birazdan täzeden synanyşyň</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>Halamok</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>Saýlanan banner</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Roblox-a oýunda ekranyňyzyň täzelenme ýygylygyndan ýokary çykmaga mümkinçilik berýän {0} Hz wirtual displeý dörediň. Şeýle hem Roblox oýnunyň içindäki Maximum Frame Rate-i {0} edip goýuň.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>Bölümi aşak geçir</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>Bölümi ýokary geçir</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>Halaýaryn</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>Baha bermezden öň bu oýny oýnaň</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>Ses bermek üçin Voidstrap-da Roblox hasabyňyza giriň</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>Iň aşak geçir</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} oýnaýar</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>Oýunlar</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>Ýer</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox gözlegine baglanyp bolmady, täzeden synanyşyň</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>Syçan kursorlarynyň reňkini üýtget</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox oýunlaryny gözle</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>Ok, tekst we shift lock kursorlaryny siziň reňkiňize boýaýar.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>Maglumat merkezleri, geçilen oýunlar we takyk sazlama</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>{0} ýerine goşul</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>Oýnuň adyny, ýeriň ID-sini ýa-da oýun baglanyşygyny ýazyň</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>Matchmaker-iň giňişleýin sazlamalary</value>
+  </data>
 </root>

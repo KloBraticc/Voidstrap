@@ -9504,4 +9504,82 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>Discord مان شامل نه ٿي سگهيا. پڪ ڪريو ته Discord کليل آهي ۽ ٻيهر ڪوشش ڪريو.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>مٿي تي منتقل ڪريو</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>Hz ۾ ريفريش ريٽ جنهن تي ورچوئل ڊسپلي هلي ٿو. Roblox هر سيڪنڊ ۾ ايترا فريم ڏيکاري سگهي ٿو.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>ورچوئل ڊسپلي ريفريش ريٽ</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>آخري ترتيب واري تبديلي واپس ڪريو</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>سڀ ڏيکاريو</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>توهان جو ووٽ محفوظ نه ٿي سگهيو، ٿوري دير ۾ ٻيهر ڪوشش ڪريو</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>ناپسند</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>خاص بينر</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>{0} Hz ورچوئل ڊسپلي ٺاهيو جيڪو Roblox کي راند ۾ توهان جي اسڪرين جي ريفريش ريٽ کان مٿي وڃڻ ڏئي ٿو. Roblox جي راند اندر Maximum Frame Rate به {0} تي سيٽ ڪريو.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>حصو هيٺ منتقل ڪريو</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>حصو مٿي منتقل ڪريو</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>پسند</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>درجه بندي کان اڳ هي راند کيڏيو</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>ووٽ ڏيڻ لاءِ Voidstrap ۾ پنهنجي Roblox اڪائونٽ ۾ سائن ان ڪريو</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>هيٺ تي منتقل ڪريو</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} کيڏي رهيا آهن</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>رانديون</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>جڳهه</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>Roblox ڳولا تائين پهچي نه سگهيا، ٻيهر ڪوشش ڪريو</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>مائوس ڪرسرن جو رنگ بدلايو</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>Roblox رانديون ڳوليو</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>تير، متن ۽ shift lock ڪرسرن کي توهان جي رنگ ۾ رنگي ٿو.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>ڊيٽا سينٽر، ڇڏيل رانديون ۽ باريڪ ترتيب</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>جڳهه {0} ۾ شامل ٿيو</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>راند جو نالو، جڳهه ID يا راند جي لنڪ لکو</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>ميچ ميڪر جا جديد اختيار</value>
+  </data>
 </root>

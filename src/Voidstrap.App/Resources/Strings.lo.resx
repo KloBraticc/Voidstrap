@@ -9504,4 +9504,82 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
   <data name="Discord.Invites.JoinFailed" xml:space="preserve">
     <value>ບໍ່ສາມາດເຂົ້າຮ່ວມຈາກ Discord ໄດ້. ກະລຸນາກວດເບິ່ງວ່າ Discord ເປີດຢູ່ ແລະ ລອງໃໝ່.</value>
   </data>
+  <data name="Ui.Home.MoveSectionTopTooltip" xml:space="preserve">
+    <value>ຍ້າຍໄປເທິງສຸດ</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate.Description" xml:space="preserve">
+    <value>ອັດຕາການໂຫຼດຄືນເປັນ Hz ທີ່ຈໍສະແດງຜົນສະເໝືອນເຮັດວຽກ. Roblox ສາມາດສະແດງໄດ້ສູງສຸດເທົ່ານີ້ເຟຣມຕໍ່ວິນາທີ.</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplayRefreshRate" xml:space="preserve">
+    <value>ອັດຕາການໂຫຼດຄືນຂອງຈໍສະເໝືອນ</value>
+  </data>
+  <data name="Ui.Home.UndoLayoutTooltip" xml:space="preserve">
+    <value>ຍົກເລີກການປ່ຽນແປງໂຄງຮ່າງຫຼ້າສຸດ</value>
+  </data>
+  <data name="Ui.Home.ShowAllSections" xml:space="preserve">
+    <value>ສະແດງທັງໝົດ</value>
+  </data>
+  <data name="Library.Vote.Failed" xml:space="preserve">
+    <value>ບໍ່ສາມາດບັນທຶກການໂຫວດຂອງທ່ານໄດ້, ກະລຸນາລອງໃໝ່ໃນອີກບໍ່ດົນ</value>
+  </data>
+  <data name="Library.Vote.Dislike" xml:space="preserve">
+    <value>ບໍ່ມັກ</value>
+  </data>
+  <data name="Ui.Home.SectionFeatured" xml:space="preserve">
+    <value>ແບນເນີແນະນຳ</value>
+  </data>
+  <data name="Ui.Integrations.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>ສ້າງຈໍສະເໝືອນ {0} Hz ທີ່ໃຫ້ Roblox ເກີນອັດຕາການໂຫຼດຄືນຂອງໜ້າຈໍທ່ານໃນເກມ. ແລະຕັ້ງອັດຕາເຟຣມສູງສຸດໃນເກມຂອງ Roblox ເປັນ {0} ນຳ.</value>
+  </data>
+  <data name="Ui.Home.MoveSectionDownTooltip" xml:space="preserve">
+    <value>ຍ້າຍພາກສ່ວນລົງ</value>
+  </data>
+  <data name="Ui.Home.MoveSectionUpTooltip" xml:space="preserve">
+    <value>ຍ້າຍພາກສ່ວນຂຶ້ນ</value>
+  </data>
+  <data name="Library.Vote.Like" xml:space="preserve">
+    <value>ມັກ</value>
+  </data>
+  <data name="Library.Vote.PlayFirst" xml:space="preserve">
+    <value>ກະລຸນາຫຼິ້ນເກມນີ້ກ່ອນໃຫ້ຄະແນນ</value>
+  </data>
+  <data name="Library.Vote.SignIn" xml:space="preserve">
+    <value>ເຂົ້າສູ່ລະບົບບັນຊີ Roblox ຂອງທ່ານໃນ Voidstrap ເພື່ອໂຫວດ</value>
+  </data>
+  <data name="Ui.Home.MoveSectionBottomTooltip" xml:space="preserve">
+    <value>ຍ້າຍໄປລຸ່ມສຸດ</value>
+  </data>
+  <data name="Ui.Main.PalettePlaying" xml:space="preserve">
+    <value>{0:N0} ກຳລັງຫຼິ້ນ</value>
+  </data>
+  <data name="Ui.Main.PaletteGames" xml:space="preserve">
+    <value>ເກມ</value>
+  </data>
+  <data name="Ui.Main.PalettePlace" xml:space="preserve">
+    <value>ສະຖານທີ່</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesFailed" xml:space="preserve">
+    <value>ບໍ່ສາມາດເຊື່ອມຕໍ່ການຄົ້ນຫາ Roblox ໄດ້, ກະລຸນາລອງໃໝ່</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursors" xml:space="preserve">
+    <value>ທາສີຕົວຊີ້ເມົ້າໃໝ່</value>
+  </data>
+  <data name="Ui.Main.SearchRobloxGames" xml:space="preserve">
+    <value>ຄົ້ນຫາເກມ Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RecolourCursorsHelp" xml:space="preserve">
+    <value>ທາສີຕົວຊີ້ລູກສອນ, ຂໍ້ຄວາມ ແລະ shift lock ເປັນສີຂອງທ່ານ.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptionsDescription" xml:space="preserve">
+    <value>ສູນຂໍ້ມູນ, ເກມທີ່ຂ້າມ ແລະການປັບລະອຽດ</value>
+  </data>
+  <data name="Ui.Main.PaletteJoinPlace" xml:space="preserve">
+    <value>ເຂົ້າຮ່ວມສະຖານທີ່ {0}</value>
+  </data>
+  <data name="Ui.Main.PaletteGamesHint" xml:space="preserve">
+    <value>ພິມຊື່ເກມ, ID ສະຖານທີ່ ຫຼືລິ້ງເກມ</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedMatchmakerOptions" xml:space="preserve">
+    <value>ຕົວເລືອກຂັ້ນສູງຂອງການຈັບຄູ່</value>
+  </data>
 </root>
