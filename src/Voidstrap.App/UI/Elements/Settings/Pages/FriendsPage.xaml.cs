@@ -108,13 +108,13 @@ public partial class FriendsPage : UiPage
         FriendsLoading.Visibility = Visibility.Visible;
         try
         {
-            RobloxChatResult<long> self = await RobloxChat.GetSelfAsync(token);
+            RobloxChatResult<long> self = await Task.Run(() => RobloxChat.GetSelfAsync(token), token);
             if (self.Status != RobloxChatStatus.Ready)
             {
                 SetFriends(new(), Describe(self.Status));
                 return;
             }
-            RobloxChatResult<List<RobloxChatUser>> friends = await RobloxChat.GetFriendsAsync(self.Value, token);
+            RobloxChatResult<List<RobloxChatUser>> friends = await Task.Run(() => RobloxChat.GetFriendsAsync(self.Value, token), token);
             if (friends.Status != RobloxChatStatus.Ready || friends.Value == null)
             {
                 SetFriends(new(), Describe(friends.Status));
@@ -129,10 +129,10 @@ public partial class FriendsPage : UiPage
             Dictionary<long, string> games = new();
             void Publish() => SetFriends(Build(users, heads, presence, lastOnline, nicknames, games), null);
             Publish();
-            Task<Dictionary<long, string>> headsTask = RobloxChat.GetHeadshotUrlsAsync(ids, token);
-            Task<Dictionary<long, FriendPresenceInfo>> presenceTask = RobloxFriends.GetPresenceAsync(ids, token);
-            Task<Dictionary<long, DateTimeOffset>> lastTask = RobloxFriends.GetLastOnlineAsync(ids, token);
-            Task<Dictionary<long, string>> nickTask = RobloxFriends.GetNicknamesAsync(ids, token);
+            Task<Dictionary<long, string>> headsTask = Task.Run(() => RobloxChat.GetHeadshotUrlsAsync(ids, token), token);
+            Task<Dictionary<long, FriendPresenceInfo>> presenceTask = Task.Run(() => RobloxFriends.GetPresenceAsync(ids, token), token);
+            Task<Dictionary<long, DateTimeOffset>> lastTask = Task.Run(() => RobloxFriends.GetLastOnlineAsync(ids, token), token);
+            Task<Dictionary<long, string>> nickTask = Task.Run(() => RobloxFriends.GetNicknamesAsync(ids, token), token);
             Task<Dictionary<long, string>>? gamesTask = null;
             List<Task> pending = new() { headsTask, presenceTask, lastTask, nickTask };
             while (pending.Count > 0)
@@ -144,7 +144,8 @@ public partial class FriendsPage : UiPage
                 else if (done == presenceTask)
                 {
                     presence = presenceTask.Result;
-                    gamesTask = RobloxFriends.GetGameThumbnailsAsync(presence.Values.Select(static p => p.UniverseId), token);
+                    List<long> universes = presence.Values.Select(static p => p.UniverseId).ToList();
+                    gamesTask = Task.Run(() => RobloxFriends.GetGameThumbnailsAsync(universes, token), token);
                     pending.Add(gamesTask);
                 }
                 else if (done == lastTask)
@@ -236,11 +237,11 @@ public partial class FriendsPage : UiPage
         RequestsLoading.Visibility = Visibility.Visible;
         try
         {
-            RobloxChatResult<List<FriendRequestInfo>> result = await RobloxFriends.GetRequestsAsync(token);
+            RobloxChatResult<List<FriendRequestInfo>> result = await Task.Run(() => RobloxFriends.GetRequestsAsync(token), token);
             List<FriendRequestInfo> requests = result.Value ?? new();
             Dictionary<long, string> heads = requests.Count == 0
                 ? new()
-                : await RobloxChat.GetHeadshotUrlsAsync(requests.Select(static request => request.UserId), token);
+                : await Task.Run(() => RobloxChat.GetHeadshotUrlsAsync(requests.Select(static request => request.UserId).ToList(), token), token);
             List<FriendEntry> entries = requests
                 .Select(request => new FriendEntry
                 {
@@ -283,7 +284,8 @@ public partial class FriendsPage : UiPage
         _busy = true;
         try
         {
-            RobloxChatStatus status = await action(Token());
+            CancellationToken token = Token();
+            RobloxChatStatus status = await Task.Run(() => action(token), token);
             ShowStatus(Describe(status));
             if (status == RobloxChatStatus.Ready)
                 await after();
@@ -396,13 +398,14 @@ public partial class FriendsPage : UiPage
         AddButton.IsEnabled = false;
         try
         {
-            long id = await RobloxFriends.FindUserIdAsync(name, Token());
+            CancellationToken token = Token();
+            long id = await Task.Run(() => RobloxFriends.FindUserIdAsync(name, token), token);
             if (id <= 0)
             {
                 ShowStatus(string.Format(Strings.Ui_Friends_UserNotFound, name));
                 return;
             }
-            RobloxChatStatus status = await RobloxFriends.SendRequestAsync(id, Token());
+            RobloxChatStatus status = await Task.Run(() => RobloxFriends.SendRequestAsync(id, token), token);
             if (status == RobloxChatStatus.Ready)
             {
                 AddBox.Text = string.Empty;

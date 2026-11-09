@@ -2964,7 +2964,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         const string LOG_IDENT = "MainWindow::RefreshFriendsBadgeAsync";
         try
         {
-            SetFriendsBadge(await RobloxFriends.GetRequestCountAsync(CancellationToken.None));
+            SetFriendsBadge(await Task.Run(() => RobloxFriends.GetRequestCountAsync(CancellationToken.None)));
             if (_friendsPage == null)
             {
                 _friendsPage = new FriendsPage();

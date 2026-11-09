@@ -36,7 +36,7 @@
           <TextBlock Text="{resources:Loc Ui_Friends_Title}" />
         </StackPanel>
       </HeaderedContentControl.Header>
-      <Grid Margin="0,12,0,0">
+      <Grid Margin="12,12,12,12">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition Height="Auto" />
@@ -70,12 +70,12 @@
             <ui:Button Grid.Column="3" Margin="8,0,0,0" Content="{resources:Loc Common_Cancel}" Click="NicknameCancel_Click" />
           </Grid>
         </Border>
-        <Grid Grid.Row="3" Margin="2,14,14,8">
+        <Grid Grid.Row="3" Margin="2,14,10,8">
           <TextBlock x:Name="FriendsHeader" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
           <ui:Button HorizontalAlignment="Right" Appearance="Transparent" Icon="ArrowSync24" ToolTip="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Click="Refresh_Click" />
         </Grid>
         <ScrollViewer Grid.Row="4" VerticalScrollBarVisibility="Auto">
-          <StackPanel Margin="0,0,14,0">
+          <StackPanel Margin="0,0,10,0">
             <ProgressBar x:Name="FriendsLoading" Height="3" IsIndeterminate="True" Margin="0,0,0,6" />
             <TextBlock x:Name="FriendsEmpty" Margin="2,8,0,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Visibility="Collapsed" />
             <ItemsControl x:Name="FriendList" VirtualizingPanel.IsVirtualizing="True">
@@ -132,23 +132,23 @@
           <TextBlock x:Name="RequestsHeader" Text="{resources:Loc Ui_Friends_Requests}" />
         </StackPanel>
       </HeaderedContentControl.Header>
-      <Grid Margin="0,12,0,0">
+      <Grid Margin="12,12,12,12">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Margin="2,0,0,8">
+        <Grid Margin="2,0,10,10">
           <TextBlock x:Name="RequestsTitle" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
           <ui:Button x:Name="DeclineAllButton" HorizontalAlignment="Right" Icon="Dismiss24" Content="{resources:Loc Ui_Friends_DeclineAll}" Click="DeclineAll_Click" />
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-          <StackPanel Margin="0,0,14,0">
+          <StackPanel Margin="0,0,10,0">
             <ProgressBar x:Name="RequestsLoading" Height="3" IsIndeterminate="True" Margin="0,4,0,8" Visibility="Collapsed" />
             <TextBlock x:Name="RequestsEmpty" Margin="2,8,0,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Friends_NoRequests}" Visibility="Collapsed" />
             <ItemsControl x:Name="RequestList">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                  <Border Margin="0,0,0,6" Padding="12,10" CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                  <Border Margin="0,0,0,6" Padding="12,10,10,10" CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
                     <Grid>
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -180,7 +180,7 @@
           <TextBlock Text="{resources:Loc Ui_Friends_Chat}" />
         </StackPanel>
       </HeaderedContentControl.Header>
-      <Border Margin="0,12,0,0" CornerRadius="8" ClipToBounds="True" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+      <Border Margin="12" CornerRadius="8" ClipToBounds="True" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
         <ContentPresenter x:Name="ChatHost" />
       </Border>
     </TabItem>
