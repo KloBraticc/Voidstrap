@@ -9706,4 +9706,10 @@ Voidstrap ஒவ்வொரு கோப்பையும் நூலகத�
 இயக்க நேரம்: {1}
 வீரர்கள்: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>சமூக இணைப்புகள்</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>இங்கே இன்னும் எதுவும் இல்லை</value>
+  </data>
 </root>

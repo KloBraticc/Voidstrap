@@ -9707,4 +9707,10 @@ Voidstrap ස්ථාපනය කිරීමට පෙර පුස්තක�
 අතිකාල: {1}
 ක්රීඩකයන්: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>සමාජ සබැඳි</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>මෙහි තවම කිසිවක් නැත</value>
+  </data>
 </root>

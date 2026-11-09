@@ -9706,4 +9706,10 @@ Laat dit toe?</value>
 Optyd: {1}
 Spelers: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Sosiale skakels</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Nog niks hier nie</value>
+  </data>
 </root>

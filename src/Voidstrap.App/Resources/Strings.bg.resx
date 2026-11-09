@@ -10019,4 +10019,10 @@ Voidstrap блокира програми, други папки и Вашия �
 Време на работа: {1}
 Играчи: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Връзки към социални мрежи</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Все още тук няма нищо</value>
+  </data>
 </root>

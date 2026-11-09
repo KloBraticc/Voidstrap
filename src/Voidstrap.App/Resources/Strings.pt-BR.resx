@@ -10021,4 +10021,10 @@ Permitir?</value>
 Tempo ativo: {1}
 Jogadores: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Links sociais</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Ainda não há nada aqui</value>
+  </data>
 </root>

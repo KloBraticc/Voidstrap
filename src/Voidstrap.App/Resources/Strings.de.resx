@@ -10019,4 +10019,10 @@ Erlauben?</value>
 Laufzeit: {1}
 Spieler: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Soziale Links</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Hier ist noch nichts</value>
+  </data>
 </root>

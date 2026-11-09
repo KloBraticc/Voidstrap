@@ -9707,4 +9707,10 @@ Voidstrap בודק כל קובץ מול הספרייה לפני התקנתו, ו
 זמן פעולה: {1}
 שחקנים: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>קישורים לרשתות חברתיות</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>אין כאן עדיין כלום</value>
+  </data>
 </root>

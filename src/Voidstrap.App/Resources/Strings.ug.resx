@@ -9706,4 +9706,10 @@ Voidstrap قاچىلاشتىن بۇرۇن ھەر بىر ھۆججەتنى كۈت�
 Uptime: {1}
 قويغۇچىلار: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>ئىجتىمائىي ئۇلانمىلار</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>بۇ يەردە تېخى ھېچنېمە يوق</value>
+  </data>
 </root>

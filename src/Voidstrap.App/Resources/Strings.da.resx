@@ -9706,4 +9706,10 @@ tillade det?</value>
 Oppetid: {1}
 Spillere: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Sociale links</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Intet her endnu</value>
+  </data>
 </root>

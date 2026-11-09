@@ -9707,4 +9707,10 @@ Permíteo?</value>
 Tempo de actividade: {1}
 Xogadores: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Ligazóns sociais</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Aínda non hai nada aquí</value>
+  </data>
 </root>

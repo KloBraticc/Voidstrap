@@ -10019,4 +10019,10 @@ Tillåta?</value>
 Drifttid: {1}
 Spelare: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Sociala länkar</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Inget här ännu</value>
+  </data>
 </root>

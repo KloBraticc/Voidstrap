@@ -9707,4 +9707,10 @@ Voidstrap ഇൻസ്റ്റാളുചെയ്യുന്നതിന് 
 പ്രവർത്തനസമയം: {1}
 കളിക്കാർ: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>സോഷ്യൽ ലിങ്കുകൾ</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>ഇവിടെ ഇതുവരെ ഒന്നുമില്ല</value>
+  </data>
 </root>

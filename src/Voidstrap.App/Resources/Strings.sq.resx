@@ -9707,4 +9707,10 @@ E lejon atë?</value>
 Koha e funksionimit: {1}
 Lojtarët: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Lidhjet sociale</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Ende nuk ka asgjë këtu</value>
+  </data>
 </root>

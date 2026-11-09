@@ -9706,4 +9706,10 @@ Caniatáu iddo?</value>
 Uptime: {1}
 Chwaraewyr: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Dolenni cymdeithasol</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Does dim byd yma eto</value>
+  </data>
 </root>

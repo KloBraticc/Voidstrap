@@ -103,6 +103,22 @@ public partial class SessionReviewPanel : Window
             _ = LoadAsync();
     }
 
+    public UIElement DetachContent()
+    {
+        UIElement content = (UIElement)Content;
+        Content = null;
+        _panelVisible = true;
+        _ = LoadAsync();
+        _ = RunLivePollingLoopAsync();
+        return content;
+    }
+
+    public void ReleaseDetached()
+    {
+        if (!_closed)
+            OnPanelClosed(this, EventArgs.Empty);
+    }
+
     private void OnPanelLoaded(object sender, RoutedEventArgs e)
     {
         if (_panelVisible)

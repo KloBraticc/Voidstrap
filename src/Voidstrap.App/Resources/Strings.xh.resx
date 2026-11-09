@@ -9706,4 +9706,10 @@ uyayivumela?</value>
 Ixesha lokuphumla: {1}
 Abadlali: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Amakhonkco oluntu</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Akukho nto apha okwangoku</value>
+  </data>
 </root>

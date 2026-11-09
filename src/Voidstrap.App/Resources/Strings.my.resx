@@ -9706,4 +9706,10 @@ Voidstrap ဖိုင်တိုင်းကို ၎င်းကိုမထ
 အလုပ်ချိန်- {1}
 ကစားသမားများ- {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>ဆိုရှယ်လင့်ခ်များ</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>ဤနေရာတွင် ဘာမှမရှိသေးပါ</value>
+  </data>
 </root>

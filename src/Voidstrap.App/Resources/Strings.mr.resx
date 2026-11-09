@@ -9707,4 +9707,10 @@ Voidstrap लायब्ररी स्थापित करण्याप�
 अपटाइम: {1}
 खेळाडू: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>सोशल लिंक्स</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>इथे अजून काहीही नाही</value>
+  </data>
 </root>

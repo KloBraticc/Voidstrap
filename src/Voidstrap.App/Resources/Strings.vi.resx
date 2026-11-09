@@ -10022,4 +10022,10 @@ Cho phép?</value>
 Thời gian hoạt động: {1}
 Người chơi: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Liên kết mạng xã hội</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Chưa có gì ở đây</value>
+  </data>
 </root>

@@ -9707,4 +9707,10 @@ Voidstrap د کتابتون په وړاندې هره فایل د نصبولو د
 وخت: {1}
 لوبغاړي: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>ټولنیز لینکونه</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>دلته لا هېڅ نشته</value>
+  </data>
 </root>

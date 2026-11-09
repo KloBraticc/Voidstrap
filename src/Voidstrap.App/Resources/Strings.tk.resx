@@ -9706,4 +9706,10 @@ Rugsat beriň?</value>
 Iş wagty: {1}
 Oýunçylar: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Sosial baglanyşyklar</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Bu ýerde entek hiç zat ýok</value>
+  </data>
 </root>

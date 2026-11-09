@@ -9707,4 +9707,10 @@ Oggolow?</value>
 Wakhtiga shaqada: {1}
 Ciyaartoyda: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Xiriirinta bulshada</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Weli halkan waxba ma jiraan</value>
+  </data>
 </root>

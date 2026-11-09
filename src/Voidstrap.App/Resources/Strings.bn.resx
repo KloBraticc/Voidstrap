@@ -9706,4 +9706,10 @@ Voidstrap লাইব্রেরি ইনস্টল করার আগে 
 আপটাইম: {1}
 খেলোয়াড়: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>সোশ্যাল লিংক</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>এখানে এখনও কিছু নেই</value>
+  </data>
 </root>

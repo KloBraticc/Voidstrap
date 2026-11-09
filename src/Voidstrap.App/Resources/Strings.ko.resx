@@ -10018,4 +10018,10 @@ Voidstrap은 프로그램, 다른 폴더, Roblox 로그인을 차단하지만 �
 가동 시간: {1}
 플레이어: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>소셜 링크</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>아직 아무것도 없습니다</value>
+  </data>
 </root>

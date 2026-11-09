@@ -9706,4 +9706,10 @@ Voidstrap ελέγχει κάθε αρχείο σε σχέση με τη βιβ�
 Χρόνος λειτουργίας: {1}
 Παίκτες: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Σύνδεσμοι κοινωνικών δικτύων</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Δεν υπάρχει τίποτα εδώ ακόμα</value>
+  </data>
 </root>

@@ -9707,4 +9707,10 @@ Avelao izany?</value>
 Fotoana misokatra: {1}
 Mpilalao: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Rohy sosialy</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Mbola tsy misy na inona na inona eto</value>
+  </data>
 </root>

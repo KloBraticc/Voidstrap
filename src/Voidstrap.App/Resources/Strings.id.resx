@@ -10022,4 +10022,10 @@ Izinkan?</value>
 Waktu aktif: {1}
 Pemain: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Tautan sosial</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Belum ada apa pun di sini</value>
+  </data>
 </root>

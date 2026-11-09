@@ -10022,4 +10022,10 @@ Consentire?</value>
 Tempo attivo: {1}
 Giocatori: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Link social</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Ancora niente qui</value>
+  </data>
 </root>

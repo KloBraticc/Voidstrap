@@ -10017,4 +10017,10 @@ Voidstrap блокує програми, інші папки та Ваш вхі�
 Час роботи: {1}
 Гравці: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Посилання на соцмережі</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Тут поки що нічого немає</value>
+  </data>
 </root>

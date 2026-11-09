@@ -9707,4 +9707,10 @@ Bada shi?</value>
 Uptime: {1}
 'Yan wasa: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Hanyoyin sada zumunta</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Babu komai a nan tukuna</value>
+  </data>
 </root>

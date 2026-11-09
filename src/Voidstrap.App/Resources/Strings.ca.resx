@@ -9706,4 +9706,10 @@ Ho permets?</value>
 Temps de funcionament: {1}
 Jugadors: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Enllaços socials</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Encara no hi ha res aquí</value>
+  </data>
 </root>

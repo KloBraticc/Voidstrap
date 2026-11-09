@@ -10043,4 +10043,10 @@ Voidstrap 会阻止程序、其他文件夹和您的 Roblox 登录，但任何�
 运行时间：{1}
 玩家：{2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>社交链接</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>这里还没有内容</value>
+  </data>
 </root>

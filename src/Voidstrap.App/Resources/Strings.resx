@@ -9706,4 +9706,10 @@ Allow it?</value>
 Uptime: {1}
 Players: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Social links</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Nothing here yet</value>
+  </data>
 </root>

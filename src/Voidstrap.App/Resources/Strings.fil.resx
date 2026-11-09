@@ -10017,4 +10017,10 @@ Payagan ba?</value>
 Tagal ng pagtakbo: {1}
 Mga player: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Mga social link</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Wala pang laman dito</value>
+  </data>
 </root>

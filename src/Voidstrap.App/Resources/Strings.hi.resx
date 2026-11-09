@@ -9707,4 +9707,10 @@ Voidstrap इंस्टॉल करने से पहले प्रत्
 अपटाइम: {1}
 खिलाड़ी: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>सोशल लिंक</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>यहाँ अभी कुछ नहीं है</value>
+  </data>
 </root>

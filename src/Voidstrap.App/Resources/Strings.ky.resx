@@ -9707,4 +9707,10 @@ Voidstrap ар бир файлды орнотуудан мурун китепк�
 Иштөө убактысы: {1}
 Оюнчулар: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Социалдык шилтемелер</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Бул жерде азырынча эч нерсе жок</value>
+  </data>
 </root>

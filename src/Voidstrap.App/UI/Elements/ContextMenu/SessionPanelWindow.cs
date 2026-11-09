@@ -890,8 +890,8 @@ public sealed partial class SessionPanelWindow : Window
     {
         if (App.State.Prop.SessionPanels?.TryGetValue(_key, out SessionPanelLayout? saved) != true || saved == null)
         {
-            _x = 0.15;
-            _y = 0.12;
+            _x = _key == SessionDock.HubKey ? 0.5 : 0.15;
+            _y = _key == SessionDock.HubKey ? 0.5 : 0.12;
             IsPinned = false;
             UpdatePinVisual();
             return;

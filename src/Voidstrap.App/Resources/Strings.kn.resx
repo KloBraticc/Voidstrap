@@ -9707,4 +9707,10 @@ Voidstrap ಪ್ರತಿ ಫೈಲ್ ಅನ್ನು ಸ್ಥಾಪಿಸು�
 ಅಪ್ಟೈಮ್: {1}
 ಆಟಗಾರರು: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>ಸಾಮಾಜಿಕ ಲಿಂಕ್‌ಗಳು</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>ಇಲ್ಲಿ ಇನ್ನೂ ಏನೂ ಇಲ್ಲ</value>
+  </data>
 </root>

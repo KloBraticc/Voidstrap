@@ -9707,4 +9707,10 @@ Vil du tillate det?</value>
 Oppetid: {1}
 Spillere: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Sosiale lenker</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Ingenting her ennå</value>
+  </data>
 </root>

@@ -9707,4 +9707,10 @@ Voidstrap файл бүрийг суулгахаасаа өмнө номын с�
 Ажиллах хугацаа: {1}
 Тоглогчид: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Сошиал холбоосууд</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Энд одоогоор юу ч алга</value>
+  </data>
 </root>

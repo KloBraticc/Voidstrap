@@ -910,6 +910,9 @@ public partial class MenuContainer : WpfUiWindow
                     () => new SessionOverlayLayoutEditor(CurrentGameIcon.Source, SendTestNotification)
                 );
                 break;
+            case SessionDock.HubKey:
+                _sessionDock?.ShowTool(SessionDock.HubKey, Strings.Ui_Nav_News, () => new SessionHubPanel(_activityWatcher));
+                break;
             case "reviews":
                 _sessionDock?.ShowTool("reviews", Strings.Ui_Session_CommunityRating, () => new SessionReviewPanel(_activityWatcher));
                 break;

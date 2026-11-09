@@ -9707,4 +9707,10 @@ kwe ya?</value>
 Oge nkwụsị: {1}
 Ndị egwuregwu: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Njikọ mgbasa ozi</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Ọ dịbeghị ihe ọ bụla ebe a</value>
+  </data>
 </root>

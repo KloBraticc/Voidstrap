@@ -9706,4 +9706,10 @@ Baimendu al duzu?</value>
 Epea: {1}
 Jokalariak: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Sare sozialetako estekak</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Oraindik ez dago ezer hemen</value>
+  </data>
 </root>

@@ -10019,4 +10019,10 @@ Engedélyezed?</value>
 Futásidő: {1}
 Játékosok: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Közösségi linkek</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Itt még nincs semmi</value>
+  </data>
 </root>

@@ -9706,4 +9706,10 @@ Dozvoliti?</value>
 Uptime: {1}
 Igrači: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Linkovi na društvene mreže</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Ovdje još nema ničega</value>
+  </data>
 </root>

@@ -9706,4 +9706,10 @@ Voidstrap правярае кожны файл з бібліятэкай пер�
 Час бесперабойнай працы: {1}
 Гульцы: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Спасылкі на сацсеткі</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Тут пакуль нічога няма</value>
+  </data>
 </root>

@@ -9706,4 +9706,10 @@ Voidstrap ప్రతి ఫైల్ను ఇన్స్టాల్ చే�
 సమయము: {1}
 ఆటగాళ్ళు: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>సోషల్ లింక్‌లు</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>ఇక్కడ ఇంకా ఏమీ లేదు</value>
+  </data>
 </root>

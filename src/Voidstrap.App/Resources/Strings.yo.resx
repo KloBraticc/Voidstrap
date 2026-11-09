@@ -9706,4 +9706,10 @@ Gba laaye?</value>
 Akoko ipari: {1}
 Awọn oṣere: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Àwọn ìjápọ̀ àwùjọ</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Kò sí nǹkan kan níbí síbẹ̀</value>
+  </data>
 </root>

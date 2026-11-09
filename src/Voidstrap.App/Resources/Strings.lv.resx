@@ -9707,4 +9707,10 @@ Vai atļaut?</value>
 Darbības laiks: {1}
 Spēlētāji: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Sociālo tīklu saites</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Šeit vēl nekā nav</value>
+  </data>
 </root>

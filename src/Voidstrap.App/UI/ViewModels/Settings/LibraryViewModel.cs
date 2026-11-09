@@ -1815,6 +1815,92 @@ public class LibraryViewModel : INotifyPropertyChanged
         }
     }
 
+    internal static async Task<List<LibraryEventEntry>> FetchUniverseEventsAsync(long universeId, string gameName, CancellationToken token)
+    {
+        List<LibraryEventEntry> events = new();
+        try
+        {
+            string url = "https://apis.roblox.com/virtual-events/v1/universes/" + universeId + "/virtual-events";
+            string? body = await Voidstrap
+                .Utility.GitHubCache.GetStringAsync(url, TimeSpan.FromMinutes(20), token: token)
+                .ConfigureAwait(false);
+            if (string.IsNullOrEmpty(body))
+                return events;
+            using JsonDocument doc = JsonDocument.Parse(body);
+            if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
+                return events;
+
+            foreach (JsonElement item in data.EnumerateArray())
+            {
+                if (item.ValueKind != JsonValueKind.Object)
+                    continue;
+                if (ReadEventText(item, "eventStatus") != "active")
+                    continue;
+                if (ReadEventText(item, "eventVisibility") != "public")
+                    continue;
+
+                DateTime? start = null;
+                DateTime? end = null;
+                if (item.TryGetProperty("eventTime", out JsonElement time) && time.ValueKind == JsonValueKind.Object)
+                {
+                    start = ReadEventDate(time, "startUtc");
+                    end = ReadEventDate(time, "endUtc");
+                }
+
+                if (end.HasValue && end.Value < DateTime.UtcNow)
+                    continue;
+
+                long mediaId = 0;
+                if (item.TryGetProperty("thumbnails", out JsonElement thumbs) && thumbs.ValueKind == JsonValueKind.Array)
+                {
+                    foreach (JsonElement thumb in thumbs.EnumerateArray())
+                    {
+                        if (
+                            thumb.ValueKind == JsonValueKind.Object
+                            && thumb.TryGetProperty("mediaId", out JsonElement mid)
+                            && mid.ValueKind == JsonValueKind.Number
+                            && mid.TryGetInt64(out long mv)
+                        )
+                        {
+                            mediaId = mv;
+                            break;
+                        }
+                    }
+                }
+
+                string title = ReadEventText(item, "displayTitle");
+                if (string.IsNullOrWhiteSpace(title))
+                    title = ReadEventText(item, "title");
+                string subtitle = ReadEventText(item, "displaySubtitle");
+                if (string.IsNullOrWhiteSpace(subtitle))
+                    subtitle = ReadEventText(item, "subtitle");
+
+                events.Add(
+                    new LibraryEventEntry
+                    {
+                        Id = ReadEventText(item, "id"),
+                        UniverseId = universeId,
+                        Title = title,
+                        Subtitle = subtitle,
+                        GameName = gameName,
+                        StartUtc = start,
+                        EndUtc = end,
+                        MediaId = mediaId,
+                    }
+                );
+            }
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("LibraryViewModel", "Events fetch failed for " + universeId + ": " + ex.Message);
+        }
+        return events;
+    }
+
     private async Task FetchEventsAsync(List<LibraryGameEntry> games, CancellationToken token = default)
     {
         System.Collections.Concurrent.ConcurrentBag<LibraryEventEntry> found = new();
@@ -1828,83 +1914,8 @@ public class LibraryViewModel : INotifyPropertyChanged
                     await gate.WaitAsync(token).ConfigureAwait(false);
                     try
                     {
-                        string url = "https://apis.roblox.com/virtual-events/v1/universes/" + game.UniverseId + "/virtual-events";
-                        string? body = await Voidstrap
-                            .Utility.GitHubCache.GetStringAsync(url, TimeSpan.FromMinutes(20), token: token)
-                            .ConfigureAwait(false);
-                        if (string.IsNullOrEmpty(body))
-                            return;
-                        using JsonDocument doc = JsonDocument.Parse(body);
-                        if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
-                            return;
-
-                        foreach (JsonElement item in data.EnumerateArray())
-                        {
-                            if (item.ValueKind != JsonValueKind.Object)
-                                continue;
-                            if (ReadEventText(item, "eventStatus") != "active")
-                                continue;
-                            if (ReadEventText(item, "eventVisibility") != "public")
-                                continue;
-
-                            DateTime? start = null;
-                            DateTime? end = null;
-                            if (item.TryGetProperty("eventTime", out JsonElement time) && time.ValueKind == JsonValueKind.Object)
-                            {
-                                start = ReadEventDate(time, "startUtc");
-                                end = ReadEventDate(time, "endUtc");
-                            }
-
-                            if (end.HasValue && end.Value < DateTime.UtcNow)
-                                continue;
-
-                            long mediaId = 0;
-                            if (item.TryGetProperty("thumbnails", out JsonElement thumbs) && thumbs.ValueKind == JsonValueKind.Array)
-                            {
-                                foreach (JsonElement thumb in thumbs.EnumerateArray())
-                                {
-                                    if (
-                                        thumb.ValueKind == JsonValueKind.Object
-                                        && thumb.TryGetProperty("mediaId", out JsonElement mid)
-                                        && mid.ValueKind == JsonValueKind.Number
-                                        && mid.TryGetInt64(out long mv)
-                                    )
-                                    {
-                                        mediaId = mv;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            string title = ReadEventText(item, "displayTitle");
-                            if (string.IsNullOrWhiteSpace(title))
-                                title = ReadEventText(item, "title");
-                            string subtitle = ReadEventText(item, "displaySubtitle");
-                            if (string.IsNullOrWhiteSpace(subtitle))
-                                subtitle = ReadEventText(item, "subtitle");
-
-                            found.Add(
-                                new LibraryEventEntry
-                                {
-                                    Id = ReadEventText(item, "id"),
-                                    UniverseId = game.UniverseId,
-                                    Title = title,
-                                    Subtitle = subtitle,
-                                    GameName = game.Name ?? string.Empty,
-                                    StartUtc = start,
-                                    EndUtc = end,
-                                    MediaId = mediaId,
-                                }
-                            );
-                        }
-                    }
-                    catch (OperationCanceledException) when (token.IsCancellationRequested)
-                    {
-                        throw;
-                    }
-                    catch (Exception ex)
-                    {
-                        App.Logger.WriteLine("LibraryViewModel", "Events fetch failed for " + game.UniverseId + ": " + ex.Message);
+                        foreach (LibraryEventEntry entry in await FetchUniverseEventsAsync(game.UniverseId, game.Name ?? string.Empty, token).ConfigureAwait(false))
+                            found.Add(entry);
                     }
                     finally
                     {
@@ -1928,7 +1939,7 @@ public class LibraryViewModel : INotifyPropertyChanged
         await Application.Current.Dispatcher.InvokeAsync(publish);
     }
 
-    private static async Task ResolveEventThumbnailsAsync(List<LibraryEventEntry> events, CancellationToken token = default)
+    internal static async Task ResolveEventThumbnailsAsync(List<LibraryEventEntry> events, CancellationToken token = default)
     {
         List<long> mediaIds = events.Where(e => e.MediaId > 0).Select(e => e.MediaId).Distinct().ToList();
         if (mediaIds.Count == 0)

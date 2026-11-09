@@ -9707,4 +9707,10 @@ Voidstrap ସଂସ୍ଥାପନ କରିବା ପୂର୍ବରୁ ଲା�
 ଅପଟାଇମ୍ |: {1}
 ଖେଳାଳି: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>ସୋସିଆଲ ଲିଙ୍କ</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>ଏଠାରେ ଏପର୍ଯ୍ୟନ୍ତ କିଛି ନାହିଁ</value>
+  </data>
 </root>

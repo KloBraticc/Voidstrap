@@ -10018,4 +10018,10 @@ Autoriser ?</value>
 Durée d'activité : {1}
 Joueurs : {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Liens sociaux</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Rien ici pour le moment</value>
+  </data>
 </root>

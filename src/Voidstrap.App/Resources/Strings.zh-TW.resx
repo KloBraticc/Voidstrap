@@ -10022,4 +10022,10 @@ Voidstrap 會封鎖程式、其他資料夾和你的 Roblox 登入，但任何�
 運作時間：{1}
 玩家：{2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>社群連結</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>這裡還沒有內容</value>
+  </data>
 </root>

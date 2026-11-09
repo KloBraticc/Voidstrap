@@ -9707,4 +9707,10 @@ Dovoli?</value>
 Uptime: {1}
 Igralci: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Povezave do družbenih omrežij</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Tukaj še ni ničesar</value>
+  </data>
 </root>

@@ -9706,4 +9706,10 @@ icazə verilir?</value>
 İş vaxtı: {1}
 Oyunçular: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Sosial keçidlər</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Hələ ki burada heç nə yoxdur</value>
+  </data>
 </root>

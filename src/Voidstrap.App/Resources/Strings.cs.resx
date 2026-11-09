@@ -10020,4 +10020,10 @@ Povolit?</value>
 Doba běhu: {1}
 Hráči: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Odkazy na sociální sítě</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Zatím zde nic není</value>
+  </data>
 </root>

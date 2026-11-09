@@ -9706,4 +9706,10 @@ Kas lubada?</value>
 Tööaeg: {1}
 Mängijad: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Sotsiaalmeedia lingid</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Siin pole veel midagi</value>
+  </data>
 </root>

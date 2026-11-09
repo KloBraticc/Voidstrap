@@ -9707,4 +9707,10 @@ Ceadaigh é?</value>
 Aga fónaimh: {1}
 Rannpháirtithe: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Naisc shóisialta</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Níl aon rud anseo fós</value>
+  </data>
 </root>

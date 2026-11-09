@@ -9707,4 +9707,10 @@ mods ត្រួតលើគ្នាអាចធ្វើឱ្យ Roblox ម�
 ម៉ោងធ្វើការ៖ {1}
 អ្នកលេង៖ {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>តំណបណ្ដាញសង្គម</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>មិនទាន់មានអ្វីនៅទីនេះនៅឡើយទេ</value>
+  </data>
 </root>

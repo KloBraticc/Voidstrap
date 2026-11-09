@@ -9707,4 +9707,10 @@ Emera?</value>
 Igihe: {1}
 Abakinnyi: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Imiyoboro nkoranyambaga</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Nta kintu kirahari</value>
+  </data>
 </root>

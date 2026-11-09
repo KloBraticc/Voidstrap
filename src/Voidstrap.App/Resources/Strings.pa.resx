@@ -9707,4 +9707,10 @@ Voidstrap ਲਾਇਬ੍ਰੇਰੀ ਨੂੰ ਸਥਾਪਿਤ ਕਰਨ ਤ
 ਅਪਟਾਈਮ: {1}
 ਖਿਡਾਰੀ: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>ਸੋਸ਼ਲ ਲਿੰਕ</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>ਇੱਥੇ ਅਜੇ ਕੁਝ ਨਹੀਂ ਹੈ</value>
+  </data>
 </root>

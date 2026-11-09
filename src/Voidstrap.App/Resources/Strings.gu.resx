@@ -9707,4 +9707,10 @@ Voidstrap દરેક ફાઇલને ઇન્સ્ટોલ કરતા 
 અપટાઇમ: {1}
 ખેલાડીઓ: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>સોશિયલ લિંક્સ</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>અહીં હજી કંઈ નથી</value>
+  </data>
 </root>

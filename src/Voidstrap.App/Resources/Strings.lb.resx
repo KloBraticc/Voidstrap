@@ -9707,4 +9707,10 @@ Erlaabt et?</value>
 Uptime: {1}
 Spiller: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Sozial Linken</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Hei ass nach näischt</value>
+  </data>
 </root>

@@ -10020,4 +10020,10 @@ Sallitaanko?</value>
 Käynnissäoloaika: {1}
 Pelaajat: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Somelinkit</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Täällä ei ole vielä mitään</value>
+  </data>
 </root>

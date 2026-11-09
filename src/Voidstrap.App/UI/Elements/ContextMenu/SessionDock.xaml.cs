@@ -157,6 +157,7 @@ public partial class SessionDock : Window
     private long _bannerUniverse;
     private DateTime _friendsLoadedUtc = DateTime.MinValue;
     private bool _friendsRefreshing;
+    internal const string HubKey = "hub";
     private string _friendsJobId = string.Empty;
     private bool _friendsLoading;
     private CancellationTokenSource? _refreshCts;
@@ -307,6 +308,20 @@ public partial class SessionDock : Window
         // Panels brought back because they were pinned must not take the keyboard from the game
         panel.Present(true, !_restoringPinned);
         UpdateActiveButtons();
+        if (key != HubKey)
+            UpdateHub();
+    }
+
+    private void UpdateHub()
+    {
+        if (_closed || !_opened || _prewarming)
+            return;
+        bool otherOpen = _panels.Any(pair => pair.Key != HubKey && pair.Value.IsRequested);
+        bool hubOpen = _panels.TryGetValue(HubKey, out SessionPanelWindow? hub) && hub.IsRequested;
+        if (otherOpen && hubOpen)
+            CloseTool(HubKey);
+        else if (!otherOpen && !hubOpen)
+            _action(HubKey);
     }
 
     public void CloseTool(string key)
@@ -318,7 +333,7 @@ public partial class SessionDock : Window
     private void CloseServerPanels()
     {
         // These panels describe one specific server, so they are stale after a teleport
-        foreach (string key in new[] { "server", "browser", "reviews" })
+        foreach (string key in new[] { "server", "browser", "reviews", HubKey })
         {
             if (_panels.TryGetValue(key, out SessionPanelWindow? panel))
                 panel.Close();
@@ -337,6 +352,8 @@ public partial class SessionDock : Window
         if (key == "web" && panel.IsPinned)
             _pinnedRestored = false;
         UpdateActiveButtons();
+        if (key != HubKey)
+            UpdateHub();
     }
 
     private void OnPanelDismissed(object? sender, EventArgs e) => CloseDock();
@@ -851,6 +868,7 @@ public partial class SessionDock : Window
                 panel.Present(true, _activateOnSettle);
         }
         RestorePinnedPanels();
+        UpdateHub();
         SpotifyEngine.Prewarm();
         StartPrewarm();
         if (_popoutOnSettle)

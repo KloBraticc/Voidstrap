@@ -9707,4 +9707,10 @@ mods ຊ້ອນກັນສາມາດເຮັດໃຫ້ Roblox ເບິ�
 ເວລາຫວ່າງ: {1}
 ຜູ້ຫຼິ້ນ: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>ລິ້ງໂຊຊຽວ</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>ຍັງບໍ່ມີຫຍັງຢູ່ນີ້</value>
+  </data>
 </root>

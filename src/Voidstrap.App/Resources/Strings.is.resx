@@ -9707,4 +9707,10 @@ Leyfa það?</value>
 Spenntur: {1}
 Leikmenn: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Samfélagsmiðlatenglar</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Hér er ekkert ennþá</value>
+  </data>
 </root>

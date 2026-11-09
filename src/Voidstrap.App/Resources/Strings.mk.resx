@@ -9707,4 +9707,10 @@ Voidstrap ја проверува секоја датотека во библи�
 Време на работа: {1}
 Играчи: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Врски до социјални мрежи</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Сѐ уште нема ништо тука</value>
+  </data>
 </root>

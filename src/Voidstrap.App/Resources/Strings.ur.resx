@@ -9706,4 +9706,10 @@ Voidstrap لائبریری کے خلاف ہر فائل کو انسٹال کرن�
 اپ ٹائم: {1}
 کھلاڑی: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>سوشل لنکس</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>یہاں ابھی کچھ نہیں ہے</value>
+  </data>
 </root>

@@ -9707,4 +9707,10 @@ Voidstrap блокира програме, друге фасцикле и ваш
 Уптиме: {1}
 Играчи: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Везе ка друштвеним мрежама</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Овде још нема ничега</value>
+  </data>
 </root>

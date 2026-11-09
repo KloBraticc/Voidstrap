@@ -10021,4 +10021,10 @@ Toestaan?</value>
 Actief sinds: {1}
 Spelers: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Sociale links</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Hier staat nog niets</value>
+  </data>
 </root>

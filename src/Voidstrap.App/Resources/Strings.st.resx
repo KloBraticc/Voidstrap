@@ -9706,4 +9706,10 @@ E lumella?</value>
 Nako ea ho qetela: {1}
 Libapali: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Dikgokahano tsa sechaba</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Ha ho letho mona hajoale</value>
+  </data>
 </root>

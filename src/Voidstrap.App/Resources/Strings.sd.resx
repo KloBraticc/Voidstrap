@@ -9707,4 +9707,10 @@ Voidstrap هر فائل کي انسٽال ڪرڻ کان پهريان لائبر�
 اپٽائم: {1}
 رانديگر: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>سوشل لنڪس</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>هتي اڃا ڪجهه به ناهي</value>
+  </data>
 </root>

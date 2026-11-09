@@ -9706,4 +9706,10 @@ Interkovritaj modoj povas fari Roblox aspekti aŭ konduti strange, sed ĉi tio n
 Aktivtempo: {1}
 Ludantoj: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Sociaj ligiloj</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Ankoraŭ nenio ĉi tie</value>
+  </data>
 </root>

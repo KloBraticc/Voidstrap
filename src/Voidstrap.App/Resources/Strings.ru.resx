@@ -10019,4 +10019,10 @@ Voidstrap блокирует программы, другие папки и Ва
 Время работы: {1}
 Игроки: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Ссылки на соцсети</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Здесь пока ничего нет</value>
+  </data>
 </root>

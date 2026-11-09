@@ -10014,4 +10014,10 @@ Voidstrap บล็อกโปรแกรม โฟลเดอร์อื่
 เวลาทำงาน: {1}
 ผู้เล่น: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>ลิงก์โซเชียล</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>ยังไม่มีอะไรที่นี่</value>
+  </data>
 </root>

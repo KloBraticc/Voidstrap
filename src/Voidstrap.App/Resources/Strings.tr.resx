@@ -10017,4 +10017,10 @@ Voidstrap programları, diğer klasörleri ve Roblox oturumunuzu engeller, ancak
 Çalışma süresi: {1}
 Oyuncular: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Sosyal bağlantılar</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Burada henüz bir şey yok</value>
+  </data>
 </root>

@@ -9707,4 +9707,10 @@ Voidstrap ले प्रत्येक फाइललाई लाइब्�
 अपटाइम: {1}
 खेलाडीहरू: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>सामाजिक लिङ्कहरू</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>यहाँ अझै केही छैन</value>
+  </data>
 </root>

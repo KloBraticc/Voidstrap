@@ -10020,4 +10020,10 @@ Zezwolić?</value>
 Czas działania: {1}
 Gracze: {2}</value>
   </data>
+  <data name="Ui.Session.SocialLinks" xml:space="preserve">
+    <value>Linki społecznościowe</value>
+  </data>
+  <data name="Ui.Session.HubEmpty" xml:space="preserve">
+    <value>Na razie nic tu nie ma</value>
+  </data>
 </root>
