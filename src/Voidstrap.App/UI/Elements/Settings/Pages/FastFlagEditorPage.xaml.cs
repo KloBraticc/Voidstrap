@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -29,41 +30,75 @@ public partial class FastFlagEditorPage : UiPage
 {
     public static class FastFlagTagHelper
     {
-        private static bool Has(string name, string token) => name.Contains(token, StringComparison.OrdinalIgnoreCase);
+        private static readonly string[] Prefixes = { "DFFlag", "DFInt", "DFString", "DFLog", "FFlag", "FInt", "FString", "FLog", "SFFlag", "SFInt", "SFString" };
 
-        private static bool HasAny(string name, params string[] tokens)
+        private static readonly (string Tag, string[] Words)[] Rules =
         {
-            foreach (string token in tokens)
+            ("Performance", new[] { "perf", "performance", "fps", "frame", "frames", "framerate", "frm", "thread", "threads", "scheduler", "budget", "throttle", "throttling", "cpu", "memory", "cache", "latency", "optimize", "optimization" }),
+            ("Fix", new[] { "fix", "fixes", "crash", "crashes", "stability", "workaround", "bug" }),
+            ("Experimental", new[] { "experimental", "experiment", "beta", "preview", "prototype" }),
+            ("Graphics", new[] { "graphics", "render", "rendering", "renderer", "quality", "gpu", "shader", "shaders", "postfx", "texture", "textures", "blur", "voxel", "detail", "lighting", "shadow", "shadows", "msaa", "antialiasing", "fx", "d3", "d11", "d3d11", "vulkan", "opengl", "metal", "grass", "terrain", "particles", "sky" }),
+            ("LOD", new[] { "lod", "distance", "detail", "cull", "culling" }),
+            ("UI", new[] { "ui", "ux", "gui", "menu", "title", "interface", "topbar", "chat", "hud", "font", "dpi", "fullscreen", "window" }),
+        };
+
+        private static readonly ConcurrentDictionary<string, List<string>> Cache = new(StringComparer.Ordinal);
+
+        private static HashSet<string> Words(string name)
+        {
+            foreach (string prefix in Prefixes)
             {
-                if (Has(name, token))
-                    return true;
+                if (name.Length > prefix.Length && name.StartsWith(prefix, StringComparison.Ordinal) && char.IsUpper(name[prefix.Length]))
+                {
+                    name = name.Substring(prefix.Length);
+                    break;
+                }
             }
-            return false;
+            HashSet<string> words = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            StringBuilder current = new StringBuilder();
+            for (int i = 0; i < name.Length; i++)
+            {
+                char c = name[i];
+                bool boundary =
+                    !char.IsLetterOrDigit(c)
+                    || (current.Length > 0 && char.IsUpper(c) && (char.IsLower(name[i - 1]) || (i + 1 < name.Length && char.IsLower(name[i + 1]))))
+                    || (current.Length > 0 && char.IsDigit(c) != char.IsDigit(name[i - 1]) && !(char.IsDigit(c) && char.IsUpper(name[i - 1])));
+                if (boundary && current.Length > 0)
+                {
+                    words.Add(current.ToString());
+                    current.Clear();
+                }
+                if (char.IsLetterOrDigit(c))
+                    current.Append(c);
+            }
+            if (current.Length > 0)
+                words.Add(current.ToString());
+            return words;
         }
 
         public static List<string> GetTags(string name)
         {
-            List<string> tags = new List<string>();
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrWhiteSpace(name))
+                return new List<string> { "Unknown" };
+            return Cache.GetOrAdd(name, static key =>
             {
-                tags.Add("Unknown");
+                HashSet<string> words = Words(key);
+                List<string> tags = new List<string>();
+                foreach ((string tag, string[] tokens) in Rules)
+                {
+                    foreach (string token in tokens)
+                    {
+                        if (words.Contains(token))
+                        {
+                            tags.Add(tag);
+                            break;
+                        }
+                    }
+                }
+                if (tags.Count == 0)
+                    tags.Add("Unknown");
                 return tags;
-            }
-            if (HasAny(name, "perf", "fps", "frame", "frm", "render", "thread", "graphics"))
-                tags.Add("Performance");
-            if (HasAny(name, "fix", "debug", "crash", "stability"))
-                tags.Add("Fix");
-            if (HasAny(name, "experimental", "test", "task", "beta"))
-                tags.Add("Experimental");
-            if (HasAny(name, "graphics", "render", "quality", "gpu", "shader", "postfx", "texture", "blur", "voxel", "detail", "lighting"))
-                tags.Add("Graphics");
-            if (HasAny(name, "distance", "level", "lod"))
-                tags.Add("LOD");
-            if (HasAny(name, "ui", "ux", "menu", "title", "interface"))
-                tags.Add("UI");
-            if (tags.Count == 0)
-                tags.Add("Unknown");
-            return tags;
+            });
         }
     }
 
