@@ -77,8 +77,6 @@ public partial class DownloadsPage : UiPage
     private void SearchBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
         _search = SearchBox.Text?.Trim() ?? "";
-        SearchPlaceholder.Visibility =
-            _search.Length == 0 && string.IsNullOrEmpty(SearchBox.Text) ? Visibility.Visible : Visibility.Collapsed;
         ApplyFilters();
     }
 

@@ -1,4 +1,4 @@
-<UserControl PreviewKeyDown="Root_PreviewKeyDown" x:Class="Voidstrap.UI.Elements.Controls.LibraryGamesControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:resources="clr-namespace:Voidstrap.Resources">
+<UserControl xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" PreviewKeyDown="Root_PreviewKeyDown" x:Class="Voidstrap.UI.Elements.Controls.LibraryGamesControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:resources="clr-namespace:Voidstrap.Resources">
   <UserControl.Resources>
     <Style x:Key="TileActionButton" TargetType="Button">
       <Setter Property="Width" Value="30" />
@@ -84,24 +84,17 @@
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
-    <Border Grid.Row="0" Margin="0,4,0,0" Style="{StaticResource SearchPillBorder}">
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-      <ComboBox x:Name="SortBox" MinWidth="150" Style="{StaticResource SearchPillComboBox}" SelectedIndex="0" ToolTip="{resources:Loc Ui_Session_SortBy}" SelectionChanged="SortBox_SelectionChanged">
+    <controls:SearchFilterBox Grid.Row="0" Margin="0,4,0,0" x:Name="SearchBox" PlaceholderText="{resources:Loc Ui_Pages_SearchByGameNameCreatorOr}" TextChanged="SearchBox_TextChanged" PreviewKeyDown="SearchBox_PreviewKeyDown">
+      <controls:SearchFilterBox.Filter>
+        <ComboBox x:Name="SortBox" MinWidth="150" Style="{StaticResource SearchPillComboBox}" SelectedIndex="0" ToolTip="{resources:Loc Ui_Session_SortBy}" SelectionChanged="SortBox_SelectionChanged">
         <ComboBoxItem Content="{resources:Loc ContextMenu_ServerBrowser_Sort_Best}" />
         <ComboBoxItem Content="{resources:Loc ContextMenu_ServerBrowser_Sort_Population}" />
         <ComboBoxItem Content="{resources:Loc ContextMenu_ServerBrowser_Sort_Empty}" />
         <ComboBoxItem Content="{resources:Loc Ui_Mods_StudioPlugins_RatingLabel}" />
         <ComboBoxItem Content="{resources:Loc Common_Name}" />
-      </ComboBox>
-      <Rectangle Grid.Column="1" Style="{StaticResource SearchPillDivider}" />
-      <ui:TextBox x:Name="SearchBox" Grid.Column="2" Style="{StaticResource SearchPillTextBox}" PlaceholderText="{resources:Loc Ui_Pages_SearchByGameNameCreatorOr}" TextChanged="SearchBox_TextChanged" PreviewKeyDown="SearchBox_PreviewKeyDown" />
-      </Grid>
-    </Border>
+        </ComboBox>
+      </controls:SearchFilterBox.Filter>
+    </controls:SearchFilterBox>
     <Grid Grid.Row="1" Margin="2,16,0,10">
       <TextBlock x:Name="HeaderText" FontSize="18" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Ui_Home_RecommendedForYou}" />
       <ProgressBar x:Name="LoadingBar" Height="4" Width="120" HorizontalAlignment="Right" VerticalAlignment="Center" IsIndeterminate="True" Visibility="Collapsed" />
