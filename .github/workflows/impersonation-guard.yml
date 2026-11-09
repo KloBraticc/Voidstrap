@@ -1,0 +1,61 @@
+name: Impersonation guard
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+  issue_comment:
+    types: [created, edited]
+  pull_request_target:
+    types: [opened, edited, reopened]
+
+permissions: {}
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const ownerId = 195697851;
+            const target = 'klobratic';
+            const actor = context.payload.sender;
+            if (!actor || actor.id === ownerId || actor.type === 'Bot') return;
+
+            const normalize = login => {
+              let s = login.toLowerCase().replace(/[-_]/g, '');
+              s = s.replace(/rn/g, 'm').replace(/vv/g, 'w');
+              s = s.replace(/0/g, 'o').replace(/[1i]/g, 'l').replace(/5/g, 's').replace(/3/g, 'e').replace(/4/g, 'a');
+              return s.replace(/(.)\1+/g, '$1');
+            };
+            const distance = (a, b) => {
+              const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
+              for (let j = 1; j <= b.length; j++) d[0][j] = j;
+              for (let i = 1; i <= a.length; i++)
+                for (let j = 1; j <= b.length; j++)
+                  d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+              return d[a.length][b.length];
+            };
+
+            const name = normalize(actor.login);
+            const key = normalize(target);
+            const lookalike = name.includes(key) || name.includes('klobrat') || distance(name, key) <= 1;
+            if (!lookalike) return;
+
+            core.notice(`Blocked impersonation attempt by ${actor.login} (${actor.id})`);
+            const { owner, repo } = context.repo;
+
+            if (context.eventName === 'issue_comment') {
+              await github.rest.issues.deleteComment({ owner, repo, comment_id: context.payload.comment.id });
+              return;
+            }
+
+            const number = (context.payload.issue || context.payload.pull_request).number;
+            if (context.eventName === 'pull_request_target')
+              await github.rest.pulls.update({ owner, repo, pull_number: number, state: 'closed' });
+            else
+              await github.rest.issues.update({ owner, repo, issue_number: number, state: 'closed', state_reason: 'not_planned' });
+            await github.rest.issues.lock({ owner, repo, issue_number: number, lock_reason: 'spam' });
