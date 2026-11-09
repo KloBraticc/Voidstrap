@@ -21,6 +21,9 @@ internal sealed partial class SessionDimmer : IDisposable
     private bool _portableOpacityApplied;
     private System.Windows.Window? _portable;
     private System.Windows.Media.SolidColorBrush? _linuxTint;
+    private bool _catchesPointer;
+
+    public event Action? Clicked;
     private Voidstrap.Platform.MacOS.MacOSWindowBackdrop? _macBackdrop;
     private int _blurWidth;
     private int _blurHeight;
@@ -49,6 +52,7 @@ internal sealed partial class SessionDimmer : IDisposable
                 _linuxTint = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 0, 0, 0));
                 _portable.AllowsTransparency = true;
                 _portable.Background = _linuxTint;
+                _portable.MouseLeftButtonDown += (_, _) => Clicked?.Invoke();
             }
             _portable.SourceInitialized += OnPortableSourceInitialized;
             PortableOverlay.Prepare(_portable);
@@ -162,6 +166,23 @@ internal sealed partial class SessionDimmer : IDisposable
         AntiAliasingInterop.SetLayeredWindowAttributes(_hwnd, 0, alpha, AntiAliasingInterop.LWA_ALPHA);
     }
 
+    public void SetCatchesPointer(bool catches)
+    {
+        if (_linuxTint == null || _portable == null || catches == _catchesPointer)
+            return;
+        _catchesPointer = catches;
+        if (_visible)
+            ApplyPointerMode(PortableOverlay.Handle(_portable));
+    }
+
+    private void ApplyPointerMode(nint handle)
+    {
+        if (_catchesPointer)
+            Voidstrap.Platform.Linux.LinuxWindowInterop.TryResetInputShape(handle);
+        else
+            Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetClickThrough(handle);
+    }
+
     public void Show(RobloxWindowRect bounds)
     {
         if (_portable != null && bounds.Valid)
@@ -170,7 +191,7 @@ internal sealed partial class SessionDimmer : IDisposable
             nint handle = PortableOverlay.Handle(_portable);
             if (Voidstrap.Utility.Platform.IsLinux)
             {
-                Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetClickThrough(handle);
+                ApplyPointerMode(handle);
                 SetPortableBlur(bounds.Width, bounds.Height);
             }
             else

@@ -375,6 +375,15 @@ public partial class SessionDock : Window
                     glyph.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
             }
         }
+        _dimmer?.SetCatchesPointer(_panels.Values.Any(panel => panel.IsRequested && !panel.IsPinned));
+    }
+
+    private void OnDimmerClicked()
+    {
+        foreach (SessionPanelWindow panel in _panels.Values.Where(panel => panel.IsRequested && !panel.IsPinned).ToList())
+            panel.HideForSession();
+        UpdateActiveButtons();
+        PortableOverlay.ReturnFocus();
     }
 
     // Your Roblox avatar, display name and username on the left of the dock
@@ -1231,6 +1240,7 @@ public partial class SessionDock : Window
         if (_dimmer == null)
         {
             _dimmer = new SessionDimmer();
+            _dimmer.Clicked += OnDimmerClicked;
             _dimmerFade = new DispatcherTimer(DispatcherPriority.Render) { Interval = TimeSpan.FromMilliseconds(16) };
             _dimmerFade.Tick += DimmerFade_Tick;
         }
