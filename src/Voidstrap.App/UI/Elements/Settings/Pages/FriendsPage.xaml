@@ -186,9 +186,7 @@
           <TextBlock Text="{resources:Loc Ui_Friends_Chat}" />
         </StackPanel>
       </HeaderedContentControl.Header>
-      <Border Margin="12" CornerRadius="8" ClipToBounds="True" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
-        <ContentPresenter x:Name="ChatHost" />
-      </Border>
+      <ContentPresenter x:Name="ChatHost" />
     </TabItem>
   </TabControl>
 </ui:UiPage>
