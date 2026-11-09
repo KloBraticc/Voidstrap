@@ -16,7 +16,7 @@
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
-          <controls:OptionControl Header="{resources:Loc Common_Profiles}" Visibility="Collapsed">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#turning-it-on" Header="{resources:Loc Common_Profiles}" Visibility="Collapsed">
       <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding ProfileModes.Keys, Mode=OneTime}" Text="{Binding SelectedProfileMods, Mode=TwoWay}">
         <ItemsControl.ItemTemplate>
           <DataTemplate>
@@ -25,10 +25,10 @@
         </ItemsControl.ItemTemplate>
       </ComboBox>
     </controls:OptionControl>
-    <controls:OptionControl Height="73" Description="{resources:Loc Menu_FastFlags_ManagerEnabled_Description}" Header="{resources:Loc Menu_FastFlags_ManagerEnabled_Title}">
+    <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#turning-it-on" Height="73" Description="{resources:Loc Menu_FastFlags_ManagerEnabled_Description}" Header="{resources:Loc Menu_FastFlags_ManagerEnabled_Title}">
       <ui:ToggleSwitch IsChecked="{Binding UseFastFlagManager, Mode=TwoWay}" />
     </controls:OptionControl>
-    <controls:OptionControl Description="{resources:Loc Ui_FastFlags_ChooseWhetherYourFastFlagsAre}" Header="{resources:Loc Ui_FastFlags_ApplyFastFlagsTo}">
+    <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#turning-it-on" Description="{resources:Loc Ui_FastFlags_ChooseWhetherYourFastFlagsAre}" Header="{resources:Loc Ui_FastFlags_ApplyFastFlagsTo}">
       <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding FastFlagApplyTargets, Mode=OneTime}" SelectedItem="{Binding FastFlagApplyTarget, Mode=TwoWay}">
         <ItemsControl.ItemTemplate>
           <DataTemplate>
@@ -37,7 +37,7 @@
         </ItemsControl.ItemTemplate>
       </ComboBox>
     </controls:OptionControl>
-    <controls:OptionControl Header="{resources:Loc Menu_FastFlags_Reset_Title}">
+    <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#something-broke" Header="{resources:Loc Menu_FastFlags_Reset_Title}">
       <ui:ToggleSwitch IsChecked="{Binding ResetConfiguration, Mode=TwoWay}" />
     </controls:OptionControl>
     <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
@@ -73,7 +73,7 @@
       </StackPanel>
     </ui:CardExpander>
     <TextBlock Margin="0,16,0,0" FontSize="17.65" FontWeight="Medium" Text="{resources:Loc Menu_FastFlags_Title}" />
-    <controls:OptionControl Description="{resources:Loc Ui_FastFlags_ReducesOrScalesGrassMovementIn}" Header="{resources:Loc Ui_FastFlags_GrassMovementFactor}">
+    <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#grass-and-sky" Description="{resources:Loc Ui_FastFlags_ReducesOrScalesGrassMovementIn}" Header="{resources:Loc Ui_FastFlags_GrassMovementFactor}">
       <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" SelectedValuePath="Key" ItemsSource="{Binding GrassMovementOptions}" SelectedValue="{Binding SelectedGrassMovementFactor, Mode=TwoWay}">
         <ItemsControl.ItemTemplate>
           <DataTemplate>
@@ -163,12 +163,12 @@
             </Grid>
           </HeaderedContentControl.Header>
           <StackPanel>
-            <controls:OptionControl Margin="0,-8,0,0" Header="{resources:Loc Ui_FastFlags_ForceGraySky}">
+            <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#grass-and-sky" Margin="0,-8,0,0" Header="{resources:Loc Ui_FastFlags_ForceGraySky}">
               <ui:ToggleSwitch IsChecked="{Binding EnableGraySky, Mode=TwoWay}" />
             </controls:OptionControl>
           </StackPanel>
         </ui:CardExpander>
-        <controls:OptionControl Description="{resources:Loc Ui_FastFlags_SmoothOutJaggedEdgesHigherValues}" Header="{resources:Loc Menu_FastFlags_Presets_MSAA_Title}">
+        <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#quality" Description="{resources:Loc Ui_FastFlags_SmoothOutJaggedEdgesHigherValues}" Header="{resources:Loc Menu_FastFlags_Presets_MSAA_Title}">
           <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding MSAALevels.Keys, Mode=OneTime}" Text="{Binding SelectedMSAALevel, Mode=TwoWay}">
             <ItemsControl.ItemTemplate>
               <DataTemplate>
@@ -177,7 +177,7 @@
             </ItemsControl.ItemTemplate>
           </ComboBox>
         </controls:OptionControl>
-        <controls:OptionControl Description="{resources:Loc Ui_FastFlags_AdjustTheQualityOfTexturesHigher}" Header="{resources:Loc Menu_FastFlags_Presets_TextureQuality_Title}">
+        <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#quality" Description="{resources:Loc Ui_FastFlags_AdjustTheQualityOfTexturesHigher}" Header="{resources:Loc Menu_FastFlags_Presets_TextureQuality_Title}">
           <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding TextureQualities.Keys, Mode=OneTime}" Text="{Binding SelectedTextureQuality, Mode=TwoWay}">
             <ItemsControl.ItemTemplate>
               <DataTemplate>
@@ -186,10 +186,10 @@
             </ItemsControl.ItemTemplate>
           </ComboBox>
         </controls:OptionControl>
-        <controls:OptionControl Description="{resources:Loc Menu_FastFlags_Presets_FixDisplayScaling_Description}" Header="{resources:Loc Menu_FastFlags_Presets_FixDisplayScaling_Title}" HelpLink="https://github.com/BloxstrapLabs/Bloxstrap/wiki/A-guide-to-FastFlags#dpi-scaling-fixes">
+        <controls:OptionControl Description="{resources:Loc Menu_FastFlags_Presets_FixDisplayScaling_Description}" Header="{resources:Loc Menu_FastFlags_Presets_FixDisplayScaling_Title}" HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#window">
           <ui:ToggleSwitch IsChecked="{Binding FixDisplayScaling, Mode=TwoWay}" />
         </controls:OptionControl>
-        <controls:OptionControl Description="{resources:Loc Ui_FastFlags_ControlsGrassRenderDistanceInRoblox}" Header="{resources:Loc Ui_FastFlags_GrassDistance}">
+        <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#grass-and-sky" Description="{resources:Loc Ui_FastFlags_ControlsGrassRenderDistanceInRoblox}" Header="{resources:Loc Ui_FastFlags_GrassDistance}">
           <StackPanel Orientation="Horizontal">
             <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_FastFlags_Min}" Margin="0,0,8,0" />
             <ui:TextBox Width="80" Padding="8,4" Text="{Binding MinGrassDistance, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PreviewTextInput="ValidateInt" />
@@ -198,7 +198,7 @@
             <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_FastFlags_Max}" Margin="8,0,0,0" />
           </StackPanel>
         </controls:OptionControl>
-        <controls:OptionControl Description="{resources:Loc Ui_FastFlags_ConfigureTheRenderingApiForRoblox}" Header="{resources:Loc Ui_FastFlags_RenderingMode}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+        <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#rendering-api" Description="{resources:Loc Ui_FastFlags_ConfigureTheRenderingApiForRoblox}" Header="{resources:Loc Ui_FastFlags_RenderingMode}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
           <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding RenderingModes.Keys, Mode=OneTime}" Text="{Binding SelectedRenderingMode, Mode=TwoWay}">
             <ItemsControl.ItemTemplate>
               <DataTemplate>
@@ -234,32 +234,32 @@
         </TabItem.Header>
         <StackPanel Margin="10">
           <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Informational" Message="{resources:Loc Ui_FastFlags_TheseOptionsOnlySwapSomeOf}" />
-          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_Particles}" Description="{resources:Loc Ui_FastFlags_FireSmokeExplosionsSparklesAndForce}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#geometry" Header="{resources:Loc Ui_FastFlags_Particles}" Description="{resources:Loc Ui_FastFlags_FireSmokeExplosionsSparklesAndForce}">
             <ComboBox Width="200" Padding="10,5,10,5" SelectedIndex="{Binding TextureParticleStyle, Mode=TwoWay}">
               <ComboBoxItem Content="Roblox default" />
               <ComboBoxItem Content="Hidden" />
               <ComboBoxItem Content="Squares" />
             </ComboBox>
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_SquareOpacity}" Description="{resources:Loc Ui_FastFlags_HowSolidTheSquaresLook}" Visibility="{Binding TextureParticleSquares, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#geometry" Header="{resources:Loc Ui_FastFlags_SquareOpacity}" Description="{resources:Loc Ui_FastFlags_HowSolidTheSquaresLook}" Visibility="{Binding TextureParticleSquares, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
               <Slider Width="200" Minimum="10" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" Value="{Binding TextureParticleOpacity, Mode=TwoWay}" />
               <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureParticleOpacityDisplay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_Studs}" Description="{resources:Loc Ui_FastFlags_TheStudPatternOnParts}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#geometry" Header="{resources:Loc Ui_FastFlags_Studs}" Description="{resources:Loc Ui_FastFlags_TheStudPatternOnParts}">
             <ComboBox Width="200" Padding="10,5,10,5" SelectedIndex="{Binding TextureStudStyle, Mode=TwoWay}">
               <ComboBoxItem Content="Roblox default" />
               <ComboBoxItem Content="Flat" />
             </ComboBox>
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_FlatShade}" Description="{resources:Loc Ui_FastFlags_HowBrightFlatSurfacesLook50}" Visibility="{Binding TextureStudFlat, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#geometry" Header="{resources:Loc Ui_FastFlags_FlatShade}" Description="{resources:Loc Ui_FastFlags_HowBrightFlatSurfacesLook50}" Visibility="{Binding TextureStudFlat, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
               <Slider Width="200" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" Value="{Binding TextureStudShade, Mode=TwoWay}" />
               <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureStudShadeDisplay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_Water}" Description="{resources:Loc Ui_FastFlags_TheRipplesOnTerrainWater}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#geometry" Header="{resources:Loc Ui_FastFlags_Water}" Description="{resources:Loc Ui_FastFlags_TheRipplesOnTerrainWater}">
             <ComboBox Width="200" Padding="10,5,10,5" SelectedIndex="{Binding TextureWaterStyle, Mode=TwoWay}">
               <ComboBoxItem Content="Roblox default" />
               <ComboBoxItem Content="Adjusted ripples" />
@@ -285,46 +285,46 @@
               </StackPanel>
             </Grid>
           </Border>
-          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_WaterAnimationImages}" Description="{Binding TextureWaterFramesSummary}" Visibility="{Binding TextureWaterCustom, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#geometry" Header="{resources:Loc Ui_FastFlags_WaterAnimationImages}" Description="{Binding TextureWaterFramesSummary}" Visibility="{Binding TextureWaterCustom, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
               <ui:Button Icon="DocumentAdd16" Content="{resources:Loc Ui_Mods_Choose}" Command="{Binding ChooseWaterFramesCommand}" />
               <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="{resources:Loc Ui_Mods_Remove}" Command="{Binding ClearWaterFramesCommand}" Visibility="{Binding TextureWaterHasFrames, Converter={StaticResource BooleanToVisibilityConverter}}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_RippleStrength}" Description="{resources:Loc Ui_FastFlags_0IsFlat100IsNormal}" Visibility="{Binding TextureWaterShowStrength, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#geometry" Header="{resources:Loc Ui_FastFlags_RippleStrength}" Description="{resources:Loc Ui_FastFlags_0IsFlat100IsNormal}" Visibility="{Binding TextureWaterShowStrength, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
               <Slider Width="200" Minimum="0" Maximum="300" TickFrequency="10" IsSnapToTickEnabled="True" Value="{Binding TextureWaterStrength, Mode=TwoWay}" />
               <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureWaterStrengthDisplay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_RippleSpeed}" Description="{resources:Loc Ui_FastFlags_HowFastTheRipplesMove}" Visibility="{Binding TextureWaterShowSpeed, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#geometry" Header="{resources:Loc Ui_FastFlags_RippleSpeed}" Description="{resources:Loc Ui_FastFlags_HowFastTheRipplesMove}" Visibility="{Binding TextureWaterShowSpeed, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
               <Slider Width="200" Minimum="1" Maximum="4" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding TextureWaterSpeed, Mode=TwoWay}" />
               <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureWaterSpeedDisplay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_FrozenFrame}" Description="{resources:Loc Ui_FastFlags_WhichRippleFrameToHoldStill}" Visibility="{Binding TextureWaterShowFrame, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#geometry" Header="{resources:Loc Ui_FastFlags_FrozenFrame}" Description="{resources:Loc Ui_FastFlags_WhichRippleFrameToHoldStill}" Visibility="{Binding TextureWaterShowFrame, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
               <Slider Width="200" Minimum="1" Maximum="25" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding TextureWaterFrame, Mode=TwoWay}" />
               <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureWaterFrameDisplay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_GlitchAmount}" Description="{resources:Loc Ui_FastFlags_HowBrokenTheWaterLooks}" Visibility="{Binding TextureWaterShowGlitch, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#geometry" Header="{resources:Loc Ui_FastFlags_GlitchAmount}" Description="{resources:Loc Ui_FastFlags_HowBrokenTheWaterLooks}" Visibility="{Binding TextureWaterShowGlitch, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
               <Slider Width="200" Minimum="5" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" Value="{Binding TextureWaterGlitch, Mode=TwoWay}" />
               <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureWaterGlitchDisplay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_Terrain}" Description="{resources:Loc Ui_FastFlags_StretchTheGroundTexturesAndChange}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#geometry" Header="{resources:Loc Ui_FastFlags_Terrain}" Description="{resources:Loc Ui_FastFlags_StretchTheGroundTexturesAndChange}">
             <ui:ToggleSwitch IsChecked="{Binding TextureTerrainEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_TerrainTextureSize}" Description="{resources:Loc Ui_FastFlags_1xIsTheNormalRobloxSize}" Visibility="{Binding TextureTerrainEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#quality" Header="{resources:Loc Ui_FastFlags_TerrainTextureSize}" Description="{resources:Loc Ui_FastFlags_1xIsTheNormalRobloxSize}" Visibility="{Binding TextureTerrainEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
               <Slider Width="200" Minimum="0.05" Maximum="1" TickFrequency="0.05" IsSnapToTickEnabled="True" Value="{Binding TextureTerrainSize, Mode=TwoWay}" />
               <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureTerrainSizeDisplay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_FastFlags_TerrainRepeatHiding}" Description="{resources:Loc Ui_FastFlags_HigherLetsRepeatingPatternsShowMore}" Visibility="{Binding TextureTerrainEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/fastflags/#geometry" Header="{resources:Loc Ui_FastFlags_TerrainRepeatHiding}" Description="{resources:Loc Ui_FastFlags_HigherLetsRepeatingPatternsShowMore}" Visibility="{Binding TextureTerrainEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
               <Slider Width="200" Minimum="1" Maximum="10" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding TextureTerrainRepeat, Mode=TwoWay}" />
               <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding TextureTerrainRepeatDisplay}" />

@@ -36,7 +36,7 @@
     <StackPanel Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
       <TextBlock Margin="0,28,0,0" FontSize="20" FontWeight="SemiBold" Text="{resources:Loc Common_Shortcuts}" TextWrapping="Wrap" />
       <TextBlock Margin="0,4,0,0" FontSize="14" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Menu_Shortcuts_Description}" TextWrapping="Wrap" />
-      <controls:OptionControl Margin="0,0,0,4" Header="{resources:Loc Menu_Shortcuts_ExtractIcons_Title}" HelpLink="https://github.com/BloxstrapLabs/Bloxstrap/wiki/Using-Roblox-icons-for-your-shortcuts" Description="{Binding Source={resources:Loc Menu_Shortcuts_ExtractIcons_Description}, Converter={StaticResource StringFormatConverter}, ConverterParameter=https://github.com/BloxstrapLabs/Bloxstrap/wiki/Using-Roblox-icons-for-your-shortcuts}">
+      <controls:OptionControl Margin="0,0,0,4" Header="{resources:Loc Menu_Shortcuts_ExtractIcons_Title}" HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#shortcuts" Description="{Binding Source={resources:Loc Menu_Shortcuts_ExtractIcons_Description}, Converter={StaticResource StringFormatConverter}, ConverterParameter=https://wiki.voidstrapp.pages.dev/features/launching/#shortcuts}">
         <ui:ToggleSwitch IsChecked="{Binding ExtractRobloxIcons, Mode=TwoWay}" />
       </controls:OptionControl>
       <TextBlock Margin="0,24,0,0" FontSize="20" FontWeight="SemiBold" Text="{resources:Loc Menu_Shortcuts_General_Title}" TextWrapping="Wrap" />

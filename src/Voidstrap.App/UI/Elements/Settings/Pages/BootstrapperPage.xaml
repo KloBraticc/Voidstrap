@@ -10,16 +10,16 @@
           </StackPanel>
         </HeaderedContentControl.Header>
         <StackPanel Margin="10">
-          <controls:OptionControl Margin="0,-8,0,0" x:Name="ConfirmLaunchOption" Header="{resources:Loc Menu_Behaviour_ConfirmLaunches_Title}" Description="{resources:Loc Menu_Behaviour_ConfirmLaunches_Description}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#background-behaviour" Margin="0,-8,0,0" x:Name="ConfirmLaunchOption" Header="{resources:Loc Menu_Behaviour_ConfirmLaunches_Title}" Description="{resources:Loc Menu_Behaviour_ConfirmLaunches_Description}">
             <ui:ToggleSwitch IsChecked="{Binding ConfirmLaunches, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Description="{resources:Loc Ui_Bootstrapper_DisablesBackgroundWindowWhenLaunchingRoblox}" Header="{resources:Loc Ui_Bootstrapper_DisableBackgroundWindow}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#background-behaviour" Description="{resources:Loc Ui_Bootstrapper_DisablesBackgroundWindowWhenLaunchingRoblox}" Header="{resources:Loc Ui_Bootstrapper_DisableBackgroundWindow}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding BackgroundWindow, Mode=TwoWay}" />
           </controls:OptionControl>
-		  <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_DisableRobloxCrashHandler}" Description="{resources:Loc Ui_Bootstrapper_ClosesRobloxCrashHandlerAfterRobloxHasSafely}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+		  <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#background-behaviour" Header="{resources:Loc Ui_Bootstrapper_DisableRobloxCrashHandler}" Description="{resources:Loc Ui_Bootstrapper_ClosesRobloxCrashHandlerAfterRobloxHasSafely}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding disablecrashhandleryayyysocool, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_TASXOptimization}" Description="{resources:Loc Ui_Bootstrapper_FullSpeedWhileRobloxIsFocused}" Visibility="{x:Static platform:PlatformFeatureVisibility.TasxOptimization}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#background-behaviour" Header="{resources:Loc Ui_Bootstrapper_TASXOptimization}" Description="{resources:Loc Ui_Bootstrapper_FullSpeedWhileRobloxIsFocused}" Visibility="{x:Static platform:PlatformFeatureVisibility.TasxOptimization}">
             <ui:ToggleSwitch IsChecked="{Binding TasxOptimization, Mode=TwoWay}" />
           </controls:OptionControl>
         </StackPanel>
@@ -40,7 +40,7 @@
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_WhenShouldTheFilesGetDeleted}" Description="{resources:Loc Ui_Bootstrapper_FilesOlderThanTheSetAmount}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#saving-disk-space" Header="{resources:Loc Ui_Bootstrapper_WhenShouldTheFilesGetDeleted}" Description="{resources:Loc Ui_Bootstrapper_FilesOlderThanTheSetAmount}">
                 <ComboBox Padding="10,5,10,5" ItemsSource="{Binding CleanerOptions, Mode=OneTime}" Text="{Binding CleanerOption, Mode=TwoWay}">
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -49,16 +49,16 @@
                   </ItemsControl.ItemTemplate>
                 </ComboBox>
               </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_Cache}" Description="{resources:Loc Ui_Bootstrapper_WhenShouldTheSetAmountBe}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#saving-disk-space" Header="{resources:Loc Ui_Bootstrapper_Cache}" Description="{resources:Loc Ui_Bootstrapper_WhenShouldTheSetAmountBe}">
                 <ui:ToggleSwitch IsChecked="{Binding CleanerCache, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_Logs}" Description="{resources:Loc Ui_Bootstrapper_OldLogFilesWillBeDeleted}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#saving-disk-space" Header="{resources:Loc Ui_Bootstrapper_Logs}" Description="{resources:Loc Ui_Bootstrapper_OldLogFilesWillBeDeleted}">
                 <ui:ToggleSwitch IsChecked="{Binding CleanerLogs, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_VoidstrapLogs}" Description="{resources:Loc Ui_Bootstrapper_VoidstrapLogsWillBeDeleted}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#saving-disk-space" Header="{resources:Loc Ui_Bootstrapper_VoidstrapLogs}" Description="{resources:Loc Ui_Bootstrapper_VoidstrapLogsWillBeDeleted}">
                 <ui:ToggleSwitch IsChecked="{Binding CleanerVoidstrap, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_CleanRobloxCache}" Description="{resources:Loc Ui_Bootstrapper_DeletesAllFilesInRobloxS}" Visibility="{Binding CleanRobloxCacheVisibility, Mode=OneWay}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#saving-disk-space" Header="{resources:Loc Ui_Bootstrapper_CleanRobloxCache}" Description="{resources:Loc Ui_Bootstrapper_DeletesAllFilesInRobloxS}" Visibility="{Binding CleanRobloxCacheVisibility, Mode=OneWay}">
                 <ui:Button Icon="Delete48" Content="{resources:Loc Ui_Bootstrapper_Clean}" Appearance="Danger" Command="{Binding CleanRobloxCacheCommand}" />
               </controls:OptionControl>
             </StackPanel>
@@ -71,10 +71,10 @@
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel IsEnabled="{Binding IsIdle, FallbackValue=False}">
-              <controls:OptionControl Margin="0,-8,0,0" Header="{resources:Loc Mtu_Adapter}" Description="{Binding CurrentSummary}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#network" Margin="0,-8,0,0" Header="{resources:Loc Mtu_Adapter}" Description="{Binding CurrentSummary}">
                 <ComboBox MinWidth="200" ItemsSource="{Binding Adapters}" DisplayMemberPath="DisplayName" SelectedItem="{Binding SelectedAdapter, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Mtu_CustomValue}" Description="{Binding ValidationMessage}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#network" Header="{resources:Loc Mtu_CustomValue}" Description="{Binding ValidationMessage}">
                 <StackPanel Orientation="Horizontal">
                   <ui:TextBox Width="105" MaxLength="10" Text="{Binding CustomMtu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                   <ui:Button Margin="8,0,0,0" Content="{resources:Loc Mtu_Apply}" Command="{Binding ApplyCommand}" Appearance="Primary" />
@@ -95,16 +95,16 @@
             </StackPanel>
           </ui:CardExpander>
           <StackPanel Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
-            <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_RobloxCPULimit}" Description="{Binding CpuSummary}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+            <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#background-behaviour" Header="{resources:Loc Ui_Bootstrapper_RobloxCPULimit}" Description="{Binding CpuSummary}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
               <ComboBox Grid.Column="1" Padding="10,5,10,5" ItemsSource="{Binding CpuOptions}" SelectedItem="{Binding SelectedCpuPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </controls:OptionControl>
-            <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_TrimMemoryWhenRobloxIsUnfocused}" Description="{resources:Loc Ui_Bootstrapper_AfterRobloxRemainsUnfocusedUnusedWorking}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+            <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#background-behaviour" Header="{resources:Loc Ui_Bootstrapper_TrimMemoryWhenRobloxIsUnfocused}" Description="{resources:Loc Ui_Bootstrapper_AfterRobloxRemainsUnfocusedUnusedWorking}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
               <ui:ToggleSwitch IsChecked="{Binding MultiAccount, Mode=TwoWay}" />
             </controls:OptionControl>
-            <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_PrioritizeRobloxWhileFocused}" Description="{Binding PrioritizeRobloxDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+            <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#background-behaviour" Header="{resources:Loc Ui_Bootstrapper_PrioritizeRobloxWhileFocused}" Description="{Binding PrioritizeRobloxDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
               <ui:ToggleSwitch IsChecked="{Binding OptimizeRoblox, Mode=TwoWay}" />
             </controls:OptionControl>
-            <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_ReduceResourcesWhenRobloxIsUnfocused}" Description="{Binding ReduceResourcesDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+            <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#background-behaviour" Header="{resources:Loc Ui_Bootstrapper_ReduceResourcesWhenRobloxIsUnfocused}" Description="{Binding ReduceResourcesDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
               <ui:ToggleSwitch IsChecked="{Binding ReduceMemoryOutOfFocus, Mode=TwoWay}" />
             </controls:OptionControl>
           </StackPanel>
@@ -119,13 +119,13 @@
         </HeaderedContentControl.Header>
         <StackPanel Margin="10">
           <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Informational" Message="{Binding UserLocationText}" />
-          <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_Enable}" Description="{resources:Loc Ui_Bootstrapper_PickMyServerForMe}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/matchmaker/" Header="{resources:Loc Ui_Bootstrapper_Enable}" Description="{resources:Loc Ui_Bootstrapper_PickMyServerForMe}">
             <ui:ToggleSwitch IsChecked="{Binding VoidstrapMatchmakerEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_WhatToJoin}" Description="{resources:Loc Ui_Bootstrapper_HowVoidstrapChoosesBetweenTheServers}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/matchmaker/" Header="{resources:Loc Ui_Bootstrapper_WhatToJoin}" Description="{resources:Loc Ui_Bootstrapper_HowVoidstrapChoosesBetweenTheServers}">
             <ComboBox Width="280" Padding="10,5,10,5" DisplayMemberPath="Display" SelectedValuePath="Value" IsEnabled="{Binding VoidstrapMatchmakerEnabled}" ItemsSource="{Binding MatchmakerModes}" SelectedValue="{Binding MatchmakerMode, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_AskBeforeMovingServers}" Description="{resources:Loc Ui_Bootstrapper_WhenABetterServerIsFound}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/matchmaker/" Header="{resources:Loc Ui_Bootstrapper_AskBeforeMovingServers}" Description="{resources:Loc Ui_Bootstrapper_WhenABetterServerIsFound}">
             <ui:ToggleSwitch IsEnabled="{Binding VoidstrapMatchmakerEnabled}" IsChecked="{Binding MatchmakerAskBeforeMoving, Mode=TwoWay}" />
           </controls:OptionControl>
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{Binding ShowPreferredDatacenterPicker, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -137,7 +137,7 @@
             </HeaderedContentControl.Header>
             <StackPanel>
             <controls:WorldServerMap Height="420" IsEnabled="{Binding VoidstrapMatchmakerEnabled}" Datacenters="{Binding Datacenters}" SelectedKey="{Binding PreferredDatacenterKey, Mode=TwoWay}" UserLatitude="{Binding UserLatitude}" UserLongitude="{Binding UserLongitude}" />
-            <controls:OptionControl Margin="0,8,0,0" Header="{resources:Loc Ui_Bootstrapper_PreferredDatacenter}" Description="{resources:Loc Ui_Bootstrapper_VoidstrapWillAlwaysTryThisOne}">
+            <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/matchmaker/" Margin="0,8,0,0" Header="{resources:Loc Ui_Bootstrapper_PreferredDatacenter}" Description="{resources:Loc Ui_Bootstrapper_VoidstrapWillAlwaysTryThisOne}">
               <ComboBox Width="280" Padding="10,5,10,5" DisplayMemberPath="Display" IsEnabled="{Binding VoidstrapMatchmakerEnabled}" ItemsSource="{Binding PreferredDatacenterOptions}" SelectedItem="{Binding SelectedPreferredDatacenter, Mode=TwoWay}" />
             </controls:OptionControl>
             </StackPanel>
@@ -158,17 +158,17 @@
           </StackPanel>
         </HeaderedContentControl.Header>
         <StackPanel Margin="10">
-          <controls:OptionControl Margin="0,-8,0,0" Header="{resources:Loc Ui_Bootstrapper_FullscreenMode}" Description="{resources:Loc Ui_Bootstrapper_HowTheRobloxGameWindowFills}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#roblox-window-windows" Margin="0,-8,0,0" Header="{resources:Loc Ui_Bootstrapper_FullscreenMode}" Description="{resources:Loc Ui_Bootstrapper_HowTheRobloxGameWindowFills}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ComboBox Width="240" Padding="10,5,10,5" DisplayMemberPath="Display" SelectedValuePath="Value" ItemsSource="{Binding FullscreenModes}" SelectedValue="{Binding RobloxFullscreenMode, Mode=TwoWay}" />
           </controls:OptionControl>
           <ui:InfoBar Padding="8" Margin="0,4,0,4" IsClosable="False" IsOpen="True" Severity="Informational" Title="{resources:Loc Ui_Bootstrapper_NeedsXWaylandOnLinux}" Message="{resources:Loc Ui_Bootstrapper_TheTitleGameNameGameIcon}" Visibility="{Binding LinuxTitleNeedsXWayland, Converter={StaticResource BooleanToVisibilityConverter}}" />
-          <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Menu_Appearance_CustomisationTitle_Title}" Description="{resources:Loc Ui_Bootstrapper_LeaveBlankToKeepTheTitle}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#roblox-window-windows" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Menu_Appearance_CustomisationTitle_Title}" Description="{resources:Loc Ui_Bootstrapper_LeaveBlankToKeepTheTitle}">
             <ui:TextBox Width="220" PlaceholderText="{resources:Loc Enums_Theme_Voidstrap}" Text="{Binding RobloxTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
-          <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Ui_Bootstrapper_AddTheGameName}" Description="{resources:Loc Ui_Bootstrapper_ShowsTheExperienceYouArePlaying}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#roblox-window-windows" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Ui_Bootstrapper_AddTheGameName}" Description="{resources:Loc Ui_Bootstrapper_ShowsTheExperienceYouArePlaying}">
             <ui:ToggleSwitch IsChecked="{Binding CycleTitleWithGameName, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_DefaultWindowIcon}" Description="{resources:Loc Ui_Bootstrapper_DefaultWindowIconDescription}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#roblox-window-windows" Header="{resources:Loc Ui_Bootstrapper_DefaultWindowIcon}" Description="{resources:Loc Ui_Bootstrapper_DefaultWindowIconDescription}">
             <StackPanel Orientation="Horizontal">
               <ComboBox Width="200" Padding="10,5,10,5" SelectedValuePath="IconType" ItemsSource="{Binding RobloxIcons, Mode=OneWay}" SelectedValue="{Binding RobloxIcon, Mode=TwoWay}">
                 <ItemsControl.ItemTemplate>
@@ -187,7 +187,7 @@
               <ui:Button Margin="8,0,0,0" Icon="FolderOpen24" Content="{resources:Loc Ui_Bootstrapper_ChooseCustomIcon}" Visibility="{Binding IsRobloxIconCustom, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding BrowseRobloxCustomIconCommand}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_UseTheGameIcon}" Description="{resources:Loc Ui_Bootstrapper_ShowsTheExperienceIconOnThe}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#roblox-window-windows" Header="{resources:Loc Ui_Bootstrapper_UseTheGameIcon}" Description="{resources:Loc Ui_Bootstrapper_ShowsTheExperienceIconOnThe}">
             <ui:ToggleSwitch IsChecked="{Binding UseGameIconForRobloxWindow, Mode=TwoWay}" />
           </controls:OptionControl>
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
@@ -276,33 +276,33 @@
               </ItemsControl>
             </StackPanel>
           </ui:CardExpander>
-          <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Ui_Bootstrapper_AddTheServerInfo}" Description="{resources:Loc Ui_Bootstrapper_ShowsTheServerRegionAndPlayer}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#roblox-window-windows" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Ui_Bootstrapper_AddTheServerInfo}" Description="{resources:Loc Ui_Bootstrapper_ShowsTheServerRegionAndPlayer}">
             <ui:ToggleSwitch IsChecked="{Binding ShowServerInfoInTitle, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Installer_Appearance_Backdrop_Title}" Description="{resources:Loc Ui_Bootstrapper_BackdropMaterialToRobloxSWindow}" IsEnabled="{Binding IsWindows11}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#roblox-window-windows" Header="{resources:Loc Installer_Appearance_Backdrop_Title}" Description="{resources:Loc Ui_Bootstrapper_BackdropMaterialToRobloxSWindow}" IsEnabled="{Binding IsWindows11}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ComboBox Width="240" Padding="10,5,10,5" ItemsSource="{Binding BackdropOptions}" SelectedValue="{Binding RobloxBackdropType, Mode=TwoWay}" DisplayMemberPath="Display" SelectedValuePath="Value" IsEnabled="{Binding IsWindows11}" />
           </controls:OptionControl>
 
         
           <StackPanel x:Name="RobloxIntegrations" DataContext="{x:Null}">
           <TextBlock Margin="0,16,0,8" FontSize="20" FontWeight="SemiBold" Text="{resources:Loc Ui_Integrations_RobloxTheme}" />
-          <controls:OptionControl Header="{resources:Loc Ui_Integrations_TelemetryBlocker}" Description="{resources:Loc Ui_Integrations_BlockRobloxTelemetryAdministratorAccessIs}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#desktop-app-and-more" Header="{resources:Loc Ui_Integrations_TelemetryBlocker}" Description="{resources:Loc Ui_Integrations_BlockRobloxTelemetryAdministratorAccessIs}">
             <ui:ToggleSwitch IsChecked="{Binding BlockTelemetry, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Integrations_RobloxTheme}" Description="{resources:Loc Ui_Integrations_RobloxTheme_Description}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#desktop-app-and-more" Header="{resources:Loc Ui_Integrations_RobloxTheme}" Description="{resources:Loc Ui_Integrations_RobloxTheme_Description}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ComboBox MinWidth="160" ItemsSource="{Binding RobloxThemeOptions}" SelectedIndex="{Binding RobloxThemeIndex, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Integrations_FPSUnlocker}" Description="{Binding UncapFpsDescription, Mode=OneWay}" IsEnabled="{Binding UncapFpsToggleEnabled, Mode=OneWay}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#desktop-app-and-more" Header="{resources:Loc Ui_Integrations_FPSUnlocker}" Description="{Binding UncapFpsDescription, Mode=OneWay}" IsEnabled="{Binding UncapFpsToggleEnabled, Mode=OneWay}">
             <ui:ToggleSwitch IsChecked="{Binding UncapFPS, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Integrations_MacVirtualDisplayRefreshRate}" Description="{resources:Loc Ui_Integrations_MacVirtualDisplayRefreshRate_Description}" IsEnabled="{Binding UncapFPS, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.MacOSIntegration}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#desktop-app-and-more" Header="{resources:Loc Ui_Integrations_MacVirtualDisplayRefreshRate}" Description="{resources:Loc Ui_Integrations_MacVirtualDisplayRefreshRate_Description}" IsEnabled="{Binding UncapFPS, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.MacOSIntegration}">
             <ComboBox MinWidth="120" ItemsSource="{Binding MacVirtualDisplayRefreshRates}" SelectedItem="{Binding MacVirtualDisplayRefreshRate, Mode=TwoWay}" ItemStringFormat="{}{0} Hz" />
           </controls:OptionControl>
           <TextBlock Margin="0,16,0,8" FontSize="20" FontWeight="SemiBold" Text="Snap Tap" />
           <controls:OptionControl Header="Snap Tap" Description="{resources:Loc Ui_Integrations_WhenTwoOppositeKeysAreHeld}" Visibility="{x:Static platform:PlatformFeatureVisibility.GlobalInput}">
             <ui:ToggleSwitch IsChecked="{Binding SnapTapEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Integrations_KeyboardAccess}" Description="{Binding SnapTapAccessDescription}" Visibility="{Binding SnapTapAccessVisibility}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#desktop-app-and-more" Header="{resources:Loc Ui_Integrations_KeyboardAccess}" Description="{Binding SnapTapAccessDescription}" Visibility="{Binding SnapTapAccessVisibility}">
             <Button Content="{resources:Loc Ui_Integrations_GrantAccess}" Command="{Binding GrantSnapTapAccessCommand}" />
           </controls:OptionControl>
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.GlobalInput}">
@@ -313,10 +313,10 @@
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <controls:OptionControl Header="{resources:Loc Ui_Integrations_Priority}" Description="{resources:Loc Ui_Integrations_WhatHappensWhileTwoKeysFrom}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#desktop-app-and-more" Header="{resources:Loc Ui_Integrations_Priority}" Description="{resources:Loc Ui_Integrations_WhatHappensWhileTwoKeysFrom}">
                 <ComboBox MinWidth="240" ItemsSource="{Binding SnapTapModes}" SelectedIndex="{Binding SnapTapMode, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Ui_Integrations_KeyGroups}" Description="{resources:Loc Ui_Integrations_SeparateGroupsWithCommasAndKeys}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/integrations/#desktop-app-and-more" Header="{resources:Loc Ui_Integrations_KeyGroups}" Description="{resources:Loc Ui_Integrations_SeparateGroupsWithCommasAndKeys}">
                 <ui:TextBox MinWidth="240" PlaceholderText="A D, W S" Text="{Binding SnapTapKeys, Mode=TwoWay}" />
               </controls:OptionControl>
               <TextBlock Margin="16,8,16,4" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{x:Static platform:PlatformFeatureVisibility.LinuxIntegration}" Text="{resources:Loc Ui_Integrations_OnLinuxSnapTapTakesOver}" />
@@ -331,19 +331,19 @@
                             </StackPanel>
                         </HeaderedContentControl.Header>
                         <StackPanel>
-                            <controls:OptionControl Header="{resources:Loc Ui_Integrations_SystemTray}" Description="{resources:Loc Ui_Integrations_MinimizeRobloxToTheSystemTray}" Visibility="{x:Static platform:PlatformFeatureVisibility.Tray}">
+                            <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#desktop-app-and-closing" Header="{resources:Loc Ui_Integrations_SystemTray}" Description="{resources:Loc Ui_Integrations_MinimizeRobloxToTheSystemTray}" Visibility="{x:Static platform:PlatformFeatureVisibility.Tray}">
                                 <ui:ToggleSwitch IsChecked="{Binding RobloxSystemTray, Mode=TwoWay}" />
                             </controls:OptionControl>
-                            <controls:OptionControl Header="{resources:Loc Ui_Integrations_LaunchOnStartup}" Description="{resources:Loc Ui_Integrations_LaunchRobloxWhenYouSignIn}">
+                            <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#desktop-app-and-closing" Header="{resources:Loc Ui_Integrations_LaunchOnStartup}" Description="{resources:Loc Ui_Integrations_LaunchRobloxWhenYouSignIn}">
                                 <ui:ToggleSwitch IsChecked="{Binding LaunchStartup, Mode=TwoWay}" />
                             </controls:OptionControl>
                         </StackPanel>
                     </ui:CardExpander>
                     <TextBlock Margin="0,16,0,8" FontSize="20" FontWeight="SemiBold" Text="{resources:Loc Menu_Integrations_Title}" />
-          <controls:OptionControl Header="{resources:Loc Ui_Integrations_SteamLibrary}" Description="{Binding SteamShortcutDescription}" Visibility="{Binding SteamShortcutVisibility}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#desktop-app-and-closing" Header="{resources:Loc Ui_Integrations_SteamLibrary}" Description="{Binding SteamShortcutDescription}" Visibility="{Binding SteamShortcutVisibility}">
             <Button Content="{resources:Loc Ui_Integrations_AddToSteam}" Command="{Binding AddToSteamCommand}" />
           </controls:OptionControl>
-                    <controls:OptionControl Header="{resources:Loc ContextMenu_GameHistory_Title}" Description="{resources:Loc Ui_Integrations_ViewGamesYouRecentlyPlayed}">
+                    <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#desktop-app-and-closing" Header="{resources:Loc ContextMenu_GameHistory_Title}" Description="{resources:Loc Ui_Integrations_ViewGamesYouRecentlyPlayed}">
                         <Button Content="{resources:Loc Common_Open}" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding OpenHistoryWindowCommand}" />
                     </controls:OptionControl>
           <TextBlock Margin="0,16,0,0" Text="{resources:Loc Menu_Integrations_Custom_Title}" FontSize="20" FontWeight="Medium" />

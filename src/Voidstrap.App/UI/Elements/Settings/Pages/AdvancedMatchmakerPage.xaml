@@ -125,7 +125,7 @@
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_HowHardToSearch}" Description="{Binding SearchDepthDescription}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/matchmaker/" Header="{resources:Loc Ui_Bootstrapper_HowHardToSearch}" Description="{Binding SearchDepthDescription}">
                 <StackPanel Orientation="Horizontal" Margin="0,2">
                   <ui:ToggleSwitch VerticalAlignment="Center" Margin="0,0,8,0" IsChecked="{Binding VoidstrapMatchmakerAutoCandidates, Mode=TwoWay}" />
                   <TextBlock Text="{resources:Loc Ui_Bootstrapper_Auto}" VerticalAlignment="Center" Margin="0,0,16,0" />
@@ -133,13 +133,13 @@
                   <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" FontWeight="SemiBold" Text="{Binding EffectiveMatchmakerCandidates}" />
                 </StackPanel>
               </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_ReconnectLimit}" Description="{resources:Loc Ui_Bootstrapper_VoidstrapStopsTryingAfterThisMany}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/matchmaker/" Header="{resources:Loc Ui_Bootstrapper_ReconnectLimit}" Description="{resources:Loc Ui_Bootstrapper_VoidstrapStopsTryingAfterThisMany}">
                 <StackPanel Orientation="Horizontal" Margin="0,2">
                   <Slider Width="200" Minimum="1" Maximum="20" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding ServerMatchmakerMaxRetries, Mode=TwoWay}" />
                   <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Text="{Binding ServerMatchmakerMaxRetries}" />
                 </StackPanel>
               </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_JoinAPI}" Description="{resources:Loc Ui_Bootstrapper_WhichRobloxJoinEndpointVoidstrapAsks}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/matchmaker/#join-endpoint" Header="{resources:Loc Ui_Bootstrapper_JoinAPI}" Description="{resources:Loc Ui_Bootstrapper_WhichRobloxJoinEndpointVoidstrapAsks}">
                 <ComboBox Width="240" Padding="10,5,10,5" DisplayMemberPath="Display" SelectedValuePath="Value" ItemsSource="{Binding GamejoinApiOptions}" SelectedValue="{Binding GamejoinApiVersion, Mode=TwoWay}" />
               </controls:OptionControl>
               <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Margin="0,8,0,0" Severity="Success" Message="{Binding VoidstrapMatchmakerLearnedStats}" Visibility="{Binding HasLearnedData, Converter={StaticResource BooleanToVisibilityConverter}}" />

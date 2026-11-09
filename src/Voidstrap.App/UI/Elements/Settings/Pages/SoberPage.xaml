@@ -10,7 +10,7 @@
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10" DataContext="{Binding Sober, Mode=OneWay}">
-          <controls:OptionControl x:Name="UninstallSoberOption" Header="{resources:Loc Menu_Sober_Title}" Description="{Binding InstallationStatus, Mode=OneWay}" IsEnabled="{Binding CanRunAction, Mode=OneWay}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="UninstallSoberOption" Header="{resources:Loc Menu_Sober_Title}" Description="{Binding InstallationStatus, Mode=OneWay}" IsEnabled="{Binding CanRunAction, Mode=OneWay}">
             <ui:Button Content="{Binding ActionLabel, Mode=OneWay}" Appearance="{Binding ActionAppearance, Mode=OneWay}" Command="{Binding RunActionCommand}" />
           </controls:OptionControl>
           <controls:OptionControl x:Name="SoberRobloxOption" Margin="0,0,0,8" Header="Roblox" Description="{Binding RobloxStatus, Mode=OneWay}">
@@ -19,10 +19,10 @@
 
           <Expander Header="{resources:Loc Menu_Sober_Group_Session}" IsExpanded="True">
             <StackPanel Margin="0,6,0,8">
-              <controls:OptionControl x:Name="CloseOnLeaveOption" Header="{resources:Loc Menu_Sober_CloseOnLeave_Title}" Description="{resources:Loc Menu_Sober_CloseOnLeave_Description}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="CloseOnLeaveOption" Header="{resources:Loc Menu_Sober_CloseOnLeave_Title}" Description="{resources:Loc Menu_Sober_CloseOnLeave_Description}">
                 <ComboBox Width="230" ItemsSource="{Binding BooleanChoices}" DisplayMemberPath="Display" SelectedItem="{Binding CloseOnLeaveChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="SoberLauncherOption" Header="{resources:Loc Ui_Misc_Launcher}" Description="{resources:Loc Ui_Misc_CommandPlacedInFrontOfSober}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="SoberLauncherOption" Header="{resources:Loc Ui_Misc_Launcher}" Description="{resources:Loc Ui_Misc_CommandPlacedInFrontOfSober}">
                 <ui:TextBox Width="230" Text="{Binding Launcher, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="{resources:Loc Ui_Misc_None}" />
               </controls:OptionControl>
             </StackPanel>
@@ -30,19 +30,19 @@
 
           <Expander Margin="0,6,0,0" Header="{resources:Loc Menu_Sober_Group_Input}" IsExpanded="True">
             <StackPanel Margin="0,6,0,8">
-              <controls:OptionControl x:Name="AllowGamepadOption" Header="{resources:Loc Menu_Sober_AllowGamepad_Title}" Description="{resources:Loc Menu_Sober_AllowGamepad_Description}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="AllowGamepadOption" Header="{resources:Loc Menu_Sober_AllowGamepad_Title}" Description="{resources:Loc Menu_Sober_AllowGamepad_Description}">
                 <ComboBox Width="230" ItemsSource="{Binding BooleanChoices}" DisplayMemberPath="Display" SelectedItem="{Binding AllowGamepadPermissionChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="MobileHomeOption" Header="{resources:Loc Menu_Sober_MobileHome_Title}" Description="{resources:Loc Menu_Sober_MobileHome_Description}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="MobileHomeOption" Header="{resources:Loc Menu_Sober_MobileHome_Title}" Description="{resources:Loc Menu_Sober_MobileHome_Description}">
                 <ComboBox Width="230" ItemsSource="{Binding BooleanChoices}" DisplayMemberPath="Display" SelectedItem="{Binding EnableMobileHomeScreenChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="TouchModeOption" Header="{resources:Loc Menu_Sober_TouchMode_Title}" Description="{resources:Loc Menu_Sober_TouchMode_Description}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="TouchModeOption" Header="{resources:Loc Menu_Sober_TouchMode_Title}" Description="{resources:Loc Menu_Sober_TouchMode_Description}">
                 <ComboBox Width="230" ItemsSource="{Binding TouchChoices}" DisplayMemberPath="Display" SelectedItem="{Binding TouchModeChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="ConsoleExperienceOption" Header="{resources:Loc Menu_Sober_ConsoleExperience_Title}" Description="{resources:Loc Menu_Sober_ConsoleExperience_Description}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="ConsoleExperienceOption" Header="{resources:Loc Menu_Sober_ConsoleExperience_Title}" Description="{resources:Loc Menu_Sober_ConsoleExperience_Description}">
                 <ComboBox Width="230" ItemsSource="{Binding BooleanChoices}" DisplayMemberPath="Display" SelectedItem="{Binding UseConsoleExperienceChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="PreferXWaylandOption" Header="{resources:Loc Ui_Misc_RunRobloxThroughXWayland}" Description="{resources:Loc Ui_Misc_OnlyNeededForCustomRobloxCursors}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="PreferXWaylandOption" Header="{resources:Loc Ui_Misc_RunRobloxThroughXWayland}" Description="{resources:Loc Ui_Misc_OnlyNeededForCustomRobloxCursors}">
                 <ui:ToggleSwitch IsChecked="{Binding PreferXWayland, Mode=TwoWay}" />
               </controls:OptionControl>
             </StackPanel>
@@ -50,25 +50,25 @@
 
           <Expander Margin="0,6,0,0" Header="{resources:Loc Menu_Sober_Group_Graphics}" IsExpanded="True">
             <StackPanel Margin="0,6,0,8">
-              <controls:OptionControl x:Name="GameModeOption" Header="{resources:Loc Menu_Sober_GameMode_Title}" Description="{resources:Loc Menu_Sober_GameMode_Description}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="GameModeOption" Header="{resources:Loc Menu_Sober_GameMode_Title}" Description="{resources:Loc Menu_Sober_GameMode_Description}">
                 <ComboBox Width="230" ItemsSource="{Binding BooleanChoices}" DisplayMemberPath="Display" SelectedItem="{Binding EnableGameModeChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="HiDpiOption" Header="{resources:Loc Menu_Sober_HiDpi_Title}" Description="{resources:Loc Menu_Sober_HiDpi_Description}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="HiDpiOption" Header="{resources:Loc Menu_Sober_HiDpi_Title}" Description="{resources:Loc Menu_Sober_HiDpi_Description}">
                 <ComboBox Width="230" ItemsSource="{Binding BooleanChoices}" DisplayMemberPath="Display" SelectedItem="{Binding EnableHiDpiChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="AutoFullscreenOption" Header="{resources:Loc Ui_Misc_AutoFullscreen}" Description="{resources:Loc Ui_Misc_PutsRobloxIntoFullscreenWhenIt}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="AutoFullscreenOption" Header="{resources:Loc Ui_Misc_AutoFullscreen}" Description="{resources:Loc Ui_Misc_PutsRobloxIntoFullscreenWhenIt}">
                 <ui:ToggleSwitch IsChecked="{Binding AutoFullscreen, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="SharpnessOption" Header="{resources:Loc Ui_Misc_Sharpness}" Description="{resources:Loc Ui_Misc_SharpensTheGameToCounterThe}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="SharpnessOption" Header="{resources:Loc Ui_Misc_Sharpness}" Description="{resources:Loc Ui_Misc_SharpensTheGameToCounterThe}">
                 <ComboBox Width="230" ItemsSource="{Binding SharpnessChoices}" DisplayMemberPath="Display" SelectedItem="{Binding SharpnessChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="GraphicsModeOption" Header="{resources:Loc Menu_Sober_GraphicsMode_Title}" Description="{resources:Loc Menu_Sober_GraphicsMode_Description}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="GraphicsModeOption" Header="{resources:Loc Menu_Sober_GraphicsMode_Title}" Description="{resources:Loc Menu_Sober_GraphicsMode_Description}">
                 <ComboBox Width="230" ItemsSource="{Binding GraphicsChoices}" DisplayMemberPath="Display" SelectedItem="{Binding GraphicsOptimizationModeChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="LibsecretOption" Header="{resources:Loc Menu_Sober_Libsecret_Title}" Description="{resources:Loc Menu_Sober_Libsecret_Description}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="LibsecretOption" Header="{resources:Loc Menu_Sober_Libsecret_Title}" Description="{resources:Loc Menu_Sober_Libsecret_Description}">
                 <ComboBox Width="230" ItemsSource="{Binding BooleanChoices}" DisplayMemberPath="Display" SelectedItem="{Binding UseLibsecretChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="OpenGlOption" Header="{resources:Loc Menu_Sober_OpenGl_Title}" Description="{resources:Loc Menu_Sober_OpenGl_Description}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="OpenGlOption" Header="{resources:Loc Menu_Sober_OpenGl_Title}" Description="{resources:Loc Menu_Sober_OpenGl_Description}">
                 <ComboBox Width="230" ItemsSource="{Binding BooleanChoices}" DisplayMemberPath="Display" SelectedItem="{Binding UseOpenGlChoice, Mode=TwoWay}" />
               </controls:OptionControl>
             </StackPanel>
@@ -90,10 +90,10 @@
 
           <Expander Header="{resources:Loc Ui_Misc_StudioSession}" IsExpanded="True">
             <StackPanel Margin="0,6,0,8">
-              <controls:OptionControl x:Name="VinegarFastFlagsOption" Header="{resources:Loc Ui_Misc_ApplyVoidstrapFastFlags}" Description="{resources:Loc Ui_Misc_WritesTheFastFlagsFromTheEditor}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="VinegarFastFlagsOption" Header="{resources:Loc Ui_Misc_ApplyVoidstrapFastFlags}" Description="{resources:Loc Ui_Misc_WritesTheFastFlagsFromTheEditor}">
                 <ui:ToggleSwitch IsChecked="{Binding ApplyFastFlags, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="VinegarDiscordRpcOption" Header="{resources:Loc Ui_Misc_DiscordRichPresence}" Description="{resources:Loc Ui_Misc_LetsVinegarShowYourStudioSession}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="VinegarDiscordRpcOption" Header="{resources:Loc Ui_Misc_DiscordRichPresence}" Description="{resources:Loc Ui_Misc_LetsVinegarShowYourStudioSession}">
                 <ComboBox Width="230" ItemsSource="{Binding BooleanChoices}" DisplayMemberPath="Display" SelectedItem="{Binding DiscordRpcChoice, Mode=TwoWay}" />
               </controls:OptionControl>
             </StackPanel>
@@ -101,16 +101,16 @@
 
           <Expander Margin="0,6,0,0" Header="{resources:Loc Ui_Gbs_Graphics}" IsExpanded="True">
             <StackPanel Margin="0,6,0,8">
-              <controls:OptionControl x:Name="VinegarRendererOption" Header="{resources:Loc Ui_Misc_Renderer}" Description="{resources:Loc Ui_Misc_TheGraphicsBackendWineUsesFor}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="VinegarRendererOption" Header="{resources:Loc Ui_Misc_Renderer}" Description="{resources:Loc Ui_Misc_TheGraphicsBackendWineUsesFor}">
                 <ComboBox Width="230" ItemsSource="{Binding RendererChoices}" DisplayMemberPath="Display" SelectedItem="{Binding RendererChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="VinegarGameModeOption" Header="{resources:Loc Ui_Misc_FeralGameMode}" Description="{resources:Loc Ui_Misc_AsksGameModeToTuneTheSystem}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="VinegarGameModeOption" Header="{resources:Loc Ui_Misc_FeralGameMode}" Description="{resources:Loc Ui_Misc_AsksGameModeToTuneTheSystem}">
                 <ComboBox Width="230" ItemsSource="{Binding BooleanChoices}" DisplayMemberPath="Display" SelectedItem="{Binding EnableGameModeChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="VinegarGpuOption" Header="{resources:Loc Ui_Misc_GraphicsCard}" Description="{resources:Loc Ui_Misc_WhichGraphicsCardStudioRendersOn}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="VinegarGpuOption" Header="{resources:Loc Ui_Misc_GraphicsCard}" Description="{resources:Loc Ui_Misc_WhichGraphicsCardStudioRendersOn}">
                 <ComboBox Width="230" ItemsSource="{Binding GpuChoices, Mode=OneWay}" DisplayMemberPath="Display" SelectedItem="{Binding GpuChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="VinegarVirtualDesktopOption" Header="{resources:Loc Ui_Misc_VirtualDesktop}" Description="{resources:Loc Ui_Misc_RunsStudioInsideAWineVirtual}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="VinegarVirtualDesktopOption" Header="{resources:Loc Ui_Misc_VirtualDesktop}" Description="{resources:Loc Ui_Misc_RunsStudioInsideAWineVirtual}">
                 <ui:TextBox Width="230" Text="{Binding VirtualDesktop, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="{resources:Loc Menu_Sober_TouchMode_Off}" />
               </controls:OptionControl>
             </StackPanel>
@@ -118,16 +118,16 @@
 
           <Expander Margin="0,6,0,0" Header="{resources:Loc Ui_Bootstrapper_Advanced}" IsExpanded="False">
             <StackPanel Margin="0,6,0,8">
-              <controls:OptionControl x:Name="VinegarLauncherOption" Header="{resources:Loc Ui_Misc_Launcher}" Description="{resources:Loc Ui_Misc_CommandPlacedInFrontOfStudio}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="VinegarLauncherOption" Header="{resources:Loc Ui_Misc_Launcher}" Description="{resources:Loc Ui_Misc_CommandPlacedInFrontOfStudio}">
                 <ui:TextBox Width="230" Text="{Binding Launcher, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="{resources:Loc Ui_Misc_None}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="VinegarChannelOption" Header="{resources:Loc Ui_Channel_DeploymentChannel}" Description="{resources:Loc Ui_Misc_RobloxDeploymentChannelVinegarDownloadsStudio}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="VinegarChannelOption" Header="{resources:Loc Ui_Channel_DeploymentChannel}" Description="{resources:Loc Ui_Misc_RobloxDeploymentChannelVinegarDownloadsStudio}">
                 <ui:TextBox Width="230" Text="{Binding Channel, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="{resources:Loc Common_Default}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="VinegarForcedVersionOption" Header="{resources:Loc Ui_Misc_ForcedVersion}" Description="{resources:Loc Ui_Misc_PinsStudioToOneVersionGUID}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="VinegarForcedVersionOption" Header="{resources:Loc Ui_Misc_ForcedVersion}" Description="{resources:Loc Ui_Misc_PinsStudioToOneVersionGUID}">
                 <ui:TextBox Width="230" Text="{Binding ForcedVersion, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="{resources:Loc Ui_Misc_Newest}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="VinegarWineRootOption" Header="{resources:Loc Ui_Misc_WineRoot}" Description="{resources:Loc Ui_Misc_PathToTheWineBuildVinegar}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/platforms/linux/" x:Name="VinegarWineRootOption" Header="{resources:Loc Ui_Misc_WineRoot}" Description="{resources:Loc Ui_Misc_PathToTheWineBuildVinegar}">
                 <ui:TextBox Width="230" Text="{Binding WineRoot, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="{resources:Loc Ui_Misc_Bundled}" />
               </controls:OptionControl>
             </StackPanel>

@@ -19,7 +19,7 @@
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <controls:OptionControl Margin="0,0,0,8" Header="{resources:Loc Menu_Appearance_Accent_Title}" Description="{resources:Loc Menu_Appearance_Accent_Description}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#app-theme" Margin="0,0,0,8" Header="{resources:Loc Menu_Appearance_Accent_Title}" Description="{resources:Loc Menu_Appearance_Accent_Description}">
                 <StackPanel Orientation="Horizontal">
                   <Border Width="24" Height="24" CornerRadius="4" Background="{DynamicResource SystemAccentColorBrush}" Margin="0,0,8,0" />
                   <ui:Button Content="{resources:Loc Menu_Appearance_Accent_Choose}" Command="{Binding ChooseAccentCommand}" Margin="0,0,6,0" />
@@ -31,7 +31,7 @@
                   <TextBlock FontSize="14" Text="{resources:Loc Ui_Appearance_Background}" />
                 </HeaderedContentControl.Header>
                 <StackPanel>
-                  <controls:OptionControl Header="{resources:Loc Ui_Appearance_BackgroundImage}" Description="{resources:Loc Ui_Appearance_BackgroundImageDescription}">
+                  <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#background" Header="{resources:Loc Ui_Appearance_BackgroundImage}" Description="{resources:Loc Ui_Appearance_BackgroundImageDescription}">
                     <ui:Button>
                       <ui:Button.Style>
                         <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
@@ -49,25 +49,25 @@
                       </ui:Button.Style>
                     </ui:Button>
                   </controls:OptionControl>
-                  <controls:OptionControl Header="{resources:Loc Installer_Appearance_GradientOpacity}" Description="{resources:Loc Ui_Appearance_GradientOpacityDescription}">
+                  <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#background" Header="{resources:Loc Installer_Appearance_GradientOpacity}" Description="{resources:Loc Ui_Appearance_GradientOpacityDescription}">
                     <StackPanel Orientation="Horizontal">
                       <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Value="{Binding GradientOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                       <TextBlock MinWidth="44" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding GradientOpacity, StringFormat={}{0:P0}}" />
                     </StackPanel>
                   </controls:OptionControl>
-                  <controls:OptionControl Header="{resources:Loc Installer_Appearance_DarkOverlay}" Description="{resources:Loc Ui_Appearance_DarkOverlayDescription}">
+                  <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#background" Header="{resources:Loc Installer_Appearance_DarkOverlay}" Description="{resources:Loc Ui_Appearance_DarkOverlayDescription}">
                     <StackPanel Orientation="Horizontal">
                       <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Value="{Binding BlackOverlayOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                       <TextBlock MinWidth="44" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding BlackOverlayOpacity, StringFormat={}{0:P0}}" />
                     </StackPanel>
                   </controls:OptionControl>
-                  <controls:OptionControl Header="{resources:Loc Ui_Appearance_BackgroundEverywhere}" Description="{resources:Loc Ui_Appearance_BackgroundEverywhereDescription}">
+                  <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#background" Header="{resources:Loc Ui_Appearance_BackgroundEverywhere}" Description="{resources:Loc Ui_Appearance_BackgroundEverywhereDescription}">
                     <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding BackgroundEverywhere, Mode=TwoWay}" />
                   </controls:OptionControl>
-                  <controls:OptionControl Header="{resources:Loc Ui_Appearance_Snow}" Description="{resources:Loc Ui_Appearance_SnowDescription}">
+                  <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#background" Header="{resources:Loc Ui_Appearance_Snow}" Description="{resources:Loc Ui_Appearance_SnowDescription}">
                     <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding Snowww, Mode=TwoWay}" />
                   </controls:OptionControl>
-                  <controls:OptionControl Header="{resources:Loc Installer_Appearance_GradientMovement_Title}" Description="{resources:Loc Ui_Appearance_GradientMovementDescription}">
+                  <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#background" Header="{resources:Loc Installer_Appearance_GradientMovement_Title}" Description="{resources:Loc Ui_Appearance_GradientMovementDescription}">
                     <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding GRADmentFR, Mode=TwoWay}" />
                   </controls:OptionControl>
                 </StackPanel>
@@ -77,7 +77,7 @@
                   <TextBlock FontSize="14" Text="{resources:Loc Ui_Appearance_Shape}" />
                 </HeaderedContentControl.Header>
                 <StackPanel>
-                  <controls:OptionControl Header="{resources:Loc Ui_Appearance_WindowCorners}" Description="{resources:Loc Ui_Appearance_WindowCornersDescription}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
+                  <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#fonts-and-backdrop" Header="{resources:Loc Ui_Appearance_WindowCorners}" Description="{resources:Loc Ui_Appearance_WindowCornersDescription}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
                     <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding WindowCornerStyles, Mode=OneTime}" SelectedItem="{Binding WindowCornerStyle, Mode=TwoWay}">
                       <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -86,7 +86,7 @@
                       </ItemsControl.ItemTemplate>
                     </ComboBox>
                   </controls:OptionControl>
-                  <controls:OptionControl Header="{resources:Loc Ui_Appearance_CornerRoundness}" Description="{resources:Loc Ui_Appearance_CornerRoundnessDescription}">
+                  <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#fonts-and-backdrop" Header="{resources:Loc Ui_Appearance_CornerRoundness}" Description="{resources:Loc Ui_Appearance_CornerRoundnessDescription}">
                     <StackPanel Orientation="Horizontal">
                       <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="2" SmallChange="0.05" LargeChange="0.25" TickFrequency="0.05" IsSnapToTickEnabled="True" Value="{Binding UiCornerScale, Mode=TwoWay}" />
                       <TextBlock MinWidth="44" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding UiCornerScale, StringFormat={}{0:P0}}" />
@@ -99,17 +99,17 @@
                   <TextBlock FontSize="14" Text="{resources:Loc Ui_Appearance_TextAndScrolling}" />
                 </HeaderedContentControl.Header>
                 <StackPanel>
-                  <controls:OptionControl Header="{resources:Loc Installer_Appearance_ClearFont_Title}" Description="{resources:Loc Installer_Appearance_ClearFont_Description}" Visibility="{Binding WindowsOnlyVisibility}">
+                  <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#fonts-and-backdrop" Header="{resources:Loc Installer_Appearance_ClearFont_Title}" Description="{resources:Loc Installer_Appearance_ClearFont_Description}" Visibility="{Binding WindowsOnlyVisibility}">
                     <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding ClearFont, Mode=TwoWay}" />
                   </controls:OptionControl>
-                  <controls:OptionControl Header="{resources:Loc Ui_Appearance_SmoothScrollbar}" Description="{resources:Loc Ui_Appearance_SmoothScrollbarDescription}" Visibility="{Binding WindowsOnlyVisibility}">
+                  <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#fonts-and-backdrop" Header="{resources:Loc Ui_Appearance_SmoothScrollbar}" Description="{resources:Loc Ui_Appearance_SmoothScrollbarDescription}" Visibility="{Binding WindowsOnlyVisibility}">
                     <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding SmooothBARRyesirikikthxlucipook, Mode=TwoWay}" />
                   </controls:OptionControl>
                 </StackPanel>
               </ui:CardExpander>
             </StackPanel>
           </ui:CardExpander>
-          <controls:OptionControl Header="{resources:Loc Menu_Appearance_Global_Theme_Title}" Description="{resources:Loc Ui_Appearance_ThemesDescription}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#app-theme" Header="{resources:Loc Menu_Appearance_Global_Theme_Title}" Description="{resources:Loc Ui_Appearance_ThemesDescription}">
             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
               <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding BindableThemes}" SelectedItem="{Binding Theme, Mode=TwoWay}" SelectionChanged="ThemeComboBox_SelectionChanged">
                 <ComboBox.Resources>
@@ -139,7 +139,7 @@
             </Border.Background>
             <controls:CustomThemePanel />
           </Border>
-          <controls:OptionControl Header="{resources:Loc Ui_Appearance_WindowBackdrop}" Description="{resources:Loc Ui_Appearance_WindowBackdropDescription}" Visibility="{x:Static platform:PlatformFeatureVisibility.DesktopBackdrop}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#fonts-and-backdrop" Header="{resources:Loc Ui_Appearance_WindowBackdrop}" Description="{resources:Loc Ui_Appearance_WindowBackdropDescription}" Visibility="{x:Static platform:PlatformFeatureVisibility.DesktopBackdrop}">
             <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding BackdropOptions}" SelectedItem="{Binding SelectedBackdrop, Mode=OneWay}" SelectionChanged="BackdropComboBox_SelectionChanged">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -148,13 +148,13 @@
               </ItemsControl.ItemTemplate>
             </ComboBox>
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Appearance_AppFont}" Description="{resources:Loc Ui_Appearance_AppFontDescription}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#fonts-and-backdrop" Header="{resources:Loc Ui_Appearance_AppFont}" Description="{resources:Loc Ui_Appearance_AppFontDescription}">
             <StackPanel>
               <ui:Button Content="{resources:Loc Ui_Appearance_ChooseFont}" Icon="DocumentAdd16" Command="{Binding ManageAppFontCommand}" Visibility="{Binding ChooseAppFontVisibility, Mode=OneWay}" />
               <ui:Button Appearance="Danger" Icon="Delete16" Command="{Binding ManageAppFontCommand}" Content="{Binding AppFontName, Mode=OneWay}" FontFamily="{Binding AppFontFamily, Mode=OneWay}" Visibility="{Binding RemoveAppFontVisibility, Mode=OneWay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Installer_Appearance_PageZoom_Title}" Description="{Binding PageZoomDescription, Mode=OneTime}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#fonts-and-backdrop" Header="{resources:Loc Installer_Appearance_PageZoom_Title}" Description="{Binding PageZoomDescription, Mode=OneTime}">
             <ComboBox Width="110" Padding="10,5" ItemsSource="{Binding ZoomOptions}" SelectedItem="{Binding UiZoomPercent, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -175,7 +175,7 @@
         <StackPanel>
         <StackPanel Margin="10">
           <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="{resources:Loc Menu_Appearance_Language_Title}" />
-          <controls:OptionControl Header="{resources:Loc Menu_Appearance_Language_Title}" Description="{resources:Loc Menu_Appearance_Language_Description}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#language" Header="{resources:Loc Menu_Appearance_Language_Title}" Description="{resources:Loc Menu_Appearance_Language_Description}">
             <ComboBox ui:ComboBoxSearch.IsEnabled="True" ui:ComboBoxSearch.Placeholder="{resources:Loc Ui_AppCode_Search}" Width="260" Padding="10,5,10,5" ItemsSource="{Binding LanguageOptions, Mode=OneWay}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
               <ComboBox.Resources>
                 <langconv:LanguageFlagConverter x:Key="LanguageFlagConverter" />
@@ -198,10 +198,10 @@
               </ItemsControl.ItemTemplate>
             </ComboBox>
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Menu_Appearance_Language_AutoTranslateLanguage}" Description="{resources:Loc Menu_Appearance_Language_AutoTranslateLanguage_Description}" Visibility="{Binding AutoTranslateVisibility, Mode=OneWay}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#language" Header="{resources:Loc Menu_Appearance_Language_AutoTranslateLanguage}" Description="{resources:Loc Menu_Appearance_Language_AutoTranslateLanguage_Description}" Visibility="{Binding AutoTranslateVisibility, Mode=OneWay}">
             <ComboBox Width="200" Padding="10,5,10,5" ItemsSource="{Binding AutoTranslateLanguages, Mode=OneTime}" SelectedItem="{Binding SelectedAutoTranslateLanguage, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Appearance_DiscordLanguage}" Description="{resources:Loc Ui_Appearance_DiscordLanguageDescription}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#language" Header="{resources:Loc Ui_Appearance_DiscordLanguage}" Description="{resources:Loc Ui_Appearance_DiscordLanguageDescription}">
             <ComboBox Width="200" Padding="10,5,10,5" ItemsSource="{Binding DiscordRpcLanguages, Mode=OneTime}" SelectedItem="{Binding SelectedDiscordRpcLanguage, Mode=TwoWay}" />
           </controls:OptionControl>
         </StackPanel>
@@ -217,7 +217,7 @@
             <ui:Button Grid.Column="1" Icon="Play24" Content="{resources:Loc CustomTheme_Editor_Preview}" VerticalAlignment="Center" Command="{Binding PreviewBootstrapperCommand}" />
           </Grid>
 
-          <controls:OptionControl Header="{resources:Loc Ui_Appearance_LauncherStyle}" Description="{resources:Loc Ui_Appearance_LauncherStyleDescription}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#launcher-style" Header="{resources:Loc Ui_Appearance_LauncherStyle}" Description="{resources:Loc Ui_Appearance_LauncherStyleDescription}">
             <ComboBox MinWidth="210" Padding="10,5" ItemsSource="{Binding Dialogs, Mode=OneTime}" SelectedItem="{Binding Dialog, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -227,7 +227,7 @@
             </ComboBox>
           </controls:OptionControl>
 
-          <controls:OptionControl Header="{resources:Loc Ui_Appearance_LauncherSize}" Description="{resources:Loc Ui_Appearance_LauncherSizeDescription}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#launcher-style" Header="{resources:Loc Ui_Appearance_LauncherSize}" Description="{resources:Loc Ui_Appearance_LauncherSizeDescription}">
             <ComboBox MinWidth="150" Padding="10,5" ItemsSource="{Binding BootstrapperScales, Mode=OneTime}" SelectedItem="{Binding BootstrapperScale, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -343,7 +343,7 @@
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel IsEnabled="{Binding LauncherExtrasEnabled, Mode=OneWay}">
-              <controls:OptionControl Header="{resources:Loc Ui_Appearance_Background}" Description="{resources:Loc Ui_Appearance_LauncherBackgroundDescription}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#background" Header="{resources:Loc Ui_Appearance_Background}" Description="{resources:Loc Ui_Appearance_LauncherBackgroundDescription}">
                 <ui:Button>
                   <ui:Button.Style>
                     <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
@@ -362,7 +362,7 @@
                   </ui:Button.Style>
                 </ui:Button>
               </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Ui_Appearance_StartupSound}" Description="{resources:Loc Ui_Appearance_StartupSoundDescription}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#app-theme" Header="{resources:Loc Ui_Appearance_StartupSound}" Description="{resources:Loc Ui_Appearance_StartupSoundDescription}">
                 <ui:Button>
                   <ui:Button.Style>
                     <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
@@ -588,10 +588,10 @@
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <controls:OptionControl Header="{resources:Loc Ui_Appearance_AppName}" Description="{resources:Loc Ui_Appearance_AppNameDescription}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#app-theme" Header="{resources:Loc Ui_Appearance_AppName}" Description="{resources:Loc Ui_Appearance_AppNameDescription}">
                 <ui:TextBox Width="220" MaxLength="32" PlaceholderText="{resources:Loc Enums_Theme_Voidstrap}" Text="{Binding BrandName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="{resources:Loc Ui_Appearance_AppIcon}">
+              <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#app-theme" Header="{resources:Loc Ui_Appearance_AppIcon}">
                 <StackPanel Orientation="Horizontal">
                   <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="{DynamicResource ControlFillColorSecondaryBrush}">
                     <Image Width="28" Height="28" Source="{Binding AppIconPreview}" RenderOptions.BitmapScalingMode="HighQuality" />
@@ -669,7 +669,7 @@
               <ui:Button Width="64" Height="64" Margin="0,0,8,8" Padding="0" Icon="ImageAdd24" ToolTip="{resources:Loc Ui_Mods_Skybox_ChooseImage}" Command="{Binding BrowseCustomIconLocationCommand}" />
             </WrapPanel>
           </ui:CardExpander>
-          <controls:OptionControl x:Name="StudioIconSelector" Header="{resources:Loc Ui_Appearance_StudioIcon}" Description="{resources:Loc Ui_Appearance_StudioIconDescription}" Visibility="{Binding StudioIconVisibility, Mode=OneWay}">
+          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/appearance/#app-theme" x:Name="StudioIconSelector" Header="{resources:Loc Ui_Appearance_StudioIcon}" Description="{resources:Loc Ui_Appearance_StudioIconDescription}" Visibility="{Binding StudioIconVisibility, Mode=OneWay}">
             <ComboBox Padding="10,5,10,5" SelectedValuePath="IconType" ItemsSource="{Binding Icons, Mode=OneWay}" SelectedValue="{Binding StudioIcon, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
