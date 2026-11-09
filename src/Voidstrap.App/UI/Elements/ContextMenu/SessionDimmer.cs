@@ -1,4 +1,6 @@
 using System;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Runtime.InteropServices;
 using Voidstrap.Integrations.AntiAliasing;
 using Voidstrap.Integrations.Overlays;
@@ -20,6 +22,10 @@ internal sealed partial class SessionDimmer : IDisposable
     private byte _alpha;
     private bool _portableOpacityApplied;
     private System.Windows.Window? _portable;
+    private SolidColorBrush? _linuxTint;
+    private bool _catchesPointer;
+
+    public event Action? Clicked;
     private Voidstrap.Platform.MacOS.MacOSWindowBackdrop? _macBackdrop;
     private int _blurWidth;
     private int _blurHeight;
@@ -43,6 +49,13 @@ internal sealed partial class SessionDimmer : IDisposable
                 Left = -32000,
                 Top = -32000
             };
+            if (Voidstrap.Utility.Platform.IsLinux)
+            {
+                _linuxTint = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+                _portable.AllowsTransparency = true;
+                _portable.Background = _linuxTint;
+                _portable.MouseLeftButtonDown += OnPortableMouseDown;
+            }
             _portable.SourceInitialized += OnPortableSourceInitialized;
             PortableOverlay.Prepare(_portable);
             PortableOverlay.MarkPassive(_portable);
@@ -131,6 +144,12 @@ internal sealed partial class SessionDimmer : IDisposable
             if (_portableOpacityApplied && alpha == _alpha)
                 return;
             _alpha = alpha;
+            if (_linuxTint != null)
+            {
+                _linuxTint.Color = Color.FromArgb(alpha, 0, 0, 0);
+                _portableOpacityApplied = true;
+                return;
+            }
             nint handle = PortableOverlay.Handle(_portable);
             if (handle == 0)
                 return;
@@ -149,6 +168,25 @@ internal sealed partial class SessionDimmer : IDisposable
         AntiAliasingInterop.SetLayeredWindowAttributes(_hwnd, 0, alpha, AntiAliasingInterop.LWA_ALPHA);
     }
 
+    private void OnPortableMouseDown(object sender, MouseButtonEventArgs e) => Clicked?.Invoke();
+
+    public void SetCatchesPointer(bool catches)
+    {
+        if (_linuxTint == null || _portable == null || catches == _catchesPointer)
+            return;
+        _catchesPointer = catches;
+        if (_visible)
+            ApplyPointerMode(PortableOverlay.Handle(_portable));
+    }
+
+    private void ApplyPointerMode(nint handle)
+    {
+        if (_catchesPointer)
+            Voidstrap.Platform.Linux.LinuxWindowInterop.TryResetInputShape(handle);
+        else
+            Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetClickThrough(handle);
+    }
+
     public void Show(RobloxWindowRect bounds)
     {
         if (_portable != null && bounds.Valid)
@@ -157,7 +195,7 @@ internal sealed partial class SessionDimmer : IDisposable
             nint handle = PortableOverlay.Handle(_portable);
             if (Voidstrap.Utility.Platform.IsLinux)
             {
-                Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetClickThrough(handle);
+                ApplyPointerMode(handle);
                 SetPortableBlur(bounds.Width, bounds.Height);
             }
             else
@@ -206,6 +244,7 @@ internal sealed partial class SessionDimmer : IDisposable
         if (_portable != null)
         {
             _portable.SourceInitialized -= OnPortableSourceInitialized;
+            _portable.MouseLeftButtonDown -= OnPortableMouseDown;
             _macBackdrop?.Dispose();
             _macBackdrop = null;
             PortableOverlay.Release(_portable);
