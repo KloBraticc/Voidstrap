@@ -128,7 +128,7 @@
               <TextBlock x:Name="Placeholder" Grid.Column="3" Margin="2,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False" FontSize="{TemplateBinding FontSize}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextPlaceholderColorBrush}" Text="{TemplateBinding PlaceholderText}" />
               <ScrollViewer x:Name="PART_ContentHost" Grid.Column="3" VerticalAlignment="Center" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
               <ui:Button x:Name="PART_ClearButton" Grid.Column="4" Width="28" Height="26" Margin="0,0,4,0" Padding="0" VerticalAlignment="Center" Appearance="Transparent" Cursor="Arrow" Focusable="False" Icon="Dismiss24" Visibility="Collapsed" />
-              <Border x:Name="AccentLine" Grid.Column="2" Grid.ColumnSpan="3" Margin="0,0,-1,-1" IsHitTestVisible="False" BorderThickness="0,0,0,2" CornerRadius="0,0,4,0" BorderBrush="{DynamicResource RinPrimaryColorBrush}" Visibility="Collapsed" />
+              <Border x:Name="AccentLine" Grid.Column="2" Grid.ColumnSpan="3" Margin="0,0,-1,-1" IsHitTestVisible="False" BorderThickness="0,0,0,2" CornerRadius="0,0,4,4" BorderBrush="{DynamicResource RinPrimaryColorBrush}" Visibility="Collapsed" />
             </Grid>
           </Border>
           <ControlTemplate.Triggers>
