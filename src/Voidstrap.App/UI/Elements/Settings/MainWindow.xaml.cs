@@ -70,6 +70,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             new("HomeNavItem", "Home", "Core", SymbolRegular.Home24, false, NameKey: "Ui_Nav_Home"),
             new("IntegrationsNavItem", "Integrations", "Core", SymbolRegular.Add12, NameKey: "Menu_Integrations_Title"),
             new("DeploymentNavItem", "Deployment", "Core", SymbolRegular.PlaySettings20, NameKey: "Common_Deployment"),
+            new("AppearanceNavItem", "Appearance", "Core", SymbolRegular.Color24, false, NameKey: "Menu_Appearance_Title"),
             new(
                 "FastFlagSettingsNavItem",
                 "FastFlag Settings",
@@ -85,7 +86,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             new("SoberNavItem", "Sober", "Footer", SymbolRegular.Empty, NameKey: "Menu_Sober_Title"),
             new("RosemaryNavItem", "Rosemary", "Footer", SymbolRegular.Empty, NameKey: "Menu_Rosemary_Title"),
             new("ShortcutsNavItem", "Shortcuts", "Footer", SymbolRegular.Apps32, NameKey: "Common_Shortcuts"),
-            new("AppearanceNavItem", "Appearance", "Footer", SymbolRegular.Color24, false, NameKey: "Menu_Appearance_Title"),
             new("SettingsNavItem", "Settings", "Footer", SymbolRegular.Settings28, NameKey: "Ui_Nav_Settings"),
             new("AboutNavItem", "About", "Footer", SymbolRegular.QuestionCircle32, NameKey: "Menu_About_Title"),
         };
@@ -96,7 +96,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             "SoberNavItem" => Voidstrap.Utility.Platform.IsLinux && !Voidstrap.Utility.LinuxRuntimeChoice.PageUsesRosemary,
             "RosemaryNavItem" => Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxRuntimeChoice.PageUsesRosemary,
-            "GlobalNavItem" or "ExtensionsNavItem" or "ManagerNavItem" => false,
+            "ExtensionsNavItem" or "ManagerNavItem" => false,
             _ => true,
         };
     }
@@ -778,7 +778,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ExtensionsNavItem.Visibility = Visibility.Collapsed;
         ShortcutsNavItem.Visibility = Visibility.Visible;
         ManagerNavItem.Visibility = Visibility.Collapsed;
-        GlobalNavItem.Visibility = Visibility.Collapsed;
         VerifySidebarCustomization();
         ApplySidebarCustomization();
         SettingChangeNotifier.Failed += OnSettingChangeFailed;
@@ -1333,8 +1332,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         TopNavHome.Tag = content is HomePage ? "Active" : null;
         TopNavLibrary.Tag = content is LibraryPage ? "Active" : null;
         TopNavServers.Tag = content is PrivateServersPage ? "Active" : null;
+        TopNavManager.Tag = content is DownloadsPage ? "Active" : null;
         TopNavVoidstrapMods.Tag = content is VoidstrapModsPage ? "Active" : null;
-        TopNavGlobal.Tag = content is GBSEditorPage ? "Active" : null;
     }
 
     private NavigationItem[] GetNavigationItemsInServiceOrder()
@@ -2160,7 +2159,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private bool IsTitleBarPage(NavigationItem item)
     {
-        return ReferenceEquals(item, GlobalNavItem) || Voidstrap.Utility.Platform.IsWindows && (ReferenceEquals(item, ExtensionsNavItem) || ReferenceEquals(item, ManagerNavItem));
+        return Voidstrap.Utility.Platform.IsWindows && (ReferenceEquals(item, ExtensionsNavItem) || ReferenceEquals(item, ManagerNavItem));
     }
 
     private Dictionary<Type, string> GetSidebarPageNames()
@@ -2905,21 +2904,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             SpotifyPlayer.Hide();
     }
 
-    private void TopNavGlobal_Click(object sender, RoutedEventArgs e)
-    {
-        PagesMenuPopup.IsOpen = false;
-        NavigateTopNav(typeof(GBSEditorPage));
-    }
-
     private void ExtensionsTitleButton_Click(object sender, RoutedEventArgs e)
     {
         CloseOverlayPopups();
         NavigateTopNav(typeof(ExtensionPage));
     }
 
-    private void ManagerTitleButton_Click(object sender, RoutedEventArgs e)
+    private void TopNavManager_Click(object sender, RoutedEventArgs e)
     {
-        CloseOverlayPopups();
+        PagesMenuPopup.IsOpen = false;
         NavigateTopNav(typeof(DownloadsPage));
     }
 
