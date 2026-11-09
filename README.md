@@ -1,5 +1,8 @@
 <a id="readme-top"></a>
 
+> [!CAUTION]
+> The only official places to download Voidstrap are this GitHub repository and our website [https://voidstrapp.pages.dev](https://voidstrapp.pages.dev). Any other websites, repositories or accounts offering downloads or claiming to be us are not controlled by us, do not download from them.
+
 <p align="center">
 <a href="https://voidstrapp.pages.dev/">
 <img src="https://github.com/KloBraticc/Voidstrap/blob/main/src/Voidstrap.App/Voidstrap.png" alt="preview" width="100px"/>
