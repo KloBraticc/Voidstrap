@@ -41,6 +41,7 @@ internal static class DialogChrome
             Title = title,
             Padding = new Thickness(8),
             ShowMaximize = false,
+            CanMaximize = false,
             ShowMinimize = false,
             MinimizeToTray = false
         };
