@@ -6,3 +6,4 @@ src/VirtualDisplay/** text eol=lf
 external/virtualdisplay/*.sha256 text eol=lf
 external/virtualdisplay/**/SHA256SUMS text eol=lf
 external/virtualdisplay/**/voidstrap-virtualdisplay binary
+build/Packaging/MacOS/background.tiff binary
