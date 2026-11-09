@@ -7,7 +7,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
-using System.Windows.Threading;
 
 namespace Voidstrap.UI.Elements.Controls
 {
@@ -49,7 +48,6 @@ namespace Voidstrap.UI.Elements.Controls
 
         private readonly GeometryModel3D[] _faceModels = new GeometryModel3D[FaceAxes.Length];
 
-        private readonly DispatcherTimer _spinTimer;
 
         private CancellationTokenSource? _loadCts;
 
@@ -63,7 +61,6 @@ namespace Voidstrap.UI.Elements.Controls
 
         private bool _orbiting;
 
-        private bool _userInteracted;
 
         private bool _initialized;
 
@@ -72,11 +69,7 @@ namespace Voidstrap.UI.Elements.Controls
             InitializeComponent();
             BuildBall();
             UpdateCamera();
-            _spinTimer = new DispatcherTimer(DispatcherPriority.Render) { Interval = TimeSpan.FromMilliseconds(16) };
-            _spinTimer.Tick += SpinTimer_Tick;
-            Loaded += OnControlLoaded;
             Unloaded += OnControlUnloaded;
-            IsVisibleChanged += OnControlVisibleChanged;
             _initialized = true;
         }
 
@@ -104,38 +97,11 @@ namespace Voidstrap.UI.Elements.Controls
                 _ = control.ReloadAsync();
         }
 
-        private void OnControlLoaded(object sender, RoutedEventArgs e)
-        {
-            UpdateSpin();
-        }
-
-        private void OnControlVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            UpdateSpin();
-        }
-
-        private void UpdateSpin()
-        {
-            if (!_userInteracted && IsLoaded && IsVisible)
-                _spinTimer.Start();
-            else
-                _spinTimer.Stop();
-        }
-
         private void OnControlUnloaded(object sender, RoutedEventArgs e)
         {
-            _spinTimer.Stop();
             _loadCts?.Cancel();
             _loadCts?.Dispose();
             _loadCts = null;
-        }
-
-        private void SpinTimer_Tick(object? sender, EventArgs e)
-        {
-            _yaw += 0.15;
-            if (_yaw >= 360.0)
-                _yaw -= 360.0;
-            UpdateCamera();
         }
 
         private async Task ReloadAsync()
@@ -294,8 +260,6 @@ namespace Voidstrap.UI.Elements.Controls
 
         private void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            _userInteracted = true;
-            _spinTimer.Stop();
             if (e.ClickCount == 2)
             {
                 ResetView();
