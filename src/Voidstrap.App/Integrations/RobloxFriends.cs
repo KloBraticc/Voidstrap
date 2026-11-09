@@ -17,6 +17,8 @@ public sealed class FriendPresenceInfo
     public long PlaceId { get; init; }
 
     public string GameId { get; init; } = string.Empty;
+
+    public long UniverseId { get; init; }
 }
 
 public sealed class FriendRequestInfo
@@ -164,6 +166,7 @@ public static class RobloxFriends
                         LastLocation = RobloxChat.ReadString(item, "lastLocation"),
                         PlaceId = RobloxChat.ReadLong(item, "placeId", "rootPlaceId"),
                         GameId = RobloxChat.ReadString(item, "gameId"),
+                        UniverseId = RobloxChat.ReadLong(item, "universeId"),
                     };
                 }
             }
@@ -222,6 +225,41 @@ public static class RobloxFriends
             }
         }
         return result;
+    }
+
+    public static async Task<Dictionary<long, string>> GetGameThumbnailsAsync(IEnumerable<long> universeIds, CancellationToken token)
+    {
+        Dictionary<long, string> urls = new();
+        List<long> ids = universeIds.Where(static id => id > 0).Distinct().ToList();
+        for (int i = 0; i < ids.Count; i += 50)
+        {
+            string url =
+                "https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds="
+                + string.Join(",", ids.Skip(i).Take(50))
+                + "&countPerUniverse=1&defaults=true&size=768x432&format=Png&isCircular=false";
+            (_, JsonDocument? document) = await RobloxChat.SendAsync(HttpMethod.Get, url, null, null, token).ConfigureAwait(false);
+            using (document)
+            {
+                if (document == null || !RobloxChat.TryGetArray(document.RootElement, out JsonElement items, "data"))
+                    continue;
+                foreach (JsonElement item in items.EnumerateArray())
+                {
+                    long id = RobloxChat.ReadLong(item, "universeId");
+                    if (id <= 0 || !RobloxChat.TryGetArray(item, out JsonElement thumbs, "thumbnails"))
+                        continue;
+                    foreach (JsonElement thumb in thumbs.EnumerateArray())
+                    {
+                        string image = RobloxChat.ReadString(thumb, "imageUrl");
+                        if (image.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                        {
+                            urls[id] = image;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return urls;
     }
 
     public static async Task<long> FindUserIdAsync(string username, CancellationToken token)

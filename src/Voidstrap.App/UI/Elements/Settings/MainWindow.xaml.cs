@@ -2965,6 +2965,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         try
         {
             SetFriendsBadge(await RobloxFriends.GetRequestCountAsync(CancellationToken.None));
+            if (_friendsPage == null)
+            {
+                _friendsPage = new FriendsPage();
+                _friendsPage.RequestCountChanged += FriendsPage_RequestCountChanged;
+            }
+            await _friendsPage.PreloadAsync();
         }
         catch (Exception ex)
         {

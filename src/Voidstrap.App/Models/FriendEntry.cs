@@ -21,6 +21,8 @@ public sealed class FriendEntry
 
     public string AvatarUrl { get; init; } = string.Empty;
 
+    public string? GameImage { get; init; }
+
     public FriendPresenceInfo Presence { get; init; } = new();
 
     public DateTimeOffset? LastOnline { get; init; }

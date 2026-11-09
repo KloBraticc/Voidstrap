@@ -16,6 +16,8 @@ public partial class FriendsPage : UiPage
     private SessionChatWindow? _chat;
     private FriendEntry? _nicknameTarget;
     private bool _busy;
+    private bool _loadingFriends;
+    private DateTime _loadedAt;
 
     public event EventHandler<int>? RequestCountChanged;
 
@@ -26,7 +28,8 @@ public partial class FriendsPage : UiPage
 
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        _ = RefreshAsync();
+        if (DateTime.UtcNow - _loadedAt > TimeSpan.FromSeconds(30))
+            _ = RefreshAsync();
     }
 
     private void Page_Unloaded(object sender, RoutedEventArgs e)
@@ -98,6 +101,9 @@ public partial class FriendsPage : UiPage
     private async Task LoadFriendsAsync()
     {
         const string LOG_IDENT = "FriendsPage::LoadFriendsAsync";
+        if (_loadingFriends)
+            return;
+        _loadingFriends = true;
         CancellationToken token = Token();
         FriendsLoading.Visibility = Visibility.Visible;
         try
@@ -114,27 +120,42 @@ public partial class FriendsPage : UiPage
                 SetFriends(new(), Describe(friends.Status));
                 return;
             }
-            List<long> ids = friends.Value.Select(static user => user.Id).ToList();
-            Task<Dictionary<long, string>> heads = RobloxChat.GetHeadshotUrlsAsync(ids, token);
-            Task<Dictionary<long, FriendPresenceInfo>> presence = RobloxFriends.GetPresenceAsync(ids, token);
-            Task<Dictionary<long, DateTimeOffset>> lastOnline = RobloxFriends.GetLastOnlineAsync(ids, token);
-            Task<Dictionary<long, string>> nicknames = RobloxFriends.GetNicknamesAsync(ids, token);
-            await Task.WhenAll(heads, presence, lastOnline, nicknames);
-            List<FriendEntry> entries = friends
-                .Value.Select(user => new FriendEntry
+            List<RobloxChatUser> users = friends.Value;
+            List<long> ids = users.Select(static user => user.Id).ToList();
+            Dictionary<long, string> heads = _friends.Where(static f => f.AvatarUrl.Length > 0).ToDictionary(static f => f.UserId, static f => f.AvatarUrl);
+            Dictionary<long, FriendPresenceInfo> presence = _friends.ToDictionary(static f => f.UserId, static f => f.Presence);
+            Dictionary<long, DateTimeOffset> lastOnline = new();
+            Dictionary<long, string> nicknames = _friends.Where(static f => f.Nickname.Length > 0).ToDictionary(static f => f.UserId, static f => f.Nickname);
+            Dictionary<long, string> games = new();
+            void Publish() => SetFriends(Build(users, heads, presence, lastOnline, nicknames, games), null);
+            Publish();
+            Task<Dictionary<long, string>> headsTask = RobloxChat.GetHeadshotUrlsAsync(ids, token);
+            Task<Dictionary<long, FriendPresenceInfo>> presenceTask = RobloxFriends.GetPresenceAsync(ids, token);
+            Task<Dictionary<long, DateTimeOffset>> lastTask = RobloxFriends.GetLastOnlineAsync(ids, token);
+            Task<Dictionary<long, string>> nickTask = RobloxFriends.GetNicknamesAsync(ids, token);
+            Task<Dictionary<long, string>>? gamesTask = null;
+            List<Task> pending = new() { headsTask, presenceTask, lastTask, nickTask };
+            while (pending.Count > 0)
+            {
+                Task done = await Task.WhenAny(pending);
+                pending.Remove(done);
+                if (done == headsTask)
+                    heads = headsTask.Result;
+                else if (done == presenceTask)
                 {
-                    UserId = user.Id,
-                    Name = user.Name,
-                    DisplayName = user.DisplayName,
-                    Nickname = nicknames.Result.GetValueOrDefault(user.Id) ?? string.Empty,
-                    AvatarUrl = heads.Result.GetValueOrDefault(user.Id) ?? string.Empty,
-                    Presence = presence.Result.GetValueOrDefault(user.Id) ?? new FriendPresenceInfo(),
-                    LastOnline = lastOnline.Result.TryGetValue(user.Id, out DateTimeOffset when) ? when : null,
-                })
-                .OrderByDescending(static entry => entry.Presence.Kind == FriendPresenceKind.InGame ? 3 : entry.IsOnline ? 2 : 0)
-                .ThenByDescending(static entry => entry.LastOnline ?? DateTimeOffset.MinValue)
-                .ToList();
-            SetFriends(entries, null);
+                    presence = presenceTask.Result;
+                    gamesTask = RobloxFriends.GetGameThumbnailsAsync(presence.Values.Select(static p => p.UniverseId), token);
+                    pending.Add(gamesTask);
+                }
+                else if (done == lastTask)
+                    lastOnline = lastTask.Result;
+                else if (done == nickTask)
+                    nicknames = nickTask.Result;
+                else if (done == gamesTask)
+                    games = gamesTask.Result;
+                Publish();
+            }
+            _loadedAt = DateTime.UtcNow;
         }
         catch (OperationCanceledException) { }
         catch (Exception ex)
@@ -144,9 +165,42 @@ public partial class FriendsPage : UiPage
         }
         finally
         {
+            _loadingFriends = false;
             FriendsLoading.Visibility = Visibility.Collapsed;
         }
     }
+
+    private static List<FriendEntry> Build(
+        List<RobloxChatUser> users,
+        Dictionary<long, string> heads,
+        Dictionary<long, FriendPresenceInfo> presence,
+        Dictionary<long, DateTimeOffset> lastOnline,
+        Dictionary<long, string> nicknames,
+        Dictionary<long, string> games
+    )
+    {
+        return users
+            .Select(user =>
+            {
+                FriendPresenceInfo info = presence.GetValueOrDefault(user.Id) ?? new FriendPresenceInfo();
+                return new FriendEntry
+                {
+                    UserId = user.Id,
+                    Name = user.Name,
+                    DisplayName = user.DisplayName,
+                    Nickname = nicknames.GetValueOrDefault(user.Id) ?? string.Empty,
+                    AvatarUrl = heads.GetValueOrDefault(user.Id) ?? string.Empty,
+                    Presence = info,
+                    LastOnline = lastOnline.TryGetValue(user.Id, out DateTimeOffset when) ? when : null,
+                    GameImage = info.Kind == FriendPresenceKind.InGame ? games.GetValueOrDefault(info.UniverseId) : null,
+                };
+            })
+            .OrderByDescending(static entry => entry.Presence.Kind == FriendPresenceKind.InGame ? 3 : entry.IsOnline ? 2 : 0)
+            .ThenByDescending(static entry => entry.LastOnline ?? DateTimeOffset.MinValue)
+            .ToList();
+    }
+
+    public Task PreloadAsync() => RefreshAsync();
 
     private void SetFriends(List<FriendEntry> entries, string? error)
     {

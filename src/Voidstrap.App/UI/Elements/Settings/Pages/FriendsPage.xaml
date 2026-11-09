@@ -5,10 +5,10 @@
         <ResourceDictionary Source="ExtensionStyles.xaml" />
       </ResourceDictionary.MergedDictionaries>
       <Style x:Key="FriendAction" TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
-        <Setter Property="Width" Value="34" />
-        <Setter Property="Height" Value="34" />
+        <Setter Property="Width" Value="32" />
+        <Setter Property="Height" Value="32" />
         <Setter Property="Padding" Value="0" />
-        <Setter Property="Margin" Value="4,0,0,0" />
+        <Setter Property="Margin" Value="2,0,0,0" />
         <Setter Property="Appearance" Value="Transparent" />
       </Style>
       <DataTemplate x:Key="FriendAvatar">
@@ -70,40 +70,54 @@
             <ui:Button Grid.Column="3" Margin="8,0,0,0" Content="{resources:Loc Common_Cancel}" Click="NicknameCancel_Click" />
           </Grid>
         </Border>
-        <Grid Grid.Row="3" Margin="2,18,0,8">
-          <TextBlock x:Name="FriendsHeader" FontSize="16" FontWeight="SemiBold" />
+        <Grid Grid.Row="3" Margin="2,14,14,8">
+          <TextBlock x:Name="FriendsHeader" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
           <ui:Button HorizontalAlignment="Right" Appearance="Transparent" Icon="ArrowSync24" ToolTip="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Click="Refresh_Click" />
         </Grid>
         <ScrollViewer Grid.Row="4" VerticalScrollBarVisibility="Auto">
-          <StackPanel>
-            <ProgressBar x:Name="FriendsLoading" Height="3" IsIndeterminate="True" Margin="0,4,0,8" />
+          <StackPanel Margin="0,0,14,0">
+            <ProgressBar x:Name="FriendsLoading" Height="3" IsIndeterminate="True" Margin="0,0,0,6" />
             <TextBlock x:Name="FriendsEmpty" Margin="2,8,0,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Visibility="Collapsed" />
-            <ItemsControl x:Name="FriendList">
+            <ItemsControl x:Name="FriendList" VirtualizingPanel.IsVirtualizing="True">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                  <Border Margin="0,0,0,6" Padding="12,10" CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
-                    <Grid>
+                  <Grid Margin="0,0,0,6" Height="68">
+                    <Border CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" />
+                    <Border CornerRadius="8" Margin="1">
+                      <Border.Background>
+                        <ImageBrush ImageSource="{Binding GameImage, TargetNullValue={x:Null}}" Stretch="UniformToFill" AlignmentY="Center" Opacity="0.45" />
+                      </Border.Background>
+                    </Border>
+                    <Border CornerRadius="8" Margin="1">
+                      <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                          <GradientStop Offset="0.15" Color="#E01C1C1C" />
+                          <GradientStop Offset="1" Color="#401C1C1C" />
+                        </LinearGradientBrush>
+                      </Border.Background>
+                    </Border>
+                    <Grid Margin="12,0,10,0">
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                       </Grid.ColumnDefinitions>
-                      <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource FriendAvatar}" />
-                      <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                      <ContentPresenter VerticalAlignment="Center" Content="{Binding}" ContentTemplate="{StaticResource FriendAvatar}" />
+                      <StackPanel Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
                           <TextBlock FontSize="14" FontWeight="SemiBold" Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
-                          <TextBlock Margin="8,0,0,0" FontSize="12" VerticalAlignment="Bottom" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Handle}" />
+                          <TextBlock Margin="8,0,0,1" FontSize="12" VerticalAlignment="Bottom" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Handle}" />
                         </StackPanel>
                         <TextBlock Margin="0,3,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Status}" TextTrimming="CharacterEllipsis" />
                       </StackPanel>
                       <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                        <ui:Button Appearance="Primary" Height="32" Margin="4,0,0,0" Icon="Play24" Content="{resources:Loc Ui_Friends_Join}" Visibility="{Binding JoinVisibility}" Tag="{Binding}" Click="Join_Click" />
+                        <ui:Button Appearance="Primary" Height="32" Padding="12,0" Margin="0,0,4,0" VerticalAlignment="Center" Icon="Play24" Content="{resources:Loc Ui_Friends_Join}" Visibility="{Binding JoinVisibility}" Tag="{Binding}" Click="Join_Click" />
                         <ui:Button Style="{StaticResource FriendAction}" Icon="Chat24" ToolTip="{resources:Loc Common_Message}" Tag="{Binding}" Click="Message_Click" />
-                        <ui:Button Style="{StaticResource FriendAction}" Icon="Rename24" ToolTip="{resources:Loc Ui_Friends_Nickname}" Tag="{Binding}" Click="Nickname_Click" />
+                        <ui:Button Style="{StaticResource FriendAction}" Icon="Edit24" ToolTip="{resources:Loc Ui_Friends_Nickname}" Tag="{Binding}" Click="Nickname_Click" />
                         <ui:Button Style="{StaticResource FriendAction}" Icon="PersonDelete24" ToolTip="{resources:Loc Ui_Friends_Unfriend}" Tag="{Binding}" Click="Unfriend_Click" />
                       </StackPanel>
                     </Grid>
-                  </Border>
+                  </Grid>
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -128,7 +142,7 @@
           <ui:Button x:Name="DeclineAllButton" HorizontalAlignment="Right" Icon="Dismiss24" Content="{resources:Loc Ui_Friends_DeclineAll}" Click="DeclineAll_Click" />
         </Grid>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-          <StackPanel>
+          <StackPanel Margin="0,0,14,0">
             <ProgressBar x:Name="RequestsLoading" Height="3" IsIndeterminate="True" Margin="0,4,0,8" Visibility="Collapsed" />
             <TextBlock x:Name="RequestsEmpty" Margin="2,8,0,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Friends_NoRequests}" Visibility="Collapsed" />
             <ItemsControl x:Name="RequestList">
