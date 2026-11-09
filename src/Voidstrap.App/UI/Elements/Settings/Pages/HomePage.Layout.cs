@@ -33,6 +33,8 @@ public partial class HomePage
 
     private Point _dragStart;
 
+    private const string LearnMoreKey = "learnmore";
+
     private static string[] AllSectionKeys => [.. RobloxSectionKeys, .. StudioSectionKeys];
 
     private static List<string> HiddenSections => App.Settings.Prop.HomeHiddenSections ??= new List<string>();
@@ -69,6 +71,7 @@ public partial class HomePage
             "news" => Strings.Ui_Home_SectionNews,
             "catalog" => Strings.Ui_Home_SectionCatalog,
             "continue" => Strings.Ui_Home_SectionContinue,
+            LearnMoreKey => Strings.Ui_Home_LearnMore,
             "studioFavorites" => Strings.Ui_Home_SectionStudioFavorites,
             "studioRecent" => Strings.Ui_Home_SectionStudioRecent,
             "studioOwned" => Strings.Ui_Home_SectionStudioOwned,
@@ -176,7 +179,9 @@ public partial class HomePage
     private void RefreshHiddenTrays()
     {
         List<string> hidden = HiddenSections;
-        PopulateHiddenTray(RobloxHiddenTray, RobloxHiddenChips, RobloxSectionKeys, hidden);
+        PopulateHiddenTray(RobloxHiddenTray, RobloxHiddenChips, [.. RobloxSectionKeys, LearnMoreKey], hidden);
+        LearnMoreGroup.Visibility = hidden.Contains(LearnMoreKey) ? Visibility.Collapsed : Visibility.Visible;
+        LearnMoreHideButton.Visibility = _viewModel.IsLayoutEditMode ? Visibility.Visible : Visibility.Collapsed;
         PopulateHiddenTray(StudioHiddenTray, StudioHiddenChips, StudioSectionKeys, hidden);
     }
 
@@ -322,6 +327,17 @@ public partial class HomePage
         List<string> hidden = HiddenSections;
         if (!hidden.Contains(key))
             hidden.Add(key);
+        App.Settings.SaveDeferred();
+        ApplyHomeLayout();
+        PluginAnchors.ApplyAll();
+    }
+
+    private void LearnMoreHide_Click(object sender, RoutedEventArgs e)
+    {
+        PushLayoutUndo();
+        List<string> hidden = HiddenSections;
+        if (!hidden.Contains(LearnMoreKey))
+            hidden.Add(LearnMoreKey);
         App.Settings.SaveDeferred();
         ApplyHomeLayout();
         PluginAnchors.ApplyAll();
