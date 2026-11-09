@@ -105,6 +105,43 @@ namespace Voidstrap.Utility
             }
         }
 
+        private const int TrimAfterNavigationMs = 700;
+
+        private static int _navigationTrimPending;
+
+        public static void TrimAfterNavigation()
+        {
+            if (!Platform.IsWindows || _trimCts == null || Interlocked.Exchange(ref _navigationTrimPending, 1) != 0)
+                return;
+            CancellationToken token = _trimCts.Token;
+            _ = Task.Run(() => TrimAfterNavigationAsync(token));
+        }
+
+        private static async Task TrimAfterNavigationAsync(CancellationToken token)
+        {
+            try
+            {
+                await Task.Delay(TrimAfterNavigationMs, token).ConfigureAwait(false);
+                TrimWorkingSet();
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            finally
+            {
+                Volatile.Write(ref _navigationTrimPending, 0);
+            }
+        }
+
+        private static void TrimWorkingSet()
+        {
+            ProcessMemoryCounters counters = new ProcessMemoryCounters { Size = (uint)Marshal.SizeOf<ProcessMemoryCounters>() };
+            if (!GetProcessMemoryInfo(CurrentProcess, ref counters, counters.Size) || (long)counters.PrivateWorkingSetSize < TrimThresholdBytes)
+                return;
+            SetProcessWorkingSetSizeEx(CurrentProcess, -1, -1, 0);
+            Volatile.Write(ref _lastTrimTicks, Environment.TickCount64);
+        }
+
         private static void TrimIfIdle()
         {
             long now = Environment.TickCount64;
@@ -113,13 +150,7 @@ namespace Voidstrap.Utility
             LastInputInfo input = new LastInputInfo { Size = (uint)Marshal.SizeOf<LastInputInfo>() };
             if (IsAppForeground() && GetLastInputInfo(ref input) && unchecked((uint)Environment.TickCount - input.Time) < TrimIdleMs)
                 return;
-            ProcessMemoryCounters counters = new ProcessMemoryCounters { Size = (uint)Marshal.SizeOf<ProcessMemoryCounters>() };
-            if (!GetProcessMemoryInfo(CurrentProcess, ref counters, counters.Size))
-                return;
-            if ((long)counters.PrivateWorkingSetSize < TrimThresholdBytes)
-                return;
-            SetProcessWorkingSetSizeEx(CurrentProcess, -1, -1, 0);
-            Volatile.Write(ref _lastTrimTicks, now);
+            TrimWorkingSet();
         }
     }
 }

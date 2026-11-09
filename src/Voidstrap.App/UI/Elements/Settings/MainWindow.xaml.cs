@@ -1121,6 +1121,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void RootFrame_Navigated(object sender, NavigationEventArgs e)
     {
         UpdateSidebarToggleIcon();
+        Voidstrap.Utility.MemoryManager.TrimAfterNavigation();
         if (!Voidstrap.Utility.Platform.IsWindows && (e.Content is DownloadsPage or ExtensionPage))
         {
             if (e.Content is FrameworkElement hiddenPage)
