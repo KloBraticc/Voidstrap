@@ -28,8 +28,10 @@ internal static class DiscordInvites
             || (data.ServerType == ServerType.Private && Guid.TryParse(data.AccessCode, out _));
         if (!shareable)
             return null;
-        string secret = data.GetNativeJoinUri(launchData: false);
-        return secret.Length <= MaxSecretLength && TryParseSecret(secret, out _) ? secret : null;
+        string secret = data.ServerType == ServerType.Private
+            ? $"{data.PlaceId}.a.{Guid.Parse(data.AccessCode):N}"
+            : $"{data.PlaceId}.g.{Guid.Parse(data.JobId):N}";
+        return TryParseSecret(secret, out _) ? secret : null;
     }
 
     internal static void Apply(DiscordRPC.RichPresence presence, ActivityData? data, UniverseDetails? universe, int playing = 0, int serverMax = 0)
@@ -63,6 +65,20 @@ internal static class DiscordInvites
     internal static bool TryParseSecret(string? secret, out string deeplink)
     {
         deeplink = string.Empty;
+        string[] parts = secret?.Split('.') ?? [];
+        if (
+            parts.Length == 3
+            && long.TryParse(parts[0], NumberStyles.None, CultureInfo.InvariantCulture, out long compactPlace)
+            && compactPlace > 0
+            && Guid.TryParseExact(parts[2], "N", out Guid compactId)
+        )
+        {
+            if (parts[1] == "g")
+                deeplink = $"roblox://experiences/start?placeId={compactPlace}&gameInstanceId={compactId:D}";
+            else if (parts[1] == "a")
+                deeplink = $"roblox://experiences/start?placeId={compactPlace}&accessCode={compactId:D}";
+            return deeplink.Length > 0;
+        }
         if (
             string.IsNullOrWhiteSpace(secret)
             || secret.Length > MaxSecretLength
