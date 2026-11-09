@@ -30,7 +30,7 @@
           <controls:OptionControl Header="{resources:Loc Ui_Channel_IncludePreReleaseVersions}" Description="{resources:Loc Ui_Channel_UpdatesToTestBuildsAsSoon}">
             <ui:ToggleSwitch IsChecked="{Binding AllowPreReleaseUpdates, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl HelpLink="https://wiki.voidstrapp.pages.dev/features/launching/#background-behaviour" Header="{resources:Loc Ui_Channel_LaunchRobloxWithoutVoidstrap}" Description="{resources:Loc Ui_Channel_JoiningAGameFromYourBrowser}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
+          <controls:OptionControl Header="{resources:Loc Ui_Channel_LaunchRobloxWithoutVoidstrap}" Description="{resources:Loc Ui_Channel_JoiningAGameFromYourBrowser}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
             <ui:ToggleSwitch IsChecked="{Binding LaunchWithoutVoidstrap, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:BootstrapperImportControl Imported="OnSettingsImported" />
